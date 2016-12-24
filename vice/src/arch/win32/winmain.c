@@ -87,14 +87,40 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, 
         char *vice_cmdline;
         char *vice_argv[256] ;
         int vice_argc = 0;
+        int i = 0;
 
         vice_cmdline = lib_stralloc(GetCommandLineA());
 
-        vice_argv[vice_argc] = strtok(vice_cmdline, " \t");
-        while (vice_argv[vice_argc] != 0) {
+        printf("GetCommandLineA produced: %s\n", vice_cmdline);
+
+        while (vice_cmdline[i] != 0) {
+            if (vice_cmdline[i] == '"') {
+                i++;
+                vice_argv[vice_argc] = vice_cmdline + i;
+                while (vice_cmdline[i] != '"' && vice_cmdline[i] != 0) {
+                    i++;
+                }
+                if (vice_cmdline[i] == '"') {
+                    vice_cmdline[i] = 0;
+                    i++;
+                }
+            } else {
+                vice_argv[vice_argc] = vice_cmdline + i;
+                while (vice_cmdline[i] != ' ' && vice_cmdline[i] != 0) {
+                    i++;
+                }
+                if (vice_cmdline[i] == ' ') {
+                    vice_cmdline[i] = 0;
+                    i++;
+                }
+            }
+            printf("Argument %d: %s\n", vice_argc, vice_argv[vice_argc]);
             vice_argc++;
-            vice_argv[vice_argc] = strtok(0, " \t");
+            while (vice_cmdline[i] == ' ') {
+                i++;
+            }
         }
+
         main_program(vice_argc, vice_argv);
         lib_free(vice_cmdline);
     } else {
