@@ -91,8 +91,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, 
 
         vice_cmdline = lib_stralloc(GetCommandLineA());
 
-        printf("GetCommandLineA produced: %s\n", vice_cmdline);
-
         while (vice_cmdline[i] != 0) {
             if (vice_cmdline[i] == '"') {
                 i++;
@@ -114,7 +112,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, 
                     i++;
                 }
             }
-            printf("Argument %d: %s\n", vice_argc, vice_argv[vice_argc]);
             vice_argc++;
             while (vice_cmdline[i] == ' ') {
                 i++;
