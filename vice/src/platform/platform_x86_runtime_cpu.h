@@ -32,6 +32,11 @@
 #define PLATFORM_NO_X86_ASM
 #endif
 
+/* Do not use for Sortix */
+#ifdef __sortix__
+#define PLATFORM_NO_X86_ASM
+#endif
+
 /* Do not use for QNX 6.x */
 #ifdef __QNXNTO__
 #define PLATFORM_NO_X86_ASM
