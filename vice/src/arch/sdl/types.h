@@ -51,7 +51,9 @@ typedef signed long SDWORD;
 #endif
 
 typedef DWORD CLOCK;
+
 /* Maximum value of a CLOCK.  */
+#undef CLOCK_MAX
 #define CLOCK_MAX (~((CLOCK)0))
 
 #ifdef _WIN64
