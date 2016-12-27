@@ -301,7 +301,9 @@ void machine_shutdown(void)
 
     video_shutdown();
 
-    ui_shutdown();
+    if (!console_mode) {
+        ui_shutdown();
+    }
 
     sysfile_shutdown();
 
