@@ -132,12 +132,13 @@ static BOOL CALLBACK AboutDialogProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM
             }
             return TRUE ;
         case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    EndDialog(hDlg, 0) ;
-                    return TRUE ;
+            if (LOWORD(wParam) != IDOK) {
+                break ;
             }
-            break ;
+            /* fall through */
+        case WM_CLOSE:
+            EndDialog(hDlg, 0) ;
+            return TRUE ;
     }
     return FALSE ;
 }
