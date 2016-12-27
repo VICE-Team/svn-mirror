@@ -145,6 +145,16 @@ static void cmdline_free(void)
 
 void cmdline_shutdown(void)
 {
+    unsigned int i;
+
+#ifdef DEBUG_CMDLINE
+    for (i = 0; i < num_options; i++) {
+        printf("CMDLINE\t%s\t%s\n",
+                (options + i)->name,
+                (options + i)->type == SET_RESOURCE ? (options + i)->resource_name : "(call-function)");
+
+    }
+#endif
     cmdline_free();
 
     lib_free(options);
