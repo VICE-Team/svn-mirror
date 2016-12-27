@@ -35,7 +35,7 @@
 
 #include "vice.h"
 
-/* #define DBGRESOURCES */
+/* #define VICE_DEBUG_RESOURCES */
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -56,7 +56,7 @@
 #include "util.h"
 #include "vice-event.h"
 
-#ifdef DBGRESOURCES
+#ifdef VICE_DEBUG_RESOURCES
 #define DBG(x)  printf x
 #else
 #define DBG(x)
@@ -352,10 +352,10 @@ static void resources_free(void)
 
 void resources_shutdown(void)
 {
-#ifdef DBGRESOURCES
+#ifdef VICE_DEBUG_RESOURCES
     int i;
 
-    printf("DBGRESOURCES: dumping resources: name, type\n");
+    printf("VICE_DEBUG_RESOURCES: dumping resources: name, type\n");
     for (i = 0; i < num_resources; i++) {
         resource_ram_t *res = resources + i;
 

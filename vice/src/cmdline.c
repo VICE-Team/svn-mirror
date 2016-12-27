@@ -25,7 +25,7 @@
  *
  */
 
-/* #define DEBUG_CMDLINE */
+/* #define VICE_DEBUG_CMDLINE */
 
 #include "vice.h"
 
@@ -42,7 +42,7 @@
 #include "uicmdline.h"
 #include "util.h"
 
-#ifdef DEBUG_CMDLINE
+#ifdef VICE_DEBUG_CMDLINE
 #define DBG(x)  printf x
 #else
 #define DBG(x)
@@ -147,7 +147,7 @@ void cmdline_shutdown(void)
 {
     unsigned int i;
 
-#ifdef DEBUG_CMDLINE
+#ifdef VICE_DEBUG_CMDLINE
     for (i = 0; i < num_options; i++) {
         printf("CMDLINE\t%s\t%s\n",
                 (options + i)->name,
