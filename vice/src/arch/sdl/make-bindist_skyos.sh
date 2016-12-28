@@ -64,7 +64,6 @@ echo Generating SkyOS SDL port binary distribution.
 rm -f -r SDLVICE-$VERSION
 mkdir -p SDLVICE-$VERSION/programs/SDLVICE
 mkdir SDLVICE-$VERSION/programs/SDLVICE/bin
-mv /boot/programs/SDLVICE/bin/vsid SDLVICE-$VERSION/programs/SDLVICE/bin
 for i in $EXECUTABLES
 do
   mv /boot/programs/SDLVICE/bin/$i SDLVICE-$VERSION/programs/SDLVICE/bin/$i.app
