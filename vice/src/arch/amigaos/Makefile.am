@@ -161,7 +161,7 @@ intl.h intl_table.h:	$(srcdir)/intl.txt genamigaintl
 else
 intl.h: $(srcdir)/intl.txt
 	echo "generating intl.h..."
-	$(SHELL) genintl_h.sh <$(srcdir)/intl.txt >intl.h
+	$(SHELL) $(srcdir)/genintl_h.sh <$(srcdir)/intl.txt >intl.h
 
 intl_table.h: $(srcdir)/intl.txt
 	echo "generating intl_table.h..."

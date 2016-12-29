@@ -4390,7 +4390,7 @@ elif test x"$is_amiga" = "xyes"; then
     ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
     ARCH_SRC_DIR="\$(top_srcdir)/src/arch/amigaos"
     ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/mui/libarchmui.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
+    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos -I\$(top_builddir)/src/arch/amigaos"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
