@@ -1905,7 +1905,6 @@ sub print_header {
 <HEAD>
 $header
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 <TITLE>$_</TITLE>
 <style type="text/css">
     \@import 'vice.css';
