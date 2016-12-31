@@ -1015,7 +1015,7 @@ static void generate_vice_1(char *out_path, char *filename)
 
     fill_all_team_list();
 
-    header = ".TH VICE 1 \"Feb 2004\" VICE\n"
+    header = ".TH VICE 1 \"Jan 2017\" VICE\n"
              ".SH NAME\n"
              "VICE \\- Versatile Commodore Emulator and Virtual Commodore Environment\n"
              ".SH DESCRIPTION\n"
