@@ -541,7 +541,6 @@ void Filter::enable_filter(bool enable)
 // Adjust the DAC bias parameter of the filter.
 // This gives user variable control of the exact CF -> center frequency
 // mapping used by the filter.
-// The setting is currently only effective for 6581.
 // ----------------------------------------------------------------------------
 void Filter::adjust_filter_bias(double dac_bias)
 {
@@ -549,7 +548,7 @@ void Filter::adjust_filter_bias(double dac_bias)
   set_w0();
 
   // Calculate DAC gate voltage
-  double Vg = (4.75 * 1.2) + (3. * (0.5 + dac_bias/1000.));
+  double Vg = (4.75 * 1.2) + (3. * (0.5 + dac_bias));
   double Vgt = model_filter_init[1].k * (Vg - model_filter_init[1].Vth);
   double vmin = model_filter_init[1].opamp_voltage[0][0];
 
