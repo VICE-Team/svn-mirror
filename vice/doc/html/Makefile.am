@@ -27,14 +27,6 @@ doc_DATA = \
 	fonts/Lato-Regular.ttf \
 	fonts/Lato-Regular.woff \
 	fonts/Lato-Regular.woff2 \
-	fonts/Lato-Semibold.eot \
-	fonts/Lato-SemiboldItalic.eot \
-	fonts/Lato-SemiboldItalic.ttf \
-	fonts/Lato-SemiboldItalic.woff \
-	fonts/Lato-SemiboldItalic.woff2 \
-	fonts/Lato-Semibold.ttf \
-	fonts/Lato-Semibold.woff \
-	fonts/Lato-Semibold.woff2 \
 	fonts/OFL.txt \
 	index.html \
 	macosx.html \
