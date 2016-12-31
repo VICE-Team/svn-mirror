@@ -75,6 +75,10 @@
 #include "joy.h"
 #endif
 
+#ifndef EXIT_SUCCESS
+#define EXIT_SUCCESS 0
+#endif
+
 static int machine_init_was_called = 0;
 static int mem_initialized = 0;
 static int ignore_jam = 0;
