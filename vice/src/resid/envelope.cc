@@ -172,6 +172,9 @@ EnvelopeGenerator::EnvelopeGenerator()
 
   set_chip_model(MOS6581);
 
+  // Counter's odd bits are high on powerup
+  envelope_counter = 0xaa;
+
   reset();
 }
 
@@ -180,8 +183,11 @@ EnvelopeGenerator::EnvelopeGenerator()
 // ----------------------------------------------------------------------------
 void EnvelopeGenerator::reset()
 {
-  envelope_counter = 0;
+  // counter is not changed on reset
   envelope_pipeline = 0;
+  exponential_pipeline = 0;
+
+  state_pipeline = 0;
 
   attack = 0;
   decay = 0;
@@ -193,10 +199,12 @@ void EnvelopeGenerator::reset()
   rate_counter = 0;
   exponential_counter = 0;
   exponential_counter_period = 1;
+  new_exponential_counter_period = 0;
+  reset_rate_counter = false;
 
   state = RELEASE;
   rate_period = rate_counter_period[release];
-  hold_zero = true;
+  hold_zero = false;
 }
 
 
@@ -219,25 +227,14 @@ void EnvelopeGenerator::writeCONTROL_REG(reg8 control)
   // The rate counter is never reset, thus there will be a delay before the
   // envelope counter starts counting up (attack) or down (release).
 
-  // Gate bit on: Start attack, decay, sustain.
-  if (!gate && gate_next) {
-    state = ATTACK;
-    rate_period = rate_counter_period[attack];
+  if (gate != gate_next) {
+    // Gate bit on: Start attack, decay, sustain.
+    // Gate bit off: Start release.
+    next_state = gate_next ? ATTACK : RELEASE;
+    state_pipeline = 2;
 
-    // Switching to attack state unlocks the zero freeze and aborts any
-    // pipelined envelope decrement.
-    hold_zero = false;
-    // FIXME: This is an assumption which should be checked using cycle exact
-    // envelope sampling.
-    envelope_pipeline = 0;
+    gate = gate_next;
   }
-  // Gate bit off: Start release.
-  else if (gate && !gate_next) {
-    state = RELEASE;
-    rate_period = rate_counter_period[release];
-  }
-
-  gate = gate_next;
 }
 
 void EnvelopeGenerator::writeATTACK_DECAY(reg8 attack_decay)
@@ -263,7 +260,7 @@ void EnvelopeGenerator::writeSUSTAIN_RELEASE(reg8 sustain_release)
 
 reg8 EnvelopeGenerator::readENV()
 {
-  return envelope_counter;
+  return env3;
 }
 
 } // namespace reSID
