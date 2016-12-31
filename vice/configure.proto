@@ -2484,9 +2484,12 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
         if test x"$enable_sdlui2" = "xyes"; then
           AC_MSG_ERROR([SDL2 framework not implemented (yet) for the Mac OS X port]) 
         fi
-        LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL -framework CoreVideo"
-        CFLAGS="$CFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
-        CXXFLAGS="$CXXFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
+        MAC_SDL_LIBS=`sdl-config --libs`
+        MAC_SDL_CFLAGS=`sdl-config --cflags`
+        LDFLAGS="$LDFLAGS -L/usr/local/lib"
+        LIBS="$LIBS $MAC_SDL_LIBS -framework Cocoa -framework OpenGL -framework CoreVideo"
+        CFLAGS="$CFLAGS $MAC_SDL_CFLAGS -I/usr/local/include -I/System/Library/Frameworks/OpenGL.framework/Headers"
+        CXXFLAGS="$CXXFLAGS $MAC_SDL_CFLAGS -I/usr/local/include -I/System/Library/Frameworks/OpenGL.framework/Headers"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
         USE_SDL_AUDIO_SUPPORT="yes"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])

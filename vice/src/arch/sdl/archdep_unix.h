@@ -104,7 +104,7 @@ extern void archdep_signals_pipe_set(void);
 extern void archdep_signals_pipe_unset(void);
 
 #ifdef MACOSX_SUPPORT
-#define MAKE_SO_NAME_VERSION_PROTO(name, version)  "/opt/local/lib/lib" #name "." #version ".dylib"
+#define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name "." #version ".dylib"
 #else
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name ".so." #version
 #endif
@@ -113,8 +113,8 @@ extern void archdep_signals_pipe_unset(void);
 #define ARCHDEP_MAKE_SO_NAME_VERSION(n, v) MAKE_SO_NAME_VERSION_PROTO(n, v)
 
 #ifdef MACOSX_SUPPORT
-#define ARCHDEP_OPENCBM_SO_NAME  "/opt/opencbm/lib/libopencbm.dylib"
-#define ARCHDEP_LAME_SO_NAME     "/opt/local/lib/libmp3lame.dylib"
+#define ARCHDEP_OPENCBM_SO_NAME  "libopencbm.dylib"
+#define ARCHDEP_LAME_SO_NAME     "libmp3lame.dylib"
 #else
 #define ARCHDEP_OPENCBM_SO_NAME  "libopencbm.so"
 #define ARCHDEP_LAME_SO_NAME     "libmp3lame.so"

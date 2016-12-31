@@ -211,6 +211,7 @@ for bundle in $BUNDLES ; do
   APP_NAME=$BUILD_DIR/$bundle.app
   APP_CONTENTS=$APP_NAME/Contents
   APP_MACOS=$APP_CONTENTS/MacOS
+  APP_FRAMEWORKS=$APP_CONTENTS/Frameworks
   APP_RESOURCES=$APP_CONTENTS/Resources
   APP_ROMS=$APP_RESOURCES/ROM
   APP_DOCS=$APP_RESOURCES/doc
@@ -255,6 +256,7 @@ for bundle in $BUNDLES ; do
     echo -n "[app dirs] "
     mkdir -p $APP_CONTENTS
     mkdir -p $APP_MACOS
+    mkdir -p $APP_FRAMEWORKS
     mkdir -p $APP_RESOURCES
 
     # copy icons
@@ -428,6 +430,21 @@ for bundle in $BUNDLES ; do
       echo -n "[strip] "
       /usr/bin/strip $APP_BIN/$emu
     fi
+
+    # copy any needed "local" libs
+    LOCAL_LIBS=`otool -L $APP_BIN/$emu | egrep '^\s+/(opt|usr)/local/'  | awk '{print $1}'`
+    for lib in $LOCAL_LIBS; do
+        cp $lib $APP_FRAMEWORKS
+        lib_base=`basename $lib`
+        LOCAL_LIBS_LIBS=`otool -L $APP_FRAMEWORKS/$lib_base | egrep '^\s+/(opt|usr)/local/' | grep -v $lib_base | awk '{print $1}'`
+        for lib_lib in $LOCAL_LIBS_LIBS; do
+            lib_lib_base=`basename $lib_lib`
+            chmod 644 $APP_FRAMEWORKS/$lib_base
+            install_name_tool -change $lib_lib @executable_path/../Frameworks/$lib_lib_base $APP_FRAMEWORKS/$lib_base
+        done
+        install_name_tool -change $lib @executable_path/../Frameworks/$lib_base $APP_BIN/$emu
+        install_name_tool -change $lib @executable_path/../Frameworks/$lib_base $APP_BIN/c1541
+    done
 
     # copy emulator ROM
     eval "ROM=\${ROM_$emu}"
