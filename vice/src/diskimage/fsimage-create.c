@@ -304,7 +304,7 @@ static int fsimage_create_p64(disk_image_t *image)
 
             gcrptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
         }
-        P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[track << 1], (void*)&gcr_track[0], disk_image_raw_track_size(image->type, track) << 3);
+        P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[0][track << 1], (void*)&gcr_track[0], disk_image_raw_track_size(image->type, track) << 3);
     }
 
     P64MemoryStreamCreate(&P64MemoryStreamInstance);

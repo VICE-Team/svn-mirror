@@ -76,7 +76,7 @@
 /* max. half tracks */
 #define DRIVE_HALFTRACKS_1541   84
 /* FIXME: this constant is at some places used unconditionally for all 2-sided drives */
-#define DRIVE_HALFTRACKS_1571   70
+#define DRIVE_HALFTRACKS_1571   84
 
 /* Possible colors of the drive active LED.  */
 #define DRIVE_LED1_RED     0
