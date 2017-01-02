@@ -145,9 +145,9 @@ static void cmdline_free(void)
 
 void cmdline_shutdown(void)
 {
+#ifdef VICE_DEBUG_CMDLINE
     unsigned int i;
 
-#ifdef VICE_DEBUG_CMDLINE
     for (i = 0; i < num_options; i++) {
         printf("CMDLINE\t%s\t%s\n",
                 (options + i)->name,
