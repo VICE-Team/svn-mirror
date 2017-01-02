@@ -333,7 +333,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         util_fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach a disk image", directory, 
-                                 "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.p64;*.d80;*.d82;*.d67;*.d1m;*.d2m;*.d4m;"
+                                 "*.d64;*.d71;*.d81;*.g64;*.g71;*.g41;*.x64;*.p64;*.d80;*.d82;*.d67;*.d1m;*.d2m;*.d4m;"
                                  "*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z;*.zip;*.gz;*.lzh",
                                  default_item, diskcontents_filesystem_read, &file,
                                  &file_number);
