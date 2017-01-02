@@ -17235,7 +17235,8 @@ If @code{unit} is specified, format the disk in unit @code{unit}.  If
 @code{type} and @code{imagename} are specified, create a new image named
 @code{imagename}, attach it to unit 8 and format it.  @code{type} is a
 disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031),
-@code{g64} (VC1541/2031 but in GCR coding), @code{d71} (VC1571), @code{d81}
+@code{g64} (VC1541/2031 but in GCR coding), @code{d71} (VC1571), 
+@code{g71} (VC1571 but in GCR coding), @code{d81}
 (VC1581), @code{d80} (CBM8050) or @code{d82} (CBM8250/1001).
 Otherwise, format the disk in the current unit, if any.
 
@@ -18186,6 +18187,9 @@ halg.track 85 to 168) for the second size.
 
 In order for this to work, byte 9 of the image (i. e. the maximum
 number of tracks) usually contains 168 for double sided disks.
+
+To make identifying such images easy, the fiel signature in the first 8 bytes of 
+such files will be @code{GCR-1571}).
 
 @c @node FIXME
 @section The P64 NRZI flux pulse disk image format

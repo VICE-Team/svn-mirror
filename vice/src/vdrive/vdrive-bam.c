@@ -746,7 +746,7 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
             break;
         case VDRIVE_IMAGE_FORMAT_1571:
             err = vdrive_write_sector(vdrive, vdrive->bam, BAM_TRACK_1571, BAM_SECTOR_1571);
-            err |= vdrive_write_sector(vdrive, vdrive->bam + 256, BAM_TRACK_1571 + 35, BAM_SECTOR_1571);
+            err |= vdrive_write_sector(vdrive, vdrive->bam + 256, BAM_TRACK_1571 + (vdrive->num_tracks / 2), BAM_SECTOR_1571);
             break;
         case VDRIVE_IMAGE_FORMAT_1581:
             err = vdrive_write_sector(vdrive, vdrive->bam, BAM_TRACK_1581, BAM_SECTOR_1581);

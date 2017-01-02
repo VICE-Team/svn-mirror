@@ -572,7 +572,8 @@ void drive_set_half_track(int num, int side, drive_t *dptr)
     }
     dptr->side = side;
 
-    tmp = (dptr->image && dptr->image->type == DISK_IMAGE_TYPE_G64) ? DRIVE_HALFTRACKS_1571 : 70;
+    /* FIXME: why would the offset be different for D71 and G71? */
+    tmp = (dptr->image && dptr->image->type == DISK_IMAGE_TYPE_G71) ? DRIVE_HALFTRACKS_1571 : 70;
 
     dptr->GCR_track_start_ptr = dptr->gcr->tracks[dptr->current_half_track - 2 + (dptr->side * tmp)].data;
 
@@ -603,13 +604,14 @@ void drive_gcr_data_writeback(drive_t *drive)
 {
     int extend;
     unsigned int half_track, track;
-  	int tmp;
+    int tmp;
 
     if (drive->image == NULL) {
         return;
     }
 
-    tmp = (drive->image && drive->image->type == DISK_IMAGE_TYPE_G64) ? DRIVE_HALFTRACKS_1571 : 70;
+    /* FIXME: why would the offset be different for D71 and G71? */
+    tmp = (drive->image && drive->image->type == DISK_IMAGE_TYPE_G71) ? DRIVE_HALFTRACKS_1571 : 70;
     half_track = drive->current_half_track + (drive->side * tmp);
     track = drive->current_half_track / 2;
 
@@ -621,7 +623,8 @@ void drive_gcr_data_writeback(drive_t *drive)
         return;
     }
 
-    if (drive->image->type == DISK_IMAGE_TYPE_G64) {
+    if ((drive->image->type == DISK_IMAGE_TYPE_G64)
+        || (drive->image->type == DISK_IMAGE_TYPE_G71)) {
         disk_image_write_half_track(drive->image, half_track,
                                     &drive->gcr->tracks[half_track - 2]);
         drive->GCR_dirty_track = 0;
