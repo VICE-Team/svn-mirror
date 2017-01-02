@@ -270,16 +270,31 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
             vdrive->bam_size = 0x500;
             break;
         case DISK_IMAGE_TYPE_G64:
-            vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
-            vdrive->num_tracks = 35; /* FIXME: it can be more */
-            vdrive->bam_size = 0x100;
+            /* FIXME: extra checks might be needed for supporting other drives */
+            if (image->tracks > 42) {
+                vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
+                vdrive->num_tracks = image->tracks;
+                vdrive->bam_size = 0x200;
+            } else {
+                vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
+                vdrive->num_tracks = image->tracks;
+                vdrive->bam_size = 0x100;
+            }
             break;
         case DISK_IMAGE_TYPE_P64:
-            vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
-            vdrive->num_tracks = 35; /* FIXME: it can be more */
-            vdrive->bam_size = 0x100;
+            /* FIXME: extra checks might be needed for supporting other drives */
+            if (image->tracks > 42) {
+                vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
+                vdrive->num_tracks = image->tracks;
+                vdrive->bam_size = 0x200;
+            } else {
+                vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
+                vdrive->num_tracks = image->tracks;
+                vdrive->bam_size = 0x100;
+            }
             break;
         case DISK_IMAGE_TYPE_X64:
+            /* FIXME: x64 format can be any drive! */
             vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
             vdrive->num_tracks = image->tracks;
             vdrive->bam_size = 0x100;
