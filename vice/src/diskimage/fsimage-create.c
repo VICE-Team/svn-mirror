@@ -49,6 +49,13 @@
 #include "p64.h"
 #include "cbmdos.h"
 
+/* #define DBGIMGCREATE */
+
+#ifdef DBGIMGCREATE
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 /** \brief  Log instance for this module
  */
@@ -237,11 +244,12 @@ static int fsimage_create_gcr(disk_image_t *image)
         util_dword_to_le_buf(&gcr_track_p[track * 4 * 2], 12 + max_tracks * 16 + track * (NUM_MAX_BYTES_TRACK + 2));
         util_dword_to_le_buf(&gcr_speed_p[track * 4 * 2], disk_image_speed_map(image->type, track + 1));
     }
-
+    /* write list of track offsets */
     if (fwrite(gcr_track_p, (max_tracks * 2 * 4), 1, fsimage->fd) < 1) {
         log_error(createdisk_log, "Cannot write track header.");
         return -1;
     }
+    /* write speed table */
     if (fwrite(gcr_speed_p, (max_tracks * 2 * 4), 1, fsimage->fd) < 1) {
         log_error(createdisk_log, "Cannot write speed header.");
         return -1;
@@ -256,16 +264,35 @@ static int fsimage_create_gcr(disk_image_t *image)
         util_word_to_le_buf(gcrptr, (WORD)disk_image_raw_track_size(image->type, track));
         gcrptr += 2;
         memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
-
-        header.track = track;
+        if (image->type == DISK_IMAGE_TYPE_G71) {
+            /* the DOS would normally not touch the tracks > 35, we format them
+               anyway and give them unique track numbers. This is NOT standard! */
+            if (track > 77) {
+                /* tracks 78 - 84 on side 2 get 78..84 */
+                header.track = track;
+            } else if (track > 42) {
+                /* tracks on side 2 start with 36 */
+                header.track = track - 7;
+            } else if (track > 35) {
+                /* tracks 36 - 42 on side 1 get 71..77 */
+                header.track = track + 35;
+            } else {
+                header.track = track;
+            }
+        } else {
+            header.track = track;
+        }
+        DBG(("track %d hdr track %d (%d) : ", track, header.track, disk_image_raw_track_size(image->type, track)));
+        /* encode one track */
         for (sector = 0;
              sector < disk_image_sector_per_track(image->type, track);
              sector++) {
+            DBG(("%d ", sector));
             header.sector = sector;
             gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, 9, 5, CBMDOS_FDC_ERR_OK);
-
             gcrptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
         }
+        DBG(("(gap: %d)\n", gap));
         if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, fsimage->fd) < 1) {
             log_error(createdisk_log, "Cannot write track data.");
             return -1;
