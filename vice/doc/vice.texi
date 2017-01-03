@@ -176,23 +176,23 @@ notice identical to this one.
 @vskip 0pt plus 1filll
 @c section used in file generation, keep to the format used.
 @c ---vice-core-team---
-Copyright @copyright{} 1999-2016 Andreas Matthies
-Copyright @copyright{} 1999-2016 Martin Pottendorfer
-Copyright @copyright{} 2005-2016 Marco van den Heuvel
-Copyright @copyright{} 2007-2016 Fabrizio Gennari
-Copyright @copyright{} 2009-2016 Groepaz
-Copyright @copyright{} 2011-2016 Marcus Sutton
-Copyright @copyright{} 2011-2016 Kajtar Zsolt
-Copyright @copyright{} 2011-2016 Stefan Haubenthal
-Copyright @copyright{} 2015-2016 BSzili
-Copyright @copyright{} 2016-2016 AreaScout
-Copyright @copyright{} 2016-2016 Bas Wassink
+Copyright @copyright{} 1999-2017 Martin Pottendorfer
+Copyright @copyright{} 2005-2017 Marco van den Heuvel
+Copyright @copyright{} 2007-2017 Fabrizio Gennari
+Copyright @copyright{} 2009-2017 Groepaz
+Copyright @copyright{} 2010-2017 Olaf Seibert
+Copyright @copyright{} 2011-2017 Marcus Sutton
+Copyright @copyright{} 2011-2017 Kajtar Zsolt
+Copyright @copyright{} 2016-2017 AreaScout
+Copyright @copyright{} 2016-2017 Bas Wassink
 @c ---vice-core-team-end---
 
 @c ---ex-team---
+Copyright @copyright{} 2011-2016 Stefan Haubenthal
+Copyright @copyright{} 2015-2016 BSzili
+Copyright @copyright{} 1999-2016 Andreas Matthies
 Copyright @copyright{} 2007-2015 Daniel Kahlin
 Copyright @copyright{} 2009-2015 Errol Smith
-Copyright @copyright{} 2010-2015 Olaf Seibert
 Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 Copyright @copyright{} 2011-2014 Ulrich Schulz
 Copyright @copyright{} 2011-2014 Thomas Giesel
@@ -26787,19 +26787,6 @@ The VICE core team:
 @c The Texinfo manual says we should not use @b though!
 
 @item
-@b{Andreas Matthies}
-Improved the datasette support, the VIC20 video emulation and
-some UI stuff in the Win32 and DOS ports. He also wrote the
-BeOS port and implemented video/audio capture support. Improved
-history recording/playback and implemented support for video
-recording and the netlink feature. Made the Win32 user
-changable keyboard shortcut system. Improved CIA and VIA
-emulation. Worked on x64sc, especially interrupt timing.
-Improved the FFMPEG support and started the 'in-source'
-FFMPEG support/merge. Wrote test programs. Various
-bug(fixe)s. ;-)
-
-@item
 @b{Martin Pottendorfer}
 Implemented the Gnome Port based on Oliver Schaertels GTK+
 port. Added support code for internationalization based on
@@ -26866,17 +26853,6 @@ using VTE to the GTK+ GUI. Made some monitor fixes. Fixed some
 tape code issues.
 
 @item
-@b{Daniel Kahlin}
-Worked on DTV VIC emulation, palette, DTV SID support in resid,
-better DMA/Blitter support and did lots of refactoring. Added
-new monitor commands and features. Improved the VIC emulation
-for xvic. Made MIDI driver code for Win32. Rewrote the xvic
-cartridge system. Added Mega-Cart and Final Expansion V3.2
-support to xvic. Wrote large parts of the new VIC-II emulation
-used in x64sc, especially the dot clock domain emulation. Wrote
-many test programs for hardware analysis.
-
-@item
 @b{Groepaz}
 Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
@@ -26894,10 +26870,6 @@ emulation. Added GMod2 cartridge emulation. Added xvic BehrBonz
 cartridge emulation. Added VICII VSP-bug emulation. Wrote alot of
 test programs. Updated this document after a long period of
 outdated mess. And various fixes and improvements.
-
-@item
-@b{Errol Smith}
-Improved VDC emulation. Improved MPS803 printer emulation.
 
 @item
 @b{Olaf Seibert}
@@ -26926,11 +26898,6 @@ Added Swiss ROM support to x128. Added IDE64 USB server emulation. Added
 compatibility. Added godot screenshot support. And fixed various issues.
 
 @item
-@b{BSzili}
-Provided many amigaos4 fixes. Maintains the amigaos based and derived
-ports.
-
-@item
 @b{AreaScout}
 Fixed the SDL2 port. Revived the Android port. Maintains the SDL1,
 SDL2 and Android ports.
@@ -26948,6 +26915,39 @@ out-of-tree building.
 Former/inactive team members:
 
 @itemize @bullet
+
+@item
+@b{BSzili}
+Provided many amigaos4 fixes. Maintained the amigaos based and derived
+ports.
+
+@item
+@b{Errol Smith}
+Improved VDC emulation. Improved MPS803 printer emulation.
+
+@item
+@b{Daniel Kahlin}
+Worked on DTV VIC emulation, palette, DTV SID support in resid,
+better DMA/Blitter support and did lots of refactoring. Added
+new monitor commands and features. Improved the VIC emulation
+for xvic. Made MIDI driver code for Win32. Rewrote the xvic
+cartridge system. Added Mega-Cart and Final Expansion V3.2
+support to xvic. Wrote large parts of the new VIC-II emulation
+used in x64sc, especially the dot clock domain emulation. Wrote
+many test programs for hardware analysis.
+
+@item
+@b{Andreas Matthies}
+Improved the datasette support, the VIC20 video emulation and
+some UI stuff in the Win32 and DOS ports. He also wrote the
+BeOS port and implemented video/audio capture support. Improved
+history recording/playback and implemented support for video
+recording and the netlink feature. Made the Win32 user
+changable keyboard shortcut system. Improved CIA and VIA
+emulation. Worked on x64sc, especially interrupt timing.
+Improved the FFMPEG support and started the 'in-source'
+FFMPEG support/merge. Wrote test programs. Various
+bug(fixe)s. ;-)
 
 @item
 @b{Ulrich Schulz}
@@ -27115,31 +27115,31 @@ Internationalization Team:
 @item
 @c ---translation-team---
 @b{Mikkel Holm Olsen}
-Copyright @copyright{} 2009-2016
+Copyright @copyright{} 2009-2017
 Provided the Danish user interface translations and fixed a few monitor bugs.
 
 @b{Martin Pottendorfer}
-Copyright @copyright{} 2000-2016
+Copyright @copyright{} 2000-2017
 Provided the German user interface translations.
 
 @b{Manuel Antonio Rodriguez Bas}
-Copyright @copyright{} 2011-2016
+Copyright @copyright{} 2011-2017
 Provided the Spanish user interface translations.
 
 @b{Paul Dubé}
-Copyright @copyright{} 2004-2016
+Copyright @copyright{} 2004-2017
 Provided the French user interface translations.
 
 @b{Czirkos Zoltan}
-Copyright @copyright{} 2006-2016
+Copyright @copyright{} 2006-2017
 Provided the Hungarian user interface translations.
 
 @b{Karai Csaba}
-Copyright @copyright{} 2006-2016
+Copyright @copyright{} 2006-2017
 Provided the Hungarian user interface translations.
 
 @b{Andrea Musuruane}
-Copyright @copyright{} 2001-2016
+Copyright @copyright{} 2001-2017
 Provided the Italian user interface translations.
 
 @b{Jesse Lee}
@@ -27147,23 +27147,23 @@ Copyright @copyright{} 2011-2016
 Provided the Korean user interface translations.
 
 @b{Marco van den Heuvel}
-Copyright @copyright{} 2005-2016
+Copyright @copyright{} 2005-2017
 Provided the Dutch user interface translations.
 
 @b{Jarek Sobolewski}
-Copyright @copyright{} 2011-2016
+Copyright @copyright{} 2011-2017
 Provided the Polish user interface translations.
 
 @b{Michael Litvinov}
-Copyright @copyright{} 2010-2016
+Copyright @copyright{} 2010-2017
 Provided the Russian user interface translations.
 
 @b{Peter Krefting}
-Copyright @copyright{} 2000-2016
+Copyright @copyright{} 2000-2017
 Provided the Swedish user interface translations.
 
 @b{Emir Akaydin}
-Copyright @copyright{} 2008-2016
+Copyright @copyright{} 2008-2017
 Provided the Turkish user interface translations.
 
 @c ---translation-team-end---
@@ -27732,28 +27732,32 @@ cool emulators to compete with.  @t{:-)}
 @item
 Copyright @copyright{} 1999-2016 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2016 Martin Pottendorfer
+Copyright @copyright{} 1999-2017 Martin Pottendorfer
 @item
-Copyright @copyright{} 2005-2016 Marco van den Heuvel
+Copyright @copyright{} 2005-2017 Marco van den Heuvel
 @item
-Copyright @copyright{} 2007-2016 Fabrizio Gennari
+Copyright @copyright{} 2007-2017 Fabrizio Gennari
 @item
-Copyright @copyright{} 2009-2016 Groepaz
+Copyright @copyright{} 2009-2017 Groepaz
 @item
-Copyright @copyright{} 2011-2016 Marcus Sutton
+Copyright @copyright{} 2010-2017 Olaf Seibert
 @item
-Copyright @copyright{} 2011-2016 Kajtar Zsolt
+Copyright @copyright{} 2011-2017 Marcus Sutton
+@item
+Copyright @copyright{} 2011-2017 Kajtar Zsolt
+@item
+Copyright @copyright{} 2016-2017 AreaScout
+@item
+Copyright @copyright{} 2016-2017 Bas Wassink
+
 @item
 Copyright @copyright{} 2011-2016 Stefan Haubenthal
 @item
 Copyright @copyright{} 2015-2016 BSzili
-
 @item
 Copyright @copyright{} 2007-2015 Daniel Kahlin
 @item
 Copyright @copyright{} 2009-2015 Errol Smith
-@item
-Copyright @copyright{} 2010-2015 Olaf Seibert
 @item
 Copyright @copyright{} 2012-2014 Benjamin 'BeRo' Rosseaux
 @item

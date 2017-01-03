@@ -404,7 +404,7 @@ if test x"$1" = "xREADME"; then
   outputok=no
 
   $ECHO ""
-  $ECHO "  VICE  2.4                                                        Nov 2012"
+  $ECHO "  VICE  3.0                                                        Dec 2016"
   $ECHO ""
   $ECHO ""
   $ECHO "                 _______________"
@@ -643,7 +643,7 @@ if test x"$1" = "xvice1"; then
   buildlists
   buildallmembers
 
-  $ECHO ".TH VICE 1 \"Feb 2004\" VICE"
+  $ECHO ".TH VICE 1 \"Jan 2017\" VICE"
   $ECHO ".SH NAME"
   $ECHO "VICE \\- Versatile Commodore Emulator and Virtual Commodore Environment"
   $ECHO ".SH DESCRIPTION"
