@@ -94,6 +94,7 @@ static Widget disk_type_d71_button;
 static Widget disk_type_d81_button, disk_type_d80_button, disk_type_d82_button;
 static Widget disk_type_d1m_button, disk_type_d2m_button, disk_type_d4m_button;
 static Widget disk_type_g64_button;
+static Widget disk_type_g71_button;
 static Widget disk_type_p64_button;
 static Widget disk_type_x64_button;
 static Widget disk_type_label;
@@ -128,9 +129,9 @@ static UI_CALLBACK(cancel_callback)
     ui_popdown(emptydisk_dialog);
 }
 
-#define NR_FORMATS 12
+#define NR_FORMATS 13
 
-static char *extensions[NR_FORMATS] = { "d64", "d67", "d71", "d81", "d80", "d82", "d1m", "d2m", "d4m", "g64", "p64", "x64" };
+static char *extensions[NR_FORMATS] = { "d64", "d67", "d71", "d81", "d80", "d82", "d1m", "d2m", "d4m", "g64", "g71", "p64", "x64" };
 
 static UI_CALLBACK(save_callback)
 {
@@ -145,6 +146,7 @@ static UI_CALLBACK(save_callback)
          DISK_IMAGE_TYPE_D2M,
          DISK_IMAGE_TYPE_D4M,
          DISK_IMAGE_TYPE_G64,
+         DISK_IMAGE_TYPE_G71,
          DISK_IMAGE_TYPE_P64,
          DISK_IMAGE_TYPE_X64,
     };
@@ -157,6 +159,7 @@ static UI_CALLBACK(save_callback)
 
     ui_popdown(emptydisk_dialog);
 
+    /* XXX: WTF is this? (BW) */
     type_cnt = 0;
     XtVaGetValues(disk_type_d64_button, XtNstate, &disk_type_flag, NULL);
     if (disk_type_flag == False) {
@@ -184,16 +187,21 @@ static UI_CALLBACK(save_callback)
                                     type_cnt ++;
                                     XtVaGetValues(disk_type_d4m_button, XtNstate, &disk_type_flag, NULL);
                                     if (disk_type_flag == False) {
-                                        type_cnt ++;
+                                        type_cnt++;
                                         XtVaGetValues(disk_type_g64_button, XtNstate, &disk_type_flag, NULL);
                                         if (disk_type_flag == False) {
-                                            type_cnt ++;
-                                            XtVaGetValues(disk_type_p64_button, XtNstate, &disk_type_flag, NULL);
+                                            type_cnt++;
+                                            XtVaGetValues(disk_type_g71_button, XtNstate, &disk_type_flag, NULL);
+
                                             if (disk_type_flag == False) {
                                                 type_cnt ++;
-                                                XtVaGetValues(disk_type_x64_button, XtNstate, &disk_type_flag, NULL);
+                                                XtVaGetValues(disk_type_p64_button, XtNstate, &disk_type_flag, NULL);
                                                 if (disk_type_flag == False) {
-                                                     type_cnt ++;
+                                                    type_cnt ++;
+                                                    XtVaGetValues(disk_type_x64_button, XtNstate, &disk_type_flag, NULL);
+                                                    if (disk_type_flag == False) {
+                                                         type_cnt ++;
+                                                    }
                                                 }
                                             }
                                         }
@@ -206,7 +214,6 @@ static UI_CALLBACK(save_callback)
             }
         }
     }
-  
     if (type_cnt < 0 || type_cnt >= NR_FORMATS) {
         return;
     }
@@ -446,10 +453,22 @@ static void build_emptydisk_dialog(void)
                                                    XtNlabel, "G64",
                                                    XtNradioGroup, disk_type_d64_button,
                                                    NULL);
+    disk_type_g71_button = XtVaCreateManagedWidget("ImageTypeG71Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_g64_button,
+                                                   XtNfromVert, disk_type_label,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "G71",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
+
 
     disk_type_p64_button = XtVaCreateManagedWidget("ImageTypeP64Button",
                                                    toggleWidgetClass, options_form,
-                                                   XtNfromHoriz, disk_type_g64_button,
+                                                   XtNfromHoriz, disk_type_g71_button,
                                                    XtNfromVert, disk_type_label,
                                                    XtNwidth, 40,
                                                    XtNheight, 20,

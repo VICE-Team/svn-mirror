@@ -1621,7 +1621,7 @@ static const char* file_filters[] = {
 /* all */ "*",
 /* palette */ "*.vpl",
 /* snapshot */ "*.vsf",
-/* disk */ "*.{[gpx]64,d{6[47],71,8[012],[124]m},g41}",
+/* disk */ "*.{[gpx]64,d{6[47],71,8[012],[124]m},g41,g71}",
 /* tape */ "*.{t64,tap}",
 /* cartridge */ "*.{crt,bin}",
 /* crt filter */ "*.crt",
