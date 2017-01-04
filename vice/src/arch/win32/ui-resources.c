@@ -477,7 +477,7 @@ static const cmdline_option_t dx9_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_ASPECT_RATIO, IDS_SET_ASPECT_RATIO,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 #endif
 
@@ -517,7 +517,7 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_DEFAULT_DIR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options[] = {
@@ -536,7 +536,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t tape_cmdline_options[] = {
@@ -545,7 +545,7 @@ static const cmdline_option_t tape_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_TAPE_DIR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cart_cmdline_options[] = {
@@ -554,7 +554,7 @@ static const cmdline_option_t cart_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_CART_DIR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_cpu[] = {
@@ -568,7 +568,7 @@ static const cmdline_option_t cmdline_options_cpu[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDS_USE_FIRST_CPU_SMP,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int ui_cmdline_options_init(void)

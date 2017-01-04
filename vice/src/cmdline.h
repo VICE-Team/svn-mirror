@@ -1,5 +1,5 @@
 /*
- * cmdline.c - Command-line parsing.
+ * cmdline.h - Command-line parsing.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>

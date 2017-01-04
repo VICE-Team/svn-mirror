@@ -109,7 +109,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable BeOS DirectWindow API" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int video_arch_cmdline_options_init(void)

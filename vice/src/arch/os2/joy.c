@@ -247,7 +247,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Start auto calibration for PC joystick #2" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev1cmdline_options[] = {
@@ -256,7 +256,7 @@ static const cmdline_option_t joydev1cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
@@ -265,7 +265,7 @@ static const cmdline_option_t joydev2cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
@@ -274,7 +274,7 @@ static const cmdline_option_t joydev3cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for extra CBM joystick port #1 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
@@ -283,7 +283,7 @@ static const cmdline_option_t joydev4cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for extra CBM joystick port #2 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev5cmdline_options[] = {
@@ -292,7 +292,7 @@ static const cmdline_option_t joydev5cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<number>", "Set input device for extra CBM joystick port #3 (0: None, 1: Joystick 1, 2: Joystick 2, 4: Numpad, 8: Keyset 1, 16: Keyset 2)" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int joy_arch_cmdline_options_init(void)

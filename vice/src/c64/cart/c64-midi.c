@@ -224,7 +224,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SPECIFY_C64_MIDI_TYPE,
       "<0-4>", NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int c64_midi_cmdline_options_init(void)

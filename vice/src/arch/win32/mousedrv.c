@@ -104,7 +104,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_SENSITIVITY, IDS_DESC_MOUSE_SENSITIVITY,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int mousedrv_cmdline_options_init(void)

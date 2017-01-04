@@ -195,7 +195,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Disable true aspect ratio") },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int video_init_cmdline_options(void)

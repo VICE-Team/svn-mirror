@@ -539,7 +539,7 @@ static const cmdline_option_t joydev1cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
@@ -548,7 +548,7 @@ static const cmdline_option_t joydev2cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_2,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
@@ -557,7 +557,7 @@ static const cmdline_option_t joydev3cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_1,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
@@ -566,7 +566,7 @@ static const cmdline_option_t joydev4cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_2,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev5cmdline_options[] = {
@@ -575,7 +575,7 @@ static const cmdline_option_t joydev5cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_3,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int joy_arch_cmdline_options_init(void)

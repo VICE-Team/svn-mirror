@@ -443,7 +443,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Do not confirm exiting the emulator" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int ui_cmdline_options_init(void)

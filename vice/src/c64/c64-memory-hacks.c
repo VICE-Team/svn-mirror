@@ -116,7 +116,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_DEVICE, IDCLS_SET_C64_MEMORY_HACK,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int memory_hacks_cmdline_options_init(void)

@@ -236,7 +236,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_SNAPSHOT_DIR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t tape_cmdline_options[] = {
@@ -245,7 +245,7 @@ static const cmdline_option_t tape_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_TAPE_DIR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cart_cmdline_options[] = {
@@ -254,7 +254,7 @@ static const cmdline_option_t cart_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDS_SPECIFY_INITIAL_CART_DIR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t common_cmdline_options[] = {
@@ -315,7 +315,7 @@ static const cmdline_option_t common_cmdline_options[] = {
       IDCLS_UNUSED, IDS_DISABLE_VIDEOOVERLAY,
       NULL, NULL },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int ui_cmdline_options_init(void)

@@ -185,7 +185,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<frames>"), N_("Set the display thread frame backbuffer amount") },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 void mbuffer_init(void *canvas, int w, int h, int depth, int shell)

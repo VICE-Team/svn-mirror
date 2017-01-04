@@ -307,7 +307,7 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Do not keep aspect ratio when scaling (freescale)") },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int video_arch_cmdline_options_init(void)

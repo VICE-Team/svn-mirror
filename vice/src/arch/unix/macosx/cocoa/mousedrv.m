@@ -91,7 +91,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       "<1-8>", N_("Set scaling factor for mouse movement along Y") },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int mousedrv_cmdline_options_init(void)

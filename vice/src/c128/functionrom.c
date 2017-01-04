@@ -269,7 +269,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_EXT_FUNC_RTC_SAVE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int functionrom_cmdline_options_init(void)

@@ -128,7 +128,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<Name>"), N_("Name of MIDI-Out Port") },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int mididrv_cmdline_options_init(void)

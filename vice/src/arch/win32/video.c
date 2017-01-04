@@ -182,7 +182,7 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDS_DISABLE_DXPS_RENDER,
       NULL, NULL },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 #ifdef HAVE_D3D9_H
@@ -192,7 +192,7 @@ static cmdline_option_t generated_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDS_P_NUMBER, IDS_FULLSCREEN_DEVICE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 #endif
 

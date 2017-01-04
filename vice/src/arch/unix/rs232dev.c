@@ -208,7 +208,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<baudrate>"), N_("Specify baudrate of fourth RS232 device") },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int rs232dev_cmdline_options_init(void)

@@ -61,7 +61,7 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Never save settings on exit") },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options[] = {
@@ -93,7 +93,7 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, N_("Disable fullscreen") },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int ui_cmdline_options_init(void)

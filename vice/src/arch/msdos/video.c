@@ -183,7 +183,7 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable usage of triple buffering" },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int video_arch_cmdline_options_init(void)

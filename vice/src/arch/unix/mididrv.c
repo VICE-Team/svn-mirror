@@ -682,7 +682,7 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_UNUSED,
       N_("<Driver>"), N_("Specify MIDI driver (0 = OSS, 1 = ALSA)") },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int mididrv_cmdline_options_init(void)

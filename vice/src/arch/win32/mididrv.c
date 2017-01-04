@@ -130,7 +130,7 @@ static const cmdline_option_t cmdline_options[] = {
       DEFAULT_PARAM, DEFAULT_DESCR,
       IDS_P_NUMBER, IDS_SPECIFY_MIDI_OUT,
       "<number>", "Specify MIDI-Out device" },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int mididrv_cmdline_options_init(void)

@@ -91,7 +91,7 @@ static const cmdline_option_t joydev1cmdline_options[] = {
 #else
       "<0-3>", N_("Set device for joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)") },
 #endif
-    { NULL },
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
@@ -112,7 +112,7 @@ static const cmdline_option_t joydev2cmdline_options[] = {
 #else
       "<0-3>", N_("Set device for joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)") },
 #endif
-    { NULL },
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
@@ -133,7 +133,7 @@ static const cmdline_option_t joydev3cmdline_options[] = {
 #else
       "<0-3>", N_("Set device for extra joystick port 1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)") },
 #endif
-    { NULL },
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
@@ -154,7 +154,7 @@ static const cmdline_option_t joydev4cmdline_options[] = {
 #else
       "<0-3>", N_("Set device for extra joystick port 2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)") },
 #endif
-    { NULL },
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev5cmdline_options[] = {
@@ -175,7 +175,7 @@ static const cmdline_option_t joydev5cmdline_options[] = {
 #else
       "<0-3>", N_("Set device for extra joystick port 3 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2)") },
 #endif
-    { NULL },
+    CMDLINE_LIST_END
 };
 
 int joy_arch_cmdline_options_init(void)

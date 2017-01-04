@@ -183,7 +183,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ATTACH_READ_WRITE_11,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int file_system_cmdline_options_init(void)
