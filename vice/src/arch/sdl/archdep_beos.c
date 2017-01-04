@@ -445,3 +445,11 @@ int kbd_arch_get_host_mapping(void)
 {
     return KBD_MAPPING_US;
 }
+
+
+#ifdef USE_SDLUI2
+char *archdep_sdl2_default_renderers[] = {
+    "software", "opengl", NULL
+};
+#endif
+
