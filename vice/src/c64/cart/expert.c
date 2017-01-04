@@ -925,8 +925,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODE, IDCLS_SET_EXPERT_MODE,
       NULL, NULL },
-
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int expert_cmdline_options_init(void)

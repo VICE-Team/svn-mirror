@@ -1226,7 +1226,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_TYPE, IDCLS_SPECIFY_MMC64_SD_TYPE,
       NULL, NULL },
-  { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t clockport_cmdline_options[] =
@@ -1236,7 +1236,7 @@ static cmdline_option_t clockport_cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_DEVICE, IDCLS_CLOCKPORT_DEVICE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int mmc64_cmdline_options_init(void)

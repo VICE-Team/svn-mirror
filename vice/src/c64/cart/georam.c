@@ -489,7 +489,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_mascuerade_options[] =
@@ -504,7 +504,7 @@ static const cmdline_option_t cmdline_mascuerade_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DONT_SWAP_CART_IO,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int georam_cmdline_options_init(void)
