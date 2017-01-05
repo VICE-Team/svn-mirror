@@ -181,7 +181,7 @@ void store_joyport_dig(int port, BYTE val, BYTE mask)
 
     store_val = joyport_dig_stored[port];
 
-    store_val &= ~mask;
+    store_val &= (BYTE)~mask;
     store_val |= val;
 
     joyport_device[id].store_digital(store_val);
@@ -256,9 +256,9 @@ BYTE read_joyport_potx(void)
             return ret2;
         case 3:
             return ret1 & ret2;
+        default:
+            return 0xff;
     }
-
-    return 0xff;
 }
 
 BYTE read_joyport_poty(void)
@@ -304,9 +304,9 @@ BYTE read_joyport_poty(void)
             return ret2;
         case 3:
             return ret1 & ret2;
+        default:
+            return 0xff;
     }
-
-    return 0xff;
 }
 
 static int pot_present = -1;
@@ -407,7 +407,7 @@ joyport_desc_t *joyport_get_valid_devices(int port)
         }
     }
 
-    retval = lib_malloc((valid + 1) * sizeof(joyport_desc_t));
+    retval = lib_malloc(((size_t)valid + 1) * sizeof(joyport_desc_t));
     for (i = 0; i < JOYPORT_MAX_DEVICES; ++i) {
         if (joyport_device[i].name) {
             if (check_valid_lightpen(port, i) && check_valid_pot(port, i)) {
