@@ -194,7 +194,7 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_P_FRAMES, IDCLS_SET_AUTO_PLAYBACK_FRAMES,
       NULL, NULL },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int debug_cmdline_options_init(void)

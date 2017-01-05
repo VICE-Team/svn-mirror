@@ -299,7 +299,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SET_TAPE_WOBBLE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int datasette_cmdline_options_init(void)

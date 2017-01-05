@@ -320,7 +320,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_BASE_ADDRESS, IDCLS_PLUS60K_BASE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int plus60k_cmdline_options_init(void)

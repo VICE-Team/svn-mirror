@@ -340,7 +340,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_SS_RAM_EXPANSION,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int supersnapshot_v5_cmdline_options_init(void)

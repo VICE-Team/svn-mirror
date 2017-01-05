@@ -589,7 +589,7 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_UNUSED, IDCLS_DISABLE_DTV_BLITTER_LOG,
       NULL, NULL },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int c64dtvblitter_cmdline_options_init(void)

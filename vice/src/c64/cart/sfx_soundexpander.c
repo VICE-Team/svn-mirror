@@ -300,7 +300,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_TYPE, IDCLS_SET_YM_CHIP_TYPE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_mascuerade_options[] =
@@ -315,7 +315,7 @@ static const cmdline_option_t cmdline_mascuerade_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_MAP_CART_IO_3,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int sfx_soundexpander_cmdline_options_init(void)

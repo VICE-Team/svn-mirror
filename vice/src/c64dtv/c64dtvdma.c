@@ -471,7 +471,7 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_UNUSED, IDCLS_DISABLE_DTV_DMA_LOG,
       NULL, NULL },
 #endif
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int c64dtvdma_cmdline_options_init(void)

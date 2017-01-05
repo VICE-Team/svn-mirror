@@ -183,7 +183,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODEL, IDCLS_SET_CIA1_MODEL,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cbm2_cmdline_options[] = {
@@ -197,7 +197,7 @@ static const cmdline_option_t cbm2_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_RAMSIZE, IDCLS_SPECIFY_SIZE_OF_RAM_CBM2,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cbm5x0_cmdline_options[] = {
@@ -211,7 +211,7 @@ static const cmdline_option_t cbm5x0_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_RAMSIZE, IDCLS_SPECIFY_SIZE_OF_RAM,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int cbm2_cmdline_options_init(void)
