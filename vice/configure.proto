@@ -1234,6 +1234,17 @@ if test x"$enable_debug" = "xyes"; then
                  LIBS="$LIBS -lexecinfo",
                  AC_MSG_ERROR([libexecinfo is required for debug builds.]))
   fi
+
+  dnl check if the compiler supports -fsanitize=undefined
+  AC_MSG_CHECKING([if the compiler supports -fsanitize=undefined])
+  ORIG_CFLAGS=$CFLAGS
+  CFLAGS="$CFLAGS -fsanitize=undefined"
+  AC_TRY_COMPILE([],
+                 [int test;],
+                 [ AC_MSG_RESULT(yes)],
+                 [ AC_MSG_RESULT(no)
+                   CFLAGS=$ORIG_CFLAGS ])
+fi
 else
   DEBUGBUILD=0
 fi
