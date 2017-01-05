@@ -18967,16 +18967,6 @@ in the development of X64 and VICE:
 
 The VICE core team:
 
-* Andreas Matthies Improved the datasette support, the VIC20 video
-emulation and some UI stuff in the Win32 and DOS ports.  He also
-wrote the BeOS port and implemented video/audio capture support.
-Improved history recording/playback and implemented support for
-video recording and the netlink feature.  Made the Win32 user
-changable keyboard shortcut system.  Improved CIA and VIA
-emulation.  Worked on x64sc, especially interrupt timing.  Improved
-the FFMPEG support and started the 'in-source' FFMPEG
-support/merge.  Wrote test programs.  Various bug(fixe)s.  ;-)
-
 * Martin Pottendorfer Implemented the Gnome Port based on Oliver
 Schaertels GTK+ port.  Added support code for internationalization
 based on gettext.  Improved the *nix fullscreen support.  Added
@@ -19034,15 +19024,6 @@ without DX if needed.  Fixed the t64 support.  Added monitor window
 support using VTE to the GTK+ GUI. Made some monitor fixes.  Fixed
 some tape code issues.
 
-* Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID support
-in resid, better DMA/Blitter support and did lots of refactoring.
-Added new monitor commands and features.  Improved the VIC
-emulation for xvic.  Made MIDI driver code for Win32.  Rewrote the
-xvic cartridge system.  Added Mega-Cart and Final Expansion V3.2
-support to xvic.  Wrote large parts of the new VIC-II emulation
-used in x64sc, especially the dot clock domain emulation.  Wrote
-many test programs for hardware analysis.
-
 * Groepaz Added new more precise CRT emulation.  Added support for
 the new cartridge system and many new cartridges.  Fixed up parts
 of cartconv, c1541 and petcat.  Added video to audio leak sound
@@ -19060,9 +19041,6 @@ emulation.  Added xvic BehrBonz cartridge emulation.  Added VICII
 VSP-bug emulation.  Wrote alot of test programs.  Updated this
 document after a long period of outdated mess.  And various fixes
 and improvements.
-
-* Errol Smith Improved VDC emulation.  Improved MPS803 printer
-emulation.
 
 * Olaf Seibert Contributed some PET, including PET DWW hires, Xaw,
 lightpen, hardware scaling, and disk drive patches.  Added proper
@@ -19087,9 +19065,6 @@ emulation.  Improved monitor support.  Improved vdrive
 compatibility.  Added godot screenshot support.  And fixed various
 issues.
 
-* BSzili Provided many amigaos4 fixes.  Maintains the amigaos based
-and derived ports.
-
 * AreaScout Fixed the SDL2 port.  Revived the Android port.
 Maintains the SDL1, SDL2 and Android ports.
 
@@ -19100,6 +19075,31 @@ automake and yasm version checking.  Fixed runtime linker path
 issues with *BSD. Fixed out-of-tree building.
 
 Former/inactive team members:
+
+* BSzili Provided many amigaos4 fixes.  Maintained the amigaos based
+and derived ports.
+
+* Errol Smith Improved VDC emulation.  Improved MPS803 printer
+emulation.
+
+* Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID support
+in resid, better DMA/Blitter support and did lots of refactoring.
+Added new monitor commands and features.  Improved the VIC
+emulation for xvic.  Made MIDI driver code for Win32.  Rewrote the
+xvic cartridge system.  Added Mega-Cart and Final Expansion V3.2
+support to xvic.  Wrote large parts of the new VIC-II emulation
+used in x64sc, especially the dot clock domain emulation.  Wrote
+many test programs for hardware analysis.
+
+* Andreas Matthies Improved the datasette support, the VIC20 video
+emulation and some UI stuff in the Win32 and DOS ports.  He also
+wrote the BeOS port and implemented video/audio capture support.
+Improved history recording/playback and implemented support for
+video recording and the netlink feature.  Made the Win32 user
+changable keyboard shortcut system.  Improved CIA and VIA
+emulation.  Worked on x64sc, especially interrupt timing.  Improved
+the FFMPEG support and started the 'in-source' FFMPEG
+support/merge.  Wrote test programs.  Various bug(fixe)s.  ;-)
 
 * Ulrich Schulz Maintains the Dingoo port(s).
 
@@ -19209,43 +19209,43 @@ XDebugger, and retired from the project after x64 0.2.1.
 
 Internationalization Team:
 
-* Mikkel Holm Olsen Copyright (C) 2009-2016 Provided the Danish user
+* Mikkel Holm Olsen Copyright (C) 2009-2017 Provided the Danish user
 interface translations and fixed a few monitor bugs.
 
-Martin Pottendorfer Copyright (C) 2000-2016 Provided the German
+Martin Pottendorfer Copyright (C) 2000-2017 Provided the German
 user interface translations.
 
-Manuel Antonio Rodriguez Bas Copyright (C) 2011-2016 Provided the
+Manuel Antonio Rodriguez Bas Copyright (C) 2011-2017 Provided the
 Spanish user interface translations.
 
-Paul Dubé Copyright (C) 2004-2016 Provided the French user
+Paul Dubé Copyright (C) 2004-2017 Provided the French user
 interface translations.
 
-Czirkos Zoltan Copyright (C) 2006-2016 Provided the Hungarian user
+Czirkos Zoltan Copyright (C) 2006-2017 Provided the Hungarian user
 interface translations.
 
-Karai Csaba Copyright (C) 2006-2016 Provided the Hungarian user
+Karai Csaba Copyright (C) 2006-2017 Provided the Hungarian user
 interface translations.
 
-Andrea Musuruane Copyright (C) 2001-2016 Provided the Italian user
+Andrea Musuruane Copyright (C) 2001-2017 Provided the Italian user
 interface translations.
 
 Jesse Lee Copyright (C) 2011-2016 Provided the Korean user
 interface translations.
 
-Marco van den Heuvel Copyright (C) 2005-2016 Provided the Dutch
+Marco van den Heuvel Copyright (C) 2005-2017 Provided the Dutch
 user interface translations.
 
-Jarek Sobolewski Copyright (C) 2011-2016 Provided the Polish user
+Jarek Sobolewski Copyright (C) 2011-2017 Provided the Polish user
 interface translations.
 
-Michael Litvinov Copyright (C) 2010-2016 Provided the Russian user
+Michael Litvinov Copyright (C) 2010-2017 Provided the Russian user
 interface translations.
 
-Peter Krefting Copyright (C) 2000-2016 Provided the Swedish user
+Peter Krefting Copyright (C) 2000-2017 Provided the Swedish user
 interface translations.
 
-Emir Akaydin Copyright (C) 2008-2016 Provided the Turkish user
+Emir Akaydin Copyright (C) 2008-2017 Provided the Turkish user
 interface translations.
 
 Documentation Team:
@@ -19580,18 +19580,20 @@ Sundell and David Horrocks for writing cool emulators to compete with.
 ************
 
 * Copyright (C) 1999-2016 Andreas Matthies
-* Copyright (C) 1999-2016 Martin Pottendorfer
-* Copyright (C) 2005-2016 Marco van den Heuvel
-* Copyright (C) 2007-2016 Fabrizio Gennari
-* Copyright (C) 2009-2016 Groepaz
-* Copyright (C) 2011-2016 Marcus Sutton
-* Copyright (C) 2011-2016 Kajtar Zsolt
+* Copyright (C) 1999-2017 Martin Pottendorfer
+* Copyright (C) 2005-2017 Marco van den Heuvel
+* Copyright (C) 2007-2017 Fabrizio Gennari
+* Copyright (C) 2009-2017 Groepaz
+* Copyright (C) 2010-2017 Olaf Seibert
+* Copyright (C) 2011-2017 Marcus Sutton
+* Copyright (C) 2011-2017 Kajtar Zsolt
+* Copyright (C) 2016-2017 AreaScout
+* Copyright (C) 2016-2017 Bas Wassink
+
 * Copyright (C) 2011-2016 Stefan Haubenthal
 * Copyright (C) 2015-2016 BSzili
-
 * Copyright (C) 2007-2015 Daniel Kahlin
 * Copyright (C) 2009-2015 Errol Smith
-* Copyright (C) 2010-2015 Olaf Seibert
 * Copyright (C) 2012-2014 Benjamin 'BeRo' Rosseaux
 * Copyright (C) 2011-2014 Ulrich Schulz
 * Copyright (C) 2011-2014 Thomas Giesel
