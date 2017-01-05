@@ -293,54 +293,57 @@ Filter::Filter()
       double_point scaled_voltage[50];
 
       for (int i = 0; i < fi.opamp_voltage_size; i++) {
-	// The target output range is 16 bits, in order to fit in an unsigned
-	// short.
-	//
-	// The y axis is temporarily scaled to 31 bits for maximum accuracy in
-	// the calculated derivative.
-	//
-	// Values are normalized using
-	//
-	//   x_n = m*2^N*(x - xmin)
-	//
-	// and are translated back later (for fixed point math) using
-	//
-	//   m*2^N*x = x_n - m*2^N*xmin
-	//
-	scaled_voltage[fi.opamp_voltage_size - 1 - i][0] = int((N16*(fi.opamp_voltage[i][1] - fi.opamp_voltage[i][0]) + (1 << 16))/2 + 0.5);
-	scaled_voltage[fi.opamp_voltage_size - 1 - i][1] = N31*(fi.opamp_voltage[i][0] - vmin);
+        // The target output range is 16 bits, in order to fit in an unsigned
+        // short.
+        //
+        // The y axis is temporarily scaled to 31 bits for maximum accuracy in
+        // the calculated derivative.
+        //
+        // Values are normalized using
+        //
+        //   x_n = m*2^N*(x - xmin)
+        //
+        // and are translated back later (for fixed point math) using
+        //
+        //   m*2^N*x = x_n - m*2^N*xmin
+        //
+        scaled_voltage[fi.opamp_voltage_size - 1 - i][0] = int((N16*(fi.opamp_voltage[i][1] - fi.opamp_voltage[i][0]) + (1 << 16))/2 + 0.5);
+        scaled_voltage[fi.opamp_voltage_size - 1 - i][1] = N31*(fi.opamp_voltage[i][0] - vmin);
       }
 
       // Clamp x to 16 bits (rounding may cause overflow).
       if (scaled_voltage[fi.opamp_voltage_size - 1][0] >= (1 << 16)) {
-	// The last point is repeated.
-	scaled_voltage[fi.opamp_voltage_size - 1][0] =
-	  scaled_voltage[fi.opamp_voltage_size - 2][0] = (1 << 16) - 1;
+        // The last point is repeated.
+        scaled_voltage[fi.opamp_voltage_size - 1][0] =
+            scaled_voltage[fi.opamp_voltage_size - 2][0] = (1 << 16) - 1;
       }
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
-		  PointPlotter<int>(opamp), 1.0);
+                    PointPlotter<int>(opamp), 1.0);
 
       // Store both fn and dfn in the same table.
       mf.ak = (int)scaled_voltage[0][0];
       mf.bk = (int)scaled_voltage[fi.opamp_voltage_size - 1][0];
       int j;
       for (j = 0; j < mf.ak; j++) {
-	opamp[j] = 0;
+        opamp[j] = 0;
       }
       int f = opamp[j] - (opamp[j + 1] - opamp[j]);
       for (; j <= mf.bk; j++) {
-	int fp = f;
-	f = opamp[j];  // Scaled by m*2^31
-	// m*2^31*dy/1 = (m*2^31*dy)/(m*2^16*dx) = 2^15*dy/dx
-	int df = f - fp;  // Scaled by 2^15
+        int fp = f;
+        f = opamp[j];  // Scaled by m*2^31
+        // m*2^31*dy/1 = (m*2^31*dy)/(m*2^16*dx) = 2^15*dy/dx
+        int df = f - fp;  // Scaled by 2^15
 
-	// High 16 bits (15 bits + sign bit): 2^11*dfn
-	// Low 16 bits (unsigned):            m*2^16*(fn - xmin)
-	opamp[j] = ((df << (16 + 11 - 15)) & ~0xffff) | (f >> 15);
+        // High 16 bits (15 bits + sign bit): 2^11*dfn
+        // Low 16 bits (unsigned):            m*2^16*(fn - xmin)
+
+        // FIXME: this hack prevents integer overflow elsewhere, see bug #846
+        /* opamp[j] = ((df << (16 + 11 - 15)) & ~0xffff) | (f >> 15); */
+        opamp[j] = (j == 1) ? 65535 : ((df << (16 + 11 - 15)) & ~0xffff) | (f >> 15);
       }
       for (; j < (1 << 16); j++) {
-	opamp[j] = 0;
+        opamp[j] = 0;
       }
 
       // Create lookup tables for gains / summers.
@@ -351,11 +354,11 @@ Filter::Filter()
       // it follows that gain ~ vol/8 and 1/Q ~ ~res/8 (assuming ideal
       // op-amps and ideal "resistors").
       for (int n8 = 0; n8 < 16; n8++) {
-	int n = n8 << 4;  // Scaled by 2^7
-	int x = mf.ak;
-	for (int vi = 0; vi < (1 << 16); vi++) {
-	  mf.gain[n8][vi] = solve_gain(opamp, n, vi, x, mf);
-	}
+        int n = n8 << 4;  // Scaled by 2^7
+        int x = mf.ak;
+        for (int vi = 0; vi < (1 << 16); vi++) {
+          mf.gain[n8][vi] = solve_gain(opamp, n, vi, x, mf);
+        }
       }
 
       // The filter summer operates at n ~ 1, and has 5 fundamentally different
@@ -368,15 +371,15 @@ Filter::Filter()
       int offset = 0;
       int size;
       for (int k = 0; k < 5; k++) {
-	int idiv = 2 + k;        // 2 - 6 input "resistors".
-	int n_idiv = idiv << 7;  // n*idiv, scaled by 2^7
-	size = idiv << 16;
-	int x = mf.ak;
-	for (int vi = 0; vi < size; vi++) {
-	  mf.summer[offset + vi] =
-	    solve_gain(opamp, n_idiv, vi/idiv, x, mf);
-	}
-	offset += size;
+        int idiv = 2 + k;        // 2 - 6 input "resistors".
+        int n_idiv = idiv << 7;  // n*idiv, scaled by 2^7
+        size = idiv << 16;
+        int x = mf.ak;
+        for (int vi = 0; vi < size; vi++) {
+          mf.summer[offset + vi] =
+            solve_gain(opamp, n_idiv, vi/idiv, x, mf);
+        }
+        offset += size;
       }
 
       // The audio mixer operates at n ~ 8/6, and has 8 fundamentally different
@@ -387,26 +390,26 @@ Filter::Filter()
       offset = 0;
       size = 1;  // Only one lookup element for 0 input "resistors".
       for (int l = 0; l < 8; l++) {
-	int idiv = l;                 // 0 - 7 input "resistors".
-	int n_idiv = (idiv << 7)*8/6; // n*idiv, scaled by 2^7
-	if (idiv == 0) {
-	  // Avoid division by zero; the result will be correct since
-	  // n_idiv = 0.
-	  idiv = 1;
-	}
-	int x = mf.ak;
-	for (int vi = 0; vi < size; vi++) {
-	  mf.mixer[offset + vi] =
-	    solve_gain(opamp, n_idiv, vi/idiv, x, mf);
-	}
-	offset += size;
-	size = (l + 1) << 16;
+        int idiv = l;                 // 0 - 7 input "resistors".
+        int n_idiv = (idiv << 7)*8/6; // n*idiv, scaled by 2^7
+        if (idiv == 0) {
+          // Avoid division by zero; the result will be correct since
+          // n_idiv = 0.
+          idiv = 1;
+        }
+        int x = mf.ak;
+        for (int vi = 0; vi < size; vi++) {
+          mf.mixer[offset + vi] =
+            solve_gain(opamp, n_idiv, vi/idiv, x, mf);
+        }
+        offset += size;
+        size = (l + 1) << 16;
       }
 
       // Create lookup table mapping capacitor voltage to op-amp input voltage:
       // vc -> vx
       for (int m = 0; m < (1 << 16); m++) {
-	mf.opamp_rev[m] = opamp[m] & 0xffff;
+        mf.opamp_rev[m] = opamp[m] & 0xffff;
       }
 
       mf.vc_max = (int)(N30*(fi.opamp_voltage[0][1] - fi.opamp_voltage[0][0]));
@@ -418,10 +421,10 @@ Filter::Filter()
     {
       // 8580 only
       for (int n8 = 0; n8 < 16; n8++) {
-	int x = model_filter[1].ak;
-	for (int vi = 0; vi < (1 << 16); vi++) {
-	  resonance[n8][vi] = solve_gain(opamp, resGain[n8], vi, x, model_filter[1]);
-	}
+        int x = model_filter[1].ak;
+        for (int vi = 0; vi < (1 << 16); vi++) {
+          resonance[n8][vi] = solve_gain(opamp, resGain[n8], vi, x, model_filter[1]);
+        }
       }
 
       // scaled 5 bits
@@ -439,15 +442,15 @@ Filter::Filter()
       unsigned short dacWL = 1; // 0.03125 * 32 FIXME actual value is ~= 0.003075
       f.f0_dac[0] = dacWL;
       for (int n = 1; n < (1 << dac_bits); n++) {
-	// Calculate W/L ratio for parallel NMOS resistances
-	unsigned short wl = 0;
-	for (unsigned int i = 0; i < dac_bits; i++) {
-	  unsigned int bitmask = 1 << i;
-	  if (n & bitmask) {
-	    wl += dacWL * (bitmask<<1);
-	  }
-	}
-	f.f0_dac[n] = wl;
+        // Calculate W/L ratio for parallel NMOS resistances
+        unsigned short wl = 0;
+        for (unsigned int i = 0; i < dac_bits; i++) {
+          unsigned int bitmask = 1 << i;
+          if (n & bitmask) {
+            wl += dacWL * (bitmask<<1);
+          }
+        }
+        f.f0_dac[n] = wl;
       }
     }
 
@@ -470,7 +473,7 @@ Filter::Filter()
       // DAC table.
       build_dac_table(f.f0_dac, dac_bits, fi.dac_2R_div_R, fi.dac_term);
       for (int n = 0; n < (1 << dac_bits); n++) {
-	f.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + f.f0_dac[n]*fi.dac_scale/(1 << dac_bits) - vmin) + 0.5);
+        f.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + f.f0_dac[n]*fi.dac_scale/(1 << dac_bits) - vmin) + 0.5);
       }
 
       // VCR table.
@@ -479,17 +482,17 @@ Filter::Filter()
       vmin *= N16;
 
       for (int i = 0; i < (1 << 16); i++) {
-	// The table index is right-shifted 16 times in order to fit in
-	// 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
-	//
-	// The returned value must be corrected for translation. Vg always
-	// takes part in a subtraction as follows:
-	//
-	//   k*Vg - Vx = (k*Vg - t) - (Vx - t)
-	//
-	// I.e. k*Vg - t must be returned.
-	double Vg = kVddt - sqrt((double)i*(1 << 16));
-	vcr_kVg[i] = (unsigned short)(k*Vg - vmin + 0.5);
+        // The table index is right-shifted 16 times in order to fit in
+        // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
+        //
+        // The returned value must be corrected for translation. Vg always
+        // takes part in a subtraction as follows:
+        //
+        //   k*Vg - Vx = (k*Vg - t) - (Vx - t)
+        //
+        // I.e. k*Vg - t must be returned.
+        double Vg = kVddt - sqrt((double)i*(1 << 16));
+        vcr_kVg[i] = (unsigned short)(k*Vg - vmin + 0.5);
       }
 
       /*
@@ -510,9 +513,9 @@ Filter::Filter()
       // kVg_Vx = k*Vg - Vx
       // I.e. if k != 1.0, Vg must be scaled accordingly.
       for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
-	double log_term = log1p(exp((kVg_Vx/N16 - kVt)/(2*Ut)));
-	// Scaled by m*2^15
-	vcr_n_Ids_term[kVg_Vx] = (unsigned short)(n_Is*log_term*log_term);
+        double log_term = log1p(exp((kVg_Vx/N16 - kVt)/(2*Ut)));
+        // Scaled by m*2^15
+        vcr_n_Ids_term[kVg_Vx] = (unsigned short)(n_Is*log_term*log_term);
       }
     }
 
