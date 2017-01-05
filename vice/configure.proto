@@ -1244,7 +1244,6 @@ if test x"$enable_debug" = "xyes"; then
                  [ AC_MSG_RESULT(yes)],
                  [ AC_MSG_RESULT(no)
                    CFLAGS=$ORIG_CFLAGS ])
-fi
 else
   DEBUGBUILD=0
 fi
