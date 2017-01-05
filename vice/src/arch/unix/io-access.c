@@ -305,6 +305,7 @@ static inline BYTE vice_inb(WORD port)
 #endif
 
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+#if !defined(__sparc64__) && !defined(sparc64) && !defined(__sparc__) && !defined(sparc) && !defined(__PPC__) && !defined(__ppc)
 #define VICE_OUTB_DEFINED
 static inline void vice_outb(WORD port, BYTE val)
 {
@@ -318,6 +319,7 @@ static inline BYTE vice_inb(WORD port)
 
     return retval;
 }
+#endif
 #endif
 
 #ifndef VICE_OUTB_DEFINED
