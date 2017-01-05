@@ -229,7 +229,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_MULTICOLOR_HANDLING,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_plus4[] = {
@@ -238,7 +238,7 @@ static const cmdline_option_t cmdline_options_plus4[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_TED_LUM_HANDLING,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_crtc[] = {
@@ -247,7 +247,7 @@ static const cmdline_option_t cmdline_options_crtc[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_COLOR, IDCLS_CRTC_TEXT_COLOR,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static int doodledrv_cmdline_options_init(void)

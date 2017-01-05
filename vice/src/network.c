@@ -220,7 +220,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SET_NETPLAY_CONTROL,
       "<key,joy1,joy2,dev,rsrc>", NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int network_cmdline_options_init(void)

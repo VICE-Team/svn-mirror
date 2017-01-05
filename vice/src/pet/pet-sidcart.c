@@ -228,7 +228,7 @@ static const cmdline_option_t sidcart_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_CLOCK, IDCLS_PET_SIDCART_CLOCK,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int sidcart_cmdline_options_init(void)

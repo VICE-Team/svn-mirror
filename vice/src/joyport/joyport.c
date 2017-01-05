@@ -690,7 +690,7 @@ static cmdline_option_t cmdline_options_port1[] =
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, JOYPORT_1,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port2[] =
@@ -700,7 +700,7 @@ static cmdline_option_t cmdline_options_port2[] =
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, JOYPORT_2,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port3[] =
@@ -710,7 +710,7 @@ static cmdline_option_t cmdline_options_port3[] =
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, JOYPORT_3,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port4[] =
@@ -720,7 +720,7 @@ static cmdline_option_t cmdline_options_port4[] =
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, JOYPORT_4,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port5[] =
@@ -730,7 +730,7 @@ static cmdline_option_t cmdline_options_port5[] =
       USE_PARAM_ID, USE_DESCRIPTION_DYN,
       IDGS_DEVICE, JOYPORT_5,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int joyport_cmdline_options_init(void)

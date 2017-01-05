@@ -45,7 +45,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_SUPERCARD_ROM_NAME,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmd_drive[] = {
@@ -74,7 +74,7 @@ static cmdline_option_t cmd_drive[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_SUPERCARD,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int c64exp_cmdline_options_init(void)

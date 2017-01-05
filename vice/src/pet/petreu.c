@@ -286,7 +286,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_SIZE_IN_KB, IDCLS_PETREU_SIZE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int petreu_cmdline_options_init(void)

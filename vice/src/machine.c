@@ -401,7 +401,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-exitscreenshot", SET_RESOURCE, 1, NULL, NULL, "ExitScreenshotName", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID, IDCLS_P_NAME, IDCLS_SET_EXIT_SCREENSHOT,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 
@@ -409,7 +409,7 @@ static const cmdline_option_t cmdline_options_vsid[] = {
     { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID, IDCLS_P_TYPE, IDCLS_SET_MACHINE_JAM_ACTION,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int machine_common_cmdline_options_init(void)

@@ -1740,7 +1740,7 @@ static cmdline_option_t const cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
       NULL, NULL },
-    { NULL}
+    CMDLINE_LIST_END
 };
 
 int keyboard_cmdline_options_init(void)

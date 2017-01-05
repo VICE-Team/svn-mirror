@@ -118,7 +118,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_DIAG_PIN,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int pia1_cmdline_options_init(void)
