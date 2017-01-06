@@ -148,7 +148,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_PRINTER,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int interface_userport_init_cmdline_options(void)

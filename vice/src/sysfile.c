@@ -126,7 +126,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_PATH, IDCLS_DEFINE_SYSTEM_FILES_PATH,
       NULL, NULL },
-    { NULL },
+    CMDLINE_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */

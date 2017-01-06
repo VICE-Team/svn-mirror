@@ -146,7 +146,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int userport_diag_586220_harness_cmdline_options_init(void)

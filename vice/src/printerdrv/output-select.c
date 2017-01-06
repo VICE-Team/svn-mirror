@@ -117,7 +117,7 @@ static cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_userport[] =
@@ -127,7 +127,7 @@ static cmdline_option_t cmdline_options_userport[] =
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_NAME, IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static char *printer_output_names = NULL;

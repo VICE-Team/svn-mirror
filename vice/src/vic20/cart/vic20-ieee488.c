@@ -138,7 +138,7 @@ static cmdline_option_t const cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_VIC1112_IEEE488,
       NULL, NULL },
-    { NULL}
+    CMDLINE_LIST_END
 };
 
 int vic20_ieee488_cmdline_options_init(void)

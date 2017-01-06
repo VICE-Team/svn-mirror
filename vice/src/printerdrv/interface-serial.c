@@ -171,7 +171,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_TYPE, IDCLS_SET_DEVICE_TYPE_7,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int interface_serial_init_cmdline_options(void)

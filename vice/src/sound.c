@@ -626,7 +626,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VOLUME, IDCLS_SOUND_VOLUME,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static cmdline_option_t devs_cmdline_options[] = {
@@ -650,7 +650,7 @@ static cmdline_option_t devs_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_ARGS, IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int sound_cmdline_options_init(void)

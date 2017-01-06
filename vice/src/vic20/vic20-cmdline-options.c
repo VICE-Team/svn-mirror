@@ -264,7 +264,7 @@ static cmdline_option_t const cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_VFLI_MOD,
       NULL, NULL },
-    { NULL}
+    CMDLINE_LIST_END
 };
 
 int vic20_cmdline_options_init(void)

@@ -133,7 +133,7 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SPECIFY_TEXT_DEVICE_6,
       "<0-2>", NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_userport[] =
@@ -143,7 +143,7 @@ static const cmdline_option_t cmdline_options_userport[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SPECIFY_TEXT_USERPORT,
       "<0-2>", NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int output_text_init_cmdline_options(void)

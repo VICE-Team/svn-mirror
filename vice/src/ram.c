@@ -101,7 +101,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_PATTERN,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int ram_cmdline_options_init(void)

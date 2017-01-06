@@ -295,7 +295,7 @@ static cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_ISO_LANGUAGE_CODE, IDCLS_SPECIFY_ISO_LANG_CODE,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int translate_cmdline_options_init(void)

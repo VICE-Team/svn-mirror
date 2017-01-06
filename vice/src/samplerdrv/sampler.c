@@ -255,7 +255,7 @@ static cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_GAIN, IDCLS_SAMPLER_GAIN_IN_PERCENT,
       NULL, NULL },
-    { NULL }
+    CMDLINE_LIST_END
 };
 
 int sampler_cmdline_options_init(void)
