@@ -2923,7 +2923,7 @@ static const resource_int_t resources_int[] = {
       &mmcr_eeprom_rw, set_mmcr_eeprom_rw, NULL },
     { "MMCRClockPort", 0, RES_EVENT_NO, NULL,
       &clockport_device_id, set_mmcr_clockport_device, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int mmcreplay_resources_init(void)

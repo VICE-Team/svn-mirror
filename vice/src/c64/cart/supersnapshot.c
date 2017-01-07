@@ -314,7 +314,7 @@ static int set_32k_enabled(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "SSRamExpansion", 0, RES_EVENT_NO, NULL,
       &ss_32k_enabled, set_32k_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int supersnapshot_v5_resources_init(void)

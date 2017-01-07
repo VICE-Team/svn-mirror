@@ -605,7 +605,7 @@ static const resource_int_t resources_int[] = {
     { "DtvFlashLog", 0, RES_EVENT_NO, (resource_value_t)0,
       &flash_log_enabled, set_flash_log, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int c64dtvflash_resources_init(void)

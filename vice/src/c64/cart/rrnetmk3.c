@@ -321,7 +321,7 @@ static const resource_int_t resources_int[] = {
       &rrnetmk3_hw_flashjumper, set_rrnetmk3_flashjumper, NULL },
     { "RRNETMK3_bios_write", 0, RES_EVENT_NO, NULL,
       &rrnetmk3_bios_write, set_rrnetmk3_bios_write, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int rrnetmk3_resources_init(void)

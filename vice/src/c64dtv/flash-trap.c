@@ -302,7 +302,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "FlashTrueFS", 1, RES_EVENT_SAME, NULL,
       &flash_trap_trueflashfs, set_flash_trap_trueflashfs, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int flash_trap_resources_init(void)

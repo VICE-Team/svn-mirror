@@ -384,7 +384,7 @@ static const resource_int_t joykeys_resources_int[] = {
       &joykeys[JOYSTICK_KEYSET_IDX_B][JOYSTICK_KEYSET_FIRE], set_keyset2, (void *)JOYSTICK_KEYSET_FIRE },
     { "KeySetEnable", 1, RES_EVENT_NO, NULL,
       &joykeys_enable, set_joykeys_enable, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 #ifdef DEBUGJOY
@@ -571,37 +571,37 @@ static int set_joystick_device(int val, void *param)
 static const resource_int_t joyopposite_resources_int[] = {
     { "JoyOpposite", 0, RES_EVENT_NO, NULL,
       &joystick_opposite_enable, set_joystick_opposite_enable, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy1_resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_1], set_joystick_device, (void *)JOYPORT_1 },
-    { NULL },
+    RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy2_resources_int[] = {
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_2], set_joystick_device, (void *)JOYPORT_2 },
-    { NULL },
+    RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy3_resources_int[] = {
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_3], set_joystick_device, (void *)JOYPORT_3 },
-    { NULL },
+    RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy4_resources_int[] = {
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_4], set_joystick_device, (void *)JOYPORT_4 },
-    { NULL },
+    RESOURCE_INT_LIST_END
 };
 
 static resource_int_t joy5_resources_int[] = {
     { "JoyDevice5", JOYDEV_NONE, RES_EVENT_NO, NULL,
       &joystick_port_map[JOYPORT_5], set_joystick_device, (void *)JOYPORT_5 },
-    { NULL },
+    RESOURCE_INT_LIST_END
 };
 
 int joystick_resources_init(void)

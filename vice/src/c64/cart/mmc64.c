@@ -1140,7 +1140,7 @@ static const resource_int_t resources_int[] = {
       &mmc64_sd_type, set_mmc64_sd_type, NULL },
     { "MMC64ClockPort", 0, RES_EVENT_NO, NULL,
       &clockport_device_id, set_mmc64_clockport_device, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int mmc64_resources_init(void)

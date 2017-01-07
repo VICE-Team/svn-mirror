@@ -185,7 +185,7 @@ static const resource_int_t resources_int[] = {
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
     { "SidTripleAddressStart", 0xdf00, RES_EVENT_SAME, NULL,
       (int *)&sid_triple_address_start, sid_set_sid_triple_address, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int c64_resources_init(void)

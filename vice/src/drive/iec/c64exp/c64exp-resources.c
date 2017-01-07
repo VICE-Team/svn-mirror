@@ -121,7 +121,7 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_profdos, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_supercard, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_string_t resources_string[] =

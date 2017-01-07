@@ -204,7 +204,7 @@ static const resource_int_t cbm5x0_resources_int[] = {
       &ramsize, set_ramsize, NULL },
     { "ModelLine", LINE_6x0_50HZ, RES_EVENT_SAME, NULL,
       &cbm2_model_line, set_cbm2_model_line, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int cbm2_resources_init(void)

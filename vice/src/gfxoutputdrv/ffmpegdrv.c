@@ -254,7 +254,7 @@ static const resource_int_t resources_int[] = {
       &video_codec, set_video_codec, NULL },
     { "FFMPEGVideoHalveFramerate", 0, RES_EVENT_NO, NULL,
       &video_halve_framerate, set_video_halve_framerate, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int ffmpegdrv_resources_init(void)

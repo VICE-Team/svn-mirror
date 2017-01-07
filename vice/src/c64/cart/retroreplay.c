@@ -926,7 +926,7 @@ static const resource_int_t resources_int[] = {
       &rr_revision, set_rr_revision, NULL },
     { "RRClockPort", 0, RES_EVENT_NO, NULL,
       &clockport_device_id, set_rr_clockport_device, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int retroreplay_resources_init(void)

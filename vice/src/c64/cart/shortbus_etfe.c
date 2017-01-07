@@ -201,7 +201,7 @@ static const resource_int_t resources_int[] = {
       &shortbus_etfe_expansion_active, set_shortbus_etfe_enabled, NULL },
     { "SBETFEbase", 0xde00, RES_EVENT_NO, NULL,
       &shortbus_etfe_address, set_shortbus_etfe_base, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int shortbus_etfe_resources_init(void)

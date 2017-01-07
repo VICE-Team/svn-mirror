@@ -194,7 +194,7 @@ static const resource_int_t resources_int[] = {
       &shortbus_digimax_expansion_active, set_shortbus_digimax_enabled, NULL },
     { "SBDIGIMAXbase", 0xde40, RES_EVENT_NO, NULL,
       &shortbus_digimax_address, set_shortbus_digimax_base, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int shortbus_digimax_resources_init(void)

@@ -67,7 +67,7 @@ static int set_debugcart_enabled(int value, void *param)
 static const resource_int_t resources_i[] = {
     { "DebugCartEnable", 0, RES_EVENT_STRICT, 0,
       &debugcart_enabled, set_debugcart_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int debugcart_resources_init(void)

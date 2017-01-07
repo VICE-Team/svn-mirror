@@ -249,7 +249,7 @@ static const resource_int_t resources_int[] = {
     { "DatasetteTapeWobble", 10, RES_EVENT_SAME, NULL,
       &datasette_tape_wobble,
       set_datasette_tape_wobble, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int datasette_resources_init(void)

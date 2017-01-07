@@ -282,7 +282,7 @@ static const resource_int_t resources_int[] = {
       &cart6_ram, set_cart6_ram, NULL },
     { "RamC", 0, RES_EVENT_NO, NULL,
       &cartC_ram, set_cartC_ram, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int cartridge_resources_init(void)

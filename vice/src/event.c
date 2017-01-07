@@ -1205,7 +1205,7 @@ static const resource_int_t resources_int[] = {
       &event_start_mode, set_event_start_mode, NULL },
     { "EventImageInclude", 1, RES_EVENT_NO, NULL,
       &event_image_include, set_event_image_include, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int event_resources_init(void)

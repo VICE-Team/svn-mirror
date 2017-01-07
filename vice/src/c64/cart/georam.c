@@ -425,13 +425,13 @@ static const resource_int_t resources_int[] = {
       &georam_size_kb, set_georam_size, NULL },
     { "GEORAMImageWrite", 0, RES_EVENT_NO, NULL,
       &georam_write_image, set_georam_image_write, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_mascuerade_int[] = {
     { "GEORAMIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &georam_io_swap, set_georam_io_swap, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int georam_resources_init(void)

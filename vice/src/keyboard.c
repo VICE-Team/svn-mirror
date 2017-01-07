@@ -1608,7 +1608,7 @@ static const resource_int_t resources_int[] = {
       &machine_keyboard_type, keyboard_set_keyboard_type, NULL },
     { "KeyboardMapping", 0, RES_EVENT_NO, NULL,
       &machine_keyboard_mapping, keyboard_set_keyboard_mapping, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 /*--------------------------------------------------------------------------*/

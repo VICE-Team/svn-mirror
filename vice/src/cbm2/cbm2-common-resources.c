@@ -33,5 +33,5 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };

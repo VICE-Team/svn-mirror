@@ -157,7 +157,7 @@ static const resource_int_t resources_int[] = {
       &keepenv, set_keepenv, NULL },
     { "PSIDTune", 0, RES_EVENT_NO, NULL,
       &psid_tune, psid_ui_set_tune, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int psid_resources_init(void)

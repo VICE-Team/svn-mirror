@@ -445,7 +445,7 @@ static const resource_int_t resources_int[] = {
     { "DtvDMALog", 0, RES_EVENT_NO, (resource_value_t)0,
       &dma_log_enabled, set_dma_log, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int c64dtvdma_resources_init(void)

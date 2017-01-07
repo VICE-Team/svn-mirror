@@ -464,7 +464,7 @@ static const resource_int_t resources_int[] = {
       &ramcart_size_kb, set_ramcart_size, NULL },
     { "RAMCARTImageWrite", 0, RES_EVENT_NO, NULL,
       &ramcart_write_image, set_ramcart_image_write, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ramcart_resources_init(void)

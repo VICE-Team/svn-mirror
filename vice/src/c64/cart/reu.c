@@ -492,7 +492,7 @@ static const resource_int_t resources_int[] = {
     /* keeping "enable" resource last prevents unnecessary (re)init when loading config file */
     { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &reu_enabled, set_reu_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 /*! \brief initialize the reu resources

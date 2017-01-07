@@ -174,7 +174,7 @@ static const resource_int_t resources_int[] = {
       &audio_codec, set_audio_codec, NULL },
     { "QuickTimeVideoCodec", kPNGCodecType, RES_EVENT_NO, NULL,
       &video_codec, set_video_codec, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int quicktimedrv_resources_init(void)

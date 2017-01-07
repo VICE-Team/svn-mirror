@@ -328,7 +328,7 @@ static const resource_int_t resources_int[] = {
       &gmod2_flash_write, set_gmod2_flash_write, NULL },
     { "GMod2EEPROMRW", 1, RES_EVENT_NO, NULL,
       &gmod2_eeprom_rw, set_gmod2_eeprom_rw, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int gmod2_resources_init(void)

@@ -146,7 +146,7 @@ static int set_bbrtc_save(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "BBRTCSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &bbrtc_save, set_bbrtc_save, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int joyport_bbrtc_resources_init(void)

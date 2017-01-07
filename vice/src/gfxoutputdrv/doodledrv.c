@@ -181,19 +181,19 @@ static const resource_int_t resources_int[] = {
       &undersize_handling, set_undersize_handling, NULL },
     { "DoodleMultiColorHandling", NATIVE_SS_MC2HR_2_COLORS, RES_EVENT_NO, NULL,
       &multicolor_handling, set_multicolor_handling, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_plus4[] = {
     { "DoodleTEDLumHandling", NATIVE_SS_TED_LUM_IGNORE, RES_EVENT_NO, NULL,
       &ted_lum_handling, set_ted_lum_handling, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_crtc[] = {
     { "DoodleCRTCTextColor", NATIVE_SS_CRTC_WHITE, RES_EVENT_NO, NULL,
       &crtc_text_color, set_crtc_text_color, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static int doodledrv_resources_init(void)

@@ -222,13 +222,13 @@ void sfx_soundsampler_detach(void)
 static const resource_int_t resources_int[] = {
     { "SFXSoundSampler", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &sfx_soundsampler_sound_chip.chip_enabled, set_sfx_soundsampler_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_mascuerade_int[] = {
     { "SFXSoundSamplerIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &sfx_soundsampler_io_swap, set_sfx_soundsampler_io_swap, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int sfx_soundsampler_resources_init(void)

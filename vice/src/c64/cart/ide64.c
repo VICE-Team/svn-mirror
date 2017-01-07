@@ -777,7 +777,7 @@ static const resource_int_t resources_int[] = {
       &ide64_rtc_save, ide64_set_rtc_save, NULL },
     { "IDE64ClockPort", 0, RES_EVENT_NO, NULL,
       &clockport_device_id, set_ide64_clockport_device, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ide64_resources_init(void)

@@ -129,7 +129,7 @@ static const resource_int_t resources_int[] = {
       &res_server_port, set_server_port, NULL },
     { "NetworkControl", NETWORK_CONTROL_DEFAULT, RES_EVENT_SAME, NULL,
       &network_control, set_network_control, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int network_resources_init(void)

@@ -117,7 +117,7 @@ static int set_pethre_enabled(int value, void *param)
 static const resource_int_t resources_int[] = {
     { "PETHRE", 0, RES_EVENT_SAME, NULL,
       &pethre_enabled, set_pethre_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int pethre_resources_init(void)

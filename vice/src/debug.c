@@ -123,7 +123,7 @@ static const resource_int_t resources_int[] = {
     { "AutoPlaybackFrames", 200, RES_EVENT_NO, NULL,
       &debug_autoplay_frames, set_autoplay_frames, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int debug_resources_init(void)

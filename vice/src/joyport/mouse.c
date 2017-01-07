@@ -974,13 +974,13 @@ static int set_smart_mouse_rtc_save(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "Mouse", MOUSE_ENABLE_DEFAULT, RES_EVENT_SAME, NULL,
       &_mouse_enabled, set_mouse_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_extra_int[] = {
     { "SmartMouseRTCSave", 0, RES_EVENT_SAME, NULL,
       &ds1202_rtc_save, set_smart_mouse_rtc_save, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static mouse_func_t mouse_funcs =

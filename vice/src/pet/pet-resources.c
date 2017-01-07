@@ -435,7 +435,7 @@ static const resource_int_t resources_int[] = {
       &pet_colour_type, set_pet_colour, NULL },
     { "PETColourBG", 0, RES_EVENT_SAME, NULL,
       &pet_colour_analog_bg, set_pet_colour_bg, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int pet_resources_init(void)

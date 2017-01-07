@@ -210,7 +210,7 @@ static resource_int_t res_drive[] = {
       NULL, set_drive_ram8, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_rama, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int iec_resources_init(void)

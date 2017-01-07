@@ -491,31 +491,31 @@ static int set_joyport_device(int val, void *param)
 static const resource_int_t resources_int_port1[] = {
     { "JoyPort1Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
       &joy_port[JOYPORT_1], set_joyport_device, (void *)JOYPORT_1 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_port2[] = {
     { "JoyPort2Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
       &joy_port[JOYPORT_2], set_joyport_device, (void *)JOYPORT_2 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_port3[] = {
     { "JoyPort3Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
       &joy_port[JOYPORT_3], set_joyport_device, (void *)JOYPORT_3 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_port4[] = {
     { "JoyPort4Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
       &joy_port[JOYPORT_4], set_joyport_device, (void *)JOYPORT_4 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_port5[] = {
     { "JoyPort5Device", JOYPORT_ID_JOYSTICK, RES_EVENT_NO, NULL,
       &joy_port[JOYPORT_5], set_joyport_device, (void *)JOYPORT_5 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int joyport_resources_init(void)

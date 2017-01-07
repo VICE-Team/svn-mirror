@@ -245,7 +245,7 @@ static const resource_int_t resources_int[] = {
       &petreu_enabled, set_petreu_enabled, NULL },
     { "PETREUsize", 128, RES_EVENT_SAME, NULL,
       &petreu_size_kb, set_petreu_size, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int petreu_resources_init(void)

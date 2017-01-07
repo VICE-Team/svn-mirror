@@ -750,7 +750,7 @@ static const resource_int_t resources_int[] = {
       &turbomaster_s3_speed, set_turbomaster_speed_control, NULL },
     { "TurboMasterMhz", 4, RES_EVENT_STRICT, (resource_value_t)0,
       &turbomaster_s4_mhz, set_turbomaster_speed_control, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_string_t resources_string[] = {

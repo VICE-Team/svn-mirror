@@ -492,7 +492,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MonitorServer", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &monitor_enabled, set_monitor_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 /*! \brief initialize the network monitor resources

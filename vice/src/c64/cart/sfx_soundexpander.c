@@ -258,13 +258,13 @@ static const resource_int_t resources_int[] = {
       &sfx_soundexpander_sound_chip.chip_enabled, set_sfx_soundexpander_enabled, NULL },
     { "SFXSoundExpanderChip", 3526, RES_EVENT_STRICT, (resource_value_t)3526,
       &sfx_soundexpander_chip, set_sfx_soundexpander_chip, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_mascuerade_int[] = {
     { "SFXSoundExpanderIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &sfx_soundexpander_io_swap, set_sfx_soundexpander_io_swap, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int sfx_soundexpander_resources_init(void)

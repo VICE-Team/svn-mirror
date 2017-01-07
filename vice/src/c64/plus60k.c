@@ -289,7 +289,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "PLUS60Kbase", 0xd100, RES_EVENT_NO, NULL,
       &plus60k_base, set_plus60k_base, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int plus60k_resources_init(void)

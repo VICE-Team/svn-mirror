@@ -262,7 +262,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "PETDWW", 0, RES_EVENT_SAME, NULL,
       &petdww_enabled, set_petdww_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int petdww_resources_init(void)
