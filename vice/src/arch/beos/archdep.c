@@ -125,14 +125,7 @@ static char *boot_path = NULL;
 const char *archdep_boot_path(void)
 {
     if (boot_path == NULL) {
-        #ifdef __HAIKU__
-           char haiku_path[B_PATH_NAME_LENGTH];
-           find_directory(B_SYSTEM_SETTINGS_DIRECTORY, 0, true, haiku_path, sizeof(haiku_path)-strlen("/VICE/"));
-           strcat(haiku_path,"/VICE/");
-	   boot_path = haiku_path;
-        #else
         util_fname_split(argv0, &boot_path, NULL);
-        #endif
         /* This should not happen, but you never know...  */
         if (boot_path == NULL) {
             boot_path = lib_stralloc("./xxx");
