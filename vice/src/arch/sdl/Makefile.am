@@ -6,12 +6,14 @@ else
 extra_includes =
 endif
 
+if DUMMY_COMPILE
 SUBDIRS = \
 	msvc-files \
 	qnx4 \
 	sortix-files \
 	syllable-files \
 	win32-watcom
+endif
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \

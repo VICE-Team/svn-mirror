@@ -1,5 +1,9 @@
 # Makefile.am for the Unix version of `libarch.a'.
 
+if DUMMY_COMPILE
+SUBDIRS = minix next_open_rhap qnx4 qnx6 sco_sol skyos
+endif
+
 if MACOSX_COCOA
 SUBDIRS = macosx
 else
@@ -11,9 +15,9 @@ SUBDIRS = gui x11 macosx
 endif
 else
 if NEED_READLINE
-SUBDIRS = gui minix next_open_rhap qnx4 qnx6 readline sco_sol skyos x11
+SUBDIRS = gui readline x11
 else
-SUBDIRS = gui minix next_open_rhap qnx4 qnx6 sco_sol skyos x11
+SUBDIRS = gui x11
 endif
 endif
 endif

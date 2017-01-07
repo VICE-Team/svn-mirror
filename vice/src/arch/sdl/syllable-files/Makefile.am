@@ -10,7 +10,7 @@ EXTRA_DIST = \
 	x64dtv.sh \
 	x64sc.sh \
 	xcbm2.sh \
-        xcbm5x0.sh \
+	xcbm5x0.sh \
 	xpet.sh \
 	xplus4.sh \
 	xscpu64.sh \

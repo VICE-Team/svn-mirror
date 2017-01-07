@@ -1,6 +1,6 @@
 if DUMMY_COMPILE
 
-SUBDIRS = watcom-source-wrappers android
+SUBDIRS = android
 
 endif
 
