@@ -516,7 +516,7 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "IEEE488", 0, RES_EVENT_SAME, NULL,
       &ieee488_enabled, set_ieee488_enabled, (void *)1 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int tpi_resources_init(void)

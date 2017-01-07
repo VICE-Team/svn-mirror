@@ -111,7 +111,7 @@ static const resource_int_t resources_int[] = {
       &use_leds, set_use_leds, NULL },
     { "ShowStatusbar", STATUSBAR_MODE_AUTO, RES_EVENT_NO, NULL,
       &statusbar_is_enabled, set_statusbar_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ui_resources_init(void)

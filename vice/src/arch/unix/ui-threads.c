@@ -160,7 +160,7 @@ static resource_int_t resources_uithreads[] = {
       &dthread_rfp, set_dthread_rfp, NULL },
     { "DThreadGhosting", 2, RES_EVENT_NO, NULL,
       &dthread_ghosting, set_dthread_ghosting, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const cmdline_option_t cmdline_options[] =

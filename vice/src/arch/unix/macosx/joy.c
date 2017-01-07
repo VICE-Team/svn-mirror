@@ -454,7 +454,7 @@ static const resource_int_t resources_int[] = {
       &joy_a.hat_switch.id, set_joy_a_hat_switch, NULL },
     { "JoyBHatSwitch", 1, RES_EVENT_NO, NULL,
       &joy_b.hat_switch.id, set_joy_b_hat_switch, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int joy_arch_resources_init(void)

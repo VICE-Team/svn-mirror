@@ -389,7 +389,6 @@ static int set_confirm_on_exit(int val, void *param)
     return 0;
 }
 
-
 static const resource_int_t resources_int[] = {
     { "JoystickDisplay", 0, RES_EVENT_NO, NULL,
       &joystickdisplay, set_joystickdisplay, NULL },
@@ -397,7 +396,7 @@ static const resource_int_t resources_int[] = {
       &save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
       &confirm_on_exit, set_confirm_on_exit, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ui_resources_init(void)

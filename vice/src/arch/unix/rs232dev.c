@@ -175,7 +175,7 @@ static const resource_int_t resources_int[] = {
       &devbaud[2], set_devbaud, (void *)2 },
     { "RsDevice4Baud", 9600, RES_EVENT_NO, NULL,
       &devbaud[3], set_devbaud, (void *)3 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int rs232dev_resources_init(void)

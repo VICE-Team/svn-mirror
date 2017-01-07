@@ -222,7 +222,7 @@ static const resource_int_t common_resources_int[] = {
       &ui_resources.window0_xpos, set_xpos0, NULL },
     { "Window0Ypos", -1, RES_EVENT_NO, NULL,
       &ui_resources.window0_ypos, set_ypos0, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int[] = {
@@ -243,7 +243,7 @@ static const resource_int_t resources_int[] = {
     { "WindowBotHint", 0, RES_EVENT_NO, NULL,
       &bothint, set_bothint, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t extra_resources_int[] = {
@@ -255,7 +255,7 @@ static const resource_int_t extra_resources_int[] = {
       &ui_resources.window1_xpos, set_xpos1, NULL },
     { "Window1Ypos", -1, RES_EVENT_NO, NULL,
       &ui_resources.window1_ypos, set_ypos1, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ui_resources_init(void)

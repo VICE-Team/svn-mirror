@@ -249,7 +249,7 @@ static int set_cpmcart_enabled(int value, void *param)
 static const resource_int_t resources_int[] = {
     { "CPMCart", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &cpmcart_enabled, set_cpmcart_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int cpmcart_resources_init(void)

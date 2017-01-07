@@ -421,10 +421,6 @@ static int set_joystick_fire_button(int button, void *param)
 }
 
 static const resource_int_t joy1_resources_int[] = {
-#if 0
-    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[0], set_joystick_device, (void *)0 },
-#endif
     { "JoyAutofire1Speed", 16, RES_EVENT_NO, NULL,
       &joystick_fire_speed[0], set_joystick_fire_speed, (void *)0 },
     { "JoyAutofire1Axis", 0, RES_EVENT_NO, NULL,
@@ -433,14 +429,10 @@ static const resource_int_t joy1_resources_int[] = {
       &joystick_autofire_button[0], set_joystick_autofire_button, (void *)0 },
     { "JoyFire1Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[0], set_joystick_fire_button, (void *)0 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t joy2_resources_int[] = {
-#if 0
-    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[1], set_joystick_device, (void *)1 },
-#endif
     { "JoyAutofire2Speed", 16, RES_EVENT_NO, NULL,
       &joystick_fire_speed[1], set_joystick_fire_speed, (void *)1 },
     { "JoyAutofire2Axis", 0, RES_EVENT_NO, NULL,
@@ -449,14 +441,10 @@ static const resource_int_t joy2_resources_int[] = {
       &joystick_autofire_button[1], set_joystick_autofire_button, (void *)1 },
     { "JoyFire2Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[1], set_joystick_fire_button, (void *)1 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t joy3_resources_int[] = {
-#if 0
-    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[2], set_joystick_device, (void *)2 },
-#endif
     { "JoyAutofire3Speed", 16, RES_EVENT_NO, NULL,
       &joystick_fire_speed[2], set_joystick_fire_speed, (void *)2 },
     { "JoyAutofire3Axis", 0, RES_EVENT_NO, NULL,
@@ -465,14 +453,10 @@ static const resource_int_t joy3_resources_int[] = {
       &joystick_autofire_button[2], set_joystick_autofire_button, (void *)2 },
     { "JoyFire3Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[2], set_joystick_fire_button, (void *)2 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t joy4_resources_int[] = {
-#if 0
-    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[3], set_joystick_device, (void *)3 },
-#endif
     { "JoyAutofire4Speed", 16, RES_EVENT_NO, NULL,
       &joystick_fire_speed[3], set_joystick_fire_speed, (void *)3 },
     { "JoyAutofire4Axis", 0, RES_EVENT_NO, NULL,
@@ -481,14 +465,10 @@ static const resource_int_t joy4_resources_int[] = {
       &joystick_autofire_button[3], set_joystick_autofire_button, (void *)3 },
     { "JoyFire4Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[3], set_joystick_fire_button, (void *)3 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t joy5_resources_int[] = {
-#if 0
-    { "JoyDevice5", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &joystick_port_map[4], set_joystick_device, (void *)4 },
-#endif
     { "JoyAutofire5Speed", 16, RES_EVENT_NO, NULL,
       &joystick_fire_speed[4], set_joystick_fire_speed, (void *)4 },
     { "JoyAutofire5Axis", 0, RES_EVENT_NO, NULL,
@@ -497,7 +477,7 @@ static const resource_int_t joy5_resources_int[] = {
       &joystick_autofire_button[4], set_joystick_autofire_button, (void *)4 },
     { "JoyFire5Button", 0, RES_EVENT_NO, NULL,
       &joystick_fire_button[4], set_joystick_fire_button, (void *)4 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int joy_arch_resources_init(void)

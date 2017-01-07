@@ -473,7 +473,7 @@ static int acia_set_mode(int new_mode, void *param)
 static const resource_int_t resources_int[] = {
     { MYACIA "Dev", MyDevice, RES_EVENT_NO, NULL,
       &acia.device, acia_set_device, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 /*! \brief initialize the ACIA resources

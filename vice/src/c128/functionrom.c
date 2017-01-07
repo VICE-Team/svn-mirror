@@ -203,7 +203,7 @@ static const resource_int_t resources_int[] =
     { "ExternalFunctionROMRTCSave", 0, RES_EVENT_NO, NULL,
       &external_function_rtc_save,
       set_external_function_rtc_save, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int functionrom_resources_init(void)

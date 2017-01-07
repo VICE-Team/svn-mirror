@@ -125,7 +125,7 @@ static int set_joystick_hw_type(int val, void *param)
 static const resource_int_t hwtype_resources_int[] = {
     { "HwJoyType", 0, RES_EVENT_NO, NULL,
       &joystick_hw_type, set_joystick_hw_type, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int joy_arch_resources_init(void)

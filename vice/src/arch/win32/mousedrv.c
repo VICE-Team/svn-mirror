@@ -83,7 +83,7 @@ static int set_mouse_sensitivity_mult(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "MouseSensitivity", 40, RES_EVENT_NO, NULL,
       &mouse_sensitivity_mult, set_mouse_sensitivity_mult, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int mousedrv_resources_init(mouse_func_t *funcs)

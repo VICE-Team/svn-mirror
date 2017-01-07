@@ -126,7 +126,7 @@ static const resource_int_t resources_int[] = {
     { "DX9Disable", 0, RES_EVENT_NO, NULL,
       &dx9_disable, set_dx9_disable, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_arch_resources_init(void)

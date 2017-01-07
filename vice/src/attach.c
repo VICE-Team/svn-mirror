@@ -112,7 +112,7 @@ static const resource_int_t resources_int[] = {
       RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_NONE,
       &file_system_device_enabled[3],
       set_file_system_device, (void *)11 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int file_system_resources_init(void)

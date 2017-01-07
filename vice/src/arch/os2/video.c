@@ -376,13 +376,13 @@ static const resource_int_t resources1_int[] = {
       &border, set_border_type, NULL },
     { "Menubar", 1, RES_EVENT_NO, NULL,
       &menu, set_menu, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources2_int[] = {
     { "Logwin", 1, RES_EVENT_NO, NULL,
       &logwin, set_logging, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_arch_resources_init(void)

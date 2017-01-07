@@ -63,7 +63,7 @@ static resource_int_t resources_openGL_sync_int[] = {
       &openGL_sync, set_openGL_sync, NULL },
     { "openGL_no_sync", 0, RES_EVENT_NO, NULL,
       &no_sync, openGL_dummy_set, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int openGL_available(int v)

@@ -282,7 +282,7 @@ static const resource_int_t resources_i[] = {
       &acia.mode, acia_set_mode, NULL },
     { "Acia1Base", 0xffff, RES_EVENT_STRICT, int_to_void_ptr(0xffff),
       &acia_base, set_acia_base, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 #endif
 

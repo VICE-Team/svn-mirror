@@ -296,7 +296,7 @@ static resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "ETHERNET_DISABLED", 0, RES_EVENT_NO, NULL,
       &cs8900io_cannot_use, set_cs8900io_disabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int cs8900io_resources_init(void)

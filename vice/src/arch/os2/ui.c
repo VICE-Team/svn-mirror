@@ -77,7 +77,7 @@ static int set_use_leds(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "UseLeds", 1, RES_EVENT_NO, NULL,
       &use_leds, set_use_leds, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ui_resources_init(void)

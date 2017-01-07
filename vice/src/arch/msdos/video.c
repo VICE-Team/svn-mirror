@@ -149,7 +149,7 @@ static const resource_int_t resources_int[] = {
     { "TripleBuffering", 0, RES_EVENT_NO, NULL,
       &try_triple_buffering, set_try_triple_buffering, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_arch_resources_init(void)

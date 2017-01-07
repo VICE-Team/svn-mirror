@@ -170,32 +170,6 @@ static int set_keyset(int v, void *param)
       &(keyset[num][dir]), set_keyset,         \
       (void*)((num << 5) | dir) }
 
-#if 0
-static const resource_int_t joy1_resources_int[] = {
-    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &cbm_joystick[0], set_cbm_joystick, (void *)0 },
-    NULL
-};
-
-static const resource_int_t joy2_resources_int[] = {
-    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &cbm_joystick[1], set_cbm_joystick, (void *)1 },
-    NULL
-};
-
-static const resource_int_t joy3_resources_int[] = {
-    { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &cbm_joystick[2], set_cbm_joystick, (void *)2 },
-    NULL
-};
-
-static const resource_int_t joy4_resources_int[] = {
-    { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      &cbm_joystick[3], set_cbm_joystick, (void *)3 },
-    NULL
-};
-#endif
-
 static const resource_int_t resources_int[] = {
     DEFINE_RES_SET_CALDATA("JoyAup", 0, KEYSET_N, 200),
     DEFINE_RES_SET_CALDATA("JoyAdown", 0, KEYSET_S, 600),
@@ -226,7 +200,7 @@ static const resource_int_t resources_int[] = {
     DEFINE_RES_SET_KEYDATA("KeySet2West", 1, KEYSET_W),
     DEFINE_RES_SET_KEYDATA("KeySet2Fire", 1, KEYSET_FIRE),
 
-    NULL
+    RESOURCE_INT_LIST_END
 };
 
 int joy_arch_resources_init(void)

@@ -251,7 +251,7 @@ static const resource_int_t resources_int[] = {
       &digimax_sound_chip.chip_enabled, set_digimax_enabled, NULL },
     { "DIGIMAXbase", 0xffff, RES_EVENT_NO, NULL,
       &digimax_address, set_digimax_base, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int digimax_resources_init(void)

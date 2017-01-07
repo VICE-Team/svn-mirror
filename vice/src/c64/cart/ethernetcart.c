@@ -368,7 +368,7 @@ static const resource_int_t resources_int[] = {
       &ethernetcart_base, set_ethernetcart_base, NULL },
     { "ETHERNETCARTMode", ETHERNETCART_MODE_TFE, RES_EVENT_STRICT, (resource_value_t)0,
       &ethernetcart_mode, set_ethernetcart_mode, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ethernetcart_resources_init(void)

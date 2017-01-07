@@ -204,7 +204,7 @@ static const resource_int_t resources_int[] = {
       &midi_mode, midi_set_c64mode, NULL },
     { "MIDIEnable", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &midi_enabled, set_midi_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int c64_midi_resources_init(void)

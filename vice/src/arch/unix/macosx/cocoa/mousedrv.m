@@ -67,8 +67,8 @@ static resource_int_t resources_int[] =
        &scale_x, set_scale_x, NULL },
     { "MouseScaleY", 1, RES_EVENT_NO, NULL,
        &scale_y, set_scale_y, NULL },
-    { NULL }
- };
+    RESOURCE_INT_LIST_END
+};
 
 int mousedrv_resources_init(mouse_func_t *funcs)
 {

@@ -94,7 +94,7 @@ static const resource_int_t resources_int[] = {
       &mmu_column4080_key, set_column4080_key, NULL },
     { "Go64Mode", 0, RES_EVENT_SAME, NULL,
       &force_c64_mode_res, set_force_c64_mode, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int mmu_resources_init(void)

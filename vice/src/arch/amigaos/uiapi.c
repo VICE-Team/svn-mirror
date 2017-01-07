@@ -175,7 +175,7 @@ static const resource_int_t resources_int[] = {
       &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ui_resources_init(void)

@@ -226,7 +226,7 @@ static const resource_int_t resources_int[] = {
     { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
       &trueaspect, set_trueaspect, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_arch_resources_init(void)

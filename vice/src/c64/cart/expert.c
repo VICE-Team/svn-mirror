@@ -948,7 +948,7 @@ static const resource_int_t resources_int[] = {
       &cartmode, expert_mode_changed, NULL },
     { "ExpertImageWrite", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &expert_write_image, set_expert_rw, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int expert_resources_init(void)

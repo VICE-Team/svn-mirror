@@ -306,7 +306,7 @@ static const resource_int_t common_resources_int[] = {
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
     { "AlwaysOnTop", 0, RES_EVENT_NO, NULL,
       &ui_resources.alwaysontop, set_alwaysontop, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 #ifdef HAVE_D3D9_H
@@ -329,7 +329,7 @@ static const resource_int_t resources_int[] = {
       &ui_resources.aspect_ratio, set_aspect_ratio, NULL },
     { "VBLANKSync", 0, RES_EVENT_NO, NULL,
       &ui_resources.vblank_sync, set_vblank_sync, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 #endif
 
@@ -342,7 +342,7 @@ static const resource_int_t window0_resources_int[] = {
       &ui_resources.window_width[0], set_window_width, (void *)0 },
     { "Window0Height", CW_USEDEFAULT, RES_EVENT_NO, NULL,
       &ui_resources.window_height[0], set_window_height, (void *)0 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t window1_resources_int[] = {
@@ -354,13 +354,13 @@ static const resource_int_t window1_resources_int[] = {
       &ui_resources.window_width[1], set_window_width, (void *)1 },
     { "Window1Height", CW_USEDEFAULT, RES_EVENT_NO, NULL,
       &ui_resources.window_height[1], set_window_height, (void *)1 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_cpu[] = {
     { "SingleCPU", 0, RES_EVENT_NO, NULL,
       &ui_resources.single_cpu, set_single_cpu, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ui_resources_init(void)

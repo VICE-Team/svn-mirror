@@ -96,7 +96,7 @@ static const resource_int_t resources_int[] = {
       &midi_in_dev, set_midi_in_dev, NULL },
     { "MIDIOutDev", 0, RES_EVENT_NO, (resource_value_t)0,
       &midi_out_dev, set_midi_out_dev, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int mididrv_resources_init(void)

@@ -150,7 +150,7 @@ static resource_int_t resources_int[] =
        &video_param.true_pixel_aspect, set_true_pixel_aspect, NULL },
     { "ShowKeyCodes", 0, RES_EVENT_NO, NULL,
        &video_param.show_key_codes, set_show_key_codes, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int video_arch_resources_init(void)

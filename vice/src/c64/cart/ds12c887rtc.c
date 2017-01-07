@@ -320,7 +320,7 @@ static const resource_int_t resources_int[] = {
       &ds12c887rtc_run_mode, set_ds12c887rtc_run_mode, NULL },
     { "DS12C887RTCSave", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &ds12c887rtc_save, set_ds12c887rtc_save, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ds12c887rtc_resources_init(void)

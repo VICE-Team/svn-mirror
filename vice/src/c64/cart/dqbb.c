@@ -293,7 +293,7 @@ static const resource_int_t resources_int[] = {
       &dqbb_enabled, set_dqbb_enabled, NULL },
     { "DQBBImageWrite", 0, RES_EVENT_NO, NULL,
       &dqbb_write_image, set_dqbb_image_write, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int dqbb_resources_init(void)

@@ -640,7 +640,7 @@ static const resource_int_t resources_int[] = {
     { "MIDIDriver", MIDI_DRIVER_OSS,
       RES_EVENT_SAME, (resource_value_t)MIDI_DRIVER_OSS,
       &midi_driver_num, set_midi_driver, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 #endif
 

@@ -67,7 +67,7 @@ static int set_hide_mouseptr(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "HideMousePtr", 0, RES_EVENT_NO, NULL,
       &hide_mouseptr, set_hide_mouseptr, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int mousedrv_resources_init(mouse_func_t *funcs)

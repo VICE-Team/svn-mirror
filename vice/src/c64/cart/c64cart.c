@@ -403,7 +403,7 @@ static const resource_int_t resources_int[] = {
     { "CartridgeType", CARTRIDGE_NONE,
       RES_EVENT_STRICT, (resource_value_t)CARTRIDGE_NONE,
       &cartridge_type, set_cartridge_type, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_string_t resources_string[] = {
