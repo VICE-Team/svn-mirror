@@ -1,6 +1,12 @@
+if DUMMY_COMPILE
+
+SUBDIRS = watcom-source-wrappers android
+
+endif
+
 if SDL_COMPILE
 
-SUBDIRS = android sdl
+SUBDIRS = sdl
 
 else
 
@@ -12,7 +18,7 @@ endif
 
 if WIN32_COMPILE
 
-SUBDIRS = watcom-source-wrappers win32
+SUBDIRS = win32
 
 endif
 

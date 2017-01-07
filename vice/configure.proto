@@ -279,6 +279,8 @@ FEATURE_CPUMEMHISTORY_SUPPORT="no "
 DEBUG_SUPPORT="no "
 USE_EMBEDDED_SUPPORT="no "
 
+AM_CONDITIONAL(DUMMY_COMPILE, false)
+
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
 
