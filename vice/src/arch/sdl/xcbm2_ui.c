@@ -318,7 +318,9 @@ void cbm2ui_shutdown(void)
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
 #endif
-
+    uikeyboard_menu_shutdown();
+    uipalette_menu_shutdown();
+    uisid_menu_shutdown();
     uijoyport_menu_shutdown();
 
     lib_free(cbm2_font_14);
