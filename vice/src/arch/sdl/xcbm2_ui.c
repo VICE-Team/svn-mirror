@@ -319,6 +319,8 @@ void cbm2ui_shutdown(void)
     sdl_menu_ffmpeg_shutdown();
 #endif
 
+    uijoyport_menu_shutdown();
+
     lib_free(cbm2_font_14);
     lib_free(cbm2_font_8);
 }
@@ -354,6 +356,7 @@ void cbm5x0ui_shutdown(void)
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uipalette_menu_shutdown();
+    uijoyport_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif

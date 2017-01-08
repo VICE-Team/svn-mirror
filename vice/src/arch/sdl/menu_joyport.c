@@ -302,3 +302,26 @@ void uijoyport_menu_create(int port1, int port2, int port3, int port4, int port5
     joyport_menu[j].callback = NULL;
     joyport_menu[j].data = NULL;
 }
+
+
+/** \brief  Clean up memory used by the dynamically created joyport menus
+ */
+void uijoyport_menu_shutdown(void)
+{
+    if (joyport1_dyn_menu_init) {
+        sdl_menu_joyport1_free();
+    }
+    if (joyport2_dyn_menu_init) {
+        sdl_menu_joyport2_free();
+    }
+    if (joyport3_dyn_menu_init) {
+        sdl_menu_joyport3_free();
+    }
+    if (joyport4_dyn_menu_init) {
+        sdl_menu_joyport4_free();
+    }
+    if (joyport5_dyn_menu_init) {
+        sdl_menu_joyport5_free();
+    }
+}
+
