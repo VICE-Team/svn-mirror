@@ -642,8 +642,8 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 endif
 
 if NATIVE_TOOLS
-$(builddir)/gentranslate:	$(srcdir)/translate.txt $(srcdir)/arch/win32/utils/gentranslate.c
-	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/gentranslate $(srcdir)/arch/win32/utils/gentranslate.c
+$(builddir)/gentranslate:	$(srcdir)/translate.txt $(srcdir)/buildtools/gentranslate.c
+	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/gentranslate $(srcdir)/buildtools/gentranslate.c
 
 translate.h translate_table.h:	$(srcdir)/translate.txt $(builddir)/gentranslate
 	echo "generating translate.h..."

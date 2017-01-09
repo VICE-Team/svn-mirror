@@ -79,8 +79,8 @@ WVList
 0
 19
 MItem
-32
-..\..\WIN32\UTILS\gentranslate.c
+34
+..\..\..\buildtools\gentranslate.c
 20
 WString
 4

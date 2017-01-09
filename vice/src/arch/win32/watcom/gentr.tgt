@@ -95,8 +95,8 @@ WVList
 0
 23
 MItem
-23
-..\UTILS\gentranslate.c
+34
+..\..\..\buildtools\gentranslate.c
 24
 WString
 4
