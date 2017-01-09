@@ -62,7 +62,7 @@ static embedded_t cbm2files[] = {
     { "basic.500", 0x4000, 0x4000, 0x4000, cbm2basic500_embedded },
     { "chargen.500", 0x1000, 0x1000, 0x1000, cbm2chargen500_embedded },
     { "kernal.500", 0x2000, 0x2000, 0x2000, cbm2kernal500_embedded },
-    { NULL }
+    EMBEDDED_LIST_END
 };
 
 static embedded_palette_t palette_files[] = {
@@ -81,7 +81,7 @@ static embedded_palette_t palette_files[] = {
     { "ptoing", "ptoing.vpl", 16, vicii_ptoing_vpl },
     { "rgb", "rgb.vpl", 16, vicii_rgb_vpl },
     { "vice", "vice.vpl", 16, vicii_vice_vpl },
-    { NULL }
+    EMBEDDED_PALETTE_LIST_END
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)

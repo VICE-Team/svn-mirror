@@ -54,14 +54,14 @@ static embedded_t cbm2files[] = {
     { "chargen.600", 0x1000, 0x1000, 0x1000, cbm2chargen600_embedded },
     { "chargen.700", 0x1000, 0x1000, 0x1000, cbm2chargen700_embedded },
     { "kernal", 0x2000, 0x2000, 0x2000, cbm2kernal_embedded },
-    { NULL }
+    EMBEDDED_LIST_END
 };
 
 static embedded_palette_t palette_files[] = {
     { "amber", "amber.vpl", 2, crtc_amber_vpl },
     { "green", "green.vpl", 2, crtc_green_vpl },
     { "white", "white.vpl", 2, crtc_white_vpl },
-    { NULL }
+    EMBEDDED_PALETTE_LIST_END
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)

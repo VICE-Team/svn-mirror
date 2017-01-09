@@ -84,14 +84,14 @@ static embedded_t petfiles[] = {
     { "waterloo-d000.901898-04.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_d000_embedded },
     { "waterloo-e000.901897-01.bin", 0x800, 0x800, 0x800, superpet_waterloo_e000_embedded },
     { "waterloo-f000.901898-05.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_f000_embedded },
-    { NULL }
+    EMBEDDED_LIST_END
 };
 
 static embedded_palette_t palette_files[] = {
     { "amber", "amber.vpl", 2, crtc_amber_vpl },
     { "green", "green.vpl", 2, crtc_green_vpl },
     { "white", "white.vpl", 2, crtc_white_vpl },
-    { NULL }
+    EMBEDDED_PALETTE_LIST_END
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)

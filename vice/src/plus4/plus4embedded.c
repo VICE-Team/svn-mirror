@@ -49,14 +49,14 @@ static embedded_t plus4files[] = {
     { "kernal", PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, NULL },
     { "3plus1lo", PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE, NULL },
     { "3plus1hi", PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE, NULL },
-    { NULL, 0, 0, 0, NULL }
+    EMBEDDED_LIST_END
 };
 
 static embedded_palette_t palette_files[] = {
     { "yape-pal", "yape-pal.vpl", 128, ted_yape_pal_vpl },
     { "yape-ntsc", "yape-ntsc.vpl", 128, ted_yape_ntsc_vpl },
     { "colodore_ted", "colodore_ted.vpl", 128, ted_colodore_ted_vpl },
-    { NULL, NULL, 0, NULL }
+    EMBEDDED_PALETTE_LIST_END
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)

@@ -94,7 +94,7 @@ static embedded_t c128files[] = {
     { "basichi", C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE, C128_BASIC_ROM_IMAGEHI_SIZE, c128basichi_embedded },
     { "basic64", C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, c128basic64_embedded },
     { "kernal64", C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, c128kernal64_embedded },
-    { NULL }
+    EMBEDDED_LIST_END
 };
 
 static embedded_palette_t palette_files[] = {
@@ -115,7 +115,7 @@ static embedded_palette_t palette_files[] = {
     { "vdc-comp", "vdc-comp.vpl", 16, vdc_comp_vpl },
     { "vdc-deft", "vdc-deft.vpl", 16, vdc_deft_vpl },
     { "vice", "vice.vpl", 16, vicii_vice_vpl },
-    { NULL }
+    EMBEDDED_PALETTE_LIST_END
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)

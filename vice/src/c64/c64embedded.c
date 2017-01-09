@@ -59,7 +59,7 @@ static embedded_t c64files[] = {
     { "basic", C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, C64_BASIC_ROM_SIZE, NULL },
     { "kernal", C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, C64_KERNAL_ROM_SIZE, NULL },
     { "chargen", C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE, C64_CHARGEN_ROM_SIZE, NULL },
-    { NULL }
+    EMBEDDED_LIST_END
 };
 
 static embedded_palette_t palette_files[] = {
@@ -78,7 +78,7 @@ static embedded_palette_t palette_files[] = {
     { "ptoing", "ptoing.vpl", 16, vicii_ptoing_vpl },
     { "rgb", "rgb.vpl", 16, vicii_rgb_vpl },
     { "vice", "vice.vpl", 16, vicii_vice_vpl },
-    { NULL }
+    EMBEDDED_PALETTE_LIST_END
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)

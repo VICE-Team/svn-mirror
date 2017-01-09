@@ -49,14 +49,14 @@ static embedded_t vic20files[] = {
     { "basic", VIC20_BASIC_ROM_SIZE, VIC20_BASIC_ROM_SIZE, VIC20_BASIC_ROM_SIZE, NULL },
     { "kernal", VIC20_KERNAL_ROM_SIZE, VIC20_KERNAL_ROM_SIZE, VIC20_KERNAL_ROM_SIZE, NULL },
     { "chargen", VIC20_CHARGEN_ROM_SIZE, VIC20_CHARGEN_ROM_SIZE, VIC20_CHARGEN_ROM_SIZE, vic20chargen_embedded },
-    { NULL }
+    EMBEDDED_LIST_END
 };
 
 static embedded_palette_t palette_files[] = {
     { "mike-ntsc", "mike-ntsc.vpl", 16, vic_mike_ntsc_vpl },
     { "mike-pal", "mike-pal.vpl", 16, vic_mike_pal_vpl },
     { "vice", "vice.vpl", 16, vic_vice_vpl },
-    { NULL }
+    EMBEDDED_PALETTE_LIST_END
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)
