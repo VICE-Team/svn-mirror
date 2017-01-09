@@ -41,10 +41,17 @@ while read data
 do
     if [ ${#data} -ne 0 ]; then
         if test x"${data:0:1}" != "x#"; then
-            red=${data:0:2}
-            green=${data:3:2}
-            blue=${data:6:2}
-            dither=${data:9:1}
+            # red=${data:0:2}
+            # green=${data:3:2}
+            # blue=${data:6:2}
+            # dither=${data:9:1}
+            red=`echo "$data" | cut -d ' ' -f 1`
+            green=`echo "$data" | cut -d ' ' -f 2`
+            blue=`echo "$data" | cut -d ' ' -f 3`
+            dither=`echo "$data" | cut -d ' ' -f 4`
+            if [ -z "$dither" ]; then
+                dither="0"
+            fi
             echo >>$HEADERFILENAME "    0x$red, 0x$green, 0x$blue, 0x$dither,"
             entries=`expr $entries + 1`
         fi
