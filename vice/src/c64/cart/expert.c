@@ -938,7 +938,7 @@ int expert_cmdline_options_init(void)
 static const resource_string_t resources_string[] = {
     { "Expertfilename", "", RES_EVENT_NO, NULL,
       &expert_filename, set_expert_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

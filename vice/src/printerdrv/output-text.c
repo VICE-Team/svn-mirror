@@ -82,7 +82,7 @@ static const resource_string_t resources_string[] = {
     { "PrinterTextDevice3", ARCHDEP_PRINTER_DEFAULT_DEV3,
       RES_EVENT_NO, NULL,
       &PrinterDev[2], set_printer_device_name, (void *)2 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {
@@ -92,13 +92,13 @@ static const resource_int_t resources_int[] = {
       &printer_device[1], set_printer_device, (void *)1 },
     { "Printer6TextDevice", 0, RES_EVENT_NO, NULL,
       &printer_device[2], set_printer_device, (void *)2 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_userport[] = {
     { "PrinterUserportTextDevice", 0, RES_EVENT_NO, NULL,
       &printer_device[3], set_printer_device, (void *)3 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const cmdline_option_t cmdline_options[] =

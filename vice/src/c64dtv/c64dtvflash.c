@@ -595,7 +595,7 @@ static int set_flash_log(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "c64dtvromfilename", DTVROM_NAME_DEFAULT, RES_EVENT_NO, NULL,
       &c64dtvflash_filename, set_c64dtvflash_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

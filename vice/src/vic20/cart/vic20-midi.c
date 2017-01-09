@@ -109,7 +109,7 @@ static const resource_int_t resources_int[] = {
     { "MIDIMode", MIDI_MODE_MAPLIN, RES_EVENT_NO, NULL,
       &midi_mode, midi_set_mode, NULL },
 #endif
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int vic20_midi_resources_init(void)

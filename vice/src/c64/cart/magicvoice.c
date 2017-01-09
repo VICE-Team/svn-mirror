@@ -1147,7 +1147,7 @@ static int set_magicvoice_filename(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "MagicVoiceImage", "", RES_EVENT_NO, NULL,
       &magicvoice_filename, set_magicvoice_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

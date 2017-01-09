@@ -285,7 +285,7 @@ static int set_dqbb_image_write(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "DQBBfilename", "", RES_EVENT_NO, NULL,
       &dqbb_filename, set_dqbb_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

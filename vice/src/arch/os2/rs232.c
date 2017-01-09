@@ -47,7 +47,7 @@ static int set_serial_file(const char *val, void *param)
 static const resource_string_t resources_string[] = {
     { "SerialFile", "SerialFile", RES_EVENT_NO, NULL,
       &SerialFile, set_serial_file, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int rs232_resources_init(void)

@@ -320,7 +320,7 @@ static int set_gmod2_flash_write(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "GMod2EEPROMImage", "", RES_EVENT_NO, NULL,
       &gmod2_eeprom_filename, set_gmod2_eeprom_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

@@ -121,7 +121,7 @@ static const resource_string_t resources_string[] = {
       &server_name, set_server_name, NULL },
     { "NetworkServerBindAddress", "", RES_EVENT_NO, NULL,
       &server_bind_address, set_server_bind_address, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

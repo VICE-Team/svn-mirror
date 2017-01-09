@@ -574,7 +574,7 @@ static int set_userport_collision_handling(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "UserportCollisionHandling", USERPORT_COLLISION_METHOD_DETACH_ALL, RES_EVENT_STRICT, (resource_value_t)0,
       &userport_collision_handling, set_userport_collision_handling, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int userport_resources_init(void)

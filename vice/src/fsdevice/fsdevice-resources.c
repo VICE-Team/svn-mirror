@@ -83,7 +83,7 @@ static const resource_string_t resources_string[] = {
       (void *)&fsdevice_dir[2], set_fsdevice_dir, (void *)10 },
     { "FSDevice11Dir", FSDEVICE_DEFAULT_DIR, RES_EVENT_NO, NULL,
       (void *)&fsdevice_dir[3], set_fsdevice_dir, (void *)11 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

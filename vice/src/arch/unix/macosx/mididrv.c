@@ -100,7 +100,7 @@ static const resource_string_t resources_string[] = {
       &midi_in_name, set_midi_in_name, NULL },
     { "MIDIOutName", "VICEOutput", RES_EVENT_NO, NULL,
       &midi_out_name, set_midi_out_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int mididrv_resources_init(void)

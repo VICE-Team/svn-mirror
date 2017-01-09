@@ -530,7 +530,7 @@ static int set_nvram_filename(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "MegaCartNvRAMfilename", "", RES_EVENT_NO, NULL,
       &nvram_filename, set_nvram_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static int set_nvram_writeback(int val, void *param)
@@ -543,7 +543,7 @@ static int set_nvram_writeback(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "MegaCartNvRAMWriteBack", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &nvram_writeback, set_nvram_writeback, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int megacart_resources_init(void)

@@ -205,7 +205,7 @@ static const resource_int_t resources_int[] = {
       &current_sampler, set_sampler_device, NULL },
     { "SamplerGain", 100, RES_EVENT_NO, NULL,
       &sampler_gain, set_sampler_gain, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int sampler_resources_init(void)

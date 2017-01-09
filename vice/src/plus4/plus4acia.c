@@ -134,7 +134,7 @@ static int set_acia_enabled(int value, void *param)
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 1, RES_EVENT_STRICT, NULL,
       &_acia_enabled, set_acia_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int acia_resources_init(void)

@@ -758,7 +758,7 @@ static const resource_string_t resources_string[] = {
       &turbomaster_rom1_filename, set_turbomaster_rom1_filename, NULL },
     { "TurboMasterROM2Name", "", RES_EVENT_NO, NULL,
       &turbomaster_rom2_filename, set_turbomaster_rom2_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int turbomaster_resources_init(void)

@@ -126,7 +126,7 @@ static int set_userport_8bss_enabled(int value, void *param)
 static const resource_int_t resources_int[] = {
     { "Userport8BSS", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &userport_8bss_enabled, set_userport_8bss_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int userport_8bss_resources_init(void)

@@ -192,7 +192,7 @@ static const resource_string_t cbm5x0_resources_string[] = {
       &kernal_rom_name, set_kernal_rom_name, NULL },
     { "BasicName", CBM2_BASIC500, RES_EVENT_NO, NULL,
       &basic_rom_name, set_basic_rom_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 #include "cbm2-common-resources.c"

@@ -154,7 +154,7 @@ static int set_raw_drive_driver(const char *val, void *param)
 static const resource_string_t resources_string[] = {
     { "RawDriveDriver", ARCHDEP_RAWDRIVE_DEFAULT, RES_EVENT_NO, NULL,
       &raw_drive_driver, set_raw_drive_driver, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int rawimage_resources_init(void)

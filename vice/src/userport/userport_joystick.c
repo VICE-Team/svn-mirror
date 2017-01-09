@@ -504,19 +504,19 @@ static int set_userport_joystick_type(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "UserportJoy", 0, RES_EVENT_NO, NULL,
       &userport_joystick_enable, set_userport_joystick_enable, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_type_plus4[] = {
     { "UserportJoyType", USERPORT_JOYSTICK_PET, RES_EVENT_NO, NULL,
       &userport_joystick_type, set_userport_joystick_type, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_int_t resources_int_type[] = {
     { "UserportJoyType", USERPORT_JOYSTICK_CGA, RES_EVENT_NO, NULL,
       &userport_joystick_type, set_userport_joystick_type, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int userport_joystick_resources_init(void)

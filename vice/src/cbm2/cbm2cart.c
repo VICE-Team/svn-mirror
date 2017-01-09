@@ -264,7 +264,7 @@ static const resource_string_t resources_string[] = {
       &cart_4_name, set_cart4_rom_name, NULL },
     { "Cart6Name", "", RES_EVENT_NO, NULL,
       &cart_6_name, set_cart6_rom_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

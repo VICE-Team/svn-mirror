@@ -162,7 +162,7 @@ static int set_video_codec(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "QuickTimeFormat", "mov", RES_EVENT_NO, NULL,
       &quicktime_format, set_format, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

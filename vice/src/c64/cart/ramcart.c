@@ -452,7 +452,7 @@ static int set_ramcart_image_write(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "RAMCARTfilename", "", RES_EVENT_NO, NULL,
       &ramcart_filename, set_ramcart_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

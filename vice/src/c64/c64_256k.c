@@ -269,7 +269,7 @@ static int set_c64_256k_base(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "C64_256Kfilename", "", RES_EVENT_NO, NULL,
       &c64_256k_filename, set_c64_256k_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

@@ -143,13 +143,13 @@ static const resource_string_t resources_string[] = {
       (char **)&driver_select[1].drv_name, set_printer_driver, (void *)1 },
     { "Printer6Driver", "1520", RES_EVENT_NO, NULL,
       (char **)&driver_select[2].drv_name, set_printer_driver, (void *)2 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_string_t resources_string_userport[] = {
     { "PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
       (char **)&driver_select[3].drv_name, set_printer_driver, (void *)3 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int driver_select_init_resources(void)

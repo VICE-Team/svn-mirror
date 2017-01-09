@@ -196,7 +196,7 @@ static const resource_string_t resources_string[] = {
       &dos_rom_name_2000, set_dos_rom_name_2000, NULL },
     { "DosName4000", "dos4000", RES_EVENT_NO, NULL,
       &dos_rom_name_4000, set_dos_rom_name_4000, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static resource_int_t res_drive[] = {

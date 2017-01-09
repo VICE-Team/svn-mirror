@@ -712,7 +712,7 @@ static const resource_string_t resources_string[] = {
     { "IDE64USBServerAddress", "ip4://127.0.0.1:64245", RES_EVENT_NO, NULL,
       &settings_usbserver_address, set_usbserver_address, NULL },
 #endif
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

@@ -1122,7 +1122,7 @@ static const resource_string_t resources_string[] = {
       &mmc64_bios_filename, set_mmc64_bios_filename, NULL },
     { "MMC64imagefilename", "", RES_EVENT_NO, NULL,
       &mmc64_image_filename, set_mmc64_image_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

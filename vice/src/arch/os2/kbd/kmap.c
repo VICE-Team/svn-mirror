@@ -82,7 +82,7 @@ static const resource_string_t resources_string[] = {
       &keymap_file_list[0], set_keymap_file, (void *)0 },
     { "KeymapPosFile", "position.vkm", RES_EVENT_NO, NULL,
       &keymap_file_list[1], set_keymap_file, (void *)1 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int kbd_resources_init(void)

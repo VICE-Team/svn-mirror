@@ -118,7 +118,7 @@ static int set_ieee488_enabled(int value, void *param)
 static const resource_int_t resources_int[] = {
     { "IEEE488", 0, RES_EVENT_SAME, NULL,
       &ieee488_enabled, set_ieee488_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int vic20_ieee488_resources_init(void)

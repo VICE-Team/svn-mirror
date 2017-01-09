@@ -256,13 +256,13 @@ static const resource_int_t resources_int[] = {
       &tapelog_enabled, set_tapelog_enabled, NULL },
     { "TapeLogDestination", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &tapelog_destination, set_tapelog_destination, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 static const resource_string_t resources_string[] = {
     { "TapeLogfilename", "", RES_EVENT_NO, NULL,
       &tapelog_filename, set_tapelog_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int tapelog_resources_init(void)

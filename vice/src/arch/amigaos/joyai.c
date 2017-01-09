@@ -303,7 +303,7 @@ static const resource_string_t resources_string[] = {
     MYRES(keysym_2[2].resource, "0,0,-1", "JOYAI2_Left")
     MYRES(keysym_2[3].resource, "0,0,-1", "JOYAI2_Right")
     MYRES(keysym_2[4].resource, "0,0,-1", "JOYAI2_Fire")
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int joyai_init_resources(void)

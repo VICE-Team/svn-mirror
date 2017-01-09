@@ -106,7 +106,7 @@ static int set_memory_hack(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "MemoryHack", MEMORY_HACK_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &memory_hack, set_memory_hack, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int plus4_memory_hacks_resources_init(void)

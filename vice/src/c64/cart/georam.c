@@ -415,7 +415,7 @@ static int set_georam_image_write(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "GEORAMfilename", "", RES_EVENT_NO, NULL,
       &georam_filename, set_georam_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

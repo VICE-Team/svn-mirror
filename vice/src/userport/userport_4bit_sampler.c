@@ -121,7 +121,7 @@ static int set_userport_4bit_sampler_enabled(int value, void *param)
 static const resource_int_t resources_int[] = {
     { "Userport4bitSampler", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &userport_4bit_sampler_enabled, set_userport_4bit_sampler_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int userport_4bit_sampler_resources_init(void)

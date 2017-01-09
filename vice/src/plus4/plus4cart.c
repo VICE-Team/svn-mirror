@@ -123,7 +123,7 @@ static int set_cartridge_reset(int value, void *param)
 static const resource_int_t resources_int[] = {
     { "CartridgeReset", 1, RES_EVENT_NO, NULL,
       &plus4cartridge_reset, set_cartridge_reset, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int cartridge_resources_init(void)

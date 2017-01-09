@@ -399,7 +399,7 @@ static const resource_string_t resources_string[] = {
       &petres.h6809romName[4], set_h6809_rom_name, (void *)4 },
     { "H6809RomFName", "", RES_EVENT_NO, NULL,
       &petres.h6809romName[5], set_h6809_rom_name, (void *)5 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 /* caution: make sure the defaults match an actual PET model */

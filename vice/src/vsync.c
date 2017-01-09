@@ -126,7 +126,7 @@ static const resource_int_t resources_int[] = {
     { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
       /* FIXME: maybe RES_EVENT_NO */
       &warp_mode_enabled, set_warp_mode, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 
@@ -136,7 +136,7 @@ static const resource_int_t resources_int_vsid[] = {
     { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
       /* FIXME: maybe RES_EVENT_NO */
       &warp_mode_enabled, set_warp_mode, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 

@@ -2907,7 +2907,7 @@ static const resource_string_t resources_string[] = {
       &mmcr_card_filename, set_mmcr_card_filename, NULL },
     { "MMCREEPROMImage", "", RES_EVENT_NO, NULL,
       &mmcr_eeprom_filename, set_mmcr_eeprom_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

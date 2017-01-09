@@ -1598,7 +1598,7 @@ static const resource_string_t resources_string[] = {
       &machine_keymap_file_list[KBD_INDEX_USERSYM], keyboard_set_keymap_file, (void *)KBD_INDEX_USERSYM },
     { "KeymapUserPosFile", "", RES_EVENT_NO, NULL,
       &machine_keymap_file_list[KBD_INDEX_USERPOS], keyboard_set_keymap_file, (void *)KBD_INDEX_USERPOS },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

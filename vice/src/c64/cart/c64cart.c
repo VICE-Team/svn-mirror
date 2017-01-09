@@ -409,7 +409,7 @@ static const resource_int_t resources_int[] = {
 static const resource_string_t resources_string[] = {
     { "CartridgeFile", "", RES_EVENT_NO, NULL,
       &cartridge_file, set_cartridge_file, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int cartridge_resources_init(void)

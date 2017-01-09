@@ -130,7 +130,7 @@ static const resource_int_t resources_int[] = {
       &tapertc_enabled, set_tapertc_enabled, NULL },
     { "CPClockF83Save", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &tapertc_save, set_tapertc_save, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int tapertc_resources_init(void)

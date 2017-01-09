@@ -359,7 +359,7 @@ static int set_isepic_filename(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "Isepicfilename", "", RES_EVENT_NO, NULL,
       &isepic_filename, set_isepic_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

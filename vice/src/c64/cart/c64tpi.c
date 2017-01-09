@@ -510,7 +510,7 @@ static int set_ieee488_filename(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "IEEE488Image", "", RES_EVENT_NO, NULL,
       &ieee488_filename, set_ieee488_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

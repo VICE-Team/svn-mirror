@@ -72,7 +72,7 @@ static const resource_int_t resources_int[] =
     { "TEDBorderMode", TED_NORMAL_BORDERS, RES_EVENT_SAME, NULL,
       &ted_resources.border_mode,
       set_border_mode, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ted_resources_init(void)

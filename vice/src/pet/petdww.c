@@ -256,7 +256,7 @@ static int set_petdww_filename(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "PETDWWfilename", "", RES_EVENT_NO, NULL,
       &petdww_filename, set_petdww_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

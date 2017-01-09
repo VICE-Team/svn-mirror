@@ -82,7 +82,7 @@ static int set_fliplist_file_name(const char *val, void *param)
 static resource_string_t resources_string[] = {
     { "FliplistName", NULL, RES_EVENT_NO, NULL,
       &fliplist_file_name, set_fliplist_file_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int fliplist_resources_init(void)

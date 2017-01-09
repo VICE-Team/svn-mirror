@@ -129,7 +129,7 @@ int log_verbose_init(int argc, char **argv)
 static const resource_string_t resources_string[] = {
     { "LogFileName", "", RES_EVENT_NO, NULL,
       &log_file_name, set_log_file_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static int log_logfile_opt(const char *param, void *extra_param)

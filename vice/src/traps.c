@@ -96,7 +96,7 @@ static int set_traps_enabled(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "VirtualDevices", 0, RES_EVENT_SAME, NULL,
       &traps_enabled, set_traps_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int traps_resources_init(void)

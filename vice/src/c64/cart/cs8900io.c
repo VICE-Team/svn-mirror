@@ -290,7 +290,7 @@ static resource_string_t resources_string[] = {
     { "ETHERNET_INTERFACE",
       ARCHDEP_ETHERNET_DEFAULT_DEVICE, RES_EVENT_NO, NULL,
       &cs8900io_interface, set_cs8900io_interface, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

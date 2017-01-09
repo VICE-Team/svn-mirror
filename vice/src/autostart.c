@@ -288,7 +288,7 @@ static int set_autostart_prg_disk_image(const char *val, void *param)
 static resource_string_t resources_string[] = {
     { "AutostartPrgDiskImage", NULL, RES_EVENT_NO, NULL,
       &AutostartPrgDiskImage, set_autostart_prg_disk_image, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 /*! \brief integer resources used by autostart */

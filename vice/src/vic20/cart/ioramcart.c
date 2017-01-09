@@ -152,7 +152,7 @@ static const resource_int_t resources_int[] = {
       &ram_io2_enabled, set_ram_io2_enabled, NULL },
     { "IO3RAM", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &ram_io3_enabled, set_ram_io3_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int ioramcart_resources_init(void)

@@ -142,7 +142,7 @@ static const resource_int_t resources_int[] = {
       &printer_enabled[2], set_printer_enabled, (void *)2 },
     { "Printer7", PRINTER_DEVICE_NONE, RES_EVENT_STRICT, (resource_value_t)0,
       &printer_enabled[3], set_printer_enabled, (void *)3 },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int interface_serial_init_resources(void)

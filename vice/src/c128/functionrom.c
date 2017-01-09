@@ -186,7 +186,7 @@ static const resource_string_t resources_string[] =
     { "ExternalFunctionName", "", RES_EVENT_NO, NULL,
       &external_function_rom_name,
       set_external_function_rom_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] =

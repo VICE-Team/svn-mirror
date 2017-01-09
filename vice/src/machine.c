@@ -371,8 +371,9 @@ static int set_exit_screenshot_name(const char *val, void *param)
 static resource_string_t resources_string[] = {
     { "ExitScreenshotName", "", RES_EVENT_NO, NULL,
       &ExitScreenshotName, set_exit_screenshot_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
+
 static const resource_int_t resources_int[] = {
     { "JAMAction", MACHINE_JAM_ACTION_DIALOG, RES_EVENT_SAME, NULL,
       &jam_action, set_jam_action, NULL },

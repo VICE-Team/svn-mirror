@@ -57,7 +57,7 @@ static const resource_string_t resources_string[] = {
       &rs232_devfile[2], set_devfile, (void *)2 },
     { "RsDevice4", ARCHDEP_RS232_DEV4, RES_EVENT_NO, NULL,
       &rs232_devfile[3], set_devfile, (void *)3 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 #if RS232_NUM_DEVICES != 4

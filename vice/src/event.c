@@ -1197,7 +1197,7 @@ static const resource_string_t resources_string[] = {
       &event_start_snapshot, set_event_start_snapshot, NULL },
     { "EventEndSnapshot", EVENT_END_SNAPSHOT, RES_EVENT_NO, NULL,
       &event_end_snapshot, set_event_end_snapshot, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

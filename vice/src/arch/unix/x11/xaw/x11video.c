@@ -211,7 +211,7 @@ static const resource_string_t resources_string[] = {
     { "AspectRatio", "1.0", RES_EVENT_NO, NULL,
       &aspect_ratio_s, set_aspect_ratio, NULL },
 #endif
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

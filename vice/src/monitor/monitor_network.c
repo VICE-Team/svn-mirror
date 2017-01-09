@@ -485,7 +485,7 @@ static int set_server_address(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "MonitorServerAddress", "ip4://127.0.0.1:6510", RES_EVENT_NO, NULL,
       &monitor_server_address, set_server_address, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 /*! \brief integer resources used by the network monitor module */

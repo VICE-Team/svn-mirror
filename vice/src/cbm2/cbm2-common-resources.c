@@ -27,7 +27,7 @@
 /* FIXME: we should perhaps remove this file */
 
 static const resource_string_t resources_string[] = {
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

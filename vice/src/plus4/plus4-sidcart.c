@@ -248,7 +248,7 @@ static const resource_int_t sidcart_resources_int[] = {
       &sidcart_address, set_sid_address, NULL },
     { "SidClock", SIDCART_CLOCK_NATIVE, RES_EVENT_SAME, NULL,
       &sidcart_clock, set_sid_clock, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int sidcart_resources_init(void)

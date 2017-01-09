@@ -237,7 +237,7 @@ static int set_petreu_filename(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "PETREUfilename", "", RES_EVENT_NO, NULL,
       &petreu_filename, set_petreu_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

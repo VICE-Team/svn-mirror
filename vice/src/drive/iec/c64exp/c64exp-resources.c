@@ -130,7 +130,7 @@ static const resource_string_t resources_string[] =
       &profdos_1571_name, set_profdos_1571_name, NULL },
     { "DriveSuperCardName", "", RES_EVENT_NO, NULL,
       &supercard_name, set_supercard_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int c64exp_resources_init(void)

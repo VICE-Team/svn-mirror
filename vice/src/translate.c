@@ -255,7 +255,7 @@ static int set_current_language(const char *lang, void *param)
 static const resource_string_t resources_string[] = {
     { "Language", "en", RES_EVENT_NO, NULL,
       &current_language, set_current_language, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 int translate_resources_init(void)

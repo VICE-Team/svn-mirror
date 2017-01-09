@@ -178,7 +178,7 @@ static int set_confirm_on_exit(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "HTMLBrowserCommand", HTML_BROWSER_COMMAND_DEFAULT, RES_EVENT_NO, NULL,
       &ui_resources.html_browser_command, set_html_browser_command, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))

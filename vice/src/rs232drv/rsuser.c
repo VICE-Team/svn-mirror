@@ -185,7 +185,7 @@ static const resource_int_t resources_int[] = {
       &rsuser_baudrate, set_baudrate, NULL },
     { "RsUserDev", 0, RES_EVENT_NO, NULL,
       &rsuser_device, set_up_device, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int rsuser_resources_init(void)

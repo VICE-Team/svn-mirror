@@ -406,7 +406,7 @@ static const resource_string_t resources_string[] = {
       &joy_b.button_mapping, set_joy_b_button_mapping, NULL },
     { "JoyBAutoButtons", "3:4:2:2:4:4", RES_EVENT_NO, NULL,
       &joy_b.auto_button_mapping, set_joy_b_auto_button_mapping, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

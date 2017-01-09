@@ -597,7 +597,7 @@ static const resource_string_t resources_string[] = {
       &midi_in_dev, set_midi_in_dev, NULL },
     { "MIDIOutDev", ARCHDEP_MIDI_OUT_DEV, RES_EVENT_NO, NULL,
       &midi_out_dev, set_midi_out_dev, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 #ifdef USE_ALSA

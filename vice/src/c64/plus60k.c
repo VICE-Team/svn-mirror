@@ -283,7 +283,7 @@ static int set_plus60k_base(int val, void *param)
 static const resource_string_t resources_string[] = {
     { "PLUS60Kfilename", "", RES_EVENT_NO, NULL,
       &plus60k_filename, set_plus60k_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {

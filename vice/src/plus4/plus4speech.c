@@ -603,13 +603,13 @@ static int set_speech_filename(const char *name, void *param)
 static const resource_string_t resources_string[] = {
     { "SpeechImage", "", RES_EVENT_NO, NULL,
       &speech_filename, set_speech_filename, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {
     { "SpeechEnabled", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &speech_sound_chip.chip_enabled, set_speech_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int speech_resources_init(void)

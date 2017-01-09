@@ -167,7 +167,7 @@ static int set_digiblaster_enabled(int value, void *param)
 static const resource_int_t resources_int[] = {
     { "DIGIBLASTER", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &digiblaster_sound_chip.chip_enabled, set_digiblaster_enabled, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int digiblaster_resources_init(void)

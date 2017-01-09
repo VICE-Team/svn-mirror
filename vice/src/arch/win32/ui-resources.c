@@ -274,19 +274,19 @@ static const resource_string_t monitor_resources_string[] = {
       &ui_resources.monitor_dimensions, set_monitor_dimensions, NULL },
     { "InitialDefaultDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[0], set_initial_dir, (void *)0 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_string_t cart_resources_string[] = {
     { "InitialCartDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[4], set_initial_dir, (void *)4 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_string_t tape_resources_string[] = {
     { "InitialTapeDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[1], set_initial_dir, (void *)1 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_string_t resources_string[] = {
@@ -296,7 +296,7 @@ static const resource_string_t resources_string[] = {
       &ui_resources.initialdir[3], set_initial_dir, (void *)3 },
     { "InitialSnapshotDir", "", RES_EVENT_NO, NULL,
       &ui_resources.initialdir[5], set_initial_dir, (void *)5 },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t common_resources_int[] = {

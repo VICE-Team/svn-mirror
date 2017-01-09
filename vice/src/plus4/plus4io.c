@@ -565,7 +565,7 @@ static int set_io_source_collision_handling(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "IOCollisionHandling", IO_COLLISION_METHOD_DETACH_ALL, RES_EVENT_STRICT, (resource_value_t)0,
       &io_source_collision_handling, set_io_source_collision_handling, NULL },
-    { NULL }
+    RESOURCE_INT_LIST_END
 };
 
 int cartio_resources_init(void)

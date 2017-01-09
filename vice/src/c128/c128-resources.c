@@ -514,7 +514,7 @@ static const resource_string_t resources_string[] = {
       &kernal64_rom_name, set_kernal64_rom_name, NULL },
     { "Basic64Name", "basic64", RES_EVENT_NO, NULL,
       &basic64_rom_name, set_basic64_rom_name, NULL },
-    { NULL }
+    RESOURCE_STRING_LIST_END
 };
 
 static const resource_int_t resources_int[] = {
