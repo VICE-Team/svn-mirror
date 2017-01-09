@@ -1,6 +1,5 @@
 /*
- * gentranslate - win32 translate.h and translate_table.h generation
- *                helper program.
+ * gentranslate - translate.h and translate_table.h generation helper program.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

@@ -1,5 +1,5 @@
 /*
- * geninfocontrib - win32 infocontrib.h generation helper program.
+ * geninfocontrib - infocontrib.h generation helper program.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
