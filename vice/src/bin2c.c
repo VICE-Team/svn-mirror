@@ -27,7 +27,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void generate_c_file(char *in_filename, char *out_filename, char *array)
+
+/** \brief  Generate a C file with "\a array = { data }" statement
+ *
+ * \param[in]   in_filename     data file name
+ * \param[in]   out_filename    C source file name
+ * \param[in]   array           array name to use
+ *
+ * FIXME:   multi dimensional arrays aren't handled properly. For example,
+ *          suppose \a array is "foo[3][4]", the compiler will complain about
+ *          missing braces around initializers (sub-arrays). The C standard
+ *          guarantees that a 3*4 doesn't contain padding, so this code would
+ *          generate a 3*4 = 12 bytes array. But don't enable too many warnings
+ *          (or -Werror) when compiling!
+ *          So this needs fixing (BW)
+ */
+void generate_c_file(const char *in_filename, const char *out_filename,
+                     const char *array)
 {
     FILE *infile, *outfile;
     int amount, start, i;
