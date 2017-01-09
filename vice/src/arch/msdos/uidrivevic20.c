@@ -79,7 +79,7 @@ static tui_menu_item_def_t drive##num##_extend_image_policy_submenu[] = {       
       radio_Drive##num##ExtendImagePolicy_callback,                             \
       (void *)DRIVE_EXTEND_ACCESS, 0,                                           \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
-    { NULL }                                                                    \
+    TUI_MENU_ITEM_DEF_LIST_END                                                  \
 };
 
 DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(8)
@@ -218,7 +218,7 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                      
       "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,                        \
       radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,                      \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
-    { NULL }                                                                            \
+    TUI_MENU_ITEM_DEF_LIST_END                                                          \
 };
 
 DEFINE_DRIVE_MODEL_SUBMENU(8)
@@ -280,7 +280,7 @@ static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {       \
       radio_Drive##num##IdleMethod_callback,                            \
       (void *)DRIVE_IDLE_SKIP_CYCLES, 0,                                \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                 \
-    { NULL }                                                            \
+    TUI_MENU_ITEM_DEF_LIST_END                                          \
 };
 
 DEFINE_DRIVE_IDLE_METHOD_SUBMENU(8)
@@ -316,7 +316,7 @@ static tui_menu_item_def_t ui_drive_expanions_##num##_menu_def[] = { \
       "Save FD2000/4000 RTC data when changed",                      \
       toggle_Drive##num##RTCSave_callback, NULL, 3,                  \
       TUI_MENU_BEH_CONTINUE, NULL, NULL },                           \
-    { NULL }                                                         \
+    TUI_MENU_ITEM_DEF_LIST_END                                       \
 };
 
 DEFINE_DRIVE_EXPANSIONS_SUBMENU(8)
@@ -393,7 +393,7 @@ tui_menu_item_def_t drivevic20_drive8_settings_submenu[] = {
       "Set the wobble for drive #8",
       ui_set_wobble_callback, (void *)8, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t drivevic20_drive9_settings_submenu[] = {
@@ -423,7 +423,7 @@ tui_menu_item_def_t drivevic20_drive9_settings_submenu[] = {
       "Set the wobble for drive #9",
       ui_set_wobble_callback, (void *)9, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t drivevic20_drive10_settings_submenu[] = {
@@ -453,7 +453,7 @@ tui_menu_item_def_t drivevic20_drive10_settings_submenu[] = {
       "Set the wobble for drive #10",
       ui_set_wobble_callback, (void *)10, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t drivevic20_drive11_settings_submenu[] = {
@@ -483,7 +483,7 @@ tui_menu_item_def_t drivevic20_drive11_settings_submenu[] = {
       "Set the wobble for drive #11",
       ui_set_wobble_callback, (void *)11, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t drivevic20_settings_submenu[] = {
@@ -512,5 +512,5 @@ tui_menu_item_def_t drivevic20_settings_submenu[] = {
       NULL, NULL, 26,
       TUI_MENU_BEH_CONTINUE, drivevic20_drive11_settings_submenu,
       "Drive 11 settings" },
-   { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };

@@ -323,7 +323,7 @@ static tui_menu_item_def_t datasette_speedtuning_submenu[] = {
       NULL,
       radio_DatasetteSpeedTuning_callback, (void *)7, 5,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t datasette_zerogapdelay_submenu[] = {
@@ -355,7 +355,7 @@ static tui_menu_item_def_t datasette_zerogapdelay_submenu[] = {
       NULL,
       radio_DatasetteZeroGapDelay_callback, (void *)100000, 8,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(ui_set_tape_wobble_callback)
@@ -396,7 +396,7 @@ static tui_menu_item_def_t datasette_settings_submenu[] = {
       "Set random tape wobble",
       ui_set_tape_wobble_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -418,7 +418,7 @@ static tui_menu_item_def_t cpu_jam_actions_submenu[] = {
       (void *)MACHINE_JAM_ACTION_HARD_RESET, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Quit emulator", NULL, radio_JAMAction_callback,
       (void *)MACHINE_JAM_ACTION_QUIT, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -479,7 +479,7 @@ static tui_menu_item_def_t rom_submenu[] = {
       "Save ROM set definition to a *.vrs file",
       dump_romset_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -544,7 +544,7 @@ static tui_menu_item_def_t quit_submenu[] = {
       "Leave the emulator completely",
       quit_callback, NULL, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------ */
@@ -616,7 +616,7 @@ static tui_menu_item_def_t reset_submenu[] = {
     { "Reset drive #_11", "Reset drive #11 separately",
       reset_drive_callback, (void *)3, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -778,7 +778,7 @@ static tui_menu_item_def_t info_submenu[] = {
       "VICE compile time features",
       show_features_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */

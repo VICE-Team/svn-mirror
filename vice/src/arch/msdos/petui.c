@@ -85,7 +85,7 @@ static tui_menu_item_def_t video_size_items[] = {
       "Set screen width to 80 column",
       radio_VideoSize_callback, (void *) 80, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(ram_size_callback)
@@ -125,7 +125,7 @@ static tui_menu_item_def_t ram_size_items[] = {
       "Set RAM size to 128 KBytes",
       radio_RamSize_callback, (void *) 128, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(iosize_callback)
@@ -155,7 +155,7 @@ static tui_menu_item_def_t iosize_items[] = {
       "Set I/O size to 256 Bytes",
       radio_IOSize_callback, (void *) 0x100, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(Crtc)
@@ -193,7 +193,7 @@ static tui_menu_item_def_t special_menu_items[] = {
       "Enable RAM at $A000-$AFFF (only available on 8296)",
       toggle_RamA_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -266,7 +266,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
       "Load new 1001 ROM",
       load_rom_file_callback, "DosName1001", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 

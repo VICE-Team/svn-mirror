@@ -147,7 +147,7 @@ static tui_menu_item_def_t vicii_model_submenu[] = {
       (void *)VICII_MODEL_NTSCM_OLD, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "PAL-N", NULL, radio_VICIIModel_callback,
       (void *)VICII_MODEL_PALN, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static char *get_cia_model(int value)
@@ -180,7 +180,7 @@ static tui_menu_item_def_t cia1_model_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "6526 (new)", NULL, radio_CIA1Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(cia2_model_submenu_callback)
@@ -197,7 +197,7 @@ static tui_menu_item_def_t cia2_model_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "6526 (new)", NULL, radio_CIA2Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static char *get_kernal_rev(int value)
@@ -245,7 +245,7 @@ static tui_menu_item_def_t kernal_rev_submenu[] = {
       (void *)C64_KERNAL_SX64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "4064", NULL, radio_KernalRev_callback,
       (void *)C64_KERNAL_4064, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t c64_custom_model_menu_items[] = {
@@ -269,7 +269,7 @@ static tui_menu_item_def_t c64_custom_model_menu_items[] = {
       kernal_rev_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, kernal_rev_submenu,
       "Kernal revision" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(set_model_callback)
@@ -350,7 +350,7 @@ static tui_menu_item_def_t c64_model_items[] = {
       "Set custom model options",
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, c64_custom_model_menu_items, "Set custom C64 model" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uic64model_init(struct tui_menu *parent_submenu)

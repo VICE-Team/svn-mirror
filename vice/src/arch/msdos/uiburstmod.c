@@ -63,7 +63,7 @@ static tui_menu_item_def_t burstmod_submenu[] = {
       (void *)1, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "CIA-2", NULL, radio_BurstMod_callback,
       (void *)2, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t burstmod_menu_items[] = {
@@ -71,7 +71,7 @@ static tui_menu_item_def_t burstmod_menu_items[] = {
       burstmod_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, burstmod_submenu,
       "Burst Modification" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiburstmod_init(struct tui_menu *parent_submenu)

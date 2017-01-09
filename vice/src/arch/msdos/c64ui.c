@@ -167,7 +167,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
       "Load new SuperCard+ ROM",
       load_rom_file_callback, "DriveSuperCardName", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */

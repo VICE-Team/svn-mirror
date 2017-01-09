@@ -53,7 +53,7 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
       "Emulate a PS/2 mouse",
       toggle_ps2mouse_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -122,7 +122,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
       "Load new 4000 ROM",
       load_rom_file_callback, "DosName4000", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */

@@ -73,7 +73,7 @@ static tui_menu_item_def_t c64dtv_model_items[] = {
       "Configure the emulator to emulate a Hummer NTSC machine and do a soft RESET",
       set_model_callback, (void *)DTVMODEL_HUMMER_NTSC, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uic64dtvmodel_init(struct tui_menu *parent_submenu)

@@ -47,7 +47,7 @@ static tui_menu_item_def_t dqbb_menu_items[] = {
     { "DQBB _image file:", "Select the DQBB image file",
       filename_DQBBfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uidqbb_init(struct tui_menu *parent_submenu)

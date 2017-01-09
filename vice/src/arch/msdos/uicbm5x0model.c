@@ -61,7 +61,7 @@ static tui_menu_item_def_t cbm5x0_model_items[] = {
       "Configure the emulator to emulate a 510 NTSC machine and do a soft RESET",
       set_model_callback, (void *)CBM2MODEL_510_NTSC, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uicbm5x0model_init(struct tui_menu *parent_submenu)

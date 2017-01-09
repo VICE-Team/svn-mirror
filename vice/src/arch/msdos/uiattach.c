@@ -106,7 +106,7 @@ static tui_menu_item_def_t disk_image_type_submenu[] = {
       (void *)10, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "D_4M", "Create D4M disk image", create_set_disk_image_type_callback,
       (void *)11, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ui_create_disk_menu_def[] = {
@@ -144,7 +144,7 @@ static tui_menu_item_def_t ui_create_disk_menu_def[] = {
       "Create a blank disk, format and attach it to drive #11",
       create_disk_image_callback, (void *)11, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ui_flip_menu_def[] = {
@@ -164,7 +164,7 @@ static tui_menu_item_def_t ui_flip_menu_def[] = {
       "Attach previous disk image from flip list (ALT-F2)",
       flip_previous_callback, NULL, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
@@ -227,7 +227,7 @@ static tui_menu_item_def_t autostart_prg_mode_submenu[] = {
       (void *)AUTOSTART_PRG_MODE_INJECT, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Disk Image", NULL, radio_AutostartPrgMode_callback,
       (void *)AUTOSTART_PRG_MODE_DISK, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(autostart_prg_disk_image_file_callback)
@@ -281,7 +281,7 @@ static tui_menu_item_def_t ui_autostart_menu_def[] = {
     { "Autostart PRG disk image file:", "Select the autostart PRG disk image file",
       autostart_prg_disk_image_file_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t ui_attach_menu_def[] = {
@@ -317,7 +317,7 @@ tui_menu_item_def_t ui_attach_menu_def[] = {
       "Select, add or remove disk images from the flip list", 
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, ui_flip_menu_def, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(attach_disk_callback)

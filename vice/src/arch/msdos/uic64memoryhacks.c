@@ -94,7 +94,7 @@ static tui_menu_item_def_t memory_hack_device_submenu[] = {
       (void *)MEMORY_HACK_PLUS60K, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "+256K", NULL, radio_MemoryHack_callback,
       (void *)MEMORY_HACK_PLUS256K, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t c64_256k_base_submenu[] = {
@@ -106,7 +106,7 @@ static tui_menu_item_def_t c64_256k_base_submenu[] = {
       (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$D_F80-$DFFF", NULL, radio_C64_256Kbase_callback,
       (void *)0xdf80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t plus60k_base_submenu[] = {
@@ -114,7 +114,7 @@ static tui_menu_item_def_t plus60k_base_submenu[] = {
       (void *)0xd040, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$D_100", NULL, radio_PLUS60Kbase_callback,
       (void *)0xd100, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t memory_hacks_menu_items[] = {
@@ -137,7 +137,7 @@ static tui_menu_item_def_t memory_hacks_menu_items[] = {
     { "PLUS256K image file:", "Select the PLUS256K image file",
       filename_PLUS256Kfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uic64_memory_hacks_init(struct tui_menu *parent_submenu)

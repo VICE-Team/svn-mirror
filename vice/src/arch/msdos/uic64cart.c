@@ -141,7 +141,7 @@ static tui_menu_item_def_t attach_c64_cartridge_menu_items[] = {
       "Reset the machine when a cart is inserted or detached",
       toggle_CartridgeReset_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t attach_scpu64_cartridge_menu_items[] = {
@@ -179,7 +179,7 @@ static tui_menu_item_def_t attach_scpu64_cartridge_menu_items[] = {
       "Reset the machine when a cart is inserted or detached",
       toggle_CartridgeReset_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(detach_cartridge_callback)
@@ -205,7 +205,7 @@ static tui_menu_item_def_t detach_cartridge_menu_items[] = {
       "Detach attached cartridge image",
       detach_cartridge_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(freeze_cartridge_callback)
@@ -225,7 +225,7 @@ static tui_menu_item_def_t freeze_cartridge_menu_items[] = {
       "Activates the cartridge's freeze button",
       freeze_cartridge_callback, NULL, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static int cart_count(cartridge_info_t *cartlist, int group)

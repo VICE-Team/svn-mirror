@@ -106,7 +106,7 @@ static tui_menu_item_def_t int_function_rom_submenu[] = {
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "RAM+RTC", NULL, radio_InternalFunctionROM_callback,
       (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(ExternalFunctionROM)
@@ -140,7 +140,7 @@ static tui_menu_item_def_t ext_function_rom_submenu[] = {
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "RAM+RTC", NULL, radio_ExternalFunctionROM_callback,
       (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ioextenstions_menu_items[] = {
@@ -167,7 +167,7 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
       "Enable saving the External function RTC when changed",
       toggle_ExternalFunctionROMRTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -324,7 +324,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
       "Load new SuperCard+ ROM",
       load_rom_file_callback, "DriveSuperCardName", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */

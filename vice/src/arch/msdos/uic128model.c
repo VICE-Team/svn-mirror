@@ -67,7 +67,7 @@ static tui_menu_item_def_t c128_model_items[] = {
       "Configure the emulator to emulate a C128DCR NTSC machine and do a soft RESET",
       set_model_callback, (void *)C128MODEL_C128DCR_NTSC, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uic128model_init(struct tui_menu *parent_submenu)

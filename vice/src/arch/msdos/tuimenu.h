@@ -66,6 +66,8 @@ struct tui_menu_item_def_s {
 };
 typedef struct tui_menu_item_def_s tui_menu_item_def_t;
 
+#define TUI_MENU_ITEM_DEF_LIST_END { NULL, NULL, NULL, NULL, 0, (tui_menu_item_behavior_t)0, NULL, NULL }
+
 extern tui_menu_t tui_menu_create(const char *title, int spacing);
 extern void tui_menu_free(tui_menu_t menu);
 extern void tui_menu_add_item(tui_menu_t menu, const char *label,
