@@ -95,8 +95,8 @@ WVList
 0
 23
 MItem
-25
-..\utils\geninfocontrib.c
+36
+..\..\..\buildtools\geninfocontrib.c
 24
 WString
 4

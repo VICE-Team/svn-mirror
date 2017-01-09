@@ -79,8 +79,8 @@ WVList
 0
 19
 MItem
-34
-..\..\win32\utils\geninfocontrib.c
+36
+..\..\..\buildtools\geninfocontrib.c
 20
 WString
 4

@@ -5,6 +5,11 @@ CCLD = @LINKCC@
 
 ARCH_LIBS = @ARCH_LIBS@
 
+if DUMMY_COMPILE
+SUBDIRS = buildtools
+
+else
+
 SUBDIRS = \
 	@RESID_DIR@ \
 	@RESID_DTV_DIR@ \
@@ -50,6 +55,8 @@ SUBDIRS = \
 	lib \
 	platform
 
+endif
+
 DIST_SUBDIRS = \
 	sounddrv \
 	samplerdrv \
@@ -93,7 +100,8 @@ DIST_SUBDIRS = \
 	@RESIDSUB@ \
 	@RESIDDTVSUB@ \
 	lib \
-	platform
+	platform \
+	buildtools
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
@@ -609,8 +617,8 @@ svnversion.h.indirect:
 svnversion.h: svnversion.h.indirect
 
 if NATIVE_TOOLS
-$(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(srcdir)/arch/win32/utils/geninfocontrib.c
-	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/arch/win32/utils/geninfocontrib.c
+$(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(srcdir)/buildtools/geninfocontrib.c
+	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/buildtools/geninfocontrib.c
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(builddir)/geninfocontrib
 	echo "generating infocontrib.h..."
