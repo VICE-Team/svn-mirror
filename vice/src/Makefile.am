@@ -355,7 +355,6 @@ COMMON_EXTRA_DIST = \
 	debug.h.in \
 	fixpoint.c \
 	gensvnversion.sh \
-	gentranslate_h.sh \
 	gentranslatetable.sh \
 	infocontrib.sed \
 	od2c.sh \
@@ -649,9 +648,9 @@ translate.h translate_table.h:	$(srcdir)/translate.txt $(builddir)/gentranslate
 	echo "generating translate.h..."
 	$(builddir)/gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
 else
-translate.h:	$(srcdir)/translate.txt $(srcdir)/gentranslate_h.sh
+translate.h:	$(srcdir)/translate.txt $(srcdir)/buildtools/gentranslate_h.sh
 	echo "generating translate.h..."
-	$(SHELL) $(srcdir)/gentranslate_h.sh $(DEBUGBUILD) <$(srcdir)/translate.txt >translate.h
+	$(SHELL) $(srcdir)/buildtools/gentranslate_h.sh $(DEBUGBUILD) <$(srcdir)/translate.txt >translate.h
 endif
 
 if OWCC
