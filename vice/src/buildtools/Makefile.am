@@ -1,2 +1,3 @@
 EXTRA_DIST = \
-	geninfocontrib.c
+	geninfocontrib.c \
+	geninfocontrib_h.sh

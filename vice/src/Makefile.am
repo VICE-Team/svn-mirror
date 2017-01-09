@@ -354,7 +354,6 @@ COMMON_EXTRA_DIST = \
 	convert_owcc_libs.sh \
 	debug.h.in \
 	fixpoint.c \
-	geninfocontrib_h.sh \
 	gensvnversion.sh \
 	gentranslate_h.sh \
 	gentranslatetable.sh \
@@ -626,19 +625,19 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(builddir)
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 	echo "generating infocontrib.h..."
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../AUTHORS
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh OSXcreditshtml >arch/unix/macosx/Resources/Credits.html
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../AUTHORS
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh OSXcreditshtml >arch/unix/macosx/Resources/Credits.html
 	cp $(top_srcdir)/README ./README.tmp
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh README <README.tmp >../README
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >../README
 	rm -f README.tmp
 	cp $(top_srcdir)/doc/html/index.html ./index.tmp
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
 	rm -f index.tmp
 	cp $(top_srcdir)/src/arch/os2/dialogs/dialogs.rc ./dialogs.tmp
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh os2dialogs <dialogs.tmp >arch/os2/dialogs/dialogs.rc
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh os2dialogs <dialogs.tmp >arch/os2/dialogs/dialogs.rc
 	rm -f dialogs.tmp
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh vice1 | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../man/vice.1
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh vice1 | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../man/vice.1
 	rm -f team.tmp
 endif
 
