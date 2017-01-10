@@ -108,9 +108,6 @@ void vsyncarch_sleep(signed long delay)
         return;
     }
 
-#ifdef __BEOS__
-    snooze(delay);
-#else
 #ifdef HAVE_NANOSLEEP
     ts.tv_sec = delay / TICKSPERSECOND;
     ts.tv_nsec = (delay % TICKSPERSECOND);
@@ -118,7 +115,6 @@ void vsyncarch_sleep(signed long delay)
     while (nanosleep(&ts, &ts));
 #else
     usleep(delay);
-#endif
 #endif
 }
 
