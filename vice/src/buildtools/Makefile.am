@@ -6,4 +6,5 @@ EXTRA_DIST = \
 	geninfocontrib_h.sh \
 	gentranslate.c \
 	gentranslate_h.sh \
-	gentranslatetable.sh
+	gentranslatetable.sh \
+	od2c.sh

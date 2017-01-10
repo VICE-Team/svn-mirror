@@ -38,7 +38,7 @@ if test x"$CROSS" = "xtrue"; then
     echo >>$HEADERFILENAME ""
     echo >>$HEADERFILENAME "$ARRAYNAME = {"
     od -Ax -v -t x1 -w8 $BINFILENAME >$HEADERFILENAME.tmp
-    $SHELL $TOPSRCDIR/src/od2c.sh <$HEADERFILENAME.tmp >>$HEADERFILENAME
+    $SHELL $TOPSRCDIR/src/buildtools/od2c.sh <$HEADERFILENAME.tmp >>$HEADERFILENAME
     echo >>$HEADERFILENAME "};"
     rm -f $HEADERFILENAME.tmp
 else

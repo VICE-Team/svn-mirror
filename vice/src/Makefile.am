@@ -353,7 +353,6 @@ COMMON_EXTRA_DIST = \
 	fixpoint.c \
 	gensvnversion.sh \
 	infocontrib.sed \
-	od2c.sh \
 	palette2c.c \
 	palette2c.sh \
 	piacore.c \
