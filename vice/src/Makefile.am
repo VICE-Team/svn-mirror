@@ -349,7 +349,6 @@ COMMON_EXTRA_DIST = \
 	ChangeLog.5 \
 	ChangeLog.6 \
 	aciacore.c \
-	bin2c.c \
 	bin2c.sh \
 	convert_owcc_libs.sh \
 	debug.h.in \
@@ -658,8 +657,8 @@ owcc_libs_converted.h:
 endif
 
 if NATIVE_TOOLS
-bin2c: $(srcdir)/bin2c.c
-	$(NATIVE_TOOLS_COMPILER) -o bin2c $(srcdir)/bin2c.c
+bin2c: $(srcdir)/buildtools/bin2c.c
+	$(NATIVE_TOOLS_COMPILER) -o bin2c $(srcdir)/buildtools/bin2c.c
 
 palette2c: $(srcdir)/palette2c.c
 	$(NATIVE_TOOLS_COMPILER) -o palette2c $(srcdir)/palette2c.c
