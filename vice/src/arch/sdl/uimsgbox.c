@@ -45,30 +45,31 @@ static menu_draw_t *menu_draw;
 
 static unsigned int make_28_cols(char *text)
 {
-    unsigned int i = MAX_MSGBOX_LEN;
+    unsigned int i;
     unsigned int j = 1;
-    char *retpos = NULL;
-    unsigned int len = strlen(text);
+    char *retpos = strchr(text, '\n');
 
     /* convert any return chars. */
-    retpos = strchr(text, '\n');
     while (retpos != NULL) {
         *retpos = ' ';
         retpos = strchr(retpos + 1, '\n');
     }
 
     /* chop the text into lines of a maximum of 28 chars */
-    while (i < len) {
-        while (text[i] != ' ') {
-            assert(i != 0);
-            i--;
+    while (strlen(text) > MAX_MSGBOX_LEN) {
+        i = MAX_MSGBOX_LEN + 1;
+        while (text[--i] != ' ') {
+            /* if a word is too long, fold it anyway! */
+            if (i == 0) {
+                i = MAX_MSGBOX_LEN;
+                break;
+            }
         }
         text[i] = 0;
         text += i + 1;
-        len = strlen(text);
-        i = MAX_MSGBOX_LEN;
         j++;
     }
+
     return j;
 }
 
@@ -87,7 +88,7 @@ static int handle_message_box(const char *title, const char *message, int messag
     text = lib_stralloc(message);
     pos = text;
 
-    /* split the message up into a max of 28 char sized lines and remember the amount of lines */
+    /* split the message into lines of 28 chars. max.; and, remember the amount of lines */
     lines = make_28_cols(text);
     sdl_ui_clear();
 
@@ -109,15 +110,12 @@ static int handle_message_box(const char *title, const char *message, int messag
     sdl_ui_print_center(template, 3);
     lib_free(template);
 
-    /* print the title/text seperator part of the dialog. */
+    /* print the title/text separator part of the dialog. */
     sdl_ui_print_center("\253\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\263", 4);
 
     for (j = 0; j < lines; j++) {
         template = lib_stralloc("\335                            \335");
-
-        /* make sure that the message line length is not more than 28 chars. */
         len = strlen(pos);
-        assert(len <= MAX_MSGBOX_LEN);
 
         /* calculate the position in the template to copy the message line to. */
         before = ((MAX_MSGBOX_LEN - len) / 2) + 1;
@@ -127,11 +125,10 @@ static int handle_message_box(const char *title, const char *message, int messag
 
         /* print the message line. */
         sdl_ui_print_center(template, j + 5);
-
         lib_free(template);
 
         /* advance the pointer to the next message line. */
-        pos += strlen(pos) + 1;
+        pos += len + 1;
     }
 
     /* print any needed buttons. */
