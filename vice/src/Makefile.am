@@ -1243,8 +1243,14 @@ crtc_green_vpl.h: $(EMBEDDED_DEPENDS)
 crtc_white_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/white.vpl crtc_white_vpl.h "unsigned char crtc_white_vpl[]"
 
-ted_vice_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PLUS4/vice.vpl ted_vice_vpl.h "unsigned char ted_vice_vpl[]"
+ted_yape_pal_vpl.h: $(EMBEDDED_DEPENDS) palette2c
+	./palette2c $(top_srcdir)/data/PLUS4/yape-pal.vpl ted_yape_pal_vpl.h "unsigned char ted_yape_pal_vpl[]"
+
+ted_yape_ntsc_vpl.h: $(EMBEDDED_DEPENDS) palette2c
+	./palette2c $(top_srcdir)/data/PLUS4/yape-ntsc.vpl ted_yape_ntsc_vpl.h "unsigned char ted_yape_ntsc_vpl[]"
+
+ted_colodore_ted_vpl.h: $(EMBEDDED_DEPENDS) palette2c
+	./palette2c $(top_srcdir)/data/PLUS4/colodore_ted.vpl ted_colodore_ted_vpl.h "unsigned char ted_colodore_ted_vpl[]"
 
 vic_mike_ntsc_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/VIC20/mike-ntsc.vpl vic_mike_ntsc_vpl.h "unsigned char vic_mike_ntsc_vpl[]"
