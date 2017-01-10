@@ -349,7 +349,6 @@ COMMON_EXTRA_DIST = \
 	ChangeLog.5 \
 	ChangeLog.6 \
 	aciacore.c \
-	convert_owcc_libs.sh \
 	debug.h.in \
 	fixpoint.c \
 	gensvnversion.sh \
@@ -652,7 +651,7 @@ endif
 
 if OWCC
 owcc_libs_converted.h:
-	$(SHELL) $(srcdir)/convert_owcc_libs.sh $(LIBS)
+	$(SHELL) $(srcdir)/buildtools/convert_owcc_libs.sh $(LIBS)
 endif
 
 if NATIVE_TOOLS
