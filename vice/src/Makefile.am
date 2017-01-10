@@ -355,7 +355,6 @@ COMMON_EXTRA_DIST = \
 	debug.h.in \
 	fixpoint.c \
 	gensvnversion.sh \
-	gentranslatetable.sh \
 	infocontrib.sed \
 	od2c.sh \
 	palette2c.c \
@@ -599,9 +598,9 @@ if HAVE_TRANSLATION
 BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 
 if !NATIVE_TOOLS
-translate_table.h:	$(srcdir)/translate.txt $(srcdir)/gentranslatetable.sh
+translate_table.h:	$(srcdir)/translate.txt $(srcdir)/buildtools/gentranslatetable.sh
 	echo "generating translate_table.h..."
-	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
+	$(SHELL) $(srcdir)/buildtools/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 endif
 else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
