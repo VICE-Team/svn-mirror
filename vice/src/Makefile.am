@@ -351,7 +351,6 @@ COMMON_EXTRA_DIST = \
 	aciacore.c \
 	debug.h.in \
 	fixpoint.c \
-	palette2c.sh \
 	piacore.c \
 	sedinfocontrib_h.sh \
 	translate.txt \
@@ -566,9 +565,9 @@ EMBEDDED_H_FILES = \
 	vic_vice_vpl.h
 
 if NATIVE_TOOLS
-EMBEDDED_DEPENDS = bin2c $(srcdir)/buildtools/bin2c.sh palette2c palette2c.sh
+EMBEDDED_DEPENDS = bin2c $(srcdir)/buildtools/bin2c.sh palette2c $(srcdir)/buildtools/palette2c.sh
 else
-EMBEDDED_DEPENDS = $(srcdir)/buildtools/bin2c.sh palette2c.sh
+EMBEDDED_DEPENDS = $(srcdir)/buildtools/bin2c.sh $(srcdir)/buildtools/palette2c.sh
 endif
 
 else
@@ -1173,85 +1172,85 @@ vic20kernal.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/buildtools/bin2c.sh $(top_srcdir)/data/VIC20/kernal vic20kernal.h "BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 vdc_comp_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/vdc-comp.vpl vdc_comp_vpl.h "unsigned char vdc_comp_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C128/vdc-comp.vpl vdc_comp_vpl.h "unsigned char vdc_comp_vpl[]"
 
 vdc_deft_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/vdc-deft.vpl vdc_deft_vpl.h "unsigned char vdc_deft_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C128/vdc-deft.vpl vdc_deft_vpl.h "unsigned char vdc_deft_vpl[]"
 
 vicii_c64hq_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/c64hq.vpl vicii_c64hq_vpl.h "unsigned char vicii_c64hq_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/c64hq.vpl vicii_c64hq_vpl.h "unsigned char vicii_c64hq_vpl[]"
 
 vicii_c64s_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/c64s.vpl vicii_c64s_vpl.h "unsigned char vicii_c64s_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/c64s.vpl vicii_c64s_vpl.h "unsigned char vicii_c64s_vpl[]"
 
 vicii_ccs64_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/ccs64.vpl vicii_ccs64_vpl.h "unsigned char vicii_ccs64_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/ccs64.vpl vicii_ccs64_vpl.h "unsigned char vicii_ccs64_vpl[]"
 
 vicii_community_colors_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/community-colors.vpl vicii_community_colors_vpl.h "unsigned char vicii_community_colors_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/community-colors.vpl vicii_community_colors_vpl.h "unsigned char vicii_community_colors_vpl[]"
 
 vicii_deekay_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/deekay.vpl vicii_deekay_vpl.h "unsigned char vicii_deekay_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/deekay.vpl vicii_deekay_vpl.h "unsigned char vicii_deekay_vpl[]"
 
 vicii_frodo_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/frodo.vpl vicii_frodo_vpl.h "unsigned char vicii_frodo_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/frodo.vpl vicii_frodo_vpl.h "unsigned char vicii_frodo_vpl[]"
 
 vicii_godot_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/godot.vpl vicii_godot_vpl.h "unsigned char vicii_godot_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/godot.vpl vicii_godot_vpl.h "unsigned char vicii_godot_vpl[]"
 
 vicii_pc64_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/pc64.vpl vicii_pc64_vpl.h "unsigned char vicii_pc64_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/pc64.vpl vicii_pc64_vpl.h "unsigned char vicii_pc64_vpl[]"
 
 vicii_pepto_ntsc_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/pepto-ntsc.vpl vicii_pepto_ntsc_vpl.h "unsigned char vicii_pepto_ntsc_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/pepto-ntsc.vpl vicii_pepto_ntsc_vpl.h "unsigned char vicii_pepto_ntsc_vpl[]"
 
 vicii_pepto_ntsc_sony_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/pepto-ntsc-sony.vpl vicii_pepto_ntsc_sony_vpl.h "unsigned char vicii_pepto_ntsc_sony_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/pepto-ntsc-sony.vpl vicii_pepto_ntsc_sony_vpl.h "unsigned char vicii_pepto_ntsc_sony_vpl[]"
 
 vicii_pepto_pal_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/pepto-pal.vpl vicii_pepto_pal_vpl.h "unsigned char vicii_pepto_pal_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/pepto-pal.vpl vicii_pepto_pal_vpl.h "unsigned char vicii_pepto_pal_vpl[]"
 
 vicii_pepto_palold_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/pepto-palold.vpl vicii_pepto_palold_vpl.h "unsigned char vicii_pepto_palold_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/pepto-palold.vpl vicii_pepto_palold_vpl.h "unsigned char vicii_pepto_palold_vpl[]"
 
 vicii_ptoing_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/ptoing.vpl vicii_ptoing_vpl.h "unsigned char vicii_ptoing_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/ptoing.vpl vicii_ptoing_vpl.h "unsigned char vicii_ptoing_vpl[]"
 
 vicii_rgb_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/rgb.vpl vicii_rgb_vpl.h "unsigned char vicii_ptoing_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/rgb.vpl vicii_rgb_vpl.h "unsigned char vicii_ptoing_vpl[]"
 
 vicii_vice_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64/vice.vpl vicii_vice_vpl.h "unsigned char vicii_vice_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64/vice.vpl vicii_vice_vpl.h "unsigned char vicii_vice_vpl[]"
 
 viciidtv_spiff_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C64DTV/spiff.vpl viciidtv_spiff_vpl.h "unsigned char viciidtv_spiff_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/C64DTV/spiff.vpl viciidtv_spiff_vpl.h "unsigned char viciidtv_spiff_vpl[]"
 
 crtc_amber_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/amber.vpl crtc_amber_vpl.h "unsigned char crtc_amber_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/PET/amber.vpl crtc_amber_vpl.h "unsigned char crtc_amber_vpl[]"
 
 crtc_green_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/green.vpl crtc_green_vpl.h "unsigned char crtc_green_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/PET/green.vpl crtc_green_vpl.h "unsigned char crtc_green_vpl[]"
 
 crtc_white_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PET/white.vpl crtc_white_vpl.h "unsigned char crtc_white_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/PET/white.vpl crtc_white_vpl.h "unsigned char crtc_white_vpl[]"
 
 ted_yape_pal_vpl.h: $(EMBEDDED_DEPENDS) palette2c
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PLUS4/yape-pal.vpl ted_yape_pal_vpl.h "unsigned char ted_yape_pal_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/PLUS4/yape-pal.vpl ted_yape_pal_vpl.h "unsigned char ted_yape_pal_vpl[]"
 
 ted_yape_ntsc_vpl.h: $(EMBEDDED_DEPENDS) palette2c
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PLUS4/yape-ntsc.vpl ted_yape_ntsc_vpl.h "unsigned char ted_yape_ntsc_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/PLUS4/yape-ntsc.vpl ted_yape_ntsc_vpl.h "unsigned char ted_yape_ntsc_vpl[]"
 
 ted_colodore_ted_vpl.h: $(EMBEDDED_DEPENDS) palette2c
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/PLUS4/colodore_ted.vpl ted_colodore_ted_vpl.h "unsigned char ted_colodore_ted_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/PLUS4/colodore_ted.vpl ted_colodore_ted_vpl.h "unsigned char ted_colodore_ted_vpl[]"
 
 vic_mike_ntsc_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/VIC20/mike-ntsc.vpl vic_mike_ntsc_vpl.h "unsigned char vic_mike_ntsc_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/VIC20/mike-ntsc.vpl vic_mike_ntsc_vpl.h "unsigned char vic_mike_ntsc_vpl[]"
 
 vic_mike_pal_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/VIC20/mike-pal.vpl vic_mike_pal_vpl.h "unsigned char vic_mike_pal_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/VIC20/mike-pal.vpl vic_mike_pal_vpl.h "unsigned char vic_mike_pal_vpl[]"
 
 vic_vice_vpl.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/VIC20/vice.vpl vic_vice_vpl.h "unsigned char vic_vice_vpl[]"
+	$(SHELL) $(srcdir)/buildtools/palette2c.sh <$(top_srcdir)/data/VIC20/vice.vpl vic_vice_vpl.h "unsigned char vic_vice_vpl[]"
 endif
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
