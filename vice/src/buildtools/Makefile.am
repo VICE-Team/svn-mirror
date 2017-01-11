@@ -9,4 +9,5 @@ EXTRA_DIST = \
 	gentranslate_h.sh \
 	gentranslatetable.sh \
 	infocontrib.sed \
-	od2c.sh
+	od2c.sh \
+	palette2c.c

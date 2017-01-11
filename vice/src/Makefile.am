@@ -351,7 +351,6 @@ COMMON_EXTRA_DIST = \
 	aciacore.c \
 	debug.h.in \
 	fixpoint.c \
-	palette2c.c \
 	palette2c.sh \
 	piacore.c \
 	sedinfocontrib_h.sh \
@@ -655,8 +654,8 @@ if NATIVE_TOOLS
 bin2c: $(srcdir)/buildtools/bin2c.c
 	$(NATIVE_TOOLS_COMPILER) -o bin2c $(srcdir)/buildtools/bin2c.c
 
-palette2c: $(srcdir)/palette2c.c
-	$(NATIVE_TOOLS_COMPILER) -o palette2c $(srcdir)/palette2c.c
+palette2c: $(srcdir)/buildtools/palette2c.c
+	$(NATIVE_TOOLS_COMPILER) -o palette2c $(srcdir)/buildtools/palette2c.c
 
 c128basic64.h: $(EMBEDDED_DEPENDS) bin2c
 	./bin2c $(top_srcdir)/data/C128/basic64 c128basic64.h "static BYTE c128basic64_embedded[C128_BASIC64_ROM_SIZE]"
