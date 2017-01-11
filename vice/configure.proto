@@ -3090,10 +3090,10 @@ if test x"$is_win32" = "xyes"; then
                     ;;
             esac
         else
-            AC_MSG_WARN([WRC not found, WRC is required for propper internationalization support])
+            AC_MSG_WARN([WRC not found, WRC is required for proper internationalization support])
             WRC="$WINDRES"
         fi
-        dnl if windres is used, test for propper ISO codepage support
+        dnl if windres is used, test for proper ISO codepage support
         if test x"$WRC" = x"$WINDRES"; then
           AC_MSG_CHECKING(if windres supports iso codepages)
           rm -f test.rc test.res
