@@ -8,4 +8,5 @@ EXTRA_DIST = \
 	gentranslate.c \
 	gentranslate_h.sh \
 	gentranslatetable.sh \
+	infocontrib.sed \
 	od2c.sh

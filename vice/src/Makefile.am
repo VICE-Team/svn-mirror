@@ -351,7 +351,6 @@ COMMON_EXTRA_DIST = \
 	aciacore.c \
 	debug.h.in \
 	fixpoint.c \
-	infocontrib.sed \
 	palette2c.c \
 	palette2c.sh \
 	piacore.c \
@@ -609,17 +608,17 @@ svnversion.h.indirect:
 svnversion.h: svnversion.h.indirect
 
 if NATIVE_TOOLS
-$(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(srcdir)/buildtools/geninfocontrib.c
+$(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed $(srcdir)/buildtools/geninfocontrib.c
 	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/geninfocontrib $(srcdir)/buildtools/geninfocontrib.c
 
-infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed $(builddir)/geninfocontrib
+infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed $(builddir)/geninfocontrib
 	echo "generating infocontrib.h..."
-	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
+	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
 else
-infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
+infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	echo "generating infocontrib.h..."
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../AUTHORS
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../AUTHORS
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh OSXcreditshtml >arch/unix/macosx/Resources/Credits.html
 	cp $(top_srcdir)/README ./README.tmp
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >../README
@@ -630,7 +629,7 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/infocontrib.sed
 	cp $(top_srcdir)/src/arch/os2/dialogs/dialogs.rc ./dialogs.tmp
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh os2dialogs <dialogs.tmp >arch/os2/dialogs/dialogs.rc
 	rm -f dialogs.tmp
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh vice1 | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >../man/vice.1
+	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh vice1 | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../man/vice.1
 	rm -f team.tmp
 endif
 

@@ -25,7 +25,7 @@ rem  02111-1307  USA.
 
 copy ..\..\..\translate.txt trans.txt
 copy ..\..\..\..\doc\vice.texi vice.tex
-copy ..\..\..\infocontrib.sed ic.sed
+copy ..\..\..\buildtools\infocontrib.sed ic.sed
 copy ..\..\..\..\AUTHORS authors.txt
 copy ..\..\unix\macosx\Resources\Credits.html credits.htm
 copy ..\..\..\..\README readme.txt

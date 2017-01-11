@@ -454,13 +454,12 @@ cd src
 cp arch/android/AnVICE/debug.h.proto ./debug.h
 
 echo generating src/translate_table.h
-${SHELL} ./gentranslatetable.sh <translate.txt >translate_table.h
+${SHELL} buildtools/gentranslatetable.sh <translate.txt >translate_table.h
 
 echo generating src/translate.h
-${SHELL} ./gentranslate_h.sh <translate.txt >translate.h
+${SHELL} buildtools/gentranslate_h.sh <translate.txt >translate.h
 
-echo generating src/infocontrib.h
-${SHELL} ./geninfocontrib_h.sh infocontrib.h <../doc/vice.texi | sed -f infocontrib.sed >infocontrib.h
+echo generating src/infocontrib.h${SHELL} buildtools/geninfocontrib_h.sh infocontrib.h <../doc/vice.texi | sed -f buildtools/infocontrib.sed >infocontrib.h
 
 cd arch/android/AnVICE
 
