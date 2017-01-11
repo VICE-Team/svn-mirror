@@ -4,6 +4,7 @@ EXTRA_DIST = \
 	convert_owcc_libs.sh \
 	geninfocontrib.c \
 	geninfocontrib_h.sh \
+	gensvnversion.sh \
 	gentranslate.c \
 	gentranslate_h.sh \
 	gentranslatetable.sh \

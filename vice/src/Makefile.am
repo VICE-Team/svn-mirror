@@ -351,7 +351,6 @@ COMMON_EXTRA_DIST = \
 	aciacore.c \
 	debug.h.in \
 	fixpoint.c \
-	gensvnversion.sh \
 	infocontrib.sed \
 	palette2c.c \
 	palette2c.sh \
@@ -605,7 +604,7 @@ endif
 .PHONY: svnversion.h.indirect
 
 svnversion.h.indirect:
-	$(SHELL) $(srcdir)/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
+	$(SHELL) $(srcdir)/buildtools/gensvnversion.sh $(SVNVERSION) $(top_srcdir) $(srcdir)/svnversion.h
 
 svnversion.h: svnversion.h.indirect
 
