@@ -173,7 +173,7 @@ static tui_menu_item_def_t attach_cartridge_menu_items[] = {
       "Attach a cartridge image at address $B000",
       attach_cartridge_callback, (void *)CARTRIDGE_VIC20_4KB_B000, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(detach_cartridge_callback)
@@ -191,7 +191,7 @@ static tui_menu_item_def_t detach_cartridge_menu_items[] = {
       "Detach all attached cartridge images",
       detach_cartridge_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -284,7 +284,7 @@ static tui_menu_item_def_t common_memory_configurations_items[] = {
       "Setup a VIC20 with all the possible RAM stuffed in",
       set_common_memory_configuration_callback, (void *)MEM_ALL, NULL,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(RAMBlock0)
@@ -320,7 +320,7 @@ static tui_menu_item_def_t special_menu_items[] = {
       toggle_RAMBlock5_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "--" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -409,7 +409,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
       "Load new 1001 ROM",
       load_rom_file_callback, "DosName1001", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
@@ -418,7 +418,7 @@ static tui_menu_item_def_t final_expansion_menu_items[] = {
     { "_Enable write-back to cart file:", "Enable write-back to cart file",
       toggle_FinalExpansionWriteBack_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
@@ -427,7 +427,7 @@ static tui_menu_item_def_t vic_flash_plugin_menu_items[] = {
     { "_Enable write-back to cart file:", "Enable write-back to cart file",
       toggle_VicFlashPluginWriteBack_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(UltiMemWriteBack)
@@ -436,7 +436,7 @@ static tui_menu_item_def_t ultimem_menu_items[] = {
     { "_Enable write-back to cart file:", "Enable write-back to cart file",
       toggle_UltiMemWriteBack_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(IO2RAM)
@@ -449,7 +449,7 @@ static tui_menu_item_def_t io_ram_menu_items[] = {
     { "Enable I/O-3 RAM:", "Enable I/O-3 RAM",
       toggle_IO3RAM_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
@@ -485,7 +485,7 @@ static tui_menu_item_def_t megacart_menu_items[] = {
     { "Mega-Cart nvram _image file:", "Select the Mega-Cart nvram image file",
       megacart_nvram_image_file_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(VFLImod)
@@ -494,7 +494,7 @@ static tui_menu_item_def_t vflimod_menu_items[] = {
     { "_Enable VFLI modification:", "Enable VFLI modification",
       toggle_VFLImod_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */

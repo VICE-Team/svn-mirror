@@ -76,7 +76,7 @@ static tui_menu_item_def_t scpu64_simm_size_submenu[] = {
       (void *)8, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "16 MB", NULL, radio_SIMMSize_callback,
       (void *)16, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t scpu64_menu_items[] = {
@@ -90,7 +90,7 @@ static tui_menu_item_def_t scpu64_menu_items[] = {
     { "_Enable SuperCPU64 speed switch:", "Enable the SuperCPU64 speed switch",
       toggle_SpeedSwitch_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiscpu64_init(struct tui_menu *parent_submenu)

@@ -59,7 +59,7 @@ static tui_menu_item_def_t ds12c887rtc_c64_base_submenu[] = {
       (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DF00", NULL, radio_DS12C887RTCbase_callback,
       (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ds12c887rtc_c128_base_submenu[] = {
@@ -69,7 +69,7 @@ static tui_menu_item_def_t ds12c887rtc_c128_base_submenu[] = {
       (void *)0xde00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DF00", NULL, radio_DS12C887RTCbase_callback,
       (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ds12c887rtc_vic20_base_submenu[] = {
@@ -77,7 +77,7 @@ static tui_menu_item_def_t ds12c887rtc_vic20_base_submenu[] = {
       (void *)0x9800, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$9C00", NULL, radio_DS12C887RTCbase_callback,
       (void *)0x9c00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ds12c887rtc_c64_menu_items[] = {
@@ -94,7 +94,7 @@ static tui_menu_item_def_t ds12c887rtc_c64_menu_items[] = {
     { "_Save DS12C887 RTC data when changed:", "Save DS12C887 RTC data when changed",
       toggle_DS12C887RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ds12c887rtc_c128_menu_items[] = {
@@ -111,7 +111,7 @@ static tui_menu_item_def_t ds12c887rtc_c128_menu_items[] = {
     { "_Save DS12C887 RTC data when changed:", "Save DS12C887 RTC data when changed",
       toggle_DS12C887RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ds12c887rtc_vic20_menu_items[] = {
@@ -128,7 +128,7 @@ static tui_menu_item_def_t ds12c887rtc_vic20_menu_items[] = {
     { "_Save DS12C887 RTC data when changed:", "Save DS12C887 RTC data when changed",
       toggle_DS12C887RTCSave_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uids12c887rtc_c64_init(struct tui_menu *parent_submenu)

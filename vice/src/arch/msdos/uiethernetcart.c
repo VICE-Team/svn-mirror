@@ -58,7 +58,7 @@ static tui_menu_item_def_t ethernetcart_mode_submenu[] = {
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_TFE compatible", NULL, radio_ETHERNETCARTMode_callback,
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(ethernetcart_base_submenu_callback)
@@ -136,7 +136,7 @@ static tui_menu_item_def_t ethernetcart_base64_submenu[] = {
       (void *)0xdfe0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DFF0", NULL, radio_ETHERNETCARTBase_callback,
       (void *)0xdff0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ethernetcart_base20_submenu[] = {
@@ -204,7 +204,7 @@ static tui_menu_item_def_t ethernetcart_base20_submenu[] = {
       (void *)0x9ce0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$9CF0", NULL, radio_ETHERNETCARTBase_callback,
       (void *)0x9cf0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ethernetcart_c64_menu_items[] = {
@@ -219,7 +219,7 @@ static tui_menu_item_def_t ethernetcart_c64_menu_items[] = {
       ethernetcart_base_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, ethernetcart_base64_submenu,
       "Ethernet Cart base" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ethernetcart_vic20_menu_items[] = {
@@ -234,7 +234,7 @@ static tui_menu_item_def_t ethernetcart_vic20_menu_items[] = {
       ethernetcart_base_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, ethernetcart_base20_submenu,
       "Ethernet Cart base" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiethernetcart_c64_init(struct tui_menu *parent_submenu)

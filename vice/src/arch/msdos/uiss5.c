@@ -39,7 +39,7 @@ static tui_menu_item_def_t ss5_menu_items[] = {
     { "Super Snapshot 5 32KB expansion:", "Enable the SS5 32KB SSRAM expansion",
       toggle_SSRamExpansion_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiss5_init(struct tui_menu *parent_submenu)

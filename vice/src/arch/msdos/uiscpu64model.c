@@ -89,7 +89,7 @@ static tui_menu_item_def_t vicii_model_submenu[] = {
       (void *)VICII_MODEL_6567R56A, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "6572 (PAL-N)", NULL, radio_VICIIModel_callback,
       (void *)VICII_MODEL_6572, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static char *get_cia_model(int value)
@@ -122,7 +122,7 @@ static tui_menu_item_def_t cia1_model_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "6526 (new)", NULL, radio_CIA1Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(cia2_model_submenu_callback)
@@ -139,7 +139,7 @@ static tui_menu_item_def_t cia2_model_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "6526 (new)", NULL, radio_CIA2Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(gluelogic_submenu_callback)
@@ -165,7 +165,7 @@ static tui_menu_item_def_t gluelogic_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Custom IC", NULL, radio_GlueLogic_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t c64_custom_model_menu_items[] = {
@@ -189,7 +189,7 @@ static tui_menu_item_def_t c64_custom_model_menu_items[] = {
       gluelogic_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, gluelogic_submenu,
       "Glue logic" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(set_model_callback)
@@ -258,7 +258,7 @@ static tui_menu_item_def_t c64_model_items[] = {
       "Set custom model options",
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, c64_custom_model_menu_items, "Set custom C64 model" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiscpu64model_init(struct tui_menu *parent_submenu)

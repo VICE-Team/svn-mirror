@@ -47,7 +47,7 @@ static tui_menu_item_def_t gmod2_menu_items[] = {
     { "GMod2 EE_PROM file:", "Select the GMod2 EEPROM file",
       filename_GMod2EEPROMImage_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uigmod2_init(struct tui_menu *parent_submenu)

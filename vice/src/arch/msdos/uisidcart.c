@@ -234,7 +234,7 @@ static tui_menu_item_def_t sid_address_submenu[] = {
       "Secondary SID address",
       radio_SidAddress_callback, (void *)1, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(sid_clock_submenu_callback)
@@ -257,7 +257,7 @@ static tui_menu_item_def_t sid_clock_submenu[] = {
       "Native Clock",
       radio_SidClock_callback, (void *)1, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t sidcart_ui_menu_items[] = {
@@ -300,7 +300,7 @@ tui_menu_item_def_t sidcart_ui_menu_items[] = {
       ui_set_ResidBias_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
@@ -349,7 +349,7 @@ tui_menu_item_def_t sidcart_plus4_ui_menu_items[] = {
       "Enable/disable emulation of the digiblaster add-on",
       toggle_DIGIBLASTER_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static void sid_build_menu(void)

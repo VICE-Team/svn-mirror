@@ -76,7 +76,7 @@ static tui_menu_item_def_t mmcreplay_sd_type_submenu[] = {
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "SD_HC", NULL, radio_MMCRSDType_callback,
       (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(mmcr_clockport_submenu_callback)
@@ -128,7 +128,7 @@ static tui_menu_item_def_t mmcreplay_menu_items[] = {
       mmcr_clockport_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, mmcr_clockport_submenu,
       "MMC Replay clockport device" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uimmcreplay_init(struct tui_menu *parent_submenu)

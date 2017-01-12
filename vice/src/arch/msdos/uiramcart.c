@@ -54,7 +54,7 @@ static tui_menu_item_def_t ramcart_size_submenu[] = {
       (void *)64, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_128KB", NULL, radio_RAMCARTsize_callback,
       (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ramcart_menu_items[] = {
@@ -74,7 +74,7 @@ static tui_menu_item_def_t ramcart_menu_items[] = {
     { "RamCart _image file:", "Select the RamCart image file",
       filename_RAMCARTfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiramcart_init(struct tui_menu *parent_submenu)

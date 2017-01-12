@@ -43,7 +43,7 @@ static tui_menu_item_def_t v364speech_menu_items[] = {
     { "V364 speech _ROM file:", "Select the V364 speech ROM file",
       filename_SpeechImage_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiv364speech_init(struct tui_menu *parent_submenu)

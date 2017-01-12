@@ -74,7 +74,7 @@ tui_menu_item_def_t memory_hacks_menu_items[] = {
       (void *)MEMORY_HACK_H1024K, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "HANNES 4096K", NULL, radio_MemoryHack_callback,
       (void *)MEMORY_HACK_H4096K, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiplus4_memory_hacks_init(struct tui_menu *parent_submenu)

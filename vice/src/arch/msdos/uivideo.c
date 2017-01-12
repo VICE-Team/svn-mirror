@@ -100,7 +100,7 @@ static tui_menu_item_def_t ted_border_submenu[] = {
       (void *)TED_DEBUG_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_None", NULL, radio_TEDBorderMode_callback,
       (void *)TED_NO_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ted_menu_items[] = {
@@ -108,7 +108,7 @@ static tui_menu_item_def_t ted_menu_items[] = {
       ted_border_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, ted_border_submenu,
       "Border mode" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(VICBorderMode)
@@ -146,7 +146,7 @@ static tui_menu_item_def_t vic_border_submenu[] = {
       (void *)VIC_DEBUG_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_None", NULL, radio_VICBorderMode_callback,
       (void *)VIC_NO_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t vic_menu_items[] = {
@@ -154,7 +154,7 @@ static tui_menu_item_def_t vic_menu_items[] = {
       vic_border_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, vic_border_submenu,
       "Border mode" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
@@ -194,7 +194,7 @@ static tui_menu_item_def_t vicii_border_submenu[] = {
       (void *)VICII_DEBUG_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_None", NULL, radio_VICIIBorderMode_callback,
       (void *)VICII_NO_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t vicii_menu_items[] = {
@@ -210,7 +210,7 @@ static tui_menu_item_def_t vicii_menu_items[] = {
       "Emulate sprite-sprite collision register",
       toggle_VICIICheckSsColl_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(VICIIVSPBug)
@@ -232,7 +232,7 @@ static tui_menu_item_def_t viciisc_menu_items[] = {
       "Emulate the VSP bug",
       toggle_VICIIVSPBug_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(VDC64KB)
@@ -255,7 +255,7 @@ static tui_menu_item_def_t vdc_revision_submenu[] = {
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Rev _2", NULL, radio_VDCRevision_callback,
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t vdc_menu_items[] = {
@@ -267,7 +267,7 @@ static tui_menu_item_def_t vdc_menu_items[] = {
       vdc_revision_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, vdc_revision_submenu,
       "VDC revision" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static ui_video_item_t video_item[] = {
@@ -375,7 +375,7 @@ static tui_menu_item_def_t video_standard_submenu[] = {
       (void *)MACHINE_SYNC_PAL, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_NTSC", NULL, radio_MachineVideoStandard_callback,
       (void *)MACHINE_SYNC_NTSC, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t video_standard_menu_items[] = {
@@ -383,7 +383,7 @@ static tui_menu_item_def_t video_standard_menu_items[] = {
       video_standard_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, video_standard_submenu,
       "Video standard" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(toggle_cache_callback)

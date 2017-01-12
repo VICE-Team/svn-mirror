@@ -186,7 +186,7 @@ static tui_menu_item_def_t ide64_hd1_menu_items[] = {
       "Set the amount of sectors",
       ui_set_sectors_callback, (void *)1, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ide64_hd2_menu_items[] = {
@@ -208,7 +208,7 @@ static tui_menu_item_def_t ide64_hd2_menu_items[] = {
       "Set the amount of sectors",
       ui_set_sectors_callback, (void *)2, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ide64_hd3_menu_items[] = {
@@ -230,7 +230,7 @@ static tui_menu_item_def_t ide64_hd3_menu_items[] = {
       "Set the amount of sectors",
       ui_set_sectors_callback, (void *)3, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ide64_hd4_menu_items[] = {
@@ -252,7 +252,7 @@ static tui_menu_item_def_t ide64_hd4_menu_items[] = {
       "Set the amount of sectors",
       ui_set_sectors_callback, (void *)4, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(SBDIGIMAX)
@@ -281,7 +281,7 @@ static tui_menu_item_def_t digimax_address_submenu[] = {
       (void *)0xde40, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DE4_8", NULL, radio_SBDIGIMAXbase_callback,
       (void *)0xde48, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 #ifdef HAVE_PCAP
@@ -316,7 +316,7 @@ static tui_menu_item_def_t etfe_address_submenu[] = {
       (void *)0xde10, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$D_F00", NULL, radio_SBETFEbase_callback,
       (void *)0xdf00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 #endif
 
@@ -337,7 +337,7 @@ static tui_menu_item_def_t ide64_shortbus_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, etfe_address_submenu,
       "ETFE address" },
 #endif
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t ide64_version_submenu[] = {
@@ -347,7 +347,7 @@ static tui_menu_item_def_t ide64_version_submenu[] = {
       (void *)IDE64_VERSION_4_1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "V4._2", NULL, radio_IDE64version_callback,
       (void *)IDE64_VERSION_4_2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(ide64_clockport_submenu_callback)
@@ -413,7 +413,7 @@ static tui_menu_item_def_t ide64_menu_items[] = {
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd4_menu_items,
       "Secondary slave settings" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiide64_init(struct tui_menu *parent_submenu)

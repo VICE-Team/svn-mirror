@@ -64,7 +64,7 @@ static tui_menu_item_def_t iocollisions_submenu[] = {
       (void *)IO_COLLISION_METHOD_DETACH_LAST, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "'AND' the wires", NULL, radio_IOCollisionHandling_callback,
       (void *)IO_COLLISION_METHOD_AND_WIRES, 20, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t iocollisions_menu_items[] = {
@@ -72,7 +72,7 @@ static tui_menu_item_def_t iocollisions_menu_items[] = {
       iocollisions_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, iocollisions_submenu,
       "I/O collision handling" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiiocollisions_init(struct tui_menu *parent_submenu)

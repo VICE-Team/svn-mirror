@@ -39,7 +39,7 @@ static tui_menu_item_def_t pethre_menu_items[] = {
     { "_Enable PET HRE:", "Emulate PET HRE",
       toggle_PETHRE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uipethre_init(struct tui_menu *parent_submenu)

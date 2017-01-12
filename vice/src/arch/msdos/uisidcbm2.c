@@ -236,7 +236,7 @@ tui_menu_item_def_t sid_cbm2_ui_menu_items[] = {
       ui_set_ResidBias_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void sid_cbm2_build_menu(void)

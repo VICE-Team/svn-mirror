@@ -66,7 +66,7 @@ static tui_menu_item_def_t expert_mode_submenu[] = {
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "O_n", NULL, radio_ExpertCartridgeMode_callback,
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t expert_menu_items[] = {
@@ -83,7 +83,7 @@ static tui_menu_item_def_t expert_menu_items[] = {
     { "Expert Cartridge _image file:", "Select the Expert Cartridge image file",
       filename_Expertfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiexpert_init(struct tui_menu *parent_submenu)

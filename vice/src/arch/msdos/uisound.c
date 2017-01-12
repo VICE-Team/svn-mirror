@@ -127,7 +127,7 @@ static tui_menu_item_def_t sample_rate_submenu[] = {
       "Set sampling rate to 44100 Hz",
       radio_SoundSampleRate_callback, (void *)44100, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t sound_buffer_size_submenu[] = {
@@ -159,7 +159,7 @@ static tui_menu_item_def_t sound_buffer_size_submenu[] = {
       "Set sound buffer size to 350 msec",
       radio_SoundBufferSize_callback, (void *)350, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t sound_synchronization_submenu[] = {
@@ -175,7 +175,7 @@ static tui_menu_item_def_t sound_synchronization_submenu[] = {
       "Don't adapt sound playback: make the emulator finetune its speed to the playback",
       radio_SoundSpeedAdjustment_callback, (void *)SOUND_ADJUST_EXACT, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t sound_fragment_size_submenu[] = {
@@ -199,7 +199,7 @@ static tui_menu_item_def_t sound_fragment_size_submenu[] = {
       "Use a very large fragment size",
       radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_VERY_LARGE, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(ui_sound_set_volume_callback)
@@ -286,7 +286,7 @@ static tui_menu_item_def_t sound_submenu[] = {
       "Set the volume to use",
       ui_sound_set_drive_volume_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uisound_init(struct tui_menu *parent_submenu)

@@ -76,7 +76,7 @@ static tui_menu_item_def_t plus4_model_items[] = {
       "Configure the emulator to emulate a C232 NTSC machine and do a soft RESET",
       set_model_callback, (void *)PLUS4MODEL_232_NTSC, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiplus4model_init(struct tui_menu *parent_submenu)

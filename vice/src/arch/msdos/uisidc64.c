@@ -232,7 +232,7 @@ static tui_menu_item_def_t sid_amount_submenu[] = {
     { "2", "Two extra SID chips",
       radio_SidStereo_callback, (void *)2, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(sid_stereo_address_submenu_callback)
@@ -295,7 +295,7 @@ static tui_menu_item_def_t sid_stereo_address_submenu[] = {
       "Stereo SID in the $DFxx range",
       sid_stereo_address_submenu_callback, NULL, 5,
       TUI_MENU_BEH_CONTINUE, sid_stereo_address_dfxx_submenu, "Stereo SID in the $DFxx range" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t sid_triple_address_submenu[] = {
@@ -323,7 +323,7 @@ static tui_menu_item_def_t sid_triple_address_submenu[] = {
       "Triple SID in the $DFxx range",
       sid_triple_address_submenu_callback, NULL, 5,
       TUI_MENU_BEH_CONTINUE, sid_triple_address_dfxx_submenu, "Triple SID in the $DFxx range" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t sid_c64_ui_menu_items[] = {
@@ -368,7 +368,7 @@ tui_menu_item_def_t sid_c64_ui_menu_items[] = {
       ui_set_ResidBias_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void sid_c64_build_menu(void)

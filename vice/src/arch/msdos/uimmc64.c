@@ -59,7 +59,7 @@ static tui_menu_item_def_t mmc64_revision_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Rev _B", NULL, radio_MMC64_revision_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(mmc64_sd_type_submenu_callback)
@@ -95,7 +95,7 @@ static tui_menu_item_def_t mmc64_sd_type_submenu[] = {
       (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "SD_HC", NULL, radio_MMC64_sd_type_callback,
       (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(mmc64_clockport_submenu_callback)
@@ -151,7 +151,7 @@ static tui_menu_item_def_t mmc64_menu_items[] = {
       mmc64_clockport_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, mmc64_clockport_submenu,
       "MMC64 clockport device" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uimmc64_init(struct tui_menu *parent_submenu)

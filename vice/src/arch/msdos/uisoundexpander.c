@@ -53,7 +53,7 @@ static tui_menu_item_def_t soundexpander_chip_submenu[] = {
       (void *)3526, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "3812", NULL, radio_SFXSoundExpanderChip_callback,
       (void *)3812, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t soundexpander_c64_menu_items[] = {
@@ -64,7 +64,7 @@ static tui_menu_item_def_t soundexpander_c64_menu_items[] = {
       soundexpander_chip_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, soundexpander_chip_submenu,
       "SFX Sound Expander chip" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t soundexpander_vic20_menu_items[] = {
@@ -78,7 +78,7 @@ static tui_menu_item_def_t soundexpander_vic20_menu_items[] = {
       soundexpander_chip_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, soundexpander_chip_submenu,
       "SFX Sound Expander chip" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uisoundexpander_c64_init(struct tui_menu *parent_submenu)

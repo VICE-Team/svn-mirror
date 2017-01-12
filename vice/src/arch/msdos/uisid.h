@@ -50,7 +50,7 @@ static tui_menu_item_def_t menu[] = {   \
     { "$D4E0", "$D4E0",                 \
       callback, (void *)0xd4e0, 0,      \
       TUI_MENU_BEH_CLOSE, NULL, NULL }, \
-    { NULL }                            \
+    TUI_MENU_ITEM_DEF_LIST_END          \
 };
 
 #define SID_D5XX_MENU(menu, callback)   \
@@ -79,7 +79,7 @@ static tui_menu_item_def_t menu[] = {   \
     { "$D5E0", "$D5E0",                 \
       callback, (void *)0xd5e0, 0,      \
       TUI_MENU_BEH_CLOSE, NULL, NULL }, \
-    { NULL }                            \
+    TUI_MENU_ITEM_DEF_LIST_END          \
 };
 
 #define SID_D6XX_MENU(menu, callback)   \
@@ -108,7 +108,7 @@ static tui_menu_item_def_t menu[] = {   \
     { "$D6E0", "$D6E0",                 \
       callback, (void *)0xd6e0, 0,      \
       TUI_MENU_BEH_CLOSE, NULL, NULL }, \
-    { NULL }                            \
+    TUI_MENU_ITEM_DEF_LIST_END          \
 };
 
 #define SID_D7XX_MENU(menu, callback)   \
@@ -137,7 +137,7 @@ static tui_menu_item_def_t menu[] = {   \
     { "$D7E0", "$D7E0",                 \
       callback, (void *)0xd7e0, 0,      \
       TUI_MENU_BEH_CLOSE, NULL, NULL }, \
-    { NULL }                            \
+    TUI_MENU_ITEM_DEF_LIST_END          \
 };
 
 #define SID_DEXX_MENU(menu, callback)   \
@@ -166,7 +166,7 @@ static tui_menu_item_def_t menu[] = {   \
     { "$DEE0", "$DEE0",                 \
       callback, (void *)0xdee0, 0,      \
       TUI_MENU_BEH_CLOSE, NULL, NULL }, \
-    { NULL }                            \
+    TUI_MENU_ITEM_DEF_LIST_END          \
 };
 
 #define SID_DFXX_MENU(menu, callback)   \
@@ -195,7 +195,7 @@ static tui_menu_item_def_t menu[] = {   \
     { "$DFE0", "$DFE0",                 \
       callback, (void *)0xdfe0, 0,      \
       TUI_MENU_BEH_CLOSE, NULL, NULL }, \
-    { NULL }                            \
+    TUI_MENU_ITEM_DEF_LIST_END          \
 };
 
 #endif

@@ -64,7 +64,7 @@ static tui_menu_item_def_t georam_size_submenu[] = {
       (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "40_96KB", NULL, radio_GEORAMsize_callback,
       (void *)4096, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t georam_c64_menu_items[] = {
@@ -81,7 +81,7 @@ static tui_menu_item_def_t georam_c64_menu_items[] = {
     { "GEO-RAM _image file:", "Select the GEO-RAM image file",
       filename_GEORAMfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t georam_vic20_menu_items[] = {
@@ -101,7 +101,7 @@ static tui_menu_item_def_t georam_vic20_menu_items[] = {
     { "GEO-RAM _image file:", "Select the GEO-RAM image file",
       filename_GEORAMfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uigeoram_c64_init(struct tui_menu *parent_submenu)

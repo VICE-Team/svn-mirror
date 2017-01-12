@@ -67,7 +67,7 @@ static tui_menu_item_def_t userport_c64_cbm2_menu_items[] = {
     { "Enable saving of RTC (DS1307)data when changed:", "Save RTC data when changed",
       toggle_UserportRTCDS1307Save_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t userport_pet_vic20_menu_items[] = {
@@ -86,14 +86,14 @@ static tui_menu_item_def_t userport_pet_vic20_menu_items[] = {
     { "Enable saving of RTC (DS1307)data when changed:", "Save RTC data when changed",
       toggle_UserportRTCDS1307Save_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t userport_plus4_menu_items[] = {
     { "Enable 8 bit DAC:", "Emulate 8 bit DAC",
       toggle_UserportDAC_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiuserport_c64_cbm2_init(struct tui_menu *parent_submenu)

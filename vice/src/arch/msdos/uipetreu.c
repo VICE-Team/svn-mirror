@@ -56,7 +56,7 @@ static tui_menu_item_def_t petreu_size_submenu[] = {
       (void *)1024, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_2048KB", NULL, radio_PETREUsize_callback,
       (void *)2048, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t petreu_menu_items[] = {
@@ -70,7 +70,7 @@ static tui_menu_item_def_t petreu_menu_items[] = {
     { "PET REU _image file:", "Select the PET REU image file",
       filename_PETREUfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uipetreu_init(struct tui_menu *parent_submenu)

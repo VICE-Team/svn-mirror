@@ -65,7 +65,7 @@ static tui_menu_item_def_t reu_size_submenu[] = {
       (void *)8192, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "1_6384KB", NULL, radio_REUsize_callback,
       (void *)16384, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t reu_menu_items[] = {
@@ -82,7 +82,7 @@ static tui_menu_item_def_t reu_menu_items[] = {
     { "REU _image file:", "Select the REU image file",
       filename_REUfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uireu_init(struct tui_menu *parent_submenu)

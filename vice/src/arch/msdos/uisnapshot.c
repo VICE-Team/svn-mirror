@@ -72,7 +72,7 @@ static tui_menu_item_def_t write_snapshot_menu_def[] = {
       "Save snapshot with the specified parameters",
       write_snapshot_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 tui_menu_item_def_t ui_snapshot_menu_def[] = {
@@ -84,7 +84,7 @@ tui_menu_item_def_t ui_snapshot_menu_def[] = {
       "Load a snapshot file",
       load_snapshot_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static char *snapshot_selector(const char *title)

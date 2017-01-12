@@ -43,7 +43,7 @@ static tui_menu_item_def_t soundsampler_menu_items[] = {
     { "Enable MasC=uerade I/O swap:", "Map SFX SS I/O to vic20 I/O-3",
       toggle_SFXSoundSamplerIOSwap_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uisoundsampler_init(struct tui_menu *parent_submenu)

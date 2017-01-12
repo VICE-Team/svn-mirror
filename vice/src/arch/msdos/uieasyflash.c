@@ -63,7 +63,7 @@ static tui_menu_item_def_t easyflash_menu_items[] = {
     { "Save to EasyFlash CRT now:", "Save to EasyFlash CRT now",
       EasyFlash_save_now_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uieasyflash_init(struct tui_menu *parent_submenu)

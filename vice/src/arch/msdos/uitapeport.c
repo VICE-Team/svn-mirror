@@ -57,7 +57,7 @@ static tui_menu_item_def_t tapelog_destination_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "User specified file", NULL, radio_TapeLogDestination_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t tapelog_menu_items[] = {
@@ -71,7 +71,7 @@ static tui_menu_item_def_t tapelog_menu_items[] = {
     { "Tape log file:", "Select the tape log file",
       filename_TapeLogfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t cp_clock_f83_menu_items[] = {
@@ -81,7 +81,7 @@ static tui_menu_item_def_t cp_clock_f83_menu_items[] = {
     { "Save RTC data when changed:", "Save RTC data when changed",
       toggle_CPClockF83Save_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t tapeport_menu_items[] = {
@@ -102,7 +102,7 @@ static tui_menu_item_def_t tapeport_menu_items[] = {
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, cp_clock_f83_menu_items,
       "CP Clock F83 settings" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uitapeport_init(struct tui_menu *parent_submenu)

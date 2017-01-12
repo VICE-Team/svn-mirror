@@ -76,7 +76,7 @@ tui_menu_item_def_t ui_netplay_menu_def[] = {
       "Disconnect netplay server/client",
       ui_netplay_disconnect_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(ui_netplay_set_host_callback)

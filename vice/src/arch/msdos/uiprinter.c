@@ -75,7 +75,7 @@ static tui_menu_item_def_t printerusdriver_submenu[] = {
       (void *)"nl10", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_RAW", NULL, radio_PrinterUserportDriver_callback,
       (void *)"raw", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(PrinterUserportTextDevice)
@@ -87,7 +87,7 @@ static tui_menu_item_def_t printerus_text_submenu[] = {
       (void *)1, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_3", NULL, radio_PrinterUserportTextDevice_callback,
       (void *)2, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(PrinterUserport)
@@ -109,7 +109,7 @@ static tui_menu_item_def_t printerus_submenu[] = {
     { "Send _form feed", "Send a form feed to the printer",
       form_feed_callback, (void *)3, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(printer_device_submenu_callback)
@@ -138,7 +138,7 @@ static tui_menu_item_def_t printer4dev_submenu[] = {
       (void *)PRINTER_DEVICE_NONE, 19, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_File system access", NULL, radio_Printer4_callback,
       (void *)PRINTER_DEVICE_FS, 19, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer4Driver)
@@ -152,7 +152,7 @@ static tui_menu_item_def_t printer4driver_submenu[] = {
       (void *)"nl10", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_RAW", NULL, radio_Printer4Driver_callback,
       (void *)"raw", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer4TextDevice)
@@ -164,7 +164,7 @@ static tui_menu_item_def_t printer4_text_submenu[] = {
       (void *)1, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_3", NULL, radio_Printer4TextDevice_callback,
       (void *)2, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(IECDevice4)
@@ -190,7 +190,7 @@ static tui_menu_item_def_t printer4_submenu[] = {
     { "Send _form feed", "Send a form feed to the printer",
       form_feed_callback, (void *)0, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer5)
@@ -200,7 +200,7 @@ static tui_menu_item_def_t printer5dev_submenu[] = {
       (void *)PRINTER_DEVICE_NONE, 19, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_File system access", NULL, radio_Printer5_callback,
       (void *)PRINTER_DEVICE_FS, 19, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer5Driver)
@@ -214,7 +214,7 @@ static tui_menu_item_def_t printer5driver_submenu[] = {
       (void *)"nl10", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_RAW", NULL, radio_Printer5Driver_callback,
       (void *)"raw", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer5TextDevice)
@@ -226,7 +226,7 @@ static tui_menu_item_def_t printer5_text_submenu[] = {
       (void *)1, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_3", NULL, radio_Printer5TextDevice_callback,
       (void *)2, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(IECDevice5)
@@ -252,7 +252,7 @@ static tui_menu_item_def_t printer5_submenu[] = {
     { "Send _form feed", "Send a form feed to the printer",
       form_feed_callback, (void *)1, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer6)
@@ -262,7 +262,7 @@ static tui_menu_item_def_t printer6dev_submenu[] = {
       (void *)PRINTER_DEVICE_NONE, 19, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_File system access", NULL, radio_Printer6_callback,
       (void *)PRINTER_DEVICE_FS, 19, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer6Driver)
@@ -272,7 +272,7 @@ static tui_menu_item_def_t printer6driver_submenu[] = {
       (void *)"1520", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_RAW", NULL, radio_Printer6Driver_callback,
       (void *)"raw", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_RADIO(Printer6TextDevice)
@@ -284,7 +284,7 @@ static tui_menu_item_def_t printer6_text_submenu[] = {
       (void *)1, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_3", NULL, radio_Printer6TextDevice_callback,
       (void *)2, 2, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(IECDevice6)
@@ -310,7 +310,7 @@ static tui_menu_item_def_t printer6_submenu[] = {
     { "Send _form feed", "Send a form feed to the printer",
       form_feed_callback, (void *)2, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(text_output_file_callback)
@@ -344,7 +344,7 @@ static tui_menu_item_def_t printer_with_userport_submenu[] = {
       "Select the text output file or device",
       text_output_file_callback, (void *)"PrinterTextDevice3", 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t printer_submenu[] = {
@@ -367,7 +367,7 @@ static tui_menu_item_def_t printer_submenu[] = {
       "Select the text output file or device",
       text_output_file_callback, (void *)"PrinterTextDevice3", 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiprinter_init(struct tui_menu *parent_submenu)

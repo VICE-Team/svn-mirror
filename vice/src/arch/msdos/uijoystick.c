@@ -355,7 +355,7 @@ static tui_menu_item_def_t joy_device_1_submenu[] = {
       "Use real PC joystick #2",
       set_joy_device_callback, (void *)(0x100 | JOYDEV_HW2), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t joy_device_2_submenu[] = {
@@ -385,7 +385,7 @@ static tui_menu_item_def_t joy_device_2_submenu[] = {
       "Use real joystick #2",
       set_joy_device_callback, (void *)(0x200 | JOYDEV_HW2), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t joy_device_3_submenu[] = {
@@ -415,7 +415,7 @@ static tui_menu_item_def_t joy_device_3_submenu[] = {
       "Use real joystick #2",
       set_joy_device_callback, (void *)(0x300 | JOYDEV_HW2), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t joy_device_4_submenu[] = {
@@ -445,7 +445,7 @@ static tui_menu_item_def_t joy_device_4_submenu[] = {
       "Use real joystick #2",
       set_joy_device_callback, (void *)(0x400 | JOYDEV_HW2), 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 typedef enum {
@@ -551,7 +551,7 @@ static tui_menu_item_def_t keyset_##num##_submenu[] = {        \
       "Specify key for the fire button",                       \
       keyset_callback, (void *)((num << 8) | KEYSET_FIRE), 12, \
       TUI_MENU_BEH_CONTINUE, NULL, NULL },                     \
-    { NULL }                                                   \
+    TUI_MENU_ITEM_DEF_LIST_END                                 \
 };
 
 DEFINE_KEYSET_MENU(1)
@@ -748,7 +748,7 @@ static tui_menu_item_def_t joy_list_submenu[] = {
       joy_hw_callback, (void *)JOY_TYPE_WINGWARRIOR, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #endif
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t userport_joy_type_c64_submenu[] = {
@@ -780,7 +780,7 @@ static tui_menu_item_def_t userport_joy_type_c64_submenu[] = {
       "Starbyte userport joystick adapter",
       userport_type_callback, (void *)USERPORT_JOYSTICK_STARBYTE, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t userport_joy_type_submenu[] = {
@@ -800,7 +800,7 @@ static tui_menu_item_def_t userport_joy_type_submenu[] = {
       "OEM userport joystick adapter",
       userport_type_callback, (void *)USERPORT_JOYSTICK_OEM, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 TUI_MENU_DEFINE_TOGGLE(UserportJoy)
@@ -866,7 +866,7 @@ static tui_menu_item_def_t c64_joystick_submenu[] = {
       "Set type of PC joystick(s)",
       get_hw_joystick_type_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, joy_list_submenu, "List of joystick types" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t c64dtv_joystick_submenu[] = {
@@ -915,7 +915,7 @@ static tui_menu_item_def_t c64dtv_joystick_submenu[] = {
       "Set type of PC joystick(s)",
       get_hw_joystick_type_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, joy_list_submenu, "List of joystick types" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t cbm5x0_joystick_submenu[] = {
@@ -954,7 +954,7 @@ static tui_menu_item_def_t cbm5x0_joystick_submenu[] = {
       "Set type of PC joystick(s)",
       get_hw_joystick_type_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, joy_list_submenu, "List of joystick types" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t pet_joystick_submenu[] = {
@@ -1002,7 +1002,7 @@ static tui_menu_item_def_t pet_joystick_submenu[] = {
       "Set type of PC joystick(s)",
       get_hw_joystick_type_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, joy_list_submenu, "List of joystick types" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t vic20_joystick_submenu[] = {
@@ -1060,7 +1060,7 @@ static tui_menu_item_def_t vic20_joystick_submenu[] = {
       "Set type of PC joystick(s)",
       get_hw_joystick_type_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, joy_list_submenu, "List of joystick types" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t plus4_joystick_submenu[] = {
@@ -1109,7 +1109,7 @@ static tui_menu_item_def_t plus4_joystick_submenu[] = {
       "Set type of PC joystick(s)",
       get_hw_joystick_type_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, joy_list_submenu, "List of joystick types" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uijoystick_init(struct tui_menu *parent_submenu)

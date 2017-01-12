@@ -110,7 +110,7 @@ static tui_menu_item_def_t fsdevice##num##_submenu[] = {       \
       "Display only P00 files on device " #num,                \
       toggle_FSDevice##num##HideCBMFiles_callback, NULL, 3,    \
       TUI_MENU_BEH_CONTINUE, NULL, NULL },                     \
-    { NULL }                                                   \
+    TUI_MENU_ITEM_DEF_LIST_END                                 \
 };
 
 DEFINE_FSDEVICE_SUBMENU(8)
@@ -127,7 +127,7 @@ static tui_menu_item_def_t peripherial_submenu[] = {
       TUI_MENU_BEH_CONTINUE, fsdevice10_submenu, "Drive 10 directory access" },
     { "Drive 1_1...", "Settings for drive #11", NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, fsdevice11_submenu, "Drive 11 directory access" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiperipherial_init(struct tui_menu *parent_submenu)

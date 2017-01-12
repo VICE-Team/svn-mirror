@@ -150,7 +150,7 @@ tui_menu_item_def_t siddtv_ui_menu_items[] = {
       toggle_ResidSampling_callback, NULL, 12,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
 #endif
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void siddtv_build_menu(void)

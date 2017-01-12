@@ -43,7 +43,7 @@ static tui_menu_item_def_t petdww_menu_items[] = {
     { "PET DWW _image file:", "Select the PET DWW image file",
       filename_PETDWWfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uipetdww_init(struct tui_menu *parent_submenu)

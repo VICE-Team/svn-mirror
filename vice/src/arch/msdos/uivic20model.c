@@ -64,7 +64,7 @@ static tui_menu_item_def_t vic20_model_items[] = {
       "Configure the emulator to emulate a VIC21 machine and do a soft RESET",
       set_model_callback, (void *)VIC20MODEL_VIC21, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uivic20model_init(struct tui_menu *parent_submenu)

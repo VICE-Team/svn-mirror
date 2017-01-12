@@ -63,7 +63,7 @@ static tui_menu_item_def_t retroreplay_revision_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Nordic Replay", NULL, radio_RRrevision_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(retroreplay_clockport_submenu_callback)
@@ -106,7 +106,7 @@ static tui_menu_item_def_t retroreplay_menu_items[] = {
       retroreplay_clockport_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, retroreplay_clockport_submenu,
       "Retro Replay clockport device" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiretroreplay_init(struct tui_menu *parent_submenu)

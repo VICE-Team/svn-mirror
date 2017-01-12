@@ -74,7 +74,7 @@ static tui_menu_item_def_t keymap_active_submenu[] = {
       (void *)KBD_INDEX_USERSYM, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Positional(user)", NULL, radio_KeymapIndex_callback,
       (void *)KBD_INDEX_USERPOS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(keymap_mapping_submenu_callback)
@@ -116,7 +116,7 @@ static tui_menu_item_def_t keymap_menu_items[] = {
     { "User positional keymap file:", "Select the user positional keymap file",
       filename_KeymapUserPosFile_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uikeymap_init(struct tui_menu *parent_submenu)

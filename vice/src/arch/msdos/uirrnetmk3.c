@@ -43,7 +43,7 @@ static tui_menu_item_def_t rrnetmk3_menu_items[] = {
     { "Save RRNET MK3 BIOS when changed:", "Enable RRNET MK3 BIOS save when changed",
       toggle_RRNETMK3_bios_write_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uirrnetmk3_init(struct tui_menu *parent_submenu)

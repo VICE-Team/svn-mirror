@@ -43,7 +43,7 @@ static tui_menu_item_def_t magicvoice_menu_items[] = {
     { "Magic Voice _ROM file:", "Select the Magic Voice ROM file",
       filename_MagicVoiceImage_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uimagicvoice_init(struct tui_menu *parent_submenu)

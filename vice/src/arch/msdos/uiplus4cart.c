@@ -94,7 +94,7 @@ static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
       "Reset the machine when a cart is inserted or detached",
       toggle_CartridgeReset_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static tui_menu_item_def_t attach_cartridge_menu_items[] = {
@@ -104,7 +104,7 @@ static tui_menu_item_def_t attach_cartridge_menu_items[] = {
       NULL, NULL, 30,
       TUI_MENU_BEH_CONTINUE, attach_cartridge_submenu_items,
       "Attach cartridge" },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 static TUI_MENU_CALLBACK(detach_cartridge_callback)
@@ -123,7 +123,7 @@ static tui_menu_item_def_t detach_cartridge_menu_items[] = {
       "Detach attached cartridge image",
       detach_cartridge_callback, NULL, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
+    TUI_MENU_ITEM_DEF_LIST_END
 };
 
 void uiplus4cart_init(struct tui_menu *parent_submenu)
