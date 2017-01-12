@@ -227,6 +227,24 @@ static BOOL verify_exe(TCHAR *file_name)
     return bResult;
 }
 
+const char *archdep_home_path(void)
+{
+    char *home;
+
+    /* Only use 'userprofile' when on windows nt and up */
+    if (!(GetVersion() & 0x80000000)) {
+        home = getenv("USERPROFILE");
+    } else {
+        home = "C:\\My Documents";
+    }
+
+    if (!home) {
+        home = ".";
+    }
+
+    return home;
+}
+
 const char *archdep_boot_path(void)
 {
     HANDLE snap;
@@ -418,24 +436,24 @@ char *archdep_default_save_resource_file_name(void)
 
 char *archdep_default_resource_file_name(void)
 {
-    return util_concat(archdep_boot_path(), "\\vice.ini", NULL);
+    return util_concat(archdep_home_path(), "\\vice.ini", NULL);
 }
 
 char *archdep_default_fliplist_file_name(void)
 {
-    return util_concat(archdep_boot_path(), "\\fliplist-", machine_get_name(), ".vfl", NULL);
+    return util_concat(archdep_home_path(), "\\fliplist-", machine_get_name(), ".vfl", NULL);
 }
 
 char *archdep_default_rtc_file_name(void)
 {
-    return util_concat(archdep_boot_path(), "\\vice.rtc", NULL);
+    return util_concat(archdep_home_path(), "\\vice.rtc", NULL);
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     const char *home;
 
-    home = archdep_boot_path();
+    home = archdep_home_path();
     return util_concat(home, "\\autostart-", machine_get_name(), ".d64", NULL);
 }
 
@@ -444,7 +462,7 @@ FILE *archdep_open_default_log_file(void)
     char *fname;
     FILE *f;
 
-    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
+    fname = util_concat(archdep_home_path(), "\\vice.log", NULL);
     f = fopen(fname, "wt");
     lib_free(fname);
 
