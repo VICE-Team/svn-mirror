@@ -277,10 +277,10 @@ static void cleanup(void)
     }
 }
 
-static int count_valid_option_elements(void)
+static unsigned int count_valid_option_elements(void)
 {
-    int i = 1;
-    int amount = 0;
+    unsigned int i = 1;
+    unsigned int amount = 0;
 
     while (cart_info[i].name) {
         if (cart_info[i].opt) {
@@ -293,16 +293,17 @@ static int count_valid_option_elements(void)
 
 static int compare_elements(const void *op1, const void *op2)
 {
-    sorted_cart_t *p1 = (sorted_cart_t *)op1;
-    sorted_cart_t *p2 = (sorted_cart_t *)op2;
+    const sorted_cart_t *p1 = (const sorted_cart_t *)op1;
+    const sorted_cart_t *p2 = (const sorted_cart_t *)op2;
 
     return strcmp(p1->opt, p2->opt);
 }
 
 static void usage_types(void)
 {
-    int i = 1, n = 0;
-    int amount;
+    unsigned int i = 1;
+    int n = 0;
+    unsigned int amount;
     sorted_cart_t *sorted_option_elements;
 
     cleanup();
@@ -323,7 +324,7 @@ static void usage_types(void)
         if (cart_info[i].opt) {
             sorted_option_elements[n].opt = cart_info[i].opt;
             sorted_option_elements[n].name = cart_info[i].name;
-            sorted_option_elements[n].crt_id = i;
+            sorted_option_elements[n].crt_id = (int)i;
             switch (i) {
                 case CARTRIDGE_DELA_EP7x8:
                 case CARTRIDGE_DELA_EP64:
@@ -374,8 +375,8 @@ static void printbanks(char *name)
 {
     FILE *f;
     unsigned char b[0x10];
-    unsigned long len, filelen;
-    unsigned long pos;
+    long len, filelen;
+    long pos;
     unsigned int type, bank, start, size;
     char *typestr[4] = { "ROM", "RAM", "FLASH", "UNK" };
     unsigned int numbanks;
@@ -397,10 +398,10 @@ static void printbanks(char *name)
                 break;
             }
             len = (b[7] + (b[6] * 0x100) + (b[5] * 0x10000) + (b[4] * 0x1000000));
-            type = (b[8] * 0x100) + b[9];
-            bank = (b[10] * 0x100) + b[11];
-            start = (b[12] * 0x100) + b[13];
-            size = (b[14] * 0x100) + b[15];
+            type = (unsigned int)((b[8] * 0x100) + b[9]);
+            bank = (unsigned int)((b[10] * 0x100) + b[11]);
+            start = (unsigned int)((b[12] * 0x100) + b[13]);
+            size = (unsigned int)((b[14] * 0x100) + b[15]);
             if (type > 2) {
                 type = 3; /* invalid */
             }
@@ -531,7 +532,7 @@ static int checkflag(char *flg, char *arg)
                 for (i = 0; cart_info[i].name != NULL; i++) {
                     if (cart_info[i].opt != NULL) {
                         if (!strcasecmp(cart_info[i].opt, arg)) {
-                            cart_type = i;
+                            cart_type = (signed char)i;
                             break;
                         }
                     }
@@ -597,7 +598,7 @@ static int load_easyflash_crt(void)
         if (load_address == 0) {
             load_address = (chipbuffer[0xc] << 8) + chipbuffer[0xd];
         }
-        load_position = (chipbuffer[0xb] * 0x4000) + ((chipbuffer[0xc] == 0x80) ? 0 : 0x2000);
+        load_position = (unsigned int)((chipbuffer[0xb] * 0x4000) + ((chipbuffer[0xc] == 0x80) ? 0 : 0x2000));
         if (fread(filebuffer + load_position, 1, 0x2000, infile) != 0x2000) {
             return -1;
         }
@@ -631,8 +632,8 @@ static int load_all_banks(void)
         if (load_address == 0) {
             load_address = (chipbuffer[0xc] << 8) + chipbuffer[0xd];
         }
-        length = (chipbuffer[4] << 24) + (chipbuffer[5] << 16) + (chipbuffer[6] << 8) + chipbuffer[7];
-        datasize = (chipbuffer[14] * 0x100) + chipbuffer[15];
+        length = (unsigned int)((chipbuffer[4] << 24) + (chipbuffer[5] << 16) + (chipbuffer[6] << 8) + chipbuffer[7]);
+        datasize = (unsigned int)((chipbuffer[14] * 0x100) + chipbuffer[15]);
         loadsize = datasize;
         if ((datasize + 0x10) > length) {
             if (repair_mode) {
@@ -666,7 +667,7 @@ static int load_all_banks(void)
 
 static int save_binary_output_file(void)
 {
-    char address_buffer[2];
+    unsigned char address_buffer[2];
 
     outfile = fopen(output_filename, "wb");
     if (outfile == NULL) {
@@ -674,8 +675,8 @@ static int save_binary_output_file(void)
         return -1;
     }
     if (convert_to_prg == 1) {
-        address_buffer[0] = load_address & 0xff;
-        address_buffer[1] = load_address >> 8;
+        address_buffer[0] = (unsigned char)(load_address & 0xff);
+        address_buffer[1] = (unsigned char)(load_address >> 8);
         if (fwrite(address_buffer, 1, 2, outfile) != 2) {
             fprintf(stderr, "Error: Can't write to file %s\n", output_filename);
             fclose(outfile);
@@ -711,7 +712,7 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
     crt_header[0x15] = 0;
 
     crt_header[0x16] = 0;
-    crt_header[0x17] = cart_type;
+    crt_header[0x17] = (unsigned char)cart_type;
 
     crt_header[0x18] = exromline;
     crt_header[0x19] = gameline;
@@ -734,7 +735,7 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
             if (cart_name[i] == 0) {
                 endofname = 1;
             } else {
-                crt_header[0x20 + i] = (char)toupper((int)cart_name[i]);
+                crt_header[0x20 + i] = (unsigned char)toupper((int)cart_name[i]);
             }
         }
     }
@@ -789,7 +790,7 @@ static int write_chip_package(unsigned int length, unsigned int bankint, unsigne
         unlink(output_filename);
         return -1;
     }
-    loadfile_offset += length;
+    loadfile_offset += (int)length;
     return 0;
 }
 
@@ -908,7 +909,7 @@ static int check_empty_easyflash(void)
 
 static void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
-    int i, j;
+    unsigned int i, j;
 
     if (write_crt_header(0, 0) < 0) {
         cleanup();
@@ -936,7 +937,7 @@ static void save_easyflash_crt(unsigned int p1, unsigned int p2, unsigned int p3
 
 static void save_ocean_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
-    int i;
+    unsigned int i;
 
     if (loadfile_size != CARTRIDGE_SIZE_256KB) {
         save_regular_crt(0x2000, 0, 0x8000, 0, 0, 0);
@@ -969,7 +970,7 @@ static void save_ocean_crt(unsigned int p1, unsigned int p2, unsigned int p3, un
 
 static void save_funplay_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
-    int i = 0;
+    unsigned int i = 0;
 
     if (write_crt_header(0, 0) < 0) {
         cleanup();
@@ -1198,7 +1199,7 @@ static void close_output_cleanup(void)
 
 static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
-    int i;
+    unsigned int i;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
         fprintf(stderr, "Error: wrong size of Dela EP64 base file %s (%d)\n", input_filename[0], loadfile_size);
@@ -1245,7 +1246,7 @@ static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3,
 
 static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
-    int i, j;
+    unsigned int i, j;
     unsigned int insert_size = 0;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
@@ -1270,7 +1271,7 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
         exit(1);
     }
 
-    for (i = 0; i < input_filenames - 1; i++) {
+    for (i = 0; i < (unsigned int)input_filenames - 1; i++) {
         if (load_input_file(input_filename[i + 1]) < 0) {
             close_output_cleanup();
         }
@@ -1328,7 +1329,7 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
 {
     int inserted_size = 0;
     int name_counter = 1;
-    int chip_counter = 1;
+    unsigned int chip_counter = 1;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
         fprintf(stderr, "Error: wrong size of Dela EP7x8 base file %s (%d)\n", input_filename[0], loadfile_size);
@@ -1454,7 +1455,7 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
     int eprom_size_for_8kb = 0;
     int images_of_8kb_started = 0;
     int name_counter = 1;
-    int chip_counter = 1;
+    unsigned int chip_counter = 1;
     int subchip_counter = 1;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
@@ -1519,15 +1520,15 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
             } else {
                 if (images_of_8kb_started == 0) {
                     images_of_8kb_started = 1;
-                    if ((9 - chip_counter) * 4 < input_filenames - name_counter) {
+                    if ((9 - chip_counter) * 4 < (unsigned int)(input_filenames - name_counter)) {
                         fprintf(stderr, "Error: no room for the amount of input files given\n");
                         close_output_cleanup();
                     }
                     eprom_size_for_8kb = 1;
-                    if ((9 - chip_counter) * 2 < input_filenames - name_counter) {
+                    if ((9 - chip_counter) * 2 < (unsigned int)(input_filenames - name_counter)) {
                         eprom_size_for_8kb = 4;
                     }
-                    if (9 - chip_counter < input_filenames - name_counter) {
+                    if (9 - chip_counter < (unsigned int)(input_filenames - name_counter)) {
                         eprom_size_for_8kb = 2;
                     }
                 }
@@ -1633,6 +1634,8 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
             case CARTRIDGE_SIZE_16KB:
                 save_2_blocks_crt(0x2000, 0x2000, 0x8000, 0xe000, 0, 1);
                 break;
+            default:
+                break;
         }
     } else {
         switch (loadfile_size) {
@@ -1647,6 +1650,8 @@ static void save_generic_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
                 break;
             case CARTRIDGE_SIZE_16KB:
                 save_regular_crt(0x4000, 1, 0x8000, 0, 0, 0);
+                break;
+            default:
                 break;
         }
     }
