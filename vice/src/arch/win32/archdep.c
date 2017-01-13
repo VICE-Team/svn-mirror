@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <shlobj.h>
 #include <string.h>
 #include <windows.h>
 #include <winsock.h>
@@ -229,19 +230,50 @@ static BOOL verify_exe(TCHAR *file_name)
 
 const char *archdep_home_path(void)
 {
-    char *home;
+    static char *cached_home = NULL;
+    char *home_prefix, *home;
+    char data_path[MAX_PATH + 1];
+    HRESULT res;
 
-    /* Only use 'userprofile' when on windows nt and up */
-    if (!(GetVersion() & 0x80000000)) {
-        home = getenv("USERPROFILE");
+    if (cached_home)
+        return cached_home;
+
+    res = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, data_path);
+    if (res != S_OK) {
+        /* Only use 'userprofile' when on windows nt and up */
+        if (!(GetVersion() & 0x80000000)) {
+            home = getenv("USERPROFILE");
+        } else {
+            home = "C:\\My Documents";
+        }
+
+        if (!home) {
+            home = ".";
+        }
+
     } else {
-        home = "C:\\My Documents";
+        /* crete the base directory within appdata */
+        home_prefix = util_concat(data_path, "\\vice");
+        if (!CreateDirectory(home_prefix, NULL)) {
+            if (GetLastError() != ERROR_ALREADY_EXISTS) {
+                lib_free(home_prefix);
+                home = ".";
+                goto fail;
+            }
+        }
+
+        /* create a version-numbered subdirectory */
+        home = util_concat(home_prefix, "\\", VERSION);
+        lib_free(home_prefix);
+        if (!CreateDirectory(home, NULL)) {
+            if (GetLastError() != ERROR_ALREADY_EXISTS) {
+                lib_free(home);
+                home = ".";
+            }
+        }
     }
 
-    if (!home) {
-        home = ".";
-    }
-
+ fail:
     return home;
 }
 
