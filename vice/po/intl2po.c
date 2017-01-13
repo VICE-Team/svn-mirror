@@ -61,11 +61,11 @@ static char line_buffer[512];
 
 char *convert_filename(char *name, char *src, char *dst)
 {
-    int src_len = strlen(src);
-    int dst_len = strlen(dst);
-    int name_len = strlen(name) - src_len + dst_len;
+    size_t src_len = strlen(src);
+    size_t dst_len = strlen(dst);
+    size_t name_len = strlen(name) - src_len + dst_len;
     char *real_name = NULL;
-    int i = 0;
+    size_t i = 0;
 
     /* sanity check */
     if (name_len < 1) {
@@ -93,12 +93,12 @@ char *convert_filename(char *name, char *src, char *dst)
 
 int intl2po_getline(FILE *file)
 {
-    char c = 0;
+    int c = 0;
     int counter = 0;
 
     while (c != '\n' && !feof(file) && counter < 511) {
         c = fgetc(file);
-        line_buffer[counter] = c;
+        line_buffer[counter] = (char)c;
         counter++;
     }
     line_buffer[counter] = 0;
@@ -137,12 +137,12 @@ int intl2po_getline(FILE *file)
 
 void getline_simple(FILE *file)
 {
-    char c = 0;
+    int c = 0;
     int counter = 0;
 
     while (c != '\n' && !feof(file) && counter < 511) {
         c = fgetc(file);
-        line_buffer[counter] = c;
+        line_buffer[counter] = (char)c;
         counter++;
     }
     line_buffer[counter] = 0;
@@ -537,6 +537,8 @@ int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
                     case DIALOG_BEGIN_SCAN:
                         status = TEXT_CONVERSION;
                         break;
+                    default:
+                        break;
                 }
                 fprintf(outfile, "%s", line_buffer);
                 break;
@@ -553,6 +555,8 @@ int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
                         if (!feof(infile)) {
                             fprintf(outfile,"%s",line_buffer);
                         }
+                        break;
+                    default:
                         break;
                 }
         }
