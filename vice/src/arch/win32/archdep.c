@@ -436,7 +436,14 @@ char *archdep_default_save_resource_file_name(void)
 
 char *archdep_default_resource_file_name(void)
 {
-    return util_concat(archdep_home_path(), "\\vice.ini", NULL);
+    char *local_ini = util_concat(archdep_boot_path(), "\\vice.ini", NULL);
+
+    if (!util_file_exists(local_ini)) {
+        free(local_ini);
+        return util_concat(archdep_home_path(), "\\vice.ini", NULL);
+    } else {
+        return local_ini;
+    }
 }
 
 char *archdep_default_fliplist_file_name(void)
