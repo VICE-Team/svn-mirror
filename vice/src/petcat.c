@@ -1594,7 +1594,7 @@ static int scan_integer(const char *line, unsigned int *num, unsigned int *digit
         return (int)*digits;
     }
 #else
-    if (sscanf(line, "%u%u", num, digits) == 1) {
+    if (sscanf(line, "%u%n", num, (int *)digits) == 1) {
         return (int)*digits;
     }
 #endif
