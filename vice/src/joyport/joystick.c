@@ -216,7 +216,7 @@ void joystick_register_delay(unsigned int delay)
 /*-----------------------------------------------------------------------*/
 static void joystick_process_latch(void)
 {
-    CLOCK delay = lib_unsigned_rand(1, machine_get_cycles_per_frame());
+    CLOCK delay = lib_unsigned_rand(1, (unsigned int)machine_get_cycles_per_frame());
 
     if (network_connected()) {
         network_event_record(EVENT_JOYSTICK_DELAY, (void *)&delay, sizeof(delay));
@@ -249,7 +249,7 @@ void joystick_set_value_or(unsigned int joyport, BYTE value)
     latch_joystick_value[joyport] |= value;
 
     if (!joystick_opposite_enable) {
-        latch_joystick_value[joyport] &= ~joystick_opposite_direction[value & 0xf];
+        latch_joystick_value[joyport] &= (BYTE)(~joystick_opposite_direction[value & 0xf]);
     }
 
     latch_joystick_value[0] = (BYTE)joyport;
@@ -519,7 +519,7 @@ static int joyport_enable_joystick(int port, int val)
 
 static BYTE read_joystick(int port)
 {
-    return ~joystick_value[port + 1];
+    return (BYTE)(~joystick_value[port + 1]);
 }
 
 /* Some prototypes are needed */
@@ -534,9 +534,9 @@ static joyport_t joystick_device = {
     JOYPORT_POT_OPTIONAL,
     joyport_enable_joystick,
     read_joystick,
-    NULL,				/* no store digital */
-    NULL,				/* no read potx */
-    NULL,				/* no read poty */
+    NULL,               /* no store digital */
+    NULL,               /* no read potx */
+    NULL,               /* no read poty */
     joystick_snapshot_write_module,
     joystick_snapshot_read_module
 };
@@ -636,6 +636,8 @@ int joystick_resources_init(void)
             break;
         case VICE_MACHINE_PET:
         case VICE_MACHINE_CBM6x0:
+            break;
+        default:
             break;
     }
 #endif
