@@ -92,8 +92,8 @@ static BYTE bbrtc_read(int port)
 static void bbrtc_store(BYTE val)
 {
     BYTE rst_val = val & 1;
-    BYTE data_val = (val & 2) >> 1;
-    BYTE clk_val = (val & 8) >> 3;
+    BYTE data_val = (BYTE)((val & 2) >> 1);
+    BYTE clk_val = (BYTE)((val & 8) >> 3);
 
     if (rst_val != rst_line) {
         ds1602_set_reset_line(bbrtc_context, rst_val);
@@ -126,8 +126,8 @@ static joyport_t joyport_bbrtc_device = {
     joyport_bbrtc_enable,
     bbrtc_read,
     bbrtc_store,
-    NULL,				/* no pot-x read */
-    NULL,				/* no pot-y read */
+    NULL,                   /* no pot-x read */
+    NULL,                   /* no pot-y read */
     bbrtc_write_snapshot,
     bbrtc_read_snapshot
 };
@@ -208,7 +208,7 @@ static int bbrtc_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
