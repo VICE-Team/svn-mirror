@@ -12,8 +12,11 @@
 #include <Joystick.h>
 
 /* Include private header of superclass */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/SimpleP.h>
+#else
 #include <X11/Xaw/SimpleP.h>
-
+#endif
 
 /* New representation types used by the Joystick widget */
 
