@@ -252,7 +252,7 @@ const char *archdep_home_path(void)
         }
 
     } else {
-        /* crete the base directory within appdata */
+        /* create the base directory within appdata */
         home_prefix = util_concat(data_path, "\\vice");
         if (!CreateDirectory(home_prefix, NULL)) {
             if (GetLastError() != ERROR_ALREADY_EXISTS) {
