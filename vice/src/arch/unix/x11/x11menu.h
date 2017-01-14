@@ -62,6 +62,9 @@ typedef struct ui_menu_entry_s {
     ui_hotkey_modifier_t hotkey_modifier;
 } ui_menu_entry_t;
 
+#define UI_MENU_ENTRY_SEPERATOR { "--", UI_MENU_TYPE_SEPARATOR, NULL, NULL, NULL, (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
+#define UI_MENU_ENTRY_LIST_END { NULL, (ui_menu_type_t)0, NULL, NULL, NULL, (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
+
 extern void ui_set_drive_menu(int drvnr, ui_menu_entry_t *menu);
 extern void ui_destroy_drive_menu(int drive);
 extern void ui_set_tape_menu(ui_menu_entry_t *menu);
