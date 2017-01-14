@@ -57,8 +57,8 @@ int plus4exp_cmdline_options_init(void)
         }
 
         for (i = 0; i < 1; i++) {
-            lib_free((char *)cmd_drive[i].name);
-            lib_free((char *)cmd_drive[i].resource_name);
+            lib_free(cmd_drive[i].name);
+            lib_free(cmd_drive[i].resource_name);
         }
     }
 

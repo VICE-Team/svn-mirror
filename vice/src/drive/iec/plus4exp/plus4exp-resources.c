@@ -89,7 +89,7 @@ int plus4exp_resources_init(void)
             return -1;
         }
 
-        lib_free((char *)(res_drive[0].name));
+        lib_free(res_drive[0].name);
     }
 
     return 0;
