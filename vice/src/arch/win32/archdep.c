@@ -238,7 +238,7 @@ const char *archdep_home_path(void)
     if (cached_home)
         return cached_home;
 
-    res = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, SHGFP_TYPE_CURRENT, data_path);
+    res = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0 /* SHGFP_TYPE_CURRENT */, data_path);
     if (res != S_OK) {
         /* Only use 'userprofile' when on windows nt and up */
         if (!(GetVersion() & 0x80000000)) {
