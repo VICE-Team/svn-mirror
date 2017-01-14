@@ -177,8 +177,8 @@ static joyport_t joyport_paperclip64_device = {
     joyport_paperclip64_enable,
     paperclip64_read,
     paperclip64_store,
-    NULL,				/* no pot-x read */
-    NULL,				/* no pot-y read */
+    NULL,               /* no pot-x read */
+    NULL,               /* no pot-y read */
     paperclip64_write_snapshot,
     paperclip64_read_snapshot
 };
@@ -210,7 +210,7 @@ static int paperclip64_write_snapshot(struct snapshot_s *s, int port)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
- 
+
     if (m == NULL) {
         return -1;
     }
