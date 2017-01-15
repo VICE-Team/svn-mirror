@@ -4,6 +4,8 @@
  * from widget description Joystick.xt.
  */
 
+#include "vice.h"
+
 #include <stddef.h>
 #include <JoystickP.h>
 
