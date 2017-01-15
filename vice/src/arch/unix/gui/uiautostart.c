@@ -84,32 +84,41 @@ UI_CALLBACK(set_autostart_delay)
 
 static ui_menu_entry_t uiautostart_prg_mode_submenu[] = {
     { N_("Virtual FS"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS, NULL },
+      (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_VFS, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Inject to RAM"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT, NULL },
+      (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_INJECT, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Disk image"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_DISK, NULL },
-    { NULL }
+      (ui_callback_t)radio_AutostartPrgMode, (ui_callback_data_t)AUTOSTART_PRG_MODE_DISK, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uiautostart_settings_submenu[] = {
     { N_("Handle True Drive Emulation on autostart"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL },
+      (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Autostart warp"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AutostartWarp, NULL, NULL },
+      (ui_callback_t)toggle_AutostartWarp, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Autostart random delay"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AutostartDelayRandom, NULL, NULL },
+      (ui_callback_t)toggle_AutostartDelayRandom, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Autostart fixed delay"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_autostart_delay,
-      NULL, NULL },
+      (ui_callback_t)set_autostart_delay, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Use ':' with RUN"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AutostartRunWithColon, NULL, NULL },
+      (ui_callback_t)toggle_AutostartRunWithColon, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load to BASIC start"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AutostartBasicLoad, NULL, NULL },
+      (ui_callback_t)toggle_AutostartBasicLoad, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("PRG autostart mode"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uiautostart_prg_mode_submenu },
+      NULL, NULL, uiautostart_prg_mode_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("PRG autostart disk image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_autostart_image_name,
-      (ui_callback_data_t)"AutostartPrgDiskImage", NULL },
-    { NULL }
+      (ui_callback_t)set_autostart_image_name, (ui_callback_data_t)"AutostartPrgDiskImage", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

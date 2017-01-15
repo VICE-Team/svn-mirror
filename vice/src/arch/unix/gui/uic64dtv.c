@@ -63,17 +63,22 @@ static UI_CALLBACK(radio_model)
 }
 
 ui_menu_entry_t c64dtv_setmodel_submenu[] = {
-    { "DTV v2 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
-      (ui_callback_data_t)DTVMODEL_V2_PAL, NULL },
-    { "DTV v2 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
-      (ui_callback_data_t)DTVMODEL_V2_NTSC, NULL },
-    { "DTV v3 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
-      (ui_callback_data_t)DTVMODEL_V3_PAL, NULL },
-    { "DTV v3 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
-      (ui_callback_data_t)DTVMODEL_V3_NTSC, NULL },
-    { "Hummer NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
-      (ui_callback_data_t)DTVMODEL_HUMMER_NTSC, NULL },
-    { NULL }
+    { "DTV v2 PAL", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_model, (ui_callback_data_t)DTVMODEL_V2_PAL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "DTV v2 NTSC", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_model, (ui_callback_data_t)DTVMODEL_V2_NTSC, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "DTV v3 PAL", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_model, (ui_callback_data_t)DTVMODEL_V3_PAL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "DTV v3 NTSC", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_model, (ui_callback_data_t)DTVMODEL_V3_NTSC, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "Hummer NTSC", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_model, (ui_callback_data_t)DTVMODEL_HUMMER_NTSC, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 
@@ -105,38 +110,45 @@ UI_CALLBACK(set_c64dtv_rom_name)
 }
 
 ui_menu_entry_t c64dtv_revision_submenu[] = {
-    { "DTV2", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DtvRevision,
-      (ui_callback_data_t)2, NULL },
-    { "DTV3", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DtvRevision,
-      (ui_callback_data_t)3, NULL },
-    { NULL }
+    { "DTV2", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DtvRevision, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "DTV3", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DtvRevision, (ui_callback_data_t)3, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t c64dtv_flash_submenu[] = {
     { N_("C64DTV ROM file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_c64dtv_rom_name,
-      (ui_callback_data_t)"c64dtvromfilename", NULL },
+      (ui_callback_t)set_c64dtv_rom_name, (ui_callback_data_t)"c64dtvromfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable writes to C64DTV ROM image"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_c64dtvromrw, NULL, NULL },
+      (ui_callback_t)toggle_c64dtvromrw, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_flash_options_submenu },
-    { NULL }
+      NULL, NULL, ui_flash_options_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t c64dtv_luma_fix_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t hummeradc_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_HummerADC, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_HummerADC, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t c64dtv_extension_submenu[] = {
     { N_("Hummer ADC"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, hummeradc_submenu },
-    { NULL }
+      NULL, NULL, hummeradc_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

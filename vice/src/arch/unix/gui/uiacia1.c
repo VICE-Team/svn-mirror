@@ -36,12 +36,16 @@ UI_MENU_DEFINE_RADIO(Acia1Dev)
 
 ui_menu_entry_t uiacia1_device_submenu[] = {
     { N_("Serial 1"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Serial 2"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Dump to file"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Exec process"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)3, NULL },
-    { NULL }
+      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)3, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

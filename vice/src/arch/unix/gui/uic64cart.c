@@ -95,46 +95,62 @@ static ui_menu_entry_t *attach_cartridge_image_util_submenu;
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Smart attach CRT image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_CRT, NULL, KEYSYM_c, UI_HOTMOD_META },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_CRT, NULL,
+      KEYSYM_c, UI_HOTMOD_META },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Attach raw 8KB cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_GENERIC_8KB, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_GENERIC_8KB, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach raw 16KB cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_GENERIC_16KB, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_GENERIC_16KB, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach raw ultimax cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_ULTIMAX, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Freezer"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
-    { N_("Games"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
-    { N_("Utilities"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_ULTIMAX, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Freezer"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Games"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Utilities"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Set cartridge as default"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)default_cartridge, NULL, NULL },
-    { NULL }
+      (ui_callback_t)default_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_c64cart_commands_menu[] = {
     { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, attach_cartridge_image_submenu },
+      NULL, NULL, attach_cartridge_image_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_cartridge, NULL, NULL },
+      (ui_callback_t)detach_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Cartridge freeze"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },
-    { NULL }
+      (ui_callback_t)freeze_cartridge, NULL, NULL,
+      KEYSYM_z, UI_HOTMOD_META },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_c64scpucart_commands_menu[] = {
     { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, attach_cartridge_image_submenu },
+      NULL, NULL, attach_cartridge_image_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_cartridge, NULL, NULL },
-    { NULL }
+      (ui_callback_t)detach_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_c64cart_entry = {
-    NULL, UI_MENU_TYPE_DOTS, (ui_callback_t)attach_cartridge,
-    (ui_callback_data_t)0, NULL
+    NULL, UI_MENU_TYPE_DOTS,
+    (ui_callback_t)attach_cartridge, (ui_callback_data_t)0, NULL,
+    (ui_keysym_t)0, (ui_hotkey_modifier_t)0
 };
 
 static int countgroup(cartridge_info_t *cartlist, int flags)

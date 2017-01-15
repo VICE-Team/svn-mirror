@@ -130,7 +130,7 @@ static ui_menu_entry_t attach_disk_image_submenu[] = {
     { N_("Unit #11"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_disk, (ui_callback_data_t)11, NULL,
       KEYSYM_1, UI_HOTMOD_META },
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(attach_empty_disk)
@@ -156,14 +156,18 @@ static UI_CALLBACK(attach_empty_disk)
 
 static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
     { N_("Unit #8"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)8, NULL, },
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)8, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #9"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)9, NULL, },
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)9, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #10"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)10, NULL, },
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)10, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #11"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)11, NULL, },
-    { NULL }
+      (ui_callback_t)attach_empty_disk, (ui_callback_data_t)11, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_CALLBACK(detach_disk)
@@ -176,29 +180,38 @@ UI_CALLBACK(detach_disk)
 
 static ui_menu_entry_t detach_disk_image_submenu[] = {
     { N_("Unit #8"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_disk, (ui_callback_data_t)8, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)8, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #9"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_disk, (ui_callback_data_t)9, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)9, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #10"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_disk, (ui_callback_data_t)10, NULL },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)10, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #11"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_disk, (ui_callback_data_t)11, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)detach_disk, (ui_callback_data_t)11, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("All"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_disk, (ui_callback_data_t)-1, NULL },
-    { NULL }
+      (ui_callback_t)detach_disk, (ui_callback_data_t)-1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uiattach_disk_menu[] = {
     { N_("Attach disk image"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, attach_disk_image_submenu },
+      NULL, NULL, attach_disk_image_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Create and attach an empty disk"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, attach_empty_disk_image_submenu },
+      NULL, NULL, attach_empty_disk_image_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Detach disk image"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, detach_disk_image_submenu },
+      NULL, NULL, detach_disk_image_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Flip list"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, fliplist_submenu },
-    { NULL }
+      NULL, NULL, fliplist_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static char *attach_tape_last_dir = NULL;
@@ -278,13 +291,14 @@ static UI_CALLBACK(detach_tape)
 ui_menu_entry_t uiattach_tape_menu[] = {
     { N_("Create a new tape image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)create_new_tape, NULL, NULL,
-      0, 0},
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach tape image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_tape, NULL, NULL,
       KEYSYM_t, UI_HOTMOD_META },
     { N_("Detach tape image"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_tape, NULL, NULL },
-    { NULL }
+      (ui_callback_t)detach_tape, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static image_contents_t *read_disk_or_tape_image_contents(const char *fname)
@@ -354,8 +368,9 @@ ui_menu_entry_t uiattach_smart_attach_menu[] = {
       (ui_callback_t)smart_attach, NULL, NULL,
       KEYSYM_a, UI_HOTMOD_META },
     { N_("Autostart settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uiautostart_settings_submenu },
-    { NULL }
+      NULL, NULL, uiautostart_settings_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 void uiattach_shutdown(void)
