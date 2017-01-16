@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Greg King <greg.king5@verizon.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +25,11 @@
  *
  */
 
-#include "vice.h"
+#include "vice_sdl.h"
 #include "types.h"
 
 #include <assert.h>
 #include <string.h>
-#include "vice_sdl.h"
 
 #include "lib.h"
 #include "resources.h"
@@ -43,134 +43,135 @@
 
 static menu_draw_t *menu_draw;
 
-static unsigned int make_28_cols(char *text)
-{
-    unsigned int i;
-    unsigned int j = 1;
-    char *retpos = strchr(text, '\n');
-
-    /* convert any return chars. */
-    while (retpos != NULL) {
-        *retpos = ' ';
-        retpos = strchr(retpos + 1, '\n');
-    }
-
-    /* chop the text into lines of a maximum of 28 chars */
-    while (strlen(text) > MAX_MSGBOX_LEN) {
-        i = MAX_MSGBOX_LEN + 1;
-        while (text[--i] != ' ') {
-            /* if a word is too long, fold it anyway! */
-            if (i == 0) {
-                i = MAX_MSGBOX_LEN;
-                break;
-            }
-        }
-        text[i] = 0;
-        text += i + 1;
-        j++;
-    }
-
-    return j;
-}
-
 static int handle_message_box(const char *title, const char *message, int message_mode)
 {
-    char *text;
-    char *pos;
-    char *template;
-    unsigned int lines, len;
+    char *text, *pos;
+    unsigned int msglen, len;
     int before;
-    int active = 1;
-    unsigned int j;
     int x;
+    char template[] = "\335                            \335";
+    unsigned int j = 5;
+    int active = 1;
     int cur_pos = 0;
 
-    text = lib_stralloc(message);
-    pos = text;
-
-    /* split the message into lines of 28 chars. max.; and, remember the amount of lines */
-    lines = make_28_cols(text);
-    sdl_ui_clear();
-
     /* print the top edge of the dialog. */
+    sdl_ui_clear();
     sdl_ui_print_center("\260\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\256", 2);
-    template = lib_stralloc("\335                            \335");
 
     /* make sure that the title length is not more than 28 chars. */
     len = strlen(title);
     assert(len <= MAX_MSGBOX_LEN);
 
     /* calculate the position in the template to copy the title to. */
-    before = ((MAX_MSGBOX_LEN - len) / 2) + 1;
+    before = (MAX_MSGBOX_LEN - len) / 2;
 
     /* copy the title into the template. */
-    memcpy(template + before, title, len);
+    memcpy(template + 1 + before, title, len);
 
     /* print the title part of the dialog. */
     sdl_ui_print_center(template, 3);
-    lib_free(template);
 
     /* print the title/text separator part of the dialog. */
     sdl_ui_print_center("\253\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\263", 4);
 
-    for (j = 0; j < lines; j++) {
-        template = lib_stralloc("\335                            \335");
-        len = strlen(pos);
+    text = lib_stralloc(message);
+    msglen = (unsigned int)strlen(text);
+
+    /* substitute forward slashes and spaces for backslashes and newline
+     * characters.
+     */
+    pos = text + msglen;
+    do {
+        switch (*--pos) {
+            case '\\':
+                *pos = '/';
+                break;
+            case '\n':
+                *pos = ' ';
+            default:
+                break;
+        }
+    } while (pos != text);
+
+    pos = text;
+    while (msglen != 0) {
+        len = msglen;
+        if (len > MAX_MSGBOX_LEN) {
+            /* fold lines at the space that is closest to the right edge. */
+            len = MAX_MSGBOX_LEN + 1;
+            while (pos[--len] != ' ') {
+                /* if a word is too long, fold it anyway! */
+                if (len == 0) {
+                    len = MAX_MSGBOX_LEN;
+                    break;
+                }
+            }
+        }
+
+        /* erase the old line. */
+        memset(template + 1, ' ', MAX_MSGBOX_LEN);
 
         /* calculate the position in the template to copy the message line to. */
-        before = ((MAX_MSGBOX_LEN - len) / 2) + 1;
+        before = (MAX_MSGBOX_LEN - len) / 2;
 
         /* copy the message line into the template. */
-        memcpy(template + before, pos, len);
+        memcpy(template + 1 + before, pos, len);
 
         /* print the message line. */
-        sdl_ui_print_center(template, j + 5);
-        lib_free(template);
+        sdl_ui_print_center(template, j);
 
-        /* advance the pointer to the next message line. */
-        pos += len + 1;
+        /* advance to the next message line. */
+        j++;
+        msglen -= len;
+        pos += len;
+
+        /* if the text was folded at a space, then move beyond that space. */
+        if (*pos == ' ') {
+            msglen--;
+            pos++;
+        }
     }
+    lib_free(text);
 
     /* print any needed buttons. */
-    sdl_ui_print_center("\335                            \335", j + 5);
+    sdl_ui_print_center("\335                            \335", j);
     switch (message_mode) {
         case MESSAGE_OK:
-            sdl_ui_print_center("\335            \260\300\300\256            \335", j + 6);
-            x = sdl_ui_print_center("\335            \335OK\335            \335", j + 7);
-            sdl_ui_print_center("\335            \255\300\300\275            \335", j + 8);
+            sdl_ui_print_center("\335            \260\300\300\256            \335", j + 1);
+            x = sdl_ui_print_center("\335            \335OK\335            \335", j + 2);
+            sdl_ui_print_center("\335            \255\300\300\275            \335", j + 3);
             break;
         case MESSAGE_YESNO:
-            sdl_ui_print_center("\335      \260\300\300\300\256       \260\300\300\256      \335", j + 6);
-            x = sdl_ui_print_center("\335      \335YES\335       \335NO\335      \335", j + 7);
-            sdl_ui_print_center("\335      \255\300\300\300\275       \255\300\300\275      \335", j + 8);
+            sdl_ui_print_center("\335      \260\300\300\300\256       \260\300\300\256      \335", j + 1);
+            x = sdl_ui_print_center("\335      \335YES\335       \335NO\335      \335", j + 2);
+            sdl_ui_print_center("\335      \255\300\300\300\275       \255\300\300\275      \335", j + 3);
             break;
         case MESSAGE_CPUJAM:
         default:
-            sdl_ui_print_center("\335 \260\300\300\300\300\300\256  \260\300\300\300\300\300\300\300\256  \260\300\300\300\300\256 \335", j + 6);
-            x = sdl_ui_print_center("\335 \335RESET\335  \335MONITOR\335  \335CONT\335 \335", j + 7);
-            sdl_ui_print_center("\335 \255\300\300\300\300\300\275  \255\300\300\300\300\300\300\300\275  \255\300\300\300\300\275 \335", j + 8);
+            sdl_ui_print_center("\335 \260\300\300\300\300\300\256  \260\300\300\300\300\300\300\300\256  \260\300\300\300\300\256 \335", j + 1);
+            x = sdl_ui_print_center("\335 \335RESET\335  \335MONITOR\335  \335CONT\335 \335", j + 2);
+            sdl_ui_print_center("\335 \255\300\300\300\300\300\275  \255\300\300\300\300\300\300\300\275  \255\300\300\300\300\275 \335", j + 3);
             break;
     }
 
     /* print the bottom part of the dialog. */
-    sdl_ui_print_center("\255\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\275", j + 9);
+    sdl_ui_print_center("\255\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\300\275", j + 4);
 
-    lib_free(text);
     x += (menu_draw->max_text_x - 30) / 2;
     while (active) {
         switch (message_mode) {
             case MESSAGE_OK:
                 sdl_ui_reverse_colors();
-                sdl_ui_print_center("OK", j + 7);
+                sdl_ui_print_center("OK", j + 2);
                 sdl_ui_reverse_colors();
                 break;
             case MESSAGE_YESNO:
                 if (cur_pos == 0) {
                     sdl_ui_reverse_colors();
                 }
-                sdl_ui_print("YES", x - 22, j + 7);
+                sdl_ui_print("YES", x - 22, j + 2);
                 sdl_ui_reverse_colors();
-                sdl_ui_print("NO", x - 10, j + 7);
+                sdl_ui_print("NO", x - 10, j + 2);
                 if (cur_pos == 1) {
                     sdl_ui_reverse_colors();
                 }
@@ -180,15 +181,15 @@ static int handle_message_box(const char *title, const char *message, int messag
                 if (cur_pos == 0) {
                     sdl_ui_reverse_colors();
                 }
-                sdl_ui_print("RESET", x - 27, j + 7);
+                sdl_ui_print("RESET", x - 27, j + 2);
                 if (cur_pos < 2) {
                     sdl_ui_reverse_colors();
                 }
-                sdl_ui_print("MONITOR", x - 18, j + 7);
+                sdl_ui_print("MONITOR", x - 18, j + 2);
                 if (cur_pos > 0) {
                     sdl_ui_reverse_colors();
                 }
-                sdl_ui_print("CONT", x - 7, j + 7);
+                sdl_ui_print("CONT", x - 7, j + 2);
                 if (cur_pos == 2) {
                     sdl_ui_reverse_colors();
                 }
