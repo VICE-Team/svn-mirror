@@ -241,11 +241,11 @@ int iec_resources_init(void)
             return -1;
         }
 
-        lib_free((char *)(res_drive[0].name));
-        lib_free((char *)(res_drive[1].name));
-        lib_free((char *)(res_drive[2].name));
-        lib_free((char *)(res_drive[3].name));
-        lib_free((char *)(res_drive[4].name));
+        lib_free(res_drive[0].name);
+        lib_free(res_drive[1].name);
+        lib_free(res_drive[2].name);
+        lib_free(res_drive[3].name);
+        lib_free(res_drive[4].name);
     }
 
     if (resources_register_string(resources_string) < 0) {
