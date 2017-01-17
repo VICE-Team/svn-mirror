@@ -53,55 +53,68 @@ UI_CALLBACK(set_plus256k_image_name)
 }
 
 static ui_menu_entry_t c64_memory_hacks_device_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
-      (ui_callback_data_t)MEMORY_HACK_NONE, NULL },
-    { "C64 256K", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
-      (ui_callback_data_t)MEMORY_HACK_C64_256K, NULL },
-    { "+60K", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
-      (ui_callback_data_t)MEMORY_HACK_PLUS60K, NULL },
-    { "+256K", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MemoryHack,
-      (ui_callback_data_t)MEMORY_HACK_PLUS256K, NULL },
-    { NULL }
+    { N_("None"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MemoryHack, (ui_callback_data_t)MEMORY_HACK_NONE, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "C64 256K", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MemoryHack, (ui_callback_data_t)MEMORY_HACK_C64_256K, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "+60K", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MemoryHack, (ui_callback_data_t)MEMORY_HACK_PLUS60K, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "+256K", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MemoryHack, (ui_callback_data_t)MEMORY_HACK_PLUS256K, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t c64_256k_base_submenu[] = {
-    { "$DE00-$DE7F", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
-      (ui_callback_data_t)0xde00, NULL },
-    { "$DE80-$DEFF", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
-      (ui_callback_data_t)0xde80, NULL },
-    { "$DF00-$DF7F", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
-      (ui_callback_data_t)0xdf00, NULL },
-    { "$DF80-$DFFF", UI_MENU_TYPE_TICK, (ui_callback_t)radio_C64_256Kbase,
-      (ui_callback_data_t)0xdf80, NULL },
-    { NULL }
+    { "$DE00-$DE7F", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_C64_256Kbase, (ui_callback_data_t)0xde00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DE80-$DEFF", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_C64_256Kbase, (ui_callback_data_t)0xde80, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DF00-$DF7F", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_C64_256Kbase, (ui_callback_data_t)0xdf00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DF80-$DFFF", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_C64_256Kbase, (ui_callback_data_t)0xdf80, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t plus60k_base_submenu[] = {
-    { "$D040", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PLUS60Kbase,
-      (ui_callback_data_t)0xd040, NULL },
-    { "$D100", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PLUS60Kbase,
-      (ui_callback_data_t)0xd100, NULL },
-    { NULL }
+    { "$D040", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PLUS60Kbase, (ui_callback_data_t)0xd040, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$D100", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PLUS60Kbase, (ui_callback_data_t)0xd100, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t c64_memory_hacks_submenu[] = {
     { N_("C64 memory expansions hack device"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, c64_memory_hacks_device_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, c64_memory_hacks_device_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("C64 256K base address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, c64_256k_base_submenu },
+      NULL, NULL, c64_256k_base_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("C64 256K image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_c64_256k_image_name,
-      (ui_callback_data_t)"C64_256Kfilename", NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)set_c64_256k_image_name, (ui_callback_data_t)"C64_256Kfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("+60K Base address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, plus60k_base_submenu },
+      NULL, NULL, plus60k_base_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("+60K Image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_plus60k_image_name,
-      (ui_callback_data_t)"PLUS60Kfilename", NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)set_plus60k_image_name, (ui_callback_data_t)"PLUS60Kfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("+256K image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_plus256k_image_name,
-      (ui_callback_data_t)"PLUS256Kfilename", NULL },
-    { NULL }
+      (ui_callback_t)set_plus256k_image_name, (ui_callback_data_t)"PLUS256Kfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

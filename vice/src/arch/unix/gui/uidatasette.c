@@ -89,32 +89,43 @@ static UI_CALLBACK(datasette_settings)
 UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
 
 ui_menu_entry_t datasette_control_submenu[] = {
-    { N_("Stop"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_STOP, NULL },
-    { N_("Play"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_START, NULL },
-    { N_("Forward"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_FORWARD, NULL },
-    { N_("Rewind"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_REWIND, NULL },
-    { N_("Record"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_RECORD, NULL },
-    { N_("Reset"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
-      (ui_callback_data_t)DATASETTE_CONTROL_RESET, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Stop"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_datasette_control, (ui_callback_data_t)DATASETTE_CONTROL_STOP, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Play"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_datasette_control, (ui_callback_data_t)DATASETTE_CONTROL_START, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Forward"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_datasette_control, (ui_callback_data_t)DATASETTE_CONTROL_FORWARD, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Rewind"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_datasette_control, (ui_callback_data_t)DATASETTE_CONTROL_REWIND, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Record"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_datasette_control, (ui_callback_data_t)DATASETTE_CONTROL_RECORD, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Reset"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_datasette_control, (ui_callback_data_t)DATASETTE_CONTROL_RESET, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Reset Datasette with CPU"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DatasetteResetWithCPU, NULL, NULL },
+      (ui_callback_t)toggle_DatasetteResetWithCPU, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Datasette zero gap delay"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)datasette_settings, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)datasette_settings, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Datasette speed tuning"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)datasette_settings, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)datasette_settings, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Datasette tape wobble"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)datasette_settings, (ui_callback_data_t)2, NULL },
-    { NULL }
+      (ui_callback_t)datasette_settings, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_datasette_commands_menu[] = {
     { N_("Datassette control"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, datasette_control_submenu },
-    { NULL }
+      NULL, NULL, datasette_control_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

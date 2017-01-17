@@ -52,8 +52,7 @@ UI_CALLBACK(uics8900_set_interface_name)
 
 ui_menu_entry_t uics8900_submenu[] = {
     { N_("Interface"), UI_MENU_TYPE_DOTS,
-        (ui_callback_t)uics8900_set_interface_name,
-        (ui_callback_data_t)"ETHERNET_INTERFACE", NULL },
-    { NULL }
+      (ui_callback_t)uics8900_set_interface_name, (ui_callback_data_t)"ETHERNET_INTERFACE", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
-

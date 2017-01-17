@@ -39,13 +39,6 @@
 
 #include "uiethernetcart.h"
 
-#if 0
-UI_MENU_DEFINE_TOGGLE(ETHERNET_ACTIVE)
-UI_MENU_DEFINE_TOGGLE(ETHERNET_AS_RR)
-UI_MENU_DEFINE_TOGGLE(TFEIOSwap)
-UI_MENU_DEFINE_TOGGLE(TFE_ACTIVE)
-#endif
-
 UI_MENU_DEFINE_TOGGLE(ETHERNETCART_ACTIVE)
 UI_MENU_DEFINE_RADIO(ETHERNETCARTMode)
 UI_MENU_DEFINE_RADIO(ETHERNETCARTBase)
@@ -68,10 +61,12 @@ UI_CALLBACK(set_interface_name)
  */
 static ui_menu_entry_t ethernetcart_mode_submenu[] = {
     { "TFE", UI_MENU_TYPE_TICK,
-        (ui_callback_t)radio_ETHERNETCARTMode, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_ETHERNETCARTMode, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "RR-Net", UI_MENU_TYPE_TICK,
-        (ui_callback_t)radio_ETHERNETCARTMode, (ui_callback_data_t)1, NULL },
-    { NULL }
+      (ui_callback_t)radio_ETHERNETCARTMode, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 
@@ -79,10 +74,12 @@ static ui_menu_entry_t ethernetcart_mode_submenu[] = {
  */
 static ui_menu_entry_t ethernetcart_c64_base_submenu[] = {
     { "$DExx", UI_MENU_TYPE_NORMAL,
-        NULL, NULL, NULL },
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "$DFxx", UI_MENU_TYPE_NORMAL,
-        NULL, NULL, NULL },
-    { NULL }
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 
@@ -90,10 +87,12 @@ static ui_menu_entry_t ethernetcart_c64_base_submenu[] = {
  */
 static ui_menu_entry_t ethernetcart_vic20_base_submenu[] = {
     { "$98xx", UI_MENU_TYPE_NORMAL,
-        NULL, NULL, NULL },
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "$9cxx", UI_MENU_TYPE_NORMAL,
-        NULL, NULL, NULL },
-    { NULL }
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 
@@ -101,24 +100,28 @@ static ui_menu_entry_t ethernetcart_vic20_base_submenu[] = {
  */
 ui_menu_entry_t ethernetcart_c64_submenu[] = {
     { N_("Cartridge enabled"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_ETHERNETCART_ACTIVE, NULL, NULL },
+      (ui_callback_t)toggle_ETHERNETCART_ACTIVE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Cartridge mode"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, ethernetcart_mode_submenu },
+      NULL, NULL, ethernetcart_mode_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Cartridge I/O area"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, ethernetcart_c64_base_submenu },
-
-    { NULL }
+      NULL, NULL, ethernetcart_c64_base_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ethernetcart_vic20_submenu[] = {
     { N_("Cartridge enabled"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_ETHERNETCART_ACTIVE, NULL, NULL },
+      (ui_callback_t)toggle_ETHERNETCART_ACTIVE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Cartridge mode"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, ethernetcart_mode_submenu },
+      NULL, NULL, ethernetcart_mode_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Cartridge I/O area"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, ethernetcart_vic20_base_submenu },
-
-    { NULL }
+      NULL, NULL, ethernetcart_vic20_base_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 

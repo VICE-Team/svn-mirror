@@ -499,52 +499,67 @@ static ui_menu_entry_t reset_submenu[] = {
     { N_("Hard"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)powerup_reset, NULL, NULL,
       KEYSYM_F12, UI_HOTMOD_META },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Unit #8"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #9"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #10"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Unit #11"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)3, NULL },
-    { NULL }
+      (ui_callback_t)drive_trigger_reset, (ui_callback_data_t)3, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t jam_submenu[] = {
     { N_("Ask"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_DIALOG, NULL },
+      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_DIALOG, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Continue"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_CONTINUE, NULL },
+      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_CONTINUE, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Start monitor"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_MONITOR, NULL },
+      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_MONITOR, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Reset"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_RESET, NULL },
+      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_RESET, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Hard reset"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_HARD_RESET, NULL },
+      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_HARD_RESET, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Quit emulator"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_QUIT, NULL },
-    { NULL }
+      (ui_callback_t)radio_JAMAction, (ui_callback_data_t)MACHINE_JAM_ACTION_QUIT, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_directory_commands_menu[] = {
     { N_("Change current working directory"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)change_working_directory, NULL, NULL },
-    { NULL }
+      (ui_callback_t)change_working_directory, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(EventStartMode)
 
 static ui_menu_entry_t set_event_start_mode_submenu[] = {
-    { N_("Save new snapshot"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
-      (ui_callback_data_t)EVENT_START_MODE_FILE_SAVE, NULL },
-    { N_("Load existing snapshot"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
-      (ui_callback_data_t)EVENT_START_MODE_FILE_LOAD, NULL },
-    { N_("Start with reset"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
-      (ui_callback_data_t)EVENT_START_MODE_RESET, NULL },
-    { N_("Overwrite running playback"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_EventStartMode,
-      (ui_callback_data_t)EVENT_START_MODE_PLAYBACK, NULL },
-    { NULL }
+    { N_("Save new snapshot"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_EventStartMode, (ui_callback_data_t)EVENT_START_MODE_FILE_SAVE, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Load existing snapshot"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_EventStartMode, (ui_callback_data_t)EVENT_START_MODE_FILE_LOAD, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Start with reset"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_EventStartMode, (ui_callback_data_t)EVENT_START_MODE_RESET, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Overwrite running playback"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_EventStartMode, (ui_callback_data_t)EVENT_START_MODE_PLAYBACK, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_snapshot_commands_submenu[] = {
@@ -554,70 +569,88 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { N_("Save snapshot image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_snapshot, NULL, NULL,
       KEYSYM_s, UI_HOTMOD_META },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Quickload snapshot"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_quicksnap, NULL, NULL,
       KEYSYM_F10, UI_HOTMOD_META },
     { N_("Quicksave snapshot"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)save_quicksnap, NULL, NULL,
       KEYSYM_F11, UI_HOTMOD_META },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Select history directory"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)events_select_dir, NULL, NULL },
+      (ui_callback_t)events_select_dir, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Start recording events"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)record_events_start, NULL, NULL },
+      (ui_callback_t)record_events_start, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Stop recording events"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)record_events_stop, NULL, NULL },
+      (ui_callback_t)record_events_stop, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Start playing back events"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)playback_events_start, NULL, NULL },
+      (ui_callback_t)playback_events_start, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Stop playing back events"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)playback_events_stop, NULL, NULL },
+      (ui_callback_t)playback_events_stop, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Set recording milestone"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)events_set_ms, NULL, NULL, KEYSYM_e, UI_HOTMOD_META },
+      (ui_callback_t)events_set_ms, NULL, NULL,
+      KEYSYM_e, UI_HOTMOD_META },
     { N_("Return to milestone"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)events_return_ms, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)events_return_ms, NULL, NULL,
+      KEYSYM_u, UI_HOTMOD_META },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Recording start mode"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_event_start_mode_submenu },
-    { NULL }
+      NULL, NULL, set_event_start_mode_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_snapshot_commands_menu[] = {
     { N_("Snapshot commands"), UI_MENU_TYPE_NORMAL,
-      NULL,  NULL, ui_snapshot_commands_submenu },
-    { NULL }
+      NULL,  NULL, ui_snapshot_commands_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_sound_record_commands_submenu[] = {
     { N_("Sound record WAV"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)sound_record_wav, NULL, NULL },
+      (ui_callback_t)sound_record_wav, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Sound record AIFF"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)sound_record_aiff, NULL, NULL },
+      (ui_callback_t)sound_record_aiff, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Sound record VOC"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)sound_record_voc, NULL, NULL },
+      (ui_callback_t)sound_record_voc, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Sound record IFF"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)sound_record_iff, NULL, NULL },
+      (ui_callback_t)sound_record_iff, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef USE_LAMEMP3
     { N_("Sound record MP3"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)sound_record_mp3, NULL, NULL },
+      (ui_callback_t)sound_record_mp3, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
 #ifdef USE_FLAC
     { N_("Sound record FLAC"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)sound_record_flac, NULL, NULL },
+      (ui_callback_t)sound_record_flac, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
 #ifdef USE_VORBIS
     { N_("Sound record ogg/vorbis"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)sound_record_vorbis, NULL, NULL },
+      (ui_callback_t)sound_record_vorbis, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     { N_("Stop Sound record"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)uicommands_sound_record_stop, NULL, NULL },
-    { NULL }
+      (ui_callback_t)uicommands_sound_record_stop, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_sound_record_commands_menu[] = {
     { N_("Sound recording"), UI_MENU_TYPE_NORMAL,
-      NULL,  NULL, ui_sound_record_commands_submenu },
-    { NULL }
+      NULL,  NULL, ui_sound_record_commands_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(monitor_select_addr)
@@ -630,14 +663,16 @@ UI_MENU_DEFINE_TOGGLE(MonitorServer)
 
 ui_menu_entry_t ui_monitor_commands_menu[] = {
     { N_("Keep monitor open"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_KeepMonitorOpen, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_KeepMonitorOpen, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Enable remote monitor server"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MonitorServer, NULL, NULL },
+      (ui_callback_t)toggle_MonitorServer, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Set remote monitor server address"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)monitor_select_addr,
-      (ui_callback_data_t)"MonitorServerAddress", NULL },
-    { NULL }
+      (ui_callback_t)monitor_select_addr, (ui_callback_data_t)"MonitorServerAddress", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_tool_commands_menu[] = {
@@ -645,15 +680,16 @@ ui_menu_entry_t ui_tool_commands_menu[] = {
       (ui_callback_t)activate_monitor, NULL, NULL,
       KEYSYM_h, UI_HOTMOD_META },
     { N_("Monitor settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ui_monitor_commands_menu },
-    { NULL }
+      NULL, NULL, ui_monitor_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_tool_commands_monitor_menu[] = {
     { N_("Activate monitor"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)activate_monitor, NULL, NULL,
       KEYSYM_h, UI_HOTMOD_META },
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 extern ui_callback_t about;
@@ -698,38 +734,49 @@ static UI_CALLBACK(ui_about_cmdline)
 
 ui_menu_entry_t ui_help_commands_menu[] = {
     { N_("Browse manuals"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)browse_manual, NULL, NULL },
+      (ui_callback_t)browse_manual, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Commandline options"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)ui_about_cmdline, NULL, NULL },
+      (ui_callback_t)ui_about_cmdline, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("About VICE"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)ui_about, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Set browser command"), UI_MENU_TYPE_DOTS, (ui_callback_t)browse_set_browser_cmd,
-      (ui_callback_data_t)"HTMLBrowserCommand", NULL },
-    { NULL }
+      (ui_callback_t)ui_about, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Set browser command"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)browse_set_browser_cmd, (ui_callback_data_t)"HTMLBrowserCommand", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_run_commands_menu[] = {
-    { N_("Reset"), UI_MENU_TYPE_NORMAL, NULL, NULL, reset_submenu },
-    { N_("Action on CPU JAM"), UI_MENU_TYPE_NORMAL, NULL, NULL, jam_submenu },
-    { NULL }
+    { N_("Reset"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, reset_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Action on CPU JAM"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, jam_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_runmode_commands_menu[] = {
     { N_("Pause"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_pause, NULL, NULL, KEYSYM_p, UI_HOTMOD_META },
-    { N_("Advance frame"), UI_MENU_TYPE_NORMAL, (ui_callback_t)do_frame_advance,
-      NULL, NULL, KEYSYM_p, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
+      (ui_callback_t)toggle_pause, NULL, NULL,
+      KEYSYM_p, UI_HOTMOD_META },
+    { N_("Advance frame"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)do_frame_advance, NULL, NULL,
+      KEYSYM_p, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { N_("Enable warp mode"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_WarpMode, NULL, NULL, KEYSYM_w, UI_HOTMOD_META },
-    { NULL }
+      (ui_callback_t)toggle_WarpMode, NULL, NULL,
+      KEYSYM_w, UI_HOTMOD_META },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
     { N_("Exit emulator"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)do_exit, NULL, NULL,
       KEYSYM_q, UI_HOTMOD_META },
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 void uicommands_shutdown(void)

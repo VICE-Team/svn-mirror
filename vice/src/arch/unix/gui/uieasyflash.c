@@ -45,17 +45,22 @@ static UI_CALLBACK(easyflash_save_callback);
 
 ui_menu_entry_t easyflash_submenu[] = {
     { N_("Enable jumper"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_EasyFlashJumper, NULL, NULL },
+      (ui_callback_t)toggle_EasyFlashJumper, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_EasyFlashWriteCRT, NULL, NULL },
+      (ui_callback_t)toggle_EasyFlashWriteCRT, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Optimize image when saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_EasyFlashOptimizeCRT, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_EasyFlashOptimizeCRT, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END,
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)easyflash_flush_callback, NULL, NULL },
+      (ui_callback_t)easyflash_flush_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)easyflash_save_callback, NULL, NULL },
-    { NULL }
+      (ui_callback_t)easyflash_save_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(easyflash_flush_callback)

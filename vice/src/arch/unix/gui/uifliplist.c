@@ -126,10 +126,12 @@ ui_menu_entry_t fliplist_submenu[] = {
       (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)0, NULL,
       KEYSYM_N, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { N_("Load flip list file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)load_save_fliplist, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)load_save_fliplist, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save flip list file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)load_save_fliplist, (ui_callback_data_t)0, NULL },
-    { NULL }
+      (ui_callback_t)load_save_fliplist, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(attach_from_fliplist2)

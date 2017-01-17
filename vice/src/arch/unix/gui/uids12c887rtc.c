@@ -38,69 +38,91 @@ UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
 UI_MENU_DEFINE_TOGGLE(DS12C887RTCSave)
 
 static ui_menu_entry_t ds12c887rtc_c64_base_submenu[] = {
-    { "$D500", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xd500, NULL },
-    { "$D600", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xd600, NULL },
-    { "$D700", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xd700, NULL },
-    { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xde00, NULL },
-    { "$DF00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xdf00, NULL },
-    { NULL }
+    { "$D500", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xd500, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$D600", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xd600, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$D700", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xd700, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DE00", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xde00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DF00", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xdf00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t ds12c887rtc_c128_base_submenu[] = {
-    { "$D700", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xd700, NULL },
-    { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xde00, NULL },
-    { "$DF00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0xdf00, NULL },
-    { NULL }
+    { "$D700", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xd700, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DE00", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xde00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DF00", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0xdf00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t ds12c887rtc_vic20_base_submenu[] = {
-    { "$9800", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0x9800, NULL },
-    { "$9C00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DS12C887RTCbase,
-      (ui_callback_data_t)0x9c00, NULL },
-    { NULL }
+    { "$9800", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0x9800, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$9C00", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_DS12C887RTCbase, (ui_callback_data_t)0x9c00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ds12c887rtc_c64_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTC, NULL, NULL },
+      (ui_callback_t)toggle_DS12C887RTC, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ds12c887rtc_c64_base_submenu },
+      NULL, NULL, ds12c887rtc_c64_base_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Start with running oscillator"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL },
+      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTCSave, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_DS12C887RTCSave, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ds12c887rtc_c128_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTC, NULL, NULL },
+      (ui_callback_t)toggle_DS12C887RTC, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ds12c887rtc_c128_base_submenu },
+      NULL, NULL, ds12c887rtc_c128_base_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Start with running oscillator"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL },
+      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTCSave, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_DS12C887RTCSave, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ds12c887rtc_vic20_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTC, NULL, NULL },
+      (ui_callback_t)toggle_DS12C887RTC, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ds12c887rtc_vic20_base_submenu },
+      NULL, NULL, ds12c887rtc_vic20_base_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Start with running oscillator"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL },
+      (ui_callback_t)toggle_DS12C887RTCRunMode, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DS12C887RTCSave, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_DS12C887RTCSave, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

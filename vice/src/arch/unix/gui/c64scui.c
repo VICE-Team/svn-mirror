@@ -209,28 +209,21 @@ static ui_menu_entry_t set_vicii_model_submenu[] = {
 };
 
 UI_MENU_DEFINE_RADIO(CIA1Model)
-
-static ui_menu_entry_t set_cia1model_submenu[] = {
-    { N_("6526 (old)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_CIA1Model, (ui_callback_data_t)CIA_MODEL_6526, NULL,
-      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    { N_("6526 (new)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_CIA1Model, (ui_callback_data_t)CIA_MODEL_6526A, NULL,
-      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    UI_MENU_ENTRY_LIST_END
-};
-
 UI_MENU_DEFINE_RADIO(CIA2Model)
 
-static ui_menu_entry_t set_cia2model_submenu[] = {
-    { N_("6526 (old)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_CIA2Model, (ui_callback_data_t)CIA_MODEL_6526, NULL,
-      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    { N_("6526 (new)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_CIA2Model, (ui_callback_data_t)CIA_MODEL_6526A, NULL,
-      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    UI_MENU_ENTRY_LIST_END
-};
+#define SET_CIAMODEL_MENU(x) \
+static ui_menu_entry_t set_cia##x##model_submenu[] = {                               \
+    { N_("6526 (old)"), UI_MENU_TYPE_TICK,                                           \
+      (ui_callback_t)radio_CIA##x##Model, (ui_callback_data_t)CIA_MODEL_6526, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                     \
+    { N_("6526 (new)"), UI_MENU_TYPE_TICK,                                           \
+      (ui_callback_t)radio_CIA##x##Model, (ui_callback_data_t)CIA_MODEL_6526A, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                     \
+    UI_MENU_ENTRY_LIST_END                                                           \
+}
+
+SET_CIAMODEL_MENU(1);
+SET_CIAMODEL_MENU(2);
 
 UI_MENU_DEFINE_RADIO(GlueLogic)
 

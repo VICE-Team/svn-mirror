@@ -66,120 +66,58 @@ static UI_CALLBACK(parallel_cable_control)
     }
 }
 
-static ui_menu_entry_t set_drive0_parallel_cable_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
-    { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
-    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
-    { NULL }
-};
+#define SET_DRIVE_PAR_CABLE_MENU(x, y)                                                           \
+static ui_menu_entry_t set_drive##x##_parallel_cable_submenu[] = {                               \
+    { N_("None"), UI_MENU_TYPE_TICK,                                                             \
+      (ui_callback_t)radio_Drive##y##ParallelCable, (ui_callback_data_t)DRIVE_PC_NONE, NULL,     \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                 \
+    { N_("Standard Userport"), UI_MENU_TYPE_TICK,                                                \
+      (ui_callback_t)radio_Drive##y##ParallelCable,(ui_callback_data_t)DRIVE_PC_STANDARD, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                 \
+    { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK,                                                    \
+      (ui_callback_t)radio_Drive##y##ParallelCable, (ui_callback_data_t)DRIVE_PC_DD3, NULL,      \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                 \
+    { N_("Formel 64"), UI_MENU_TYPE_TICK,                                                        \
+      (ui_callback_t)radio_Drive##y##ParallelCable, (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                 \
+    UI_MENU_ENTRY_LIST_END                                                                       \
+}
 
-static ui_menu_entry_t set_drive1_parallel_cable_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
-    { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
-    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
-    { NULL }
-};
+SET_DRIVE_PAR_CABLE_MENU(0, 8);
+SET_DRIVE_PAR_CABLE_MENU(1, 9);
+SET_DRIVE_PAR_CABLE_MENU(2, 10);
+SET_DRIVE_PAR_CABLE_MENU(3, 11);
 
-static ui_menu_entry_t set_drive2_parallel_cable_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
-    { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
-    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
-    { NULL }
-};
+#define UIDRIVEC64C128_DRIVE_EXPANSION_MENU(x, y)                                                          \
+ui_menu_entry_t uidrivec64c128_drive##x##_expansion_submenu[] = {                                          \
+    { N_("Parallel cable"), UI_MENU_TYPE_NORMAL,                                                           \
+      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)x, set_drive##x##_parallel_cable_submenu, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                           \
+    UI_MENU_ENTRY_SEPERATOR,                                                                               \
+    { "", UI_MENU_TYPE_NONE,                                                                               \
+      NULL, NULL, uidriveiec_drive##x##_ram_expansion_submenu,                                             \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                           \
+    UI_MENU_ENTRY_SEPERATOR,                                                                               \
+    { N_("Enable Professional DOS"), UI_MENU_TYPE_TICK,                                                    \
+      (ui_callback_t)toggle_Drive##y##ProfDOS, NULL, NULL,                                                 \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                           \
+    { N_("Enable SuperCard+"), UI_MENU_TYPE_TICK,                                                          \
+      (ui_callback_t)toggle_Drive##y##SuperCard, NULL, NULL,                                               \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                           \
+    UI_MENU_ENTRY_LIST_END                                                                                 \
+}
 
-static ui_menu_entry_t set_drive3_parallel_cable_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_NONE, NULL },
-    { N_("Standard Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
-    { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_DD3, NULL },
-    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
-      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t uidrivec64c128_drive0_expansion_submenu[] = {
-    { N_("Parallel cable"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)0,
-      set_drive0_parallel_cable_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, uidriveiec_drive0_ram_expansion_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable Professional DOS"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive8ProfDOS, NULL, NULL },
-    { N_("Enable SuperCard+"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive8SuperCard, NULL, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t uidrivec64c128_drive1_expansion_submenu[] = {
-    { N_("Parallel cable"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)1,
-      set_drive1_parallel_cable_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, uidriveiec_drive1_ram_expansion_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable Professional DOS"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive9ProfDOS, NULL, NULL },
-    { N_("Enable SuperCard+"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive9SuperCard, NULL, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t uidrivec64c128_drive2_expansion_submenu[] = {
-    { N_("Parallel cable"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)2,
-      set_drive2_parallel_cable_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, uidriveiec_drive2_ram_expansion_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable Professional DOS"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive10ProfDOS, NULL, NULL },
-    { N_("Enable SuperCard+"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive10SuperCard, NULL, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t uidrivec64c128_drive3_expansion_submenu[] = {
-    { N_("Parallel cable"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)parallel_cable_control, (ui_callback_data_t)3,
-      set_drive3_parallel_cable_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, uidriveiec_drive3_ram_expansion_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable Professional DOS"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive11ProfDOS, NULL, NULL },
-    { N_("Enable SuperCard+"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive11SuperCard, NULL, NULL },
-    { NULL }
-};
+UIDRIVEC64C128_DRIVE_EXPANSION_MENU(0, 8);
+UIDRIVEC64C128_DRIVE_EXPANSION_MENU(1, 9);
+UIDRIVEC64C128_DRIVE_EXPANSION_MENU(2, 10);
+UIDRIVEC64C128_DRIVE_EXPANSION_MENU(3, 11);
 
 ui_menu_entry_t uidrivec64c128_expansion_romset_submenu[] = {
     { N_("Load new Professional DOS 1571 ROM"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"DriveProfDOS1571Name", NULL },
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"DriveProfDOS1571Name", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load new SuperCard+ ROM"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"DriveSuperCardName", NULL },
-    { NULL }
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"DriveSuperCardName", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

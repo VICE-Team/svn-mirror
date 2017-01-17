@@ -44,18 +44,22 @@ static UI_CALLBACK(dqbb_save_callback);
 
 ui_menu_entry_t dqbb_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DQBB, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_DQBB, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)dqbb_set_image_name,
-      (ui_callback_data_t)"DQBBfilename", NULL },
+      (ui_callback_t)dqbb_set_image_name, (ui_callback_data_t)"DQBBfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DQBBImageWrite, NULL, NULL },
+      (ui_callback_t)toggle_DQBBImageWrite, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)dqbb_flush_callback, NULL, NULL },
+      (ui_callback_t)dqbb_flush_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)dqbb_save_callback, NULL, NULL },
-    { NULL }
+      (ui_callback_t)dqbb_save_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(dqbb_set_image_name)
