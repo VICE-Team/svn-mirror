@@ -32,9 +32,7 @@
 #include <Application.h>
 #include <Clipboard.h>
 #include <FilePanel.h>
-#include <Menu.h>
-#include <MenuBar.h>
-#include <MenuItem.h>
+#include <Path.h>
 #include <ScrollView.h>
 #include <TextView.h>
 #include <View.h>
@@ -664,6 +662,25 @@ static void ui_paste_clipboard_text(void)
     }
 } 
 
+static void ui_handle_dropped_file(BMessage *msg)
+{
+    entry_ref ref;
+    status_t err;
+    BPath *path;
+    // int32 buttons;
+
+    if ((err = msg->FindRef("refs", 0, &ref)) != B_OK) {
+        // ui_error("No File selected ?!");
+        return;
+    }
+    // err = msg->FindInt32("buttons", &buttons);
+    path = new BPath(&ref);
+
+    if (autostart_autodetect(path->Path(), NULL, 0, AUTOSTART_MODE_RUN) < 0) {
+        ui_error("Cannot autostart specified file.");
+    }
+}
+
 static char *get_compiletime_features(void)
 {
     feature_list_t *list;
@@ -788,6 +805,11 @@ void ui_dispatch_events(void)
                 /* the file- or save-panel was closed */
                 /* now we can use the selected file */
                 ui_select_file_action(&message_queue[i]);
+                break;
+            case B_SIMPLE_DATA:
+                /* handle a file being dropped on the */
+                /* window from tracker */
+                ui_handle_dropped_file(&message_queue[i]);
                 break;
            case MENU_EXIT_REQUESTED:
                 {
