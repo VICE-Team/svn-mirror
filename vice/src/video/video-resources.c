@@ -688,7 +688,7 @@ int video_resources_chip_init(const char *chipname,
                 return -1;
             }
 
-            lib_free((char *)(resources_chip_scan[0].name));
+            lib_free(resources_chip_scan[0].name);
         } else {
             set_double_scan_enabled(0, (void *)*canvas);
         }
@@ -705,7 +705,7 @@ int video_resources_chip_init(const char *chipname,
                 return -1;
             }
 
-            lib_free((char *)(resources_chip_hwscale[0].name));
+            lib_free(resources_chip_hwscale[0].name);
         } else {
             set_hwscale_enabled(0, (void *)*canvas);
         }
@@ -725,7 +725,7 @@ int video_resources_chip_init(const char *chipname,
                 return -1;
             }
 
-            lib_free((char *)(resources_chip_size[0].name));
+            lib_free(resources_chip_size[0].name);
         } else {
             set_double_size_enabled(0, (void *)*canvas);
         }
@@ -763,9 +763,9 @@ int video_resources_chip_init(const char *chipname,
                 return -1;
             }
 
-            lib_free((char *)(resources_chip_fullscreen_int[0].name));
-            lib_free((char *)(resources_chip_fullscreen_int[1].name));
-            lib_free((char *)(resources_chip_fullscreen_string[0].name));
+            lib_free(resources_chip_fullscreen_int[0].name);
+            lib_free(resources_chip_fullscreen_int[1].name);
+            lib_free(resources_chip_fullscreen_string[0].name);
         } else {
             set_fullscreen_enabled(0, (void *)*canvas);
             set_fullscreen_statusbar(0, (void *)*canvas);
@@ -791,7 +791,7 @@ int video_resources_chip_init(const char *chipname,
                     return -1;
                 }
 
-                lib_free((char *)(resources_chip_fullscreen_mode[0].name));
+                lib_free(resources_chip_fullscreen_mode[0].name);
             } else {
                 set_fullscreen_mode(0, (void *)resource_chip_mode);
             }
@@ -822,8 +822,8 @@ int video_resources_chip_init(const char *chipname,
             return -1;
         }
 
-        lib_free((char *)(resources_chip_palette_string[0].name));
-        lib_free((char *)(resources_chip_palette_int[0].name));
+        lib_free(resources_chip_palette_string[0].name);
+        lib_free(resources_chip_palette_int[0].name);
     } else {
         set_palette_file_name(video_chip_cap->external_palette_name, (void *)*canvas);
         set_ext_palette(0, (void *)*canvas);
@@ -841,7 +841,7 @@ int video_resources_chip_init(const char *chipname,
                 return -1;
             }
 
-            lib_free((char *)(resources_chip_double_buffer[0].name));
+            lib_free(resources_chip_double_buffer[0].name);
         } else {
             set_double_buffer_enabled(0, (void *)*canvas);
         }
@@ -882,7 +882,7 @@ int video_resources_chip_init(const char *chipname,
 
         i = 0;
         while (vname_chip_colors[i]) {
-            lib_free((char *)(resources_chip_colors[i].name));
+            lib_free(resources_chip_colors[i].name);
             ++i;
         }
     } else {
@@ -926,7 +926,7 @@ int video_resources_chip_init(const char *chipname,
 
         i = 0;
         while (vname_chip_crtemu[i]) {
-            lib_free((char *)(resources_chip_crtemu[i].name));
+            lib_free(resources_chip_crtemu[i].name);
             ++i;
         }
     } else {
@@ -948,7 +948,7 @@ int video_resources_chip_init(const char *chipname,
             return -1;
         }
 
-        lib_free((char *)(resources_chip_rendermode[0].name));
+        lib_free(resources_chip_rendermode[0].name);
     } else {
         set_chip_rendermode(VIDEO_FILTER_NONE, (void *)*canvas);
     }

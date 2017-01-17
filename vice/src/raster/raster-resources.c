@@ -116,7 +116,7 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
         }
 
         for (i = 0; rname_chip[i] != NULL; i++) {
-            lib_free((char *)(resources_chip[i].name));
+            lib_free(resources_chip[i].name);
         }
     } else {
         set_video_cache_enabled(0, (void *)raster_resource_chip);

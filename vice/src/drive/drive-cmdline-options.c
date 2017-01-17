@@ -203,15 +203,15 @@ int drive_cmdline_options_init(void)
         }
 
         for (i = 0; i < 5; i++) {
-            lib_free((char *)cmd_drive[i].name);
-            lib_free((char *)cmd_drive[i].resource_name);
+            lib_free(cmd_drive[i].name);
+            lib_free(cmd_drive[i].resource_name);
         }
 
         if (has_iec) {
-            lib_free((char *)cmd_drive_rtc[0].name);
-            lib_free((char *)cmd_drive_rtc[0].resource_name);
-            lib_free((char *)cmd_drive_rtc[1].name);
-            lib_free((char *)cmd_drive_rtc[1].resource_name);
+            lib_free(cmd_drive_rtc[0].name);
+            lib_free(cmd_drive_rtc[0].resource_name);
+            lib_free(cmd_drive_rtc[1].name);
+            lib_free(cmd_drive_rtc[1].resource_name);
         }
     }
 

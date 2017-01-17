@@ -260,7 +260,7 @@ int drive_resources_type_init(unsigned int default_type)
             return -1;
         }
 
-        lib_free((char *)(res_drive_type[0].name));
+        lib_free(res_drive_type[0].name);
     }
 
     return 0;
@@ -408,10 +408,10 @@ int drive_resources_init(void)
         }
 
         for (i = 0; i < 4; i++) {
-            lib_free((char *)(res_drive[i].name));
+            lib_free(res_drive[i].name);
         }
         if (has_iec) {
-            lib_free((char *)(res_drive_rtc[0].name));
+            lib_free(res_drive_rtc[0].name);
         }
     }
 
