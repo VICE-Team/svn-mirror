@@ -192,7 +192,7 @@ UI_MENU_DEFINE_RADIO(CIA1Model)
 UI_MENU_DEFINE_RADIO(CIA2Model)
 
 #define SET_CIAMODEL_MENU(x)                                                         \
-static ui_menu_entry_t set_cia1model_submenu[] = {                                   \
+static ui_menu_entry_t set_cia##x##model_submenu[] = {                               \
     { N_("6526 (old)"), UI_MENU_TYPE_TICK,                                           \
       (ui_callback_t)radio_CIA##x##Model, (ui_callback_data_t)CIA_MODEL_6526, NULL,  \
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                     \

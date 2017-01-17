@@ -169,6 +169,7 @@ ui_menu_entry_t ui_drivec64vic20_romset_submenu[] = {
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load new 4040 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"DosName4040", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load new 1001 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"DosName1001", NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
