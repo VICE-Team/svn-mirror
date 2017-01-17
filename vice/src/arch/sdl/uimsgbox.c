@@ -93,7 +93,6 @@ static int handle_message_box(const char *title, const char *message, int messag
         }
     } while (pos != text);
 
-    pos = text;
     while (msglen != 0) {
         len = msglen;
         if (len > MAX_MSGBOX_LEN) {
