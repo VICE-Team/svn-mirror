@@ -27420,8 +27420,8 @@ Fixed some resource handling issues.
 
 @item
 @b{Robert McIntyre}
-Bugged people enough to get the improved g64 support rolling, 
-updated g64 support to allow variable-length tracks, and 
+Bugged people enough to get the improved g64 support rolling,
+updated g64 support to allow variable-length tracks, and
 performed initial development of half-track support.
 
 @item
@@ -27653,7 +27653,7 @@ Fixed some monitor issues.
 @end itemize
 
 (We hope we have not forgotten anybody; if you think we have,
- please tell us.)
+please tell us.)
 
 The people around the world providing results from running our
 test programs on various machines deserve a special mention:

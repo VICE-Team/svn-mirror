@@ -145,18 +145,25 @@ static void replacetags(void)
     int countersrc = 0;
     int counterdst = 0;
     int i, j, len;
+    int foundname;
 
     while (temp[countersrc] != 0) {
         if (temp[countersrc] == '@') {
             countersrc++;
-            if (!strncmp(temp + countersrc, "b{", 2)) {
+            if (temp[countersrc]  == '@') {
+                countersrc++;
+                line_buffer[counterdst++] = '@';
+                line_buffer[counterdst++] = '@';
+            } else if (!strncmp(temp + countersrc, "b{", 2)) {
                 countersrc += 2;
-                for (i = 0; name[i] != NULL; i++) {
+                foundname = 0;
+                for (i = 0; name[i] != NULL && !foundname; i++) {
                     if (!strncmp(temp + countersrc, name[i], strlen(name[i]))) {
                         len = strlen(emailname[i]);
                         for (j = 0; j < len; j++) {
                             line_buffer[counterdst++] = emailname[i][j];
                         }
+                    foundname = 1;
                     }
                 }
                 while (temp[countersrc++] != '}') {}
@@ -596,6 +603,16 @@ static void generate_infocontrib(char *in_path, char *out_path, char *in_filenam
     fprintf(outfile, "    { NULL, NULL, NULL }\n");
     fprintf(outfile, "};\n\n");
 
+    fprintf(outfile, "char *doc_team[] = {\n");
+
+    i = 0;
+    while (doc_team[i] != NULL) {
+        fprintf(outfile, "    \"%s\",\n", doc_team[i]);
+        i++;
+    }
+    fprintf(outfile, "    NULL\n");
+    fprintf(outfile, "};\n\n");
+
     fprintf(outfile, "vice_trans_t trans_team[] = {\n");
 
     i = 0;
@@ -606,17 +623,7 @@ static void generate_infocontrib(char *in_path, char *out_path, char *in_filenam
         i += 3;
     }
     fprintf(outfile, "    { NULL, NULL, NULL, NULL }\n");
-    fprintf(outfile, "};\n\n");
-
-    fprintf(outfile, "char *doc_team[] = {\n");
-
-    i = 0;
-    while (doc_team[i] != NULL) {
-        fprintf(outfile, "    \"%s\",\n", doc_team[i]);
-        i++;
-    }
-    fprintf(outfile, "    NULL\n");
-    fprintf(outfile, "};\n\n");
+    fprintf(outfile, "};\n");
 
     fprintf(outfile, "#endif\n");
 
