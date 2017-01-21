@@ -1006,93 +1006,43 @@ static void generate_os2_dialog_rc(char *in_path, char *out_path, char *filename
     free(tmpname);
 }
 
-static void generate_vice_1(char *out_path, char *filename)
+static void generate_vice_1(char *in_path, char *out_path, char *filename)
 {
+    FILE *infile = NULL;
     FILE *outfile = NULL;
     int i = 0;
-    char *header;
+    char *tmpname;
+    int found_start = 0;
+    int line_size;
 
-    sprintf(line_buffer, "%s%s", out_path, filename);
+    sprintf(line_buffer, "%s%s", in_path, filename);
+    infile = fopen(line_buffer, "rb");
+    if (infile == NULL) {
+        printf("cannot open %s for reading\n", line_buffer);
+        return;
+    }
+
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
     outfile = fopen(line_buffer, "wb");
-
     if (outfile == NULL) {
         printf("cannot open %s for writing\n", line_buffer);
+        fclose(infile);
         return;
     }
 
     fill_all_team_list();
 
-    header = ".TH VICE 1 \"Jan 2017\" VICE\n"
-             ".SH NAME\n"
-             "VICE \\- Versatile Commodore Emulator and Virtual Commodore Environment\n"
-             ".SH DESCRIPTION\n"
-             ".I VICE\n"
-             "is a multi\\-platform emulator of the Commodore PET, CBM-II,\n"
-             "VIC20, C64, C64DTV, C128 and Plus4 8\\-bit computers. The emulators run as\n"
-             "separate programs, but have the same user interface, share the same\n"
-             "settings and support the same file formats. Also some external\n"
-             "utilities are provided.\n"
-             ".P\n"
-             "VICE is made up of the following programs:\n"
-             ".TP 8\n"
-             ".B x64\n"
-             "a fast Commodore 64 emulator\n"
-             ".TP\n"
-             ".B x64sc\n"
-             "an accurate Commodore 64 emulator\n"
-             ".TP\n"
-             ".B xscpu64\n"
-             "an accurate SCPU64 emulator\n"
-             ".TP\n"
-             ".B x64dtv\n"
-             "a C64DTV emulator\n"
-             ".TP\n"
-             ".B x128\n"
-             "a Commodore 128 emulator\n"
-             ".TP\n"
-             ".B xvic\n"
-             "a Commodore VIC20 emulator\n"
-             ".TP\n"
-             ".B xpet\n"
-             "a Commodore PET emulator\n"
-             ".TP\n"
-             ".B xplus4\n"
-             "a Commodore Plus4 emulator\n"
-             ".TP\n"
-             ".B xcbm2\n"
-             "a Commodore CBM-II (6x0/7x0) emulator\n"
-             ".TP\n"
-             ".B xcbm5x0\n"
-             "a Commodore CBM-II (5x0) emulator\n"
-             ".TP\n"
-             ".B vsid\n"
-             "a SID player\n"
-             ".TP\n"
-             ".B c1541\n"
-             "a stand-alone disk image maintenance utility;\n"
-             ".TP\n"
-             ".B petcat\n"
-             "a Commodore BASIC (de)tokenizer;\n"
-             ".TP\n"
-             ".B cartconv\n"
-             "a cartridge file (bin<--->crt) converter;\n"
-             ".PP\n"
-             "The whole documentation for these programs is available in HTML\n"
-             "format; the main file should be installed on your system as\n"
-             "/usr/local/lib/vice/doc/vice_toc.html.\n"
-             ".P\n"
-             "For up to date news about VICE, have a look at the official home page\n"
-             "at\n"
-             ".P\n"
-             ".RS\n"
-             "http://vice-emu.sourceforge.net/\n"
-             ".SH SEE ALSO\n"
-             ".BR petcat (1),\n"
-             ".BR cartconv (1),\n"
-             ".BR c1541 (1)\n"
-             ".SH AUTHORS\n";
-
-    fprintf(outfile, "%s", header);
+    while (found_start == 0) {
+        line_size = get_line(infile);
+        if (!strcmp(line_buffer, ".SH AUTHORS")) { 
+            found_start = 1;
+        }
+        if (line_size == 0) {
+            fprintf(outfile, "\n");
+        } else {
+            fprintf(outfile, "%s\n", line_buffer);
+        }
+    }
 
     for (i = 0; all_team[i]; i++) {
         sprintf(line_buffer, "@b{%s}", all_team[i]);
@@ -1103,6 +1053,14 @@ static void generate_vice_1(char *out_path, char *filename)
     fprintf(outfile, "HTML documentation for more information.\n\n\n");
 
     fclose(outfile);
+    fclose(infile);
+
+    sprintf(line_buffer, "%s%s", out_path, filename);
+    tmpname = vice_stralloc(line_buffer);
+    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
+    unlink(tmpname);
+    rename(line_buffer, tmpname);
+    free(tmpname);
 }
 
 int main(int argc, char *argv[])
@@ -1137,7 +1095,7 @@ int main(int argc, char *argv[])
 
     generate_os2_dialog_rc(argv[1], argv[2], argv[10]);
 
-    generate_vice_1(argv[2], argv[11]);
+    generate_vice_1(argv[1], argv[2], argv[11]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);
