@@ -38,152 +38,97 @@
 #include "vsync.h"
 
 UI_MENU_DEFINE_STRING_RADIO(Printer4Driver)
+UI_MENU_DEFINE_STRING_RADIO(Printer5Driver)
+UI_MENU_DEFINE_STRING_RADIO(Printer6Driver)
+UI_MENU_DEFINE_STRING_RADIO(PrinterUserportDriver)
 
-ui_menu_entry_t uiprinter_pr4_driver_submenu[] = {
-    { "ASCII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
-      (ui_callback_data_t)"ascii", NULL },
-    { "MPS803", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
-      (ui_callback_data_t)"mps803", NULL },
-    { "NL10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
-      (ui_callback_data_t)"nl10", NULL },
-    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Driver,
-      (ui_callback_data_t)"raw", NULL },
-    { NULL }
+#define UIPRINTER_PR_DRIVER_MENU(x)                                                \
+ui_menu_entry_t uiprinter_pr##x##_driver_submenu[] = {                             \
+    { "ASCII", UI_MENU_TYPE_TICK,                                                  \
+      (ui_callback_t)radio_Printer##x##Driver, (ui_callback_data_t)"ascii", NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                   \
+    { "MPS803", UI_MENU_TYPE_TICK,                                                 \
+      (ui_callback_t)radio_Printer##x##Driver, (ui_callback_data_t)"mps803", NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                   \
+    { "NL10", UI_MENU_TYPE_TICK,                                                   \
+      (ui_callback_t)radio_Printer##x##Driver, (ui_callback_data_t)"nl10", NULL,   \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                   \
+    { "RAW", UI_MENU_TYPE_TICK,                                                    \
+      (ui_callback_t)radio_Printer##x##Driver, (ui_callback_data_t)"raw", NULL,    \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                   \
+    UI_MENU_ENTRY_LIST_END                                                         \
+}
+
+UIPRINTER_PR_DRIVER_MENU(4);
+UIPRINTER_PR_DRIVER_MENU(5);
+
+ui_menu_entry_t uiprinter_pr6_driver_submenu[] = {
+    { "1520", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_Printer6Driver, (ui_callback_data_t)"1520", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "RAW", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_Printer6Driver, (ui_callback_data_t)"raw", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
+};
+
+ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
+    { "ASCII", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PrinterUserportDriver, (ui_callback_data_t)"ascii", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "NL10", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PrinterUserportDriver, (ui_callback_data_t)"nl10", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "RAW", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PrinterUserportDriver, (ui_callback_data_t)"raw", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_STRING_RADIO(Printer4Output)
-
-ui_menu_entry_t uiprinter_pr4_output_submenu[] = {
-    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Output,
-      (ui_callback_data_t)"text", NULL },
-    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Output,
-      (ui_callback_data_t)"graphics", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_STRING_RADIO(Printer5Driver)
-
-ui_menu_entry_t uiprinter_pr5_driver_submenu[] = {
-    { "ASCII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
-      (ui_callback_data_t)"ascii", NULL },
-    { "MPS803", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
-      (ui_callback_data_t)"mps803", NULL },
-    { "NL10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
-      (ui_callback_data_t)"nl10", NULL },
-    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Driver,
-      (ui_callback_data_t)"raw", NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_STRING_RADIO(Printer5Output)
-
-ui_menu_entry_t uiprinter_pr5_output_submenu[] = {
-    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Output,
-      (ui_callback_data_t)"text", NULL },
-    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Output,
-      (ui_callback_data_t)"graphics", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_STRING_RADIO(Printer6Driver)
-
-ui_menu_entry_t uiprinter_pr6_driver_submenu[] = {
-    { "1520", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Driver,
-      (ui_callback_data_t)"1520", NULL },
-    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Driver,
-      (ui_callback_data_t)"raw", NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_STRING_RADIO(Printer6Output)
-
-ui_menu_entry_t uiprinter_pr6_output_submenu[] = {
-    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Output,
-      (ui_callback_data_t)"text", NULL },
-    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6Output,
-      (ui_callback_data_t)"graphics", NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_STRING_RADIO(PrinterUserportDriver)
-
-ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
-    { "ASCII", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
-      (ui_callback_data_t)"ascii", NULL },
-    { "NL10", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
-      (ui_callback_data_t)"nl10", NULL },
-    { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
-      (ui_callback_data_t)"raw", NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_STRING_RADIO(PrinterUserportOutput)
 
-ui_menu_entry_t uiprinter_pruser_output_submenu[] = {
-    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportOutput,
-      (ui_callback_data_t)"text", NULL },
-    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportOutput,
-      (ui_callback_data_t)"graphics", NULL },
-    { NULL }
-};
+#define UIPRINTER_PR_OUTPUT_MENU(x)                                                  \
+ui_menu_entry_t uiprinter_pr##x##_output_submenu[] = {                               \
+    { "Text", UI_MENU_TYPE_TICK,                                                     \
+      (ui_callback_t)radio_Printer##x##Output, (ui_callback_data_t)"text", NULL,     \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                     \
+    { "Graphics", UI_MENU_TYPE_TICK,                                                 \
+      (ui_callback_t)radio_Printer##x##Output, (ui_callback_data_t)"graphics", NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                     \
+    UI_MENU_ENTRY_LIST_END                                                           \
+}
+
+UIPRINTER_PR_OUTPUT_MENU(4);
+UIPRINTER_PR_OUTPUT_MENU(5);
+UIPRINTER_PR_OUTPUT_MENU(6);
+UIPRINTER_PR_OUTPUT_MENU(Userport);
 
 UI_MENU_DEFINE_RADIO(PrinterUserportTextDevice)
-
-ui_menu_entry_t uiprinter_pruser_device_submenu[] = {
-    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_PrinterUserportTextDevice,
-      (ui_callback_data_t)0, NULL },
-    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_PrinterUserportTextDevice,
-      (ui_callback_data_t)1, NULL },
-    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_PrinterUserportTextDevice,
-      (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_RADIO(Printer4TextDevice)
-
-ui_menu_entry_t uiprinter_pr4_device_submenu[] = {
-    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)0, NULL },
-    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)1, NULL },
-    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_RADIO(Printer5TextDevice)
-
-ui_menu_entry_t uiprinter_pr5_device_submenu[] = {
-    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)0, NULL },
-    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)1, NULL },
-    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_RADIO(Printer6TextDevice)
 
-ui_menu_entry_t uiprinter_pr6_device_submenu[] = {
-    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer6TextDevice, (ui_callback_data_t)0, NULL },
-    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer6TextDevice, (ui_callback_data_t)1, NULL },
-    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_Printer6TextDevice, (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
-#if 0
-UI_CALLBACK(set_printer_dump_file)
-{
-    uilib_select_file(UI_MENU_CB_PARAM, _("Select printer dump file"), UILIB_FILTER_ALL);
+#define UIPRINTER_PR_DEVICE_MENU(x, y)                                          \
+ui_menu_entry_t uiprinter_pr##x##_device_submenu[] = {                          \
+    { N_("Printer 1 (file dump)"), UI_MENU_TYPE_TICK,                           \
+      (ui_callback_t)radio_Printer##y##TextDevice, (ui_callback_data_t)0, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { N_("Printer 2 (exec)"), UI_MENU_TYPE_TICK,                                \
+      (ui_callback_t)radio_Printer##y##TextDevice, (ui_callback_data_t)1, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { N_("Printer 3 (exec)"), UI_MENU_TYPE_TICK,                                \
+      (ui_callback_t)radio_Printer##y##TextDevice, (ui_callback_data_t)2, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    UI_MENU_ENTRY_LIST_END                                                      \
 }
-#endif
+
+UIPRINTER_PR_DEVICE_MENU(user, Userport);
+UIPRINTER_PR_DEVICE_MENU(4, 4);
+UIPRINTER_PR_DEVICE_MENU(5, 5);
+UIPRINTER_PR_DEVICE_MENU(6, 6);
 
 UI_CALLBACK(uiprinter_set_printer_exec_file)
 {
@@ -199,40 +144,41 @@ UI_MENU_DEFINE_RADIO(Printer4)
 UI_MENU_DEFINE_RADIO(Printer5)
 UI_MENU_DEFINE_RADIO(Printer6)
 
+#define UIPRINTER_SET_PRINTER_TYPE_COMMON(x)                                          \
+    { N_("None"), UI_MENU_TYPE_TICK,                                                  \
+      (ui_callback_t)radio_Printer##x, (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                      \
+    { N_("File system access"), UI_MENU_TYPE_TICK,                                    \
+      (ui_callback_t)radio_Printer##x, (ui_callback_data_t)PRINTER_DEVICE_FS, NULL,   \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
+
+#define UIPRINTER_SET_PRINTER_TYPE_OPENCBM(x)                                         \
+    { N_("Real device access"), UI_MENU_TYPE_TICK,                                    \
+      (ui_callback_t)radio_Printer##x, (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
+
 ui_menu_entry_t uiprinter_set_printer4_type_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4,
-      (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
-    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4,
-      (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
+    UIPRINTER_SET_PRINTER_TYPE_COMMON(4),
 #ifdef HAVE_OPENCBM
-    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4,
-      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+    UIPRINTER_SET_PRINTER_TYPE_OPENCBM(4),
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uiprinter_set_printer5_type_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5,
-      (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
-    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5,
-      (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
+    UIPRINTER_SET_PRINTER_TYPE_COMMON(5),
 #ifdef HAVE_OPENCBM
-    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5,
-      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+    UIPRINTER_SET_PRINTER_TYPE_OPENCBM(5),
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uiprinter_set_printer6_type_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6,
-      (ui_callback_data_t)PRINTER_DEVICE_NONE, NULL },
-    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6,
-      (ui_callback_data_t)PRINTER_DEVICE_FS, NULL },
+    UIPRINTER_SET_PRINTER_TYPE_COMMON(6),
 #ifdef HAVE_OPENCBM
-    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer6,
-      (ui_callback_data_t)PRINTER_DEVICE_REAL, NULL },
+    UIPRINTER_SET_PRINTER_TYPE_OPENCBM(6),
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */

@@ -45,18 +45,22 @@ UI_CALLBACK(set_gmod2_eeprom_filename);
 
 ui_menu_entry_t gmod2_submenu[] = {
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_GMod2FlashWrite, NULL, NULL },
+      (ui_callback_t)toggle_GMod2FlashWrite, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)gmod2_flush_callback, NULL, NULL },
+      (ui_callback_t)gmod2_flush_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)gmod2_save_callback, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)gmod2_save_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("EEPROM image file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_gmod2_eeprom_filename,
-      (ui_callback_data_t)"GMOD2EEPROMImage", NULL },
+      (ui_callback_t)set_gmod2_eeprom_filename, (ui_callback_data_t)"GMOD2EEPROMImage", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable writes to GMod2 EEPROM image"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_GMOD2EEPROMRW, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_GMOD2EEPROMRW, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(gmod2_save_callback)
@@ -90,4 +94,3 @@ UI_CALLBACK(set_gmod2_eeprom_filename)
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("GMod2 EEPROM image filename"),
                         UILIB_FILTER_ALL);
 }
-

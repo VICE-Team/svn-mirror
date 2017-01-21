@@ -64,66 +64,64 @@ UI_CALLBACK(uiperipheral_set_rawdevice_name)
     uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Select block device for raw access"), UILIB_FILTER_ALL);
 }
 
+#define UIPERIPHERAL_SET_DEVICE_TYPE_MENU_COMMON(x)                                           \
+    { N_("None"), UI_MENU_TYPE_TICK,                                                          \
+      (ui_callback_t)radio_FileSystemDevice##x, (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                              \
+    { N_("File system access"), UI_MENU_TYPE_TICK,                                            \
+      (ui_callback_t)radio_FileSystemDevice##x, (ui_callback_data_t)ATTACH_DEVICE_FS, NULL,   \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
+
+#define UIPERIPHERAL_SET_DEVICE_TYPE_MENU_OPENCBM(x)                                          \
+    { N_("Real device access"), UI_MENU_TYPE_TICK,                                            \
+      (ui_callback_t)radio_FileSystemDevice##x, (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
+
+#define UIPERIPHERAL_SET_DEVICE_TYPE_MENU_RAWDRIVE(x)                                        \
+    { N_("Raw device access"), UI_MENU_TYPE_TICK,                                            \
+      (ui_callback_t)radio_FileSystemDevice##x, (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
+
 ui_menu_entry_t uiperipheral_set_device8_type_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice8,
-      (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
-    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice8,
-      (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_COMMON(8),
 #ifdef HAVE_OPENCBM
-    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice8,
-      (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_OPENCBM(8),
 #endif
 #ifdef HAVE_RAWDRIVE
-    { N_("Raw device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice8,
-      (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_RAWDRIVE(8),
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uiperipheral_set_device9_type_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice9,
-      (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
-    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice9,
-      (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_COMMON(9),
 #ifdef HAVE_OPENCBM
-    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice9,
-      (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_OPENCBM(9),
 #endif
 #ifdef HAVE_RAWDRIVE
-    { N_("Raw device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice9,
-      (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_RAWDRIVE(9),
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uiperipheral_set_device10_type_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice10,
-      (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
-    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice10,
-      (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_COMMON(10),
 #ifdef HAVE_OPENCBM
-    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice10,
-      (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_OPENCBM(10),
 #endif
 #ifdef HAVE_RAWDRIVE
-    { N_("Raw device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice10,
-      (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_RAWDRIVE(10),
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uiperipheral_set_device11_type_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice11,
-      (ui_callback_data_t)ATTACH_DEVICE_NONE, NULL },
-    { N_("File system access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice11,
-      (ui_callback_data_t)ATTACH_DEVICE_FS, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_COMMON(11),
 #ifdef HAVE_OPENCBM
-    { N_("Real device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice11,
-      (ui_callback_data_t)ATTACH_DEVICE_REAL, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_OPENCBM(11),
 #endif
 #ifdef HAVE_RAWDRIVE
-    { N_("Raw device access"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_FileSystemDevice11,
-      (ui_callback_data_t)ATTACH_DEVICE_RAW, NULL },
+    UIPERIPHERAL_SET_DEVICE_TYPE_MENU_RAWDRIVE(11),
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };

@@ -63,150 +63,74 @@ UI_MENU_DEFINE_TOGGLE(Drive9RTCSave)
 UI_MENU_DEFINE_TOGGLE(Drive10RTCSave)
 UI_MENU_DEFINE_TOGGLE(Drive11RTCSave)
 
-static ui_menu_entry_t fsdevice_drive8_submenu[] = {
-    { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IECDevice8, NULL, NULL },
-    { N_("Read only access"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AttachDevice8Readonly, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("File system directory"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_fsdevice_directory,
-      (ui_callback_data_t)8, NULL },
-    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8ConvertP00,
-      NULL, NULL },
-    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8SaveP00,
-      NULL, NULL },
-    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8HideCBMFiles,
-      NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)8, NULL },
-    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)8, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive8RTCSave, NULL, NULL },
-    { NULL }
-};
+#define FSDEVICE_DRIVE_MENU(x)                                                         \
+static ui_menu_entry_t fsdevice_drive##x##_submenu[] = {                               \
+    { N_("Enable IEC device"), UI_MENU_TYPE_TICK,                                      \
+      (ui_callback_t)toggle_IECDevice##x, NULL, NULL,                                  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    { N_("Read only access"), UI_MENU_TYPE_TICK,                                       \
+      (ui_callback_t)toggle_AttachDevice##x##Readonly, NULL, NULL,                     \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    UI_MENU_ENTRY_SEPERATOR,                                                           \
+    { N_("File system directory"), UI_MENU_TYPE_DOTS,                                  \
+      (ui_callback_t)uiperipheral_set_fsdevice_directory, (ui_callback_data_t)x, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK,                                 \
+     (ui_callback_t)toggle_FSDevice##x##ConvertP00, NULL, NULL,                        \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK,                               \
+      (ui_callback_t)toggle_FSDevice##x##SaveP00, NULL, NULL,                          \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,                                     \
+      (ui_callback_t)toggle_FSDevice##x##HideCBMFiles, NULL, NULL,                     \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    UI_MENU_ENTRY_SEPERATOR,                                                           \
+    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,                                              \
+      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)x, NULL,                  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,                                           \
+      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)x, NULL,               \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    UI_MENU_ENTRY_SEPERATOR,                                                           \
+    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,                                      \
+      (ui_callback_t)toggle_Drive##x##RTCSave, NULL, NULL,                             \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                       \
+    UI_MENU_ENTRY_LIST_END                                                             \
+}
 
-static ui_menu_entry_t fsdevice_drive9_submenu[] = {
-    { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IECDevice9, NULL, NULL },
-    { N_("Read only access"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AttachDevice9Readonly, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("File system directory"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_fsdevice_directory,
-      (ui_callback_data_t)9, NULL },
-    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9ConvertP00,
-      NULL, NULL },
-    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9SaveP00,
-      NULL, NULL },
-    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9HideCBMFiles,
-      NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)9, NULL },
-    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)9, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive9RTCSave, NULL, NULL },
-    { NULL }
-};
+FSDEVICE_DRIVE_MENU(8);
+FSDEVICE_DRIVE_MENU(9);
+FSDEVICE_DRIVE_MENU(10);
+FSDEVICE_DRIVE_MENU(11);
 
-static ui_menu_entry_t fsdevice_drive10_submenu[] = {
-    { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IECDevice10, NULL, NULL },
-    { N_("Read only access"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AttachDevice10Readonly, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("File system directory"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiperipheral_set_fsdevice_directory, (ui_callback_data_t)10, NULL },
-    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_FSDevice10ConvertP00, NULL, NULL },
-    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_FSDevice10SaveP00, NULL, NULL },
-    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_FSDevice10HideCBMFiles, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)10, NULL },
-    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)10, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive10RTCSave, NULL, NULL },
-    { NULL }
-};
+#define PERIPHERALIEC_SETTINGS_DRIVE_MENU(x)                    \
+ui_menu_entry_t peripheraliec_settings_drive##x##_submenu[] = { \
+    { N_("Drive #"#x" device type"), UI_MENU_TYPE_NORMAL,       \
+      NULL, NULL, uiperipheral_set_device##x##_type_submenu,    \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                \
+    { N_("Drive #"#x" options"), UI_MENU_TYPE_NORMAL,           \
+      NULL, NULL, fsdevice_drive##x##_submenu,                  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                \
+    UI_MENU_ENTRY_LIST_END                                      \
+}
 
-static ui_menu_entry_t fsdevice_drive11_submenu[] = {
-    { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IECDevice11, NULL, NULL },
-    { N_("Read only access"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_AttachDevice11Readonly, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("File system directory"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiperipheral_set_fsdevice_directory, (ui_callback_data_t)11, NULL },
-    { N_("Convert P00 file names"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_FSDevice11ConvertP00, NULL, NULL },
-    { N_("Create P00 files on save"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_FSDevice11SaveP00, NULL, NULL },
-    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_FSDevice11HideCBMFiles, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive RPM"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_rpm_settings, (ui_callback_data_t)11, NULL },
-    { N_("Drive wobble"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)drive_wobble_settings, (ui_callback_data_t)11, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable RTC saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Drive11RTCSave, NULL, NULL },
-    { NULL }
-};
+PERIPHERALIEC_SETTINGS_DRIVE_MENU(8);
+PERIPHERALIEC_SETTINGS_DRIVE_MENU(9);
+PERIPHERALIEC_SETTINGS_DRIVE_MENU(10);
+PERIPHERALIEC_SETTINGS_DRIVE_MENU(11);
 
-ui_menu_entry_t peripheraliec_settings_drive8_submenu[] = {
-    { N_("Drive #8 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device8_type_submenu },
-    { N_("Drive #8 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive8_submenu },
-    { NULL }
-};
+#define PERIPHERALIEC_PLUS4_SETTINGS_DRIVE_MENU(x)                    \
+ui_menu_entry_t peripheraliec_plus4_settings_drive##x##_submenu[] = { \
+    { N_("Drive #"#x" device type"), UI_MENU_TYPE_NORMAL,             \
+      NULL, NULL, uiperipheral_set_device##x##_type_submenu,          \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                      \
+    { N_("Drive #"#x" options"), UI_MENU_TYPE_NORMAL,                 \
+      NULL, NULL, fsdevice_drive##x##_submenu,                        \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                      \
+    UI_MENU_ENTRY_LIST_END                                            \
+}
 
-ui_menu_entry_t peripheraliec_settings_drive9_submenu[] = {
-    { N_("Drive #9 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device9_type_submenu },
-    { N_("Drive #9 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive9_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t peripheraliec_settings_drive10_submenu[] = {
-    { N_("Drive #10 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device10_type_submenu },
-    { N_("Drive #10 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive10_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t peripheraliec_settings_drive11_submenu[] = {
-    { N_("Drive #11 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device11_type_submenu },
-    { N_("Drive #11 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive11_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t peripheraliec_plus4_settings_drive8_submenu[] = {
-    { N_("Drive #8 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device8_type_submenu },
-    { N_("Drive #8 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive8_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t peripheraliec_plus4_settings_drive9_submenu[] = {
-    { N_("Drive #9 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device9_type_submenu },
-    { N_("Drive #9 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive9_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t peripheraliec_plus4_settings_drive10_submenu[] = {
-    { N_("Drive #10 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device10_type_submenu },
-    { N_("Drive #10 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive10_submenu },
-    { NULL }
-};
-
-ui_menu_entry_t peripheraliec_plus4_settings_drive11_submenu[] = {
-    { N_("Drive #11 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device11_type_submenu },
-    { N_("Drive #11 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive11_submenu },
-    { NULL }
-};
+PERIPHERALIEC_PLUS4_SETTINGS_DRIVE_MENU(8);
+PERIPHERALIEC_PLUS4_SETTINGS_DRIVE_MENU(9);
+PERIPHERALIEC_PLUS4_SETTINGS_DRIVE_MENU(10);
+PERIPHERALIEC_PLUS4_SETTINGS_DRIVE_MENU(11);

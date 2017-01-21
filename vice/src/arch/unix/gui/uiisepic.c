@@ -44,20 +44,25 @@ static UI_CALLBACK(isepic_save_cartridge);
 
 ui_menu_entry_t isepic_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IsepicCartridgeEnabled, NULL, NULL },
+      (ui_callback_t)toggle_IsepicCartridgeEnabled, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable switch"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IsepicSwitch, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_IsepicSwitch, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)isepic_set_image_name,
-      (ui_callback_data_t)"Isepicfilename", NULL },
+      (ui_callback_t)isepic_set_image_name, (ui_callback_data_t)"Isepicfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IsepicImageWrite, NULL, NULL },
+      (ui_callback_t)toggle_IsepicImageWrite, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)isepic_flush_cartridge, NULL, NULL },
+      (ui_callback_t)isepic_flush_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)isepic_save_cartridge, NULL, NULL },
-    { NULL }
+      (ui_callback_t)isepic_save_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(isepic_set_image_name)

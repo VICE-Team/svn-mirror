@@ -39,13 +39,16 @@
 UI_MENU_DEFINE_RADIO(PETColour)
 
 static ui_menu_entry_t petcolour_type_submenu[] = {
-    { "Off", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PETColour,
-      (ui_callback_data_t)PET_COLOUR_TYPE_OFF, NULL },
-    { "RGBI", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PETColour,
-      (ui_callback_data_t)PET_COLOUR_TYPE_RGBI, NULL },
-    { "Analog", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PETColour,
-      (ui_callback_data_t)PET_COLOUR_TYPE_ANALOG, NULL },
-    { NULL }
+    { "Off", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PETColour, (ui_callback_data_t)PET_COLOUR_TYPE_OFF, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "RGBI", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PETColour, (ui_callback_data_t)PET_COLOUR_TYPE_RGBI, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "Analog", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PETColour, (ui_callback_data_t)PET_COLOUR_TYPE_ANALOG, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_CALLBACK(set_petcolour_bg)
@@ -79,8 +82,10 @@ UI_CALLBACK(set_petcolour_bg)
 
 ui_menu_entry_t petcolour_submenu[] = {
     { N_("PET Colour type"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, petcolour_type_submenu },
+      NULL, NULL, petcolour_type_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("PET Colour background"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_petcolour_bg, NULL, NULL },
-    { NULL }
+      (ui_callback_t)set_petcolour_bg, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

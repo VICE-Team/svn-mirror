@@ -63,15 +63,19 @@ static UI_CALLBACK(set_keymap_type)
 }
 
 static ui_menu_entry_t keyboard_maptype_submenu[] = {
-    { N_("Symbolic mapping"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
-      (ui_callback_data_t)KBD_INDEX_SYM, NULL },
-    { N_("Positional mapping"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
-      (ui_callback_data_t)KBD_INDEX_POS, NULL },
-    { N_("Symbolic mapping (User)"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
-      (ui_callback_data_t)KBD_INDEX_USERSYM, NULL },
-    { N_("Positional mapping (User)"), UI_MENU_TYPE_TICK, (ui_callback_t)set_keymap_type,
-      (ui_callback_data_t)KBD_INDEX_USERPOS, NULL },
-    { NULL }
+    { N_("Symbolic mapping"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)set_keymap_type, (ui_callback_data_t)KBD_INDEX_SYM, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Positional mapping"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)set_keymap_type, (ui_callback_data_t)KBD_INDEX_POS, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Symbolic mapping (User)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)set_keymap_type, (ui_callback_data_t)KBD_INDEX_USERSYM, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Positional mapping (User)"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)set_keymap_type, (ui_callback_data_t)KBD_INDEX_USERPOS, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(set_layout_type)
@@ -164,23 +168,32 @@ void ui_select_keymap(ui_window_t w, int check, char *name, int sympos)
 }
 
 static ui_menu_entry_t keyboard_settings_submenu[] = {
-    { N_("Keyboard mapping type"), UI_MENU_TYPE_NORMAL, NULL, NULL, keyboard_maptype_submenu },
+    { N_("Keyboard mapping type"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, keyboard_maptype_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
       /* Do not change position as position 1 is hard coded. */
-    { N_("Keyboard layout type"), UI_MENU_TYPE_NORMAL, NULL, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Set symbolic user keymap file"), UI_MENU_TYPE_DOTS, (ui_callback_t)select_user_keymap,
-      (ui_callback_data_t)0, NULL},
-    { N_("Set positional user keymap file"), UI_MENU_TYPE_DOTS, (ui_callback_t)select_user_keymap,
-      (ui_callback_data_t)1, NULL},
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Dump keymap to file"), UI_MENU_TYPE_DOTS, (ui_callback_t) dump_keymap, NULL, NULL },
-    { NULL }
+    { N_("Keyboard layout type"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Set symbolic user keymap file"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)select_user_keymap, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Set positional user keymap file"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)select_user_keymap, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Dump keymap to file"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t) dump_keymap, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t uikeyboard_settings_menu[] = {
     { N_("Keyboard settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, keyboard_settings_submenu },
-    { NULL }
+      NULL, NULL, keyboard_settings_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 void uikeyboard_menu_create(void)
@@ -231,4 +244,3 @@ void uikeyboard_menu_shutdown(void)
 
     lib_free(keyboard_layouttype_submenu);
 }
-

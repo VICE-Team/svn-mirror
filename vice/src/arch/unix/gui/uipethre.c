@@ -36,6 +36,7 @@ UI_MENU_DEFINE_TOGGLE(PETHRE)
 
 ui_menu_entry_t pethre_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_PETHRE, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_PETHRE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

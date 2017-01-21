@@ -97,32 +97,30 @@ static UI_CALLBACK(freeze_cartridge)
 */
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Smart-attach cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_DETECT, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_DETECT, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Attach raw 16KB c1 low ROM image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C1LO, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C1LO, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach raw 16KB c1 high ROM image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C1HI, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C1HI, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach raw 16KB c2 low ROM image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C2LO, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C2LO, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach raw 16KB c2 high ROM image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C2HI, NULL },
-/*
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Set cartridge as default"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)default_cartridge, NULL, NULL },
-*/
-    { NULL }
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C2HI, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_plus4cart_commands_menu[] = {
     { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, attach_cartridge_image_submenu },
+      NULL, NULL, attach_cartridge_image_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_cartridge, NULL, NULL },
-/*
-    { N_("Cartridge freeze"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },
-*/
-    { NULL }
+      (ui_callback_t)detach_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

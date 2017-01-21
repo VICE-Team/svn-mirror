@@ -50,10 +50,12 @@ ui_menu_entry_t joyport_settings_submenu[JOYPORT_MAX_PORTS + 1];
 
 ui_menu_entry_t ui_joyport_settings_menu[] = {
     { N_("Control port settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, joyport_settings_submenu },
+      NULL, NULL, joyport_settings_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save BBRTC data when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_BBRTCSave, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_BBRTCSave, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 void uijoyport_menu_create(int port1, int port2, int port3, int port4, int port5)

@@ -104,21 +104,26 @@ static UI_CALLBACK(ui_netplay_disconnect)
 
 ui_menu_entry_t netplay_submenu[] = {
     { N_("Netplay"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)netplay, NULL, NULL },
+      (ui_callback_t)netplay, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #if !defined(USE_GNOMEUI) && !defined(USE_XAWUI)
     { N_("TCP port"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_netplay_set_port, NULL, NULL },
+      (ui_callback_t)ui_netplay_set_port, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Start server"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_netplay_start_server, NULL, NULL },
+      (ui_callback_t)ui_netplay_start_server, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Server to connect to"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_netplay_set_host,
-      (ui_callback_data_t)"NetworkServerName", NULL },
+      (ui_callback_t)ui_netplay_set_host, (ui_callback_data_t)"NetworkServerName", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Connect to server"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_netplay_connect_to_server, NULL, NULL },
+      (ui_callback_t)ui_netplay_connect_to_server, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Disconnect"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_netplay_disconnect, NULL, NULL },
+      (ui_callback_t)ui_netplay_disconnect, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif /* USE_GNOMEUI or USE_XAWUI */
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 #endif  /* HAVE_NETWORK */

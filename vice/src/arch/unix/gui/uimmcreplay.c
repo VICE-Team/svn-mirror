@@ -51,50 +51,60 @@ UI_CALLBACK(set_mmcreplay_card_filename);
 UI_CALLBACK(set_mmcreplay_eeprom_filename);
 
 static ui_menu_entry_t mmcreplay_sd_type_submenu[] = {
-    { N_("Auto"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
-      (ui_callback_data_t)0, NULL },
-    { "MMC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
-      (ui_callback_data_t)1, NULL },
-    { "SD", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
-      (ui_callback_data_t)2, NULL },
-    { "SDHC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMCRSDType,
-      (ui_callback_data_t)3, NULL },
-    { NULL }
+    { N_("Auto"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MMCRSDType, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "MMC", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MMCRSDType, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "SD", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MMCRSDType, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "SDHC", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MMCRSDType, (ui_callback_data_t)3, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
-
 
 ui_menu_entry_t mmcreplay_submenu[] = {
     { N_("Enable rescue mode"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MMCRRescueMode, NULL, NULL },
-
+      (ui_callback_t)toggle_MMCRRescueMode, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    /* the dynamically generated clockport menu goes here */
     { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, NULL }, /* the dynamically generated clockport menu goes
-                               here */
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MMCRImageWrite, NULL, NULL },
+      (ui_callback_t)toggle_MMCRImageWrite, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)mmcreplay_flush_callback, NULL, NULL },
+      (ui_callback_t)mmcreplay_flush_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)mmcreplay_save_callback, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)mmcreplay_save_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
     { N_("Card image file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_mmcreplay_card_filename,
-      (ui_callback_data_t)"MMCRCardImage", NULL },
+      (ui_callback_t)set_mmcreplay_card_filename, (ui_callback_data_t)"MMCRCardImage", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
     { N_("Enable writes to card image"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MMCRCardRW, NULL, NULL },
+      (ui_callback_t)toggle_MMCRCardRW, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
     { N_("Card type"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, mmcreplay_sd_type_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, mmcreplay_sd_type_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("EEPROM image file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_mmcreplay_eeprom_filename,
-      (ui_callback_data_t)"MMCREEPROMImage", NULL },
+      (ui_callback_t)set_mmcreplay_eeprom_filename, (ui_callback_data_t)"MMCREEPROMImage", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable writes to MMC Replay EEPROM image"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MMCREEPROMRW, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_MMCREEPROMRW, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(mmcreplay_save_callback)
@@ -145,4 +155,3 @@ void uimmcr_menu_shutdown(void)
 {
     uiclockport_device_menu_shutdown(mmcreplay_submenu[1].sub_menu);
 }
-

@@ -41,24 +41,30 @@ UI_CALLBACK(set_petreu_image_name)
 }
 
 static ui_menu_entry_t petreu_size_submenu[] = {
-    { "128kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PETREUsize,
-      (ui_callback_data_t)128, NULL },
-    { "512kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PETREUsize,
-      (ui_callback_data_t)512, NULL },
-    { "1024kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PETREUsize,
-      (ui_callback_data_t)1024, NULL },
-    { "2048kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PETREUsize,
-      (ui_callback_data_t)2048, NULL },
-    { NULL }
+    { "128kB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PETREUsize, (ui_callback_data_t)128, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "512kB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PETREUsize, (ui_callback_data_t)512, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "1024kB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PETREUsize, (ui_callback_data_t)1024, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "2048kB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_PETREUsize, (ui_callback_data_t)2048, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t petreu_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_PETREU, NULL, NULL },
+      (ui_callback_t)toggle_PETREU, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Size"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, petreu_size_submenu },
+      NULL, NULL, petreu_size_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_petreu_image_name,
-      (ui_callback_data_t)"PETREUfilename", NULL },
-    { NULL }
+      (ui_callback_t)set_petreu_image_name, (ui_callback_data_t)"PETREUfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

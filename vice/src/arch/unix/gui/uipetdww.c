@@ -41,9 +41,10 @@ UI_CALLBACK(set_petdww_image_name)
 
 ui_menu_entry_t petdww_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_PETDWW, NULL, NULL },
+      (ui_callback_t)toggle_PETDWW, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_petdww_image_name,
-      (ui_callback_data_t)"PETDWWfilename", NULL },
-    { NULL }
+      (ui_callback_t)set_petdww_image_name, (ui_callback_data_t)"PETDWWfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
