@@ -58,7 +58,7 @@ UI_MENU_DEFINE_TOGGLE(Printer7)
       NULL, NULL, uiprinter_pr##x##_device_submenu,                   \
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                      \
     { N_("Printer #"#x" formfeed"), UI_MENU_TYPE_NORMAL,              \
-      (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)y, NULL, \ 
+      (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)y, NULL, \
       z, UI_HOTMOD_META }
 
 ui_menu_entry_t printeriec_plus4_settings_menu[] = {
