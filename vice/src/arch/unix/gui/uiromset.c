@@ -193,19 +193,25 @@ static UI_CALLBACK(uiromset_archive_item_select)
 
 ui_menu_entry_t uiromset_archive_submenu[] = {
     { N_("Load ROM set archive"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_archive_load, NULL, NULL },
+      (ui_callback_t)uiromset_archive_load, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save ROM set archive"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_archive_save, NULL, NULL },
+      (ui_callback_t)uiromset_archive_save, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("List current ROM set archive"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_archive_list, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)uiromset_archive_list, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Create ROM set item"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_archive_item_create, NULL, NULL },
+      (ui_callback_t)uiromset_archive_item_create, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Delete ROM set item"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_archive_item_delete, NULL, NULL },
+      (ui_callback_t)uiromset_archive_item_delete, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Select ROM set item"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_archive_item_select, NULL, NULL },
-    { NULL }
+      (ui_callback_t)uiromset_archive_item_select, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 void uiromset_menu_init(void)
@@ -276,10 +282,13 @@ static UI_CALLBACK(uiromset_file_list)
 
 ui_menu_entry_t uiromset_file_submenu[] = {
     { N_("Load custom ROM set from file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_file_load, NULL, NULL },
+      (ui_callback_t)uiromset_file_load, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Dump ROM set definition to file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_file_save, NULL, NULL },
+      (ui_callback_t)uiromset_file_save, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("List current ROM set"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)uiromset_file_list, NULL, NULL },
-    { NULL }
+      (ui_callback_t)uiromset_file_list, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

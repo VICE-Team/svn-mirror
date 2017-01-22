@@ -407,4 +407,3 @@ void mouse_connect_wrap_handler(GtkWidget *widget, void *data)
 {
     g_signal_connect(G_OBJECT(widget), "leave-notify-event", G_CALLBACK(mouse_handler_wrap), data);
 }
-

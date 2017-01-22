@@ -56,19 +56,24 @@ static UI_CALLBACK(radio_VDCPaletteFile)
 static ui_menu_entry_t *attach_palette_submenu;
 
 static ui_menu_entry_t vdc_palette_submenu[] = {
-    { N_("Internal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCPaletteFile,
-      NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { "", UI_MENU_TYPE_NONE, NULL, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Load custom"), UI_MENU_TYPE_DOTS, (ui_callback_t)ui_load_palette,
-      (ui_callback_data_t)"VDC", NULL },
-    { NULL }
+    { N_("Internal"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_VDCPaletteFile, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Load custom"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)ui_load_palette, (ui_callback_data_t)"VDC", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t ui_palette_entry = {
-    NULL, UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCPaletteFile,
-    (ui_callback_data_t)0, NULL
+    NULL, UI_MENU_TYPE_TICK,
+    (ui_callback_t)radio_VDCPaletteFile, (ui_callback_data_t)0, NULL,
+    (ui_keysym_t)0, (ui_hotkey_modifier_t)0
 };
 
 static int countgroup(palette_info_t *palettelist, char *chip)
@@ -121,27 +126,28 @@ static void uipalette_menu_shutdown(void)
 UI_MENU_DEFINE_RADIO(VDCFilter)
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCFilter,
-      (ui_callback_data_t)VIDEO_FILTER_NONE, NULL },
+    { N_("Unfiltered"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_VDCFilter, (ui_callback_data_t)VIDEO_FILTER_NONE, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCFilter,
-      (ui_callback_data_t)VIDEO_FILTER_CRT, NULL },
-#if 0
-    { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCFilter,
-      (ui_callback_data_t)VIDEO_FILTER_SCALE2X, NULL },
-#endif
-    { NULL }
+      (ui_callback_data_t)VIDEO_FILTER_CRT, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(VDCRevision)
 
 static ui_menu_entry_t set_vdc_revison_submenu[] = {
-    { N_("Rev 0"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
-      (ui_callback_data_t)0, NULL },
-    { N_("Rev 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
-      (ui_callback_data_t)1, NULL },
-    { N_("Rev 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
-      (ui_callback_data_t)2, NULL },
-    { NULL }
+    { N_("Rev 0"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_VDCRevision, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Rev 1"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_VDCRevision, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Rev 2"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_VDCRevision, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 #define NOTHING(x) x
@@ -209,63 +215,80 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 
 ui_menu_entry_t set_vdcmodel_submenu[] = {
     { N_("64KB video memory"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VDC64KB, NULL, NULL },
+      (ui_callback_t)toggle_VDC64KB, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_vdc_revison_submenu },
-    { NULL }
+      NULL, NULL, set_vdc_revison_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t vdc_submenu[] = {
     { N_("Double size"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VDCDoubleSize, NULL, NULL },
+      (ui_callback_t)toggle_VDCDoubleSize, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Stretch vertically"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VDCStretchVertical, NULL, NULL },
+      (ui_callback_t)toggle_VDCStretchVertical, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Double scan"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VDCDoubleScan, NULL, NULL },
+      (ui_callback_t)toggle_VDCDoubleScan, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Video cache"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_VDCVideoCache, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vdc_palette_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, vdc_palette_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Render filter"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, renderer_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, renderer_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VDCAudioLeak, NULL, NULL },
+      (ui_callback_t)toggle_VDCAudioLeak, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef HAVE_HWSCALE
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Hardware scaling"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VDCHwScale, NULL, NULL },
+      (ui_callback_t)toggle_VDCHwScale, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Keep aspect ratio"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
+      (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
+      (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifndef USE_GNOMEUI
 #ifdef HAVE_XVIDEO
     { N_("Set custom aspect ratio"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_custom_aspect_ratio,
-      (ui_callback_data_t)"AspectRatio", NULL },
+      (ui_callback_t)set_custom_aspect_ratio, (ui_callback_data_t)"AspectRatio", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
 #endif /* USE_GNOMEUI */
 #endif
 #ifdef HAVE_OPENGL_SYNC
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+      (ui_callback_t)toggle_openGL_sync, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Desktop Refreshrate"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
+      (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
 #ifdef HAVE_FULLSCREEN
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Fullscreen settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, fullscreen_menuVDC },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Fullscreen settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, fullscreen_menuVDC,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
 #ifndef USE_GNOMEUI
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Use XSync()"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UseXSync, NULL, NULL },
+      (ui_callback_t)toggle_UseXSync, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 void uivdc_menu_create(void)

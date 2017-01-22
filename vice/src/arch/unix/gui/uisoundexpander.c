@@ -38,27 +38,34 @@ UI_MENU_DEFINE_TOGGLE(SFXSoundExpanderIOSwap)
 UI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
 
 static ui_menu_entry_t soundexpander_chip_submenu[] = {
-    { "3526", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SFXSoundExpanderChip,
-      (ui_callback_data_t)3526, NULL },
-    { "3812", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SFXSoundExpanderChip,
-      (ui_callback_data_t)3812, NULL },
-    { NULL }
+    { "3526", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SFXSoundExpanderChip, (ui_callback_data_t)3526, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "3812", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SFXSoundExpanderChip, (ui_callback_data_t)3812, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t soundexpander_c64_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
+      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("YM chip type"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, soundexpander_chip_submenu },
-    { NULL }
+      NULL, NULL, soundexpander_chip_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t soundexpander_vic20_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
+      (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("MasC=uerade I/O swap"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SFXSoundExpanderIOSwap, NULL, NULL },
+      (ui_callback_t)toggle_SFXSoundExpanderIOSwap, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("YM chip type"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, soundexpander_chip_submenu },
-    { NULL }
+      NULL, NULL, soundexpander_chip_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

@@ -46,18 +46,21 @@ UI_MENU_DEFINE_TOGGLE(RRNETMK3_bios_write)
 static UI_CALLBACK(rrnetmk3_flush_callback);
 static UI_CALLBACK(rrnetmk3_save_callback);
 
-
 ui_menu_entry_t rrnetmk3_submenu[] = {
     { N_("Enable flashjumper"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RRNETMK3_flashjumper, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_RRNETMK3_flashjumper, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RRNETMK3_bios_write, NULL, NULL },
+      (ui_callback_t)toggle_RRNETMK3_bios_write, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)rrnetmk3_flush_callback, NULL, NULL },
+      (ui_callback_t)rrnetmk3_flush_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)rrnetmk3_save_callback, NULL, NULL },
-    { NULL }
+      (ui_callback_t)rrnetmk3_save_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 
@@ -80,4 +83,3 @@ static UI_CALLBACK(rrnetmk3_flush_callback)
         }
     }
 }
-

@@ -45,31 +45,39 @@ static UI_CALLBACK(ramcart_flush_callback);
 static UI_CALLBACK(ramcart_save_callback);
 
 static ui_menu_entry_t ramcart_size_submenu[] = {
-    { "64kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RAMCARTsize,
-      (ui_callback_data_t)64, NULL },
-    { "128kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RAMCARTsize,
-      (ui_callback_data_t)128, NULL },
-    { NULL }
+    { "64kB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_RAMCARTsize, (ui_callback_data_t)64, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "128kB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_RAMCARTsize, (ui_callback_data_t)128, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ramcart_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMCART, NULL, NULL },
+      (ui_callback_t)toggle_RAMCART, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Read-only"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMCART_RO, NULL, NULL },
+      (ui_callback_t)toggle_RAMCART_RO, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Size"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ramcart_size_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, ramcart_size_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_ramcart_image_name,
-      (ui_callback_data_t)"RAMCARTfilename", NULL },
+      (ui_callback_t)set_ramcart_image_name, (ui_callback_data_t)"RAMCARTfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMCARTImageWrite, NULL, NULL },
+      (ui_callback_t)toggle_RAMCARTImageWrite, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ramcart_flush_callback, NULL, NULL },
+      (ui_callback_t)ramcart_flush_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)ramcart_save_callback, NULL, NULL },
-    { NULL }
+      (ui_callback_t)ramcart_save_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_CALLBACK(set_ramcart_image_name)

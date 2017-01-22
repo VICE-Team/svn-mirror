@@ -47,10 +47,11 @@ UI_MENU_DEFINE_TOGGLE(IEEE488)
 
 ui_menu_entry_t tpi_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IEEE488, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_IEEE488, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Image name"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_tpi_image_name,
-      (ui_callback_data_t)"IEEE488Image", NULL },
-    { NULL }
+      (ui_callback_t)set_tpi_image_name, (ui_callback_data_t)"IEEE488Image", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

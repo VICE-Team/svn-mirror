@@ -39,6 +39,7 @@ UI_MENU_DEFINE_TOGGLE(SSRamExpansion)
 
 ui_menu_entry_t supersnapshot_v5_submenu[] = {
     { N_("Enable 32k RAM expansion"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SSRamExpansion, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_SSRamExpansion, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

@@ -41,76 +41,61 @@
 #include "vsync.h"
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
-
-ui_menu_entry_t ser1_c64c128_baud_submenu[] = {
-  { "300", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
-  { "1200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
-  { "2400", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
-  { "9600", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
-  { "19200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
-  { N_("38400 (Swiftlink/Turbo232 only)"), UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)38400, NULL },
-  { N_("57600 (Turbo232 only)"), UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)57600, NULL },
-  { N_("115200 (Turbo232 only)"), UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)115200, NULL },
-  { NULL }
-};
-
-ui_menu_entry_t ser1_baud_submenu[] = {
-  { "300", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)300, NULL },
-  { "1200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)1200, NULL },
-  { "2400", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)2400, NULL },
-  { "9600", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)9600, NULL },
-  { "19200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice1Baud, (ui_callback_data_t)19200, NULL },
-  { NULL }
-};
-
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 
-ui_menu_entry_t ser2_c64c128_baud_submenu[] = {
-  { "300", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
-  { "1200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
-  { "2400", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
-  { "9600", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
-  { "19200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
-  { N_("38400 (Swiftlink/Turbo232 only)"), UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)38400, NULL },
-  { N_("57600 (Turbo232 only)"), UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)57600, NULL },
-  { N_("115200 (Turbo232 only)"), UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)115200, NULL },
-  { NULL }
-};
+#define SER_C64C128_BAUD_MENU(x)                                                \
+ui_menu_entry_t ser##x##_c64c128_baud_submenu[] = {                             \
+    { "300", UI_MENU_TYPE_TICK,                                                 \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)300, NULL,    \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { "1200", UI_MENU_TYPE_TICK,                                                \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)1200, NULL,   \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { "2400", UI_MENU_TYPE_TICK,                                                \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)2400, NULL,   \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { "9600", UI_MENU_TYPE_TICK,                                                \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)9600, NULL,   \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { "19200", UI_MENU_TYPE_TICK,                                               \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)19200, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { N_("38400 (Swiftlink/Turbo232 only)"), UI_MENU_TYPE_TICK,                 \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)38400, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { N_("57600 (Turbo232 only)"), UI_MENU_TYPE_TICK,                           \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)57600, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    { N_("115200 (Turbo232 only)"), UI_MENU_TYPE_TICK,                          \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)115200, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                \
+    UI_MENU_ENTRY_LIST_END                                                      \
+}
 
-ui_menu_entry_t ser2_baud_submenu[] = {
-  { "300", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)300, NULL },
-  { "1200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)1200, NULL },
-  { "2400", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)2400, NULL },
-  { "9600", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)9600, NULL },
-  { "19200", UI_MENU_TYPE_TICK,
-    (ui_callback_t)radio_RsDevice2Baud, (ui_callback_data_t)19200, NULL },
-  { NULL }
-};
+#define SER_BAUD_MENU(x)                                                       \
+ui_menu_entry_t ser##x##_baud_submenu[] = {                                    \
+    { "300", UI_MENU_TYPE_TICK,                                                \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)300, NULL,   \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                               \
+    { "1200", UI_MENU_TYPE_TICK,                                               \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)1200, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                               \
+    { "2400", UI_MENU_TYPE_TICK,                                               \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)2400, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                               \
+    { "9600", UI_MENU_TYPE_TICK,                                               \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)9600, NULL,  \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                               \
+    { "19200", UI_MENU_TYPE_TICK,                                              \
+      (ui_callback_t)radio_RsDevice##x##Baud, (ui_callback_data_t)19200, NULL, \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                               \
+    UI_MENU_ENTRY_LIST_END                                                     \
+}
+
+SER_C64C128_BAUD_MENU(1);
+SER_BAUD_MENU(1);
+SER_C64C128_BAUD_MENU(2);
+SER_BAUD_MENU(2);
 
 UI_CALLBACK(set_rs232_device_file)
 {
@@ -129,5 +114,4 @@ UI_CALLBACK(set_rs232_dump_file)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"), UILIB_FILTER_ALL);
 }
-
 #endif

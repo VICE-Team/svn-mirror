@@ -66,14 +66,18 @@ static UI_CALLBACK(ui_edit_command_paste)
 }
 
 ui_menu_entry_t ui_edit_commands_submenu[] = {
-    { N_("Copy"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_edit_command_copy, NULL, NULL },
-    { N_("Paste"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_edit_command_paste, NULL, NULL },
-    { NULL }
+    { N_("Copy"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_edit_command_copy, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Paste"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_edit_command_paste, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_edit_commands_menu[] = {
     { N_("Edit"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ui_edit_commands_submenu },
-    { NULL }
+      NULL, NULL, ui_edit_commands_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
-

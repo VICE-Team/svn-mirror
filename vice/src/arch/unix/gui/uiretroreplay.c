@@ -42,37 +42,43 @@ UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
 UI_MENU_DEFINE_RADIO(RRrevision)
 UI_MENU_DEFINE_RADIO(RRClockPort)
 
-
 static UI_CALLBACK(retroreplay_flush_callback);
 static UI_CALLBACK(retroreplay_save_callback);
 
 static ui_menu_entry_t retroreplay_revision_submenu[] = {
-    { CARTRIDGE_NAME_RETRO_REPLAY, UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRrevision,
-      (ui_callback_data_t)0, NULL },
-    { CARTRIDGE_NAME_NORDIC_REPLAY, UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRrevision,
-      (ui_callback_data_t)1, NULL },
-    { NULL }
+    { CARTRIDGE_NAME_RETRO_REPLAY, UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_RRrevision, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { CARTRIDGE_NAME_NORDIC_REPLAY, UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_RRrevision, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t retroreplay_submenu[] = {
     { N_("Enable flashjumper"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RRFlashJumper, NULL, NULL },
+      (ui_callback_t)toggle_RRFlashJumper, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable bankjumper"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RRBankJumper, NULL, NULL },
+      (ui_callback_t)toggle_RRBankJumper, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, retroreplay_revision_submenu },
-
+      NULL, NULL, retroreplay_revision_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Clockport device"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, NULL },
-
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RRBiosWrite, NULL, NULL },
+      (ui_callback_t)toggle_RRBiosWrite, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)retroreplay_flush_callback, NULL, NULL },
+      (ui_callback_t)retroreplay_flush_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)retroreplay_save_callback, NULL, NULL },
-    { NULL }
+      (ui_callback_t)retroreplay_save_callback, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(retroreplay_save_callback)
@@ -111,4 +117,3 @@ void uiretroreplay_menu_shutdown(void)
 {
     uiclockport_device_menu_shutdown(retroreplay_submenu[3].sub_menu);
 }
-

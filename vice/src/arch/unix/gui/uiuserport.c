@@ -43,40 +43,54 @@ UI_MENU_DEFINE_TOGGLE(Userport8BSS)
 
 ui_menu_entry_t userport_c64_cbm2_submenu[] = {
     { N_("Enable 4 bit sampler"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Userport4bitSampler, NULL, NULL },
+      (ui_callback_t)toggle_Userport4bitSampler, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable 8 bit stereo sampler"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Userport8BSS, NULL, NULL },
+      (ui_callback_t)toggle_Userport8BSS, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable 8 bit DAC"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
+      (ui_callback_t)toggle_UserportDAC, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable DigiMAX"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportDIGIMAX, NULL, NULL },
+      (ui_callback_t)toggle_UserportDIGIMAX, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (58321a)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL },
+      (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (58321a) saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL },
+      (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (DS1307)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTCDS1307, NULL, NULL },
+      (ui_callback_t)toggle_UserportRTCDS1307, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (DS1307) saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTCDS1307Save, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_UserportRTCDS1307Save, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t userport_pet_vic20_submenu[] = {
     { N_("Enable 8 bit DAC"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
+      (ui_callback_t)toggle_UserportDAC, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (58321a)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL },
+      (ui_callback_t)toggle_UserportRTC58321a, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (58321a) saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL },
+      (ui_callback_t)toggle_UserportRTC58321aSave, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (DS1307)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTCDS1307, NULL, NULL },
+      (ui_callback_t)toggle_UserportRTCDS1307, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable RTC (DS1307) saving"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportRTCDS1307Save, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_UserportRTCDS1307Save, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t userport_plus4_submenu[] = {
     { N_("Enable 8 bit DAC"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_UserportDAC, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

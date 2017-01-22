@@ -38,25 +38,33 @@ UI_MENU_DEFINE_TOGGLE(SpeedSwitch)
 UI_MENU_DEFINE_RADIO(SIMMSize)
 
 static ui_menu_entry_t scpu64_simm_size_submenu[] = {
-    { "0 MB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SIMMSize,
-      (ui_callback_data_t)0, NULL },
-    { "1 MB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SIMMSize,
-      (ui_callback_data_t)1, NULL },
-    { "4 MB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SIMMSize,
-      (ui_callback_data_t)4, NULL },
-    { "8 MB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SIMMSize,
-      (ui_callback_data_t)8, NULL },
-    { "16 MB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SIMMSize,
-      (ui_callback_data_t)16, NULL },
-    { NULL }
+    { "0 MB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SIMMSize, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "1 MB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SIMMSize, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "4 MB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SIMMSize, (ui_callback_data_t)4, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "8 MB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SIMMSize, (ui_callback_data_t)8, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "16 MB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SIMMSize, (ui_callback_data_t)16, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t scpu64_submenu[] = {
     { N_("SIMM size"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, scpu64_simm_size_submenu },
+      NULL, NULL, scpu64_simm_size_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Jiffy switch enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_JiffySwitch, NULL, NULL },
+      (ui_callback_t)toggle_JiffySwitch, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Speed switch enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SpeedSwitch, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_SpeedSwitch, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };

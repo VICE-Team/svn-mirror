@@ -79,20 +79,22 @@ UI_CALLBACK(set_sampler_image_name)
 
 ui_menu_entry_t sampler_settings_submenu[] = {
     { N_("Sampler device"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Sampler gain"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_sampler_gain,
-      NULL, NULL },
+      (ui_callback_t)set_sampler_gain, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Sampler input media file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_sampler_image_name,
-      (ui_callback_data_t)"SampleName", NULL },
-    { NULL },
+      (ui_callback_t)set_sampler_image_name, (ui_callback_data_t)"SampleName", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_sampler_settings_menu[] = {
     { N_("Sampler settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sampler_settings_submenu },
-    { NULL }
+      NULL, NULL, sampler_settings_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 void uisampler_menu_create(void)

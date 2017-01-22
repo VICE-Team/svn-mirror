@@ -65,14 +65,18 @@ UI_MENU_DEFINE_RADIO(SidResidSampling)
 
 ui_menu_entry_t sid_resid_sampling_submenu[] = {
     { N_("Fast"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Interpolating"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Resampling"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Fast resampling"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)3, NULL },
-    { NULL }
+      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)3, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 #if !defined(USE_GNOMEUI)
@@ -111,15 +115,23 @@ UI_CALLBACK(set_sid_resid_passband)
 UI_MENU_DEFINE_RADIO(SidStereo)
 
 ui_menu_entry_t sid_extra_sids_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereo, (ui_callback_data_t)0, NULL },
-    { N_("One"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereo, (ui_callback_data_t)1, NULL },
-    { N_("Two"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereo, (ui_callback_data_t)2, NULL },
-    { NULL }
+    { N_("None"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SidStereo, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("One"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SidStereo, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Two"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SidStereo, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t sid_model_submenu[] = {
-    { "", UI_MENU_TYPE_NONE, NULL, NULL, NULL },
-    { NULL }
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t *attach_sid_model_submenu = NULL;

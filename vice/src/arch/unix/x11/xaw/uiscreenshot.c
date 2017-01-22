@@ -785,9 +785,10 @@ static Widget build_ffmpeg_options(Widget parent)
 
 /* Koala and Doodle oversize/undersize options */
 
-#define ENTRY(label, callback, data)  \
+#define ENTRY(label, callback, data)                       \
     { label, UI_MENU_TYPE_NORMAL, (ui_callback_t)callback, \
-      (ui_callback_data_t)data, NULL }
+      (ui_callback_data_t)data, NULL,                      \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 }
 
 static ui_menu_entry_t oversize_menu[] = {
     ENTRY(N_("scale down"),         oversize_menu_cb, 0),
@@ -800,13 +801,13 @@ static ui_menu_entry_t oversize_menu[] = {
     ENTRY(N_("crop left bottom"),   oversize_menu_cb, 7),
     ENTRY(N_("crop center bottom"), oversize_menu_cb, 8),
     ENTRY(N_("crop right bottom"),  oversize_menu_cb, 9),
-    ENTRY(0,                        0,                0),
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t undersize_menu[] = {
     ENTRY(N_("scale up"),           undersize_menu_cb, 0),
     ENTRY(N_("add borders"),        undersize_menu_cb, 1),
-    ENTRY(0,                        0,                 0),
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t multicolor_menu[] = {
@@ -815,20 +816,20 @@ static ui_menu_entry_t multicolor_menu[] = {
     ENTRY(N_("4 colors"),           multicolor_menu_cb, 2),
     ENTRY(N_("gray scale"),         multicolor_menu_cb, 3),
     ENTRY(N_("best cell colors"),   multicolor_menu_cb, 4),
-    ENTRY(0,                        0,                  0),
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t ted_luma_menu[] = {
     ENTRY(N_("ignore"),             ted_luma_menu_cb, 0),
     ENTRY(N_("dither"),             ted_luma_menu_cb, 1),
-    ENTRY(0,                        0,                0),
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t crtc_textcolor_menu[] = {
     ENTRY(N_("white"),              crtc_textcolor_menu_cb, 0),
     ENTRY(N_("amber"),              crtc_textcolor_menu_cb, 1),
     ENTRY(N_("green"),              crtc_textcolor_menu_cb, 2),
-    ENTRY(0,                        0,                      0),
+    UI_MENU_ENTRY_LIST_END
 };
 
 static void set_button(Widget w, ui_menu_entry_t *menu, int choice)

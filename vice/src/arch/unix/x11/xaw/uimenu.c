@@ -70,8 +70,8 @@
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { NULL },
+    UI_MENU_ENTRY_SEPERATOR,
+    UI_MENU_ENTRY_LIST_END
 };
 
 /* Bitmaps for the menus: "tick" and right arrow (for submenus).  */

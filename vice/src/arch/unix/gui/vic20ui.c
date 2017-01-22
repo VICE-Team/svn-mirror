@@ -152,93 +152,108 @@ UI_MENU_DEFINE_RADIO(SidAddress)
 
 static ui_menu_entry_t sidcart_address_submenu[] = {
     { "$9800", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0x9800, NULL },
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0x9800, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "$9C00", UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0x9c00, NULL },
-    { NULL }
+      (ui_callback_t)radio_SidAddress, (ui_callback_data_t)0x9c00, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(SidClock)
 
 static ui_menu_entry_t sidcart_clock_submenu[] = {
-    { "C64", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidClock,
-      (ui_callback_data_t)0, NULL },
-    { "VIC20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidClock,
-      (ui_callback_data_t)1, NULL },
-    { NULL }
+    { "C64", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SidClock, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "VIC20", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SidClock, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t sidcart_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SidCart, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_SidCart, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_model_submenu },
+      NULL, NULL, sid_model_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("SID filters"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+      (ui_callback_t)toggle_SidFilters, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("SID address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sidcart_address_submenu },
+      NULL, NULL, sidcart_address_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     /* Translators: "SID clock" as in "CPU Frequency" */
     { N_("SID clock"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sidcart_clock_submenu },
+      NULL, NULL, sidcart_clock_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef HAVE_RESID
     { N_("ReSID sampling method"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, sid_resid_sampling_submenu },
+      NULL, NULL, sid_resid_sampling_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20ui_main_romset_submenu[] = {
     { N_("Load new kernal ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"KernalName", NULL },
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load new BASIC ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"BasicName", NULL },
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load new character ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"ChargenName", NULL },
-    { NULL }
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_romset_submenu[] = {
     { N_("Load default ROMs"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"default.vrs", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Load new computer ROM"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20ui_main_romset_submenu },
+      NULL, NULL, vic20ui_main_romset_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load new drive ROM"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ui_drivec64vic20_romset_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, ui_drivec64vic20_romset_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("ROM set archive"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uiromset_archive_submenu },
+      NULL, NULL, uiromset_archive_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("ROM set file"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uiromset_file_submenu },
-    { NULL }
+      NULL, NULL, uiromset_file_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t common_memory_configurations_submenu[] = {
     { N_("No expansion memory"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t) set_common_memory_configuration,
-      (ui_callback_data_t)MEM_NONE, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t) set_common_memory_configuration, (ui_callback_data_t)MEM_NONE, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("3K (block 0)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t) set_common_memory_configuration,
-      (ui_callback_data_t)MEM_3K, NULL },
+      (ui_callback_t) set_common_memory_configuration, (ui_callback_data_t)MEM_3K, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("8K (block 1)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t) set_common_memory_configuration,
-      (ui_callback_data_t)MEM_8K, NULL },
+      (ui_callback_t) set_common_memory_configuration, (ui_callback_data_t)MEM_8K, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("16K (blocks 1/2)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t) set_common_memory_configuration,
-      (ui_callback_data_t)MEM_16K, NULL },
+      (ui_callback_t) set_common_memory_configuration, (ui_callback_data_t)MEM_16K, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("24K (blocks 1/2/3)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t) set_common_memory_configuration,
-      (ui_callback_data_t)MEM_24K, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t) set_common_memory_configuration, (ui_callback_data_t)MEM_24K, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("All (blocks 0/1/2/3/5)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t) set_common_memory_configuration,
-      (ui_callback_data_t)MEM_ALL, NULL },
-    { NULL }
+      (ui_callback_t) set_common_memory_configuration, (ui_callback_data_t)MEM_ALL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(RAMBlock0)
@@ -249,19 +264,25 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 
 static ui_menu_entry_t memory_settings_submenu[] = {
     { N_("Common configurations"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, common_memory_configurations_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, common_memory_configurations_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Block 0 (3K at $0400-$0FFF)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMBlock0, NULL, NULL },
+      (ui_callback_t)toggle_RAMBlock0, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Block 1 (8K at $2000-$3FFF)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMBlock1, NULL, NULL },
+      (ui_callback_t)toggle_RAMBlock1, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Block 2 (8K at $4000-$5FFF)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMBlock2, NULL, NULL },
+      (ui_callback_t)toggle_RAMBlock2, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Block 3 (8K at $6000-$7FFF)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMBlock3, NULL, NULL },
+      (ui_callback_t)toggle_RAMBlock3, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Block 5 (8K at $A000-$BFFF)"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RAMBlock5, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_RAMBlock5, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -295,25 +316,24 @@ static UI_CALLBACK(attach_cartridge)
 
 static ui_menu_entry_t add_to_generic_cart_submenu[] = {
     { N_("Smart-attach cartridge image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_DETECT, NULL,
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_DETECT, NULL,
       KEYSYM_c, UI_HOTMOD_META },
     { N_("Attach 4/8/16KB cartridge image at $2000"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_16KB_2000, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_16KB_2000, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach 4/8/16KB cartridge image at $4000"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_16KB_4000, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_16KB_4000, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach 4/8/16KB cartridge image at $6000"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_16KB_6000, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_16KB_6000, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach 4/8KB cartridge image at $A000"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_8KB_A000, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_8KB_A000, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach 4KB cartridge image at $B000"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000, NULL },
-    { NULL }
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static UI_CALLBACK(detach_cartridge)
@@ -328,30 +348,32 @@ static UI_CALLBACK(default_cartridge)
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Attach generic image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach Behr Bonz image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_BEHRBONZ, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_BEHRBONZ, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach Mega-Cart image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach Final Expansion image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach UltiMem image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_UM, NULL },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_UM, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Attach Vic Flash Plugin image"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)attach_cartridge,
-      (ui_callback_data_t)CARTRIDGE_VIC20_FP, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)CARTRIDGE_VIC20_FP, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Add to generic cartridge"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, add_to_generic_cart_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, add_to_generic_cart_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Set cartridge as default"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)default_cartridge, NULL, NULL },
-    { NULL }
+      (ui_callback_t)default_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
@@ -370,64 +392,54 @@ UI_CALLBACK(set_mc_nvram_image_name)
 
 static ui_menu_entry_t fexp_submenu[] = {
     { N_("Enable image write back"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_FinalExpansionWriteBack, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_FinalExpansionWriteBack, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vicflash_submenu[] = {
     { N_("Enable image write back"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VicFlashPluginWriteBack, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_VicFlashPluginWriteBack, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t ultimem_submenu[] = {
     { N_("Enable image write back"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_UltiMemWriteBack, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_UltiMemWriteBack, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t megacart_submenu[] = {
     { N_("Enable NvRAM image write back"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MegaCartNvRAMWriteBack, NULL, NULL },
+      (ui_callback_t)toggle_MegaCartNvRAMWriteBack, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("NvRAM image file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_mc_nvram_image_name,
-      (ui_callback_data_t)"MegaCartNvRAMfilename", NULL },
-    { NULL }
+      (ui_callback_t)set_mc_nvram_image_name, (ui_callback_data_t)"MegaCartNvRAMfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t io_ram_submenu[] = {
     { N_("Enable I/O-2 RAM"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IO2RAM, NULL, NULL },
+      (ui_callback_t)toggle_IO2RAM, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable I/O-3 RAM"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IO3RAM, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_IO3RAM, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
     { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, attach_cartridge_image_submenu },
+      NULL, NULL, attach_cartridge_image_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)detach_cartridge, NULL, NULL },
-    { NULL }
+      (ui_callback_t)detach_cartridge, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
-
-/* ------------------------------------------------------------------------- */
-#if 0
-/* unused ? */
-static UI_CALLBACK(set_joystick_device)
-{
-    vsync_suspend_speed_eval();
-    if (!CHECK_MENUS) {
-        resources_set_int("JoyDevice1", vice_ptr_to_int(UI_MENU_CB_PARAM));
-        ui_update_menus();
-    } else {
-        int tmp;
-
-        resources_get_int("JoyDevice1", &tmp);
-        ui_menu_set_tick(w, tmp == vice_ptr_to_int(UI_MENU_CB_PARAM));
-    }
-}
-#endif
 
 /*------------------------------------------------------------*/
 
@@ -449,8 +461,9 @@ static UI_CALLBACK(save_screenshot)
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { N_("Save media file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
-    { NULL }
+      (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
@@ -476,44 +489,55 @@ static UI_CALLBACK(radio_vic20model)
 }
 
 static ui_menu_entry_t set_vic20_model_submenu[] = {
-    { "VIC20 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_vic20model,
-      (ui_callback_data_t)VIC20MODEL_VIC20_PAL, NULL },
-    { "VIC20 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_vic20model,
-      (ui_callback_data_t)VIC20MODEL_VIC20_NTSC, NULL },
-    { "VIC21", UI_MENU_TYPE_TICK, (ui_callback_t)radio_vic20model,
-      (ui_callback_data_t)VIC20MODEL_VIC21, NULL },
-    { NULL }
+    { "VIC20 PAL", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_vic20model, (ui_callback_data_t)VIC20MODEL_VIC20_PAL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "VIC20 NTSC", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_vic20model, (ui_callback_data_t)VIC20MODEL_VIC20_NTSC, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "VIC21", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_vic20model, (ui_callback_data_t)VIC20MODEL_VIC21, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t set_vic_model_submenu[] = {
-    { "PAL-G", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { "NTSC-M", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
-    { NULL }
+    { "PAL-G", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MachineVideoStandard, (ui_callback_data_t)MACHINE_SYNC_PAL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "NTSC-M", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_MachineVideoStandard, (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_model_submenu[] = {
     { N_("Model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_vic20_model_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, set_vic20_model_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("VIC model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_vic_model_submenu },
+      NULL, NULL, set_vic_model_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Memory expansions"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, memory_settings_submenu },
-    { NULL }
+      NULL, NULL, memory_settings_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_RADIO(IOCollisionHandling)
 
 static ui_menu_entry_t iocollision_submenu[] = {
     { N_("detach all"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL, NULL },
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_ALL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("detach last"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST, NULL },
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_DETACH_LAST, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("AND values"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES, NULL },
-    { NULL }
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)IO_COLLISION_METHOD_AND_WIRES, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(IEEE488)
@@ -521,235 +545,313 @@ UI_MENU_DEFINE_TOGGLE(VFLImod)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_VIC20_NAME_MEGACART, UI_MENU_TYPE_NORMAL,
-      NULL, NULL, megacart_submenu },
+      NULL, NULL, megacart_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, UI_MENU_TYPE_NORMAL,
-      NULL, NULL, fexp_submenu },
+      NULL, NULL, fexp_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { CARTRIDGE_VIC20_NAME_FP, UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vicflash_submenu },
+      NULL, NULL, vicflash_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { CARTRIDGE_VIC20_NAME_UM, UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ultimem_submenu },
+      NULL, NULL, ultimem_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sidcart_submenu },
+      NULL, NULL, sidcart_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("VIC-1112 IEEE488 interface"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IEEE488, NULL, NULL },
+      (ui_callback_t)toggle_IEEE488, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("I/O RAM"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, io_ram_submenu },
+      NULL, NULL, io_ram_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("VFLI modification"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_VFLImod, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)toggle_VFLImod, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { CARTRIDGE_NAME_DIGIMAX " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, digimax_vic20_submenu },
+      NULL, NULL, digimax_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { CARTRIDGE_NAME_DS12C887RTC " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ds12c887rtc_vic20_submenu },
+      NULL, NULL, ds12c887rtc_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { CARTRIDGE_NAME_GEORAM " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, georam_vic20_submenu },
+      NULL, NULL, georam_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, soundexpander_vic20_submenu },
+      NULL, NULL, soundexpander_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, soundsampler_submenu },
+      NULL, NULL, soundsampler_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef HAVE_PCAP
-    { "--", UI_MENU_TYPE_SEPARATOR },
-
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Ethernet cartridge (MasC=uerade)"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ethernetcart_vic20_submenu },
+      NULL, NULL, ethernetcart_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
-    { "--", UI_MENU_TYPE_SEPARATOR },
+    UI_MENU_ENTRY_SEPERATOR,
 #ifdef HAVE_MIDI
     { N_("MIDI emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, midi_vic20_submenu },
+      NULL, NULL, midi_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     { "Userport devices", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, userport_pet_vic20_submenu },
+      NULL, NULL, userport_pet_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "Tape port devices", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, tapeport_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      NULL, NULL, tapeport_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("I/O collision handling ($9000-$93FF / $9800-$9FFF)"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, iocollision_submenu },
+      NULL, NULL, iocollision_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t vic20_menu[] = {
     { N_("Model settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_model_submenu },
+      NULL, NULL, vic20_model_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("RAM reset pattern"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ui_ram_pattern_submenu },
+      NULL, NULL, ui_ram_pattern_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("ROM settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_romset_submenu },
+      NULL, NULL, vic20_romset_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("VIC settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic_submenu },
+      NULL, NULL, vic_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, io_extensions_submenu },
+      NULL, NULL, io_extensions_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uirs232_vic20_submenu },
+      NULL, NULL, uirs232_vic20_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
 #ifdef HAVE_PCAP
     { N_("Ethernet settings"), UI_MENU_TYPE_NORMAL,
-        NULL, NULL, uics8900_submenu },
+      NULL, NULL, uics8900_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_left_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, uiattach_smart_attach_menu },
+      NULL, NULL, uiattach_smart_attach_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uiattach_disk_menu },
+      NULL, NULL, uiattach_disk_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uiattach_tape_menu },
+      NULL, NULL, uiattach_tape_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_datasette_commands_menu },
+      NULL, NULL, ui_datasette_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, vic20_cartridge_commands_menu },
+      NULL, NULL, vic20_cartridge_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_directory_commands_menu },
+      NULL, NULL, ui_directory_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_snapshot_commands_menu },
+      NULL, NULL, ui_snapshot_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_screenshot_commands_menu },
+      NULL, NULL, ui_screenshot_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_record_commands_menu },
+      NULL, NULL, ui_sound_record_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_edit_commands_menu },
+      NULL, NULL, ui_edit_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_tool_commands_menu },
+      NULL, NULL, ui_tool_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef HAVE_NETWORK
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, netplay_submenu },
+      NULL, NULL, netplay_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_run_commands_menu },
+      NULL, NULL, ui_run_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_help_commands_menu },
+      NULL, NULL, ui_help_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_exit_commands_menu },
-    { NULL }
+      NULL, NULL, ui_exit_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_tape_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, uiattach_tape_menu },
+      NULL, NULL, uiattach_tape_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, datasette_control_submenu },
-    { NULL }
+      NULL, NULL, datasette_control_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_file_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, uiattach_smart_attach_menu },
+      NULL, NULL, uiattach_smart_attach_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uiattach_disk_menu },
+      NULL, NULL, uiattach_disk_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uiattach_tape_menu },
+      NULL, NULL, uiattach_tape_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_datasette_commands_menu },
+      NULL, NULL, ui_datasette_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, vic20_cartridge_commands_menu },
+      NULL, NULL, vic20_cartridge_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_directory_commands_menu },
+      NULL, NULL, ui_directory_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_tool_commands_menu },
+      NULL, NULL, ui_tool_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef HAVE_NETWORK
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, netplay_submenu },
+      NULL, NULL, netplay_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_run_commands_menu },
+      NULL, NULL, ui_run_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_exit_commands_menu },
-    { NULL }
+      NULL, NULL, ui_exit_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 #ifdef USE_GNOMEUI
 static ui_menu_entry_t vic20_edit_submenu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_edit_commands_submenu },
-    { NULL }
+      NULL, NULL, ui_edit_commands_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 #endif
 
 static ui_menu_entry_t vic20_snapshot_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_snapshot_commands_submenu },
+      NULL, NULL, ui_snapshot_commands_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_screenshot_commands_menu },
+      NULL, NULL, ui_screenshot_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_sound_record_commands_menu },
-    { NULL }
+      NULL, NULL, ui_sound_record_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 
 static ui_menu_entry_t vic20_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
+      NULL, NULL, ui_performance_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
+      NULL, NULL, ui_runmode_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uikeyboard_settings_menu },
+      NULL, NULL, uikeyboard_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_settings_menu },
+      NULL, NULL, ui_sound_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sampler_settings_menu },
+      NULL, NULL, ui_sampler_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_drivevic20_settings_menu },
+      NULL, NULL, ui_drivevic20_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
-      NULL, NULL, printeriec_settings_menu },
+      NULL, NULL, printeriec_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
-      (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
+      (ui_callback_t)toggle_VirtualDevices, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_joyport_settings_menu },
+      NULL, NULL, ui_joyport_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, joystick_settings_vic20_menu },
+      NULL, NULL, joystick_settings_vic20_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef HAVE_MOUSE
     { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, mouse_submenu },
+      NULL, NULL, mouse_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, vic20_menu },
+      NULL, NULL, vic20_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_settings_settings_menu },
+      NULL, NULL, ui_settings_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef DEBUG
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_debug_settings_menu },
+      NULL, NULL, ui_debug_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
-    { NULL }
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_top_menu[] = {
     { N_("File"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_file_menu },
+      NULL, NULL, vic20_file_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef USE_GNOMEUI
     { N_("Edit"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_edit_submenu },
+      NULL, NULL, vic20_edit_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_snapshot_menu },
+      NULL, NULL, vic20_snapshot_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_settings_menu },
+      NULL, NULL, vic20_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #ifdef DEBUG
     { N_("Debug"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, debug_settings_submenu },
+      NULL, NULL, debug_settings_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 #endif
     /* Translators: RJ means right justify and should be
         saved in your tranlation! e.g. german "RJHilfe" */
     { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ui_help_commands_menu },
-    { NULL }
+      NULL, NULL, ui_help_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static ui_menu_entry_t vic20_speed_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
+      NULL, NULL, ui_performance_settings_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_runmode_commands_menu },
-    { NULL }
+      NULL, NULL, ui_runmode_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 static void vic20ui_dynamic_menu_create(void)

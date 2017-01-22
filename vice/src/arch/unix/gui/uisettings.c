@@ -333,31 +333,43 @@ UI_MENU_DEFINE_TOGGLE(ConfirmOnExit)
  */
 static ui_menu_entry_t set_refresh_rate_submenu[] = {
     { N_("Auto"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/1", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)1, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/2", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)2, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/3", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)3, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)3, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/4", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)4, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)4, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/5", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)5, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)5, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/6", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)6, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)6, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/7", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)7, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)7, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/8", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)8, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)8, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/9", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)9, NULL },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)9, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "1/10", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)10, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)set_refresh_rate, (ui_callback_data_t)10, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Custom"), UI_MENU_TYPE_TICKDOTS,
-      (ui_callback_t)set_custom_refresh_rate, NULL, NULL },
-    { NULL }
+      (ui_callback_t)set_custom_refresh_rate, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 /*
@@ -366,50 +378,66 @@ static ui_menu_entry_t set_refresh_rate_submenu[] = {
  */
 ui_menu_entry_t set_maximum_speed_submenu[] = {
     { "200%", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)200, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)200, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "100%", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)100, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)100, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "50%", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)50, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)50, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "20%", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)20, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)20, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "10%", UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)10, NULL },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)10, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("No limit"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)0, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)set_maximum_speed, (ui_callback_data_t)0, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Custom"), UI_MENU_TYPE_TICKDOTS,
-      (ui_callback_t)set_custom_maximum_speed, NULL, NULL },
-    { NULL }
+      (ui_callback_t)set_custom_maximum_speed, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t ui_performance_settings_menu[] = {
     { N_("Refresh rate"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_refresh_rate_submenu },
+      NULL, NULL, set_refresh_rate_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Maximum speed"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_maximum_speed_submenu },
-    { NULL }
+      NULL, NULL, set_maximum_speed_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t ui_settings_settings_menu[] = {
     { N_("Save settings"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)save_resources, NULL, NULL },
+      (ui_callback_t)save_resources, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load settings"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)load_resources, NULL, NULL },
+      (ui_callback_t)load_resources, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Save settings to file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)save_resources_file, NULL, NULL },
+      (ui_callback_t)save_resources_file, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load settings from file"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)load_resources_file, NULL, NULL },
+      (ui_callback_t)load_resources_file, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Restore default settings"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)set_default_resources, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
+      (ui_callback_t)set_default_resources, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
     { N_("Save settings on exit"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SaveResourcesOnExit, NULL, NULL },
+      (ui_callback_t)toggle_SaveResourcesOnExit, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Confirm quitting VICE"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_ConfirmOnExit, NULL, NULL },
-    { NULL }
+      (ui_callback_t)toggle_ConfirmOnExit, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 /* ------------------------------------------------------------------------- */
@@ -443,11 +471,19 @@ static UI_CALLBACK(set_auto_playback_frames)
 UI_MENU_DEFINE_RADIO(TraceMode)
 
 ui_menu_entry_t debug_tracemode_submenu[] = {
-    { N_("Normal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_NORMAL, NULL },
-    { N_("Small"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_SMALL, NULL },
-    { N_("History"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_HISTORY, NULL },
-    { N_("Autoplay"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_AUTOPLAY, NULL },
-    { NULL }
+    { N_("Normal"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_NORMAL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Small"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_SMALL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("History"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_HISTORY, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Autoplay"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_AUTOPLAY, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(MainCPU_TRACE)
@@ -458,53 +494,65 @@ UI_MENU_DEFINE_TOGGLE(Drive3CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(DoCoreDump)
 
 ui_menu_entry_t debug_settings_submenu[] = {
-    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_tracemode_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive0 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
-    { N_("Drive1 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
-    { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
-    { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR }, /* replaced by extra items in XY_dynamic_menu_create() (eg DTV) */
-    { N_("Autoplay playback frames"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_auto_playback_frames, NULL, NULL },
-    { N_("Save core dump"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DoCoreDump, NULL, NULL },
-    { NULL }
+    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_tracemode_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Drive0 CPU Trace"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Drive1 CPU Trace"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR, /* replaced by extra items in XY_dynamic_menu_create() (eg DTV) */
+    { N_("Autoplay playback frames"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_auto_playback_frames, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Save core dump"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DoCoreDump, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 ui_menu_entry_t debug_settings_submenu_vsid[] = {
-    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_tracemode_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
-#if 0
-    { "--", UI_MENU_TYPE_SEPARATOR },
-
-    { N_("Drive0 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
-    { N_("Drive1 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
-    { N_("Drive2 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
-    { N_("Drive3 CPU Trace"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
-#endif
-    { "--", UI_MENU_TYPE_SEPARATOR }, /* replaced by extra items in XY_dynamic_menu_create() (eg DTV) */
-    { N_("Autoplay playback frames"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_auto_playback_frames, NULL, NULL },
-    { N_("Save core dump"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_DoCoreDump, NULL, NULL },
-    { NULL }
+    { N_("Trace Mode"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_tracemode_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Main CPU Trace"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_SEPERATOR,
+    { N_("Autoplay playback frames"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_auto_playback_frames, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Save core dump"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DoCoreDump, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
-
-
-
 
 ui_menu_entry_t ui_debug_settings_menu[] = {
-    { N_("Debug settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_settings_submenu },
-    { NULL }
+    { N_("Debug settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_settings_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
-
 
 ui_menu_entry_t ui_debug_settings_menu_vsid[] = {
-    { N_("Debug settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, debug_settings_submenu_vsid },
-    { NULL }
+    { N_("Debug settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_settings_submenu_vsid,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
-
-
-
-
 #endif
