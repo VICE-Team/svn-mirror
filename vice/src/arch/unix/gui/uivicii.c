@@ -138,6 +138,7 @@ static ui_menu_entry_t bordermode_submenu[] = {
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Debug"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_VICIIBorderMode, (ui_callback_data_t)VICII_DEBUG_BORDERS, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("None"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_VICIIBorderMode, (ui_callback_data_t)VICII_NO_BORDERS, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
