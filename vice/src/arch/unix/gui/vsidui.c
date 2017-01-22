@@ -305,8 +305,6 @@ static ui_menu_entry_t vsid_run_commands_menu[] = {
       NULL, NULL, reset_submenu,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_SEPERATOR,
-      NULL, NULL, ui_runmode_commands_menu,
-      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_LIST_END
 };
 
