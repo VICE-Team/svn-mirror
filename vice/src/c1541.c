@@ -101,6 +101,17 @@
 #define DRIVE_COUNT     4       /**< number of virtual drives */
 
 
+#define RAW_BLOCK_SIZE  256     /**< size of a block/sector, including the
+                                     (track,sector) pointer */
+
+
+/** \brief  Number of bytes to display per line for the `block` command
+ *
+ * Normally, on 80 character terminals, 16 bytes is a decent number.
+ */
+#define BLOCK_CMD_WIDTH     16
+
+
 /** \brief  Minimum unit number for virtual drives
  *
  * This will probably always be 8, but using a symbolic constant is neater
@@ -1097,10 +1108,11 @@ static int attach_cmd(int nargs, char **args)
  */
 static int block_cmd(int nargs, char **args)
 {
-    int drive, offset = 0;
+    int drive;  /* index into the drives array */
+    int offset = 0;
     int track, sector;
     vdrive_t *vdrive;
-    BYTE *buf, str[20], sector_data[256];
+    BYTE *buf, chrbuf[BLOCK_CMD_WIDTH + 1], sector_data[RAW_BLOCK_SIZE];
     int cnt;
 
     /* block <track> <sector> [offset] [<drive>] show disk blocks in hex form */
@@ -1112,8 +1124,10 @@ static int block_cmd(int nargs, char **args)
         if (arg_to_int(args[3], &offset) < 0) {
             return FD_BADVAL;
         }
-        if (offset < 0) {
-            fprintf(stderr, "Error: negative value for `offset` argument: %d\n",
+        if (offset < 0 || offset >= RAW_BLOCK_SIZE) {
+            fprintf(stderr,
+                    "Error: invalid value for `offset` argument: %d, valid "
+                    "values are 0-255\n",
                     offset);
             return FD_BADVAL;
         }
@@ -1153,16 +1167,21 @@ static int block_cmd(int nargs, char **args)
 
     /* Show block */
 
-    printf("<%2d: %2d %2d>\n", drive, track, sector);
-    str[16] = 0;
-    while (offset < 256) {
-        printf("> %02X ", offset & 255);
-        for (cnt = 0; cnt < 16; cnt++, offset++) {
-            printf(" %02X", buf[offset & 255]);
-            str[cnt] = (buf[offset & 255] < ' ' ?
-                        '.' : charset_p_toascii(buf[offset & 255], 0));
+    printf("<#%2d: %2d %2d>\n", drive + UNIT_MIN, track, sector);
+    while (offset < RAW_BLOCK_SIZE) {
+        printf("> %02X ", offset);
+        memset(chrbuf, '\0', BLOCK_CMD_WIDTH + 1);
+        for (cnt = 0; cnt < BLOCK_CMD_WIDTH && offset < RAW_BLOCK_SIZE;
+                cnt++, offset++) {
+            printf(" %02X", buf[offset]);
+            chrbuf[cnt] = (buf[offset] < ' ' ?
+                        '.' : charset_p_toascii(buf[offset], 0));
         }
-        printf("  ;%s\n", str);
+        /* fix indentation in case the last line is less than the max width */
+        while (cnt++ < BLOCK_CMD_WIDTH) {
+            printf("   ");
+        }
+        printf("  ;%s\n", chrbuf);
     }
     return FD_OK;
 }
