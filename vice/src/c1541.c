@@ -165,16 +165,20 @@ static int interactive_mode = 0;
  * forward declaration of functions
  */
 
+/* helpers */
 static int check_drive_unit(int unit);
 static int check_drive_index(int index);
 static int check_drive_ready(int index);
-
+static int parse_track_sector(const char *trk_str, const char *sec_str,
+                              unsigned int *trk_num, unsigned int *sec_num);
 
 
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
-static int check_drive(int dev, int mode);
+#if 0
+static int chain_cmd(int nargs, char **args);
+#endif
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
@@ -200,6 +204,8 @@ static int write_cmd(int nargs, char **args);
 static int write_geos_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
 
+/* other functions */
+static int check_drive(int dev, int mode);  /* DEPRECATED */
 static int open_image(int dev, char *name, int create, int disktype);
 
 int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii);
@@ -305,6 +311,13 @@ const command_t command_list[] = {
       "Show specified disk block in hex form.",
       2, 4,
       block_cmd },
+#if 0
+    { "chain",
+      "chain <track> <sector> [<unit>]",
+      "Follow and print block chain starting at (<track>,<sector>)",
+      2, 3,
+      chain_cmd },
+#endif
     { "copy",
       "copy <source1> [<source2> ... <sourceN>] <destination>",
       "Copy `source1' ... `sourceN' into destination.  If N > 1, "
@@ -664,6 +677,12 @@ static void print_error_message(int errval)
                 break;
             case FD_BAD_TS:
                 fprintf(stderr, "Inaccessible Track or Sector.\n");
+                break;
+            case FD_BAD_TRKNUM:
+                fprintf(stderr, "Illegal track number\n");
+                break;
+            case FD_BAD_SECNUM:
+                fprintf(stderr, "Illegal sector number\n");
                 break;
             default:
                 fprintf(stderr, "Unknown error.\n");
@@ -1042,6 +1061,37 @@ static int check_drive_ready(int index)
 }
 
 
+/** \brief  Parse \a trk_str and \a sec_str for track and sector numbers
+ *
+ * Parses its string arguments for track and sector numbers, no actual checking
+ * against an image is performed, so a track and sector of 100 will pass. Use
+ * drive_image_check_sector() to check if the track and sector are valid for
+ * a given image.
+ *
+ * \param[in]   trk_str string containing a track number
+ * \param[in]   sec_str string containing a sector number
+ * \param[out]  trk_num object to store track number
+ * \param[out]  sec_num object to store sector number
+ *
+ * \return  FD_OK on success, FD_BAD_TRKNUM or FD_BAD_SECNUM on failure
+ */
+static int parse_track_sector(const char *trk_str, const char *sec_str,
+                              unsigned int *trk_num, unsigned int *sec_num)
+{
+    int tmp;
+
+    if (arg_to_int(trk_str, &tmp) < 0 || tmp < 1) {
+        return FD_BAD_TRKNUM;
+    }
+    *trk_num = (unsigned int)tmp;
+    if (arg_to_int(sec_str, &tmp) < 0 || tmp < 0) {
+        return FD_BAD_SECNUM;
+    }
+    *sec_num = (unsigned int)tmp;
+    return FD_OK;
+}
+
+
 /* ------------------------------------------------------------------------- */
 
 /* Here are the commands.  */
@@ -1094,7 +1144,6 @@ static int attach_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-
 /** \brief  'block' command handler
  *
  * Display a hex dump of a block on a device
@@ -1110,14 +1159,17 @@ static int block_cmd(int nargs, char **args)
 {
     int drive;  /* index into the drives array */
     int offset = 0;
-    int track, sector;
+    unsigned int track;
+    unsigned int sector;
     vdrive_t *vdrive;
     BYTE *buf, chrbuf[BLOCK_CMD_WIDTH + 1], sector_data[RAW_BLOCK_SIZE];
     int cnt;
+    int err;
 
     /* block <track> <sector> [offset] [<drive>] show disk blocks in hex form */
-    if (arg_to_int(args[1], &track) < 0 || arg_to_int(args[2], &sector) < 0) {
-        return FD_BAD_TS;
+    err = parse_track_sector(args[1], args[2], &track, &sector);
+    if (err != FD_OK) {
+        return err;
     }
 
     if (nargs >= 4) {
@@ -1151,14 +1203,12 @@ static int block_cmd(int nargs, char **args)
 
     vdrive = drives[drive];
 
-    if (disk_image_check_sector(vdrive->image,
-                (unsigned int)track, (unsigned int)sector) < 0) {
+    if (disk_image_check_sector(vdrive->image, track, sector) < 0) {
         return FD_BAD_TS;
     }
 
     /* Read one block */
-    if (vdrive_read_sector(vdrive, sector_data,
-                (unsigned int)track, (unsigned int)sector) != 0) {
+    if (vdrive_read_sector(vdrive, sector_data, track, sector) != 0) {
         fprintf(stderr, "Cannot read track %i sector %i.", track, sector);
         return FD_RDERR;
     }
@@ -1185,6 +1235,59 @@ static int block_cmd(int nargs, char **args)
     }
     return FD_OK;
 }
+
+
+#if 0
+/** \brief  Follow and print a block chain
+ *
+ * \param[in]   nargs   number of arguments
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, < 0 on failure
+ */
+static int chain_cmd(int nargs, char **args)
+{
+    int unit = UNIT_MIN;
+    unsigned int track;
+    unsigned int sector;
+    vdrive_t *vdrive;
+    int err;
+
+    /* parse track and sector number */
+    err = parse_track_sector(args[1], args[2], &track, &sector);
+    if (err != FD_OK) {
+        return err;
+    }
+
+    /* get drive index */
+    if (nargs == 4) {
+        if (arg_to_int(args[3], &unit) < 0) {
+            return FD_BADDEV;
+        }
+        if (check_drive_unit(unit) < 0) {
+            return FD_BADDEV;
+        }
+    }
+
+    printf("chain_cmd(): #%d (%u,%u)\n", unit, track, sector);
+
+
+    /* check drive to see if it's ready */
+    if (check_drive_ready(unit - UNIT_MIN) < 0) {
+        return FD_NOTREADY;
+    }
+
+    /* now check if the (track,sector) is valid for the current image */
+    vdrive = drives[unit - UNIT_MIN];
+    if (disk_image_check_sector(vdrive->image, track, sector) < 0) {
+        return FD_BAD_TS;
+    }
+
+
+    return FD_OK;
+}
+#endif
+
 
 static int copy_cmd(int nargs, char **args)
 {
