@@ -84,10 +84,10 @@ UI_CALLBACK(radio_Drive##x##Type)                                               
 {                                                                                   \
     int current_value;                                                              \
                                                                                     \
-    resources_get_int("Drive##x##Type", &current_value);                            \
+    resources_get_int("Drive" #x "Type", &current_value);                            \
     if (!CHECK_MENUS) {                                                             \
         if (current_value != vice_ptr_to_int(UI_MENU_CB_PARAM)) {                   \
-            resources_set_int("Drive##x##Type", vice_ptr_to_int(UI_MENU_CB_PARAM)); \
+            resources_set_int("Drive" #x "Type", vice_ptr_to_int(UI_MENU_CB_PARAM)); \
             ui_update_menus();                                                      \
         }                                                                           \
     } else {                                                                        \
