@@ -85,7 +85,7 @@ ui_menu_entry_t printerieee_cbm2_settings_menu[] = {
     { N_("Userport printer driver"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiprinter_pruser_driver_submenu },
     { N_("Userport printer output"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uiprinter_pruser_output_submenu },
+      NULL, NULL, uiprinter_prUserport_output_submenu },
     { N_("Userport printer text output device"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiprinter_pruser_device_submenu },
     { N_("Userport printer formfeed"), UI_MENU_TYPE_NORMAL,

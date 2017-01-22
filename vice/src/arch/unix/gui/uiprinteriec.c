@@ -47,7 +47,7 @@ static ui_menu_entry_t printeriec_userport_menu_items[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Userport printer emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_PrinterUserport, NULL, NULL },
     { N_("Userport printer driver"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiprinter_pruser_driver_submenu },
-    { N_("Userport printer output"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiprinter_pruser_output_submenu },
+    { N_("Userport printer output"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiprinter_prUserport_output_submenu },
     { N_("Userport printer text output device"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiprinter_pruser_device_submenu },
     { N_("Userport printer formfeed"), UI_MENU_TYPE_NORMAL, (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)3, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
