@@ -30,6 +30,9 @@ refer to this image.
 .B \-block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR (block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR)
 show disk blocks in hex format.
 .TP
+.B \-chain \fItrack\fR \fIsector\fR \fi[unit]\fR (chain \fItrack\fR \fIsector\fR \fI[unit]\fR)
+show block chain starting at (\fItrack\fR,\fIsector\fR). The last number shown is the number of bytes in the final block.
+.TP
 .B \-copy \fIimage\fR \fIoldname1\fR \fI[oldname2...]\fR \fInewname\fR (copy \fIoldname1\fR \fI[oldname2...]\fR \fInewname\fR)
 concatenate \fIoldname1\fR, \fIoldname2\fR... into \fInewname\fR on \fIimage\fR
 (can be used to copy files).

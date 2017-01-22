@@ -176,9 +176,7 @@ static int parse_track_sector(const char *trk_str, const char *sec_str,
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
-#if 0
 static int chain_cmd(int nargs, char **args);
-#endif
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
@@ -311,13 +309,11 @@ const command_t command_list[] = {
       "Show specified disk block in hex form.",
       2, 4,
       block_cmd },
-#if 0
     { "chain",
       "chain <track> <sector> [<unit>]",
       "Follow and print block chain starting at (<track>,<sector>)",
       2, 3,
       chain_cmd },
-#endif
     { "copy",
       "copy <source1> [<source2> ... <sourceN>] <destination>",
       "Copy `source1' ... `sourceN' into destination.  If N > 1, "
@@ -1237,13 +1233,14 @@ static int block_cmd(int nargs, char **args)
 }
 
 
-#if 0
 /** \brief  Follow and print a block chain
  *
  * \param[in]   nargs   number of arguments
  * \param[in]   args    argument list
  *
  * \return  FD_OK on success, < 0 on failure
+ *
+ * \todo    proper layout, it's a bit ugly now
  */
 static int chain_cmd(int nargs, char **args)
 {
@@ -1283,10 +1280,30 @@ static int chain_cmd(int nargs, char **args)
         return FD_BAD_TS;
     }
 
+    /* XXX: needs check for circular pattern, or perhaps some counter that
+     *      checks the number of blocks against the maximum block size of the
+     *      largest image type.
+     */
+    do {
+        unsigned char buffer[RAW_BLOCK_SIZE];
+
+        printf("(%2u,%2u) -> ", track, sector);
+
+        /* read sector data */
+        err = vdrive_read_sector(vdrive, buffer, track, sector);
+        if (err < 0) {
+            return err;
+        }
+        track = buffer[0];
+        sector = buffer[1];
+        if (track == 0) {
+            printf("%u\n", sector);
+            break;
+        }
+    } while (1);
 
     return FD_OK;
 }
-#endif
 
 
 static int copy_cmd(int nargs, char **args)
