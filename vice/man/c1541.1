@@ -33,6 +33,9 @@ show disk blocks in hex format.
 .B \-bread \fIfilename\fR \fItrack\fR \fIsector\fR [\fIunit\fR] (bread \fIfilename\fR \fItrack\fR \fIsector\fR [\fIunit\fR])
 read a block from the disk image at (\fItrack\fR,\fIsector\fR) and write it to the host file system as \fIfilename\fR.
 .TP
+.B \-bwrite \fIfilename\fR \fItrack\fR \fIsector\fR [\fIunit\fR] (bwrite \fIfilename\fR \fItrack\fR \fIsector\fR [\fIunit\fR])
+write a block from \fIfilename\fR on the host file system to a disk image at (\fItrack\fR,\fIsector\fR).
+.TP
 .B \-chain \fItrack\fR \fIsector\fR \fi[unit]\fR (chain \fItrack\fR \fIsector\fR \fI[unit]\fR)
 show block chain starting at (\fItrack\fR,\fIsector\fR). The last number shown is the number of bytes in the final block.
 .TP
