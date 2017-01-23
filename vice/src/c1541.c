@@ -44,7 +44,7 @@
 
 #include "vice.h"
 #include "diskimage.h"
-#include "diskimage/fsimage.h"
+#include "fsimage.h"
 #include "diskcontents.h"
 
 #include <ctype.h>
@@ -72,6 +72,7 @@
 #include "cmdline.h"
 #include "diskimage.h"
 #include "fileio.h"
+#include "fsimage-check.h"
 #include "gcr.h"
 #include "info.h"
 #include "imagecontents.h"
@@ -126,7 +127,8 @@
 #define UNIT_MAX        (UNIT_MIN + DRIVE_COUNT - 1)
 
 #define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
-#define C1541_VERSION_MINOR     0   /**< c1541 minor version number */
+#define C1541_VERSION_MINOR     1   /**< c1541 minor version number */
+
 
 /** \brief  Machine name
  */
@@ -171,10 +173,11 @@ static int check_drive_index(int index);
 static int check_drive_ready(int index);
 static int parse_track_sector(const char *trk_str, const char *sec_str,
                               unsigned int *trk_num, unsigned int *sec_num);
-
+static int translate_fsimage_error(int err);
 
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
+static int bcopy_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
 static int bread_cmd(int nargs, char **args);
 static int bwrite_cmd(int nargs, char **args);
@@ -306,6 +309,15 @@ const command_t command_list[] = {
       "Attach <diskimage> to <unit> (default unit is 8).",
       1, 2,
       attach_cmd },
+    { "bcopy",
+      "copy <src-track> <src-sector> <dst-track> <dst-sector> [<src-unit> "
+      "[<dst-unit>]]\n"
+      "If no unit is given the current unit is used, if only one unit is "
+      "given,\n"
+      "that unit is used for both source and destination.",
+      "Copy a block to another block, optionally using different units",
+      4, 6,
+      bcopy_cmd },
     { "block",
       "block <track> <sector> [<offset>] [<drive>]",
       "Show specified disk block in hex form.",
@@ -699,6 +711,30 @@ static void print_error_message(int errval)
         }
     }
 }
+
+
+/** \brief  Translate error codes from fsimage-check.c to FD_ error codes
+ *
+ * \param[in]   err error code from fsimage-check.c
+ *
+ * \return      translated error code
+ *
+ * \todo        Use this whenever disk_image_check_sector() is used. Now the
+ *              error code returned is usually FD_BAD_TS, which results in an
+ *              "Inaccesible track or sector" message, which is confusing.
+ */
+static int translate_fsimage_error(int err)
+{
+    switch (err) {
+        case FSIMAGE_BAD_TRKNUM:
+            return FD_BAD_TRKNUM;
+        case FSIMAGE_BAD_SECNUM:
+            return FD_BAD_SECNUM;
+        default:
+            return err;
+    }
+}
+
 
 /** \brief  Return code for lookup_command(): command not found
  */
@@ -1153,6 +1189,101 @@ static int attach_cmd(int nargs, char **args)
     lib_free(path);
     return FD_OK;
 }
+
+
+/** \brief  Copy block to another block
+ *
+ * Copies a single block (sector) to another block, optionally between different
+ * units.
+ *
+ * Syntax: `bcopy <src_trk> <src_sec> <dst_trk> <dst_sec> [<src_unit> [<dst_unit>]]`
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success < 0 on failure
+ */
+static int bcopy_cmd(int nargs, char **args)
+{
+    unsigned char buffer[RAW_BLOCK_SIZE];
+    unsigned int src_trk;
+    unsigned int src_sec;
+    unsigned int dst_trk;
+    unsigned int dst_sec;
+    int src_unit = UNIT_MIN;
+    int dst_unit = UNIT_MIN;
+    vdrive_t *src_vdrive;
+    vdrive_t *dst_vdrive;
+    int err;
+
+    /* get source and destination blocks */
+    err = parse_track_sector(args[1], args[2], &src_trk, &src_sec);
+    if (err < 0) {
+        return err;
+    }
+    err = parse_track_sector(args[3], args[4], &dst_trk, &dst_sec);
+    if (err < 0) {
+        return err;
+    }
+
+    /* get optional unit numbers */
+    if (nargs > 5) {
+        if (arg_to_int(args[5], &src_unit) < 0
+                || check_drive_unit(src_unit) < 0) {
+            return FD_BADDEV;
+        }
+        if (nargs > 6) {
+            if (arg_to_int(args[6], &dst_unit) < 0
+                    || check_drive_unit(dst_unit) < 0) {
+                return FD_BADDEV;
+            }
+        } else {
+            dst_unit = src_unit;
+        }
+    }
+
+#if 0
+    printf("bcopy(): from #%d (%2u,%2u) to #%d (%2u,%2u)\n",
+            src_unit, src_trk, src_sec, dst_unit, dst_trk, dst_sec);
+#endif
+    /* don't do anything if source and dest are the same */
+    if ((src_unit == dst_unit) && (src_trk == dst_trk) && (src_sec == dst_trk)) {
+        return FD_OK;
+    }
+
+
+    /* check if the units are ready */
+    if (check_drive_ready(src_unit - UNIT_MIN) < 0
+            || check_drive_ready(dst_unit - UNIT_MIN) < 0) {
+        return FD_NOTREADY;
+    }
+
+    src_vdrive = drives[src_unit - UNIT_MIN];
+    dst_vdrive = drives[dst_unit - UNIT_MIN];
+
+    /* check unit(s) for valid track/sector) */
+    err = disk_image_check_sector(src_vdrive->image, src_trk, src_sec);
+    if (err < 0) {
+        return translate_fsimage_error(err);
+    }
+    if (dst_unit != src_unit) {
+        if (disk_image_check_sector(dst_vdrive->image, dst_trk, dst_sec) < 0) {
+            return translate_fsimage_error(err);
+        }
+    }
+
+    /* finally we can actually do what this command is supposed to do */
+    err = vdrive_read_sector(src_vdrive, buffer, src_trk, src_sec);
+    if (err < 0) {
+        return err;
+    }
+    err = vdrive_write_sector(dst_vdrive, buffer, dst_trk, dst_sec);
+    if (err < 0) {
+        return err;
+    }
+    return FD_OK;
+}
+
 
 /** \brief  'block' command handler
  *
