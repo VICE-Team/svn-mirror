@@ -234,7 +234,7 @@ noinst_HEADERS = \
 	sound.h \
 	ssi2001.h \
 	sysfile.h \
-/disk	tap.h \
+	tap.h \
 	tape.h \
 	tpi.h \
 	translate_funcs.h \
