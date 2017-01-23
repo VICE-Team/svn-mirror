@@ -234,7 +234,7 @@ noinst_HEADERS = \
 	sound.h \
 	ssi2001.h \
 	sysfile.h \
-	tap.h \
+/disk	tap.h \
 	tape.h \
 	tpi.h \
 	translate_funcs.h \
@@ -2252,8 +2252,7 @@ c1541_SOURCES = \
 	resources.c \
 	util.c \
 	zfile.c \
-	zipcode.c \
-	diskimage/fsimage-check.h
+	zipcode.c
 
 if OWCC
 ARCH_EXTRA_OBJECTS = @ARCH_DIR@/libarch.a
