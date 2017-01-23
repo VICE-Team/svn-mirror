@@ -114,6 +114,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/vdrive \
+	-I$(top_srcdir)/src/diskimage \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/diag \
 	-I$(top_srcdir)/src/userport \
@@ -2251,7 +2252,8 @@ c1541_SOURCES = \
 	resources.c \
 	util.c \
 	zfile.c \
-	zipcode.c 
+	zipcode.c \
+	diskimage/fsimage-check.h
 
 if OWCC
 ARCH_EXTRA_OBJECTS = @ARCH_DIR@/libarch.a
