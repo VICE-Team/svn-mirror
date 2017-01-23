@@ -2341,44 +2341,64 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 libarch:
 	(cd arch && $(MAKE))
 libc128:
+	echo "making all in c128"
 	(cd c128 && $(MAKE))
 libc64:
+	echo "making libc64.a in c64"
 	(cd c64 && $(MAKE) libc64.a)
 libscpu64:
+	echo "making libscpu64.a in scpu64"
 	(cd scpu64 && $(MAKE) libscpu64.a)
 libc64sc:
+	echo "making libc64sc.a in c64"
 	(cd c64 && $(MAKE) libc64sc.a)
 libc64c128:
+	echo "making libc64c128.a in c64"
 	(cd c64 && $(MAKE) libc64c128.a)
 libc64scpu64:
+	echo "making libc64scpu64.a in c64"
 	(cd c64 && $(MAKE) libc64scpu64.a)
 libc64c64dtv:
+	echo "making libc64c64dtv.a in c64"
 	(cd c64 && $(MAKE) libc64c64dtv.a)
 libc64cart:
+	echo "making libc64cart in c64"
 	(cd c64 && $(MAKE) libc64cart)
 libc64cartsystem:
+	echo "making libc64cartsystem in c64"
 	(cd c64 && $(MAKE) libc64cartsystem)
 libc64commoncart:
+	echo "making libc64commoncart in c64"
 	(cd c64 && $(MAKE) libc64commoncart)
 libc64dtv:
+	echo "making libc64dtv.a in c64dtv"
 	(cd c64dtv && $(MAKE) libc64dtv.a)
 libc64dtvstubs:
+	echo "making libc64dtvstubs.a in c64dtv"
 	(cd c64dtv && $(MAKE) libc64dtvstubs.a)
 libcbm2:
+	echo "making libcbm2.a in cbm2"
 	(cd cbm2 && $(MAKE) libcbm2.a)
 libcbm5x0:
+	echo "making libcbm5x0.a in cbm2"
 	(cd cbm2 && $(MAKE) libcbm5x0.a)
 libcore:
+	echo "making all in core"
 	(cd core && $(MAKE))
 libcrtc:
+	echo "making all in crtc"
 	(cd crtc && $(MAKE))
 libdiag:
+	echo "making all in diag"
 	(cd diag && $(MAKE))
 libdiskimage:
+	echo "making all in diskimage"
 	(cd diskimage && $(MAKE))
 libdrive:
+	echo "making all in drive"
 	(cd drive && $(MAKE))
 libp64:
+	echo "making libp64 in lib"
 	(cd lib && $(MAKE) libp64)
 libdriveiec:
 	(cd drive && $(MAKE) libdriveiec)
@@ -2397,74 +2417,109 @@ libdrivetcbm:
 libffmpeg:
 	(cd lib/libffmpeg && $(MAKE) VICEBUILD=1)
 libfileio:
+	echo "making all in fileio"
 	(cd fileio && $(MAKE))
 libfsdevice:
+	echo "making all in fsdevice"
 	(cd fsdevice && $(MAKE))
 libgfxoutputdrv:
+	echo "making all in gfxoutputdrv"
 	(cd gfxoutputdrv && $(MAKE))
 libiecbus:
+	echo "making all in iecbus"
 	(cd iecbus && $(MAKE))
 libimagecontents:
+	echo "making all in imagecontents"
 	(cd imagecontents && $(MAKE))
 libmascuerade:
+	echo "making libmascuerade.a in vic20/cart"
 	(cd vic20/cart && $(MAKE) libmascuerade.a)
 libmonitor:
+	echo "making libmonitor.a in monitor"
 	(cd monitor && $(MAKE) libmonitor.a)
 libparallel:
+	echo "making all in parallel"
 	(cd parallel && $(MAKE))
 libpet:
+	echo "making all in pet"
 	(cd pet && $(MAKE))
 libplatform:
+	echo "making all in platform"
 	(cd platform && $(MAKE))
 libplus4:
+	echo "making all in plus4"
 	(cd plus4 && $(MAKE))
 libprinterdrv:
+	echo "making all in printerdrv"
 	(cd printerdrv && $(MAKE))
 librs232drv:
+	echo "making all in rs232drv"
 	(cd rs232drv && $(MAKE))
 libraster:
+	echo "making libraster.a in raster"
 	(cd raster && $(MAKE) libraster.a)
 librtc:
+	echo "making librtc.a in rtc"
 	(cd rtc && $(MAKE) librtc.a)
 libresid:
+	echo "making libresid.a in resid"
 	(cd resid && $(MAKE) libresid.a)
 libresiddtv:
+	echo "making libresiddtv.a in resid-dtv"
 	(cd resid-dtv && $(MAKE) libresiddtv.a)
 libsamplerdrv:
+	echo "making all in samplerdrv"
 	(cd samplerdrv && $(MAKE))
 libjoyport:
+	echo "making all in joyport"
 	(cd joyport && $(MAKE))
 libserial:
+	echo "making all in serial"
 	(cd serial && $(MAKE))
 libsid:
+	echo "making libsid.a in sid"
 	(cd sid && $(MAKE) libsid.a)
 libsounddrv:
+	echo "making all in sounddrv"
 	(cd sounddrv && $(MAKE))
 libtape:
+	echo "making all in tape"
 	(cd tape && $(MAKE))
 libuserport:
+	echo "making all in userport"
 	(cd userport && $(MAKE))
 libtapeport:
+	echo "making all in tapeport"
 	(cd tapeport && $(MAKE))
 libvdc:
+	echo "making all in vdc"
 	(cd vdc && $(MAKE))
 libvdrive:
+	echo "making all in vdrive"
 	(cd vdrive && $(MAKE))
 libvic20:
+	echo "making all in vic20"
 	(cd vic20 && $(MAKE))
 libvic20cart:
+	echo "making libvic20cart.a in vic20/cart"
 	(cd vic20/cart && $(MAKE) libvic20cart.a)
 libvicii:
+	echo "making libvicii.a in vicii"
 	(cd vicii && $(MAKE) libvicii.a)
 libviciidtv:
+	echo "making libviciidtv.a in vicii"
 	(cd vicii && $(MAKE) libviciidtv.a)
 libviciisc:
+	echo "making libviciisc.a in viciisc"
 	(cd viciisc && $(MAKE) libviciisc.a)
 libviciivsid:
+	echo "making libviciivsid.a in viciivsid"
 	(cd viciivsid && $(MAKE) libviciivsid.a)
 libvideo:
+	echo "making all in video"
 	(cd video && $(MAKE))
 libvsid:
+	echo "making libvsid.a in c64"
 	(cd c64 && $(MAKE) libvsid.a)
 
 x64ow$(EXEEXT): x64$(EXEEXT)
