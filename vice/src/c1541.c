@@ -176,6 +176,7 @@ static int parse_track_sector(const char *trk_str, const char *sec_str,
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
+static int bread_cmd(int nargs, char **args);
 static int chain_cmd(int nargs, char **args);
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
@@ -309,6 +310,12 @@ const command_t command_list[] = {
       "Show specified disk block in hex form.",
       2, 4,
       block_cmd },
+    { "bread",
+      "bread <filename> <track> <sector> [<unit>]",
+      "Read block data from (<track>,<sector>) and write as <filename> to "
+      "the host file system",
+      3, 4,
+      bread_cmd },
     { "chain",
       "chain <track> <sector> [<unit>]",
       "Follow and print block chain starting at (<track>,<sector>)",
@@ -1233,6 +1240,75 @@ static int block_cmd(int nargs, char **args)
 }
 
 
+/** \brief  Read a block from an image and write it to the host file system
+ *
+ * Syntax: bread \<filename\> \<track\> \<sector\> [\<unit\>]
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, < 0 on failure
+ *
+ * \todo    Add tilde expansion on filename for *nix systems
+ */
+static int bread_cmd(int nargs, char **args)
+{
+    unsigned char buffer[RAW_BLOCK_SIZE];
+    unsigned int track;
+    unsigned int sector;
+    int unit = UNIT_MIN;
+    vdrive_t *vdrive;
+    FILE *fd;
+    int err;
+
+    /* get track & sector */
+    err = parse_track_sector(args[2], args[3], &track, &sector);
+    if (err < 0) {
+        return err;
+    }
+
+    /* get unit number, if specified */
+    if (nargs == 5) {
+        if (arg_to_int(args[4], &unit) < 0 || check_drive_unit(unit) < 0) {
+            return FD_BADDEV;
+        }
+    }
+
+    /* check drive ready */
+    if (check_drive_ready(unit - UNIT_MIN) < 0) {
+        return FD_NOTREADY;
+    }
+
+    vdrive = drives[unit - UNIT_MIN];
+
+    /* check track,sector */
+    err = disk_image_check_sector(vdrive->image, track, sector);
+    if (err < 0) {
+        return err;
+    }
+
+    /* copy sector to buffer */
+    if (vdrive_read_sector(vdrive, buffer, track, sector) != 0) {
+        fprintf(stderr, "Cannot read track %i sector %i.", track, sector);
+        return FD_RDERR;
+    }
+
+    /* open file and try to write to it */
+    fd = fopen(args[1], "wb");
+    if (fd == NULL) {
+        return FD_WRTERR;
+    }
+    if (fwrite(buffer, 1, RAW_BLOCK_SIZE, fd) != RAW_BLOCK_SIZE) {
+        fclose(fd);
+        return FD_WRTERR;
+    }
+    fclose(fd);
+
+    return FD_OK;
+}
+
+
+
 /** \brief  Follow and print a block chain
  *
  * \param[in]   nargs   number of arguments
@@ -1265,9 +1341,6 @@ static int chain_cmd(int nargs, char **args)
             return FD_BADDEV;
         }
     }
-
-    printf("chain_cmd(): #%d (%u,%u)\n", unit, track, sector);
-
 
     /* check drive to see if it's ready */
     if (check_drive_ready(unit - UNIT_MIN) < 0) {

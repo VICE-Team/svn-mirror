@@ -30,6 +30,9 @@ refer to this image.
 .B \-block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR (block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR)
 show disk blocks in hex format.
 .TP
+.B \-bread \fIfilename\fR \fItrack\fR \fIsector\fR [\fIunit\fR] (bread \fIfilename\fR \fItrack\fR \fIsector\fR [\fIunit\fR])
+read a block from the disk image at (\fItrack\fR,\fIsector\fR) and write it to the host file system as \fIfilename\fR.
+.TP
 .B \-chain \fItrack\fR \fIsector\fR \fi[unit]\fR (chain \fItrack\fR \fIsector\fR \fI[unit]\fR)
 show block chain starting at (\fItrack\fR,\fIsector\fR). The last number shown is the number of bytes in the final block.
 .TP
