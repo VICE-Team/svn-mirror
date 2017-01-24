@@ -310,12 +310,12 @@ const command_t command_list[] = {
       1, 2,
       attach_cmd },
     { "bcopy",
-      "copy <src-track> <src-sector> <dst-track> <dst-sector> [<src-unit> "
+      "Copy a block to another block, optionally using different units",
+      "bcopy <src-track> <src-sector> <dst-track> <dst-sector> [<src-unit> "
       "[<dst-unit>]]\n"
       "If no unit is given the current unit is used, if only one unit is "
       "given,\n"
       "that unit is used for both source and destination.",
-      "Copy a block to another block, optionally using different units",
       4, 6,
       bcopy_cmd },
     { "block",
@@ -1210,8 +1210,8 @@ static int bcopy_cmd(int nargs, char **args)
     unsigned int src_sec;
     unsigned int dst_trk;
     unsigned int dst_sec;
-    int src_unit = UNIT_MIN;
-    int dst_unit = UNIT_MIN;
+    int src_unit = drive_index + UNIT_MIN;
+    int dst_unit = drive_index + UNIT_MIN;
     vdrive_t *src_vdrive;
     vdrive_t *dst_vdrive;
     int err;
@@ -1247,7 +1247,7 @@ static int bcopy_cmd(int nargs, char **args)
             src_unit, src_trk, src_sec, dst_unit, dst_trk, dst_sec);
 #endif
     /* don't do anything if source and dest are the same */
-    if ((src_unit == dst_unit) && (src_trk == dst_trk) && (src_sec == dst_trk)) {
+    if ((src_unit == dst_unit) && (src_trk == dst_trk) && (src_sec == dst_sec)) {
         return FD_OK;
     }
 
@@ -1394,7 +1394,7 @@ static int bread_cmd(int nargs, char **args)
     unsigned char buffer[RAW_BLOCK_SIZE];
     unsigned int track;
     unsigned int sector;
-    int unit = UNIT_MIN;
+    int unit = drive_index + UNIT_MIN;
     vdrive_t *vdrive;
     FILE *fd;
     int err;
@@ -1462,7 +1462,7 @@ static int bwrite_cmd(int nargs, char **args)
     unsigned char buffer[RAW_BLOCK_SIZE];
     unsigned int track;
     unsigned int sector;
-    int unit = UNIT_MIN;
+    int unit = drive_index + UNIT_MIN;
     vdrive_t *vdrive;
     FILE *fd;
     int err;
@@ -1525,7 +1525,7 @@ static int bwrite_cmd(int nargs, char **args)
  */
 static int chain_cmd(int nargs, char **args)
 {
-    int unit = UNIT_MIN;
+    int unit = drive_index + UNIT_MIN;
     unsigned int track;
     unsigned int sector;
     vdrive_t *vdrive;
