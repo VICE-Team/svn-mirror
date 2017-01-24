@@ -637,26 +637,34 @@ static void ui_copy_clipboard(void)
         lib_free(text);
     }
 }
-
-static void ui_paste_clipboard_text(void)
+static void ui_handle_paste_text(BMessage *msg)
 {
     const char *text;
     char *text_in_petscii = NULL;
     ssize_t textlen = 0;
+
+    if ((msg->FindData("text/plain", B_MIME_TYPE, (const void **)&text, &textlen)) != B_OK) {
+        // ui_error("No text pasted ?!");
+        return;
+    }
+
+    if (textlen != 0) {
+        text_in_petscii = (char *)lib_malloc(textlen + 1);
+        memcpy(text_in_petscii, text, textlen);
+        text_in_petscii[textlen] = 0;
+        charset_petconvstring((unsigned char *)text_in_petscii, 0);
+        kbdbuf_feed(text_in_petscii);
+        lib_free(text_in_petscii);
+    }
+} 
+
+static void ui_paste_clipboard_text(void)
+{
     BMessage *clippy = (BMessage *)NULL;
 
     if (be_clipboard->Lock()) {
         if (clippy = be_clipboard->Data()) {
-            clippy->FindData("text/plain", B_MIME_TYPE, (const void **)&text, &textlen);
-
-            if (textlen != 0) {
-                text_in_petscii = (char *)lib_malloc(textlen + 1);
-                memcpy(text_in_petscii, text, textlen);
-                text_in_petscii[textlen] = 0;
-                charset_petconvstring((unsigned char *)text_in_petscii, 0);
-                kbdbuf_feed(text_in_petscii);
-                lib_free(text_in_petscii);
-            }
+            ui_handle_paste_text(clippy);
         }
         be_clipboard->Unlock();
     }
@@ -810,6 +818,10 @@ void ui_dispatch_events(void)
                 /* handle a file being dropped on the */
                 /* window from tracker */
                 ui_handle_dropped_file(&message_queue[i]);
+                break;
+            case B_MIME_DATA:
+                /* handle text being dropped on the window */
+                ui_handle_paste_text(&message_queue[i]);
                 break;
            case MENU_EXIT_REQUESTED:
                 {
@@ -1081,7 +1093,7 @@ void ui_dispatch_events(void)
 
                 tmp = util_concat("BeVICE Version ", VERSION,
 #ifdef USE_SVN_REVISION
-                                  "rev " VICE_SVN_REV_STRING,
+                                  " rev" VICE_SVN_REV_STRING,
 #endif
                                   "\n (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n\n",
                                   NULL);
