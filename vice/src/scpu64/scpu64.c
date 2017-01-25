@@ -98,6 +98,7 @@
 #include "scpu64cpu.h"
 #include "scpu64ui.h"
 #include "screenshot.h"
+#include "script64_dongle.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
@@ -449,6 +450,10 @@ int machine_resources_init(void)
     }
     if (joyport_rushware_keypad_resources_init() < 0) {
         init_resource_fail("joyport rushware keypad");
+        return -1;
+    }
+    if (joyport_script64_dongle_resources_init() < 0) {
+        init_resource_fail("joyport script64 dongle");
         return -1;
     }
     if (joyport_cx21_resources_init() < 0) {

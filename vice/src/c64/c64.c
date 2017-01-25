@@ -103,6 +103,7 @@
 #include "sampler2bit.h"
 #include "sampler4bit.h"
 #include "screenshot.h"
+#include "script64_dongle.h"
 #include "serial.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
@@ -546,6 +547,10 @@ int machine_resources_init(void)
     }
     if (joyport_cx21_resources_init() < 0) {
         init_resource_fail("joyport cx21 keypad");
+        return -1;
+    }
+    if (joyport_script64_dongle_resources_init() < 0) {
+        init_resource_fail("joyport script64 dongle");
         return -1;
     }
     if (joyport_cx85_resources_init() < 0) {

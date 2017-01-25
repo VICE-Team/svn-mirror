@@ -3591,6 +3591,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_COPLIN_KEYPAD_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/script64_dongle.c */
+/* en */ {IDGS_SCRIPT64_DONGLE,    N_("Script 64 dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SCRIPT64_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_SCRIPT64_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_SCRIPT64_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_SCRIPT64_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SCRIPT64_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SCRIPT64_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_SCRIPT64_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SCRIPT64_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_SCRIPT64_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SCRIPT64_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SCRIPT64_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_SCRIPT64_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
 /* joyport/cx21.c */
 /* en */ {IDGS_CX21,    N_("Atari CX21 keypad")},
 #ifdef HAS_TRANSLATION
