@@ -36,10 +36,10 @@
 
 /* Control port <--> Script 64 dongle connections:
 
-   cport | resistor value to pin 9
+   cport | resistor value to pin 5
    -------------------------------
-     5   | 27 Kohm
      7   | 100 Kohm
+     9   | 27 Kohm
  */
 
 #define POTX_RETURN   0xC0
