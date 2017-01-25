@@ -259,7 +259,7 @@ static void vdrive_bam_clr(BYTE *bamp, unsigned int sector)
     return;
 }
 
-static int vdrive_bam_isset(BYTE *bamp, unsigned int sector)
+int vdrive_bam_isset(BYTE *bamp, unsigned int sector)
 {
     return bamp[1 + sector / 8] & (1 << (sector % 8));
 }

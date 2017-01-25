@@ -70,4 +70,6 @@ extern int vdrive_bam_reread_bam(unsigned int unit);
 extern int vdrive_bam_write_bam(struct vdrive_s *vdrive);
 extern int vdrive_bam_get_interleave(unsigned int type);
 
+extern int vdrive_bam_isset(BYTE* bamp, unsigned int sector);
+
 #endif

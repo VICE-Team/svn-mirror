@@ -52,6 +52,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
@@ -174,9 +175,11 @@ static int check_drive_ready(int index);
 static int parse_track_sector(const char *trk_str, const char *sec_str,
                               unsigned int *trk_num, unsigned int *sec_num);
 static int translate_fsimage_error(int err);
+static const char *image_format_name(unsigned int type);
 
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
+static int bam_cmd(int nargs, char **args);
 static int bcopy_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
 static int bread_cmd(int nargs, char **args);
@@ -309,13 +312,17 @@ const command_t command_list[] = {
       "Attach <diskimage> to <unit> (default unit is 8).",
       1, 2,
       attach_cmd },
+    { "bam",
+      "bam [<unit>]",
+      "Show BAM of disk image",
+      0, 1,
+      bam_cmd },
     { "bcopy",
-      "Copy a block to another block, optionally using different units",
       "bcopy <src-track> <src-sector> <dst-track> <dst-sector> [<src-unit> "
-      "[<dst-unit>]]\n"
-      "If no unit is given the current unit is used, if only one unit is "
-      "given,\n"
-      "that unit is used for both source and destination.",
+      "[<dst-unit>]]",
+      "Copy a block to another block, optionally using different units. "
+      "If no unit\nis given, the current unit is used; if only one unit is "
+      "given, that unit\nis used for both source and destination.",
       4, 6,
       bcopy_cmd },
     { "block",
@@ -534,7 +541,7 @@ static char *read_line(const char *prompt)
     static char line[1024];
 
     /* Make sure there is a 0 at the end of the string */
-    line[sizeof(line) - 1] = 0; 
+    line[sizeof(line) - 1] = 0;
 
     fputs(prompt, stdout);
     fflush(stdout);
@@ -775,6 +782,42 @@ static int lookup_command(const char *cmd)
     }
     return match;
 }
+
+
+/** \brief  Get image type name from type number
+ *
+ * \param[in]   type    on of the VDRIVE_FORMAT_TYPE constants
+ *
+ * \return  image type string or `NULL` when not found
+ *
+ * XXX:     Should probably be moved to vdrive somewhere
+ */
+static const char *image_format_name(unsigned int type)
+{
+    /* I use a switch here since the constants in vdrive.h are defines. Right
+     * now they could be an enum, but if someone decides to change the defines
+     * with gaps in them, a table-based lookup will fail badly */
+    switch (type) {
+        case VDRIVE_IMAGE_FORMAT_1541:
+            return "1541";
+        case VDRIVE_IMAGE_FORMAT_1571:
+            return "1571";
+        case VDRIVE_IMAGE_FORMAT_1581:
+            return "1581";
+        case VDRIVE_IMAGE_FORMAT_8050:
+            return "8050";
+        case VDRIVE_IMAGE_FORMAT_8250:
+            return "8250";
+        case VDRIVE_IMAGE_FORMAT_2040:
+            return "2040";
+        case VDRIVE_IMAGE_FORMAT_4000:
+            return "4000";
+        default:
+            return NULL;
+    }
+}
+
+
 
 
 /** \brief  Look up \a cmd and execute
@@ -1138,6 +1181,27 @@ static int parse_track_sector(const char *trk_str, const char *sec_str,
 }
 
 
+/** \brief  Parse \a s for a unit number
+ *
+ * Parses string \a s for a unit number, and checks if it's a valid unit
+ * number. No check if performed if the unit is actually ready (wouldn't make
+ * sense when creating/attaching to a unit)
+ *
+ * \param[in]   s   string to parse
+ *
+ * \return  unit number or FD_BADDEV on error
+ */
+static int parse_unit_number(const char *s)
+{
+    int u;
+
+    if (arg_to_int(s, &u) < 0 || check_drive_unit(u) < 0) {
+        return FD_BADDEV;
+    }
+    return u;
+}
+
+
 /* ------------------------------------------------------------------------- */
 
 /* Here are the commands.  */
@@ -1187,6 +1251,131 @@ static int attach_cmd(int nargs, char **args)
     archdep_expand_path(&path, args[1]);
     open_disk_image(drives[dev], path, (unsigned int)dev + UNIT_MIN);
     lib_free(path);
+    return FD_OK;
+}
+
+/** \brief  Maximum sector numbers to print in the sector header */
+#define BAM_SECTOR_HEADER_MAX_SECTORS   256
+/** \brief  Size of a sector number header line */
+#define BAM_SECTOR_HEADER_MAX_STRLEN   (BAM_SECTOR_HEADER_MAX_SECTORS + \
+        ((BAM_SECTOR_HEADER_MAX_SECTORS / 8) - 1))
+
+
+/** \brief  Print a sector numbers header for a BAM dump
+ *
+ * Prints a two line header with sector numbers, with a space between each
+ * block of eight sectors
+ *
+ * \param[in]   sectors number of sector number to print
+ */
+static void bam_print_sector_header(int sectors)
+{
+    char line1[BAM_SECTOR_HEADER_MAX_STRLEN + 1];
+    char line2[BAM_SECTOR_HEADER_MAX_STRLEN + 1];
+
+    int i = 0;
+    int p = 0;
+
+    assert(sectors < BAM_SECTOR_HEADER_MAX_SECTORS);
+
+    while (i < sectors && p < BAM_SECTOR_HEADER_MAX_STRLEN) {
+        line1[p] = (i / 10) + '0';
+        line2[p] = (i % 10) + '0';
+        i++;
+        p++;
+        if ((i % 8 == 0) && (i <sectors)) {
+            line1[p] = ' ';
+            line2[p] = ' ';
+            p++;
+        }
+    }
+    line1[p] = '\0';
+    line2[p] = '\0';
+
+    printf("    %s\n    %s\n", line1, line2);
+}
+
+
+/** \brief  Dump BAM on stdout for a 1541 image
+ *
+ * \param[in]   vdrive  disk image instance
+ *
+ * \return  FD_OK
+ *
+ * \todo    Dump BAM for tracks 36-42 (impossibruh!)
+ */
+static int bam_dump_1541(vdrive_t *vdrive)
+{
+    unsigned int track = 1;
+
+    bam_print_sector_header(21);    /* replace with call to determine max
+                                       sectors for image */
+
+    for (track = 1; track < 36; track++) {
+        unsigned int sectors = (unsigned int)vdrive_get_max_sectors(vdrive, track);
+        unsigned int s = 0;
+        unsigned char *bitmap = vdrive->bam + BAM_BIT_MAP + ((track - 1)  * 4);
+
+        printf("%2u  ", track);
+
+        while (s < sectors) {
+            putchar(vdrive_bam_isset(bitmap, s) ? '*' : '.');
+            s++;
+            if ((s % 8 == 0) && (s < sectors)) {
+                putchar(' ');
+            }
+        }
+        putchar('\n');
+    }
+
+    return FD_OK;
+}
+
+
+
+/** \brief  Show BAM of an attached image
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, < 0 on failure
+ */
+static int bam_cmd(int nargs, char **args)
+{
+    int unit = drive_index + UNIT_MIN;
+    vdrive_t *vdrive;
+
+    int result;
+
+    /* get unit number, if provided by the user */
+    if (nargs > 1) {
+        unit = parse_unit_number(args[1]);
+        if (unit < 0) {
+            return unit;
+        }
+    }
+    printf("bam_cmd(): unit #%d\n", unit);
+
+    /* get vdrive instance */
+    result = check_drive_ready(unit - UNIT_MIN);
+    if (result < 0) {
+        return result;
+    }
+    vdrive = drives[unit - UNIT_MIN];
+
+    printf("bam_cmd(): image format: %s\n", image_format_name(vdrive->image_format));
+    printf("bam_cmd(): BAM size: $%x\n", vdrive->bam_size);
+
+    switch (vdrive->image_format) {
+        case VDRIVE_IMAGE_FORMAT_1541:
+            result = bam_dump_1541(vdrive);
+            break;
+        default:
+            result = FD_BADDEV;
+            break;
+    }
+
+
     return FD_OK;
 }
 
@@ -2080,31 +2269,10 @@ static int info_cmd(int nargs, char **args)
     }
 
     vdrive = drives[dnr];
-
-    switch (vdrive->image_format) {
-        case VDRIVE_IMAGE_FORMAT_1541:
-            format_name = "1541";
-            break;
-        case VDRIVE_IMAGE_FORMAT_1571:
-            format_name = "1571";
-            break;
-        case VDRIVE_IMAGE_FORMAT_1581:
-            format_name = "1581";
-            break;
-        case VDRIVE_IMAGE_FORMAT_8050:
-            format_name = "8050";
-            break;
-        case VDRIVE_IMAGE_FORMAT_8250:
-            format_name = "8250";
-            break;
-        case VDRIVE_IMAGE_FORMAT_2040:
-            format_name = "2040";
-            break;
-        case VDRIVE_IMAGE_FORMAT_4000:
-            format_name = "4000";
-            break;
-        default:
-            return FD_NOTREADY;
+    format_name = image_format_name(vdrive->image_format);
+    if (format_name == NULL) {
+        return FD_NOTREADY; /* not quite a proper error code, but it was already
+                               here in the code */
     }
 
     /* pretty useless (BW)
