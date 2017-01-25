@@ -1397,12 +1397,13 @@ static int bread_cmd(int nargs, char **args)
     int unit = drive_index + UNIT_MIN;
     vdrive_t *vdrive;
     FILE *fd;
-    int err;
+    char *path;
+    int result;
 
     /* get track & sector */
-    err = parse_track_sector(args[2], args[3], &track, &sector);
-    if (err < 0) {
-        return err;
+    result = parse_track_sector(args[2], args[3], &track, &sector);
+    if (result < 0) {
+        return result;
     }
 
     /* get unit number, if specified */
@@ -1420,9 +1421,9 @@ static int bread_cmd(int nargs, char **args)
     vdrive = drives[unit - UNIT_MIN];
 
     /* check track,sector */
-    err = disk_image_check_sector(vdrive->image, track, sector);
-    if (err < 0) {
-        return err;
+    result = disk_image_check_sector(vdrive->image, track, sector);
+    if (result < 0) {
+        return result;
     }
 
     /* copy sector to buffer */
@@ -1432,17 +1433,21 @@ static int bread_cmd(int nargs, char **args)
     }
 
     /* open file and try to write to it */
-    fd = fopen(args[1], "wb");
+    result = FD_OK;
+    archdep_expand_path(&path, args[1]);
+    fd = fopen(path, "wb");
     if (fd == NULL) {
-        return FD_WRTERR;
-    }
-    if (fwrite(buffer, 1, RAW_BLOCK_SIZE, fd) != RAW_BLOCK_SIZE) {
+        result = FD_WRTERR;
+    } else {
+        if (fwrite(buffer, 1, RAW_BLOCK_SIZE, fd) != RAW_BLOCK_SIZE) {
+            fclose(fd);
+            result = FD_WRTERR;
+        }
         fclose(fd);
-        return FD_WRTERR;
     }
-    fclose(fd);
+    lib_free(path);
 
-    return FD_OK;
+    return result;
 }
 
 
@@ -1465,12 +1470,13 @@ static int bwrite_cmd(int nargs, char **args)
     int unit = drive_index + UNIT_MIN;
     vdrive_t *vdrive;
     FILE *fd;
-    int err;
+    char *path;
+    int result;
 
     /* get track & sector */
-    err = parse_track_sector(args[2], args[3], &track, &sector);
-    if (err < 0) {
-        return err;
+    result = parse_track_sector(args[2], args[3], &track, &sector);
+    if (result < 0) {
+        return result;
     }
 
     /* get unit number, if specified */
@@ -1488,29 +1494,35 @@ static int bwrite_cmd(int nargs, char **args)
     vdrive = drives[unit - UNIT_MIN];
 
     /* check track,sector */
-    err = disk_image_check_sector(vdrive->image, track, sector);
-    if (err < 0) {
-        return err;
+    result = disk_image_check_sector(vdrive->image, track, sector);
+    if (result < 0) {
+        return result;
     }
 
     /* open file for reading */
-    fd = fopen(args[1], "rb");
+    result = FD_OK;
+    archdep_expand_path(&path, args[1]);
+    fd = fopen(path, "rb");
     if (fd == NULL) {
-        return FD_RDERR;
-    }
-    /* read data */
-    if (fread(buffer, 1, RAW_BLOCK_SIZE, fd) != RAW_BLOCK_SIZE) {
+        result = FD_RDERR;
+    } else {
+        /* read data */
+        if (fread(buffer, 1, RAW_BLOCK_SIZE, fd) != RAW_BLOCK_SIZE) {
+            result = FD_RDERR;
+        }
         fclose(fd);
-        return FD_RDERR;
     }
-    /* write to image */
-    err = vdrive_write_sector(vdrive, buffer, track, sector);
-    if (err < 0) {
-        fclose(fd);
-        return FD_WRTERR;
+    if (result == FD_OK) {
+        /* write to image */
+        result = vdrive_write_sector(vdrive, buffer, track, sector);
+        if (result < 0) {
+            result = FD_WRTERR;
+        }
     }
-    fclose(fd);
-    return FD_OK;
+
+    lib_free(path);
+
+    return result;
 }
 
 
