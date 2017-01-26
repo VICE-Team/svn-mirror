@@ -177,6 +177,14 @@ static int parse_track_sector(const char *trk_str, const char *sec_str,
 static int translate_fsimage_error(int err);
 static const char *image_format_name(unsigned int type);
 
+static int bam_dump_1541(vdrive_t *vdrive);
+static int bam_dump_1571(vdrive_t *vdrive);
+static int bam_dump_1581(vdrive_t *vdrive);
+static int bam_dump_8050(vdrive_t *vdrive);
+static int bam_dump_8250(vdrive_t *vdrive);
+
+
+
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
 static int bam_cmd(int nargs, char **args);
@@ -1301,8 +1309,10 @@ static void bam_print_sector_header(int sectors)
  * \param[in]   vdrive      vdrive object
  * \param[in]   track_min   starting track number
  * \param[in]   track_max   last track number
+ *
+ * \return      FD_OK on success, < 0 on failure
  */
-static void bam_print_tracks(vdrive_t *vdrive,
+static int bam_print_tracks(vdrive_t *vdrive,
                              unsigned int track_min,
                              unsigned int track_max)
 {
@@ -1312,6 +1322,13 @@ static void bam_print_tracks(vdrive_t *vdrive,
         unsigned int sectors = (unsigned int)vdrive_get_max_sectors(vdrive, track);
         unsigned char *bitmap = vdrive_bam_get_track_entry(vdrive, track);
         unsigned int s = 0;
+
+        if (bitmap == NULL) {
+            fprintf(stderr,
+                    "Error: got NULL for bam entry for track %u\n",
+                    track);
+            return FD_BADVAL;
+        }
 
         printf("%2u  ", track);
         while (s < sectors) {
@@ -1323,6 +1340,7 @@ static void bam_print_tracks(vdrive_t *vdrive,
         }
         putchar('\n');
     }
+    return FD_OK;
 }
 
 
@@ -1338,8 +1356,7 @@ static int bam_dump_1541(vdrive_t *vdrive)
 {
     bam_print_sector_header(21);    /* replace with call to determine max
                                        sectors for image */
-    bam_print_tracks(vdrive, 1, 35);
-    return FD_OK;
+    return bam_print_tracks(vdrive, 1, 35);
 }
 
 
@@ -1353,9 +1370,8 @@ static int bam_dump_1541(vdrive_t *vdrive)
  */
 static int bam_dump_1571(vdrive_t *vdrive)
 {
-    bam_dump_1541(vdrive);
-    bam_print_tracks(vdrive, 36, 70);
-    return FD_OK;
+    bam_print_sector_header(21);
+    return bam_print_tracks(vdrive, 1, 70);
 }
 
 
@@ -1368,8 +1384,33 @@ static int bam_dump_1571(vdrive_t *vdrive)
 static int bam_dump_1581(vdrive_t *vdrive)
 {
     bam_print_sector_header(40);
-    bam_print_tracks(vdrive, 1, 80);
-    return FD_OK;
+    return bam_print_tracks(vdrive, 1, 80);
+}
+
+
+/** \brief  Dump BAM on stdout for a 8050 image
+ *
+ * \param[in]   vdrive  disk image instance
+ *
+ * \return  FD_OK
+ */
+static int bam_dump_8050(vdrive_t *vdrive)
+{
+    bam_print_sector_header(29);
+    return bam_print_tracks(vdrive, 1, 77);
+}
+
+
+/** \brief  Dump BAM on stdout for 8250 image
+ *
+ * \param[in]   vdrive  disk image instance
+ *
+ * \return  FD_OK
+ */
+static int bam_dump_8250(vdrive_t *vdrive)
+{
+    bam_print_sector_header(29);
+    return bam_print_tracks(vdrive, 1, 154);
 }
 
 
@@ -1394,20 +1435,22 @@ static int bam_cmd(int nargs, char **args)
             return unit;
         }
     }
+#if 0
     printf("bam_cmd(): unit #%d\n", unit);
-
+#endif
     /* get vdrive instance */
     result = check_drive_ready(unit - UNIT_MIN);
     if (result < 0) {
         return result;
     }
     vdrive = drives[unit - UNIT_MIN];
-
+#if 0
     printf("bam_cmd(): image format: %s\n", image_format_name(vdrive->image_format));
     printf("bam_cmd(): BAM size: $%x\n", vdrive->bam_size);
-
+#endif
     switch (vdrive->image_format) {
-        case VDRIVE_IMAGE_FORMAT_1541:
+        case VDRIVE_IMAGE_FORMAT_1541:  /* fallthrough */
+        case VDRIVE_IMAGE_FORMAT_2040:
             result = bam_dump_1541(vdrive);
             break;
         case VDRIVE_IMAGE_FORMAT_1571:
@@ -1415,6 +1458,12 @@ static int bam_cmd(int nargs, char **args)
             break;
         case VDRIVE_IMAGE_FORMAT_1581:
             result = bam_dump_1581(vdrive);
+            break;
+        case VDRIVE_IMAGE_FORMAT_8050:
+            result = bam_dump_8050(vdrive);
+            break;
+        case VDRIVE_IMAGE_FORMAT_8250:
+            result = bam_dump_8250(vdrive);
             break;
         default:
             result = FD_BADDEV;

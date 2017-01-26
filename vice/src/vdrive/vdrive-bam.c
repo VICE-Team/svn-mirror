@@ -316,7 +316,7 @@ BYTE *vdrive_bam_get_track_entry(vdrive_t *vdrive, unsigned int track)
     BYTE *bam = vdrive->bam;
 
     if (track == 0) {
-        log_error(LOG_ERR, "track number 0 is invalid");
+        log_error(LOG_ERR, "invalid track number: 0");
         return NULL;
     }
 
