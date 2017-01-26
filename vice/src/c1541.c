@@ -1296,6 +1296,36 @@ static void bam_print_sector_header(int sectors)
 }
 
 
+/** \brief  Print BAM bitmap for tracks \a track_min to \a track_max inclusive
+ *
+ * \param[in]   vdrive      vdrive object
+ * \param[in]   track_min   starting track number
+ * \param[in]   track_max   last track number
+ */
+static void bam_print_tracks(vdrive_t *vdrive,
+                             unsigned int track_min,
+                             unsigned int track_max)
+{
+    unsigned int track;
+
+    for (track = track_min; track <= track_max; track++) {
+        unsigned int sectors = (unsigned int)vdrive_get_max_sectors(vdrive, track);
+        unsigned char *bitmap = vdrive_bam_calculate_track(vdrive, track);
+        unsigned int s = 0;
+
+        printf("%2u  ", track);
+        while (s < sectors) {
+            putchar(vdrive_bam_isset(bitmap, s) ? '.' : '*');
+            s++;
+            if ((s % 8 == 0) && (s < sectors)) {
+                putchar(' ');
+            }
+        }
+        putchar('\n');
+    }
+}
+
+
 /** \brief  Dump BAM on stdout for a 1541 image
  *
  * \param[in]   vdrive  disk image instance
@@ -1306,31 +1336,41 @@ static void bam_print_sector_header(int sectors)
  */
 static int bam_dump_1541(vdrive_t *vdrive)
 {
-    unsigned int track = 1;
-
     bam_print_sector_header(21);    /* replace with call to determine max
                                        sectors for image */
-
-    for (track = 1; track < 36; track++) {
-        unsigned int sectors = (unsigned int)vdrive_get_max_sectors(vdrive, track);
-        unsigned int s = 0;
-        unsigned char *bitmap = vdrive->bam + BAM_BIT_MAP + ((track - 1)  * 4);
-
-        printf("%2u  ", track);
-
-        while (s < sectors) {
-            putchar(vdrive_bam_isset(bitmap, s) ? '.' : '*');
-            s++;
-            if ((s % 8 == 0) && (s < sectors)) {
-                putchar(' ');
-            }
-        }
-        putchar('\n');
-    }
-
+    bam_print_tracks(vdrive, 1, 35);
     return FD_OK;
 }
 
+
+/** \brief  Dump BAM on stdout for a dual sided 1571 image
+ *
+ * \param[in]   vdrive  disk image instance
+ *
+ * \return  FD_OK
+ *
+ * \todo    Dump BAM for tracks 71-84 (impossibruh!)
+ */
+static int bam_dump_1571(vdrive_t *vdrive)
+{
+    bam_dump_1541(vdrive);
+    bam_print_tracks(vdrive, 36, 70);
+    return FD_OK;
+}
+
+
+/** \brief  Dump BAM on stdout for a 1581 image
+ *
+ * \param[in]   vdrive  disk image instance
+ *
+ * \return  FD_OK
+ */
+static int bam_dump_1581(vdrive_t *vdrive)
+{
+    bam_print_sector_header(40);
+    bam_print_tracks(vdrive, 1, 80);
+    return FD_OK;
+}
 
 
 /** \brief  Show BAM of an attached image
@@ -1369,6 +1409,12 @@ static int bam_cmd(int nargs, char **args)
     switch (vdrive->image_format) {
         case VDRIVE_IMAGE_FORMAT_1541:
             result = bam_dump_1541(vdrive);
+            break;
+        case VDRIVE_IMAGE_FORMAT_1571:
+            result = bam_dump_1571(vdrive);
+            break;
+        case VDRIVE_IMAGE_FORMAT_1581:
+            result = bam_dump_1581(vdrive);
             break;
         default:
             result = FD_BADDEV;

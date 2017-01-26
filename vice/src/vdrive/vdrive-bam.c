@@ -295,14 +295,24 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
     return CBMDOS_IPE_OK;
 }
 
-/*
-    FIXME: partition support
-*/
-static BYTE *vdrive_bam_calculate_track(vdrive_t *vdrive,
-                                        unsigned int track)
+/** \brief  Get pointer to the BAM entry for \a track in \a vdrive's image
+ *
+ * \param[in]   vdrive  vdrive object
+ * \param[in]   track   track number
+ *
+ * \return      pointer to BAM entry
+ *
+ *(  FIXME: partition support
+ */
+BYTE *vdrive_bam_calculate_track(vdrive_t *vdrive, unsigned int track)
 {
     BYTE *bamp = NULL;
     BYTE *bam = vdrive->bam;
+
+    if (track == 0) {
+        log_error(LOG_ERR, "track number 0 is invalid");
+        return NULL;
+    }
 
     switch (vdrive->image_format) {
         case VDRIVE_IMAGE_FORMAT_1541:
