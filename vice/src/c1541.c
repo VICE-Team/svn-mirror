@@ -1319,7 +1319,7 @@ static int bam_dump_1541(vdrive_t *vdrive)
         printf("%2u  ", track);
 
         while (s < sectors) {
-            putchar(vdrive_bam_isset(bitmap, s) ? '*' : '.');
+            putchar(vdrive_bam_isset(bitmap, s) ? '.' : '*');
             s++;
             if ((s % 8 == 0) && (s < sectors)) {
                 putchar(' ');
