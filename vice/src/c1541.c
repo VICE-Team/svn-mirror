@@ -1310,7 +1310,7 @@ static void bam_print_tracks(vdrive_t *vdrive,
 
     for (track = track_min; track <= track_max; track++) {
         unsigned int sectors = (unsigned int)vdrive_get_max_sectors(vdrive, track);
-        unsigned char *bitmap = vdrive_bam_calculate_track(vdrive, track);
+        unsigned char *bitmap = vdrive_bam_get_track_entry(vdrive, track);
         unsigned int s = 0;
 
         printf("%2u  ", track);
