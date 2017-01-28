@@ -235,8 +235,9 @@ const char *archdep_home_path(void)
     char data_path[MAX_PATH + 1];
     HRESULT res;
 
-    if (cached_home)
+    if (cached_home) {
         return cached_home;
+    }
 
     res = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0 /* SHGFP_TYPE_CURRENT */, data_path);
     if (res != S_OK) {
