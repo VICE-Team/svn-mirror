@@ -183,6 +183,7 @@ static int attach_cmd(int nargs, char **args);
 static int bam_cmd(int nargs, char **args);
 static int bcopy_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
+static int bpoke_cmd(int nargs, char **args);
 static int bread_cmd(int nargs, char **args);
 static int bwrite_cmd(int nargs, char **args);
 static int chain_cmd(int nargs, char **args);
@@ -332,6 +333,11 @@ const command_t command_list[] = {
       "Show specified disk block in hex form.",
       2, 4,
       block_cmd },
+    { "bpoke",
+      "poke [@<unit>:] <track> <sector> <offset> <data ...>",
+      "Poke <data> into block at (<track>,<sector>), starting at <offset>",
+      4, MAXARG,
+      bpoke_cmd },
     { "bread",
       "bread <filename> <track> <sector> [<unit>]",
       "Read block data from (<track>,<sector>) and write as <filename> to "
@@ -633,6 +639,19 @@ static int split_args(const char *line, int *nargs, char **args)
 
 /** \brief  Convert \a arg to int
  *
+ * This function accepts multiple bases, depending on the prefix of the arg.
+ *
+ * Basically it comes down to this (all resolve to 42 decimal)
+ *
+ * | prefix | base | example   |
+ * |:------:| ----:| --------- |
+ * | [none] | 10   | 042       |
+ * | %      | 2    | %101010   |
+ * | &      | 8    | &52       |
+ * | $      | 16   | $2a       |
+ * | 0[bB]  | 2    | 0b%101010 |
+ * | 0[xX]  | 16   | 0x2a      |
+ *
  * \param[in]   arg             string containing a possible integer literal
  * \param[out]  return_value    \a arg convert to int
  *
@@ -642,8 +661,41 @@ static int arg_to_int(const char *arg, int *return_value)
 {
     char *tailptr;
     int counter = 0;
+    int base = 10;
 
-    *return_value = (int)strtol(arg, &tailptr, 10);
+    if (arg == NULL || *arg == '\0') {
+        return -1;
+    }
+    /* determine base */
+    switch (*arg) {
+        case '%':
+            base = 2;
+            arg++;
+            break;
+        case '&':
+            base = 8;
+            arg++;
+            break;
+        case '$':
+            arg++;
+            base = 16;
+            break;
+        case '0':
+            arg++;
+            if (*arg == 'b' || *arg == 'B') {
+                base = 2;
+                arg++;
+            } else if (*arg == 'x' || *arg == 'X') {
+                base = 16;
+                arg++;
+            }
+            break;
+        default:
+            break;  /* base is already 10 */
+    }
+
+
+    *return_value = (int)strtol(arg, &tailptr, base);
 
     if (ioutil_errno(IOUTIL_ERRNO_ERANGE)) {
         return -1;
@@ -1610,6 +1662,18 @@ static int block_cmd(int nargs, char **args)
     }
     return FD_OK;
 }
+
+
+/** \brief 'poke' some data into a block
+ *
+ * Syntax: bpoke [unit-specifier] track sector data ...
+ */
+static int bpoke_cmd(int nargs, char **args)
+{
+
+    return FD_OK;
+}
+
 
 
 /** \brief  Read a block from an image and write it to the host file system
