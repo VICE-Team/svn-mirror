@@ -1344,76 +1344,6 @@ static int bam_print_tracks(vdrive_t *vdrive,
 }
 
 
-/** \brief  Dump BAM on stdout for a 1541 image
- *
- * \param[in]   vdrive  disk image instance
- *
- * \return  FD_OK
- *
- * \todo    Dump BAM for tracks 36-42 (impossibruh!)
- */
-static int bam_dump_1541(vdrive_t *vdrive)
-{
-    bam_print_sector_header(21);    /* replace with call to determine max
-                                       sectors for image */
-    return bam_print_tracks(vdrive, 1, 35);
-}
-
-
-/** \brief  Dump BAM on stdout for a dual sided 1571 image
- *
- * \param[in]   vdrive  disk image instance
- *
- * \return  FD_OK
- *
- * \todo    Dump BAM for tracks 71-84 (impossibruh!)
- */
-static int bam_dump_1571(vdrive_t *vdrive)
-{
-    bam_print_sector_header(21);
-    return bam_print_tracks(vdrive, 1, 70);
-}
-
-
-/** \brief  Dump BAM on stdout for a 1581 image
- *
- * \param[in]   vdrive  disk image instance
- *
- * \return  FD_OK
- */
-static int bam_dump_1581(vdrive_t *vdrive)
-{
-    bam_print_sector_header(40);
-    return bam_print_tracks(vdrive, 1, 80);
-}
-
-
-/** \brief  Dump BAM on stdout for a 8050 image
- *
- * \param[in]   vdrive  disk image instance
- *
- * \return  FD_OK
- */
-static int bam_dump_8050(vdrive_t *vdrive)
-{
-    bam_print_sector_header(29);
-    return bam_print_tracks(vdrive, 1, 77);
-}
-
-
-/** \brief  Dump BAM on stdout for 8250 image
- *
- * \param[in]   vdrive  disk image instance
- *
- * \return  FD_OK
- */
-static int bam_dump_8250(vdrive_t *vdrive)
-{
-    bam_print_sector_header(29);
-    return bam_print_tracks(vdrive, 1, 154);
-}
-
-
 /** \brief  Show BAM of an attached image
  *
  * \param[in]   nargs   argument count
@@ -1425,6 +1355,7 @@ static int bam_cmd(int nargs, char **args)
 {
     int unit = drive_index + UNIT_MIN;
     vdrive_t *vdrive;
+    int max_sectors;
 
     int result;
 
@@ -1448,29 +1379,18 @@ static int bam_cmd(int nargs, char **args)
     printf("bam_cmd(): image format: %s\n", image_format_name(vdrive->image_format));
     printf("bam_cmd(): BAM size: $%x\n", vdrive->bam_size);
 #endif
-    switch (vdrive->image_format) {
-        case VDRIVE_IMAGE_FORMAT_1541:  /* fallthrough */
-        case VDRIVE_IMAGE_FORMAT_2040:
-            result = bam_dump_1541(vdrive);
-            break;
-        case VDRIVE_IMAGE_FORMAT_1571:
-            result = bam_dump_1571(vdrive);
-            break;
-        case VDRIVE_IMAGE_FORMAT_1581:
-            result = bam_dump_1581(vdrive);
-            break;
-        case VDRIVE_IMAGE_FORMAT_8050:
-            result = bam_dump_8050(vdrive);
-            break;
-        case VDRIVE_IMAGE_FORMAT_8250:
-            result = bam_dump_8250(vdrive);
-            break;
-        default:
-            result = FD_BADDEV;
-            break;
+
+    /* print sector numbers header
+     * XXX: this assumes track 1 always has the maximum number of sectors for
+     *      an image */
+    max_sectors = vdrive_get_max_sectors(vdrive, 1);
+    if (max_sectors < 0) {
+        return FD_BADVAL;
     }
 
-
+    /* print sector numbers header and the actual BAM bitmap per track */
+    bam_print_sector_header(max_sectors);
+    bam_print_tracks(vdrive, 1, vdrive->image->tracks);
     return FD_OK;
 }
 
