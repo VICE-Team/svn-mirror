@@ -87,6 +87,7 @@
 #include "platform.h"
 #include "system.h"
 #include "util.h"
+#include "version.h"
 
 #define STDIN_FILENO  0
 #define STDOUT_FILENO 1
@@ -228,19 +229,29 @@ static BOOL verify_exe(TCHAR *file_name)
     return bResult;
 }
 
+#ifdef _MSC_VER
+#  if (_MSC_VER <= 1200)
+#    define NO_SHGETFOLDERPATH
+#  endif
+#endif
+
 const char *archdep_home_path(void)
 {
     static char *cached_home = NULL;
     char *home_prefix, *home;
     char data_path[MAX_PATH + 1];
+#ifndef NO_SHGETFOLDERPATH
     HRESULT res;
+#endif
 
     if (cached_home) {
         return cached_home;
     }
 
+#ifndef NO_SHGETFOLDERPATH
     res = SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0 /* SHGFP_TYPE_CURRENT */, data_path);
     if (res != S_OK) {
+#endif
         /* Only use 'userprofile' when on windows nt and up */
         if (!(GetVersion() & 0x80000000)) {
             home = getenv("USERPROFILE");
@@ -251,10 +262,10 @@ const char *archdep_home_path(void)
         if (!home) {
             home = ".";
         }
-
+#ifndef NO_SHGETFOLDERPATH
     } else {
-        /* create the base directory within appdata */
-        home_prefix = util_concat(data_path, "\\vice");
+       /* create the base directory within appdata */
+        home_prefix = util_concat(data_path, "\\vice", NULL);
         if (!CreateDirectory(home_prefix, NULL)) {
             if (GetLastError() != ERROR_ALREADY_EXISTS) {
                 lib_free(home_prefix);
@@ -264,7 +275,7 @@ const char *archdep_home_path(void)
         }
 
         /* create a version-numbered subdirectory */
-        home = util_concat(home_prefix, "\\", VERSION);
+        home = util_concat(home_prefix, "\\", VERSION, NULL);
         lib_free(home_prefix);
         if (!CreateDirectory(home, NULL)) {
             if (GetLastError() != ERROR_ALREADY_EXISTS) {
@@ -273,6 +284,7 @@ const char *archdep_home_path(void)
             }
         }
     }
+#endif
 
  fail:
     return home;
