@@ -177,13 +177,6 @@ static int parse_track_sector(const char *trk_str, const char *sec_str,
 static int translate_fsimage_error(int err);
 static const char *image_format_name(unsigned int type);
 
-static int bam_dump_1541(vdrive_t *vdrive);
-static int bam_dump_1571(vdrive_t *vdrive);
-static int bam_dump_1581(vdrive_t *vdrive);
-static int bam_dump_8050(vdrive_t *vdrive);
-static int bam_dump_8250(vdrive_t *vdrive);
-
-
 
 /* command handlers */
 static int attach_cmd(int nargs, char **args);
@@ -321,9 +314,10 @@ const command_t command_list[] = {
       1, 2,
       attach_cmd },
     { "bam",
-      "bam [<unit>]",
-      "Show BAM of disk image",
-      0, 1,
+      "bam [<unit>] | <track-min> <track-max> [<unit>]",
+      "Show BAM of disk image, optionally limiting the dump to <track-min> - "
+      "<track-max>",
+      0, 3,
       bam_cmd },
     { "bcopy",
       "bcopy <src-track> <src-sector> <dst-track> <dst-sector> [<src-unit> "
@@ -1346,6 +1340,10 @@ static int bam_print_tracks(vdrive_t *vdrive,
 
 /** \brief  Show BAM of an attached image
  *
+ * Display a bitmap of used/free sectors for each track in the image
+ *
+ * Syntax: 
+ *
  * \param[in]   nargs   argument count
  * \param[in]   args    argument list
  *
@@ -1357,15 +1355,32 @@ static int bam_cmd(int nargs, char **args)
     vdrive_t *vdrive;
     int max_sectors;
 
-    int result;
+    unsigned int track_min = 0; /* 0 means first track in image */
+    unsigned int track_max = 0; /* 0 means last track in image */
+
+    int result = FD_OK;
 
     /* get unit number, if provided by the user */
-    if (nargs > 1) {
+    if (nargs == 2) {
         unit = parse_unit_number(args[1]);
         if (unit < 0) {
             return unit;
         }
+    } else if (nargs > 2) {
+        /* default unit, track-min and track-max */
+        result =parse_track_sector(args[1], args[2], &track_min, &track_max);
+        if (result < 0) {
+            return result;
+        }
+        if (nargs == 4) {
+            /* parse unit number */
+            unit = parse_unit_number(args[3]);
+            if (unit < 0) {
+                return unit;
+            }
+        }
     }
+
 #if 0
     printf("bam_cmd(): unit #%d\n", unit);
 #endif
@@ -1380,6 +1395,21 @@ static int bam_cmd(int nargs, char **args)
     printf("bam_cmd(): BAM size: $%x\n", vdrive->bam_size);
 #endif
 
+    /* set track min and max */
+    if (track_min == 0) {
+        track_min = 1;
+    }
+    if (track_max == 0) {
+        track_max = vdrive->image->tracks;
+    }
+
+    if (track_min < 1 || track_max > vdrive->image->tracks) {
+        return FD_BAD_TRKNUM;
+    }
+    if (track_min > track_max) {
+        return FD_BADVAL;
+    }
+
     /* print sector numbers header
      * XXX: this assumes track 1 always has the maximum number of sectors for
      *      an image */
@@ -1390,7 +1420,7 @@ static int bam_cmd(int nargs, char **args)
 
     /* print sector numbers header and the actual BAM bitmap per track */
     bam_print_sector_header(max_sectors);
-    bam_print_tracks(vdrive, 1, vdrive->image->tracks);
+    bam_print_tracks(vdrive, track_min, track_max);
     return FD_OK;
 }
 

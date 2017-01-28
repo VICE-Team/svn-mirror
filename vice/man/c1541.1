@@ -27,6 +27,9 @@ execute CBM DOS command
 attach \fIimage\fR for use.  All consequent commands in interactive mode will
 refer to this image.
 .TP
+.B \-bam [\fIunit\fR] | \fItrack-min\fR \fItrack_max\fR [\fIunit\fR] (bam [\fIunit\fR] | \fItrack-min\fR \fItrack_max\fR [\fIunit\fR])
+show bam bitmap of an imagem optionally specifying unit and/or a slice of the tracks using \fItrack-min\fR and \fItrack-max\fR.
+.TP
 .B \-bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR [\fIsrc_unit\fR [\fIdst_unit\fR]] (bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR [\fIsrc_unit\fR [\fIdst_unit\fR]])
 copy a block to another block. When not using the optional unit numbers, the block is copied among the current unit. If one unit (\fIsrc_unit\fR) is specified that unit is used for both source and destination. Using both unit number allows copying blocks between different units.
 .TP
