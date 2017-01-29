@@ -1417,7 +1417,7 @@ static int bam_cmd(int nargs, char **args)
         }
     } else if (nargs > 2) {
         /* default unit, track-min and track-max */
-        result =parse_track_sector(args[1], args[2], &track_min, &track_max);
+        result = parse_track_sector(args[1], args[2], &track_min, &track_max);
         if (result < 0) {
             return result;
         }
@@ -1664,21 +1664,37 @@ static int block_cmd(int nargs, char **args)
 /** \brief 'poke' some data into a block
  *
  * Syntax: bpoke [unit-specifier] track sector data ...
+ *
+ * For example: `bpoke @11: 18 0 $90 $43 $4f $4d $50 $58 $59`, this will write
+ * 'compyx' to the disk name of a 1541 image attached at unit 11.
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK, or < 0 on failure
  */
 static int bpoke_cmd(int nargs, char **args)
 {
+    vdrive_t *vdrive;
     int unit;
     unsigned int track;
     unsigned int sector;
+    int offset;
     int arg_idx = 1;
     int err;
+    int i;
+    char *endptr;
+    unsigned char buffer[RAW_BLOCK_SIZE];
 
     /* first check for a unit number (@<unit>:) */
-    extract_unit_from_file_name(args[1], &unit);
-    if (unit < 0) {
+    unit = extract_unit_from_file_name_compyx(args[arg_idx], &endptr);
+    if (unit == 0) {
         /* use current unit */
         unit = drive_index + UNIT_MIN;
     } else {
+        if (unit < 0) {
+            return FD_BADDEV;
+        }
         arg_idx++;
     }
 
@@ -1687,9 +1703,45 @@ static int bpoke_cmd(int nargs, char **args)
         return err;
     }
 
-    printf("bpoke_cmd(): unit #%d: (%2u,%2u)\n", unit, track, sector);
+    if (arg_to_int(args[arg_idx + 2], &offset) < 0) {
+        return FD_BADVAL;
+    }
+#if 0
+    printf("bpoke_cmd(): unit #%d: (%2u,%2u), offset %d\n",
+            unit, track, sector, offset);
+#endif
+    arg_idx += 3;
 
-    return FD_OK;
+    /* check drive ready */
+    if (check_drive_ready(unit - UNIT_MIN) < 0) {
+        return FD_NOTREADY;
+    }
+
+    vdrive = drives[unit - UNIT_MIN];
+    err = disk_image_check_sector(vdrive->image, track, sector);
+    if (err < 0) {
+        return err;
+    }
+
+    /* get sector data */
+    err = vdrive_read_sector(vdrive, buffer, track, sector);
+    if (err < 0) {
+        return err;
+    }
+
+    i = offset;
+    while (i < RAW_BLOCK_SIZE && arg_idx < nargs) {
+        int b;
+        printf("args = %s\n", args[arg_idx]);
+        if (arg_to_int(args[arg_idx], &b) < 0) {
+            return FD_BADVAL;
+        }
+        buffer[i++] = (unsigned char)b;
+        arg_idx++;
+    }
+
+    /* write back block */
+    return vdrive_write_sector(vdrive, buffer, track, sector);
 }
 
 
