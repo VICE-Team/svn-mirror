@@ -730,49 +730,49 @@ static void print_error_message(int errval)
             case FD_OK:
                 break;
             case FD_NOTREADY:
-                fprintf(stderr, "Drive not ready.\n");
+                fprintf(stderr, "drive not ready\n");
                 break;
             case FD_CHANGED:
-                fprintf(stderr, "Image file has changed on disk.\n");
+                fprintf(stderr, "image file has changed on disk\n");
                 break;
             case FD_NOTRD:
-                fprintf(stderr, "Cannot read file.\n");
+                fprintf(stderr, "cannot read file\n");
                 break;
             case FD_NOTWRT:
-                fprintf(stderr, "Cannot write file.\n");
+                fprintf(stderr, "cannot write file\n");
                 break;
             case FD_WRTERR:
-                fprintf(stderr, "Floppy write failed.\n");
+                fprintf(stderr, "floppy write failed\n");
                 break;
             case FD_RDERR:
-                fprintf(stderr, "Floppy read failed.\n");
+                fprintf(stderr, "floppy read failed\n");
                 break;
             case FD_INCOMP:
-                fprintf(stderr, "Incompatible DOS version.\n");
+                fprintf(stderr, "incompatible DOS version\n");
                 break;
             case FD_BADIMAGE:
-                fprintf(stderr, "Invalid image.\n");    /* Disk or tape */
+                fprintf(stderr, "invalid image\n"); /* Disk or tape */
                 break;
             case FD_BADNAME:
-                fprintf(stderr, "Invalid filename.\n");
+                fprintf(stderr, "invalid filename\n");
                 break;
             case FD_BADVAL:
-                fprintf(stderr, "Illegal value.\n");
+                fprintf(stderr, "illegal value\n");
                 break;
             case FD_BADDEV:
-                fprintf(stderr, "Illegal device number.\n");
+                fprintf(stderr, "illegal device number\n");
                 break;
             case FD_BAD_TS:
-                fprintf(stderr, "Inaccessible Track or Sector.\n");
+                fprintf(stderr, "inaccessible track or sector\n");
                 break;
             case FD_BAD_TRKNUM:
-                fprintf(stderr, "Illegal track number\n");
+                fprintf(stderr, "illegal track number\n");
                 break;
             case FD_BAD_SECNUM:
-                fprintf(stderr, "Illegal sector number\n");
+                fprintf(stderr, "illegal sector number\n");
                 break;
             default:
-                fprintf(stderr, "Unknown error.\n");
+                fprintf(stderr, "<unknown error>\n");
         }
     }
 }
