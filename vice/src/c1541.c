@@ -51,6 +51,17 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+/* apparenyly there are crappy C-libs out there that don't declare EXIT_SUCCESS
+ * or EXIT_FAILURE
+ */
+#ifndef EXIT_SUCCESS
+# define EXIT_SUCCESS 0
+#endif
+#ifndef EXIT_FAILURE
+# define EXIT_FAILURE 1
+#endif
+
 #include <string.h>
 #include <assert.h>
 
@@ -4462,12 +4473,19 @@ static int raw_cmd(int nargs, char **args)
 
 /* ------------------------------------------------------------------------- */
 
+/** \brief  Program driver
+ *
+ * \param[in]   argc    argument count
+ * \param[in]   argv    argument vector
+ *
+ * \return  EXIT_SUCCESS or EXIT_FAILURE
+ */
 int main(int argc, char **argv)
 {
     char *args[MAXARG];
     int nargs;
     int i;
-    int retval;
+    int retval = EXIT_SUCCESS;
 
     archdep_init(&argc, argv);
 
@@ -4485,8 +4503,6 @@ int main(int argc, char **argv)
     for (i = 0; i < DRIVE_COUNT; i++) {
         drives[i] = lib_calloc(1, sizeof *drives[i]);
     }
-
-    retval = 0;
 
     /* The first arguments without leading `-' are interpreted as disk images
        to attach.  */
@@ -4564,7 +4580,7 @@ int main(int argc, char **argv)
                 args[nargs++] = argv[i];
             }
             if (lookup_and_execute_command(nargs, args) < 0) {
-                retval = 1;
+                retval = EXIT_FAILURE;
                 break;
             }
         }
