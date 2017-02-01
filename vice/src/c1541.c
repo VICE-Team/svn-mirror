@@ -2842,7 +2842,7 @@ static int read_cmd(int nargs, char **args)
         dnr -= UNIT_MIN;
     }
 
-    if (check_drive_ready(dnr - UNIT_MIN) < 0) {
+    if (check_drive_ready(dnr) < 0) {
         return FD_NOTREADY;
     }
 
