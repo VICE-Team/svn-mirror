@@ -102,6 +102,14 @@ static int log_verbose_opt(const char *param, void *extra_param)
     return 0;
 }
 
+static int log_silent_opt(const char *param, void *extra_param)
+{
+    int silent = vice_ptr_to_int(extra_param);
+    log_enabled = ! silent;
+    return 0;
+}
+
+
 int log_set_verbose(int n)
 {
     if (n) {
@@ -119,6 +127,9 @@ int log_verbose_init(int argc, char **argv)
             DBG(("log_verbose_init: %d %s\n", i, argv[i]));
             if (strcmp("-verbose", argv[i]) == 0) {
                 log_set_verbose(1);
+                break;
+            } else if (strcmp("-silent", argv[1]) == 0) {
+                log_enabled = 0;
                 break;
             }
         }
@@ -161,6 +172,11 @@ static const cmdline_option_t cmdline_options[] = {
       log_verbose_opt, (void*)1, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ENABLE_VERBOSE_LOG_OUTPUT,
+      NULL, NULL },
+    { "-silent", CALL_FUNCTION, 0,
+      log_silent_opt, (void*)1, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_LOG_OUTPUT,
       NULL, NULL },
     CMDLINE_LIST_END
 };
