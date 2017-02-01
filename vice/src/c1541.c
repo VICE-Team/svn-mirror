@@ -217,6 +217,7 @@ static int raw_cmd(int nargs, char **args); /* @ */
 static int read_cmd(int nargs, char **args);
 static int read_geos_cmd(int nargs, char **args);
 static int rename_cmd(int nargs, char **args);
+static int silent_cmd(int narg, char **args);
 static int show_cmd(int nargs, char **args);
 static int tape_cmd(int nargs, char **args);
 static int unit_cmd(int nargs, char **args);
@@ -468,6 +469,11 @@ const command_t command_list[] = {
       "Rename <oldname> into <newname>.  The files must be on the same drive.",
       2, 2,
       rename_cmd },
+    { "silent",
+      "silent <off>",
+      "Disable all logging",
+      0, 1,
+      silent_cmd },
     { "show",
       "show [copying | warranty]",
       "Show conditions for redistributing copies of C1541 (`copying') or the\n"
@@ -2832,6 +2838,17 @@ static int verbose_cmd(int nargs, char **args)
     }
 }
 
+
+/** \brief  Disable all logging
+ */
+static int silent_cmd(int nargs, char **args)
+{
+    if (nargs >= 2 && strcmp(args[1], "off") == 0) {
+        return log_set_silent(0);
+    } else {
+        return log_set_silent(1);
+    }
+}
 
 static int read_cmd(int nargs, char **args)
 {

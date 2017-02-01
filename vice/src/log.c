@@ -118,6 +118,15 @@ int log_set_verbose(int n)
     return log_verbose_opt(NULL, (void*)0);
 }
 
+
+int log_set_silent(int n)
+{
+    log_enabled = !n;
+    return 0;
+}
+
+
+
 int log_verbose_init(int argc, char **argv)
 {
     int i;
