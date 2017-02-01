@@ -117,8 +117,9 @@ int log_verbose_init(int argc, char **argv)
     if (argc > 1) {
         for (i = 1; i < argc; i++) {
             DBG(("log_verbose_init: %d %s\n", i, argv[i]));
-            if (!strcmp("-verbose", argv[i])) {
+            if (strcmp("-verbose", argv[i]) == 0) {
                 log_set_verbose(1);
+                break;
             }
         }
     }
