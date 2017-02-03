@@ -1933,26 +1933,30 @@ static int chain_cmd(int nargs, char **args)
         }
         track = buffer[0];
         sector = buffer[1];
-        if (track == 0) {
-            printf("%u\n", sector);
-            break;
-        }
-    } while (1);
+    } while (track > 0);
+    printf("%u\n", sector);
 
     return FD_OK;
 }
 
 
+/** \brief  Copy one or more files
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, or < 0 on failure
+ */
 static int copy_cmd(int nargs, char **args)
 {
-    const char *p;
+    char *p;
     char *dest_name_ascii, *dest_name_petscii;
     int dest_unit = drive_index + UNIT_MIN;
     int src_unit = drive_index + UNIT_MIN;
     int i;
 
-    p = extract_unit_from_file_name(args[nargs - 1], &dest_unit);
-    if (p == NULL) {
+    dest_unit = extract_unit_from_file_name_compyx(args[nargs - 1], &p);
+    if (dest_unit <= 0) {
         if (nargs > 3) {
             fprintf(stderr,
                     "the destination must be a drive if multiple sources are specified\n");
@@ -1992,8 +1996,8 @@ static int copy_cmd(int nargs, char **args)
     for (i = 1; i < nargs - 1; i++) {
         char *src_name_ascii, *src_name_petscii;
 
-        p = extract_unit_from_file_name(args[i], &src_unit);
-        if (p == NULL) {
+        src_unit = extract_unit_from_file_name_compyx(args[i], &p);
+        if (src_unit <= 0) {
             src_name_ascii = lib_stralloc(args[i]);
             src_unit = drive_index + UNIT_MIN;
         } else {
@@ -2037,7 +2041,7 @@ static int copy_cmd(int nargs, char **args)
                 lib_free(dest_name_petscii);
                 lib_free(src_name_ascii);
                 lib_free(src_name_petscii);
-                return FD_OK;
+                return FD_WRTERR;
             }
         } else {
             if (vdrive_iec_open(drives[dest_unit - UNIT_MIN],
@@ -2047,7 +2051,7 @@ static int copy_cmd(int nargs, char **args)
                 vdrive_iec_close(drives[src_unit - UNIT_MIN], 0);
                 lib_free(src_name_ascii);
                 lib_free(src_name_petscii);
-                return FD_OK;
+                return FD_WRTERR;
             }
         }
 
@@ -2078,6 +2082,7 @@ static int copy_cmd(int nargs, char **args)
     lib_free(dest_name_petscii);
     return FD_OK;
 }
+
 
 /** \brief  Delete (scratch) file(s) from disk image(s)
  *
@@ -2284,16 +2289,25 @@ static int extract_geos_cmd(int nargs, char **args)
     return extract_cmd_common(nargs, args, 1);
 }
 
+
+/** \brief  Format a virtual floppy
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, or < 0 on failure
+ */
 static int format_cmd(int nargs, char **args)
 {
     char *command;
     int disk_type;
-    int unit = -1;  /* index into the vdrive array, misnomer */
+    int dev = -1;   /* index into the drives array */
+    int unit;       /* unit number */
 
     switch (nargs) {
         case 2:
             /* format <diskname,id> */
-            unit = drive_index;
+            dev = drive_index;
             break;
         case 3:
             /* format <diskname,id> <unit> */
@@ -2301,7 +2315,7 @@ static int format_cmd(int nargs, char **args)
             if (arg_to_int(args[2], &unit) >= 0
                 && check_drive_unit(unit) >= 0) {
                 /* It's a valid unit number.  */
-                unit -= UNIT_MIN;
+                dev = unit -UNIT_MIN;
             } else {
                 return FD_BADDEV;
             }
@@ -2342,14 +2356,14 @@ static int format_cmd(int nargs, char **args)
             if (nargs > 4) {
                 arg_to_int(args[4], &unit);
                 if (check_drive_unit(unit) >= 0) {
-                    unit -= UNIT_MIN;
+                    dev = unit - UNIT_MIN;
                 } else {
                     return FD_BADDEV;
                 }
             } else {
-                unit = 0;
+                dev = 0;
             }
-            if (open_image(unit, args[3], 1, disk_type) < 0) {
+            if (open_image(dev, args[3], 1, disk_type) < 0) {
                 return FD_BADIMAGE;
             }
             break;
@@ -2365,15 +2379,15 @@ static int format_cmd(int nargs, char **args)
         return FD_BADNAME;
     }
 
-    if (check_drive_ready(unit - UNIT_MIN) < 0) {
+    if (check_drive_ready(dev) < 0) {
         return FD_NOTREADY;
     }
 
     command = util_concat("n:", args[1], NULL);
     charset_petconvstring((BYTE *)command, 0);
 
-    printf("formatting in unit %d ...\n", unit + 8);
-    vdrive_command_execute(drives[unit], (BYTE *)command,
+    printf("formatting in unit %d ...\n", dev + UNIT_MIN);
+    vdrive_command_execute(drives[dev], (BYTE *)command,
             (unsigned int)strlen(command));
 
     lib_free(command);
