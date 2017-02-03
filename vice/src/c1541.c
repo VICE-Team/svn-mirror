@@ -229,7 +229,6 @@ static int write_geos_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
 
 /* other functions */
-static int check_drive(int dev, int mode);  /* DEPRECATED */
 static int open_image(int dev, char *name, int create, int disktype);
 
 int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii);
@@ -1097,7 +1096,7 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
         disk_image_media_destroy(image);
         disk_image_destroy(image);
         vdrive->image = NULL;
-        /* also clean up buffer using by the vdrive */
+        /* also clean up buffer used by the vdrive */
         vdrive_device_shutdown(vdrive);
     }
 }
@@ -1135,43 +1134,6 @@ static int open_image(int dev, char *name, int create, int disktype)
         return -1;
     }
     return 0;
-}
-
-
-/** \brief  Check \a dev for some limit
- *
- * \param[in]   dev     device number
- * \param[in]   flags   flags which determine the check(s)
- *
- * FIXME:   Only two things are checked, making the whole `flags` param
- *          rather pointless, not to mention 'flags' makes me think its a
- *          combination of bits indicating various tests. It's not.
- *          Functions using this function only check the return value for <0,
- *          and then return their own FD_FOO constant.
- *
- * \return  FD_BADDEV, FD_NOTREADY, FD_OK
- *
- * \deprecated
- */
-static int check_drive(int dev, int flags)
-{
-    vdrive_t *vdrive;
-
-    /* FIXME: this makes the dev number check return many false positives,
-     *        why not simply check dev without AND'ing? */
-    dev &= 7;
-
-    if (dev < 0 || dev >= DRIVE_COUNT) {
-        return FD_BADDEV;
-    }
-
-    vdrive = drives[dev & 3];
-
-    if (flags != CHK_NUM && (vdrive == NULL || vdrive->image == NULL)) {
-        return FD_NOTREADY;
-    }
-
-    return FD_OK;
 }
 
 
@@ -2403,7 +2365,7 @@ static int format_cmd(int nargs, char **args)
         return FD_BADNAME;
     }
 
-    if (check_drive(unit, CHK_RDY) < 0) {
+    if (check_drive_ready(unit - UNIT_MIN) < 0) {
         return FD_NOTREADY;
     }
 
@@ -3575,7 +3537,8 @@ static int internal_write_geos_file(int unit, FILE* f)
  */
 static int write_geos_cmd(int nargs, char **args)
 {
-    int unit, erg;
+    int dev;
+    int erg;
     char *dest_name_ascii, *dest_name_petscii;
     FILE *f;
     BYTE* e;
@@ -3584,9 +3547,9 @@ static int write_geos_cmd(int nargs, char **args)
 
     /* geoswrite <source> */
     dest_name_ascii = NULL;
-    unit = drive_index;
+    dev = drive_index;
 
-    if (check_drive(unit, CHK_RDY) < 0) {
+    if (check_drive_ready(dev) < 0) {
         return FD_NOTREADY;
     }
 
@@ -3615,7 +3578,7 @@ static int write_geos_cmd(int nargs, char **args)
     dest_name_petscii = lib_stralloc(dest_name_ascii);
     charset_petconvstring((BYTE *)dest_name_petscii, 0);
 
-    if (vdrive_iec_open(drives[unit], (BYTE *)dest_name_petscii,
+    if (vdrive_iec_open(drives[dev], (BYTE *)dest_name_petscii,
                         (unsigned int)strlen(dest_name_petscii), 1, NULL)) {
         fprintf(stderr, "cannot open `%s' for writing on image\n",
                 dest_name_ascii);
@@ -3624,43 +3587,44 @@ static int write_geos_cmd(int nargs, char **args)
     }
 
     /* the following function reuses the fresh created dir entry ... */
-    erg = internal_write_geos_file(unit, f);
+    erg = internal_write_geos_file(dev, f);
     fclose(f);
 
     /* Start: copied from vdrive_iec_close
      * The bam and directory entry must be copied to the disk. the code
      * from the vdrive routines does that thing.
      */
-    vdrive_dir_find_first_slot(drives[unit], dest_name_petscii,
+    vdrive_dir_find_first_slot(drives[dev], dest_name_petscii,
                                (int)strlen(dest_name_petscii), 0, &dir);
     e = vdrive_dir_find_next_slot(&dir);
 
     if (!e) {
-        drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
-        lib_free(drives[unit]->buffers[1].buffer);
-        drives[unit]->buffers[1].buffer = NULL;
+        drives[dev]->buffers[1].mode = BUFFER_NOT_IN_USE;
+        lib_free(drives[dev]->buffers[1].buffer);
+        drives[dev]->buffers[1].buffer = NULL;
 
-        vdrive_command_set_error(drives[unit], CBMDOS_IPE_DISK_FULL, 0, 0);
+        vdrive_command_set_error(drives[dev], CBMDOS_IPE_DISK_FULL, 0, 0);
         return SERIAL_ERROR;
     }
     /* The buffer MUST be mark as closed to avoid the vdrive functions
      * to add an empty block at the end of the file that was allocated
      * when the file was created!!!!
      */
-    drives[unit]->buffers[1].slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
+    drives[dev]->buffers[1].slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
 
     memcpy(&dir.buffer[dir.slot * 32 + 2],
-           drives[unit]->buffers[1].slot + 2,
+           drives[dev]->buffers[1].slot + 2,
            30);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.", dir.track, dir.sector);
+    log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.",
+            dir.track, dir.sector);
 #endif
-    vdrive_write_sector(drives[unit], dir.buffer, dir.track, dir.sector);
-    vdrive_bam_write_bam(drives[unit]);
-    drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
-    lib_free((char *)drives[unit]->buffers[1].buffer);
-    drives[unit]->buffers[1].buffer = NULL;
+    vdrive_write_sector(drives[dev], dir.buffer, dir.track, dir.sector);
+    vdrive_bam_write_bam(drives[dev]);
+    drives[dev]->buffers[1].mode = BUFFER_NOT_IN_USE;
+    lib_free((char *)drives[dev]->buffers[1].buffer);
+    drives[dev]->buffers[1].buffer = NULL;
 
     /* End: copied from vdrive_iec_close */
 
