@@ -3764,7 +3764,13 @@ static int show_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-/* Copy files from a  tape image.  */
+/** \brief  Copy files from a tape image to current drive unit
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, < 0 on failure
+ */
 static int tape_cmd(int nargs, char **args)
 {
     tape_image_t *tape_image;
@@ -4239,6 +4245,14 @@ static int validate_cmd(int nargs, char **args)
     return FD_OK;
 }
 
+
+/** \brief  Write a file from the host FS to a virtual device
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, < 0 on failure
+ */
 static int write_cmd(int nargs, char **args)
 {
     int dnr;
@@ -4250,17 +4264,19 @@ static int write_cmd(int nargs, char **args)
 
     if (nargs == 3) {
         /* write <source> <dest> */
-        p = extract_unit_from_file_name(args[2], &unit);
-        if (p == NULL) {
-            unit = drive_index - UNIT_MIN;
-            dest_name = lib_stralloc(args[2]);
-        } else {
-            if (*p != 0) {
-                dest_name = lib_stralloc(args[2]);
-            } else {
-                dest_name = NULL;
-            }
+
+        unit = extract_unit_from_file_name_compyx(args[2], &p);
+        if (unit == 0) {
+            unit = drive_index + UNIT_MIN;
+        } else if (unit < 0) {
+            return FD_BADDEV;
         }
+        if (p != NULL && *p != '\0') {
+            dest_name = lib_stralloc(p);
+        } else {
+            dest_name = NULL;
+        }
+
         if (dest_name != NULL) {
             charset_petconvstring((BYTE *)dest_name, 0);
         }
