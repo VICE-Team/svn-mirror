@@ -2879,7 +2879,7 @@ static int read_cmd(int nargs, char **args)
         size_t l;
 
         dest_name_ascii = actual_name;
-        vdrive_dir_no_a0_pads((BYTE *)dest_name_ascii, 16);
+        vdrive_dir_no_a0_pads((BYTE *)dest_name_ascii, CBMDOS_SLOT_NAME_LENGTH);
         l = strlen(dest_name_ascii) - 1;
         while (dest_name_ascii[l] == ' ') {
             dest_name_ascii[l] = 0;
@@ -3227,9 +3227,11 @@ static int read_geos_cmd(int nargs, char **args)
 
     /* Get real filename from the disk file.
        Slot must be defined by vdrive_iec_open().  */
-    actual_name = lib_malloc(17);  /* FIXME: Should be a #define.  */
-    memcpy(actual_name, drives[dev]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
-    actual_name[16] = 0;
+    actual_name = lib_malloc(CBMDOS_SLOT_NAME_LENGTH + 1);
+    memcpy(actual_name,
+            drives[dev]->buffers[0].slot + SLOT_NAME_OFFSET,
+            CBMDOS_SLOT_NAME_LENGTH);
+    actual_name[CBMDOS_SLOT_NAME_LENGTH] = '\0';
 
     if (nargs == 3) {
         dest_name_ascii = args[2];
@@ -3237,7 +3239,7 @@ static int read_geos_cmd(int nargs, char **args)
         int l;
 
         dest_name_ascii = actual_name;
-        vdrive_dir_no_a0_pads((BYTE *) dest_name_ascii, 16);
+        vdrive_dir_no_a0_pads((BYTE *) dest_name_ascii, CBMDOS_SLOT_NAME_LENGTH);
         l = (int)strlen(dest_name_ascii) - 1;
         while (dest_name_ascii[l] == ' ') {
             dest_name_ascii[l] = 0;

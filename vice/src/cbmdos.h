@@ -93,6 +93,8 @@
 #define CBMDOS_FAM_EOF    4
 
 /* CBM DOS directory definitions.  */
+
+/** \brief  Length of a CBMDOS PETSCII file name */
 #define CBMDOS_SLOT_NAME_LENGTH 16
 
 /* fdc error codes to return to drive CPU */
