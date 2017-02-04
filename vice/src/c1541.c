@@ -3656,32 +3656,47 @@ static int write_geos_cmd(int nargs, char **args)
     return erg;
 }
 
+
+/** \brief  Rename a file
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK on success, < 0 on failure
+ */
 static int rename_cmd(int nargs, char **args)
 {
-    char *src_name, *dest_name;
-    int src_unit = UNIT_MIN;
-    int dest_unit = UNIT_MIN;
-    int dest_dev;
+    char *src_name;
+    char *dest_name;
+    int src_unit;
+    int dest_unit;
+    int dev;
     char *command;
     char *p;
+    int unit;
 
-    p = extract_unit_from_file_name(args[1], &src_unit);
-    if (p == NULL) {
+    unit = extract_unit_from_file_name_compyx(args[1], &p);
+    if (unit > 0) {
+        src_unit = unit;
+    } else if (unit == 0) {
         src_unit = drive_index + UNIT_MIN;
-        src_name = lib_stralloc(args[1]);
     } else {
-        src_name = lib_stralloc(p);
+        return FD_BADDEV;
     }
+    src_name = lib_stralloc(p);
 
-    p = extract_unit_from_file_name(args[2], &dest_unit);
-    if (p == NULL) {
+
+    unit = extract_unit_from_file_name_compyx(args[2], &p);
+    if (unit > 0) {
+        dest_unit = unit;
+    } else if (unit == 0) {
         dest_unit = drive_index + UNIT_MIN;
-        dest_name = lib_stralloc(args[2]);
     } else {
-        dest_name = lib_stralloc(p);
+        return FD_BADDEV;
     }
+    dest_name = lib_stralloc(p);
 
-    dest_dev = dest_unit - UNIT_MIN;
+    dev = dest_unit - UNIT_MIN;
 
     if (dest_unit != src_unit) {
         fprintf(stderr, "source and destination must be on the same unit\n");
@@ -3690,7 +3705,7 @@ static int rename_cmd(int nargs, char **args)
         return FD_BADDEV;
     }
 
-    if (check_drive_ready(dest_dev) < 0) {
+    if (check_drive_ready(dev) < 0) {
         lib_free(src_name);
         lib_free(dest_name);
         return FD_NOTREADY;
@@ -3715,7 +3730,7 @@ static int rename_cmd(int nargs, char **args)
     command = util_concat("r:", dest_name, "=", src_name, NULL);
     charset_petconvstring((BYTE *)command, 0);
 
-    vdrive_command_execute(drives[dest_dev],
+    vdrive_command_execute(drives[dev],
                            (BYTE *)command, (unsigned int)strlen(command));
 
     lib_free(command);
