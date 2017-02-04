@@ -2833,17 +2833,18 @@ static int read_cmd(int nargs, char **args)
     char *actual_name;
     char *p;
     int dnr;
+    int unit;
     FILE *outf = NULL;
     fileio_info_t *finfo = NULL;
     unsigned int format = FILEIO_FORMAT_RAW;
     BYTE c;
     int status = 0;
 
-    p = extract_unit_from_file_name(args[1], &dnr);
-    if (p == NULL) {
+    unit = extract_unit_from_file_name_compyx(args[1], &p);
+    if (unit <= 0) {
         dnr = drive_index;
     } else {
-        dnr -= UNIT_MIN;
+        dnr = unit - UNIT_MIN;
     }
 
     if (check_drive_ready(dnr) < 0) {
@@ -3202,22 +3203,31 @@ static int read_geos_cmd(int nargs, char **args)
     char *dest_name_ascii;
     char *actual_name;
     char *p;
-    int unit;
     FILE *outf;
     int err_code;
     int dev;
+    int unit;
 
-    p = extract_unit_from_file_name(args[1], &unit);
-    if (p == NULL) {
+    unit = extract_unit_from_file_name_compyx(args[1], &p);
+    if (unit > 0) {
+        dev = unit - UNIT_MIN;
+    } else if (unit == 0) {
+        /* no @<unit>: found */
+        dev = drive_index;
         unit = drive_index + UNIT_MIN;
+    } else {
+        /* -1, invalid unit number */
+        return FD_BADDEV;
     }
 
-    if (check_drive_ready(unit - UNIT_MIN) < 0) {
+    if (check_drive_ready(dev) < 0) {
         return FD_NOTREADY;
     }
 
-    if (p == NULL) {
-        src_name_ascii = lib_stralloc(args[1]);
+    if (p == NULL || *p == '\0') {
+        fprintf(stderr,
+                "missing filename\n");
+        return FD_BADNAME;
     } else {
         src_name_ascii = lib_stralloc(p);
     }
@@ -3228,8 +3238,6 @@ static int read_geos_cmd(int nargs, char **args)
         lib_free(src_name_ascii);
         return FD_BADNAME;
     }
-
-    dev = unit - UNIT_MIN;
 
     src_name_petscii = lib_stralloc(src_name_ascii);
     charset_petconvstring((BYTE *)src_name_petscii, 0);
@@ -3246,7 +3254,7 @@ static int read_geos_cmd(int nargs, char **args)
     /* Get real filename from the disk file.
        Slot must be defined by vdrive_iec_open().  */
     actual_name = lib_malloc(17);  /* FIXME: Should be a #define.  */
-    memcpy(actual_name, drives[unit]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
+    memcpy(actual_name, drives[dev]->buffers[0].slot + SLOT_NAME_OFFSET, 16);
     actual_name[16] = 0;
 
     if (nargs == 3) {
@@ -3276,9 +3284,9 @@ static int read_geos_cmd(int nargs, char **args)
         return FD_NOTWRT;
     }
 
-    printf("reading file `%s' from unit %d\n", src_name_ascii, unit + 8);
+    printf("reading file `%s' from unit %d\n", src_name_ascii, unit);
 
-    err_code = internal_read_geos_file(unit, outf, src_name_ascii);
+    err_code = internal_read_geos_file(dev, outf, src_name_ascii);
 
     fclose(outf);
     vdrive_iec_close(drives[dev], 0);
