@@ -99,8 +99,8 @@ n????Include directories:
 1
 25
 WString
-101
-"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../imagecontents;../../../vdrive;../../../lib/p64"
+120
+"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../imagecontents;../../../vdrive;../../../lib/p64;../../../diskimage"
 0
 26
 MVState
