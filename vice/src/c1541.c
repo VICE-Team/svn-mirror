@@ -938,32 +938,6 @@ static int lookup_and_execute_command(int nargs, char **args)
 }
 
 
-/** \brief  Get unit number from \a name
- *
- * \param[in]   name        filename
- * \param[out]  unit_return unit number
- *
- * \return  pointer into \a name after the ':' or `NULL` on failure
- */
-static char *extract_unit_from_file_name(char *name, int *unit_return)
-{
-    static const char *specs[DRIVE_COUNT] = {
-        "@8:", "@9:", "@10:", "@11:"
-    };
-    int i;
-
-    for (i = 0; i < DRIVE_COUNT; i++) {
-        size_t len = strlen(specs[i]);
-        if (strncmp(specs[i], name, len) == 0) {
-            *unit_return = i + UNIT_MIN;
-            return name + len;
-        }
-    }
-    *unit_return = -1;
-    return NULL;
-}
-
-
 /** \brief  Parse and validate unit number from a '@<unit>:' string
  *
  * \param[in]   name    string to parse
@@ -972,7 +946,7 @@ static char *extract_unit_from_file_name(char *name, int *unit_return)
  * \return  unit number if successful, 0 if no '@<unit>:' was found, -1 if the
  *          parsed unit number is invalid
  */
-static int extract_unit_from_file_name_compyx(char *name, char **endptr)
+static int extract_unit_from_file_name(char *name, char **endptr)
 {
     long result;
 
@@ -1666,7 +1640,7 @@ static int bpoke_cmd(int nargs, char **args)
     unsigned char buffer[RAW_BLOCK_SIZE];
 
     /* first check for a unit number (@<unit>:) */
-    unit = extract_unit_from_file_name_compyx(args[arg_idx], &endptr);
+    unit = extract_unit_from_file_name(args[arg_idx], &endptr);
     if (unit == 0) {
         /* use current unit */
         unit = drive_index + UNIT_MIN;
@@ -1955,7 +1929,7 @@ static int copy_cmd(int nargs, char **args)
     int src_unit = drive_index + UNIT_MIN;
     int i;
 
-    dest_unit = extract_unit_from_file_name_compyx(args[nargs - 1], &p);
+    dest_unit = extract_unit_from_file_name(args[nargs - 1], &p);
     if (dest_unit <= 0) {
         if (nargs > 3) {
             fprintf(stderr,
@@ -1996,7 +1970,7 @@ static int copy_cmd(int nargs, char **args)
     for (i = 1; i < nargs - 1; i++) {
         char *src_name_ascii, *src_name_petscii;
 
-        src_unit = extract_unit_from_file_name_compyx(args[i], &p);
+        src_unit = extract_unit_from_file_name(args[i], &p);
         if (src_unit <= 0) {
             src_name_ascii = lib_stralloc(args[i]);
             src_unit = drive_index + UNIT_MIN;
@@ -2106,7 +2080,7 @@ static int delete_cmd(int nargs, char **args)
         char *command;
         int status;
 
-        unit = extract_unit_from_file_name_compyx(args[i], &p);
+        unit = extract_unit_from_file_name(args[i], &p);
         if (unit < 0) {
             /* illegal unit between '@' and ':' */
             return FD_BADDEV;
@@ -2664,7 +2638,7 @@ static int list_cmd(int nargs, char **args)
 
     if (nargs > 1) {
         /* use new version call untill all old calls are replaced */
-        unit = extract_unit_from_file_name_compyx(args[1], &pattern);
+        unit = extract_unit_from_file_name(args[1], &pattern);
         if (unit == 0) {
             dnr = (int)drive_index;
         } else if (unit > 0) {
@@ -2840,7 +2814,7 @@ static int read_cmd(int nargs, char **args)
     BYTE c;
     int status = 0;
 
-    unit = extract_unit_from_file_name_compyx(args[1], &p);
+    unit = extract_unit_from_file_name(args[1], &p);
     if (unit <= 0) {
         dnr = drive_index;
     } else {
@@ -3208,7 +3182,7 @@ static int read_geos_cmd(int nargs, char **args)
     int dev;
     int unit;
 
-    unit = extract_unit_from_file_name_compyx(args[1], &p);
+    unit = extract_unit_from_file_name(args[1], &p);
     if (unit > 0) {
         dev = unit - UNIT_MIN;
     } else if (unit == 0) {
@@ -3675,7 +3649,7 @@ static int rename_cmd(int nargs, char **args)
     char *p;
     int unit;
 
-    unit = extract_unit_from_file_name_compyx(args[1], &p);
+    unit = extract_unit_from_file_name(args[1], &p);
     if (unit > 0) {
         src_unit = unit;
     } else if (unit == 0) {
@@ -3686,7 +3660,7 @@ static int rename_cmd(int nargs, char **args)
     src_name = lib_stralloc(p);
 
 
-    unit = extract_unit_from_file_name_compyx(args[2], &p);
+    unit = extract_unit_from_file_name(args[2], &p);
     if (unit > 0) {
         dest_unit = unit;
     } else if (unit == 0) {
@@ -4265,7 +4239,7 @@ static int write_cmd(int nargs, char **args)
     if (nargs == 3) {
         /* write <source> <dest> */
 
-        unit = extract_unit_from_file_name_compyx(args[2], &p);
+        unit = extract_unit_from_file_name(args[2], &p);
         if (unit == 0) {
             unit = drive_index + UNIT_MIN;
         } else if (unit < 0) {
