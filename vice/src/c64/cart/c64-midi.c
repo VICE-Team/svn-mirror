@@ -55,7 +55,7 @@ midi_interface_t midi_interface[] = {
     { "Namesoft", 0xde00, 0, 2, 1, 3, 0xff, 1, 2, CARTRIDGE_MIDI_NAMESOFT },
     /* Electronics - Maplin magazine */
     { "Maplin", 0xdf00, 0, 0, 1, 1, 0xff, 2, 0, CARTRIDGE_MIDI_MAPLIN },
-    { NULL }
+    MIDI_INFERFACE_LIST_END
 };
 
 /* ---------------------------------------------------------------------*/

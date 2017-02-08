@@ -41,7 +41,7 @@
 midi_interface_t midi_interface[] = {
     /* Electronics - Maplin magazine */
     { "Maplin", 0x9c00, 0, 0, 1, 1, 0xff, 2, 0, CARTRIDGE_MIDI_MAPLIN },
-    { NULL }
+    MIDI_INFERFACE_LIST_END
 };
 
 /* ---------------------------------------------------------------------*/

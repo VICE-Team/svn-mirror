@@ -104,6 +104,8 @@ struct _action {
 
 typedef struct _action action_t;
 
+#define FILTER_LIST_END { NULL, NULL }
+
 static filter_t FilterDisk[] = {
     { "*.d64*; *.d67*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.g71*; *.p64*; *.x64*; *.d1m*; *.d2m*; *.d4m*", "All Disk Images" },
     { "*.d64*; *.g64*; *.p64*; *.x64*", "All 1541 Images" },
@@ -120,14 +122,14 @@ static filter_t FilterDisk[] = {
     { "*.d1m*", "2000" },
     { "*.d2m*", "2000" },
     { "*.d4m*", "4000" },
-    { NULL }
+    FILTER_LIST_END
 };
 
 static filter_t FilterTape[] = {
     { "*.t64*; *.tap*", "All Tape Images" },
     { "*.t64*", "T64" },
     { "*.tap*", "Raw 1531 Tape File" },
-    { NULL }
+    FILTER_LIST_END
 };
 
 #if defined(__X64__) || defined(__X128__) || defined(__XPET__) || defined(__XCBM__) || defined(__XSCPU64__)
@@ -135,28 +137,82 @@ static filter_t FilterCart[] = {
     { "*.crt; *.bin", "All Cartridge Images" },
     { "*.crt", "CRT" },
     { "*.bin", "BIN" },
-    { NULL }
+    FILTER_LIST_END
 };
 #endif
 
-static filter_t FilterPal[] = { { "*.vpl", "Vice/2 Color Palette" }, { NULL } };
-static filter_t FilterVsf[] = { { "*.vsf", "Vice/2 Snapshot File" }, { NULL } };
-static filter_t FilterKbd[] = { { "*.vkm", "Vice/2 Keyboard Map" }, { NULL } };
-static filter_t FilterRomSet[] = { { "*.vrs", "Vice/2 Rom Set" }, { NULL } };
-static filter_t FilterPng[] = { { "*.png", "Portable Network Graphic" }, { NULL } };
-static filter_t FilterBmp[] = { { "*.bmp", "Bitmap" }, { NULL } };
-static filter_t FilterCfg[] = { { "*.cfg", "Vice/2 Configuration" }, { NULL } };
-static filter_t FilterFlip[] = { { "*.vfl", "Vice/2 Fliplist" }, { NULL } };
-static filter_t FilterKernal[] = { { "kernal*", "Kernal ROM" }, { NULL } };
-static filter_t FilterBasic[] = { { "basic*", "Basic ROM"}, { NULL } };
-static filter_t FilterChargen[] = { { "charg*", "Character ROM" }, { NULL } };
+static filter_t FilterPal[] = {
+    { "*.vpl", "Vice/2 Color Palette" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterVsf[] = {
+    { "*.vsf", "Vice/2 Snapshot File" },
+        FILTER_LIST_END
+};
+
+static filter_t FilterKbd[] = {
+    { "*.vkm", "Vice/2 Keyboard Map" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterRomSet[] = {
+    { "*.vrs", "Vice/2 Rom Set" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterPng[] = {
+    { "*.png", "Portable Network Graphic" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterBmp[] = {
+    { "*.bmp", "Bitmap" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterCfg[] = {
+    { "*.cfg", "Vice/2 Configuration" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterFlip[] = {
+    { "*.vfl", "Vice/2 Fliplist" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterKernal[] = {
+    { "kernal*", "Kernal ROM" },
+    FILTER_LIST_END
+};
+
+static filter_t FilterBasic[] = {
+    { "basic*", "Basic ROM"},
+    FILTER_LIST_END
+};
+
+static filter_t FilterChargen[] = {
+    { "charg*", "Character ROM" },
+    FILTER_LIST_END
+};
 
 #ifdef __X128__
-static filter_t FilterZ80[] = { { "z80bios*", "Z80 BIOS" }, { NULL } };
+static filter_t FilterZ80[] = {
+    { "z80bios*", "Z80 BIOS" },
+    FILTER_LIST_END
+};
 #endif
 
-static filter_t Filter1540[] = { { "dos1540*", "1540 ROM" }, { NULL } };
-static filter_t Filter1541[] = { { "dos1541*", "1541 ROM" }, { NULL } };
+static filter_t Filter1540[] = {
+    { "dos1540*", "1540 ROM" },
+    FILTER_LIST_END
+};
+
+static filter_t Filter1541[] = {
+    { "dos1541*", "1541 ROM" },
+    FILTER_LIST_END
+};
+
 static filter_t Filter15412[] = { { "d1541II*", "1541-II ROM" }, { NULL } };
 static filter_t Filter1571[] = { { "dos1571*", "1571 ROM" }, { NULL } };
 static filter_t Filter1581[] = { { "dos1581*", "1581 ROM" }, { NULL } };

@@ -158,11 +158,11 @@ typedef struct acia_struct {
     enum rs232handshake_out rs232_status_lines;
 } acia_type;
 
-
-
 /******************************************************************/
 
-static acia_type acia = { NULL };
+static acia_type acia = { NULL, NULL, 0, 0, 0, 0, (enum acia_tx_state)0,
+                          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                          (enum cpu_int)0, 0, 0, (enum rs232handshake_out)0 };
 
 void acia_preinit(void)
 {

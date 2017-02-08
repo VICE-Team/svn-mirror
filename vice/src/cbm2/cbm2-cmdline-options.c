@@ -46,6 +46,8 @@ struct modtab_s {
 };
 typedef struct modtab_s modtab_t;
 
+#define MODTAB_LIST_END { NULL, 0, 0 }
+
 /* FIXME: add more/all models */
 static modtab_t modtab[] = {
     { "510", VICE_MACHINE_CBM5x0, CBM2MODEL_510_PAL },
@@ -55,7 +57,7 @@ static modtab_t modtab[] = {
     { "710", VICE_MACHINE_CBM6x0, CBM2MODEL_710_NTSC },
     { "720", VICE_MACHINE_CBM6x0, CBM2MODEL_720_NTSC },
     { "720+", VICE_MACHINE_CBM6x0, CBM2MODEL_720PLUS_NTSC },
-    { NULL }
+    MODTAB_LIST_END
 };
 
 static int cbm2_model = 1;
