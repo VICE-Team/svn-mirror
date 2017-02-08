@@ -180,7 +180,7 @@ int ps_ieee1284_open(void)
     }
 
     if (parlist.portv) {
-        for (i = 0; i < MAXSID && parlist.portv[i]->priv; ++i) {
+        for (i = 0; i < MAXSID && i < parlist.portc; ++i) {
             retval = ieee1284_open(parlist.portv[i], F1284_EXCL, &cap);
             if (retval == E1284_OK) {
                 retval = ieee1284_claim(parlist.portv[i]);
