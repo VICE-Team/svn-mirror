@@ -152,6 +152,7 @@ static void paperclip64_store(BYTE val)
 
         if (old_clk && !clk) {
             counter++;
+            counter &= 0x3f;
         }
    }
    command = new_command;
