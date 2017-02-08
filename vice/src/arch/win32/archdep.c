@@ -238,9 +238,10 @@ static BOOL verify_exe(TCHAR *file_name)
 const char *archdep_home_path(void)
 {
     static char *cached_home = NULL;
-    char *home_prefix, *home;
-    char data_path[MAX_PATH + 1];
+	char *home;
 #ifndef NO_SHGETFOLDERPATH
+    char *home_prefix;
+    char data_path[MAX_PATH + 1];
     HRESULT res;
 #endif
 
@@ -284,9 +285,9 @@ const char *archdep_home_path(void)
             }
         }
     }
-#endif
 
  fail:
+#endif
     return home;
 }
 
