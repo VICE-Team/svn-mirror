@@ -30,7 +30,6 @@
 
 #include "vice.h"
 
-#include "uiarch.h"
 #include "viewport.h"
 #include "video.h"
 
@@ -44,6 +43,7 @@
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
+#if 0
     GtkWidget *emuwindow, *pane;
 #if !defined(HAVE_CAIRO)
     /* deprecated since 2.22, removed in 3.0 */
@@ -51,6 +51,7 @@ struct video_canvas_s {
 #else
     GdkPixbuf *gdk_pixbuf;
     cairo_t *cairo_ctx;
+#endif
 #endif
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
