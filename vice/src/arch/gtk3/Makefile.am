@@ -18,4 +18,5 @@ EXTRA_DIST = \
 	kbd.h \
 	mousedrv.h \
 	types.h \
+	ui.h \
 	videoarch.h
