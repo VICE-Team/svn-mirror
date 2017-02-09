@@ -29,6 +29,7 @@
 
 extern void kbd_arch_init(void);
 extern int kbd_arch_get_host_mapping(void);
+extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_PORT_PREFIX "gtk3"
 
