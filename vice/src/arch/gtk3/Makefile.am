@@ -13,6 +13,7 @@ libarch_a_SOURCES = \
 EXTRA_DIST = \
 	archdep.h \
 	archdep_unix.h \
+	coproc.h \
 	joy.h \
 	kbd.h \
 	mousedrv.h \
