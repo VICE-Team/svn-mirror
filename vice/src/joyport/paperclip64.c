@@ -89,13 +89,13 @@ static BYTE command = 0xff;
 static BYTE output_enable = 0;
 
 static BYTE keys[64] = {
-    2, 0, 0, 1, 3, 2, 1, 3,
-    2, 1, 2, 1, 2, 1, 2, 0,
-    1, 2, 0, 1, 3, 3, 2, 0,
-    0, 0, 0, 0, 0, 0, 1, 3,
-    3, 2, 0, 1, 2, 0, 1, 2,
-    1, 2, 1, 2, 1, 3, 2, 1,
-    3, 2, 0, 0, 1, 3, 3, 3,
+    3, 2, 0, 0, 1, 3, 2, 1,
+    3, 2, 1, 2, 1, 2, 1, 2,
+    0, 1, 2, 0, 1, 3, 3, 2,
+    0, 0, 0, 0, 0, 0, 0, 1,
+    3, 3, 2, 0, 1, 2, 0, 1,
+    2, 1, 2, 1, 2, 1, 3, 2,
+    1, 3, 2, 0, 0, 1, 3, 3,
     3, 3, 3, 3, 3, 3, 3, 3
 };
 
@@ -152,7 +152,9 @@ static void paperclip64_store(BYTE val)
 
         if (old_clk && !clk) {
             counter++;
-            counter &= 0x3f;
+            if (counter == 0x3c) {
+                counter = 0;
+            }
         }
    }
    command = new_command;
