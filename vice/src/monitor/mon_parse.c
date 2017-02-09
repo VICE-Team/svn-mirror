@@ -17,7 +17,7 @@
 
 #define YYPURE 0
 
-#line 2 "../../../vice/src/monitor/mon_parse.y"
+#line 2 "mon_parse.y"
 /* -*- C -*-
  *
  * mon_parse.y - Parser for the VICE built-in monitor.
@@ -146,7 +146,7 @@ extern int cur_len, last_len;
 
 #define YYDEBUG 1
 
-#line 132 "../../../vice/src/monitor/mon_parse.y"
+#line 132 "mon_parse.y"
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
@@ -166,7 +166,7 @@ typedef union {
     asm_mode_addr_info_t mode;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 170 "../../../vice/src/monitor/mon_parse.c"
+#line 170 "mon_parse.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -1494,7 +1494,7 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 1044 "../../../vice/src/monitor/mon_parse.y"
+#line 1044 "mon_parse.y"
 
 void parse_and_execute_line(char *input)
 {
@@ -1648,7 +1648,7 @@ static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
 }
 
 
-#line 1652 "../../../vice/src/monitor/mon_parse.c"
+#line 1652 "mon_parse.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -1851,293 +1851,293 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 196 "../../../vice/src/monitor/mon_parse.y"
+#line 196 "mon_parse.y"
 	{ yyval.i = 0; }
 break;
 case 2:
-#line 197 "../../../vice/src/monitor/mon_parse.y"
+#line 197 "mon_parse.y"
 	{ yyval.i = 0; }
 break;
 case 3:
-#line 198 "../../../vice/src/monitor/mon_parse.y"
+#line 198 "mon_parse.y"
 	{ new_cmd = 1; asm_mode = 0;  yyval.i = 0; }
 break;
 case 8:
-#line 207 "../../../vice/src/monitor/mon_parse.y"
+#line 207 "mon_parse.y"
 	{ return ERR_EXPECT_END_CMD; }
 break;
 case 21:
-#line 222 "../../../vice/src/monitor/mon_parse.y"
+#line 222 "mon_parse.y"
 	{ return ERR_BAD_CMD; }
 break;
 case 22:
-#line 226 "../../../vice/src/monitor/mon_parse.y"
+#line 226 "mon_parse.y"
 	{ mon_bank(e_default_space, NULL); }
 break;
 case 23:
-#line 228 "../../../vice/src/monitor/mon_parse.y"
+#line 228 "mon_parse.y"
 	{ mon_bank(yystack.l_mark[-1].i, NULL); }
 break;
 case 24:
-#line 230 "../../../vice/src/monitor/mon_parse.y"
+#line 230 "mon_parse.y"
 	{ mon_bank(e_default_space, yystack.l_mark[-1].str); }
 break;
 case 25:
-#line 232 "../../../vice/src/monitor/mon_parse.y"
+#line 232 "mon_parse.y"
 	{ mon_bank(yystack.l_mark[-3].i, yystack.l_mark[-1].str); }
 break;
 case 26:
-#line 234 "../../../vice/src/monitor/mon_parse.y"
+#line 234 "mon_parse.y"
 	{ mon_jump(yystack.l_mark[-1].a); }
 break;
 case 27:
-#line 236 "../../../vice/src/monitor/mon_parse.y"
+#line 236 "mon_parse.y"
 	{ mon_go(); }
 break;
 case 28:
-#line 238 "../../../vice/src/monitor/mon_parse.y"
+#line 238 "mon_parse.y"
 	{ mon_display_io_regs(0); }
 break;
 case 29:
-#line 240 "../../../vice/src/monitor/mon_parse.y"
+#line 240 "mon_parse.y"
 	{ mon_display_io_regs(yystack.l_mark[-1].a); }
 break;
 case 30:
-#line 242 "../../../vice/src/monitor/mon_parse.y"
+#line 242 "mon_parse.y"
 	{ monitor_cpu_type_set(""); }
 break;
 case 31:
-#line 244 "../../../vice/src/monitor/mon_parse.y"
+#line 244 "mon_parse.y"
 	{ monitor_cpu_type_set(yystack.l_mark[-1].str); }
 break;
 case 32:
-#line 246 "../../../vice/src/monitor/mon_parse.y"
+#line 246 "mon_parse.y"
 	{ mon_cpuhistory(-1); }
 break;
 case 33:
-#line 248 "../../../vice/src/monitor/mon_parse.y"
+#line 248 "mon_parse.y"
 	{ mon_cpuhistory(yystack.l_mark[-1].i); }
 break;
 case 34:
-#line 250 "../../../vice/src/monitor/mon_parse.y"
+#line 250 "mon_parse.y"
 	{ mon_instruction_return(); }
 break;
 case 35:
-#line 252 "../../../vice/src/monitor/mon_parse.y"
+#line 252 "mon_parse.y"
 	{ machine_write_snapshot(yystack.l_mark[-1].str,0,0,0); /* FIXME */ }
 break;
 case 36:
-#line 254 "../../../vice/src/monitor/mon_parse.y"
+#line 254 "mon_parse.y"
 	{ machine_read_snapshot(yystack.l_mark[-1].str, 0); }
 break;
 case 37:
-#line 256 "../../../vice/src/monitor/mon_parse.y"
+#line 256 "mon_parse.y"
 	{ mon_instructions_step(-1); }
 break;
 case 38:
-#line 258 "../../../vice/src/monitor/mon_parse.y"
+#line 258 "mon_parse.y"
 	{ mon_instructions_step(yystack.l_mark[-1].i); }
 break;
 case 39:
-#line 260 "../../../vice/src/monitor/mon_parse.y"
+#line 260 "mon_parse.y"
 	{ mon_instructions_next(-1); }
 break;
 case 40:
-#line 262 "../../../vice/src/monitor/mon_parse.y"
+#line 262 "mon_parse.y"
 	{ mon_instructions_next(yystack.l_mark[-1].i); }
 break;
 case 41:
-#line 264 "../../../vice/src/monitor/mon_parse.y"
+#line 264 "mon_parse.y"
 	{ mon_stack_up(-1); }
 break;
 case 42:
-#line 266 "../../../vice/src/monitor/mon_parse.y"
+#line 266 "mon_parse.y"
 	{ mon_stack_up(yystack.l_mark[-1].i); }
 break;
 case 43:
-#line 268 "../../../vice/src/monitor/mon_parse.y"
+#line 268 "mon_parse.y"
 	{ mon_stack_down(-1); }
 break;
 case 44:
-#line 270 "../../../vice/src/monitor/mon_parse.y"
+#line 270 "mon_parse.y"
 	{ mon_stack_down(yystack.l_mark[-1].i); }
 break;
 case 45:
-#line 272 "../../../vice/src/monitor/mon_parse.y"
+#line 272 "mon_parse.y"
 	{ mon_display_screen(); }
 break;
 case 47:
-#line 277 "../../../vice/src/monitor/mon_parse.y"
+#line 277 "mon_parse.y"
 	{ (monitor_cpu_for_memspace[default_memspace]->mon_register_print)(default_memspace); }
 break;
 case 48:
-#line 279 "../../../vice/src/monitor/mon_parse.y"
+#line 279 "mon_parse.y"
 	{ (monitor_cpu_for_memspace[yystack.l_mark[-1].i]->mon_register_print)(yystack.l_mark[-1].i); }
 break;
 case 50:
-#line 284 "../../../vice/src/monitor/mon_parse.y"
+#line 284 "mon_parse.y"
 	{
                         /* What about the memspace? */
                         mon_playback_init(yystack.l_mark[-1].str);
                     }
 break;
 case 51:
-#line 289 "../../../vice/src/monitor/mon_parse.y"
+#line 289 "mon_parse.y"
 	{
                         /* What about the memspace? */
                         mon_playback_init(yystack.l_mark[-1].str);
                     }
 break;
 case 52:
-#line 294 "../../../vice/src/monitor/mon_parse.y"
+#line 294 "mon_parse.y"
 	{ mon_save_symbols(yystack.l_mark[-3].i, yystack.l_mark[-1].str); }
 break;
 case 53:
-#line 296 "../../../vice/src/monitor/mon_parse.y"
+#line 296 "mon_parse.y"
 	{ mon_save_symbols(e_default_space, yystack.l_mark[-1].str); }
 break;
 case 54:
-#line 298 "../../../vice/src/monitor/mon_parse.y"
+#line 298 "mon_parse.y"
 	{ mon_add_name_to_symbol_table(yystack.l_mark[-3].a, yystack.l_mark[-1].str); }
 break;
 case 55:
-#line 300 "../../../vice/src/monitor/mon_parse.y"
+#line 300 "mon_parse.y"
 	{ mon_remove_name_from_symbol_table(e_default_space, yystack.l_mark[-1].str); }
 break;
 case 56:
-#line 302 "../../../vice/src/monitor/mon_parse.y"
+#line 302 "mon_parse.y"
 	{ mon_remove_name_from_symbol_table(yystack.l_mark[-3].i, yystack.l_mark[-1].str); }
 break;
 case 57:
-#line 304 "../../../vice/src/monitor/mon_parse.y"
+#line 304 "mon_parse.y"
 	{ mon_print_symbol_table(yystack.l_mark[-1].i); }
 break;
 case 58:
-#line 306 "../../../vice/src/monitor/mon_parse.y"
+#line 306 "mon_parse.y"
 	{ mon_print_symbol_table(e_default_space); }
 break;
 case 59:
-#line 308 "../../../vice/src/monitor/mon_parse.y"
+#line 308 "mon_parse.y"
 	{ mon_clear_symbol_table(yystack.l_mark[-1].i); }
 break;
 case 60:
-#line 310 "../../../vice/src/monitor/mon_parse.y"
+#line 310 "mon_parse.y"
 	{ mon_clear_symbol_table(e_default_space); }
 break;
 case 61:
-#line 312 "../../../vice/src/monitor/mon_parse.y"
+#line 312 "mon_parse.y"
 	{
                         mon_add_name_to_symbol_table(yystack.l_mark[-1].a, mon_prepend_dot_to_name(yystack.l_mark[-3].str));
                     }
 break;
 case 62:
-#line 316 "../../../vice/src/monitor/mon_parse.y"
+#line 316 "mon_parse.y"
 	{
                         mon_add_name_to_symbol_table(yystack.l_mark[-2].a, mon_prepend_dot_to_name(yystack.l_mark[-4].str));
                     }
 break;
 case 63:
-#line 322 "../../../vice/src/monitor/mon_parse.y"
+#line 322 "mon_parse.y"
 	{ mon_start_assemble_mode(yystack.l_mark[0].a, NULL); }
 break;
 case 64:
-#line 323 "../../../vice/src/monitor/mon_parse.y"
+#line 323 "mon_parse.y"
 	{ }
 break;
 case 65:
-#line 325 "../../../vice/src/monitor/mon_parse.y"
+#line 325 "mon_parse.y"
 	{ mon_start_assemble_mode(yystack.l_mark[-1].a, NULL); }
 break;
 case 66:
-#line 327 "../../../vice/src/monitor/mon_parse.y"
+#line 327 "mon_parse.y"
 	{ mon_disassemble_lines(yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1]); }
 break;
 case 67:
-#line 329 "../../../vice/src/monitor/mon_parse.y"
+#line 329 "mon_parse.y"
 	{ mon_disassemble_lines(BAD_ADDR, BAD_ADDR); }
 break;
 case 68:
-#line 333 "../../../vice/src/monitor/mon_parse.y"
+#line 333 "mon_parse.y"
 	{ mon_memory_move(yystack.l_mark[-3].range[0], yystack.l_mark[-3].range[1], yystack.l_mark[-1].a); }
 break;
 case 69:
-#line 335 "../../../vice/src/monitor/mon_parse.y"
+#line 335 "mon_parse.y"
 	{ mon_memory_compare(yystack.l_mark[-3].range[0], yystack.l_mark[-3].range[1], yystack.l_mark[-1].a); }
 break;
 case 70:
-#line 337 "../../../vice/src/monitor/mon_parse.y"
+#line 337 "mon_parse.y"
 	{ mon_memory_fill(yystack.l_mark[-3].range[0], yystack.l_mark[-3].range[1],(unsigned char *)yystack.l_mark[-1].str); }
 break;
 case 71:
-#line 339 "../../../vice/src/monitor/mon_parse.y"
+#line 339 "mon_parse.y"
 	{ mon_memory_hunt(yystack.l_mark[-3].range[0], yystack.l_mark[-3].range[1],(unsigned char *)yystack.l_mark[-1].str); }
 break;
 case 72:
-#line 341 "../../../vice/src/monitor/mon_parse.y"
+#line 341 "mon_parse.y"
 	{ mon_memory_display(yystack.l_mark[-3].rt, yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], DF_PETSCII); }
 break;
 case 73:
-#line 343 "../../../vice/src/monitor/mon_parse.y"
+#line 343 "mon_parse.y"
 	{ mon_memory_display(default_radix, yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], DF_PETSCII); }
 break;
 case 74:
-#line 345 "../../../vice/src/monitor/mon_parse.y"
+#line 345 "mon_parse.y"
 	{ mon_memory_display(default_radix, BAD_ADDR, BAD_ADDR, DF_PETSCII); }
 break;
 case 75:
-#line 347 "../../../vice/src/monitor/mon_parse.y"
+#line 347 "mon_parse.y"
 	{ mon_memory_display_data(yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], 8, 8); }
 break;
 case 76:
-#line 349 "../../../vice/src/monitor/mon_parse.y"
+#line 349 "mon_parse.y"
 	{ mon_memory_display_data(BAD_ADDR, BAD_ADDR, 8, 8); }
 break;
 case 77:
-#line 351 "../../../vice/src/monitor/mon_parse.y"
+#line 351 "mon_parse.y"
 	{ mon_memory_display_data(yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], 24, 21); }
 break;
 case 78:
-#line 353 "../../../vice/src/monitor/mon_parse.y"
+#line 353 "mon_parse.y"
 	{ mon_memory_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
 break;
 case 79:
-#line 355 "../../../vice/src/monitor/mon_parse.y"
+#line 355 "mon_parse.y"
 	{ mon_memory_display(0, yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], DF_PETSCII); }
 break;
 case 80:
-#line 357 "../../../vice/src/monitor/mon_parse.y"
+#line 357 "mon_parse.y"
 	{ mon_memory_display(0, BAD_ADDR, BAD_ADDR, DF_PETSCII); }
 break;
 case 81:
-#line 359 "../../../vice/src/monitor/mon_parse.y"
+#line 359 "mon_parse.y"
 	{ mon_memory_display(0, yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], DF_SCREEN_CODE); }
 break;
 case 82:
-#line 361 "../../../vice/src/monitor/mon_parse.y"
+#line 361 "mon_parse.y"
 	{ mon_memory_display(0, BAD_ADDR, BAD_ADDR, DF_SCREEN_CODE); }
 break;
 case 83:
-#line 363 "../../../vice/src/monitor/mon_parse.y"
+#line 363 "mon_parse.y"
 	{ mon_memmap_zap(); }
 break;
 case 84:
-#line 365 "../../../vice/src/monitor/mon_parse.y"
+#line 365 "mon_parse.y"
 	{ mon_memmap_show(-1,BAD_ADDR,BAD_ADDR); }
 break;
 case 85:
-#line 367 "../../../vice/src/monitor/mon_parse.y"
+#line 367 "mon_parse.y"
 	{ mon_memmap_show(yystack.l_mark[-1].i,BAD_ADDR,BAD_ADDR); }
 break;
 case 86:
-#line 369 "../../../vice/src/monitor/mon_parse.y"
+#line 369 "mon_parse.y"
 	{ mon_memmap_show(yystack.l_mark[-2].i,yystack.l_mark[-1].range[0],yystack.l_mark[-1].range[1]); }
 break;
 case 87:
-#line 371 "../../../vice/src/monitor/mon_parse.y"
+#line 371 "mon_parse.y"
 	{ mon_memmap_save(yystack.l_mark[-3].str,yystack.l_mark[-1].i); }
 break;
 case 88:
-#line 375 "../../../vice/src/monitor/mon_parse.y"
+#line 375 "mon_parse.y"
 	{
                       if (yystack.l_mark[-3].i) {
                           temp = mon_breakpoint_add_checkpoint(yystack.l_mark[-2].range[0], yystack.l_mark[-2].range[1], TRUE, yystack.l_mark[-3].i, FALSE);
@@ -2148,21 +2148,21 @@ case 88:
                   }
 break;
 case 89:
-#line 384 "../../../vice/src/monitor/mon_parse.y"
+#line 384 "mon_parse.y"
 	{ mon_breakpoint_print_checkpoints(); }
 break;
 case 90:
-#line 387 "../../../vice/src/monitor/mon_parse.y"
+#line 387 "mon_parse.y"
 	{
                       mon_breakpoint_add_checkpoint(yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], TRUE, e_exec, TRUE);
                   }
 break;
 case 91:
-#line 391 "../../../vice/src/monitor/mon_parse.y"
+#line 391 "mon_parse.y"
 	{ mon_breakpoint_print_checkpoints(); }
 break;
 case 92:
-#line 394 "../../../vice/src/monitor/mon_parse.y"
+#line 394 "mon_parse.y"
 	{
                       if (yystack.l_mark[-3].i) {
                           temp = mon_breakpoint_add_checkpoint(yystack.l_mark[-2].range[0], yystack.l_mark[-2].range[1], TRUE, yystack.l_mark[-3].i, FALSE);
@@ -2173,11 +2173,11 @@ case 92:
                   }
 break;
 case 93:
-#line 403 "../../../vice/src/monitor/mon_parse.y"
+#line 403 "mon_parse.y"
 	{ mon_breakpoint_print_checkpoints(); }
 break;
 case 94:
-#line 406 "../../../vice/src/monitor/mon_parse.y"
+#line 406 "mon_parse.y"
 	{
                       if (yystack.l_mark[-3].i) {
                           temp = mon_breakpoint_add_checkpoint(yystack.l_mark[-2].range[0], yystack.l_mark[-2].range[1], FALSE, yystack.l_mark[-3].i, FALSE);
@@ -2188,70 +2188,70 @@ case 94:
                   }
 break;
 case 95:
-#line 415 "../../../vice/src/monitor/mon_parse.y"
+#line 415 "mon_parse.y"
 	{ mon_breakpoint_print_checkpoints(); }
 break;
 case 96:
-#line 420 "../../../vice/src/monitor/mon_parse.y"
+#line 420 "mon_parse.y"
 	{ mon_breakpoint_switch_checkpoint(e_ON, yystack.l_mark[-1].i); }
 break;
 case 97:
-#line 422 "../../../vice/src/monitor/mon_parse.y"
+#line 422 "mon_parse.y"
 	{ mon_breakpoint_switch_checkpoint(e_ON, -1); }
 break;
 case 98:
-#line 424 "../../../vice/src/monitor/mon_parse.y"
+#line 424 "mon_parse.y"
 	{ mon_breakpoint_switch_checkpoint(e_OFF, yystack.l_mark[-1].i); }
 break;
 case 99:
-#line 426 "../../../vice/src/monitor/mon_parse.y"
+#line 426 "mon_parse.y"
 	{ mon_breakpoint_switch_checkpoint(e_OFF, -1); }
 break;
 case 100:
-#line 428 "../../../vice/src/monitor/mon_parse.y"
+#line 428 "mon_parse.y"
 	{ mon_breakpoint_set_ignore_count(yystack.l_mark[-1].i, -1); }
 break;
 case 101:
-#line 430 "../../../vice/src/monitor/mon_parse.y"
+#line 430 "mon_parse.y"
 	{ mon_breakpoint_set_ignore_count(yystack.l_mark[-3].i, yystack.l_mark[-1].i); }
 break;
 case 102:
-#line 432 "../../../vice/src/monitor/mon_parse.y"
+#line 432 "mon_parse.y"
 	{ mon_breakpoint_delete_checkpoint(yystack.l_mark[-1].i); }
 break;
 case 103:
-#line 434 "../../../vice/src/monitor/mon_parse.y"
+#line 434 "mon_parse.y"
 	{ mon_breakpoint_delete_checkpoint(-1); }
 break;
 case 104:
-#line 436 "../../../vice/src/monitor/mon_parse.y"
+#line 436 "mon_parse.y"
 	{ mon_breakpoint_set_checkpoint_condition(yystack.l_mark[-3].i, yystack.l_mark[-1].cond_node); }
 break;
 case 105:
-#line 438 "../../../vice/src/monitor/mon_parse.y"
+#line 438 "mon_parse.y"
 	{ mon_breakpoint_set_checkpoint_command(yystack.l_mark[-3].i, yystack.l_mark[-1].str); }
 break;
 case 106:
-#line 440 "../../../vice/src/monitor/mon_parse.y"
+#line 440 "mon_parse.y"
 	{ return ERR_EXPECT_STRING; }
 break;
 case 107:
-#line 444 "../../../vice/src/monitor/mon_parse.y"
+#line 444 "mon_parse.y"
 	{ sidefx = ((yystack.l_mark[-1].action == e_TOGGLE) ? (sidefx ^ 1) : yystack.l_mark[-1].action); }
 break;
 case 108:
-#line 446 "../../../vice/src/monitor/mon_parse.y"
+#line 446 "mon_parse.y"
 	{
                          mon_out("I/O side effects are %s\n",
                                    sidefx ? "enabled" : "disabled");
                      }
 break;
 case 109:
-#line 451 "../../../vice/src/monitor/mon_parse.y"
+#line 451 "mon_parse.y"
 	{ default_radix = yystack.l_mark[-1].rt; }
 break;
 case 110:
-#line 453 "../../../vice/src/monitor/mon_parse.y"
+#line 453 "mon_parse.y"
 	{
                          const char *p;
 
@@ -2270,251 +2270,251 @@ case 110:
                      }
 break;
 case 111:
-#line 471 "../../../vice/src/monitor/mon_parse.y"
+#line 471 "mon_parse.y"
 	{ monitor_change_device(yystack.l_mark[-1].i); }
 break;
 case 112:
-#line 473 "../../../vice/src/monitor/mon_parse.y"
+#line 473 "mon_parse.y"
 	{ mon_export(); }
 break;
 case 113:
-#line 475 "../../../vice/src/monitor/mon_parse.y"
+#line 475 "mon_parse.y"
 	{ mon_quit(); YYACCEPT; }
 break;
 case 114:
-#line 477 "../../../vice/src/monitor/mon_parse.y"
+#line 477 "mon_parse.y"
 	{ mon_exit(); YYACCEPT; }
 break;
 case 115:
-#line 481 "../../../vice/src/monitor/mon_parse.y"
+#line 481 "mon_parse.y"
 	{ mon_drive_execute_disk_cmd(yystack.l_mark[-1].str); }
 break;
 case 116:
-#line 483 "../../../vice/src/monitor/mon_parse.y"
+#line 483 "mon_parse.y"
 	{ mon_out("\t%d\n",yystack.l_mark[-1].i); }
 break;
 case 117:
-#line 485 "../../../vice/src/monitor/mon_parse.y"
+#line 485 "mon_parse.y"
 	{ mon_command_print_help(NULL); }
 break;
 case 118:
-#line 487 "../../../vice/src/monitor/mon_parse.y"
+#line 487 "mon_parse.y"
 	{ mon_command_print_help(yystack.l_mark[-1].str); }
 break;
 case 119:
-#line 489 "../../../vice/src/monitor/mon_parse.y"
+#line 489 "mon_parse.y"
 	{ mon_print_convert(yystack.l_mark[-1].i); }
 break;
 case 120:
-#line 491 "../../../vice/src/monitor/mon_parse.y"
+#line 491 "mon_parse.y"
 	{ mon_change_dir(yystack.l_mark[-1].str); }
 break;
 case 121:
-#line 493 "../../../vice/src/monitor/mon_parse.y"
+#line 493 "mon_parse.y"
 	{ mon_keyboard_feed(yystack.l_mark[-1].str); }
 break;
 case 122:
-#line 495 "../../../vice/src/monitor/mon_parse.y"
+#line 495 "mon_parse.y"
 	{ mon_backtrace(); }
 break;
 case 123:
-#line 497 "../../../vice/src/monitor/mon_parse.y"
+#line 497 "mon_parse.y"
 	{ mon_show_dir(yystack.l_mark[-1].str); }
 break;
 case 124:
-#line 499 "../../../vice/src/monitor/mon_parse.y"
+#line 499 "mon_parse.y"
 	{ mon_show_pwd(); }
 break;
 case 125:
-#line 501 "../../../vice/src/monitor/mon_parse.y"
+#line 501 "mon_parse.y"
 	{ mon_screenshot_save(yystack.l_mark[-1].str,-1); }
 break;
 case 126:
-#line 503 "../../../vice/src/monitor/mon_parse.y"
+#line 503 "mon_parse.y"
 	{ mon_screenshot_save(yystack.l_mark[-3].str,yystack.l_mark[-1].i); }
 break;
 case 127:
-#line 505 "../../../vice/src/monitor/mon_parse.y"
+#line 505 "mon_parse.y"
 	{ mon_resource_get(yystack.l_mark[-1].str); }
 break;
 case 128:
-#line 507 "../../../vice/src/monitor/mon_parse.y"
+#line 507 "mon_parse.y"
 	{ mon_resource_set(yystack.l_mark[-2].str,yystack.l_mark[-1].str); }
 break;
 case 129:
-#line 509 "../../../vice/src/monitor/mon_parse.y"
+#line 509 "mon_parse.y"
 	{ resources_load(yystack.l_mark[-1].str); }
 break;
 case 130:
-#line 511 "../../../vice/src/monitor/mon_parse.y"
+#line 511 "mon_parse.y"
 	{ resources_save(yystack.l_mark[-1].str); }
 break;
 case 131:
-#line 513 "../../../vice/src/monitor/mon_parse.y"
+#line 513 "mon_parse.y"
 	{ mon_reset_machine(-1); }
 break;
 case 132:
-#line 515 "../../../vice/src/monitor/mon_parse.y"
+#line 515 "mon_parse.y"
 	{ mon_reset_machine(yystack.l_mark[-1].i); }
 break;
 case 133:
-#line 517 "../../../vice/src/monitor/mon_parse.y"
+#line 517 "mon_parse.y"
 	{ mon_tape_ctrl(yystack.l_mark[-1].i); }
 break;
 case 134:
-#line 519 "../../../vice/src/monitor/mon_parse.y"
+#line 519 "mon_parse.y"
 	{ mon_cart_freeze(); }
 break;
 case 135:
-#line 521 "../../../vice/src/monitor/mon_parse.y"
+#line 521 "mon_parse.y"
 	{ }
 break;
 case 136:
-#line 523 "../../../vice/src/monitor/mon_parse.y"
+#line 523 "mon_parse.y"
 	{ mon_stopwatch_reset(); }
 break;
 case 137:
-#line 525 "../../../vice/src/monitor/mon_parse.y"
+#line 525 "mon_parse.y"
 	{ mon_stopwatch_show("Stopwatch: ", "\n"); }
 break;
 case 138:
-#line 529 "../../../vice/src/monitor/mon_parse.y"
+#line 529 "mon_parse.y"
 	{ mon_file_load(yystack.l_mark[-3].str, yystack.l_mark[-2].i, yystack.l_mark[-1].a, FALSE); }
 break;
 case 139:
-#line 531 "../../../vice/src/monitor/mon_parse.y"
+#line 531 "mon_parse.y"
 	{ mon_file_load(yystack.l_mark[-3].str, yystack.l_mark[-2].i, yystack.l_mark[-1].a, TRUE); }
 break;
 case 140:
-#line 533 "../../../vice/src/monitor/mon_parse.y"
+#line 533 "mon_parse.y"
 	{ mon_file_save(yystack.l_mark[-3].str, yystack.l_mark[-2].i, yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], FALSE); }
 break;
 case 141:
-#line 535 "../../../vice/src/monitor/mon_parse.y"
+#line 535 "mon_parse.y"
 	{ return ERR_EXPECT_DEVICE_NUM; }
 break;
 case 142:
-#line 537 "../../../vice/src/monitor/mon_parse.y"
+#line 537 "mon_parse.y"
 	{ return ERR_EXPECT_ADDRESS; }
 break;
 case 143:
-#line 539 "../../../vice/src/monitor/mon_parse.y"
+#line 539 "mon_parse.y"
 	{ mon_file_save(yystack.l_mark[-3].str, yystack.l_mark[-2].i, yystack.l_mark[-1].range[0], yystack.l_mark[-1].range[1], TRUE); }
 break;
 case 144:
-#line 541 "../../../vice/src/monitor/mon_parse.y"
+#line 541 "mon_parse.y"
 	{ return ERR_EXPECT_ADDRESS; }
 break;
 case 145:
-#line 543 "../../../vice/src/monitor/mon_parse.y"
+#line 543 "mon_parse.y"
 	{ mon_file_verify(yystack.l_mark[-3].str,yystack.l_mark[-2].i,yystack.l_mark[-1].a); }
 break;
 case 146:
-#line 545 "../../../vice/src/monitor/mon_parse.y"
+#line 545 "mon_parse.y"
 	{ return ERR_EXPECT_ADDRESS; }
 break;
 case 147:
-#line 547 "../../../vice/src/monitor/mon_parse.y"
+#line 547 "mon_parse.y"
 	{ mon_drive_block_cmd(0,yystack.l_mark[-3].i,yystack.l_mark[-2].i,yystack.l_mark[-1].a); }
 break;
 case 148:
-#line 549 "../../../vice/src/monitor/mon_parse.y"
+#line 549 "mon_parse.y"
 	{ mon_drive_block_cmd(1,yystack.l_mark[-3].i,yystack.l_mark[-2].i,yystack.l_mark[-1].a); }
 break;
 case 149:
-#line 551 "../../../vice/src/monitor/mon_parse.y"
+#line 551 "mon_parse.y"
 	{ mon_drive_list(-1); }
 break;
 case 150:
-#line 553 "../../../vice/src/monitor/mon_parse.y"
+#line 553 "mon_parse.y"
 	{ mon_drive_list(yystack.l_mark[-1].i); }
 break;
 case 151:
-#line 555 "../../../vice/src/monitor/mon_parse.y"
+#line 555 "mon_parse.y"
 	{ mon_attach(yystack.l_mark[-2].str,yystack.l_mark[-1].i); }
 break;
 case 152:
-#line 557 "../../../vice/src/monitor/mon_parse.y"
+#line 557 "mon_parse.y"
 	{ mon_detach(yystack.l_mark[-1].i); }
 break;
 case 153:
-#line 559 "../../../vice/src/monitor/mon_parse.y"
+#line 559 "mon_parse.y"
 	{ mon_autostart(yystack.l_mark[-1].str,0,1); }
 break;
 case 154:
-#line 561 "../../../vice/src/monitor/mon_parse.y"
+#line 561 "mon_parse.y"
 	{ mon_autostart(yystack.l_mark[-3].str,yystack.l_mark[-1].i,1); }
 break;
 case 155:
-#line 563 "../../../vice/src/monitor/mon_parse.y"
+#line 563 "mon_parse.y"
 	{ mon_autostart(yystack.l_mark[-1].str,0,0); }
 break;
 case 156:
-#line 565 "../../../vice/src/monitor/mon_parse.y"
+#line 565 "mon_parse.y"
 	{ mon_autostart(yystack.l_mark[-3].str,yystack.l_mark[-1].i,0); }
 break;
 case 157:
-#line 569 "../../../vice/src/monitor/mon_parse.y"
+#line 569 "mon_parse.y"
 	{ mon_record_commands(yystack.l_mark[-1].str); }
 break;
 case 158:
-#line 571 "../../../vice/src/monitor/mon_parse.y"
+#line 571 "mon_parse.y"
 	{ mon_end_recording(); }
 break;
 case 159:
-#line 573 "../../../vice/src/monitor/mon_parse.y"
+#line 573 "mon_parse.y"
 	{ mon_playback_init(yystack.l_mark[-1].str); }
 break;
 case 160:
-#line 577 "../../../vice/src/monitor/mon_parse.y"
+#line 577 "mon_parse.y"
 	{ mon_memory_fill(yystack.l_mark[-2].a, BAD_ADDR, (unsigned char *)yystack.l_mark[-1].str); }
 break;
 case 161:
-#line 579 "../../../vice/src/monitor/mon_parse.y"
+#line 579 "mon_parse.y"
 	{ printf("Not yet.\n"); }
 break;
 case 162:
-#line 583 "../../../vice/src/monitor/mon_parse.y"
+#line 583 "mon_parse.y"
 	{ yydebug = 1; }
 break;
 case 163:
-#line 586 "../../../vice/src/monitor/mon_parse.y"
+#line 586 "mon_parse.y"
 	{ yyval.str = yystack.l_mark[0].str; }
 break;
 case 164:
-#line 589 "../../../vice/src/monitor/mon_parse.y"
+#line 589 "mon_parse.y"
 	{ yyval.str = yystack.l_mark[0].str; }
 break;
 case 165:
-#line 590 "../../../vice/src/monitor/mon_parse.y"
+#line 590 "mon_parse.y"
 	{ yyval.str = NULL; }
 break;
 case 167:
-#line 594 "../../../vice/src/monitor/mon_parse.y"
+#line 594 "mon_parse.y"
 	{ return ERR_EXPECT_FILENAME; }
 break;
 case 169:
-#line 598 "../../../vice/src/monitor/mon_parse.y"
+#line 598 "mon_parse.y"
 	{ return ERR_EXPECT_DEVICE_NUM; }
 break;
 case 170:
-#line 601 "../../../vice/src/monitor/mon_parse.y"
+#line 601 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[-1].i | yystack.l_mark[0].i; }
 break;
 case 171:
-#line 602 "../../../vice/src/monitor/mon_parse.y"
+#line 602 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 172:
-#line 605 "../../../vice/src/monitor/mon_parse.y"
+#line 605 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 173:
-#line 606 "../../../vice/src/monitor/mon_parse.y"
+#line 606 "mon_parse.y"
 	{ yyval.i = 0; }
 break;
 case 174:
-#line 609 "../../../vice/src/monitor/mon_parse.y"
+#line 609 "mon_parse.y"
 	{
                                     if (!mon_register_valid(default_memspace, yystack.l_mark[0].reg)) {
                                         return ERR_INVALID_REGISTER;
@@ -2523,7 +2523,7 @@ case 174:
                                 }
 break;
 case 175:
-#line 615 "../../../vice/src/monitor/mon_parse.y"
+#line 615 "mon_parse.y"
 	{
                                     if (!mon_register_valid(yystack.l_mark[-1].i, yystack.l_mark[0].reg)) {
                                         return ERR_INVALID_REGISTER;
@@ -2532,57 +2532,57 @@ case 175:
                                 }
 break;
 case 178:
-#line 628 "../../../vice/src/monitor/mon_parse.y"
+#line 628 "mon_parse.y"
 	{ (monitor_cpu_for_memspace[reg_memspace(yystack.l_mark[-2].i)]->mon_register_set_val)(reg_memspace(yystack.l_mark[-2].i), reg_regid(yystack.l_mark[-2].i), (WORD) yystack.l_mark[0].i); }
 break;
 case 179:
-#line 631 "../../../vice/src/monitor/mon_parse.y"
+#line 631 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 180:
-#line 632 "../../../vice/src/monitor/mon_parse.y"
+#line 632 "mon_parse.y"
 	{ return ERR_EXPECT_CHECKNUM; }
 break;
 case 182:
-#line 636 "../../../vice/src/monitor/mon_parse.y"
+#line 636 "mon_parse.y"
 	{ yyval.range[0] = yystack.l_mark[0].a; yyval.range[1] = BAD_ADDR; }
 break;
 case 183:
-#line 639 "../../../vice/src/monitor/mon_parse.y"
+#line 639 "mon_parse.y"
 	{ yyval.range[0] = yystack.l_mark[-2].a; yyval.range[1] = yystack.l_mark[0].a; }
 break;
 case 184:
-#line 641 "../../../vice/src/monitor/mon_parse.y"
+#line 641 "mon_parse.y"
 	{ if (resolve_range(e_default_space, yyval.range, yystack.l_mark[0].str)) return ERR_ADDR_TOO_BIG; }
 break;
 case 185:
-#line 643 "../../../vice/src/monitor/mon_parse.y"
+#line 643 "mon_parse.y"
 	{ if (resolve_range(yystack.l_mark[-2].i, yyval.range, yystack.l_mark[0].str)) return ERR_ADDR_TOO_BIG; }
 break;
 case 186:
-#line 646 "../../../vice/src/monitor/mon_parse.y"
+#line 646 "mon_parse.y"
 	{ yyval.a = yystack.l_mark[0].a; }
 break;
 case 187:
-#line 647 "../../../vice/src/monitor/mon_parse.y"
+#line 647 "mon_parse.y"
 	{ yyval.a = BAD_ADDR; }
 break;
 case 188:
-#line 651 "../../../vice/src/monitor/mon_parse.y"
+#line 651 "mon_parse.y"
 	{
              yyval.a = new_addr(e_default_space,yystack.l_mark[0].i);
              if (opt_asm) new_cmd = asm_mode = 1;
          }
 break;
 case 189:
-#line 656 "../../../vice/src/monitor/mon_parse.y"
+#line 656 "mon_parse.y"
 	{
              yyval.a = new_addr(yystack.l_mark[-2].i, yystack.l_mark[0].i);
              if (opt_asm) new_cmd = asm_mode = 1;
          }
 break;
 case 190:
-#line 661 "../../../vice/src/monitor/mon_parse.y"
+#line 661 "mon_parse.y"
 	{
              temp = mon_symbol_table_lookup_addr(e_default_space, yystack.l_mark[0].str);
              if (temp >= 0)
@@ -2592,94 +2592,94 @@ case 190:
          }
 break;
 case 193:
-#line 674 "../../../vice/src/monitor/mon_parse.y"
+#line 674 "mon_parse.y"
 	{ yyval.i = e_comp_space; }
 break;
 case 194:
-#line 675 "../../../vice/src/monitor/mon_parse.y"
+#line 675 "mon_parse.y"
 	{ yyval.i = e_disk8_space; }
 break;
 case 195:
-#line 676 "../../../vice/src/monitor/mon_parse.y"
+#line 676 "mon_parse.y"
 	{ yyval.i = e_disk9_space; }
 break;
 case 196:
-#line 677 "../../../vice/src/monitor/mon_parse.y"
+#line 677 "mon_parse.y"
 	{ yyval.i = e_disk10_space; }
 break;
 case 197:
-#line 678 "../../../vice/src/monitor/mon_parse.y"
+#line 678 "mon_parse.y"
 	{ yyval.i = e_disk11_space; }
 break;
 case 198:
-#line 681 "../../../vice/src/monitor/mon_parse.y"
+#line 681 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; if (!CHECK_ADDR(yystack.l_mark[0].i)) return ERR_ADDR_TOO_BIG; }
 break;
 case 199:
-#line 683 "../../../vice/src/monitor/mon_parse.y"
+#line 683 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 200:
-#line 685 "../../../vice/src/monitor/mon_parse.y"
+#line 685 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[-2].i + yystack.l_mark[0].i; }
 break;
 case 201:
-#line 686 "../../../vice/src/monitor/mon_parse.y"
+#line 686 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[-2].i - yystack.l_mark[0].i; }
 break;
 case 202:
-#line 687 "../../../vice/src/monitor/mon_parse.y"
+#line 687 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[-2].i * yystack.l_mark[0].i; }
 break;
 case 203:
-#line 688 "../../../vice/src/monitor/mon_parse.y"
+#line 688 "mon_parse.y"
 	{ yyval.i = (yystack.l_mark[0].i) ? (yystack.l_mark[-2].i / yystack.l_mark[0].i) : 1; }
 break;
 case 204:
-#line 689 "../../../vice/src/monitor/mon_parse.y"
+#line 689 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[-1].i; }
 break;
 case 205:
-#line 690 "../../../vice/src/monitor/mon_parse.y"
+#line 690 "mon_parse.y"
 	{ return ERR_MISSING_CLOSE_PAREN; }
 break;
 case 206:
-#line 691 "../../../vice/src/monitor/mon_parse.y"
+#line 691 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 207:
-#line 694 "../../../vice/src/monitor/mon_parse.y"
+#line 694 "mon_parse.y"
 	{ yyval.cond_node = yystack.l_mark[0].cond_node; }
 break;
 case 208:
-#line 695 "../../../vice/src/monitor/mon_parse.y"
+#line 695 "mon_parse.y"
 	{ yyval.cond_node = 0; }
 break;
 case 209:
-#line 698 "../../../vice/src/monitor/mon_parse.y"
+#line 698 "mon_parse.y"
 	{
                yyval.cond_node = new_cond; yyval.cond_node->is_parenthized = FALSE;
                yyval.cond_node->child1 = yystack.l_mark[-2].cond_node; yyval.cond_node->child2 = yystack.l_mark[0].cond_node; yyval.cond_node->operation = yystack.l_mark[-1].cond_op;
            }
 break;
 case 210:
-#line 703 "../../../vice/src/monitor/mon_parse.y"
+#line 703 "mon_parse.y"
 	{ return ERR_INCOMPLETE_COMPARE_OP; }
 break;
 case 211:
-#line 705 "../../../vice/src/monitor/mon_parse.y"
+#line 705 "mon_parse.y"
 	{ yyval.cond_node = yystack.l_mark[-1].cond_node; yyval.cond_node->is_parenthized = TRUE; }
 break;
 case 212:
-#line 707 "../../../vice/src/monitor/mon_parse.y"
+#line 707 "mon_parse.y"
 	{ return ERR_MISSING_CLOSE_PAREN; }
 break;
 case 213:
-#line 709 "../../../vice/src/monitor/mon_parse.y"
+#line 709 "mon_parse.y"
 	{ yyval.cond_node = yystack.l_mark[0].cond_node; }
 break;
 case 214:
-#line 712 "../../../vice/src/monitor/mon_parse.y"
+#line 712 "mon_parse.y"
 	{ yyval.cond_node = new_cond;
                             yyval.cond_node->operation = e_INV;
                             yyval.cond_node->is_parenthized = FALSE;
@@ -2688,7 +2688,7 @@ case 214:
                           }
 break;
 case 215:
-#line 718 "../../../vice/src/monitor/mon_parse.y"
+#line 718 "mon_parse.y"
 	{ yyval.cond_node = new_cond;
                             yyval.cond_node->operation = e_INV;
                             yyval.cond_node->is_parenthized = FALSE;
@@ -2697,83 +2697,83 @@ case 215:
                           }
 break;
 case 218:
-#line 730 "../../../vice/src/monitor/mon_parse.y"
+#line 730 "mon_parse.y"
 	{ mon_add_number_to_buffer(yystack.l_mark[0].i); }
 break;
 case 219:
-#line 731 "../../../vice/src/monitor/mon_parse.y"
+#line 731 "mon_parse.y"
 	{ mon_add_string_to_buffer(yystack.l_mark[0].str); }
 break;
 case 222:
-#line 738 "../../../vice/src/monitor/mon_parse.y"
+#line 738 "mon_parse.y"
 	{ mon_add_number_to_buffer(yystack.l_mark[0].i); }
 break;
 case 223:
-#line 739 "../../../vice/src/monitor/mon_parse.y"
+#line 739 "mon_parse.y"
 	{ mon_add_number_masked_to_buffer(yystack.l_mark[0].i, 0x00); }
 break;
 case 224:
-#line 740 "../../../vice/src/monitor/mon_parse.y"
+#line 740 "mon_parse.y"
 	{ mon_add_string_to_buffer(yystack.l_mark[0].str); }
 break;
 case 225:
-#line 743 "../../../vice/src/monitor/mon_parse.y"
+#line 743 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 226:
-#line 744 "../../../vice/src/monitor/mon_parse.y"
+#line 744 "mon_parse.y"
 	{ yyval.i = (monitor_cpu_for_memspace[reg_memspace(yystack.l_mark[0].i)]->mon_register_get_val)(reg_memspace(yystack.l_mark[0].i), reg_regid(yystack.l_mark[0].i)); }
 break;
 case 227:
-#line 747 "../../../vice/src/monitor/mon_parse.y"
+#line 747 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 228:
-#line 748 "../../../vice/src/monitor/mon_parse.y"
+#line 748 "mon_parse.y"
 	{ yyval.i = strtol(yystack.l_mark[0].str, NULL, 10); }
 break;
 case 229:
-#line 749 "../../../vice/src/monitor/mon_parse.y"
+#line 749 "mon_parse.y"
 	{ yyval.i = strtol(yystack.l_mark[0].str, NULL, 10); }
 break;
 case 230:
-#line 750 "../../../vice/src/monitor/mon_parse.y"
+#line 750 "mon_parse.y"
 	{ yyval.i = strtol(yystack.l_mark[0].str, NULL, 10); }
 break;
 case 231:
-#line 753 "../../../vice/src/monitor/mon_parse.y"
+#line 753 "mon_parse.y"
 	{ yyval.i = resolve_datatype(B_NUMBER,yystack.l_mark[0].str); }
 break;
 case 232:
-#line 754 "../../../vice/src/monitor/mon_parse.y"
+#line 754 "mon_parse.y"
 	{ yyval.i = resolve_datatype(O_NUMBER,yystack.l_mark[0].str); }
 break;
 case 233:
-#line 755 "../../../vice/src/monitor/mon_parse.y"
+#line 755 "mon_parse.y"
 	{ yyval.i = resolve_datatype(D_NUMBER,yystack.l_mark[0].str); }
 break;
 case 234:
-#line 758 "../../../vice/src/monitor/mon_parse.y"
+#line 758 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 235:
-#line 759 "../../../vice/src/monitor/mon_parse.y"
+#line 759 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 236:
-#line 760 "../../../vice/src/monitor/mon_parse.y"
+#line 760 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 237:
-#line 761 "../../../vice/src/monitor/mon_parse.y"
+#line 761 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 238:
-#line 762 "../../../vice/src/monitor/mon_parse.y"
+#line 762 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 242:
-#line 770 "../../../vice/src/monitor/mon_parse.y"
+#line 770 "mon_parse.y"
 	{ yyval.i = 0;
                                                 if (yystack.l_mark[-1].str) {
                                                     (monitor_cpu_for_memspace[default_memspace]->mon_assemble_instr)(yystack.l_mark[-1].str, yystack.l_mark[0].mode);
@@ -2785,11 +2785,11 @@ case 242:
                                               }
 break;
 case 244:
-#line 781 "../../../vice/src/monitor/mon_parse.y"
+#line 781 "mon_parse.y"
 	{ asm_mode = 0; }
 break;
 case 245:
-#line 784 "../../../vice/src/monitor/mon_parse.y"
+#line 784 "mon_parse.y"
 	{ if (yystack.l_mark[0].i > 0xff) {
                           yyval.mode.addr_mode = ASM_ADDR_MODE_IMMEDIATE_16;
                           yyval.mode.param = yystack.l_mark[0].i;
@@ -2799,7 +2799,7 @@ case 245:
                         } }
 break;
 case 246:
-#line 791 "../../../vice/src/monitor/mon_parse.y"
+#line 791 "mon_parse.y"
 	{ if (yystack.l_mark[0].i >= 0x10000) {
                yyval.mode.addr_mode = ASM_ADDR_MODE_ABSOLUTE_LONG;
                yyval.mode.param = yystack.l_mark[0].i;
@@ -2813,7 +2813,7 @@ case 246:
            }
 break;
 case 247:
-#line 802 "../../../vice/src/monitor/mon_parse.y"
+#line 802 "mon_parse.y"
 	{ if (yystack.l_mark[-2].i >= 0x10000) {
                             yyval.mode.addr_mode = ASM_ADDR_MODE_ABSOLUTE_LONG_X;
                             yyval.mode.param = yystack.l_mark[-2].i;
@@ -2827,7 +2827,7 @@ case 247:
                         }
 break;
 case 248:
-#line 813 "../../../vice/src/monitor/mon_parse.y"
+#line 813 "mon_parse.y"
 	{ if (yystack.l_mark[-2].i < 0x100) {
                             yyval.mode.addr_mode = ASM_ADDR_MODE_ZERO_PAGE_Y;
                             yyval.mode.param = yystack.l_mark[-2].i;
@@ -2838,7 +2838,7 @@ case 248:
                         }
 break;
 case 249:
-#line 821 "../../../vice/src/monitor/mon_parse.y"
+#line 821 "mon_parse.y"
 	{ if (yystack.l_mark[-2].i < 0x100) {
                             yyval.mode.addr_mode = ASM_ADDR_MODE_STACK_RELATIVE;
                             yyval.mode.param = yystack.l_mark[-2].i;
@@ -2860,7 +2860,7 @@ case 249:
                         }
 break;
 case 250:
-#line 840 "../../../vice/src/monitor/mon_parse.y"
+#line 840 "mon_parse.y"
 	{ if (yystack.l_mark[-2].i < 0x100) {
                             yyval.mode.addr_mode = ASM_ADDR_MODE_DOUBLE;
                             yyval.mode.param = yystack.l_mark[0].i;
@@ -2869,7 +2869,7 @@ case 250:
                         }
 break;
 case 251:
-#line 846 "../../../vice/src/monitor/mon_parse.y"
+#line 846 "mon_parse.y"
 	{ if (yystack.l_mark[-1].i < 0x100) {
                                yyval.mode.addr_mode = ASM_ADDR_MODE_INDIRECT;
                                yyval.mode.param = yystack.l_mark[-1].i;
@@ -2880,7 +2880,7 @@ case 251:
                            }
 break;
 case 252:
-#line 854 "../../../vice/src/monitor/mon_parse.y"
+#line 854 "mon_parse.y"
 	{ if (yystack.l_mark[-3].i < 0x100) {
                                            yyval.mode.addr_mode = ASM_ADDR_MODE_INDIRECT_X;
                                            yyval.mode.param = yystack.l_mark[-3].i;
@@ -2891,135 +2891,135 @@ case 252:
                                        }
 break;
 case 253:
-#line 863 "../../../vice/src/monitor/mon_parse.y"
+#line 863 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_STACK_RELATIVE_Y; yyval.mode.param = yystack.l_mark[-5].i; }
 break;
 case 254:
-#line 865 "../../../vice/src/monitor/mon_parse.y"
+#line 865 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_INDIRECT_Y; yyval.mode.param = yystack.l_mark[-3].i; }
 break;
 case 255:
-#line 866 "../../../vice/src/monitor/mon_parse.y"
+#line 866 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IND_BC; }
 break;
 case 256:
-#line 867 "../../../vice/src/monitor/mon_parse.y"
+#line 867 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IND_DE; }
 break;
 case 257:
-#line 868 "../../../vice/src/monitor/mon_parse.y"
+#line 868 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IND_HL; }
 break;
 case 258:
-#line 869 "../../../vice/src/monitor/mon_parse.y"
+#line 869 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IND_IX; }
 break;
 case 259:
-#line 870 "../../../vice/src/monitor/mon_parse.y"
+#line 870 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IND_IY; }
 break;
 case 260:
-#line 871 "../../../vice/src/monitor/mon_parse.y"
+#line 871 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IND_SP; }
 break;
 case 261:
-#line 873 "../../../vice/src/monitor/mon_parse.y"
+#line 873 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_ABSOLUTE_A; yyval.mode.param = yystack.l_mark[-3].i; }
 break;
 case 262:
-#line 875 "../../../vice/src/monitor/mon_parse.y"
+#line 875 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_ABSOLUTE_HL; yyval.mode.param = yystack.l_mark[-3].i; }
 break;
 case 263:
-#line 877 "../../../vice/src/monitor/mon_parse.y"
+#line 877 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_ABSOLUTE_IX; yyval.mode.param = yystack.l_mark[-3].i; }
 break;
 case 264:
-#line 879 "../../../vice/src/monitor/mon_parse.y"
+#line 879 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_ABSOLUTE_IY; yyval.mode.param = yystack.l_mark[-3].i; }
 break;
 case 265:
-#line 880 "../../../vice/src/monitor/mon_parse.y"
+#line 880 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_IMPLIED; }
 break;
 case 266:
-#line 881 "../../../vice/src/monitor/mon_parse.y"
+#line 881 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_ACCUMULATOR; }
 break;
 case 267:
-#line 882 "../../../vice/src/monitor/mon_parse.y"
+#line 882 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_B; }
 break;
 case 268:
-#line 883 "../../../vice/src/monitor/mon_parse.y"
+#line 883 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_C; }
 break;
 case 269:
-#line 884 "../../../vice/src/monitor/mon_parse.y"
+#line 884 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_D; }
 break;
 case 270:
-#line 885 "../../../vice/src/monitor/mon_parse.y"
+#line 885 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_E; }
 break;
 case 271:
-#line 886 "../../../vice/src/monitor/mon_parse.y"
+#line 886 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_H; }
 break;
 case 272:
-#line 887 "../../../vice/src/monitor/mon_parse.y"
+#line 887 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IXH; }
 break;
 case 273:
-#line 888 "../../../vice/src/monitor/mon_parse.y"
+#line 888 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IYH; }
 break;
 case 274:
-#line 889 "../../../vice/src/monitor/mon_parse.y"
+#line 889 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_L; }
 break;
 case 275:
-#line 890 "../../../vice/src/monitor/mon_parse.y"
+#line 890 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IXL; }
 break;
 case 276:
-#line 891 "../../../vice/src/monitor/mon_parse.y"
+#line 891 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IYL; }
 break;
 case 277:
-#line 892 "../../../vice/src/monitor/mon_parse.y"
+#line 892 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_AF; }
 break;
 case 278:
-#line 893 "../../../vice/src/monitor/mon_parse.y"
+#line 893 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_BC; }
 break;
 case 279:
-#line 894 "../../../vice/src/monitor/mon_parse.y"
+#line 894 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_DE; }
 break;
 case 280:
-#line 895 "../../../vice/src/monitor/mon_parse.y"
+#line 895 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_HL; }
 break;
 case 281:
-#line 896 "../../../vice/src/monitor/mon_parse.y"
+#line 896 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IX; }
 break;
 case 282:
-#line 897 "../../../vice/src/monitor/mon_parse.y"
+#line 897 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_IY; }
 break;
 case 283:
-#line 898 "../../../vice/src/monitor/mon_parse.y"
+#line 898 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_REG_SP; }
 break;
 case 284:
-#line 900 "../../../vice/src/monitor/mon_parse.y"
+#line 900 "mon_parse.y"
 	{ yyval.mode.addr_mode = ASM_ADDR_MODE_DIRECT; yyval.mode.param = yystack.l_mark[0].i; }
 break;
 case 285:
-#line 901 "../../../vice/src/monitor/mon_parse.y"
+#line 901 "mon_parse.y"
 	{    /* Clash with addr,x addr,y addr,s modes! */
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         if (yystack.l_mark[-2].i >= -16 && yystack.l_mark[-2].i < 16) {
@@ -3037,63 +3037,63 @@ case 285:
     }
 break;
 case 286:
-#line 916 "../../../vice/src/monitor/mon_parse.y"
+#line 916 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-1].i | ASM_ADDR_MODE_INDEXED_INC1;
         }
 break;
 case 287:
-#line 920 "../../../vice/src/monitor/mon_parse.y"
+#line 920 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-2].i | ASM_ADDR_MODE_INDEXED_INC2;
         }
 break;
 case 288:
-#line 924 "../../../vice/src/monitor/mon_parse.y"
+#line 924 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[0].i | ASM_ADDR_MODE_INDEXED_DEC1;
         }
 break;
 case 289:
-#line 928 "../../../vice/src/monitor/mon_parse.y"
+#line 928 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[0].i | ASM_ADDR_MODE_INDEXED_DEC2;
         }
 break;
 case 290:
-#line 932 "../../../vice/src/monitor/mon_parse.y"
+#line 932 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[0].i | ASM_ADDR_MODE_INDEXED_OFF0;
         }
 break;
 case 291:
-#line 936 "../../../vice/src/monitor/mon_parse.y"
+#line 936 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-1].i | ASM_ADDR_MODE_INDEXED_OFFB;
         }
 break;
 case 292:
-#line 940 "../../../vice/src/monitor/mon_parse.y"
+#line 940 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-1].i | ASM_ADDR_MODE_INDEXED_OFFA;
         }
 break;
 case 293:
-#line 944 "../../../vice/src/monitor/mon_parse.y"
+#line 944 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-1].i | ASM_ADDR_MODE_INDEXED_OFFD;
         }
 break;
 case 294:
-#line 948 "../../../vice/src/monitor/mon_parse.y"
+#line 948 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.param = yystack.l_mark[-2].i;
@@ -3108,7 +3108,7 @@ case 294:
     }
 break;
 case 295:
-#line 960 "../../../vice/src/monitor/mon_parse.y"
+#line 960 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         if (yystack.l_mark[-3].i >= -16 && yystack.l_mark[-3].i < 16) {
@@ -3126,63 +3126,63 @@ case 295:
     }
 break;
 case 296:
-#line 975 "../../../vice/src/monitor/mon_parse.y"
+#line 975 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-2].i | ASM_ADDR_MODE_INDEXED_INC1;
         }
 break;
 case 297:
-#line 979 "../../../vice/src/monitor/mon_parse.y"
+#line 979 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-3].i | ASM_ADDR_MODE_INDEXED_INC2;
         }
 break;
 case 298:
-#line 983 "../../../vice/src/monitor/mon_parse.y"
+#line 983 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-1].i | ASM_ADDR_MODE_INDEXED_DEC1;
         }
 break;
 case 299:
-#line 987 "../../../vice/src/monitor/mon_parse.y"
+#line 987 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-1].i | ASM_ADDR_MODE_INDEXED_DEC2;
         }
 break;
 case 300:
-#line 991 "../../../vice/src/monitor/mon_parse.y"
+#line 991 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-1].i | ASM_ADDR_MODE_INDEXED_OFF0;
         }
 break;
 case 301:
-#line 995 "../../../vice/src/monitor/mon_parse.y"
+#line 995 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-2].i | ASM_ADDR_MODE_INDEXED_OFFB;
         }
 break;
 case 302:
-#line 999 "../../../vice/src/monitor/mon_parse.y"
+#line 999 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-2].i | ASM_ADDR_MODE_INDEXED_OFFA;
         }
 break;
 case 303:
-#line 1003 "../../../vice/src/monitor/mon_parse.y"
+#line 1003 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | yystack.l_mark[-2].i | ASM_ADDR_MODE_INDEXED_OFFD;
         }
 break;
 case 304:
-#line 1007 "../../../vice/src/monitor/mon_parse.y"
+#line 1007 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.param = yystack.l_mark[-3].i;
@@ -3197,7 +3197,7 @@ case 304:
     }
 break;
 case 305:
-#line 1019 "../../../vice/src/monitor/mon_parse.y"
+#line 1019 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDEXED;
         yyval.mode.addr_submode = 0x80 | ASM_ADDR_MODE_EXTENDED_INDIRECT;
@@ -3205,33 +3205,33 @@ case 305:
         }
 break;
 case 306:
-#line 1024 "../../../vice/src/monitor/mon_parse.y"
+#line 1024 "mon_parse.y"
 	{
         yyval.mode.addr_mode = ASM_ADDR_MODE_INDIRECT_LONG_Y;
         yyval.mode.param = yystack.l_mark[-3].i;
         }
 break;
 case 307:
-#line 1032 "../../../vice/src/monitor/mon_parse.y"
+#line 1032 "mon_parse.y"
 	{ yyval.i = (0 << 5); printf("reg_x\n"); }
 break;
 case 308:
-#line 1033 "../../../vice/src/monitor/mon_parse.y"
+#line 1033 "mon_parse.y"
 	{ yyval.i = (1 << 5); printf("reg_y\n"); }
 break;
 case 309:
-#line 1034 "../../../vice/src/monitor/mon_parse.y"
+#line 1034 "mon_parse.y"
 	{ yyval.i = yystack.l_mark[0].i; }
 break;
 case 310:
-#line 1035 "../../../vice/src/monitor/mon_parse.y"
+#line 1035 "mon_parse.y"
 	{ yyval.i = (3 << 5); printf("reg_s\n"); }
 break;
 case 311:
-#line 1039 "../../../vice/src/monitor/mon_parse.y"
+#line 1039 "mon_parse.y"
 	{ yyval.i = (2 << 5); printf("reg_u\n"); }
 break;
-#line 3235 "../../../vice/src/monitor/mon_parse.c"
+#line 3235 "mon_parse.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

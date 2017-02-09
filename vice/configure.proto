@@ -2899,10 +2899,13 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
   if test x"$is_unix_macosx" = "xyes"; then
     dnl GTK3-FIXME: put OSX specific checks here
+    @echo ""
   elif test x"$is_win32" = "xyes"; then
     dnl GTK3-FIXME: put windows specific checks here
+    @echo ""
   else
     dnl GTK3-FIXME: put *nix specific checks here
+    @echo ""
   fi
 
   dnl a check for hardware scaling needs to be added
