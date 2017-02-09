@@ -182,6 +182,8 @@ static x86_cpu_name_t x86_cpu_names[] = {
 /* return cpu name if present */
 static char *get_x86_runtime_cpu_name(void)
 {
+/* makes certain binaries crash */
+#if 0
     DWORD regax, regbx, regcx, regdx;
     static char name_buf[49];
     int i;
@@ -197,9 +199,9 @@ static char *get_x86_runtime_cpu_name(void)
         }
         name_buf[48] = 0;
         return name_buf;
-    } else {
-        return NULL;
     }
+#endif
+    return NULL;
 }
 
 /* runtime cpu detection */
