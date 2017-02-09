@@ -1213,7 +1213,6 @@ dnl All other UN*X systems
 esac
 fi
 
-
 dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
   DEBUGBUILD=1
@@ -1227,7 +1226,7 @@ if test x"$enable_debug" = "xyes"; then
     AC_CHECK_LIB(execinfo,
                  backtrace_symbols,
                  LIBS="$LIBS -lexecinfo",
-                 AC_MSG_ERROR([Could not find backtrace_symbols in either libc or libexecinfo. Either install libexecinfo, or disable debugging. Please note that --enable-debug is only available for Linux, *BSD, Solaris and OSX.]))
+                 AC_MSG_ERROR("Could not find backtrace_symbols in either libc or libexecinfo. Either install libexecinfo, or disable debugging. Please note that --enable-debug is only available for Linux, *BSD, Solaris and OSX."))
   fi
 
   dnl check if the compiler supports -fsanitize=undefined
@@ -1244,7 +1243,6 @@ else
 fi
 
 AC_SUBST(DEBUGBUILD)
-
 
 
 dnl This enables the embedded data files feature, which should
