@@ -17,6 +17,8 @@ EXTRA_DIST = \
 	joy.h \
 	kbd.h \
 	mousedrv.h \
+	socketimpl.h \
+	socketimpl_unix.h \
 	types.h \
 	ui.h \
 	videoarch.h
