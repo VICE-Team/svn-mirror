@@ -8,5 +8,9 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
-	gtk3main.c \
+	gtk3main.c
+
+EXTRA_DIST = \
+	archdep.h \
+	archdep_unix.h \
 	types.h
