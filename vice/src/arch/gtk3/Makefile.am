@@ -15,4 +15,5 @@ EXTRA_DIST = \
 	archdep_unix.h \
 	joy.h \
 	kbd.h \
+	mousedrv.h \
 	types.h
