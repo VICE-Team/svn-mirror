@@ -13,4 +13,5 @@ libarch_a_SOURCES = \
 EXTRA_DIST = \
 	archdep.h \
 	archdep_unix.h \
+	joy.h \
 	types.h
