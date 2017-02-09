@@ -14,4 +14,5 @@ EXTRA_DIST = \
 	archdep.h \
 	archdep_unix.h \
 	joy.h \
+	kbd.h \
 	types.h

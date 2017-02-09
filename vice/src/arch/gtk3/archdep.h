@@ -74,7 +74,7 @@ extern int archdep_require_vkbd(void);
 #define ARCHDEP_TED_DBUF   0
 
 /* No key symcode.  */
-#define ARCHDEP_KEYBOARD_SYM_NONE SDLK_UNKNOWN
+#define ARCHDEP_KEYBOARD_SYM_NONE 0
 
 /* Default sound output mode */
 #define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
