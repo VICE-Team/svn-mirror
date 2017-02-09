@@ -16,4 +16,5 @@ EXTRA_DIST = \
 	joy.h \
 	kbd.h \
 	mousedrv.h \
-	types.h
+	types.h \
+	videoarch.h
