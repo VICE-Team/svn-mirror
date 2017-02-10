@@ -3699,6 +3699,17 @@ Booleans controlling whether Professional DOS is emulated or not for drives 8 to
 Booleans controlling whether Super Card is emulated or not for drives 8 to 11
 (x64, x64sc, xscpu64 and x128 only).
 
+@vindex Drive8StarDos
+@vindex Drive9StarDos
+@vindex Drive10StarDos
+@vindex Drive11StarDos
+@item Drive8StarDos
+@itemx Drive9StarDos
+@itemx Drive10StarDos
+@itemx Drive11StarDos
+Booleans controlling whether StarDOS is emulated or not for drives 8 to 11
+(x64, x64sc, xscpu64 and x128 only).
+
 @vindex Drive8RAM2000
 @vindex Drive8RAM4000
 @vindex Drive8RAM6000
@@ -3837,6 +3848,11 @@ String specifying the filename of the 1571 professional DOS ROM image
 @vindex DriveSuperCardName
 @item DriveSuperCardName
 String specifying the filename of the Super Card ROM image
+(x64, x64sc, xscpu64 and x128 only).
+
+@vindex DriveStarDosName
+@item DriveStarDosName
+String specifying the filename of the image of the lower half of the StarDOS ROM
 (x64, x64sc, xscpu64 and x128 only).
 
 @end table
@@ -4234,6 +4250,41 @@ Enable/disable Super Card for drive 11
 @item -supercard <name>
 Specify name of Super Card ROM image
 (@code{DriveSuperCardName})
+(x64, x64sc, xscpu64 and x128 only).
+
+@findex -drive8stardos, +drive8stardos
+@item -drive8stardos
+@itemx +drive8stardos
+Enable/disable StarDOS for drive 8
+(@code{Drive8StarDos=1}, @code{Drive8StarDos=0})
+(x64, x64sc, xscpu64 and x128 only).
+
+@findex -drive9stardos, +drive9stardos
+@item -drive9stardos
+@itemx +drive9stardos
+Enable/disable StarDOS for drive 9
+(@code{Drive9StarDos=1}, @code{Drive9StarDos=0})
+(x64, x64sc, xscpu64 and x128 only).
+
+@findex -drive10stardos, +drive10stardos
+@item -drive10stardos
+@itemx +drive10stardos
+Enable/disable StarDOS for drive 10
+(@code{Drive10StarDos=1}, @code{Drive10StarDos=0})
+(x64, x64sc, xscpu64 and x128 only).
+
+@findex -drive11stardos, +drive11stardos
+@item -drive11stardos
+@itemx +drive11stardos
+Enable/disable StarDOS for drive 11
+(@code{Drive11StarDos=1}, @code{Drive11StarDos=0})
+(x64, x64sc, xscpu64 and x128 only).
+
+@findex -stardos
+@item -stardos <name>
+Specify name of the image of the lower half of the StarDOS ROM. (Attach the upper
+half using the -dos1541 option.)
+(@code{DriveStarDosName})
 (x64, x64sc, xscpu64 and x128 only).
 
 @end table

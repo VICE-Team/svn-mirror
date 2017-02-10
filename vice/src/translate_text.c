@@ -11754,6 +11754,57 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_TR, "SuperCard+ ROM imajýnýn ismini belirt"},
 #endif
 
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_STARDOS,    N_("Enable StarDOS")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_STARDOS_DA, "Aktivér StarDOS"},
+/* de */ {IDCLS_ENABLE_STARDOS_DE, "StarDOS aktivieren"},
+/* es */ {IDCLS_ENABLE_STARDOS_ES, "Permitir StarDOS"},
+/* fr */ {IDCLS_ENABLE_STARDOS_FR, "Activer StarDOS"},
+/* hu */ {IDCLS_ENABLE_STARDOS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_STARDOS_IT, "Attiva StarDOS"},
+/* ko */ {IDCLS_ENABLE_STARDOS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_STARDOS_NL, "Activeer StarDOS"},
+/* pl */ {IDCLS_ENABLE_STARDOS_PL, "W³±cz StarDOS"},
+/* ru */ {IDCLS_ENABLE_STARDOS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_STARDOS_SV, "Aktivera StarDOS"},
+/* tr */ {IDCLS_ENABLE_STARDOS_TR, "StarDOS'ý aktif et"},
+#endif
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_STARDOS,    N_("Disable StarDOS")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_STARDOS_DA, "Deaktivér StarDOS"},
+/* de */ {IDCLS_DISABLE_STARDOS_DE, "StarDOS deaktivieren"},
+/* es */ {IDCLS_DISABLE_STARDOS_ES, "Deshabilitar StarDOS"},
+/* fr */ {IDCLS_DISABLE_STARDOS_FR, "Désactiver StarDOS"},
+/* hu */ {IDCLS_DISABLE_STARDOS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_STARDOS_IT, "Disattiva StarDOS"},
+/* ko */ {IDCLS_DISABLE_STARDOS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_STARDOS_NL, "Deactiveer StarDOS"},
+/* pl */ {IDCLS_DISABLE_STARDOS_PL, "Wy³±cz StarDOS"},
+/* ru */ {IDCLS_DISABLE_STARDOS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_STARDOS_SV, "Inaktivera StarDOS"},
+/* tr */ {IDCLS_DISABLE_STARDOS_TR, "StarDOS'ý pasifleþtir"},
+#endif
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_STARDOS_ROM_NAME,    N_("Specify name of StarDOS ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_DA, "Angiv navn på StarDOS ROM-image"},
+/* de */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_DE, "Name von StarDOS ROM Datei wählen"},
+/* es */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_ES, "Especificar nombre de Imagen ROM StarDOS"},
+/* fr */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_FR, "Spécifier le nom de l'image ROM StarDOS"},
+/* hu */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_IT, "Specifica il nome immagine della ROM del StarDOS"},
+/* ko */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_NL, "Geef de naam van het StarDOS ROM bestand"},
+/* pl */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM StarDOS"},
+/* ru */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_SV, "Ange namn på StarDOS-ROM-avbildning"},
+/* tr */ {IDCLS_SPECIFY_STARDOS_ROM_NAME_TR, "StarDOS ROM imajýnýn ismini belirt"},
+#endif
+
 /* drive/iec/plus4exp/plus4exp-cmdline-options.c */
 /* en */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE,    N_("Set parallel cable type (0: none, 1: standard)")},
 #ifdef HAS_TRANSLATION

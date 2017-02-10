@@ -45,6 +45,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_SUPERCARD_ROM_NAME,
       NULL, NULL },
+    { "-stardos", SET_RESOURCE, 1,
+      NULL, NULL, "DriveStarDosName", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_STARDOS_ROM_NAME,
+      NULL, NULL },
     CMDLINE_LIST_END
 };
 
@@ -74,6 +79,16 @@ static cmdline_option_t cmd_drive[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_SUPERCARD,
       NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_STARDOS,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_STARDOS,
+      NULL, NULL },
     CMDLINE_LIST_END
 };
 
@@ -97,12 +112,18 @@ int c64exp_cmdline_options_init(void)
         cmd_drive[4].name = lib_msprintf("+drive%isupercard", dnr + 8);
         cmd_drive[4].resource_name
             = lib_msprintf("Drive%iSuperCard", dnr + 8);
+        cmd_drive[5].name = lib_msprintf("-drive%istardos", dnr + 8);
+        cmd_drive[5].resource_name
+            = lib_msprintf("Drive%iStarDos", dnr + 8);
+        cmd_drive[6].name = lib_msprintf("+drive%istardos", dnr + 8);
+        cmd_drive[6].resource_name
+            = lib_msprintf("Drive%iStarDos", dnr + 8);
 
         if (cmdline_register_options(cmd_drive) < 0) {
             return -1;
         }
 
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < 7; i++) {
             lib_free(cmd_drive[i].name);
             lib_free(cmd_drive[i].resource_name);
         }

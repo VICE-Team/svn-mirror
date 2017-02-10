@@ -265,6 +265,8 @@ typedef struct drive_s {
     int profdos;
     /* Is the Supercard+ extension enabled? */
     int supercard;
+    /* Is the StarDOS extension enabled? */
+    int stardos;
 
     /* RTC context */
     rtc_ds1216e_t *ds1216;

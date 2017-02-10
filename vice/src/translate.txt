@@ -2022,6 +2022,15 @@ IDCLS_DISABLE_SUPERCARD
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 IDCLS_SPECIFY_SUPERCARD_ROM_NAME
 
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+IDCLS_ENABLE_STARDOS
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+IDCLS_DISABLE_STARDOS
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+IDCLS_SPECIFY_STARDOS_ROM_NAME
+
 /* drive/iec/plus4exp/plus4exp-cmdline-options.c */
 IDCLS_PAR_CABLE_PLUS4EXP_TYPE
 
