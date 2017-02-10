@@ -94,3 +94,8 @@ void ui_update_menus(void)
     NOT_IMPLEMENTED();
 }
 
+void ui_dispatch_events(void)
+{
+    NOT_IMPLEMENTED();
+}
+

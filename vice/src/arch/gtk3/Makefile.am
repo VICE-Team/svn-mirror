@@ -13,6 +13,7 @@ libarch_a_SOURCES = \
 	archdep.c \
 	catweaselmkiii-drv.c \
 	console.c \
+	cw-pci.c \
 	dynlib.c \
 	fullscreen.c \
 	gtk3main.c \
@@ -46,7 +47,9 @@ EXTRA_DIST = \
 	catweaselmkiii-win32-drv.c \
 	coproc.h \
 	cw-unix.h \
+	cw-unix-pci.c \
 	cw-win32.h \
+	cw-win32-pci.c \
 	dynlib-unix.c \
 	dynlib-win32.c \
 	hardsid-unix-drv.c \

@@ -1,5 +1,5 @@
 /*
- * kbd.c - Native GTK3 UI keyboard stuff.
+ * cw-pci.c - Native GTK3 UI cw-pci.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -26,36 +26,14 @@
 
 #include "vice.h"
 
-#include <stdio.h>
+#ifdef HAVE_CATWEASELMKIII
 
-#include "not_implemented.h"
+#ifdef UNIX_COMPILE
+#include "cw-unix-pci.c"
+#endif
 
-int kbd_arch_get_host_mapping(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
+#ifdef WIN32_COMPILE
+#include "cw-win32-pci.c"
+#endif
 
-int kbd_arch_init(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-signed long kbd_arch_keyname_to_keynum(char *keyname)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-const char *kbd_arch_keynum_to_keyname(signed long keynum)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-
-void kbd_initialize_numpad_joykeys(int *joykeys)
-{
-    NOT_IMPLEMENTED();
-}
-
+#endif
