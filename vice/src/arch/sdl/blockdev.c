@@ -123,12 +123,12 @@ void blockdev_init(void)
 {
 }
 
-int blockdev_resources_init()
+int blockdev_resources_init(void)
 {
     return 0;
 }
 
-int blockdev_cmdline_options_init()
+int blockdev_cmdline_options_init(void)
 {
     return 0;
 }
