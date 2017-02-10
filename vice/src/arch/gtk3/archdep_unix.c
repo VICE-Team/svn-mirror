@@ -211,3 +211,15 @@ char *archdep_default_rtc_file_name(void)
     return NULL;
 }
 
+int archdep_file_is_chardev(const char *name)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+int archdep_file_is_blockdev(const char *name)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+

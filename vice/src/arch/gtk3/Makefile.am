@@ -14,8 +14,13 @@ noinst_LIBRARIES = libarch.a
 libarch_a_SOURCES = \
 	archdep.c \
 	blockdev.c \
+	c128ui.c \
+	c64dtvui.c \
+	c64scui.c \
 	c64ui.c \
 	catweaselmkiii-drv.c \
+	cbm2ui.c \
+	cbm5x0ui.c \
 	console.c \
 	coproc.c \
 	cw-pci.c \
@@ -32,15 +37,19 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	parsid-drv.c \
 	pci-drv.c \
+	petui.c \
+	plus4ui.c \
 	ps-device.c \
 	ps-io.c \
 	rs232dev.c \
+	scpu64ui.c \
 	signals.c \
 	ssi2001-drv.c \
 	ui.c \
 	uicmdline.c \
 	uimon.c \
 	uistatusbar.c \
+	vic20ui.c \
 	video.c \
 	vsidui.c \
 	vsyncarch.c

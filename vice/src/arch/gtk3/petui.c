@@ -1,5 +1,5 @@
 /*
- * ui.c - Native GTK3 UI stuff.
+ * petui.c - Native GTK3 PET UI.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,82 +30,13 @@
 
 #include "not_implemented.h"
 
-#include "uiapi.h"
-
-int ui_cmdline_options_init(void)
+int petui_init(void)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-void ui_error(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-}
-
-char *ui_get_file(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-
-int ui_init(int *argc, char **argv)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-int ui_init_finalize(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-int ui_init_finish(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-ui_jam_action_t ui_jam_dialog(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-    return UI_JAM_NONE;
-}
-
-int ui_resources_init(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-void ui_resources_shutdown(void)
-{
-    NOT_IMPLEMENTED();
-}
-
-void ui_shutdown(void)
-{
-    NOT_IMPLEMENTED();
-}
-
-void ui_update_menus(void)
-{
-    NOT_IMPLEMENTED();
-}
-
-void ui_dispatch_events(void)
-{
-    NOT_IMPLEMENTED();
-}
-
-int ui_extend_image_dialog(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-void ui_message(const char *format, ...)
+void petui_shutdown(void)
 {
     NOT_IMPLEMENTED();
 }
