@@ -31,6 +31,7 @@
 #include "not_implemented.h"
 
 #include "types.h"
+#include "uiapi.h"
 
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
@@ -83,6 +84,26 @@ void ui_display_volume(int vol)
 }
 
 void ui_set_tape_status(int tape_status)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_tape_current_image(const char *image)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     NOT_IMPLEMENTED();
 }

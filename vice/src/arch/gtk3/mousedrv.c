@@ -1,5 +1,5 @@
 /*
- * ui.c - Native GTK3 UI stuff.
+ * mousedrv.c - Native GTK3 UI mouse driver stuff.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,76 +30,43 @@
 
 #include "not_implemented.h"
 
-#include "uiapi.h"
+#include "mouse.h"
 
-int ui_cmdline_options_init(void)
+int mousedrv_cmdline_options_init(void)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-void ui_error(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-}
-
-char *ui_get_file(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-
-int ui_init(int *argc, char **argv)
+unsigned long mousedrv_get_timestamp(void)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-int ui_init_finalize(void)
+int mousedrv_get_x(void)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-int ui_init_finish(void)
+int mousedrv_get_y(void)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
 
-ui_jam_action_t ui_jam_dialog(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-    return UI_JAM_NONE;
-}
-
-int ui_resources_init(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-void ui_resources_shutdown(void)
+void mousedrv_init(void)
 {
     NOT_IMPLEMENTED();
 }
 
-void ui_shutdown(void)
+void mousedrv_mouse_changed(void)
 {
     NOT_IMPLEMENTED();
 }
 
-void ui_update_menus(void)
-{
-    NOT_IMPLEMENTED();
-}
-
-void ui_dispatch_events(void)
-{
-    NOT_IMPLEMENTED();
-}
-
-int ui_extend_image_dialog(void)
+int mousedrv_resources_init(mouse_func_t *funcs)
 {
     NOT_IMPLEMENTED();
     return 0;

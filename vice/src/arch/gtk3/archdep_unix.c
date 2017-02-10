@@ -205,3 +205,9 @@ void archdep_signals_pipe_unset(void)
     NOT_IMPLEMENTED();
 }
 
+char *archdep_default_rtc_file_name(void)
+{
+    NOT_IMPLEMENTED();
+    return NULL;
+}
+

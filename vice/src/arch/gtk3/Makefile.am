@@ -4,15 +4,20 @@ AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/sid
 
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
 	archdep.c \
+	blockdev.c \
+	c64ui.c \
 	catweaselmkiii-drv.c \
 	console.c \
+	coproc.c \
 	cw-pci.c \
 	dynlib.c \
 	fullscreen.c \
@@ -24,10 +29,12 @@ libarch_a_SOURCES = \
 	joy.c \
 	kbd.c \
 	mididrv.c \
+	mousedrv.c \
 	parsid-drv.c \
 	pci-drv.c \
 	ps-device.c \
 	ps-io.c \
+	rs232dev.c \
 	signals.c \
 	ssi2001-drv.c \
 	ui.c \
@@ -78,6 +85,8 @@ EXTRA_DIST = \
 	ps-win32.h \
 	ps-win32-dll.c \
 	ps-win32-io.c \
+	rs232-unix-dev.c \
+	rs232-win32-dev.c \
 	socketimpl.h \
 	socketimpl_unix.h \
 	socketimpl_win32.h \
