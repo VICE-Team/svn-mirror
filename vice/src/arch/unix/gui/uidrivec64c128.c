@@ -48,6 +48,10 @@ UI_MENU_DEFINE_TOGGLE_COND(Drive8SuperCard, Drive8Type, drive_check_supercard)
 UI_MENU_DEFINE_TOGGLE_COND(Drive9SuperCard, Drive9Type, drive_check_supercard)
 UI_MENU_DEFINE_TOGGLE_COND(Drive10SuperCard, Drive10Type, drive_check_supercard)
 UI_MENU_DEFINE_TOGGLE_COND(Drive11SuperCard, Drive11Type, drive_check_supercard)
+UI_MENU_DEFINE_TOGGLE_COND(Drive8StarDos, Drive8Type, drive_check_stardos)
+UI_MENU_DEFINE_TOGGLE_COND(Drive9StarDos, Drive9Type, drive_check_stardos)
+UI_MENU_DEFINE_TOGGLE_COND(Drive10StarDos, Drive10Type, drive_check_stardos)
+UI_MENU_DEFINE_TOGGLE_COND(Drive11StarDos, Drive11Type, drive_check_stardos)
 
 static UI_CALLBACK(parallel_cable_control)
 {
@@ -104,6 +108,9 @@ ui_menu_entry_t uidrivec64c128_drive##x##_expansion_submenu[] = {               
     { N_("Enable SuperCard+"), UI_MENU_TYPE_TICK,                                                          \
       (ui_callback_t)toggle_Drive##y##SuperCard, NULL, NULL,                                               \
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                           \
+    { N_("Enable StarDOS"), UI_MENU_TYPE_TICK,                                                             \
+      (ui_callback_t)toggle_Drive##y##StarDos, NULL, NULL,                                                 \
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },                                                           \
     UI_MENU_ENTRY_LIST_END                                                                                 \
 }
 
@@ -118,6 +125,9 @@ ui_menu_entry_t uidrivec64c128_expansion_romset_submenu[] = {
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Load new SuperCard+ ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"DriveSuperCardName", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Load new StarDOS ROM"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"DriveStarDosName", NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_LIST_END
 };
