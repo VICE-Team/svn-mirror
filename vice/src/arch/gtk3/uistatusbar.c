@@ -1,0 +1,89 @@
+/*
+ * uistatusbar.c - Native GTK3 UI statusbar stuff.
+ *
+ * Written by
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#include <stdio.h>
+
+#include "not_implemented.h"
+
+#include "types.h"
+
+void ui_display_drive_current_image(unsigned int drive_number, const char *image)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_event_time(unsigned int current, unsigned int total)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_joyport(BYTE *joyport)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_playback(int playback_status, char *version)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_recording(int recording_status)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_statustext(const char *text, int fade_out)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_tape_control_status(int control)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_tape_counter(int counter)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_tape_motor_status(int motor)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_display_volume(int vol)
+{
+    NOT_IMPLEMENTED();
+}
+
+void ui_set_tape_status(int tape_status)
+{
+    NOT_IMPLEMENTED();
+}
+

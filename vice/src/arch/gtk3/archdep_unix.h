@@ -29,6 +29,10 @@
 
 #include "archapi.h"
 
+/* Default MIDI devices. */
+#define ARCHDEP_MIDI_IN_DEV  "/dev/midi"
+#define ARCHDEP_MIDI_OUT_DEV "/dev/midi"
+
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."
 #define FSDEV_DIR_SEP_STR    "/"
