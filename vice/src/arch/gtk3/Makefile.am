@@ -58,6 +58,7 @@ EXTRA_DIST = \
 	archdep.h \
 	archdep_unix.c \
 	archdep_unix.h \
+	archdep_win32.c \
 	archdep_win32.h \
 	catweaselmkiii-unix-drv.c \
 	catweaselmkiii-win32-drv.c \
