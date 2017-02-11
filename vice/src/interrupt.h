@@ -150,7 +150,9 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
                cycles are stolen from the CPU.  */
 #ifdef DEBUG
             if (debug.maincpu_traceflg) {
-                log_debug("ICLK=%i  last_stolen_cycle=%d", cpu_clk, cs->last_stolen_cycles_clk);
+                log_debug("ICLK=%lu  last_stolen_cycle=%lu",
+                        (unsigned long)cpu_clk,
+                        (unsigned long)(cs->last_stolen_cycles_clk));
             }
 #endif
             cs->irq_delay_cycles = 0;
@@ -194,7 +196,9 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
 
 #ifdef DEBUG
                 if (debug.maincpu_traceflg) {
-                    log_debug("ICLK=%i  last_stolen_cycle=%d", cpu_clk, cs->last_stolen_cycles_clk);
+                    log_debug("ICLK=%lu  last_stolen_cycle=%lu",
+                            (unsigned long)cpu_clk,
+                            (unsigned long)(cs->last_stolen_cycles_clk));
                 }
 #endif
                 /* This makes sure that NMI delay is correctly emulated when
