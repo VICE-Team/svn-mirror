@@ -96,5 +96,5 @@ static joyport_t joyport_vizawrite64_dongle_device = {
 
 int joyport_vizawrite64_dongle_resources_init(void)
 {
-    return joyport_device_register(JOYPORT_ID_VIZAWRIT64_DONGLE, &joyport_vizawrite64_dongle_device);
+    return joyport_device_register(JOYPORT_ID_VIZAWRITE64_DONGLE, &joyport_vizawrite64_dongle_device);
 }
