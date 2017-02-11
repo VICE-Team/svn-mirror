@@ -33,9 +33,9 @@
 #include <pci/pci.h>
 #endif
 
-#include "io-access.h"
 #include "log.h"
 #include "types.h"
+#include "unix-io-access.h"
 
 #ifdef HAVE_LIBPCI
 static int pciutils_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)

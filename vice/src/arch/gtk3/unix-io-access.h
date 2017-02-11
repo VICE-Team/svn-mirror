@@ -1,5 +1,5 @@
 /*
- * io-access.h - *nix specific I/O access prototypes.
+ * unix-io-access.h - *nix specific I/O access prototypes.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

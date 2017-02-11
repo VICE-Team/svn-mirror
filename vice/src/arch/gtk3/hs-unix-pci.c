@@ -42,11 +42,10 @@
 #include <sys/ioctl.h>
 
 #include "hardsid.h"
-#include "io-access.h"
 #include "log.h"
 #include "pci-drv.h"
 #include "types.h"
-
+#include "unix-io-access.h"
 
 #define MAXSID 4
 

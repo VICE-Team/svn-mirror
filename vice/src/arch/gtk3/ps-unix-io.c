@@ -43,12 +43,12 @@
 #include <errno.h>
 
 #include "alarm.h"
-#include "io-access.h"
 #include "log.h"
 #include "parsid.h"
 #include "ps-unix.h"
 #include "sid-resources.h"
 #include "types.h"
+#include "unix-io-access.h"
 
 #define MAXSID 3
 

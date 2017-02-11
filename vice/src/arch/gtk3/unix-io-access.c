@@ -1,5 +1,5 @@
 /*
- * io-access.c - Unix specific I/O code.
+ * unix-io-access.c - Unix specific I/O code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

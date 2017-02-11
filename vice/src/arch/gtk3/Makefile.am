@@ -30,7 +30,6 @@ libarch_a_SOURCES = \
 	hardsid-drv.c \
 	hs-isa.c \
 	hs-pci.c \
-	io-access.c \
 	joy.c \
 	kbd.c \
 	mididrv.c \
@@ -49,6 +48,7 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uimon.c \
 	uistatusbar.c \
+	unix-io-access.c \
 	vic20ui.c \
 	video.c \
 	vsidui.c \
@@ -104,4 +104,5 @@ EXTRA_DIST = \
 	ssi2001-win32-drv.c \
 	types.h \
 	ui.h \
+	unix-io-access.h \
 	videoarch.h

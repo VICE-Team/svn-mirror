@@ -38,10 +38,10 @@
 
 #include "catweaselmkiii.h"
 #include "cw-unix.h"
-#include "io-access.h"
 #include "log.h"
 #include "pci-drv.h"
 #include "types.h"
+#include "unix-io-access.h"
 
 #define CW_SID_DAT 0xd8
 #define CW_SID_CMD 0xdc

@@ -48,9 +48,9 @@
 #include <sys/ioctl.h>
 
 #include "hardsid.h"
-#include "io-access.h"
-#include "types.h"
 #include "log.h"
+#include "types.h"
+#include "unix-io-access.h"
 
 #define HARDSID_BASE 0x300
 

@@ -42,10 +42,10 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 
-#include "io-access.h"
+#include "log.h"
 #include "ssi2001.h"
 #include "types.h"
-#include "log.h"
+#include "unix-io-access.h"
 
 #define SSI2008_BASE 0x280
 
