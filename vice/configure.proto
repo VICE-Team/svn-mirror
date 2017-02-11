@@ -1215,6 +1215,7 @@ fi
 
 dnl check for debug build
 if test x"$enable_debug" = "xyes"; then
+  have_backtrace_symbols="no"
   DEBUGBUILD=1
   DEBUG_SUPPORT="yes"
   dnl PCBSD/FreeBSD needs -lexecinfo for debug builds
@@ -1225,9 +1226,16 @@ if test x"$enable_debug" = "xyes"; then
   if test x"$have_backtrace_symbols" != "xyes"; then
     AC_CHECK_LIB(execinfo,
                  backtrace_symbols,
-                 LIBS="$LIBS -lexecinfo",
-                 AC_MSG_ERROR("Could not find backtrace_symbols in either libc or libexecinfo. Either install libexecinfo, or disable debugging. Please note that --enable-debug is only available for Linux, *BSD, Solaris and OSX."))
+                 [ LIBS="$LIBS -lexecinfo"
+                   have_backtrace_symbols="yes" ],
+                 AC_MSG_WARN("Could not find backtrace_symbols in either libc or libexecinfo. Either install libexecinfo, or disable debugging. Please note that --enable-debug is only available for Linux, *BSD, Solaris and OSX."))
+
   fi
+
+  if test x"$have_backtrace_symbols" = "xyes"; then
+    AC_DEFINE(HAVE_BT_SYMBOLS,,[Use backtrace facility of libC or libexecinfo])
+  fi
+
 
   dnl check if the compiler supports -fsanitize=undefined
   dnl AC_MSG_CHECKING([if the compiler supports -fsanitize=undefined])
@@ -2899,13 +2907,13 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
   if test x"$is_unix_macosx" = "xyes"; then
     dnl GTK3-FIXME: put OSX specific checks here
-    @echo ""
+    echo "gtk3 on OSX"
   elif test x"$is_win32" = "xyes"; then
     dnl GTK3-FIXME: put windows specific checks here
-    @echo ""
+    echo "gtk3 on Windows"
   else
     dnl GTK3-FIXME: put *nix specific checks here
-    @echo ""
+    echo "gtk3 on *nix"
   fi
 
   dnl a check for hardware scaling needs to be added
