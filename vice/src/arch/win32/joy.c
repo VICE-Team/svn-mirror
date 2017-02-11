@@ -49,6 +49,11 @@
 #include "winjoy.h"
 #include "winmain.h"
 
+
+/** \brief  Number of joysticks supported
+ */
+#define NUM_JOYSTICKS   5
+
 static enum {
     WIN_JOY_UNINIT,
 #ifdef HAVE_DINPUT
@@ -58,18 +63,20 @@ static enum {
 } joystick_inited = WIN_JOY_UNINIT;
 
 /* Notice that this has to be `int' to make resources work.  */
-static int joystick_fire_speed[5];
-static int joystick_fire_axis[5];
-static int joystick_autofire_button[5];
+static int joystick_fire_speed[NUM_JOYSTICKS];
+static int joystick_fire_axis[NUM_JOYSTICKS];
+static int joystick_autofire_button[NUM_JOYSTICKS];
 
-static int joystick_fire_button[5];
+static int joystick_fire_button[NUM_JOYSTICKS];
 
 /* ------------------------------------------------------------------------ */
 
 #ifdef HAVE_DINPUT
 /* Joystick devices.  */
-static LPDIRECTINPUTDEVICE  joystick_di_devices[4] = { NULL, NULL };
-static LPDIRECTINPUTDEVICE2  joystick_di_devices2[4] = { NULL, NULL };
+static LPDIRECTINPUTDEVICE  joystick_di_devices[NUM_JOYSTICKS] = {
+    NULL, NULL, NULL, NULL, NULL };
+static LPDIRECTINPUTDEVICE2  joystick_di_devices2[NUM_JOYSTICKS] = {
+    NULL, NULL, NULL, NULL, NULL };
 
 typedef struct _JoyAxis {
     struct _JoyAxis *next;
