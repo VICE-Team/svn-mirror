@@ -1,8 +1,8 @@
 /*
- * joy.h - Joystick support wrapper for native GTK3 UI.
+ * joy-win32.h - Joystick support for Windows.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,19 +24,20 @@
  *
  */
 
-#ifndef VICE_JOY_H
-#define VICE_JOY_H
+#ifndef VICE_JOY_WIN32_H
+#define VICE_JOY_WIN32_H
 
-#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
-#include "joy-unix.h"
-#endif
+typedef int joystick_device_t;
 
-#ifdef MACOSX_SUPPORT
-#include "joy-osx.h"
-#endif
+#define JOYDEV_NONE    0
+#define JOYDEV_NUMPAD  1
+#define JOYDEV_KEYSET1 2
+#define JOYDEV_KEYSET2 3
+#define JOYDEV_HW1     4
+#define JOYDEV_HW2     5
 
-#ifdef WIN32_COMPILE
-#include "joy-win32.h"
-#endif
+extern int joystick_close(void);
+extern void joystick_update(void);
+extern char joystick_uses_direct_input(void);
 
 #endif

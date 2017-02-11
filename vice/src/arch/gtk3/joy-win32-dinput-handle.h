@@ -1,8 +1,8 @@
 /*
- * joy.c - Native GTK3 UI joystick stuff.
+ * joy-win32-dinput-handle.h - Functionality shared by DirectInput joystick and mouse drivers.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Fabrizio Gennari <fabrizio.ge@tiscali.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,39 +23,21 @@
  *  02111-1307  USA.
  *
  */
+#ifndef DINPUT_HANDLE_H
+#define DINPUT_HANDLE_H
 
 #include "vice.h"
 
-#include <stdio.h>
+#ifdef HAVE_DINPUT
+#define DIRECTINPUT_VERSION 0x0500
+#include <dinput.h>
 
-#include "not_implemented.h"
+/* not defined in DirectInput headers prior to 8 */
+#ifndef DIDFT_OPTIONAL
+#define DIDFT_OPTIONAL 0x80000000
+#endif
 
-int joy_arch_cmdline_options_init(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
+extern LPDIRECTINPUT get_directinput_handle(void);
+#endif
 
-int joy_arch_init(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-int joy_arch_resources_init(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-int joy_arch_set_device(int port_idx, int new_dev)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-void joystick_close(void)
-{
-    NOT_IMPLEMENTED();
-}
-
+#endif

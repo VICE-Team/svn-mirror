@@ -30,7 +30,14 @@ libarch_a_SOURCES = \
 	hardsid-drv.c \
 	hs-isa.c \
 	hs-pci.c \
-	joy.c \
+	joy-osx.c \
+	joy-osx-hid.c \
+	joy-osx-hidmgr.c \
+	joy-osx-hidutil.c \
+	joy-unix.c \
+	joy-unix-usb.c \
+	joy-win32.c \
+	joy-win32-dinput-handle.c \
 	kbd.c \
 	mididrv.c \
 	mousedrv.c \
@@ -79,6 +86,12 @@ EXTRA_DIST = \
 	hs-win32-pci.c \
 	io-access.h \
 	joy.h \
+	joy-osx.h \
+	joy-osx-hid.h \
+	joy-osx-hidlib.h \
+	joy-unix.h \
+	joy-win32.h \
+	joy-win32-dinput-handle.h \
 	kbd.h \
 	midi-osx-drv.c \
 	midi-unix-drv.c \
