@@ -3608,6 +3608,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_SCRIPT64_DONGLE_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/vizawrite64_dongle.c */
+/* en */ {IDGS_VIZAWRITE64_DONGLE,    N_("VizaWrite 64 dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_VIZAWRITE64_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_VIZAWRITE64_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_VIZAWRITE64_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_VIZAWRITE64_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_VIZAWRITE64_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_VIZAWRITE64_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_VIZAWRITE64_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_VIZAWRITE64_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_VIZAWRITE64_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_VIZAWRITE64_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_VIZAWRITE64_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_VIZAWRITE64_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
 /* joyport/cx21.c */
 /* en */ {IDGS_CX21,    N_("Atari CX21 keypad")},
 #ifdef HAS_TRANSLATION

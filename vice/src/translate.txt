@@ -628,6 +628,9 @@ IDGS_COPLIN_KEYPAD
 /* joyport/script64_dongle.c */
 IDGS_SCRIPT64_DONGLE
 
+/* joyport/vizawrite64_dongle.c */
+IDGS_VIZAWRITE64_DONGLE
+
 /* joyport/cx21.c */
 IDGS_CX21
 

@@ -120,13 +120,14 @@
 #include "userport_joystick.h"
 #include "userport_rtc_58321a.h"
 #include "userport_rtc_ds1307.h"
+#include "vdc.h"
+#include "vdc-mem.h"
 #include "vice-event.h"
 #include "vicii.h"
 #include "vicii-mem.h"
 #include "video.h"
 #include "video-sound.h"
-#include "vdc.h"
-#include "vdc-mem.h"
+#include "vizawrite64_dongle.h"
 #include "vsync.h"
 #include "z80.h"
 #include "z80mem.h"
@@ -618,6 +619,10 @@ int machine_resources_init(void)
     }
     if (joyport_script64_dongle_resources_init() < 0) {
         init_resource_fail("joyport script64 dongle");
+        return -1;
+    }
+    if (joyport_vizawrite64_dongle_resources_init() < 0) {
+        init_resource_fail("joyport vizawrite64 dongle");
         return -1;
     }
     if (joystick_resources_init() < 0) {
