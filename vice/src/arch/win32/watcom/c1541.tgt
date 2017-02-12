@@ -83,8 +83,8 @@ n????Include directories:
 1
 21
 WString
-98
-$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\vdrive;..\..\..\imagecontents;..\..\..\lib\p64
+117
+$(%watcom)\h;$(%watcom)\h\nt;.;..;..\..\..;..\..\..\vdrive;..\..\..\imagecontents;..\..\..\lib\p64;..\..\..\diskimage
 0
 22
 MVState
