@@ -34,7 +34,7 @@
 #include "lib.h"
 #include "profdos.h"
 #include "resources.h"
-#include "stardos.h"
+#include "stardos-exp.h"
 #include "supercard.h"
 #include "util.h"
 
@@ -131,7 +131,7 @@ static int set_stardos_name(const char *val, void *param)
         return 0;
     }
 
-    return stardos_load(stardos_name);
+    return stardos_exp_load(stardos_name);
 }
 
 static resource_int_t res_drive[] = {
