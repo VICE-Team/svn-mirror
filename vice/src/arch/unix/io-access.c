@@ -26,8 +26,6 @@
 
 #include "vice.h"
 
-#ifdef UNIX_COMPILE
-
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -486,5 +484,4 @@ void io_access_unmap(WORD addr, WORD space)
 #  endif
 #endif
 }
-#endif
 
