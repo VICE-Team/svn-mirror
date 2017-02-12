@@ -288,11 +288,9 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 {
 }
 
-#if 0
 void ui_error(const char *format, ...)
 {
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 
