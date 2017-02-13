@@ -42,9 +42,25 @@ char *archdep_default_fliplist_file_name(void)
     return NULL;
 }
 
+
+/** \brief  Write message to Windows debugger/logger
+ *
+ * param[in]    level_string    log level string
+ * param[in]    txt             log message
+ *
+ * \note    Shamelessly copied from win32/archdep.c
+ *
+ * \return  0 on success, < 0 on failure
+ */
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-    NOT_IMPLEMENTED();
+    TCHAR *st_out;
+
+    char *out = lib_msprintf("*** %s %s\n", level_string, txt);
+    st_out = system_mbstowcs_alloc(out);
+    OutputDebugString(st_out);
+    system_mbstowcs_free(st_out);
+    lib_free(out);
     return 0;
 }
 

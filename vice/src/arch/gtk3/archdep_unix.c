@@ -44,11 +44,24 @@ char *archdep_default_fliplist_file_name(void)
     return NULL;
 }
 
+
+/** \brief  Write log message to stdout
+ *
+ * param[in]    level_string    log level string
+ * param[in]    txt             log message
+ *
+ * \note    Shamelessly copied from unix/archdep.c
+ *
+ * \return  0 on success, < 0 on failure
+ */
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-    NOT_IMPLEMENTED();
+    if (fputs(level_string, stdout) == EOF || fprintf(stdout, "%s", txt) < 0 || fputc ('\n', stdout) == EOF) {
+        return -1;
+    }
     return 0;
 }
+
 
 char *archdep_default_resource_file_name(void)
 {
