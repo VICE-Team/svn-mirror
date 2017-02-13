@@ -2905,6 +2905,14 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
   dnl GTK3-FIXME: add actual gtk3 checking code
 
+  PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+  AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
+  HAVE_CAIRO_SUPPORT="yes"
+  PKG_CHECK_MODULES(GLIB, [glib-2.0])
+
+  CFLAGS="$CFLAGS $GLIB_CFLAGS $GTK_CFLAGS"
+  LIBS="$LIBS $GTK_LIBS $GLIB_LIBS"
+
   if test x"$is_unix_macosx" = "xyes"; then
     dnl GTK3-FIXME: put OSX specific checks here
     echo "gtk3 on OSX"
@@ -4179,6 +4187,14 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   HAVE_MOUSE_SUPPORT="yes"
   AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
   HAVE_LIGHTPEN_SUPPORT="yes"
+
+  dnl Check for VTE
+  have_vte="no"
+  if test x"$enable_vte" != "xno"; then
+    PKG_CHECK_MODULES(VTE, [vte-2.91], have_vte=yes,
+        PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no)))
+  fi
+
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
 else
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)

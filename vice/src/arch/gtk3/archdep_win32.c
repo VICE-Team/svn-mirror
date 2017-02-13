@@ -102,11 +102,13 @@ char *archdep_get_runtime_os(void)
     return NULL;
 }
 
+#if 0
 int archdep_init(int *argc, char **argv)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
+#endif
 
 char *archdep_make_backup_filename(const char *fname)
 {
@@ -144,11 +146,13 @@ int archdep_path_is_relative(const char *path)
     return 0;
 }
 
+#if 0
 char *archdep_program_name(void)
 {
     NOT_IMPLEMENTED();
     return NULL;
 }
+#endif
 
 char *archdep_quote_parameter(const char *name)
 {
