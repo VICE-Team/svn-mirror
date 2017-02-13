@@ -35,4 +35,7 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 /* add more function prototypes as needed below */
 
+extern signed long kbd_arch_keyname_to_keynum(char *keyname);
+extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+
 #endif
