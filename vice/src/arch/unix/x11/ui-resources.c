@@ -60,7 +60,13 @@ typedef struct ui_resources_s ui_resources_t;
 
 static ui_resources_t ui_resources;
 
-static unsigned int ui_resources_initialized = 0;
+/** \brief  Flag signaling the HTMLBrowserCommand was changed
+ *
+ * When this flags is non-zero, a string was allocated and stored at
+ * `ui_resources.html_browser_command`, which needs to be freed
+ */
+static int ui_html_browser_changed = 0;
+
 
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(int d, void *param)
@@ -145,6 +151,7 @@ static int set_ypos1(int d, void *param)
 static int set_html_browser_command(const char *val, void *param)
 {
     util_string_set(&ui_resources.html_browser_command, val);
+    ui_html_browser_changed = 1;    /* signal allocation of string */
     return 0;
 }
 
@@ -260,8 +267,6 @@ static const resource_int_t extra_resources_int[] = {
 
 int ui_resources_init(void)
 {
-    ui_resources_initialized = 1;
-
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -283,7 +288,8 @@ int ui_resources_init(void)
 
 void ui_resources_shutdown(void)
 {
-    if (ui_resources_initialized) {
+    /* only free the browser string if it was actually allocated */
+    if (ui_html_browser_changed) {
         lib_free(ui_resources.html_browser_command);
     }
 }
