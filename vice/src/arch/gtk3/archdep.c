@@ -34,6 +34,8 @@
 #include "lib.h"
 
 
+static char *argv0 = NULL;
+
 #ifdef UNIX_COMPILE
 #include "archdep_unix.c"
 #endif
@@ -41,9 +43,6 @@
 #ifdef WIN32_COMPILE
 #include "archdep_win32.c"
 #endif
-
-
-static char *argv0 = NULL;
 
 
 /** \brief  Initialize the UI, a stub for now
@@ -55,7 +54,6 @@ static void archdep_ui_init(int arg, char **argv)
 {
     /* do nothing, just like in src/arch/x11/gnome/x11ui.c */
 }
-
 
 
 /** \brief  Get the program name
@@ -122,19 +120,18 @@ int archdep_init(int *argc, char **argv)
 
     argv0 = lib_stralloc(argv[0]);
 
+    /* sanity check, to remove later: */
     prg_name = archdep_program_name();
     printf("prg name = \"%s\"\n", prg_name);
     printf("user home dir = \"%s\"\n", archdep_home_path());
     printf("prg boot path = \"%s\"\n", archdep_boot_path());
-
     lib_free(prg_name);
 
-    /* needed for early log control */
+    /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
 
     /* initialize the UI */
     archdep_ui_init(*argc, argv);
     return 0;
 }
-
 

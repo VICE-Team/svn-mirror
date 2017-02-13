@@ -46,8 +46,7 @@ libarch_a_SOURCES = \
 	petui.c \
 	plus4ui.c \
 	ps-device.c \
-	ps-ieee1284-unix.c \
-	ps-ieee1284-win32.c \
+	ps-ieee1284.c \
 	ps-io.c \
 	rs232dev.c \
 	scpu64ui.c \
@@ -104,6 +103,8 @@ EXTRA_DIST = \
 	parsid-win32-drv.c \
 	pci-drv.h \
 	pci-unix-drv.c \
+	ps-ieee1284-unix.c \
+	ps-ieee1284-win32.c \
 	ps-unix.h \
 	ps-unix-file.c \
 	ps-unix-io.c \

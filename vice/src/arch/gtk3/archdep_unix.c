@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <glib.h>
 
+#include "ioutil.h"
 #include "lib.h"
 #include "util.h"
 
@@ -111,7 +112,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
            and then in the `boot_path'.  */
 
-#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
+#if defined(MINIX_SUPPORT)
         default_path_temp = util_concat(
                 LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 home_path, "/", VICEUSERDIR, "/", emu_id,NULL);
@@ -127,14 +128,14 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                 boot_path, "/PRINTER", NULL);
         lib_free(default_path_temp);
 
-#else 
-#if defined(MACOSX_BUNDLE)
-        /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
-#if defined(MACOSX_COCOA)
-#define MACOSX_ROMDIR "/../Resources/ROM/"
 #else
-#define MACOSX_ROMDIR "/../ROM/"
-#endif
+# if defined(MACOSX_BUNDLE)
+        /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
+#  if defined(MACOSX_COCOA)
+#   define MACOSX_ROMDIR "/../Resources/ROM/"
+#  else
+#   define MACOSX_ROMDIR "/../ROM/"
+#  endif
         default_path = util_concat(
                 boot_path, MACOSX_ROMDIR, emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
@@ -145,7 +146,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                 boot_path, MACOSX_ROMDIR, "PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 home_path, "/", VICEUSERDIR, "/PRINTER", NULL);
-#else
+# else
         default_path = util_concat(
                 LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
@@ -156,7 +157,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                 LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", NULL);
-#endif
+# endif
 #endif
     }
 
@@ -164,11 +165,34 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 }
 
 
+/** \brief  Generate heap-allocated full pathname of \a orig_name
+ *
+ * Returns the absolute path of \a orig_name. Expands '~' to the user's home
+ * path. If the prefix in \a orig_name is not '~/', the file is assumed to
+ * reside in the current working directory whichever that may be.
+ *
+ * \param[out]  return_path pointer to expand path destination
+ * \param[in]   orig_name   original path
+ *
+ * \return  0
+ */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
-    NOT_IMPLEMENTED();
+    /* Unix version.  */
+    if (*orig_name == '/') {
+        *return_path = lib_stralloc(orig_name);
+    } else if (*orig_name == '~' && *(orig_name +1) == '/') {
+        *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
+    } else {
+        static char *cwd;
+
+        cwd = ioutil_current_dir();
+        *return_path = util_concat(cwd, "/", orig_name, NULL);
+        lib_free(cwd);
+    }
     return 0;
 }
+
 
 char *archdep_filename_parameter(const char *name)
 {
@@ -200,13 +224,6 @@ char *archdep_get_runtime_os(void)
     return NULL;
 }
 
-#if 0
-int archdep_init(int *argc, char **argv)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-#endif
 
 char *archdep_make_backup_filename(const char *fname)
 {
@@ -238,21 +255,6 @@ FILE *archdep_open_default_log_file(void)
     return NULL;
 }
 
-#if 0
-int archdep_path_is_relative(const char *path)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-#endif
-
-#if 0
-char *archdep_program_name(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-#endif
 
 char *archdep_quote_parameter(const char *name)
 {

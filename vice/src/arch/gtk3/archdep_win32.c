@@ -114,9 +114,19 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 }
 
 
+/** \brief  Generate a heap-allocated absolute path from \a orig_name
+ *
+ * \param[out]  return_path object to store path in
+ * \param[in]   orig_name   the (relative) path to convert
+ *
+ * \return  0 on success
+ *
+ * FIXME:   There is a GetFullPathName() function on Windows, perhaps use that?
+ */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
-    NOT_IMPLEMENTED();
+    /* taken from src/arch/win32/archdep.c */
+    *return_path = lib_stralloc(orig_name);
     return 0;
 }
 
@@ -150,13 +160,6 @@ char *archdep_get_runtime_os(void)
     return NULL;
 }
 
-#if 0
-int archdep_init(int *argc, char **argv)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-#endif
 
 char *archdep_make_backup_filename(const char *fname)
 {
@@ -188,21 +191,6 @@ FILE *archdep_open_default_log_file(void)
     return NULL;
 }
 
-#if 0
-int archdep_path_is_relative(const char *path)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-#endif
-
-#if 0
-char *archdep_program_name(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-#endif
 
 char *archdep_quote_parameter(const char *name)
 {
