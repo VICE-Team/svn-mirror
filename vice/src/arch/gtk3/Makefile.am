@@ -46,6 +46,8 @@ libarch_a_SOURCES = \
 	petui.c \
 	plus4ui.c \
 	ps-device.c \
+	ps-ieee1284-unix.c \
+	ps-ieee1284-win32.c \
 	ps-io.c \
 	rs232dev.c \
 	scpu64ui.c \
