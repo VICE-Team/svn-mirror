@@ -8,11 +8,22 @@
 
 #include <stdlib.h>
 
+
+/** \brief  Not-implemented message with file, function and lineno, calls exit(1)
+ */
 #define NOT_IMPLEMENTED() \
-    fprintf(stderr, "Function %s in file %s at line %d not implemented yet\n", \
+    fprintf(stderr, \
+            "ERROR: function %s in file() %s at line %d not implemented yet, exiting\n", \
             __func__, __FILE__, __LINE__); \
     exit(1)
 
 #endif
 
+
+/** \brief  Not-implemented message with file, function and lineno, only warns
+ */
+#define NOT_IMPLEMENTED_WARN_ONLY() \
+    fprintf(stderr, \
+            "WARNING: function %s() in file %s at line %d not implemented yet, continuing\n", \
+            __func__, __FILE__, __LINE__);
 
