@@ -188,11 +188,13 @@ FILE *archdep_open_default_log_file(void)
     return NULL;
 }
 
+#if 0
 int archdep_path_is_relative(const char *path)
 {
     NOT_IMPLEMENTED();
     return 0;
 }
+#endif
 
 #if 0
 char *archdep_program_name(void)

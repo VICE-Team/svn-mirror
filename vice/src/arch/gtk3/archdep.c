@@ -96,6 +96,18 @@ const gchar *archdep_home_path(void)
 }
 
 
+/** \brief  Determine if \a path is an absolute path
+ *
+ * \param[in]   path    some path
+ *
+ * \return  bool
+ */
+int archdep_path_is_relative(const char *path)
+{
+    return !g_path_is_absolute(path);
+}
+
+
 
 /** \brief  Arch-dependent init
  *
