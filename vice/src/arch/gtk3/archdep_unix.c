@@ -27,10 +27,23 @@
 #include "vice.h"
 
 #include <stdio.h>
-
 #include <glib.h>
 
+#include "lib.h"
+#include "util.h"
+
 #include "not_implemented.h"
+
+#include "archdep.h"
+
+
+/** \brief  String containing search paths
+ *
+ * Allocated in the first call to archdep_default_sysfile_pathlist(),
+ * deallocated in archdep_shutdown().
+ */
+static char *default_path = NULL;
+
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
@@ -75,11 +88,81 @@ char *archdep_default_save_resource_file_name(void)
     return NULL;
 }
 
+
+/** \brief  Build a list of search paths for emulator \a emu_id
+ *
+ * \param[in]   emu_id  emulator name
+ *
+ * \return  string containing search paths
+ */
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
+    static char *default_path_temp;
+#endif
+
+    if (default_path == NULL) {
+        const char *boot_path;
+        const char *home_path;
+
+        boot_path = archdep_boot_path();
+        home_path = archdep_home_path();
+
+        /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
+           and then in the `boot_path'.  */
+
+#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
+        default_path_temp = util_concat(
+                LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/", emu_id,NULL);
+
+        default_path = util_concat(
+                default_path_temp, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/PRINTER", NULL);
+        lib_free(default_path_temp);
+
+#else 
+#if defined(MACOSX_BUNDLE)
+        /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
+#if defined(MACOSX_COCOA)
+#define MACOSX_ROMDIR "/../Resources/ROM/"
+#else
+#define MACOSX_ROMDIR "/../ROM/"
+#endif
+        default_path = util_concat(
+                boot_path, MACOSX_ROMDIR, emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, MACOSX_ROMDIR, "DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, MACOSX_ROMDIR, "PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/PRINTER", NULL);
+#else
+        default_path = util_concat(
+                LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "/PRINTER", NULL);
+#endif
+#endif
+    }
+
+    return default_path;
 }
+
 
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
@@ -183,6 +266,11 @@ int archdep_rename(const char *oldpath, const char *newpath)
 
 void archdep_shutdown(void)
 {
+    if (default_path != NULL) {
+        lib_free(default_path);
+    }
+
+    /* partially implemented */
     NOT_IMPLEMENTED();
 }
 

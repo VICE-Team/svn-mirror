@@ -27,8 +27,23 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <glib.h>
+
+#include "lib.h"
+#include "util.h"
 
 #include "not_implemented.h"
+
+#include "archdep.h"
+
+
+/** \brief  String containing search paths
+ *
+ * Allocated in the first call to archdep_default_sysfile_pathlist(),
+ * deallocated in archdep_shutdown().
+ */
+static char *default_path = NULL;
+
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
@@ -76,11 +91,28 @@ char *archdep_default_save_resource_file_name(void)
     return NULL;
 }
 
+
+/** \brief  Build a list of search paths for emulator \a emu_id
+ *
+ * \param[in]   emu_id  emulator name (without '.exe')
+ *
+ * \return  string containing search paths
+ */
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+
+    if (default_path == NULL) {
+        const char *boot_path = archdep_boot_path();
+
+        default_path = util_concat(
+                boot_path, "\\", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "\\DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                boot_path, "\\PRINTER", NULL);
+    }
+
+    return default_path;
 }
+
 
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
@@ -184,6 +216,11 @@ int archdep_rename(const char *oldpath, const char *newpath)
 
 void archdep_shutdown(void)
 {
+    if (default_path != NULL) {
+        lib_free(default_path);
+    }
+
+    /* partially implemented */
     NOT_IMPLEMENTED();
 }
 
