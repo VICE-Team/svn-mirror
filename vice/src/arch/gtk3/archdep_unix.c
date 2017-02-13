@@ -223,3 +223,10 @@ int archdep_file_is_blockdev(const char *name)
     return 0;
 }
 
+int archdep_fix_permissions(const char *file_name)
+{
+    NOT_IMPLEMENTED();
+    return 0;
+}
+
+
