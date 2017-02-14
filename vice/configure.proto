@@ -2938,6 +2938,9 @@ if test x"$is_unix" = "xyes"; then
                       SOUND_LIBS="$SOUND_LIBS -lpulse-simple -lpulse";
                       USE_PULSE_SUPPORT="yes";
                       AC_DEFINE(USE_PULSE,,[Enable pulseaudio support.])],,$SOUND_LIBS)])
+    if test x"$with_pulse" = "xyes" -a x"$USE_PULSE_SUPPORT" != "xyes"; then
+      AC_MSG_ERROR([pulse audio support missing])
+    fi
   fi
 
 
