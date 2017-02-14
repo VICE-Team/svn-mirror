@@ -2940,6 +2940,8 @@ if test x"$is_unix" = "xyes"; then
                       AC_DEFINE(USE_PULSE,,[Enable pulseaudio support.])],,$SOUND_LIBS)])
   fi
 
+
+  dnl aRts support checking
   if test x"$with_arts" = "xyes"; then
     old_cflags=$CFLAGS
     old_libs=$LIBS
@@ -2949,12 +2951,14 @@ if test x"$is_unix" = "xyes"; then
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundarts.o"; break],
                      [CFLAGS=$old_cflags; LIBS=$old_libs; with_arts=no; break],$SOUND_LIBS)],
                      [CFLAGS=$old_cflags; LIBS=$old_libs; with_arts=no; break])
+    if test x"$with_arts" = "xyes"; then
+      AC_DEFINE(USE_ARTS,,[Enable aRts support.])
+      USE_ARTS_SUPPORT="yes"
+    else
+      AC_MSG_ERROR([aRts support is missing])
+    fi
   fi
 
-  if test x"$with_arts" = "xyes"; then
-    AC_DEFINE(USE_ARTS,,[Enable aRts support.])
-    USE_ARTS_SUPPORT="yes"
-  fi
 
   dnl ALSA support checks
   if test x"$with_alsa" != "xno"; then
