@@ -3960,6 +3960,10 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
                      AC_DEFINE(HAVE_XRANDR,,
                      [Enable XRandR extension.])],,$X_LIBS)
     fi
+
+    if test x"$HAVE_FULLSCREEN_SUPPORT" != "xyes"; then
+      AC_MSG_ERROR([No fullscreen support present])
+    fi
   fi
 
   X_LIBS="$PATH_X_LIBS $LINK_X_LIBS"
