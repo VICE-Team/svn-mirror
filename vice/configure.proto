@@ -2956,6 +2956,7 @@ if test x"$is_unix" = "xyes"; then
     USE_ARTS_SUPPORT="yes"
   fi
 
+  dnl ALSA support checks
   if test x"$with_alsa" != "xno"; then
     AC_CHECK_HEADERS(alsa/asoundlib.h,[AC_CHECK_LIB(asound, snd_pcm_open,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
@@ -2964,6 +2965,9 @@ if test x"$is_unix" = "xyes"; then
                       AC_DEFINE(USE_ALSA,,[Enable alsa support.])],,$SOUND_LIBS)])
     AC_CHECK_LIB(asound, snd_pcm_avail,
                  [AC_DEFINE(HAVE_SND_PCM_AVAIL,,[Use more accurate buffer fill reporting])])
+    if test x"$with_alsa" = "xyes" -a x"$USE_ALSA_SUPPORT" != "xyes"; then
+      AC_MSG_ERROR([alsa support is missing])
+    fi
   fi
 
 
