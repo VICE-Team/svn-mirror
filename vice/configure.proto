@@ -3961,7 +3961,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
                      [Enable XRandR extension.])],,$X_LIBS)
     fi
 
-    if test x"$HAVE_FULLSCREEN_SUPPORT" != "xyes"; then
+    if test x"$HAVE_FULLSCREEN_SUPPORT" != "xyes" -a x"$enable_fullscreen" = "xyes"; then
       AC_MSG_ERROR([No fullscreen support present])
     fi
   fi
