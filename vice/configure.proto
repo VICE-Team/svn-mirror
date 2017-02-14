@@ -2966,12 +2966,17 @@ if test x"$is_unix" = "xyes"; then
                  [AC_DEFINE(HAVE_SND_PCM_AVAIL,,[Use more accurate buffer fill reporting])])
   fi
 
+
+  dnl OSS support checks
   if test x"$with_oss" != "xno" -a x"$host_os" != "uwin"; then
     AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
                      [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o";
                       USE_OSS_SUPPORT="yes";
                       AC_DEFINE(USE_OSS,,[Enable oss support.])])
     AC_CHECK_LIB(ossaudio, _oss_ioctl,,,$SOUND_LIBS)
+    if test x"$with_oss" = "xyes" -a x"$USE_OSS_SUPPORT" != "xyes"; then
+      AC_MSG_ERROR([OSS support missing])
+    fi
   fi
 
   AC_CHECK_HEADERS(dmedia/audio.h, [AC_CHECK_LIB(audio, ALseterrorhandler,
