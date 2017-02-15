@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,9 +31,11 @@
 
 #include "not_implemented.h"
 
+#include "cmdline.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "translate.h"
 #include "uiapi.h"
 #include "util.h"
 
@@ -81,6 +84,14 @@ static ui_resource_t ui_resources;
 static int html_browser_command_set = 0;
 
 
+/** \brief  Get a window-spec array index from \a param
+ *
+ * Also performs a bounds check and returns -1 on boundary violation.
+ *
+ * \param[in]   param   extra param passed to a setter
+ *
+ * \return  index in array or -1 on error
+ */
 static int window_index_from_param(void *param)
 {
     int index = vice_ptr_to_int(param);
@@ -122,7 +133,7 @@ static int set_save_resources_on_exit(int val, void *param)
 }
 
 
-/** \brief  Set ConfirmOnExit resource
+/** \brief  Set ConfirmOnExit resource (bool)
  *
  * \param[in]   val     new value
  * \param[in]   param   extra param (ignored)
@@ -136,10 +147,17 @@ static int set_confirm_on_exit(int val, void *param)
 }
 
 
+/** \brief  Set Window[X]Width resource (int)
+ *
+ * \param[in]   val     width in pixels
+ * \param[in]   param   window index
+ *
+ * \return 0
+ */
 static int set_window_width(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0) {
+    if (index < 0 || val < 0) {
         return -1;
     }
     ui_resources.window_width[index] = val;
@@ -147,10 +165,17 @@ static int set_window_width(int val, void *param)
 }
 
 
+/** \brief  Set Window[X]Height resource (int)
+ *
+ * \param[in]   val     height in pixels
+ * \param[in]   param   window index
+ *
+ * \return 0
+ */
 static int set_window_height(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0) {
+    if (index < 0 || val < 0) {
         return -1;
     }
     ui_resources.window_height[index] = val;
@@ -158,10 +183,17 @@ static int set_window_height(int val, void *param)
 }
 
 
+/** \brief  Set Window[X]Xpos resource (int)
+ *
+ * \param[in]   val     x-pos in pixels
+ * \param[in]   param   window index
+ *
+ * \return 0
+ */
 static int set_window_xpos(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0) {
+    if (index < 0 || val < 0) {
         return -1;
     }
     ui_resources.window_xpos[index] = val;
@@ -169,10 +201,17 @@ static int set_window_xpos(int val, void *param)
 }
 
 
+/** \brief  Set Window[X]Ypos resource (int)
+ *
+ * \param[in]   val     y-pos in pixels
+ * \param[in]   param   window index
+ *
+ * \return 0
+ */
 static int set_window_ypos(int val, void *param)
 {
     int index = window_index_from_param(param);
-    if (index < 0) {
+    if (index < 0 || val < 0) {
         return -1;
     }
     ui_resources.window_ypos[index] = val;
@@ -237,11 +276,48 @@ static const resource_int_t resources_int_secondary_window[] = {
 };
 
 
+/** \brief  Command line options shared between emu's, include VSID
+ */
+static const cmdline_option_t cmdline_options_common[] = {
+    { "-htmlbrowser", SET_RESOURCE, 1,
+        NULL, NULL, "HTMLBrowserCommand", NULL,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        N_("<Command>"), N_("Specify and HTML browser for the on-line help") },
+
+    { "-confirmexit", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void*)1,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Never confirm quitting VICE") },
+    { "+confirmexit", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void*)0,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Don't confirm quitting VICE") },
+
+    { "-saveres", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void *)1,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Save settings on exit") },
+    { "+saveres", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void *)0,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Never save settings on exit") },
+
+    CMDLINE_LIST_END
+};
+
+
+
+
 
 int ui_cmdline_options_init(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    INCOMPLETE_IMPLEMENTATION();
+    return cmdline_register_options(cmdline_options_common);
 }
 
 void ui_error(const char *format, ...)
