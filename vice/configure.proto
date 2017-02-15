@@ -3657,9 +3657,11 @@ if test x"$enable_portaudio" != "xno"; then
                     USE_PORTAUDIO_SUPPORT="yes";
                     AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,-lwinmm)
     fi
-    if test x"$enable_portaudio" = "xyes" -a x"$USE_PORTAUDIO_SUPPORT" != "xyes"; then
-      AC_MSG_ERROR([PortAudio support is missing])
-    fi
+  fi
+
+  if test x"$enable_portaudio" = "xyes" -a x"$USE_PORTAUDIO_SUPPORT" != "xyes"; then
+    AC_MSG_ERROR([PortAudio support is missing])
+  fi
 fi
 
 AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(mpg123, mpg123_init,
