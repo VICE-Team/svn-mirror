@@ -13,8 +13,8 @@
  */
 #define NOT_IMPLEMENTED() \
     fprintf(stderr, \
-            "ERROR: function %s in file() %s at line %d not implemented yet, exiting\n", \
-            __func__, __FILE__, __LINE__); \
+            "%s:%d: error: function %s() is not implemented yet, exiting\n", \
+            __FILE__, __LINE__, __func__); \
     exit(1)
 
 #endif
@@ -24,14 +24,14 @@
  */
 #define NOT_IMPLEMENTED_WARN_ONLY() \
     fprintf(stderr, \
-            "WARNING: function %s() in file %s at line %d not implemented yet, continuing\n", \
-            __func__, __FILE__, __LINE__)
+            "%s:%d: warning: function %s() is not implemented yet, continuing\n", \
+            __FILE__, __LINE__, __func__)
 
-/** \brief  Incomplete-implementation message
+/** \brief  Incomplete-implementation message, only warns
  */
 #define INCOMPLETE_IMPLEMENTATION() \
     fprintf(stderr, \
-            "WARNING: function %s() in file %s at line %d is not fully implemented yet, continuing\n", \
-            __func__, __FILE__, __LINE__)
+            "%s:%d: warning: function %s() is not fully implemented yet, continuing\n", \
+            __FILE__, __LINE__, __func__)
 
 
