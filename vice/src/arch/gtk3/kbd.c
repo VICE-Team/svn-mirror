@@ -28,12 +28,14 @@
 
 #include <stdio.h>
 
+#include "keyboard.h"
+
 #include "not_implemented.h"
 
 int kbd_arch_get_host_mapping(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return KBD_MAPPING_US;
 }
 
 int kbd_arch_init(void)

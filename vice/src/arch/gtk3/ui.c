@@ -31,6 +31,7 @@
 #include "not_implemented.h"
 
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "util.h"
@@ -43,10 +44,32 @@
 #define HTML_BROWSER_COMMAND_DEFAULT    "firefox %s"
 
 
+#define NUM_WINDOWS 3
+
+/** \brief  Windows indici
+ */
+enum {
+    PRIMARY_WINDOW,     /**< primary window, all emulators */
+    SECONDARY_WINDOW,   /**< secondary window, C128's VDC */
+    MONITOR_WINDOW,     /**< optional monitor window/terminal */
+};
+
+
+/** \brief  Struct holding basic UI rescources
+ */
 typedef struct ui_resources_s {
-    char *html_browser_command;
-    int save_resources_on_exit;
-    int confirm_on_exit;
+
+    char *html_browser_command; /**< HTMLBrowserCommand (str) */
+    int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
+    int confirm_on_exit;        /**< ConfirmOnExit (bool) */
+
+    int depth;
+
+    int window_width[NUM_WINDOWS];
+    int window_height[NUM_WINDOWS];
+    int window_xpos[NUM_WINDOWS];
+    int window_ypos[NUM_WINDOWS];
+
 } ui_resource_t;
 
 
@@ -56,6 +79,14 @@ static ui_resource_t ui_resources;
 /** \brief  Signals the html_browser_command field of the resource got allocated
  */
 static int html_browser_command_set = 0;
+
+
+static int window_index_from_param(void *param)
+{
+    int index = vice_ptr_to_int(param);
+    return (index >= 0 || index < NUM_WINDOWS) ? index : -1;
+}
+
 
 /*
  * Resource getters/setters
@@ -105,6 +136,51 @@ static int set_confirm_on_exit(int val, void *param)
 }
 
 
+static int set_window_width(int val, void *param)
+{
+    int index = window_index_from_param(param);
+    if (index < 0) {
+        return -1;
+    }
+    ui_resources.window_width[index] = val;
+    return 0;
+}
+
+
+static int set_window_height(int val, void *param)
+{
+    int index = window_index_from_param(param);
+    if (index < 0) {
+        return -1;
+    }
+    ui_resources.window_height[index] = val;
+    return 0;
+}
+
+
+static int set_window_xpos(int val, void *param)
+{
+    int index = window_index_from_param(param);
+    if (index < 0) {
+        return -1;
+    }
+    ui_resources.window_xpos[index] = val;
+    return 0;
+}
+
+
+static int set_window_ypos(int val, void *param)
+{
+    int index = window_index_from_param(param);
+    if (index < 0) {
+        return -1;
+    }
+    ui_resources.window_ypos[index] = val;
+    return 0;
+}
+
+
+
 /** \brief  String type resources list
  */
 static const resource_string_t resources_string[] = {
@@ -116,11 +192,47 @@ static const resource_string_t resources_string[] = {
 
 /** \brief  Integer/Boolean type resources list
  */
-static const resource_int_t resources_int[] = {
+static const resource_int_t resources_int_primary_window[] = {
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
         &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
     { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
         &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
+
+    /* Window size and position setters */
+
+    /* primary window (all emulators) */
+    { "Window0Height", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_height[PRIMARY_WINDOW]), set_window_height,
+        (void*)PRIMARY_WINDOW },
+    { "Window0Width", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_width[PRIMARY_WINDOW]), set_window_width,
+        (void*)PRIMARY_WINDOW },
+    { "Window0Xpos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_xpos[PRIMARY_WINDOW]), set_window_xpos,
+        (void*)PRIMARY_WINDOW },
+    { "Window0Ypos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_ypos[PRIMARY_WINDOW]), set_window_ypos,
+        (void*)PRIMARY_WINDOW },
+
+    RESOURCE_INT_LIST_END
+};
+
+
+static const resource_int_t resources_int_secondary_window[] = {
+    /* secondary window (C128's VDC display) */
+    { "Window1Height", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_height[SECONDARY_WINDOW]), set_window_height,
+        (void*)SECONDARY_WINDOW },
+    { "Window1Width", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_width[SECONDARY_WINDOW]), set_window_width,
+        (void*)SECONDARY_WINDOW },
+    { "Window1Xpos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_xpos[SECONDARY_WINDOW]), set_window_xpos,
+        (void*)SECONDARY_WINDOW },
+    { "Window1Ypos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_ypos[SECONDARY_WINDOW]), set_window_ypos,
+        (void*)SECONDARY_WINDOW },
+
     RESOURCE_INT_LIST_END
 };
 
@@ -179,8 +291,14 @@ int ui_resources_init(void)
         return -1;
     }
     /* initialize int/bool resources */
-    if (resources_register_int(resources_int) < 0) {
+    if (resources_register_int(resources_int_primary_window) < 0) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_C128) {
+        if (resources_register_int(resources_int_secondary_window) < 0) {
+            return -1;
+        }
     }
 
     INCOMPLETE_IMPLEMENTATION();
