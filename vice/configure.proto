@@ -2556,6 +2556,10 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                 SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
                 USE_SDL_AUDIO_SUPPORT="yes";
                 AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
+            else
+                if test x"$with_sdlsound" = "xyes"; then
+                    AC_MSG_ERROR([SDL sound support missing])
+                fi
             fi
             AC_CHECK_FUNCS(SDL_NumJoysticks)
         fi
@@ -2671,7 +2675,9 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
         fi
 
         if test x"$ac_cv_lib_SDL_SDL_OpenAudio" != "xyes" -a x"$ac_cv_lib_SDL2_SDL_OpenAudio" != "xyes"; then
-            with_sdlsound=no
+            if test x"$with_sdlsound" = "xyes"; then
+                AC_MSG_ERROR([SDL sound support missing])
+            fi
         else
             SOUND_LIBS="$SOUND_LIBS $EXTRA_SDL_LIBS"
         fi
