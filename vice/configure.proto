@@ -774,6 +774,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
       if test x"$enable_catweasel" = "xyes" -a x"$HAVE_CATWEASELMKIII_SUPPORT" != "xyes"; then
         AC_MSG_ERROR([CatWeaselMKIII support is missing])
       fi
+      if test x"$enable_hardsid" = "xyes" -a x"$HAVE_HARDSID_SUPPORT" != "xyes"; then
+        AC_MSG_ERROR([HardSID support is missing])
+      fi
     fi
     is_amiga_morphos=yes
     is_amigaos4=no
@@ -829,6 +832,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     else
       if test x"$enable_catweasel" = "xyes" -a x"$HAVE_CATWEASELMKIII" != "xyes"; then
         AC_MSG_ERROR([CatWeaselMKIII support is missing])
+      fi
+      if test x"$enable_hardsid" = "xyes" -a x"$HAVE_HARDSID_SUPPORT" != "xyes"; then
+        AC_MSG_ERROR([HardSID support is missing])
       fi
     fi
     is_amigaos4=no
@@ -3457,6 +3463,11 @@ if test x"$is_unix" = "xyes"; then
     if test x"$enable_catweasel" = "xyes" -a x"$HAVE_CATWEASELMKIII_SUPPORT" != "xyes"; then
       AC_MSG_ERROR([CatWeaselMKIII support is missing])
     fi
+
+    if test x"$enable_hardsid" = "xyes" -a x"$HAVE_HARDSID_SUPPORT" != "xyes"; then
+      AC_MSG_ERROR([HardSID support is missing])
+    fi
+
   fi
 fi
 
@@ -5227,7 +5238,7 @@ fi
 
 if test x"$real_arch" != "xOSX" -a x"$real_arch" != "xBeOS"; then
     echo "Catweasel MK3 support        : $HAVE_CATWEASELMKIII_SUPPORT (--enable/disable-catweasel)"
-    echo "HardSID support              : $HAVE_HARDSID_SUPPORT"
+    echo "HardSID support              : $HAVE_HARDSID_SUPPORT (--enable/disable-hardsid)"
 fi
 
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xDOS" -o x"$real_arch" = "xWin32"; then
