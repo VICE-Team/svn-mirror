@@ -57,6 +57,7 @@ VICE_ARG_ENABLE_LIST(catweasel,   [  --disable-catweasel     disables CatWeasel 
 VICE_ARG_ENABLE_LIST(hardsid,     [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(parsid,      [  --disable-parsid        disables ParSID support])
 VICE_ARG_ENABLE_LIST(portaudio,   [  --disable-portaudio     disables PortAudio support])
+VICE_ARG_ENABLE_LIST(ahi          [  --disable-ahi           disables AHI support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
 VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap feature])
 VICE_ARG_ENABLE_LIST(unicode,     [  --enable-unicode        enable Unicode UI on WinNT])
@@ -3040,6 +3041,15 @@ fi
 if test x"$is_amiga" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
   AC_CHECK_HEADERS(devices/ahi.h,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundahi.o"; break])
+
+  if test "x$ac_cv_header_devices_ahi_h" = xyes; then
+    HAVE_DEVICES_AHI_H_SUPPORT="yes"
+  else
+    if test x"$enable_ahi" = "xyes"; then
+      AC_MSG_ERROR([AHI support is missing])
+    fi
+  fi
+
 fi
 
 dnl --- Lame ---
@@ -5130,10 +5140,6 @@ if test "x$ac_cv_header_sys_audioio_h" = xyes; then
     HAVE_SYS_AUDIOIO_H_SUPPORT="yes"
 fi
 
-if test "x$ac_cv_header_devices_ahi_h" = xyes; then
-    HAVE_DEVICES_AHI_H_SUPPORT="yes"
-fi
-
 if test "x$ac_cv_func_SDL_NumJoysticks" = xyes; then
     HAVE_SDL_NUMJOYSTICKS_SUPPORT="yes"
 fi
@@ -5214,7 +5220,7 @@ if test x"$real_arch" = "xDOS"; then
 fi
 
 if test x"$real_arch" = "xAmiga"; then
-    echo "AHI sound support            : $HAVE_DEVICES_AHI_H_SUPPORT"
+    echo "AHI sound support            : $HAVE_DEVICES_AHI_H_SUPPORT (--enable/disable-ahi)"
 fi
 
 if test x"$real_arch" = "xWin32"; then
