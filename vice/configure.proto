@@ -3631,6 +3631,8 @@ if test x"$ac_cv_header_gif_lib_h" = "xyes" ; then
   fi
 fi
 
+
+dnl check for jpeg support
 if test x"$with_jpeg" != "xno" ; then
   dnl Check for the JPEG library.
   AC_CHECK_HEADER(jpeglib.h,,)
@@ -3640,6 +3642,9 @@ if test x"$with_jpeg" != "xno" ; then
                  GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS jpegdrv.o";
                  HAVE_JPEG_SUPPORT="yes";
                  AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
+  fi
+  if x"$with_jpeg" = "xyes" -a x"$HAVE_JPEG_SUPPORT" != "xyes"; then
+    AC_MSG_ERROR([JPEG support is missing])
   fi
 fi
 
