@@ -3911,7 +3911,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlu
 
   if test x"$with_uithreads" = "xyes" ; then
     if test x"$have_gtkglext1" != "xyes" -a x"$have_gtkglext3" != "xyes" ; then
-      AC_MSG_WARN([no suitable GL hardware scaling support found, disabling --with-uithreads])
+      AC_MSG_ERROR([no suitable GL hardware scaling support found, disabling --with-uithreads])
     else
       AC_CHECK_HEADER(pthread.h,,,[#include <pthread.h>])
       if test x"$ac_cv_header_pthread_h" = "xyes" ; then
