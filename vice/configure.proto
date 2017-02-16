@@ -3285,6 +3285,9 @@ if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_s
                [AC_MSG_RESULT(no);
                  LIBS=${old_LIBS}])
   fi
+  if test x"$enable_midi" = "xyes" - x"$HAVE_MIDI_SUPPORT" != "xyes"; then
+    AC_MSG_ERROR([MIDI support missing])
+  fi
 fi
 
 AC_SUBST(SOUND_DRIVERS)
