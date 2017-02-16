@@ -3592,6 +3592,8 @@ dnl Configure graphics output drivers
 old_LIBS="$LIBS"
 GFXOUTPUT_LIBS=
 
+
+dnl check for png support
 if test x"$with_png" != "xno" ; then
   dnl Check for the PNG library.
   AC_CHECK_HEADER(png.h,,)
@@ -3611,6 +3613,9 @@ if test x"$with_png" != "xno" ; then
                      AC_DEFINE(HAVE_PNG,,
                                [Can we use the PNG library?]) ],,"-lz")
     fi
+  fi
+  if test x"$with_png" = "xyes" -a x"$HAVE_PNG_SUPPORT" != "xyes"; then
+    AC_MSG_ERROR([PNG support is missing])
   fi
 fi
 
