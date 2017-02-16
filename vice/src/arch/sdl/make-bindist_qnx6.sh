@@ -67,7 +67,7 @@ done
 
 VICECPU=""
 
-if test x"$CPU" = "xarm"; then
+if test x"$CPU" = "xarm" -o x"$CPU" = "xarmle"; then
   VICECPU="armle"
 fi
 
