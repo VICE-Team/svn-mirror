@@ -57,7 +57,7 @@ VICE_ARG_ENABLE_LIST(catweasel,   [  --disable-catweasel     disables CatWeasel 
 VICE_ARG_ENABLE_LIST(hardsid,     [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(parsid,      [  --disable-parsid        disables ParSID support])
 VICE_ARG_ENABLE_LIST(portaudio,   [  --disable-portaudio     disables PortAudio support])
-VICE_ARG_ENABLE_LIST(ahi          [  --disable-ahi           disables AHI support])
+VICE_ARG_ENABLE_LIST(ahi,         [  --disable-ahi           disables AHI support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
 VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap feature])
 VICE_ARG_ENABLE_LIST(unicode,     [  --enable-unicode        enable Unicode UI on WinNT])
