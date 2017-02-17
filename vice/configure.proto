@@ -5266,7 +5266,7 @@ echo ""
 echo "SCREENSHOTS"
 echo "-----------"
 
-echo "GIF encoding support : $HAVE_GIF_SUPPORT" (--with/without-gif)"
+echo "GIF encoding support : $HAVE_GIF_SUPPORT (--with/without-gif)"
 echo "JPEG encoding support: $HAVE_JPEG_SUPPORT (--with/without-jpeg)"
 echo "PNG encoding support : $HAVE_PNG_SUPPORT (--with/without-png)"
 
