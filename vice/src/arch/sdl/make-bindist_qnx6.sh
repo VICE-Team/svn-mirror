@@ -71,19 +71,19 @@ if test x"$CPU" = "xarm" -o x"$CPU" = "xarmle"; then
   VICECPU="armle"
 fi
 
-if test x"$CPU" = "xmipsel"; then
+if test x"$CPU" = "xmipsel" -o x"$CPU" = "xmipsle"; then
   VICECPU="mipsle"
 fi
 
-if test x"$CPU" = "xmips"; then
+if test x"$CPU" = "xmips" -o x"$CPU" = "xmipsbe" -o x"$CPU" = "xmipseb"; then
   VICECPU="mipsbe"
 fi
 
-if test x"$CPU" = "xppc" -o x"$CPU" = "xpowerpc"; then
+if test x"$CPU" = "xppc" -o x"$CPU" = "xpowerpc" -o x"$CPU" = "xppcbe"; then
   VICECPU="ppcbe"
 fi
 
-if test x"$CPU" = "xsh"; then
+if test x"$CPU" = "xsh" - o x"$CPU" = "xshle" -o x"$CPU" = "xshel"; then
   VICECPU="shle"
 fi
 
