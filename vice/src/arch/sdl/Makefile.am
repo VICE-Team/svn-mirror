@@ -211,14 +211,10 @@ EXTRA_DIST = \
 	archdep_amiga.h \
 	archdep_beos.c \
 	archdep_beos.h \
-	archdep_cegcc.c \
-	archdep_cegcc.h \
 	archdep_unix.c \
 	archdep_unix.h \
 	archdep_win32.c \
 	archdep_win32.h \
-	archdep_xbox.c \
-	archdep_xbox.h \
 	console_amiga.c \
 	console_sdl.c \
 	console_unix.c \

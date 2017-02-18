@@ -102,16 +102,8 @@ extern char *archdep_sdl2_default_renderers[];
 #include "archdep_unix.h"
 #endif
 
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#ifdef WIN32_COMPILE
 #include "archdep_win32.h"
-#endif
-
-#ifdef __XBOX__
-#include "archdep_xbox.h"
-#endif
-
-#ifdef CEGCC_COMPILE
-#include "archdep_cegcc.h"
 #endif
 
 #endif
