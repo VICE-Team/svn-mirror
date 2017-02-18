@@ -60,20 +60,6 @@ static const gchar *path_separator = "/";
 static char *default_path = NULL;
 
 
-char *archdep_default_autostart_disk_image_file_name(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-
-#if 0
-char *archdep_default_fliplist_file_name(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-#endif
-
 /** \brief  Write log message to stdout
  *
  * param[in]    level_string    log level string

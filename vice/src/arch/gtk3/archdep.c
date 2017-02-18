@@ -47,6 +47,21 @@
 #include "util.h"
 
 
+/** \brief  Prefix used for autostart disk images
+ */
+#define AUTOSTART_FILENAME_PREFIX   "autostart-"
+
+
+/** \brief  Suffix used for autostart disk images
+ */
+#define AUTOSTART_FILENAME_SUFFIX   ".d64"
+
+
+/** \brief  Reference to argv[0]
+ *
+ * FIXME: this is only used once I think, better pass this as an argument to
+ *        the function using it
+ */
 static char *argv0 = NULL;
 
 #ifdef UNIX_COMPILE
@@ -170,7 +185,24 @@ static void archdep_create_user_config_dir(void)
 }
 
 
+char *archdep_default_autostart_disk_image_file_name(void)
+{
+    char *cfg;
+    gchar *path;
+    char *name;
+    char *tmp;
 
+    cfg = archdep_user_config_path();
+    name = util_concat(AUTOSTART_FILENAME_PREFIX, machine_get_name(),
+            AUTOSTART_FILENAME_SUFFIX, NULL);
+    path = g_build_path(path_separator, cfg, name, NULL);
+    lib_free(name);
+    lib_free(cfg);
+    /* transfer ownership from non/glib to VICE */
+    tmp = lib_stralloc(path);
+    g_free(path);
+    return tmp;
+}
 
 
 /** \brief  Arch-dependent init
