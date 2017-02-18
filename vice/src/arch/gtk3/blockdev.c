@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,42 +35,59 @@
 
 int blockdev_close(void)
 {
+#ifdef UNIX_COMPILE
     NOT_IMPLEMENTED();
     return 0;
+#else
+    /* windows */
+    return -1;
+#endif
 }
 
 int blockdev_cmdline_options_init(void)
 {
-    NOT_IMPLEMENTED();
+    /* NOP, just like arc/unix */
     return 0;
 }
 
 void blockdev_init(void)
 {
-    NOT_IMPLEMENTED();
+    /* NOP, just like arc/unix */
 }
 
 int blockdev_open(const char *name, unsigned int *read_only)
 {
+#ifdef UNIX_COMPILE
     NOT_IMPLEMENTED();
     return 0;
+#else
+    return -1;
+#endif
 }
 
 int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
 {
+#ifdef UNIX_COMPILE
     NOT_IMPLEMENTED();
     return 0;
+#else
+    return -1;
+#endif
 }
 
 int blockdev_resources_init(void)
 {
-    NOT_IMPLEMENTED();
+    /* NOP, just like arc/unix */
     return 0;
 }
 
 int blockdev_write_sector(const BYTE *buf, unsigned int track, unsigned int sector)
 {
+#ifdef UNIX_COMPILE
     NOT_IMPLEMENTED();
     return 0;
+#else
+    return -1;
+#endif
 }
 
