@@ -90,4 +90,13 @@ extern int archdep_require_vkbd(void);
 #include "archdep_win32.h"
 #endif
 
+/*
+ * New additions (since the Gtk3-native port)
+ */
+
+const char *archdep_user_config_path(void);
+
+
+
+
 #endif

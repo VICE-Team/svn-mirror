@@ -51,6 +51,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
     return NULL;
 }
 
+
 char *archdep_default_fliplist_file_name(void)
 {
     NOT_IMPLEMENTED();

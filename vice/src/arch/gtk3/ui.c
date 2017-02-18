@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <gtk/gtk.h>
 
 #include "not_implemented.h"
 
@@ -68,6 +69,7 @@ typedef struct ui_resources_s {
 
     int depth;
 
+    GtkWidget *window_widget[NUM_WINDOWS];
     int window_width[NUM_WINDOWS];
     int window_height[NUM_WINDOWS];
     int window_xpos[NUM_WINDOWS];
@@ -82,6 +84,30 @@ static ui_resource_t ui_resources;
 /** \brief  Signals the html_browser_command field of the resource got allocated
  */
 static int html_browser_command_set = 0;
+
+
+static GtkApplication *vice_app = NULL;
+
+
+/** \brief  GTK 'activate' signal handler for the application
+ *
+ * \param[in]   app         Gtk3 application handle
+ * \param[in]   user_data   extra user data (unused)
+ */
+static void activate(GtkApplication *app, gpointer user_data)
+{
+    GtkWidget *window;
+
+    printf("gtk3: activate signal handler\n");
+
+    window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(window), "VICE");
+    gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
+    /* this probably needs to be moved when actually setting up the UI */
+    gtk_widget_show_all(window);
+
+    ui_resources.window_widget[PRIMARY_WINDOW] = window;
+}
 
 
 /** \brief  Get a window-spec array index from \a param
@@ -333,7 +359,12 @@ char *ui_get_file(const char *format, ...)
 
 int ui_init(int *argc, char **argv)
 {
-    NOT_IMPLEMENTED();
+    vice_app = gtk_application_new("org.pokefinder.vice",
+                                   G_APPLICATION_FLAGS_NONE);
+    g_signal_connect(vice_app, "activate", G_CALLBACK(activate), NULL);
+#if 0
+    status = g_application_run(G_APPLICATION(vice_app), argc, argv);
+#endif
     return 0;
 }
 
@@ -394,7 +425,7 @@ void ui_resources_shutdown(void)
 
 void ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    g_object_unref(vice_app);
 }
 
 void ui_update_menus(void)

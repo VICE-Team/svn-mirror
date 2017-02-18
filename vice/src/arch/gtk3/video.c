@@ -30,10 +30,20 @@
 
 #include "not_implemented.h"
 
+#include "log.h"
 #include "machine.h"
 #include "raster.h"
 #include "resources.h"
 #include "videoarch.h"
+
+#ifdef HAVE_OPENGL_SYNC
+# include "openGL_sync.h"
+#endif
+
+
+/** \brief  Log for Gtk3-native video messages
+ */
+static log_t    gtk3video_log = LOG_ERR;
 
 
 /** \brief  Keep aspect ratio when resizing */
@@ -105,7 +115,14 @@ static const resource_int_t resources_int[] = {
 
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    NOT_IMPLEMENTED();
+    /* copy/paste from gnomevideo.c */
+    canvas->video_draw_buffer_callback = NULL;
+#ifdef HAVE_FULLSCREEN
+    if (machine_class != VICE_MACHINE_VSID) {
+        canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
+        fullscreen_init_alloc_hooks(canvas);
+    }
+#endif
 }
 
 
@@ -122,6 +139,9 @@ int video_arch_cmdline_options_init(void)
  */
 int video_arch_resources_init(void)
 {
+#ifdef HAVE_OPENGL_SYNC
+    openGL_register_resources();
+#endif
     if (machine_class != VICE_MACHINE_VSID) {
         return resources_register_int(resources_int);
     }
@@ -182,7 +202,9 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
 
 int video_init(void)
 {
-    NOT_IMPLEMENTED();
+    if (gtk3video_log == LOG_ERR) {
+        gtk3video_log = log_open("Gtk3Video");
+    }
     return 0;
 }
 

@@ -38,6 +38,20 @@
 #include "archdep.h"
 
 
+/* fix VICE userdir */
+#ifdef VICEUSERDIR
+# undef VICEUSERDIR
+#endif
+#define VICEUSERDIR "vice"
+
+
+
+/** \brief  Path separator used in GLib code
+ */
+static const gchar *path_separator = "/";
+
+
+
 /** \brief  String containing search paths
  *
  * Allocated in the first call to archdep_default_sysfile_pathlist(),
@@ -52,12 +66,13 @@ char *archdep_default_autostart_disk_image_file_name(void)
     return NULL;
 }
 
+#if 0
 char *archdep_default_fliplist_file_name(void)
 {
     NOT_IMPLEMENTED();
     return NULL;
 }
-
+#endif
 
 /** \brief  Write log message to stdout
  *
@@ -98,7 +113,7 @@ char *archdep_default_save_resource_file_name(void)
  */
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
+#ifdef MINIX_SUPPORT
     static char *default_path_temp;
 #endif
 
@@ -107,12 +122,12 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         const char *home_path;
 
         boot_path = archdep_boot_path();
-        home_path = archdep_home_path();
+        home_path = archdep_user_config_path();
 
         /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
            and then in the `boot_path'.  */
 
-#if defined(MINIX_SUPPORT)
+#ifdef MINIX_SUPPORT
         default_path_temp = util_concat(
                 LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 home_path, "/", VICEUSERDIR, "/", emu_id,NULL);

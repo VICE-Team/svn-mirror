@@ -25,6 +25,16 @@
  *
  */
 
+
+/** \file   src/arch/gtk3/archdep.c
+ * \brief   Wrappers for architecture/OS-specific code
+ *
+ * I've decided to use GLib's use of the XDG specification and the standard
+ * way of using paths on Windows. So some files may not be where the older
+ * ports expect them to be. For example, vicerc will be in $HOME/.config/vice
+ * now, not $HOME/.vice.
+ */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -32,6 +42,8 @@
 
 #include "log.h"
 #include "lib.h"
+#include "machine.h"
+#include "util.h"
 
 
 static char *argv0 = NULL;
@@ -88,11 +100,17 @@ const gchar *archdep_boot_path(void)
  *
  * \return  current user's home directory
  */
-const gchar *archdep_home_path(void)
+const char *archdep_home_path(void)
 {
     return g_get_home_dir();
 }
 
+
+
+const char *archdep_user_config_path(void)
+{
+    return g_get_user_config_dir();
+}
 
 /** \brief  Determine if \a path is an absolute path
  *
@@ -103,6 +121,30 @@ const gchar *archdep_home_path(void)
 int archdep_path_is_relative(const char *path)
 {
     return !g_path_is_absolute(path);
+}
+
+
+/** \brief  Generate path to the default fliplist file
+ *
+ * On Unix, this will return "$HOME/.config/vice/fliplist-$machine.vfl", on
+ * Windows this should return "%APPDATA%\\vice\\fliplist-$machine.vfl".
+ *
+ * \return  path to defaul fliplist file, must be freed with lib_free()
+ */
+char *archdep_default_fliplist_file_name(void)
+{
+    gchar *path;
+    char *name;
+    char *tmp;
+
+    name = util_concat("fliplist-", machine_get_name(), ".vfl", NULL);
+    path = g_build_path(path_separator, g_get_user_config_dir(), VICEUSERDIR,
+            name, NULL);
+    lib_free(name);
+    /* transfer ownership of path to VICE */
+    tmp = lib_stralloc(path);
+    g_free(path);
+    return tmp;
 }
 
 
@@ -117,14 +159,19 @@ int archdep_path_is_relative(const char *path)
 int archdep_init(int *argc, char **argv)
 {
     char *prg_name;
+    char *searchpath;
 
     argv0 = lib_stralloc(argv[0]);
 
-    /* sanity check, to remove later: */
+    /* sanity checks, to remove later: */
     prg_name = archdep_program_name();
-    printf("prg name = \"%s\"\n", prg_name);
-    printf("user home dir = \"%s\"\n", archdep_home_path());
-    printf("prg boot path = \"%s\"\n", archdep_boot_path());
+    searchpath = archdep_default_sysfile_pathlist("C64");
+    printf("progran name    = \"%s\"\n", prg_name);
+    printf("user home dir   = \"%s\"\n", archdep_home_path());
+    printf("user config dir = \"%s\"\n", archdep_user_config_path());
+    printf("prg boot path   = \"%s\"\n", archdep_boot_path());
+    printf("VICE searchpath = \"%s\"\n", searchpath);
+
     lib_free(prg_name);
 
     /* needed for early log control (parses for -silent/-verbose) */
