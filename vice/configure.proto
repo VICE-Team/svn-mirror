@@ -42,7 +42,6 @@ VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI wi
 VICE_ARG_ENABLE_LIST(gnomeui3,    [  --enable-gnomeui3       enables GNOME UI with GTK3 support])
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(sdlui2,      [  --enable-sdlui2         enables SDL2 UI support])
-VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables WIP native GTK3 UI support])
 VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
 VICE_ARG_ENABLE_LIST(vte,         [  --disable-vte           disable VTE support])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
@@ -465,11 +464,6 @@ fi
 
 dnl Disable nls for the SDL UI
 if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
-  enable_nls=no
-fi
-
-dnl Disable nls for the native GTK3 UI
-if test x"$enable_native_gtk3ui" = "xyes"; then
   enable_nls=no
 fi
 
