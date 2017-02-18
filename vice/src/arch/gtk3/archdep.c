@@ -39,6 +39,7 @@
 
 #include <stdio.h>
 #include <glib.h>
+#include <glib/gstdio.h>
 
 #include "log.h"
 #include "lib.h"
@@ -107,9 +108,14 @@ const char *archdep_home_path(void)
 
 
 
-const char *archdep_user_config_path(void)
+char *archdep_user_config_path(void)
 {
-    return g_get_user_config_dir();
+    char *path;
+    gchar *tmp = g_build_path(path_separator, g_get_user_config_dir(),
+            VICEUSERDIR, NULL);
+    path = lib_stralloc(tmp);
+    g_free(tmp);
+    return path;
 }
 
 /** \brief  Determine if \a path is an absolute path
@@ -148,6 +154,24 @@ char *archdep_default_fliplist_file_name(void)
 }
 
 
+/** \brief  Create path(s) used by VICE for user-data
+ *
+ * \return  0 on success, -1 on failure
+ */
+static void archdep_create_user_config_dir(void)
+{
+    char *path = archdep_user_config_path();
+
+    /* create config dir, fail silently if it exists
+     * XXX: perhaps I should stat on failure to see if the directory already
+     * existed, or there was another failure */
+    (void)g_mkdir(path, 0644);
+    lib_free(path);
+}
+
+
+
+
 
 /** \brief  Arch-dependent init
  *
@@ -159,16 +183,21 @@ char *archdep_default_fliplist_file_name(void)
 int archdep_init(int *argc, char **argv)
 {
     char *prg_name;
+    char *cfg_path;
     char *searchpath;
 
     argv0 = lib_stralloc(argv[0]);
 
+    archdep_create_user_config_dir();
+
     /* sanity checks, to remove later: */
     prg_name = archdep_program_name();
     searchpath = archdep_default_sysfile_pathlist("C64");
+    cfg_path = archdep_user_config_path();
+
     printf("progran name    = \"%s\"\n", prg_name);
     printf("user home dir   = \"%s\"\n", archdep_home_path());
-    printf("user config dir = \"%s\"\n", archdep_user_config_path());
+    printf("user config dir = \"%s\"\n", cfg_path);
     printf("prg boot path   = \"%s\"\n", archdep_boot_path());
     printf("VICE searchpath = \"%s\"\n", searchpath);
 

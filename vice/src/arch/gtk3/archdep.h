@@ -94,7 +94,7 @@ extern int archdep_require_vkbd(void);
  * New additions (since the Gtk3-native port)
  */
 
-const char *archdep_user_config_path(void);
+char *archdep_user_config_path(void);
 
 
 
