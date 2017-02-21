@@ -32,7 +32,7 @@
 #include "../unix/ps-ieee1284.c"
 #endif
 
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#ifdef WIN32_COMPILE
 #include "../win32/ps-ieee1284.c"
 #endif
 

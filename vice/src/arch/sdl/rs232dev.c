@@ -30,6 +30,6 @@
 #include "../unix/rs232dev.c"
 #endif
 
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#ifdef WIN32_COMPILE
 #include "../win32/rs232dev.c"
 #endif

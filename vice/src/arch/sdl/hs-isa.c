@@ -42,7 +42,7 @@
 #include "../unix/hs-isa.c"
 #endif
 
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#ifdef WIN32_COMPILE
 #include "../win32/hs-isa.c"
 #endif
 

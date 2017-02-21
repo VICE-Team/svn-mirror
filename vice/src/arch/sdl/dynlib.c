@@ -32,7 +32,7 @@
 #include "../unix/dynlib.c"
 #endif
 
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#ifdef WIN32_COMPILE
 #include "../win32/dynlib.c"
 #endif
 

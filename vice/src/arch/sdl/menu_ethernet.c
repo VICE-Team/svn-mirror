@@ -57,7 +57,7 @@ UI_MENU_DEFINE_STRING(ETHERNET_INTERFACE)
 #endif /* defined(UNIX_COMPILE) */
 
 /* win32 TFE settings */
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#ifdef WIN32_COMPILE
 
 UI_MENU_DEFINE_RADIO(ETHERNET_INTERFACE)
 
@@ -116,7 +116,7 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
       ETHERNET_INTERFACE_dynmenu_callback, \
       (ui_callback_data_t)ethernet_interface_dyn_menu },
 
-#endif /* defined(WIN32_COMPILE) && !defined(__XBOX__) */
+#endif /* defined(WIN32_COMPILE)
 
 /* Common menus */
 

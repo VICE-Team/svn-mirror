@@ -124,7 +124,7 @@ void sdl_menu_midi_out_free(void)
 #endif /* defined(MACOSX_SUPPORT) */
 
 /* win32 MIDI settings */
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
+#ifdef WIN32_COMPILE
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -253,7 +253,7 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
       MIDIOutDev_dynmenu_callback,            \
       (ui_callback_data_t)midi_out_dyn_menu },
 
-#endif /* defined(WIN32_COMPILE) && !defined(__XBOX__) */
+#endif /* defined(WIN32_COMPILE)
 
 /* Common menus */
 
