@@ -26,6 +26,6 @@
 
 #include "vice.h"
 
-#if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
+#ifdef UNIX_COMPILE
 #include "../unix/coproc.c"
 #endif
