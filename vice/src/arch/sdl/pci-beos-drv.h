@@ -1,5 +1,5 @@
 /*
- * catweaselmkiii-drv.c - SDL UI catweaselmkiii-drv.c wrapper.
+ * pci-beos-drv.h - PCI access functions for BeOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,24 +24,9 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_PCI_BEOS_DRV_H
+#define VICE_PCI_BEOS_DRV_H
 
-#ifdef HAVE_CATWEASELMKIII
-
-#ifdef AMIGA_SUPPORT
-#include "catweaselmkiii-amigaos-drv.c"
-#endif
-
-#ifdef BEOS_COMPILE
-#include "catweaselmkiii-beos-drv.c"
-#endif
-
-#ifdef UNIX_COMPILE
-#include "../unix/catweaselmkiii-drv.c"
-#endif
-
-#ifdef WIN32_COMPILE
-#include "../win32/catweaselmkiii-drv.c"
-#endif
+extern int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2);
 
 #endif

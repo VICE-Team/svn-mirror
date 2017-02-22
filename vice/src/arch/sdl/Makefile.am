@@ -215,7 +215,9 @@ EXTRA_DIST = \
 	archdep_unix.h \
 	archdep_win32.c \
 	archdep_win32.h \
+	beos-io-access.h \
 	catweaselmkiii-amigaos-drv.c \
+	catweaselmkiii-beos-drv.c \
 	console_amiga.c \
 	console_sdl.c \
 	console_unix.c \
@@ -261,4 +263,5 @@ EXTRA_DIST = \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
 	make-bindist_syllable.sh \
-	make-bindist_win32.sh
+	make-bindist_win32.sh \
+	pci-beos-drv.h

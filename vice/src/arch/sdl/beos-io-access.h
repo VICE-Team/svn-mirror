@@ -1,5 +1,5 @@
 /*
- * catweaselmkiii-drv.c - SDL UI catweaselmkiii-drv.c wrapper.
+ * beos-io-access.h - BeOS specific I/O access prototypes.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,24 +24,16 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_BEOS_IO_ACCESS_H
+#define VICE_BEOS_IO_ACCESS_H
 
-#ifdef HAVE_CATWEASELMKIII
+#include "types.h"
 
-#ifdef AMIGA_SUPPORT
-#include "catweaselmkiii-amigaos-drv.c"
-#endif
-
-#ifdef BEOS_COMPILE
-#include "catweaselmkiii-beos-drv.c"
-#endif
-
-#ifdef UNIX_COMPILE
-#include "../unix/catweaselmkiii-drv.c"
-#endif
-
-#ifdef WIN32_COMPILE
-#include "../win32/catweaselmkiii-drv.c"
-#endif
+extern void io_access_store_byte(WORD addr, BYTE value);
+extern BYTE io_access_read_byte(WORD addr);
+extern void io_access_store_long(WORD addr, DWORD value);
+extern DWORD io_access_read_long(WORD addr);
+extern int io_access_init(void);
+extern void io_access_shutdown(void);
 
 #endif
