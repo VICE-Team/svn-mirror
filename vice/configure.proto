@@ -3684,7 +3684,7 @@ if test x"$with_jpeg" != "xno" ; then
                  HAVE_JPEG_SUPPORT="yes";
                  AC_DEFINE(HAVE_JPEG,,[Can we use the JPEG library?]) ],,)
   fi
-  if x"$with_jpeg" = "xyes" -a x"$HAVE_JPEG_SUPPORT" != "xyes"; then
+  if test x"$with_jpeg" = "xyes" -a x"$HAVE_JPEG_SUPPORT" != "xyes"; then
     AC_MSG_ERROR([JPEG support is missing])
   fi
 fi
