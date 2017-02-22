@@ -4,6 +4,11 @@ SUBDIRS = android
 
 endif
 
+if NATIVE_GTK3_COMPILE
+
+SUBDIRS = gtk3
+
+else
 
 if SDL_COMPILE
 
@@ -45,6 +50,7 @@ if AMIGA_COMPILE
 
 SUBDIRS = amigaos
 
+endif
 endif
 endif
 

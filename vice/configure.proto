@@ -42,6 +42,7 @@ VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI wi
 VICE_ARG_ENABLE_LIST(gnomeui3,    [  --enable-gnomeui3       enables GNOME UI with GTK3 support])
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(sdlui2,      [  --enable-sdlui2         enables SDL2 UI support])
+VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables WIP native GTK3 UI support])
 VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
 VICE_ARG_ENABLE_LIST(vte,         [  --disable-vte           disable VTE support])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
@@ -95,7 +96,7 @@ if test x"$enable_option_checking" = "xyes"; then
 fi
 
 dnl check for conflicting ui options
-vice_ui_list="--enable-gnomeui --enable-gnomeui3 --enable-sdlui --enable-sdlui2 --with-cocoa"
+vice_ui_list="--enable-gnomeui --enable-gnomeui3 --enable-sdlui --enable-sdlui2 --with-cocoa --enable-native-gtk3ui"
 vice_ui_1=none
 vice_ui_2=none
 
@@ -464,6 +465,11 @@ fi
 
 dnl Disable nls for the SDL UI
 if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+  enable_nls=no
+fi
+
+dnl Disable nls for the native GTK3 UI
+if test x"$enable_native_gtk3ui" = "xyes"; then
   enable_nls=no
 fi
 
@@ -868,8 +874,8 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
 
   AC_CHECK_HEADERS([commctrl.h shlobj.h winioctl.h], [], [], [#include <windows.h>])
 
-  dnl SDL has its own joystick, mouse and lightpen checks
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+  dnl SDL and native GTK3 UIs have their own joystick, mouse and lightpen checks
+  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
     AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
     HAS_JOYSTICK_SUPPORT="yes"
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
@@ -922,7 +928,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     HAVE_RS232DEV_SUPPORT="yes"
   fi
 
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
     AC_TRY_LINK([#include <windows.h>],
                 [LARGE_INTEGER li; return (int) li.QuadPart],
                 AC_DEFINE(HAS_LONGLONG_INTEGER,,
@@ -1087,7 +1093,7 @@ darwin*)
   HAVE_LIGHTPEN_SUPPORT="yes"
 
   AC_DEFINE(MACOSX_SUPPORT,,[Enable Mac OS X specific code.])
-  if test x"$enable_bundle" != "xno" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+  if test x"$enable_bundle" != "xno" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes" -o x"$enable_native_gtk3ui" = "xyes"; then
     echo "enabled Mac application bundles"
     AC_DEFINE(MACOSX_BUNDLE,,[Enable Mac OS X application bundles.])
   else
@@ -2917,6 +2923,34 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
     fi
 fi
 
+dnl Check and setup native GTK3 compilation.
+if test x"$enable_native_gtk3ui" = "xyes"; then
+
+  dnl GTK3-FIXME: add actual gtk3 checking code
+
+  PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+  AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
+  HAVE_CAIRO_SUPPORT="yes"
+  PKG_CHECK_MODULES(GLIB, [glib-2.0])
+
+  CFLAGS="$CFLAGS $GLIB_CFLAGS $GTK_CFLAGS"
+  LIBS="$LIBS $GTK_LIBS $GLIB_LIBS"
+
+  if test x"$is_unix_macosx" = "xyes"; then
+    dnl GTK3-FIXME: put OSX specific checks here
+    echo "gtk3 on OSX"
+  elif test x"$is_win32" = "xyes"; then
+    dnl GTK3-FIXME: put windows specific checks here
+    echo "gtk3 on Windows"
+  else
+    dnl GTK3-FIXME: put *nix specific checks here
+    echo "gtk3 on *nix"
+  fi
+
+  dnl a check for hardware scaling needs to be added
+  dnl it needs to use AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+  dnl and set HAVE_HWSCALE_SUPPORT="yes"
+fi
 
 dnl ----- Sound Drivers -----
 if test x"$is_unix" = "xyes"; then
@@ -3694,7 +3728,7 @@ AC_CHECK_HEADERS(mpg123.h,[AC_CHECK_LIB(mpg123, mpg123_init,
                       AC_DEFINE(USE_MPG123,,[Enable mpg123 mp3 decoding support.])],,)])
 
 dnl Check for libraries and header files
-if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
   X_LIBS=""
   AC_PATH_XTRA
 
@@ -4062,7 +4096,7 @@ elif test x"$is_beos" = "xyes"; then
   LIBS="$LIBS -lbe -ltracker -ldevice -lmedia -lgame"
   AC_SUBST(LDFLAGS)
 
-elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
 
   dnl On Windows, we already know what we want.
 
@@ -4224,10 +4258,38 @@ SDL_EXTRA_LIBS=""
 
 AM_CONDITIONAL(MAKE_BINDIST, false)
 
+if test x"$enable_native_gtk3ui" = "xyes"; then
+  ARCH_DIR="\$(top_builddir)/src/arch/gtk3"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
+  ARCH_LIBS="$ARCH_DIR/libarch.a"
+  if test x"$is_win32" = "xyes"; then
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/msvc/wpcap"
+  else
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
+  fi
+  if test x"$ac_cv_lib_readline_readline" = "xyes"; then
+    AC_DEFINE(HAVE_READLINE,,[Enable the readline library])
+  fi
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  HAVE_MOUSE_SUPPORT="yes"
+  AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
+  HAVE_LIGHTPEN_SUPPORT="yes"
+
+  dnl Check for VTE
+  have_vte="no"
+  if test x"$enable_vte" != "xno"; then
+    PKG_CHECK_MODULES(VTE, [vte-2.91], have_vte=yes,
+        PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no)))
+  fi
+
+  AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
+else
+  AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)
+fi
 
 if test x"$is_unix" = "xyes"; then
 
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
     ARCH_DIR="\$(top_builddir)/src/arch/unix"
     ARCH_SRC_DIR="\$(top_srcdir)/src/arch/unix"
     ARCH_EXTRA_SUBDIR="gui x11"
@@ -4258,6 +4320,8 @@ if test x"$is_unix" = "xyes"; then
     ARCH_MAKE_BINDIST_DIR="\$(top_srcdir)/src/arch/unix/macosx"
     if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
       UNIX_MACOSX_UITYPE=sdl
+    elif test x"$enable_native_gtk3ui" = "xyes"; then
+      UNIX_MACOSX_UITYPE=native_gtk3
     elif test x"$with_cocoa" = "xyes" ; then
       ARCH_LIBS="$ARCH_DIR/macosx/cocoa/menu/libarchmacosxcocoamenu.a $ARCH_DIR/macosx/cocoa/dialog/libarchmacosxcocoadialog.a $ARCH_DIR/macosx/cocoa/libarchmacosxcocoa.a $ARCH_DIR/macosx/cocoa/view/libarchmacosxcocoaview.a $ARCH_DIR/macosx/libarchmacosx.a $ARCH_DIR/libarch.a $ARCH_LIBS"
       ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx/cocoa/menu -I$ARCH_SRC_DIR/macosx/cocoa/dialog -I$ARCH_SRC_DIR/macosx/cocoa/view -I$ARCH_SRC_DIR/macosx/cocoa -I$ARCH_SRC_DIR/macosx -I$ARCH_SRC_DIR $ARCH_INCLUDES"
@@ -4432,7 +4496,7 @@ if test x"$is_unix" = "xyes"; then
 
 
 elif test x"$is_win32" = "xyes"; then
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
     ARCH_DIR="\$(top_builddir)/src/arch/win32"
     ARCH_SRC_DIR="\$(top_srcdir)/src/arch/win32"
     ARCH_LIBS="$ARCH_DIR/libarch.a"
@@ -4872,6 +4936,7 @@ AC_OUTPUT([Makefile
            src/arch/android/AnVICE/src-proto/com/locnet/Makefile
            src/arch/android/AnVICE/src-proto/com/locnet/vice/Makefile
            src/arch/beos/Makefile
+           src/arch/gtk3/Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile
            src/arch/os2/dialogs/Makefile
@@ -5062,6 +5127,10 @@ fi
 
 if test x"$enable_sdlui2" = "xyes"; then
     show_gui="SDL2"
+fi
+
+if test x"$enable_native_gtk3ui" = "xyes"; then
+    show_gui="NATIVE GTK3"
 fi
 
 if test "x$ac_cv_header_sys_audio_h" = xyes; then

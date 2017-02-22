@@ -7,6 +7,7 @@ READMES = \
 	Readme-Amiga.txt \
 	Readme-BeOS.txt \
 	Readme-DOS.txt \
+	Readme-GTK3.txt \
 	Readme-MacOSX.txt \
 	Readme-OS2.txt \
 	Readme-SDL.txt \
