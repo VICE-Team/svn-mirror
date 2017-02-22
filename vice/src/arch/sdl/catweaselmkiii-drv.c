@@ -29,7 +29,7 @@
 #ifdef HAVE_CATWEASELMKIII
 
 #ifdef AMIGA_SUPPORT
-#include "../amigaos/catweaselmkiii-drv.c"
+#include "catweaselmkiii-amigaos-drv.c"
 #endif
 
 #ifdef BEOS_COMPILE

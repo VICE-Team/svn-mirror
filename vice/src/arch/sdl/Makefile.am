@@ -215,9 +215,11 @@ EXTRA_DIST = \
 	archdep_unix.h \
 	archdep_win32.c \
 	archdep_win32.h \
+	catweaselmkiii-amigaos-drv.c \
 	console_amiga.c \
 	console_sdl.c \
 	console_unix.c \
+	cw-amigaos.h \
 	generate_msvc6_sdl1x.bat \
 	generate_msvc6_sdl2x.bat \
 	generate_msvc70_ffmpeg_sdl1x.bat \
