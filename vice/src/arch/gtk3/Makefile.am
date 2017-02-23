@@ -48,6 +48,7 @@ libarch_a_SOURCES = \
 	ps-device.c \
 	ps-ieee1284.c \
 	ps-io.c \
+	rawnetarch.c \
 	rs232dev.c \
 	scpu64ui.c \
 	signals.c \
@@ -111,6 +112,8 @@ EXTRA_DIST = \
 	ps-win32.h \
 	ps-win32-dll.c \
 	ps-win32-io.c \
+	rawnetarch_unix.c \
+	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
 	socketimpl.h \
