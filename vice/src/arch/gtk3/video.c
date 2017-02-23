@@ -30,10 +30,12 @@
 
 #include "not_implemented.h"
 
+#include "cmdline.h"
 #include "log.h"
 #include "machine.h"
 #include "raster.h"
 #include "resources.h"
+#include "translate.h"
 #include "videoarch.h"
 
 #ifdef HAVE_OPENGL_SYNC
@@ -96,6 +98,32 @@ static int set_display_depth(int val, void *param)
 }
 
 
+/** \brief  Command line options related to generic video output
+ */
+static const cmdline_option_t cmdline_options[] = {
+    { "-trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Enable true aspect ratio") },
+    { "+trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Disable true aspect ratio") },
+    { "-keepaspect", SET_RESOURCE, 0,
+      NULL, NULL, "KeepAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Keep aspect ratio when scaling") },
+    { "+keepaspect", SET_RESOURCE, 0,
+      NULL, NULL, "KeepAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, N_("Do not keep aspect ratio when scaling (freescale)") },
+    CMDLINE_LIST_END
+};
+
 
 /** \brief  Integer/boolean resources related to video output
  */
@@ -110,9 +138,8 @@ static const resource_int_t resources_int[] = {
 };
 
 
-
-
-
+/** \brief  Initialize video canvas
+ */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
     /* copy/paste from gnomevideo.c */
@@ -126,9 +153,15 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 }
 
 
+/** \brief  Initialize command line options for generic video resouces
+ *
+ * \return  0 on success, < 0 on failure
+ */
 int video_arch_cmdline_options_init(void)
 {
-    NOT_IMPLEMENTED();
+    if (machine_class != VICE_MACHINE_VSID) {
+        return cmdline_register_options(cmdline_options);
+    }
     return 0;
 }
 
@@ -151,7 +184,6 @@ int video_arch_resources_init(void)
 
 void video_arch_resources_shutdown(void)
 {
-    NOT_IMPLEMENTED();
 }
 
 

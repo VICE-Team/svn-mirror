@@ -31,10 +31,17 @@
 #include "not_implemented.h"
 
 #include "mouse.h"
+#include "mousedrv.h"
+
+
+#ifndef MACOSX_COCOA
+
+
+static mouse_func_t mouse_funcs;
+
 
 int mousedrv_cmdline_options_init(void)
 {
-    NOT_IMPLEMENTED();
     return 0;
 }
 
@@ -68,7 +75,16 @@ void mousedrv_mouse_changed(void)
 
 int mousedrv_resources_init(mouse_func_t *funcs)
 {
-    NOT_IMPLEMENTED();
+    mouse_funcs.mbl = funcs->mbl;
+    mouse_funcs.mbr = funcs->mbr;
+    mouse_funcs.mbm = funcs->mbm;
+    mouse_funcs.mbu = funcs->mbu;
+    mouse_funcs.mbd = funcs->mbd;
     return 0;
 }
+
+
+
+#endif  /* ifndef MACOSX_COCOA */
+
 
