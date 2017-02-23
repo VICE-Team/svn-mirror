@@ -35,76 +35,78 @@
 
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_joyport(BYTE *joyport)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_playback(int playback_status, char *version)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_recording(int recording_status)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_statustext(const char *text, int fade_out)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_tape_control_status(int control)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_tape_counter(int counter)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_tape_motor_status(int motor)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_volume(int vol)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_set_tape_status(int tape_status)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
-void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
+void ui_display_drive_track(unsigned int drive_number,
+                            unsigned int drive_base,
+                            unsigned int half_track_number)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_display_tape_current_image(const char *image)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 

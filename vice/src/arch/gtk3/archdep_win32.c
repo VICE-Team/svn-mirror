@@ -73,11 +73,6 @@ int archdep_default_logger(const char *level_string, const char *txt)
     return 0;
 }
 
-char *archdep_default_resource_file_name(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
 
 char *archdep_default_save_resource_file_name(void)
 {

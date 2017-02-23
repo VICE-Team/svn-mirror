@@ -185,6 +185,13 @@ static void archdep_create_user_config_dir(void)
 }
 
 
+/** \brief  Generate default autostart disk image path
+ *
+ * The path will be "$cfgdir/autostart-$emu.d64". this needs to be freed with
+ * lib_free().
+ *
+ * \return  path to autostart disk image
+ */
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     char *cfg;
@@ -205,6 +212,28 @@ char *archdep_default_autostart_disk_image_file_name(void)
 }
 
 
+/** \brief  Generate path to vice.ini
+ *
+ * The value returned needs to be freed using lib_free()
+ *
+ * \return  absolute path to vice.ini
+ */
+char *archdep_default_resource_file_name(void)
+{
+    char *cfg;
+    gchar *tmp;
+    char *path;
+
+    cfg = archdep_user_config_path();
+    tmp = g_build_path(path_separator, cfg, "vice.ini", NULL);
+    /* transfer ownership to VICE */
+    path = lib_stralloc(tmp);
+    g_free(tmp);
+    return path;
+}
+
+
+
 /** \brief  Arch-dependent init
  *
  * \param[in]   argc    pointer to argument count
@@ -217,6 +246,7 @@ int archdep_init(int *argc, char **argv)
     char *prg_name;
     char *cfg_path;
     char *searchpath;
+    char *vice_ini;
 
     argv0 = lib_stralloc(argv[0]);
 
@@ -226,14 +256,17 @@ int archdep_init(int *argc, char **argv)
     prg_name = archdep_program_name();
     searchpath = archdep_default_sysfile_pathlist("C64");
     cfg_path = archdep_user_config_path();
+    vice_ini = archdep_default_resource_file_name();
 
     printf("progran name    = \"%s\"\n", prg_name);
     printf("user home dir   = \"%s\"\n", archdep_home_path());
     printf("user config dir = \"%s\"\n", cfg_path);
     printf("prg boot path   = \"%s\"\n", archdep_boot_path());
     printf("VICE searchpath = \"%s\"\n", searchpath);
+    printf("vice.ini path   = \"%s\"\n", vice_ini);
 
     lib_free(prg_name);
+    lib_free(vice_ini);
 
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
