@@ -56,6 +56,7 @@ VICE_ARG_ENABLE_LIST(ssi2001,     [  --disable-ssi2001       disables SSI2001 (I
 VICE_ARG_ENABLE_LIST(catweasel,   [  --disable-catweasel     disables CatWeasel (PCI/Zorro/Clockport SID card) support])
 VICE_ARG_ENABLE_LIST(hardsid,     [  --disable-hardsid       disables HardSID support])
 VICE_ARG_ENABLE_LIST(parsid,      [  --disable-parsid        disables ParSID support])
+VICE_ARG_ENABLE_LIST(libieee1284, [  --enable-libieee1284    enables libieee1284 support])
 VICE_ARG_ENABLE_LIST(portaudio,   [  --disable-portaudio     disables PortAudio support])
 VICE_ARG_ENABLE_LIST(ahi,         [  --disable-ahi           disables AHI support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
@@ -901,15 +902,21 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
     HAVE_PARSID_SUPPORT="yes"
 
-    LIBIEEE1284_HEADERS_PRESENT=yes
+    if test x"$enable_libieee1284" = "xyes"; then
+      LIBIEEE1284_HEADERS_PRESENT=yes
 
-    dnl Check for needed io headers
-    AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+      dnl Check for needed io headers
+      AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
 
-    if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
-      AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
-      if test x"$PARSID_SUPPORT" != "xno"; then
-        AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+      if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
+        if test x"$PARSID_SUPPORT" = "xyes"; then
+          AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+        else
+          AC_MSG_ERROR([libieee1284 is missing])
+        fi
+      else
+        AC_MSG_ERROR([libieee1284 header is missing])
       fi
     fi
   fi
@@ -1000,15 +1007,21 @@ elif test x"$host_os" = "xbeos" -o x"$host_os" = "xhaiku"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
     HAVE_PARSID_SUPPORT="yes"
 
-    LIBIEEE1284_HEADERS_PRESENT=yes
+    if test x"$enable_libieee1284" = "xyes"; then
+      LIBIEEE1284_HEADERS_PRESENT=yes
 
-    dnl Check for needed io headers
-    AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+      dnl Check for needed io headers
+      AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
 
-    if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
-      AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
-      if test x"$PARSID_SUPPORT" != "xno"; then
-        AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+      if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
+        AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
+        if test x"$PARSID_SUPPORT" = "xyes"; then
+          AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
+        else
+          AC_MSG_ERROR([libieee1284 is missing])
+        fi
+      else
+        AC_MSG_ERROR([libieee1284 header is missing])
       fi
     fi
   fi
@@ -3333,7 +3346,11 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$enable_parsid" != "xno" -o x"$enable_ssi2001" != "xno" -o x"$enable_hardsid" != "xno" -o x"$enable_catweasel" != "xno"; then
 
-    LIBIEEE1284_HEADERS_PRESENT=yes
+    if test x"$enable_libieee1284" = "xyes"; then
+      LIBIEEE1284_HEADERS_PRESENT=yes
+    else
+      LIBIEEE1284_HEADERS_PRESENT=no
+    fi
     LINUX_HARDSID_HEADER_PRESENT=yes
     LINUX_PARPORT_HEADERS_PRESENT=yes
     CATWEASEL_HEADER_PRESENT=yes
@@ -3346,7 +3363,9 @@ if test x"$is_unix" = "xyes"; then
     PCIUTILS_LIB_PRESENT=no
 
     dnl Check for needed io headers
-    AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+    if test x"$enable_libieee1284" = "xyes"; then
+      AC_CHECK_HEADERS(ieee1284.h,,[LIBIEEE1284_HEADERS_PRESENT=no],)
+    fi
     AC_CHECK_HEADERS(linux/hardsid.h,,[LINUX_HARDSID_HEADER_PRESENT=no],)
     AC_CHECK_HEADERS(linux/ppdev.h linux/parport.h,,[LINUX_PARPORT_HEADERS_PRESENT=no],)
     AC_CHECK_HEADERS(dev/ppbus/ppi.h dev/ppbus/ppbconf.h,,[FREEBSD_PARPORT_HEADERS_PRESENT=no],)
@@ -3375,9 +3394,15 @@ if test x"$is_unix" = "xyes"; then
 
     if test x"$LIBIEEE1284_HEADERS_PRESENT" = "xyes"; then
       AC_CHECK_LIB(ieee1284, ieee1284_find_ports,[LIBS="-lieee1284 $LIBS"; PARSID_SUPPORT=yes],,)
-      if test x"$PARSID_SUPPORT" != "xno"; then
+      if test x"$PARSID_SUPPORT" = "xyes"; then
         AC_DEFINE(HAVE_LIBIEEE1284,,[Define to 1 if you have the `ieee1284' library (-lieee1284).])
         HAVE_LIBIEEE1284_SUPPORT="yes"
+      else
+        AC_MSG_ERROR([libieee1284 is missing])
+      fi
+    else
+      if test x"$enable_libieee1284" = "xyes"; then
+        AC_MSG_ERROR([libieee1284 header is missing])
       fi
     fi
 
