@@ -172,7 +172,7 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
     /* Do compares */
     next_read = start + (WORD)data_buf_len;
 
-    for (i = 0; i < (len - data_buf_len); i++, next_read++) {
+    for (i = 0; i <= (len - data_buf_len); i++, next_read++) {
         int not_found = 0;
         unsigned int j;
         for (j = 0; j < data_buf_len; j++) {
