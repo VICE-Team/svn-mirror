@@ -297,6 +297,10 @@ if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
 fi
 
+if test x"$enable_native_gtk3ui" = "xyes"; then
+  AC_DEFINE(USE_NATIVE_GTK3,,[Use native GTK3 UI.])
+fi
+
 AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")
 
 if test x"$with_cocoa" = "xyes" ; then
@@ -2948,13 +2952,13 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
   if test x"$is_unix_macosx" = "xyes"; then
     dnl GTK3-FIXME: put OSX specific checks here
-    echo "gtk3 on OSX"
+    echo "GTK3 on OSX (Experimental)"
   elif test x"$is_win32" = "xyes"; then
     dnl GTK3-FIXME: put windows specific checks here
-    echo "gtk3 on Windows"
+    echo "GTK3 on Windows (Experimental)"
   else
     dnl GTK3-FIXME: put *nix specific checks here
-    echo "gtk3 on *nix"
+    echo "GTK3 on *nix (Experimental)"
   fi
 
   dnl a check for hardware scaling needs to be added
