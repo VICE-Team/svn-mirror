@@ -2525,10 +2525,7 @@ AC_SUBST(TFE_LIBS)
 dnl Check and setup SDL compilation.
 if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
 
-    if test x"$is_unix_macosx" = "xyes"; then
-        if test x"$enable_sdlui2" = "xyes"; then
-          AC_MSG_ERROR([SDL2 framework not implemented (yet) for the Mac OS X port]) 
-        fi
+    if test x"$is_unix_macosx" = "xyes" - a x"$enable_sdlui2" != "xyes"; then
         MAC_SDL_LIBS=`sdl-config --libs`
         MAC_SDL_CFLAGS=`sdl-config --cflags`
         LDFLAGS="$LDFLAGS -L/usr/local/lib"
