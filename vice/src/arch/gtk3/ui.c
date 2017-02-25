@@ -376,7 +376,6 @@ int ui_init_finalize(void)
 
 int ui_init_finish(void)
 {
-    NOT_IMPLEMENTED();
     return 0;
 }
 

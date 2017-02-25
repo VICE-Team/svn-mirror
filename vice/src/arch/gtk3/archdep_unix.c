@@ -27,6 +27,8 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 #include <glib.h>
 
 #include "ioutil.h"
@@ -303,16 +305,44 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
     return 0;
 }
 
+
+/** \brief  Create a unique temporary filename
+ *
+ * Uses mkstemp(3) when available.
+ *
+ * \return  temporary filename
+ */
 char *archdep_tmpnam(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+#ifdef HAVE_MKSTEMP
+    char *tmp_name;
+    const char mkstemp_template[] = "/vice.XXXXXX";
+    int fd;
+    char *tmp;
+    char *final_name;
+
+    tmp_name = lib_malloc(ioutil_maxpathlen());
+    if ((tmp = getenv("TMPDIR")) != NULL) {
+        strncpy(tmp_name, tmp, ioutil_maxpathlen());
+        tmp_name[ioutil_maxpathlen() - sizeof(mkstemp_template)] = '\0';
+    } else {
+        strcpy(tmp_name, "/tmp");
+    }
+    strcat(tmp_name, mkstemp_template);
+    if ((fd = mkstemp(tmp_name)) < 0) {
+        tmp_name[0] = '\0';
+    } else {
+        close(fd);
+    }
+
+    final_name = lib_stralloc(tmp_name);
+    lib_free(tmp_name);
+    return final_name;
+#else
+    return lib_stralloc(tmpnam(NULL));
+#endif
 }
 
-void archdep_signals_init(int do_core_dumps)
-{
-    NOT_IMPLEMENTED();
-}
 
 void archdep_signals_pipe_set(void)
 {

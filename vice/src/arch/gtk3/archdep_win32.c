@@ -233,16 +233,22 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
     return 0;
 }
 
+
+/** \brief  Create a unique temporary filename
+ *
+ * \return  unique filename in the %TEMP% directory
+ */
 char *archdep_tmpnam(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    if (getenv("temp")) {
+        return util_concat(getenv("temp"), tmpnam(NULL), NULL);
+    } else if (getenv("tmp")) {
+        return util_concat(getenv("tmp"), tmpnam(NULL), NULL);
+    } else {
+        return lib_stralloc(tmpnam(NULL));
+    }
 }
 
-void archdep_signals_init(int do_core_dumps)
-{
-    NOT_IMPLEMENTED();
-}
 
 void archdep_signals_pipe_set(void)
 {

@@ -185,9 +185,6 @@ static void archdep_create_user_config_dir(void)
 }
 
 
-
-
-
 /** \brief  Generate default autostart disk image path
  *
  * The path will be "$cfgdir/autostart-$emu.d64". this needs to be freed with
@@ -247,6 +244,13 @@ FILE *archdep_open_default_log_file(void)
     INCOMPLETE_IMPLEMENTATION();
     return stdout;
 }
+
+
+void archdep_signals_init(int do_core_dumps)
+{
+    /* NOP: Gtk3 should handle any signals, I think */
+}
+
 
 
 /** \brief  Arch-dependent init
