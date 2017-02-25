@@ -3675,6 +3675,16 @@ if test x"$with_png" != "xno" ; then
                                [Can we use the PNG library?]) ],,"-lz")
     fi
   fi
+
+  if test x"$HAVE_PNG_SUPPORT" != "xyes"; then
+    PKG_CHECK_MODULES(PNG, [libpng], HAVE_PNG_SUPPORT="yes")
+    if test x"$HAVE_PNG_SUPPORT" = "xyes"; then
+        GFXOUTPUT_LIBS="$PNG_LIBS $GFXOUTPUT_LIBS"
+        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+        AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
+    fi
+  fi
+
   if test x"$with_png" = "xyes" -a x"$HAVE_PNG_SUPPORT" != "xyes"; then
     AC_MSG_ERROR([PNG support is missing])
   fi
