@@ -30,6 +30,7 @@
 #include <glib.h>
 
 #include "lib.h"
+#include "platform.h"
 #include "util.h"
 
 #include "not_implemented.h"
@@ -137,16 +138,34 @@ int archdep_file_set_gzip(const char *name)
     return 0;
 }
 
+
+/** \brief  Get CPU name during runtime
+ *
+ * \return  CPU name
+ */
 char *archdep_get_runtime_cpu(void)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+#if defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__)
+    return platform_get_x86_runtime_cpu();
+#else
+    /* TODO: add runtime cpu detection code */
+    /* arm/mips/alpha/ppc/ia64/sh */
+    return "Unknown CPU";
+#endif
 }
 
+
+/** \brief  Detect OS during runtime
+ *
+ * \return  OS name
+ */
 char *archdep_get_runtime_os(void)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+#ifdef WINMIPS
+    return "MIPS NT";
+#else
+    return platform_get_windows_runtime_os();
+#endif
 }
 
 
@@ -172,12 +191,6 @@ int archdep_network_init(void)
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-FILE *archdep_open_default_log_file(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
 }
 
 

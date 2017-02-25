@@ -185,6 +185,9 @@ static void archdep_create_user_config_dir(void)
 }
 
 
+
+
+
 /** \brief  Generate default autostart disk image path
  *
  * The path will be "$cfgdir/autostart-$emu.d64". this needs to be freed with
@@ -232,6 +235,18 @@ char *archdep_default_resource_file_name(void)
     return path;
 }
 
+
+
+/** \brief  Open the default log file
+ *
+ * XXX: For now, this returns stdout, until I figure out why MacOSX duplicates
+ *      fd 0 (stdin)
+ */
+FILE *archdep_open_default_log_file(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return stdout;
+}
 
 
 /** \brief  Arch-dependent init

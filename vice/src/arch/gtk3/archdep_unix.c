@@ -31,6 +31,7 @@
 
 #include "ioutil.h"
 #include "lib.h"
+#include "platform.h"
 #include "util.h"
 
 #include "not_implemented.h"
@@ -207,16 +208,34 @@ int archdep_file_set_gzip(const char *name)
     return 0;
 }
 
-char *archdep_get_runtime_cpu(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
 
+/** \brief  Determine OS during runtime
+ *
+ * \return  OS name
+ */
 char *archdep_get_runtime_os(void)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+/* TODO: add runtime os detection code for other *nix os'es */
+#ifndef RUNTIME_OS_CALL
+    return "*nix";
+#else
+    return RUNTIME_OS_CALL();
+#endif
+}
+
+
+/** \brief  Determine CPU type during runtime
+ *
+ * \return  CPU name
+ */
+char *archdep_get_runtime_cpu(void)
+{
+/* TODO: add runtime cpu detection code for other cpu's */
+#ifndef RUNTIME_CPU_CALL
+    return "Unknown CPU";
+#else
+    return RUNTIME_CPU_CALL();
+#endif
 }
 
 
@@ -242,12 +261,6 @@ int archdep_network_init(void)
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-FILE *archdep_open_default_log_file(void)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
 }
 
 
