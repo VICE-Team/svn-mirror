@@ -71,6 +71,22 @@
 static char os_cpu_str[MAX_OS_CPU_STR];
 static char os_version_str[MAX_OS_VERSION_STR];
 
+#ifdef MAC_OS_X_VERSION_10_12
+#define NO_GESTALT
+#endif
+
+#ifdef MAC_OS_X_VERSION_10_11
+#define NO_GESTALT
+#endif
+
+#if !defined(PLATFORM_OS) && defined(MAC_OS_X_VERSION_10_10)
+#define NO_GESTALT
+#endif
+
+#if !defined(PLATFORM_OS) && defined(MAC_OS_X_VERSION_10_9)
+#define NO_GESTALT
+#endif
+
 /* this code was taken from: http://www.cocoadev.com/index.pl?DeterminingOSVersion
    and ported to C
 */
@@ -78,9 +94,13 @@ static void get_os_version(unsigned *major, unsigned *minor, unsigned *bugFix)
 {
     OSErr err;
     SInt32 systemVersion, versionMajor, versionMinor, versionBugFix;
+
+#ifndef NO_GESTALT
     if ((err = Gestalt(gestaltSystemVersion, &systemVersion)) != noErr) {
         goto fail;
     }
+
+
     if (systemVersion < 0x1040) {
         if (major) {
             *major = ((systemVersion & 0xF000) >> 12) * 10 +
@@ -114,6 +134,7 @@ static void get_os_version(unsigned *major, unsigned *minor, unsigned *bugFix)
     }
 
     return;
+#endif
 
 fail:
     if (major) {
