@@ -198,14 +198,40 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+    canvas->initialized = 0;
+    canvas->created = 0;
+
+    canvas->widget = gtk_gl_area_new();
+
+#ifdef HAVE_HWSCALE
+    canvas->hwscale_image = NULL;
+#endif
+
+#ifdef HAVE_OPENGL_SYNC
+    openGL_sync_init(canvas);
+#endif
+    return canvas;
 }
 
 
 void video_canvas_destroy(struct video_canvas_s *canvas)
 {
-    NOT_IMPLEMENTED();
+    /* Gtk should clean up the GlGtkArea widget when the UI exists */
+
+    if (canvas != NULL) {
+#ifdef HAVE_FULLSCREEN
+        fullscreen_shutdown_alloc_hooks(canvas);
+        if (canvas->fullscreenconfig != NULL) {
+            lib_free(canvas->fullscreenconfig);
+        }
+#endif
+
+#ifdef HAVE_HWSCALE
+        if (canvas->hwscale_image != NULL) {
+            lib_free(canvas->hwscale_image);
+        }
+#endif
+    }
 }
 
 

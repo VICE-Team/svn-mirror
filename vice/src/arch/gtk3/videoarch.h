@@ -36,6 +36,8 @@
 
 /* This file will need to be fixed for native GTK3 usage */
 
+#include <gtk/gtk.h>
+
 #ifdef HAVE_HWSCALE
 #include <GL/gl.h>
 #endif
@@ -43,6 +45,10 @@
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
+
+    /* GtkGlArea widget to render to */
+    GtkWidget *widget;
+
 #if 0
     GtkWidget *emuwindow, *pane;
 #if !defined(HAVE_CAIRO)

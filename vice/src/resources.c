@@ -352,37 +352,9 @@ static void resources_free(void)
 
 
 /** \brief  Shutown resources
- *
- * Debuggers: please note that in the debug code, printing the resource's value
- * or factory value won't always work, since some of those are deallocated
- * **before** this function is called, causing segfaults. So unfortunately only
- * printing the resource name (which is strdup'ed) and its type can be reliably
- * done.
  */
 void resources_shutdown(void)
 {
-#ifdef VICE_DEBUG_RESOURCES
-    int i;
-
-    printf("VICE_DEBUG_RESOURCES: dumping resources: name, type\n");
-    for (i = 0; i < num_resources; i++) {
-        resource_ram_t *res = resources + i;
-
-        printf("RES\t%s\t", res->name);
-        switch (res->type) {
-            case RES_INTEGER:
-                printf("integer");
-                break;
-            case RES_STRING:
-                printf("string");
-                break;
-            default:
-                printf("<unknown>");
-        }
-        putchar('\n');
-
-    }
-#endif
     resources_free();
 
     lib_free(resources);
