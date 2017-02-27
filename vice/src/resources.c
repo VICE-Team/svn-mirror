@@ -350,6 +350,15 @@ static void resources_free(void)
     }
 }
 
+
+/** \brief  Shutown resources
+ *
+ * Debuggers: please note that in the debug code, printing the resource's value
+ * or factory value won't always work, since some of those are deallocated
+ * **before** this function is called, causing segfaults. So unfortunately only
+ * printing the resource name (which is strdup'ed) and its type can be reliably
+ * done.
+ */
 void resources_shutdown(void)
 {
 #ifdef VICE_DEBUG_RESOURCES
@@ -363,29 +372,12 @@ void resources_shutdown(void)
         switch (res->type) {
             case RES_INTEGER:
                 printf("integer");
-                /* attempting to access default/current values of some
-                 * resources fails, such as `VICIIFullscreenDevice` which is
-                 * a resource constructed in the UI code */
-#if 0
-                if (res->value_ptr != NULL && res->factory_value != NULL) {
-                    printf("\t%d\t%d",
-                            vice_ptr_to_int(res->factory_value),
-                            vice_ptr_to_int(*(res->value_ptr)));
-                }
-#endif
                 break;
             case RES_STRING:
                 printf("string");
-#if 0
-                if (res->value_ptr != NULL && res->factory_value != NULL) {
-                    printf("\t%s\t%s",
-                            (char *)(res->factory_value),
-                            *(char **)res->value_ptr);
-                }
-#endif
                 break;
             default:
-                printf("???\t???\t???");
+                printf("<unknown>");
         }
         putchar('\n');
 
