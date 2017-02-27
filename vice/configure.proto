@@ -43,6 +43,7 @@ VICE_ARG_ENABLE_LIST(gnomeui3,    [  --enable-gnomeui3       enables GNOME UI wi
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(sdlui2,      [  --enable-sdlui2         enables SDL2 UI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables WIP native GTK3 UI support])
+VICE_ARG_ENABLE_LIST(debug-gtk3ui, [ --enable-debug-gtk3ui    enables debugging for the WIP GTK3 port])
 VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
 VICE_ARG_ENABLE_LIST(vte,         [  --disable-vte           disable VTE support])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
@@ -299,6 +300,10 @@ fi
 
 if test x"$enable_native_gtk3ui" = "xyes"; then
   AC_DEFINE(USE_NATIVE_GTK3,,[Use native GTK3 UI.])
+fi
+
+if test x"$enable_debug_gtk3ui" = "xyes"; then
+  AC_DEFINE(HAVE_DEBUG_GTK3UI,,[Add native GTK3 UI debugging code.])
 fi
 
 AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")

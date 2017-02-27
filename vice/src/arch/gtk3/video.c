@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "debug_gtk3.h"
 #include "not_implemented.h"
 
 #include "cmdline.h"
@@ -41,6 +42,8 @@
 #ifdef HAVE_OPENGL_SYNC
 # include "openGL_sync.h"
 #endif
+
+#define VICE_DEBUG_NATIVE_GTK3
 
 
 /** \brief  Log for Gtk3-native video messages
@@ -198,6 +201,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
+    VICE_GTK3_FUNC_ENTERED();
     canvas->initialized = 0;
     canvas->created = 0;
 

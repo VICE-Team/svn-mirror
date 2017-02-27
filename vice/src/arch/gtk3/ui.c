@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 
+#include "debug_gtk3.h"
 #include "not_implemented.h"
 
 #include "cmdline.h"
@@ -98,7 +99,10 @@ static void activate(GtkApplication *app, gpointer user_data)
 {
     GtkWidget *window;
 
-    printf("gtk3: activate signal handler\n");
+#ifdef VICE_DEBUG_NATIVE_GTK3
+    printf("GTK3: %s:%d: GtkApplication 'activate' signal handler called\n",
+            __FILE__, __LINE__);
+#endif
 
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "VICE");
@@ -359,19 +363,21 @@ char *ui_get_file(const char *format, ...)
 
 int ui_init(int *argc, char **argv)
 {
+
     vice_app = gtk_application_new("org.pokefinder.vice",
                                    G_APPLICATION_FLAGS_NONE);
     g_signal_connect(vice_app, "activate", G_CALLBACK(activate), NULL);
-#if 0
-    status = g_application_run(G_APPLICATION(vice_app), argc, argv);
-#endif
     return 0;
 }
 
 int ui_init_finalize(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    int status;
+    char *argv[] = { "x64", NULL };
+
+    VICE_GTK3_FUNC_ENTERED();
+    status = g_application_run(G_APPLICATION(vice_app), 1, argv);
+    return status;
 }
 
 int ui_init_finish(void)

@@ -77,6 +77,7 @@ EXTRA_DIST = \
 	cw-unix-pci.c \
 	cw-win32.h \
 	cw-win32-pci.c \
+	debug_gtk3.h \
 	dynlib-unix.c \
 	dynlib-win32.c \
 	hardsid-unix-drv.c \
