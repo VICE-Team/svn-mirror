@@ -30,7 +30,7 @@ refer to this image.
 .B \-bam [\fIunit\fR] | \fItrack-min\fR \fItrack_max\fR [\fIunit\fR] (bam [\fIunit\fR] | \fItrack-min\fR \fItrack_max\fR [\fIunit\fR])
 show bam bitmap of an imagem optionally specifying unit and/or a slice of the tracks using \fItrack-min\fR and \fItrack-max\fR.
 .TP
-.B \-bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR [\fIsrc_unit\fR [\fIdst_unit\fR]] (bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR [\fIsrc_unit\fR [\fIdst_unit\fR]])
+.B \-bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR \fIdst_sec\fR [\fIsrc_unit\fR [\fIdst_unit\fR]] (bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR \fIdst_sec\fR [\fIsrc_unit\fR [\fIdst_unit\fR]])
 copy a block to another block. When not using the optional unit numbers, the block is copied among the current unit. If one unit (\fIsrc_unit\fR) is specified that unit is used for both source and destination. Using both unit number allows copying blocks between different units.
 .TP
 .B \-block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR (block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR)
@@ -119,6 +119,10 @@ set verbose mode. Output extra logging information, disable with \fBverbose off\
 .B \-write \fIimage\fR \fIfsname\fR \fI[1541name]\fR (write \fIfsname\fR \fI[1541name]\fR)
 write \fIfsname\fR to \fIimage\fR as \fI1541name\fR (\fIfsname\fR by default).
 (works with \fIP00\fR files as well).
+.TP
+.B \-zcreate \fIx64name\fR \fIzipname\fR [\fIlabel,id\fR] (zcreate \fIx64name\fR \fIzipname\fR [\fIlabel,id\fR]
+create an X64 disk image from four Zipcoded files named \fI1!zipname\fR through
+\fI4!zipname\fR.
 .P
 When more than one command is specified in batch mode, all of them are
 executed in the same order they have on the command line.
