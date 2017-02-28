@@ -116,12 +116,6 @@ console_t *console_open(const char *id)
     console->console_yres = 25;
     console->console_can_stay_open = 0;
 
-    if (ui_resources.fullscreenenabled) {
-        fullscreenwasenabled=1;
-        resources_set_value("FullscreenEnabled", (resource_value_t)0);
-        video_arch_fullscreen_update();
-    }
-
     console_handle = Open("CON:0/0/700/480/VICE Monitor/Auto", MODE_READWRITE);
 
     return console;
@@ -130,10 +124,6 @@ console_t *console_open(const char *id)
 int console_close(console_t *log)
 {
     Close(console_handle);
-    if (fullscreenwasenabled == 1) {
-        resources_set_value("FullscreenEnabled", (resource_value_t)1);
-        video_arch_fullscreen_update();
-    }
 
     lib_free(log);
 
