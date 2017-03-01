@@ -68,7 +68,6 @@ libarch_a_SOURCES = \
 	kbd.h \
 	lightpendrv.c \
 	lightpendrv.h \
-	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
 	msvc-d3d.h \

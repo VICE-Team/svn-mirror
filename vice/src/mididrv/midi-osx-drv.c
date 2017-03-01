@@ -28,7 +28,8 @@
  */
 
 #include "vice.h"
-#include "config.h"
+
+#ifdef MACOSX_SUPPORT
 
 #ifdef HAVE_MIDI
 
@@ -249,7 +250,7 @@ static void dispose_client(void)
 static void midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *connRefCon)
 {
     unsigned int i,j;
-
+    
     const MIDIPacket *packet = pktlist->packet;
     for (i = 0; i < pktlist->numPackets; ++i) {
         for (j = 0; j < packet->length; j++) {
@@ -266,7 +267,7 @@ static void dump_sources(void)
     int i,n;
     CFStringRef pname;
     char name[64];
-
+    
     n = MIDIGetNumberOfSources();
     log_message(mididrv_log,"found %d sources", n);
     for (i = 0 ; i < n; ++i) {
@@ -284,7 +285,7 @@ static void dump_destinations(void)
     int i,n;
     CFStringRef pname;
     char name[64];
-
+    
     n = MIDIGetNumberOfDestinations();
     log_message(mididrv_log, "found %d destinations", n);
     for (i = 0; i < n; ++i) {
@@ -339,7 +340,7 @@ int mididrv_out_open(void)
     if (create_client() < 0) {
         return -1;
     }
-
+    
     if (midi_source_usage == 0) {
         log_message(mididrv_log, "Opening MIDI-Out port '%s'", midi_out_name);
 
@@ -452,3 +453,4 @@ int mididrv_in(BYTE *b)
 }
 
 #endif /* HAVE_MIDI */
+#endif /* MACOSX_SUPPORT */

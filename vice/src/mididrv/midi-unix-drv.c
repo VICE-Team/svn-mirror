@@ -1,5 +1,5 @@
 /*
- * mididrv.c - MIDI emulation.
+ * midi-unix-drv.c - *nix MIDI emulation.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
@@ -29,6 +29,8 @@
  */
 
 #include "vice.h"
+
+#if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
 
 #ifdef HAVE_MIDI
 
@@ -690,3 +692,4 @@ int mididrv_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 #endif /* HAVE_MIDI */
+#endif

@@ -1,5 +1,5 @@
 /*
- * mididrv.c - MIDI emulation for win32.
+ * midi-win32-drv.c - MIDI emulation for win32.
  *
  * Written by
  *  Daniel Kahlin <daniel@kahlin.net>
@@ -27,6 +27,8 @@
 #undef DEBUG
 
 #include "vice.h"
+
+#ifdef WIN32_COMPILE
 
 #ifdef HAVE_MIDI
 
@@ -411,3 +413,5 @@ int mididrv_in(BYTE *b)
 }
 
 #endif
+#endif
+

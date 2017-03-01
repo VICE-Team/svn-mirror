@@ -16,6 +16,7 @@ SUBDIRS = \
 	samplerdrv \
 	joyport \
 	sounddrv \
+	mididrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -59,6 +60,7 @@ endif
 
 DIST_SUBDIRS = \
 	sounddrv \
+	mididrv \
 	samplerdrv \
 	joyport \
 	drive \
@@ -1303,6 +1305,7 @@ samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
 userport_lib = $(top_builddir)/src/userport/libuserport.a
@@ -1327,7 +1330,7 @@ ffmpeg_libs = @FFMPEG_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
 
-driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -1405,6 +1408,7 @@ vsid_libs =  \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(sounddrv_lib) \
+	$(mididrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
 	$(viciivsid_lib) \
@@ -1430,6 +1434,7 @@ vsid-all: \
 	libraster \
 	libsid \
 	libsounddrv \
+	libmididrv \
 	libviciivsid \
 	libvideo \
 	libarch \
@@ -2334,10 +2339,11 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 .PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 \
 	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv \
 	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv \
-	libdiskimage libfsdevice libtape libarch libvicii libviciisc \
-	libviciidtv libviciivsid libvdc libsid libcrtc libvideo libserial \
-	libparallel libcore libiecbus libfileio librtc libuserport libtapeport \
-	libp64 libscpu64 libdiag @RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
+	libmididrv libdiskimage libfsdevice libtape libarch libvicii \
+	libviciisc libviciidtv libviciivsid libvdc libsid libcrtc libvideo \
+	libserial libparallel libcore libiecbus libfileio librtc libuserport \
+	libtapeport libp64 libscpu64 libdiag @RESID_DEP@ @RESID_DTV_DEP@ \
+	@FFMPEG_DEP@
 
 libarch:
 	@(cd arch && $(MAKE))
@@ -2435,6 +2441,9 @@ libimagecontents:
 libmascuerade:
 	@echo "making libmascuerade.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libmascuerade.a)
+libmididrv:
+	@echo "making libmididrv.a in mididrv"
+	@(cd mididrv && $(MAKE) libmididrv.a)
 libmonitor:
 	@echo "making libmonitor.a in monitor"
 	@(cd monitor && $(MAKE) libmonitor.a)

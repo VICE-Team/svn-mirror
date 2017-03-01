@@ -40,7 +40,6 @@ libarch_a_SOURCES = \
 	joy-win32.c \
 	joy-win32-dinput-handle.c \
 	kbd.c \
-	mididrv.c \
 	mousedrv.c \
 	parsid-drv.c \
 	pci-drv.c \
@@ -97,9 +96,6 @@ EXTRA_DIST = \
 	joy-win32.h \
 	joy-win32-dinput-handle.h \
 	kbd.h \
-	midi-osx-drv.c \
-	midi-unix-drv.c \
-	midi-win32-drv.c \
 	mousedrv.h \
 	not_implemented.h \
 	parsid-unix-drv.c \

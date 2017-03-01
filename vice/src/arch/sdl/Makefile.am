@@ -157,7 +157,6 @@ libarch_a_SOURCES = \
 	menu_vic20hw.h \
 	menu_video.c \
 	menu_video.h \
-	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
 	parsid-drv.c \

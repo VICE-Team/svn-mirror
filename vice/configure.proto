@@ -5057,6 +5057,7 @@ AC_OUTPUT([Makefile
            src/lib/Makefile
            src/lib/ffmpeg/Makefile
            src/lib/p64/Makefile
+           src/mididrv/Makefile
            src/monitor/Makefile
            src/parallel/Makefile
            src/pet/Makefile

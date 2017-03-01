@@ -28,7 +28,6 @@ libarchmacosx_a_SOURCES = \
 	joy-hid.h \
 	joy.c \
 	joy.h \
-	mididrv.c \
 	vsyncarch.c
 
 EXTRA_DIST = \
