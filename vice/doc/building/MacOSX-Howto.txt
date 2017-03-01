@@ -1,292 +1,117 @@
 Building VICE on Mac OS X
 -------------------------
 
-This document describes how to build your own MacVICE binaries from the source
-code.
+This document describes how to build your own VICE binaries from the source
+code. The following assumes that you are using a reasonably modern version of
+macOS (>10.9) running on Intel hardware.
+
+Currently the recommended port of VICE to use on macOS is the SDL or SDL2
+version. The Cocoa port has not been maintained recently and therefore is not
+recommended and will not be addressed in this Howto.
 
 1. Prerequisites
 
-1.1 XCode
+1.1 Xcode
 
-If you wan to compile VICE yourself then you first need to install Apple's
-XCode Development kit. It is available on your Mac OS X Installation DVD or
-can be downloaded for free (after registration) from the Apple Developer
-Network (connect.apple.com). Make sure to install at least the "Universal SDK
-10.4" or a newer SDK from the "Cross Development" section if you want to
-create a universal binary of VICE.
+If you want to compile VICE yourself then you first need to install Apple's
+Xcode command line tools. You do not necessarily require the whole Xcode IDE.
+To install just the command line tools:
 
-The XCode IDE itself is not required, but the command line tools (compiler,
-linker...) and other development files (SDKs).
+> xcode-select --install
 
-1.2 Platypus
+Click the "Install" button.
 
-For the X11 and Gtk+ port the Platypus bundle creation tool is required.
+1.2 External Dependencies
 
-Download it from here:
+VICE relies on several libraries and tools that are not standard parts of
+macOS (formerly known as OS X). There are several options to handle this.
+Homebrew is the preferred choice as it most closely follows traditional
+UNIX-style paths (/usr/local) and does not require elevated privileges to
+operate. MacPorts is another option but is considerably more complicated and
+ugly and may not necessarily work with the VICE sources without some editing.
 
- http://www.sveinbjorn.org/platypus
+To install Homebrew visit https://brew.sh and follow the simple instructions.
 
-This script bundler is used to embed the launcher script of VICE into an
-application bundle. Additionally, Platypus supports simple drag and drop on
-application start up.
+Once Homebrew is installed you will need either one of the following packages
+(or both if you intend to build both versions of VICE):
 
-If Platypus is not available then a launcher replacement is installed. This
-script does not support drag and drop and quits immediately afert start up
-(i.e. the VICE application icon disappears after the launch)!
+sdl
+sdl2
 
-1.3 Required Library Sources
+For example:
 
-VICE for Macs relies on a number of external libraries. You have to get their
-source code as they are missing on a default Mac system. Some libs are
-optional, i.e. if they are available then some extra features of VICE are
-available.
+> brew install sdl2
 
-- HID Utilities  (optional) (Joystick support)
-- Gtk+ Libraries  (required only for Gtk+ port)
-- Network Libraries  (optional) (Ethernet Emulation)
-- FFMPEG  (optional) (Video and Sound Capture)
+You will also need:
 
-1.4 Building Required Libraries
+autoconf
+automake
+portaudio
 
-First, build all external libraries. The VICE source distribution contains
-build scripts to automatically perform this step.
+Optional:
 
-Copy all library source archives into a single directory and call a build
-script found in "build/macosx/" of the VICE source tree.
-
-The convenience script "build-allext.sh" builds all external libs given in
-section 1.3 for all supported architectures: intel (i386, x86_64) and power pc
-(ppc). This is required for a universal binary build of VICE. The script takes
-only a single argument: the library installation directory.
-
-Have a look at the build scripts to find out what libraries are required for
-the build.
-
-Example:
-
- > mkdir extlib-src
- > mkdir extlib
- > cp <all lib source archives> extlib-src/
- > cd extlib-src
- > sh <VICE srcdir>/build/macosx/build-allext.sh ../extlib
-
-If all went well then the libraries are compiled and installed in the "extlib"
-directory. The libraries are now ready for the VICE build.
-
+cc65
+ffmpeg
+flac
+giflib
+jpeg
+lame
+libpng
 
 2. Building VICE
 
-The following variables are used in the next sections:
+You build VICE in the usual way, as you would with any GNU Autoconf-style
+package.
 
-VICE_SRC_PATH     base directory of the VICE source/SVN work directory
-EXTLIB_PATH       installation directory of the external libraries
-EXTLIB_SPEC       the specification of the current port
-                  contains machine architecture, Mac OS X release, compiler
+2.1 autogen.sh (SVN only)
 
-In the following it is assumed that the VICE source code is located in
-$VICE_SRC_PATH and the external libraries are located in $EXTLIB_PATH.
+If you used Subversion to check-out the sources directly from the repository
+then you first need to run:
 
-2.1 Simple Cocoa Build with configure
+> ./autogen.sh
 
-A very simple approach to building is to use configure and make:
+This will run the various AutoTools utilities and generate the "configure"
+script that you then use to configure the sources for building.
 
- > mkdir build
- > $VICE_SRC_PATH/configure --with-cocoa
- > make all bindist
+2.1 configure
 
-This builds VICE with the cocoa port and generates application bundles for
-all emulators. However, features might be missing as they rely on the external
-libs. Adding these is simple:
+> ./configure --help
 
- > export CPPFLAGS=-I$EXTLIB_PATH/$EXTLIB_SPEC/include
- > export LDFLAGS=-L$EXTLIB_PATH/$EXTLIB_SPEC/lib
- > $VICE_SRC_PATH/configure --with-cocoa
- > make all bindist
+Lists available options to configure the source tree.
 
-Now all features should be enabled.
+An example configuration that should get you a basic functioning VICE might
+be:
 
+> ./configure --enable-sdlui2 --disable-ethernet --disable-shared-ffmpeg
 
-2.2 Use the build script "build-vice-release.sh"
+2.2 make
 
-The build process for MacVICE is quite complex as it supports various ports
-(X11, Gtk+, Cocoa, SDL), different architectures (i386, ppc, x86_64),
-different Mac OS X versions (10.4, 10.5, 10.6) and different compilers (gcc
-4.0, gcc 4.2, clang).
+To actually compile and link the executables run:
 
-To facilitate the build process, a build script "build-vice-release.sh" is
-shipped with the source that can perform all necessary steps to build one or
-more full ports of MacVICE.
+> make
 
-It is required for the script to use the source code checked out from SVN.
-See http://sourceforge.net/projects/vice-emu/develop for more information
-on how to check out the source.
+You are likely to see some warnings during the build but they should all be
+non-fatal.
 
-Run the script with no arguments to see the help text:
+2.3 Build the App Packages
 
- > $VICE_SRC_PATH/build/macosx/build-vice-release.sh
- 
- --- build VICE release from SVN repository ---
- mode:           RELASE
- ERROR: no repository given!
+On macOS you generally want to build app packages and in fact there is no
+ability to "make install" if you are on macOS. Instead, you should run:
 
-   Usage:
-     ./build-vice-release.sh [options] <vice-svn-repository>
+> make bindist
 
-     Build a VICE Release or Snapshot for a set of uis, archs, sdks, and compilers
+This will create a directory with a name like "vice-macosx-sdl-x86_64-3.0" for
+example. Inside will be all of the app packages for the VICE emulators along
+with a tools directory, a doc directory and a few other text files.
 
-   Options:                                                                 Default:
-     -s                       do snapshot build                             [release build]
-     -l                       link repository directory and use it directly [fresh svn export]
-     -b                       only binaries and no source package           [with source package]
-     -f                       force delete target directory if it exists    [abort if exists]
-     -e <path to extlib>      set path of external library directory        [extlib]
-     -o <target dir>          set target directory                          [BUILD-snapshot/release]
-     -d                       build debug version                           [release]
-     -i                       create distribution in directory              [create DMG]
+Use Finder to navigate to that directory and fire up your emulators to test.
+They can be dragged anywhere you prefer to store your emulator apps.
 
-     -u <uis>                 set default ui:       sdl x11 gtk cocoa       [cocoa]
-     -a <arch>                set default arch:     i386 ppc x86_64 i386+ppc i386+x86_64 [i386+ppc]
-     -k <sdk_version>         set default sdk:      10.4 10.5 10.6          [10.4]
-     -c <compiler>            set default compiler: gcc40 gcc42 clang       [gcc40]
-     -j <jobs>                set build jobs
-                              [sdl x11 gtk cocoa cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang]
+Optionally you can create a DMG file if you'd like to share your build.
+Running the following will package up everything from the above directory into
+a DMG file:
 
-     -D                       quick debug preset: -slbfdi -j cocoa-i386-10.4
-
-You see the only required argument is the path where the vice source code
-was checked out from SVN.
-
- > $VICE_SRC_PATH/build/macosx/build-vice-release.sh $VICE_SRC_PATH
- 
-If no options are given then all release binaries are built and placed in a
-new sub directory called "BUILD-release".
-
-Use -s to build a snapshot, i.e. use another target directory "BUILD-snapshot"
-and tag the release with the current SVN revision.
-
-Use -l to link in the SVN source directory. This ensures that local changes
-made to the repository in the working copy are used in the build. Otherwise
-the last checked-in state is used.
-
-Use -b to skip the generation of a tarball with the source.
-
-Use -f to first delete the target build directory if it already exists.
-Otherwise the script will abort if the directory exists.
-
-Use -e to specify the path where the external libraries (see section 1.4) are
-found.
-
-Use -o to select another target output directory. On default "BUILD-snapshot"
-or "BUILD-release" is chosen.
-
-Use -i to skip the generation of a disk image (dmg) that conains the
-distribution. Only a directory with all files is created.
-
-A port of MacVICE is specified by four parameters:
-
- 1. The UI defines the graphical user interface.
-    Available are "cocoa", "gtk", "x11", "sdl"
-    
- 2. The arch defines the processor architecture.
-    Available are "ppc", "i386", "x86_64"
-
-    You can choose to create a Universal Binary containing multiple
-    architectures by adding them with a plus "+" sign.
-    E.g. ppc+i386
-    
- 3. The SDK version defines the minimal Mac OS X version that is supported.
-    Available are "10.4", "10.5", "10.6"
-
- 4. The compiler that is used to compile the binary
-    Available are "gcc40", "gcc42", "clang"
-
-A port is described by giving all four parameters connected with a minus "-"
-sign (the order of the parameters does not matter):
-
-E.g. cocoa-ppc+i386-10.4-gcc40
-
-For all four parameters the build script has built-in default values. So
-you can omit parameters in a port and then the default is used.
-
-E.g. cocoa-gcc40  -> default: arch=pcc+i386, sdk=10.4
-
-Use the -u, -a, -k, -c options to alter the default value of a parameter.
-
-The script uses jobs to describe what MacVICE builds should be created. You
-can specify a list of ports with the -J option:
-
-E.g.   -J "sdl x11 cocoa"   <- 3 ports, use default values for arch, sdk, compiler
-       -J "cocoa-10.5"      <- use default values for arch, compiler
-
-Please note that not all combinations of parameters are valid, e.g. 10.4 does
-not support the clang compiler.
-
-
-2.3 Inner Workings
-
-This section is only relevant if you want to skip the main build script and
-want to call helper scripts directly.
-
-The build process of VICE contains the following steps: Call "configure" in
-the source tree to determine the required "make" system setup and find
-available libs. Then compile the source tree to get binaries of all emulators
-and tools.
-
-A release is started by creating a distribution directory. Then the emulator
-binaries are embedded in the VICE application bundle. Furthermore, the tools,
-external libraries and documentation is added and finally, a release disk
-image (dmg) is created.
-
-If you want to create a universal binary of VICE then the "configure" and
-"make" stages are repeated multiple times: e.g. for i386 and ppc. The
-resulting binaries are then united into single universal binaries. This is
-also done for all external libraries.
-
-All the necessary steps for a successful build are integrated in the build
-script "build/macosx/build-vice-dist.sh". It has the following usage and must
-be run from the VICE source base directory:
-
-Usage: 
-
-  build/macosx/build-vice-dist.sh <arch> <sdk_ver> <compiler> <ui-type> <dist-type> <extlib-dir> <build-dir> <debug>
-
-  arch        Build architecture       i386 ppc x86_64 ubi i386+ppc i386+x86_64
-  sdk-ver     Select SDK version       10.4 10.5 10.6
-  compiler    Select compiler suite    gcc40 gcc42 clang
-  ui-type     User Interface Type      sdl x11 gtk cocoa
-  dist-type   Type of Distribution     dmg dir
-  extlib-dir  External Libraries
-  build-dir   Where VICE is built
-  debug       Build debug version      0
-
-arch: Choose the target architecture. Make sure the external libs are compiled
-similar! (a+b=universal binary, i386=32 Bit Intel Mac, ppc=PowerPC Mac, x86_64=64 Bit Intel Mac)
-
-sdk-ver: Choose the Mac OS X SDK
-
-compiler: Choose the compiler
-
-ui-type: Select the User Interface: either cocoa, SDL, X11 (x11) or Gtk+ (gtk)
-based. Gtk+ requires the external Gtk+ libraries.
-
-dist-type: Either create a disk image with the everthing embedded inside (dmg)
-or create a directory with all files (dir) for direct access.
-
-ext-lib: Where are the external libraries installed? Use same path as in
-section 3.4.
-
-build-dir: The newly created directory where all compilation takes place. The
-created distribution is found inside this directory and all intermediate
-files.
-
-Example:
-
-  > cd [VICE src dir]
-  > sh build/macosx/build-vice-dist.sh i386+ppc 10.4 gcc40 x11 dmg ../extlib TEMP
-
-This creates the TEMP directory in the VICE source tree and builds a universal
-binary VICE distribution with X11 interface. The result is a *.dmg release
-disk image found in the "TEMP/x11/ub/" directory.
+> make bindistzip
 
 EOF
 

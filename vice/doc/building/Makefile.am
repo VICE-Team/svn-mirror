@@ -8,6 +8,7 @@ BUILDING_DOX = \
 	GTK3-Howto.txt \
 	Linux-Mingw32-Howto.txt \
 	Linux-Native-Howto.txt \
+	MacOSX-Cocoa-Howto.txt \
 	MacOSX-Howto.txt \
 	Minix-Howto.txt \
 	MSDOS-Howto.txt \
