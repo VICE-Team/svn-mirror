@@ -1121,6 +1121,11 @@ darwin*)
   else
     echo "disabled Mac application bundles"
   fi
+  CFLAGS="$CFLAGS -I/usr/local/include -I/System/Library/Frameworks/OpenGL.framework/Headers"
+  CXXFLAGS="$CXXFLAGS -I/usr/local/include -I/System/Library/Frameworks/OpenGL.framework/Headers"
+  LDFLAGS="$LDFLAGS -L/usr/local/lib"
+  LIBS="$LIBS -framework CoreServices"
+
   ;;
 
 dnl All other UN*X systems
@@ -2530,25 +2535,7 @@ AC_SUBST(TFE_LIBS)
 dnl Check and setup SDL compilation.
 if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
 
-    if test x"$is_unix_macosx" = "xyes" - a x"$enable_sdlui2" != "xyes"; then
-        MAC_SDL_LIBS=`sdl-config --libs`
-        MAC_SDL_CFLAGS=`sdl-config --cflags`
-        LDFLAGS="$LDFLAGS -L/usr/local/lib"
-        LIBS="$LIBS $MAC_SDL_LIBS -framework Cocoa -framework OpenGL -framework CoreVideo"
-        CFLAGS="$CFLAGS $MAC_SDL_CFLAGS -I/usr/local/include -I/System/Library/Frameworks/OpenGL.framework/Headers"
-        CXXFLAGS="$CXXFLAGS $MAC_SDL_CFLAGS -I/usr/local/include -I/System/Library/Frameworks/OpenGL.framework/Headers"
-        SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-        USE_SDL_AUDIO_SUPPORT="yes"
-        AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
-        if test x"$enable_sdlui" = "xyes"; then
-            AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
-        fi
-        AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-        HAVE_HWSCALE_SUPPORT="yes"
-        AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
-        HAVE_FULLSCREEN_SUPPORT="yes"
-        AC_CHECK_FUNCS(SDL_NumJoysticks)
-    elif test x"$host_os" = "xmingw32ce" -o x"$host_os" = "xcegcc"; then
+    if test x"$host_os" = "xmingw32ce" -o x"$host_os" = "xcegcc"; then
         if test x"$enable_sdlui2" = "xyes"; then
           AC_MSG_ERROR([SDL2 not supported on windows ce])
         fi
@@ -2823,6 +2810,28 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
                                     [AC_MSG_RESULT(no);
                                      LIBS="$old_LIBS"])
                     fi
+                fi
+            fi
+
+            if test x"$have_opengl_lib" != "xyes" -a x"enable_sdlui2" != "xyes" -a x"$is_unix_macosx" = "xyes"; then
+                AC_MSG_CHECKING(whether we can use the OpenGL Framework)
+                old_LIBS="$LIBS"
+                LIBS="$LIBS -framework OpenGL"
+
+                if test x"$use_sdl_prefix" = "xyes"; then
+                    AC_TRY_LINK([#include <SDL/SDL_opengl.h>],
+                                [glViewport(1,2,3,4)],
+                                [AC_MSG_RESULT(yes);
+                                    have_opengl_lib=yes],
+                                [AC_MSG_RESULT(no);
+                                    LIBS="$old_LIBS"])
+                else
+                    AC_TRY_LINK([#include <SDL_opengl.h>],
+                                [glViewport(1,2,3,4)],
+                                [AC_MSG_RESULT(yes);
+                                    have_opengl_lib=yes],
+                                [AC_MSG_RESULT(no);
+                                    LIBS="$old_LIBS"])
                 fi
             fi
 
