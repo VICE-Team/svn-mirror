@@ -783,6 +783,7 @@ void archdep_shutdown(void)
     lib_free(boot_path);
     lib_free(argv0);
     lib_free(orig_workdir);
+    archdep_network_shutdown();
 }
 
 void archdep_workaround_nop(const char *otto)

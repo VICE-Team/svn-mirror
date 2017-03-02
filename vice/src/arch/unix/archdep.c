@@ -647,6 +647,7 @@ void archdep_shutdown(void)
 {
     lib_free(argv0);
     lib_free(boot_path);
+    archdep_network_shutdown();
 }
 
 char *archdep_get_runtime_os(void)

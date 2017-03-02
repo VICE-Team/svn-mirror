@@ -399,6 +399,7 @@ int archdep_rename(const char *oldpath, const char *newpath)
 void archdep_shutdown(void)
 {
     lib_free(argv0);
+    archdep_network_shutdown();
 }
 
 char *archdep_get_runtime_os(void)

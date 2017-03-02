@@ -567,6 +567,7 @@ int archdep_rename(const char *oldpath, const char *newpath)
 
 void archdep_shutdown(void)
 {
+    archdep_network_shutdown();
 }
 
 #ifndef HAVE_GETTIMEOFDAY

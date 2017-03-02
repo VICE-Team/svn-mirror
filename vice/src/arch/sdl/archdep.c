@@ -58,5 +58,6 @@ int archdep_init(int *argc, char **argv)
 void archdep_shutdown(void)
 {
     SDL_Quit();
+    archdep_network_shutdown();
     archdep_shutdown_extra();
 }

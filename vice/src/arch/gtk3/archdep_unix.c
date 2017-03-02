@@ -284,6 +284,8 @@ void archdep_shutdown(void)
         lib_free(default_path);
     }
 
+    archdep_network_shutdown();
+
     /* partially implemented */
     NOT_IMPLEMENTED();
 }

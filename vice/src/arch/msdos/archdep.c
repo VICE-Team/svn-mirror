@@ -421,6 +421,7 @@ int archdep_rename(const char *oldpath, const char *newpath)
 
 void archdep_shutdown(void)
 {
+    archdep_network_shutdown();
 }
 
 char *archdep_get_runtime_os(void)
