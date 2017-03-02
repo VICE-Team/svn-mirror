@@ -762,6 +762,9 @@ EOF
     *9??*:MPE/iX:*:* | *3000*:MPE/iX:*:*)
 	echo hppa1.0-hp-mpeix
 	exit ;;
+    mips:OSF1:*:*)
+	echo mips-dec-osf1
+	exit ;;
     hp7??:OSF1:*:* | hp8?[79]:OSF1:*:* )
 	echo hppa1.1-hp-osf
 	exit ;;
