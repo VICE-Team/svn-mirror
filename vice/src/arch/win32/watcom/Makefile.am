@@ -55,6 +55,7 @@ EXTRA_DIST = \
 	joyport.tgt \
 	maincpu.tgt \
 	make-watcom-bindist.bat \
+	mididrv.tgt \
 	monitor.tgt \
 	p64.tgt \
 	parallel.tgt \
