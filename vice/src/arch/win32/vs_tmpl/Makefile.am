@@ -47,6 +47,7 @@ EXTRA_DIST = \
 	imagecontents.tmpl \
 	joyport.tmpl \
 	lame.tmpl \
+	mididrv.tmpl \
 	mkmsvc.c \
 	mkmsvc.dsp \
 	mkmsvc.dsw \
