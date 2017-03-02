@@ -57,6 +57,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifdef __ppc__
 #include <sys/stat.h>
@@ -92,10 +94,10 @@ static char os_version_str[MAX_OS_VERSION_STR];
 */
 static void get_os_version(unsigned *major, unsigned *minor, unsigned *bugFix)
 {
+#ifndef NO_GESTALT
     OSErr err;
     SInt32 systemVersion, versionMajor, versionMinor, versionBugFix;
 
-#ifndef NO_GESTALT
     if ((err = Gestalt(gestaltSystemVersion, &systemVersion)) != noErr) {
         goto fail;
     }
@@ -130,6 +132,38 @@ static void get_os_version(unsigned *major, unsigned *minor, unsigned *bugFix)
         }
         if (bugFix) {
             *bugFix = versionBugFix;
+        }
+    }
+
+    return;
+#else
+    FILE *fp;
+    char num[15];
+    const char d[2] = ".";
+    char *token;
+
+    fp = popen("/usr/bin/defaults read /System/Library/CoreServices/SystemVersion.plist |/usr/bin/grep ProductVersion |/usr/bin/cut -c23-", "r");
+
+    if (fp == NULL) {
+        goto fail;
+    }
+
+    while (fgets(num, 15, fp) != NULL) {
+        num[(int)strlen(num)-3] = '\0';
+    }
+
+    pclose(fp);
+    token = strtok(num, d);
+
+    if (token != NULL) {
+        *major = strtoul(token, NULL, 0);
+        token = strtok(NULL, d);
+        if (token != NULL) {
+            *minor = strtoul(token, NULL, 0);
+            token = strtok(NULL, d);
+            if (token != NULL) {
+                *bugFix = strtoul(token, NULL, 0);
+            }
         }
     }
 
