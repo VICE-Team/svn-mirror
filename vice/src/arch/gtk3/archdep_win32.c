@@ -194,6 +194,13 @@ int archdep_network_init(void)
 }
 
 
+void archdep_network_shutdown(void)
+{
+    NOT_IMPLEMENTED();
+}
+
+
+
 char *archdep_quote_parameter(const char *name)
 {
     NOT_IMPLEMENTED();

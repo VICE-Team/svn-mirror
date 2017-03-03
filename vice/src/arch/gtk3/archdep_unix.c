@@ -345,6 +345,11 @@ char *archdep_tmpnam(void)
 #endif
 }
 
+void archdep_network_shutdown(void)
+{
+    /* NOP, just like in arch/unix */
+}
+
 
 void archdep_signals_pipe_set(void)
 {
