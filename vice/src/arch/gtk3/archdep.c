@@ -246,6 +246,15 @@ FILE *archdep_open_default_log_file(void)
 }
 
 
+/** \brief  'Shutdown' network - doesn't do anything
+ */
+void archdep_network_shutdown()
+{
+    /* NOP */
+}
+
+
+
 void archdep_signals_init(int do_core_dumps)
 {
     /* NOP: Gtk3 should handle any signals, I think */
