@@ -50,7 +50,7 @@
 #include "translate.h"
 #include "types.h"
 
-#ifndef MAXULONG_PTR
+#ifndef DWORD_PTR
 #define DWORD_PTR unsigned long
 #endif
 
