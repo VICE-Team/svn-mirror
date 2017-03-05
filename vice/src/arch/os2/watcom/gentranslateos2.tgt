@@ -67,8 +67,8 @@ o?2??Include directories:
 1
 17
 WString
-48
-"$(%watcom)/h;$(%watcom)/h/nt;..\..\win32\utils"
+50
+"$(%watcom)/h;$(%watcom)/h/nt;..\..\..\buildtools"
 0
 18
 WVList
