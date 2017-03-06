@@ -116,7 +116,7 @@ src/arch/unix/x11/xaw/x11video.c
 
 # macOSX
 src/arch/unix/macosx/joy.c
-src/arch/unix/macosx/mididrv.c
+src/mididrv//midi-osx-drv.c
 src/arch/unix/macosx/cocoa/mousedrv.m
 src/arch/unix/macosx/cocoa/ui-cmdline-options.c
 src/arch/unix/macosx/cocoa/viceapplication.m
