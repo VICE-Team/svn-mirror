@@ -50,7 +50,7 @@
 #define NEED_STRDUP
 #endif
 
-#if defined(ultrix) && defined(MIPSEL)
+#ifdef ultrix
 #define NEED_STRDUP
 #endif
 
