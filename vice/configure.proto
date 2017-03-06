@@ -4363,9 +4363,9 @@ if test x"$is_unix" = "xyes"; then
         ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR readline"
       fi
     fi
-  else
-    AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
   fi
+
+  AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
 
   if test x"$is_unix_macosx" = "xyes" ; then
     ARCH_MAKE_BINDIST_DIR="\$(top_srcdir)/src/arch/unix/macosx"
