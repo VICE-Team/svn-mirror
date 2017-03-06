@@ -2,7 +2,7 @@
 
 # Architecture Unix
 src/arch/unix/joy.c
-src/arch/unix/mididrv.c
+src/mididrv/midi-unix-drv.c
 src/arch/unix/rs232dev.c
 
 # Unix GUI
