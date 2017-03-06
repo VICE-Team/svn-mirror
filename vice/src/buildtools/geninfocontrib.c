@@ -46,7 +46,15 @@
 #include <unistd.h>
 #endif
 
-#ifdef NeXT
+#ifdef NEXT
+#define NEED_STRDUP
+#endif
+
+#if defined(ultrix) && defined(MIPSEL)
+#define NEED_STRDUP
+#endif
+
+#ifdef NEED_STRDUP
 static char *strdup(const char *string)
 {
     char *new;
