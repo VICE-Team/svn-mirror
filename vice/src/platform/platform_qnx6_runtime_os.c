@@ -32,6 +32,9 @@
    - QNX 6.3
    - QNX 6.3.2
    - QNX 6.4
+   - QNX 6.4.1
+   - QNX 6.5
+   - QNX 6.6
 */
 
 #include "vice.h"
