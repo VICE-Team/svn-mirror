@@ -1,8 +1,8 @@
-/*! \file msdos/socketimpl.h \n
- *  \author Marco van den Heuvel\n
+/*! \file socket-amiga-impl.h \n
+ *  \author Marco van den heuvel\n
  *  \brief  Abstraction from network sockets.
  *
- * socketimpl.h - Abstraction from network sockets. DOS implementation.
+ * socket-amiga-impl.h - Abstraction from network sockets. Amiga implementation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,13 +30,37 @@
  *
  */
 
-#ifndef VICE_SOCKETIMPL_H
-#define VICE_SOCKETIMPL_H
+#ifndef VICE_SOCKET_AMIGA_IMPL_H
+#define VICE_SOCKET_AMIGA_IMPL_H
 
 #ifdef HAVE_NETWORK
- 
-#if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
-#include <sys/resource.h>
+
+#include <assert.h>
+#include <stdio.h>
+
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
+#ifndef AMIGA_OS4
+# ifdef AMIGA_M68K
+#  include <utility/tagitem.h>
+#  include <clib/exec_protos.h>
+# endif
+# ifdef AMIGA_AROS
+#  undef WORD
+#  undef BYTE
+#  include <proto/exec.h>
+# endif
+# include <proto/socket.h>
+#else
+# define __USE_INLINE__
+# include <proto/bsdsocket.h>
+#endif
+
+#if !defined(AMIGA_AROS) && !defined(AMIGA_MORPHOS)
+# define select(nfds, read_fds, write_fds, except_fds, timeout) \
+    WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
 #endif
 
 #include <sys/types.h>
@@ -49,11 +73,23 @@
 #include <netinet/tcp.h>
 #endif
 
-typedef int SOCKET;
+#include <sys/time.h>
+
+#if !defined(AMIGA_M68K) && !defined(AMIGA_AROS)
+# include <unistd.h>
+#endif
+
+typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
 
+#ifdef AMIGA_OS4
+# define closesocket close
+#else
+# define closesocket CloseSocket
+#endif
+
 #ifndef INVALID_SOCKET
-#define INVALID_SOCKET (SOCKET)(~0)
+# define INVALID_SOCKET (SOCKET)(~0)
 #endif
 
 #define SOCKET_IS_INVALID(_x) ((_x) < 0)
@@ -62,4 +98,4 @@ typedef struct timeval TIMEVAL;
 
 #endif /* #ifdef HAVE_NETWORK */
 
-#endif /* #ifndef VICE_SOCKETIMPL_H */
+#endif /* #ifndef VICE_SOCKET_AMIGA_IMPL_H */

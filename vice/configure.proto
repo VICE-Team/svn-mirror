@@ -5079,6 +5079,7 @@ AC_OUTPUT([Makefile
            src/samplerdrv/Makefile
            src/serial/Makefile
            src/sid/Makefile
+           src/socketdrv/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
            src/tapeport/Makefile

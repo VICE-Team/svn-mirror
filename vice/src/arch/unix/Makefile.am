@@ -81,7 +81,6 @@ libarch_a_SOURCES = \
 	ps-io.c \
 	rs232dev.c \
 	signals.c \
-	socketimpl.h \
 	rawnetarch.c \
 	ssi2001-drv.c \
 	types.h \

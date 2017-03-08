@@ -1,5 +1,5 @@
 /*
- * socketimpl.h - Socket-specific stuff.
+ * socket-amiga-drv.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,19 +24,36 @@
  *
  */
 
-#ifndef VICE_SDL_SOCKETIMPL_H
-#define VICE_SDL_SOCKETIMPL_H
-
 #include "vice.h"
 
-/* since the socketimpl.h file won't change
-   the arch specific header is included directly. */
-#ifdef UNIX_COMPILE
-#include "socketimpl_unix.h"
+#define __USE_INLINE__
+
+#include "socketimpl.h"
+
+#ifndef AMIGA_OS4
+struct Library *SocketBase;
 #endif
 
-#ifdef WIN32_COMPILE
-#include "socketimpl_win32.h"
+int archdep_network_init(void)
+{
+#ifndef AMIGA_OS4
+    if (SocketBase == NULL) {
+        SocketBase = OpenLibrary("bsdsocket.library", 3);
+        if (SocketBase == NULL) {
+            return -1;
+        }
+    }
 #endif
 
+    return 0;
+}
+
+void archdep_network_shutdown(void)
+{
+#ifndef AMIGA_OS4
+    if (SocketBase != NULL) {
+        CloseLibrary(SocketBase);
+        SocketBase = NULL;
+    }
 #endif
+}

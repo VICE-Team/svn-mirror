@@ -1,5 +1,5 @@
 /*
- * socketimpl.h - Socket-specific stuff.
+ * socketdrv.c - Network socket driver
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,27 +24,32 @@
  *
  */
 
-#ifndef VICE_SDL_SOCKETIMPL_H
-#define VICE_SDL_SOCKETIMPL_H
-
 #include "vice.h"
 
-/* since the socketimpl.h file won't change
-   the arch specific header is included directly. */
+#include <stdio.h>
+
+#ifdef HAVE_NETWORK
+
 #ifdef AMIGA_SUPPORT
-#include "../amigaos/socketimpl.h"
-#endif
-
-#ifdef BEOS_COMPILE
-#include "../beos/socketimpl.h"
-#endif
-
-#ifdef UNIX_COMPILE
-#include "../unix/socketimpl.h"
+#include "socket-amiga-drv.c"
+#define NETWORK_SUPPORT_HANDLED
 #endif
 
 #ifdef WIN32_COMPILE
-#include "../win32/socketimpl.h"
+#include "socket-win32-drv.c"
+#define NETWORK_SUPPORT_HANDLED
 #endif
 
+#ifndef NETWORK_SUPPORT_HANDLED
+int archdep_network_init(void)
+{
+    /* Nothing to be done */
+    return 0;
+}
+
+void archdep_network_shutdown(void)
+{
+    /* Nothing to be done */
+}
+#endif
 #endif

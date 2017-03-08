@@ -58,7 +58,6 @@ libarch_a_SOURCES = \
 	plus4ui.cc \
 	scpu64ui.cc \
 	signals.c \
-	socketimpl.h \
 	ssi2001-drv.c \
 	statusbar.cc \
 	statusbar.h \

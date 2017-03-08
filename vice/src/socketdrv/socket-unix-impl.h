@@ -1,8 +1,8 @@
-/*! \file unix/socketimpl.h \n
+/*! \file socket-unix-impl.h \n
  *  \author Spiro Trikaliotis\n
  *  \brief  Abstraction from network sockets.
  *
- * socketimpl.h - Abstraction from network sockets. Unix implementation.
+ * socket-unix-impl.h - Abstraction from network sockets. Unix implementation.
  *
  * Written by
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
@@ -30,11 +30,11 @@
  *
  */
 
-#ifndef VICE_SOCKETIMPL_H
-#define VICE_SOCKETIMPL_H
+#ifndef VICE_SOCKET_UNIX_IMPL_H
+#define VICE_SOCKET_UNIX_IMPL_H
 
 #ifdef HAVE_NETWORK
-
+ 
 #if defined(MINIX_SUPPORT) || defined(__minix_vmd)
 # include <limits.h>
 # define PF_INET AF_INET
@@ -120,4 +120,4 @@ typedef unsigned long in_addr_t;
 
 #endif /* #ifdef HAVE_NETWORK */
 
-#endif /* #ifndef VICE_SOCKETIMPL_H */
+#endif /* #ifndef VICE_SOCKET_UNIX_IMPL_H */

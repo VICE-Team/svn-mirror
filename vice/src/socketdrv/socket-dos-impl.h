@@ -1,11 +1,11 @@
-/*! \file win32/socketimpl.h \n
- *  \author Spiro Trikaliotis\n
+/*! \file socket-dos-impl.h \n
+ *  \author Marco van den Heuvel\n
  *  \brief  Abstraction from network sockets.
  *
- * socketimpl.h - Abstraction from network sockets. Windows implementation.
+ * socket-dos-impl.h - Abstraction from network sockets. DOS implementation.
  *
  * Written by
- *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * based on code from network.c written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -30,17 +30,36 @@
  *
  */
 
-#ifndef VICE_SOCKETIMPL_H
-#define VICE_SOCKETIMPL_H
+#ifndef VICE_SOCKET_DOS_IMPL_H
+#define VICE_SOCKET_DOS_IMPL_H
 
 #ifdef HAVE_NETWORK
+ 
+#if !defined(HAVE_GETDTABLESIZE) && defined(HAVE_GETRLIMIT)
+#include <sys/resource.h>
+#endif
 
-#include <winsock2.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 
-#define SOCKET_IS_INVALID(_x) ((_x) == INVALID_SOCKET)
+#ifdef HAVE_NETINET_TCP_H
+#include <netinet/tcp.h>
+#endif
 
-typedef unsigned long in_addr_t;
+typedef int SOCKET;
+typedef struct timeval TIMEVAL;
+
+#ifndef INVALID_SOCKET
+#define INVALID_SOCKET (SOCKET)(~0)
+#endif
+
+#define SOCKET_IS_INVALID(_x) ((_x) < 0)
+
+#define in_addr_t unsigned long
 
 #endif /* #ifdef HAVE_NETWORK */
 
-#endif /* #ifndef VICE_SOCKETIMPL_H */
+#endif /* #ifndef VICE_SOCKET_DOS_IMPL_H */

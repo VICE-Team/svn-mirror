@@ -110,8 +110,6 @@ libarch_a_SOURCES = \
 	screen-shot.c \
 	screen-shot.h \
 	signals.c \
-	socketimpl.c \
-	socketimpl.h \
 	ssi2001-drv.c \
 	statusbar.c \
 	statusbar.h \

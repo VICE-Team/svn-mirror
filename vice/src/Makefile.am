@@ -17,6 +17,7 @@ SUBDIRS = \
 	joyport \
 	sounddrv \
 	mididrv \
+	socketdrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -61,6 +62,7 @@ endif
 DIST_SUBDIRS = \
 	sounddrv \
 	mididrv \
+	socketdrv \
 	samplerdrv \
 	joyport \
 	drive \
@@ -125,7 +127,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/tapeport \
-	-I$(top_srcdir)/src/tape
+	-I$(top_srcdir)/src/tape \
+	-I$(top_srcdir)/src/socketdrv
 
 noinst_HEADERS = \
 	6510core.h \
@@ -1291,6 +1294,7 @@ iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
+mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
@@ -1304,8 +1308,8 @@ rtc_lib = $(top_builddir)/src/rtc/librtc.a
 samplerdrv_lib = $(top_builddir)/src/samplerdrv/libsamplerdrv.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
+socketdrv_lib = $(top_builddir)/src/socketdrv/libsocketdrv.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
-mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 tapeport_lib = $(top_builddir)/src/tapeport/libtapeport.a
 userport_lib = $(top_builddir)/src/userport/libuserport.a
@@ -1330,7 +1334,7 @@ ffmpeg_libs = @FFMPEG_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
 
-driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -1409,6 +1413,7 @@ vsid_libs =  \
 	$(monitor_lib) \
 	$(sounddrv_lib) \
 	$(mididrv_lib) \
+	$(socketdrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
 	$(viciivsid_lib) \
@@ -1435,6 +1440,7 @@ vsid-all: \
 	libsid \
 	libsounddrv \
 	libmididrv \
+	libsocketdrv \
 	libviciivsid \
 	libvideo \
 	libarch \
@@ -2280,6 +2286,7 @@ c1541_LDADD = \
 	$(tape_lib) \
 	$(serial_lib) \
 	$(platform_lib) \
+	$(socketdrv_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
@@ -2296,6 +2303,7 @@ c1541-all: \
 	libimagecontents \
 	libfileio \
 	libplatform \
+	libsocketdrv \
 	c1541$(EXEEXT)
 
 # petcat
@@ -2316,6 +2324,7 @@ petcat_LDADD = \
 	$(ARCH_EXTRA_OBJECTS) \
 	$(fileio_lib) \
 	$(platform_lib) \
+	$(socketdrv_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@ZLIB_LIBS@
 
@@ -2325,6 +2334,7 @@ petcat-all: \
 	libarch \
 	libfileio \
 	libplatform \
+	libsocketdrv \
 	petcat$(EXEEXT)
 
 # cartconv
@@ -2339,11 +2349,11 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 .PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 \
 	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv \
 	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv \
-	libmididrv libdiskimage libfsdevice libtape libarch libvicii \
-	libviciisc libviciidtv libviciivsid libvdc libsid libcrtc libvideo \
-	libserial libparallel libcore libiecbus libfileio librtc libuserport \
-	libtapeport libp64 libscpu64 libdiag @RESID_DEP@ @RESID_DTV_DEP@ \
-	@FFMPEG_DEP@
+	libmididrv libsocketdrv libdiskimage libfsdevice libtape libarch \
+	libvicii libviciisc libviciidtv libviciivsid libvdc libsid libcrtc \
+	libvideo libserial libparallel libcore libiecbus libfileio librtc \
+	libuserport libtapeport libp64 libscpu64 libdiag @RESID_DEP@ \
+	@RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
 	@(cd arch && $(MAKE))
@@ -2489,6 +2499,9 @@ libserial:
 libsid:
 	@echo "making libsid.a in sid"
 	@(cd sid && $(MAKE) libsid.a)
+libsocketdrv:
+	@echo "making libsocketdrv.a in socketdrv"
+	@(cd socketdrv && $(MAKE) libsocketdrv.a)
 libsounddrv:
 	@echo "making all in sounddrv"
 	@(cd sounddrv && $(MAKE))

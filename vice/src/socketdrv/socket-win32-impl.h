@@ -1,8 +1,8 @@
-/*! \file beos/socketimpl.h \n
+/*! \file socket-win32-impl.h \n
  *  \author Spiro Trikaliotis\n
  *  \brief  Abstraction from network sockets.
  *
- * socketimpl.h - Abstraction from network sockets. BeOS implementation.
+ * socket-win32-impl.h - Abstraction from network sockets. Windows implementation.
  *
  * Written by
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
@@ -30,53 +30,17 @@
  *
  */
 
-#ifndef VICE_SOCKETIMPL_H
-#define VICE_SOCKETIMPL_H
+#ifndef VICE_SOCKET_WINDOWS_IMPL_H
+#define VICE_SOCKET_WINDOWS_IMPL_H
 
 #ifdef HAVE_NETWORK
- 
-#include <sys/time.h> 
-#include <sys/socket.h>
-#include <netdb.h>
-#include <ByteOrder.h>
 
-#ifdef __HAIKU__
-#include <arpa/inet.h>
-#endif
+#include <winsock2.h>
 
-#ifdef HAVE_NETINET_TCP_H
-#include <netinet/tcp.h>
-#endif
+#define SOCKET_IS_INVALID(_x) ((_x) == INVALID_SOCKET)
 
-typedef int SOCKET;
-typedef struct timeval TIMEVAL;
-
-/* HACK: Haiku doesn't declare closesocket() in any standard header, so the
- *       following hack takes care of that. Since Haiku is fairly POSIX
- *       compatible this works. But feel free to solve this properly (compyx)
- */
-#ifdef __HAIKU__
-#  ifndef closesocket
-#    include <unistd.h>
-#    define closesocket(FD) close(FD)
-#  endif
-#endif
-
-#ifndef __HAIKU__
 typedef unsigned long in_addr_t;
-#endif
-
-#define PF_INET AF_INET
-#define INVALID_SOCKET (SOCKET)(~0)
-#define HAVE_HTONS
-#define HAVE_HTONL
-
-#ifndef INADDR_NONE
-#define INADDR_NONE ((unsigned long)-1)
-#endif
-
-#define SOCKET_IS_INVALID(_x) ((_x) < 0)
 
 #endif /* #ifdef HAVE_NETWORK */
 
-#endif /* #ifndef VICE_SOCKETIMPL_H */
+#endif /* #ifndef VICE_SOCKET_WINDOWS_IMPL_H */

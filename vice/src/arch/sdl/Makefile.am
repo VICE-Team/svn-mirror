@@ -168,7 +168,6 @@ libarch_a_SOURCES = \
 	rs232dev.c \
 	sdlmain.c \
 	signals.c \
-	socketimpl.h \
 	ssi2001-drv.c \
 	types.h \
 	ui.c \

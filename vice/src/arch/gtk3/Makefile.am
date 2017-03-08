@@ -114,9 +114,6 @@ EXTRA_DIST = \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
-	socketimpl.h \
-	socketimpl_unix.h \
-	socketimpl_win32.h \
 	ssi2001-unix-drv.c \
 	ssi2001-win32-drv.c \
 	types.h \

@@ -1,14 +1,8 @@
-/*! \file win32/socketimpl.h \n
- *  \author Spiro Trikaliotis\n
- *  \brief  Abstraction from network sockets.
- *
- * socketimpl.h - Abstraction from network sockets. Windows implementation.
+/*
+ * socketimpl.h - Socket-specific stuff.
  *
  * Written by
- *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
- *
- * based on code from network.c written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,14 +27,26 @@
 #ifndef VICE_SOCKETIMPL_H
 #define VICE_SOCKETIMPL_H
 
-#ifdef HAVE_NETWORK
+#include "vice.h"
 
-#include <winsock2.h>
+#ifdef AMIGA_SUPPORT
+#include "socket-amiga-impl.h"
+#endif
 
-#define SOCKET_IS_INVALID(_x) ((_x) == INVALID_SOCKET)
+#ifdef BEOS_COMPILE
+#include "socket-beos-impl.h"
+#endif
 
-typedef unsigned long in_addr_t;
+#ifdef __MSDOS__
+#include "socket-dos-impl.h"
+#endif
 
-#endif /* #ifdef HAVE_NETWORK */
+#ifdef UNIX_COMPILE
+#include "socket-unix-impl.h"
+#endif
 
-#endif /* #ifndef VICE_SOCKETIMPL_H */
+#ifdef WIN32_COMPILE
+#include "socket-win32-impl.h"
+#endif
+
+#endif

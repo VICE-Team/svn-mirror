@@ -147,7 +147,6 @@ libarch_a_SOURCES = \
 	rs232dev.c \
 	scpu64ui.c \
 	signals.c \
-	socketimpl.h \
 	ssi2001-drv.c \
 	statusbar.c \
 	statusbar.h \

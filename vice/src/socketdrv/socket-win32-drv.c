@@ -1,5 +1,5 @@
 /*
- * socketimpl.c
+ * socket-win32-drv.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -26,34 +26,21 @@
 
 #include "vice.h"
 
-#define __USE_INLINE__
-
-#include "socketimpl.h"
-
-#ifndef AMIGA_OS4
-struct Library *SocketBase;
-#endif
+#include <windows.h>
+#include <winsock.h>
 
 int archdep_network_init(void)
 {
-#ifndef AMIGA_OS4
-    if (SocketBase == NULL) {
-        SocketBase = OpenLibrary("bsdsocket.library", 3);
-        if (SocketBase == NULL) {
-            return -1;
-        }
-    }
-#endif
+    WORD wVersionRequested = MAKEWORD(1, 1);
+    WSADATA wsaData;
+
+    WSAStartup(wVersionRequested, &wsaData);
 
     return 0;
 }
 
 void archdep_network_shutdown(void)
 {
-#ifndef AMIGA_OS4
-    if (SocketBase != NULL) {
-        CloseLibrary(SocketBase);
-        SocketBase = NULL;
-    }
-#endif
+    WSACleanup();
 }
+

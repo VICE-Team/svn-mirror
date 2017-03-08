@@ -42,10 +42,6 @@
 #include "log.h"
 #include "mididrv.h"
 
-#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
-#include "res.h"
-#endif
-
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
@@ -110,16 +106,11 @@ void mididrv_resources_shutdown(void)
 {
 }
 
-#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
-#define DEFAULT_PARAM USE_PARAM_ID
-#define DEFAULT_DESCR USE_DESCRIPTION_ID
-#else
 #define DEFAULT_PARAM USE_PARAM_STRING
 #define DEFAULT_DESCR USE_DESCRIPTION_STRING
 #define IDS_P_NUMBER          IDCLS_UNUSED
 #define IDS_SPECIFY_MIDI_IN   IDCLS_UNUSED
 #define IDS_SPECIFY_MIDI_OUT  IDCLS_UNUSED
-#endif
 
 static const cmdline_option_t cmdline_options[] = {
     { "-midiin", SET_RESOURCE, 1,
@@ -414,4 +405,3 @@ int mididrv_in(BYTE *b)
 
 #endif
 #endif
-

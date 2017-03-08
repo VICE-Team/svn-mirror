@@ -108,21 +108,6 @@
 static char *orig_workdir;
 static char *argv0;
 
-int archdep_network_init(void)
-{
-    WORD wVersionRequested = MAKEWORD(1, 1);
-    WSADATA wsaData;
-
-    WSAStartup(wVersionRequested, &wsaData);
-
-    return 0;
-}
-
-void archdep_network_shutdown(void)
-{
-    WSACleanup();
-}
-
 int archdep_init(int *argc, char **argv)
 {
     _fmode = O_BINARY;
