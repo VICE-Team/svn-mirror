@@ -74,6 +74,7 @@ EXTRA_DIST = \
 	scpu64.tgt \
 	serial.tgt \
 	sid.tgt \
+	socketdrv.tgt \
 	sounddrv.tgt \
 	system.h \
 	tape.tgt \
