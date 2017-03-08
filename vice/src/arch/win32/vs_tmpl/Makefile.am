@@ -71,6 +71,7 @@ EXTRA_DIST = \
 	scpu64.tmpl \
 	serial.tmpl \
 	sid.tmpl \
+	socketdrv.tmpl \
 	sounddrv.tmpl \
 	swresample.tmpl \
 	swresample-x86.tmpl \
