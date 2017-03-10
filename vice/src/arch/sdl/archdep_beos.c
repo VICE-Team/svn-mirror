@@ -73,15 +73,6 @@
 static char *orig_workdir;
 static char *argv0 = NULL;
 
-int archdep_network_init(void)
-{
-    return 0;
-}
-
-void archdep_network_shutdown(void)
-{
-}
-
 int archdep_init_extra(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);

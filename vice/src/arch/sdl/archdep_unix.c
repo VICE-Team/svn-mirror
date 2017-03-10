@@ -93,15 +93,6 @@ int archdep_rtc_get_centisecond(void)
 }
 #endif
 
-int archdep_network_init(void)
-{
-    return 0;
-}
-
-void archdep_network_shutdown(void)
-{
-}
-
 int archdep_init_extra(int *argc, char **argv)
 {
     ssize_t read;

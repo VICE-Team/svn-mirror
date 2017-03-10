@@ -187,13 +187,6 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     return NULL;
 }
 
-int archdep_network_init(void)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-
 char *archdep_quote_parameter(const char *name)
 {
     NOT_IMPLEMENTED();

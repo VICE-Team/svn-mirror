@@ -220,21 +220,6 @@ static void system_wcstombs_free(char *mbs)
     lib_free(mbs);
 }
 
-int archdep_network_init(void)
-{
-    WORD wVersionRequested = MAKEWORD(1, 1);
-    WSADATA wsaData;
-
-    WSAStartup(wVersionRequested, &wsaData);
-
-    return 0;
-}
-
-void archdep_network_shutdown(void)
-{
-    WSACleanup();
-}
-
 static int archdep_init_extra(int *argc, char **argv)
 {
     _fmode = O_BINARY;

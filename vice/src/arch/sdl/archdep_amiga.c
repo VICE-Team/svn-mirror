@@ -103,30 +103,6 @@ int SDL_Init(Uint32 flags)
 }
 #endif
 
-int archdep_network_init(void)
-{
-#ifndef AMIGA_OS4
-    if (SocketBase == NULL) {
-        SocketBase = OpenLibrary("bsdsocket.library", 3);
-        if (SocketBase == NULL) {
-            return -1;
-        }
-    }
-#endif
-
-    return 0;
-}
-
-void archdep_network_shutdown(void)
-{
-#ifndef AMIGA_OS4
-    if (SocketBase != NULL) {
-        CloseLibrary(SocketBase);
-        SocketBase = NULL;
-    }
-#endif
-}
-
 int archdep_init_extra(int *argc, char **argv)
 {
     if (*argc == 0) { /* run from WB */
