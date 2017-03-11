@@ -35,14 +35,9 @@ libarch_a_SOURCES = \
 	c128ui.cc \
 	c64ui.cc \
 	c64dtvui.cc \
-	catweaselmkiii-drv.c \
 	cbm2ui.cc \
 	cbm5x0ui.cc \
 	console.c \
-	hardsid-drv.c \
-	hs.h \
-	hs-isa.c \
-	hs-pci.c \
 	io-access.c \
 	io-access.h \
 	joy.cc \
@@ -51,14 +46,12 @@ libarch_a_SOURCES = \
 	kbd.h \
 	mousedrv.cc \
 	mousedrv.h \
-	parsid-drv.c \
 	pci-drv.c \
 	pci-drv.h \
 	petui.cc \
 	plus4ui.cc \
 	scpu64ui.cc \
 	signals.c \
-	ssi2001-drv.c \
 	statusbar.cc \
 	statusbar.h \
 	types.h \

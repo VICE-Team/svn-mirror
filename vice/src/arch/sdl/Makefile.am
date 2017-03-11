@@ -46,20 +46,13 @@ libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
-	catweaselmkiii-drv.c \
 	console.c \
 	console_unix.c \
 	coproc.c \
 	coproc.h \
-	cw-device.c \
-	cw-pci.c \
 	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \
-	hardsid-drv.c \
-	hs-device.c \
-	hs-isa.c \
-	hs-pci.c \
 	io-access.c \
 	joy.c \
 	joy.h \
@@ -159,16 +152,11 @@ libarch_a_SOURCES = \
 	menu_video.h \
 	mousedrv.c \
 	mousedrv.h \
-	parsid-drv.c \
 	pci-drv.c \
-	ps-device.c \
-	ps-ieee1284.c \
-	ps-io.c \
 	rawnetarch.c \
 	rs232dev.c \
 	sdlmain.c \
 	signals.c \
-	ssi2001-drv.c \
 	types.h \
 	ui.c \
 	ui.h \
@@ -214,12 +202,9 @@ EXTRA_DIST = \
 	archdep_win32.c \
 	archdep_win32.h \
 	beos-io-access.h \
-	catweaselmkiii-amigaos-drv.c \
-	catweaselmkiii-beos-drv.c \
 	console_amiga.c \
 	console_sdl.c \
 	console_unix.c \
-	cw-amigaos.h \
 	generate_msvc6_sdl1x.bat \
 	generate_msvc6_sdl2x.bat \
 	generate_msvc70_ffmpeg_sdl1x.bat \

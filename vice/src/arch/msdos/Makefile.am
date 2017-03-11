@@ -40,7 +40,6 @@ libarch_a_SOURCES = \
 	c128ui.c \
 	c64ui.c \
 	c64dtvui.c \
-	catweaselmkiii-drv.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	cbmcharsets.c \
@@ -48,10 +47,6 @@ libarch_a_SOURCES = \
 	console.c \
 	grabkey.c \
 	grabkey.h \
-	hardsid-drv.c \
-	hs.h \
-	hs-isa.c \
-	hs-pci.c \
 	joy.c \
 	joy.h \
 	kbd.c \
@@ -63,7 +58,6 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	msdosmain.c \
-	parsid-drv.c \
 	pci-drv.c \
 	pci-drv.h \
 	petui.c \
@@ -71,7 +65,6 @@ libarch_a_SOURCES = \
 	rawnetarch.c \
 	scpu64ui.c \
 	signals.c \
-	ssi2001-drv.c \
 	statusbar.c \
 	statusbar.h \
 	tui.c \

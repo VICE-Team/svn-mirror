@@ -5060,6 +5060,7 @@ AC_OUTPUT([Makefile
            src/fileio/Makefile
            src/fsdevice/Makefile
            src/gfxoutputdrv/Makefile
+           src/hwsiddrv/Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
            src/joyport/Makefile

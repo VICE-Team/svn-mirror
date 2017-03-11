@@ -18,6 +18,7 @@ SUBDIRS = \
 	sounddrv \
 	mididrv \
 	socketdrv \
+	hwsiddrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -63,6 +64,7 @@ DIST_SUBDIRS = \
 	sounddrv \
 	mididrv \
 	socketdrv \
+	hwsiddrv \
 	samplerdrv \
 	joyport \
 	drive \
@@ -1290,6 +1292,7 @@ drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
+hwsiddrv_lib = $(top_builddir)/src/hwsiddrv/libhwsiddrv.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
@@ -1334,7 +1337,7 @@ ffmpeg_libs = @FFMPEG_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
 
-driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -1414,6 +1417,7 @@ vsid_libs =  \
 	$(sounddrv_lib) \
 	$(mididrv_lib) \
 	$(socketdrv_lib) \
+	$(hwsiddrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
 	$(viciivsid_lib) \
@@ -1441,6 +1445,7 @@ vsid-all: \
 	libsounddrv \
 	libmididrv \
 	libsocketdrv \
+	libhwsiddrv \
 	libviciivsid \
 	libvideo \
 	libarch \
@@ -1890,12 +1895,12 @@ xvic_libs =  \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
+	$(sid_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
 	$(userport_lib) \
 	$(diag_lib) \
         $(rtc_lib) \
-	$(sid_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
@@ -1966,12 +1971,12 @@ xpet_libs =  \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
+	$(sid_lib) \
 	$(driver_libs) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
 	$(video_lib) \
-	$(sid_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
@@ -2042,8 +2047,8 @@ xplus4_libs =  \
 	$(iecbus_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
-	$(driver_libs) \
 	$(sid_lib) \
+	$(driver_libs) \
 	$(raster_lib) \
 	$(rtc_lib) \
 	$(userport_lib) \
@@ -2116,8 +2121,8 @@ xcbm2_libs = \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
-	$(driver_libs) \
 	$(sid_lib) \
+	$(driver_libs) \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
@@ -2189,8 +2194,8 @@ xcbm5x0_libs = \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
-	$(driver_libs) \
 	$(sid_lib) \
+	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
@@ -2349,10 +2354,10 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 .PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 \
 	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv \
 	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv \
-	libmididrv libsocketdrv libdiskimage libfsdevice libtape libarch \
-	libvicii libviciisc libviciidtv libviciivsid libvdc libsid libcrtc \
-	libvideo libserial libparallel libcore libiecbus libfileio librtc \
-	libuserport libtapeport libp64 libscpu64 libdiag @RESID_DEP@ \
+	libmididrv libsocketdrv libhwsiddrv libdiskimage libfsdevice libtape \
+	libarch libvicii libviciisc libviciidtv libviciivsid libvdc libsid \
+	libcrtc libvideo libserial libparallel libcore libiecbus libfileio \
+	librtc libuserport libtapeport libp64 libscpu64 libdiag @RESID_DEP@ \
 	@RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
@@ -2442,6 +2447,9 @@ libfsdevice:
 libgfxoutputdrv:
 	@echo "making all in gfxoutputdrv"
 	@(cd gfxoutputdrv && $(MAKE))
+libhwsiddrv:
+	@echo "making all in hwsiddrv"
+	@(cd hwsiddrv && $(MAKE))
 libiecbus:
 	@echo "making all in iecbus"
 	@(cd iecbus && $(MAKE))

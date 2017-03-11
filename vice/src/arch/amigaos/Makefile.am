@@ -62,25 +62,13 @@ libarch_a_SOURCES = \
 	c64uires.h \
 	c64dtvui.c \
 	c64dtvuires.h \
-	catweaselmkiii-drv.c \
 	cbm2ui.c \
 	cbm2uires.h \
 	cbm5x0ui.c \
 	cbm5x0uires.h \
 	console.c \
-	cw.h \
-	cw_clockport.c \
-	cw_device.c \
-	cw_openpci.c \
-	cw_os4.c \
-	cw_zorro.c \
 	fullscreen.c \
 	fullscreenarch.h \
-	hardsid-drv.c \
-	hs.h \
-	hs_gg2_isa.c \
-	hs_openpci.c \
-	hs_os4.c \
 	intl.c \
 	intl_funcs.h \
 	joy.c \
@@ -110,7 +98,6 @@ libarch_a_SOURCES = \
 	screen-shot.c \
 	screen-shot.h \
 	signals.c \
-	ssi2001-drv.c \
 	statusbar.c \
 	statusbar.h \
 	rawnetarch.c \
