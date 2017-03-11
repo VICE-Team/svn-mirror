@@ -30,11 +30,11 @@
 #include "vice.h"
 
 #ifdef BEOS_COMPILE
-#include "../beos/io-accesss.h"
+#include "../beos/io-access.h"
 #endif
 
 #ifdef UNIX_COMPILE
-#include "../unix/io-accesss.h"
+#include "../arch/unix/io-access.h"
 #endif
 
 #endif
