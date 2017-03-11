@@ -54,6 +54,7 @@ libarch_a_SOURCES = \
 	fullscreen.c \
 	fullscreenarch.h \
 	io-access.c \
+	io-access.h \
 	joy.c \
 	joy.h \
 	kbd.c \
