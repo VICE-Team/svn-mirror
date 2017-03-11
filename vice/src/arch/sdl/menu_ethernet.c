@@ -116,7 +116,7 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
       ETHERNET_INTERFACE_dynmenu_callback, \
       (ui_callback_data_t)ethernet_interface_dyn_menu },
 
-#endif /* defined(WIN32_COMPILE)
+#endif /* defined(WIN32_COMPILE) */
 
 /* Common menus */
 

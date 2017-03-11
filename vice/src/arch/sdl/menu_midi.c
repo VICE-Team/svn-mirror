@@ -253,7 +253,7 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
       MIDIOutDev_dynmenu_callback,            \
       (ui_callback_data_t)midi_out_dyn_menu },
 
-#endif /* defined(WIN32_COMPILE)
+#endif /* defined(WIN32_COMPILE) */
 
 /* Common menus */
 
