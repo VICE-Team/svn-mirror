@@ -43,6 +43,7 @@ EXTRA_DIST = \
 	genwr.tgt \
 	genwt.bat \
 	gfxoutputdrv.tgt \
+	hwsiddrv.tgt \
 	ide-config.h \
 	ide-siddefs.h \
 	ide-siddtvdefs.h \
