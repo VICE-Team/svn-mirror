@@ -433,7 +433,7 @@ Filter::Filter()
       model_filter_init_t& fi = model_filter_init[1];
       model_filter_t& f = model_filter[1];
 
-      double Vgt = fi.k * ((4.75 * 1.2) - fi.Vth);
+      double Vgt = fi.k * ((4.75 * 1.6) - fi.Vth);
       kVgt = (int)(f.vo_N16 * (Vgt - fi.opamp_voltage[0][0]) + 0.5);
 
       // DAC table.
@@ -550,8 +550,9 @@ void Filter::adjust_filter_bias(double dac_bias)
   Vw_bias = int(dac_bias*model_filter[0].vo_N16);
   set_w0();
 
-  // Calculate DAC gate voltage
-  double Vg = (4.75 * 1.2) + (3. * (0.5 + dac_bias));
+  // Gate voltage is controlled by the switched capacitor voltage divider
+  // Ua = Ue * v = 4.75v  1<v<2
+  double Vg = 4.75 * (dac_bias*6./100. + 1.6);
   double Vgt = model_filter_init[1].k * (Vg - model_filter_init[1].Vth);
   double vmin = model_filter_init[1].opamp_voltage[0][0];
 

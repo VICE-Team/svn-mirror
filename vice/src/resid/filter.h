@@ -628,6 +628,7 @@ protected:
 
   // DAC gate voltage
   int kVgt;
+
   // Lookup tables for resonance
   static unsigned short resonance[16][1 << 16];
 
