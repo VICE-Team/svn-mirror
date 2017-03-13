@@ -43,6 +43,7 @@ EXTRA_DIST = \
 	gentranslate32.tgt \
 	genwt.bat \
 	gfxoutputdrv.tgt \
+	hwsiddrv.tgt \
 	iec.tgt \
 	iec128dcr.tgt \
 	iecbus.tgt \
