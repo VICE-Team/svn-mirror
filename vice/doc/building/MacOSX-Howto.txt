@@ -52,11 +52,14 @@ Optional:
 
 cc65
 ffmpeg
+pkg-config (required for ffmpeg)
 flac
 giflib
 jpeg
 lame
 libpng
+libvorbis
+mpg123
 
 2. Building VICE
 
