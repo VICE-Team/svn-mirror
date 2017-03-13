@@ -595,6 +595,11 @@ protected:
   chip_model sid_model;
 
   typedef struct {
+    unsigned short vx;
+    short dvx;
+  } opamp_t;
+
+  typedef struct {
     int kVddt;   // K*(Vdd - Vth)
     int voice_scale_s14;
     int voice_DC;
@@ -632,7 +637,7 @@ protected:
   // Lookup tables for resonance
   static unsigned short resonance[16][1 << 16];
 
-  int solve_gain(int* opamp, int n, int vi_t, int& x, model_filter_t& mf);
+  int solve_gain(opamp_t* opamp, int n, int vi_t, int& x, model_filter_t& mf);
   int solve_integrate_6581(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
   int solve_integrate_8580(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
 
@@ -1490,7 +1495,7 @@ the equations for the root function and its derivative can be written as:
   df = 2*((b - (vx + x))*(dvx + 1) - a*(b - vx)*dvx)
 */
 RESID_INLINE
-int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
+int Filter::solve_gain(opamp_t* opamp, int n, int vi, int& x, model_filter_t& mf)
 {
   // Note that all variables are translated and scaled in order to fit
   // in 16 bits. It is not necessary to explicitly translate the variables here,
@@ -1511,9 +1516,8 @@ int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
     int xk = x;
 
     // Calculate f and df.
-    int vx_dvx = opamp[x];
-    int vx = vx_dvx & 0xffff;  // Scaled by m*2^16
-    int dvx = vx_dvx >> 16;    // Scaled by 2^11
+    int vx = opamp[x].vx;      // Scaled by m*2^16
+    int dvx = opamp[x].dvx;    // Scaled by 2^11
 
     // f = a*(b - vx)^2 - c - (b - vo)^2
     // df = 2*((b - vo)*(dvx + 1) - a*(b - vx)*dvx)
