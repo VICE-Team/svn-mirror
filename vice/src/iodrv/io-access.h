@@ -29,10 +29,6 @@
 
 #include "types.h"
 
-extern void io_access_store_byte(WORD addr, BYTE value);
-extern BYTE io_access_read_byte(WORD addr);
-extern void io_access_store_long(WORD addr, DWORD value);
-extern DWORD io_access_read_long(WORD addr);
 extern int io_access_init(void);
 extern void io_access_shutdown(void);
 
@@ -41,6 +37,11 @@ extern void io_access_store(WORD addr, BYTE value);
 extern BYTE io_access_read(WORD addr);
 int io_access_map(WORD addr, WORD space);
 void io_access_unmap(WORD addr, WORD space);
+# else
+extern void io_access_store_byte(WORD addr, BYTE value);
+extern BYTE io_access_read_byte(WORD addr);
+extern void io_access_store_long(WORD addr, DWORD value);
+extern DWORD io_access_read_long(WORD addr);
 # endif
 
 #endif
