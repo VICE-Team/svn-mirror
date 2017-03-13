@@ -128,7 +128,7 @@ void EnvelopeGenerator::clock()
 
   // If the exponential counter period != 1, the envelope decrement is delayed
   // 1 cycle. This is only modeled for single cycle clocking.
- if (unlikely(envelope_pipeline != 0) && (--envelope_pipeline == 0)) {
+  if (unlikely(envelope_pipeline != 0) && (--envelope_pipeline == 0)) {
     if (likely(!hold_zero)) {
       if (state == ATTACK) {
         ++envelope_counter &= 0xff;
@@ -179,6 +179,7 @@ void EnvelopeGenerator::clock()
         exponential_pipeline = exponential_counter_period != 1 ? 2 : 1;
     }
   }
+
   // Check for ADSR delay bug.
   // If the rate counter comparison value is set below the current value of the
   // rate counter, the counter will continue counting up until it wraps around
@@ -186,7 +187,7 @@ void EnvelopeGenerator::clock()
   // envelope can finally be stepped.
   // This has been verified by sampling ENV3.
   //
-  else if (likely(rate_counter != rate_period)) {
+  if (likely(rate_counter != rate_period)) {
     if (unlikely(++rate_counter & 0x8000)) {
       ++rate_counter &= 0x7fff;
     }
