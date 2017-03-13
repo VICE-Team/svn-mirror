@@ -280,60 +280,414 @@ static int via1_dump(void)
     return viacore_dump(machine_context.via1);
 }
 
-static io_source_t vic_device = {
-    "VIC",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x9000, 0x90ff, 0xf,
-    1, /* read is always valid */
-    vic_store,
-    vic_read,
-    vic_peek,
-    vic_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
-};
+static void vic_via2_store(WORD addr, BYTE data)
+{
+    vic_store(addr, data);
+    via2_store(addr, data);
+}
 
-static io_source_t via2_device = {
-    "VIA2",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x9110, 0x911f, 0xf,
-    1, /* read is always valid */
-    via2_store,
-    via2_read,
-    via2_peek,
-    via2_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
-};
+static BYTE vic_via2_read(WORD addr)
+{
+    BYTE retval = vic_read(addr);
 
-static io_source_t via1_device = {
-    "VIA1",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0x9120, 0x912f, 0xf,
-    1, /* read is always valid */
-    via1_store,
-    via1_read,
-    via1_peek,
-    via1_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
-};
+    retval &= via2_read(addr);
 
-static io_source_list_t *vic_list_item = NULL;
-static io_source_list_t *via1_list_item = NULL;
-static io_source_list_t *via2_list_item = NULL;
+    return retval;
+}
+
+static BYTE vic_via2_peek(WORD addr)
+{
+    BYTE retval = vic_peek(addr);
+
+    retval &= via2_peek(addr);
+
+    return retval;
+}
+
+static int vic_via2_dump(void)
+{
+    vic_dump();
+    return via2_dump();
+}
+
+static void vic_via1_store(WORD addr, BYTE data)
+{
+    vic_store(addr, data);
+    via1_store(addr, data);
+}
+
+static BYTE vic_via1_read(WORD addr)
+{
+    BYTE retval = vic_read(addr);
+
+    retval &= via1_read(addr);
+
+    return retval;
+}
+
+static BYTE vic_via1_peek(WORD addr)
+{
+    BYTE retval = vic_peek(addr);
+
+    retval &= via1_peek(addr);
+
+    return retval;
+}
+
+static int vic_via1_dump(void)
+{
+    vic_dump();
+    return via1_dump();
+}
+
+static void vic_via1_via2_store(WORD addr, BYTE data)
+{
+    vic_store(addr, data);
+    via1_store(addr, data);
+    via2_store(addr, data);
+}
+
+static BYTE vic_via1_via2_read(WORD addr)
+{
+    BYTE retval = vic_read(addr);
+
+    retval &= via1_read(addr);
+    retval &= via2_read(addr);
+
+    return retval;
+}
+
+static BYTE vic_via1_via2_peek(WORD addr)
+{
+    BYTE retval = vic_peek(addr);
+
+    retval &= via1_peek(addr);
+    retval &= via2_peek(addr);
+
+    return retval;
+}
+
+static int vic_via1_via2_dump(void)
+{
+    vic_dump();
+    via1_dump();
+    return via2_dump();
+}
+
+static void via1_via2_store(WORD addr, BYTE data)
+{
+    via1_store(addr, data);
+    via2_store(addr, data);
+}
+
+static BYTE via1_via2_read(WORD addr)
+{
+    BYTE retval = via1_read(addr);
+
+    retval &= via2_read(addr);
+
+    return retval;
+}
+
+static BYTE via1_via2_peek(WORD addr)
+{
+    BYTE retval = via1_peek(addr);
+
+    retval &= via2_peek(addr);
+
+    return retval;
+}
+
+static int via1_via2_dump(void)
+{
+    via1_dump();
+    return via2_dump();
+}
+
+#define VIC_DEVICE(x, addr)            \
+static io_source_t vic##x##_device = { \
+    "VIC",                             \
+    IO_DETACH_CART, /* dummy */        \
+    NULL, /* dummy */                  \
+    addr, addr + 0xf, 0xf,             \
+    1, /* read is always valid */      \
+    vic_store,                         \
+    vic_read,                          \
+    vic_peek,                          \
+    vic_dump,                          \
+    0, /* dummy (not a cartridge) */   \
+    IO_PRIO_HIGH,                      \
+    0                                  \
+}
+
+#define VIA2_DEVICE(x, addr)             \
+static io_source_t via2_##x##_device = { \
+    "VIA2",                              \
+    IO_DETACH_CART, /* dummy */          \
+    NULL,           /* dummy */          \
+    addr, addr + 0xf, 0xf,               \
+    1, /* read is always valid */        \
+    via2_store,                          \
+    via2_read,                           \
+    via2_peek,                           \
+    via2_dump,                           \
+    0, /* dummy (not a cartridge) */     \
+    IO_PRIO_HIGH,                        \
+    0                                    \
+}
+
+#define VIA1_DEVICE(x, addr)             \
+static io_source_t via1_##x##_device = { \
+    "VIA1",                              \
+    IO_DETACH_CART, /* dummy */          \
+    NULL,           /* dummy */          \
+    addr, addr + 0xf, 0xf,               \
+    1, /* read is always valid */        \
+    via1_store,                          \
+    via1_read,                           \
+    via1_peek,                           \
+    via1_dump,                           \
+    0, /* dummy (not a cartridge) */     \
+    IO_PRIO_HIGH,                        \
+    0                                    \
+}
+
+#define VIC_VIA2_DEVICE(x, addr)             \
+static io_source_t vic_via2_##x##_device = { \
+    "VIC/VIA2",                              \
+    IO_DETACH_CART, /* dummy */              \
+    NULL,           /* dummy */              \
+    addr, addr + 0xf, 0xf,                   \
+    1, /* read is always valid */            \
+    vic_via2_store,                          \
+    vic_via2_read,                           \
+    vic_via2_peek,                           \
+    vic_via2_dump,                           \
+    0, /* dummy (not a cartridge) */         \
+    IO_PRIO_HIGH,                            \
+    0                                        \
+}
+
+#define VIC_VIA1_DEVICE(x, addr)             \
+static io_source_t vic_via1_##x##_device = { \
+    "VIC/VIA1",                              \
+    IO_DETACH_CART, /* dummy */              \
+    NULL,           /* dummy */              \
+    addr, addr + 0xf, 0xf,                   \
+    1, /* read is always valid */            \
+    vic_via1_store,                          \
+    vic_via1_read,                           \
+    vic_via1_peek,                           \
+    vic_via1_dump,                           \
+    0, /* dummy (not a cartridge) */         \
+    IO_PRIO_HIGH,                            \
+    0                                        \
+}
+
+#define VIC_VIA1_VIA2_DEVICE(x, addr)             \
+static io_source_t vic_via1_via2_##x##_device = { \
+    "VIC/VIA1/VIA2",                              \
+    IO_DETACH_CART, /* dummy */                   \
+    NULL,           /* dummy */                   \
+    addr, addr + 0xf, 0xf,                        \
+    1, /* read is always valid */                 \
+    vic_via1_via2_store,                          \
+    vic_via1_via2_read,                           \
+    vic_via1_via2_peek,                           \
+    vic_via1_via2_dump,                           \
+    0, /* dummy (not a cartridge) */              \
+    IO_PRIO_HIGH,                                 \
+    0                                             \
+}
+
+#define VIA1_VIA2_DEVICE(x, addr)             \
+static io_source_t via1_via2_##x##_device = { \
+    "VIA1/VIA2",                              \
+    IO_DETACH_CART, /* dummy */               \
+    NULL,           /* dummy */               \
+    addr, addr + 0xf, 0xf,                    \
+    1, /* read is always valid */             \
+    via1_via2_store,                          \
+    via1_via2_read,                           \
+    via1_via2_peek,                           \
+    via1_via2_dump,                           \
+    0, /* dummy (not a cartridge) */          \
+    IO_PRIO_HIGH,                             \
+    0                                         \
+}
+
+VIC_DEVICE(          0, 0x9000);
+VIC_VIA2_DEVICE(     0, 0x9010);
+VIC_VIA1_DEVICE(     0, 0x9020);
+VIC_VIA1_VIA2_DEVICE(0, 0x9030);
+VIC_DEVICE(          1, 0x9040);
+VIC_VIA2_DEVICE(     1, 0x9050);
+VIC_VIA1_DEVICE(     1, 0x9060);
+VIC_VIA1_VIA2_DEVICE(1, 0x9070);
+VIC_DEVICE(          2, 0x9080);
+VIC_VIA2_DEVICE(     2, 0x9090);
+VIC_VIA1_DEVICE(     2, 0x90A0);
+VIC_VIA1_VIA2_DEVICE(2, 0x90B0);
+VIC_DEVICE(          3, 0x90C0);
+VIC_VIA2_DEVICE(     3, 0x90D0);
+VIC_VIA1_DEVICE(     3, 0x90E0);
+VIC_VIA1_VIA2_DEVICE(3, 0x90F0);
+VIA2_DEVICE(         4, 0x9110);
+VIA1_DEVICE(         4, 0x9120);
+VIA1_VIA2_DEVICE(    4, 0x9130);
+VIA2_DEVICE(         5, 0x9150);
+VIA1_DEVICE(         5, 0x9160);
+VIA1_VIA2_DEVICE(    5, 0x9170);
+VIA2_DEVICE(         6, 0x9190);
+VIA1_DEVICE(         6, 0x91A0);
+VIA1_VIA2_DEVICE(    6, 0x91B0);
+VIA2_DEVICE(         7, 0x91D0);
+VIA1_DEVICE(         7, 0x91E0);
+VIA1_VIA2_DEVICE(    7, 0x91F0);
+VIA2_DEVICE(         8, 0x9210);
+VIA1_DEVICE(         8, 0x9220);
+VIA1_VIA2_DEVICE(    8, 0x9230);
+VIA2_DEVICE(         9, 0x9250);
+VIA1_DEVICE(         9, 0x9260);
+VIA1_VIA2_DEVICE(    9, 0x9270);
+VIA2_DEVICE(         A, 0x9290);
+VIA1_DEVICE(         A, 0x92A0);
+VIA1_VIA2_DEVICE(    A, 0x92B0);
+VIA2_DEVICE(         B, 0x92D0);
+VIA1_DEVICE(         B, 0x92E0);
+VIA1_VIA2_DEVICE(    B, 0x92F0);
+VIA2_DEVICE(         C, 0x9310);
+VIA1_DEVICE(         C, 0x9320);
+VIA1_VIA2_DEVICE(    C, 0x9330);
+VIA2_DEVICE(         D, 0x9350);
+VIA1_DEVICE(         D, 0x9360);
+VIA1_VIA2_DEVICE(    D, 0x9370);
+VIA2_DEVICE(         E, 0x9390);
+VIA1_DEVICE(         E, 0x93A0);
+VIA1_VIA2_DEVICE(    E, 0x93B0);
+VIA2_DEVICE(         F, 0x93D0);
+VIA1_DEVICE(         F, 0x93E0);
+VIA1_VIA2_DEVICE(    F, 0x93F0);
+
+static io_source_list_t *vic0_list_item = NULL;
+static io_source_list_t *vic1_list_item = NULL;
+static io_source_list_t *vic2_list_item = NULL;
+static io_source_list_t *vic3_list_item = NULL;
+
+static io_source_list_t *vic_via2_0_list_item = NULL;
+static io_source_list_t *vic_via2_1_list_item = NULL;
+static io_source_list_t *vic_via2_2_list_item = NULL;
+static io_source_list_t *vic_via2_3_list_item = NULL;
+
+static io_source_list_t *vic_via1_0_list_item = NULL;
+static io_source_list_t *vic_via1_1_list_item = NULL;
+static io_source_list_t *vic_via1_2_list_item = NULL;
+static io_source_list_t *vic_via1_3_list_item = NULL;
+
+static io_source_list_t *vic_via1_via2_0_list_item = NULL;
+static io_source_list_t *vic_via1_via2_1_list_item = NULL;
+static io_source_list_t *vic_via1_via2_2_list_item = NULL;
+static io_source_list_t *vic_via1_via2_3_list_item = NULL;
+
+static io_source_list_t *via1_4_list_item = NULL;
+static io_source_list_t *via1_5_list_item = NULL;
+static io_source_list_t *via1_6_list_item = NULL;
+static io_source_list_t *via1_7_list_item = NULL;
+static io_source_list_t *via1_8_list_item = NULL;
+static io_source_list_t *via1_9_list_item = NULL;
+static io_source_list_t *via1_A_list_item = NULL;
+static io_source_list_t *via1_B_list_item = NULL;
+static io_source_list_t *via1_C_list_item = NULL;
+static io_source_list_t *via1_D_list_item = NULL;
+static io_source_list_t *via1_E_list_item = NULL;
+static io_source_list_t *via1_F_list_item = NULL;
+
+static io_source_list_t *via2_4_list_item = NULL;
+static io_source_list_t *via2_5_list_item = NULL;
+static io_source_list_t *via2_6_list_item = NULL;
+static io_source_list_t *via2_7_list_item = NULL;
+static io_source_list_t *via2_8_list_item = NULL;
+static io_source_list_t *via2_9_list_item = NULL;
+static io_source_list_t *via2_A_list_item = NULL;
+static io_source_list_t *via2_B_list_item = NULL;
+static io_source_list_t *via2_C_list_item = NULL;
+static io_source_list_t *via2_D_list_item = NULL;
+static io_source_list_t *via2_E_list_item = NULL;
+static io_source_list_t *via2_F_list_item = NULL;
+
+static io_source_list_t *via1_via2_4_list_item = NULL;
+static io_source_list_t *via1_via2_5_list_item = NULL;
+static io_source_list_t *via1_via2_6_list_item = NULL;
+static io_source_list_t *via1_via2_7_list_item = NULL;
+static io_source_list_t *via1_via2_8_list_item = NULL;
+static io_source_list_t *via1_via2_9_list_item = NULL;
+static io_source_list_t *via1_via2_A_list_item = NULL;
+static io_source_list_t *via1_via2_B_list_item = NULL;
+static io_source_list_t *via1_via2_C_list_item = NULL;
+static io_source_list_t *via1_via2_D_list_item = NULL;
+static io_source_list_t *via1_via2_E_list_item = NULL;
+static io_source_list_t *via1_via2_F_list_item = NULL;
 
 void vic20io0_init(void)
 {
-    vic_list_item = io_source_register(&vic_device);
-    via1_list_item = io_source_register(&via1_device);
-    via2_list_item = io_source_register(&via2_device);
+    vic0_list_item = io_source_register(&vic0_device);
+    vic1_list_item = io_source_register(&vic1_device);
+    vic2_list_item = io_source_register(&vic2_device);
+    vic3_list_item = io_source_register(&vic3_device);
+
+    vic_via2_0_list_item = io_source_register(&vic_via2_0_device);
+    vic_via2_1_list_item = io_source_register(&vic_via2_1_device);
+    vic_via2_2_list_item = io_source_register(&vic_via2_2_device);
+    vic_via2_3_list_item = io_source_register(&vic_via2_3_device);
+
+    vic_via1_0_list_item = io_source_register(&vic_via1_0_device);
+    vic_via1_1_list_item = io_source_register(&vic_via1_1_device);
+    vic_via1_2_list_item = io_source_register(&vic_via1_2_device);
+    vic_via1_3_list_item = io_source_register(&vic_via1_3_device);
+
+    vic_via1_via2_0_list_item = io_source_register(&vic_via1_via2_0_device);
+    vic_via1_via2_1_list_item = io_source_register(&vic_via1_via2_1_device);
+    vic_via1_via2_2_list_item = io_source_register(&vic_via1_via2_2_device);
+    vic_via1_via2_3_list_item = io_source_register(&vic_via1_via2_3_device);
+
+    via1_4_list_item = io_source_register(&via1_4_device);
+    via1_5_list_item = io_source_register(&via1_5_device);
+    via1_6_list_item = io_source_register(&via1_6_device);
+    via1_7_list_item = io_source_register(&via1_7_device);
+    via1_8_list_item = io_source_register(&via1_8_device);
+    via1_9_list_item = io_source_register(&via1_9_device);
+    via1_A_list_item = io_source_register(&via1_A_device);
+    via1_B_list_item = io_source_register(&via1_B_device);
+    via1_C_list_item = io_source_register(&via1_C_device);
+    via1_D_list_item = io_source_register(&via1_D_device);
+    via1_E_list_item = io_source_register(&via1_E_device);
+    via1_F_list_item = io_source_register(&via1_F_device);
+
+    via2_4_list_item = io_source_register(&via2_4_device);
+    via2_5_list_item = io_source_register(&via2_5_device);
+    via2_6_list_item = io_source_register(&via2_6_device);
+    via2_7_list_item = io_source_register(&via2_7_device);
+    via2_8_list_item = io_source_register(&via2_8_device);
+    via2_9_list_item = io_source_register(&via2_9_device);
+    via2_A_list_item = io_source_register(&via2_A_device);
+    via2_B_list_item = io_source_register(&via2_B_device);
+    via2_C_list_item = io_source_register(&via2_C_device);
+    via2_D_list_item = io_source_register(&via2_D_device);
+    via2_E_list_item = io_source_register(&via2_E_device);
+    via2_F_list_item = io_source_register(&via2_F_device);
+
+    via1_via2_4_list_item = io_source_register(&via1_via2_4_device);
+    via1_via2_5_list_item = io_source_register(&via1_via2_5_device);
+    via1_via2_6_list_item = io_source_register(&via1_via2_6_device);
+    via1_via2_7_list_item = io_source_register(&via1_via2_7_device);
+    via1_via2_8_list_item = io_source_register(&via1_via2_8_device);
+    via1_via2_9_list_item = io_source_register(&via1_via2_9_device);
+    via1_via2_A_list_item = io_source_register(&via1_via2_A_device);
+    via1_via2_B_list_item = io_source_register(&via1_via2_B_device);
+    via1_via2_C_list_item = io_source_register(&via1_via2_C_device);
+    via1_via2_D_list_item = io_source_register(&via1_via2_D_device);
+    via1_via2_E_list_item = io_source_register(&via1_via2_E_device);
+    via1_via2_F_list_item = io_source_register(&via1_via2_F_device);
 }
 
 /* ------------------------------------------------------------------------ */
