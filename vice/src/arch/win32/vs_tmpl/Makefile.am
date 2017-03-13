@@ -39,6 +39,7 @@ EXTRA_DIST = \
 	gentranslate.tmpl \
 	genwinres.tmpl \
 	gfxoutputdrv.tmpl \
+	hwsiddrv.tmpl \
 	iec.tmpl \
 	iec128dcr.tmpl \
 	iecbus.tmpl \
