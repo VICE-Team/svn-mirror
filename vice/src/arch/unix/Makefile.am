@@ -54,8 +54,6 @@ libarch_a_SOURCES = \
 	dynlib.c \
 	fullscreenarch.h \
 	icon.h \
-	io-access.c \
-	io-access.h \
 	joy.c \
 	joy.h \
 	joy_usb.c \
@@ -63,8 +61,6 @@ libarch_a_SOURCES = \
 	mousedrv.c \
 	mousedrv.h \
 	openGL_sync.h \
-	pci-drv.c \
-	pci-drv.h \
 	rs232dev.c \
 	signals.c \
 	rawnetarch.c \

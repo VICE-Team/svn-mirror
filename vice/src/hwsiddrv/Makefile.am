@@ -5,7 +5,8 @@ AM_CPPFLAGS = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/sid \
-	-I$(top_srcdir)/src/platform
+	-I$(top_srcdir)/src/platform \
+	-I$(top_srcdir)/src/iodrv
 
 noinst_LIBRARIES = libhwsiddrv.a
 
@@ -65,4 +66,6 @@ libhwsiddrv_a_SOURCES = \
 	ssi2001-beos-drv.c \
 	ssi2001-dos-drv.c \
 	ssi2001-unix-drv.c \
-	ssi2001-win32-drv.c
+	ssi2001-win32-drv.c \
+	wininpoutp.h
+

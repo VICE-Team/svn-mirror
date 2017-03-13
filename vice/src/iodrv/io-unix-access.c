@@ -1,5 +1,5 @@
 /*
- * unix-io-access.c - Unix specific I/O code.
+ * io-unix-access.c - Unix specific I/O code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -487,4 +487,3 @@ void io_access_unmap(WORD addr, WORD space)
 #endif
 }
 #endif
-

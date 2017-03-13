@@ -1,5 +1,5 @@
 /*
- * io-access.c - BeOS specific I/O code.
+ * io-beos-access.c - BeOS specific I/O code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -25,6 +25,8 @@
  */
 
 #include "vice.h"
+
+#ifdef BEOS_COMPILE
 
 #include "log.h"
 #include "types.h"
@@ -138,3 +140,4 @@ DWORD io_access_read_long(WORD addr)
 #endif
 #endif
 }
+#endif

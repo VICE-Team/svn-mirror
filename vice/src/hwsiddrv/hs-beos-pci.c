@@ -44,7 +44,7 @@
 #include "hs-beos.h"
 #include "io-access.h"
 #include "log.h"
-#include "pci-drv.h"
+#include "pci-beos-drv.h"
 #include "types.h"
 
 #define MAXSID 4

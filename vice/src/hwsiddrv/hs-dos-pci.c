@@ -43,7 +43,7 @@
 
 #include "hs-dos.h"
 #include "log.h"
-#include "pci-drv.h"
+#include "pci-dos-drv.h"
 #include "sid-snapshot.h"
 #include "types.h"
 

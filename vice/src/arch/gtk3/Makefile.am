@@ -36,7 +36,6 @@ libarch_a_SOURCES = \
 	joy-win32-dinput-handle.c \
 	kbd.c \
 	mousedrv.c \
-	pci-drv.c \
 	petui.c \
 	plus4ui.c \
 	rawnetarch.c \
@@ -47,7 +46,6 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uimon.c \
 	uistatusbar.c \
-	unix-io-access.c \
 	vic20ui.c \
 	video.c \
 	vsidui.c \
@@ -63,7 +61,6 @@ EXTRA_DIST = \
 	debug_gtk3.h \
 	dynlib-unix.c \
 	dynlib-win32.c \
-	io-access.h \
 	joy.h \
 	joy-osx.h \
 	joy-osx-hid.h \
@@ -74,13 +71,10 @@ EXTRA_DIST = \
 	kbd.h \
 	mousedrv.h \
 	not_implemented.h \
-	pci-drv.h \
-	pci-unix-drv.c \
 	rawnetarch_unix.c \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
 	types.h \
 	ui.h \
-	unix-io-access.h \
 	videoarch.h

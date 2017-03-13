@@ -53,8 +53,6 @@ libarch_a_SOURCES = \
 	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \
-	io-access.c \
-	io-access.h \
 	joy.c \
 	joy.h \
 	kbd.c \
@@ -153,7 +151,6 @@ libarch_a_SOURCES = \
 	menu_video.h \
 	mousedrv.c \
 	mousedrv.h \
-	pci-drv.c \
 	rawnetarch.c \
 	rs232dev.c \
 	sdlmain.c \
@@ -247,5 +244,4 @@ EXTRA_DIST = \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
 	make-bindist_syllable.sh \
-	make-bindist_win32.sh \
-	pci-beos-drv.h
+	make-bindist_win32.sh

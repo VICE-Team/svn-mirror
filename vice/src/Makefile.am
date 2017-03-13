@@ -19,6 +19,7 @@ SUBDIRS = \
 	mididrv \
 	socketdrv \
 	hwsiddrv \
+	iodrv \
 	drive \
 	vdrive \
 	fsdevice \
@@ -65,6 +66,7 @@ DIST_SUBDIRS = \
 	mididrv \
 	socketdrv \
 	hwsiddrv \
+	iodrv \
 	samplerdrv \
 	joyport \
 	drive \
@@ -1295,6 +1297,7 @@ gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 hwsiddrv_lib = $(top_builddir)/src/hwsiddrv/libhwsiddrv.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
+iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
 joyport_lib = $(top_builddir)/src/joyport/libjoyport.a
 mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 mididrv_lib = $(top_builddir)/src/mididrv/libmididrv.a
@@ -1337,7 +1340,7 @@ ffmpeg_libs = @FFMPEG_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
 
-driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -1418,6 +1421,7 @@ vsid_libs =  \
 	$(mididrv_lib) \
 	$(socketdrv_lib) \
 	$(hwsiddrv_lib) \
+	$(iodrv_lib) \
 	$(serial_lib) \
 	$(core_lib) \
 	$(viciivsid_lib) \
@@ -1446,6 +1450,7 @@ vsid-all: \
 	libmididrv \
 	libsocketdrv \
 	libhwsiddrv \
+	libiodrv \
 	libviciivsid \
 	libvideo \
 	libarch \
@@ -2354,11 +2359,11 @@ DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)
 .PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 \
 	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv \
 	librs232drv libgfxoutputdrv libsamplerdrv libjoyport libsounddrv \
-	libmididrv libsocketdrv libhwsiddrv libdiskimage libfsdevice libtape \
-	libarch libvicii libviciisc libviciidtv libviciivsid libvdc libsid \
-	libcrtc libvideo libserial libparallel libcore libiecbus libfileio \
-	librtc libuserport libtapeport libp64 libscpu64 libdiag @RESID_DEP@ \
-	@RESID_DTV_DEP@ @FFMPEG_DEP@
+	libmididrv libsocketdrv libhwsiddrv libiodrv libdiskimage libfsdevice \
+	libtape libarch libvicii libviciisc libviciidtv libviciivsid libvdc \
+	libsid libcrtc libvideo libserial libparallel libcore libiecbus \
+	libfileio librtc libuserport libtapeport libp64 libscpu64 libdiag \
+	@RESID_DEP@ @RESID_DTV_DEP@ @FFMPEG_DEP@
 
 libarch:
 	@(cd arch && $(MAKE))
@@ -2456,6 +2461,9 @@ libiecbus:
 libimagecontents:
 	@echo "making all in imagecontents"
 	@(cd imagecontents && $(MAKE))
+libiodrv:
+	@echo "making all in iodrv"
+	@(cd iodrv && $(MAKE))
 libmascuerade:
 	@echo "making libmascuerade.a in vic20/cart"
 	@(cd vic20/cart && $(MAKE) libmascuerade.a)

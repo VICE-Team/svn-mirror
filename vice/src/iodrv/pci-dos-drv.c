@@ -1,5 +1,5 @@
 /*
- * pci-drv.c - MSDOS specific PCI driver code.
+ * pci-dos-drv.c - MSDOS specific PCI driver code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -25,6 +25,8 @@
  */
 
 #include "vice.h"
+
+#ifdef __MSDOS__
 
 #include <stdio.h>
 #include <dpmi.h>
@@ -109,3 +111,4 @@ int vice_pci_read_config_dword(int bus, int device, int func, int reg, uint32 *v
 
     return r.h.ah;
 }
+#endif

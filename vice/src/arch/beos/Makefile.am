@@ -38,16 +38,12 @@ libarch_a_SOURCES = \
 	cbm2ui.cc \
 	cbm5x0ui.cc \
 	console.c \
-	io-access.c \
-	io-access.h \
 	joy.cc \
 	joy.h \
 	kbd.c \
 	kbd.h \
 	mousedrv.cc \
 	mousedrv.h \
-	pci-drv.c \
-	pci-drv.h \
 	petui.cc \
 	plus4ui.cc \
 	scpu64ui.cc \

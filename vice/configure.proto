@@ -5063,6 +5063,7 @@ AC_OUTPUT([Makefile
            src/hwsiddrv/Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
+           src/iodrv/Makefile
            src/joyport/Makefile
            src/lib/Makefile
            src/lib/ffmpeg/Makefile

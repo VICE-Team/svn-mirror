@@ -1,13 +1,11 @@
 /*
- * pci-drv.c - pci-drv.c wrapper for the native GTK3 ui.
+ * pci-unix-drv.h - PCI access functions for unix.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
- * This file is part of VICE, modified from the sidplay2 sources.  It is
- * a one for all driver with real timing support via real time kernel
- * extensions or through the hardware buffering.  It supports the hardsid
- * isa/pci single/quattro and also the catweasel MK3/4.
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,8 +24,9 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_PCI_UNIX_DRV_H
+#define VICE_PCI_UNIX_DRV_H
 
-#ifdef UNIX_COMPILE
-#include "pci-unix-drv.c"
+extern int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2);
+
 #endif

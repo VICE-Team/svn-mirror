@@ -1,5 +1,5 @@
 /*
- * pci-drv.c - BeOS specific PCI driver code.
+ * pci-beos-drv.c - BeOS specific PCI driver code.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -25,6 +25,8 @@
  */
 
 #include "vice.h"
+
+#ifdef BEOS_COMPILE
 
 #include <stdio.h>
 #include <string.h>
@@ -84,3 +86,4 @@ int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
 
     return retval;
 }
+#endif
