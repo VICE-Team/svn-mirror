@@ -3688,15 +3688,18 @@ if test x"$with_png" != "xno" ; then
   fi
 
   if test x"$HAVE_PNG_SUPPORT" != "xyes"; then
-    AC_MSG_CHECKING([if pkgconfig libpng is present])
-    PKG_CHECK_MODULES(PNG, [libpng], HAVE_PNG_SUPPORT="yes")
-    if test x"$HAVE_PNG_SUPPORT" = "xyes"; then
-        GFXOUTPUT_LIBS="$PNG_LIBS $GFXOUTPUT_LIBS"
-        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
-        AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
-        AC_MSG_RESULT([yes])
-    else
-        AC_MSG_RESULT([no])
+    PKG_PROG_PKG_CONFIG
+    if test x"$PKG_CONFIG" != "x"; then
+      AC_MSG_CHECKING([if pkgconfig libpng is present])
+      PKG_CHECK_MODULES(PNG, [libpng], HAVE_PNG_SUPPORT="yes")
+      if test x"$HAVE_PNG_SUPPORT" = "xyes"; then
+          GFXOUTPUT_LIBS="$PNG_LIBS $GFXOUTPUT_LIBS"
+          GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS pngdrv.o";
+          AC_DEFINE(HAVE_PNG,,[Can we use the PNG library?])
+          AC_MSG_RESULT([yes])
+      else
+          AC_MSG_RESULT([no])
+      fi
     fi
   fi
 
