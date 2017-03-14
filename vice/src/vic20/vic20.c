@@ -283,10 +283,10 @@ static int via1_dump(void)
 static void vic_via1_via2_store(WORD addr, BYTE data)
 {
     if (addr & 0x10) {
-        via2_store(addr, data);
+        via1_store(addr, data);
     }
     if (addr & 0x20) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
     vic_store(addr, data);
 }
@@ -296,11 +296,11 @@ static BYTE vic_via1_via2_read(WORD addr)
     BYTE retval = vic_read(addr);
 
     if (addr & 0x10) {
-        retval &= via2_read(addr);
+        retval &= via1_read(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     return retval;
@@ -311,11 +311,11 @@ static BYTE vic_via1_via2_peek(WORD addr)
     BYTE retval = vic_peek(addr);
 
     if (addr & 0x10) {
-        retval &= via2_peek(addr);
+        retval &= via1_peek(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     return retval;
@@ -324,10 +324,10 @@ static BYTE vic_via1_via2_peek(WORD addr)
 static void via1_via2_store(WORD addr, BYTE data)
 {
     if (addr & 0x10) {
-        via2_store(addr, data);
+        via1_store(addr, data);
     }
     if (addr & 0x20) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
 }
 
@@ -336,11 +336,11 @@ static BYTE via1_via2_read(WORD addr)
     BYTE retval = 0xff;
 
     if (addr & 0x10) {
-        retval &= via2_read(addr);
+        retval &= via1_read(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     return retval;
@@ -351,11 +351,11 @@ static BYTE via1_via2_peek(WORD addr)
     BYTE retval = 0xff;
 
     if (addr & 0x10) {
-        retval &= via2_peek(addr);
+        retval &= via1_peek(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     return retval;
@@ -380,7 +380,7 @@ static io_source_t via2_device = {
     "VIA2",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0x9010, 0x93ff, 0xf,
+    0x9020, 0x93ff, 0xf,
     1, /* read is always valid */
     via1_via2_store,
     via1_via2_read,
@@ -395,7 +395,7 @@ static io_source_t via1_device = {
     "VIA1",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0x9020, 0x93ff, 0xf,
+    0x9010, 0x93ff, 0xf,
     1, /* read is always valid */
     via1_via2_store,
     via1_via2_read,
