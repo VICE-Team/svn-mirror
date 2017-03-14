@@ -12422,8 +12422,41 @@ available ones.
 'attach <diskimage> [<unit>]'
 Attach 'diskimage' to 'unit' (default unit is 8).
 
-'block <track> <sector> <disp> [<drive>]'
+'bam [<unit>] | <track-min> <track-max> [<unit>]'
+Show the BAM of 'unit', optionally displaying only the entries for
+'track-min' to 'track-max'
+
+'bcopy <src-trk> <src-sec> <dst-trk> <dst-sec> [<src-unit> [<dst-unit>]]'
+Copy a block to another block, optionally specifying different
+source and destination units.  The block is copied using all 256
+bytes.
+
+'block <track> <sector> [<offset> [<unit>]]'
 Show specified disk block in hex form.
+
+'bpoke [@unit:<unit>] <track> <sector> <offset> <data ...>'
+Store one or more bytes of 'data' into a block.  The 'data' can be
+specified using prefixes:
+'0b or %'
+binary value ('%11111111')
+'&'
+octal value ('&377')
+'0x or $'
+hexadecimal value ('$ff')
+The <unit> is optional, and when used must use the CBM DOS notation
+for the unit number, for example '@9:'.
+
+'bread <filename> <track> <sector> [<unit>]'
+Read a block from a disk image and write it to the host filesystem
+as 'filename'.
+
+'bwrite <filename> <track> <sector> [<unit>]'
+Write data from the host filesystem using 'filename' as input.  At
+most 256 bytes are written to the disk image.
+
+'chain <track> <sector> [<unit>]'
+Show block chain starting at ('track','sector').  The last number
+shown is the number of bytes used in the final block.
 
 'copy <source1> [<source2> ... <sourceN>] <destination>'
 Copy 'source1' ... 'sourceN' into destination.  If N > 1,
@@ -12509,8 +12542,8 @@ Extract the specified Lynx image file into the specified unit
 Validate the disk in unit 'unit'.  If 'unit' is not specified,
 validate the disk in the current unit.
 
-'verbose'
-Enable verbose output.
+'verbose ["off"]'
+Enable or disable verbose output.
 
 'write <source> [<destination>]'
 Write 'source' from the file system into 'destination' on a disk
@@ -19838,7 +19871,7 @@ Concept Index
 * -?:                                    Command-line initialization.
 (line   969)
 * -? <1>:                                c1541 executing shell commands.
-(line 12768)
+(line 12801)
 * -acia, +acia:                          PLUS4-specific.    (line  7420)
 * -attach10rw:                           Command-line initialization.
 (line  1011)
@@ -19855,9 +19888,9 @@ Concept Index
 * -autostart <1>:                        Command-line autostart.
 (line  1039)
 * -b:                                    c1541 executing shell commands.
-(line 12589)
+(line 12622)
 * -c:                                    c1541 executing shell commands.
-(line 12772)
+(line 12805)
 * -cart:                                 PLUS4-specific.    (line  7285)
 * -cart2:                                VIC20 cartridges.  (line  6657)
 * -cart2 <1>:                            VIC20 system ROM options.
@@ -19886,7 +19919,7 @@ Concept Index
 (line   984)
 * -CrtcVidmodefullmode:                  CRTC Settings.     (line  7642)
 * -d:                                    c1541 executing shell commands.
-(line 12779)
+(line 12812)
 * -default:                              Command-line initialization.
 (line   970)
 * -dtvblitterlog, +dtvblitterlog:        Debug.             (line  6248)
@@ -19897,21 +19930,21 @@ Concept Index
 * -extrajoydev2:                         Control port options.
 (line  2274)
 * -f:                                    c1541 executing shell commands.
-(line 12578)
+(line 12611)
 * -f <1>:                                c1541 executing shell commands.
-(line 12801)
+(line 12834)
 * -ffmpegaudiobitrate:                   C500 data module.  (line 11618)
 * -ffmpegvideobitrate:                   C500 data module.  (line 11619)
 * -h:                                    c1541 executing shell commands.
-(line 12781)
+(line 12814)
 * -help:                                 Command-line initialization.
 (line   968)
 * -help <1>:                             c1541 executing shell commands.
-(line 12767)
+(line 12800)
 * -i:                                    c1541 executing shell commands.
-(line 12561)
+(line 12594)
 * -ic:                                   c1541 executing shell commands.
-(line 12777)
+(line 12810)
 * -IDE64USB, +IDE64USB:                  C64 cartridges.    (line  4666)
 * -IDE64USBAddress:                      C64 cartridges.    (line  4668)
 * -initbreak:                            Monitor options.   (line  3756)
@@ -19920,36 +19953,36 @@ Concept Index
 * -joydev2:                              Control port options.
 (line  2270)
 * -k:                                    c1541 executing shell commands.
-(line 12795)
+(line 12828)
 * -k<version>:                           c1541 executing shell commands.
-(line 12793)
+(line 12826)
 * -keybuf:                               Command-line initialization.
 (line   982)
 * -l:                                    c1541 executing shell commands.
-(line 12574)
+(line 12607)
 * -l <1>:                                c1541 executing shell commands.
-(line 12797)
+(line 12830)
 * -mitshm, +mitshm:                      Shared memory problems.
 (line   868)
 * -moncommands:                          Monitor options.   (line  3750)
 * -mouse, +mouse:                        Control port options.
 (line  2295)
 * -n:                                    c1541 executing shell commands.
-(line 12571)
+(line 12604)
 * -nc:                                   c1541 executing shell commands.
-(line 12774)
+(line 12807)
 * -nh:                                   c1541 executing shell commands.
-(line 12783)
+(line 12816)
 * -o:                                    c1541 executing shell commands.
-(line 12565)
+(line 12598)
 * -o <name>:                             c1541 executing shell commands.
-(line 12799)
+(line 12832)
 * -p:                                    c1541 executing shell commands.
-(line 12585)
+(line 12618)
 * -q:                                    c1541 executing shell commands.
-(line 12592)
+(line 12625)
 * -r:                                    c1541 executing shell commands.
-(line 12582)
+(line 12615)
 * -raminitvalueinvert:                   Monitor options.   (line  3797)
 * -remotemonitor, +remotemonitor:        Monitor options.   (line  3765)
 * -remotemonitoraddress:                 Monitor options.   (line  3769)
@@ -19965,13 +19998,13 @@ Concept Index
 * -rsuserbaud:                           RS232 options.     (line  3684)
 * -rsuserdev:                            RS232 options.     (line  3687)
 * -skip <n>:                             c1541 executing shell commands.
-(line 12785)
+(line 12818)
 * -t:                                    c1541 executing shell commands.
-(line 12568)
+(line 12601)
 * -TEDVidmodefullmode:                   PLUS4-specific.    (line  7199)
 * -TEDXRANDRfullmode:                    PLUS4-specific.    (line  7198)
 * -text:                                 c1541 executing shell commands.
-(line 12787)
+(line 12820)
 * -tfe, +tfe:                            C64 I/O extension options.
 (line  5585)
 * -tfe, +tfe <1>:                        VIC20 cartridges.  (line  6731)
@@ -19983,9 +20016,9 @@ Concept Index
 (line  5589)
 * -tferrnet, +tferrnet <1>:              VIC20 cartridges.  (line  6736)
 * -types:                                c1541 executing shell commands.
-(line 12594)
+(line 12627)
 * -v:                                    c1541 executing shell commands.
-(line 12770)
+(line 12803)
 * -VDCfulldevice:                        SDL-specific features.
 (line  9562)
 * -VDCVidmodefullmode:                   C128-specific.     (line  5857)
@@ -19997,7 +20030,7 @@ Concept Index
 * -VICVidmodefullmode:                   VIC20 cartridges.  (line  6934)
 * -VICXRANDRfullmode:                    VIC20 cartridges.  (line  6933)
 * -w<version>:                           c1541 executing shell commands.
-(line 12791)
+(line 12824)
 * ACIA (Swiftlink, Turbo232):            C64 I/O extension settings.
 (line  5368)
 * Audio buffer size:                     Sound settings.    (line  2334)
