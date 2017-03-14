@@ -45,6 +45,13 @@
 #include <io.h>
 #endif
 
+
+#include "version.h"
+
+#ifdef USE_SVN_REVISION
+# include "svnversion.h"
+#endif
+
 #include "cartridge.h"
 
 static FILE *infile, *outfile;
@@ -370,6 +377,21 @@ static void usage(void)
     printf("--types      show the supported cart types\n");
     exit(1);
 }
+
+
+/** \brief  Dump cartconv version string on stdout
+ *
+ * Dumps the SVN revision as well, if compiled from SVN
+ */
+static void dump_version(void)
+{
+#ifdef USE_SVN_REVISION
+    printf("cartconv %s (SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+#else
+    printf("cartconv %s RELEASE\n", VERSION);
+#endif
+}
+
 
 static void printbanks(char *name)
 {
@@ -1664,13 +1686,18 @@ int main(int argc, char *argv[])
     char *flag, *argument;
 
     if (argc > 1) {
-        if(!strcmp(argv[1], "--types")) {
+        if(strcmp(argv[1], "--types") == 0) {
             usage_types();
+            return EXIT_SUCCESS;
+        } else if (strcmp(argv[1], "--version") == 0) {
+            dump_version();
+            return EXIT_SUCCESS;
         }
     }
 
     if (argc < 3) {
         usage();
+        return EXIT_FAILURE;
     }
 
     for (i = 0; i < 33; i++) {
