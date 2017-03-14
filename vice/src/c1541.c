@@ -47,12 +47,18 @@
 #include "fsimage.h"
 #include "diskcontents.h"
 
+#include "version.h"
+
+#ifdef USE_SVN_REVISION
+# include "svnversion.h"
+#endif
+
 #include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-/* apparenyly there are crappy C-libs out there that don't declare EXIT_SUCCESS
+/* apparently there are crappy C-libs out there that don't declare EXIT_SUCCESS
  * or EXIT_FAILURE
  */
 #ifndef EXIT_SUCCESS
@@ -224,6 +230,7 @@ static int unit_cmd(int nargs, char **args);
 static int unlynx_cmd(int nargs, char **args);
 static int validate_cmd(int nargs, char **args);
 static int verbose_cmd(int nargs, char **args);
+static int version_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int write_geos_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
@@ -510,6 +517,11 @@ const command_t command_list[] = {
       "Enable verbose output. Use 'verbose off' to disable.",
       0, 1,
       verbose_cmd },
+    { "version",
+      "version",
+      "Display C1541 version",
+      0, 0,
+      version_cmd },
     { "write",
       "write <source> [<destination>]",
       "Write <source> from the file system into <destination> on a disk "
@@ -4220,6 +4232,24 @@ static int validate_cmd(int nargs, char **args)
 }
 
 
+/** \brief  Display version number
+ *
+ * \param[in]   nargs   argument count
+ * \param[in]   args    argument list
+ *
+ * \return  FD_OK
+ */
+static int version_cmd(int nargs, char **args)
+{
+#ifdef USE_SVN_REVISION
+    printf("C1541 %s (SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+#else
+    printf("C1541 %s RELEASE\n", VERSION);
+#endif
+    return FD_OK;
+}
+
+
 /** \brief  Write a file from the host FS to a virtual device
  *
  * \param[in]   nargs   argument count
@@ -4243,6 +4273,7 @@ static int write_cmd(int nargs, char **args)
         if (unit == 0) {
             unit = drive_index + UNIT_MIN;
         } else if (unit < 0) {
+            printf("Got unit < 0\n");
             return FD_BADDEV;
         }
         if (p != NULL && *p != '\0') {
@@ -4263,6 +4294,7 @@ static int write_cmd(int nargs, char **args)
     dnr = unit - UNIT_MIN;
 
     if (check_drive_index(dnr) < 0) {
+        printf("check_drive_index() failed\n");
         return FD_BADDEV;
     }
     if (check_drive_ready(dnr) < 0) {
@@ -4533,9 +4565,7 @@ int main(int argc, char **argv)
 #ifdef HAVE_READLINE_READLINE_H
         using_history();
 #endif
-
-        printf("C1541 Version %d.%02d\n",
-               C1541_VERSION_MAJOR, C1541_VERSION_MINOR);
+        version_cmd(0, NULL);
         printf("Copyright 1995-2017 The VICE Development Team.\n"
                "C1541 is free software, covered by the GNU General Public License,"
                " and you are\n"
