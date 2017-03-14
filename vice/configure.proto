@@ -662,8 +662,8 @@ fi
 
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 
-if test x"$SVN" != "x:"; then
-  svnrevision=`$SVN 2>dummy.tmp info $ac_dir | grep Revision | cut -d " " -f 2`
+if test x"$SVN" != "x"; then
+  svnrevision=`$SVN 2>dummy.tmp info $srcdir | grep Revision | cut -d " " -f 2`
   rm dummy.tmp
   if test x"$svnrevision" != "x"; then
     AM_CONDITIONAL(USE_SVN_REVISION, true)
