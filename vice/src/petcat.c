@@ -61,6 +61,10 @@
 
 #include "version.h"
 
+#ifdef USE_SVN_REVISION
+# include "svnversion.h"
+#endif
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -880,6 +884,7 @@ const char *kwfe71[] = {
 /* ------------------------------------------------------------------------- */
 
 static void usage(char *progname);
+static void petcat_version(void);
 static int parse_version(char *str);
 static void list_keywords(int version);
 static void pet_2_asc (int version, int ctrls);
@@ -996,6 +1001,9 @@ int main(int argc, char **argv)
         } else if (!strcmp(argv[0], "-help") || !strncmp(argv[0], "-?", 2)) {  /* version ID */
             /* Fall to error for Usage */
 
+        } else if (strcmp(argv[0], "-version") == 0) {
+            petcat_version();
+            return EXIT_SUCCESS;
             /* Basic version */
         } else if (!strncmp(argv[0], "-w", 2) && !wr_mode) {
             version = parse_version((strlen(argv[0]) > 2 ? &argv[0][2] : NULL));
@@ -1269,6 +1277,19 @@ void usage(char *progname)
             "\t\tConvert inputfile.txt to a Petscii text SEQ file\n"
             "\t\tin outputfile.seq.\n");
 }
+
+
+/** \brief  Display version information
+ */
+static void petcat_version(void)
+{
+#ifdef USE_SVN_REVISION
+    printf("petcat %s (SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+#else
+    printf("petcat %s RELEASE\n", VERSION);
+#endif
+}
+
 
 /* ------------------------------------------------------------------------- */
 /* Parse given version name and return its code, or -1 if not recognized. */
