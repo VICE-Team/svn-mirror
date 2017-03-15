@@ -74,7 +74,7 @@
 #ifndef JOY_INTERNAL
 typedef void joy_hid_descriptor_t;
 #else
-#include "joy-hid.h"
+#include "joy-osx-hid.h"
 #endif
 
 /* describe an axis */
