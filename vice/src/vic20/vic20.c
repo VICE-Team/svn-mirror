@@ -283,10 +283,10 @@ static int via1_dump(void)
 static void vic_via1_via2_store(WORD addr, BYTE data)
 {
     if (addr & 0x10) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
     if (addr & 0x20) {
-        via2_store(addr, data);
+        via1_store(addr, data);
     }
     vic_store(addr, data);
 }
@@ -296,11 +296,11 @@ static BYTE vic_via1_via2_read(WORD addr)
     BYTE retval = vic_read(addr);
 
     if (addr & 0x10) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via2_read(addr);
+        retval &= via1_read(addr);
     }
 
     return retval;
@@ -311,11 +311,11 @@ static BYTE vic_via1_via2_peek(WORD addr)
     BYTE retval = vic_peek(addr);
 
     if (addr & 0x10) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via2_peek(addr);
+        retval &= via1_peek(addr);
     }
 
     return retval;
@@ -324,10 +324,10 @@ static BYTE vic_via1_via2_peek(WORD addr)
 static void via1_via2_store(WORD addr, BYTE data)
 {
     if (addr & 0x10) {
-        via1_store(addr, data);
+        via2_store(addr, data);
     }
     if (addr & 0x20) {
-        via2_store(addr, data);
+        via1_store(addr, data);
     }
 }
 
@@ -336,11 +336,11 @@ static BYTE via1_via2_read(WORD addr)
     BYTE retval = 0xff;
 
     if (addr & 0x10) {
-        retval &= via1_read(addr);
+        retval &= via2_read(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via2_read(addr);
+        retval &= via1_read(addr);
     }
 
     return retval;
@@ -351,11 +351,11 @@ static BYTE via1_via2_peek(WORD addr)
     BYTE retval = 0xff;
 
     if (addr & 0x10) {
-        retval &= via1_peek(addr);
+        retval &= via2_peek(addr);
     }
 
     if (addr & 0x20) {
-        retval &= via2_peek(addr);
+        retval &= via1_peek(addr);
     }
 
     return retval;
@@ -364,15 +364,15 @@ static BYTE via1_via2_peek(WORD addr)
 static io_source_t vic_device = {
     "VIC",
     IO_DETACH_CART, /* dummy */
-    NULL, /* dummy */
-    0x9000, 0x90ff, 0xf,
+    NULL,           /* dummy */
+    0x9000, 0x90ff, 0x3f, /* must include A5/A4 */
     1, /* read is always valid */
     vic_via1_via2_store,
     vic_via1_via2_read,
     vic_via1_via2_peek,
     vic_dump,
     0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH,
+    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -380,14 +380,14 @@ static io_source_t via2_device = {
     "VIA2",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0x9020, 0x93ff, 0xf,
+    0x9110, 0x93ff, 0x3f, /* must include A5/A4 */
     1, /* read is always valid */
     via1_via2_store,
     via1_via2_read,
     via1_via2_peek,
     via2_dump,
     0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH,
+    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -395,14 +395,14 @@ static io_source_t via1_device = {
     "VIA1",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0x9010, 0x93ff, 0xf,
+    0x9120, 0x93ff, 0x3f, /* must include A5/A4 */
     1, /* read is always valid */
     via1_via2_store,
     via1_via2_read,
     via1_via2_peek,
     via1_dump,
     0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH,
+    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -423,27 +423,27 @@ static joyport_port_props_t control_port =
 {
     "Control port",
     IDGS_CONTROL_PORT,
-    1,				/* has a potentiometer connected to this port */
-    1,				/* has lightpen support on this port */
-    1					/* port is always active */
+    1,  /* has a potentiometer connected to this port */
+    1,  /* has lightpen support on this port */
+    1   /* port is always active */
 };
 
 static joyport_port_props_t userport_joy_control_port_1 = 
 {
     "Userport joystick adapter port 1",
     IDGS_USERPORT_JOY_ADAPTER_PORT_1,
-    0,				/* has NO potentiometer connected to this port */
-    0,				/* has NO lightpen support on this port */
-    0					/* port can be switched on/off */
+    0,  /* has NO potentiometer connected to this port */
+    0,  /* has NO lightpen support on this port */
+    0   /* port can be switched on/off */
 };
 
 static joyport_port_props_t userport_joy_control_port_2 = 
 {
     "Userport joystick adapter port 2",
     IDGS_USERPORT_JOY_ADAPTER_PORT_2,
-    0,				/* has NO potentiometer connected to this port */
-    0,				/* has NO lightpen support on this port */
-    0					/* port can be switched on/off */
+    0,  /* has NO potentiometer connected to this port */
+    0,  /* has NO lightpen support on this port */
+    0   /* port can be switched on/off */
 };
 
 static int init_joyport_ports(void)
