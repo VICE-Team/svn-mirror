@@ -1,4 +1,4 @@
-.TH C1541 1 "November 2016" "VICE"
+.TH C1541 1 "March 2017" "VICE"
 .SH NAME
 c1541 \- a stand alone disk image maintenance program
 .SH SYNOPSIS
@@ -33,8 +33,11 @@ show bam bitmap of an imagem optionally specifying unit and/or a slice of the tr
 .B \-bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR \fIdst_sec\fR [\fIsrc_unit\fR [\fIdst_unit\fR]] (bcopy \fIsrc_trk\fR \fIsrc_sec\fR \fIdst_trk\fR \fIdst_sec\fR [\fIsrc_unit\fR [\fIdst_unit\fR]])
 copy a block to another block. When not using the optional unit numbers, the block is copied among the current unit. If one unit (\fIsrc_unit\fR) is specified that unit is used for both source and destination. Using both unit number allows copying blocks between different units.
 .TP
+.B \-bfill \fItrack\fR \fIsector\fR \fIvalue\fR \fI[unit]\fR (bfill \fItrack\fR \fIsector\fR \fIvalue\fR \fI[unit]\fR)
+fill a block with a single value.
+.TP
 .B \-block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR (block \fItrack\fR \fIsector\fR \fI[offset]\fR \fI[unit]\fR)
-show disk blocks in hex format.B
+show disk blocks in hex format.
 .TP
 .B \-bpoke [\fI[@unit:]\fR \fItrack\fR \fIsector\fR \fIoffset\fR \fIdata\fR (bpoke [\fI[@unit:]\fR \fItrack\fR \fIsector\fR \fIoffset\fR \fIdata\fR)
 poke data into a block. The \fIdata\fR list should be at least a single byte. Multiple prefixes for the data are supported: 0x/$ for hex, 0b/% for binary, & for octal and unadorned for plain decimal.

@@ -203,6 +203,7 @@ static const char *image_format_name(unsigned int type);
 static int attach_cmd(int nargs, char **args);
 static int bam_cmd(int nargs, char **args);
 static int bcopy_cmd(int nargs, char **args);
+static int bfill_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
 static int bpoke_cmd(int nargs, char **args);
 static int bread_cmd(int nargs, char **args);
@@ -348,8 +349,13 @@ const command_t command_list[] = {
       "given, that unit\nis used for both source and destination.",
       4, 6,
       bcopy_cmd },
+    { "bfill",
+      "bfill <track> <sector> <value> [<unit>]",
+      "Fill a block with a single value.",
+      3, 4,
+      bfill_cmd },
     { "block",
-      "block <track> <sector> [<offset>] [<drive>]",
+      "block <track> <sector> [<offset>] [<unit>]",
       "Show specified disk block in hex form.",
       2, 4,
       block_cmd },
@@ -1531,6 +1537,83 @@ static int bcopy_cmd(int nargs, char **args)
 }
 
 
+/** \brief  Fill a block using a single value
+ *
+ * Syntax:  bfill <track> <sector> <value> [<unit>]
+ *
+ * \param   nargs   number of args (including the command name)
+ * \param   args    argument list
+ *
+ * \return  FD_OK on success, < 0 on failure
+ */
+static int bfill_cmd(int nargs, char **args)
+{
+    vdrive_t *vdrive;
+    int unit;
+    unsigned int track;
+    unsigned int sector;
+    int err;
+    int fill;
+    unsigned char buffer[RAW_BLOCK_SIZE];
+
+    /* get track and sector number */
+    err = parse_track_sector(args[1], args[2], &track, &sector);
+    if (err < 0) {
+        return err;
+    }
+
+    /* parse and check fill byte */
+    if (arg_to_int(args[3], &fill) < 0 || fill < 0 || fill > 255) {
+        return FD_BADVAL;
+    }
+
+    /* check for optional unit number */
+    if (nargs > 4) {
+        if (arg_to_int(args[4], &unit) < 0 || check_drive_unit(unit) < 0) {
+            return FD_BADDEV;
+        }
+    } else {
+        unit = drive_index + UNIT_MIN;  /* default to current unit */
+    }
+
+#if 0
+    /* debugging info: */
+    printf("bfill_cmd(): track %u, sector %u, fill $%02x, unit %d\n",
+            track, sector, (unsigned int)fill, unit);
+#endif
+
+    /* check that the drive is ready */
+    if (check_drive_ready(unit - UNIT_MIN) < 0) {
+        return FD_NOTREADY;
+    }
+
+    /* get the virtual drive */
+    vdrive = drives[unit - UNIT_MIN];
+
+    /* use this to get a meaningful error message for illegal track,sector
+     *
+     * XXX: checks sector properly, but lets track numbers larger than the
+     *      image's track count pass, leading to vdrive expanding the D64
+     *      attached. And the expansion goes wrong: if using (37,2), the
+     *      D64 becomes 179968 bytes: 36 full tracks, and three sectors (0-2)
+     *      in track 37, so somewhere in vdrive/diskimage/fsimage things go
+     *      a little bit wrong.
+     * */
+    err = disk_image_check_sector(vdrive->image, track, sector);
+    if (err < 0) {
+        return translate_fsimage_error(err);
+    }
+
+    /* fill and write the block (vdrive doesn't have a vdrive_fill_sector()
+     * function, so this will have to do */
+    memset(buffer, fill, RAW_BLOCK_SIZE);
+    /* should this still fail after al the checks, -1 is returned, which results
+     * in an "<unknown error>", which all we can do, -1 is returned for various
+     * error conditions */
+    return vdrive_write_sector(vdrive, buffer, track, sector);
+}
+
+
 /** \brief  'block' command handler
  *
  * Display a hex dump of a block on a device
@@ -1705,7 +1788,6 @@ static int bpoke_cmd(int nargs, char **args)
     /* write back block */
     return vdrive_write_sector(vdrive, buffer, track, sector);
 }
-
 
 
 /** \brief  Read a block from an image and write it to the host file system

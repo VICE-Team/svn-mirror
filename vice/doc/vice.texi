@@ -17273,6 +17273,8 @@ Show the BAM of @code{unit}, optionally displaying only the entries for
 Copy a block to another block, optionally specifying different source and
 destination units. The block is copied using all 256 bytes.
 
+@item bfill <track> <sector> <value> [<unit>]
+Fill a block with a single value.
 
 @item block <track> <sector> [<offset> [<unit>]]
 Show specified disk block in hex form.
