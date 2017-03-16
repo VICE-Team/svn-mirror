@@ -17390,6 +17390,9 @@ validate the disk in the current unit.
 @item verbose ["off"]
 Enable or disable verbose output.
 
+@item version
+Show C1541 version string
+
 @item write <source> [<destination>]
 Write @code{source} from the file system into @code{destination} on a
 disk image.
@@ -17404,7 +17407,7 @@ Create an X64 disk image out of a set of four Zipcoded files named
 @node c1541 executing shell commands,  , c1541 commands and options, c1541
 @section Executing shell commands
 
-If you want to execute a shell command from withing @code{c1541}, just
+If you want to execute a shell command from within @code{c1541}, just
 prepend it with an exclamation mark (@code{!}).  For example,
 
 @example
@@ -17485,6 +17488,9 @@ This parameter is optional, it disables all non-error messages
 @cindex --types
 @item --types
 This parameter is optional. It shows all supported cartridge types (see below).
+@cindex --version
+@item --version
+Show cartconv version string and exit
 @end table
 
 The following cartridge types are supported:
@@ -17667,6 +17673,9 @@ Output help text
 @cindex -?
 @item -?
 Same as above
+@cindex -version
+@item -version
+show petcat version string and exit
 @cindex -v
 @item -v
 verbose output
