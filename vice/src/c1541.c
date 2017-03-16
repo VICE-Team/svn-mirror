@@ -1695,7 +1695,6 @@ static int bpoke_cmd(int nargs, char **args)
     i = offset;
     while (i < RAW_BLOCK_SIZE && arg_idx < nargs) {
         int b;
-        printf("args = %s\n", args[arg_idx]);
         if (arg_to_int(args[arg_idx], &b) < 0) {
             return FD_BADVAL;
         }
