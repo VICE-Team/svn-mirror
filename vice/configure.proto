@@ -61,7 +61,7 @@ VICE_ARG_ENABLE_LIST(libieee1284, [  --enable-libieee1284    enables libieee1284
 VICE_ARG_ENABLE_LIST(portaudio,   [  --disable-portaudio     disables PortAudio support])
 VICE_ARG_ENABLE_LIST(ahi,         [  --disable-ahi           disables AHI support])
 VICE_ARG_ENABLE_LIST(bundle,      [  --disable-bundle        do not use application bundles on Macs])
-VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap feature])
+VICE_ARG_ENABLE_LIST(cpuhistory,  [  --enable-cpuhistory     enable the 65xx cpu history feature])
 VICE_ARG_ENABLE_LIST(unicode,     [  --enable-unicode        enable Unicode UI on WinNT])
 VICE_ARG_ENABLE_LIST(editline,    [  --disable-editline      disable history in Cocoa UI's console])
 VICE_ARG_ENABLE_LIST(lame,        [  --disable-lame          disable MP3 export with LAME])
@@ -289,8 +289,8 @@ AM_CONDITIONAL(DUMMY_COMPILE, false)
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
 
-if test x"$enable_memmap" = "xyes"; then
-  AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the memmap feature.])
+if test x"$enable_cpuhistory" = "xyes"; then
+  AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the 65xx cpu history feature.])
   FEATURE_CPUMEMHISTORY_SUPPORT="yes"
 fi
 
@@ -5436,7 +5436,7 @@ echo "MISC"
 echo "----"
 
 echo "ReSID support              : $HAVE_RESID_SUPPORT (--with/without-resid)"
-echo "Memmap support             : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-memmap)"
+echo "65xx CPU history support   : $FEATURE_CPUMEMHISTORY_SUPPORT (--enable/disable-cpuhistory)"
 echo "Debug support              : $DEBUG_SUPPORT (--enable/disable-debug)"
 echo "Embedded data files support: $USE_EMBEDDED_SUPPORT (--enable/disable-embedded)"
 
