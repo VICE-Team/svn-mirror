@@ -994,6 +994,10 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
     /* Obtain the Window with the corresponding size and behavior based on the flags */
     new_window = SDL_CreateWindow(canvas->viewport->title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, window_w, window_h, SDL_WINDOW_OPENGL | flags);
+    if (new_window == NULL) {
+        log_error(sdlvideo_log, "SDL_CreateWindow() failed: %s\n", SDL_GetError());
+        return NULL;
+    }
 
     ctx = SDL_GL_CreateContext(new_window);
     SDL_GL_MakeCurrent(new_window, ctx);
