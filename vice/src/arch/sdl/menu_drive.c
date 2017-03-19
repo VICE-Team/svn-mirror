@@ -28,6 +28,7 @@
 
 #include "attach.h"
 #include "autostart-prg.h"
+#include "charset.h"
 #include "drive.h"
 #include "diskimage.h"
 #include "fliplist.h"
@@ -719,10 +720,22 @@ UI_MENU_CALLBACK(create_disk_image_callback)
                 }
             }
             if (overwrite == 1) {
-                format_name = lib_msprintf("%s,dsk", name);
-                if (vdrive_internal_create_format_disk_image(name, format_name, new_disk_image_type) < 0) {
+                /* ask user for label,id of new disk */
+                format_name = sdl_ui_text_input_dialog(
+                        "Enter disk label,id:", NULL);
+                if (!format_name) {
+                    lib_free(name);
+                    return NULL;
+                }
+                /* convert to PETSCII */
+                charset_petconvstring((BYTE *)format_name, 0);
+
+                /* try to create the new image */
+                if (vdrive_internal_create_format_disk_image(name, format_name,
+                            new_disk_image_type) < 0) {
                     ui_error("Cannot create disk image");
                 }
+                /* TODO: inform user that the disk image succesfully created */
                 lib_free(format_name);
             }
             lib_free(name);
