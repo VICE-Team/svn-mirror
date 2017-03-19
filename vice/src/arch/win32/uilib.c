@@ -40,6 +40,7 @@
 #include <commdlg.h>
 
 #include "archdep.h"
+#include "charset.h"
 #include "cbmimage.h"
 #include "cmdline.h"
 #include "diskimage.h"
@@ -521,6 +522,8 @@ static UINT_PTR APIENTRY uilib_select_disk_hook_proc(HWND hwnd, UINT uimsg, WPAR
                         GetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, disk_name, 17);
                         GetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, disk_id, 3);
                         format_name = lib_msprintf("%s,%s", disk_name, disk_id);
+                        /* translate to PETSCII */
+                        charset_petconvstring((BYTE*)format_name, 0);
                         if (vdrive_internal_create_format_disk_image(filename, format_name, image_type[cnt]) < 0) {
                             ui_error(translate_text(IDS_CANNOT_CREATE_IMAGE));
                             lib_free(format_name);
