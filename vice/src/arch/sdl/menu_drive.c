@@ -735,7 +735,9 @@ UI_MENU_CALLBACK(create_disk_image_callback)
                             new_disk_image_type) < 0) {
                     ui_error("Cannot create disk image");
                 }
-                /* TODO: inform user that the disk image succesfully created */
+                /* inform user that the disk image succesfully created */
+                ui_message("Disk image created", NULL);
+
                 lib_free(format_name);
             }
             lib_free(name);
