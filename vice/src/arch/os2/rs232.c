@@ -128,7 +128,7 @@ int rs232_getc(int fi, BYTE *b)
     if (fd[fi] == NULL) {
         return -1;
     }
-    *b = fgetc(fd[fi]);
+    *b = (BYTE)fgetc(fd[fi]);
     return 0;
 }
 

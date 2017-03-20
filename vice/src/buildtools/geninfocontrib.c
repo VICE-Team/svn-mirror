@@ -75,13 +75,13 @@ static char *emailname[256];
 
 int get_line(FILE *file)
 {
-    char c = 0;
+    int c = 0;
     int counter = 0;
 
     while (c != '\n' && !feof(file) && counter < 511) {
         c = fgetc(file);
         if (c != 0xd) {
-            line_buffer[counter++] = c;
+            line_buffer[counter++] = (char)c;
         }
     }
     if (counter > 1) {

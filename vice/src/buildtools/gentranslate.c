@@ -38,13 +38,13 @@ static char line_buffer[512];
 
 int vice_getline(FILE *file)
 {
-    char c = 0;
+    int c = 0;
     int counter = 0;
 
     while (c != '\n' && !feof(file) && counter < 511) {
         c = fgetc(file);
         if (c != 0xd) {
-            line_buffer[counter++] = c;
+            line_buffer[counter++] = (char)c;
         }
     }
     line_buffer[counter] = 0;

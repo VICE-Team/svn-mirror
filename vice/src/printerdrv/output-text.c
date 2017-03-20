@@ -233,7 +233,7 @@ static int output_text_getc(unsigned int prnr, BYTE *b)
     if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
     }
-    *b = fgetc(output_fd[printer_device[prnr]]);
+    *b = (BYTE)fgetc(output_fd[printer_device[prnr]]);
     return 0;
 }
 
