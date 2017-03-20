@@ -43,6 +43,14 @@
 
 static menu_draw_t *menu_draw;
 
+/** \brief  Show a message box with some buttons
+ *
+ * \param[in]   title           Message box title
+ * \param[in]   message         Message box message/prompt
+ * \param[in]   message_mode    Type of message box to display (defined in .h)
+ *
+ * \return  index of selected button, or -1 on cancel (Esc)
+ */
 static int handle_message_box(const char *title, const char *message, int message_mode)
 {
     char *text, *pos;
@@ -145,6 +153,13 @@ static int handle_message_box(const char *title, const char *message, int messag
             x = sdl_ui_print_center("\335      \335YES\335       \335NO\335      \335", j + 2);
             sdl_ui_print_center("\335      \255\300\300\300\275       \255\300\300\275      \335", j + 3);
             break;
+        case MESSAGE_UNIT_SELECT:
+            /* Present a selection of '8', '9', '10', '11' or 'SKIP' */
+            sdl_ui_print_center("\335  \260\300\256 \260\300\256 \260\300\300\256 \260\300\300\256 \260\300\300\300\300\256  \335", j + 1);
+            x = sdl_ui_print_center("\335  \3358\335 \3359\335 \33510\335 \33511\335 \335SKIP\335  \335", j + 2);
+            sdl_ui_print_center("\335  \255\300\275 \255\300\275 \255\300\300\275 \255\300\300\275 \255\300\300\300\300\375  \335", j + 3);
+
+            break;
         case MESSAGE_CPUJAM:
         default:
             sdl_ui_print_center("\335 \260\300\300\300\300\300\256  \260\300\300\300\300\300\300\300\256  \260\300\300\300\300\256 \335", j + 1);
@@ -175,6 +190,32 @@ static int handle_message_box(const char *title, const char *message, int messag
                     sdl_ui_reverse_colors();
                 }
                 break;
+
+            case MESSAGE_UNIT_SELECT:
+                sdl_ui_print_center("\335  \3358\335 \3359\335 \33510\335 \33511\335 \335SKIP\335  \335", j + 2);
+ 
+                sdl_ui_reverse_colors();
+                switch (cur_pos) {
+                    case 0:
+                        sdl_ui_print("8", x - 26, j + 2);
+                        break;
+                    case 1:
+                        sdl_ui_print("9", x - 22, j + 2);
+                        break;
+                    case 2:
+                        sdl_ui_print("10", x - 18, j + 2);
+                        break;
+                    case 3:
+                        sdl_ui_print("11", x - 13, j + 2);
+                        break;
+                    case 4:
+                        sdl_ui_print("SKIP", x - 8, j + 2);
+                        break;
+                    default:
+                        break;
+                }
+                sdl_ui_reverse_colors();
+                break;
             case MESSAGE_CPUJAM:
             default:
                 if (cur_pos == 0) {
@@ -200,7 +241,7 @@ static int handle_message_box(const char *title, const char *message, int messag
         switch (sdl_ui_menu_poll_input()) {
             case MENU_ACTION_CANCEL:
             case MENU_ACTION_EXIT:
-                cur_pos = 0;
+                cur_pos = -1;
                 active = 0;
                 break;
             case MENU_ACTION_SELECT:

@@ -82,7 +82,7 @@ UI_MENU_CALLBACK(create_tape_image_callback)
         name = sdl_ui_file_selection_dialog("Select tape image name", FILEREQ_MODE_SAVE_FILE);
         if (name != NULL) {
             if (util_file_exists(name)) {
-                if (message_box("VICE QUESTION", "File exists, do you want to overwrite?", MESSAGE_YESNO) == 1) {
+                if (message_box("VICE QUESTION", "File exists, do you want to overwrite?", MESSAGE_YESNO) != 1) {
                     overwrite = 0;
                 }
             }

@@ -596,7 +596,7 @@ static const resource_int_t resources_int[] = {
 void ui_sdl_quit(void)
 {
     if (confirm_on_exit) {
-        if (message_box("VICE QUESTION", "Do you really want to exit?", MESSAGE_YESNO) == 1) {
+        if (message_box("VICE QUESTION", "Do you really want to exit?", MESSAGE_YESNO) != 0) {
             return;
         }
     }

@@ -34,6 +34,8 @@
 #define MESSAGE_YESNO  1
 #define MESSAGE_CPUJAM 2
 
+#define MESSAGE_UNIT_SELECT 4
+
 extern int message_box(const char *title, char *message, int message_mode);
 
 #endif

@@ -710,12 +710,13 @@ UI_MENU_CALLBACK(create_disk_image_callback)
     char *name = NULL;
     char *format_name;
     int overwrite = 1;
+    int result;
 
     if (activated) {
         name = sdl_ui_file_selection_dialog("Select diskimage name", FILEREQ_MODE_SAVE_FILE);
         if (name != NULL) {
             if (util_file_exists(name)) {
-                if (message_box("VICE QUESTION", "File exists, do you want to overwrite?", MESSAGE_YESNO) == 1) {
+                if (message_box("VICE QUESTION", "File exists, do you want to overwrite?", MESSAGE_YESNO) != 0) {
                     overwrite = 0;
                 }
             }
@@ -735,8 +736,15 @@ UI_MENU_CALLBACK(create_disk_image_callback)
                             new_disk_image_type) < 0) {
                     ui_error("Cannot create disk image");
                 }
-                /* inform user that the disk image succesfully created */
-                ui_message("Disk image created", NULL);
+                result = message_box("Attach new image", "Select unit",
+                        MESSAGE_UNIT_SELECT);
+                /* 0-3 = unit #8 - unit #11, 4 = SKIP */
+                if (result >= 0 && result <= 3) {
+                    /* try to attach disk image */
+                    if (file_system_attach_disk(result + 8, name) < 0) {
+                        ui_error("Cannot attach disk image.");
+                    }
+                }
 
                 lib_free(format_name);
             }
