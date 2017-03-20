@@ -30,11 +30,18 @@
 #include "vice.h"
 #include "types.h"
 
-#define MESSAGE_OK     0
-#define MESSAGE_YESNO  1
-#define MESSAGE_CPUJAM 2
+/** \brief  Message mode enumerator for message_box()
+ *
+ * When adding or removing a value, please don't forget to update the
+ * `msg_mode_buttons` table in uimsg.c accordingly.
+ */
+enum {
+    MESSAGE_OK = 0,         /**< simple OK dialog */
+    MESSAGE_YESNO,          /**< YES/NO selection */
+    MESSAGE_CPUJAM,         /**< CPU-jam dialog */
+    MESSAGE_UNIT_SELECT     /**< Drive unit number selection dialog */
+};
 
-#define MESSAGE_UNIT_SELECT 4
 
 extern int message_box(const char *title, char *message, int message_mode);
 

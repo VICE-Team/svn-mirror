@@ -41,6 +41,18 @@
 
 #define MAX_MSGBOX_LEN 28
 
+
+/** \brief  Table of number of buttons for each `message mode` enum value
+ */
+static int msg_mode_buttons[] = {
+    1,  /* MESSAGE_OK */
+    2,  /* MESSAGE_YESNO */
+    3,  /* MESSAGE_CPUJAM */
+    5,  /* MESSAGE_UNIT_SELECT */
+};
+
+
+
 static menu_draw_t *menu_draw;
 
 /** \brief  Show a message box with some buttons
@@ -61,6 +73,15 @@ static int handle_message_box(const char *title, const char *message, int messag
     unsigned int j = 5;
     int active = 1;
     int cur_pos = 0;
+    int button_count;
+
+    /* determine button count for requested `message mode` */
+    if (message_mode < 0 || message_mode >= (int)(sizeof msg_mode_buttons / sizeof msg_mode_buttons[0])) {
+        fprintf(stderr, "%s:%d:%s: illegal `message_mode` value %d\n",
+               __FILE__, __LINE__, __func__, message_mode);
+        return -1;
+    }
+    button_count = msg_mode_buttons[message_mode];
 
     /* print the top edge of the dialog. */
     sdl_ui_clear();
@@ -252,7 +273,7 @@ static int handle_message_box(const char *title, const char *message, int messag
                 if (message_mode != MESSAGE_OK) {
                     cur_pos--;
                     if (cur_pos < 0) {
-                        cur_pos = message_mode;
+                        cur_pos = button_count - 1;
                     }
                 }
                 break;
@@ -260,7 +281,7 @@ static int handle_message_box(const char *title, const char *message, int messag
             case MENU_ACTION_DOWN:
                 if (message_mode != MESSAGE_OK) {
                     cur_pos++;
-                    if (cur_pos > message_mode) {
+                    if (cur_pos >= button_count) {
                         cur_pos = 0;
                     }
                 }
