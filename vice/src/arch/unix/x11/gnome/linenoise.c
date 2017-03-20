@@ -281,14 +281,16 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
     }
 
     while(1) {
-        char c;
+        int c;
         int nread;
         char seq[2], seq2[2];
+        char tmp[1];
 
-        nread = get_string(term, &c, 1);
+        nread = get_string(term, tmp, 1);
         if (nread <= 0) {
             return -1;
         }
+        c = tmp[0];
 
         /* Only autocomplete when the callback is set. It returns < 0 when
          * there was an error reading from fd. Otherwise it will return the
