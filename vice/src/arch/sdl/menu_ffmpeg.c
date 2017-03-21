@@ -296,6 +296,7 @@ static UI_MENU_CALLBACK(custom_FFMPEGFormat_callback)
 void sdl_menu_ffmpeg_init(void)
 {
     int i;
+    int k;
     gfxoutputdrv_format_t *format;
     const char *w;
 
@@ -307,23 +308,34 @@ void sdl_menu_ffmpeg_init(void)
     }
 
 
+    k = 0;
     for (i = 0; ffmpegdrv_formatlist[i].name != NULL && i < MAX_FORMATS; i++) {
         char *name = ffmpegdrv_formatlist[i].name;
-        format_menu[i].string = name;
-        format_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
-        format_menu[i].callback = custom_FFMPEGFormat_callback;
-        format_menu[i].data = (ui_callback_data_t)(name);
+        if (ffmpegdrv_formatlist[i].audio_codecs != NULL &&
+                ffmpegdrv_formatlist[i].video_codecs != NULL) {
+            format_menu[k].string = name;
+            format_menu[k].type = MENU_ENTRY_RESOURCE_RADIO;
+            format_menu[k].callback = custom_FFMPEGFormat_callback;
+            format_menu[k].data = (ui_callback_data_t)(name);
 #ifdef SDL_DEBUG
-        fprintf(stderr, "%s: format %i: %s\n", __func__, i, name ? name : "(NULL)");
+            fprintf(stderr, "%s: format %i: %s selected\n",
+                    __func__, i, name ? name : "(NULL)");
 #endif
+            k++;
+#ifdef SDL_DEBUG
+        } else {
+            fprintf(stderr, "%s: format %i: %s not selected\n",
+                    __func__, i, name ? name : "(NULL)");
+#endif
+        }
     }
-    if (i == MAX_FORMATS) {
+    if (k == MAX_FORMATS) {
 #ifdef SDL_DEBUG
         fprintf(stderr, "%s: FIXME format %i > %i (MAX)\n", __func__, i, MAX_FORMATS);
 #endif
     }
 
-    format_menu[i].string = NULL;
+    format_menu[k].string = NULL;
 
     resources_get_string("FFMPEGFormat", &w);
     update_codec_menus(w);
