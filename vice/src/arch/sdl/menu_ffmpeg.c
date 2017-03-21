@@ -116,11 +116,23 @@ ui_menu_entry_t ffmpeg_menu[] = {
     SDL_MENU_LIST_END
 };
 
+
+/** \brief  Regenerate the audio/video codec submenus
+ *
+ * \param[in]   current_format  FFMPEG driver name
+ *
+ * TODO:    Update code to use `ffmpegdrv_formatlist`
+ */
 static void update_codec_menus(const char *current_format)
 {
     int i;
     gfxoutputdrv_format_t *format;
     gfxoutputdrv_codec_t *codec;
+
+    int video_codec_id;
+    int audio_codec_id;
+
+    int codec_found;
 
     video_codec_menu[0].string = NULL;
     audio_codec_menu[0].string = NULL;
@@ -154,6 +166,10 @@ static void update_codec_menus(const char *current_format)
     codec = format->video_codecs;
     i = 0;
 
+    /* get the currently used video codec */
+    resources_get_int("FFMPEGVideoCodec", &video_codec_id);
+
+    codec_found = 0;
     while (codec && codec->name) {
         video_codec_menu[i].string = (char *)(codec->name);
         video_codec_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
@@ -162,6 +178,10 @@ static void update_codec_menus(const char *current_format)
 #ifdef SDL_DEBUG
         fprintf(stderr, "%s: video codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
 #endif
+        if (codec-> id == video_codec_id) {
+            /* old video codec is present in the new codecs */
+            codec_found = 1;
+        }
 
         codec++;
         i++;
@@ -175,10 +195,20 @@ static void update_codec_menus(const char *current_format)
     }
     video_codec_menu[i].string = NULL;
 
+    /* is the old codec still valid for the new driver? */
+    if (!codec_found) {
+        /* no: default to the first codec in the new submenu */
+        resources_set_int("FFMPEGVideoCodec", format->video_codecs[0].id);
+    }
+
+
     /* Update audio codec menu */
     codec = format->audio_codecs;
     i = 0;
 
+    /* get the currently selected audio codec */
+    resources_get_int("FFMPEGAudioCodec", &audio_codec_id);
+    codec_found = 0;
     while (codec && codec->name) {
         audio_codec_menu[i].string = (char *)(codec->name);
         audio_codec_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
@@ -187,6 +217,11 @@ static void update_codec_menus(const char *current_format)
 #ifdef SDL_DEBUG
         fprintf(stderr, "%s: audio codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
 #endif
+
+        if (audio_codec_id == codec->id) {
+            /*old audio codec is present in the new codecs */
+            codec_found = 1;
+        }
 
         codec++;
         i++;
@@ -199,6 +234,13 @@ static void update_codec_menus(const char *current_format)
         }
     }
     audio_codec_menu[i].string = NULL;
+
+    /* is the old codec still valid for the new driver? */
+    if (!codec_found) {
+        /* no: default to the first codec in the new submenu */
+        resources_set_int("FFMPEGAudioCodec", format->audio_codecs[0].id);
+    }
+
 }
 
 static UI_MENU_CALLBACK(custom_FFMPEGFormat_callback)
@@ -210,6 +252,9 @@ static UI_MENU_CALLBACK(custom_FFMPEGFormat_callback)
         const char *w;
 
         resources_get_string("FFMPEGFormat", &w);
+#ifdef SDL_DEBUG
+        fprintf(stderr, "%s: FFMPEGFormat = '%s'\n", __func__, w);
+#endif
         if (!strcmp(w, (char *)param)) {
             return sdl_menu_text_tick;
         }
