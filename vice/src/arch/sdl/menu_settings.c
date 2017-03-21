@@ -196,6 +196,10 @@ void uikeyboard_menu_shutdown(void)
 
 static UI_MENU_CALLBACK(load_sym_keymap_callback)
 {
+    /* temporary fix until I find out what 'keymap' is supposed to be */
+#ifdef SDL_DEBUG
+    int keymap = -1;
+#endif
     if (activated) {
         char *name = NULL;
 
@@ -217,6 +221,11 @@ static UI_MENU_CALLBACK(load_sym_keymap_callback)
 
 static UI_MENU_CALLBACK(load_pos_keymap_callback)
 {
+    /* temporary fix until I find out what 'keymap' is supposed to be */
+#ifdef SDL_DEBUG
+    int keymap = -1;
+#endif
+
     if (activated) {
         char *name = NULL;
 
