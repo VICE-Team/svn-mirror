@@ -1284,9 +1284,11 @@ void usage(char *progname)
 static void petcat_version(void)
 {
 #ifdef USE_SVN_REVISION
-    printf("petcat %s (SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+    printf("petcat V%0.2f PL %d (VICE %s svn r%d)\n",
+            PETCATVERSION, PETCATLEVEL, VERSION, VICE_SVN_REV_NUMBER);
 #else
-    printf("petcat %s RELEASE\n", VERSION);
+    printf("petcat V%0.2f PL %d (VICE %s)\n",
+            PETCATVERSION, PETCATLEVEL, VERSION);
 #endif
 }
 
