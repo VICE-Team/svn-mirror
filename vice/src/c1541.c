@@ -4323,9 +4323,12 @@ static int validate_cmd(int nargs, char **args)
 static int version_cmd(int nargs, char **args)
 {
 #ifdef USE_SVN_REVISION
-    printf("C1541 %s (SVN r%d)\n", VERSION, VICE_SVN_REV_NUMBER);
+    printf("c1541 V%d.%d (VICE %s svn r%d)\n",
+            C1541_VERSION_MAJOR, C1541_VERSION_MINOR,
+            VERSION, VICE_SVN_REV_NUMBER);
 #else
-    printf("C1541 %s RELEASE\n", VERSION);
+    printf("c1541 V%d.%d (VICE %s )\n",
+            C1541_VERSION_MAJOR, C1541_VERSION_MINOR, VERSION);
 #endif
     return FD_OK;
 }
