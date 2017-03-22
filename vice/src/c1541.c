@@ -4327,7 +4327,7 @@ static int version_cmd(int nargs, char **args)
             C1541_VERSION_MAJOR, C1541_VERSION_MINOR,
             VERSION, VICE_SVN_REV_NUMBER);
 #else
-    printf("c1541 V%d.%d (VICE %s )\n",
+    printf("c1541 V%d.%d (VICE %s)\n",
             C1541_VERSION_MAJOR, C1541_VERSION_MINOR, VERSION);
 #endif
     return FD_OK;
