@@ -1,8 +1,9 @@
 /*
- * menu_sound.h - Implementation of the sound settings menu for the SDL UI.
+ * menu_media.h - SDL media saving menu - header
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
+ *
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +25,20 @@
  *
  */
 
-#ifndef VICE_UIMENU_SOUND_H
-#define VICE_UIMENU_SOUND_H
+#ifndef VICE_MENU_MEDIA_H
+#define VICE_MENU_MEDIA_H
 
 #include "vice.h"
-
+#include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t sound_output_menu[];
-extern const ui_menu_entry_t sound_record_menu[];
 
-#endif
+extern ui_menu_entry_t media_menu[];
+
+
+int uimedia_menu_create(void);
+void uimedia_menu_shutdown(void);
+
+
+#endif  /* ifndef VICE_MENU_MEDIA */
+

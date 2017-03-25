@@ -40,6 +40,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_media.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
 #include "menu_printer.h"
@@ -89,10 +90,10 @@ static const ui_menu_entry_t x64dtv_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)snapshot_menu },
-    { "Screenshot",
+    { "Save media file",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)screenshot_vic_vicii_vdc_menu },
+      (ui_callback_data_t)media_menu },
     { "Speed settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -168,6 +169,7 @@ int c64dtvui_init(void)
     uidrive_menu_create();
     uikeyboard_menu_create();
     uisid_menu_create();
+    uimedia_menu_create();
 
     sdl_ui_set_main_menu(x64dtv_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
@@ -185,6 +187,7 @@ void c64dtvui_shutdown(void)
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
     uijoyport_menu_shutdown();
+    uimedia_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s\n",__func__);
 #endif

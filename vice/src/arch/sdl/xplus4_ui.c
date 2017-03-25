@@ -39,6 +39,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_media.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
 #include "menu_plus4cart.h"
@@ -101,10 +102,10 @@ static const ui_menu_entry_t xplus4_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)snapshot_menu },
-    { "Screenshot",
+    { "Save media file",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)screenshot_ted_menu },
+      (ui_callback_data_t)media_menu },
     { "Speed settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -184,6 +185,7 @@ int plus4ui_init(void)
     uikeyboard_menu_create();
     uipalette_menu_create("TED", NULL);
     uisid_menu_create();
+    uimedia_menu_create();
 
     sdl_ui_set_main_menu(xplus4_main_menu);
 
@@ -211,6 +213,7 @@ void plus4ui_shutdown(void)
     uisid_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uimedia_menu_shutdown();
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif

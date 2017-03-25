@@ -432,13 +432,6 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"4BT" },
-#ifdef HAVE_FFMPEG
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Record movie",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ffmpeg_menu },
-#endif
 
     SDL_MENU_LIST_END
 };
@@ -508,13 +501,6 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"4BT" },
-#ifdef HAVE_FFMPEG
-   SDL_MENU_ITEM_SEPARATOR,
-    { "Record movie",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ffmpeg_menu },
-#endif
 
     SDL_MENU_LIST_END
 };
@@ -584,13 +570,6 @@ const ui_menu_entry_t screenshot_crtc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"4BT" },
-#ifdef HAVE_FFMPEG
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Record movie",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)ffmpeg_menu },
-#endif
 
     SDL_MENU_LIST_END
 };

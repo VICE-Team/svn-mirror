@@ -44,6 +44,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_media.h"
 #include "menu_midi.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
@@ -103,10 +104,10 @@ static const ui_menu_entry_t x64_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)snapshot_menu },
-    { "Screenshot",
+    { "Save media file",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)screenshot_vic_vicii_vdc_menu },
+      (ui_callback_data_t)media_menu },
     { "Speed settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -180,6 +181,8 @@ int c64ui_init(void)
     uiclockport_rr_mmc_menu_create();
     uiclockport_ide64_menu_create();
 
+    uimedia_menu_create();
+
     sdl_ui_set_main_menu(x64_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
     sdl_vkbd_set_vkbd(&vkbd_c64);
@@ -211,4 +214,5 @@ void c64ui_shutdown(void)
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_shutdown();
 #endif
+    uimedia_menu_shutdown();
 }

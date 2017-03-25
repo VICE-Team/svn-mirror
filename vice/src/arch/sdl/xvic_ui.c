@@ -41,6 +41,7 @@
 #include "menu_help.h"
 #include "menu_jam.h"
 #include "menu_joyport.h"
+#include "menu_media.h"
 #include "menu_midi.h"
 #include "menu_monitor.h"
 #include "menu_network.h"
@@ -206,6 +207,7 @@ int vic20ui_init(void)
     uikeyboard_menu_create();
     uipalette_menu_create("VIC", NULL);
     uisid_menu_create();
+    uimedia_menu_create();
 
     sdl_ui_set_main_menu(xvic_main_menu);
 
@@ -233,6 +235,7 @@ void vic20ui_shutdown(void)
     uikeyboard_menu_shutdown();
     uipalette_menu_shutdown();
     uijoyport_menu_shutdown();
+    uimedia_menu_shutdown();
 #ifdef HAVE_MIDI
     sdl_menu_midi_in_free();
     sdl_menu_midi_out_free();

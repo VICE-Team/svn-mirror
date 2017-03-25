@@ -303,7 +303,7 @@ static ui_menu_entry_t fragment_size_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t sound_record_menu[] = {
+const ui_menu_entry_t sound_record_menu[] = {
     { "Start recording AIFF audio file",
       MENU_ENTRY_DIALOG,
       start_recording_callback,
@@ -414,10 +414,6 @@ const ui_menu_entry_t sound_output_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundSpeedAdjustment_callback,
       (ui_callback_data_t)SOUND_ADJUST_EXACT },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "Sound recording",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)sound_record_menu },
+
     SDL_MENU_LIST_END
 };
