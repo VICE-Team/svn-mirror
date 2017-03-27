@@ -369,6 +369,7 @@ static const ui_menu_entry_t doodle_settings_crtc_menu[] = {
 
 
 const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
+    /* settings */
     { "Doodle screenshot settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -377,11 +378,10 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_vic_vicii_vdc_menu },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Save BMP screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"BMP" },
+
+    /* Commodore-native formats */
     { "Save DOODLE screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
@@ -398,6 +398,18 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"KOALA_COMPRESSED" },
+    { "Save GoDot screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"4BT" },
+
+    SDL_MENU_ITEM_SEPARATOR,
+
+    /* PC formats */
+    { "Save BMP screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"BMP" },
 #ifdef HAVE_GIF
     { "Save GIF screenshot",
       MENU_ENTRY_DIALOG,
@@ -428,10 +440,6 @@ const ui_menu_entry_t screenshot_vic_vicii_vdc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"PPM" },
-    { "Save godot screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"4BT" },
 
     SDL_MENU_LIST_END
 };
@@ -446,12 +454,10 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_ted_menu },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Save BMP screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"BMP" },
-    { "Save DOODLE screenshot",
+
+   { "Save DOODLE screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"DOODLE" },
@@ -467,6 +473,17 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"KOALA_COMPRESSED" },
+   { "Save GoDot screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"4BT" },
+
+    SDL_MENU_ITEM_SEPARATOR,
+
+    { "Save BMP screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"BMP" },
 #ifdef HAVE_GIF
     { "Save GIF screenshot",
       MENU_ENTRY_DIALOG,
@@ -497,10 +514,6 @@ const ui_menu_entry_t screenshot_ted_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"PPM" },
-   { "Save godot screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"4BT" },
 
     SDL_MENU_LIST_END
 };
@@ -515,11 +528,9 @@ const ui_menu_entry_t screenshot_crtc_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)koala_settings_crtc_menu },
+
     SDL_MENU_ITEM_SEPARATOR,
-    { "Save BMP screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"BMP" },
+
     { "Save DOODLE screenshot",
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
@@ -536,6 +547,17 @@ const ui_menu_entry_t screenshot_crtc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"KOALA_COMPRESSED" },
+    { "Save GoDot screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"4BT" },
+
+    SDL_MENU_ITEM_SEPARATOR,
+
+    { "Save BMP screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"BMP" },
 #ifdef HAVE_GIF
     { "Save GIF screenshot",
       MENU_ENTRY_DIALOG,
@@ -566,10 +588,6 @@ const ui_menu_entry_t screenshot_crtc_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"PPM" },
-    { "Save godot screenshot",
-      MENU_ENTRY_DIALOG,
-      save_screenshot_callback,
-      (ui_callback_data_t)"4BT" },
 
     SDL_MENU_LIST_END
 };
