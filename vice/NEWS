@@ -38,6 +38,11 @@ left from previous installs.
 
 - Fixed commands and added new commands.
 
+** XVIC
+-------
+
+- Fixed VIA emulation
+
 * Changes in VICE 3.0
 ======================
 
