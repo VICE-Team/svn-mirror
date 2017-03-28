@@ -164,7 +164,7 @@ BEGIN
   IDS_SAMPLER_CAPTION      "Sampler instellingen"
   IDS_SAMPLER_DEVICE_LABEL "Sampler apparaat"
   IDS_SAMPLER_FILE_LABEL   "Sampler invoer bestand"
-  IDS_SAMPLER_GAIN         "Sampler volume (1..200)"
+  IDS_SAMPLER_GAIN         "Sampler toename (1..200)"
 END
 
 

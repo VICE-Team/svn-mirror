@@ -157,7 +157,7 @@ BEGIN
   IDS_GMOD2_CAPTION             "GMod2 instellingen"
   IDS_GMOD2_EEPROMIMAGE_LABEL   "EEPROM bestand"
   IDS_GMOD2_FLASH_READ_WRITE    "Flash lees/schrijf"
-  IDS_GMOD2_EEPROM_READ_WRITE   "GMod2 EEPROM opslaan indien gewijzigd"
+  IDS_GMOD2_EEPROM_READ_WRITE   "GMod2 EEPROM opslaan bij wijziging"
   IDS_GMOD2_EEPROM_SELECT_FILE  "Selecteer bestand voor GMod2 EEPROM"
 END
 

@@ -154,9 +154,9 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_EASYFLASH_CAPTION      "EasyFlash instellingen"
   IDS_EASYFLASH_JUMPER       "EasyFlash jumper"
-  IDS_EASYFLASH_AUTOSAVE     "CRT bij ontkoppelen opslaan"
-  IDS_EASYFLASH_SAVE_NOW     "Sla CRT nu op"
-  IDS_EASYFLASH_CRT_OPTIMIZE "Optimalizeer CRT bij het opslaan"
+  IDS_EASYFLASH_AUTOSAVE     "CRT opslaan bij ontkoppelen"
+  IDS_EASYFLASH_SAVE_NOW     "CRT nu opslaan"
+  IDS_EASYFLASH_CRT_OPTIMIZE "Optimaliseer CRT opslaan"
 END
 
 

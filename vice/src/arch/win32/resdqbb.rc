@@ -159,8 +159,8 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_DQBB  "Selecteer bestand voor DQBB"
   IDS_DQBB_CAPTION      "Double Quick Brown Box instellingen"
-  IDS_DQBB_ENABLE       "Activeer de Double Quick Brown Box cartridge"
-  IDS_DQBB_WRITE_ENABLE "DQBB bestand opslaan indien gewijzigd"
+  IDS_DQBB_ENABLE       "Double Quick Brown Box cartridge inschakelen"
+  IDS_DQBB_WRITE_ENABLE "DQBB bestand opslaan bij wijziging"
   IDS_DQBB_FILE_LABEL   "DQBB bestand"
 END
 

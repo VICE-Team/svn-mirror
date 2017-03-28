@@ -164,7 +164,7 @@ BEGIN
     IDS_TED_CAPTION       "TED instellingen"
     IDS_TED_BORDERSGROUP  "Bordermodus"
     IDS_TED_NORMALBORDERS "Normale borders"
-    IDS_TED_FULLBORDERS   "Volle borders"
+    IDS_TED_FULLBORDERS   "Volledige borders"
     IDS_TED_DEBUGBORDERS  "Debug borders"
     IDS_TED_NOBORDERS     "Geen borders"
 END

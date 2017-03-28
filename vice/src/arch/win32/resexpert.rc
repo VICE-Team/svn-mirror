@@ -194,9 +194,9 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Selecteer bestand voor Expert Cartridge"
   IDS_EXPERT_CAPTION      "Expert Cartridge instellingen"
-  IDS_EXPERT_ENABLE       "Activeer Expert Cartridge"
+  IDS_EXPERT_ENABLE       "Expert Cartridge inschakelen"
   IDS_EXPERT_MODE_LABEL   "Modus"
-  IDS_EXPERT_WRITE_ENABLE "Expert Cartridge bestand opslaan indien gewijzigd"
+  IDS_EXPERT_WRITE_ENABLE "Expert Cartridge bestand opslaan bij wijziging"
   IDS_EXPERT_FILE_LABEL   "Expert Cartridge bestand"
   IDS_OFF                 "Uit"
   IDS_PRG                 "Prg"

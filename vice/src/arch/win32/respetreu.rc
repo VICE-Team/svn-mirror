@@ -159,7 +159,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU instellingen"
-    IDS_PETREU_ENABLE      "Activeer de PET RAM en uitbreidingseenheid"
+    IDS_PETREU_ENABLE      "PET RAM en uitbreidingseenheid inschakelen"
     IDS_PETREU_SIZE        "PET REU grootte"
     IDS_PETREU_FILE        "PET REU bestand"
     IDS_PETREU_SELECT_FILE "Selecteer bestand voor PET REU"

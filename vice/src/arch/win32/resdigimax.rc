@@ -128,7 +128,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "DigiMAX instellingen"
-  IDS_DIGIMAX_ENABLE  "Activeer de DigiMAX cartridge"
+  IDS_DIGIMAX_ENABLE  "DigiMAX cartridge inschakelen"
   IDS_DIGIMAX_BASE    "DigiMAX basisadres"
 END
 

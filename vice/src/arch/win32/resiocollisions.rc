@@ -143,9 +143,9 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_IO_COLLISION_CAPTION     "I/O conflict instellingen"
-  IDS_IO_COLLISION_METHOD      "I/O conflict handeling"
+  IDS_IO_COLLISION_METHOD      "I/O conflict afhandeling"
   IDS_IO_COLLISION_DETACH_ALL  "Ontkoppel alle betrokken cartridges"
-  IDS_IO_COLLISION_DETACH_LAST "Ontkoppel de cartridge die als laatse was geactiveerd"
+  IDS_IO_COLLISION_DETACH_LAST "Ontkoppel de cartridge die als laatste was geactiveerd"
   IDS_IO_COLLISION_AND_WIRES   "'AND' de draden"
 END
 

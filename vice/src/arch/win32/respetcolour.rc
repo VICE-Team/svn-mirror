@@ -149,7 +149,7 @@ BEGIN
   IDS_PETCOLOUR_TYPE       "PET Colour soort"
   IDS_PETCOLOUR_OFF        "Uit"
   IDS_PETCOLOUR_ANALOG     "Analoog"
-  IDS_PETCOLOUR_BACKGROUND "Achtergrond kleur"
+  IDS_PETCOLOUR_BACKGROUND "Achtergrondkleur"
 END
 
 

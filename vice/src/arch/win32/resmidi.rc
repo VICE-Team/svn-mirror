@@ -160,10 +160,10 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MIDI_CAPTION    "MIDI instellingen"
-  IDS_MIDI_ENABLE     "Activeer MIDI emulatie"
+  IDS_MIDI_ENABLE     "MIDI emulatie inschakelen"
   IDS_MIDI_TYPE_LABEL "MIDI soort"
   IDS_MIDI_IN_LABEL   "MIDI-In apparaat"
-  IDS_MIDI_OUT_LABEL  "MIDI-uit apparaat"
+  IDS_MIDI_OUT_LABEL  "MIDI-Uit apparaat"
 END
 
 

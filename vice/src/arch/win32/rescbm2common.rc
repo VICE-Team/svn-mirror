@@ -386,7 +386,7 @@ BEGIN
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
   IDS_SELECT_CBMII_MEM_512         "512 kByte"
   IDS_SELECT_CBMII_MEM_1024        "1024 kByte"
-  IDS_CBM2_RAM_BANKS               "Ram banken"
+  IDS_CBM2_RAM_BANKS               "RAM banken"
   IDS_TOGGLE_CBMII_RAM08           "Bank 15 $0800-$0FFF RAM"
   IDS_TOGGLE_CBMII_RAM1            "Bank 15 $1000-$1FFF RAM"
   IDS_TOGGLE_CBMII_RAM2            "Bank 15 $2000-$3FFF RAM"

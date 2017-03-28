@@ -126,8 +126,8 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_USERPORT_RTC_DS1307_CAPTION "Userport RTC (DS1307) instellingen"
-  IDS_USERPORT_RTC_DS1307_ENABLE  "Activeer de Userport RTC (DS1307) uitbreiding"
-  IDS_USERPORT_RTC_DS1307_SAVE    "Sla de RTC (DS1307) data op indien gewijzigd"
+  IDS_USERPORT_RTC_DS1307_ENABLE  "Userport RTC (DS1307) uitbreiding inschakelen"
+  IDS_USERPORT_RTC_DS1307_SAVE    "Sla de RTC (DS1307) data op bij wijziging"
 END
 
 

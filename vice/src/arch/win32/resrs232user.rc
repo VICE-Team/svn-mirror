@@ -148,7 +148,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RS232USER_CAPTION "RS232 userport instellingen"
-  IDS_RS232USER_ENABLE  "Activeer RS232 userportemulatie"
+  IDS_RS232USER_ENABLE  "RS232 userportemulatie inschakelen"
   IDS_RS232USER_DEVICE  "Userport apparaat"
   IDS_RS232USER_BAUD    "Userport baudrate"
 END

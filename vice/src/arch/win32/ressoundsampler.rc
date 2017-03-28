@@ -118,7 +118,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler instellingen"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Activeer de SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "SFX Sound Sampler cartridge inschakelen"
 END
 
 

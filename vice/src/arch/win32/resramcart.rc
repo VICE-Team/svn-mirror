@@ -179,10 +179,10 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "RamCart instellingen"
-  IDS_RAMCART_ENABLE       "Activeer de RamCart uitbreiding"
+  IDS_RAMCART_ENABLE       "RamCart uitbreiding inschakelen"
   IDS_RAMCART_READONLY     "Alleen-lezen"
   IDS_RAMCART_SIZE         "RamCart grootte"
-  IDS_RAMCART_WRITE_ENABLE "Ramcart bestand opslaan indien gewijzigd"
+  IDS_RAMCART_WRITE_ENABLE "Ramcart bestand opslaan bij wijziging"
   IDS_RAMCART_FILE         "RamCart bestand"
   IDS_RAMCART_SELECT_FILE  "Selecteer bestand voor RamCart"
 END

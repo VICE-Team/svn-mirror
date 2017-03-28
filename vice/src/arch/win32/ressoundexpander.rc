@@ -152,7 +152,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDEXPANDER_CAPTION "SFX Sound Expander instellingen"
-    IDS_SFX_SOUNDEXPANDER_ENABLE  "Activeer de SFX Sound Expander cartridge"
+    IDS_SFX_SOUNDEXPANDER_ENABLE  "SFX Sound Expander cartridge inschakelen"
     IDS_SFX_SOUNDEXPANDER_TYPE    "YM chip model"
 END
 

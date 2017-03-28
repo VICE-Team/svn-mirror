@@ -74,7 +74,7 @@ BEGIN
   IDS_RR_BANK_JUMPER            "RR Bankjumper aktivieren"
   IDS_RR_REVISION_LABEL         "Revision"
   IDS_RR_BIOS_SAVE              "RR Imagedatei bei Änderung speichern"
-  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Device"
+  IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport Gerät"
 END
 
 
@@ -160,10 +160,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER           "Activeer RR flash jumper"
-  IDS_RR_BANK_JUMPER            "Activeer RR bank jumper"
+  IDS_RR_FLASH_JUMPER           "RR flash jumper inschakelen"
+  IDS_RR_BANK_JUMPER            "RR bank jumper inschakelen"
   IDS_RR_REVISION_LABEL         "Revisie"
-  IDS_RR_BIOS_SAVE              "RR flash bestand opslaan indien gewijzigd"
+  IDS_RR_BIOS_SAVE              "RR flash bestand opslaan bij wijziging"
   IDS_RR_CLOCKPORT_DEVICE_LABEL "Clockport apparaat"
 END
 

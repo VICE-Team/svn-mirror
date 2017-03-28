@@ -260,9 +260,9 @@ BEGIN
   IDS_SWIFTLINK      "Swiftlink"
   IDS_TURBO232       "Turbo232"
   IDS_ACIA_CAPTION   "ACIA instellingen"
-  IDS_ACIA_ENABLE    "Activeer de ACIA RS232 interface emulatie"
+  IDS_ACIA_ENABLE    "ACIA RS232 interface emulatie inschakelen"
   IDS_ACIA_DEVICE    "ACIA apparaat"
-  IDS_ACIA_LOCATION  "ACIA adres"
+  IDS_ACIA_LOCATION  "ACIA locatie"
   IDS_ACIA_INTERRUPT "ACIA interrupt"
   IDS_ACIA_MODE      "ACIA modus"
 END

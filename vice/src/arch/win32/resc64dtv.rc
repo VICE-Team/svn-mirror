@@ -724,13 +724,13 @@ BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Koppel DTV Flash Bestand"
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM bestand"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Activeer schrijven naar DTV ROM bestand"
-  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Instellingen"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Activeer schrijven naar C64DTV ROM bestand"
+  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV instellingen"
   IDS_DTV_REVISION_LABEL          "C64DTV model"
-  IDS_ENABLE_HUMMER_ADC           "Activeer Hummer ADC"
+  IDS_ENABLE_HUMMER_ADC           "Hummer ADC inschakelen"
   IDS_CREATE_FLASH_CAPTION        "Maak DTV Flash Bestand"
-  IDS_DTV_ROM_CREATION            "Maak DTV Flash Bestand"
-  IDS_C64DTV_ROM_COPY_C64         "Kopieer C64 ROMS naar bestand"
+  IDS_DTV_ROM_CREATION            "Aanmaken DTV ROM bestand"
+  IDS_C64DTV_ROM_COPY_C64         "Kopieer C64 ROM's naar bestand"
   IDS_CREATE                      "Maak"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "C64DTV model"
@@ -744,7 +744,7 @@ BEGIN
   IDS_MI_CREATE_DTV_FLASH         "Maak DTV Flash Bestand"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Hardwarematig flash bestandssysteem"
   IDS_MI_PS2MOUSE                 "Aktiveer emulatie van een PS/2 muis op de userport"
-  IDS_MI_C64DTV_SETTINGS          "C64DTV Instellingen..."
+  IDS_MI_C64DTV_SETTINGS          "C64DTV instellingen..."
 END
 
 

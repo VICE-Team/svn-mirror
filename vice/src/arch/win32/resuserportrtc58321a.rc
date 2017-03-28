@@ -126,8 +126,8 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_USERPORT_RTC_58321A_CAPTION "Userport RTC (58321a) instellingen"
-  IDS_USERPORT_RTC_58321A_ENABLE  "Activeer de Userport RTC (58321a) uitbreiding"
-  IDS_USERPORT_RTC_58321A_SAVE    "Sla de RTC (58321a) data op indien gewijzigd"
+  IDS_USERPORT_RTC_58321A_ENABLE  "Userport RTC (58321a) uitbreiding inschakelen"
+  IDS_USERPORT_RTC_58321A_SAVE    "Sla de RTC (58321a) data op bij wijziging"
 END
 
 

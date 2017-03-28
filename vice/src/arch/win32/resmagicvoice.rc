@@ -138,7 +138,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MAGICVOICE_CAPTION     "Magic Voice instellingen"
-  IDS_MAGICVOICE_ENABLE      "Activeer Magic Voice"
+  IDS_MAGICVOICE_ENABLE      "Magic Voice inschakelen"
   IDS_MAGICVOICE_FILE        "Magic Voice bestand"
   IDS_MAGICVOICE_SELECT_FILE "Selecteer bestand voor Magic Voice"
 END

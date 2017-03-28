@@ -64,10 +64,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ETHERNETCART_CAPTION      "Ethernet Cart settings"
-  IDS_ETHERNETCART_ENABLE       "Enable the Ethernet Cart"
-  IDS_ETHERNETCART_MODE_LABEL   "Ethernet Cart mode"
-  IDS_ETHERNETCART_BASE_LABEL   "Ethernet Cart base address"
+  IDS_ETHERNETCART_CAPTION      "Ethernet Modul Einstellungen"
+  IDS_ETHERNETCART_ENABLE       "Ethernet Cartridge aktivieren"
+  IDS_ETHERNETCART_MODE_LABEL   "Ethernet Modul Modus"
+  IDS_ETHERNETCART_BASE_LABEL   "Ethernet Modul Chip Basisadresse"
 END
 
 
@@ -149,9 +149,9 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ETHERNETCART_CAPTION      "Ethernet Cart instellingen"
-  IDS_ETHERNETCART_ENABLE       "Activeer de Ethernet Cart"
+  IDS_ETHERNETCART_ENABLE       "Ethernet Cart inschakelen"
   IDS_ETHERNETCART_MODE_LABEL   "Ethernet Cart modus"
-  IDS_ETHERNETCART_BASE_LABEL   "Ethernet Cart basis adres"
+  IDS_ETHERNETCART_BASE_LABEL   "Ethernet Cart basisadres"
 END
 
 

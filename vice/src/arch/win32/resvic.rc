@@ -164,7 +164,7 @@ BEGIN
     IDS_VIC_CAPTION       "VIC instellingen"
     IDS_VIC_BORDERSGROUP  "Bordermodus"
     IDS_VIC_NORMALBORDERS "Normale borders"
-    IDS_VIC_FULLBORDERS   "Volle borders"
+    IDS_VIC_FULLBORDERS   "Volledige borders"
     IDS_VIC_DEBUGBORDERS  "Debug borders"
     IDS_VIC_NOBORDERS     "Geen borders"
 END

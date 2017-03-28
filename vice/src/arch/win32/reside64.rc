@@ -177,8 +177,8 @@ BEGIN
     IDS_IDE64_SB_DIGIMAX             "IDE64 Shortbus DigiMAX Gerät aktivieren"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 Shortbus DigiMAX Geräteadresse"
 #ifdef HAVE_PCAP
-    IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
-    IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
+    IDS_IDE64_SB_ETFE                "IDE64 Shortbus ETFE Gerät"
+    IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 Shortbus ETFE Geräteadresse"
 #endif
     IDS_IDE64_VERSION                "IDE64 V4 aktivieren"
     IDS_IDE64_USB_SERVER             "IDE64 USB Server aktivieren"
@@ -192,7 +192,7 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE             "Gesamtgröße: %iKB"
     IDS_IDE64_SELECT_IMAGE           "ATA Gerät Imagedatei auswählen"
     IDS_IDE64_USB_SERVER_BIND_LABEL  "IDE64 USB Server Adresse"
-    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
+    IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport Gerät"
 END
 
 
@@ -384,11 +384,11 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS            "IDE64 V4 instellingen"
-    IDS_IDE64_SHORTBUS_SETTINGS      "IDE64 shotbus instellingen"
+    IDS_IDE64_SHORTBUS_SETTINGS      "IDE64 shortbus instellingen"
     IDS_IDE64_HD_IMAGE_1_SETTINGS    "IDE64 primair hoofd apparaat instellingen"
     IDS_IDE64_HD_IMAGE_2_SETTINGS    "IDE64 HD primair slaaf apparaat instellingen"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS    "IDE64 secondair hoofd apparaat instellingen"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS    "IDE64 secondair slaaf apparaat instellingen"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS    "IDE64 secundair hoofd apparaat instellingen"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS    "IDE64 secundair slaaf apparaat instellingen"
     IDS_IDE64_SETTINGS               "IDE64 instellingen"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX apparaat"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX apparaat basisadres"
@@ -396,18 +396,18 @@ BEGIN
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE apparaat"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE apparaat basisadres"
 #endif
-    IDS_IDE64_VERSION                "Activeer IDE64 V4"
-    IDS_IDE64_USB_SERVER             "Activeer IDE64 USB server"
-    IDS_IDE64_RTC_SAVE               "Sla de IDE64 RTC data op indien gewijzigd"
+    IDS_IDE64_VERSION                "IDE64 V4 inschakelen"
+    IDS_IDE64_USB_SERVER             "IDE64 USB server inschakelen"
+    IDS_IDE64_RTC_SAVE               "Sla de IDE64 RTC data op bij wijziging"
     IDS_IDE64_IMAGE                  "ATA apparaat bestand"
     IDS_IDE64_GEOMETRY               "Geometrie"
     IDS_IDE64_AUTODETECT             "Automatisch detecteren bestandsgrootte"
     IDS_IDE64_CYLINDERS              "Cylinders"
     IDS_IDE64_HEADS                  "Koppen"
-    IDS_IDE64_SECTORS                "Sectors"
+    IDS_IDE64_SECTORS                "Sectoren"
     IDS_IDE64_TOTAL_SIZE             "Totale grootte: %iKB"
     IDS_IDE64_SELECT_IMAGE           "Selecteer ATA apparaat bestand"
-    IDS_IDE64_USB_SERVER_BIND_LABEL  "IDE64 USB server adres waaraan gebonden moet worden"
+    IDS_IDE64_USB_SERVER_BIND_LABEL  "IDE64 USB serveradres waaraan gebonden moet worden"
     IDS_IDE64_CLOCKPORT_DEVICE_LABEL "Clockport apparaat"
 END
 

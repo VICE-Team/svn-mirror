@@ -169,9 +169,9 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU instellingen"
-  IDS_REU_ENABLE       "Activeer de RAM uitbreidingseenheid (REU)"
+  IDS_REU_ENABLE       "RAM uitbreidingseenheid (REU) inschakelen"
   IDS_REU_SIZE         "REU grootte"
-  IDS_REU_WRITE_ENABLE "REU bestand opslaan indien gewijzigd"
+  IDS_REU_WRITE_ENABLE "REU bestand opslaan bij wijziging"
   IDS_REU_FILE         "REU bestand"
   IDS_REU_SELECT_FILE  "Selecteer bestand voor REU"
 END

@@ -168,9 +168,9 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_ISEPIC  "Selecteer bestand voor ISEPIC"
   IDS_ISEPIC_CAPTION      "ISEPIC instellingen"
-  IDS_ISEPIC_ENABLE       "Activeer de ISEPIC cartridge"
+  IDS_ISEPIC_ENABLE       "ISEPIC cartridge inschakelen"
   IDS_ISEPIC_SWITCH       "ISEPIC schakelaar"
-  IDS_ISEPIC_WRITE_ENABLE "ISEPIC bestand opslaan indien gewijzigd"
+  IDS_ISEPIC_WRITE_ENABLE "ISEPIC bestand opslaan bij wijziging"
   IDS_ISEPIC_FILE_LABEL   "ISEPIC bestand"
 END
 

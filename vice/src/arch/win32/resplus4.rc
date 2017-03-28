@@ -775,7 +775,7 @@ BEGIN
   IDS_MI_V364SPEECH_SETTINGS         "V364 Spraak instellingen..."
   IDS_MI_PLUS4MODEL_SETTINGS         "Plus4 model instellingen..."
   IDS_MI_TED_SETTINGS                "TED instellingen..."
-  IDS_MI_TOGGLE_DIGIBLASTER          "Activeer Digiblaster"
+  IDS_MI_TOGGLE_DIGIBLASTER          "Digiblaster inschakelen"
 END
 
 

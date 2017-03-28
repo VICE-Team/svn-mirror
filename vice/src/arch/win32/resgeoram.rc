@@ -199,9 +199,9 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_GEORAM  "Selecteer bestand voor GEO-RAM"
   IDS_GEORAM_CAPTION      "GEO-RAM instellingen"
-  IDS_GEORAM_ENABLE       "Activeer de GEO-RAM uitbreidingseenheid"
+  IDS_GEORAM_ENABLE       "GEO-RAM uitbreidingseenheid inschakelen"
   IDS_GEORAM_SIZE_LABEL   "GEO-RAM grootte"
-  IDS_GEORAM_WRITE_ENABLE "GEO-RAM bestand opslaan indien gewijzigd"
+  IDS_GEORAM_WRITE_ENABLE "GEO-RAM bestand opslaan bij wijziging"
   IDS_GEORAM_FILE_LABEL   "GEO-RAM bestand"
 END
 

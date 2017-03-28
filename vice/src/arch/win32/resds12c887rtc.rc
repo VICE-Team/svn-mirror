@@ -148,10 +148,10 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DS12C887RTC_CAPTION "DS12C887 RTC instellingen"
-  IDS_DS12C887RTC_ENABLE  "Activeer de DS12C887 RTC cartridge"
+  IDS_DS12C887RTC_ENABLE  "DS12C887 RTC uitbreiding inschakelen"
   IDS_DS12C887RTC_RUNMODE "Start met werkende oscillator"
-  IDS_DS12C887RTC_BASE    "DS12C887 RTC basis adres"
-  IDS_DS12C887RTC_SAVE    "Sla de RTC data op indien gewijzigd"
+  IDS_DS12C887RTC_BASE    "DS12C887 RTC basisadres"
+  IDS_DS12C887RTC_SAVE    "Sla RTC gegevens op bij wijziging"
 END
 
 

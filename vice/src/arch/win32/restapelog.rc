@@ -167,11 +167,11 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_TAPELOG_CAPTION                    "Tape log apparaat instellingen"
-    IDS_TAPELOG_ENABLE                     "Activeer tape log apparaat"
+    IDS_TAPELOG_ENABLE                     "Tape log apparaat inschakelen"
     IDS_TAPELOG_DESTINATION                "Tape log berichten bestemming"
     IDS_TAPELOG_FILE                       "Tape log bestand"
     IDS_TAPELOG_SELECT_FILE                "Selecteer bestand voor de tape log"
-    IDS_TAPELOG_LOG_TO_EMULATION_LOGFILE   "Sla berichten op in de standaard emulator log bestand"
+    IDS_TAPELOG_LOG_TO_EMULATION_LOGFILE   "Sla berichten op in het standaard emulator logbestand"
     IDS_TAPELOG_LOG_TO_USER_SPECIFIED_FILE "Sla berichten op in opgegeven bestand"
 END
 

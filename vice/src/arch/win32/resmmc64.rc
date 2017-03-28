@@ -108,7 +108,7 @@ BEGIN
   IDS_MMC64_IMAGE_RO               "MMC/SD Image Schreibschutz"
   IDS_MMC64_IMAGE_FILE_LABEL       "MMC/SD Image Name"
   IDS_MMC64_SDTYPE_LABEL           "Card Typ"
-  IDS_MMC64_CLOCKPORT_DEVICE_LABEL "Clockport Device"
+  IDS_MMC64_CLOCKPORT_DEVICE_LABEL "Clockport Gerät"
   IDS_MMC64_BIOS_SELECT_FILE       "Datei für MMC64 BIOS auswählen"
   IDS_MMC64_CARD_SELECT_FILE       "Datei für MMC64 Kartenimage auswählen"
 END
@@ -226,11 +226,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE                 "Activeer de MMC64 uitbreiding"
+  IDS_MMC64_ENABLE                 "MMC64 uitbreiding inschakelen"
   IDS_MMC64_REVISION_LABEL         "BIOS revisie"
-  IDS_MMC64_FLASHJUMPER            "Activeer BIOS Flash Jumper"
-  IDS_MMC64_BIOS_SAVE              "Sla de MMC64 BIOS op als er veranderingen zijn gemaakt"
-  IDS_MMC64_BIOS_FILE_LABEL        "BIOS bestand"
+  IDS_MMC64_FLASHJUMPER            "BIOS Flash Jumper inschakelen"
+  IDS_MMC64_BIOS_SAVE              "BIOS opslaan bij wijziging"
+  IDS_MMC64_BIOS_FILE_LABEL        "BIOS Bestand"
   IDS_MMC64_IMAGE_RO               "MMC/SD bestand alleen-lezen"
   IDS_MMC64_IMAGE_FILE_LABEL       "MMC/SD bestand"
   IDS_MMC64_SDTYPE_LABEL           "Card soort"

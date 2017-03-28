@@ -243,7 +243,7 @@ BEGIN
     IDS_AUTOSTART_PRG_DISK_IMAGE                "PRG autostart disk bestand"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE    "Selecteer bestand voor PRG autostart disk"
     IDS_AUTOSTART_VIRTUAL_FS                    "Virtueel Bestandssysteem"
-    IDS_AUTOSTART_INJECT                        "injecteer in RAM"
+    IDS_AUTOSTART_INJECT                        "Injecteer in RAM"
     IDS_AUTOSTART_DISK                          "Disk bestand"
     IDS_AUTOSTART_DELAY                         "Vertraging van de autostart"
 END

@@ -97,7 +97,7 @@ BEGIN
   IDS_MMCREPLAY_EEPROMIMAGE_LABEL      "EEPROM Imagedatei"
   IDS_MMCREPLAY_RESCUEMODE             "Rescue Modus"
   IDS_MMCREPLAY_SDTYPE_LABEL           "Card Typ"
-  IDS_MMCREPLAY_CLOCKPORT_DEVICE_LABEL "Clockport Device"
+  IDS_MMCREPLAY_CLOCKPORT_DEVICE_LABEL "Clockport Gerät"
   IDS_MMCREPLAY_READ_WRITE             "lese/schreibe"
   IDS_MMCREPLAY_WRITE_ENABLE           "MMC Replay EEPROM bei Änderung speichern"
   IDS_MMCREPLAY_CARD_SELECT_FILE       "Datei für MMC Replay Kartenimage auswählen"
@@ -219,8 +219,8 @@ BEGIN
   IDS_MMCREPLAY_SDTYPE_LABEL           "Card soort"
   IDS_MMCREPLAY_CLOCKPORT_DEVICE_LABEL "Clockport apparaat"
   IDS_MMCREPLAY_READ_WRITE             "lees/schrijf"
-  IDS_MMCREPLAY_WRITE_ENABLE           "MMC Replay EEPROM opslaan indien gewijzigd"
-  IDS_MMCREPLAY_CARD_SELECT_FILE       "Selecteer bestand voor MMC Repley card"
+  IDS_MMCREPLAY_WRITE_ENABLE           "MMC Replay EEPROM opslaan bij wijziging"
+  IDS_MMCREPLAY_CARD_SELECT_FILE       "Selecteer bestand voor MMC Replay card"
   IDS_MMCREPLAY_EEPROM_SELECT_FILE     "Selecteer bestand voor MMC Replay EEPROM"
 END
 

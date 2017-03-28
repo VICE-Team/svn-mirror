@@ -138,7 +138,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PETDWW_CAPTION     "PET DWW instellingen"
-  IDS_PETDWW_ENABLE      "Activeer het PET DWW hi-res bord"
+  IDS_PETDWW_ENABLE      "PET DWW hi-res bord inschakelen"
   IDS_PETDWW_FILE        "PET DWW bestand"
   IDS_PETDWW_SELECT_FILE "Selecteer bestand voor PET DWW"
 END

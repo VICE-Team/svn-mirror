@@ -279,7 +279,7 @@ BEGIN
     IDS_VICII_CAPTION       "VIC-II instellingen"
     IDS_VICII_BORDERSGROUP  "Bordermodus"
     IDS_VICII_NORMALBORDERS "Normale borders"
-    IDS_VICII_FULLBORDERS   "Volle borders"
+    IDS_VICII_FULLBORDERS   "Volledige borders"
     IDS_VICII_DEBUGBORDERS  "Debug borders"
     IDS_VICII_NOBORDERS     "Geen borders"
     IDS_VICII_SPRITEGROUP   "Sprite Botsingen"
@@ -288,7 +288,7 @@ BEGIN
     IDS_VICII_MODEL         "VIC-II model"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
-    IDS_DISCRETE            "Diskreet"
+    IDS_DISCRETE            "Discreet"
     IDS_CUSTOM_IC           "Aangepast IC"
 END
 

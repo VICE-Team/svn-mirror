@@ -279,12 +279,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Activeer de SID cartridge"
+  IDS_SIDCART_ENABLE                         "SID cartridge inschakelen"
   IDS_SIDCART_ADDRESS_LABEL                  "SID adres"
   IDS_SIDCART_CLOCK_LABEL                    "SID klok"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID apparaatselectie"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Hoofdapparaat"
-  IDS_DIGIBLASTER                            "Activeer de digiblaster add-on"
+  IDS_DIGIBLASTER                            "Digiblaster add-on inschakelen"
 END
 
 

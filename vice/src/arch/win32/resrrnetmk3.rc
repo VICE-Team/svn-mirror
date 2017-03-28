@@ -126,8 +126,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RRNETMK3_FLASH_JUMPER   "Activeer RRNET MK3 flash jumper"
-  IDS_RRNETMK3_BIOS_SAVE      "RRNET MK3 flash bestand opslaan indien gewijzigd"
+  IDS_RRNETMK3_FLASH_JUMPER   "RRNET MK3 flash jumper inschakelen"
+  IDS_RRNETMK3_BIOS_SAVE      "RRNET MK3 flash bestand opslaan bij wijziging"
 END
 
 

@@ -874,7 +874,7 @@ BEGIN
   IDS_6572_PAL_N                   "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION            "C64 model instellingen"
   IDS_C64BURSTMOD_CAPTION          "C64 drive burst modificatie instellingen"
-  IDS_C64BURSTMOD_ENABLE           "Activeer de C64 drive burst modificatie"
+  IDS_C64BURSTMOD_ENABLE           "C64 drive burst modificatie inschakelen"
   IDS_C64BURSTMOD_CIA              "C64 drive burst modificatie CIA"
   IDS_C64_PAL                      "C64 PAL"
   IDS_C64C_PAL                     "C64C PAL"
@@ -892,7 +892,7 @@ BEGIN
   IDS_MAX_MACHINE                  "MAX Machine"
   IDS_MI_C64_MEMORY_HACKS_SETTINGS "Geheugen uitbreiding hacks instellingen..."
   IDS_MI_C64BURSTMOD_SETTINGS      "C64 drive burst modificatie instellingen..."
-  IDS_MI_TOGGLE_CPM_CART           "Activeer de CP/M cartridge"
+  IDS_MI_TOGGLE_CPM_CART           "Activeer de CP/M Cartridge"
 END
 
 
