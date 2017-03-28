@@ -12,6 +12,32 @@ If you run into trouble please try removing any VICE configuration files
 left from previous installs.
 (vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
 
+* Changes in VICE 3.1
+======================
+
+** General
+----------
+
+- New support for double sided 1571 g64 and p64 images.
+
+- SID filter improvements.
+
+** C64(SC)/SCPU64/C64DTV/C128 changes
+-------------------------------------
+
+- New joyport script64 dongle emulation.
+
+- New joyport vizawrite64 dongle emulation.
+
+- Fixed joyport paperclip64 dongle emulation.
+
+- Fixed StarDOS emulation.
+
+** C1541
+--------
+
+- Fixed commands and added new commands.
+
 * Changes in VICE 3.0
 ======================
 
