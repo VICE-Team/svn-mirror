@@ -3,7 +3,8 @@
  *
  * Written by
  *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
- *  Marco van den heuvel <blackystardust68@yahoo.com>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Greg King <greg.king5@verizon.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,21 +30,19 @@
 
 #ifdef HAVE_PCAP
 
-#include <stdio.h>
 #include <windows.h>
 
 #include "intl.h"
 #include "lib.h"
-#include "machine.h"
+#include "rawnet.h"
 #include "res.h"
 #include "resources.h"
-#include "rawnet.h"
 #include "system.h"
 #include "translate.h"
 #include "uiethernet.h"
-#include "winmain.h"
 #include "uilib.h"
 #include "util.h"
+#include "winmain.h"
 
 static BOOL get_ethernetname(int number, char **ppname, char **ppdescription)
 {
@@ -56,8 +55,8 @@ static BOOL get_ethernetname(int number, char **ppname, char **ppdescription)
                 break;
             }
 
-            lib_free(pname);
             lib_free(pdescription);
+            lib_free(pname);
         }
 
         if (rawnet_enumadapter(&pname, &pdescription)) {
@@ -72,49 +71,24 @@ static BOOL get_ethernetname(int number, char **ppname, char **ppdescription)
     return FALSE;
 }
 
-static int gray_ungray_items(HWND hwnd)
+static void show_interface_selection(HWND hwnd)
 {
-    int enable = 1;
-    int number;
+    TCHAR *st_name;
+    TCHAR *st_description;
+    char *pname = NULL;
+    char *pdescription = NULL;
+    int number = (int)SendMessage(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE), CB_GETCURSEL, 0, 0);
 
-    int disabled = 0;
-
-    resources_get_int("ETHERNET_DISABLED", &disabled);
-
-    if (disabled) {
-        EnableWindow(GetDlgItem(hwnd, IDOK), 0);
-        SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_NAME), TEXT(""));
-        SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_DESC), TEXT(""));
-        enable = 0;
+    if (get_ethernetname(number, &pname, &pdescription)) {
+        st_name = system_mbstowcs_alloc(pname);
+        st_description = system_mbstowcs_alloc(pdescription);
+        SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_NAME), st_name);
+        SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_DESC), st_description);
+        system_mbstowcs_free(st_description);
+        system_mbstowcs_free(st_name);
+        lib_free(pdescription);
+        lib_free(pname);
     }
-
-    EnableWindow(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_T), enable);
-    EnableWindow(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE), enable);
-
-    if (enable) {
-        char *pname = NULL;
-        char *pdescription = NULL;
-        TCHAR *st_name;
-        TCHAR *st_description;
-
-        number = (int)SendMessage(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE), CB_GETCURSEL, 0, 0);
-
-        if (get_ethernetname(number, &pname, &pdescription)) {
-            st_name = system_mbstowcs_alloc(pname);
-            st_description = system_mbstowcs_alloc(pdescription);
-            SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_NAME), st_name);
-            SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_DESC), st_description);
-            system_mbstowcs_free(st_name);
-            system_mbstowcs_free(st_description);
-            lib_free(pname);
-            lib_free(pdescription);
-        }
-    } else {
-        SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_NAME), TEXT(""));
-        SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_DESC), TEXT(""));
-    }
-
-    return disabled ? 1 : 0;
 }
 
 static uilib_localize_dialog_param ethernet_dialog[] = {
@@ -138,64 +112,43 @@ static uilib_dialog_group ethernet_rightgroup[] = {
 static void init_ethernet_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
-    int xsize, ysize;
-
-    const char *interface_name;
+    int cnt;
+    char *combined;
+    TCHAR *st_combined;
+    int ysize, xsize = 0;
+    char *pname = NULL;
+    char *pdescription = NULL;
+    const char *interface_name = NULL;
 
     uilib_localize_dialog(hwnd, ethernet_dialog);
     uilib_get_group_extent(hwnd, ethernet_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, ethernet_leftgroup);
     uilib_move_group(hwnd, ethernet_rightgroup, xsize + 30);
 
-    resources_get_string("ETHERNET_INTERFACE", &interface_name);
-
     if (rawnet_enumadapter_open()) {
-        int cnt = 0;
-
-        char *pname;
-        char *pdescription;
-        char *combined;
-        TCHAR *st_name;
-        TCHAR *st_description;
-        TCHAR *st_combined;
-
+        resources_get_string("ETHERNET_INTERFACE", &interface_name);
         temp_hwnd = GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE);
 
         for (cnt = 0; rawnet_enumadapter(&pname, &pdescription); cnt++) {
-            BOOL this_entry = FALSE;
-
-            if (strcmp(pname, interface_name) == 0) {
-                this_entry = TRUE;
-            }
-            st_name = system_mbstowcs_alloc(pname);
-            st_description = system_mbstowcs_alloc(pdescription);
-            SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_NAME), st_name);
-            SetWindowText(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE_DESC), st_description);
-            system_mbstowcs_free(st_name);
-            system_mbstowcs_free(st_description);
-
             combined = util_concat(pdescription, " (", pname, ")", NULL);
             st_combined = system_mbstowcs_alloc(combined);
             SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st_combined);
-            system_mbstowcs_free(st_description);
-            lib_free(combined);
-            lib_free(pname);
-            lib_free(pdescription);
+            system_mbstowcs_free(st_combined);
 
-            if (this_entry) {
-                SendMessage(GetDlgItem(hwnd, IDC_ETHERNET_SETTINGS_INTERFACE), CB_SETCURSEL, (WPARAM)cnt, 0);
+            if (strcmp(combined, interface_name) == 0) {
+                SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)cnt, 0);
             }
+
+            lib_free(combined);
+            lib_free(pdescription);
+            lib_free(pname);
         }
 
         rawnet_enumadapter_close();
     }
 
-    if (gray_ungray_items(hwnd)) {
-        MessageBox(hwnd, intl_translate_tcs(IDS_ETHERNET_PROBLEM), intl_translate_tcs(IDS_ETHERNET_SUPPORT), MB_ICONINFORMATION | MB_OK);
-
-        /* just quit the dialog before it is open */
-        SendMessage( hwnd, WM_COMMAND, IDCANCEL, 0);
-    }
+    /* Show the current interface. */
+    show_interface_selection(hwnd);
 }
 
 static void save_ethernet_dialog(HWND hwnd)
@@ -220,7 +173,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                     EndDialog(hwnd, 0);
                     return TRUE;
                 case IDC_ETHERNET_SETTINGS_INTERFACE:
-                    gray_ungray_items(hwnd);
+                    show_interface_selection(hwnd);
                     break;
             }
             return FALSE;
@@ -236,7 +189,14 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_ethernet_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_ETHERNET_SETTINGS_DIALOG, hwnd, dialog_proc);
+    int disabled = 0;
+
+    resources_get_int("ETHERNET_DISABLED", &disabled);
+    if (disabled) {
+        MessageBox(hwnd, intl_translate_tcs(IDS_ETHERNET_PROBLEM), intl_translate_tcs(IDS_ETHERNET_SUPPORT), MB_ICONINFORMATION | MB_OK);
+    } else {
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_ETHERNET_SETTINGS_DIALOG, hwnd, dialog_proc);
+    }
 }
 
 #endif // #ifdef HAVE_PCAP

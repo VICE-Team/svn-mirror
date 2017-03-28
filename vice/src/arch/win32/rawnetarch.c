@@ -4,7 +4,8 @@
  *
  * Written by
  *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
- * 
+ *  Greg King <greg.king5@verizon.net>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -27,7 +28,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_PCAP 
+#ifdef HAVE_PCAP
 
 /* #define WPCAP */
 
@@ -42,6 +43,7 @@
 #include "log.h"
 #include "rawnet.h"
 #include "rawnetarch.h"
+#include "util.h"
 
 typedef pcap_t *(*pcap_open_live_t)(const char *, int, int, int, char *);
 typedef int (*pcap_dispatch_t)(pcap_t *, int, pcap_handler, u_char *);
@@ -133,7 +135,7 @@ static void EthernetPcapFreeLibrary(void)
         log_message(rawnet_arch_log, "GetProcAddress " #_name_ " failed!"); \
         EthernetPcapFreeLibrary();                                            \
         return FALSE;                                                    \
-    } 
+    }
 
 static BOOL EthernetPcapLoadLibrary(void)
 {
@@ -225,7 +227,7 @@ int rawnet_arch_enumadapter_close(void)
     return 1;
 }
 
-static BOOL EthernetPcapOpenAdapter(const char *interface_name) 
+static BOOL EthernetPcapOpenAdapter(const char *interface_name)
 {
     pcap_if_t *EthernetPcapDevice = NULL;
 
@@ -233,8 +235,9 @@ static BOOL EthernetPcapOpenAdapter(const char *interface_name)
         return FALSE;
     } else {
         /* look if we can find the specified adapter */
-        char *pname;
-        char *pdescription;
+        char *combined;
+        char *pname = NULL;
+        char *pdescription = NULL;
         BOOL  found = FALSE;
 
         if (interface_name) {
@@ -242,11 +245,13 @@ static BOOL EthernetPcapOpenAdapter(const char *interface_name)
             EthernetPcapDevice = EthernetPcapAlldevs;
 
             while (rawnet_enumadapter(&pname, &pdescription)) {
-                if (strcmp(pname, interface_name) == 0) {
+                combined = util_concat(pdescription, " (", pname, ")", NULL);
+                if (strcmp(combined, interface_name) == 0) {
                     found = TRUE;
                 }
-                lib_free(pname);
+                lib_free(combined);
                 lib_free(pdescription);
+                lib_free(pname);
                 if (found) break;
                 EthernetPcapDevice = EthernetPcapNextDev;
             }
@@ -259,9 +264,12 @@ static BOOL EthernetPcapOpenAdapter(const char *interface_name)
     }
 
     EthernetPcapFP = (*p_pcap_open_live)(EthernetPcapDevice->name, 1700, 1, 20, EthernetPcapErrbuf);
+
+    /* Free the enumerated names after one of them was used. */
+    rawnet_enumadapter_close();
+
     if (EthernetPcapFP == NULL) {
         log_message(rawnet_arch_log, "ERROR opening adapter: '%s'", EthernetPcapErrbuf);
-        rawnet_enumadapter_close();
         return FALSE;
     }
 
@@ -271,12 +279,10 @@ static BOOL EthernetPcapOpenAdapter(const char *interface_name)
 
     /* Check the link layer. We support only Ethernet for simplicity. */
     if ((*p_pcap_datalink)(EthernetPcapFP) != DLT_EN10MB) {
-        log_message(rawnet_arch_log, "ERROR: Ethernet works only on Ethernet networks.");
-        rawnet_enumadapter_close();
+        log_message(rawnet_arch_log, "ERROR: Ethernet works on only Ethernet networks.");
         return FALSE;
     }
 
-    rawnet_enumadapter_close();
     return TRUE;
 }
 
@@ -380,8 +386,8 @@ static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *h
 {
     Ethernet_PCAP_internal_t *pinternal = (void*)param;
 
-    /* determine the count of bytes which has been returned, 
-     * but make sure not to overrun the buffer 
+    /* determine the count of bytes which has been returned,
+     * but make sure not to overrun the buffer
      */
     if (header->caplen < pinternal->len) {
         pinternal->len = header->caplen;
@@ -395,7 +401,7 @@ static void EthernetPcapPacketHandler(u_char *param, const struct pcap_pkthdr *h
    If there's none, it returns a -1.
    If there is one, it returns the length of the frame in bytes.
 
-   It copies the frame to *buffer and returns the number of copied 
+   It copies the frame to *buffer and returns the number of copied
    bytes as return value.
 
    At most 'len' bytes are copied.
@@ -461,7 +467,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
     cleared.
   - if the dest. address was accepted by the hash filter, *phash_index is
     set to the number of the rule leading to the acceptance
-  - if the receive was ok (good CRC and valid length), *prx_ok is set, 
+  - if the receive was ok (good CRC and valid length), *prx_ok is set,
     else cleared.
   - if the dest. address was accepted because it's exactly our MAC address
     (set by rawnet_arch_set_mac()), *pcorrect_mac is set, else cleared.
@@ -471,8 +477,8 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
 */
 
 /* BYTE *pbuffer     - where to store a frame */
-/* int *plen         - IN: maximum length of frame to copy; 
-                       OUT: length of received frame 
+/* int *plen         - IN: maximum length of frame to copy;
+                       OUT: length of received frame
                             OUT can be bigger than IN if received frame was
                             longer than supplied buffer */
 /* int *phashed      - set if the dest. address is accepted by the hash filter */
@@ -528,13 +534,13 @@ int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index
 
 char *rawnet_arch_get_standard_interface(void)
 {
-    char *dev, errbuf[PCAP_ERRBUF_SIZE];
+    char *dev;
 
     if (!EthernetPcapLoadLibrary()) {
         return NULL;
     }
 
-    dev = (*p_pcap_lookupdev)(errbuf);
+    dev = (*p_pcap_lookupdev)(EthernetPcapErrbuf);
 
     return dev;
 }
