@@ -1,5 +1,3018 @@
 ------------------------------------------------------------------------------
 
+2017-03-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/monitor/mon_memmap.c: Increase cpu-history size from 256 to 4096
+
+2017-03-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: Remove unwanted space in version_cmd() output
+
+2017-03-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Update c1541's -version switch to show c1541's version
+	along with VICE's version
+
+2017-03-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: Update petcat's -version switch to display petcat's
+	version and level along VICE's version
+
+2017-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_ffmpeg.c: SDL UI: don't include audio-only codecs
+	in the 'Record movie' menu
+
+2017-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_ffmpeg.c: SDL ffmpeg UI:
+	don't use ffmpeg structs directly, use ffmpegdrv_formatlist
+
+2017-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_settings.c: 'Fix' the keymap callbacks so they
+	compile when using -DSDL_DEBUG. No idea where that integer is supposed
+	to come from
+
+2017-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_ffmpeg.c: SDL UI: fix video/audio codec selection
+	when changing ffmpeg format
+
+2017-03-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/amigaos/genamigaintl.c, src/arch/beos/genconstants.c,
+	src/arch/os2/rs232.c, src/arch/win32/intl.c,
+	src/buildtools/geninfocontrib.c, src/buildtools/gentranslate.c,
+	src/buildtools/palette2c.c, src/printerdrv/output-text.c: Fix using
+	char for the return type of fgets(3)
+
+2017-03-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/linenoise.c: Fix bug using char for int
+	values
+
+2017-03-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/uimsgbox.c, src/arch/sdl/uimsgbox.h: SDL: fix weird
+	dependence of message_box() on the #define's to determine the number
+	of buttons for a dialog. Now we can have multiple dialogs with the
+	same number of buttons.
+
+2017-03-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_drive.c, src/arch/sdl/menu_tape.c,
+	src/arch/sdl/ui.c, src/arch/sdl/uimsgbox.c, src/arch/sdl/uimsgbox.h:
+	SDL: Fix bug in message_box(), Esc worked as OK/Accept, now Esc
+	returns -1. Add attach dialog with unit number selection. Ask user
+	whether to attach the newly created disk image, and to what unit.
+
+2017-03-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/monitor/mon_lex.c: commit mon_lex.c to get clean tree
+
+2017-03-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_drive.c: SDL ui: inform user when disk image has
+	been created succesfully
+
+2017-03-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/uilib.c: Convert disk label & id to PETSCII in new
+	image dialog (can't test this myself, someone?)
+
+2017-03-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_drive.c: SDL ui: ask user for disk label & id when
+	creating a new disk image
+
+2017-03-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: --enable/disable-memmap ->
+	--enable/disable-cpuhistory
+
+2017-03-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/video.c: Fail immediately if SDL_CreateWindow() fails,
+	and with a proper error message.
+
+2017-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_netbsd_runtime_os.c,
+	src/platform/platform_netbsd_version.h: Updated for NetBSD 7.1
+
+2017-03-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html: Updated.
+
+2017-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.pdf, doc/vice.texi: Update docs with info on the
+	-version/--version command line switches of c1541, cartconv and petcat
+
+2017-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.pdf, doc/vice.texi, man/c1541.1, src/c1541.c: Add bfill
+	(block fill) command to c1541
+
+2017-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Remove debugging printf() from bpoke command
+
+2017-03-15  groepaz <groepaz@gmx.net>
+
+	* src/vic20/vic20.c: undo via renaming, actually make xvic work again
+
+2017-03-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: Add -version option to petcat
+
+2017-03-15  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/joy-osx.h: Fixed the build of the GTK3 port on Mac.
+
+2017-03-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cartconv.c: Add --version option to cartconv
+
+2017-03-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Add -version option to c1541, displays SVN revision if
+	compiled from SVN
+
+2017-03-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix SVN revision gathering
+
+2017-03-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20.c: Swap via1/2.
+
+2017-03-14  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt: tickle SF
+
+2017-03-13  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto: Fixed so configure can run without any of png.h,
+	pkg-config, or --without-png.
+
+2017-03-13  groepaz <groepaz@gmx.net>
+
+	* src/resid/wave.h: 6581 oscillator top bit behavior fix, patch by
+	Leandro Nini
+
+2017-03-13  groepaz <groepaz@gmx.net>
+
+	* src/resid/filter.cc, src/resid/filter.h: fix 8580 filters, patch by
+	Leandro Nini
+
+2017-03-13  groepaz <groepaz@gmx.net>
+
+	* src/resid/envelope.cc, src/resid/envelope.h: fix envelope timing
+	issues, patch by Leandro Nini
+
+2017-03-13  groepaz <groepaz@gmx.net>
+
+	* src/resid/filter.cc, src/resid/filter.h: 8580 filter bias range
+	patch by Leandro Nini
+
+2017-03-13  groepaz <groepaz@gmx.net>
+
+	* doc/building/MacOSX-Howto.txt: minor update to OSX howto, patch by
+	IanC
+
+2017-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20.c: Better way for the vic/via1/via2 mirroring.
+
+2017-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/pci-drv.h: Removed file.
+
+2017-03-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/iodrv/io-access.h: Update UNIX guard
+
+2017-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20.c: Fixed mirroring of the vic, via1 and via2.
+
+2017-03-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/iodrv/io-access.h: Add missing prototypes for io-unix-access.c
+
+2017-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/arch/beos/Makefile.am,
+	src/arch/beos/io-access.c, src/arch/beos/io-access.h,
+	src/arch/beos/pci-drv.c, src/arch/beos/pci-drv.h,
+	src/arch/gtk3/Makefile.am, src/arch/gtk3/io-access.h,
+	src/arch/gtk3/pci-drv.c, src/arch/gtk3/pci-drv.h,
+	src/arch/gtk3/pci-unix-drv.c, src/arch/gtk3/unix-io-access.c,
+	src/arch/gtk3/unix-io-access.h, src/arch/msdos/Makefile.am,
+	src/arch/msdos/pci-drv.c, src/arch/msdos/pci-drv.h,
+	src/arch/sdl/Makefile.am, src/arch/sdl/io-access.c,
+	src/arch/sdl/io-access.h, src/arch/sdl/pci-beos-drv.h,
+	src/arch/sdl/pci-drv.c, src/arch/unix/Makefile.am,
+	src/arch/unix/io-access.c, src/arch/unix/io-access.h,
+	src/arch/unix/pci-drv.c, src/arch/unix/pci-drv.h,
+	src/arch/win32/Makefile.am, src/arch/win32/wininpoutp.h,
+	src/hwsiddrv/Makefile.am, src/hwsiddrv/catweaselmkiii-beos-drv.c,
+	src/hwsiddrv/catweaselmkiii-dos-drv.c, src/hwsiddrv/cw-unix-pci.c,
+	src/hwsiddrv/hs-beos-pci.c, src/hwsiddrv/hs-dos-pci.c,
+	src/hwsiddrv/hs-unix-pci.c, src/hwsiddrv/wininpoutp.h, src/iodrv,
+	src/iodrv/Makefile.am, src/iodrv/io-access.h,
+	src/iodrv/io-beos-access.c, src/iodrv/io-unix-access.c,
+	src/iodrv/pci-beos-drv.c, src/iodrv/pci-beos-drv.h,
+	src/iodrv/pci-dos-drv.c, src/iodrv/pci-dos-drv.h,
+	src/iodrv/pci-unix-drv.c, src/iodrv/pci-unix-drv.h: Moved the
+	'I/O access' drivers to their own directory (src/iodrv).
+
+2017-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/c1541.tgt,
+	src/arch/sdl/win32-watcom/hwsiddrv.tgt,
+	src/arch/sdl/win32-watcom/petcat.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsid.tgt,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xcbm2.tgt,
+	src/arch/sdl/win32-watcom/xcbm5x0.tgt,
+	src/arch/sdl/win32-watcom/xpet.tgt,
+	src/arch/sdl/win32-watcom/xplus4.tgt,
+	src/arch/sdl/win32-watcom/xscpu64.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Fixed for the hwsiddrv changes.
+
+2017-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/Makefile.am, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/hwsiddrv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vsid.tgt, src/arch/win32/watcom/x128.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64dtv.tgt,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/xcbm2.tgt,
+	src/arch/win32/watcom/xcbm5x0.tgt, src/arch/win32/watcom/xpet.tgt,
+	src/arch/win32/watcom/xplus4.tgt, src/arch/win32/watcom/xscpu64.tgt,
+	src/arch/win32/watcom/xvic.tgt: Fixed for the hwsiddrv changes.
+
+2017-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/arch_sdl.tmpl,
+	src/arch/win32/vs_tmpl/hwsiddrv.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/vsid.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Fixed for the hwsiddrv changes.
+
+2017-03-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/pci-drv.h: Add pci-drv.h to arc/sdl
+
+2017-03-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/io-access.h: Copied sdl io-access.h to the gtk3 dir.
+
+2017-03-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/hwsiddrv: Added svn ignores.
+
+2017-03-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/io-access.h: Fix typos
+
+2017-03-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/io-access.h: Added
+	io-access.h wrapper to the sdl port.
+
+2017-03-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/catweaselmkiii-drv.c, src/arch/amigaos/cw.h,
+	src/arch/amigaos/cw_clockport.c, src/arch/amigaos/cw_device.c,
+	src/arch/amigaos/cw_openpci.c, src/arch/amigaos/cw_os4.c,
+	src/arch/amigaos/cw_zorro.c, src/arch/amigaos/hardsid-drv.c,
+	src/arch/amigaos/hs.h, src/arch/amigaos/hs_gg2_isa.c,
+	src/arch/amigaos/hs_openpci.c, src/arch/amigaos/hs_os4.c,
+	src/arch/amigaos/ssi2001-drv.c, src/arch/beos/Makefile.am,
+	src/arch/beos/catweaselmkiii-drv.c, src/arch/beos/hardsid-drv.c,
+	src/arch/beos/hs-isa.c, src/arch/beos/hs-pci.c, src/arch/beos/hs.h,
+	src/arch/beos/parsid-drv.c, src/arch/beos/ssi2001-drv.c,
+	src/arch/gtk3/Makefile.am, src/arch/gtk3/catweaselmkiii-drv.c,
+	src/arch/gtk3/catweaselmkiii-unix-drv.c,
+	src/arch/gtk3/catweaselmkiii-win32-drv.c, src/arch/gtk3/cw-pci.c,
+	src/arch/gtk3/cw-unix-pci.c, src/arch/gtk3/cw-unix.h,
+	src/arch/gtk3/cw-win32-pci.c, src/arch/gtk3/cw-win32.h,
+	src/arch/gtk3/hardsid-drv.c, src/arch/gtk3/hardsid-unix-drv.c,
+	src/arch/gtk3/hardsid-win32-drv.c, src/arch/gtk3/hs-isa.c,
+	src/arch/gtk3/hs-pci.c, src/arch/gtk3/hs-unix-isa.c,
+	src/arch/gtk3/hs-unix-pci.c, src/arch/gtk3/hs-unix.h,
+	src/arch/gtk3/hs-win32-isa.c, src/arch/gtk3/hs-win32-pci.c,
+	src/arch/gtk3/hs-win32.h, src/arch/gtk3/parsid-drv.c,
+	src/arch/gtk3/parsid-unix-drv.c, src/arch/gtk3/parsid-win32-drv.c,
+	src/arch/gtk3/ps-device.c, src/arch/gtk3/ps-ieee1284-unix.c,
+	src/arch/gtk3/ps-ieee1284-win32.c, src/arch/gtk3/ps-ieee1284.c,
+	src/arch/gtk3/ps-io.c, src/arch/gtk3/ps-unix-file.c,
+	src/arch/gtk3/ps-unix-io.c, src/arch/gtk3/ps-unix.h,
+	src/arch/gtk3/ps-win32-dll.c, src/arch/gtk3/ps-win32-io.c,
+	src/arch/gtk3/ps-win32.h, src/arch/gtk3/ssi2001-drv.c,
+	src/arch/gtk3/ssi2001-unix-drv.c, src/arch/gtk3/ssi2001-win32-drv.c,
+	src/arch/msdos/Makefile.am, src/arch/msdos/catweaselmkiii-drv.c,
+	src/arch/msdos/hardsid-drv.c, src/arch/msdos/hs-isa.c,
+	src/arch/msdos/hs-pci.c, src/arch/msdos/hs.h,
+	src/arch/msdos/parsid-drv.c, src/arch/msdos/ssi2001-drv.c,
+	src/arch/sdl/Makefile.am, src/arch/sdl/catweaselmkiii-amigaos-drv.c,
+	src/arch/sdl/catweaselmkiii-beos-drv.c,
+	src/arch/sdl/catweaselmkiii-drv.c, src/arch/sdl/cw-amigaos.h,
+	src/arch/sdl/cw-device.c, src/arch/sdl/cw-pci.c,
+	src/arch/sdl/hardsid-drv.c, src/arch/sdl/hs-device.c,
+	src/arch/sdl/hs-isa.c, src/arch/sdl/hs-pci.c,
+	src/arch/sdl/parsid-drv.c, src/arch/sdl/ps-device.c,
+	src/arch/sdl/ps-ieee1284.c, src/arch/sdl/ps-io.c,
+	src/arch/sdl/ssi2001-drv.c, src/arch/unix/Makefile.am,
+	src/arch/unix/catweaselmkiii-drv.c, src/arch/unix/cw-device.c,
+	src/arch/unix/cw-pci.c, src/arch/unix/cw.h,
+	src/arch/unix/hardsid-drv.c, src/arch/unix/hs-isa.c,
+	src/arch/unix/hs-linux.c, src/arch/unix/hs-pci.c, src/arch/unix/hs.h,
+	src/arch/unix/parsid-drv.c, src/arch/unix/ps-file.c,
+	src/arch/unix/ps-ieee1284.c, src/arch/unix/ps-io.c,
+	src/arch/unix/ps.h, src/arch/unix/ssi2001-drv.c,
+	src/arch/win32/Makefile.am, src/arch/win32/catweaselmkiii-drv.c,
+	src/arch/win32/cw-dll.c, src/arch/win32/cw-pci.c, src/arch/win32/cw.h,
+	src/arch/win32/hardsid-drv.c, src/arch/win32/hs-dll.c
+	src/arch/win32/hs-isa.c, src/arch/win32/hs-pci.c, src/arch/win32/hs.h,
+	src/arch/win32/parsid-drv.c, src/arch/win32/ps-dll.c,
+	src/arch/win32/ps-ieee1284.c, src/arch/win32/ps-io.c,
+	src/arch/win32/ps.h, src/arch/win32/ssi2001-drv.c, src/hwsiddrv,
+	src/hwsiddrv/Makefile.am, src/hwsiddrv/catweaselmkiii-amiga-drv.c,
+	src/hwsiddrv/catweaselmkiii-beos-drv.c,
+	src/hwsiddrv/catweaselmkiii-dos-drv.c,
+	src/hwsiddrv/catweaselmkiii-unix-drv.c,
+	src/hwsiddrv/catweaselmkiii-win32-drv.c,
+	src/hwsiddrv/cw-amiga-clockport.c, src/hwsiddrv/cw-amiga-device.c,
+	src/hwsiddrv/cw-amiga-openpci.c, src/hwsiddrv/cw-amiga-os4.c,
+	src/hwsiddrv/cw-amiga-zorro.c, src/hwsiddrv/cw-amiga.h,
+	src/hwsiddrv/cw-unix-device.c, src/hwsiddrv/cw-unix-pci.c,
+	src/hwsiddrv/cw-unix.h, src/hwsiddrv/cw-win32-dll.c,
+	src/hwsiddrv/cw-win32-pci.c, src/hwsiddrv/cw-win32.h,
+	src/hwsiddrv/hardsid-amiga-drv.c, src/hwsiddrv/hardsid-beos-drv.c,
+	src/hwsiddrv/hardsid-dos-drv.c, src/hwsiddrv/hardsid-unix-drv.c,
+	src/hwsiddrv/hardsid-win32-drv.c, src/hwsiddrv/hs-amiga-gg2isa.c,
+	src/hwsiddrv/hs-amiga-openpci.c, src/hwsiddrv/hs-amiga-os4.c,
+	src/hwsiddrv/hs-amiga.h, src/hwsiddrv/hs-beos-isa.c,
+	src/hwsiddrv/hs-beos-pci.c, src/hwsiddrv/hs-beos.h,
+	src/hwsiddrv/hs-dos-isa.c, src/hwsiddrv/hs-dos-pci.c,
+	src/hwsiddrv/hs-dos.h, src/hwsiddrv/hs-unix-isa.c,
+	src/hwsiddrv/hs-unix-linux.c, src/hwsiddrv/hs-unix-pci.c,
+	src/hwsiddrv/hs-unix.h, src/hwsiddrv/hs-win32-dll.c,
+	src/hwsiddrv/hs-win32-isa.c, src/hwsiddrv/hs-win32-pci.c,
+	src/hwsiddrv/hs-win32.h, src/hwsiddrv/parsid-beos-drv.c,
+	src/hwsiddrv/parsid-dos-drv.c, src/hwsiddrv/parsid-unix-drv.c,
+	src/hwsiddrv/parsid-win32-drv.c, src/hwsiddrv/ps-ieee1284.c,
+	src/hwsiddrv/ps-unix-file.c, src/hwsiddrv/ps-unix-io.c,
+	src/hwsiddrv/ps-unix.h, src/hwsiddrv/ps-win32-dll.c,
+	src/hwsiddrv/ps-win32-io.c, src/hwsiddrv/ps-win32.h,
+	src/hwsiddrv/ssi2001-amiga-drv.c, src/hwsiddrv/ssi2001-beos-drv.c,
+	src/hwsiddrv/ssi2001-dos-drv.c, src/hwsiddrv/ssi2001-unix-drv.c,
+	src/hwsiddrv/ssi2001-win32-drv.c: Moved the 'hardware sid' drivers to
+	their own directory (src/hwsiddrv).
+
+2017-03-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_ethernet.c, src/arch/sdl/menu_midi.c: Properly
+	terminate comments
+
+2017-03-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_win32.c, src/arch/sdl/archdep_amiga.c,
+	src/arch/sdl/archdep_beos.c, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_win32.c: Removed duplicate archdep_network_*
+	functions. (should fix bug #877)
+
+2017-03-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/archdep_unix.h, src/arch/sdl/archdep_unix.h: Added
+	missing midi driver names to 'archdep_unix.h' (should fix bug #876).
+
+2017-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/socketdrv.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Fixed for the socketdrv changes.
+
+2017-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/Makefile.am, src/arch/win32/watcom/base.tgt,
+	src/arch/win32/watcom/c1541.tgt, src/arch/win32/watcom/petcat.tgt,
+	src/arch/win32/watcom/socketdrv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vsid.tgt, src/arch/win32/watcom/x128.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64dtv.tgt,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/xcbm2.tgt,
+	src/arch/win32/watcom/xcbm5x0.tgt, src/arch/win32/watcom/xpet.tgt,
+	src/arch/win32/watcom/xplus4.tgt, src/arch/win32/watcom/xscpu64.tgt,
+	src/arch/win32/watcom/xvic.tgt: Fixed for the socketdrv changes.
+
+2017-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/base.tmpl, src/arch/win32/vs_tmpl/c1541.tmpl,
+	src/arch/win32/vs_tmpl/petcat.tmpl,
+	src/arch/win32/vs_tmpl/socketdrv.tmpl,
+	src/arch/win32/vs_tmpl/vice.tmpl, src/arch/win32/vs_tmpl/vsid.tmpl,
+	src/arch/win32/vs_tmpl/x128.tmpl, src/arch/win32/vs_tmpl/x64.tmpl,
+	src/arch/win32/vs_tmpl/x64dtv.tmpl, src/arch/win32/vs_tmpl/x64sc.tmpl,
+	src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Fixed for the socketdrv changes.
+
+2017-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/socketimpl.c, src/arch/amigaos/socketimpl.h,
+	src/arch/beos/Makefile.am, src/arch/beos/archdep.c,
+	src/arch/beos/socketimpl.h, src/arch/gtk3/Makefile.am,
+	src/arch/gtk3/socketimpl.h, src/arch/gtk3/socketimpl_unix.h,
+	src/arch/gtk3/socketimpl_win32.h, src/arch/msdos/Makefile.am,
+	src/arch/msdos/archdep.c, src/arch/msdos/socketimpl.h,
+	src/arch/sdl/Makefile.am, src/arch/sdl/socketimpl.h,
+	src/arch/unix/Makefile.am, src/arch/unix/archdep.c,
+	src/arch/unix/socketimpl.h, src/arch/win32/Makefile.am,
+	src/arch/win32/archdep.c, src/arch/win32/socketimpl.h,
+	src/mididrv/midi-win32-drv.c, src/socketdrv,
+	src/socketdrv/Makefile.am, src/socketdrv/socket-amiga-drv.c,
+	src/socketdrv/socket-amiga-impl.h, src/socketdrv/socket-beos-impl.h,
+	src/socketdrv/socket-dos-impl.h, src/socketdrv/socket-unix-impl.h,
+	src/socketdrv/socket-win32-drv.c, src/socketdrv/socket-win32-impl.h,
+	src/socketdrv/socketdrv.c, src/socketdrv/socketimpl.h: Moved the
+	'socket/network' drivers to their own directory (src/socketdrv).
+
+2017-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html: Updated.
+
+2017-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_qnx6_runtime_os.c: Updated.
+
+2017-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_qnx6_version.h: Updated.
+
+2017-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_qnx6_runtime_os.c: Updated.
+
+2017-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/qnx.html: Updated.
+
+2017-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/buildtools/geninfocontrib.c: Generalized.
+
+2017-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed.
+
+2017-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in: Fixed again.
+
+2017-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in: Fixed.
+
+2017-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_ultrix_runtime_os.c: Updated.
+
+2017-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/buildtools/geninfocontrib.c: Fixed.
+
+2017-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/qnx.html: Updated.
+
+2017-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/qnx.html: Updated.
+
+2017-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/archdep.c, src/arch/os2/watcom/geninfocontribos2.tgt,
+	src/arch/os2/watcom/gentranslateos2.tgt,
+	src/arch/os2/watcom/iecc64exp.tgt, src/arch/os2/watcom/joyport.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/x1541.tgt: Updated
+	to the latest changes.
+
+2017-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/ide-config.h,
+	src/arch/sdl/win32-watcom/mididrv.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xscpu64.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Updated to the latest changes.
+
+2017-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/mididrv/midi-win32-drv.c: Fixed.
+
+2017-03-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/cart/magicvoice.c,
+	src/c64/vsidmem.c: Silence warnings
+
+2017-03-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/magicvoice.c: Silence warning
+
+2017-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/qnx.html: Updated.
+
+2017-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_qnx4_runtime_os.c: Updated.
+
+2017-03-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_win32.c: Gtk3: generalize
+	archdep_network_shutdown()
+
+2017-03-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c: Gtk3:
+	add stubs for archdep_network_shutdown()
+
+2017-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/Makefile.am, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/mididrv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/xscpu64.tgt,
+	src/arch/win32/watcom/xvic.tgt: Updated for mididrv changes.
+
+2017-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_macosx.c, src/platform/platform_macosx.h:
+	Applied patch by _IanC: Determine major, minor, bugFix version numbers
+	of OS X without Gestalt on 10.9 and higher.
+
+2017-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/Makefile.am,
+	src/arch/win32/vs_tmpl/arch_native.tmpl,
+	src/arch/win32/vs_tmpl/mididrv.tmpl, src/arch/win32/vs_tmpl/vice.tmpl,
+	src/arch/win32/vs_tmpl/vsid.tmpl, src/arch/win32/vs_tmpl/x128.tmpl,
+	src/arch/win32/vs_tmpl/x64.tmpl, src/arch/win32/vs_tmpl/x64dtv.tmpl,
+	src/arch/win32/vs_tmpl/x64sc.tmpl, src/arch/win32/vs_tmpl/xcbm2.tmpl,
+	src/arch/win32/vs_tmpl/xcbm5x0.tmpl, src/arch/win32/vs_tmpl/xpet.tmpl,
+	src/arch/win32/vs_tmpl/xplus4.tmpl,
+	src/arch/win32/vs_tmpl/xscpu64.tmpl, src/arch/win32/vs_tmpl/xvic.tmpl:
+	Updated for mididrv changes.
+
+2017-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.guess: Updated
+
+2017-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/archdep.c,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c,
+	src/arch/msdos/archdep.c, src/arch/os2/archdep.c,
+	src/arch/sdl/archdep.c, src/arch/unix/archdep.c,
+	src/arch/win32/archdep.c, src/socket.c: Properly call
+	'archdep_network_shutdown()'.
+
+2017-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/building/MacOSX-Cocoa-Howto.txt, doc/building/MacOSX-Howto.txt,
+	doc/building/Makefile.am: Applied slighty changed patch by _IanC: This
+	is a rewrite of doc/building/MacOSX-Howto.txt in an attempt to
+	simplify things substantially.
+
+2017-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Applied patch by _IanC: Remove OSX-specific SDL
+	stuff in configure.proto to allow regular UNIX flow to happen. Add
+	test for OpenGL framework which is required for SDL1 to support
+	hardware scaling. This allows both SDL1 and SDL2 to configure and
+	build successfully with UNIX-style libs.
+
+2017-03-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/arch/gtk3/Makefile.am,
+	src/arch/gtk3/midi-osx-drv.c, src/arch/gtk3/midi-unix-drv.c,
+	src/arch/gtk3/midi-win32-drv.c, src/arch/gtk3/mididrv.c,
+	src/arch/sdl/Makefile.am, src/arch/sdl/mididrv.c,
+	src/arch/unix/Makefile.am, src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/mididrv.c, src/arch/unix/mididrv.c,
+	src/arch/win32/Makefile.am, src/arch/win32/mididrv.c, src/mididrv,
+	src/mididrv/Makefile.am, src/mididrv/midi-osx-drv.c,
+	src/mididrv/midi-unix-drv.c, src/mididrv/midi-win32-drv.c: Moved the
+	midi drivers to their own directory (src/mididrv).
+
+2017-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/console_amiga.c: Removed amiga specific code which is
+	not used for sdl.
+
+2017-02-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, man/c1541.1: Update c1541 documentation
+
+2017-02-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/debug_gtk3.h: Gtk3: add unversioned file for debugging
+
+2017-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_macosx.c: Don't use 'gestalt' for osx 10.9 and
+	above, alternative method still to be coded.
+
+2017-02-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, src/arch/gtk3/Makefile.am, src/arch/gtk3/ui.c,
+	src/arch/gtk3/video.c: Gtk3: add some debugging helpers
+
+2017-02-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/video.c, src/arch/gtk3/videoarch.h,
+	vice/src/resources.c: Remove debug code from resources_shutdown(), use
+	-dumpconfig for that
+
+2017-02-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/resources.c: Add note to resources_shutdown() for future
+	debuggers
+
+2017-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Enable possible standard SDL2 compile for osx
+	(cannot use SDL2 framework if such a thing exists).
+
+2017-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added png pkgconfig message.
+
+2017-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed libpng detection for netbsd.
+
+2017-02-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, src/platform/platform.c: Add 'native Gtk3' to the
+	list of UI's
+
+2017-02-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_win32.c, src/arch/gtk3/ui.c: Gtk3: more stuff
+
+2017-02-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep.c,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c: Gtk3:
+	implement default_log_file() and runtime_os()/runtime_cpu()
+
+2017-02-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/monitor/mon_memory.c: Fix monitor 'hunt' command to search the
+	entire range given
+
+2017-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added --enable-libieee1284 option, and made
+	libieee1284 usage optional (disabled by default).
+
+2017-02-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/hardsid-win32-drv.c, src/arch/gtk3/ps-ieee1284.c,
+	src/arch/gtk3/rawnetarch.c: Added missing svn properties.
+
+2017-02-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_win32.c, src/arch/gtk3/uistatusbar.c: Gtk3:
+	implement archdep_default_resource_file_name()
+
+2017-02-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/video.c: No i18n for gtk3 port.
+
+2017-02-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/mousedrv.c, src/arch/gtk3/video.c: Gtk3: update
+	resource/cmdline initialization
+
+2017-02-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/rawnetarch.c,
+	src/arch/gtk3/rawnetarch_unix.c, src/arch/gtk3/rawnetarch_win32.c:
+	Gtk3: add rawnetarch
+
+2017-02-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/cart/cpmcart.c: Fix CPM cart bug
+
+2017-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fix typo.
+
+2017-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Enable sdl2 checks/compile for amiga.
+
+2017-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/readmes/Makefile.am,
+	doc/readmes/Readme-GTK3.txt, src/arch/Makefile.am, src/arch/gtk3:
+	Re-added the gtk3 stuff.
+
+2017-02-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/beos-io-access.h,
+	src/arch/sdl/catweaselmkiii-beos-drv.c,
+	src/arch/sdl/catweaselmkiii-drv.c, src/arch/sdl/pci-beos-drv.h: Added
+	proper catweaselmkii beos driver file to the sdl port instead of using
+	the beos arch one.
+
+2017-02-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/catweaselmkiii-amigaos-drv.c,
+	src/arch/sdl/catweaselmkiii-drv.c, src/arch/sdl/cw-amigaos.h: Added
+	proper catweaselmkii amigaos driver file to the sdl port instead of
+	using the amigaos arch one.
+
+2017-02-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep.c, src/arch/sdl/coproc.c: Removed cegcc
+	references.
+
+2017-02-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/catweaselmkiii-drv.c, src/arch/sdl/cw-device.c,
+	src/arch/sdl/cw-pci.c, src/arch/sdl/dynlib.c,
+	src/arch/sdl/hardsid-drv.c, src/arch/sdl/hs-device.c,
+	src/arch/sdl/hs-isa.c, src/arch/sdl/hs-pci.c,
+	src/arch/sdl/menu_ethernet.c, src/arch/sdl/menu_midi.c,
+	src/arch/sdl/mididrv.c, src/arch/sdl/parsid-drv.c,
+	src/arch/sdl/ps-device.c, src/arch/sdl/ps-ieee1284.c,
+	src/arch/sdl/ps-io.c, src/arch/sdl/rawnetarch.c,
+	src/arch/sdl/rs232dev.c, src/arch/sdl/sdlmain.c,
+	src/arch/sdl/socketimpl.h, src/arch/sdl/ssi2001-drv.c: Removed all
+	xbox references.
+
+2017-02-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, doc/readmes/Makefile.am,
+	doc/readmes/Readme-GTK3.txt, src/arch/Makefile.am, src/arch/gtk3:
+	Remove Gtk3 port
+
+2017-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/archdep.c,
+	src/arch/sdl/archdep.h, src/arch/sdl/archdep_cegcc.c,
+	src/arch/sdl/archdep_cegcc.h, src/arch/sdl/archdep_xbox.c,
+	src/arch/sdl/archdep_xbox.h: Removed non-working cegcc and xbox sdl
+	code from the sdl port.
+
+2017-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, src/arch/gtk3, src/arch/gtk3/Makefile.am,
+	src/arch/gtk3/Makefile.in, src/arch/gtk3/archdep.c,
+	src/arch/gtk3/archdep.h, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_unix.h, src/arch/gtk3/archdep_win32.c,
+	src/arch/gtk3/archdep_win32.h, src/arch/gtk3/blockdev.c,
+	src/arch/gtk3/c128ui.c, src/arch/gtk3/c64dtvui.c,
+	src/arch/gtk3/c64scui.c, src/arch/gtk3/c64ui.c,
+	src/arch/gtk3/catweaselmkiii-drv.c,
+	src/arch/gtk3/catweaselmkiii-unix-drv.c,
+	src/arch/gtk3/catweaselmkiii-win32-drv.c, src/arch/gtk3/cbm2ui.c,
+	src/arch/gtk3/cbm5x0ui.c, src/arch/gtk3/console.c,
+	src/arch/gtk3/coproc.c, src/arch/gtk3/coproc.h,
+	src/arch/gtk3/cw-pci.c, src/arch/gtk3/cw-unix-pci.c,
+	src/arch/gtk3/cw-unix.h, src/arch/gtk3/cw-win32-pci.c,
+	src/arch/gtk3/cw-win32.h, src/arch/gtk3/dynlib-unix.c,
+	src/arch/gtk3/dynlib-win32.c, src/arch/gtk3/dynlib.c,
+	src/arch/gtk3/fullscreen.c, src/arch/gtk3/gtk3main.c,
+	src/arch/gtk3/hardsid-drv.c, src/arch/gtk3/hardsid-unix-drv.c,
+	src/arch/gtk3/hardsid-win32-drv.c, src/arch/gtk3/hs-isa.c,
+	src/arch/gtk3/hs-pci.c, src/arch/gtk3/hs-unix-isa.c,
+	src/arch/gtk3/hs-unix-pci.c, src/arch/gtk3/hs-unix.h,
+	src/arch/gtk3/hs-win32-isa.c, src/arch/gtk3/hs-win32-pci.c,
+	src/arch/gtk3/hs-win32.h, src/arch/gtk3/joy-osx-hid.c,
+	src/arch/gtk3/joy-osx-hid.h, src/arch/gtk3/joy-osx-hidlib.h,
+	src/arch/gtk3/joy-osx-hidmgr.c, src/arch/gtk3/joy-osx-hidutil.c,
+	src/arch/gtk3/joy-osx.c, src/arch/gtk3/joy-osx.h,
+	src/arch/gtk3/joy-unix-usb.c, src/arch/gtk3/joy-unix.c,
+	src/arch/gtk3/joy-unix.h, src/arch/gtk3/joy-win32-dinput-handle.c,
+	src/arch/gtk3/joy-win32-dinput-handle.h, src/arch/gtk3/joy-win32.c,
+	src/arch/gtk3/joy-win32.h, src/arch/gtk3/joy.h, src/arch/gtk3/kbd.c,
+	src/arch/gtk3/kbd.h, src/arch/gtk3/midi-osx-drv.c,
+	src/arch/gtk3/midi-unix-drv.c, src/arch/gtk3/midi-win32-drv.c,
+	src/arch/gtk3/mididrv.c, src/arch/gtk3/mousedrv.c,
+	src/arch/gtk3/mousedrv.h, src/arch/gtk3/not_implemented.h,
+	src/arch/gtk3/parsid-drv.c, src/arch/gtk3/parsid-unix-drv.c,
+	src/arch/gtk3/parsid-win32-drv.c, src/arch/gtk3/pci-drv.c,
+	src/arch/gtk3/pci-drv.h, src/arch/gtk3/pci-unix-drv.c,
+	src/arch/gtk3/petui.c, src/arch/gtk3/plus4ui.c,
+	src/arch/gtk3/ps-device.c, src/arch/gtk3/ps-ieee1284-unix.c,
+	src/arch/gtk3/ps-ieee1284-win32.c, src/arch/gtk3/ps-ieee1284.c,
+	src/arch/gtk3/ps-io.c, src/arch/gtk3/ps-unix-file.c,
+	src/arch/gtk3/ps-unix-io.c, src/arch/gtk3/ps-unix.h,
+	src/arch/gtk3/ps-win32-dll.c, src/arch/gtk3/ps-win32-io.c,
+	src/arch/gtk3/ps-win32.h, src/arch/gtk3/rs232-unix-dev.c,
+	src/arch/gtk3/rs232-win32-dev.c, src/arch/gtk3/rs232dev.c,
+	src/arch/gtk3/scpu64ui.c, src/arch/gtk3/signals.c,
+	src/arch/gtk3/socketimpl.h, src/arch/gtk3/socketimpl_unix.h,
+	src/arch/gtk3/socketimpl_win32.h, src/arch/gtk3/ssi2001-drv.c,
+	src/arch/gtk3/ssi2001-unix-drv.c, src/arch/gtk3/ssi2001-win32-drv.c,
+	src/arch/gtk3/types.h, src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/uicmdline.c, src/arch/gtk3/uimon.c,
+	src/arch/gtk3/uistatusbar.c, src/arch/gtk3/unix-io-access.c,
+	src/arch/gtk3/unix-io-access.h, src/arch/gtk3/vic20ui.c,
+	src/arch/gtk3/video.c, src/arch/gtk3/videoarch.h,
+	src/arch/gtk3/vsidui.c, src/arch/gtk3/vsyncarch.c: Sorry Ken Thompson
+
+2017-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3: Suck my balls Ken Thompson
+
+2017-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_win32.c: Gtk3: implement
+	archdep_default_autostart_disk_image_file_name()
+
+2017-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/blockdev.c: Gtk3: implement all blockdev code for
+	Windows ;)
+
+2017-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep.h: Gtk3: add user
+	config dir code
+
+2017-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep.h,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c,
+	src/arch/gtk3/ui.c, src/arch/gtk3/video.c: Gtk3: some updates, start
+	work on making this port comply to the XDG Base Directory
+	Specification and whatever Windows uses these days
+
+2017-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_qnx6.sh: Updated.
+
+2017-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fix typo.
+
+2017-02-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix missing comma
+
+2017-02-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/fullscreen.c: Gtk3: add fullscreen stubs
+
+2017-02-16  groepaz <groepaz@gmx.net>
+
+	* configure.proto: fix typo
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added --enable/disable-ahi option.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed the --enable/disable-hardsid support.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed the --enable/disable-catweasel support.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added --with/without-gif option.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Error out if --with-png was given and no support
+	was detected.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Error out if --with-jpeg was given and no support
+	was detected.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Error out if --enable-midi was given and no support
+	was detected.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Error out if --with-uithreads was given but no
+	support was detected.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added 'error out' for sdl sound enable.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/qnx.html, src/arch/sdl/make-bindist_qnx6.sh: Updated.
+
+2017-02-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/video.c: Gtk3: some minor updates
+
+2017-02-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/not_implemented.h: Make messages more 'compiler-ish'
+
+2017-02-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/kbd.c, src/arch/gtk3/ui.c: Gtk3: add some more
+	resources to ui_resources_init()
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed.
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added error out message for pulse audio support
+	checking.
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added error out message for arts support checking.
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added error out message for alsa support checking.
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added error out message for oss support checking.
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added --enable/disable-portaudio option and added
+	'error out' code if --enable-portaudio support is used but
+	headers/libs are missing.
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: oops, only error out if --enable-fullscreen is
+	given.
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added error out message for fullscreen support
+	checking.
+
+2017-02-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/monitor/mon_lex.c: Add updated mon_lex.c
+
+2017-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3: Added some svn ignores.
+
+2017-02-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/joy-win32.c: Gtk3: use JOYPORT_MAX_PORTS constant from
+	joyport.h
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: partially implement ui-resource
+	init/shutdown until we have an actual GtkWindow instance
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/ui-resources.c: Fix possible free(NULL) call
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/not_implemented.h: Fix semi-colon, add
+	INCOMPLETE_IMPLEMENTATION(), ie: x64 might start WW3 at any moment
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/not_implemented.h: Add NOT_IMPLEMENTED_WARN_ONLY() for
+	Gtk3 port building
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep.c,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c,
+	src/arch/gtk3/ps-ieee1284.c: Gtk3: various fixes
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_win32.c: Gtk3: implemented
+	archdep_path_is_relative()
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c: Gtk3:
+	copy archdep_default_sysfile_pathlist() Unix and Win32
+	implementations, fix memory leaks.
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c:
+	Gtk3-native: copy/paste archdep_default_logger() implementations
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, src/arch/gtk3/archdep.c,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c: Start
+	implementing archdep stuff for Gtk3-native
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_win32.c: More
+	stubs for the Gtk3 port
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/ps-ieee1284-unix.c,
+	src/arch/gtk3/ps-ieee1284-win32.c: Add ps-ieee1284 to gtk3 port
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/joy.c: Use proper constant from joyport.h
+
+2017-02-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/kbd.h: Gtk3: Add prototypes to kbd.h
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/unix-io-access.c: Fixed.
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/io-access.c: Fixed.
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/iec/c64exp/Makefile.am,
+	src/drive/iec/c64exp/c64exp-resources.c,
+	src/drive/iec/c64exp/iec-c64exp.c, src/drive/iec/c64exp/stardos-exp.c,
+	src/drive/iec/c64exp/stardos-exp.h, src/drive/iec/c64exp/stardos.c,
+	src/drive/iec/c64exp/stardos.h: Changed drive stardos code and
+	filename to stardos_exp, to avoid having the possibility of having
+	same name functions.
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/building/GTK3-Howto.txt, doc/building/Makefile.am,
+	doc/readmes/Makefile.am, doc/readmes/Readme-GTK3.txt: Added (empty)
+	gtk3 dox.
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/c64exp.tgt,
+	src/arch/sdl/win32-watcom/joyport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Updated.
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/c1541.tgt,
+	src/arch/win32/watcom/c64exp.tgt, src/arch/win32/watcom/joyport.tgt,
+	src/arch/win32/watcom/vice.wpj: Updated.
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/c64exp.tmpl,
+	src/arch/win32/vs_tmpl/joyport.tmpl: Updated.
+
+2017-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c1541.c: Unbreak win32 sdl c1541 compiles.
+
+2017-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/joy-osx-hid.c,
+	src/arch/gtk3/joy-osx-hid.h, src/arch/gtk3/joy-osx-hidlib.h,
+	src/arch/gtk3/joy-osx-hidmgr.c, src/arch/gtk3/joy-osx-hidutil.c,
+	src/arch/gtk3/joy-osx.c, src/arch/gtk3/joy-osx.h,
+	src/arch/gtk3/joy-unix-usb.c, src/arch/gtk3/joy-unix.c,
+	src/arch/gtk3/joy-unix.h, src/arch/gtk3/joy-win32-dinput-handle.c,
+	src/arch/gtk3/joy-win32-dinput-handle.h, src/arch/gtk3/joy-win32.c,
+	src/arch/gtk3/joy-win32.h, src/arch/gtk3/joy.c, src/arch/gtk3/joy.h:
+	Added gtk3 joystick code.
+
+2017-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/cw-unix-pci.c,
+	src/arch/gtk3/hs-unix-isa.c, src/arch/gtk3/hs-unix-pci.c,
+	src/arch/gtk3/io-access.c, src/arch/gtk3/io-access.h,
+	src/arch/gtk3/pci-unix-drv.c, src/arch/gtk3/ps-unix-io.c,
+	src/arch/gtk3/ssi2001-unix-drv.c, src/arch/gtk3/unix-io-access.c,
+	src/arch/gtk3/unix-io-access.h: Renamed io-access.* to
+	unix-io-access.*
+
+2017-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/joyport.h: Fixed typo.
+
+2017-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/vizawrite64_dongle.c: Fixed typo.
+
+2017-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/joyport/Makefile.am,
+	src/joyport/joyport.h, src/joyport/vizawrite64_dongle.c,
+	src/joyport/vizawrite64_dongle.h, src/scpu64/scpu64.c,
+	src/translate.txt, src/translate_text.c: Added vizawrite64 dongle
+	emulation (as provided by Zer0-X).
+
+2017-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c: Fixed.
+
+2017-02-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/interrupt.h: Fix printf() format specifier warnings
+
+2017-02-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/joy.c: Fix array sizes
+
+2017-02-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto, src/lib.c: Fix bug in --enable-debug handling
+	without backtrace_symbols present
+
+2017-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep_win32.c: Duplicated
+	gtk3 archdep_unix.c to archdep_win32.c
+
+2017-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/c128ui.c, src/arch/gtk3/c64dtvui.c,
+	src/arch/gtk3/c64scui.c, src/arch/gtk3/cbm2ui.c,
+	src/arch/gtk3/cbm5x0ui.c, src/arch/gtk3/petui.c,
+	src/arch/gtk3/plus4ui.c, src/arch/gtk3/scpu64ui.c, src/arch/gtk3/ui.c,
+	src/arch/gtk3/vic20ui.c: And the rest of the gtk3 stubs.
+
+2017-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/blockdev.c, src/arch/gtk3/c64ui.c,
+	src/arch/gtk3/coproc.c, src/arch/gtk3/mousedrv.c,
+	src/arch/gtk3/rs232-unix-dev.c, src/arch/gtk3/rs232-win32-dev.c,
+	src/arch/gtk3/rs232dev.c, src/arch/gtk3/ui.c,
+	src/arch/gtk3/uistatusbar.c: More gtk3 stubs.
+
+2017-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/blockdev.c: Cosmetic fixes.
+
+2017-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/cw-pci.c,
+	src/arch/gtk3/cw-unix-pci.c, src/arch/gtk3/cw-win32-pci.c,
+	src/arch/gtk3/kbd.c, src/arch/gtk3/ui.c: More gtk3 stubs.
+
+2017-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep.c,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_unix.h,
+	src/arch/gtk3/archdep_win32.h, src/arch/gtk3/catweaselmkiii-drv.c,
+	src/arch/gtk3/catweaselmkiii-unix-drv.c,
+	src/arch/gtk3/catweaselmkiii-win32-drv.c, src/arch/gtk3/console.c,
+	src/arch/gtk3/cw-unix.h, src/arch/gtk3/cw-win32.h,
+	src/arch/gtk3/dynlib-unix.c, src/arch/gtk3/dynlib-win32.c,
+	src/arch/gtk3/dynlib.c, src/arch/gtk3/fullscreen.c,
+	src/arch/gtk3/hardsid-drv.c, src/arch/gtk3/hardsid-unix-drv.c,
+	src/arch/gtk3/hardsid-win32-drv.c, src/arch/gtk3/hs-isa.c,
+	src/arch/gtk3/hs-pci.c, src/arch/gtk3/hs-unix-isa.c,
+	src/arch/gtk3/hs-unix-pci.c, src/arch/gtk3/hs-unix.h,
+	src/arch/gtk3/hs-win32-isa.c, src/arch/gtk3/hs-win32-pci.c,
+	src/arch/gtk3/hs-win32.h, src/arch/gtk3/io-access.c,
+	src/arch/gtk3/joy.c, src/arch/gtk3/kbd.c,
+	src/arch/gtk3/midi-osx-drv.c, src/arch/gtk3/midi-unix-drv.c,
+	src/arch/gtk3/midi-win32-drv.c, src/arch/gtk3/mididrv.c,
+	src/arch/gtk3/not_implemented.h, src/arch/gtk3/parsid-drv.c,
+	src/arch/gtk3/parsid-unix-drv.c, src/arch/gtk3/parsid-win32-drv.c,
+	src/arch/gtk3/pci-drv.c, src/arch/gtk3/pci-drv.h,
+	src/arch/gtk3/pci-unix-drv.c, src/arch/gtk3/ps-device.c,
+	src/arch/gtk3/ps-io.c, src/arch/gtk3/ps-unix-file.c,
+	src/arch/gtk3/ps-unix-io.c, src/arch/gtk3/ps-unix.h,
+	src/arch/gtk3/ps-win32-dll.c, src/arch/gtk3/ps-win32-io.c,
+	src/arch/gtk3/ps-win32.h, src/arch/gtk3/signals.c,
+	src/arch/gtk3/socketimpl_win32.h, src/arch/gtk3/ui.c,
+	src/arch/gtk3/uicmdline.c, src/arch/gtk3/uimon.c,
+	src/arch/gtk3/uistatusbar.c, src/arch/gtk3/video.c,
+	src/arch/gtk3/vsidui.c, src/arch/gtk3/vsyncarch.c,
+	src/arch/unix/io-access.c: Some more gtk3 progress.
+
+2017-02-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uidrivec64c128.c, src/drive/drive-check.c,
+	src/drive/drive.h: added stardos options to unix gui
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/io-access.h,
+	src/arch/gtk3/ssi2001-drv.c, src/arch/gtk3/ssi2001-unix-drv.c,
+	src/arch/gtk3/ssi2001-win32-drv.c: Added gtk3 ssi2001 driver.
+
+2017-02-09  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt, src/drive/drive.h,
+	src/drive/iec/c64exp/Makefile.am,
+	src/drive/iec/c64exp/c64exp-cmdline-options.c,
+	src/drive/iec/c64exp/c64exp-resources.c,
+	src/drive/iec/c64exp/iec-c64exp.c, src/drive/iec/c64exp/stardos.c,
+	src/drive/iec/c64exp/stardos.h, src/translate.txt,
+	src/translate_text.c: added emulation for the StarDOS drive ROM, which
+	makes it actually work now :)
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/socketimpl.h,
+	src/arch/gtk3/socketimpl_unix.h: Added gtk3 socketimpl.h file(s).
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/ui.h: Added gtk3 ui.h file.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/coproc.h: Added gtk3
+	coproc.h file.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/videoarch.h: #if 0'ed some members to allow
+	compilation to continue.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/videoarch.h: Added gtk3
+	videoarch.h file.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/mousedrv.h: Added gtk3
+	mousedrv.h file.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/kbd.h: Added missing prototype.h
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep.h,
+	src/arch/gtk3/kbd.h: Added gtk3 kbd.h file.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/joy.h: Added gtk3 joy.h
+	file.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/archdep.h,
+	src/arch/gtk3/archdep_unix.h: Added gtk3 archdep.h file(s).
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/types.h: Added gtk3 types.h
+	file.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_x86_runtime_cpu.c: Disabled cpu name retrieval
+	code, it makes some binaries crash on startup.
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/paperclip64.c: Fixed paperclip64 dongle emulation (thanx
+	Zero-X).
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/monitor/mon_parse.c: Fixed.
+
+2017-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Fix quotation of error message
+
+2017-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/Makefile.am, src/arch/gtk3,
+	src/arch/gtk3/Makefile.am, src/arch/gtk3/gtk3main.c: Added native gtk3
+	'framework' (or at least the start of it), this port is very much WIP
+	and currently doesn't even compile.
+
+2017-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Slightly clearer error message for failed
+	--enable-debug
+
+2017-02-08  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/platform/platform_x86_runtime_cpu.c: Added support for returning
+	the x86 CPU name string (if present) via the cpuid instruction.
+
+2017-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/ps-ieee1284.c: Applied fix by 'retrodood'.
+
+2017-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c, src/arch/os2/dialogs/dlg-fileio.c,
+	src/c64/cart/c64-midi.c, src/c64/vsidstubs.c,
+	src/cbm2/cbm2-cmdline-options.c, src/midi.h,
+	src/vic20/cart/vic20-midi.c: Some init fixes.
+
+2017-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c: Fixed.
+
+2017-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/paperclip64.c: Updated to repeat.
+
+2017-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/paperclip64.c: Reworked a bit, still doesn't work with
+	the software.
+
+2017-02-06  groepaz <groepaz@gmx.net>
+
+	* src/core/viacore.c, src/via.h: implemented shift register (reg 10),
+	not cycle exact yet
+
+2017-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/ps-ieee1284.c: Added 'NULL' check.
+
+2017-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/c1541.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Updated.
+
+2017-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: For windows port link against 'libshfolder.a'
+	before 'libshell32.a'.
+
+2017-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/cbmdos.h: Replace integer literals with proper
+	symbolic constant
+
+2017-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: All occurences of the old
+	'extract_unit_from_file_name()' replaced with a more robust version
+
+2017-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Update write command
+
+2017-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/vdrive/vdrive-command.c: Update c1541 rename
+	command, fix 'splat' file bug in vdrive_command_rename()
+
+2017-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Update read and geosread commands
+
+2017-02-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Update chain, copy and format commands
+
+2017-02-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Remove last use of the old check_drive() function and
+	the function itself
+
+2017-02-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/log.c, src/log.h: Add -silent to c1541, obviouslt
+	only works with log_bla() calls, not fprintf()
+
+2017-02-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/log.c, src/translate.txt: Add -silent command line switch,
+	disables all logging
+
+2017-02-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/log.c: Don't continue scanning, one 'verbose' is enough. Also
+	don't use 'not' on a function that clearly doesn't return a boolean
+	value
+
+2017-02-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Use EXIT_SUCCESS/EXIT_FAILURE, not 0/1 (pedantic but
+	portable)
+
+2017-02-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix drive index bug in read_cmd()
+
+2017-01-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: More message fixes
+
+2017-01-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Remove capitalization and full stops from error
+	messages
+
+2017-01-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: add bpoke (block-poke) command:
+	low-level write access to blocks
+
+2017-01-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Make extract_unit_from_file_name() actually return a
+	unit number, not an index into the drives array
+
+2017-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c: Fixed.
+
+2017-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c: Coding style fix.
+
+2017-01-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: make arg_to_int() accept prefixes indicating the
+	base of the number parsed. Supported are '%/0b' for base-2, '&' for
+	base-8 and '$/0x' for base-16. A literal of '0123' is interpreted as
+	base-10, NOT base-8
+
+2017-01-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: allow specifying min/max track for
+	'bam' command
+
+2017-01-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: remove bam_dump_<format>() helper functions, use
+	vdrive_get_max_sectors() and track count in the vdrive image to
+	determine max sectors and track count
+
+2017-01-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/vdrive/vdrive-bam.c: c1541: add support for 2040,
+	8050 and 8250 images for the 'bam' command, and guard against corrupt
+	8250 images
+
+2017-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-01-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/vdrive/vdrive-bam.c, src/vdrive/vdrive-bam.h:
+	Rename vdrive_bam_calculate_track(), which can mean anything, to
+	vdrive_bam_get_track_entry(), which is a lot clearer
+
+2017-01-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/vdrive/vdrive-bam.c, src/vdrive/vdrive-bam.h:
+	c1541: Add support of 1571 and 1581 images to the 'bam' command,
+	refactor code slightly
+
+2017-01-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Reverse '*' and '.' in c1541 bbam dump output, so used
+	sector is indicated by '*' and a free sector by '.'
+
+2017-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/vdrive/vdrive-bam.c, src/vdrive/vdrive-bam.h: c1541
+	Add preliminary support for displaying BAM of images
+
+2017-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/joyport/script64_dongle.c: Comment fix.
+
+2017-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: add tilde expansion of path to bread and bwrite
+	commands
+
+2017-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/c1541.tmpl: Added diskimage include dir.
+
+2017-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/joyport.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/joyport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/win32/vs_tmpl/joyport.tmpl,
+	src/arch/win32/watcom/joyport.tgt, src/arch/win32/watcom/vice.wpj,
+	src/c128/c128.c, src/c64/c64.c, src/joyport/Makefile.am,
+	src/joyport/joyport.h, src/joyport/script64_dongle.c,
+	src/joyport/script64_dongle.h, src/scpu64/scpu64.c, src/translate.txt,
+	src/translate_text.c: Added joyport 'script 64 dongle' support.
+
+2017-01-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: fix default unit in bcopy, bread and bwrite
+	commands, fix syntax/help text for bcopy command
+
+2017-01-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* FEEDBACK: Fixed outdated bug tracker URL.
+
+2017-01-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui.cc: Added support for BeVICE to paste dropped text
+	the same way as clipboard text.
+
+2017-01-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: Add bcopy (block-copy): copy raw
+	blocks in images or between images
+
+2017-01-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am: Properly fix Makefile.am this time
+
+2017-01-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am: Fix Makefile.am
+
+2017-01-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am: .. and also add the Makefile.am
+
+2017-01-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/diskimage/fsimage-check.c, src/diskimage/fsimage-check.h: Return
+	different error codes for illegal track or sector in
+	fsimage_check_sector(), makes proper error messages easier
+
+2017-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-01-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am: Silence (cd && make), there's already an echo on
+	what make is doing and make itself also reports its recursion
+
+2017-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: echo -> @echo
+
+2017-01-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/Makefile.am: Added echo commands to show the progress of a
+	single-emulator build.
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: add bwrite (block-write) command,
+	write a raw block from the host file system to an image
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: Add bread (block-read) command,
+	read a single block from an image and write it to the host file system
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: c1541: add 'chain' command
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uiprinteriecplus4.c: Fix trailing space after
+	newline
+
+2017-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/vsidui.c: Fixed.
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c, src/vdrive/vdrive.h: c1541: add helper function
+	parse_track_sector() and add errors codes FD_BAD_TRKNUM and
+	FD_BAD_SECNUM to vdrive
+
+2017-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uivicii.c: Fixed.
+
+2017-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uiprinteriec.c,
+	src/arch/unix/gui/uiprinteriecplus4.c,
+	src/arch/unix/gui/uiprinterieee.c, src/arch/unix/gui/uips2mouse.c,
+	src/arch/unix/gui/uiram.c, src/arch/unix/gui/uiramcart.c,
+	src/arch/unix/gui/uiretroreplay.c, src/arch/unix/gui/uireu.c,
+	src/arch/unix/gui/uiromset.c, src/arch/unix/gui/uirrnetmk3.c,
+	src/arch/unix/gui/uirs232.c, src/arch/unix/gui/uirs232c64c128.c,
+	src/arch/unix/gui/uirs232petplus4cbm2.c,
+	src/arch/unix/gui/uirs232user.c, src/arch/unix/gui/uisampler.c,
+	src/arch/unix/gui/uiscpu64.c, src/arch/unix/gui/uisettings.c,
+	src/arch/unix/gui/uisid.c, src/arch/unix/gui/uisound.c,
+	src/arch/unix/gui/uisoundexpander.c,
+	src/arch/unix/gui/uisoundsampler.c,
+	src/arch/unix/gui/uisupersnapshot.c, src/arch/unix/gui/uitapeport.c,
+	src/arch/unix/gui/uited.c, src/arch/unix/gui/uitpi.c,
+	src/arch/unix/gui/uiuserport.c, src/arch/unix/gui/uiv364speech.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/gui/vsidui.c, src/arch/unix/x11/gnome/uiedit.c,
+	src/arch/unix/x11/gnome/uimenu.c, src/arch/unix/x11/gnome/x11mouse.c,
+	src/arch/unix/x11/xaw/uiedit.c, src/arch/unix/x11/xaw/uimenu.c,
+	src/arch/unix/x11/xaw/uiscreenshot.c: Some more init fixes.
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: c1541: clean up block command code
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uidrive.c: Properly stringify drive number,
+	preproc concatenation doesn't work inside string literals
+
+2017-01-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/uiprinter.h, src/arch/unix/gui/uiprinteriec.c,
+	src/arch/unix/gui/uiprinterieee.c: Fix linker errors in
+	arch/unix/gui/libarchgui.a
+
+2017-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uigmod2.c, src/arch/unix/gui/uiide64.c,
+	src/arch/unix/gui/uiisepic.c, src/arch/unix/gui/uijoyport.c,
+	src/arch/unix/gui/uijoystick2.c, src/arch/unix/gui/uikeyboard.c,
+	src/arch/unix/gui/uimagicvoice.c, src/arch/unix/gui/uimidi.c,
+	src/arch/unix/gui/uimmc64.c, src/arch/unix/gui/uimmcreplay.c,
+	src/arch/unix/gui/uimouse.c, src/arch/unix/gui/uinetplay.c,
+	src/arch/unix/gui/uiperipheral.c, src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheralieee.c, src/arch/unix/gui/uipetcolour.c,
+	src/arch/unix/gui/uipetdww.c, src/arch/unix/gui/uipethre.c,
+	src/arch/unix/gui/uipetreu.c, src/arch/unix/gui/uiplus4cart.c,
+	src/arch/unix/gui/uiprinter.c: Some more init fixes.
+
+2017-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/buildtools/geninfocontrib.c: Fixed.
+
+2017-01-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/Makefile.am, src/buildtools/geninfocontrib.c,
+	src/buildtools/geninfocontrib_h.sh: Started fixing the infocontrib
+	(and other files) generation script/exe.
+
+2017-01-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui.cc: Added support for BeVICE to autostart a file
+	dropped on it from tracker.
+
+2017-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uidrivec64vic20.c:
+	Fixed.
+
+2017-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uic64memoryhacks.c, src/arch/unix/gui/uicbm2cart.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uics8900.c, src/arch/unix/gui/uidatasette.c,
+	src/arch/unix/gui/uidigimax.c, src/arch/unix/gui/uidqbb.c,
+	src/arch/unix/gui/uidrive.c, src/arch/unix/gui/uidrivec128.c,
+	src/arch/unix/gui/uidrivec64.c, src/arch/unix/gui/uidrivec64c128.c,
+	src/arch/unix/gui/uidrivec64dtv.c,
+	src/arch/unix/gui/uidrivec64vic20.c, src/arch/unix/gui/uidriveiec.c,
+	src/arch/unix/gui/uidrivepetcbm2.c, src/arch/unix/gui/uidriveplus4.c,
+	src/arch/unix/gui/uidrivevic20.c, src/arch/unix/gui/uids12c887rtc.c,
+	src/arch/unix/gui/uieasyflash.c, src/arch/unix/gui/uiethernetcart.c,
+	src/arch/unix/gui/uiexpert.c, src/arch/unix/gui/uifliplist.c,
+	src/arch/unix/gui/uifullscreen-menu.h, src/arch/unix/gui/uigeoram.c:
+	Some more init fixes.
+
+2017-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/buildtools: Ignore 'Makefile' as well.
+
+2017-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/buildtools: Ignore Makefile.in in src/buildtools
+
+2017-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/pc8477.c: Remove trailing comma's
+
+2017-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundsdl.c: Fix warnings
+
+2017-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/drive-cmdline-options.c, src/drive/drive-resources.c,
+	src/raster/raster-cmdline-options.c, src/raster/raster-resources.c,
+	src/video/video-cmdline-options.c, src/video/video-resources.c: Remove
+	useless/dangerous casts
+
+2017-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/iec-cmdline-options.c, src/drive/iec/iec-resources.c:
+	Remove useless casts
+
+2017-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/uimsgbox.c: Remove obsolete statement in SDL uimsgbox
+
+2017-01-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/uimsgbox.c: Apply patch by Greg King, see bug #857
+
+2017-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uiacia1.c, src/arch/unix/gui/uiattach.c,
+	src/arch/unix/gui/uiautostart.c, src/arch/unix/gui/uic64cart.c,
+	src/arch/unix/gui/uic64dtv.c: Some more init fixes.
+
+2017-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/Joystick.c: Include 'vice.h' so that
+	'#ifdef USE_XAW3D' can actually do something useful.
+
+2017-01-14  Ingo Korb <ingo@akana.de>
+
+	* src/arch/win32/archdep.c: Replace symbol with numeric constant to
+	work around Win32 header weirdness
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/glue1571.c, src/drive/iec/iecrom.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/fdd.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/cia1571d.c, src/drive/iec/cia1581d.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/interrupt.h: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/plus4exp/plus4exp-cmdline-options.c,
+	src/drive/iec/plus4exp/plus4exp-resources.c, Remove casts
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/c64exp/dolphindos3.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/c64exp/c64exp-resources.c: Remove (now useless) casts
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/resources.h: Remove const keyword from 'name' field of structs
+	resource_int_s and resource_string_s, again to avoid undefined
+	behaviour
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/drive/iec/c64exp/c64exp-cmdline-options.c: Remove (now useless)
+	casts
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cmdline.h: Remove const keyword from name and resource_name
+	fields in struct cmdline_option_s. Some code uses these fields for
+	dynamically allocated strings and then uses casts to remove the const
+	to allow free() to 'work'. That's undefined behaviour.
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundflac.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundvorbis.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/lamelib.h, src/sounddrv/soundmp3.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/sounduss.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundalsa.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundpulse.c: Fix warnings, except those generated by
+	-pedantic
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundwav.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundvoc.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundmovie.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sounddrv/soundaiff.c: Fix warnings
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/sampler2bit.c, src/joyport/sampler4bit.c: More tab fixes
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/rushware_keypad.c: Fix tabs
+
+2017-01-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/paperclip64.c: Fix tabs
+
+2017-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/x11/x11menu.h: Started on my '*nix menu init fixing'
+	run.
+
+2017-01-13  Ingo Korb <ingo@akana.de>
+
+	* src/arch/win32/archdep.c: Fix typo
+
+2017-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/JoystickP.h: Used xaw3d simplep header
+
+2017-01-13  Ingo Korb <ingo@akana.de>
+
+	when compiling with/for xaw3d. (fixes bug #855)
+
+	* src/arch/win32/archdep.c: Win32: Use a folder below appdata instead
+	of dumping everything into the profile's root dir
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/mouse.c: Fix warnings
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/lightpen.c: Fix warnings
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/joystick.c: Fix warnings
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/alarm.h: Fix warnings
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/lib/p64/p64.c: Fix lib/p64 warnings on 64-bit systems, remove
+	tabs
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/cx85.c: Fix warnings and tabs
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/cx21.c: Fix warnings and tabs
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: Fix overzealous bug fixing
+
+2017-01-13  Ingo Korb <ingo@akana.de>
+
+	* doc/vice.pdf, src/arch/win32/archdep.c: Win32: Prefer boot_path for
+	vice.ini if it already exists there
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/coplin_keypad.c: Replace tabs with spaces
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/coplin_keypad.c: Fix warnings
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/cardkey.c: Fix warnings
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/bbrtc.c: Fix warnings
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* po/intl2po.c: Fix warnings and bugs
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cartconv.c: Some fixes
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: Some (warning) fixes
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sound.h: Fix warning
+
+2017-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix warnings/bugs
+
+2017-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c: Changed windows log, fliplist, rtc,
+	autostart and settings location to the current user 'home' directory.
+
+2017-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/p64/p64.c: Some warning fixes.
+
+2017-01-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/buildtools/bin2c.c: Add new version of bin2c.c that handles
+	2d-arrays
+
+2017-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uids12c887rtc.c, src/arch/msdos/uieasyflash.c,
+	src/arch/msdos/uiethernetcart.c, src/arch/msdos/uiexpert.c,
+	src/arch/msdos/uigeoram.c, src/arch/msdos/uigmod2.c,
+	src/arch/msdos/uiide64.c, src/arch/msdos/uiiocollisions.c,
+	src/arch/msdos/uiisepic.c, src/arch/msdos/uijoystick.c,
+	src/arch/msdos/uikeymap.c, src/arch/msdos/uimagicvoice.c,
+	src/arch/msdos/uimmc64.c, src/arch/msdos/uimmcreplay.c,
+	src/arch/msdos/uinetplay.c, src/arch/msdos/uiperipherial.c,
+	src/arch/msdos/uipetdww.c, src/arch/msdos/uipethre.c,
+	src/arch/msdos/uipetmodel.c, src/arch/msdos/uipetreu.c,
+	src/arch/msdos/uiplus4cart.c, src/arch/msdos/uiplus4memoryhacks.c,
+	src/arch/msdos/uiplus4model.c, src/arch/msdos/uiprinter.c,
+	src/arch/msdos/uiramcart.c, src/arch/msdos/uiretroreplay.c,
+	src/arch/msdos/uireu.c, src/arch/msdos/uirrnetmk3.c,
+	src/arch/msdos/uisampler.c, src/arch/msdos/uiscpu64.c,
+	src/arch/msdos/uiscpu64model.c, src/arch/msdos/uiscreenshot.c,
+	src/arch/msdos/uisid.h, src/arch/msdos/uisidc128.c,
+	src/arch/msdos/uisidc64.c, src/arch/msdos/uisidcart.c,
+	src/arch/msdos/uisidcbm2.c, src/arch/msdos/uisiddtv.c,
+	src/arch/msdos/uisnapshot.c, src/arch/msdos/uisound.c,
+	src/arch/msdos/uisoundexpander.c, src/arch/msdos/uisoundsampler.c,
+	src/arch/msdos/uiss5.c, src/arch/msdos/uitapeport.c,
+	src/arch/msdos/uiuserport.c, src/arch/msdos/uiv364speech.c,
+	src/arch/msdos/uivic20model.c, src/arch/msdos/uivideo.c,
+	src/arch/msdos/vic20ui.c: Some more warning fixes.
+
+2017-01-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/Doxyfile: Don't recurse into src/lib when building Doxygen docs
+
+2017-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Cosmetic fix.
+
+2017-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/nsosrh.html: Updated.
+
+2017-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/palette2c.sh, src/palette2c.sh: Moved 'palette2c.sh' to
+	the 'buildtools' directory.
+
+2017-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/palette2c.c, src/palette2c.c: Moved 'palette2c.c' to
+	the 'buildtools' directory.
+
+2017-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, src/Makefile.am,
+	src/arch/os2/watcom/genwt.bat, src/arch/os2/watcom/genwt.cmd,
+	src/arch/sdl/win32-watcom/genwt.bat,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl,
+	src/arch/win32/watcom/genwt.bat, src/buildtools/Makefile.am,
+	src/buildtools/infocontrib.sed, src/infocontrib.sed: Moved
+	'infocontrib.sed' to the 'buildtools' directory.
+
+2017-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/gensvnversion.sh, src/gensvnversion.sh: Moved
+	'gensvnversion.sh' to the 'buildtools' directory.
+
+2017-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/nsosrh.html: Updated.
+
+2017-01-10  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto, src/arch/unix/unixmain.c,
+	src/arch/unix/vsyncarch.c: Removed dead BeOS-X11 code.
+
+2017-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/bin2c.sh, src/buildtools/od2c.sh, src/od2c.sh: Moved
+	'od2c.sh' to the 'buildtools' directory.
+
+2017-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/convert_owcc_libs.sh, src/convert_owcc_libs.sh: Moved
+	'convert_owcc_libs.sh' to the 'buildtools' directory.
+
+2017-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/bin2c.sh, src/buildtools/Makefile.am,
+	src/buildtools/bin2c.sh: Moved 'bin2c.sh' to the 'buildtools'
+	directory.
+
+2017-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/bin2c.c, src/buildtools/Makefile.am,
+	src/buildtools/bin2c.c: Moved 'bin2c.c' to the 'buildtools' directory.
+
+2017-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/gentranslatetable.sh, src/gentranslatetable.sh: Moved
+	'gentranslatetable.sh' to the 'buildtools' directory.
+
+2017-01-10  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am: ... and also actually use the script :)
+
+2017-01-10  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am: Add new Plus4 palettes to the 'palette2c.sh'
+	section of the embedded data file rules
+
+2017-01-10  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/uimsgbox.c: Apply sdl-messagebox patch by Greg King
+	(see bug #857)
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/gentranslate_h.sh, src/gentranslate_h.sh: Moved
+	'gentranslate_h.sh' to the 'buildtools' directory.
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/buildtools/geninfocontrib.c, src/buildtools/gentranslate.c:
+	Cosmetic fixes.
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/os2/watcom/gentr.tgt,
+	src/arch/os2/watcom/gentranslate32.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/gentr.tgt,
+	src/arch/sdl/win32-watcom/gentranslate32.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/utils/Makefile.am,
+	src/arch/win32/utils/gentranslate.c,
+	src/arch/win32/vs_tmpl/gentranslate.tmpl,
+	src/arch/win32/watcom/gentr.tgt,
+	src/arch/win32/watcom/gentranslate32.tgt,
+	src/arch/win32/watcom/vice.wpj, src/buildtools/Makefile.am,
+	src/buildtools/gentranslate.c: Moved 'gentranslate.c' to the
+	'buildtools' directory.
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/nsosrh.html: Updated.
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/buildtools/Makefile.am,
+	src/buildtools/geninfocontrib_h.sh, src/geninfocontrib_h.sh: Moved
+	'geninfocontrib_h.sh' to the 'buildtools' directory.
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/Makefile.am, src/arch/os2/watcom/genic.tgt,
+	src/arch/os2/watcom/geninfocontrib32.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-watcom/genic.tgt,
+	src/arch/sdl/win32-watcom/geninfocontrib32.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/utils/Makefile.am,
+	src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/vs_tmpl/geninfocontrib.tmpl,
+	src/arch/win32/watcom/genic.tgt,
+	src/arch/win32/watcom/geninfocontrib32.tgt,
+	src/arch/win32/watcom/vice.wpj, src/buildtools,
+	src/buildtools/Makefile.am, src/buildtools/geninfocontrib.c: Started
+	on moving 'build tools/scripts' to a 'src/buildtools' directory,
+	starting with 'geninfocontrib.c'.
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joyai.c, src/arch/amigaos/uiapi.c,
+	src/arch/os2/kbd/kmap-pet.c, src/arch/os2/kbd/kmap.c,
+	src/arch/os2/kbd.c, src/arch/os2/rs232.c, src/arch/unix/macosx/joy.c,
+	src/arch/unix/macosx/mididrv.c, src/arch/unix/mididrv.c,
+	src/arch/unix/x11/ui-resources.c, src/arch/unix/x11/xaw/x11video.c,
+	src/arch/win32/ui-resources.c, src/autostart.c,
+	src/c128/c128-resources.c, src/c128/functionrom.c,
+	src/c64/c64-resources.c, src/c64/c64_256k.c, src/c64/cart/c64cart.c,
+	src/c64/cart/c64tpi.c, src/c64/cart/cs8900io.c, src/c64/cart/dqbb.c,
+	src/c64/cart/expert.c, src/c64/cart/georam.c, src/c64/cart/gmod2.c,
+	src/c64/cart/ide64.c, src/c64/cart/isepic.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/mmc64.c,
+	src/c64/cart/mmcreplay.c, src/c64/cart/ramcart.c, src/c64/cart/reu.c,
+	src/c64/cart/turbomaster.c, src/c64/plus256k.c, src/c64/plus60k.c,
+	src/c64/vsid-resources.c, src/c64dtv/c64dtv-resources.c,
+	src/c64dtv/c64dtvflash.c, src/c64dtv/flash-trap.c,
+	src/cbm2/cbm2-common-resources.c, src/cbm2/cbm2-resources.c,
+	src/cbm2/cbm2cart.c, src/cbm2/cbm5x0-resources.c,
+	src/diskimage/rawimage.c, src/drive/iec/c64exp/c64exp-resources.c,
+	src/drive/iec/iec-resources.c,
+	src/drive/iec128dcr/iec128dcr-resources.c,
+	src/drive/ieee/ieee-resources.c, src/drive/tcbm/tcbm-resources.c,
+	src/event.c, src/fliplist.c, src/fsdevice/fsdevice-resources.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/quicktimedrv.c,
+	src/keyboard.c, src/log.c, src/machine.c,
+	src/monitor/monitor_network.c, src/network.c, src/pet/pet-resources.c,
+	src/pet/petdww.c, src/pet/petreu.c, src/plus4/digiblaster.c,
+	src/plus4/plus4-resources.c, src/plus4/plus4-sidcart.c,
+	src/plus4/plus4acia.c, src/plus4/plus4cart.c, src/plus4/plus4io.c,
+	src/plus4/plus4memhacks.c, src/plus4/plus4speech.c,
+	src/plus4/ted-resources.c, src/printerdrv/driver-select.c,
+	src/printerdrv/interface-serial.c,
+	src/printerdrv/interface-userport.c, src/printerdrv/output-select.c,
+	src/printerdrv/output-text.c, src/ps2mouse.c, src/ram.c,
+	src/rs232drv/rs232drv.c, src/rs232drv/rsuser.c,
+	src/samplerdrv/file_drv.c, src/samplerdrv/sampler.c,
+	src/scpu64/scpu64-resources.c, src/scpu64/scpu64gluelogic.c,
+	src/serial/serial-iec-device.c, src/sid/sid-resources.c, src/sound.c,
+	src/sysfile.c, src/tapeport/cp-clockf83.c,
+	src/tapeport/dtl-basic-dongle.c, src/tapeport/sense-dongle.c,
+	src/tapeport/tape_diag_586220_harness.c, src/tapeport/tapelog.c,
+	src/translate.c, src/traps.c, src/userport/userport.c,
+	src/userport/userport_4bit_sampler.c, src/userport/userport_8bss.c,
+	src/userport/userport_dac.c,
+	src/userport/userport_diag_586220_harness.c,
+	src/userport/userport_digimax.c, src/userport/userport_joystick.c,
+	src/userport/userport_rtc_58321a.c,
+	src/userport/userport_rtc_ds1307.c, src/vdc/vdc-resources.c,
+	src/vic20/cart/debugcart.c, src/vic20/cart/finalexpansion.c,
+	src/vic20/cart/ioramcart.c, src/vic20/cart/megacart.c,
+	src/vic20/cart/ultimem.c, src/vic20/cart/vic-fp.c,
+	src/vic20/cart/vic20-generic.c, src/vic20/cart/vic20-ieee488.c,
+	src/vic20/cart/vic20-midi.c, src/vic20/cart/vic20-sidcart.c,
+	src/vic20/cart/vic20cart.c, src/vic20/vic-resources.c,
+	src/vic20/vic20-resources.c, src/vic20/vic20io.c,
+	src/vicii/vicii-resources.c, src/viciisc/vicii-resources.c,
+	src/vsync.c: Even more warning fixes.
+
+2017-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/cbm2ui.c,
+	src/arch/msdos/cbm5x0ui.c, src/arch/msdos/menudefs.c,
+	src/arch/msdos/petui.c, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/scpu64ui.c, src/arch/msdos/tuimenu.h,
+	src/arch/msdos/uiattach.c, src/arch/msdos/uiburstmod.c,
+	src/arch/msdos/uic128model.c, src/arch/msdos/uic64cart.c,
+	src/arch/msdos/uic64dtv.c, src/arch/msdos/uic64dtvmodel.c,
+	src/arch/msdos/uic64memoryhacks.c, src/arch/msdos/uic64model.c,
+	src/arch/msdos/uic64scmodel.c, src/arch/msdos/uicbm2model.c,
+	src/arch/msdos/uicbm5x0model.c, src/arch/msdos/uiciamodel.c,
+	src/arch/msdos/uidigimax.c, src/arch/msdos/uidqbb.c,
+	src/arch/msdos/uidrivec128.c, src/arch/msdos/uidrivec64.c,
+	src/arch/msdos/uidrivec64dtv.c, src/arch/msdos/uidriveieee.c,
+	src/arch/msdos/uidriveplus4.c, src/arch/msdos/uidrivevic20.c: Some
+	more warning fixes.
+
+2017-01-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/bin2c.c: Add FIXME to src/bin2c.c
+
+2017-01-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c128/c128embedded.c, src/c64/c64embedded.c,
+	src/c64dtv/c64dtvembedded.c, src/cbm2/cbm2embedded.c,
+	src/cbm2/cbm5x0embedded.c, src/embedded.h, src/pet/petembedded.c,
+	src/plus4/plus4embedded.c, src/vic20/vic20embedded.c: Properly
+	terminate embedded file and palette lists
+
+2017-01-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/keyboard.c: Free 'name' _after_ use
+
+2017-01-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/Makefile.am, src/palette2c.c, src/palette2c.sh,
+	src/plus4/plus4embedded.c: Fix --enable-embedded building
+
+2017-01-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/xcbm2_ui.c: Fix additional dynmenu memory leaks in SDL
+	xcbm2
+
+2017-01-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_joyport.c, src/arch/sdl/menu_joyport.h,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c: Fix memory leaks in SDL joyport menus
+
+2017-01-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/resources.h: Fix typos
+
+2017-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/amigaos/Makefile.am,
+	src/arch/sdl/Makefile.am, src/arch/sdl/syllable-files/Makefile.am,
+	src/arch/unix/Makefile.am: Some more build recursion fixes.
+
+2017-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/georam.c, src/c64/cart/gmod2.c, src/c64/cart/ide64.c,
+	src/c64/cart/isepic.c, src/c64/cart/magicvoice.c,
+	src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c,
+	src/c64/cart/ramcart.c, src/c64/cart/retroreplay.c,
+	src/c64/cart/reu.c, src/c64/cart/rrnetmk3.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/shortbus_digimax.c, src/c64/cart/shortbus_etfe.c,
+	src/c64/cart/supersnapshot.c, src/c64/cart/turbomaster.c,
+	src/c64/plus60k.c, src/c64/psid.c, src/c64/vsid-debugcart.c,
+	src/c64/vsid-resources.c, src/c64dtv/c64dtv-resources.c,
+	src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvdma.c,
+	src/c64dtv/c64dtvflash.c, src/c64dtv/debugcart.c,
+	src/c64dtv/flash-trap.c, src/cbm2/cbm2-common-resources.c,
+	src/cbm2/cbm2-resources.c, src/cbm2/cbm2cart.c, src/cbm2/cbm2io.c,
+	src/cbm2/cbm5x0-resources.c, src/cbm2/debugcart.c,
+	src/crtc/crtc-resources.c, src/datasette.c, src/debug.c,
+	src/drive/drive-resources.c, src/drive/iec/c64exp/c64exp-resources.c,
+	src/drive/iec/iec-resources.c,
+	src/drive/iec/plus4exp/plus4exp-resources.c, src/event.c,
+	src/fsdevice/fsdevice-resources.c, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/quicktimedrv.c, src/joyport/bbrtc.c,
+	src/joyport/joyport.c, src/joyport/joystick.c, src/joyport/mouse.c,
+	src/kbdbuf.c, src/keyboard.c, src/machine.c, src/monitor/monitor.c,
+	src/monitor/monitor_network.c, src/network.c, src/pet/debugcart.c,
+	src/pet/pet-resources.c, src/pet/pet-sidcart.c, src/pet/petdww.c,
+	src/pet/pethre.c, src/pet/petio.c, src/pet/petpia1.c,
+	src/pet/petreu.c, src/plus4/debugcart.c: Some more init fixes.
+
+2017-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c, src/arch/amigaos/joyll.c, src/arch/amigaos/uiapi.c,
+	src/arch/beos/ui.cc, src/arch/beos/video.cc, src/arch/msdos/joy.c,
+	src/arch/msdos/ui.c, src/arch/msdos/video.c, src/arch/msdos/vsync.c,
+	src/arch/os2/joy.c, src/arch/os2/mousedrv.c, src/arch/os2/ui.c,
+	src/arch/os2/video.c, src/arch/unix/macosx/cocoa/mousedrv.m,
+	src/arch/unix/macosx/cocoa/ui-resources.c,
+	src/arch/unix/macosx/cocoa/video.m, src/arch/unix/macosx/joy.c,
+	src/arch/unix/mididrv.c, src/arch/unix/rs232dev.c,
+	src/arch/unix/ui-threads.c, src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/openGL_sync.c, src/arch/unix/x11/ui-resources.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/joy.c,
+	src/arch/win32/mididrv.c, src/arch/win32/mousedrv.c,
+	src/arch/win32/ui-resources.c, src/arch/win32/video.c, src/attach.c,
+	src/autostart.c, src/c128/c128-resources.c, src/c128/c128mmu.c,
+	
+	src/c128/functionrom.c, src/c64/c64-memory-hacks.c,
+	src/c64/c64-resources.c, src/c64/c64_256k.c, src/c64/c64gluelogic.c,
+	src/c64/c64io.c, src/c64/cart/c64-midi.c, src/c64/cart/c64acia1.c,
+	src/c64/cart/c64cart.c, src/c64/cart/c64tpi.c, src/c64/cart/cpmcart.c,
+	src/c64/cart/cs8900io.c, src/c64/cart/debugcart.c,
+	src/c64/cart/digimax.c, src/c64/cart/dqbb.c,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/easyflash.c,
+	src/c64/cart/ethernetcart.c, src/c64/cart/expert.c, src/resources.h:
+	Started on a resources warning fixing run.
+
+2017-01-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Remove -fsanitize from debug builds, makes them too
+	slow. I'll add some separate switches to enable -fsanitize in debug
+	builds
+
+2017-01-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/archdep.c: Remove HaikuPorts-specific bootpath patch
+
+2017-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/Makefile.am: Do not recurse into the
+	android dir for sdl builds and do not recurse into the
+	watcom-source-wrappers dir for windows builds.
+
+2017-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/darwin.html: Updated.
+
+2017-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_darwin_runtime_os.c: Fixed.
+
+2017-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cmdline.h: Fixed define.
+
+2017-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/printerdrv/driver-select.c, src/printerdrv/interface-serial.c,
+	src/printerdrv/interface-userport.c, src/printerdrv/output-select.c,
+	src/printerdrv/output-text.c, src/ps2mouse.c, src/ram.c, src/romset.c,
+	src/rs232drv/rs232drv.c, src/rs232drv/rsuser.c,
+	src/samplerdrv/file_drv.c, src/samplerdrv/sampler.c,
+	src/scpu64/scpu64-cmdline-options.c, src/scpu64/scpu64gluelogic.c,
+	src/serial/serial-iec-device.c, src/sid/sid-cmdline-options.c,
+	src/sound.c, src/sysfile.c, src/tapeport/cp-clockf83.c,
+	src/tapeport/dtl-basic-dongle.c, src/tapeport/sense-dongle.c,
+	src/tapeport/tape_diag_586220_harness.c, src/tapeport/tapelog.c,
+	src/translate.c, src/traps.c, src/userport/userport.c,
+	src/userport/userport_4bit_sampler.c, src/userport/userport_8bss.c,
+	src/userport/userport_dac.c,
+	src/userport/userport_diag_586220_harness.c,
+	src/userport/userport_digimax.c, src/userport/userport_joystick.c,
+	src/userport/userport_rtc_58321a.c,
+	src/userport/userport_rtc_ds1307.c, src/vic20/cart/debugcart.c,
+	src/vic20/cart/finalexpansion.c, src/vic20/cart/ioramcart.c,
+	src/vic20/cart/megacart.c, src/vic20/cart/ultimem.c,
+	src/vic20/cart/vic-fp.c, src/vic20/cart/vic20-ieee488.c,
+	src/vic20/cart/vic20-sidcart.c, src/vic20/cart/vic20cart.c,
+	src/vic20/vic-cmdline-options.c, src/vic20/vic20-cmdline-options.c,
+	src/vic20/vic20io.c, src/video/video-cmdline-options.c, src/vsync.c:
+	Some more init fixes.
+
+2017-01-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/archdep.c: Apply Haiku patch from their build system
+
+2017-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Removed extra 'fi' (copy/paste error).
+
+2017-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Added check for '-fsanitize=undefined' when doing a
+	debug build.
+
+2017-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/io-access.c: Fixed for non-x86.
+
+2017-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/iec/c64exp/c64exp-cmdline-options.c,
+	src/drive/iec/iec-cmdline-options.c,
+	src/drive/iec/plus4exp/plus4exp-cmdline-options.c,
+	src/drive/iec128dcr/iec128dcr-cmdline-options.c,
+	src/drive/ieee/ieee-cmdline-options.c,
+	src/drive/tcbm/tcbm-cmdline-options.c, src/event.c, src/fliplist.c,
+	src/fsdevice/fsdevice-cmdline-options.c, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/quicktimedrv.c, src/initcmdline.c,
+	src/joyport/bbrtc.c, src/joyport/joyport.c, src/joyport/joystick.c,
+	src/joyport/mouse.c, src/kbdbuf.c, src/keyboard.c, src/log.c,
+	src/machine.c, src/midi.c, src/monitor/monitor.c,
+	src/monitor/monitor_network.c, src/network.c, src/pet/debugcart.c,
+	src/pet/pet-cmdline-options.c, src/pet/pet-sidcart.c,
+	src/pet/petdww.c, src/pet/pethre.c, src/pet/petio.c,
+	src/pet/petpia1.c, src/pet/petreu.c, src/plus4/debugcart.c,
+	src/plus4/digiblaster.c, src/plus4/plus4-cmdline-options.c,
+	src/plus4/plus4-sidcart.c, src/plus4/plus4acia.c,
+	src/plus4/plus4cart.c, src/plus4/plus4io.c, src/plus4/plus4memhacks.c,
+	src/plus4/plus4speech.c: Some more fixes.
+
+2017-01-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/joyport/joyport.c: Fix warnings
+
+2017-01-05  groepaz <groepaz@gmx.net>
+
+	* src/resid/filter.h, src/resid/sid.cc, src/resid/sid.h,
+	src/resid/siddefs.h.in, src/resid/spline.h, src/resid/voice.cc,
+	src/resid/wave.cc: removed TABs from sourcefiles
+
+2017-01-05  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt: sync generated files with trunk
+
+2017-01-05  groepaz <groepaz@gmx.net>
+
+	* src/resid/filter.cc: hack to fix integer overflow, patch by leandro
+	nini
+
+2017-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ramcart.c, src/c64/cart/retroreplay.c,
+	src/c64/cart/reu.c, src/c64/cart/rrnetmk3.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/shortbus_digimax.c, src/c64/cart/shortbus_etfe.c,
+	src/c64/cart/supersnapshot.c, src/c64/cart/turbomaster.c,
+	src/c64/plus256k.c, src/c64/plus60k.c, src/c64/psid.c,
+	src/c64/vsid-cmdline-options.c, src/c64/vsid-debugcart.c,
+	src/c64dtv/c64dtv-cmdline-options.c, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvdma.c, src/c64dtv/c64dtvflash.c,
+	src/c64dtv/debugcart.c, src/c64dtv/flash-trap.c,
+	src/cbm2/cbm2-cmdline-options.c, src/cbm2/cbm2cart.c,
+	src/cbm2/cbm2io.c, src/cbm2/debugcart.c, src/datasette.c, src/debug.c,
+	src/diskimage/rawimage.c, src/drive/drive-cmdline-options.c: Some more
+	fixes.
+
+2017-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/dqbb.c, src/c64/cart/ds12c887rtc.c,
+	src/c64/cart/easyflash.c, src/c64/cart/ethernetcart.c,
+	src/c64/cart/expert.c, src/c64/cart/georam.c, src/c64/cart/gmod2.c,
+	src/c64/cart/ide64.c, src/c64/cart/isepic.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/mmc64.c,
+	src/c64/cart/mmcreplay.c: Some more fixes.
+
+2017-01-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/archdep_beos.c: Add sdl2 renderers to Haiku port,
+	experimental!
+
+2017-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c, src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c,
+	src/arch/amigaos/uiapi.c, src/arch/beos/joy.cc, src/arch/beos/ui.cc,
+	src/arch/beos/video.cc, src/arch/msdos/joy.c, src/arch/msdos/ui.c,
+	src/arch/msdos/video.c, src/arch/msdos/vsync.c, src/arch/os2/joy.c,
+	src/arch/os2/kbd/kmap-pet.c, src/arch/os2/kbd/kmap.c,
+	src/arch/os2/kbd.c, src/arch/os2/mousedrv.c, src/arch/os2/rs232.c,
+	src/arch/os2/ui.c, src/arch/os2/video.c, src/arch/unix/joy.c,
+	src/arch/unix/macosx/cocoa/mousedrv.m,
+	src/arch/unix/macosx/cocoa/ui-cmdline-options.c,
+	src/arch/unix/macosx/cocoa/video.m, src/arch/unix/macosx/joy.c,
+	src/arch/unix/macosx/mididrv.c, src/arch/unix/mididrv.c,
+	src/arch/unix/rs232dev.c, src/arch/unix/ui-threads.c,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/ui-cmdline-options.c,
+	src/arch/unix/x11/xaw/x11video.c, src/arch/win32/joy.c,
+	src/arch/win32/mididrv.c, src/arch/win32/mousedrv.c,
+	src/arch/win32/ui-resources.c, src/arch/win32/video.c, src/attach.c,
+	src/autostart.c, src/c128/c128-cmdline-options.c, src/c128/c128mmu.c,
+	src/c128/functionrom.c, src/c64/c64-cmdline-options.c,
+	src/c64/c64-memory-hacks.c, src/c64/c64_256k.c,
+	src/c64/c64gluelogic.c, src/c64/c64io.c, src/c64/cart/c64-midi.c,
+	src/c64/cart/c64acia1.c, src/c64/cart/c64cart.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/cpmcart.c, src/c64/cart/cs8900io.c,
+	src/c64/cart/debugcart.c, src/c64/cart/digimax.c, src/cmdline.h:
+	Started on my 'init cmdline structure members properly at the end of a
+	cmdline list' run.
+
+2017-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated by Kees Zaaijer.
+
+2017-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/beos.html: Updated.
+
+2017-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, README, doc/html/index.html, doc/vice.texi, man/vice.1,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/unix/macosx/Info.plist,
+	src/arch/unix/macosx/Resources/Credits.html,
+	src/arch/unix/x11/gnome/about.c, src/c1541.c, src/geninfocontrib_h.sh,
+	src/sounddrv/soundflac.c: 2016->2017 and active member cut down.
+
+2017-01-03  groepaz <groepaz@gmx.net>
+
+	* src/diskimage/fsimage-create.c: fixed track number in sector headers
+	when creating g71
+
+2017-01-03  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.txt: sync local files with trunk. bah^2
+
+2017-01-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_drive.c: Add G71 to new disk image dialog in SDL
+	UI
+
+2017-01-03  Bas Wassink <b.wassink@ziggo.nl>
+
+
+	* src/arch/unix/x11/xaw/uiedisk.c, src/arch/unix/x11/xaw/x11ui.c: Add
+	G71 to disk open/new dialogs in Xaw UI
+
+2017-01-02  groepaz <groepaz@gmx.net>
+
+	* src/drive/driveimage.c: added G71 to detach
+
+2017-01-02  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi, src/arch/unix/x11/gnome/uiedisk.c, src/c1541.c,
+	src/diskimage/diskimage.c, src/diskimage/fsimage-check.c,
+	src/diskimage/fsimage-create.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-probe.c, src/diskimage/fsimage.c,
+	src/diskimage.h, src/drive/drive.c, src/drive/driveimage.c,
+	src/drive/ieee/fdc.c, src/vdrive/vdrive-bam.c, src/vdrive/vdrive.c:
+	Use "g71" for double-sided G64 format, handle the format seperately
+	internally und use a different file signature in the file. also added
+	image creation. UIs will need updating, see devlog
+
+2017-01-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/uilib.c: Fix typos
+
+2017-01-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/msdos/uiattach.c, src/arch/os2/dialogs/dlg-fileio.c,
+	src/arch/unix/x11/gnome/uifileentry.c, src/arch/win32/uilib.c: Add g71
+	to file dialog filters
+
+2017-01-02  groepaz <groepaz@gmx.net>
+
+	* src/vdrive/vdrive.c: fix vdrive for double-sided g64/p64
+
+2017-01-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cmdline.c: Fix location of #ifdef
+
+2017-01-01  groepaz <groepaz@gmx.net>
+
+	* src/resid/wave.cc: SID noise writeback improvement, patch #145 by
+	Leandro Nini
+
+2017-01-01  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi, src/diskimage/fsimage-create.c,
+	src/diskimage/fsimage-p64.c, src/drive/drive.c, src/drive/drive.h,
+	src/drive/rotation.c, src/gcr.h, src/lib/p64/p64.c, src/lib/p64/p64.h:
+	Support of double sided disks (1571) for g64 and p64 - patch #122 by
+	Markus
+
+2017-01-01  groepaz <groepaz@gmx.net>
+
+	* doc/html/index.html, man/vice.1: sync generated files with trunk.
+	bah
+
+2016-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/machine.c: Slight fix.
+
+2016-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2016-12-31  groepaz <groepaz@gmx.net>
+
+	* doc/html/Makefile.am, doc/html/fonts/Lato-Semibold.eot,
+	doc/html/fonts/Lato-Semibold.ttf, doc/html/fonts/Lato-Semibold.woff,
+	doc/html/fonts/Lato-Semibold.woff2,
+	doc/html/fonts/Lato-SemiboldItalic.eot,
+	doc/html/fonts/Lato-SemiboldItalic.ttf,
+	doc/html/fonts/Lato-SemiboldItalic.woff,
+	doc/html/fonts/Lato-SemiboldItalic.woff2, doc/html/latofonts.css:
+	semibold can also go
+
+2016-12-31  groepaz <groepaz@gmx.net>
+
+	* doc/html/Makefile.am, doc/html/fonts/Lato-Black.eot,
+	doc/html/fonts/Lato-Black.ttf, doc/html/fonts/Lato-Black.woff,
+	doc/html/fonts/Lato-Black.woff2, doc/html/fonts/Lato-BlackItalic.eot,
+	doc/html/fonts/Lato-BlackItalic.ttf,
+	doc/html/fonts/Lato-BlackItalic.woff,
+	doc/html/fonts/Lato-BlackItalic.woff2,
+	doc/html/fonts/Lato-Hairline.eot, doc/html/fonts/Lato-Hairline.ttf,
+	doc/html/fonts/Lato-Hairline.woff, doc/html/fonts/Lato-Hairline.woff2,
+	doc/html/fonts/Lato-HairlineItalic.eot,
+	doc/html/fonts/Lato-HairlineItalic.ttf,
+	doc/html/fonts/Lato-HairlineItalic.woff,
+	doc/html/fonts/Lato-HairlineItalic.woff2,
+	doc/html/fonts/Lato-Heavy.eot, doc/html/fonts/Lato-Heavy.ttf,
+	doc/html/fonts/Lato-Heavy.woff, doc/html/fonts/Lato-Heavy.woff2,
+	doc/html/fonts/Lato-HeavyItalic.eot,
+	doc/html/fonts/Lato-HeavyItalic.ttf,
+	doc/html/fonts/Lato-HeavyItalic.woff,
+	doc/html/fonts/Lato-HeavyItalic.woff2, doc/html/fonts/Lato-Light.eot,
+	doc/html/fonts/Lato-Light.ttf, doc/html/fonts/Lato-Light.woff,
+	doc/html/fonts/Lato-Light.woff2, doc/html/fonts/Lato-LightItalic.eot,
+	doc/html/fonts/Lato-LightItalic.ttf,
+	doc/html/fonts/Lato-LightItalic.woff,
+	doc/html/fonts/Lato-LightItalic.woff2, doc/html/fonts/Lato-Medium.eot,
+	doc/html/fonts/Lato-Medium.ttf, doc/html/fonts/Lato-Medium.woff,
+	doc/html/fonts/Lato-Medium.woff2,
+	doc/html/fonts/Lato-MediumItalic.eot,
+	doc/html/fonts/Lato-MediumItalic.ttf,
+	doc/html/fonts/Lato-MediumItalic.woff,
+	doc/html/fonts/Lato-MediumItalic.woff2, doc/html/fonts/Lato-Thin.eot,
+	doc/html/fonts/Lato-Thin.ttf, doc/html/fonts/Lato-Thin.woff,
+	doc/html/fonts/Lato-Thin.woff2, doc/html/fonts/Lato-ThinItalic.eot,
+	doc/html/fonts/Lato-ThinItalic.ttf,
+	doc/html/fonts/Lato-ThinItalic.woff,
+	doc/html/fonts/Lato-ThinItalic.woff2: removed a couple fonts that are
+	not used anyway
+
+2016-12-31  groepaz <groepaz@gmx.net>
+
+	* doc/html/Makefile.am, doc/html/amigaos.html, doc/html/beos.html,
+	doc/html/fonts, doc/html/fonts/Lato-Black.eot,
+	doc/html/fonts/Lato-Black.ttf, doc/html/fonts/Lato-Black.woff,
+	doc/html/fonts/Lato-Black.woff2, doc/html/fonts/Lato-BlackItalic.eot,
+	doc/html/fonts/Lato-BlackItalic.ttf,
+	doc/html/fonts/Lato-BlackItalic.woff,
+	doc/html/fonts/Lato-BlackItalic.woff2, doc/html/fonts/Lato-Bold.eot,
+	doc/html/fonts/Lato-Bold.ttf, doc/html/fonts/Lato-Bold.woff,
+	doc/html/fonts/Lato-Bold.woff2, doc/html/fonts/Lato-BoldItalic.eot,
+	doc/html/fonts/Lato-BoldItalic.ttf,
+	doc/html/fonts/Lato-BoldItalic.woff,
+	doc/html/fonts/Lato-BoldItalic.woff2,
+	doc/html/fonts/Lato-Hairline.eot, doc/html/fonts/Lato-Hairline.ttf,
+	doc/html/fonts/Lato-Hairline.woff, doc/html/fonts/Lato-Hairline.woff2,
+	doc/html/fonts/Lato-HairlineItalic.eot,
+	doc/html/fonts/Lato-HairlineItalic.ttf,
+	doc/html/fonts/Lato-HairlineItalic.woff,
+	doc/html/fonts/Lato-HairlineItalic.woff2,
+	doc/html/fonts/Lato-Heavy.eot, doc/html/fonts/Lato-Heavy.ttf,
+	doc/html/fonts/Lato-Heavy.woff, doc/html/fonts/Lato-Heavy.woff2,
+	doc/html/fonts/Lato-HeavyItalic.eot,
+	doc/html/fonts/Lato-HeavyItalic.ttf,
+	doc/html/fonts/Lato-HeavyItalic.woff,
+	doc/html/fonts/Lato-HeavyItalic.woff2, doc/html/fonts/Lato-Italic.eot,
+	doc/html/fonts/Lato-Italic.ttf, doc/html/fonts/Lato-Italic.woff,
+	doc/html/fonts/Lato-Italic.woff2, doc/html/fonts/Lato-Light.eot,
+	doc/html/fonts/Lato-Light.ttf, doc/html/fonts/Lato-Light.woff,
+	doc/html/fonts/Lato-Light.woff2, doc/html/fonts/Lato-LightItalic.eot,
+	doc/html/fonts/Lato-LightItalic.ttf,
+	doc/html/fonts/Lato-LightItalic.woff,
+	doc/html/fonts/Lato-LightItalic.woff2, doc/html/fonts/Lato-Medium.eot,
+	doc/html/fonts/Lato-Medium.ttf, doc/html/fonts/Lato-Medium.woff,
+	doc/html/fonts/Lato-Medium.woff2,
+	doc/html/fonts/Lato-MediumItalic.eot,
+	doc/html/fonts/Lato-MediumItalic.ttf,
+	doc/html/fonts/Lato-MediumItalic.woff,
+	doc/html/fonts/Lato-MediumItalic.woff2,
+	doc/html/fonts/Lato-Regular.eot, doc/html/fonts/Lato-Regular.ttf,
+	doc/html/fonts/Lato-Regular.woff, doc/html/fonts/Lato-Regular.woff2,
+	doc/html/fonts/Lato-Semibold.eot, doc/html/fonts/Lato-Semibold.ttf,
+	doc/html/fonts/Lato-Semibold.woff, doc/html/fonts/Lato-Semibold.woff2,
+	doc/html/fonts/Lato-SemiboldItalic.eot,
+	doc/html/fonts/Lato-SemiboldItalic.ttf,
+	doc/html/fonts/Lato-SemiboldItalic.woff,
+	doc/html/fonts/Lato-SemiboldItalic.woff2,
+	doc/html/fonts/Lato-Thin.eot, doc/html/fonts/Lato-Thin.ttf,
+	doc/html/fonts/Lato-Thin.woff, doc/html/fonts/Lato-Thin.woff2,
+	doc/html/fonts/Lato-ThinItalic.eot,
+	doc/html/fonts/Lato-ThinItalic.ttf,
+	doc/html/fonts/Lato-ThinItalic.woff,
+	doc/html/fonts/Lato-ThinItalic.woff2, doc/html/fonts/OFL.txt,
+	doc/html/index.html, doc/html/latofonts.css, doc/html/macosx.html,
+	doc/html/qnx.html, doc/html/sco.html, doc/html/solaris.html,
+	doc/html/texi2html, doc/html/vice.css: moved the lato font(s) into the
+	tree
+
+2016-12-31  groepaz <groepaz@gmx.net>
+
+	* src/resid/filter.cc: filter bias tweak value fix
+
+2016-12-31  groepaz <groepaz@gmx.net>
+
+	* src/resid/envelope.cc, src/resid/envelope.h: SID envelope generator
+	improvements, patch #138 by Leandro Nini
+
+2016-12-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/utils/geninfocontrib.c: Update date in Windows tool
+	that generates Linux man page
+
+2016-12-31  groepaz <groepaz@gmx.net>
+
+	* src/resid/filter.cc, src/resid/filter.h: SID 8580 filter
+	improvements, patch #143 by Leandro Nini
+
+2016-12-31  groepaz <groepaz@gmx.net>
+
+	* configure.proto, src/arch/sdl/archdep_unix.h,
+	src/arch/unix/archdep.h, src/arch/unix/macosx/make-bindist.sh: macOS
+	build fixes, patch #146 by TMLPiper
+
+2016-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/mui/Makefile.am: Some more amigaos out-of-tree build
+	fixes (thanks to Matthias Rustler).
+
+2016-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/beos.html: Updated.
+
+2016-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_skyos.sh: Some fixes.
+
+2016-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am: Also use the amigaos build dir as an
+	include dir (fixes bug #843).
+
+2016-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Updated.
+
+2016-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/sortix-files: Added svn ignores.
+
+2016-12-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cmdline.c, src/resources.c: Start compile-time debugging code
+	cleanup
+
+2016-12-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/machine.c: Don't call ui_shutdown() when running in console mode
+
+2016-12-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cmdline.c: Add dumping of registered command line options on
+	shutdown when DEBUG_CMDLINE is defined
+
+2016-12-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/uihelp.c: Apply Greg King's Win32 about dialog patch
+
+2016-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Updated.
+
+2016-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/sortix.html: Updated.
+
+2016-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_discovery.h,
+	src/platform/platform_sortix_runtime_os.c,
+	src/platform/platform_x86_runtime_cpu.h: Updated.
+
+2016-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/types.h: Undef CLOCK_MAX before (re)defining it.
+
+2016-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winmain.c: Remove debug messages.
+
+2016-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winmain.c: Fixed windows quoted argument issue.
+
+2016-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/html/index.html, doc/html/sortix.html:
+	Updated.
+
+2016-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/sdl/Makefile.am,
+	src/arch/sdl/sortix-files, src/arch/sdl/sortix-files/Makefile.am,
+	src/arch/sdl/sortix-files/tixinfo32,
+	src/arch/sdl/sortix-files/tixinfo64: Added sortix tix file templates.
+
+2016-12-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c128/c128.c: Add C128 machine keyboard mappings. No actual
+	support for them though, that needs a lot of work
+
+2016-12-23  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/video.c: Fix: get rid of memset
+
+2016-12-23  groepaz <groepaz@gmx.net>
+
+	* data/C128/Makefile.am, data/C128/colodore.vpl, data/C64/Makefile.am,
+	data/C64/colodore.vpl, data/CBM-II/Makefile.am,
+	data/CBM-II/colodore.vpl, data/PLUS4/Makefile.am,
+	data/PLUS4/colodore_ted.vpl, data/SCPU64/Makefile.am,
+	data/SCPU64/colodore.vpl, data/VIC20/Makefile.am,
+	data/VIC20/colodore_vic.vpl, src/palette.c: added colodore (new pepto)
+	palettes
+
+2016-12-23  AreaScout <areascout@gmx.at>
+
+	* src/arch/android/AnVICE/jni/locnet_al/missing.cpp: Fix: suppress
+	compiler warnings
+
+2016-12-23  AreaScout <areascout@gmx.at>
+
+	* src/arch/sdl/ui.c: Fix: suppress compiler warnings
+
+2016-12-23  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2016-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/macosx.html: Removed old bin.
+
+2016-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/macosx.html: Updated.
+
+2016-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Slight update.
+
+2016-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/darwin.html,
+	doc/html/index.html, doc/html/nsosrh.html, doc/html/qnx.html,
+	doc/html/solaris.html: Updated.
+
+2016-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/main65816cpu.c, src/mainc64cpu.c, src/maincpu.c,
+	src/mainviccpu.c: Some fixes.
+
+2016-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uikeymap.c: Fixed.
+
+2016-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/android.html: Updated.
+
+2016-12-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/platform/platform_netbsd_runtime_os.c: Add NetBSD 7.0.2
+
+2016-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/android.html: Updated.
+
+2016-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/android.html: Updated.
+
+2016-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/android.html: Updated.
+
+2016-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/android.html: Updated.
+
+2016-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/android.html: Updated.
+
+2016-12-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/lib/libx264/x264.c: Replace enum PixelFormat with AVPixelFormat
+
+2016-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/libx264/x264.c: Use different var name (i -> ii), fixes bug
+	#837.
+
+2016-12-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/petcat.1, man/vice.1: Update man page dates
+
+2016-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/keyboard.c: Fix keymap parsing to handle different EOL styles
+
+2016-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Fix memory leaks in ffmpeg driver
+
+2016-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/core/cs8900.c, src/ioutil.c, src/pet/pet.c,
+	src/sounddrv/soundcoreaudio.c, src/sounddrv/sounddart.c,
+	src/vicii/viciidtv-draw.c: Fix C++ style comments
+
+2016-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/ui.c: Fix C++ style comments
+
+2016-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/hs-linux.c, src/arch/unix/x11/xaw/uiedit.c,
+	src/arch/unix/x11/xaw/uiscreenshot.c,
+	src/arch/unix/x11/xaw/uistatusbar.c,
+	src/arch/unix/x11/xaw/uitapestatus.c: Fix C++ style comments in
+	src/arch/unix
+
+2016-12-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/macosx.html: Updated.
+
+2016-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: Updated (oops).
+
+2016-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README: Updated.
+
 2016-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.proto, doc/WinNT-Unicode.txt, doc/vice.chm,
