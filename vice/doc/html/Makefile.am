@@ -34,6 +34,7 @@ doc_DATA = \
 	NEWS \
 	nsosrh.html \
 	qnx.html \
+	robots.txt \
 	sco.html \
 	sitemap.xml \
 	solaris.html \
@@ -62,7 +63,7 @@ doc_DATA = \
 	vice_21.html \
 	vice_22.html \
 	vice_toc.html \
-	robots.txt
+	windows.html
 
 EXTRA_DIST = $(doc_DATA) \
 	texi2html
