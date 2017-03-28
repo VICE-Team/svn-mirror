@@ -660,7 +660,10 @@ else
   AM_CONDITIONAL(BUILD_PDF, true)
 fi
 
-AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
+AC_CHECK_PROGS(DOS2UNIX, dos2unix, no)
+if test x"$DOS2UNIX" = "xno"; then
+  AC_MSG_ERROR([dos2unix required])
+fi
 
 if test x"$SVN" != "x"; then
   svnrevision=`$SVN 2>dummy.tmp info $srcdir | grep Revision | cut -d " " -f 2`
