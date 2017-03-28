@@ -16623,7 +16623,7 @@ a watchpoint is triggered, the monitor is entered.
 
 @item memmap
 The memmap keeps track of RAM/ROM/IO read/write/execute
-accesses. The feature must be enabled with "--enable-memmap"
+accesses. The feature must be enabled with "--enable-cpuhistory"
 configure option, as it might decrease performance notably on
 slower hardware. The option also enables CPU history.
 
@@ -16652,7 +16652,7 @@ only.
 @item cpuhistory [<count>]
 @itemx chis [<count>]
 Show <count> last executed commands.
-(disabled by default; configure with --enable-memmap to enable)
+(disabled by default; configure with --enable-cpuhistory to enable)
 
 @item dump "<filename>"
 Write a snapshot of the machine into the file specified.
@@ -16756,18 +16756,18 @@ Show the memmap. The mask can be specified to show only those
 locations with accesses of certain type(s). The mask is a number
 with the bits "ioRWXrwx", where RWX are for ROM and rwx for RAM.
 Optionally, an address range can be specified.
-(disabled by default; configure with --enable-memmap to enable)
+(disabled by default; configure with --enable-cpuhistory to enable)
 
 @item memmapzap
 @itemx mmzap
 Clear the memmap.
-(disabled by default; configure with --enable-memmap to enable)
+(disabled by default; configure with --enable-cpuhistory to enable)
 
 @item memmapsave "<filename>" <format>
 @itemx mmsave "<filename>" <format>
 Save the memmap as a picture. @code{format}:
 0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
-(disabled by default; configure with --enable-memmap to enable)
+(disabled by default; configure with --enable-cpuhistory to enable)
 
 @item memchar [<data_type>] [<address_opt_range>]
 @itemx mc [<data_type>] [<address_opt_range>]

@@ -26,6 +26,7 @@ $ sudo apt-get install flex
 $ sudo apt-get install libreadline-dev
 $ sudo apt-get install libxaw7-dev
 $ sudo apt-get install texinfo
+$ sudo apt-get install dos2unix
 
 if you have those installed, do run autogen.sh inside the vice dir:
 $ cd trunk/vice/
@@ -94,9 +95,9 @@ $ sudo apt-get install yasm               # required for --enable-static-ffmpeg
                                           # and --enable-shared-ffmpeg, yasm
                                           # needs to be >=1.2.0
 
-reconfigure with a few more options:
+reconfigure with a few more options (check if you really want/need them!):
 $ ./configure --enable-arch=native --with-resid --with-x --enable-gnomeui \
-    --enable-ethernet --with-pulse --enable-fullscreen --enable-memmap \
+    --enable-ethernet --with-pulse --enable-fullscreen --enable-cpuhistory \
     --enable-vte
 
 compile again...
