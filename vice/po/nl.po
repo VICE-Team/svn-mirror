@@ -2515,9 +2515,8 @@ msgid "Enable SuperCard+"
 msgstr "Activeer SuperCard+"
 
 #: src/arch/unix/gui/uidrivec64c128.c:111 src/translate_text.c.po.c:11692
-#, fuzzy
 msgid "Enable StarDOS"
-msgstr "Activeer SuperCard+"
+msgstr "Activeer StarDOS"
 
 #: src/arch/unix/gui/uidrivec64c128.c:123
 msgid "Load new Professional DOS 1571 ROM"
@@ -2528,9 +2527,8 @@ msgid "Load new SuperCard+ ROM"
 msgstr "Laad nieuw SuperCard+ ROM"
 
 #: src/arch/unix/gui/uidrivec64c128.c:129
-#, fuzzy
 msgid "Load new StarDOS ROM"
-msgstr "Laad nieuw editor ROM"
+msgstr "Laad nieuw StarDOS ROM"
 
 #: src/arch/unix/gui/uidriveiec.c:123 src/arch/amigaos/intl_text.c.po.c:7131
 msgid "No traps"
@@ -3359,9 +3357,8 @@ msgstr "Verberg niet-P00 bestanden"
 #: src/arch/unix/gui/uiperipheraliec.c:127
 #: src/arch/unix/gui/uiperipheralieee.c:93
 #: src/arch/unix/gui/uiperipheralieee.c:96
-#, fuzzy
 msgid "Drive #"
-msgstr "Drive 8"
+msgstr "Drive #"
 
 #: src/arch/unix/gui/uipetcolour.c:66
 msgid ""
@@ -3441,9 +3438,8 @@ msgstr "Userport printer paginadoorvoer"
 #: src/arch/unix/gui/uiprinterieee.c:39 src/arch/unix/gui/uiprinterieee.c:42
 #: src/arch/unix/gui/uiprinterieee.c:45 src/arch/unix/gui/uiprinterieee.c:48
 #: src/arch/unix/gui/uiprinterieee.c:51
-#, fuzzy
 msgid "Printer #"
-msgstr "Printer 4"
+msgstr "Printer #"
 
 #: src/arch/unix/gui/uiprinteriec.c:107
 #: src/arch/unix/gui/uiprinteriecplus4.c:72
@@ -4364,9 +4360,8 @@ msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:235
-#, fuzzy
 msgid "(c) 1998 - 2017 The VICE Team"
-msgstr "(c) 1998 - 2016 Het VICE Team"
+msgstr "(c) 1998 - 2017 Het VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:243 src/arch/win32/res.rc.po.c:1172
 #: src/arch/win32/res.rc.po.c:1727 src/arch/amigaos/intl_text.c.po.c:4639
@@ -11104,14 +11099,12 @@ msgid "Coplin Keypad"
 msgstr "Coplin toetsenblok"
 
 #: src/translate_text.c.po.c:3551
-#, fuzzy
 msgid "Script 64 dongle"
-msgstr "Paperclip64 dongle"
+msgstr "Script 64 dongle"
 
 #: src/translate_text.c.po.c:3568
-#, fuzzy
 msgid "VizaWrite 64 dongle"
-msgstr "Paperclip64 dongle"
+msgstr "VizaWrite 64 dongle"
 
 #: src/translate_text.c.po.c:3585
 msgid "Atari CX21 keypad"
@@ -12946,14 +12939,12 @@ msgid "Specify name of SuperCard+ ROM image"
 msgstr "Geef de naam van het SuperCard+ ROM bestand"
 
 #: src/translate_text.c.po.c:11709
-#, fuzzy
 msgid "Disable StarDOS"
-msgstr "SuperCard+ uitschakelen"
+msgstr "StarDOS uitschakelen"
 
 #: src/translate_text.c.po.c:11726
-#, fuzzy
 msgid "Specify name of StarDOS ROM image"
-msgstr "Geef de naam van het 1540 DOS ROM bestand"
+msgstr "Geef de naam van het StarDOS ROM bestand"
 
 #: src/translate_text.c.po.c:11743
 msgid "Set parallel cable type (0: none, 1: standard)"
