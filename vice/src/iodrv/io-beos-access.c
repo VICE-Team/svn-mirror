@@ -1,5 +1,5 @@
 
-\/*
+/*
  * io-beos-access.c - BeOS specific I/O code.
  *
  * Written by
