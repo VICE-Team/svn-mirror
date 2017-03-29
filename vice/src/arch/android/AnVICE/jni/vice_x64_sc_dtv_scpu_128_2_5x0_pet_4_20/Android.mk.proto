@@ -14,10 +14,12 @@ $(MY_PATH2)/src/drive/ieee \
 $(MY_PATH2)/src/fileio \
 $(MY_PATH2)/src/fsdevice \
 $(MY_PATH2)/src/gfxoutputdrv \
+$(MY_PATH2)/src/hwsiddrv \
 $(MY_PATH2)/src/lib/p64 \
 $(MY_PATH2)/src/parallel \
 $(MY_PATH2)/src/platform \
 $(MY_PATH2)/src/samplerdrv \
+$(MY_PATH2)/src/socketdrv \
 $(MY_PATH2)/src/sounddrv \
 $(MY_PATH2)/src/vdrive
 
@@ -67,16 +69,9 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/archdep.c \
-	$(MY_PATH2)/src/arch/sdl/catweaselmkiii-drv.c \
 	$(MY_PATH2)/src/arch/sdl/console.c \
-	$(MY_PATH2)/src/arch/sdl/cw-device.c \
-	$(MY_PATH2)/src/arch/sdl/cw-pci.c \
 	$(MY_PATH2)/src/arch/sdl/dynlib.c \
 	$(MY_PATH2)/src/arch/sdl/fullscreen.c \
-	$(MY_PATH2)/src/arch/sdl/hardsid-drv.c \
-	$(MY_PATH2)/src/arch/sdl/hs-device.c \
-	$(MY_PATH2)/src/arch/sdl/hs-isa.c \
-	$(MY_PATH2)/src/arch/sdl/hs-pci.c \
 	$(MY_PATH2)/src/arch/sdl/joy.c \
 	$(MY_PATH2)/src/arch/sdl/kbd.c \
 	$(MY_PATH2)/src/arch/sdl/lightpendrv.c \
@@ -87,6 +82,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/menu_jam.c \
 	$(MY_PATH2)/src/arch/sdl/menu_joyport.c \
 	$(MY_PATH2)/src/arch/sdl/menu_joystick.c \
+	$(MY_PATH2)/src/arch/sdl/menu_media.c \
 	$(MY_PATH2)/src/arch/sdl/menu_monitor.c \
 	$(MY_PATH2)/src/arch/sdl/menu_network.c \
 	$(MY_PATH2)/src/arch/sdl/menu_printer.c \
@@ -110,7 +106,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/arch/sdl/rs232dev.c \
 	$(MY_PATH2)/src/arch/sdl/sdlmain.c \
 	$(MY_PATH2)/src/arch/sdl/signals.c \
-	$(MY_PATH2)/src/arch/sdl/ssi2001-drv.c \
 	$(MY_PATH2)/src/arch/sdl/ui.c \
 	$(MY_PATH2)/src/arch/sdl/uicmdline.c \
 	$(MY_PATH2)/src/arch/sdl/uifilereq.c \
