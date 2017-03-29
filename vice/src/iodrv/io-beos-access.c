@@ -1,4 +1,5 @@
-/*
+
+\/*
  * io-beos-access.c - BeOS specific I/O code.
  *
  * Written by
@@ -31,6 +32,8 @@
 #include "log.h"
 #include "types.h"
 
+#include <image.h>
+
 #ifdef __HAIKU__
 #include <Drivers.h>
 #include <ISA.h>
@@ -40,8 +43,8 @@
 #define POKE_SIGNATURE       'wltp'
 #else
 #ifndef WORDS_BIGENDIAN
-extern int read_isa_io(int dummy, void *addr, int size);
-extern int write_isa_io(int dummy, void *addr, int size, DWORD val);
+static int (*vice_read_isa_io)(int dummy, void *addr, int size) = NULL;
+static int (*vice_write_isa_io)(int dummy, void *addr, int size, DWORD val) = NULL;
 #endif
 #endif
 
@@ -60,6 +63,8 @@ typedef struct {
 } port_io_args;
 
 static int poke_driver_fd;
+#else
+image_id addon_image = NULL;
 #endif
 
 int io_access_init(void)
@@ -68,6 +73,11 @@ int io_access_init(void)
     poke_driver_fd = open(POKE_DEVICE_FULLNAME, O_RDWR);
     return (poke_driver_fd < 0) ? -1 : 0;
 #else
+    addon_image = load_add_on("libroot.so");
+    if (addon_image) {
+        get_image_symbol(addon_image, "read_isa_io", &vice_read_isa_io);
+        get_image_symbol(addon_image, "write_isa_io", &vice_write_isa_io);
+    }
     return 0;
 #endif
 }
@@ -87,7 +97,9 @@ void io_access_store_byte(WORD addr, BYTE value)
     ioctl(poke_driver_fd, POKE_PORT_WRITE, &args, sizeof(args));
 #else
 #ifndef WORDS_BIGENDIAN
-    write_isa_io(0, (void *)(DWORD)addr, 1, (DWORD)value);
+    if (vice_write_isa_io) {
+        vice_write_isa_io(0, (void *)(DWORD)addr, 1, (DWORD)value);
+    }
 #endif
 #endif
 }
@@ -103,7 +115,10 @@ BYTE io_access_read_byte(WORD addr)
     return (BYTE)args.value;
 #else
 #ifndef WORDS_BIGENDIAN
-    return (BYTE)read_isa_io(0, (void *)(DWORD)addr, 1);
+    if (vice_read_isa_io) {
+        return (BYTE)vice_read_isa_io(0, (void *)(DWORD)addr, 1);
+    }
+    return 0;
 #else
     return 0;
 #endif
@@ -118,7 +133,9 @@ void io_access_store_long(WORD addr, DWORD value)
     ioctl(poke_driver_fd, POKE_PORT_WRITE, &args, sizeof(args));
 #else
 #ifndef WORDS_BIGENDIAN
-    write_isa_io(0, (void *)(DWORD)addr, 4, (DWORD)value);
+    if (vice_write_isa_io) {
+        vice_write_isa_io(0, (void *)(DWORD)addr, 4, (DWORD)value);
+    }
 #endif
 #endif
 }
@@ -134,7 +151,10 @@ DWORD io_access_read_long(WORD addr)
     return (DWORD)args.value;
 #else
 #ifndef WORDS_BIGENDIAN
-    return (DWORD)read_isa_io(0, (void *)(DWORD)addr, 4);
+    if (vice_read_isa_io) {
+         return (DWORD)vice_read_isa_io(0, (void *)(DWORD)addr, 4);
+    }
+    return 0;
 #else
     return 0;
 #endif
