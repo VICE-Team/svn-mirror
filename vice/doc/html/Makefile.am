@@ -62,6 +62,7 @@ doc_DATA = \
 	vice_20.html \
 	vice_21.html \
 	vice_22.html \
+	vice_future.html \
 	vice_toc.html \
 	windows.html
 
