@@ -10,6 +10,7 @@ MISC_DOX = \
 	coding-guidelines.txt \
 	Documentation-Howto.txt \
 	Doxygen-Howto.txt \
+	ffmpeg-support.txt \
 	hardware-sids.txt \
 	iec-bus.txt \
 	MacOSX-ResourceTree.txt \
