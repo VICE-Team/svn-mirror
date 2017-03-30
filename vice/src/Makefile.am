@@ -1524,6 +1524,10 @@ x64-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -1608,6 +1612,10 @@ x64sc-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -1689,6 +1697,10 @@ x64dtv-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -1758,6 +1770,10 @@ xscpu64-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -1845,6 +1861,10 @@ x128-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -1934,6 +1954,10 @@ xvic-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -2010,6 +2034,10 @@ xpet-all: \
 	libraster \
 	libcrtc \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -2087,6 +2115,10 @@ xplus4-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -2150,6 +2182,10 @@ xcbm2-all: \
 	$(BUILT_SOURCES) \
 	libcbm2 \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
@@ -2225,6 +2261,10 @@ xcbm5x0-all: \
 	libsamplerdrv \
 	libjoyport \
 	libsounddrv \
+	libmididrv \
+	libsocketdrv \
+	libhwsiddrv \
+	libiodrv \
 	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
