@@ -1,5 +1,17 @@
 ------------------------------------------------------------------------------
 
+2017-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, doc/html/Makefile.am, doc/html/index.html,
+	doc/html/vice_future.html, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/monitor/mon_lex.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h, src/version.h,
+	src/vice-version.sh: VICE 3.1
+
 2017-03-30  Bas Wassink <b.wassink@ziggo.nl>
 
 	* man/cartconv.1, man/petcat.1, man/vice.1: Update man page dates
