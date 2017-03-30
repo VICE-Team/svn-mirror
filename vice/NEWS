@@ -33,15 +33,21 @@ left from previous installs.
 
 - Fixed StarDOS emulation.
 
+** XVIC
+-------
+
+- Fixed VIA emulation.
+
 ** C1541
 --------
 
 - Fixed commands and added new commands.
 
-** XVIC
--------
+** BeOS/Haiku changes
+---------------------
 
-- Fixed VIA emulation
+- New drag & drop support: dragging a file from Tracker into the window
+  now autostarts it, and dragging text into the window pastes it.
 
 * Changes in VICE 3.0
 ======================
