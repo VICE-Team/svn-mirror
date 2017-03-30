@@ -1,5 +1,192 @@
 ------------------------------------------------------------------------------
 
+2017-03-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/cartconv.1, man/petcat.1, man/vice.1: Update man page dates
+
+2017-03-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* NEWS: Added BeOS/Haiku section for 3.1
+
+2017-03-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/Makefile.am: Fixed Makefile.am.
+
+2017-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Some more VICE 3.1 preparation.
+
+2017-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/darwin.html,
+	doc/html/macosx.html, doc/html/nsosrh.html, doc/html/qnx.html,
+	doc/html/sco.html, doc/html/solaris.html, doc/html/sortix.html,
+	doc/html/windows.html: Some more VICE 3.1 preparation.
+
+2017-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/iodrv/io-beos-access.c: Fix typo.
+
+2017-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/iodrv/io-beos-access.c: Attempt to make the BeOS *_isa_io
+	functions load dynamically.
+
+2017-03-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/building/Linux-Native-Howto.txt: Update dos2unix note
+
+2017-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE,
+	src/arch/android/AnVICE/jni/vice_x64_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_dtv_128_5x0,
+	src/arch/android/AnVICE/jni/vice_x64_sc,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_5x0_pet_4_20/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_dtv_scpu_128_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_5x0_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_2_pet_4_20,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_4,
+	src/arch/android/AnVICE/jni/vice_x64_sc_scpu_128_5x0_4_20: Attempt to
+	fix for latest file changes.
+
+2017-03-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/building/Linux-Native-Howto.txt: Remove dos2unix from Linux
+	building instructions
+
+2017-03-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Revert dos2unix check
+
+2017-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/html/index.html,
+	doc/html/vice_future.html: Added a file indicating the near-future
+	plans for vice (SDL1/2-shift).
+
+2017-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/html/index.html: Moved windows bins to
+	their own page.
+
+2017-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/solaris.html: Updated.
+
+2017-03-28  groepaz <groepaz@gmx.net>
+
+	* doc/building/Linux-Native-Howto.txt, doc/vice.texi: fix occurances
+	of --enable-memmap
+
+2017-03-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/rawnetarch.c, src/arch/win32/uiethernet.c: Apply
+	Greg's patch for bug #861
+
+2017-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/windows.html, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resacia.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2common.rc, src/arch/win32/rescpclockf83.rc,
+	src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/resds12c887rtc.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resethernetcart.rc, src/arch/win32/resexpert.rc,
+	src/arch/win32/resgeoram.rc, src/arch/win32/resgmod2.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resiocollisions.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/resmagicvoice.rc,
+	src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resmouse.rc,
+	src/arch/win32/respet.rc, src/arch/win32/respetcolour.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resretroreplay.rc, src/arch/win32/resreu.rc,
+	src/arch/win32/resrrnetmk3.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressampler.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/ressidcart.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/restapelog.rc,
+	src/arch/win32/rested.rc, src/arch/win32/resuserportrtc58321a.rc,
+	src/arch/win32/resuserportrtcds1307.rc,
+	src/arch/win32/resv364speech.rc, src/arch/win32/resvic.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/arch/win32/resvsid.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2017-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2017-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po: Did a
+	'make update-po'.
+
+2017-03-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* NEWS: Update NEWS
+
+2017-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog: Updated.
+
+2017-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS, README, doc/vice.texi: Some 3.1 preparations.
+
+2017-03-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Make configure barf on missing dos2unix
+
+2017-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_screenshot.c: SDL UI: Reorganize screenshot
+	formats: separate native from non-native
+
+2017-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Added 'menu_media.c'.
+
+2017-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vs_tmpl/arch_sdl.tmpl: Added 'menu_media.c'.
+
+2017-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_media.c,
+	src/arch/sdl/menu_media.h, src/arch/sdl/menu_screenshot.c,
+	src/arch/sdl/menu_sound.c, src/arch/sdl/menu_sound.h,
+	src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c, SDL: change 'Screenshot' menu item into
+	'Save media file', add submenu for 'screenshot', 'sound recording' and
+	'video recording', remove 'sound recording' from 'Sound settings',
+	remove 'Record movie' from 'screenshot' menu.
+
+2017-03-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_screenshot.c: SDL UI: Move 'godot screenshot'
+	above 'Record movie' and add separator between godot and movie
+
 2017-03-22  Bas Wassink <b.wassink@ziggo.nl>
 
 	* src/monitor/mon_memmap.c: Increase cpu-history size from 256 to 4096
