@@ -4018,7 +4018,7 @@ case $target_os in
         enabled_any pic shared ||
             { check_cflags -mdynamic-no-pic && add_asflags -mdynamic-no-pic; }
         ;;
-    mingw32*)
+    mingw32*|mingw64*)
         if test $target_os = "mingw32ce"; then
             disable network
         else
