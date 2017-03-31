@@ -3,6 +3,7 @@ included ffmpeg library.
 
 Platform         | compiler    | supported | comments
 -------------------------------------------------------------------------------
+i386-mingw       | gcc 4.7.1   |   YES     |
 x86_64-mingw     | gcc 6.2.0   |   YES(1)  | 
 x86_64 Linux     | gcc 6.3.0   |   YES(1)  | requires adding --enable-pic to the
 (Debian Stretch) |             |           | libx264 configure line in
