@@ -35,6 +35,7 @@
 #include "vice_sdl.h"
 #include <stdio.h>
 
+#include "autostart.h"
 #include "cmdline.h"
 #include "color.h"
 #include "fullscreenarch.h"
@@ -123,6 +124,12 @@ void ui_handle_misc_sdl_event(SDL_Event e)
         case SDL_VIDEOEXPOSE:
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEOEXPOSE"));
             video_canvas_refresh_all(sdl_active_canvas);
+            break;
+#else
+        case SDL_DROPFILE:
+            if (autostart_autodetect(e.drop.file, NULL, 0, AUTOSTART_MODE_RUN) < 0) {
+                ui_error("Cannot autostart specified file.");
+            }
             break;
 #endif
 #ifdef SDL_DEBUG

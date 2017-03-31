@@ -1143,6 +1143,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         SDL_PushEvent(&sdlevent);
     }
 
+    /* Enable file/text drag and drop support */
+    SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+
     return canvas;
 }
 #endif
