@@ -22,6 +22,7 @@ left from previous installs.
 
 - SID filter improvements.
 
+
 ** C64(SC)/SCPU64/C64DTV/C128 changes
 -------------------------------------
 
@@ -33,21 +34,46 @@ left from previous installs.
 
 - Fixed StarDOS emulation.
 
+
 ** XVIC
 -------
 
 - Fixed VIA emulation.
+
 
 ** C1541
 --------
 
 - Fixed commands and added new commands.
 
+
 ** BeOS/Haiku changes
 ---------------------
 
 - New drag & drop support: dragging a file from Tracker into the window
   now autostarts it, and dragging text into the window pastes it.
+
+
+** Windows changes
+------------------
+
+- The ethernet interface is now properly 'remembered'.
+
+- Creating a new disk image now properly translates the disk label and ID into
+  PETSCII.
+
+
+SDL changes
+-----------
+
+- Allow specifying a disk label and ID for newly created disk images.
+
+- Add a dialog to allow attaching a newly create disk image to a drive, without
+  having to go through the menu again.
+
+- Reorganize the screenshot/sound recording/movie recording submenus and make
+  them accessible through "Save media file" in the main menu.
+
 
 * Changes in VICE 3.0
 ======================
