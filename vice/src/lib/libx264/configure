@@ -602,6 +602,9 @@ case $host_os in
         define HAVE_MALLOC_H
         LDFLAGS="$LDFLAGS -lm"
         ;;
+    *haiku*)
+        SYS="HAIKU"
+	;;
     *)
         die "Unknown system $host, edit the configure"
         ;;
