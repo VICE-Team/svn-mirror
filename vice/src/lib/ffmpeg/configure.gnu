@@ -212,9 +212,9 @@ if test x"$shared" = "xyes"; then
   fi
 else
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../libx264/configure --enable-static --yasm-prog=${yasmcommand} --prefix=$prefix --host=$host --cross-prefix=$hostprefix-"
+    config_line="$srcdir/../libx264/configure --enable-static --enable-pic --yasm-prog=${yasmcommand} --prefix=$prefix --host=$host --cross-prefix=$hostprefix-"
   else
-    config_line="$srcdir/../libx264/configure --enable-static --yasm-prog=${yasmcommand} --prefix=$prefix --compiler=${compiler}"
+    config_line="$srcdir/../libx264/configure --enable-static --enable-pic --yasm-prog=${yasmcommand} --prefix=$prefix --compiler=${compiler}"
   fi
 fi
 
