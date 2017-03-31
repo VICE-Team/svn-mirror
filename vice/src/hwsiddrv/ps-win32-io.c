@@ -55,28 +55,30 @@ static int psctrl[MAXSID] = {-1, -1, -1};
 /* input/output functions */
 static void parsid_outb(unsigned int addrint, BYTE value)
 {
+#ifdef _M_IX86
     WORD addr = (WORD)addrint;
 
-#ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
     outp(addr, value);
 #else
     _outp(addr, value);
 #endif
 #endif
+    return 0;
 }
 
 static BYTE parsid_inb(unsigned int addrint)
 {
+#ifdef _M_IX86
     WORD addr = (WORD)addrint;
 
-#ifdef  _M_IX86
 #ifdef WATCOM_COMPILE
     return inp(addr);
 #else
     return _inp(addr);
 #endif
 #endif
+    return 0;
 }
 
 void ps_io_out_ctr(BYTE parsid_ctrport, int chipno)
