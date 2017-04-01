@@ -4,17 +4,26 @@ included ffmpeg library.
 Platform         | compiler    | supported | comments
 -------------------------------------------------------------------------------
 i386-mingw       | gcc 4.7.1   |   YES     |
+-------------------------------------------------------------------------------
+i386-os2         | openwatcom  |   NO      | ffmpeg will not compile using openwatcom
+                 |             |           | and it's too much work to make it compile
+-------------------------------------------------------------------------------
 x86_64-mingw     | gcc 6.2.0   |   YES(1)  |
+-------------------------------------------------------------------------------
 x86_64 Linux     | gcc 6.3.0   |   YES(1)  | requires adding --enable-pic to the
 (Debian Stretch) |             |           | libx264 configure line in
                  |             |           | src/lib/ffmpeg/configure.gnu
+-------------------------------------------------------------------------------
 x86_64 Linux     | gcc 6.3.0   |   YES(1)  |
 (Xubuntu 17.04b2)|             |           |
+-------------------------------------------------------------------------------
 x86_64 FreeBSD   | clang 3.8.0 |    NO     | clang fails to find libmp3lame,
 (11.0-RELEASE)   |             |           | while it's present in-tree and built
                  |             |           | from the ports tree as well
+-------------------------------------------------------------------------------
 x86_64 Haiku     | gcc 5.4.0   |   NO(2)   | libx264/ffmpeg configure doesn't recognize
 (hrev51050)      |             |           | Haiku, see https://pastebin/5SVJ10vB
+-------------------------------------------------------------------------------
 
 
 1 = broken in 3.1, fixed in trunk
