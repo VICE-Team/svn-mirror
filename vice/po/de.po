@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-30 14:00-0700\n"
-"PO-Revision-Date: 2016-12-23 10:57+0100\n"
+"PO-Revision-Date: 2017-04-01 12:55+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -2504,9 +2504,8 @@ msgid "Enable SuperCard+"
 msgstr "SuperCard+ aktivieren"
 
 #: src/arch/unix/gui/uidrivec64c128.c:111 src/translate_text.c.po.c:11692
-#, fuzzy
 msgid "Enable StarDOS"
-msgstr "SuperCard+ aktivieren"
+msgstr "StarDOS aktivieren"
 
 #: src/arch/unix/gui/uidrivec64c128.c:123
 msgid "Load new Professional DOS 1571 ROM"
@@ -2517,9 +2516,8 @@ msgid "Load new SuperCard+ ROM"
 msgstr "SuperCard+ ROM laden"
 
 #: src/arch/unix/gui/uidrivec64c128.c:129
-#, fuzzy
 msgid "Load new StarDOS ROM"
-msgstr "Neues Editor ROM laden"
+msgstr "Neues StarDOS ROM laden"
 
 #: src/arch/unix/gui/uidriveiec.c:123 src/arch/amigaos/intl_text.c.po.c:7131
 msgid "No traps"
@@ -3346,9 +3344,8 @@ msgstr "Non-P00 Dateien ausblenden"
 #: src/arch/unix/gui/uiperipheraliec.c:127
 #: src/arch/unix/gui/uiperipheralieee.c:93
 #: src/arch/unix/gui/uiperipheralieee.c:96
-#, fuzzy
 msgid "Drive #"
-msgstr "Laufwerk 8"
+msgstr "Laufwerk #"
 
 #: src/arch/unix/gui/uipetcolour.c:66
 msgid ""
@@ -3428,9 +3425,8 @@ msgstr "Userport Drucker Seitenvorschub"
 #: src/arch/unix/gui/uiprinterieee.c:39 src/arch/unix/gui/uiprinterieee.c:42
 #: src/arch/unix/gui/uiprinterieee.c:45 src/arch/unix/gui/uiprinterieee.c:48
 #: src/arch/unix/gui/uiprinterieee.c:51
-#, fuzzy
 msgid "Printer #"
-msgstr "Drucker 4"
+msgstr "Drucker #"
 
 #: src/arch/unix/gui/uiprinteriec.c:107
 #: src/arch/unix/gui/uiprinteriecplus4.c:72
@@ -4345,9 +4341,8 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:235
-#, fuzzy
 msgid "(c) 1998 - 2017 The VICE Team"
-msgstr "(c) 1998 - 2016 Das Vice Team"
+msgstr "(c) 1998 - 2017 Das Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:243 src/arch/win32/res.rc.po.c:1172
 #: src/arch/win32/res.rc.po.c:1727 src/arch/amigaos/intl_text.c.po.c:4639
@@ -11082,14 +11077,12 @@ msgid "Coplin Keypad"
 msgstr "Coplin Keypad"
 
 #: src/translate_text.c.po.c:3551
-#, fuzzy
 msgid "Script 64 dongle"
-msgstr "Paperclip64 Dongle"
+msgstr "Script 64 Dongle"
 
 #: src/translate_text.c.po.c:3568
-#, fuzzy
 msgid "VizaWrite 64 dongle"
-msgstr "Paperclip64 Dongle"
+msgstr "VizaWrite 64 Dongle"
 
 #: src/translate_text.c.po.c:3585
 msgid "Atari CX21 keypad"
@@ -12879,14 +12872,12 @@ msgid "Specify name of SuperCard+ ROM image"
 msgstr "Name von SuperCard+ ROM Datei wählen"
 
 #: src/translate_text.c.po.c:11709
-#, fuzzy
 msgid "Disable StarDOS"
-msgstr "SuperCard+ deaktivieren"
+msgstr "StarDOS deaktivieren"
 
 #: src/translate_text.c.po.c:11726
-#, fuzzy
 msgid "Specify name of StarDOS ROM image"
-msgstr "Name der 1540 DOS ROM Imagedatei wählen"
+msgstr "Name der StarDOS DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11743
 msgid "Set parallel cable type (0: none, 1: standard)"
