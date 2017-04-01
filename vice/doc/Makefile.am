@@ -16,6 +16,7 @@ MISC_DOX = \
 	MacOSX-ResourceTree.txt \
 	NLS-Howto.txt \
 	ports-status.txt \
+	SDL-support.txt \
 	WinNT-Unicode.txt
 
 TEXI_TOOLS = \

@@ -1,0 +1,16 @@
+This document details the results of test compiles with regards to the
+SDL 1 and SDL 2 support.
+
+Platform         | compiler    |   SDL1 | SDL2  | comments
+-------------------------------------------------------------------------------
+i386-mingw       | gcc 4.7.1   | 1.2.15 | 2.0.5 |
+x86_64-mingw     | gcc 6.2.0   | 1.2.15 | 2.0.5 |
+x86_64 Linux     | gcc 6.3.0   |        |       |
+(Debian Stretch) |             |        |       |
+x86_64 Linux     | gcc 6.3.0   |        |       |
+(Xubuntu 17.04b2)|             |        |       |
+x86_64 FreeBSD   | clang 3.8.0 |        |       |
+(11.0-RELEASE)   |             |        |       |
+x86_64 Haiku     | gcc 5.4.0   |        |       |
+(hrev51050)      |             |        |       |
+
