@@ -3,4 +3,6 @@ EXTRA_DIST = \
 	genwt.cmd \
 	ide-config.h \
 	ide-siddefs.h \
-	ide-siddtvdefs.h
+	ide-siddtvdefs.h \
+	make-watcom-bindist.bat \
+	make-watcom-bindist.cmd
