@@ -180,7 +180,7 @@ cat <<__END
 Running configure in liblame with $config_line
 __END
 
-${NEW_SHELL} $config_line
+CONFIG_SHELL=/bin/sh $config_line
 
 if test x"$shared" = "xyes"; then
     $makecommand install-stuff
