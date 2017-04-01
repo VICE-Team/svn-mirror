@@ -75,8 +75,8 @@ int io_access_init(void)
 #else
     addon_image = load_add_on("libroot.so");
     if (addon_image) {
-        get_image_symbol(addon_image, "read_isa_io", &vice_read_isa_io);
-        get_image_symbol(addon_image, "write_isa_io", &vice_write_isa_io);
+        get_image_symbol(addon_image, "read_isa_io", B_SYMBOL_TYPE_TEXT, &vice_read_isa_io);
+        get_image_symbol(addon_image, "write_isa_io", B_SYMBOL_TYPE_TEXT, &vice_write_isa_io);
     }
     return 0;
 #endif
