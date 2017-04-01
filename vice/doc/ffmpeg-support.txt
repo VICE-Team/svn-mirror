@@ -17,11 +17,14 @@ x86_64 Linux     | gcc 6.3.0   |   YES(1)  | requires adding --enable-pic to the
 x86_64 Linux     | gcc 6.3.0   |   YES(1)  |
 (Xubuntu 17.04b2)|             |           |
 -------------------------------------------------------------------------------
-x86_64 FreeBSD   | clang 3.8.0 |    NO     | clang fails to find libmp3lame,
-(11.0-RELEASE)   |             |           | while it's present in-tree and built
-                 |             |           | from the ports tree as well
+x86_64 FreeBSD   | clang 3.8.0 |   YES(1)  | libmp3lame's configure needs to
+(11.0-RELEASE)   |             |           | be run with the OS'es original
+                 |             |           | shell to avoid hacks in libtool
+                 |             |           | using bash-isms
 -------------------------------------------------------------------------------
-x86_64 Haiku     | gcc 5.4.0   |   NO(2)   | libx264/ffmpeg configure doesn't recognize
+x86_64 NetBSD 7.1| gcc 4.8.5   |   YES(1)  | see FreeBSD
+-------------------------------------------------------------------------------
+x86_64 Haiku     | gcc 5.4.0   |   NO(2)   | configure.gnu doesn't recognize
 (hrev51050)      |             |           | Haiku, see https://pastebin/5SVJ10vB
 -------------------------------------------------------------------------------
 
