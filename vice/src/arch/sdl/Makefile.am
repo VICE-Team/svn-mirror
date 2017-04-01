@@ -9,6 +9,7 @@ endif
 if DUMMY_COMPILE
 SUBDIRS = \
 	msvc-files \
+	os2-watcom \
 	qnx4 \
 	sortix-files \
 	syllable-files \
