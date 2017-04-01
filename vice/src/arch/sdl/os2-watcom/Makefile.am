@@ -2,6 +2,9 @@ EXTRA_DIST = \
 	genic.tgt \
 	geninfocontrib32.tgt \
 	geninfocontribos2.tgt \
+	gentr.tgt \
+	gentranslate32.tgt \
+	gentranslateos2.tgt \
 	genwt.bat \
 	genwt.cmd \
 	ide-config.h \
