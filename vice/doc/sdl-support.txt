@@ -1,0 +1,14 @@
+This document details the results of test compiles with regards to SDL1.2/SDL2
+
+
+Platform         | compiler    |     supported     | comments
+                 |             | SDL 1.2 | SDL 2.0 |
+-------------------------------------------------------------------------------
+x86_64 FreeBSD   | clang 3.8.0 |   YES   |   YES   |
+(11.0-Release)   |             |         |         |
+-------------------------------------------------------------------------------
+x86_64 Dragonfly | gcc 5.4.1   |   YES   |   YES   | DF BSD's Xorg doesn't work
+BSD (4.8.0)      |             |         |         | well in VBox, SDL1 didn't
+                 |             |         |         | show the C64 boot screen,
+                 |             |         |         | SDL2 did
+-------------------------------------------------------------------------------
