@@ -24,6 +24,9 @@ x86_64 FreeBSD   | clang 3.8.0 |   YES(1)  | libmp3lame's configure needs to
 -------------------------------------------------------------------------------
 x86_64 NetBSD 7.1| gcc 4.8.5   |   YES(1)  | see FreeBSD
 -------------------------------------------------------------------------------
+X86_64 Dragonfly | gcc 5.4.1   |    NO     | configure.gnu doesn't recognize
+BSD (4.8.0)      |             |           | 'unknown-dragonfly4.8'
+-------------------------------------------------------------------------------
 x86_64 Haiku     | gcc 5.4.0   |   NO(2)   | configure.gnu doesn't recognize
 (hrev51050)      |             |           | Haiku, see https://pastebin/5SVJ10vB
 -------------------------------------------------------------------------------
