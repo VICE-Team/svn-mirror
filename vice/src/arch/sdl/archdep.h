@@ -98,6 +98,10 @@ extern char *archdep_sdl2_default_renderers[];
 #include "archdep_beos.h"
 #endif
 
+#ifdef __OS2__
+#include "archdep_os2.h"
+#endif
+
 #if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
 #include "archdep_unix.h"
 #endif

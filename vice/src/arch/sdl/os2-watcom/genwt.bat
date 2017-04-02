@@ -38,11 +38,11 @@ goto use16
 :winnt
 if defined ProgramFiles(x86) GOTO use32
 :use16
-genic ..\ ..\ watcom\vice.tex watcom\ic.h watcom\ic.sed watcom\authors.txt watcom\credits.htm watcom\readme.tx1 watcom\index.htm watcom\dlgs.rc watcom\vice1.txt
+genic ..\ ..\ os2-watcom\vice.tex os2-watcom\ic.h os2-watcom\ic.sed os2-watcom\authors.txt os2-watcom\credits.htm os2-watcom\readme.tx1 os2-watcom\index.htm os2-watcom\dlgs.rc os2-watcom\vice1.txt
 gentr trans.txt trans.h transtab.h
 goto after
 :use32
-geninfocontrib32 ..\ ..\ watcom\vice.tex watcom\ic.h watcom\ic.sed watcom\authors.txt watcom\credits.htm watcom\readme.tx1 watcom\index.htm watcom\dlgs.rc watcom\vice1.txt
+geninfocontrib32 ..\ ..\ os2-watcom\vice.tex os2-watcom\ic.h os2-watcom\ic.sed os2-watcom\authors.txt os2-watcom\credits.htm os2-watcom\readme.tx1 os2-watcom\index.htm os2-watcom\dlgs.rc os2-watcom\vice1.txt
 gentranslate32 trans.txt trans.h transtab.h
 :after
 copy ic.h ..\..\..\infocontrib.h 

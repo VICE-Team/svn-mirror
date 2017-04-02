@@ -32,7 +32,7 @@ copy ..\..\..\..\README readme.tx1
 copy ..\..\..\..\doc\html\index.html index.htm
 copy ..\..\os2\dialogs\dialogs.rc dlgs.rc
 copy ..\..\..\..\man\vice.1 vice1.txt
-geninfocontribos2 ..\ ..\ watcom\vice.tex watcom\ic.h watcom\ic.sed watcom\authors.txt watcom\credits.htm watcom\readme.tx1 watcom\index.htm watcom\dlgs.rc watcom\vice1.txt
+geninfocontribos2 ..\ ..\ os2-watcom\vice.tex os2-watcom\ic.h os2-watcom\ic.sed os2-watcom\authors.txt os2-watcom\credits.htm os2-watcom\readme.tx1 os2-watcom\index.htm os2-watcom\dlgs.rc os2-watcom\vice1.txt
 gentranslateos2 trans.txt trans.h transtab.h
 copy ic.h ..\..\..\infocontrib.h 
 copy trans.h ..\..\..\translate.h

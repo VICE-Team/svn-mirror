@@ -1,4 +1,37 @@
 EXTRA_DIST = \
+	arch.tgt \
+	base.tgt \
+	c64.tgt \
+	c64cart.tgt \
+	c64commonall.tgt \
+	c64commoncart.tgt \
+	c64commonsc.tgt \
+	c64commonsc128.tgt \
+	c64commonsc128scpu.tgt \
+	c64commonscdtv128scpu.tgt \
+	c64commonscdtvscpu.tgt \
+	c64commonscscpu.tgt \
+	c64commonscvsid128.tgt \
+	c64commonvsid.tgt \
+	c64commonvsidsc.tgt \
+	c64commonvsidscdtv.tgt \
+	c64commonvsidscscpu.tgt \
+	c64dtv.tgt \
+	c64exp.tgt \
+	c64sc.tgt \
+	c128.tgt \
+	cartconv.tgt \
+	cbm2.tgt \
+	cbm2common.tgt \
+	cbm5x0.tgt \
+	core.tgt \
+	crtc.tgt \
+	debug.h \
+	diag.tgt \
+	diskimage.tgt \
+	drive.tgt \
+	fileio.tgt \
+	fsdevice.tgt \
 	genic.tgt \
 	geninfocontrib32.tgt \
 	geninfocontribos2.tgt \
@@ -7,9 +40,27 @@ EXTRA_DIST = \
 	gentranslateos2.tgt \
 	genwt.bat \
 	genwt.cmd \
+	gfxoutputdrv.tgt \
 	ide-config.h \
 	ide-siddefs.h \
 	ide-siddtvdefs.h \
+	iec.tgt \
+	iec128drc.tgt \
+	iecbus.tgt \
+	iecieee.tgt \
+	ieee.tgt \
+	imagecontents.tgt \
+	joyport.tgt \
+	maincpu.tgt \
 	make-watcom-bindist.bat \
 	make-watcom-bindist.cmd \
+	monitor.tgt \
+	p64.tgt \
+	parallel.tgt \
+	pet.tgt \
+	platform.tgt \
+	plus4.tgt \
+	plus4exp.tgt \
+	printerdrv.tgt \
+	raster.tgt \
 	vice.wpj

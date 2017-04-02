@@ -33,6 +33,11 @@
 
 #include "vice.h"
 
+#if defined(__OS2__) && defined(IDE_COMPILE)
+#define _STDINT_H_INCLUDED
+#define _INTTYPES_H_INCLUDED
+#endif
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

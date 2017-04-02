@@ -199,11 +199,12 @@ EXTRA_DIST = \
 	archdep_amiga.h \
 	archdep_beos.c \
 	archdep_beos.h \
+	archdep_os2.c \
+	archdep_os2.h \
 	archdep_unix.c \
 	archdep_unix.h \
 	archdep_win32.c \
 	archdep_win32.h \
-	beos-io-access.h \
 	console_amiga.c \
 	console_sdl.c \
 	console_unix.c \

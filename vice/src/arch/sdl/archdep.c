@@ -37,6 +37,10 @@
 #include "archdep_beos.c"
 #endif
 
+#ifdef __OS2__
+#include "archdep_os2.c"
+#endif
+
 #ifdef UNIX_COMPILE
 #include "archdep_unix.c"
 #endif
