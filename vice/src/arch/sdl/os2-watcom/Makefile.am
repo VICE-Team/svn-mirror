@@ -63,4 +63,28 @@ EXTRA_DIST = \
 	plus4exp.tgt \
 	printerdrv.tgt \
 	raster.tgt \
-	vice.wpj
+	resid.tgt \
+	residdtv.tgt \
+	rs232drv.tgt \
+	rtc.tgt \
+	samplerdrv.tgt \
+	scpu64.tgt \
+	serial.tgt \
+	sid.tgt \
+	sounddrv.tgt \
+	tape.tgt \
+	tapeport.tgt \
+	tcbm.tgt \
+	userport.tgt \
+	vdc.tgt \
+	vdrive.tgt \
+	vic20.tgt \
+	vic20cart.tgt \
+	vice.wpj \
+	vicii.tgt \
+	viciicommon.tgt \
+	viciidtv.tgt \
+	viciisc.tgt \
+	viciivsid.tgt \
+	video.tgt \
+	vsidlib.tgt
