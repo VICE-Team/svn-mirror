@@ -87,5 +87,8 @@ EXTRA_DIST = \
 	viciisc.tgt \
 	viciivsid.tgt \
 	video.tgt \
+	vsid.tgt \
 	vsidlib.tgt \
-	x64.tgt
+	x64.tgt \
+	x64sc.tgt \
+	x64dtv.tgt
