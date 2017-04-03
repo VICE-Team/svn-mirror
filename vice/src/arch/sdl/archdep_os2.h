@@ -44,13 +44,13 @@
 #define ARCHDEP_FINDPATH_SEPARATOR_STRING ";"
 
 /* Modes for fopen().  */
-#define MODE_READ              "r"
-#define MODE_READ_TEXT         "rt"
-#define MODE_READ_WRITE        "r+"
-#define MODE_WRITE             "w"
-#define MODE_WRITE_TEXT        "wt"
-#define MODE_APPEND            "a"
-#define MODE_APPEND_READ_WRITE "a+"
+#define MODE_READ              "rb"
+#define MODE_READ_TEXT         "r"
+#define MODE_READ_WRITE        "rb+"
+#define MODE_WRITE             "wb"
+#define MODE_WRITE_TEXT        "w"
+#define MODE_APPEND            "ab"
+#define MODE_APPEND_READ_WRITE "ab+"
 
 /* Printer default devices.  */
 #define ARCHDEP_PRINTER_DEFAULT_DEV1 "viceprnt.out"
