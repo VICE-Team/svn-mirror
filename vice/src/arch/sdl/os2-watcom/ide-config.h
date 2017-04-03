@@ -8,9 +8,6 @@
 #define HAS_JOYSTICK          1
 #define HAVE_MOUSE            1
 #define HAVE_LIGHTPEN         1
-#define HAVE_NETWORK          1
-#define HAVE_RS232DEV         1
-#define HAVE_RS232NET         1
 
 #define HAVE_RESID             1
 #define HAVE_RESID_FP          1
@@ -21,6 +18,9 @@
 #define HAVE_SDL_NUMJOYSTICKS 1
 #define USE_SDL_PREFIX        1
 
+#define SID_SETTINGS_DIALOG   1
+
+#define HAVE_GETTIMEOFDAY     1
 #define HAS_LONGLONG_INTEGER  1
 #define HAS_UNLOCKRESOURCE    1
 #define SIZEOF_UNSIGNED_INT   4
@@ -42,6 +42,7 @@
 #define HAVE_SIGNAL_H         1
 #define HAVE_WINIOCTL_H       1
 #define HAVE_TIME_T_IN_TIME_H 1
+#define HAVE_SYS_TIME_H        1
 
 #define HAVE_STRTOUL            1
 #define HAVE_STRTOK_R			1

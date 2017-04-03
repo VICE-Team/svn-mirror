@@ -143,7 +143,7 @@ static sound_register_devices_t sound_register_devices[] = {
 #endif
 #endif
 
-#ifdef __OS2__
+#if defined(__OS2__) && !defined(USE_SDLUI)
     { "dart", sound_init_dart_device, SOUND_PLAYBACK_DEVICE },
 #endif
 

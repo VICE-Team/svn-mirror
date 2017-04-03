@@ -238,7 +238,7 @@ char *mon_dump_with_label(MEMSPACE memspace, WORD loc, int hex, unsigned *label_
     return lib_msprintf((hex ? "%04X: $%02X   %03u   '%c'" : "%05u: $%02X   %03u   '%c'"), loc, val, val, isprint(val) ? val : ' ');
 }
 
-#ifndef __OS2__
+#if !(defined(__OS2__) && !defined(USE_SDLUI))
 static char *pchCommandLine = NULL;
 
 void mon_set_command(console_t *console_log, char *command,

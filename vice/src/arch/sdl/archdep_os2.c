@@ -192,27 +192,22 @@ char *archdep_default_joymap_file_name(void)
     return util_concat(archdep_boot_path(), "\\sdl-joymap-", machine_get_name(), ".vjm", NULL);
 }
 
-static FILE *fLog = NULL;
-static log_t archlog = LOG_DEFAULT;
-
 FILE *archdep_open_default_log_file(void)
 {
-    char *fname = util_concat(archdep_boot_path(), "\\sdlvice2.log", NULL);
+    char *fname;
+    FILE *f;
 
-    fLog = fopen(fname, "w");
+    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
+    f = fopen(fname, "wt");
     lib_free(fname);
-    if (fLog) {
-        setbuf(fLog, NULL);
-    }
 
-    archlog = log_open("Archdep");
-    return NULL;
+    return f;
 }
 
 int archdep_default_logger(const char *lvl, const char *txt)
 {
-    if (fLog) {
-        fprintf(fLog, "%s%s\n", lvl, txt);
+    if (fputs(lvl, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {
+        return -1;
     }
     return 0;
 }
@@ -229,12 +224,10 @@ static int archdep_search_path(const char *name, char *pBuf, int lBuf)
     char *pgmName = util_concat(name, ".exe", NULL);
 
     // Search the program in the path
-    if (DosScanEnv("PATH", &path)) {
-        log_warning(archlog, "Environment variable PATH not found.");
-    }
+    DosScanEnv("PATH", &path);
+
 
     if (DosSearchPath(flags, path, pgmName, pBuf, lBuf)) {
-        log_error(archlog, "File \"%s\" not found.", pgmName);
         return -1;
     }
     lib_free(pgmName);
@@ -281,9 +274,7 @@ static void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState
 
     sprintf(sem, "\\SEM32\\VICE2\\%s_%04x", pszName, vsyncarch_gettime()&0xffff);
 
-    if (rc = DosCreateMutexSem(sem, hmtx, 0, fState)) {
-        log_error(archlog, "DosCreateMutexSem '%s' (rc=%i)", pszName, rc);
-    }
+    rc = DosCreateMutexSem(sem, hmtx, 0, fState);
 }
 
 static HMTX hmtxSpawn;
@@ -327,8 +318,6 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     // Make the needed command string
     cmdline = archdep_cmdline(fqName, argv, stdout_redir, stderr_redir);
 
-    log_message(archlog, "Spawning \"cmd.exe %s\"", cmdline);
-
     memset(&sd, 0, sizeof(STARTDATA));
     sd.Length = sizeof(STARTDATA);
     sd.FgBg = SSF_FGBG_BACK;      /* Start session in background */
@@ -348,20 +337,11 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
         return 0;
     }
 
-    if (rc = DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ)) {
-        log_error(archlog, "DosCreateQueue (rc=%li).",rc);
-    } else {
-        if (rc = DosStartSession(&sd, &ulSession, &pid))  {
-            /* Start the child session */
-            log_error(archlog, "DosStartSession (rc=%li).",rc);
-        } else {
-            if (rc = DosReadQueue(hqQueue, &rdRequest, &ulSzData, &pvData, 0, DCWW_WAIT, &bPriority, 0)) {
-                /* in some other way) */
-                log_error(archlog, "DosReadQueue (rc=%li).",rc);
-            } else {
-                if (rc = ((CHILDINFO*)pvData)->usReturn) {
-                    log_message(archlog, "'%s' returns rc = %li", cmdline, rc);
-                }
+    if (!(rc = DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ))) {
+        if (!(rc = DosStartSession(&sd, &ulSession, &pid)))  {
+            if (!(rc = DosReadQueue(hqQueue, &rdRequest, &ulSzData, &pvData, 0, DCWW_WAIT, &bPriority, 0))) {
+                rc = ((CHILDINFO*)pvData)->usReturn;
+
                 DosFreeMem(pvData); /* Free the memory of the queue data element read */
             }
         }
@@ -614,4 +594,13 @@ char *archdep_get_runtime_cpu(void)
 int kbd_arch_get_host_mapping(void)
 {
     return KBD_MAPPING_US;
+}
+
+static int archdep_init_extra(int *argc, char **argv)
+{
+    return 0;
+}
+
+static void archdep_shutdown_extra(void)
+{
 }
