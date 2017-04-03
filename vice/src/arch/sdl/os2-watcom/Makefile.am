@@ -91,4 +91,5 @@ EXTRA_DIST = \
 	vsidlib.tgt \
 	x64.tgt \
 	x64sc.tgt \
-	x64dtv.tgt
+	x64dtv.tgt \
+	xscpu64.tgt
