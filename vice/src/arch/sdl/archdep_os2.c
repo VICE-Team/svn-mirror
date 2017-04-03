@@ -106,35 +106,42 @@ static char *program_name = NULL;
 
 char *archdep_program_name(void)
 {
-    static char *name = NULL;
+    if (program_name == NULL) {
+        char *s, *e;
+        int len;
 
-    if (!name) {
-        char drive[_MAX_DRIVE];
-        char dir[_MAX_DIR];
-        char fname[_MAX_FNAME+_MAX_EXT];
-        char ext[_MAX_EXT];
-        _splitpath(argv0, drive, dir, fname, ext);
-        name = util_concat(fname, ext, NULL);
+        s = strrchr(argv0, '\\');
+        if (s == NULL) {
+            s = argv0;
+        } else {
+            s++;
+        }
+        e = strchr(s, '.');
+        if (e == NULL) {
+            e = argv0 + strlen(argv0);
+        }
+        len = (int)(e - s + 1);
+        program_name = lib_malloc(len);
+        memcpy(program_name, s, len - 1);
+        program_name[len - 1] = 0;
     }
-    return name;
+
+    return program_name;
 }
 
 const char *archdep_boot_path(void)
 {
-    static char *boot_path = NULL;
+    static char *boot_path;
 
-    if (!boot_path) {
-        char drive[_MAX_DRIVE+_MAX_DIR];
-        char dir[_MAX_DIR];
-        char fname[_MAX_FNAME+_MAX_EXT];
-        char ext[_MAX_EXT];
+    if (boot_path == NULL) {
+        util_fname_split(argv0, &boot_path, NULL);
 
-        _splitpath(argv0, drive, dir, fname, ext);
-        if (strlen(dir)) {
-            *(dir + strlen(dir) - 1) = '\0'; // cut last backslash
+        /* This should not happen, but you never know...  */
+        if (boot_path == NULL) {
+            boot_path = lib_stralloc("./");
         }
-        boot_path = util_concat(drive, dir, NULL);
     }
+
     return boot_path;
 }
 
@@ -598,6 +605,7 @@ int kbd_arch_get_host_mapping(void)
 
 static int archdep_init_extra(int *argc, char **argv)
 {
+    argv0 = lib_stralloc(argv[0]);
     return 0;
 }
 
