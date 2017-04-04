@@ -1,7 +1,7 @@
 This document details the results of test compiles with regards to the
 SDL 1 and SDL 2 support.
 
-Platform         | compiler    |   SDL1 | SDL2  | comments
+Platform         | compiler    |  SDL1  | SDL2  | comments
 -------------------------------------------------------------------------------
 i386-beos        | gcc 2.95.3  | 1.2.15 |  N/A  |
 -------------------------------------------------------------------------------
@@ -33,6 +33,11 @@ BSD (4.8.0)      |             |        |       | well in VBox, couldn't test
 X86_64 OpenBSD   | gcc 4.2.1   | 1.2.15 | 2.0.4 |
 (6.0)            |             |        |       |
 -------------------------------------------------------------------------------
-x86_64 Haiku     | gcc 5.4.0   |        |       |
+x86_64 Haiku     | gcc 5.4.0   | 1.2.15 |       |
 (hrev51050)      |             |        |       |
+-------------------------------------------------------------------------------
+armv7l Raspbian  | gcc 4.9.2   | 1.2.15 | 2.0.2 | Requires some overclocking
+(Jessie)         |             |        |       | and/or CRT->none, SID->fast
+                 |             |        |       | (GL driver blows) for x64,
+                 |             |        |       | x64sc is painful to watch
 -------------------------------------------------------------------------------
