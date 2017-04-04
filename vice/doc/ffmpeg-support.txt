@@ -27,6 +27,9 @@ x86_64 NetBSD 7.1| gcc 4.8.5   |   YES(1)  | see FreeBSD
 X86_64 Dragonfly | gcc 5.4.1   |    NO     | configure.gnu doesn't recognize
 BSD (4.8.0)      |             |           | 'unknown-dragonfly4.8'
 -------------------------------------------------------------------------------
+X86_64 OpenBSD   | gcc 4.2.1   |   NO(3)   | the build system needs updating
+(6.0)            |             |           |
+-------------------------------------------------------------------------------
 x86_64 Haiku     | gcc 5.4.0   |   NO(2)   | configure.gnu doesn't recognize
 (hrev51050)      |             |           | Haiku, see https://pastebin/5SVJ10vB
 -------------------------------------------------------------------------------
@@ -36,5 +39,10 @@ x86_64 Haiku     | gcc 5.4.0   |   NO(2)   | configure.gnu doesn't recognize
 2 = using --external-ffmpeg will be even worse, that requires building ffmpeg
     from source and installing it into an alternate prefix so it won't bork
     the ffmpeg lib used by the Webpositive browser
+3 = VICE's code needs to have CPPFLAGS to include "-I/usr/local/include" and
+    LDFLAGS to include "-L/usr/local/lib" to make it find libpng, while using
+    these flags will break the static ffmpeg compile (OpenBSD will use its own
+    ffmpeg headers and libs, resulting in a ton of deprecation and other
+    messages and finally borking with an "expected ;"-like message)
 
 
