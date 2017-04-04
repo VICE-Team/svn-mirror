@@ -97,4 +97,5 @@ EXTRA_DIST = \
 	xcbm5x0.tgt \
 	xpet.tgt \
 	xplus4.tgt \
-	xscpu64.tgt
+	xscpu64.tgt \
+	xvic.tgt
