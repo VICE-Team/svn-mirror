@@ -59,6 +59,7 @@ EXTRA_DIST = \
 	p64.tgt \
 	parallel.tgt \
 	pet.tgt \
+	petcat.tgt \
 	platform.tgt \
 	plus4.tgt \
 	plus4exp.tgt \
