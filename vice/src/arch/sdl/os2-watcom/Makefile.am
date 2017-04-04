@@ -71,6 +71,7 @@ EXTRA_DIST = \
 	rtc.tgt \
 	samplerdrv.tgt \
 	scpu64.tgt \
+	sdl12.dll \
 	serial.tgt \
 	sid.tgt \
 	sounddrv.tgt \

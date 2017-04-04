@@ -36,6 +36,7 @@
 
 #define INCL_DOSMISC
 #define INCL_DOSFILEMGR
+#define INCL_DOSERRORS
 
 #include <os2.h>
 
@@ -487,62 +488,56 @@ int archdep_file_is_chardev(const char *name)
 #ifdef SDL_CHOOSE_DRIVES
 char **archdep_list_drives(void)
 {
-/* FIXME: IMPLEMENT */
-#if 0
-    DWORD bits, mask;
-    int drive_count = 1, i = 0;
     char **result, **p;
+    ULONG dn = 0;
+    FSINFO buffer = {0};
+    APIRET rc = NO_ERROR;
+    int drive_count = 1;
+    int i;
+    int drives[26];
 
-    bits = GetLogicalDrives();
-    mask = 1;
-    while (mask != 0) {
-        if (bits & mask) {
+    drives[0] = 0;
+    drives[1] = 0;
+    for (i = 3; i <= 26; ++i) {
+        dn = (ULONG)i;
+        rc = DosQueryFSInfo(dn, FSIL_VOLSER, &buffer, sizeof(FSINFO));
+        if (rc == NO_ERROR) {
+            drives[i - 1] = 1;
             ++drive_count;
+        } else {
+            drives[i - 1] = 0;
         }
-        mask <<= 1;
     }
+
     result = lib_malloc(sizeof(char*) * drive_count);
     p = result;
-    mask = 1;
-    while (mask != 0) {
-        if (bits & mask) {
+
+    for (i = 2; i < 26; ++i) {
+        if (drives[i]) {
             char buf[16];
             sprintf(buf, "%c:/", 'a' + i);
             *p++ = lib_stralloc(buf);
         }
-        mask <<= 1;
-        ++i;
     }
     *p = NULL;
 
     return result;
-#else
-    return NULL;
-#endif
 }
 
 char *archdep_get_current_drive(void)
 {
-/* FIXME: IMPLEMENT */
-#if 0
     char *p = ioutil_current_dir();
     char *p2 = strchr(p, '\\');
     p2[0] = '/';
     p2[1] = '\0';
     return p;
-#else
-    return NULL;
-#endif
 }
 
 void archdep_set_current_drive(const char *drive)
 {
-/* FIXME: IMPLEMENT */
-#if 0
     if (_chdir(drive)) {
         ui_error("Failed to change drive to %s", drive);
     }
-#endif
 }
 #endif
 
@@ -571,17 +566,7 @@ static char archdep_os_version[128];
 
 char *archdep_get_runtime_os(void)
 {
-    ULONG buffer[3];
-    APIRET rc;
-
-    rc = DosQuerySysInfo(QSV_VERSION_MAJOR, QSV_VERSION_REVISION, (void *)buffer, 3 * sizeof(ULONG));
-    if (rc) {
-        return "Unknown OS/2 version";
-    } else {
-        sprintf(archdep_os_version, "OS/2 %d.%d revision %c", buffer[0], buffer[1], (char)buffer[2]);
-    }
-    /* TODO: Find out what version OS/2 goes to ECS */
-    return archdep_os_version;
+    return platform_get_os2_runtime_os();
 }
 
 char *archdep_get_runtime_cpu(void)

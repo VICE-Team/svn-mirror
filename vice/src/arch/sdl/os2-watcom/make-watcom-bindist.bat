@@ -58,6 +58,7 @@ copy vsid.exe %VICEDIR%
 copy c1541.exe %VICEDIR%
 copy petcat.exe %VICEDIR%
 copy cartconv.exe %VICEDIR%
+copy sdl12.dll %VICEDIR%
 mkdir %VICEDIR%\C128
 copy ..\..\..\..\data\C128\basic* %VICEDIR%\C128
 copy ..\..\..\..\data\C128\*.vpl %VICEDIR%\C128
