@@ -1,6 +1,7 @@
 EXTRA_DIST = \
 	arch.tgt \
 	base.tgt \
+	c1541.tgt \
 	c64.tgt \
 	c64cart.tgt \
 	c64commonall.tgt \
