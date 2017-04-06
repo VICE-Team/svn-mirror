@@ -24,8 +24,8 @@ x86_64 FreeBSD   | clang 3.8.0 |   YES(1)  | libmp3lame's configure needs to
 -------------------------------------------------------------------------------
 x86_64 NetBSD 7.1| gcc 4.8.5   |   YES(1)  | see FreeBSD
 -------------------------------------------------------------------------------
-X86_64 Dragonfly | gcc 5.4.1   |    NO     | configure.gnu doesn't recognize
-BSD (4.8.0)      |             |           | 'unknown-dragonfly4.8'
+X86_64 Dragonfly | gcc 5.4.1   |   YES(1)  | build issues fixed in trunk
+BSD (4.8.0)      |             |           |
 -------------------------------------------------------------------------------
 X86_64 OpenBSD   | gcc 4.2.1   |   YES(1)  | build issue fixed in trunk
 (6.0)            |             |           |

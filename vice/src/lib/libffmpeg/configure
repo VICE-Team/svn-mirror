@@ -3995,7 +3995,7 @@ case $target_os in
         oss_indev_extralibs="-lossaudio"
         oss_outdev_extralibs="-lossaudio"
         ;;
-    dragonfly)
+    dragonfly*)
         disable symver
         ;;
     freebsd)

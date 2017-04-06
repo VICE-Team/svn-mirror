@@ -520,7 +520,7 @@ case $host_os in
             cc_check "" -mdynamic-no-pic && CFLAGS="$CFLAGS -mdynamic-no-pic"
         fi
         ;;
-    freebsd*)
+    freebsd*|dragonfly*)
         SYS="FREEBSD"
         libm="-lm"
         ;;
