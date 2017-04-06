@@ -210,6 +210,9 @@ static void memory_to_string(char *buf, MEMSPACE mem, WORD addr,
     unsigned int i;
     BYTE val;
 
+#if 0
+    printf("memory_to_string(): len = %u\n", len);
+#endif
     for (i = 0; i < len; i++) {
         val = mon_get_mem_val(mem, addr);
 
@@ -232,11 +235,12 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
 {
     unsigned int i, cnt = 0, len, max_width, real_width;
     WORD addr = 0;
-    char printables[50];
+    char *printables;
     char prefix;
     MEMSPACE mem;
     WORD display_number;
     BYTE v;
+    size_t plen;
 
     prefix = (format == DF_PETSCII) ? '>' : '*';
 
@@ -256,6 +260,14 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
         max_width = 40;
         display_number = 128;
     }
+
+    /* allocate propert buffer for 'printables' */
+    plen = max_width + 1;
+#if 0
+    printf("allocating %lu bytes for 'printables' array\n",
+            (unsigned long)plen);
+#endif
+    printables = lib_calloc(1U, plen);
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
                                      display_number);
@@ -279,7 +291,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
                     cnt++;
                     break;
                 case e_decimal:
-                    memset(printables, 0, 50);
+                    memset(printables, 0, plen);
                     if (!(cnt % 4)) {
                         mon_out(" ");
                     }
@@ -292,7 +304,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
                     }
                     break;
                 case e_hexadecimal:
-                    memset(printables, 0, 50);
+                    memset(printables, 0, plen);
                     if (!(cnt % 4)) {
                         mon_out(" ");
                     }
@@ -305,7 +317,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
                     cnt++;
                     break;
                 case e_octal:
-                    memset(printables, 0, 50);
+                    memset(printables, 0, plen);
                     if (!(cnt % 4)) {
                         mon_out(" ");
                     }
@@ -318,7 +330,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
                     }
                     break;
                 case e_binary:
-                    memset(printables, 0, 50);
+                    memset(printables, 0, plen);
                     if (cnt < len) {
                         mon_print_bin(v, '1', '0');
                         mon_out(" ");
@@ -329,6 +341,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
                     }
                     break;
                 default:
+                    lib_free(printables);
                     return;
             }
         }
@@ -344,6 +357,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
         }
     }
 
+    lib_free(printables);
     set_addr_location(&(dot_addr[mem]), addr);
 }
 
