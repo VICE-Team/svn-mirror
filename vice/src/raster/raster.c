@@ -478,8 +478,13 @@ void raster_force_repaint(raster_t *raster)
 void raster_set_title(raster_t *raster, const char *name)
 {
     char *title;
+    char *extra_title_text = archdep_extra_title_text();
 
-    title = util_concat("VICE: ", name, " emulator", NULL);
+    if (extra_title_text) {
+        title = util_concat("VICE: ", name, "emulator", extra_title_text, NULL);
+    } else {
+        title = util_concat("VICE: ", name, " emulator", NULL);
+    }
     video_viewport_title_set(raster->canvas, title);
 
     lib_free(title);

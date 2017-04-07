@@ -4864,3 +4864,5 @@ BYTE machine_tape_behaviour(void)
 {
     return TAPE_BEHAVIOUR_NORMAL;
 }
+
+int sdl_ui_menukeys[100];

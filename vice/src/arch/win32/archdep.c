@@ -818,5 +818,10 @@ void usleep(__int64 waitTime)
 }
 #endif
 
+char *archdep_extra_title_text(void)
+{
+    return NULL;
+}
+
 /* include system.c here, instead of compiling it seperatly */
 #include "system.c"

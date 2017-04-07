@@ -424,3 +424,8 @@ char *archdep_get_runtime_cpu(void)
 {
     return platform_get_x86_runtime_cpu();
 }
+
+char *archdep_extra_title_text(void)
+{
+    return NULL;
+}

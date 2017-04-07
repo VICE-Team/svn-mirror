@@ -49,6 +49,8 @@
 #include "archdep_win32.c"
 #endif
 
+#include "kbd.h"
+
 int archdep_init(int *argc, char **argv)
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
@@ -59,6 +61,8 @@ int archdep_init(int *argc, char **argv)
     return archdep_init_extra(argc, argv);
 }
 
+static char *extra_title_text = NULL;
+
 void archdep_shutdown(void)
 {
     SDL_Quit();
@@ -66,4 +70,13 @@ void archdep_shutdown(void)
     archdep_network_shutdown();
 #endif
     archdep_shutdown_extra();
+    if (extra_title_text) {
+        lib_free(extra_title_text);
+    }
+}
+
+char *archdep_extra_title_text(void)
+{
+    extra_title_text = util_concat(", press \"", SDL_GetKeyName(sdl_ui_menukeys[0]), "\" for the menu.", NULL);
+    return extra_title_text;
 }

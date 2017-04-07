@@ -2387,3 +2387,5 @@ void ui_error_string(const char *text) /* win32 needs this */
 void ui_error(const char *format, ...) /* SDL on mingw32 needs this */
 {
 }
+
+int sdl_ui_menukeys[100];

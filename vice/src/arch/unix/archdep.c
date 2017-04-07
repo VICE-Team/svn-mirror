@@ -660,3 +660,8 @@ char *archdep_get_runtime_cpu(void)
     return RUNTIME_CPU_CALL();
 #endif
 }
+
+char *archdep_extra_title_text(void)
+{
+    return NULL;
+}
