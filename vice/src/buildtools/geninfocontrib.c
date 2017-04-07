@@ -929,91 +929,6 @@ static void generate_index_html(char *in_path, char *out_path, char *filename)
     free(tmpname);
 }
 
-static void generate_os2_dialog_rc(char *in_path, char *out_path, char *filename)
-{
-    FILE *infile = NULL;
-    FILE *outfile = NULL;
-    int i = 0;
-    int found_start = 0;
-    int found_end = 0;
-    int found_eof = 0;
-    int line_size;
-    int number = 76;
-    char *tmpname;
-
-    sprintf(line_buffer, "%s%s", in_path, filename);
-    infile = fopen(line_buffer, "rb");
-    if (infile == NULL) {
-        printf("cannot open %s for reading\n", line_buffer);
-        return;
-    }
-
-    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
-    outfile = fopen(line_buffer, "wb");
-    if (outfile == NULL) {
-        printf("cannot open %s for writing\n", line_buffer);
-        fclose(infile);
-        return;
-    }
-
-    while (found_start == 0) {
-        line_size = get_line(infile);
-        if (!strcmp(line_buffer, "        /* start core members */")) { 
-            found_start = 1;
-        }
-        if (line_size == 0) {
-            fprintf(outfile, "\n");
-        } else {
-            fprintf(outfile, "%s\n", line_buffer);
-        }
-    }
-
-    while (core_team[i] != NULL) {
-        number += 7;
-        i += 2;
-    }
-
-    i -= 2;
-
-    while (i >= 0) {
-        fprintf(outfile, "        TEXT(\"Copyright (c) %s %s\", 15, %d, 180, 7)\n", core_team[i], core_team[i + 1], number);
-        i -= 2;
-        number -= 7;
-    }
-
-    fprintf(outfile, "        /* end core members */\n");
-
-    while (found_end == 0) {
-        line_size = get_line(infile);
-        if (!strcmp(line_buffer, "        /* end core members */")) { 
-            found_end = 1;
-        }
-    }
-
-    while (found_eof == 0) {
-        line_size = get_line(infile);
-        if (line_size == -1) {
-            found_eof = 1;
-        } else {
-            if (line_size == 0) {
-                fprintf(outfile, "\n");
-            } else {
-                fprintf(outfile, "%s\n", line_buffer);
-            }
-        }
-    }
-
-    fclose(outfile);
-    fclose(infile);
-
-    sprintf(line_buffer, "%s%s", out_path, filename);
-    tmpname = vice_stralloc(line_buffer);
-    sprintf(line_buffer, "%s%s.tmp", out_path, filename);
-    unlink(tmpname);
-    rename(line_buffer, tmpname);
-    free(tmpname);
-}
-
 static void generate_vice_1(char *in_path, char *out_path, char *filename)
 {
     FILE *infile = NULL;
@@ -1101,9 +1016,7 @@ int main(int argc, char *argv[])
 
     generate_index_html(argv[1], argv[2], argv[9]);
 
-    generate_os2_dialog_rc(argv[1], argv[2], argv[10]);
-
-    generate_vice_1(argv[1], argv[2], argv[11]);
+    generate_vice_1(argv[1], argv[2], argv[10]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);

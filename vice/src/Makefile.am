@@ -621,7 +621,7 @@ $(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/inf
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed $(builddir)/geninfocontrib
 	@echo "generating infocontrib.h..."
-	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html src/arch/os2/dialogs/dialogs.rc man/vice.1
+	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html man/vice.1
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	@echo "generating infocontrib.h..."
@@ -635,9 +635,6 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	cp $(top_srcdir)/doc/html/index.html ./index.tmp
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh indexhtml <index.tmp >../doc/html/index.html
 	rm -f index.tmp
-	cp $(top_srcdir)/src/arch/os2/dialogs/dialogs.rc ./dialogs.tmp
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh os2dialogs <dialogs.tmp >arch/os2/dialogs/dialogs.rc
-	rm -f dialogs.tmp
 	cp $(top_srcdir)/man/vice.1 man.tmp
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh vice1 <man.tmp >man2.tmp
 	cat man2.tmp | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../man/vice.1
