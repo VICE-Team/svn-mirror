@@ -36,7 +36,7 @@ endif
 
 if OS2_COMPILE
 
-SUBDIRS = os2 watcom-source-wrappers
+SUBDIRS = watcom-source-wrappers
 
 endif
 

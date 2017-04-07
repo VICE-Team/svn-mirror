@@ -1,8 +1,0 @@
-;---------------------------------
-; VICE.DEF module definition file
-;---------------------------------
-
-NAME           VICE/2   WINDOWAPI
-
-DESCRIPTION    'Welcome to VICE/2'
-PROTMODE

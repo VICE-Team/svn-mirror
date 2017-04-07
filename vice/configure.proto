@@ -4998,16 +4998,6 @@ AC_OUTPUT([Makefile
            src/arch/beos/Makefile
            src/arch/gtk3/Makefile
            src/arch/msdos/Makefile
-           src/arch/os2/Makefile
-           src/arch/os2/dialogs/Makefile
-           src/arch/os2/doc/Makefile
-           src/arch/os2/fonts/Makefile
-           src/arch/os2/icons/Makefile
-           src/arch/os2/kbd/Makefile
-           src/arch/os2/snippets/Makefile
-           src/arch/os2/unused/Makefile
-           src/arch/os2/unused/pm/Makefile
-           src/arch/os2/watcom/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/msvc-files/Makefile
            src/arch/sdl/os2-watcom/Makefile
