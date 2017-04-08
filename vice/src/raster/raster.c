@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
