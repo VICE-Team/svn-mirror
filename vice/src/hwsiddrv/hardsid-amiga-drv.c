@@ -44,7 +44,13 @@ static int hs_use_os4 = 0;
 
 #include "hardsid.h"
 #include "hs-amiga.h"
+
+#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 #include "loadlibs.h"
+#else
+#include "archdep.h"
+#endif
+
 #include "types.h"
 
 /* read value from SIDs */

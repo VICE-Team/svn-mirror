@@ -46,7 +46,13 @@ static int cw_use_os4 = 0;
 
 #include "catweaselmkiii.h"
 #include "cw-amiga.h"
+
+#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 #include "loadlibs.h"
+#else
+#include "archdep.h"
+#endif
+
 #include "types.h"
 
 /* read value from SIDs */

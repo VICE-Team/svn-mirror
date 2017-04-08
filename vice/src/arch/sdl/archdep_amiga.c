@@ -103,6 +103,99 @@ int SDL_Init(Uint32 flags)
 }
 #endif
 
+#define __USE_INLINE__
+
+#undef BYTE
+#undef WORD
+#include <exec/types.h>
+#include <exec/nodes.h>
+#include <exec/lists.h>
+#include <exec/memory.h>
+
+#include <proto/exec.h>
+#include <proto/intuition.h>
+
+#ifdef AMIGA_OS4
+struct Library *ExpansionBase = NULL;
+struct ExpansionIFace *IExpansion = NULL;
+#endif
+
+#ifdef HAVE_PROTO_OPENPCI_H
+struct Library *OpenPciBase = NULL;
+#endif
+
+#if defined(HAVE_PROTO_OPENPCI_H) || defined(AMIGA_OS4)
+int pci_lib_loaded = 1;
+#endif
+
+/* ----------------------------------------------------------------------- */
+
+#define LIBS_ACTION_ERROR     0
+#define LIBS_ACTION_WARNING   1
+
+typedef struct amiga_libs_s {
+    char *lib_name;
+    void **lib_base;
+    int lib_version;
+    void **interface_base;
+    int action;
+    int **var;
+} amiga_libs_t;
+
+static amiga_libs_t amiga_libs[] = {
+#ifdef AMIGA_OS4
+    { "expansion.library", &ExpansionBase, 50, &IExpansion, LIBS_ACTION_WARNING, &pci_lib_loaded },
+#endif
+#ifdef HAVE_PROTO_OPENPCI_H
+    { "openpci.library", &OpenPciBase, 0, NULL, LIBS_ACTION_WARNING, &pci_lib_loaded },
+#endif
+    { NULL, NULL, 0, NULL, 0, NULL }
+};
+
+int load_libs(void)
+{
+    int i = 0;
+
+    while (amiga_libs[i].lib_name) {
+        amiga_libs[i].lib_base[0] = OpenLibrary(amiga_libs[i].lib_name, amiga_libs[i].lib_version);
+#ifdef AMIGA_OS4
+        if (amiga_libs[i].lib_base[0]) {
+            amiga_libs[i].interface_base[0] = GetInterface(amiga_libs[i].lib_base[0], "main", 1, NULL);
+            if (amiga_libs[i].interface_base[0] == NULL) {
+                CloseLibrary(amiga_libs[i].lib_base[0]);
+                amiga_libs[i].lib_base[0] = NULL;
+            }
+        }
+#endif
+        if (!amiga_libs[i].lib_base[0]) {
+            if (amiga_libs[i].action == LIBS_ACTION_ERROR) {
+                return -1;
+            } else {
+                amiga_libs[i].var[0] = 0;
+            }
+        }
+        i++;
+    }
+    return 0;
+}
+
+void close_libs(void)
+{
+    int i = 0;
+
+    while (amiga_libs[i].lib_name) {
+#ifdef AMIGA_OS4
+        if (amiga_libs[i].interface_base) {
+            DropInterface((struct Interface *)amiga_libs[i].interface_base[0]);
+        }
+#endif
+        if (amiga_libs[i].lib_base) {
+            CloseLibrary(amiga_libs[i].lib_base[0]);
+        }
+        i++;
+    }
+}
+
 int archdep_init_extra(int *argc, char **argv)
 {
     if (*argc == 0) { /* run from WB */
@@ -110,6 +203,7 @@ int archdep_init_extra(int *argc, char **argv)
     } else { /* run from CLI */
         run_from_wb = 0;
     }
+    load_libs();
 
     return 0;
 }
@@ -252,14 +346,6 @@ FILE *archdep_open_default_log_file(void)
 
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-    if (run_from_wb) {
-        return 0;
-    }
-
-    if (fputs(level_string, stdout) == EOF || fprintf(stdout, txt) < 0 || fputc ('\n', stdout) == EOF) {
-        return -1;
-    }
-
     return 0;
 }
 
@@ -398,6 +484,7 @@ int archdep_require_vkbd(void)
 void archdep_shutdown_extra(void)
 {
     lib_free(boot_path);
+    close_libs();
 }
 
 #define LF (LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ)
@@ -410,7 +497,7 @@ static int CountEntries(void)
     while (dl = NextDosEntry(dl, LF)) {
         entries++;
     }
-    UnlockDosList(LF);
+    UnLockDosList(LF);
 
     return entries;
 }
@@ -429,7 +516,7 @@ char **archdep_list_drives(void)
     }
     *p = NULL;
 
-    UnlockDosList(LF);
+    UnLockDosList(LF);
 
     return result;
 }
@@ -454,7 +541,7 @@ void archdep_set_current_drive(const char *drive)
 
     if (lck) {
         CurrentDir(lck);
-        Unlock(lck);
+        UnLock(lck);
     } else {
         ui_error("Failed to change to drive %s", drive);
     }

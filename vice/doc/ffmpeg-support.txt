@@ -8,6 +8,8 @@ i386-mingw       | gcc 4.7.1   |   YES     |
 i386-os2         | openwatcom  |   NO      | ffmpeg will not compile using openwatcom
                  |             |           | and it's too much work to make it compile
 -------------------------------------------------------------------------------
+m68k-amigaos     | gcc 2.95.3  |   NO      | target not recognized
+-------------------------------------------------------------------------------
 x86_64-mingw     | gcc 6.2.0   |   YES(1)  |
 -------------------------------------------------------------------------------
 x86_64 Linux     | gcc 6.3.0   |   YES(1)  | requires adding --enable-pic to the

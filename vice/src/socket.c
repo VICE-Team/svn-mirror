@@ -44,10 +44,10 @@
 #include <strings.h>
 #endif
 
+#include "socketimpl.h"
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
-#include "socketimpl.h"
 #include "vicesocket.h"
 #include "signals.h"
 

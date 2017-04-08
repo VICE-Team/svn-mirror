@@ -34,7 +34,13 @@
 #include <string.h>
 
 #include "cw-amiga.h"
+
+#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
 #include "loadlibs.h"
+#else
+#include "archdep.h"
+#endif
+
 #include "log.h"
 #include "types.h"
 

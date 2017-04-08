@@ -870,8 +870,10 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
 
   CFLAGS="$CFLAGS -finline-functions"
 
-  if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes" -a x"is_amigaos4" = "xyes"; then
-    LIBS="$LIBS -lunix"
+  if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
+    if test x"is_amigaos4" = "xyes"; then
+      LIBS="$LIBS -lunix"
+    fi
   fi
 
 elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32" -o x"$host_os" = "xmingw32msvc"; then
