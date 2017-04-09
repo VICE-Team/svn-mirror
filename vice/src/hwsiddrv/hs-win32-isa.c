@@ -78,6 +78,7 @@
 #include "alarm.h"
 #include "archdep.h"
 #include "hardsid.h"
+#include "hs-win32.h"
 #include "log.h"
 #include "sid-resources.h"
 #include "types.h"

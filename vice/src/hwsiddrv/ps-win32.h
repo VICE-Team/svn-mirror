@@ -56,4 +56,8 @@ extern void ps_ieee1284_out_data(BYTE addr, int chipno);
 extern int ps_dll_available(void);
 extern int ps_io_available(void);
 extern int ps_ieee1284_available(void);
+
+/* missing in some mingw versions */
+extern int usleep(int usec);
+
 #endif
