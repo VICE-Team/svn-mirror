@@ -947,7 +947,7 @@ unsigned long strtoul(const char *nptr, char **endptr, int base)
 
 /* Taken from SDL */
 #ifndef HAVE_STRREV
-static char *strrev(char *string)
+char *strrev(char *string)
 {
     size_t len = strlen(string);
     char *a = &string[0];
@@ -967,7 +967,7 @@ static char *strrev(char *string)
 
 /* Taken from SDL */
 #ifndef HAVE_STRLWR
-static char *strlwr(char *string)
+char *strlwr(char *string)
 {
     char *bufp = string;
 
@@ -985,7 +985,7 @@ static char *strlwr(char *string)
 #define VICE_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define VICE_MAX(x, y) (((x) > (y)) ? (x) : (y))
 
-static size_t strlcpy(char *dst, const char *src, size_t maxlen)
+size_t strlcpy(char *dst, const char *src, size_t maxlen)
 {
     size_t srclen = strlen(src);
     size_t len;
@@ -1010,7 +1010,7 @@ static const char ntoa_table[] = {
 
 /* Taken from SDL */
 #ifndef HAVE_LTOA
-static char *ltoa(long value, char *string, int radix)
+char *ltoa(long value, char *string, int radix)
 {
     char *bufp = string;
 
@@ -1040,7 +1040,7 @@ static char *ltoa(long value, char *string, int radix)
 
 /* Taken from SDL */
 #ifndef HAVE_ULTOA
-static char *ultoa(unsigned long value, char *string, int radix)
+char *ultoa(unsigned long value, char *string, int radix)
 {
     char *bufp = string;
 
@@ -1279,7 +1279,7 @@ int snprintf(char *text, size_t maxlen, const char *fmt, ...)
 }
 #endif
 
-/* 
+/*
 ------------------------------------------------------------------------- */
 
 /* util_add_extension() add the extension if not already there.
