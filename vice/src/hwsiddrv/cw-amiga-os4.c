@@ -39,8 +39,8 @@
 #include "log.h"
 #include "types.h"
 
-static unsigned char read_sid(unsigned char reg); // Read a SID register
-static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
+static unsigned char read_sid(unsigned char reg); /* Read a SID register */
+static void write_sid(unsigned char reg, unsigned char data); /* Write a SID register */
 
 #define MAXSID 1
 
@@ -122,7 +122,7 @@ int cw_os4_open(void)
         return -1;
     }
 
-    // Try and find a CW on the PCI bus
+    /* Try and find a CW on the PCI bus */
     CWDevPCI = IPCI->FindDeviceTags(FDT_VendorID, CW_VENDOR,
                                     FDT_DeviceID, CW_DEVICE,
                                     FDT_Index, 0,
@@ -133,7 +133,7 @@ int cw_os4_open(void)
         return -1;
     }
 
-    // Lock the device, since we're a driver
+    /* Lock the device, since we're a driver */
     CWLock = CWDevPCI->Lock(PCI_LOCK_SHARED);
     if (!CWLock) {
         log_message(LOG_DEFAULT, "Unable to lock the CatWeasel. Another driver may have an exclusive lock." );
@@ -141,7 +141,7 @@ int cw_os4_open(void)
         return -1;
     }
 
-    // Get the resource range
+    /* Get the resource range */
     CWDevBAR = CWDevPCI->GetResourceRange(0);
     if (!CWDevBAR) {
         log_message(LOG_DEFAULT, "Unable to get CatWeasel resource range 0." );
@@ -149,7 +149,7 @@ int cw_os4_open(void)
         return -1;
     }
 
-    // Reset the catweasel PCI interface (as per the CW programming docs)
+    /* Reset the catweasel PCI interface (as per the CW programming docs) */
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x00, 0xf1);
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x01, 0x00);
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x02, 0x00);
@@ -191,15 +191,15 @@ static unsigned char read_sid(unsigned char reg)
 {
     unsigned char cmd;
 
-    cmd = (reg & 0x1f) | 0x20;	// Read command & address
+    cmd = (reg & 0x1f) | 0x20;	/* Read command & address */
     if (catweaselmkiii_get_ntsc()) {
-        cmd |= 0x40;  // Make sure its correct frequency
+        cmd |= 0x40;  /* Make sure its correct frequency */
     }
 
-    // Write command to the SID
+    /* Write command to the SID */
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + CW_SID_CMD, cmd);
 
-    // Waste 1ms
+    /* Waste 1ms */
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
 
@@ -212,14 +212,14 @@ static void write_sid(unsigned char reg, unsigned char data)
 
     cmd = reg & 0x1f;
     if (catweaselmkiii_get_ntsc()) {
-        cmd |= 0x40;  // Make sure its correct frequency
+        cmd |= 0x40;  /* Make sure its correct frequency */
     }
 
-    // Write data to the SID
+    /* Write data to the SID */
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + CW_SID_DAT, data);
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + CW_SID_CMD, cmd);
 
-    // Waste 1ms
+    /* Waste 1ms */
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
     CWDevPCI->InByte(CWDevBAR->BaseAddress + CW_SID_DAT);
 }
