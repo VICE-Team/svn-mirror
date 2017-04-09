@@ -64,7 +64,6 @@ static void parsid_outb(unsigned int addrint, BYTE value)
     _outp(addr, value);
 #endif
 #endif
-    return 0;
 }
 
 static BYTE parsid_inb(unsigned int addrint)
