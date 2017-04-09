@@ -77,6 +77,6 @@ void archdep_shutdown(void)
 
 char *archdep_extra_title_text(void)
 {
-    extra_title_text = util_concat(", press \"", SDL_GetKeyName(sdl_ui_menukeys[0]), "\" for the menu.", NULL);
+    extra_title_text = util_concat(", press \"", kbd_get_keyname(), "\" for the menu.", NULL);
     return extra_title_text;
 }

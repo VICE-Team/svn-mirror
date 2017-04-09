@@ -235,8 +235,26 @@ SDLKey SDL2x_to_SDL1x_Keys(SDLKey key)
     /* unicode key, so return 'unknown' */
     return SDLK_UNKNOWN;
 }
+
+SDLKey SDL1x_to_SDL2x_Keys(SDLKey key)
+{
+    int i;
+
+    for (i = 0; SDL2xKeys[i].SDL1x; ++i) {
+        if (SDL2xKeys[i].SDL1x == key) {
+            return SDL2xKeys[i].SDL2x;
+        }
+    }
+
+    return key;
+}
 #else
 SDLKey SDL2x_to_SDL1x_Keys(SDLKey key)
+{
+    return key;
+}
+
+SDLKey SDL1x_to_SDL2x_Keys(SDLKey key)
 {
     return key;
 }
@@ -536,4 +554,9 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[6] = SDL2x_to_SDL1x_Keys(SDLK_KP7);
     joykeys[7] = SDL2x_to_SDL1x_Keys(SDLK_KP8);
     joykeys[8] = SDL2x_to_SDL1x_Keys(SDLK_KP9);
+}
+
+char *kbd_get_keyname(void)
+{
+    return SDL_GetKeyName(SDL1x_to_SDL2x_Keys(sdl_ui_menukeys[0]));
 }

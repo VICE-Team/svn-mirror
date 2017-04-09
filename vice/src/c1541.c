@@ -4892,4 +4892,7 @@ BYTE machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
-int sdl_ui_menukeys[100];
+char *kbd_get_keyname(void)
+{
+    return NULL;
+}

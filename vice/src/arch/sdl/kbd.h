@@ -74,6 +74,7 @@ extern void kbd_initialize_numpad_joykeys(int *joykeys);
 #define VICE_SDLK_RETURN      SDLK_RETURN
 
 extern SDLKey SDL2x_to_SDL1x_Keys(SDLKey key);
+extern SDLKey SDL1x_to_SDL2x_Keys(SDLKey key);
 
 extern ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod);
 extern ui_menu_action_t sdlkbd_release(SDLKey key, SDLMod mod);
@@ -93,5 +94,7 @@ extern void kbd_enter_leave(void);
 extern void kbd_focus_change(void);
 
 extern int sdl_ui_menukeys[];
+
+extern char *kbd_get_keyname(void);
 
 #endif
