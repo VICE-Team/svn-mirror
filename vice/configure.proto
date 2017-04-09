@@ -563,32 +563,38 @@ dnl Check for large file support
 AC_SYS_LARGEFILE
 
 if test x"$enable_static_ffmpeg" = "xyes" -o x"$enable_shared_ffmpeg" = "xyes"; then
-  AC_CHECK_PROG(YASM, yasm, yasm, no)
-  if test x"$YASM" = "xno"; then
-    AC_MSG_ERROR([yasm needed for ffmpeg compile])
-  fi
-  dnl Check minimum yasm version required
-  yasm_ver=`$YASM --version | head -n 1 | cut -d ' ' -f 2`
-  yasm_maj=`echo "$yasm_ver" | cut -d '.' -f 1`
-  yasm_min=`echo "$yasm_ver" | cut -d '.' -f 2`
-  yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
-  yasm_ok=false
+  case "$host_cpu" in
+  i*86 | x86_64* | amd64*)
+    AC_CHECK_PROG(YASM, yasm, yasm, no)
+    if test x"$YASM" = "xno"; then
+      AC_MSG_ERROR([yasm needed for ffmpeg compile])
+    fi
+    dnl Check minimum yasm version required
+    yasm_ver=`$YASM --version | head -n 1 | cut -d ' ' -f 2`
+    yasm_maj=`echo "$yasm_ver" | cut -d '.' -f 1`
+    yasm_min=`echo "$yasm_ver" | cut -d '.' -f 2`
+    yasm_rev=`echo "$yasm_ver" | cut -d '.' -f 3`
+    yasm_ok=false
 
-  if test $yasm_maj -gt $YASM_VERSION_MAJOR; then
-    yasm_ok=true
-  elif test $yasm_maj -eq $YASM_VERSION_MAJOR; then
-    if test $yasm_min -gt $YASM_VERSION_MINOR; then
+    if test $yasm_maj -gt $YASM_VERSION_MAJOR; then
       yasm_ok=true
-    elif test $yasm_min -eq $YASM_VERSION_MINOR; then
-      if test $yasm_rev -ge $YASM_VERSION_BUILD; then
+    elif test $yasm_maj -eq $YASM_VERSION_MAJOR; then
+      if test $yasm_min -gt $YASM_VERSION_MINOR; then
         yasm_ok=true
+      elif test $yasm_min -eq $YASM_VERSION_MINOR; then
+        if test $yasm_rev -ge $YASM_VERSION_BUILD; then
+          yasm_ok=true
+        fi
       fi
     fi
-  fi
 
-  if test x"$yasm_ok" != x"true"; then
-    AC_MSG_ERROR([yasm 1.2.0 or higher required])
-  fi
+    if test x"$yasm_ok" != x"true"; then
+      AC_MSG_ERROR([yasm 1.2.0 or higher required])
+    fi
+    ;;
+  *)
+    ;;
+  esac
 fi
 
 AC_CHECK_PROGS(YACC, byacc yacc 'bison -y', [no])
