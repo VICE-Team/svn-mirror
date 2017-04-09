@@ -31,7 +31,7 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t joyport_menu[];
+extern ui_menu_entry_t joyport_menu[];
 
 extern void uijoyport_menu_create(int port1, int port2, int port3, int port4, int port5);
 extern void uijoyport_menu_shutdown(void);

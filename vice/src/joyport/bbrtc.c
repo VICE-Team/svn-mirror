@@ -37,6 +37,8 @@
 #include "snapshot.h"
 #include "translate.h"
 
+#include "bbrtc.h"
+
 /* Control port <--> bbrtc connections:
 
    cport | bbrtc | I/O

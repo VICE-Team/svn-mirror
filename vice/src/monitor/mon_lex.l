@@ -59,6 +59,10 @@
 #include "types.h"
 
 
+/* prototype */
+void free_buffer(void);
+void make_buffer(char *str);
+
 #define YY_ALWAYS_INTERACTIVE 1
 #define YY_NO_UNISTD_H
 

@@ -499,7 +499,7 @@ static int check_256k_ram_write(int k, int i, int j)
     }
 }
 
-void c64_256k_init_config(void)
+static void c64_256k_init_config(void)
 {
     int i, j, k;
 
@@ -546,7 +546,7 @@ void c64_256k_init_config(void)
 
 /* init plus256k memory table changes */
 /* FIXME: make sure all cartridge related callbacks are hooked correctly */
-void plus256k_init_config(void)
+static void plus256k_init_config(void)
 {
     int i, j, k;
 

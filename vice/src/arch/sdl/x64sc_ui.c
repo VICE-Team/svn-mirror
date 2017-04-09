@@ -32,6 +32,7 @@
 
 #include "debug.h"
 #include "c64mem.h"
+#include "c64ui.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
 #include "menu_c64hw.h"
@@ -165,7 +166,7 @@ static const ui_menu_entry_t x64sc_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-void c64scui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void c64scui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
 }
 

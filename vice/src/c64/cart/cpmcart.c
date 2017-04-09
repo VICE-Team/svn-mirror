@@ -5710,7 +5710,7 @@ static void opcode_fd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 
 /* Z80 mainloop.  */
 
-void cpmcart_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_alarm_context)
+static void cpmcart_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_alarm_context)
 {
     opcode_t opcode;
 

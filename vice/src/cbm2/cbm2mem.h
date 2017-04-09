@@ -62,6 +62,7 @@ extern void c500_set_phi2_bank(int b);
 extern void mem_initialize_memory(void);
 extern void mem_powerup(void);
 extern void mem_initialize_memory_bank(int i);
+extern void mem_set_tape_sense(int value);
 
 extern int cbm2mem_bank_exec;
 extern int cbm2mem_bank_ind;
@@ -76,5 +77,7 @@ extern void mem_handle_pending_alarms_external_write(void);
 
 extern void cbm2io_init(void);
 extern void cbm5x0io_init(void);
+
+void cia1_set_extended_keyboard_rows_mask(BYTE foo);
 
 #endif

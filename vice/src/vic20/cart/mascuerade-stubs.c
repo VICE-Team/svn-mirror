@@ -29,6 +29,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "mascuerade-stubs.h"
+
 int mmc64_cart_enabled(void)
 {
     return 0;

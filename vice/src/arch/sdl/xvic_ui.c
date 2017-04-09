@@ -63,6 +63,7 @@
 #include "uimenu.h"
 #include "vic.h"
 #include "victypes.h"
+#include "vic20ui.h"
 #include "vic20memrom.h"
 #include "videoarch.h"
 #include "vkbd.h"
@@ -169,7 +170,7 @@ static const ui_menu_entry_t xvic_main_menu[] = {
 
 static BYTE *vic20_font;
 
-void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     int videostandard;
 

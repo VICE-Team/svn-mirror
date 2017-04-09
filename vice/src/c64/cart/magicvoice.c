@@ -168,7 +168,7 @@ static int fifo_reset = 0;
 
 static int DTRD = 0;
 
-void update_dtrd(void)
+static void update_dtrd(void)
 {
 #if 1
     if (datainfifo > (FIFO_LEN - 4)) {
@@ -370,7 +370,7 @@ static int ga_pc6;
 static int ga_pb5;
 static int ga_pb6;
 
-void ga_reset(void)
+static void ga_reset(void)
 {
     ga_pc6 = 0;
     ga_pb5 = 0;

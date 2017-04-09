@@ -46,6 +46,8 @@ TAPE PORT | PCF8583 | I/O
 #include "tapeport.h"
 #include "translate.h"
 
+#include "cp-clockf83.h"
+
 static int tapertc_enabled = 0;
 
 /* rtc context */

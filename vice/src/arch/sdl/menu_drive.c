@@ -705,7 +705,7 @@ static UI_MENU_CALLBACK(set_disk_type_callback)
     return NULL;
 }
 
-UI_MENU_CALLBACK(create_disk_image_callback)
+static UI_MENU_CALLBACK(create_disk_image_callback)
 {
     char *name = NULL;
     char *format_name;

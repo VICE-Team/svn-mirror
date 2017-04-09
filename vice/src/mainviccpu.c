@@ -105,13 +105,13 @@ inline static void memmap_mem_update(unsigned int addr, int write)
 
 }
 
-void memmap_mem_store(unsigned int addr, unsigned int value)
+static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     memmap_mem_update(addr, 1);
     (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
 }
 
-BYTE memmap_mem_read(unsigned int addr)
+static BYTE memmap_mem_read(unsigned int addr)
 {
     memmap_mem_update(addr, 0);
     return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));

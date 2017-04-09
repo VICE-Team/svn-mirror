@@ -1282,7 +1282,7 @@ static int slot1conflicts[] =
     0
 };
 
-void cart_detach_conflicts0(int *list, int type)
+static void cart_detach_conflicts0(int *list, int type)
 {
     int *l = list;
     /* find in list */
@@ -2091,7 +2091,7 @@ void cartridge_reset(void)
 /* ------------------------------------------------------------------------- */
 
 /* called by cart_nmi_alarm_triggered, after an alarm occured */
-void cart_freeze(int type)
+static void cart_freeze(int type)
 {
     DBG(("CART: freeze\n"));
     switch (type) {

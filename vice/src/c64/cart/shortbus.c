@@ -38,6 +38,9 @@
 #include "shortbus_etfe.h"
 #endif
 
+#include "shortbus.h"
+
+
 /* TODO */
 #if 0
 #include "shortbus_duart.h"

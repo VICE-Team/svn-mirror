@@ -28,7 +28,7 @@
 
 #include "p64.h"
 
-p64_uint32_t P64CRC32(p64_uint8_t* Data, p64_uint32_t Len) {
+static p64_uint32_t P64CRC32(p64_uint8_t* Data, p64_uint32_t Len) {
 
     const p64_uint32_t CRC32Table[16] = {0x00000000UL, 0x1db71064UL, 0x3b6e20c8UL, 0x26d930acUL,
                                          0x76dc4190UL, 0x6b6b51f4UL, 0x4db26158UL, 0x5005713cUL,
@@ -65,29 +65,29 @@ typedef struct {
 
 typedef TP64RangeCoder* PP64RangeCoder;
 
-PP64RangeCoderProbabilities P64RangeCoderProbabilitiesAllocate(p64_uint32_t Count) {
+static PP64RangeCoderProbabilities P64RangeCoderProbabilitiesAllocate(p64_uint32_t Count) {
     return p64_malloc(Count * sizeof(p64_uint32_t));
 }
 
-void P64RangeCoderProbabilitiesFree(PP64RangeCoderProbabilities Probabilities) {
+static void P64RangeCoderProbabilitiesFree(PP64RangeCoderProbabilities Probabilities) {
     p64_free(Probabilities);
 }
 
-void P64RangeCoderProbabilitiesReset(PP64RangeCoderProbabilities Probabilities, p64_uint32_t Count) {
+static void P64RangeCoderProbabilitiesReset(PP64RangeCoderProbabilities Probabilities, p64_uint32_t Count) {
     p64_uint32_t Index;
     for(Index = 0; Index < Count; Index++) {
         Probabilities[Index] = 2048;
     }
 }
 
-p64_uint8_t P64RangeCoderRead(PP64RangeCoder Instance) {
+static p64_uint8_t P64RangeCoderRead(PP64RangeCoder Instance) {
     if(Instance->BufferPosition < Instance->BufferSize) {
         return Instance->Buffer[Instance->BufferPosition++];
     }
     return 0;
 }
 
-void P64RangeCoderWrite(PP64RangeCoder Instance, p64_uint8_t Value) {
+static void P64RangeCoderWrite(PP64RangeCoder Instance, p64_uint8_t Value) {
     if(Instance->BufferPosition >= Instance->BufferSize) {
         if(Instance->BufferSize < 16) {
             Instance->BufferSize = 16;
@@ -104,20 +104,20 @@ void P64RangeCoderWrite(PP64RangeCoder Instance, p64_uint8_t Value) {
     Instance->Buffer[Instance->BufferPosition++] = Value;
 }
 
-void P64RangeCoderInit(PP64RangeCoder Instance) {
+static void P64RangeCoderInit(PP64RangeCoder Instance) {
     Instance->RangeCode = 0;
     Instance->RangeLow = 0;
     Instance->RangeHigh = 0xffffffffUL;
 }
 
-void P64RangeCoderStart(PP64RangeCoder Instance) {
+static void P64RangeCoderStart(PP64RangeCoder Instance) {
     p64_uint32_t Counter;
     for(Counter = 0; Counter < 4; Counter++) {
         Instance->RangeCode = (Instance->RangeCode << 8) | P64RangeCoderRead(Instance);
     }
 }
 
-void P64RangeCoderFlush(PP64RangeCoder Instance) {
+static void P64RangeCoderFlush(PP64RangeCoder Instance) {
     p64_uint32_t Counter;
     for(Counter = 0; Counter < 4; Counter++) {
         P64RangeCoderWrite(Instance, (p64_uint8_t)(Instance->RangeHigh >> 24));
@@ -125,7 +125,7 @@ void P64RangeCoderFlush(PP64RangeCoder Instance) {
     }
 }
 
-void P64RangeCoderEncodeNormalize(PP64RangeCoder Instance) {
+static void P64RangeCoderEncodeNormalize(PP64RangeCoder Instance) {
     while(!((Instance->RangeLow ^ Instance->RangeHigh) & 0xff000000UL)) {
         P64RangeCoderWrite(Instance, (p64_uint8_t)(Instance->RangeHigh >> 24));
         Instance->RangeLow <<= 8;
@@ -133,7 +133,7 @@ void P64RangeCoderEncodeNormalize(PP64RangeCoder Instance) {
     }
 }
 
-p64_uint32_t P64RangeCoderEncodeBit(PP64RangeCoder Instance, p64_uint32_t* Probability, p64_uint32_t Shift, p64_uint32_t BitValue) {
+static p64_uint32_t P64RangeCoderEncodeBit(PP64RangeCoder Instance, p64_uint32_t* Probability, p64_uint32_t Shift, p64_uint32_t BitValue) {
     Instance->RangeMiddle = Instance->RangeLow + ((p64_uint32_t)((p64_uint32_t)(Instance->RangeHigh - Instance->RangeLow) >> 12) * (*Probability));
     if(BitValue) {
         *Probability += (p64_uint32_t)((0xfffUL - *Probability) >> Shift);
@@ -146,7 +146,7 @@ p64_uint32_t P64RangeCoderEncodeBit(PP64RangeCoder Instance, p64_uint32_t* Proba
     return BitValue;
 }
 
-p64_uint32_t P64RangeCoderEncodeBitWithoutProbability(PP64RangeCoder Instance, p64_uint32_t BitValue) {
+static p64_uint32_t P64RangeCoderEncodeBitWithoutProbability(PP64RangeCoder Instance, p64_uint32_t BitValue) {
     Instance->RangeMiddle = Instance->RangeLow + ((Instance->RangeHigh - Instance->RangeLow) >> 1);
     if(BitValue) {
         Instance->RangeHigh = Instance->RangeMiddle;
@@ -157,7 +157,7 @@ p64_uint32_t P64RangeCoderEncodeBitWithoutProbability(PP64RangeCoder Instance, p
     return BitValue;
 }
 
-void P64RangeCoderDecodeNormalize(PP64RangeCoder Instance) {
+static void P64RangeCoderDecodeNormalize(PP64RangeCoder Instance) {
     while(!((Instance->RangeLow ^ Instance->RangeHigh) & 0xff000000UL)) {
         Instance->RangeLow <<= 8;
         Instance->RangeHigh = (Instance->RangeHigh << 8) | 0xffUL;
@@ -165,7 +165,7 @@ void P64RangeCoderDecodeNormalize(PP64RangeCoder Instance) {
     }
 }
 
-p64_uint32_t P64RangeCoderDecodeBit(PP64RangeCoder Instance, p64_uint32_t *Probability, p64_uint32_t Shift) {
+static p64_uint32_t P64RangeCoderDecodeBit(PP64RangeCoder Instance, p64_uint32_t *Probability, p64_uint32_t Shift) {
     p64_uint32_t bit;
     Instance->RangeMiddle = Instance->RangeLow + ((p64_uint32_t)((p64_uint32_t)(Instance->RangeHigh - Instance->RangeLow) >> 12) * (*Probability));
     if(Instance->RangeCode <= Instance->RangeMiddle) {
@@ -181,7 +181,7 @@ p64_uint32_t P64RangeCoderDecodeBit(PP64RangeCoder Instance, p64_uint32_t *Proba
     return bit;
 }
 
-p64_uint32_t P64RangeCoderDecodeBitWithoutProbability(PP64RangeCoder Instance) {
+static p64_uint32_t P64RangeCoderDecodeBitWithoutProbability(PP64RangeCoder Instance) {
     p64_uint32_t bit;
     Instance->RangeMiddle = Instance->RangeLow + ((Instance->RangeHigh - Instance->RangeLow) >> 1);
     if(Instance->RangeCode <= Instance->RangeMiddle) {
@@ -195,14 +195,14 @@ p64_uint32_t P64RangeCoderDecodeBitWithoutProbability(PP64RangeCoder Instance) {
     return bit;
 }
 
-p64_uint32_t P64RangeCoderEncodeDirectBits(PP64RangeCoder Instance, p64_uint32_t Bits, p64_uint32_t Value) {
+static p64_uint32_t P64RangeCoderEncodeDirectBits(PP64RangeCoder Instance, p64_uint32_t Bits, p64_uint32_t Value) {
     while(Bits--) {
         P64RangeCoderEncodeBitWithoutProbability(Instance, (Value >> Bits) & 1);
     }
     return Value;
 }
 
-p64_uint32_t P64RangeCoderDecodeDirectBits(PP64RangeCoder Instance, p64_uint32_t Bits) {
+static p64_uint32_t P64RangeCoderDecodeDirectBits(PP64RangeCoder Instance, p64_uint32_t Bits) {
     p64_uint32_t Value = 0;
     while(Bits--) {
         Value += Value + P64RangeCoderDecodeBitWithoutProbability(Instance);

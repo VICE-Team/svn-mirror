@@ -33,8 +33,9 @@
 #include "menu_common.h"
 #include "joyport.h"
 #include "uimenu.h"
-
 #include "lib.h"
+
+#include "menu_joyport.h"
 
 UI_MENU_DEFINE_RADIO(JoyPort1Device)
 UI_MENU_DEFINE_RADIO(JoyPort2Device)
@@ -99,7 +100,7 @@ static void sdl_menu_joyport5_free(void)
     }
 }
 
-UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
+static UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
 {
     joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_1);
     int i;
@@ -128,7 +129,7 @@ UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
     return "->";
 }
 
-UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
+static UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
 {
     joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_2);
     int i;
@@ -157,7 +158,7 @@ UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
     return "->";
 }
 
-UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
+static UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
 {
     joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_3);
     int i;
@@ -186,7 +187,7 @@ UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
     return "->";
 }
 
-UI_MENU_CALLBACK(JoyPort4Device_dynmenu_callback)
+static UI_MENU_CALLBACK(JoyPort4Device_dynmenu_callback)
 {
     joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_4);
     int i;
@@ -215,7 +216,8 @@ UI_MENU_CALLBACK(JoyPort4Device_dynmenu_callback)
     return "->";
 }
 
-UI_MENU_CALLBACK(JoyPort5Device_dynmenu_callback)
+
+static UI_MENU_CALLBACK(JoyPort5Device_dynmenu_callback)
 {
     joyport_desc_t *devices = joyport_get_valid_devices(JOYPORT_5);
     int i;

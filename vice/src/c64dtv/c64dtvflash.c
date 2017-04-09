@@ -45,6 +45,8 @@
 #include "resources.h"
 #include "translate.h"
 
+#include "c64dtvflash.h"
+
 #ifndef AMIGA_SUPPORT
 #define DTVROM_NAME_DEFAULT   "dtvrom.bin"
 #else
@@ -73,7 +75,9 @@ enum {
     FLASH_SETCONF,
     FLASH_PROGPROT,
     FLASH_SPPROGRAM
-} c64dtvflash_state = FLASH_IDLE;
+};
+
+BYTE c64dtvflash_state = (BYTE)FLASH_IDLE;
 
 /* (Flash)ROM sector lockdown */
 BYTE c64dtvflash_mem_lock[39];
@@ -421,7 +425,7 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
 
 /* ------------------------------------------------------------------------- */
 
-unsigned int c64dtvflash_rom_loaded = 0;
+int c64dtvflash_rom_loaded = 0;
 
 static int c64dtvflash_load_rom(void)
 {

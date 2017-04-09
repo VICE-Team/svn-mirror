@@ -54,6 +54,8 @@
 #include "types.h"
 #include "log.h"
 
+#include "hs-unix.h"
+
 #define HARDSID_BASE 0x300
 
 #define MAXSID 4
@@ -69,7 +71,7 @@ void hs_isa_store(WORD addr, BYTE value, int chipno)
     }
 }
 
-BYTE hs_isa_read(WORD addr, int chipno)
+int hs_isa_read(WORD addr, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store(HARDSID_BASE + 1, (hssids[chipno] << 6) | (addr & 0x1f) | 0x20);

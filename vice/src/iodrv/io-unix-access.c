@@ -79,6 +79,8 @@
 #include "log.h"
 #include "types.h"
 
+#include "io-access.h"
+
 #if defined(__linux) || defined(__FreeBSD__) || ((defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__)))
 
 #define IO_PORT_ACCESS

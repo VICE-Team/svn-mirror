@@ -49,6 +49,8 @@
 #include "pci-unix-drv.h"
 #include "types.h"
 
+#include "hs-unix.h"
+
 
 #define MAXSID 4
 
@@ -57,7 +59,7 @@ static int base2 = 0;
 static int sids_found = -1;
 static int hssids[MAXSID] = {-1, -1, -1, -1};
 
-BYTE hs_pci_read(WORD addr, int chipno)
+int hs_pci_read(WORD addr, int chipno)
 {
     BYTE ret = 0;
 

@@ -561,23 +561,23 @@ $c000 ----------------------------------
 Allowbank masks only banking bits A13-A15 in Super Mapper mode.
 */
 
-void mmcreplay_ramhbank_set(unsigned int bank)
+static void mmcreplay_ramhbank_set(unsigned int bank)
 {
     ramh_bank = (int)bank;
 }
 
-void mmcreplay_ramlbank_set(unsigned int bank)
+static void mmcreplay_ramlbank_set(unsigned int bank)
 {
     raml_bank = (int)bank;
 }
 
-void mmcreplay_io1bank_set(unsigned int bank, unsigned int rambank)
+static void mmcreplay_io1bank_set(unsigned int bank, unsigned int rambank)
 {
     io1_bank = (int)bank;
     io1_ram_bank = (int)rambank;
 }
 
-void mmcreplay_io2bank_set(unsigned int bank, unsigned int rambank)
+static void mmcreplay_io2bank_set(unsigned int bank, unsigned int rambank)
 {
     io2_bank = (int)bank;
     io2_ram_bank = (int)rambank;
@@ -2208,7 +2208,7 @@ RETRO REPLAY: $de01 unset, $df10-$df13 registers disabled
 SUPER MAPPER: 16K mode, Standard cart mode, $df10-$df13 registers enabled
 */
 
-void mmcreplay_set_stdcfg(void)
+static void mmcreplay_set_stdcfg(void)
 {
     enable_ram_io = 0;
     enable_ram_io1 = 0;

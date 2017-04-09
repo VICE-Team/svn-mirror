@@ -487,7 +487,7 @@ static int check_256k_ram_write(int i, int j)
     }
 }
 
-void c64_256k_init_config(void)
+static void c64_256k_init_config(void)
 {
     int i, j;
 
@@ -532,7 +532,7 @@ void c64_256k_init_config(void)
 
 /* init plus256k memory table changes */
 
-void plus256k_init_config(void)
+static void plus256k_init_config(void)
 {
     int i, j;
 

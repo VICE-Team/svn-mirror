@@ -141,7 +141,7 @@ int irq_latch = 0; /* FIXME: guessed */
 
 static int last = 0;
 
-void latch_trigger(void)
+static void latch_trigger(void)
 {
     int this = (irq_latch & irq_enable) ? 1 : 0;
 
@@ -165,7 +165,7 @@ void latch_trigger(void)
     - clears latched irqs
     - sets enable mask
 */
-void latch_set_mask(int mask)
+static void latch_set_mask(int mask)
 {
     DBG(("SPEECH: latch clear/set mask %x\n", mask));
     irq_enable = mask & 3;
@@ -173,14 +173,14 @@ void latch_set_mask(int mask)
     latch_trigger();
 }
 
-void latch_set_irq(int num, int bit)
+static void latch_set_irq(int num, int bit)
 {
     irq_latch &= ~(1 << num);
     irq_latch |= ((bit & 1) << num);
     latch_trigger();
 }
 
-int latch_load_and_clear(void)
+static int latch_load_and_clear(void)
 {
     int val = irq_latch;
 
@@ -201,7 +201,7 @@ int datainfifo = 0;
 int fifo_reset = 0;
 unsigned int fifo_buffer = 0;
 
-void update_dtrd(int d)
+static void update_dtrd(int d)
 {
 #if 0
     if (d) {

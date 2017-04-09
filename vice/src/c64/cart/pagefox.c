@@ -45,6 +45,8 @@
 #include "util.h"
 #include "crt.h"
 
+#include "pagefox.h"
+
 /*
     Pagefox Cartridge
 

@@ -731,7 +731,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
 }
 
 
-void draw_std_bitmap(void)
+static void draw_std_bitmap(void)
 /* raster_modes_draw_line() in raster - draw bitmap mode when cache is not used
    See draw_std_text(), this is for bitmap mode. */
 {

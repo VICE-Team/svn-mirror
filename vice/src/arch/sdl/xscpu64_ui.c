@@ -57,6 +57,7 @@
 #include "menu_sound.h"
 #include "menu_speed.h"
 #include "menu_video.h"
+#include "scpu64ui.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "vkbd.h"

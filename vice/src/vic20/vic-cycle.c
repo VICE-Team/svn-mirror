@@ -43,6 +43,9 @@
 #include "vic20.h"
 #include "viewport.h"
 
+#include "vic-cycle.h"
+
+
 /* ------------------------------------------------------------------------- */
 
 /* Close vertical flipflop */

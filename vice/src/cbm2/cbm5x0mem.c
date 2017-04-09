@@ -408,7 +408,7 @@ static read_func_ptr_t read_zero_tab[16] = {
 };
 
 
-void store_zeroX(WORD addr, BYTE value)
+static void store_zeroX(WORD addr, BYTE value)
 {
     if (addr == 0) {
         cbm2mem_set_bank_exec(value);
@@ -422,7 +422,7 @@ BYTE rom_read(WORD addr)
     return mem_rom[addr];
 }
 
-BYTE read_chargen(WORD addr)
+static BYTE read_chargen(WORD addr)
 {
     return mem_chargen_rom[addr & 0xfff];
 }
@@ -460,25 +460,25 @@ static void zero_store_watch(WORD addr, BYTE value)
     _mem_write_tab[cbm2mem_bank_exec][0](addr, value);
 }
 
-BYTE read_watch(WORD addr)
+static BYTE read_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_exec][addr >> 8](addr);
 }
 
-void store_watch(WORD addr, BYTE value)
+static void store_watch(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_exec][addr >> 8](addr, value);
 }
 
-BYTE read_ind_watch(WORD addr)
+static BYTE read_ind_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_ind][addr >> 8](addr);
 }
 
-void store_ind_watch(WORD addr, BYTE value)
+static void store_ind_watch(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_ind][addr >> 8](addr, value);
@@ -500,7 +500,7 @@ BYTE mem_read(WORD addr)
 
 /* ------------------------------------------------------------------------- */
 
-void store_io(WORD addr, BYTE value)
+static void store_io(WORD addr, BYTE value)
 {
     switch (addr & 0xf800) {
         case 0xd000:
@@ -539,7 +539,7 @@ void store_io(WORD addr, BYTE value)
     }
 }
 
-BYTE read_io(WORD addr)
+static BYTE read_io(WORD addr)
 {
     switch (addr & 0xf800) {
         case 0xd000:

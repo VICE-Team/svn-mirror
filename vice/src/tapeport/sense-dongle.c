@@ -36,6 +36,9 @@
 #include "tapeport.h"
 #include "translate.h"
 
+#include "sense-dongle.h"
+
+
 static int sense_dongle_enabled = 0;
 
 /* ------------------------------------------------------------------------- */

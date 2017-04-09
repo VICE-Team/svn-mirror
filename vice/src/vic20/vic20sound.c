@@ -33,6 +33,7 @@
 
 #include "fastsid.h"
 #include "lib.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "sid.h"
 #include "sidcart.h"

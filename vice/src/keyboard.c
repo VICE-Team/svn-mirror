@@ -1280,7 +1280,7 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type);
 static int switch_keymap_file(int *idxp, int *mapp, int *typep);
 
 /* (re)load keymap at index */
-int load_keymap_file(int val)
+static int load_keymap_file(int val)
 {
     const char *name, *resname;
 
@@ -1382,7 +1382,7 @@ int keyboard_set_keymap_index(int val, void *param)
 }
 
 /* handle change if "KeyboardType" */
-int keyboard_set_keyboard_type(int val, void *param)
+static int keyboard_set_keyboard_type(int val, void *param)
 {
     int idx, mapping;
 
@@ -1411,7 +1411,7 @@ int keyboard_set_keyboard_type(int val, void *param)
 }
 
 /* handle change if "KeyboardMapping" */
-int keyboard_set_keyboard_mapping(int val, void *param)
+static int keyboard_set_keyboard_mapping(int val, void *param)
 {
     int type;
     int idx;
@@ -1690,7 +1690,7 @@ int keyboard_resources_init(void)
     return 0;
 }
 
-void keyboard_resources_shutdown(void)
+static void keyboard_resources_shutdown(void)
 {
     /* VSID doesn't have a keyboard */
     if (machine_class == VICE_MACHINE_VSID) {

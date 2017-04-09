@@ -56,4 +56,8 @@ extern int set_c64_256k_enabled(int value, int disable_reset);
 extern int c64_256k_snapshot_write(struct snapshot_s *s);
 extern int c64_256k_snapshot_read(struct snapshot_s *s);
 
+extern BYTE c64_256k_read(WORD addr);
+extern void c64_256k_store(WORD addr, BYTE byte);
+
+
 #endif

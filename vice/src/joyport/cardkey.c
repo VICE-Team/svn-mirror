@@ -34,6 +34,8 @@
 #include "keyboard.h"
 #include "translate.h"
 
+#include "cardkey.h"
+
 /* Control port <--> Cardkey connections:
 
    cport | keypad | I/O

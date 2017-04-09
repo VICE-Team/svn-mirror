@@ -318,7 +318,7 @@ static int parcor_output_sample(t6721_state *t6721, SWORD value)
 /*
     render one output sample
 */
-SWORD output_update_sample(t6721_state *t6721)
+static SWORD output_update_sample(t6721_state *t6721)
 {
     static float from, to;
     int next_rptr;

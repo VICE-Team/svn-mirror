@@ -44,6 +44,8 @@
 #include "types.h"
 #include "uiapi.h"
 
+#include "clockport-mp3at64.h"
+
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
 
@@ -128,7 +130,7 @@ static void mp3_resample(int block, int current_rate)
     mp3_output_buffers_size[block] = new_size;
 }
 
-void mp3at64_reset(void)
+static void mp3at64_reset(void)
 {
     int i;
 

@@ -73,12 +73,19 @@ static log_t petdww_log = LOG_ERR;
 static int petdww_activate(void);
 static int petdww_deactivate(void);
 
+static void petdwwpia_init(void);
 static void petdwwpia_reset(void);
 static void pia_reset(void);
 static void init_drawing_tables(void);
 static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 static void petdww_DRAW_blank(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
+
+static void petdwwpia_signal(int line, int edge);
+static BYTE petdwwpia_peek(WORD addr);
+static int petdwwpia_snapshot_write_module(snapshot_t *);
+static int petdwwpia_snapshot_read_module(snapshot_t *);
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -1009,7 +1016,7 @@ static const char module_ram_name[] = "DWWMEM";
  *
  */
 
-int petdww_ram_write_snapshot_module(snapshot_t *s)
+static int petdww_ram_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
@@ -1031,7 +1038,7 @@ int petdww_ram_write_snapshot_module(snapshot_t *s)
     return 0;
 }
 
-int petdww_ram_read_snapshot_module(snapshot_t *s)
+static int petdww_ram_read_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
     BYTE vmajor, vminor;

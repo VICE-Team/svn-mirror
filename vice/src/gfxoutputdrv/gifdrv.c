@@ -42,6 +42,8 @@
 #include "types.h"
 #include "util.h"
 
+#include "gifdrv.h"
+
 #if GIFLIB_MAJOR >= 5
 #  define VICE_EGifOpenFileName(x, y, z) EGifOpenFileName(x, y, z)
 #  define VICE_MakeMapObject GifMakeMapObject

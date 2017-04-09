@@ -292,7 +292,7 @@ static const char *register_string[] = {
 };
 
 /* Some local helper functions */
-int find_cpu_type_from_string(const char *cpu_string)
+static int find_cpu_type_from_string(const char *cpu_string)
 {
     if ((strcasecmp(cpu_string, "6502") == 0) || (strcasecmp(cpu_string, "6510") == 0)) {
         return CPU_6502;
@@ -311,7 +311,7 @@ int find_cpu_type_from_string(const char *cpu_string)
     }
 }
 
-monitor_cpu_type_t* monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
+static monitor_cpu_type_t* monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
 {
     supported_cpu_type_list_t *ptr;
     if (mem == e_default_space) {
@@ -329,7 +329,7 @@ monitor_cpu_type_t* monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
     return NULL;
 }
 
-void monitor_print_cpu_types_supported(MEMSPACE mem)
+static void monitor_print_cpu_types_supported(MEMSPACE mem)
 {
     supported_cpu_type_list_t *ptr;
     ptr = monitor_cpu_type_supported[mem];

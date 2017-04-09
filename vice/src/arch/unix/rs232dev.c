@@ -108,6 +108,7 @@
 #include "log.h"
 #include "resources.h"
 #include "rs232.h"
+#include "rs232dev.h"
 #include "translate.h"
 #include "types.h"
 

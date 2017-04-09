@@ -136,6 +136,12 @@
 #define B_HANDY         42
 
 
+/* emu-compile crap */
+const char *machine_get_name(void);
+void archdep_ui_init(int argc, char *argv[]);
+void ui_error_string(const char *text);
+void ui_error(const char *format, ...);
+
 /* Handy Basic (VIC20) -- Tokens 0xCC - 0xE1 */
 
 const char *handykwcc[] = { 

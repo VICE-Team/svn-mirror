@@ -26,10 +26,13 @@
 
 #include "vice.h"
 
+#include "c64mem.h"
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
 #include "tapeport.h"
+#include "tape-snapshot.h"
+
 
 /*******************************************************************************
     tape

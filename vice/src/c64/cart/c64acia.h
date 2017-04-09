@@ -46,4 +46,17 @@ struct snapshot_s;
 extern int aciacart_snapshot_write_module(struct snapshot_s *p);
 extern int aciacart_snapshot_read_module(struct snapshot_s *p);
 
+extern void acia1_init(void);
+extern BYTE acia1_read(WORD a);
+extern BYTE acia1_peek(WORD a);
+extern void acia1_store(WORD a, BYTE b);
+extern void acia1_reset(void);
+
+extern int acia1_cmdline_options_init(void);
+extern int acia1_resources_init(void);
+
+extern int acia1_snapshot_read_module(struct snapshot_s *);
+extern int acia1_snapshot_write_module(struct snapshot_s *);
+
+
 #endif

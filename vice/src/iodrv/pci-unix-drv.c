@@ -39,6 +39,9 @@
 #include "log.h"
 #include "types.h"
 
+#include "pci-unix-drv.h"
+
+
 #ifdef HAVE_LIBPCI
 static int pciutils_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
 {

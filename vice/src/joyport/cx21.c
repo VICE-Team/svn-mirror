@@ -34,6 +34,8 @@
 #include "keyboard.h"
 #include "translate.h"
 
+#include "cx21.h"
+
 /* Control port <--> CX21 keypad connections:
 
    cport | keypad | I/O

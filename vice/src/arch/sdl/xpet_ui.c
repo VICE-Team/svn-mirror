@@ -56,6 +56,7 @@
 #include "menu_tape.h"
 #include "menu_video.h"
 #include "petmem.h"
+#include "petui.h"
 #include "pet-resources.h"
 #include "resources.h"
 #include "ui.h"
@@ -166,7 +167,7 @@ static BYTE *pet_font;
 
 /* FIXME: support all PET keyboards (see pet-resources.h) */
 
-void petui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     static int old_keymap = -1;
     int cols = petmem_get_rom_columns();

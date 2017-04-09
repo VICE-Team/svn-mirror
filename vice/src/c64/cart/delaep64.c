@@ -136,7 +136,7 @@ static BYTE delaep64_io1_peek(WORD addr)
     return regval;
 }
 
-void delaep64_io1_store(WORD addr, BYTE value)
+static void delaep64_io1_store(WORD addr, BYTE value)
 {
     delaep64_io1(value, CMODE_WRITE);
 }

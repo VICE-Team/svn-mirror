@@ -268,7 +268,7 @@ static inline int sdlkbd_key_mod_to_index(SDLKey key, SDLMod mod)
     return i * SDLK_LAST + key;
 }
 
-ui_menu_entry_t *sdlkbd_get_hotkey(SDLKey key, SDLMod mod)
+static ui_menu_entry_t *sdlkbd_get_hotkey(SDLKey key, SDLMod mod)
 {
     return sdlkbd_ui_hotkeys[sdlkbd_key_mod_to_index(key, mod)];
 }

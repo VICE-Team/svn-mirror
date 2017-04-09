@@ -34,6 +34,9 @@
 #include "keyboard.h"
 #include "translate.h"
 
+#include "script64_dongle.h"
+
+
 /* Control port <--> Script 64 dongle connections:
 
    cport | resistor value to pin 5

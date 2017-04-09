@@ -34,6 +34,8 @@
 #include "sampler.h"
 #include "translate.h"
 
+#include "sampler4bit.h"
+
 /* Control port <--> 4bit sampler connections:
 
    cport | 4bit sampler | I/O

@@ -30,26 +30,42 @@
 #include "c64.h"
 #include "c64-midi.h"
 #include "c64cart.h"
+#include "c64cartmem.h"
 #include "c64fastiec.h"
 #include "c64iec.h"
 #include "c64mem.h"
 #include "c64-cmdline-options.h"
+#include "c64_256k.h"
 #include "cartridge.h"
 #include "cbmdos.h"
 #include "cia.h"
+#include "imagecontents/diskcontents.h"
 #include "diskimage.h"
 #include "drive.h"
+#include "driveimage.h"
 #include "drivetypes.h"
 #include "fileio.h"
+#include "fsdevice.h"
 #include "gfxoutput.h"
 #include "iecbus.h"
+#include "iecdrive.h"
 #include "imagecontents.h"
 #include "midi.h"
+#include "machine-bus.h"
+#include "machine-drive.h"
 #include "machine-printer.h"
+#include "printer.h"
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
 #include "tapeport.h"
+#include "imagecontents/tapecontents.h"
+#include "tape-snapshot.h"
+#include "vdrive/vdrive.h"
+#include "vdrive/vdrive-bam.h"
+#include "vdrive/vdrive-command.h"
+#include "vdrive/vdrive-iec.h"
+#include "vdrive/vdrive-internal.h"
 #include "vicii-phi1.h"
 #include "ds1202_1302.h"
 
@@ -795,7 +811,7 @@ int vdrive_write_sector(vdrive_t *vdrive, const BYTE *buf, unsigned int track, u
     return 0;
 }
 
-int vdrive_read_sector(const vdrive_t *vdrive, BYTE *buf, unsigned int track, unsigned int sector)
+int vdrive_read_sector(vdrive_t *vdrive, BYTE *buf, unsigned int track, unsigned int sector)
 {
     return 0;
 }

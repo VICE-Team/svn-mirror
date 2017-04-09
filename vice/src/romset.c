@@ -100,7 +100,7 @@ int romset_cmdline_options_init()
     return cmdline_register_options(cmdline_options);
 }
 
-const char *prepend_dir_to_path(const char *dir)
+static const char *prepend_dir_to_path(const char *dir)
 {
     const char *saved_path;
     char *new_path;
@@ -126,9 +126,9 @@ const char *prepend_dir_to_path(const char *dir)
     lib_free(new_path);
 
     return saved_path;
-} 
+}
 
-void restore_path(const char *saved_path)
+static void restore_path(const char *saved_path)
 {
     resources_set_string("Directory", saved_path);
     lib_free(saved_path);

@@ -33,6 +33,7 @@
 #include "debug.h"
 #include "cbm2.h"
 #include "cbm2mem.h"
+#include "cbm2ui.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_cbm2cart.h"
@@ -259,7 +260,7 @@ static const ui_menu_entry_t xcbm5x0_main_menu[] = {
 static BYTE *cbm2_font_14 = NULL;
 static BYTE *cbm2_font_8 = NULL;
 
-void cbm2ui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void cbm2ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     int model, i, j;
 

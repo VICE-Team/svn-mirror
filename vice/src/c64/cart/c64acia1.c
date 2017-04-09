@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include "c64acia.h"
+
 #define mycpu           maincpu
 #define myclk           maincpu_clk
 #define mycpu_rmw_flag  maincpu_rmw_flag
@@ -40,6 +42,17 @@
 #define MyIrq           IK_IRQ
 
 #define myaciadev       acia1dev
+
+#if 0
+void acia1_init(void);
+void acia1_reset(void);
+int acia1_resources_init(void);
+int acia1_cmdline_options_init(void);
+int acia1_snapshot_write_module(struct snapshot_s *);
+int acia1_snapshot_read_module(struct snapshot_s *);
+void acia1_store
+#endif
+
 
 #define myacia_init acia1_init
 #define myacia_init_cmdline_options acia1_cmdline_options_init
@@ -90,9 +103,10 @@ static char *acia_base_list = NULL;
 /* ------------------------------------------------------------------------- */
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-/* a prototype is needed */
-static BYTE aciacart_read(WORD addr);
-static BYTE aciacart_peek(WORD addr);
+
+/* a prototype is needed (not anymore) */
+BYTE aciacart_read(WORD addr);
+BYTE aciacart_peek(WORD addr);
 
 static io_source_t acia_device = {
     CARTRIDGE_NAME_ACIA,
@@ -310,7 +324,7 @@ void aciacart_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-static BYTE aciacart_read(WORD addr)
+BYTE aciacart_read(WORD addr)
 {
     acia_device.io_source_valid = 0;
     if (acia.mode == ACIA_MODE_TURBO232 && (addr & 7 ) > 3 && (addr & 7) != 7) {
@@ -320,7 +334,7 @@ static BYTE aciacart_read(WORD addr)
     return myacia_read(addr);
 }
 
-static BYTE aciacart_peek(WORD addr)
+BYTE aciacart_peek(WORD addr)
 {
     if (acia.mode == ACIA_MODE_TURBO232 && (addr & 7 ) > 3 && (addr & 7) != 7) {
         return 0;

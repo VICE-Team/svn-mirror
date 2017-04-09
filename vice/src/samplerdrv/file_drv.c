@@ -1264,7 +1264,7 @@ static int is_iff_file(void)
 #define HUGE_VAL HUGE
 #endif
 
-double float80tofloat64(unsigned char* bytes)
+static double float80tofloat64(unsigned char* bytes)
 {
     double f;
     int expon;
@@ -2171,7 +2171,7 @@ static const cmdline_option_t cmdline_options[] =
     CMDLINE_LIST_END
 };
 
-int sampler_file_cmdline_options_init(void)
+static int sampler_file_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

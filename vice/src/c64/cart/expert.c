@@ -541,7 +541,7 @@ void expert_freeze(void)
     }
 }
 
-void expert_ack_nmi(void)
+static void expert_ack_nmi(void)
 {
     if (cartmode == EXPERT_MODE_ON) {
         DBG(("EXPERT:ack nmi\n"));

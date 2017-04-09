@@ -32,6 +32,7 @@
 
 #include "debug.h"
 #include "c128mem.h"
+#include "c128ui.h"
 #include "menu_c128hw.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_c64cart.h"
@@ -165,7 +166,7 @@ static const ui_menu_entry_t x128_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-void c128ui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void c128ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     if (index == 0) { /* VICII */
         menu_draw->max_text_x = 40;

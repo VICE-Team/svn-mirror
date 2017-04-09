@@ -34,6 +34,8 @@
 #include "machine.h"
 #include "maincpu.h"
 
+#include "vsid-debugcart.h"
+
 static int debugcart_enabled = 0;
 
 /* ------------------------------------------------------------------------- */

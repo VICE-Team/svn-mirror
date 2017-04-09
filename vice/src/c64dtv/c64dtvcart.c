@@ -27,7 +27,9 @@
 #include "vice.h"
 #include "types.h"
 
+#include "cartridge.h"
 #include "c64cart.h"
+#include "c64/cart/c64cartmem.h"
 #include "snapshot.h"
 #include "tapeport.h"
 

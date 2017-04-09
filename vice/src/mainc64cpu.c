@@ -235,14 +235,14 @@ inline static void memmap_mem_update(unsigned int addr, int write)
     monitor_memmap_store(addr, type);
 }
 
-void memmap_mem_store(unsigned int addr, unsigned int value)
+static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     memmap_mem_update(addr, 1);
     (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
 }
 
 /* read byte, check BA and mark as read */
-BYTE memmap_mem_read(unsigned int addr)
+static BYTE memmap_mem_read(unsigned int addr)
 {
     check_ba();
     memmap_mem_update(addr, 0);

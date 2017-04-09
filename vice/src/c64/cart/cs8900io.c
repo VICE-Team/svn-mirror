@@ -55,6 +55,8 @@
 #include "uiapi.h"
 #include "util.h"
 
+#include "cs8900io.h"
+
 /* #define CS8900IO_DEBUG */
 
 #ifdef CS8900IO_DEBUG

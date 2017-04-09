@@ -150,6 +150,8 @@
 
 #include "platform_discovery.h"
 
+#include "platform.h"
+
 char *platform_get_compile_time_os(void)
 {
     return PLATFORM_OS;

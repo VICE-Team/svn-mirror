@@ -73,7 +73,7 @@ static UI_MENU_CALLBACK(custom_datasette_control_callback)
     return NULL;
 }
 
-UI_MENU_CALLBACK(create_tape_image_callback)
+static UI_MENU_CALLBACK(create_tape_image_callback)
 {
     char *name = NULL;
     int overwrite = 1;

@@ -56,6 +56,8 @@
 #include "video.h"
 #include "vsync.h"
 
+#include "init.h"
+
 /* #define DBGINIT */
 
 #ifdef DBGINIT

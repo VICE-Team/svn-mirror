@@ -44,7 +44,7 @@
 #include "translate.h"
 #include "vicii.h"
 
-int set_cia_model(const char *value, void *extra_param)
+static int set_cia_model(const char *value, void *extra_param)
 {
     int model;
 

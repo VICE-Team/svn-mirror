@@ -1171,7 +1171,7 @@ const ui_menu_entry_t vic20_video_menu[] = {
 static char *video_chip1_used = NULL;
 static char *video_chip2_used = NULL;
 
-UI_MENU_CALLBACK(external_palette_file1_callback)
+static UI_MENU_CALLBACK(external_palette_file1_callback)
 {
     const char *external_file_name;
     char *name = (char *)param;
@@ -1189,7 +1189,7 @@ UI_MENU_CALLBACK(external_palette_file1_callback)
     return "";
 }
 
-UI_MENU_CALLBACK(external_palette_file2_callback)
+static UI_MENU_CALLBACK(external_palette_file2_callback)
 {
     const char *external_file_name;
     char *name = (char *)param;

@@ -41,6 +41,7 @@
 #include "util.h"
 
 #include "digimaxcore.c"
+#include "shortbus_digimax.h"
 
 /*
     Digimax Short Bus expansion

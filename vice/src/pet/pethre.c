@@ -354,7 +354,7 @@ static const char module_ram_name[] = "HREMEM";
  *
  */
 
-int pethre_ram_write_snapshot_module(snapshot_t *s)
+static int pethre_ram_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
@@ -368,7 +368,7 @@ int pethre_ram_write_snapshot_module(snapshot_t *s)
     return 0;
 }
 
-int pethre_ram_read_snapshot_module(snapshot_t *s)
+static int pethre_ram_read_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
     BYTE vmajor, vminor;

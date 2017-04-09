@@ -56,6 +56,7 @@
 #include "menu_tape.h"
 #include "menu_video.h"
 #include "plus4memrom.h"
+#include "plus4ui.h"
 #include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
@@ -161,7 +162,7 @@ static const ui_menu_entry_t xplus4_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-void plus4ui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void plus4ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     menu_draw->color_front = 113;
 

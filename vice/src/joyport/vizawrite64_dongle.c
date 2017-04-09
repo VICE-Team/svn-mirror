@@ -34,6 +34,9 @@
 #include "keyboard.h"
 #include "translate.h"
 
+#include "vizawrite64_dongle.h"
+
+
 /* ------------------------------------------------------------------------- */
 
 static int joyport_vizawrite64_dongle_enabled = 0;

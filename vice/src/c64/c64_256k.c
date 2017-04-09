@@ -82,14 +82,14 @@ BYTE *c64_256k_ram = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-void pia_set_vbank(void)
+static void pia_set_vbank(void)
 {
     video_bank_segment = ((c64_256k_PRB & 0xc0) >> 4) + cia_vbank;
     vicii_set_ram_base(c64_256k_ram + (video_bank_segment * 0x4000));
     mem_set_vbank(0);
 }
 
-static BYTE c64_256k_read(WORD addr)
+BYTE c64_256k_read(WORD addr)
 {
     BYTE retval = 0;
 
@@ -115,7 +115,7 @@ static BYTE c64_256k_read(WORD addr)
     return retval;
 }
 
-static void c64_256k_store(WORD addr, BYTE byte)
+void c64_256k_store(WORD addr, BYTE byte)
 {
     BYTE old_prb;
 

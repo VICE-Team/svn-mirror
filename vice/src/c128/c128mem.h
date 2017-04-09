@@ -143,4 +143,18 @@ extern void c128_c64io_de00_store(WORD addr, BYTE value);
 extern BYTE c128_c64io_df00_read(WORD addr);
 extern void c128_c64io_df00_store(WORD addr, BYTE value);
 
+
+/* add due to incompatibilities with c64mem.h */
+
+BYTE mem_read_without_ultimax(WORD addr);
+void mem_store_without_ultimax(WORD addr, BYTE value);
+void mem_store_without_romlh(WORD addr, BYTE value);
+void ram_hi_store(WORD addr, BYTE value);
+void mem_set_tape_write_in(int val);
+void mem_set_tape_motor_in(int val);
+void store_bank_io(WORD addr, BYTE byte);
+BYTE read_bank_io(WORD addr);
+
+
+
 #endif

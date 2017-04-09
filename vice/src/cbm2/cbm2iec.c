@@ -88,6 +88,8 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
 }
 
+
+#if (defined(WIN32_COMPILE) || defined(OS2_COMPILE))
 void debug_iec_drv_read(unsigned int data)
 {
     /* FIXME: unused */
@@ -107,6 +109,8 @@ void debug_iec_bus_write(unsigned int data)
 {
     /* FIXME: unused */
 }
+#endif
+
 
 /* KLUDGES: dummy to satisfy linker, unused */
 BYTE plus4tcbm_outputa[2], plus4tcbm_outputb[2], plus4tcbm_outputc[2];

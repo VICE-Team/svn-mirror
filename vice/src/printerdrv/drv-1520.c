@@ -527,7 +527,7 @@ int dir[20] = { /* delta-x, delta-y */
 #define SW              6       /* letter pitch */
 #define LH              6       /* letter height */
 
-void draw_char(plot_t *mps, char *commands)
+static void draw_char(plot_t *mps, char *commands)
 {
     int x = mps->cur_x;
     int y = mps->cur_y;

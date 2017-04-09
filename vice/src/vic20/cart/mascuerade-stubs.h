@@ -1,8 +1,9 @@
 /*
- * cbm2cart.h --CBM2 cartridge memory interface.
+ * masceruade-stubs.h - C64 expansion port stubs handling for the VIC20 masC=uerade adapter.
  *
  * Written by
- *  groepaz <groepaz@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,24 +25,16 @@
  *
  */
 
-#ifndef VICE_CBM2CART_H
-#define VICE_CBM2CART_H
+#ifndef VICE_MASCUERADE_STUBS_H
+#define VICE_MASCUERADE_STUBS_H
 
-#include "types.h"
-
-/* Expansion port signals.  */
-
-typedef struct {
-    BYTE ultimax_phi1; /* flag for vic-ii, ultimax mode in phi1 phase */
-    BYTE ultimax_phi2; /* flag for vic-ii, ultimax mode in phi2 phase */
-} export_t;
-
-extern export_t export;
-
-void cart_power_off(void);
-
-
-BYTE *ultimax_romh_phi1_ptr(WORD addr);
-BYTE *ultimax_romh_phi2_ptr(WORD addr);
+int mmc64_cart_enabled(void);
+int mmcreplay_cart_enabled(void);
+int retroreplay_cart_enabled(void);
+int rrnetmk3_cart_enabled(void);
+int cartridge_type_enabled(int type);
+int cartridge_flush_image(int type);
+int cartridge_save_image(int type, const char *filename);
 
 #endif
+

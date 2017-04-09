@@ -42,6 +42,8 @@
 #include "util.h"
 #include "crt.h"
 
+#include "actionreplay2.h"
+
 /*
     FIXME: everything here is purely guesswork and doesnt quite work like it should
 

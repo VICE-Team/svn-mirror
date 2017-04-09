@@ -392,7 +392,8 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
     }
 }
 
-void rtc58321_stop_clock(rtc_58321a_t *context)
+/* unused */
+static void rtc58321_stop_clock(rtc_58321a_t *context)
 {
     if (!context->stop) {
         context->stop = 1;
@@ -400,7 +401,8 @@ void rtc58321_stop_clock(rtc_58321a_t *context)
     }
 }
 
-void rtc58321_start_clock(rtc_58321a_t *context)
+/* unused */
+static void rtc58321_start_clock(rtc_58321a_t *context)
 {
     if (context->stop) {
         context->stop = 0;

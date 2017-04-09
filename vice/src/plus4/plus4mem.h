@@ -73,4 +73,6 @@ extern void plus4_pio1_init(int block);
 
 extern BYTE read_unused(WORD addr);
 
+extern void store_bank_io(WORD addr, BYTE byte);
+
 #endif

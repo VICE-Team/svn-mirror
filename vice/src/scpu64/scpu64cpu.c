@@ -42,6 +42,8 @@
 #include "snapshot.h"
 #include "reu.h"
 
+#include "scpu64cpu.h"
+
 /* ------------------------------------------------------------------------- */
 
 /* MACHINE_STUFF should define/undef

@@ -50,6 +50,7 @@
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64_256k.h"
 #include "c64cia.h"
 #include "c64iec.h"
 #include "c64keyboard.h"
@@ -91,6 +92,8 @@
 #include "paperclip64.h"
 #include "parallel.h"
 #include "patchrom.h"
+#include "plus60k.h"
+#include "plus256k.h"
 #include "printer.h"
 #include "rs232drv.h"
 #include "rsuser.h"
@@ -198,7 +201,7 @@ void plus256k_ram_high_store(WORD addr, BYTE byte)
 
 #if defined(HAVE_MOUSE) && defined(HAVE_LIGHTPEN)
 /* Lightpen trigger function; needs to trigger both VICII and VDC */
-void c128_trigger_light_pen(CLOCK mclk)
+static void c128_trigger_light_pen(CLOCK mclk)
 {
     vicii_trigger_light_pen(mclk);
     vdc_trigger_light_pen(mclk);

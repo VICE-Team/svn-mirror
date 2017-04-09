@@ -33,6 +33,9 @@
 #include "snapshot.h"
 #include "machine.h"
 
+static void request_nmi(unsigned int source);
+static void req_irq(unsigned int source);
+
 #define CLK maincpu_clk
 #define CPU_INT_STATUS maincpu_int_status
 #define ALARM_CONTEXT maincpu_alarm_context
@@ -237,7 +240,7 @@ extern void nmi(void);
 extern void irq(void);
 extern void firq(void);
 
-void request_nmi(unsigned int source)
+static void request_nmi(unsigned int source)
 {
     /* If the interrupt is not masked, generate
      * IRQ immediately.  Else, mark it pending and
@@ -246,7 +249,7 @@ void request_nmi(unsigned int source)
     nmi();
 }
 
-void req_irq(unsigned int source)
+static void req_irq(unsigned int source)
 {
     /* If the interrupt is not masked, generate
      * IRQ immediately.  Else, mark it pending and
@@ -258,13 +261,13 @@ void req_irq(unsigned int source)
     }
 }
 
-void release_irq(unsigned int source)
+static void release_irq(unsigned int source)
 {
     irqs_pending &= ~(1 << source);
 }
 
 
-void request_firq (unsigned int source)
+static void request_firq (unsigned int source)
 {
     /* If the interrupt is not masked, generate
      * IRQ immediately.  Else, mark it pending and
@@ -276,12 +279,12 @@ void request_firq (unsigned int source)
     }
 }
 
-void release_firq(unsigned int source)
+static void release_firq(unsigned int source)
 {
     firqs_pending &= ~(1 << source);
 }
 
-void sim_error(const char *format, ...)
+static void sim_error(const char *format, ...)
 {
     va_list ap;
 
@@ -1686,7 +1689,7 @@ void firq(void)
     firqs_pending = 0;
 }
 
-void swi(void)
+static void swi(void)
 {
     CLK += 6;
     EFI |= E_FLAG;
@@ -1713,7 +1716,7 @@ void swi(void)
     PC = read16(0xfffa);
 }
 
-void swi2(void)
+static void swi2(void)
 {
     CLK += 6;
     EFI |= E_FLAG;
@@ -1739,7 +1742,7 @@ void swi2(void)
     PC = read16(0xfff4);
 }
 
-void swi3(void)
+static void swi3(void)
 {
     CLK += 6;
     EFI |= E_FLAG;
@@ -1817,7 +1820,7 @@ void div0_trap(void)
 }
 #endif
 
-void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
+static void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
     BYTE tmp = imm_byte();
     int taken;
@@ -1858,7 +1861,7 @@ void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *ma
 #undef TIME
 
 /* FIXME: cycle count */
-void sync(void)
+static void sync(void)
 {
     CLK += 4;
     /*
@@ -1967,13 +1970,13 @@ static void bsr(void)
 #ifdef FULL6809
 
 /* FIXME: cycle count */
-void hcf(void)
+static void hcf(void)
 {
     sim_error("HCF - not supported yet!\n");
     JAM("HCF");
 }
 
-void ccrs(void)
+static void ccrs(void)
 {
     DWORD tmp_c = (OV != 0);
     DWORD tmp_h = ((EFI & I_FLAG) != 0);
@@ -1984,20 +1987,20 @@ void ccrs(void)
     CLK += 2;
 }
 
-void scc(BYTE arg)
+static void scc(BYTE arg)
 {
     N = 0x80;
     Z = OV = 0;
 }
 
-void st_imm(WORD arg)
+static void st_imm(WORD arg)
 {
     WRMEM(PC++, (BYTE)(arg & 0xff));
     N = 0x80;
     Z = OV = 0;
 }
 
-void swires(void)
+static void swires(void)
 {
     CLK += 6;
 

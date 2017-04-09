@@ -262,7 +262,7 @@ void zero_store(WORD addr, BYTE value)
     }
 }
 
-void zero_store_mirrored(WORD addr, BYTE value)
+static void zero_store_mirrored(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch();
     mem_sram[addr] = value;
@@ -272,7 +272,7 @@ void zero_store_mirrored(WORD addr, BYTE value)
     mem_ram[addr] = value;
 }
 
-void zero_store_int(WORD addr, BYTE value)
+static void zero_store_int(WORD addr, BYTE value)
 {
     scpu64_clock_write_stretch();
     if (addr == 1) {
@@ -477,7 +477,7 @@ BYTE mem_read2(DWORD addr)
     return (BYTE)(addr >> 16);
 }
 
-BYTE mem_peek2(DWORD addr)
+static BYTE mem_peek2(DWORD addr)
 {
     switch (addr & 0xfe0000) {
     case 0xf60000:
@@ -593,7 +593,7 @@ static BYTE scpu64_hardware_read(WORD addr)
     return value | (mem_reg_optim & 7);
 }
 
-void scpu64_hardware_store(WORD addr, BYTE value)
+static void scpu64_hardware_store(WORD addr, BYTE value)
 {
     switch (addr) {
     case 0xd071:

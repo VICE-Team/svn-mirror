@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "machine.h"
 #include "sid.h"
 #include "sound.h"
 #include "types.h"

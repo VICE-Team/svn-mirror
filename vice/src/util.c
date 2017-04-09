@@ -947,7 +947,7 @@ unsigned long strtoul(const char *nptr, char **endptr, int base)
 
 /* Taken from SDL */
 #ifndef HAVE_STRREV
-char *strrev(char *string)
+static char *strrev(char *string)
 {
     size_t len = strlen(string);
     char *a = &string[0];
@@ -967,13 +967,13 @@ char *strrev(char *string)
 
 /* Taken from SDL */
 #ifndef HAVE_STRLWR
-char *strlwr(char *string)
+static char *strlwr(char *string)
 {
     char *bufp = string;
 
     while (*bufp) {
         *bufp = tolower((unsigned char)*bufp);
-	++bufp;
+        ++bufp;
     }
     return string;
 }
@@ -985,7 +985,7 @@ char *strlwr(char *string)
 #define VICE_MIN(x, y) (((x) < (y)) ? (x) : (y))
 #define VICE_MAX(x, y) (((x) > (y)) ? (x) : (y))
 
-size_t strlcpy(char *dst, const char *src, size_t maxlen)
+static size_t strlcpy(char *dst, const char *src, size_t maxlen)
 {
     size_t srclen = strlen(src);
     size_t len;
@@ -1010,7 +1010,7 @@ static const char ntoa_table[] = {
 
 /* Taken from SDL */
 #ifndef HAVE_LTOA
-char *ltoa(long value, char *string, int radix)
+static char *ltoa(long value, char *string, int radix)
 {
     char *bufp = string;
 
@@ -1040,7 +1040,7 @@ char *ltoa(long value, char *string, int radix)
 
 /* Taken from SDL */
 #ifndef HAVE_ULTOA
-char *ultoa(unsigned long value, char *string, int radix)
+static char *ultoa(unsigned long value, char *string, int radix)
 {
     char *bufp = string;
 

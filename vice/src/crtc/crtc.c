@@ -47,6 +47,7 @@
 #include "crtc-cmdline-options.h"
 #include "crtc-color.h"
 #include "crtc-draw.h"
+#include "crtc-mem.h"
 #include "crtc-resources.h"
 #include "crtc.h"
 #include "crtctypes.h"

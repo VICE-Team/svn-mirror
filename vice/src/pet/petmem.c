@@ -213,13 +213,13 @@ void rom_store(WORD addr, BYTE value)
 
 #define ROM6809_BASE    0xA000
 
-BYTE rom6809_read(WORD addr)
+static BYTE rom6809_read(WORD addr)
 {
     last_access = mem_6809rom[addr - ROM6809_BASE];
     return last_access;
 }
 
-void rom6809_store(WORD addr, BYTE value)
+static void rom6809_store(WORD addr, BYTE value)
 {
     mem_6809rom[addr - ROM6809_BASE] = value;
     last_access = value;
@@ -230,7 +230,7 @@ BYTE read_unused(WORD addr)
     return last_access;
 }
 
-BYTE read_io_88_8f(WORD addr)
+static BYTE read_io_88_8f(WORD addr)
 {
     switch (addr & 0xff00) {
         case 0x8800:
@@ -254,7 +254,7 @@ BYTE read_io_88_8f(WORD addr)
     return last_access;
 }
 
-BYTE read_io_e9_ef(WORD addr)
+static BYTE read_io_e9_ef(WORD addr)
 {
     switch (addr & 0xff00) {
         case 0xe900:

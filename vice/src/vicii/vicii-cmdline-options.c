@@ -43,7 +43,7 @@
 #include "viciitypes.h"
 
 
-int border_set_func(const char *value, void *extra_param)
+static int border_set_func(const char *value, void *extra_param)
 {
     int video;
     resources_get_int("MachineVideoStandard", &video);

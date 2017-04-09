@@ -46,7 +46,7 @@ BYTE plus4memrom_kernal_read(WORD addr)
     return plus4memrom_kernal_rom[addr & 0x3fff];
 }
 
-void plus4memrom_kernal_store(WORD addr, BYTE value)
+static void plus4memrom_kernal_store(WORD addr, BYTE value)
 {
     plus4memrom_kernal_rom[addr & 0x3fff] = value;
 }
@@ -56,7 +56,7 @@ BYTE plus4memrom_basic_read(WORD addr)
     return plus4memrom_basic_rom[addr & 0x3fff];
 }
 
-void plus4memrom_basic_store(WORD addr, BYTE value)
+static void plus4memrom_basic_store(WORD addr, BYTE value)
 {
     plus4memrom_basic_rom[addr & 0x3fff] = value;
 }

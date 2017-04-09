@@ -43,6 +43,9 @@
 #include "util.h"
 #include "crt.h"
 
+#include "actionreplay3.h"
+
+
 /*
     Action Replay 3
 

@@ -862,7 +862,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
     return SERIAL_OK;
 }
 
-void vdrive_rel_track_sector(vdrive_t *vdrive, unsigned int secondary,
+static void vdrive_rel_track_sector(vdrive_t *vdrive, unsigned int secondary,
                              unsigned int record, unsigned int *track,
                              unsigned int *sector, unsigned int *rec_start)
 {

@@ -119,7 +119,7 @@ BYTE ps2mouse_queue[PS2_QUEUE_SIZE];
 BYTE ps2mouse_queue_head;
 BYTE ps2mouse_queue_tail;
 
-int ps2mouse_queue_put(BYTE value)
+static int ps2mouse_queue_put(BYTE value)
 {
     BYTE new_head = (ps2mouse_queue_head + 1) & (PS2_QUEUE_SIZE - 1);
     if (new_head == ps2mouse_queue_tail) {
@@ -133,12 +133,12 @@ int ps2mouse_queue_put(BYTE value)
     return 1;
 }
 
-int ps2mouse_queue_empty(void)
+static int ps2mouse_queue_empty(void)
 {
     return (ps2mouse_queue_head == ps2mouse_queue_tail);
 }
 
-BYTE ps2mouse_queue_get(void)
+static BYTE ps2mouse_queue_get(void)
 {
     BYTE retval = ps2mouse_queue[ps2mouse_queue_tail];
     ++ps2mouse_queue_tail;
@@ -149,7 +149,7 @@ BYTE ps2mouse_queue_get(void)
 /* ------------------------------------------------------------------------- */
 
 
-int ps2mouse_handle_command(BYTE value)
+static int ps2mouse_handle_command(BYTE value)
 {
     SWORD diff_x, diff_y, new_x, new_y;
     BYTE new_buttons;
@@ -227,7 +227,7 @@ int ps2mouse_handle_command(BYTE value)
 
 struct alarm_s *c64dtv_ps2mouse_alarm;
 
-void c64dtv_ps2mouse_alarm_handler(CLOCK offset, void *data)
+static void c64dtv_ps2mouse_alarm_handler(CLOCK offset, void *data)
 {
     int another_alarm = 1;
 
@@ -427,7 +427,7 @@ BYTE ps2mouse_read()
 /* ------------------------------------------------------------------------- */
 
 
-void c64dtv_ps2mouse_alarm_init(void)
+static void c64dtv_ps2mouse_alarm_init(void)
 {
     c64dtv_ps2mouse_alarm = alarm_new(maincpu_alarm_context, "PS2MOUSEAlarm",
                                       c64dtv_ps2mouse_alarm_handler, NULL);

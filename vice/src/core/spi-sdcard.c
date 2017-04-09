@@ -194,7 +194,7 @@ BYTE spi_mmc_card_inserted(void)
     return value;
 }
 
-BYTE spi_mmc_set_card_inserted(BYTE value)
+static BYTE spi_mmc_set_card_inserted(BYTE value)
 {
     BYTE oldvalue = spi_mmc_card_inserted();
     mmc_card_inserted = value;

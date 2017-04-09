@@ -163,7 +163,7 @@ int output_text_init_cmdline_options(void)
 /*
  * TODO: only do this on systems which support it.
  */
-FILE *fopen_or_pipe(char *name)
+static FILE *fopen_or_pipe(char *name)
 {
     if (name[0] == '|') {
 #if COPROC_SUPPORT

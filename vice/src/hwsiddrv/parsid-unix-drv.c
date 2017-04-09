@@ -44,6 +44,8 @@
 #include "ps-unix.h"
 #include "types.h"
 
+#include "parsid.h"
+
 static int use_io = 0;
 
 #ifdef HAVE_PORTSID
@@ -54,7 +56,7 @@ static int use_port = 0;
 static int use_ieee1284 = 0;
 #endif
 
-void parsid_drv_out_ctr(WORD parsid_ctrport, int chipno)
+void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
 {
 #ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {

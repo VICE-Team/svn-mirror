@@ -42,6 +42,8 @@
 #include "translate.h"
 #include "uiapi.h"
 
+#include "clockport-rrnet.h"
+
 /* ------------------------------------------------------------------------- */
 /*    variables needed                                                       */
 

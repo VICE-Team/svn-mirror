@@ -36,6 +36,9 @@
 #include "tapeport.h"
 #include "translate.h"
 
+#include "dtl-basic-dongle.h"
+
+
 /* DTL Basic Dongle description:
 
    This emulation currently does not work for the software using it,

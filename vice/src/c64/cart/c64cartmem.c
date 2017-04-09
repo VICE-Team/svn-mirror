@@ -136,6 +136,25 @@ extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") 
 static void ultimax_memptr_update(void);
 
 /*
+ * Extra static declarations to keep compilers happy with -Wmissing-prototypes
+ * Since I don't really know how this module works with all the #ifdef's, this
+ * will have to for now.    2017-04-09, Compyx
+ */
+void cart_set_port_exrom_slot0(int);
+void cart_set_port_game_slot0(int);
+void cart_port_config_changed_slot0(void);
+void cart_config_changed_slot0(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+
+void cart_set_port_exrom_slot1(int);
+void cart_set_port_game_slot1(int);
+void cart_port_config_changed_slot1(void);
+void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+
+
+
+
+
+/*
   mode_phiN:
 
   bits N..2: bank (currently max 0x3f)
@@ -208,6 +227,7 @@ static void cart_config_changed(int slot, BYTE mode_phi1, BYTE mode_phi2, unsign
     }
 }
 #endif
+
 
 void cart_set_port_exrom_slot0(int n)
 {
@@ -299,6 +319,7 @@ void cart_passthrough_changed(void)
 }
 #endif
 
+
 void cart_set_port_exrom_slot1(int n)
 {
 #ifndef USESLOTS
@@ -368,6 +389,8 @@ void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wfla
 
 #endif
 }
+
+
 
 void cart_set_port_exrom_slotmain(int n)
 {
@@ -874,7 +897,7 @@ BYTE romh_read(WORD addr)
    that map an "external kernal" _only_ use this one, and wrap to
    ram_read in romh_read.
 */
-BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
+static BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
 {
     /* "Main Slot" */
     switch (mem_cartridge_type) {
@@ -1204,7 +1227,7 @@ void ramh_no_ultimax_store(WORD addr, BYTE value)
 }
 
 /* ultimax read - 1000 to 7fff */
-BYTE ultimax_1000_7fff_read_slot1(WORD addr)
+static BYTE ultimax_1000_7fff_read_slot1(WORD addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {
@@ -1315,7 +1338,7 @@ void ultimax_1000_7fff_store(WORD addr, BYTE value)
 }
 
 /* ultimax read - a000 to bfff */
-BYTE ultimax_a000_bfff_read_slot1(WORD addr)
+static BYTE ultimax_a000_bfff_read_slot1(WORD addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {
@@ -1420,7 +1443,7 @@ void ultimax_a000_bfff_store(WORD addr, BYTE value)
 }
 
 /* ultimax read - c000 to cfff */
-BYTE ultimax_c000_cfff_read_slot1(WORD addr)
+static BYTE ultimax_c000_cfff_read_slot1(WORD addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {

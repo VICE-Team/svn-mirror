@@ -145,4 +145,7 @@
 #  endif
 #endif
 
+char *platform_get_x86_runtime_cpu(void);
+
+
 #endif

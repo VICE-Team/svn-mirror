@@ -34,6 +34,8 @@
 #include "keyboard.h"
 #include "translate.h"
 
+#include "rushware_keypad.h"
+
 /* Control port <--> coplin keypad connections:
 
    cport | keypad  | I/O

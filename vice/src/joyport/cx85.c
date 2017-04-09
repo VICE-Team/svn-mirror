@@ -34,6 +34,8 @@
 #include "keyboard.h"
 #include "translate.h"
 
+#include "cx85.h"
+
 /* Control port <--> CX85 keypad connections:
 
    cport | keypad | I/O

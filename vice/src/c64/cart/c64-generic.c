@@ -189,7 +189,7 @@ void generic_ultimax_config_setup(BYTE *rawcart)
     cart_config_changed_slotmain(3, 3, CMODE_READ);
 }
 
-int generic_common_attach(int mode)
+static int generic_common_attach(int mode)
 {
     switch (mode) {
         case CARTRIDGE_GENERIC_8KB:

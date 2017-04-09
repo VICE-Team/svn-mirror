@@ -956,12 +956,12 @@ int event_record_reset_milestone(void)
     return 0;
 }
 
-int event_network_start(void)
+static int event_network_start(void)
 {
     return 0;
 }
 
-int event_network_stop(void)
+static int event_network_stop(void)
 {
     return 0;
 }

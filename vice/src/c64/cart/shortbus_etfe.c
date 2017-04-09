@@ -44,6 +44,8 @@
 #include "translate.h"
 #include "util.h"
 
+#include "shortbus_etfe.h"
+
 /*
     "The Shortbus ETFE "Final Ethernet" device
 

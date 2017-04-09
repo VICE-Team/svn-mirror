@@ -35,6 +35,7 @@
 #include "digiblaster.h"
 #include "lib.h"
 #include "maincpu.h"
+#include "machine.h"
 #include "plus4.h"
 #include "plus4speech.h"
 #include "sid.h"

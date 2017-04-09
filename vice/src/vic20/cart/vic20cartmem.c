@@ -53,6 +53,7 @@
 #include "types.h"
 #include "ultimem.h"
 #include "vic20mem.h"
+#include "vic20cart.h"
 #include "vic20cartmem.h"
 #include "vic20-generic.h"
 #include "vic20-ieee488.h"

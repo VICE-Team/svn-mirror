@@ -46,6 +46,8 @@
 #include "types.h"
 
 
+BYTE myacia_read(WORD addr);
+
 #undef  DEBUG   /*!< define if you want "normal" debugging output */
 #undef  DEBUG_VERBOSE /*!< define if you want very verbose debugging output. */
 /* #define DEBUG */
@@ -164,7 +166,7 @@ static acia_type acia = { NULL, NULL, 0, 0, 0, 0, (enum acia_tx_state)0,
                           0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                           (enum cpu_int)0, 0, 0, (enum rs232handshake_out)0 };
 
-void acia_preinit(void)
+static void acia_preinit(void)
 {
     memset(&acia, 0, sizeof acia);
 

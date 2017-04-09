@@ -54,6 +54,9 @@ TAPEPORT | TAPELOG
 #include "translate.h"
 #include "util.h"
 
+#include "tapelog.h"
+
+
 /* Device enabled */
 static int tapelog_enabled = 0;
 

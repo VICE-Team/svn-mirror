@@ -46,6 +46,7 @@
 #include "diskimage.h"
 #include "fsimage.h"
 #include "diskcontents.h"
+#include "machine.h"
 
 #include "version.h"
 
@@ -103,6 +104,7 @@
 #include "tape.h"
 #include "types.h"
 #include "util.h"
+#include "uiapi.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
 #include "vdrive-dir.h"
@@ -151,6 +153,31 @@
 #define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
 #define C1541_VERSION_MINOR     1   /**< c1541 minor version number */
 
+
+/* mostly useless crap, show go into c1541.h */
+void archdep_ui_init(int argc, char *argv[]);
+void enable_text(void);
+void disable_text(void);
+int machine_bus_device_attach(unsigned int device, const char *name,
+                              int (*getf)(vdrive_t *, BYTE *, unsigned int,
+                                          struct cbmdos_cmd_parse_s *),
+                              int (*putf)(vdrive_t *, BYTE, unsigned int),
+                              int (*openf)(vdrive_t *, const char *, int,
+                                           unsigned int),
+                              int (*closef)(vdrive_t *, unsigned int),
+                              void (*flushf)(vdrive_t *, unsigned int),
+                              void (*listenf)(vdrive_t *, unsigned int));
+
+struct vdrive_s *file_system_get_vdrive(unsigned int unit);
+void ui_error_string(const char *text);
+void vsync_suspend_speed_eval(void);
+struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);
+int machine_bus_lib_directory(unsigned int unit, const char *pattern, BYTE **buf);
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf);
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf);
+unsigned int machine_bus_device_type_get(unsigned int unit);
+void machine_drive_flush(void);
+const char *machine_get_name(void);
 
 /** \brief  Machine name
  */

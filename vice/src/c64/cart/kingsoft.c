@@ -45,6 +45,9 @@
 #include "util.h"
 #include "crt.h"
 
+#include "kingsoft.h"
+
+
 /*
     Kingsoft Cartridge ("business basic" aka "s'more")
 

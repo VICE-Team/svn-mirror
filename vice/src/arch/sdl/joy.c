@@ -1075,7 +1075,7 @@ ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value)
 
 /* ------------------------------------------------------------------------- */
 
-ui_menu_entry_t *sdljoy_get_hotkey(SDL_Event e)
+static ui_menu_entry_t *sdljoy_get_hotkey(SDL_Event e)
 {
     ui_menu_entry_t *retval = NULL;
     sdljoystick_mapping_t *joyevent = sdljoy_get_mapping(e);

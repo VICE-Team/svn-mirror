@@ -60,6 +60,7 @@
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -93,7 +94,7 @@ int archdep_rtc_get_centisecond(void)
 }
 #endif
 
-int archdep_init_extra(int *argc, char **argv)
+static int archdep_init_extra(int *argc, char **argv)
 {
     ssize_t read;
 #if !defined(USE_PROC_SELF_EXE)

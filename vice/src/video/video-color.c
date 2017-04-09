@@ -88,7 +88,7 @@ void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g, DWORD b)
     color_blu[index] = b;
 }
 
-void video_render_setrawalpha(DWORD a)
+static void video_render_setrawalpha(DWORD a)
 {
     alpha = a;
 }

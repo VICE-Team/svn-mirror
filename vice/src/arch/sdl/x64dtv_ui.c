@@ -32,6 +32,7 @@
 
 #include "debug.h"
 #include "c64mem.h"
+#include "c64ui.h"
 #include "menu_c64dtvhw.h"
 #include "menu_common.h"
 #include "menu_debug.h"
@@ -149,7 +150,7 @@ static const ui_menu_entry_t x64dtv_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-void c64dtvui_set_menu_params(int index, menu_draw_t *menu_draw)
+static void c64dtvui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     menu_draw->color_front = 15;
 

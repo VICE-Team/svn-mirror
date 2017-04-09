@@ -284,7 +284,7 @@ BYTE mem_read(WORD addr)
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
-BYTE mem_peek(WORD addr)
+static BYTE mem_peek(WORD addr)
 {
     return _mem_peek_tab[addr >> 8](addr);
 }

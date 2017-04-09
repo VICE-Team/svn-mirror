@@ -141,7 +141,7 @@ void cartridge_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
-void cart_power_off(void)
+static void cart_power_off(void)
 {
     if (plus4cartridge_reset) {
         /* "Turn off machine before removing cartridge" */

@@ -52,7 +52,7 @@
 */
 
 #ifdef FEATURE_CPUMEMHISTORY
-void memmap_mem_store(unsigned int addr, unsigned int value)
+static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     if ((addr >= 0xd000) && (addr <= 0xdfff)) {
         monitor_memmap_store(addr, MEMMAP_I_O_W);
@@ -62,7 +62,7 @@ void memmap_mem_store(unsigned int addr, unsigned int value)
     (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
 }
 
-void memmap_mark_read(unsigned int addr)
+static void memmap_mark_read(unsigned int addr)
 {
     switch (addr >> 12) {
         case 0xa:
@@ -87,7 +87,7 @@ void memmap_mark_read(unsigned int addr)
     memmap_state &= ~(MEMMAP_STATE_OPCODE);
 }
 
-BYTE memmap_mem_read(unsigned int addr)
+static BYTE memmap_mem_read(unsigned int addr)
 {
     memmap_mark_read(addr);
     return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
