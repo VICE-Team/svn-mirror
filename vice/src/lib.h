@@ -78,11 +78,15 @@ extern void lib_free_pinpoint(const void *p, const char *name, unsigned int line
 
 extern char *lib_stralloc_pinpoint(const char *str, const char *name, unsigned int line);
 
+#ifndef COMPILING_LIB_DOT_C
+
 #define lib_malloc(x) lib_malloc_pinpoint(x, __FILE__, __LINE__)
 #define lib_free(x) lib_free_pinpoint(x, __FILE__, __LINE__)
 #define lib_calloc(x, y) lib_calloc_pinpoint(x, y, __FILE__, __LINE__)
 #define lib_realloc(x, y) lib_realloc_pinpoint(x, y, __FILE__, __LINE__)
 #define lib_stralloc(x) lib_stralloc_pinpoint(x, __FILE__, __LINE__)
+
+#endif //not defined COMPILING_LIB_DOT_C
 
 #if defined(AMIGA_SUPPORT) || defined(__VBCC__)
 extern void *lib_AllocVec_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line);

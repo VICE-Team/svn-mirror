@@ -54,6 +54,7 @@
 #include "types.h"
 #include "debug.h"
 
+#define COMPILING_LIB_DOT_C
 #include "lib.h"
 
 #if (defined(sun) || defined(__sun)) && !(defined(__SVR4) || defined(__svr4__))
@@ -556,6 +557,9 @@ void lib_debug_check(void)
 
 /*----------------------------------------------------------------------------*/
 /* like malloc, but abort on out of memory. */
+#ifdef LIB_DEBUG_PINPOINT
+static
+#endif
 void *lib_malloc(size_t size)
 {
 #ifdef LIB_DEBUG
