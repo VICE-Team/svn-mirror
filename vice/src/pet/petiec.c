@@ -33,6 +33,7 @@
 #include "iecdrive.h"
 #include "petiec.h"
 #include "types.h"
+#include "debug.h"
 
 
 void petiec_init(void)
@@ -88,7 +89,7 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
 }
 
-#if (defined(WIN32_COMPILE) || defined(OS2_COMPILE))
+#if (defined(DEBUG) || defined(WIN32_COMPILE) || defined(OS2_COMPILE))
 void debug_iec_drv_read(unsigned int data)
 {
     /* FIXME: unused */
