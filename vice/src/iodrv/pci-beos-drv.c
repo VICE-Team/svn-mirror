@@ -35,6 +35,8 @@
 #include "log.h"
 #include "types.h"
 
+#include "pci-beos-drv.h"
+
 static int pci_get_direct_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
 {
     int bus_index;

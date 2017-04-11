@@ -32,6 +32,8 @@
 #include "log.h"
 #include "types.h"
 
+#include "io-access.h"
+
 #include <image.h>
 
 #ifdef __HAIKU__
