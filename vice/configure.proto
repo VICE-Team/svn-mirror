@@ -3516,7 +3516,7 @@ if test x"$is_unix" = "xyes"; then
 
     if test x"$IOSID_SUPPORT" = "xno"; then
       AC_CHECK_FUNCS(ioperm,[IOSID_SUPPORT=yes],)
-      AC_CHECK_FUNCS(inb outb outb_p inb_p)
+      AC_CHECK_FUNCS(inb outb outb_p inb_p inbv outbv)
     fi
 
     if test x"$IOSID_SUPPORT" = "xyes"; then

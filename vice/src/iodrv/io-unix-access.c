@@ -181,12 +181,20 @@ static int device_io_open(void)
 
 static BYTE device_io_inb(WORD addr)
 {
+#ifdef HAVE_INBV
     return inbv(addr);
+#else
+    return inb(addr);
+#endif
 }
 
 static void device_io_outb(WORD addr, BYTE val)
 {
+#ifdef HAVE_OUTBV
     outbv(addr, val);
+#else
+    outb(addr, val);
+#endif
 }
 #endif
 
