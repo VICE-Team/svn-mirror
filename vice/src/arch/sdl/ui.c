@@ -567,7 +567,11 @@ static int set_native_monitor(int val, void *param)
 #endif
 
 #ifndef DEFAULT_MENU_KEY
-#define DEFAULT_MENU_KEY SDLK_F12
+# ifdef MACOSX_SUPPORT
+#  define DEFAULT_MENU_KEY SDLK_F10
+# else
+#  define DEFAULT_MENU_KEY SDLK_F12
+# endif
 #endif
 
 static const resource_int_t resources_int[] = {
