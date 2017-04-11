@@ -1560,7 +1560,7 @@ fi
 
 dnl Check if --param inline-unit-growth=60 can be used.
 old_CFLAGS=$CFLAGS
-CFLAGS="$CFLAGS --param inline-unit-growth=60"
+CFLAGS="$CFLAGS -Werror --param inline-unit-growth=60"
 AC_MSG_CHECKING([if the compiler accepts --param inline-unit-growth=60])
 AC_TRY_COMPILE([],
                [int test;],
@@ -1575,7 +1575,7 @@ AC_SUBST(INLINE_UNIT_GROWTH)
 
 dnl Check if --param max-inline-insns-single=600 can be used.
 old_CFLAGS=$CFLAGS
-CFLAGS="$CFLAGS --param max-inline-insns-single=600"
+CFLAGS="$CFLAGS -Werror --param max-inline-insns-single=600"
 AC_MSG_CHECKING([if the compiler accepts --param max-inline-insns-single=600])
 AC_TRY_COMPILE([],
                [int test;],
