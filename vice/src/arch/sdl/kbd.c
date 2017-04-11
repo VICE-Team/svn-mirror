@@ -556,7 +556,7 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[8] = SDL2x_to_SDL1x_Keys(SDLK_KP9);
 }
 
-char *kbd_get_keyname(void)
+char *kbd_get_menu_keyname(void)
 {
     return SDL_GetKeyName(SDL1x_to_SDL2x_Keys(sdl_ui_menukeys[0]));
 }

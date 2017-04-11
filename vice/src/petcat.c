@@ -2394,7 +2394,7 @@ void ui_error(const char *format, ...) /* SDL on mingw32 needs this */
 {
 }
 
-char *kbd_get_keyname(void)
+char *kbd_get_menu_keyname(void)
 {
     return NULL;
 }

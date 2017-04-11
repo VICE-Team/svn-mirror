@@ -4892,7 +4892,7 @@ BYTE machine_tape_behaviour(void)
     return TAPE_BEHAVIOUR_NORMAL;
 }
 
-char *kbd_get_keyname(void)
+char *kbd_get_menu_keyname(void)
 {
     return NULL;
 }
