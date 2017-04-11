@@ -155,6 +155,7 @@
 
 
 /* mostly useless crap, show go into c1541.h */
+char *kbd_get_menu_keyname(void);
 void archdep_ui_init(int argc, char *argv[]);
 void enable_text(void);
 void disable_text(void);
