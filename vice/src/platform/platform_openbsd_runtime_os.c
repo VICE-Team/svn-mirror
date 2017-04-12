@@ -74,6 +74,8 @@
    i386   | OpenBSD 5.9
    i386   | OpenBSD 6.0
    amd64  | OpenBSD 6.0
+   i386   | OpenBSD 6.1
+   amd64  | OpenBSD 6.1
  */
 
 #include "vice.h"
