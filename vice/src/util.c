@@ -946,7 +946,7 @@ unsigned long strtoul(const char *nptr, char **endptr, int base)
 #endif
 
 
-#ifndef HAVE_SVNPRINTF
+#ifndef HAVE_VSNPRINTF
 
 /* Taken from SDL */
 #ifndef HAVE_STRREV
