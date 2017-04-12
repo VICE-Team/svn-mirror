@@ -216,7 +216,7 @@ static void memory_to_string(char *buf, MEMSPACE mem, WORD addr,
     for (i = 0; i < len; i++) {
         val = mon_get_mem_val(mem, addr);
 
-#ifndef SDL_COMPILE
+#ifndef SDL_UI_SUPPORT
         if (petscii) {
             buf[i] = charset_p_toascii(val, 0);
         }

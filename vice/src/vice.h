@@ -114,10 +114,13 @@ typedef int ssize_t;
 #endif
 
 /* ------------------------------------------------------------------------- */
-/* Which OS is using the common keyboard routines?  */
-#if !defined(__OS2__) || defined(USE_SDLUI) || defined(USE_SDLUI2)
-#define COMMON_KBD
+/* A common define for the SDL UIs. */
+#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#define SDL_UI_SUPPORT
 #endif
+
+/* All OSes now use the common keyboard routines. */
+#define COMMON_KBD
 
 /* Which OS is using those ugly scale source coordinates.  */
 #if defined(__MSDOS__)
