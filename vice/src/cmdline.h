@@ -37,7 +37,7 @@ typedef enum cmdline_option_type { SET_RESOURCE, CALL_FUNCTION }
 
 typedef struct cmdline_option_s {
     /* Name of command-line option.  */
-    char *name;
+    const char *name;
 
     /* Behavior of this command-line option.  */
     cmdline_option_type_t type;
@@ -54,7 +54,7 @@ typedef struct cmdline_option_s {
     void *extra_param;
 
     /* Resource to change if `type' is `SET_RESOURCE'.  */
-    char *resource_name;
+    const char *resource_name;
 
     /* Value to assign to `resource_name' if `type' is `SET_RESOURCE' and
        `need_arg' is zero.  */

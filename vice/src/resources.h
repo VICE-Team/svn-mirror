@@ -54,7 +54,7 @@ struct event_list_state_s;
 
 struct resource_int_s {
     /* Resource name.  */
-    char *name;
+    const char *name;
 
     /* Factory default value.  */
     int factory_value;
@@ -81,7 +81,7 @@ typedef struct resource_int_s resource_int_t;
 
 struct resource_string_s {
     /* Resource name.  */
-    char *name;
+    const char *name;
 
     /* Factory default value.  */
     const char *factory_value;
