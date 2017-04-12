@@ -390,7 +390,9 @@ void archdep_shutdown(void)
 #if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
     gettimeofday_shutdown();
 #endif
+#ifdef HAVE_NETWORK
     archdep_network_shutdown();
+#endif
 }
 
 #if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
