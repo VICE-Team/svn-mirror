@@ -700,12 +700,14 @@ static int rtc_is_empty(BYTE *array, int size)
     return 1;
 }
 
+static const char *machine_id = machine_name;
+
 static void rtc_write_data(FILE *outfile, BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *device, time_t offset)
 {
     char *ram_string = NULL;
     char *reg_string = NULL;
 
-    fprintf(outfile, "[%s]\n", machine_name);
+    fprintf(outfile, "[%s]\n", machine_id);
     fprintf(outfile, "(%s)\n", device);
     fprintf(outfile, "{%d}\n", (int)offset);
     if (ram_size) {
@@ -848,7 +850,7 @@ void rtc_save_context(BYTE *ram, int ram_size, BYTE *regs, int reg_size, char *d
     if (outfile) {
         if (ok) {
             for (i = 0; rtc_items[i].emulator; i++) {
-                if (!strcmp(machine_name, rtc_items[i].emulator) && !strcmp(device, rtc_items[i].device)) {
+                if (!strcmp(machine_id, rtc_items[i].emulator) && !strcmp(device, rtc_items[i].device)) {
                     rtc_write_data(outfile, ram, ram_size, regs, reg_size, device, offset);
                     ok = 0;
                 } else {
@@ -882,6 +884,8 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
     int ok = 0;
     int i;
 
+    machine_id = machine_get_name();
+
     loaded_ram = NULL;
     loaded_regs = NULL;
     loaded_offset = 0;
@@ -901,7 +905,7 @@ int rtc_load_context(char *device, int ram_size, int reg_size)
                 return 0;
             }
             for (i = 0; rtc_items[i].emulator; i++) {
-                if (!strcmp(machine_name, rtc_items[i].emulator) && !strcmp(device, rtc_items[i].device)) {
+                if (!strcmp(machine_id, rtc_items[i].emulator) && !strcmp(device, rtc_items[i].device)) {
                     if (ram_size) {
                         if (rtc_items[i].ram_data[0] == 'x') {
                             loaded_ram = lib_malloc(ram_size);
