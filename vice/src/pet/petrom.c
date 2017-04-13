@@ -349,6 +349,24 @@ void petrom_get_editor_checksum(void)
     }
 }
 
+static void petrom_keybuf_init(void)
+{
+    if (petres.kernal_checksum == PET_KERNAL4_CHECKSUM) {
+        kbdbuf_init(0x26f, 0x9e, 10,
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+    } else if (petres.kernal_checksum == PET_KERNAL2_CHECKSUM) {
+        petres.rom_video = 40;
+        kbdbuf_init(0x26f, 0x9e, 10,
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+    } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
+        kbdbuf_init(0x20f, 0x20d, 10,
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+    } else {
+        log_warning(petrom_log, "Unknown PET ROM.");
+    }
+}
+
+
 void petrom_checksum(void)
 {
     static WORD last_kernal = 0;
@@ -377,8 +395,6 @@ void petrom_checksum(void)
         if (petres.kernal_checksum != last_kernal) {
             log_message(petrom_log, "Identified Kernal 4 ROM by checksum.");
         }
-        kbdbuf_init(0x26f, 0x9e, 10,
-                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
         tape_init(&tapeinit4);
         if (petres.editor_checksum == PET_EDIT4B80_CHECKSUM) {
             if (petres.editor_checksum != last_editor) {
@@ -402,8 +418,6 @@ void petrom_checksum(void)
             log_message(petrom_log, "Identified Kernal 2 ROM by checksum.");
         }
         petres.rom_video = 40;
-        kbdbuf_init(0x26f, 0x9e, 10,
-                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
         autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH), 0,
                        0xa7, 0xc4, 0xc6, -40);
         tape_init(&tapeinit2);
@@ -412,8 +426,6 @@ void petrom_checksum(void)
             log_message(petrom_log, "Identified Kernal 1 ROM by checksum.");
         }
         petres.rom_video = 40;
-        kbdbuf_init(0x20f, 0x20d, 10,
-                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
         autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH), 0,
                        0x224, 0xe0, 0xe2, -40);
         tape_init(&tapeinit1);
@@ -805,6 +817,8 @@ int mem_load(void)
     if (petrom_load_editor() < 0) {
         return -1;
     }
+
+    petrom_keybuf_init();
 
     if (petrom_load_rom9() < 0) {
         return -1;
