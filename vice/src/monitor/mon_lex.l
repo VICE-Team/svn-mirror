@@ -51,6 +51,10 @@
 #include <io.h>
 #endif
 
+#ifdef AMIGA_MORPHOS
+#undef REG_PC
+#endif
+
 #include "lib.h"
 #include "mon_command.h"
 #include "montypes.h"
