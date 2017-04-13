@@ -346,10 +346,6 @@ BYTE rom_read(WORD addr)
     return mem_rom[addr];
 }
 
-static BYTE read_chargen(WORD addr)
-{
-    return mem_chargen_rom[addr & 0xfff];
-}
 
 void rom_store(WORD addr, BYTE value)
 {

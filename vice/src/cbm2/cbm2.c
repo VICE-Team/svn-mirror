@@ -44,6 +44,7 @@
 #include "cbm2acia.h"
 #include "cbm2cia.h"
 #include "cbm2iec.h"
+#include "cbm2model.h"
 #include "cbm2mem.h"
 #include "cbm2tpi.h"
 #include "cbm2ui.h"
@@ -728,6 +729,9 @@ int machine_specific_init(void)
 /* CBM-II-specific initialization.  */
 void machine_specific_reset(void)
 {
+    int delay = KBDBUF_ALARM_DELAY;
+    int model = cbm2model_get();
+
     ciacore_reset(machine_context.cia1);
     tpicore_reset(machine_context.tpi1);
     tpicore_reset(machine_context.tpi2);
@@ -746,11 +750,48 @@ void machine_specific_reset(void)
 
     mem_reset();
 
+    /* delays figured out by running each model */
+    switch (model) {
+        /* Most likely unneeded, since cbm5x0 should handle these. But should
+         * someone be clever enough to turn the #define's in cmb2model.h into
+         * an enum, a compiler could catch missing cases.
+         */
+        case CBM2MODEL_510_PAL:     /* fallthrough */
+        case CBM2MODEL_510_NTSC:
+            delay = 7;
+            break;
+        case CBM2MODEL_610_PAL:     /* fallthrough */
+        case CBM2MODEL_610_NTSC:
+            delay = 4;
+            break;
+        case CBM2MODEL_620_PAL:     /* fallthrough */
+        case CBM2MODEL_620_NTSC:
+            delay = 8;
+            break;
+        case CBM2MODEL_620PLUS_PAL: /* fallthrough */
+        case CBM2MODEL_620PLUS_NTSC:
+            delay = 25;
+            break;
+        case CBM2MODEL_710_NTSC:
+            delay = 4;
+            break;
+        case CBM2MODEL_720_NTSC:
+            delay = 25;
+            break;
+        case CBM2MODEL_720PLUS_NTSC:
+            delay = 25;
+            break;
+        default:
+            delay = 30;     /* shouldn't get here */
+            break;
+    }
+
     /* Initialize keyboard buffer.
        This appears to work but doesn't account for banking. */
+    printf("init kbdbuf with %d seconds delay\n", delay);
     kbdbuf_init(0x3ab, 0xd1, 10,
             (CLOCK)(machine_timing.rfsh_per_sec *
-                machine_timing.cycles_per_rfsh * KBDBUF_ALARM_DELAY));
+                machine_timing.cycles_per_rfsh * delay));
 
     sampler_reset();
 }
