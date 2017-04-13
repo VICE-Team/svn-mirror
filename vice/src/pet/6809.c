@@ -267,23 +267,6 @@ static void release_irq(unsigned int source)
 }
 
 
-static void request_firq (unsigned int source)
-{
-    /* If the interrupt is not masked, generate
-     * IRQ immediately.  Else, mark it pending and
-     * we'll check it later when the flags change.
-     */
-    firqs_pending |= (1 << source);
-    if (!(EFI & F_FLAG)) {
-        firq();
-    }
-}
-
-static void release_firq(unsigned int source)
-{
-    firqs_pending &= ~(1 << source);
-}
-
 static void sim_error(const char *format, ...)
 {
     va_list ap;

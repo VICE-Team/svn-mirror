@@ -392,23 +392,6 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
     }
 }
 
-/* unused */
-static void rtc58321_stop_clock(rtc_58321a_t *context)
-{
-    if (!context->stop) {
-        context->stop = 1;
-        context->latch = rtc_get_latch(context->offset);
-    }
-}
-
-/* unused */
-static void rtc58321_start_clock(rtc_58321a_t *context)
-{
-    if (context->stop) {
-        context->stop = 0;
-        context->offset = context->offset - (rtc_get_latch(0) - (context->latch - context->offset));
-    }
-}
 
 /* ---------------------------------------------------------------------------------------------------- */
 

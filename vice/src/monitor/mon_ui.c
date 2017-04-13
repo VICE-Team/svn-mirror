@@ -440,10 +440,6 @@ void mon_memory_init(mon_memory_private_t * pmmp)
     mon_navigate_init(&pmmp->navigate);
 }
 
-static void mon_memory_deinit(mon_memory_private_t * pmmp)
-{
-}
-
 void mon_memory_update(mon_memory_private_t * pmmp)
 {
 }
