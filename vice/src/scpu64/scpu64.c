@@ -128,6 +128,12 @@
 #include "mouse.h"
 #endif
 
+
+/** \brief  Delay in seconds before pasting -keybuf argument into the buffer
+ */
+#define KBDBUF_ALARM_DELAY   1
+
+
 machine_context_t machine_context;
 
 const char machine_name[] = "SCPU64";
@@ -903,7 +909,9 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(631, 198, 10,
+            (CLOCK)(machine_timing.rfsh_per_sec *
+                machine_timing.cycles_per_rfsh * KBDBUF_ALARM_DELAY));
 
     /* Initialize the C64-specific I/O */
     c64io_init();

@@ -48,6 +48,11 @@
 #include "util.h"
 
 
+/** \brief  Delay in seconds before pasting -keybuf argument into the buffer
+ */
+#define KBDBUF_ALARM_DELAY   1
+
+
 int petrom_9_loaded = 0;    /* 1 = $9*** ROM is loaded */
 int petrom_A_loaded = 0;    /* 1 = $A*** ROM is loaded */
 int petrom_B_loaded = 0;    /* 1 = $B*** ROM or Basic 4 is loaded */
@@ -353,14 +358,16 @@ static void petrom_keybuf_init(void)
 {
     if (petres.kernal_checksum == PET_KERNAL4_CHECKSUM) {
         kbdbuf_init(0x26f, 0x9e, 10,
-                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH *
+                        PET_PAL_RFSH_PER_SEC * KBDBUF_ALARM_DELAY));
     } else if (petres.kernal_checksum == PET_KERNAL2_CHECKSUM) {
-        petres.rom_video = 40;
         kbdbuf_init(0x26f, 0x9e, 10,
-                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH *
+                        PET_PAL_RFSH_PER_SEC * KBDBUF_ALARM_DELAY));
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
         kbdbuf_init(0x20f, 0x20d, 10,
-                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+                    (CLOCK)(PET_PAL_CYCLES_PER_RFSH *
+                        PET_PAL_RFSH_PER_SEC * KBDBUF_ALARM_DELAY));
     } else {
         log_warning(petrom_log, "Unknown PET ROM.");
     }

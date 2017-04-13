@@ -108,6 +108,12 @@
 #include "mouse.h"
 #endif
 
+
+/** \brief  Delay in seconds before pasting -keybuf argument into the buffer
+ */
+#define KBDBUF_ALARM_DELAY   8
+
+
 machine_context_t machine_context;
 
 const char machine_name[] = "CBM-II";
@@ -755,10 +761,10 @@ void machine_specific_reset(void)
 
     /* Initialize keyboard buffer.
        This appears to work but doesn't account for banking
-       XXX: doesn't work anymore, definately needs banking
      */
     kbdbuf_init(0x3ab, 0xd1, 10,
-            (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
+            (CLOCK)(machine_timing.rfsh_per_sec *
+                machine_timing.cycles_per_rfsh * KBDBUF_ALARM_DELAY));
 
 
     sampler_reset();

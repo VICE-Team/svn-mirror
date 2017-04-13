@@ -115,6 +115,12 @@
 #include "mouse.h"
 #endif
 
+
+/** \brief  Delay in seconds before pasting -keybuf argument into the buffer
+ */
+#define KBDBUF_ALARM_DELAY   1
+
+
 machine_context_t machine_context;
 
 const char machine_name[] = "PLUS4";
@@ -859,7 +865,8 @@ int machine_specific_init(void)
                                 machine_timing.cycles_per_sec);
 
     /* Initialize keyboard buffer.  */
-    kbdbuf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec *
+                machine_timing.cycles_per_rfsh * KBDBUF_ALARM_DELAY));
 
     if (!console_mode) {
         plus4ui_init();

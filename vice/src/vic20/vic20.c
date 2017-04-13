@@ -121,6 +121,12 @@
 #include "mouse.h"
 #endif
 
+
+/** \brief  Delay in seconds before pasting -keybuf argument into the buffer
+ */
+#define KBDBUF_ALARM_DELAY   1
+
+
 machine_context_t machine_context;
 
 const char machine_name[] = "VIC20";
@@ -990,7 +996,9 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.cycles_per_rfsh * machine_timing.rfsh_per_sec));
+    kbdbuf_init(631, 198, 10,
+            (CLOCK)(machine_timing.cycles_per_rfsh *
+                machine_timing.rfsh_per_sec * KBDBUF_ALARM_DELAY));
 
     /* Initialize the VIC20-specific I/O */
     vic20io0_init();
