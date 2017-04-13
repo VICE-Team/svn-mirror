@@ -118,9 +118,11 @@ int uimon_out(const char *buffer)
 {
     int rc = 0;
 
+    char *buf = lib_stralloc(buffer);
+
     if (using_ui_monitor) {
         int y = menu_draw->max_text_y - 1;
-        char *p = (char *)buffer;
+        char *p = buf;
         int i = 0;
         char c;
 
@@ -132,6 +134,12 @@ int uimon_out(const char *buffer)
                 x_pos = 0;
                 p += i + 1;
                 i = 0;
+            } else if (c == '\t') {
+                /* replace tabs with a single space, so weird 'i' chars don't
+                 * show up for tabs (we don't have a lot of room in a 40-col
+                 * display, so expanding these tabs won't do much good)
+                 */
+                p[i++] = ' ';
             } else {
                 ++i;
             }
@@ -146,6 +154,8 @@ int uimon_out(const char *buffer)
             rc = console_out(console_log_local, "%s", buffer);
         }
     }
+
+    lib_free(buf);
 
     return rc;
 }
