@@ -1801,10 +1801,11 @@ void mon_instructions_next(int count)
 void mon_instruction_return(void)
 {
     instruction_count = 1;
-    wait_for_return_level = (int)((MONITOR_GET_OPCODE(default_memspace) == OP_RTS
-                                || MONITOR_GET_OPCODE(default_memspace) == OP_RTI) ? 0 	 
-                                : (MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 2
-                                : 1);
+    /* clear abuse of the ?: operator: */
+    wait_for_return_level = (int)(
+            (MONITOR_GET_OPCODE(default_memspace) == OP_RTS
+             || MONITOR_GET_OPCODE(default_memspace) == OP_RTI) ?
+            0 : (MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 2 : 1);
     skip_jsrs = TRUE;
     exit_mon = 1;
 
@@ -2074,7 +2075,7 @@ void monitor_check_icount_interrupt(void)
     }
 }
 
-/* called by macro DO_INTERRUPT() in 6510(dtv)core.c 
+/* called by macro DO_INTERRUPT() in 6510(dtv)core.c
  * returns non-zero if breakpoint hit and monitor should be invoked
  */
 int monitor_check_breakpoints(MEMSPACE mem, WORD addr)

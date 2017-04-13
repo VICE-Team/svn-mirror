@@ -1279,7 +1279,7 @@ void petmem_set_vidmem(void)
         int c = 0x8000 + COLOUR_MEMORY_START;
         i = (c >> 8) & 0xff;
         l = ((c + petres.videoSize) >> 8) & 0xff;
-        if (l > 0x90) {	/* compatibility with 8296 */
+        if (l > 0x90) { /* compatibility with 8296 */
             l = 0x90;
         }
 
@@ -1758,7 +1758,7 @@ static int mem_dump_io(void *context, WORD addr)
             return crtc_dump();
         }
     } else if (addr == 0xe888) {
-	return e888_dump();
+        return e888_dump();
     } else if ((addr >= 0xeb00) && (addr <= 0xeb0f)) {
         if (petdww_enabled) {
             return petdwwpia_dump();

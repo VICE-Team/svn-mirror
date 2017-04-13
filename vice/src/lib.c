@@ -365,7 +365,7 @@ static void lib_debug_libc_free(void *ptr)
         } else {
             free(ptr);
         }
-    } 
+    }
 #ifdef LIB_DEBUG_WARN_FREE_NULL
     else {
 #ifdef LIB_DEBUG_PINPOINT
@@ -509,7 +509,7 @@ void lib_debug_check(void)
     printf("\n");
     for (index = 0; index < lib_debug_leaklist_num; index++) {
         printf("%s:%d: Warning: Memory block(s) allocated here was not free'd (Memory leak with size 0x%x at %p).",
-               lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index], 
+               lib_debug_leaklist_filename[index], lib_debug_leaklist_line[index],
                lib_debug_leaklist_size[index], lib_debug_leaklist_address[index]);
 #ifdef LIB_DEBUG_CALLER
         printf("\ncallstack:\n");

@@ -820,7 +820,7 @@ static void keyboard_keyword_undef(void)
 {
     char *key;
 
-    /* TODO: this only unsets from the main table, not for joysticks 
+    /* TODO: this only unsets from the main table, not for joysticks
      *       inventing another keyword to reset joysticks only is perhaps a
      *       good idea.
      */
