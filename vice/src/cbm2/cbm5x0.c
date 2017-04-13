@@ -701,10 +701,6 @@ int machine_specific_init(void)
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
-    /* Initialize keyboard buffer.
-       This appears to work but doesn't account for banking. */
-    kbdbuf_init(939, 209, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
-
     /* Initialize the CBM-II-specific part of the UI.  */
     if (!console_mode) {
         cbm5x0ui_init();
@@ -756,6 +752,14 @@ void machine_specific_reset(void)
     datasette_reset();
 
     mem_reset();
+
+    /* Initialize keyboard buffer.
+       This appears to work but doesn't account for banking
+       XXX: doesn't work anymore, definately needs banking
+     */
+    kbdbuf_init(0x3ab, 0xd1, 10,
+            (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
+
 
     sampler_reset();
 }
