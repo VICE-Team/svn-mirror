@@ -732,9 +732,6 @@ int drive_get_disk_drive_type(int dnr)
     vdrive
 *******************************************************************************/
 
-struct vdrive_s;
-typedef struct vdrive_s vdrive_t;
-
 void vdrive_init(void)
 {
 }
