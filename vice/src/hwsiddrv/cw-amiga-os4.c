@@ -35,7 +35,6 @@
 #include <string.h>
 
 #include "cw-amiga.h"
-#include "loadlibs.h"
 #include "log.h"
 #include "types.h"
 

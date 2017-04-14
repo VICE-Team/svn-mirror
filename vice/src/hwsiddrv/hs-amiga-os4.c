@@ -32,9 +32,17 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "hardsid.h"
-#include "loadlibs.h"
+#include "hs-amiga.h"
+
+#if !defined(USE_SDLUI) && !defined(USE_SDLUI2)
+# include "loadlibs.h"
+#else
+# include "archdep.h"
+#endif
+
 #include "log.h"
 #include "types.h"
 
