@@ -61,7 +61,11 @@
 
 #if defined(AMIGA_OS4)
 #include <exec/execbase.h>
-extern struct ExecBase *SysBase;
+#ifndef __USE_BASETYPE__
+  extern struct Library * SysBase;
+#else
+  extern struct ExecBase * SysBase;
+#endif /* __USE_BASETYPE__ */
 #endif
 
 static char *boot_path = NULL;
