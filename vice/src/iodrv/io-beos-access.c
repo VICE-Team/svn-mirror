@@ -75,11 +75,13 @@ int io_access_init(void)
     poke_driver_fd = open(POKE_DEVICE_FULLNAME, O_RDWR);
     return (poke_driver_fd < 0) ? -1 : 0;
 #else
+#ifndef WORDS_BIGENDIAN
     addon_image = load_add_on("libroot.so");
     if (addon_image) {
         get_image_symbol(addon_image, "read_isa_io", B_SYMBOL_TYPE_TEXT, &vice_read_isa_io);
         get_image_symbol(addon_image, "write_isa_io", B_SYMBOL_TYPE_TEXT, &vice_write_isa_io);
     }
+#endif
     return 0;
 #endif
 }
@@ -120,10 +122,8 @@ BYTE io_access_read_byte(WORD addr)
     if (vice_read_isa_io) {
         return (BYTE)vice_read_isa_io(0, (void *)(DWORD)addr, 1);
     }
-    return 0;
-#else
-    return 0;
 #endif
+    return 0;
 #endif
 }
 
@@ -156,10 +156,8 @@ DWORD io_access_read_long(WORD addr)
     if (vice_read_isa_io) {
          return (DWORD)vice_read_isa_io(0, (void *)(DWORD)addr, 4);
     }
-    return 0;
-#else
-    return 0;
 #endif
+    return 0;
 #endif
 }
 #endif
