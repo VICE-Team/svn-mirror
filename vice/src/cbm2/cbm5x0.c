@@ -739,6 +739,8 @@ int machine_specific_init(void)
 /* CBM-II-specific initialization.  */
 void machine_specific_reset(void)
 {
+    int delay;      /* delay in seconds for the kbduf_init() call */
+
     ciacore_reset(machine_context.cia1);
     tpicore_reset(machine_context.tpi1);
     tpicore_reset(machine_context.tpi2);
@@ -762,9 +764,30 @@ void machine_specific_reset(void)
     /* Initialize keyboard buffer.
        This appears to work but doesn't account for banking
      */
-    kbdbuf_init(0x3ab, 0xd1, 10,
+    switch (ramsize) {
+        case 64:
+            delay = 8;
+            break;
+        case 128:
+            delay = 12;
+            break;
+        case 256:
+            delay = 20;
+            break;
+        case 512:
+            delay = 31;
+            break;
+        case 1024:
+            delay = 58;
+            break;
+        default:
+            /* invalid ramsize */
+            delay = 1;
+            break;
+    }
+    kbdbuf_init(0x03ab, 0x00d1, 10,
             (CLOCK)(machine_timing.rfsh_per_sec *
-                machine_timing.cycles_per_rfsh * KBDBUF_ALARM_DELAY));
+                machine_timing.cycles_per_rfsh * delay));
 
 
     sampler_reset();
