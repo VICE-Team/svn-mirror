@@ -12,7 +12,7 @@
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  (at your option) any later vers;on.
  *
  *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -92,6 +92,10 @@
 #include "vic20model.h"
 #include "vsync.h"
 
+#include "vic20ui.h"
+
+
+/* description would be nice */
 enum {
     MEM_NONE,
     MEM_ALL,
@@ -101,6 +105,8 @@ enum {
     MEM_24K
 };
 
+
+/* description would be nice */
 enum {
     BLOCK_0 = 1,
     BLOCK_1 = 1 << 1,
@@ -385,7 +391,7 @@ UI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 UI_MENU_DEFINE_TOGGLE(IO2RAM)
 UI_MENU_DEFINE_TOGGLE(IO3RAM)
 
-UI_CALLBACK(set_mc_nvram_image_name)
+static UI_CALLBACK(set_mc_nvram_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("Mega-Cart NvRAM image"), UILIB_FILTER_ALL);
 }

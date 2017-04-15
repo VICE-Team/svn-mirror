@@ -36,4 +36,9 @@ extern struct ui_menu_entry_s uiattach_smart_attach_menu[];
 extern void uiattach_shutdown(void);
 extern int uiattach_autostart_file(char *filename);
 
+/* prototypes for callbacks used from other files */
+
+UI_CALLBACK(attach_disk);
+UI_CALLBACK(detach_disk);
+
 #endif
