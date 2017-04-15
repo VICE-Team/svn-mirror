@@ -43,7 +43,8 @@
 
 UI_MENU_DEFINE_RADIO(SamplerDevice)
 
-UI_CALLBACK(set_sampler_gain)
+
+static UI_CALLBACK(set_sampler_gain)
 {
     static char input_string[32];
     char *msg_string;
@@ -72,10 +73,12 @@ UI_CALLBACK(set_sampler_gain)
     }
 }
 
-UI_CALLBACK(set_sampler_image_name)
+
+static UI_CALLBACK(set_sampler_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("Sampler input media file"), UILIB_FILTER_ALL);
 }
+
 
 ui_menu_entry_t sampler_settings_submenu[] = {
     { N_("Sampler device"), UI_MENU_TYPE_NORMAL,

@@ -40,6 +40,9 @@
 #include "util.h"
 #include "vsync.h"
 
+#include "uirs232.h"
+
+
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 UI_MENU_DEFINE_RADIO(RsDevice2Baud)
 
@@ -97,10 +100,12 @@ SER_BAUD_MENU(1);
 SER_C64C128_BAUD_MENU(2);
 SER_BAUD_MENU(2);
 
+
 UI_CALLBACK(set_rs232_device_file)
 {
     uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Select RS232 device file"), UILIB_FILTER_SERIAL);
 }
+
 
 UI_CALLBACK(set_rs232_exec_file)
 {
@@ -109,6 +114,7 @@ UI_CALLBACK(set_rs232_exec_file)
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for RS232 (preceed with '|')"), command_text);
     lib_free(command_text);
 }
+
 
 UI_CALLBACK(set_rs232_dump_file)
 {

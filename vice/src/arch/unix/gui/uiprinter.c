@@ -37,6 +37,9 @@
 #include "util.h"
 #include "vsync.h"
 
+#include "uiprinter.h"
+
+
 UI_MENU_DEFINE_STRING_RADIO(Printer4Driver)
 UI_MENU_DEFINE_STRING_RADIO(Printer5Driver)
 UI_MENU_DEFINE_STRING_RADIO(Printer6Driver)

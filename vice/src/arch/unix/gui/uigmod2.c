@@ -83,7 +83,7 @@ static UI_CALLBACK(gmod2_flush_callback)
     }
 }
 
-UI_CALLBACK(set_gmod2_card_filename)
+static UI_CALLBACK(set_gmod2_card_filename)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("GMod2 card image filename"),
                         UILIB_FILTER_ALL);

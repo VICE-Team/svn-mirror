@@ -38,6 +38,9 @@
 #include "uimenu.h"
 #include "vsync.h"
 
+#include "uisid.h"
+
+
 static UI_CALLBACK(radio_SidModel)
 {
     int engine, model, selected;
@@ -136,6 +139,7 @@ ui_menu_entry_t sid_model_submenu[] = {
 
 static ui_menu_entry_t *attach_sid_model_submenu = NULL;
 
+
 void uisid_model_menu_create(void)
 {
     int i;
@@ -152,6 +156,7 @@ void uisid_model_menu_create(void)
     }
     sid_model_submenu[0].sub_menu = attach_sid_model_submenu;
 }
+
 
 void uisid_model_menu_shutdown(void)
 {

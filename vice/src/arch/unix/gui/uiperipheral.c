@@ -37,6 +37,9 @@
 #include "util.h"
 #include "vsync.h"
 
+#include "uiperipheral.h"
+
+
 UI_MENU_DEFINE_RADIO(FileSystemDevice8)
 UI_MENU_DEFINE_RADIO(FileSystemDevice9)
 UI_MENU_DEFINE_RADIO(FileSystemDevice10)
@@ -58,6 +61,7 @@ UI_CALLBACK(uiperipheral_set_fsdevice_directory)
     lib_free(title);
     lib_free(path);
 }
+
 
 UI_CALLBACK(uiperipheral_set_rawdevice_name)
 {

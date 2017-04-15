@@ -51,7 +51,8 @@ static ui_menu_entry_t petcolour_type_submenu[] = {
     UI_MENU_ENTRY_LIST_END
 };
 
-UI_CALLBACK(set_petcolour_bg)
+
+static UI_CALLBACK(set_petcolour_bg)
 {
     static char input_string[32];
     char *msg_string;
