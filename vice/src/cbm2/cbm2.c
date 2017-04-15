@@ -751,6 +751,7 @@ void machine_specific_reset(void)
     mem_reset();
 
     /* delays figured out by running each model */
+    /* printf("cbm2model: %d\n", model); */
     switch (model) {
         /* Most likely unneeded, since cbm5x0 should handle these. But should
          * someone be clever enough to turn the #define's in cmb2model.h into
@@ -758,16 +759,21 @@ void machine_specific_reset(void)
          */
         case CBM2MODEL_510_PAL:     /* fallthrough */
         case CBM2MODEL_510_NTSC:
-            delay = 7;
+            delay = 7;  /* only valid for the default 64KB RAM */
             break;
+
+        /* 610: default RAM: 128KB */
         case CBM2MODEL_610_PAL:     /* fallthrough */
         case CBM2MODEL_610_NTSC:
             delay = 4;
             break;
+
+        /* 620: default RAM: 256KB */
         case CBM2MODEL_620_PAL:     /* fallthrough */
         case CBM2MODEL_620_NTSC:
             delay = 8;
             break;
+
         case CBM2MODEL_620PLUS_PAL: /* fallthrough */
         case CBM2MODEL_620PLUS_NTSC:
             delay = 25;
@@ -781,15 +787,34 @@ void machine_specific_reset(void)
         case CBM2MODEL_720PLUS_NTSC:
             delay = 25;
             break;
+
+        /* When the RAM set via -ramsize doesn't match the RAM size for the
+         * selected model in the table in cbm2model.h, the model is set
+         * to CBM2MODEL_UNKNOWN (99) */
         default:
-            delay = 30;     /* shouldn't get here */
+           switch (ramsize) {
+                case 128:
+                    delay = 4;
+                    break;
+                case 256:
+                    delay = 8;
+                    break;
+                case 512:
+                    delay = 13;
+                    break;
+                case 1024:
+                    delay = 30;
+                    break;
+                default:
+                    delay = 30;     /* shouldn't get here */
+            }
             break;
     }
 
     /* Initialize keyboard buffer.
        This appears to work but doesn't account for banking. */
-    printf("init kbdbuf with %d seconds delay\n", delay);
-    kbdbuf_init(0x3ab, 0xd1, 10,
+    /* printf("init kbdbuf with %d seconds delay\n", delay); */
+    kbdbuf_init(0x03ab, 0x00d1, 10,
             (CLOCK)(machine_timing.rfsh_per_sec *
                 machine_timing.cycles_per_rfsh * delay));
 
