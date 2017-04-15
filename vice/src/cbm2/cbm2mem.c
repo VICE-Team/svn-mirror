@@ -801,8 +801,6 @@ void mem_inject(DWORD addr, BYTE value)
     /* just call mem_store() to be safe.
        This could possibly be changed to write straight into the
        memory array.  mem_ram[addr & mask] = value; */
-    printf("mem-inject: $%04x, $%02x, bank %d %d\n",
-            addr, value, cbm2mem_bank_exec, cbm2mem_bank_ind);
     mem_store((WORD)(addr & 0xffff), value);
 }
 
