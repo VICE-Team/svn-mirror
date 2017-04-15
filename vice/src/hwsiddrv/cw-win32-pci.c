@@ -162,7 +162,7 @@ int cw_pci_read(WORD addr, int chipno)
             cmd |= 0x40;
         }
         cw_outb(base + CW_SID_CMD, cmd);
-        usleep(1);
+        vice_usleep(1);
         return cw_inb(base + CW_SID_DAT);
     }
     return 0;
@@ -179,7 +179,7 @@ void cw_pci_store(WORD addr, BYTE outval, int chipno)
         }
         cw_outb(base + CW_SID_DAT, outval);
         cw_outb(base + CW_SID_CMD, cmd);
-        usleep(1);
+        vice_usleep(1);
     }
 }
 

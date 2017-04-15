@@ -166,7 +166,7 @@ int hs_pci_read(WORD addr, int chipno)
 
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         hardsid_outb(io1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
-        usleep(2);
+        vice_usleep(2);
         hardsid_outb(io2 + 2, 0x20);
         ret = hardsid_inb(io1);
         hardsid_outb(io2 + 2, 0x80);
@@ -179,7 +179,7 @@ void hs_pci_store(WORD addr, BYTE outval, int chipno)
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         hardsid_outb(io1 + 3, outval);
         hardsid_outb(io1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f)));
-        usleep(2);
+        vice_usleep(2);
     }
 }
 

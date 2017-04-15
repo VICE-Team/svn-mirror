@@ -791,9 +791,8 @@ int kbd_arch_get_host_mapping(void)
     return KBD_MAPPING_US;
 }
 
-#ifdef IDE_COMPILE
 /* Provide a usleep replacement */
-void usleep(__int64 waitTime)
+void vice_usleep(__int64 waitTime)
 { 
     __int64 time1 = 0, time2 = 0, freq = 0;
 
@@ -804,7 +803,6 @@ void usleep(__int64 waitTime)
         QueryPerformanceCounter((LARGE_INTEGER *) &time2);
     } while((time2-time1) < waitTime);
 }
-#endif
 
 #ifdef USE_SDLUI2
 char *archdep_sdl2_default_renderers[] = {

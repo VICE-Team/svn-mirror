@@ -48,8 +48,4 @@ extern int cw_pci_available(void);
 extern void cw_dll_set_machine_parameter(long cycles_per_sec);
 extern void cw_pci_set_machine_parameter(long cycles_per_sec);
 
-/* missing in some mingw versions */
-#include <unistd.h>
-extern int usleep(useconds_t usec);
-
 #endif

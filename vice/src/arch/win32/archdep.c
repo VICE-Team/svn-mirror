@@ -803,9 +803,8 @@ char *archdep_get_runtime_cpu(void)
 #endif
 }
 
-#ifdef IDE_COMPILE
 /* Provide a usleep replacement */
-void usleep(__int64 waitTime)
+void vice_usleep(__int64 waitTime)
 { 
     __int64 time1 = 0, time2 = 0, freq = 0;
 
@@ -816,7 +815,6 @@ void usleep(__int64 waitTime)
         QueryPerformanceCounter((LARGE_INTEGER *) &time2);
     } while((time2-time1) < waitTime);
 }
-#endif
 
 char *archdep_extra_title_text(void)
 {

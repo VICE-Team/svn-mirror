@@ -162,7 +162,7 @@ void parsid_drv_out_data(BYTE addr, int chipno)
 
 void parsid_drv_sleep(int amount)
 {
-    usleep(amount);
+    vice_usleep(amount);
 }
 
 int parsid_drv_available(void)
