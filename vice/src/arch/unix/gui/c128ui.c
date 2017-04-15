@@ -110,6 +110,9 @@
 #include "uivicii.h"
 #include "vsync.h"
 
+#include "c128ui.h"
+
+
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_viciimodel_submenu[] = {
@@ -260,7 +263,7 @@ static ui_menu_entry_t ext_function_type_submenu[] = {
     UI_MENU_ENTRY_LIST_END
 };
 
-UI_CALLBACK(set_function_rom_name)
+static UI_CALLBACK(set_function_rom_name)
 {
     char *resname = (char *)UI_MENU_CB_PARAM;
     ui_button_t button;
