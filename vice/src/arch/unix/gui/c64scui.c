@@ -113,6 +113,8 @@
 #include "vsync.h"
 #include "vicii.h"
 
+#include "c64ui.h"
+
 /* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(radio_c64model)

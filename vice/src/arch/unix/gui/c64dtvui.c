@@ -61,6 +61,8 @@
 #include "uivicii.h"
 #include "vsync.h"
 
+#include "c64ui.h"
+
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
 static ui_menu_entry_t set_viciimodel_submenu[] = {

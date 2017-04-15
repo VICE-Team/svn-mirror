@@ -79,6 +79,8 @@
 #include "uiuserport.h"
 #include "vsync.h"
 
+#include "petui.h"
+
 UI_MENU_DEFINE_TOGGLE(DiagPin)
 UI_MENU_DEFINE_TOGGLE(Crtc)
 UI_MENU_DEFINE_TOGGLE(Ram9)
@@ -725,7 +727,7 @@ static ui_menu_entry_t petui_speed_menu[] = {
     UI_MENU_ENTRY_LIST_END
 };
 
-void uipetkeyboard_menu_create(void)
+static void uipetkeyboard_menu_create(void)
 {
     unsigned int i, num;
     ui_menu_entry_t *keyboard_layouttype_submenu;
@@ -751,7 +753,7 @@ void uipetkeyboard_menu_create(void)
     model_settings_submenu[2].sub_menu = keyboard_layouttype_submenu;
 }
 
-void uipetkeyboard_menu_shutdown(void)
+static void uipetkeyboard_menu_shutdown(void)
 {
     unsigned int i;
     ui_menu_entry_t *keyboard_layouttype_submenu = NULL;

@@ -112,6 +112,8 @@
 #include "vsync.h"
 #include "vicii.h"
 
+#include "c64ui.h"
+
 /* ------------------------------------------------------------------------- */
 
 #define VICMODEL_UNKNOWN -1

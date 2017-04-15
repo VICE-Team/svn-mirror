@@ -102,6 +102,9 @@
 #include "vsync.h"
 #include "vicii.h"
 
+#include "scpu64ui.h"
+
+
 /* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(radio_c64model)
