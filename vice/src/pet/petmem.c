@@ -219,11 +219,13 @@ static BYTE rom6809_read(WORD addr)
     return last_access;
 }
 
+#if 0
 static void rom6809_store(WORD addr, BYTE value)
 {
     mem_6809rom[addr - ROM6809_BASE] = value;
     last_access = value;
 }
+#endif
 
 BYTE read_unused(WORD addr)
 {
