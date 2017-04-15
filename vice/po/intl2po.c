@@ -59,7 +59,7 @@ static int gettext_open_mark = 0;
 
 static char line_buffer[512];
 
-char *convert_filename(char *name, char *src, char *dst)
+static char *convert_filename(char *name, char *src, char *dst)
 {
     size_t src_len = strlen(src);
     size_t dst_len = strlen(dst);
@@ -91,7 +91,8 @@ char *convert_filename(char *name, char *src, char *dst)
     return real_name;
 }
 
-int intl2po_getline(FILE *file)
+
+static int intl2po_getline(FILE *file)
 {
     int c = 0;
     int counter = 0;
@@ -135,7 +136,8 @@ int intl2po_getline(FILE *file)
     return UNKNOWN;
 }
 
-void getline_simple(FILE *file)
+
+static void getline_simple(FILE *file)
 {
     int c = 0;
     int counter = 0;
@@ -148,7 +150,8 @@ void getline_simple(FILE *file)
     line_buffer[counter] = 0;
 }
 
-void check_gettext_end(char *text)
+
+static void check_gettext_end(char *text)
 {
     int i;
     int first = 0;
@@ -167,7 +170,8 @@ void check_gettext_end(char *text)
     }
 }
 
-int check_quote(char *text)
+
+static int check_quote(char *text)
 {
     int i;
 
@@ -193,7 +197,8 @@ int check_quote(char *text)
     return 0;
 }
 
-int language_id(char *text)
+
+static int language_id(char *text)
 {
     int i;
 
@@ -266,6 +271,7 @@ int language_id(char *text)
     return 0;
 }
 
+
 static void remove_trailing_mascuerade(char *text)
 {
     int i = 0;
@@ -293,6 +299,7 @@ static void remove_trailing_3_dots(char *text)
     sub[i] = 0;
 }
 
+
 static void remove_trailing_space_colon(char *text)
 {
     int i = 0;
@@ -305,6 +312,7 @@ static void remove_trailing_space_colon(char *text)
     }
     sub[i] = 0;
 }
+
 
 static void remove_trailing_colon_space(char *text)
 {
@@ -319,6 +327,7 @@ static void remove_trailing_colon_space(char *text)
     sub[i] = 0;
 }
 
+
 static void remove_trailing_colon(char *text)
 {
     int i = 0;
@@ -331,6 +340,7 @@ static void remove_trailing_colon(char *text)
     }
     sub[i] = 0;
 }
+
 
 static void remove_trailing_range(char *text)
 {
@@ -356,7 +366,8 @@ static void remove_trailing_range(char *text)
     sub[j] = 0;
 }
 
-void remove_brackets(char *text)
+
+static void remove_brackets(char *text)
 {
     char *sub;
     int i = 2;
@@ -374,7 +385,8 @@ void remove_brackets(char *text)
     sub[j] = 0;
 }
 
-void replace_string(char *text, FILE *file)
+
+static void replace_string(char *text, FILE *file)
 {
     int i, j;
 
@@ -432,14 +444,16 @@ void replace_string(char *text, FILE *file)
     }
 }
 
-void wrong_location(char *text, FILE *infile, FILE *outfile, char *filename)
+
+static void wrong_location(char *text, FILE *infile, FILE *outfile, char *filename)
 {
     printf("%s found at wrong location in %s\n", text, filename);
     fclose(infile);
     fclose(outfile);
 }
 
-int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
+
+static int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
 {
     struct stat statbuf;
     FILE *infile, *outfile;
@@ -567,7 +581,8 @@ int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
     return 1;
 }
 
-void strip_comments(char *text)
+
+static void strip_comments(char *text)
 {
     int i;
 
@@ -587,7 +602,8 @@ void strip_comments(char *text)
     }
 }
 
-int convert_intl(char *in_filename, char *out_filename, char *src, char *dst)
+
+static int convert_intl(char *in_filename, char *out_filename, char *src, char *dst)
 {
     struct stat statbuf;
     FILE *infile, *outfile;
@@ -636,6 +652,8 @@ int convert_intl(char *in_filename, char *out_filename, char *src, char *dst)
     free(real_out_filename);
     return 1;
 }
+
+
 
 int main(int argc, char *argv[])
 {
