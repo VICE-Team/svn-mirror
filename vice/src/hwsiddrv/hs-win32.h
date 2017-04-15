@@ -67,6 +67,7 @@ extern void hs_isa_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_s
 extern void hs_pci_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state);
 
 /* missing in some mingw versions */
-extern int usleep(int usec);
+#include <unistd.h>
+extern int usleep(useconds_t usec);
 
 #endif

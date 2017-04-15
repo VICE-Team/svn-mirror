@@ -58,6 +58,7 @@ extern int ps_io_available(void);
 extern int ps_ieee1284_available(void);
 
 /* missing in some mingw versions */
-extern int usleep(int usec);
+#include <unistd.h>
+extern int usleep(useconds_t usec);
 
 #endif
