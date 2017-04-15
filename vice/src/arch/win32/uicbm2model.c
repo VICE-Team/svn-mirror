@@ -41,6 +41,8 @@
 #include "uilib.h"
 #include "winmain.h"
 
+#include "log.h"
+
 static uilib_localize_dialog_param cbm2model_dialog_trans[] = {
     { IDC_CBM2MODEL_LABEL, IDS_CBM2MODEL, 0 },
     { IDOK, IDS_OK, 0 },
@@ -102,23 +104,25 @@ static void init_cbm2model_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"620 NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"620+ PAL");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"620+ NTSC");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"710 PAL");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"710 NTSC");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"720 PAL");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"720 NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"720+ NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_UNKNOWN));
 
     res_value = cbm2model_get();
-    if (res_value > 13) {
-        res_value = 13;
+    /* log_debug("cbm2model = %d\n", res_value); */
+    if (res_value > CBM2MODEL_720PLUS_NTSC) {
+        res_value = 9;  /* Unknown model */
     }
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value - 2, 0);
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)(res_value - 2), 0);
 }
 
 static void end_cbm2model_dialog(HWND hwnd)
 {
-    cbm2model_set((int)SendMessage(GetDlgItem(hwnd, IDC_CBM2MODEL_LIST), CB_GETCURSEL, 0, 0) + 2);
+    int result = (int)SendMessage(GetDlgItem(hwnd, IDC_CBM2MODEL_LIST),
+            CB_GETCURSEL, 0, 0);
+    /* log_debug("cbm2model dialog result = %d\n", result); */
+    cbm2model_set(result + 2);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
