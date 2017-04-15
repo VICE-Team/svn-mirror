@@ -36,18 +36,18 @@
 UI_MENU_DEFINE_RADIO(MemoryHack)
 UI_MENU_DEFINE_RADIO(C64_256Kbase)
 UI_MENU_DEFINE_RADIO(PLUS60Kbase)
-
+static 
 UI_CALLBACK(set_c64_256k_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("C64 256K file"), UILIB_FILTER_ALL);
 }
 
-UI_CALLBACK(set_plus60k_image_name)
+static UI_CALLBACK(set_plus60k_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("+60K file"), UILIB_FILTER_ALL);
 }
 
-UI_CALLBACK(set_plus256k_image_name)
+static UI_CALLBACK(set_plus256k_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("+256K file"), UILIB_FILTER_ALL);
 }

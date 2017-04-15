@@ -48,6 +48,9 @@
 
 #include "uifullscreen-menu.h"
 
+#include "uivic.h"
+
+
 UI_FULLSCREEN(VIC, KEYSYM_d)
 
 static UI_CALLBACK(radio_VICPaletteFile)

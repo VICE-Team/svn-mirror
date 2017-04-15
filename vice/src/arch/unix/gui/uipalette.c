@@ -39,6 +39,9 @@
 #include "util.h"
 #include "vsync.h"
 
+#include "uipalette.h"
+
+
 UI_CALLBACK(ui_load_palette)
 {
     char r1[0x20], r2[0x20];

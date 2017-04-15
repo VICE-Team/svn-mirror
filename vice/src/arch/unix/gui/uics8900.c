@@ -41,7 +41,7 @@
 
 /** \brief  Callback for setting the ethernet interface
  */
-UI_CALLBACK(uics8900_set_interface_name)
+static UI_CALLBACK(uics8900_set_interface_name)
 {
     char *name = util_concat(_("Name"), ":", NULL);
 
@@ -56,3 +56,4 @@ ui_menu_entry_t uics8900_submenu[] = {
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_LIST_END
 };
+

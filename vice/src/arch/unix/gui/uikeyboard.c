@@ -142,7 +142,9 @@ static UI_CALLBACK(dump_keymap)
     lib_free(wd);
 }
 
-void ui_select_keymap(ui_window_t w, int check, char *name, int sympos)
+/* weird, but GCC tells me this isn't used */
+#if 0
+static void ui_select_keymap(ui_window_t w, int check, char *name, int sympos)
 {
     const char *resname;
     int kindex;
@@ -166,6 +168,7 @@ void ui_select_keymap(ui_window_t w, int check, char *name, int sympos)
         }
     }
 }
+#endif
 
 static ui_menu_entry_t keyboard_settings_submenu[] = {
     { N_("Keyboard mapping type"), UI_MENU_TYPE_NORMAL,

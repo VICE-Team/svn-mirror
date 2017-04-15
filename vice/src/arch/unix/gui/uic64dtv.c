@@ -87,7 +87,7 @@ UI_MENU_DEFINE_TOGGLE(c64dtvromrw)
 UI_MENU_DEFINE_TOGGLE(HummerADC)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 
-UI_CALLBACK(set_c64dtv_rom_name)
+static UI_CALLBACK(set_c64dtv_rom_name)
 {
     char *filename;
     ui_button_t button;

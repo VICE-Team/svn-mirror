@@ -45,7 +45,7 @@ UI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
 UI_MENU_DEFINE_TOGGLE(AutostartDelayRandom)
 UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 
-UI_CALLBACK(set_autostart_image_name)
+static UI_CALLBACK(set_autostart_image_name)
 {
     char *name = util_concat(_("Name"), ":", NULL);
 
@@ -53,7 +53,7 @@ UI_CALLBACK(set_autostart_image_name)
     lib_free(name);
 }
 
-UI_CALLBACK(set_autostart_delay)
+static UI_CALLBACK(set_autostart_delay)
 {
     static char input_string[32];
     char *msg_string;

@@ -44,12 +44,12 @@ UI_MENU_DEFINE_RADIO(MIDIMode)
 UI_MENU_DEFINE_RADIO(MIDIDriver)
 #endif
 
-UI_CALLBACK(set_midi_in_name)
+static UI_CALLBACK(set_midi_in_name)
 {
     uilib_select_dev((char *)UI_MENU_CB_PARAM, _("MIDI-In device"), UILIB_FILTER_MIDI);
 }
 
-UI_CALLBACK(set_midi_out_name)
+static UI_CALLBACK(set_midi_out_name)
 {
     uilib_select_dev((char *)UI_MENU_CB_PARAM, _("MIDI-Out device"), UILIB_FILTER_MIDI);
 }

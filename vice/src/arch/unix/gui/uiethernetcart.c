@@ -43,9 +43,11 @@ UI_MENU_DEFINE_TOGGLE(ETHERNETCART_ACTIVE)
 UI_MENU_DEFINE_RADIO(ETHERNETCARTMode)
 UI_MENU_DEFINE_RADIO(ETHERNETCARTBase)
 
+
+#if 0
 /** \brief  Callback to set the ethernet interface name
  */
-UI_CALLBACK(set_interface_name)
+static UI_CALLBACK(set_interface_name)
 {
     char *name = util_concat(_("Name"), ":", NULL);
 
@@ -55,6 +57,7 @@ UI_CALLBACK(set_interface_name)
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), name);
     lib_free(name);
 }
+#endif
 
 
 /** \brief  Submenu to select the emulated ethernet cartridge
