@@ -84,9 +84,6 @@ void machine_drive_idling_method(unsigned int dnr)
 {
 }
 
-static void machine_drive_vsync_hook(void)
-{
-}
 
 void machine_drive_rom_load(void)
 {
