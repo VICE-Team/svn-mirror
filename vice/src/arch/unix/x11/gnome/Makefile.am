@@ -28,6 +28,7 @@ libgnomeui_a_SOURCES = \
 	linenoise.h \
 	uiarch.h \
 	uicartridge.c \
+	uicartridge.h \
 	uicolor.c \
 	uicontents.c \
 	uicontents.h \
