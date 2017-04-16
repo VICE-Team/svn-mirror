@@ -36,6 +36,8 @@
 #include "types.h"
 #include "uicolor.h"
 
+#include "color.h"
+
 
 struct color_rgb_s {
     unsigned int red;
