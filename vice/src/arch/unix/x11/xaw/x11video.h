@@ -1,8 +1,13 @@
-#include <stdio.h>
-
-#include "strnchr.h"
 /*
- * strnchr - strchr() implementation with a length limit
+ * x11video.h - Simple Xaw-based graphical user interface.  It uses widgets
+ * from the Free Widget Foundation and Robert W. McMullen.
+ *
+ * Written by
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
+ *
+ * Support for multiple visuals and depths by
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,17 +29,13 @@
  *
  */
 
-/*
- *  Like strchr, except has a length limit.
- */
-char *strnchr(char *s, int c, int n)
-{
-    while (n--) {
-        if (*s == c) {
-            return s;
-        } else {
-            ++s;
-        }
-    }
-    return NULL;
-}
+#ifndef VICE_HAVE_X11VIDEO_H_
+#define VICE_HAVE_X11VIDEO_H_
+
+#include "vice.h"
+#include "uiarch.h"
+
+extern UI_CALLBACK(set_custom_aspect_ratio);
+
+#endif
+

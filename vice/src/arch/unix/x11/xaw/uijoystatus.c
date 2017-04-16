@@ -37,6 +37,7 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "uicontents.h"
+#include "uijoystatus.h"
 #include "uimenu.h"
 #include "userport_joystick.h"
 #include "util.h"

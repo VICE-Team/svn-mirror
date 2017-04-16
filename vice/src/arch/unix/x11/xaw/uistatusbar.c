@@ -68,6 +68,9 @@
 #include "uijoystatus.h"
 #include "uipalcontrol.h"
 
+#include "uistatusbar.h"
+
+
 extern log_t ui_log;  /* TODO to header file */
 
 Widget rec_button = NULL;       /* referenced in uiscreenshot.c */

@@ -44,6 +44,7 @@
 #include "kbd.h"
 #include "keyboard.h"
 #include "machine.h"
+#include "videoarch.h"
 #include "ui.h"
 #include "uiarch.h"
 #include "uimenu.h"

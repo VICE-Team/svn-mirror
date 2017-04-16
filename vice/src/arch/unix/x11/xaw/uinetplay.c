@@ -267,7 +267,7 @@ static void CancelProc(Widget w, XtPointer client_data, XtPointer dummy)
     ui_popdown(dialogdata->netplay_dialog);
 }
 
-Widget build_netplay_dialog(Widget parent, dialog_data_t *dialogdata)
+static Widget build_netplay_dialog(Widget parent, dialog_data_t *dialogdata)
 {
     Widget shell;
     Widget form, ports;

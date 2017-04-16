@@ -421,7 +421,7 @@ static UI_CALLBACK(save_callback)
  * When using UI_MENU_TYPE_TICK, there can be unexpeced callbacks with
  * weird values for the client_data.
  */
-void menu_adjust_tick(Widget menu, int nr)
+static void menu_adjust_tick(Widget menu, int nr)
 {
     Arg args[2];
     int num_children;

@@ -102,6 +102,7 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uicolor.h"
+#include "uicommands.h"
 #include "uidrivestatus.h"
 #include "uihotkey.h"
 #include "uilib.h"

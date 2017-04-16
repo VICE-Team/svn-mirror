@@ -54,6 +54,9 @@
 #include "videoarch.h"
 #include "uiarch.h"
 
+#include "uipalcontrol.h"
+
+
 void destroy_pal_ctrl_widget(Widget w, XtPointer client_data, XtPointer call_data);
 
 typedef struct pal_res_s {
@@ -171,7 +174,7 @@ static void ResetProc(Widget w, XtPointer client_data, XtPointer dummy)
     /* unneeded: video_canvas_refresh_all(p->cached_canvas); */
 }
 
-Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, cleanup_data_t **cleanup_p)
+static Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, cleanup_data_t **cleanup_p)
 {
     unsigned int i;
     int v;
@@ -288,7 +291,7 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
     return form;
 }
 
-void ToggleProc(Widget w, XtPointer client_data, XtPointer togglevalue)
+static void ToggleProc(Widget w, XtPointer client_data, XtPointer togglevalue)
 {
     Widget shell = (Widget)client_data;
 

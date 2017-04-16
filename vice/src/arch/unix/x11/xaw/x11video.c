@@ -89,6 +89,9 @@
 #include "renderxv.h"
 #endif
 
+#include "x11video.h"
+
+
 static log_t x11video_log = LOG_ERR;
 
 #ifdef HAVE_XVIDEO

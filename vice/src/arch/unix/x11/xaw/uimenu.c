@@ -189,7 +189,7 @@ static UI_CALLBACK(submenu_popdown_callback)
  *   highlighted items.
  */
 
-void fake_button_action(Widget widget, XEvent *event, String *params, Cardinal *num_params)
+static void fake_button_action(Widget widget, XEvent *event, String *params, Cardinal *num_params)
 {
     if (event->type == KeyPress) {
         /*

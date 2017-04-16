@@ -1,6 +1,3 @@
-#include <stdio.h>
-
-#include "strnchr.h"
 /*
  * strnchr - strchr() implementation with a length limit
  *
@@ -24,17 +21,10 @@
  *
  */
 
-/*
- *  Like strchr, except has a length limit.
- */
-char *strnchr(char *s, int c, int n)
-{
-    while (n--) {
-        if (*s == c) {
-            return s;
-        } else {
-            ++s;
-        }
-    }
-    return NULL;
-}
+#ifndef VICE_HAVE_STRNCHR_H_
+#define VICE_HAVE_STRNCHR_H_
+
+char *strnchr(char *s, int c, int n);
+
+#endif
+

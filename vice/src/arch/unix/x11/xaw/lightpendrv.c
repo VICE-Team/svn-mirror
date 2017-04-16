@@ -36,6 +36,9 @@
 #include "videoarch.h"
 #include "viewport.h"
 
+#include "lightpendrv.h"
+
+
 static Cursor cursor;
 static Display *display;
 static int buttons;
