@@ -23,7 +23,7 @@
  *  02111-1307  USA.
  *
  */
- 
+
 #ifndef UITAPESTATUS_H_
 #define UITAPESTATUS_H_
 
@@ -32,4 +32,4 @@
 extern void build_tape_status_widget(app_shell_type *as, GdkWindow *window);
 
 #endif
- 
+

@@ -46,6 +46,9 @@
 #include "resources.h"
 #include "videoarch.h"
 
+#include "uidrivestatus.h"
+
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else
@@ -214,6 +217,7 @@ static gboolean leds_draw(GtkWidget *w, GdkEvent *event, gpointer data)
     return 0;
 }
 #endif
+
 
 GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
 {

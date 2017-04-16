@@ -41,6 +41,9 @@
 #include "resources.h"
 #include "videoarch.h"
 
+#include "uipalcontrol.h"
+
+
 typedef struct pal_templ_s {
     char *label;        /* Label of Adjustmentbar */
     char *res;          /* Associated resource */

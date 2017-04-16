@@ -35,6 +35,9 @@
 #include "uiarch.h"
 #include "videoarch.h"
 
+#include "lightpendrv.h"
+
+
 /******************************************************************************/
 
 static GdkCursor *cursor;

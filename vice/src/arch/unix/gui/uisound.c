@@ -45,7 +45,7 @@ UI_MENU_DEFINE_RADIO(SoundFragmentSize)
 UI_MENU_DEFINE_RADIO(SoundSuspendTime)
 UI_MENU_DEFINE_RADIO(SoundOutput)
 
-UI_CALLBACK(set_sound_device_arg)
+static UI_CALLBACK(set_sound_device_arg)
 {
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("Sound driver argument"), _("Argument:"));
 }

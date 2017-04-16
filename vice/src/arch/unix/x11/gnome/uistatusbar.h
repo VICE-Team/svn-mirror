@@ -32,6 +32,7 @@
 extern GtkWidget *ui_create_status_bar(GtkWidget *pane);
 extern void ui_init_checkbox_style(void);
 extern int statusbar_get_height(video_canvas_t *canvas);
+extern void ui_vsid_settime(const int sec);
 
 #endif
 

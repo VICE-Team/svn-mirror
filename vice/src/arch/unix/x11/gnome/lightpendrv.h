@@ -1,5 +1,5 @@
 /*
- * lightpendrv.h - Gtk+ 
+ * lightpendrv.h - Gtk+
  *
  * Written by
  *  pottendo <pottendo@gmx.net>

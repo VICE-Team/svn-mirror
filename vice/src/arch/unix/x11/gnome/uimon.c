@@ -81,7 +81,7 @@ static int is_dir(struct dirent *de)
     return 0;
 }
 
-void write_to_terminal(struct console_private_s *t,
+void uimon_write_to_terminal(struct console_private_s *t,
                        const char *data,
                        glong length)
 {
@@ -90,7 +90,8 @@ void write_to_terminal(struct console_private_s *t,
     }
 }
 
-int getColumns(struct console_private_s *t)
+
+int uimon_get_columns(struct console_private_s *t)
 {
     if(t->term) {
         return vte_terminal_get_column_count(VTE_TERMINAL(t->term));
@@ -268,7 +269,8 @@ static gboolean key_press_event (GtkWidget   *widget,
     return FALSE;
 }
 
-gboolean button_press_event(GtkWidget *widget,
+
+static gboolean button_press_event(GtkWidget *widget,
                             GdkEvent  *event,
                             gpointer   user_data)
 {
@@ -292,7 +294,8 @@ static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_d
     return gtk_widget_hide_on_delete(widget);
 }
 
-int get_string(struct console_private_s *t, char* string, int string_len)
+
+int uimon_get_string(struct console_private_s *t, char* string, int string_len)
 {
     int retval=0;
     while(retval<string_len) {
@@ -416,9 +419,9 @@ int uimon_out(const char *buffer)
     const char *c;
     for(c = buffer; *c; c++) {
         if(*c == '\n') {
-            write_to_terminal(&fixed, "\r", 1);
+            uimon_write_to_terminal(&fixed, "\r", 1);
         }
-        write_to_terminal(&fixed, c, 1);
+        uimon_write_to_terminal(&fixed, c, 1);
     }
     return 0;
 }

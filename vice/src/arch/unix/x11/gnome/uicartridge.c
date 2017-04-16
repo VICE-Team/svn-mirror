@@ -36,6 +36,9 @@
 #include "uilib.h"
 #include "lib.h"
 
+#include "uicartridge.h"
+
+
 static GtkWidget *cartridge_dialog;
 
 void ui_cartridge_save_dialog(int type)

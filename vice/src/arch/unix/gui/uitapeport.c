@@ -40,7 +40,7 @@ UI_MENU_DEFINE_TOGGLE(CPClockF83Save)
 UI_MENU_DEFINE_TOGGLE(TapeSenseDongle)
 UI_MENU_DEFINE_TOGGLE(DTLBasicDongle)
 
-UI_CALLBACK(set_tapelog_filename)
+static UI_CALLBACK(set_tapelog_filename)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("Tape log file"), UILIB_FILTER_ALL);
 }

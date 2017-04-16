@@ -43,6 +43,8 @@
 #include "resources.h"
 #include "videoarch.h"
 
+#include "uitapestatus.h"
+
 #include <math.h>
 
 #ifdef DEBUG_X11UI

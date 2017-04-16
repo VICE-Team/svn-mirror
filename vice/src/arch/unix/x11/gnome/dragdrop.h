@@ -23,11 +23,11 @@
  *  02111-1307  USA.
  *
  */
- 
+
 #ifndef DRAGANDDROP_H_
 #define DRAGANDDROP_H_
 
 extern void set_drop_target_widget(GtkWidget *w);
 
 #endif
- 
+

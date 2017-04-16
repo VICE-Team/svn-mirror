@@ -34,6 +34,7 @@
 #include "machine.h"
 #include "translate.h"
 #include "ui.h"
+#include "uiapi.h"
 
 static const cmdline_option_t common_cmdline_options[] = {
     { "-htmlbrowser", SET_RESOURCE, -1,

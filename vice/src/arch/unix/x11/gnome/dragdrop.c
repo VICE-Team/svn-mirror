@@ -41,6 +41,9 @@
 #include "resources.h"
 #include "videoarch.h"
 
+#include "dragdrop.h"
+
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else
@@ -136,20 +139,20 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
             }
             p++;
         }
-	lfn = g_filename_from_uri(filename, NULL, NULL);
-	if (!lfn) {
-	    log_error(ui_log, "URI conversion failed: %s", filename);
-	}
-	
+        lfn = g_filename_from_uri(filename, NULL, NULL);
+        if (!lfn) {
+            log_error(ui_log, "URI conversion failed: %s", filename);
+        }
+
         DBG(("DnD using filename: '%s'", lfn));
         /* finally call the drop callback set by the individual ui */
         if (drop_cb) {
             drop_cb(lfn);
         }
         DBG(("DnD done"));
-	if (lfn) {
-	    free(lfn);
-	}
+        if (lfn) {
+            free(lfn);
+        }
     }
 
     if (dnd_success == FALSE) {
@@ -158,6 +161,7 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
 
     gtk_drag_finish (context, dnd_success, delete_selection_data, time);
 }
+
 
 void set_drop_target_widget(GtkWidget *w)
 {

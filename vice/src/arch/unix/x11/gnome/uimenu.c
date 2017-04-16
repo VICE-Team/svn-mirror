@@ -47,6 +47,8 @@
 #include "util.h"
 #include "x11menu.h"
 
+#include "uimenu.h"
+
 #ifdef DEBUG_MENUS
 #define DBG(_x_)  log_debug _x_
 #else

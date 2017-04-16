@@ -31,13 +31,13 @@
 #include "uilib.h"
 #include "uifilechooser.h"
 
-extern GtkWidget *build_file_selector(const char *title, GtkWidget **attach_write_protect, 
-    int allow_autostart, int show_preview, uilib_file_filter_enum_t* patterns, int num_patterns, 
-    const char *default_dir, ui_filechooser_t action, read_contents_func_type read_contents_func);
+extern GtkWidget *build_file_selector(const char *title,
+        GtkWidget **attach_write_protect,
+        int allow_autostart, int show_preview,
+        uilib_file_filter_enum_t* patterns, int num_patterns,
+        const char *default_dir, ui_filechooser_t action,
+        read_contents_func_type read_contents_func);
 
 extern void shutdown_file_selector(void);
 
 #endif
- 
- 
- 

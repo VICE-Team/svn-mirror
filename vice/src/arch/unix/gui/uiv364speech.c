@@ -38,7 +38,7 @@
 #include "uiv364speech.h"
 #include "vsync.h"
 
-UI_CALLBACK(set_speech_image_name)
+static UI_CALLBACK(set_speech_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("Speech ROM image"), UILIB_FILTER_ALL);
 }

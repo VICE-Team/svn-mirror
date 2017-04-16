@@ -28,6 +28,9 @@
 #include "uimenu.h"
 #include "resources.h"
 
+#include "uijoystickkeys.h"
+
+
 static void ui_keybutton_pressed(GtkButton *button, gpointer user_data)
 {
     int i;

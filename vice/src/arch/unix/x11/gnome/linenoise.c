@@ -7,7 +7,7 @@
  * (abstracted buy the opaque struct console_private_s)
  *
  * You can find the latest source code at:
- * 
+ *
  *   http://github.com/antirez/linenoise
  *
  * Does a number of crazy assumptions that happen to be true in 99.9999% of
@@ -19,11 +19,11 @@
  * Copyright (c) 2010, Pieter Noordhuis <pcnoordhuis at gmail dot com>
  *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
  * met:
- * 
+ *
  *  *  Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
  *
@@ -42,7 +42,7 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * ------------------------------------------------------------------------
  *
  * References:
@@ -87,7 +87,7 @@
  * ED2 (Clear entire screen)
  *    Sequence: ESC [ 2 J
  *    Effect: clear the whole screen
- * 
+ *
  */
 
 #include <termios.h>
@@ -103,6 +103,7 @@
 /* #include <vte/vte.h> */ /* shouldnt be needed here, needs ifdef HAVE_VTE if so */
 #include <gtk/gtk.h> /* for gtk_main_iteration() */
 #include "linenoise.h"
+#include "uimon.h"
 
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
 #define LINENOISE_MAX_LINE 4096
@@ -138,12 +139,6 @@ static void linenoiseAtExit(void) {
 }
 */
 
-int getColumns(struct console_private_s *term);
-void write_to_terminal(struct console_private_s *t,
-                                                         const char *data,
-                                                         long length);
-int get_string(struct console_private_s *t, char* string, int string_len);
-
 
 static void refreshLine(struct console_private_s *term, const char *prompt, char *buf, size_t len, size_t pos, size_t cols) {
     char seq[64];
@@ -159,21 +154,21 @@ static void refreshLine(struct console_private_s *term, const char *prompt, char
     }
     /* Cursor to left edge */
     snprintf(seq, 64, "\x1b[0G");
-    write_to_terminal(term, seq, strlen(seq));
+    uimon_write_to_terminal(term, seq, strlen(seq));
     /* Write the prompt and the current buffer content */
-    write_to_terminal(term, prompt, strlen(prompt));
-    write_to_terminal(term, buf, len);
+    uimon_write_to_terminal(term, prompt, strlen(prompt));
+    uimon_write_to_terminal(term, buf, len);
     /* Erase to right */
     snprintf(seq, 64, "\x1b[0K");
-    write_to_terminal(term, seq, strlen(seq));
+    uimon_write_to_terminal(term, seq, strlen(seq));
     /* Move cursor to original position. */
     snprintf(seq, 64, "\x1b[0G\x1b[%dC", (int)(pos+plen));
-    write_to_terminal(term, seq, strlen(seq));
+    uimon_write_to_terminal(term, seq, strlen(seq));
 }
 
 static void beep(struct console_private_s *term) {
     const char beepsequence[] = "\x7";
-    write_to_terminal(term, beepsequence, strlen(beepsequence));
+    uimon_write_to_terminal(term, beepsequence, strlen(beepsequence));
 }
 
 static void freeCompletions(linenoiseCompletions *lc) {
@@ -207,7 +202,7 @@ static int completeLine(struct console_private_s *term, const char *prompt, char
                 refreshLine(term,prompt,buf,*len,*pos,cols);
             }
 
-            nread = get_string(term,&c,1);
+            nread = uimon_get_string(term,&c,1);
             if (nread <= 0) {
                 freeCompletions(&lc);
                 return -1;
@@ -245,14 +240,14 @@ static int completeLine(struct console_private_s *term, const char *prompt, char
 
 void linenoiseClearScreen(struct console_private_s *term) {
     const char clearseq[] = "\x1b[H\x1b[2J";
-    write_to_terminal(term, clearseq, strlen(clearseq));
+    uimon_write_to_terminal(term, clearseq, strlen(clearseq));
 }
 
 static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buflen, const char *prompt) {
     size_t plen = strlen(prompt);
     size_t pos = 0;
     size_t len = 0;
-    size_t cols = getColumns(term);
+    size_t cols = uimon_get_columns(term);
     int history_index = 0;
     int i;
 
@@ -275,8 +270,8 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
        i am using 20 to be on the safe side). yes its ugly :( 
     */
     for(i = 0; i < 20; i++) {
-        write_to_terminal(term, "\r", 1);
-        write_to_terminal(term, prompt, plen);
+        uimon_write_to_terminal(term, "\r", 1);
+        uimon_write_to_terminal(term, prompt, plen);
         gtk_main_iteration();
     }
 
@@ -286,7 +281,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
         char seq[2], seq2[2];
         char tmp[1];
 
-        nread = get_string(term, tmp, 1);
+        nread = uimon_get_string(term, tmp, 1);
         if (nread <= 0) {
             return -1;
         }
@@ -358,7 +353,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
             goto up_down_arrow;
             break;
         case 27:    /* escape sequence */
-            if (get_string(term,seq,2) == -1) {
+            if (uimon_get_string(term,seq,2) == -1) {
                 break;
             }
             if (seq[0] == 91 && seq[1] == 68) {
@@ -399,7 +394,7 @@ up_down_arrow:
                 }
             } else if (seq[0] == 91 && seq[1] > 48 && seq[1] < 55) {
                 /* extended escape */
-                if (get_string(term,seq2,2) == -1) {
+                if (uimon_get_string(term,seq2,2) == -1) {
                     break;
                 }
                 if (seq[1] == 51 && seq2[0] == 126) {
@@ -461,7 +456,7 @@ char *linenoise(const char *prompt, struct console_private_s *term) {
     int count;
 
     count = linenoisePrompt(term, buf, LINENOISE_MAX_LINE, prompt);
-    write_to_terminal(term, "\r\n", 2);
+    uimon_write_to_terminal(term, "\r\n", 2);
     if (count == -1) {
         return NULL;
     }

@@ -1823,7 +1823,7 @@ void gl_setup_textures(video_canvas_t *c, struct s_mbufs *buffers)
 */
 
 #ifdef HAVE_HWSCALE
-void gl_update_texture(struct s_mbufs *buffer)
+static void gl_update_texture(struct s_mbufs *buffer)
 {
     int tw, th;
     tw = buffer->w;
@@ -1844,7 +1844,8 @@ void gl_update_texture(struct s_mbufs *buffer)
 #endif
 }
 
-void gl_draw_quad(float alpha, int tw, int th)
+
+static void gl_draw_quad(float alpha, int tw, int th)
 {
     glBegin (GL_QUADS);
     {
@@ -1862,7 +1863,8 @@ void gl_draw_quad(float alpha, int tw, int th)
     glEnd ();
 }
 
-void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
+
+static void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
                       struct s_mbufs *buffers, int from, int to, int do_swap)
 {
     int tw, th, d, i = 0;
@@ -1937,7 +1939,8 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
 }
 #endif  /* HAVE_HWSCALE */
 
-void gtk_render_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data,
+
+static void gtk_render_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data,
                        video_canvas_t *canvas)
 {
 #if !defined(HAVE_CAIRO)

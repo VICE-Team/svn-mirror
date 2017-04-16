@@ -53,12 +53,16 @@
 #include "ui-threads.h"
 #endif
 
+#include "uicommands.h"
+
 /* ------------------------------------------------------------------------- */
 
 /* Button callbacks.  */
 
+/* appears to be unused */
+#if 0
 #define DEFINE_BUTTON_CALLBACK(button)                             \
-    void cb_##button(GtkWidget *w, ui_callback_data_t client_data) \
+    static void cb_##button(GtkWidget *w, ui_callback_data_t client_data) \
     {                                                              \
         *((ui_button_t *)client_data) = button;                    \
     }
@@ -74,6 +78,8 @@
     DEFINE_BUTTON_CALLBACK(UI_BUTTON_HARDRESET)
     DEFINE_BUTTON_CALLBACK(UI_BUTTON_CONTENTS)
     DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
+#endif
+
 
 static void text_response(GtkDialog *dialog, gint arg1, gpointer user_data)
 {

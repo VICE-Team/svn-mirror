@@ -95,11 +95,11 @@ int uicolor_alloc_colors(video_canvas_t *c)
         drive_led_on_green_pixels[i].green =  0x1000 * i + 0xf00;
         drive_led_on_green_pixels[i].blue = 0;
     }
-    
     return 0;
 }
 
-unsigned int endian_swap(unsigned int color, unsigned int bpp, unsigned int swap) {
+
+static unsigned int endian_swap(unsigned int color, unsigned int bpp, unsigned int swap) {
     if (!swap) {
         return color;
     }

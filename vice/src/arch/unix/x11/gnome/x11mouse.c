@@ -50,6 +50,9 @@
 #include "lightpen.h"
 #include "lightpendrv.h"
 
+#include "x11mouse.h"
+
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else

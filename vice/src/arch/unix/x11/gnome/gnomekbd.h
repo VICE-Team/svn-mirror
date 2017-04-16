@@ -23,7 +23,7 @@
  *  02111-1307  USA.
  *
  */
- 
+
 #ifndef GNOMEKBD_H_
 #define GNOMEKBD_H_
 
@@ -31,5 +31,4 @@ extern void kbd_connect_handler(GtkWidget *widget, void *data);
 extern void kbd_connect_enterleave_handler(GtkWidget *widget, void *data);
 
 #endif
- 
- 
+

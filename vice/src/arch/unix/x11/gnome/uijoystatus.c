@@ -42,6 +42,9 @@
 #include "userport_joystick.h"
 #include "util.h"
 
+#include "uijoystatus.h"
+
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else

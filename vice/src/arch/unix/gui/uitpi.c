@@ -38,7 +38,7 @@
 #include "uiromset.h"
 #include "vsync.h"
 
-UI_CALLBACK(set_tpi_image_name)
+static UI_CALLBACK(set_tpi_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("IEEE488 Interface image"), UILIB_FILTER_ALL);
 }

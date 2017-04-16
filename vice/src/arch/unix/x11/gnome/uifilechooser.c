@@ -54,6 +54,9 @@
 #include "videoarch.h"
 #include "vsync.h"
 
+#include "uifilechooser.h"
+
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else

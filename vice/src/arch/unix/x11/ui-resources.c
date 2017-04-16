@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "log.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "util.h"
 
 struct ui_resources_s {
