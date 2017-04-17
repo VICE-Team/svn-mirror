@@ -45,6 +45,305 @@
 extern int ptw32_processInitialized;
 #endif
 
+#ifdef __MSDOS__
+#define x264_min(x, y)	(((x) < (y)) ? (x) : (y))
+
+static const char ntoa_table[] = {
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+    'U', 'V', 'W', 'X', 'Y', 'Z'
+};
+
+size_t strlcpy(char *dst, const char *src, size_t maxlen)
+{
+    size_t srclen = strlen(src);
+    if ( maxlen > 0 ) {
+        size_t len = x264_min(srclen, maxlen-1);
+        memcpy(dst, src, len);
+        dst[len] = '\0';
+    }
+    return srclen;
+}
+
+char *strrev(char *string)
+{
+    size_t len = strlen(string);
+    char *a = &string[0];
+    char *b = &string[len-1];
+    len /= 2;
+    while ( len-- ) {
+        char c = *a;
+        *a++ = *b;
+        *b-- = c;
+    }
+    return string;
+}
+
+char *ltoa(long value, char *string, int radix)
+{
+    char *bufp = string;
+
+    if ( value < 0 ) {
+        *bufp++ = '-';
+        value = -value;
+    }
+    if ( value ) {
+        while ( value > 0 ) {
+            *bufp++ = ntoa_table[value % radix];
+            value /= radix;
+        }
+    } else {
+        *bufp++ = '0';
+    }
+    *bufp = '\0';
+
+    /* The numbers went into the string backwards. :) */
+    if ( *string == '-' ) {
+        strrev(string+1);
+    } else {
+        strrev(string);
+    }
+
+    return string;
+}
+
+char *ultoa(unsigned long value, char *string, int radix)
+{
+    char *bufp = string;
+
+    if ( value ) {
+        while ( value > 0 ) {
+            *bufp++ = ntoa_table[value % radix];
+            value /= radix;
+        }
+    } else {
+        *bufp++ = '0';
+    }
+    *bufp = '\0';
+
+    /* The numbers went into the string backwards. :) */
+    strrev(string);
+
+    return string;
+}
+
+static size_t x264_PrintLong(char *text, long value, int radix, size_t maxlen)
+{
+    char num[130];
+    size_t size;
+
+    ltoa(value, num, radix);
+    size = strlen(num);
+    if ( size >= maxlen ) {
+        size = maxlen-1;
+    }
+    strlcpy(text, num, size+1);
+
+    return size;
+}
+
+static size_t x264_PrintUnsignedLong(char *text, unsigned long value, int radix, size_t maxlen)
+{
+    char num[130];
+    size_t size;
+
+    ultoa(value, num, radix);
+    size = strlen(num);
+    if ( size >= maxlen ) {
+        size = maxlen-1;
+    }
+    strlcpy(text, num, size+1);
+
+    return size;
+}
+
+static size_t x264_PrintFloat(char *text, double arg, size_t maxlen)
+{
+    char *textstart = text;
+    if ( arg ) {
+        /* This isn't especially accurate, but hey, it's easy. :) */
+        const double precision = 0.00000001;
+        size_t len;
+        unsigned long value;
+
+        if ( arg < 0 ) {
+            *text++ = '-';
+            --maxlen;
+            arg = -arg;
+        }
+        value = (unsigned long)arg;
+        len = x264_PrintUnsignedLong(text, value, 10, maxlen);
+        text += len;
+        maxlen -= len;
+        arg -= value;
+        if ( arg > precision && maxlen ) {
+            int mult = 10;
+            *text++ = '.';
+            while ( (arg > precision) && maxlen ) {
+                value = (unsigned long)(arg * mult);
+                len = x264_PrintUnsignedLong(text, value, 10, maxlen);
+                text += len;
+                maxlen -= len;
+                arg -= (double)value / mult;
+                mult *= 10;
+            }
+        }
+    } else {
+        *text++ = '0';
+    }
+    return (text - textstart);
+}
+
+static size_t x264_PrintString(char *text, const char *string, size_t maxlen)
+{
+    char *textstart = text;
+
+    while ( *string && maxlen-- ) {
+        *text++ = *string++;
+    }
+    return (text - textstart);
+}
+
+int vsnprintf(char *text, size_t maxlen, const char *fmt, va_list ap)
+{
+    char *textstart = text;
+    if ( maxlen <= 0 ) {
+        return 0;
+    }
+    --maxlen; /* For the trailing '\0' */
+    while ( *fmt && maxlen ) {
+        if ( *fmt == '%' ) {
+            int done = 0;
+            size_t len = 0;
+            int do_lowercase = 0;
+            int radix = 10;
+            enum {
+                DO_INT,
+                DO_LONG,
+                DO_LONGLONG
+            } inttype = DO_INT;
+
+            ++fmt;
+            /* FIXME: implement more of the format specifiers */
+            while ( *fmt == '.' || (*fmt >= '0' && *fmt <= '9') ) {
+                ++fmt;
+            }
+            while (!done) {
+                switch (*fmt) {
+                    case '%':
+                        *text = '%';
+                        len = 1;
+                        done = 1;
+                        break;
+                    case 'c':
+                        /* char is promoted to int when passed through (...) */
+                        *text = (char)va_arg(ap, int);
+                        len = 1;
+                        done = 1;
+                        break;
+                    case 'h':
+                        /* short is promoted to int when passed through (...) */
+                        break;
+                    case 'l':
+                        if ( inttype < DO_LONGLONG ) {
+                            ++inttype;
+                        }
+                        break;
+                    case 'I':
+                        if ( strncmp(fmt, "I64", 3) == 0 ) {
+                            fmt += 2;
+                            inttype = DO_LONGLONG;
+                        }
+                        break;
+                    case 'i':
+                    case 'd':
+                        switch (inttype) {
+                            case DO_INT:
+                                len = x264_PrintLong(text, (long)va_arg(ap, int), radix, maxlen);
+                                break;
+                            case DO_LONG:
+                                len = x264_PrintLong(text, va_arg(ap, long), radix, maxlen);
+                                break;
+                            case DO_LONGLONG:
+                                len = x264_PrintLong(text, va_arg(ap, long), radix, maxlen);
+                                break;
+                        }
+                        done = 1;
+                        break;
+                    case 'p':
+                    case 'x':
+                        do_lowercase = 1;
+                        /* Fall through to 'X' handling */
+                    case 'X':
+                        if ( radix == 10 ) {
+                            radix = 16;
+                        }
+                        if ( *fmt == 'p' ) {
+                            inttype = DO_LONG;
+                        }
+                        /* Fall through to unsigned handling */
+                    case 'o':
+                        if ( radix == 10 ) {
+                            radix = 8;
+                        }
+                        /* Fall through to unsigned handling */
+                    case 'u':
+                        switch (inttype) {
+                            case DO_INT:
+                                len = x264_PrintUnsignedLong(text, (unsigned long)va_arg(ap, unsigned int), radix, maxlen);
+                                break;
+                            case DO_LONG:
+                                len = x264_PrintUnsignedLong(text, va_arg(ap, unsigned long), radix, maxlen);
+                                break;
+                            case DO_LONGLONG:
+                                len = x264_PrintUnsignedLong(text, va_arg(ap, unsigned long), radix, maxlen);
+                                break;
+                        }
+                        if ( do_lowercase ) {
+                            strlwr(text);
+                        }
+                        done = 1;
+                        break;
+                    case 'f':
+                        len = x264_PrintFloat(text, va_arg(ap, double), maxlen);
+                        done = 1;
+                        break;
+                    case 's':
+                        len = x264_PrintString(text, va_arg(ap, char*), maxlen);
+                        done = 1;
+                        break;
+                    default:
+                        done = 1;
+                        break;
+                }
+                ++fmt;
+            }
+            text += len;
+            maxlen -= len;
+        } else {
+            *text++ = *fmt++;
+            --maxlen;
+        }
+    }
+    *text = '\0';
+
+    return (text - textstart);
+}
+
+int snprintf(char *text, size_t maxlen, const char *fmt, ...)
+{
+    va_list ap;
+    int retval;
+
+    va_start(ap, fmt);
+    retval = vsnprintf(text, maxlen, fmt, ap);
+    va_end(ap);
+
+    return retval;
+}
+#endif
+
 int64_t x264_mdate( void )
 {
 #if SYS_WINDOWS

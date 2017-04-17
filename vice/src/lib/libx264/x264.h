@@ -35,7 +35,8 @@
 #endif
 
 #if !defined(_STDINT_H) && !defined(_STDINT_H_) && !defined(_STDINT_H_INCLUDED) && !defined(_STDINT) &&\
-    !defined(_INTTYPES_H) && !defined(_INTTYPES_H_) && !defined(_INTTYPES)
+    !defined(_INTTYPES_H) && !defined(_INTTYPES_H_) && !defined(_INTTYPES) &&\
+    !defined(_GCC_STDINT_H) && !defined(__dj_stdint__h_)
 # ifdef _MSC_VER
 #   ifndef IDE_COMPILE
 #     pragma message("You must include stdint.h or inttypes.h before x264.h")

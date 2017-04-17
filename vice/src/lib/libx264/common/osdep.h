@@ -34,7 +34,13 @@
 #define _FILE_OFFSET_BITS 64
 #include <stdio.h>
 #include <sys/stat.h>
+
+#ifndef __MSDOS__
 #include <inttypes.h>
+#else
+#include <stdint.h>
+#endif
+
 #include <stdarg.h>
 
 #include "x264.h"
@@ -87,8 +93,12 @@ static float log2f(float x)
 #define S_ISREG(x) (((x) & S_IFMT) == S_IFREG)
 #endif
 
-#if !defined(isfinite) && (SYS_OPENBSD || SYS_SunOS)
+#if !defined(isfinite) && (SYS_OPENBSD || SYS_SunOS || SYS_DOS)
 #define isfinite finite
+#endif
+
+#ifdef __MSDOS__
+#define strtok_r(a, b, c) strtok(a, b)
 #endif
 
 #if defined(_WIN32) || (defined(IDE_COMPILE) && (_MSC_VER < 1400))

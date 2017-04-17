@@ -570,6 +570,13 @@ case $host_os in
         LDFLAGSCLI="$LDFLAGSCLI -lshell32"
         [ $compiler = GNU ] && RC="${RC-${cross_prefix}windres}" || RC="${RC-rc}"
         ;;
+    msdos*)
+        SYS="DOS"
+        EXE=".exe"
+        libm="-lm"
+        CFLAGS="$CFLAGS -I\$(SRCPATH)/dos"
+        HAVE_GETOPT_LONG=0
+        ;;
     sunos*|solaris*)
         SYS="SunOS"
         define HAVE_MALLOC_H
@@ -779,7 +786,8 @@ if [ $shared = yes -a \( $ARCH = "X86_64" -o $ARCH = "PPC" -o $ARCH = "ALPHA" -o
     pic="yes"
 fi
 
-if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
+if [ $SYS != DOS ]; then
+  if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
     if ! as_check "vpmovzxwd ymm0, xmm0" ; then
         VER=`($AS --version || echo no assembler) 2>/dev/null | head -n 1`
         echo "Found $VER"
@@ -794,6 +802,7 @@ if [ $asm = auto -a \( $ARCH = X86 -o $ARCH = X86_64 \) ] ; then
         CFLAGS="$CFLAGS -mpreferred-stack-boundary=5"
         stack_alignment=32
     fi
+  fi
 fi
 
 if [ $asm = auto -a $ARCH = ARM ] ; then
@@ -1380,12 +1389,28 @@ rm conftest.log
 [ "$SRCPATH" != "." ] && ln -sf ${SRCPATH}/Makefile ./Makefile
 mkdir -p common/{aarch64,arm,ppc,x86} encoder extras filters/video input output tools
 
+echo >>config.h "#ifndef offsetof"
+echo >>config.h "#define offsetof(s, m) ((size_t)&(((s*)0)->m))"
+echo >>config.h "#endif"
+
 echo >>config.h "#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))"
 echo >>config.h "#define LLN(x) (x ## LL)"
 echo >>config.h "#define ULLN(x) (x ## ULL)"
 echo >>config.h "#else"
 echo >>config.h "#define LLN(x) ((__int64)(x))"
 echo >>config.h "#define ULLN(x) ((unsigned __int64)(x))"
+echo >>config.h "#endif"
+
+echo >>config.h "#ifdef __MSDOS__"
+echo >>config.h "#if !HAVE_ROUND"
+echo >>config.h "#define round(x) ((x > 0) ? floor(x + 0.5) : ceil(x - 0.5))"
+echo >>config.h "#define roundf(x) ((x > 0) ? floor(x + 0.5) : ceil(x - 0.5))"
+echo >>config.h "#endif"
+echo >>config.h "#define SCNd64 \"lld\""
+echo >>config.h "#define SCNu64 \"llu\""
+echo >>config.h "#define PRId64 \"lld\""
+echo >>config.h "#define PRIu64 \"llu\""
+echo >>config.h "#define PRIx32 \"lx\""
 echo >>config.h "#endif"
 
 echo

@@ -132,6 +132,7 @@ HEADER_FILES = \
 	common/x86/predict.h \
 	common/x86/quant.h \
 	common/x86/util.h \
+	dos/getopt.h \
 	encoder/analyse.h \
 	encoder/macroblock.h \
 	encoder/me.h \
