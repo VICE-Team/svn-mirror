@@ -32,6 +32,7 @@
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
+#include "uiapi.h"
 #include "uiplus4model.h"
 
 static TUI_MENU_CALLBACK(set_model_callback)

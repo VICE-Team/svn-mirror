@@ -31,6 +31,7 @@
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
+#include "uiapi.h"
 #include "uivic20model.h"
 #include "vic20model.h"
 

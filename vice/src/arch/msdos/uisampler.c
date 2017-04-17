@@ -27,14 +27,17 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.H>
 
 #include "lib.h"
 #include "mouse.h"
 #include "resources.h"
 #include "sampler.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
 #include "uisampler.h"
+#include "util.h"
 
 TUI_MENU_DEFINE_RADIO(SamplerDevice)
 TUI_MENU_DEFINE_FILENAME(SampleName, "Sampler input media file")

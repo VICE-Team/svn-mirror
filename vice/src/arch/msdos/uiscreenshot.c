@@ -35,6 +35,7 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "machine.h"
+#include "resources.h"
 #include "screenshot.h"
 #include "tui.h"
 #include "tuimenu.h"

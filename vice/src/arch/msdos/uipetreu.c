@@ -27,11 +27,15 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
+#include "lib.h"
 #include "resources.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
 #include "uipetreu.h"
+#include "util.h"
 
 TUI_MENU_DEFINE_TOGGLE(PETREU)
 TUI_MENU_DEFINE_RADIO(PETREUsize)

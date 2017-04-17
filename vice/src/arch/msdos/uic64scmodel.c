@@ -33,6 +33,7 @@
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
+#include "uiapi.h"
 #include "uic64scmodel.h"
 #include "vicii.h"
 

@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "resources.h"
 #include "sound.h"

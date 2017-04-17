@@ -27,12 +27,16 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c64-memory-hacks.h"
+#include "lib.h"
 #include "resources.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
 #include "uic64memoryhacks.h"
+#include "util.h"
 
 TUI_MENU_DEFINE_RADIO(MemoryHack)
 TUI_MENU_DEFINE_RADIO(C64_256Kbase)

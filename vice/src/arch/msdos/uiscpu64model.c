@@ -32,6 +32,7 @@
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
+#include "uiapi.h"
 #include "uiscpu64model.h"
 #include "vicii.h"
 

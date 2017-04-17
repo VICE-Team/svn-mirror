@@ -29,7 +29,9 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
+#include "lib.h"
 #include "resources.h"
 #include "sid.h"
 #include "tui.h"

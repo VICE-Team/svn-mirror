@@ -186,6 +186,7 @@
 #include <stdlib.h>
 #include <dos.h>
 #include <dpmi.h>
+#include <string.h>
 
 #include "lib.h"
 #include "util.h"

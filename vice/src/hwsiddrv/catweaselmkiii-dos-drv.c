@@ -43,6 +43,8 @@
 #include <stdio.h>
 #include <dpmi.h>
 #include <string.h>
+#include <pc.h>
+#include <unistd.h>
 
 #include "catweaselmkiii.h"
 #include "log.h"

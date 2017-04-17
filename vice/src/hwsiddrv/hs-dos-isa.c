@@ -43,6 +43,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <pc.h>
+#include <unistd.h>
+#include <dos.h>
 
 #include "hs-dos.h"
 #include "log.h"

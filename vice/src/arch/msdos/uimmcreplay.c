@@ -27,12 +27,16 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "clockport.h"
+#include "lib.h"
 #include "resources.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
 #include "uimmcreplay.h"
+#include "util.h"
 
 TUI_MENU_DEFINE_TOGGLE(MMCRCardRW)
 TUI_MENU_DEFINE_TOGGLE(MMCRImageWrite)

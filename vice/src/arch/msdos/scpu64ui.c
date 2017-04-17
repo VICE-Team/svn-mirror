@@ -63,6 +63,7 @@
 #include "uireu.h"
 #include "uiretroreplay.h"
 #include "uirrnetmk3.h"
+#include "uiscpu64.h"
 #include "uiscpu64model.h"
 #include "uisidc64.h"
 #include "uisoundexpander.h"

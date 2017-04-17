@@ -40,6 +40,7 @@
 #include "imagecontents.h"
 #include "diskcontents.h"
 #include "lib.h"
+#include "resources.h"
 #include "tui.h"
 #include "tuifs.h"
 #include "tuimenu.h"

@@ -27,13 +27,17 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "clockport.h"
 #include "ide64.h"
+#include "lib.h"
 #include "resources.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
 #include "uiide64.h"
+#include "util.h"
 
 TUI_MENU_DEFINE_RADIO(IDE64version)
 TUI_MENU_DEFINE_TOGGLE(IDE64RTCSave)

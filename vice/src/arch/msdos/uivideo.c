@@ -28,13 +28,17 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
+#include "lib.h"
 #include "machine.h"
 #include "palette.h"
 #include "resources.h"
 #include "ted.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
+#include "uiapi.h"
 #include "uivideo.h"
 #include "vic.h"
 #include "vicii.h"

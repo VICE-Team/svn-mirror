@@ -27,12 +27,16 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c64dtv-resources.h"
+#include "lib.h"
 #include "resources.h"
 #include "tui.h"
+#include "tuifs.h"
 #include "tuimenu.h"
 #include "uic64dtv.h"
+#include "util.h"
 
 TUI_MENU_DEFINE_RADIO(DtvRevision)
 TUI_MENU_DEFINE_TOGGLE(c64dtvromrw)

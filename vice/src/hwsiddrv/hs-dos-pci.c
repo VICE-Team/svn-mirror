@@ -40,6 +40,8 @@
 #include <stdio.h>
 #include <dpmi.h>
 #include <string.h>
+#include <pc.h>
+#include <unistd.h>
 
 #include "hs-dos.h"
 #include "log.h"

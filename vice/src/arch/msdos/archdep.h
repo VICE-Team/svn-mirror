@@ -34,6 +34,8 @@
 
 #include "vicemaxpath.h"
 
+#include <sys/types.h>
+
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."
 #define FSDEV_DIR_SEP_STR    "/"
@@ -124,5 +126,9 @@
 
 /* define if the platform supports the monitor in a seperate window */
 /* #define ARCHDEP_SEPERATE_MONITOR_WINDOW */
+
+/* missing in some djgpp devs */
+extern int fseeko(FILE *file, off_t offset, int x);
+extern off_t ftello(FILE *file);
 
 #endif
