@@ -31,8 +31,8 @@ extern void mbuffer_init(void *widget, int w, int h, int depth, int shell);
 extern unsigned char *mbuffer_get_buffer(struct timespec *ts, int shell);
 
 extern void dthread_init(void);
-extern void dthread_lock();
-extern void dthread_unlock();
+extern void dthread_lock(void);
+extern void dthread_unlock(void);
 extern int dthread_ui_init(int *argc, char **argv);
 extern int dthread_ui_init_finish(void);
 extern void dthread_build_screen_canvas(video_canvas_t *c);

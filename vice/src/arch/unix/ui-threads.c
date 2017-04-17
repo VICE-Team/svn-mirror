@@ -1,6 +1,6 @@
 /*
  * ui-threads.c
- * Foundation for multithreaded GUIs to decouple machine (=emulation) from 
+ * Foundation for multithreaded GUIs to decouple machine (=emulation) from
  * display drawing routines and from GUI event-processing based on pthreads.
  *
  * Written by
@@ -51,8 +51,8 @@
 #include "ui-threads.h"
 
 #ifdef DEBUG_MBUFFER
-#define DBG(_x_) log_debug _x_ 
-#define DBG2(_x_) 
+#define DBG(_x_) log_debug _x_
+#define DBG2(_x_)
 #else
 #define DBG(_x_)
 #define DBG2(_x_)
@@ -75,7 +75,7 @@ static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t dlock = PTHREAD_MUTEX_INITIALIZER;
 static sem_t mthread_sem, ethread_sem;
 static void *widget, *event, *client_data;
-static int is_coroutine = 1;	/* start with single threaded execution */
+static int is_coroutine = 1;    /* start with single threaded execution */
 static double machine_freq;
 static long laststamp, mrp_usec;
 
@@ -130,7 +130,7 @@ static int do_blending = 1;
 
 static int set_alpha_blending(int val, void *p)
 {
-    log_message(LOG_DEFAULT, _("Alpha blending %s"), val ? _("enabled") : _("disabled")); 
+    log_message(LOG_DEFAULT, _("Alpha blending %s"), val ? _("enabled") : _("disabled"));
 
     do_blending = val ? 1 : 0;
 
@@ -194,7 +194,7 @@ void mbuffer_init(void *canvas, int w, int h, int depth, int shell)
 
     DBG(("widget %p, w=%d, h=%d, shell=%d", widget, w, h, shell));
     bptrs[shell].csize = w * h * depth;
-    for (i = 0; i < MAX_BUFFERS; i++) { 
+    for (i = 0; i < MAX_BUFFERS; i++) {
         lib_free(buffers[shell][i].buffer);
         buffers[shell][i].buffer = lib_malloc(bptrs[shell].csize);
         memset(buffers[shell][i].buffer, -1, bptrs[shell].csize);
@@ -212,25 +212,25 @@ void mbuffer_init(void *canvas, int w, int h, int depth, int shell)
     }
 }
 
-unsigned char *mbuffer_get_buffer(struct timespec *t, int shell) 
+unsigned char *mbuffer_get_buffer(struct timespec *t, int shell)
 {
     unsigned char *curr;
     int tmppos = bptrs[shell].cpos;
     long tmpstamp, j;
     struct timespec ts = *t;
-    
+
     if (machine_freq != vsync_get_refresh_frequency()) {
         machine_freq = vsync_get_refresh_frequency();
         mrp_usec = 1000.0 / machine_freq * 1000;
         DBG(("machine freq = %f ms period %ld us", (float) machine_freq, mrp_usec));
     }
-    
+
     /* stamp in usecs */
     curr = buffers[shell][bptrs[shell].cpos].buffer;
     tmppos = NEXT(bptrs[shell].cpos, 1);
 
     /* copy fullframe */
-    memcpy(buffers[shell][tmppos].buffer, curr, bptrs[shell].csize); 
+    memcpy(buffers[shell][tmppos].buffer, curr, bptrs[shell].csize);
     bptrs[shell].cpos = tmppos;
     if (bptrs[shell].cpos == bptrs[shell].lpos) {
         DBG(("out of buffers: %s", __FUNCTION__));
@@ -244,18 +244,18 @@ unsigned char *mbuffer_get_buffer(struct timespec *t, int shell)
         DBG(("resetting jitter: %5ld us", j));
         laststamp = tmpstamp;
     }
-    
+
     buffers[shell][bptrs[shell].cpos].stamp = laststamp;
     return buffers[shell][bptrs[shell].cpos].buffer;
 }
 
-void tsAdd (const struct timespec *time1, const struct timespec *time2, struct timespec *result)
+static void tsAdd (const struct timespec *time1, const struct timespec *time2, struct timespec *result)
 {
     /* Add the two times together. */
     result->tv_sec = time1->tv_sec + time2->tv_sec ;
     result->tv_nsec = time1->tv_nsec + time2->tv_nsec ;
-    if (result->tv_nsec >= 1000000000L) {		/* Carry? */
-        result->tv_sec++ ;  
+    if (result->tv_nsec >= 1000000000L) {   /* Carry? */
+        result->tv_sec++ ;
         result->tv_nsec = result->tv_nsec - 1000000000L ;
     }
 }
@@ -272,12 +272,12 @@ void dthread_build_screen_canvas(video_canvas_t *c)
     dthread_coroutine(CR_CANVAS_WIDGET);
 }
 
-int dthread_ui_open_canvas_window(video_canvas_t *c, const char *t, int wi, int he, int na) 
+int dthread_ui_open_canvas_window(video_canvas_t *c, const char *t, int wi, int he, int na)
 {
     if (is_coroutine) {
         return ui_open_canvas_window2(c, t, wi, he, na);
     }
-    
+
     canvas = bptrs[c->app_shell].canvas = c;
     widget = bptrs[c->app_shell].widget = c->emuwindow;
     title = t;
@@ -293,14 +293,14 @@ int dthread_ui_init(int *ac, char **av)
     if (is_coroutine) {
         return ui_init2(ac, av);
     }
-    
+
     argc=ac;
     argv=av;
     dthread_coroutine(CR_INIT);
     return 0;
 }
 
-void dthread_ui_dispatch_events(void) 
+void dthread_ui_dispatch_events(void)
 {
     if (update || is_coroutine) {
         DBG2(("recursive call to %s - update: %d, is_coroutine %d", __FUNCTION__, update, is_coroutine));
@@ -336,7 +336,7 @@ int dthread_configure_callback_canvas(void *w, void *e, void *cd)
         DBG(("recursive call to %s, update: %d, is_coroutine: %d", __FUNCTION__, update, is_coroutine));
         return configure_callback_canvas2(w, e, cd);
     }
-    
+
     widget = bptrs[((video_canvas_t *) cd)->app_shell].widget = w;
     event = e;
     client_data = cd;
@@ -349,7 +349,7 @@ void dthread_ui_trigger_resize(void)
     if (is_coroutine) {
         return ui_trigger_resize2();
     }
-    
+
     dthread_coroutine(CR_RESIZE);
 }
 
@@ -378,31 +378,31 @@ void dthread_init(void)
     }
 
     if (console_mode) {
-        is_coroutine = 1;	/* enforce single threaded execution */
+        is_coroutine = 1;   /* enforce single threaded execution */
         return;
     }
-    
+
     if (pthread_attr_init(&attr)) {
         log_debug("pthread_attr_init() failed, %s", __FUNCTION__);
-        exit (-1);      
+        exit (-1);
     }
 
     if (pthread_attr_setinheritsched(&attr, PTHREAD_EXPLICIT_SCHED)) {
         log_debug("pthread_setinheritsched() failed, %s", __FUNCTION__);
         exit (-1);
     }
-    
+
     if (sem_init(&mthread_sem, 0, 0) < 0) {
         log_debug("sem_init() failed, %s", __FUNCTION__);
         exit (-1);
     }
-    
+
     if (sem_init(&ethread_sem, 0, 0) < 0) {
         log_debug("sem_init() failed, %s", __FUNCTION__);
         exit (-1);
     }
 
-    is_coroutine = 0;		/* use multithreaded executionfrom now on */
+    is_coroutine = 0;   /* use multithreaded executionfrom now on */
     if (pthread_create(&dthread, &attr, dthread_func, NULL) < 0) {
         log_debug("pthread_create() failed, %s", __FUNCTION__);
         exit (-1);
@@ -411,7 +411,7 @@ void dthread_init(void)
         log_debug("pthread_create() failed, %s", __FUNCTION__);
         exit (-1);
     }
-    
+
     param.sched_priority = 20;
     if (pthread_setschedparam(dthread, SCHED_RR, &param)) {
         log_message(LOG_DEFAULT, "ui-threads: failed to set realtime priority for VICE - this is no problem!\n\trefer to Readme-Unix.txt (http://vice-emu.svn.sourceforge.net/viewvc/vice-emu/trunk/vice/doc/readmes/Readme-Unix.txt)");
@@ -425,7 +425,7 @@ void dthread_shutdown(void)
     dthread_coroutine(CR_SHUTDOWN);
 }
 
-void dthread_lock(void) 
+void dthread_lock(void)
 {
     if (pthread_mutex_lock(&dlock) < 0) {
         log_debug("pthread_mutex_lock() failed, %s", __FUNCTION__);
@@ -433,7 +433,7 @@ void dthread_lock(void)
     }
 }
 
-void dthread_unlock(void) 
+void dthread_unlock(void)
 {
     if (pthread_mutex_unlock(&dlock) < 0) {
         log_debug("pthread_mutex_unlock() failed, %s", __FUNCTION__);
@@ -446,7 +446,7 @@ void dthread_unlock(void)
 /* weights for frames used for ghosting */
 static float weights[MAX_BUFFERS][MAX_BUFFERS] = {
     { -1, -1, -1, -1, -1, -1, -1, -1 }, /* not used*/
-    { 1, -1, -1, -1, -1, -1, -1, -1 },	/* not used */
+    { 1, -1, -1, -1, -1, -1, -1, -1 },  /* not used */
     { 1, 1, -1, -1, -1, -1, -1, -1 },
     { 1.0, 0.8, 0.2, -1, -1, -1, -1, -1 },
     { 0.2, 0.8, 0.8, 0.2, -1, -1, -1, -1 },
@@ -457,26 +457,26 @@ static float weights[MAX_BUFFERS][MAX_BUFFERS] = {
 
 static int dthread_calc_frames(unsigned long now, int *from, int *to, int shell)
 {
-    int last;			/* index of last frame to be drawn */
-    int first;			/* index of first frame to be drawn */
-    int count;			/* number of frames not drawn yet */
+    int last;               /* index of last frame to be drawn */
+    int first;              /* index of first frame to be drawn */
+    int count;              /* number of frames not drawn yet */
     unsigned long dt1, dt2;
-    int i, dg2;			/* helpers */
+    int i, dg2;             /* helpers */
     float a1, a2;
     struct s_mbufs *t;
-    
+
     if (!do_blending || ui_emulation_is_paused()) {
         *from = *to = bptrs[shell].cpos;
         buffers[shell][*from].alpha = 1.0;
-        return 1;		/* render frame */
+        return 1;       /* render frame */
     }
-    
+
     last = bptrs[shell].lpos;
     count = PREV(bptrs[shell].cpos, last);
     /* subtract machine cycles */
     dg2 = dthread_ghosting / 2;
-    now -= (dg2 * mrp_usec);	/* adjust `now' to fit ghosting */
-	
+    now -= (dg2 * mrp_usec);    /* adjust `now' to fit ghosting */
+
     /* find display frame interval where we fit in */
     for (i = 0; i < count; i++) {
         if (buffers[shell][last].stamp > now) {
@@ -489,16 +489,16 @@ static int dthread_calc_frames(unsigned long now, int *from, int *to, int shell)
     dt2 = buffers[shell][last].stamp - buffers[shell][first].stamp;
     if (dt1 > dt2) {
         /* DBG(("dthread dropping frames")); */
-        return 0;		/* do not render frames */
-    } 
+        return 0;       /* do not render frames */
+    }
     /* calculate alpha according to position of `now' between 2 frames */
     a1 = ((float) dt1 / dt2);
     a2 = (1.0 - a1);
 
     /* full range of to be drawn frames */
-    first = NEXT(PREV(last, dthread_ghosting), 1); 
+    first = NEXT(PREV(last, dthread_ghosting), 1);
     t = &buffers[shell][first];
-    
+
     /* calculate alpha for frames prior to adjusted `now' */
     for (i = 0; i < dg2; i++) {
         t->alpha = a2 * weights[dthread_ghosting][i];
@@ -508,7 +508,6 @@ static int dthread_calc_frames(unsigned long now, int *from, int *to, int shell)
     /* calculate alpha for frames after adjusted `now' */
     for (i = dg2; i < dthread_ghosting; i++) {
         t->alpha = a1 * weights[dthread_ghosting][i];
-	
         DBG2(("will draw to:   %d, stamp: %ld, alpha: %f", last, t->stamp, t->alpha));
         t = t->next;
     }
@@ -523,8 +522,8 @@ static int dthread_calc_frames(unsigned long now, int *from, int *to, int shell)
         DBG(("shell %d: from %d, i %d  stamp %ld  diff %ld", shell, first, i, buffers[shell][i].stamp, ddd));
     }
 #endif
-	
-    return 1;			/* render frames */
+
+    return 1;           /* render frames */
 }
 
 static void *dthread_func(void *arg)
@@ -532,10 +531,10 @@ static void *dthread_func(void *arg)
     static struct timespec now, to;
     int do_draw = 0;
     /* static struct timespec t1; */
-    
+
     int ret;
     DBG(("Display thread started..."));
-    
+
     while (emu_running) {
         if (pthread_mutex_lock(&mutex) < 0) {
             log_debug("pthread_mutex_lock() failed, %s", __FUNCTION__);
@@ -558,7 +557,7 @@ static void *dthread_func(void *arg)
             }
         }
         DBG2(("action is: %d, %ld", do_action, TS_TOUSEC(now)/1000));
-	
+
         if (do_draw) {
             int from, to, shell;
 
@@ -629,7 +628,7 @@ static void *dthread_func(void *arg)
     exit(0);
 }
 
-static void dthread_coroutine(coroutine_t action) 
+static void dthread_coroutine(coroutine_t action)
 {
     struct timespec ts;
     int ret;
@@ -653,14 +652,14 @@ static void dthread_coroutine(coroutine_t action)
         if (ret == ETIMEDOUT) {
             log_message(LOG_DEFAULT, "%s: timeout synchronized call for action %d", __FUNCTION__, action);
             /* goto retry; */
-            exit (-1);		/* continuation is probably not meaningful */
+            exit (-1);      /* continuation is probably not meaningful */
         }
         if (ret < 0) {
             log_debug("pthread_cond_timedwait() failed, %s", __FUNCTION__);
             exit (-1);
         }
     }
-    
+
     is_coroutine = 0;
     if (pthread_mutex_unlock(&mutex) < 0) {
         log_debug("pthread_mutex_unlock() failed, %s", __FUNCTION__);
@@ -672,7 +671,7 @@ static void dthread_coroutine(coroutine_t action)
 static void *ethread_func(void *arg)
 {
     int ret;
-    
+
     /* this thread takes only care on gtk+ events */
     DBG(("GUI Event handler thread started..."));
     while (emu_running) {
