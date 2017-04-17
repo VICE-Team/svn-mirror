@@ -59,4 +59,13 @@ extern Display *x11ui_get_display_ptr(void);
 extern Window x11ui_get_X11_window(void);
 #endif
 
+/* required for ui-threads */
+#ifdef USE_GNOMEUI
+struct video_canvas_s;
+struct s_mbufs;
+extern void gl_render_canvas(GtkWidget *w, struct video_canvas_s *canvas,
+        struct s_mbufs *buffers, int from, int to, int do_swap);
+#endif
+
+
 #endif
