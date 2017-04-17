@@ -204,6 +204,25 @@ fi
 
 cd ../libx264
 cur=`pwd`
+
+case "$host" in
+  *-*-linux*)
+    pic_option="--enable-pic"
+    ;;
+  *)
+    pic_option=""
+    ;;
+esac
+
+case "$host" in
+  *-*-msdosdjgpp*)
+    asm_option="--disable-asm"
+    ;;
+  *)
+    asm_option=""
+    ;;
+esac
+
 if test x"$shared" = "xyes"; then
   if test x"$hostprefix" != "x"; then
     config_line="$srcdir/../libx264/configure --enable-shared --enable-static --yasm-prog=${yasmcommand} --prefix=$prefix $extra_generic_enables $extra_x264_enables --host=$host --cross-prefix=$hostprefix-"
@@ -212,9 +231,9 @@ if test x"$shared" = "xyes"; then
   fi
 else
   if test x"$hostprefix" != "x"; then
-    config_line="$srcdir/../libx264/configure --enable-static --enable-pic --yasm-prog=${yasmcommand} --prefix=$prefix --host=$host --cross-prefix=$hostprefix-"
+    config_line="$srcdir/../libx264/configure --enable-static $pic_option $asm_option --yasm-prog=${yasmcommand} --prefix=$prefix --host=$host --cross-prefix=$hostprefix-"
   else
-    config_line="$srcdir/../libx264/configure --enable-static --enable-pic --yasm-prog=${yasmcommand} --prefix=$prefix --compiler=${compiler}"
+    config_line="$srcdir/../libx264/configure --enable-static $pic_option $asm_option --yasm-prog=${yasmcommand} --prefix=$prefix --compiler=${compiler}"
   fi
 fi
 
