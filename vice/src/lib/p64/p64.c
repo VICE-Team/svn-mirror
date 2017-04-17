@@ -146,6 +146,9 @@ static p64_uint32_t P64RangeCoderEncodeBit(PP64RangeCoder Instance, p64_uint32_t
     return BitValue;
 }
 
+
+/* unused right now (2017-04-17, compyx) */
+#if 0
 static p64_uint32_t P64RangeCoderEncodeBitWithoutProbability(PP64RangeCoder Instance, p64_uint32_t BitValue) {
     Instance->RangeMiddle = Instance->RangeLow + ((Instance->RangeHigh - Instance->RangeLow) >> 1);
     if(BitValue) {
@@ -156,6 +159,7 @@ static p64_uint32_t P64RangeCoderEncodeBitWithoutProbability(PP64RangeCoder Inst
     P64RangeCoderEncodeNormalize(Instance);
     return BitValue;
 }
+#endif
 
 static void P64RangeCoderDecodeNormalize(PP64RangeCoder Instance) {
     while(!((Instance->RangeLow ^ Instance->RangeHigh) & 0xff000000UL)) {
@@ -181,6 +185,9 @@ static p64_uint32_t P64RangeCoderDecodeBit(PP64RangeCoder Instance, p64_uint32_t
     return bit;
 }
 
+
+/* unused right now (2017-04-17, compyx) */
+#if 0
 static p64_uint32_t P64RangeCoderDecodeBitWithoutProbability(PP64RangeCoder Instance) {
     p64_uint32_t bit;
     Instance->RangeMiddle = Instance->RangeLow + ((Instance->RangeHigh - Instance->RangeLow) >> 1);
@@ -194,14 +201,20 @@ static p64_uint32_t P64RangeCoderDecodeBitWithoutProbability(PP64RangeCoder Inst
     P64RangeCoderDecodeNormalize(Instance);
     return bit;
 }
+#endif
 
+/* unused right now (2017-04-17, compyx) */
+#if 0
 static p64_uint32_t P64RangeCoderEncodeDirectBits(PP64RangeCoder Instance, p64_uint32_t Bits, p64_uint32_t Value) {
     while(Bits--) {
         P64RangeCoderEncodeBitWithoutProbability(Instance, (Value >> Bits) & 1);
     }
     return Value;
 }
+#endif
 
+/* unused right now (2017-04-17, compyx) */
+#if 0
 static p64_uint32_t P64RangeCoderDecodeDirectBits(PP64RangeCoder Instance, p64_uint32_t Bits) {
     p64_uint32_t Value = 0;
     while(Bits--) {
@@ -209,6 +222,7 @@ static p64_uint32_t P64RangeCoderDecodeDirectBits(PP64RangeCoder Instance, p64_u
     }
     return Value;
 }
+#endif
 
 void P64MemoryStreamCreate(PP64MemoryStream Instance) {
     memset(Instance, 0, sizeof(TP64MemoryStream));
