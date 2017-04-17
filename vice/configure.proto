@@ -1668,16 +1668,15 @@ else
     dnl Set CXXFLAGS. Use -fno-exceptions for G++ if supported.
     if test "$ac_test_CXXFLAGS" != set; then
       if test "$GXX" = yes; then
-        CXXFLAGS="$CFLAGS -fno-exceptions"
+        old_CXXFLAGS=$CXXFLAGS
+        CXXFLAGS="$CXXFLAGS -fno-exceptions"
         AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
         AC_TRY_COMPILE([],
                        [ int test; ],
                        [ AC_MSG_RESULT(yes) ],
                        [ AC_MSG_RESULT(no)
-                         CXXFLAGS="$CFLAGS"
+                         CXXFLAGS=$old_CXXFLAGS
                          ])
-      else
-        CXXFLAGS="$CFLAGS"
       fi
     fi
     AC_PROG_CXXCPP
