@@ -1864,7 +1864,7 @@ static void gl_draw_quad(float alpha, int tw, int th)
 }
 
 
-static void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
+void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
                       struct s_mbufs *buffers, int from, int to, int do_swap)
 {
     int tw, th, d, i = 0;
