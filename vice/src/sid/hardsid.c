@@ -28,12 +28,13 @@
 
 #include "vice.h"
 
+#include "hardsid.h"
+
 #ifdef HAVE_HARDSID
 
 #include <stdio.h>
 #include <string.h>
 
-#include "hardsid.h"
 #include "sid-snapshot.h"
 #include "types.h"
 

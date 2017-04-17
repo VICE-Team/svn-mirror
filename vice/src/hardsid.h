@@ -28,6 +28,8 @@
 #ifndef VICE_HARDSID_H
 #define VICE_HARDSID_H
 
+#ifdef HAVE_HARDSID
+
 #include "sid-snapshot.h"
 #include "types.h"
 
@@ -39,7 +41,6 @@ extern void hardsid_reset(void);
 extern int hardsid_read(WORD addr, int chipno);
 extern void hardsid_store(WORD addr, BYTE val, int chipno);
 extern void hardsid_set_machine_parameter(long cycles_per_sec);
-extern int hardsid_available(void);
 extern void hardsid_set_device(unsigned int chipno, unsigned int device);
 
 extern int hardsid_drv_open(void);
@@ -55,5 +56,8 @@ extern void hardsid_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_
 
 extern void hardsid_drv_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state);
 extern void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state);
+#endif
+
+extern int hardsid_available(void);
 
 #endif
