@@ -42,6 +42,9 @@
 #include "util.h"
 #include "winmain.h"
 
+#include "uisound.h"
+
+
 static int ui_sound_freq[] = {
     8000,
     11025,

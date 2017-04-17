@@ -41,6 +41,8 @@
 #include "uilib.h"
 #include "util.h"
 
+#include "uifliplist.h"
+
 
 static void uifliplist_load_dialog(HWND hwnd)
 {

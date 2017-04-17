@@ -61,6 +61,8 @@
 #include "sid-resources.h"
 #include "types.h"
 
+#include "hs-win32.h"
+
 #define HARDSID_FLUSH_CYCLES 1000
 #define HARDSID_FLUSH_MS 50
 

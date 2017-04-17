@@ -30,6 +30,6 @@
 
 #include <windows.h>
 
-void ui_plus4_memory_dialog(HWND hwnd);
+extern void ui_plus4_memory_dialog(HWND hwnd);
 
 #endif

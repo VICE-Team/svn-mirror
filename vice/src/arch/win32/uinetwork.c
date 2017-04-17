@@ -44,6 +44,9 @@
 #include "vsync.h"
 #include "winmain.h"
 
+#include "uinetwork.h"
+
+
 static uilib_localize_dialog_param network_dialog_trans[] = {
     { 0, IDS_NETWORK_CAPTION, -1 },
     { IDC_CURRENT_MODE, IDS_CURRENT_MODE, 0 },

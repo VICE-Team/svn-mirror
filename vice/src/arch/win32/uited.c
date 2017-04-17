@@ -36,6 +36,9 @@
 #include "uilib.h"
 #include "winmain.h"
 
+#include "uited.h"
+
+
 static uilib_localize_dialog_param ted_dialog[] = {
     { 0, IDS_TED_CAPTION, -1 },
     { IDC_TED_BORDERSGROUP, IDS_TED_BORDERSGROUP, 0 },

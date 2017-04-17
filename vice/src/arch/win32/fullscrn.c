@@ -349,7 +349,7 @@ void SwitchToFullscreenMode(HWND hwnd)
 #endif
 }
 
-void SwitchToWindowedMode(HWND hwnd)
+static void SwitchToWindowedMode(HWND hwnd)
 {
     int alwaysontop;
 
@@ -388,7 +388,7 @@ void SwitchToWindowedMode(HWND hwnd)
     ui_set_alwaysontop(alwaysontop);
 }
 
-void StartFullscreenMode(HWND hwnd)
+static void StartFullscreenMode(HWND hwnd)
 {
 #ifdef HAVE_D3D9_H
     SwitchToFullscreenMode(hwnd);
@@ -396,7 +396,7 @@ void StartFullscreenMode(HWND hwnd)
 #endif
 }
 
-void EndFullscreenMode(HWND hwnd)
+static void EndFullscreenMode(HWND hwnd)
 {
 #ifdef HAVE_D3D9_H
     SwitchToWindowedMode(hwnd);
@@ -759,7 +759,7 @@ static uilib_dialog_group fullscreen_rest_group[] = {
     {0, 0}
 };
 
-void enable_aspect_ratio(HWND hwnd)
+static void enable_aspect_ratio(HWND hwnd)
 {
     int enable = keep_aspect_ratio && video_dx9_enabled();
 

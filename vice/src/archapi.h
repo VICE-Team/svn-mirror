@@ -39,6 +39,7 @@ extern int archdep_init(int *argc, char **argv);
 extern void archdep_startup_log_error(const char *format, ...);
 
 /* Filesystem related functions.  */
+extern const char *archdep_home_path(void);
 extern char *archdep_program_name(void);
 extern const char *archdep_boot_path(void);
 extern char *archdep_default_sysfile_pathlist(const char *emu_id);

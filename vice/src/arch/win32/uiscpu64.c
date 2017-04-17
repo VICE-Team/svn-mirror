@@ -42,6 +42,9 @@
 #include "winmain.h"
 #include "intl.h"
 
+#include "uiscpu64.h"
+
+
 static uilib_localize_dialog_param scpu64_dialog[] = {
     { 0, IDS_SCPU64_CAPTION, -1 },
     { IDC_SCPU64_SIMM_SIZE_LABEL, IDS_SCPU64_SIMM_SIZE, 0 },

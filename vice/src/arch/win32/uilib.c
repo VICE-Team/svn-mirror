@@ -920,7 +920,9 @@ void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist, unsign
     lib_free(name);
 }
 
-BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
+/* currently unused */
+#if 0
+static BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
 {
     DWORD dwWndThread = GetWindowThreadProcessId(hwnd,NULL);
 
@@ -931,8 +933,11 @@ BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
 
     return TRUE;
 }
+#endif
 
-HWND GetParentHWND()
+/* currently unused */
+#if 0
+static HWND GetParentHWND(void)
 {
     HWND hwndOut = NULL;
 
@@ -944,6 +949,7 @@ HWND GetParentHWND()
 
     return GetLastActivePopup(hwndOut);
 }
+#endif
 
 /* HWND hwndDlg  - handle to dialog box */
 /* UINT uMsg     - message */
@@ -988,10 +994,10 @@ void ui_show_text(HWND hWnd, int ids_caption, LPCTSTR st_header, const char* szT
 #endif
 }
 
-// FIXME: the client area with the scroll bars 
+// FIXME: the client area with the scroll bars
 //        disabled would be larger, this function
 //        is not perfect.
-void AutoHideScrollBar(HWND hWnd, int fnBar)
+static void AutoHideScrollBar(HWND hWnd, int fnBar)
 {
     BOOL bResult;
     SCROLLINFO scInfo;

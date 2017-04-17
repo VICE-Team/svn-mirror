@@ -40,6 +40,8 @@
 #include "types.h"
 #include "util.h"
 
+#include "gfxoutputdrv/gifdrv.h"
+
 #ifdef USE_GIF_DLL
 
 #define GIF_ERROR 0

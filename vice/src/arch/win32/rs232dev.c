@@ -53,6 +53,9 @@
 #include "types.h"
 #include "util.h"
 
+#include "rs232dev.h"
+
+
 #ifdef DEBUG
 # define DEBUG_LOG_MESSAGE(_xxx) log_message _xxx
 #else

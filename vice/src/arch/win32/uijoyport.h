@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_JOYPORT_H
-#define VICE_JOYPORT_H
+#ifndef VICE_UIJOYPORT_H_
+#define VICE_UIJOYPORT_H_
 
 extern void ui_joyport_settings_dialog(HWND hwnd, int port1, int port2, int port3, int port4, int port5);
 

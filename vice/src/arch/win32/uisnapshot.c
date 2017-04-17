@@ -52,6 +52,9 @@
 #include "winlong.h"
 #include "winmain.h"
 
+#include "uisnapshot.h"
+
+
 static int save_roms = 0;
 static int save_disks = 0;
 

@@ -37,6 +37,8 @@
 #include "translate.h"
 #include "uilib.h"
 
+#include "uicmdline.h"
+
 
 /* This does not work as stdout is directed to null.
    This function is temporarily extended during the

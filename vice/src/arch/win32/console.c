@@ -45,6 +45,8 @@
 #include "uimonmsg.h"
 #include "winlong.h"
 #include "winmain.h"
+#include "archdep.h"
+
 
 /*
  MAX_WIDTH is not allowed to be bigger than (MIN_XSIZE * MIN_YSIZE) !

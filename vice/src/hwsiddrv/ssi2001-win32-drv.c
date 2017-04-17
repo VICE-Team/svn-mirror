@@ -58,6 +58,8 @@
 #include "types.h"
 #include "wininpoutp.h"
 
+#include "ssi2001.h"
+
 #define SSI2008_BASE 0x280
 
 static int ssi2001_use_lib = 0;

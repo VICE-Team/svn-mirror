@@ -59,6 +59,9 @@
 #include "vsync.h"
 #include "winmain.h"
 
+#include "vsidui.h"
+
+
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
 enum {
@@ -100,7 +103,7 @@ static HMENU menu;
 static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
 
 /*****************************************************************************/
-void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
+static void vsid_disp(int txout_x, int txout_y, const char *str1, const char* str2)
 {
     HDC hDC;
     RECT r;
@@ -704,7 +707,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
     return FALSE;
 }
 
-void ui_select_vsid_tune(HWND hwnd)
+static void ui_select_vsid_tune(HWND hwnd)
 {
     DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_VSID_TUNE_DIALOG, hwnd, dialog_proc);
 }

@@ -56,7 +56,7 @@
 #include "svnversion.h"
 #endif
 
-LPWORD lpdwAlign(LPWORD lpIn)
+static LPWORD lpdwAlign(LPWORD lpIn)
 {
     ULONG ul;
     ul = (ULONG)lpIn;

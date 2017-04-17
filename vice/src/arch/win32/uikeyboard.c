@@ -58,6 +58,8 @@ static int accelnum;
 static char **menuitemmodifier;
 static int menuitemmodifier_len;
 
+/* currently unused (2017-04-17, Compyx) */
+#if 0
 static void dump_shortcuts(void)
 {
     FILE *fp;
@@ -161,6 +163,8 @@ static void dump_shortcuts(void)
     ui_message("Successfully dumped shortcuts to %s", complete_path);
     lib_free(complete_path);
 }
+#endif
+
 
 HACCEL uikeyboard_create_accelerator_table(void)
 {

@@ -42,6 +42,9 @@
 #include "vicii.h"
 #include "winmain.h"
 
+#include "uivicii.h"
+
+
 static uilib_localize_dialog_param vicii_dialog[] = {
     { 0, IDS_VICII_CAPTION, -1 },
     { IDC_VICII_BORDERSGROUP, IDS_VICII_BORDERSGROUP, 0 },

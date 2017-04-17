@@ -158,6 +158,8 @@
 #include <tchar.h>
 #endif
 
+#include "platform.h"
+
 #define VICE_DEBUG_H
 #include "lib.h"
 

@@ -62,6 +62,9 @@
 #include "videoarch.h"
 #include "winmain.h"
 
+#include "cbm2ui.h"
+
+
 static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "Mouse", IDM_MOUSE },

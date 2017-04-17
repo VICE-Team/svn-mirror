@@ -36,6 +36,9 @@
 #include "vic.h"
 #include "winmain.h"
 
+#include "uivic.h"
+
+
 static uilib_localize_dialog_param vic_dialog[] = {
     { 0, IDS_VIC_CAPTION, -1 },
     { IDC_VIC_BORDERSGROUP, IDS_VIC_BORDERSGROUP, 0 },

@@ -44,6 +44,9 @@
 #include "uimouse.h"
 #include "winmain.h"
 
+#include "uijoyport.h"
+
+
 static int ports[JOYPORT_MAX_PORTS] = { 0, 0, 0, 0, 0};
 
 typedef struct port_param_s {

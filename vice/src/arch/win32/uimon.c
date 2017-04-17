@@ -218,7 +218,7 @@ __declspec(naked) void *uimon_iep(void **dest, void *val)
 #define uimon_iep(x, y) InterlockedExchangePointer(x, y)
 #endif
 
-void add_client_window( HWND hwnd )
+static void add_client_window( HWND hwnd )
 {
     uimon_client_windows_t *new_client = lib_malloc( sizeof * new_client );
 
@@ -228,7 +228,7 @@ void add_client_window( HWND hwnd )
     first_client_window = new_client;
 }
 
-void delete_client_window( HWND hwnd )
+static void delete_client_window( HWND hwnd )
 {
     uimon_client_windows_t *pold = NULL;
     uimon_client_windows_t *p;
@@ -570,10 +570,32 @@ static BOOLEAN getString3(BYTE **where, const char **what, size_t* s, BYTE* xor)
     BYTE what2;
     BYTE what3;
 
-    if ((**what < 0x3F) || (**what > 0x7E)) ok = FALSE; *b++ = *(*what)++ - 0x3F;
-    if ((**what < 0x3F) || (**what > 0x7E)) ok = FALSE; *b++ = *(*what)++ - 0x3F;
-    if ((**what < 0x3F) || (**what > 0x7E)) ok = FALSE; *b++ = *(*what)++ - 0x3F;
-    if ((**what < 0x3F) || (**what > 0x7E)) ok = FALSE; *b++ = *(*what)++ - 0x3F;
+    /*
+     * What the hell is this supposed to do? Originally these lines looked like:
+     *
+     * if ((**what < 0x3F) || (**what > 0x7E)) ok = FALSE; *b++ = *(*what)++ - 0x3F;
+     *
+     * So, either misleadingly indented, or missing braces. And why four times
+     * the same statement?
+     *
+     * -- Compyx
+     */
+    if ((**what < 0x3F) || (**what > 0x7E)) {
+        ok = FALSE;
+    }
+    *b++ = *(*what)++ - 0x3F;
+    if ((**what < 0x3F) || (**what > 0x7E)) {
+        ok = FALSE;
+    }
+    *b++ = *(*what)++ - 0x3F;
+    if ((**what < 0x3F) || (**what > 0x7E)) {
+        ok = FALSE;
+    }
+    *b++ = *(*what)++ - 0x3F;
+    if ((**what < 0x3F) || (**what > 0x7E)) {
+        ok = FALSE;
+    }
+    *b++ = *(*what)++ - 0x3F;
 
     // intentionally convert from unsigned long to BYTE
     what1 = (BYTE)(((value >> 0) & 0x3F) | ((value >> 18) & 0xC0));
@@ -1107,7 +1129,7 @@ static void ClearMemspace(HWND hwnd)
     CHECK(IDM_MON_DRIVE11, FALSE);
 }
 
-void uimon_after_set_command(void)
+static void uimon_after_set_command(void)
 {
     if (hwndConsole) {
         SendMessage(hwndConsole, WM_CONSOLE_INSERTLINE, 0, 0);

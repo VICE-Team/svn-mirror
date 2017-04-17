@@ -38,6 +38,9 @@
 #include "uilib.h"
 #include "winmain.h"
 
+#include "uiplus4mem.h"
+
+
 static int orig_ramsize;
 static int set_ramsize;
 

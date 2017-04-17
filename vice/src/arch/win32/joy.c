@@ -209,7 +209,7 @@ static void joystick_release_joysticks(void)
     }
 }
 
-int joystick_di_open(int port_idx, int dev)
+static int joystick_di_open(int port_idx, int dev)
 {
     JoyInfo *joy = joystick_list;
     int i = 0;
@@ -307,7 +307,7 @@ int joystick_di_open(int port_idx, int dev)
     }
 }
 
-void joystick_di_close(int port_idx)
+static void joystick_di_close(int port_idx)
 {
     if (joystick_di_devices[port_idx]) {
         IDirectInputDevice_Unacquire(joystick_di_devices[port_idx]);

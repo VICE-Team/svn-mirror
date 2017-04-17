@@ -690,7 +690,7 @@ void ui_make_resizable(video_canvas_t *canvas, int enable)
         SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
 }
 
-void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
+static void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
 {
     int keep_aspect_ratio, true_aspect_ratio;
     int aspect_ratio;

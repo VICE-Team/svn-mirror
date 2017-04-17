@@ -43,6 +43,9 @@
 #include "winlong.h"
 #include "winmain.h"
 
+#include "uijoystick.h"
+
+
 static int joy1;
 static int joy2;
 static int joy3;
