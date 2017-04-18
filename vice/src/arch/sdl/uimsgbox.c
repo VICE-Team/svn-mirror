@@ -77,7 +77,7 @@ static int handle_message_box(const char *title, const char *message, int messag
 
     /* determine button count for requested `message mode` */
     if (message_mode < 0 || message_mode >= (int)(sizeof msg_mode_buttons / sizeof msg_mode_buttons[0])) {
-#ifndef IDE_COMPILE
+#ifndef __func__
         fprintf(stderr, "%s:%d:%s: illegal `message_mode` value %d\n",
                __FILE__, __LINE__, __func__, message_mode);
 #endif
