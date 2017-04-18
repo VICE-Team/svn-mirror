@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <string.H>
+#include <string.h>
 
 #include "lib.h"
 #include "mouse.h"
