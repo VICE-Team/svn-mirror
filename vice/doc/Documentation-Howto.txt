@@ -269,7 +269,6 @@ AUTHORS                                       (fully generated)
 src/arch/unix/macosx/Resources/Credits.html   (fully generated)
 README                                        (partially generated)
 doc/html/index.html                           (partially generated)
-src/arch/os2/dialogs/dialogs.rc               (partially generated)
 man/vice.1                                    (fully generated)
 
 ------------------------------------------------------------------------------
