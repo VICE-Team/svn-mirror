@@ -31,7 +31,11 @@
 #endif
 
 #include <errno.h>
+
+#if !defined(VICE_FFMPEGLIB_H) && !defined(__MSDOS__)
 #include <inttypes.h>
+#endif
+
 #include <limits.h>
 #include <math.h>
 #include <stdint.h>
@@ -42,6 +46,12 @@
 #include "attributes.h"
 #include "version.h"
 #include "libavutil/avconfig.h"
+
+#ifdef __MSDOS__
+extern int snprintf(char *buf, size_t count, const char *format, ...);
+extern int vsnprintf(char *text, size_t maxlen, const char *fmt, va_list ap);
+typedef int ptrdiff_t;
+#endif
 
 #if AV_HAVE_BIGENDIAN
 #   define AV_NE(be, le) (be)

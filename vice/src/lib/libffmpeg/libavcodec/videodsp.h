@@ -29,6 +29,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __MSDOS__
+#include "libavutil/common.h"
+#endif
+
 #define EMULATED_EDGE(depth) \
 void ff_emulated_edge_mc_ ## depth(uint8_t *dst, const uint8_t *src, \
                                    ptrdiff_t dst_stride, ptrdiff_t src_stride, \

@@ -20,6 +20,10 @@
  */
 
 
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #include "libavutil/avstring.h"
 #include "libavutil/bprint.h"
 #include "libavutil/opt.h"

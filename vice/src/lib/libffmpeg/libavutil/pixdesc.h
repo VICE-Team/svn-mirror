@@ -24,6 +24,8 @@
 
 #include <inttypes.h>
 
+#include <stdint.h>
+
 #include "attributes.h"
 #include "pixfmt.h"
 

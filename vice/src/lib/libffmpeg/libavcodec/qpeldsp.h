@@ -29,6 +29,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __MSDOS__
+#include "libavutil/common.h"
+#endif
+
 void ff_put_pixels8x8_c(uint8_t *dst, const uint8_t *src, ptrdiff_t stride);
 void ff_avg_pixels8x8_c(uint8_t *dst, const uint8_t *src, ptrdiff_t stride);
 void ff_put_pixels16x16_c(uint8_t *dst, const uint8_t *src, ptrdiff_t stride);

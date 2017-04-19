@@ -19,6 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #include "avformat.h"
 #include "libavutil/avstring.h"
 #include "libavutil/intreadwrite.h"
@@ -28,6 +32,7 @@
 #include "avio_internal.h"
 #include "url.h"
 #include "rtpdec.h"
+
 #if HAVE_POLL_H
 #include <poll.h>
 #endif

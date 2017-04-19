@@ -24,6 +24,10 @@
  * RTMP protocol
  */
 
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #include "libavcodec/bytestream.h"
 #include "libavutil/avstring.h"
 #include "libavutil/base64.h"

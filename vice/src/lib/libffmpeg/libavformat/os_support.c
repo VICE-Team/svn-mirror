@@ -24,6 +24,11 @@
 #define _DEFAULT_SOURCE
 #define _SVID_SOURCE
 
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#define __SYS_SWAP_BYTES_H
+#endif
+
 #ifdef IDE_COMPILE
 #include "ffmpeg-config.h"
 #include "ide-config.h"

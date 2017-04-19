@@ -11,6 +11,7 @@ COMPAT_HEADER_FILES = \
 	compat/avisynth/avxsynth_c.h \
 	compat/avisynth/windowsPorts/basicDataTypeConversions.h \
 	compat/avisynth/windowsPorts/windows2linux.h \
+	compat/dos/inttypes.h \
 	compat/float/float.h \
 	compat/float/limits.h \
 	compat/msvcrt/snprintf.h \

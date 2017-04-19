@@ -37,6 +37,10 @@
 #include "avstring.h"
 #include "bprint.h"
 
+#if defined(__MSDOS__) && !defined(EILSEQ)
+#define EILSEQ 138
+#endif
+
 int av_strstart(const char *str, const char *pfx, const char **ptr)
 {
     while (*pfx && *pfx == *str) {

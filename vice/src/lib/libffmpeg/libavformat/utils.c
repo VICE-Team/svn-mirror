@@ -20,6 +20,11 @@
  */
 
 #undef NDEBUG
+
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #include <assert.h>
 #include <stdarg.h>
 #include <stdint.h>

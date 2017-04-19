@@ -22,6 +22,10 @@
 
 #include "avformat.h"
 
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #ifdef IDE_COMPILE
 #include "ffmpeg-config.h"
 #include "ide-config.h"
@@ -30,6 +34,7 @@
 #endif
 
 #include "url.h"
+
 #if CONFIG_NETWORK
 #include "network.h"
 #endif

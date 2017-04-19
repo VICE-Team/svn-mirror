@@ -22,6 +22,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __MSDOS__
+#include "libavutil/common.h"
+#endif
+
 void ff_avg_pixels8_mmx(uint8_t *block, const uint8_t *pixels,
                         ptrdiff_t line_size, int h);
 void ff_avg_pixels8_mmxext(uint8_t *block, const uint8_t *pixels,

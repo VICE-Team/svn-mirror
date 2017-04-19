@@ -28,6 +28,11 @@
 
 #include <stddef.h>
 #include <stdint.h>
+
+#ifdef __MSDOS__
+#include <sys/types.h>
+#endif
+
 #include "attributes.h"
 
 /**

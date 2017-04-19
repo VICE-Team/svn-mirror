@@ -3,6 +3,8 @@ included ffmpeg library.
 
 Platform         | compiler    | supported | comments
 -------------------------------------------------------------------------------
+i586-msdosdjgpp  | gcc 4.6.2   |   YES(3)  | ported after 3.1 release
+-------------------------------------------------------------------------------
 i386-mingw       | gcc 4.7.1   |   YES     |
 -------------------------------------------------------------------------------
 i386-os2         | openwatcom  |   NO      | ffmpeg will not compile using openwatcom
@@ -41,5 +43,5 @@ x86_64 Haiku     | gcc 5.4.0   |   NO(2)   | configure.gnu doesn't recognize
 2 = using --external-ffmpeg will be even worse, that requires building ffmpeg
     from source and installing it into an alternate prefix so it won't bork
     the ffmpeg lib used by the Webpositive browser
-
+3 = not supported in 3.1, support added in trunk
 

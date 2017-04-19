@@ -33,6 +33,10 @@
  *                        FU-B packet types)
  */
 
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #include "libavutil/attributes.h"
 #include "libavutil/base64.h"
 #include "libavutil/avstring.h"

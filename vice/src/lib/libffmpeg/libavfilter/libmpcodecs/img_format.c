@@ -26,6 +26,7 @@
 #include "img_format.h"
 #include "stdio.h"
 #include "libavutil/bswap.h"
+#include "libavutil/common.h"
 
 const char *ff_vo_format_name(int format)
 {

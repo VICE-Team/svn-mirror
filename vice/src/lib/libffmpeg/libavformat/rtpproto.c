@@ -24,6 +24,10 @@
  * RTP protocol
  */
 
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #include "libavutil/parseutils.h"
 #include "libavutil/avstring.h"
 #include "avformat.h"

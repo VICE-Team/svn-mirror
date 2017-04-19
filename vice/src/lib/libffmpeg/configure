@@ -4095,11 +4095,12 @@ case $target_os in
         enable dos_paths
         enabled shared && ! enabled small && check_cmd $windres --version && enable gnu_windres
         ;;
-    *-dos|freedos|opendos)
+    *-dos|freedos|opendos|msdosdjgpp*)
         network_extralibs="-lsocket"
         objformat="coff"
         enable dos_paths
         add_cppflags -U__STRICT_ANSI__
+        add_cppflags '-I\$(SRC_PATH)/compat/dos'
         ;;
     linux)
         enable dv1394
@@ -5733,4 +5734,8 @@ echo >>config.h "#else"
 echo >>config.h "#define LLN(x) ((__int64)(x))"
 echo >>config.h "#define ULLN(x) ((unsigned __int64)(x))"
 echo >>config.h "#endif"
+echo >>config.h "#endif"
+
+echo >>config.h "#ifndef offsetof"
+echo >>config.h "#define offsetof(s, m) ((size_t)&(((s*)0)->m))"
 echo >>config.h "#endif"

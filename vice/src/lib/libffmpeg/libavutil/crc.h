@@ -23,6 +23,9 @@
 
 #include <stdint.h>
 #include <stddef.h>
+
+#include "libavutil/common.h"
+
 #include "attributes.h"
 
 /**

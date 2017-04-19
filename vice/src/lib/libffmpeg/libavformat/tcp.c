@@ -18,6 +18,11 @@
  * License along with FFmpeg; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
+
+#ifdef __MSDOS__
+#define HAVE_INT32_T
+#endif
+
 #include "avformat.h"
 #include "libavutil/parseutils.h"
 #include "libavutil/opt.h"
@@ -26,8 +31,21 @@
 #include "network.h"
 #include "os_support.h"
 #include "url.h"
+
 #if HAVE_POLL_H
 #include <poll.h>
+#endif
+
+#ifndef SHUT_RD
+#define SHUT_RD   0
+#endif
+
+#ifndef SHUT_WR
+#define SHUT_WR   1
+#endif
+
+#ifndef SHUT_RDWR
+#define SHUT_RDWR 2
 #endif
 
 typedef struct TCPContext {

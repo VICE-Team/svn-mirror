@@ -31,6 +31,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#ifdef __MSDOS__
+#include "libavutil/common.h"
+#endif
+
 /* add and put pixel (decoding) */
 // blocksizes for hpel_pixels_func are 8x4,8x8 16x8 16x16
 // h for hpel_pixels_func is limited to {width/2, width} but never larger
