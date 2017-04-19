@@ -64,6 +64,7 @@
 #include "ui.h"
 #include "uiattach.h"
 #include "uidrive.h"
+#include "uiffmpeg.h"
 #include "uijoyport.h"
 #include "uijoystick.h"
 #include "uikeymap.h"
@@ -880,6 +881,10 @@ static void create_ui_video_submenu(void)
                          ui_screenshot_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
+
+#ifdef HAVE_FFMPEG
+    uiffmpeg_init(ui_screenshot_submenu);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
