@@ -24,30 +24,27 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <cpu> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir>
-#                         $1      $2             $3    $4              $5          $6               $7
+# Usage: make-bindist.sh <strip> <vice-version> <cpu> <system> <--enable-arch> <zip|nozip> <xscpu64-included> <top-srcdir> <SDL-version>
+#                         $1      $2             $3    $4       $5              $6          $7                 $8           $9
 #
 
 STRIP=$1
 VICEVERSION=$2
 CPU=$3
-ENABLEARCH=$4
-ZIPKIND=$5
-X64SCINCLUDED=$6
+SYSTEM=$4
+ENABLEARCH=$5
+ZIPKIND=$6
 XSCPU64INCLUDED=$7
 TOPSRCDIR=$8
+SDLVERSION=$9
 
-if test x"$X64SCINCLUDED" = "xyes"; then
-  EXTRAFILES="x64sc"
-else
-  EXTRAFILES=""
-fi
+EXTRAFILES="x64sc"
 
 if test x"$XSCPU64INCLUDED" = "xyes"; then
   EXTRAFILES="$EXTRAFILES xscpu64"
 fi
 
-EMULATORS="x64 x64dtv xscpu64 $EXTRAFILES x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 x64dtv $EXTRAFILES x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -60,60 +57,93 @@ do
   fi
 done
 
-echo Generating BEOS SDL port binary distribution.
 if test x"$CPU" = "xpowerpc" -o x"$CPU" = "xppc"; then
   BEOSCPU=powerpc
 else
-  BEOSCPU=x86
+  if test x"$CPU" = "xx86_64" -o x"$CPU" = "xamd64"; then
+    BEOSCPU=x86_64
+  else
+    BEOSCPU=x86
+  fi
 fi
 
-rm -f -r SDLVICE-$BEOSCPU-beos-$VICEVERSION
-mkdir SDLVICE-$BEOSCPU-beos-$VICEVERSION
+if test x"$SYSTEM" = "xhaiku"; then
+  if test x"$SDLVERSION" = "x2"; then
+    echo Generating Haiku SDL2 port binary distribution.
+    SDLNAME="SDL2VICE-$BEOSCPU-haiku-$VICEVERSION"
+  else
+    echo Generating Haiku SDL port binary distribution.
+    SDLNAME="SDLVICE-$BEOSCPU-haiku-$VICEVERSION"
+  fi
+else
+  if test x"$SDLVERSION" = "x2"; then
+    echo Generating BEOS SDL2 port binary distribution.
+    SDLNAME="SDL2VICE-$BEOSCPU-beos-$VICEVERSION"
+  else
+    echo Generating BEOS SDL port binary distribution.
+    SDLNAME="SDLVICE-$BEOSCPU-beos-$VICEVERSION"
+  fi
+fi
+
+rm -f -r $SDLNAME
+mkdir $SDLNAME
 for i in $EXECUTABLES
 do
   $STRIP src/$i
-  cp src/$i SDLVICE-$BEOSCPU-beos-$VICEVERSION
+  cp src/$i $SDLNAME
 done
-cp -a $TOPSRCDIR/data/C128 SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp -a $TOPSRCDIR/data/C64 SDLVICE-$BEOSCPU-beos-$VICEVERSION
+cp -a $TOPSRCDIR/data/C128 $SDLNAME
+cp -a $TOPSRCDIR/data/C64 $SDLNAME
 if test x"$SCPU64INCLUDED" = "xyes"; then
-  cp -a $TOPSRCDIR/data/SCPU64 SDLVICE-$BEOSCPU-beos-$VICEVERSION
+  cp -a $TOPSRCDIR/data/SCPU64 $SDLNAME
 fi
-cp -a $TOPSRCDIR/data/C64DTV SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp -a $TOPSRCDIR/data/CBM-II SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp -a $TOPSRCDIR/data/DRIVES SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp -a $TOPSRCDIR/data/PET SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp -a $TOPSRCDIR/data/PLUS4 SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp -a $TOPSRCDIR/data/PRINTER SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp -a $TOPSRCDIR/data/VIC20 SDLVICE-$BEOSCPU-beos-$VICEVERSION
+cp -a $TOPSRCDIR/data/C64DTV $SDLNAME
+cp -a $TOPSRCDIR/data/CBM-II $SDLNAME
+cp -a $TOPSRCDIR/data/DRIVES $SDLNAME
+cp -a $TOPSRCDIR/data/PET $SDLNAME
+cp -a $TOPSRCDIR/data/PLUS4 $SDLNAME
+cp -a $TOPSRCDIR/data/PRINTER $SDLNAME
+cp -a $TOPSRCDIR/data/VIC20 $SDLNAME
 
-cp -a $TOPSRCDIR/doc/html SDLVICE-$BEOSCPU-beos-$VICEVERSION
-rm SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/checklinks.sh
-cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README SDLVICE-$BEOSCPU-beos-$VICEVERSION
-cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS SDLVICE-$BEOSCPU-beos-$VICEVERSION
-rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "Makefile*"`
-rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "*.vkm" -and ! -name "sdl*.vkm"`
-rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "*.vsc"`
-rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "win_*.v*"`
-rm SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html
+cp -a $TOPSRCDIR/doc/html $SDLNAME
+rm $SDLNAME/html/checklinks.sh
+if test x"$SDLVERSION" = "x2"; then
+  cp $TOPSRCDIR/doc/readmes/Readme-SDL2.txt $SDLNAME
+else
+  cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $SDLNAME
+fi
+cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $SDLNAME
+cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $SDLNAME
+rm `find $SDLNAME -name "Makefile*"`
+rm `find $SDLNAME -name "*.vkm" -and ! -name "sdl*.vkm"`
+rm `find $SDLNAME -name "*.vsc"`
+rm `find $SDLNAME -name "win_*.v*"`
+rm $SDLNAME/html/texi2html
 
 # just in case ...
-rm -f -r `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name ".svn"`
+rm -f -r `find $SDLNAME -name ".svn"`
 
-mkdir SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
-cp $TOPSRCDIR/doc/vice.pdf SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
+mkdir $SDLNAME/doc
+cp $TOPSRCDIR/doc/vice.pdf $SDLNAME/doc
 
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
-    zip -r -9 -q SDLVICE-$BEOSCPU-beos-$VICEVERSION.zip SDLVICE-$BEOSCPU-beos-$VICEVERSION
+    zip -r -9 -q $SDLNAME.zip $SDLNAME
   else
-    $ZIP SDLVICE-$BEOSCPU-beos-$VICEVERSION.zip SDLVICE-$BEOSCPU-beos-$VICEVERSION
+    $ZIP $SDLNAME.zip $SDLNAME
   fi
-  rm -f -r SDLVICE-$BEOSCPU-beos-$VICEVERSION
-  echo BEOS SDL port binary distribution archive generated as SDLVICE-$BEOSCPU-beos-$VICEVERSION.zip
+  rm -f -r $SDLNAME
+  if test x"$SDLVERSION" = "x2"; then
+    echo BEOS SDL2 port binary distribution archive generated as $SDLNAME.zip
+  else
+    echo BEOS SDL port binary distribution archive generated as $SDLNAME.zip
+  fi
 else
-  echo BEOS SDL port binary distribution directory generated as SDLVICE-$BEOSCPU-beos-$VICEVERSION
+  if test x"$SDLVERSION" = "x2"; then
+    echo BEOS SDL2 port binary distribution directory generated as $SDLNAME
+  else
+    echo BEOS SDL port binary distribution directory generated as $SDLNAME
+  fi
 fi
 if test x"$ENABLEARCH" = "xyes"; then
   echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
