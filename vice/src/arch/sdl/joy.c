@@ -1075,6 +1075,8 @@ ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value)
 
 /* ------------------------------------------------------------------------- */
 
+/* unused at the moment (2014-07-19, compyx) */
+#if 0
 static ui_menu_entry_t *sdljoy_get_hotkey(SDL_Event e)
 {
     ui_menu_entry_t *retval = NULL;
@@ -1086,6 +1088,7 @@ static ui_menu_entry_t *sdljoy_get_hotkey(SDL_Event e)
 
     return retval;
 }
+#endif
 
 void sdljoy_set_joystick(SDL_Event e, int port, int bits)
 {
