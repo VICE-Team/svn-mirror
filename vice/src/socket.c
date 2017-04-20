@@ -48,7 +48,8 @@
 
 /* Fix Windows' definition of 'INVALID_SOCKET (SOCKET)(~0)', which breaks the
  * code further down. Any 'normal' OS uses -1, but Microsft had to use an
- * unsinged int with INVALID_SOCKET being the largest value for that int.
+ * unsigned int with INVALID_SOCKET being the largest value for that unsigned
+ * int.
  *
  * Since Windows only works on two's complement systems, this will work.
  */
