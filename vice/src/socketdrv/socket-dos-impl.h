@@ -53,10 +53,8 @@ typedef int SOCKET;
 typedef struct timeval TIMEVAL;
 
 #ifndef INVALID_SOCKET
-#define INVALID_SOCKET (SOCKET)(~0)
+#define INVALID_SOCKET -1
 #endif
-
-#define SOCKET_IS_INVALID(_x) ((_x) < 0)
 
 #define in_addr_t unsigned long
 

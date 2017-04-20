@@ -45,6 +45,18 @@
 #endif
 
 #include "socketimpl.h"
+
+/* Fix Windows' definition of 'INVALID_SOCKET (SOCKET)(~0)', which breaks the
+ * code further down. Any 'normal' OS uses -1, but Microsft had to use an
+ * unsinged int with INVALID_SOCKET being the largest value for that int.
+ *
+ * Since Windows only works on two's complement systems, this will work.
+ */
+#ifdef WIN32_COMPILE
+# undef INVALID_SOCKET
+# define INVALID_SOCKET -1
+#endif
+
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
@@ -393,8 +405,7 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
 
         sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
 
-        if (SOCKET_IS_INVALID(sockfd)) {
-            sockfd = INVALID_SOCKET;
+        if (sockfd == INVALID_SOCKET) {
             break;
         }
 
@@ -430,13 +441,13 @@ vice_network_socket_t * vice_network_server(const vice_network_socket_address_t 
     } while (0);
 
     if (error) {
-        if (!SOCKET_IS_INVALID(sockfd)) {
+        if (sockfd != INVALID_SOCKET) {
             closesocket(sockfd);
         }
         sockfd = INVALID_SOCKET;
     }
 
-    return SOCKET_IS_INVALID(sockfd) ? NULL : vice_network_alloc_new_socket(sockfd);
+    return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
 }
 
 /*! \brief Open a socket and initialise it for client operation
@@ -466,8 +477,7 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
 
         sockfd = (int)socket(server_address->domain, SOCK_STREAM, server_address->protocol);
 
-        if (SOCKET_IS_INVALID(sockfd)) {
-            sockfd = INVALID_SOCKET;
+        if (sockfd == INVALID_SOCKET) {
             break;
         }
 
@@ -484,13 +494,13 @@ vice_network_socket_t * vice_network_client(const vice_network_socket_address_t 
     } while (0);
 
     if (error) {
-        if (!SOCKET_IS_INVALID(sockfd)) {
+        if (sockfd != INVALID_SOCKET) {
             closesocket(sockfd);
         }
         sockfd = INVALID_SOCKET;
     }
 
-    return SOCKET_IS_INVALID(sockfd) ? NULL : vice_network_alloc_new_socket(sockfd);
+    return sockfd == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(sockfd);
 }
 
 /*! \internal \brief Generate an IPv4 socket address
@@ -898,7 +908,7 @@ vice_network_socket_t * vice_network_accept(vice_network_socket_t * sockfd)
 
     newsocket = accept(sockfd->sockfd, &sockfd->address.address.generic, &sockfd->address.len);
 
-    return SOCKET_IS_INVALID(newsocket) ? NULL : vice_network_alloc_new_socket(newsocket);
+    return newsocket == INVALID_SOCKET ? NULL : vice_network_alloc_new_socket(newsocket);
 }
 
 /*! \brief Close a socket

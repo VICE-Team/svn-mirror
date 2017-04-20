@@ -67,15 +67,13 @@ typedef unsigned long in_addr_t;
 #endif
 
 #define PF_INET AF_INET
-#define INVALID_SOCKET (SOCKET)(~0)
+#define INVALID_SOCKET -1
 #define HAVE_HTONS
 #define HAVE_HTONL
 
 #ifndef INADDR_NONE
 #define INADDR_NONE ((unsigned long)-1)
 #endif
-
-#define SOCKET_IS_INVALID(_x) ((_x) < 0)
 
 #endif /* #ifdef HAVE_NETWORK */
 

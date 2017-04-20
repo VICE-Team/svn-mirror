@@ -37,8 +37,6 @@
 
 #include <winsock2.h>
 
-#define SOCKET_IS_INVALID(_x) ((_x) == INVALID_SOCKET)
-
 typedef unsigned long in_addr_t;
 
 #endif /* #ifdef HAVE_NETWORK */
