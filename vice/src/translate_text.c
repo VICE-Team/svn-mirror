@@ -5794,7 +5794,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_P_NUMBER_TR, "<sayý>"},
 #endif
 
-#ifdef COMMON_KBD
 /* keyboard.c */
 /* en */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX,    N_("Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), 3=positional (user))")},
 #ifdef HAS_TRANSLATION
@@ -5884,7 +5883,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_RU, "Specify name of positional keymap file"},
 /* sv */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_SV, "Ange fil för positionsriktig tangentbordsemulering"},
 /* tr */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_TR, "Konumsal tuþ haritasý dosyasýnýn ismini belirt"},
-#endif
 #endif
 
 /* c128/c128mmu.c */
