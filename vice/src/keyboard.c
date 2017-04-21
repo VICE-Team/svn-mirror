@@ -129,9 +129,6 @@ static int keyboard_set_latch_keyarr(int row, int col, int value)
 }
 
 /*-----------------------------------------------------------------------*/
-#ifdef COMMON_KBD
-static void keyboard_key_clear_internal(void);
-#endif
 
 static void keyboard_event_record(void)
 {
@@ -185,9 +182,7 @@ void keyboard_event_delayed_playback(void *data)
     }
 
     if (keyboard_clear == 1) {
-#ifdef COMMON_KBD
         keyboard_key_clear_internal();
-#endif
         keyboard_clear = 0;
     }
 
@@ -228,7 +223,34 @@ void keyboard_register_clear(void)
 }
 /*-----------------------------------------------------------------------*/
 
-#ifdef COMMON_KBD
+/* 40/80 column key.  */
+static signed long key_ctrl_column4080 = -1;
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+
+/* CAPS (ASCII/DIN) key.  */
+static signed long key_ctrl_caps = -1;
+static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+
+/* joyport attached keypad. */
+static signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KDB_JOY_KEYPAD_COLS];
+static key_joy_keypad_func_t key_joy_keypad_func = NULL;
+
+void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
+{
+    key_ctrl_column4080_func = func;
+}
+
+void keyboard_register_caps_key(key_ctrl_caps_func_t func)
+{
+    key_ctrl_caps_func = func;
+}
+
+void keyboard_register_joy_keypad(key_joy_keypad_func_t func)
+{
+    key_joy_keypad_func = func;
+}
+
+/*-----------------------------------------------------------------------*/
 
 enum shift_type {
     NO_SHIFT = 0,             /* Key is not shifted. */
@@ -267,18 +289,6 @@ static int keyc_num = 0;
 /* Two possible restore keys.  */
 static signed long key_ctrl_restore1 = -1;
 static signed long key_ctrl_restore2 = -1;
-
-/* 40/80 column key.  */
-static signed long key_ctrl_column4080 = -1;
-static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
-
-/* CAPS (ASCII/DIN) key.  */
-static signed long key_ctrl_caps = -1;
-static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
-
-/* joyport attached keypad. */
-static signed long key_joy_keypad[KBD_JOY_KEYPAD_ROWS][KDB_JOY_KEYPAD_COLS];
-static key_joy_keypad_func_t key_joy_keypad_func = NULL;
 
 /* Is an alternative mapping active? */
 static int key_alternative = 0;
@@ -654,7 +664,6 @@ void keyboard_key_clear(void)
     keyboard_key_clear_internal();
 }
 
-/* FIXME: joystick mapping not handled here, is it needed? */
 void keyboard_set_keyarr_any(int row, int col, int value)
 {
     signed long sym;
@@ -1227,23 +1236,6 @@ int keyboard_keymap_dump(const char *filename)
 
 /*-----------------------------------------------------------------------*/
 
-void keyboard_register_column4080_key(key_ctrl_column4080_func_t func)
-{
-    key_ctrl_column4080_func = func;
-}
-
-void keyboard_register_caps_key(key_ctrl_caps_func_t func)
-{
-    key_ctrl_caps_func = func;
-}
-
-void keyboard_register_joy_keypad(key_joy_keypad_func_t func)
-{
-    key_joy_keypad_func = func;
-}
-#endif
-
-/*-----------------------------------------------------------------------*/
 #define NUM_KEYBOARD_MAPPINGS 4
 
 static char *machine_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
@@ -1270,8 +1262,6 @@ int machine_num_keyboard_mappings(void)
     return NUM_KEYBOARD_MAPPINGS;
 }
 
-
-#ifdef COMMON_KBD
 
 static int machine_keyboard_mapping = 0;
 static int machine_keyboard_type = 0;
@@ -1706,11 +1696,8 @@ static void keyboard_resources_shutdown(void)
     lib_free(resources_string_d3);
 }
 
-#endif /* COMMON_KBD */
-
 /*--------------------------------------------------------------------------*/
 
-#ifdef COMMON_KBD
 static cmdline_option_t const cmdline_options[] =
 {
     { "-keymap", SET_RESOURCE, 1,
@@ -1750,7 +1737,6 @@ int keyboard_cmdline_options_init(void)
     }
     return 0;
 }
-#endif  /* COMMON_KBD */
 
 /*--------------------------------------------------------------------------*/
 
@@ -1760,7 +1746,6 @@ void keyboard_init(void)
 
     keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
                             keyboard_latch_handler, NULL);
-#ifdef COMMON_KBD
     restore_alarm = alarm_new(maincpu_alarm_context, "Restore",
                             restore_alarm_triggered, NULL);
 
@@ -1770,15 +1755,12 @@ void keyboard_init(void)
         load_keymap_ok = 1;
         keyboard_set_keymap_index(machine_keymap_index, NULL);
     }
-#endif
 }
 
 void keyboard_shutdown(void)
 {
-#ifdef COMMON_KBD
     keyboard_keyconvmap_free();
     keyboard_resources_shutdown();      /* FIXME: perhaps call from elsewhere? */
-#endif
 }
 
 /*--------------------------------------------------------------------------*/

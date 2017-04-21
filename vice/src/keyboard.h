@@ -31,10 +31,6 @@
 
 #include "types.h"
 
-#ifndef COMMON_KBD
-#include "kbd.h"
-#endif
-
 /* Maximum of keyboard array (CBM-II values
  * (8 for C64/VIC20, 10 for PET, 11 for C128; we need max).  */
 #define KBD_ROWS    16
@@ -101,6 +97,7 @@ extern int keyboard_keymap_dump(const char *filename);
 extern void keyboard_key_pressed(signed long key);
 extern void keyboard_key_released(signed long key);
 extern void keyboard_key_clear(void);
+static void keyboard_key_clear_internal(void);
 
 typedef void (*key_ctrl_column4080_func_t)(void);
 extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);
@@ -122,9 +119,7 @@ extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
 extern int keyboard_shiftlock;
 
-#ifdef COMMON_KBD
 extern int keyboard_resources_init(void);
 extern int keyboard_cmdline_options_init(void);
-#endif
 
 #endif
