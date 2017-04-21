@@ -119,9 +119,6 @@ typedef int ssize_t;
 #define SDL_UI_SUPPORT
 #endif
 
-/* All OSes now use the common keyboard routines. */
-#define COMMON_KBD
-
 /* Which OS is using those ugly scale source coordinates.  */
 #if defined(__MSDOS__)
 #define VIDEO_SCALE_SOURCE

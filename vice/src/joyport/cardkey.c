@@ -122,7 +122,6 @@ static unsigned int keys[16];
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef COMMON_KBD
 static void handle_keys(int row, int col, int pressed)
 {
     if (row < 0 || row > 3 || col < 1 || col > 4) {
@@ -131,7 +130,6 @@ static void handle_keys(int row, int col, int pressed)
 
     keys[(row * 4) + col - 1] = (unsigned int)pressed;
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -145,13 +143,9 @@ static int joyport_cardkey_enable(int port, int value)
 
     if (val) {
         memset(keys, 0, 16);
-#ifdef COMMON_KBD
         keyboard_register_joy_keypad(handle_keys);
-#endif
     } else {
-#ifdef COMMON_KBD
         keyboard_register_joy_keypad(NULL);
-#endif
     }
 
     cardkey_enabled = val;

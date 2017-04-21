@@ -119,8 +119,6 @@
 #include "mouse.h"
 #endif
 
-
-
 machine_context_t machine_context;
 
 const char machine_name[] = "PET";
@@ -356,12 +354,6 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (pet_kbd_resources_init() < 0) {
-        init_resource_fail("pet kbd");
-        return -1;
-    }
-#endif
     if (userport_joystick_resources_init() < 0) {
         init_resource_fail("userport joystick");
         return -1;
@@ -543,12 +535,6 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (pet_kbd_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("pet kbd");
-        return -1;
-    }
-#endif
     if (userport_joystick_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport joystick");
         return -1;
@@ -669,13 +655,6 @@ int machine_specific_init(void)
     pia1_init();
     pia2_init();
     acia1_init();
-
-#ifndef COMMON_KBD
-    /* Initialize the keyboard.  */
-    if (pet_kbd_init() < 0) {
-        return -1;
-    }
-#endif
 
     /* Initialize the datasette emulation.  */
     datasette_init();

@@ -331,12 +331,6 @@ int machine_resources_init(void)
     }
 #endif
 #endif
-#ifndef COMMON_KBD
-    if (pet_kbd_resources_init() < 0) {
-        init_resource_fail("pet kbd");
-        return -1;
-    }
-#endif
     if (debugcart_resources_init() < 0) {
         init_resource_fail("debug cart");
         return -1;
@@ -478,12 +472,6 @@ int machine_cmdline_options_init(void)
 #ifdef HAVE_MOUSE
     if (mouse_cmdline_options_init() < 0) {
         init_cmdline_options_fail("mouse");
-        return -1;
-    }
-#endif
-#ifndef COMMON_KBD
-    if (pet_kbd_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("pet kbd");
         return -1;
     }
 #endif
@@ -674,13 +662,6 @@ int machine_specific_init(void)
     acia1_init();
     tpi1_init(machine_context.tpi1);
     tpi2_init(machine_context.tpi2);
-
-#ifndef COMMON_KBD
-    /* Initialize the keyboard.  */
-    if (cbm2_kbd_init() < 0) {
-        return -1;
-    }
-#endif
 
     /* Initialize the datasette emulation.  */
     datasette_init();

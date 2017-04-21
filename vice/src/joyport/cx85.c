@@ -127,7 +127,6 @@ static unsigned int keys[20];
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef COMMON_KBD
 static void handle_keys(int row, int col, int pressed)
 {
     /* ignore non-existing keys */
@@ -137,7 +136,6 @@ static void handle_keys(int row, int col, int pressed)
 
     keys[(row * 5) + col] = (unsigned int)pressed;
 }
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -151,13 +149,9 @@ static int joyport_cx85_enable(int port, int value)
 
     if (val) {
         memset(keys, 0, 20);
-#ifdef COMMON_KBD
         keyboard_register_joy_keypad(handle_keys);
-#endif
     } else {
-#ifdef COMMON_KBD
         keyboard_register_joy_keypad(NULL);
-#endif
     }
 
     cx85_enabled = val;

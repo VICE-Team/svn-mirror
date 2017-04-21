@@ -338,12 +338,6 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (pet_kbd_resources_init() < 0) {
-        init_resource_fail("pet kbd");
-        return -1;
-    }
-#endif
     if (userport_joystick_resources_init() < 0) {
         init_resource_fail("userport joystick");
         return -1;
@@ -523,12 +517,6 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (pet_kbd_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("pet kbd");
-        return -1;
-    }
-#endif
     if (userport_joystick_cmdline_options_init() < 0) {
         init_cmdline_options_fail("userport joystick");
         return -1;
@@ -655,13 +643,6 @@ int machine_specific_init(void)
     acia1_init();
     tpi1_init(machine_context.tpi1);
     tpi2_init(machine_context.tpi2);
-
-#ifndef COMMON_KBD
-    /* Initialize the keyboard.  */
-    if (cbm2_kbd_init() < 0) {
-        return -1;
-    }
-#endif
 
     /* Initialize the datasette emulation.  */
     datasette_init();

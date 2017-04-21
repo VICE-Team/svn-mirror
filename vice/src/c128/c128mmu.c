@@ -186,9 +186,7 @@ static void mmu_switch_to_c64mode(void)
     }
     machine_tape_init_c64();
     mem_update_config(0x80 + mmu_config64);
-#ifdef COMMON_KBD
     keyboard_alternative_set(1);
-#endif
     machine_kbdbuf_reset_c64();
     machine_autostart_reset_c64();
     force_c64_mode = 0;
@@ -206,9 +204,7 @@ static void mmu_switch_to_c128mode(void)
                       ((mmu[0] & 0x40) ? 32 : 0) |
                       ((mmu[0] & 0x1) ? 0 : 64));
     z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1) | ((mmu[0] & 0x40) ? 2 : 0) | ((mmu[0] & 0x80) ? 4 : 0));
-#ifdef COMMON_KBD
     keyboard_alternative_set(0);
-#endif
     machine_kbdbuf_reset_c128();
     machine_autostart_reset_c128();
 }

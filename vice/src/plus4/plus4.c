@@ -530,12 +530,6 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (kbd_resources_init() < 0) {
-        init_resource_fail("kbd");
-        return -1;
-    }
-#endif
     if (drive_resources_init() < 0) {
         init_resource_fail("drive");
         return -1;
@@ -710,12 +704,6 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (kbd_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("kbd");
-        return -1;
-    }
-#endif
     if (drive_cmdline_options_init() < 0) {
         init_cmdline_options_fail("drive");
         return -1;
@@ -850,12 +838,6 @@ int machine_specific_init(void)
     }
 
     acia_init();
-
-#ifndef COMMON_KBD
-    if (plus4_kbd_init() < 0) {
-        return -1;
-    }
-#endif
 
     plus4_monitor_init();
 

@@ -613,12 +613,6 @@ int machine_resources_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (kbd_resources_init() < 0) {
-        init_resource_fail("kbd");
-        return -1;
-    }
-#endif
     if (drive_resources_init() < 0) {
         init_resource_fail("drive");
         return -1;
@@ -799,12 +793,6 @@ int machine_cmdline_options_init(void)
         return -1;
     }
 #endif
-#ifndef COMMON_KBD
-    if (kbd_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("kbd");
-        return -1;
-    }
-#endif
     if (drive_cmdline_options_init() < 0) {
         init_cmdline_options_fail("drive");
         return -1;
@@ -961,13 +949,6 @@ int machine_specific_init(void)
 
     ieeevia1_init(machine_context.ieeevia1);
     ieeevia2_init(machine_context.ieeevia2);
-
-#ifndef COMMON_KBD
-    /* Load the default keymap file.  */
-    if (vic20_kbd_init() < 0) {
-        return -1;
-    }
-#endif
 
     vic20_monitor_init();
 
