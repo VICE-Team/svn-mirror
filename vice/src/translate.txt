@@ -1057,11 +1057,12 @@ IDCLS_DISABLE_ACIA_EMU
    scpu64/scpu64-cmdline-options.c */
 IDCLS_P_NUMBER
 
-#ifdef COMMON_KBD
 /* keyboard.c */
 IDCLS_SPECIFY_KEYMAP_FILE_INDEX
+
 /* keyboard.c */
 IDCLS_SPECIFY_KEYBOARD_TYPE
+
 /* keyboard.c */
 IDCLS_SPECIFY_KEYBOARD_MAPPING
 
@@ -1070,7 +1071,6 @@ IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME
 
 /* keyboard.c */
 IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME
-#endif  /* COMMON_KBD */
 
 /* c128/c128mmu.c */
 IDCLS_ACTIVATE_40_COL_MODE
@@ -1178,13 +1178,11 @@ IDCLS_SPECIFY_BASIC_ROM_NAME
    scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_CHARGEN_ROM_NAME
 
-#ifdef COMMON_KBD
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP
-#endif   /* COMMON_KBD */
 
 /* c64/c64gluelogic.c */
 IDCLS_SET_GLUE_LOGIC_TYPE
@@ -1855,7 +1853,6 @@ IDCLS_ENABLE_RAM_MAPPING_IN_C000
 /* cbm2/cbm2-cmdline-options.c */
 IDCLS_DISABLE_RAM_MAPPING_IN_C000
 
-#ifdef COMMON_KBD
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 IDCLS_SPECIFY_KEYMAP_INDEX
 
@@ -1876,7 +1873,6 @@ IDCLS_SPECIFY_BDE_SYM_KEYMAP_NAME
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME
-#endif   /* COMMON_KBD */
 
 /* drive/drive-cmdline-options.c */
 IDCLS_ENABLE_TRUE_DRIVE
