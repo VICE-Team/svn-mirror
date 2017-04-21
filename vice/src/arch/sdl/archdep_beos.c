@@ -63,6 +63,7 @@
 #endif
 
 #include "archdep.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -73,7 +74,7 @@
 static char *orig_workdir;
 static char *argv0 = NULL;
 
-int archdep_init_extra(int *argc, char **argv)
+static int archdep_init_extra(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
     orig_workdir = getcwd(NULL, PATH_MAX);
@@ -401,7 +402,7 @@ int archdep_rename(const char *oldpath, const char *newpath)
     return rename(oldpath, newpath);
 }
 
-void archdep_shutdown_extra(void)
+static void archdep_shutdown_extra(void)
 {
     lib_free(argv0);
 }

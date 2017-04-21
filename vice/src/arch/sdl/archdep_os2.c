@@ -92,6 +92,7 @@
 
 #include "archdep.h"
 #include "ioutil.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"

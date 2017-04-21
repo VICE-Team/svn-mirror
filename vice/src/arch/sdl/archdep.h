@@ -34,6 +34,9 @@
 #include "sound.h"
 
 /* Extra functions for SDL UI */
+static int archdep_init_extra(int *argc, char **argv);
+static void archdep_shutdown_extra(void);
+
 extern char *archdep_default_hotkey_file_name(void);
 extern char *archdep_default_joymap_file_name(void);
 

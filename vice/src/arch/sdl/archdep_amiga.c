@@ -51,6 +51,7 @@
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
+#include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -200,7 +201,7 @@ void close_libs(void)
     }
 }
 
-int archdep_init_extra(int *argc, char **argv)
+static int archdep_init_extra(int *argc, char **argv)
 {
     if (*argc == 0) { /* run from WB */
         run_from_wb = 1;
@@ -485,7 +486,7 @@ int archdep_require_vkbd(void)
     return 0;
 }
 
-void archdep_shutdown_extra(void)
+static void archdep_shutdown_extra(void)
 {
     lib_free(boot_path);
     close_libs();
