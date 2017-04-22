@@ -1,9 +1,10 @@
-
 /*
- * coproc.h - coproc.h wrapper for the sdl port.
+ * coproc.h - co-process fork
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ *
+ * Patches by
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,11 +26,9 @@
  *
  */
 
-#ifndef VICE_SDL_COPROC_H
-#define VICE_SDL_COPROC_H
+#ifndef VICE_COPROC_H
+#define VICE_COPROC_H
 
-#if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
-#include "../unix/coproc.h"
-#endif
+extern int fork_coproc(int *fd_wr, int *fd_rd, char *cmd);
 
 #endif
