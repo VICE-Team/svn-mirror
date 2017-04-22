@@ -1554,11 +1554,6 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     lib_free(canvas->fullscreenconfig);
 }
 
-static void video_add_handlers(void)
-{
-    DBG(("%s", __func__));
-}
-
 char video_canvas_can_resize(video_canvas_t *canvas)
 {
     return 1;
