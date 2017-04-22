@@ -39,6 +39,11 @@
 #include "mon_command.h"
 #include "asm.h"
 #include "montypes.h"
+
+#ifdef AMIGA_MORPHOS
+#undef REG_PC
+#endif
+
 #include "mon_parse.h" /* FIXME ! */
 #include "mon_util.h"
 #include "translate.h"

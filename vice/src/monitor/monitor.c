@@ -68,6 +68,11 @@
 #include "mon_memmap.h"
 #include "mon_memory.h"
 #include "asm.h"
+
+#ifdef AMIGA_MORPHOS
+#undef REG_PC
+#endif
+
 #include "mon_parse.h"
 #include "mon_register.h"
 #include "mon_ui.h"

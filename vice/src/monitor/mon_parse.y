@@ -83,6 +83,9 @@ extern char *alloca();
 #include "types.h"
 #include "uimon.h"
 
+#ifdef AMIGA_MORPHOS
+#undef REG_PC
+#endif
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
 #define separate_int1(x) (HI16_TO_LO16(x))
