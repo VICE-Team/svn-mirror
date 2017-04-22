@@ -29,8 +29,11 @@
 #include <stdio.h>
 
 #include "vice.h"
+
 #include "cmdline.h"
 #include "translate.h"
+#include "uiapi.h"
+#include "uicmdline.h"
 
 static const cmdline_option_t cmdline_options[] = {
     { "-saveres", SET_RESOURCE, 0,
