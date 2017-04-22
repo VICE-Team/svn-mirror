@@ -29,6 +29,11 @@
 #include "vice_sdl.h"
 #include <stdio.h>
 
+/* These functions are defined in the files included below and
+   used lower down. */
+static int archdep_init_extra(int *argc, char **argv);
+static void archdep_shutdown_extra(void);
+
 #ifdef AMIGA_SUPPORT
 #include "archdep_amiga.c"
 #endif

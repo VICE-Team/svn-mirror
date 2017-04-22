@@ -130,6 +130,8 @@ static int keyboard_set_latch_keyarr(int row, int col, int value)
 
 /*-----------------------------------------------------------------------*/
 
+static void keyboard_key_clear_internal(void);
+
 static void keyboard_event_record(void)
 {
     event_record(EVENT_KEYBOARD_MATRIX, (void *)keyarr, sizeof(keyarr));

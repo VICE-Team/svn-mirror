@@ -97,7 +97,6 @@ extern int keyboard_keymap_dump(const char *filename);
 extern void keyboard_key_pressed(signed long key);
 extern void keyboard_key_released(signed long key);
 extern void keyboard_key_clear(void);
-static void keyboard_key_clear_internal(void);
 
 typedef void (*key_ctrl_column4080_func_t)(void);
 extern void keyboard_register_column4080_key(key_ctrl_column4080_func_t func);
