@@ -274,35 +274,38 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
 
         switch (sdl_ui_menu_poll_input()) {
             case MENU_ACTION_UP:
-                cur_old = cur;
-                if (cur > 0) {
-                    --cur;
-                } else {
-                    if (cur_offset > 0) {
-                        --cur_offset;
-                    } else {
-                        cur_offset = num_items - (menu_draw.max_text_y - MENU_FIRST_Y);
-                        cur = (menu_draw.max_text_y - MENU_FIRST_Y) - 1;
-                        if (cur_offset < 0) {
-                            cur += cur_offset;
-                            cur_offset = 0;
+                do {
+                    cur_old = cur;
+                        if (cur > 0) {
+                            --cur;
+                        } else {
+                            if (cur_offset > 0) {
+                                --cur_offset;
+                            } else {
+                                cur_offset = num_items - (menu_draw.max_text_y - MENU_FIRST_Y);
+                                cur = (menu_draw.max_text_y - MENU_FIRST_Y) - 1;
+                                if (cur_offset < 0) {
+                                    cur += cur_offset;
+                                    cur_offset = 0;
+                                }
+                            }
                         }
-                    }
-                    redraw = 1;
-                }
+                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                redraw = 1;
                 break;
             case MENU_ACTION_DOWN:
                 cur_old = cur;
-                if ((cur + cur_offset) < (num_items - 1)) {
-                    if (++cur == (menu_draw.max_text_y - MENU_FIRST_Y)) {
-                        --cur;
-                        ++cur_offset;
-                        redraw = 1;
+                do {
+                    if ((cur + cur_offset) < (num_items - 1)) {
+                        if (++cur == (menu_draw.max_text_y - MENU_FIRST_Y)) {
+                            --cur;
+                            ++cur_offset;
+                        }
+                    } else {
+                        cur = cur_offset = 0;
                     }
-                } else {
-                    cur = cur_offset = 0;
-                    redraw = 1;
-                }
+                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                redraw = 1;
                 break;
             case MENU_ACTION_RIGHT:
                 if ((menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU) && (menu[cur + cur_offset].type != MENU_ENTRY_DYNAMIC_SUBMENU)) {
