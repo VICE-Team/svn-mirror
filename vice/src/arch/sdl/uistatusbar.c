@@ -52,9 +52,9 @@
 #define STATUSBAR_DRIVE_POS         12
 #define STATUSBAR_DRIVE8_TRACK_POS  14
 #define STATUSBAR_DRIVE9_TRACK_POS  19
-#define STATUSBAR_DRIVE10_TRACK_POS 24
-#define STATUSBAR_DRIVE11_TRACK_POS 29
-#define STATUSBAR_TAPE_POS          33
+#define STATUSBAR_DRIVE10_TRACK_POS 25
+#define STATUSBAR_DRIVE11_TRACK_POS 31
+#define STATUSBAR_TAPE_POS          37
 
 static char statusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
 
@@ -217,15 +217,42 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
 /* The pwm value will vary between 0 and 1000.  */
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
-    char c;
+    int high;
+    int low;
+    int offset;
 
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s: drive %i, pwm1 = %i, led_pwm2 = %u\n", __func__, drive_number, pwm1, led_pwm2);
 #endif
 
-    c = "8901"[drive_number] | ((pwm1 > 500) ? 0x80 : 0);
-    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number * 5)] = c;
-    statusbar_text[STATUSBAR_DRIVE_POS + (drive_number * 5) + 1] = 'T';
+    low = "8901"[drive_number] | ((pwm1 > 500) ? 0x80 : 0);
+    high = '1' | ((pwm1 > 500) ? 0x80: 0);
+    switch (drive_number) {
+        case 0:
+            offset = STATUSBAR_DRIVE8_TRACK_POS - 2;
+            break;
+        case 1:
+            offset = STATUSBAR_DRIVE9_TRACK_POS - 2;
+            break;
+        case 2:
+            offset = STATUSBAR_DRIVE10_TRACK_POS - 3;
+            break;
+        case 3:
+            offset = STATUSBAR_DRIVE11_TRACK_POS - 3;
+            break;
+        default:
+            offset = 0;
+    }
+
+    if (drive_number < 2) {
+        statusbar_text[offset] = low;
+        statusbar_text[offset + 1] = 'T';
+    } else {
+        statusbar_text[offset] = high;
+        statusbar_text[offset + 1] = low;
+        statusbar_text[offset + 2] = 'T';
+    }
+
 
     if (uistatusbar_state & UISTATUSBAR_ACTIVE) {
         uistatusbar_state |= UISTATUSBAR_REPAINT;
