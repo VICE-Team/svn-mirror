@@ -108,14 +108,16 @@
 #include "log.h"
 #include "resources.h"
 #include "rs232.h"
+#include "rs232dev.h"
 #include "translate.h"
 #include "types.h"
 
+
 #if defined(NEXTSTEP_COMPILE) || defined(OPENSTEP_COMPILE)
 int cfsetispeed(struct termios *t, int speed)
-{ 
-    t->c_ispeed = speed; 
-    return 0; 
+{
+    t->c_ispeed = speed;
+    return 0;
 }
 
 int cfsetospeed(struct termios *t, int speed)

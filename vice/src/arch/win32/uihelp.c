@@ -61,8 +61,11 @@ static LPWORD lpdwAlign(LPWORD lpIn)
     ULONG ul;
     ul = (ULONG)lpIn;
     ul += 3;
+#if 0
     ul >>= 2;
     ul <<= 2;
+#endif
+    ul &= ((~0) ^ 0x03);
     return (LPWORD)ul;
 }
 

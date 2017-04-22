@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "scpu64ui.h"
+
+
 int scpu64ui_init(void)
 {
     NOT_IMPLEMENTED();

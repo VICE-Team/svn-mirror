@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "vsyncapi.h"
+
+
 void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 {
     NOT_IMPLEMENTED();

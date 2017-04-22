@@ -41,6 +41,8 @@
 #include "uiapi.h"
 #include "util.h"
 
+#include "ui.h"
+
 
 /** \brief  Default HTML browser
  *

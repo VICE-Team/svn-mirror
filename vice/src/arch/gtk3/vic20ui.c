@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "vic20ui.h"
+
+
 int vic20ui_init(void)
 {
     NOT_IMPLEMENTED();

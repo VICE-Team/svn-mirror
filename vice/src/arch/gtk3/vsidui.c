@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "vsidui.h"
+
+
 void vsid_ui_close(void)
 {
     NOT_IMPLEMENTED();

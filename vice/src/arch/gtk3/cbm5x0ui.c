@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "cbm2ui.h"
+
+
 int cbm5x0ui_init(void)
 {
     NOT_IMPLEMENTED();

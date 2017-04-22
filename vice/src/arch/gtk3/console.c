@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "console.h"
+
+
 int console_close_all(void)
 {
     NOT_IMPLEMENTED();

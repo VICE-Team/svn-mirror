@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "petui.h"
+
+
 int petui_init(void)
 {
     NOT_IMPLEMENTED();

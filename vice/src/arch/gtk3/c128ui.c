@@ -30,6 +30,10 @@
 
 #include "not_implemented.h"
 
+#include "c128ui.h"
+
+
+
 int c128ui_init(void)
 {
     NOT_IMPLEMENTED();

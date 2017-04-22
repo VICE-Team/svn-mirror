@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "keyboard.h"
+#include "kbd.h"
 
 #include "not_implemented.h"
 
@@ -38,10 +39,9 @@ int kbd_arch_get_host_mapping(void)
     return KBD_MAPPING_US;
 }
 
-int kbd_arch_init(void)
+void kbd_arch_init(void)
 {
     NOT_IMPLEMENTED();
-    return 0;
 }
 
 signed long kbd_arch_keyname_to_keynum(char *keyname)

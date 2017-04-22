@@ -30,8 +30,10 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
-
 #include "types.h"
+
+#include "blockdev.h"
+
 
 int blockdev_close(void)
 {

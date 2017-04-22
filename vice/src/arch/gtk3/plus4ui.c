@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "plus4ui.h"
+
+
 int plus4ui_init(void)
 {
     NOT_IMPLEMENTED();

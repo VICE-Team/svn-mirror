@@ -30,6 +30,9 @@
 
 #include "not_implemented.h"
 
+#include "c64ui.h"
+
+
 int c64ui_init(void)
 {
     NOT_IMPLEMENTED();
