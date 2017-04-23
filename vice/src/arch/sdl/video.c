@@ -910,6 +910,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     double aspect = 1.0;
     char rendername[256] = { 0 };
     char **renderlist = NULL;
+    char *gl_string;
     int renderamount = SDL_GetNumRenderDrivers();
     unsigned int window_h = 0;
     unsigned int window_w = 0;
@@ -1085,11 +1086,15 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
        NOW we can get the proc adress from opengl/es/1/2 functions in there */
     glGetStringAPI = (glGetString_Func)SDL_GL_GetProcAddress("glGetString");
 
-    log_message(sdlvideo_log, "Vendor     : %s", glGetStringAPI(GL_VENDOR));
-    log_message(sdlvideo_log, "Renderer   : %s", glGetStringAPI(GL_RENDERER));
-    log_message(sdlvideo_log, "Version    : %s", glGetStringAPI(GL_VERSION));
+    gl_string = (char *)glGetStringAPI(GL_VENDOR);
+    log_message(sdlvideo_log, "Vendor     : %s", gl_string != NULL ? gl_string : "Unknown");
+    gl_string = (char *)glGetStringAPI(GL_RENDERER);
+    log_message(sdlvideo_log, "Renderer   : %s", gl_string != NULL ? gl_string : "Unknown");
+    gl_string = (char *)glGetStringAPI(GL_VERSION);
+    log_message(sdlvideo_log, "Version    : %s", gl_string != NULL ? gl_string : "Unknown");
 #ifdef SDL_DEBUG
-    log_message(sdlvideo_log, "Extensions : %s", glGetStringAPI(GL_EXTENSIONS));
+    gl_string = (char *)glGetStringAPI(GL_EXTENSIONS);
+    log_message(sdlvideo_log, "Extensions : %s", gl_string != NULL ? gl_string : "Unknown");
 #endif
 
     /* some devices, OS do not provide a windowing system they have always a fixed width/height, 
