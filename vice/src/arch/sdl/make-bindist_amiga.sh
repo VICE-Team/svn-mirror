@@ -24,8 +24,8 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <exe-ext>
-#                         $1      $2             $3         $4            $5              $6          $7               $8           $9
+# Usage: make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <SDL-version> <exe-ext>
+#                         $1      $2             $3         $4            $5              $6          $7               $8           $9           $10
 #
 
 STRIP=$1
@@ -36,6 +36,10 @@ ENABLEARCH=$5
 ZIPKIND=$6
 X64SC=$7
 TOPSCRDIR=$8
+SDLVERSION=$9
+
+shift
+
 EXEEXT=$9
 
 if test x"$X64SC" = "xyes"; then
@@ -57,36 +61,44 @@ do
   fi
 done
 
+if test x"$SDLVERSION" = "x2"; then
+   SDLV="SDL2.x"
+   SDLVNAME="SDL2VICE"
+else
+   SDLV="SDL1.x"
+   SDLVNAME="SDLVICE"
+fi
+
 if test x"$HOSTSYSTEM" = "xaros"; then
   AMIGAFLAVOR=$HOSTCPU-AROS-$VICEVERSION
-  echo Generating AROS SDL port binary distribution.
+  echo Generating $HOSTCPU AROS $SDLV port binary distribution.
 else
   if test x"$HOSTSYSTEM" = "xmorphos"; then
     AMIGAFLAVOR=MorphOS-$VICEVERSION
-    echo Generating MorphOS SDL port binary distribution.
+    echo Generating MorphOS $SDLV port binary distribution.
   else
     if test x"$HOSTSYSTEM" = "xwarpos"; then
       AMIGAFLAVOR=WarpOS-$VICEVERSION
-      echo Generating WarpOS SDL port binary distribution.
+      echo Generating WarpOS $SDLV port binary distribution.
     else
       if test x"$HOSTSYSTEM" = "xpowerup"; then
         AMIGAFLAVOR=PowerUP-$VICEVERSION
-        echo Generating PowerUP SDL port binary distribution.
+        echo Generating PowerUP $SDLV port binary distribution.
       else
         if test x"$HOSTCPU" = "xm68k"; then
           AMIGAFLAVOR=AmigaOS3-$VICEVERSION
-          echo Generating AmigaOS3 SDL port binary distribution.
+          echo Generating AmigaOS3 $SDLV port binary distribution.
         else
           AMIGAFLAVOR=AmigaOS4-$VICEVERSION
-          echo Generating AmigaOS4 SDL port binary distribution.
+          echo Generating AmigaOS4 $SDLV port binary distribution.
         fi
       fi
     fi
   fi
 fi
 
-rm -f -r SDLVICE-$AMIGAFLAVOR SDLVICE-$AMIGAFLAVOR.info
-mkdir SDLVICE-$AMIGAFLAVOR
+rm -f -r $SDLVNAME-$AMIGAFLAVOR $SDLVNAME-$AMIGAFLAVOR.info
+mkdir $SDLVNAME-$AMIGAFLAVOR
 if test x"$HOSTSYSTEM" != "xaros"; then
   for i in $EXECUTABLES
   do
@@ -101,64 +113,64 @@ fi
 if test x"$HOSTSYSTEM" = "xmorphos"; then
   for i in $EXECUTABLES
   do
-    cp src/$i$EXEEXT SDLVICE-$AMIGAFLAVOR/$i
+    cp src/$i$EXEEXT $SDLVNAME-$AMIGAFLAVOR/$i
   done
 else
   for i in $EXECUTABLES
   do
-    cp src/$i$EXEEXT SDLVICE-$AMIGAFLAVOR/$i.exe
+    cp src/$i$EXEEXT $SDLVNAME-$AMIGAFLAVOR/$i.exe
   done
 fi
-cp -a $TOPSCRDIR/data/C128 $TOPSCRDIR/data/C64 SDLVICE-$AMIGAFLAVOR
-cp -a $TOPSCRDIR/data/C64DTV $TOPSCRDIR/data/CBM-II SDLVICE-$AMIGAFLAVOR
-cp -a $TOPSCRDIR/data/DRIVES $TOPSCRDIR/data/PET SDLVICE-$AMIGAFLAVOR
-cp -a $TOPSCRDIR/data/PLUS4 $TOPSCRDIR/data/PRINTER SDLVICE-$AMIGAFLAVOR
-cp -a $TOPSCRDIR/data/SCPU64 SDLVICE-$AMIGAFLAVOR
-cp -a $TOPSCRDIR/doc/html SDLVICE-$AMIGAFLAVOR
-rm SDLVICE-$AMIGAFLAVOR/html/checklinks.sh
-cp $TOPSCRDIR/FEEDBACK $TOPSCRDIR/README SDLVICE-$AMIGAFLAVOR
-cp $TOPSCRDIR/doc/readmes/Readme-SDL.txt SDLVICE-$AMIGAFLAVOR
-cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS SDLVICE-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/data/C128 $TOPSCRDIR/data/C64 $SDLVNAME-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/data/C64DTV $TOPSCRDIR/data/CBM-II $SDLVNAME-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/data/DRIVES $TOPSCRDIR/data/PET $SDLVNAME-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/data/PLUS4 $TOPSCRDIR/data/PRINTER $SDLVNAME-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/data/SCPU64 $SDLVNAME-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/doc/html $SDLVNAME-$AMIGAFLAVOR
+rm $SDLVNAME-$AMIGAFLAVOR/html/checklinks.sh
+cp $TOPSCRDIR/FEEDBACK $TOPSCRDIR/README $SDLVNAME-$AMIGAFLAVOR
+cp $TOPSCRDIR/doc/readmes/Readme-SDL.txt $SDLVNAME-$AMIGAFLAVOR
+cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $SDLVNAME-$AMIGAFLAVOR
 if test x"$HOSTSYSTEM" = "xwarpos"; then
   for i in $EXECUTABLES
   do
-    elf2exe SDLVICE-$AMIGAFLAVOR/$i.exe SDLVICE-$AMIGAFLAVOR/$i.new
-    mv -f SDLVICE-$AMIGAFLAVOR/$i.new SDLVICE-$AMIGAFLAVOR/$i.exe
+    elf2exe $SDLVNAME-$AMIGAFLAVOR/$i.exe $SDLVNAME-$AMIGAFLAVOR/$i.new
+    mv -f $SDLVNAME-$AMIGAFLAVOR/$i.new $SDLVNAME-$AMIGAFLAVOR/$i.exe
   done
 fi
 if test x"$HOSTSYSTEM" = "xmorphos"; then
-  cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/VICE.info SDLVICE-$AMIGAFLAVOR.info
-  cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/x*.info SDLVICE-$AMIGAFLAVOR
+  cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/VICE.info $SDLVNAME-$AMIGAFLAVOR.info
+  cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/x*.info $SDLVNAME-$AMIGAFLAVOR
   if test x"$X64SC" != "xyes"; then
-    rm -f SDLVICE-$AMIGAFLAVOR/x64sc.info
+    rm -f $SDLVNAME-$AMIGAFLAVOR/x64sc.info
   fi
 else
-  cp $TOPSCRDIR/src/arch/amigaos/info-files/VICE.info SDLVICE-$AMIGAFLAVOR.info
-  cp $TOPSCRDIR/src/arch/amigaos/info-files/*.exe.info SDLVICE-$AMIGAFLAVOR
+  cp $TOPSCRDIR/src/arch/amigaos/info-files/VICE.info $SDLVNAME-$AMIGAFLAVOR.info
+  cp $TOPSCRDIR/src/arch/amigaos/info-files/*.exe.info $SDLVNAME-$AMIGAFLAVOR
   if test x"$X64SC" != "xyes"; then
-    rm -f SDLVICE-$AMIGAFLAVOR/x64sc.exe.info
+    rm -f $SDLVNAME-$AMIGAFLAVOR/x64sc.exe.info
   fi
 fi
-rm `find SDLVICE-$AMIGAFLAVOR -name "Makefile*"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "dos_*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "os2*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "osx*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "beos_*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "win_*.v*"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "x11_*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "amiga*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "*.vsc"`
-rm SDLVICE-$AMIGAFLAVOR/html/texi2html
-mkdir SDLVICE-$AMIGAFLAVOR/doc
-cp $TOPSRCDIR/doc/vice.guide SDLVICE-$AMIGAFLAVOR/doc
-cp $TOPSRCDIR/doc/vice.pdf SDLVICE-$AMIGAFLAVOR/doc
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "Makefile*"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "dos_*.vkm"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "os2*.vkm"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "osx*.vkm"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "beos_*.vkm"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "win_*.v*"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "x11_*.vkm"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "amiga*.vkm"`
+rm `find $SDLVNAME-$AMIGAFLAVOR -name "*.vsc"`
+rm $SDLVNAME-$AMIGAFLAVOR/html/texi2html
+mkdir $SDLVNAME-$AMIGAFLAVOR/doc
+cp $TOPSRCDIR/doc/vice.guide $SDLVNAME-$AMIGAFLAVOR/doc
+cp $TOPSRCDIR/doc/vice.pdf $SDLVNAME-$AMIGAFLAVOR/doc
 if test x"$ZIPKIND" = "xzip"; then
-  tar cf SDLVICE-$AMIGAFLAVOR.tar SDLVICE-$AMIGAFLAVOR SDLVICE-$AMIGAFLAVOR.info
-  gzip SDLVICE-$AMIGAFLAVOR.tar
-  rm -f -r SDLVICE-$AMIGAFLAVOR SDLVICE-$AMIGAFLAVOR.info
-  echo AMIGA SDL port binary distribution archive generated as SDLVICE-$AMIGAFLAVOR.tar.gz
+  tar cf $SDLVNAME-$AMIGAFLAVOR.tar $SDLVNAME-$AMIGAFLAVOR $SDLVNAME-$AMIGAFLAVOR.info
+  gzip $SDLVNAME-$AMIGAFLAVOR.tar
+  rm -f -r $SDLVNAME-$AMIGAFLAVOR $SDLVNAME-$AMIGAFLAVOR.info
+  echo AMIGA $SDLV port binary distribution archive generated as $SDLVNAME-$AMIGAFLAVOR.tar.gz
 else
-  echo AMIGA SDL port binary destribution directory generated as SDLVICE-$AMIGAFLAVOR
+  echo AMIGA $SDLV port binary destribution directory generated as $SDLVNAME-$AMIGAFLAVOR
 fi
 if test x"$ENABLEARCH" = "xyes"; then
   echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
