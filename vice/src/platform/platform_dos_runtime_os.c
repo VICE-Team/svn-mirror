@@ -27,6 +27,7 @@
 /* Tested and confirmed working on the following DOS systems:
  - Compaq DOS 3.31
  - Concurrent DOS XM 6.0
+ - Concurrent Multiuser DOS 7.22
  - DOSBox 0.71
  - DOSBox 0.73
  - DOSBox 0.74
@@ -186,7 +187,6 @@
 #include <stdlib.h>
 #include <dos.h>
 #include <dpmi.h>
-#include <string.h>
 
 #include "lib.h"
 #include "util.h"
@@ -208,6 +208,7 @@ typedef struct dos_version_s {
 
 static dos_version_t dos_versions[] = {
     { "Compaq DOS 3.31",               "IBMPcDos",    3, 31,  -1, "The COMPAQ Personal Computer MS-DOS ",                       "COMPAQ Personal Computer DOS Version  3.31 ",            NULL, NULL },
+    { "Concurrent Multiuser DOS 7.22", "IBMPcDos",    3, 31,  -1, NULL,                                                         NULL,                                                     NULL, "MDOS 7.22" },
     { "Concurrent DOS XM 6.0",         "IBMPcDos",    3, 30,  -1, NULL,                                                         NULL,                                                     NULL, "CDOS 6.0" },
     { "DOSBox 0.71",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.71. Reported DOS version 5.0.",         NULL, NULL },
     { "DOSBox 0.73",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.73. Reported DOS version 5.00.",        NULL, NULL },
@@ -332,6 +333,9 @@ static char *get_prod_spec_string(char *command)
     char *retval = NULL;
     int found = 0;
 
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Trying a %s\n", command);
+#endif
     infile = popen(command, "r");
     if (infile) {
         do {
@@ -347,10 +351,17 @@ static char *get_prod_spec_string(char *command)
         if (found == 1) {
             buffer[strlen(buffer) - 1] = 0;
             retval = lib_stralloc(buffer + 8);
+#ifdef DOS_PLATFORM_DEBUG
+            printf("Got version %s!!!\n", retval);
+#endif
         }
 
     }
-    if (retval) {
+    if (!retval) {
+#ifdef DOS_PLATFORM_DEBUG
+        printf("Returning NULL\n");
+#endif
+    } else {
         if (check_illegal_string(retval)) {
             lib_free(retval);
             retval = NULL;
@@ -367,6 +378,9 @@ static char *get_cmd_ver_string(char *command)
     int found = 0;
     int i;
 
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Trying a %s\n", command);
+#endif
     infile = popen(command, "r");
     if (infile) {
         do {
@@ -386,10 +400,17 @@ static char *get_cmd_ver_string(char *command)
         if (found == 1) {
             buffer[strlen(buffer) - 1] = 0;
             retval = lib_stralloc(buffer);
+#ifdef DOS_PLATFORM_DEBUG
+            printf("Got version %s!!!\n", retval);
+#endif
         }
 
     }
-    if (retval) {
+    if (!retval) {
+#ifdef DOS_PLATFORM_DEBUG
+        printf("Returning NULL\n");
+#endif
+    } else {
         if (check_illegal_string(retval)) {
             lib_free(retval);
             retval = NULL;
@@ -409,6 +430,10 @@ static char *get_command_com_string(void)
     char *retval = NULL;
     char *comspec = NULL;
 
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Analyzing command.com\n");
+#endif
+
     comspec = getenv("COMSPEC");
 
     if (!comspec) {
@@ -419,6 +444,9 @@ static char *get_command_com_string(void)
         return lib_stralloc("FreeDOS 0.9");
     }
 
+#ifdef DOS_PLATFORM_DEBUG
+    printf("opening %s\n", comspec);
+#endif
     infile = fopen(comspec, "rb");
     if (infile) {
         memset(buffer, 0, 65280);
@@ -437,6 +465,9 @@ static char *get_command_com_string(void)
             if (ptr2) {
                 ptr2[0] = 0;
                 retval = lib_stralloc(ptr);
+#ifdef DOS_PLATFORM_DEBUG
+                printf("Command.com string : %s!!!\n", retval);
+#endif
             }
         }
     }
@@ -457,8 +488,18 @@ static char *get_version_from_env(void)
     char *ver = getenv("VER");
     char *retval = NULL;
 
+#ifdef DOS_PLATFORM_DEBUG
+    printf("getting os and ver from env\n");
+#endif
     if (os && ver) {
+#ifdef DOS_PLATFORM_DEBUG
+        printf("os: %s, ver: %s\n", os, ver);
+#endif
         retval = util_concat(os, " ", ver, NULL);
+    } else {
+#ifdef DOS_PLATFORM_DEBUG
+        printf("env returns no OS and VERSION\n");
+#endif
     }
     return retval;
 }
@@ -467,8 +508,16 @@ static int get_real32_ver(void)
 {
     __dpmi_regs r;
 
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Trying to get real32 version\n");
+#endif
+
     r.h.cl = 0xa3;
     __dpmi_int(0xe0, &r);
+
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Returning real32 %d\n", r.x.ax);
+#endif
 
     return (int)r.x.ax;
 }
@@ -476,6 +525,10 @@ static int get_real32_ver(void)
 static int desqview_present(void)
 {
     __dpmi_regs r;
+
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Trying to see if desqview is present\n");
+#endif
 
     r.x.ax = 0xde00;
     __dpmi_int(0x2f, &r);
@@ -486,6 +539,10 @@ static int desqview_present(void)
 static void get_desqview_version(int *major, int *minor)
 {
     __dpmi_regs r;
+
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Getting desqview version\n");
+#endif
 
     r.h.ah = 0x2b;
     r.x.bx = 0;
@@ -502,9 +559,17 @@ static int get_dos_oem_nr(void)
 {
     __dpmi_regs r;
 
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Getting oem number\n");
+#endif
+
     r.h.ah = 0x30;
     r.h.al = 0x00;
     __dpmi_int(0x21, &r);
+
+#ifdef DOS_PLATFORM_DEBUG
+    printf("oem number: %d\n", r.h.bh);
+#endif
 
     return (int)r.h.bh;
 }
@@ -512,6 +577,10 @@ static int get_dos_oem_nr(void)
 static int get_windows_version(int *major, int *minor, int *mode)
 {
     __dpmi_regs r;
+
+#ifdef DOS_PLATFORM_DEBUG
+    printf("Getting windows version\n");
+#endif
 
     r.x.ax = 0x160a;
     __dpmi_int(0x2f, &r);
@@ -567,6 +636,7 @@ char *platform_get_dos_runtime_os(void)
     int win_minor = 0;
     int win_mode = 0;
     int real32_version = 0;
+    int do_ver = 1;
     const char *version_flavor = _os_flavor;
     char *version_ver_string = NULL;
     char *command_ver_string = NULL;
@@ -586,6 +656,10 @@ char *platform_get_dos_runtime_os(void)
         version_major = real_version >> 8;
         version_minor = real_version & 0xff;
 
+#ifdef DOS_PLATFORM_DEBUG
+        printf("Got real version: %d %d\n", version_major, version_minor);
+#endif
+
         if (version_major >= 5) {
             version_oem = get_dos_oem_nr();
         }
@@ -593,12 +667,36 @@ char *platform_get_dos_runtime_os(void)
         comspec_ver_string = getenv("COMSPEC");
 
         command_ver_string = get_command_com_string();
-        if ((version_major != 7 || version_minor != 10 || version_oem != 253) && comspec_ver_string && strcmp(comspec_ver_string, "C:\\CDOS.COM")) {
+
+        if (version_major == 7 && version_minor == 10 && version_oem == 253) {
+            if (comspec_ver_string) {
+                if (strlen(comspec_ver_string) > 3) {
+                    if (!strcmp(comspec_ver_string + 3, "CDOS.COM")) {
+                        do_ver = 0;
+                    }
+                }
+            }
+        }
+
+        if (version_major == 3 && version_minor == 31) {
+            if (comspec_ver_string) {
+                if (strlen(comspec_ver_string) > 3) {
+                    if (!strcmp(comspec_ver_string + 3, "MDOS\\MDOS.COM")) {
+                        do_ver = 0;
+                    }
+                }
+            }
+        }
+
+        if (do_ver) {
             version_ver_string = get_cmd_ver_string("ver");
         }
         env_ver_string = get_version_from_env();
 
         if (comspec_ver_string) {
+#ifdef DOS_PLATFORM_DEBUG
+            printf("comspec string is %s\n", comspec_ver_string);
+#endif
             comspec_ver_string = lib_stralloc(comspec_ver_string);
         }
 
@@ -616,6 +714,15 @@ char *platform_get_dos_runtime_os(void)
                     if (!prodver_string && dos_win_versions[i].prod_version) {
                         if (!systemroot) {
                             systemroot = getenv("SYSTEMROOT");
+                            if (systemroot) {
+#ifdef DOS_PLATFORM_DEBUG
+                                printf("system root is %s\n", systemroot);
+#endif
+                            } else {
+#ifdef DOS_PLATFORM_DEBUG
+                                printf("system root returned NULL\n");
+#endif
+                            }
                         }
                         prodver_command = util_concat("type ", systemroot, "\\system32\\prodspec.ini", NULL);
                         prodver_string = get_prod_spec_string(prodver_command);
