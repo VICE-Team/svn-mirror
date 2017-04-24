@@ -215,13 +215,13 @@ static void sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offs
         return;
     }
 
-    if ((item->type == MENU_ENTRY_TEXT) && (vice_ptr_to_int(item->data) == 1)) {
+    if ((item->type == MENU_ENTRY_TEXT) && (vice_ptr_to_int(item->data) != 0)) {
         sdl_ui_reverse_colors();
     }
 
     i = sdl_ui_print(item->string, MENU_FIRST_X, y_pos + MENU_FIRST_Y);
 
-    if ((item->type == MENU_ENTRY_TEXT) && (vice_ptr_to_int(item->data) == 1)) {
+    if ((item->type == MENU_ENTRY_TEXT) && (vice_ptr_to_int(item->data) != 0)) {
         sdl_ui_reverse_colors();
     }
 
@@ -258,10 +258,15 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
     }
 
     if (num_items == 0) {
-        return 0;
+        return MENU_RETVAL_DEFAULT;
     }
 
     value_offsets = sdl_ui_menu_get_offsets(menu, num_items);
+
+    /* If a subtitle is at the top of the menu, then start at the next line. */
+    if (menu[0].type == MENU_ENTRY_TEXT) {
+        cur = 1;
+    }
 
     while (in_menu) {
         if (redraw) {
@@ -274,24 +279,26 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
 
         switch (sdl_ui_menu_poll_input()) {
             case MENU_ACTION_UP:
+                cur_old = cur;
                 do {
-                    cur_old = cur;
-                        if (cur > 0) {
-                            --cur;
+                    if (cur > 0) {
+                        --cur;
+                    } else {
+                        if (cur_offset > 0) {
+                            --cur_offset;
                         } else {
-                            if (cur_offset > 0) {
-                                --cur_offset;
-                            } else {
-                                cur_offset = num_items - (menu_draw.max_text_y - MENU_FIRST_Y);
-                                cur = (menu_draw.max_text_y - MENU_FIRST_Y) - 1;
-                                if (cur_offset < 0) {
-                                    cur += cur_offset;
-                                    cur_offset = 0;
-                                }
+                            cur_offset = num_items - (menu_draw.max_text_y - MENU_FIRST_Y);
+                            cur = (menu_draw.max_text_y - MENU_FIRST_Y) - 1;
+                            if (cur_offset < 0) {
+                                cur += cur_offset;
+                                cur_offset = 0;
                             }
                         }
-                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
-                redraw = 1;
+                        redraw = 1;
+                    }
+
+                /* Skip subtitles. */
+                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT && vice_ptr_to_int(menu[cur + cur_offset].data) != 0);
                 break;
             case MENU_ACTION_DOWN:
                 cur_old = cur;
@@ -300,12 +307,15 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         if (++cur == (menu_draw.max_text_y - MENU_FIRST_Y)) {
                             --cur;
                             ++cur_offset;
+                            redraw = 1;
                         }
                     } else {
                         cur = cur_offset = 0;
+                        redraw = 1;
                     }
+
+                /* Skip subtitles and blank lines. */
                 } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
-                redraw = 1;
                 break;
             case MENU_ACTION_RIGHT:
                 if ((menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU) && (menu[cur + cur_offset].type != MENU_ENTRY_DYNAMIC_SUBMENU)) {
