@@ -32,17 +32,26 @@
 #if HAVE_POSIXTHREAD && SYS_LINUX
 #include <sched.h>
 #endif
+
 #if SYS_BEOS
 #include <kernel/OS.h>
 #endif
+
 #if SYS_MACOSX || SYS_FREEBSD
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #endif
+
 #if SYS_OPENBSD
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <machine/cpu.h>
+#endif
+
+#if SYS_AmigaOS
+#include <exec/exec.h>
+#include <interfaces/exec.h>
+#include <proto/exec.h>
 #endif
 
 const x264_cpu_name_t x264_cpu_names[] =
@@ -336,6 +345,21 @@ uint32_t x264_cpu_detect( void )
 
     if( error == 0 && has_altivec != 0 )
         cpu |= X264_CPU_ALTIVEC;
+
+    return cpu;
+}
+
+#elif SYS_AmigaOS
+uint32_t x264_cpu_detect( void )
+{
+    uint32_t cpu = 0;
+    ULONG result = 0;
+    extern struct ExecIFace *IExec;
+
+    IExec->GetCPUInfoTags(GCIT_VectorUnit, &result, TAG_DONE);
+    if (result = VECTORTYPE_ALTIVEC) {
+        cpu |= X264_CPU_ALTIVEC;
+    }
 
     return cpu;
 }
