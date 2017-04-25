@@ -67,8 +67,6 @@ extra_keymaps = \
 	beos_buks.vkm \
 	dos_bgrs.vkm \
 	dos_buks.vkm \
-	os2.vkm \
-	os2_40.vkm \
 	osx_grus_sym.vkm \
 	osx_sym_uk.vkm \
 	win_grus_sym.vkm \

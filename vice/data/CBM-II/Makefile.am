@@ -34,7 +34,6 @@ palettes = \
 	deekay.vpl \
 	rgb.vpl \
 	vice.vpl \
-	\
 	amber.vpl \
 	green.vpl \
 	white.vpl
@@ -53,7 +52,6 @@ extra_keymaps = \
 	beos_buks.vkm \
 	dos_bukp.vkm \
 	dos_buks.vkm \
-	os2.vkm \
 	osx_pos_uk.vkm \
 	osx_sym_uk.vkm \
 	win_sym.vkm \

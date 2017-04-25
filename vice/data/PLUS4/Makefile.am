@@ -33,7 +33,6 @@ extra_keymaps = \
 	beos_pos.vkm \
 	dos_pos.vkm \
 	dos_sym.vkm \
-	os2.vkm \
 	osx_sym.vkm \
 	osx_pos.vkm \
 	win_sym.vkm \
