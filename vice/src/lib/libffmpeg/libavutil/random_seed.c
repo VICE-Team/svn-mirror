@@ -128,10 +128,15 @@ uint32_t av_get_random_seed(void)
     }
 #endif
 
+#ifdef __amigaos4__
+    if (read_random(&seed, "RANDOM:") == sizeof(seed))
+        return seed;
+#else
     if (read_random(&seed, "/dev/urandom") == sizeof(seed))
         return seed;
     if (read_random(&seed, "/dev/random")  == sizeof(seed))
         return seed;
+#endif
     return get_generic_seed();
 }
 

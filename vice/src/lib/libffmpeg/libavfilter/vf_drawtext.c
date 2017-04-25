@@ -37,7 +37,10 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
+#ifndef __amigaos4__
 #include <fenv.h>
+#endif
 
 #if CONFIG_LIBFONTCONFIG
 #include <fontconfig/fontconfig.h>

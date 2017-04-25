@@ -1903,9 +1903,15 @@ FILE *get_preset_file(char *filename, size_t filename_size,
 {
     FILE *f = NULL;
     int i;
+#ifdef __amigaos4__
+    const char *base[1] = { "PROGDIR:ffpresets", };
+    int max_count = 1;
+#else
     const char *base[3] = { getenv("FFMPEG_DATADIR"),
                             getenv("HOME"),
                             FFMPEG_DATADIR, };
+    int max_count = 3;
+#endif
 
     if (is_path) {
         av_strlcpy(filename, preset_name, filename_size);
@@ -1928,7 +1934,7 @@ FILE *get_preset_file(char *filename, size_t filename_size,
             }
         }
 #endif
-        for (i = 0; i < 3 && !f; i++) {
+        for (i = 0; i < max_count && !f; i++) {
             if (!base[i])
                 continue;
             snprintf(filename, filename_size, "%s%s/%s.ffpreset", base[i],
