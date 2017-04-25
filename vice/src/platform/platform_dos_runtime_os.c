@@ -28,6 +28,8 @@
  - Compaq DOS 3.31
  - Concurrent DOS XM 6.0
  - Concurrent Multiuser DOS 7.22
+ - DCP 3.20
+ - DCP 3.30
  - DOSBox 0.71
  - DOSBox 0.73
  - DOSBox 0.74
@@ -210,6 +212,8 @@ static dos_version_t dos_versions[] = {
     { "Compaq DOS 3.31",               "IBMPcDos",    3, 31,  -1, "The COMPAQ Personal Computer MS-DOS ",                       "COMPAQ Personal Computer DOS Version  3.31 ",            NULL, NULL },
     { "Concurrent Multiuser DOS 7.22", "IBMPcDos",    3, 31,  -1, NULL,                                                         NULL,                                                     NULL, "MDOS 7.22" },
     { "Concurrent DOS XM 6.0",         "IBMPcDos",    3, 30,  -1, NULL,                                                         NULL,                                                     NULL, "CDOS 6.0" },
+    { "DCP 3.20",                      "IBMPcDos",    3, 20,  -1, "ROBOTRON DCP Version 3.20/1.0",                              NULL,                                                     NULL, NULL },
+    { "DCP 3.30",                      "IBMPcDos",    3, 30,  -1, "ROBOTRON DCP Version 3.30/1.02",                             NULL,                                                     NULL, NULL },
     { "DOSBox 0.71",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.71. Reported DOS version 5.0.",         NULL, NULL },
     { "DOSBox 0.73",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.73. Reported DOS version 5.00.",        NULL, NULL },
     { "DOSBox 0.74",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.74. Reported DOS version 5.00.",        NULL, NULL },
