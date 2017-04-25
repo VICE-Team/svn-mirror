@@ -45,11 +45,16 @@
 #include "info.h"
 #include "intl.h"
 #include "log.h"
+#include "pointer.h"
 #include "psid.h"
 #include "sid.h"
 #include "sound.h"
+#include "translate.h"
 #include "ui.h"
+#include "util.h"
 #include "vsidui.h"
+
+#include "mui/mui.h"
 
 #define UI_VSID
 #define UI_MENU_NAME vsid_ui_translation_menu
