@@ -47,6 +47,7 @@
 #include "mui/uijoystickll.h"
 #include "mui/uikeymap.h"
 #include "mui/uimouse.h"
+#include "mui/uipetcolour.h"
 #include "mui/uipetdww.h"
 #include "mui/uipetreu.h"
 #include "mui/uipetsettings.h"

@@ -61,6 +61,9 @@
 #include "machine.h"
 #include "vicefeatures.h"
 
+#include "network.h"
+#include "vsyncapi.h"
+
 #include "mui/filereq.h"
 #include "mui/mui.h"
 #include "mui/uiautostart.h"
@@ -76,6 +79,7 @@
 
 #include "mui/uinetwork.h"
 #include "mui/uiram.h"
+#include "mui/uiscreenshot.h"
 #include "mui/uisnapshot.h"
 #include "mui/uisound.h"
 

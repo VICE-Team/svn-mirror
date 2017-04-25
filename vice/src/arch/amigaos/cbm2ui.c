@@ -39,6 +39,7 @@
 #include "machine.h"
 #include "translate.h"
 
+#include "mui/mui.h"
 #include "mui/uiacia.h"
 #include "mui/uicbm2settings.h"
 #include "mui/uiciamodel.h"

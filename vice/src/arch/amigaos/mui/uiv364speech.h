@@ -27,6 +27,6 @@
 #ifndef VICE_UIV364SPEECH_H
 #define VICE_UIV364SPEECH_H
 
-extern void ui_v364speech_settings_dialog(video_canvas_t *canvas);
+extern void ui_v364_speech_settings_dialog(video_canvas_t *canvas);
 
 #endif

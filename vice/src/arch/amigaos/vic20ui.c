@@ -38,6 +38,7 @@
 #include "vic20ui.h"
 #include "vic20uires.h"
 
+#include "mui/mui.h"
 #include "mui/uiacia.h"
 #include "mui/uicpclockf83.h"
 #include "mui/uidatasette.h"

@@ -80,6 +80,8 @@ const struct TextAttr vsid_font_attr = {
 #endif
 };
 
+extern void toggle_menu_item(struct Menu *menu, int idm, int checked);
+
 enum {
     VSID_S_TITLE = 0,
     VSID_S_AUTHOR,
