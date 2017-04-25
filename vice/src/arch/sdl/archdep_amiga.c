@@ -82,13 +82,7 @@ struct Library *SDLBase = NULL;
 #define SDLLIBNAME "SDL.library"
 #endif
 
-#ifdef POWERSDL_AMIGA_INLINE
-struct Library *PowerSDLBase;
-#define SDLLIBBASE PowerSDLBase
-#define SDLLIBNAME "powersdl.library"
-#endif
-
-#if defined(SDL_AMIGA_INLINE) || defined(POWERSDL_AMIGA_INLINE)
+#ifdef SDL_AMIGA_INLINE
 void SDL_Quit(void)
 {
     SDL_RealQuit();
