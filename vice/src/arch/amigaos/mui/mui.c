@@ -42,6 +42,9 @@
 #include "intl.h"
 #include "translate.h"
 
+#include "sid.h"
+#include "util.h"
+
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_UIC64CART_H
-#define VICE_UIC64CART_H
+#ifndef VICE_MUI_UIC64CART_H
+#define VICE_MUI_UIC64CART_H
 
 extern void ui_c64cart_generic_settings_dialog(video_canvas_t *canvas);
 extern void ui_c64cart_ramex_settings_dialog(video_canvas_t *canvas);
