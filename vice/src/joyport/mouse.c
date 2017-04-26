@@ -1088,6 +1088,15 @@ static void mouse_button_left(int pressed)
     BYTE old_val = mouse_digital_val;
     BYTE joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? 4 : 16);
 
+    /* on a real NEOS mouse the left mouse button is connected to FIRE and will
+       interfere with the STROBE line which is connected to the same I/O bit.
+       since the original behaviour cant be reproduced exactly, we return here
+       to disable the button and not leave it apparently working */
+    if (mouse_type == MOUSE_TYPE_NEOS) {
+        mouse_digital_val &= (BYTE)~joypin;
+        return;
+    }
+
     if (pressed) {
         mouse_digital_val |= joypin;
     } else {
