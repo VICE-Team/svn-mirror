@@ -409,7 +409,7 @@ static int vsid_menu_handle(int idm)
         case IDM_NEXT_TUNE:
             if (current_song < songs) {
                 current_song++;
-                psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                psid_ui_set_tune(current_song, NULL);
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
@@ -418,7 +418,7 @@ static int vsid_menu_handle(int idm)
         case IDM_PREVIOUS_TUNE:
             if (current_song > 1) {
                 current_song--;
-                psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                psid_ui_set_tune(current_song, NULL);
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
@@ -436,7 +436,7 @@ static int vsid_menu_handle(int idm)
                     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                     songs = psid_tunes(&default_song);
                     current_song = default_song;
-                    psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                    psid_ui_set_tune(current_song, NULL);
                     vsid_ui_display_tune_nr(current_song);
                     vsid_ui_set_default_tune(default_song);
                     vsid_ui_display_nr_of_tunes(songs);

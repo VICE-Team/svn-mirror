@@ -29,7 +29,6 @@
 
 #include "types.h"
 
-#include "resources.h"
 
 extern int psid_resources_init(void);
 extern int psid_cmdline_options_init(void);
@@ -42,6 +41,6 @@ extern int psid_basic_rsid_to_autostart(WORD *address, BYTE **data, WORD *length
 extern void psid_init_driver(void);
 extern unsigned int psid_increment_frames(void);
 extern int reloc65(char** buf, int* fsize, int addr);
-extern int psid_ui_set_tune(resource_value_t tune, void *param);
+extern int psid_ui_set_tune(int, void *param);
 
 #endif

@@ -155,10 +155,7 @@ static const resource_int_t resources_int[] = {
     { "PSIDKeepEnv", 0, RES_EVENT_NO, NULL,
       &keepenv, set_keepenv, NULL },
     { "PSIDTune", 0, RES_EVENT_NO, NULL,
-      &psid_tune,
-      /* ugly hack to work around having two different prototypes for
-       * psid_ui_set_tune() */
-      (resource_set_func_int_t *)psid_ui_set_tune, NULL },
+      &psid_tune, psid_ui_set_tune, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -605,11 +602,9 @@ void psid_set_tune(int tune)
 }
 
 /* used for setting the PSIDtune resource */
-int psid_ui_set_tune(resource_value_t tune, void *param)
+int psid_ui_set_tune(int tune, void *param)
 {
-    int t = vice_ptr_to_int(tune);
-
-    psid_tune = (t == -1) ? 0 : t;
+    psid_tune = (tune == -1) ? 0 : tune;
 
     psid_set_tune(psid_tune);
     vsync_suspend_speed_eval();

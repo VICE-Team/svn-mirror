@@ -674,7 +674,7 @@ static void end_vsid_dialog(HWND hwnd)
 
     if (temp != current_song) {
         current_song = temp;
-        psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+        psid_ui_set_tune(current_song, NULL);
         vsid_ui_display_tune_nr(current_song);
         vsid_ui_set_default_tune(default_song);
         vsid_ui_display_nr_of_tunes(songs);
@@ -728,7 +728,7 @@ static void load_psid_file(HWND window, char *name)
         machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
         songs = psid_tunes(&default_song);
         current_song = default_song;
-        psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+        psid_ui_set_tune(current_song, NULL);
         vsid_ui_display_tune_nr(current_song);
         vsid_ui_set_default_tune(default_song);
         vsid_ui_display_nr_of_tunes(songs);
@@ -775,7 +775,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_NEXT_TUNE:
             if (current_song < songs) {
                 current_song++;
-                psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                psid_ui_set_tune(current_song, NULL);
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
@@ -784,7 +784,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_PREVIOUS_TUNE:
             if (current_song > 1) {
                 current_song--;
-                psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                psid_ui_set_tune(current_song, NULL);
                 vsid_ui_display_tune_nr(current_song);
                 vsid_ui_set_default_tune(default_song);
                 vsid_ui_display_nr_of_tunes(songs);
@@ -925,7 +925,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_KEYDOWN:
             switch(wparam) {
                 case '0':
-                    psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                    psid_ui_set_tune(current_song, NULL);
                     break;
                 case ' ':
                     ui_pause_emulation(!ui_emulation_is_paused());
@@ -953,7 +953,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 case VK_DOWN:
                     if (current_song > 1) {
                         current_song--;
-                        psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                        psid_ui_set_tune(current_song, NULL);
                         vsid_ui_display_tune_nr(current_song);
                         vsid_ui_set_default_tune(default_song);
                         vsid_ui_display_nr_of_tunes(songs);
@@ -964,7 +964,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 case VK_UP:
                     if (current_song < songs) {
                         current_song++;
-                        psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                        psid_ui_set_tune(current_song, NULL);
                         vsid_ui_display_tune_nr(current_song);
                         vsid_ui_set_default_tune(default_song);
                         vsid_ui_display_nr_of_tunes(songs);
