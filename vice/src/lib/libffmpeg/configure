@@ -4161,6 +4161,8 @@ case $target_os in
         ;;
     amigaos*)
         ;;
+    aros*)
+        ;;
     plan9)
         add_cppflags -D_C99_SNPRINTF_EXTENSION  \
                      -D_REENTRANT_SOURCE        \
