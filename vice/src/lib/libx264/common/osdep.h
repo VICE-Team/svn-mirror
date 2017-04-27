@@ -414,6 +414,8 @@ static ALWAYS_INLINE void x264_prefetch( void *p )
     { UNUSED status_t nice_ret = set_thread_priority( find_thread( NULL ), B_LOW_PRIORITY ); }
 #elif SYS_AmigaOS
 #define x264_lower_thread_priority(p) 
+#elif SYS_AROS
+#define x264_lower_thread_priority(p)
 #else
 #include <unistd.h>
 #define x264_lower_thread_priority(p) { UNUSED int nice_ret = nice(p); }
