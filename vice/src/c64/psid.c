@@ -83,7 +83,6 @@ typedef struct psid_s {
 #define PSID_V1_DATA_OFFSET 0x76
 #define PSID_V2_DATA_OFFSET 0x7c
 
-int psid_ui_set_tune(int tune, void *param);
 
 static psid_t* psid = NULL;
 static int psid_tune = 0;       /* currently selected tune, 0: default 1: first, 2: second, etc */
@@ -156,7 +155,10 @@ static const resource_int_t resources_int[] = {
     { "PSIDKeepEnv", 0, RES_EVENT_NO, NULL,
       &keepenv, set_keepenv, NULL },
     { "PSIDTune", 0, RES_EVENT_NO, NULL,
-      &psid_tune, psid_ui_set_tune, NULL },
+      &psid_tune,
+      /* ugly hack to work around having two different prototypes for
+       * psid_ui_set_tune() */
+      (resource_set_func_int_t *)psid_ui_set_tune, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -603,9 +605,11 @@ void psid_set_tune(int tune)
 }
 
 /* used for setting the PSIDtune resource */
-int psid_ui_set_tune(int tune, void *param)
+int psid_ui_set_tune(resource_value_t tune, void *param)
 {
-    psid_tune = (int)(tune == -1) ? 0 : (int)tune;
+    int t = vice_ptr_to_int(tune);
+
+    psid_tune = (t == -1) ? 0 : t;
 
     psid_set_tune(psid_tune);
     vsync_suspend_speed_eval();

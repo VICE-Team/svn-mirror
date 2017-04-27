@@ -85,7 +85,6 @@ enum {
 
 static const int c64_sid_baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
-int psid_ui_set_tune(resource_value_t tune, void *param);
 
 TCHAR st_AppName[] = TEXT("VSID - The VICE SID player");
 char vsidstrings[VSID_S_LASTLINE + 1][80] = { { 0 } };
