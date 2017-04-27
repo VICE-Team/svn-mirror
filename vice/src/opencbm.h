@@ -129,6 +129,10 @@ typedef unsigned char __u_char;
 typedef unsigned char __u_char;
 #endif
 
+#ifdef __osf__
+typedef unsigned char __u_char;
+#endif
+
 #endif
 
 /* specifiers for the IEC bus lines */
