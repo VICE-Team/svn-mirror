@@ -30,11 +30,21 @@
  - Concurrent Multiuser DOS 7.22
  - DCP 3.20
  - DCP 3.30
+ - DOSBox 0.60
+ - DOSBox 0.61
+ - DOSBox 0.62
+ - DOSBox 0.63
+ - DOSBox 0.65
+ - DOSBox 0.70
  - DOSBox 0.71
+ - DOSBox 0.72
  - DOSBox 0.73
  - DOSBox 0.74
+ - DR-DOS 3.40
+ - DR-DOS 3.41
  - DR-DOS 5.0
  - DR-DOS 6.0
+ - DR-DOS 7.02
  - DR-DOS 7.03
  - DR-DOS 7.05
  - DR-DOS 8.0
@@ -214,11 +224,22 @@ static dos_version_t dos_versions[] = {
     { "Concurrent DOS XM 6.0",         "IBMPcDos",    3, 30,  -1, NULL,                                                         NULL,                                                     NULL, "CDOS 6.0" },
     { "DCP 3.20",                      "IBMPcDos",    3, 20,  -1, "ROBOTRON DCP Version 3.20/1.0",                              NULL,                                                     NULL, NULL },
     { "DCP 3.30",                      "IBMPcDos",    3, 30,  -1, "ROBOTRON DCP Version 3.30/1.02",                             NULL,                                                     NULL, NULL },
+    { "DOSBox 0.60",                   "MS-DOS",      5,  0, 255, "DOSBox 0.60",                                                NULL,                                                     NULL, NULL },
+    { "DOSBox 0.61",                   "MS-DOS",      5,  0, 255, "DOSBox 0.61",                                                NULL,                                                     NULL, NULL },
+    { "DOSBox 0.62",                   "MS-DOS",      5,  0, 255, "DOSBox 0.62",                                                NULL,                                                     NULL, NULL },
+    { "DOSBox 0.63",                   "MS-DOS",      5,  0, 255, "DOSBox 0.63",                                                NULL,                                                     NULL, NULL },
+    { "DOSBox 0.65",                   "MS-DOS",      5,  0, 255, "DOSBox 0.65",                                                NULL,                                                     NULL, NULL },
+    { "DOSBox 0.70",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.70. Reported DOS version 5.0.",         NULL, NULL },
     { "DOSBox 0.71",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.71. Reported DOS version 5.0.",         NULL, NULL },
+    { "DOSBox 0.72",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.72. Reported DOS version 5.0.",         NULL, NULL },
     { "DOSBox 0.73",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.73. Reported DOS version 5.00.",        NULL, NULL },
     { "DOSBox 0.74",                   "MS-DOS",      5,  0, 255, NULL,                                                         "DOSBox version 0.74. Reported DOS version 5.00.",        NULL, NULL },
+    { "DR-DOS 3.40",                   "IBMPcDos",    3, 31,  -1, NULL,                                                         NULL,                                                     NULL, "DRDOS 3.40" },
+    { "DR-DOS 3.41",                   "IBMPcDos",    3, 31,  -1, NULL,                                                         NULL,                                                     NULL, "DRDOS 3.41" },
+    { "DR-DOS 5.0",                    "IBMPcDos",    3, 31,  -1, NULL,                                                         NULL,                                                     NULL, "DRDOS 5.0" },
     { "DR-DOS 5.0",                    "IBMPcDos",    3, 31,  -1, NULL,                                                         "DR DOS Release 5.0",                                     NULL, NULL },
     { "DR-DOS 6.0",                    "IBMPcDos",    3, 31,  -1, NULL,                                                         "DR DOS Release 6.0",                                     NULL, NULL },
+    { "DR-DOS 7.02",                   "IBMPcDos",    6,  0,   0, NULL,                                                         "Caldera DR-DOS 7.02",                                    NULL, NULL },
     { "DR-DOS 7.03",                   "IBMPcDos",    6,  0,   0, NULL,                                                         "Caldera DR-DOS 7.03",                                    NULL, NULL },
     { "DR-DOS 7.05",                   "IBMPcDos",    7, 10,   0, NULL,                                                         "Caldera DR-DOS 7.05",                                    NULL, NULL },
     { "DR-DOS 8.0",                    "IBMPcDos",    6,  0,   0, NULL,                                                         "DeviceLogics DR-DOS 8.0 ",                               NULL, NULL },
@@ -423,6 +444,38 @@ static char *get_cmd_ver_string(char *command)
     return retval;
 }
 
+static unsigned char db60[23] = { 0xBC, 0x00, 0x04, 0xBB, 0x40, 0x00, 0xB4, 0x4A,
+                                  0xCD, 0x21, 0xFE, 0x38, 0x04, 0x00, 0xB8, 0x00,
+                                  0x4C, 0xCD, 0x21, 0xD0, 0xDA, 0x46, 0x00 };
+
+static unsigned char db61[23] = { 0xBC, 0x00, 0x04, 0xBB, 0x40, 0x00, 0xB4, 0x4A,
+                                  0xCD, 0x21, 0xFE, 0x38, 0x04, 0x00, 0xB8, 0x00,
+                                  0x4C, 0xCD, 0x21, 0xA0, 0xE6, 0x47, 0x00 };
+
+static unsigned char db62[23] = { 0xBC, 0x00, 0x04, 0xBB, 0x40, 0x00, 0xB4, 0x4A,
+                                  0xCD, 0x21, 0xFE, 0x38, 0x04, 0x00, 0xB8, 0x00,
+                                  0x4C, 0xCD, 0x21, 0x20, 0xBE, 0x4B, 0x00 };
+
+static unsigned char db63[20] = { 0xBC, 0x00, 0x04, 0xBB, 0x40, 0x00, 0xB4, 0x4A,
+                                  0xCD, 0x21, 0xFE, 0x38, 0x04, 0x00, 0xB8, 0x00,
+                                  0x4C, 0xCD, 0x21, 0x09 };
+
+static unsigned char db65[20] = { 0xBC, 0x00, 0x04, 0xBB, 0x40, 0x00, 0xB4, 0x4A,
+                                  0xCD, 0x21, 0xFE, 0x38, 0x07, 0x00, 0xB8, 0x00,
+                                  0x4C, 0xCD, 0x21, 0x09 };
+
+static int check_dosbox_command_com(unsigned char *buffer, int realsize, unsigned char *db)
+{
+    int i;
+
+    for (i = 0; i < realsize; ++i) {
+        if (buffer[i] != db[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 static char *get_command_com_string(void)
 {
     FILE *infile = NULL;
@@ -433,6 +486,7 @@ static char *get_command_com_string(void)
     int found = 0;
     char *retval = NULL;
     char *comspec = NULL;
+    int realsize = 0;
 
 #ifdef DOS_PLATFORM_DEBUG
     printf("Analyzing command.com\n");
@@ -454,8 +508,30 @@ static char *get_command_com_string(void)
     infile = fopen(comspec, "rb");
     if (infile) {
         memset(buffer, 0, 65280);
-        fread(buffer, 1, 65280, infile);
+        realsize = fread(buffer, 1, 65280, infile);
         fclose(infile);
+#ifdef DOS_PLATFORM_DEBUG
+            printf("command.com size is %d\n", realsize);
+#endif
+        if (realsize == 23) {
+            if (check_dosbox_command_com(buffer, realsize, db60)) {
+                return lib_stralloc("DOSBox 0.60");
+            }
+            if (check_dosbox_command_com(buffer, realsize, db61)) {
+                return lib_stralloc("DOSBox 0.61");
+            }
+            if (check_dosbox_command_com(buffer, realsize, db62)) {
+                return lib_stralloc("DOSBox 0.62");
+            }
+        }
+        if (realsize == 20) {
+            if (check_dosbox_command_com(buffer, realsize, db63)) {
+                return lib_stralloc("DOSBox 0.63");
+            }
+            if (check_dosbox_command_com(buffer, realsize, db65)) {
+                return lib_stralloc("DOSBox 0.65");
+            }
+        }
         for (i = 0; !found; ++i) {
             if (i == 65280 - 4) {
                 found = 2;
@@ -691,11 +767,36 @@ char *platform_get_dos_runtime_os(void)
                 }
             }
         }
+ 
+        if (comspec_ver_string) {
+            if (!strncmp(comspec_ver_string, "a:", 2)) {
+                do_ver = 0;
+            }
+        }
+
+        if (command_ver_string) {
+            if (!strncmp(command_ver_string, "DOSBox 0.6", 10)) {
+                do_ver = 0;
+            }
+        }
+
+        env_ver_string = get_version_from_env();
+
+        if (env_ver_string) {
+            if (!strcmp(env_ver_string, "DRDOS 3.40")) {
+                do_ver = 0;
+            }
+            if (!strcmp(env_ver_string, "DRDOS 3.41")) {
+                do_ver = 0;
+            }
+            if (!strcmp(env_ver_string, "DRDOS 5.0")) {
+                do_ver = 0;
+            }
+        }
 
         if (do_ver) {
             version_ver_string = get_cmd_ver_string("ver");
         }
-        env_ver_string = get_version_from_env();
 
         if (comspec_ver_string) {
 #ifdef DOS_PLATFORM_DEBUG
