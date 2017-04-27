@@ -27,6 +27,10 @@
 
 #include "common.h"
 
+#ifdef SYS_AROS
+#include <math.h>
+#endif
+
 #ifdef _WIN32
 #include <windows.h>
 #include <io.h>
@@ -43,6 +47,13 @@
 #if PTW32_STATIC_LIB
 /* this is a global in pthread-win32 to indicate if it has been initialized or not */
 extern int ptw32_processInitialized;
+#endif
+
+#ifdef SYS_AROS
+float log2f(float p)
+{
+    return (float)log2((double)p);
+}
 #endif
 
 #ifdef __MSDOS__
