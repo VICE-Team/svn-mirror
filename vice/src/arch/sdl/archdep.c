@@ -56,9 +56,13 @@ static void archdep_shutdown_extra(void);
 
 #include "kbd.h"
 
+#ifndef SDL_REALINIT
+#define SDL_REALINIT SDL_Init
+#endif
+
 int archdep_init(int *argc, char **argv)
 {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
+    if (SDL_REALINIT(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         fprintf(stderr, "SDL error: %s\n", SDL_GetError());
         return 1;
     }
