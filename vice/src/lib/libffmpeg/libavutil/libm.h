@@ -100,7 +100,11 @@ static av_always_inline av_const float fminf(float x, float y)
 #endif
 
 #if !HAVE_ISINF
+#ifndef __AROS__
 static av_always_inline av_const int isinf(float x)
+#else
+static av_always_inline av_const int vice_ffmpeg_isinf(float x)
+#endif
 {
     uint32_t v = av_float2int(x);
     if ((v & 0x7f800000) != 0x7f800000)

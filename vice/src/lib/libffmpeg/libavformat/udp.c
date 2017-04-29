@@ -436,7 +436,7 @@ int ff_udp_set_remote_url(URLContext *h, const char *uri)
             int was_connected = s->is_connected;
             s->is_connected = strtol(buf, NULL, 10);
             if (s->is_connected && !was_connected) {
-                if (connect(s->udp_fd, (struct sockaddr *) &s->dest_addr,
+                if (vice_ffmpeg_connect(s->udp_fd, (struct sockaddr *) &s->dest_addr,
                             s->dest_addr_len)) {
                     s->is_connected = 0;
                     log_net_error(h, AV_LOG_ERROR, "connect");
@@ -493,7 +493,7 @@ static void *circular_buffer_task( void *_URLContext)
            see "General Information" / "Thread Cancelation Overview"
            in Single Unix. */
         pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, &old_cancelstate);
-        len = recv(s->udp_fd, s->tmp+4, sizeof(s->tmp)-4, 0);
+        len = vice_ffmpeg_recv(s->udp_fd, s->tmp+4, sizeof(s->tmp)-4, 0);
         pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, &old_cancelstate);
         pthread_mutex_lock(&s->mutex);
         if (len < 0) {
@@ -751,7 +751,7 @@ static int udp_open(URLContext *h, const char *uri, int flags)
         ff_socket_nonblock(udp_fd, 1);
     }
     if (s->is_connected) {
-        if (connect(udp_fd, (struct sockaddr *) &s->dest_addr, s->dest_addr_len)) {
+        if (vice_ffmpeg_connect(udp_fd, (struct sockaddr *) &s->dest_addr, s->dest_addr_len)) {
             log_net_error(h, AV_LOG_ERROR, "connect");
             goto fail;
         }
@@ -861,7 +861,7 @@ static int udp_read(URLContext *h, uint8_t *buf, int size)
         if (ret < 0)
             return ret;
     }
-    ret = recv(s->udp_fd, buf, size, 0);
+    ret = vice_ffmpeg_recv(s->udp_fd, buf, size, 0);
 
     return ret < 0 ? ff_neterrno() : ret;
 }
@@ -878,11 +878,11 @@ static int udp_write(URLContext *h, const uint8_t *buf, int size)
     }
 
     if (!s->is_connected) {
-        ret = sendto (s->udp_fd, buf, size, 0,
+        ret = vice_ffmpeg_sendto (s->udp_fd, buf, size, 0,
                       (struct sockaddr *) &s->dest_addr,
                       s->dest_addr_len);
     } else
-        ret = send(s->udp_fd, buf, size, 0);
+        ret = vice_ffmpeg_send(s->udp_fd, buf, size, 0);
 
     return ret < 0 ? ff_neterrno() : ret;
 }

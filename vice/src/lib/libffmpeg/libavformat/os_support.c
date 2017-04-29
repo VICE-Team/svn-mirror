@@ -29,6 +29,10 @@
 #define __SYS_SWAP_BYTES_H
 #endif
 
+#ifdef __AROS__
+#include <proto/socket.h>
+#endif
+
 #ifdef IDE_COMPILE
 #include "ffmpeg-config.h"
 #include "ide-config.h"
@@ -351,3 +355,31 @@ int ff_poll(struct pollfd *fds, nfds_t numfds, int timeout)
 #endif /* !HAVE_POLL_H */
 
 #endif /* CONFIG_NETWORK */
+
+#ifdef __AROS__
+int vice_ffmpeg_accept(int socket, struct sockaddr *address, socklen_t *len)
+{
+    return accept(socket, address, len);
+}
+
+int vice_ffmpeg_connect(int socket, struct sockaddr *address, socklen_t *len)
+{
+    return connect(socket, address, len);
+}
+
+ssize_t vice_ffmpeg_recv(int socket, void *buffer, size_t len, int flags)
+{
+    return recv(socket, buffer, len, flags);
+}
+
+ssize_t vice_ffmpeg_send(int socket, const void *buffer, size_t len, int flags)
+{
+    return send(socket, buffer, len, flags);
+}
+
+ssize_t vice_ffmpeg_sendto(int socket, const void *message, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t dest_len)
+{
+    return sendto(socket, message, len, flags, dest_addr, dest_len);
+}
+#endif
+

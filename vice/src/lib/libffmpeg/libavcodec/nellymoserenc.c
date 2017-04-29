@@ -227,6 +227,10 @@ static inline float distance(float x, float y, int band)
     return tmp * tmp;
 }
 
+#ifndef __AROS__
+#define vice_ffmpeg_isinf isinf
+#endif
+
 static void get_exponent_dynamic(NellyMoserEncodeContext *s, float *cand, int *idx_table)
 {
     int i, j, band, best_idx;
@@ -253,7 +257,7 @@ static void get_exponent_dynamic(NellyMoserEncodeContext *s, float *cand, int *i
             idx_min = FFMAX(0, cand[band] - q);
             idx_max = FFMIN(OPT_SIZE, cand[band - 1] + q);
             for (i = FFMAX(0, cand[band - 1] - q); i < FFMIN(OPT_SIZE, cand[band - 1] + q); i++) {
-                if ( isinf(opt[band - 1][i]) )
+                if ( vice_ffmpeg_isinf(opt[band - 1][i]) )
                     continue;
                 for (j = 0; j < 32; j++) {
                     idx = i + ff_nelly_delta_table[j];

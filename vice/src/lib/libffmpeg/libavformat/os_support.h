@@ -34,6 +34,11 @@
 #include "config.h"
 #endif
 
+#ifdef __AROS__
+#include <proto/socket.h>
+#include <sys/socket.h>
+#endif
+
 #include <sys/stat.h>
 
 #if defined(_WIN32) && !defined(__MINGW32CE__)
@@ -163,5 +168,19 @@ int ff_poll(struct pollfd *fds, nfds_t numfds, int timeout);
 #define poll ff_poll
 #endif /* HAVE_POLL_H */
 #endif /* CONFIG_NETWORK */
+
+#ifdef __AROS__
+extern int vice_ffmpeg_accept(int socket, struct sockaddr *address, socklen_t *len);
+extern int vice_ffmpeg_connect(int socket, struct sockaddr *address, socklen_t *len);
+extern ssize_t vice_ffmpeg_recv(int socket, void *buffer, size_t len, int flags);
+extern ssize_t vice_ffmpeg_send(int socket, const void *buffer, size_t len, int flags);
+extern ssize_t vice_ffmpeg_sendto(int socket, const void *message, size_t len, int flags, const struct sockaddr *dest_adr, socklen_t dest_len);
+#else
+#define vice_ffmpeg_accept accept
+#define vice_ffmpeg_connect connect
+#define vice_ffmpeg_recv recv
+#define vice_ffmpeg_send send
+#define vice_ffmpeg_sendto sendto
+#endif
 
 #endif /* AVFORMAT_OS_SUPPORT_H */

@@ -2281,6 +2281,7 @@ if test x"$enable_static_ffmpeg" = "xyes"; then
   AC_CHECK_LIB(bz2, BZ2_bzDecompressInit,,)
   AC_CHECK_LIB(lzma, lzma_code,,)
   AC_CHECK_LIB(va, vaBeginPicture,,)
+  AC_CHECK_LIB(m, sqrt,,)
 
   if test x"$is_win32" = "xyes"; then
     win32_pthreads=no
