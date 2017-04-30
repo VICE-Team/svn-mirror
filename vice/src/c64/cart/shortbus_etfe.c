@@ -86,7 +86,7 @@ static io_source_list_t *shortbus_etfe_list_item = NULL;
 /* This flag indicates if the IDE64 cart is active */
 static int shortbus_etfe_host_active = 0;
 
-/* This flag indicated if the expansion is active,
+/* This flag indicates if the expansion is active,
    real activity depends on the 'host' active flag */
 static int shortbus_etfe_expansion_active = 0;
 

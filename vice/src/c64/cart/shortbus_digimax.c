@@ -57,7 +57,7 @@
 /* This flag indicates if the IDE64 cart is active */
 static int shortbus_digimax_host_active = 0;
 
-/* This flag indicated if the expansion is active,
+/* This flag indicates if the expansion is active,
    real activity depends on the 'host' active flag */
 static int shortbus_digimax_expansion_active = 0;
 
