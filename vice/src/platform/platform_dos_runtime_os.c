@@ -59,7 +59,10 @@
  - FreeDOS 1.1
  - MSDOS 3.10 (Compaq OEM)
  - MSDOS 3.10 (Epson OEM)
+ - MSDOS 3.10 (HP OEM)
+ - MSDOS 3.10 (Leading Edge OEM)
  - MSDOS 3.10 (Olivetti OEM)
+ - MSDOS 3.10 (Zenith OEM)
  - MSDOS 3.20 (Generic)
  - MSDOS 3.20 (Amstrad OEM)
  - MSDOS 3.20 (Data General OEM)
@@ -72,6 +75,7 @@
  - MSDOS 3.30 (Generic)
  - MSDOS 3.30A (AT&T OEM)
  - MSDOS 3.30A (Generic)
+ - MSDOS 3.31 (Generic)
  - MSDOS 4.01 (Thoshiba OEM)
  - MSDOS 4.01 (Generic)
  - MSDOS 5.00 (Generic)
@@ -85,6 +89,7 @@
  - MSDOS 7.00 (Stand Alone)
  - MSDOS 7.10 (Stand Alone)
  - MSDOS 8.0 (Stand Alone)
+ - Multitasking MSDOS 4.0
  - Novell DOS 7
  - PCDOS 3.00
  - PCDOS 3.10
@@ -254,18 +259,23 @@ static dos_version_t dos_versions[] = {
     { "FreeDOS 1.1",                   "??Unknown??", 7, 10, 254, NULL,                                                         NULL,                                                     NULL, NULL },
     { "MSDOS 3.10 (Compaq OEM)",       "IBMPcDos",    3, 10,  -1, "The COMPAQ Personal Computer MS-DOS",                        "COMPAQ Personal Computer DOS Version  3.10 ",            NULL, NULL },
     { "MSDOS 3.10 (Epson OEM)",        "MS-DOS",      3, 10,  -1, "Microsoft MS-DOS Version 3.10",                              "MS-DOS Version 3.10",                                    NULL, NULL },
+    { "MSDOS 3.10 (Leading Edge OEM)", "IBMPcDos",    3, 10,  -1, "Command v. 3.10 (C)Copyright Microsoft Corp 1981, 1985",     "MS-DOS Version 3.10",                                    NULL, NULL },
+    { "MSDOS 3.10 (HP OEM)",           "IBMPcDos",    3, 10,  -1, NULL,                                                         "MS-DOS Version 3.10",                                    NULL, NULL },
     { "MSDOS 3.10 (Olivetti OEM)",     "MS-DOS",      3, 10,  -1, "Microsoft MS-DOS",                                           "Microsoft MS-DOS Version 3.10 ",                         NULL, NULL },
-    { "MSDOS 3.20 (Amstrad OEM)",      "MS-DOS",      3, 20,  -1, "Microsoft(R) MS-DOS(R)  Version 3.20",                       "MS-DOS Version 3.20",                                    NULL, NULL },
+    { "MSDOS 3.10 (Zenith OEM)",       "ZenitDOS",    3, 10,  -1, NULL,                                                         "IO.SYS Version 3.05",                                    NULL, NULL },
+    { "MSDOS 3.20 (Misc OEM)",         "MS-DOS",      3, 20,  -1, "Microsoft(R) MS-DOS(R)  Version 3.20",                       "MS-DOS Version 3.20",                                    NULL, NULL },
     { "MSDOS 3.20 (Data General OEM)", "MS-DOS",      3, 20,  -1, "Data General Corporation MS-DOS",                            "Data General Corp MS-DOS  Version  3.20 ",               NULL, NULL },
     { "MSDOS 3.20 (HP OEM)",           "IBMPcDos",    3, 20,  -1, "Microsoft(R) MS-DOS(R)  Version 3.20",                       "MS-DOS Version 3.20",                                    NULL, NULL },
     { "MSDOS 3.20 (Zenith OEM)",       "ZenitDOS",    3, 20,  -1, "MS-DOS Version 3.20",                                        NULL,                                                     NULL, NULL },
     { "MSDOS 3.20 (Generic)",          "MS-DOS",      3, 20,  -1, "Microsoft MS-DOS Version 3.20",                              "MS-DOS Version 3.20",                                    NULL, NULL },
     { "MSDOS 3.21 (Hyosung OEM)",      "MS-DOS",      3, 21,  -1, "HYOSUNG MS-DOS Ver 3.21",                                    "HYOSUNG MS-DOS Ver 3.21",                                NULL, NULL },
     { "MSDOS 3.21 (Generic)",          "MS-DOS",      3, 21,  -1, "Microsoft(R) MS-DOS(R)  Version 3.21",                       "MS-DOS Version 3.21",                                    NULL, NULL },
-    { "MSDOS 3.30 (Toshiba OEM)",      "IBMPcDos",    3, 30,  -1, "MS-DOS(R) Version 3.30 ",                                    "Toshiba MS-DOS Version 3.30 / R3CE0US      ",            NULL, NULL },
+    { "MSDOS 3.30 (Toshiba OEM)",      "IBMPcDos",    3, 30,  -1, "MS-DOS(R) Version 3.30 ",                                    "Toshiba MS-DOS Version 3.30 / R3CE0US     ",             NULL, NULL },
     { "MSDOS 3.30",                    "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30",                       "MS-DOS Version 3.30                     ",               NULL, NULL },
+    { "MSDOS 3.30 (HP OEM)",           "HP DOS",      3, 30,  -1, "HP Vectra Personal Computer MS-DOS Version  3.30 - C.01.01", NULL,                                                     NULL, NULL },
     { "MSDOS 3.30A (AT&T OEM)",        "OlivtDOS",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30a",                      "AT&T Personal Computer MS-DOS Version 3.30a  Rev. 1.01", NULL, NULL },
     { "MSDOS 3.30A (Generic)",         "IBMPcDos",    3, 30,  -1, "Microsoft(R) MS-DOS(R)  Version 3.30A",                      "MS-DOS Version 3.30                     ",               NULL, NULL },
+    { "MSDOS 3.31 (Generic)",          "MS-DOS",      3, 31,  -1, "Microsoft(R) MS-DOS(R)  Version 3.31",                       "MS-DOS Version 3.31                     ",               NULL, NULL },
     { "MSDOS 4.01 (Toshiba OEM)",      "MS-DOS",      4,  0,  -1, "MS-DOS(R) Version 4.01",                                     "Toshiba MS-DOS Version 4.01 / R4A60US    ",              NULL, NULL },
     { "MSDOS 4.01 (Generic)",          "MS-DOS",      4,  0,  -1, "Microsoft(R) MS-DOS(R) Version 4.01",                        "MS-DOS Version 4.01",                                    NULL, NULL },
     { "MSDOS 5.00 (Generic)",          "MS-DOS",      5,  0, 255, "Microsoft(R) MS-DOS(R) Version 5.00",                        "MS-DOS Version 5.00",                                    NULL, NULL },
@@ -282,6 +292,7 @@ static dos_version_t dos_versions[] = {
     { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                                         "Windows 98 [Version 4.10.1998]",                         NULL, NULL },
     { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                                         "Windows 98 [Version 4.10.2222]",                         NULL, NULL },
     { "MSDOS 8.0",                     "MS-DOS",      8,  0, 255, NULL,                                                         "Windows Millennium [Version 4.90.3000]",                 NULL, NULL },
+    { "Multitaksing MSDOS 4.0",        "IBMPcDos",    4,  0,  -1, "C Runtime Error: Bad Pointer",                               NULL,                                                     NULL, NULL },
     { "Novell DOS 7",                  "IBMPcDos",    6,  0,   0, NULL,                                                         "Novell DOS 7",                                           NULL, NULL },
     { "OS/2 2.0",                      "IBMPcDos",   20,  0,   0, NULL,                                                         "The Operating System/2 Version is 2.00 ",                NULL, NULL },
     { "OS/2 2.1",                      "IBMPcDos",   20, 10,   0, NULL,                                                         "The Operating System/2 Version is 2.10 ",                NULL, NULL },
@@ -541,13 +552,27 @@ static char *get_command_com_string(void)
         }
         if (found == 1) {
             ptr = buffer + i + 3;
-            ptr2 = strstr(ptr, "\r");
-            if (ptr2) {
-                ptr2[0] = 0;
-                retval = lib_stralloc(ptr);
+            if (!ptr[0]) {
+                i -= 4;
+                found = 0;
+                while (!found && i) {
+                    if (buffer[i] == '\r' && buffer[i + 1] == '\n') {
+                        ptr = buffer + i + 2;
+                        found = 1;
+                    } else {
+                        --i;
+                    }
+                }
+            }
+            if (found) {
+                ptr2 = strstr(ptr, "\r");
+                if (ptr2) {
+                    ptr2[0] = 0;
+                    retval = lib_stralloc(ptr);
 #ifdef DOS_PLATFORM_DEBUG
-                printf("Command.com string : %s!!!\n", retval);
+                    printf("Command.com string : %s!!!\n", retval);
 #endif
+                }
             }
         }
     }
@@ -776,6 +801,9 @@ char *platform_get_dos_runtime_os(void)
 
         if (command_ver_string) {
             if (!strncmp(command_ver_string, "DOSBox 0.6", 10)) {
+                do_ver = 0;
+            }
+            if (!strcmp(command_ver_string, "C Runtime Error: Bad Pointer")) {
                 do_ver = 0;
             }
         }
