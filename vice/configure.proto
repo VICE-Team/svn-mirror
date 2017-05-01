@@ -2596,7 +2596,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes" -o x"$enable_sdl
             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         fi
         AC_DEFINE(CEGCC_COMPILE,,[Enable cegcc support.])
-    elif test x"$is_amiga" = "xyes" -a x"$enable_sdlui2" != "xyes"; then
+    elif test x"$is_amiga" = "xyes" -a x"$is_amiga_aros" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
         if test x"$enable_sdlui" = "xyes"; then
             AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         fi
