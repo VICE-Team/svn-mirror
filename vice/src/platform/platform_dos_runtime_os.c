@@ -86,6 +86,7 @@
  - MSDOS 6.00 (Generic)
  - MSDOS 6.20 (Generic)
  - MSDOS 6.21 (Generic)
+ - MSDOS 6.22 (Generic)
  - MSDOS 7.00 (Stand Alone)
  - MSDOS 7.10 (Stand Alone)
  - MSDOS 8.0 (Stand Alone)
@@ -93,13 +94,18 @@
  - Novell DOS 7
  - PCDOS 3.00
  - PCDOS 3.10
+ - PCDOS 3.20
+ - PCDOS 3.30
  - PCDOS 4.00
  - PCDOS 5.00
  - PCDOS 5.02
  - PCDOS 6.10
+ - PCDOS 7.00
  - PCDOS 7.10
- - PCDOS 2000
+ - PTSDOS 6.51
  - REAL32 7.6
+ - REAL32 7.63
+ - REAL32 7.83
  - ROMDOS 6.22
  - ROMDOS 7.1
 */
@@ -283,9 +289,10 @@ static dos_version_t dos_versions[] = {
     { "MSDOS 5.00 (Compaq OEM)",       "IBMPcDos",    5,  0,   0, "COMPAQ MS-DOS Version 5.00   ",                              "COMPAQ MS-DOS Version 5.00   ",                          NULL, NULL },
     { "MSDOS 5.00 (Olivetti OEM)",     "OlivtDOS",    5,  0,  35, NULL,                                                         NULL,                                                     NULL, NULL },
     { "MSDOS 5.00 (Toshiba OEM)",      "MS-DOS",      5,  0, 255, "TOSHIBA Personal Computer  MS-DOS Version 5.00",             "Toshiba MS-DOS Version 5.00 / R5B80SC   ",               NULL, NULL },
-    { "MSDOS 6.0",                     "MS-DOS",      6,  0, 255, "Microsoft(R) MS-DOS(R) Version 6",                           "MS-DOS Version 6.00",                                    NULL, NULL },
+    { "MSDOS 6.0",                     "MS-DOS",      6,  0, 255, "Microsoft(R) MS-DOS(R) Version 6",                           NULL,                                                     NULL, NULL },
     { "MSDOS 6.20",                    "MS-DOS",      6, 20, 255, "Microsoft(R) MS-DOS(R) Version 6.20",                        "MS-DOS Version 6.20",                                    NULL, NULL },
     { "MSDOS 6.21",                    "MS-DOS",      6, 20, 255, "Microsoft(R) MS-DOS(R) Version 6.21",                        "MS-DOS Version 6.21",                                    NULL, NULL },
+    { "MSDOS 6.22",                    "MS-DOS",      6, 22, 255, "Microsoft(R) MS-DOS(R) Version 6.22",                        "MS-DOS Version 6.22",                                    NULL, NULL },
     { "MSDOS 7.0",                     "MS-DOS",      7,  0, 255, NULL,                                                         "Windows 95. [Version 4.00.950]",                         NULL, NULL },
     { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                                         "MS-DOS 7.1 [Version 7.10.1999]",                         NULL, NULL },
     { "MSDOS 7.10",                    "MS-DOS",      7, 10, 255, NULL,                                                         "Windows 95. [Version 4.00.1111]",                        NULL, NULL },
@@ -301,13 +308,18 @@ static dos_version_t dos_versions[] = {
     { "OS/2 4.52 / EComStation",       "IBMPcDos",   20, 45,   0, NULL,                                                         "The Operating System/2 Version is 4.50 ",                NULL, NULL },
     { "PCDOS 3.00",                    "IBMPcDos",    3,  0,  -1, "The IBM Personal Computer DOS",                              "IBM Personal Computer DOS Version  3.00 ",               NULL, NULL },
     { "PCDOS 3.10",                    "IBMPcDos",    3, 10,  -1, "The IBM Personal Computer DOS",                              "IBM Personal Computer DOS Version  3.10 ",               NULL, NULL },
+    { "PCDOS 3.20",                    "IBMPcDos",    3, 20,  -1, "The IBM Personal Computer DOS",                              "IBM Personal Computer DOS Version  3.20 ",               NULL, NULL },
+    { "PCDOS 3.30",                    "IBMPcDos",    3, 30,  -1, "The IBM Personal Computer DOS",                              "IBM Personal Computer DOS Version  3.30 ",               NULL, NULL },
     { "PCDOS 4.00",                    "IBMPcDos",    4,  0,  -1, "IBM DOS Version 4.00",                                       "IBM DOS Version 4.00",                                   NULL, NULL },
     { "PCDOS 5.00",                    "IBMPcDos",    5,  0,   0, "IBM DOS Version 5.00",                                       "IBM DOS Version 5.00",                                   NULL, NULL },
     { "PCDOS 5.02",                    "IBMPcDos",    5,  2,   0, NULL,                                                         "IBM DOS Version 5.02",                                   NULL, NULL },
     { "PCDOS 6.10",                    "IBMPcDos",    6,  0,   0, "IBM DOS Version 6.10",                                       "IBM DOS Version 6.1",                                    NULL, NULL },
+    { "PCDOS 7.00",                    "IBMPcDos",    7,  0,   0, "PC DOS Version 7.00",                                        "PC DOS Version 7.0",                                     NULL, NULL },
     { "PCDOS 7.10",                    "IBMPcDos",    7, 10,   0, "PC DOS Version 7.10",                                        "PC DOS Version 7.1",                                     NULL, NULL },
-    { "PCDOS 2000",                    "IBMPcDos",    7,  0,   0, "PC DOS Version 7.00",                                        "PC DOS Version 7.0",                                     NULL, NULL },
+    { "PTSDOS 6.51",                   "??Unknown??", 6, 51, 205, "Can`t load COMMAND.COM, system halted",                      "DOS Version 6.51",                                       NULL, NULL },
     { "REAL32 7.6",                    "IBMPcDos",    3, 31,  -1, NULL,                                                         NULL,                                                     NULL, "REAL32 7.6" },
+    { "REAL32 7.63",                   "IBMPcDos",    3, 31,  -1, NULL,                                                         NULL,                                                     NULL, "REAL32 7.63" },
+    { "REAL32 7.83",                   "IBMPcDos",    6, 20,   0, NULL,                                                         NULL,                                                     NULL, "REAL32 7.83" },
     { "ROMDOS 6.22",                   "MS-DOS",      6, 22, 255, NULL,                                                         "Datalight ROM-DOS Version 6.22SU",                       NULL, NULL },
     { "ROMDOS 7.1",                    "MS-DOS",      7, 10, 255, NULL,                                                         "Datalight ROM-DOS Version 7.1SU",                        NULL, NULL },
     { NULL,                            NULL,         -1, -1,  -1, NULL,                                                         NULL,                                                     NULL, NULL }
