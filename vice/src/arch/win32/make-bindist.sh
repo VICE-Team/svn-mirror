@@ -107,7 +107,6 @@ cp $TOPSRCDIR/NEWS $WINVICE
 rm -f `find $WINVICE -name "Makefile*"`
 rm `find $WINVICE -name "amiga_*.vkm"`
 rm `find $WINVICE -name "dos_*.vkm"`
-rm `find $WINVICE -name "os2*.vkm"`
 rm `find $WINVICE -name "osx*.vkm"`
 rm `find $WINVICE -name "beos_*.vkm"`
 rm `find $WINVICE -name "sdl*.vkm"`
