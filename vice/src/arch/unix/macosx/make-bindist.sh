@@ -112,7 +112,7 @@ ROM_xpet=PET
 ROM_xplus4=PLUS4
 ROM_xvic=VIC20
 # files to remove from ROM directory
-ROM_REMOVE="{beos,amiga,dos,os2,win,RO}*.vkm"
+ROM_REMOVE="{beos,amiga,dos,win,RO}*.vkm"
 DOC_REMOVE="Makefile.* *.c *.mak *.sh *.tex *.texi *.pl *.chm *.guide *.hlp *.inf building readmes"
 # define droppable file types
 DROP_TYPES="x64|p64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"

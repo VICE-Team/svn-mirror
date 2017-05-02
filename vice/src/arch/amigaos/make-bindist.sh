@@ -177,7 +177,6 @@ else
 fi
 rm `find VICE-$AMIGAFLAVOR -name "Makefile*"`
 rm `find VICE-$AMIGAFLAVOR -name "dos_*.vkm"`
-rm `find VICE-$AMIGAFLAVOR -name "os2*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "osx*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "beos_*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "win_*.v*"`

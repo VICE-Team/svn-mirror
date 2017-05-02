@@ -153,7 +153,6 @@ else
 fi
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "Makefile*"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "dos_*.vkm"`
-rm `find $SDLVNAME-$AMIGAFLAVOR -name "os2*.vkm"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "osx*.vkm"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "beos_*.vkm"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "win_*.v*"`
