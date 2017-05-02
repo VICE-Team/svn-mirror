@@ -19,7 +19,7 @@ ppc-amigaos4     | gcc 4.4.3   | 1.2.13 | 2.0.4 | Support for SDL2 was added
 ppc-beos         | mwcc        |  N/A   |  N/A  | non-standard compiler, not
                  |             |        |       | worth the trouble to port
 -------------------------------------------------------------------------------
-ppc-amigaos4     | gcc 2.95.3  | 1.2.15 |  NO   | There is a port of SDL2 to
+ppc-morphos      | gcc 2.95.3  | 1.2.15 |  NO   | There is a port of SDL2 to
                  |             |        |       | Morphos, but it uses SDL1
                  |             |        |       | locations/names, won't
                  |             |        |       | support till fixed.
