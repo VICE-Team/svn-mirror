@@ -99,10 +99,14 @@ static av_always_inline av_const float fminf(float x, float y)
 }
 #endif
 
+#define ISINF_FUNC isinf
+
 #if !HAVE_ISINF
 #ifndef __AROS__
 static av_always_inline av_const int isinf(float x)
 #else
+#undef ISINF_FUNC
+#define ISINF_FUNC vice_ffmpeg_isinf
 static av_always_inline av_const int vice_ffmpeg_isinf(float x)
 #endif
 {
