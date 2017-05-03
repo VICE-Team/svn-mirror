@@ -27,6 +27,14 @@
 #include "internal.h"
 #include "url.h"
 
+#ifndef SIZE_MAX
+#  ifdef __SIZE_MAX__
+#    define SIZE_MAX __SIZE_MAX__
+#  else
+#    error NO SIZE_MAX
+#  endif
+#endif
+
 typedef enum ConcatMatchMode {
     MATCH_ONE_TO_ONE,
     MATCH_EXACT_ID,

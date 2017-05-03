@@ -50,10 +50,12 @@ extern int ptw32_processInitialized;
 #endif
 
 #ifdef SYS_AROS
+#ifndef __amd64__
 float log2f(float p)
 {
     return (float)log2((double)p);
 }
+#endif
 #endif
 
 #ifdef __MSDOS__

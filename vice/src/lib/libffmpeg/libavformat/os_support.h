@@ -127,7 +127,9 @@ static inline int is_dos_path(const char *path)
 
 #if CONFIG_NETWORK
 #if !HAVE_SOCKLEN_T
+#if !(defined(__AROS__) && defined(__amd64__))
 typedef int socklen_t;
+#endif
 #endif
 
 /* most of the time closing a socket is just closing an fd */

@@ -122,6 +122,7 @@ struct sockaddr_storage {
 #endif
 
 #if !HAVE_STRUCT_ADDRINFO
+#if !(defined(__AROS__) && defined(__amd64__))
 struct addrinfo {
     int ai_flags;
     int ai_family;
@@ -132,6 +133,7 @@ struct addrinfo {
     char *ai_canonname;
     struct addrinfo *ai_next;
 };
+#endif
 #endif /* !HAVE_STRUCT_ADDRINFO */
 
 /* getaddrinfo constants */
