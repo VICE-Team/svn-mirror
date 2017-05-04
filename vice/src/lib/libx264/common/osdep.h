@@ -101,7 +101,7 @@ static float log2f(float x)
 #define strtok_r(a, b, c) strtok(a, b)
 #endif
 
-#if defined(__AROS__) && defined(__amd64__)
+#if defined(__AROS__) && (defined(__amd64__) || defined(__powerpc__))
 #define strtok_r(a, b, c) strtok(a, b)
 #endif
 

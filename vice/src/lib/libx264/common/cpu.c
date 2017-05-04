@@ -349,6 +349,12 @@ uint32_t x264_cpu_detect( void )
     return cpu;
 }
 
+#elif SYS_AROS
+/* Currently no way to detect altivec on AROS */
+uint32_t x264_cpu_detect( void )
+{
+    return 0;
+}
 #elif SYS_AmigaOS
 uint32_t x264_cpu_detect( void )
 {

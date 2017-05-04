@@ -42,6 +42,14 @@
 #include <unistd.h>
 #endif
 
+#ifndef SIZE_MAX
+#  ifdef __SIZE_MAX__
+#    define SIZE_MAX __SIZE_MAX__
+#  else
+#    error no SIZE_MAX
+#  endif
+#endif
+
 typedef struct {
     const AVClass *class;
     int   log_offset;

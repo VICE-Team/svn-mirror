@@ -32,6 +32,14 @@
 
 #include <zlib.h>
 
+#ifndef SIZE_MAX
+#  ifdef __SIZE_MAX__
+#    define SIZE_MAX __SIZE_MAX__
+#  else
+#    error no SIZE_MAX
+#  endif
+#endif
+
 typedef struct PNGDecContext {
     PNGDSPContext dsp;
     AVCodecContext *avctx;
