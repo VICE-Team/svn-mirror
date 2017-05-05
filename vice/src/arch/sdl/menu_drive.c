@@ -87,7 +87,7 @@ static int has_fs(void)
 
 static int is_fs(int type)
 {
-    return ((type == 0 || type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL || type == ATTACH_DEVICE_RAW) && has_fs());
+    return ((type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL || type == ATTACH_DEVICE_RAW) && has_fs());
 }
 
 static int get_drive_type(int drive)
