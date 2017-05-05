@@ -19,4 +19,4 @@ EXTRA_DIST = $(noinst_HEADERS) $(noinst_DATA) $(noinst_SCRIPTS) README.VICE
 SUFFIXES = .dat
 
 .dat.h:
-	$(PERL) $(srcdir)/samp2src.pl $* $< $(srcdir)/$@
+	$(PERL) $(srcdir)/samp2src.pl $* $< $@
