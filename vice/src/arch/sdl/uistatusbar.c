@@ -166,12 +166,37 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     int drive_number;
     int drive_state = (int)state;
+    size_t offset;  /* offset in status text */
+    size_t size;    /* number of bytes to bleep out */
 
     for (drive_number = 0; drive_number < 4; ++drive_number) {
         if (drive_state & 1) {
             ui_display_drive_led(drive_number, 0, 0);
         } else {
-            statusbar_text[STATUSBAR_DRIVE_POS + drive_number] = ' ';
+            switch (drive_number) {
+                case 0:
+                    offset = STATUSBAR_DRIVE8_TRACK_POS - 2;
+                    size = 4;
+                    break;
+                case 1:
+                    offset = STATUSBAR_DRIVE9_TRACK_POS - 2;
+                    size = 4;
+                    break;
+                case 2:
+                    offset = STATUSBAR_DRIVE10_TRACK_POS - 3;
+                    size = 5;
+                    break;
+                case 3:
+                    offset = STATUSBAR_DRIVE11_TRACK_POS - 3;
+                    size = 5;
+                    break;
+                default:
+                    /* should never get here */
+                    offset = 0;
+                    size = 40;
+                    break;
+            }
+            memset(statusbar_text + offset, 0x20, size);    /* space out man */
         }
         drive_state >>= 1;
     }
