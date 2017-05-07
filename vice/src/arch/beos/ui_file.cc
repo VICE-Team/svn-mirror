@@ -92,20 +92,20 @@ static void create_content_list(BListView *contentlist, image_contents_t *conten
         delete item;
     }
 
-    start = image_contents_to_string(contents, 0);
+    start = image_contents_to_string(contents, 1);
     contentlist->AddItem(new BStringItem(start));
     lib_free(start);
 
     if (p == NULL) {
-        contentlist->AddItem(new BStringItem("(EMPTY IMAGE.)"));
+        contentlist->AddItem(new BStringItem("(empty image.)"));
     } else do {
-        start = image_contents_file_to_string(p, 0);
+        start = image_contents_file_to_string(p, 1);
         contentlist->AddItem(new BStringItem(start));
         lib_free(start);
     } while ((p = p->next) != NULL);
 
     if (contents->blocks_free >= 0) {
-        start = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
+        start = lib_msprintf("%d blocks free.", contents->blocks_free);
         contentlist->AddItem(new BStringItem(start));
         lib_free(start);
     }
