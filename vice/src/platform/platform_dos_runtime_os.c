@@ -144,6 +144,7 @@
  - Windows NT 4.0 Small Business Server 4.0
  - Windows NT 4.0 Small Business Server 4.5
  - Windows NT 4.0 Enterprise Server
+ - Windows NT 4.5
  - Windows Neptune
  - Windows 2000 Pro
  - Windows 2000 Powered
@@ -335,6 +336,7 @@ static dos_win_version_t dos_win_versions[] = {
     { "Windows NT 3.50",                           "Windows NT Version 3.50 ",                   NULL },
     { "Windows NT 3.51",                           "Windows NT Version 3.51 ",                   NULL },
     { "Windows NT 4.0",                            "Windows NT Version 4.0  ",                   NULL },
+    { "Windows NT 4.5",                            "Windows NT Version 4.50 ",                   NULL },
     { "Windows Neptune",                           "Microsoft Windows 2000 [Version 5.00.5111]", "Windows 2000 Professional" },
     { "Windows 2000 Pro",                          "Microsoft Windows 2000 [Version 5.00.2195]", "Windows 2000 Professional" },
     { "Windows 2000 Powered",                      "Microsoft Windows 2000 [Version 5.00.2195]", "Windows Powered" },
@@ -935,9 +937,17 @@ char *platform_get_dos_runtime_os(void)
                 }
                 if (get_windows_version(&win_major, &win_minor, &win_mode)) {
                     if (win_major == 4 && win_minor == 0) {
-                        sprintf(archdep_os_version, "%s [Windows 95]", archdep_os_version);
+                        if (!strcmp(version_ver_string,"Windows 95. [Version 4.00.1111]")) {
+                            sprintf(archdep_os_version, "%s [Windows 95B]", archdep_os_version);
+                        } else {
+                            sprintf(archdep_os_version, "%s [Windows 95]", archdep_os_version);
+                        }
                     } else if (win_major == 4 && win_minor == 10) {
-                        sprintf(archdep_os_version, "%s [Windows 98]", archdep_os_version);
+                        if (!strcmp(version_ver_string, "Windows 98 [Version 4.10.2222]")) {
+                            sprintf(archdep_os_version, "%s [Windows 98SE]", archdep_os_version);
+                        } else {
+                            sprintf(archdep_os_version, "%s [Windows 98]", archdep_os_version);
+                        }
                     } else if (win_major == 4 && win_minor == 90) {
                         sprintf(archdep_os_version, "%s [Windows ME]", archdep_os_version);
                     } else {
