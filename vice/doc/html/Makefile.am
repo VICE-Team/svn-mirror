@@ -39,6 +39,7 @@ doc_DATA = \
 	sitemap.xml \
 	solaris.html \
 	sortix.html \
+	unix.html \
 	vice.css \
 	vice_1.html \
 	vice_2.html \
