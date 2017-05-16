@@ -31,11 +31,12 @@
 
 #include <stdio.h>
 
+#include "types.h"
+
 #include "log.h"
 #include "opencbmlib.h"
 #include "realdevice.h"
 #include "serial.h"
-#include "types.h"
 #include "vsync.h"
 
 

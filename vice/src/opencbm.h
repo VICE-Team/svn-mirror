@@ -99,7 +99,9 @@ extern void vdd_usleep(CBM_FILE f, unsigned int howlong);
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #else
+#ifndef _INTTYPES_H
 typedef int intptr_t;
+#endif
 #endif
 
 # define EXTERN extern /*!< EXTERN is not defined on Linux */
