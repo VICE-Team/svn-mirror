@@ -3,6 +3,8 @@ included ffmpeg library.
 
 Platform         | compiler    | supported | comments
 -------------------------------------------------------------------------------
+alpha-osf4.0e    | gcc 3.2.3   |   NO      | no stdint.h or inttypes.h
+-------------------------------------------------------------------------------
 i386-aros        | gcc 4.6.4   |   YES(3)  | ported after 3.1 release
 -------------------------------------------------------------------------------
 i586-msdosdjgpp  | gcc 4.6.2   |   YES(3)  | ported after 3.1 release
