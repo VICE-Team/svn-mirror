@@ -64,6 +64,9 @@ extern char *platform_get_zeta_runtime_os(void);
 extern char *platform_get_beos_runtime_os(void);
 extern char *platform_get_beosppc_runtime_cpu(void);
 
+extern char *platform_get_osf_runtime_os(void);
+extern char *platform_get_osf_runtime_cpu(void);
+
 extern char *platform_get_sunos_runtime_os(void);
 extern char *platform_get_sunos_runtime_cpu(void);
 
@@ -145,6 +148,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* AMIX */
 #ifdef __AMIX__
 #define RUNTIME_OS_CALL platform_get_amix_runtime_os
+#endif
+
+/* OSF */
+#ifdef __osf__
+#define RUNTIME_OS_CALL platform_get_osf_runtime_os
 #endif
 
 /* SunOS */
@@ -278,6 +286,11 @@ extern char *platform_get_hurd_runtime_os(void);
 /* AMIX */
 #ifdef __AMIX__
 #define RUNTIME_CPU_CALL platform_get_amix_runtime_cpu
+#endif
+
+/* OSF */
+#ifdef __osf__
+#define RUNTIME_CPU_CALL platform_get_osf_runtime_cpu
 #endif
 
 /* SunOS */

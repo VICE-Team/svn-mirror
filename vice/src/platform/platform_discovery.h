@@ -432,9 +432,9 @@
 #endif
 
 
-/* Tru64 discovery */
+/* OSF discovery */
 #if defined(__osf__) || defined(__osf)
-#  define PLATFORM_OS "Tru64"
+#  define PLATFORM_OS "OSF"
 #endif
 
 
