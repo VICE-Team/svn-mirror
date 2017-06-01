@@ -44,7 +44,18 @@ extern BYTE charset_petcii_to_screencode(BYTE code,
 extern void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
                                               unsigned int *len);
 
-extern char * charset_hexstring_to_byte( char * source, char * destination );
-extern char *charset_replace_hexcodes(char * source);
+extern int charset_petscii_to_ucs(BYTE c);
+extern int charset_ucs_to_utf8(BYTE *out, int code, int len);
+
+#define CONVERT_TO_PETSCII 0
+#define CONVERT_TO_ASCII 1
+#define CONVERT_TO_UTF8 2
+
+#define CONVERT_TO_MASK 3
+
+extern BYTE *charset_petconv_stralloc(BYTE *in, int conv);
+
+extern char *charset_hexstring_to_byte(char *source, char *destination);
+extern char *charset_replace_hexcodes(char *source);
 
 #endif

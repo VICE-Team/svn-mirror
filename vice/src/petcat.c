@@ -74,6 +74,7 @@
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
 #include "cmdline.h"
 #include "lib.h"
+#include "machine.h"
 #include "network.h"
 #include "types.h"
 #include "util.h"
@@ -2356,6 +2357,8 @@ static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int tok
           design elsewhere
  */
 const char machine_name[] = "PETCAT";
+int machine_class = VICE_MACHINE_PETCAT;
+
 const char *machine_get_name(void)
 {
     return machine_name;

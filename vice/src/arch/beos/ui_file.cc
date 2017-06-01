@@ -92,14 +92,14 @@ static void create_content_list(BListView *contentlist, image_contents_t *conten
         delete item;
     }
 
-    start = image_contents_to_string(contents, 1);
+    start = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_UTF8);
     contentlist->AddItem(new BStringItem(start));
     lib_free(start);
 
     if (p == NULL) {
         contentlist->AddItem(new BStringItem("(empty image.)"));
     } else do {
-        start = image_contents_file_to_string(p, 1);
+        start = image_contents_file_to_string(p, IMAGE_CONTENTS_STRING_UTF8);
         contentlist->AddItem(new BStringItem(start));
         lib_free(start);
     } while ((p = p->next) != NULL);

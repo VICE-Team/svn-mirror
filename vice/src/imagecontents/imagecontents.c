@@ -193,20 +193,22 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
 
 /** \brief  Generate the first line of a directory listing (0 name id)
  *
- * \param[in]   contents            image contents object
- * \param[in]   convert_to_ascii    convert to ASCII (boolean)
+ * \param[in]   contents        image contents object
+ * \param[in]   out_charset     selects output charset
  *
  * \return  heap allocated string, free with lib_free()
  */
-char *image_contents_to_string(image_contents_t * contents,
-                               char convert_to_ascii)
+char *image_contents_to_string(image_contents_t * contents, char out_charset)
 {
-    char *string = lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
-    if (convert_to_ascii) {
-        charset_petconvstring((unsigned char *)string, 1);
-    }
+    BYTE *str = lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
 
-    return string;
+    if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
+        return (char *)str;
+    } else {
+        BYTE *conv_str = charset_petconv_stralloc(str, out_charset);
+        lib_free(str);
+        return (char *)conv_str;
+    }
 }
 
 
@@ -248,71 +250,71 @@ static char *image_contents_get_filename(image_contents_file_list_t * p)
 }
 
 
-/** \brief  Get filename for directory listing, optionally converting to ASCII
+/** \brief  Get filename for directory listing, optionally converting charset
  *
- * \param[in]   p   image contents file list
- * \param[in]   convert_to_ascii    convert string to ASCII (boolean)
+ * \param[in]   p               image contents file list
+ * \param[in]   out_charset     selects output charset
  *
  * \return  allocated string, free with lib_free()
  */
 char *image_contents_filename_to_string(image_contents_file_list_t * p,
-                                        char convert_to_ascii)
+                                        char out_charset)
 {
     char *print_name;
-    char *string;
 
     print_name = image_contents_get_filename(p);
-    string = lib_stralloc(print_name);
 
-    if (convert_to_ascii) {
-        charset_petconvstring((unsigned char *)string, 1);
+    if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
+        return lib_stralloc(print_name);
+    } else {
+        return (char *)charset_petconv_stralloc(print_name, out_charset);
     }
-
-    return string;
 }
 
 
 /** \brief  Get the file type and flags for a file
  *
- * \param[in]   p                   image contents file entry
- * \param[in]   convert_to_ascii    convert string to ASCII from PETSCII
+ * \param[in]   p               image contents file entry
+ * \param[in]   out_charset     selects output charset
  *
  * \return  5-character string: 'SFFFL', where S is the scratched '*' char or
  *          a space, FFF is the file type (PRG etc) and L is the locked '<'
  *          char or space.
  */
 char *image_contents_filetype_to_string(image_contents_file_list_t *p,
-                                        char convert_to_ascii)
+                                        char out_charset)
 {
-    char *type = lib_stralloc((const char *)(p->type));
-    if (convert_to_ascii) {
-        charset_petconvstring((BYTE *)type, 1);
+    if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
+        return  lib_stralloc((const char *)(p->type));
+    } else {
+        return (char *)charset_petconv_stralloc((p->type), out_charset);
     }
-    return type;
 }
 
 
 /** \brief  Generate a '<blocks> "<filename>" *prg<' line from \a p
  *
- * \param[in]   p                   image contents file list
- * \param[in]   convert_to_ascii    convert to ASCII (boolean)
+ * \param[in]   p               image contents file list
+ * \param[in]   out_charset     selects output charset
  *
  * \return  allocated string, free with lib_free()
  */
 char *image_contents_file_to_string(image_contents_file_list_t *p,
-                                    char convert_to_ascii)
+                                    char out_charset)
 {
     char *print_name;
-    char *string;
+    BYTE *str;
 
     print_name = image_contents_get_filename(p);
-    string = lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
+    str = lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
 
-    if (convert_to_ascii) {
-        charset_petconvstring((unsigned char *)string, 1);
+    if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
+        return (char *)str;
+    } else {
+        BYTE *conv_str = charset_petconv_stralloc(str, out_charset);
+        lib_free(str);
+        return (char *)conv_str;
     }
-
-    return string;
 }
 
 

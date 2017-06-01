@@ -183,6 +183,7 @@ const char *machine_get_name(void);
 /** \brief  Machine name
  */
 const char machine_name[] = "C1541";
+int machine_class = VICE_MACHINE_C1541;
 
 /* Global clock counter.  */
 CLOCK clk = 0L;

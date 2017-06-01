@@ -48,6 +48,8 @@ extern const char machine_name[];
 #define VICE_MACHINE_C64SC     9
 #define VICE_MACHINE_VSID      10
 #define VICE_MACHINE_SCPU64    11
+#define VICE_MACHINE_C1541     12
+#define VICE_MACHINE_PETCAT    13
 
 /* Sync factors (changed to positive 2016-11-07, BW)  */
 #define MACHINE_SYNC_PAL     1

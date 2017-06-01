@@ -35,6 +35,7 @@
 #include "charset.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "types.h"
 #include "util.h"
 
@@ -240,9 +241,122 @@ void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
     *len = (unsigned int)linelen;
 }
 
+int charset_petscii_to_ucs(BYTE c)
+{
+    switch (c) {
+        case 0x5c:
+            if (machine_class == VICE_MACHINE_PET) {
+                return 0x5c; /* Backslash */
+            } else {
+                return 0xa3; /* Pound sign */
+            }
+        case 0x5e: /* PETSCII Up arrow */
+            return 0x2191;
+        case 0x5f: /* PETSCII Left arrow */
+            return 0x2190;
+
+        case 0xa0: /* PETSCII Shifted Space */
+        case 0xe0:
+            return 0xa0;
+
+        case 0xc0:
+            return 0x2500;
+
+        case 0xde: /* PETSCII Pi */
+        case 0xff:
+            return 0x3c0;
+
+        default:
+            return (int)charset_p_toascii(c, 0);
+    }
+}
+
+int charset_ucs_to_utf8(BYTE *out, int code, int len)
+{
+    if (code >= 0x00 && code <= 0x7f) {
+        if (len >= 1) {
+            *out = (BYTE)(code);
+        }
+        return 1;
+    } else if (code >= 0x80 && code <= 0x7ff) {
+        if (len >= 2) {
+            *(out) = 0xc0 | (BYTE)(code >> 6);
+            *(out + 1) = 0x80 | (BYTE)(code & 0x3f);
+        }
+        return 2;
+    } else if (code >= 0x800 && code <= 0xffff) {
+        if (len >= 3) {
+            *(out) = 0xe0 | (BYTE)(code >> 12);
+            *(out + 1) = 0x80 | (BYTE)((code >> 6) & 0x3f);
+            *(out + 2) = 0x80 | (BYTE)(code & 0x3f);
+        }
+        return 3;
+    }
+}
+
+/* Convert a string from ASCII to PETSCII, or from PETSCII to ASCII/UTF-8 and
+   return it in a malloc'd buffer. */
+BYTE *charset_petconv_stralloc(BYTE *in, int conv)
+{
+    BYTE *s = in, *d;
+    BYTE *buf;
+    int len, ch;
+
+    len = strlen((const char *)in);
+    buf = lib_malloc(len + 1);
+    d = buf;
+
+    switch (conv) {
+        case CONVERT_TO_PETSCII: /* UTF-8 not implemented. */
+            while (*s) {
+                if ((ch = test_lineend(s))) {
+                    *d++ = 0x0d; /* PETSCII CR */
+                    s += ch;
+                } else {
+                    *d++ = charset_p_topetcii(*s);
+                    s++;
+                }
+            }
+            break;
+
+        case CONVERT_TO_ASCII:
+            while (*s) {
+                *d++ = charset_p_toascii(*s, 0);
+                s++;
+            }
+            break;
+
+        case CONVERT_TO_UTF8:
+            while (1) {
+                while (*s) {
+                    int code = charset_petscii_to_ucs(*s);
+
+                    d += charset_ucs_to_utf8(d, code, len - (int)(d - buf));
+                    s++;
+                }
+                if ((int)(d - buf) > len) {
+                    /* UTF-8 form is longer than the PETSCII form. */
+                    len = (int)(d - buf);
+                    buf = lib_realloc(buf, len + 1);
+                    d = buf;
+                    s = in;
+                } else {
+                    break;
+                }
+            }
+            break;
+        default:
+            log_error(LOG_DEFAULT, "Unkown conversion rule.");
+    }
+
+    *d = 0;
+
+    return buf;
+}
+
 /* These are a helper function for the `-autostart' command-line option.  It
    replaces all the $[0-9A-Z][0-9A-Z] patterns in `string' and returns it.  */
-char * charset_hexstring_to_byte( char * source, char * destination )
+char * charset_hexstring_to_byte(char *source, char *destination)
 {
     char * next = source + 1;
     char c;
@@ -273,7 +387,7 @@ char * charset_hexstring_to_byte( char * source, char * destination )
     return next;
 }
 
-char *charset_replace_hexcodes(char * source)
+char *charset_replace_hexcodes(char *source)
 {
     char * destination = lib_stralloc(source ? source : "");
 

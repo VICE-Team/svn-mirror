@@ -88,10 +88,16 @@ extern image_contents_t *image_contents_new(void);
 extern image_contents_screencode_t *image_contents_to_screencode (image_contents_t *contents);
 extern void image_contents_screencode_destroy(image_contents_screencode_t *c);
 
-extern char *image_contents_to_string(image_contents_t * contents, char convert_to_ascii);
-extern char *image_contents_file_to_string(image_contents_file_list_t * p, char convert_to_ascii);
-extern char *image_contents_filename_to_string(image_contents_file_list_t * p, char convert_to_ascii);
-extern char *image_contents_filetype_to_string(image_contents_file_list_t * p, char convert_to_ascii);
+/* These must be the same as the CONVERT_TO_* defines in charset.h, as
+   they are used interchangeably, although their meaning is not identical */
+#define IMAGE_CONTENTS_STRING_PETSCII 0  /**< return string in PETSCII form */
+#define IMAGE_CONTENTS_STRING_ASCII   1  /**< convert string to ASCII */
+#define IMAGE_CONTENTS_STRING_UTF8    2  /**< convert string to UTF-8 */
+
+extern char *image_contents_to_string(image_contents_t * contents, char out_charset);
+extern char *image_contents_file_to_string(image_contents_file_list_t * p, char out_charset);
+extern char *image_contents_filename_to_string(image_contents_file_list_t * p, char out_charset);
+extern char *image_contents_filetype_to_string(image_contents_file_list_t * p, char out_charset);
 extern char *image_contents_filename_by_number(image_contents_t *contents,
                                                unsigned int file_index);
 
