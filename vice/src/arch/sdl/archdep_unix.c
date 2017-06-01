@@ -264,6 +264,27 @@ char *archdep_default_resource_file_name(void)
     }
 }
 
+
+/** \brief  Get path to VICE session file
+ *
+ * The 'session file' is a file that is used to store settings between VICE
+ * runs, storing things like the last used directory.
+ *
+ * \return  path to session file
+ */
+char *archdep_default_session_file_name(void)
+{
+    if (archdep_pref_path == NULL) {
+        const char *home;
+
+        home = archdep_home_path();
+        return util_concat(home, "/.vice/sdl-vicesession", NULL);
+    } else {
+        return util_concat(archdep_pref_path, "/sdl-vicesession", NULL);
+    }
+}
+
+
 char *archdep_default_fliplist_file_name(void)
 {
     if (archdep_pref_path == NULL) {
@@ -419,12 +440,24 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     }
 }
 
-/* return malloc'd version of full pathname of orig_name */
+
+/** \brief  Return malloc'd version of full pathname of orig_name
+ *
+ * Returns the absolute path of \a orig_name. Expands '~' to the user's home
+ * path.
+ *
+ * \param[out]  return_path pointer to expand path destination
+ * \param[in]   orig_name   original path
+ *
+ * \return  0
+ */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /* Unix version.  */
     if (*orig_name == '/') {
         *return_path = lib_stralloc(orig_name);
+    } else if (*orig_name == '~' && *(orig_name + 1) == '/') {
+        *return_path = util_concat(archdep_home_path(), orig_name + 1, NULL);
     } else {
         static char *cwd;
 
