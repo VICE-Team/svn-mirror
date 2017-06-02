@@ -292,6 +292,7 @@ int charset_ucs_to_utf8(BYTE *out, int code, int len)
         }
         return 3;
     }
+    return -1; /* FIXME: function is not used anywhere */
 }
 
 /* Convert a string from ASCII to PETSCII, or from PETSCII to ASCII/UTF-8 and
