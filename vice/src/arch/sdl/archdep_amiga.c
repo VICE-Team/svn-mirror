@@ -300,6 +300,20 @@ char *archdep_default_resource_file_name(void)
     return util_concat(home, "vice-sdl.ini", NULL);
 }
 
+
+/** \brief  Get path to VICE session file
+ *
+ * The 'session file' is a file that is used to store settings between VICE
+ * runs, storing things like the last used directory.
+ *
+ * \return  path to session file
+ */
+char *archdep_default_session_file_name(void)
+{
+    return util_concat(archdep_boot_path(), "/vice-sdl-session.ini", NULL);
+}
+
+
 char *archdep_default_fliplist_file_name(void)
 {
     const char *home;
@@ -307,6 +321,7 @@ char *archdep_default_fliplist_file_name(void)
     home = archdep_boot_path();
     return util_concat(home, "fliplist-", machine_get_name(), ".vfl", NULL);
 }
+
 
 char *archdep_default_rtc_file_name(void)
 {
