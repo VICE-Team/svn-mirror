@@ -91,8 +91,8 @@ struct param_s {
 };
 typedef struct param_s param_t;
 
-static param_t p_from = { 0, 0x21 };
-static param_t p_to = { 0, 0x21 };
+static param_t p_from = { 0, 0x21, { 0 } };
+static param_t p_to = { 0, 0x21, { 0 } };
 static double p_z[11] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
 /* FIXME: MOVE  parcor parameters: energy + pitch + k1..10 */
