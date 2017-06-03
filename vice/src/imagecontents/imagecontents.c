@@ -200,7 +200,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
  */
 char *image_contents_to_string(image_contents_t * contents, char out_charset)
 {
-    BYTE *str = lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
+    BYTE *str = (BYTE *)lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
 
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
         return (char *)str;
@@ -267,7 +267,7 @@ char *image_contents_filename_to_string(image_contents_file_list_t * p,
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
         return lib_stralloc(print_name);
     } else {
-        return (char *)charset_petconv_stralloc(print_name, out_charset);
+        return (char *)charset_petconv_stralloc((BYTE *)print_name, out_charset);
     }
 }
 
@@ -306,7 +306,7 @@ char *image_contents_file_to_string(image_contents_file_list_t *p,
     BYTE *str;
 
     print_name = image_contents_get_filename(p);
-    str = lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
+    str = (BYTE *)lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
 
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
         return (char *)str;
