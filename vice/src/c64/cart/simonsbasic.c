@@ -93,6 +93,7 @@ static io_source_t simon_device = {
     simon_io1_peek,
     simon_dump,
     CARTRIDGE_SIMONS_BASIC,
+    0,
     0
 };
 

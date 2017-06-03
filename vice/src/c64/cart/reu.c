@@ -245,11 +245,12 @@ struct reu_ba_s {
     int *cpu_ba;
     int cpu_ba_mask;
     int enabled;
-    int delay, last_cycle;
+    int delay;
+    int last_cycle;
 };
 
 static struct reu_ba_s reu_ba = {
-    NULL, NULL, NULL, 0, 0
+    NULL, NULL, NULL, 0, 0, 0, 0
 };
 
 static int reu_write_image = 0;
