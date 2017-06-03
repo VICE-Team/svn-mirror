@@ -2182,7 +2182,7 @@ static void monitor_open(void)
     mon_console_close_on_leaving = 0;
 
     if (monitor_is_remote()) {
-        static console_t console_log_remote = { 80, 25, 0, 0 };
+        static console_t console_log_remote = { 80, 25, 0, 0, NULL };
         console_log = &console_log_remote;
     } else {
         if (console_log) {
