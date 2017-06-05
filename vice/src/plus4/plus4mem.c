@@ -1165,11 +1165,11 @@ static mem_config_t mem_config_table[] = {
     { "BASIC",  "CART-1" }, /* 0xfdd8 */
     { "3+1",    "CART-1" }, /* 0xfdd9 */
     { "CART-1", "CART-1" }, /* 0xfdda */
-    { "CART-2"  "CART-1" }, /* 0xfddb */
+    { "CART-2", "CART-1" }, /* 0xfddb */
     { "BASIC",  "CART-2" }, /* 0xfddc */
     { "3+1",    "CART-2" }, /* 0xfddd */
     { "CART-1", "CART-2" }, /* 0xfdde */
-    { "CART-2"  "CART-2" }  /* 0xfddf */
+    { "CART-2", "CART-2" }  /* 0xfddf */
 };
 
 static int memconfig_dump(void)
