@@ -205,7 +205,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     BYTE config, rconf, byte, memsize, conf8x96, superpet;
     petinfo_t peti = {
         32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
-        NULL, NULL, NULL, NULL, NULL, NULL
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, { NULL }
     };
     int old6809mode;
     int spet_bank = 0;
