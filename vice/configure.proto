@@ -1187,15 +1187,15 @@ dnl All other UN*X systems
     dnl Check for the type of compiler first.
     if test x"$GCC" = "xyes" ; then
 
-      AC_MSG_CHECKING([if the compiler supports -Wno-missing-field-initializers])
-      ORIG_CFLAGS=$CFLAGS
-      CFLAGS="$CFLAGS -Wno-missing-field-initializers"
-      AC_TRY_COMPILE([],
-                     [int test;],
-                     [ AC_MSG_RESULT(yes)
-                       warn_no_mfi="-Wno-missing-field-initializers" ],
-                     [ AC_MSG_RESULT(no)
-                       warn_no_mfi="" ])
+#      AC_MSG_CHECKING([if the compiler supports -Wno-missing-field-initializers])
+#      ORIG_CFLAGS=$CFLAGS
+#      CFLAGS="$CFLAGS -Wno-missing-field-initializers"
+#      AC_TRY_COMPILE([],
+#                     [int test;],
+#                     [ AC_MSG_RESULT(yes)
+#                       warn_no_mfi="-Wno-missing-field-initializers" ],
+#                     [ AC_MSG_RESULT(no)
+#                       warn_no_mfi="" ])
       AC_MSG_CHECKING([if the compiler supports -Wno-unused-parameter])
       CFLAGS="$ORIG_CFLAGS -Wno-unused-parameter"
       AC_TRY_COMPILE([],
