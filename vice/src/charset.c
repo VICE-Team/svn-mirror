@@ -291,8 +291,17 @@ int charset_ucs_to_utf8(BYTE *out, int code, int len)
             *(out + 2) = 0x80 | (BYTE)(code & 0x3f);
         }
         return 3;
+    } else if (code >= 0x10000 && code <= 0x10ffff) {
+        if (len >= 4) {
+            *(out) = 0xe0 | (BYTE)(code >> 18);
+            *(out + 1) = 0x80 | (BYTE)((code >> 12) & 0x3f);
+            *(out + 2) = 0x80 | (BYTE)((code >> 6) & 0x3f);
+            *(out + 3) = 0x80 | (BYTE)(code & 0x3f);
+        }
+        return 4;
     }
-    return -1; /* FIXME: function is not used anywhere */
+    log_error(LOG_DEFAULT, "Out-of-range code point U+%04x.", code);
+    return 0;
 }
 
 /* Convert a string from ASCII to PETSCII, or from PETSCII to ASCII/UTF-8 and
