@@ -74,6 +74,12 @@
 #define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
 #endif
 
+
+/** \brief  Tokens that are illegal in a path/filename
+ */
+static const char *illegal_name_tokens = "/";
+
+
 static char *argv0 = NULL;
 static char *boot_path = NULL;
 
@@ -467,6 +473,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     }
     return 0;
 }
+
 
 void archdep_startup_log_error(const char *format, ...)
 {

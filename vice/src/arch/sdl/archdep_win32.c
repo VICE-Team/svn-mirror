@@ -169,6 +169,12 @@
 #define SUBLANG_ITALIAN 0x01
 #endif
 
+
+/** \brief  Tokens that are illegal in a path/filename
+ */
+static const char *illegal_name_tokens = "/\\?*:|\"<>";
+
+
 static char *argv0;
 
 static size_t system_wcstombs(char *mbs, const char *wcs, size_t len)

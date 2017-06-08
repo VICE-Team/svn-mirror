@@ -2333,7 +2333,10 @@ static int extract_cmd_common(int nargs, char **args, int geos)
 
                 charset_petconvstring((BYTE *)name, 1);
                 printf("%s\n", name);
-                unix_filename((char *)name); /* For now, convert '/' to '_'. */
+
+                /* translate illegal chars for the host OS to '_' */
+                archdep_sanitize_filename((char *)name);
+
                 if (vdrive_iec_open(floppy, cbm_name, len, 0, NULL)) {
                     fprintf(stderr,
                             "cannot open `%s' on unit %d\n",
@@ -3005,6 +3008,8 @@ static int read_cmd(int nargs, char **args)
             dest_name_ascii[l] = 0;
             l--;
         }
+        /* remove illegal chars from output filename */
+        archdep_sanitize_filename(dest_name_ascii);
 
         finfo = fileio_open(dest_name_ascii, NULL, format,
                             FILEIO_COMMAND_WRITE, FILEIO_TYPE_PRG);

@@ -79,6 +79,12 @@
 #endif
 #endif
 
+
+/** \brief  Tokens that are illegal in a path/filename
+ */
+static const char *illegal_name_tokens = "/";
+
+
 static char *argv0 = NULL;
 static char *boot_path = NULL;
 
@@ -417,6 +423,27 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     }
     return 0;
 }
+
+
+/** \brief  Sanitize \a name by removing invalid characters for the current OS
+ *
+ * \param[in,out]   name    0-terminated string
+ */
+void archdep_sanitize_filename(char *name)
+{
+    while (*name != '\0') {
+        int i = 0;
+        while (illegal_name_tokens[i] != '\0') {
+            if (illegal_name_tokens[i] == *name) {
+                *name = '_';
+                break;
+            }
+            i++;
+        }
+        name++;
+    }
+}
+
 
 void archdep_startup_log_error(const char *format, ...)
 {

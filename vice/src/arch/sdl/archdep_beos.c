@@ -71,6 +71,14 @@
 #include "platform.h"
 #include "util.h"
 
+
+/** \brief  Tokens that are illegal in a path/filename
+ *
+ * FIXME: taken from Unix
+ */
+static const char *illegal_name_tokens = "/";
+
+
 static char *orig_workdir;
 static char *argv0 = NULL;
 

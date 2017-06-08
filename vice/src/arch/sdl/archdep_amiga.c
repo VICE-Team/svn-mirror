@@ -69,6 +69,13 @@
 #endif /* __USE_BASETYPE__ */
 #endif
 
+
+/** \brief  Tokens that are illegal in a path/filename
+ *
+ */
+static const char *illegal_name_tokens = "/?*:";
+
+
 static char *boot_path = NULL;
 static int run_from_wb = 0;
 
@@ -419,6 +426,17 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     *return_path = lib_stralloc(orig_name);
     return 0;
 }
+
+
+/** \brief  Sanitize \a path by removing invalid characters for the current OS
+ *
+ * \param[in,out]   path    0-terminated string
+ */
+void archdep_sanitize_path(char *path)
+{
+    return; /* FIXME: stub */
+}
+
 
 void archdep_startup_log_error(const char *format, ...)
 {

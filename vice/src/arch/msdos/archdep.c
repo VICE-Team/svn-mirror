@@ -54,6 +54,12 @@
 #include "util.h"
 #include "video.h"
 
+
+/** \brief  Tokens that are illegal in a path/filename
+ */
+static const char *illegal_name_tokens = "/\\?*:|\"<>";
+
+
 static char *orig_workdir;
 static char *argv0;
 
@@ -67,7 +73,7 @@ static void restore_workdir(void)
 int archdep_init(int *argc, char **argv)
 {
     allegro_init();
-    
+
     _fmode = O_BINARY;
 
     argv0 = lib_stralloc(argv[0]);
@@ -298,6 +304,27 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     free(full_path); /* not lib_free() */
     return 0;
 }
+
+
+/** \brief  Sanitize \a name by removing invalid characters for the current OS
+ *
+ * \param[in,out]   name    0-terminated string
+ */
+void archdep_sanitize_filename(char *name)
+{
+    while (*name != '\0') {
+        int i = 0;
+        while (illegal_name_tokens[i] != '\0') {
+            if (illegal_name_tokens[i] == *name) {
+                *name = '_';
+                break;
+            }
+            i++;
+        }
+        name++;
+    }
+}
+
 
 void archdep_startup_log_error(const char *format, ...)
 {

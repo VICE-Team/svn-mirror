@@ -89,3 +89,24 @@ char *archdep_extra_title_text(void)
     extra_title_text = util_concat(", press \"", kbd_get_menu_keyname(), "\" for the menu.", NULL);
     return extra_title_text;
 }
+
+
+/** \brief  Sanitize \a name by removing invalid characters for the current OS
+ *
+ * \param[in,out]   name    0-terminated string
+ */
+void archdep_sanitize_filename(char *name)
+{
+    while (*name != '\0') {
+        int i = 0;
+        while (illegal_name_tokens[i] != '\0') {
+            if (illegal_name_tokens[i] == *name) {
+                *name = '_';
+                break;
+            }
+            i++;
+        }
+        name++;
+    }
+}
+
