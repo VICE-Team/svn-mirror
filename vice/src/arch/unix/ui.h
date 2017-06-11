@@ -107,7 +107,6 @@ extern void ui_restore_mouse(void);
 extern int ui_focus_monitor(void);
 extern void ui_restore_focus(void);
 
-extern void archdep_ui_init(int argc, char *argv[]);
 extern void ui_set_application_icon(const char *icon_data[]);
 extern void ui_set_selected_file(int num);
 

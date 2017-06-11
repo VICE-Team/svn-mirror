@@ -73,17 +73,6 @@ static char *argv0 = NULL;
 #endif
 
 
-/** \brief  Initialize the UI, a stub for now
- *
- * Theoretically, it should not have to matter what system we run on, as long
- * as it has Gtk3.
- */
-static void archdep_ui_init(int arg, char **argv)
-{
-    /* do nothing, just like in src/arch/x11/gnome/x11ui.c */
-}
-
-
 /** \brief  Get the program name
  *
  * This returns the final part of argv[0], as if basename where used.
@@ -289,8 +278,6 @@ int archdep_init(int *argc, char **argv)
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
 
-    /* initialize the UI */
-    archdep_ui_init(*argc, argv);
     return 0;
 }
 

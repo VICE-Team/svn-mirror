@@ -156,7 +156,6 @@
 
 /* mostly useless crap, show go into c1541.h */
 char *kbd_get_menu_keyname(void);
-void archdep_ui_init(int argc, char *argv[]);
 void enable_text(void);
 void disable_text(void);
 int machine_bus_device_attach(unsigned int device, const char *name,
@@ -4846,10 +4845,6 @@ int snapshot_module_read_dword_into_int(snapshot_module_t *m, int *value_return)
 int snapshot_module_read_dword_into_uint(snapshot_module_t *m, unsigned int *value_return)
 {
     return 0;
-}
-
-void archdep_ui_init(int argc, char *argv[])
-{
 }
 
 void ui_error_string(const char *text)

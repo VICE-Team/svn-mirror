@@ -139,7 +139,6 @@
 
 /* emu-compile crap */
 const char *machine_get_name(void);
-void archdep_ui_init(int argc, char *argv[]);
 void ui_error_string(const char *text);
 void ui_error(const char *format, ...);
 char *kbd_get_menu_keyname(void);
@@ -2384,10 +2383,6 @@ void network_event_record(unsigned int type, void *data, unsigned int size)
 }
 
 void event_record_in_list(event_list_state_t *list, unsigned int type, void *data, unsigned int size)
-{
-}
-
-void archdep_ui_init(int argc, char *argv[])
 {
 }
 

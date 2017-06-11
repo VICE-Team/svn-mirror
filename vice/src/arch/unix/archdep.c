@@ -95,7 +95,6 @@ int archdep_init(int *argc, char **argv)
 {
     argv0 = lib_stralloc(argv[0]);
     log_verbose_init(*argc, argv);
-    archdep_ui_init(*argc, argv);
     return 0;
 }
 

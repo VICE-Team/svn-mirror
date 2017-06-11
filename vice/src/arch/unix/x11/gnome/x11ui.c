@@ -365,9 +365,6 @@ void ui_restore_focus(void)
 #endif
 
 /******************************************************************************/
-void archdep_ui_init(int argc, char *argv[])
-{
-}
 
 static void atexit_handler(void)
 {

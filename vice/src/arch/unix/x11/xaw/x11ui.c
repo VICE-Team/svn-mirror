@@ -714,13 +714,6 @@ static void finish_prepare_wm_command(void)
     wm_command_type_atom = XInternAtom(display, "STRING", False);
 }
 
-void archdep_ui_init(int argc, char *argv[])
-{
-    if (console_mode) {
-        return;
-    }
-}
-
 /* Initialize the GUI and parse the command line. */
 int ui_init(int *argc, char **argv)
 {

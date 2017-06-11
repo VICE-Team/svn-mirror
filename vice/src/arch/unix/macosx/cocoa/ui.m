@@ -34,10 +34,6 @@
 
 // ----- VICEMachineNotifier -----
 
-void archdep_ui_init(int argc, char *argv[])
-{
-}
-
 int ui_init_finish(void)
 {
     return 0;
