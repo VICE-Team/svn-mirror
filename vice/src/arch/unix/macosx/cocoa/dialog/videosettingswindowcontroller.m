@@ -253,27 +253,29 @@ static const char *ted_palettes[] = {
     [self updateColorResources];
 }
 
+// FIXME: Setting resources from these TextFields is disabled because
+// this code doesn't parse thousands separators properly
 -(IBAction)enterSaturation:(id)sender
 {
-    [self setIntResource:colorSaturationResource toValue:[sender intValue]];
+    // [self setIntResource:colorSaturationResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)enterContrast:(id)sender
 {
-    [self setIntResource:colorContrastResource toValue:[sender intValue]];
+    // [self setIntResource:colorContrastResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)enterBrightness:(id)sender
 {
-    [self setIntResource:colorBrightnessResource toValue:[sender intValue]];
+    // [self setIntResource:colorBrightnessResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)enterGamma:(id)sender
 {
-    [self setIntResource:colorGammaResource toValue:[sender intValue]];
+    // [self setIntResource:colorGammaResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
@@ -303,27 +305,28 @@ static const char *ted_palettes[] = {
     [self updatePALResources];
 }
 
+// FIXME: Setting resources from these TextFields is disabled as well
 -(IBAction)enterBlur:(id)sender
 {
-    [self setIntResource:palBlurResource toValue:[sender intValue]];
+    // [self setIntResource:palBlurResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)enterScanlineShade:(id)sender
 {
-    [self setIntResource:palScanLineShadeResource toValue:[sender intValue]];
+    // [self setIntResource:palScanLineShadeResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)enterOddLinePhase:(id)sender
 {
-    [self setIntResource:palOddLinePhaseResource toValue:[sender intValue]];
+    // [self setIntResource:palOddLinePhaseResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)enterOddLineOffset:(id)sender
 {
-    [self setIntResource:palOddLineOffsetResource toValue:[sender intValue]];
+    // [self setIntResource:palOddLineOffsetResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
