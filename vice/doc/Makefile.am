@@ -65,8 +65,8 @@ $(builddir)/vice.txt:		$(srcdir)/vice.texi
 
 $(builddir)/vice.pdf:	$(srcdir)/vice.texi
 if BUILD_PDF
-	sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
-	$(TEXI2DVI) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
+	LANG=C sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
+	LANG=C $(TEXI2DVI) -q --clean --pdf "--texinfo=@set $(PLATFORM_DOX_FLAGS) " -o $(builddir)/vice.pdf vicepdf.texi
 	rm -f vicepdf.texi
 
 PDF_DEPS=$(builddir)/vice.pdf
