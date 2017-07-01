@@ -45,7 +45,10 @@
 
 #include "attributes.h"
 #include "version.h"
+
+#ifndef _MSC_VER
 #include "libavutil/avconfig.h"
+#endif
 
 #ifdef __MSDOS__
 extern int snprintf(char *buf, size_t count, const char *format, ...);

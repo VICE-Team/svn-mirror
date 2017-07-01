@@ -32,6 +32,7 @@
 
 #ifdef HAVE_MIDI
 
+#include <basetsd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

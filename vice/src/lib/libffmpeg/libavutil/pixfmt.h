@@ -27,7 +27,10 @@
  *
  */
 
+#ifndef _MSC_VER
 #include "libavutil/avconfig.h"
+#endif
+
 #include "version.h"
 
 #define AVPALETTE_SIZE 1024
