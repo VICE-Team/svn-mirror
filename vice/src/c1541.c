@@ -2244,15 +2244,6 @@ static int delete_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-static void unix_filename(char *p)
-{
-    while (*p) {
-        if (*p == '/') {
-            *p = '_';
-        }
-        p++;
-    }
-}
 
 /* Extract all files <gwesp@cosy.sbg.ac.at>.  */
 /* FIXME: This does not work with non-standard file names.  */
