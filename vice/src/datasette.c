@@ -421,7 +421,7 @@ inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
         if ((wobble >= 0) || (*gap > (CLOCK)-wobble)) {
             *gap += wobble;
         } else {
-            *gap = 0;
+            *gap = 1;
         }
     }
     return 0;
