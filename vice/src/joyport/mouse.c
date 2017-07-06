@@ -718,6 +718,13 @@ static BYTE joyport_mouse_neos_value(int port)
 
     if (_mouse_enabled) {
         retval = (BYTE)((~mouse_digital_val) & neos_mouse_read());
+        /* on a real NEOS mouse the left mouse button is connected to FIRE and 
+           will interfere with the STROBE line which is connected to the same 
+           I/O bit. in this case all direction bits will go inactive/high and 
+           the mouse can not be moved */
+        if (mouse_digital_val & 0x10) {
+            retval &= ~0x0f;
+        }
         if (retval != (BYTE)~mouse_digital_val) {
             joyport_display_joyport(mt_to_id(mouse_type), (BYTE)(~retval));
         }
@@ -1088,20 +1095,12 @@ static void mouse_button_left(int pressed)
     BYTE old_val = mouse_digital_val;
     BYTE joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? 4 : 16);
 
-    /* on a real NEOS mouse the left mouse button is connected to FIRE and will
-       interfere with the STROBE line which is connected to the same I/O bit.
-       since the original behaviour cant be reproduced exactly, we return here
-       to disable the button and not leave it apparently working */
-    if (mouse_type == MOUSE_TYPE_NEOS) {
-        mouse_digital_val &= (BYTE)~joypin;
-        return;
-    }
-
     if (pressed) {
         mouse_digital_val |= joypin;
     } else {
         mouse_digital_val &= (BYTE)~joypin;
     }
+
     if (old_val == mouse_digital_val || mouse_type == -1) {
         return;
     }
