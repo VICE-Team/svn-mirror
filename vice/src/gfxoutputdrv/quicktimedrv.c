@@ -37,6 +37,7 @@
 #include "gfxoutput.h"
 #include "screenshot.h"
 #include "palette.h"
+#include "lib.h"
 #include "log.h"
 #include "util.h"
 #include "resources.h"
@@ -337,7 +338,7 @@ static int init_audio(int speed, int channels, soundmovie_buffer_t **buffer)
     UInt32 layoutSize;
     layoutSize = offsetof(AudioChannelLayout, mChannelDescriptions[0]);
     AudioChannelLayout *layout = NULL;
-    layout = calloc(layoutSize, 1);
+    layout = lib_calloc(layoutSize, 1);
     OSErr err = -1;
     if (layout != NULL) {
         if (channels == 1) {
@@ -354,7 +355,7 @@ static int init_audio(int speed, int channels, soundmovie_buffer_t **buffer)
             NULL, 0,                    // magic cookie (compression parameters)
             kQTSoundDescriptionKind_Movie_LowestPossibleVersion,
             &soundDescriptionHandle);         // SoundDescriptionHandle returned here
-        free(layout);
+        lib_free(layout);
     }
     if (err != noErr) {
         log_debug("quicktime_audio: error creating sound description!");
@@ -386,7 +387,7 @@ static int init_audio(int speed, int channels, soundmovie_buffer_t **buffer)
 
     *buffer = &audioBuffer;
     audioBuffer.size = speed * channels / 10;
-    audioBuffer.buffer = malloc(sizeof(SWORD) * audioBuffer.size);
+    audioBuffer.buffer = lib_malloc(sizeof(SWORD) * audioBuffer.size);
     audioBuffer.used = 0;
 
     audio_ready = 1;
@@ -447,7 +448,7 @@ void finish_audio(void)
 
     // free buffer
     if (audioBuffer.buffer != NULL) {
-        free(audioBuffer.buffer);
+        lib_free(audioBuffer.buffer);
         audioBuffer.buffer = NULL;
     }
 

@@ -447,7 +447,7 @@ void uimon_set_interface(struct monitor_interface_s **interf, int i)
 
 static char* concat_strings(const char *string1, int nchars, const char *string2)
 {
-    char *ret = malloc(nchars + strlen(string2) + 1);
+    char *ret = lib_malloc(nchars + strlen(string2) + 1);
     memcpy(ret, string1, nchars);
     strcpy(ret + nchars, string2);
     return ret;
@@ -468,7 +468,7 @@ static void fill_completions(const char *string_so_far, int initial_chars, int t
         if (i == token_len && possible_lc->cvec[word_index][token_len] != 0) {
             char *string_to_append = concat_strings(string_so_far, initial_chars, possible_lc->cvec[word_index]);
             linenoiseAddCompletion(lc, string_to_append);
-            free(string_to_append);
+            lib_free(string_to_append);
         }
     }
 }
@@ -522,7 +522,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
         if (string_so_far[start_of_token] != '"') {
             char *string_to_append = concat_strings(string_so_far, start_of_token, "\"");
             linenoiseAddCompletion(lc, string_to_append);
-            free(string_to_append);
+            lib_free(string_to_append);
             return;
         }
         for (start_of_path = ++start_of_token, token_len = 0; string_so_far[start_of_token + token_len]; token_len++) {
@@ -540,7 +540,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
         } else {
             char *path = concat_strings(string_so_far + start_of_path, start_of_token - start_of_path, "");
             dir = opendir(path);
-            free(path);
+            lib_free(path);
         }
         if (dir) {
             for (direntry = readdir(dir); direntry; direntry = readdir(dir)) {

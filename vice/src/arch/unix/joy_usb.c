@@ -35,6 +35,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"
@@ -85,7 +86,7 @@ extern log_t joystick_log;
 #include <libusbhid.h>
 #endif
 
-#define MAX_DEV 4	/* number of uhid devices to try */
+#define MAX_DEV 4   /* number of uhid devices to try */
 
 struct usb_joy_item {
     struct hid_item item;
@@ -109,10 +110,7 @@ static int usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi, int
     struct usb_joy_item *it;
     int w;
 
-    if ((it=malloc(sizeof(*it))) == NULL) {
-        /* XXX */
-        return -1;
-    }
+    it = lib_malloc(sizeof *it);
 
     it->next = *item;
     *item = it;
@@ -144,12 +142,12 @@ static int usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi, int
 static void usb_free_item(struct usb_joy_item **item)
 {
     struct usb_joy_item *it, *it2;
-    
-    it=*item;
+
+    it = *item;
     while (it) {
         it2 = it;
         it = it->next;
-        free(it2);
+        lib_free(it2);
     }
     *item = NULL;
 }

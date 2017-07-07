@@ -664,11 +664,11 @@ int joy_arch_init(void)
 static void joystick_release_winmm_joysticks()
 {
     joy_winmm_priv_t* joy_list = joy_winmm_list;
-    
+
     while (joy_list != NULL) {
         joy_winmm_priv_t* joy_remove = joy_list;
         joy_list = joy_list->next;
-        free(joy_remove);
+        lib_free(joy_remove);
     }
 }
 
