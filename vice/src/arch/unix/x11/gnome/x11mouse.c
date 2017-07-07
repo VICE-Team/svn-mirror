@@ -108,7 +108,9 @@ static void mouse_cursor_grab(int grab, GdkCursor *cursor)
             cursor = NULL;
         }
 #endif
-        gdk_pointer_grab(window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, window, cursor, GDK_CURRENT_TIME);
+        gdk_pointer_grab(window, 1, 
+                         GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_SCROLL_MASK | GDK_BUTTON_RELEASE_MASK, 
+                         window, cursor, GDK_CURRENT_TIME);
         mouse_grabbed = 1;
     }
 #endif
@@ -187,6 +189,15 @@ static void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
         if (_mouse_enabled || lightpen_enabled) {
             mouse_button(bevent->button-1, TRUE);
             gtk_lightpen_setbutton(bevent->button, TRUE);
+        }
+    } else if (event->type == GDK_SCROLL) {
+        GdkEventScroll *bevent = (GdkEventScroll*)event;
+        if (_mouse_enabled) {
+            if (bevent->direction == GDK_SCROLL_UP) {
+                mouse_button(3, TRUE);
+            } else if (bevent->direction == GDK_SCROLL_DOWN) {
+                mouse_button(4, TRUE);
+            }
         }
     } else if (event->type == GDK_BUTTON_RELEASE && (_mouse_enabled || lightpen_enabled)) {
         GdkEventButton *bevent = (GdkEventButton*)event;
@@ -404,6 +415,7 @@ void mouse_connect_handler(GtkWidget *widget, void *data)
     g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK(mouse_handler), data);
     g_signal_connect(G_OBJECT(widget), "button-release-event", G_CALLBACK(mouse_handler), data);
     g_signal_connect(G_OBJECT(widget), "motion-notify-event", G_CALLBACK(mouse_handler), data);
+    g_signal_connect(G_OBJECT(widget), "scroll-event", G_CALLBACK(mouse_handler), data);
 }
 
 void mouse_connect_wrap_handler(GtkWidget *widget, void *data)
