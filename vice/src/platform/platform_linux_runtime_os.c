@@ -180,7 +180,7 @@ char *platform_get_linux_runtime_cpu(void)
             fseek(cpuinfo, 0L, SEEK_END);
             size1 = ftell(cpuinfo);
             fseek(cpuinfo, 0L, SEEK_SET);
-            buffer = (char *)malloc(size1);
+            buffer = lib_malloc(size1);
             size2 = fread(buffer, 1, size1, cpuinfo);
             if (size1 == size2) {
                 loc1 = strstr(buffer, "model name");
@@ -229,7 +229,7 @@ char *platform_get_linux_runtime_cpu(void)
             lib_free(tempfile);
             lib_free(tempsystem);
             if (buffer) {
-                free(buffer);
+                lib_free(buffer);
             }
         }
 #ifndef PLATFORM_NO_X86_ASM

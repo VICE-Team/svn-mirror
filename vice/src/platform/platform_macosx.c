@@ -66,6 +66,7 @@
 
 #include "CoreServices/CoreServices.h"
 #include "platform_macosx.h"
+#include "lib.h"
 
 #define MAX_OS_CPU_STR 64
 #define MAX_OS_VERSION_STR  32
@@ -206,9 +207,9 @@ static char *get_sysctl_hw_string(int sect)
     }
 
     /* retrieve string */
-    str = malloc(len);
+    str = lib_malloc(len);
     if (sysctl(mib, 2, str, &len, NULL, 0) != 0) {
-        free(str);
+        lib_free(str);
         return NULL;
     }
     return str;
@@ -267,10 +268,10 @@ char *platform_get_macosx_runtime_cpu(void)
         snprintf(os_cpu_str, MAX_OS_CPU_STR, "%s [%s] [%d CPUs] [%d MiB RAM]", machine, model, num_cpus, mem_mb);
 
         if (machine != NULL) {
-            free(machine);
+            lib_free(machine);
         }
         if (model != NULL) {
-            free(model);
+            lib_free(model);
         }
     }
     return os_cpu_str;

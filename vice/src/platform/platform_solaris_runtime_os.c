@@ -68,6 +68,9 @@
 #include <sys/utsname.h>
 #include <string.h>
 
+#include "lib.h"
+
+
 static char *os = NULL;
 
 char *platform_get_solaris_runtime_os(void)
@@ -154,7 +157,7 @@ char *platform_get_solaris_runtime_cpu(void)
                 fseek(infile, 0L, SEEK_END);
                 size = ftell(infile);
                 fseek(infile, 0L, SEEK_SET);
-                buffer = (char *)malloc(size);
+                buffer = lib_malloc(size);
                 size2 = fread(buffer, 1, size, infile);
                 if (size == size2) {
                     loc = strstr(buffer, "cpu0:");
@@ -168,7 +171,7 @@ char *platform_get_solaris_runtime_cpu(void)
                     }
                 }
                 fclose(infile);
-                free(buffer);
+                lib_free(buffer);
             }
             unlink("/tmp/vice.cpu.tmp");
         }
