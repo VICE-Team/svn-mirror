@@ -60,7 +60,7 @@ AM_MAKEINFOFLAGS = --no-split
 $(builddir)/vice.txt:		$(srcdir)/vice.texi
 	touch vicetmp.txt
 	LANG=C $(MAKEINFO) -D$(PLATFORM_DOX_FLAGS) -o vicetmp.txt --no-headers $(srcdir)/vice.texi
-	$(srcdir)/fixdox.sh txt <vicetmp.txt | sed 's/ \+$$//' >$(builddir)/vice.txt
+	$(srcdir)/fixdox.sh txt <vicetmp.txt | LANG=C sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
 
 $(builddir)/vice.pdf:	$(srcdir)/vice.texi
