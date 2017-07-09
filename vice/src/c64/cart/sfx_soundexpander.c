@@ -404,10 +404,10 @@ static void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE
 static BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr)
 {
     if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
-        return ym3812_read(YM3812_chip, 1);
+        return ym3812_read(YM3812_chip, 0);
     }
     if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
-        return ym3526_read(YM3526_chip, 1);
+        return ym3526_read(YM3526_chip, 0);
     }
     return 0;
 }
