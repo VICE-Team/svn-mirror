@@ -70,7 +70,7 @@
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           radio_CIA##xyz##Model_callback,                       \
           (ui_callback_data_t)CIA_MODEL_6526 },                 \
-        { "6526 (new)",                                        \
+        { "8521 (new)",                                        \
           MENU_ENTRY_RESOURCE_TOGGLE,                           \
           radio_CIA##xyz##Model_callback,                       \
           (ui_callback_data_t)CIA_MODEL_6526A },                \

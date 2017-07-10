@@ -6125,54 +6125,54 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 6526A)")},
+/* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 8521)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, "Vælg type for begge CIA-kredse (0=gammel 6526, 1=ny 6526A)"},
-/* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A)"},
-/* es */ {IDCLS_SET_BOTH_CIA_MODELS_ES, "Seleccionar ambos modelos de CIA (0 = antiguo 6526, 1 = nuevo 6526A)"},
-/* fr */ {IDCLS_SET_BOTH_CIA_MODELS_FR, "Définir les deux modèles CIA (0 = ancien 5626, 1 = récent 6526A)"},
+/* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, "Vælg type for begge CIA-kredse (0=gammel 6526, 1=ny 8521)"},
+/* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 8521)"},
+/* es */ {IDCLS_SET_BOTH_CIA_MODELS_ES, "Seleccionar ambos modelos de CIA (0 = antiguo 6526, 1 = nuevo 8521)"},
+/* fr */ {IDCLS_SET_BOTH_CIA_MODELS_FR, "Définir les deux modèles CIA (0 = ancien 5626, 1 = récent 8521)"},
 /* hu */ {IDCLS_SET_BOTH_CIA_MODELS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_BOTH_CIA_MODELS_IT, "Imposta entrambi i modelli CIA (0 = 6526 vecchio, 1 = 6526A nuovo)"},
+/* it */ {IDCLS_SET_BOTH_CIA_MODELS_IT, "Imposta entrambi i modelli CIA (0 = 6526 vecchio, 1 = 8521 nuovo)"},
 /* ko */ {IDCLS_SET_BOTH_CIA_MODELS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BOTH_CIA_MODELS_NL, "Stel model in voor beide CIA's (0 = oud 6526, 1 = nieuw 6526A)"},
+/* nl */ {IDCLS_SET_BOTH_CIA_MODELS_NL, "Stel model in voor beide CIA's (0 = oud 6526, 1 = nieuw 8521)"},
 /* pl */ {IDCLS_SET_BOTH_CIA_MODELS_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_SET_BOTH_CIA_MODELS_RU, "Set both CIA models (0 = old 6526, 1 = new 6526A)"},
+/* ru */ {IDCLS_SET_BOTH_CIA_MODELS_RU, "Set both CIA models (0 = old 6526, 1 = new 8521)"},
 /* sv */ {IDCLS_SET_BOTH_CIA_MODELS_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_BOTH_CIA_MODELS_TR, "Her iki CIA modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
+/* tr */ {IDCLS_SET_BOTH_CIA_MODELS_TR, "Her iki CIA modelini belirle (0 = eski 6526, 1 = yeni 8521)"},
 #endif
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 6526A)")},
+/* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 8521)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_CIA1_MODEL_DA, "Vælg CIA 1 type (0=gammel 6526, 1=ny 6526A)"},
-/* de */ {IDCLS_SET_CIA1_MODEL_DE, "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A)"},
-/* es */ {IDCLS_SET_CIA1_MODEL_ES, "Seleccionar CIA 1 Poner CIA 1 model (0 = antiguo 6526, 1 = nuevo 6526A)"},
-/* fr */ {IDCLS_SET_CIA1_MODEL_FR, "Définir le modèle CIA 2 (0 = ancien 5626, 1 = récent 6526A)"},
+/* da */ {IDCLS_SET_CIA1_MODEL_DA, "Vælg CIA 1 type (0=gammel 6526, 1=ny 8521)"},
+/* de */ {IDCLS_SET_CIA1_MODEL_DE, "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 8521)"},
+/* es */ {IDCLS_SET_CIA1_MODEL_ES, "Seleccionar CIA 1 Poner CIA 1 model (0 = antiguo 6526, 1 = nuevo 8521)"},
+/* fr */ {IDCLS_SET_CIA1_MODEL_FR, "Définir le modèle CIA 2 (0 = ancien 5626, 1 = récent 8521)"},
 /* hu */ {IDCLS_SET_CIA1_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CIA1_MODEL_IT, "Imposta modello CIA 1 (0 = 6526 vecchio, 1 = 6526A nuovo)"},
+/* it */ {IDCLS_SET_CIA1_MODEL_IT, "Imposta modello CIA 1 (0 = 6526 vecchio, 1 = 8521 nuovo)"},
 /* ko */ {IDCLS_SET_CIA1_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_CIA1_MODEL_NL, "Stel CIA 1 model in (0 = oud 6526, 1 = nieuw 6526A)"},
+/* nl */ {IDCLS_SET_CIA1_MODEL_NL, "Stel CIA 1 model in (0 = oud 6526, 1 = nieuw 8521)"},
 /* pl */ {IDCLS_SET_CIA1_MODEL_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_SET_CIA1_MODEL_RU, "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"},
+/* ru */ {IDCLS_SET_CIA1_MODEL_RU, "Set CIA 1 model (0 = old 6526, 1 = new 8521)"},
 /* sv */ {IDCLS_SET_CIA1_MODEL_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_CIA1_MODEL_TR, "CIA 1 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
+/* tr */ {IDCLS_SET_CIA1_MODEL_TR, "CIA 1 modelini belirle (0 = eski 6526, 1 = yeni 8521)"},
 #endif
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 6526A)")},
+/* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 8521)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_CIA2_MODEL_DA, "Vælg CIA 2 type (0=gammel 6526, 1=ny 6526A)"},
-/* de */ {IDCLS_SET_CIA2_MODEL_DE, "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A)\""},
-/* es */ {IDCLS_SET_CIA2_MODEL_ES, "Seleccionar CIA 2 model (0 = antiguo 6526, 1 = nuevo 6526A)"},
-/* fr */ {IDCLS_SET_CIA2_MODEL_FR, "Définir le modèle CIA 1 (0 = ancien 5626, 1 = récent 6526A)"},
+/* da */ {IDCLS_SET_CIA2_MODEL_DA, "Vælg CIA 2 type (0=gammel 6526, 1=ny 8521)"},
+/* de */ {IDCLS_SET_CIA2_MODEL_DE, "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 8521)\""},
+/* es */ {IDCLS_SET_CIA2_MODEL_ES, "Seleccionar CIA 2 model (0 = antiguo 6526, 1 = nuevo 8521)"},
+/* fr */ {IDCLS_SET_CIA2_MODEL_FR, "Définir le modèle CIA 1 (0 = ancien 5626, 1 = récent 8521)"},
 /* hu */ {IDCLS_SET_CIA2_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CIA2_MODEL_IT, "Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 6526A nuovo)"},
+/* it */ {IDCLS_SET_CIA2_MODEL_IT, "Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 8521 nuovo)"},
 /* ko */ {IDCLS_SET_CIA2_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_CIA2_MODEL_NL, "Stel CIA 2 model in (0 = oud 6526, 1 = nieuw 6526A)"},
+/* nl */ {IDCLS_SET_CIA2_MODEL_NL, "Stel CIA 2 model in (0 = oud 6526, 1 = nieuw 8521)"},
 /* pl */ {IDCLS_SET_CIA2_MODEL_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_SET_CIA2_MODEL_RU, "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"},
+/* ru */ {IDCLS_SET_CIA2_MODEL_RU, "Set CIA 2 model (0 = old 6526, 1 = new 8521)"},
 /* sv */ {IDCLS_SET_CIA2_MODEL_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_CIA2_MODEL_TR, "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
+/* tr */ {IDCLS_SET_CIA2_MODEL_TR, "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 8521)"},
 #endif
 
 /* c64/c64-cmdline-options.c */

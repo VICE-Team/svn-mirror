@@ -348,7 +348,7 @@ static ui_menu_entry_t set_cia1model_submenu[] = {
     { N_("6526 (old)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_CIA1Model, (ui_callback_data_t)0, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    { N_("6526 (new)"), UI_MENU_TYPE_TICK,
+    { N_("8521 (new)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_CIA1Model, (ui_callback_data_t)1, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_LIST_END
