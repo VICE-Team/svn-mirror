@@ -37,7 +37,7 @@ extern "C" {
 
 static const char *cia_model_name[] = {
     "6526 (old)",
-    "6526 (new)",
+    "8521 (new)",
     NULL
 };
 
