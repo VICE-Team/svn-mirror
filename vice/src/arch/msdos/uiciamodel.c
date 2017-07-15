@@ -28,12 +28,10 @@
 
 #include <stdio.h>
 
-#include "c64model.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "uiciamodel.h"
-#include "vicii.h"
 
 TUI_MENU_DEFINE_RADIO(CIA1Model)
 TUI_MENU_DEFINE_RADIO(CIA2Model)
@@ -93,7 +91,7 @@ static tui_menu_item_def_t cia_double_model_menu_items[] = {
       cia1_model_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, cia1_model_submenu,
       "CIA 1 model" },
-    { "CIA 2 model:", "Select the CIA #2 model",
+    { "CIA _2 model:", "Select the CIA #2 model",
       cia2_model_submenu_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, cia2_model_submenu,
       "CIA 2 model" },
