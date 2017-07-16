@@ -304,7 +304,9 @@ static ui_menu_entry_t vsid_run_commands_menu[] = {
     { N_("Reset"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, reset_submenu,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    UI_MENU_ENTRY_SEPERATOR,
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_LIST_END
 };
 
