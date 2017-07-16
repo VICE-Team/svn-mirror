@@ -726,6 +726,8 @@ char *util_find_prev_line(const char *text, const char *pos)
 
 /* The following are replacements for libc functions that could be missing.  */
 
+#if 0
+
 #if !defined HAVE_MEMMOVE
 void *memmove(void *target, const void *source, unsigned int length)
 {
@@ -1279,6 +1281,8 @@ int snprintf(char *text, size_t maxlen, const char *fmt, ...)
 
     return retval;
 }
+#endif
+
 #endif
 
 /*
