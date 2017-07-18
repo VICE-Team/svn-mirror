@@ -132,13 +132,6 @@ char *archdep_filename_parameter(const char *name)
 }
 
 
-int archdep_file_set_gzip(const char *name)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
-
-
 /** \brief  Get CPU name during runtime
  *
  * \return  CPU name

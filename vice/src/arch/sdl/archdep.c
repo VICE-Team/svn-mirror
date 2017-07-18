@@ -110,10 +110,3 @@ void archdep_sanitize_filename(char *name)
     }
 }
 
-
-/** \brief  Useless function
- */
-int archdep_file_set_gzip(const char *name)
-{
-    return 0;
-}
