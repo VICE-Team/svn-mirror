@@ -90,7 +90,6 @@ extern char *archdep_tmpnam(void);
 extern FILE *archdep_mkstemp_fd(char **filename, const char *mode);
 
 /* Check file for gzip extension.  */
-extern int archdep_file_is_gzip(const char *name);
 extern int archdep_file_set_gzip(const char *name);
 
 /* Check file name for block or char device.  */

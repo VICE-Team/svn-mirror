@@ -204,11 +204,6 @@ char *archdep_filename_parameter(const char *name)
     return NULL;
 }
 
-int archdep_file_is_gzip(const char *name)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
 
 int archdep_file_set_gzip(const char *name)
 {
