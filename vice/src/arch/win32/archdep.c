@@ -722,6 +722,7 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
     fd = fopen(tmp, mode);
 
     if (fd == NULL) {
+        *filename = NULL;
         return NULL;
     }
 
