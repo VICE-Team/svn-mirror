@@ -54,6 +54,11 @@
 static const gchar *path_separator = "/";
 
 
+/** \brief  Tokens that are illegal in a path/filename
+ */
+static const char *illegal_name_tokens = "/";
+
+
 
 /** \brief  String containing search paths
  *
@@ -190,6 +195,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     }
     return 0;
 }
+
 
 
 char *archdep_filename_parameter(const char *name)

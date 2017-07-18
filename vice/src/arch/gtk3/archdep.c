@@ -240,6 +240,25 @@ void archdep_signals_init(int do_core_dumps)
 }
 
 
+/** \brief  Sanitize \a name by removing invalid characters for the current OS
+ *
+ * \param[in,out]   name    0-terminated string
+ */
+void archdep_sanitize_filename(char *name)
+{
+    while (*name != '\0') {
+        int i = 0;
+        while (illegal_name_tokens[i] != '\0') {
+            if (illegal_name_tokens[i] == *name) {
+                *name = '_';
+                break;
+            }
+            i++;
+        }
+        name++;
+    }
+}
+
 
 /** \brief  Arch-dependent init
  *
