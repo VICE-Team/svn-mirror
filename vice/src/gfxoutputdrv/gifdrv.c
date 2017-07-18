@@ -154,7 +154,11 @@ static int gifdrv_close(screenshot_t *screenshot)
 
     /* for some reason giflib will create a file with unexpected
        permissions. for this reason we alter them according to
-       the current umask. */
+       the current umask.
+
+       Carefull: oddly enough still true as of 2017-07-18, so do not remove the
+       following function call without doing research/testing first (compyx)
+    */
     archdep_fix_permissions(sdata->ext_filename);
 
     lib_free(sdata->data);
