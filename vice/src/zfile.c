@@ -180,10 +180,6 @@ static char *try_uncompress_with_gzip(const char *name)
     char *tmp_name = NULL;
     int len;
 
-    if (!archdep_file_is_gzip(name)) {
-        return NULL;
-    }
-
     fddest = archdep_mkstemp_fd(&tmp_name, MODE_WRITE);
 
     if (fddest == NULL) {
@@ -221,10 +217,6 @@ static char *try_uncompress_with_gzip(const char *name)
     char *tmp_name = NULL;
     int exit_status;
     char *argv[4];
-
-    if (!archdep_file_is_gzip(name)) {
-        return NULL;
-    }
 
     /* `exec*()' does not want these to be constant...  */
     argv[0] = lib_stralloc("gzip");
