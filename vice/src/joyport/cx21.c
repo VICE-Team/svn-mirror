@@ -97,9 +97,11 @@ key pin pin comments
 #define KEYPAD_KEY_0      10
 #define KEYPAD_KEY_MULT   11
 
+#define KEYPAD_NUM_KEYS   12
+
 static int cx21_enabled = 0;
 
-static unsigned int keys[12];
+static unsigned int keys[KEYPAD_NUM_KEYS];
 static BYTE port = 0;
 
 /* ------------------------------------------------------------------------- */
@@ -124,7 +126,7 @@ static int joyport_cx21_enable(int port, int value)
     }
 
     if (val) {
-        memset(keys, 0, 12);
+        memset(keys, 0, KEYPAD_NUM_KEYS * sizeof(unsigned int));
         keyboard_register_joy_keypad(handle_keys);
     } else {
         keyboard_register_joy_keypad(NULL);
