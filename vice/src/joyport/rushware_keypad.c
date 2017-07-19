@@ -106,9 +106,11 @@ ENTER            0     0    0    0    0
 #define KEYPAD_KEY_ENT  ROW_COL(3,2)
 #define KEYPAD_KEY_PLUS ROW_COL(3,3)
 
+#define KEYPAD_KEYS_NUM  16
+
 static int rushware_keypad_enabled = 0;
 
-static int keys[16];
+static int keys[KEYPAD_KEYS_NUM];
 
 /* ------------------------------------------------------------------------- */
 
@@ -132,7 +134,7 @@ static int joyport_rushware_keypad_enable(int port, int value)
     }
 
     if (val) {
-        memset(keys, 0, 16);
+        memset(keys, 0, KEYPAD_KEYS_NUM * sizeof(unsigned int));
         keyboard_register_joy_keypad(handle_keys);
     } else {
         keyboard_register_joy_keypad(NULL);
