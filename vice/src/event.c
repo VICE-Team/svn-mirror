@@ -288,25 +288,28 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 
     /*log_debug("EVENT RECORD %i CLK %i", type, maincpu_clk);*/
 
+    if (type == EVENT_RESETCPU) {
+        next_timestamp_clk -= maincpu_clk;
+    }
+
     switch (type) {
-        case EVENT_RESETCPU:
-            next_timestamp_clk -= maincpu_clk;
-        case EVENT_KEYBOARD_MATRIX:
-        case EVENT_KEYBOARD_RESTORE:
-        case EVENT_KEYBOARD_DELAY:
-        case EVENT_JOYSTICK_VALUE:
-        case EVENT_DATASETTE:
-        case EVENT_ATTACHDISK:
-        case EVENT_ATTACHTAPE:
-        case EVENT_ATTACHIMAGE:
-        case EVENT_INITIAL:
-        case EVENT_SYNC_TEST:
+        case EVENT_RESETCPU:            /* fall through */
+        case EVENT_KEYBOARD_MATRIX:     /* fall through */
+        case EVENT_KEYBOARD_RESTORE:    /* fall through */
+        case EVENT_KEYBOARD_DELAY:      /* fall through */
+        case EVENT_JOYSTICK_VALUE:      /* fall through */
+        case EVENT_DATASETTE:           /* fall through */
+        case EVENT_ATTACHDISK:          /* fall through */
+        case EVENT_ATTACHTAPE:          /* fall through */
+        case EVENT_ATTACHIMAGE:         /* fall through */
+        case EVENT_INITIAL:             /* fall through */
+        case EVENT_SYNC_TEST:           /* fall through */
         case EVENT_RESOURCE:
             event_data = lib_malloc(size);
             memcpy(event_data, data, size);
             break;
-        case EVENT_LIST_END:
-        case EVENT_OVERFLOW:
+        case EVENT_LIST_END:            /* fall through */
+        case EVENT_OVERFLOW:            /* fall through */
         case EVENT_KEYBOARD_CLEAR:
             break;
         default:
