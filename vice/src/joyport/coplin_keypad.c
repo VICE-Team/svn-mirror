@@ -106,9 +106,11 @@ RETURN        011111111111     0    1    1    1    1
 #define KEYPAD_KEY_P ROW_COL(3,1)
 #define KEYPAD_KEY_R ROW_COL(3,2)
 
+#define KEYPAD_KEYS_NUM  12
+
 static int coplin_keypad_enabled = 0;
 
-static unsigned int keys[12];
+static unsigned int keys[KEYPAD_KEYS_NUM];
 
 /* ------------------------------------------------------------------------- */
 
@@ -132,7 +134,7 @@ static int joyport_coplin_keypad_enable(int port, int value)
     }
 
     if (val) {
-        memset(keys, 0, 12);
+        memset(keys, 0, KEYPAD_KEYS_NUM * sizeof(unsigned int));
         keyboard_register_joy_keypad(handle_keys);
     } else {
         keyboard_register_joy_keypad(NULL);
