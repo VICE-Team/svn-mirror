@@ -121,9 +121,11 @@ The PRESS (POT AY) line is used to indicate a key press.
 #define KEYPAD_KEY_0      16
 #define KEYPAD_KEY_DOT    18
 
+#define KEYPAD_KEYS_NUM   20
+
 static int cx85_enabled = 0;
 
-static unsigned int keys[20];
+static unsigned int keys[KEYPAD_KEYS_NUM];
 
 /* ------------------------------------------------------------------------- */
 
@@ -148,7 +150,7 @@ static int joyport_cx85_enable(int port, int value)
     }
 
     if (val) {
-        memset(keys, 0, 20);
+        memset(keys, 0, KEYPAD_KEYS_NUM * sizeof(unsigned int));
         keyboard_register_joy_keypad(handle_keys);
     } else {
         keyboard_register_joy_keypad(NULL);
