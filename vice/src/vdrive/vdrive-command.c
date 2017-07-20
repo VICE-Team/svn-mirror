@@ -1027,6 +1027,10 @@ static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
     unsigned int channel = buf[1] & 0x0f;
     unsigned int rec_lo = buf[2], rec_hi = buf[3], position = buf[4];
 
+    /* FIXME: are these fall through's intentional? And where is the default
+     *        case? Proper compiler warnings will catch the absence of the
+     *        default case (compyx, 2017-07-20)
+     */
     switch (length) {
         case 1: /* no channel was specified; return NO CHANNEL */
             return CBMDOS_IPE_NO_CHANNEL;
