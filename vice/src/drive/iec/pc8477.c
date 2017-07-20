@@ -467,6 +467,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                     drv->st[1] |= PC8477_ST1_MA;
                     drv->sub_step = 0;
                     drv->int_step++;
+                    /* fall through */
                 case 1:
                     while (*drv->mycontext->clk_ptr >= drv->clk + BYTE_RATE) {
                         res = pc8477_micro_find_sync(drv);
@@ -483,6 +484,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                     }
                     drv->sub_step = 0;
                     drv->int_step++;
+                    /* fall through */
                 case 2:
                     res = pc8477_micro_readid(drv);
                     if (res > 0) {
@@ -553,6 +555,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         drv->st[1] |= PC8477_ST1_MA;
                         drv->sub_step = 0;
                         drv->int_step++;
+                        /* fall through */
                     case 1:
                         res = pc8477_micro_find_sync(drv);
                         if (res < 0) {
@@ -566,6 +569,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         drv->st[1] |= PC8477_ST1_ND;
                         drv->sub_step = 0;
                         drv->int_step++;
+                        /* fall through */
                     case 2:
                         res = pc8477_micro_readid(drv);
                         if (res > 0) {
@@ -594,6 +598,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         drv->byte_count = 128 << drv->res[6];
                         drv->sub_step = 0;
                         drv->int_step++;
+                        /* fall through */
                     case 3:
                         res = pc8477_micro_find_sync(drv);
                         if (res < 0) {
@@ -636,6 +641,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                             break;
                         }
                         drv->int_step++;
+                        /* fall through */
                     case 5:
                         if (drv->fifo_fill) {
                             drv->clk += fdd_rotate(drv->fdd, (*drv->mycontext->clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
@@ -663,6 +669,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         drv->sector = drv->cmd[4];
                         drv->sub_step = 0;
                         drv->int_step++;
+                        /* fall through */
                     case 1:
                         res = pc8477_micro_find_sync(drv);
                         if (res < 0) {
@@ -676,6 +683,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         drv->st[1] |= PC8477_ST1_ND;
                         drv->sub_step = 0;
                         drv->int_step++;
+                        /* fall through */
                     case 2:
                         res = pc8477_micro_readid(drv);
                         if (res > 0) {
@@ -709,6 +717,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         drv->byte_count = 128 << drv->res[6];
                         drv->sub_step = 0;
                         drv->int_step++;
+                        /* fall through */
                     case 3:
                         res = pc8477_micro_find_sync(drv);
                         if (res < 0) {
@@ -745,6 +754,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                             break;
                         }
                         drv->int_step++;
+                        /* fall through */
                     case 5:
                         if (drv->cmd[6] != drv->sector) {
                             drv->sector++;
@@ -767,6 +777,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                         drv->sector = 0;
                         drv->sub_step = 0;
                         drv->int_step++;
+                        /* fall through */
                     case 1:
                         drv->clk += BYTE_RATE;
                         fdd_read(drv->fdd);
@@ -1010,7 +1021,7 @@ static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
                     drv->res_size = pc8477_commands[i].rlen;
                     drv->state = PC8477_COMMAND;
                     drv->cmd_flags = pc8477_commands[i].flags;
-                /* fall through */
+                    /* fall through */
                 case PC8477_COMMAND:
                     if (drv->cmdp < drv->cmd_size) {
                         drv->cmd[drv->cmdp++] = byte;

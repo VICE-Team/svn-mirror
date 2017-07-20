@@ -217,6 +217,7 @@ static void wd1770_execute(wd1770_t *drv)
                 drv->status |= fdd_index(drv->fdd) ? WD_IP : 0;
                 drv->status |= fdd_track0(drv->fdd) ? WD_T0 : 0;
                 drv->status |= fdd_write_protect(drv->fdd) ? WD_WP : 0;
+                /* fall through */
             case 0: /* idle */
                 if (*drv->cpu_clk_ptr < drv->clk + PREPARE) {
                     return;
@@ -242,6 +243,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->status &= ~(WD_CRC | WD_SE | WD_DRQ);
                         drv->irq = 0;
                         drv->step++;
+                        /* fall through */
                     case 1:
                         if ((drv->cmd & WD_H) || (drv->status & WD_MO)) {
                             drv->status |= WD_MO;
@@ -251,12 +253,14 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->status |= WD_MO;
                         fdd_index_count_reset(drv->fdd);
                         drv->step++;
+                        /* fall through */
                     case 2:
                         drv->clk += fdd_rotate(drv->fdd, (*drv->cpu_clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
                         if (fdd_index_count(drv->fdd) < 6) {
                             return;
                         }
                         drv->step++;
+                        /* fall through */
                     case 3:
                         switch (drv->command) {
                             case WD_STEP:
@@ -270,6 +274,7 @@ static void wd1770_execute(wd1770_t *drv)
                             case WD_RESTORE:
                                 drv->track = 0xff;
                                 drv->data = 0x00;
+                                /* fall through */
                             default:
                                 drv->step++;
                                 continue;
@@ -283,9 +288,11 @@ static void wd1770_execute(wd1770_t *drv)
                         }
                         drv->direction = (drv->data > drv->track);
                         drv->step++;
+                        /* fall through */
                     case 5:
                         drv->track += drv->direction ? 1 : -1;
                         drv->step++;
+                        /* fall through */
                     case 6:
                         if (fdd_track0(drv->fdd) && !drv->direction) {
                             drv->track = 0;
@@ -294,6 +301,7 @@ static void wd1770_execute(wd1770_t *drv)
                         }
                         fdd_seek_pulse(drv->fdd, drv->direction);
                         drv->step++;
+                        /* fall through */
                     case 7:
                         if (*drv->cpu_clk_ptr < drv->clk + STEP_RATE) {
                             return;
@@ -304,12 +312,14 @@ static void wd1770_execute(wd1770_t *drv)
                             continue;
                         }
                         drv->step++;
+                        /* fall through */
                     case 8:
                         if (!(drv->cmd & WD_V)) {
                             drv->type = -1;
                             break;
                         }
                         drv->step++;
+                        /* fall through */
                     case 9:
                         if (*drv->cpu_clk_ptr < drv->clk + SETTLING) {
                             return;
@@ -318,6 +328,7 @@ static void wd1770_execute(wd1770_t *drv)
                         fdd_index_count_reset(drv->fdd);
                         drv->sync = 0;
                         drv->step++;
+                        /* fall through */
                     case 10:
                         if (fdd_index_count(drv->fdd) >= 6) {
                             drv->status |= WD_SE;
@@ -339,6 +350,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->crc = 0xb230;
                         drv->byte_count = 6;
                         drv->step++;
+                        /* fall through */
                     case 11:
                         if (*drv->cpu_clk_ptr < drv->clk + BYTE_RATE) {
                             return;
@@ -373,6 +385,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->status |= WD_BSY;
                         drv->status &= ~(WD_DRQ | WD_LD | WD_RNF | WD_RT | WD_WP);
                         drv->step++;
+                        /* fall through */
                     case 1:
                         if ((drv->cmd & WD_H) || (drv->status & WD_MO)) {
                             drv->status |= WD_MO;
@@ -382,24 +395,28 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->status |= WD_MO;
                         fdd_index_count_reset(drv->fdd);
                         drv->step++;
+                        /* fall through */
                     case 2:
                         drv->clk += fdd_rotate(drv->fdd, (*drv->cpu_clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
                         if (fdd_index_count(drv->fdd) < 6) {
                             return;
                         }
                         drv->step++;
+                        /* fall through */
                     case 3:
                         if (!(drv->cmd & WD_E)) {
                             drv->step += 2;
                             continue;
                         }
                         drv->step++;
+                        /* fall through */
                     case 4:
                         if (*drv->cpu_clk_ptr < drv->clk + SETTLING) {
                             return;
                         }
                         drv->clk += SETTLING;
                         drv->step++;
+                        /* fall through */
                     case 5:
                         if (drv->command == WD_WRITE_SECTOR && fdd_write_protect(drv->fdd)) {
                             drv->status |= WD_WP;
@@ -409,6 +426,7 @@ static void wd1770_execute(wd1770_t *drv)
                         fdd_index_count_reset(drv->fdd);
                         drv->sync = 0;
                         drv->step++;
+                        /* fall through */
                     case 6:
                         if (fdd_index_count(drv->fdd) >= 5) {
                             drv->status |= WD_RNF;
@@ -430,6 +448,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->crc = 0xb230;
                         drv->byte_count = 6;
                         drv->step++;
+                        /* fall through */
                     case 7:
                         if (*drv->cpu_clk_ptr < drv->clk + BYTE_RATE) {
                             return;
@@ -465,6 +484,7 @@ static void wd1770_execute(wd1770_t *drv)
                         }
                         drv->byte_count = 43;
                         drv->step++;
+                        /* fall through */
                     case 8:
                         if (*drv->cpu_clk_ptr < drv->clk + BYTE_RATE) {
                             return;
@@ -489,6 +509,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->status |= ((res & 0xff) == 0xf8) ? WD_RT : 0;
                         drv->byte_count = (128 << drv->tmp) + 2;
                         drv->step++;
+                        /* fall through */
                     case 9:
                         if (*drv->cpu_clk_ptr < drv->clk + BYTE_RATE) {
                             return;
@@ -545,6 +566,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->crc = fdd_crc(drv->crc, (BYTE)res);
                         drv->byte_count = (128 << drv->tmp) + 3;
                         drv->step++;
+                        /* fall through */
                     case 11:
                         if (*drv->cpu_clk_ptr < drv->clk + BYTE_RATE) {
                             return;
@@ -586,6 +608,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->status |= WD_BSY;
                         drv->status &= ~(WD_DRQ | WD_LD | WD_RNF | WD_CRC);
                         drv->step++;
+                        /* fall through */
                     case 1:
                         if ((drv->cmd & WD_H) || (drv->status & WD_MO)) {
                             drv->status |= WD_MO;
@@ -595,24 +618,28 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->status |= WD_MO;
                         fdd_index_count_reset(drv->fdd);
                         drv->step++;
+                        /* fall through */
                     case 2:
                         drv->clk += fdd_rotate(drv->fdd, (*drv->cpu_clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
                         if (fdd_index_count(drv->fdd) < 6) {
                             return;
                         }
                         drv->step++;
+                        /* fall through */
                     case 3:
                         if (!(drv->cmd & WD_E)) {
                             drv->step += 2;
                             continue;
                         }
                         drv->step++;
+                        /* fall through */
                     case 4:
                         if (*drv->cpu_clk_ptr < drv->clk + SETTLING) {
                             return;
                         }
                         drv->clk += SETTLING;
                         drv->step++;
+                        /* fall through */
                     case 5:
                         fdd_index_count_reset(drv->fdd);
                         drv->sync = 0;
@@ -632,6 +659,7 @@ static void wd1770_execute(wd1770_t *drv)
                             drv->step++;
                             continue;
                         }
+                        /* fall through */
                     case 6:
                         if (fdd_index_count(drv->fdd) < 1) {
                             drv->clk += fdd_rotate(drv->fdd, (*drv->cpu_clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
@@ -668,6 +696,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->crc = 0xb230;
                         drv->byte_count = 6;
                         drv->step++;
+                        /* fall through */
                     case 8:
                         if (*drv->cpu_clk_ptr < drv->clk + BYTE_RATE) {
                             return;
@@ -702,6 +731,7 @@ static void wd1770_execute(wd1770_t *drv)
                         drv->byte_count = 0;
                         drv->tmp = 0;
                         drv->step++;
+                        /* fall through */
                     case 10:
                         if (fdd_index_count(drv->fdd) < 1) {
                             drv->clk += fdd_rotate(drv->fdd, (*drv->cpu_clk_ptr - drv->clk) / BYTE_RATE) * BYTE_RATE;
@@ -739,6 +769,7 @@ static void wd1770_execute(wd1770_t *drv)
                                             drv->crc = 0xffff;
                                             drv->tmp = 1;
                                         }
+                                        /* fall through */
                                     case 0xfc:
                                         res |= 0x100;
                                 }
