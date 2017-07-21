@@ -4761,7 +4761,7 @@ int main(int argc, char **argv)
  */
 static int p00save_cmd(int nargs, char **args)
 {
-    int dnr = 0, enable;
+    int dnr = 0, enable = 0;
 
     arg_to_int(args[1], &enable);
 
