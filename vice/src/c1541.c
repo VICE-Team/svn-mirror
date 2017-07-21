@@ -58,6 +58,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 /* apparently there are crappy C-libs out there that don't declare EXIT_SUCCESS
  * or EXIT_FAILURE
@@ -720,12 +721,17 @@ static int split_args(const char *line, int *nargs, char **args)
  * \param[out]  return_value    \a arg convert to int
  *
  * \return  0 on success, -1 on failure
+ *
+ * \note    on error, \a return_value is set to `INT_MIN`
  */
 static int arg_to_int(const char *arg, int *return_value)
 {
     char *tailptr;
     int counter = 0;
     int base = 10;
+
+    /* set value for error conditions, keeps compiler happy */
+    *return_value = INT_MIN;
 
     if (arg == NULL || *arg == '\0') {
         return -1;
