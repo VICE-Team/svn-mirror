@@ -1040,6 +1040,7 @@ static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
             position = 1;
         default:
             /* make compiler happy */
+            break;
     }
 
     if (vdrive->buffers[channel].mode != BUFFER_RELATIVE) {
