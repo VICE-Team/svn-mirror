@@ -850,7 +850,7 @@ static int compress_with_gzip(const char *src, const char *dest)
 /* Compress `src' into `dest' using bzip.  */
 static int compress_with_bzip(const char *src, const char *dest)
 {
-    static char *argv[4];
+    char *argv[4];
     int exit_status;
     char *mdest;
 
