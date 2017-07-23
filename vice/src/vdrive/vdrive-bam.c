@@ -399,6 +399,10 @@ int vdrive_bam_allocate_sector(vdrive_t *vdrive,
 {
     BYTE *bamp;
 
+    /* Tracks > 70 don't go into the (regular) BAM on 1571 */
+    if ((track > NUM_TRACKS_1571) && (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571)) {
+        return 0;
+    }
     if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) {
         sector ^= 7;
     }
@@ -417,6 +421,10 @@ int vdrive_bam_free_sector(vdrive_t *vdrive, unsigned int track,
 {
     BYTE *bamp;
 
+    /* Tracks > 70 don't go into the (regular) BAM on 1571 */
+    if ((track > NUM_TRACKS_1571) && (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571)) {
+        return 0;
+    }
     if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) {
         sector ^= 7;
     }
