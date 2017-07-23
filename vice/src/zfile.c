@@ -601,7 +601,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
 }
 
 /* If the file looks like a lynx image, try to extract it using c1541. We have
-   to figure this out by reading the contsnts of the file */
+   to figure this out by reading the contents of the file */
 static char *try_uncompress_lynx(const char *name, int write_mode)
 {
     char *tmp_name;
