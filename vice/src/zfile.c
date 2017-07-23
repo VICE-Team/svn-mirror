@@ -549,6 +549,9 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     }
     lib_free(tmp_name);
 
+
+    /* don't ask for permission. just do it, if it fails, it fails */
+#if 0
     /* Can we read this file?  */
     fd = fopen(name, MODE_READ);
     if (fd == NULL) {
@@ -565,7 +568,7 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
         sectors |= 1 << sector;
     }
     fclose(fd);
-
+#endif
     /* it is a zipcode. We cannot support write_mode */
     if (write_mode) {
         return "";
