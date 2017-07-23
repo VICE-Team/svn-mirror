@@ -41,4 +41,6 @@ libjoyport_a_SOURCES = \
 	script64_dongle.c \
 	script64_dongle.h \
 	vizawrite64_dongle.c \
-	vizawrite64_dongle.h
+	vizawrite64_dongle.h \
+	waasoft_dongle.c \
+	waasoft_dongle.h

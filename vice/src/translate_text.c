@@ -3625,6 +3625,23 @@ translate_t string_table[] = {
 /* tr */ {IDGS_VIZAWRITE64_DONGLE_TR, ""},  /* fuzzy */
 #endif
 
+/* joyport/waasoft_dongle.c */
+/* en */ {IDGS_WAASOFT_DONGLE,    N_("WaaSoft dongle")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_WAASOFT_DONGLE_DA, ""},  /* fuzzy */
+/* de */ {IDGS_WAASOFT_DONGLE_DE, ""},  /* fuzzy */
+/* es */ {IDGS_WAASOFT_DONGLE_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_WAASOFT_DONGLE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_WAASOFT_DONGLE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_WAASOFT_DONGLE_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_WAASOFT_DONGLE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_WAASOFT_DONGLE_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_WAASOFT_DONGLE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_WAASOFT_DONGLE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_WAASOFT_DONGLE_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_WAASOFT_DONGLE_TR, ""},  /* fuzzy */
+#endif
+
 /* joyport/cx21.c */
 /* en */ {IDGS_CX21,    N_("Atari CX21 keypad")},
 #ifdef HAS_TRANSLATION

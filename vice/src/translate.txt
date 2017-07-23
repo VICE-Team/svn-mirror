@@ -631,6 +631,9 @@ IDGS_SCRIPT64_DONGLE
 /* joyport/vizawrite64_dongle.c */
 IDGS_VIZAWRITE64_DONGLE
 
+/* joyport/waasoft_dongle.c */
+IDGS_WAASOFT_DONGLE
+
 /* joyport/cx21.c */
 IDGS_CX21
 

@@ -132,6 +132,7 @@
 #include "video-sound.h"
 #include "vizawrite64_dongle.h"
 #include "vsync.h"
+#include "waasoft_dongle.h"
 #include "z80.h"
 #include "z80mem.h"
 
@@ -632,6 +633,10 @@ int machine_resources_init(void)
     }
     if (joyport_vizawrite64_dongle_resources_init() < 0) {
         init_resource_fail("joyport vizawrite64 dongle");
+        return -1;
+    }
+    if (joyport_waasoft_dongle_resources_init() <0) {
+        init_resource_fail("joyport waasoft dongle");
         return -1;
     }
     if (joystick_resources_init() < 0) {
