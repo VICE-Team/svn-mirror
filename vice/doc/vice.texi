@@ -16855,7 +16855,7 @@ supported as a command argument.
 @itemx cond <checknum> if <cond_expr>
 Each time the specified checkpoint is examined, the condition is
 evaluated.  If it evalutes to true, the checkpoint is activated.
-Otherwise, it is ignores.  If registers are specified in the
+Otherwise, it is ignored.  If registers are specified in the
 expression, the values used are those at the time the checkpoint is
 examined, not when the condition is set.
 
