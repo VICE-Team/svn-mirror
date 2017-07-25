@@ -532,9 +532,6 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 static char *try_uncompress_zipcode(const char *name, int write_mode)
 {
     char *tmp_name = NULL;
-    int i, count, sector, sectors = 0;
-    FILE *fd;
-    char tmp[256];
     char *argv[5];
     int exit_status;
 
@@ -550,7 +547,8 @@ static char *try_uncompress_zipcode(const char *name, int write_mode)
     lib_free(tmp_name);
 
 
-    /* don't ask for permission. just do it, if it fails, it fails */
+    /* don't ask for permission. just do it, if it fails, it fails. This relies
+     * on zipcode.c doing the right thing, which I doubt */
 #if 0
     /* Can we read this file?  */
     fd = fopen(name, MODE_READ);
