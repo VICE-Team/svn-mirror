@@ -534,7 +534,7 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_REG_PC
-unsigned int reg_pc;
+WORD reg_pc;
 #endif
 
 static BYTE **o_bank_base;
@@ -560,7 +560,7 @@ void maincpu_mainloop(void)
     BYTE flag_n = 0;
     BYTE flag_z = 0;
 #ifndef NEED_REG_PC
-    unsigned int reg_pc;
+    WORD reg_pc;
 #endif
     BYTE *bank_base;
     int bank_start = 0;
