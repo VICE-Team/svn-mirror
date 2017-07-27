@@ -35,7 +35,7 @@
    are handled within the CPU emulation.  The struct should be accessed using
    the `MOS6510_REGS_*()' macros.  */
 typedef struct mos6510_regs_s {
-    unsigned int pc;        /* `unsigned int' required by the drive code. */
+    WORD pc;
     BYTE a;
     BYTE x;
     BYTE y;
