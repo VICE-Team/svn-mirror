@@ -94,7 +94,6 @@
 #include "serial.h"
 #include "snapshot.h"
 #include "tape.h"
-#include "types.h"
 #include "util.h"
 #include "uiapi.h"
 #include "vdrive-bam.h"

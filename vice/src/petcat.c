@@ -69,6 +69,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include "archdep.h"
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
@@ -76,7 +77,6 @@
 #include "lib.h"
 #include "machine.h"
 #include "network.h"
-#include "types.h"
 #include "util.h"
 #include "vice-event.h"
 
@@ -528,12 +528,12 @@ const char *tt64kwdb[] = {
 };
 
 typedef struct basic_list_s {
-    BYTE version;
-    BYTE num_tokens;
-    BYTE max_token;
-    WORD load_address;
-    BYTE token_offset;
-    BYTE token_start;
+    uint8_t version;
+    uint8_t num_tokens;
+    uint8_t max_token;
+    uint16_t load_address;
+    uint8_t token_offset;
+    uint8_t token_start;
     const char **tokens;
     char *version_select;
     int prefix64;
