@@ -88,34 +88,6 @@ static ui_resource_t ui_resources;
  */
 static int html_browser_command_set = 0;
 
-
-static GtkApplication *vice_app = NULL;
-
-
-/** \brief  GTK 'activate' signal handler for the application
- *
- * \param[in]   app         Gtk3 application handle
- * \param[in]   user_data   extra user data (unused)
- */
-static void activate(GtkApplication *app, gpointer user_data)
-{
-    GtkWidget *window;
-
-#ifdef VICE_DEBUG_NATIVE_GTK3
-    printf("GTK3: %s:%d: GtkApplication 'activate' signal handler called\n",
-            __FILE__, __LINE__);
-#endif
-
-    window = gtk_application_window_new(app);
-    gtk_window_set_title(GTK_WINDOW(window), "VICE");
-    gtk_window_set_default_size(GTK_WINDOW(window), 400, 300);
-    /* this probably needs to be moved when actually setting up the UI */
-    gtk_widget_show_all(window);
-
-    ui_resources.window_widget[PRIMARY_WINDOW] = window;
-}
-
-
 /** \brief  Get a window-spec array index from \a param
  *
  * Also performs a bounds check and returns -1 on boundary violation.
@@ -342,10 +314,6 @@ static const cmdline_option_t cmdline_options_common[] = {
     CMDLINE_LIST_END
 };
 
-
-
-
-
 int ui_cmdline_options_init(void)
 {
     INCOMPLETE_IMPLEMENTATION();
@@ -365,10 +333,8 @@ char *ui_get_file(const char *format, ...)
 
 int ui_init(int *argc, char **argv)
 {
-
-    vice_app = gtk_application_new("org.pokefinder.vice",
-                                   G_APPLICATION_FLAGS_NONE);
-    g_signal_connect(vice_app, "activate", G_CALLBACK(activate), NULL);
+    gtk_init(argc, &argv);
+    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
@@ -378,7 +344,6 @@ int ui_init_finalize(void)
     char *argv[] = { "x64", NULL };
 
     VICE_GTK3_FUNC_ENTERED();
-    status = g_application_run(G_APPLICATION(vice_app), 1, argv);
     return status;
 }
 
@@ -432,7 +397,6 @@ void ui_resources_shutdown(void)
 
 void ui_shutdown(void)
 {
-    g_object_unref(vice_app);
 }
 
 void ui_update_menus(void)
@@ -440,9 +404,15 @@ void ui_update_menus(void)
     NOT_IMPLEMENTED();
 }
 
+void ui_dispatch_next_event(void) {
+    gtk_main_iteration();
+}
+
 void ui_dispatch_events(void)
 {
-    NOT_IMPLEMENTED();
+    while (gtk_events_pending()) {
+        ui_dispatch_next_event();
+    }
 }
 
 int ui_extend_image_dialog(void)

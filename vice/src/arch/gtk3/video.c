@@ -206,7 +206,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->created = 0;
 
     canvas->widget = gtk_gl_area_new();
-
+    GtkWidget *new_window;
+    new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_title(GTK_WINDOW(new_window), "Incomplete VICE Window");
+    gtk_window_set_default_size (GTK_WINDOW(new_window), 689, 543);
+    
 #ifdef HAVE_HWSCALE
     canvas->hwscale_image = NULL;
 #endif
@@ -214,6 +218,10 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 #ifdef HAVE_OPENGL_SYNC
     openGL_sync_init(canvas);
 #endif
+    /* TODO: This leaks. ui.c should handle this with something like
+     *       ui_open_canvas_window. */
+    gtk_widget_show_all (new_window);
+    INCOMPLETE_IMPLEMENTATION();
     return canvas;
 }
 
@@ -244,17 +252,14 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 
 
 void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
-    NOT_IMPLEMENTED();
-}
-
-
-int video_canvas_set_palette(struct video_canvas_s *canvas,
+    INCOMPLETE_IMPLEMENTATION();
+}int video_canvas_set_palette(struct video_canvas_s *canvas,
                              struct palette_s *palette)
 {
     NOT_IMPLEMENTED();
