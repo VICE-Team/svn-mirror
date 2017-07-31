@@ -71,6 +71,7 @@
 #include "drive.h"
 #include "export.h"
 #include "fliplist.h"
+#include "fmopl.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
 #include "imagecontents.h"
@@ -1036,6 +1037,7 @@ int machine_specific_init(void)
 
     /* Initialize native sound chip */
     sid_sound_chip_init();
+    fmopl_set_machine_parameter(machine_timing.cycles_per_sec);
 
     /* Initialize cartridge based sound chips */
     cartridge_sound_chip_init();
@@ -1304,6 +1306,8 @@ void machine_change_timing(int timeval, int border_mode)
 
     cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_sec, machine_timing.power_freq);
     cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_sec, machine_timing.power_freq);
+
+    fmopl_set_machine_parameter(machine_timing.cycles_per_sec);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }

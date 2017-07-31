@@ -70,6 +70,7 @@
 #include "drive.h"
 #include "export.h"
 #include "fliplist.h"
+#include "fmopl.h"
 #include "fsdevice.h"
 #include "functionrom.h"
 #include "gfxoutput.h"
@@ -1115,6 +1116,7 @@ int machine_specific_init(void)
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
+    fmopl_set_machine_parameter(machine_timing.cycles_per_sec);
 
     /* Initialize keyboard buffer.  */
     kbdbuf_init(842, 208, 10,
@@ -1348,6 +1350,8 @@ void machine_change_timing(int timeval, int border_mode)
 
     cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_sec, machine_timing.power_freq);
     cia2_set_timing(machine_context.cia2, machine_timing.cycles_per_sec, machine_timing.power_freq);
+
+    fmopl_set_machine_parameter(machine_timing.cycles_per_sec);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
