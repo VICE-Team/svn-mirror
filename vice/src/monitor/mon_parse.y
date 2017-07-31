@@ -715,15 +715,21 @@ cond_expr: cond_expr COMPARE_OP cond_expr
 compare_operand: register { $$ = new_cond;
                             $$->operation = e_INV;
                             $$->is_parenthized = FALSE;
-                            $$->reg_num = $1; $$->is_reg = TRUE;
+                            $$->reg_num = $1; $$->is_reg = TRUE; $$->banknum=-1;
                             $$->child1 = NULL; $$->child2 = NULL;
                           }
                | number   { $$ = new_cond;
                             $$->operation = e_INV;
                             $$->is_parenthized = FALSE;
-                            $$->value = $1; $$->is_reg = FALSE;
+                            $$->value = $1; $$->is_reg = FALSE; $$->banknum=-1;
                             $$->child1 = NULL; $$->child2 = NULL;
                           }
+               |  '@' BANKNAME ':' address {$$=new_cond;
+                            $$->operation=e_INV;
+                            $$->is_parenthized = FALSE;
+                            $$->banknum=mon_banknum_from_bank(e_default_space,$2); $$->value = $4; $$->is_reg = FALSE;
+                            $$->child1 = NULL; $$->child2 = NULL;  
+                        }                        
                ;
 
 data_list: data_list opt_sep data_element

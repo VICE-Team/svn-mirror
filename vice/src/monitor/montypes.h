@@ -146,6 +146,7 @@ typedef enum t_action ACTION;
 struct cond_node_s {
     int operation;
     int value;
+    int banknum;
     MON_REG reg_num;
     bool is_reg;
     bool is_parenthized;
@@ -257,6 +258,8 @@ extern void mon_print_convert(int val);
 extern void mon_change_dir(const char *path);
 extern void mon_bank(MEMSPACE mem, const char *bank);
 extern const char *mon_get_current_bank_name(MEMSPACE mem);
+extern const char *mon_get_bank_name_for_bank(MEMSPACE mem, int banknum);
+extern int mon_banknum_from_bank(MEMSPACE mem, const char *bankname);
 extern void mon_display_io_regs(MON_ADDR addr);
 extern void mon_evaluate_default_addr(MON_ADDR *a);
 extern void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val);
