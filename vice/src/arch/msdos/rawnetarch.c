@@ -7,7 +7,7 @@
  *
  * Based on original code written by
  *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -28,9 +28,11 @@
  *
  */
 
+#include <stdint.h>
+
 #include "vice.h"
 
-#ifdef HAVE_PCAP 
+#ifdef HAVE_PCAP
 
 #define TRUE (1 == 1)
 #define FALSE (1 != 1)
@@ -98,7 +100,7 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
 
 #ifdef RAWNET_DEBUG_PKTDUMP
 
-static void debug_output(const char *text, BYTE *what, int count)
+static void debug_output(const char *text, uint8_t *what, int count)
 {
     char buffer[256];
     char *p = buffer;
@@ -321,14 +323,14 @@ void rawnet_arch_deactivate( void )
 #endif
 }
 
-void rawnet_arch_set_mac( const BYTE mac[6] )
+void rawnet_arch_set_mac( const uint8_t mac[6] )
 {
 #ifdef RAWNET_DEBUG_ARCH
     log_message(rawnet_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 #endif
 }
 
-void rawnet_arch_set_hashfilter(const DWORD hash_mask[2])
+void rawnet_arch_set_hashfilter(const uint32_t hash_mask[2])
 {
 #ifdef RAWNET_DEBUG_ARCH
     log_message(rawnet_arch_log, "New hash filter set: %08X:%08X.", hash_mask[1], hash_mask[0]);
@@ -366,7 +368,7 @@ void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver)
 
 typedef struct TFE_PCAP_INTERNAL_tag {
     unsigned int len;
-    BYTE *buffer;
+    uint8_t *buffer;
 } TFE_PCAP_INTERNAL;
 
 /* Callback function invoked by libpcap for every incoming packet */
@@ -416,9 +418,9 @@ static int rawnet_arch_receive_frame(TFE_PCAP_INTERNAL *pinternal)
  * int inhibit_crc - INHIBITCRC: Do not append CRC to the transmission *
  * int tx_pad_dis  - TXPADDIS: Disable padding to 60 Bytes             *
  * int txlength    - Frame length                                      *
- * BYTE *txframe   - Pointer to the frame to be transmitted            */
+ * uint8_t *txframe   - Pointer to the frame to be transmitted            */
 
-void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, uint8_t *txframe)
 {
     u_char *plibnet_buffer = NULL;
 
@@ -481,7 +483,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
   - if the received frame had a crc error, *pcrc_error is set, else cleared
 */
 
-/* BYTE *pbuffer     - where to store a frame                                                      *
+/* uint8_t *pbuffer     - where to store a frame                                                      *
  * int *plen         - IN: maximum length of frame to copy;                                        *
  *                     OUT: length of received frame                                               *
  *                     OUT can be bigger than IN if received frame was longer than supplied buffer *
@@ -492,7 +494,7 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
  * int *pbroadcast   - set if dest. address is a broadcast address                                 *
  * int *pcrc_error   - set if received frame had a CRC error                                       */
 
-int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error)
+int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error)
 {
     int len;
 

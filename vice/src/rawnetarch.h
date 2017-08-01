@@ -25,6 +25,8 @@
  *
  */
 
+#include <stdint.h>
+
 #ifdef HAVE_PCAP
 #else
   #error RAWNETARCH.H should not be included if HAVE_PCAP is not defined!
@@ -46,16 +48,16 @@ extern void rawnet_arch_pre_reset(void);
 extern void rawnet_arch_post_reset(void);
 extern int rawnet_arch_activate(const char *interface_name);
 extern void rawnet_arch_deactivate(void);
-extern void rawnet_arch_set_mac(const BYTE mac[6]);
-extern void rawnet_arch_set_hashfilter(const DWORD hash_mask[2]);
+extern void rawnet_arch_set_mac(const uint8_t mac[6]);
+extern void rawnet_arch_set_hashfilter(const uint32_t hash_mask[2]);
 
 extern void rawnet_arch_recv_ctl(int bBroadcast, int bIA, int bMulticast, int bCorrect, int bPromiscuous, int bIAHash);
 
 extern void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver);
 
-extern void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe);
+extern void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, uint8_t *txframe);
 
-extern int rawnet_arch_receive(BYTE *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error);
+extern int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int *phashed, int *phash_index, int *prx_ok, int *pcorrect_mac, int *pbroadcast, int *pcrc_error);
 
 extern int rawnet_arch_enumadapter_open(void);
 extern int rawnet_arch_enumadapter(char **ppname, char **ppdescription);

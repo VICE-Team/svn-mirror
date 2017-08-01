@@ -26,9 +26,11 @@
  *
  */
 
+#include <stdint.h>
+
 #include "vice.h"
 
-#ifdef HAVE_PCAP 
+#ifdef HAVE_PCAP
 
 #if 0
 #include "pcap.h"
@@ -74,7 +76,7 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
 
 #ifdef RAWNET_DEBUG_PKTDUMP
 
-static void debug_output( const char *text, BYTE *what, int count )
+static void debug_output( const char *text, uint8_t *what, int count )
 {
     char buffer[256];
     char *p = buffer;
@@ -274,7 +276,7 @@ void rawnet_arch_deactivate( void )
 #endif
 }
 
-void rawnet_arch_set_mac( const BYTE mac[6] )
+void rawnet_arch_set_mac( const uint8_t mac[6] )
 {
 #ifdef RAWNET_DEBUG_ARCH
     log_message( rawnet_arch_log, "New MAC address set: %02X:%02X:%02X:%02X:%02X:%02X.",
@@ -282,7 +284,7 @@ void rawnet_arch_set_mac( const BYTE mac[6] )
 #endif
 }
 
-void rawnet_arch_set_hashfilter(const DWORD hash_mask[2])
+void rawnet_arch_set_hashfilter(const uint32_t hash_mask[2])
 {
 #ifdef RAWNET_DEBUG_ARCH
     log_message( rawnet_arch_log, "New hash filter set: %08X:%08X.",
@@ -332,7 +334,7 @@ void rawnet_arch_line_ctl(int bEnableTransmitter, int bEnableReceiver )
 typedef struct TFE_PCAP_INTERNAL_tag {
 
     unsigned int len;
-    BYTE *buffer;
+    uint8_t *buffer;
 
 } TFE_PCAP_INTERNAL;
 
@@ -384,7 +386,7 @@ void rawnet_arch_transmit(int force,       /* FORCE: Delete waiting frames in tr
                        int inhibit_crc, /* INHIBITCRC: Do not append CRC to the transmission */
                        int tx_pad_dis,  /* TXPADDIS: Disable padding to 60 Bytes */
                        int txlength,    /* Frame length */
-                       BYTE *txframe    /* Pointer to the frame to be transmitted */
+                       uint8_t *txframe    /* Pointer to the frame to be transmitted */
                       )
 {
 #if 0
@@ -448,7 +450,7 @@ void rawnet_arch_transmit(int force,       /* FORCE: Delete waiting frames in tr
     *pbroadcast is set, else cleared.
   - if the received frame had a crc error, *pcrc_error is set, else cleared
 */
-int rawnet_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
+int rawnet_arch_receive(uint8_t *pbuffer  ,    /* where to store a frame */
                      int  *plen,         /* IN: maximum length of frame to copy; 
                                             OUT: length of received frame 
                                             OUT can be bigger than IN if received frame was
