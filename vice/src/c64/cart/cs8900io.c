@@ -28,6 +28,8 @@
  *
  */
 
+#include <stdint.h>
+
 #include "vice.h"
 
 #ifdef HAVE_PCAP
@@ -187,7 +189,7 @@ void cs8900io_detach(void)
 /* ------------------------------------------------------------------------- */
 
 /* ----- read byte from I/O range in VICE ----- */
-BYTE cs8900io_read(WORD io_address)
+uint8_t cs8900io_read(uint16_t io_address)
 {
     if (!cs8900io_cannot_use) {
         return cs8900_read(io_address);
@@ -196,13 +198,13 @@ BYTE cs8900io_read(WORD io_address)
 }
 
 /* ----- peek byte with no sideeffects from I/O range in VICE ----- */
-BYTE cs8900io_peek(WORD io_address)
+uint8_t cs8900io_peek(uint16_t io_address)
 {
     return cs8900io_read(io_address);
 }
 
 /* ----- write byte to I/O range of VICE ----- */
-void cs8900io_store(WORD io_address, BYTE byte)
+void cs8900io_store(uint16_t io_address, uint8_t byte)
 {
     if (!cs8900io_cannot_use) {
         cs8900_store(io_address, byte);
