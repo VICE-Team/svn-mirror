@@ -27,6 +27,8 @@
 #ifndef VICE_BLOCKDEV_H
 #define VICE_BLOCKDEV_H
 
+#include <stdint.h>
+
 #include "types.h"
 
 struct disk_image_s;
@@ -37,9 +39,9 @@ extern int blockdev_cmdline_options_init(void);
 
 extern int blockdev_open(const char *name, unsigned int *read_only);
 extern int blockdev_close(void);
-extern int blockdev_read_sector(BYTE *buf, unsigned int track,
+extern int blockdev_read_sector(uint8_t *buf, unsigned int track,
                                 unsigned int sector);
-extern int blockdev_write_sector(const BYTE *buf, unsigned int track,
+extern int blockdev_write_sector(const uint8_t *buf, unsigned int track,
                                  unsigned int sector);
 
 #endif

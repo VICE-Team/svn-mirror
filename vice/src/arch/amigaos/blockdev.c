@@ -25,6 +25,8 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
+
 #include "blockdev.h"
 
 void blockdev_init(void)
@@ -51,12 +53,12 @@ int blockdev_close(void)
     return -1;
 }
 
-int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
+int blockdev_read_sector(uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return -1;
 }
 
-int blockdev_write_sector(const BYTE *buf, unsigned int track, unsigned int sector)
+int blockdev_write_sector(const uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return -1;
 }

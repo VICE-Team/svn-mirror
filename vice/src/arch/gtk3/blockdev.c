@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdint.h>
 
 #include "not_implemented.h"
 #include "types.h"
@@ -67,7 +68,7 @@ int blockdev_open(const char *name, unsigned int *read_only)
 #endif
 }
 
-int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
+int blockdev_read_sector(uint8_t *buf, unsigned int track, unsigned int sector)
 {
 #ifdef UNIX_COMPILE
     NOT_IMPLEMENTED();
@@ -83,7 +84,7 @@ int blockdev_resources_init(void)
     return 0;
 }
 
-int blockdev_write_sector(const BYTE *buf, unsigned int track, unsigned int sector)
+int blockdev_write_sector(const uint8_t *buf, unsigned int track, unsigned int sector)
 {
 #ifdef UNIX_COMPILE
     NOT_IMPLEMENTED();

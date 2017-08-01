@@ -29,6 +29,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <stdint.h>
 
 #include "blockdev.h"
 #include "log.h"
@@ -46,12 +47,12 @@ int blockdev_close(void)
 
 /*-----------------------------------------------------------------------*/
 
-int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
+int blockdev_read_sector(uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return -1;
 }
 
-int blockdev_write_sector(const BYTE *buf, unsigned int track, unsigned int sector)
+int blockdev_write_sector(const uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return -1;
 }
