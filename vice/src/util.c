@@ -34,6 +34,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -137,12 +138,12 @@ void util_addline_free(char **list, char *line)
    malloc'ed block of `max_buf_size' bytes of which only the first `buf_size'
    ones are used.  If the `buf' is not large enough, realloc it.  Return a
    pointer to the new block.  */
-BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
-                  const BYTE *src, int src_size)
+uint8_t *util_bufcat(uint8_t *buf, int *buf_size, size_t *max_buf_size,
+                     const uint8_t *src, int src_size)
 {
 #define BUFCAT_GRANULARITY 0x1000
     if (*buf_size + src_size > (int)(*max_buf_size)) {
-        BYTE *new_buf;
+        uint8_t *new_buf;
 
         *max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
                          * BUFCAT_GRANULARITY);
@@ -358,7 +359,7 @@ size_t util_file_length(FILE *fd)
 
 /* Load the first `size' bytes of file named `name' into `dest'.  Return 0 on
    success, -1 on failure.  */
-int util_file_load(const char *name, BYTE *dest, size_t size,
+int util_file_load(const char *name, uint8_t *dest, size_t size,
                    unsigned int load_flag)
 {
     FILE *fd;
@@ -417,7 +418,7 @@ int util_file_load(const char *name, BYTE *dest, size_t size,
 /* Write the first `size' bytes of `src' into a newly created file `name'.
    If `name' already exists, it is replaced by the new one.  Returns 0 on
    success, -1 on failure.  */
-int util_file_save(const char *name, BYTE *src, int size)
+int util_file_save(const char *name, uint8_t *src, int size)
 {
     FILE *fd;
     size_t r;
@@ -592,84 +593,84 @@ int util_fpwrite(FILE *fd, const void *buf, size_t num, long offset)
     return 0;
 }
 
-void util_dword_to_be_buf(BYTE *buf, DWORD data)
+void util_dword_to_be_buf(uint8_t *buf, uint32_t data)
 {
-    buf[3] = (BYTE)(data & 0xff);
-    buf[2] = (BYTE)((data >> 8) & 0xff);
-    buf[1] = (BYTE)((data >> 16) & 0xff);
-    buf[0] = (BYTE)((data >> 24) & 0xff);
+    buf[3] = (uint8_t)(data & 0xff);
+    buf[2] = (uint8_t)((data >> 8) & 0xff);
+    buf[1] = (uint8_t)((data >> 16) & 0xff);
+    buf[0] = (uint8_t)((data >> 24) & 0xff);
 }
 
-void util_dword_to_le_buf(BYTE *buf, DWORD data)
+void util_dword_to_le_buf(uint8_t *buf, uint32_t data)
 {
-    buf[0] = (BYTE)(data & 0xff);
-    buf[1] = (BYTE)((data >> 8) & 0xff);
-    buf[2] = (BYTE)((data >> 16) & 0xff);
-    buf[3] = (BYTE)((data >> 24) & 0xff);
+    buf[0] = (uint8_t)(data & 0xff);
+    buf[1] = (uint8_t)((data >> 8) & 0xff);
+    buf[2] = (uint8_t)((data >> 16) & 0xff);
+    buf[3] = (uint8_t)((data >> 24) & 0xff);
 }
 
-DWORD util_le_buf_to_dword(BYTE *buf)
+uint32_t util_le_buf_to_dword(uint8_t *buf)
 {
-    DWORD data;
+    uint32_t data;
 
     data = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
 
     return data;
 }
 
-DWORD util_be_buf_to_dword(BYTE *buf)
+uint32_t util_be_buf_to_dword(uint8_t *buf)
 {
-    DWORD data;
+    uint32_t data;
 
     data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
 
     return data;
 }
 
-void util_int_to_be_buf4(BYTE *buf, int data)
+void util_int_to_be_buf4(uint8_t *buf, int data)
 {
-    util_dword_to_be_buf(buf, (DWORD)data);
+    util_dword_to_be_buf(buf, (uint32_t)data);
 }
 
-void util_int_to_le_buf4(BYTE *buf, int data)
+void util_int_to_le_buf4(uint8_t *buf, int data)
 {
-    util_dword_to_le_buf(buf, (DWORD)data);
+    util_dword_to_le_buf(buf, (uint32_t)data);
 }
 
-int util_le_buf4_to_int(BYTE *buf)
+int util_le_buf4_to_int(uint8_t *buf)
 {
     return (int)util_le_buf_to_dword(buf);
 }
 
-int util_be_buf4_to_int(BYTE *buf)
+int util_be_buf4_to_int(uint8_t *buf)
 {
     return (int)util_be_buf_to_dword(buf);
 }
 
-void util_word_to_be_buf(BYTE *buf, WORD data)
+void util_word_to_be_buf(uint8_t *buf, uint16_t data)
 {
-    buf[1] = (BYTE)(data & 0xff);
-    buf[0] = (BYTE)((data >> 8) & 0xff);
+    buf[1] = (uint8_t)(data & 0xff);
+    buf[0] = (uint8_t)((data >> 8) & 0xff);
 }
 
-void util_word_to_le_buf(BYTE *buf, WORD data)
+void util_word_to_le_buf(uint8_t *buf, uint16_t data)
 {
-    buf[0] = (BYTE)(data & 0xff);
-    buf[1] = (BYTE)((data >> 8) & 0xff);
+    buf[0] = (uint8_t)(data & 0xff);
+    buf[1] = (uint8_t)((data >> 8) & 0xff);
 }
 
-WORD util_le_buf_to_word(BYTE *buf)
+uint16_t util_le_buf_to_word(uint8_t *buf)
 {
-    WORD data;
+    uint16_t data;
 
     data = buf[0] | (buf[1] << 8);
 
     return data;
 }
 
-WORD util_be_buf_to_word(BYTE *buf)
+uint16_t util_be_buf_to_word(uint8_t *buf)
 {
-    WORD data;
+    uint16_t data;
 
     data = buf[1] | (buf[0] << 8);
 
