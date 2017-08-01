@@ -37,6 +37,7 @@
  */
 
 #include <stdio.h>
+#include <stdint.h>
 #include "rs232drv/rs232.h"
 
 /* Initializes all RS232 stuff */
@@ -61,13 +62,13 @@ void rs232dev_close(int fd)
 }
 
 /* Sends a byte to the RS232 line */
-int rs232dev_putc(int fd, BYTE b)
+int rs232dev_putc(int fd, uint8_t b)
 {
     return 0;
 }
 
 /* Gets a byte to the RS232 line, returns !=1 if byte received, byte in *b. */
-int rs232dev_getc(int fd, BYTE *b)
+int rs232dev_getc(int fd, uint8_t *b)
 {
     return 0;
 }

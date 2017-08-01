@@ -38,6 +38,8 @@
 #undef        DEBUG
 /* #define DEBUG */
 
+#include <stdint.h>
+
 #include "vice.h"
 
 #ifdef HAVE_RS232NET
@@ -195,7 +197,7 @@ void rs232net_close(int fd)
 }
 
 /* sends a byte to the RS232 line */
-int rs232net_putc(int fd, BYTE b)
+int rs232net_putc(int fd, uint8_t b)
 {
     int n;
 
@@ -227,7 +229,7 @@ int rs232net_putc(int fd, BYTE b)
 }
 
 /* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
-int rs232net_getc(int fd, BYTE * b)
+int rs232net_getc(int fd, uint8_t * b)
 {
     int ret;
     int no_of_read_byte = -1;

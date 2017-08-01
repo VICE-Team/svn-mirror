@@ -39,6 +39,8 @@
 #ifndef VICE_RS232_H
 #define VICE_RS232_H
 
+#include <stdint.h>
+
 #include "types.h"
 
 #include "rs232drv.h"
@@ -56,10 +58,10 @@ extern int rs232_open(int device);
 extern void rs232_close(int fd);
 
 /* Sends a byte to the RS232 line */
-extern int rs232_putc(int fd, BYTE b);
+extern int rs232_putc(int fd, uint8_t b);
 
 /* Gets a byte to the RS232 line, returns !=1 if byte received, byte in *b. */
-extern int rs232_getc(int fd, BYTE *b);
+extern int rs232_getc(int fd, uint8_t *b);
 
 /* write the output handshake lines */
 extern int rs232_set_status(int fd, enum rs232handshake_out status);

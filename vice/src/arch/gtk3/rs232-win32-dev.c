@@ -42,6 +42,7 @@
 
 #include <errno.h>
 #include <string.h>
+#include <stdint.h>
 #include <winsock.h>
 
 #ifdef HAVE_IO_H
@@ -186,7 +187,7 @@ int rs232dev_open(int device)
          * ensure that a read will always terminate and only return
          * what is already in the buffers
          */
-        comm_timeouts.ReadIntervalTimeout = MAXDWORD;
+        comm_timeouts.ReadIntervalTimeout = MAXuint32_t;
         comm_timeouts.ReadTotalTimeoutMultiplier = 0;
         comm_timeouts.ReadTotalTimeoutConstant = 0;
 
@@ -244,9 +245,9 @@ static int rs232_debug_fake_input_available = 0;
 #endif
 
 /* sends a byte to the RS232 line */
-int rs232dev_putc(int fd, BYTE b)
+int rs232dev_putc(int fd, uint8_t b)
 {
-    DWORD number_of_bytes = 1;
+    uint32_t number_of_bytes = 1;
 
     DEBUG_LOG_MESSAGE((rs232dev_log, "rs232dev: Output %u = `%c'.", (unsigned)b, b));
 
@@ -269,9 +270,9 @@ int rs232dev_putc(int fd, BYTE b)
 }
 
 /* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
-int rs232dev_getc(int fd, BYTE * b)
+int rs232dev_getc(int fd, uint8_t * b)
 {
-    DWORD number_of_bytes = 1;
+    uint32_t number_of_bytes = 1;
 
 #if DEBUG_FAKE_INPUT_OUTPUT
 
@@ -330,7 +331,7 @@ enum rs232handshake_in rs232dev_get_status(int fd)
     enum rs232handshake_in modem_status = 0;
 
     do {
-        DWORD modemstat = 0;
+        uint32_t modemstat = 0;
         if (GetCommModemStatus(fds[fd].fd, &modemstat) == 0) {
             DEBUG_LOG_MESSAGE((rs232dev_log, "Could not get modem status for device %d.", device));
             break;

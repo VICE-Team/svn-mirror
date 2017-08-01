@@ -27,6 +27,8 @@
 #ifndef VICE_RS232NET_H
 #define VICE_RS232NET_H
 
+#include <stdint.h>
+
 #include "types.h"
 
 /* Initializes all RS232 stuff */
@@ -42,10 +44,10 @@ extern int rs232net_open(int device);
 extern void rs232net_close(int fd);
 
 /* Sends a byte to the RS232 line */
-extern int rs232net_putc(int fd, BYTE b);
+extern int rs232net_putc(int fd, uint8_t b);
 
 /* Gets a byte to the RS232 line, returns !=1 if byte received, byte in *b. */
-extern int rs232net_getc(int fd, BYTE *b);
+extern int rs232net_getc(int fd, uint8_t *b);
 
 /* write the output handshake lines */
 extern int rs232net_set_status(int fd, enum rs232handshake_out status);
