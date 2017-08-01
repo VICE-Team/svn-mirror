@@ -102,6 +102,29 @@ static log_t zlog = LOG_ERR;
 
 static int zinit_done = 0;
 
+
+/** \@brief 'Check' is file \a name is a gzip or compress file
+ *
+ * \param[in]   name    filename or path
+ *
+ * \return  bool
+ *
+ * \fixme   this is a silly function and should be reimplemented using the
+ *          2-byte header of the file
+ */
+static int file_is_gzip(const char *name)
+{
+    size_t l = strlen(name);
+
+    if ((l < 4 || strcasecmp(name + l - 3, ".gz"))
+        && (l < 3 || strcasecmp(name + l - 2, ".z"))
+        && (l < 4 || toupper(name[l - 1]) != 'Z' || name[l - 4] != '.')) {
+          return 0;
+    }
+    return 1;
+}
+
+
 static void zfile_list_destroy(void)
 {
     zfile_t *p;
@@ -180,6 +203,10 @@ static char *try_uncompress_with_gzip(const char *name)
     char *tmp_name = NULL;
     int len;
 
+    if (!file_is_gzip(name)) {
+        return NULL;
+    }
+
     fddest = archdep_mkstemp_fd(&tmp_name, MODE_WRITE);
 
     if (fddest == NULL) {
@@ -217,6 +244,10 @@ static char *try_uncompress_with_gzip(const char *name)
     char *tmp_name = NULL;
     int exit_status;
     char *argv[4];
+
+    if (!file_is_gzip(name)) {
+        return NULL;
+    }
 
     /* `exec*()' does not want these to be constant...  */
     argv[0] = lib_stralloc("gzip");
