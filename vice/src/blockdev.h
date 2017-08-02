@@ -27,7 +27,11 @@
 #ifndef VICE_BLOCKDEV_H
 #define VICE_BLOCKDEV_H
 
+#include "vice.h"
+
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#endif
 
 #include "types.h"
 

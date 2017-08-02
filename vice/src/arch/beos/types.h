@@ -33,6 +33,22 @@
 
 #include "vice.h"
 
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#else
+/* BeOS has intXX_t types in inttypes.h */
+#include <inttypes.h>
+#endif
+
+typedef uint8_t     BYTE;
+typedef int8_t      SIGNED_CHAR;
+typedef uint16_t    WORD;
+typedef int16_t     SWORD;
+typedef uint32_t    DWORD;
+typedef int32_t     SDWORD;
+
+#if 0 /* XXX: remove this if the code still compiles on BeOS */
+
 #define BYTE unsigned char
 
 typedef signed char SIGNED_CHAR;
@@ -54,6 +70,8 @@ typedef signed long SWORD;
 #error Cannot find a proper 32-bit type!
 #endif
 
+#endif
+
 typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
@@ -63,4 +81,4 @@ typedef DWORD CLOCK;
 #define int_to_void_ptr(x) ((void *)(long)(x))
 #define uint_to_void_ptr(x) ((void *)(unsigned long)(x))
 
-#endif  /* _TYPES_H */
+#endif  /* VICE_TYPES_H */
