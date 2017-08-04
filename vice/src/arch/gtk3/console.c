@@ -35,13 +35,13 @@
 
 int console_close_all(void)
 {
-    NOT_IMPLEMENTED();
+    /* This is a no-op on GNOME, should be fine here too */
     return 0;
 }
 
 int console_init(void)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
     return 0;
 }
 

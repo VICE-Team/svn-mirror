@@ -340,10 +340,11 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finalize(void)
 {
-    int status;
+    int status = 0;
     char *argv[] = { "x64", NULL };
 
     VICE_GTK3_FUNC_ENTERED();
+    NOT_IMPLEMENTED_WARN_ONLY();
     return status;
 }
 
@@ -426,3 +427,25 @@ void ui_message(const char *format, ...)
     NOT_IMPLEMENTED();
 }
 
+void ui_display_speed(float percent, float framerate, int warp_flag)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+}
+
+void ui_pause_emulation(int flag)
+{
+    NOT_IMPLEMENTED();
+}
+
+int ui_emulation_is_paused(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
+
+void ui_exit(void)
+{
+    /* TODO: Confirmation dialog, etc. */
+    INCOMPLETE_IMPLEMENTATION();
+    exit(0);
+}

@@ -32,15 +32,16 @@
 
 #include "c64ui.h"
 
-
 int c64ui_init(void)
 {
-    NOT_IMPLEMENTED();
+    /* Some of the work here is done by video.c now, and would need to
+     * be shifted over */
+    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
 void c64ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

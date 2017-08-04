@@ -292,6 +292,7 @@ int archdep_init(int *argc, char **argv)
     printf("vice.ini path   = \"%s\"\n", vice_ini);
 
     lib_free(prg_name);
+    lib_free(searchpath);
     lib_free(vice_ini);
 
     /* needed for early log control (parses for -silent/-verbose) */

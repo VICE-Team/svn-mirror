@@ -164,7 +164,9 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 #endif
     }
 
-    return default_path;
+    /* We allocate a fresh string here because sysfile.c, among other
+     * places, takes ownership of the result. */
+    return lib_stralloc(default_path);
 }
 
 
@@ -274,7 +276,7 @@ void archdep_shutdown(void)
     archdep_network_shutdown();
 
     /* partially implemented */
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)

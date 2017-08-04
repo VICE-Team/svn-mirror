@@ -65,7 +65,7 @@ int mousedrv_get_y(void)
 
 void mousedrv_init(void)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void mousedrv_mouse_changed(void)

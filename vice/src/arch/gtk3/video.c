@@ -37,11 +37,8 @@
 #include "raster.h"
 #include "resources.h"
 #include "translate.h"
+#include "ui.h"
 #include "videoarch.h"
-
-#ifdef HAVE_OPENGL_SYNC
-# include "openGL_sync.h"
-#endif
 
 #define VICE_DEBUG_NATIVE_GTK3
 
@@ -100,6 +97,12 @@ static int set_display_depth(int val, void *param)
     return 0;
 }
 
+static void window_destroy_cb(void)
+{
+    /* This isn't quite right, unless destroying any canvas window
+     * should kill the app */
+    ui_exit();
+}
 
 /** \brief  Command line options related to generic video output
  */
@@ -175,9 +178,6 @@ int video_arch_cmdline_options_init(void)
  */
 int video_arch_resources_init(void)
 {
-#ifdef HAVE_OPENGL_SYNC
-    openGL_register_resources();
-#endif
     if (machine_class != VICE_MACHINE_VSID) {
         return resources_register_int(resources_int);
     }
@@ -205,21 +205,19 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->initialized = 0;
     canvas->created = 0;
 
-    canvas->widget = gtk_gl_area_new();
+    canvas->widget = gtk_drawing_area_new();
+
+    /* TODO: This both leaks and is in the wrong place. ui.c should
+     *       handle this with something like ui_open_canvas_window,
+     *       and *that* probably belongs somewhere in things like
+     *       c64ui_init(). */
     GtkWidget *new_window;
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(new_window), "Incomplete VICE Window");
     gtk_window_set_default_size (GTK_WINDOW(new_window), 689, 543);
-    
-#ifdef HAVE_HWSCALE
-    canvas->hwscale_image = NULL;
-#endif
 
-#ifdef HAVE_OPENGL_SYNC
-    openGL_sync_init(canvas);
-#endif
-    /* TODO: This leaks. ui.c should handle this with something like
-     *       ui_open_canvas_window. */
+    g_signal_connect(new_window, "destroy", G_CALLBACK(window_destroy_cb), NULL);
+    
     gtk_widget_show_all (new_window);
     INCOMPLETE_IMPLEMENTATION();
     return canvas;
@@ -238,11 +236,6 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
         }
 #endif
 
-#ifdef HAVE_HWSCALE
-        if (canvas->hwscale_image != NULL) {
-            lib_free(canvas->hwscale_image);
-        }
-#endif
     }
 }
 
@@ -278,6 +271,6 @@ int video_init(void)
 
 void video_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 

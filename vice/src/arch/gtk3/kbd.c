@@ -41,7 +41,7 @@ int kbd_arch_get_host_mapping(void)
 
 void kbd_arch_init(void)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 signed long kbd_arch_keyname_to_keynum(char *keyname)
@@ -58,6 +58,6 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
 
 void kbd_initialize_numpad_joykeys(int *joykeys)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
