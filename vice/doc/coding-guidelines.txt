@@ -20,7 +20,7 @@ Project Folders Hierarchy Descriptions
 --------------------------------------
 Here are short descriptions of the project code folders and their functions:
 
-src/           - common code 
+src/           - common code
  arch          - architecture specific code for various platforms (win, unix, amigaos, etc)
  c64           - c64 specific code
  c64/cart      - c64 cartridge specific code
@@ -47,26 +47,39 @@ src/           - common code
  resid folders - cycle exact sid engine (made by dag lem)
  rs232drv      - rs232 communication and modem code for interfacing with arch specific drivers
  rtc           - real time clock emulation used in some devices (fd2000/4000, ide64, etc..)
- serial        - iec interface code and real iec access (for using real drives on usb with vice) 
+ serial        - iec interface code and real iec access (for using real drives on usb with vice)
  sid           - SID chip interface and emulation for fallback sid engine (fastsid)
- sounddrv      - framework specific sound drivers 
+ sounddrv      - framework specific sound drivers
  tape          - tape drive specific emulation and T64 support
  userport      - userport device emulation code
  vdc           - MOS8563 VDC emulation
  vdrive        - virtual drives code, opposed to "true drive emulation" found in drive folder
  vic20         - commodore vic20 specific code
- vicii         - almost cycle exact VICII emulation code for x64, x128, xcbm2, and x64dtv 
+ vicii         - almost cycle exact VICII emulation code for x64, x128, xcbm2, and x64dtv
  viciisc       - more cycle exact then vicii code emulation used in x64sc and xscpu64
  video         - pixel framebuffer to physical screen interface code
 
- 
+
 Cosmetic guidelines for all code
 --------------------------------
 
 To keep the code easy to follow please read the following statements:
 
+- Use the types in <stdint.h> for fixed-width types, so `uint8_t` rather than
+  `BYTE`, `uint16_t` for `WORD` and `uint32_t` for `DWORD`.
+
 - No variable declarations after the first line of code, some compilers
   just can't handle it.
+
+  New block-level declarations are fine:
+
+    if (foo) {
+        int bar = 0;
+        /* code using bar */
+    }
+
+  Perfectly valid even in C89, if a compiler can't handle this, get a proper
+  compiler.
 
 - Don't use mixtures of tabs and spaces as indentation, using 4 spaces per
   level will make the code look the same no matter what editor you use.
@@ -90,35 +103,46 @@ To keep the code easy to follow please read the following statements:
         ...
     }
 
+- No 'clever' while/do trickery, unless required for preprocessor code. The
+  following looks clever:
+
+    while (*s++ != '\0');
+
+  But this is clearer and will generate the same object code:
+
+    while (*s != '\0') {
+        s++;
+    }
+
 - To give the code a consistent look use specifiers named with prefixes
   like in the following examples:
 
     struct foobar_s {
         ...
     };
-  
+
     typedef ... foobar_t;
 
     enum stuff_e {
         ...
     };
-  
+
     union many_u {
         ...
     };
-  
+
   Of course combinations may be used:
 
     typedef struct foobar_s {
         ...
     } foobar_t;
 
-  Exceptions are basic type like BYTE, WORD, DWORD and code that follows a 
-  coding style of a certain architecture, e.g. UI code. 
+  Exceptions are basic type like BYTE, WORD, DWORD and code that follows a
+  coding style of a certain architecture, e.g. UI code.
 
 - Preprocessor macros which define constants or enumeration values should
   be written in capital letters.
-  
+
    #define FORTYTWO 42
 
    typedef numbers_e {
@@ -135,7 +159,7 @@ Many different compilers are used to compile the common code parts.
   exist, use the #ifdef HAVE_*_H instead.
 
 - Don't use C++ style comments (// comment), use C-style comments instead
-  (/* comment */).
+  (/* comment */). This goes for C99 code as well.
 
 - When adding header files use VICE_*_H as shown in the following example:
 
