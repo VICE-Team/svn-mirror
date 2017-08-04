@@ -447,34 +447,34 @@ Adding new files to the svn repo
 
 When adding a *nix script file use the following svn properties:
 
-svn:eol-style	LF
-svn:mime-type	text/plain
-svn:executable	*
+svn:eol-style   LF
+svn:mime-type   text/plain
+svn:executable  *
 
 When adding a windows/dos batch file use the following svn properties:
 
-svn:eol-style	CRLF
-svn:mime-type	text/plain
-svn:executable	*
+svn:eol-style   CRLF
+svn:mime-type   text/plain
+svn:executable  *
 
 When adding a 'Changelog' file use the following svn properties:
 
-svn:eol-style	LF
-svn:mime-type	text/plain
+svn:eol-style   LF
+svn:mime-type   text/plain
 
 When adding a windows msvc template file use the following svn properties:
 
-svn:eol-style	CRLF
-svn:mime-type	text/plain
+svn:eol-style   CRLF
+svn:mime-type   text/plain
 
 When adding an openwatcom target or project file use the following svn properties:
 
-svn:eol-style	CRLF
-svn:mime-type	text/plain
+svn:eol-style   CRLF
+svn:mime-type   text/plain
 
 When adding a non-text file use only the correct mime-type.
 
 For all other files use the following svn properties:
 
-svn:eol-style	native
-svn:mime-type	text/plain
+svn:eol-style   native
+svn:mime-type   text/plain
