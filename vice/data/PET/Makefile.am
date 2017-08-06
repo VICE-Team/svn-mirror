@@ -53,7 +53,21 @@ x11_keymaps = \
 	x11_buuk_pos.vkm \
 	x11_buuk_pos_de.vkm \
 	x11_buuk_sym.vkm \
-	x11_buuk_sym_de.vkm
+	x11_buuk_sym_de.vkm \
+	\
+	gtk3_sym.vkm \
+	gtk3_bude_pos.vkm \
+	gtk3_bude_pos_de.vkm \
+	gtk3_bude_sym.vkm \
+	gtk3_bude_sym_de.vkm \
+	gtk3_grus_pos.vkm \
+	gtk3_grus_pos_de.vkm \
+	gtk3_grus_sym.vkm \
+	gtk3_grus_sym_de.vkm \
+	gtk3_buuk_pos.vkm \
+	gtk3_buuk_pos_de.vkm \
+	gtk3_buuk_sym.vkm \
+	gtk3_buuk_sym_de.vkm
 
 sdl_keymaps = \
 	sdl_sym.vkm \
