@@ -16,7 +16,10 @@ palettes = \
 
 x11_keymaps = \
 	x11_pos.vkm \
-	x11_sym.vkm
+	x11_sym.vkm \
+	\
+	gtk3_pos.vkm \
+	gtk3_sym.vkm
 
 sdl_keymaps = \
 	sdl_pos.vkm \
