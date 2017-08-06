@@ -281,7 +281,7 @@ int archdep_init(int *argc, char **argv)
 
     /* sanity checks, to remove later: */
     prg_name = archdep_program_name();
-    searchpath = archdep_default_sysfile_pathlist("C64");
+    searchpath = archdep_default_sysfile_pathlist(machine_name);
     cfg_path = archdep_user_config_path();
     vice_ini = archdep_default_resource_file_name();
 

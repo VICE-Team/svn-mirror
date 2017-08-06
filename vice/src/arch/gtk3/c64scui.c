@@ -35,7 +35,9 @@
 
 int c64scui_init(void)
 {
-    NOT_IMPLEMENTED();
+    /* Some of the work here is done by video.c now, and would need to
+     * be shifted over */
+    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
