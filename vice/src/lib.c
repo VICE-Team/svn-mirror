@@ -442,7 +442,7 @@ void *lib_debug_leaklist_bt_caller[LIB_DEBUG_LEAKLIST_MAX][DEBUG_BT_MAXDEPTH];
 int lib_debug_leaklist_bt_numcaller[LIB_DEBUG_LEAKLIST_MAX];
 #endif
 
-void lib_debug_leaklist_add(unsigned int index)
+static void lib_debug_leaklist_add(unsigned int index)
 {
     unsigned int i;
 #ifdef LIB_DEBUG_CALLER
@@ -644,6 +644,9 @@ void *lib_AllocMem(unsigned long size, unsigned long attributes)
 #endif
 
 /* Like calloc, but abort if not enough memory is available.  */
+#ifdef LIB_DEBUG_PINPOINT
+static
+#endif
 void *lib_calloc(size_t nmemb, size_t size)
 {
 #ifdef LIB_DEBUG
@@ -666,6 +669,9 @@ void *lib_calloc(size_t nmemb, size_t size)
 }
 
 /* Like realloc, but abort if not enough memory is available.  */
+#ifdef LIB_DEBUG_PINPOINT
+static
+#endif
 void *lib_realloc(void *ptr, size_t size)
 {
 #ifdef LIB_DEBUG
@@ -688,6 +694,10 @@ void *lib_realloc(void *ptr, size_t size)
     return new_ptr;
 }
 
+
+#ifdef LIB_DEBUG_PINPOINT
+static
+#endif
 void lib_free(const void *constptr)
 {
     void * ptr = (void*) constptr;
@@ -728,6 +738,9 @@ void lib_FreeMem(void *ptr, unsigned long size)
 
 /* Malloc enough space for `str', copy `str' into it and return its
    address.  */
+#ifdef LIB_DEBUG_PINPOINT
+static
+#endif
 char *lib_stralloc(const char *str)
 {
     size_t size;
