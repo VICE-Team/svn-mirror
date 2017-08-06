@@ -28,11 +28,17 @@
             "%s:%d: warning: function %s() is not implemented yet, continuing\n", \
             __FILE__, __LINE__, __func__)
 
-/** \brief  Incomplete-implementation message, only warns
+
+/** \brief  Incomplete implementation message, only warns
  */
 #define INCOMPLETE_IMPLEMENTATION() \
     fprintf(stderr, \
             "%s:%d: warning: function %s() is not fully implemented yet, continuing\n", \
             __FILE__, __LINE__, __func__)
 
-
+/** \brief  Temporary implementation message, only warns
+ */
+#define TEMPORARY_IMPLEMENTATION() \
+    fprintf(stderr, \
+            "%s:%d: warning: function %s() contains a temporary implementation, continuing\n", \
+            __FILE__, __LINE__, __func__)
