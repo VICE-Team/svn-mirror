@@ -53,7 +53,7 @@ static int ui_ide64_shortbus_digimax_base[] = {
     -1
 };
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 static int ui_ide64_shortbus_etfe_base[] = {
     0xde00,
     0xde10,
@@ -108,7 +108,7 @@ static void update_text(HWND hwnd)
 static uilib_localize_dialog_param ide64_shortbus_dialog[] = {
     { IDC_IDE64_SB_DIGIMAX, IDS_IDE64_SB_DIGIMAX, 0 },
     { IDC_IDE64_SB_DIGIMAX_ADDRESS_LABEL, IDS_IDE64_SB_DIGIMAX_ADDRESS, 0 },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { IDC_IDE64_SB_ETFE, IDS_IDE64_SB_ETFE, 0 },
     { IDC_IDE64_SB_ETFE_ADDRESS_LABEL, IDS_IDE64_SB_ETFE_ADDRESS, 0 },
 #endif
@@ -153,7 +153,7 @@ static uilib_dialog_group ide64_rightgroup[] = {
 
 static uilib_dialog_group ide64_sb_left_group[] = {
     { IDC_IDE64_SB_DIGIMAX_ADDRESS_LABEL, 0 },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { IDC_IDE64_SB_ETFE_ADDRESS_LABEL, 0 },
 #endif
     { 0, 0 }
@@ -161,7 +161,7 @@ static uilib_dialog_group ide64_sb_left_group[] = {
 
 static uilib_dialog_group ide64_sb_right_group[] = {
     { IDC_IDE64_SB_DIGIMAX_ADDRESS, 0 },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { IDC_IDE64_SB_ETFE_ADDRESS, 0 },
 #endif
     { 0, 0 }
@@ -208,7 +208,7 @@ static void init_ide64_shortbus_dialog(HWND hwnd)
     resources_get_int("SBDIGIMAX", &res_value);
     CheckDlgButton(hwnd, IDC_IDE64_SB_DIGIMAX, res_value ? BST_CHECKED : BST_UNCHECKED);
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     temp_hwnd = GetDlgItem(hwnd, IDC_IDE64_SB_ETFE_ADDRESS);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("$DE00"));
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("$DE10"));
@@ -358,7 +358,7 @@ static INT_PTR CALLBACK dialog_shortbus_proc(HWND hwnd, UINT msg, WPARAM wparam,
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
                 resources_set_int("SBDIGIMAXBase", ui_ide64_shortbus_digimax_base[SendMessage(GetDlgItem(hwnd, IDC_IDE64_SB_DIGIMAX_ADDRESS), CB_GETCURSEL, 0, 0)]);
                 resources_set_int("SBDIGIMAX", (IsDlgButtonChecked(hwnd, IDC_IDE64_SB_DIGIMAX) == BST_CHECKED ? 1 : 0));
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
                 resources_set_int("SBETFEbase", ui_ide64_shortbus_digimax_base[SendMessage(GetDlgItem(hwnd, IDC_IDE64_SB_ETFE_ADDRESS), CB_GETCURSEL, 0, 0)]);
                 resources_set_int("SBETFE", (IsDlgButtonChecked(hwnd, IDC_IDE64_SB_ETFE) == BST_CHECKED ? 1 : 0));
 #endif
@@ -374,7 +374,7 @@ static INT_PTR CALLBACK dialog_shortbus_proc(HWND hwnd, UINT msg, WPARAM wparam,
             switch (type) {
                 case IDC_IDE64_SB_DIGIMAX:
                 case IDC_IDE64_SB_DIGIMAX_ADDRESS:
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
                 case IDC_IDE64_SB_ETFE:
                 case IDC_IDE64_SB_ETFE_ADDRESS:
 #endif

@@ -28,7 +28,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 
 #include <windows.h>
 
@@ -199,4 +199,4 @@ void ui_ethernet_settings_dialog(HWND hwnd)
     }
 }
 
-#endif // #ifdef HAVE_PCAP
+#endif // #ifdef HAVE_RAWNET

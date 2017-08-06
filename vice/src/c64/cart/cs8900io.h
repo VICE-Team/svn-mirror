@@ -30,7 +30,7 @@
 #ifndef VICE_TFE_H
 #define VICE_TFE_H
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 
 #include <stdint.h>
 

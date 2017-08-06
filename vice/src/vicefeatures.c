@@ -441,8 +441,8 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 /* (all) */
-    { "HAVE_PCAP", "Support for The Final Ethernet",
-#ifndef HAVE_PCAP
+    { "HAVE_RAWNET", "Support for The Final Ethernet",
+#ifndef HAVE_RAWNET
         0 },
 #else
         1 },

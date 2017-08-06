@@ -618,7 +618,7 @@ static BYTE roml_read_slotmain(WORD addr)
             return pagefox_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             return rrnetmk3_roml_read(addr);
 #endif
@@ -763,7 +763,7 @@ void roml_store(WORD addr, BYTE value)
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_roml_store(addr, value);
             return;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             rrnetmk3_roml_store(addr, value);
             return;
@@ -1125,7 +1125,7 @@ void roml_no_ultimax_store(WORD addr, BYTE value)
                 return; /* FIXME: this is weird */
             }
             break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             if (rrnetmk3_roml_store(addr, value)) {
                 return; /* FAKE ultimax, if EEPROM was being written to, dont write to RAM */
@@ -1986,7 +1986,7 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
         case CARTRIDGE_RETRO_REPLAY:
             res = retroreplay_peek_mem(&export_slotmain, addr, &value);
             break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             res = rrnetmk3_peek_mem(&export_slotmain, addr, &value);
             break;

@@ -130,7 +130,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
     { "IDE64RTCSave", MENU_TOGGLE_IDE64_RTC_SAVE },
     { "SBDIGIMAX", MENU_TOGGLE_IDE64_SB_DIGIMAX },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "SBETFE", MENU_TOGGLE_IDE64_SB_ETFE },
 #endif
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
@@ -138,7 +138,7 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "RRFlashJumper", MENU_TOGGLE_RR_FLASH_JUMPER },
     { "RRBankJumper", MENU_TOGGLE_RR_BANK_JUMPER },
     { "RRBiosWrite",MENU_TOGGLE_SAVE_RR_FLASH },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "RRNETMK3_flashjumper", MENU_TOGGLE_RRNET_MK3_FLASH_JUMPER },
     { "RRNETMK3_bios_write", MENU_TOGGLE_SAVE_RRNET_MK3_FLASH },
 #endif
@@ -335,7 +335,7 @@ static ui_res_possible_values IDE64DigimaxBase[] = {
     { -1, 0 }
 };
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 static ui_res_possible_values IDE64ETFEBase[] = {
     { 0xde00, MENU_IDE64_SB_ETFE_BASE_DE00 },
     { 0xde10, MENU_IDE64_SB_ETFE_BASE_DE10 },
@@ -346,7 +346,7 @@ static ui_res_possible_values IDE64ETFEBase[] = {
 
 static ui_res_possible_values IDE64ClockPortDevice[] = {
     { CLOCKPORT_DEVICE_NONE, MENU_IDE64_CLOCKPORT_NONE },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { CLOCKPORT_DEVICE_RRNET, MENU_IDE64_CLOCKPORT_RRNET },
 #endif
 #ifdef USE_MPG123
@@ -371,7 +371,7 @@ static ui_res_possible_values MMC64CardType[] = {
 
 static ui_res_possible_values MMC64ClockPortDevice[] = {
     { CLOCKPORT_DEVICE_NONE, MENU_MMC64_CLOCKPORT_NONE },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { CLOCKPORT_DEVICE_RRNET, MENU_MMC64_CLOCKPORT_RRNET },
 #endif
 #ifdef USE_MPG123
@@ -390,7 +390,7 @@ static ui_res_possible_values MMCRCardType[] = {
 
 static ui_res_possible_values MMCRClockPortDevice[] = {
     { CLOCKPORT_DEVICE_NONE, MENU_MMCR_CLOCKPORT_NONE },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { CLOCKPORT_DEVICE_RRNET, MENU_MMCR_CLOCKPORT_RRNET },
 #endif
 #ifdef USE_MPG123
@@ -401,7 +401,7 @@ static ui_res_possible_values MMCRClockPortDevice[] = {
 
 static ui_res_possible_values RRClockPortDevice[] = {
     { CLOCKPORT_DEVICE_NONE, MENU_RR_CLOCKPORT_NONE },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { CLOCKPORT_DEVICE_RRNET, MENU_RR_CLOCKPORT_RRNET },
 #endif
 #ifdef USE_MPG123
@@ -444,7 +444,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "MMCRClockPort", MMCRClockPortDevice },
     { "MMC64ClockPort", MMC64ClockPortDevice },
     { "SBDIGIMAXbase", IDE64DigimaxBase },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "SBETFEbase", IDE64ETFEBase },
 #endif
     { "IDE64ClockPort", IDE64ClockPortDevice },

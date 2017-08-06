@@ -24,10 +24,10 @@
  *
  */
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 #else
-  #error RAWNET.H should not be included if HAVE_PCAP is not defined!
-#endif /* #ifdef HAVE_PCAP */
+  #error RAWNET.H should not be included if HAVE_RAWNET is not defined!
+#endif /* #ifdef HAVE_RAWNET */
 
 #ifndef VICE_RAWNET_H
 #define VICE_RAWNET_H

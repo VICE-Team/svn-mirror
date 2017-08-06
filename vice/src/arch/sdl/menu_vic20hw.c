@@ -55,7 +55,7 @@
 #include "menu_sid.h"
 #include "menu_tape.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 #include "menu_ethernet.h"
 #include "menu_ethernetcart.h"
 #endif
@@ -267,7 +267,7 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VFLImod_callback,
       NULL },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "Ethernet settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

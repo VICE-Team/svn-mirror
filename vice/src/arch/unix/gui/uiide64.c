@@ -282,7 +282,7 @@ static ui_menu_entry_t ide64_shortbus_digimax_address_submenu[] = {
     UI_MENU_ENTRY_LIST_END
 };
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 UI_MENU_DEFINE_RADIO(SBETFEbase)
 
 static ui_menu_entry_t ide64_shortbus_etfe_address_submenu[] = {
@@ -310,7 +310,7 @@ static ui_menu_entry_t ide64_shortbus_submenu[] = {
     { N_("DigiMAX address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_shortbus_digimax_address_submenu,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     UI_MENU_ENTRY_SEPERATOR,
     { "ETFE", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SBETFE, NULL, NULL,

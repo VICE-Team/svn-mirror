@@ -897,7 +897,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("$DE40", new BMessage(MENU_IDE64_SB_DIGIMAX_BASE_DE40)));
                     extsubmenu->AddItem(new BMenuItem("$DE48", new BMessage(MENU_IDE64_SB_DIGIMAX_BASE_DE48)));
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
                 submenu->AddItem(new BMenuItem("IDE64 shortbus ETFE device emulation", new BMessage(MENU_TOGGLE_IDE64_SB_ETFE)));
                 submenu->AddItem(extsubmenu = new BMenu("IDE64 shortbus ETFE device base"));
                     extsubmenu->SetRadioMode(true);
@@ -908,7 +908,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(extsubmenu = new BMenu("IDE64 ClockPort device"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_IDE64_CLOCKPORT_NONE)));
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
                     extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_IDE64_CLOCKPORT_RRNET)));
 #endif
 #ifdef USE_MPG123
@@ -1109,7 +1109,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(extsubmenu = new BMenu("MMC64 ClockPort device"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_MMC64_CLOCKPORT_NONE)));
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
                     extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_MMC64_CLOCKPORT_RRNET)));
 #endif
 #ifdef USE_MPG123
@@ -1132,7 +1132,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(extsubmenu = new BMenu("MMC Replay ClockPort device"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_MMCR_CLOCKPORT_NONE)));
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
                     extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_MMCR_CLOCKPORT_RRNET)));
 #endif
 #ifdef USE_MPG123
@@ -1150,7 +1150,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(extsubmenu = new BMenu("Retro Replay ClockPort device"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_RR_CLOCKPORT_NONE)));
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
                     extsubmenu->AddItem(new BMenuItem("RR-Net", new BMessage(MENU_RR_CLOCKPORT_RRNET)));
 #endif
 #ifdef USE_MPG123
@@ -1162,7 +1162,7 @@ BMenuBar *menu_create(int machine_class, int window_nr)
                 submenu->AddItem(new BMenuItem("Save EEPROM image when changed", new BMessage(MENU_TOGGLE_GMOD2_EEPROM_SWC)));
                 submenu->AddItem(new BMenuItem("EEPROM File", new BMessage(MENU_GMOD2_EEPROM_FILE)));
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
             menu->AddItem(submenu = new BMenu("RR-NET MK3 Options"));
                 submenu->AddItem(new BMenuItem("Enable RR-NET MK3 flash jumper", new BMessage(MENU_TOGGLE_RRNET_MK3_FLASH_JUMPER)));
                 submenu->AddItem(new BMenuItem("Save RR-NET MK3 flash when changed", new BMessage(MENU_TOGGLE_SAVE_RRNET_MK3_FLASH)));

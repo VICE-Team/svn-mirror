@@ -30,7 +30,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -147,4 +147,4 @@ clockport_device_t *clockport_rrnet_open_device(char *owner)
     return retval;
 }
 
-#endif /* #ifdef HAVE_PCAP */
+#endif /* #ifdef HAVE_RAWNET */

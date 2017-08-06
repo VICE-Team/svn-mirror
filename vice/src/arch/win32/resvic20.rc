@@ -254,7 +254,7 @@ BEGIN
         MENUITEM "", IDM_RAM_SETTINGS
         MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_VIC_SETTINGS
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         MENUITEM "", IDM_ETHERNET_SETTINGS
 #endif
         MENUITEM SEPARATOR
@@ -276,7 +276,7 @@ BEGIN
             MENUITEM "", IDM_GEORAM_SETTINGS
             MENUITEM "", IDM_SFX_SE_SETTINGS
             MENUITEM "", IDM_SFX_SS_SETTINGS
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
             MENUITEM "", IDM_ETHERNETCART_SETTINGS
 #endif
 #ifdef HAVE_MIDI
@@ -602,7 +602,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX settings (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander settings (MasC=uerade)..."
@@ -669,7 +669,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM-indstillinger (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX-indstillinger (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC-indstillinger (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander-indstillinger (MasC=uerade)..."
@@ -736,7 +736,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM Einstellungen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX Einstellungen (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC Einstellungen (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Modul Einstellungen (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander Einstellungen (MasC=uerade)..."
@@ -803,7 +803,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Ajustes GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Ajustes DigiMAX (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Ajustes DS12C887 RTC (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Ajustes SFX Sound Expander (MasC=uerade)..."
@@ -870,7 +870,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Paramètres GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Paramètres DigiMAX (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Paramètres DS12C887 RTC (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Paramètres du SFX Sound Expander (MasC=uerade)..."
@@ -940,7 +940,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX settings (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander settings (MasC=uerade)..."
@@ -1010,7 +1010,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Impostazioni GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Impostazioni DigiMAX (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Impostazioni RTC DS12C887 (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Impostazioni SFX Sound Expander (MasC=uerade)..."
@@ -1080,7 +1080,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM ¼ÂÆÃ (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX ¼³Á¤ (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander ¼³Á¤ (MasC=uerade)..."
@@ -1150,7 +1150,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM instellingen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX instellingen (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC instellingen (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart instellingen (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander instellingen (MasC=uerade)..."
@@ -1220,7 +1220,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Ustawienia GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Ustawienia DigiMAX (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Ustawienia DS12C887 RTC (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Ustawienia SFX Sound Expander (MasC=uerade)..."
@@ -1293,7 +1293,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX settings (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander settings (MasC=uerade)..."
@@ -1363,7 +1363,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM-inställningar (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX-inställningar (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC-inställningar (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Inställningar för SFX Sound Expander (MasC=uerade)..."
@@ -1433,7 +1433,7 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM ayarlarý (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX ayarlarý (MasC=uerade)..."
     IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC ayarlarý (MasC=uerade)..."
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE  "Ethernet Cart settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander Ayarlarý (MasC=uerade)..."

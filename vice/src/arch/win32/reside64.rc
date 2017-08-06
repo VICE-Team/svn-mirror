@@ -47,7 +47,7 @@ BEGIN
     COMBOBOX        IDC_IDE64_SB_DIGIMAX_ADDRESS,
                     85, 29, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     AUTOCHECKBOX    "", IDC_IDE64_SB_ETFE,
                     10, 44, 160, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     LTEXT           "", IDC_IDE64_SB_ETFE_ADDRESS_LABEL,
@@ -108,7 +108,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64 settings"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -142,7 +142,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64-indstillinger"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -176,7 +176,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64 Einstellungen"
     IDS_IDE64_SB_DIGIMAX             "IDE64 Shortbus DigiMAX Gerät aktivieren"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 Shortbus DigiMAX Geräteadresse"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 Shortbus ETFE Gerät"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 Shortbus ETFE Geräteadresse"
 #endif
@@ -210,7 +210,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "Ajustes IDE64"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -244,7 +244,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "Paramètres IDE64"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -281,7 +281,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64 beállításai"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -318,7 +318,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "Impostazioni IDE64"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -355,7 +355,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64 ¼³Á¤"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -392,7 +392,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64 instellingen"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX apparaat"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX apparaat basisadres"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE apparaat"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE apparaat basisadres"
 #endif
@@ -429,7 +429,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "Ustawienia IDE64"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -469,7 +469,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64 settings"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -506,7 +506,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64-inställningar"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif
@@ -543,7 +543,7 @@ BEGIN
     IDS_IDE64_SETTINGS               "IDE64 ayarlarý"
     IDS_IDE64_SB_DIGIMAX             "IDE64 shortbus DigiMAX device"
     IDS_IDE64_SB_DIGIMAX_ADDRESS     "IDE64 shortbus DigiMAX device address"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     IDS_IDE64_SB_ETFE                "IDE64 shortbus ETFE device"
     IDS_IDE64_SB_ETFE_ADDRESS        "IDE64 shortbus ETFE device address"
 #endif

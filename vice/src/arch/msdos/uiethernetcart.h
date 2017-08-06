@@ -27,7 +27,7 @@
 #ifndef UIETHERNETCART_H
 #define UIETHERNETCART_H
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 struct tui_menu;
 
 extern void uiethernetcart_c64_init(struct tui_menu *parent_submenu);

@@ -355,7 +355,7 @@ static const ui_menu_entry_t ide64_digimax_menu[] = {
     SDL_MENU_LIST_END
 };
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 UI_MENU_DEFINE_TOGGLE(SBETFE)
 UI_MENU_DEFINE_RADIO(SBETFEbase)
 
@@ -441,7 +441,7 @@ const ui_menu_entry_t ide64_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ide64_digimax_menu },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "ETFE settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

@@ -267,7 +267,7 @@ HAVE_RS232DEV_SUPPORT="no "
 HAVE_NETWORK_SUPPORT="no "
 HAVE_RS232NET_SUPPORT="no "
 HAVE_IPV6_SUPPORT="no "
-HAVE_PCAP_SUPPORT="no "
+HAVE_RAWNET_SUPPORT="no "
 
 HAVE_RAWDRIVE_SUPPORT="no "
 HAVE_OPENCBM_SUPPORT="no "
@@ -947,8 +947,9 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     HAVE_MIDI_SUPPORT="yes"
   fi
-  AC_DEFINE(HAVE_PCAP,,[Support for CS8900A ethernet controller.])
-  HAVE_PCAP_SUPPORT="yes"
+  AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+  AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+  HAVE_RAWNET_SUPPORT="yes"
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     HAVE_RS232DEV_SUPPORT="yes"
@@ -2511,8 +2512,9 @@ if test x"$enable_ethernet" = "xyes"; then
                                        LIBS="-lwatt $LIBS"],,)
 
     AC_CHECK_LIB(pcap, pcap_open_live,[ AC_DEFINE(DOS_TFE,,[Can we use the dos PCAP library?])
-                                        AC_DEFINE(HAVE_PCAP,,[Support for The Final Ethernet])
-                                        HAVE_PCAP_SUPPORT="yes";
+                                        AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+                                        AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+                                        HAVE_RAWNET_SUPPORT="yes";
                                         TFE_LIBS="arch/msdos/libpcap_nodma.a $TFE_LIBS";
                                         DOS_TFE_PCAP_LIB="libpcap_nodma.a";
                                         LIBS="-lpcap $LIBS"],,)
@@ -2526,14 +2528,16 @@ if test x"$enable_ethernet" = "xyes"; then
       AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS" ],,)
       AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS" ],,)
       AC_CHECK_LIB(pcap, pcap_inject,[
-        AC_DEFINE(HAVE_PCAP,,[Support for The Final Ethernet])
-        HAVE_PCAP_SUPPORT="yes";
+        AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+        AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+        HAVE_RAWNET_SUPPORT="yes";
         AC_DEFINE(HAVE_PCAP_INJECT,,[A libpcap version with pcap_inject is available])
         TFE_LIBS="-lpcap"
       ],,$LIBS)
       AC_CHECK_LIB(pcap, pcap_sendpacket,[
-        AC_DEFINE(HAVE_PCAP,,[Support for The Final Ethernet])
-        HAVE_PCAP_SUPPORT="yes";
+        AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+        AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+        HAVE_RAWNET_SUPPORT="yes";
         AC_DEFINE(HAVE_PCAP_SENDPACKET,,[A libpcap version with pcap_sendpacket is available])
         TFE_LIBS="-lpcap"
       ],,$LIBS)
@@ -2541,8 +2545,9 @@ if test x"$enable_ethernet" = "xyes"; then
     dnl libnet.a
       AC_CHECK_LIB(pcap, pcap_open_live,[
         AC_CHECK_LIB(net, libnet_init,[
-          AC_DEFINE(HAVE_PCAP,,[Support for The Final Ethernet])
-          HAVE_PCAP_SUPPORT="yes";
+          AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+          AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+          HAVE_RAWNET_SUPPORT="yes";
           AC_DEFINE(VICE_USE_LIBNET_1_1,,[Support for The Final Ethernet])
           TFE_LIBS="-lpcap `libnet-config --libs`"
           libnet_cflags="`libnet-config --defines`"
@@ -2551,8 +2556,9 @@ if test x"$enable_ethernet" = "xyes"; then
     dnl libnet.a
       AC_CHECK_LIB(pcap, pcap_open_live,[
         AC_CHECK_LIB(net, libnet_write_link_layer,[
-          AC_DEFINE(HAVE_PCAP,,[Support for The Final Ethernet])
-          HAVE_PCAP_SUPPORT="yes";
+          AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+          AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+          HAVE_RAWNET_SUPPORT="yes";
           TFE_LIBS="-lpcap `libnet-config --libs`"
           libnet_cflags="`libnet-config --defines`"
       ],,$LIBS)],,$LIBS)
@@ -5436,7 +5442,7 @@ fi
 echo "Network support                  : $HAVE_NETWORK_SUPPORT"
 echo "RS232 network support            : $HAVE_RS232NET_SUPPORT"
 echo "IPv6 network support             : $HAVE_IPV6_SUPPORT (--enable/disable-ipv6)"
-echo "Network capture/injection support: $HAVE_PCAP_SUPPORT (--enable/disable-ethernet)"
+echo "Network capture/injection support: $HAVE_RAWNET_SUPPORT (--enable/disable-ethernet)"
 
 echo ""
 echo "DRIVE"

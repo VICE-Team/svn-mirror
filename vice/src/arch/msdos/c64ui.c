@@ -52,7 +52,7 @@
 #include "uidrive.h"
 #include "uids12c887rtc.h"
 #include "uieasyflash.h"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 #include "uiethernetcart.h"
 #endif
 #include "uiexpert.h"
@@ -249,7 +249,7 @@ int c64ui_init(void)
 
     uimagicvoice_init(ui_ioextensions_submenu);
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     uiethernetcart_c64_init(ui_ioextensions_submenu);
 #endif
 

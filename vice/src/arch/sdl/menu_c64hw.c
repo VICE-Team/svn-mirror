@@ -57,7 +57,7 @@
 #include "menu_sid.h"
 #include "menu_tape.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 #include "menu_ethernet.h"
 #include "menu_ethernetcart.h"
 #endif
@@ -181,7 +181,7 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64_memory_hacks_menu },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "Ethernet settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -259,7 +259,7 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)c64_memory_hacks_menu },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "Ethernet settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

@@ -477,7 +477,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
         case CARTRIDGE_RGCD:
             rc = rgcd_crt_attach(fd, rawcart);
             break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case CARTRIDGE_RRNETMK3:
             rc = rrnetmk3_crt_attach(fd, rawcart, filename);
             break;

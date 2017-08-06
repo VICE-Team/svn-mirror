@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 
 # ifdef UNIX_COMPILE
 #  include "rawnetarch_unix.c"
@@ -37,6 +37,6 @@
 #  endif
 # endif
 
-#endif  /* ifdef HAVE_PCAP */
+#endif  /* ifdef HAVE_RAWNET */
 
 

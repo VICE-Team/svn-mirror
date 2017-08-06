@@ -216,7 +216,7 @@ static APTR build_gui_freezer(void)
     return ui;
 }
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 CART_LOAD(RRN3, CARTRIDGE_NAME_RRNETMK3, CARTRIDGE_RRNETMK3)
 #endif
 CART_LOAD(WS, CARTRIDGE_NAME_WARPSPEED, CARTRIDGE_WARPSPEED)
@@ -250,7 +250,7 @@ CART_LOAD(SE5, CARTRIDGE_NAME_SUPER_EXPLODE_V5, CARTRIDGE_SUPER_EXPLODE_V5)
 static APTR build_gui_util(void)
 {
     APTR app, ui, ok, cancel;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     APTR rrn3_button;
 #endif
     APTR ws_button, wl_button, c80_button, dep256_button, dep64_button, dep7x8_button;
@@ -259,7 +259,7 @@ static APTR build_gui_util(void)
     APTR p64_button, pf_button, rex_button, rep256_button, ross_button, simon_button;
     APTR sb_button, sd_button, se5_button;
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     CART_HOOK(RRN3Hook, RRN3);
 #endif
     CART_HOOK(WSHook, WS);
@@ -313,7 +313,7 @@ static APTR build_gui_util(void)
            BUTTON(pf_button, CARTRIDGE_NAME_PAGEFOX)
            BUTTON(rex_button, CARTRIDGE_NAME_REX)
            BUTTON(rep256_button, CARTRIDGE_NAME_REX_EP256)
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
            BUTTON(rrn3_button, CARTRIDGE_NAME_RRNETMK3)
 #endif
            BUTTON(ross_button, CARTRIDGE_NAME_ROSS)
@@ -333,7 +333,7 @@ static APTR build_gui_util(void)
         DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_Application_ReturnID, BTN_OK);
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         CART_METHOD(rrn3_button, RRN3Hook);
 #endif
         CART_METHOD(ws_button, WSHook);

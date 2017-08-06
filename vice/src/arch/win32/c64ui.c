@@ -297,7 +297,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS },
     { IDM_C64BURSTMOD_SETTINGS, IDS_MI_C64BURSTMOD_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { IDM_ETHERNET_SETTINGS, IDS_MI_ETHERNET_SETTINGS },
     { IDM_ETHERNETCART_SETTINGS, IDS_MI_ETHERNETCART_SETTINGS },
 #endif
@@ -706,7 +706,7 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
                                   c64_main_left_group, c64_main_middle_group, c64_main_right_group,
                                   c64_drive_left_group, c64_drive_middle_group, c64_drive_right_group);
             break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case IDM_ETHERNET_SETTINGS:
            ui_ethernet_settings_dialog(hwnd);
            break;

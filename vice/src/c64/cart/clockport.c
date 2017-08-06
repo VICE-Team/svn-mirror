@@ -33,7 +33,7 @@
 #include "clockport.h"
 #include "lib.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 #include "clockport-rrnet.h"
 #endif
 
@@ -50,7 +50,7 @@
 
 clockport_supported_devices_t clockport_supported_devices[] = {
     { CLOCKPORT_DEVICE_NONE,          "None" },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { CLOCKPORT_DEVICE_RRNET,         "RRNet" },
 #endif
 #ifdef USE_MPG123
@@ -81,7 +81,7 @@ static clockport_device_list_t clockport_device_head = { NULL, NULL };
 int clockport_resources_init(void)
 {
     /* Init clockport devices */
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     clockport_rrnet_init();
 #endif
 
@@ -110,7 +110,7 @@ void clockport_resources_shutdown(void)
     }
 
     /* Shutdown clockport devices */
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     clockport_rrnet_shutdown();
 #endif
 
@@ -133,7 +133,7 @@ clockport_device_t *clockport_open_device(int deviceid, char *owner)
     clockport_device_list_t *entry = NULL;
 
     switch (deviceid) {
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case CLOCKPORT_DEVICE_RRNET:
             retval = clockport_rrnet_open_device(owner);
             break;

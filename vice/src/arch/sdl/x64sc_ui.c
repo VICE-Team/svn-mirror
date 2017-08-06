@@ -213,7 +213,7 @@ void c64scui_shutdown(void)
     sdl_menu_midi_out_free();
 #endif
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     sdl_menu_ethernet_interface_free();
 #endif
 

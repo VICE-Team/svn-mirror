@@ -250,7 +250,7 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_DRIVE_ROM_SETTINGS:
             ui_c64_drive_rom_settings_dialog(canvas);
             break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case IDM_TFE_SETTINGS:
 //          ui_tfe_settings_dialog(hwnd);
             break;

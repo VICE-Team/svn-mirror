@@ -32,7 +32,7 @@
 #define HAVE_DYNLIB_SUPPORT   1
 #define HAVE_SDL_NUMJOYSTICKS 1
 #define USE_SDL_PREFIX        1
-#define HAVE_PCAP             1
+#define HAVE_RAWNET             1
 #define HAVE_MIDI             1
 
 #define HAS_LONGLONG_INTEGER  1

@@ -1499,7 +1499,7 @@ IDCLS_DO_NOT_WRITE_TO_REU_IMAGE
 /* c64/cart/reu.c */
 IDCLS_REU_SIZE
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 /* c64/cart/ethernetcart.c */
 IDCLS_ENABLE_TFE
 
@@ -1520,7 +1520,7 @@ IDCLS_ETHERNETCART_MODE
 
 /* c64/cart/cs8900io.c */
 IDCLS_ETHERNET_INTERFACE
-#endif   /* HAVE_PCAP */
+#endif   /* HAVE_RAWNET */
 
 /* c64/cart/c64cart.c */
 IDCLS_CART_ATTACH_DETACH_RESET

@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 
 #include <stdio.h>
 
@@ -354,4 +354,4 @@ const ui_menu_entry_t ethernetcart20_menu[] = {
     SDL_MENU_LIST_END
 };
 
-#endif /* HAVE_PCAP */
+#endif /* HAVE_RAWNET */

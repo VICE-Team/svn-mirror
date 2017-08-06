@@ -64,7 +64,7 @@
 
 #define HAVE_FFMPEG_HEADER_SUBDIRS 1
 
-/* #define HAVE_PCAP                1 */
+/* #define HAVE_RAWNET                1 */
 
 #define HAVE_STRDUP            1
 #define HAVE_WORKING_VSNPRINTF 1

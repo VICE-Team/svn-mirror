@@ -31,7 +31,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 
 /* #define WPCAP */
 
@@ -547,4 +547,4 @@ char *rawnet_arch_get_standard_interface(void)
 
     return dev;
 }
-#endif /* #ifdef HAVE_PCAP */
+#endif /* #ifdef HAVE_RAWNET */

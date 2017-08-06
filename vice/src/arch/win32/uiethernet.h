@@ -28,9 +28,9 @@
 #ifndef VICE_UIETHERNET_H
 #define VICE_UIETHERNET_H
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 extern void ui_ethernet_settings_dialog(HWND hwnd);
 
-#endif // #ifdef HAVE_PCAP
+#endif // #ifdef HAVE_RAWNET
 
 #endif

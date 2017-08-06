@@ -151,10 +151,10 @@ static const ui_menu_grey_function_t grayed_list_function[] = {
 
 /* List of resources that can be grayed out from the menus.  */
 static const ui_menu_toggle_t grayed_list_res[] = {
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "ETHERNET_DISABLED", IDM_ETHERNET_SETTINGS },
     { "ETHERNET_DISABLED", IDM_ETHERNETCART_SETTINGS },
-#endif /* #ifdef HAVE_PCAP */
+#endif /* #ifdef HAVE_RAWNET */
     { NULL, 0 }
 };
 

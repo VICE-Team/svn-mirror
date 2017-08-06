@@ -288,7 +288,7 @@ static tui_menu_item_def_t digimax_address_submenu[] = {
     TUI_MENU_ITEM_DEF_LIST_END
 };
 
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 TUI_MENU_DEFINE_TOGGLE(SBETFE)
 TUI_MENU_DEFINE_RADIO(SBETFEbase)
 
@@ -332,7 +332,7 @@ static tui_menu_item_def_t ide64_shortbus_menu_items[] = {
       digimax_address_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, digimax_address_submenu,
       "Digimax address" },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { "_ETFE device:", "Enable ETFE device",
       toggle_SBETFE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },

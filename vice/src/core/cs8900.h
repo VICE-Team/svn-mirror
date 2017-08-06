@@ -26,9 +26,9 @@
 
 #include <stdint.h>
 
-#ifndef HAVE_PCAP
-  #error CS8900.H should not be included if HAVE_PCAP is not defined!
-#endif /* #ifdef HAVE_PCAP */
+#ifndef HAVE_RAWNET
+  #error CS8900.H should not be included if HAVE_RAWNET is not defined!
+#endif /* #ifdef HAVE_RAWNET */
 
 #ifndef VICE_CS8900_H
 #define VICE_CS8900_H

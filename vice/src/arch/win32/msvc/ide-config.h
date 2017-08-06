@@ -66,7 +66,7 @@
 #define HAVE_SNPRINTF			1
 
 #define DWORD_IS_LONG           1
-#define HAVE_PCAP                1
+#define HAVE_RAWNET                1
 
 #if !defined(_M_IA64) && !defined(_M_ARM)
 #define HAVE_FFMPEG             1

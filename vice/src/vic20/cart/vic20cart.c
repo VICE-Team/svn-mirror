@@ -68,7 +68,7 @@
 #include "sid-snapshot.h"
 #include "sidcart.h"
 #include "snapshot.h"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #define CARTRIDGE_INCLUDE_PUBLIC_API
 #include "ethernetcart.h"
@@ -200,7 +200,7 @@ int cartridge_resources_init(void)
         || vic_fp_resources_init() < 0
         || vic_um_resources_init() < 0
         || megacart_resources_init() < 0
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         || ethernetcart_resources_init() < 0
 #endif
         || aciacart_resources_init() < 0
@@ -221,7 +221,7 @@ void cartridge_resources_shutdown(void)
     megacart_resources_shutdown();
     finalexpansion_resources_shutdown();
     generic_resources_shutdown();
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     ethernetcart_resources_shutdown();
 #endif
     aciacart_resources_shutdown();
@@ -337,7 +337,7 @@ int cartridge_cmdline_options_init(void)
         || vic_fp_cmdline_options_init() < 0
         || vic_um_cmdline_options_init() < 0
         || megacart_cmdline_options_init() < 0
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         || ethernetcart_cmdline_options_init() < 0
 #endif
         || aciacart_cmdline_options_init() < 0
@@ -624,7 +624,7 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
                     return -1;
                 }
                 break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
             case CARTRIDGE_TFE:
                 if (ethernetcart_snapshot_write_module(s) < 0) {
                     return -1;
@@ -796,7 +796,7 @@ int vic20cart_snapshot_read_module(snapshot_t *s)
                     return -1;
                 }
                 break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
             case CARTRIDGE_TFE:
                 if (ethernetcart_snapshot_read_module(s) < 0) {
                     return -1;

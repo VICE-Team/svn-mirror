@@ -46,7 +46,7 @@
 #include "uidigimax.h"
 #include "uidrive.h"
 #include "uids12c887rtc.h"
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
 #include "uiethernetcart.h"
 #endif
 #include "uigeoram.h"
@@ -594,7 +594,7 @@ int vic20ui_init(void)
     uigeoram_vic20_init(ui_ioextensions_submenu);
     uisoundexpander_vic20_init(ui_ioextensions_submenu);
     uisoundsampler_init(ui_ioextensions_submenu);
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     uiethernetcart_vic20_init(ui_ioextensions_submenu);
 #endif
 

@@ -305,7 +305,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS_MASCUERADE },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS_MASCUERADE },
     { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE },
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
     { IDM_ETHERNET_SETTINGS, IDS_MI_ETHERNET_SETTINGS },
     { IDM_ETHERNETCART_SETTINGS, IDS_MI_ETHERNETCART_SETTINGS_MASCUERADE },
 #endif
@@ -539,7 +539,7 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_DS12C887RTC_SETTINGS:
             ui_ds12c887rtc_settings_dialog(hwnd);
             break;
-#ifdef HAVE_PCAP
+#ifdef HAVE_RAWNET
         case IDM_ETHERNET_SETTINGS:
            ui_ethernet_settings_dialog(hwnd);
            break;
