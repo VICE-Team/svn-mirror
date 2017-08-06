@@ -30,7 +30,12 @@ x11_keymaps = \
 	x11_sym.vkm \
 	x11_pos.vkm \
 	x11_pos_de.vkm \
-	x11_sym_de.vkm
+	x11_sym_de.vkm \
+	\
+	gtk3_sym.vkm \
+	gtk3_pos.vkm \
+	gtk3_pos_de.vkm \
+	gtk3_sym_de.vkm
 
 sdl_keymaps = \
 	sdl_keyrah.vkm \
