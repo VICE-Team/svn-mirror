@@ -35,6 +35,7 @@
 #include "not_implemented.h"
 
 #include "cmdline.h"
+#include "kbd.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -316,8 +317,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     g_signal_connect(new_window, "destroy", G_CALLBACK(window_destroy_cb), NULL);
     g_signal_connect(new_drawing_area, "draw", G_CALLBACK(draw_canvas_cb), canvas);
     g_signal_connect(new_drawing_area, "configure_event", G_CALLBACK(resize_canvas_container_cb), canvas);
+    kbd_connect_handlers(new_window, NULL);
 
     gtk_widget_show_all (new_window);
+    TEMPORARY_IMPLEMENTATION();
+    
     canvas->drawing_area = new_drawing_area;
     canvas->created = 1;
     canvas->initialized = 1;

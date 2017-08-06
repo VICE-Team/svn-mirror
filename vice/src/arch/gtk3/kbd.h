@@ -27,9 +27,12 @@
 #ifndef VICE_KBD_H
 #define VICE_KBD_H
 
+#include <gtk/gtk.h>
+
 extern void kbd_arch_init(void);
 extern int kbd_arch_get_host_mapping(void);
 extern void kbd_initialize_numpad_joykeys(int *joykeys);
+extern void kbd_connect_handlers(GtkWidget *widget, void *data);
 
 #define KBD_PORT_PREFIX "gtk3"
 
