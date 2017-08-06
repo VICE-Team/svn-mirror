@@ -53,22 +53,22 @@ typedef struct np_control_s {
 
 #define NR_NPCONROLS 5
 static np_control_t np_controls[] = {
-    { N_("Keyboard"), NULL, NULL, 
-      NETWORK_CONTROL_KEYB, 
+    { N_("Keyboard"), NULL, NULL,
+      NETWORK_CONTROL_KEYB,
       NETWORK_CONTROL_KEYB << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Joystick 1"), NULL, NULL, 
-      NETWORK_CONTROL_JOY1, 
+    { N_("Joystick 1"), NULL, NULL,
+      NETWORK_CONTROL_JOY1,
       NETWORK_CONTROL_JOY1 << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Joystick 2"), NULL, NULL, 
-      NETWORK_CONTROL_JOY2, 
+    { N_("Joystick 2"), NULL, NULL,
+      NETWORK_CONTROL_JOY2,
       NETWORK_CONTROL_JOY2 << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Devices"), NULL, NULL, 
-      NETWORK_CONTROL_DEVC, 
+    { N_("Devices"), NULL, NULL,
+      NETWORK_CONTROL_DEVC,
       NETWORK_CONTROL_DEVC << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Settings"), NULL, NULL, 
-      NETWORK_CONTROL_RSRC, 
+    { N_("Settings"), NULL, NULL,
+      NETWORK_CONTROL_RSRC,
       NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET },
-    { NULL, NULL, 0, 0 }
+    { NULL, NULL, NULL, 0, 0 }
 };
 
 static void netplay_update_control_res(GtkWidget *w, gpointer data)
