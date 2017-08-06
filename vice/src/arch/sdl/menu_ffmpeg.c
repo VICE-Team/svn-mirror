@@ -69,7 +69,6 @@ static UI_MENU_CALLBACK(save_movie_callback)
     int height;
 
     if (activated) {
-        const char *drv_name;
 
         if (ffmpegdrv_formatlist == NULL || ffmpegdrv_formatlist[0].name == NULL) {
             ui_error("FFMPEG not available.");
@@ -297,7 +296,6 @@ void sdl_menu_ffmpeg_init(void)
 {
     int i;
     int k;
-    gfxoutputdrv_format_t *format;
     const char *w;
 
     if (ffmpegdrv_formatlist == NULL || ffmpegdrv_formatlist[0].name == NULL) {

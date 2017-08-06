@@ -57,16 +57,22 @@ static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
     ui_show_text(_("Contributors to the VICE project"), info_contrib_text, 500, 300);
 }
 
+
 static void destroyed_cb(GtkWidget *self, GtkWidget** widget_pointer)
 {
     gchar **str;
+
+
+    printf("DESTROY CALLED\n");
+    abort();
     gtk_widget_destroyed(self, widget_pointer);
     lib_free(transl);
     str = authors;
-    while(*str) {
-        lib_free(*str);
+    while (*str != NULL) {
+        g_free(*str);
         ++str;
     }
+    printf("FREE THE AUTHORS!\n");
     lib_free(authors);
 }
 
@@ -131,6 +137,8 @@ static gchar *convert_text(char *text)
     return utf8_text;
 }
 
+
+/* FIXME: needs serious cleanup: either use stdlib, VICE's lib.c or GLib */
 static gchar **get_team(void)
 {
     vice_team_t *list;
