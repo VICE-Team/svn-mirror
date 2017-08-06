@@ -89,12 +89,10 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
             return TRUE;
         case GDK_KEY_RELEASE:
             /* fprintf(stderr, "KeyRelease: %d.\n", key); */
-            /* An old bug #549 reported that pressing and releasing
-             * the shift keys produced different key codes in
-             * GDK. This is no longer true as of GTK3's version of
-             * GDK, but if it comes up again, the fix is to check for
-             * those keycodes and then call keyboard_key_clear()
-             * first, just for them. */
+            if (key == GDK_KEY_Shift_L || key == GDK_KEY_Shift_R || 
+                key == GDK_KEY_ISO_Level3_Shift) {
+                keyboard_key_clear();
+            }
             keyboard_key_released(key);
             break;
         case GDK_ENTER_NOTIFY:
