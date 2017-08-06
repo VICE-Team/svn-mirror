@@ -405,7 +405,7 @@ void ui_shutdown(void)
 void ui_update_menus(void)
 {
     /* allows autostart to work */
-    INCOMPLETE_IMPLEMENTATION();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void ui_dispatch_next_event(void) {
