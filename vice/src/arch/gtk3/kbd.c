@@ -33,14 +33,33 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 
+/* UNIX-specific; for kbd_arch_get_host_mapping */
+#include <locale.h>
+#include <string.h>
+
 #include "keyboard.h"
 #include "kbd.h"
 
-#include "not_implemented.h"
-
 int kbd_arch_get_host_mapping(void)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    int n;
+    char *l;
+    int maps[KBD_MAPPING_NUM] = {
+        KBD_MAPPING_US, KBD_MAPPING_UK, KBD_MAPPING_DE, KBD_MAPPING_DA,
+        KBD_MAPPING_NO, KBD_MAPPING_FI, KBD_MAPPING_IT };
+    /* TODO: This is a UNIX-specific version lifted from the SDL
+     * implementation. */
+    char str[KBD_MAPPING_NUM][6] = {
+        "en_US", "en_UK", "de", "da", "no", "fi", "it"};
+    setlocale(LC_ALL, "");
+    l = setlocale(LC_ALL, NULL);
+    if (l && (strlen(l) > 1)) {
+        for (n = 1; n < KBD_MAPPING_NUM; n++) {
+            if (strcmp(l, str[n]) == 0) {
+                return maps[n];
+            }
+        }
+    }
     return KBD_MAPPING_US;
 }
 
