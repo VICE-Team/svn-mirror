@@ -6,6 +6,7 @@
 #ifndef VICE_NOT_IMPLEMENTED_H
 #define VICE_NOT_IMPLEMENTED_H
 
+#include <stdio.h>
 #include <stdlib.h>
 
 
