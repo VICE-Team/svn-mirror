@@ -454,6 +454,13 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+/* (all) */
+    { "HAVE_TUNTAP", "Support for TUN/TAP virtual network interface.",
+#ifndef HAVE_TUNTAP
+        0 },
+#else
+        1 },
+#endif
 #ifdef UNIX /* (unix) */
     { "HAVE_VTE", "VTE support",
 #ifndef HAVE_VTE
