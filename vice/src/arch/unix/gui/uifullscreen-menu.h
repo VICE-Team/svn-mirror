@@ -34,7 +34,8 @@
 #define __VIDMODE__                                          \
 /* Translators: 'VidMode' must remain in the beginning       \
    of the translation e.g. German: "VidMode Aufloesungen" */ \
-    { N_("VidMode Resolutions"), UI_MENU_TYPE_NORMAL, (ui_callback_t)NULL, NULL, NULL },
+    { N_("VidMode Resolutions"), UI_MENU_TYPE_NORMAL, (ui_callback_t)NULL, NULL, NULL, \
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 
 #define VIDMODE_RADIO(__CHIP__) UI_MENU_DEFINE_RADIO(__CHIP__##VidmodeFullscreenMode);
 
@@ -58,7 +59,8 @@
 #define __XRANDR__                                                            \
     /* Translators: `XRandR' must remain in the beginning of the translation: \
        e.g. German: "XRandR Aufloesungen" */                                  \
-    { N_("XRandR Resolutions"), UI_MENU_TYPE_NORMAL, (ui_callback_t)NULL, NULL, NULL },
+    { N_("XRandR Resolutions"), UI_MENU_TYPE_NORMAL, (ui_callback_t)NULL, NULL, NULL, \
+    (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 
 #define XRANDR_RADIO(__CHIP__) UI_MENU_DEFINE_RADIO(__CHIP__##XRANDRFullscreenMode);
 
