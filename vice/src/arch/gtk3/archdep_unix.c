@@ -161,6 +161,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                 home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", NULL);
 # endif
+        lib_free(home_path);
 #endif
     }
 
@@ -271,6 +272,10 @@ void archdep_shutdown(void)
 {
     if (default_path != NULL) {
         lib_free(default_path);
+    }
+    if (argv0 != NULL) {
+        lib_free(argv0);
+        argv0 = NULL;
     }
 
     archdep_network_shutdown();

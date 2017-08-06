@@ -197,6 +197,10 @@ void archdep_shutdown(void)
     if (default_path != NULL) {
         lib_free(default_path);
     }
+    if (argv0 != NULL) {
+        lib_free(argv0);
+        argv0 = NULL;
+    }
 
     archdep_network_shutdown();
 

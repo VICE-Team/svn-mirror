@@ -218,6 +218,7 @@ char *archdep_default_resource_file_name(void)
     /* transfer ownership to VICE */
     path = lib_stralloc(tmp);
     g_free(tmp);
+    lib_free(cfg);
     return path;
 }
 
@@ -294,6 +295,7 @@ int archdep_init(int *argc, char **argv)
     lib_free(prg_name);
     lib_free(searchpath);
     lib_free(vice_ini);
+    lib_free(cfg_path);
 
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
