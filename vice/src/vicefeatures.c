@@ -447,6 +447,13 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
+/* (all) */
+    { "HAVE_PCAP", "Support for PCAP library.",
+#ifndef HAVE_PCAP
+        0 },
+#else
+        1 },
+#endif
 #ifdef UNIX /* (unix) */
     { "HAVE_VTE", "VTE support",
 #ifndef HAVE_VTE
