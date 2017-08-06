@@ -33,32 +33,17 @@
 #include "viewport.h"
 #include "video.h"
 
-
-/* This file will need to be fixed for native GTK3 usage */
-
 #include <gtk/gtk.h>
-
-#ifdef HAVE_HWSCALE
-#include <GL/gl.h>
-#endif
 
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
 
-    /* GtkGlArea widget to render to */
-    GtkWidget *widget;
-
-#if 0
-    GtkWidget *emuwindow, *pane;
-#if !defined(HAVE_CAIRO)
-    /* deprecated since 2.22, removed in 3.0 */
-    GdkImage *gdk_image;
-#else
-    GdkPixbuf *gdk_pixbuf;
-    cairo_t *cairo_ctx;
-#endif
-#endif
+    GtkWidget *drawing_area;
+    unsigned char *backbuffer;
+    cairo_surface_t *backing_surface;
+    cairo_matrix_t transform;
+    
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
@@ -67,13 +52,8 @@ struct video_canvas_s {
     float refreshrate; /* currently displayed refresh rate */
 
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
-#ifdef HAVE_FULLSCREEN
     struct fullscreenconfig_s *fullscreenconfig;
-#endif
-#ifdef HAVE_HWSCALE
-    unsigned char *hwscale_image;
-    GLuint screen_texture;
-#endif
+
     int offx; /* for lightpen */
     int app_shell; /* app shell that belongs to this canvas */
 };
