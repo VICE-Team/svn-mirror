@@ -341,7 +341,9 @@ int ui_init(int *argc, char **argv)
 int ui_init_finalize(void)
 {
     int status = 0;
+#if 0
     char *argv[] = { "x64", NULL };
+#endif
 
     VICE_GTK3_FUNC_ENTERED();
     NOT_IMPLEMENTED_WARN_ONLY();
