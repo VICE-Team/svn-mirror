@@ -298,6 +298,10 @@ int cmdline_parse(int *argc, char **argv)
  */
 void cmdline_show_help(void *userparam)
 {
+#ifdef WIN32_COMPILE
+    /* don't bother, won't work */
+    return;
+#else
     unsigned int i;
 
     /* AmigaOS used some translation function for this string: */
@@ -311,6 +315,7 @@ void cmdline_show_help(void *userparam)
         printf("\n\t%s\n", cmdline_options_get_description(i));
     }
     putchar('\n');
+#endif
 }
 
 
