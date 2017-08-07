@@ -3,6 +3,7 @@
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,7 +26,26 @@
  */
 
 #import "petcontroller.h"
-
+#import "petmachinecontroller.h"
+#import "viceapplication.h"
 @implementation PETController
+
+-(IBAction)selectModel:(id)sender
+{
+    [(PETMachineController *)[VICEApplication theMachineController]
+     selectModel:(int)[sender tag]];
+    [self updateOptionsResources];
+}
+
+- (void)updateOptionsResources
+{
+    // set model
+    int model = [(PETMachineController *)[VICEApplication theMachineController]
+                 getModel];
+    [self updateSubMenuCheckState:modelMenu
+                          withTag:model];
+
+    [super updateOptionsResources];
+}
 
 @end

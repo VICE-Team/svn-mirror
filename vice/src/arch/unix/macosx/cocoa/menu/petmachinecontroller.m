@@ -3,6 +3,7 @@
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,7 +26,18 @@
  */
 
 #import "petmachinecontroller.h"
+#include "petmodel.h"
 
 @implementation PETMachineController
+
+-(void)selectModel:(int)model
+{
+    petmodel_set(model);
+}
+
+-(int)getModel
+{
+    return petmodel_get();
+}
 
 @end

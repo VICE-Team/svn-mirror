@@ -30,5 +30,10 @@
 
 @interface PETController : VICEAppController
 {
+    IBOutlet NSMenu *modelMenu;
 }
+
+// Options
+-(IBAction)selectModel:(id)sender;
+
 @end

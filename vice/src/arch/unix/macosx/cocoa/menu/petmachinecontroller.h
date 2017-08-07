@@ -32,4 +32,7 @@
 {
 }
 
+-(void)selectModel:(int)model;
+-(int)getModel;
+
 @end
