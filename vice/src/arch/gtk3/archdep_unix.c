@@ -246,8 +246,15 @@ char *archdep_make_backup_filename(const char *fname)
 
 int archdep_mkdir(const char *pathname, int mode)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    mode_t mask = umask(0);
+    umask(mask);
+    mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH;
+#ifndef __NeXT__
+    mkdir(pathname, (mode_t)mode);
+#else
+    mkdir(pathname, mode);
+#endif
+    return chmod(pathname, mask ^ 0770);
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
@@ -297,10 +304,19 @@ void archdep_startup_log_error(const char *format, ...)
 
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
-    NOT_IMPLEMENTED();
+    struct stat statbuf;
+
+    if (stat(file_name, &statbuf) < 0) {
+        *len = 0;
+        *isdir = 0;
+        return -1;
+    }
+
+    *len = statbuf.st_size;
+    *isdir = S_ISDIR(statbuf.st_mode);
+
     return 0;
 }
-
 
 /** \brief  Create a unique temporary filename
  *
