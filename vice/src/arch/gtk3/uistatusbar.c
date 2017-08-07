@@ -33,17 +33,7 @@
 #include "types.h"
 #include "uiapi.h"
 
-void ui_display_drive_current_image(unsigned int drive_number, const char *image)
-{
-    NOT_IMPLEMENTED_WARN_ONLY();
-}
-
 void ui_display_event_time(unsigned int current, unsigned int total)
-{
-    NOT_IMPLEMENTED_WARN_ONLY();
-}
-
-void ui_display_joyport(BYTE *joyport)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
@@ -63,6 +53,28 @@ void ui_display_statustext(const char *text, int fade_out)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+void ui_display_volume(int vol)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+}
+
+/* TODO: status display for JOYSTICK emulation
+ * 
+ * NOTE: newly written GUI code should be able to handle EIGHT independent
+ *       joysticks, with 3 buttons each.
+ */
+
+void ui_display_joyport(BYTE *joyport)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+}
+
+/* TODO: status display for TAPE emulation
+ * 
+ * NOTE: newly written GUI code should be able to handle TWO independent tape
+ *       drives. the PET emulation may make use of it some day.
+ */
+
 void ui_display_tape_control_status(int control)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
@@ -78,16 +90,22 @@ void ui_display_tape_motor_status(int motor)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
-void ui_display_volume(int vol)
-{
-    NOT_IMPLEMENTED_WARN_ONLY();
-}
-
 void ui_set_tape_status(int tape_status)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+void ui_display_tape_current_image(const char *image)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+}
+
+/* TODO: status display for DRIVE emulation
+ * 
+ * NOTE: newly written GUI code should be able to use 4 drives, of which each
+ *       can be a dual disk drive. (so it must handle 8 images total). currently
+ *       the code does not make use of it yet, but it will in the future.
+ */
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
@@ -100,12 +118,12 @@ void ui_display_drive_track(unsigned int drive_number,
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
-void ui_display_tape_current_image(const char *image)
+void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
-void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
+void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
