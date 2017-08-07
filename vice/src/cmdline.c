@@ -284,10 +284,35 @@ int cmdline_parse(int *argc, char **argv)
     return 0;
 }
 
+
+/** \brief  Dump command line options on stdout
+ *
+ * \param[in]   num_options number of options
+ * \param[in]   options     list of options
+ * \param[in]   userparm    ignored for some reason
+ *
+ * XXX: this function and its brethren where all over archdep, while basically
+ *      doing the same thing. Still doesn't output anything in Windows.
+ *      Once this works, we can remove a lot of 'uicmdline.c' files from
+ *      various src/arch/$arch directories. -- compyx, 2017-08-07
+ */
 void cmdline_show_help(void *userparam)
 {
-    ui_cmdline_show_help(num_options, options, userparam);
+    unsigned int i;
+
+    /* AmigaOS used some translation function for this string: */
+    printf("\nAvailable command-line options:\n\n");
+    for (i = 0; i < num_options; i++) {
+        char *param = cmdline_options_get_param(i);
+        puts(options[i].name);
+        if (options[i].need_arg && param != NULL) {
+            printf(" %s", param);
+        }
+        printf("\n\t%s\n", cmdline_options_get_description(i));
+    }
+    putchar('\n');
 }
+
 
 char *cmdline_options_get_name(int counter)
 {
