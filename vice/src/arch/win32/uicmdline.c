@@ -42,7 +42,7 @@
 
 /* This does not work as stdout is directed to null.
    This function is temporarily extended during the
-   transition to string tables.  */
+   transition to string tables. XXX: <= what the hell does that mean? --cpx  */
 
 void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *options, void *userparam)
 {
