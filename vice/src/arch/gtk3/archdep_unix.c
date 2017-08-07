@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include <glib.h>
 
 #include "ioutil.h"
@@ -244,6 +245,14 @@ char *archdep_make_backup_filename(const char *fname)
     return 0;
 }
 
+
+/** \brief  Create a directory
+ *
+ * \param[in]   pathname    name/path of new directory
+ * \param[in]   mode        ignored
+ *
+ * \return  0 on success, -1 on failure
+ */
 int archdep_mkdir(const char *pathname, int mode)
 {
     mode_t mask = umask(0);
