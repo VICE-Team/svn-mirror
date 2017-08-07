@@ -43,6 +43,6 @@ int cbm2ui_init(void)
 
 void cbm2ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

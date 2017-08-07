@@ -44,6 +44,6 @@ int c128ui_init(void)
 
 void c128ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

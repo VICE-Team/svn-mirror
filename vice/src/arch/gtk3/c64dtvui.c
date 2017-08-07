@@ -43,6 +43,6 @@ int c64dtvui_init(void)
 
 void c64dtvui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

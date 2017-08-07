@@ -43,6 +43,6 @@ int petui_init(void)
 
 void petui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

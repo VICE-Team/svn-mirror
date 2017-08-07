@@ -43,6 +43,6 @@ int plus4ui_init(void)
 
 void plus4ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

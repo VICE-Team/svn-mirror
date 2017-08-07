@@ -43,6 +43,6 @@ int c64scui_init(void)
 
 void c64scui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

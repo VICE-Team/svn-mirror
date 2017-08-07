@@ -43,6 +43,6 @@ int vic20ui_init(void)
 
 void vic20ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

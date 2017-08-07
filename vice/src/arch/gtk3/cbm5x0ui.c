@@ -43,6 +43,6 @@ int cbm5x0ui_init(void)
 
 void cbm5x0ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 

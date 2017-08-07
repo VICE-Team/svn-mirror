@@ -43,6 +43,6 @@ int scpu64ui_init(void)
 
 void scpu64ui_shutdown(void)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 
