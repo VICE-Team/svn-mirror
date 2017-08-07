@@ -285,7 +285,7 @@ int archdep_init(int *argc, char **argv)
     cfg_path = archdep_user_config_path();
     vice_ini = archdep_default_resource_file_name();
 
-    printf("progran name    = \"%s\"\n", prg_name);
+    printf("program name    = \"%s\"\n", prg_name);
     printf("user home dir   = \"%s\"\n", archdep_home_path());
     printf("user config dir = \"%s\"\n", cfg_path);
     printf("prg boot path   = \"%s\"\n", archdep_boot_path());
