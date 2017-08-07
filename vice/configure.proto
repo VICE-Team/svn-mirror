@@ -190,6 +190,7 @@ is_unix_macosx=no
 is_dos=no
 is_win32=no
 is_win32_x11=no
+is_win32_gtk3=no
 is_os2=no
 is_beos=no
 is_amiga=no
@@ -451,6 +452,13 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
   if test x"$with_x" = "xyes"; then
     host_os=cygwin-x11
     is_win32_x11=yes
+  fi
+fi
+
+if test x"$host_os" = "xmingw32"; then
+  if test x"$enable_native_gtk3ui" = "xyes"; then
+    host_os=mingw32-gtk3
+    is_win32_gtk3=yes
   fi
 fi
 
@@ -947,9 +955,11 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     HAVE_MIDI_SUPPORT="yes"
   fi
-  AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
-  AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
-  HAVE_RAWNET_SUPPORT="yes"
+  if test x"$enable_ethernet" != "xyes"; then
+    AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+    AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+    HAVE_RAWNET_SUPPORT="yes"
+  fi
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     HAVE_RS232DEV_SUPPORT="yes"
@@ -5189,6 +5199,9 @@ else
         if test x"$is_win32_x11" = "xyes"; then
             show_arch="Win32-X11 (treated as Unix)"
             real_arch="Unix"
+        elif test x"$enable_native_gtk3ui" = "xyes"; then
+            show_arch="Win32-GTK3 (treated as Unix)"
+            real_arch="Unix"
         else
             show_arch="Win32"
             real_arch="Win32"
@@ -5224,7 +5237,7 @@ if test x"$is_os2" = "xyes"; then
     show_gui="DIVE (PM)"
 fi
 if test x"$is_win32" = "xyes"; then
-    if test x"$is_win32_x11" != "xyes"; then
+    if test x"$is_win32_x11" != "xyes" -a x"$enable_native_gtk3ui" = "xyes"; then
         show_gui="Win32"
     fi
 fi
