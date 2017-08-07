@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,8 +35,29 @@
 #include "uicmdline.h"
 
 
-void ui_cmdline_show_help(unsigned int num_options, cmdline_option_ram_t *options, void *userparam)
+/** \brief  Dump command line options on stdout
+ *
+ * \param[in]   num_options number of options
+ * \param[in]   options     list of options
+ * \param[in]   userparm    ignored for some reason
+ *
+ * XXX: this function and its brethren all over archdep should probably be moved
+ *      to cmdline.c and renamed.   -- compyx, 2017-08-7
+ */
+void ui_cmdline_show_help(unsigned int num_options,
+                          cmdline_option_ram_t *options,
+                          void *userparam)
 {
-    NOT_IMPLEMENTED();
-}
+    unsigned int i;
 
+    printf("\nAvailable command-line options:\n\n");
+    for (i = 0; i < num_options; i++) {
+        char *param = cmdline_options_get_param(i);
+        puts(options[i].name);
+        if (options[i].need_arg && param != NULL) {
+            printf(" %s", param);
+        }
+        printf("\n\t%s\n", cmdline_options_get_description(i));
+    }
+    putchar('\n');
+}
