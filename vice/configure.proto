@@ -4440,7 +4440,11 @@ if test x"$is_unix" = "xyes"; then
     fi
   fi
 
-  AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
+  if test x"$is_win32_gtk3" = "xyes"; then
+    AC_DEFINE(WIN32_COMPILE,,[Are we compiling for windows?])
+  else
+    AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
+  fi
 
   if test x"$is_unix_macosx" = "xyes" ; then
     ARCH_MAKE_BINDIST_DIR="\$(top_srcdir)/src/arch/unix/macosx"
