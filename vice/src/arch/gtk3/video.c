@@ -271,6 +271,8 @@ char video_canvas_can_resize(video_canvas_t *canvas)
     return 1;
 }
 
+/* FIXME: temporary hack */
+extern void ui_set_toplevel_widget(GtkWidget *win);
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
@@ -307,8 +309,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
      *       and *that* probably belongs somewhere in things like
      *       c64ui_init(). */
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    ui_set_toplevel_widget(new_window); /* temporary hack */
     new_drawing_area = gtk_drawing_area_new();
-    gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title);
+    /* FIXME: perhaps we want to put a pointer to the canvas into the uiresources */
+    /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
+    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window title bar */
     if (width && height && *width && *height) {
         gtk_widget_set_size_request(new_drawing_area, *width, *height);
     }
@@ -321,6 +326,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 
     gtk_widget_show_all (new_window);
     TEMPORARY_IMPLEMENTATION();
+    
     
     canvas->drawing_area = new_drawing_area;
     canvas->created = 1;

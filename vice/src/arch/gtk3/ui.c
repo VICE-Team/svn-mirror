@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <gtk/gtk.h>
 
 #include "debug_gtk3.h"
@@ -72,7 +73,7 @@ typedef struct ui_resources_s {
 
     int depth;
 
-    GtkWidget *window_widget[NUM_WINDOWS];
+    GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
     int window_width[NUM_WINDOWS];
     int window_height[NUM_WINDOWS];
     int window_xpos[NUM_WINDOWS];
@@ -82,6 +83,40 @@ typedef struct ui_resources_s {
 
 
 static ui_resource_t ui_resources;
+
+/* FIXME: temporary hack, this function can be removed after the code that 
+          creates the window(s) was moved from video.c to ui.c */
+/* FIXME: the code that calls this apparently creates the VDC window for x128
+          before the VIC window (primary) - this is probably done so the VIC
+          window ends up being on top of the VDC window. however, we better call
+          some "move window to front" function instead, and create the windows
+          starting with the primary one. */
+/* FIXME: the code below deals with the above mentioned fact and sets up the
+          window_widget pointers correctly. this hackish magic can be eliminated
+          when the code that creates the windows was moved over here AND the 
+          calling code is fixed to create the windows in different order. */
+void ui_set_toplevel_widget(GtkWidget *win);
+static int windowidx = 0;
+void ui_set_toplevel_widget(GtkWidget *win) {
+    if (machine_class == VICE_MACHINE_C128) {
+        if (windowidx == 0) {
+            ui_resources.window_widget[SECONDARY_WINDOW] = win;
+        } else if (windowidx == 1) {
+            ui_resources.window_widget[PRIMARY_WINDOW] = win;
+        } else {
+            ui_resources.window_widget[MONITOR_WINDOW] = win;
+        }
+    } else {
+        if (windowidx == 0) {
+            ui_resources.window_widget[PRIMARY_WINDOW] = win;
+        } else {
+            ui_resources.window_widget[MONITOR_WINDOW] = win;
+        }
+    }
+    if (windowidx != 2) {
+        windowidx++;
+    }
+}
 
 
 /** \brief  Signals the html_browser_command field of the resource got allocated
@@ -430,9 +465,28 @@ void ui_message(const char *format, ...)
     NOT_IMPLEMENTED();
 }
 
+/* display FPS (and some other stuff) in the title bar of the window(s) */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    int i;
+    char str[64];
+    int percent_int = (int)(percent + 0.5);
+    int framerate_int = (int)(framerate + 0.5);
+    char *warp, *mode[3] = {"", _(" (VDC)"), _(" (Monitor)")};
+
+    for (i = 0; i < NUM_WINDOWS; i++) {
+        if (GTK_WINDOW(ui_resources.window_widget[i])) {
+            /* FIXME: handle paused mode */
+            warp = (warp_flag ? _("(warp)") : "");
+            str[0] = 0;
+            if (percent) {
+                sprintf(str, "VICE %s%s  - %3d%%, %2d fps ", 
+                        machine_name, mode[i], percent_int, framerate_int);
+            }
+            strcat(str, warp);
+            gtk_window_set_title(GTK_WINDOW(ui_resources.window_widget[i]), str);
+        }
+    }
 }
 
 void ui_pause_emulation(int flag)
