@@ -40,47 +40,47 @@ void vsid_ui_close(void)
 
 void vsid_ui_display_author(const char *author)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_name(const char *name)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_sync(int sync)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_time(unsigned int sec)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 int vsid_ui_init(void)
@@ -93,11 +93,11 @@ int vsid_ui_init(void)
 
 void vsid_ui_setdrv(char *driver_info_text)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void vsid_ui_set_default_tune(int nr)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
