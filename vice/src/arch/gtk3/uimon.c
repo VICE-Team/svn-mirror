@@ -32,7 +32,12 @@
 
 #include "console.h"
 #include "monitor.h"
+#include "kbd.h"
+#include "ui.h"
 #include "uimon.h"
+#include "videoarch.h"
+
+#ifdef HAVE_VTE
 
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
@@ -53,12 +58,17 @@ int uimon_out(const char *buffer)
 
 void uimon_set_interface(monitor_interface_t **monitor_interface_init, int count)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 void uimon_window_close(void)
 {
     NOT_IMPLEMENTED();
+}
+
+static void window_destroy_cb(void)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 console_t *uimon_window_open(void)
@@ -73,3 +83,4 @@ console_t *uimon_window_resume(void)
     return NULL;
 }
 
+#endif

@@ -45,6 +45,7 @@ libarch_a_SOURCES = \
 	ui.c \
 	uicmdline.c \
 	uimon.c \
+	uimon-fallback.c \
 	uistatusbar.c \
 	vic20ui.c \
 	video.c \
