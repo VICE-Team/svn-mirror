@@ -187,7 +187,7 @@ int rs232dev_open(int device)
          * ensure that a read will always terminate and only return
          * what is already in the buffers
          */
-        comm_timeouts.ReadIntervalTimeout = MAXuint32_t;
+        comm_timeouts.ReadIntervalTimeout = UINT_MAX;
         comm_timeouts.ReadTotalTimeoutMultiplier = 0;
         comm_timeouts.ReadTotalTimeoutConstant = 0;
 
