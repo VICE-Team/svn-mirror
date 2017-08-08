@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include "not_implemented.h"
+
 #ifdef WIN32_COMPILE
 
 #ifndef HAVE_GUIDLIB
@@ -43,12 +45,15 @@
 
 #ifdef HAVE_DINPUT
 
-#include "winmain.h"
+/* #include "winmain.h" */
 
 static LPDIRECTINPUT di = NULL;
 
 LPDIRECTINPUT get_directinput_handle(void)
 {
+#if 1 /* FIXME */
+    NOT_IMPLEMENTED();
+#else
 #ifndef HAVE_DINPUT_LIB
     HRESULT res;
 #endif
@@ -71,8 +76,8 @@ LPDIRECTINPUT get_directinput_handle(void)
         }
 #endif
     }
+#endif /* FIXME */
     return di;
 }
 #endif
 #endif
-

@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include "not_implemented.h"
+
 #ifdef WIN32_COMPILE
 
 #include "cmdline.h"
@@ -44,12 +46,12 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "maincpu.h"
-#include "res.h"
+/* #include "res.h" */
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
-#include "winjoy.h"
-#include "winmain.h"
+/* #include "winjoy.h" */
+/* #include "winmain.h" */
 
 
 static enum {
@@ -213,6 +215,9 @@ static void joystick_release_joysticks(void)
 
 int joystick_di_open(int port_idx, int dev)
 {
+#if 1 /* FIXME */
+    NOT_IMPLEMENTED();
+#else
     JoyInfo *joy = joystick_list;
     int i = 0;
     LPDIRECTINPUT di = get_directinput_handle();
@@ -307,6 +312,7 @@ int joystick_di_open(int port_idx, int dev)
     } else {
         return -1;
     }
+#endif
 }
 
 void joystick_di_close(int port_idx)
@@ -518,11 +524,17 @@ int joy_arch_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: fix the resource references */
+
 static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
+#if 0 /* FIXME */
       IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1,
+#else
+      0,0,
+#endif
       NULL, NULL },
     CMDLINE_LIST_END
 };
@@ -531,7 +543,11 @@ static const cmdline_option_t joydev2cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
+#if 0 /* FIXME */
       IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_2,
+#else
+      0,0,
+#endif
       NULL, NULL },
     CMDLINE_LIST_END
 };
@@ -540,7 +556,11 @@ static const cmdline_option_t joydev3cmdline_options[] = {
     { "-extrajoydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
+#if 0 /* FIXME */
       IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_1,
+#else
+      0,0,
+#endif
       NULL, NULL },
     CMDLINE_LIST_END
 };
@@ -549,7 +569,11 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { "-extrajoydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
+#if 0 /* FIXME */
       IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_2,
+#else
+      0,0,
+#endif
       NULL, NULL },
     CMDLINE_LIST_END
 };
@@ -558,13 +582,19 @@ static const cmdline_option_t joydev5cmdline_options[] = {
     { "-extrajoydev3", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice5", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
+#if 0 /* FIXME */
       IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_3,
+#else
+      0,0,
+#endif
       NULL, NULL },
     CMDLINE_LIST_END
 };
 
 int joy_arch_cmdline_options_init(void)
 {
+    NOT_IMPLEMENTED_WARN_ONLY();
+#if 0 /* FIXME */
     if (joyport_get_port_name(JOYPORT_1)) {
         if (cmdline_register_options(joydev1cmdline_options) < 0) {
             return -1;
@@ -590,7 +620,7 @@ int joy_arch_cmdline_options_init(void)
             return -1;
         }
     }
-
+#endif /* FIXME */
     return 0;
 }
 
@@ -666,7 +696,7 @@ int joy_arch_init(void)
 static void joystick_release_winmm_joysticks()
 {
     joy_winmm_priv_t* joy_list = joy_winmm_list;
-    
+
     while (joy_list != NULL) {
         joy_winmm_priv_t* joy_remove = joy_list;
         joy_list = joy_list->next;
@@ -805,8 +835,8 @@ static BYTE joystick_di5_update(int joy_no)
         fire_button = -1;
     }
 
-    //	If fire button is not in valid range [0..31] then it means every button is
-    //	treated as fire button, otherwise the only one selected.
+    /*  If fire button is not in valid range [0..31] then it means every button is
+        treated as fire button, otherwise the only one selected. */
     if (fire_button != -1) {
         if ((fire_button != afire_button) && (js.rgbButtons[fire_button] & 0x80)) {
             value |= 16;
@@ -824,7 +854,7 @@ static BYTE joystick_di5_update(int joy_no)
             amax = 32;
             apos = 16;
             if (joy) {
-                //  Find axis
+                /*  Find axis */
                 JoyAxis *axis;
 
                 axis = joy->axes;
@@ -834,7 +864,7 @@ static BYTE joystick_di5_update(int joy_no)
                     i++;
                 }
                 if (axis) {
-                    //  Get boundary values for axis
+                    /*  Get boundary values for axis */
                     prop.diph.dwSize = sizeof(DIPROPRANGE);
                     prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
                     prop.diph.dwObj = axis->id;
@@ -881,7 +911,7 @@ void joystick_update(void)
         joy_winmm_priv_t* current_joy = joy_winmm_list;
         int index = JOYDEV_HW1;
         int has_pov;
-        
+
         while (current_joy) {
             has_pov = current_joy->joy_caps.wCaps & (JOYCAPS_HASPOV | JOYCAPS_POV4DIR | JOYCAPS_POVCTS);
             idx = -1;
@@ -975,7 +1005,7 @@ void joystick_update(void)
                                 case 2:
                                     amin = current_joy->joy_caps.wVmin;
                                     amax = current_joy->joy_caps.wVmax;
-                                    apos = joy_info.dwVpos;       
+                                    apos = joy_info.dwVpos;
                                     break;
                                 case 3:
                                     amin = current_joy->joy_caps.wUmin;
