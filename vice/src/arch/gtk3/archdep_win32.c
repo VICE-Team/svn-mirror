@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <glib.h>
+#include <windows.h>
 
 #include "lib.h"
 #include "platform.h"
@@ -37,6 +38,15 @@
 
 #include "archdep.h"
 
+/* fix VICE userdir */
+#ifdef VICEUSERDIR
+# undef VICEUSERDIR
+#endif
+#define VICEUSERDIR "vice"
+
+/** \brief  Path separator used in GLib code
+ */
+static const gchar *path_separator = "\\";
 
 /** \brief  Tokens that are illegal in a path/filename
  */
@@ -50,13 +60,13 @@ static const char *illegal_name_tokens = "/\\?*:|\"<>";
  */
 static char *default_path = NULL;
 
-
+#if 0
 char *archdep_default_fliplist_file_name(void)
 {
     NOT_IMPLEMENTED();
     return NULL;
 }
-
+#endif
 
 /** \brief  Write message to Windows debugger/logger
  *
@@ -69,12 +79,8 @@ char *archdep_default_fliplist_file_name(void)
  */
 int archdep_default_logger(const char *level_string, const char *txt)
 {
-    TCHAR *st_out;
-
     char *out = lib_msprintf("*** %s %s\n", level_string, txt);
-    st_out = system_mbstowcs_alloc(out);
-    OutputDebugString(st_out);
-    system_mbstowcs_free(st_out);
+    OutputDebugString(out);
     lib_free(out);
     return 0;
 }
@@ -202,7 +208,7 @@ void archdep_shutdown(void)
         argv0 = NULL;
     }
 
-    archdep_network_shutdown();
+    /* archdep_network_shutdown(); */
 
     /* partially implemented */
     NOT_IMPLEMENTED();
@@ -221,7 +227,14 @@ void archdep_startup_log_error(const char *format, ...)
 
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
-    NOT_IMPLEMENTED();
+    struct stat statbuf;
+
+    if (stat(file_name, &statbuf) < 0) {
+        return -1;
+    }
+
+    *len = statbuf.st_size;
+    *isdir = S_ISDIR(statbuf.st_mode);
     return 0;
 }
 
@@ -241,7 +254,7 @@ char *archdep_tmpnam(void)
     }
 }
 
-
+#if 0
 void archdep_signals_pipe_set(void)
 {
     NOT_IMPLEMENTED();
@@ -251,6 +264,7 @@ void archdep_signals_pipe_unset(void)
 {
     NOT_IMPLEMENTED();
 }
+#endif
 
 char *archdep_default_rtc_file_name(void)
 {
@@ -276,3 +290,15 @@ int archdep_fix_permissions(const char *file_name)
     return 0;
 }
 
+/* Provide a usleep replacement */
+void vice_usleep(__int64 waitTime)
+{
+    __int64 time1 = 0, time2 = 0, freq = 0;
+
+    QueryPerformanceCounter((LARGE_INTEGER *) &time1);
+    QueryPerformanceFrequency((LARGE_INTEGER *)&freq);
+
+    do {
+        QueryPerformanceCounter((LARGE_INTEGER *) &time2);
+    } while((time2-time1) < waitTime);
+}

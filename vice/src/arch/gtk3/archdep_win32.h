@@ -44,13 +44,13 @@
 #define ARCHDEP_FINDPATH_SEPARATOR_STRING ";"
 
 /* Modes for fopen().  */
-#define MODE_READ              "r"
+#define MODE_READ              "rb"
 #define MODE_READ_TEXT         "rt"
-#define MODE_READ_WRITE        "r+"
-#define MODE_WRITE             "w"
+#define MODE_READ_WRITE        "rb+"
+#define MODE_WRITE             "wb"
 #define MODE_WRITE_TEXT        "wt"
-#define MODE_APPEND            "a"
-#define MODE_APPEND_READ_WRITE "a+"
+#define MODE_APPEND            "ab"
+#define MODE_APPEND_READ_WRITE "ab+"
 
 /* Printer default devices.  */
 #define ARCHDEP_PRINTER_DEFAULT_DEV1 "viceprnt.out"
@@ -90,7 +90,7 @@ extern void archdep_workaround_nop(const char *otto);
 
            see archdep_unix.c and bug #3201796
 */
-#define archdep_signals_init(x)
+extern void archdep_signals_init(int do_coredumps);
 #define archdep_signals_pipe_set()
 #define archdep_signals_pipe_unset()
 
@@ -118,5 +118,7 @@ extern void archdep_workaround_nop(const char *otto);
 
 /* Keyword to use for a static prototype */
 #define STATIC_PROTOTYPE static
+
+extern void vice_usleep(__int64 waitTime);
 
 #endif
