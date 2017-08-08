@@ -29,22 +29,33 @@
 
 #include "vice.h"
 
-#define BYTE unsigned char
-
 typedef signed char SIGNED_CHAR;
 
+#ifdef _WIN32
+#include <WinDef.h>
+#endif
+
+/* FIXME: we should completely get rid of BYTE,WORD,DWORD etc in VICE code */
+#define BYTE unsigned char
+
 #if SIZEOF_UNSIGNED_SHORT == 2
+#ifndef _WIN32
 typedef unsigned short WORD;
+#endif
 typedef signed short SWORD;
 #else
 #error Cannot find a proper 16-bit type!
 #endif
 
 #if SIZEOF_UNSIGNED_INT == 4
+#ifndef _WIN32
 typedef unsigned int DWORD;
+#endif
 typedef signed int SDWORD;
 #elif SIZEOF_UNSIGNED_LONG == 4
+#ifndef _WIN32
 typedef unsigned long DWORD;
+#endif
 typedef signed long SDWORD;
 #else
 #error Cannot find a proper 32-bit type!
@@ -54,9 +65,11 @@ typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
-#define vice_ptr_to_int(x) ((int)(long)(x))
-#define vice_ptr_to_uint(x) ((unsigned int)(unsigned long)(x))
-#define int_to_void_ptr(x) ((void *)(long)(x))
-#define uint_to_void_ptr(x) ((void *)(unsigned long)(x))
+/* FIXME: these can probably be global and the same for all ports (that
+          have C99) */
+#define vice_ptr_to_int(x) ((int)(intptr_t)(x))
+#define vice_ptr_to_uint(x) ((unsigned int)(uintptr_t)(x))
+#define int_to_void_ptr(x) ((void *)(intptr_t)(x))
+#define uint_to_void_ptr(x) ((void *)(uintptr_t)(x))
 
 #endif
