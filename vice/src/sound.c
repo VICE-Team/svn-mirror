@@ -138,7 +138,8 @@ static sound_register_devices_t sound_register_devices[] = {
 #ifdef USE_DXSOUND
     { "dx", sound_init_dx_device, SOUND_PLAYBACK_DEVICE },
 #endif
-#ifndef __XBOX__
+/* FIXME: temporarily disabled when compiling native gtk3 port */
+#if !defined(__XBOX__) && !defined(USE_NATIVE_GTK3)
     { "wmm", sound_init_wmm_device, SOUND_PLAYBACK_DEVICE },
 #endif
 #endif
