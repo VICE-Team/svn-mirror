@@ -31,7 +31,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#if defined(HAVE_SYS_IOCTL_H)
 #include <sys/ioctl.h>
+#endif
 #include <stdlib.h>
 
 #if defined(HAVE_SYS_MMAN_H) && defined(HAVE_HW_INOUT_H)
