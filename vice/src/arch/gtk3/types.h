@@ -29,6 +29,9 @@
 
 #include "vice.h"
 
+/* required for intptr_t and friends */
+#include <stdint.h>
+
 typedef signed char SIGNED_CHAR;
 
 #ifdef _WIN32
