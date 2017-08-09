@@ -51,6 +51,7 @@
 
 #include "log.h"
 #include "rs232.h"
+#include "rs232dev.h"
 #include "types.h"
 #include "util.h"
 
@@ -257,7 +258,7 @@ int rs232dev_putc(int fd, uint8_t b)
     rs232_debug_fake_input = b;
 
 #else
-    if ( WriteFile(fds[fd].fd, &b, number_of_bytes, &number_of_bytes, NULL) == 0) {
+    if ( WriteFile(fds[fd].fd, &b, number_of_bytes, (LPDWORD)(&number_of_bytes), NULL) == 0) {
         return -1;
     }
 
@@ -287,7 +288,7 @@ int rs232dev_getc(int fd, uint8_t * b)
 
 #else
     if (fds[fd].rts && fds[fd].dtr) {
-        if (ReadFile(fds[fd].fd, b, number_of_bytes, &number_of_bytes, NULL) == 0) {
+        if (ReadFile(fds[fd].fd, b, number_of_bytes, (LPDWORD)(&number_of_bytes), NULL) == 0) {
             return -1;
         }
     } else {
@@ -332,7 +333,7 @@ enum rs232handshake_in rs232dev_get_status(int fd)
 
     do {
         uint32_t modemstat = 0;
-        if (GetCommModemStatus(fds[fd].fd, &modemstat) == 0) {
+        if (GetCommModemStatus(fds[fd].fd, (LPDWORD)(&modemstat)) == 0) {
             DEBUG_LOG_MESSAGE((rs232dev_log, "Could not get modem status for device %d.", device));
             break;
         }
