@@ -323,6 +323,9 @@ void archdep_sanitize_filename(char *name)
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
     GError *err;
+    /* this function already uses the OS's tmp dir as a prefix, so no need to
+     * do stuff like getenv("TMP")
+     */
     int fd = g_file_open_tmp("vice.XXXXXX", filename, &err);
     if (fd < 0) {
         return NULL;
