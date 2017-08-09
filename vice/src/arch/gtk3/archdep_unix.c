@@ -28,8 +28,11 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <glib.h>
 
 #include "ioutil.h"
@@ -257,9 +260,81 @@ void archdep_shutdown(void)
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+#if !defined(OPENSTEP_COMPILE) && !defined(NEXTSTEP_COMPILE)
+    pid_t child_pid;
+    int child_status;
+    char *stdout_redir;
+
+
+    if (pstdout_redir != NULL) {
+        if (*pstdout_redir == NULL) {
+            *pstdout_redir = archdep_tmpnam();
+        }
+        stdout_redir = *pstdout_redir;
+    } else {
+        stdout_redir = NULL;
+    }
+
+    child_pid = vfork();
+    if (child_pid < 0) {
+        log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
+        return -1;
+    } else {
+        if (child_pid == 0) {
+            if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
+                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.", stdout_redir, strerror(errno));
+                _exit(-1);
+            }
+            if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
+                log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.", stderr_redir, strerror(errno));
+                _exit(-1);
+            }
+            execvp(name, argv);
+            _exit(-1);
+        }
+    }
+
+    if (waitpid(child_pid, &child_status, 0) != child_pid) {
+        log_error(LOG_DEFAULT, "waitpid() failed: %s", strerror(errno));
+        return -1;
+    }
+
+    if (WIFEXITED(child_status)) {
+        return WEXITSTATUS(child_status);
+    } else {
+        return -1;
+    }
+#else
+    return -1;
+#endif
 }
+
+/* for when I figure this out: */
+#if 0
+    char *stdout_redir;
+    gboolean result;
+    GPid child_pid;
+    GError *err;
+
+    if (pstdout_redir != NULL) {
+        if (*pstdout_redir == NULL) {
+            *pstdout_redir = archdep_tmpnam();
+        }
+        stdout_redir = *pstdout_redir;
+    } else {
+        stdout_redir = NULL;
+    }
+
+    result = g_spawn_async(NULL,        /* working_directory, NULL = inherit */
+                           argv,        /* argv */
+                           NULL,        /* envp, NULL = inherit */
+                           G_SPAWN_DEFAULT,   /* flags */
+                           NULL,        /* child_setup */
+                           NULL,        /* user_data */
+                           &child_pid,  /* child PID object */
+                           &err);
+#endif
+
 
 void archdep_startup_log_error(const char *format, ...)
 {

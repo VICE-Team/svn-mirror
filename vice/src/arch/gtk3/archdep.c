@@ -212,7 +212,7 @@ static void archdep_create_user_config_dir(void)
     /* create config dir, fail silently if it exists
      * XXX: perhaps I should stat on failure to see if the directory already
      * existed, or there was another failure */
-    (void)g_mkdir(path, 0644);
+    (void)g_mkdir(path, 0755);
     lib_free(path);
 }
 
@@ -313,9 +313,9 @@ void archdep_sanitize_filename(char *name)
  */
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 {
-    int fd = g_mkstemp("/vice.XXXXXX");
+    GError *err;
+    int fd = g_file_open_tmp("vice.XXXXXX", filename, &err);
     if (fd < 0) {
-        *filename = NULL;
         return NULL;
     }
     return fdopen(fd, mode);
