@@ -134,6 +134,49 @@ int archdep_path_is_relative(const char *path)
 }
 
 
+/** \brief  Quote \a name for use as a parameter in exec() etc calls
+ *
+ * Surounds \a name with double-quotes and replaces brackets with escaped
+ * versions, this should fix the OSX unzip bug. (See bug #920)
+ *
+ * \param[in]   name    string to quote
+ *
+ * \return  quoted string
+ */
+char *archdep_quote_parameter(const char *name)
+{
+    char *a,*b,*c;
+
+    a = util_subst(name, "[", "\\[");
+    b = util_subst(a, "]", "\\]");
+    c = util_concat("\"", b, "\"", NULL);
+    lib_free(a);
+    lib_free(b);
+    return c;
+}
+
+
+/** \brief  Quote \a name with double quotes
+ *
+ * Taken from win32/archdep.c, seems Windows needs this and it won't hurt on
+ * proper systems.
+ *
+ * \param[in]   name    string to quote
+ *
+ * \return  quoted and heap-allocated copy of \a name
+ */
+char *archdep_filename_parameter(const char *name)
+{
+    char *path;
+    char *result;
+
+    archdep_expand_path(&path, name);
+    result = util_concat("\"", path, "\"", NULL);
+    lib_free(path);
+    return result;
+}
+
+
 /** \brief  Generate path to the default fliplist file
  *
  * On Unix, this will return "$HOME/.config/vice/fliplist-$machine.vfl", on

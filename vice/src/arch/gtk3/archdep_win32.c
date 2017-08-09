@@ -131,17 +131,6 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     return 0;
 }
 
-char *archdep_filename_parameter(const char *name)
-{
-    char *path;
-    char *param;
-
-    archdep_expand_path(&path, name);
-    param = util_concat("\"", name, "\"", NULL);
-    lib_free(path);
-    return param;
-}
-
 
 /** \brief  Get CPU name during runtime
  *
@@ -177,21 +166,6 @@ char *archdep_make_backup_filename(const char *fname)
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-
-
-
-char *archdep_quote_parameter(const char *name)
-{
-    char *a,*b,*c;
-
-    a = util_subst(name, "[", "\\[");
-    b = util_subst(a, "]", "\\]");
-    c = util_concat("\"", b, "\"", NULL);
-    lib_free(a);
-    lib_free(b);
-    return c;
 }
 
 

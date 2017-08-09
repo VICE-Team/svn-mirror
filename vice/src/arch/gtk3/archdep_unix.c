@@ -201,14 +201,6 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 }
 
 
-
-char *archdep_filename_parameter(const char *name)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-
-
 /** \brief  Determine OS during runtime
  *
  * \return  OS name
@@ -243,13 +235,6 @@ char *archdep_make_backup_filename(const char *fname)
 {
     NOT_IMPLEMENTED();
     return 0;
-}
-
-
-char *archdep_quote_parameter(const char *name)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
 }
 
 
