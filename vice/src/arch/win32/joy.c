@@ -661,7 +661,7 @@ int joy_arch_init(void)
     return 0;
 }
 
-static void joystick_release_winmm_joysticks()
+static void joystick_release_winmm_joysticks(void)
 {
     joy_winmm_priv_t* joy_list = joy_winmm_list;
 
