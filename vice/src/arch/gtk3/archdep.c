@@ -137,7 +137,8 @@ int archdep_path_is_relative(const char *path)
 /** \brief  Quote \a name for use as a parameter in exec() etc calls
  *
  * Surounds \a name with double-quotes and replaces brackets with escaped
- * versions, this should fix the OSX unzip bug. (See bug #920)
+ * versions on Windows, on Unix it simply returns a heap-allocated copy.
+ * Still leaves the OSX unzip bug. (See bug #920)
  *
  * \param[in]   name    string to quote
  *
@@ -145,6 +146,7 @@ int archdep_path_is_relative(const char *path)
  */
 char *archdep_quote_parameter(const char *name)
 {
+#ifdef WIN32_COMPILE
     char *a,*b,*c;
 
     a = util_subst(name, "[", "\\[");
@@ -153,20 +155,24 @@ char *archdep_quote_parameter(const char *name)
     lib_free(a);
     lib_free(b);
     return c;
+#else
+    return lib_stralloc(name);
+#endif
 }
 
 
 /** \brief  Quote \a name with double quotes
  *
- * Taken from win32/archdep.c, seems Windows needs this and it won't hurt on
- * proper systems.
+ * Taken from win32/archdep.c, seems Windows needs this, but it makes unzip etc
+ * fail on proper systems.
  *
  * \param[in]   name    string to quote
  *
- * \return  quoted and heap-allocated copy of \a name
+ * \return  quoted (win32 only) and heap-allocated copy of \a name
  */
 char *archdep_filename_parameter(const char *name)
 {
+#ifdef WIN32_COMPILE
     char *path;
     char *result;
 
@@ -174,6 +180,9 @@ char *archdep_filename_parameter(const char *name)
     result = util_concat("\"", path, "\"", NULL);
     lib_free(path);
     return result;
+#else
+    return lib_stralloc(name);
+#endif
 }
 
 
