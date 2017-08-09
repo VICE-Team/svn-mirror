@@ -2463,7 +2463,7 @@
   do {                            \
       INC_PC(SIZE_1);             \
       FETCH_PARAM_DUMMY(reg_pc);  \
-      if (LOCAL_65816_X()) {      \
+      if (reg_emul) {      \
           reg_sp = 0x100 | reg_x; \
       } else {                    \
           reg_sp = reg_x;         \
