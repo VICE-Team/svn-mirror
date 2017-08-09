@@ -261,6 +261,51 @@ void archdep_sanitize_filename(char *name)
 }
 
 
+/** \brief  Create and open temp file
+ *
+ * \param[in]   filename    pointer to object to store name of temp file
+ * \param[in]   mode        mode to open file with (see fopen(3))
+ *
+ * \return  pointer to new file or `NULL` on error
+ */
+FILE *archdep_mkstemp_fd(char **filename, const char *mode)
+{
+    int fd = g_mkstemp("/vice.XXXXXX");
+    if (fd < 0) {
+        *filename = NULL;
+        return NULL;
+    }
+    return fdopen(fd, mode);
+}
+
+
+/** \brief  Create directory \a pathname
+ *
+ * \param[in]   pathname    path/name of new directory
+ * \param[in]   mode        ignored
+ *
+ * \return  0 on success, -1 on failure
+ */
+int archdep_mkdir(const char *pathname, int mode)
+{
+    return g_mkdir(pathname, mode); /* mode is ignored on Windows */
+}
+
+
+/** \brief  Rename \a oldpath to \a newpath
+ *
+ * \param[in]   oldpath old path
+ * \param[in]   newpath new path
+ *
+ * \return  0 on success, -1 on failure
+ */
+int archdep_rename(const char *oldpath, const char *newpath)
+{
+    return g_rename(oldpath, newpath);
+}
+
+
+
 /** \brief  Arch-dependent init
  *
  * \param[in]   argc    pointer to argument count

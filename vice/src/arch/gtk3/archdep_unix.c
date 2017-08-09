@@ -246,43 +246,12 @@ char *archdep_make_backup_filename(const char *fname)
 }
 
 
-/** \brief  Create a directory
- *
- * \param[in]   pathname    name/path of new directory
- * \param[in]   mode        ignored
- *
- * \return  0 on success, -1 on failure
- */
-int archdep_mkdir(const char *pathname, int mode)
-{
-    mode_t mask = umask(0);
-    umask(mask);
-    mode = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH;
-#ifndef __NeXT__
-    mkdir(pathname, (mode_t)mode);
-#else
-    mkdir(pathname, mode);
-#endif
-    return chmod(pathname, mask ^ 0770);
-}
-
-FILE *archdep_mkstemp_fd(char **filename, const char *mode)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
-
 char *archdep_quote_parameter(const char *name)
 {
     NOT_IMPLEMENTED();
     return NULL;
 }
 
-int archdep_rename(const char *oldpath, const char *newpath)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
 
 void archdep_shutdown(void)
 {
@@ -300,7 +269,8 @@ void archdep_shutdown(void)
     INCOMPLETE_IMPLEMENTATION();
 }
 
-int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
+int archdep_spawn(const char *name, char **argv,
+                  char **pstdout_redir, const char *stderr_redir)
 {
     NOT_IMPLEMENTED();
     return 0;

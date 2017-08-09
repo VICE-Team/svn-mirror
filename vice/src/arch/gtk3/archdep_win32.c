@@ -133,8 +133,13 @@ int archdep_expand_path(char **return_path, const char *orig_name)
 
 char *archdep_filename_parameter(const char *name)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+    char *path;
+    char *param;
+
+    archdep_expand_path(&path, name);
+    param = util_concat("\"", name, "\"", NULL);
+    lib_free(path);
+    return param;
 }
 
 
@@ -174,29 +179,21 @@ char *archdep_make_backup_filename(const char *fname)
     return 0;
 }
 
-int archdep_mkdir(const char *pathname, int mode)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
 
-FILE *archdep_mkstemp_fd(char **filename, const char *mode)
-{
-    NOT_IMPLEMENTED();
-    return NULL;
-}
+
 
 char *archdep_quote_parameter(const char *name)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+    char *a,*b,*c;
+
+    a = util_subst(name, "[", "\\[");
+    b = util_subst(a, "]", "\\]");
+    c = util_concat("\"", b, "\"", NULL);
+    lib_free(a);
+    lib_free(b);
+    return c;
 }
 
-int archdep_rename(const char *oldpath, const char *newpath)
-{
-    NOT_IMPLEMENTED();
-    return 0;
-}
 
 void archdep_shutdown(void)
 {
