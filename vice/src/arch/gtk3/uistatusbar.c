@@ -33,6 +33,23 @@
 #include "types.h"
 #include "uiapi.h"
 
+/** \brief  Temp: max number of warnings for stuff that keeps going
+ *
+ * Many warnings in this `translation unit` just polute the debugging output
+ * on stdout. So, this is a temporary fix to handle this
+ */
+#define MAX_WARNINGS    1
+
+/*
+ * counters for warnings issued, the below counters keep track of warnings
+ * that get issued many times due to vsync and other events.
+ */
+static int led_count = 0;
+static int track_count = 0;
+static int tape_count = 0;
+static int joyport_count = 0;
+
+
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
@@ -66,7 +83,9 @@ void ui_display_volume(int vol)
 
 void ui_display_joyport(BYTE *joyport)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    if (joyport_count++ < MAX_WARNINGS) {
+        NOT_IMPLEMENTED_WARN_ONLY();
+    }
 }
 
 /* TODO: status display for TAPE emulation
@@ -92,7 +111,9 @@ void ui_display_tape_motor_status(int motor)
 
 void ui_set_tape_status(int tape_status)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    if (tape_count++ < MAX_WARNINGS) {
+        NOT_IMPLEMENTED_WARN_ONLY();
+    }
 }
 
 void ui_display_tape_current_image(const char *image)
@@ -108,14 +129,18 @@ void ui_display_tape_current_image(const char *image)
  */
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    if (led_count++ < MAX_WARNINGS) {
+        NOT_IMPLEMENTED_WARN_ONLY();
+    }
 }
 
 void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    if (track_count++ < MAX_WARNINGS) {
+        NOT_IMPLEMENTED_WARN_ONLY();
+    }
 }
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
