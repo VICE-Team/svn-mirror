@@ -482,6 +482,11 @@ static char *try_uncompress_archive(const char *name, int write_mode,
         while (l > 0) {
             tmp[--l] = 0;
             if ((/* (nameoffset == SIZE_MAX) || */ (nameoffset > 1024)) && l >= len &&
+                /* XXX: what the hell does this do/mean? First off, strcasecmp()
+                 *      does NOT return a boolean, but if you add parentheses:
+                 *      "!(strcasecmp(blabla) != 0)" it still doesn't make any
+                 *      sense, might as well write "strcasecmp(blabla) == 0"
+                 *      -- compyx */
                 !strcasecmp(tmp + l - len, search) != 0) {
                 nameoffset = l - 4;
             }
@@ -756,7 +761,7 @@ static const valid_archives_t valid_archives[] = {
     { "unzip",   "-l",   "-p",    ".zip",    "Name" },
     { "lha",     "l",    "p",     ".lzh",    "Name" },
 #endif
-    { NULL }
+    { NULL, NULL, NULL, NULL, NULL }
 };
 
 /* Try to uncompress file `name' using the algorithms we know of.  If this is
