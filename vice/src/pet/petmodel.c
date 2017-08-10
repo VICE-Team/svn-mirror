@@ -129,7 +129,12 @@ static pet_table_t pet_table[] = {
           "waterloo-d000.901898-04.bin",
           "waterloo-e000.901897-01.bin",
           "waterloo-f000.901898-05.bin" }} },
-    { NULL }
+    { NULL,
+      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        { NULL, NULL, NULL, NULL, NULL, NULL }
+      }
+    }
 };
 
 static int petmem_get_conf_info(petinfo_t *pi)

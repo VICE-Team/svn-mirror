@@ -206,7 +206,7 @@ static vice_network_socket_address_t address_pool[16] = { { 0 } };
 static unsigned int address_pool_usage = 0;
 
 /*! \internal \brief a memory pool for sockets */
-static vice_network_socket_t socket_pool[16] = { { 0 } };
+static vice_network_socket_t socket_pool[16];   /* = { { 0 } }; */
 /*! \internal \brief usage bit pattern for socket_pool */
 static unsigned int socket_pool_usage = 0;
 

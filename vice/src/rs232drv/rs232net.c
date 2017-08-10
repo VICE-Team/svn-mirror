@@ -93,7 +93,9 @@ typedef struct rs232net {
                     log from being flooded with error messages. */
 } rs232net_t;
 
-static rs232net_t fds[RS232_NUM_DEVICES] = {{0}};
+/* C99 standard guarantees all members of an object of static storage are
+ * initialized to their '0' value, see 6.7.8.10 */
+static rs232net_t fds[RS232_NUM_DEVICES];
 
 static log_t rs232net_log = LOG_ERR;
 

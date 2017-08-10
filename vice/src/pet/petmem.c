@@ -73,7 +73,17 @@ BYTE petmem_2001_buf_ef[256];
  * It is initialized to defaults from the default resource values.
  */
 
-petres_t petres = { 0 };
+petres_t petres;
+
+/* if the above is true, there's no need for this: */
+#if 0
+= {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    { NULL, NULL, NULL, NULL, NULL, NULL }, /* h6809romName[] */
+    0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+#endif
 
 /* ------------------------------------------------------------------------- */
 

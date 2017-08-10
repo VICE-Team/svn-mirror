@@ -537,7 +537,7 @@ static midi_driver_t midi_drivers[] = {
         mididrv_alsa_out_close,
     },
 #endif
-    { NULL }
+    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
 void mididrv_init(void)

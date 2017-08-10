@@ -694,7 +694,7 @@ static const mon_cmds_t mon_cmd_array[] = {
       IDGS_MON_TAPECTRL_DESCRIPTION,
       NULL, NULL },
 
-    { NULL }
+    { NULL, NULL, 0, 0, NULL, 0, { 0, 0, 0, 0 }, 0, NULL, NULL }
 };
 
 int mon_get_nth_command(int index, const char** full_name, const char **short_name, int *takes_filename_as_arg)
