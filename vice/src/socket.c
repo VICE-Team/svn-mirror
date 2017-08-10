@@ -201,12 +201,12 @@ static unsigned short htons(unsigned short ip)
 #endif /* !HAVE_HTONS */
 
 /*! \internal \brief a memory pool for network addresses */
-static vice_network_socket_address_t address_pool[16] = { { 0 } };
+static vice_network_socket_address_t address_pool[16];
 /*! \internal \brief usage bit pattern for address_pool */
 static unsigned int address_pool_usage = 0;
 
 /*! \internal \brief a memory pool for sockets */
-static vice_network_socket_t socket_pool[16];   /* = { { 0 } }; */
+static vice_network_socket_t socket_pool[16];
 /*! \internal \brief usage bit pattern for socket_pool */
 static unsigned int socket_pool_usage = 0;
 
@@ -1030,7 +1030,7 @@ int vice_network_receive(vice_network_socket_t * sockfd, void * buffer, size_t b
 */
 int vice_network_select_poll_one(vice_network_socket_t * readsockfd)
 {
-    TIMEVAL timeout = { 0 };
+    TIMEVAL timeout = { 0, 0 };
 
     fd_set fdsockset;
 
