@@ -111,27 +111,27 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
     if (default_path == NULL) {
         const char *boot_path;
-        const char *home_path;
+        const char *config_path;
 
         boot_path = archdep_boot_path();
-        home_path = archdep_user_config_path();
+        config_path = archdep_user_config_path();
 
-        /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
+        /* First search in the `LIBDIR' then the $HOME/.config/vice/ dir (config_path)
            and then in the `boot_path'.  */
 
 #ifdef MINIX_SUPPORT
         default_path_temp = util_concat(
                 LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/", emu_id,NULL);
+                config_path, "/", emu_id, NULL);
 
         default_path = util_concat(
                 default_path_temp, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                config_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                config_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", NULL);
         lib_free(default_path_temp);
 
@@ -146,26 +146,26 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         default_path = util_concat(
                 boot_path, MACOSX_ROMDIR, emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                config_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, MACOSX_ROMDIR, "DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                config_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, MACOSX_ROMDIR, "PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/PRINTER", NULL);
+                config_path, "/PRINTER", NULL);
 # else
         default_path = util_concat(
                 LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                config_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                config_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                home_path, "/", VICEUSERDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                config_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", NULL);
 # endif
-        lib_free(home_path);
+        lib_free(config_path);
 #endif
     }
 
