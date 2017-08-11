@@ -44,10 +44,12 @@
  * counters for warnings issued, the below counters keep track of warnings
  * that get issued many times due to vsync and other events.
  */
-static int led_count = 0;
-static int track_count = 0;
-static int tape_count = 0;
-static int joyport_count = 0;
+static int led_msgs = 0;
+static int track_msgs = 0;
+static int tape_status_msgs = 0;
+static int tape_counter_msgs = 0;
+static int tape_motor_msgs = 0;
+static int joyport_msgs = 0;
 
 
 void ui_display_event_time(unsigned int current, unsigned int total)
@@ -83,7 +85,7 @@ void ui_display_volume(int vol)
 
 void ui_display_joyport(BYTE *joyport)
 {
-    if (joyport_count++ < MAX_WARNINGS) {
+    if (joyport_msgs++ < MAX_WARNINGS) {
         NOT_IMPLEMENTED_WARN_ONLY();
     }
 }
@@ -101,17 +103,21 @@ void ui_display_tape_control_status(int control)
 
 void ui_display_tape_counter(int counter)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    if (tape_counter_msgs++ < MAX_WARNINGS) {
+        NOT_IMPLEMENTED_WARN_ONLY();
+    }
 }
 
 void ui_display_tape_motor_status(int motor)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    if (tape_motor_msgs++ < MAX_WARNINGS) {
+        NOT_IMPLEMENTED_WARN_ONLY();
+    }
 }
 
 void ui_set_tape_status(int tape_status)
 {
-    if (tape_count++ < MAX_WARNINGS) {
+    if (tape_status_msgs++ < MAX_WARNINGS) {
         NOT_IMPLEMENTED_WARN_ONLY();
     }
 }
@@ -129,7 +135,7 @@ void ui_display_tape_current_image(const char *image)
  */
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
-    if (led_count++ < MAX_WARNINGS) {
+    if (led_msgs++ < MAX_WARNINGS) {
         NOT_IMPLEMENTED_WARN_ONLY();
     }
 }
@@ -138,7 +144,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    if (track_count++ < MAX_WARNINGS) {
+    if (track_msgs++ < MAX_WARNINGS) {
         NOT_IMPLEMENTED_WARN_ONLY();
     }
 }
