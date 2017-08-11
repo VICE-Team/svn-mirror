@@ -141,7 +141,7 @@ extern char *platform_get_hurd_runtime_os(void);
 #endif
 
 /* MacOSX */
-#if defined(MACOSX_COCOA)
+#if defined(MACOSX_SUPPORT) && (defined(MACOSX_COCOA) || defined(USE_NATIVE_GTK3) || defined(SDL_UI_SUPPORT))
 #define RUNTIME_OS_CALL platform_get_macosx_runtime_os
 #endif
 
@@ -326,7 +326,7 @@ extern char *platform_get_hurd_runtime_os(void);
 #endif
 
 /* MacOSX */
-#if defined(MACOSX_COCOA)
+#if defined(MACOSX_SUPPORT) && (defined(MACOSX_COCOA) || defined(USE_NATIVE_GTK3) || defined(SDL_UI_SUPPORT))
 #define RUNTIME_CPU_CALL platform_get_macosx_runtime_cpu
 #endif
 

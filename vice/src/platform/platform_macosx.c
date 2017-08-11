@@ -66,6 +66,7 @@
 
 #include "CoreServices/CoreServices.h"
 #include "platform_macosx.h"
+#include "platform.h"
 #include "lib.h"
 
 #define MAX_OS_CPU_STR 64
