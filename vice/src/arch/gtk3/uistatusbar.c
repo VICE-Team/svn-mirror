@@ -33,16 +33,11 @@
 #include "types.h"
 #include "uiapi.h"
 
-/** \brief  Temp: max number of warnings for stuff that keeps going
- *
- * Many warnings in this `translation unit` just polute the debugging output
- * on stdout. So, this is a temporary fix to handle this
- */
-#define MAX_WARNINGS    1
-
 /*
- * counters for warnings issued, the below counters keep track of warnings
+ * Counters for warnings issued, the below counters keep track of warnings
  * that get issued many times due to vsync and other events.
+ *
+ * These vars are used in NOT_IMPLEMENTED_WARN_X_TIMES() macro calls.
  */
 static int led_msgs = 0;
 static int track_msgs = 0;
@@ -85,9 +80,7 @@ void ui_display_volume(int vol)
 
 void ui_display_joyport(BYTE *joyport)
 {
-    if (joyport_msgs++ < MAX_WARNINGS) {
-        NOT_IMPLEMENTED_WARN_ONLY();
-    }
+    NOT_IMPLEMENTED_WARN_X_TIMES(joyport_msgs, 3);
 }
 
 /* TODO: status display for TAPE emulation
@@ -103,23 +96,17 @@ void ui_display_tape_control_status(int control)
 
 void ui_display_tape_counter(int counter)
 {
-    if (tape_counter_msgs++ < MAX_WARNINGS) {
-        NOT_IMPLEMENTED_WARN_ONLY();
-    }
+    NOT_IMPLEMENTED_WARN_X_TIMES(tape_counter_msgs, 3);
 }
 
 void ui_display_tape_motor_status(int motor)
 {
-    if (tape_motor_msgs++ < MAX_WARNINGS) {
-        NOT_IMPLEMENTED_WARN_ONLY();
-    }
+    NOT_IMPLEMENTED_WARN_X_TIMES(tape_motor_msgs, 3);
 }
 
 void ui_set_tape_status(int tape_status)
 {
-    if (tape_status_msgs++ < MAX_WARNINGS) {
-        NOT_IMPLEMENTED_WARN_ONLY();
-    }
+    NOT_IMPLEMENTED_WARN_X_TIMES(tape_status_msgs, 3);
 }
 
 void ui_display_tape_current_image(const char *image)
@@ -135,18 +122,14 @@ void ui_display_tape_current_image(const char *image)
  */
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
-    if (led_msgs++ < MAX_WARNINGS) {
-        NOT_IMPLEMENTED_WARN_ONLY();
-    }
+    NOT_IMPLEMENTED_WARN_X_TIMES(led_msgs, 3);
 }
 
 void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    if (track_msgs++ < MAX_WARNINGS) {
-        NOT_IMPLEMENTED_WARN_ONLY();
-    }
+    NOT_IMPLEMENTED_WARN_X_TIMES(track_msgs, 3);
 }
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
