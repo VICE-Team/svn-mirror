@@ -43,6 +43,7 @@ libarch_a_SOURCES = \
 	scpu64ui.c \
 	signals.c \
 	ui.c \
+	uiaccelerators.c \
 	uicmdline.c \
 	uimon.c \
 	uimon-fallback.c \
@@ -78,4 +79,5 @@ EXTRA_DIST = \
 	rs232-win32-dev.c \
 	types.h \
 	ui.h \
+	uiaccelerators.h \
 	videoarch.h

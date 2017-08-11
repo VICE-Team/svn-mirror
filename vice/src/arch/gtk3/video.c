@@ -46,6 +46,9 @@
 #include "ui.h"
 #include "videoarch.h"
 
+#include "uiaccelerators.h"
+
+
 #define VICE_DEBUG_NATIVE_GTK3
 
 /** \brief  Log for Gtk3-native video messages
@@ -309,6 +312,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
      *       and *that* probably belongs somewhere in things like
      *       c64ui_init(). */
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    add_accelerators_to_window(new_window);
     ui_set_toplevel_widget(new_window); /* temporary hack */
     new_drawing_area = gtk_drawing_area_new();
     /* FIXME: perhaps we want to put a pointer to the canvas into the uiresources */
