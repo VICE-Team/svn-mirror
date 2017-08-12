@@ -162,7 +162,6 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
-	uicmdline.c \
 	uifilereq.c \
 	uifilereq.h \
 	uihotkey.c \
