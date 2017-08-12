@@ -292,16 +292,16 @@ int cmdline_parse(int *argc, char **argv)
  * \param[in]   userparm    ignored for some reason
  *
  * XXX: this function and its brethren where all over archdep, while basically
- *      doing the same thing. Still doesn't output anything in Windows.
+ *      doing the same thing.
+ *
+ *      On Windows it seems we need to use `x64 -help|more` to make the list
+ *      appear on the console. (thanks Greg)
+ *
  *      Once this works, we can remove a lot of 'uicmdline.c' files from
- *      various src/arch/$arch directories. -- compyx, 2017-08-07
+ *      various src/arch/$arch directories. -- compyx, 2017-08-12
  */
 void cmdline_show_help(void *userparam)
 {
-#ifdef WIN32_COMPILE
-    /* don't bother, won't work */
-    return;
-#else
     unsigned int i;
 
     /* AmigaOS used some translation function for this string: */
@@ -315,7 +315,6 @@ void cmdline_show_help(void *userparam)
         printf("\n\t%s\n", cmdline_options_get_description(i));
     }
     putchar('\n');
-#endif
 }
 
 
