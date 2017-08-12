@@ -50,7 +50,6 @@ libarchgui_a_SOURCES = \
 	uicbm2cart.h \
 	uiclockport-device.c \
 	uiclockport-device.h \
-	uicmdline.c \
 	uicommands.c \
 	uicommands.h \
 	uicrtc.c \

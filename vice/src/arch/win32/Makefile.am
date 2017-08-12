@@ -173,7 +173,6 @@ libarch_a_SOURCES = \
 	uicbm5x0set.h \
 	uicia.c \
 	uicia.h \
-	uicmdline.c \
 	uiconsole.c \
 	uicpclockf83.c \
 	uicpclockf83.h \

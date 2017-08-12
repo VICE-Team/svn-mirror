@@ -19,7 +19,6 @@ src/arch/unix/gui/uiautostart.c
 src/arch/unix/gui/uic64cart.c
 src/arch/unix/gui/uic64dtv.c
 src/arch/unix/gui/uic64memoryhacks.c
-src/arch/unix/gui/uicmdline.c
 src/arch/unix/gui/uicommands.c
 src/arch/unix/gui/uicrtc.c
 src/arch/unix/gui/uidatasette.c

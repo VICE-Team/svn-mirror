@@ -44,7 +44,6 @@ libarch_a_SOURCES = \
 	signals.c \
 	ui.c \
 	uiaccelerators.c \
-	uicmdline.c \
 	uimon.c \
 	uimon-fallback.c \
 	uistatusbar.c \
