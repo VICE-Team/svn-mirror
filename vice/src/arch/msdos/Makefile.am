@@ -107,7 +107,6 @@ libarch_a_SOURCES = \
 	uicbm5x0model.h \
 	uiciamodel.c \
 	uiciamodel.h \
-	uicmdline.c \
 	uidigimax.c \
 	uidigimax.h \
 	uidqbb.c \

@@ -115,7 +115,6 @@ libarch_a_SOURCES = \
 	uic64cart.h \
 	uicart.c \
 	uicart.h \
-	uicmdline.c \
 	uicolor.c \
 	uilib.c \
 	uilib.h \
