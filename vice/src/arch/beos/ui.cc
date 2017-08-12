@@ -61,7 +61,7 @@ extern "C" {
 #include "gfxoutput.h"
 #include "imagecontents.h"
 #include "info.h"
-#include "interrupt.h" 
+#include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
@@ -92,7 +92,6 @@ extern "C" {
 #include "ui_netplay.h"
 #include "ui_ram.h"
 #include "ui_sound.h"
-#include "uicmdline.h"
 #include "userport_joystick.h"
 #include "util.h"
 #include "version.h"
@@ -1341,9 +1340,9 @@ class TextWindow : public BWindow {
 TextWindow::TextWindow(
     const char *caption,
     const char *header,
-    const char *text) : BWindow(BRect(0,0,400,300), caption, B_DOCUMENT_WINDOW, B_NOT_ZOOMABLE|B_NOT_RESIZABLE) {
+    const char *text) : BWindow(BRect(0,0,500,300), caption, B_DOCUMENT_WINDOW, B_NOT_ZOOMABLE|B_NOT_RESIZABLE) {
 
-    textview = new BTextView(BRect(0, 0, 400 - B_V_SCROLL_BAR_WIDTH, 300), "VICE textview", BRect(10, 10, 390 - B_V_SCROLL_BAR_WIDTH, 290), B_FOLLOW_NONE, B_WILL_DRAW);
+    textview = new BTextView(BRect(0, 0, 500 - B_V_SCROLL_BAR_WIDTH, 300), "VICE textview", BRect(10, 10, 490 - B_V_SCROLL_BAR_WIDTH, 300), B_FOLLOW_NONE, B_WILL_DRAW);
     textview->MakeEditable(false);
     textview->MakeSelectable(false);
     textview->SetViewColor(230, 240, 230, 0);
@@ -1362,7 +1361,7 @@ TextWindow::~TextWindow() {
     delete textview;
     delete scrollview;
 }
-        
+
 void ui_show_text(const char *caption, const char *header, const char *text)
 {
     new TextWindow(caption, header, text);
