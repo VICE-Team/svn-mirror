@@ -275,13 +275,13 @@ char video_canvas_can_resize(video_canvas_t *canvas)
 }
 
 /* FIXME: temporary hack */
-extern void ui_set_toplevel_widget(GtkWidget *win);
+extern void ui_set_toplevel_widget(GtkWidget *win, GtkWidget *status);
 
 video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    GtkWidget *new_window, *new_drawing_area;
+    GtkWidget *new_window, *grid, *status_bar, *new_drawing_area;
 
     VICE_GTK3_FUNC_ENTERED();
     canvas->initialized = 0;
@@ -313,15 +313,24 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
      *       c64ui_init(). */
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     add_accelerators_to_window(new_window);
-    ui_set_toplevel_widget(new_window); /* temporary hack */
+    grid = gtk_grid_new();
+    status_bar = gtk_label_new(NULL);
+    ui_set_toplevel_widget(new_window, status_bar); /* temporary hack */
     new_drawing_area = gtk_drawing_area_new();
     /* FIXME: perhaps we want to put a pointer to the canvas into the uiresources */
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
-    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window title bar */
+    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
     if (width && height && *width && *height) {
         gtk_widget_set_size_request(new_drawing_area, *width, *height);
     }
-    gtk_container_add(GTK_CONTAINER(new_window), new_drawing_area);
+    gtk_container_add(GTK_CONTAINER(new_window), grid);
+    /* When we have a menu bar, we'll add it at the top here */    
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
+    gtk_container_add(GTK_CONTAINER(grid), new_drawing_area);
+    gtk_container_add(GTK_CONTAINER(grid), status_bar);
+
+    gtk_widget_set_hexpand(new_drawing_area, TRUE);
+    gtk_widget_set_vexpand(new_drawing_area, TRUE);
 
     g_signal_connect(new_window, "destroy", G_CALLBACK(window_destroy_cb), NULL);
     g_signal_connect(new_drawing_area, "draw", G_CALLBACK(draw_canvas_cb), canvas);

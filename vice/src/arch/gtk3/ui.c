@@ -74,6 +74,11 @@ typedef struct ui_resources_s {
     int depth;
 
     GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
+    /* Temporary hack. Status bars should consult the current status
+     * when deciding what to render, and there's probably cleaner way
+     * have them mark themselves dirty whenever global statuses
+     * change */
+    GtkWidget *status_widget[NUM_WINDOWS];
     int window_width[NUM_WINDOWS];
     int window_height[NUM_WINDOWS];
     int window_xpos[NUM_WINDOWS];
@@ -95,22 +100,27 @@ static ui_resource_t ui_resources;
           window_widget pointers correctly. this hackish magic can be eliminated
           when the code that creates the windows was moved over here AND the 
           calling code is fixed to create the windows in different order. */
-void ui_set_toplevel_widget(GtkWidget *win);
+void ui_set_toplevel_widget(GtkWidget *win, GtkWidget *status);
 static int windowidx = 0;
-void ui_set_toplevel_widget(GtkWidget *win) {
+void ui_set_toplevel_widget(GtkWidget *win, GtkWidget *status) {
     if (machine_class == VICE_MACHINE_C128) {
         if (windowidx == 0) {
             ui_resources.window_widget[SECONDARY_WINDOW] = win;
+            ui_resources.status_widget[SECONDARY_WINDOW] = status;
         } else if (windowidx == 1) {
             ui_resources.window_widget[PRIMARY_WINDOW] = win;
+            ui_resources.status_widget[PRIMARY_WINDOW] = status;
         } else {
             ui_resources.window_widget[MONITOR_WINDOW] = win;
+            /* Monitor windows do not have a status bar */
         }
     } else {
         if (windowidx == 0) {
             ui_resources.window_widget[PRIMARY_WINDOW] = win;
+            ui_resources.status_widget[PRIMARY_WINDOW] = status;
         } else {
             ui_resources.window_widget[MONITOR_WINDOW] = win;
+            /* Monitor windows do not have a status bar */
         }
     }
     if (windowidx != 2) {
@@ -485,6 +495,16 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
             }
             strcat(str, warp);
             gtk_window_set_title(GTK_WINDOW(ui_resources.window_widget[i]), str);
+        }
+        if (GTK_LABEL(ui_resources.status_widget[i])) {
+            /* TODO: This will go away once the status widgets are
+             * properly emplaced */
+            str[0] = 0;
+            if (percent) {
+                sprintf(str, "%3d%%, %2d fps ", 
+                        percent_int, framerate_int);
+            }
+            gtk_label_set_text(GTK_LABEL(ui_resources.status_widget[i]), str);
         }
     }
 }
