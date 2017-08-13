@@ -38,23 +38,26 @@
 struct video_canvas_s;
 struct palette_s;
 
+void ui_create_toplevel_window(struct video_canvas_s *canvas);
+void ui_display_toplevel_window(struct video_canvas_s *canvas);
+
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
 void ui_dispatch_events(void);
-extern void ui_exit(void);
-extern void ui_show_text(const char *title, const char *text, int width, int height);
+void ui_exit(void);
+void ui_show_text(const char *title, const char *text, int width, int height);
 
-extern void ui_autorepeat_on(void);
-extern void ui_autorepeat_off(void);
-extern void ui_pause_emulation(int flag);
-extern int ui_emulation_is_paused(void);
-extern void ui_check_mouse_cursor(void);
-extern void ui_restore_mouse(void);
+void ui_autorepeat_on(void);
+void ui_autorepeat_off(void);
+void ui_pause_emulation(int flag);
+int ui_emulation_is_paused(void);
+void ui_check_mouse_cursor(void);
+void ui_restore_mouse(void);
 
-extern void ui_set_application_icon(const char *icon_data[]);
-extern void ui_set_selected_file(int num);
+void ui_set_application_icon(const char *icon_data[]);
+void ui_set_selected_file(int num);
 
-extern void ui_common_init(void);
-extern void ui_common_shutdown(void);
+void ui_common_init(void);
+void ui_common_shutdown(void);
 
 #endif

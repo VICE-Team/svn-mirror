@@ -35,12 +35,15 @@
 #include "not_implemented.h"
 
 #include "cmdline.h"
+#include "kbd.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "translate.h"
+#include "uiaccelerators.h"
 #include "uiapi.h"
 #include "util.h"
+#include "videoarch.h"
 
 #include "ui.h"
 
@@ -73,12 +76,8 @@ typedef struct ui_resources_s {
 
     int depth;
 
+    video_canvas_t *canvas[NUM_WINDOWS];
     GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
-    /* Temporary hack. Status bars should consult the current status
-     * when deciding what to render, and there's probably cleaner way
-     * have them mark themselves dirty whenever global statuses
-     * change */
-    GtkWidget *status_widget[NUM_WINDOWS];
     int window_width[NUM_WINDOWS];
     int window_height[NUM_WINDOWS];
     int window_xpos[NUM_WINDOWS];
@@ -89,8 +88,11 @@ typedef struct ui_resources_s {
 
 static ui_resource_t ui_resources;
 
-/* FIXME: temporary hack, this function can be removed after the code that 
-          creates the window(s) was moved from video.c to ui.c */
+static void window_destroy_cb(void)
+{
+    ui_exit();
+}
+
 /* FIXME: the code that calls this apparently creates the VDC window for x128
           before the VIC window (primary) - this is probably done so the VIC
           window ends up being on top of the VDC window. however, we better call
@@ -98,33 +100,90 @@ static ui_resource_t ui_resources;
           starting with the primary one. */
 /* FIXME: the code below deals with the above mentioned fact and sets up the
           window_widget pointers correctly. this hackish magic can be eliminated
-          when the code that creates the windows was moved over here AND the 
+          when the code that creates the windows was moved over here AND the
           calling code is fixed to create the windows in different order. */
-void ui_set_toplevel_widget(GtkWidget *win, GtkWidget *status);
-static int windowidx = 0;
-void ui_set_toplevel_widget(GtkWidget *win, GtkWidget *status) {
-    if (machine_class == VICE_MACHINE_C128) {
-        if (windowidx == 0) {
-            ui_resources.window_widget[SECONDARY_WINDOW] = win;
-            ui_resources.status_widget[SECONDARY_WINDOW] = status;
-        } else if (windowidx == 1) {
-            ui_resources.window_widget[PRIMARY_WINDOW] = win;
-            ui_resources.status_widget[PRIMARY_WINDOW] = status;
-        } else {
-            ui_resources.window_widget[MONITOR_WINDOW] = win;
-            /* Monitor windows do not have a status bar */
-        }
-    } else {
-        if (windowidx == 0) {
-            ui_resources.window_widget[PRIMARY_WINDOW] = win;
-            ui_resources.status_widget[PRIMARY_WINDOW] = status;
-        } else {
-            ui_resources.window_widget[MONITOR_WINDOW] = win;
-            /* Monitor windows do not have a status bar */
-        }
+/** \brief Create a toplevel window to represent a video canvas.
+ *
+ * This function takes a video canvas structure and builds the widgets
+ * that will represent that canvas in the UI as a whole. The
+ * GtkDrawingArea that represents the actual screen backed by the
+ * canvas will be entered into canvas->drawing_area.
+ *
+ * While it creates the widgets, it does not make them visible. The
+ * video canvas routines are expected to do any last-minute processing
+ * or preparation, and then call ui_display_toplevel_window() when
+ * ready.
+ *
+ * \warning The "meaning" of the window depends on how many times the
+ *          function has been called. On a C128, the first call
+ *          produces the VDC window and the second produces the
+ *          primary window. On all other machines, the first call
+ *          produces the primary window. All subsequent calls will
+ *          replace or leak the "monitor" window, but the nature of
+ *          monitor windows is such that this should never happen.
+ */
+void ui_create_toplevel_window(struct video_canvas_s *canvas) {
+    GtkWidget *new_window, *grid, *new_drawing_area, *status_bar;
+    int target_window;
+
+    new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    grid = gtk_grid_new();
+    new_drawing_area = gtk_drawing_area_new();
+    /* temporary hack */
+    status_bar = gtk_label_new(NULL);
+
+    canvas->drawing_area = new_drawing_area;
+
+    gtk_container_add(GTK_CONTAINER(new_window), grid);
+    /* When we have a menu bar, we'll add it at the top here */
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
+    gtk_container_add(GTK_CONTAINER(grid), new_drawing_area);
+    gtk_container_add(GTK_CONTAINER(grid), status_bar);
+
+    gtk_widget_set_hexpand(new_drawing_area, TRUE);
+    gtk_widget_set_vexpand(new_drawing_area, TRUE);
+
+    g_signal_connect(new_window, "destroy", G_CALLBACK(window_destroy_cb), NULL);
+
+    /* We've defaulted to PRIMARY_WINDOW. C128, however, gets its VDC
+     * window created first, so shunt this window to secondary status
+     * if that is what it is. */
+    target_window = PRIMARY_WINDOW;
+    if (machine_class == VICE_MACHINE_C128 && ui_resources.window_widget[SECONDARY_WINDOW] == NULL) {
+        target_window = SECONDARY_WINDOW;
     }
-    if (windowidx != 2) {
-        windowidx++;
+    /* Recreated canvases go to MONITOR_WINDOW. */
+    if (ui_resources.window_widget[target_window] != NULL) {
+        /* TODO: This doesn't make even a little bit of sense. The monitor
+         * window doesn't have a Commodore-screen canvas associated with
+         * it! Monitors should be tracked completely seperately. */
+        /* TODO: Ending up here should be a fatal error */
+        target_window = MONITOR_WINDOW;
+    }
+
+    ui_resources.canvas[target_window] = canvas;
+    ui_resources.window_widget[target_window] = new_window;
+
+    /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
+    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
+    add_accelerators_to_window(new_window);
+    kbd_connect_handlers(new_window, NULL);
+}
+
+/** \brief  Finds the window associated with this canvas and makes it visible. */
+
+void ui_display_toplevel_window(struct video_canvas_s *canvas)
+{
+    int i;
+    for (i = 0; i < NUM_WINDOWS; ++i) {
+        if (ui_resources.canvas[i] == canvas) {
+            /* Normally this would show everything in the window,
+             * including hidden status bar displays, but we've
+             * disabled secondary displays in the status bar code with
+             * gtk_widget_set_no_show_all(). */
+            gtk_widget_show_all(ui_resources.window_widget[i]);
+            break;
+        }
     }
 }
 
@@ -413,6 +472,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
  */
 int ui_resources_init(void)
 {
+    int i;
     /* initialize string resources */
     if (resources_register_string(resources_string) < 0) {
         return -1;
@@ -426,6 +486,11 @@ int ui_resources_init(void)
         if (resources_register_int(resources_int_secondary_window) < 0) {
             return -1;
         }
+    }
+
+    for (i = 0; i < NUM_WINDOWS; ++i) {
+        ui_resources.canvas[i] = NULL;
+        ui_resources.window_widget[i] = NULL;
     }
 
     INCOMPLETE_IMPLEMENTATION();
@@ -479,32 +544,20 @@ void ui_message(const char *format, ...)
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
     int i;
-    char str[64];
+    char str[128];
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
     char *warp, *mode[3] = {"", _(" (VDC)"), _(" (Monitor)")};
 
     for (i = 0; i < NUM_WINDOWS; i++) {
-        if (GTK_WINDOW(ui_resources.window_widget[i])) {
+        if (ui_resources.canvas[i] && GTK_WINDOW(ui_resources.window_widget[i])) {
             /* FIXME: handle paused mode */
             warp = (warp_flag ? _("(warp)") : "");
             str[0] = 0;
-            if (percent) {
-                sprintf(str, "VICE %s%s  - %3d%%, %2d fps ", 
-                        machine_name, mode[i], percent_int, framerate_int);
-            }
-            strcat(str, warp);
+            snprintf(str, 128, "%s%s - %3d%%, %2d fps %s",
+                     ui_resources.canvas[i]->viewport->title, mode[i], percent_int, framerate_int, warp);
+            str[127] = 0;
             gtk_window_set_title(GTK_WINDOW(ui_resources.window_widget[i]), str);
-        }
-        if (GTK_LABEL(ui_resources.status_widget[i])) {
-            /* TODO: This will go away once the status widgets are
-             * properly emplaced */
-            str[0] = 0;
-            if (percent) {
-                sprintf(str, "%3d%%, %2d fps ", 
-                        percent_int, framerate_int);
-            }
-            gtk_label_set_text(GTK_LABEL(ui_resources.status_widget[i]), str);
         }
     }
 }

@@ -35,7 +35,6 @@
 #include "not_implemented.h"
 
 #include "cmdline.h"
-#include "kbd.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -46,7 +45,6 @@
 #include "ui.h"
 #include "videoarch.h"
 
-#include "uiaccelerators.h"
 
 
 #define VICE_DEBUG_NATIVE_GTK3
@@ -103,13 +101,6 @@ static int set_display_depth(int val, void *param)
     }
     display_depth = val;
     return 0;
-}
-
-static void window_destroy_cb(void)
-{
-    /* This isn't quite right, unless destroying any canvas window
-     * should kill the app */
-    ui_exit();
 }
 
 /** \brief  Command line options related to generic video output
@@ -281,8 +272,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    GtkWidget *new_window, *grid, *status_bar, *new_drawing_area;
-
     VICE_GTK3_FUNC_ENTERED();
     canvas->initialized = 0;
     canvas->created = 0;
@@ -307,46 +296,18 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
         canvas->backing_surface = NULL;
     }
 
-    /* TODO: This both leaks and is in the wrong place. ui.c should
-     *       handle this with something like ui_open_canvas_window,
-     *       and *that* probably belongs somewhere in things like
-     *       c64ui_init(). */
-    new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    add_accelerators_to_window(new_window);
-    grid = gtk_grid_new();
-    status_bar = gtk_label_new(NULL);
-    ui_set_toplevel_widget(new_window, status_bar); /* temporary hack */
-    new_drawing_area = gtk_drawing_area_new();
-    /* FIXME: perhaps we want to put a pointer to the canvas into the uiresources */
-    /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
-    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
+    ui_create_toplevel_window(canvas);
     if (width && height && *width && *height) {
-        gtk_widget_set_size_request(new_drawing_area, *width, *height);
+        gtk_widget_set_size_request(canvas->drawing_area, *width, *height);
     }
-    gtk_container_add(GTK_CONTAINER(new_window), grid);
-    /* When we have a menu bar, we'll add it at the top here */    
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
-    gtk_container_add(GTK_CONTAINER(grid), new_drawing_area);
-    gtk_container_add(GTK_CONTAINER(grid), status_bar);
+    g_signal_connect(canvas->drawing_area, "draw", G_CALLBACK(draw_canvas_cb), canvas);
+    g_signal_connect(canvas->drawing_area, "configure_event", G_CALLBACK(resize_canvas_container_cb), canvas);
+    ui_display_toplevel_window(canvas);
 
-    gtk_widget_set_hexpand(new_drawing_area, TRUE);
-    gtk_widget_set_vexpand(new_drawing_area, TRUE);
-
-    g_signal_connect(new_window, "destroy", G_CALLBACK(window_destroy_cb), NULL);
-    g_signal_connect(new_drawing_area, "draw", G_CALLBACK(draw_canvas_cb), canvas);
-    g_signal_connect(new_drawing_area, "configure_event", G_CALLBACK(resize_canvas_container_cb), canvas);
-    kbd_connect_handlers(new_window, NULL);
-
-    gtk_widget_show_all (new_window);
-    TEMPORARY_IMPLEMENTATION();
-    
-    
-    canvas->drawing_area = new_drawing_area;
     canvas->created = 1;
     canvas->initialized = 1;
     return canvas;
 }
-
 
 void video_canvas_destroy(struct video_canvas_s *canvas)
 {
@@ -398,7 +359,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     }
 
     /* fprintf(stderr, "Xsc%d Ysc%d XS%u YS%u XI%u YI%u W%u H%u CW%u CH%u\n", canvas->videoconfig->scalex, canvas->videoconfig->scaley, xs, ys, xi, yi, w, h, backing_surface_w, backing_surface_h); */
-    
+
     cairo_surface_flush(canvas->backing_surface);
     video_canvas_render(canvas, canvas->backbuffer, w, h, xs, ys, xi, yi, cairo_image_surface_get_stride(canvas->backing_surface), 32);
     cairo_surface_mark_dirty_rectangle(canvas->backing_surface, xi, yi, w, h);
@@ -482,7 +443,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
         video_render_setrawrgb(i, i << 16, i << 8, i);
     }
     video_render_initraw(canvas->videoconfig);
-    
+
     return 0;
 }
 
