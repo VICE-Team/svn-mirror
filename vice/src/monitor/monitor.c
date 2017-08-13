@@ -558,11 +558,11 @@ void monitor_cpu_type_set(const char *cpu_type)
 
 int mon_banknum_from_bank(MEMSPACE mem, const char *bankname)
 {
+    int newbank;
+
     if (mem == e_default_space) {
         mem = default_memspace;
     }
-
-    int newbank;
 
     newbank = mon_interfaces[mem]->mem_bank_from_name(bankname);
     if (newbank < 0) {
@@ -1889,12 +1889,14 @@ int mon_evaluate_conditional(cond_node_t *cnode)
 {
     /* Do a post-order traversal of the tree */
     if (cnode->operation != e_INV) {
+        int value_1, value_2;
+
         if (!(cnode->child1 && cnode->child2)) {
             log_error(LOG_ERR, "No conditional!");
             return 0;
         }
-        int value_1 = mon_evaluate_conditional(cnode->child1);
-        int value_2 = mon_evaluate_conditional(cnode->child2);
+        value_1 = mon_evaluate_conditional(cnode->child1);
+        value_2 = mon_evaluate_conditional(cnode->child2);
 
         switch (cnode->operation) {
             case e_EQU:
@@ -1935,10 +1937,11 @@ int mon_evaluate_conditional(cond_node_t *cnode)
         else if(cnode->banknum >= 0) {
             MEMSPACE src_mem = e_comp_space;
             WORD start = addr_location(cnode->value);
+            BYTE byte1;
             int old_sidefx = sidefx; /*we need to store current value*/
             sidefx = 0; /*make sure we peek when doing the break point, otherwise weird stuff will happen*/
 
-            BYTE byte1 = mon_get_mem_val_ex(src_mem, cnode->banknum, start);
+            byte1 = mon_get_mem_val_ex(src_mem, cnode->banknum, start);
 
             sidefx = old_sidefx; /*restore value*/
             return byte1;
