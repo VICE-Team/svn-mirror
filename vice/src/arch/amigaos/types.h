@@ -30,44 +30,30 @@
 
 #include "vice.h"
 
-#if 1
-
-#define BYTE unsigned char
-#define SIGNED_CHAR signed char
-
-#define WORD unsigned short
-#define SWORD signed short
-
-#define DWORD unsigned int
-#define SDWORD signed int
-
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
 #else
+#warning types.h is being changed to use stdint.h, and will become mandatory.
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned long uint32_t;
 
-#undef BYTE
-#undef WORD
-
-#define BYTE unsigned char
-
-typedef signed char SIGNED_CHAR;
-
-#if SIZEOF_UNSIGNED_SHORT == 2
-typedef unsigned short WORD;
-typedef signed short SWORD;
-#else
-#error Cannot find a proper 16-bit type!
+typedef signed char int8_t;
+typedef signed short int16_t;
+typedef signed long int32_t;
 #endif
 
-#if SIZEOF_UNSIGNED_INT == 4
-typedef unsigned int DWORD;
-typedef signed int SDWORD;
-#elif SIZEOF_UNSIGNED_LONG == 4
-typedef unsigned long DWORD;
-typedef signed long SWORD;
-#else
-#error Cannot find a proper 32-bit type!
-#endif
 
-#endif
+/* The following will be removed once the move to stdint.h has been completed */
+
+#define BYTE        uint8_t
+#define SIGNED_CHAR int8_t
+
+#define WORD        uint16_t
+#define SWORD       int16_t
+
+#define DWORD       uint32_t
+#define SDWORD      int32_t
 
 typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
@@ -79,4 +65,3 @@ typedef DWORD CLOCK;
 #define uint_to_void_ptr(x) ((void *)(unsigned long)(x))
 
 #endif
-
