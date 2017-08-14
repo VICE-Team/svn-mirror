@@ -166,7 +166,12 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
 
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
     ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
+/* commented out for now, since this doesn't work properly yet. better avoid
+ * introducting weird bugs
+ */
+#if 0
     add_accelerators_to_window(new_window);
+#endif
     kbd_connect_handlers(new_window, NULL);
 }
 
