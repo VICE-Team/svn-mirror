@@ -955,7 +955,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
     AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
     HAVE_MIDI_SUPPORT="yes"
   fi
-  if test x"$enable_ethernet" != "xyes"; then
+  if test x"$enable_ethernet" = "xyes"; then
     AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
     AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
     HAVE_RAWNET_SUPPORT="yes"
