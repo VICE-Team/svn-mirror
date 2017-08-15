@@ -37,6 +37,8 @@
 #include <windef.h>
 #endif
 
+#include <inttypes.h>
+
 #if !defined(_WINDEF_) && !defined(_WINDEF_H)
 
 typedef unsigned char BYTE;
