@@ -887,7 +887,7 @@ int joyai_update(int joy, int dst)
 {
     void *ptr;
     keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
-    BYTE value = 0;
+    uint8_t value = 0;
 
     if (!amigainput_lib_loaded) {
         return -1;
@@ -976,7 +976,7 @@ int joyai_update(int joy, int dst)
 
 int joyai_key(int joy, int dst, unsigned long kcode, int pressed)
 {
-    BYTE value = 0;
+    uint8_t value = 0;
     keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
     unsigned int i;
 
@@ -986,7 +986,7 @@ int joyai_key(int joy, int dst, unsigned long kcode, int pressed)
             if (pressed) {
                 joystick_set_value_or(dst, value);
             } else {
-                joystick_set_value_and(dst, (BYTE) ~value);
+                joystick_set_value_and(dst, (uint8_t) ~value);
             }
         }
     }

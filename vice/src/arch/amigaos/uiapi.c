@@ -464,7 +464,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 }
 
 /* joystick UI */
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
 }
 

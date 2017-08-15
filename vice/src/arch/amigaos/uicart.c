@@ -60,7 +60,7 @@ void uicart_attach(video_canvas_t *canvas, int idm, const uicart_params_t *cartr
     }
 }
 
-void uicart_attach_special(video_canvas_t *canvas, char *title, DWORD filterlist, unsigned int type)
+void uicart_attach_special(video_canvas_t *canvas, char *title, uint32_t filterlist, unsigned int type)
 {
     char *name;
 

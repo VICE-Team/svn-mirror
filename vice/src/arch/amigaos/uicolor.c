@@ -29,7 +29,7 @@
 
 int uicolor_alloc_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long *color_pixel,
-                        BYTE *pixel_return)
+                        uint8_t *pixel_return)
 {
     return 0;
 }
@@ -38,7 +38,7 @@ void uicolor_free_color(unsigned int red, unsigned int green, unsigned int blue,
 {
 }
 
-void uicolor_convert_color_table(unsigned int colnr, BYTE *data, long color_pixel, void *c)
+void uicolor_convert_color_table(unsigned int colnr, uint8_t *data, long color_pixel, void *c)
 {
 }
 

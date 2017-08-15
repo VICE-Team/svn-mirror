@@ -169,7 +169,7 @@ int joy_arch_cmdline_options_init(void)
 int joystick_handle_key(unsigned long kcode, int pressed)
 {
     int joy_dev, port_idx;
-    BYTE value = 0;
+    uint8_t value = 0;
 
     for (port_idx = 0; port_idx < JOYSTICK_NUM; port_idx++) {
         joy_dev = joystick_port_map[port_idx];
@@ -215,7 +215,7 @@ int joystick_handle_key(unsigned long kcode, int pressed)
             if (pressed) {
                 joystick_set_value_or(port_idx + 1, value);
             } else {
-                joystick_set_value_and(port_idx + 1, (BYTE) ~value);
+                joystick_set_value_and(port_idx + 1, (uint8_t) ~value);
             }
         }
 

@@ -59,7 +59,7 @@ void *timer_init(void)
     if (timer) {
         timer->TimerBase = NULL;
         timer->TimerMP.mp_SigBit = AllocSignal(-1);
-        if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
+        if ((uint8_t)timer->TimerMP.mp_SigBit != -1) {
             timer->TimerMP.mp_Node.ln_Type = NT_MSGPORT;
             timer->TimerMP.mp_Flags = PA_SIGNAL;
             timer->TimerMP.mp_SigTask = FindTask(NULL);
@@ -84,7 +84,7 @@ void timer_exit(void *t)
     struct timer_s *timer = t;
 
     if (timer != NULL) {
-        if ((BYTE)timer->TimerMP.mp_SigBit != -1) {
+        if ((uint8_t)timer->TimerMP.mp_SigBit != -1) {
             if (timer->TimerBase != NULL) {
                 CloseDevice((struct IORequest *)&timer->TimerIO);
             }
@@ -192,7 +192,7 @@ void dotimer(ULONG unit,ULONG timercmd,struct timeval *t)
 
     if ((portio = lib_AllocMem(sizeof(*portio), MEMF_CLEAR | MEMF_PUBLIC))) {
         portio->port.mp_Node.ln_Type = NT_MSGPORT;
-        if ((BYTE)(portio->port.mp_SigBit = AllocSignal(-1)) >= 0) {
+        if ((uint8_t)(portio->port.mp_SigBit = AllocSignal(-1)) >= 0) {
             portio->port.mp_SigTask = FindTask(NULL);
             NEWLIST(&portio->port.mp_MsgList);
             portio->treq.tr_node.io_Message.mn_Node.ln_Type = NT_REPLYMSG;
