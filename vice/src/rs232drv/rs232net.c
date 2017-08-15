@@ -38,8 +38,6 @@
 #undef        DEBUG
 /* #define DEBUG */
 
-#include <stdint.h>
-
 #include "vice.h"
 
 #ifdef HAVE_RS232NET

@@ -37,7 +37,7 @@
  */
 
 #include <stdio.h>
-#include <stdint.h>
+
 #include "rs232drv/rs232.h"
 
 /* Initializes all RS232 stuff */

@@ -27,8 +27,6 @@
 #ifndef VICE_RS232NET_H
 #define VICE_RS232NET_H
 
-#include <stdint.h>
-
 #include "types.h"
 
 /* Initializes all RS232 stuff */

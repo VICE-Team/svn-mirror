@@ -36,8 +36,6 @@
 #undef        DEBUG
 /* #define DEBUG */
 
-#include <stdint.h>
-
 #include "vice.h"
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)

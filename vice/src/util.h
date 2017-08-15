@@ -33,7 +33,6 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include <stdint.h>
 
 #include "types.h"
 

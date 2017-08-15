@@ -34,26 +34,23 @@
 #include <stdint.h>
 #else
 #warning types.h is being changed to use stdint.h, and will become mandatory.
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned long uint32_t;
-
-typedef signed char int8_t;
-typedef signed short int16_t;
-typedef signed long int32_t;
+#include <machine/types.h>
+#define uint8_t u_int8_t
+#define uint16_t u_int16_t
+#define uint32_t u_int32_t
 #endif
 
 
 /* The following will be removed once the move to stdint.h has been completed */
 
-#define BYTE        uint8_t
+#define BYTE uint8_t
 #define SIGNED_CHAR int8_t
 
-#define WORD        uint16_t
-#define SWORD       int16_t
+#define WORD uint16_t
+#define SWORD int16_t
 
-#define DWORD       uint32_t
-#define SDWORD      int32_t
+#define DWORD uint32_t
+#define SDWORD int32_t
 
 typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */

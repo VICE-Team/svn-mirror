@@ -537,6 +537,10 @@ case $host_os in
         SYS="OPENBSD"
         libm="-lm"
         ;;
+    *osf5.1*)
+        SYS="Tru64"
+        libm="-lm"
+        ;;
     *linux*)
         SYS="LINUX"
         define HAVE_MALLOC_H

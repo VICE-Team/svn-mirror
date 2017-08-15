@@ -44,6 +44,8 @@
 
 #ifndef AMIGA_OS4
 # ifdef AMIGA_M68K
+#  undef BYTE
+#  undef WORD
 #  include <utility/tagitem.h>
 #  include <clib/exec_protos.h>
 # endif

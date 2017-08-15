@@ -25,7 +25,6 @@
  */
 
 #include <stdio.h>
-#include <stdint.h>
 
 #include "blockdev.h"
 

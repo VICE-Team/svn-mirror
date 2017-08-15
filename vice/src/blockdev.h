@@ -29,10 +29,6 @@
 
 #include "vice.h"
 
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-
 #include "types.h"
 
 struct disk_image_s;

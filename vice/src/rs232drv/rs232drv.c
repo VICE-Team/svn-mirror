@@ -24,8 +24,6 @@
  *
  */
 
-#include <stdint.h>
-
 #include "vice.h"
 
 #include "archdep.h"

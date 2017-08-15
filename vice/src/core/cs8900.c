@@ -25,8 +25,6 @@
  *
  */
 
-#include <stdint.h>
-
 #include "vice.h"
 
 #ifdef HAVE_RAWNET
@@ -48,6 +46,7 @@
 #include "rawnetarch.h"
 #include "resources.h"
 #include "snapshot.h"
+#include "types.h"
 #include "util.h"
 
 /* FIXME:
