@@ -32,41 +32,23 @@
 /* required for intptr_t and friends */
 #include <stdint.h>
 
-typedef signed char SIGNED_CHAR;
-
 #ifdef _WIN32
 #include <WinDef.h>
-#endif
-
-/* FIXME: we should completely get rid of BYTE,WORD,DWORD etc in VICE code */
-#define BYTE unsigned char
-
-#if SIZEOF_UNSIGNED_SHORT == 2
-#ifndef _WIN32
-typedef unsigned short WORD;
-#endif
-typedef signed short SWORD;
 #else
-#error Cannot find a proper 16-bit type!
+typedef uint8_t BYTE;
+typedef uint16_t WORD;
+typedef uint32_t DWORD;
 #endif
 
-#if SIZEOF_UNSIGNED_INT == 4
-#ifndef _WIN32
-typedef unsigned int DWORD;
-#endif
-typedef signed int SDWORD;
-#elif SIZEOF_UNSIGNED_LONG == 4
-#ifndef _WIN32
-typedef unsigned long DWORD;
-#endif
-typedef signed long SDWORD;
-#else
-#error Cannot find a proper 32-bit type!
-#endif
+typedef signed char SIGNED_CHAR;
+typedef int16_t SWORD;
+typedef int32_t SDWORD;
 
-typedef DWORD CLOCK;
+typedef uint32_t CLOCK;
+
 /* Maximum value of a CLOCK.  */
-#define CLOCK_MAX (~((CLOCK)0))
+#define CLOCK_MAX UINT32_MAX
+
 
 /* FIXME: these can probably be global and the same for all ports (that
           have C99) */
