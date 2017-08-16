@@ -163,8 +163,8 @@ BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len)
     return slot;
 }
 
-/* Parse command `parsecmd', type and read/write mode from the given string
-   `cmd' with `cmdlength. '@' on write must be checked elsewhere.  */
+/* Parse file-name `parsecmd', type, and read/write mode from the given string
+   `cmd' with `cmdlength'. '@' on write must be checked elsewhere. */
 
 unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 {
@@ -196,12 +196,17 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
             }
             /* skip colon */
             if (*p == ':') {
-                p++;
+                if (*++p == '\0') {
+                    /* "Nothing" after a colon is actually an empty pattern.
+                     * Make it match nothing -- count the NUL byte.
+                     */
+                    ++cmd_parse->cmdlength;
+                }
             }
             /* everything from here is the pattern */
         } else {
-            /* Just a single $, set pointer to null byte */
-            p = cmd_parse->cmd + cmd_parse->cmdlength;
+            /* Just a single $, set pointer to NUL byte */
+            ++p;
         }
     } else {
         p = memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);

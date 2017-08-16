@@ -356,8 +356,8 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const char *name,
             --length;
         }
     }
-    if (!*name || length < 1) {
-        name = "*\0";
+    if (length < 1) {
+        name = "*";
         length = 1;
     }
 
