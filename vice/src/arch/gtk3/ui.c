@@ -429,11 +429,6 @@ int ui_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options_common);
 }
 
-void ui_error(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-}
-
 char *ui_get_file(const char *format, ...)
 {
     NOT_IMPLEMENTED();
@@ -538,6 +533,18 @@ int ui_extend_image_dialog(void)
 {
     NOT_IMPLEMENTED();
     return 0;
+}
+
+void ui_error(const char *format, ...)
+{
+    va_list ap;
+    char str[1024];
+
+    va_start(ap, format);
+    vsprintf(str, format, ap);
+    va_end(ap);
+    fprintf(stderr, "VICE Error!:%s\n", str);
+    TEMPORARY_IMPLEMENTATION();
 }
 
 void ui_message(const char *format, ...)
