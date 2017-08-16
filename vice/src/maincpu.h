@@ -42,7 +42,7 @@ extern unsigned int last_opcode_addr;
     ((opinfo) & OPINFO_NUMBER_MSK)
 
 /* The VIC-II emulation needs this ugly hack.  */
-extern WORD reg_pc;
+extern uint16_t reg_pc;
 
 #ifdef C64DTV
 struct mos6510dtv_regs_s;

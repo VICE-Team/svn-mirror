@@ -77,7 +77,7 @@ static void sampler_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static inline BYTE calc_gain(BYTE val)
+static inline uint8_t calc_gain(uint8_t val)
 {
     int tmp = (val - 0x80);
 
@@ -91,7 +91,7 @@ static inline BYTE calc_gain(BYTE val)
         tmp = -128;
     }
 
-    return (BYTE)(tmp + 0x80);
+    return (uint8_t)(tmp + 0x80);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -127,7 +127,7 @@ void sampler_stop(void)
     }
 }
 
-BYTE sampler_get_sample(int channel)
+uint8_t sampler_get_sample(int channel)
 {
     if (devices[current_sampler].get_sample) {
         if (sampler_gain == 100) {

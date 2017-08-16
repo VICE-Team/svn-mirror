@@ -40,7 +40,7 @@ typedef uint16_t WORD;
 typedef uint32_t DWORD;
 #endif
 
-typedef signed char SIGNED_CHAR;
+typedef int8_t SIGNED_CHAR;
 typedef int16_t SWORD;
 typedef int32_t SDWORD;
 
