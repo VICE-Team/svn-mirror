@@ -41,20 +41,16 @@
 
 #if !defined(_WINDEF_) && !defined(_WINDEF_H)
 
-typedef unsigned char BYTE;
+typedef uint8_t BYTE;
 
-typedef unsigned short WORD;
+typedef uint16_t WORD;
 
-#ifdef DWORD_IS_LONG
-typedef unsigned long DWORD;
-#else
-typedef unsigned int DWORD;
-#endif
+typedef uint32_t DWORD;
 #endif
 
-typedef signed char SIGNED_CHAR;
-typedef signed short SWORD;
-typedef signed int SDWORD;
+typedef int8_t SIGNED_CHAR;
+typedef int16_t SWORD;
+typedef int32_t SDWORD;
 
 typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
