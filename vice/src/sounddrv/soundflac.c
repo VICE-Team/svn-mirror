@@ -108,7 +108,7 @@ static int flac_init(const char *param, int *speed, int *fragsize, int *fragnr, 
     return 0;
 }
 
-static int flac_write(SWORD *pbuf, size_t nr)
+static int flac_write(int16_t *pbuf, size_t nr)
 {
     FLAC__bool ok;
     unsigned int i;

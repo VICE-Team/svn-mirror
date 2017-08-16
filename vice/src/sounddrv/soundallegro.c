@@ -107,13 +107,13 @@ static int allegro_init_sound(const char *param, int *speed,
         return 1;
     }
 
-    fragment_size = *fragsize * sizeof(SWORD);
+    fragment_size = *fragsize * sizeof(int16_t);
 
     buffer_len = fragment_size * *fragnr;
-    buffer = create_sample(16, 0, *speed, buffer_len / sizeof(SWORD));
+    buffer = create_sample(16, 0, *speed, buffer_len / sizeof(int16_t));
 
     for (i = 0; i < buffer_len / 2; i++) {
-        *((WORD *)buffer->data + i) = 0x8000;
+        *((uint16_t *)buffer->data + i) = 0x8000;
     }
 
     voice = allocate_voice(buffer);
@@ -134,7 +134,7 @@ static int allegro_init_sound(const char *param, int *speed,
     return 0;
 }
 
-static int allegro_write(SWORD *pbuf, size_t nr)
+static int allegro_write(int16_t *pbuf, size_t nr)
 {
     static int counter;
     unsigned int i, count;
@@ -144,10 +144,10 @@ static int allegro_write(SWORD *pbuf, size_t nr)
 
     /* XXX: Assumes `nr' is multiple of `fragment_size'.  This is always the
        case with the current implementation.  */
-    count = nr / (fragment_size / sizeof(SWORD));
+    count = nr / (fragment_size / sizeof(int16_t));
 
     /* Write one fragment at a time.  FIXME: This could be faster.  */
-    for (i = 0; i < count; i++, pbuf += fragment_size / sizeof(SWORD)) {
+    for (i = 0; i < count; i++, pbuf += fragment_size / sizeof(int16_t)) {
         if (!been_suspended) {
             unsigned int write_end;
 
@@ -159,7 +159,7 @@ static int allegro_write(SWORD *pbuf, size_t nr)
                Notice that we also assume that the part of the buffer we are
                going to lock is small enough to fit in the safe space.  */
             while (1) {
-                unsigned int pos = sizeof(SWORD) * voice_get_position(voice);
+                unsigned int pos = sizeof(int16_t) * voice_get_position(voice);
                 unsigned int pos2 = pos + fragment_size;
 
                 if (pos2 < buffer_len) {
@@ -178,11 +178,11 @@ static int allegro_write(SWORD *pbuf, size_t nr)
         /* Write fragment.  */
         {
             unsigned int j;
-            WORD *p = (WORD *)(buffer->data + buffer_offset);
+            uint16_t *p = (uint16_t *)(buffer->data + buffer_offset);
 
             /* XXX: Maybe the SID engine could already produce samples in
                unsigned format as we need them here?  */
-            for (j = 0; j < fragment_size / sizeof(SWORD); j++) {
+            for (j = 0; j < fragment_size / sizeof(int16_t); j++) {
                 p[j] = pbuf[j] + 0x8000;
             }
         }
@@ -212,19 +212,19 @@ static int allegro_bufferspace(void)
     int ret, pos;
 
     /* voice_get_position returns current position in samples. */
-    pos = voice_get_position(voice) * sizeof(SWORD);
+    pos = voice_get_position(voice) * sizeof(int16_t);
     ret = buffer_offset - pos;
     if (ret < 0) {
         ret += buffer_len;
     }
 
-    ret /= sizeof(SWORD);
+    ret /= sizeof(int16_t);
 
     if (ret > (int)written_samples) {
         ret = written_samples;
     }
 
-    return buffer_len / sizeof(SWORD) - ret;
+    return buffer_len / sizeof(int16_t) - ret;
 }
 
 static void allegro_close(void)

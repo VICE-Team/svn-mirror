@@ -95,7 +95,7 @@ static int artsdrv_init(const char *param, int *speed, int *fragsize, int *fragn
     /*
     ** Try to get correct buffer size.
     */
-    arts_stream_set(arts_st, ARTS_P_BUFFER_SIZE, *fragnr * *fragsize * sizeof(SWORD));
+    arts_stream_set(arts_st, ARTS_P_BUFFER_SIZE, *fragnr * *fragsize * sizeof(int16_t));
     arts_stream_set(arts_st, ARTS_P_BLOCKING, 1);
 
     *fragsize = arts_stream_get(arts_st, ARTS_P_PACKET_SIZE);
@@ -108,7 +108,7 @@ static int artsdrv_init(const char *param, int *speed, int *fragsize, int *fragn
     return 0;
 }
 
-static int artsdrv_write(SWORD *pbuf, size_t nr)
+static int artsdrv_write(int16_t *pbuf, size_t nr)
 {
 #ifdef WORDS_BIGENDIAN
     int i;
@@ -118,14 +118,14 @@ static int artsdrv_write(SWORD *pbuf, size_t nr)
     }
 #endif /* WORDS_BIGENDIAN */
 
-    arts_write(arts_st, (void*)pbuf, nr * sizeof(SWORD));
+    arts_write(arts_st, (void*)pbuf, nr * sizeof(int16_t));
     return 0;
 }
 
 static int artsdrv_bufferspace(void)
 {
     /* arts_stream_get(arts_st,ARTS_P_BUFFER_SPACE) returns space in bytes. */
-    return arts_stream_get(arts_st, ARTS_P_BUFFER_SPACE) / sizeof(SWORD);
+    return arts_stream_get(arts_st, ARTS_P_BUFFER_SPACE) / sizeof(int16_t);
 }
 
 static void artsdrv_close(void)
@@ -158,7 +158,7 @@ int artsdrv_resume(void)
 {
     if (artsdrv_suspended == 1) {
         arts_st = arts_play_stream(artsdrv_speed, artsdrv_bits, 1, "vice");
-        arts_stream_set(arts_st, ARTS_P_BUFFER_SIZE, artsdrv_bufsize * sizeof(SWORD));
+        arts_stream_set(arts_st, ARTS_P_BUFFER_SIZE, artsdrv_bufsize * sizeof(int16_t));
         artsdrv_suspended = 0;
     }
     return 0;

@@ -43,7 +43,7 @@
 #include "loader.h"
 #endif
 
-static SWORD *sdl_buf = NULL;
+static int16_t *sdl_buf = NULL;
 static SDL_AudioSpec sdl_spec;
 static volatile int sdl_inptr = 0;
 static volatile int sdl_outptr = 0;
@@ -64,29 +64,29 @@ static void sdl_callback(void *userdata, Uint8 *stream, int len)
     }
 #endif
 
-    while (total < (len / (int)sizeof(SWORD))) {
+    while (total < (len / (int)sizeof(int16_t))) {
         amount = sdl_inptr - sdl_outptr;
         if (amount <= 0) {
             amount = sdl_len - sdl_outptr;
         }
 
-        if (amount + total > (len / (int)sizeof(SWORD))) {
-            amount = len / (int)sizeof(SWORD) - total;
+        if (amount + total > (len / (int)sizeof(int16_t))) {
+            amount = len / (int)sizeof(int16_t) - total;
         }
 
         sdl_full = 0;
 
         if (!amount) {
-            memset(stream + total * (int)sizeof(SWORD), 0, (size_t)(len - total) * sizeof(SWORD));
+            memset(stream + total * (int)sizeof(int16_t), 0, (size_t)(len - total) * sizeof(int16_t));
 #ifdef ANDROID_COMPILE
             if (userdata) {
-                *(short *)userdata = (short)(len / (int)sizeof(SWORD));
+                *(short *)userdata = (short)(len / (int)sizeof(int16_t));
             }
 #endif
             return;
         }
 
-        memcpy(stream + total * (int)sizeof(SWORD), sdl_buf + sdl_outptr, (size_t)amount * sizeof(SWORD));
+        memcpy(stream + total * (int)sizeof(int16_t), sdl_buf + sdl_outptr, (size_t)amount * sizeof(int16_t));
         total += amount;
         sdl_outptr += amount;
 
@@ -117,11 +117,11 @@ static int sdl_init(const char *param, int *speed,
     /* NOTE: on some backends the first (input/desired) spec passed to SDL_OpenAudio
      *       may also get modified! because of this we can not use the spec struct
      *       later to retrieve the original desired values.
-     * 
+     *
      *       also apparently when the backend is pulseaudio, the number of samples
      *       will ALWAYS get divided by two for some reason - using larger buffers
      *       in the config may or may not be needed in that case.
-     * 
+     *
      *       see eg http://forums.libsdl.org/viewtopic.php?t=9248&sid=92130a5b4cfd7fd713e076e122d7e2a1
      *       to get an idea of the whole mess
      */
@@ -141,7 +141,7 @@ static int sdl_init(const char *param, int *speed,
 
     sdl_len = sdl_spec.samples * nr;
     sdl_inptr = sdl_outptr = sdl_full = 0;
-    sdl_buf = lib_calloc((size_t)sdl_len, sizeof(SWORD));
+    sdl_buf = lib_calloc((size_t)sdl_len, sizeof(int16_t));
 
     if (!sdl_buf) {
         SDL_CloseAudio();
@@ -219,7 +219,7 @@ void loader_writebuffer()
 }
 #endif
 
-static int sdl_write(SWORD *pbuf, size_t nr)
+static int sdl_write(int16_t *pbuf, size_t nr)
 {
     int total, amount;
     total = 0;
@@ -227,7 +227,7 @@ static int sdl_write(SWORD *pbuf, size_t nr)
 #ifdef WORDS_BIGENDIAN
     if (sdl_spec.format != AUDIO_S16MSB) {
         /* Swap bytes if we're on a big-endian machine, like the Macintosh */
-        swab(pbuf, pbuf, sizeof(SWORD) * nr);
+        swab(pbuf, pbuf, sizeof(int16_t) * nr);
     }
 #endif
 
@@ -247,7 +247,7 @@ static int sdl_write(SWORD *pbuf, size_t nr)
             continue;
         }
 
-        memcpy(sdl_buf + sdl_inptr, pbuf + total, (size_t)amount * sizeof(SWORD));
+        memcpy(sdl_buf + sdl_inptr, pbuf + total, (size_t)amount * sizeof(int16_t));
         sdl_inptr += amount;
         total += amount;
 

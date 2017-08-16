@@ -98,7 +98,7 @@ static int aix_init(const char *param, int *speed, int *fragsize, int *fragnr, i
     rc = UMSAudioDevice_enable_output(audio_device, ev, "LINE_OUT", &left_gain, &right_gain);
 
     /* set buffer size */
-    tmp = (*fragsize) * (*fragnr) * sizeof(SWORD);
+    tmp = (*fragsize) * (*fragnr) * sizeof(int16_t);
     buffer._maximum = tmp;
     buffer._buffer = lib_malloc(tmp);
     buffer._length = 0;
@@ -121,12 +121,12 @@ fail:
 #endif
 }
 
-static int aix_write(SWORD *pbuf, size_t nr)
+static int aix_write(int16_t *pbuf, size_t nr)
 {
     int total, i, now;
     long samples_written;
 
-    total = nr * sizeof(SWORD);
+    total = nr * sizeof(int16_t);
     buffer._length = total;
     memcpy(buffer._buffer, pbuf, total);
     rc = UMSAudioDevice_write(audio_device, ev, &buffer, total, &samples_written);
@@ -142,7 +142,7 @@ static int aix_bufferspace(void)
         return -1;
     }
     /* fprintf(errfile,"Audio Buffer remains: %d\n blocks",i); */
-    return i / sizeof(SWORD);
+    return i / sizeof(int16_t);
 }
 
 static void aix_close(void)

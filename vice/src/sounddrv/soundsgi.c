@@ -95,7 +95,7 @@ fail:
     return 1;
 }
 
-static int sgi_write(SWORD *pbuf, size_t nr)
+static int sgi_write(int16_t *pbuf, size_t nr)
 {
     int i;
     i = ALwritesamps(sgi_audioport, pbuf, nr);

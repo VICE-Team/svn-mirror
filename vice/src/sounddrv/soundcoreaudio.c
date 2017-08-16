@@ -61,10 +61,10 @@ static AudioDeviceID device = kAudioDeviceUnknown;
 typedef volatile int atomic_int_t;
 
 /* the cyclic buffer containing m fragments */
-static SWORD *soundbuffer;
+static int16_t *soundbuffer;
 
 /* silence fragment */
-static SWORD *silence;
+static int16_t *silence;
 
 /* current read position: no. of fragment in soundbuffer */
 static unsigned int read_position;
@@ -155,7 +155,7 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
 {
     UInt32 num_frames = *ioNumberDataPackets;
 
-    SWORD *buffer;
+    int16_t *buffer;
     if (fragments_in_queue) {
         /* too many -> crop to available in current fragment */
         if (num_frames > frames_left_in_fragment) {
@@ -691,10 +691,10 @@ static int coreaudio_init(const char *param, int *speed,
 
     /* the size of a fragment in bytes and SWORDs */
     swords_in_fragment = frames_in_fragment * in_channels;
-    bytes_in_fragment = swords_in_fragment * sizeof(SWORD);
+    bytes_in_fragment = swords_in_fragment * sizeof(int16_t);
 
     /* the size of a sample */
-    in_frame_byte_size = sizeof(SWORD) * in_channels;
+    in_frame_byte_size = sizeof(int16_t) * in_channels;
 
     /* allocate sound buffers */
     soundbuffer = lib_calloc(fragment_count, bytes_in_fragment);
@@ -709,10 +709,10 @@ static int coreaudio_init(const char *param, int *speed,
 #else
     in.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsBigEndian;
 #endif
-    in.mBytesPerFrame = sizeof(SWORD) * *channels;
+    in.mBytesPerFrame = sizeof(int16_t) * *channels;
     in.mBytesPerPacket = in.mBytesPerFrame;
     in.mFramesPerPacket = 1;
-    in.mBitsPerChannel = 8 * sizeof(SWORD);
+    in.mBitsPerChannel = 8 * sizeof(int16_t);
     in.mReserved = 0;
 
     /* setup audio device */
@@ -726,7 +726,7 @@ static int coreaudio_init(const char *param, int *speed,
     return 0;
 }
 
-static int coreaudio_write(SWORD *pbuf, size_t nr)
+static int coreaudio_write(int16_t *pbuf, size_t nr)
 {
     int i, count;
 

@@ -81,7 +81,7 @@ static int hpux_init(const char *param, int *speed, int *fragsize, int *fragnr, 
         goto fail;
     }
     /* set buffer size */
-    tmp = (*fragsize) * (*fragnr) * sizeof(SWORD);
+    tmp = (*fragsize) * (*fragnr) * sizeof(int16_t);
     st = ioctl(hpux_fd, AUDIO_SET_TXBUFSIZE, tmp);
     if (st < 0) {
         /* XXX: what are valid buffersizes? */
@@ -92,7 +92,7 @@ static int hpux_init(const char *param, int *speed, int *fragsize, int *fragnr, 
         if (st < 0) {
             goto fail;
         }
-        *fragnr = tmp / ((*fragsize) * sizeof(SWORD));
+        *fragnr = tmp / ((*fragsize) * sizeof(int16_t));
     }
     return 0;
 fail:
@@ -101,10 +101,10 @@ fail:
     return 1;
 }
 
-static int hpux_write(SWORD *pbuf, size_t nr)
+static int hpux_write(int16_t *pbuf, size_t nr)
 {
     int total, i, now;
-    total = nr * sizeof(SWORD);
+    total = nr * sizeof(int16_t);
     for (i = 0; i < total; i += now) {
         now = write(hpux_fd, (char *)pbuf + i, total - i);
         if (now <= 0) {
@@ -124,7 +124,7 @@ static int hpux_bufferspace(void)
     if (st < 0) {
         return -1;
     }
-    return ast.transmit_buffer_count / sizeof(SWORD);
+    return ast.transmit_buffer_count / sizeof(int16_t);
 }
 
 static void hpux_close(void)

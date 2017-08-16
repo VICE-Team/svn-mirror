@@ -159,7 +159,7 @@ static int xrun_recovery(snd_pcm_t *handle, int err)
     return err;
 }
 
-static int alsa_write(SWORD *pbuf, size_t nr)
+static int alsa_write(int16_t *pbuf, size_t nr)
 {
     int err;
 

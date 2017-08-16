@@ -64,7 +64,7 @@ static int midas_init(const char *param, int *speed, int *fragsize, int *fragnr,
     if (st != TRUE) {
         return 1;
     }
-    st = MIDASsetOption(MIDAS_OPTION_MIXBUFLEN, (*fragsize) * (*fragnr) * sizeof(SWORD));
+    st = MIDASsetOption(MIDAS_OPTION_MIXBUFLEN, (*fragsize) * (*fragnr) * sizeof(int16_t));
     if (st != TRUE) {
         return 1;
     }
@@ -101,13 +101,13 @@ static int midas_init(const char *param, int *speed, int *fragsize, int *fragnr,
     return 0;
 }
 
-static int midas_write(SWORD *pbuf, size_t nr)
+static int midas_write(int16_t *pbuf, size_t nr)
 {
     BOOL st = 1;
     unsigned int ist;
 
-    ist = MIDASfeedStreamData(midas_stream, (unsigned char *)pbuf, nr * sizeof(SWORD), TRUE);
-    if (ist != nr * sizeof(SWORD)) {
+    ist = MIDASfeedStreamData(midas_stream, (unsigned char *)pbuf, nr * sizeof(int16_t), TRUE);
+    if (ist != nr * sizeof(int16_t)) {
         return 1;
     }
 #ifndef __MSDOS__
@@ -124,7 +124,7 @@ static int midas_bufferspace(void)
     if (nr < 0) {
         nr = 0;
     }
-    nr /= sizeof(SWORD);
+    nr /= sizeof(int16_t);
     if (nr > midas_maxsize) {
         midas_maxsize = nr;
     }
