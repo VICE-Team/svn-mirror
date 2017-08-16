@@ -33,6 +33,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ui.h"
+
 #include "cmdline.h"
 #include "lib.h"
 #include "log.h"
@@ -41,7 +43,6 @@
 #include "montypes.h"
 #include "resources.h"
 #include "translate.h"
-#include "ui.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vicesocket.h"

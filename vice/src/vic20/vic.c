@@ -35,6 +35,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "videoarch.h"
+
 #include "archdep.h"
 #include "clkguard.h"
 #include "lib.h"
@@ -62,7 +64,6 @@
 #include "vic20-resources.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
-#include "videoarch.h"
 #include "viewport.h"
 #include "vsync.h"
 

@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "videoarch.h"
+
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "clkguard.h"
@@ -59,7 +61,6 @@
 #include "viciitypes.h"
 #include "vsync.h"
 #include "video.h"
-#include "videoarch.h"
 #include "viewport.h"
 
 

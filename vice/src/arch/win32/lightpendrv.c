@@ -25,9 +25,9 @@
  */
 
 #include "vice.h"
-#include "types.h"
-
 #include <windows.h>
+
+#include "types.h"
 
 #include "lightpen.h"
 #include "lightpendrv.h"

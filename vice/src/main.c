@@ -37,8 +37,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #ifdef ENABLE_NLS
 #include <locale.h>
+#endif
+
+#ifdef HAS_TRANSLATION
+#include "intl.h"
 #endif
 
 #include "archdep.h"
@@ -51,9 +56,6 @@
 #include "info.h"
 #include "init.h"
 #include "initcmdline.h"
-#ifdef HAS_TRANSLATION
-#include "intl.h"
-#endif
 #include "lib.h"
 #include "log.h"
 #include "machine.h"

@@ -52,6 +52,10 @@ int vsync_frame_counter;
 #include <limits.h>
 #endif
 
+#if (defined(WIN32) || defined (HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
+#include "videoarch.h"
+#endif
+
 #include "clkguard.h"
 #include "cmdline.h"
 #include "debug.h"
@@ -66,9 +70,6 @@ int vsync_frame_counter;
 #include "sound.h"
 #include "translate.h"
 #include "types.h"
-#if (defined(WIN32) || defined (HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI) && !defined(USE_SDLUI2)
-#include "videoarch.h"
-#endif
 #include "vsync.h"
 #include "vsyncapi.h"
 

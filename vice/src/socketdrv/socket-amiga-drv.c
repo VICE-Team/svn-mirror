@@ -28,6 +28,8 @@
 
 #define __USE_INLINE__
 
+#include "archdep.h"
+
 #include "socketimpl.h"
 
 #ifndef AMIGA_OS4

@@ -29,6 +29,8 @@
 #include <windows.h>
 #include <winsock.h>
 
+#include "archdep.h"
+
 int archdep_network_init(void)
 {
     WORD wVersionRequested = MAKEWORD(1, 1);

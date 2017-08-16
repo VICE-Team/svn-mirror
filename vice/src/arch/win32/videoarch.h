@@ -30,12 +30,9 @@
 
 /*  Nasty patch to avoid defining BYTE, WORD, DWORD more than once.  */
 
-#undef BYTE
-#undef WORD
-#undef DWORD
+#include <windows.h>
 
 #include "types.h"
-#include <windows.h>
 
 #include "msvc-d3d.h"
 

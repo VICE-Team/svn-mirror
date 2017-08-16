@@ -30,6 +30,8 @@
 
 #include <stdio.h>
 
+#include "ui.h"
+
 #include "cmdline.h"
 #include "lib.h"
 #include "res.h"
@@ -37,7 +39,6 @@
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
-#include "ui.h"
 #include "uiapi.h"
 #include "uilib.h"
 #include "util.h"

@@ -28,10 +28,11 @@
 
 #include "vice.h"
 
+#include "videoarch.h"
+
 #include "lib.h"
 #include "machine.h"
 #include "video.h"
-#include "videoarch.h"
 #include "viewport.h"
 
 void video_viewport_get(video_canvas_t *canvas, viewport_t **viewport,

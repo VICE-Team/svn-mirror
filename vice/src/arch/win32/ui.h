@@ -29,16 +29,11 @@
 #ifndef VICE_UI_WIN32_H
 #define VICE_UI_WIN32_H
 
-#include "types.h"
-
 #include <stdio.h>
-
-#undef BYTE
-#undef WORD
-#undef DWORD
-
 #include <windows.h> /* hack to get LPOLESTR etc on some mingw(64) */
 #include <wtypes.h>
+
+#include "types.h"
 
 #ifndef DUMMYUNIONNAME
 #define DUMMYUNIONNAME u1

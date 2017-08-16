@@ -38,13 +38,14 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "videoarch.h"
+
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "video-color.h"
 #include "video.h"
-#include "videoarch.h"
 #include "viewport.h"
 #include "util.h"
 
