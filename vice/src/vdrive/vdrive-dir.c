@@ -351,17 +351,6 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const char *name,
             __func__, name, length, filetype);
 #endif
 
-    /* handle special case '$$...' (works like "$:")
-     *
-     * XXX: This should be handled in cbmdos_command_parse(), but that function
-     *      is a bit of a mess and needs a rewrite to support multiple wildcard
-     *      patterns to pass into this function (see bug #614). Right now
-     *      cbmdos_command_parse() cuts off everthing after the first comma.
-     */
-    if (length > 0 && *name == '$') {
-        name = "";
-    }
-
     if (length < 1) {
         name = "*";
         length = 1;
