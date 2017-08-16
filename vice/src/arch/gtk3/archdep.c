@@ -41,8 +41,10 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include "log.h"
+#include "findpath.h"
+#include "ioutil.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "util.h"
 
@@ -59,8 +61,8 @@
 
 /** \brief  Reference to argv[0]
  *
- * FIXME: this is only used once I think, better pass this as an argument to
- *        the function using it
+ * FIXME: this is only used twice I think, better pass this as an argument to
+ *        the functions using it
  */
 static char *argv0 = NULL;
 
@@ -75,7 +77,7 @@ static char *argv0 = NULL;
 
 /** \brief  Get the program name
  *
- * This returns the final part of argv[0], as if basename where used.
+ * This returns the final part of argv[0], as if basename were used.
  *
  * \return  program name, heap-allocated, free with lib_free()
  */
@@ -90,14 +92,29 @@ char *archdep_program_name(void)
  *
  * \return  Path to VICE's directory
  */
-const gchar *archdep_boot_path(void)
+const char *archdep_boot_path(void)
 {
+    /* FIXME: this code is copied from unix/archdep.c because the code below
+     * crashes with "g_path_get_dirname: assertion 'file_name != NULL' failed"
+     * when the program file is not in the PATH */
+    static char *boot;
+
+    if (boot == NULL) {
+        boot = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
+
+        /* Remove the program name.  */
+        *strrchr(boot, '/') = '\0';
+    }
+
+    return boot;
+#if 0
     const char *boot;
     char *prg_name = archdep_program_name();
 
     boot = g_path_get_dirname(g_find_program_in_path(prg_name));
     lib_free(prg_name);
     return boot;
+#endif
 }
 
 
