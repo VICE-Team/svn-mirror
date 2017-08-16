@@ -145,7 +145,7 @@ static int joyport_coplin_keypad_enable(int port, int value)
     return 0;
 }
 
-static BYTE coplin_keypad_read(int port)
+static uint8_t coplin_keypad_read(int port)
 {
     unsigned int retval = 0;
     unsigned int tmp;
@@ -175,9 +175,9 @@ static BYTE coplin_keypad_read(int port)
 
     retval |= 0xe0;
 
-    joyport_display_joyport(JOYPORT_ID_COPLIN_KEYPAD, (BYTE)~retval);
+    joyport_display_joyport(JOYPORT_ID_COPLIN_KEYPAD, (uint8_t)~retval);
 
-    return (BYTE)retval;
+    return (uint8_t)retval;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -43,7 +43,7 @@ static int joyport_vizawrite64_dongle_enabled = 0;
 
 static int counter = 0;
 
-static BYTE values[6] = {
+static uint8_t values[6] = {
     0x55, 0x55, 0xaa, 0xaa, 0xff, 0xff
 };
 
@@ -56,9 +56,9 @@ static int joyport_vizawrite64_dongle_enable(int port, int value)
     return 0;
 }
 
-static BYTE vizawrite64_dongle_read_potx(void)
+static uint8_t vizawrite64_dongle_read_potx(void)
 {
-    BYTE retval = values[counter++];
+    uint8_t retval = values[counter++];
 
     if (counter == 6) {
         counter = 0;
@@ -67,9 +67,9 @@ static BYTE vizawrite64_dongle_read_potx(void)
     return retval;
 }
 
-static BYTE vizawrite64_dongle_read_poty(void)
+static uint8_t vizawrite64_dongle_read_poty(void)
 {
-    BYTE retval = values[counter++];
+    uint8_t retval = values[counter++];
 
     if (counter == 6) {
         counter = 0;

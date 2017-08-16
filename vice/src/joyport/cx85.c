@@ -161,7 +161,7 @@ static int joyport_cx85_enable(int port, int value)
     return 0;
 }
 
-static BYTE cx85_read_dig(int port)
+static uint8_t cx85_read_dig(int port)
 {
     unsigned int retval = 0;
     unsigned int tmp;
@@ -221,12 +221,12 @@ static BYTE cx85_read_dig(int port)
 
     retval |= 0xe0;
 
-    joyport_display_joyport(JOYPORT_ID_CX85_KEYPAD, (BYTE)~retval);
+    joyport_display_joyport(JOYPORT_ID_CX85_KEYPAD, (uint8_t)~retval);
 
-    return (BYTE)retval;
+    return (uint8_t)retval;
 }
 
-static BYTE cx85_read_pot(void)
+static uint8_t cx85_read_pot(void)
 {
     int i;
 

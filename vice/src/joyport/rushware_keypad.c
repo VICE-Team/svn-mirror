@@ -145,9 +145,9 @@ static int joyport_rushware_keypad_enable(int port, int value)
     return 0;
 }
 
-static BYTE rushware_keypad_read(int port)
+static uint8_t rushware_keypad_read(int port)
 {
-    BYTE retval = 0xff;
+    uint8_t retval = 0xff;
 
     if (keys[KEYPAD_KEY_ENT]) {
         retval = 0xe0;
@@ -198,7 +198,7 @@ static BYTE rushware_keypad_read(int port)
         retval = 0xef;
     }
 
-    joyport_display_joyport(JOYPORT_ID_RUSHWARE_KEYPAD, (BYTE)~retval);
+    joyport_display_joyport(JOYPORT_ID_RUSHWARE_KEYPAD, (uint8_t)~retval);
 
     return retval;
 }

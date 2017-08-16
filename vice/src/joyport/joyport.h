@@ -99,10 +99,10 @@ typedef struct joyport_s {
     int is_lp;
     int pot_optional;
     int (*enable)(int port, int val);
-    BYTE (*read_digital)(int port);
-    void (*store_digital)(BYTE val);
-    BYTE (*read_potx)(void);
-    BYTE (*read_poty)(void);
+    uint8_t (*read_digital)(int port);
+    void (*store_digital)(uint8_t val);
+    uint8_t (*read_potx)(void);
+    uint8_t (*read_poty)(void);
     int (*write_snapshot)(struct snapshot_s *s, int port);
     int (*read_snapshot)(struct snapshot_s *s, int port);
 } joyport_t;
@@ -123,10 +123,10 @@ typedef struct joyport_port_props_s {
 
 extern int joyport_device_register(int id, joyport_t *device);
 
-extern BYTE read_joyport_dig(int port);
-extern void store_joyport_dig(int port, BYTE val, BYTE mask);
-extern BYTE read_joyport_potx(void);
-extern BYTE read_joyport_poty(void);
+extern uint8_t read_joyport_dig(int port);
+extern void store_joyport_dig(int port, uint8_t val, uint8_t mask);
+extern uint8_t read_joyport_potx(void);
+extern uint8_t read_joyport_poty(void);
 
 extern void set_joyport_pot_mask(int mask);
 
@@ -137,7 +137,7 @@ extern int joyport_port_register(int port, joyport_port_props_t *props);
 
 extern joyport_desc_t *joyport_get_valid_devices(int port);
 
-extern void joyport_display_joyport(int id, BYTE status);
+extern void joyport_display_joyport(int id, uint8_t status);
 
 extern int joyport_get_port_trans_name(int port);
 extern char *joyport_get_port_name(int port);

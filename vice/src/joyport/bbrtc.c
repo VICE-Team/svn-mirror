@@ -56,9 +56,9 @@ static int bbrtc_save;
 
 static int bbrtc_enabled = 0;
 
-static BYTE rst_line = 1;
-static BYTE clk_line = 1;
-static BYTE data_line = 1;
+static uint8_t rst_line = 1;
+static uint8_t clk_line = 1;
+static uint8_t data_line = 1;
 
 static int joyport_bbrtc_enable(int port, int value)
 {
@@ -82,20 +82,20 @@ static int joyport_bbrtc_enable(int port, int value)
     return 0;
 }
 
-static BYTE bbrtc_read(int port)
+static uint8_t bbrtc_read(int port)
 {
-    BYTE retval;
+    uint8_t retval;
 
     retval = (ds1602_read_data_line(bbrtc_context) ? 0 : 1) << 1;
     joyport_display_joyport(JOYPORT_ID_BBRTC, retval);
-    return (BYTE)(~retval);
+    return (uint8_t)(~retval);
 }
 
-static void bbrtc_store(BYTE val)
+static void bbrtc_store(uint8_t val)
 {
-    BYTE rst_val = val & 1;
-    BYTE data_val = (BYTE)((val & 2) >> 1);
-    BYTE clk_val = (BYTE)((val & 8) >> 3);
+    uint8_t rst_val = val & 1;
+    uint8_t data_val = (uint8_t)((val & 2) >> 1);
+    uint8_t clk_val = (uint8_t)((val & 8) >> 3);
 
     if (rst_val != rst_line) {
         ds1602_set_reset_line(bbrtc_context, rst_val);
@@ -229,7 +229,7 @@ static int bbrtc_write_snapshot(struct snapshot_s *s, int port)
 
 static int bbrtc_read_snapshot(struct snapshot_s *s, int port)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);

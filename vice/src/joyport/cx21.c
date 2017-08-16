@@ -102,7 +102,7 @@ key pin pin comments
 static int cx21_enabled = 0;
 
 static unsigned int keys[KEYPAD_NUM_KEYS];
-static BYTE port = 0;
+static uint8_t port = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -137,9 +137,9 @@ static int joyport_cx21_enable(int port, int value)
     return 0;
 }
 
-static BYTE cx21_read_dig(int p)
+static uint8_t cx21_read_dig(int p)
 {
-    BYTE retval = 0;
+    uint8_t retval = 0;
 
     if (keys[KEYPAD_KEY_3]) {
         if (port & 1) {
@@ -165,17 +165,17 @@ static BYTE cx21_read_dig(int p)
         }
     }
 
-    joyport_display_joyport(JOYPORT_ID_CX21_KEYPAD, (BYTE)retval);
+    joyport_display_joyport(JOYPORT_ID_CX21_KEYPAD, (uint8_t)retval);
 
-    return (BYTE)~retval;
+    return (uint8_t)~retval;
 }
 
-static void cx21_store_dig(BYTE val)
+static void cx21_store_dig(uint8_t val)
 {
-    port = (BYTE)~val;
+    port = (uint8_t)~val;
 }
 
-static BYTE cx21_read_potx(void)
+static uint8_t cx21_read_potx(void)
 {
     if (keys[KEYPAD_KEY_2]) {
         if (port & 1) {
@@ -204,7 +204,7 @@ static BYTE cx21_read_potx(void)
     return 0xff;
 }
 
-static BYTE cx21_read_poty(void)
+static uint8_t cx21_read_poty(void)
 {
     if (keys[KEYPAD_KEY_1]) {
         if (port & 1) {

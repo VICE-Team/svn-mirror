@@ -155,7 +155,7 @@ static int joyport_cardkey_enable(int port, int value)
     return 0;
 }
 
-static BYTE cardkey_read_dig(int port)
+static uint8_t cardkey_read_dig(int port)
 {
     unsigned int retval = 0;
     unsigned int tmp;
@@ -209,12 +209,12 @@ static BYTE cardkey_read_dig(int port)
 
     retval |= 0xf0;
 
-    joyport_display_joyport(JOYPORT_ID_CARDCO_KEYPAD, (BYTE)~retval);
+    joyport_display_joyport(JOYPORT_ID_CARDCO_KEYPAD, (uint8_t)~retval);
 
-    return (BYTE)retval;
+    return (uint8_t)retval;
 }
 
-static BYTE cardkey_read_pot(void)
+static uint8_t cardkey_read_pot(void)
 {
     int i;
 

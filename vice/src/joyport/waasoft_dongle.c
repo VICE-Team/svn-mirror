@@ -51,10 +51,10 @@ static int joyport_waasoft_dongle_enabled = 0;
 
 static int counter = 0;
 
-static BYTE waasoft_reset_line = 1;
-static BYTE waasoft_clock_line  = 1;
+static uint8_t waasoft_reset_line = 1;
+static uint8_t waasoft_clock_line  = 1;
 
-static BYTE waasoft_values[15] = {
+static uint8_t waasoft_values[15] = {
 	0x00, 0x00, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0x00, 0x00
 };
 
@@ -67,15 +67,15 @@ static int joyport_waasoft_dongle_enable(int port, int value)
     return 0;
 }
 
-static BYTE waasoft_dongle_read_poty(void)
+static uint8_t waasoft_dongle_read_poty(void)
 {
     return waasoft_values[counter];
 }
 
-static void waasoft_dongle_store_dig(BYTE val)
+static void waasoft_dongle_store_dig(uint8_t val)
 {
-    BYTE reset = val & 1;
-    BYTE clock = val & 2;
+    uint8_t reset = val & 1;
+    uint8_t clock = val & 2;
 
     if (clock != waasoft_clock_line) {
         if (!clock) {

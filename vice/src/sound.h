@@ -102,9 +102,9 @@ typedef struct sound_device_s {
        used */
     int (*init)(const char *param, int *speed, int *fragsize, int *fragnr, int *channels);
     /* send number of bytes to the soundcard. it is assumed to block if kernel buffer is full */
-    int (*write)(SWORD *pbuf, size_t nr);
+    int (*write)(int16_t *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
-    int (*dump)(WORD addr, BYTE byte, CLOCK clks);
+    int (*dump)(uint16_t addr, uint8_t byte, CLOCK clks);
     /* flush-routine to be called every frame */
     int (*flush)(char *state);
     /* return number of samples currently available in the kernel buffer */
@@ -121,25 +121,25 @@ typedef struct sound_device_s {
     int max_channels;
 } sound_device_t;
 
-static inline SWORD sound_audio_mix(int ch1, int ch2)
+static inline int16_t sound_audio_mix(int ch1, int ch2)
 {
     if (ch1 == 0) {
-        return (SWORD)ch2;
+        return (int16_t)ch2;
     }
 
     if (ch2 == 0) {
-        return (SWORD)ch1;
+        return (int16_t)ch1;
     }
 
     if ((ch1 > 0 && ch2 < 0) || (ch1 < 0 && ch2 > 0)) {
-        return (SWORD)(ch1 + ch2);
+        return (int16_t)(ch1 + ch2);
     }
 
     if (ch1 > 0) {
-        return (SWORD)((ch1 + ch2) - (ch1 * ch2 / 32768));
+        return (int16_t)((ch1 + ch2) - (ch1 * ch2 / 32768));
     }
 
-    return (SWORD)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
+    return (int16_t)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
 }
 
 /* Sound adjustment types.  */
@@ -223,8 +223,8 @@ extern int sound_init_pulse_device(void);
 extern int sound_register_device(sound_device_t *pdevice);
 
 /* other internal functions used around sound -code */
-extern int sound_read(WORD addr, int chipno);
-extern void sound_store(WORD addr, BYTE val, int chipno);
+extern int sound_read(uint16_t addr, int chipno);
+extern void sound_store(uint16_t addr, uint8_t val, int chipno);
 extern long sound_sample_position(void);
 extern int sound_dump(int chipno);
 
@@ -243,16 +243,16 @@ typedef struct sound_chip_s {
     sound_t *(*open)(int chipno);
     int (*init)(sound_t *psid, int speed, int cycles_per_sec);
     void (*close)(sound_t *psid);
-    int (*calculate_samples)(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-    void (*store)(sound_t *psid, WORD addr, BYTE val);
-    BYTE (*read)(sound_t *psid, WORD addr);
+    int (*calculate_samples)(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+    void (*store)(sound_t *psid, uint16_t addr, uint8_t val);
+    uint8_t (*read)(sound_t *psid, uint16_t addr);
     void (*reset)(sound_t *psid, CLOCK cpu_clk);
     int (*cycle_based)(void);
     int (*channels)(void);
     int chip_enabled;
 } sound_chip_t;
 
-extern WORD sound_chip_register(sound_chip_t *chip);
+extern uint16_t sound_chip_register(sound_chip_t *chip);
 
 typedef struct sound_dac_s {
     float output;
@@ -261,7 +261,7 @@ typedef struct sound_dac_s {
 } sound_dac_t;
 
 extern void sound_dac_init(sound_dac_t *dac, int speed);
-extern int sound_dac_calculate_samples(sound_dac_t *dac, SWORD *pbuf, int value, int nr, int soc, int cs);
+extern int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int nr, int soc, int cs);
 
 /* recording related functions, equivalent to screenshot_... */
 extern void sound_stop_recording(void);

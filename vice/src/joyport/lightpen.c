@@ -86,7 +86,7 @@ int lightpen_enabled = 0;
 
 #define MAX_WINDOW_NUM 1
 
-static BYTE lightpen_value = 0;
+static uint8_t lightpen_value = 0;
 
 static int lightpen_type;
 
@@ -108,8 +108,8 @@ struct lp_type_s {
     /* PEN needs button to be pressed to register, GUN doesn't */
     enum { PEN, GUN } type;
     /* Buttons: bitmask for joyport 1 pins, with 0x20 for potY and 0x40 for potX */
-    BYTE button1;
-    BYTE button2;
+    uint8_t button1;
+    uint8_t button2;
     /* x/y offsets to add before timing callback */
     int x_offset;
     int y_offset;
@@ -171,10 +171,10 @@ static inline int lighpen_type_to_joyport_id(int lp)
     return -1;
 }
 
-static inline void lightpen_check_button_mask(BYTE mask, int pressed)
+static inline void lightpen_check_button_mask(uint8_t mask, int pressed)
 {
     int id;
-    BYTE old_value = lightpen_value;
+    uint8_t old_value = lightpen_value;
 
     if (!mask) {
         return;
@@ -183,7 +183,7 @@ static inline void lightpen_check_button_mask(BYTE mask, int pressed)
     if (pressed) {
         lightpen_value |= mask;
     } else {
-        lightpen_value &= (BYTE)~mask;
+        lightpen_value &= (uint8_t)~mask;
     }
 
     if (lightpen_value == old_value) {
@@ -209,8 +209,8 @@ static inline void lightpen_update_buttons(int buttons)
                          || (((lp_type[lightpen_type].button2 & 0x40) == 0x40) && (buttons & LP_HOST_BUTTON_2)))
                         ? 1 : 0;
 
-    lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button1 & 0xf), buttons & LP_HOST_BUTTON_1);
-    lightpen_check_button_mask((BYTE)(lp_type[lightpen_type].button2 & 0xf), buttons & LP_HOST_BUTTON_2);
+    lightpen_check_button_mask((uint8_t)(lp_type[lightpen_type].button1 & 0xf), buttons & LP_HOST_BUTTON_1);
+    lightpen_check_button_mask((uint8_t)(lp_type[lightpen_type].button2 & 0xf), buttons & LP_HOST_BUTTON_2);
 }
 
 /* --------------------------------------------------------- */
@@ -237,17 +237,17 @@ static int joyport_lightpen_enable(int port, int val)
     return 0;
 }
 
-static BYTE lightpen_digital_val(int port)
+static uint8_t lightpen_digital_val(int port)
 {
-    return (BYTE)~lightpen_value;
+    return (uint8_t)~lightpen_value;
 }
 
-static BYTE lightpen_read_button_y(void)
+static uint8_t lightpen_read_button_y(void)
 {
     return (lightpen_enabled && lightpen_button_y) ? 0x00 : 0xff;
 }
 
-static BYTE lightpen_read_button_x(void)
+static uint8_t lightpen_read_button_x(void)
 {
     return (lightpen_enabled && lightpen_button_x) ? 0x00 : 0xff;
 }
@@ -471,10 +471,10 @@ static int lightpen_write_snapshot(struct snapshot_s *s, int port)
 
     if (0
         || SMW_B(m, lightpen_value) < 0
-        || SMW_B(m, (BYTE)lightpen_type) < 0
-        || SMW_DW(m, (DWORD)lightpen_buttons) < 0
-        || SMW_DW(m, (DWORD)lightpen_button_y) < 0
-        || SMW_DW(m, (DWORD)lightpen_button_x) < 0) {
+        || SMW_B(m, (uint8_t)lightpen_type) < 0
+        || SMW_DW(m, (uint32_t)lightpen_buttons) < 0
+        || SMW_DW(m, (uint32_t)lightpen_button_y) < 0
+        || SMW_DW(m, (uint32_t)lightpen_button_x) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -484,7 +484,7 @@ static int lightpen_write_snapshot(struct snapshot_s *s, int port)
 
 static int lightpen_read_snapshot(struct snapshot_s *s, int port)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &major_version, &minor_version);

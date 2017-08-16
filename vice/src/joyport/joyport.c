@@ -37,13 +37,13 @@
 #include "util.h"
 
 static joyport_t joyport_device[JOYPORT_MAX_DEVICES];
-static BYTE joyport_display[6] = { 0, 0, 0, 0, 0, 0};
+static uint8_t joyport_display[6] = { 0, 0, 0, 0, 0, 0};
 
 static int joy_port[JOYPORT_MAX_PORTS];
 static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
 static int pot_port_mask = 1;
 
-static BYTE joyport_dig_stored[JOYPORT_MAX_PORTS];
+static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
 typedef struct resid2transid_s {
     int resid;
@@ -152,7 +152,7 @@ void joyport_clear_devices(void)
     }
 }
 
-BYTE read_joyport_dig(int port)
+uint8_t read_joyport_dig(int port)
 {
     int id = joy_port[port];
 
@@ -166,10 +166,10 @@ BYTE read_joyport_dig(int port)
     return joyport_device[id].read_digital(port);
 }
 
-void store_joyport_dig(int port, BYTE val, BYTE mask)
+void store_joyport_dig(int port, uint8_t val, uint8_t mask)
 {
     int id = joy_port[port];
-    BYTE store_val;
+    uint8_t store_val;
 
     if (id == JOYPORT_ID_NONE) {
         return;
@@ -181,7 +181,7 @@ void store_joyport_dig(int port, BYTE val, BYTE mask)
 
     store_val = joyport_dig_stored[port];
 
-    store_val &= (BYTE)~mask;
+    store_val &= (uint8_t)~mask;
     store_val |= val;
 
     joyport_device[id].store_digital(store_val);
@@ -213,12 +213,12 @@ static void find_pot_ports(void)
     }
 }
 
-BYTE read_joyport_potx(void)
+uint8_t read_joyport_potx(void)
 {
     int id1 = JOYPORT_ID_NONE;
     int id2 = JOYPORT_ID_NONE;
-    BYTE ret1 = 0xff;
-    BYTE ret2 = 0xff;
+    uint8_t ret1 = 0xff;
+    uint8_t ret2 = 0xff;
 
     /* first find the pot ports if needed */
     if (pot_port1 == -1 || pot_port2 == -1) {
@@ -261,12 +261,12 @@ BYTE read_joyport_potx(void)
     }
 }
 
-BYTE read_joyport_poty(void)
+uint8_t read_joyport_poty(void)
 {
     int id1 = JOYPORT_ID_NONE;
     int id2 = JOYPORT_ID_NONE;
-    BYTE ret1 = 0xff;
-    BYTE ret2 = 0xff;
+    uint8_t ret1 = 0xff;
+    uint8_t ret2 = 0xff;
 
     /* first find the pot ports if needed */
     if (pot_port1 == -1 || pot_port2 == -1) {
@@ -423,7 +423,7 @@ joyport_desc_t *joyport_get_valid_devices(int port)
     return retval;
 }
 
-void joyport_display_joyport(int id, BYTE status)
+void joyport_display_joyport(int id, uint8_t status)
 {
     if (id == JOYPORT_ID_JOY1 || id == JOYPORT_ID_JOY2 || id == JOYPORT_ID_JOY3 || id == JOYPORT_ID_JOY4 || id == JOYPORT_ID_JOY5) {
         if (id == JOYPORT_ID_JOY1 && joy_port[0] == JOYPORT_ID_JOYSTICK) {
@@ -798,7 +798,7 @@ int joyport_snapshot_write_module(struct snapshot_s *s, int port)
     }
 
     /* save device id */
-    if (SMW_B(m, (BYTE)joy_port[port]) < 0) {
+    if (SMW_B(m, (uint8_t)joy_port[port]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -823,7 +823,7 @@ int joyport_snapshot_write_module(struct snapshot_s *s, int port)
 
 int joyport_snapshot_read_module(struct snapshot_s *s, int port)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int temp_joy_port;
     char snapshot_name[16];
