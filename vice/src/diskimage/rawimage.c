@@ -119,13 +119,13 @@ int rawimage_close(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-int rawimage_read_sector(const disk_image_t *image, BYTE *buf,
+int rawimage_read_sector(const disk_image_t *image, uint8_t *buf,
                          const disk_addr_t *dadr)
 {
     return blockdev_read_sector(buf, dadr->track, dadr->sector);
 }
 
-int rawimage_write_sector(disk_image_t *image, const BYTE *buf,
+int rawimage_write_sector(disk_image_t *image, const uint8_t *buf,
                           const disk_addr_t *dadr)
 {
     return blockdev_write_sector(buf, dadr->track, dadr->sector);

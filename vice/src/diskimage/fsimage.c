@@ -182,7 +182,7 @@ int fsimage_close(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-int fsimage_read_sector(const disk_image_t *image, BYTE *buf, const disk_addr_t *dadr)
+int fsimage_read_sector(const disk_image_t *image, uint8_t *buf, const disk_addr_t *dadr)
 {
     fsimage_t *fsimage;
 
@@ -218,7 +218,7 @@ int fsimage_read_sector(const disk_image_t *image, BYTE *buf, const disk_addr_t 
     }
 }
 
-int fsimage_write_sector(disk_image_t *image, const BYTE *buf,
+int fsimage_write_sector(disk_image_t *image, const uint8_t *buf,
                          const disk_addr_t *dadr)
 {
     fsimage_t *fsimage;
