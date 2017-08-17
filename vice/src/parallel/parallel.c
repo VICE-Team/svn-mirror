@@ -67,13 +67,13 @@ void parallel_bus_enable(int enable)
  */
 
 /* state of the bus lines -> "if (parallel_eoi) { eoi is active }" */
-BYTE parallel_eoi = 0;
-BYTE parallel_ndac = 0;
-BYTE parallel_nrfd = 0;
-BYTE parallel_dav = 0;
-BYTE parallel_atn = 0;
+uint8_t parallel_eoi = 0;
+uint8_t parallel_ndac = 0;
+uint8_t parallel_nrfd = 0;
+uint8_t parallel_dav = 0;
+uint8_t parallel_atn = 0;
 
-BYTE parallel_bus = 0xff;       /* data lines */
+uint8_t parallel_bus = 0xff;       /* data lines */
 
 static int par_status = 0;      /* lower 8 bits = PET par_status, upper bits own */
 
@@ -253,7 +253,7 @@ static void In1_atnhi(int tr)
 
 static void In1_davlo(int tr)
 {
-    static BYTE b;
+    static uint8_t b;
 
     parallel_emu_set_nrfd(1);
     b = parallel_bus;
@@ -262,7 +262,7 @@ static void In1_davlo(int tr)
     if (parallel_atn) {
         par_status = parallel_trap_attention(b ^ 0xff);
     } else {
-        par_status = parallel_trap_sendbyte((BYTE)(b ^ 0xff));
+        par_status = parallel_trap_sendbyte((uint8_t)(b ^ 0xff));
     }
     if (parallel_debug) {
         log_warning(LOG_DEFAULT, "IEEE488: sendbyte returns %04x", par_status);
@@ -344,10 +344,10 @@ static void OPet_nrfdlo(int tr)
 
 static void Out1_nrfdhi(int tr)
 {
-    static BYTE b;
+    static uint8_t b;
 
     par_status = parallel_trap_receivebyte(&b, 1);
-    parallel_emu_set_bus((BYTE)(b ^ 0xff));
+    parallel_emu_set_bus((uint8_t)(b ^ 0xff));
 
     if (par_status & 0x40) {
         parallel_emu_set_eoi(1);
@@ -377,7 +377,7 @@ static void Out1a_ndachi(int tr)
 
 static void Out2_ndachi(int tr)
 {
-    static BYTE b;
+    static uint8_t b;
 
     parallel_emu_set_dav(0);
     parallel_emu_set_eoi(0);
@@ -445,17 +445,17 @@ static State_t State[NSTATE] = {
                         mask, parallel_ ## line); }                     \
     }
 
-void parallel_set_eoi(BYTE mask)
+void parallel_set_eoi(uint8_t mask)
 {
-    BYTE old = parallel_eoi;
+    uint8_t old = parallel_eoi;
     parallel_eoi |= mask;
 
     PARALLEL_LINE_DEBUG_SET(eoi, EOI)
 }
 
-void parallel_clr_eoi(BYTE mask)
+void parallel_clr_eoi(uint8_t mask)
 {
-    BYTE old = parallel_eoi;
+    uint8_t old = parallel_eoi;
     parallel_eoi &= mask;
 
     PARALLEL_LINE_DEBUG_CLR(eoi, EOI)
@@ -472,9 +472,9 @@ static void parallel_atn_signal(int state)
     }
 }
 
-void parallel_set_atn(BYTE mask)
+void parallel_set_atn(uint8_t mask)
 {
-    BYTE old = parallel_atn;
+    uint8_t old = parallel_atn;
     parallel_atn |= mask;
 
     PARALLEL_LINE_DEBUG_SET(atn, ATN)
@@ -488,9 +488,9 @@ void parallel_set_atn(BYTE mask)
     }
 }
 
-void parallel_clr_atn(BYTE mask)
+void parallel_clr_atn(uint8_t mask)
 {
-    BYTE old = parallel_atn;
+    uint8_t old = parallel_atn;
     parallel_atn &= mask;
 
     PARALLEL_LINE_DEBUG_CLR(atn, ATN)
@@ -504,9 +504,9 @@ void parallel_clr_atn(BYTE mask)
     }
 }
 
-void parallel_restore_set_atn(BYTE mask)
+void parallel_restore_set_atn(uint8_t mask)
 {
-    BYTE old = parallel_atn;
+    uint8_t old = parallel_atn;
     parallel_atn |= mask;
 
     if (parallel_debug && !old) {
@@ -516,9 +516,9 @@ void parallel_restore_set_atn(BYTE mask)
     /* we do not send IRQ signals to chips on restore */
 }
 
-void parallel_restore_clr_atn(BYTE mask)
+void parallel_restore_clr_atn(uint8_t mask)
 {
-    BYTE old = parallel_atn;
+    uint8_t old = parallel_atn;
     parallel_atn &= mask;
 
     if (parallel_debug && old && !parallel_atn) {
@@ -528,9 +528,9 @@ void parallel_restore_clr_atn(BYTE mask)
     /* we do not send IRQ signals to chips on restore */
 }
 
-void parallel_set_dav(BYTE mask)
+void parallel_set_dav(uint8_t mask)
 {
-    BYTE old = parallel_dav;
+    uint8_t old = parallel_dav;
     parallel_dav |= mask;
 
     PARALLEL_LINE_DEBUG_SET(dav, DAV)
@@ -540,9 +540,9 @@ void parallel_set_dav(BYTE mask)
     }
 }
 
-void parallel_clr_dav(BYTE mask)
+void parallel_clr_dav(uint8_t mask)
 {
-    BYTE old = parallel_dav;
+    uint8_t old = parallel_dav;
     parallel_dav &= mask;
 
     PARALLEL_LINE_DEBUG_CLR(dav, DAV)
@@ -552,9 +552,9 @@ void parallel_clr_dav(BYTE mask)
     }
 }
 
-void parallel_set_nrfd(BYTE mask)
+void parallel_set_nrfd(uint8_t mask)
 {
-    BYTE old = parallel_nrfd;
+    uint8_t old = parallel_nrfd;
     parallel_nrfd |= mask;
 
     PARALLEL_LINE_DEBUG_SET(nrfd, NRFD)
@@ -564,9 +564,9 @@ void parallel_set_nrfd(BYTE mask)
     }
 }
 
-void parallel_clr_nrfd(BYTE mask)
+void parallel_clr_nrfd(uint8_t mask)
 {
-    BYTE old = parallel_nrfd;
+    uint8_t old = parallel_nrfd;
     parallel_nrfd &= mask;
 
     PARALLEL_LINE_DEBUG_CLR(nrfd, NRFD)
@@ -576,9 +576,9 @@ void parallel_clr_nrfd(BYTE mask)
     }
 }
 
-void parallel_set_ndac(BYTE mask)
+void parallel_set_ndac(uint8_t mask)
 {
-    BYTE old = parallel_ndac;
+    uint8_t old = parallel_ndac;
     parallel_ndac |= mask;
 
     PARALLEL_LINE_DEBUG_SET(ndac, NDAC)
@@ -588,9 +588,9 @@ void parallel_set_ndac(BYTE mask)
     }
 }
 
-void parallel_clr_ndac(BYTE mask)
+void parallel_clr_ndac(uint8_t mask)
 {
-    BYTE old = parallel_ndac;
+    uint8_t old = parallel_ndac;
     parallel_ndac &= mask;
 
     PARALLEL_LINE_DEBUG_CLR(ndac, NDAC)
@@ -610,11 +610,11 @@ void parallel_clr_ndac(BYTE mask)
                     b, parallel_bus, ~parallel_bus & 0xff);             \
     }
 
-static BYTE par_emu_bus = 0xff;
-static BYTE par_cpu_bus = 0xff;
-static BYTE par_drv_bus[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
+static uint8_t par_emu_bus = 0xff;
+static uint8_t par_cpu_bus = 0xff;
+static uint8_t par_drv_bus[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
 
-void parallel_emu_set_bus(BYTE b)
+void parallel_emu_set_bus(uint8_t b)
 {
     par_emu_bus = b;
     parallel_bus = par_emu_bus & par_cpu_bus &
@@ -624,7 +624,7 @@ void parallel_emu_set_bus(BYTE b)
     PARALLEL_DEBUG_SET_BUS(emu)
 }
 
-void parallel_cpu_set_bus(BYTE b)
+void parallel_cpu_set_bus(uint8_t b)
 {
     par_cpu_bus = b;
     parallel_bus = par_emu_bus & par_cpu_bus &
@@ -634,7 +634,7 @@ void parallel_cpu_set_bus(BYTE b)
     PARALLEL_DEBUG_SET_BUS(cpu)
 }
 
-void parallel_drv0_set_bus(BYTE b)
+void parallel_drv0_set_bus(uint8_t b)
 {
     par_drv_bus[0] = b;
     parallel_bus = par_emu_bus & par_cpu_bus &
@@ -644,7 +644,7 @@ void parallel_drv0_set_bus(BYTE b)
     PARALLEL_DEBUG_SET_BUS(drv0)
 }
 
-void parallel_drv1_set_bus(BYTE b)
+void parallel_drv1_set_bus(uint8_t b)
 {
     par_drv_bus[1] = b;
     parallel_bus = par_emu_bus & par_cpu_bus &
@@ -654,7 +654,7 @@ void parallel_drv1_set_bus(BYTE b)
     PARALLEL_DEBUG_SET_BUS(drv1)
 }
 
-void parallel_drv2_set_bus(BYTE b)
+void parallel_drv2_set_bus(uint8_t b)
 {
     par_drv_bus[2] = b;
     parallel_bus = par_emu_bus & par_cpu_bus &
@@ -664,7 +664,7 @@ void parallel_drv2_set_bus(BYTE b)
     PARALLEL_DEBUG_SET_BUS(drv2)
 }
 
-void parallel_drv3_set_bus(BYTE b)
+void parallel_drv3_set_bus(uint8_t b)
 {
     par_drv_bus[3] = b;
     parallel_bus = par_emu_bus & par_cpu_bus &

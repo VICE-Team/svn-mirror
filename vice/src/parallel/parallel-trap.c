@@ -43,8 +43,8 @@
 
 
 /* On which channel did listen happen to?  */
-static BYTE TrapDevice;
-static BYTE TrapSecondary;
+static uint8_t TrapDevice;
+static uint8_t TrapSecondary;
 
 /* Function to call when EOF happens in `serialreceivebyte()'.  */
 static void (*eof_callback_func)(void);
@@ -55,7 +55,7 @@ static void (*attention_callback_func)(void);
 /* Logging goes here.  */
 static log_t parallel_log = LOG_DEFAULT;
 
-static BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
+static uint8_t SerialBuffer[SERIAL_NAMELENGTH + 1];
 static int SerialPtr;
 
 /*
@@ -72,7 +72,7 @@ static int SerialPtr;
 static int parallelcommand(void)
 {
     serial_t *p;
-    BYTE b;
+    uint8_t b;
     int channel;
     int i, st = 0;
     void *vdrive;
@@ -237,7 +237,7 @@ int parallel_trap_attention(int b)
     return st;
 }
 
-int parallel_trap_sendbyte(BYTE data)
+int parallel_trap_sendbyte(uint8_t data)
 {
     int st = 0;
     serial_t *p;
@@ -275,7 +275,7 @@ int parallel_trap_sendbyte(BYTE data)
     return st + (TrapDevice << 8);
 }
 
-int parallel_trap_receivebyte(BYTE * data, int fake)
+int parallel_trap_receivebyte(uint8_t *data, int fake)
 {
     int st = 0, secadr = TrapSecondary & 0x0f;
     serial_t *p;
