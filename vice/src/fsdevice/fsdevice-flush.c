@@ -228,7 +228,7 @@ static int fsdevice_flush_mr(vdrive_t *vdrive, char *realarg)
 {
     unsigned int dnr = vdrive->unit - 8;
     unsigned int length;
-    WORD addr;
+    uint16_t addr;
 
     addr = fsdevice_dev[dnr].cmdbuf[3] | (fsdevice_dev[dnr].cmdbuf[4] << 8);
     length = 6 + ((realarg != NULL) ? strlen(realarg) : 0); /* FIXME */
@@ -240,7 +240,7 @@ static int fsdevice_flush_mw(vdrive_t *vdrive, char *realarg)
 {
     unsigned int dnr = vdrive->unit - 8;
     unsigned int length;
-    WORD addr;
+    uint16_t addr;
 
     addr = fsdevice_dev[dnr].cmdbuf[3] | (fsdevice_dev[dnr].cmdbuf[4] << 8);
     length = 6 + ((realarg != NULL) ? strlen(realarg) : 0); /* FIXME */
@@ -252,7 +252,7 @@ static int fsdevice_flush_me(vdrive_t *vdrive, char *realarg)
 {
     unsigned int dnr = vdrive->unit - 8;
     unsigned int length;
-    WORD addr;
+    uint16_t addr;
 
     addr = fsdevice_dev[dnr].cmdbuf[3] | (fsdevice_dev[dnr].cmdbuf[4] << 8);
     length = 5 + ((realarg != NULL) ? strlen(realarg) : 0); /* FIXME */
@@ -531,7 +531,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     fsdevice_dev[dnr].cmdbuf[fsdevice_dev[dnr].cptr] = 0;
 
     strcpy(cbmcmd, (char *)(fsdevice_dev[dnr].cmdbuf));
-    charset_petconvstring((BYTE *)cbmcmd, 1);   /* CBM name to FSname */
+    charset_petconvstring((uint8_t *)cbmcmd, 1);   /* CBM name to FSname */
     cmd = cbmcmd;
 
     while (*cmd == ' ') {
@@ -638,7 +638,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     lib_free(cbmcmd);
 }
 
-int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
+int fsdevice_flush_write_byte(vdrive_t *vdrive, uint8_t data)
 {
     unsigned int dnr;
     int rc;

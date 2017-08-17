@@ -138,7 +138,7 @@ void fsdevice_error(vdrive_t *vdrive, int code)
     fsdevice_dev[dnr].eptr = 0;
 }
 
-int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
+int fsdevice_error_get_byte(vdrive_t *vdrive, uint8_t *data)
 {
     unsigned int dnr;
     int rc;
@@ -150,7 +150,7 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
     }
 
-    *data = (BYTE)(fsdevice_dev[dnr].errorl)[(fsdevice_dev[dnr].eptr)++];
+    *data = (uint8_t)(fsdevice_dev[dnr].errorl)[(fsdevice_dev[dnr].eptr)++];
     if (fsdevice_dev[dnr].eptr >= fsdevice_dev[dnr].elen) {
         fsdevice_error(vdrive, CBMDOS_IPE_OK);
         rc = SERIAL_EOF;
@@ -158,7 +158,7 @@ int fsdevice_error_get_byte(vdrive_t *vdrive, BYTE *data)
 
 #if 0
     if (fsdevice_dev[dnr].eptr < fsdevice_dev[dnr].elen) {
-        *data = (BYTE)(fsdevice_dev[dnr].errorl)[(fsdevice_dev[dnr].eptr)++];
+        *data = (uint8_t)(fsdevice_dev[dnr].errorl)[(fsdevice_dev[dnr].eptr)++];
         rc = SERIAL_OK;
     } else {
         fsdevice_error(vdrive, CBMDOS_IPE_OK);

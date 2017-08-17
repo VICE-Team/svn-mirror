@@ -59,15 +59,15 @@ struct tape_image_s {
 typedef struct tape_image_s tape_image_t;
 
 struct tape_init_s {
-    WORD buffer_pointer_addr;
-    WORD st_addr;
-    WORD verify_flag_addr;
-    WORD irqtmp;
+    uint16_t buffer_pointer_addr;
+    uint16_t st_addr;
+    uint16_t verify_flag_addr;
+    uint16_t irqtmp;
     int irqval;
-    WORD stal_addr;
-    WORD eal_addr;
-    WORD kbd_buf_addr;
-    WORD kbd_buf_pending_addr;
+    uint16_t stal_addr;
+    uint16_t eal_addr;
+    uint16_t kbd_buf_addr;
+    uint16_t kbd_buf_pending_addr;
     const struct trap_s *trap_list;
     int pulse_short_min;
     int pulse_short_max;
@@ -79,10 +79,10 @@ struct tape_init_s {
 typedef struct tape_init_s tape_init_t;
 
 struct tape_file_record_s {
-    BYTE name[17];
-    BYTE type, encoding;
-    WORD start_addr;
-    WORD end_addr;
+    uint8_t name[17];
+    uint8_t type, encoding;
+    uint16_t start_addr;
+    uint16_t end_addr;
 };
 typedef struct tape_file_record_s tape_file_record_t;
 
@@ -93,7 +93,7 @@ extern int tape_init(const tape_init_t *init);
 extern int tape_reinit(const tape_init_t *init);
 extern void tape_shutdown(void);
 extern int tape_deinstall(void);
-extern void tape_get_header(tape_image_t *tape_image, BYTE *name);
+extern void tape_get_header(tape_image_t *tape_image, uint8_t *name);
 extern int tape_find_header_trap(void);
 extern int tape_receive_trap(void);
 extern int tape_find_header_trap_plus4(void);
@@ -108,7 +108,7 @@ extern tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image
 extern int tape_seek_start(tape_image_t *tape_image);
 extern int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number);
 extern int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind);
-extern int tape_read(tape_image_t *tape_image, BYTE *buf, size_t size);
+extern int tape_read(tape_image_t *tape_image, uint8_t *buf, size_t size);
 
 extern int tape_internal_close_tape_image(tape_image_t *tape_image);
 extern tape_image_t *tape_internal_open_tape_image(const char *name, unsigned int read_only);
