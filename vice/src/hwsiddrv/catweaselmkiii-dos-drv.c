@@ -213,7 +213,7 @@ int catweaselmkiii_drv_close(void)
 }
 
 /* read value from SIDs */
-int catweaselmkiii_drv_read(WORD addr, int chipno)
+int catweaselmkiii_drv_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -224,7 +224,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
+void catweaselmkiii_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {

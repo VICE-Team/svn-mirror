@@ -44,10 +44,10 @@ static void write_sid(unsigned char reg, unsigned char data); // Write a SID reg
 
 static int sids_found = -1;
 
-static BYTE *CWbase = NULL;
+static uint8_t *CWbase = NULL;
 
 /* read value from SIDs */
-int cw_clockport_read(WORD addr, int chipno)
+int cw_clockport_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -58,7 +58,7 @@ int cw_clockport_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void cw_clockport_store(WORD addr, BYTE val, int chipno)
+void cw_clockport_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -79,14 +79,14 @@ static char *cp_addresses[] = {
     NULL
 };
 
-static void write_sid_cp(char *base, BYTE adr, BYTE val)
+static void write_sid_cp(char *base, uint8_t adr, uint8_t val)
 {
     base[CW_SID_DAT] = val;
     usleep(1);
     base[CW_SID_CMD] = adr & 0x1f;
 }
 
-static BYTE read_sid_cp(char *base, BYTE adr)
+static uint8_t read_sid_cp(char *base, uint8_t adr)
 {
     base[CW_SID_CMD] = 0x20 | (adr & 0x1f);
     usleep(1);
@@ -98,7 +98,7 @@ static int detect_sid(char *base)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        write_sid_cp(base, (BYTE)i, 0);
+        write_sid_cp(base, (uint8_t)i, 0);
     }
 
     write_sid_cp(base, 0x12, 0xff);
@@ -185,7 +185,7 @@ static unsigned char read_sid(unsigned char reg)
 static void write_sid(unsigned char reg, unsigned char data)
 {
     unsigned char cmd;
-    BYTE tmp;
+    uint8_t tmp;
 
     cmd = reg & 0x1f;            // Write command & address
     if (catweaselmkiii_get_ntsc()) {

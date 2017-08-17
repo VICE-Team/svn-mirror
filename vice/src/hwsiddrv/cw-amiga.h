@@ -42,17 +42,17 @@ extern int cw_os4_close(void);
 extern int cw_zorro_close(void);
 extern int cw_clockport_close(void);
 
-extern int cw_device_read(WORD addr, int chipno);
-extern int cw_openpci_read(WORD addr, int chipno);
-extern int cw_os4_read(WORD addr, int chipno);
-extern int cw_zorro_read(WORD addr, int chipno);
-extern int cw_clockport_read(WORD addr, int chipno);
+extern int cw_device_read(uint16_t addr, int chipno);
+extern int cw_openpci_read(uint16_t addr, int chipno);
+extern int cw_os4_read(uint16_t addr, int chipno);
+extern int cw_zorro_read(uint16_t addr, int chipno);
+extern int cw_clockport_read(uint16_t addr, int chipno);
 
-extern void cw_device_store(WORD addr, BYTE val, int chipno);
-extern void cw_openpci_store(WORD addr, BYTE val, int chipno);
-extern void cw_os4_store(WORD addr, BYTE val, int chipno);
-extern void cw_zorro_store(WORD addr, BYTE val, int chipno);
-extern void cw_clockport_store(WORD addr, BYTE val, int chipno);
+extern void cw_device_store(uint16_t addr, uint8_t val, int chipno);
+extern void cw_openpci_store(uint16_t addr, uint8_t val, int chipno);
+extern void cw_os4_store(uint16_t addr, uint8_t val, int chipno);
+extern void cw_zorro_store(uint16_t addr, uint8_t val, int chipno);
+extern void cw_clockport_store(uint16_t addr, uint8_t val, int chipno);
 
 extern void cw_device_set_machine_parameter(long cycles_per_sec);
 

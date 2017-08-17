@@ -38,13 +38,13 @@ extern int hs_openpci_close(void);
 extern int hs_os4_close(void);
 extern int hs_gg2_isa_close(void);
 
-extern int hs_openpci_read(WORD addr, int chipno);
-extern int hs_os4_read(WORD addr, int chipno);
-extern int hs_gg2_isa_read(WORD addr, int chipno);
+extern int hs_openpci_read(uint16_t addr, int chipno);
+extern int hs_os4_read(uint16_t addr, int chipno);
+extern int hs_gg2_isa_read(uint16_t addr, int chipno);
 
-extern void hs_openpci_store(WORD addr, BYTE val, int chipno);
-extern void hs_os4_store(WORD addr, BYTE val, int chipno);
-extern void hs_gg2_isa_store(WORD addr, BYTE val, int chipno);
+extern void hs_openpci_store(uint16_t addr, uint8_t val, int chipno);
+extern void hs_os4_store(uint16_t addr, uint8_t val, int chipno);
+extern void hs_gg2_isa_store(uint16_t addr, uint8_t val, int chipno);
 
 extern void hs_device_set_machine_parameter(long cycles_per_sec);
 

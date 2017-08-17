@@ -56,7 +56,7 @@ static void write_sid(unsigned char reg, unsigned char data, int chipno); /* Wri
 static unsigned char *HSbase = NULL;
 
 /* read value from SIDs */
-int hs_openpci_read(WORD addr, int chipno)
+int hs_openpci_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
@@ -67,7 +67,7 @@ int hs_openpci_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void hs_openpci_store(WORD addr, BYTE val, int chipno)
+void hs_openpci_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {

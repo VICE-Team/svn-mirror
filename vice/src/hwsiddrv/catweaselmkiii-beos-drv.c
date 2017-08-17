@@ -53,17 +53,17 @@ static int sids_found = -1;
 static int base = -1;
 
 /* input/output functions */
-static void cw_outb(WORD port, BYTE val)
+static void cw_outb(uint16_t port, uint8_t val)
 {
     io_access_store_byte(port, val);
 }
 
-static BYTE cw_inb(WORD port)
+static uint8_t cw_inb(uint16_t port)
 {
     return io_access_read_byte(port);
 }
 
-int catweaselmkiii_drv_read(WORD addr, int chipno)
+int catweaselmkiii_drv_read(uint16_t addr, int chipno)
 {
     unsigned char cmd;
 
@@ -79,7 +79,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
     return 0;
 }
 
-void catweaselmkiii_drv_store(WORD addr, BYTE outval, int chipno)
+void catweaselmkiii_drv_store(uint16_t addr, uint8_t outval, int chipno)
 {
     unsigned char cmd;
 
@@ -99,7 +99,7 @@ static int detect_sid(void)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        catweaselmkiii_drv_store((WORD)i, 0, 0);
+        catweaselmkiii_drv_store((uint16_t)i, 0, 0);
     }
 
     catweaselmkiii_drv_store(0x12, 0xff, 0);
@@ -125,8 +125,8 @@ static int detect_sid(void)
 int catweaselmkiii_drv_open(void)
 {
     int i;
-    DWORD b1 = 0;
-    DWORD b2 = 0;
+    uint32_t b1 = 0;
+    uint32_t b2 = 0;
 
     if (!sids_found) {
         return -1;

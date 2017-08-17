@@ -83,7 +83,7 @@ int catweaselmkiii_drv_close(void)
     return 0;
 }
 
-int catweaselmkiii_drv_read(WORD addr, int chipno)
+int catweaselmkiii_drv_read(uint16_t addr, int chipno)
 {
     if (use_cw_pci) {
         return cw_pci_read(addr, chipno);
@@ -94,7 +94,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
     return 0;
 }
 
-void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
+void catweaselmkiii_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
     if (use_cw_pci) {
         cw_pci_store(addr, val, chipno);

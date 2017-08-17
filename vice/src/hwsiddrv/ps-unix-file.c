@@ -87,12 +87,12 @@ static PARPORT_TYPE pssids[MAXSID] = {PARPORT_NULL, PARPORT_NULL, PARPORT_NULL};
 static int psctrl[MAXSID] = {-1, -1, -1};
 
 /* Some prototypes. */
-static BYTE detect_sid_read(WORD addr, int chipno);
-static void detect_sid_store(WORD addr, BYTE outval, int chipno);
+static uint8_t detect_sid_read(uint16_t addr, int chipno);
+static void detect_sid_store(uint16_t addr, uint8_t outval, int chipno);
 static int detect_sid(int chipno);
 
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
-BYTE ps_file_in_data(int chipno)
+uint8_t ps_file_in_data(int chipno)
 {
     iopbuf tmpbuf;
 
@@ -105,7 +105,7 @@ BYTE ps_file_in_data(int chipno)
     return tmpbuf.port_value;
 }
 
-void ps_file_out_data(BYTE outval, int chipno)
+void ps_file_out_data(uint8_t outval, int chipno)
 {
     iopbuf tmpbuf;
 
@@ -117,7 +117,7 @@ void ps_file_out_data(BYTE outval, int chipno)
     }
 }
 
-void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
+void ps_file_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
     iopbuf tmpbuf;
 
@@ -130,7 +130,7 @@ void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
     }
 }
 
-BYTE ps_file_in_ctr(int chipno)
+uint8_t ps_file_in_ctr(int chipno)
 {
     iopbuf tmpbuf;
 
@@ -141,7 +141,7 @@ BYTE ps_file_in_ctr(int chipno)
             ioctl(fd, IOPWRITE, &tmpbuf);
             psctrl[chipno] = 0;
         } else {
-            return (BYTE)psctrl[chipno];
+            return (uint8_t)psctrl[chipno];
         }
     }
     return 0;
@@ -202,9 +202,9 @@ int ps_file_close(void)
 #endif
 
 #ifdef HAVE_LINUX_PARPORT_HEADERS
-BYTE ps_file_in_data(int chipno)
+uint8_t ps_file_in_data(int chipno)
 {
-    BYTE retval = 0;
+    uint8_t retval = 0;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
         ioctl(pssids[chipno], PPRDATA, &retval);
@@ -212,16 +212,16 @@ BYTE ps_file_in_data(int chipno)
     return retval;
 }
 
-void ps_file_out_data(BYTE outval, int chipno)
+void ps_file_out_data(uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
         ioctl(pssids[chipno], PPWDATA, &outval);
     }
 }
 
-void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
+void ps_file_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
-    BYTE ctl = 0;
+    uint8_t ctl = 0;
     int datadir = 0;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
@@ -244,10 +244,10 @@ void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
     }
 }
 
-BYTE ps_file_in_ctr(int chipno)
+uint8_t ps_file_in_ctr(int chipno)
 {
-    BYTE retval = 0;
-    BYTE ctl;
+    uint8_t retval = 0;
+    uint8_t ctl;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
         ioctl(pssids[chipno], PPRCONTROL, &ctl);
@@ -341,9 +341,9 @@ int ps_file_close(void)
 #endif
 
 #ifdef HAVE_FREEBSD_PARPORT_HEADERS
-BYTE ps_file_in_data(int chipno)
+uint8_t ps_file_in_data(int chipno)
 {
-    BYTE retval = 0;
+    uint8_t retval = 0;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
         ioctl(pssids[chipno], PPIGDATA, &retval);
@@ -351,7 +351,7 @@ BYTE ps_file_in_data(int chipno)
     return retval;
 }
 
-void ps_file_out_data(BYTE outval, int chipno)
+void ps_file_out_data(uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
         ioctl(pssids[chipno], PPISDATA, &outval);
@@ -359,9 +359,9 @@ void ps_file_out_data(BYTE outval, int chipno)
 }
 
 
-void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
+void ps_file_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
-    BYTE ctl = 0;
+    uint8_t ctl = 0;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
         if (parsid_ctrport & parsid_STROBE) {
@@ -379,16 +379,16 @@ void ps_file_out_ctr(BYTE parsid_ctrport, int chipno)
         if (parsid_ctrport & parsid_PCD) {
             ctl |= PCD;
         }
-	     
+
         ioctl(pssids[chipno], PPISCTRL, &ctl);
         psctrl[chipno] = parsid_ctrport;
     }
 }
 
-BYTE ps_file_in_ctr(int chipno)
+uint8_t ps_file_in_ctr(int chipno)
 {
-    BYTE retval = 0;
-    BYTE ctl;
+    uint8_t retval = 0;
+    uint8_t ctl;
 
     if (chipno < MAXSID && pssids[chipno] != PARPORT_NULL) {
         ioctl(pssids[chipno], PPIGCTRL, &ctl);
@@ -471,10 +471,10 @@ int ps_file_close(void)
 }
 #endif
 
-static BYTE detect_sid_read(WORD addr, int chipno)
+static uint8_t detect_sid_read(uint16_t addr, int chipno)
 {
-    BYTE value = 0;
-    BYTE ctl = ps_file_in_ctr(chipno);
+    uint8_t value = 0;
+    uint8_t ctl = ps_file_in_ctr(chipno);
 
     ps_file_out_data(addr & 0x1f, chipno);
 
@@ -507,9 +507,9 @@ static BYTE detect_sid_read(WORD addr, int chipno)
     return value;
 }
 
-static void detect_sid_store(WORD addr, BYTE outval, int chipno)
+static void detect_sid_store(uint16_t addr, uint8_t outval, int chipno)
 {
-    BYTE ctl = ps_file_in_ctr(chipno);
+    uint8_t ctl = ps_file_in_ctr(chipno);
 
     ps_file_out_data(addr & 0x1f, chipno);
 
@@ -564,4 +564,3 @@ int ps_file_available(void)
 }
 #endif
 #endif
-

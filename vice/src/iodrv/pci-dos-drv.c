@@ -35,9 +35,6 @@
 #include "log.h"
 #include "types.h"
 
-typedef unsigned short uint16;
-typedef unsigned long uint32;
-
 int vice_pci_install_check(void)
 {
     __dpmi_regs r;
@@ -51,7 +48,7 @@ int vice_pci_install_check(void)
         log_message(LOG_DEFAULT, "BIOS does not support PCI.");
         return -1;
     }
-	
+
     if (r.h.ah != 0 || r.d.edx != 0x20494350) {
         log_message(LOG_DEFAULT, "BIOS does not support PCI.");
         return -1;
@@ -90,7 +87,7 @@ int vice_pci_find(int vendorID, int deviceID, int index, int *bus, int *device, 
     return r.h.ah;
 }
 
-int vice_pci_read_config_dword(int bus, int device, int func, int reg, uint32 *value)
+int vice_pci_read_config_dword(int bus, int device, int func, int reg, uint32_t *value)
 {
     __dpmi_regs r;
 
@@ -104,7 +101,7 @@ int vice_pci_read_config_dword(int bus, int device, int func, int reg, uint32 *v
     if (__dpmi_int(0x1a, &r) != 0) {
         return -1;
     }
-	
+
     if (r.h.ah == 0) {
         *value = r.d.ecx;
     }

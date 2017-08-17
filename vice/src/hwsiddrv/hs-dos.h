@@ -36,11 +36,11 @@ extern int hs_isa_open(void);
 extern int hs_pci_close(void);
 extern int hs_isa_close(void);
 
-extern int hs_pci_read(WORD addr, int chipno);
-extern int hs_isa_read(WORD addr, int chipno);
+extern int hs_pci_read(uint16_t addr, int chipno);
+extern int hs_isa_read(uint16_t addr, int chipno);
 
-extern void hs_pci_store(WORD addr, BYTE val, int chipno);
-extern void hs_isa_store(WORD addr, BYTE val, int chipno);
+extern void hs_pci_store(uint16_t addr, uint8_t val, int chipno);
+extern void hs_isa_store(uint16_t addr, uint8_t val, int chipno);
 
 extern int hs_isa_available(void);
 extern int hs_pci_available(void);

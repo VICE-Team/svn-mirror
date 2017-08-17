@@ -55,14 +55,14 @@
 
 static int sids_found = -1;
 
-void ssi2001_drv_store(WORD addr, BYTE value, int chipno)
+void ssi2001_drv_store(uint16_t addr, uint8_t value, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20) {
         io_access_store(SSI2008_BASE + (addr & 0x1f), value);
     }
 }
 
-int ssi2001_drv_read(WORD addr, int chipno)
+int ssi2001_drv_read(uint16_t addr, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20) {
         return io_access_read(SSI2008_BASE + (addr & 0x1f));
@@ -75,7 +75,7 @@ static int detect_sid(void)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        ssi2001_drv_store((WORD)i, 0, 0);
+        ssi2001_drv_store((uint16_t)i, 0, 0);
     }
 
     ssi2001_drv_store(0x12, 0xff, 0);

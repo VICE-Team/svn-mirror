@@ -66,12 +66,12 @@ static int is_windows_nt(void)
     return 0;
 }
 
-static BYTE read_sid(BYTE reg)
+static uint8_t read_sid(uint8_t reg)
 {
     return inportb(SSI2008_BASE + (reg & 0x1f));
 }
 
-static void write_sid(BYTE reg, BYTE data)
+static void write_sid(uint8_t reg, uint8_t data)
 {
     outportb(SSI2008_BASE + (reg & 0x1f), data);
 }
@@ -86,7 +86,7 @@ static int detect_sid(void)
     }
 
     for (i = 0x18; i >= 0; --i) {
-        write_sid((BYTE)i, 0);
+        write_sid((uint8_t)i, 0);
     }
 
     write_sid(0x12, 0xff);
@@ -159,7 +159,7 @@ int ssi2001_drv_close(void)
 }
 
 /* read value from SIDs */
-int ssi2001_drv_read(WORD addr, int chipno)
+int ssi2001_drv_read(uint16_t addr, int chipno)
 {
     /* if addr is from read-only register, perform a real read */
     if (chipno < MAXSID && addr < 0x20) {
@@ -170,7 +170,7 @@ int ssi2001_drv_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void ssi2001_drv_store(WORD addr, BYTE val, int chipno)
+void ssi2001_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {

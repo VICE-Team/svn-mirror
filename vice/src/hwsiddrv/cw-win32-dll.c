@@ -68,13 +68,13 @@ static HANDLE sidhandle[CW_MAXCARDS] = {
 };
 
 /* set all CatWeasels frequency to buf. buf=0: pal ; buf=1: ntsc */
-static void setfreq(BYTE buf)
+static void setfreq(uint8_t buf)
 {
     int i;
 
     for (i = 0; i < CW_MAXCARDS; i++) {
         if (sidhandle[i] != INVALID_HANDLE_VALUE) {
-            DWORD w;
+            uint32_t w;
 
             DeviceIoControl(sidhandle[i], SID_SET_CLOCK, &buf, sizeof(buf), 0L, 0UL, &w, 0L);
         }
@@ -84,9 +84,9 @@ static void setfreq(BYTE buf)
 /* silent al SIDs by setting all registers to 0 */
 static void mutethem(void)
 {
-    DWORD w;
+    uint32_t w;
     int i;
-    BYTE buf[0x19 * 2];
+    uint8_t buf[0x19 * 2];
 
     for (i = 0; i <= 0x18; i++) {
         buf[i * 2] = i;
@@ -143,7 +143,7 @@ int cw_dll_open(void)
         mutethem();
 
         /* set frequeny of found cards */
-        setfreq((BYTE)catweaselmkiii_get_ntsc());
+        setfreq((uint8_t)catweaselmkiii_get_ntsc());
 
         return 0;
     }
@@ -177,18 +177,18 @@ int cw_dll_close(void)
 /* read register from sid. only the four read registers from $19 to
    $1C are read from the real SID chip, all other bytes are read from
    sidbuf[] */
-int cw_dll_read(WORD addr, int chipno)
+int cw_dll_read(uint16_t addr, int chipno)
 {
     /* check if chipno is valid */
     if (chipno < CW_MAXCARDS) {
         /* check if addr is in read-only range, and that a card was found */
         if (addr >= 0x19 && addr <= 0x1C && sidhandle[chipno] != INVALID_HANDLE_VALUE) {
             /* do real read */
-            DWORD w;
-            BYTE buf[2];
+            uint32_t w;
+            uint8_t buf[2];
 
             buf[0] = SID_CMD_READ;
-            buf[1] = (BYTE)(addr & 0xff);
+            buf[1] = (uint8_t)(addr & 0xff);
             DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, 2, buf, 1, &w, 0L);
             return buf[0];
         }
@@ -198,7 +198,7 @@ int cw_dll_read(WORD addr, int chipno)
 }
 
 /* write a value */
-void cw_dll_store(WORD addr, BYTE val, int chipno)
+void cw_dll_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno is valid */
     if (chipno < CW_MAXCARDS) {
@@ -207,10 +207,10 @@ void cw_dll_store(WORD addr, BYTE val, int chipno)
             /* check if device handle is valid */
             if (sidhandle[chipno] != INVALID_HANDLE_VALUE) {
                 /* perform real write */
-                DWORD w;
-                BYTE buf[2];
+                uint32_t w;
+                uint8_t buf[2];
 
-                buf[0] = (BYTE)(addr & 0xff);
+                buf[0] = (uint8_t)(addr & 0xff);
                 buf[1] = val;
                 DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, sizeof(buf), 0L, 0UL, &w, 0L);
             }
@@ -226,7 +226,7 @@ void cw_dll_store(WORD addr, BYTE val, int chipno)
    choose between pal and ntsc frequencies */
 void cw_dll_set_machine_parameter(long cycles_per_sec)
 {
-    BYTE ntsc = (BYTE)((cycles_per_sec <= 1000000) ? 0 : 1);
+    uint8_t ntsc = (uint8_t)((cycles_per_sec <= 1000000) ? 0 : 1);
     setfreq(ntsc);
 }
 

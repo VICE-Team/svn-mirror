@@ -57,7 +57,7 @@ static int sids_found = -1;
 static int hssids[MAXSID] = {-1, -1, -1, -1};
 
 /* read value from SIDs */
-int hs_os4_read(WORD addr, int chipno)
+int hs_os4_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
@@ -67,7 +67,7 @@ int hs_os4_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void hs_os4_store(WORD addr, BYTE val, int chipno)
+void hs_os4_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {

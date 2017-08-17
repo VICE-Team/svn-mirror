@@ -54,17 +54,17 @@ static int sids_found = -1;
 static int base = -1;
 
 /* input/output functions */
-static void cw_outb(WORD port, BYTE val)
+static void cw_outb(uint16_t port, uint8_t val)
 {
     io_access_store(port, val);
 }
 
-static BYTE cw_inb(WORD port)
+static uint8_t cw_inb(uint16_t port)
 {
     return io_access_read(port);
 }
 
-int cw_pci_read(WORD addr, int chipno)
+int cw_pci_read(uint16_t addr, int chipno)
 {
     unsigned char cmd;
 
@@ -80,7 +80,7 @@ int cw_pci_read(WORD addr, int chipno)
     return 0;
 }
 
-void cw_pci_store(WORD addr, BYTE outval, int chipno)
+void cw_pci_store(uint16_t addr, uint8_t outval, int chipno)
 {
     unsigned char cmd;
 
@@ -100,7 +100,7 @@ static int detect_sid(void)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        cw_pci_store((WORD)i, 0, 0);
+        cw_pci_store((uint16_t)i, 0, 0);
     }
 
     cw_pci_store(0x12, 0xff, 0);
@@ -126,8 +126,8 @@ static int detect_sid(void)
 int cw_pci_open(void)
 {
     int i;
-    DWORD b1 = 0;
-    DWORD b2 = 0;
+    uint32_t b1 = 0;
+    uint32_t b2 = 0;
 
     if (!sids_found) {
         return -1;

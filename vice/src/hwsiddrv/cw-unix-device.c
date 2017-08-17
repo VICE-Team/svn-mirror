@@ -145,9 +145,9 @@ int cw_device_close(void)
 }
 
 /* read value from SIDs */
-int cw_device_read(WORD addr, int chipno)
+int cw_device_read(uint16_t addr, int chipno)
 {
-    BYTE retval;
+    uint8_t retval;
 
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -160,7 +160,7 @@ int cw_device_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void cw_device_store(WORD addr, BYTE val, int chipno)
+void cw_device_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {

@@ -43,7 +43,7 @@
 
 
 #ifdef HAVE_LIBPCI
-static int pciutils_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
+static int pciutils_get_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2)
 {
     struct pci_access *pacc;
     struct pci_dev *dev;
@@ -66,11 +66,11 @@ static int pciutils_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *ba
 #endif
 
 #ifdef __linux
-static int pci_get_linux_proc_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
+static int pci_get_linux_proc_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2)
 {
     FILE *f;
     char buf[512];
-    DWORD cnt, dfn, vend, irq, b1, b2;
+    uint32_t cnt, dfn, vend, irq, b1, b2;
 
     f = fopen("/proc/bus/pci/devices", "r");
 
@@ -96,7 +96,7 @@ static int pci_get_linux_proc_base(int vendorID, int deviceID, DWORD *base1, DWO
 }
 #endif
 
-int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
+int pci_get_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2)
 {
     int retval = -1;
 
@@ -114,4 +114,3 @@ int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
     return retval;
 }
 #endif
-

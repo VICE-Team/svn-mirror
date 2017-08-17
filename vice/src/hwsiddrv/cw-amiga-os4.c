@@ -46,7 +46,7 @@ static void write_sid(unsigned char reg, unsigned char data); /* Write a SID reg
 static int sids_found = -1;
 
 /* read value from SIDs */
-int cw_os4_read(WORD addr, int chipno)
+int cw_os4_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -57,7 +57,7 @@ int cw_os4_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void cw_os4_store(WORD addr, BYTE val, int chipno)
+void cw_os4_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -155,7 +155,7 @@ int cw_os4_open(void)
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x04, 0x00);
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x05, 0x00);
     CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x29, 0x00);
-    CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x2b, 0x00);                                      
+    CWDevPCI->OutByte(CWDevBAR->BaseAddress + 0x2b, 0x00);
 
     /* mute all sids */
     for (i = 0; i < 32; i++) {

@@ -56,7 +56,7 @@ static int use_port = 0;
 static int use_ieee1284 = 0;
 #endif
 
-void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
+void parsid_drv_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
 #ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
@@ -75,7 +75,7 @@ void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
     }
 }
 
-BYTE parsid_drv_in_ctr(int chipno)
+uint8_t parsid_drv_in_ctr(int chipno)
 {
 #ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
@@ -123,7 +123,7 @@ int parsid_drv_open(void)
     return -1;
 }
 
-BYTE parsid_drv_in_data(int chipno)
+uint8_t parsid_drv_in_data(int chipno)
 {
 #ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
@@ -143,7 +143,7 @@ BYTE parsid_drv_in_data(int chipno)
     return 0;
 }
 
-void parsid_drv_out_data(BYTE outval, int chipno)
+void parsid_drv_out_data(uint8_t outval, int chipno)
 {
 #ifdef HAVE_LIBIEEE1284
     if (use_ieee1284) {
@@ -213,4 +213,3 @@ int parsid_drv_available(void)
 }
 #endif
 #endif
-

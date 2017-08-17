@@ -54,7 +54,7 @@ static int hs_use_os4 = 0;
 #include "types.h"
 
 /* read value from SIDs */
-int hardsid_drv_read(WORD addr, int chipno)
+int hardsid_drv_read(uint16_t addr, int chipno)
 {
 #ifdef AMIGA_M68K
     if (hs_use_gg2_isa) {
@@ -78,7 +78,7 @@ int hardsid_drv_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void hardsid_drv_store(WORD addr, BYTE val, int chipno)
+void hardsid_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
 #ifdef AMIGA_M68K
     if (hs_use_gg2_isa) {

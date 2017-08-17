@@ -46,7 +46,7 @@
 #else
 #ifndef WORDS_BIGENDIAN
 static int (*vice_read_isa_io)(int dummy, void *addr, int size) = NULL;
-static int (*vice_write_isa_io)(int dummy, void *addr, int size, DWORD val) = NULL;
+static int (*vice_write_isa_io)(int dummy, void *addr, int size, uint32_t val) = NULL;
 #endif
 #endif
 
@@ -93,7 +93,7 @@ void io_access_shutdown(void)
 #endif
 }
 
-void io_access_store_byte(WORD addr, BYTE value)
+void io_access_store_byte(uint16_t addr, uint8_t value)
 {
 #ifdef __HAIKU__
     port_io_args args = { POKE_SIGNATURE, addr, 1, value };
@@ -102,13 +102,13 @@ void io_access_store_byte(WORD addr, BYTE value)
 #else
 #ifndef WORDS_BIGENDIAN
     if (vice_write_isa_io) {
-        vice_write_isa_io(0, (void *)(DWORD)addr, 1, (DWORD)value);
+        vice_write_isa_io(0, (void *)(uint32_t)addr, 1, (uint32_t)value);
     }
 #endif
 #endif
 }
 
-BYTE io_access_read_byte(WORD addr)
+uint8_t io_access_read_byte(uint16_t addr)
 {
 #ifdef __HAIKU__
     port_io_args args = { POKE_SIGNATURE, addr, 1, 0 };
@@ -116,18 +116,18 @@ BYTE io_access_read_byte(WORD addr)
     if (ioctl(poke_driver_fd, POKE_PORT_READ, &args, sizeof(args)) < 0) {
         return 0;
     }
-    return (BYTE)args.value;
+    return (uint8_t)args.value;
 #else
 #ifndef WORDS_BIGENDIAN
     if (vice_read_isa_io) {
-        return (BYTE)vice_read_isa_io(0, (void *)(DWORD)addr, 1);
+        return (uint8_t)vice_read_isa_io(0, (void *)(uint32_t)addr, 1);
     }
 #endif
     return 0;
 #endif
 }
 
-void io_access_store_long(WORD addr, DWORD value)
+void io_access_store_long(uint16_t addr, uint32_t value)
 {
 #ifdef __HAIKU__
     port_io_args args = { POKE_SIGNATURE, addr, 4, value };
@@ -136,13 +136,13 @@ void io_access_store_long(WORD addr, DWORD value)
 #else
 #ifndef WORDS_BIGENDIAN
     if (vice_write_isa_io) {
-        vice_write_isa_io(0, (void *)(DWORD)addr, 4, (DWORD)value);
+        vice_write_isa_io(0, (void *)(uint32_t)addr, 4, (uint32_t)value);
     }
 #endif
 #endif
 }
 
-DWORD io_access_read_long(WORD addr)
+uint32_t io_access_read_long(uint16_t addr)
 {
 #ifdef __HAIKU__
     port_io_args args = { POKE_SIGNATURE, addr, 4, 0 };
@@ -150,11 +150,11 @@ DWORD io_access_read_long(WORD addr)
     if (ioctl(poke_driver_fd, POKE_PORT_READ, &args, sizeof(args)) < 0) {
         return 0;
     }
-    return (DWORD)args.value;
+    return (uint32_t)args.value;
 #else
 #ifndef WORDS_BIGENDIAN
     if (vice_read_isa_io) {
-         return (DWORD)vice_read_isa_io(0, (void *)(DWORD)addr, 4);
+         return (uint32_t)vice_read_isa_io(0, (void *)(uint32_t)addr, 4);
     }
 #endif
     return 0;

@@ -153,7 +153,7 @@ int hardsid_drv_close(void)
     return 0;
 }
 
-int hardsid_drv_read(WORD addr, int chipno)
+int hardsid_drv_read(uint16_t addr, int chipno)
 {
     if (use_hs_pci) {
         return hs_pci_read(addr, chipno);
@@ -167,7 +167,7 @@ int hardsid_drv_read(WORD addr, int chipno)
     return 0;
 }
 
-void hardsid_drv_store(WORD addr, BYTE val, int chipno)
+void hardsid_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
     if (use_hs_pci) {
         hs_pci_store(addr, val, chipno);
@@ -236,4 +236,3 @@ void hardsid_drv_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_sta
 }
 #endif
 #endif
-

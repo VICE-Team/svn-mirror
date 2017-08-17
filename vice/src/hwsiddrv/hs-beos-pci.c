@@ -54,9 +54,9 @@ static int base2 = 0;
 static int sids_found = -1;
 static int hssids[MAXSID] = {-1, -1, -1, -1};
 
-BYTE hs_pci_read(WORD addr, int chipno)
+uint8_t hs_pci_read(uint16_t addr, int chipno)
 {
-    BYTE ret = 0;
+    uint8_t ret = 0;
 
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store_byte(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
@@ -68,11 +68,11 @@ BYTE hs_pci_read(WORD addr, int chipno)
     return ret;
 }
 
-void hs_pci_store(WORD addr, BYTE outval, int chipno)
+void hs_pci_store(uint16_t addr, uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         io_access_store_byte(base1 + 3, outval);
-        io_access_store_byte(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f)));
+        io_access_store_byte(base1 + 4, (uint8_t)((chipno << 6) | (addr & 0x1f)));
         snooze(2);
     }
 }
@@ -84,7 +84,7 @@ static int detect_sid_uno(void)
 
     for (j = 0; j < 4; ++j) {
         for (i = 0x18; i >= 0; --i) {
-            hs_pci_store((WORD)i, 0, j);
+            hs_pci_store((uint16_t)i, 0, j);
         }
     }
 
@@ -113,7 +113,7 @@ static int detect_sid(int chipno)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        hs_pci_store((WORD)i, 0, chipno);
+        hs_pci_store((uint16_t)i, 0, chipno);
     }
 
     hs_pci_store(0x12, 0xff, chipno);
@@ -141,8 +141,8 @@ static char *HStype = "PCI HardSID Quattro";
 int hs_pci_open(void)
 {
     int j;
-    DWORD b1 = 0;
-    DWORD b2 = 0;
+    uint32_t b1 = 0;
+    uint32_t b2 = 0;
 
     if (!sids_found) {
         return -1;

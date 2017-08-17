@@ -37,14 +37,14 @@
 
 #include "pci-beos-drv.h"
 
-static int pci_get_direct_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
+static int pci_get_direct_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2)
 {
     int bus_index;
     int slot_index;
     int func_index;
     unsigned int address;
     unsigned int device;
-    DWORD tmp;
+    uint32_t tmp;
     int res = 0;
 
     io_access_store_byte(0xCFB, 0x01);
@@ -80,7 +80,7 @@ static int pci_get_direct_base(int vendorID, int deviceID, DWORD *base1, DWORD *
     return -1;
 }
 
-int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2)
+int pci_get_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2)
 {
     int retval = -1;
 

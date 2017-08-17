@@ -110,9 +110,9 @@ static uint32 vice_pci_find_hardsid(int index)
     return retval;
 }
 
-static BYTE read_sid(BYTE reg, int chipno)
+static uint8_t read_sid(uint8_t reg, int chipno)
 {
-    BYTE ret;
+    uint8_t ret;
 
     outportb(base1 + 4, ((chipno << 6) | (reg & 0x1f) | 0x20));
     usleep(2);
@@ -123,7 +123,7 @@ static BYTE read_sid(BYTE reg, int chipno)
     return ret;
 }
 
-static void write_sid(BYTE reg, BYTE data, int chipno)
+static void write_sid(uint8_t reg, uint8_t data, int chipno)
 {
     outportb(base1 + 3, data);
     outportb(base1 + 4, (chipno << 6) | (reg & 0x1f));
@@ -166,7 +166,7 @@ static int detect_sid(int chipno)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        write_sid((BYTE)i, 0, chipno);
+        write_sid((uint8_t)i, 0, chipno);
     }
 
     write_sid(0x12, 0xff, chipno);
@@ -247,7 +247,7 @@ int hs_pci_open(void)
     for (j = 0; j < MAXSID; ++j) {
         if (hssids[j] != -1) {
             for (i = 0; i < 32; i++) {
-                write_sid((BYTE)i, 0, hssids[j]);
+                write_sid((uint8_t)i, 0, hssids[j]);
             }
         }
     }
@@ -265,7 +265,7 @@ int hs_pci_close(void)
     for (j = 0; j < MAXSID; ++j) {
         if (hssids[j] != -1) {
             for (i = 0; i < 32; i++) {
-                write_sid((BYTE)i, 0, hssids[j]);
+                write_sid((uint8_t)i, 0, hssids[j]);
             }
         }
         hssids[j] = -1;
@@ -279,7 +279,7 @@ int hs_pci_close(void)
 }
 
 /* read value from SIDs */
-int hs_pci_read(WORD addr, int chipno)
+int hs_pci_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
@@ -289,7 +289,7 @@ int hs_pci_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void hs_pci_store(WORD addr, BYTE val, int chipno)
+void hs_pci_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
@@ -303,4 +303,3 @@ int hs_pci_available(void)
 }
 #endif
 #endif
-

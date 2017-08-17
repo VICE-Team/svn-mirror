@@ -27,6 +27,6 @@
 #ifndef VICE_PCI_BEOS_DRV_H
 #define VICE_PCI_BEOS_DRV_H
 
-extern int pci_get_base(int vendorID, int deviceID, DWORD *base1, DWORD *base2);
+extern int pci_get_base(int vendorID, int deviceID, uint32_t *base1, uint32_t *base2);
 
 #endif

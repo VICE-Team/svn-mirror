@@ -51,10 +51,10 @@ static void write_sid(unsigned char reg, unsigned char data); // Write a SID reg
 
 static int sids_found = -1;
 
-static BYTE *CWbase = NULL;
+static uint8_t *CWbase = NULL;
 
 /* read value from SIDs */
-int cw_zorro_read(WORD addr, int chipno)
+int cw_zorro_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -65,7 +65,7 @@ int cw_zorro_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void cw_zorro_store(WORD addr, BYTE val, int chipno)
+void cw_zorro_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr <= 0x20) {
@@ -139,7 +139,7 @@ int cw_zorro_open(void)
 static unsigned char read_sid(unsigned char reg)
 {
     unsigned char cmd;
-    BYTE tmp;
+    uint8_t tmp;
 
     cmd = (reg & 0x1f) | 0x20;   // Read command & address
 
@@ -159,7 +159,7 @@ static unsigned char read_sid(unsigned char reg)
 static void write_sid(unsigned char reg, unsigned char data)
 {
     unsigned char cmd;
-    BYTE tmp;
+    uint8_t tmp;
 
     cmd = reg & 0x1f;            // Write command & address
     if (catweaselmkiii_get_ntsc()) {

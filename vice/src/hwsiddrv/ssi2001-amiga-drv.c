@@ -51,10 +51,10 @@ static void write_sid(unsigned char reg, unsigned char data); // Write a SID reg
 
 static int sids_found = -1;
 
-static BYTE *SSI2001base = NULL;
+static uint8_t *SSI2001base = NULL;
 
 /* read value from SIDs */
-int ssi2001_drv_read(WORD addr, int chipno)
+int ssi2001_drv_read(uint16_t addr, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -65,7 +65,7 @@ int ssi2001_drv_read(WORD addr, int chipno)
 }
 
 /* write value into SID */
-void ssi2001_drv_store(WORD addr, BYTE val, int chipno)
+void ssi2001_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
     /* check if chipno and addr is valid */
     if (chipno < MAXSID && addr < 0x20) {
@@ -90,7 +90,7 @@ static int detect_sid(void)
     int i;
 
     for (i = 0x18; i >= 0; --i) {
-        write_sid((BYTE)i, 0);
+        write_sid((uint8_t)i, 0);
     }
 
     write_sid(0x12, 0xff);
@@ -168,15 +168,11 @@ int ssi2001_drv_open(void)
 
 static unsigned char read_sid(unsigned char reg)
 {
-    BYTE tmp;
-
     return SSI2001base[((0x280 + (reg & 0x1f)) * 2) + 1];
 }
 
 static void write_sid(unsigned char reg, unsigned char data)
 {
-    BYTE tmp;
-
     // Write data to the SID
     SSI2001base[((0x280 + (reg & 0x1f)) * 2) + 1] = data;
 }
@@ -203,4 +199,3 @@ int ssi2001_drv_available(void)
 }
 #endif
 #endif
-

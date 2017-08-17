@@ -131,7 +131,7 @@ int hs_linux_close(void)
     return 0;
 }
 
-int hs_linux_read(WORD addr, int chipno)
+int hs_linux_read(uint16_t addr, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20 && hsid_fd >= 0) {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
@@ -152,7 +152,7 @@ int hs_linux_read(WORD addr, int chipno)
     return 0;
 }
 
-void hs_linux_store(WORD addr, BYTE val, int chipno)
+void hs_linux_store(uint16_t addr, uint8_t val, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20 && hsid_fd >= 0) {
         CLOCK cycles = maincpu_clk - hsid_main_clk - 1;
@@ -193,8 +193,8 @@ static void hardsid_alarm_handler(CLOCK offset, void *data)
 
 void hs_linux_state_read(int chipno, struct sid_hs_snapshot_state_s *sid_state)
 {
-    sid_state->hsid_main_clk = (DWORD)hsid_main_clk;
-    sid_state->hsid_alarm_clk = (DWORD)hsid_alarm_clk;
+    sid_state->hsid_main_clk = (uint32_t)hsid_main_clk;
+    sid_state->hsid_alarm_clk = (uint32_t)hsid_alarm_clk;
     sid_state->lastaccess_clk = 0;
     sid_state->lastaccess_ms = 0;
     sid_state->lastaccess_chipno = 0;
@@ -212,4 +212,3 @@ void hs_linux_state_write(int chipno, struct sid_hs_snapshot_state_s *sid_state)
 }
 #endif
 #endif
-

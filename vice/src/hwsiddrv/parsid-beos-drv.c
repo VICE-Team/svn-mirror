@@ -52,7 +52,7 @@ static int pssids[MAXSID] = {-1, -1, -1};
 static int psctrl[MAXSID] = {-1, -1, -1};
 static int sids_found = -1;
 
-void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
+void parsid_drv_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         io_access_store_byte(pssids[chipno] + 2, parsid_ctrport);
@@ -60,14 +60,14 @@ void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
     }
 }
 
-BYTE parsid_drv_in_ctr(int chipno)
+uint8_t parsid_drv_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         if (psctrl[chipno] == -1) {
             io_access_store_byte(pssids[chipno] + 2, 0);
             psctrl[chipno] = 0;
         } else {
-           return (BYTE)psctrl[chipno];
+           return (uint8_t)psctrl[chipno];
         }
     }
     return 0;
@@ -80,7 +80,7 @@ static void parsid_get_ports(void)
     ports[2] = 0x278;
 }
 
-BYTE parsid_drv_in_data(int chipno)
+uint8_t parsid_drv_in_data(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return io_access_read_byte(pssids[chipno]);
@@ -88,17 +88,17 @@ BYTE parsid_drv_in_data(int chipno)
     return 0;
 }
 
-void parsid_drv_out_data(BYTE outval, int chipno)
+void parsid_drv_out_data(uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         io_access_store_byte(pssids[chipno], outval);
     }
 }
 
-static BYTE detect_sid_read(WORD addr, int chipno)
+static uint8_t detect_sid_read(uint16_t addr, int chipno)
 {
-    BYTE value = 0;
-    BYTE ctl = parsid_drv_in_ctr(chipno);
+    uint8_t value = 0;
+    uint8_t ctl = parsid_drv_in_ctr(chipno);
 
     parsid_drv_out_data(addr & 0x1f, chipno);
 
@@ -131,9 +131,9 @@ static BYTE detect_sid_read(WORD addr, int chipno)
     return value;
 }
 
-static void detect_sid_store(WORD addr, BYTE outval, int chipno)
+static void detect_sid_store(uint16_t addr, uint8_t outval, int chipno)
 {
-    BYTE ctl = parsid_drv_in_ctr(chipno);
+    uint8_t ctl = parsid_drv_in_ctr(chipno);
 
     parsid_drv_out_data(addr & 0x1f, chipno);
 
@@ -255,4 +255,3 @@ void parsid_drv_sleep(int amount)
 }
 #endif
 #endif
-

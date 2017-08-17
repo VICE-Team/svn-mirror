@@ -51,12 +51,12 @@ static int pssids[MAXSID] = {-1, -1, -1};
 
 static struct parport_list parlist;
 
-static void parsid_ieee1284_outb_ctr(struct parport *port, BYTE value)
+static void parsid_ieee1284_outb_ctr(struct parport *port, uint8_t value)
 {
     ieee1284_write_control(port, value);
 }
 
-static void parsid_ieee1284_outb_data(struct parport *port, BYTE value)
+static void parsid_ieee1284_outb_data(struct parport *port, uint8_t value)
 {
     ieee1284_write_data(port, value);
 }
@@ -71,13 +71,13 @@ static int parsid_ieee1284_inb_data(struct parport *port)
     return ieee1284_read_data(port);
 }
 
-static BYTE detect_sid_read(struct parport *port, BYTE addr)
+static uint8_t detect_sid_read(struct parport *port, uint8_t addr)
 {
-    BYTE value = 0;
-    BYTE ctl = parsid_ieee1284_inb_ctr(port);
+    uint8_t value = 0;
+    uint8_t ctl = parsid_ieee1284_inb_ctr(port);
 
     parsid_ieee1284_outb_data(port, addr & 0x1f);
-    
+
     ctl &= ~parsid_AUTOFEED;
     parsid_ieee1284_outb_ctr(port, ctl);
 
@@ -107,9 +107,9 @@ static BYTE detect_sid_read(struct parport *port, BYTE addr)
     return value;
 }
 
-static void detect_sid_store(struct parport *port, WORD addr, BYTE outval)
+static void detect_sid_store(struct parport *port, uint16_t addr, uint8_t outval)
 {
-    BYTE ctl = parsid_ieee1284_inb_ctr(port);
+    uint8_t ctl = parsid_ieee1284_inb_ctr(port);
 
     parsid_ieee1284_outb_data(port, (addr & 0x1f));
 
@@ -219,14 +219,14 @@ int ps_ieee1284_close(void)
     return 0;
 }
 
-void ps_ieee1284_out_ctr(BYTE parsid_ctrport, int chipno)
+void ps_ieee1284_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_ieee1284_outb_ctr(parlist.portv[pssids[chipno]], parsid_ctrport);
     }
 }
 
-BYTE ps_ieee1284_in_ctr(int chipno)
+uint8_t ps_ieee1284_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_ieee1284_inb_ctr(parlist.portv[pssids[chipno]]);
@@ -234,14 +234,14 @@ BYTE ps_ieee1284_in_ctr(int chipno)
     return 0;
 }
 
-void ps_ieee1284_out_data(BYTE data, int chipno)
+void ps_ieee1284_out_data(uint8_t data, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_ieee1284_outb_data(parlist.portv[pssids[chipno]], data);
     }
 }
 
-BYTE ps_ieee1284_in_data(int chipno)
+uint8_t ps_ieee1284_in_data(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_ieee1284_inb_data(parlist.portv[pssids[chipno]]);
@@ -254,4 +254,3 @@ int ps_ieee1284_available(void)
     return sids_found;
 }
 #endif
-

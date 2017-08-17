@@ -61,17 +61,17 @@ static int psctrl[MAXSID] = {-1, -1, -1};
 static int sids_found = -1;
 
 /* input/output functions */
-static BYTE parsid_inb(WORD addr)
+static uint8_t parsid_inb(uint16_t addr)
 {
     return inportb(addr);
 }
 
-static void parsid_outb(WORD addr, BYTE value)
+static void parsid_outb(uint16_t addr, uint8_t value)
 {
     outportb(addr, value);
 }
 
-void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
+void parsid_drv_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_outb(pssids[chipno] + 2, parsid_ctrport);
@@ -79,7 +79,7 @@ void parsid_drv_out_ctr(BYTE parsid_ctrport, int chipno)
     }
 }
 
-BYTE parsid_drv_in_ctr(int chipno)
+uint8_t parsid_drv_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         if (psctrl[chipno] == -1) {
@@ -108,18 +108,18 @@ static int is_windows_nt(void)
     return 0;
 }
 
-static void parsid_get_ports(void)   
+static void parsid_get_ports(void)
 {
-    unsigned int address;            /* Address of Port */   
-    int j;   
-    unsigned long ptraddr = 0x0408;  /* Base Address: segment is zero*/   
+    unsigned int address;            /* Address of Port */
+    int j;
+    unsigned long ptraddr = 0x0408;  /* Base Address: segment is zero*/
     int same = 0;
 
     for (j = 0; j < 4; j++) {
         ports[j] = _farpeekw(_dos_ds, ptraddr);
         ptraddr += 2;
         log_message(LOG_DEFAULT, "Parallel port %d is at $%X.", j, address);
-    }   
+    }
 
     if (ports[0] == ports[1] && ports[0] == ports[2]) {
         log_message(LOG_DEFAULT, "Addresses are all the same, replacing addresses with $278, $378 and $3BC.");
@@ -130,13 +130,13 @@ static void parsid_get_ports(void)
     }
 }
 
-static BYTE detect_sid_read(WORD addr, int chipno)
+static uint8_t detect_sid_read(uint16_t addr, int chipno)
 {
-    BYTE value = 0;
-    BYTE ctl = parsid_drv_in_ctr(chipno);
+    uint8_t value = 0;
+    uint8_t ctl = parsid_drv_in_ctr(chipno);
 
     parsid_drv_out_data(addr & 0x1f, chipno);
-    
+
     ctl &= ~parsid_AUTOFEED;
     parsid_drv_out_ctr(ctl, chipno);
 
@@ -166,9 +166,9 @@ static BYTE detect_sid_read(WORD addr, int chipno)
     return value;
 }
 
-static void detect_sid_store(WORD addr, BYTE outval, int chipno)
+static void detect_sid_store(uint16_t addr, uint8_t outval, int chipno)
 {
-    BYTE ctl = parsid_drv_in_ctr(chipno);
+    uint8_t ctl = parsid_drv_in_ctr(chipno);
 
     parsid_drv_out_data(addr & 0x1f, chipno);
 
@@ -276,7 +276,7 @@ int parsid_drv_close(void)
     return 0;
 }
 
-BYTE parsid_drv_in_data(int chipno)
+uint8_t parsid_drv_in_data(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_inb(pssids[chipno]);
@@ -284,7 +284,7 @@ BYTE parsid_drv_in_data(int chipno)
     return 0;
 }
 
-void parsid_drv_out_data(BYTE outval, int chipno)
+void parsid_drv_out_data(uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_outb(pssids[chipno], outval);

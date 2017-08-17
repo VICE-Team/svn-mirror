@@ -104,7 +104,7 @@ int catweaselmkiii_drv_close(void)
     return 0;
 }
 
-int catweaselmkiii_drv_read(WORD addr, int chipno)
+int catweaselmkiii_drv_read(uint16_t addr, int chipno)
 {
 #ifdef HAVE_CWSID_H
     if (use_cw_device) {
@@ -121,7 +121,7 @@ int catweaselmkiii_drv_read(WORD addr, int chipno)
     return 0;
 }
 
-void catweaselmkiii_drv_store(WORD addr, BYTE val, int chipno)
+void catweaselmkiii_drv_store(uint16_t addr, uint8_t val, int chipno)
 {
 #ifdef HAVE_CWSID_H
     if (use_cw_device) {
