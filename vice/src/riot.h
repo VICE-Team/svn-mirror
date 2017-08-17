@@ -77,7 +77,7 @@ typedef struct riot_context_s {
     uint8_t (*read_pra)(struct riot_context_s *);
     uint8_t (*read_prb)(struct riot_context_s *);
     void (*reset)(struct riot_context_s *riot_context);
-    void (*set_irq)(struct riot_context_s *, int, uint8_t);
+    void (*set_irq)(struct riot_context_s *, int, CLOCK);
     void (*restore_irq)(struct riot_context_s *, int);
 } riot_context_t;
 
