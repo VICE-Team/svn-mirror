@@ -1422,7 +1422,7 @@ static const signed char nosound[1] = { 0 };
 
 STATIC_PROTOTYPE sound_chip_t drive_sound;
 
-static WORD drive_sound_offset;
+static uint16_t drive_sound_offset;
 static const signed char *step[DRIVE_NUM];
 static const signed char *motor[DRIVE_NUM];
 static int stepvol[DRIVE_NUM];
@@ -1435,7 +1435,7 @@ static int sample_rate = 22050;
 extern int drive_sound_emulation;
 extern int drive_sound_emulation_volume;
 
-static int drive_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int drive_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i, j, nos = 0;
     static int div = 0;
@@ -1524,11 +1524,11 @@ static int drive_sound_machine_channels(void)
     return 1;
 }
 
-static void drive_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void drive_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
 }
 
-static BYTE drive_sound_machine_read(sound_t *psid, WORD addr)
+static uint8_t drive_sound_machine_read(sound_t *psid, uint16_t addr)
 {
     return 0;
 }
@@ -1552,7 +1552,7 @@ void drive_sound_update(int i, int unit)
         drive_sound.chip_enabled = 0;
         return;
     }
-    sound_store((WORD)drive_sound_offset, 0, 0);
+    sound_store((uint16_t)drive_sound_offset, 0, 0);
     switch (i) {
         case DRIVE_SOUND_MOTOR_ON:
             motor[unit] = spinup;
@@ -1571,7 +1571,7 @@ void drive_sound_head(int track, int dir, int unit)
         drive_sound.chip_enabled = 0;
         return;
     }
-    sound_store((WORD)drive_sound_offset, 0, 0);
+    sound_store((uint16_t)drive_sound_offset, 0, 0);
     stepvol[unit] = 100 - track;
     if (track == 2 && dir == -1) {
         if (step[unit] == nosound) {

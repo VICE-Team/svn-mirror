@@ -65,7 +65,7 @@ static log_t driverom_log;
 static int drive_rom_load_ok = 0;
 
 
-int driverom_load(const char *resource_name, BYTE *drive_rom, unsigned
+int driverom_load(const char *resource_name, uint8_t *drive_rom, unsigned
                   int *loaded, int min, int max, const char *name,
                   unsigned int type, unsigned int *size) 
 {
@@ -206,7 +206,7 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
-    const BYTE *base;
+    const uint8_t *base;
     int len;
 
     sprintf(snap_module_name, "DRIVEROM%i", drive->mynumber);
@@ -296,10 +296,10 @@ int driverom_snapshot_write(snapshot_t *s, const drive_t *drive)
 
 int driverom_snapshot_read(snapshot_t *s, drive_t *drive)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     char snap_module_name[10];
-    BYTE *base;
+    uint8_t *base;
     int len;
 
     sprintf(snap_module_name, "DRIVEROM%i", drive->mynumber);

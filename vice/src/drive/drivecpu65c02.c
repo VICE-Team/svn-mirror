@@ -116,22 +116,22 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
 
 /* ------------------------------------------------------------------------- */
 
-#define LOAD(a)           (*drv->cpud->read_func_ptr[(a) >> 8])(drv, (WORD)(a))
-#define LOAD_ZERO(a)      (*drv->cpud->read_func_ptr[0])(drv, (WORD)(a))
+#define LOAD(a)           (*drv->cpud->read_func_ptr[(a) >> 8])(drv, (uint16_t)(a))
+#define LOAD_ZERO(a)      (*drv->cpud->read_func_ptr[0])(drv, (uint16_t)(a))
 #define LOAD_ADDR(a)      (LOAD((a)) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO((a)) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)       (*drv->cpud->store_func_ptr[(a) >> 8])(drv, (WORD)(a), (BYTE)(b))
-#define STORE_ZERO(a, b)  (*drv->cpud->store_func_ptr[0])(drv, (WORD)(a), (BYTE)(b))
+#define STORE(a, b)       (*drv->cpud->store_func_ptr[(a) >> 8])(drv, (uint16_t)(a), (uint8_t)(b))
+#define STORE_ZERO(a, b)  (*drv->cpud->store_func_ptr[0])(drv, (uint16_t)(a), (uint8_t)(b))
 
 #define JUMP(addr)                                                         \
     do {                                                                   \
         reg_pc = (unsigned int)(addr);                                     \
         if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) {   \
-            BYTE *p = drv->cpud->read_base_tab_ptr[reg_pc >> 8];           \
+            uint8_t *p = drv->cpud->read_base_tab_ptr[reg_pc >> 8];           \
             cpu->d_bank_base = p;                                          \
                                                                            \
             if (p != NULL) {                                               \
-                DWORD limits = drv->cpud->read_limit_tab_ptr[reg_pc >> 8]; \
+                uint32_t limits = drv->cpud->read_limit_tab_ptr[reg_pc >> 8]; \
                 cpu->d_bank_limit = limits & 0xffff;                       \
                 cpu->d_bank_start = limits >> 16;                          \
             } else {                                                       \
@@ -264,9 +264,9 @@ CLOCK drivecpu65c02_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 }
 
 /* Handle a ROM trap. */
-inline static DWORD drive_trap_handler(drive_context_t *drv)
+inline static uint32_t drive_trap_handler(drive_context_t *drv)
 {
-    if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (WORD)drv->drive->trap) {
+    if (R65C02_REGS_GET_PC(&(drv->cpu->cpu_R65C02_regs)) == (uint16_t)drv->drive->trap) {
         R65C02_REGS_SET_PC(&(drv->cpu->cpu_R65C02_regs), drv->drive->trapcont);
         if (drv->drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
@@ -281,7 +281,7 @@ inline static DWORD drive_trap_handler(drive_context_t *drv)
         }
         return 0;
     }
-    return (DWORD)-1;
+    return (uint32_t)-1;
 }
 
 static void drive_generic_dma(void)
@@ -466,24 +466,24 @@ int drivecpu65c02_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
     cpu = drv->cpu;
 
     m = snapshot_module_create(s, drv->cpu->snap_module_name,
-                               ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)));
+                               ((uint8_t)(SNAP_MAJOR)), ((uint8_t)(SNAP_MINOR)));
     if (m == NULL) {
         return -1;
     }
 
     if (0
-        || SMW_DW(m, (DWORD) *(drv->clk_ptr)) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_A(&(cpu->cpu_R65C02_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_X(&(cpu->cpu_R65C02_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_Y(&(cpu->cpu_R65C02_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_SP(&(cpu->cpu_R65C02_regs))) < 0
-        || SMW_W(m, (WORD)R65C02_REGS_GET_PC(&(cpu->cpu_R65C02_regs))) < 0
-        || SMW_B(m, (BYTE)R65C02_REGS_GET_STATUS(&(cpu->cpu_R65C02_regs))) < 0
-        || SMW_DW(m, (DWORD)(cpu->last_opcode_info)) < 0
-        || SMW_DW(m, (DWORD)(cpu->last_clk)) < 0
-        || SMW_DW(m, (DWORD)(cpu->cycle_accum)) < 0
-        || SMW_DW(m, (DWORD)(cpu->last_exc_cycles)) < 0
-        || SMW_DW(m, (DWORD)(cpu->stop_clk)) < 0
+        || SMW_DW(m, (uint32_t) *(drv->clk_ptr)) < 0
+        || SMW_B(m, (uint8_t)R65C02_REGS_GET_A(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (uint8_t)R65C02_REGS_GET_X(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (uint8_t)R65C02_REGS_GET_Y(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (uint8_t)R65C02_REGS_GET_SP(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_W(m, (uint16_t)R65C02_REGS_GET_PC(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_B(m, (uint8_t)R65C02_REGS_GET_STATUS(&(cpu->cpu_R65C02_regs))) < 0
+        || SMW_DW(m, (uint32_t)(cpu->last_opcode_info)) < 0
+        || SMW_DW(m, (uint32_t)(cpu->last_clk)) < 0
+        || SMW_DW(m, (uint32_t)(cpu->cycle_accum)) < 0
+        || SMW_DW(m, (uint32_t)(cpu->last_exc_cycles)) < 0
+        || SMW_DW(m, (uint32_t)(cpu->stop_clk)) < 0
         ) {
         goto fail;
     }
@@ -514,10 +514,10 @@ fail:
 
 int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 {
-    BYTE major, minor;
+    uint8_t major, minor;
     snapshot_module_t *m;
-    BYTE a, x, y, sp, status;
-    WORD pc;
+    uint8_t a, x, y, sp, status;
+    uint16_t pc;
     drivecpu_context_t *cpu;
 
     cpu = drv->cpu;

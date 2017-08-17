@@ -89,7 +89,7 @@ static int drive_led_color[DRIVE_NUM];
 
 /* ------------------------------------------------------------------------- */
 
-void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector,
+void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector,
                            struct drive_context_s *drv)
 {
     drive_t *drive;
@@ -112,7 +112,7 @@ void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector,
     }
 }
 
-void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer,
+void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffer,
                          struct drive_context_s *drv)
 {
     drive_t *drive;
