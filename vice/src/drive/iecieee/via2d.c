@@ -121,22 +121,22 @@ static void restore_int(via_context_t *via_context, unsigned int int_num, int va
     interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
 }
 
-void via2d_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void via2d_store(drive_context_t *ctxptr, uint16_t addr, uint8_t data)
 {
     viacore_store(ctxptr->via2, addr, data);
 }
 
-BYTE via2d_read(drive_context_t *ctxptr, WORD addr)
+uint8_t via2d_read(drive_context_t *ctxptr, uint16_t addr)
 {
     return viacore_read(ctxptr->via2, addr);
 }
 
-BYTE via2d_peek(drive_context_t *ctxptr, WORD addr)
+uint8_t via2d_peek(drive_context_t *ctxptr, uint16_t addr)
 {
     return viacore_peek(ctxptr->via2, addr);
 }
 
-int via2d_dump(drive_context_t *ctxptr, WORD addr)
+int via2d_dump(drive_context_t *ctxptr, uint16_t addr)
 {
     viacore_dump(ctxptr->via2);
     return 0;
@@ -155,8 +155,8 @@ void via2d_update_pcr(int pcrval, drive_t *dptr)
     dptr->byte_ready_active = (bra & ~0x02) | (pcrval & 0x02);
 }
 
-static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
-                      WORD addr)
+static void store_pra(via_context_t *via_context, uint8_t byte, uint8_t oldpa_value,
+                      uint16_t addr)
 {
     drivevia2_context_t *via2p;
 
@@ -168,13 +168,13 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
     via2p->drive->byte_ready_level = 0;
 }
 
-static void undump_pra(via_context_t *via_context, BYTE byte)
+static void undump_pra(via_context_t *via_context, uint8_t byte)
 {
 
 }
 
-static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
-                      WORD addr)
+static void store_prb(via_context_t *via_context, uint8_t byte, uint8_t poldpb,
+                      uint16_t addr)
 {
     drivevia2_context_t *via2p = (drivevia2_context_t *)(via_context->prv);
     drive_t *drv = via2p->drive;
@@ -305,7 +305,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     drv->byte_ready_level = 0;
 }
 
-static void undump_prb(via_context_t *via_context, BYTE byte)
+static void undump_prb(via_context_t *via_context, uint8_t byte)
 {
     drivevia2_context_t *via2p;
 
@@ -317,7 +317,7 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
         = (via2p->drive->byte_ready_active & ~0x04) | (byte & 0x04);
 }
 
-static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
+static uint8_t store_pcr(via_context_t *via_context, uint8_t byte, uint16_t addr)
 {
     drivevia2_context_t *via2p;
 
@@ -327,7 +327,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
 #if OLDCODE
     /* FIXME: this should use via_set_ca2() and via_set_cb2() */
     if (byte != via_context->via[VIA_PCR]) {
-        BYTE tmp = byte;
+        uint8_t tmp = byte;
         /* first set bit 1 and 5 to the real output values */
         if ((byte & 0x0c) != 0x0c) { /* CA2 not lo or hi output */
             tmp |= 0x02; /* byte ready */
@@ -346,7 +346,7 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     return byte;
 }
 
-static void undump_pcr(via_context_t *via_context, BYTE byte)
+static void undump_pcr(via_context_t *via_context, uint8_t byte)
 {
     drivevia2_context_t *via2p;
 
@@ -355,19 +355,19 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
     via2d_update_pcr(byte, via2p->drive);
 }
 
-static void undump_acr(via_context_t *via_context, BYTE byte)
+static void undump_acr(via_context_t *via_context, uint8_t byte)
 {
 }
 
-static void store_acr(via_context_t *via_context, BYTE byte)
+static void store_acr(via_context_t *via_context, uint8_t byte)
 {
 }
 
-static void store_sr(via_context_t *via_context, BYTE byte)
+static void store_sr(via_context_t *via_context, uint8_t byte)
 {
 }
 
-static void store_t2l(via_context_t *via_context, BYTE byte)
+static void store_t2l(via_context_t *via_context, uint8_t byte)
 {
 }
 
@@ -381,9 +381,9 @@ static void reset(via_context_t *via_context)
     drive_update_ui_status();
 }
 
-static BYTE read_pra(via_context_t *via_context, WORD addr)
+static uint8_t read_pra(via_context_t *via_context, uint16_t addr)
 {
-    BYTE byte;
+    uint8_t byte;
     drivevia2_context_t *via2p;
 
     via2p = (drivevia2_context_t *)(via_context->prv);
@@ -401,9 +401,9 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
     return byte;
 }
 
-static BYTE read_prb(via_context_t *via_context)
+static uint8_t read_prb(via_context_t *via_context)
 {
-    BYTE byte;
+    uint8_t byte;
     drivevia2_context_t *via2p;
 
     via2p = (drivevia2_context_t *)(via_context->prv);
