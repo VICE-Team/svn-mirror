@@ -35,14 +35,14 @@
    are handled within the CPU emulation.  The struct should be accessed using
    the `MOS6510_REGS_*()' macros.  */
 typedef struct mos6510_regs_s {
-    WORD pc;
-    BYTE a;
-    BYTE x;
-    BYTE y;
-    BYTE sp;
-    BYTE p;
-    BYTE n;
-    BYTE z;
+    uint16_t pc;
+    uint8_t a;
+    uint8_t x;
+    uint8_t y;
+    uint8_t sp;
+    uint8_t p;
+    uint8_t n;
+    uint8_t z;
 } mos6510_regs_t;
 
 /* These define the position of the status flags in the P (`status')

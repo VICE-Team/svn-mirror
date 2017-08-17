@@ -123,6 +123,7 @@ typedef struct drive_s {
 
     /* Current half track on which the R/W head is positioned.  */
     int current_half_track;
+
     /* last clock and new value for stepper position */
     CLOCK stepper_last_change_clk;
     int stepper_new_position;
@@ -156,10 +157,10 @@ typedef struct drive_s {
     int GCR_dirty_track;
 
     /* GCR value being written to the disk.  */
-    BYTE GCR_write_value;
+    uint8_t GCR_write_value;
 
     /* Pointer to the start of the GCR data of this track.  */
-    BYTE *GCR_track_start_ptr;
+    uint8_t *GCR_track_start_ptr;
 
     /* Size of the GCR data for the current track.  */
     unsigned int GCR_current_track_size;
@@ -187,31 +188,31 @@ typedef struct drive_s {
     CLOCK attach_detach_clk;
 
     /* Byte to read from r/w head.  */
-    BYTE GCR_read;
+    uint8_t GCR_read;
 
     /* Only used for snapshot */
     unsigned long snap_accum;
     CLOCK snap_rotation_last_clk;
     int snap_last_read_data;
-    BYTE snap_last_write_data;
+    uint8_t snap_last_write_data;
     int snap_bit_counter;
     int snap_zero_count;
     int snap_seed;
-    DWORD snap_speed_zone;
-    DWORD snap_ue7_dcba;
-    DWORD snap_ue7_counter;
-    DWORD snap_uf4_counter;
-    DWORD snap_fr_randcount;
-    DWORD snap_filter_counter;
-    DWORD snap_filter_state;
-    DWORD snap_filter_last_state;
-    DWORD snap_write_flux;
-    DWORD snap_PulseHeadPosition;
-    DWORD snap_xorShift32;
-    DWORD snap_so_delay;
-    DWORD snap_cycle_index;
-    DWORD snap_ref_advance;
-    DWORD snap_req_ref_cycles;
+    uint32_t snap_speed_zone;
+    uint32_t snap_ue7_dcba;
+    uint32_t snap_ue7_counter;
+    uint32_t snap_uf4_counter;
+    uint32_t snap_fr_randcount;
+    uint32_t snap_filter_counter;
+    uint32_t snap_filter_state;
+    uint32_t snap_filter_last_state;
+    uint32_t snap_write_flux;
+    uint32_t snap_PulseHeadPosition;
+    uint32_t snap_xorShift32;
+    uint32_t snap_so_delay;
+    uint32_t snap_cycle_index;
+    uint32_t snap_ref_advance;
+    uint32_t snap_req_ref_cycles;
 
     /* IF: requested additional R cycles */
     int req_ref_cycles;
@@ -272,13 +273,13 @@ typedef struct drive_s {
     rtc_ds1216e_t *ds1216;
 
     /* Current ROM image.  */
-    BYTE rom[DRIVE_ROM_SIZE];
+    uint8_t rom[DRIVE_ROM_SIZE];
 
     /* Current trap ROM image.  */
-    BYTE trap_rom[DRIVE_ROM_SIZE];
+    uint8_t trap_rom[DRIVE_ROM_SIZE];
 
     /* Drive RAM */
-    BYTE drive_ram[DRIVE_RAM_SIZE];
+    uint8_t drive_ram[DRIVE_RAM_SIZE];
 
     /* rotations per minute (300rpm = 30000) */
     int rpm;
@@ -321,11 +322,11 @@ extern int drive_set_disk_drive_type(unsigned int drive_type,
 
 extern void drive_set_half_track(int num, int side, drive_t *dptr);
 extern void drive_set_machine_parameter(long cycles_per_sec);
-extern void drive_set_disk_memory(BYTE *id, unsigned int track,
+extern void drive_set_disk_memory(uint8_t *id, unsigned int track,
                                   unsigned int sector,
                                   struct drive_context_s *drv);
 extern void drive_set_last_read(unsigned int track, unsigned int sector,
-                                BYTE *buffer, struct drive_context_s *drv);
+                                uint8_t *buffer, struct drive_context_s *drv);
 
 extern int drive_check_type(unsigned int drive_type, unsigned int dnr);
 extern int drive_check_extend_policy(int drive_type);
