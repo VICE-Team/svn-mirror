@@ -73,7 +73,9 @@ static log_t petdww_log = LOG_ERR;
 static int petdww_activate(void);
 static int petdww_deactivate(void);
 
+#if 0
 static void petdwwpia_init(void);
+#endif
 static void petdwwpia_reset(void);
 static void pia_reset(void);
 static void init_drawing_tables(void);
@@ -81,8 +83,10 @@ static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
 static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 static void petdww_DRAW_blank(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 
+#if 0
 static void petdwwpia_signal(int line, int edge);
 static BYTE petdwwpia_peek(WORD addr);
+#endif
 static int petdwwpia_snapshot_write_module(snapshot_t *);
 static int petdwwpia_snapshot_read_module(snapshot_t *);
 
