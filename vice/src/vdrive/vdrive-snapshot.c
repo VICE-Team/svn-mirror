@@ -55,8 +55,8 @@ int vdrive_snapshot_module_write(snapshot_t *s, int start)
         floppy = file_system_get_vdrive(i);
         if (floppy->image != NULL) {
             sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
-            m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
-                                       ((BYTE)SNAP_MINOR));
+            m = snapshot_module_create(s, snap_module_name, ((uint8_t)SNAP_MAJOR),
+                                       ((uint8_t)SNAP_MINOR));
             if (m == NULL) {
                 return -1;
             }
@@ -68,7 +68,7 @@ int vdrive_snapshot_module_write(snapshot_t *s, int start)
 
 int vdrive_snapshot_module_read(snapshot_t *s, int start)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     int i;
     snapshot_module_t *m;
     char snap_module_name[14];

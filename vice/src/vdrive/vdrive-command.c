@@ -54,15 +54,15 @@
 static log_t vdrive_command_log = LOG_ERR;
 
 static int vdrive_command_block(vdrive_t *vdrive, unsigned char command, char *buffer);
-static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
+static int vdrive_command_memory(vdrive_t *vdrive, uint8_t *buffer,
                                  unsigned int length);
 static int vdrive_command_initialize(vdrive_t *vdrive);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
-static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *dest, int length);
-static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *dest, int length);
-static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length);
-static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length);
-static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
+static int vdrive_command_chdir(vdrive_t *vdrive, uint8_t *dest, int length);
+static int vdrive_command_chpart(vdrive_t *vdrive, uint8_t *dest, int length);
+static int vdrive_command_rename(vdrive_t *vdrive, uint8_t *dest, int length);
+static int vdrive_command_scratch(vdrive_t *vdrive, uint8_t *name, int length);
+static int vdrive_command_position(vdrive_t *vdrive, uint8_t *buf,
                                    unsigned int length);
 
 #if 0
@@ -87,11 +87,11 @@ void vdrive_command_init(void)
     vdrive_command_log = log_open("VDriveCommand");
 }
 
-int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
+int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf,
                            unsigned int length)
 {
     int status = CBMDOS_IPE_INVAL;
-    BYTE *p, *minus;
+    uint8_t *p, *minus;
     char *name;
 
     if (!length) {
@@ -110,7 +110,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
     memcpy(p, buf, length);
     p[length] = 0;
 
-    minus = (BYTE *)memchr(p, '-', length);
+    minus = (uint8_t *)memchr(p, '-', length);
     name = (char *)memchr(p, ':', length);
 
 #ifdef DEBUG_DRIVE
@@ -123,7 +123,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
             break;      /* In binary commands, colons are data */
         default:
             if (name) { /* Fix name length */
-                length -= (BYTE *)name - p;
+                length -= (uint8_t *)name - p;
             }
     }
 
@@ -133,7 +133,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
                 if (!name) { /* CD_ doesn't allow a : */
                     name = (char *)(p + 1);
                 }
-                status = vdrive_command_chdir(vdrive, (BYTE *)name, length);
+                status = vdrive_command_chdir(vdrive, (uint8_t *)name, length);
             } else {
                 status = vdrive_command_copy(vdrive, (char *)name, length);
             }
@@ -146,7 +146,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
                     name = (char *)(p + 1);
                     --length;
                 }
-                status = vdrive_command_chpart(vdrive, (BYTE *)name, length);
+                status = vdrive_command_chpart(vdrive, (uint8_t *)name, length);
             }
             break;
 
@@ -156,11 +156,11 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
 #endif
 
         case 'R':       /* Rename */
-            status = vdrive_command_rename(vdrive, (BYTE *)name, length);
+            status = vdrive_command_rename(vdrive, (uint8_t *)name, length);
             break;
 
         case 'S':       /* Scratch */
-            status = vdrive_command_scratch(vdrive, (BYTE *)name, length);
+            status = vdrive_command_scratch(vdrive, (uint8_t *)name, length);
             break;
 
         case 'I':
@@ -447,9 +447,9 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
     The buffer pointer passed to the sub-functions points to the byte
     after the first argument (address) which is passed separately.
 */
-static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer, unsigned int length)
+static int vdrive_command_memory(vdrive_t *vdrive, uint8_t *buffer, unsigned int length)
 {
-    WORD addr;
+    uint16_t addr;
 
     if (length < 5) {
         return CBMDOS_IPE_SYNTAX;
@@ -485,7 +485,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     log_debug("COPY: dest= '%s', orig= '%s'.", dest, files);
 #endif
 
-    if (vdrive_iec_open(vdrive, (BYTE *)dest, (unsigned int)strlen(dest), 1, NULL)) {
+    if (vdrive_iec_open(vdrive, (uint8_t *)dest, (unsigned int)strlen(dest), 1, NULL)) {
         return CBMDOS_IPE_FILE_EXISTS;
     }
 
@@ -503,13 +503,13 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
 #ifdef DEBUG_DRIVE
         log_debug("searching for file '%s'.", name);
 #endif
-        if (vdrive_iec_open(vdrive, (BYTE *)name, (unsigned int)strlen(name), 0, NULL)) {
+        if (vdrive_iec_open(vdrive, (uint8_t *)name, (unsigned int)strlen(name), 0, NULL)) {
             vdrive_iec_close(vdrive, 1);
             return CBMDOS_IPE_NOT_FOUND;
         }
 
         do {
-            status = vdrive_iec_read(vdrive, (BYTE *)&c, 0);
+            status = vdrive_iec_read(vdrive, (uint8_t *)&c, 0);
             if (vdrive_iec_write(vdrive, c, 1)) {
                 vdrive_iec_close(vdrive, 0); /* No space on disk.  */
                 vdrive_iec_close(vdrive, 1);
@@ -524,10 +524,10 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     return CBMDOS_IPE_OK;
 }
 
-static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
+static int vdrive_command_rename(vdrive_t *vdrive, uint8_t *dest, int length)
 {
-    BYTE *src;
-    BYTE *slot;
+    uint8_t *src;
+    uint8_t *slot;
     int status = CBMDOS_IPE_OK, rc;
     cbmdos_cmd_parse_t cmd_parse_dst, cmd_parse_src;
     vdrive_dir_context_t dir;
@@ -627,10 +627,10 @@ out1:
     return status;
 }
 
-static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
+static int vdrive_command_scratch(vdrive_t *vdrive, uint8_t *name, int length)
 {
     int status, rc;
-    BYTE *slot;
+    uint8_t *slot;
     cbmdos_cmd_parse_t cmd_parse;
     vdrive_dir_context_t dir;
     int deleted_files, filetype;
@@ -681,10 +681,10 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
 /*
     CMD style subdir support (using DIR filetype)
 */
-static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
+static int vdrive_command_chdir(vdrive_t *vdrive, uint8_t *name, int length)
 {
     int status, rc;
-    BYTE *slot, buffer[256];
+    uint8_t *slot, buffer[256];
     cbmdos_cmd_parse_t cmd_parse;
     vdrive_dir_context_t dir;
 
@@ -742,11 +742,11 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
 
     FIXME: this works only for .d81
 */
-static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
+static int vdrive_command_chpart(vdrive_t *vdrive, uint8_t *name, int length)
 {
     int status, rc;
     int ts, ss, te, len;
-    BYTE *slot, buffer[256];
+    uint8_t *slot, buffer[256];
     cbmdos_cmd_parse_t cmd_parse;
     vdrive_dir_context_t dir;
 
@@ -863,7 +863,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
 {
     unsigned int t, s;
     int status, max_sector;
-    BYTE *b, oldbam[BAM_MAXSIZE];
+    uint8_t *b, oldbam[BAM_MAXSIZE];
     vdrive_dir_context_t dir;
 
     status = vdrive_command_initialize(vdrive);
@@ -958,10 +958,10 @@ int vdrive_command_validate(vdrive_t *vdrive)
  */
 int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
 {
-    BYTE tmp[256];
+    uint8_t tmp[256];
     int status;
     char *name, *comma;
-    BYTE id[2];
+    uint8_t id[2];
 
     if (!disk_name) {
         return CBMDOS_IPE_SYNTAX;
@@ -1020,7 +1020,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     return status;
 }
 
-static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
+static int vdrive_command_position(vdrive_t *vdrive, uint8_t *buf,
                                    unsigned int length)
 {
     /* Remove bits 5 & 6 from the channel number. */
@@ -1095,7 +1095,7 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
 }
 
 /* FIXME: incomplete */
-int vdrive_command_memory_write(vdrive_t *vdrive, const BYTE *buf, WORD addr, unsigned int length)
+int vdrive_command_memory_write(vdrive_t *vdrive, const uint8_t *buf, uint16_t addr, unsigned int length)
 {
     unsigned int len = buf[0];
 
@@ -1112,7 +1112,7 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const BYTE *buf, WORD addr, un
 }
 
 /* FIXME: This function doesn't need buf or length. */
-int vdrive_command_memory_exec(vdrive_t *vdrive, const BYTE *buf, WORD addr, unsigned int length)
+int vdrive_command_memory_exec(vdrive_t *vdrive, const uint8_t *buf, uint16_t addr, unsigned int length)
 {
     log_warning(vdrive_command_log, "M-E %04x (+%d) (needs TDE)", addr, length - 5);
     return CBMDOS_IPE_OK;
@@ -1121,7 +1121,7 @@ int vdrive_command_memory_exec(vdrive_t *vdrive, const BYTE *buf, WORD addr, uns
 /*
   Not a real drive, nothing to return.
 */
-int vdrive_command_memory_read(vdrive_t *vdrive, const BYTE *buf, WORD addr, unsigned int length)
+int vdrive_command_memory_read(vdrive_t *vdrive, const uint8_t *buf, uint16_t addr, unsigned int length)
 {
     unsigned int len = buf[0];
 

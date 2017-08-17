@@ -157,7 +157,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary, unsig
     unsigned int i, j, k, l, m, side, o;
     unsigned int t_new, s_new, t_super, s_super, current;
     int retval;
-    BYTE *slot = p->slot;
+    uint8_t *slot = p->slot;
 
     /* Find the total blocks this REL file uses. */
     i = slot[SLOT_NR_BLOCKS] + (slot[SLOT_NR_BLOCKS + 1] << 8);
@@ -315,7 +315,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary, unsig
         /* Check whether record is split over two sectors to determine
            the last sector of the relative file. */
         if (p->bufptr + p->slot[SLOT_RECORD_LENGTH] > 256) {
-            BYTE *tmp;
+            uint8_t *tmp;
 
             /* Commit the buffers. */
             vdrive_rel_commit(vdrive, p);
@@ -634,7 +634,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
 {
     unsigned int track, sector, side, i, j, o;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    BYTE *slot;
+    uint8_t *slot;
 
     slot = p->slot;
 
@@ -731,10 +731,10 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
 }
 
 static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
-                               cbmdos_cmd_parse_t *cmd_parse, const BYTE *name)
+                               cbmdos_cmd_parse_t *cmd_parse, const uint8_t *name)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    BYTE *slot;
+    uint8_t *slot;
 
 #ifdef DEBUG_DRIVE
     log_debug("vdrive_rel_open_new: Name (%d) '%s'",
@@ -805,7 +805,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
 }
 
 int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
-                    cbmdos_cmd_parse_t *cmd_parse, const BYTE *name)
+                    cbmdos_cmd_parse_t *cmd_parse, const uint8_t *name)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int newrelfile = 0;
@@ -1044,7 +1044,7 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
 
     /* Check to see if the next record is in the buffered sector */
     if (p->track_next == track && p->sector_next == sector) {
-        BYTE *tmp;
+        uint8_t *tmp;
 
         /* Commit the buffers. */
         vdrive_rel_commit(vdrive, p);
@@ -1150,7 +1150,7 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
     return CBMDOS_IPE_OK;
 }
 
-int vdrive_rel_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
+int vdrive_rel_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
@@ -1178,7 +1178,7 @@ int vdrive_rel_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
             /* Check to see if the next record is in the buffered sector */
             if (p->track_next == track && p->sector_next == sector) {
                 /* Swap the two buffers */
-                BYTE *tmp;
+                uint8_t *tmp;
                 tmp = p->buffer;
                 p->buffer = p->buffer_next;
                 p->buffer_next = tmp;
@@ -1292,7 +1292,7 @@ int vdrive_rel_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
     return SERIAL_OK;
 }
 
-int vdrive_rel_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
+int vdrive_rel_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
@@ -1326,7 +1326,7 @@ int vdrive_rel_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
             /* Check to see if the next record is in the buffered sector */
             if (p->track_next == track && p->sector_next == sector) {
                 /* Swap the two buffers */
-                BYTE *tmp;
+                uint8_t *tmp;
                 tmp = p->buffer;
                 p->buffer = p->buffer_next;
                 p->buffer_next = tmp;
