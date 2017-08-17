@@ -76,7 +76,7 @@ static void setfreq(uint8_t buf)
         if (sidhandle[i] != INVALID_HANDLE_VALUE) {
             uint32_t w;
 
-            DeviceIoControl(sidhandle[i], SID_SET_CLOCK, &buf, sizeof(buf), 0L, 0UL, &w, 0L);
+            DeviceIoControl(sidhandle[i], SID_SET_CLOCK, &buf, sizeof(buf), 0L, 0UL, (LPDWORD)&w, 0L);
         }
     }
 }
@@ -94,7 +94,7 @@ static void mutethem(void)
     }
     for (i = 0; i < CW_MAXCARDS; i++) {
         if (sidhandle[i] != INVALID_HANDLE_VALUE) {
-            DeviceIoControl(sidhandle[i], SID_SID_PEEK_POKE, buf, sizeof(buf), 0L, 0UL, &w, 0L);
+            DeviceIoControl(sidhandle[i], SID_SID_PEEK_POKE, buf, sizeof(buf), 0L, 0UL, (LPDWORD)&w, 0L);
         }
     }
 }
@@ -189,7 +189,7 @@ int cw_dll_read(uint16_t addr, int chipno)
 
             buf[0] = SID_CMD_READ;
             buf[1] = (uint8_t)(addr & 0xff);
-            DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, 2, buf, 1, &w, 0L);
+            DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, 2, buf, 1, (LPDWORD)&w, 0L);
             return buf[0];
         }
     }
@@ -212,7 +212,7 @@ void cw_dll_store(uint16_t addr, uint8_t val, int chipno)
 
                 buf[0] = (uint8_t)(addr & 0xff);
                 buf[1] = val;
-                DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, sizeof(buf), 0L, 0UL, &w, 0L);
+                DeviceIoControl(sidhandle[chipno], SID_SID_PEEK_POKE, buf, sizeof(buf), 0L, 0UL, (LPDWORD)&w, 0L);
             }
             return;
         }
