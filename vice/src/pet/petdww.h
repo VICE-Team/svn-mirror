@@ -72,7 +72,7 @@ extern int petdwwpia_dump(void);
 extern BYTE *petdww_crtc_get_active_bitmap(void);
 
 /* XXX: these unused functions caused warnings due to macro magic, I've made
- *      that public for now to get rid of the warnings. If someone has a better
+ *      them public for now to get rid of the warnings. If someone has a better
  *      approach, I'd be glad to hear/see it    -- compyx, 2017-08-17
  */
 extern BYTE petdwwpia_peek(WORD addr);
