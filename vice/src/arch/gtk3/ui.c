@@ -42,6 +42,7 @@
 #include "translate.h"
 #include "uiaccelerators.h"
 #include "uiapi.h"
+#include "uistatusbar.h"
 #include "util.h"
 #include "videoarch.h"
 
@@ -438,6 +439,7 @@ char *ui_get_file(const char *format, ...)
 int ui_init(int *argc, char **argv)
 {
     gtk_init(argc, &argv);
+    ui_statusbar_init();
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

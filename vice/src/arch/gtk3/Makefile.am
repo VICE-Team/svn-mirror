@@ -79,4 +79,5 @@ EXTRA_DIST = \
 	types.h \
 	ui.h \
 	uiaccelerators.h \
+	uistatusbar.h \
 	videoarch.h
