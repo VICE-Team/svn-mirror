@@ -94,7 +94,7 @@ void fileio_close(fileio_info_t *info)
     }
 }
 
-unsigned int fileio_read(fileio_info_t *info, BYTE *buf, unsigned int len)
+unsigned int fileio_read(fileio_info_t *info, uint8_t *buf, unsigned int len)
 {
     switch (info->format) {
         case FILEIO_FORMAT_RAW:
@@ -106,7 +106,7 @@ unsigned int fileio_read(fileio_info_t *info, BYTE *buf, unsigned int len)
     return 0;
 }
 
-unsigned int fileio_write(fileio_info_t *info, BYTE *buf, unsigned int len)
+unsigned int fileio_write(fileio_info_t *info, uint8_t *buf, unsigned int len)
 {
     switch (info->format) {
         case FILEIO_FORMAT_RAW:

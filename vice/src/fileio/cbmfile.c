@@ -42,7 +42,7 @@
 static char *cbmfile_find_file(const char *fsname, const char *path)
 {
     struct ioutil_dir_s *ioutil_dir;
-    BYTE *name1, *name2;
+    uint8_t *name1, *name2;
     char *name, *retname = NULL;
     const char *open_path;
 
@@ -88,7 +88,7 @@ static char *cbmfile_find_file(const char *fsname, const char *path)
 fileio_info_t *cbmfile_open(const char *file_name, const char *path,
                             unsigned int command, unsigned int type)
 {
-    BYTE *cbm_name;
+    uint8_t *cbm_name;
     fileio_info_t *info;
     struct rawfile_info_s *rawfile;
     char *fsname, *rname;
@@ -96,7 +96,7 @@ fileio_info_t *cbmfile_open(const char *file_name, const char *path,
     fsname = lib_stralloc(file_name);
 
     if (!(command & FILEIO_COMMAND_FSNAME)) {
-        charset_petconvstring((BYTE *)fsname, 1);
+        charset_petconvstring((uint8_t *)fsname, 1);
     }
 
     if (cbmdos_parse_wildcard_check(fsname, (unsigned int)strlen(fsname))) {
@@ -117,7 +117,7 @@ fileio_info_t *cbmfile_open(const char *file_name, const char *path,
         return NULL;
     }
 
-    cbm_name = (BYTE *)lib_stralloc(file_name);
+    cbm_name = (uint8_t *)lib_stralloc(file_name);
 
     if (command & FILEIO_COMMAND_FSNAME) {
         charset_petconvstring(cbm_name, 0);
@@ -138,12 +138,12 @@ void cbmfile_close(fileio_info_t *info)
     rawfile_destroy(info->rawfile);
 }
 
-unsigned int cbmfile_read(fileio_info_t *info, BYTE *buf, unsigned int len)
+unsigned int cbmfile_read(fileio_info_t *info, uint8_t *buf, unsigned int len)
 {
     return rawfile_read(info->rawfile, buf, len);
 }
 
-unsigned int cbmfile_write(fileio_info_t *info, BYTE *buf, unsigned int len)
+unsigned int cbmfile_write(fileio_info_t *info, uint8_t *buf, unsigned int len)
 {
     return rawfile_write(info->rawfile, buf, len);
 }
@@ -162,8 +162,8 @@ unsigned int cbmfile_rename(const char *src_name, const char *dst_name,
     src_cbm = lib_stralloc(src_name);
     dst_cbm = lib_stralloc(dst_name);
 
-    charset_petconvstring((BYTE *)src_cbm, 1);
-    charset_petconvstring((BYTE *)dst_cbm, 1);
+    charset_petconvstring((uint8_t *)src_cbm, 1);
+    charset_petconvstring((uint8_t *)dst_cbm, 1);
 
     rc = rawfile_rename(src_cbm, dst_cbm, path);
 
@@ -179,7 +179,7 @@ unsigned int cbmfile_scratch(const char *file_name, const char *path)
     unsigned int rc;
 
     src_cbm = lib_stralloc(file_name);
-    charset_petconvstring((BYTE *)src_cbm, 1);
+    charset_petconvstring((uint8_t *)src_cbm, 1);
 
     rc = rawfile_remove(src_cbm, path);
 
