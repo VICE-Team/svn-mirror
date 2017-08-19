@@ -116,8 +116,8 @@ void image_contents_screencode_destroy(image_contents_screencode_t *c)
 image_contents_screencode_t *image_contents_to_screencode(image_contents_t
                                                           *contents)
 {
-    BYTE *buf;
-    BYTE rawline[64];   /* FIXME: shouldn't be an integer literal */
+    uint8_t *buf;
+    uint8_t rawline[64];   /* FIXME: shouldn't be an integer literal */
     unsigned int len, i;
     image_contents_screencode_t *image_contents_screencode, *screencode_ptr;
     image_contents_file_list_t *p;
@@ -139,7 +139,7 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
      */
 #ifndef __OS2__
     if (contents->file_list == NULL) {
-        charset_petcii_to_screencode_line((BYTE *)"(eMPTY IMAGE.)", &buf, &len);
+        charset_petcii_to_screencode_line((uint8_t *)"(eMPTY IMAGE.)", &buf, &len);
         screencode_ptr->next = lib_malloc(sizeof(image_contents_screencode_t));
         screencode_ptr = screencode_ptr->next;
 
@@ -200,12 +200,12 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
  */
 char *image_contents_to_string(image_contents_t * contents, char out_charset)
 {
-    BYTE *str = (BYTE *)lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
+    uint8_t *str = (uint8_t *)lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
 
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
         return (char *)str;
     } else {
-        BYTE *conv_str = charset_petconv_stralloc(str, out_charset);
+        uint8_t *conv_str = charset_petconv_stralloc(str, out_charset);
         lib_free(str);
         return (char *)conv_str;
     }
@@ -267,7 +267,7 @@ char *image_contents_filename_to_string(image_contents_file_list_t * p,
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
         return lib_stralloc(print_name);
     } else {
-        return (char *)charset_petconv_stralloc((BYTE *)print_name, out_charset);
+        return (char *)charset_petconv_stralloc((uint8_t *)print_name, out_charset);
     }
 }
 
@@ -303,15 +303,15 @@ char *image_contents_file_to_string(image_contents_file_list_t *p,
                                     char out_charset)
 {
     char *print_name;
-    BYTE *str;
+    uint8_t *str;
 
     print_name = image_contents_get_filename(p);
-    str = (BYTE *)lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
+    str = (uint8_t *)lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
 
     if (out_charset == IMAGE_CONTENTS_STRING_PETSCII) {
         return (char *)str;
     } else {
-        BYTE *conv_str = charset_petconv_stralloc(str, out_charset);
+        uint8_t *conv_str = charset_petconv_stralloc(str, out_charset);
         lib_free(str);
         return (char *)conv_str;
     }
