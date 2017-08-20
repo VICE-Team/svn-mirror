@@ -46,8 +46,8 @@
 /** \brief  Object containing a directory listing entry
  */
 struct image_contents_file_list_s {
-    BYTE name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];    /**< PETSCII file name */
-    BYTE type[IMAGE_CONTENTS_TYPE_LEN + 1];         /**< PETSCII file type and
+    uint8_t name[IMAGE_CONTENTS_FILE_NAME_LEN + 1];    /**< PETSCII file name */
+    uint8_t type[IMAGE_CONTENTS_TYPE_LEN + 1];         /**< PETSCII file type and
                                                          'flags' */
 
     unsigned int size;  /**< size of the file */
@@ -63,8 +63,8 @@ typedef struct image_contents_file_list_s image_contents_file_list_t;
  * and a list of directory entries
  */
 struct image_contents_s {
-    BYTE name[IMAGE_CONTENTS_NAME_T64_LEN + 1]; /**< disk/tape name in PETSCII */
-    BYTE id[IMAGE_CONTENTS_ID_LEN + 1];         /**< disk ID */
+    uint8_t name[IMAGE_CONTENTS_NAME_T64_LEN + 1]; /**< disk/tape name in PETSCII */
+    uint8_t id[IMAGE_CONTENTS_ID_LEN + 1];         /**< disk ID */
     int blocks_free;   /**< blocks free: -1: No free space information.  */
     image_contents_file_list_t *file_list;  /**< list of directory entries */
 };
@@ -74,7 +74,7 @@ typedef image_contents_t *(*read_contents_func_type)(const char *);
 /** \brief  Screencode object for displaying directory entries
  */
 struct image_contents_screencode_s {
-    BYTE *line; /**< screencode data */
+    uint8_t *line; /**< screencode data */
     unsigned int length;    /**< length of the line */
     struct image_contents_screencode_s *next;   /**< pointer to next node */
 };

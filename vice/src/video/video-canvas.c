@@ -86,7 +86,7 @@ void video_canvas_shutdown(video_canvas_t *canvas)
     }
 }
 
-void video_canvas_render(video_canvas_t *canvas, BYTE *trg, int width,
+void video_canvas_render(video_canvas_t *canvas, uint8_t *trg, int width,
                          int height, int xs, int ys, int xt, int yt,
                          int pitcht, int depth)
 {

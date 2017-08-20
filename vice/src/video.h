@@ -59,7 +59,7 @@ struct geometry_s;
 struct palette_s;
 
 struct canvas_refresh_s {
-    BYTE *draw_buffer;
+    uint8_t *draw_buffer;
     int draw_buffer_line_size;
 #ifdef __OS2__
     int bufh;
@@ -71,7 +71,7 @@ typedef struct canvas_refresh_s canvas_refresh_t;
 
 struct draw_buffer_s {
     /* The memory buffer where the screen of the emulated machine is drawn. Palettized, 1 byte per pixel */
-    BYTE *draw_buffer;
+    uint8_t *draw_buffer;
     /* Width of draw_buffer in pixels */
     unsigned int draw_buffer_width;
     /* Height of draw_buffer in pixels. Typically same as geometry->screen_size.height */
@@ -137,24 +137,24 @@ typedef struct video_chip_cap_s video_chip_cap_t;
 
 struct video_render_color_tables_s {
     int updated;                /* tables here are up to date */
-    DWORD physical_colors[256];
-    SDWORD ytableh[256];        /* y for current pixel */
-    SDWORD ytablel[256];        /* y for neighbouring pixels */
-    SDWORD cbtable[256];        /* b component */
-    SDWORD cbtable_odd[256];    /* b component + phase shift */
-    SDWORD crtable[256];        /* r component */
-    SDWORD crtable_odd[256];    /* r component + phase shift */
-    SDWORD cutable[256];        /* u component */
-    SDWORD cutable_odd[256];    /* u component + phase shift */
-    SDWORD cvtable[256];        /* v component */
-    SDWORD cvtable_odd[256];    /* v component + phase shift */
+    uint32_t physical_colors[256];
+    int32_t ytableh[256];        /* y for current pixel */
+    int32_t ytablel[256];        /* y for neighbouring pixels */
+    int32_t cbtable[256];        /* b component */
+    int32_t cbtable_odd[256];    /* b component + phase shift */
+    int32_t crtable[256];        /* r component */
+    int32_t crtable_odd[256];    /* r component + phase shift */
+    int32_t cutable[256];        /* u component */
+    int32_t cutable_odd[256];    /* u component + phase shift */
+    int32_t cvtable[256];        /* v component */
+    int32_t cvtable_odd[256];    /* v component + phase shift */
 
     /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
     int yuv_updated;            /* yuv table updated for packed mode */
-    DWORD yuv_table[512];
-    SDWORD line_yuv_0[VIDEO_MAX_OUTPUT_WIDTH * 3];
-    SWORD prevrgbline[VIDEO_MAX_OUTPUT_WIDTH * 3];
-    BYTE rgbscratchbuffer[VIDEO_MAX_OUTPUT_WIDTH * 4];
+    uint32_t yuv_table[512];
+    int32_t line_yuv_0[VIDEO_MAX_OUTPUT_WIDTH * 3];
+    int16_t prevrgbline[VIDEO_MAX_OUTPUT_WIDTH * 3];
+    uint8_t rgbscratchbuffer[VIDEO_MAX_OUTPUT_WIDTH * 4];
 };
 typedef struct video_render_color_tables_s video_render_color_tables_t;
 
@@ -206,10 +206,10 @@ typedef struct video_render_config_s video_render_config_t;
 
 extern void video_render_initconfig(video_render_config_t *config);
 extern void video_render_setphysicalcolor(video_render_config_t *config,
-                                          int index, DWORD color, int depth);
-extern void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g,
-                                   DWORD b);
-extern void video_render_setrawalpha(DWORD a);
+                                          int index, uint32_t color, int depth);
+extern void video_render_setrawrgb(unsigned int index, uint32_t r, uint32_t g,
+                                   uint32_t b);
+extern void video_render_setrawalpha(uint32_t a);
 extern void video_render_initraw(struct video_render_config_s *videoconfig);
 
 /**************************************************************/
@@ -239,7 +239,7 @@ extern void video_canvas_destroy(struct video_canvas_s *canvas);
 extern void video_canvas_map(struct video_canvas_s *canvas);
 extern void video_canvas_unmap(struct video_canvas_s *canvas);
 extern void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas);
-extern void video_canvas_render(struct video_canvas_s *canvas, BYTE *trg,
+extern void video_canvas_render(struct video_canvas_s *canvas, uint8_t *trg,
                                 int width, int height, int xs, int ys,
                                 int xt, int yt, int pitcht, int depth);
 extern void video_canvas_refresh_all(struct video_canvas_s *canvas);
@@ -253,12 +253,12 @@ extern void video_viewport_title_set(struct video_canvas_s *canvas,
 extern void video_viewport_title_free(struct viewport_s *viewport);
 
 typedef struct video_draw_buffer_callback_s {
-    int (*draw_buffer_alloc)(struct video_canvas_s *canvas, BYTE **draw_buffer,
+    int (*draw_buffer_alloc)(struct video_canvas_s *canvas, uint8_t **draw_buffer,
                              unsigned int fb_width, unsigned int fb_height,
                              unsigned int *fb_pitch);
-    void (*draw_buffer_free)(struct video_canvas_s *canvas, BYTE *draw_buffer);
-    void (*draw_buffer_clear)(struct video_canvas_s *canvas, BYTE *draw_buffer,
-                              BYTE value, unsigned int fb_width,
+    void (*draw_buffer_free)(struct video_canvas_s *canvas, uint8_t *draw_buffer);
+    void (*draw_buffer_clear)(struct video_canvas_s *canvas, uint8_t *draw_buffer,
+                              uint8_t value, unsigned int fb_width,
                               unsigned int fb_height, unsigned int fb_pitch);
 } video_draw_buffer_callback_t;
 

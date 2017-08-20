@@ -37,7 +37,7 @@ typedef struct {
     int num_planes;
     int *pitches;               /* bytes */
     int *offsets;               /* bytes */
-    BYTE *data;
+    uint8_t *data;
 } image_t;
 
 /* A FOURCC consists of four bytes that can be interpreted either as

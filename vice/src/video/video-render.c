@@ -44,25 +44,25 @@
 #include "video-sound.h"
 #include "video.h"
 
-static void (*render_1x2_func)(video_render_config_t *, const BYTE *, BYTE *,
+static void (*render_1x2_func)(video_render_config_t *, const uint8_t *, uint8_t *,
                                unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                int);
 
-static void (*render_2x2_func)(video_render_config_t *, const BYTE *, BYTE *,
+static void (*render_2x2_func)(video_render_config_t *, const uint8_t *, uint8_t *,
                                unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                const unsigned int, const unsigned int,
                                int);
 
-static void (*render_pal_func)(video_render_config_t *, BYTE *, BYTE *,
+static void (*render_pal_func)(video_render_config_t *, uint8_t *, uint8_t *,
                                int, int, int, int,
                                int, int, int, int, int, viewport_t *);
 
-static void (*render_crt_func)(video_render_config_t *, BYTE *, BYTE *,
+static void (*render_crt_func)(video_render_config_t *, uint8_t *, uint8_t *,
                                int, int, int, int,
                                int, int, int, int, int, viewport_t *);
 
@@ -80,7 +80,7 @@ void video_render_initconfig(video_render_config_t *config)
 
 /* called from archdep code */
 void video_render_setphysicalcolor(video_render_config_t *config, int index,
-                                   DWORD color, int depth)
+                                   uint32_t color, int depth)
 {
     /* duplicated colours are used by the double size 8/16 bpp renderers. */
     switch (depth) {
@@ -98,7 +98,7 @@ void video_render_setphysicalcolor(video_render_config_t *config, int index,
 
 static int rendermode_error = -1;
 
-void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
+void video_render_main(video_render_config_t *config, uint8_t *src, uint8_t *trg,
                        int width, int height, int xs, int ys, int xt, int yt,
                        int pitchs, int pitcht, int depth, viewport_t *viewport)
 {
@@ -176,7 +176,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
 }
 
 void video_render_1x2func_set(void (*func)(video_render_config_t *,
-                                           const BYTE *, BYTE *,
+                                           const uint8_t *, uint8_t *,
                                            unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
@@ -187,7 +187,7 @@ void video_render_1x2func_set(void (*func)(video_render_config_t *,
 }
 
 void video_render_2x2func_set(void (*func)(video_render_config_t *,
-                                           const BYTE *, BYTE *,
+                                           const uint8_t *, uint8_t *,
                                            unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
                                            const unsigned int, const unsigned int,
@@ -198,14 +198,14 @@ void video_render_2x2func_set(void (*func)(video_render_config_t *,
 }
 
 void video_render_palfunc_set(void (*func)(video_render_config_t *,
-                                           BYTE *, BYTE *, int, int, int, int,
+                                           uint8_t *, uint8_t *, int, int, int, int,
                                            int, int, int, int, int, viewport_t *))
 {
     render_pal_func = func;
 }
 
 void video_render_crtfunc_set(void (*func)(video_render_config_t *,
-                                           BYTE *, BYTE *, int, int, int, int,
+                                           uint8_t *, uint8_t *, int, int, int, int,
                                            int, int, int, int, int, viewport_t *))
 {
     render_crt_func = func;
