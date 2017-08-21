@@ -381,16 +381,16 @@ const int vicii_sprites_crunch_table[64] =
 /* Each byte in this array is a bit mask representing the sprites that
    have a pixel turned on in that position.  This is used for sprite-sprite
    collision checking.  */
-static BYTE *sprline = NULL;
+static uint8_t *sprline = NULL;
 
 /* Sprite tables.  */
-static WORD sprite_doubling_table[256];
-static BYTE mcsprtable[256];
+static uint16_t sprite_doubling_table[256];
+static uint8_t mcsprtable[256];
 
 static void init_drawing_tables(void)
 {
     unsigned int i;
-    WORD w;
+    uint16_t w;
 
     for (w = i = 0; i <= 0xff; i++) {
         mcsprtable[i] = i | ((i & 0x55) << 1) | ((i & 0xaa) >> 1);
@@ -405,7 +405,7 @@ static void init_drawing_tables(void)
                      pos, color, collmsk_return)              \
     do {                                                      \
         if ((do_draw) && (collmskptr)[(pos)] == 0) {          \
-            (imgptr)[(pos)] = (BYTE)(color); }                \
+            (imgptr)[(pos)] = (uint8_t)(color); }                \
         (collmsk_return) |= (collmskptr)[(pos)];              \
         (collmskptr)[(pos)] |= (sprite_bit);                  \
     } while (0)
@@ -414,7 +414,7 @@ static void init_drawing_tables(void)
 #define _SPRITE_MASK(msk, gfxmsk, size, sprite_bit, imgptr,      \
                      collmskptr, color, collmsk_return, DRAW)    \
     do {                                                         \
-        DWORD __m;                                               \
+        uint32_t __m;                                               \
         int __p;                                                 \
                                                                  \
         for (__m = 1 << ((size) - 1), __p = 0;                   \
@@ -440,16 +440,16 @@ static void init_drawing_tables(void)
 #define _MCSPRITE_MASK(mcmsk, gfxmsk, trmsk, size, sprite_bit, imgptr,   \
                        collmskptr, pixel_table, collmsk_return, DRAW)    \
     do {                                                                 \
-        DWORD __m;                                                       \
+        uint32_t __m;                                                       \
         int __p;                                                         \
                                                                          \
         for (__m = 1 << ((size) - 1), __p = 0;                           \
              __p < (size);                                               \
              __p += 2, __m >>= 2, (mcmsk) <<= 2, (trmsk) <<= 2) {        \
-            BYTE __c, __t;                                               \
+            uint8_t __c, __t;                                               \
                                                                          \
-            __c = (BYTE)(((mcmsk) >> 22) & 0x3);                         \
-            __t = (BYTE)(((trmsk) >> 22) & 0x3);                         \
+            __c = (uint8_t)(((mcmsk) >> 22) & 0x3);                         \
+            __t = (uint8_t)(((trmsk) >> 22) & 0x3);                         \
                                                                          \
             if (__c) {                                                   \
                 if (__t & 2) {                                           \
@@ -487,16 +487,16 @@ static void init_drawing_tables(void)
                               imgptr, collmskptr, pixel_table,        \
                               collmsk_return, DRAW)                   \
     do {                                                              \
-        DWORD __m;                                                    \
+        uint32_t __m;                                                    \
         int __p, __i;                                                 \
                                                                       \
         for (__m = 1U << ((size) - 1), __p = 0; __p < (size);         \
              __p += 4, (mcmsk) <<= 2, (trmsk) <<= 4) {                \
-            BYTE __c;                                                 \
-            BYTE __t;                                                 \
+            uint8_t __c;                                                 \
+            uint8_t __t;                                                 \
                                                                       \
-            __c = (BYTE)(((mcmsk) >> 22) & 0x3);                      \
-            __t = (BYTE)(((trmsk) >> (size - 4)) & 0xf);              \
+            __c = (uint8_t)(((mcmsk) >> 22) & 0x3);                      \
+            __t = (uint8_t)(((trmsk) >> (size - 4)) & 0xf);              \
                                                                       \
             for (__i = 0; __i < 4; __i++, __m >>= 1, __t <<= 1) {     \
                 if (__c && (__t & 0x8)) {                             \
@@ -538,22 +538,22 @@ static void init_drawing_tables(void)
     } while (0)
 
 
-inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
-                                              BYTE *msk_ptr, BYTE *ptr,
-                                              int lshift, BYTE *sptr,
+inline static void draw_hires_sprite_expanded(uint8_t *data_ptr, int n,
+                                              uint8_t *msk_ptr, uint8_t *ptr,
+                                              int lshift, uint8_t *sptr,
                                               raster_sprite_status_t *sprite_status,
                                               int sprite_xs, int sprite_xe)
 {
-    DWORD sprmsk, collmsk;
-    DWORD trimmsk;
-    WORD sbit = 0x101 << n;
-    WORD cmsk = 0;
+    uint32_t sprmsk, collmsk;
+    uint32_t trimmsk;
+    uint16_t sbit = 0x101 << n;
+    uint16_t cmsk = 0;
 
     int size = 48;
     int size1 = 32;
     int rest_of_repeat = 0;
     int must_repeat_pixels = 0;
-    DWORD repeat_pixel = 0;
+    uint32_t repeat_pixel = 0;
     int i;
     int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
                             % vicii.sprite_wrap_x;
@@ -654,20 +654,20 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
     }
 }
 
-inline static void draw_hires_sprite_normal(BYTE *data_ptr, int n,
-                                            BYTE *msk_ptr, BYTE *ptr,
-                                            int lshift, BYTE *sptr,
+inline static void draw_hires_sprite_normal(uint8_t *data_ptr, int n,
+                                            uint8_t *msk_ptr, uint8_t *ptr,
+                                            int lshift, uint8_t *sptr,
                                             raster_sprite_status_t *sprite_status,
                                             int sprite_xs, int sprite_xe)
 {
-    DWORD sprmsk, collmsk;
-    DWORD trimmsk;
-    BYTE sbit = 1 << n;
-    BYTE cmsk = 0;
+    uint32_t sprmsk, collmsk;
+    uint32_t trimmsk;
+    uint8_t sbit = 1 << n;
+    uint8_t cmsk = 0;
 
     int size = 24;
     int must_repeat_pixels = 0;
-    DWORD repeat_pixel;
+    uint32_t repeat_pixel;
     int i;
     int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
                             % vicii.sprite_wrap_x;
@@ -721,9 +721,9 @@ inline static void draw_hires_sprite_normal(BYTE *data_ptr, int n,
 
 
 /* Draw one hires sprite.  */
-inline static void draw_hires_sprite(BYTE *gfx_msk_ptr, BYTE *data_ptr, int n,
-                                     BYTE *msk_ptr, BYTE *ptr,
-                                     int lshift, BYTE *sptr,
+inline static void draw_hires_sprite(uint8_t *gfx_msk_ptr, uint8_t *data_ptr, int n,
+                                     uint8_t *msk_ptr, uint8_t *ptr,
+                                     int lshift, uint8_t *sptr,
                                      raster_sprite_status_t *sprite_status,
                                      int sprite_xs, int sprite_xe)
 {
@@ -736,23 +736,23 @@ inline static void draw_hires_sprite(BYTE *gfx_msk_ptr, BYTE *data_ptr, int n,
     }
 }
 
-inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
-                                           BYTE *msk_ptr, BYTE *ptr,
-                                           int lshift, BYTE *sptr,
+inline static void draw_mc_sprite_expanded(uint8_t *data_ptr, int n, uint32_t *c,
+                                           uint8_t *msk_ptr, uint8_t *ptr,
+                                           int lshift, uint8_t *sptr,
                                            raster_sprite_status_t *sprite_status,
                                            int sprite_xs, int sprite_xe)
 {
-    DWORD mcsprmsk, sprmsk, collmsk;
-    DWORD trimmsk;
-    DWORD repeat_pixel = 0;
+    uint32_t mcsprmsk, sprmsk, collmsk;
+    uint32_t trimmsk;
+    uint32_t repeat_pixel = 0;
     int size = 0;
     int must_repeat_pixels = 0;
     int size_is_odd = 0;    /* which means size%4==1 in this case */
     int repeat_offset = 0;
     int shift_sprmsk;
     int delayed_shift, delayed_load;
-    BYTE cmsk = 0, sbit = 1 << n;
-    BYTE data0, data1;
+    uint8_t cmsk = 0, sbit = 1 << n;
+    uint8_t data0, data1;
     int trim_size;
     int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
                             % vicii.sprite_wrap_x;
@@ -854,8 +854,8 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
 
     if (must_repeat_pixels) {
         /* display the repeated pixel via HIRES sprite functions */
-        DWORD repeat_color;
-        DWORD special_sprmsk = 0;
+        uint32_t repeat_color;
+        uint32_t special_sprmsk = 0;
         int i;
 
         if (size_is_odd) {
@@ -895,22 +895,22 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     }
 }
 
-inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
-                                         BYTE *msk_ptr, BYTE *ptr,
-                                         int lshift, BYTE *sptr,
+inline static void draw_mc_sprite_normal(uint8_t *data_ptr, int n, uint32_t *c,
+                                         uint8_t *msk_ptr, uint8_t *ptr,
+                                         int lshift, uint8_t *sptr,
                                          raster_sprite_status_t *sprite_status,
                                          int sprite_xs, int sprite_xe)
 {
-    DWORD mcsprmsk, sprmsk, collmsk;
-    DWORD trimmsk;
-    DWORD repeat_pixel = 0;
+    uint32_t mcsprmsk, sprmsk, collmsk;
+    uint32_t trimmsk;
+    uint32_t repeat_pixel = 0;
     int size = 0;
     int size_is_odd = 0;
     int must_repeat_pixels = 0;
-    BYTE cmsk = 0, sbit = 1 << n;
+    uint8_t cmsk = 0, sbit = 1 << n;
     int i;
     int delayed_shift;
-    BYTE data0, data1, data2;
+    uint8_t data0, data1, data2;
     int trim_size;
     int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
                             % vicii.sprite_wrap_x;
@@ -972,8 +972,8 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
 
     if (must_repeat_pixels) {
         /* display the repeated pixel via HIRES sprite functions */
-        DWORD repeat_color;
-        DWORD special_sprmsk = 0;
+        uint32_t repeat_color;
+        uint32_t special_sprmsk = 0;
 
         if (size_is_odd) {
             repeat_pixel = (repeat_pixel & 1) << 1;
@@ -1007,13 +1007,13 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
 
 
 /* Draw one multicolor sprite.  */
-inline static void draw_mc_sprite(BYTE *gfx_msk_ptr, BYTE *data_ptr, int n,
-                                  BYTE *msk_ptr, BYTE *ptr, int lshift,
-                                  BYTE *sptr,
+inline static void draw_mc_sprite(uint8_t *gfx_msk_ptr, uint8_t *data_ptr, int n,
+                                  uint8_t *msk_ptr, uint8_t *ptr, int lshift,
+                                  uint8_t *sptr,
                                   raster_sprite_status_t *sprite_status,
                                   int sprite_xs, int sprite_xe)
 {
-    DWORD c[4];
+    uint32_t c[4];
 
     c[1] = sprite_status->mc_sprite_color_1;
     c[2] = sprite_status->sprites[n].color;
@@ -1028,7 +1028,7 @@ inline static void draw_mc_sprite(BYTE *gfx_msk_ptr, BYTE *data_ptr, int n,
     }
 }
 
-static inline void calculate_idle_sprite_data(BYTE *data, unsigned int n)
+static inline void calculate_idle_sprite_data(uint8_t *data, unsigned int n)
 {
     unsigned int i, line, cycle, idle_cycle;
 
@@ -1063,23 +1063,23 @@ static inline void calculate_idle_sprite_data(BYTE *data, unsigned int n)
 }
 
 
-static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
+static void draw_sprite_partial(uint8_t *line_ptr, uint8_t *gfx_msk_ptr,
                                 int sprite_xs, int sprite_xe,
                                 raster_sprite_status_t *sprite_status,
                                 int n, int sprite_offset)
 {
-    BYTE *data_ptr = NULL;
+    uint8_t *data_ptr = NULL;
 
     if (sprite_status->dma_msk & (1 << n)
         && sprite_offset < SPRITE_DISPLAY_PREVIOUS_PATTERN) {
         /* display sprite data fetched in the previous line */
-        data_ptr = (BYTE *)(sprite_status->sprite_data + n);
+        data_ptr = (uint8_t *)(sprite_status->sprite_data + n);
     } else {
         if (sprite_status->new_dma_msk & (1 << n)) {
             if (sprite_offset >= SPRITE_DISPLAY_PREVIOUS_PATTERN) {
                 /* sprite display starts immediately
                    without sprite data fetched */
-                data_ptr = (BYTE *)(sprite_status->sprite_data + n);
+                data_ptr = (uint8_t *)(sprite_status->sprite_data + n);
                 if ((sprite_status->dma_msk & (1 << n)) == 0) {
                     calculate_idle_sprite_data(data_ptr, n);
                 }
@@ -1088,13 +1088,13 @@ static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
             if (sprite_offset > SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(n)) {
                 /* Sprite starts immediately with data already
                    fetched */
-                data_ptr = (BYTE *)(sprite_status->new_sprite_data + n);
+                data_ptr = (uint8_t *)(sprite_status->new_sprite_data + n);
             }
         }
     }
 
     if (data_ptr != NULL) {
-        BYTE *msk_ptr, *ptr, *sptr;
+        uint8_t *msk_ptr, *ptr, *sptr;
         int lshift;
 
         msk_ptr = gfx_msk_ptr
@@ -1120,7 +1120,7 @@ static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
     draw sprites for part of a scanline. make sure not to draw outside the
     actually visible part of the line, see note below.
 */
-static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
+static void draw_all_sprites_partial(uint8_t *line_ptr, uint8_t *gfx_msk_ptr,
                                      int xs, int xe)
 {
     raster_sprite_status_t *sprite_status;
@@ -1180,7 +1180,7 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
     excessive pixels will show up as artefacts in renderers which rely on the
     offscreen area properly being updated (such as Scale2x and CRT emulation).
  */
-static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
+static void draw_all_sprites(uint8_t *line_ptr, uint8_t *gfx_msk_ptr)
 {
 /*
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr,

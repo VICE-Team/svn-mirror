@@ -89,7 +89,7 @@
 #include "viewport.h"
 
 
-void vicii_set_phi1_addr_options(WORD mask, WORD offset)
+void vicii_set_phi1_addr_options(uint16_t mask, uint16_t offset)
 {
     vicii.vaddr_mask_phi1 = mask;
     vicii.vaddr_offset_phi1 = offset;
@@ -98,7 +98,7 @@ void vicii_set_phi1_addr_options(WORD mask, WORD offset)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_phi2_addr_options(WORD mask, WORD offset)
+void vicii_set_phi2_addr_options(uint16_t mask, uint16_t offset)
 {
     vicii.vaddr_mask_phi2 = mask;
     vicii.vaddr_offset_phi2 = offset;
@@ -107,7 +107,7 @@ void vicii_set_phi2_addr_options(WORD mask, WORD offset)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value)
+void vicii_set_phi1_chargen_addr_options(uint16_t mask, uint16_t value)
 {
     vicii.vaddr_chargen_mask_phi1 = mask;
     vicii.vaddr_chargen_value_phi1 = value;
@@ -116,7 +116,7 @@ void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value)
+void vicii_set_phi2_chargen_addr_options(uint16_t mask, uint16_t value)
 {
     vicii.vaddr_chargen_mask_phi2 = mask;
     vicii.vaddr_chargen_value_phi2 = value;
@@ -125,7 +125,7 @@ void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value)
     vicii_update_memory_ptrs_external();
 }
 
-void vicii_set_chargen_addr_options(WORD mask, WORD value)
+void vicii_set_chargen_addr_options(uint16_t mask, uint16_t value)
 {
     vicii.vaddr_chargen_mask_phi1 = mask;
     vicii.vaddr_chargen_value_phi1 = value;
@@ -561,7 +561,7 @@ void vicii_reset(void)
 
 void vicii_reset_registers(void)
 {
-    WORD i;
+    uint16_t i;
 
     if (!vicii.initialized) {
         return;
@@ -728,7 +728,7 @@ CLOCK vicii_lightpen_timing(int x, int y)
 }
 
 /* Change the base of RAM seen by the VIC-II.  */
-static inline void vicii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
+static inline void vicii_set_ram_bases(uint8_t *base_p1, uint8_t *base_p2)
 {
     /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
     vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -738,17 +738,17 @@ static inline void vicii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
     vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
 }
 
-void vicii_set_ram_base(BYTE *base)
+void vicii_set_ram_base(uint8_t *base)
 {
     vicii_set_ram_bases(base, base);
 }
 
-void vicii_set_phi1_ram_base(BYTE *base)
+void vicii_set_phi1_ram_base(uint8_t *base)
 {
     vicii_set_ram_bases(base, vicii.ram_base_phi2);
 }
 
-void vicii_set_phi2_ram_base(BYTE *base)
+void vicii_set_phi2_ram_base(uint8_t *base)
 {
     vicii_set_ram_bases(vicii.ram_base_phi1, base);
 }
@@ -765,14 +765,14 @@ void vicii_update_memory_ptrs_external(void)
 void vicii_update_memory_ptrs(unsigned int cycle)
 {
     /* FIXME: This is *horrible*!  */
-    static BYTE *old_screen_ptr, *old_bitmap_low_ptr, *old_bitmap_high_ptr;
-    static BYTE *old_chargen_ptr;
+    static uint8_t *old_screen_ptr, *old_bitmap_low_ptr, *old_bitmap_high_ptr;
+    static uint8_t *old_chargen_ptr;
     static int old_vbank_p1 = -1;
     static int old_vbank_p2 = -1;
-    WORD screen_addr;             /* Screen start address.  */
-    BYTE *char_base;              /* Pointer to character memory.  */
-    BYTE *bitmap_low_base;        /* Pointer to bitmap memory (low part).  */
-    BYTE *bitmap_high_base;       /* Pointer to bitmap memory (high part).  */
+    uint16_t screen_addr;             /* Screen start address.  */
+    uint8_t *char_base;              /* Pointer to character memory.  */
+    uint8_t *bitmap_low_base;        /* Pointer to bitmap memory (low part).  */
+    uint8_t *bitmap_high_base;       /* Pointer to bitmap memory (high part).  */
     int tmp, bitmap_bank;
 
     if (vicii.viciidtv) {
@@ -802,13 +802,13 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi2 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000 + (screen_addr & 0xfff)));
+            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr((uint16_t)(0x1000 + (screen_addr & 0xfff)));
         } else {
             vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
         }
 #endif
-        BYTE *ptr;
-        if ((ptr = ultimax_romh_phi2_ptr((WORD)(0x1000 + (screen_addr & 0xfff))))) {
+        uint8_t *ptr;
+        if ((ptr = ultimax_romh_phi2_ptr((uint16_t)(0x1000 + (screen_addr & 0xfff))))) {
             if ((screen_addr & 0x3fff) >= 0x3000) {
                 vicii.screen_base_phi2 = ptr;
             } else {
@@ -834,13 +834,13 @@ phi2noultimax:
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi1 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000 + (screen_addr & 0xfff)));
+            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr((uint16_t)(0x1000 + (screen_addr & 0xfff)));
         } else {
             vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
         }
 #endif
-        BYTE *ptr;
-        if ((ptr = ultimax_romh_phi1_ptr((WORD)(0x1000 + (screen_addr & 0xfff))))) {
+        uint8_t *ptr;
+        if ((ptr = ultimax_romh_phi1_ptr((uint16_t)(0x1000 + (screen_addr & 0xfff))))) {
             if ((screen_addr & 0x3fff) >= 0x3000) {
                 vicii.screen_base_phi1 = ptr;
             } else {
@@ -851,7 +851,7 @@ phi2noultimax:
         }
         if ((tmp & 0x3fff) >= 0x3000) {
             /* char_base = romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000; */
-            char_base = ultimax_romh_phi1_ptr((WORD)(0x1000 + (tmp & 0xfff)));
+            char_base = ultimax_romh_phi1_ptr((uint16_t)(0x1000 + (tmp & 0xfff)));
         } else {
             char_base = vicii.ram_base_phi1 + tmp;
         }
@@ -1204,8 +1204,8 @@ void vicii_update_video_mode(unsigned int cycle)
    of each line.  */
 void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
 {
-    BYTE prev_sprite_sprite_collisions;
-    BYTE prev_sprite_background_collisions;
+    uint8_t prev_sprite_sprite_collisions;
+    uint8_t prev_sprite_background_collisions;
     int in_visible_area;
 
     prev_sprite_sprite_collisions = vicii.sprite_sprite_collisions;
