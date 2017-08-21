@@ -93,10 +93,10 @@ struct machine_context_s;
 extern void cartridge_setup_context(struct machine_context_s *machine_context);
 
 /* generic cartridge memory peek for the monitor */
-extern BYTE cartridge_peek_mem(WORD addr);
+extern uint8_t cartridge_peek_mem(uint16_t addr);
 
 /* mmu translation */
-extern void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
+extern void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
 
 /* Initialize RAM for power-up.  */
 extern void cartridge_ram_init(void);

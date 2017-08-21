@@ -89,7 +89,7 @@ static void raster_draw_buffer_free(video_canvas_t *canvas)
     canvas->draw_buffer->draw_buffer = NULL;
 }
 
-static void raster_draw_buffer_clear(video_canvas_t *canvas, BYTE value,
+static void raster_draw_buffer_clear(video_canvas_t *canvas, uint8_t value,
                                      unsigned int fb_width,
                                      unsigned int fb_height,
                                      unsigned int fb_pitch)
