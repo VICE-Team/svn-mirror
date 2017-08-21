@@ -125,9 +125,9 @@ static inline void check_sprite_dma(void)
     }
 }
 
-static inline BYTE cycle_phi1_fetch(unsigned int cycle_flags)
+static inline uint8_t cycle_phi1_fetch(unsigned int cycle_flags)
 {
-    BYTE data;
+    uint8_t data;
     int s;
 
     if (cycle_is_fetch_g(cycle_flags)) {
