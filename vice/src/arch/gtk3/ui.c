@@ -130,8 +130,7 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     grid = gtk_grid_new();
     new_drawing_area = gtk_drawing_area_new();
-    /* temporary hack */
-    status_bar = gtk_label_new(NULL);
+    status_bar = ui_statusbar_create();
 
     canvas->drawing_area = new_drawing_area;
 
@@ -512,6 +511,7 @@ void ui_resources_shutdown(void)
 
 void ui_shutdown(void)
 {
+    ui_statusbar_shutdown();
 }
 
 void ui_update_menus(void)

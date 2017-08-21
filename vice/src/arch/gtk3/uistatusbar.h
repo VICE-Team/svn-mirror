@@ -31,6 +31,8 @@
 #include <gtk/gtk.h>
 
 void ui_statusbar_init(void);
+void ui_statusbar_shutdown(void);
+
 GtkWidget *ui_statusbar_create(void);
 
 #endif

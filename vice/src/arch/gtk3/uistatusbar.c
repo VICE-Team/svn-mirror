@@ -31,6 +31,7 @@
 
 #include "not_implemented.h"
 
+#include "lib.h"
 #include "types.h"
 #include "uiapi.h"
 
@@ -81,6 +82,11 @@ void ui_statusbar_init(void)
     }
 }
 
+void ui_statusbar_shutdown(void)
+{
+    /* Any universal resources we allocate get cleaned up here */
+}
+
 static GtkWidget *ui_drive_widget_create(void)
 {
     GtkWidget *grid, *number, *track, *led;
@@ -104,6 +110,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 {
     int i, j;
 
+    /* TODO: Unreference all widgets to allow collection. */
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == sb) {
             allocated_bars[i].bar = NULL;
@@ -136,7 +143,11 @@ GtkWidget *ui_statusbar_create(void)
     }
 
     /* TODO: Create a real bar */
+    /* TODO: Create all elements independently and keep them
+     *       referenced by this code, even when not part of any
+     *       immediate display. */
     sb = gtk_label_new(NULL);
+    gtk_label_set_xalign(GTK_LABEL(sb), 0.0);
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
     allocated_bars[i].msg = GTK_LABEL(sb);
@@ -167,7 +178,6 @@ void ui_display_statustext(const char *text, int fade_out)
      *       pushing graphical updates to another function and using
      *       this to set up a timer fed by the speed display */
     int i;
-
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].msg) {
             gtk_label_set_text(allocated_bars[i].msg, text);
@@ -190,6 +200,8 @@ void ui_display_volume(int vol)
 
 void ui_display_joyport(BYTE *joyport)
 {
+    /* Yes, joystick ports are 1-indexed. I don't know either. */
+    /* printf("Joysticks: %02X %02X\n", joyport[1], joyport[2]); */
     NOT_IMPLEMENTED_WARN_X_TIMES(joyport_msgs, 3);
 }
 
@@ -232,7 +244,7 @@ void ui_display_tape_current_image(const char *image)
  */
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
-    printf ("%d: [%u/%u]\n", drive_number, pwm1, led_pwm2);
+    /* printf ("%d: [%u/%u]\n", drive_number, pwm1, led_pwm2); */
     NOT_IMPLEMENTED_WARN_X_TIMES(led_msgs, 3);
 }
 
@@ -240,17 +252,31 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    printf("%u/%u: %.1lf\n", drive_base, drive_number, half_track_number / 2.0);
+    /* printf("%u/%u: %.1lf\n", drive_base, drive_number, half_track_number / 2.0); */
     NOT_IMPLEMENTED_WARN_X_TIMES(track_msgs, 3);
 }
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    int i;
+    /* 4 is based on drive/drive.h's DRIVE_NUM, but drive.h can't be
+     * included here for some reason */
+    /* TODO: Fix that */
+    /* static const char *led_types[] = { "Red", "Green/Red", "Red/Green", "Green" }; */
+    for (i = 0; i < 4; ++i) {
+        if (state & 1) {
+            /* printf("Drive %d enabled, LED color: %s\n", i+8, led_types[drive_led_color[i]]); */
+        }
+        state >>= 1;
+    }
+    TEMPORARY_IMPLEMENTATION();
 }
 
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    char buf[256];
+    snprintf(buf, 256, _("Attached %s to unit %d"), image, drive_number+8);
+    buf[255]=0;    
+    ui_display_statustext(buf, 1);    
 }
 
