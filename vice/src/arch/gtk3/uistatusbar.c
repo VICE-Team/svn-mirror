@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Michael C. Martin <mcmartin@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,6 +32,7 @@
 
 #include "not_implemented.h"
 
+#include "drive.h"
 #include "lib.h"
 #include "types.h"
 #include "uiapi.h"
@@ -54,15 +56,15 @@ static int joyport_msgs = 0;
  * on. */
 static struct ui_sb_state_s {
     /* TODO: does not cover two-unit drives */
-    int drive_led_types[4];
-    unsigned int current_drive_leds[4][2];
+    int drive_led_types[DRIVE_NUM];
+    unsigned int current_drive_leds[DRIVE_NUM][2];
 } sb_state;
 
 typedef struct ui_statusbar_s {
     GtkWidget *bar;
     GtkLabel *msg;
     /* TODO: Tape, Joystick */
-    GtkWidget *drives[4];
+    GtkWidget *drives[DRIVE_NUM];
 } ui_statusbar_t;
 
 static ui_statusbar_t allocated_bars[MAX_STATUS_BARS];
@@ -74,12 +76,12 @@ void ui_statusbar_init(void)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         allocated_bars[i].bar = NULL;
         allocated_bars[i].msg = NULL;
-        for (j = 0; j < 4; ++j) {
+        for (j = 0; j < DRIVE_NUM; ++j) {
             allocated_bars[i].drives[j] = NULL;
         }
     }
 
-    for (i = 0; i < 4; ++i) {
+    for (i = 0; i < DRIVE_NUM; ++i) {
         sb_state.drive_led_types[i] = 0;
         sb_state.current_drive_leds[i][0] = 0;
         sb_state.current_drive_leds[i][1] = 0;
@@ -157,7 +159,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
         if (allocated_bars[i].bar == sb) {
             allocated_bars[i].bar = NULL;
             allocated_bars[i].msg = NULL;
-            for (j = 0; j < 4; ++j) {
+            for (j = 0; j < DRIVE_NUM; ++j) {
                 allocated_bars[i].drives[j] = NULL;
             }
         }
@@ -194,7 +196,7 @@ GtkWidget *ui_statusbar_create(void)
     allocated_bars[i].bar = sb;
     allocated_bars[i].msg = GTK_LABEL(msg);
     gtk_grid_attach(GTK_GRID(sb), msg, 0, 0, 1, 2);
-    for (j = 0; j < 4; ++j) {
+    for (j = 0; j < DRIVE_NUM; ++j) {
         GtkWidget *drive = ui_drive_widget_create(j);
         int row = j % 2;
         int column = (j / 2) * 2 + 2;
@@ -298,7 +300,7 @@ void ui_display_tape_current_image(const char *image)
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
     int i;
-    if (drive_number < 0 || drive_number > 3) {
+    if (drive_number < 0 || drive_number > DRIVE_NUM-1) {
         /* TODO: Fatal error? */
         return;
     }
@@ -321,7 +323,7 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int half_track_number)
 {
     int i, unit = drive_base-8;
-    if (unit < 0 || unit > 3) {
+    if (unit < 0 || unit > DRIVE_NUM-1) {
         /* TODO: Fatal error? */
         return;
     }
@@ -343,10 +345,8 @@ void ui_display_drive_track(unsigned int drive_number,
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     int i;
-    /* 4 is based on drive/drive.h's DRIVE_NUM, but drive.h can't be
-     * included here for some reason */
-    /* TODO: Fix that */
-    for (i = 0; i < 4; ++i) {
+
+    for (i = 0; i < DRIVE_NUM; ++i) {
         if (state & 1) {
             sb_state.drive_led_types[i] = drive_led_color[i];
             sb_state.current_drive_leds[i][0] = 0;
