@@ -42,6 +42,7 @@
 #include "translate.h"
 #include "uiaccelerators.h"
 #include "uiapi.h"
+#include "uimenu.h"
 #include "uistatusbar.h"
 #include "util.h"
 #include "videoarch.h"
@@ -89,7 +90,14 @@ typedef struct ui_resources_s {
 
 static ui_resource_t ui_resources;
 
-static void window_destroy_cb(void)
+
+
+/** \brief  Callback for a windows' "destroy" event
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   user_data   extra data for the callback (unused)
+ */
+static void window_destroy_cb(GtkWidget *widget, gpointer user_data)
 {
     ui_exit();
 }
@@ -125,6 +133,7 @@ static void window_destroy_cb(void)
  */
 void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     GtkWidget *new_window, *grid, *new_drawing_area, *status_bar;
+    GtkWidget *menu_bar;
     int target_window;
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -132,11 +141,16 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     new_drawing_area = gtk_drawing_area_new();
     status_bar = ui_statusbar_create();
 
+    menu_bar = ui_menu_bar_create();
+
     canvas->drawing_area = new_drawing_area;
 
+    printf("add menu to window\n");
     gtk_container_add(GTK_CONTAINER(new_window), grid);
     /* When we have a menu bar, we'll add it at the top here */
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
+
+    gtk_container_add(GTK_CONTAINER(grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(grid), new_drawing_area);
     gtk_container_add(GTK_CONTAINER(grid), status_bar);
 

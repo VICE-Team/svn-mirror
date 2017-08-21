@@ -44,6 +44,7 @@ libarch_a_SOURCES = \
 	signals.c \
 	ui.c \
 	uiaccelerators.c \
+	uimenu.c \
 	uimon.c \
 	uimon-fallback.c \
 	uistatusbar.c \
@@ -79,5 +80,6 @@ EXTRA_DIST = \
 	types.h \
 	ui.h \
 	uiaccelerators.h \
+	uimenu.h \
 	uistatusbar.h \
 	videoarch.h
