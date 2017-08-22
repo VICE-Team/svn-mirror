@@ -89,22 +89,22 @@ typedef struct sound_s sound_t;
 
 /* manage temporary buffers. if the requested size is smaller or equal to the
  * size of the already allocated buffer, reuse it.  */
-static SWORD *buf = NULL;
+static int16_t *buf = NULL;
 static int blen = 0;
 
-static SWORD *getbuf(int len)
+static int16_t *getbuf(int len)
 {
     if ((buf == NULL) || (blen < len)) {
         if (buf) {
             lib_free(buf);
         }
         blen = len;
-        buf = (SWORD *)lib_calloc(len, 1);
+        buf = (int16_t *)lib_calloc(len, 1);
     }
     return buf;
 }
 
-static sound_t *resid_open(BYTE *sidstate)
+static sound_t *resid_open(uint8_t *sidstate)
 {
     sound_t *psid;
     int i;
@@ -239,12 +239,12 @@ static void resid_close(sound_t *psid)
     }
 }
 
-static BYTE resid_read(sound_t *psid, WORD addr)
+static uint8_t resid_read(sound_t *psid, uint16_t addr)
 {
     return psid->sid->read(addr);
 }
 
-static void resid_store(sound_t *psid, WORD addr, BYTE byte)
+static void resid_store(sound_t *psid, uint16_t addr, uint8_t byte)
 {
     psid->sid->write(addr, byte);
 }
@@ -254,10 +254,10 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
     psid->sid->reset();
 }
 
-static int resid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+static int resid_calculate_samples(sound_t *psid, int16_t *pbuf, int nr,
                                    int interleave, int *delta_t)
 {
-    SWORD *tmp_buf;
+    int16_t *tmp_buf;
     int retval;
 
     if (psid->factor == 1000) {
@@ -289,30 +289,30 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
     }
 
     for (i = 0; i < 0x20; i++) {
-        sid_state->sid_register[i] = (BYTE)state.sid_register[i];
+        sid_state->sid_register[i] = (uint8_t)state.sid_register[i];
     }
 
-    sid_state->bus_value = (BYTE)state.bus_value;
-    sid_state->bus_value_ttl = (DWORD)state.bus_value_ttl;
+    sid_state->bus_value = (uint8_t)state.bus_value;
+    sid_state->bus_value_ttl = (uint32_t)state.bus_value_ttl;
     for (i = 0; i < 3; i++) {
-        sid_state->accumulator[i] = (DWORD)state.accumulator[i];
-        sid_state->shift_register[i] = (DWORD)state.shift_register[i];
-        sid_state->rate_counter[i] = (WORD)state.rate_counter[i];
-        sid_state->rate_counter_period[i] = (WORD)state.rate_counter_period[i];
-        sid_state->exponential_counter[i] = (WORD)state.exponential_counter[i];
-        sid_state->exponential_counter_period[i] = (WORD)state.exponential_counter_period[i];
-        sid_state->envelope_counter[i] = (BYTE)state.envelope_counter[i];
-        sid_state->envelope_state[i] = (BYTE)state.envelope_state[i];
-        sid_state->hold_zero[i] = (BYTE)state.hold_zero[i];
-        sid_state->envelope_pipeline[i] = (BYTE)state.envelope_pipeline[i];
-        sid_state->shift_pipeline[i] = (BYTE)state.shift_pipeline[i];
-        sid_state->shift_register_reset[i] = (DWORD)state.shift_register_reset[i];
-        sid_state->floating_output_ttl[i] = (DWORD)state.floating_output_ttl[i];
-        sid_state->pulse_output[i] = (WORD)state.pulse_output[i];
+        sid_state->accumulator[i] = (uint32_t)state.accumulator[i];
+        sid_state->shift_register[i] = (uint32_t)state.shift_register[i];
+        sid_state->rate_counter[i] = (uint16_t)state.rate_counter[i];
+        sid_state->rate_counter_period[i] = (uint16_t)state.rate_counter_period[i];
+        sid_state->exponential_counter[i] = (uint16_t)state.exponential_counter[i];
+        sid_state->exponential_counter_period[i] = (uint16_t)state.exponential_counter_period[i];
+        sid_state->envelope_counter[i] = (uint8_t)state.envelope_counter[i];
+        sid_state->envelope_state[i] = (uint8_t)state.envelope_state[i];
+        sid_state->hold_zero[i] = (uint8_t)state.hold_zero[i];
+        sid_state->envelope_pipeline[i] = (uint8_t)state.envelope_pipeline[i];
+        sid_state->shift_pipeline[i] = (uint8_t)state.shift_pipeline[i];
+        sid_state->shift_register_reset[i] = (uint32_t)state.shift_register_reset[i];
+        sid_state->floating_output_ttl[i] = (uint32_t)state.floating_output_ttl[i];
+        sid_state->pulse_output[i] = (uint16_t)state.pulse_output[i];
     }
-    sid_state->write_pipeline = (BYTE)state.write_pipeline;
-    sid_state->write_address = (BYTE)state.write_address;
-    sid_state->voice_mask = (BYTE)state.voice_mask;
+    sid_state->write_pipeline = (uint8_t)state.write_pipeline;
+    sid_state->write_address = (uint8_t)state.write_address;
+    sid_state->voice_mask = (uint8_t)state.voice_mask;
 }
 
 static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)

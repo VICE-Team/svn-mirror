@@ -41,7 +41,7 @@
 static int hardsid_is_open = -1;
 
 /* buffer containing current register state of SIDs */
-static BYTE sidbuf[0x20 * HS_MAXSID];
+static uint8_t sidbuf[0x20 * HS_MAXSID];
 
 void hardsid_reset(void)
 {
@@ -68,7 +68,7 @@ int hardsid_close(void)
     return 0;
 }
 
-int hardsid_read(WORD addr, int chipno)
+int hardsid_read(uint16_t addr, int chipno)
 {
     if (!hardsid_is_open && chipno < HS_MAXSID) {
         /* use sidbuf[] for write-only registers */
@@ -81,7 +81,7 @@ int hardsid_read(WORD addr, int chipno)
     return 0;
 }
 
-void hardsid_store(WORD addr, BYTE val, int chipno)
+void hardsid_store(uint16_t addr, uint8_t val, int chipno)
 {
     if (!hardsid_is_open && chipno < HS_MAXSID) {
         /* write to sidbuf[] for write-only registers */
