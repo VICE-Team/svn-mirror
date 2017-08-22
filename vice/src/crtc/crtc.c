@@ -404,7 +404,7 @@ void crtc_update_window(void)
 
 /*--------------------------------------------------------------------*/
 
-void crtc_set_screen_addr(BYTE *screen)
+void crtc_set_screen_addr(uint8_t *screen)
 {
     crtc.screen_base = screen;
 }
@@ -417,7 +417,7 @@ void crtc_set_chargen_offset(int offset)
     crtc_update_chargen_rel();
 }
 
-void crtc_set_chargen_addr(BYTE *chargen, int cmask)
+void crtc_set_chargen_addr(uint8_t *chargen, int cmask)
 {
     crtc.chargen_base = chargen;
     crtc.chargen_mask = (cmask << 4) - 1;
@@ -899,12 +899,12 @@ void crtc_enable_hw_screen_blank(int enable)
 }
 
 /* cols60 is 80 cols with 40 cols timing */
-static BYTE cols40[1] = { 40 };
-static BYTE cols60[1] = { 60 };
-static BYTE cols80[1] = { 80 };
+static uint8_t cols40[1] = { 40 };
+static uint8_t cols60[1] = { 60 };
+static uint8_t cols80[1] = { 80 };
 
-static BYTE charh8[1] = { 8 };
-static BYTE charh14[1] = { 14 };
+static uint8_t charh8[1] = { 8 };
+static uint8_t charh14[1] = { 14 };
 
 void crtc_screenshot(screenshot_t *screenshot)
 {
@@ -945,7 +945,7 @@ void crtc_async_refresh(struct canvas_refresh_s *refresh)
 
 int crtc_dump(void)
 {
-    BYTE *regs = crtc.regs;
+    uint8_t *regs = crtc.regs;
     int vsyncw,scanlines;
     int htotal, vtotal;
     htotal = regs[CRTC_REG_HTOTAL] + 1;

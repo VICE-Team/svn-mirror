@@ -43,7 +43,7 @@
    - bit 0 of the addr is wired to register-select of the chip
    FIXME: Several registers are not implemented.  */
 
-void crtc_store(WORD addr, BYTE value)
+void crtc_store(uint16_t addr, uint8_t value)
 {
     int current_cycle;
 
@@ -206,7 +206,7 @@ void crtc_store(WORD addr, BYTE value)
     }
 }
 
-BYTE crtc_read(WORD addr)
+uint8_t crtc_read(uint16_t addr)
 {
     /* Status register:
      *  bit 7: 0 = register 31 (update reg.) has been read/written by CPU
@@ -242,7 +242,7 @@ BYTE crtc_read(WORD addr)
     return 0;
 }
 
-BYTE crtc_peek(WORD addr)
+uint8_t crtc_peek(uint16_t addr)
 {
     return crtc_read(addr);
 }
