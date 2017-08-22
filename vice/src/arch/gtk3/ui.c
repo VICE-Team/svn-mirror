@@ -141,11 +141,14 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     new_drawing_area = gtk_drawing_area_new();
     status_bar = ui_statusbar_create();
 
+    /* I'm pretty sure when running x128 we get two menu instances, so this
+     * should go somewhere else: call ui_menu_bar_create() once and attach the
+     * result menu to each GtkWindow instance
+     */
     menu_bar = ui_menu_bar_create();
 
     canvas->drawing_area = new_drawing_area;
 
-    printf("add menu to window\n");
     gtk_container_add(GTK_CONTAINER(new_window), grid);
     /* When we have a menu bar, we'll add it at the top here */
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);

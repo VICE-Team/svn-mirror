@@ -45,6 +45,7 @@ libarch_a_SOURCES = \
 	scpu64ui.c \
 	signals.c \
 	ui.c \
+	uiabout.c \
 	uiaccelerators.c \
 	uimenu.c \
 	uimon.c \
@@ -81,6 +82,7 @@ EXTRA_DIST = \
 	rs232-win32-dev.c \
 	types.h \
 	ui.h \
+	uiabout.h \
 	uiaccelerators.h \
 	uimenu.h \
 	uistatusbar.h \
