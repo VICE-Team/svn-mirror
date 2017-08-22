@@ -185,7 +185,7 @@ Copyright @copyright{} 2011-2017 Marcus Sutton
 Copyright @copyright{} 2011-2017 Kajtar Zsolt
 Copyright @copyright{} 2016-2017 AreaScout
 Copyright @copyright{} 2016-2017 Bas Wassink
-Copyright @copyright{} 2017-2016 Michael C. Martin
+Copyright @copyright{} 2017-2017 Michael C. Martin
 @c ---vice-core-team-end---
 
 @c ---ex-team---
