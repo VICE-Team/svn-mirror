@@ -48,7 +48,7 @@ typedef struct gfxoutputdrv_data_s {
     char *ext_filename;
     png_structp png_ptr;
     png_infop info_ptr;
-    BYTE *data;
+    uint8_t *data;
     unsigned int line;
 } gfxoutputdrv_data_t;
 
@@ -173,7 +173,7 @@ static FILE *pngdrv_memmap_fd;
 static char *pngdrv_memmap_ext_filename;
 static png_structp pngdrv_memmap_png_ptr;
 static png_infop pngdrv_memmap_info_ptr;
-static BYTE *pngdrv_memmap_png_data;
+static uint8_t *pngdrv_memmap_png_data;
 
 static int pngdrv_close_memmap(void)
 {
@@ -188,10 +188,10 @@ static int pngdrv_close_memmap(void)
     return 0;
 }
 
-static int pngdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
+static int pngdrv_write_memmap(int line, int x_size, uint8_t *gfx, uint8_t *palette)
 {
     int i;
-    BYTE pixval;
+    uint8_t pixval;
 
     for (i = 0; i < x_size; i++) {
         pixval = gfx[(line * x_size) + i];
@@ -206,7 +206,7 @@ static int pngdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
     return 0;
 }
 
-static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE *palette)
+static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, uint8_t *palette)
 {
     pngdrv_memmap_png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (void *)NULL, NULL, NULL);
 
@@ -256,7 +256,7 @@ static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
     return 0;
 }
 
-static int pngdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+static int pngdrv_save_memmap(const char *filename, int x_size, int y_size, uint8_t *gfx, uint8_t *palette)
 {
     int line;
 

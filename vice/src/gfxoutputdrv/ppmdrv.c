@@ -44,7 +44,7 @@
 typedef struct gfxoutputdrv_data_s {
     FILE *fd;
     char *ext_filename;
-    BYTE *data;
+    uint8_t *data;
     unsigned int line;
 } gfxoutputdrv_data_t;
 
@@ -150,10 +150,10 @@ static int ppmdrv_close_memmap(void)
     return 0;
 }
 
-static int ppmdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
+static int ppmdrv_write_memmap(int line, int x_size, uint8_t *gfx, uint8_t *palette)
 {
     int i;
-    BYTE pixval;
+    uint8_t pixval;
 
     for (i = 0; i < x_size; i++) {
         pixval = gfx[(line * x_size) + i];
@@ -195,7 +195,7 @@ static int ppmdrv_open_memmap(const char *filename, int x_size, int y_size)
     return 0;
 }
 
-static int ppmdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+static int ppmdrv_save_memmap(const char *filename, int x_size, int y_size, uint8_t *gfx, uint8_t *palette)
 {
     int line;
 

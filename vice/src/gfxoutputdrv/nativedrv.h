@@ -31,7 +31,7 @@
 #include "types.h"
 
 typedef struct native_data_s {
-    BYTE *colormap;
+    uint8_t *colormap;
     int xsize;
     int ysize;
     int mc_data_present;
@@ -39,18 +39,18 @@ typedef struct native_data_s {
 } native_data_t;
 
 typedef struct native_color_sort_s {
-    BYTE color;
+    uint8_t color;
     int amount;
 } native_color_sort_t;
 
 extern void gfxoutput_init_doodle(int help);
 extern void gfxoutput_init_koala(int help);
 
-extern void native_smooth_scroll_borderize_colormap(native_data_t *source, BYTE bordercolor, BYTE xcover, BYTE ycover);
-extern native_data_t *native_borderize_colormap(native_data_t *source, BYTE bordercolor, int xsize, int ysize);
-extern native_data_t *native_crop_and_borderize_colormap(native_data_t *source, BYTE bordercolor, int xsize, int ysize, int oversize_handling);
+extern void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bordercolor, uint8_t xcover, uint8_t ycover);
+extern native_data_t *native_borderize_colormap(native_data_t *source, uint8_t bordercolor, int xsize, int ysize);
+extern native_data_t *native_crop_and_borderize_colormap(native_data_t *source, uint8_t bordercolor, int xsize, int ysize, int oversize_handling);
 extern native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize);
-extern native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, BYTE bordercolor, int oversize_handling, int undersize_handling);
+extern native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, uint8_t bordercolor, int oversize_handling, int undersize_handling);
 extern native_color_sort_t *native_sort_colors_colormap(native_data_t *source, int color_amount);
 
 extern void vicii_color_to_vicii_bw_colormap(native_data_t *source);

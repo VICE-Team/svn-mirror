@@ -346,7 +346,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     int audio_inbuf_samples;
     int ret;
     AVDictionary *opts = NULL;
-    
+
     c = st->codec;
     /* open codec */
     /* aac encoder ist flaged 'experimental' */
@@ -372,9 +372,9 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     if (!audio_st.frame || !audio_st.tmp_frame) {
         return -1;
     }
-    
+
     ffmpegdrv_audio_in.size = audio_inbuf_samples * c->channels;
-    ffmpegdrv_audio_in.buffer = (SWORD*)audio_st.tmp_frame->data[0];
+    ffmpegdrv_audio_in.buffer = (int16_t *)audio_st.tmp_frame->data[0];
     return 0;
 }
 

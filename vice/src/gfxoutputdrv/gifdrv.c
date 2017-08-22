@@ -200,7 +200,7 @@ static int gifdrv_close_memmap(void)
     return 0;
 }
 
-static int gifdrv_write_memmap(int line, int x_size, BYTE *gfx)
+static int gifdrv_write_memmap(int line, int x_size, uint8_t *gfx)
 {
     if (EGifPutLine(gifdrv_memmap_fd, gfx + (line * x_size), x_size) == GIF_ERROR) {
         return -1;
@@ -209,7 +209,7 @@ static int gifdrv_write_memmap(int line, int x_size, BYTE *gfx)
     return 0;
 }
 
-static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE *palette)
+static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, uint8_t *palette)
 {
     unsigned int i;
     GifColorType ColorMap256[256];
@@ -249,7 +249,7 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
     return 0;
 }
 
-static int gifdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+static int gifdrv_save_memmap(const char *filename, int x_size, int y_size, uint8_t *gfx, uint8_t *palette)
 {
     int line;
 

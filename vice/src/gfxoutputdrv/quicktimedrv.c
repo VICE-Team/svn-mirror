@@ -65,7 +65,7 @@ static gfxoutputdrv_codec_t mov_audio_codeclist[] = {
     { 0, NULL }
 };
 
-static gfxoutputdrv_codec_t mov_video_codeclist[] = { 
+static gfxoutputdrv_codec_t mov_video_codeclist[] = {
     { kPNGCodecType,        "PNG" },
     { kH264CodecType,       "H.264" },
     { kMotionJPEGACodecType,"Motion JPEG/A"},
@@ -329,7 +329,7 @@ static int init_audio(int speed, int channels, soundmovie_buffer_t **buffer)
     asbd.mFormatID = kAudioFormatLinearPCM;
     asbd.mFormatFlags = kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsSignedInteger;
     asbd.mChannelsPerFrame = channels;
-    asbd.mBitsPerChannel = sizeof (SWORD) * 8;
+    asbd.mBitsPerChannel = sizeof (int16_t) * 8;
     asbd.mBytesPerFrame = (asbd.mBitsPerChannel >> 3)      // number of *bytes* per channel
                           * asbd.mChannelsPerFrame;         // channels per frame
     asbd.mFramesPerPacket = 1;      // For PCM, frames per packet is always 1
@@ -387,7 +387,7 @@ static int init_audio(int speed, int channels, soundmovie_buffer_t **buffer)
 
     *buffer = &audioBuffer;
     audioBuffer.size = speed * channels / 10;
-    audioBuffer.buffer = lib_malloc(sizeof(SWORD) * audioBuffer.size);
+    audioBuffer.buffer = lib_malloc(sizeof(int16_t) * audioBuffer.size);
     audioBuffer.used = 0;
 
     audio_ready = 1;
@@ -402,7 +402,7 @@ int encode_audio(soundmovie_buffer_t *buffer)
 
     OSStatus err = AddMediaSample2 (audioMedia,
                                     (const UInt8 *)buffer->buffer,
-                                    buffer->used * sizeof(SWORD),
+                                    buffer->used * sizeof(int16_t),
                                     1,
                                     0,
                                     (SampleDescriptionHandle)soundDescriptionHandle,
@@ -550,7 +550,7 @@ static int quicktimedrv_record(screenshot_t *screenshot)
     int w = screenshot->width;
     int xoff = screenshot->x_offset;
     int yoff = screenshot->y_offset;
-    BYTE *srcBuffer = screenshot->draw_buffer;
+    uint8_t *srcBuffer = screenshot->draw_buffer;
 
     // move to last line in tgt buffer and to first in source
     buffer += (video_yoff) * bytesPerRow + video_xoff * 3;
@@ -560,7 +560,7 @@ static int quicktimedrv_record(screenshot_t *screenshot)
     for (y = 0; y < h; y++) {
         int pix = 0;
         for (x = 0; x < w; x++) {
-            BYTE val = srcBuffer[x];
+            uint8_t val = srcBuffer[x];
             buffer[pix++] = screenshot->palette->entries[val].red;
             buffer[pix++] = screenshot->palette->entries[val].green;
             buffer[pix++] = screenshot->palette->entries[val].blue;

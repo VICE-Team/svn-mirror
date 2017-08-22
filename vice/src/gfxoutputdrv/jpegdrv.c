@@ -46,7 +46,7 @@
 typedef struct gfxoutputdrv_data_s {
     FILE *fd;
     char *ext_filename;
-    BYTE *data;
+    uint8_t *data;
     unsigned int line;
 } gfxoutputdrv_data_t;
 
@@ -134,7 +134,7 @@ static int jpegdrv_save(screenshot_t *screenshot, const char *filename)
 #ifdef FEATURE_CPUMEMHISTORY
 static FILE *jpegdrv_memmap_fd;
 static char *jpegdrv_memmap_ext_filename;
-static BYTE *jpegdrv_memmap_data;
+static uint8_t *jpegdrv_memmap_data;
 
 static int jpegdrv_close_memmap(void)
 {
@@ -147,10 +147,10 @@ static int jpegdrv_close_memmap(void)
     return 0;
 }
 
-static int jpegdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
+static int jpegdrv_write_memmap(int line, int x_size, uint8_t *gfx, uint8_t *palette)
 {
     int i;
-    BYTE pixval;
+    uint8_t pixval;
     JSAMPROW rowpointer[1];
 
     for (i = 0; i < x_size; i++) {
@@ -188,7 +188,7 @@ static int jpegdrv_open_memmap(const char *filename, int x_size, int y_size)
     return 0;
 }
 
-static int jpegdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+static int jpegdrv_save_memmap(const char *filename, int x_size, int y_size, uint8_t *gfx, uint8_t *palette)
 {
     int line;
 

@@ -47,7 +47,7 @@
 #include "util.h"
 #include "vsync.h"
 
-void native_smooth_scroll_borderize_colormap(native_data_t *source, BYTE bordercolor, BYTE xcover, BYTE ycover)
+void native_smooth_scroll_borderize_colormap(native_data_t *source, uint8_t bordercolor, uint8_t xcover, uint8_t ycover)
 {
     int i, j, k;
     int xstart = 0;
@@ -109,7 +109,7 @@ void native_smooth_scroll_borderize_colormap(native_data_t *source, BYTE borderc
     }
 }
 
-native_data_t *native_borderize_colormap(native_data_t *source, BYTE bordercolor, int xsize, int ysize)
+native_data_t *native_borderize_colormap(native_data_t *source, uint8_t bordercolor, int xsize, int ysize)
 {
     int i, j, k, l;
     int xstart = 0;
@@ -178,7 +178,7 @@ native_data_t *native_borderize_colormap(native_data_t *source, BYTE bordercolor
     return dest;
 }
 
-native_data_t *native_crop_and_borderize_colormap(native_data_t *source, BYTE bordercolor, int xsize, int ysize, int oversize_handling)
+native_data_t *native_crop_and_borderize_colormap(native_data_t *source, uint8_t bordercolor, int xsize, int ysize, int oversize_handling)
 {
     int startx;
     int starty;
@@ -340,7 +340,7 @@ native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize
     return dest;
 }
 
-native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, BYTE bordercolor, int oversize_handling, int undersize_handling)
+native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, uint8_t bordercolor, int oversize_handling, int undersize_handling)
 {
     native_data_t *data = source;
     int mc_data_present = source->mc_data_present;
@@ -385,7 +385,7 @@ native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysiz
 native_color_sort_t *native_sort_colors_colormap(native_data_t *source, int color_amount)
 {
     int i, j;
-    BYTE color;
+    uint8_t color;
     int highest;
     int amount;
     int highestindex = 0;
@@ -420,7 +420,7 @@ native_color_sort_t *native_sort_colors_colormap(native_data_t *source, int colo
     return colors;
 }
 
-static BYTE vicii_color_bw_translate[16] = {
+static uint8_t vicii_color_bw_translate[16] = {
     0,    /* vicii black       (0) -> vicii black (0) */
     1,    /* vicii white       (1) -> vicii white (1) */
     0,    /* vicii red         (2) -> vicii black (0) */
@@ -439,7 +439,7 @@ static BYTE vicii_color_bw_translate[16] = {
     1     /* vicii light gray  (F) -> vicii white (1) */
 };
 
-static inline BYTE vicii_color_to_bw(BYTE color)
+static inline uint8_t vicii_color_to_bw(uint8_t color)
 {
     return vicii_color_bw_translate[color];
 }
@@ -455,7 +455,7 @@ void vicii_color_to_vicii_bw_colormap(native_data_t *source)
     }
 }
 
-static BYTE vicii_color_gray_translate[16] = {
+static uint8_t vicii_color_gray_translate[16] = {
     0x0,    /* vicii black       (0) -> vicii black       (0) */
     0xF,    /* vicii white       (1) -> vicii light gray  (F) */
     0xB,    /* vicii red         (2) -> vicii dark gray   (B) */
@@ -474,7 +474,7 @@ static BYTE vicii_color_gray_translate[16] = {
     0xF     /* vicii light gray  (F) -> vicii light gray  (F) */
 };
 
-static inline BYTE vicii_color_to_gray(BYTE color)
+static inline uint8_t vicii_color_to_gray(uint8_t color)
 {
     return vicii_color_gray_translate[color];
 }
@@ -490,7 +490,7 @@ void vicii_color_to_vicii_gray_colormap(native_data_t *source)
     }
 }
 
-static BYTE vicii_closest_color[16][16] = {
+static uint8_t vicii_closest_color[16][16] = {
     /* vicii black (0) */
     { 0, 9, 11, 2, 6, 8, 5, 12, 4, 10, 14, 3, 13, 15, 7, 1 },
 
@@ -540,7 +540,7 @@ static BYTE vicii_closest_color[16][16] = {
     { 15, 13, 3, 12, 14, 10, 7, 1, 4, 5, 11, 8, 6, 9, 2, 0 }
 };
 
-static inline BYTE vicii_color_to_nearest_color(BYTE color, native_color_sort_t *altcolors)
+static inline uint8_t vicii_color_to_nearest_color(uint8_t color, native_color_sort_t *altcolors)
 {
     int i, j;
 
@@ -569,10 +569,10 @@ void vicii_color_to_nearest_vicii_color_colormap(native_data_t *source, native_c
 
 native_data_t *native_vicii_text_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -601,17 +601,17 @@ native_data_t *native_vicii_text_mode_render(screenshot_t *screenshot, const cha
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (uint8_t)(regs[0x20] & 0xf), (uint8_t)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (uint8_t)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
 
 native_data_t *native_vicii_extended_background_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -639,19 +639,19 @@ native_data_t *native_vicii_extended_background_mode_render(screenshot_t *screen
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (uint8_t)(regs[0x20] & 0xf), (uint8_t)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (uint8_t)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
 
 native_data_t *native_vicii_multicolor_text_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE color0;
-    BYTE color1;
-    BYTE color2;
-    BYTE color3;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t color0;
+    uint8_t color1;
+    uint8_t color2;
+    uint8_t color3;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -706,17 +706,17 @@ native_data_t *native_vicii_multicolor_text_mode_render(screenshot_t *screenshot
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (uint8_t)(regs[0x20] & 0xf), (uint8_t)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (uint8_t)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
 
 native_data_t *native_vicii_hires_bitmap_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -748,19 +748,19 @@ native_data_t *native_vicii_hires_bitmap_mode_render(screenshot_t *screenshot, c
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (uint8_t)(regs[0x20] & 0xf), (uint8_t)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (uint8_t)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
 
 native_data_t *native_vicii_multicolor_bitmap_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE color0;
-    BYTE color1;
-    BYTE color2;
-    BYTE color3;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t color0;
+    uint8_t color1;
+    uint8_t color2;
+    uint8_t color3;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -807,14 +807,14 @@ native_data_t *native_vicii_multicolor_bitmap_mode_render(screenshot_t *screensh
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (uint8_t)(regs[0x20] & 0xf), (uint8_t)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (uint8_t)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
 
 /* ------------------------------------------------------------------------ */
 
-static BYTE ted_vicii_translate[16] = {
+static uint8_t ted_vicii_translate[16] = {
     0x0,    /* ted black        (0) -> vicii black       (0) */
     0x1,    /* ted white        (1) -> vicii white       (1) */
     0x2,    /* ted red          (2) -> vicii red         (2) */
@@ -833,12 +833,12 @@ static BYTE ted_vicii_translate[16] = {
     0xD     /* ted light green  (F) -> vicii light green (D) */
 };
 
-static BYTE ted_to_vicii_color(BYTE color)
+static uint8_t ted_to_vicii_color(uint8_t color)
 {
     return ted_vicii_translate[color];
 }
 
-static BYTE ted_lum_vicii_translate[16 * 8] = {
+static uint8_t ted_lum_vicii_translate[16 * 8] = {
     0x0,    /* ted black L0        (0) -> vicii black     (0) */
     0x9,    /* ted white L0        (1) -> vicii brown     (9) */
     0x2,    /* ted red L0          (2) -> vicii red       (2) */
@@ -976,7 +976,7 @@ static BYTE ted_lum_vicii_translate[16 * 8] = {
     0xD     /* ted light green L7  (F) -> vicii light green (D) */
 };
 
-static BYTE ted_lum_to_vicii_color(BYTE color, BYTE lum)
+static uint8_t ted_lum_to_vicii_color(uint8_t color, uint8_t lum)
 {
     return ted_lum_vicii_translate[(lum * 16) + color];
 }
@@ -984,15 +984,15 @@ static BYTE ted_lum_to_vicii_color(BYTE color, BYTE lum)
 void ted_color_to_vicii_color_colormap(native_data_t *source, int ted_lum_handling)
 {
     int i, j;
-    BYTE colorbyte;
+    uint8_t colorbyte;
 
     for (i = 0; i < source->ysize; i++) {
         for (j = 0; j < source->xsize; j++) {
             colorbyte = source->colormap[(i * source->xsize) + j];
             if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
-                source->colormap[(i * source->xsize) + j] = ted_lum_to_vicii_color((BYTE)(colorbyte & 0xf), (BYTE)(colorbyte >> 4));
+                source->colormap[(i * source->xsize) + j] = ted_lum_to_vicii_color((uint8_t)(colorbyte & 0xf), (uint8_t)(colorbyte >> 4));
             } else {
-                source->colormap[(i * source->xsize) + j] = ted_to_vicii_color((BYTE)(colorbyte & 0xf));
+                source->colormap[(i * source->xsize) + j] = ted_to_vicii_color((uint8_t)(colorbyte & 0xf));
             }
         }
     }
@@ -1000,11 +1000,11 @@ void ted_color_to_vicii_color_colormap(native_data_t *source, int ted_lum_handli
 
 native_data_t *native_ted_text_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
-    BYTE brdrcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
+    uint8_t brdrcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -1043,18 +1043,18 @@ native_data_t *native_ted_text_mode_render(screenshot_t *screenshot, const char 
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (uint8_t)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (uint8_t)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
 
 native_data_t *native_ted_extended_background_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
-    BYTE brdrcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
+    uint8_t brdrcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -1088,18 +1088,18 @@ native_data_t *native_ted_extended_background_mode_render(screenshot_t *screensh
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (uint8_t)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (uint8_t)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
 
 native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
-    BYTE brdrcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
+    uint8_t brdrcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -1132,20 +1132,20 @@ native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, con
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (uint8_t)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (uint8_t)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
 
 native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE color0;
-    BYTE color1;
-    BYTE color2;
-    BYTE color3;
-    BYTE brdrcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t color0;
+    uint8_t color1;
+    uint8_t color2;
+    uint8_t color3;
+    uint8_t brdrcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
@@ -1192,14 +1192,14 @@ native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *screenshot
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (uint8_t)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (uint8_t)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
 
 /* ------------------------------------------------------------------------ */
 
-static BYTE vic_vicii_translate[16] = {
+static uint8_t vic_vicii_translate[16] = {
     0x0,    /* vic black        (0) -> vicii black       (0) */
     0x1,    /* vic white        (1) -> vicii white       (1) */
     0x2,    /* vic red          (2) -> vicii red         (2) */
@@ -1218,7 +1218,7 @@ static BYTE vic_vicii_translate[16] = {
     0x7     /* vic light yellow (F) -> vicii yellow      (7) */
 };
 
-static inline BYTE vic_to_vicii_color(BYTE color)
+static inline uint8_t vic_to_vicii_color(uint8_t color)
 {
     return vic_vicii_translate[color];
 }
@@ -1236,16 +1236,16 @@ void vic_color_to_vicii_color_colormap(native_data_t *source)
 
 native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
-    BYTE brdrcolor;
-    BYTE auxcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
+    uint8_t brdrcolor;
+    uint8_t auxcolor;
     int i, j, k, l;
     native_data_t *data;
-    BYTE xsize;
-    BYTE ysize;
+    uint8_t xsize;
+    uint8_t ysize;
 
     xsize = regs[0x02] & 0x7f;
     ysize = (regs[0x03] & 0x7e) >> 1;
@@ -1326,17 +1326,17 @@ native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
 
 native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename, int crtc_fgcolor)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE *petdww_ram = screenshot->bitmap_ptr;
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t *petdww_ram = screenshot->bitmap_ptr;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
     int x, y, k, l;
     native_data_t *data;
-    BYTE xsize;
-    BYTE ysize;
-    BYTE invert;
-    BYTE charheight;
+    uint8_t xsize;
+    uint8_t ysize;
+    uint8_t invert;
+    uint8_t charheight;
     int base;
     int shiftand;
     int chars = 1;
@@ -1424,12 +1424,12 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
                 for (k = 0; k < charheight; k++) {
                     bitmap = 0;
                     if (chars) {
-                        BYTE chr = screenshot->screen_ptr[scr_rel & shiftand];
+                        uint8_t chr = screenshot->screen_ptr[scr_rel & shiftand];
                         bitmap = screenshot->chargen_ptr[(chr * 16) + k];
                     }
                     if (petdww_ram && k < 8) {
                         int addr = (k * 1024) + ((scr_rel >> col80) & 0x3FF);
-                        BYTE b = petdww_ram[addr];
+                        uint8_t b = petdww_ram[addr];
                         /*
                          * If we're in an 80 column screen we need to
                          * horizontally double all pixels, since DWW
@@ -1483,7 +1483,7 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
 
 /* ------------------------------------------------------------------------ */
 
-static BYTE vdc_vicii_translate[16] = {
+static uint8_t vdc_vicii_translate[16] = {
     0x0,    /* vdc black        (0) -> vicii black       (0) */
     0xB,    /* vdc dark gray    (1) -> vicii dark gray   (B) */
     0x6,    /* vdc dark blue    (2) -> vicii blue        (6) */
@@ -1502,7 +1502,7 @@ static BYTE vdc_vicii_translate[16] = {
     0x1     /* vdc white        (F) -> vicii white       (1) */
 };
 
-static inline BYTE vdc_to_vicii_color(BYTE color)
+static inline uint8_t vdc_to_vicii_color(uint8_t color)
 {
     return vdc_vicii_translate[color];
 }
@@ -1520,15 +1520,15 @@ void vdc_color_to_vicii_color_colormap(native_data_t *source)
 
 native_data_t *native_vdc_text_mode_render(screenshot_t *screenshot, const char *filename)
 {
-    BYTE *regs = screenshot->video_regs;
-    BYTE displayed_chars_h = regs[1];
-    BYTE displayed_chars_v = regs[6];
+    uint8_t *regs = screenshot->video_regs;
+    uint8_t displayed_chars_h = regs[1];
+    uint8_t displayed_chars_v = regs[6];
     /* BYTE scanlines_per_char = (regs[9] & 0x1f) + 1;
     BYTE char_h_size_alloc = regs[22] & 0xf;
     BYTE char_h_size_displayed = (regs[22] & 0xf0) >> 4; */
-    BYTE bitmap;
-    BYTE fgcolor;
-    BYTE bgcolor;
+    uint8_t bitmap;
+    uint8_t fgcolor;
+    uint8_t bgcolor;
     int i, j, k, l;
     native_data_t *data = lib_malloc(sizeof(native_data_t));
 
