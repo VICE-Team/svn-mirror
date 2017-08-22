@@ -339,7 +339,7 @@ void vdc_powerup(void)
 {
     /* Setup the VDC's ram with a 0xff00ff00.. pattern */
     unsigned int i;
-    BYTE v = 0xff;
+    uint8_t v = 0xff;
     for (i = 0; i < sizeof(vdc.ram); i++) {
         vdc.ram[i] = v;
         v ^= 0xff;

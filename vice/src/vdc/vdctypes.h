@@ -98,7 +98,7 @@ struct vdc_s {
     int initialized;            /* = 0; */
 
     /* VDC registers.  */
-    BYTE regs[64];
+    uint8_t regs[64];
 
     /* VDC geometry constants that differ in doulbe size mode.  */
     unsigned int screen_height;
@@ -187,7 +187,7 @@ struct vdc_s {
     struct video_chip_cap_s *video_chip_cap;
 
     /* Internal VDC video memory */
-    BYTE ram[0x10000];
+    uint8_t ram[0x10000];
 
     /* used to record the value of the cpu clock at the start of a raster line */
     CLOCK vdc_line_start;

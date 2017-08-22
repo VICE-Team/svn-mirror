@@ -45,16 +45,16 @@
    multi-dimensional arrays as we can optimize better this way...  */
 
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
-static DWORD hr_table[16 * 16 * 16];
+static uint32_t hr_table[16 * 16 * 16];
 
 /* foreground(4) | background(4) | nibble(4) -> 8 pixels (double width)
    pdl table is the low (right) nibble into 4 bytes, pdh the high (left) */
-static DWORD pdl_table[16 * 16 * 16];
-static DWORD pdh_table[16 * 16 * 16];
+static uint32_t pdl_table[16 * 16 * 16];
+static uint32_t pdh_table[16 * 16 * 16];
 
 
 /* solid cursor (no blink), no cursor, 1/16 refresh blink, 1/32 refresh blink */
-static const BYTE crsrblink[4] = { 0x01, 0x00, 0x08, 0x10 };
+static const uint8_t crsrblink[4] = { 0x01, 0x00, 0x08, 0x10 };
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 /*
@@ -70,33 +70,33 @@ static void draw_std_background(unsigned int start_pixel,
 /* Initialize the drawing tables.  */
 static void init_drawing_tables(void)
 {
-    DWORD i;
+    uint32_t i;
     unsigned int f, b;
 
     for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0xf; f++) {
             for (b = 0; b <= 0xf; b++) {
-                BYTE fp, bp;
-                BYTE *p;
+                uint8_t fp, bp;
+                uint8_t *p;
                 int offset;
 
                 fp = f;
                 bp = b;
                 offset = (f << 8) | (b << 4) | i;
-                
-                p = (BYTE *)(hr_table + offset);
+
+                p = (uint8_t *)(hr_table + offset);
                 *p = i & 0x8 ? fp : bp;
                 *(p + 1) = i & 0x4 ? fp : bp;
                 *(p + 2) = i & 0x2 ? fp : bp;
                 *(p + 3) = i & 0x1 ? fp : bp;
 
-                p = (BYTE *)(pdh_table + offset);
+                p = (uint8_t *)(pdh_table + offset);
                 *p = i & 0x8 ? fp : bp;
                 *(p + 1) = i & 0x8 ? fp : bp;
                 *(p + 2) = i & 0x4 ? fp : bp;
                 *(p + 3) = i & 0x4 ? fp : bp;
 
-                p = (BYTE *)(pdl_table + offset);
+                p = (uint8_t *)(pdl_table + offset);
                 *p = i & 0x2 ? fp : bp;
                 *(p + 1) = i & 0x2 ? fp : bp;
                 *(p + 2) = i & 0x1 ? fp : bp;
@@ -108,7 +108,7 @@ static void init_drawing_tables(void)
 
 /*-----------------------------------------------------------------------*/
 
-inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
+inline static uint8_t get_attr_char_data(uint8_t c, uint8_t a, int l, uint8_t *char_mem,
                                       int bytes_per_char, int blink,
                                       int revers, int curpos, int index)
 /* c = character, a = attributes, l = line of char required , char_mem = pointer to character memory
@@ -117,18 +117,18 @@ blink / revers - these don't seem to be used
 curpos = where in the screen memory the cursor is
 index = where in the screen memory we are, to check against the cursor */
 {
-    BYTE data;
+    uint8_t data;
     /* bit mask used for register 22, to determine the number of pixels in a char actually displayed */
     /* The 8th value is 0x00 (no pixels) instead of 0xFF (all pixels) as might be expected as this results in blank chars on real VDC */
-    static const BYTE mask[16] = {
+    static const uint8_t mask[16] = {
         0x80, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC, 0xFE, 0x00,
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
     };
-    static const BYTE semigfxtest[16] = {
+    static const uint8_t semigfxtest[16] = {
         0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     };
-    static const BYTE semigfxmask[16] = {
+    static const uint8_t semigfxmask[16] = {
         0x7F, 0x3F, 0x1F, 0x0F, 0x07, 0x03, 0x01, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
     };
@@ -189,10 +189,10 @@ index = where in the screen memory we are, to check against the cursor */
     return data;
 }
 
-inline static int cache_data_fill_attr_text(BYTE *dest,
-                                            const BYTE *src,
-                                            BYTE *attr,
-                                            BYTE *char_mem,
+inline static int cache_data_fill_attr_text(uint8_t *dest,
+                                            const uint8_t *src,
+                                            uint8_t *attr,
+                                            uint8_t *char_mem,
                                             int bytes_per_char,
                                             unsigned int length,
                                             int l,
@@ -223,7 +223,7 @@ inline static int cache_data_fill_attr_text(BYTE *dest,
         /* dest data was updated */
         return 1;
     } else {
-        BYTE b;
+        uint8_t b;
         /* compare destination to data to look for any differences */
         for (i = 0; i < length; i++, src++, attr++) {
             if (dest[i] != get_attr_char_data(src[0], attr[0], l, char_mem,
@@ -254,10 +254,10 @@ inline static int cache_data_fill_attr_text(BYTE *dest,
     }
 }
 
-inline static int cache_data_fill_attr_text_const(BYTE *dest,
-                                                  const BYTE *src,
-                                                  BYTE attr,
-                                                  BYTE *char_mem,
+inline static int cache_data_fill_attr_text_const(uint8_t *dest,
+                                                  const uint8_t *src,
+                                                  uint8_t attr,
+                                                  uint8_t *char_mem,
                                                   int bytes_per_char,
                                                   unsigned int length,
                                                   int l,
@@ -286,7 +286,7 @@ inline static int cache_data_fill_attr_text_const(BYTE *dest,
         /* dest data was updated */
         return 1;
     } else {
-        BYTE b;
+        uint8_t b;
 
         for (i = 0; i < length; i++, src++) {
             if (dest[i] != get_attr_char_data(src[0], attr, l, char_mem,
@@ -317,8 +317,8 @@ inline static int cache_data_fill_attr_text_const(BYTE *dest,
     }
 }
 
-inline static int cache_data_fill(BYTE *dest,
-                                  const BYTE *src,
+inline static int cache_data_fill(uint8_t *dest,
+                                  const uint8_t *src,
                                   unsigned int length,
                                   int src_step,
                                   unsigned int *xs,
@@ -403,7 +403,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs, unsigned int *x
         /* get the character definition data, fixed attributes (only background colour, which doesn't actually do anything to these functions!) */
         r = cache_data_fill_attr_text_const(cache->foreground_data,
                                             vdc.ram + vdc.screen_adr + vdc.mem_counter,
-                                            (BYTE)(vdc.regs[26] & 0x0f),
+                                            (uint8_t)(vdc.regs[26] & 0x0f),
                                             vdc.ram + vdc.chargen_adr,
                                             vdc.bytes_per_char,
                                             (int)vdc.screen_text_cols,
@@ -415,7 +415,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs, unsigned int *x
                                             cursor_pos);
         /* fill the raster cache color_data_1 with the foreground colour from vdc reg 26 */
         r |= raster_cache_data_fill_const(cache->color_data_1,
-                                          (BYTE)(vdc.regs[26] >> 4),
+                                          (uint8_t)(vdc.regs[26] >> 4),
                                           (int)vdc.screen_text_cols,
                                           xs, xe,
                                           rr);
@@ -428,8 +428,8 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
                                  unsigned int xe)
 /* aka raster_modes_draw_line_cached() in raster */
 {
-    BYTE *p;
-    DWORD *table_ptr, *pdl_ptr, *pdh_ptr;
+    uint8_t *p;
+    uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
 
     unsigned int i, charwidth;
     if (vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
@@ -449,20 +449,20 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
 
     if (vdc.regs[25] & 0x10) { /* double pixel mode */
         for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
-            DWORD *pdwl = pdl_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
-            DWORD *pdwh = pdh_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
+            uint32_t *pdwl = pdl_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
+            uint32_t *pdwh = pdh_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             int d = cache->foreground_data[i];
-            *((DWORD *)p) = *(pdwh + (d >> 4));
-            *((DWORD *)p + 1) = *(pdwl + (d >> 4));
-            *((DWORD *)p + 2) = *(pdwh + (d & 0x0f));
-            *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
+            *((uint32_t *)p) = *(pdwh + (d >> 4));
+            *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
+            *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
+            *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
         }
     } else { /* normal text size */
         for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) { /* FIXME rendering in the intercharacter gap when charwidth >8 */
-            DWORD *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
+            uint32_t *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             int d = cache->foreground_data[i];
-            *((DWORD *)p) = *(ptr + (d >> 4));
-            *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+            *((uint32_t *)p) = *(ptr + (d >> 4));
+            *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
         }
     }
 
@@ -480,9 +480,9 @@ static void draw_std_text(void)
    (vdc.raster.draw_buffer_ptr), which is one byte per pixel, based on the VDC
    screen, attr(ibute) and char(set) ram (which are one byte per 8 pixels */
 {
-    BYTE *p;
-    DWORD *table_ptr, *pdl_ptr, *pdh_ptr;
-    BYTE *attr_ptr, *screen_ptr, *char_ptr;
+    uint8_t *p;
+    uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
+    uint8_t *attr_ptr, *screen_ptr, *char_ptr;
 
     unsigned int i, d;
     unsigned int cpos = 0xffff;
@@ -543,23 +543,23 @@ static void draw_std_text(void)
 
             /* actually render the byte into 8 bytes of colour pixels using the lookup tables */
             if (vdc.regs[25] & 0x10) { /* double pixel mode */
-                DWORD *pdwl = pdl_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
-                DWORD *pdwh = pdh_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
-                *((DWORD *)p) = *(pdwh + (d >> 4));
-                *((DWORD *)p + 1) = *(pdwl + (d >> 4));
-                *((DWORD *)p + 2) = *(pdwh + (d & 0x0f));
-                *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
+                uint32_t *pdwl = pdl_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+                uint32_t *pdwh = pdh_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+                *((uint32_t *)p) = *(pdwh + (d >> 4));
+                *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
+                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
+                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
             } else { /* normal text size */
-                DWORD *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
-                *((DWORD *)p) = *(ptr + (d >> 4));
-                *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+                uint32_t *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+                *((uint32_t *)p) = *(ptr + (d >> 4));
+                *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
             }
         }
     } else {
         /* monochrome mode - attributes from register 26 */
-        DWORD *ptr = hr_table + (vdc.regs[26] << 4);
-        DWORD *pdwl = pdl_table + (vdc.regs[26] << 4);  /* Pointers into the lookup tables */
-        DWORD *pdwh = pdh_table + (vdc.regs[26] << 4);
+        uint32_t *ptr = hr_table + (vdc.regs[26] << 4);
+        uint32_t *pdwl = pdl_table + (vdc.regs[26] << 4);  /* Pointers into the lookup tables */
+        uint32_t *pdwh = pdh_table + (vdc.regs[26] << 4);
         for (i = 0; i < vdc.screen_text_cols; i++, p += ((vdc.regs[25] & 0x10) ? 16 : 8)) {
             d = *(char_ptr + (*(screen_ptr + i) * vdc.bytes_per_char));
 
@@ -580,13 +580,13 @@ static void draw_std_text(void)
 
             /* actually render the byte into 8 bytes of colour pixels using the lookup tables */
             if (vdc.regs[25] & 0x10) { /* double pixel mode */
-                *((DWORD *)p) = *(pdwh + (d >> 4));
-                *((DWORD *)p + 1) = *(pdwl + (d >> 4));
-                *((DWORD *)p + 2) = *(pdwh + (d & 0x0f));
-                *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
+                *((uint32_t *)p) = *(pdwh + (d >> 4));
+                *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
+                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
+                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
             } else { /* normal text size */
-                *((DWORD *)p) = *(ptr + (d >> 4));
-                *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+                *((uint32_t *)p) = *(ptr + (d >> 4));
+                *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
             }
         }
     }
@@ -623,7 +623,7 @@ static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
     } else {
         /* monochrome mode - attributes from register 26 */
         r |= raster_cache_data_fill_const(cache->color_data_1,
-                                          (BYTE)(vdc.regs[26] >> 4),
+                                          (uint8_t)(vdc.regs[26] >> 4),
                                           (int)vdc.screen_text_cols + 1,
                                           xs, xe,
                                           rr);
@@ -635,9 +635,9 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
                                    unsigned int xe)
 /* raster_modes_draw_line_cached() in raster */
 {
-    BYTE *p;
-    DWORD *table_ptr, *pdl_ptr, *pdh_ptr;
-    DWORD *ptr, *pdwl, *pdwh;
+    uint8_t *p;
+    uint32_t *table_ptr, *pdl_ptr, *pdh_ptr;
+    uint32_t *ptr, *pdwl, *pdwh;
 
     unsigned int i, d, j, fg, bg, charwidth;
     if (vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
@@ -660,10 +660,10 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
                 d = cache->foreground_data[i];
                 pdwl = pdl_table + ((cache->color_data_1[i] & 0x0f) << 8) + (cache->color_data_1[i] & 0xf0);
                 pdwh = pdh_table + ((cache->color_data_1[i] & 0x0f) << 8) + (cache->color_data_1[i] & 0xf0);
-                *((DWORD *)p) = *(pdwh + (d >> 4));
-                *((DWORD *)p + 1) = *(pdwl + (d >> 4));
-                *((DWORD *)p + 2) = *(pdwh + (d & 0x0f));
-                *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
+                *((uint32_t *)p) = *(pdwh + (d >> 4));
+                *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
+                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
+                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
             }
         } else { /* normal text size */
             for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
@@ -672,8 +672,8 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
                 table_ptr = hr_table + (cache->color_data_1[i] & 0xf0);
                 ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
 
-                *((DWORD *)p) = *(ptr + (d >> 4));
-                *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+                *((uint32_t *)p) = *(ptr + (d >> 4));
+                *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
             }
         }
     } else {
@@ -681,15 +681,15 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
         if (vdc.regs[25] & 0x10) { /* double pixel mode */
             pdl_ptr = pdl_table + ((vdc.regs[26] & 0x0f) << 4);
             pdh_ptr = pdh_table + ((vdc.regs[26] & 0x0f) << 4);
-            
+
             for (i = xs; i <= (unsigned int)xe; i++, p += charwidth) {
                 d = cache->foreground_data[i];
                 pdwl = pdl_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
                 pdwh = pdh_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
-                *((DWORD *)p) = *(pdwh + (d >> 4));
-                *((DWORD *)p + 1) = *(pdwl + (d >> 4));
-                *((DWORD *)p + 2) = *(pdwh + (d & 0x0f));
-                *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
+                *((uint32_t *)p) = *(pdwh + (d >> 4));
+                *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
+                *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
+                *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
             }
         } else { /* normal text size */
             table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
@@ -699,8 +699,8 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
 
                 ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
 
-                *((DWORD *)p) = *(ptr + (d >> 4));
-                *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+                *((uint32_t *)p) = *(ptr + (d >> 4));
+                *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
             }
         }
     }
@@ -735,8 +735,8 @@ static void draw_std_bitmap(void)
 /* raster_modes_draw_line() in raster - draw bitmap mode when cache is not used
    See draw_std_text(), this is for bitmap mode. */
 {
-    BYTE *p;
-    BYTE *attr_ptr, *bitmap_ptr;
+    uint8_t *p;
+    uint8_t *attr_ptr, *bitmap_ptr;
 
     unsigned int i, d, j, fg, bg;
 
@@ -750,7 +750,7 @@ static void draw_std_bitmap(void)
     bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p += ((vdc.regs[25] & 0x10) ? 16 : 8)) {
-        DWORD *ptr, *pdwl, *pdwh;
+        uint32_t *ptr, *pdwl, *pdwh;
 
         if (vdc.regs[25] & 0x40) {
             /* attribute mode */
@@ -772,13 +772,13 @@ static void draw_std_bitmap(void)
 
         /* actually render the byte into 8 bytes of colour pixels using the lookup tables */
         if (vdc.regs[25] & 0x10) { /* double pixel mode */
-            *((DWORD *)p) = *(pdwh + (d >> 4));
-            *((DWORD *)p + 1) = *(pdwl + (d >> 4));
-            *((DWORD *)p + 2) = *(pdwh + (d & 0x0f));
-            *((DWORD *)p + 3) = *(pdwl + (d & 0x0f));
+            *((uint32_t *)p) = *(pdwh + (d >> 4));
+            *((uint32_t *)p + 1) = *(pdwl + (d >> 4));
+            *((uint32_t *)p + 2) = *(pdwh + (d & 0x0f));
+            *((uint32_t *)p + 3) = *(pdwl + (d & 0x0f));
         } else { /* normal pixel size */
-            *((DWORD *)p) = *(ptr + (d >> 4));
-            *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
+            *((uint32_t *)p) = *(ptr + (d >> 4));
+            *((uint32_t *)p + 1) = *(ptr + (d & 0x0f));
         }
     }
 
@@ -825,8 +825,8 @@ static void draw_idle_cached(raster_cache_t *cache, unsigned int xs,
                              unsigned int xe)
 /* raster_modes_draw_line_cached() in raster */
 {
-    BYTE *p;
-    DWORD idleval;
+    uint8_t *p;
+    uint32_t idleval;
 
     unsigned int i;
 
@@ -836,16 +836,16 @@ static void draw_idle_cached(raster_cache_t *cache, unsigned int xs,
     idleval = *(hr_table + ((cache->color_data_1[0] & 0x0f) << 8));
 
     for (i = xs; i <= (unsigned int)xe; i++, p += 8) {
-        *((DWORD *)p) = idleval;
-        *((DWORD *)p + 1) = idleval;
+        *((uint32_t *)p) = idleval;
+        *((uint32_t *)p + 1) = idleval;
     }
 }
 
 static void draw_idle(void)
 /* raster_modes_draw_line() in raster - draw idle mode (just border) when cache is not used */
 { /* TODO - can't we just memset()?? Or just let the border code in raster look after this?? */
-    BYTE *p;
-    DWORD idleval;
+    uint8_t *p;
+    uint32_t idleval;
 
     unsigned int i;
 
@@ -856,11 +856,11 @@ static void draw_idle(void)
     idleval = *(hr_table + ((vdc.regs[26] & 0x0f) << 4));
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p += ((vdc.regs[25] & 0x10) ? 16 : 8)) {
-        *((DWORD *)p) = idleval;
-        *((DWORD *)p + 1) = idleval;
+        *((uint32_t *)p) = idleval;
+        *((uint32_t *)p + 1) = idleval;
         if (vdc.regs[25] & 0x10) { /* double pixel mode */
-            *((DWORD *)p + 2) = idleval;
-            *((DWORD *)p + 3) = idleval;
+            *((uint32_t *)p + 2) = idleval;
+            *((uint32_t *)p + 3) = idleval;
         }
     }
 }

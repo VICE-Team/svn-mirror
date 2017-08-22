@@ -77,7 +77,7 @@ fail:
 
 int vdc_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name,

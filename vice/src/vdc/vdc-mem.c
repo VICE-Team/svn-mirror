@@ -47,7 +47,7 @@
 /*#define REG_DEBUG*/
 
 /* bitmask to set the unused bits in returned register values */
-static const BYTE regmask[38] = {
+static const uint8_t regmask[38] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
     0xFC, 0xE0, 0x80, 0xE0, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
@@ -116,9 +116,9 @@ static void vdc_perform_fillcopy(void)
 /* VDC interface functions. */
 
 /* Store a value in a VDC register. */
-void vdc_store(WORD addr, BYTE value)
+void vdc_store(uint16_t addr, uint8_t value)
 {
-    BYTE oldval;
+    uint8_t oldval;
 
     /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
     machine_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -469,9 +469,9 @@ void vdc_store(WORD addr, BYTE value)
 }
 
 
-BYTE vdc_read(WORD addr)
+uint8_t vdc_read(uint16_t addr)
 {
-    BYTE retval;
+    uint8_t retval;
     int ptr;
 
     machine_handle_pending_alarms(0);
@@ -526,7 +526,7 @@ BYTE vdc_read(WORD addr)
 }
 
 
-BYTE vdc_peek(WORD addr)    /* No sidefx read of external VDC registers */
+uint8_t vdc_peek(uint16_t addr)    /* No sidefx read of external VDC registers */
 {
     if (addr & 1) { /* read $d601 (and mirrors $d603/5/7....$d6ff)  */
 
@@ -548,18 +548,18 @@ BYTE vdc_peek(WORD addr)    /* No sidefx read of external VDC registers */
 }
 
 
-BYTE vdc_ram_read(WORD addr)
+uint8_t vdc_ram_read(uint16_t addr)
 {
     return vdc.ram[addr & vdc.vdc_address_mask];
 }
 
-void vdc_ram_store(WORD addr, BYTE value)
+void vdc_ram_store(uint16_t addr, uint8_t value)
 {
     vdc.ram[addr & vdc.vdc_address_mask] = value;
 }
 
 
-int vdc_dump(void *context, WORD addr)
+int vdc_dump(void *context, uint16_t addr)
 {
     unsigned int r, c, regnum=0;
 
