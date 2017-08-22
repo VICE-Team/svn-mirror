@@ -260,12 +260,12 @@ void driver_select_close(unsigned int prnr, unsigned int secondary)
     driver_select[prnr].drv_close(prnr, secondary);
 }
 
-int driver_select_putc(unsigned int prnr, unsigned int secondary, BYTE b)
+int driver_select_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
     return driver_select[prnr].drv_putc(prnr, secondary, b);
 }
 
-int driver_select_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
+int driver_select_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 {
     return driver_select[prnr].drv_getc(prnr, secondary, b);
 }

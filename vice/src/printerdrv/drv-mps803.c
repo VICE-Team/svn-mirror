@@ -64,12 +64,12 @@
 #define MPS_BUSINESS 0x80 /* opened with SA = 7 in businessmode */
 
 struct mps_s {
-    BYTE line[MAX_COL][7];
+    uint8_t line[MAX_COL][7];
     int bitcnt;
     int repeatn;
     int pos;
     int tab;
-    BYTE tabc[3];
+    uint8_t tabc[3];
     int mode;
 };
 typedef struct mps_s mps_t;
@@ -77,7 +77,7 @@ typedef struct mps_s mps_t;
 #ifdef USE_EMBEDDED
 #include "printermps803.h"
 #else
-static BYTE charset[512][7];
+static uint8_t charset[512][7];
 #endif
 
 static mps_t drv_mps803[NUM_OUTPUT_SELECT];
@@ -116,7 +116,7 @@ static int get_charset_bit(mps_t *mps, int nr, unsigned int col,
     return result;
 }
 
-static void print_cbm_char(mps_t *mps, const BYTE rawchar)
+static void print_cbm_char(mps_t *mps, const uint8_t rawchar)
 {
     unsigned int y, x;
     int c, err = 0;
@@ -166,10 +166,10 @@ static void write_line(mps_t *mps, unsigned int prnr)
 
     for (y = 0; y < 7; y++) {
         for (x = 0; x < 480; x++) {
-            output_select_putc(prnr, (BYTE)(mps->line[x][y]
+            output_select_putc(prnr, (uint8_t)(mps->line[x][y]
                                             ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
         }
-        output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
+        output_select_putc(prnr, (uint8_t)(OUTPUT_NEWLINE));
     }
 
     if (!is_mode(mps, MPS_BITMODE)) {
@@ -241,7 +241,7 @@ static void print_bitmask(mps_t *mps, const char c)
     mps->pos++;
 }
 
-static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
+static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
 {
     if (mps->pos >= MAX_COL) {  /* flush buffer*/
         write_line(mps, prnr);
@@ -398,13 +398,13 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     if (is_mode(mps, MPS_QUOTED)) {
         if (c <= 0x1f) {
             set_mode(mps, MPS_REVERSE);
-            print_cbm_char(mps, (BYTE)(c + 0x40));
+            print_cbm_char(mps, (uint8_t)(c + 0x40));
             del_mode(mps, MPS_REVERSE);
             return;
         }
         if ((c >= 0x80) && (c <= 0x9f)) {
             set_mode(mps, MPS_REVERSE);
-            print_cbm_char(mps, (BYTE)(c - 0x20));
+            print_cbm_char(mps, (uint8_t)(c - 0x20));
             del_mode(mps, MPS_REVERSE);
             return;
         }
@@ -413,9 +413,9 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     print_cbm_char(mps, c);
 }
 
-static int init_charset(BYTE charset[512][7], const char *name)
+static int init_charset(uint8_t charset[512][7], const char *name)
 {
-    BYTE romimage[MPS803_ROM_SIZE];
+    uint8_t romimage[MPS803_ROM_SIZE];
 
     if (sysfile_load(name, romimage, MPS803_ROM_SIZE, MPS803_ROM_SIZE) < 0) {
         log_error(drv803_log, "Could not load MPS-803 charset '%s'.", name);
@@ -470,14 +470,14 @@ static void drv_mps803_close(unsigned int prnr, unsigned int secondary)
  * mode associated with SA=0 or 7.
  */
 
-static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, BYTE b)
+static int drv_mps803_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
     DBG(("drv_mps803_putc(%d,%d:$%02x)\n", prnr, secondary, b));
     print_char(&drv_mps803[prnr], prnr, b);
     return 0;
 }
 
-static int drv_mps803_getc(unsigned int prnr, unsigned int secondary, BYTE *b)
+static int drv_mps803_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 {
     DBG(("drv_mps803_getc(%d,%d)\n", prnr, secondary));
     return output_select_getc(prnr, b);

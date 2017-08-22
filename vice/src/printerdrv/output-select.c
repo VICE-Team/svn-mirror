@@ -235,12 +235,12 @@ void output_select_close(unsigned int prnr)
     output_select[prnr].output_close(prnr);
 }
 
-int output_select_putc(unsigned int prnr, BYTE b)
+int output_select_putc(unsigned int prnr, uint8_t b)
 {
     return output_select[prnr].output_putc(prnr, b);
 }
 
-int output_select_getc(unsigned int prnr, BYTE *b)
+int output_select_getc(unsigned int prnr, uint8_t *b)
 {
     return output_select[prnr].output_getc(prnr, b);
 }

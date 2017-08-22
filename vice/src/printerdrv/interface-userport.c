@@ -59,8 +59,8 @@ C64/C128 | CBM2 | PET | VIC20 | CENTRONICS  | NOTES
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static void userport_printer_store_pbx(BYTE b);
-static void userport_printer_store_pa2(BYTE s);
+static void userport_printer_store_pbx(uint8_t b);
+static void userport_printer_store_pa2(uint8_t s);
 static int userport_printer_write_snapshot_module(snapshot_t *s);
 static int userport_printer_read_snapshot_module(snapshot_t *s);
 
@@ -158,18 +158,18 @@ int interface_userport_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE value; /* userport value */
-static BYTE strobe;
+static uint8_t value; /* userport value */
+static uint8_t strobe;
 
-static void userport_printer_store_pbx(BYTE b)
+static void userport_printer_store_pbx(uint8_t b)
 {
     value = b;
 }
 
-static void userport_printer_store_pa2(BYTE s)
+static void userport_printer_store_pa2(uint8_t s)
 {
     if (userport_printer_enabled && strobe && !s) {     /* hi->lo on strobe */
-        driver_select_putc(USERPORT_OUTPUT, 4, (BYTE)value);
+        driver_select_putc(USERPORT_OUTPUT, 4, (uint8_t)value);
 
         set_userport_flag(1); /* signal lo->hi */
         set_userport_flag(0); /* signal hi->lo */
@@ -212,7 +212,7 @@ static int userport_printer_write_snapshot_module(snapshot_t *s)
 
 static int userport_printer_read_snapshot_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     /* enable device */

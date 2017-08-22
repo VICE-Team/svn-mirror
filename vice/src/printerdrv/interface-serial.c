@@ -196,7 +196,7 @@ static unsigned int inuse_secadr[NUM_PRINTER_DEVICE_NUMBERS];
  * Opens can be implicit, but closes are not.
  */
 
-static int open_pr(unsigned int prnr, const BYTE *name, unsigned int length,
+static int open_pr(unsigned int prnr, const uint8_t *name, unsigned int length,
                    unsigned int secondary)
 {
     int mask = 1 << secondary;
@@ -234,12 +234,12 @@ static int open_pr(unsigned int prnr, const BYTE *name, unsigned int length,
     return 0;
 }
 
-static int read_pr(unsigned int prnr, BYTE *byte, unsigned int secondary)
+static int read_pr(unsigned int prnr, uint8_t *byte, unsigned int secondary)
 {
     return 0x80;
 }
 
-static int write_pr(unsigned int prnr, BYTE byte, unsigned int secondary)
+static int write_pr(unsigned int prnr, uint8_t byte, unsigned int secondary)
 {
     int err;
     int mask = 1 << secondary;
@@ -301,19 +301,19 @@ static void flush_pr(unsigned int prnr, unsigned int secondary)
 
 /* ------------------------------------------------------------------------- */
 
-static int open_pr4(struct vdrive_s *var, const BYTE *name, unsigned int length,
+static int open_pr4(struct vdrive_s *var, const uint8_t *name, unsigned int length,
                     unsigned int secondary,
                     struct cbmdos_cmd_parse_s *cmd_parse_ext)
 {
     return open_pr(0, name, length, secondary);
 }
 
-static int read_pr4(struct vdrive_s *var, BYTE *byte, unsigned int secondary)
+static int read_pr4(struct vdrive_s *var, uint8_t *byte, unsigned int secondary)
 {
     return read_pr(0, byte, secondary);
 }
 
-static int write_pr4(struct vdrive_s *var, BYTE byte, unsigned int secondary)
+static int write_pr4(struct vdrive_s *var, uint8_t byte, unsigned int secondary)
 {
     return write_pr(0, byte, secondary);
 }
@@ -328,19 +328,19 @@ static void flush_pr4(struct vdrive_s *var, unsigned int secondary)
     flush_pr(0, secondary);
 }
 
-static int open_pr5(struct vdrive_s *var, const BYTE *name, unsigned int length,
+static int open_pr5(struct vdrive_s *var, const uint8_t *name, unsigned int length,
                     unsigned int secondary,
                     struct cbmdos_cmd_parse_s *cmd_parse_ext)
 {
     return open_pr(1, name, length, secondary);
 }
 
-static int read_pr5(struct vdrive_s *var, BYTE *byte, unsigned int secondary)
+static int read_pr5(struct vdrive_s *var, uint8_t *byte, unsigned int secondary)
 {
     return read_pr(1, byte, secondary);
 }
 
-static int write_pr5(struct vdrive_s *var, BYTE byte, unsigned int secondary)
+static int write_pr5(struct vdrive_s *var, uint8_t byte, unsigned int secondary)
 {
     return write_pr(1, byte, secondary);
 }
@@ -355,19 +355,19 @@ static void flush_pr5(struct vdrive_s *var, unsigned int secondary)
     flush_pr(1, secondary);
 }
 
-static int open_pr6(struct vdrive_s *var, const BYTE *name, unsigned int length,
+static int open_pr6(struct vdrive_s *var, const uint8_t *name, unsigned int length,
                     unsigned int secondary,
                     struct cbmdos_cmd_parse_s *cmd_parse_ext)
 {
     return open_pr(2, name, length, secondary);
 }
 
-static int read_pr6(struct vdrive_s *var, BYTE *byte, unsigned int secondary)
+static int read_pr6(struct vdrive_s *var, uint8_t *byte, unsigned int secondary)
 {
     return read_pr(2, byte, secondary);
 }
 
-static int write_pr6(struct vdrive_s *var, BYTE byte, unsigned int secondary)
+static int write_pr6(struct vdrive_s *var, uint8_t byte, unsigned int secondary)
 {
     return write_pr(2, byte, secondary);
 }

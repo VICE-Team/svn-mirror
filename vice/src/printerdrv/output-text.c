@@ -218,7 +218,7 @@ static void output_text_close(unsigned int prnr)
     output_fd[printer_device[prnr]] = NULL;
 }
 
-static int output_text_putc(unsigned int prnr, BYTE b)
+static int output_text_putc(unsigned int prnr, uint8_t b)
 {
     if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
@@ -228,12 +228,12 @@ static int output_text_putc(unsigned int prnr, BYTE b)
     return 0;
 }
 
-static int output_text_getc(unsigned int prnr, BYTE *b)
+static int output_text_getc(unsigned int prnr, uint8_t *b)
 {
     if (output_fd[printer_device[prnr]] == NULL) {
         return -1;
     }
-    *b = (BYTE)fgetc(output_fd[printer_device[prnr]]);
+    *b = (uint8_t)fgetc(output_fd[printer_device[prnr]]);
     return 0;
 }
 
