@@ -185,6 +185,7 @@ Copyright @copyright{} 2011-2017 Marcus Sutton
 Copyright @copyright{} 2011-2017 Kajtar Zsolt
 Copyright @copyright{} 2016-2017 AreaScout
 Copyright @copyright{} 2016-2017 Bas Wassink
+Copyright @copyright{} 2017-2016 Michael C. Martin
 @c ---vice-core-team-end---
 
 @c ---ex-team---
@@ -27005,7 +27006,12 @@ Fixed some gtk2/3 issues. Fixed t64 file handling. Fixed memory
 leaks. Added more doxygen documentation. Fixed c1541 issues.
 Updated the Linux-Native-Howto.txt file. Added autoconf, automake and
 yasm version checking. Fixed runtime linker path issues with *BSD. Fixed
-out-of-tree building.
+out-of-tree building. One of the driving forces behind the 'native' GTK3
+port.
+
+@item 
+@b{Michael C. Martin}
+One of the driving forces behind the 'native' GTK3 port.
 
 @end itemize
 
