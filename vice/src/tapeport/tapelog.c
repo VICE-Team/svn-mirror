@@ -67,14 +67,14 @@ static int tapelog_destination = 0;
 static char *tapelog_filename = NULL;
 
 /* keep track of lines */
-static BYTE tapelog_motor_in = 2;
-static BYTE tapelog_motor_out = 2;
-static BYTE tapelog_sense_in = 2;
-static BYTE tapelog_sense_out = 2;
-static BYTE tapelog_write_in = 2;
-static BYTE tapelog_write_out = 2;
+static uint8_t tapelog_motor_in = 2;
+static uint8_t tapelog_motor_out = 2;
+static uint8_t tapelog_sense_in = 2;
+static uint8_t tapelog_sense_out = 2;
+static uint8_t tapelog_write_in = 2;
+static uint8_t tapelog_write_out = 2;
 static unsigned int tapelog_read_in = 0;
-static BYTE tapelog_read_out = 2;
+static uint8_t tapelog_read_out = 2;
 
 /* ------------------------------------------------------------------------- */
 
@@ -157,7 +157,7 @@ static void tapelog_message(char *msg)
 }
 #endif
 
-static void tapelog_initial_set(char *line, BYTE val)
+static void tapelog_initial_set(char *line, uint8_t val)
 {
     if (tapelog_destination) {
         fprintf(tapelog_out, "Initial set of %s to %d at %X\n", line, val, (unsigned int)maincpu_clk);
@@ -166,7 +166,7 @@ static void tapelog_initial_set(char *line, BYTE val)
     }
 }
 
-static void tapelog_transition(char *line, BYTE val)
+static void tapelog_transition(char *line, uint8_t val)
 {
     if (tapelog_destination) {
         fprintf(tapelog_out, "%s: %d -> %d at %X\n", line, !val, val, (unsigned int)maincpu_clk);
@@ -329,7 +329,7 @@ int tapelog_cmdline_options_init(void)
 
 static void tapelog_set_motor(int flag)
 {
-    BYTE val = flag ? 1 : 0;
+    uint8_t val = flag ? 1 : 0;
 
     if (tapelog_motor_out == val) {
         return;
@@ -347,7 +347,7 @@ static void tapelog_set_motor(int flag)
 
 static void tapelog_toggle_write_bit(int write_bit)
 {
-    BYTE val = write_bit ? 1 : 0;
+    uint8_t val = write_bit ? 1 : 0;
 
     if (tapelog_write_out == val) {
         return;
@@ -365,7 +365,7 @@ static void tapelog_toggle_write_bit(int write_bit)
 
 static void tapelog_set_sense_out(int sense)
 {
-    BYTE val = sense ? 1 : 0;
+    uint8_t val = sense ? 1 : 0;
 
     if (tapelog_sense_out == val) {
         return;
@@ -383,7 +383,7 @@ static void tapelog_set_sense_out(int sense)
 
 static void tapelog_set_read_out(int value)
 {
-    BYTE val = value ? 1 : 0;
+    uint8_t val = value ? 1 : 0;
 
     if (tapelog_read_out == val) {
         return;
@@ -401,7 +401,7 @@ static void tapelog_set_read_out(int value)
 
 static void tapelog_set_tape_sense_passthrough(int sense)
 {
-    BYTE val = sense ? 1 : 0;
+    uint8_t val = sense ? 1 : 0;
 
     if (tapelog_sense_in == val) {
         return;
@@ -419,7 +419,7 @@ static void tapelog_set_tape_sense_passthrough(int sense)
 
 static void tapelog_set_tape_write_in_passthrough(int value)
 {
-    BYTE val = value ? 1 : 0;
+    uint8_t val = value ? 1 : 0;
 
     if (tapelog_write_in == val) {
         return;
@@ -437,7 +437,7 @@ static void tapelog_set_tape_write_in_passthrough(int value)
 
 static void tapelog_set_tape_motor_in_passthrough(int value)
 {
-    BYTE val = value ? 1 : 0;
+    uint8_t val = value ? 1 : 0;
 
     if (tapelog_motor_in == val) {
         return;
@@ -457,7 +457,7 @@ void tapelog_trigger_flux_change_passthrough(unsigned int on)
 {
     tapeport_trigger_flux_change(on, tapelog_device.id);
 
-    tapelog_transition("read", (BYTE)on);
+    tapelog_transition("read", (uint8_t)on);
 
     tapelog_read_in = on;
 }
@@ -500,7 +500,7 @@ static int tapelog_write_snapshot(struct snapshot_s *s, int write_image)
         || SMW_B(m, tapelog_write_out) < 0
         || SMW_B(m, tapelog_write_in) < 0
         || SMW_B(m, tapelog_read_out) < 0
-        || SMW_DW(m, (DWORD)tapelog_read_in) < 0) {
+        || SMW_DW(m, (uint32_t)tapelog_read_in) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -509,7 +509,7 @@ static int tapelog_write_snapshot(struct snapshot_s *s, int write_image)
 
 static int tapelog_read_snapshot(struct snapshot_s *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     /* enable device */

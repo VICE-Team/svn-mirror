@@ -571,7 +571,7 @@ void tapeport_enable(int val)
    ----------------------------
    BYTE  | active | tape port active flag
    BYTE  | amount | amount of active devices
-   
+
    if 'amount' is non-zero the following is saved per active device:
 
    type  | name | description
@@ -615,15 +615,15 @@ int tapeport_snapshot_write_module(snapshot_t *s, int write_image)
     }
 
     if (0
-        || SMW_B(m, (BYTE)tapeport_active) < 0
-        || SMW_B(m, (BYTE)amount) < 0) {
+        || SMW_B(m, (uint8_t)tapeport_active) < 0
+        || SMW_B(m, (uint8_t)amount) < 0) {
         goto fail;
     }
 
     /* Save device id's */
     if (amount) {
         for (i = 0; i < amount; ++i) {
-            if (SMW_B(m, (BYTE)devices[i]) < 0) {
+            if (SMW_B(m, (uint8_t)devices[i]) < 0) {
                 goto fail;
             }
         }
@@ -660,7 +660,7 @@ fail:
 
 int tapeport_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int amount = 0;
     char **detach_resource_list = NULL;
