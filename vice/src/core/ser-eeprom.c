@@ -61,7 +61,7 @@ static FILE *eeprom_image_file = NULL;
 #define EEPROM_INCA1_DATA   6
 static unsigned int eeprom_mode = EEPROM_IDLE;
 
-static BYTE eeprom_data[EEPROM_SIZE];
+static uint8_t eeprom_data[EEPROM_SIZE];
 static unsigned int eeprom_readpos = 0;
 static unsigned int eeprom_status = 0;
 
@@ -75,15 +75,15 @@ void eeprom_data_readadvance(void)
     eeprom_readpos &= ((EEPROM_SIZE * 8) - 1);        /* wrap at 8*1024 bit */
 }
 
-BYTE eeprom_data_readbyte(void)
+uint8_t eeprom_data_readbyte(void)
 {
     return eeprom_data[(eeprom_readpos >> 3) & 0x3ff];  /* FIXME: wraparound at 0x100 ?! */
 }
 
-BYTE eeprom_data_readbit(void)
+uint8_t eeprom_data_readbit(void)
 {
-    BYTE value;
-    static BYTE bits[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+    uint8_t value;
+    static uint8_t bits[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
     int bitpos;
     bitpos = eeprom_readpos & 7;
     value = eeprom_data_readbyte();
@@ -101,7 +101,7 @@ BYTE eeprom_data_readbit(void)
     return 0;
 }
 
-BYTE eeprom_data_read(void)
+uint8_t eeprom_data_read(void)
 {
     return eeprom_readbit;
 }
@@ -128,9 +128,9 @@ void eeprom_cmd_reset (void)
     memset(eeprom_cmdbuf, 0, 4);
 }
 
-void eeprom_cmd_write(BYTE value)
+void eeprom_cmd_write(uint8_t value)
 {
-    static BYTE bits[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+    static uint8_t bits[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 /*LOG(("EEPROM: eeprom_cmd_write bit: %d:%02x",eeprom_cmdbit,value));*/
     if (value) {
         eeprom_cmdval |= bits[eeprom_cmdbit];
@@ -162,9 +162,9 @@ void eeprom_seq_reset(void)
     memset(eeprom_seqbuf, 0, 4);
 }
 
-void eeprom_seq_write(BYTE value)
+void eeprom_seq_write(uint8_t value)
 {
-    static BYTE bits[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+    static uint8_t bits[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 /*LOG(("EEPROM: eeprom_seq_write bit: %d:%02x",eeprom_seqbit,value));*/
     if (value) {
         eeprom_seqval |= bits[eeprom_seqbit];
@@ -252,7 +252,7 @@ int eeprom_execute_command(int eeprom_mode)
     return eeprom_mode;
 }
 
-void eeprom_port_write(BYTE clk, BYTE data, int ddr, int status)
+void eeprom_port_write(uint8_t clk, uint8_t data, int ddr, int status)
 {
     int nextmode;
 
@@ -474,7 +474,7 @@ int eeprom_snapshot_read_module(snapshot_t *s)
 {
     return -1;
 #if 0
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

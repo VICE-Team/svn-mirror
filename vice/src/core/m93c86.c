@@ -54,7 +54,7 @@
 /* Image file */
 static FILE *m93c86_image_file = NULL;
 
-static BYTE m93c86_data[M93C86_SIZE];
+static uint8_t m93c86_data[M93C86_SIZE];
 
 static int eeprom_cs = 0;
 static int eeprom_clock = 0;
@@ -97,7 +97,7 @@ static void reset_input_shiftreg(void)
     input_count = 0;
 }
 
-BYTE m93c86_read_data(void)
+uint8_t m93c86_read_data(void)
 {
     if (eeprom_cs == 1) {
         switch (command) {
@@ -123,14 +123,14 @@ BYTE m93c86_read_data(void)
     }
 }
 
-void m93c86_write_data(BYTE value)
+void m93c86_write_data(uint8_t value)
 {
     if (eeprom_cs == 1) {
         eeprom_data_in = value;
     }
 }
 
-void m93c86_write_select(BYTE value)
+void m93c86_write_select(uint8_t value)
 {
     /* Each instruction is preceded by a rising edge on Chip Select Input with Serial Clock being held low. */
     if ((eeprom_cs == 0) && (value == 1) && (eeprom_clock == 0)) {
@@ -154,7 +154,7 @@ void m93c86_write_select(BYTE value)
     }
 }
 
-void m93c86_write_clock(BYTE value)
+void m93c86_write_clock(uint8_t value)
 {
     /* rising edge of clock will read one bit from data input */
     if ((eeprom_cs == 1) && (value == 1) && (eeprom_clock == 0)) {
@@ -406,7 +406,7 @@ int m93c86_snapshot_read_module(snapshot_t *s)
 {
     return -1;
 #if 0
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
