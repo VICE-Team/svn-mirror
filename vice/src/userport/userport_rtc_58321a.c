@@ -68,7 +68,7 @@ static int read_line_active = 0;
 
 /* Some prototypes are needed */
 static void userport_rtc_read_pbx(void);
-static void userport_rtc_store_pbx(BYTE value);
+static void userport_rtc_store_pbx(uint8_t value);
 static int userport_rtc_write_snapshot_module(snapshot_t *s);
 static int userport_rtc_read_snapshot_module(snapshot_t *s);
 
@@ -194,10 +194,10 @@ void userport_rtc_58321a_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void userport_rtc_store_pbx(BYTE value)
+static void userport_rtc_store_pbx(uint8_t value)
 {
     if (value & 0x10) {
-        rtc58321a_write_address(rtc58321a_context, (BYTE)(value & 0xf));
+        rtc58321a_write_address(rtc58321a_context, (uint8_t)(value & 0xf));
     }
     if (value & 0x20) {
         read_line_active = 1;
@@ -205,13 +205,13 @@ static void userport_rtc_store_pbx(BYTE value)
         read_line_active = 0;
     }
     if (value & 0x40) {
-        rtc58321a_write_data(rtc58321a_context, (BYTE)(value & 0xf));
+        rtc58321a_write_data(rtc58321a_context, (uint8_t)(value & 0xf));
     }
 }
 
 static void userport_rtc_read_pbx(void)
 {
-    BYTE retval = 0xf;
+    uint8_t retval = 0xf;
 
     if (read_line_active) {
         retval = rtc58321a_read(rtc58321a_context);
@@ -242,7 +242,7 @@ static int userport_rtc_write_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_B(m, (BYTE)read_line_active) < 0) {
+    if (SMW_B(m, (uint8_t)read_line_active) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -253,7 +253,7 @@ static int userport_rtc_write_snapshot_module(snapshot_t *s)
 
 static int userport_rtc_read_snapshot_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     /* enable device */

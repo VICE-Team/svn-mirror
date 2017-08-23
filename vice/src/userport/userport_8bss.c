@@ -62,7 +62,7 @@ int userport_8bss_channel = 1;
 
 /* Some prototypes are needed */
 static void userport_8bss_read_pbx(void);
-static void userport_8bss_store_pa3(BYTE value);
+static void userport_8bss_store_pa3(uint8_t value);
 static int userport_8bss_write_snapshot_module(snapshot_t *s);
 static int userport_8bss_read_snapshot_module(snapshot_t *s);
 
@@ -158,14 +158,14 @@ int userport_8bss_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void userport_8bss_store_pa3(BYTE value)
+static void userport_8bss_store_pa3(uint8_t value)
 {
     userport_8bss_channel = value & 1;
 }
 
 static void userport_8bss_read_pbx(void)
 {
-    BYTE retval;
+    uint8_t retval;
 
     if (userport_8bss_channel) {
         retval = sampler_get_sample(SAMPLER_CHANNEL_1);
@@ -198,7 +198,7 @@ static int userport_8bss_write_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_B(m, (BYTE)userport_8bss_channel) < 0) {
+    if (SMW_B(m, (uint8_t)userport_8bss_channel) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -207,7 +207,7 @@ static int userport_8bss_write_snapshot_module(snapshot_t *s)
 
 static int userport_8bss_read_snapshot_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     /* enable device */

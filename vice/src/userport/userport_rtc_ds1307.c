@@ -58,14 +58,14 @@ static rtc_ds1307_t *ds1307_context = NULL;
 /* rtc save */
 static int ds1307_rtc_save;
 
-static BYTE ds1307_pb0_sda = 1;
-static BYTE ds1307_pb1_scl = 1;
+static uint8_t ds1307_pb0_sda = 1;
+static uint8_t ds1307_pb1_scl = 1;
 
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
 static void userport_rtc_read_pbx(void);
-static void userport_rtc_store_pbx(BYTE value);
+static void userport_rtc_store_pbx(uint8_t value);
 static int userport_rtc_write_snapshot_module(snapshot_t *s);
 static int userport_rtc_read_snapshot_module(snapshot_t *s);
 
@@ -193,10 +193,10 @@ void userport_rtc_ds1307_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void userport_rtc_store_pbx(BYTE value)
+static void userport_rtc_store_pbx(uint8_t value)
 {
-    BYTE rtcdata = (value & 1) ? 1 : 0;
-    BYTE rtcclk = (value & 2) ? 1 : 0;
+    uint8_t rtcdata = (value & 1) ? 1 : 0;
+    uint8_t rtcclk = (value & 2) ? 1 : 0;
 
     if (rtcdata != ds1307_pb0_sda) {
         ds1307_set_data_line(ds1307_context, rtcdata);
@@ -210,7 +210,7 @@ static void userport_rtc_store_pbx(BYTE value)
 
 static void userport_rtc_read_pbx(void)
 {
-    BYTE retval = ds1307_pb1_scl << 1;
+    uint8_t retval = ds1307_pb1_scl << 1;
 
     retval |= (ds1307_read_data_line(ds1307_context) & 1);
 
@@ -254,7 +254,7 @@ static int userport_rtc_write_snapshot_module(snapshot_t *s)
 
 static int userport_rtc_read_snapshot_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     /* enable device */

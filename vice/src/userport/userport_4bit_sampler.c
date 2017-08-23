@@ -57,7 +57,7 @@ int userport_4bit_sampler_read = 1;
 
 /* Some prototypes are needed */
 static void userport_4bit_sampler_read_pbx(void);
-static void userport_4bit_sampler_store_pa2(BYTE value);
+static void userport_4bit_sampler_store_pa2(uint8_t value);
 static int userport_4bit_sampler_write_snapshot_module(snapshot_t *s);
 static int userport_4bit_sampler_read_snapshot_module(snapshot_t *s);
 
@@ -153,14 +153,14 @@ int userport_4bit_sampler_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void userport_4bit_sampler_store_pa2(BYTE value)
+static void userport_4bit_sampler_store_pa2(uint8_t value)
 {
     userport_4bit_sampler_read = value & 1;
 }
 
 static void userport_4bit_sampler_read_pbx(void)
 {
-    BYTE retval = 0xf0;
+    uint8_t retval = 0xf0;
 
     if (!userport_4bit_sampler_read) {
         retval = sampler_get_sample(SAMPLER_CHANNEL_DEFAULT) & 0xf0;
