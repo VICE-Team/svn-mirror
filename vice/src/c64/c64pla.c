@@ -88,11 +88,16 @@ void c64pla_config_changed(int tape_sense, int write_in, int motor_in, int caps_
     pport.dir_read = pport.dir;
 }
 
+/*
+ * both DDR and DATA are 0 after poweron/reset, this means all pins are input,
+ * and the pullups at charen/hiram/loram/sense will pull up the respective lines
+ * so the kernal will be banked in and i/o is active.
+ */
 void c64pla_pport_reset(void)
 {
-    pport.data = 0x3f;
-    pport.data_out = 0x3f;
-    pport.data_read = 0x3f;
+    pport.data = 0;
+    pport.data_out = 0;
+    pport.data_read = 0;
     pport.dir = 0;
     pport.dir_read = 0;
     pport.data_set_bit6 = 0;
