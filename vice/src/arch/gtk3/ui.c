@@ -47,6 +47,8 @@
 #include "util.h"
 #include "videoarch.h"
 
+#include "uiabout.h"
+
 #include "ui.h"
 
 
@@ -65,6 +67,22 @@ enum {
     PRIMARY_WINDOW,     /**< primary window, all emulators */
     SECONDARY_WINDOW,   /**< secondary window, C128's VDC */
     MONITOR_WINDOW,     /**< optional monitor window/terminal */
+};
+
+
+/** \brief  Tiny menu test
+ */
+static ui_menu_item_t file_menu[] = {
+    { "_Quit", UI_MENU_TYPE_ITEM_ACTION,
+        ui_window_destroy_callback },
+    { NULL, -1, NULL },
+};
+
+
+static ui_menu_item_t help_menu[] = {
+    { "_About", UI_MENU_TYPE_ITEM_ACTION,
+        ui_about_dialog_callback },
+    { NULL, -1, NULL }
 };
 
 
@@ -91,13 +109,12 @@ typedef struct ui_resources_s {
 static ui_resource_t ui_resources;
 
 
-
 /** \brief  Callback for a windows' "destroy" event
  *
  * \param[in]   widget      widget triggering the event (unused)
  * \param[in]   user_data   extra data for the callback (unused)
  */
-static void window_destroy_cb(GtkWidget *widget, gpointer user_data)
+void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     ui_exit();
 }
@@ -147,6 +164,11 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
      */
     menu_bar = ui_menu_bar_create();
 
+    /* generate File menu */
+    ui_menu_file_add(file_menu);
+    /* generate Help menu */
+    ui_menu_help_add(help_menu);
+
     canvas->drawing_area = new_drawing_area;
 
     gtk_container_add(GTK_CONTAINER(new_window), grid);
@@ -160,7 +182,8 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     gtk_widget_set_hexpand(new_drawing_area, TRUE);
     gtk_widget_set_vexpand(new_drawing_area, TRUE);
 
-    g_signal_connect(new_window, "destroy", G_CALLBACK(window_destroy_cb), NULL);
+    g_signal_connect(new_window, "destroy",
+            G_CALLBACK(ui_window_destroy_callback), NULL);
 
     /* We've defaulted to PRIMARY_WINDOW. C128, however, gets its VDC
      * window created first, so shunt this window to secondary status

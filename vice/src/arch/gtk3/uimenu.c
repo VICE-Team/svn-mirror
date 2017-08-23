@@ -48,12 +48,6 @@
 #include "uistatusbar.h"
 #include "util.h"
 
-/* XXX: ugly hack to get ui_exit(), causes circular reference of ui.c and
- *      uimenu.c
- */
-#include "ui.h"
-
-
 #include "uimenu.h"
 
 
@@ -107,36 +101,6 @@ static GtkWidget *debug_submenu = NULL;
 static GtkWidget *help_submenu = NULL;
 
 
-/** \brief  Callback to properly exit the emulator
- *
- * TODO:    Make ui.c set this callback up to avoid circular references between
- *          source files
- *
- * \param[in]   widget      widget that triggered the event (unused)
- * \param[in[   user_data   extra data for the event (unused)
- */
-static void ui_quit_callback(GtkWidget *widget, gpointer user_data)
-{
-    ui_exit();
-}
-
-
-/** \brief  Pop up the 'About' dialog in uiabout.c
- *
- * \param[in]   widget      widget that triggered the event (unused)
- * \param[in[   user_data   extra data for the event (unused)
- */
-
-static void ui_about_callback(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *about;
-
-    about = ui_about_create_dialog();
-    gtk_widget_show(GTK_WIDGET(about));
-}
-
-
-
 /** \brief  Create the top menu bar with standard submenus
  *
  * \return  GtkMenuBar
@@ -148,8 +112,6 @@ GtkWidget *ui_menu_bar_create(void)
 
     /* file menu */
     GtkWidget *file_item;
-    GtkWidget *open_item;
-    GtkWidget *quit_item;
 
     /* edit menu */
     GtkWidget *edit_item;
@@ -180,11 +142,6 @@ GtkWidget *ui_menu_bar_create(void)
     /* create the top-level 'File' menu */
     file_item = gtk_menu_item_new_with_mnemonic("_File");
     file_submenu = gtk_menu_new();
-    open_item = gtk_menu_item_new_with_mnemonic("_Open");
-    quit_item = gtk_menu_item_new_with_mnemonic("_Quit");
-    gtk_menu_shell_append(GTK_MENU_SHELL(file_submenu), open_item);
-    gtk_menu_shell_append(GTK_MENU_SHELL(file_submenu), quit_item);
-    g_signal_connect(quit_item, "activate", G_CALLBACK(ui_quit_callback), NULL);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(file_item), file_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), file_item);
 
@@ -224,15 +181,41 @@ GtkWidget *ui_menu_bar_create(void)
      */
     gtk_widget_set_halign(GTK_WIDGET(help_item), GTK_ALIGN_END);
     help_submenu = gtk_menu_new();
-    about_item = gtk_menu_item_new_with_mnemonic("_Aboot");
-    gtk_menu_shell_append(GTK_MENU_SHELL(help_submenu), about_item);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(help_item), help_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), help_item);
-
-    g_signal_connect(about_item, "activate", G_CALLBACK(ui_about_callback), NULL);
 
     main_menu_bar = bar;    /* XXX: do I need g_object_ref()/g_object_unref()
                                     for this */
     return bar;
 }
+
+
+
+GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
+{
+    size_t i = 0;
+    while (items[i].label != NULL || items[i].type >= 0) {
+        GtkWidget *item = gtk_menu_item_new_with_mnemonic(items[i].label);
+        /* TODO: handle other types than 'action' */
+        if (items[i].callback != NULL) {
+            g_signal_connect(item, "activate", G_CALLBACK(items[i].callback),
+                    NULL);
+        }
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        i++;
+    }
+    return menu;
+}
+
+
+GtkWidget *ui_menu_file_add(ui_menu_item_t *items)
+{
+    return ui_menu_add(file_submenu, items);
+}
+
+GtkWidget *ui_menu_help_add(ui_menu_item_t *items)
+{
+    return ui_menu_add(help_submenu, items);
+}
+
 

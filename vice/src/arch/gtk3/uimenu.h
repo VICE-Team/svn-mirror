@@ -58,6 +58,8 @@ typedef struct ui_menu_item_s {
     /* callbacks, accelerators and other things, again light on the CPP/layer
      * stuff to keep things clean and stuff maintainable.
      */
+
+    void (*callback)(GtkWidget *widget, gpointer user_data);
 } ui_menu_item_t;
 
 
@@ -66,6 +68,10 @@ typedef struct ui_menu_item_s {
  */
 
 extern GtkWidget *ui_menu_bar_create(void);
+
+extern GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
+extern GtkWidget *ui_menu_file_add(ui_menu_item_t *items);
+extern GtkWidget *ui_menu_help_add(ui_menu_item_t *items);
 
 
 #endif

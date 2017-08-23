@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#include <gtk/gtk.h>
+
 /* Number of drives we support in the UI.  */
 #define NUM_DRIVES 4
 
@@ -59,5 +61,7 @@ void ui_set_selected_file(int num);
 
 void ui_common_init(void);
 void ui_common_shutdown(void);
+
+void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 
 #endif

@@ -129,7 +129,7 @@ static GdkPixbuf *get_vice_logo(void)
     GdkPixbuf *logo;
     GError *err = NULL;
 
-    logo = gdk_pixbuf_new_from_file("/usr/local/lib64/vice/doc/vice-logo-small.png", &err);
+    logo = gdk_pixbuf_new_from_file("/usr/local/lib64/vice/doc/vice-logo.jpg", &err);
     if (logo == NULL || err != NULL) {
         g_print("%s(): %s\n", __func__, err->message);
     }
@@ -143,9 +143,7 @@ static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
     destroy_current_team_list(authors);
 }
 
-
-
-GtkWidget *ui_about_create_dialog(void)
+void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *about = gtk_about_dialog_new();
     authors = create_current_team_list();
@@ -178,8 +176,5 @@ GtkWidget *ui_about_create_dialog(void)
     g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback),
             NULL);
 
-
-    return about;
+    gtk_widget_show(about);
 }
-
-
