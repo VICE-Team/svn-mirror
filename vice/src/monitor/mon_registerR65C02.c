@@ -96,7 +96,7 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
     return 0;
 }
 
-static void mon_register_set_val(int mem, int reg_id, WORD val)
+static void mon_register_set_val(int mem, int reg_id, uint16_t val)
 {
     R65C02_regs_t *reg_ptr;
 
@@ -111,13 +111,13 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 
     switch (reg_id) {
         case e_A:
-            R65C02_REGS_SET_A(reg_ptr, (BYTE)val);
+            R65C02_REGS_SET_A(reg_ptr, (uint8_t)val);
             break;
         case e_X:
-            R65C02_REGS_SET_X(reg_ptr, (BYTE)val);
+            R65C02_REGS_SET_X(reg_ptr, (uint8_t)val);
             break;
         case e_Y:
-            R65C02_REGS_SET_Y(reg_ptr, (BYTE)val);
+            R65C02_REGS_SET_Y(reg_ptr, (uint8_t)val);
             break;
         case e_PC:
             R65C02_REGS_SET_PC(reg_ptr, val);
@@ -126,10 +126,10 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
             }
             break;
         case e_SP:
-            R65C02_REGS_SET_SP(reg_ptr, (BYTE)val);
+            R65C02_REGS_SET_SP(reg_ptr, (uint8_t)val);
             break;
         case e_FLAGS:
-            R65C02_REGS_SET_STATUS(reg_ptr, (BYTE)val);
+            R65C02_REGS_SET_STATUS(reg_ptr, (uint8_t)val);
             break;
         default:
             log_error(LOG_ERR, "Unknown register!");
@@ -236,7 +236,7 @@ static mon_reg_list_t *mon_register_list_getR65C02(int mem)
 
     do {
         if (regs->flags & MON_REGISTER_IS_MEMORY) {
-            regs->val = (unsigned int)mon_get_mem_val(mem, (WORD)regs->extra);
+            regs->val = (unsigned int)mon_get_mem_val(mem, (uint16_t)regs->extra);
         } else if (regs->flags & MON_REGISTER_IS_FLAGS) {
             regs->val = (unsigned int)mon_register_get_val(mem, regs->id) | 0x20;
         } else {

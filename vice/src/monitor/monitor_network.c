@@ -49,7 +49,7 @@
 
 #ifdef HAVE_NETWORK
 
-#define ADDR_LIMIT(x) ((WORD)(addr_mask(x)))
+#define ADDR_LIMIT(x) ((uint16_t)(addr_mask(x)))
 
 static vice_network_socket_t * listen_socket = NULL;
 static vice_network_socket_t * connected_socket = NULL;
@@ -300,7 +300,7 @@ static void monitor_network_process_binary_command(unsigned char * pbuffer, int 
                     unsigned char * p = lib_malloc(length);
 
                     for (i = 0; i < length; i++) {
-                        p[i] = mon_get_mem_val(memspace, (WORD)ADDR_LIMIT(startaddress + i));
+                        p[i] = mon_get_mem_val(memspace, (uint16_t)ADDR_LIMIT(startaddress + i));
                     }
 
                     monitor_network_binary_answer(length, MON_ERR_OK, p);

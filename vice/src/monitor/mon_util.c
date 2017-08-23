@@ -186,7 +186,7 @@ int mon_out(const char *format, ...)
     return rc;
 }
 
-char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
+char *mon_disassemble_with_label(MEMSPACE memspace, uint16_t loc, int hex,
                                  unsigned *opc_size_p, unsigned *label_p)
 {
     const char *p;
@@ -207,21 +207,21 @@ char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
     p = mon_disassemble_to_string_ex(memspace, loc,
                                      mon_get_mem_val(memspace, loc),
                                      mon_get_mem_val(memspace,
-                                                     (WORD)(loc + 1)),
+                                                     (uint16_t)(loc + 1)),
                                      mon_get_mem_val(memspace,
-                                                     (WORD)(loc + 2)),
+                                                     (uint16_t)(loc + 2)),
                                      mon_get_mem_val(memspace,
-                                                     (WORD)(loc + 3)),
+                                                     (uint16_t)(loc + 3)),
                                      hex,
                                      opc_size_p);
 
     return lib_msprintf((hex ? "%04X: %s%10s" : "%05u: %s%10s"), loc, p, "");
 }
 
-char *mon_dump_with_label(MEMSPACE memspace, WORD loc, int hex, unsigned *label_p)
+char *mon_dump_with_label(MEMSPACE memspace, uint16_t loc, int hex, unsigned *label_p)
 {
     const char *p;
-    BYTE val;
+    uint8_t val;
 
     if (*label_p == 0) {
         /* process a label, if available */

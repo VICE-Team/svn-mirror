@@ -42,14 +42,14 @@
 
 #define SKIP_PREFIX() remove_6809_prefix(&prefix, opc)
 
-static void remove_6809_prefix(int *prefix, BYTE *opc)
+static void remove_6809_prefix(int *prefix, uint8_t *opc)
 {
     if (opc[0] == 0x10 || opc[0] == 0x11) {
         ++*prefix;
     }
 }
 
-static char *get_6309_bitwise_reg(BYTE val)
+static char *get_6309_bitwise_reg(uint8_t val)
 {
     switch (val & 0xc0) {
         case 0x00:
@@ -75,7 +75,7 @@ static char *reg6309[] = {
 char index_reg6809[] = { 'X', 'Y', 'U', 'S' };
 
 static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
-                                                      unsigned int addr, BYTE opc[5],
+                                                      unsigned int addr, uint8_t opc[5],
                                                       int hex_mode, unsigned *opc_size_p,
                                                       monitor_cpu_type_t *mon_cpu_type)
 {
@@ -85,7 +85,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
     int addr_mode;
     unsigned opc_size;
     unsigned int ival;    /* Use unsigned int because DWORD may be a long. */
-    WORD ival2;
+    uint16_t ival2;
     const asm_opcode_info_t *opinfo;
     int prefix = 0;
 
@@ -95,7 +95,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 #define p3      opc[3]
 #define p4      opc[4]
 
-    ival = (DWORD)(p1 & 0xff);
+    ival = (uint32_t)(p1 & 0xff);
 
     buffp = buff;
 
@@ -153,7 +153,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_ABSOLUTE_LONG_X:
         case ASM_ADDR_MODE_ABSOLUTE_IX:
         case ASM_ADDR_MODE_ABSOLUTE_IY:
-            ival |= (DWORD)((p3 & 0xff) << 16);
+            ival |= (uint32_t)((p3 & 0xff) << 16);
             /* fall through */
         case ASM_ADDR_MODE_ABSOLUTE:
         case ASM_ADDR_MODE_ABSOLUTE_A:
@@ -163,7 +163,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
         case ASM_ADDR_MODE_ABS_INDIRECT:
         case ASM_ADDR_MODE_ABS_INDIRECT_X:
         case ASM_ADDR_MODE_ABS_IND_LONG:
-            ival |= (DWORD)((p2 & 0xff) << 8);
+            ival |= (uint32_t)((p2 & 0xff) << 8);
             /* fall through */
         case ASM_ADDR_MODE_ZERO_PAGE:
         case ASM_ADDR_MODE_ZERO_PAGE_X:
@@ -196,7 +196,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                 default:
                     break;
             }
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (uint16_t)ival))) {
                 switch (addr_mode) {
                     case ASM_ADDR_MODE_ABSOLUTE_LONG:
                     case ASM_ADDR_MODE_ABSOLUTE_LONG_X:
@@ -290,7 +290,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             ival += 2;
             ival &= 0xffff;
             *buffp++ = ' ';
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (uint16_t)ival))) {
                 sprintf(buffp, (hex_mode ? "$%04X" : "%5d"), ival);
             } else {
                 sprintf(buffp, "%s", addr_name);
@@ -306,7 +306,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             ival += 3;
             ival &= 0xffff;
             *buffp++ = ' ';
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (uint16_t)ival))) {
                 sprintf(buffp, (hex_mode ? "$%04X" : "%5d"), ival);
             } else {
                 sprintf(buffp, "%s", addr_name);
@@ -321,7 +321,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             ival2 += addr;
             ival2 += 3;
             *buffp++ = ' ';
-            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (WORD)ival))) {
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, (uint16_t)ival))) {
                 sprintf(buffp, (hex_mode ? "$%02X" : "%3d"), ival);
                 buffp += strlen(buffp);
             } else {
@@ -337,7 +337,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             break;
 
         case ASM_ADDR_MODE_IMMEDIATE_16:
-            ival |= (DWORD)((p2 & 0xff) << 8);
+            ival |= (uint32_t)((p2 & 0xff) << 8);
             sprintf(buffp, (hex_mode ? " #$%04X" : " #%5d"), ival);
             break;
 
@@ -545,13 +545,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8 0x0C*/
                     case 0x0C:
-                        sprintf(buffp, " $%04X,PCR /* $%02X,PC */", (SIGNED_CHAR)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
+                        sprintf(buffp, " $%04X,PCR /* $%02X,PC */", (int8_t)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16        0x0D*/
                     case 0x0D:
                         ival = (opc[prefix + 2] << 8) + opc[prefix + 3];
-                        sprintf(buffp, " $%04X,PCR /* $%04X,PC */", (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " $%04X,PCR /* $%04X,PC */", (uint16_t)(ival + addr + opc_size), ival);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_INC2_IND       0x11*/
@@ -596,13 +596,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8_IND   0x1C*/
                     case 0x1C:
-                        sprintf(buffp, " [$%04X,PCR] /* [$%02X,PC] */", (SIGNED_CHAR)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
+                        sprintf(buffp, " [$%04X,PCR] /* [$%02X,PC] */", (int8_t)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16_IND  0x1D*/
                     case 0x1D:
                         ival = (opc[prefix + 2] << 8) + opc[prefix + 3];
-                        sprintf(buffp, " [$%04X,PCR] /* [$%04X,PC] */", (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " [$%04X,PCR] /* [$%04X,PC] */", (uint16_t)(ival + addr + opc_size), ival);
                         break;
 
                     /* ASM_ADDR_MODE_EXTENDED_INDIRECT    0x1F*/
@@ -702,13 +702,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8 0x0C*/
                     case 0x0C:
-                        sprintf(buffp, " $%04X,PCR /* $%02X,PC */", (SIGNED_CHAR)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
+                        sprintf(buffp, " $%04X,PCR /* $%02X,PC */", (int8_t)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16        0x0D*/
                     case 0x0D:
                         ival = (opc[prefix + 2] << 8) + opc[prefix + 3];
-                        sprintf(buffp, " $%04X,PCR /* $%04X,PC */", (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " $%04X,PCR /* $%04X,PC */", (uint16_t)(ival + addr + opc_size), ival);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_F6809_EXTENDED 0x0F*/
@@ -776,13 +776,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8_IND   0x1C*/
                     case 0x1C:
-                        sprintf(buffp, " [$%04X,PCR] /* [$%02X,PC] */", (SIGNED_CHAR)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
+                        sprintf(buffp, " [$%04X,PCR] /* [$%02X,PC] */", (int8_t)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16_IND  0x1D*/
                     case 0x1D:
                         ival = (opc[prefix + 2] << 8) + opc[prefix + 3];
-                        sprintf(buffp, " [$%04X,PCR] /* [$%04X,PC] */", (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " [$%04X,PCR] /* [$%04X,PC] */", (uint16_t)(ival + addr + opc_size), ival);
                         break;
 
                     /* ASM_ADDR_MODE_EXTENDED_INDIRECT    0x1F*/
@@ -878,13 +878,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8 0x0C*/
                     case 0x0C:
-                        sprintf(buffp, " $%04X,PCR /* $%02X,PC */", (SIGNED_CHAR)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
+                        sprintf(buffp, " $%04X,PCR /* $%02X,PC */", (int8_t)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16        0x0D*/
                     case 0x0D:
                         ival = (opc[prefix + 2] << 8) + opc[prefix + 3];
-                        sprintf(buffp, " $%04X,PCR /* $%04X,PC */", (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " $%04X,PCR /* $%04X,PC */", (uint16_t)(ival + addr + opc_size), ival);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_H6309_OFFW 0x0E*/
@@ -999,13 +999,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8_IND   0x1C*/
                     case 0x1C:
-                        sprintf(buffp, " [$%04X,PCR] /* [$%02X,PC] */", (SIGNED_CHAR)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
+                        sprintf(buffp, " [$%04X,PCR] /* [$%02X,PC] */", (int8_t)opc[prefix + 2] + addr + opc_size, opc[prefix + 2]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16_IND  0x1D*/
                     case 0x1D:
                         ival = (opc[prefix + 2] << 8) + opc[prefix + 3];
-                        sprintf(buffp, " [$%04X,PCR] /* [$%04X,PC] */", (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " [$%04X,PCR] /* [$%04X,PC] */", (uint16_t)(ival + addr + opc_size), ival);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_H6309_OFFW_IND 0x1E*/
@@ -1100,13 +1100,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8 0x0C*/
                     case 0x0C:
-                        sprintf(buffp, " #$%02X,$%04X,PCR /* $%02X,PC */", opc[prefix + 1], (SIGNED_CHAR)opc[prefix + 3] + addr + opc_size, opc[prefix + 3]);
+                        sprintf(buffp, " #$%02X,$%04X,PCR /* $%02X,PC */", opc[prefix + 1], (int8_t)opc[prefix + 3] + addr + opc_size, opc[prefix + 3]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16        0x0D*/
                     case 0x0D:
                         ival = (opc[prefix + 3] << 8) + opc[prefix + 4];
-                        sprintf(buffp, " #$%02X,$%04X,PCR /* $%04X,PC */", opc[prefix + 1], (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " #$%02X,$%04X,PCR /* $%04X,PC */", opc[prefix + 1], (uint16_t)(ival + addr + opc_size), ival);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_H6309_OFFW 0x0E*/
@@ -1221,13 +1221,13 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC8_IND   0x1C*/
                     case 0x1C:
-                        sprintf(buffp, " #$%02X,[$%04X,PCR] /* [$%02X,PC] */", opc[prefix + 1], (SIGNED_CHAR)opc[prefix + 3] + addr + opc_size, opc[prefix + 3]);
+                        sprintf(buffp, " #$%02X,[$%04X,PCR] /* [$%02X,PC] */", opc[prefix + 1], (int8_t)opc[prefix + 3] + addr + opc_size, opc[prefix + 3]);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16_IND  0x1D*/
                     case 0x1D:
                         ival = (opc[prefix + 3] << 8) + opc[prefix + 4];
-                        sprintf(buffp, " #$%02X,[$%04X,PCR] /* [$%04X,PC] */", (WORD)(ival + addr + opc_size), ival, 0 /*FIXME*/);
+                        sprintf(buffp, " #$%02X,[$%04X,PCR] /* [$%04X,PC] */", (uint16_t)(ival + addr + opc_size), ival, 0 /*FIXME*/);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_H6309_OFFW_IND 0x1E*/
@@ -1250,12 +1250,12 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 
         case ASM_ADDR_MODE_REL_BYTE:
             SKIP_PREFIX();
-            sprintf(buffp, " $%04X", (SIGNED_CHAR)opc[prefix + 1] + addr + opc_size);
+            sprintf(buffp, " $%04X", (int8_t)opc[prefix + 1] + addr + opc_size);
             break;
 
         case ASM_ADDR_MODE_REL_WORD:
             SKIP_PREFIX();
-            sprintf(buffp, " $%04X", (WORD)((opc[prefix + 1] << 8) + opc[prefix + 2] + addr + opc_size));
+            sprintf(buffp, " $%04X", (uint16_t)((opc[prefix + 1] << 8) + opc[prefix + 2] + addr + opc_size));
             break;
 
         case ASM_ADDR_MODE_REG_POST:
@@ -1339,9 +1339,9 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
 static const char* mon_disassemble_instr_interal(unsigned *opc_size, MON_ADDR addr)
 {
     static char buff[256];
-    BYTE opc[5];
+    uint8_t opc[5];
     MEMSPACE mem;
-    WORD loc;
+    uint16_t loc;
     int hex_mode = 1;
     const char *dis_inst;
 
@@ -1349,10 +1349,10 @@ static const char* mon_disassemble_instr_interal(unsigned *opc_size, MON_ADDR ad
     loc = addr_location(addr);
 
     opc[0] = mon_get_mem_val(mem, loc);
-    opc[1] = mon_get_mem_val(mem, (WORD)(loc + 1));
-    opc[2] = mon_get_mem_val(mem, (WORD)(loc + 2));
-    opc[3] = mon_get_mem_val(mem, (WORD)(loc + 3));
-    opc[4] = mon_get_mem_val(mem, (WORD)(loc + 4));
+    opc[1] = mon_get_mem_val(mem, (uint16_t)(loc + 1));
+    opc[2] = mon_get_mem_val(mem, (uint16_t)(loc + 2));
+    opc[3] = mon_get_mem_val(mem, (uint16_t)(loc + 3));
+    opc[4] = mon_get_mem_val(mem, (uint16_t)(loc + 4));
 
     dis_inst = mon_disassemble_to_string_internal(mem, loc, opc, hex_mode, opc_size, monitor_cpu_for_memspace[mem]);
 
@@ -1365,7 +1365,7 @@ const char *mon_disassemble_to_string(MEMSPACE memspace, unsigned int addr,
                                       unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
                                       int hex_mode, const char *cpu_type)
 {
-    BYTE opc[5];
+    uint8_t opc[5];
 
     opc[0] = x;
     opc[1] = p1;
@@ -1380,7 +1380,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
                                          unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
                                          int hex_mode, unsigned *opc_size_p)
 {
-    BYTE opc[5];
+    uint8_t opc[5];
 
     opc[0] = x;
     opc[1] = p1;
@@ -1395,7 +1395,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
 unsigned mon_disassemble_instr(MON_ADDR addr)
 {
     MEMSPACE mem;
-    WORD loc;
+    uint16_t loc;
     char *label;
     unsigned opc_size;
 

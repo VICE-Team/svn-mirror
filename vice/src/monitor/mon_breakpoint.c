@@ -582,7 +582,7 @@ int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
 mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    WORD addr = addr_location(address);
+    uint16_t addr = addr_location(address);
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
@@ -597,7 +597,7 @@ mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address)
 void mon_breakpoint_set(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    WORD addr = addr_location(address);
+    uint16_t addr = addr_location(address);
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
@@ -615,7 +615,7 @@ void mon_breakpoint_set(MON_ADDR address)
 void mon_breakpoint_unset(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    WORD addr = addr_location(address);
+    uint16_t addr = addr_location(address);
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
@@ -629,7 +629,7 @@ void mon_breakpoint_unset(MON_ADDR address)
 void mon_breakpoint_enable(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    WORD addr = addr_location(address);
+    uint16_t addr = addr_location(address);
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
@@ -643,7 +643,7 @@ void mon_breakpoint_enable(MON_ADDR address)
 void mon_breakpoint_disable(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
-    WORD addr = addr_location(address);
+    uint16_t addr = addr_location(address);
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);

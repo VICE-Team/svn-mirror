@@ -45,7 +45,7 @@
 #include "vdrive-command.h"
 
 
-#define ADDR_LIMIT(x) ((WORD)(addr_mask(x)))
+#define ADDR_LIMIT(x) ((uint16_t)(addr_mask(x)))
 
 
 void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
@@ -62,7 +62,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
     }
 
     if (!op) {
-        BYTE readdata[256];
+        uint8_t readdata[256];
         int i, j, dst;
         MEMSPACE dest_mem;
 
@@ -95,7 +95,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
             }
         }
     } else {
-        BYTE writedata[256];
+        uint8_t writedata[256];
         int i, src;
         MEMSPACE src_mem;
 
@@ -127,7 +127,7 @@ void mon_drive_execute_disk_cmd(char *cmd)
 
     len = (unsigned int)strlen(cmd);
 
-    vdrive_command_execute(vdrive, (BYTE *)cmd, len);
+    vdrive_command_execute(vdrive, (uint8_t *)cmd, len);
 }
 
 void mon_drive_list(int drive_number)

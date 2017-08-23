@@ -123,7 +123,7 @@ int mon_init_break = -1;
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
 #define MONITOR_GET_PC(mem) \
-    ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC)))
+    ((uint16_t)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC)))
 
 #define MONITOR_GET_OPCODE(mem) (mon_get_mem_val(mem, MONITOR_GET_PC(mem)))
 
@@ -136,7 +136,7 @@ monitor_cartridge_commands_t mon_cart_cmd;
 /* Types */
 
 struct symbol_entry {
-    WORD addr;
+    uint16_t addr;
     char *name;
     struct symbol_entry *next;
 };
@@ -178,8 +178,8 @@ const char *_mon_space_strings[] = {
     "Default", "Computer", "Disk8", "Disk9", "Disk10", "Disk11", "<<Invalid>>"
 };
 
-static WORD watch_load_array[10][NUM_MEMSPACES];
-static WORD watch_store_array[10][NUM_MEMSPACES];
+static uint16_t watch_load_array[10][NUM_MEMSPACES];
+static uint16_t watch_store_array[10][NUM_MEMSPACES];
 static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
@@ -432,7 +432,7 @@ static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
 
 static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
 {
-    WORD start, end;
+    uint16_t start, end;
     unsigned len = 0;
 
     start = addr_location(addr1);
@@ -448,7 +448,7 @@ static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
 }
 
 long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
-                                bool must_be_range, WORD default_len)
+                                bool must_be_range, uint16_t default_len)
 {
     long len = default_len;
 
@@ -638,7 +638,7 @@ const char *mon_get_current_bank_name(MEMSPACE mem)
     src/mainc64cpu.c:358, src/mainviccpu.c:237, src/maincpu.c:296
 */
 
-BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr)
+uint8_t mon_get_mem_val_ex(MEMSPACE mem, int bank, uint16_t mem_addr)
 {
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
@@ -653,25 +653,25 @@ BYTE mon_get_mem_val_ex(MEMSPACE mem, int bank, WORD mem_addr)
     }
 }
 
-BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr)
+uint8_t mon_get_mem_val(MEMSPACE mem, uint16_t mem_addr)
 {
     return mon_get_mem_val_ex(mem, mon_interfaces[mem]->current_bank, mem_addr);
 }
 
-void mon_get_mem_block_ex(MEMSPACE mem, int bank, WORD start, WORD end, BYTE *data)
+void mon_get_mem_block_ex(MEMSPACE mem, int bank, uint16_t start, uint16_t end, uint8_t *data)
 {
     int i;
     for (i = 0; i <= end; i++) {
-        data[i] = mon_get_mem_val_ex(mem, bank, (WORD)(start + i));
+        data[i] = mon_get_mem_val_ex(mem, bank, (uint16_t)(start + i));
     }
 }
 
-void mon_get_mem_block(MEMSPACE mem, WORD start, WORD end, BYTE *data)
+void mon_get_mem_block(MEMSPACE mem, uint16_t start, uint16_t end, uint8_t *data)
 {
     mon_get_mem_block_ex(mem, mon_interfaces[mem]->current_bank, start, end, data);
 }
 
-void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
+void mon_set_mem_val(MEMSPACE mem, uint16_t mem_addr, uint8_t val)
 {
     int bank;
 
@@ -691,7 +691,7 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
 void mon_jump(MON_ADDR addr)
 {
     mon_evaluate_default_addr(&addr);
-    (monitor_cpu_for_memspace[addr_memspace(addr)]->mon_register_set_val)(addr_memspace(addr), e_PC, (WORD)(addr_location(addr)));
+    (monitor_cpu_for_memspace[addr_memspace(addr)]->mon_register_set_val)(addr_memspace(addr), e_PC, (uint16_t)(addr_location(addr)));
     exit_mon = 1;
 }
 
@@ -824,15 +824,15 @@ static void montor_list_destroy(monitor_cpu_type_list_t *list)
 
 void mon_backtrace(void)
 {
-    BYTE opc;
-    WORD sp, i, addr, n;
+    uint8_t opc;
+    uint16_t sp, i, addr, n;
 
     /* TODO support DTV stack relocation, check memspace handling, move somewhere else */
     n = 0;
     sp = (monitor_cpu_for_memspace[default_memspace]->mon_register_get_val)(default_memspace, e_SP);
     for (i = sp + 0x100 + 1; i < 0x1ff; i++) {
         addr = mon_get_mem_val(default_memspace, i);
-        addr += ((WORD)mon_get_mem_val(default_memspace, (WORD)(i + 1))) << 8;
+        addr += ((uint16_t)mon_get_mem_val(default_memspace, (uint16_t)(i + 1))) << 8;
         addr -= 2;
         opc = mon_get_mem_val(default_memspace, addr);
         if (opc == 0x20 /* JSR */) {
@@ -1154,7 +1154,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     mon_memmap_init();
 
     if (mon_init_break != -1) {
-        mon_breakpoint_add_checkpoint((WORD)mon_init_break, BAD_ADDR, TRUE, e_exec, FALSE);
+        mon_breakpoint_add_checkpoint((uint16_t)mon_init_break, BAD_ADDR, TRUE, e_exec, FALSE);
     }
 
     if (playback > 0) {
@@ -1295,8 +1295,8 @@ void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
 
 void mon_display_screen(void)
 {
-    WORD base;
-    BYTE rows, cols;
+    uint16_t base;
+    uint8_t rows, cols;
     unsigned int r, c;
     int bank;
 
@@ -1306,12 +1306,12 @@ void mon_display_screen(void)
 
     for (r = 0; r < rows; r++) {
         for (c = 0; c < cols; c++) {
-            BYTE data;
+            uint8_t data;
 
             /* Not sure this really neads to use mon_get_mem_val_ex()
                Do we want monitor sidefx in a function that's *supposed*
                to just read from screen memory? */
-            data = mon_get_mem_val_ex(e_comp_space, bank, (WORD)ADDR_LIMIT(base++));
+            data = mon_get_mem_val_ex(e_comp_space, bank, (uint16_t)ADDR_LIMIT(base++));
             data = charset_p_toascii(charset_screencode_to_petcii(data), 1);
 
             mon_out("%c", data);
@@ -1366,7 +1366,7 @@ void mon_display_io_regs(MON_ADDR addr)
                 if (addr > 0) {
                     if (mem_ioreg_list_base[n].dump) {
                         mon_out("\n");
-                        if (mem_ioreg_list_base[n].dump(mem_ioreg_list_base[n].context, (WORD)(addr_location(start))) < 0) {
+                        if (mem_ioreg_list_base[n].dump(mem_ioreg_list_base[n].context, (uint16_t)(addr_location(start))) < 0) {
                             mon_out("No details available.\n");
                         }
                     } else {
@@ -1393,8 +1393,8 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
 {
     mem_ioreg_list_t *base;
     unsigned int n;
-    WORD start = start_ & 0xFFFFu;
-    WORD end = end_ & 0xFFFFu;
+    uint16_t start = start_ & 0xFFFFu;
+    uint16_t end = end_ & 0xFFFFu;
 
     assert(start == start_);
     assert(end == end_);
@@ -1589,7 +1589,7 @@ static void free_symbol_table(MEMSPACE mem)
     }
 }
 
-char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr)
+char *mon_symbol_table_lookup_name(MEMSPACE mem, uint16_t addr)
 {
     symbol_entry_t *sym_ptr;
 
@@ -1649,7 +1649,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
     char *old_name;
     int old_addr;
     MEMSPACE mem = addr_memspace(addr);
-    WORD loc = addr_location(addr);
+    uint16_t loc = addr_location(addr);
 
     if (mem == e_default_space) {
         mem = default_memspace;
@@ -1936,8 +1936,8 @@ int mon_evaluate_conditional(cond_node_t *cnode)
         }
         else if(cnode->banknum >= 0) {
             MEMSPACE src_mem = e_comp_space;
-            WORD start = addr_location(cnode->value);
-            BYTE byte1;
+            uint16_t start = addr_location(cnode->value);
+            uint8_t byte1;
             int old_sidefx = sidefx; /*we need to store current value*/
             sidefx = 0; /*make sure we peek when doing the break point, otherwise weird stuff will happen*/
 
@@ -1973,7 +1973,7 @@ void mon_delete_conditional(cond_node_t *cnode)
 /* *** WATCHPOINTS *** */
 
 
-void monitor_watch_push_load_addr(WORD addr, MEMSPACE mem)
+void monitor_watch_push_load_addr(uint16_t addr, MEMSPACE mem)
 {
     if (inside_monitor) {
         return;
@@ -1988,7 +1988,7 @@ void monitor_watch_push_load_addr(WORD addr, MEMSPACE mem)
     watch_load_count[mem]++;
 }
 
-void monitor_watch_push_store_addr(WORD addr, MEMSPACE mem)
+void monitor_watch_push_store_addr(uint16_t addr, MEMSPACE mem)
 {
     if (inside_monitor) {
         return;
@@ -2007,7 +2007,7 @@ static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned 
 {
     bool trap = FALSE;
     unsigned count;
-    WORD addr = 0;
+    uint16_t addr = 0;
 
     count = watch_load_count[mem];
     while (count) {
@@ -2025,7 +2025,7 @@ static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned
 {
     bool trap = FALSE;
     unsigned count;
-    WORD addr = 0;
+    uint16_t addr = 0;
 
     count = watch_store_count[mem];
     watch_store_count[mem] = 0;
@@ -2055,7 +2055,7 @@ int monitor_force_import(MEMSPACE mem)
 }
 
 /* called by cpu core */
-void monitor_check_icount(WORD pc)
+void monitor_check_icount(uint16_t pc)
 {
     if (!instruction_count) {
         return;
@@ -2121,7 +2121,7 @@ void monitor_check_icount_interrupt(void)
 /* called by macro DO_INTERRUPT() in 6510(dtv)core.c
  * returns non-zero if breakpoint hit and monitor should be invoked
  */
-int monitor_check_breakpoints(MEMSPACE mem, WORD addr)
+int monitor_check_breakpoints(MEMSPACE mem, uint16_t addr)
 {
     return mon_breakpoint_check_checkpoint(mem, addr, 0, e_exec); /* FIXME */
 }
@@ -2275,11 +2275,11 @@ static void monitor_open(void)
     /* Safety precaution */
     monitor_cpu_for_memspace[default_memspace] = monitor_cpu_for_memspace[default_memspace];
 
-    dot_addr[e_comp_space] = new_addr(e_comp_space, ((WORD)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
+    dot_addr[e_comp_space] = new_addr(e_comp_space, ((uint16_t)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         int mem = monitor_diskspace_mem(dnr);
-        dot_addr[mem] = new_addr(mem, ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
+        dot_addr[mem] = new_addr(mem, ((uint16_t)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
     }
     /* disassemble at monitor entry, for single stepping */
     if (disassemble_on_entry) {
@@ -2416,7 +2416,7 @@ void monitor_startup(MEMSPACE mem)
     monitor_close(1);
 }
 
-static void monitor_trap(WORD addr, void *unused_data)
+static void monitor_trap(uint16_t addr, void *unused_data)
 {
     monitor_startup(e_default_space);
 #ifdef HAVE_FULLSCREEN
