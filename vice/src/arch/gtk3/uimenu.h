@@ -34,6 +34,37 @@
 #include <gtk/gtk.h>
 
 
+/** \brief  Menu item types
+ *
+ * The submenu types needs special handling, no more callbacks to create the
+ * menu so we won't have to deal with the `ui_update_checmarks` crap of Gtk2.
+ *
+ * The 'layer' between VICE and Gtk3 should be as thin as possible, so no
+ * UI_CREATE_TOGGLE_BUTTON() stuff.
+ */
+typedef enum ui_menu_item_type_e {
+    UI_MENU_TYPE_GUARD = -1,    /**< list terminator */
+    UI_MENU_TYPE_ITEM_ACTION,   /**< standard list item: activate dialog */
+    UI_MENU_TYPE_ITEM_CHECK,    /**< menu item with checkmark */
+    UI_MENU_TYPE_SUBMENU,       /**< submenu */
+    UI_MENU_TYPE_SEPARATOR      /**< items separator */
+} ui_menu_item_type_t;
+
+
+typedef struct ui_menu_item_s {
+    char *              label;  /**< menu item label */
+    ui_menu_item_type_t type;   /**< menu item type, \see ui_menu_item_type_t */
+
+    /* callbacks, accelerators and other things, again light on the CPP/layer
+     * stuff to keep things clean and stuff maintainable.
+     */
+} ui_menu_item_t;
+
+
+/*
+ * Public functions
+ */
+
 extern GtkWidget *ui_menu_bar_create(void);
 
 

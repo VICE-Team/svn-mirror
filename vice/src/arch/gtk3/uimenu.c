@@ -57,21 +57,75 @@
 #include "uimenu.h"
 
 
-/* todo: add Doxygen docs */
+/*
+ * The following are translation unit local so we can create functions like
+ * add_to_file_menu() or even functions that alter the top bar itself.
+ */
 
+
+/** \brief  Main menu bar widget
+ *
+ * Contains the submenus on the menu main bar
+ *
+ * This one lives until ui_exit() or thereabouts
+ */
 static GtkWidget *main_menu_bar = NULL;
+
+
+/** \brief  File submenu
+ */
 static GtkWidget *file_submenu = NULL;
+
+
+/** \brief  Edit submenu (do we need this?)
+ */
 static GtkWidget *edit_submenu = NULL;
+
+
+/** \brief  Snapshot submenu
+ */
 static GtkWidget *snapshot_submenu = NULL;
+
+
+/** \brief  Settings submenu
+ *
+ * This might contain a single 'button' to pop up the new treeview-based
+ * settings widgets, or even removed and the 'button' added to the File menu
+ */
 static GtkWidget *settings_submenu = NULL;
+
+
+#ifdef DEBUG
+/** \brief  Debug submenu, only available when --enable-debug was specified
+ */
+static GtkWidget *debug_submenu = NULL;
+#endif
+
+
+/** \brief  Help submenu
+ */
 static GtkWidget *help_submenu = NULL;
 
 
+/** \brief  Callback to properly exit the emulator
+ *
+ * TODO:    Make ui.c set this callback up to avoid circular references between
+ *          source files
+ *
+ * \param[in]   widget      widget that triggered the event (unused)
+ * \param[in[   user_data   extra data for the event (unused)
+ */
 static void ui_quit_callback(GtkWidget *widget, gpointer user_data)
 {
     ui_exit();
 }
 
+
+/** \brief  Pop up the 'About' dialog in uiabout.c
+ *
+ * \param[in]   widget      widget that triggered the event (unused)
+ * \param[in[   user_data   extra data for the event (unused)
+ */
 
 static void ui_about_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -106,6 +160,9 @@ GtkWidget *ui_menu_bar_create(void)
     GtkWidget *snap_item;
     GtkWidget *load_item;
     GtkWidget *save_item;
+
+    /* debug menu */
+    GtkWidget *debug_item;
 
     /* help menu */
     GtkWidget *help_item;
@@ -142,7 +199,7 @@ GtkWidget *ui_menu_bar_create(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), edit_item);
 
     /* create the top-level 'Snapshot' menu */
-    snap_item = gtk_menu_item_new_with_mnemonic("_Schnapps shots");
+    snap_item = gtk_menu_item_new_with_mnemonic("_Snapshot");
     snapshot_submenu = gtk_menu_new();
     load_item = gtk_menu_item_new_with_mnemonic("_Load");
     save_item = gtk_menu_item_new_with_mnemonic("_Save");
@@ -150,6 +207,14 @@ GtkWidget *ui_menu_bar_create(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(snapshot_submenu), save_item);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(snap_item), snapshot_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), snap_item);
+
+#ifdef DEBUG
+    /* create the top-level 'Debug' menu stub */
+    debug_item = gtk_menu_item_new_with_mnemonic("_Debug");
+    debug_submenu = gtk_menu_new();
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(debug_item), debug_submenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(bar), debug_item);
+#endif
 
     /* create the top-level 'Help' menu */
     help_item = gtk_menu_item_new_with_mnemonic("_Help");   /* F1? */
