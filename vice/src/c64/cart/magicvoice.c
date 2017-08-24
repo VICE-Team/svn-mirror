@@ -130,7 +130,7 @@ static t6721_state *t6721 = NULL; /* context for the t6721 chip */
 static tpi_context_t *tpi_context = NULL; /* context for the TPI chip */
 
 #define MV_ROM_SIZE 0x4000
-static BYTE mv_rom[MV_ROM_SIZE];
+static uint8_t mv_rom[MV_ROM_SIZE];
 
 static int mv_extgame = 0, mv_extexrom = 0;
 static int mv_game = 1, mv_exrom = 1;
@@ -180,7 +180,7 @@ static void update_dtrd(void)
 }
 
 /* hooked to callback of t6721 chip */
-static BYTE read_data(t6721_state *t6721, unsigned int *bit)
+static uint8_t read_data(t6721_state *t6721, unsigned int *bit)
 {
     *bit = 0;
 
@@ -204,7 +204,7 @@ static BYTE read_data(t6721_state *t6721, unsigned int *bit)
 /*
    writes one bit to the FIFO
 */
-static BYTE write_bit_to_fifo(BYTE bit)
+static uint8_t write_bit_to_fifo(uint8_t bit)
 {
     if (fifo_reset) {
         /* DBG(("SPEECH: first bit %04x %d\n", writeptr, bit)); */
@@ -249,10 +249,10 @@ static BYTE write_bit_to_fifo(BYTE bit)
 /*
    writes one nibble to the FIFO
 */
-static void write_data_nibble(BYTE nibble)
+static void write_data_nibble(uint8_t nibble)
 {
     int i;
-    BYTE mask;
+    uint8_t mask;
 
 #ifdef FIFODEBUG
 /* DBG(("SPEECH: wr byte %04x\n", nibble)); */
@@ -260,7 +260,7 @@ static void write_data_nibble(BYTE nibble)
 #endif
 
     for (i = 0, mask = 1; i < 4; ++i, mask <<= 1) {
-        if (write_bit_to_fifo((BYTE)(nibble & mask))) {
+        if (write_bit_to_fifo((uint8_t)(nibble & mask))) {
 #ifdef FIFODEBUG
             DBG(("<!"));
 #endif
@@ -503,7 +503,7 @@ static void ga_memconfig_changed(int mode)
         mv_gameE000_enabled = 0;
     }
 
-    cart_config_changed_slot0((BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), (BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode);
+    cart_config_changed_slot0((uint8_t)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), (uint8_t)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode);
 
 #ifdef CFGDEBUG
     this = (ga_pb6 << 0) | (ga_pb5 << 1) | (ga_pc6 << 2) | (mv_exrom << 3);
@@ -596,9 +596,9 @@ static void reset(tpi_context_t *tpi_context)
 #define MV_EXROM_GAMECART 0
 #endif
 
-static BYTE read_pa(tpi_context_t *tpi_context)
+static uint8_t read_pa(tpi_context_t *tpi_context)
 {
-    BYTE byte = 0;
+    uint8_t byte = 0;
 #ifdef USEPASSTHROUGHHACK
     if (cart_getid_slotmain() != CARTRIDGE_NONE) {
         /* passthrough */
@@ -620,13 +620,13 @@ static BYTE read_pa(tpi_context_t *tpi_context)
     return byte;
 }
 
-static void store_pa(tpi_context_t *tpi_context, BYTE byte)
+static void store_pa(tpi_context_t *tpi_context, uint8_t byte)
 {
-    static BYTE last;
+    static uint8_t last;
 /* DBG(("MV: store pa %02x\n", byte)); */
     if ((byte & 0x10)) {
         /* out: PB3..PB0 go to D3..D0*/
-        write_data_nibble((BYTE)(last & 0x0f)); /* write nibble to FIFO */
+        write_data_nibble((uint8_t)(last & 0x0f)); /* write nibble to FIFO */
     }
     last = byte;
 }
@@ -642,12 +642,12 @@ static void store_pa(tpi_context_t *tpi_context, BYTE byte)
     PB6         OUT? -> Gate Array (with pullup)
     PB7         IN:  !EXROM <- Exrom of the MV Cartridge Port (with pullup)
 */
-static void store_pb(tpi_context_t *tpi_context, BYTE byte)
+static void store_pb(tpi_context_t *tpi_context, uint8_t byte)
 {
 /* DBG(("MV: store pp %02x\n", byte)); */
     t6721->wr = (byte >> 4) & 1; /* wr line */
     /* out: PB3..PB0 go to D3..D0*/
-    t6721_store(t6721, (BYTE)(byte & 0x0f));
+    t6721_store(t6721, (uint8_t)(byte & 0x0f));
 
     mv_passthrough_addr = (int)(byte & 0x0f) << 12;
     ga_pb5 = (byte >> 5) & 1;
@@ -655,9 +655,9 @@ static void store_pb(tpi_context_t *tpi_context, BYTE byte)
     ga_memconfig_changed(CMODE_READ);
 }
 
-static BYTE read_pb(tpi_context_t *tpi_context)
+static uint8_t read_pb(tpi_context_t *tpi_context)
 {
-    BYTE byte = 0;
+    uint8_t byte = 0;
 
     byte |= t6721_read(t6721) & 0x0f;
 #if 0
@@ -693,7 +693,7 @@ static BYTE read_pb(tpi_context_t *tpi_context)
     PC6         OUT: (CA) CA ? <-> Gate Array (with pullup) (toggles rom on/off ?)
     PC7         OUT: (CB) !EXROM -> C64 Cartridge Port
 */
-static void store_pc(tpi_context_t *tpi_context, BYTE byte)
+static void store_pc(tpi_context_t *tpi_context, uint8_t byte)
 {
     /* this function is actually never used ? */
     DBG(("MV: store pc %02x\n", byte));
@@ -712,9 +712,9 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 #endif
 }
 
-static BYTE read_pc(tpi_context_t *tpi_context)
+static uint8_t read_pc(tpi_context_t *tpi_context)
 {
-    static BYTE byte = 0;
+    static uint8_t byte = 0;
 #if 0
     /* IRQ inputs */
     byte |= ((t6721->eos ^ 1) << 2); /* !EOS (End of Speech) */
@@ -739,17 +739,17 @@ static void set_cb(tpi_context_t *tpi_context, int a)
     ga_memconfig_changed(CMODE_READ);
 }
 
-static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
+static void undump_pa(tpi_context_t *tpi_context, uint8_t byte)
 {
     DBG(("MV: undump pa %02x\n", byte));
 }
 
-static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
+static void undump_pb(tpi_context_t *tpi_context, uint8_t byte)
 {
     DBG(("MV: undump pb %02x\n", byte));
 }
 
-static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
+static void undump_pc(tpi_context_t *tpi_context, uint8_t byte)
 {
     DBG(("MV: undump pc %02x\n", byte));
 }
@@ -758,7 +758,7 @@ static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
  I/O Area
 *****************************************************************************/
 
-static void magicvoice_io2_store(WORD addr, BYTE data)
+static void magicvoice_io2_store(uint16_t addr, uint8_t data)
 {
     switch (addr & 7) {
         case 5:
@@ -772,13 +772,13 @@ static void magicvoice_io2_store(WORD addr, BYTE data)
         case 6:
             break;
     }
-    tpicore_store(tpi_context, (WORD)(addr & 7), data);
+    tpicore_store(tpi_context, (uint16_t)(addr & 7), data);
 }
 
-static BYTE magicvoice_io2_read(WORD addr)
+static uint8_t magicvoice_io2_read(uint16_t addr)
 {
-    BYTE value = 0;
-    value = tpicore_read(tpi_context, (WORD)(addr & 7));
+    uint8_t value = 0;
+    value = tpicore_read(tpi_context, (uint16_t)(addr & 7));
     switch (addr & 7) {
         case 5:
             DBGREG(("MV: @:%04x io2 r %04x %02x (IRQ Mask)\n", reg_pc, addr, value));
@@ -803,9 +803,9 @@ static BYTE magicvoice_io2_read(WORD addr)
     return value;
 }
 
-static BYTE magicvoice_io2_peek(WORD addr)
+static uint8_t magicvoice_io2_peek(uint16_t addr)
 {
-    return tpicore_peek(tpi_context, (WORD)(addr & 7));
+    return tpicore_peek(tpi_context, (uint16_t)(addr & 7));
 }
 
 static int magicvoice_io2_dump(void)
@@ -844,9 +844,9 @@ static const export_resource_t export_res = {
 /* Some prototypes are needed */
 static int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void magicvoice_sound_machine_close(sound_t *psid);
-static int magicvoice_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
-static BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr);
+static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static void magicvoice_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte);
+static uint8_t magicvoice_sound_machine_read(sound_t *psid, uint16_t addr);
 static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int magicvoice_sound_machine_cycle_based(void)
@@ -872,7 +872,7 @@ static sound_chip_t magicvoice_sound_chip = {
     0 /* chip enabled */
 };
 
-static WORD magicvoice_sound_chip_offset = 0;
+static uint16_t magicvoice_sound_chip_offset = 0;
 
 void magicvoice_sound_chip_init(void)
 {
@@ -886,7 +886,7 @@ int magicvoice_cart_enabled(void)
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE read_remapped(WORD addr)
+static uint8_t read_remapped(uint16_t addr)
 {
     addr &= 0x0fff;
     addr |= mv_passthrough_addr;
@@ -896,7 +896,7 @@ static BYTE read_remapped(WORD addr)
     return romh_banks[addr & 0x1fff];
 }
 
-int magicvoice_ultimax_read(WORD addr, BYTE *value)
+int magicvoice_ultimax_read(uint16_t addr, uint8_t *value)
 {
     if (mv_gameA000_at3000_enabled) {
         /* FIXME: hack! */
@@ -909,7 +909,7 @@ int magicvoice_ultimax_read(WORD addr, BYTE *value)
     return CART_READ_C64MEM;
 }
 
-int magicvoice_roml_read(WORD addr, BYTE *value)
+int magicvoice_roml_read(uint16_t addr, uint8_t *value)
 {
 #if 0
     if ((mv_game8000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
@@ -929,7 +929,7 @@ int magicvoice_roml_read(WORD addr, BYTE *value)
 #endif
 }
 
-int magicvoice_a000_bfff_read(WORD addr, BYTE *value)
+int magicvoice_a000_bfff_read(uint16_t addr, uint8_t *value)
 {
 #if 0
     if ((mv_gameA000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
@@ -969,7 +969,7 @@ int magicvoice_a000_bfff_read(WORD addr, BYTE *value)
 #endif
 }
 
-int magicvoice_romh_read(WORD addr, BYTE *value)
+int magicvoice_romh_read(uint16_t addr, uint8_t *value)
 {
 #if 0
     if (addr == 0xfffa) {
@@ -1007,7 +1007,7 @@ int magicvoice_romh_read(WORD addr, BYTE *value)
 #endif
 }
 
-int magicvoice_romh_phi1_read(WORD addr, BYTE *value)
+int magicvoice_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
     if ((mv_gameE000_enabled) && (mv_extexrom == 0) && (mv_extgame == 1)) {
         /* real ultimax mode for game */
@@ -1016,7 +1016,7 @@ int magicvoice_romh_phi1_read(WORD addr, BYTE *value)
     return CART_READ_C64MEM;
 }
 
-int magicvoice_romh_phi2_read(WORD addr, BYTE *value)
+int magicvoice_romh_phi2_read(uint16_t addr, uint8_t *value)
 {
     if ((mv_gameE000_enabled) && (mv_extexrom == 0) && (mv_extgame == 1)) {
         /* real ultimax mode for game */
@@ -1025,7 +1025,7 @@ int magicvoice_romh_phi2_read(WORD addr, BYTE *value)
     return CART_READ_C64MEM;
 }
 
-int magicvoice_peek_mem(WORD addr, BYTE *value)
+int magicvoice_peek_mem(uint16_t addr, uint8_t *value)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
         if (mv_game8000_enabled) {
@@ -1261,7 +1261,7 @@ static void mv_ack_nmi(void)
 }
 #endif
 
-int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+int magicvoice_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
         case 0xf000:
@@ -1270,7 +1270,7 @@ int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
                 return CART_READ_THROUGH; /* "passthrough" */
             } else {
                 if (mv_romE000_enabled) {
-                    *base = (BYTE *)(mv_rom - (BYTE *)0xc000);
+                    *base = (uint8_t *)(mv_rom - (uint8_t *)0xc000);
                     *start = 0xe000;
                     *limit = 0xfffd;
                     return CART_READ_VALID;
@@ -1290,7 +1290,7 @@ int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
                 return CART_READ_THROUGH_NO_ULTIMAX; /* "passthrough" */
             } else {
                 if (mv_romA000_enabled) {
-                    *base = (BYTE *)(mv_rom - (BYTE *)0xa000);
+                    *base = (uint8_t *)(mv_rom - (uint8_t *)0xa000);
                     *start = 0xa000;
                     *limit = 0xbffd;
                     return CART_READ_VALID;
@@ -1344,7 +1344,7 @@ void magicvoice_config_init(export_t *export)
     }
 }
 
-void magicvoice_config_setup(BYTE *rawcart)
+void magicvoice_config_setup(uint8_t *rawcart)
 {
     DBG(("MV: magicvoice_config_setup\n"));
     memcpy(mv_rom, rawcart, 0x4000);
@@ -1363,7 +1363,7 @@ static int magicvoice_common_attach(void)
     return set_magicvoice_enabled(1, NULL);
 }
 
-int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
+int magicvoice_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, MV_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -1392,7 +1392,7 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
  * $000040 CHIP ROM   #000 $8000 $4000 $4010
  *
  */
-int magicvoice_crt_attach(FILE *fd, BYTE *rawcart)
+int magicvoice_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     int i;
     crt_chip_header_t chip;
@@ -1457,14 +1457,14 @@ void magicvoice_reset(void)
 /* ---------------------------------------------------------------------*/
 
 /* FIXME: what are these two about anyway ? */
-static BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr)
+static uint8_t magicvoice_sound_machine_read(sound_t *psid, uint16_t addr)
 {
     DBG(("MV: magicvoice_sound_machine_read\n"));
 
     return 0; /* ? */
 }
 
-static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+static void magicvoice_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte)
 {
     DBG(("MV: magicvoice_sound_machine_store\n"));
 }
@@ -1472,12 +1472,12 @@ static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 /*
     called periodically for every sound fragment that is played
 */
-static int magicvoice_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int magicvoice_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
-    SWORD *buffer;
+    int16_t *buffer;
 
-    buffer = lib_malloc(nr * sizeof(SWORD));
+    buffer = lib_malloc(nr * sizeof(int16_t));
 
     t6721_update_output(t6721, buffer, nr);
 
@@ -1546,7 +1546,7 @@ int magicvoice_snapshot_read_module(snapshot_t *s)
 {
     return -1;
 #if 0
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

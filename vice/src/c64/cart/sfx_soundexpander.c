@@ -65,12 +65,12 @@ static FM_OPL *YM3812_chip = NULL;
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
-static void sfx_soundexpander_sound_store(WORD addr, BYTE value);
-static BYTE sfx_soundexpander_sound_read(WORD addr);
-static BYTE sfx_soundexpander_sound_peek(WORD addr);
+static void sfx_soundexpander_sound_store(uint16_t addr, uint8_t value);
+static uint8_t sfx_soundexpander_sound_read(uint16_t addr);
+static uint8_t sfx_soundexpander_sound_peek(uint16_t addr);
 
 #if 0
-static BYTE sfx_soundexpander_piano_read(WORD addr);
+static uint8_t sfx_soundexpander_piano_read(uint16_t addr);
 #endif
 
 static io_source_t sfx_soundexpander_sound_device = {
@@ -127,9 +127,9 @@ static const export_resource_t export_res_piano = {
 /* Some prototypes are needed */
 static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void sfx_soundexpander_sound_machine_close(sound_t *psid);
-static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-static void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
-static BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr);
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static void sfx_soundexpander_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
+static uint8_t sfx_soundexpander_sound_machine_read(sound_t *psid, uint16_t addr);
 static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int sfx_soundexpander_sound_machine_cycle_based(void)
@@ -155,7 +155,7 @@ static sound_chip_t sfx_soundexpander_sound_chip = {
     0 /* chip enabled */
 };
 
-static WORD sfx_soundexpander_sound_chip_offset = 0;
+static uint16_t sfx_soundexpander_sound_chip_offset = 0;
 
 void sfx_soundexpander_sound_chip_init(void)
 {
@@ -356,15 +356,15 @@ int sfx_soundexpander_cmdline_options_init(void)
 /* ---------------------------------------------------------------------*/
 
 struct sfx_soundexpander_sound_s {
-    BYTE command;
+    uint8_t command;
 };
 
 static struct sfx_soundexpander_sound_s snd;
 
-static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
-    SWORD *buffer;
+    int16_t *buffer;
 
     buffer = lib_malloc(nr * 2);
 
@@ -415,7 +415,7 @@ static void sfx_soundexpander_sound_machine_close(sound_t *psid)
     }
 }
 
-static void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void sfx_soundexpander_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
     snd.command = val;
 
@@ -426,7 +426,7 @@ static void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE
     }
 }
 
-static BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr)
+static uint8_t sfx_soundexpander_sound_machine_read(sound_t *psid, uint16_t addr)
 {
     if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
         return ym3812_read(YM3812_chip, 0);
@@ -448,7 +448,7 @@ static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk)
 
 /* ---------------------------------------------------------------------*/
 
-static void sfx_soundexpander_sound_store(WORD addr, BYTE value)
+static void sfx_soundexpander_sound_store(uint16_t addr, uint8_t value)
 {
     if (addr == 0x40) {
         if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
@@ -462,9 +462,9 @@ static void sfx_soundexpander_sound_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE sfx_soundexpander_sound_read(WORD addr)
+static uint8_t sfx_soundexpander_sound_read(uint16_t addr)
 {
-    BYTE value = 0;
+    uint8_t value = 0;
 
     sfx_soundexpander_sound_device.io_source_valid = 0;
 
@@ -478,9 +478,9 @@ static BYTE sfx_soundexpander_sound_read(WORD addr)
     return value;
 }
 
-static BYTE sfx_soundexpander_sound_peek(WORD addr)
+static uint8_t sfx_soundexpander_sound_peek(uint16_t addr)
 {
-    BYTE value = 0;
+    uint8_t value = 0;
 
     if (addr == 0x40) {
         if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
@@ -494,13 +494,13 @@ static BYTE sfx_soundexpander_sound_peek(WORD addr)
 
 #if 0
 /* No piano keyboard is emulated currently, so we return 0xff */
-static BYTE sfx_soundexpander_piano_read(WORD addr)
+static uint8_t sfx_soundexpander_piano_read(uint16_t addr)
 {
     sfx_soundexpander_piano_device.io_source_valid = 0;
     if ((addr & 16) == 0 && (addr & 8) == 8) {
         sfx_soundexpander_piano_device.io_source_valid = 1;
     }
-    return (BYTE)0xff;
+    return (uint8_t)0xff;
 }
 #endif
 
@@ -1141,94 +1141,94 @@ int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)sfx_soundexpander_io_swap) < 0
-        || SMW_DW(m, (DWORD)sfx_soundexpander_chip) < 0
-        || SMW_B(m, (BYTE)snd.command) < 0) {
+        || SMW_B(m, (uint8_t)sfx_soundexpander_io_swap) < 0
+        || SMW_DW(m, (uint32_t)sfx_soundexpander_chip) < 0
+        || SMW_B(m, (uint8_t)snd.command) < 0) {
         goto fail;
     }
 
     for (x = 0; x < 9; x++) {
         for (y = 0; y < 2; y++) {
             if (0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].ar) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].dr) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].rr) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].KSR) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].ksl) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].ksr) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].mul) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].Cnt) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].Incr) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].FB) < 0
-                || SMW_DW(m, (DWORD)connect1_is_output0(chip->P_CH[x].SLOT[y].connect1)) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].op1_out[0]) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].op1_out[1]) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].CON) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_type) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].state) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].TL) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].TLL) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].volume) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].sl) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sh_ar) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sel_ar) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sh_dr) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sel_dr) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sh_rr) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sel_rr) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].key) < 0
-                || SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].AMmask) < 0
-                || SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].vib) < 0
-                || SMW_W(m, (WORD)chip->P_CH[x].SLOT[y].wavetable) < 0) {
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].ar) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].dr) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].rr) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].KSR) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].ksl) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].ksr) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].mul) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].Cnt) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].Incr) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].FB) < 0
+                || SMW_DW(m, (uint32_t)connect1_is_output0(chip->P_CH[x].SLOT[y].connect1)) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].op1_out[0]) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].op1_out[1]) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].CON) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].eg_type) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].state) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].TL) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].TLL) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].volume) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].sl) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].eg_sh_ar) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].eg_sel_ar) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].eg_sh_dr) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].eg_sel_dr) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].eg_sh_rr) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].eg_sel_rr) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].key) < 0
+                || SMW_DW(m, (uint32_t)chip->P_CH[x].SLOT[y].AMmask) < 0
+                || SMW_B(m, (uint8_t)chip->P_CH[x].SLOT[y].vib) < 0
+                || SMW_W(m, (uint16_t)chip->P_CH[x].SLOT[y].wavetable) < 0) {
                 goto fail;
             }
         }
         if (0
-            || SMW_DW(m, (DWORD)chip->P_CH[x].block_fnum) < 0
-            || SMW_DW(m, (DWORD)chip->P_CH[x].fc) < 0
-            || SMW_DW(m, (DWORD)chip->P_CH[x].ksl_base) < 0
-            || SMW_B(m, (BYTE)chip->P_CH[x].kcode) < 0) {
+            || SMW_DW(m, (uint32_t)chip->P_CH[x].block_fnum) < 0
+            || SMW_DW(m, (uint32_t)chip->P_CH[x].fc) < 0
+            || SMW_DW(m, (uint32_t)chip->P_CH[x].ksl_base) < 0
+            || SMW_B(m, (uint8_t)chip->P_CH[x].kcode) < 0) {
             goto fail;
         }
     }
 
     if (0
-        || SMW_DW(m, (DWORD)chip->eg_cnt) < 0
-        || SMW_DW(m, (DWORD)chip->eg_timer) < 0
-        || SMW_DW(m, (DWORD)chip->eg_timer_add) < 0
-        || SMW_DW(m, (DWORD)chip->eg_timer_overflow) < 0
-        || SMW_B(m, (BYTE)chip->rhythm) < 0) {
+        || SMW_DW(m, (uint32_t)chip->eg_cnt) < 0
+        || SMW_DW(m, (uint32_t)chip->eg_timer) < 0
+        || SMW_DW(m, (uint32_t)chip->eg_timer_add) < 0
+        || SMW_DW(m, (uint32_t)chip->eg_timer_overflow) < 0
+        || SMW_B(m, (uint8_t)chip->rhythm) < 0) {
         goto fail;
     }
 
     for (x = 0; x < 1024; x++) {
-        if (SMW_DW(m, (DWORD)chip->fn_tab[x]) < 0) {
+        if (SMW_DW(m, (uint32_t)chip->fn_tab[x]) < 0) {
             goto fail;
         }
     }
 
     if (0
-        || SMW_B(m, (BYTE)chip->lfo_am_depth) < 0
-        || SMW_B(m, (BYTE)chip->lfo_pm_depth_range) < 0
-        || SMW_DW(m, (DWORD)chip->lfo_am_cnt) < 0
-        || SMW_DW(m, (DWORD)chip->lfo_am_inc) < 0
-        || SMW_DW(m, (DWORD)chip->lfo_pm_cnt) < 0
-        || SMW_DW(m, (DWORD)chip->lfo_pm_inc) < 0
-        || SMW_DW(m, (DWORD)chip->noise_rng) < 0
-        || SMW_DW(m, (DWORD)chip->noise_p) < 0
-        || SMW_DW(m, (DWORD)chip->noise_f) < 0
-        || SMW_B(m, (BYTE)chip->wavesel) < 0
-        || SMW_DW(m, (DWORD)chip->T[0]) < 0
-        || SMW_DW(m, (DWORD)chip->T[1]) < 0
-        || SMW_B(m, (BYTE)chip->st[0]) < 0
-        || SMW_B(m, (BYTE)chip->st[1]) < 0
-        || SMW_B(m, (BYTE)chip->type) < 0
-        || SMW_B(m, (BYTE)chip->address) < 0
-        || SMW_B(m, (BYTE)chip->status) < 0
-        || SMW_B(m, (BYTE)chip->statusmask) < 0
-        || SMW_B(m, (BYTE)chip->mode) < 0
-        || SMW_DW(m, (DWORD)chip->clock) < 0
-        || SMW_DW(m, (DWORD)chip->rate) < 0
+        || SMW_B(m, (uint8_t)chip->lfo_am_depth) < 0
+        || SMW_B(m, (uint8_t)chip->lfo_pm_depth_range) < 0
+        || SMW_DW(m, (uint32_t)chip->lfo_am_cnt) < 0
+        || SMW_DW(m, (uint32_t)chip->lfo_am_inc) < 0
+        || SMW_DW(m, (uint32_t)chip->lfo_pm_cnt) < 0
+        || SMW_DW(m, (uint32_t)chip->lfo_pm_inc) < 0
+        || SMW_DW(m, (uint32_t)chip->noise_rng) < 0
+        || SMW_DW(m, (uint32_t)chip->noise_p) < 0
+        || SMW_DW(m, (uint32_t)chip->noise_f) < 0
+        || SMW_B(m, (uint8_t)chip->wavesel) < 0
+        || SMW_DW(m, (uint32_t)chip->T[0]) < 0
+        || SMW_DW(m, (uint32_t)chip->T[1]) < 0
+        || SMW_B(m, (uint8_t)chip->st[0]) < 0
+        || SMW_B(m, (uint8_t)chip->st[1]) < 0
+        || SMW_B(m, (uint8_t)chip->type) < 0
+        || SMW_B(m, (uint8_t)chip->address) < 0
+        || SMW_B(m, (uint8_t)chip->status) < 0
+        || SMW_B(m, (uint8_t)chip->statusmask) < 0
+        || SMW_B(m, (uint8_t)chip->mode) < 0
+        || SMW_DW(m, (uint32_t)chip->clock) < 0
+        || SMW_DW(m, (uint32_t)chip->rate) < 0
         || SMW_DB(m, (double)chip->freqbase) < 0) {
         goto fail;
     }
@@ -1242,7 +1242,7 @@ fail:
 
 int sfx_soundexpander_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
     int temp_chip;
     FM_OPL *chip = NULL;

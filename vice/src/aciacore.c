@@ -46,7 +46,7 @@
 #include "types.h"
 
 
-BYTE myacia_read(WORD addr);
+uint8_t myacia_read(uint16_t addr);
 
 #undef  DEBUG   /*!< define if you want "normal" debugging output */
 #undef  DEBUG_VERBOSE /*!< define if you want very verbose debugging output. */
@@ -90,18 +90,18 @@ typedef struct acia_struct {
     int fd;             /*!< file descriptor used to access the RS232 physical device on the host machine */
     enum acia_tx_state in_tx;   /*!< indicates that a transmit is currently ongoing */
     int irq;
-    BYTE cmd;        /*!< value of the 6551 command register */
-    BYTE ctrl;       /*!< value of the 6551 control register */
-    BYTE rxdata;     /*!< data that has been received last */
-    BYTE txdata;     /*!< data prepared to be send */
-    BYTE status;     /*!< value of the 6551 status register */
-    BYTE ectrl;      /*!< value of the extended control register of the turbo232 card */
+    uint8_t cmd;        /*!< value of the 6551 command register */
+    uint8_t ctrl;       /*!< value of the 6551 control register */
+    uint8_t rxdata;     /*!< data that has been received last */
+    uint8_t txdata;     /*!< data prepared to be send */
+    uint8_t status;     /*!< value of the 6551 status register */
+    uint8_t ectrl;      /*!< value of the extended control register of the turbo232 card */
     int alarm_active_tx;    /*!< 1 if TX alarm is set; else 0 */
     int alarm_active_rx;    /*!< 1 if RX alarm is set; else 0 */
 
     log_t log; /*!< the log where to write debugging messages */
 
-    BYTE last_read;  /*!< the byte read the last time (for RMW) */
+    uint8_t last_read;  /*!< the byte read the last time (for RMW) */
 
     /******************************************************************/
 
@@ -728,8 +728,8 @@ static const char module_name[] = MYACIA;
 int myacia_snapshot_write_module(snapshot_t *p)
 {
     snapshot_module_t *m;
-    DWORD act;
-    DWORD aar;
+    uint32_t act;
+    uint32_t aar;
 
     m = snapshot_module_create(p, module_name, ACIA_DUMP_VER_MAJOR, ACIA_DUMP_VER_MINOR);
 
@@ -752,10 +752,10 @@ int myacia_snapshot_write_module(snapshot_t *p)
     if (0
         || SMW_B(m, acia.txdata) < 0
         || SMW_B(m, acia.rxdata) < 0
-        || SMW_B(m, (BYTE)(acia_get_status() | (acia.irq ? ACIA_SR_BITS_IRQ : 0))) < 0
+        || SMW_B(m, (uint8_t)(acia_get_status() | (acia.irq ? ACIA_SR_BITS_IRQ : 0))) < 0
         || SMW_B(m, acia.cmd) < 0
         || SMW_B(m, acia.ctrl) < 0
-        || SMW_B(m, (BYTE)(acia.in_tx)) < 0
+        || SMW_B(m, (uint8_t)(acia.in_tx)) < 0
         || SMW_DW(m, act) < 0
      /* new with VICE 2.0.9 */
         || SMW_DW(m, aar) < 0) {
@@ -789,10 +789,10 @@ int myacia_snapshot_write_module(snapshot_t *p)
 */
 int myacia_snapshot_read_module(snapshot_t *p)
 {
-    BYTE vmajor, vminor;
-    BYTE byte;
-    DWORD dword1;
-    DWORD dword2;
+    uint8_t vmajor, vminor;
+    uint8_t byte;
+    uint32_t dword1;
+    uint32_t dword2;
     snapshot_module_t *m;
 
     alarm_unset(acia.alarm_tx);   /* just in case we don't find module */
@@ -894,7 +894,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
   \param byte
     The value to set the register to
 */
-void myacia_store(WORD addr, BYTE byte)
+void myacia_store(uint16_t addr, uint8_t byte)
 {
     int acia_register_size;
 
@@ -988,13 +988,13 @@ void myacia_store(WORD addr, BYTE byte)
   \return
     The value the register has
 */
-BYTE myacia_read(WORD addr)
+uint8_t myacia_read(uint16_t addr)
 {
 #if 0 /* def DEBUG */
-    static BYTE myacia_read_(WORD);
-    BYTE byte = myacia_read_(addr);
-    static WORD last_addr = 0;
-    static BYTE last_byte = 0;
+    static uint8_t myacia_read_(uint16_t);
+    uint8_t byte = myacia_read_(addr);
+    static uint16_t last_addr = 0;
+    static uint8_t last_byte = 0;
 
     if ((addr != last_addr) || (byte != last_byte)) {
         DEBUG_LOG_MESSAGE((acia.log, "read_myacia(%04x) -> %02x", addr, byte));
@@ -1002,7 +1002,7 @@ BYTE myacia_read(WORD addr)
     last_addr = addr; last_byte = byte;
     return byte;
 }
-static BYTE myacia_read_(WORD addr)
+static uint8_t myacia_read_(uint16_t addr)
 {
 #endif
     int acia_register_size;
@@ -1020,7 +1020,7 @@ static BYTE myacia_read_(WORD addr)
             return acia.rxdata;
         case ACIA_SR:
             {
-                BYTE c = acia_get_status() | (acia.irq ? ACIA_SR_BITS_IRQ : 0);
+                uint8_t c = acia_get_status() | (acia.irq ? ACIA_SR_BITS_IRQ : 0);
                 acia_set_int(acia.irq_type, acia.int_num, IK_NONE);
                 acia.irq = 0;
                 acia.last_read = c;
@@ -1060,14 +1060,14 @@ static BYTE myacia_read_(WORD addr)
   \todo
     Currently unused
 */
-BYTE myacia_peek(WORD addr)
+uint8_t myacia_peek(uint16_t addr)
 {
     switch (addr & 3) {
         case ACIA_DR:
             return acia.rxdata;
         case ACIA_SR:
             {
-                BYTE c = acia.status | (acia.irq ? ACIA_SR_BITS_IRQ : 0);
+                uint8_t c = acia.status | (acia.irq ? ACIA_SR_BITS_IRQ : 0);
                 return c;
             }
         case ACIA_CTRL:
@@ -1180,7 +1180,7 @@ static void int_acia_rx(CLOCK offset, void *data)
     assert(data == NULL);
 
     do {
-        BYTE received_byte;
+        uint8_t received_byte;
 
         if (acia.fd < 0) {
             break;

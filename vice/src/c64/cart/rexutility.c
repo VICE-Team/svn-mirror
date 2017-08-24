@@ -54,7 +54,7 @@
 
 static int rex_active = 0;
 
-static BYTE rex_io2_read(WORD addr)
+static uint8_t rex_io2_read(uint16_t addr)
 {
     if ((addr & 0xff) < 0xc0) {
         /* disable cartridge rom */
@@ -68,7 +68,7 @@ static BYTE rex_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE rex_io2_peek(WORD addr)
+static uint8_t rex_io2_peek(uint16_t addr)
 {
     return 0;
 }
@@ -111,7 +111,7 @@ void rex_config_init(void)
     rex_active = 1;
 }
 
-void rex_config_setup(BYTE *rawcart)
+void rex_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
@@ -127,7 +127,7 @@ static int rex_common_attach(void)
     return 0;
 }
 
-int rex_bin_attach(const char *filename, BYTE *rawcart)
+int rex_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -135,7 +135,7 @@ int rex_bin_attach(const char *filename, BYTE *rawcart)
     return rex_common_attach();
 }
 
-int rex_crt_attach(FILE *fd, BYTE *rawcart)
+int rex_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -186,7 +186,7 @@ int rex_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)rex_active) < 0
+        || SMW_B(m, (uint8_t)rex_active) < 0
         || SMW_BA(m, roml_banks, 0x2000 * 64) < 0) {
         snapshot_module_close(m);
         return -1;
@@ -197,7 +197,7 @@ int rex_snapshot_write_module(snapshot_t *s)
 
 int rex_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

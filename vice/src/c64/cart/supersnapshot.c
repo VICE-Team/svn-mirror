@@ -73,7 +73,7 @@
 */
 
 /* Super Snapshot configuration flags.  */
-static BYTE romconfig = 9;
+static uint8_t romconfig = 9;
 static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
 static int currbank = 0;
 static int currreg  = 0;
@@ -83,9 +83,9 @@ static int ss_rom_disabled = 0;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE supersnapshot_v5_io1_read(WORD addr);
-static BYTE supersnapshot_v5_io1_peek(WORD addr);
-static void supersnapshot_v5_io1_store(WORD addr, BYTE value);
+static uint8_t supersnapshot_v5_io1_read(uint16_t addr);
+static uint8_t supersnapshot_v5_io1_peek(uint16_t addr);
+static void supersnapshot_v5_io1_store(uint16_t addr, uint8_t value);
 static int supersnapshot_v5_dump(void);
 
 static io_source_t ss5_device = {
@@ -111,7 +111,7 @@ static const export_resource_t export_res_v5 = {
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE supersnapshot_v5_io1_read(WORD addr)
+static uint8_t supersnapshot_v5_io1_read(uint16_t addr)
 {
     ss5_device.io_source_valid = 1;
 
@@ -133,7 +133,7 @@ static BYTE supersnapshot_v5_io1_read(WORD addr)
     return 0;
 }
 
-static BYTE supersnapshot_v5_io1_peek(WORD addr)
+static uint8_t supersnapshot_v5_io1_peek(uint16_t addr)
 {
     switch (roml_bank) {
         case 0:
@@ -148,7 +148,7 @@ static BYTE supersnapshot_v5_io1_peek(WORD addr)
     return 0;
 }
 
-static void supersnapshot_v5_io1_store(WORD addr, BYTE value)
+static void supersnapshot_v5_io1_store(uint16_t addr, uint8_t value)
 {
     if (!ss_rom_disabled) {
         int mode = CMODE_WRITE;
@@ -175,7 +175,7 @@ static void supersnapshot_v5_io1_store(WORD addr, BYTE value)
 static int supersnapshot_v5_dump(void)
 {
     mon_out("Register: $%02x (%s)\n", currreg, (ss_rom_disabled) ? "disabled" : "enabled");
-    mon_out(" EXROM: %d GAME: %d (%s)\n", ((romconfig >> 1) & 1), (romconfig & 1) ^ 1, cart_config_string((BYTE)(romconfig & 3)));
+    mon_out(" EXROM: %d GAME: %d (%s)\n", ((romconfig >> 1) & 1), (romconfig & 1) ^ 1, cart_config_string((uint8_t)(romconfig & 3)));
     mon_out(" ROM %s, Bank: %d\n", (ss_rom_disabled) ? "disabled" : "enabled", currbank);
     mon_out(" RAM %s, Bank: %d\n", (export_ram) ? "enabled" : "disabled", ram_bank);
     return 0;
@@ -183,7 +183,7 @@ static int supersnapshot_v5_dump(void)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE supersnapshot_v5_roml_read(WORD addr)
+uint8_t supersnapshot_v5_roml_read(uint16_t addr)
 {
     if (export_ram) {
         return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
@@ -195,14 +195,14 @@ BYTE supersnapshot_v5_roml_read(WORD addr)
     return 0; /* FIXME: open bus? */
 }
 
-void supersnapshot_v5_roml_store(WORD addr, BYTE value)
+void supersnapshot_v5_roml_store(uint16_t addr, uint8_t value)
 {
     if (export_ram) {
         export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;
     }
 }
 
-void supersnapshot_v5_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void supersnapshot_v5_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xe000) {
         case 0x8000:
@@ -233,10 +233,10 @@ void supersnapshot_v5_freeze(void)
 void supersnapshot_v5_config_init(void)
 {
     ss_rom_disabled = 0; /* enable the register */
-    supersnapshot_v5_io1_store((WORD)0xde00, 2);
+    supersnapshot_v5_io1_store((uint16_t)0xde00, 2);
 }
 
-void supersnapshot_v5_config_setup(BYTE *rawcart)
+void supersnapshot_v5_config_setup(uint8_t *rawcart)
 {
     memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
     memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
@@ -246,7 +246,7 @@ void supersnapshot_v5_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    supersnapshot_v5_io1_store((WORD)0xde00, 2);
+    supersnapshot_v5_io1_store((uint16_t)0xde00, 2);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -262,7 +262,7 @@ static int supersnapshot_v5_common_attach(void)
     return 0;
 }
 
-int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart)
+int supersnapshot_v5_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -271,7 +271,7 @@ int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart)
     return supersnapshot_v5_common_attach();
 }
 
-int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
+int supersnapshot_v5_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i;
@@ -379,12 +379,12 @@ int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)currbank) < 0
-        || SMW_B(m, (BYTE)currreg) < 0
+        || SMW_B(m, (uint8_t)currbank) < 0
+        || SMW_B(m, (uint8_t)currreg) < 0
         || SMW_B(m, romconfig) < 0
-        || SMW_B(m, (BYTE)ram_bank) < 0
-        || SMW_B(m, (BYTE)ss_32k_enabled) < 0
-        || SMW_B(m, (BYTE)ss_rom_disabled) < 0
+        || SMW_B(m, (uint8_t)ram_bank) < 0
+        || SMW_B(m, (uint8_t)ss_32k_enabled) < 0
+        || SMW_B(m, (uint8_t)ss_rom_disabled) < 0
         || SMW_BA(m, roml_banks, 0x8000) < 0
         || SMW_BA(m, romh_banks, 0x8000) < 0
         || SMW_BA(m, export_ram0, 0x8000) < 0) {
@@ -397,7 +397,7 @@ int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
 
 int supersnapshot_v5_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

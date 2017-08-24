@@ -102,14 +102,14 @@
 
 static int se5_bank = 0;
 
-static void se5_io2_store(WORD addr, BYTE value)
+static void se5_io2_store(uint16_t addr, uint8_t value)
 {
     DBG(("io2 wr %04x %02x\n", addr, value));
     se5_bank = (value & 0x80) ? 1 : 0;
     cart_romlbank_set_slotmain(se5_bank);
 }
 
-static BYTE se5_io2_read(WORD addr)
+static uint8_t se5_io2_read(uint16_t addr)
 {
     addr |= 0xdf00;
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
@@ -147,7 +147,7 @@ static const export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE se5_roml_read(WORD addr)
+uint8_t se5_roml_read(uint16_t addr)
 {
     if (addr < 0x9f00) {
         return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
@@ -166,7 +166,7 @@ void se5_config_init(void)
     se5_bank = 0;
 }
 
-void se5_config_setup(BYTE *rawcart)
+void se5_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, SE5_CART_SIZE);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
@@ -187,7 +187,7 @@ static int se5_common_attach(void)
     return 0;
 }
 
-int se5_bin_attach(const char *filename, BYTE *rawcart)
+int se5_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, SE5_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -196,7 +196,7 @@ int se5_bin_attach(const char *filename, BYTE *rawcart)
     return se5_common_attach();
 }
 
-int se5_crt_attach(FILE *fd, BYTE *rawcart)
+int se5_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i, cnt = 0;
@@ -251,7 +251,7 @@ int se5_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)se5_bank) < 0
+        || SMW_B(m, (uint8_t)se5_bank) < 0
         || SMW_BA(m, roml_banks, SE5_CART_SIZE) < 0) {
         snapshot_module_close(m);
         return -1;
@@ -262,7 +262,7 @@ int se5_snapshot_write_module(snapshot_t *s)
 
 int se5_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

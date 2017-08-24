@@ -105,8 +105,8 @@ static char *acia_base_list = NULL;
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
 
 /* a prototype is needed (not anymore) */
-BYTE aciacart_read(WORD addr);
-BYTE aciacart_peek(WORD addr);
+uint8_t aciacart_read(uint16_t addr);
+uint8_t aciacart_peek(uint16_t addr);
 
 static io_source_t acia_device = {
     CARTRIDGE_NAME_ACIA,
@@ -324,7 +324,7 @@ void aciacart_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-BYTE aciacart_read(WORD addr)
+uint8_t aciacart_read(uint16_t addr)
 {
     acia_device.io_source_valid = 0;
     if (acia.mode == ACIA_MODE_TURBO232 && (addr & 7 ) > 3 && (addr & 7) != 7) {
@@ -334,7 +334,7 @@ BYTE aciacart_read(WORD addr)
     return myacia_read(addr);
 }
 
-BYTE aciacart_peek(WORD addr)
+uint8_t aciacart_peek(uint16_t addr)
 {
     if (acia.mode == ACIA_MODE_TURBO232 && (addr & 7 ) > 3 && (addr & 7) != 7) {
         return 0;

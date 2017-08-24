@@ -53,12 +53,12 @@
 
 */
 
-static BYTE mikroass_io1_read(WORD addr)
+static uint8_t mikroass_io1_read(uint16_t addr)
 {
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-static BYTE mikroass_io2_read(WORD addr)
+static uint8_t mikroass_io2_read(uint16_t addr)
 {
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
@@ -109,7 +109,7 @@ void mikroass_config_init(void)
     cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
-void mikroass_config_setup(BYTE *rawcart)
+void mikroass_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
@@ -127,7 +127,7 @@ static int mikroass_common_attach(void)
     return 0;
 }
 
-int mikroass_bin_attach(const char *filename, BYTE *rawcart)
+int mikroass_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -135,7 +135,7 @@ int mikroass_bin_attach(const char *filename, BYTE *rawcart)
     return mikroass_common_attach();
 }
 
-int mikroass_crt_attach(FILE *fd, BYTE *rawcart)
+int mikroass_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -196,7 +196,7 @@ int mikroass_snapshot_write_module(snapshot_t *s)
 
 int mikroass_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

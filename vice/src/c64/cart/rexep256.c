@@ -79,15 +79,15 @@
 
 /* ---------------------------------------------------------------------*/
 
-static WORD rexep256_eprom[8];
-static BYTE rexep256_eprom_roml_bank_offset[8];
-static BYTE regval = 0;
+static uint16_t rexep256_eprom[8];
+static uint8_t rexep256_eprom_roml_bank_offset[8];
+static uint8_t regval = 0;
 
 /* ---------------------------------------------------------------------*/
 
-static void rexep256_io2_store(WORD addr, BYTE value)
+static void rexep256_io2_store(uint16_t addr, uint8_t value)
 {
-    BYTE eprom_bank, test_value, eprom_part = 0;
+    uint8_t eprom_bank, test_value, eprom_part = 0;
 
     if ((addr & 0xff) == 0xa0) {
         regval = value;
@@ -117,7 +117,7 @@ static void rexep256_io2_store(WORD addr, BYTE value)
 
 /* I'm unsure whether the register is write-only,
    but in this case it is assumed to be. */
-static BYTE rexep256_io2_read(WORD addr)
+static uint8_t rexep256_io2_read(uint16_t addr)
 {
     if ((addr & 0xff) == 0xc0) {
         cart_set_port_exrom_slotmain(0);
@@ -130,7 +130,7 @@ static BYTE rexep256_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE rexep256_io2_peek(WORD addr)
+static uint8_t rexep256_io2_peek(uint16_t addr)
 {
     return regval;
 }
@@ -174,7 +174,7 @@ void rexep256_config_init(void)
     cart_romlbank_set_slotmain(0);
 }
 
-void rexep256_config_setup(BYTE *rawcart)
+void rexep256_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x42000);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
@@ -192,7 +192,7 @@ static int rexep256_common_attach(void)
 }
 
 /* FIXME: handle the various combinations / possible file lengths */
-int rexep256_bin_attach(const char *filename, BYTE *rawcart)
+int rexep256_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -200,7 +200,7 @@ int rexep256_bin_attach(const char *filename, BYTE *rawcart)
     return rexep256_common_attach();
 }
 
-int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
+int rexep256_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int rexep256_total_size = 0;
@@ -297,7 +297,7 @@ int rexep256_snapshot_write_module(snapshot_t *s)
 
 int rexep256_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

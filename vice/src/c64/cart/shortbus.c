@@ -215,11 +215,11 @@ int shortbus_write_snapshot_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)active_devices) < 0
-        || SMW_B(m, (BYTE)devices[0]) < 0
-        || SMW_B(m, (BYTE)devices[1]) < 0
-        || SMW_B(m, (BYTE)devices[2]) < 0
-        || SMW_B(m, (BYTE)devices[3]) < 0) {
+        || SMW_B(m, (uint8_t)active_devices) < 0
+        || SMW_B(m, (uint8_t)devices[0]) < 0
+        || SMW_B(m, (uint8_t)devices[1]) < 0
+        || SMW_B(m, (uint8_t)devices[2]) < 0
+        || SMW_B(m, (uint8_t)devices[3]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -260,7 +260,7 @@ int shortbus_write_snapshot_module(snapshot_t *s)
 
 int shortbus_read_snapshot_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int active_devices;
     int devices[4];

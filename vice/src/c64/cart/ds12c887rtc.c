@@ -78,8 +78,8 @@ static int ds12c887rtc_accessed = 0;
 /* ---------------------------------------------------------------------*/
 
 /* Some prototypes are needed */
-static BYTE ds12c887rtc_read(WORD addr);
-static void ds12c887rtc_store(WORD addr, BYTE byte);
+static uint8_t ds12c887rtc_read(uint16_t addr);
+static void ds12c887rtc_store(uint16_t addr, uint8_t byte);
 static int ds12c887rtc_dump(void);
 
 static io_source_t ds12c887rtc_device = {
@@ -185,8 +185,8 @@ static int set_ds12c887rtc_base(int val, void *param)
     switch (addr) {
         case 0xde00:
             if (machine_class != VICE_MACHINE_VIC20) {
-                ds12c887rtc_device.start_address = (WORD)addr;
-                ds12c887rtc_device.end_address = (WORD)(addr + 1);
+                ds12c887rtc_device.start_address = (uint16_t)addr;
+                ds12c887rtc_device.end_address = (uint16_t)(addr + 1);
                 export_res.io1 = &ds12c887rtc_device;
                 export_res.io2 = NULL;
             } else {
@@ -195,8 +195,8 @@ static int set_ds12c887rtc_base(int val, void *param)
             break;
         case 0xdf00:
             if (machine_class != VICE_MACHINE_VIC20) {
-                ds12c887rtc_device.start_address = (WORD)addr;
-                ds12c887rtc_device.end_address = (WORD)(addr + 1);
+                ds12c887rtc_device.start_address = (uint16_t)addr;
+                ds12c887rtc_device.end_address = (uint16_t)(addr + 1);
                 export_res.io1 = NULL;
                 export_res.io2 = &ds12c887rtc_device;
             } else {
@@ -211,8 +211,8 @@ static int set_ds12c887rtc_base(int val, void *param)
 #endif
         case 0xd700:
             if (machine_class != VICE_MACHINE_VIC20) {
-                ds12c887rtc_device.start_address = (WORD)addr;
-                ds12c887rtc_device.end_address = (WORD)(addr + 1);
+                ds12c887rtc_device.start_address = (uint16_t)addr;
+                ds12c887rtc_device.end_address = (uint16_t)(addr + 1);
                 export_res.io1 = NULL;
                 export_res.io2 = NULL;
             } else {
@@ -222,8 +222,8 @@ static int set_ds12c887rtc_base(int val, void *param)
         case 0xd500:
         case 0xd600:
             if (machine_class != VICE_MACHINE_VIC20 && machine_class != VICE_MACHINE_C128) {
-                ds12c887rtc_device.start_address = (WORD)addr;
-                ds12c887rtc_device.end_address = (WORD)(addr + 1);
+                ds12c887rtc_device.start_address = (uint16_t)addr;
+                ds12c887rtc_device.end_address = (uint16_t)(addr + 1);
                 export_res.io1 = NULL;
                 export_res.io2 = NULL;
             } else {
@@ -233,8 +233,8 @@ static int set_ds12c887rtc_base(int val, void *param)
         case 0x9800:
         case 0x9c00:
             if (machine_class == VICE_MACHINE_VIC20) {
-                ds12c887rtc_device.start_address = (WORD)addr;
-                ds12c887rtc_device.end_address = (WORD)(addr + 1);
+                ds12c887rtc_device.start_address = (uint16_t)addr;
+                ds12c887rtc_device.end_address = (uint16_t)(addr + 1);
             } else {
                 return -1;
             }
@@ -286,7 +286,7 @@ static int ds12c887rtc_dump(void)
     return ds12c887_dump(ds12c887rtc_context);
 }
 
-static BYTE ds12c887rtc_read(WORD addr)
+static uint8_t ds12c887rtc_read(uint16_t addr)
 {
     if (addr & 1) {
         ds12c887rtc_accessed = 1;
@@ -299,7 +299,7 @@ static BYTE ds12c887rtc_read(WORD addr)
     return 0;
 }
 
-static void ds12c887rtc_store(WORD addr, BYTE byte)
+static void ds12c887rtc_store(uint16_t addr, uint8_t byte)
 {
     if (addr & 1) {
         ds12c887_store_data(ds12c887rtc_context, byte);
@@ -423,7 +423,7 @@ int ds12c887rtc_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_DW(m, (DWORD)ds12c887rtc_base_address) < 0) {
+    if (SMW_DW(m, (uint32_t)ds12c887rtc_base_address) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -435,7 +435,7 @@ int ds12c887rtc_snapshot_write_module(snapshot_t *s)
 
 int ds12c887rtc_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
     int temp_ds12c887rtc_address;
 

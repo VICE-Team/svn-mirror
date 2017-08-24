@@ -142,11 +142,11 @@ Reset button
 /* the 29F040 statemachine */
 static flash040_context_t *flashrom_state = NULL;
 
-static BYTE active_mode_phi1 = 0;
-static BYTE active_mode_phi2 = 0;
+static uint8_t active_mode_phi1 = 0;
+static uint8_t active_mode_phi2 = 0;
 
 /* RAM */
-static BYTE *mmcr_ram = NULL;
+static uint8_t *mmcr_ram = NULL;
 
 /* RAM banking.*/
 static unsigned int raml_bank = 0, ramh_bank = 0;
@@ -279,15 +279,15 @@ static char *clockport_device_names = NULL;
 /********************************************************************************************************************/
 
 /* some prototypes are needed */
-static BYTE mmcreplay_io1_read(WORD addr);
-static void mmcreplay_io1_store(WORD addr, BYTE value);
-static BYTE mmcreplay_io2_read(WORD addr);
-static void mmcreplay_io2_store(WORD addr, BYTE value);
+static uint8_t mmcreplay_io1_read(uint16_t addr);
+static void mmcreplay_io1_store(uint16_t addr, uint8_t value);
+static uint8_t mmcreplay_io2_read(uint16_t addr);
+static void mmcreplay_io2_store(uint16_t addr, uint8_t value);
 static int mmcreplay_dump(void);
 
-static BYTE mmcreplay_clockport_read(WORD io_address);
-static BYTE mmcreplay_clockport_peek(WORD io_address);
-static void mmcreplay_clockport_store(WORD io_address, BYTE byte);
+static uint8_t mmcreplay_clockport_read(uint16_t io_address);
+static uint8_t mmcreplay_clockport_peek(uint16_t io_address);
+static void mmcreplay_clockport_store(uint16_t io_address, uint8_t byte);
 
 static io_source_t mmcreplay_io1_device = {
     CARTRIDGE_NAME_MMC_REPLAY,
@@ -1140,7 +1140,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
         /* FIXME: add 64kb-rombank offset also for ram ? */
         if (enable_extended_mode) {
             /* extended RR Mode */
-            BYTE value = (enable_game) |     /* bit 0 */
+            uint8_t value = (enable_game) |     /* bit 0 */
                          ((enable_exrom ^ 1) << 1) | /* bit 1 FIXME: is the bit inverted in the register ?! */
                          (rr_active_bit << 2) | /* bit 2 */
                          ((bank_address_13_15 & 3) << 3) | /* bit 3,4 */
@@ -1190,7 +1190,7 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
             LOG(("enable_ram_io:%d", enable_ram_io));
             /* action replay hack */
             if (enable_ram_io) {
-                BYTE value = (enable_game) |    /* bit 0 */
+                uint8_t value = (enable_game) |    /* bit 0 */
                              ((enable_exrom ^ 1) << 1) | /* bit 1 FIXME: is the bit inverted in the register ?! */
                              (((bank_address_13_15 & 3) << 3) | ((bank_address_13_15 & 4) << 5)) | /* bit 3,4,7 */
                              (enable_ram_io << 5) | /* bit 5 */
@@ -1269,9 +1269,9 @@ int iobank_write = 0;
   IO1 - $deXX
 ********************************************************************************************************************/
 
-BYTE mmcreplay_io1_read(WORD addr)
+uint8_t mmcreplay_io1_read(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
 
     mmcreplay_io1_device.io_source_valid = 0;
 
@@ -1373,7 +1373,7 @@ BYTE mmcreplay_io1_read(WORD addr)
     return 0;
 }
 
-void mmcreplay_io1_store(WORD addr, BYTE value)
+void mmcreplay_io1_store(uint16_t addr, uint8_t value)
 {
     if (rr_active) {
         switch (addr & 0xff) {
@@ -1519,9 +1519,9 @@ void mmcreplay_io1_store(WORD addr, BYTE value)
   IO2 - $dfXX
 ********************************************************************************************************************/
 
-BYTE mmcreplay_io2_read(WORD addr)
+uint8_t mmcreplay_io2_read(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
 
     mmcreplay_io2_device.io_source_valid = 0;
 
@@ -1679,7 +1679,7 @@ BYTE mmcreplay_io2_read(WORD addr)
     return 0;
 }
 
-void mmcreplay_io2_store(WORD addr, BYTE value)
+void mmcreplay_io2_store(uint16_t addr, uint8_t value)
 {
     switch (addr & 0xff) {
         case 0x10:
@@ -1722,10 +1722,10 @@ void mmcreplay_io2_store(WORD addr, BYTE value)
                 LOG(("MMCREPLAY: IO2 ST %04x %02x disable_mmc_bios %x disable_rr_rom %x", addr, value, disable_mmc_bios, disable_rr_rom));
 #endif
 
-                spi_mmc_card_selected_write((BYTE)(((value >> 1) ^ 1) & 1));   /* bit 1 */
-                spi_mmc_enable_8mhz_write((BYTE)(((value >> 2)) & 1)); /* bit 2 */
+                spi_mmc_card_selected_write((uint8_t)(((value >> 1) ^ 1) & 1));   /* bit 1 */
+                spi_mmc_enable_8mhz_write((uint8_t)(((value >> 2)) & 1)); /* bit 2 */
                 /* bit 3,4 always 0 */
-                spi_mmc_trigger_mode_write((BYTE)(((value >> 6)) & 1));        /* bit 6 */
+                spi_mmc_trigger_mode_write((uint8_t)(((value >> 6)) & 1));        /* bit 6 */
                 /* bit 7 always 0 */
                 if (disable_mmc_bios) {
                     /* if (enable_mmc_regs_pending) */
@@ -1783,7 +1783,7 @@ void mmcreplay_io2_store(WORD addr, BYTE value)
                      * bit 5: data/ddr
                      * bit 7: clk
                      */
-                    eeprom_port_write((BYTE)((value >> 7) & 1), (BYTE)((value >> 5) & 1),
+                    eeprom_port_write((uint8_t)((value >> 7) & 1), (uint8_t)((value >> 5) & 1),
                                       (value >> 1) & 1, (value >> 4) & 1);
                 }
 
@@ -1854,7 +1854,7 @@ void mmcreplay_io2_store(WORD addr, BYTE value)
   ClockPort
 ********************************************************************************************************************/
 
-static BYTE mmcreplay_clockport_read(WORD address)
+static uint8_t mmcreplay_clockport_read(uint16_t address)
 {
     if (clockport_device) {
         if (address < 0x02) {
@@ -1866,7 +1866,7 @@ static BYTE mmcreplay_clockport_read(WORD address)
     return 0;
 }
 
-static BYTE mmcreplay_clockport_peek(WORD address)
+static uint8_t mmcreplay_clockport_peek(uint16_t address)
 {
     if (clockport_device) {
         if (address < 0x02) {
@@ -1877,7 +1877,7 @@ static BYTE mmcreplay_clockport_peek(WORD address)
     return 0;
 }
 
-static void mmcreplay_clockport_store(WORD address, BYTE byte)
+static void mmcreplay_clockport_store(uint16_t address, uint8_t byte)
 {
     if (clockport_device) {
         if (address < 0x02) {
@@ -1913,7 +1913,7 @@ int logbank_write = 0;
 /*
     $1000-$7fff in ultimax mode - this is always regular ram
 */
-BYTE mmcreplay_1000_7fff_read(WORD addr)
+uint8_t mmcreplay_1000_7fff_read(uint16_t addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -1927,7 +1927,7 @@ BYTE mmcreplay_1000_7fff_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void mmcreplay_1000_7fff_store(WORD addr, BYTE value)
+void mmcreplay_1000_7fff_store(uint16_t addr, uint8_t value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -1946,7 +1946,7 @@ void mmcreplay_1000_7fff_store(WORD addr, BYTE value)
 
 /* FIXME: something with checking pport.data is wrong, the seperate check
           for the rescue mode should not be necessary */
-BYTE mmcreplay_roml_read(WORD addr)
+uint8_t mmcreplay_roml_read(uint16_t addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -1985,7 +1985,7 @@ BYTE mmcreplay_roml_read(WORD addr)
 
 /* FIXME: something with checking pport.data is wrong, the seperate check
           for the rescue mode should not be necessary */
-void mmcreplay_roml_store(WORD addr, BYTE value)
+void mmcreplay_roml_store(uint16_t addr, uint8_t value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -2025,7 +2025,7 @@ void mmcreplay_roml_store(WORD addr, BYTE value)
 /*
     $a000 in ultimax mode
 */
-BYTE mmcreplay_a000_bfff_read(WORD addr)
+uint8_t mmcreplay_a000_bfff_read(uint16_t addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -2048,7 +2048,7 @@ BYTE mmcreplay_a000_bfff_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void mmcreplay_a000_bfff_store(WORD addr, BYTE value)
+void mmcreplay_a000_bfff_store(uint16_t addr, uint8_t value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -2088,7 +2088,7 @@ void mmcreplay_a000_bfff_store(WORD addr, BYTE value)
     $c000 in ultimax mode - this is always regular ram
 */
 
-BYTE mmcreplay_c000_cfff_read(WORD addr)
+uint8_t mmcreplay_c000_cfff_read(uint16_t addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -2102,7 +2102,7 @@ BYTE mmcreplay_c000_cfff_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void mmcreplay_c000_cfff_store(WORD addr, BYTE value)
+void mmcreplay_c000_cfff_store(uint16_t addr, uint8_t value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -2119,7 +2119,7 @@ void mmcreplay_c000_cfff_store(WORD addr, BYTE value)
     ROMH - $a000 ($e000 in ultimax mode)
 */
 
-BYTE mmcreplay_romh_read(WORD addr)
+uint8_t mmcreplay_romh_read(uint16_t addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -2158,7 +2158,7 @@ BYTE mmcreplay_romh_read(WORD addr)
     return flash040core_read(flashrom_state, (addr & 0x1fff) + (romh_bank << 13));
 }
 
-void mmcreplay_romh_store(WORD addr, BYTE value)
+void mmcreplay_romh_store(uint16_t addr, uint8_t value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -2187,12 +2187,12 @@ void mmcreplay_romh_store(WORD addr, BYTE value)
     }
 }
 
-int mmcreplay_romh_phi1_read(WORD addr, BYTE *value)
+int mmcreplay_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
     return CART_READ_C64MEM;
 }
 
-int mmcreplay_romh_phi2_read(WORD addr, BYTE *value)
+int mmcreplay_romh_phi2_read(uint16_t addr, uint8_t *value)
 {
     return mmcreplay_romh_phi1_read(addr, value);
 }
@@ -2505,7 +2505,7 @@ void mmcreplay_config_init(void)
     flash040core_reset(flashrom_state);
 }
 
-void mmcreplay_config_setup(BYTE *rawcart)
+void mmcreplay_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, MMCREPLAY_FLASHROM_SIZE);
 
@@ -2606,7 +2606,7 @@ static int mmcreplay_common_attach(const char *filename)
     return 0;
 }
 
-int mmcreplay_bin_attach(const char *filename, BYTE *rawcart)
+int mmcreplay_bin_attach(const char *filename, uint8_t *rawcart)
 {
     int len = 0;
     FILE *fd;
@@ -2634,7 +2634,7 @@ int mmcreplay_bin_attach(const char *filename, BYTE *rawcart)
     return mmcreplay_common_attach(filename);
 }
 
-int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
+int mmcreplay_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
     int i;
@@ -2723,7 +2723,7 @@ int mmcreplay_crt_save(const char *filename)
 {
     FILE *fd;
     crt_chip_header_t chip;
-    BYTE *data;
+    uint8_t *data;
     int i, n = 0;
 
     fd = crt_create(filename, CARTRIDGE_MMC_REPLAY, 1, 0, STRING_MMC_REPLAY);
@@ -2891,7 +2891,7 @@ static int set_mmcr_sd_type(int val, void* param)
             return -1;
     }
     mmcr_sd_type = val;
-    mmc_set_card_type((BYTE)val);
+    mmc_set_card_type((uint8_t)val);
     return 0;
 }
 
@@ -3073,7 +3073,7 @@ int mmcreplay_snapshot_read_module(snapshot_t *s)
 {
     return -1;
 #if 0
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

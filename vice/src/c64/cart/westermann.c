@@ -54,8 +54,8 @@
 */
 
 /* some prototypes are needed */
-static BYTE westermann_io2_read(WORD addr);
-static BYTE westermann_io2_peek(WORD addr);
+static uint8_t westermann_io2_read(uint16_t addr);
+static uint8_t westermann_io2_peek(uint16_t addr);
 static int westermann_dump(void);
 
 static io_source_t westermann_device = {
@@ -83,14 +83,14 @@ static const export_resource_t export_res_westermann = {
 
 static int westermann_a000 = 0;
 
-static BYTE westermann_io2_read(WORD addr)
+static uint8_t westermann_io2_read(uint16_t addr)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     westermann_a000 = 0;
     return 0;
 }
 
-static BYTE westermann_io2_peek(WORD addr)
+static uint8_t westermann_io2_peek(uint16_t addr)
 {
     return 0;
 }
@@ -110,7 +110,7 @@ void westermann_config_init(void)
     westermann_a000 = 1;
 }
 
-void westermann_config_setup(BYTE *rawcart)
+void westermann_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
@@ -128,7 +128,7 @@ static int westermann_common_attach(void)
     return 0;
 }
 
-int westermann_bin_attach(const char *filename, BYTE *rawcart)
+int westermann_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -136,7 +136,7 @@ int westermann_bin_attach(const char *filename, BYTE *rawcart)
     return westermann_common_attach();
 }
 
-int westermann_crt_attach(FILE *fd, BYTE *rawcart)
+int westermann_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -188,7 +188,7 @@ int westermann_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)westermann_a000) < 0
+        || SMW_B(m, (uint8_t)westermann_a000) < 0
         || SMW_BA(m, roml_banks, 0x2000) < 0
         || SMW_BA(m, romh_banks, 0x2000) < 0) {
         snapshot_module_close(m);
@@ -200,7 +200,7 @@ int westermann_snapshot_write_module(snapshot_t *s)
 
 int westermann_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

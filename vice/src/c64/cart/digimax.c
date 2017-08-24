@@ -67,8 +67,8 @@ static char *digimax_address_list = NULL;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void digimax_sound_store(WORD addr, BYTE value);
-static BYTE digimax_sound_read(WORD addr);
+static void digimax_sound_store(uint16_t addr, uint8_t value);
+static uint8_t digimax_sound_read(uint16_t addr);
 
 static io_source_t digimax_device = {
     CARTRIDGE_NAME_DIGIMAX,
@@ -103,15 +103,15 @@ int digimax_cart_enabled(void)
     return digimax_sound_chip.chip_enabled;
 }
 
-static void digimax_sound_store(WORD addr, BYTE value)
+static void digimax_sound_store(uint16_t addr, uint8_t value)
 {
     digimax_sound_data[addr] = value;
-    sound_store((WORD)(digimax_sound_chip_offset | addr), value, 0);
+    sound_store((uint16_t)(digimax_sound_chip_offset | addr), value, 0);
 }
 
-static BYTE digimax_sound_read(WORD addr)
+static uint8_t digimax_sound_read(uint16_t addr)
 {
-    BYTE value = sound_read((WORD)(digimax_sound_chip_offset | addr), 0);
+    uint8_t value = sound_read((uint16_t)(digimax_sound_chip_offset | addr), 0);
 
     return value;
 }
@@ -170,8 +170,8 @@ static int set_digimax_base(int val, void *param)
         case 0xdec0:
         case 0xdee0:
             if (machine_class != VICE_MACHINE_VIC20) {
-                digimax_device.start_address = (WORD)addr;
-                digimax_device.end_address = (WORD)(addr + 3);
+                digimax_device.start_address = (uint16_t)addr;
+                digimax_device.end_address = (uint16_t)(addr + 3);
                 export_res.io1 = &digimax_device;
                 export_res.io2 = NULL;
             } else {
@@ -187,8 +187,8 @@ static int set_digimax_base(int val, void *param)
         case 0xdfc0:
         case 0xdfe0:
             if (machine_class != VICE_MACHINE_VIC20) {
-                digimax_device.start_address = (WORD)addr;
-                digimax_device.end_address = (WORD)(addr + 3);
+                digimax_device.start_address = (uint16_t)addr;
+                digimax_device.end_address = (uint16_t)(addr + 3);
                 export_res.io1 = NULL;
                 export_res.io2 = &digimax_device;
             } else {
@@ -212,8 +212,8 @@ static int set_digimax_base(int val, void *param)
         case 0x9cc0:
         case 0x9ce0:
             if (machine_class == VICE_MACHINE_VIC20) {
-                digimax_device.start_address = (WORD)addr;
-                digimax_device.end_address = (WORD)(addr + 3);
+                digimax_device.start_address = (uint16_t)addr;
+                digimax_device.end_address = (uint16_t)(addr + 3);
             } else {
                 return -1;
             }
@@ -346,7 +346,7 @@ int digimax_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_DW(m, (DWORD)digimax_address) < 0)
+        || (SMW_DW(m, (uint32_t)digimax_address) < 0)
         || (SMW_BA(m, digimax_sound_data, 4) < 0)
         || (SMW_B(m, snd.voice0) < 0)
         || (SMW_B(m, snd.voice1) < 0)
@@ -361,7 +361,7 @@ int digimax_snapshot_write_module(snapshot_t *s)
 
 int digimax_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
     int temp_digimax_address;
 

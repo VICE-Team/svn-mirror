@@ -105,10 +105,10 @@
 #define GEORAM_REG_PAGE_HIGH 0xff
 
 /* GEORAM registers */
-static BYTE georam[2];
+static uint8_t georam[2];
 
 /* GEORAM image.  */
-static BYTE *georam_ram = NULL;
+static uint8_t *georam_ram = NULL;
 static int old_georam_ram_size = 0;
 
 static log_t georam_log = LOG_ERR;
@@ -136,10 +136,10 @@ static int georam_io_swap = 0;
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE georam_io1_read(WORD addr);
-static void georam_io1_store(WORD addr, BYTE byte);
-static BYTE georam_io2_peek(WORD addr);
-static void georam_io2_store(WORD addr, BYTE byte);
+static uint8_t georam_io1_read(uint16_t addr);
+static void georam_io1_store(uint16_t addr, uint8_t byte);
+static uint8_t georam_io2_peek(uint16_t addr);
+static void georam_io2_store(uint16_t addr, uint8_t byte);
 static int georam_dump(void);
 
 static io_source_t georam_io1_device = {
@@ -186,21 +186,21 @@ int georam_cart_enabled(void)
     return georam_enabled;
 }
 
-static BYTE georam_io1_read(WORD addr)
+static uint8_t georam_io1_read(uint16_t addr)
 {
-    BYTE retval;
+    uint8_t retval;
 
     retval = georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr];
 
     return retval;
 }
 
-static void georam_io1_store(WORD addr, BYTE byte)
+static void georam_io1_store(uint16_t addr, uint8_t byte)
 {
     georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr] = byte;
 }
 
-static BYTE georam_io2_peek(WORD addr)
+static uint8_t georam_io2_peek(uint16_t addr)
 {
     if (addr < 2) {
         return georam[addr & 1];
@@ -208,7 +208,7 @@ static BYTE georam_io2_peek(WORD addr)
     return 0;
 }
 
-static void georam_io2_store(WORD addr, BYTE byte)
+static void georam_io2_store(uint16_t addr, uint8_t byte)
 {
     if ((addr & 1) == 1) {
         while (byte > ((georam_size_kb / 16) - 1)) {
@@ -549,14 +549,14 @@ int georam_enable(void)
     return 0;
 }
 
-void georam_config_setup(BYTE *rawcart)
+void georam_config_setup(uint8_t *rawcart)
 {
     if (georam_size > 0) {
         memcpy(georam_ram, rawcart, georam_size);
     }
 }
 
-int georam_bin_attach(const char *filename, BYTE *rawcart)
+int georam_bin_attach(const char *filename, uint8_t *rawcart)
 {
     FILE *fd;
     int size;
@@ -632,7 +632,7 @@ int georam_write_snapshot_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)georam_io_swap) < 0
+        || SMW_B(m, (uint8_t)georam_io_swap) < 0
         || SMW_DW(m, (georam_size >> 10)) < 0
         || SMW_BA(m, georam, sizeof(georam)) < 0
         || SMW_BA(m, georam_ram, georam_size) < 0) {
@@ -645,9 +645,9 @@ int georam_write_snapshot_module(snapshot_t *s)
 
 int georam_read_snapshot_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
-    DWORD size;
+    uint32_t size;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
