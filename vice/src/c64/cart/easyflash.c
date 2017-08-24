@@ -70,10 +70,10 @@ static int easyflash_crt_write;
 static int easyflash_crt_optimize;
 
 /* backup of the registers */
-static BYTE easyflash_register_00, easyflash_register_02;
+static uint8_t easyflash_register_00, easyflash_register_02;
 
 /* decoding table of the modes */
-static const BYTE easyflash_memconfig[] = {
+static const uint8_t easyflash_memconfig[] = {
     /* bit3 = jumper, bit2 = mode, bit1 = !exrom, bit0 = game */
 
     /* jumper off, mode 0, trough 00,01,10,11 in game/exrom bits */
@@ -96,7 +96,7 @@ static const BYTE easyflash_memconfig[] = {
 };
 
 /* extra RAM */
-static BYTE easyflash_ram[256];
+static uint8_t easyflash_ram[256];
 
 /* filename when attached */
 static char *easyflash_filename = NULL;
@@ -106,14 +106,14 @@ static const char STRING_EASYFLASH[] = CARTRIDGE_NAME_EASYFLASH;
 
 /* ---------------------------------------------------------------------*/
 
-static void easyflash_io1_store(WORD addr, BYTE value)
+static void easyflash_io1_store(uint16_t addr, uint8_t value)
 {
-    BYTE mem_mode;
+    uint8_t mem_mode;
 
     switch (addr & 2) {
         case 0:
             /* bank register */
-            easyflash_register_00 = (BYTE)(value & EASYFLASH_BANK_MASK);
+            easyflash_register_00 = (uint8_t)(value & EASYFLASH_BANK_MASK);
             break;
         default:
             /* mode register */
@@ -128,19 +128,19 @@ static void easyflash_io1_store(WORD addr, BYTE value)
     cart_port_config_changed_slotmain();
 }
 
-static BYTE easyflash_io2_read(WORD addr)
+static uint8_t easyflash_io2_read(uint16_t addr)
 {
     return easyflash_ram[addr & 0xff];
 }
 
-static void easyflash_io2_store(WORD addr, BYTE value)
+static void easyflash_io2_store(uint16_t addr, uint8_t value)
 {
     easyflash_ram[addr & 0xff] = value;
 }
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE easyflash_io1_peek(WORD addr)
+static uint8_t easyflash_io1_peek(uint16_t addr)
 {
     return (addr & 2) ? easyflash_register_02 : easyflash_register_00;
 }
@@ -213,7 +213,7 @@ static int set_easyflash_crt_optimize(int val, void *param)
     return 0;
 }
 
-static int easyflash_write_chip_if_not_empty(FILE* fd, crt_chip_header_t *chip, BYTE* data)
+static int easyflash_write_chip_if_not_empty(FILE* fd, crt_chip_header_t *chip, uint8_t *data)
 {
     int i;
 
@@ -293,27 +293,27 @@ int easyflash_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE easyflash_roml_read(WORD addr)
+uint8_t easyflash_roml_read(uint16_t addr)
 {
     return flash040core_read(easyflash_state_low, (easyflash_register_00 * 0x2000) + (addr & 0x1fff));
 }
 
-void easyflash_roml_store(WORD addr, BYTE value)
+void easyflash_roml_store(uint16_t addr, uint8_t value)
 {
     flash040core_store(easyflash_state_low, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
-BYTE easyflash_romh_read(WORD addr)
+uint8_t easyflash_romh_read(uint16_t addr)
 {
     return flash040core_read(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff));
 }
 
-void easyflash_romh_store(WORD addr, BYTE value)
+void easyflash_romh_store(uint16_t addr, uint8_t value)
 {
     flash040core_store(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
-void easyflash_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void easyflash_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (easyflash_state_high && easyflash_state_high->flash_data &&
         easyflash_state_low && easyflash_state_low->flash_data) {
@@ -355,11 +355,11 @@ void easyflash_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
 
 void easyflash_config_init(void)
 {
-    easyflash_io1_store((WORD)0xde00, 0);
-    easyflash_io1_store((WORD)0xde02, 0);
+    easyflash_io1_store((uint16_t)0xde00, 0);
+    easyflash_io1_store((uint16_t)0xde02, 0);
 }
 
-void easyflash_config_setup(BYTE *rawcart)
+void easyflash_config_setup(uint8_t *rawcart)
 {
     int i;
 
@@ -410,7 +410,7 @@ static int easyflash_common_attach(const char *filename)
     return 0;
 }
 
-int easyflash_bin_attach(const char *filename, BYTE *rawcart)
+int easyflash_bin_attach(const char *filename, uint8_t *rawcart)
 {
     easyflash_filetype = 0;
 
@@ -422,7 +422,7 @@ int easyflash_bin_attach(const char *filename, BYTE *rawcart)
     return easyflash_common_attach(filename);
 }
 
-int easyflash_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
+int easyflash_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
 
@@ -492,8 +492,8 @@ int easyflash_bin_save(const char *filename)
 {
     FILE *fd;
     int i;
-    BYTE *low;
-    BYTE *high;
+    uint8_t *low;
+    uint8_t *high;
 
     if (filename == NULL) {
         return -1;
@@ -523,7 +523,7 @@ int easyflash_crt_save(const char *filename)
 {
     FILE *fd;
     crt_chip_header_t chip;
-    BYTE *data;
+    uint8_t *data;
     int bank;
 
     fd = crt_create(filename, CARTRIDGE_EASYFLASH, 1, 0, STRING_EASYFLASH);
@@ -586,7 +586,7 @@ int easyflash_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)easyflash_jumper) < 0)
+        || (SMW_B(m, (uint8_t)easyflash_jumper) < 0)
         || (SMW_B(m, easyflash_register_00) < 0)
         || (SMW_B(m, easyflash_register_02) < 0)
         || (SMW_BA(m, easyflash_ram, 256) < 0)
@@ -609,7 +609,7 @@ int easyflash_snapshot_write_module(snapshot_t *s)
 
 int easyflash_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

@@ -143,12 +143,12 @@ static void ultimax_memptr_update(void);
 void cart_set_port_exrom_slot0(int);
 void cart_set_port_game_slot0(int);
 void cart_port_config_changed_slot0(void);
-void cart_config_changed_slot0(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+void cart_config_changed_slot0(uint8_t mode_phi1, uint8_t mode_phi2, unsigned int wflag);
 
 void cart_set_port_exrom_slot1(int);
 void cart_set_port_game_slot1(int);
 void cart_port_config_changed_slot1(void);
-void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+void cart_config_changed_slot1(uint8_t mode_phi1, uint8_t mode_phi2, unsigned int wflag);
 
 
 
@@ -174,14 +174,14 @@ void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wfla
   bit 1  0x02   - release freeze (stop asserting NMI)
   bit 0  0x01   - r/w flag
 */
-const char *cart_config_string(BYTE mode)
+const char *cart_config_string(uint8_t mode)
 {
     const char *modes[4] = {"8k game", "16k game", "Off", "Ultimax"};
     return modes[mode & 3];
 }
 
 #ifndef USESLOTS
-static void cart_config_changed(int slot, BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+static void cart_config_changed(int slot, uint8_t mode_phi1, uint8_t mode_phi2, unsigned int wflag)
 {
 #ifdef DEBUGCART
     static int old1 = 0, old2 = 0, old3 = 0;
@@ -245,7 +245,7 @@ void cart_port_config_changed_slot0(void)
     ultimax_memptr_update();
 }
 
-void cart_config_changed_slot0(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+void cart_config_changed_slot0(uint8_t mode_phi1, uint8_t mode_phi2, unsigned int wflag)
 {
     assert(((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK) == 0);
     assert((wflag & CMODE_RELEASE_FREEZE) == 0);
@@ -346,7 +346,7 @@ void cart_port_config_changed_slot1(void)
     ultimax_memptr_update();
 }
 
-void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+void cart_config_changed_slot1(uint8_t mode_phi1, uint8_t mode_phi2, unsigned int wflag)
 {
     assert(((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK) == 0);
     assert(((wflag >> CMODE_EXPORT_RAM_SHIFT) & 1) == 0);
@@ -438,7 +438,7 @@ void cart_port_config_changed_slotmain(void)
     ultimax_memptr_update();
 }
 
-void cart_config_changed_slotmain(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+void cart_config_changed_slotmain(uint8_t mode_phi1, uint8_t mode_phi2, unsigned int wflag)
 {
 #ifndef USESLOTS
     cart_config_changed(2, mode_phi1, mode_phi2, wflag);
@@ -584,7 +584,7 @@ void cart_romlbank_set_slotmain(unsigned int bank)
 
 
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
-static BYTE roml_read_slotmain(WORD addr)
+static uint8_t roml_read_slotmain(uint16_t addr)
 {
     /* "Main Slot" */
     switch (mem_cartridge_type) {
@@ -657,7 +657,7 @@ static BYTE roml_read_slotmain(WORD addr)
 }
 
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
-static BYTE roml_read_slot1(WORD addr)
+static uint8_t roml_read_slot1(uint16_t addr)
 {
     /* "Slot 1" */
     if (isepic_cart_active()) {
@@ -678,10 +678,10 @@ static BYTE roml_read_slot1(WORD addr)
 }
 
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
-BYTE roml_read(WORD addr)
+uint8_t roml_read(uint16_t addr)
 {
     int res = CART_READ_THROUGH;
-    BYTE value;
+    uint8_t value;
 /*    DBG(("CARTMEM roml_read (addr %04x)\n", addr)); */
 
     /* "Slot 0" */
@@ -712,7 +712,7 @@ BYTE roml_read(WORD addr)
 }
 
 /* ROML store - mapped to 8000 in ultimax mode */
-void roml_store(WORD addr, BYTE value)
+void roml_store(uint16_t addr, uint8_t value)
 {
     /* DBG(("ultimax w 8000: %04x %02x\n", addr, value)); */
 
@@ -794,7 +794,7 @@ void roml_store(WORD addr, BYTE value)
    most carts that use romh_read also need to use ultimax_romh_read_hirom
    below. carts that map an "external kernal" wrap to ram_read here.
 */
-static BYTE romh_read_slotmain(WORD addr)
+static uint8_t romh_read_slotmain(uint16_t addr)
 {
     /* "Main Slot" */
     switch (mem_cartridge_type) {
@@ -852,7 +852,7 @@ static BYTE romh_read_slotmain(WORD addr)
     return vicii_read_phi1();
 }
 
-static BYTE romh_read_slot1(WORD addr)
+static uint8_t romh_read_slot1(uint16_t addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {
@@ -869,10 +869,10 @@ static BYTE romh_read_slot1(WORD addr)
     return romh_read_slotmain(addr);
 }
 
-BYTE romh_read(WORD addr)
+uint8_t romh_read(uint16_t addr)
 {
     int res = CART_READ_THROUGH;
-    BYTE value;
+    uint8_t value;
     /* DBG(("ultimax r e000: %04x\n", addr)); */
 
     /* "Slot 0" */
@@ -897,7 +897,7 @@ BYTE romh_read(WORD addr)
    that map an "external kernal" _only_ use this one, and wrap to
    ram_read in romh_read.
 */
-static BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
+static uint8_t ultimax_romh_read_hirom_slotmain(uint16_t addr)
 {
     /* "Main Slot" */
     switch (mem_cartridge_type) {
@@ -954,7 +954,7 @@ static BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
     return vicii_read_phi1();
 }
 
-static BYTE ultimax_romh_read_hirom_slot1(WORD addr)
+static uint8_t ultimax_romh_read_hirom_slot1(uint16_t addr)
 {
     /* "Slot 1" */
     if (dqbb_cart_enabled()) {
@@ -971,10 +971,10 @@ static BYTE ultimax_romh_read_hirom_slot1(WORD addr)
     return ultimax_romh_read_hirom_slotmain(addr);
 }
 
-BYTE ultimax_romh_read_hirom(WORD addr)
+uint8_t ultimax_romh_read_hirom(uint16_t addr)
 {
     int res;
-    BYTE value;
+    uint8_t value;
     /* DBG(("ultimax r e000: %04x\n", addr)); */
 
     /* "Slot 0" */
@@ -997,7 +997,7 @@ BYTE ultimax_romh_read_hirom(WORD addr)
 /* ROMH store - mapped to E000 in ultimax mode
    - carts that use "external kernal" mode must wrap to ram_store here
 */
-void romh_store(WORD addr, BYTE value)
+void romh_store(uint16_t addr, uint8_t value)
 {
     /* DBG(("ultimax w e000: %04x %02x\n", addr, value)); */
 
@@ -1050,7 +1050,7 @@ void romh_store(WORD addr, BYTE value)
    a write select. some carts however map RAM here and also
    accept writes in this mode.
 */
-void romh_no_ultimax_store(WORD addr, BYTE value)
+void romh_no_ultimax_store(uint16_t addr, uint8_t value)
 {
     /* DBG(("game    w a000: %04x %02x\n", addr, value)); */
 
@@ -1089,7 +1089,7 @@ void romh_no_ultimax_store(WORD addr, BYTE value)
    a write select. some carts however map ram here and also
    accept writes in this mode.
 */
-void roml_no_ultimax_store(WORD addr, BYTE value)
+void roml_no_ultimax_store(uint16_t addr, uint8_t value)
 {
     /* DBG(("game rom    w 8000: %04x %02x\n", addr, value)); */
     /* "Slot 0" */
@@ -1153,7 +1153,7 @@ void roml_no_ultimax_store(WORD addr, BYTE value)
       must NOT be called by any functions called here, as this will cause an
       endless loop
 */
-void raml_no_ultimax_store(WORD addr, BYTE value)
+void raml_no_ultimax_store(uint16_t addr, uint8_t value)
 {
     /* DBG(("game ram    w 8000: %04x %02x\n", addr, value)); */
     /* "Slot 0" */
@@ -1203,7 +1203,7 @@ void raml_no_ultimax_store(WORD addr, BYTE value)
       must NOT be called by any functions called here, as this will cause an
       endless loop
 */
-void ramh_no_ultimax_store(WORD addr, BYTE value)
+void ramh_no_ultimax_store(uint16_t addr, uint8_t value)
 {
     /* DBG(("game ram    w 8000: %04x %02x\n", addr, value)); */
 
@@ -1227,7 +1227,7 @@ void ramh_no_ultimax_store(WORD addr, BYTE value)
 }
 
 /* ultimax read - 1000 to 7fff */
-static BYTE ultimax_1000_7fff_read_slot1(WORD addr)
+static uint8_t ultimax_1000_7fff_read_slot1(uint16_t addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {
@@ -1265,10 +1265,10 @@ static BYTE ultimax_1000_7fff_read_slot1(WORD addr)
     return vicii_read_phi1();
 }
 
-BYTE ultimax_1000_7fff_read(WORD addr)
+uint8_t ultimax_1000_7fff_read(uint16_t addr)
 {
     int res;
-    BYTE value;
+    uint8_t value;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1293,7 +1293,7 @@ BYTE ultimax_1000_7fff_read(WORD addr)
 }
 
 /* ultimax store - 1000 to 7fff */
-void ultimax_1000_7fff_store(WORD addr, BYTE value)
+void ultimax_1000_7fff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
     if (magicvoice_cart_enabled()) {
@@ -1338,7 +1338,7 @@ void ultimax_1000_7fff_store(WORD addr, BYTE value)
 }
 
 /* ultimax read - a000 to bfff */
-static BYTE ultimax_a000_bfff_read_slot1(WORD addr)
+static uint8_t ultimax_a000_bfff_read_slot1(uint16_t addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {
@@ -1376,10 +1376,10 @@ static BYTE ultimax_a000_bfff_read_slot1(WORD addr)
     return vicii_read_phi1();
 }
 
-BYTE ultimax_a000_bfff_read(WORD addr)
+uint8_t ultimax_a000_bfff_read(uint16_t addr)
 {
     int res;
-    BYTE value;
+    uint8_t value;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1401,7 +1401,7 @@ BYTE ultimax_a000_bfff_read(WORD addr)
 }
 
 /* ultimax store - a000 to bfff */
-void ultimax_a000_bfff_store(WORD addr, BYTE value)
+void ultimax_a000_bfff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
     if (magicvoice_cart_enabled()) {
@@ -1443,7 +1443,7 @@ void ultimax_a000_bfff_store(WORD addr, BYTE value)
 }
 
 /* ultimax read - c000 to cfff */
-static BYTE ultimax_c000_cfff_read_slot1(WORD addr)
+static uint8_t ultimax_c000_cfff_read_slot1(uint16_t addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {
@@ -1477,10 +1477,10 @@ static BYTE ultimax_c000_cfff_read_slot1(WORD addr)
     return vicii_read_phi1();
 }
 
-BYTE ultimax_c000_cfff_read(WORD addr)
+uint8_t ultimax_c000_cfff_read(uint16_t addr)
 {
     int res;
-    BYTE value;
+    uint8_t value;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1505,7 +1505,7 @@ BYTE ultimax_c000_cfff_read(WORD addr)
 }
 
 /* ultimax store - c000 to cfff */
-void ultimax_c000_cfff_store(WORD addr, BYTE value)
+void ultimax_c000_cfff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
     if (magicvoice_cart_enabled()) {
@@ -1544,7 +1544,7 @@ void ultimax_c000_cfff_store(WORD addr, BYTE value)
 }
 
 /* ultimax read - d000 to dfff */
-static BYTE ultimax_d000_dfff_read_slot1(WORD addr)
+static uint8_t ultimax_d000_dfff_read_slot1(uint16_t addr)
 {
     /* "Slot 1" */
     if (expert_cart_enabled()) {
@@ -1572,10 +1572,10 @@ static BYTE ultimax_d000_dfff_read_slot1(WORD addr)
     return read_bank_io(addr);
 }
 
-BYTE ultimax_d000_dfff_read(WORD addr)
+uint8_t ultimax_d000_dfff_read(uint16_t addr)
 {
     int res = CART_READ_THROUGH;
-    BYTE value;
+    uint8_t value;
 
     /* "Slot 0" */
 
@@ -1599,7 +1599,7 @@ BYTE ultimax_d000_dfff_read(WORD addr)
 }
 
 /* ultimax store - d000 to dfff */
-void ultimax_d000_dfff_store(WORD addr, BYTE value)
+void ultimax_d000_dfff_store(uint16_t addr, uint8_t value)
 {
     /* "Slot 0" */
     if (magicvoice_cart_enabled()) {
@@ -1645,7 +1645,7 @@ void ultimax_d000_dfff_store(WORD addr, BYTE value)
     FIXME: lots of testing needed!
 */
 
-static int ultimax_romh_phi1_read_slotmain(WORD addr, BYTE *value)
+static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
 
@@ -1697,7 +1697,7 @@ static int ultimax_romh_phi1_read_slotmain(WORD addr, BYTE *value)
     return 1;
 }
 
-static int ultimax_romh_phi1_read_slot1(WORD addr, BYTE *value)
+static int ultimax_romh_phi1_read_slot1(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
 
@@ -1725,7 +1725,7 @@ static int ultimax_romh_phi1_read_slot1(WORD addr, BYTE *value)
     return ultimax_romh_phi1_read_slotmain(addr, value);
 }
 
-int ultimax_romh_phi1_read(WORD addr, BYTE *value)
+int ultimax_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
 
@@ -1748,7 +1748,7 @@ int ultimax_romh_phi1_read(WORD addr, BYTE *value)
     return ultimax_romh_phi1_read_slot1(addr, value);
 }
 
-static int ultimax_romh_phi2_read_slotmain(WORD addr, BYTE *value)
+static int ultimax_romh_phi2_read_slotmain(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
 
@@ -1800,7 +1800,7 @@ static int ultimax_romh_phi2_read_slotmain(WORD addr, BYTE *value)
     return 1;
 }
 
-static int ultimax_romh_phi2_read_slot1(WORD addr, BYTE *value)
+static int ultimax_romh_phi2_read_slot1(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
 
@@ -1828,7 +1828,7 @@ static int ultimax_romh_phi2_read_slot1(WORD addr, BYTE *value)
     return ultimax_romh_phi2_read_slotmain(addr, value);
 }
 
-int ultimax_romh_phi2_read(WORD addr, BYTE *value)
+int ultimax_romh_phi2_read(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
 
@@ -1862,10 +1862,10 @@ int ultimax_romh_phi2_read(WORD addr, BYTE *value)
     this hack).
 */
 
-static BYTE mem_phi1[0x1000];
-static BYTE mem_phi2[0x1000];
-static BYTE *mem_phi1_ptr[0x1000];
-static BYTE *mem_phi2_ptr[0x1000];
+static uint8_t mem_phi1[0x1000];
+static uint8_t mem_phi2[0x1000];
+static uint8_t *mem_phi1_ptr[0x1000];
+static uint8_t *mem_phi2_ptr[0x1000];
 static int mem_phi1_valid = 0;
 static int mem_phi2_valid = 0;
 static int mem_phi1_last = 0;
@@ -1887,13 +1887,13 @@ static void ultimax_memptr_update(void)
     }
 }
 
-BYTE *ultimax_romh_phi1_ptr(WORD addr)
+uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
 {
     int n;
     int res;
     /* DBG(("phi1 addr %04x\n", addr)); */
     n = addr & 0x0fff;
-    res = ultimax_romh_phi1_read((WORD)(0x1000 + n), &mem_phi1[n]);
+    res = ultimax_romh_phi1_read((uint16_t)(0x1000 + n), &mem_phi1[n]);
     if (mem_phi1_ptr[n] != (res ? &mem_phi1[n] : NULL)) {
         mem_phi1_valid = 0;
     }
@@ -1901,7 +1901,7 @@ BYTE *ultimax_romh_phi1_ptr(WORD addr)
     if (!mem_phi1_valid) {
         n = 0;
         while (n < 0x1000) {
-            if (ultimax_romh_phi1_read((WORD)(0x1000 + n), &mem_phi1[n]) == 0) {
+            if (ultimax_romh_phi1_read((uint16_t)(0x1000 + n), &mem_phi1[n]) == 0) {
                 mem_phi1_ptr[n] = NULL;
             } else {
                 mem_phi1_ptr[n] = &mem_phi1[n];
@@ -1914,13 +1914,13 @@ BYTE *ultimax_romh_phi1_ptr(WORD addr)
     return mem_phi1_ptr[addr & 0x0fff];
 }
 
-BYTE *ultimax_romh_phi2_ptr(WORD addr)
+uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
 {
     int n;
     int res;
     /* DBG(("phi2 addr %04x\n", addr)); */
     n = addr & 0x0fff;
-    res = ultimax_romh_phi2_read((WORD)(0x1000 + n), &mem_phi2[n]);
+    res = ultimax_romh_phi2_read((uint16_t)(0x1000 + n), &mem_phi2[n]);
     if (mem_phi2_ptr[n] != (res ? &mem_phi2[n] : NULL)) {
         mem_phi2_valid = 0;
     }
@@ -1928,7 +1928,7 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
     if (!mem_phi2_valid) {
         n = 0;
         while (n < 0x1000) {
-            if (ultimax_romh_phi2_read((WORD)(0x1000 + n), &mem_phi2[n]) == 0) {
+            if (ultimax_romh_phi2_read((uint16_t)(0x1000 + n), &mem_phi2[n]) == 0) {
                 mem_phi2_ptr[n] = NULL;
             } else {
                 mem_phi2_ptr[n] = &mem_phi2[n];
@@ -1950,9 +1950,9 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
     - "fake ultimax" mapping is used
     - memory can not be read without side effects
 */
-static BYTE cartridge_peek_mem_slotmain(WORD addr)
+static uint8_t cartridge_peek_mem_slotmain(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
     int res = CART_READ_THROUGH;
 
     /* "Main Slot" */
@@ -2041,9 +2041,9 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
     return ram_read(addr);
 }
 
-static BYTE cartridge_peek_mem_slot1(WORD addr)
+static uint8_t cartridge_peek_mem_slot1(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
     int res = CART_READ_THROUGH;
 
     /* "Slot 1" */
@@ -2077,9 +2077,9 @@ static BYTE cartridge_peek_mem_slot1(WORD addr)
     return cartridge_peek_mem_slotmain(addr);
 }
 
-BYTE cartridge_peek_mem(WORD addr)
+uint8_t cartridge_peek_mem(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
     int res = CART_READ_THROUGH;
 
     /* DBG(("CARTMEM cartridge_peek_mem (type %d addr %04x)\n", mem_cartridge_type, addr)); */

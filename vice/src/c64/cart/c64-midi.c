@@ -60,12 +60,12 @@ midi_interface_t midi_interface[] = {
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE c64midi_read(WORD address)
+static uint8_t c64midi_read(uint16_t address)
 {
     return midi_read(address);
 }
 
-static BYTE c64midi_peek(WORD address)
+static uint8_t c64midi_peek(uint16_t address)
 {
     return midi_peek(address);
 }
@@ -267,7 +267,7 @@ int c64_midi_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_B(m, (BYTE)midi_mode) < 0) {
+    if (SMW_B(m, (uint8_t)midi_mode) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -279,7 +279,7 @@ int c64_midi_snapshot_write_module(snapshot_t *s)
 
 int c64_midi_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
     int tmp_midi_mode;
 

@@ -122,8 +122,8 @@ static const char CHIP_HEADER[] = "CHIP";
 */
 static FILE *crt_open(const char *filename, crt_header_t *header)
 {
-    BYTE crt_header[0x40];
-    DWORD skip;
+    uint8_t crt_header[0x40];
+    uint32_t skip;
     FILE *fd;
 
     fd = fopen(filename, MODE_READ);
@@ -191,7 +191,7 @@ int crt_getid(const char *filename)
 */
 int crt_read_chip_header(crt_chip_header_t *header, FILE *fd)
 {
-    BYTE chipheader[0x10];
+    uint8_t chipheader[0x10];
 
     if (fread(chipheader, sizeof(chipheader), 1, fd) < 1) {
         return -1; /* couldn't read header */
@@ -225,7 +225,7 @@ int crt_read_chip_header(crt_chip_header_t *header, FILE *fd)
 /*
     Read chip data, return -1 on error
 */
-int crt_read_chip(BYTE *rawcart, int offset, crt_chip_header_t *chip, FILE *fd)
+int crt_read_chip(uint8_t *rawcart, int offset, crt_chip_header_t *chip, FILE *fd)
 {
     if (offset + chip->size > C64CART_IMAGE_LIMIT) {
         return -1; /* overflow */
@@ -240,9 +240,9 @@ int crt_read_chip(BYTE *rawcart, int offset, crt_chip_header_t *chip, FILE *fd)
 /*
     Write chip header and data, return -1 on fault
 */
-int crt_write_chip(BYTE *data, crt_chip_header_t *header, FILE *fd)
+int crt_write_chip(uint8_t *data, crt_chip_header_t *header, FILE *fd)
 {
-    BYTE chipheader[0x10];
+    uint8_t chipheader[0x10];
 
     memcpy(chipheader, CHIP_HEADER, 4);
     util_dword_to_be_buf(&chipheader[4], header->size + sizeof(chipheader));
@@ -266,7 +266,7 @@ int crt_write_chip(BYTE *data, crt_chip_header_t *header, FILE *fd)
 */
 FILE *crt_create(const char *filename, int type, int exrom, int game, const char *name)
 {
-    BYTE crt_header[0x40];
+    uint8_t crt_header[0x40];
     FILE *fd;
 
     if (filename == NULL) {
@@ -283,7 +283,7 @@ FILE *crt_create(const char *filename, int type, int exrom, int game, const char
     memcpy(crt_header, CRT_HEADER, 16);
     util_dword_to_be_buf(&crt_header[0x10], sizeof(crt_header));
     util_word_to_be_buf(&crt_header[0x14], 0x100); /* version */
-    util_word_to_be_buf(&crt_header[0x16], (WORD)type);
+    util_word_to_be_buf(&crt_header[0x16], (uint16_t)type);
     crt_header[0x18] = exrom ? 1 : 0;
     crt_header[0x19] = game ? 1 : 0;
     strncpy((char*)&crt_header[0x20], name, sizeof(crt_header) - 0x20);
@@ -302,7 +302,7 @@ FILE *crt_create(const char *filename, int type, int exrom, int game, const char
     FIXME: to simplify this function a little bit, all subfunctions should
            also return the respective CRT ID on success
 */
-int crt_attach(const char *filename, BYTE *rawcart)
+int crt_attach(const char *filename, uint8_t *rawcart)
 {
     crt_header_t header;
     int rc, new_crttype;

@@ -81,7 +81,7 @@
 static int freezeframe_rom_8000 = 0;
 static int freezeframe_rom_e000 = 0;
 
-static BYTE freezeframe_io1_read(WORD addr)
+static uint8_t freezeframe_io1_read(uint16_t addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
@@ -92,17 +92,17 @@ static BYTE freezeframe_io1_read(WORD addr)
     return 0; /* invalid */
 }
 
-static BYTE freezeframe_io1_peek(WORD addr)
+static uint8_t freezeframe_io1_peek(uint16_t addr)
 {
     return 0; /* invalid */
 }
 
-static void freezeframe_io1_store(WORD addr, BYTE value)
+static void freezeframe_io1_store(uint16_t addr, uint8_t value)
 {
     DBG(("io1 %04x %02x\n", addr, value));
 }
 
-static BYTE freezeframe_io2_read(WORD addr)
+static uint8_t freezeframe_io2_read(uint16_t addr)
 {
     DBG(("io2 r %04x\n", addr));
     if (addr == 0) {
@@ -114,12 +114,12 @@ static BYTE freezeframe_io2_read(WORD addr)
     return 0; /* invalid */
 }
 
-static BYTE freezeframe_io2_peek(WORD addr)
+static uint8_t freezeframe_io2_peek(uint16_t addr)
 {
     return 0; /* invalid */
 }
 
-static void freezeframe_io2_store(WORD addr, BYTE value)
+static void freezeframe_io2_store(uint16_t addr, uint8_t value)
 {
     DBG(("io2 %04x %02x\n", addr, value));
 }
@@ -186,7 +186,7 @@ void freezeframe_config_init(void)
     freezeframe_rom_e000 = 0;
 }
 
-void freezeframe_config_setup(BYTE *rawcart)
+void freezeframe_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, FREEZE_FRAME_CART_SIZE);
     memcpy(romh_banks, rawcart, FREEZE_FRAME_CART_SIZE);
@@ -209,7 +209,7 @@ static int freezeframe_common_attach(void)
     return 0;
 }
 
-int freezeframe_bin_attach(const char *filename, BYTE *rawcart)
+int freezeframe_bin_attach(const char *filename, uint8_t *rawcart)
 {
     DBG(("Freeze Frame: bin attach '%s'\n", filename));
     if (util_file_load(filename, rawcart, FREEZE_FRAME_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -219,7 +219,7 @@ int freezeframe_bin_attach(const char *filename, BYTE *rawcart)
     return freezeframe_common_attach();
 }
 
-int freezeframe_crt_attach(FILE *fd, BYTE *rawcart)
+int freezeframe_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -273,8 +273,8 @@ int freezeframe_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)freezeframe_rom_8000) < 0)
-        || (SMW_B(m, (BYTE)freezeframe_rom_e000) < 0)
+        || (SMW_B(m, (uint8_t)freezeframe_rom_8000) < 0)
+        || (SMW_B(m, (uint8_t)freezeframe_rom_e000) < 0)
         || (SMW_BA(m, roml_banks, FREEZE_FRAME_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -285,7 +285,7 @@ int freezeframe_snapshot_write_module(snapshot_t *s)
 
 int freezeframe_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

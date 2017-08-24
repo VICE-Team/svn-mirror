@@ -84,11 +84,11 @@
 
 static int currbank = 0;
 
-static BYTE regval = 0xfe;
+static uint8_t regval = 0xfe;
 
-static void delaep7x8_io1_store(WORD addr, BYTE value)
+static void delaep7x8_io1_store(uint16_t addr, uint8_t value)
 {
-    BYTE bank, config, test_value;
+    uint8_t bank, config, test_value;
 
     regval = value;
 
@@ -110,7 +110,7 @@ static void delaep7x8_io1_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE delaep7x8_io1_peek(WORD addr)
+static uint8_t delaep7x8_io1_peek(uint16_t addr)
 {
     return regval;
 }
@@ -154,7 +154,7 @@ void delaep7x8_config_init(void)
     cart_romlbank_set_slotmain(0);
 }
 
-void delaep7x8_config_setup(BYTE *rawcart)
+void delaep7x8_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000 * 8);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
@@ -172,7 +172,7 @@ static int delaep7x8_common_attach(void)
     return 0;
 }
 
-int delaep7x8_bin_attach(const char *filename, BYTE *rawcart)
+int delaep7x8_bin_attach(const char *filename, uint8_t *rawcart)
 {
     int size = 0x10000;
 
@@ -188,7 +188,7 @@ int delaep7x8_bin_attach(const char *filename, BYTE *rawcart)
     return -1;
 }
 
-int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
+int delaep7x8_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -244,7 +244,7 @@ int delaep7x8_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_B(m, regval) < 0)
-        || (SMW_B(m, (BYTE)currbank) < 0)
+        || (SMW_B(m, (uint8_t)currbank) < 0)
         || (SMW_BA(m, roml_banks, 0x2000 * 8) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -255,7 +255,7 @@ int delaep7x8_snapshot_write_module(snapshot_t *s)
 
 int delaep7x8_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

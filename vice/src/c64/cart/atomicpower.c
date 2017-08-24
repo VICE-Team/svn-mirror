@@ -94,9 +94,9 @@ static int ap_active;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void atomicpower_io1_store(WORD addr, BYTE value);
-static BYTE atomicpower_io2_read(WORD addr);
-static void atomicpower_io2_store(WORD addr, BYTE value);
+static void atomicpower_io1_store(uint16_t addr, uint8_t value);
+static uint8_t atomicpower_io2_read(uint16_t addr);
+static void atomicpower_io2_store(uint16_t addr, uint8_t value);
 static int atomicpower_dump(void);
 
 static io_source_t atomicpower_io1_device = {
@@ -138,9 +138,9 @@ static const export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE atomicpower_control_reg = 0;
+static uint8_t atomicpower_control_reg = 0;
 
-static void atomicpower_io1_store(WORD addr, BYTE value)
+static void atomicpower_io1_store(uint16_t addr, uint8_t value)
 {
     int flags = CMODE_WRITE, bank, mode;
 
@@ -167,11 +167,11 @@ static void atomicpower_io1_store(WORD addr, BYTE value)
             ap_active = 0;
         }
 
-        cart_config_changed_slotmain((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)), flags);
+        cart_config_changed_slotmain((uint8_t) 2, (uint8_t) (mode | (bank << CMODE_BANK_SHIFT)), flags);
     }
 }
 
-static BYTE atomicpower_io2_read(WORD addr)
+static uint8_t atomicpower_io2_read(uint16_t addr)
 {
     atomicpower_io2_device.io_source_valid = 0;
 
@@ -201,7 +201,7 @@ static BYTE atomicpower_io2_read(WORD addr)
     return 0;
 }
 
-static void atomicpower_io2_store(WORD addr, BYTE value)
+static void atomicpower_io2_store(uint16_t addr, uint8_t value)
 {
     if (ap_active) {
         if (export_ram || export_ram_at_a000) {
@@ -215,7 +215,7 @@ static int atomicpower_dump(void)
     mon_out("EXROM line: %s, GAME line: %s, Mode: %s\n",
             (atomicpower_control_reg & 2) ? "high" : "low",
             (atomicpower_control_reg & 1) ? "low" : "high",
-            cart_config_string((BYTE)(atomicpower_control_reg & 3)));
+            cart_config_string((uint8_t)(atomicpower_control_reg & 3)));
     mon_out("ROM bank: %d, cart state: %s, reset freeze: %s\n",
             (atomicpower_control_reg & 0x18) >> 3,
             (atomicpower_control_reg & 4) ? "disabled" : "enabled",
@@ -229,7 +229,7 @@ static int atomicpower_dump(void)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE atomicpower_roml_read(WORD addr)
+uint8_t atomicpower_roml_read(uint16_t addr)
 {
     if (export_ram) {
         return export_ram0[addr & 0x1fff];
@@ -238,14 +238,14 @@ BYTE atomicpower_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void atomicpower_roml_store(WORD addr, BYTE value)
+void atomicpower_roml_store(uint16_t addr, uint8_t value)
 {
     if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
     }
 }
 
-BYTE atomicpower_romh_read(WORD addr)
+uint8_t atomicpower_romh_read(uint16_t addr)
 {
     if (export_ram_at_a000) {
         return export_ram0[addr & 0x1fff];
@@ -253,14 +253,14 @@ BYTE atomicpower_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
-void atomicpower_romh_store(WORD addr, BYTE value)
+void atomicpower_romh_store(uint16_t addr, uint8_t value)
 {
     if (export_ram_at_a000) {
         export_ram0[addr & 0x1fff] = value;
     }
 }
 
-void atomicpower_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void atomicpower_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
 /* FIXME: this is broken, code-in-ram execution from AR "acid test" fails */
 #if 0
@@ -321,7 +321,7 @@ void atomicpower_reset(void)
     ap_active = 1;
 }
 
-void atomicpower_config_setup(BYTE *rawcart)
+void atomicpower_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x8000);
     memcpy(romh_banks, rawcart, 0x8000);
@@ -342,7 +342,7 @@ static int atomicpower_common_attach(void)
     return 0;
 }
 
-int atomicpower_bin_attach(const char *filename, BYTE *rawcart)
+int atomicpower_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -351,7 +351,7 @@ int atomicpower_bin_attach(const char *filename, BYTE *rawcart)
     return atomicpower_common_attach();
 }
 
-int atomicpower_crt_attach(FILE *fd, BYTE *rawcart)
+int atomicpower_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i;
@@ -409,8 +409,8 @@ int atomicpower_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)ap_active) < 0)
-        || (SMW_B(m, (BYTE)export_ram_at_a000) < 0)
+        || (SMW_B(m, (uint8_t)ap_active) < 0)
+        || (SMW_B(m, (uint8_t)export_ram_at_a000) < 0)
         || (SMW_BA(m, roml_banks, 0x8000) < 0)
         || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
         snapshot_module_close(m);
@@ -422,7 +422,7 @@ int atomicpower_snapshot_write_module(snapshot_t *s)
 
 int atomicpower_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

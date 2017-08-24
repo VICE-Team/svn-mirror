@@ -539,7 +539,7 @@ int cartridge_type_enabled(int type)
 */
 int cartridge_attach_image(int type, const char *filename)
 {
-    BYTE *rawcart;
+    uint8_t *rawcart;
     char *abs_filename;
     int carttype = CARTRIDGE_NONE;
     int cartid = CARTRIDGE_NONE;

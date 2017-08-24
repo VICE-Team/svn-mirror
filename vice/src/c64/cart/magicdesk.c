@@ -65,9 +65,9 @@
 
 #define MAXBANKS 16
 
-static BYTE regval = 0;
+static uint8_t regval = 0;
 
-static void magicdesk_io1_store(WORD addr, BYTE value)
+static void magicdesk_io1_store(uint16_t addr, uint8_t value)
 {
     regval = value & 0x8f;
     cart_romlbank_set_slotmain(value & 0x0f);
@@ -82,7 +82,7 @@ static void magicdesk_io1_store(WORD addr, BYTE value)
     DBG(("MAGICDESK: Reg: %02x (Bank: %d, %s)\n", regval, (regval & 0x0f), (regval & 0x80) ? "disabled" : "enabled"));
 }
 
-static BYTE magicdesk_io1_peek(WORD addr)
+static uint8_t magicdesk_io1_peek(uint16_t addr)
 {
     return regval;
 }
@@ -121,10 +121,10 @@ static const export_resource_t export_res = {
 void magicdesk_config_init(void)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
-    magicdesk_io1_store((WORD)0xde00, 0);
+    magicdesk_io1_store((uint16_t)0xde00, 0);
 }
 
-void magicdesk_config_setup(BYTE *rawcart)
+void magicdesk_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000 * MAXBANKS);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
@@ -141,7 +141,7 @@ static int magicdesk_common_attach(void)
     return 0;
 }
 
-int magicdesk_bin_attach(const char *filename, BYTE *rawcart)
+int magicdesk_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -153,7 +153,7 @@ int magicdesk_bin_attach(const char *filename, BYTE *rawcart)
     return magicdesk_common_attach();
 }
 
-int magicdesk_crt_attach(FILE *fd, BYTE *rawcart)
+int magicdesk_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -195,7 +195,7 @@ int magicdesk_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)regval) < 0)
+        || (SMW_B(m, (uint8_t)regval) < 0)
         || (SMW_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -207,7 +207,7 @@ int magicdesk_snapshot_write_module(snapshot_t *s)
 
 int magicdesk_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

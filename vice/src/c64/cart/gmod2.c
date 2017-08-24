@@ -107,9 +107,9 @@ static const char STRING_GMOD2[] = CARTRIDGE_NAME_GMOD2;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE gmod2_io1_read(WORD addr);
-static BYTE gmod2_io1_peek(WORD addr);
-static void gmod2_io1_store(WORD addr, BYTE value);
+static uint8_t gmod2_io1_read(uint16_t addr);
+static uint8_t gmod2_io1_peek(uint16_t addr);
+static void gmod2_io1_store(uint16_t addr, uint8_t value);
 static int gmod2_dump(void);
 
 static io_source_t gmod2_io1_device = {
@@ -134,7 +134,7 @@ static const export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE gmod2_io1_read(WORD addr)
+uint8_t gmod2_io1_read(uint16_t addr)
 {
     gmod2_io1_device.io_source_valid = 0;
 
@@ -147,12 +147,12 @@ BYTE gmod2_io1_read(WORD addr)
     return (vicii_read_phi1() & 0xff);
 }
 
-BYTE gmod2_io1_peek(WORD addr)
+uint8_t gmod2_io1_peek(uint16_t addr)
 {
     return (m93c86_read_data() << 7);
 }
 
-void gmod2_io1_store(WORD addr, BYTE value)
+void gmod2_io1_store(uint16_t addr, uint8_t value)
 {
     int mode = CMODE_WRITE;
 
@@ -170,22 +170,22 @@ void gmod2_io1_store(WORD addr, BYTE value)
     eeprom_cs = (value >> 6) & 1;
     eeprom_data = (value >> 4) & 1;
     eeprom_clock = (value >> 5) & 1;
-    m93c86_write_select((BYTE)eeprom_cs);
+    m93c86_write_select((uint8_t)eeprom_cs);
     if (eeprom_cs) {
-        m93c86_write_data((BYTE)(eeprom_data));
-        m93c86_write_clock((BYTE)(eeprom_clock));
+        m93c86_write_data((uint8_t)(eeprom_data));
+        m93c86_write_clock((uint8_t)(eeprom_clock));
     }
-    cart_config_changed_slotmain(CMODE_8KGAME, (BYTE)(gmod2_cmode | (gmod2_bank << CMODE_BANK_SHIFT)), mode);
+    cart_config_changed_slotmain(CMODE_8KGAME, (uint8_t)(gmod2_cmode | (gmod2_bank << CMODE_BANK_SHIFT)), mode);
 }
 
 /* ---------------------------------------------------------------------*/
 
-BYTE gmod2_roml_read(WORD addr)
+uint8_t gmod2_roml_read(uint16_t addr)
 {
     return flash040core_read(flashrom_state, (addr & 0x1fff) + (roml_bank << 13));
 }
 
-void gmod2_romh_store(WORD addr, BYTE value)
+void gmod2_romh_store(uint16_t addr, uint8_t value)
 {
     flash040core_store(flashrom_state, (addr & 0x1fff) + (roml_bank << 13), value);
     if (flashrom_state->flash_state != FLASH040_STATE_READ) {
@@ -193,7 +193,7 @@ void gmod2_romh_store(WORD addr, BYTE value)
     }
 }
 
-int gmod2_peek_mem(export_t *export, WORD addr, BYTE *value)
+int gmod2_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         *value = gmod2_roml_read(addr);
@@ -202,7 +202,7 @@ int gmod2_peek_mem(export_t *export, WORD addr, BYTE *value)
     return CART_READ_THROUGH;
 }
 
-void gmod2_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void gmod2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
 #if 0
     if (flashrom_state && flashrom_state->flash_data) {
@@ -252,18 +252,18 @@ static int gmod2_dump(void)
 void gmod2_config_init(void)
 {
     gmod2_cmode = CMODE_8KGAME;
-    cart_config_changed_slotmain((BYTE)gmod2_cmode, (BYTE)gmod2_cmode, CMODE_READ);
+    cart_config_changed_slotmain((uint8_t)gmod2_cmode, (uint8_t)gmod2_cmode, CMODE_READ);
     eeprom_cs = 0;
-    m93c86_write_select((BYTE)eeprom_cs);
+    m93c86_write_select((uint8_t)eeprom_cs);
     flash040core_reset(flashrom_state);
 }
 
 void gmod2_reset(void)
 {
     gmod2_cmode = CMODE_8KGAME;
-    cart_config_changed_slotmain((BYTE)gmod2_cmode, (BYTE)gmod2_cmode, CMODE_READ);
+    cart_config_changed_slotmain((uint8_t)gmod2_cmode, (uint8_t)gmod2_cmode, CMODE_READ);
     eeprom_cs = 0;
-    m93c86_write_select((BYTE)eeprom_cs);
+    m93c86_write_select((uint8_t)eeprom_cs);
 
     /* on the real hardware pressing reset would NOT reset the flash statemachine,
        only a powercycle would help. we do it here anyway :)
@@ -271,10 +271,10 @@ void gmod2_reset(void)
     flash040core_reset(flashrom_state);
 }
 
-void gmod2_config_setup(BYTE *rawcart)
+void gmod2_config_setup(uint8_t *rawcart)
 {
     gmod2_cmode = CMODE_8KGAME;
-    cart_config_changed_slotmain((BYTE)gmod2_cmode, (BYTE)gmod2_cmode, CMODE_READ);
+    cart_config_changed_slotmain((uint8_t)gmod2_cmode, (uint8_t)gmod2_cmode, CMODE_READ);
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));
     flash040core_init(flashrom_state, maincpu_alarm_context, FLASH040_TYPE_NORMAL, roml_banks);
@@ -395,7 +395,7 @@ static int gmod2_common_attach(void)
     return 0;
 }
 
-int gmod2_bin_attach(const char *filename, BYTE *rawcart)
+int gmod2_bin_attach(const char *filename, uint8_t *rawcart)
 {
     gmod2_filetype = 0;
     gmod2_filename = NULL;
@@ -409,7 +409,7 @@ int gmod2_bin_attach(const char *filename, BYTE *rawcart)
     return gmod2_common_attach();
 }
 
-int gmod2_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
+int gmod2_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
     int i;
@@ -467,7 +467,7 @@ int gmod2_crt_save(const char *filename)
 {
     FILE *fd;
     crt_chip_header_t chip;
-    BYTE *data;
+    uint8_t *data;
     int i;
 
     fd = crt_create(filename, CARTRIDGE_GMOD2, 1, 0, STRING_GMOD2);
@@ -543,8 +543,8 @@ int gmod2_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)gmod2_cmode) < 0
-        || SMW_B(m, (BYTE)gmod2_bank) < 0) {
+        || SMW_B(m, (uint8_t)gmod2_cmode) < 0
+        || SMW_B(m, (uint8_t)gmod2_bank) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -556,7 +556,7 @@ int gmod2_snapshot_write_module(snapshot_t *s)
 
 int gmod2_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

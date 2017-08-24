@@ -81,14 +81,14 @@
 
 /* 4 KB ROM */
 #define TPI_ROM_SIZE 0x1000
-static BYTE *tpi_rom = NULL;
+static uint8_t *tpi_rom = NULL;
 
 static tpi_context_t *tpi_context;
 
 /* ---------------------------------------------------------------------*/
-static void tpi_io2_store(WORD addr, BYTE data);
-static BYTE tpi_io2_read(WORD addr);
-static BYTE tpi_io2_peek(WORD addr);
+static void tpi_io2_store(uint16_t addr, uint8_t data);
+static uint8_t tpi_io2_read(uint16_t addr);
+static uint8_t tpi_io2_peek(uint16_t addr);
 static int tpi_io2_dump(void);
 
 static io_source_t tpi_io2_device = {
@@ -128,19 +128,19 @@ int tpi_cart_enabled(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void tpi_io2_store(WORD addr, BYTE data)
+static void tpi_io2_store(uint16_t addr, uint8_t data)
 {
     DBG(("TPI io2 w %02x (%02x)\n", addr, data));
     tpicore_store(tpi_context, addr, data);
 }
 
-static BYTE tpi_io2_read(WORD addr)
+static uint8_t tpi_io2_read(uint16_t addr)
 {
     DBG(("TPI io2 r %02x\n", addr));
     return tpicore_read(tpi_context, addr);
 }
 
-static BYTE tpi_io2_peek(WORD addr)
+static uint8_t tpi_io2_peek(uint16_t addr)
 {
     return tpicore_peek(tpi_context, addr);
 }
@@ -153,7 +153,7 @@ static int tpi_io2_dump(void)
 }
 /* ---------------------------------------------------------------------*/
 
-int tpi_roml_read(WORD addr, BYTE *value)
+int tpi_roml_read(uint16_t addr, uint8_t *value)
 {
     if (rom_enabled) {
         *value = tpi_rom[addr & 0xfff];
@@ -162,7 +162,7 @@ int tpi_roml_read(WORD addr, BYTE *value)
     return CART_READ_THROUGH;
 }
 
-int tpi_peek_mem(WORD addr, BYTE *value)
+int tpi_peek_mem(uint16_t addr, uint8_t *value)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
         if (rom_enabled) {
@@ -209,7 +209,7 @@ static void set_cb(tpi_context_t *tpi_context, int a)
 }
 
 static int ieee_is_dev = 1;
-static BYTE ieee_is_out = 1;
+static uint8_t ieee_is_out = 1;
 
 static void reset(tpi_context_t *tpi_context)
 {
@@ -225,87 +225,87 @@ static void reset(tpi_context_t *tpi_context)
     ieee_is_out = 1;
 }
 
-static void store_pa(tpi_context_t *tpi_context, BYTE byte)
+static void store_pa(tpi_context_t *tpi_context, uint8_t byte)
 {
     if (byte != tpi_context->oldpa) {
-        BYTE tmp = ~byte;
+        uint8_t tmp = ~byte;
 
         ieee_is_dev = byte & 0x01;
         ieee_is_out = byte & 0x02;
 
-        parallel_cpu_set_bus((BYTE)(ieee_is_out ? tpi_context->oldpb : 0xff));
+        parallel_cpu_set_bus((uint8_t)(ieee_is_out ? tpi_context->oldpb : 0xff));
 
         if (ieee_is_out) {
             parallel_cpu_set_ndac(0);
             parallel_cpu_set_nrfd(0);
-            parallel_cpu_set_dav((BYTE)(tmp & 0x10));
-            parallel_cpu_set_eoi((BYTE)(tmp & 0x20));
+            parallel_cpu_set_dav((uint8_t)(tmp & 0x10));
+            parallel_cpu_set_eoi((uint8_t)(tmp & 0x20));
         } else {
-            parallel_cpu_set_nrfd((BYTE)(tmp & 0x80));
-            parallel_cpu_set_ndac((BYTE)(tmp & 0x40));
+            parallel_cpu_set_nrfd((uint8_t)(tmp & 0x80));
+            parallel_cpu_set_ndac((uint8_t)(tmp & 0x40));
             parallel_cpu_set_dav(0);
             parallel_cpu_set_eoi(0);
         }
         if (ieee_is_dev) {
             parallel_cpu_set_atn(0);
         } else {
-            parallel_cpu_set_atn((BYTE)(tmp & 0x08));
+            parallel_cpu_set_atn((uint8_t)(tmp & 0x08));
         }
     }
 }
 
-static void store_pb(tpi_context_t *tpi_context, BYTE byte)
+static void store_pb(tpi_context_t *tpi_context, uint8_t byte)
 {
-    parallel_cpu_set_bus((BYTE)(ieee_is_out ? byte : 0xff));
+    parallel_cpu_set_bus((uint8_t)(ieee_is_out ? byte : 0xff));
 }
 
-static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
+static void undump_pa(tpi_context_t *tpi_context, uint8_t byte)
 {
-    BYTE tmp = ~byte;
+    uint8_t tmp = ~byte;
     ieee_is_dev = byte & 0x01;
     ieee_is_out = byte & 0x02;
 
-    parallel_cpu_set_bus((BYTE)(ieee_is_out ? tpi_context->oldpb : 0xff));
+    parallel_cpu_set_bus((uint8_t)(ieee_is_out ? tpi_context->oldpb : 0xff));
 
     if (ieee_is_out) {
         parallel_cpu_set_ndac(0);
         parallel_cpu_set_nrfd(0);
-        parallel_cpu_set_dav((BYTE)(tmp & 0x10));
-        parallel_cpu_set_eoi((BYTE)(tmp & 0x20));
+        parallel_cpu_set_dav((uint8_t)(tmp & 0x10));
+        parallel_cpu_set_eoi((uint8_t)(tmp & 0x20));
     } else {
-        parallel_cpu_set_nrfd((BYTE)(tmp & 0x80));
-        parallel_cpu_set_ndac((BYTE)(tmp & 0x40));
+        parallel_cpu_set_nrfd((uint8_t)(tmp & 0x80));
+        parallel_cpu_set_ndac((uint8_t)(tmp & 0x40));
         parallel_cpu_set_dav(0);
         parallel_cpu_set_eoi(0);
     }
     if (ieee_is_dev) {
         parallel_cpu_restore_atn(0);
     } else {
-        parallel_cpu_restore_atn((BYTE)(tmp & 0x08));
+        parallel_cpu_restore_atn((uint8_t)(tmp & 0x08));
     }
 }
 
-static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
+static void undump_pb(tpi_context_t *tpi_context, uint8_t byte)
 {
-    parallel_cpu_set_bus((BYTE)(ieee_is_out ? byte : 0xff));
+    parallel_cpu_set_bus((uint8_t)(ieee_is_out ? byte : 0xff));
 }
 
-static void store_pc(tpi_context_t *tpi_context, BYTE byte)
+static void store_pc(tpi_context_t *tpi_context, uint8_t byte)
 {
     int exrom = ((byte & 0x08) ? 0 : 1); /* bit 3, 1 = active */
     rom_enabled = ((byte & 0x10) ? 1 : 0); /* bit 4, 1 = active */
     /* passthrough support */
     DBG(("TPI store_pc %02x (rom enabled: %d exrom: %d game: %d)\n", byte, rom_enabled, exrom ^ 1, tpi_extgame));
-    cart_config_changed_slot0((BYTE)((exrom << 1) | tpi_extgame), (BYTE)((exrom << 1) | tpi_extgame), CMODE_READ);
+    cart_config_changed_slot0((uint8_t)((exrom << 1) | tpi_extgame), (uint8_t)((exrom << 1) | tpi_extgame), CMODE_READ);
 }
 
-static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
+static void undump_pc(tpi_context_t *tpi_context, uint8_t byte)
 {
 }
 
-static BYTE read_pa(tpi_context_t *tpi_context)
+static uint8_t read_pa(tpi_context_t *tpi_context)
 {
-    BYTE byte;
+    uint8_t byte;
 
     drive_cpu_execute_all(maincpu_clk);
 
@@ -336,9 +336,9 @@ static BYTE read_pa(tpi_context_t *tpi_context)
     return byte;
 }
 
-static BYTE read_pb(tpi_context_t *tpi_context)
+static uint8_t read_pb(tpi_context_t *tpi_context)
 {
-    BYTE byte;
+    uint8_t byte;
 
     drive_cpu_execute_all(maincpu_clk);
 
@@ -348,9 +348,9 @@ static BYTE read_pb(tpi_context_t *tpi_context)
     return byte;
 }
 
-static BYTE read_pc(tpi_context_t *tpi_context)
+static uint8_t read_pc(tpi_context_t *tpi_context)
 {
-    BYTE byte = 0xff;
+    uint8_t byte = 0xff;
 
     if (tpi_extexrom) {
         byte &= ~(1 << 7);
@@ -567,13 +567,13 @@ const char *tpi_get_file_name(void)
     return ieee488_filename;
 }
 
-void tpi_config_setup(BYTE *rawcart)
+void tpi_config_setup(uint8_t *rawcart)
 {
     DBG(("TPI: config_setup\n"));
     memcpy(tpi_rom, rawcart, TPI_ROM_SIZE);
 }
 
-int tpi_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+int tpi_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (rom_enabled) {
         switch (addr & 0xf000) {
@@ -613,7 +613,7 @@ static int tpi_common_attach(void)
     return set_ieee488_enabled(1, NULL);
 }
 
-int tpi_bin_attach(const char *filename, BYTE *rawcart)
+int tpi_bin_attach(const char *filename, uint8_t *rawcart)
 {
     DBG(("TPI: tpi_bin_attach\n"));
 
@@ -623,7 +623,7 @@ int tpi_bin_attach(const char *filename, BYTE *rawcart)
     return tpi_common_attach();
 }
 
-int tpi_crt_attach(FILE *fd, BYTE *rawcart)
+int tpi_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 

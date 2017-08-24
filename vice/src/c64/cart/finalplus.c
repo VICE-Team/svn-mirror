@@ -77,8 +77,8 @@ static int fcplus_roml;
 static int fcplus_romh;
 
 /* some prototypes are needed */
-static BYTE final_plus_io2_read(WORD addr);
-static void final_plus_io2_store(WORD addr, BYTE value);
+static uint8_t final_plus_io2_read(uint16_t addr);
+static void final_plus_io2_store(uint16_t addr, uint8_t value);
 static int final_plus_dump(void);
 
 static io_source_t final_plus_io2_device = {
@@ -104,13 +104,13 @@ static const export_resource_t export_res_plus = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE final_plus_io2_read(WORD addr)
+uint8_t final_plus_io2_read(uint16_t addr)
 {
     DBG(("io2 r %04x\n", addr));
     return ((fcplus_bit << 7) || (fcplus_roml << 6) || (fcplus_romh << 5) || (fcplus_enabled << 4));
 }
 
-void final_plus_io2_store(WORD addr, BYTE value)
+void final_plus_io2_store(uint16_t addr, uint8_t value)
 {
     if (fcplus_enabled == 1) {
         fcplus_bit = (value >> 7) & 1;
@@ -152,7 +152,7 @@ static int final_plus_dump(void)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE final_plus_roml_read(WORD addr)
+uint8_t final_plus_roml_read(uint16_t addr)
 {
     if (fcplus_roml == 1) {
         return roml_banks[(addr & 0x1fff)];
@@ -161,7 +161,7 @@ BYTE final_plus_roml_read(WORD addr)
     }
 }
 
-BYTE final_plus_romh_read(WORD addr)
+uint8_t final_plus_romh_read(uint16_t addr)
 {
     if ((fcplus_enabled == 1) && (fcplus_romh == 1)) {
         return romh_banks[(addr & 0x1fff)];
@@ -170,7 +170,7 @@ BYTE final_plus_romh_read(WORD addr)
     }
 }
 
-BYTE final_plus_a000_bfff_read(WORD addr)
+uint8_t final_plus_a000_bfff_read(uint16_t addr)
 {
     if ((fcplus_enabled == 1) && (fcplus_roml == 1)) {
         return roml_banks[0x2000 + (addr & 0x1fff)];
@@ -179,17 +179,17 @@ BYTE final_plus_a000_bfff_read(WORD addr)
     }
 }
 
-int final_plus_romh_phi1_read(WORD addr, BYTE *value)
+int final_plus_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
     return CART_READ_C64MEM;
 }
 
-int final_plus_romh_phi2_read(WORD addr, BYTE *value)
+int final_plus_romh_phi2_read(uint16_t addr, uint8_t *value)
 {
     return final_plus_romh_phi1_read(addr, value);
 }
 
-int final_plus_peek_mem(export_t *export, WORD addr, BYTE *value)
+int final_plus_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
 {
     if (fcplus_roml == 1) {
         if (addr >= 0x8000 && addr <= 0x9fff) {
@@ -234,7 +234,7 @@ EPROM $2000-$4000 is visible at $e000-$ffff, if enabled
 EPROM $4000-$5fff is visible at $8000-$9fff, if enabled
 EPROM $6000-$7fff is visible at $a000-$bfff, if enabled
 */
-void final_plus_config_setup(BYTE *rawcart)
+void final_plus_config_setup(uint8_t *rawcart)
 {
     DBG(("fc+ config setup\n"));
     memcpy(roml_banks, &rawcart[0x4000], 0x4000);
@@ -255,7 +255,7 @@ static int final_plus_common_attach(void)
     return 0;
 }
 
-int final_plus_bin_attach(const char *filename, BYTE *rawcart)
+int final_plus_bin_attach(const char *filename, uint8_t *rawcart)
 {
     DBG(("fc+ bin attach\n"));
 
@@ -270,7 +270,7 @@ int final_plus_bin_attach(const char *filename, BYTE *rawcart)
     return final_plus_common_attach();
 }
 
-int final_plus_crt_attach(FILE *fd, BYTE *rawcart)
+int final_plus_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -326,10 +326,10 @@ int final_plus_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)fcplus_enabled) < 0)
-        || (SMW_B(m, (BYTE)fcplus_bit) < 0)
-        || (SMW_B(m, (BYTE)fcplus_roml) < 0)
-        || (SMW_B(m, (BYTE)fcplus_romh) < 0)
+        || (SMW_B(m, (uint8_t)fcplus_enabled) < 0)
+        || (SMW_B(m, (uint8_t)fcplus_bit) < 0)
+        || (SMW_B(m, (uint8_t)fcplus_roml) < 0)
+        || (SMW_B(m, (uint8_t)fcplus_romh) < 0)
         || (SMW_BA(m, roml_banks, 0x4000) < 0)
         || (SMW_BA(m, romh_banks, 0x2000) < 0)) {
         snapshot_module_close(m);
@@ -341,7 +341,7 @@ int final_plus_snapshot_write_module(snapshot_t *s)
 
 int final_plus_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

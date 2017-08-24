@@ -81,7 +81,7 @@
 
 static int dsm_active = 0;
 
-static BYTE dsm_io1_read(WORD addr)
+static uint8_t dsm_io1_read(uint16_t addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
@@ -92,12 +92,12 @@ static BYTE dsm_io1_read(WORD addr)
     return 0; /* invalid */
 }
 
-static BYTE dsm_io1_peek(WORD addr)
+static uint8_t dsm_io1_peek(uint16_t addr)
 {
     return 0;
 }
 
-static void dsm_io1_store(WORD addr, BYTE value)
+static void dsm_io1_store(uint16_t addr, uint8_t value)
 {
     DBG(("io1 w %04x %02x\n", addr, value));
     if (addr == 0) {
@@ -151,7 +151,7 @@ void dsm_config_init(void)
     dsm_active = 1;
 }
 
-void dsm_config_setup(BYTE *rawcart)
+void dsm_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, DSM_CART_SIZE);
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
@@ -170,7 +170,7 @@ static int dsm_common_attach(void)
     return 0;
 }
 
-int dsm_bin_attach(const char *filename, BYTE *rawcart)
+int dsm_bin_attach(const char *filename, uint8_t *rawcart)
 {
     DBG(("Diashow Maker: bin attach '%s'\n", filename));
     if (util_file_load(filename, rawcart, DSM_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -180,7 +180,7 @@ int dsm_bin_attach(const char *filename, BYTE *rawcart)
     return dsm_common_attach();
 }
 
-int dsm_crt_attach(FILE *fd, BYTE *rawcart)
+int dsm_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -231,7 +231,7 @@ int dsm_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)dsm_active) < 0)
+        || (SMW_B(m, (uint8_t)dsm_active) < 0)
         || (SMW_BA(m, roml_banks, DSM_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -242,7 +242,7 @@ int dsm_snapshot_write_module(snapshot_t *s)
 
 int dsm_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

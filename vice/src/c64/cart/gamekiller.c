@@ -69,7 +69,7 @@
 
 static int cartridge_disable_flag;
 
-static void gamekiller_io1_store(WORD addr, BYTE value)
+static void gamekiller_io1_store(uint16_t addr, uint8_t value)
 {
     DBG(("io1 %04x %02x\n", addr, value));
     cartridge_disable_flag++;
@@ -79,7 +79,7 @@ static void gamekiller_io1_store(WORD addr, BYTE value)
     }
 }
 
-static void gamekiller_io2_store(WORD addr, BYTE value)
+static void gamekiller_io2_store(uint16_t addr, uint8_t value)
 {
     DBG(("io2 %04x %02x\n", addr, value));
     cartridge_disable_flag++;
@@ -89,7 +89,7 @@ static void gamekiller_io2_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE gamekiller_peek(WORD addr)
+static uint8_t gamekiller_peek(uint16_t addr)
 {
     return 0;
 }
@@ -133,7 +133,7 @@ static const export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-int gamekiller_peek_mem(export_t *export, WORD addr, BYTE *value)
+int gamekiller_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
 {
     if (cartridge_disable_flag <= 1) {
         if (addr >= 0xe000) {
@@ -157,7 +157,7 @@ void gamekiller_config_init(void)
     cartridge_disable_flag = 0;
 }
 
-void gamekiller_config_setup(BYTE *rawcart)
+void gamekiller_config_setup(uint8_t *rawcart)
 {
     memcpy(romh_banks, rawcart, GAME_KILLER_CART_SIZE);
     cart_config_changed_slotmain(3, 3, CMODE_READ);
@@ -178,7 +178,7 @@ static int gamekiller_common_attach(void)
     return 0;
 }
 
-int gamekiller_bin_attach(const char *filename, BYTE *rawcart)
+int gamekiller_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, GAME_KILLER_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -187,7 +187,7 @@ int gamekiller_bin_attach(const char *filename, BYTE *rawcart)
     return gamekiller_common_attach();
 }
 
-int gamekiller_crt_attach(FILE *fd, BYTE *rawcart)
+int gamekiller_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -240,7 +240,7 @@ int gamekiller_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)cartridge_disable_flag) < 0)
+        || (SMW_B(m, (uint8_t)cartridge_disable_flag) < 0)
         || (SMW_BA(m, romh_banks, GAME_KILLER_CART_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -251,7 +251,7 @@ int gamekiller_snapshot_write_module(snapshot_t *s)
 
 int gamekiller_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

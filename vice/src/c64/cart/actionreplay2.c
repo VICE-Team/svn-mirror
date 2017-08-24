@@ -287,12 +287,12 @@ $F0F4 normal Reset     Y=$00 'arrow left
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE actionreplay2_io1_read(WORD addr);
-static BYTE actionreplay2_io1_peek(WORD addr);
-static void actionreplay2_io1_store(WORD addr, BYTE value);
-static BYTE actionreplay2_io2_read(WORD addr);
-static BYTE actionreplay2_io2_peek(WORD addr);
-static void actionreplay2_io2_store(WORD addr, BYTE value);
+static uint8_t actionreplay2_io1_read(uint16_t addr);
+static uint8_t actionreplay2_io1_peek(uint16_t addr);
+static void actionreplay2_io1_store(uint16_t addr, uint8_t value);
+static uint8_t actionreplay2_io2_read(uint16_t addr);
+static uint8_t actionreplay2_io2_peek(uint16_t addr);
+static void actionreplay2_io2_store(uint16_t addr, uint8_t value);
 
 static io_source_t actionreplay2_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY2,
@@ -346,7 +346,7 @@ static void cap_charge(void)
     if (ar_cap_disable == CAPDISABLE) {
         ar_enabled = 0;
         ar_cap_enable = 0;
-        cart_config_changed_slotmain((BYTE)(CMODE_RAM | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(CMODE_RAM | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+        cart_config_changed_slotmain((uint8_t)(CMODE_RAM | (roml_bank << CMODE_BANK_SHIFT)), (uint8_t)(CMODE_RAM | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
         DBG(("disabled\n"));
     }
 }
@@ -358,41 +358,41 @@ static void cap_discharge(void)
     if (ar_cap_enable == CAPENABLE) {
         roml_bank = 1;
         ar_enabled = 1;
-        cart_config_changed_slotmain((BYTE)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+        cart_config_changed_slotmain((uint8_t)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), (uint8_t)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
         DBG(("enabled\n"));
     }
     ar_cap_disable = 0;
 }
 
-static BYTE actionreplay2_io1_read(WORD addr)
+static uint8_t actionreplay2_io1_read(uint16_t addr)
 {
     cap_discharge();
     return 0;
 }
 
-static void actionreplay2_io1_store(WORD addr, BYTE value)
+static void actionreplay2_io1_store(uint16_t addr, uint8_t value)
 {
     cap_discharge();
 }
 
-static BYTE actionreplay2_io1_peek(WORD addr)
+static uint8_t actionreplay2_io1_peek(uint16_t addr)
 {
     return 0;
 }
 
-static BYTE actionreplay2_io2_peek(WORD addr)
+static uint8_t actionreplay2_io2_peek(uint16_t addr)
 {
     addr |= 0xdf00;
     return roml_banks[(addr & 0x1fff) + (1 << 13)];
 }
 
-static BYTE actionreplay2_io2_read(WORD addr)
+static uint8_t actionreplay2_io2_read(uint16_t addr)
 {
     cap_charge();
     return actionreplay2_io2_peek(addr);
 }
 
-static void actionreplay2_io2_store(WORD addr, BYTE value)
+static void actionreplay2_io2_store(uint16_t addr, uint8_t value)
 {
     cap_charge();
 }
@@ -400,7 +400,7 @@ static void actionreplay2_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE actionreplay2_roml_read(WORD addr)
+uint8_t actionreplay2_roml_read(uint16_t addr)
 {
     if (addr < 0x9f00) {
         return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
@@ -410,7 +410,7 @@ BYTE actionreplay2_roml_read(WORD addr)
     }
 }
 
-BYTE actionreplay2_romh_read(WORD addr)
+uint8_t actionreplay2_romh_read(uint16_t addr)
 {
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
@@ -423,7 +423,7 @@ void actionreplay2_freeze(void)
     ar_cap_enable = 0;
     ar_cap_disable = 0;
     DBG(("freeze\n"));
-    cart_config_changed_slotmain((BYTE)(CMODE_ULTIMAX | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(CMODE_ULTIMAX | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain((uint8_t)(CMODE_ULTIMAX | (roml_bank << CMODE_BANK_SHIFT)), (uint8_t)(CMODE_ULTIMAX | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
     cartridge_release_freeze();
 }
 
@@ -434,7 +434,7 @@ void actionreplay2_config_init(void)
     ar_cap_enable = 0;
     ar_cap_disable = 0;
     DBG(("config init\n"));
-    cart_config_changed_slotmain((BYTE)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain((uint8_t)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), (uint8_t)(CMODE_8KGAME | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 void actionreplay2_reset(void)
@@ -446,7 +446,7 @@ void actionreplay2_reset(void)
     DBG(("reset\n"));
 }
 
-void actionreplay2_config_setup(BYTE *rawcart)
+void actionreplay2_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x4000);
 }
@@ -465,7 +465,7 @@ static int actionreplay2_common_attach(void)
     return 0;
 }
 
-int actionreplay2_bin_attach(const char *filename, BYTE *rawcart)
+int actionreplay2_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -474,7 +474,7 @@ int actionreplay2_bin_attach(const char *filename, BYTE *rawcart)
     return actionreplay2_common_attach();
 }
 
-int actionreplay2_crt_attach(FILE *fd, BYTE *rawcart)
+int actionreplay2_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i;
@@ -532,9 +532,9 @@ int actionreplay2_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)ar_enabled) < 0)
-        || (SMW_DW(m, (DWORD)ar_cap_enable) < 0)
-        || (SMW_DW(m, (DWORD)ar_cap_disable) < 0)
+        || (SMW_B(m, (uint8_t)ar_enabled) < 0)
+        || (SMW_DW(m, (uint32_t)ar_cap_enable) < 0)
+        || (SMW_DW(m, (uint32_t)ar_cap_disable) < 0)
         || (SMW_BA(m, roml_banks, 0x4000) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -545,7 +545,7 @@ int actionreplay2_snapshot_write_module(snapshot_t *s)
 
 int actionreplay2_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

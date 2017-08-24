@@ -100,7 +100,7 @@ static int current_cfg;
 static rtc_ds1202_1302_t *ds1302_context = NULL;
 
 /*  */
-static BYTE kill_port;
+static uint8_t kill_port;
 
 static struct drive_s {
     ata_drive_t *drv;
@@ -115,7 +115,7 @@ static struct drive_s {
 static int idrive = 0;
 
 /* communication latch */
-static WORD out_d030, in_d030, idebus;
+static uint16_t out_d030, in_d030, idebus;
 
 #ifdef HAVE_NETWORK
 static struct alarm_s *usb_alarm;
@@ -123,7 +123,7 @@ static char *settings_usbserver_address = NULL;
 static vice_network_socket_t * usbserver_socket = NULL;
 static vice_network_socket_t * usbserver_asocket = NULL;
 static int settings_usbserver;
-static BYTE ft245_rx[256], ft245_tx[128];
+static uint8_t ft245_rx[256], ft245_tx[128];
 static int ft245_rxp, ft245_rxl, ft245_txp;
 #else
 #define usbserver_activate(a) {}
@@ -143,26 +143,26 @@ static char *clockport_device_names = NULL;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void ide64_idebus_store(WORD addr, BYTE value);
-static BYTE ide64_idebus_read(WORD addr);
-static BYTE ide64_idebus_peek(WORD addr);
+static void ide64_idebus_store(uint16_t addr, uint8_t value);
+static uint8_t ide64_idebus_read(uint16_t addr);
+static uint8_t ide64_idebus_peek(uint16_t addr);
 static int ide64_idebus_dump(void);
-static void ide64_io_store(WORD addr, BYTE value);
-static BYTE ide64_io_read(WORD addr);
-static BYTE ide64_io_peek(WORD addr);
+static void ide64_io_store(uint16_t addr, uint8_t value);
+static uint8_t ide64_io_read(uint16_t addr);
+static uint8_t ide64_io_peek(uint16_t addr);
 static int ide64_io_dump(void);
-static void ide64_ft245_store(WORD addr, BYTE value);
-static BYTE ide64_ft245_read(WORD addr);
-static BYTE ide64_ft245_peek(WORD addr);
-static void ide64_ds1302_store(WORD addr, BYTE value);
-static BYTE ide64_ds1302_read(WORD addr);
-static BYTE ide64_ds1302_peek(WORD addr);
-static void ide64_romio_store(WORD addr, BYTE value);
-static BYTE ide64_romio_read(WORD addr);
-static BYTE ide64_romio_peek(WORD addr);
-static BYTE ide64_clockport_read(WORD io_address);
-static BYTE ide64_clockport_peek(WORD io_address);
-static void ide64_clockport_store(WORD io_address, BYTE byte);
+static void ide64_ft245_store(uint16_t addr, uint8_t value);
+static uint8_t ide64_ft245_read(uint16_t addr);
+static uint8_t ide64_ft245_peek(uint16_t addr);
+static void ide64_ds1302_store(uint16_t addr, uint8_t value);
+static uint8_t ide64_ds1302_read(uint16_t addr);
+static uint8_t ide64_ds1302_peek(uint16_t addr);
+static void ide64_romio_store(uint16_t addr, uint8_t value);
+static uint8_t ide64_romio_read(uint16_t addr);
+static uint8_t ide64_romio_peek(uint16_t addr);
+static uint8_t ide64_clockport_read(uint16_t io_address);
+static uint8_t ide64_clockport_peek(uint16_t io_address);
+static void ide64_clockport_store(uint16_t io_address, uint8_t byte);
 static int ide64_rtc_dump(void);
 
 static io_source_t ide64_idebus_device = {
@@ -1036,7 +1036,7 @@ void ide64_reset(void)
     }
 }
 
-static BYTE ide64_idebus_read(WORD addr)
+static uint8_t ide64_idebus_read(uint16_t addr)
 {
     in_d030 = ata_register_read(drives[idrive ^ 1].drv, addr, idebus);
     in_d030 = ata_register_read(drives[idrive].drv, addr, in_d030);
@@ -1051,7 +1051,7 @@ static BYTE ide64_idebus_read(WORD addr)
     return 0;
 }
 
-static BYTE ide64_idebus_peek(WORD addr)
+static uint8_t ide64_idebus_peek(uint16_t addr)
 {
     if (settings_version >= IDE64_VERSION_4_1) {
         return ata_register_peek(drives[idrive].drv, addr) | ata_register_peek(drives[idrive ^ 1].drv, addr);
@@ -1059,7 +1059,7 @@ static BYTE ide64_idebus_peek(WORD addr)
     return 0;
 }
 
-static void ide64_idebus_store(WORD addr, BYTE value)
+static void ide64_idebus_store(uint16_t addr, uint8_t value)
 {
     switch (addr) {
         case 8:
@@ -1077,7 +1077,7 @@ static void ide64_idebus_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE ide64_io_read(WORD addr)
+static uint8_t ide64_io_read(uint16_t addr)
 {
     ide64_io_device.io_source_valid = 1;
 
@@ -1086,7 +1086,7 @@ static BYTE ide64_io_read(WORD addr)
             if (settings_version >= IDE64_VERSION_4_1) {
                 break;
             }
-            return (BYTE)in_d030;
+            return (uint8_t)in_d030;
         case 1:
             return in_d030 >> 8;
         case 2:
@@ -1103,14 +1103,14 @@ static BYTE ide64_io_read(WORD addr)
     return 0;
 }
 
-static BYTE ide64_io_peek(WORD addr)
+static uint8_t ide64_io_peek(uint16_t addr)
 {
     switch (addr) {
         case 0:
             if (settings_version >= IDE64_VERSION_4_1) {
                 break;
             }
-            return (BYTE)in_d030;
+            return (uint8_t)in_d030;
         case 1:
             return in_d030 >> 8;
         case 2:
@@ -1126,7 +1126,7 @@ static BYTE ide64_io_peek(WORD addr)
     return 0;
 }
 
-static void ide64_io_store(WORD addr, BYTE value)
+static void ide64_io_store(uint16_t addr, uint8_t value)
 {
     switch (addr) {
         case 0:
@@ -1143,7 +1143,7 @@ static void ide64_io_store(WORD addr, BYTE value)
         case 5:
             if (settings_version < IDE64_VERSION_4_1 && current_bank != ((addr ^ 2) & 3)) {
                 current_bank = (addr ^ 2) & 3;
-                cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+                cart_config_changed_slotmain(0, (uint8_t)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
             }
             return;
     }
@@ -1220,7 +1220,7 @@ static void usb_send(void)
 }
 #endif
 
-static BYTE ide64_ft245_read(WORD addr)
+static uint8_t ide64_ft245_read(uint16_t addr)
 {
     if (settings_version >= IDE64_VERSION_4_1) {
         switch (addr ^ 1) {
@@ -1254,7 +1254,7 @@ static BYTE ide64_ft245_read(WORD addr)
     return 0;
 }
 
-static BYTE ide64_ft245_peek(WORD addr)
+static uint8_t ide64_ft245_peek(uint16_t addr)
 {
     if (settings_version >= IDE64_VERSION_4_1) {
         switch (addr ^ 1) {
@@ -1285,7 +1285,7 @@ static BYTE ide64_ft245_peek(WORD addr)
     return 0;
 }
 
-static void ide64_ft245_store(WORD addr, BYTE value)
+static void ide64_ft245_store(uint16_t addr, uint8_t value)
 {
     if (settings_version >= IDE64_VERSION_4_1) {
         switch (addr ^ 1) {
@@ -1309,7 +1309,7 @@ static void ide64_ft245_store(WORD addr, BYTE value)
     return;
 }
 
-static BYTE ide64_ds1302_read(WORD addr)
+static uint8_t ide64_ds1302_read(uint16_t addr)
 {
     int i;
 
@@ -1327,12 +1327,12 @@ static BYTE ide64_ds1302_read(WORD addr)
     return i;
 }
 
-static BYTE ide64_ds1302_peek(WORD addr)
+static uint8_t ide64_ds1302_peek(uint16_t addr)
 {
     return 0;
 }
 
-static void ide64_ds1302_store(WORD addr, BYTE value)
+static void ide64_ds1302_store(uint16_t addr, uint8_t value)
 {
     if (kill_port & 1) {
         return;
@@ -1342,7 +1342,7 @@ static void ide64_ds1302_store(WORD addr, BYTE value)
     return;
 }
 
-static BYTE ide64_clockport_read(WORD address)
+static uint8_t ide64_clockport_read(uint16_t address)
 {
     if (clockport_device) {
         return clockport_device->read(address, &ide64_clockport_device.io_source_valid, clockport_device->device_context);
@@ -1350,7 +1350,7 @@ static BYTE ide64_clockport_read(WORD address)
     return 0;
 }
 
-static BYTE ide64_clockport_peek(WORD address)
+static uint8_t ide64_clockport_peek(uint16_t address)
 {
     if (clockport_device) {
         return clockport_device->peek(address, clockport_device->device_context);
@@ -1358,14 +1358,14 @@ static BYTE ide64_clockport_peek(WORD address)
     return 0;
 }
 
-static void ide64_clockport_store(WORD address, BYTE byte)
+static void ide64_clockport_store(uint16_t address, uint8_t byte)
 {
     if (clockport_device) {
         clockport_device->store(address, byte, clockport_device->device_context);
     }
 }
 
-static BYTE ide64_romio_read(WORD addr)
+static uint8_t ide64_romio_read(uint16_t addr)
 {
     if (kill_port & 1) {
         ide64_rom_device.io_source_valid = 0;
@@ -1376,7 +1376,7 @@ static BYTE ide64_romio_read(WORD addr)
     return roml_banks[addr | 0x1e00 | (current_bank << 14)];
 }
 
-static BYTE ide64_romio_peek(WORD addr)
+static uint8_t ide64_romio_peek(uint16_t addr)
 {
     if (kill_port & 1) {
         return 0;
@@ -1384,7 +1384,7 @@ static BYTE ide64_romio_peek(WORD addr)
     return roml_banks[addr | 0x1e00 | (current_bank << 14)];
 }
 
-static void ide64_romio_store(WORD addr, BYTE value)
+static void ide64_romio_store(uint16_t addr, uint8_t value)
 {
     if (kill_port & 1) {
         return;
@@ -1452,29 +1452,29 @@ static void ide64_romio_store(WORD addr, BYTE value)
         default:
             return;
     }
-    cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(0, (uint8_t)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
 }
 
-BYTE ide64_rom_read(WORD addr)
+uint8_t ide64_rom_read(uint16_t addr)
 {
     return roml_banks[(addr & 0x3fff) | (roml_bank << 14)];
 }
 
-void ide64_rom_store(WORD addr, BYTE value)
+void ide64_rom_store(uint16_t addr, uint8_t value)
 {
 }
 
-BYTE ide64_ram_read(WORD addr)
+uint8_t ide64_ram_read(uint16_t addr)
 {
     return export_ram0[addr & 0x7fff];
 }
 
-void ide64_ram_store(WORD addr, BYTE value)
+void ide64_ram_store(uint16_t addr, uint8_t value)
 {
     export_ram0[addr & 0x7fff] = value;
 }
 
-void ide64_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void ide64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
         case 0xf000:
@@ -1542,7 +1542,7 @@ void ide64_config_init(void)
     }
 }
 
-void ide64_config_setup(BYTE *rawcart)
+void ide64_config_setup(uint8_t *rawcart)
 {
     debug("IDE64 setup");
     memcpy(roml_banks, rawcart, 0x80000);
@@ -1576,7 +1576,7 @@ void ide64_detach(void)
     debug("IDE64 detached");
 }
 
-static int ide64_common_attach(BYTE *rawcart, int detect)
+static int ide64_common_attach(uint8_t *rawcart, int detect)
 {
     int i;
 
@@ -1612,7 +1612,7 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
     return ide64_register();
 }
 
-int ide64_bin_attach(const char *filename, BYTE *rawcart)
+int ide64_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x80000, UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
         return -1;
@@ -1621,7 +1621,7 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
     return ide64_common_attach(rawcart, 1);
 }
 
-int ide64_crt_attach(FILE *fd, BYTE *rawcart)
+int ide64_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i;
@@ -1687,8 +1687,8 @@ static int ide64_rtc_dump(void)
    DWORD | config    | current config
    DWORD | kill port | kill port flag
    DWORD | idrive    | idrive
-   WORD  | in d030   | input state of $d030 register 
-   WORD  | out d030  | output state of $d030 register 
+   WORD  | in d030   | input state of $d030 register
+   WORD  | out d030  | output state of $d030 register
  */
 
 static char snap_module_name[] = "CARTIDE";
@@ -1745,7 +1745,7 @@ int ide64_snapshot_write_module(snapshot_t *s)
 
 int ide64_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
     int i;
 

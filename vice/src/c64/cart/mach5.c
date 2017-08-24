@@ -63,26 +63,26 @@
 
 static int mach5_active = 0;
 
-static BYTE mach5_io1_read(WORD addr)
+static uint8_t mach5_io1_read(uint16_t addr)
 {
 /*    DBG(("io1 rd %04x\n", addr)); */
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-static void mach5_io1_store(WORD addr, BYTE value)
+static void mach5_io1_store(uint16_t addr, uint8_t value)
 {
     DBG(("io1 st %04x %02x\n", addr, value));
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_WRITE);
     mach5_active = 1;
 }
 
-static BYTE mach5_io2_read(WORD addr)
+static uint8_t mach5_io2_read(uint16_t addr)
 {
 /*    DBG(("io2 rd %04x\n", addr)); */
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
-static void mach5_io2_store(WORD addr, BYTE value)
+static void mach5_io2_store(uint16_t addr, uint8_t value)
 {
     DBG(("%04x io2 st %04x %02x\n", reg_pc, addr, value));
     cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_WRITE);
@@ -143,7 +143,7 @@ void mach5_config_init(void)
     mach5_active = 1;
 }
 
-void mach5_config_setup(BYTE *rawcart)
+void mach5_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
@@ -162,7 +162,7 @@ static int mach5_common_attach(void)
     return 0;
 }
 
-int mach5_bin_attach(const char *filename, BYTE *rawcart)
+int mach5_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         if (util_file_load(filename, rawcart, 0x1000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -174,7 +174,7 @@ int mach5_bin_attach(const char *filename, BYTE *rawcart)
     return mach5_common_attach();
 }
 
-int mach5_crt_attach(FILE *fd, BYTE *rawcart)
+int mach5_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -232,7 +232,7 @@ int mach5_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)mach5_active) < 0
+        || SMW_B(m, (uint8_t)mach5_active) < 0
         || SMW_BA(m, roml_banks, 0x2000) < 0) {
         snapshot_module_close(m);
         return -1;
@@ -243,7 +243,7 @@ int mach5_snapshot_write_module(snapshot_t *s)
 
 int mach5_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

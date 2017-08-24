@@ -56,7 +56,7 @@
  */
 
 /* some prototypes are needed */
-static void easycalc_io1_store(WORD addr, BYTE val);
+static void easycalc_io1_store(uint16_t addr, uint8_t val);
 static int easycalc_dump(void);
 
 static io_source_t easycalc_device = {
@@ -87,7 +87,7 @@ void easycalc_config_init(void)
     cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
-void easycalc_config_setup(BYTE *rawcart)
+void easycalc_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x4000);
@@ -104,7 +104,7 @@ static int easycalc_common_attach(void)
     return 0;
 }
 
-int easycalc_bin_attach(const char *filename, BYTE *rawcart)
+int easycalc_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -112,7 +112,7 @@ int easycalc_bin_attach(const char *filename, BYTE *rawcart)
     return easycalc_common_attach();
 }
 
-int easycalc_crt_attach(FILE *fd, BYTE *rawcart)
+int easycalc_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i;
@@ -159,7 +159,7 @@ void easycalc_detach(void)
 
 static int curbank = 0;
 
-static void easycalc_io1_store(WORD addr, BYTE val)
+static void easycalc_io1_store(uint16_t addr, uint8_t val)
 {
     curbank = (addr & 1) ? 1 : 0;
 
@@ -208,7 +208,7 @@ int easycalc_snapshot_write_module(snapshot_t *s)
 
 int easycalc_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

@@ -893,7 +893,7 @@ void cartridge_setup_context(machine_context_t *machine_context)
 
 /* ------------------------------------------------------------------------- */
 
-int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
+int cart_bin_attach(int type, const char *filename, uint8_t *rawcart)
 {
     switch (type) {
         /* "Slot 0" */
@@ -1047,7 +1047,7 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
     XYZ_config_setup should copy the raw cart image into the
     individual implementations array.
 */
-void cart_attach(int type, BYTE *rawcart)
+void cart_attach(int type, uint8_t *rawcart)
 {
     cart_detach_conflicting(type);
     switch (type) {
@@ -2405,7 +2405,7 @@ void cartridge_sound_chip_init(void)
 
    TODO: add more cartridges
 */
-void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     int res = CART_READ_THROUGH;
 #if 0
@@ -2517,8 +2517,8 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 {
     snapshot_module_t *m;
 
-    BYTE i;
-    BYTE number_of_carts = 0;
+    uint8_t i;
+    uint8_t number_of_carts = 0;
     int cart_ids[C64CART_DUMP_MAX_CARTS];
     int last_cart = 0;
 
@@ -2558,16 +2558,16 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 
     /* Save "global" cartridge things */
     if (0
-        || SMW_DW(m, (DWORD)mem_cartridge_type) < 0
+        || SMW_DW(m, (uint32_t)mem_cartridge_type) < 0
         || SMW_B(m, export.game) < 0
         || SMW_B(m, export.exrom) < 0
-        || SMW_DW(m, (DWORD)romh_bank) < 0
-        || SMW_DW(m, (DWORD)roml_bank) < 0
-        || SMW_B(m, (BYTE)export_ram) < 0
+        || SMW_DW(m, (uint32_t)romh_bank) < 0
+        || SMW_DW(m, (uint32_t)roml_bank) < 0
+        || SMW_B(m, (uint8_t)export_ram) < 0
         || SMW_B(m, export.ultimax_phi1) < 0
         || SMW_B(m, export.ultimax_phi2) < 0
-        || SMW_DW(m, (DWORD)cart_freeze_alarm_time) < 0
-        || SMW_DW(m, (DWORD)cart_nmi_alarm_time) < 0
+        || SMW_DW(m, (uint32_t)cart_freeze_alarm_time) < 0
+        || SMW_DW(m, (uint32_t)cart_nmi_alarm_time) < 0
         || SMW_B(m, export_slot1.game) < 0
         || SMW_B(m, export_slot1.exrom) < 0
         || SMW_B(m, export_slot1.ultimax_phi1) < 0
@@ -2590,7 +2590,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
 
     /* Save cart IDs */
     for (i = 0; i < number_of_carts; i++) {
-        if (SMW_DW(m, (DWORD)cart_ids[i]) < 0) {
+        if (SMW_DW(m, (uint32_t)cart_ids[i]) < 0) {
             goto fail;
         }
     }
@@ -3009,13 +3009,13 @@ fail:
 int cartridge_snapshot_read_modules(struct snapshot_s *s)
 {
     snapshot_module_t *m;
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
 
-    BYTE i;
-    BYTE number_of_carts;
+    uint8_t i;
+    uint8_t number_of_carts;
     int cart_ids[C64CART_DUMP_MAX_CARTS];
     int local_cartridge_reset;
-    DWORD dummy;
+    uint32_t dummy;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
 

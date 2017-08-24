@@ -41,9 +41,9 @@
 typedef struct clockport_device_s {
     char *owner;
     int devicenr;
-    void (*store)(WORD address, BYTE byte, void *context);
-    BYTE (*read)(WORD address, int *valid, void *context);
-    BYTE (*peek)(WORD address, void *context);
+    void (*store)(uint16_t address, uint8_t byte, void *context);
+    uint8_t (*read)(uint16_t address, int *valid, void *context);
+    uint8_t (*peek)(uint16_t address, void *context);
     void (*reset)(void *context);
     int (*dump)(void *context);
     void (*close)(struct clockport_device_s *device);

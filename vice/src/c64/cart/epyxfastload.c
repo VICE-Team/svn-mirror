@@ -94,19 +94,19 @@ static void epyxfastload_alarm_handler(CLOCK offset, void *data)
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE epyxfastload_io1_read(WORD addr)
+static uint8_t epyxfastload_io1_read(uint16_t addr)
 {
     /* IO1 discharges the capacitor, but does nothing else */
     epyxfastload_trigger_access();
     return 0;
 }
 
-static BYTE epyxfastload_io1_peek(WORD addr)
+static uint8_t epyxfastload_io1_peek(uint16_t addr)
 {
     return 0;
 }
 
-static BYTE epyxfastload_io2_read(WORD addr)
+static uint8_t epyxfastload_io2_read(uint16_t addr)
 {
     /* IO2 allows access to the last 256 bytes of the rom */
     return roml_banks[0x1f00 + (addr & 0xff)];
@@ -160,7 +160,7 @@ static const export_resource_t export_res_epyx = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE epyxfastload_roml_read(WORD addr)
+uint8_t epyxfastload_roml_read(uint16_t addr)
 {
     /* ROML accesses also discharge the capacitor */
     epyxfastload_trigger_access();
@@ -182,7 +182,7 @@ void epyxfastload_config_init(void)
     epyxrom_active = 1;
 }
 
-void epyxfastload_config_setup(BYTE *rawcart)
+void epyxfastload_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
@@ -206,7 +206,7 @@ static int epyxfastload_common_attach(void)
     return 0;
 }
 
-int epyxfastload_bin_attach(const char *filename, BYTE *rawcart)
+int epyxfastload_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -214,7 +214,7 @@ int epyxfastload_bin_attach(const char *filename, BYTE *rawcart)
     return epyxfastload_common_attach();
 }
 
-int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
+int epyxfastload_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -269,7 +269,7 @@ int epyxfastload_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)epyxrom_active) < 0)
+        || (SMW_B(m, (uint8_t)epyxrom_active) < 0)
         || (SMW_DW(m, epyxrom_alarm_time) < 0)
         || (SMW_BA(m, roml_banks, 0x2000) < 0)) {
         snapshot_module_close(m);
@@ -281,7 +281,7 @@ int epyxfastload_snapshot_write_module(snapshot_t *s)
 
 int epyxfastload_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     CLOCK temp_clk;

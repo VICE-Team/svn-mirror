@@ -81,13 +81,13 @@
 */
 
 static int fc3_reg_enabled = 1;
-static BYTE regval = 0;
+static uint8_t regval = 0;
 static int fc3_rom_banks = 4;
 
 /* some prototypes are needed */
-static BYTE final_v3_io1_read(WORD addr);
-static BYTE final_v3_io2_read(WORD addr);
-static void final_v3_io2_store(WORD addr, BYTE value);
+static uint8_t final_v3_io1_read(uint16_t addr);
+static uint8_t final_v3_io2_read(uint16_t addr);
+static void final_v3_io2_store(uint16_t addr, uint8_t value);
 static int final_v3_dump(void);
 
 static io_source_t final3_io1_device = {
@@ -129,20 +129,20 @@ static const export_resource_t export_res_v3 = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE final_v3_io1_read(WORD addr)
+uint8_t final_v3_io1_read(uint16_t addr)
 {
     return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
 }
 
-BYTE final_v3_io2_read(WORD addr)
+uint8_t final_v3_io2_read(uint16_t addr)
 {
     return roml_banks[0x1f00 + (roml_bank << 13) + (addr & 0xff)];
 }
 
-void final_v3_io2_store(WORD addr, BYTE value)
+void final_v3_io2_store(uint16_t addr, uint8_t value)
 {
     unsigned int flags;
-    BYTE mode;
+    uint8_t mode;
 
     regval = value;
 
@@ -176,7 +176,7 @@ void final_v3_freeze(void)
     fc3_reg_enabled = 1;
 
     /* note: freeze does NOT force a specific bank like some other carts do */
-    cart_config_changed_slotmain(2, (BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain(2, (uint8_t)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 void final_v3_config_init(void)
@@ -185,7 +185,7 @@ void final_v3_config_init(void)
     cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
-void final_v3_config_setup(BYTE *rawcart)
+void final_v3_config_setup(uint8_t *rawcart)
 {
     int i;
     for (i = 0; i <= fc3_rom_banks; i++) {
@@ -209,7 +209,7 @@ static int final_v3_common_attach(void)
     return 0;
 }
 
-int final_v3_bin_attach(const char *filename, BYTE *rawcart)
+int final_v3_bin_attach(const char *filename, uint8_t *rawcart)
 {
     fc3_rom_banks = 4;
     if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -222,7 +222,7 @@ int final_v3_bin_attach(const char *filename, BYTE *rawcart)
     return final_v3_common_attach();
 }
 
-int final_v3_crt_attach(FILE *fd, BYTE *rawcart)
+int final_v3_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
     int i, banks = 0;
@@ -269,7 +269,7 @@ void final_v3_detach(void)
    BYTE  | register    |   1.2   | register
    BYTE  | reg enabled |   0.0+  | register enabled flag
    ARRAY | ROML        |   1.1+  | 32768 or 131072 BYTES of ROML data
-   ARRAY | ROMH        |   1.1+  | 32768 or 131072 BYTES of ROML data   
+   ARRAY | ROMH        |   1.1+  | 32768 or 131072 BYTES of ROML data
 
    Note: in 0.0 ROML and ROMH data was always 32768 BYTES.
  */
@@ -289,9 +289,9 @@ int final_v3_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)fc3_rom_banks) < 0
+        || SMW_B(m, (uint8_t)fc3_rom_banks) < 0
         || SMW_B(m, regval) < 0
-        || SMW_B(m, (BYTE)fc3_reg_enabled) < 0
+        || SMW_B(m, (uint8_t)fc3_reg_enabled) < 0
         || SMW_BA(m, roml_banks, 0x2000 * fc3_rom_banks) < 0
         || SMW_BA(m, romh_banks, 0x2000 * fc3_rom_banks) < 0) {
         snapshot_module_close(m);
@@ -303,7 +303,7 @@ int final_v3_snapshot_write_module(snapshot_t *s)
 
 int final_v3_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

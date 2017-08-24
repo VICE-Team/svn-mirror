@@ -32,7 +32,7 @@
 
 extern int aciacart_cart_enabled(void);
 extern void aciacart_init(void);
-extern BYTE aciacart_read(WORD a);
+extern uint8_t aciacart_read(uint16_t a);
 extern void aciacart_reset(void);
 
 extern int aciacart_cmdline_options_init(void);
@@ -47,9 +47,9 @@ extern int aciacart_snapshot_write_module(struct snapshot_s *p);
 extern int aciacart_snapshot_read_module(struct snapshot_s *p);
 
 extern void acia1_init(void);
-extern BYTE acia1_read(WORD a);
-extern BYTE acia1_peek(WORD a);
-extern void acia1_store(WORD a, BYTE b);
+extern uint8_t acia1_read(uint16_t a);
+extern uint8_t acia1_peek(uint16_t a);
+extern void acia1_store(uint16_t a, uint8_t b);
 extern void acia1_reset(void);
 
 extern int acia1_cmdline_options_init(void);

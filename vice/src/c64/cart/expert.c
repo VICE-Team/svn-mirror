@@ -212,7 +212,7 @@ static int expert_ram_writeable = 0;
 static int expert_ramh_enabled = 0; /* equals EXROM ? */
 
 /* 8 KB RAM */
-static BYTE *expert_ram = NULL;
+static uint8_t *expert_ram = NULL;
 
 static char *expert_filename = NULL;
 static int expert_filetype = 0;
@@ -226,9 +226,9 @@ static int expert_load_image(void);
 
 /* ---------------------------------------------------------------------*/
 
-BYTE expert_io1_read(WORD addr);
-BYTE expert_io1_peek(WORD addr);
-void expert_io1_store(WORD addr, BYTE value);
+uint8_t expert_io1_read(uint16_t addr);
+uint8_t expert_io1_peek(uint16_t addr);
+void expert_io1_store(uint16_t addr, uint8_t value);
 
 static io_source_t expert_io1_device = {
     CARTRIDGE_NAME_EXPERT,
@@ -413,7 +413,7 @@ static int set_expert_filename(const char *name, void *param)
 
 /* ---------------------------------------------------------------------*/
 
-void expert_io1_store(WORD addr, BYTE value)
+void expert_io1_store(uint16_t addr, uint8_t value)
 {
     DBG(("EXPERT: io1 wr %04x (%d)\n", addr, value));
     if ((cartmode == EXPERT_MODE_ON) && (expert_register_enabled == 1)) {
@@ -424,7 +424,7 @@ void expert_io1_store(WORD addr, BYTE value)
     }
 }
 
-BYTE expert_io1_read(WORD addr)
+uint8_t expert_io1_read(uint16_t addr)
 {
     expert_io1_device.io_source_valid = 0;
     DBG(("EXPERT: io1 rd %04x (%d)\n", addr, expert_ramh_enabled));
@@ -437,14 +437,14 @@ BYTE expert_io1_read(WORD addr)
     return 0;
 }
 
-BYTE expert_io1_peek(WORD addr)
+uint8_t expert_io1_peek(uint16_t addr)
 {
     return 0;
 }
 
 /* ---------------------------------------------------------------------*/
 
-BYTE expert_roml_read(WORD addr)
+uint8_t expert_roml_read(uint16_t addr)
 {
 /*    DBG(("EXPERT: set expert_roml_read: %x\n", addr)); */
     if (cartmode == EXPERT_MODE_PRG) {
@@ -456,7 +456,7 @@ BYTE expert_roml_read(WORD addr)
     }
 }
 
-void expert_roml_store(WORD addr, BYTE value)
+void expert_roml_store(uint16_t addr, uint8_t value)
 {
 /*    DBG(("EXPERT: set expert_roml_store: %x\n", addr)); */
     if (expert_ram_writeable) {
@@ -473,7 +473,7 @@ void expert_roml_store(WORD addr, BYTE value)
     }
 }
 
-BYTE expert_romh_read(WORD addr)
+uint8_t expert_romh_read(uint16_t addr)
 {
 /*    DBG(("EXPERT: set expert_romh_read: %x mode %d %02x %02x\n", addr, cartmode, expert_ram[0x1ffe], expert_ram[0x1fff])); */
     if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
@@ -483,7 +483,7 @@ BYTE expert_romh_read(WORD addr)
     }
 }
 
-int expert_romh_phi1_read(WORD addr, BYTE *value)
+int expert_romh_phi1_read(uint16_t addr, uint8_t *value)
 {
     if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
         *value = expert_ram[addr & 0x1fff];
@@ -492,12 +492,12 @@ int expert_romh_phi1_read(WORD addr, BYTE *value)
     return CART_READ_C64MEM;
 }
 
-int expert_romh_phi2_read(WORD addr, BYTE *value)
+int expert_romh_phi2_read(uint16_t addr, uint8_t *value)
 {
     return expert_romh_phi1_read(addr, value);
 }
 
-int expert_peek_mem(WORD addr, BYTE *value)
+int expert_peek_mem(uint16_t addr, uint8_t *value)
 {
     if (cartmode == EXPERT_MODE_PRG) {
         if ((addr >= 0x8000) && (addr <= 0x9fff)) {
@@ -576,7 +576,7 @@ void expert_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
-void expert_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void expert_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
         case 0xf000:
@@ -615,7 +615,7 @@ void expert_config_init(void)
     }
 }
 
-void expert_config_setup(BYTE *rawcart)
+void expert_config_setup(uint8_t *rawcart)
 {
     memcpy(expert_ram, rawcart, EXPERT_RAM_SIZE);
     /* DBG(("ram %02x %02x\n", expert_ram[0x1ffe], expert_ram[0x1fff])); */
@@ -646,7 +646,7 @@ static int expert_common_attach(void)
     return -1;
 }
 
-static int expert_bin_load(const char *filename, BYTE *rawcart)
+static int expert_bin_load(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, EXPERT_RAM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
@@ -655,7 +655,7 @@ static int expert_bin_load(const char *filename, BYTE *rawcart)
     return 0;
 }
 
-int expert_bin_attach(const char *filename, BYTE *rawcart)
+int expert_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (expert_bin_load(filename, rawcart) < 0) {
         return -1;
@@ -694,7 +694,7 @@ int expert_bin_save(const char *filename)
     return 0;
 }
 
-static int expert_crt_load(FILE *fd, BYTE *rawcart)
+static int expert_crt_load(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
 
@@ -713,7 +713,7 @@ static int expert_crt_load(FILE *fd, BYTE *rawcart)
     return 0;
 }
 
-int expert_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
+int expert_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 {
     if (expert_crt_load(fd, rawcart) < 0) {
         return -1;
@@ -826,10 +826,10 @@ int expert_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)cartmode) < 0)
-        || (SMW_B(m, (BYTE)expert_register_enabled) < 0)
-        || (SMW_B(m, (BYTE)expert_ram_writeable) < 0)
-        || (SMW_B(m, (BYTE)expert_ramh_enabled) < 0)
+        || (SMW_B(m, (uint8_t)cartmode) < 0)
+        || (SMW_B(m, (uint8_t)expert_register_enabled) < 0)
+        || (SMW_B(m, (uint8_t)expert_ram_writeable) < 0)
+        || (SMW_B(m, (uint8_t)expert_ramh_enabled) < 0)
         || (SMW_BA(m, expert_ram, EXPERT_RAM_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -840,7 +840,7 @@ int expert_snapshot_write_module(snapshot_t *s)
 
 int expert_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

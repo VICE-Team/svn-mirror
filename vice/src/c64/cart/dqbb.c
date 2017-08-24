@@ -87,7 +87,7 @@ static int dqbb_readwrite;
 static int dqbb_off;
 
 /* DQBB image.  */
-static BYTE *dqbb_ram = NULL;
+static uint8_t *dqbb_ram = NULL;
 
 static int dqbb_activate(void);
 static int dqbb_deactivate(void);
@@ -107,8 +107,8 @@ static int dqbb_write_image = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE dqbb_io1_peek(WORD addr);
-static void dqbb_io1_store(WORD addr, BYTE byte);
+static uint8_t dqbb_io1_peek(uint16_t addr);
+static void dqbb_io1_store(uint16_t addr, uint8_t byte);
 static int dqbb_dump(void);
 
 static io_source_t dqbb_io1_device = {
@@ -156,7 +156,7 @@ static void dqbb_change_config(void)
     }
 }
 
-static void dqbb_io1_store(WORD addr, BYTE byte)
+static void dqbb_io1_store(uint16_t addr, uint8_t byte)
 {
     dqbb_a000_mapped = (byte & 4) >> 2;
     dqbb_readwrite = (byte & 0x10) >> 4;
@@ -165,7 +165,7 @@ static void dqbb_io1_store(WORD addr, BYTE byte)
     reg_value = byte;
 }
 
-static BYTE dqbb_io1_peek(WORD addr)
+static uint8_t dqbb_io1_peek(uint16_t addr)
 {
     return reg_value;
 }
@@ -365,7 +365,7 @@ void dqbb_reset(void)
     }
 }
 
-void dqbb_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void dqbb_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
         case 0xb000:
@@ -389,7 +389,7 @@ void dqbb_init_config(void)
     dqbb_reset();
 }
 
-void dqbb_config_setup(BYTE *rawcart)
+void dqbb_config_setup(uint8_t *rawcart)
 {
     memcpy(dqbb_ram, rawcart, DQBB_RAM_SIZE);
 }
@@ -409,7 +409,7 @@ int dqbb_enable(void)
     return 0;
 }
 
-int dqbb_bin_attach(const char *filename, BYTE *rawcart)
+int dqbb_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, DQBB_RAM_SIZE, UTIL_FILE_LOAD_RAW) < 0) {
         return -1;
@@ -441,12 +441,12 @@ int dqbb_flush_image(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE dqbb_roml_read(WORD addr)
+uint8_t dqbb_roml_read(uint16_t addr)
 {
     return dqbb_ram[addr & 0x1fff];
 }
 
-void dqbb_roml_store(WORD addr, BYTE byte)
+void dqbb_roml_store(uint16_t addr, uint8_t byte)
 {
     if (dqbb_readwrite) {
         dqbb_ram[addr & 0x1fff] = byte;
@@ -454,12 +454,12 @@ void dqbb_roml_store(WORD addr, BYTE byte)
     mem_store_without_romlh(addr, byte);
 }
 
-BYTE dqbb_romh_read(WORD addr)
+uint8_t dqbb_romh_read(uint16_t addr)
 {
     return dqbb_ram[(addr & 0x1fff) + 0x2000];
 }
 
-void dqbb_romh_store(WORD addr, BYTE byte)
+void dqbb_romh_store(uint16_t addr, uint8_t byte)
 {
     if (dqbb_readwrite) {
         dqbb_ram[(addr & 0x1fff) + 0x2000] = byte;
@@ -467,7 +467,7 @@ void dqbb_romh_store(WORD addr, BYTE byte)
     mem_store_without_romlh(addr, byte);
 }
 
-int dqbb_peek_mem(WORD addr, BYTE *value)
+int dqbb_peek_mem(uint16_t addr, uint8_t *value)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
         *value = dqbb_ram[addr & 0x1fff];
@@ -508,11 +508,11 @@ int dqbb_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_B(m, (BYTE)dqbb_enabled) < 0)
-        || (SMW_B(m, (BYTE)dqbb_readwrite) < 0)
-        || (SMW_B(m, (BYTE)dqbb_a000_mapped) < 0)
-        || (SMW_B(m, (BYTE)dqbb_off) < 0)
-        || (SMW_B(m, (BYTE)reg_value) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_enabled) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_readwrite) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_a000_mapped) < 0)
+        || (SMW_B(m, (uint8_t)dqbb_off) < 0)
+        || (SMW_B(m, (uint8_t)reg_value) < 0)
         || (SMW_BA(m, dqbb_ram, DQBB_RAM_SIZE) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -523,7 +523,7 @@ int dqbb_snapshot_write_module(snapshot_t *s)
 
 int dqbb_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);

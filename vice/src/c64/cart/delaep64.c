@@ -95,11 +95,11 @@
 
 static int currbank = 0;
 
-static BYTE regval = 0;
+static uint8_t regval = 0;
 
-static void delaep64_io1(BYTE value, unsigned int mode)
+static void delaep64_io1(uint8_t value, unsigned int mode)
 {
-    BYTE bank, config;
+    uint8_t bank, config;
 
     regval = value;
 
@@ -122,21 +122,21 @@ static void delaep64_io1(BYTE value, unsigned int mode)
     currbank = bank;
 }
 
-static BYTE delaep64_io1_read(WORD addr)
+static uint8_t delaep64_io1_read(uint16_t addr)
 {
-    BYTE value = vicii_read_phi1();
+    uint8_t value = vicii_read_phi1();
 
     delaep64_io1(value, CMODE_READ);
 
     return 0;
 }
 
-static BYTE delaep64_io1_peek(WORD addr)
+static uint8_t delaep64_io1_peek(uint16_t addr)
 {
     return regval;
 }
 
-static void delaep64_io1_store(WORD addr, BYTE value)
+static void delaep64_io1_store(uint16_t addr, uint8_t value)
 {
     delaep64_io1(value, CMODE_WRITE);
 }
@@ -179,7 +179,7 @@ void delaep64_config_init(void)
     delaep64_io1(0, CMODE_READ);
 }
 
-void delaep64_config_setup(BYTE *rawcart)
+void delaep64_config_setup(uint8_t *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000 * 9);
     delaep64_io1(0, CMODE_READ);
@@ -195,7 +195,7 @@ static int delaep64_common_attach(void)
     return 0;
 }
 
-int delaep64_bin_attach(const char *filename, BYTE *rawcart)
+int delaep64_bin_attach(const char *filename, uint8_t *rawcart)
 {
     int size = 0x12000;
 
@@ -210,7 +210,7 @@ int delaep64_bin_attach(const char *filename, BYTE *rawcart)
     return -1;
 }
 
-int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
+int delaep64_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     int rom_size = -1;
     crt_chip_header_t chip;
@@ -301,7 +301,7 @@ int delaep64_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_B(m, regval) < 0)
-        || (SMW_B(m, (BYTE)currbank) < 0)
+        || (SMW_B(m, (uint8_t)currbank) < 0)
         || (SMW_BA(m, roml_banks, 0x2000 * 9) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -312,7 +312,7 @@ int delaep64_snapshot_write_module(snapshot_t *s)
 
 int delaep64_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
