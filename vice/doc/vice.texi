@@ -286,8 +286,8 @@ Commodore Emulator.
 @center Version 2, June 1991
 
 @display
-Copyright @copyright{} 1989, 1991 Free Software Foundation, Inc.  675
-Mass Ave, Boston, MA 02111-1307, USA
+Copyright @copyright{} 1989, 1991 Free Software Foundation, Inc.
+675 Mass Ave, Boston, MA 02111-1307, USA
 
 Everyone is permitted to copy and distribute verbatim copies
 of this license document, but changing it is not allowed.
@@ -820,9 +820,9 @@ The PET 8x96 model emulations run the Commodore LOS-96 operating system
 text and 32k for variables.  See @file{PETdoc} for more information.
 @c FIXME: add link to PETdoc.txt
 
-The PET 8296-G is a 8296 with built-in 8250 low-profile dual disk drive.
+The PET 8296D is an 8296 with built-in 8250 low-profile dual disk drive.
 
-The PET 8296-GD is a 8296-GD with additionally a "HiRes Emulator" (HRE).
+The PET 8296GD is an 8296D with additionally a "HiRes Emulator" (HRE).
 This is a cheaper version of a "HRG" hi-res board which was based on
 Thomson chips. This version instead uses no additional hardware support
 apart from some memory mapping tricks. It has supporting software in the
@@ -2648,7 +2648,7 @@ would be wasted by not using it (if any).
 @cindex Double-size mode
 @item
 ``Double Size'' toggles @dfn{double-size mode}, which makes the
-emulation window twice as big.  When emulating a 80-column PET, only the
+emulation window twice as big.  When emulating an 80-column PET, only the
 height is doubled, so that the aspect ratio is closer to that of the
 real thing.
 
@@ -10351,7 +10351,7 @@ file, command line options or right-menu items):
 
 @vindex RamSize
 @item RamSize
-Integer specifying the size of the memory in kByte. 96k denotes a 8096, 128k a 8296.
+Integer specifying the size of the memory in kByte. 96k denotes an 8096, 128k an 8296.
 (4, 8, 16, 32, 96, 128)
 
 @vindex IOSize
@@ -11157,7 +11157,7 @@ when memory mapped to $EC00:
 @end verbatim
 
 Unfortunately there is no logical means of expanding the memory
-to 16 K, so even in a 80 columns PET the resolution will be the same.
+to 16 K, so even in an 80 columns PET the resolution will be the same.
 
 @node PET HRE (HiRes Emulator) high resolution grapics
 
