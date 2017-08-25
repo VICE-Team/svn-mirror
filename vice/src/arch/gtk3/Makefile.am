@@ -46,6 +46,7 @@ libarch_a_SOURCES = \
 	signals.c \
 	ui.c \
 	uiabout.c \
+	uiattach.c \
 	uiaccelerators.c \
 	uimenu.c \
 	uimon.c \
@@ -83,6 +84,7 @@ EXTRA_DIST = \
 	types.h \
 	ui.h \
 	uiabout.h \
+	uiattach.h \
 	uiaccelerators.h \
 	uimenu.h \
 	uistatusbar.h \

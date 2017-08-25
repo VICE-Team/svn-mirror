@@ -48,6 +48,7 @@
 #include "videoarch.h"
 
 #include "uiabout.h"
+#include "uiattach.h"
 
 #include "ui.h"
 
@@ -73,16 +74,19 @@ enum {
 /** \brief  Tiny menu test
  */
 static ui_menu_item_t file_menu[] = {
+    { "_Attach", UI_MENU_TYPE_ITEM_ACTION,
+        ui_attach_dialog_callback, NULL },
     { "_Quit", UI_MENU_TYPE_ITEM_ACTION,
         ui_window_destroy_callback, NULL },
-    { NULL, -1, NULL, NULL },
+    UI_MENU_TERMINATOR
 };
 
 
 static ui_menu_item_t help_menu[] = {
     { "_About", UI_MENU_TYPE_ITEM_ACTION,
         ui_about_dialog_callback, NULL },
-    { NULL, -1, NULL, NULL }
+    { NULL, -1, NULL, NULL },
+    UI_MENU_TERMINATOR
 };
 
 
