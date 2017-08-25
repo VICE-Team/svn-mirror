@@ -95,7 +95,7 @@ static int currbank = 0;
 static int chipselect = 0;
 static int bankselect = 0;
 
-static void pagefox_io1_store(uint16_t addr, int8_t value)
+static void pagefox_io1_store(uint16_t addr, uint8_t value)
 {
     bankselect = ((value >> 1) & 1);
     chipselect = (value >> 2) & 3;
