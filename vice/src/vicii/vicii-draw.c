@@ -162,7 +162,7 @@ static void draw_idle_std_background(unsigned int start_pixel,
    anyway.  */
 
 #ifndef ALLOW_UNALIGNED_ACCESS
-static uitn32_t _aligned_line_buffer[VICII_SCREEN_XPIX / 2 + 1];
+static uint32_t _aligned_line_buffer[VICII_SCREEN_XPIX / 2 + 1];
 static uint8_t *const aligned_line_buffer = (uint8_t *)_aligned_line_buffer;
 #endif
 
