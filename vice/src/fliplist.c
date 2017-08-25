@@ -410,6 +410,13 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
                 util_string_to_long(buffer + 5, NULL, 10, &unit_long);
 
+                if (unit_long < 8 || unit_long > 11) {
+                    log_message(LOG_DEFAULT,
+                            "Invalid unit number %ld for fliplist\n", unit_long);
+                    /* perhaps VICE should properly error out, ie quit? */
+                    return -1;
+                }
+
                 unit = (unsigned int)unit_long;
             }
             continue;
