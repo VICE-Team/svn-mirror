@@ -22,9 +22,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
- *  TODO:   add code to dynamically add submenus and menu items (not all emu
+ *  TODO:   add code to dynamically add submenus and menu items (not all emus
  *          have the same menu)
- *
  */
 
 #include "vice.h"
@@ -128,11 +127,12 @@ GtkWidget *ui_menu_bar_create(void)
 
     /* help menu */
     GtkWidget *help_item;
-    GtkWidget *about_item;
 
+
+    /* create the top menu bar */
     bar = gtk_menu_bar_new();
 
-    gtk_widget_set_hexpand(GTK_WIDGET(bar), TRUE);
+    gtk_widget_set_hexpand(GTK_WIDGET(bar), TRUE);  /* doesn't appear to work */
 
     /*
      * Obviously the code here can be refactored, there's a lot duplication
@@ -166,7 +166,7 @@ GtkWidget *ui_menu_bar_create(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), snap_item);
 
 #ifdef DEBUG
-    /* create the top-level 'Debug' menu stub */
+    /* create the top-level 'Debug' menu stub (when --enable-debug is used) */
     debug_item = gtk_menu_item_new_with_mnemonic("_Debug");
     debug_submenu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(debug_item), debug_submenu);
@@ -190,7 +190,13 @@ GtkWidget *ui_menu_bar_create(void)
 }
 
 
-
+/** \brief  Add menu \a items to \a menu
+ *
+ * \param[in,out]   menu    Gtk menu
+ * \param[in]       items   menu items to add to \a menu
+ *
+ * \return  \a menu
+ */
 GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 {
     size_t i = 0;
@@ -208,10 +214,24 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 }
 
 
+/** \brief  Add menu \a items to the 'File' menu
+ *
+ * \param[in]       items   menu items to add to the 'File' menu
+ *
+ * \return  'File' menu reference
+ */
 GtkWidget *ui_menu_file_add(ui_menu_item_t *items)
 {
     return ui_menu_add(file_submenu, items);
 }
+
+
+/** \brief  Add menu \a items to the 'Help' menu
+ *
+ * \param[in]       items   menu items to add to the 'Help' menu
+ *
+ * \return  'Help' menu reference
+ */
 
 GtkWidget *ui_menu_help_add(ui_menu_item_t *items)
 {

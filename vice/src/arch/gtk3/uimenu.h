@@ -51,17 +51,30 @@ typedef enum ui_menu_item_type_e {
 } ui_menu_item_type_t;
 
 
+
+/** \brief  Menu item object
+ *
+ * Contains information on a menu item
+ */
 typedef struct ui_menu_item_s {
     char *              label;  /**< menu item label */
     ui_menu_item_type_t type;   /**< menu item type, \see ui_menu_item_type_t */
 
     /* callbacks, accelerators and other things, again light on the CPP/layer
-     * stuff to keep things clean and stuff maintainable.
+     * stuff to keep things clean and maintainable.
      */
 
+    /** menu item callback function (NULL == no callback) */
     void (*callback)(GtkWidget *widget, gpointer user_data);
+
+    /** callback data */
     void *data;
 } ui_menu_item_t;
+
+
+/** \brief  Terminator of a menu items list
+ */
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL }
 
 
 /*

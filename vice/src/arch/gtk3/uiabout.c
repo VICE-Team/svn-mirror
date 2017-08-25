@@ -29,7 +29,6 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 
 #include "info.h"
 #include "lib.h"
@@ -64,8 +63,11 @@ static char **create_current_team_list(void)
     }
     list = lib_malloc(sizeof *list * (i + 1));
 
-    g_print("%s(): team members = %d\n", __func__, (int)i);
+#ifdef HAVE_DEBUG_GTK3UI
+    g_print("[debug-gtk3ui] %s(): team members = %d\n", __func__, (int)i);
+#endif
 
+    /* create list of current team members */
     for (i = 0; core_team[i].name != NULL; i++) {
         list[i] = core_team[i].name;
     }
@@ -73,23 +75,6 @@ static char **create_current_team_list(void)
     return list;
 }
 
-
-#if 0
-static char **create_copyright_list(void)
-{
-    char **list = lib_malloc(sizeof *list * 256);
-    size_t i;
-
-    while (core_team[i].name != NULL) {
-        char *member = lib_malloc(256);
-        snprintf(member, 256, "%s - %s", core_team[i].years, core_team[i].name);
-        list[i++] = member;
-    }
-    /* TODO: add ex-team */
-    list[i] = NULL;
-    return list;
-}
-#endif
 
 #if 0
 static char **create_translators_list(void)
@@ -111,24 +96,14 @@ static char **create_translators_list(void)
 #endif
 
 
+/** \brief  Deallocate current team list
+ *
+ * \param[in,out]   list    list of team member names
+ */
 static void destroy_current_team_list(char **list)
 {
     lib_free(list);
 }
-
-
-#if 0
-static void destroy_copyright_list(char **list)
-{
-    size_t i = 0;
-
-    while (list[i] != NULL) {
-        lib_free(list[i]);
-        i++;
-    }
-    lib_free(list);
-}
-#endif
 
 
 /** \brief  Create VICE logo
@@ -146,13 +121,19 @@ static GdkPixbuf *get_vice_logo(void)
     logo = gdk_pixbuf_new_from_file(
             "/usr/local/lib64/vice/doc/vice-logo-small.png", &err);
     if (logo == NULL || err != NULL) {
-        g_print("%s(): %s\n", __func__, err->message);
+#ifdef HAVE_DEBUG_GTK3UI
+        g_print("[debug-gtk3ui] %s(): %s\n", __func__, err->message);
+#endif
     }
     return logo;
 }
 
 
-
+/** \brief  Handler for the "destroy" event
+ *
+ * \param[in,out]   widget      widget triggering the event (unused)
+ * \param[in]       user_data   data for the event (unused)
+ */
 static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     destroy_current_team_list(authors);
@@ -164,16 +145,28 @@ static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "response" event
+ *
+ * This handles the "response" event, which is triggered for various standard
+ * buttons, although which buttons trigger this is a little unclear at the
+ * moment.
+ *
+ * \param[in,out]   widget      widget triggering the event (the dialog)
+ * \param[in]       user_data   response ID (\see GtkResponseType)
+ */
 static void about_response_callback(GtkWidget *widget, gpointer user_data)
 {
     gint response_id = GPOINTER_TO_INT(user_data);
 
-    g_print("[debug] %s(): response id: %d\n", __func__, response_id);
-
+#ifdef HAVE_DEBUG_GTK3UI
+    g_print("[debug-gtk3ui] %s(): response id: %d\n", __func__, response_id);
+#endif
     /* the GTK_RESPONSE_DELETE_EVENT is sent when the user clicks 'Close', but
      * also when the user clicks the 'X' */
     if (response_id == GTK_RESPONSE_DELETE_EVENT) {
-        g_print("[debug %s(): CLOSE button clicked\n", __func__);
+#ifdef HAVE_DEBUG_GTK3UI
+        g_print("[debug-gtk3ui] %s(): CLOSE button clicked\n", __func__);
+#endif
         gtk_widget_destroy(widget);
     }
 }
@@ -190,6 +183,10 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     GdkPixbuf *logo = get_vice_logo();
     GtkWidget *window;
 
+#ifdef HAVE_DEBUG_GTK3UI
+    g_print("[debug-gtk3ui] %s() called\n", __func__);
+#endif
+
     /* get toplevel window, Gtk doesn't like dialogs without parents */
     window = gtk_widget_get_toplevel(widget);
     /* if no toplevel is found, the widget itself is returned, we don't want
@@ -198,11 +195,10 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
         gtk_window_set_transient_for(GTK_WINDOW(about), GTK_WINDOW(window));
     }
 
+    /* generate team members list */
     authors = create_current_team_list();
 
-    g_print("[debug] %s() called\n", __func__);
-
-
+    /* set window title */
     gtk_window_set_title(GTK_WINDOW(about), "About VICE");
 
     /* set version string */
@@ -214,8 +210,8 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 #endif
             );
 
-    /* set license text */
-    gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(about), info_license_text);
+    /* set license */
+    gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
     /* set website link and title */
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about),
             "http://vice.pokefinder.org");
@@ -230,10 +226,17 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* set logo. XXX: find proper logo */
     gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
 
+    /*
+     * hook up event handlers
+     */
 
+    /* destroy callback, called when the dialog is closed through the 'X',
+     * but NOT when clicking 'Close' */
     g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback),
             (gpointer)logo);
 
+    /* set up a generic handler for various buttons, this makes sure the
+     * 'Close' button is handled properly */
     g_signal_connect(about, "response", G_CALLBACK(about_response_callback),
             NULL);
 
