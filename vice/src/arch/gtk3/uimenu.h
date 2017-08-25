@@ -60,6 +60,7 @@ typedef struct ui_menu_item_s {
      */
 
     void (*callback)(GtkWidget *widget, gpointer user_data);
+    void *data;
 } ui_menu_item_t;
 
 

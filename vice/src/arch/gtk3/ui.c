@@ -74,15 +74,15 @@ enum {
  */
 static ui_menu_item_t file_menu[] = {
     { "_Quit", UI_MENU_TYPE_ITEM_ACTION,
-        ui_window_destroy_callback },
-    { NULL, -1, NULL },
+        ui_window_destroy_callback, NULL },
+    { NULL, -1, NULL, NULL },
 };
 
 
 static ui_menu_item_t help_menu[] = {
     { "_About", UI_MENU_TYPE_ITEM_ACTION,
-        ui_about_dialog_callback },
-    { NULL, -1, NULL }
+        ui_about_dialog_callback, NULL },
+    { NULL, -1, NULL, NULL }
 };
 
 

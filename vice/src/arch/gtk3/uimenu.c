@@ -199,7 +199,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
         /* TODO: handle other types than 'action' */
         if (items[i].callback != NULL) {
             g_signal_connect(item, "activate", G_CALLBACK(items[i].callback),
-                    NULL);
+                    (gpointer)(items[i].data));
         }
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         i++;
@@ -217,5 +217,3 @@ GtkWidget *ui_menu_help_add(ui_menu_item_t *items)
 {
     return ui_menu_add(help_submenu, items);
 }
-
-
