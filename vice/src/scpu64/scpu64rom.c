@@ -41,7 +41,7 @@
 
 static log_t scpu64rom_log = LOG_ERR;
 
-BYTE scpu64rom_scpu64_rom[SCPU64_SCPU64_ROM_MAXSIZE];
+uint8_t scpu64rom_scpu64_rom[SCPU64_SCPU64_ROM_MAXSIZE];
 
 /* Flag: nonzero if the ROMs have been loaded.  */
 static int rom_loaded = 0;

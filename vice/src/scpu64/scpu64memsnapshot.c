@@ -114,7 +114,7 @@ fail:
 
 static int scpu64_snapshot_read_rom_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int trapfl;
 
@@ -174,17 +174,17 @@ int scpu64_snapshot_write_module(snapshot_t *s, int save_roms)
         return -1;
     }
 
-    if (SMW_B(m, (BYTE)mem_pport) < 0
-        || SMW_B(m, (BYTE)mem_reg_soft_1mhz) < 0
-        || SMW_B(m, (BYTE)mem_reg_sys_1mhz) < 0
-        || SMW_B(m, (BYTE)mem_reg_hwenable) < 0
-        || SMW_B(m, (BYTE)mem_reg_dosext) < 0
-        || SMW_B(m, (BYTE)mem_reg_ramlink) < 0
-        || SMW_B(m, (BYTE)mem_reg_optim) < 0
-        || SMW_B(m, (BYTE)mem_reg_bootmap) < 0
-        || SMW_B(m, (BYTE)mem_reg_simm) < 0
-        || SMW_B(m, (BYTE)export.exrom) < 0
-        || SMW_B(m, (BYTE)export.game) < 0
+    if (SMW_B(m, (uint8_t)mem_pport) < 0
+        || SMW_B(m, (uint8_t)mem_reg_soft_1mhz) < 0
+        || SMW_B(m, (uint8_t)mem_reg_sys_1mhz) < 0
+        || SMW_B(m, (uint8_t)mem_reg_hwenable) < 0
+        || SMW_B(m, (uint8_t)mem_reg_dosext) < 0
+        || SMW_B(m, (uint8_t)mem_reg_ramlink) < 0
+        || SMW_B(m, (uint8_t)mem_reg_optim) < 0
+        || SMW_B(m, (uint8_t)mem_reg_bootmap) < 0
+        || SMW_B(m, (uint8_t)mem_reg_simm) < 0
+        || SMW_B(m, (uint8_t)export.exrom) < 0
+        || SMW_B(m, (uint8_t)export.game) < 0
         || scpu64_snapshot_write_cpu_state(m)
         || SMW_DW(m, mem_simm_ram_mask) < 0
         || SMW_BA(m, mem_ram, SCPU64_RAM_SIZE) < 0
@@ -217,7 +217,7 @@ fail:
 
 int scpu64_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     unsigned int simm_mask;
     int trapfl;

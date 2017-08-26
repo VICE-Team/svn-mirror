@@ -174,9 +174,9 @@ int scpu64_glue_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_B(m, (BYTE)glue_logic_type) < 0
-        || SMW_B(m, (BYTE)old_vbank) < 0
-        || SMW_B(m, (BYTE)glue_alarm_active) < 0) {
+        || SMW_B(m, (uint8_t)glue_logic_type) < 0
+        || SMW_B(m, (uint8_t)old_vbank) < 0
+        || SMW_B(m, (uint8_t)glue_alarm_active) < 0) {
         goto fail;
     }
 
@@ -191,7 +191,7 @@ fail:
 
 int scpu64_glue_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     int snap_type, snap_alarm_active;
     snapshot_module_t *m;
 

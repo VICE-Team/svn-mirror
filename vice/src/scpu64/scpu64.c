@@ -1173,12 +1173,12 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
     return diskcontents_iec_read(unit);
 }
 
-BYTE machine_tape_type_default(void)
+uint8_t machine_tape_type_default(void)
 {
     return 0;
 }
 
-BYTE machine_tape_behaviour(void)
+uint8_t machine_tape_behaviour(void)
 {
     return 0;
 }
@@ -1215,7 +1215,7 @@ const char *machine_get_name(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void scpu64_userport_set_flag(BYTE b)
+static void scpu64_userport_set_flag(uint8_t b)
 {
     if (b != 0) {
         ciacore_set_flag(machine_context.cia2);
