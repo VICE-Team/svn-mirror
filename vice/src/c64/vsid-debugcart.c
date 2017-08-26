@@ -40,7 +40,7 @@ static int debugcart_enabled = 0;
 
 /* ------------------------------------------------------------------------- */
 
-void debugcart_store(WORD addr, BYTE value)
+void debugcart_store(uint16_t addr, uint8_t value)
 {
     int n = (int)value;
     if ((debugcart_enabled) && (addr == 0xd7ff)) {

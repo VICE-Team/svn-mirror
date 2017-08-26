@@ -171,7 +171,7 @@ static struct kernal_s kernal_match[] = {
 
 static int set_kernal_revision(const char *param, void *extra_param)
 {
-    WORD sum;                   /* ROM checksum */
+    uint16_t sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
     int rev = C64_KERNAL_UNKNOWN;
     int i = 0;

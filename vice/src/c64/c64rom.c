@@ -51,10 +51,10 @@ int c64rom_isloaded(void)
     return rom_loaded;
 }
 
-int c64rom_get_kernal_chksum_id(WORD *sumout, int *idout)
+int c64rom_get_kernal_chksum_id(uint16_t *sumout, int *idout)
 {
     int i;
-    WORD sum;                   /* ROM checksum */
+    uint16_t sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
 
     /* Check Kernal ROM.  */
@@ -87,7 +87,7 @@ int c64rom_get_kernal_chksum_id(WORD *sumout, int *idout)
           unknown kernals, like the respective vic-20 functions */
 int c64rom_get_kernal_checksum(void)
 {
-    WORD sum;                   /* ROM checksum */
+    uint16_t sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
 
     if (c64rom_get_kernal_chksum_id(&sum, &id) < 0) {
@@ -105,10 +105,10 @@ int c64rom_cartkernal_active = 0;
 /* the extra parameter cartkernal is used to replace the kernal
    with a cartridge kernal rom image, if it is NULL normal kernal
    is used */
-int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
+int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
 {
     int trapfl, rev;
-    WORD sum;                   /* ROM checksum */
+    uint16_t sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
 
     if (!rom_loaded) {
@@ -167,7 +167,7 @@ int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
 int c64rom_get_basic_checksum(void)
 {
     int i;
-    WORD sum;
+    uint16_t sum;
 
     /* Check Basic ROM.  */
 

@@ -60,7 +60,7 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)), machine_get_name());
+    s = snapshot_create(name, ((uint8_t)(SNAP_MAJOR)), ((uint8_t)(SNAP_MINOR)), machine_get_name());
     if (s == NULL) {
         return -1;
     }
@@ -97,7 +97,7 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
 int c64_snapshot_read(const char *name, int event_mode)
 {
     snapshot_t *s;
-    BYTE minor, major;
+    uint8_t minor, major;
 
     s = snapshot_open(name, &major, &minor, machine_get_name());
     if (s == NULL) {

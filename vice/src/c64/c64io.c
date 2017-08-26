@@ -103,7 +103,7 @@ static void io_source_detach(io_source_detach_t *source)
 /*
     amount is 2 or more
 */
-static void io_source_msg_detach_all(WORD addr, int amount, io_source_list_t *start)
+static void io_source_msg_detach_all(uint16_t addr, int amount, io_source_list_t *start)
 {
     io_source_detach_t *detach_list = lib_malloc(sizeof(io_source_detach_t) * amount);
     io_source_list_t *current = start;
@@ -169,7 +169,7 @@ static void io_source_msg_detach_all(WORD addr, int amount, io_source_list_t *st
 /*
     amount is 2 or more
 */
-static void io_source_msg_detach_last(WORD addr, int amount, io_source_list_t *start, unsigned int lowest)
+static void io_source_msg_detach_last(uint16_t addr, int amount, io_source_list_t *start, unsigned int lowest)
 {
     io_source_detach_t *detach_list = lib_malloc(sizeof(io_source_detach_t) * amount);
     io_source_list_t *current = start;
@@ -243,7 +243,7 @@ static void io_source_msg_detach_last(WORD addr, int amount, io_source_list_t *s
 /*
     amount is 2 or more
 */
-static void io_source_log_collisions(WORD addr, int amount, io_source_list_t *start)
+static void io_source_log_collisions(uint16_t addr, int amount, io_source_list_t *start)
 {
     io_source_list_t *current = start;
     char *old_msg = NULL;
@@ -292,14 +292,14 @@ static void io_source_log_collisions(WORD addr, int amount, io_source_list_t *st
     }
 }
 
-static inline BYTE io_read(io_source_list_t *list, WORD addr)
+static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
 {
     io_source_list_t *current = list->next;
     int io_source_counter = 0;
     int io_source_valid = 0;
-    BYTE realval = 0;
-    BYTE retval = 0;
-    BYTE firstval = 0;
+    uint8_t realval = 0;
+    uint8_t retval = 0;
+    uint8_t firstval = 0;
     unsigned int lowest_order = 0xffffffff;
 
     vicii_handle_pending_alarms_external(0);
@@ -307,7 +307,7 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
     while (current) {
         if (current->device->read != NULL) {
             if ((addr >= current->device->start_address) && (addr <= current->device->end_address)) {
-                retval = current->device->read((WORD)(addr & current->device->address_mask));
+                retval = current->device->read((uint16_t)(addr & current->device->address_mask));
                 if (current->device->io_source_valid) {
                     /* high prio always overrides others, return immediatly */
                     if (current->device->io_source_prio == IO_PRIO_HIGH) {
@@ -372,16 +372,16 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
 }
 
 /* peek from I/O area with no side-effects */
-static inline BYTE io_peek(io_source_list_t *list, WORD addr)
+static inline uint8_t io_peek(io_source_list_t *list, uint16_t addr)
 {
     io_source_list_t *current = list->next;
 
     while (current) {
         if (addr >= current->device->start_address && addr <= current->device->end_address) {
             if (current->device->peek) {
-                return current->device->peek((WORD)(addr & current->device->address_mask));
+                return current->device->peek((uint16_t)(addr & current->device->address_mask));
             } else if (current->device->read) {
-                return current->device->read((WORD)(addr & current->device->address_mask));
+                return current->device->read((uint16_t)(addr & current->device->address_mask));
             }
         }
         current = current->next;
@@ -390,12 +390,12 @@ static inline BYTE io_peek(io_source_list_t *list, WORD addr)
     return vicii_read_phi1();
 }
 
-static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
+static inline void io_store(io_source_list_t *list, uint16_t addr, uint8_t value)
 {
     int writes = 0;
-    WORD addy = 0xffff;
+    uint16_t addy = 0xffff;
     io_source_list_t *current = list->next;
-    void (*store)(WORD address, BYTE data) = NULL;
+    void (*store)(uint16_t address, uint8_t data) = NULL;
 
     vicii_handle_pending_alarms_external_write();
 
@@ -404,10 +404,10 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
                 /* delay mirror writes, ensuring real device writes in mirror area */
                 if (current->device->io_source_prio != IO_PRIO_LOW) {
-                    current->device->store((WORD)(addr & current->device->address_mask), value);
+                    current->device->store((uint16_t)(addr & current->device->address_mask), value);
                     writes++;
                 } else {
-                    addy = (WORD)(addr & current->device->address_mask);
+                    addy = (uint16_t)(addr & current->device->address_mask);
                     store = current->device->store;
                 }
             }
@@ -570,181 +570,181 @@ void cartio_set_highest_order(unsigned int nr)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-BYTE c64io_d000_read(WORD addr)
+uint8_t c64io_d000_read(uint16_t addr)
 {
     DBGRW(("IO: io-d000 r %04x\n", addr));
     return io_read(&c64io_d000_head, addr);
 }
 
-BYTE c64io_d000_peek(WORD addr)
+uint8_t c64io_d000_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d000 p %04x\n", addr));
     return io_peek(&c64io_d000_head, addr);
 }
 
-void c64io_d000_store(WORD addr, BYTE value)
+void c64io_d000_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d000 w %04x %02x\n", addr, value));
     io_store(&c64io_d000_head, addr, value);
 }
 
-BYTE c64io_d100_read(WORD addr)
+uint8_t c64io_d100_read(uint16_t addr)
 {
     DBGRW(("IO: io-d100 r %04x\n", addr));
     return io_read(&c64io_d100_head, addr);
 }
 
-BYTE c64io_d100_peek(WORD addr)
+uint8_t c64io_d100_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d100 p %04x\n", addr));
     return io_peek(&c64io_d100_head, addr);
 }
 
-void c64io_d100_store(WORD addr, BYTE value)
+void c64io_d100_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d100 w %04x %02x\n", addr, value));
     io_store(&c64io_d100_head, addr, value);
 }
 
-BYTE c64io_d200_read(WORD addr)
+uint8_t c64io_d200_read(uint16_t addr)
 {
     DBGRW(("IO: io-d200 r %04x\n", addr));
     return io_read(&c64io_d200_head, addr);
 }
 
-BYTE c64io_d200_peek(WORD addr)
+uint8_t c64io_d200_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d200 p %04x\n", addr));
     return io_peek(&c64io_d200_head, addr);
 }
 
-void c64io_d200_store(WORD addr, BYTE value)
+void c64io_d200_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d200 w %04x %02x\n", addr, value));
     io_store(&c64io_d200_head, addr, value);
 }
 
-BYTE c64io_d300_read(WORD addr)
+uint8_t c64io_d300_read(uint16_t addr)
 {
     DBGRW(("IO: io-d300 r %04x\n", addr));
     return io_read(&c64io_d300_head, addr);
 }
 
-BYTE c64io_d300_peek(WORD addr)
+uint8_t c64io_d300_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d300 p %04x\n", addr));
     return io_peek(&c64io_d300_head, addr);
 }
 
-void c64io_d300_store(WORD addr, BYTE value)
+void c64io_d300_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d300 w %04x %02x\n", addr, value));
     io_store(&c64io_d300_head, addr, value);
 }
 
-BYTE c64io_d400_read(WORD addr)
+uint8_t c64io_d400_read(uint16_t addr)
 {
     DBGRW(("IO: io-d400 r %04x\n", addr));
     return io_read(&c64io_d400_head, addr);
 }
 
-BYTE c64io_d400_peek(WORD addr)
+uint8_t c64io_d400_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d400 p %04x\n", addr));
     return io_peek(&c64io_d400_head, addr);
 }
 
-void c64io_d400_store(WORD addr, BYTE value)
+void c64io_d400_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d400 w %04x %02x\n", addr, value));
     io_store(&c64io_d400_head, addr, value);
 }
 
-BYTE c64io_d500_read(WORD addr)
+uint8_t c64io_d500_read(uint16_t addr)
 {
     DBGRW(("IO: io-d500 r %04x\n", addr));
     return io_read(&c64io_d500_head, addr);
 }
 
-BYTE c64io_d500_peek(WORD addr)
+uint8_t c64io_d500_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d500 p %04x\n", addr));
     return io_peek(&c64io_d500_head, addr);
 }
 
-void c64io_d500_store(WORD addr, BYTE value)
+void c64io_d500_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d500 w %04x %02x\n", addr, value));
     io_store(&c64io_d500_head, addr, value);
 }
 
-BYTE c64io_d600_read(WORD addr)
+uint8_t c64io_d600_read(uint16_t addr)
 {
     DBGRW(("IO: io-d600 r %04x\n", addr));
     return io_read(&c64io_d600_head, addr);
 }
 
-BYTE c64io_d600_peek(WORD addr)
+uint8_t c64io_d600_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d600 p %04x\n", addr));
     return io_peek(&c64io_d600_head, addr);
 }
 
-void c64io_d600_store(WORD addr, BYTE value)
+void c64io_d600_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d600 w %04x %02x\n", addr, value));
     io_store(&c64io_d600_head, addr, value);
 }
 
-BYTE c64io_d700_read(WORD addr)
+uint8_t c64io_d700_read(uint16_t addr)
 {
     DBGRW(("IO: io-d700 r %04x\n", addr));
     return io_read(&c64io_d700_head, addr);
 }
 
-BYTE c64io_d700_peek(WORD addr)
+uint8_t c64io_d700_peek(uint16_t addr)
 {
     DBGRW(("IO: io-d700 p %04x\n", addr));
     return io_peek(&c64io_d700_head, addr);
 }
 
-void c64io_d700_store(WORD addr, BYTE value)
+void c64io_d700_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-d700 w %04x %02x\n", addr, value));
     io_store(&c64io_d700_head, addr, value);
 }
 
-BYTE c64io_de00_read(WORD addr)
+uint8_t c64io_de00_read(uint16_t addr)
 {
     DBGRW(("IO: io-de00 r %04x\n", addr));
     return io_read(&c64io_de00_head, addr);
 }
 
-BYTE c64io_de00_peek(WORD addr)
+uint8_t c64io_de00_peek(uint16_t addr)
 {
     DBGRW(("IO: io-de00 p %04x\n", addr));
     return io_peek(&c64io_de00_head, addr);
 }
 
-void c64io_de00_store(WORD addr, BYTE value)
+void c64io_de00_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-de00 w %04x %02x\n", addr, value));
     io_store(&c64io_de00_head, addr, value);
 }
 
-BYTE c64io_df00_read(WORD addr)
+uint8_t c64io_df00_read(uint16_t addr)
 {
     DBGRW(("IO: io-df00 r %04x\n", addr));
     return io_read(&c64io_df00_head, addr);
 }
 
-BYTE c64io_df00_peek(WORD addr)
+uint8_t c64io_df00_peek(uint16_t addr)
 {
     DBGRW(("IO: io-df00 p %04x\n", addr));
     return io_peek(&c64io_df00_head, addr);
 }
 
-void c64io_df00_store(WORD addr, BYTE value)
+void c64io_df00_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io-df00 w %04x %02x\n", addr, value));
     io_store(&c64io_df00_head, addr, value);
@@ -754,7 +754,7 @@ void c64io_df00_store(WORD addr, BYTE value)
 
 static void io_source_ioreg_add_onelist(struct mem_ioreg_list_s **mem_ioreg_list, io_source_list_t *current)
 {
-    WORD end;
+    uint16_t end;
 
     while (current) {
         end = current->device->end_address;

@@ -460,10 +460,10 @@ static const unsigned short patch_bytes[] = {
 
 int patch_rom_idx(int rev)
 {
-    WORD sum;                   /* ROM checksum */
+    uint16_t sum;                   /* ROM checksum */
     int curr, num;
     short bytes, n, i = 0;
-    WORD a;
+    uint16_t a;
 
     if (c64rom_get_kernal_chksum_id(&sum, &curr) < 0) {
         log_error(LOG_DEFAULT, "ROM not patched: Unknown Kernal image.  ID: %d ($%02X) Sum: %d ($%04X).", curr, curr, sum, sum);
@@ -509,13 +509,13 @@ int patch_rom_idx(int rev)
 
     i = 0;
     while ((bytes = patch_bytes[i++]) > 0) {
-        a = (WORD)patch_bytes[i++];
+        a = (uint16_t)patch_bytes[i++];
 
         log_verbose("  %.4X (%d byte%s)", a & 0xFFFF, bytes, ((bytes > 1) ? "s" : ""));
 
         i += (bytes * rev);     /* select patch */
         for (n = bytes; n--; ) {
-            c64memrom_rom64_store(a++, (BYTE)patch_bytes[i++]);
+            c64memrom_rom64_store(a++, (uint8_t)patch_bytes[i++]);
         }
 
         i += (bytes * (PATCH_VERSIONS - rev));  /* skip patch */

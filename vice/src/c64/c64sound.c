@@ -37,22 +37,22 @@
 #include "sound.h"
 #include "types.h"
 
-static BYTE machine_sid2_read(WORD addr)
+static uint8_t machine_sid2_read(uint16_t addr)
 {
     return sid2_read(addr);
 }
 
-static void machine_sid2_store(WORD addr, BYTE byte)
+static void machine_sid2_store(uint16_t addr, uint8_t byte)
 {
     sid2_store(addr, byte);
 }
 
-static BYTE machine_sid3_read(WORD addr)
+static uint8_t machine_sid3_read(uint16_t addr)
 {
     return sid3_read(addr);
 }
 
-static void machine_sid3_store(WORD addr, BYTE byte)
+static void machine_sid3_store(uint16_t addr, uint8_t byte)
 {
     sid3_store(addr, byte);
 }
@@ -107,7 +107,7 @@ static sound_chip_t sid_sound_chip = {
     1 /* chip enabled */
 };
 
-static WORD sid_sound_chip_offset = 0;
+static uint16_t sid_sound_chip_offset = 0;
 
 void sid_sound_chip_init(void)
 {

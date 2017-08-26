@@ -52,7 +52,7 @@
 #include "vicii-mem.h"
 
 /* PLUS256K registers */
-static BYTE plus256k_reg = 0;
+static uint8_t plus256k_reg = 0;
 
 static log_t plus256k_log = LOG_ERR;
 
@@ -69,16 +69,16 @@ static int plus256k_protected = 0;
 /* Filename of the +256K image.  */
 static char *plus256k_filename = NULL;
 
-BYTE *plus256k_ram = NULL;
+uint8_t *plus256k_ram = NULL;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE plus256k_peek(WORD addr)
+static uint8_t plus256k_peek(uint16_t addr)
 {
     return plus256k_reg;
 }
 
-static BYTE plus256k_ff_read(WORD addr)
+static uint8_t plus256k_ff_read(uint16_t addr)
 {
     return 0xff;
 }
@@ -92,7 +92,7 @@ static int plus256k_dump(void)
     return 0;
 }
 
-static void plus256k_vicii_store(WORD addr, BYTE value)
+static void plus256k_vicii_store(uint16_t addr, uint8_t value)
 {
     int new_bank;
 
@@ -306,12 +306,12 @@ void plus256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-void plus256k_ram_low_store(WORD addr, BYTE value)
+void plus256k_ram_low_store(uint16_t addr, uint8_t value)
 {
     plus256k_ram[(plus256k_low_bank << 16) + addr] = value;
 }
 
-void plus256k_ram_high_store(WORD addr, BYTE value)
+void plus256k_ram_high_store(uint16_t addr, uint8_t value)
 {
     plus256k_ram[(plus256k_high_bank << 16) + addr] = value;
     if (addr == 0xff00) {
@@ -319,12 +319,12 @@ void plus256k_ram_high_store(WORD addr, BYTE value)
     }
 }
 
-BYTE plus256k_ram_low_read(WORD addr)
+uint8_t plus256k_ram_low_read(uint16_t addr)
 {
     return plus256k_ram[(plus256k_low_bank << 16) + addr];
 }
 
-BYTE plus256k_ram_high_read(WORD addr)
+uint8_t plus256k_ram_high_read(uint16_t addr)
 {
     return plus256k_ram[(plus256k_high_bank * 0x10000) + addr];
 }
@@ -361,10 +361,10 @@ int plus256k_snapshot_write(struct snapshot_s *s)
 
     if (0
         || SMW_B (m, plus256k_reg) < 0
-        || SMW_B (m, (BYTE)plus256k_video_bank) < 0
-        || SMW_B (m, (BYTE)plus256k_low_bank) < 0
-        || SMW_B (m, (BYTE)plus256k_high_bank) < 0
-        || SMW_B (m, (BYTE)plus256k_protected) < 0
+        || SMW_B (m, (uint8_t)plus256k_video_bank) < 0
+        || SMW_B (m, (uint8_t)plus256k_low_bank) < 0
+        || SMW_B (m, (uint8_t)plus256k_high_bank) < 0
+        || SMW_B (m, (uint8_t)plus256k_protected) < 0
         || SMW_BA(m, plus256k_ram, 0x40000) < 0) {
         snapshot_module_close(m);
         return -1;
@@ -376,7 +376,7 @@ int plus256k_snapshot_write(struct snapshot_s *s)
 int plus256k_snapshot_read(struct snapshot_s *s)
 {
     snapshot_module_t *m;
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 

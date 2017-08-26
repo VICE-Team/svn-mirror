@@ -110,19 +110,19 @@ void machine_drive_stub(void)
 export_t export = { 0, 0, 0, 0 }; /* c64 export */
 
 /* the following two are used by the old non cycle exact vic-ii emulation */
-static BYTE mem_phi[0x1000];
+static uint8_t mem_phi[0x1000];
 
 int cartridge_attach_image(int type, const char *filename)
 {
     return -1;
-} 
+}
 
-BYTE *ultimax_romh_phi1_ptr(WORD addr)
+uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
 {
     return mem_phi;
 }
 
-BYTE *ultimax_romh_phi2_ptr(WORD addr)
+uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
 {
     return mem_phi;
 }
@@ -212,7 +212,7 @@ void ds1216e_destroy(rtc_ds1216e_t *context, int save)
 {
 }
 
-BYTE ds1216e_read(rtc_ds1216e_t *context, WORD address, BYTE origbyte)
+uint8_t ds1216e_read(rtc_ds1216e_t *context, uint16_t address, uint8_t origbyte)
 {
     return 0;
 }
@@ -226,7 +226,7 @@ void ds1202_1302_set_lines(rtc_ds1202_1302_t *context, unsigned int ce_line, uns
 {
 }
 
-BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
+uint8_t ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
 {
     return 1;
 }
@@ -304,7 +304,7 @@ int tape_snapshot_read_module(snapshot_t *s)
     return 0;
 }
 
-int tape_read(tape_image_t *tape_image, BYTE *buf, size_t size)
+int tape_read(tape_image_t *tape_image, uint8_t *buf, size_t size)
 {
     return 0;
 }
@@ -339,7 +339,7 @@ int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
     return 0;
 }
 
-void tape_get_header(tape_image_t *tape_image, BYTE *name)
+void tape_get_header(tape_image_t *tape_image, uint8_t *name)
 {
 }
 
@@ -424,7 +424,7 @@ fileio_info_t *fileio_open(const char *file_name, const char *path, unsigned int
     return NULL;
 }
 
-unsigned int fileio_read(fileio_info_t *info, BYTE *buf, unsigned int len)
+unsigned int fileio_read(fileio_info_t *info, uint8_t *buf, unsigned int len)
 {
     return 0;
 }
@@ -439,7 +439,7 @@ unsigned int fileio_ferror(fileio_info_t *info)
     return 0;
 }
 
-unsigned int fileio_write(fileio_info_t *info, BYTE *buf, unsigned int len)
+unsigned int fileio_write(fileio_info_t *info, uint8_t *buf, unsigned int len)
 {
     return 0;
 }
@@ -530,12 +530,12 @@ int disk_image_fsimage_create(const char *name, unsigned int type)
     return 0;
 }
 
-int disk_image_write_sector(disk_image_t *image, const BYTE *buf, const disk_addr_t *dadr)
+int disk_image_write_sector(disk_image_t *image, const uint8_t *buf, const disk_addr_t *dadr)
 {
     return 0;
 }
 
-int disk_image_read_sector(const disk_image_t *image, BYTE *buf, const disk_addr_t *dadr)
+int disk_image_read_sector(const disk_image_t *image, uint8_t *buf, const disk_addr_t *dadr)
 {
     return 0;
 }
@@ -585,17 +585,17 @@ void P64ImageDestroy(PP64Image Instance)
     c64bus
 *******************************************************************************/
 
-int machine_bus_lib_directory(unsigned int unit, const char *pattern, BYTE **buf)
+int machine_bus_lib_directory(unsigned int unit, const char *pattern, uint8_t **buf)
 {
     return 0;
 }
 
-int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf)
 {
     return 0;
 }
 
-int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, uint8_t *buf)
 {
     return 0;
 }
@@ -640,12 +640,12 @@ void iecbus_status_set(unsigned int type, unsigned int unit, unsigned int enable
 {
 }
 
-int iecbus_device_write(unsigned int unit, BYTE data)
+int iecbus_device_write(unsigned int unit, uint8_t data)
 {
     return 0;
 }
 
-BYTE iecbus_device_read(void)
+uint8_t iecbus_device_read(void)
 {
     return 0;
 }
@@ -682,11 +682,11 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
     return 0;
 }
 
-void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer, struct drive_context_s *drv)
+void drive_set_last_read(unsigned int track, unsigned int sector, uint8_t *buffer, struct drive_context_s *drv)
 {
 }
 
-void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector, struct drive_context_s *drv)
+void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector, struct drive_context_s *drv)
 {
 }
 
@@ -750,12 +750,12 @@ int vdrive_iec_attach(unsigned int unit, const char *name)
     return 0;
 }
 
-int vdrive_bam_get_disk_id(unsigned int unit, BYTE *id)
+int vdrive_bam_get_disk_id(unsigned int unit, uint8_t *id)
 {
     return 0;
 }
 
-int vdrive_bam_set_disk_id(unsigned int unit, BYTE *id)
+int vdrive_bam_set_disk_id(unsigned int unit, uint8_t *id)
 {
     return 0;
 }
@@ -769,7 +769,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit, vdrive_t *vdrive
     return 0;
 }
 
-void vdrive_get_last_read(unsigned int *track, unsigned int *sector, BYTE **buffer)
+void vdrive_get_last_read(unsigned int *track, unsigned int *sector, uint8_t **buffer)
 {
 }
 
@@ -783,32 +783,32 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
     return 0;
 }
 
-int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
+int vdrive_iec_write(vdrive_t *vdrive, uint8_t data, unsigned int secondary)
 {
     return 0;
 }
 
-int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length, unsigned int secondary, cbmdos_cmd_parse_t *cmd_parse_ext)
+int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length, unsigned int secondary, cbmdos_cmd_parse_t *cmd_parse_ext)
 {
     return 0;
 }
 
-int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
+int vdrive_iec_read(vdrive_t *vdrive, uint8_t *data, unsigned int secondary)
 {
     return 0;
 }
 
-int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf, unsigned int length)
+int vdrive_command_execute(vdrive_t *vdrive, const uint8_t *buf, unsigned int length)
 {
     return 0;
 }
 
-int vdrive_write_sector(vdrive_t *vdrive, const BYTE *buf, unsigned int track, unsigned int sector)
+int vdrive_write_sector(vdrive_t *vdrive, const uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return 0;
 }
 
-int vdrive_read_sector(vdrive_t *vdrive, BYTE *buf, unsigned int track, unsigned int sector)
+int vdrive_read_sector(vdrive_t *vdrive, uint8_t *buf, unsigned int track, unsigned int sector)
 {
     return 0;
 }

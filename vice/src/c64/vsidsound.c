@@ -52,7 +52,7 @@ static sound_chip_t sid_sound_chip = {
     1 /* chip enabled */
 };
 
-static WORD sid_sound_chip_offset = 0;
+static uint16_t sid_sound_chip_offset = 0;
 
 void sid_sound_chip_init(void)
 {

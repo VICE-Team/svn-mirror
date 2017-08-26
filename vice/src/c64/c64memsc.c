@@ -81,32 +81,32 @@ int machine_class = VICE_MACHINE_C64SC;
 #define NUM_VBANKS      4
 
 /* The C64 memory.  */
-BYTE mem_ram[C64_RAM_SIZE];
+uint8_t mem_ram[C64_RAM_SIZE];
 
 #ifdef USE_EMBEDDED
 #include "c64chargen.h"
 #else
-BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
+uint8_t mem_chargen_rom[C64_CHARGEN_ROM_SIZE];
 #endif
 
 /* Internal color memory.  */
-static BYTE mem_color_ram[0x400];
-BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
+static uint8_t mem_color_ram[0x400];
+uint8_t *mem_color_ram_cpu, *mem_color_ram_vicii;
 
 /* Pointer to the chargen ROM.  */
-BYTE *mem_chargen_rom_ptr;
+uint8_t *mem_chargen_rom_ptr;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
-static BYTE **_mem_read_base_tab_ptr;
-static DWORD *mem_read_limit_tab_ptr;
+static uint8_t **_mem_read_base_tab_ptr;
+static uint32_t *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
-static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
-static DWORD mem_read_limit_tab[NUM_CONFIGS][0x101];
+static uint8_t *mem_read_base_tab[NUM_CONFIGS][0x101];
+static uint32_t mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -128,27 +128,27 @@ static int watchpoints_active;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE zero_read_watch(WORD addr)
+static uint8_t zero_read_watch(uint16_t addr)
 {
     addr &= 0xff;
     monitor_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][0](addr);
 }
 
-static void zero_store_watch(WORD addr, BYTE value)
+static void zero_store_watch(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][0](addr, value);
 }
 
-static BYTE read_watch(WORD addr)
+static uint8_t read_watch(uint16_t addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-static void store_watch(WORD addr, BYTE value)
+static void store_watch(uint16_t addr, uint8_t value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][addr >> 8](addr, value);
@@ -234,13 +234,13 @@ void mem_pla_config_changed(void)
     maincpu_resync_limits();
 }
 
-BYTE zero_read(WORD addr)
+uint8_t zero_read(uint16_t addr)
 {
-    BYTE retval;
+    uint8_t retval;
 
     addr &= 0xff;
 
-    switch ((BYTE)addr) {
+    switch ((uint8_t)addr) {
         case 0:
             /* printf("zero_read %02x %02x: ddr:%02x data:%02x (rd: ddr:%02x data:%02x)\n", addr, pport.dir_read, pport.dir, pport.data, pport.dir_read, pport.data_read); */
             return pport.dir_read;
@@ -289,19 +289,19 @@ BYTE zero_read(WORD addr)
     }
 }
 
-void zero_store(WORD addr, BYTE value)
+void zero_store(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
 
-    switch ((BYTE)addr) {
+    switch ((uint8_t)addr) {
         case 0:
             /* printf("zero_store %02x %02x: ddr:%02x data:%02x\n", addr, value, pport.dir, pport.data); */
             if (vbank == 0) {
                 if (c64_256k_enabled) {
-                    c64_256k_ram_segment0_store((WORD)0, vicii_read_phi1());
+                    c64_256k_ram_segment0_store((uint16_t)0, vicii_read_phi1());
                 } else {
                     if (plus256k_enabled) {
-                        plus256k_ram_low_store((WORD)0, vicii_read_phi1());
+                        plus256k_ram_low_store((uint16_t)0, vicii_read_phi1());
                     } else {
                         mem_ram[0] = vicii_read_phi1();
                     }
@@ -341,10 +341,10 @@ void zero_store(WORD addr, BYTE value)
             /* printf("zero_store %02x %02x: ddr:%02x data:%02x\n", addr, value, pport.dir, pport.data); */
             if (vbank == 0) {
                 if (c64_256k_enabled) {
-                    c64_256k_ram_segment0_store((WORD)1, vicii_read_phi1());
+                    c64_256k_ram_segment0_store((uint16_t)1, vicii_read_phi1());
                 } else {
                     if (plus256k_enabled) {
-                        plus256k_ram_low_store((WORD)1, vicii_read_phi1());
+                        plus256k_ram_low_store((uint16_t)1, vicii_read_phi1());
                     } else {
                         mem_ram[1] = vicii_read_phi1();
                     }
@@ -392,27 +392,27 @@ void zero_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE chargen_read(WORD addr)
+uint8_t chargen_read(uint16_t addr)
 {
     return mem_chargen_rom[addr & 0xfff];
 }
 
-void chargen_store(WORD addr, BYTE value)
+void chargen_store(uint16_t addr, uint8_t value)
 {
     mem_chargen_rom[addr & 0xfff] = value;
 }
 
-BYTE ram_read(WORD addr)
+uint8_t ram_read(uint16_t addr)
 {
     return mem_ram[addr];
 }
 
-void ram_store(WORD addr, BYTE value)
+void ram_store(uint16_t addr, uint8_t value)
 {
     mem_ram[addr] = value;
 }
 
-void ram_hi_store(WORD addr, BYTE value)
+void ram_hi_store(uint16_t addr, uint8_t value)
 {
     mem_ram[addr] = value;
 
@@ -422,12 +422,12 @@ void ram_hi_store(WORD addr, BYTE value)
 }
 
 /* unconnected memory space */
-static BYTE void_read(WORD addr)
+static uint8_t void_read(uint16_t addr)
 {
     return vicii_read_phi1();
 }
 
-static void void_store(WORD addr, BYTE value)
+static void void_store(uint16_t addr, uint8_t value)
 {
     return;
 }
@@ -436,27 +436,27 @@ static void void_store(WORD addr, BYTE value)
 
 /* Generic memory access.  */
 
-void mem_store(WORD addr, BYTE value)
+void mem_store(uint16_t addr, uint8_t value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE mem_read(WORD addr)
+uint8_t mem_read(uint16_t addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
-void mem_store_without_ultimax(WORD addr, BYTE value)
+void mem_store_without_ultimax(uint16_t addr, uint8_t value)
 {
     mem_write_tab[mem_config & 7][addr >> 8](addr, value);
 }
 
-BYTE mem_read_without_ultimax(WORD addr)
+uint8_t mem_read_without_ultimax(uint16_t addr)
 {
     return mem_read_tab[mem_config & 7][addr >> 8](addr);
 }
 
-void mem_store_without_romlh(WORD addr, BYTE value)
+void mem_store_without_romlh(uint16_t addr, uint8_t value)
 {
     mem_write_tab[0][addr >> 8](addr, value);
 }
@@ -464,12 +464,12 @@ void mem_store_without_romlh(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-void colorram_store(WORD addr, BYTE value)
+void colorram_store(uint16_t addr, uint8_t value)
 {
     mem_color_ram[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE colorram_read(WORD addr)
+uint8_t colorram_read(uint16_t addr)
 {
     return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
@@ -597,7 +597,7 @@ void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t rea
     mem_read_tab[base][index] = read_func;
 }
 
-void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
+void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 {
     mem_read_base_tab[base][index] = mem_ptr;
 }
@@ -662,14 +662,14 @@ void mem_initialize_memory(void)
         mem_read_tab[11][i] = chargen_read;
         mem_read_tab[26][i] = chargen_read;
         mem_read_tab[27][i] = chargen_read;
-        mem_read_base_tab[1][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
-        mem_read_base_tab[2][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
-        mem_read_base_tab[3][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
-        mem_read_base_tab[9][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
-        mem_read_base_tab[10][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
-        mem_read_base_tab[11][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
-        mem_read_base_tab[26][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
-        mem_read_base_tab[27][i] = (BYTE *)(mem_chargen_rom - (BYTE *)0xd000);
+        mem_read_base_tab[1][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+        mem_read_base_tab[2][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+        mem_read_base_tab[3][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+        mem_read_base_tab[9][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+        mem_read_base_tab[10][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+        mem_read_base_tab[11][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+        mem_read_base_tab[26][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
+        mem_read_base_tab[27][i] = (uint8_t *)(mem_chargen_rom - (uint8_t *)0xd000);
     }
 
     c64meminit(0);
@@ -706,10 +706,10 @@ void mem_initialize_memory(void)
     }
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
-    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
-    DWORD limits;
+    uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
+    uint32_t limits;
 
     if (p != NULL && addr > 1) {
         *base = p;
@@ -765,7 +765,7 @@ void mem_set_tape_motor_in(int val)
 
 /* FIXME: this part needs to be checked.  */
 
-void mem_get_basic_text(WORD *start, WORD *end)
+void mem_get_basic_text(uint16_t *start, uint16_t *end)
 {
     if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
@@ -775,7 +775,7 @@ void mem_get_basic_text(WORD *start, WORD *end)
     }
 }
 
-void mem_set_basic_text(WORD start, WORD end)
+void mem_set_basic_text(uint16_t start, uint16_t end)
 {
     mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
     mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
@@ -783,7 +783,7 @@ void mem_set_basic_text(WORD start, WORD end)
     mem_ram[0x2e] = mem_ram[0x30] = mem_ram[0x32] = mem_ram[0xaf] = end >> 8;
 }
 
-void mem_inject(DWORD addr, BYTE value)
+void mem_inject(uint32_t addr, uint8_t value)
 {
     /* could be made to handle various internal expansions in some sane way */
     mem_ram[addr & 0xffff] = value;
@@ -791,7 +791,7 @@ void mem_inject(DWORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-int mem_rom_trap_allowed(WORD addr)
+int mem_rom_trap_allowed(uint16_t addr)
 {
     if (addr >= 0xe000) {
         switch (mem_config) {
@@ -820,7 +820,7 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* Banked memory access functions for the monitor.  */
 
-void store_bank_io(WORD addr, BYTE byte)
+void store_bank_io(uint16_t addr, uint8_t byte)
 {
     switch (addr & 0xff00) {
         case 0xd000:
@@ -869,7 +869,7 @@ void store_bank_io(WORD addr, BYTE byte)
     return;
 }
 
-BYTE read_bank_io(WORD addr)
+uint8_t read_bank_io(uint16_t addr)
 {
     switch (addr & 0xff00) {
         case 0xd000:
@@ -905,7 +905,7 @@ BYTE read_bank_io(WORD addr)
     return 0xff;
 }
 
-static BYTE peek_bank_io(WORD addr)
+static uint8_t peek_bank_io(uint16_t addr)
 {
     switch (addr & 0xff00) {
         case 0xd000:
@@ -975,7 +975,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, WORD addr, void *context)
+uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
@@ -1003,7 +1003,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
     return mem_ram[addr];
 }
 
-BYTE mem_bank_peek(int bank, WORD addr, void *context)
+uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
@@ -1026,7 +1026,7 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
     return mem_bank_read(bank, addr, context);
 }
 
-void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
+void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
@@ -1053,7 +1053,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_ram[addr] = byte;
 }
 
-static int mem_dump_io(void *context, WORD addr)
+static int mem_dump_io(void *context, uint16_t addr)
 {
     if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
         return ciacore_dump(machine_context.cia1);
@@ -1075,7 +1075,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
+void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, int *bank)
 {
     *base = ((vicii_peek(0xd018) & 0xf0) << 6) | ((~cia2_peek(0xdd00) & 0x03) << 14);
     *rows = 25;
@@ -1085,12 +1085,12 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 /* ------------------------------------------------------------------------- */
 
-void mem_color_ram_to_snapshot(BYTE *color_ram)
+void mem_color_ram_to_snapshot(uint8_t *color_ram)
 {
     memcpy(color_ram, mem_color_ram, 0x400);
 }
 
-void mem_color_ram_from_snapshot(BYTE *color_ram)
+void mem_color_ram_from_snapshot(uint8_t *color_ram)
 {
     memcpy(mem_color_ram, color_ram, 0x400);
 }

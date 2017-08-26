@@ -99,7 +99,7 @@
 #include "vicii-mem.h"
 
 /* PLUS60K registers */
-static BYTE plus60k_reg = 0;
+static uint8_t plus60k_reg = 0;
 
 static log_t plus60k_log = LOG_ERR;
 
@@ -113,7 +113,7 @@ int plus60k_base = 0xd100;
 /* Filename of the +60K image.  */
 static char *plus60k_filename = NULL;
 
-static BYTE *plus60k_ram;
+static uint8_t *plus60k_ram;
 
 static int plus60k_dump(void)
 {
@@ -121,17 +121,17 @@ static int plus60k_dump(void)
     return 0;
 }
 
-static BYTE plus60k_ff_read(WORD addr)
+static uint8_t plus60k_ff_read(uint16_t addr)
 {
     return 0xff;
 }
 
-static BYTE plus60k_peek(WORD addr)
+static uint8_t plus60k_peek(uint16_t addr)
 {
     return plus60k_reg << 7;
 }
 
-static void plus60k_vicii_store(WORD addr, BYTE value)
+static void plus60k_vicii_store(uint16_t addr, uint8_t value)
 {
     plus60k_reg = (value & 0x80) >> 7;
 }
@@ -417,27 +417,27 @@ void plus60k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void plus60k_memory_store(WORD addr, BYTE value)
+static void plus60k_memory_store(uint16_t addr, uint8_t value)
 {
     plus60k_ram[addr - 0x1000] = value;
 }
 
-static void vicii_mem_vbank_store_wrapper(WORD addr, BYTE value)
+static void vicii_mem_vbank_store_wrapper(uint16_t addr, uint8_t value)
 {
     vicii_mem_vbank_store(addr, value);
 }
 
-static void vicii_mem_vbank_39xx_store_wrapper(WORD addr, BYTE value)
+static void vicii_mem_vbank_39xx_store_wrapper(uint16_t addr, uint8_t value)
 {
     vicii_mem_vbank_39xx_store(addr, value);
 }
 
-static void vicii_mem_vbank_3fxx_store_wrapper(WORD addr, BYTE value)
+static void vicii_mem_vbank_3fxx_store_wrapper(uint16_t addr, uint8_t value)
 {
     vicii_mem_vbank_3fxx_store(addr, value);
 }
 
-static void ram_hi_store_wrapper(WORD addr, BYTE value)
+static void ram_hi_store_wrapper(uint16_t addr, uint8_t value)
 {
     ram_hi_store(addr, value);
 }
@@ -453,27 +453,27 @@ static store_func_ptr_t plus60k_mem_write_tab[] = {
     plus60k_memory_store
 };
 
-void plus60k_vicii_mem_vbank_store(WORD addr, BYTE value)
+void plus60k_vicii_mem_vbank_store(uint16_t addr, uint8_t value)
 {
     plus60k_mem_write_tab[plus60k_reg](addr, value);
 }
 
-void plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
+void plus60k_vicii_mem_vbank_39xx_store(uint16_t addr, uint8_t value)
 {
     plus60k_mem_write_tab[plus60k_reg + 2](addr, value);
 }
 
-void plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
+void plus60k_vicii_mem_vbank_3fxx_store(uint16_t addr, uint8_t value)
 {
     plus60k_mem_write_tab[plus60k_reg + 4](addr, value);
 }
 
-void plus60k_ram_hi_store(WORD addr, BYTE value)
+void plus60k_ram_hi_store(uint16_t addr, uint8_t value)
 {
     plus60k_mem_write_tab[plus60k_reg + 6](addr, value);
 }
 
-BYTE plus60k_ram_read(WORD addr)
+uint8_t plus60k_ram_read(uint16_t addr)
 {
     if (plus60k_enabled && addr >= 0x1000 && plus60k_reg == 1) {
         return plus60k_ram[addr - 0x1000];
@@ -482,7 +482,7 @@ BYTE plus60k_ram_read(WORD addr)
     }
 }
 
-void plus60k_ram_store(WORD addr, BYTE value)
+void plus60k_ram_store(uint16_t addr, uint8_t value)
 {
     if (plus60k_enabled && addr >= 0x1000 && plus60k_reg == 1) {
         plus60k_ram[addr - 0x1000] = value;
@@ -519,7 +519,7 @@ int plus60k_snapshot_write(struct snapshot_s *s)
     }
 
     if (0
-        || SMW_W (m, (WORD)plus60k_base) < 0
+        || SMW_W (m, (uint16_t)plus60k_base) < 0
         || SMW_B (m, plus60k_reg) < 0
         || SMW_BA(m, plus60k_ram, 0xf000) < 0) {
         snapshot_module_close(m);
@@ -532,7 +532,7 @@ int plus60k_snapshot_write(struct snapshot_s *s)
 int plus60k_snapshot_read(struct snapshot_s *s)
 {
     snapshot_module_t *m;
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 

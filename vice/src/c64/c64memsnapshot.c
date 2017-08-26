@@ -96,7 +96,7 @@ static int c64_snapshot_write_rom_module(snapshot_t *s)
 
 static int c64_snapshot_read_rom_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int trapfl;
 
@@ -197,8 +197,8 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
         || SMW_B(m, pport.data_out) < 0
         || SMW_B(m, pport.data_read) < 0
         || SMW_B(m, pport.dir_read) < 0
-        || SMW_DW(m, (DWORD)pport.data_set_clk_bit6) < 0
-        || SMW_DW(m, (DWORD)pport.data_set_clk_bit7) < 0
+        || SMW_DW(m, (uint32_t)pport.data_set_clk_bit6) < 0
+        || SMW_DW(m, (uint32_t)pport.data_set_clk_bit7) < 0
         || SMW_B(m, pport.data_set_bit6) < 0
         || SMW_B(m, pport.data_set_bit7) < 0
         || SMW_B(m, pport.data_falloff_bit6) < 0
@@ -220,7 +220,7 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
 
 int c64_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int tmp_bit6, tmp_bit7;
 

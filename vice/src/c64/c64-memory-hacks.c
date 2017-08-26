@@ -147,7 +147,7 @@ int memhacks_snapshot_write_modules(struct snapshot_s *s)
         return -1;
     }
 
-    if (SMW_B(m, (BYTE)memory_hack) < 0) {
+    if (SMW_B(m, (uint8_t)memory_hack) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -179,7 +179,7 @@ int memhacks_snapshot_write_modules(struct snapshot_s *s)
 int memhacks_snapshot_read_modules(struct snapshot_s *s)
 {
     snapshot_module_t *m;
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 

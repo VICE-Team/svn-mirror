@@ -64,7 +64,7 @@ int maincpu_ba_low_flags = 0;
 
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
-#define opcode_t DWORD
+#define opcode_t uint32_t
 
 #define p0 (opcode & 0xff)
 #define p1 ((opcode >> 8) & 0xff)
@@ -125,7 +125,7 @@ int maincpu_ba_low_flags = 0;
     do {                                                       \
         if (((int)reg_pc) < bank_limit) {                      \
             check_ba();                                        \
-            o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff); \
+            o = (*((uint32_t *)(bank_base + reg_pc)) & 0xffffff); \
             MEMMAP_UPDATE(reg_pc);                             \
             SET_LAST_OPCODE(p0);                               \
             CLK_INC();                                         \
