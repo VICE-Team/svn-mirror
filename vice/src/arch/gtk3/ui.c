@@ -43,6 +43,7 @@
 #include "uiaccelerators.h"
 #include "uiapi.h"
 #include "uimenu.h"
+#include "uisettings.h"
 #include "uistatusbar.h"
 #include "util.h"
 #include "videoarch.h"
@@ -86,6 +87,13 @@ static ui_menu_item_t help_menu[] = {
     { "_About", UI_MENU_TYPE_ITEM_ACTION,
         ui_about_dialog_callback, NULL },
     { NULL, -1, NULL, NULL },
+    UI_MENU_TERMINATOR
+};
+
+
+static ui_menu_item_t settings_menu[] = {
+    { "_Settings", UI_MENU_TYPE_ITEM_ACTION,
+        ui_settings_dialog_callback, NULL },
     UI_MENU_TERMINATOR
 };
 
@@ -170,6 +178,8 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
 
     /* generate File menu */
     ui_menu_file_add(file_menu);
+    /* settings menu */
+    ui_menu_settings_add(settings_menu);
     /* generate Help menu */
     ui_menu_help_add(help_menu);
 

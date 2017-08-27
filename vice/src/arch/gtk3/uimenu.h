@@ -81,11 +81,12 @@ typedef struct ui_menu_item_s {
  * Public functions
  */
 
-extern GtkWidget *ui_menu_bar_create(void);
+GtkWidget *ui_menu_bar_create(void);
 
-extern GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
-extern GtkWidget *ui_menu_file_add(ui_menu_item_t *items);
-extern GtkWidget *ui_menu_help_add(ui_menu_item_t *items);
+GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
+GtkWidget *ui_menu_file_add(ui_menu_item_t *items);
+GtkWidget *ui_menu_settings_add(ui_menu_item_t *items);
+GtkWidget *ui_menu_help_add(ui_menu_item_t *items);
 
 
 #endif

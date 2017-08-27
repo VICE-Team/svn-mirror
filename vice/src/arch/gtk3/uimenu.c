@@ -122,6 +122,9 @@ GtkWidget *ui_menu_bar_create(void)
     GtkWidget *load_item;
     GtkWidget *save_item;
 
+    /* settings menu */
+    GtkWidget *settings_item;
+
     /* debug menu */
     GtkWidget *debug_item;
 
@@ -164,6 +167,12 @@ GtkWidget *ui_menu_bar_create(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(snapshot_submenu), save_item);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(snap_item), snapshot_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), snap_item);
+
+    /* create the top-level 'Settings' menu */
+    settings_item = gtk_menu_item_new_with_mnemonic("_Settings");
+    settings_submenu = gtk_menu_new();
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings_item), settings_submenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(bar), settings_item);
 
 #ifdef DEBUG
     /* create the top-level 'Debug' menu stub (when --enable-debug is used) */
@@ -224,6 +233,13 @@ GtkWidget *ui_menu_file_add(ui_menu_item_t *items)
 {
     return ui_menu_add(file_submenu, items);
 }
+
+
+GtkWidget *ui_menu_settings_add(ui_menu_item_t *items)
+{
+    return ui_menu_add(settings_submenu, items);
+}
+
 
 
 /** \brief  Add menu \a items to the 'Help' menu
