@@ -47,12 +47,12 @@ static log_t hummeradc_log = LOG_ERR;
 #define ADC_DIO_BIT 0x01
 
 /* Hummer ADC variables */
-BYTE hummeradc_value;
-BYTE hummeradc_channel;
-BYTE hummeradc_control;
-BYTE hummeradc_chanattr;
-BYTE hummeradc_chanwakeup;
-BYTE hummeradc_prev;
+uint8_t hummeradc_value;
+uint8_t hummeradc_channel;
+uint8_t hummeradc_control;
+uint8_t hummeradc_chanattr;
+uint8_t hummeradc_chanwakeup;
+uint8_t hummeradc_prev;
 
 /* Hummer ADC state */
 enum {
@@ -100,17 +100,17 @@ enum {
 }
 hummeradc_command = ADC_NONE;
 
-inline static int hummeradc_falling_edge(BYTE value)
+inline static int hummeradc_falling_edge(uint8_t value)
 {
     return ((hummeradc_prev & ADC_CLOCK_BIT) && ((value & ADC_CLOCK_BIT) == 0));
 }
 
-inline static int hummeradc_rising_edge(BYTE value)
+inline static int hummeradc_rising_edge(uint8_t value)
 {
     return (((hummeradc_prev & ADC_CLOCK_BIT) == 0) && (value & ADC_CLOCK_BIT));
 }
 
-void hummeradc_store(BYTE value)
+void hummeradc_store(uint8_t value)
 {
 #ifdef HUMMERADC_DEBUG_ENABLED
     HUMMERADC_DEBUG("write: value %02x, state %i", value, hummeradc_state);
@@ -257,9 +257,9 @@ void hummeradc_store(BYTE value)
     return;
 }
 
-BYTE hummeradc_read(void)
+uint8_t hummeradc_read(void)
 {
-    BYTE retval;
+    uint8_t retval;
     retval = (hummeradc_prev & 6);
 
     switch (hummeradc_state) {

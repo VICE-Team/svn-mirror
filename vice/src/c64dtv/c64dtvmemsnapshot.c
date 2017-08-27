@@ -104,7 +104,7 @@ fail:
 
 static int c64dtv_snapshot_read_rom_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int trapfl;
 
@@ -201,7 +201,7 @@ fail:
 
 int c64dtv_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     /* Main memory module.  */
@@ -294,7 +294,7 @@ fail:
 
 int c64dtvmisc_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     /* Misc. module.  */

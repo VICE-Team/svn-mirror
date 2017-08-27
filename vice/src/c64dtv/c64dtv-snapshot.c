@@ -65,7 +65,7 @@ int c64dtv_snapshot_write(const char *name, int save_roms, int save_disks,
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
+    s = snapshot_create(name, ((uint8_t)(SNAP_MAJOR)), ((uint8_t)(SNAP_MINOR)),
                         machine_name);
     if (s == NULL) {
         return -1;
@@ -103,7 +103,7 @@ int c64dtv_snapshot_write(const char *name, int save_roms, int save_disks,
 int c64dtv_snapshot_read(const char *name, int event_mode)
 {
     snapshot_t *s;
-    BYTE minor, major;
+    uint8_t minor, major;
 
     s = snapshot_open(name, &major, &minor, machine_name);
     if (s == NULL) {

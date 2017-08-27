@@ -36,7 +36,7 @@
 /* Expansion port signals. */
 export_t export = { 0, 0, 0, 0};
 
-static BYTE romh_banks[1]; /* dummy */
+static uint8_t romh_banks[1]; /* dummy */
 
 int cartridge_save_image(int type, const char *filename)
 {
@@ -87,12 +87,12 @@ const char *cartridge_get_file_name(int type)
     return 0; /* NULL */
 }
 
-BYTE *ultimax_romh_phi1_ptr(WORD addr)
+uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
 {
     return romh_banks;
 }
 
-BYTE *ultimax_romh_phi2_ptr(WORD addr)
+uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
 {
     return romh_banks;
 }

@@ -44,7 +44,7 @@ static int debugcart_enabled = 0;
 
 #if 0
 /* a prototype is needed */
-void debugcart_store(WORD addr, BYTE value);
+void debugcart_store(uint16_t addr, uint8_t value);
 
 static io_source_t debugcart_device = {
     CARTRIDGE_NAME_DEBUGCART,
@@ -70,7 +70,7 @@ static io_source_t debugcart_device = {
 
 /* ------------------------------------------------------------------------- */
 
-void debugcart_store(WORD addr, BYTE value)
+void debugcart_store(uint16_t addr, uint8_t value)
 {
     int n = (int)value;
     if ((debugcart_enabled) && (addr == 0xd7ff)) {
