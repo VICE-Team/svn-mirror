@@ -44,6 +44,47 @@ enum {
 };
 
 
+/** \brief  Read-Only flag opening images/archives
+ */
+static gboolean readonly_mode = 0;
+
+
+/** \brief  Handler for "toggle" event of the 'readonly' toggle button
+ *
+ * \param[in,out]   widget      widget triggering the event
+ * \param[in]       user_data   data for the event (unused)
+ */
+static void readonly_callback(GtkWidget *widget, gpointer user_data)
+{
+    gboolean active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+#ifdef HAVE_DEBUG_GTK3UI
+    g_print("[debug-gtk3ui] %s(): readonly = %d\n", __func__, (int)active);
+#endif
+    readonly_mode = active;
+}
+
+
+/** \brief  Create widget for extra options such as 'readonly'
+ *
+ * \return  extra widget
+ */
+static GtkWidget *create_extra_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *readonly;
+
+    grid = gtk_grid_new();
+
+    readonly = gtk_toggle_button_new_with_label("Read only");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(readonly), FALSE);
+    gtk_grid_attach(GTK_GRID(grid), readonly, 0, 0, 1, 1);
+    gtk_widget_show(grid);
+    gtk_widget_show(readonly);
+
+    g_signal_connect(readonly, "toggled", G_CALLBACK(readonly_callback), NULL);
+    return grid;
+}
+
 
 /** \brief  Attach an image/archive to VICE
  *
@@ -110,12 +151,20 @@ static void response_callback(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget      widget triggering event (the menu item)
  * \param[in]   user_data   data for the even (unused)
+ *
+ * \todo        add event handler to determine which type of image/archive is
+ *              being attached to call the proper attach handler
  */
 void ui_attach_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
     GtkWidget *window;
+    /* file filters */
     GtkFileFilter *disk_filter;
+    GtkFileFilter *zipcode_filter;
+    GtkFileFilter *tape_filter;
+    GtkFileFilter *archive_filter;
+    GtkFileFilter *cart_filter;
 
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
@@ -140,16 +189,53 @@ void ui_attach_dialog_callback(GtkWidget *widget, gpointer user_data)
             "Cancel", GTK_RESPONSE_REJECT,
             NULL, NULL);
 
+    /* add extra widget for 'readonly' and stuff */
+    gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
+            create_extra_widget());
+
     /* add disk file type filters
      * XXX: just for testing, more filters should be added
      */
     disk_filter = gtk_file_filter_new();
-    gtk_file_filter_set_name(disk_filter, "disk images");
+    gtk_file_filter_set_name(disk_filter, "Disk images");
     gtk_file_filter_add_pattern(disk_filter, "*.d64");
     gtk_file_filter_add_pattern(disk_filter, "*.d71");
     gtk_file_filter_add_pattern(disk_filter, "*.d81");
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), disk_filter);
 
+    /* add zipdisk/zipfile/zipsix archives */
+    zipcode_filter = gtk_file_filter_new();
+    gtk_file_filter_set_name(zipcode_filter, "ZipCode archives");
+    gtk_file_filter_add_pattern(zipcode_filter, "1!*");
+    gtk_file_filter_add_pattern(zipcode_filter, "1!!*");
+    gtk_file_filter_add_pattern(zipcode_filter, "a!*");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), zipcode_filter);
+
+    /* add tape images */
+    tape_filter = gtk_file_filter_new();
+    gtk_file_filter_set_name(tape_filter, "Tape images");
+    gtk_file_filter_add_pattern(tape_filter, "*.tap");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), tape_filter);
+
+    /* add archives */
+    archive_filter = gtk_file_filter_new();
+    gtk_file_filter_set_name(archive_filter, "Archives");
+    gtk_file_filter_add_pattern(archive_filter, "*.awk");
+    gtk_file_filter_add_pattern(archive_filter, "*.lnx");
+    gtk_file_filter_add_pattern(archive_filter, "*.t64");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), archive_filter);
+
+    /* add cartridges */
+    cart_filter = gtk_file_filter_new();
+    gtk_file_filter_set_name(cart_filter, "Cartridges");
+    gtk_file_filter_add_pattern(cart_filter, "*.crt");
+    /* unlikely to work properly */
+    gtk_file_filter_add_pattern(cart_filter, "*.bin");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), cart_filter);
+
+
+
+    gtk_file_filter_add_pattern(tape_filter, "*.t64");
     /* hook up the event handler that does the actual work */
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
 
