@@ -95,7 +95,7 @@ static void io_source_detach(io_source_detach_t *source)
 /*
     amount is 2 or more
 */
-static void io_source_msg_detach_all(WORD addr, int amount, io_source_list_t *start)
+static void io_source_msg_detach_all(uint16_t addr, int amount, io_source_list_t *start)
 {
     io_source_detach_t *detach_list = lib_malloc(sizeof(io_source_detach_t) * amount);
     io_source_list_t *current = start;
@@ -158,7 +158,7 @@ static void io_source_msg_detach_all(WORD addr, int amount, io_source_list_t *st
 /*
     amount is 2 or more
 */
-static void io_source_msg_detach_last(WORD addr, int amount, io_source_list_t *start, unsigned int lowest)
+static void io_source_msg_detach_last(uint16_t addr, int amount, io_source_list_t *start, unsigned int lowest)
 {
     io_source_detach_t *detach_list = lib_malloc(sizeof(io_source_detach_t) * amount);
     io_source_list_t *current = start;
@@ -229,7 +229,7 @@ static void io_source_msg_detach_last(WORD addr, int amount, io_source_list_t *s
 /*
     amount is 2 or more
 */
-static void io_source_log_collisions(WORD addr, int amount, io_source_list_t *start)
+static void io_source_log_collisions(uint16_t addr, int amount, io_source_list_t *start)
 {
     io_source_list_t *current = start;
     char *old_msg = NULL;
@@ -275,19 +275,19 @@ static void io_source_log_collisions(WORD addr, int amount, io_source_list_t *st
     }
 }
 
-static inline BYTE io_read(io_source_list_t *list, WORD addr)
+static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
 {
     io_source_list_t *current = list->next;
     int io_source_counter = 0;
-    BYTE realval = 0;
-    BYTE retval = 0;
-    BYTE firstval = 0;
+    uint8_t realval = 0;
+    uint8_t retval = 0;
+    uint8_t firstval = 0;
     unsigned int lowest_order = 0xffffffff;
 
     while (current) {
         if (current->device->read != NULL) {
             if ((addr >= current->device->start_address) && (addr <= current->device->end_address)) {
-                retval = current->device->read((WORD)(addr & current->device->address_mask));
+                retval = current->device->read((uint16_t)(addr & current->device->address_mask));
                 if (current->device->io_source_valid) {
                     if (current->device->io_source_prio == 1) {
                         return retval;
@@ -352,16 +352,16 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
 }
 
 /* peek from I/O area with no side-effects */
-static inline BYTE io_peek(io_source_list_t *list, WORD addr)
+static inline uint8_t io_peek(io_source_list_t *list, uint16_t addr)
 {
     io_source_list_t *current = list->next;
 
     while (current) {
         if (addr >= current->device->start_address && addr <= current->device->end_address) {
             if (current->device->peek) {
-                return current->device->peek((WORD)(addr & current->device->address_mask));
+                return current->device->peek((uint16_t)(addr & current->device->address_mask));
             } else if (current->device->read) {
-                return current->device->read((WORD)(addr & current->device->address_mask));
+                return current->device->read((uint16_t)(addr & current->device->address_mask));
             }
         }
         current = current->next;
@@ -370,7 +370,7 @@ static inline BYTE io_peek(io_source_list_t *list, WORD addr)
     return vic20_cpu_last_data;
 }
 
-static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
+static inline void io_store(io_source_list_t *list, uint16_t addr, uint8_t value)
 {
     io_source_list_t *current = list->next;
 
@@ -379,7 +379,7 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
     while (current) {
         if (current->device->store != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                current->device->store((WORD)(addr & current->device->address_mask), value);
+                current->device->store((uint16_t)(addr & current->device->address_mask), value);
             }
         }
         current = current->next;
@@ -474,55 +474,55 @@ void cartio_set_highest_order(unsigned int nr)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-BYTE vic20io0_read(WORD addr)
+uint8_t vic20io0_read(uint16_t addr)
 {
     DBGRW(("IO: io0 r %04x\n", addr));
     return io_read(&vic20io0_head, addr);
 }
 
-BYTE vic20io0_peek(WORD addr)
+uint8_t vic20io0_peek(uint16_t addr)
 {
     DBGRW(("IO: io0 p %04x\n", addr));
     return io_peek(&vic20io0_head, addr);
 }
 
-void vic20io0_store(WORD addr, BYTE value)
+void vic20io0_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io0 w %04x %02x\n", addr, value));
     io_store(&vic20io0_head, addr, value);
 }
 
-BYTE vic20io2_read(WORD addr)
+uint8_t vic20io2_read(uint16_t addr)
 {
     DBGRW(("IO: io2 r %04x\n", addr));
     return io_read(&vic20io2_head, addr);
 }
 
-BYTE vic20io2_peek(WORD addr)
+uint8_t vic20io2_peek(uint16_t addr)
 {
     DBGRW(("IO: io2 p %04x\n", addr));
     return io_peek(&vic20io2_head, addr);
 }
 
-void vic20io2_store(WORD addr, BYTE value)
+void vic20io2_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io2 w %04x %02x\n", addr, value));
     io_store(&vic20io2_head, addr, value);
 }
 
-BYTE vic20io3_read(WORD addr)
+uint8_t vic20io3_read(uint16_t addr)
 {
     DBGRW(("IO: io3 r %04x\n", addr));
     return io_read(&vic20io3_head, addr);
 }
 
-BYTE vic20io3_peek(WORD addr)
+uint8_t vic20io3_peek(uint16_t addr)
 {
     DBGRW(("IO: io3 p %04x\n", addr));
     return io_peek(&vic20io3_head, addr);
 }
 
-void vic20io3_store(WORD addr, BYTE value)
+void vic20io3_store(uint16_t addr, uint8_t value)
 {
     DBGRW(("IO: io3 w %04x %02x\n", addr, value));
     io_store(&vic20io3_head, addr, value);
@@ -530,7 +530,7 @@ void vic20io3_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int decodemask(WORD mask)
+static int decodemask(uint16_t mask)
 {
     int len = 255;
 

@@ -172,8 +172,8 @@ static void update_pixel_tables(raster_t *raster)
 
     for (i = 0; i < 256; i++) {
         vic.pixel_table.sing[i] = i;
-        *((BYTE *)(vic.pixel_table.doub + i))
-            = *((BYTE *)(vic.pixel_table.doub + i) + 1)
+        *((uint8_t *)(vic.pixel_table.doub + i))
+            = *((uint8_t *)(vic.pixel_table.doub + i) + 1)
                   = vic.pixel_table.sing[i];
     }
 }

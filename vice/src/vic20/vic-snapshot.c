@@ -56,29 +56,29 @@ int vic_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_B(m, (BYTE)VIC_RASTER_CYCLE(maincpu_clk)) < 0
-        || SMW_W(m, (WORD)VIC_RASTER_Y(maincpu_clk)) < 0) {
+    if (SMW_B(m, (uint8_t)VIC_RASTER_CYCLE(maincpu_clk)) < 0
+        || SMW_W(m, (uint16_t)VIC_RASTER_Y(maincpu_clk)) < 0) {
         goto fail;
     }
 
     if (0
-        || (SMW_W(m, (WORD)vic.area) < 0)
-        || (SMW_W(m, (WORD)vic.fetch_state) < 0)
-        || (SMW_DW(m, (DWORD)vic.raster_line) < 0)
-        || (SMW_DW(m, (DWORD)vic.text_cols) < 0)
-        || (SMW_DW(m, (DWORD)vic.text_lines) < 0)
-        || (SMW_DW(m, (DWORD)vic.pending_text_cols) < 0)
-        || (SMW_DW(m, (DWORD)vic.line_was_blank) < 0)
-        || (SMW_DW(m, (DWORD)vic.memptr) < 0)
-        || (SMW_DW(m, (DWORD)vic.memptr_inc) < 0)
-        || (SMW_DW(m, (DWORD)vic.row_counter) < 0)
-        || (SMW_DW(m, (DWORD)vic.buf_offset) < 0)
-        || SMW_B(m, (BYTE)vic.light_pen.state) < 0
-        || SMW_B(m, (BYTE)vic.light_pen.triggered) < 0
-        || SMW_DW(m, (DWORD)vic.light_pen.x) < 0
-        || SMW_DW(m, (DWORD)vic.light_pen.y) < 0
-        || SMW_DW(m, (DWORD)vic.light_pen.x_extra_bits) < 0
-        || SMW_DW(m, (DWORD)vic.light_pen.trigger_cycle) < 0
+        || (SMW_W(m, (uint16_t)vic.area) < 0)
+        || (SMW_W(m, (uint16_t)vic.fetch_state) < 0)
+        || (SMW_DW(m, (uint32_t)vic.raster_line) < 0)
+        || (SMW_DW(m, (uint32_t)vic.text_cols) < 0)
+        || (SMW_DW(m, (uint32_t)vic.text_lines) < 0)
+        || (SMW_DW(m, (uint32_t)vic.pending_text_cols) < 0)
+        || (SMW_DW(m, (uint32_t)vic.line_was_blank) < 0)
+        || (SMW_DW(m, (uint32_t)vic.memptr) < 0)
+        || (SMW_DW(m, (uint32_t)vic.memptr_inc) < 0)
+        || (SMW_DW(m, (uint32_t)vic.row_counter) < 0)
+        || (SMW_DW(m, (uint32_t)vic.buf_offset) < 0)
+        || SMW_B(m, (uint8_t)vic.light_pen.state) < 0
+        || SMW_B(m, (uint8_t)vic.light_pen.triggered) < 0
+        || SMW_DW(m, (uint32_t)vic.light_pen.x) < 0
+        || SMW_DW(m, (uint32_t)vic.light_pen.y) < 0
+        || SMW_DW(m, (uint32_t)vic.light_pen.x_extra_bits) < 0
+        || SMW_DW(m, (uint32_t)vic.light_pen.trigger_cycle) < 0
         || (SMW_B(m, vic.vbuf) < 0)) {
         goto fail;
     }
@@ -89,7 +89,7 @@ int vic_snapshot_write_module(snapshot_t *s)
     }
 
     for (i = 0; i < 0x10; i++) {
-        if (SMW_B(m, (BYTE)vic.regs[i]) < 0) {
+        if (SMW_B(m, (uint8_t)vic.regs[i]) < 0) {
             goto fail;
         }
     }
@@ -106,11 +106,11 @@ fail:
 
 int vic_snapshot_read_module(snapshot_t *s)
 {
-    WORD i;
+    uint16_t i;
     snapshot_module_t *m;
-    BYTE major_version, minor_version;
-    WORD w;
-    BYTE b;
+    uint8_t major_version, minor_version;
+    uint16_t w;
+    uint8_t b;
 
     sound_close();
 

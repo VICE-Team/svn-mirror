@@ -287,7 +287,7 @@ static int via1_dump(void)
     return viacore_dump(machine_context.via1);
 }
 
-static void vic_via1_via2_store(WORD addr, BYTE data)
+static void vic_via1_via2_store(uint16_t addr, uint8_t data)
 {
     if (addr & 0x10) {
         via2_store(addr, data);
@@ -298,9 +298,9 @@ static void vic_via1_via2_store(WORD addr, BYTE data)
     vic_store(addr, data);
 }
 
-static BYTE vic_via1_via2_read(WORD addr)
+static uint8_t vic_via1_via2_read(uint16_t addr)
 {
-    BYTE retval = vic_read(addr);
+    uint8_t retval = vic_read(addr);
 
     if (addr & 0x10) {
         retval &= via2_read(addr);
@@ -313,9 +313,9 @@ static BYTE vic_via1_via2_read(WORD addr)
     return retval;
 }
 
-static BYTE vic_via1_via2_peek(WORD addr)
+static uint8_t vic_via1_via2_peek(uint16_t addr)
 {
-    BYTE retval = vic_peek(addr);
+    uint8_t retval = vic_peek(addr);
 
     if (addr & 0x10) {
         retval &= via2_peek(addr);
@@ -328,7 +328,7 @@ static BYTE vic_via1_via2_peek(WORD addr)
     return retval;
 }
 
-static void via1_via2_store(WORD addr, BYTE data)
+static void via1_via2_store(uint16_t addr, uint8_t data)
 {
     if (addr & 0x10) {
         via2_store(addr, data);
@@ -338,9 +338,9 @@ static void via1_via2_store(WORD addr, BYTE data)
     }
 }
 
-static BYTE via1_via2_read(WORD addr)
+static uint8_t via1_via2_read(uint16_t addr)
 {
-    BYTE retval = 0xff;
+    uint8_t retval = 0xff;
 
     if (addr & 0x10) {
         retval &= via2_read(addr);
@@ -353,9 +353,9 @@ static BYTE via1_via2_read(WORD addr)
     return retval;
 }
 
-static BYTE via1_via2_peek(WORD addr)
+static uint8_t via1_via2_peek(uint16_t addr)
 {
-    BYTE retval = 0xff;
+    uint8_t retval = 0xff;
 
     if (addr & 0x10) {
         retval &= via2_peek(addr);
@@ -1233,12 +1233,12 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
     return diskcontents_iec_read(unit);
 }
 
-BYTE machine_tape_type_default(void)
+uint8_t machine_tape_type_default(void)
 {
     return TAPE_CAS_TYPE_BAS;
 }
 
-BYTE machine_tape_behaviour(void)
+uint8_t machine_tape_behaviour(void)
 {
     return TAPE_BEHAVIOUR_NORMAL;
 }
@@ -1255,7 +1255,7 @@ const char *machine_get_name(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void vic20_userport_set_flag(BYTE b)
+static void vic20_userport_set_flag(uint8_t b)
 {
     viacore_signal(machine_context.via2, VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
