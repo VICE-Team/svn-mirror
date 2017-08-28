@@ -85,29 +85,29 @@
 #define NUM_VBANKS 4
 
 /* The C128 memory.  */
-BYTE mem_ram[C128_RAM_SIZE];
-BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
+uint8_t mem_ram[C128_RAM_SIZE];
+uint8_t mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
 /* Internal color memory.  */
-static BYTE mem_color_ram[0x800];
-BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
+static uint8_t mem_color_ram[0x800];
+uint8_t *mem_color_ram_cpu, *mem_color_ram_vicii;
 
 /* Pointer to the chargen ROM.  */
-BYTE *mem_chargen_rom_ptr;
+uint8_t *mem_chargen_rom_ptr;
 
 /* Currently selected RAM bank.  */
-BYTE *ram_bank;
+uint8_t *ram_bank;
 
 /* Shared memory.  */
-static WORD top_shared_limit, bottom_shared_limit;
+static uint16_t top_shared_limit, bottom_shared_limit;
 
 /* Pointers to pages 0 and 1 (which can be physically placed anywhere).  */
-BYTE *mem_page_zero, *mem_page_one;
+uint8_t *mem_page_zero, *mem_page_one;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
-static BYTE **_mem_read_base_tab_ptr;
+static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
 
 #define NUM_CONFIGS 256
@@ -115,7 +115,7 @@ static int *mem_read_limit_tab_ptr;
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
-static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
+static uint8_t *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
@@ -148,13 +148,13 @@ static int caps_sense = 1;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE watch_read(WORD addr)
+static uint8_t watch_read(uint16_t addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-static void watch_store(WORD addr, BYTE value)
+static void watch_store(uint16_t addr, uint8_t value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
@@ -176,7 +176,7 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 static void mem_update_chargen(unsigned int chargen_high)
 {
-    BYTE *old_chargen_rom_ptr;
+    uint8_t *old_chargen_rom_ptr;
 
     old_chargen_rom_ptr = mem_chargen_rom_ptr;
 
@@ -256,7 +256,7 @@ void mem_set_vbank(int new_vbank)
     vicii_set_vbank(new_vbank & 3);
 }
 
-void mem_set_ram_config(BYTE value)
+void mem_set_ram_config(uint8_t value)
 {
     unsigned int shared_size;
 
@@ -345,13 +345,13 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     }
 }
 
-BYTE zero_read(WORD addr)
+uint8_t zero_read(uint16_t addr)
 {
-    BYTE retval;
-    
+    uint8_t retval;
+
 	addr &= 0xff;
 
-    switch ((BYTE)addr) {
+    switch ((uint8_t)addr) {
         case 0:
             return pport.dir_read;
         case 1:
@@ -379,15 +379,15 @@ BYTE zero_read(WORD addr)
     return mem_page_zero[addr];
 }
 
-void zero_store(WORD addr, BYTE value)
+void zero_store(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
 
-    switch ((BYTE)addr) {
+    switch ((uint8_t)addr) {
         case 0:
 #if 0
             if (vbank == 0) {
-                vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+                vicii_mem_vbank_store((uint16_t)0, vicii_read_phi1_lowlevel());
             } else {
 #endif
             mem_page_zero[0] = vicii_read_phi1_lowlevel();
@@ -416,7 +416,7 @@ void zero_store(WORD addr, BYTE value)
         case 1:
 #if 0
             if (vbank == 0) {
-                vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+                vicii_mem_vbank_store((uint16_t)1, vicii_read_phi1_lowlevel());
             } else {
 #endif
             mem_page_zero[1] = vicii_read_phi1_lowlevel();
@@ -452,12 +452,12 @@ void zero_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE one_read(WORD addr)
+uint8_t one_read(uint16_t addr)
 {
     return mem_page_one[addr - 0x100];
 }
 
-void one_store(WORD addr, BYTE value)
+void one_store(uint16_t addr, uint8_t value)
 {
     mem_page_one[addr - 0x100] = value;
 }
@@ -466,12 +466,12 @@ void one_store(WORD addr, BYTE value)
 
 /* External memory access functions.  */
 
-BYTE chargen_read(WORD addr)
+uint8_t chargen_read(uint16_t addr)
 {
     return mem_chargen_rom_ptr[addr & 0x0fff];
 }
 
-void chargen_store(WORD addr, BYTE value)
+void chargen_store(uint16_t addr, uint8_t value)
 {
     mem_chargen_rom_ptr[addr & 0x0fff] = value;
 }
@@ -480,17 +480,17 @@ void chargen_store(WORD addr, BYTE value)
 
 /* Generic memory access.  */
 
-void mem_store(WORD addr, BYTE value)
+void mem_store(uint16_t addr, uint8_t value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE mem_read(WORD addr)
+uint8_t mem_read(uint16_t addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
-void mem_store_without_ultimax(WORD addr, BYTE value)
+void mem_store_without_ultimax(uint16_t addr, uint8_t value)
 {
     store_func_ptr_t *write_tab_ptr;
 
@@ -499,7 +499,7 @@ void mem_store_without_ultimax(WORD addr, BYTE value)
     write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE mem_read_without_ultimax(WORD addr)
+uint8_t mem_read_without_ultimax(uint16_t addr)
 {
     read_func_ptr_t *read_tab_ptr;
 
@@ -508,7 +508,7 @@ BYTE mem_read_without_ultimax(WORD addr)
     return read_tab_ptr[addr >> 8](addr);
 }
 
-void mem_store_without_romlh(WORD addr, BYTE value)
+void mem_store_without_romlh(uint16_t addr, uint8_t value)
 {
     store_func_ptr_t *write_tab_ptr;
 
@@ -543,27 +543,27 @@ void mem_store_without_romlh(WORD addr, BYTE value)
 #define STORE_BOTTOM_SHARED(addr, value) ((addr) < bottom_shared_limit ? (mem_ram[(addr)] = (value)) : (ram_bank[(addr)] = (value)))
 
 /* $0200 - $3FFF: RAM (normal or shared).  */
-BYTE lo_read(WORD addr)
+uint8_t lo_read(uint16_t addr)
 {
     return READ_BOTTOM_SHARED(addr);
 }
 
-void lo_store(WORD addr, BYTE value)
+void lo_store(uint16_t addr, uint8_t value)
 {
     STORE_BOTTOM_SHARED(addr, value);
 }
 
-BYTE ram_read(WORD addr)
+uint8_t ram_read(uint16_t addr)
 {
     return ram_bank[addr];
 }
 
-void ram_store(WORD addr, BYTE value)
+void ram_store(uint16_t addr, uint8_t value)
 {
     ram_bank[addr] = value;
 }
 
-void ram_hi_store(WORD addr, BYTE value)
+void ram_hi_store(uint16_t addr, uint8_t value)
 {
     if (vbank == 3) {
         vicii_mem_vbank_3fxx_store(addr, value);
@@ -577,48 +577,48 @@ void ram_hi_store(WORD addr, BYTE value)
 }
 
 /* $4000 - $7FFF: RAM or low BASIC ROM.  */
-BYTE basic_lo_read(WORD addr)
+uint8_t basic_lo_read(uint16_t addr)
 {
     return c128memrom_basic_rom[addr - 0x4000];
 }
 
-void basic_lo_store(WORD addr, BYTE value)
+void basic_lo_store(uint16_t addr, uint8_t value)
 {
     ram_bank[addr] = value;
 }
 
 /* $8000 - $BFFF: RAM or high BASIC ROM.  */
-BYTE basic_hi_read(WORD addr)
+uint8_t basic_hi_read(uint16_t addr)
 {
     return c128memrom_basic_rom[addr - 0x4000];
 }
 
-void basic_hi_store(WORD addr, BYTE value)
+void basic_hi_store(uint16_t addr, uint8_t value)
 {
     ram_bank[addr] = value;
 }
 
 /* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
-BYTE editor_read(WORD addr)
+uint8_t editor_read(uint16_t addr)
 {
     return c128memrom_basic_rom[addr - 0x4000];
 }
 
-void editor_store(WORD addr, BYTE value)
+void editor_store(uint16_t addr, uint8_t value)
 {
     STORE_TOP_SHARED(addr, value);
 }
 
-static BYTE d5xx_read(WORD addr)
+static uint8_t d5xx_read(uint16_t addr)
 {
     return vicii_read_phi1();
 }
 
-static void d5xx_store(WORD addr, BYTE value)
+static void d5xx_store(uint16_t addr, uint8_t value)
 {
 }
 
-BYTE d7xx_read(WORD addr)
+uint8_t d7xx_read(uint16_t addr)
 {
     if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
         return sid2_read(addr);
@@ -626,7 +626,7 @@ BYTE d7xx_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void d7xx_store(WORD addr, BYTE value)
+void d7xx_store(uint16_t addr, uint8_t value)
 {
     if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
         sid2_store(addr, value);
@@ -634,34 +634,34 @@ void d7xx_store(WORD addr, BYTE value)
 }
 
 /* $E000 - $FFFF: RAM or Kernal.  */
-BYTE hi_read(WORD addr)
+uint8_t hi_read(uint16_t addr)
 {
     return c128memrom_kernal_rom[addr & 0x1fff];
 }
 
-void hi_store(WORD addr, BYTE value)
+void hi_store(uint16_t addr, uint8_t value)
 {
     STORE_TOP_SHARED(addr, value);
 }
 
-BYTE top_shared_read(WORD addr)
+uint8_t top_shared_read(uint16_t addr)
 {
     return READ_TOP_SHARED(addr);
 }
 
-void top_shared_store(WORD addr, BYTE value)
+void top_shared_store(uint16_t addr, uint8_t value)
 {
     STORE_TOP_SHARED(addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void colorram_store(WORD addr, BYTE value)
+void colorram_store(uint16_t addr, uint8_t value)
 {
     mem_color_ram_cpu[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE colorram_read(WORD addr)
+uint8_t colorram_read(uint16_t addr)
 {
     return mem_color_ram_cpu[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
@@ -682,7 +682,7 @@ void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t rea
     mem_read_tab[base][index] = read_func;
 }
 
-void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
+void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 {
     mem_read_base_tab[base][index] = mem_ptr;
 }
@@ -843,9 +843,9 @@ void mem_initialize_memory(void)
 #pragma optimize("",on)
 #endif
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
-    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+    uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
 
     *base = (p == NULL) ? NULL : p;
     *start = addr; /* TODO */
@@ -886,7 +886,7 @@ void mem_set_tape_motor_in(int val)
 
 /* ------------------------------------------------------------------------- */
 
-void mem_get_basic_text(WORD *start, WORD *end)
+void mem_get_basic_text(uint16_t *start, uint16_t *end)
 {
     if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
@@ -896,7 +896,7 @@ void mem_get_basic_text(WORD *start, WORD *end)
     }
 }
 
-void mem_set_basic_text(WORD start, WORD end)
+void mem_set_basic_text(uint16_t start, uint16_t end)
 {
     mem_ram[0x2b] = mem_ram[0xac] = start & 0xff;
     mem_ram[0x2c] = mem_ram[0xad] = start >> 8;
@@ -904,7 +904,7 @@ void mem_set_basic_text(WORD start, WORD end)
     mem_ram[0x1211] = end >> 8;
 }
 
-void mem_inject(DWORD addr, BYTE value)
+void mem_inject(uint32_t addr, uint8_t value)
 {
     /* this could be altered to handle more that 64 Kb in some
        useful way */
@@ -913,7 +913,7 @@ void mem_inject(DWORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-int mem_rom_trap_allowed(WORD addr)
+int mem_rom_trap_allowed(uint16_t addr)
 {
     if (addr >= 0xe000) {
         if (mem_config >= 128) {
@@ -947,7 +947,7 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* FIXME: peek, cartridge support */
 
-void store_bank_io(WORD addr, BYTE byte)
+void store_bank_io(uint16_t addr, uint8_t byte)
 {
     switch (addr & 0xff00) {
         case 0xd000:
@@ -996,7 +996,7 @@ void store_bank_io(WORD addr, BYTE byte)
     return;
 }
 
-BYTE read_bank_io(WORD addr)
+uint8_t read_bank_io(uint16_t addr)
 {
     switch (addr & 0xff00) {
         case 0xd000:
@@ -1032,7 +1032,7 @@ BYTE read_bank_io(WORD addr)
     return 0xff;
 }
 
-static BYTE peek_bank_io(WORD addr)
+static uint8_t peek_bank_io(uint16_t addr)
 {
     switch (addr & 0xff00) {
         case 0xd000:
@@ -1117,7 +1117,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, WORD addr, void *context)
+uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
@@ -1173,7 +1173,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
     return mem_ram[addr];
 }
 
-BYTE mem_bank_peek(int bank, WORD addr, void *context)
+uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
@@ -1197,7 +1197,7 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
     return mem_bank_read(bank, addr, context);
 }
 
-void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
+void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
@@ -1255,7 +1255,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     mem_ram[addr] = byte;
 }
 
-static int mem_dump_io(void *context, WORD addr)
+static int mem_dump_io(void *context, uint16_t addr)
 {
     if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
         return ciacore_dump(machine_context.cia1);
@@ -1279,7 +1279,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
+void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, int *bank)
 {
     /* Check the 40/80 DISPLAY switch state */
     if (peek_bank_io(0xD505) & 0x80) { /* 40 column so read VIC screen */
@@ -1297,7 +1297,7 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 /* ------------------------------------------------------------------------- */
 
-void mem_color_ram_to_snapshot(BYTE *color_ram)
+void mem_color_ram_to_snapshot(uint8_t *color_ram)
 {
     unsigned int i;
 
@@ -1306,7 +1306,7 @@ void mem_color_ram_to_snapshot(BYTE *color_ram)
     }
 }
 
-void mem_color_ram_from_snapshot(BYTE *color_ram)
+void mem_color_ram_from_snapshot(uint8_t *color_ram)
 {
     unsigned int i;
 
@@ -1320,211 +1320,211 @@ void mem_color_ram_from_snapshot(BYTE *color_ram)
 
 /* 8502 specific I/O function wrappers for 2mhz mode cycle stretching */
 
-BYTE c128_c64io_d000_read(WORD addr)
+uint8_t c128_c64io_d000_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_d000_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_d000_store(WORD addr, BYTE value)
+void c128_c64io_d000_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_d000_store(addr, value);
 }
 
-BYTE c128_c64io_d100_read(WORD addr)
+uint8_t c128_c64io_d100_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_d100_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_d100_store(WORD addr, BYTE value)
+void c128_c64io_d100_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_d100_store(addr, value);
 }
 
-BYTE c128_c64io_d200_read(WORD addr)
+uint8_t c128_c64io_d200_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_d200_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_d200_store(WORD addr, BYTE value)
+void c128_c64io_d200_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_d200_store(addr, value);
 }
 
-BYTE c128_c64io_d300_read(WORD addr)
+uint8_t c128_c64io_d300_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_d300_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_d300_store(WORD addr, BYTE value)
+void c128_c64io_d300_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_d300_store(addr, value);
 }
 
-BYTE c128_c64io_d400_read(WORD addr)
+uint8_t c128_c64io_d400_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_d400_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_d400_store(WORD addr, BYTE value)
+void c128_c64io_d400_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_d400_store(addr, value);
 }
 
-BYTE c128_mmu_read(WORD addr)
+uint8_t c128_mmu_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = mmu_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_mmu_store(WORD addr, BYTE value)
+void c128_mmu_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     mmu_store(addr, value);
 }
 
-BYTE c128_d5xx_read(WORD addr)
+uint8_t c128_d5xx_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = d5xx_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_d5xx_store(WORD addr, BYTE value)
+void c128_d5xx_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     d5xx_store(addr, value);
 }
 
-BYTE c128_vdc_read(WORD addr)
+uint8_t c128_vdc_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = vdc_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_vdc_store(WORD addr, BYTE value)
+void c128_vdc_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     vdc_store(addr, value);
 }
 
-BYTE c128_c64io_d700_read(WORD addr)
+uint8_t c128_c64io_d700_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_d700_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_d700_store(WORD addr, BYTE value)
+void c128_c64io_d700_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_d700_store(addr, value);
 }
 
-BYTE c128_colorram_read(WORD addr)
+uint8_t c128_colorram_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = colorram_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_colorram_store(WORD addr, BYTE value)
+void c128_colorram_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     colorram_store(addr, value);
 }
 
-BYTE c128_cia1_read(WORD addr)
+uint8_t c128_cia1_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = cia1_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_cia1_store(WORD addr, BYTE value)
+void c128_cia1_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     cia1_store(addr, value);
 }
 
-BYTE c128_cia2_read(WORD addr)
+uint8_t c128_cia2_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = cia2_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_cia2_store(WORD addr, BYTE value)
+void c128_cia2_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     cia2_store(addr, value);
 }
 
-BYTE c128_c64io_de00_read(WORD addr)
+uint8_t c128_c64io_de00_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_de00_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_de00_store(WORD addr, BYTE value)
+void c128_c64io_de00_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_de00_store(addr, value);
 }
 
-BYTE c128_c64io_df00_read(WORD addr)
+uint8_t c128_c64io_df00_read(uint16_t addr)
 {
-    BYTE temp_value;
+    uint8_t temp_value;
 
     temp_value = c64io_df00_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io_df00_store(WORD addr, BYTE value)
+void c128_c64io_df00_store(uint16_t addr, uint8_t value)
 {
     vicii_clock_write_stretch();
     c64io_df00_store(addr, value);

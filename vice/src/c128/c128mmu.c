@@ -56,7 +56,7 @@
 /* #define MMU_DEBUG */
 
 /* MMU register.  */
-static BYTE mmu[12];
+static uint8_t mmu[12];
 
 /* State of the 40/80 column key.  */
 static int mmu_column4080_key = 1;
@@ -155,7 +155,7 @@ static void mmu_switch_cpu(int value)
     }
 }
 
-static void mmu_set_ram_bank(BYTE value)
+static void mmu_set_ram_bank(uint8_t value)
 {
     if (c128_full_banks) {
         ram_bank = mem_ram + (((long)value & 0xc0) << 10);
@@ -230,7 +230,7 @@ void mmu_set_config64(int config)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE mmu_peek(WORD addr)
+uint8_t mmu_peek(uint16_t addr)
 {
     addr &= 0xff;
 
@@ -240,7 +240,7 @@ BYTE mmu_peek(WORD addr)
 
     if (addr < 0xc) {
         if (addr == 5) {
-            BYTE exrom = export.exrom;
+            uint8_t exrom = export.exrom;
 
             if (force_c64_mode) {
                 exrom = 1;
@@ -258,14 +258,14 @@ BYTE mmu_peek(WORD addr)
     }
 }
 
-BYTE mmu_read(WORD addr)
+uint8_t mmu_read(uint16_t addr)
 {
     vicii_handle_pending_alarms_external(0);
 
     return mmu_peek(addr);
 }
 
-void mmu_store(WORD address, BYTE value)
+void mmu_store(uint16_t address, uint8_t value)
 {
     vicii_handle_pending_alarms_external_write();
 
@@ -276,7 +276,7 @@ void mmu_store(WORD address, BYTE value)
 #endif
 
     if (address < 0xb) {
-        BYTE oldvalue;
+        uint8_t oldvalue;
 
         oldvalue = mmu[address];
         mmu[address] = value;
@@ -329,7 +329,7 @@ void mmu_store(WORD address, BYTE value)
 
 /* $FF00 - $FFFF: RAM, Kernal or internal function ROM, with MMU at
    $FF00 - $FF04.  */
-BYTE mmu_ffxx_read(WORD addr)
+uint8_t mmu_ffxx_read(uint16_t addr)
 {
     if (addr >= 0xff00 && addr <= 0xff04) {
         return mmu[addr & 0xf];
@@ -348,7 +348,7 @@ BYTE mmu_ffxx_read(WORD addr)
     return top_shared_read(addr);
 }
 
-BYTE mmu_ffxx_read_z80(WORD addr)
+uint8_t mmu_ffxx_read_z80(uint16_t addr)
 {
     if (addr >= 0xff00 && addr <= 0xff04) {
         return mmu[addr & 0xf];
@@ -357,7 +357,7 @@ BYTE mmu_ffxx_read_z80(WORD addr)
     return top_shared_read(addr);
 }
 
-void mmu_ffxx_store(WORD addr, BYTE value)
+void mmu_ffxx_store(uint16_t addr, uint8_t value)
 {
     if (addr == 0xff00) {
         mmu_store(0, value);
@@ -373,7 +373,7 @@ void mmu_ffxx_store(WORD addr, BYTE value)
     }
 }
 
-int mmu_dump(void *context, WORD addr)
+int mmu_dump(void *context, uint16_t addr)
 {
     mon_out("CR: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
             (mmu[0] & 0xc0) >> 6,
@@ -449,7 +449,7 @@ void mmu_init(void)
 
 void mmu_reset(void)
 {
-    WORD i;
+    uint16_t i;
 
     for (i = 0; i < 0xb; i++) {
         mmu[i] = 0;

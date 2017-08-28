@@ -59,7 +59,7 @@ int c128_snapshot_write(const char *name, int save_roms, int save_disks, int eve
 {
     snapshot_t *s;
 
-    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)), SNAP_MACHINE_NAME);
+    s = snapshot_create(name, ((uint8_t)(SNAP_MAJOR)), ((uint8_t)(SNAP_MINOR)), SNAP_MACHINE_NAME);
     if (s == NULL) {
         return -1;
     }
@@ -91,7 +91,7 @@ int c128_snapshot_write(const char *name, int save_roms, int save_disks, int eve
 int c128_snapshot_read(const char *name, int event_mode)
 {
     snapshot_t *s;
-    BYTE minor, major;
+    uint8_t minor, major;
 
     s = snapshot_open(name, &major, &minor, SNAP_MACHINE_NAME);
     if (s == NULL) {

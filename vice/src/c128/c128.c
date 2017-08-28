@@ -154,21 +154,21 @@
 int c64_256k_enabled = 0;
 int c64_256k_start = 0xdf80;
 
-void c64_256k_store(WORD addr, BYTE byte)
+void c64_256k_store(uint16_t addr, uint8_t byte)
 {
 }
 
-BYTE c64_256k_read(WORD addr)
+uint8_t c64_256k_read(uint16_t addr)
 {
     return 0xff;
 }
 
-BYTE c64_256k_ram_segment2_read(WORD addr)
+uint8_t c64_256k_ram_segment2_read(uint16_t addr)
 {
     return mem_ram[addr];
 }
 
-void c64_256k_ram_segment2_store(WORD addr, BYTE byte)
+void c64_256k_ram_segment2_store(uint16_t addr, uint8_t byte)
 {
     mem_ram[addr] = byte;
 }
@@ -182,12 +182,12 @@ void c64_256k_cia_set_vbank(int ciabank)
 
 int plus60k_enabled = 0;
 
-BYTE plus60k_ram_read(WORD addr)
+uint8_t plus60k_ram_read(uint16_t addr)
 {
     return mem_ram[addr];
 }
 
-void plus60k_ram_store(WORD addr, BYTE value)
+void plus60k_ram_store(uint16_t addr, uint8_t value)
 {
     mem_ram[addr] = value;
 }
@@ -197,12 +197,12 @@ void plus60k_ram_store(WORD addr, BYTE value)
 
 int plus256k_enabled = 0;
 
-BYTE plus256k_ram_high_read(WORD addr)
+uint8_t plus256k_ram_high_read(uint16_t addr)
 {
     return mem_ram[addr];
 }
 
-void plus256k_ram_high_store(WORD addr, BYTE byte)
+void plus256k_ram_high_store(uint16_t addr, uint8_t byte)
 {
     mem_ram[addr] = byte;
 }
@@ -1413,12 +1413,12 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
     return diskcontents_iec_read(unit);
 }
 
-BYTE machine_tape_type_default(void)
+uint8_t machine_tape_type_default(void)
 {
     return TAPE_CAS_TYPE_BAS;
 }
 
-BYTE machine_tape_behaviour(void)
+uint8_t machine_tape_behaviour(void)
 {
     return TAPE_BEHAVIOUR_NORMAL;
 }
@@ -1436,7 +1436,7 @@ const char *machine_get_name(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void c128_userport_set_flag(BYTE b)
+static void c128_userport_set_flag(uint8_t b)
 {
     if (b != 0) {
         ciacore_set_flag(machine_context.cia2);

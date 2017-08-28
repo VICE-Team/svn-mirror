@@ -124,7 +124,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     monitor_memmap_store(addr, MEMMAP_RAM_W);
-    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
+    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (uint8_t)(value));
 }
 
 static void memmap_mark_read(unsigned int addr)
@@ -133,7 +133,7 @@ static void memmap_mark_read(unsigned int addr)
     memmap_state &= ~(MEMMAP_STATE_OPCODE);
 }
 
-static BYTE memmap_mem_read(unsigned int addr)
+static uint8_t memmap_mem_read(unsigned int addr)
 {
     memmap_mark_read(addr);
     return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
@@ -144,11 +144,11 @@ static BYTE memmap_mem_read(unsigned int addr)
 /* 8502 in fast mode always uses 0xee */
 #define ANE(value, pc_inc)                                              \
     do {                                                                \
-        BYTE tmp;                                                       \
+        uint8_t tmp;                                                       \
         if (vicii.fastmode != 0) {                                      \
-            tmp = ((reg_a_read | 0xee) & reg_x_read & ((BYTE)(value))); \
+            tmp = ((reg_a_read | 0xee) & reg_x_read & ((uint8_t)(value))); \
         } else {                                                        \
-            tmp = ((reg_a_read | 0xff) & reg_x_read & ((BYTE)(value))); \
+            tmp = ((reg_a_read | 0xff) & reg_x_read & ((uint8_t)(value))); \
         }                                                               \
         reg_a_write(tmp);                                               \
         LOCAL_SET_NZ(tmp);                                              \
@@ -158,7 +158,7 @@ static BYTE memmap_mem_read(unsigned int addr)
 /* No OR takes place on 8502 */
 #define LXA(value, pc_inc)                           \
     do {                                             \
-        BYTE tmp = ((reg_a_read) & ((BYTE)(value))); \
+        uint8_t tmp = ((reg_a_read) & ((uint8_t)(value))); \
         reg_x_write(tmp);                            \
         reg_a_write(tmp);                            \
         LOCAL_SET_NZ(tmp);                           \

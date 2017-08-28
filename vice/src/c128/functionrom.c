@@ -52,7 +52,7 @@ static int internal_function_rom_enabled;
 static char *internal_function_rom_name = NULL;
 
 /* Image of the internal function ROM.  */
-BYTE int_function_rom[INTERNAL_FUNCTION_ROM_SIZE];
+uint8_t int_function_rom[INTERNAL_FUNCTION_ROM_SIZE];
 
 /* Flag: Do we enable the external function ROM?  */
 /* New meaning: 0=no, 1=yes (rom), 2=yes (ram), 3=yes (rtc) */
@@ -62,7 +62,7 @@ static int external_function_rom_enabled;
 static char *external_function_rom_name = NULL;
 
 /* Image of the external function ROM.  */
-BYTE ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE];
+uint8_t ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE];
 
 /* Flag: Do we save RTC info when changed? */
 static int internal_function_rtc_save;
@@ -315,18 +315,18 @@ static int functionrom_load_external(void)
     return 0;
 }
 
-BYTE internal_function_rom_read(WORD addr)
+uint8_t internal_function_rom_read(uint16_t addr)
 {
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
-        return bq4830y_read(rtc1_context, (WORD)(addr & 0x7fff));
+        return bq4830y_read(rtc1_context, (uint16_t)(addr & 0x7fff));
     }
     return int_function_rom[addr & (INTERNAL_FUNCTION_ROM_SIZE - 1)];
 }
 
-void internal_function_rom_store(WORD addr, BYTE value)
+void internal_function_rom_store(uint16_t addr, uint8_t value)
 {
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
-        bq4830y_store(rtc1_context, (WORD)(addr & 0x7fff), value);
+        bq4830y_store(rtc1_context, (uint16_t)(addr & 0x7fff), value);
         ram_store(addr, value);
     } else if (internal_function_rom_enabled == INT_FUNCTION_RAM) {
         int_function_rom[addr & (INTERNAL_FUNCTION_ROM_SIZE - 1)] = value;
@@ -336,10 +336,10 @@ void internal_function_rom_store(WORD addr, BYTE value)
     }
 }
 
-void internal_function_top_shared_store(WORD addr, BYTE value)
+void internal_function_top_shared_store(uint16_t addr, uint8_t value)
 {
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
-        bq4830y_store(rtc1_context, (WORD)(addr & 0x7fff), value);
+        bq4830y_store(rtc1_context, (uint16_t)(addr & 0x7fff), value);
         top_shared_store(addr, value);
     } else if (internal_function_rom_enabled == INT_FUNCTION_RAM) {
         int_function_rom[addr & (INTERNAL_FUNCTION_ROM_SIZE - 1)] = value;
@@ -349,18 +349,18 @@ void internal_function_top_shared_store(WORD addr, BYTE value)
     }
 }
 
-BYTE external_function_rom_read(WORD addr)
+uint8_t external_function_rom_read(uint16_t addr)
 {
     if (external_function_rom_enabled == EXT_FUNCTION_RTC) {
-        return bq4830y_read(rtc2_context, (WORD)(addr & 0x7fff));
+        return bq4830y_read(rtc2_context, (uint16_t)(addr & 0x7fff));
     }
     return ext_function_rom[addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)];
 }
 
-void external_function_rom_store(WORD addr, BYTE value)
+void external_function_rom_store(uint16_t addr, uint8_t value)
 {
     if (external_function_rom_enabled == EXT_FUNCTION_RTC) {
-        bq4830y_store(rtc2_context, (WORD)(addr & 0x7fff), value);
+        bq4830y_store(rtc2_context, (uint16_t)(addr & 0x7fff), value);
         ram_store(addr, value);
     } else if (external_function_rom_enabled == EXT_FUNCTION_RAM) {
         ext_function_rom[addr & (EXTERNAL_FUNCTION_ROM_SIZE - 1)] = value;
@@ -370,10 +370,10 @@ void external_function_rom_store(WORD addr, BYTE value)
     }
 }
 
-void external_function_top_shared_store(WORD addr, BYTE value)
+void external_function_top_shared_store(uint16_t addr, uint8_t value)
 {
     if (external_function_rom_enabled == INT_FUNCTION_RTC) {
-        bq4830y_store(rtc2_context, (WORD)(addr & 0x7fff), value);
+        bq4830y_store(rtc2_context, (uint16_t)(addr & 0x7fff), value);
         top_shared_store(addr, value);
     } else if (external_function_rom_enabled == INT_FUNCTION_RAM) {
         ext_function_rom[addr & (INTERNAL_FUNCTION_ROM_SIZE - 1)] = value;

@@ -96,7 +96,7 @@ fail:
 
 static int mem_read_rom_snapshot_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
     int trapfl;
 
@@ -164,7 +164,7 @@ static char snap_module_name[] = "C128MEM";
 int c128_snapshot_write_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
-    WORD i;
+    uint16_t i;
 
     /* Main memory module.  */
 
@@ -209,10 +209,10 @@ fail:
 
 int c128_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
-    WORD i;
-    BYTE byte;
+    uint16_t i;
+    uint8_t byte;
 
     /* Main memory module.  */
 

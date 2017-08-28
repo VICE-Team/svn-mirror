@@ -65,27 +65,27 @@ static int rom_loaded = 0;
 #include "c128chargch.h"
 #else
 /* National Kernal ROM images. */
-static BYTE kernal_int[C128_KERNAL_ROM_IMAGE_SIZE];
-static BYTE kernal_de[C128_KERNAL_ROM_IMAGE_SIZE];
-static BYTE kernal_fi[C128_KERNAL_ROM_IMAGE_SIZE];
-static BYTE kernal_fr[C128_KERNAL_ROM_IMAGE_SIZE];
-static BYTE kernal_it[C128_KERNAL_ROM_IMAGE_SIZE];
-static BYTE kernal_no[C128_KERNAL_ROM_IMAGE_SIZE];
-static BYTE kernal_se[C128_KERNAL_ROM_IMAGE_SIZE];
-static BYTE kernal_ch[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_int[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_de[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_fi[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_fr[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_it[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_no[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_se[C128_KERNAL_ROM_IMAGE_SIZE];
+static uint8_t kernal_ch[C128_KERNAL_ROM_IMAGE_SIZE];
 
 /* National Chargen ROM images. */
-static BYTE chargen_int[C128_CHARGEN_ROM_SIZE];
-static BYTE chargen_de[C128_CHARGEN_ROM_SIZE];
-static BYTE chargen_fr[C128_CHARGEN_ROM_SIZE];
-static BYTE chargen_se[C128_CHARGEN_ROM_SIZE];
-static BYTE chargen_ch[C128_CHARGEN_ROM_SIZE];
+static uint8_t chargen_int[C128_CHARGEN_ROM_SIZE];
+static uint8_t chargen_de[C128_CHARGEN_ROM_SIZE];
+static uint8_t chargen_fr[C128_CHARGEN_ROM_SIZE];
+static uint8_t chargen_se[C128_CHARGEN_ROM_SIZE];
+static uint8_t chargen_ch[C128_CHARGEN_ROM_SIZE];
 #endif
 
 int c128rom_kernal_checksum(void)
 {
     int i, id;
-    WORD sum;
+    uint16_t sum;
 
     /* Check Kernal ROM.  */
     for (i = 0, sum = 0; i < C128_KERNAL_ROM_SIZE; i++) {
@@ -232,7 +232,7 @@ int c128rom_load_kernal_ch(const char *rom_name)
 int c128rom_kernal_setup(void)
 {
     int trapfl, machine_type;
-    BYTE *kernal = NULL;
+    uint8_t *kernal = NULL;
 
     if (!rom_loaded) {
         return 0;
@@ -289,7 +289,7 @@ int c128rom_kernal_setup(void)
 int c128rom_basic_checksum(void)
 {
     int i, id;
-    WORD sum;
+    uint16_t sum;
 
     /* Check Basic ROM.  */
     for (i = 0, sum = 0; i < C128_BASIC_ROM_SIZE; i++) {
@@ -348,7 +348,7 @@ int c128rom_load_basichi(const char *rom_name)
 int c128rom_chargen_setup(void)
 {
     int machine_type;
-    BYTE *chargen;
+    uint8_t *chargen;
 
     if (!rom_loaded) {
         return 0;
@@ -467,7 +467,7 @@ int c128rom_load_chargen_ch(const char *rom_name)
 
 int c64rom_cartkernal_active = 0;
 
-int c128rom_load_kernal64(const char *rom_name, BYTE *cartkernal)
+int c128rom_load_kernal64(const char *rom_name, uint8_t *cartkernal)
 {
     if (!rom_loaded) {
         return 0;
@@ -647,7 +647,7 @@ int mem_load(void)
     return 0;
 }
 
-int c64rom_load_kernal(const char *rom_name, BYTE *cartkernal)
+int c64rom_load_kernal(const char *rom_name, uint8_t *cartkernal)
 {
     return c128rom_load_kernal64(rom_name, cartkernal);
 }
