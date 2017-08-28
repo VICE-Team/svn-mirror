@@ -64,7 +64,7 @@
  * (by reasoning around minimal decoding, may be different on actual HW)
  */
 #define CART_RAM_SIZE 0x8000
-static BYTE *cart_ram = NULL;
+static uint8_t *cart_ram = NULL;
 
 /*
  * Cartridge NvRAM
@@ -77,7 +77,7 @@ static BYTE *cart_ram = NULL;
  * (by reasoning around minimal decoding, may be different on actual HW)
  */
 #define CART_NVRAM_SIZE 0x2000
-static BYTE *cart_nvram = NULL;
+static uint8_t *cart_nvram = NULL;
 
 /*
  * Cartridge ROM
@@ -89,14 +89,14 @@ static BYTE *cart_nvram = NULL;
  *
  */
 #define CART_ROM_SIZE 0x200000
-static BYTE *cart_rom = NULL;
+static uint8_t *cart_rom = NULL;
 
 /* Cartridge States */
 static enum { BUTTON_RESET, SOFTWARE_RESET } reset_mode = BUTTON_RESET;
 static int oe_flop = 0;
 static int nvram_en_flop = 0;
-static BYTE bank_low_reg = 0;
-static BYTE bank_high_reg = 0;
+static uint8_t bank_low_reg = 0;
+static uint8_t bank_high_reg = 0;
 
 /* Resource variables */
 static char *nvram_filename = NULL;
@@ -107,17 +107,17 @@ static log_t megacart_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 
 /* helper pointers */
-static BYTE *cart_rom_low;
-static BYTE *cart_rom_high;
+static uint8_t *cart_rom_low;
+static uint8_t *cart_rom_high;
 
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static BYTE megacart_io2_read(WORD addr);
-static void megacart_io2_store(WORD addr, BYTE value);
-static BYTE megacart_io3_read(WORD addr);
-static BYTE megacart_io3_peek(WORD addr);
-static void megacart_io3_store(WORD addr, BYTE value);
+static uint8_t megacart_io2_read(uint16_t addr);
+static void megacart_io2_store(uint16_t addr, uint8_t value);
+static uint8_t megacart_io3_read(uint16_t addr);
+static uint8_t megacart_io3_peek(uint16_t addr);
+static void megacart_io3_store(uint16_t addr, uint8_t value);
 static int megacart_mon_dump(void);
 
 static io_source_t megacart_io2_device = {
@@ -160,7 +160,7 @@ static const export_resource_t export_res = {
 /* ------------------------------------------------------------------------- */
 
 /* read 0x0400-0x0fff */
-BYTE megacart_ram123_read(WORD addr)
+uint8_t megacart_ram123_read(uint16_t addr)
 {
     if (nvram_en_flop) {
         return cart_nvram[addr & 0x1fff];
@@ -170,7 +170,7 @@ BYTE megacart_ram123_read(WORD addr)
 }
 
 /* store 0x0400-0x0fff */
-void megacart_ram123_store(WORD addr, BYTE value)
+void megacart_ram123_store(uint16_t addr, uint8_t value)
 {
     if (nvram_en_flop) {
         cart_nvram[addr & 0x1fff] = value;
@@ -178,10 +178,10 @@ void megacart_ram123_store(WORD addr, BYTE value)
 }
 
 /* read 0x2000-0x7fff */
-BYTE megacart_blk123_read(WORD addr)
+uint8_t megacart_blk123_read(uint16_t addr)
 {
-    BYTE bank_low;
-    BYTE bank_high;
+    uint8_t bank_low;
+    uint8_t bank_high;
     int ram_low_en;
     int ram_high_en;
 
@@ -205,10 +205,10 @@ BYTE megacart_blk123_read(WORD addr)
 }
 
 /* store 0x2000-0x7fff */
-void megacart_blk123_store(WORD addr, BYTE value)
+void megacart_blk123_store(uint16_t addr, uint8_t value)
 {
-    BYTE bank_low;
-    BYTE bank_high;
+    uint8_t bank_low;
+    uint8_t bank_high;
     int ram_low_en;
     int ram_high_en;
     int ram_wp;
@@ -228,10 +228,10 @@ void megacart_blk123_store(WORD addr, BYTE value)
 }
 
 /* read 0xa000-0xbfff */
-BYTE megacart_blk5_read(WORD addr)
+uint8_t megacart_blk5_read(uint16_t addr)
 {
-    BYTE bank_low;
-    BYTE bank_high;
+    uint8_t bank_low;
+    uint8_t bank_high;
     int ram_low_en;
     int ram_high_en;
 
@@ -255,10 +255,10 @@ BYTE megacart_blk5_read(WORD addr)
 }
 
 /* store 0xa000-0xbfff */
-void megacart_blk5_store(WORD addr, BYTE value)
+void megacart_blk5_store(uint16_t addr, uint8_t value)
 {
-    BYTE bank_low;
-    BYTE bank_high;
+    uint8_t bank_low;
+    uint8_t bank_high;
     int ram_low_en;
     int ram_high_en;
     int ram_wp;
@@ -278,9 +278,10 @@ void megacart_blk5_store(WORD addr, BYTE value)
 }
 
 /* read 0x9800-0x9bff */
-static BYTE megacart_io2_read(WORD addr)
+static uint8_t megacart_io2_read(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
+
     if (nvram_en_flop) {
         megacart_io2_device.io_source_valid = 1;
         value = cart_nvram[addr & 0x1fff];
@@ -292,7 +293,7 @@ static BYTE megacart_io2_read(WORD addr)
 }
 
 /* store 0x9800-0x9bff */
-static void megacart_io2_store(WORD addr, BYTE value)
+static void megacart_io2_store(uint16_t addr, uint8_t value)
 {
     if (nvram_en_flop) {
         cart_nvram[addr & 0x1fff] = value;
@@ -300,9 +301,10 @@ static void megacart_io2_store(WORD addr, BYTE value)
 }
 
 /* read 0x9c00-0x9fff */
-static BYTE megacart_io3_read(WORD addr)
+static uint8_t megacart_io3_read(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
+
     if (nvram_en_flop) {
         megacart_io3_device.io_source_valid = 1;
         value = cart_nvram[addr & 0x1fff];
@@ -313,7 +315,7 @@ static BYTE megacart_io3_read(WORD addr)
     return value;
 }
 
-static BYTE megacart_io3_peek(WORD addr)
+static uint8_t megacart_io3_peek(uint16_t addr)
 {
     if ((addr & 0x180) == 0x080) { /* $9c80 */
         return bank_high_reg;
@@ -327,7 +329,7 @@ static BYTE megacart_io3_peek(WORD addr)
 }
 
 /* store 0x9c00-0x9fff */
-static void megacart_io3_store(WORD addr, BYTE value)
+static void megacart_io3_store(uint16_t addr, uint8_t value)
 {
     if (nvram_en_flop) {
         cart_nvram[addr & 0x1fff] = value;
@@ -377,12 +379,11 @@ void megacart_reset(void)
     reset_mode = BUTTON_RESET;
 }
 
-void megacart_config_setup(BYTE *rawcart)
+void megacart_config_setup(uint8_t *rawcart)
 {
 }
 
-
-static int zfile_load(const char *filename, BYTE *dest, size_t size)
+static int zfile_load(const char *filename, uint8_t *dest, size_t size)
 {
     FILE *fd;
 
@@ -604,8 +605,8 @@ int megacart_snapshot_write_module(snapshot_t *s)
     if (0
         || (SMW_B(m, bank_low_reg) < 0)
         || (SMW_B(m, bank_high_reg) < 0)
-        || (SMW_B(m, (BYTE)oe_flop) < 0)
-        || (SMW_B(m, (BYTE)nvram_en_flop) < 0)
+        || (SMW_B(m, (uint8_t)oe_flop) < 0)
+        || (SMW_B(m, (uint8_t)nvram_en_flop) < 0)
         || (SMW_BA(m, cart_ram, CART_RAM_SIZE) < 0)
         || (SMW_BA(m, cart_rom, CART_ROM_SIZE) < 0)
         || (SMW_BA(m, cart_nvram, CART_NVRAM_SIZE) < 0)) {
@@ -619,7 +620,7 @@ int megacart_snapshot_write_module(snapshot_t *s)
 
 int megacart_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
@@ -679,8 +680,8 @@ int megacart_snapshot_read_module(snapshot_t *s)
 
 static int megacart_mon_dump(void)
 {
-    BYTE bank_low;
-    BYTE bank_high;
+    uint8_t bank_low;
+    uint8_t bank_high;
     int ram_low_en;
     int ram_high_en;
     int ram_wp;

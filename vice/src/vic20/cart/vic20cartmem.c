@@ -68,7 +68,7 @@ int mem_cart_blocks = 0;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE cartridge_read_ram123(WORD addr)
+uint8_t cartridge_read_ram123(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
@@ -94,7 +94,7 @@ BYTE cartridge_read_ram123(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE cartridge_peek_ram123(WORD addr)
+uint8_t cartridge_peek_ram123(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_GENERIC:
@@ -113,7 +113,7 @@ BYTE cartridge_peek_ram123(WORD addr)
     return 0;
 }
 
-void cartridge_store_ram123(WORD addr, BYTE value)
+void cartridge_store_ram123(uint16_t addr, uint8_t value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -136,7 +136,7 @@ void cartridge_store_ram123(WORD addr, BYTE value)
     vic20_mem_v_bus_store(addr);
 }
 
-BYTE cartridge_read_blk1(WORD addr)
+uint8_t cartridge_read_blk1(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -161,7 +161,7 @@ BYTE cartridge_read_blk1(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE cartridge_peek_blk1(WORD addr)
+uint8_t cartridge_peek_blk1(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -180,7 +180,7 @@ BYTE cartridge_peek_blk1(WORD addr)
     return 0;
 }
 
-void cartridge_store_blk1(WORD addr, BYTE value)
+void cartridge_store_blk1(uint16_t addr, uint8_t value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -202,7 +202,7 @@ void cartridge_store_blk1(WORD addr, BYTE value)
     }
 }
 
-BYTE cartridge_read_blk2(WORD addr)
+uint8_t cartridge_read_blk2(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -227,7 +227,7 @@ BYTE cartridge_read_blk2(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE cartridge_peek_blk2(WORD addr)
+uint8_t cartridge_peek_blk2(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -246,7 +246,7 @@ BYTE cartridge_peek_blk2(WORD addr)
     return 0;
 }
 
-void cartridge_store_blk2(WORD addr, BYTE value)
+void cartridge_store_blk2(uint16_t addr, uint8_t value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -268,7 +268,7 @@ void cartridge_store_blk2(WORD addr, BYTE value)
     }
 }
 
-BYTE cartridge_read_blk3(WORD addr)
+uint8_t cartridge_read_blk3(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -293,7 +293,7 @@ BYTE cartridge_read_blk3(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE cartridge_peek_blk3(WORD addr)
+uint8_t cartridge_peek_blk3(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -312,7 +312,7 @@ BYTE cartridge_peek_blk3(WORD addr)
     return 0;
 }
 
-void cartridge_store_blk3(WORD addr, BYTE value)
+void cartridge_store_blk3(uint16_t addr, uint8_t value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -334,7 +334,7 @@ void cartridge_store_blk3(WORD addr, BYTE value)
     }
 }
 
-BYTE cartridge_read_blk5(WORD addr)
+uint8_t cartridge_read_blk5(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -359,7 +359,7 @@ BYTE cartridge_read_blk5(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE cartridge_peek_blk5(WORD addr)
+uint8_t cartridge_peek_blk5(uint16_t addr)
 {
     switch (mem_cartridge_type) {
         case CARTRIDGE_VIC20_BEHRBONZ:
@@ -378,7 +378,7 @@ BYTE cartridge_peek_blk5(WORD addr)
     return 0;
 }
 
-void cartridge_store_blk5(WORD addr, BYTE value)
+void cartridge_store_blk5(uint16_t addr, uint8_t value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -463,7 +463,7 @@ void cartridge_reset(void)
     }
 }
 
-void cartridge_attach(int type, BYTE *rawcart)
+void cartridge_attach(int type, uint8_t *rawcart)
 {
     int cartridge_reset;
 

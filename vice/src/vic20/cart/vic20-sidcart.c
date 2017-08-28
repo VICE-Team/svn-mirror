@@ -87,7 +87,7 @@ static sound_chip_t sidcart_sound_chip = {
     0 /* chip enabled */
 };
 
-static WORD sidcart_sound_chip_offset = 0;
+static uint16_t sidcart_sound_chip_offset = 0;
 
 void sidcart_sound_chip_init(void)
 {
@@ -124,7 +124,7 @@ static void sidcart_disable(void)
 
 static int set_sidcart_address(int val)
 {
-    WORD address = (WORD)val;
+    uint16_t address = (uint16_t)val;
 
     switch (val) {
         case 0x9800:
@@ -284,8 +284,8 @@ int sidcart_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_W(m, (WORD)sidcart_address) < 0
-        || SMW_B(m, (BYTE)sidcart_clock) < 0) {
+        || SMW_W(m, (uint16_t)sidcart_address) < 0
+        || SMW_B(m, (uint8_t)sidcart_clock) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -297,7 +297,7 @@ int sidcart_snapshot_write_module(snapshot_t *s)
 
 int sidcart_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
     int tmp_address;
     int tmp_clock;

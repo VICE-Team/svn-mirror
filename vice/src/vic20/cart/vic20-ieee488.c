@@ -43,7 +43,7 @@ static int ieee488_enabled;
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE ieee488_read(WORD address)
+static uint8_t ieee488_read(uint16_t address)
 {
     if (address & 0x10) {
         return ieeevia2_read(address);
@@ -51,7 +51,7 @@ static BYTE ieee488_read(WORD address)
     return ieeevia1_read(address);
 }
 
-static void ieee488_store(WORD address, BYTE value)
+static void ieee488_store(uint16_t address, uint8_t value)
 {
     if (address & 0x10) {
         ieeevia2_store(address, value);
@@ -179,7 +179,7 @@ int vic20_ieee488_snapshot_read_module(snapshot_t *s)
 {
     return -1;
 #if 0
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

@@ -475,7 +475,7 @@ const char *cartridge_get_file_name(int addr)
 {
     if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
         /* special case handling for the multiple file generic type */
-        return generic_get_file_name((WORD)addr);
+        return generic_get_file_name((uint16_t)addr);
     }
 
     return cartfile;
@@ -492,8 +492,8 @@ const char *cartridge_get_file_name(int addr)
 int vic20cart_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    BYTE i;
-    BYTE number_of_carts = 0;
+    uint8_t i;
+    uint8_t number_of_carts = 0;
     int cart_ids[VIC20CART_DUMP_MAX_CARTS];
     int last_cart = 0;
     export_list_t *e = export_query_list(NULL);
@@ -517,7 +517,7 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (SMW_DW(m, (DWORD)vic20cart_type) < 0) {
+    if (SMW_DW(m, (uint32_t)vic20cart_type) < 0) {
         goto fail;
     }
 
@@ -532,7 +532,7 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
 
     /* Save cart IDs */
     for (i = 0; i < number_of_carts; i++) {
-        if (SMW_DW(m, (DWORD)cart_ids[i]) < 0) {
+        if (SMW_DW(m, (uint32_t)cart_ids[i]) < 0) {
             goto fail;
         }
     }
@@ -648,11 +648,11 @@ fail:
 
 int vic20cart_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
     int new_cart_type, cartridge_reset;
-    BYTE i;
-    BYTE number_of_carts = 0;
+    uint8_t i;
+    uint8_t number_of_carts = 0;
     int cart_ids[VIC20CART_DUMP_MAX_CARTS];
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

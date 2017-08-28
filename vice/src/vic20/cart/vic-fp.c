@@ -67,13 +67,13 @@
  *   0x2000 - 0x7fff  ->  0x2000 - 0x7fff
  */
 #define CART_RAM_SIZE 0x8000
-static BYTE *cart_ram = NULL;
+static uint8_t *cart_ram = NULL;
 
 /*
  * Cartridge ROM (4 MiB)
  */
 #define CART_ROM_SIZE 0x400000
-static BYTE *cart_rom = NULL;
+static uint8_t *cart_rom = NULL;
 
 #define CART_CFG_ENABLE (!(cart_cfg_reg & 0x80)) /* cart_cfg_reg enable */
 #define CART_CFG_BLK5_WP (cart_cfg_reg & 0x40) /* BLK5 write protect */
@@ -87,7 +87,7 @@ static BYTE *cart_rom = NULL;
 #define CART_CFG_DEFAULT 0x40
 
 /** ROM bank switching register (A20..A13), mapped at $9800..$9bfe (even) */
-static BYTE cart_bank_reg;
+static uint8_t cart_bank_reg;
 /** configuration register, mapped at $9801..$9bff (odd)
  * b7 == 1 => I/O2 disabled until RESET
  * b6 == 1 => ROM write protect (set by default)
@@ -97,7 +97,7 @@ static BYTE cart_bank_reg;
  * b2, b1=unused (always 0)
  * b0 => A21
  */
-static BYTE cart_cfg_reg;
+static uint8_t cart_cfg_reg;
 
 /* Cartridge States */
 /** Flash state */
@@ -140,9 +140,9 @@ static log_t fp_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static BYTE vic_fp_io2_read(WORD addr);
-static BYTE vic_fp_io2_peek(WORD addr);
-static void vic_fp_io2_store(WORD addr, BYTE value);
+static uint8_t vic_fp_io2_read(uint16_t addr);
+static uint8_t vic_fp_io2_peek(uint16_t addr);
+static void vic_fp_io2_store(uint16_t addr, uint8_t value);
 static int vic_fp_mon_dump(void);
 
 static io_source_t vfp_device = {
@@ -169,7 +169,7 @@ static const export_resource_t export_res = {
 /* ------------------------------------------------------------------------- */
 
 /* read 0x0400-0x0fff */
-BYTE vic_fp_ram123_read(WORD addr)
+uint8_t vic_fp_ram123_read(uint16_t addr)
 {
     if (ram123_en_flop) {
         return cart_ram[(addr & 0x1fff) + 0x2000];
@@ -179,7 +179,7 @@ BYTE vic_fp_ram123_read(WORD addr)
 }
 
 /* store 0x0400-0x0fff */
-void vic_fp_ram123_store(WORD addr, BYTE value)
+void vic_fp_ram123_store(uint16_t addr, uint8_t value)
 {
     if (ram123_en_flop) {
         cart_ram[(addr & 0x1fff) + 0x2000] = value;
@@ -187,7 +187,7 @@ void vic_fp_ram123_store(WORD addr, BYTE value)
 }
 
 /* read 0x2000-0x3fff */
-BYTE vic_fp_blk1_read(WORD addr)
+uint8_t vic_fp_blk1_read(uint16_t addr)
 {
     if (blk1_en_flop) {
         return cart_ram[addr];
@@ -197,7 +197,7 @@ BYTE vic_fp_blk1_read(WORD addr)
 }
 
 /* store 0x2000-0x3fff */
-void vic_fp_blk1_store(WORD addr, BYTE value)
+void vic_fp_blk1_store(uint16_t addr, uint8_t value)
 {
     if (blk1_en_flop) {
         cart_ram[addr] = value;
@@ -205,19 +205,19 @@ void vic_fp_blk1_store(WORD addr, BYTE value)
 }
 
 /* read 0x4000-0x7fff */
-BYTE vic_fp_blk23_read(WORD addr)
+uint8_t vic_fp_blk23_read(uint16_t addr)
 {
     return cart_ram[addr];
 }
 
 /* store 0x4000-0x7fff */
-void vic_fp_blk23_store(WORD addr, BYTE value)
+void vic_fp_blk23_store(uint16_t addr, uint8_t value)
 {
     cart_ram[addr] = value;
 }
 
 /* read 0xa000-0xbfff */
-BYTE vic_fp_blk5_read(WORD addr)
+uint8_t vic_fp_blk5_read(uint16_t addr)
 {
     if (ram5_flop) {
         return cart_ram[addr & 0x1fff];
@@ -227,7 +227,7 @@ BYTE vic_fp_blk5_read(WORD addr)
 }
 
 /* store 0xa000-0xbfff */
-void vic_fp_blk5_store(WORD addr, BYTE value)
+void vic_fp_blk5_store(uint16_t addr, uint8_t value)
 {
     if (CART_CFG_BLK5_WP) {
     } else if (ram5_flop) {
@@ -238,9 +238,9 @@ void vic_fp_blk5_store(WORD addr, BYTE value)
 }
 
 /* read 0x9800-0x9bff */
-BYTE vic_fp_io2_read(WORD addr)
+uint8_t vic_fp_io2_read(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
 
     vfp_device.io_source_valid = 0;
 
@@ -257,9 +257,9 @@ BYTE vic_fp_io2_read(WORD addr)
     return value;
 }
 
-BYTE vic_fp_io2_peek(WORD addr)
+uint8_t vic_fp_io2_peek(uint16_t addr)
 {
-    BYTE value;
+    uint8_t value;
 
     if (addr & 1) {
         value = cart_cfg_reg;
@@ -271,7 +271,7 @@ BYTE vic_fp_io2_peek(WORD addr)
 }
 
 /* store 0x9800-0x9bff */
-void vic_fp_io2_store(WORD addr, BYTE value)
+void vic_fp_io2_store(uint16_t addr, uint8_t value)
 {
     if (!cfg_en_flop) {
         /* ignore */
@@ -299,12 +299,11 @@ void vic_fp_reset(void)
     CART_CFG_INIT(CART_CFG_DEFAULT);
 }
 
-void vic_fp_config_setup(BYTE *rawcart)
+void vic_fp_config_setup(uint8_t *rawcart)
 {
 }
 
-
-static int zfile_load(const char *filename, BYTE *dest, size_t size)
+static int zfile_load(const char *filename, uint8_t *dest, size_t size)
 {
     FILE *fd;
 
@@ -481,7 +480,7 @@ int vic_fp_snapshot_write_module(snapshot_t *s)
 
 int vic_fp_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

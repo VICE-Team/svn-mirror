@@ -92,7 +92,7 @@ static char *cartfileB = NULL;
  *
  */
 #define CART_RAM_SIZE 0x9000
-static BYTE *cart_ram = NULL;
+static uint8_t *cart_ram = NULL;
 
 /*
  * Cartridge ROM
@@ -105,7 +105,7 @@ static BYTE *cart_ram = NULL;
  *
  */
 #define CART_ROM_SIZE 0x9000
-static BYTE *cart_rom = NULL;
+static uint8_t *cart_rom = NULL;
 
 /* Cartridge States */
 int generic_ram_blocks = 0;
@@ -114,7 +114,7 @@ int generic_rom_blocks = 0;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE generic_ram123_read(WORD addr)
+uint8_t generic_ram123_read(uint16_t addr)
 {
     if (generic_ram_blocks & VIC_CART_RAM123) {
         return cart_ram[(addr & 0x0fff) | 0x8000];
@@ -122,14 +122,14 @@ BYTE generic_ram123_read(WORD addr)
     return cart_rom[(addr & 0x0fff) | 0x8000];
 }
 
-void generic_ram123_store(WORD addr, BYTE value)
+void generic_ram123_store(uint16_t addr, uint8_t value)
 {
     if (generic_ram_blocks & VIC_CART_RAM123) {
         cart_ram[(addr & 0x0fff) | 0x8000] = value;
     }
 }
 
-BYTE generic_blk1_read(WORD addr)
+uint8_t generic_blk1_read(uint16_t addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK1) {
         return cart_ram[addr];
@@ -137,14 +137,14 @@ BYTE generic_blk1_read(WORD addr)
     return cart_rom[addr];
 }
 
-void generic_blk1_store(WORD addr, BYTE value)
+void generic_blk1_store(uint16_t addr, uint8_t value)
 {
     if (generic_ram_blocks & VIC_CART_BLK1) {
         cart_ram[addr] = value;
     }
 }
 
-BYTE generic_blk2_read(WORD addr)
+uint8_t generic_blk2_read(uint16_t addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK2) {
         return cart_ram[addr];
@@ -152,14 +152,14 @@ BYTE generic_blk2_read(WORD addr)
     return cart_rom[addr];
 }
 
-void generic_blk2_store(WORD addr, BYTE value)
+void generic_blk2_store(uint16_t addr, uint8_t value)
 {
     if (generic_ram_blocks & VIC_CART_BLK2) {
         cart_ram[addr] = value;
     }
 }
 
-BYTE generic_blk3_read(WORD addr)
+uint8_t generic_blk3_read(uint16_t addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK3) {
         return cart_ram[addr];
@@ -167,14 +167,14 @@ BYTE generic_blk3_read(WORD addr)
     return cart_rom[addr];
 }
 
-void generic_blk3_store(WORD addr, BYTE value)
+void generic_blk3_store(uint16_t addr, uint8_t value)
 {
     if (generic_ram_blocks & VIC_CART_BLK3) {
         cart_ram[addr] = value;
     }
 }
 
-BYTE generic_blk5_read(WORD addr)
+uint8_t generic_blk5_read(uint16_t addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK5) {
         return cart_ram[addr & 0x1fff];
@@ -182,7 +182,7 @@ BYTE generic_blk5_read(WORD addr)
     return cart_rom[addr & 0x1fff];
 }
 
-void generic_blk5_store(WORD addr, BYTE value)
+void generic_blk5_store(uint16_t addr, uint8_t value)
 {
     if (generic_ram_blocks & VIC_CART_BLK5) {
         cart_ram[addr & 0x1fff] = value;
@@ -199,10 +199,9 @@ void generic_reset(void)
 {
 }
 
-void generic_config_setup(BYTE *rawcart)
+void generic_config_setup(uint8_t *rawcart)
 {
 }
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -214,7 +213,7 @@ void generic_config_setup(BYTE *rawcart)
  */
 static int attach_image(int type, const char *filename)
 {
-    BYTE rawcart[0x4000];
+    uint8_t rawcart[0x4000];
     FILE *fd;
     int addr, len;
     size_t n;
@@ -529,7 +528,7 @@ void generic_set_default(void)
 }
 
 /* FIXME: rewrite to use cartids defined in cartridge.h instead of an address */
-const char *generic_get_file_name(WORD addr)
+const char *generic_get_file_name(uint16_t addr)
 {
     switch (addr) {
         case 0x2000:
@@ -563,8 +562,8 @@ int generic_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_DW(m, (DWORD)generic_ram_blocks) < 0)
-        || (SMW_DW(m, (DWORD)generic_rom_blocks) < 0)
+        || (SMW_DW(m, (uint32_t)generic_ram_blocks) < 0)
+        || (SMW_DW(m, (uint32_t)generic_rom_blocks) < 0)
         || (SMW_BA(m, cart_ram, CART_RAM_SIZE) < 0)
         || (SMW_BA(m, cart_rom, CART_ROM_SIZE) < 0)) {
         snapshot_module_close(m);
@@ -577,7 +576,7 @@ int generic_snapshot_write_module(snapshot_t *s)
 
 int generic_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

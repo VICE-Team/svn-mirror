@@ -62,7 +62,7 @@
  * Cartridge RAM (512KiB or 1 MiB)
  */
 static size_t cart_ram_size;
-static BYTE *cart_ram = NULL;
+static uint8_t *cart_ram = NULL;
 #define CART_RAM_SIZE_1M (1 << 20)
 #define CART_RAM_SIZE_512K (512 << 10)
 #define CART_RAM_SIZE_MAX CART_RAM_SIZE_1M
@@ -71,7 +71,7 @@ static BYTE *cart_ram = NULL;
  * Flash ROM
  */
 static size_t cart_rom_size;
-static BYTE *cart_rom = NULL;
+static uint8_t *cart_rom = NULL;
 #define CART_ROM_SIZE_8M (8 << 20)
 #define CART_ROM_SIZE_512K (512 << 10)
 #define CART_ROM_SIZE_MAX CART_ROM_SIZE_8M
@@ -84,9 +84,10 @@ static BYTE *cart_rom = NULL;
 #define CART_CFG_DISABLE (ultimem[0] & ultimem_reg0_regs_disable)
 
 /** Configuration registers, plus state for re-enabling the registers */
-static BYTE ultimem[17];
+static uint8_t ultimem[17];
+
 /** Used bits in ultimem[] */
-static const BYTE ultimem_mask[16] = {
+static const uint8_t ultimem_mask[16] = {
     ultimem_reg0_regs_disable | ultimem_reg0_led,
     0x3f, /* 00:IO3 config:IO2 config:RAM123 config */
     0xff, /* BLK5:BLK3:BLK2:BLK1 */
@@ -100,7 +101,7 @@ static const BYTE ultimem_mask[16] = {
 };
 
 /** Initial values for the registers at RESET */
-static const BYTE ultimem_reset[17] = {
+static const uint8_t ultimem_reset[17] = {
     6 /* two switches, never asserted in VICE */,
     0, 64,
     ultimem_reg3_8m,
@@ -144,12 +145,12 @@ static log_t um_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static BYTE vic_um_io2_read(WORD addr);
-static BYTE vic_um_io2_peek(WORD addr);
-static void vic_um_io2_store(WORD addr, BYTE value);
-static BYTE vic_um_io3_read(WORD addr);
-static BYTE vic_um_io3_peek(WORD addr);
-static void vic_um_io3_store(WORD addr, BYTE value);
+static uint8_t vic_um_io2_read(uint16_t addr);
+static uint8_t vic_um_io2_peek(uint16_t addr);
+static void vic_um_io2_store(uint16_t addr, uint8_t value);
+static uint8_t vic_um_io3_read(uint16_t addr);
+static uint8_t vic_um_io3_peek(uint16_t addr);
+static void vic_um_io3_store(uint16_t addr, uint8_t value);
 static int vic_um_mon_dump(void);
 
 static io_source_t ultimem_io2 = {
@@ -193,7 +194,7 @@ static const export_resource_t export_res = {
 /* ------------------------------------------------------------------------- */
 
 /* read 0x0400-0x0fff */
-BYTE vic_um_ram123_read(WORD addr)
+uint8_t vic_um_ram123_read(uint16_t addr)
 {
     switch (CART_CFG_RAM123) {
     case BLK_STATE_DISABLED:
@@ -211,7 +212,7 @@ BYTE vic_um_ram123_read(WORD addr)
 }
 
 /* store 0x0400-0x0fff */
-void vic_um_ram123_store(WORD addr, BYTE value)
+void vic_um_ram123_store(uint16_t addr, uint8_t value)
 {
     switch (CART_CFG_RAM123) {
     case BLK_STATE_DISABLED:
@@ -230,7 +231,7 @@ void vic_um_ram123_store(WORD addr, BYTE value)
 }
 
 /* read 0x2000-0x3fff */
-BYTE vic_um_blk1_read(WORD addr)
+uint8_t vic_um_blk1_read(uint16_t addr)
 {
     switch (CART_CFG_BLK(1)) {
     case BLK_STATE_DISABLED:
@@ -248,7 +249,7 @@ BYTE vic_um_blk1_read(WORD addr)
 }
 
 /* store 0x2000-0x3fff */
-void vic_um_blk1_store(WORD addr, BYTE value)
+void vic_um_blk1_store(uint16_t addr, uint8_t value)
 {
     switch (CART_CFG_BLK(1)) {
     case BLK_STATE_DISABLED:
@@ -267,7 +268,7 @@ void vic_um_blk1_store(WORD addr, BYTE value)
 }
 
 /* read 0x4000-0x7fff */
-BYTE vic_um_blk23_read(WORD addr)
+uint8_t vic_um_blk23_read(uint16_t addr)
 {
     unsigned b = addr & 0x2000 ? 3 : 2;
     switch (CART_CFG_BLK(b)) {
@@ -286,7 +287,7 @@ BYTE vic_um_blk23_read(WORD addr)
 }
 
 /* store 0x4000-0x7fff */
-void vic_um_blk23_store(WORD addr, BYTE value)
+void vic_um_blk23_store(uint16_t addr, uint8_t value)
 {
     unsigned b = addr & 0x2000 ? 3 : 2;
     switch (CART_CFG_BLK(b)) {
@@ -306,7 +307,7 @@ void vic_um_blk23_store(WORD addr, BYTE value)
 }
 
 /* read 0xa000-0xbfff */
-BYTE vic_um_blk5_read(WORD addr)
+uint8_t vic_um_blk5_read(uint16_t addr)
 {
     switch (CART_CFG_BLK(4)) {
     case BLK_STATE_DISABLED:
@@ -324,7 +325,7 @@ BYTE vic_um_blk5_read(WORD addr)
 }
 
 /* store 0xa000-0xbfff */
-void vic_um_blk5_store(WORD addr, BYTE value)
+void vic_um_blk5_store(uint16_t addr, uint8_t value)
 {
     switch (CART_CFG_BLK(4)) {
     case BLK_STATE_DISABLED:
@@ -343,7 +344,7 @@ void vic_um_blk5_store(WORD addr, BYTE value)
 }
 
 /* read 0x9800-0x9bff */
-static BYTE vic_um_io2_read(WORD addr)
+static uint8_t vic_um_io2_read(uint16_t addr)
 {
     ultimem_io2.io_source_valid = 0;
 
@@ -366,7 +367,7 @@ static BYTE vic_um_io2_read(WORD addr)
 }
 
 /* peek 0x9800-0x9bff */
-static BYTE vic_um_io2_peek(WORD addr)
+static uint8_t vic_um_io2_peek(uint16_t addr)
 {
     switch (CART_CFG_IO(2)) {
     case BLK_STATE_DISABLED:
@@ -384,7 +385,7 @@ static BYTE vic_um_io2_peek(WORD addr)
 }
 
 /* store 0x9800-0x9bff */
-static void vic_um_io2_store(WORD addr, BYTE value)
+static void vic_um_io2_store(uint16_t addr, uint8_t value)
 {
     switch (CART_CFG_IO(2)) {
     case BLK_STATE_DISABLED:
@@ -403,7 +404,7 @@ static void vic_um_io2_store(WORD addr, BYTE value)
 }
 
 /* read 0x9c00-0x9fff */
-static BYTE vic_um_io3_read(WORD addr)
+static uint8_t vic_um_io3_read(uint16_t addr)
 {
     ultimem_io3.io_source_valid = 0;
 
@@ -457,7 +458,7 @@ static BYTE vic_um_io3_read(WORD addr)
 }
 
 /* peek 0x9c00-0x9fff */
-static BYTE vic_um_io3_peek(WORD addr)
+static uint8_t vic_um_io3_peek(uint16_t addr)
 {
     if (addr >= 0x3f0) {
         return CART_CFG_DISABLE ? vic20_v_bus_last_data : ultimem[addr & 0xf];
@@ -479,7 +480,7 @@ static BYTE vic_um_io3_peek(WORD addr)
 }
 
 /* store 0x9c00-0x9fff */
-static void vic_um_io3_store(WORD addr, BYTE value)
+static void vic_um_io3_store(uint16_t addr, uint8_t value)
 {
     if (CART_CFG_DISABLE) {
         /* Implement the state machine for re-enabling the register. */
@@ -566,7 +567,7 @@ void vic_um_reset(void)
     }
 }
 
-void vic_um_config_setup(BYTE *rawcart)
+void vic_um_config_setup(uint8_t *rawcart)
 {
 }
 
@@ -762,7 +763,7 @@ int vic_um_snapshot_write_module(snapshot_t *s)
 
 int vic_um_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
