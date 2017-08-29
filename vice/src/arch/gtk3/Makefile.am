@@ -56,6 +56,7 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uimon-fallback.c \
 	uisettings.c \
+	uispeed.c \
 	uistatusbar.c \
 	vic20ui.c \
 	video.c \
@@ -96,6 +97,7 @@ EXTRA_DIST = \
 	uimenu.h \
 	uihelpers.h \
 	uisettings.h \
+	uispeed.h \
 	uistatusbar.h \
 	videoarch.h \
 	refreshratewidget.h \

@@ -24,7 +24,7 @@
  */
 
 
-/* The layout is supposed to become this:
+/* The settings_grid is supposed to become this:
  *
  * +------------+-------------------------+
  * | treeview   |                         |
@@ -51,9 +51,7 @@
 #include "resources.h"
 #include "vsync.h"
 
-/* widgets */
-#include "refreshratewidget.h"
-#include "speedwidget.h"
+#include "uispeed.h"
 
 
 #include "uisettings.h"
@@ -61,6 +59,8 @@
 
 #define NUM_COLUMNS 1
 
+
+static GtkWidget *settings_grid = NULL;
 
 
 static void on_load_clicked(GtkWidget *widget, gpointer data)
@@ -101,24 +101,6 @@ static void on_close_clicked(GtkWidget *widget, gpointer data)
     gtk_widget_destroy(window);
 }
 
-
-static void warp_callback(GtkWidget *widget, gpointer data)
-{
-    int warp = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    resources_set_int("WarpMode", warp);
-}
-
-
-static GtkWidget *create_warp_checkbox(void)
-{
-    GtkWidget *check;
-
-    check = gtk_check_button_new_with_label("Warp mode");
-    g_signal_connect(check, "toggled", G_CALLBACK(warp_callback), NULL);
-    gtk_widget_show(check);
-    return check;
-}
 
 
 static GtkWidget *create_button_box(GtkWidget *window)
@@ -207,35 +189,69 @@ static GtkWidget *create_treeview(void)
 }
 
 
+/** \brief  Set the 'central'/action widget for the settings dialog
+ *
+ * Destroys the old 'central' widget and sets the new one.
+ *
+ *  \param[in,out]  widget  widget to use as the new 'central' widget
+ */
+static void ui_settings_set_central_widget(GtkWidget *widget)
+{
+    GtkWidget *child;
+
+    child = gtk_grid_get_child_at(GTK_GRID(settings_grid), 1, 0);
+    if (child != NULL) {
+        gtk_widget_destroy(child);
+    }
+
+    gtk_grid_attach(GTK_GRID(settings_grid), widget, 1, 0, 1, 1);
+}
+
+
+
+/** \brief  Setup the settings dialog, called from a menu item
+ */
 void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *window;
-    GtkWidget *layout;
     GtkWidget *tree;
+    GtkWidget *parent;
 
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
 #endif
+
+
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_modal(GTK_WINDOW(window), TRUE);
     gtk_window_set_title(GTK_WINDOW(window), "VICE settings");
 
-    layout = gtk_grid_new();
+
+    /* make the settings window a child of the toplevel window
+     *
+     * FIXME:   Does block the parent's input, but doesn't keep the window on
+     *          top of its parent, so perhaps use a GtkDialog, which is very
+     *          limited in use?
+     */
+    parent = gtk_widget_get_toplevel(widget);
+    if (gtk_widget_is_toplevel(parent)) {
+        gtk_window_set_transient_for(GTK_WINDOW(window), GTK_WINDOW(parent));
+    }
+
+    settings_grid = gtk_grid_new();
     tree = create_treeview();
-    gtk_grid_attach(GTK_GRID(layout), tree, 0, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(settings_grid), tree, 0, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(layout), create_refreshrate_widget(), 1, 0, 1, 2);
-    gtk_grid_attach(GTK_GRID(layout), create_speed_widget(), 2, 0, 1, 1);
+    ui_settings_set_central_widget(uispeed_create_central_widget());
 
-    gtk_grid_attach(GTK_GRID(layout), create_button_box(window), 0, 2, 3, 1);
-
-    gtk_grid_attach(GTK_GRID(layout), create_warp_checkbox(), 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid), create_button_box(window), 0, 1, 2, 1);
 
 
-    gtk_widget_show(layout);
+
+    gtk_widget_show(settings_grid);
     gtk_widget_show(tree);
 
 
-    gtk_container_add(GTK_CONTAINER(window), layout);
+    gtk_container_add(GTK_CONTAINER(window), settings_grid);
     gtk_widget_show(window);
 }
