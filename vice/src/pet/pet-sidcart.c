@@ -63,7 +63,7 @@ static sound_chip_t sidcart_sound_chip = {
     0 /* chip enabled */
 };
 
-static WORD sidcart_sound_chip_offset = 0;
+static uint16_t sidcart_sound_chip_offset = 0;
 
 void sidcart_sound_chip_init(void)
 {

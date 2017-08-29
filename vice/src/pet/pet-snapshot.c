@@ -103,7 +103,7 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
 int pet_snapshot_read(const char *name, int event_mode)
 {
     snapshot_t *s;
-    BYTE minor, major;
+    uint8_t minor, major;
     int ef = 0;
 
     s = snapshot_open(name, &major, &minor, machine_name);

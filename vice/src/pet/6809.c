@@ -107,11 +107,11 @@ h6809_regs_t h6809_regs;
 
 #define DO_INTERRUPT(int_kind)                                             \
   do {                                                                     \
-        BYTE ik = (int_kind);                                              \
+        uint8_t ik = (int_kind);                                              \
         if (ik & (IK_TRAP | IK_RESET)) {                                   \
             if (ik & IK_TRAP) {                                            \
                 EXPORT_REGISTERS();                                        \
-                interrupt_do_trap(CPU_INT_STATUS, (WORD)PC);               \
+                interrupt_do_trap(CPU_INT_STATUS, (uint16_t)PC);               \
                 IMPORT_REGISTERS();                                        \
                 if (CPU_INT_STATUS->global_pending_int & IK_RESET) {       \
                     ik |= IK_RESET;                                        \
@@ -132,17 +132,17 @@ h6809_regs_t h6809_regs;
                     EXPORT_REGISTERS();                                    \
                 }                                                          \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                    \
-                    monitor_check_icount((WORD)PC);                        \
+                    monitor_check_icount((uint16_t)PC);                        \
                     IMPORT_REGISTERS();                                    \
                 }                                                          \
                 if (monitor_mask[CALLER] & (MI_BREAK)) {                   \
-                    if (monitor_check_breakpoints(CALLER, (WORD)PC)) {     \
+                    if (monitor_check_breakpoints(CALLER, (uint16_t)PC)) {     \
                         monitor_startup(CALLER);                           \
                         IMPORT_REGISTERS();                                \
                     }                                                      \
                 }                                                          \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {                   \
-                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)PC); \
+                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (uint16_t)PC); \
                     IMPORT_REGISTERS();                                    \
                 }                                                          \
             }                                                              \
@@ -191,9 +191,9 @@ h6809_regs_t h6809_regs;
 #endif
 
 union regs {
-    DWORD reg_l;
-    WORD reg_s[2];
-    BYTE reg_c[4];
+    uint32_t reg_l;
+    uint16_t reg_s[2];
+    uint8_t reg_c[4];
 } regs6309;
 
 #define Q regs6309.reg_l
@@ -213,13 +213,13 @@ union regs {
 #define A regs6309.reg_c[0]
 #endif
 
-static WORD X, Y, S, U, DP, PC, iPC;
-static BYTE EFI;
-static DWORD H, N, Z, OV, C;
+static uint16_t X, Y, S, U, DP, PC, iPC;
+static uint8_t EFI;
+static uint32_t H, N, Z, OV, C;
 
 #ifdef H6309
-static BYTE MD;
-static WORD V;
+static uint8_t MD;
+static uint16_t V;
 
 #define MD_NATIVE        0x01   /* if 1, execute in 6309 mode */
 #define MD_FIRQ_LIKE_IRQ 0x02   /* if 1, FIRQ acts like IRQ */
@@ -229,12 +229,12 @@ static WORD V;
 #define H6309_NATIVE_MODE() (MD & 1)
 #endif /* H6309 */
 
-static WORD ea = 0;
+static uint16_t ea = 0;
 static unsigned int irqs_pending = 0;
 static unsigned int firqs_pending = 0;
 static unsigned int cc_changed = 0;
 
-static WORD *index_regs[4] = { &X, &Y, &U, &S };
+static uint16_t *index_regs[4] = { &X, &Y, &U, &S };
 
 extern void nmi(void);
 extern void irq(void);
@@ -277,122 +277,122 @@ static void sim_error(const char *format, ...)
     va_end(ap);
 }
 
-static inline BYTE imm_byte(void)
+static inline uint8_t imm_byte(void)
 {
-    BYTE val = read8(PC);
+    uint8_t val = read8(PC);
 
     PC++;
     return val;
 }
 
-static inline WORD imm_word(void)
+static inline uint16_t imm_word(void)
 {
-    WORD val = read16(PC);
+    uint16_t val = read16(PC);
 
     PC += 2;
     return val;
 }
 
 #ifdef H6309
-static inline DWORD imm_dword(void)
+static inline uint32_t imm_dword(void)
 {
-    DWORD val = read32(PC);
+    uint32_t val = read32(PC);
 
     PC += 4;
     return val;
 }
 #endif
 
-static void WRMEM(WORD addr, BYTE data)
+static void WRMEM(uint16_t addr, uint8_t data)
 {
     write8(addr, data);
     CLK++;
 }
 
-static void WRMEM16(WORD addr, WORD data)
+static void WRMEM16(uint16_t addr, uint16_t data)
 {
-    write8(addr, (BYTE)(data >> 8));
+    write8(addr, (uint8_t)(data >> 8));
     CLK++;
-    write8((WORD)(addr + 1), (BYTE)(data & 0xff));
+    write8((uint16_t)(addr + 1), (uint8_t)(data & 0xff));
     CLK++;
 }
 
 #ifdef H6309
-static void WRMEM32(WORD addr, DWORD data)
+static void WRMEM32(uint16_t addr, uint32_t data)
 {
-    write8(addr, (BYTE)(data >> 24));
+    write8(addr, (uint8_t)(data >> 24));
     CLK++;
-    write8((WORD)(addr + 1), (BYTE)((data >> 16) & 0xff));
+    write8((uint16_t)(addr + 1), (uint8_t)((data >> 16) & 0xff));
     CLK++;
-    write8((WORD)(addr + 2), (BYTE)((data >> 8) & 0xff));
+    write8((uint16_t)(addr + 2), (uint8_t)((data >> 8) & 0xff));
     CLK++;
-    write8((WORD)(addr + 3), (BYTE)(data & 0xff));
+    write8((uint16_t)(addr + 3), (uint8_t)(data & 0xff));
     CLK++;
 }
 #endif
 
-static BYTE RDMEM(WORD addr)
+static uint8_t RDMEM(uint16_t addr)
 {
-    BYTE val = read8(addr);
+    uint8_t val = read8(addr);
 
     CLK++;
     return val;
 }
 
-static WORD RDMEM16(WORD addr)
+static uint16_t RDMEM16(uint16_t addr)
 {
-    WORD val = read8(addr) << 8;
+    uint16_t val = read8(addr) << 8;
 
     CLK++;
-    val |= read8((WORD)(addr + 1));
+    val |= read8((uint16_t)(addr + 1));
     CLK++;
     return val;
 }
 
 #ifdef H6309
-static DWORD RDMEM32(WORD addr)
+static uint32_t RDMEM32(uint16_t addr)
 {
-    DWORD val = read8(addr) << 24;
+    uint32_t val = read8(addr) << 24;
 
-    val |= read8((WORD)(addr + 1)) << 16;
+    val |= read8((uint16_t)(addr + 1)) << 16;
     CLK++;
-    val |= read8((WORD)(addr + 2)) << 8;
+    val |= read8((uint16_t)(addr + 2)) << 8;
     CLK++;
-    val |= read8((WORD)(addr + 3));
+    val |= read8((uint16_t)(addr + 3));
     CLK++;
 
     return val;
 }
 #endif
 
-static void write_stack(WORD addr, BYTE data)
+static void write_stack(uint16_t addr, uint8_t data)
 {
     write8(addr, data);
     CLK++;
 }
 
-static void write_stack16(WORD addr, WORD data)
+static void write_stack16(uint16_t addr, uint16_t data)
 {
-    write8((WORD)(addr + 1), (BYTE)(data & 0xff));
+    write8((uint16_t)(addr + 1), (uint8_t)(data & 0xff));
     CLK++;
-    write8(addr, (BYTE)(data >> 8));
+    write8(addr, (uint8_t)(data >> 8));
     CLK++;
 }
 
-static BYTE read_stack(WORD addr)
+static uint8_t read_stack(uint16_t addr)
 {
-    BYTE val = read8(addr);
+    uint8_t val = read8(addr);
 
     CLK++;
     return val;
 }
 
-static WORD read_stack16(WORD addr)
+static uint16_t read_stack16(uint16_t addr)
 {
-    WORD val = read8(addr) << 8;
+    uint16_t val = read8(addr) << 8;
 
     CLK++;
-    val |= read8((WORD)(addr + 1));
+    val |= read8((uint16_t)(addr + 1));
     return val;
 }
 
@@ -404,8 +404,8 @@ static void direct(void)
 
 static void indexed(void)
 {
-    BYTE post = imm_byte();
-    WORD *R = index_regs[(post >> 5) & 0x3];
+    uint8_t post = imm_byte();
+    uint16_t *R = index_regs[(post >> 5) & 0x3];
 
     if (post & 0x80) {
         switch (post & 0x1f) {
@@ -676,146 +676,146 @@ static void extended(void)
 
 /* external register functions */
 
-static BYTE get_a(void)
+static uint8_t get_a(void)
 {
     return A;
 }
 
-static BYTE get_b(void)
+static uint8_t get_b(void)
 {
     return B;
 }
 
-static BYTE get_dp(void)
+static uint8_t get_dp(void)
 {
     return DP >> 8;
 }
 
-static WORD get_x(void)
+static uint16_t get_x(void)
 {
     return X;
 }
 
-static WORD get_y(void)
+static uint16_t get_y(void)
 {
     return Y;
 }
 
-static WORD get_s(void)
+static uint16_t get_s(void)
 {
     return S;
 }
 
-static WORD get_u(void)
+static uint16_t get_u(void)
 {
     return U;
 }
 
-static WORD get_pc(void)
+static uint16_t get_pc(void)
 {
     return PC;
 }
 
 #if 0
 /* unused ? */
-static WORD get_d(void)
+static uint16_t get_d(void)
 {
     return D;
 }
 
-static BYTE get_flags(void)
+static uint8_t get_flags(void)
 {
     return EFI;
 }
 #endif
 
 #ifdef H6309
-static BYTE get_e(void)
+static uint8_t get_e(void)
 {
     return E;
 }
 
-static BYTE get_f(void)
+static uint8_t get_f(void)
 {
     return F;
 }
 
-static WORD get_v(void)
+static uint16_t get_v(void)
 {
     return V;
 }
 
-static BYTE get_md(void)
+static uint8_t get_md(void)
 {
     return (MD & (MD_ILL | MD_DBZ));
 }
 #endif
 
-static void set_a(BYTE val)
+static void set_a(uint8_t val)
 {
     A = val;
 }
 
-static void set_b(BYTE val)
+static void set_b(uint8_t val)
 {
     B = val;
 }
 
-static void set_dp(BYTE val)
+static void set_dp(uint8_t val)
 {
     DP = val << 8;
 }
 
-static void set_x(WORD val)
+static void set_x(uint16_t val)
 {
     X = val;
 }
 
-static void set_y(WORD val)
+static void set_y(uint16_t val)
 {
     Y = val;
 }
 
-static void set_s(WORD val)
+static void set_s(uint16_t val)
 {
     S = val;
 }
 
-static void set_u(WORD val)
+static void set_u(uint16_t val)
 {
     U = val;
 }
 
-static void set_pc(WORD val)
+static void set_pc(uint16_t val)
 {
     PC = val;
 }
 
 #if 0
 /* unused ? */
-static void set_d(WORD val)
+static void set_d(uint16_t val)
 {
     D = val;
 }
 #endif
 
 #ifdef H6309
-static void set_e(BYTE val)
+static void set_e(uint8_t val)
 {
     E = val;
 }
 
-static void set_f(BYTE val)
+static void set_f(uint8_t val)
 {
     F = val;
 }
 
-static void set_v(WORD val)
+static void set_v(uint16_t val)
 {
     V = val;
 }
 
-static void set_md(BYTE val)
+static void set_md(uint8_t val)
 {
     MD = (MD & (MD_ILL | MD_DBZ)) | (val & (MD_NATIVE | MD_FIRQ_LIKE_IRQ));
 }
@@ -824,9 +824,9 @@ static void set_md(BYTE val)
 
 /* handle condition code register */
 
-static BYTE get_cc(void)
+static uint8_t get_cc(void)
 {
-    BYTE res = EFI & (E_FLAG | F_FLAG | I_FLAG);
+    uint8_t res = EFI & (E_FLAG | F_FLAG | I_FLAG);
 
     if (H & 0x10) {
         res |= H_FLAG;
@@ -846,7 +846,7 @@ static BYTE get_cc(void)
     return res;
 }
 
-static void set_cc(BYTE arg)
+static void set_cc(uint8_t arg)
 {
     EFI = arg & (E_FLAG | F_FLAG | I_FLAG);
     H = (arg & H_FLAG ? 0x10 : 0);
@@ -879,9 +879,9 @@ static int cc_modified(void)
    register value and the MSB is filled with 0xff.
  */
 
-static WORD get_reg(BYTE nro)
+static uint16_t get_reg(uint8_t nro)
 {
-    WORD val = 0xffff;
+    uint16_t val = 0xffff;
 
     switch (nro) {
         case 0:
@@ -934,7 +934,7 @@ static WORD get_reg(BYTE nro)
     return val;
 }
 
-static void set_reg(BYTE nro, WORD val)
+static void set_reg(uint8_t nro, uint16_t val)
 {
     switch (nro) {
         case 0:
@@ -970,7 +970,7 @@ static void set_reg(BYTE nro, WORD val)
             B = val & 0xff;
             break;
         case 10:
-            set_cc((BYTE)(val & 0xff));
+            set_cc((uint8_t)(val & 0xff));
             break;
         case 11:
             DP = (val & 0xff) << 8;
@@ -988,9 +988,9 @@ static void set_reg(BYTE nro, WORD val)
 
 /* 8-Bit Accumulator and Memory Instructions */
 
-static BYTE adc(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static uint8_t adc(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg + val + (C != 0);
+    uint16_t res = arg + val + (C != 0);
 
     C = (res >> 1) & 0x80;
     N = Z = res &= 0xff;
@@ -998,12 +998,12 @@ static BYTE adc(BYTE arg, BYTE val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (BYTE)res;
+    return (uint8_t)res;
 }
 
-static BYTE add(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static uint8_t add(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg + val;
+    uint16_t res = arg + val;
 
     C = (res >> 1) & 0x80;
     N = Z = res &= 0xff;
@@ -1011,12 +1011,12 @@ static BYTE add(BYTE arg, BYTE val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (BYTE)res;
+    return (uint8_t)res;
 }
 
-static BYTE and(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static uint8_t and(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    BYTE res = arg & val;
+    uint8_t res = arg & val;
 
     N = Z = res;
     OV = 0;
@@ -1026,30 +1026,30 @@ static BYTE and(BYTE arg, BYTE val, int CLK6809, int CLK6309)
     return res;
 }
 
-static BYTE asl(BYTE arg, int CLK6809, int CLK6309)  /* same as lsl */
+static uint8_t asl(uint8_t arg, int CLK6809, int CLK6309)  /* same as lsl */
 {
-    WORD res = arg << 1;
+    uint16_t res = arg << 1;
 
     C = res & 0x100;
     N = Z = res &= 0xff;
     OV = arg ^ res;
     CLK_ADD(CLK6809, CLK6309);
 
-    return (BYTE)res;
+    return (uint8_t)res;
 }
 
-static BYTE asr(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t asr(uint8_t arg, int CLK6809, int CLK6309)
 {
-    WORD res = (INT8)arg;
+    uint16_t res = (INT8)arg;
 
     C = res & 1;
     N = Z = res = (res >> 1) & 0xff;
     CLK_ADD(CLK6809, CLK6309);
 
-    return (BYTE)res;
+    return (uint8_t)res;
 }
 
-static void bit(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static void bit(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
     N = Z = arg & val;
     OV = 0;
@@ -1057,7 +1057,7 @@ static void bit(BYTE arg, BYTE val, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static BYTE clr(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t clr(uint8_t arg, int CLK6809, int CLK6309)
 {
     C = N = Z = OV = 0;
     CLK_ADD(CLK6809, CLK6309);
@@ -1065,9 +1065,9 @@ static BYTE clr(BYTE arg, int CLK6809, int CLK6309)
     return 0;
 }
 
-static void cmp(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static void cmp(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg - val;
+    uint16_t res = arg - val;
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -1076,9 +1076,9 @@ static void cmp(BYTE arg, BYTE val, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static BYTE com(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t com(uint8_t arg, int CLK6809, int CLK6309)
 {
-    BYTE res = ~arg;
+    uint8_t res = ~arg;
 
     N = Z = res;
     OV = 0;
@@ -1090,9 +1090,9 @@ static BYTE com(BYTE arg, int CLK6809, int CLK6309)
 
 static void daa(void)
 {
-    WORD res = A;
-    BYTE msn = res & 0xf0;
-    BYTE lsn = res & 0x0f;
+    uint16_t res = A;
+    uint8_t msn = res & 0xf0;
+    uint8_t lsn = res & 0x0f;
 
     if (lsn > 0x09 || (H & 0x10)) {
         res += 0x06;
@@ -1103,7 +1103,7 @@ static void daa(void)
 
     C |= (res & 0x100);
     N = Z = res &= 0xff;
-    A = (BYTE)res;
+    A = (uint8_t)res;
     /* OV = 0;     V is undefined but some sources clear it anyway */
     /* Another remark: http://members.optushome.com.au/jekent/Spartan3/index.html
      * 5. DAA (Decimal Adjust Accumulator) should set the Negative (N) and Zero
@@ -1118,9 +1118,9 @@ static void daa(void)
     CLK_ADD(1, 0);
 }
 
-static BYTE dec(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t dec(uint8_t arg, int CLK6809, int CLK6309)
 {
-    BYTE res = arg - 1;
+    uint8_t res = arg - 1;
 
     N = Z = res;
     OV = arg & ~res;
@@ -1130,9 +1130,9 @@ static BYTE dec(BYTE arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static BYTE eor(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static uint8_t eor(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    BYTE res = arg ^ val;
+    uint8_t res = arg ^ val;
 
     N = Z = res;
     OV = 0;
@@ -1144,24 +1144,24 @@ static BYTE eor(BYTE arg, BYTE val, int CLK6809, int CLK6309)
 
 static void exg(void)
 {
-    WORD tmp1 = 0xff;
-    WORD tmp2 = 0xff;
-    BYTE post = imm_byte();
+    uint16_t tmp1 = 0xff;
+    uint16_t tmp2 = 0xff;
+    uint8_t post = imm_byte();
 
     if (((post ^ (post << 4)) & 0x80) == 0) {
-        tmp1 = get_reg((BYTE)(post >> 4));
-        tmp2 = get_reg((BYTE)(post & 15));
+        tmp1 = get_reg((uint8_t)(post >> 4));
+        tmp2 = get_reg((uint8_t)(post & 15));
     }
 
-    set_reg((BYTE)(post & 15), tmp1);
-    set_reg((BYTE)(post >> 4), tmp2);
+    set_reg((uint8_t)(post & 15), tmp1);
+    set_reg((uint8_t)(post >> 4), tmp2);
 
     CLK_ADD(6, 3);
 }
 
-static BYTE inc(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t inc(uint8_t arg, int CLK6809, int CLK6309)
 {
-    BYTE res = arg + 1;
+    uint8_t res = arg + 1;
 
     N = Z = res;
     OV = ~arg & res;
@@ -1171,7 +1171,7 @@ static BYTE inc(BYTE arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static BYTE ld(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t ld(uint8_t arg, int CLK6809, int CLK6309)
 {
     N = Z = arg;
     OV = 0;
@@ -1181,9 +1181,9 @@ static BYTE ld(BYTE arg, int CLK6809, int CLK6309)
     return arg;
 }
 
-static BYTE lsr(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t lsr(uint8_t arg, int CLK6809, int CLK6309)
 {
-    BYTE res = arg >> 1;
+    uint8_t res = arg >> 1;
 
     N = 0;
     Z = res;
@@ -1196,16 +1196,16 @@ static BYTE lsr(BYTE arg, int CLK6809, int CLK6309)
 
 static void mul(void)
 {
-    WORD res = A * B;
+    uint16_t res = A * B;
 
     Z = D = res;
     C = res & 0x80;
     CLK_ADD(10, 9);
 }
 
-static BYTE neg(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t neg(uint8_t arg, int CLK6809, int CLK6309)
 {
-    BYTE res = ~arg + 1;
+    uint8_t res = ~arg + 1;
 
     C = N = Z = res;
     OV = res & arg;
@@ -1215,9 +1215,9 @@ static BYTE neg(BYTE arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static BYTE or(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static uint8_t or(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    BYTE res = arg | val;
+    uint8_t res = arg | val;
 
     N = Z = res;
     OV = 0;
@@ -1227,9 +1227,9 @@ static BYTE or(BYTE arg, BYTE val, int CLK6809, int CLK6309)
     return res;
 }
 
-static BYTE rol(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t rol(uint8_t arg, int CLK6809, int CLK6309)
 {
-    WORD res = (arg << 1) + (C != 0);
+    uint16_t res = (arg << 1) + (C != 0);
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -1237,12 +1237,12 @@ static BYTE rol(BYTE arg, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (BYTE)res;
+    return (uint8_t)res;
 }
 
-static BYTE ror(BYTE arg, int CLK6809, int CLK6309)
+static uint8_t ror(uint8_t arg, int CLK6809, int CLK6309)
 {
-    BYTE res = (arg >> 1) | ((C != 0) << 7);
+    uint8_t res = (arg >> 1) | ((C != 0) << 7);
 
     C = arg & 1;
     N = Z = res;
@@ -1252,9 +1252,9 @@ static BYTE ror(BYTE arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static BYTE sbc(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static uint8_t sbc(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg - val - (C != 0);
+    uint16_t res = arg - val - (C != 0);
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -1262,10 +1262,10 @@ static BYTE sbc(BYTE arg, BYTE val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (BYTE)res;
+    return (uint8_t)res;
 }
 
-static void st(BYTE arg, int CLK6809, int CLK6309)
+static void st(uint8_t arg, int CLK6809, int CLK6309)
 {
     N = Z = arg;
     OV = 0;
@@ -1275,9 +1275,9 @@ static void st(BYTE arg, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static BYTE sub(BYTE arg, BYTE val, int CLK6809, int CLK6309)
+static uint8_t sub(uint8_t arg, uint8_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg - val;
+    uint16_t res = arg - val;
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -1285,10 +1285,10 @@ static BYTE sub(BYTE arg, BYTE val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (BYTE)res;
+    return (uint8_t)res;
 }
 
-static void tst(BYTE arg, int CLK6809, int CLK6309)
+static void tst(uint8_t arg, int CLK6809, int CLK6309)
 {
     N = Z = arg;
     OV = 0;
@@ -1298,14 +1298,14 @@ static void tst(BYTE arg, int CLK6809, int CLK6309)
 
 static void tfr(void)
 {
-    WORD tmp1 = 0xff;
-    BYTE post = imm_byte();
+    uint16_t tmp1 = 0xff;
+    uint8_t post = imm_byte();
 
     if (((post ^ (post << 4)) & 0x80) == 0) {
-        tmp1 = get_reg ((BYTE)(post >> 4));
+        tmp1 = get_reg ((uint8_t)(post >> 4));
     }
 
-    set_reg((BYTE)(post & 15), tmp1);
+    set_reg((uint8_t)(post & 15), tmp1);
 
     CLK_ADD(4, 2);
 }
@@ -1318,9 +1318,9 @@ static void abx(void)
     CLK_ADD(2, 0);
 }
 
-static WORD add16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static uint16_t add16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    DWORD res = arg + val;
+    uint32_t res = arg + val;
 
     C = (res >> 1) & 0x8000;
     Z = res &= 0xffff;
@@ -1329,12 +1329,12 @@ static WORD add16(WORD arg, WORD val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (WORD)res;
+    return (uint16_t)res;
 }
 
-static void cmp16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static void cmp16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    DWORD res = arg - val;
+    uint32_t res = arg - val;
 
     C = res & 0x10000;
     Z = res &= 0xffff;
@@ -1344,7 +1344,7 @@ static void cmp16(WORD arg, WORD val, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static WORD ld16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t ld16(uint16_t arg, int CLK6809, int CLK6309)
 {
     Z = arg;
     N = arg >> 8;
@@ -1365,7 +1365,7 @@ static void sex(void)
     CLK_ADD(1, 0);
 }
 
-static void st16(WORD arg, int CLK6809, int CLK6309)
+static void st16(uint16_t arg, int CLK6809, int CLK6309)
 {
     Z = arg;
     N = arg >> 8;
@@ -1375,9 +1375,9 @@ static void st16(WORD arg, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static WORD sub16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static uint16_t sub16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    DWORD res = arg - val;
+    uint32_t res = arg - val;
 
     C = res & 0x10000;
     Z = res &= 0xffff;
@@ -1386,14 +1386,14 @@ static WORD sub16(WORD arg, WORD val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (WORD)res;
+    return (uint16_t)res;
 }
 
 /* stack instructions */
 
 static void pshs(void)
 {
-    BYTE post = imm_byte();
+    uint8_t post = imm_byte();
 
     CLK_ADD(3, 2);
 
@@ -1415,7 +1415,7 @@ static void pshs(void)
     }
     if (post & 0x08) {
         S--;
-        write_stack(S, (BYTE)(DP >> 8));
+        write_stack(S, (uint8_t)(DP >> 8));
     }
     if (post & 0x04) {
         S--;
@@ -1433,7 +1433,7 @@ static void pshs(void)
 
 static void pshu(void)
 {
-    BYTE post = imm_byte();
+    uint8_t post = imm_byte();
 
     CLK_ADD(3, 2);
 
@@ -1455,7 +1455,7 @@ static void pshu(void)
     }
     if (post & 0x08) {
         U--;
-        write_stack(U, (BYTE)(DP >> 8));
+        write_stack(U, (uint8_t)(DP >> 8));
     }
     if (post & 0x04) {
         U--;
@@ -1473,7 +1473,7 @@ static void pshu(void)
 
 static void puls(void)
 {
-    BYTE post = imm_byte();
+    uint8_t post = imm_byte();
 
     CLK_ADD(3, 2);
 
@@ -1509,7 +1509,7 @@ static void puls(void)
 
 static void pulu(void)
 {
-    BYTE post = imm_byte();
+    uint8_t post = imm_byte();
 
     CLK_ADD(3, 2);
 
@@ -1600,7 +1600,7 @@ void nmi(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
 #ifdef H6309
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
@@ -1626,7 +1626,7 @@ void irq(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
 #ifdef H6309
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
@@ -1655,7 +1655,7 @@ void firq(void)
         write_stack16(S, Y);
         S -= 2;
         write_stack16(S--, X);
-        write_stack(S--, (BYTE)(DP >> 8));
+        write_stack(S--, (uint8_t)(DP >> 8));
         if (H6309_NATIVE_MODE()) {
             write_stack(S--, F);
             write_stack(S--, E);
@@ -1684,7 +1684,7 @@ static void swi(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
 #ifdef H6309
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
@@ -1711,7 +1711,7 @@ static void swi2(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
 #ifdef H6309
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
@@ -1737,7 +1737,7 @@ static void swi3(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
 #ifdef H6309
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
@@ -1765,7 +1765,7 @@ void opcode_trap(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
         write_stack(S--, E);
@@ -1790,7 +1790,7 @@ void div0_trap(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
         write_stack(S--, E);
@@ -1805,11 +1805,11 @@ void div0_trap(void)
 
 static void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
-    BYTE tmp = imm_byte();
+    uint8_t tmp = imm_byte();
     int taken;
 
     /* JAM("CWAI"); */
-    set_cc((BYTE)(get_cc() & tmp));
+    set_cc((uint8_t)(get_cc() & tmp));
     CLK++;
     taken = cc_modified();  /* may trigger interrupt immediately if pending */
 #define TIME    14          /* saving registers takes at least this time */
@@ -1859,18 +1859,18 @@ static void sync(void)
 
 static void orcc(void)
 {
-    BYTE tmp = imm_byte();
+    uint8_t tmp = imm_byte();
 
-    set_cc((BYTE)(get_cc() | tmp));
+    set_cc((uint8_t)(get_cc() | tmp));
 
     CLK_ADD(1, 0);
 }
 
 static void andcc(void)
 {
-    BYTE tmp = imm_byte();
+    uint8_t tmp = imm_byte();
 
-    set_cc((BYTE)(get_cc() & tmp));
+    set_cc((uint8_t)(get_cc() & tmp));
     CLK++;
 }
 
@@ -1928,7 +1928,7 @@ static void long_branch(unsigned cond)
 
 static void long_bsr(void)
 {
-    WORD tmp = imm_word();
+    uint16_t tmp = imm_word();
 
     ea = PC + tmp;
     S -= 2;
@@ -1961,8 +1961,8 @@ static void hcf(void)
 
 static void ccrs(void)
 {
-    DWORD tmp_c = (OV != 0);
-    DWORD tmp_h = ((EFI & I_FLAG) != 0);
+    uint32_t tmp_c = (OV != 0);
+    uint32_t tmp_h = ((EFI & I_FLAG) != 0);
 
     set_cc(0);
     C = tmp_c;
@@ -1970,15 +1970,15 @@ static void ccrs(void)
     CLK += 2;
 }
 
-static void scc(BYTE arg)
+static void scc(uint8_t arg)
 {
     N = 0x80;
     Z = OV = 0;
 }
 
-static void st_imm(WORD arg)
+static void st_imm(uint16_t arg)
 {
-    WRMEM(PC++, (BYTE)(arg & 0xff));
+    WRMEM(PC++, (uint8_t)(arg & 0xff));
     N = 0x80;
     Z = OV = 0;
 }
@@ -1995,7 +1995,7 @@ static void swires(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, (BYTE)(DP >> 8));
+    write_stack(S--, (uint8_t)(DP >> 8));
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
@@ -2007,7 +2007,7 @@ static void swires(void)
 
 /* 6309 specific code */
 #ifdef H6309
-static BYTE tim(BYTE val, int CLK6309)
+static uint8_t tim(uint8_t val, int CLK6309)
 {
     OV = 0;
     N = Z = val;
@@ -2049,9 +2049,9 @@ static void puluw(void)
     U += 2;
 }
 
-static WORD neg16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t neg16(uint16_t arg, int CLK6809, int CLK6309)
 {
-    WORD res = ~arg + 1;
+    uint16_t res = ~arg + 1;
 
     C = Z = res;
     N = res >> 8;
@@ -2062,9 +2062,9 @@ static WORD neg16(WORD arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static WORD com16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t com16(uint16_t arg, int CLK6809, int CLK6309)
 {
-    WORD res = ~arg;
+    uint16_t res = ~arg;
 
     Z = res;
     N = res >> 8;
@@ -2075,9 +2075,9 @@ static WORD com16(WORD arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static WORD lsr16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t lsr16(uint16_t arg, int CLK6809, int CLK6309)
 {
-    WORD res = arg >> 1;
+    uint16_t res = arg >> 1;
 
     N = 0;
     Z = res;
@@ -2088,9 +2088,9 @@ static WORD lsr16(WORD arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static WORD ror16(WORD arg)
+static uint16_t ror16(uint16_t arg)
 {
-    WORD res = (arg >> 1) | ((C != 0) << 15);
+    uint16_t res = (arg >> 1) | ((C != 0) << 15);
 
     C = arg & 1;
     Z = res;
@@ -2101,21 +2101,21 @@ static WORD ror16(WORD arg)
     return res;
 }
 
-static WORD asr16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t asr16(uint16_t arg, int CLK6809, int CLK6309)
 {
-    DWORD res = (SWORD)arg;
+    uint32_t res = (int16_t)arg;
 
     C = res & 1;
     Z = res = (res >> 1) & 0xffff;
     N = res >> 8;
     CLK_ADD(CLK6809, CLK6309);
 
-    return (WORD)res;
+    return (uint16_t)res;
 }
 
-static WORD asl16(WORD arg, int CLK6809, int CLK6309)           /* same as lsl16 */
+static uint16_t asl16(uint16_t arg, int CLK6809, int CLK6309)           /* same as lsl16 */
 {
-    DWORD res = arg << 1;
+    uint32_t res = arg << 1;
 
     C = res & 0x10000;
     Z = res &= 0xffff;
@@ -2123,12 +2123,12 @@ static WORD asl16(WORD arg, int CLK6809, int CLK6309)           /* same as lsl16
     OV = (arg ^ res) >> 8;
     CLK_ADD(CLK6809, CLK6309);
 
-    return (WORD)res;
+    return (uint16_t)res;
 }
 
-static WORD rol16(WORD arg)
+static uint16_t rol16(uint16_t arg)
 {
-    DWORD res = (arg << 1) + (C != 0);
+    uint32_t res = (arg << 1) + (C != 0);
 
     C = res & 0x10000;
     Z = res &= 0xffff;
@@ -2137,12 +2137,12 @@ static WORD rol16(WORD arg)
 
     CLK_ADD(1, 0);
 
-    return (WORD)res;
+    return (uint16_t)res;
 }
 
-static WORD dec16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t dec16(uint16_t arg, int CLK6809, int CLK6309)
 {
-    WORD res = arg - 1;
+    uint16_t res = arg - 1;
 
     Z = res;
     N = res >> 8;
@@ -2153,9 +2153,9 @@ static WORD dec16(WORD arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static WORD inc16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t inc16(uint16_t arg, int CLK6809, int CLK6309)
 {
-    WORD res = arg + 1;
+    uint16_t res = arg + 1;
 
     Z = res;
     N = res >> 8;
@@ -2166,7 +2166,7 @@ static WORD inc16(WORD arg, int CLK6809, int CLK6309)
     return res;
 }
 
-static void tst16(WORD arg)
+static void tst16(uint16_t arg)
 {
     Z = arg;
     N = arg >> 8;
@@ -2175,7 +2175,7 @@ static void tst16(WORD arg)
     CLK_ADD(1, 0);
 }
 
-static WORD clr16(WORD arg, int CLK6809, int CLK6309)
+static uint16_t clr16(uint16_t arg, int CLK6809, int CLK6309)
 {
     C = N = Z = OV = 0;
     CLK_ADD(CLK6809, CLK6309);
@@ -2183,9 +2183,9 @@ static WORD clr16(WORD arg, int CLK6809, int CLK6309)
     return 0;
 }
 
-static WORD sbc16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static uint16_t sbc16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    DWORD res = arg - val - (C != 0);
+    uint32_t res = arg - val - (C != 0);
 
     C = res & 0x10000;
     Z = res &= 0xffff;
@@ -2194,12 +2194,12 @@ static WORD sbc16(WORD arg, WORD val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (WORD)res;
+    return (uint16_t)res;
 }
 
-static WORD and16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static uint16_t and16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg & val;
+    uint16_t res = arg & val;
 
     Z = res;
     N = res >> 8;
@@ -2210,9 +2210,9 @@ static WORD and16(WORD arg, WORD val, int CLK6809, int CLK6309)
     return res;
 }
 
-static void bit16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static void bit16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg & val;
+    uint16_t res = arg & val;
 
     Z = res;
     N = res >> 8;
@@ -2221,9 +2221,9 @@ static void bit16(WORD arg, WORD val, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static WORD eor16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static uint16_t eor16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg ^ val;
+    uint16_t res = arg ^ val;
 
     Z = res;
     N = res >> 8;
@@ -2234,9 +2234,9 @@ static WORD eor16(WORD arg, WORD val, int CLK6809, int CLK6309)
     return res;
 }
 
-static WORD adc16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static uint16_t adc16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    DWORD res = arg + val + (C != 0);
+    uint32_t res = arg + val + (C != 0);
 
     C = (res >> 1) & 0x8000;
     Z = res &= 0xffff;
@@ -2245,12 +2245,12 @@ static WORD adc16(WORD arg, WORD val, int CLK6809, int CLK6309)
 
     CLK_ADD(CLK6809, CLK6309);
 
-    return (WORD)res;
+    return (uint16_t)res;
 }
 
-static WORD or16(WORD arg, WORD val, int CLK6809, int CLK6309)
+static uint16_t or16(uint16_t arg, uint16_t val, int CLK6809, int CLK6309)
 {
-    WORD res = arg | val;
+    uint16_t res = arg | val;
 
     Z = res;
     N = res >> 8;
@@ -2261,7 +2261,7 @@ static WORD or16(WORD arg, WORD val, int CLK6809, int CLK6309)
     return res;
 }
 
-static BYTE get_breg(BYTE rnr)
+static uint8_t get_breg(uint8_t rnr)
 {
     switch (rnr) {
         case 0:
@@ -2274,7 +2274,7 @@ static BYTE get_breg(BYTE rnr)
     return 0;
 }
 
-static void set_breg(BYTE rnr, BYTE arg)
+static void set_breg(uint8_t rnr, uint8_t arg)
 {
     switch (rnr) {
         case 0:
@@ -2289,15 +2289,15 @@ static void set_breg(BYTE rnr, BYTE arg)
     }
 }
 
-static BYTE band(BYTE rnr, BYTE arg)
+static uint8_t band(uint8_t rnr, uint8_t arg)
 {
-    BYTE rr = get_breg(rnr);
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
-    BYTE dtmp = (tmp & (1 << dbit)) ? 1 : 0;
-    BYTE atmp = stmp & dtmp;
+    uint8_t rr = get_breg(rnr);
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (rr & (1 << sbit)) ? 1 : 0;
+    uint8_t dtmp = (tmp & (1 << dbit)) ? 1 : 0;
+    uint8_t atmp = stmp & dtmp;
 
     tmp = (tmp & ~(1 << dbit)) | (atmp << dbit);
 
@@ -2309,15 +2309,15 @@ static BYTE band(BYTE rnr, BYTE arg)
     return tmp;
 }
 
-static BYTE beor(BYTE rnr, BYTE arg)
+static uint8_t beor(uint8_t rnr, uint8_t arg)
 {
-    BYTE rr = get_breg(rnr);
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
-    BYTE dtmp = (tmp & (1 << dbit)) ? 1 : 0;
-    BYTE atmp = stmp ^ dtmp;
+    uint8_t rr = get_breg(rnr);
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (rr & (1 << sbit)) ? 1 : 0;
+    uint8_t dtmp = (tmp & (1 << dbit)) ? 1 : 0;
+    uint8_t atmp = stmp ^ dtmp;
 
     tmp = (tmp & ~(1 << dbit)) | (atmp << dbit);
 
@@ -2329,15 +2329,15 @@ static BYTE beor(BYTE rnr, BYTE arg)
     return tmp;
 }
 
-static BYTE biand(BYTE rnr, BYTE arg)
+static uint8_t biand(uint8_t rnr, uint8_t arg)
 {
-    BYTE rr = get_breg(rnr);
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
-    BYTE dtmp = (tmp & (1 << dbit)) ? 1 : 0;
-    BYTE atmp = !(stmp & dtmp);
+    uint8_t rr = get_breg(rnr);
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (rr & (1 << sbit)) ? 1 : 0;
+    uint8_t dtmp = (tmp & (1 << dbit)) ? 1 : 0;
+    uint8_t atmp = !(stmp & dtmp);
 
     tmp = (tmp & ~(1 << dbit)) | (atmp << dbit);
 
@@ -2349,15 +2349,15 @@ static BYTE biand(BYTE rnr, BYTE arg)
     return tmp;
 }
 
-static BYTE bieor(BYTE rnr, BYTE arg)
+static uint8_t bieor(uint8_t rnr, uint8_t arg)
 {
-    BYTE rr = get_breg(rnr);
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
-    BYTE dtmp = (tmp & (1 << dbit)) ? 1 : 0;
-    BYTE atmp = !(stmp ^ dtmp);
+    uint8_t rr = get_breg(rnr);
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (rr & (1 << sbit)) ? 1 : 0;
+    uint8_t dtmp = (tmp & (1 << dbit)) ? 1 : 0;
+    uint8_t atmp = !(stmp ^ dtmp);
 
     tmp = (tmp & ~(1 << dbit)) | (atmp << dbit);
 
@@ -2369,15 +2369,15 @@ static BYTE bieor(BYTE rnr, BYTE arg)
     return tmp;
 }
 
-static BYTE bior(BYTE rnr, BYTE arg)
+static uint8_t bior(uint8_t rnr, uint8_t arg)
 {
-    BYTE rr = get_breg(rnr);
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
-    BYTE dtmp = (tmp & (1 << dbit)) ? 1 : 0;
-    BYTE atmp = !(stmp | dtmp);
+    uint8_t rr = get_breg(rnr);
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (rr & (1 << sbit)) ? 1 : 0;
+    uint8_t dtmp = (tmp & (1 << dbit)) ? 1 : 0;
+    uint8_t atmp = !(stmp | dtmp);
 
     tmp = (tmp & ~(1 << dbit)) | (atmp << dbit);
 
@@ -2389,15 +2389,15 @@ static BYTE bior(BYTE rnr, BYTE arg)
     return tmp;
 }
 
-static BYTE bor(BYTE rnr, BYTE arg)
+static uint8_t bor(uint8_t rnr, uint8_t arg)
 {
-    BYTE rr = get_breg(rnr);
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
-    BYTE dtmp = (tmp & (1 << dbit)) ? 1 : 0;
-    BYTE atmp = stmp | dtmp;
+    uint8_t rr = get_breg(rnr);
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (rr & (1 << sbit)) ? 1 : 0;
+    uint8_t dtmp = (tmp & (1 << dbit)) ? 1 : 0;
+    uint8_t atmp = stmp | dtmp;
 
     tmp = (tmp & ~(1 << dbit)) | (atmp << dbit);
 
@@ -2409,12 +2409,12 @@ static BYTE bor(BYTE rnr, BYTE arg)
     return tmp;
 }
 
-static void ldbt(BYTE rnr, BYTE arg)
+static void ldbt(uint8_t rnr, uint8_t arg)
 {
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (tmp & (1 << sbit)) ? 1 : 0;
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (tmp & (1 << sbit)) ? 1 : 0;
 
     tmp = (tmp & ~(1 << dbit)) | (stmp << dbit);
 
@@ -2426,13 +2426,13 @@ static void ldbt(BYTE rnr, BYTE arg)
     set_breg(rnr, tmp);
 }
 
-static BYTE stbt(BYTE rnr, BYTE arg)
+static uint8_t stbt(uint8_t rnr, uint8_t arg)
 {
-    BYTE rr = get_breg(rnr);
-    BYTE tmp = arg;
-    BYTE sbit = (rnr >> 3) & 7;
-    BYTE dbit = rnr & 7;
-    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
+    uint8_t rr = get_breg(rnr);
+    uint8_t tmp = arg;
+    uint8_t sbit = (rnr >> 3) & 7;
+    uint8_t dbit = rnr & 7;
+    uint8_t stmp = (rr & (1 << sbit)) ? 1 : 0;
 
     tmp = (tmp & ~(1 << dbit)) | (stmp << dbit);
 
@@ -2445,7 +2445,7 @@ static BYTE stbt(BYTE rnr, BYTE arg)
 }
 
 /* reg type: 0=illegal, 1=byte, 2=word */
-static int tfm_reg_type(BYTE rnr)
+static int tfm_reg_type(uint8_t rnr)
 {
     switch (rnr) {
         case 0x0:
@@ -2463,7 +2463,7 @@ static int tfm_reg_type(BYTE rnr)
     return 0;
 }
 
-static WORD tfm_get_reg(BYTE rnr)
+static uint16_t tfm_get_reg(uint8_t rnr)
 {
     switch (rnr) {
         case 0x0:
@@ -2477,18 +2477,18 @@ static WORD tfm_get_reg(BYTE rnr)
         case 0x4:
             return S;
         case 0x8:
-            return (WORD)A;
+            return (uint16_t)A;
         case 0x9:
-            return (WORD)B;
+            return (uint16_t)B;
         case 0xe:
-            return (WORD)E;
+            return (uint16_t)E;
         case 0xf:
-            return (WORD)F;
+            return (uint16_t)F;
     }
     return 0;
 }
 
-static void tfm_set_reg(BYTE rnr, WORD val)
+static void tfm_set_reg(uint8_t rnr, uint16_t val)
 {
     switch (rnr) {
         case 0x0:
@@ -2507,27 +2507,27 @@ static void tfm_set_reg(BYTE rnr, WORD val)
             S = val;
             break;
         case 0x8:
-            A = (BYTE)val;
+            A = (uint8_t)val;
             break;
         case 0x9:
-            B = (BYTE)val;
+            B = (uint8_t)val;
             break;
         case 0xe:
-            E = (BYTE)val;
+            E = (uint8_t)val;
             break;
         case 0xf:
-            F = (BYTE)val;
+            F = (uint8_t)val;
             break;
     }
 }
 
-static void tfmpp(BYTE rnr)
+static void tfmpp(uint8_t rnr)
 {
-    BYTE val;
-    BYTE r0_nr = rnr >> 4;
-    BYTE r1_nr = rnr & 7;
-    WORD r0 = tfm_get_reg(r0_nr);
-    WORD r1 = tfm_get_reg(r1_nr);
+    uint8_t val;
+    uint8_t r0_nr = rnr >> 4;
+    uint8_t r1_nr = rnr & 7;
+    uint16_t r0 = tfm_get_reg(r0_nr);
+    uint16_t r1 = tfm_get_reg(r1_nr);
     int r0_type = tfm_reg_type(r0_nr);
     int r1_type = tfm_reg_type(r1_nr);
 
@@ -2552,13 +2552,13 @@ static void tfmpp(BYTE rnr)
     }
 }
 
-static void tfmmm(BYTE rnr)
+static void tfmmm(uint8_t rnr)
 {
-    BYTE val;
-    BYTE r0_nr = rnr >> 4;
-    BYTE r1_nr = rnr & 7;
-    WORD r0 = tfm_get_reg(r0_nr);
-    WORD r1 = tfm_get_reg(r1_nr);
+    uint8_t val;
+    uint8_t r0_nr = rnr >> 4;
+    uint8_t r1_nr = rnr & 7;
+    uint16_t r0 = tfm_get_reg(r0_nr);
+    uint16_t r1 = tfm_get_reg(r1_nr);
     int r0_type = tfm_reg_type(r0_nr);
     int r1_type = tfm_reg_type(r1_nr);
 
@@ -2583,13 +2583,13 @@ static void tfmmm(BYTE rnr)
     }
 }
 
-static void tfmpc(BYTE rnr)
+static void tfmpc(uint8_t rnr)
 {
-    BYTE val;
-    BYTE r0_nr = rnr >> 4;
-    BYTE r1_nr = rnr & 7;
-    WORD r0 = tfm_get_reg(r0_nr);
-    WORD r1 = tfm_get_reg(r1_nr);
+    uint8_t val;
+    uint8_t r0_nr = rnr >> 4;
+    uint8_t r1_nr = rnr & 7;
+    uint16_t r0 = tfm_get_reg(r0_nr);
+    uint16_t r1 = tfm_get_reg(r1_nr);
     int r0_type = tfm_reg_type(r0_nr);
     int r1_type = tfm_reg_type(r1_nr);
 
@@ -2610,13 +2610,13 @@ static void tfmpc(BYTE rnr)
     }
 }
 
-static void tfmcp(BYTE rnr)
+static void tfmcp(uint8_t rnr)
 {
-    BYTE val;
-    BYTE r0_nr = rnr >> 4;
-    BYTE r1_nr = rnr & 7;
-    WORD r0 = tfm_get_reg(r0_nr);
-    WORD r1 = tfm_get_reg(r1_nr);
+    uint8_t val;
+    uint8_t r0_nr = rnr >> 4;
+    uint8_t r1_nr = rnr & 7;
+    uint16_t r0 = tfm_get_reg(r0_nr);
+    uint16_t r1 = tfm_get_reg(r1_nr);
     int r0_type = tfm_reg_type(r0_nr);
     int r1_type = tfm_reg_type(r1_nr);
 
@@ -2637,12 +2637,12 @@ static void tfmcp(BYTE rnr)
     }
 }
 
-static void divd(BYTE m, int CLK6809, int CLK6309)
+static void divd(uint8_t m, int CLK6809, int CLK6309)
 {
-    SWORD val, bak;
+    int16_t val, bak;
 
     if (m) {
-        bak = (SWORD)D;
+        bak = (int16_t)D;
         val = bak / (INT8)m;
         A = bak % (INT8)m;
         B = val & 0xff;
@@ -2655,7 +2655,7 @@ static void divd(BYTE m, int CLK6809, int CLK6309)
         if ((val > 127) || (val < -128)) {
             OV = 0x80;
             if ((val > 255) || (val < -256)) {
-                N = (WORD)(bak) >> 8;
+                N = (uint16_t)(bak) >> 8;
                 Z = bak;
                 D = abs(bak);
             }
@@ -2667,14 +2667,14 @@ static void divd(BYTE m, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static void divq(WORD m, int CLK6809, int CLK6309)
+static void divq(uint16_t m, int CLK6809, int CLK6309)
 {
-    SDWORD val, bak;
+    int32_t val, bak;
 
     if (m) {
-        bak = (SDWORD)Q;
-        val = bak / (SWORD)m;
-        D = bak % (SWORD)m;
+        bak = (int32_t)Q;
+        val = bak / (int16_t)m;
+        D = bak % (int16_t)m;
         W = val & 0xffff;
         N = W >> 8;
         Z = W;
@@ -2686,7 +2686,7 @@ static void divq(WORD m, int CLK6809, int CLK6309)
         if ((val > 32768) || (val < -32767)) {
             OV = 0x80;
             if ((val > 65536) || (val < -65535)) {
-                N = (DWORD)(bak) >> 24;
+                N = (uint32_t)(bak) >> 24;
                 Z = bak;
                 Q = abs(bak);
             }
@@ -2698,7 +2698,7 @@ static void divq(WORD m, int CLK6809, int CLK6309)
     CLK_ADD(CLK6809, CLK6309);
 }
 
-static void muld(WORD m, int CLK6809, int CLK6309)
+static void muld(uint16_t m, int CLK6809, int CLK6309)
 {
     Q = D * m;
     C = OV = 0;
@@ -2718,7 +2718,7 @@ static void sexw(void)
     CLK += 3;
 }
 
-static DWORD ld32(DWORD arg, int CLK6809, int CLK6309)
+static uint32_t ld32(uint32_t arg, int CLK6809, int CLK6309)
 {
     Z = arg;
     N = arg >> 24;
@@ -2729,7 +2729,7 @@ static DWORD ld32(DWORD arg, int CLK6809, int CLK6309)
     return arg;
 }
 
-static void st32(DWORD arg, int CLK6809, int CLK6309)
+static void st32(uint32_t arg, int CLK6809, int CLK6309)
 {
     Z = arg;
     N = arg >> 24;
@@ -2744,10 +2744,10 @@ static void st32(DWORD arg, int CLK6809, int CLK6309)
 /* Execute 6809 code for a certain number of cycles. */
 void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
-    WORD opcode;
-    BYTE fetch;
+    uint16_t opcode;
+    uint8_t fetch;
 #ifdef H6309
-    BYTE post_byte;
+    uint8_t post_byte;
 #endif
 
     do {
@@ -2900,7 +2900,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 
             case 0x1031:        /* ADCR post */
                 post_byte = imm_byte();
-                set_reg((BYTE)(post_byte & 0x0f), adc16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f)), 1, 1));
+                set_reg((uint8_t)(post_byte & 0x0f), adc16(get_reg((uint8_t)(post_byte >> 4)), get_reg((uint8_t)(post_byte & 0x0f)), 1, 1));
                 break;
 #endif
 
@@ -3050,7 +3050,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 
             case 0x1030:        /* ADDR post */
                 post_byte = imm_byte();
-                set_reg((BYTE)(post_byte & 0x0f), add16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f)), 1, 1));
+                set_reg((uint8_t)(post_byte & 0x0f), add16(get_reg((uint8_t)(post_byte >> 4)), get_reg((uint8_t)(post_byte & 0x0f)), 1, 1));
                 break;
 
             case 0x108b:        /* ADDW immediate */
@@ -3200,7 +3200,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 
             case 0x1034:        /* ANDR post */
                 post_byte = imm_byte();
-                set_reg((BYTE)(post_byte & 0x0f), and16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f)), 1, 1));
+                set_reg((uint8_t)(post_byte & 0x0f), and16(get_reg((uint8_t)(post_byte >> 4)), get_reg((uint8_t)(post_byte & 0x0f)), 1, 1));
                 break;
 #endif
 
@@ -3767,7 +3767,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 
             case 0x1037:        /* CMPR R,R */
                 post_byte = imm_byte();
-                cmp16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f)), 1, 1);
+                cmp16(get_reg((uint8_t)(post_byte >> 4)), get_reg((uint8_t)(post_byte & 0x0f)), 1, 1);
                 break;
 #endif
 
@@ -4238,7 +4238,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
             case 0x1036: /* EORR post */
                 post_byte = imm_byte();
-                set_reg((BYTE)(post_byte & 0x0f), eor16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f)), 1, 1));
+                set_reg((uint8_t)(post_byte & 0x0f), eor16(get_reg((uint8_t)(post_byte >> 4)), get_reg((uint8_t)(post_byte & 0x0f)), 1, 1));
                 break;
 #endif
 
@@ -5969,8 +5969,8 @@ static char snap_module_name[] = "CPU6809";
 int cpu6809_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    BYTE md, e, f;
-    WORD v;
+    uint8_t md, e, f;
+    uint16_t v;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
 
@@ -6036,11 +6036,11 @@ fail:
 
 int cpu6809_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major, minor;
+    uint8_t major, minor;
     snapshot_module_t *m;
-    DWORD my_maincpu_clk;
-    WORD v;
-    BYTE e, f, md;
+    uint32_t my_maincpu_clk;
+    uint16_t v;
+    uint8_t e, f, md;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);
 

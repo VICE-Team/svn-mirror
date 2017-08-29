@@ -1001,12 +1001,12 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
     return NULL;
 }
 
-BYTE machine_tape_type_default(void)
+uint8_t machine_tape_type_default(void)
 {
     return TAPE_CAS_TYPE_PRG;
 }
 
-BYTE machine_tape_behaviour(void)
+uint8_t machine_tape_behaviour(void)
 {
     return TAPE_BEHAVIOUR_NORMAL;
 }
@@ -1024,9 +1024,9 @@ const char *machine_get_name(void)
 /* ------------------------------------------------------------------------- */
 /* native screenshot support */
 
-BYTE *crtc_get_active_bitmap(void)
+uint8_t *crtc_get_active_bitmap(void)
 {
-    BYTE *retval = NULL;
+    uint8_t *retval = NULL;
 
     retval = petdww_crtc_get_active_bitmap();
 
@@ -1037,7 +1037,7 @@ BYTE *crtc_get_active_bitmap(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void pet_userport_set_flag(BYTE b)
+static void pet_userport_set_flag(uint8_t b)
 {
     viacore_signal(machine_context.via, VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
