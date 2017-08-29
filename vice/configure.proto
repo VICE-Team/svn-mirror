@@ -4387,7 +4387,7 @@ AM_CONDITIONAL(MAKE_BINDIST, false)
 if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/gtk3"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
-  ARCH_LIBS="$ARCH_DIR/libarch.a"
+  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a"
   if test x"$is_win32" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/msvc/wpcap"
   else
@@ -5067,6 +5067,7 @@ AC_OUTPUT([Makefile
            src/arch/android/AnVICE/src-proto/com/locnet/vice/Makefile
            src/arch/beos/Makefile
            src/arch/gtk3/Makefile
+           src/arch/gtk3/widgets/Makefile
            src/arch/msdos/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/msvc-files/Makefile

@@ -1,6 +1,6 @@
 ## Makefile.am for the native GTK3 version of `libarch.a'.
 
-#SUBDIRS = widgets
+SUBDIRS = widgets
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
