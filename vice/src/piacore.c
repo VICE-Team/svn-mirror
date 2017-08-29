@@ -29,7 +29,7 @@
 #include "snapshot.h"
 
 
-static BYTE pia_last_read = 0;
+static uint8_t pia_last_read = 0;
 
 static unsigned int pia_int_num;
 
@@ -112,7 +112,7 @@ void mypia_signal(int line, int edge)
 /* ------------------------------------------------------------------------- */
 /* PIA */
 
-void mypia_store(WORD addr, BYTE byte)
+void mypia_store(uint16_t addr, uint8_t byte)
 {
     if (mycpu_rmw_flag) {
         myclk--;
@@ -207,9 +207,9 @@ void mypia_store(WORD addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE mypia_read(WORD addr)
+uint8_t mypia_read(uint16_t addr)
 {
-    static BYTE byte = 0xff;
+    static uint8_t byte = 0xff;
 
     addr &= 3;
 
@@ -269,9 +269,9 @@ BYTE mypia_read(WORD addr)
 }
 
 
-BYTE mypia_peek(WORD addr)
+uint8_t mypia_peek(uint16_t addr)
 {
-    BYTE t;
+    uint8_t t;
 
     is_peek_access = 1;
     t = mypia_read(addr);
@@ -432,7 +432,7 @@ int mypia_snapshot_write_module(snapshot_t * p)
     SMW_B(m, mypia.ddr_b);
     SMW_B(m, mypia.ctrl_b);
 
-    SMW_B(m, (BYTE)((mypia.ca_state ? 0x80 : 0) | (mypia.cb_state ? 0x40 : 0)));
+    SMW_B(m, (uint8_t)((mypia.ca_state ? 0x80 : 0) | (mypia.cb_state ? 0x40 : 0)));
 
     snapshot_module_close(m);
 
@@ -441,8 +441,8 @@ int mypia_snapshot_write_module(snapshot_t * p)
 
 int mypia_snapshot_read_module(snapshot_t * p)
 {
-    BYTE vmajor, vminor;
-    BYTE byte;
+    uint8_t vmajor, vminor;
+    uint8_t byte;
     snapshot_module_t *m;
 
     my_restore_int(pia_int_num, 0);          /* just in case */

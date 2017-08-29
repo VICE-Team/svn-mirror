@@ -108,13 +108,13 @@ inline static void memmap_mem_update(unsigned int addr, int write)
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     memmap_mem_update(addr, 1);
-    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
+    (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value));
 }
 
-static BYTE memmap_mem_read(unsigned int addr)
+static uint8_t memmap_mem_read(unsigned int addr)
 {
     memmap_mem_update(addr, 0);
-    return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
+    return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
 }
 
 #ifndef STORE
@@ -141,27 +141,27 @@ static BYTE memmap_mem_read(unsigned int addr)
 
 #ifndef STORE
 #define STORE(addr, value) \
-    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
+    (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value))
 #endif
 
 #ifndef LOAD
 #define LOAD(addr) \
-    (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
+    (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr))
 #endif
 
 #ifndef LOAD_CHECK_BA_LOW
 #define LOAD_CHECK_BA_LOW(addr) \
-    (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
+    (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr))
 #endif
 
 #ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
-    (*_mem_write_tab_ptr[0])((WORD)(addr), (BYTE)(value))
+    (*_mem_write_tab_ptr[0])((uint16_t)(addr), (uint8_t)(value))
 #endif
 
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
-    (*_mem_read_tab_ptr[0])((WORD)(addr))
+    (*_mem_read_tab_ptr[0])((uint16_t)(addr))
 #endif
 
 #ifndef DMA_FUNC
@@ -368,10 +368,10 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_REG_PC
-WORD reg_pc;
+uint16_t reg_pc;
 #endif
 
-static BYTE **o_bank_base;
+static uint8_t **o_bank_base;
 static int *o_bank_start;
 static int *o_bank_limit;
 
@@ -386,17 +386,17 @@ void maincpu_mainloop(void)
 {
     /* Notice that using a struct for these would make it a lot slower (at
        least, on gcc 2.7.2.x).  */
-    BYTE reg_a = 0;
-    BYTE reg_x = 0;
-    BYTE reg_y = 0;
-    BYTE reg_p = 0;
-    BYTE reg_sp = 0;
-    BYTE flag_n = 0;
-    BYTE flag_z = 0;
+    uint8_t reg_a = 0;
+    uint8_t reg_x = 0;
+    uint8_t reg_y = 0;
+    uint8_t reg_p = 0;
+    uint8_t reg_sp = 0;
+    uint8_t flag_n = 0;
+    uint8_t flag_z = 0;
 #ifndef NEED_REG_PC
-    WORD reg_pc;
+    uint16_t reg_pc;
 #endif
-    BYTE *bank_base;
+    uint8_t *bank_base;
     int bank_start = 0;
     int bank_limit = 0;
 
@@ -450,7 +450,7 @@ void maincpu_mainloop(void)
 
 #define CALLER e_comp_space
 
-#define ROM_TRAP_ALLOWED() mem_rom_trap_allowed((WORD)reg_pc)
+#define ROM_TRAP_ALLOWED() mem_rom_trap_allowed((uint16_t)reg_pc)
 
 #define GLOBAL_REGS maincpu_regs
 
@@ -534,8 +534,8 @@ int maincpu_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
-                               ((BYTE)SNAP_MINOR));
+    m = snapshot_module_create(s, snap_module_name, ((uint8_t)SNAP_MAJOR),
+                               ((uint8_t)SNAP_MINOR));
     if (m == NULL) {
         return -1;
     }
@@ -546,9 +546,9 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
-        || SMW_W(m, (WORD)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
-        || SMW_B(m, (BYTE)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || SMW_DW(m, (DWORD)last_opcode_info) < 0) {
+        || SMW_W(m, (uint16_t)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+        || SMW_B(m, (uint8_t)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
+        || SMW_DW(m, (uint32_t)last_opcode_info) < 0) {
         goto fail;
     }
 
@@ -571,9 +571,9 @@ fail:
 
 int maincpu_snapshot_read_module(snapshot_t *s)
 {
-    BYTE a, x, y, sp, status;
-    WORD pc;
-    BYTE major, minor;
+    uint8_t a, x, y, sp, status;
+    uint16_t pc;
+    uint8_t major, minor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);

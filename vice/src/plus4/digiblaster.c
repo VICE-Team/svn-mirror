@@ -47,9 +47,9 @@
 
 /* Some prototypes are needed */
 static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int digiblaster_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-static void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
-static BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr);
+static int digiblaster_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static void digiblaster_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
+static uint8_t digiblaster_sound_machine_read(sound_t *psid, uint16_t addr);
 static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int digiblaster_sound_machine_cycle_based(void)
@@ -75,7 +75,7 @@ static sound_chip_t digiblaster_sound_chip = {
     0 /* chip enabled */
 };
 
-static WORD digiblaster_sound_chip_offset = 0;
+static uint16_t digiblaster_sound_chip_offset = 0;
 static sound_dac_t digiblaster_dac;
 
 void digiblaster_sound_chip_init(void)
@@ -86,8 +86,8 @@ void digiblaster_sound_chip_init(void)
 /* ---------------------------------------------------------------------*/
 
 /* Some prototypes */
-static BYTE digiblaster_read(WORD addr);
-static void digiblaster_store(WORD addr, BYTE value);
+static uint8_t digiblaster_read(uint16_t addr);
+static void digiblaster_store(uint16_t addr, uint8_t value);
 
 static io_source_t digiblaster_fd5e_device = {
     "DigiBlaster",
@@ -121,7 +121,7 @@ static io_source_t digiblaster_fe9e_device = {
 
 static io_source_list_t *digiblaster_list_item = NULL;
 
-void digiblaster_set_address(WORD addr)
+void digiblaster_set_address(uint16_t addr)
 {
     if (digiblaster_sound_chip.chip_enabled) {
         io_source_unregister(digiblaster_list_item);
@@ -197,15 +197,15 @@ int digiblaster_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE digiblaster_sound_data;
+static uint8_t digiblaster_sound_data;
 
 struct digiblaster_sound_s {
-    BYTE voice0;
+    uint8_t voice0;
 };
 
 static struct digiblaster_sound_s snd;
 
-static int digiblaster_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int digiblaster_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     return sound_dac_calculate_samples(&digiblaster_dac, pbuf, (int)snd.voice0 * 128, nr, soc, (soc > 1) ? 3 : 1);
 }
@@ -218,12 +218,12 @@ static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_p
     return 1;
 }
 
-static void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void digiblaster_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
     snd.voice0 = val;
 }
 
-static BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr)
+static uint8_t digiblaster_sound_machine_read(sound_t *psid, uint16_t addr)
 {
     return 0;
 }
@@ -236,7 +236,7 @@ static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk)
 
 /* ---------------------------------------------------------------------*/
 
-static void digiblaster_store(WORD addr, BYTE value)
+static void digiblaster_store(uint16_t addr, uint8_t value)
 {
     if ((addr & 1) == 0) {
         digiblaster_sound_data = value;
@@ -244,7 +244,7 @@ static void digiblaster_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE digiblaster_read(WORD addr)
+static uint8_t digiblaster_read(uint16_t addr)
 {
     if ((addr & 1) == 0) {
         return sound_read(digiblaster_sound_chip_offset, 0);

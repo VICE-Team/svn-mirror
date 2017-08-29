@@ -79,7 +79,7 @@ static sound_chip_t sidcart_sound_chip = {
     0 /* chip enabled */
 };
 
-static WORD sidcart_sound_chip_offset = 0;
+static uint16_t sidcart_sound_chip_offset = 0;
 
 void sidcart_sound_chip_init(void)
 {
@@ -89,8 +89,8 @@ void sidcart_sound_chip_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Some prototypes are needed */
-static void sidcartjoy_store(WORD addr, BYTE value);
-static BYTE sidcartjoy_read(WORD addr);
+static void sidcartjoy_store(uint16_t addr, uint8_t value);
+static uint8_t sidcartjoy_read(uint16_t addr);
 
 static io_source_t sidcart_fd40_device = {
     "SIDCart",
@@ -194,7 +194,7 @@ static int set_sid_address(int val, void *param)
         }
     }
 
-    digiblaster_set_address((WORD)val);
+    digiblaster_set_address((uint16_t)val);
     sidcart_address = val;
 
     return 0;
@@ -308,12 +308,12 @@ int sidcart_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void sidcartjoy_store(WORD addr, BYTE value)
+static void sidcartjoy_store(uint16_t addr, uint8_t value)
 {
     store_joyport_dig(JOYPORT_5, value, 0xff);
 }
 
-static BYTE sidcartjoy_read(WORD addr)
+static uint8_t sidcartjoy_read(uint16_t addr)
 {
     return read_joyport_dig(JOYPORT_5);
 }
