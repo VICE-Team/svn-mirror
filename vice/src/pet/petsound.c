@@ -45,9 +45,9 @@
 
 /* Some prototypes are needed */
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int pet_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
-static BYTE pet_sound_machine_read(sound_t *psid, WORD addr);
+static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static void pet_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val);
+static uint8_t pet_sound_machine_read(sound_t *psid, uint16_t addr);
 static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int pet_sound_machine_cycle_based(void)
@@ -73,7 +73,7 @@ static sound_chip_t pet_sound_chip = {
     1 /* chip enabled */
 };
 
-static WORD pet_sound_chip_offset = 0;
+static uint16_t pet_sound_chip_offset = 0;
 
 void pet_sound_chip_init(void)
 {
@@ -101,7 +101,7 @@ void machine_sid2_enable(int val)
 struct pet_sound_s {
     int on;
     CLOCK t;
-    BYTE sample;
+    uint8_t sample;
 
     double b;
     double bs;
@@ -112,11 +112,11 @@ struct pet_sound_s {
     int manual;       /* 1 if CB2 set to manual control "high", 0 otherwise */
 };
 
-static BYTE snddata[5];
+static uint8_t snddata[5];
 static struct pet_sound_s snd;
 
 /* XXX: this is not correct */
-static WORD pet_makesample(double s, double e, BYTE sample)
+static uint16_t pet_makesample(double s, double e, uint8_t sample)
 {
     double v;
     int sc, sf, ef, i, nr;
@@ -141,13 +141,13 @@ static WORD pet_makesample(double s, double e, BYTE sample)
         v += e - ef;
     }
 
-    return ((WORD)(v * 4095.0 / (e - s)));
+    return ((uint16_t)(v * 4095.0 / (e - s)));
 }
 
-static int pet_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int pet_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
-    WORD v = 0;
+    uint16_t v = 0;
 
     for (i = 0; i < nr; i++) {
         if (snd.on) {
@@ -156,9 +156,9 @@ static int pet_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int 
             v = 20000;
         }
 
-        pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], (SWORD)v);
+        pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], (int16_t)v);
         if (soc > 1) {
-            pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], (SWORD)v);
+            pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], (int16_t)v);
         }
 
         snd.b += snd.bs;
@@ -177,26 +177,26 @@ void petsound_store_onoff(int value)
 
 void petsound_store_rate(CLOCK t)
 {
-    snddata[2] = (BYTE)(t & 0xff);
-    snddata[3] = (BYTE)((t >> 8) & 0xff);
-    sound_store((WORD)(pet_sound_chip_offset | 2), snddata[2], 0);
-    sound_store((WORD)(pet_sound_chip_offset | 3), snddata[3], 0);
+    snddata[2] = (uint8_t)(t & 0xff);
+    snddata[3] = (uint8_t)((t >> 8) & 0xff);
+    sound_store((uint16_t)(pet_sound_chip_offset | 2), snddata[2], 0);
+    sound_store((uint16_t)(pet_sound_chip_offset | 3), snddata[3], 0);
 }
 
-void petsound_store_sample(BYTE sample)
+void petsound_store_sample(uint8_t sample)
 {
     snddata[1] = sample;
-    sound_store((WORD)(pet_sound_chip_offset | 1), snddata[1], 0);
+    sound_store((uint16_t)(pet_sound_chip_offset | 1), snddata[1], 0);
 }
 
 /* For manual control of CB2 sound using $E84C */
 void petsound_store_manual(int value)
 {
     snddata[4] = value;
-    sound_store((WORD)(pet_sound_chip_offset | 4), snddata[4], 0);
+    sound_store((uint16_t)(pet_sound_chip_offset | 4), snddata[4], 0);
 }
 
-static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void pet_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
     switch (addr) {
         case 0:
@@ -225,7 +225,7 @@ static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-    WORD i;
+    uint16_t i;
 
     snd.speed = speed;
     snd.cycles_per_sec = cycles_per_sec;
@@ -258,7 +258,7 @@ void petsound_reset(sound_t *psid, CLOCK cpu_clk)
     sound_reset();
 }
 
-static BYTE pet_sound_machine_read(sound_t *psid, WORD addr)
+static uint8_t pet_sound_machine_read(sound_t *psid, uint16_t addr)
 {
     return 0;
 }

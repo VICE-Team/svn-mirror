@@ -81,7 +81,7 @@ static log_t pethre_log = LOG_ERR;
 static int pethre_activate(void);
 static int pethre_deactivate(void);
 
-static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
+static void pethre_DRAW(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8);
 
 /* ------------------------------------------------------------------------- */
 
@@ -89,7 +89,7 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8);
 int pethre_enabled = 0;
 
 /* The value last written to the register. It is not reset on reset. */
-static BYTE reg_E888;
+static uint8_t reg_E888;
 
 static int set_pethre_enabled(int value, void *param)
 {
@@ -214,7 +214,7 @@ int e888_dump(void)
 #define E888_NOT_RAMSEL_9       0x01
 #define E888_CR6                0x01
 
-void crtc_store_hre(WORD addr, BYTE value)
+void crtc_store_hre(uint16_t addr, uint8_t value)
 {
     if (pethre_enabled) {
         /* printf("HRE:     enabled... %4x %2x\n", addr, value); */
@@ -263,14 +263,14 @@ void crtc_store_hre(WORD addr, BYTE value)
 /* ------------------------------------------------------------------------- */
 /* Raster drawing */
 
-extern DWORD dwg_table[16];
+extern uint32_t dwg_table[16];
 
 #define MA_WIDTH        64
 #define MA_LO           (MA_WIDTH - 1)          /* 6 bits */
 #define MA_HI           (~MA_LO)
 #define RA_SKIP         (7 * MA_WIDTH)          /* 448 */
 
-static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
+static void pethre_DRAW(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8)
 {
     /*
      * MA = scr_rel starting at $0200, effectively multiplied by
@@ -282,7 +282,7 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
         int ma_hi = scr_rel & MA_HI;    /* MA<9...6> MA is already multi- */
         int ma_lo = scr_rel & MA_LO;    /* MA<5...0> ...plied by two.     */
         /* Form <MA 9-6><RA 2-0><MA 5-0> */
-        BYTE *screen_rel = mem_ram + 0x8000 +   /* == crtc.screen_base */
+        uint8_t *screen_rel = mem_ram + 0x8000 +   /* == crtc.screen_base */
                            (ma_hi << 3) + (ymod8 << 6) + ma_lo;
         int width = xend - xstart;
 
@@ -297,7 +297,7 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
              * normal text line area when the normal ROM support code
              * is used.
              */
-            DWORD *pw = (DWORD *)p;
+            uint32_t *pw = (uint32_t *)p;
             int i;
 
 #if HRE_DEBUG_GFX
@@ -317,7 +317,7 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
              */
             int width0 = MA_WIDTH - ma_lo;
             int i;
-            DWORD *pw = (DWORD *)p;
+            uint32_t *pw = (uint32_t *)p;
 
             /* printf("scr_rel=%d: ma_lo=%d; jump at %d chars\n", scr_rel, ma_lo, width0); */
             if (width < width0) {
@@ -371,8 +371,8 @@ static int pethre_ram_write_snapshot_module(snapshot_t *s)
 static int pethre_ram_read_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    BYTE vmajor, vminor;
-    WORD w;
+    uint8_t vmajor, vminor;
+    uint16_t w;
 
     m = snapshot_module_open(s, module_ram_name, &vmajor, &vminor);
     if (m == NULL) {
@@ -389,7 +389,7 @@ static int pethre_ram_read_snapshot_module(snapshot_t *s)
 
     w = 0x0F;
     SMR_W(m, &w);
-    reg_E888 = (BYTE)w;
+    reg_E888 = (uint8_t)w;
 
     snapshot_module_close(m);
 

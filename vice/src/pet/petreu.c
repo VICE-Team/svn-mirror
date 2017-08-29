@@ -55,13 +55,13 @@
 #define PETREU_CONTROL          0x0c
 
 /* PET REU registers */
-static BYTE petreu[16];
-static BYTE petreu2[16];
+static uint8_t petreu[16];
+static uint8_t petreu2[16];
 
-static BYTE petreu_bank;
+static uint8_t petreu_bank;
 
 /* PET REU image.  */
-static BYTE *petreu_ram = NULL;
+static uint8_t *petreu_ram = NULL;
 
 /* old PET REU size, unused for now but reserved for
    the future 512kb/1mb/2mb versions */
@@ -88,12 +88,12 @@ static int petreu_size_kb = 0;
 static char *petreu_filename = NULL;
 
 /* Some prototypes are needed */
-static BYTE read_petreu_reg(WORD addr);
-static BYTE read_petreu2_reg(WORD addr);
-static void store_petreu_reg(WORD addr, BYTE byte);
-static void store_petreu2_reg(WORD addr, BYTE byte);
-static BYTE read_petreu_ram(WORD addr);
-static void store_petreu_ram(WORD addr, BYTE byte);
+static uint8_t read_petreu_reg(uint16_t addr);
+static uint8_t read_petreu2_reg(uint16_t addr);
+static void store_petreu_reg(uint16_t addr, uint8_t byte);
+static void store_petreu2_reg(uint16_t addr, uint8_t byte);
+static uint8_t read_petreu_ram(uint16_t addr);
+static void store_petreu_ram(uint16_t addr, uint8_t byte);
 static int petreu_dump(void);
 
 static io_source_t petreureg1_device = {
@@ -379,18 +379,18 @@ void petreu_shutdown(void)
 /* This might be over-simplifying things, returning the
    value without taking timers and interrupts into
    acount, if needed I'll fix this in the future. */
-static BYTE read_petreu_reg(WORD addr)
+static uint8_t read_petreu_reg(uint16_t addr)
 {
-    BYTE retval;
+    uint8_t retval;
 
     retval = petreu[addr & 0xf];
 
     return retval;
 }
 
-static BYTE read_petreu2_reg(WORD addr)
+static uint8_t read_petreu2_reg(uint16_t addr)
 {
-    BYTE retval;
+    uint8_t retval;
 
     if (petreu_size_kb != 128) {
         retval = petreu2[addr & 0xf];
@@ -403,9 +403,9 @@ static BYTE read_petreu2_reg(WORD addr)
 
 /* When direction bits are set to input, the corrosponding
    bits of the latches go high */
-static BYTE getrealvalue(BYTE reg, BYTE dir)
+static uint8_t getrealvalue(uint8_t reg, uint8_t dir)
 {
-    BYTE retval;
+    uint8_t retval;
 
     retval = reg & dir;
     retval = retval | (~dir);
@@ -413,11 +413,11 @@ static BYTE getrealvalue(BYTE reg, BYTE dir)
     return retval;
 }
 
-static BYTE get_petreu_ram(WORD addr)
+static uint8_t get_petreu_ram(uint16_t addr)
 {
-    BYTE retval;
-    BYTE real_register_b_value;
-    BYTE real_register_a_value;
+    uint8_t retval;
+    uint8_t real_register_b_value;
+    uint8_t real_register_a_value;
 
     if (petreu[PETREU_DIRECTION_B] != 0xff
         && petreu[PETREU_DIRECTION_B] != 0x7f) {
@@ -439,12 +439,12 @@ static BYTE get_petreu_ram(WORD addr)
     return retval;
 }
 
-static BYTE get_petreu2_ram(WORD addr)
+static uint8_t get_petreu2_ram(uint16_t addr)
 {
-    BYTE retval;
-    BYTE real_register_b_value;
-    BYTE real_register_a_value;
-    BYTE real_bank_value;
+    uint8_t retval;
+    uint8_t real_register_b_value;
+    uint8_t real_register_a_value;
+    uint8_t real_bank_value;
 
     if (petreu[PETREU_DIRECTION_B] != 0xff) {
         real_register_b_value = getrealvalue(petreu[PETREU_REGISTER_B],
@@ -474,7 +474,7 @@ static BYTE get_petreu2_ram(WORD addr)
     return retval;
 }
 
-static BYTE read_petreu_ram(WORD addr)
+static uint8_t read_petreu_ram(uint16_t addr)
 {
     if (petreu_size_kb == 128) {
         return get_petreu_ram(addr);
@@ -483,7 +483,7 @@ static BYTE read_petreu_ram(WORD addr)
     }
 }
 
-static void store_petreu_reg(WORD addr, BYTE byte)
+static void store_petreu_reg(uint16_t addr, uint8_t byte)
 {
     petreu[addr & 0xf] = byte;
     if ((petreu[PETREU_CONTROL] & 0xe) != 0xc) {
@@ -496,15 +496,15 @@ static void store_petreu_reg(WORD addr, BYTE byte)
     }
 }
 
-static void store_petreu2_reg(WORD addr, BYTE byte)
+static void store_petreu2_reg(uint16_t addr, uint8_t byte)
 {
     petreu2[addr & 0xf] = byte;
 }
 
-static void put_petreu_ram(WORD addr, BYTE byte)
+static void put_petreu_ram(uint16_t addr, uint8_t byte)
 {
-    BYTE real_register_b_value;
-    BYTE real_register_a_value;
+    uint8_t real_register_b_value;
+    uint8_t real_register_a_value;
 
     if (petreu[PETREU_DIRECTION_B] != 0xff
         && petreu[PETREU_DIRECTION_B] != 0x7f) {
@@ -525,11 +525,11 @@ static void put_petreu_ram(WORD addr, BYTE byte)
                + real_register_a_value] = byte;
 }
 
-static void put_petreu2_ram(WORD addr, BYTE byte)
+static void put_petreu2_ram(uint16_t addr, uint8_t byte)
 {
-    BYTE real_register_b_value;
-    BYTE real_register_a_value;
-    BYTE real_bank_value;
+    uint8_t real_register_b_value;
+    uint8_t real_register_a_value;
+    uint8_t real_bank_value;
 
     if (petreu[PETREU_DIRECTION_B] != 0xff) {
         real_register_b_value = getrealvalue(petreu[PETREU_REGISTER_B],
@@ -557,7 +557,7 @@ static void put_petreu2_ram(WORD addr, BYTE byte)
     petreu_ram[(real_bank_value << 16) + (real_register_b_value << 8) + real_register_a_value] = byte;
 }
 
-static void store_petreu_ram(WORD addr, BYTE byte)
+static void store_petreu_ram(uint16_t addr, uint8_t byte)
 {
     if (petreu_size_kb == 128) {
         put_petreu_ram(addr, byte);

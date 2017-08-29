@@ -63,10 +63,10 @@ static log_t petrom_log = LOG_ERR;
 static int rom_loaded = 0;
 
 /* where we save the unchanged PET kernal 1 areas before patching */
-static BYTE petmem_2001_patchbuf_f1[256];
-static BYTE petmem_2001_patchbuf_f3[256];
-static BYTE petmem_2001_patchbuf_f4[256];
-static BYTE petmem_2001_patchbuf_f6[256];
+static uint8_t petmem_2001_patchbuf_f1[256];
+static uint8_t petmem_2001_patchbuf_f3[256];
+static uint8_t petmem_2001_patchbuf_f4[256];
+static uint8_t petmem_2001_patchbuf_f6[256];
 
 /* Tape traps.  */
 static const trap_t pet4_tape_traps[] =
@@ -244,18 +244,18 @@ void petrom_patch_2001(void)
 {
     int i;
     int rp;
-    const BYTE dat0[] = { 0xa9, 0x60, 0x85, 0xf0, 0x60 };
-    const BYTE dat1[] = { 0x20, 0xb6, 0xf0, 0xa5, 0xf0, 0x20, 0x5b, 0xf1,
+    const uint8_t dat0[] = { 0xa9, 0x60, 0x85, 0xf0, 0x60 };
+    const uint8_t dat1[] = { 0x20, 0xb6, 0xf0, 0xa5, 0xf0, 0x20, 0x5b, 0xf1,
                           0x20, 0x87, 0xf1, 0x85, 0xf7,
                           0x20, 0x87, 0xf1, 0x85, 0xf8, 0x60 };
-    const BYTE dat2[] = { 0x20, 0x7a, 0xf1, 0x20, 0xe6, 0xf6,
+    const uint8_t dat2[] = { 0x20, 0x7a, 0xf1, 0x20, 0xe6, 0xf6,
                           0xad, 0x0b, 0x02, 0x60};
-    const BYTE dat3[] = { 0xa9, 0x61, 0x85, 0xf0, 0x60 };
-    const BYTE dat4[] = { 0x20, 0xba, 0xf0, 0xa5, 0xf0, 0x20, 0x2c, 0xf1,
+    const uint8_t dat3[] = { 0xa9, 0x61, 0x85, 0xf0, 0x60 };
+    const uint8_t dat4[] = { 0x20, 0xba, 0xf0, 0xa5, 0xf0, 0x20, 0x2c, 0xf1,
                           0xa5, 0xf7, 0x20, 0x67, 0xf1,
                           0xa5, 0xf8, 0x4c, 0x67, 0xf1 };
-    const BYTE dat5[] = { 0xae, 0x0c, 0x02, 0x70, 0x46, 0x20, 0x87, 0xf1};
-    const BYTE dat6[] = { 0x20, 0x2c, 0xf1, 0x4c, 0x7e, 0xf1 };
+    const uint8_t dat5[] = { 0xae, 0x0c, 0x02, 0x70, 0x46, 0x20, 0x87, 0xf1};
+    const uint8_t dat6[] = { 0x20, 0x2c, 0xf1, 0x4c, 0x7e, 0xf1 };
 
     /* check if already patched */
     if (petres.rompatch) {
@@ -376,8 +376,8 @@ static void petrom_keybuf_init(void)
 
 void petrom_checksum(void)
 {
-    static WORD last_kernal = 0;
-    static WORD last_editor = 0;
+    static uint16_t last_kernal = 0;
+    static uint16_t last_editor = 0;
     int delay;
 
     /* log_message(petrom_log, "editor checksum=%d, kernal checksum=%d",
@@ -443,7 +443,7 @@ void petrom_checksum(void)
     last_editor = petres.editor_checksum;
 }
 
-void petrom_convert_chargen(BYTE *charrom)
+void petrom_convert_chargen(uint8_t *charrom)
 {
     int i, j;
 
@@ -559,7 +559,7 @@ int petrom_load_chargen(void)
 int petrom_load_basic(void)
 {
     int krsize;
-    WORD old_start, new_start;
+    uint16_t old_start, new_start;
 
     if (!rom_loaded) {
         return 0;

@@ -112,7 +112,7 @@ static const char module_ram_name[] = "PETMEM";
 static int mem_write_ram_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    BYTE config, rconf, memsize, conf8x96, superpet, superpet2;
+    uint8_t config, rconf, memsize, conf8x96, superpet, superpet2;
     int kbdindex;
     int i;
 
@@ -150,10 +150,10 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-    SMW_B(m, (BYTE)(config | rconf));
+    SMW_B(m, (uint8_t)(config | rconf));
 
     resources_get_int("KeymapIndex", &kbdindex);
-    SMW_B(m, (BYTE)(kbdindex >> 1));
+    SMW_B(m, (uint8_t)(kbdindex >> 1));
 
     SMW_B(m, memsize);
     SMW_B(m, conf8x96);
@@ -172,16 +172,16 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
     }
 
     /* V1.1 */
-    SMW_B(m, (BYTE)(kbdindex & 1));
+    SMW_B(m, (uint8_t)(kbdindex & 1));
     /* V1.2 */
-    SMW_B(m, (BYTE)(petres.eoiblank ? 1 : 0));
+    SMW_B(m, (uint8_t)(petres.eoiblank ? 1 : 0));
     /* V1.3 */
-    SMW_W(m, (WORD)petres.superpet_cpu_switch);
-    SMW_B(m, (BYTE)dongle6702.val);
-    SMW_B(m, (BYTE)dongle6702.prevodd);
-    SMW_B(m, (BYTE)dongle6702.wantodd);
+    SMW_W(m, (uint16_t)petres.superpet_cpu_switch);
+    SMW_B(m, (uint8_t)dongle6702.val);
+    SMW_B(m, (uint8_t)dongle6702.prevodd);
+    SMW_B(m, (uint8_t)dongle6702.wantodd);
     for (i = 0; i < 8; i++) {
-        SMW_W(m, (WORD)dongle6702.shift[i]);
+        SMW_W(m, (uint16_t)dongle6702.shift[i]);
     }
     /* Extra SuperPET2 byte; more state of $EFFC */
     superpet2 = spet_bank & 0x10;
@@ -200,9 +200,9 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
 
 static int mem_read_ram_snapshot_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
-    BYTE config, rconf, byte, memsize, conf8x96, superpet;
+    uint8_t config, rconf, byte, memsize, conf8x96, superpet;
     petinfo_t peti = {
         32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
         NULL, NULL, NULL, NULL, NULL, NULL, NULL, { NULL }
@@ -304,8 +304,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     }
     if (vminor > 2) {
         int new6809mode, i;
-        BYTE b;
-        WORD w;
+        uint8_t b;
+        uint16_t w;
 
         SMR_W(m, &w); petres.superpet_cpu_switch = w;
         SMR_B(m, &b); dongle6702.val = b;
@@ -381,7 +381,7 @@ static const char module_rom_name[] = "PETROM";
 static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
-    BYTE config;
+    uint8_t config;
     int i, trapfl;
 
     if (!save_roms) {
@@ -459,9 +459,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
 
 static int mem_read_rom_snapshot_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
-    BYTE config;
+    uint8_t config;
     int trapfl, new_iosize;
 
     m = snapshot_module_open(s, module_rom_name, &vmajor, &vminor);
