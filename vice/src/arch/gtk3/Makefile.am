@@ -61,7 +61,8 @@ libarch_a_SOURCES = \
 	video.c \
 	vsidui.c \
 	vsyncarch.c \
-	refreshratewidget.c
+	refreshratewidget.c \
+	speedwidget.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -97,5 +98,6 @@ EXTRA_DIST = \
 	uisettings.h \
 	uistatusbar.h \
 	videoarch.h \
-	refreshratewidget.h
+	refreshratewidget.h \
+	speedwidget.h
 
