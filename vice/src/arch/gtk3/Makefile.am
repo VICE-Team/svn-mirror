@@ -1,5 +1,7 @@
 ## Makefile.am for the native GTK3 version of `libarch.a'.
 
+#SUBDIRS = widgets
+
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -11,6 +13,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/sid
+# 	-I$(top_srcdir)/src/arch/gtk3/widgets
 
 noinst_LIBRARIES = libarch.a
 
@@ -48,6 +51,7 @@ libarch_a_SOURCES = \
 	uiabout.c \
 	uiattach.c \
 	uiaccelerators.c \
+	uihelpers.c \
 	uimenu.c \
 	uimon.c \
 	uimon-fallback.c \
@@ -56,7 +60,8 @@ libarch_a_SOURCES = \
 	vic20ui.c \
 	video.c \
 	vsidui.c \
-	vsyncarch.c
+	vsyncarch.c \
+	refreshratewidget.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -88,6 +93,9 @@ EXTRA_DIST = \
 	uiattach.h \
 	uiaccelerators.h \
 	uimenu.h \
+	uihelpers.h \
 	uisettings.h \
 	uistatusbar.h \
-	videoarch.h
+	videoarch.h \
+	refreshratewidget.h
+
