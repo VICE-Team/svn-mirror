@@ -88,6 +88,7 @@ static ui_button_t buttons[] = {
 };
 
 
+static GtkWidget *settings_window = NULL;
 static GtkWidget *settings_grid = NULL;
 
 
@@ -125,57 +126,7 @@ static void on_save_file_clicked(GtkWidget *widget, gpointer data)
 
 static void on_close_clicked(GtkWidget *widget, gpointer data)
 {
-    GtkWidget *window = GTK_WIDGET(data);
-    gtk_widget_destroy(window);
-}
-
-
-
-static GtkWidget *create_button_box(GtkWidget *window)
-{
-    GtkWidget *box;
-    GtkWidget *button;
-
-    GtkWidget *btn_load;
-    GtkWidget *btn_save;
-    GtkWidget *btn_load_file;
-    GtkWidget *btn_save_file;
-    GtkWidget *btn_close;
-
-    box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-
-    btn_load = gtk_button_new_with_label("Load");
-    g_signal_connect(btn_load, "clicked", G_CALLBACK(on_load_clicked),
-            window);
-    gtk_widget_show(btn_load);
-    gtk_container_add(GTK_CONTAINER(box), btn_load);
-
-    btn_save = gtk_button_new_with_label("Save");
-    g_signal_connect(btn_save, "clicked", G_CALLBACK(on_save_clicked),
-            window);
-    gtk_widget_show(btn_save);
-    gtk_container_add(GTK_CONTAINER(box), btn_save);
-
-    btn_load_file = gtk_button_new_with_label("Load from file ...");
-    g_signal_connect(btn_load_file, "clicked", G_CALLBACK(on_load_file_clicked),
-            window);
-    gtk_widget_show(btn_load_file);
-    gtk_container_add(GTK_CONTAINER(box), btn_load_file);
-
-    btn_save_file = gtk_button_new_with_label("Save to file ...");
-    g_signal_connect(btn_save_file, "clicked", G_CALLBACK(on_save_file_clicked),
-            window);
-    gtk_widget_show(btn_save_file);
-    gtk_container_add(GTK_CONTAINER(box), btn_save_file);
-
-    btn_close = gtk_button_new_with_label("Close");
-    g_signal_connect(btn_close, "clicked", G_CALLBACK(on_close_clicked),
-            window);
-    gtk_widget_show(btn_close);
-    gtk_container_add(GTK_CONTAINER(box), btn_close);
-
-    gtk_widget_show(box);
-    return box;
+    gtk_widget_destroy(settings_window);
 }
 
 
@@ -190,7 +141,9 @@ static GtkWidget *create_treeview(void)
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
     GtkTreeIter iter;   /* parent iter */
+#if 0
     GtkTreeIter child;  /* child iter */
+#endif
 
     /* create the model */
     store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING);
@@ -242,7 +195,6 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
  */
 void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
-    GtkWidget *window;
     GtkWidget *tree;
     GtkWidget *parent;
 
@@ -251,9 +203,9 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 #endif
 
 
-    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_modal(GTK_WINDOW(window), TRUE);
-    gtk_window_set_title(GTK_WINDOW(window), "VICE settings");
+    settings_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_modal(GTK_WINDOW(settings_window), TRUE);
+    gtk_window_set_title(GTK_WINDOW(settings_window), "VICE settings");
 
 
     /* make the settings window a child of the toplevel window
@@ -264,7 +216,9 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
      */
     parent = gtk_widget_get_toplevel(widget);
     if (gtk_widget_is_toplevel(parent)) {
-        gtk_window_set_transient_for(GTK_WINDOW(window), GTK_WINDOW(parent));
+        gtk_window_set_transient_for(
+                GTK_WINDOW(settings_window),
+                GTK_WINDOW(parent));
     }
 
     settings_grid = gtk_grid_new();
@@ -283,6 +237,6 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_widget_show(tree);
 
 
-    gtk_container_add(GTK_CONTAINER(window), settings_grid);
-    gtk_widget_show(window);
+    gtk_container_add(GTK_CONTAINER(settings_window), settings_grid);
+    gtk_widget_show(settings_window);
 }

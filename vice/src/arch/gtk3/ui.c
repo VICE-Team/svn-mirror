@@ -35,6 +35,7 @@
 #include "not_implemented.h"
 
 #include "cmdline.h"
+#include "interrupt.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
@@ -47,6 +48,7 @@
 #include "uistatusbar.h"
 #include "util.h"
 #include "videoarch.h"
+#include "vsync.h"
 
 #include "uiabout.h"
 #include "uiattach.h"
@@ -119,6 +121,11 @@ typedef struct ui_resources_s {
 
 
 static ui_resource_t ui_resources;
+
+/** \brief  Flag indicating pause mode
+ */
+static int is_paused = 0;
+
 
 
 /** \brief  Callback for a windows' "destroy" event
@@ -630,16 +637,57 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     }
 }
 
-void ui_pause_emulation(int flag)
+
+/** \brief  Keeps the ui events going while the emulation is paused
+ *
+ * \param[in]   addr    unused
+ * \param[in]   data    unused
+ */
+static void pause_trap(uint16_t addr, void *data)
 {
-    NOT_IMPLEMENTED();
+    ui_display_paused(1);
+    vsync_suspend_speed_eval();
+    while (is_paused) {
+        ui_dispatch_next_event();
+    }
 }
 
-int ui_emulation_is_paused(void)
+
+/** \brief  This should display some 'pause' status indicator on the statusbar
+ *
+ * \param[in]   flag    pause state
+ */
+void ui_display_paused(int flag)
 {
     INCOMPLETE_IMPLEMENTATION();
-    return 0;
 }
+
+
+/** \brief  Pause emulation
+ *
+ * \param[in]   flag    pause state
+ */
+void ui_pause_emulation(int flag)
+{
+    if (flag && !is_paused) {
+        is_paused = 1;
+        interrupt_maincpu_trigger_trap(pause_trap, 0);
+    } else {
+        ui_display_paused(0);
+        is_paused = 0;
+    }
+}
+
+
+/** \brief  Check if emulation is paused
+ *
+ * \return  bool
+ */
+int ui_emulation_is_paused(void)
+{
+    return is_paused;
+}
+
 
 void ui_exit(void)
 {

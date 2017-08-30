@@ -140,10 +140,15 @@ GtkWidget *uihelpers_create_button_box(
     for (i = 0; buttons[i].text != NULL; i++) {
         GtkWidget *button = gtk_button_new_with_label(buttons[i].text);
         if (buttons[i].callback != NULL) {
-            g_signal_connect(button, "clicked", G_CALLBACK(buttons[i].callback), NULL);
+            g_signal_connect(button,
+                    "clicked",
+                    G_CALLBACK(buttons[i].callback),
+                    NULL);
         }
+        gtk_widget_show(button);
+        gtk_container_add(GTK_CONTAINER(box), button);
     }
-    gtk_widget_show_all(box);
+    gtk_widget_show(box);
     return box;
 }
 

@@ -51,8 +51,11 @@ void ui_show_text(const char *title, const char *text, int width, int height);
 
 void ui_autorepeat_on(void);
 void ui_autorepeat_off(void);
+
+void ui_display_paused(int flag);
 void ui_pause_emulation(int flag);
-int ui_emulation_is_paused(void);
+int  ui_emulation_is_paused(void);
+
 void ui_check_mouse_cursor(void);
 void ui_restore_mouse(void);
 
