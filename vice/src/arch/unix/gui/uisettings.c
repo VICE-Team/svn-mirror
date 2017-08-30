@@ -214,8 +214,10 @@ static UI_CALLBACK(set_custom_maximum_speed)
 
 static UI_CALLBACK(save_resources)
 {
+#if 0
     char *fname;
-    
+#endif
+
     vsync_suspend_speed_eval();
     if (resources_save(NULL) < 0) {
         ui_error(_("Cannot save settings."));
@@ -224,9 +226,11 @@ static UI_CALLBACK(save_resources)
             ui_message(_("Settings saved successfully."));
         }
     }
+#if 0
     fname = archdep_default_fliplist_file_name();
     fliplist_save_list((unsigned int) -1, fname);
     lib_free(fname);
+#endif
     ui_update_menus();
 }
 
