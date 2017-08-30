@@ -21,10 +21,12 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
+ *  TODO:   rename functions and types
  */
 
-#ifndef HAVE_UIHELPERS_H
-#define HAVE_UIHELPERS_H
+#ifndef HAVE_WIDGETHELPERS_H
+#define HAVE_WIDGETHELPERS_H
 
 #include "vice.h"
 
@@ -36,8 +38,15 @@ typedef struct ui_text_int_pair_s {
     int value;
 } ui_text_int_pair_t;
 
+typedef struct ui_button_s {
+    char *text;
+    void (*callback)(GtkWidget *, void *);
+    /* XXX: maybe add keyboard shortcut stuff ? */
+} ui_button_t;
 
-
+GtkWidget *uihelpers_create_button_box(
+        ui_button_t *buttons,
+        GtkOrientation orientation);
 
 GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns);
 

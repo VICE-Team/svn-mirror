@@ -15,7 +15,11 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES = \
-	empty.c
+	widgethelpers.c \
+	refreshratewidget.c \
+	speedwidget.c
 
 EXTRA_DIST = \
-	empty.h
+	widgethelpers.h \
+	refreshratewidget.h \
+	speedwidget.h

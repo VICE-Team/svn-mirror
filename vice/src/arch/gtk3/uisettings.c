@@ -51,6 +51,7 @@
 #include "resources.h"
 #include "vsync.h"
 
+#include "widgethelpers.h"
 #include "uispeed.h"
 
 
@@ -58,6 +59,33 @@
 
 
 #define NUM_COLUMNS 1
+
+
+
+static void on_load_clicked(GtkWidget *widget, gpointer data);
+static void on_save_clicked(GtkWidget *widget, gpointer data);
+static void on_load_file_clicked(GtkWidget *widget, gpointer data);
+static void on_save_file_clicked(GtkWidget *widget, gpointer data);
+static void on_close_clicked(GtkWidget *widget, gpointer data);
+
+
+
+
+#if 0
+typedef struct button_info_s {
+    const gchar *text;
+    void (*callback)(GtkWidget *widget, gpointer user_data);
+} button_info_t;
+#endif
+
+static ui_button_t buttons[] = {
+    { "Load", on_load_clicked },
+    { "Save", on_load_file_clicked },
+    { "Load from ...", on_save_clicked },
+    { "Save as ..", on_save_file_clicked },
+    { "Close", on_close_clicked },
+    { NULL, NULL }
+};
 
 
 static GtkWidget *settings_grid = NULL;
@@ -106,6 +134,7 @@ static void on_close_clicked(GtkWidget *widget, gpointer data)
 static GtkWidget *create_button_box(GtkWidget *window)
 {
     GtkWidget *box;
+    GtkWidget *button;
 
     GtkWidget *btn_load;
     GtkWidget *btn_save;
@@ -244,7 +273,9 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     ui_settings_set_central_widget(uispeed_create_central_widget());
 
-    gtk_grid_attach(GTK_GRID(settings_grid), create_button_box(window), 0, 1, 2, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid),
+            uihelpers_create_button_box(buttons, GTK_ORIENTATION_HORIZONTAL),
+            0, 1, 2, 1);
 
 
 

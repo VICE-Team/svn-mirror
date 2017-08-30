@@ -12,8 +12,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
-	-I$(top_srcdir)/src/sid
-# 	-I$(top_srcdir)/src/arch/gtk3/widgets
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/arch/gtk3/widgets
 
 noinst_LIBRARIES = libarch.a
 
@@ -51,7 +51,6 @@ libarch_a_SOURCES = \
 	uiabout.c \
 	uiattach.c \
 	uiaccelerators.c \
-	uihelpers.c \
 	uimenu.c \
 	uimon.c \
 	uimon-fallback.c \
@@ -61,9 +60,7 @@ libarch_a_SOURCES = \
 	vic20ui.c \
 	video.c \
 	vsidui.c \
-	vsyncarch.c \
-	refreshratewidget.c \
-	speedwidget.c
+	vsyncarch.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -95,11 +92,8 @@ EXTRA_DIST = \
 	uiattach.h \
 	uiaccelerators.h \
 	uimenu.h \
-	uihelpers.h \
 	uisettings.h \
 	uispeed.h \
 	uistatusbar.h \
-	videoarch.h \
-	refreshratewidget.h \
-	speedwidget.h
+	videoarch.h
 

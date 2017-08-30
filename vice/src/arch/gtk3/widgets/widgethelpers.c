@@ -28,6 +28,8 @@
  *
  *  TODO:   turn the margin/padding values into defines and move into a file
  *          like uidefs.h
+ *
+ *  TODO:   rename functions
  */
 
 
@@ -38,7 +40,7 @@
 #include "lib.h"
 #include "vsync.h"
 
-#include "uihelpers.h"
+#include "widgethelpers.h"
 
 
 /** \brief  Size of the buffer used for snprintf() calls to generate labels
@@ -125,5 +127,23 @@ GtkWidget *uihelpers_create_int_radiogroup_with_label(
     g_object_set(grid, "margin", 8, NULL);
     gtk_widget_show(grid);
     return grid;
+}
+
+
+GtkWidget *uihelpers_create_button_box(
+        ui_button_t *buttons,
+        GtkOrientation orientation)
+{
+    GtkWidget *box = gtk_button_box_new(orientation);
+    size_t i;
+
+    for (i = 0; buttons[i].text != NULL; i++) {
+        GtkWidget *button = gtk_button_new_with_label(buttons[i].text);
+        if (buttons[i].callback != NULL) {
+            g_signal_connect(button, "clicked", G_CALLBACK(buttons[i].callback), NULL);
+        }
+    }
+    gtk_widget_show_all(box);
+    return box;
 }
 

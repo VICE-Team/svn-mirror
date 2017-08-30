@@ -31,7 +31,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
-#include "uihelpers.h"
+#include "widgethelpers.h"
 #include "refreshratewidget.h"
 #include "speedwidget.h"
 
