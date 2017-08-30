@@ -53,8 +53,11 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns);
 GtkWidget *uihelpers_create_int_radiogroup_with_label(
         const gchar *label,
         ui_text_int_pair_t *data,
-        void (*callback)(GtkWidget *, gpointer));
+        void (*callback)(GtkWidget *, gpointer),
+        int active);
 
+
+void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index);
 
 #endif
 

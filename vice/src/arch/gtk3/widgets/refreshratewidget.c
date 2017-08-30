@@ -86,8 +86,19 @@ GtkWidget *create_refreshrate_widget(void)
 {
     GtkWidget *layout;
 
+    int index;
+    int value = 0;
+
+    resources_get_int("RefreshRate", &value);
+
+    for (index = 0; refresh_rates[index].text != NULL; index++) {
+        if (refresh_rates[index].value == value) {
+            break;
+        }
+    }
+
     layout = uihelpers_create_int_radiogroup_with_label("Refresh rate",
-            refresh_rates, refreshrate_callback);
+            refresh_rates, refreshrate_callback, index);
 
     gtk_widget_show(layout);
     return layout;

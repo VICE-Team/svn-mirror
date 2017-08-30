@@ -102,7 +102,8 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
 GtkWidget *uihelpers_create_int_radiogroup_with_label(
         const gchar *label,
         ui_text_int_pair_t *data,
-        void (*callback)(GtkWidget *, gpointer))
+        void (*callback)(GtkWidget *, gpointer),
+        int active)
 {
     GtkWidget *grid;
     GtkRadioButton *last;
@@ -117,6 +118,11 @@ GtkWidget *uihelpers_create_int_radiogroup_with_label(
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
         gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
         g_object_set(radio, "margin-left", 16, NULL);  /* indent 16 units */
+
+        if (active == i) {
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+        }
+
         if (callback != NULL) {
             g_signal_connect(radio, "toggled", G_CALLBACK(callback),
                     GINT_TO_POINTER(data[i].value));
@@ -150,5 +156,43 @@ GtkWidget *uihelpers_create_button_box(
     }
     gtk_widget_show(box);
     return box;
+}
+
+
+void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
+{
+    GtkWidget *radio;
+    int row = 0;
+    int radio_index = 0;
+
+
+    g_print("Looking for index %d\n", index);
+
+    if (index < 0) {
+        return;
+    }
+
+    while (1) {
+        radio = gtk_grid_get_child_at(GTK_GRID(grid), 0, row);
+        if (radio == NULL) {
+            g_print("NOT A RADIO\n");
+            return;
+        } else {
+            if (GTK_IS_TOGGLE_BUTTON(radio)) {
+                /* found first toggle button */
+                radio_index = row;
+                while (radio != NULL && radio_index < index) {
+                    if (radio_index == index) {
+                        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                        return;
+                    }
+                    row++;
+                    radio_index++;
+                    radio = gtk_grid_get_child_at(GTK_GRID(grid), 0, row);
+                }
+            }
+        }
+        row++;
+    }
 }
 

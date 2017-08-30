@@ -86,9 +86,24 @@ static GtkWidget *create_custom_refresh_widget(void)
 GtkWidget *create_speed_widget(void)
 {
     GtkWidget *layout;
+    int index;
+    int value;
+
+    /* now set the proper value */
+    value = resources_get_int("Speed", &value);
+#ifdef HAVE_DEBUG_GTK3UI
+    g_print("[debug-gtk3ui] %s() speed = %d\n", __func__, value);
+#endif
+    for (index = 0; speed_rates[index].text != NULL; index++) {
+        if (value == speed_rates[index].value) {
+            break;
+        }
+    }
+
 
     layout = uihelpers_create_int_radiogroup_with_label("Speed",
-            speed_rates, speed_callback);
+            speed_rates, speed_callback, index);
+
 
     gtk_widget_show(layout);
     return layout;
