@@ -629,8 +629,10 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
             /* FIXME: handle paused mode */
             warp = (warp_flag ? _("(warp)") : "");
             str[0] = 0;
-            snprintf(str, 128, "%s%s - %3d%%, %2d fps %s",
-                     ui_resources.canvas[i]->viewport->title, mode[i], percent_int, framerate_int, warp);
+            snprintf(str, 128, "%s%s - %3d%%, %2d fps %s%s",
+                     ui_resources.canvas[i]->viewport->title, mode[i],
+                     percent_int, framerate_int, warp,
+                     is_paused ? " (Paused)" : "");
             str[127] = 0;
             gtk_window_set_title(GTK_WINDOW(ui_resources.window_widget[i]), str);
         }
@@ -659,7 +661,7 @@ static void pause_trap(uint16_t addr, void *data)
  */
 void ui_display_paused(int flag)
 {
-    INCOMPLETE_IMPLEMENTATION();
+    ui_display_speed(0.0, 0.0, 0);
 }
 
 

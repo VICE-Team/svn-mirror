@@ -78,6 +78,9 @@ typedef struct button_info_s {
 } button_info_t;
 #endif
 
+
+/** \brief  List of buttons for the 'button box' of the main settings window
+ */
 static ui_button_t buttons[] = {
     { "Load", on_load_clicked },
     { "Save", on_load_file_clicked },
@@ -92,7 +95,15 @@ static GtkWidget *settings_window = NULL;
 static GtkWidget *settings_grid = NULL;
 
 
-static void on_load_clicked(GtkWidget *widget, gpointer data)
+/** \brief  Checkbox for 'Save settings on exit'
+ *
+ * This can probably moved inside the settings widget constructor once the
+ * layout is settled using gtk_grid_get_child_at()
+ */
+static GtkWidget *save_on_exit = NULL;
+
+
+static void on_load_clicked(GtkWidget *widget, gpointer user_data)
 {
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
@@ -100,7 +111,7 @@ static void on_load_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-static void on_save_clicked(GtkWidget *widget, gpointer data)
+static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
@@ -108,7 +119,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-static void on_load_file_clicked(GtkWidget *widget, gpointer data)
+static void on_load_file_clicked(GtkWidget *widget, gpointer user_data)
 {
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
@@ -116,7 +127,7 @@ static void on_load_file_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-static void on_save_file_clicked(GtkWidget *widget, gpointer data)
+static void on_save_file_clicked(GtkWidget *widget, gpointer user_data)
 {
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
@@ -124,11 +135,29 @@ static void on_save_file_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-static void on_close_clicked(GtkWidget *widget, gpointer data)
+static void on_close_clicked(GtkWidget *widget, gpointer user_data)
 {
     gtk_widget_destroy(settings_window);
 }
 
+
+static void on_save_on_exit_toggled(GtkWidget *widget, gpointer user_data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    resources_set_int("SaveResourcesOnExit", state);
+}
+
+
+static GtkWidget *create_save_on_exit_checkbox(void)
+{
+    GtkWidget *check;
+
+    check = gtk_check_button_new_with_label("Save settings on exit");
+    gtk_widget_show(check);
+    g_signal_connect(check, "toggled", G_CALLBACK(on_save_on_exit_toggled),
+            NULL);
+    return check;
+}
 
 
 /* TODO:    find a non-convoluted way to add items with callbacks setting the
@@ -197,6 +226,7 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *tree;
     GtkWidget *parent;
+    int soe_state;      /* save-on-exit state */
 
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
@@ -231,6 +261,10 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
             uihelpers_create_button_box(buttons, GTK_ORIENTATION_HORIZONTAL),
             0, 1, 2, 1);
 
+    save_on_exit = create_save_on_exit_checkbox();
+    soe_state= resources_get_int("SaveResourcesOnExit", &soe_state);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(save_on_exit), soe_state);
+    gtk_grid_attach(GTK_GRID(settings_grid), save_on_exit, 0, 2, 2, 1);
 
 
     gtk_widget_show(settings_grid);
