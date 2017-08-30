@@ -442,7 +442,7 @@ void ted_reset(void)
 
 void ted_reset_registers(void)
 {
-    WORD i;
+    uint16_t i;
 
     if (!ted.initialized) {
         return;
@@ -494,13 +494,13 @@ void ted_powerup(void)
 void ted_update_memory_ptrs(unsigned int cycle)
 {
     /* FIXME: This is *horrible*!  */
-    static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
-    static BYTE *old_color_ptr;
-    WORD screen_addr, char_addr, bitmap_addr, color_addr;
-    BYTE *screen_base;            /* Pointer to screen memory.  */
-    BYTE *char_base;              /* Pointer to character memory.  */
-    BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
-    BYTE *color_base;             /* Pointer to color memory.  */
+    static uint8_t *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
+    static uint8_t *old_color_ptr;
+    uint16_t screen_addr, char_addr, bitmap_addr, color_addr;
+    uint8_t *screen_base;            /* Pointer to screen memory.  */
+    uint8_t *char_base;              /* Pointer to character memory.  */
+    uint8_t *bitmap_base;            /* Pointer to bitmap memory.  */
+    uint8_t *color_base;             /* Pointer to color memory.  */
     int tmp;
     unsigned int video_romsel;
     unsigned int cpu_romsel;

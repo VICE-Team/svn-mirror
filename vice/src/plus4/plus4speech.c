@@ -124,7 +124,7 @@
 static t6721_state *t6721; /* context for the t6721 chip */
 
 /* MOS 8706 context */
-static BYTE regs[4];
+static uint8_t regs[4];
 
 #define IRQNUM_DTRD     0
 #define IRQNUM_EOS      1
@@ -226,7 +226,7 @@ static void update_dtrd(int d)
 }
 
 /* hooked to callback of t6721 chip */
-static BYTE read_bit_from_fifo(t6721_state *t6721, unsigned int *bit)
+static uint8_t read_bit_from_fifo(t6721_state *t6721, unsigned int *bit)
 {
     *bit = 0;
 
@@ -255,7 +255,7 @@ static BYTE read_bit_from_fifo(t6721_state *t6721, unsigned int *bit)
 }
 
 /* writes one bit to the FIFO */
-static BYTE write_bit_to_fifo(BYTE bit)
+static uint8_t write_bit_to_fifo(uint8_t bit)
 {
     if (fifo_reset) {
         /* DBG(("SPEECH: wr first bit: %d\n", bit)); */
@@ -296,14 +296,14 @@ static BYTE write_bit_to_fifo(BYTE bit)
 /*
    writes one nibble to the FIFO
 */
-static void write_data_nibble(BYTE nibble)
+static void write_data_nibble(uint8_t nibble)
 {
     int i;
-    BYTE mask;
+    uint8_t mask;
 /*    DBG(("%x ", nibble)); */
 /*    DBG(("SPEECH: wr byte %04x\n", nibble)); */
     for (i = 0, mask = 1; i < 4; ++i, mask <<= 1) {
-        if (write_bit_to_fifo((BYTE)(nibble & mask)) == 0) {
+        if (write_bit_to_fifo((uint8_t)(nibble & mask)) == 0) {
             return;
         }
     }
@@ -395,9 +395,9 @@ $FD22 : speech data register
     store: speech data
 */
 
-static BYTE speech_read(WORD addr)
+static uint8_t speech_read(uint16_t addr)
 {
-    BYTE value = 0;
+    uint8_t value = 0;
     /* DBG(("SPEECH: rd %04x\n", addr)); */
     switch (addr & 3) {
         case 0:
@@ -422,14 +422,14 @@ static BYTE speech_read(WORD addr)
     return value;
 }
 
-static void speech_store(WORD addr, BYTE value)
+static void speech_store(uint16_t addr, uint8_t value)
 {
     /* DBG(("SPEECH: wr %04x %02x\n", addr, value)); */
     switch (addr & 3) {
         case 0: /* Command register */
                 /* DBG(("SPEECH: wr cmd %02x\n", value & 0x0f)); */
             t6721->wr = (value >> 7) & 1;     /* wr line */
-            t6721_store(t6721, (BYTE)(value & 0x0f));
+            t6721_store(t6721, (uint8_t)(value & 0x0f));
             t6721_update_ticks(t6721, 1);
             regs[0] = value;
             break;
@@ -444,14 +444,14 @@ static void speech_store(WORD addr, BYTE value)
             regs[1] = value;
             break;
         case 2: /* sample data register */
-            write_data_nibble((BYTE)((value >> 0) & 0x0f));
-            write_data_nibble((BYTE)((value >> 4) & 0x0f));
+            write_data_nibble((uint8_t)((value >> 0) & 0x0f));
+            write_data_nibble((uint8_t)((value >> 4) & 0x0f));
             regs[2] = value;
             break;
     }
 }
 
-static BYTE speech_peek(WORD addr)
+static uint8_t speech_peek(uint16_t addr)
 {
     return regs[addr & 3];
 }
@@ -484,9 +484,9 @@ void speech_setup_context(machine_context_t *machine_context)
 /* Some prototypes are needed */
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void speech_sound_machine_close(sound_t *psid);
-static int speech_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
-static BYTE speech_sound_machine_read(sound_t *psid, WORD addr);
-static void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
+static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static uint8_t speech_sound_machine_read(sound_t *psid, uint16_t addr);
+static void speech_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte);
 static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int speech_sound_machine_cycle_based(void)
@@ -512,7 +512,7 @@ static sound_chip_t speech_sound_chip = {
     0 /* chip enabled */
 };
 
-static WORD speech_sound_chip_offset = 0;
+static uint16_t speech_sound_chip_offset = 0;
 
 void speech_sound_chip_init(void)
 {
@@ -672,14 +672,14 @@ int speech_cmdline_options_init(void)
 /* FIXME: shutdown missing */
 
 /* FIXME: what are those two doing exactly ?! */
-static BYTE speech_sound_machine_read(sound_t *psid, WORD addr)
+static uint8_t speech_sound_machine_read(sound_t *psid, uint16_t addr)
 {
     DBG(("SPEECH: speech_sound_machine_read\n"));
 
     return 0; /* ? */
 }
 
-static void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+static void speech_sound_machine_store(sound_t *psid, uint16_t addr, uint8_t byte)
 {
     DBG(("SPEECH: speech_sound_machine_store\n"));
 }
@@ -687,10 +687,10 @@ static void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 /*
     called periodically for every sound fragment that is played
 */
-static int speech_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int speech_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
-    SWORD *buffer;
+    int16_t *buffer;
 
     buffer = lib_malloc(nr * 2);
 
