@@ -119,11 +119,11 @@ struct sdljoystick_mapping_s {
     sdljoystick_action_t action;
 
     /* Previous state of input */
-    BYTE prev;
+    uint8_t prev;
 
     union {
         /* joy[0] = port number (0,1), joy[1] = pin number */
-        BYTE joy[2];
+        uint8_t joy[2];
 
         /* key[0] = row, key[1] = column */
         int key[2];
@@ -763,7 +763,7 @@ int joy_arch_mapping_load(const char *filename)
 
 /* ------------------------------------------------------------------------- */
 
-static inline BYTE sdljoy_axis_direction(Sint16 value, BYTE prev)
+static inline uint8_t sdljoy_axis_direction(Sint16 value, uint8_t prev)
 {
     int thres = joystick_threshold;
 
@@ -784,9 +784,9 @@ static inline BYTE sdljoy_axis_direction(Sint16 value, BYTE prev)
     return prev;
 }
 
-static inline BYTE sdljoy_hat_direction(Uint8 value, BYTE prev)
+static inline uint8_t sdljoy_hat_direction(Uint8 value, uint8_t prev)
 {
-    BYTE b;
+    uint8_t b;
 
     b = (value ^ prev) & value;
     b &= SDL_HAT_UP | SDL_HAT_DOWN | SDL_HAT_LEFT | SDL_HAT_RIGHT;
@@ -811,7 +811,7 @@ static inline BYTE sdljoy_hat_direction(Uint8 value, BYTE prev)
 static sdljoystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
 {
     sdljoystick_mapping_t *retval = NULL;
-    BYTE cur;
+    uint8_t cur;
 
     switch (e.type) {
         case SDL_JOYAXISMOTION:
@@ -839,7 +839,7 @@ static sdljoystick_mapping_t *sdljoy_get_mapping(SDL_Event e)
 
 static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int value)
 {
-    BYTE t;
+    uint8_t t;
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
     autorepeat = MENU_ACTION_NONE;
@@ -887,7 +887,7 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
                 if (value) {
                     joystick_set_value_or(t + 1, event->value.joy[1]);
                 } else {
-                    joystick_set_value_and(t + 1, (BYTE) ~(event->value.joy[1]));
+                    joystick_set_value_and(t + 1, (uint8_t) ~(event->value.joy[1]));
                 }
             }
             break;
@@ -927,9 +927,9 @@ ui_menu_action_t sdljoy_autorepeat(void)
     return autorepeat;
 }
 
-BYTE sdljoy_check_axis_movement(SDL_Event e)
+uint8_t sdljoy_check_axis_movement(SDL_Event e)
 {
-    BYTE cur, prev;
+    uint8_t cur, prev;
     int index;
     Uint8 joynum;
     Uint8 axis;
@@ -952,9 +952,9 @@ BYTE sdljoy_check_axis_movement(SDL_Event e)
     return cur;
 }
 
-BYTE sdljoy_check_hat_movement(SDL_Event e)
+uint8_t sdljoy_check_hat_movement(SDL_Event e)
 {
-    BYTE cur, prev;
+    uint8_t cur, prev;
     int index;
     Uint8 joynum;
     Uint8 hat;
@@ -979,7 +979,7 @@ BYTE sdljoy_check_hat_movement(SDL_Event e)
 
 ui_menu_action_t sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value)
 {
-    BYTE cur, prev;
+    uint8_t cur, prev;
     int index;
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
@@ -1021,7 +1021,7 @@ ui_menu_action_t sdljoy_button_event(Uint8 joynum, Uint8 button, Uint8 value)
 
 ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value)
 {
-    BYTE prev;
+    uint8_t prev;
     int index;
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
@@ -1096,8 +1096,8 @@ void sdljoy_set_joystick(SDL_Event e, int port, int bits)
 
     if (joyevent != NULL) {
         joyevent->action = JOYSTICK;
-        joyevent->value.joy[0] = (BYTE)port;
-        joyevent->value.joy[1] = (BYTE)bits;
+        joyevent->value.joy[0] = (uint8_t)port;
+        joyevent->value.joy[1] = (uint8_t)bits;
     }
 }
 

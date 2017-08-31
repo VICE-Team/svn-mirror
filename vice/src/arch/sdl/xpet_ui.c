@@ -163,7 +163,7 @@ static const ui_menu_entry_t xpet_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static BYTE *pet_font;
+static uint8_t *pet_font;
 
 /* FIXME: support all PET keyboards (see pet-resources.h) */
 

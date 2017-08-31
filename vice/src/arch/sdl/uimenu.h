@@ -84,8 +84,8 @@ typedef enum {
 } ui_menu_retval_t;
 
 struct menufont_s {
-    BYTE *font;
-    WORD *translate;
+    uint8_t *font;
+    uint16_t *translate;
     int w;
     int h;
 };
@@ -98,8 +98,8 @@ struct menu_draw_s {
     int max_text_y;
     int extra_x;
     int extra_y;
-    BYTE color_front;
-    BYTE color_back;
+    uint8_t color_front;
+    uint8_t color_back;
 };
 typedef struct menu_draw_s menu_draw_t;
 
@@ -130,12 +130,12 @@ typedef enum {
 
 extern void sdl_ui_set_main_menu(const ui_menu_entry_t *menu);
 extern ui_menu_entry_t *sdl_ui_get_main_menu(void);
-extern void sdl_ui_set_menu_font(BYTE *font, int w, int h);
+extern void sdl_ui_set_menu_font(uint8_t *font, int w, int h);
 extern menu_draw_t *sdl_ui_get_menu_param(void);
 extern menufont_t *sdl_ui_get_menu_font(void);
 extern void (*sdl_ui_set_menu_params)(int index, menu_draw_t *menu_draw);
 
-extern BYTE *sdl_ui_get_draw_buffer(void);
+extern uint8_t *sdl_ui_get_draw_buffer(void);
 extern void sdl_ui_activate_pre_action(void);
 extern void sdl_ui_activate_post_action(void);
 extern void sdl_ui_init_draw_params(void);

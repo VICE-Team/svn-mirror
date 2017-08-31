@@ -62,12 +62,12 @@ static menufont_t *menufont = NULL;
 static int pitch;
 static int draw_offset;
 
-static inline void uistatusbar_putchar(BYTE c, int pos_x, int pos_y, BYTE color_f, BYTE color_b)
+static inline void uistatusbar_putchar(uint8_t c, int pos_x, int pos_y, uint8_t color_f, uint8_t color_b)
 {
     int x, y;
-    BYTE fontchar;
-    BYTE *font_pos;
-    BYTE *draw_pos;
+    uint8_t fontchar;
+    uint8_t *font_pos;
+    uint8_t *draw_pos;
 
     font_pos = &(menufont->font[menufont->translate[(int)c]]);
     draw_pos = &(sdl_active_canvas->draw_buffer->draw_buffer[pos_x * menufont->w + pos_y * menufont->h * pitch]);
@@ -353,7 +353,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 }
 
 /* Joystick UI */
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s: %02x %02x %02x %02x %02x\n", __func__, joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]);
@@ -419,7 +419,7 @@ void uistatusbar_close(void)
 void uistatusbar_draw(void)
 {
     int i;
-    BYTE c, color_f, color_b;
+    uint8_t c, color_f, color_b;
     unsigned int line;
     menu_draw_t *limits = NULL;
     menufont = sdl_ui_get_menu_font();
@@ -446,7 +446,7 @@ void uistatusbar_draw(void)
         }
 
         if (c & 0x80) {
-            uistatusbar_putchar((BYTE)(c & 0x7f), i, 0, color_b, color_f);
+            uistatusbar_putchar((uint8_t)(c & 0x7f), i, 0, color_b, color_f);
         } else {
             uistatusbar_putchar(c, i, 0, color_f, color_b);
         }

@@ -43,7 +43,7 @@
 
 static int is_paused = 0;
 
-static void pause_trap(WORD addr, void *data)
+static void pause_trap(uint16_t addr, void *data)
 {
     vsync_suspend_speed_eval();
     while (is_paused) {

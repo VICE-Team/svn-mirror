@@ -729,7 +729,7 @@ static UI_MENU_CALLBACK(create_disk_image_callback)
                     return NULL;
                 }
                 /* convert to PETSCII */
-                charset_petconvstring((BYTE *)format_name, 0);
+                charset_petconvstring((uint8_t *)format_name, 0);
 
                 /* try to create the new image */
                 if (vdrive_internal_create_format_disk_image(name, format_name,

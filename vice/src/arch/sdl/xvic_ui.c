@@ -168,7 +168,7 @@ static const ui_menu_entry_t xvic_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static BYTE *vic20_font;
+static uint8_t *vic20_font;
 
 static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {

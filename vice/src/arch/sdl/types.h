@@ -32,23 +32,12 @@
 
 #include "vice_sdl.h"
 
-#ifdef WIN32_COMPILE
-typedef unsigned char BYTE;
-typedef unsigned short WORD;
-#ifndef _MINWINDEF_
-typedef unsigned long DWORD;
-#endif
-typedef signed char SIGNED_CHAR;
-typedef signed short SWORD;
-typedef signed long SDWORD;
-#else
-#define BYTE Uint8
-#define SIGNED_CHAR Sint8
-#define WORD Uint16
-#define SWORD Sint16
-#define DWORD Uint32
-#define SDWORD Sint32
-#endif
+typedef Uint8 BYTE;
+typedef Sint8 SIGNED_CHAR;
+typedef Uint16 WORD;
+typedef Sint16 SWORD;
+typedef Uint32 DWORD;
+typedef Sint32 SDWORD;
 
 typedef DWORD CLOCK;
 

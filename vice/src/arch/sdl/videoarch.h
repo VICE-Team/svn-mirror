@@ -106,7 +106,7 @@ extern int sdl_active_canvas_num;
 
 extern void sdl_ui_init_finalize(void);
 
-extern BYTE *draw_buffer_vsid;
+extern uint8_t *draw_buffer_vsid;
 
 /* Modes of resolution limitation */
 #define SDL_LIMIT_MODE_OFF   0

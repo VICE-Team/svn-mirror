@@ -169,7 +169,7 @@ static void plus4ui_set_menu_params(int index, menu_draw_t *menu_draw)
     sdl_ui_set_menu_params = NULL;
 }
 
-static BYTE *plus4_font;
+static uint8_t *plus4_font;
 
 int plus4ui_init(void)
 {

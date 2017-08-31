@@ -37,8 +37,8 @@
 
 typedef struct vkbd_s {
     const char **keyb;
-    const BYTE *keytable;
-    const BYTE shift;
+    const uint8_t *keytable;
+    const uint8_t shift;
 } vkbd_t;
 
 extern void sdl_vkbd_set_vkbd(const vkbd_t *machine_vkbd);

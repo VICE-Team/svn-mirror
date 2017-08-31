@@ -49,8 +49,8 @@ extern ui_menu_action_t sdljoy_axis_event(Uint8 joynum, Uint8 axis, Sint16 value
 extern ui_menu_action_t sdljoy_button_event(Uint8 joynum, Uint8 button, Uint8 value);
 extern ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value);
 extern ui_menu_action_t sdljoy_autorepeat(void);
-extern BYTE sdljoy_check_axis_movement(SDL_Event e);
-extern BYTE sdljoy_check_hat_movement(SDL_Event e);
+extern uint8_t sdljoy_check_axis_movement(SDL_Event e);
+extern uint8_t sdljoy_check_hat_movement(SDL_Event e);
 extern void sdljoy_set_joystick(SDL_Event e, int port, int bits);
 extern void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value);
 extern void sdljoy_set_keypress(SDL_Event e, int row, int col);
