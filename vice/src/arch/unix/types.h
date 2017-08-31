@@ -35,37 +35,8 @@
 
 #include <stdint.h>
 
-#if 0
-#define BYTE unsigned char
+typedef uint32_t CLOCK;
 
-typedef signed char SIGNED_CHAR;
-
-#if SIZEOF_UNSIGNED_SHORT == 2
-typedef unsigned short WORD;
-typedef signed short SWORD;
-#else
-#error Cannot find a proper 16-bit type!
-#endif
-
-#if SIZEOF_UNSIGNED_INT == 4
-typedef unsigned int DWORD;
-typedef signed int SDWORD;
-#elif SIZEOF_UNSIGNED_LONG == 4
-typedef unsigned long DWORD;
-typedef signed long SDWORD;
-#else
-#error Cannot find a proper 32-bit type!
-#endif
-#endif
-
-typedef uint8_t     BYTE;
-typedef int8_t      SIGNED_CHAR;    /* weirdo */
-typedef uint16_t    WORD;
-typedef int16_t     SWORD;
-typedef uint32_t    DWORD;
-typedef int32_t     SDWORD;
-
-typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
