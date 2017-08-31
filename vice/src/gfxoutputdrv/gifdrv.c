@@ -63,7 +63,7 @@
 typedef struct gfxoutputdrv_data_s {
     GifFileType *fd;
     char *ext_filename;
-    BYTE *data;
+    uint8_t *data;
     unsigned int line;
 } gfxoutputdrv_data_t;
 
