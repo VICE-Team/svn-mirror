@@ -65,7 +65,7 @@ static int buffer_size;
 static CLOCK kernal_init_cycles;
 
 /* Characters in the queue.  */
-static BYTE queue[QUEUE_SIZE];
+static uint8_t queue[QUEUE_SIZE];
 
 /* Next element in `queue' we must push into the kernal's queue.  */
 static int head_idx = 0;
@@ -207,16 +207,16 @@ int kbdbuf_cmdline_options_init(void)
 /* put character into the keyboard queue inside the emulation */
 static void tokbdbuffer(int c)
 {
-    int num = mem_read((WORD)(num_pending_location));
+    int num = mem_read((uint16_t)(num_pending_location));
     /* printf("tokbdbuffer c:%d num:%d\n", c, num); */
-    mem_inject((WORD)(buffer_location + num), (BYTE)c);
-    mem_inject((WORD)(num_pending_location), (BYTE)(num + 1));
+    mem_inject((uint16_t)(buffer_location + num), (uint8_t)c);
+    mem_inject((uint16_t)(num_pending_location), (uint8_t)(num + 1));
 }
 
 /* Return nonzero if the keyboard buffer is empty.  */
 int kbdbuf_is_empty(void)
 {
-    return (int)(mem_read((WORD)(num_pending_location)) == 0);
+    return (int)(mem_read((uint16_t)(num_pending_location)) == 0);
 }
 
 /* Feed `string' into the incoming queue.  */

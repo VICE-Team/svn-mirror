@@ -51,7 +51,7 @@
 
 static int is_paused = 0;
 
-static void pause_trap(WORD addr, void *data)
+static void pause_trap(uint16_t addr, void *data)
 {
     ui_display_paused(1);
     vsync_suspend_speed_eval();
@@ -98,7 +98,7 @@ void ui_common_shutdown(void)
 
 extern void ui_display_joystick_status_widget(int joystick_number, int status);
 
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
     if (machine_class != VICE_MACHINE_VSID) {
         int n;

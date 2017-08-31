@@ -105,11 +105,11 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 
 /*-----------------------------------------------------------------------*/
 
-int uicolor_alloc_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long *color_pixel, BYTE *pixel_return)
+int uicolor_alloc_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long *color_pixel, uint8_t *pixel_return)
 {
     XColor color;
     XImage *im;
-    BYTE *data = (BYTE *)malloc(4); /* XDestroyImage will free data.  */
+    uint8_t *data = (uint8_t *)malloc(4); /* XDestroyImage will free data.  */
     Display *display = x11ui_get_display_ptr();
 
     /* This is a kludge to map pixels to zimage values. Is there a better
@@ -148,7 +148,7 @@ void uicolor_free_color(unsigned int red, unsigned int green, unsigned int blue,
     }
 }
 
-void uicolor_convert_color_table(unsigned int colnr, BYTE *data, long color_pixel, void *c)
+void uicolor_convert_color_table(unsigned int colnr, uint8_t *data, long color_pixel, void *c)
 {
     if (c == NULL) {
         return;
@@ -189,7 +189,7 @@ void uicolor_init_video_colors(struct video_canvas_s *c)
         if (!XAllocColor(display, colormap, &colorb)) {
             log_error(LOG_DEFAULT, "Cannot allocate color \"#%04X%04X%04X\".", colorb.red, colorb.green, colorb.blue);
         }
-        video_render_setrawrgb(i, (DWORD)colorr.pixel, (DWORD)colorg.pixel, (DWORD)colorb.pixel);
+        video_render_setrawrgb(i, (uint32_t)colorr.pixel, (uint32_t)colorg.pixel, (uint32_t)colorb.pixel);
     }
 
     video_render_initraw(c->videoconfig);

@@ -113,10 +113,10 @@ int ram_cmdline_options_init(void)
 }
 
 
-void ram_init(BYTE *memram, unsigned int ramsize)
+void ram_init(uint8_t *memram, unsigned int ramsize)
 {
     unsigned int i, j, k, l;
-    BYTE v = start_value;
+    uint8_t v = start_value;
 
     j = value_invert - 1;
     k = pattern_invert - 1;

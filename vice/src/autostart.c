@@ -85,7 +85,7 @@ static void autostart_finish(void);
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
-static WORD blnsw;           /* Cursor Blink enable: 0 = Flash Cursor */
+static uint16_t blnsw;           /* Cursor Blink enable: 0 = Flash Cursor */
 static int pnt;                 /* Pointer: Current Screen Line Address */
 static int pntr;                /* Cursor Column on Current Line */
 static int lnmx;                /* Physical Screen Line Length */
@@ -432,10 +432,10 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 {
     int screen_addr, line_length, cursor_column, addr, i;
 
-    screen_addr = (int)(mem_read((WORD)(pnt)) | (mem_read((WORD)(pnt + 1)) << 8));
-    cursor_column = (int)mem_read((WORD)(pntr));
+    screen_addr = (int)(mem_read((uint16_t)(pnt)) | (mem_read((uint16_t)(pnt + 1)) << 8));
+    cursor_column = (int)mem_read((uint16_t)(pntr));
 
-    line_length = (int)(lnmx < 0 ? -lnmx : mem_read((WORD)(lnmx)) + 1);
+    line_length = (int)(lnmx < 0 ? -lnmx : mem_read((uint16_t)(lnmx)) + 1);
 
     DBG(("check(%s) pnt:%04x pntr:%04x addr:%04x column:%d, linelen:%d blnsw:%04x(%d)",
          s, pnt, pntr, screen_addr, cursor_column, line_length, blnsw, mem_read(blnsw)));
@@ -459,8 +459,8 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
     }
 
     for (i = 0; s[i] != '\0'; i++) {
-        if (mem_read((WORD)(addr + i)) != s[i] % 64) {
-            if (mem_read((WORD)(addr + i)) != (BYTE)32) {
+        if (mem_read((uint16_t)(addr + i)) != s[i] % 64) {
+            if (mem_read((uint16_t)(addr + i)) != (uint8_t)32) {
                 return NO;
             }
             return NOT_YET;
@@ -558,7 +558,7 @@ static void check_rom_area(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void load_snapshot_trap(WORD unused_addr, void *unused_data)
+static void load_snapshot_trap(uint16_t unused_addr, void *unused_data)
 {
     if (autostart_program_name
         && machine_read_snapshot((char *)autostart_program_name, 0) < 0) {
@@ -574,7 +574,7 @@ static void load_snapshot_trap(WORD unused_addr, void *unused_data)
 void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
                       int _blnsw, int _pnt, int _pntr, int _lnmx)
 {
-    blnsw = (WORD)(_blnsw);
+    blnsw = (uint16_t)(_blnsw);
     pnt = _pnt;
     pntr = _pntr;
     lnmx = _lnmx;
@@ -683,7 +683,7 @@ static void autostart_done(void)
 static void disk_eof_callback(void)
 {
     if (handle_drive_true_emulation_overridden) {
-        BYTE id[2], *buffer = NULL;
+        uint8_t id[2], *buffer = NULL;
         unsigned int track, sector;
         /* FIXME: shouldnt this loop over all drives? */
         if (orig_drive_true_emulation_state) {
@@ -1089,7 +1089,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
 /* Autostart snapshot file `file_name'.  */
 int autostart_snapshot(const char *file_name, const char *program_name)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_t *snap;
 
     if (network_connected() || event_record_active() || event_playback_active()
@@ -1119,7 +1119,7 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 int autostart_tape(const char *file_name, const char *program_name,
                    unsigned int program_number, unsigned int runmode)
 {
-    BYTE do_seek = 1;
+    uint8_t do_seek = 1;
 
     if (network_connected() || event_record_active() || event_playback_active()
         || !file_name || !autostart_enabled) {
@@ -1312,7 +1312,7 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
         if (util_file_exists(autostart_file)) {
             char *name;
 
-            charset_petconvstring((BYTE *)autostart_prg_name, 0);
+            charset_petconvstring((uint8_t *)autostart_prg_name, 0);
             name = charset_replace_hexcodes(autostart_prg_name);
             result = autostart_autodetect(autostart_file, name, 0, runmode);
             lib_free(name);

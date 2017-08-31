@@ -192,11 +192,11 @@ static sound_register_devices_t sound_register_devices[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static WORD offset = 0;
+static uint16_t offset = 0;
 
 static sound_chip_t *sound_calls[20];
 
-WORD sound_chip_register(sound_chip_t *chip)
+uint16_t sound_chip_register(sound_chip_t *chip)
 {
     assert(chip != NULL);
 
@@ -255,7 +255,7 @@ static void sound_machine_close(sound_t *psid)
     a quick bandaid the memset was added below. This should be really cleaned
     up someday.
 */
-static int sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
     int temp;
@@ -263,7 +263,7 @@ static int sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, 
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
         temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, soc, scc, delta_t);
     } else {
-        memset(pbuf, 0, nr * sizeof(SWORD) * soc); /* FIXME: see above */
+        memset(pbuf, 0, nr * sizeof(int16_t) * soc); /* FIXME: see above */
         temp = nr;
     }
 
@@ -275,14 +275,14 @@ static int sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, 
     return temp;
 }
 
-static void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void sound_machine_store(sound_t *psid, uint16_t addr, uint8_t val)
 {
-    sound_calls[addr >> 5]->store(psid, (WORD)(addr & 0x1f), val);
+    sound_calls[addr >> 5]->store(psid, (uint16_t)(addr & 0x1f), val);
 }
 
-static BYTE sound_machine_read(sound_t *psid, WORD addr)
+static uint8_t sound_machine_read(sound_t *psid, uint16_t addr)
 {
-    return sound_calls[addr >> 5]->read(psid, (WORD)(addr & 0x1f));
+    return sound_calls[addr >> 5]->read(psid, (uint16_t)(addr & 0x1f));
 }
 
 static void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
@@ -745,7 +745,7 @@ typedef struct {
     CLOCK lastclk;
 
     /* sample buffer */
-    SWORD buffer[SOUND_CHANNELS_MAX * SOUND_BUFSIZE];
+    int16_t buffer[SOUND_CHANNELS_MAX * SOUND_BUFSIZE];
 
     /* sample buffer pointer */
     int bufptr;
@@ -771,7 +771,7 @@ typedef struct {
 
     /* is the device suspended? */
     int issuspended;
-    SWORD lastsample[SOUND_CHANNELS_MAX];
+    int16_t lastsample[SOUND_CHANNELS_MAX];
 } snddata_t;
 
 static snddata_t snddata;
@@ -851,10 +851,10 @@ static int sound_error(const char *msg)
     return 1;
 }
 
-static SWORD *temp_buffer = NULL;
+static int16_t *temp_buffer = NULL;
 static int temp_buffer_size = 0;
 
-static SWORD *realloc_buffer(int size)
+static int16_t *realloc_buffer(int size)
 {
     if (temp_buffer_size < size) {
         temp_buffer = lib_realloc(temp_buffer, size);
@@ -876,10 +876,10 @@ static SWORD *realloc_buffer(int size)
 static void fill_buffer(int size, int rise)
 {
     int c, i;
-    SWORD *p;
+    int16_t *p;
     double factor;
 
-    p = realloc_buffer(size * sizeof(SWORD) * snddata.sound_output_channels);
+    p = realloc_buffer(size * sizeof(int16_t) * snddata.sound_output_channels);
     if (!p) {
         return;
     }
@@ -896,7 +896,7 @@ static void fill_buffer(int size, int rise)
                 }
             }
 
-            p[i * snddata.sound_output_channels + c] = (SWORD)(snddata.lastsample[c] * factor);
+            p[i * snddata.sound_output_channels + c] = (int16_t)(snddata.lastsample[c] * factor);
         }
     }
 
@@ -1219,7 +1219,7 @@ static int sound_run_sound(void)
 {
     int nr = 0, i;
     int delta_t = 0;
-    SWORD *bufferptr;
+    int16_t *bufferptr;
     static int overflow_warning_count = 0;
 
     /* XXX: implement the exact ... */
@@ -1285,7 +1285,7 @@ static int sound_run_sound(void)
                 bufferptr[i] = bufferptr[i] * amp / 4096;
             }
         } else {
-            memset(bufferptr, 0, nr * snddata.sound_output_channels * sizeof(SWORD));
+            memset(bufferptr, 0, nr * snddata.sound_output_channels * sizeof(int16_t));
         }
     }
 
@@ -1645,7 +1645,7 @@ int sound_dump(int chipno)
     return 0;
 }
 
-int sound_read(WORD addr, int chipno)
+int sound_read(uint16_t addr, int chipno)
 {
     if (sound_run_sound()) {
         return -1;
@@ -1658,7 +1658,7 @@ int sound_read(WORD addr, int chipno)
     return sound_machine_read(snddata.psid[chipno], addr);
 }
 
-void sound_store(WORD addr, BYTE val, int chipno)
+void sound_store(uint16_t addr, uint8_t val, int chipno)
 {
     int i;
 
@@ -1728,7 +1728,7 @@ void sound_dac_init(sound_dac_t *dac, int speed)
 /* FIXME: this should use bandlimited step synthesis. Sadly, VICE does not
  * have an easy-to-use infrastructure for blep generation. We should write
  * this code. */
-int sound_dac_calculate_samples(sound_dac_t *dac, SWORD *pbuf, int value, int nr, int soc, int cs)
+int sound_dac_calculate_samples(sound_dac_t *dac, int16_t *pbuf, int value, int nr, int soc, int cs)
 {
     int i, sample;
     int off = 0;

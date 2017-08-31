@@ -58,6 +58,10 @@
 
 #include <string.h>
 
+#include "types.h"
+
+#undef BYTE
+
 #include <X11/Xlib.h>
 #include <X11/Xlibint.h>
 #include <X11/Xutil.h>
@@ -77,7 +81,6 @@
 #include "machine.h"
 #include "resources.h"
 #include "translate.h"
-#include "types.h"
 #include "ui.h"
 #include "uicolor.h"
 #include "video.h"
@@ -331,7 +334,7 @@ int use_mitshm = 0;
 
 /* ------------------------------------------------------------------------- */
 
-void video_convert_color_table(unsigned int i, BYTE *data, long col, video_canvas_t *canvas)
+void video_convert_color_table(unsigned int i, uint8_t *data, long col, video_canvas_t *canvas)
 {
 #ifdef HAVE_XVIDEO
     if (canvas->videoconfig->hwscale && canvas->xv_image) {
@@ -341,13 +344,13 @@ void video_convert_color_table(unsigned int i, BYTE *data, long col, video_canva
 
     switch (canvas->depth) {
         case 8:
-            video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(*data), 8);
+            video_render_setphysicalcolor(canvas->videoconfig, i, (uint32_t)(*data), 8);
             break;
         case 16:
         case 24:
         case 32:
         default:
-            video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(col), canvas->depth);
+            video_render_setphysicalcolor(canvas->videoconfig, i, (uint32_t)(col), canvas->depth);
             break;
     }
 }
@@ -365,7 +368,7 @@ int video_init(void)
     x11video_log = log_open("X11Video");
 
     color_init();
-    
+
 #ifdef USE_MITSHM
     if (!try_mitshm) {
         use_mitshm = 0;
@@ -452,7 +455,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
         if (shmdt(canvas->xshm_info.shmaddr)) {
             log_error(x11video_log, "Cannot release shared memory!");
         }
-    } 
+    }
     else if (canvas->x_image) {
         XDestroyImage(canvas->x_image);
     }
@@ -482,7 +485,7 @@ static void video_refresh_func(void (*rfunc)(void))
 
 static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
-    int sizeofpixel = sizeof(BYTE);
+    int sizeofpixel = sizeof(uint8_t);
     Display *display;
 #ifdef USE_MITSHM
     int (*olderrorhandler)(Display *, XErrorEvent *);
@@ -881,7 +884,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
     if ((int)xs >= 0) {
         /* some render routines don't like negative xs */
-	video_canvas_render(canvas, (BYTE *)canvas->x_image->data, w, h, xs, ys, xi, yi, canvas->x_image->bytes_per_line, canvas->x_image->bits_per_pixel);
+	video_canvas_render(canvas, (uint8_t *)canvas->x_image->data, w, h, xs, ys, xi, yi, canvas->x_image->bytes_per_line, canvas->x_image->bits_per_pixel);
     }
 
     /* This could be optimized away.  */
@@ -901,4 +904,3 @@ char video_canvas_can_resize(video_canvas_t *canvas)
 {
     return 1;
 }
-

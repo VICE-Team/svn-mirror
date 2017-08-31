@@ -71,7 +71,7 @@
 static tap_t *current_image = NULL;
 
 /* Buffer for the TAP */
-static BYTE tap_buffer[TAP_BUFFER_LENGTH];
+static uint8_t tap_buffer[TAP_BUFFER_LENGTH];
 
 /* Pointer and length of the tap-buffer */
 static long next_tap, last_tap;
@@ -1022,7 +1022,7 @@ static void datasette_set_motor(int flag)
 inline static void bit_write(void)
 {
     CLOCK write_time;
-    BYTE write_gap;
+    uint8_t write_gap;
 
     write_time = maincpu_clk - last_write_clk;
     last_write_clk = maincpu_clk;
@@ -1037,7 +1037,7 @@ inline static void bit_write(void)
     }
 
     if (write_time < (CLOCK)(255 * 8 + 7)) {
-        write_gap = (BYTE)(write_time / (CLOCK)8);
+        write_gap = (uint8_t)(write_time / (CLOCK)8);
         if (fwrite(&write_gap, 1, 1, current_image->fd) < 1) {
             datasette_control(DATASETTE_CONTROL_STOP);
             return;
@@ -1050,11 +1050,11 @@ inline static void bit_write(void)
         }
         current_image->current_file_seek_position++;
         if (current_image->version >= 1) {
-            BYTE long_gap[3];
+            uint8_t long_gap[3];
             int bytes_written;
-            long_gap[0] = (BYTE)(write_time & 0xff);
-            long_gap[1] = (BYTE)((write_time >> 8) & 0xff);
-            long_gap[2] = (BYTE)((write_time >> 16) & 0xff);
+            long_gap[0] = (uint8_t)(write_time & 0xff);
+            long_gap[1] = (uint8_t)((write_time >> 8) & 0xff);
+            long_gap[2] = (uint8_t)((write_time >> 16) & 0xff);
             write_time &= 0xffffff;
             bytes_written = (int)fwrite(long_gap, 1, 3, current_image->fd);
             current_image->current_file_seek_position += bytes_written;
@@ -1102,14 +1102,14 @@ static void datasette_toggle_write_bit(int write_bit)
 
 static void datasette_event_record(int command)
 {
-    DWORD rec_cmd;
+    uint32_t rec_cmd;
 
-    rec_cmd = (DWORD)command;
+    rec_cmd = (uint32_t)command;
 
     if (network_connected()) {
-        network_event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
+        network_event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(uint32_t));
     } else {
-        event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
+        event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(uint32_t));
     }
 }
 
@@ -1117,7 +1117,7 @@ void datasette_event_playback(CLOCK offset, void *data)
 {
     int command;
 
-    command = (int)(*(DWORD *)data);
+    command = (int)(*(uint32_t *)data);
 
     datasette_control_internal(command);
 }
@@ -1132,7 +1132,7 @@ void datasette_event_playback(CLOCK offset, void *data)
 static int datasette_write_snapshot(snapshot_t *s, int write_image)
 {
     snapshot_module_t *m;
-    DWORD alarm_clk = CLOCK_MAX;
+    uint32_t alarm_clk = CLOCK_MAX;
 
     m = snapshot_module_create(s, "DATASETTE", DATASETTE_SNAP_MAJOR,
                                DATASETTE_SNAP_MINOR);
@@ -1145,21 +1145,21 @@ static int datasette_write_snapshot(snapshot_t *s, int write_image)
     }
 
     if (0
-        || SMW_B(m, (BYTE)datasette_motor) < 0
-        || SMW_B(m, (BYTE)notape_mode) < 0
+        || SMW_B(m, (uint8_t)datasette_motor) < 0
+        || SMW_B(m, (uint8_t)notape_mode) < 0
         || SMW_DW(m, last_write_clk) < 0
         || SMW_DW(m, motor_stop_clk) < 0
-        || SMW_B(m, (BYTE)datasette_alarm_pending) < 0
+        || SMW_B(m, (uint8_t)datasette_alarm_pending) < 0
         || SMW_DW(m, alarm_clk) < 0
         || SMW_DW(m, datasette_long_gap_pending) < 0
         || SMW_DW(m, datasette_long_gap_elapsed) < 0
-        || SMW_B(m, (BYTE)datasette_last_direction) < 0
+        || SMW_B(m, (uint8_t)datasette_last_direction) < 0
         || SMW_DW(m, datasette_counter_offset) < 0
-        || SMW_B(m, (BYTE)reset_datasette_with_maincpu) < 0
+        || SMW_B(m, (uint8_t)reset_datasette_with_maincpu) < 0
         || SMW_DW(m, datasette_zero_gap_delay) < 0
         || SMW_DW(m, datasette_speed_tuning) < 0
         || SMW_DW(m, datasette_tape_wobble) < 0
-        || SMW_B(m, (BYTE)fullwave) < 0
+        || SMW_B(m, (uint8_t)fullwave) < 0
         || SMW_DW(m, fullwave_gap) < 0) {
         snapshot_module_close(m);
         return -1;
@@ -1174,9 +1174,9 @@ static int datasette_write_snapshot(snapshot_t *s, int write_image)
 
 static int datasette_read_snapshot(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
-    DWORD alarm_clk;
+    uint32_t alarm_clk;
 
     m = snapshot_module_open(s, "DATASETTE",
                              &major_version, &minor_version);
@@ -1192,7 +1192,7 @@ static int datasette_read_snapshot(snapshot_t *s)
         || SMR_B_INT(m, &datasette_alarm_pending) < 0
         || SMR_DW(m, &alarm_clk) < 0
         || SMR_DW(m, &datasette_long_gap_pending) < 0
-        || SMR_DW(m, (DWORD *)&datasette_long_gap_elapsed) < 0
+        || SMR_DW(m, (uint32_t *)&datasette_long_gap_elapsed) < 0
         || SMR_B_INT(m, &datasette_last_direction) < 0
         || SMR_DW_INT(m, &datasette_counter_offset) < 0
         || SMR_B_INT(m, &reset_datasette_with_maincpu) < 0

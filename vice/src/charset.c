@@ -46,7 +46,7 @@
            cases, this function does not yet work for the general
            case (exotic platforms, unicode text).
 */
-static int test_lineend(BYTE *s)
+static int test_lineend(uint8_t *s)
 {
     if ((s[0] == '\r') && (s[1] == '\n')) {
         /* CRLF (Windows, DOS) */
@@ -61,9 +61,9 @@ static int test_lineend(BYTE *s)
     return 0;
 }
 
-BYTE *charset_petconvstring(BYTE *c, int dir)
+uint8_t *charset_petconvstring(uint8_t *c, int dir)
 {
-    BYTE *s = c, *d = c;
+    uint8_t *s = c, *d = c;
     int ch;
 
     switch (dir) {
@@ -108,7 +108,7 @@ BYTE *charset_petconvstring(BYTE *c, int dir)
           these are all codes that can not be converted between ascci and
           petscii anyway, so that isn't a real problem.
 */
-static BYTE petcii_fix_dupes(BYTE c)
+static uint8_t petcii_fix_dupes(uint8_t c)
 {
     if ((c >= 0x60) && (c <= 0x7f)) {
         return ((c - 0x60) + 0xc0);
@@ -128,7 +128,7 @@ static BYTE petcii_fix_dupes(BYTE c)
 
 #define ASCII_UNMAPPED  '.'
 
-BYTE charset_p_toascii(BYTE c, int cs)
+uint8_t charset_p_toascii(uint8_t c, int cs)
 {
     if (cs) {
         /* convert ctrl chars to "screencodes" (used by monitor) */
@@ -151,10 +151,10 @@ BYTE charset_p_toascii(BYTE c, int cs)
         return ' ';
     } else if ((c >= 0xc1) && (c <= 0xda)) {
         /* uppercase (petscii 0xc1 -) */
-        return (BYTE)((c - 0xc1) + 'A');
+        return (uint8_t)((c - 0xc1) + 'A');
     } else if ((c >= 0x41) && (c <= 0x5a)) {
         /* lowercase (petscii 0x41 -) */
-        return (BYTE)((c - 0x41) + 'a');
+        return (uint8_t)((c - 0x41) + 'a');
     }
 
     return ((isprint(c) ? c : ASCII_UNMAPPED));
@@ -170,7 +170,7 @@ BYTE charset_p_toascii(BYTE c, int cs)
 /* #define PETSCII_UNMAPPED 0x2e */     /* petscii "." */
 #define PETSCII_UNMAPPED 0x3f     /* petscii "?" */
 
-BYTE charset_p_topetcii(BYTE c)
+uint8_t charset_p_topetcii(uint8_t c)
 {
     /* map ascii to petscii */
     if (c == '\n') {
@@ -184,11 +184,11 @@ BYTE charset_p_topetcii(BYTE c)
         return 0x27; /* petscii "'" */
     } else if ((c >= 'a') && (c <= 'z')) {
         /* lowercase (petscii 0x41 -) */
-        return (BYTE)((c - 'a') + 0x41);
+        return (uint8_t)((c - 'a') + 0x41);
     } else if ((c >= 'A') && (c <= 'Z')) {
         /* uppercase (petscii 0xc1 -)
            (don't use duplicate codes 0x61 - ) */
-        return (BYTE)((c - 'A') + 0xc1);
+        return (uint8_t)((c - 'A') + 0xc1);
     } else if (c >= 0x7b) {
         /* last not least, ascii codes >= 0x7b can not be
            represented properly in petscii */
@@ -198,36 +198,36 @@ BYTE charset_p_topetcii(BYTE c)
     return petcii_fix_dupes(c);
 }
 
-BYTE charset_screencode_to_petcii(BYTE code)
+uint8_t charset_screencode_to_petcii(uint8_t code)
 {
     code &= 0x7f; /* mask inverse bit */
     if (code <= 0x1f) {
-        return (BYTE)(code + 0x40);
+        return (uint8_t)(code + 0x40);
     } else if (code >= 0x40 && code <= 0x5f) {
-        return (BYTE)(code + 0x20);
+        return (uint8_t)(code + 0x20);
     }
     return code;
 }
 
-BYTE charset_petcii_to_screencode(BYTE code, unsigned int reverse_mode)
+uint8_t charset_petcii_to_screencode(uint8_t code, unsigned int reverse_mode)
 {
-    BYTE rev = (reverse_mode ? 0x80 : 0x00);
+    uint8_t rev = (reverse_mode ? 0x80 : 0x00);
 
     if (code >= 0x40 && code <= 0x5f) {
-        return (BYTE)(code - 0x40) | rev;
+        return (uint8_t)(code - 0x40) | rev;
     } else if (code >= 0x60 && code <= 0x7f) {
-        return (BYTE)(code - 0x20) | rev;
+        return (uint8_t)(code - 0x20) | rev;
     } else if (code >= 0xa0 && code <= 0xbf) {
-        return (BYTE)(code - 0x40) | rev;
+        return (uint8_t)(code - 0x40) | rev;
     } else if (code >= 0xc0 && code <= 0xfe) {
-        return (BYTE)(code - 0x80) | rev;
+        return (uint8_t)(code - 0x80) | rev;
     } else if (code == 0xff) {
         return 0x5e | rev;
     }
     return code | rev;
 }
 
-void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
+void charset_petcii_to_screencode_line(const uint8_t *line, uint8_t **buf,
                                        unsigned int *len)
 {
     size_t linelen, i;
@@ -241,7 +241,7 @@ void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
     *len = (unsigned int)linelen;
 }
 
-int charset_petscii_to_ucs(BYTE c)
+int charset_petscii_to_ucs(uint8_t c)
 {
     switch (c) {
         case 0x5c:
@@ -271,32 +271,32 @@ int charset_petscii_to_ucs(BYTE c)
     }
 }
 
-int charset_ucs_to_utf8(BYTE *out, int code, int len)
+int charset_ucs_to_utf8(uint8_t *out, int code, int len)
 {
     if (code >= 0x00 && code <= 0x7f) {
         if (len >= 1) {
-            *out = (BYTE)(code);
+            *out = (uint8_t)(code);
         }
         return 1;
     } else if (code >= 0x80 && code <= 0x7ff) {
         if (len >= 2) {
-            *(out) = 0xc0 | (BYTE)(code >> 6);
-            *(out + 1) = 0x80 | (BYTE)(code & 0x3f);
+            *(out) = 0xc0 | (uint8_t)(code >> 6);
+            *(out + 1) = 0x80 | (uint8_t)(code & 0x3f);
         }
         return 2;
     } else if (code >= 0x800 && code <= 0xffff) {
         if (len >= 3) {
-            *(out) = 0xe0 | (BYTE)(code >> 12);
-            *(out + 1) = 0x80 | (BYTE)((code >> 6) & 0x3f);
-            *(out + 2) = 0x80 | (BYTE)(code & 0x3f);
+            *(out) = 0xe0 | (uint8_t)(code >> 12);
+            *(out + 1) = 0x80 | (uint8_t)((code >> 6) & 0x3f);
+            *(out + 2) = 0x80 | (uint8_t)(code & 0x3f);
         }
         return 3;
     } else if (code >= 0x10000 && code <= 0x10ffff) {
         if (len >= 4) {
-            *(out) = 0xe0 | (BYTE)(code >> 18);
-            *(out + 1) = 0x80 | (BYTE)((code >> 12) & 0x3f);
-            *(out + 2) = 0x80 | (BYTE)((code >> 6) & 0x3f);
-            *(out + 3) = 0x80 | (BYTE)(code & 0x3f);
+            *(out) = 0xe0 | (uint8_t)(code >> 18);
+            *(out + 1) = 0x80 | (uint8_t)((code >> 12) & 0x3f);
+            *(out + 2) = 0x80 | (uint8_t)((code >> 6) & 0x3f);
+            *(out + 3) = 0x80 | (uint8_t)(code & 0x3f);
         }
         return 4;
     }
@@ -306,10 +306,10 @@ int charset_ucs_to_utf8(BYTE *out, int code, int len)
 
 /* Convert a string from ASCII to PETSCII, or from PETSCII to ASCII/UTF-8 and
    return it in a malloc'd buffer. */
-BYTE *charset_petconv_stralloc(BYTE *in, int conv)
+uint8_t *charset_petconv_stralloc(uint8_t *in, int conv)
 {
-    BYTE *s = in, *d;
-    BYTE *buf;
+    uint8_t *s = in, *d;
+    uint8_t *buf;
     int len, ch;
 
     len = strlen((const char *)in);
@@ -370,7 +370,7 @@ char * charset_hexstring_to_byte(char *source, char *destination)
 {
     char * next = source + 1;
     char c;
-    BYTE value = 0;
+    uint8_t value = 0;
     int digit = 0;
 
     while (*next && digit++ < 2) {

@@ -152,7 +152,7 @@ static int install_trap(const trap_t *t)
     int i;
 
     for (i = 0; i < 3; i++) {
-        if ((t->readfunc)((WORD)(t->address + i)) != t->check[i]) {
+        if ((t->readfunc)((uint16_t)(t->address + i)) != t->check[i]) {
             log_error(traps_log,
                       "Incorrect checkbyte for trap `%s'.  Not installed.",
                       t->name);
@@ -241,7 +241,7 @@ void traps_refresh(void)
     return;
 }
 
-DWORD traps_handler(void)
+uint32_t traps_handler(void)
 {
     traplist_t *p = traplist;
     unsigned int pc;
@@ -252,7 +252,7 @@ DWORD traps_handler(void)
     while (p) {
         if (p->trap->address == pc) {
             /* This allows the trap function to remove traps.  */
-            WORD resume_address = p->trap->resume_address;
+            uint16_t resume_address = p->trap->resume_address;
 
             result = (*p->trap->func)();
             if (!result) {
@@ -266,7 +266,7 @@ DWORD traps_handler(void)
         p = p->next;
     }
 
-    return (DWORD)-1;
+    return (uint32_t)-1;
 }
 
 int traps_checkaddr(unsigned int addr)

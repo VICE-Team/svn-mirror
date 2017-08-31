@@ -1718,7 +1718,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
 
                 tmp = image_contents_to_string(contents, 1);
 
-#define BUFCAT(s) util_bufcat((BYTE *)buf, &buf_size, &max_buf_size, (BYTE *)(s), strlen(s))
+#define BUFCAT(s) util_bufcat((uint8_t *)buf, &buf_size, &max_buf_size, (uint8_t *)(s), strlen(s))
 
                 BUFCAT(tmp);
                 lib_free(tmp);

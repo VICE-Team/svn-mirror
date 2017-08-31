@@ -111,17 +111,17 @@ static int midi_ticks = 0; /* number of clock ticks per char */
 static int intx = 0;    /* indicates that a transmit is currently ongoing */
 static int rx_irq = 0;  /* indicates that a read IRQ is active, cleared by reading RX */
 static int tx_irq = 0;  /* indicates that a write IRQ is active, cleared by writing TX */
-static BYTE ctrl;       /* control register */
-static BYTE status;     /* status register */
-static BYTE rxdata;     /* data that has been received last */
-static BYTE txdata;     /* data prepared to send */
+static uint8_t ctrl;       /* control register */
+static uint8_t status;     /* status register */
+static uint8_t rxdata;     /* data that has been received last */
+static uint8_t txdata;     /* data prepared to send */
 static int alarm_active = 0;    /* if alarm is set or not */
 
 static log_t midi_log = LOG_ERR;
 
 static void int_midi(CLOCK offset, void *data);
 
-static BYTE midi_last_read = 0;  /* the byte read the last time (for RMW) */
+static uint8_t midi_last_read = 0;  /* the byte read the last time (for RMW) */
 
 /******************************************************************/
 
@@ -162,9 +162,9 @@ static int midi_set_irq(int new_irq_res, void *param)
 
     midi_irq = irq_tab[new_irq_res];
     midi_irq_res = new_irq_res;
-    
+
     midi_update_int();
-    
+
     return 0;
 }
 
@@ -172,11 +172,11 @@ static int midi_set_irq(int new_irq_res, void *param)
 get amount of ticks (cycles) between MIDI interrupts. Every received byte
 triggers an interrupt.
 
-The MIDI serial communication format is 31250baud, 8N1: 8 bits, one start bit 
-and one stop bit, no parity. 
+The MIDI serial communication format is 31250baud, 8N1: 8 bits, one start bit
+and one stop bit, no parity.
 
-This would mean *10 below, but 9 is better if the frequency of external devices 
-is a bit off, that avoids buffer overflows for very large and fast transfers 
+This would mean *10 below, but 9 is better if the frequency of external devices
+is a bit off, that avoids buffer overflows for very large and fast transfers
 (e.g. SysEx file transfers).
 */
 static int get_midi_ticks(void)
@@ -317,7 +317,7 @@ static void midi_activate(int alarm)
     }
 }
 
-void midi_store(WORD a, BYTE b)
+void midi_store(uint16_t a, uint8_t b)
 {
 #ifdef DEBUG
     log_message(midi_log, "store(%x,%02x)", a, b);
@@ -378,7 +378,7 @@ void midi_store(WORD a, BYTE b)
     midi_update_int();
 }
 
-BYTE midi_read(WORD a)
+uint8_t midi_read(uint16_t a)
 {
 #ifdef DEBUG
     log_message(midi_log, "read(%x)", a);
@@ -410,7 +410,7 @@ BYTE midi_read(WORD a)
     return midi_last_read;
 }
 
-BYTE midi_peek(WORD a)
+uint8_t midi_peek(uint16_t a)
 {
     a &= midi_interface[midi_mode].mask;
 
@@ -429,14 +429,14 @@ BYTE midi_peek(WORD a)
     return 0;
 }
 
-int midi_test_read(WORD a)
+int midi_test_read(uint16_t a)
 {
     a &= midi_interface[midi_mode].mask;
 
     return (a == midi_interface[midi_mode].status_addr) || (a == midi_interface[midi_mode].rx_addr);
 }
 
-int midi_test_peek(WORD a)
+int midi_test_peek(uint16_t a)
 {
     a &= midi_interface[midi_mode].mask;
 
@@ -537,16 +537,16 @@ int midi_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, rxdata) < 0
         || SMW_B(m, txdata) < 0
         || SMW_B(m, midi_last_read) < 0
-        || SMW_DW(m, (DWORD)midi_ticks) < 0
-        || SMW_B(m, (BYTE)intx) < 0
-        || SMW_B(m, (BYTE)rx_irq) < 0
-        || SMW_B(m, (BYTE)tx_irq) < 0
-        || SMW_B(m, (BYTE)alarm_active) < 0
-        || SMW_B(m, (BYTE)midi_irq) < 0
-        || SMW_DW(m, (DWORD)midi_irq_res) < 0
-        || SMW_B(m, (BYTE)midi_mode) < 0
-        || SMW_DW(m, (DWORD)midi_int_num) < 0
-        || SMW_DW(m, (DWORD)midi_alarm_clk) < 0) {
+        || SMW_DW(m, (uint32_t)midi_ticks) < 0
+        || SMW_B(m, (uint8_t)intx) < 0
+        || SMW_B(m, (uint8_t)rx_irq) < 0
+        || SMW_B(m, (uint8_t)tx_irq) < 0
+        || SMW_B(m, (uint8_t)alarm_active) < 0
+        || SMW_B(m, (uint8_t)midi_irq) < 0
+        || SMW_DW(m, (uint32_t)midi_irq_res) < 0
+        || SMW_B(m, (uint8_t)midi_mode) < 0
+        || SMW_DW(m, (uint32_t)midi_int_num) < 0
+        || SMW_DW(m, (uint32_t)midi_alarm_clk) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -556,9 +556,9 @@ int midi_snapshot_write_module(snapshot_t *s)
 
 int midi_snapshot_read_module(snapshot_t *s)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
-    DWORD tmpc;
+    uint32_t tmpc;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 

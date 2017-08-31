@@ -122,7 +122,7 @@ unsigned int cbmdos_parse_wildcard_check(const char *name, unsigned int len)
     return 0;
 }
 
-unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2)
+unsigned int cbmdos_parse_wildcard_compare(const uint8_t *name1, const uint8_t *name2)
 {
     unsigned int index;
 
@@ -147,9 +147,9 @@ unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2)
     return 1; /* matched completely */
 }
 
-BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len)
+uint8_t *cbmdos_dir_slot_create(const char *name, unsigned int len)
 {
-    BYTE *slot;
+    uint8_t *slot;
 
     if (len > CBMDOS_SLOT_NAME_LENGTH) {
         len = CBMDOS_SLOT_NAME_LENGTH;
@@ -168,7 +168,7 @@ BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len)
 
 unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 {
-    const BYTE *p;
+    const uint8_t *p;
     char *parsecmd, *c;
     int cmdlen;
 
@@ -315,7 +315,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
         c = (char *)memchr(p, ',', cmdlen);
         if (c) {
             cmdlen -= (int)(c - (const char *)p);
-            p = (BYTE *)c;
+            p = (uint8_t *)c;
         } else {
             cmdlen = 0;
         }

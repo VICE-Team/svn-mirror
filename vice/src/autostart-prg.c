@@ -51,9 +51,9 @@ static autostart_prg_t *inject_prg;
 
 static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, log_t log)
 {
-    DWORD ptr;
-    DWORD end;
-    BYTE lo, hi;
+    uint32_t ptr;
+    uint32_t end;
+    uint8_t lo, hi;
     int i;
     autostart_prg_t *prg;
 
@@ -76,7 +76,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     if (autostart_basic_load) {
         mem_get_basic_text(&prg->start_addr, NULL);
     } else {
-        prg->start_addr = (WORD)hi << 8 | (WORD)lo;
+        prg->start_addr = (uint16_t)hi << 8 | (uint16_t)lo;
     }
     prg->size -= 2; /* skip load addr */
 
@@ -195,7 +195,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     int i;
     int old_tde_state;
     int file_name_size;
-    BYTE data;
+    uint8_t data;
     unsigned int disk_image_type;
     int result, result2;
 
@@ -276,7 +276,7 @@ int autostart_prg_with_disk_image(const char *file_name,
         }
 
         /* open file on disk */
-        if (vdrive_iec_open(vdrive, (const BYTE *)fh->name, file_name_size, secondary, NULL) != SERIAL_OK) {
+        if (vdrive_iec_open(vdrive, (const uint8_t *)fh->name, file_name_size, secondary, NULL) != SERIAL_OK) {
             log_error(log, "Could not open file");
             break;
         }
@@ -285,14 +285,14 @@ int autostart_prg_with_disk_image(const char *file_name,
         /* write PRG data to file */
         for (i = -2; i < (int)prg->size; i++) {
             switch (i) {
-            case -2: 
-                data = (BYTE)prg->start_addr; 
+            case -2:
+                data = (uint8_t)prg->start_addr;
                 break;
-            case -1: 
-                data = (BYTE)(prg->start_addr >> 8); 
+            case -1:
+                data = (uint8_t)(prg->start_addr >> 8);
                 break;
-            default: 
-                data = prg->data[i]; 
+            default:
+                data = prg->data[i];
                 break;
             }
             if (vdrive_iec_write(vdrive, data, secondary) != SERIAL_OK) {
@@ -326,7 +326,7 @@ int autostart_prg_with_disk_image(const char *file_name,
 int autostart_prg_perform_injection(log_t log)
 {
     unsigned int i;
-    WORD start, end;
+    uint16_t start, end;
 
     autostart_prg_t *prg = inject_prg;
 
@@ -341,12 +341,12 @@ int autostart_prg_perform_injection(log_t log)
 
     /* store data in emu memory */
     for (i = 0; i < prg->size; i++) {
-        mem_inject((WORD)(prg->start_addr + i), prg->data[i]);
+        mem_inject((uint16_t)(prg->start_addr + i), prg->data[i]);
     }
 
     /* now simulate a basic load */
     mem_get_basic_text(&start, &end);
-    end = (WORD)(prg->start_addr + prg->size);
+    end = (uint16_t)(prg->start_addr + prg->size);
     mem_set_basic_text(start, end);
 
     /* clean up injected prog */

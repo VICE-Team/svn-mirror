@@ -89,12 +89,12 @@ void screenshot_shutdown(void)
 
 /*-----------------------------------------------------------------------*/
 
-static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
+static void screenshot_line_data(screenshot_t *screenshot, uint8_t *data,
                                  unsigned int line, unsigned int mode)
 {
     unsigned int i;
-    BYTE *line_base;
-    BYTE color;
+    uint8_t *line_base;
+    uint8_t color;
 
     if (line > screenshot->height) {
         log_error(screenshot_log, "Invalild line `%i' request.", line);
@@ -225,7 +225,7 @@ int screenshot_save(const char *drvname, const char *filename,
 }
 
 #ifdef FEATURE_CPUMEMHISTORY
-int memmap_screenshot_save(const char *drvname, const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+int memmap_screenshot_save(const char *drvname, const char *filename, int x_size, int y_size, uint8_t *gfx, uint8_t *palette)
 {
     gfxoutputdrv_t *drv;
 

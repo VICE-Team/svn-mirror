@@ -571,8 +571,8 @@ static void warp_end_list(void)
 /* writes or replaces version string in the initial event                */
 static void event_write_version(void)
 {
-    BYTE *new_data;
-    BYTE *data;
+    uint8_t *new_data;
+    uint8_t *data;
     unsigned int ver_idx;
 
     if (event_list->base->type != EVENT_INITIAL) {
@@ -611,7 +611,7 @@ static void event_write_version(void)
 
 static void event_initial_write(void)
 {
-    BYTE *data = NULL;
+    uint8_t *data = NULL;
     size_t len = 0;
 
     switch (event_start_mode) {
@@ -637,7 +637,7 @@ static void event_initial_write(void)
 
 /*-----------------------------------------------------------------------*/
 
-static void event_record_start_trap(WORD addr, void *data)
+static void event_record_start_trap(uint16_t addr, void *data)
 {
     switch (event_start_mode) {
         case EVENT_START_MODE_FILE_SAVE:
@@ -720,7 +720,7 @@ int event_record_start(void)
     return 0;
 }
 
-static void event_record_stop_trap(WORD addr, void *data)
+static void event_record_stop_trap(uint16_t addr, void *data)
 {
     if (machine_write_snapshot(
             event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
@@ -778,10 +778,10 @@ void event_reset_ack(void)
     }
 }
 
-static void event_playback_start_trap(WORD addr, void *data)
+static void event_playback_start_trap(uint16_t addr, void *data)
 {
     snapshot_t *s;
-    BYTE minor, major;
+    uint8_t minor, major;
 
     event_version[0] = 0;
 
@@ -810,7 +810,7 @@ static void event_playback_start_trap(WORD addr, void *data)
     event_list->current = event_list->base;
 
     if (event_list->current->type == EVENT_INITIAL) {
-        BYTE *data = (BYTE *)(event_list->current->data);
+        uint8_t *data = (uint8_t *)(event_list->current->data);
         switch (data[0]) {
             case EVENT_START_MODE_FILE_SAVE:
                 /*log_debug("READING %s", (char *)(&data[1]));*/
@@ -895,7 +895,7 @@ int event_playback_stop(void)
     return 0;
 }
 
-static void event_record_set_milestone_trap(WORD addr, void *data)
+static void event_record_set_milestone_trap(uint16_t addr, void *data)
 {
     if (machine_write_snapshot(event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
         ui_error(translate_text(IDGS_CANT_CREATE_END_SNAP_S),
@@ -920,7 +920,7 @@ int event_record_set_milestone(void)
     return 0;
 }
 
-static void event_record_reset_milestone_trap(WORD addr, void *data)
+static void event_record_reset_milestone_trap(uint16_t addr, void *data)
 {
     /* We need to disable recording to avoid events being recorded while
        snapshot reading. */
@@ -977,7 +977,7 @@ int event_playback_active(void)
 int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
 {
     snapshot_module_t *m;
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     event_list_t *curr;
     unsigned int num_of_timestamps;
 
@@ -1003,7 +1003,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
     while (1) {
         unsigned int type, size;
         CLOCK clk;
-        BYTE *data = NULL;
+        uint8_t *data = NULL;
 
         /*
             throw away recorded timestamp (recording them  was introduced in
@@ -1108,9 +1108,9 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
     while (curr != NULL) {
         if (curr->type != EVENT_TIMESTAMP
             && (0
-                || SMW_DW(m, (DWORD)curr->type) < 0
-                || SMW_DW(m, (DWORD)curr->clk) < 0
-                || SMW_DW(m, (DWORD)curr->size) < 0
+                || SMW_DW(m, (uint32_t)curr->type) < 0
+                || SMW_DW(m, (uint32_t)curr->clk) < 0
+                || SMW_DW(m, (uint32_t)curr->size) < 0
                 || SMW_BA(m, curr->data, curr->size) < 0)) {
             snapshot_module_close(m);
             return -1;

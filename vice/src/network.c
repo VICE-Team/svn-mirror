@@ -245,15 +245,15 @@ static void network_free_frame_event_list(void)
     event_destroy_image_list();
 }
 
-static void network_event_record_sync_test(WORD addr, void *data)
+static void network_event_record_sync_test(uint16_t addr, void *data)
 {
-    BYTE regbuf[5 * 4];
+    uint8_t regbuf[5 * 4];
 
-    util_dword_to_le_buf(&regbuf[0 * 4], (DWORD)(maincpu_get_pc()));
-    util_dword_to_le_buf(&regbuf[1 * 4], (DWORD)(maincpu_get_a()));
-    util_dword_to_le_buf(&regbuf[2 * 4], (DWORD)(maincpu_get_x()));
-    util_dword_to_le_buf(&regbuf[3 * 4], (DWORD)(maincpu_get_y()));
-    util_dword_to_le_buf(&regbuf[4 * 4], (DWORD)(maincpu_get_sp()));
+    util_dword_to_le_buf(&regbuf[0 * 4], (uint32_t)(maincpu_get_pc()));
+    util_dword_to_le_buf(&regbuf[1 * 4], (uint32_t)(maincpu_get_a()));
+    util_dword_to_le_buf(&regbuf[2 * 4], (uint32_t)(maincpu_get_x()));
+    util_dword_to_le_buf(&regbuf[3 * 4], (uint32_t)(maincpu_get_y()));
+    util_dword_to_le_buf(&regbuf[4 * 4], (uint32_t)(maincpu_get_sp()));
 
     network_event_record(EVENT_SYNC_TEST, (void *)regbuf, sizeof(regbuf));
 }
@@ -278,11 +278,11 @@ static void network_prepare_next_frame(void)
     interrupt_maincpu_trigger_trap(network_event_record_sync_test, (void *)0);
 }
 
-static unsigned int network_create_event_buffer(BYTE **buf,
+static unsigned int network_create_event_buffer(uint8_t **buf,
                                                 event_list_state_t *list)
 {
     int size;
-    BYTE *bufptr;
+    uint8_t *bufptr;
     event_list_t *current_event, *last_event;
     int data_len = 0;
     int num_of_events;
@@ -301,7 +301,7 @@ static unsigned int network_create_event_buffer(BYTE **buf,
         current_event = current_event->next;
     } while (last_event->type != EVENT_LIST_END);
 
-    size = num_of_events * 3 * sizeof(DWORD) + data_len;
+    size = num_of_events * 3 * sizeof(uint32_t) + data_len;
 
     *buf = lib_malloc(size);
 
@@ -309,9 +309,9 @@ static unsigned int network_create_event_buffer(BYTE **buf,
     current_event = list->base;
     bufptr = *buf;
     do {
-        util_dword_to_le_buf(&bufptr[0], (DWORD)(current_event->type));
-        util_dword_to_le_buf(&bufptr[4], (DWORD)(current_event->clk));
-        util_dword_to_le_buf(&bufptr[8], (DWORD)(current_event->size));
+        util_dword_to_le_buf(&bufptr[0], (uint32_t)(current_event->type));
+        util_dword_to_le_buf(&bufptr[4], (uint32_t)(current_event->clk));
+        util_dword_to_le_buf(&bufptr[8], (uint32_t)(current_event->size));
         memcpy(&bufptr[12], current_event->data, current_event->size);
         bufptr += 12 + current_event->size;
         last_event = current_event;
@@ -321,12 +321,12 @@ static unsigned int network_create_event_buffer(BYTE **buf,
     return size;
 }
 
-static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
+static event_list_state_t *network_create_event_list(uint8_t *remote_event_buffer)
 {
     event_list_state_t *list;
     unsigned int type, size;
-    BYTE *data;
-    BYTE *bufptr = remote_event_buffer;
+    uint8_t *data;
+    uint8_t *bufptr = remote_event_buffer;
 
     list = lib_malloc(sizeof(event_list_state_t));
     event_register_event_list(list);
@@ -343,7 +343,7 @@ static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
     return list;
 }
 
-static int network_recv_buffer(vice_network_socket_t * s, BYTE *buf, int len)
+static int network_recv_buffer(vice_network_socket_t * s, uint8_t *buf, int len)
 {
     int t;
     int received_total = 0;
@@ -367,7 +367,7 @@ static int network_recv_buffer(vice_network_socket_t * s, BYTE *buf, int len)
 #define SEND_FLAGS 0
 #endif
 
-static int network_send_buffer(vice_network_socket_t * s, const BYTE *buf, int len)
+static int network_send_buffer(vice_network_socket_t * s, const uint8_t *buf, int len)
 {
     int t;
     int sent_total = 0;
@@ -395,7 +395,7 @@ typedef struct {
 static void network_test_delay(void)
 {
     int i, j;
-    BYTE new_frame_delta;
+    uint8_t new_frame_delta;
     unsigned char *buf;
     testpacket pkt;
 
@@ -435,7 +435,7 @@ static void network_test_delay(void)
 #endif
         /* calculate delay with 90% of packets beeing fast enough */
         /* FIXME: This needs some further investigation */
-        new_frame_delta = 5 + (BYTE)(vsync_get_refresh_frequency()
+        new_frame_delta = 5 + (uint8_t)(vsync_get_refresh_frequency()
                                      * packet_delay[(int)(0.1 * NUM_OF_TESTPACKETS)]
                                      / (float)vsyncarch_frequency());
         network_send_buffer(network_socket, &new_frame_delta,
@@ -459,12 +459,12 @@ static void network_test_delay(void)
     ui_display_statustext(st, 1);
 }
 
-static void network_server_connect_trap(WORD addr, void *data)
+static void network_server_connect_trap(uint16_t addr, void *data)
 {
     FILE *f;
-    BYTE *buf;
+    uint8_t *buf;
     size_t buf_size;
-    BYTE send_size4[4];
+    uint8_t send_size4[4];
     long i;
     event_list_state_t settings_list;
 
@@ -523,11 +523,11 @@ static void network_server_connect_trap(WORD addr, void *data)
     lib_free(snapshotfilename);
 }
 
-static void network_client_connect_trap(WORD addr, void *data)
+static void network_client_connect_trap(uint16_t addr, void *data)
 {
-    BYTE *buf;
+    uint8_t *buf;
     size_t buf_size;
-    BYTE recv_buf4[4];
+    uint8_t recv_buf4[4];
     event_list_state_t *settings_list;
 
     /* Set proper settings */
@@ -576,7 +576,7 @@ static void network_client_connect_trap(WORD addr, void *data)
 void network_event_record(unsigned int type, void *data, unsigned int size)
 {
     unsigned int control = 0;
-    BYTE joyport;
+    uint8_t joyport;
 
     switch (type) {
         case EVENT_KEYBOARD_MATRIX:
@@ -595,7 +595,7 @@ void network_event_record(unsigned int type, void *data, unsigned int size)
             control = NETWORK_CONTROL_RSRC;
             break;
         case EVENT_JOYSTICK_VALUE:
-            joyport = ((BYTE*)data)[0];
+            joyport = ((uint8_t *)data)[0];
             if (joyport == 1) {
                 control = NETWORK_CONTROL_JOY1;
             }
@@ -693,8 +693,8 @@ int network_connect_client(void)
 {
     vice_network_socket_address_t * server_addr;
     FILE *f;
-    BYTE *buf;
-    BYTE recv_buf4[4];
+    uint8_t *buf;
+    uint8_t recv_buf4[4];
     size_t buf_size;
 
     if (network_mode != NETWORK_IDLE) {
@@ -774,7 +774,7 @@ void network_suspend(void)
         return;
     }
 
-    network_send_buffer(network_socket, (BYTE*)&dummy_buf_len, sizeof(unsigned int));
+    network_send_buffer(network_socket, (uint8_t *)&dummy_buf_len, sizeof(unsigned int));
 
     suspended = 1;
 }
@@ -785,9 +785,9 @@ long t1, t2, t3, t4;
 
 static void network_hook_connected_send(void)
 {
-    BYTE *local_event_buf = NULL;
+    uint8_t *local_event_buf = NULL;
     unsigned int send_len;
-    BYTE send_len4[4];
+    uint8_t send_len4[4];
 
     /* create and send current event buffer */
     network_event_record(EVENT_LIST_END, NULL, 0);
@@ -812,9 +812,9 @@ static void network_hook_connected_send(void)
 
 static void network_hook_connected_receive(void)
 {
-    BYTE *remote_event_buf = NULL;
+    uint8_t *remote_event_buf = NULL;
     unsigned int recv_len;
-    BYTE recv_len4[4];
+    uint8_t recv_len4[4];
     event_list_state_t *remote_event_list;
     event_list_state_t *client_event_list, *server_event_list;
 
@@ -874,8 +874,8 @@ static void network_hook_connected_receive(void)
             int i;
 
             for (i = 0; i < 5; i++) {
-                if (((DWORD *)client_event_list->base->data)[i]
-                    != ((DWORD *)server_event_list->base->data)[i]) {
+                if (((uint32_t *)client_event_list->base->data)[i]
+                    != ((uint32_t *)server_event_list->base->data)[i]) {
                     ui_error(translate_text(IDGS_NETWORK_OUT_OF_SYNC));
                     network_disconnect();
                     /* shouldn't happen but resyncing would be nicer */

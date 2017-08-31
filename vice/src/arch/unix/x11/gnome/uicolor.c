@@ -181,18 +181,18 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
          * in the 32-bit longword bits 24-31. If any arch needs 24 bpp, that
          * code must be specially written for it. */
     }
-    
+
     DBG(("bpp:%d rb:%d gb:%d bb:%d rs:%d gs:%d bs:%d swap:%d", bpp, rb, gb, bb, rs, gs, bs, swap));
 
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
         /* scale 256 color palette for Gdk terms, then shift to precision,
          * then move component where it needs to be. */
-        DWORD color_pixel = endian_swap(color.red << 8 >> (16 - rb) << rs | color.green << 8 >> (16 - gb) << gs | color.blue  << 8 >> (16 - bb) << bs, bpp, swap);
+        uint32_t color_pixel = endian_swap(color.red << 8 >> (16 - rb) << rs | color.green << 8 >> (16 - gb) << gs | color.blue  << 8 >> (16 - bb) << bs, bpp, swap);
 
         video_render_setphysicalcolor(c->videoconfig, i, color_pixel, bpp);
     }
-    
+
     for (i = 0; i < 256; i ++) {
         video_render_setrawrgb(i, endian_swap(i << 8 >> (16 - rb) << rs, bpp, swap), endian_swap(i << 8 >> (16 - gb) << gs, bpp, swap), endian_swap(i << 8 >> (16 - bb) << bs, bpp, swap));
     }

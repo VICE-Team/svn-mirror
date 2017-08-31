@@ -121,7 +121,7 @@ void rawfile_destroy(rawfile_info_t *info)
     }
 }
 
-unsigned int rawfile_read(rawfile_info_t *info, BYTE *buf, unsigned int len)
+unsigned int rawfile_read(rawfile_info_t *info, uint8_t *buf, unsigned int len)
 {
     if (info->fd) {
         return (unsigned int)fread(buf, 1, len, info->fd);
@@ -129,7 +129,7 @@ unsigned int rawfile_read(rawfile_info_t *info, BYTE *buf, unsigned int len)
     return -1;
 }
 
-unsigned int rawfile_write(rawfile_info_t *info, BYTE *buf, unsigned int len)
+unsigned int rawfile_write(rawfile_info_t *info, uint8_t *buf, unsigned int len)
 {
     if (info->fd) {
         return (unsigned int)fwrite(buf, 1, len, info->fd);

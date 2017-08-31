@@ -220,7 +220,7 @@ int sysfile_locate(const char *name, char **complete_path_return)
  * into the end of the memory range.
  * If minsize < 0, load it at the start.
  */
-int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
+int sysfile_load(const char *name, uint8_t *dest, int minsize, int maxsize)
 {
     FILE *fp = NULL;
     size_t rsize = 0;

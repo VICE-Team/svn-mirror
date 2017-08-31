@@ -290,12 +290,12 @@ const char *file_system_get_disk_name(unsigned int unit)
     return disk_image_fsimage_name_get(vdrive->image);
 }
 
-int file_system_bam_get_disk_id(unsigned int unit, BYTE *id)
+int file_system_bam_get_disk_id(unsigned int unit, uint8_t *id)
 {
     return vdrive_bam_get_disk_id(unit, id);
 }
 
-int file_system_bam_set_disk_id(unsigned int unit, BYTE *id)
+int file_system_bam_set_disk_id(unsigned int unit, uint8_t *id)
 {
     return vdrive_bam_set_disk_id(unit, id);
 }

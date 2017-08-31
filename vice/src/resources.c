@@ -410,7 +410,7 @@ static void resource_create_event_data(char **event_data, int *data_size,
     name_size = (int)strlen(name) + 1;
 
     if (r->type == RES_INTEGER) {
-        *data_size = name_size + sizeof(DWORD);
+        *data_size = name_size + sizeof(uint32_t);
     } else {
         *data_size = name_size + (int)strlen((char *)value) + 1;
     }
@@ -419,7 +419,7 @@ static void resource_create_event_data(char **event_data, int *data_size,
     strcpy(*event_data, name);
 
     if (r->type == RES_INTEGER) {
-        *(DWORD *)(*event_data + name_size) = vice_ptr_to_uint(value);
+        *(uint32_t *)(*event_data + name_size) = vice_ptr_to_uint(value);
     } else {
         strcpy(*event_data + name_size, (char *)value);
     }
@@ -600,7 +600,7 @@ void resources_set_value_event(void *data, int size)
     valueptr = name + strlen(name) + 1;
     r = lookup(name);
     if (r->type == RES_INTEGER) {
-        resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(DWORD*)valueptr));
+        resources_set_value_internal(r, (resource_value_t) uint_to_void_ptr(*(uint32_t *)valueptr));
     } else {
         resources_set_value_internal(r, (resource_value_t)valueptr);
     }

@@ -288,7 +288,7 @@ static UI_CALLBACK(do_frame_advance)
 
 static char *load_snapshot_last_dir = NULL;
 
-static void load_snapshot_trap(WORD unused_addr, void *data)
+static void load_snapshot_trap(uint16_t unused_addr, void *data)
 {
     ui_button_t button;
     char *filename;
@@ -342,7 +342,7 @@ static UI_CALLBACK(load_quicksnap)
     }
 }
 
-static void save_snapshot_trap(WORD unused_addr, void *data)
+static void save_snapshot_trap(uint16_t unused_addr, void *data)
 {
     if (data) {
         /* quick snapshot, save ROMs & disks (??) */

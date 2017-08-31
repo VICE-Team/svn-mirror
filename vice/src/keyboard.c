@@ -154,7 +154,7 @@ void keyboard_event_playback(CLOCK offset, void *data)
 
 void keyboard_restore_event_playback(CLOCK offset, void *data)
 {
-    machine_set_restore_key((int)(*(DWORD *)data));
+    machine_set_restore_key((int)(*(uint32_t *)data));
 }
 
 static void keyboard_latch_handler(CLOCK offset, void *data)
@@ -377,12 +377,12 @@ static int restore_quick_release = 0;
 
 static void restore_alarm_triggered(CLOCK offset, void *data)
 {
-    DWORD event_data;
+    uint32_t event_data;
     alarm_unset(restore_alarm);
 
-    event_data = (DWORD)restore_delayed;
+    event_data = (uint32_t)restore_delayed;
     machine_set_restore_key(restore_delayed);
-    event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
+    event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(uint32_t));
     restore_delayed = 0;
 
     if (restore_quick_release) {
@@ -393,10 +393,10 @@ static void restore_alarm_triggered(CLOCK offset, void *data)
 
 static void keyboard_restore_pressed(void)
 {
-    DWORD event_data;
-    event_data = (DWORD)1;
+    uint32_t event_data;
+    event_data = (uint32_t)1;
     if (network_connected()) {
-        network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
+        network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(uint32_t));
     } else {
         if (restore_raw == 0) {
             restore_delayed = 1;
@@ -409,10 +409,10 @@ static void keyboard_restore_pressed(void)
 
 static void keyboard_restore_released(void)
 {
-    DWORD event_data;
-    event_data = (DWORD)0;
+    uint32_t event_data;
+    event_data = (uint32_t)0;
     if (network_connected()) {
-        network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
+        network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(uint32_t));
     } else {
         if (restore_raw == 1) {
             if (restore_delayed) {
@@ -1782,8 +1782,8 @@ int keyboard_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || SMW_DWA(m, (DWORD *)keyarr, KBD_ROWS) < 0
-        || SMW_DWA(m, (DWORD *)rev_keyarr, KBD_COLS) < 0) {
+        || SMW_DWA(m, (uint32_t *)keyarr, KBD_ROWS) < 0
+        || SMW_DWA(m, (uint32_t *)rev_keyarr, KBD_COLS) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -1793,7 +1793,7 @@ int keyboard_snapshot_write_module(snapshot_t *s)
 
 int keyboard_snapshot_read_module(snapshot_t *s)
 {
-    BYTE major_version, minor_version;
+    uint8_t major_version, minor_version;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_NAME, &major_version, &minor_version);
@@ -1810,8 +1810,8 @@ int keyboard_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || SMR_DWA(m, (DWORD *)keyarr, KBD_ROWS) < 0
-        || SMR_DWA(m, (DWORD *)rev_keyarr, KBD_COLS) < 0) {
+        || SMR_DWA(m, (uint32_t *)keyarr, KBD_ROWS) < 0
+        || SMR_DWA(m, (uint32_t *)rev_keyarr, KBD_COLS) < 0) {
         snapshot_module_close(m);
         return -1;
     }
