@@ -32,14 +32,7 @@
 
 #include "vice_sdl.h"
 
-typedef Uint8 BYTE;
-typedef Sint8 SIGNED_CHAR;
-typedef Uint16 WORD;
-typedef Sint16 SWORD;
-typedef Uint32 DWORD;
-typedef Sint32 SDWORD;
-
-typedef DWORD CLOCK;
+typedef uint32_t CLOCK;
 
 /* Maximum value of a CLOCK.  */
 #undef CLOCK_MAX
