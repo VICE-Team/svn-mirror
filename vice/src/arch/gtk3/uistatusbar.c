@@ -351,7 +351,7 @@ void ui_display_volume(int vol)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
     int i;
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
