@@ -68,14 +68,14 @@ int cart4_ram = 0;
 int cart6_ram = 0;
 int cartC_ram = 0;
 
-static BYTE romh_banks[1]; /* dummy */
+static uint8_t romh_banks[1]; /* dummy */
 
-BYTE *ultimax_romh_phi1_ptr(WORD addr)
+uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
 {
     return romh_banks;
 }
 
-BYTE *ultimax_romh_phi2_ptr(WORD addr)
+uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
 {
     return romh_banks;
 }

@@ -57,23 +57,23 @@
 #include "types.h"
 #include "vsync.h"
 
-void cia1_set_extended_keyboard_rows_mask(BYTE foo)
+void cia1_set_extended_keyboard_rows_mask(uint8_t foo)
 {
 }
 
 /* ------------------------------------------------------------------------- */
 /* The CBM-II memory. */
 
-BYTE mem_ram[CBM2_RAM_SIZE];            /* 1M, banks 0-14 plus extension RAM
+uint8_t mem_ram[CBM2_RAM_SIZE];            /* 1M, banks 0-14 plus extension RAM
                                            in bank 15 */
-BYTE mem_rom[CBM2_ROM_SIZE];            /* complete bank 15 ROM + video RAM */
-BYTE mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
+uint8_t mem_rom[CBM2_ROM_SIZE];            /* complete bank 15 ROM + video RAM */
+uint8_t mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
 
 /* Pointer to the chargen ROM.  */
-BYTE *mem_chargen_rom_ptr;
+uint8_t *mem_chargen_rom_ptr;
 
-BYTE *mem_page_zero;
-BYTE *mem_page_one;
+uint8_t *mem_page_zero;
+uint8_t *mem_page_one;
 
 /* selected banks for normal access and indirect accesses */
 int cbm2mem_bank_exec = -1;
@@ -82,7 +82,7 @@ int cbm2mem_bank_ind = -1;
 /* Memory read and write tables - banked. */
 static read_func_ptr_t _mem_read_tab[16][0x101];
 static store_func_ptr_t _mem_write_tab[16][0x101];
-static BYTE *_mem_read_base_tab[16][0x101];
+static uint8_t *_mem_read_base_tab[16][0x101];
 static int mem_read_limit_tab[3][0x101];
 
 /* watch tables are fixed */
@@ -95,14 +95,14 @@ read_func_ptr_t *_mem_read_tab_ptr;
 read_func_ptr_t *_mem_read_ind_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 store_func_ptr_t *_mem_write_ind_tab_ptr;
-static BYTE **_mem_read_base_tab_ptr;
+static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
 
 int cbm2_init_ok = 0;
 
 /* ------------------------------------------------------------------------- */
 
-void cbm2_set_tpi2pc(BYTE b)
+void cbm2_set_tpi2pc(uint8_t b)
 {
 }
 
@@ -176,11 +176,11 @@ void cbm2mem_set_bank_ind(int val)
 }
 
 /* ------------------------------------------------------------------------- */
-BYTE zero_read(WORD addr)
+uint8_t zero_read(uint16_t addr)
 {
     addr &= 0xff;
 
-    switch ((BYTE)addr) {
+    switch ((uint8_t)addr) {
         case 0:
             return cbm2mem_bank_exec;
         case 1:
@@ -190,7 +190,7 @@ BYTE zero_read(WORD addr)
     return mem_page_zero[addr & 0xff];
 }
 
-void zero_store(WORD addr, BYTE value)
+void zero_store(uint16_t addr, uint8_t value)
 {
     if (addr == 0) {
         cbm2mem_set_bank_exec(value);
@@ -199,11 +199,11 @@ void zero_store(WORD addr, BYTE value)
         cbm2mem_set_bank_ind(value);
     }
 
-    _mem_write_tab_ptr[0]((WORD)(addr & 0xff), value);
+    _mem_write_tab_ptr[0]((uint16_t)(addr & 0xff), value);
 }
 
 #define STORE_ZERO(bank)                                 \
-    static void store_zero_##bank(WORD addr, BYTE value) \
+    static void store_zero_##bank(uint16_t addr, uint8_t value) \
     {                                                    \
         addr &= 0xff;                                    \
                                                          \
@@ -217,19 +217,19 @@ void zero_store(WORD addr, BYTE value)
     }
 
 #define READ_ZERO(bank)                                   \
-    static BYTE read_zero_##bank(WORD addr)               \
+    static uint8_t read_zero_##bank(uint16_t addr)               \
     {                                                     \
         return mem_ram[(0x##bank << 16) | (addr & 0xff)]; \
     }
 
 #define READ_RAM(bank)                             \
-    static BYTE read_ram_##bank(WORD addr)         \
+    static uint8_t read_ram_##bank(uint16_t addr)         \
     {                                              \
         return mem_ram[(0x##bank << 16) | addr];   \
     }
 
 #define STORE_RAM(bank)                                \
-    static void store_ram_##bank(WORD addr, BYTE byte) \
+    static void store_ram_##bank(uint16_t addr, uint8_t byte) \
     {                                                  \
         mem_ram[(0x##bank << 16) | addr] = byte;       \
     }
@@ -331,7 +331,7 @@ static read_func_ptr_t read_zero_tab[16] = {
 };
 
 
-static void store_zeroX(WORD addr, BYTE value)
+static void store_zeroX(uint16_t addr, uint8_t value)
 {
     if (addr == 0) {
         cbm2mem_set_bank_exec(value);
@@ -341,23 +341,23 @@ static void store_zeroX(WORD addr, BYTE value)
     }
 }
 
-BYTE rom_read(WORD addr)
+uint8_t rom_read(uint16_t addr)
 {
     return mem_rom[addr];
 }
 
 
-void rom_store(WORD addr, BYTE value)
+void rom_store(uint16_t addr, uint8_t value)
 {
     mem_rom[addr] = value;
 }
 
-BYTE read_unused(WORD addr)
+uint8_t read_unused(uint16_t addr)
 {
     return 0xff; /* (addr >> 8) & 0xff; */
 }
 
-static void store_dummy(WORD addr, BYTE value)
+static void store_dummy(uint16_t addr, uint8_t value)
 {
     return;
 }
@@ -366,39 +366,39 @@ static void store_dummy(WORD addr, BYTE value)
 
 /* Functions for watchpoint memory access.  */
 
-static BYTE zero_read_watch(WORD addr)
+static uint8_t zero_read_watch(uint16_t addr)
 {
     addr &= 0xff;
     monitor_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_exec][0](addr);
 }
 
-static void zero_store_watch(WORD addr, BYTE value)
+static void zero_store_watch(uint16_t addr, uint8_t value)
 {
     addr &= 0xff;
     monitor_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_exec][0](addr, value);
 }
 
-static BYTE read_watch(WORD addr)
+static uint8_t read_watch(uint16_t addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_exec][addr >> 8](addr);
 }
 
-static void store_watch(WORD addr, BYTE value)
+static void store_watch(uint16_t addr, uint8_t value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_exec][addr >> 8](addr, value);
 }
 
-static BYTE read_ind_watch(WORD addr)
+static uint8_t read_ind_watch(uint16_t addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_ind][addr >> 8](addr);
 }
 
-static void store_ind_watch(WORD addr, BYTE value)
+static void store_ind_watch(uint16_t addr, uint8_t value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_ind][addr >> 8](addr, value);
@@ -408,19 +408,19 @@ static void store_ind_watch(WORD addr, BYTE value)
 
 /* Generic memory access.  */
 
-void mem_store(WORD addr, BYTE value)
+void mem_store(uint16_t addr, uint8_t value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE mem_read(WORD addr)
+uint8_t mem_read(uint16_t addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
 
-static void store_io(WORD addr, BYTE value)
+static void store_io(uint16_t addr, uint8_t value)
 {
     switch (addr & 0xf800) {
         case 0xd000:
@@ -456,9 +456,9 @@ static void store_io(WORD addr, BYTE value)
     }
 }
 
-static BYTE read_io(WORD addr)
+static uint8_t read_io(uint16_t addr)
 {
-    BYTE last_access = 0xff;
+    uint8_t last_access = 0xff;
 
     switch (addr & 0xf800) {
         case 0xd000:
@@ -754,9 +754,9 @@ void mem_initialize_memory_bank(int i)
     _mem_read_base_tab[i][0x100] = _mem_read_base_tab[i][0];
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
-    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+    uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
 
     *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
     *start = addr; /* TODO */
@@ -788,25 +788,25 @@ void mem_powerup(void)
 
 /* FIXME: To do!  */
 
-void mem_get_basic_text(WORD *start, WORD *end)
+void mem_get_basic_text(uint16_t *start, uint16_t *end)
 {
 }
 
-void mem_set_basic_text(WORD start, WORD end)
+void mem_set_basic_text(uint16_t start, uint16_t end)
 {
 }
 
-void mem_inject(DWORD addr, BYTE value)
+void mem_inject(uint32_t addr, uint8_t value)
 {
     /* just call mem_store() to be safe.
        This could possibly be changed to write straight into the
        memory array.  mem_ram[addr & mask] = value; */
-    mem_store((WORD)(addr & 0xffff), value);
+    mem_store((uint16_t)(addr & 0xffff), value);
 }
 
 /* ------------------------------------------------------------------------- */
 
-int mem_rom_trap_allowed(WORD addr)
+int mem_rom_trap_allowed(uint16_t addr)
 {
     return 1;   /* (addr >= 0xf000) && !(map_reg & 0x80); */
 }
@@ -819,7 +819,7 @@ void mem_set_tape_sense(int value)
 
 /* Banked memory access functions for the monitor.  */
 
-static BYTE peek_bank_io(WORD addr)
+static uint8_t peek_bank_io(uint16_t addr)
 {
     switch (addr & 0xf800) {
         case 0xc000:
@@ -880,7 +880,7 @@ int mem_bank_from_name(const char *name)
     return -1;
 }
 
-BYTE mem_bank_read(int bank, WORD addr, void *context)
+uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
     switch (bank) {
         case 17:                /* current */
@@ -898,7 +898,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
     return read_unused(addr);
 }
 
-BYTE mem_bank_peek(int bank, WORD addr, void *context)
+uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     if (bank == 16) {
         if (addr >= 0xc000 && addr < 0xe000) {
@@ -908,7 +908,7 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
     return mem_bank_read(bank, addr, context);
 }
 
-void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
+void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     switch (bank) {
         case 17:                 /* current */
@@ -943,7 +943,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     return mem_ioreg_list;
 }
 
-void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
+void mem_get_screen_parameter(uint16_t *base, uint8_t *rows, uint8_t *columns, int *bank)
 {
     *base = 0xd000;
     *rows = 25;

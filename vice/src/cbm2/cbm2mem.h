@@ -42,8 +42,8 @@
 #define CBM2_KERNAL     "kernal"
 #define CBM2_KERNAL500  "kernal" FSDEV_EXT_SEP_STR "500"
 
-extern BYTE mem_rom[CBM2_ROM_SIZE];
-extern BYTE mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
+extern uint8_t mem_rom[CBM2_ROM_SIZE];
+extern uint8_t mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
 
 extern void cbm2mem_set_bank_exec(int val);
 extern void cbm2mem_set_bank_ind(int val);
@@ -54,7 +54,7 @@ extern void mem_reset(void);
 
 extern void cbm2_set_tpi1ca(int);
 extern void cbm2_set_tpi1cb(int);
-extern void cbm2_set_tpi2pc(BYTE);
+extern void cbm2_set_tpi2pc(uint8_t);
 
 extern void c500_set_phi1_bank(int b);
 extern void c500_set_phi2_bank(int b);
@@ -67,10 +67,10 @@ extern void mem_set_tape_sense(int value);
 extern int cbm2mem_bank_exec;
 extern int cbm2mem_bank_ind;
 
-extern void colorram_store(WORD addr, BYTE value);
-extern BYTE colorram_read(WORD addr);
+extern void colorram_store(uint16_t addr, uint8_t value);
+extern uint8_t colorram_read(uint16_t addr);
 
-extern BYTE read_unused(WORD addr);
+extern uint8_t read_unused(uint16_t addr);
 
 extern void mem_handle_pending_alarms_external(int cycles);
 extern void mem_handle_pending_alarms_external_write(void);
@@ -78,6 +78,6 @@ extern void mem_handle_pending_alarms_external_write(void);
 extern void cbm2io_init(void);
 extern void cbm5x0io_init(void);
 
-void cia1_set_extended_keyboard_rows_mask(BYTE foo);
+void cia1_set_extended_keyboard_rows_mask(uint8_t foo);
 
 #endif

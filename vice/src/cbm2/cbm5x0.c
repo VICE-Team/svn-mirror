@@ -544,9 +544,9 @@ int cbm2_c500_snapshot_write_module(snapshot_t *p)
 
 int cbm2_c500_snapshot_read_module(snapshot_t *p)
 {
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
-    DWORD dword;
+    uint32_t dword;
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL) {
@@ -955,12 +955,12 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
     return NULL;
 }
 
-BYTE machine_tape_type_default(void)
+uint8_t machine_tape_type_default(void)
 {
     return TAPE_CAS_TYPE_BAS;
 }
 
-BYTE machine_tape_behaviour(void)
+uint8_t machine_tape_behaviour(void)
 {
     return TAPE_BEHAVIOUR_NORMAL;
 }

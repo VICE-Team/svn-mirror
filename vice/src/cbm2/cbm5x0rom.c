@@ -108,7 +108,7 @@ int cbm2rom_load_chargen(const char *rom_name)
 int cbm2rom_checksum(void)
 {
     int i, delay;
-    WORD sum;
+    uint16_t sum;
 
     /* Checksum over top 8 kByte kernal.  */
     for (i = 0xe000, sum = 0; i < 0x10000; i++) {

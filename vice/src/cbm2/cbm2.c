@@ -979,12 +979,12 @@ struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit)
     return NULL;
 }
 
-BYTE machine_tape_type_default(void)
+uint8_t machine_tape_type_default(void)
 {
     return TAPE_CAS_TYPE_BAS;
 }
 
-BYTE machine_tape_behaviour(void)
+uint8_t machine_tape_behaviour(void)
 {
     return TAPE_BEHAVIOUR_NORMAL;
 }
@@ -1004,14 +1004,14 @@ const char *machine_get_name(void)
 
 /* native screenshot support */
 
-BYTE *crtc_get_active_bitmap(void)
+uint8_t *crtc_get_active_bitmap(void)
 {
     return NULL;
 }
 
 /* ------------------------------------------------------------------------- */
 
-static void cbm2_userport_set_flag(BYTE b)
+static void cbm2_userport_set_flag(uint8_t b)
 {
     if (b != 0) {
         ciacore_set_flag(machine_context.cia1);

@@ -94,7 +94,7 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
 int cbm2_snapshot_read(const char *name, int event_mode)
 {
     snapshot_t *s;
-    BYTE minor, major;
+    uint8_t minor, major;
 
     s = snapshot_open(name, &major, &minor, machine_get_name());
 
