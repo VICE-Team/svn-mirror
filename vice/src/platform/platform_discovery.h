@@ -318,7 +318,7 @@
 #ifdef SCO4UNIX_COMPILE
 #  ifdef __GNU_LIBRARY__
 #    define PLATFORM_OS "SCO Unix 4.x (glibc 1.x)"
-#  else 
+#  else
 #    define PLATFORM_OS "SCO Unix 4.x"
 #  endif
 #  define FIND_X86_CPU

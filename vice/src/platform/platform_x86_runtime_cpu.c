@@ -82,7 +82,7 @@ typedef struct x86_cpu_vendor_s {
 
 static int is_idt_cpu(void)
 {
-    DWORD regax, regbx, regcx, regdx;
+    uint32_t regax, regbx, regcx, regdx;
 
     cpuid(0xC0000000, regax, regbx, regcx, regdx);
     if (regax == 0xC0000000) {
@@ -112,8 +112,8 @@ static x86_cpu_vendor_t x86_cpu_vendors[] = {
 
 typedef struct x86_cpu_name_s {
     int id;
-    DWORD fms;
-    DWORD mask;
+    uint32_t fms;
+    uint32_t mask;
     char *name;
 } x86_cpu_name_t;
 
@@ -184,7 +184,7 @@ static char *get_x86_runtime_cpu_name(void)
 {
 /* makes certain binaries crash */
 #if 0
-    DWORD regax, regbx, regcx, regdx;
+    uint32_t regax, regbx, regcx, regdx;
     static char name_buf[49];
     int i;
 
@@ -207,7 +207,7 @@ static char *get_x86_runtime_cpu_name(void)
 /* runtime cpu detection */
 char *platform_get_x86_runtime_cpu(void)
 {
-    DWORD regax, regbx, regcx, regdx;
+    uint32_t regax, regbx, regcx, regdx;
     char *cpu_name;
     char type_buf[13];
     int hasCPUID;

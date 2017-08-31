@@ -806,7 +806,7 @@ char *platform_get_dos_runtime_os(void)
                 }
             }
         }
- 
+
         if (comspec_ver_string) {
             if (!strncmp(comspec_ver_string, "a:", 2)) {
                 do_ver = 0;

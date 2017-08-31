@@ -347,7 +347,7 @@ static char *get_windows_version(void)
             }
         }
     }
-    
+
 
     /* 0 = workstation
        1 = standard server

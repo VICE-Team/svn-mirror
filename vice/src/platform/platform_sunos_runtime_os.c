@@ -124,6 +124,6 @@ char *platform_get_sunos_runtime_os(void)
         }
         got_os = 1;
     }
-    return osname;    
+    return osname;
 }
 #endif

@@ -155,6 +155,6 @@ char *platform_get_osf_runtime_os(void)
         sprintf(osname, "OSF %s", name.release);
         got_os = 1;
     }
-    return osname;    
+    return osname;
 }
 #endif
