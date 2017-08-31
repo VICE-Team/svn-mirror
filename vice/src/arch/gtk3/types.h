@@ -32,18 +32,6 @@
 /* required for intptr_t and friends */
 #include <stdint.h>
 
-#ifdef _WIN32
-#include <WinDef.h>
-#else
-typedef uint8_t BYTE;
-typedef uint16_t WORD;
-typedef uint32_t DWORD;
-#endif
-
-typedef int8_t SIGNED_CHAR;
-typedef int16_t SWORD;
-typedef int32_t SDWORD;
-
 typedef uint32_t CLOCK;
 
 /* Maximum value of a CLOCK.  */
