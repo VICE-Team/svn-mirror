@@ -227,12 +227,9 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
 
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
     ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
-/* commented out for now, since this doesn't work properly yet. better avoid
- * introducting weird bugs
- */
-#if 0
+
+    /* keyboard shortcuts work, but only if kbd_connect_handlers() isn't called */
     add_accelerators_to_window(new_window);
-#endif
     kbd_connect_handlers(new_window, NULL);
 }
 
@@ -582,12 +579,12 @@ void ui_update_menus(void)
 }
 
 void ui_dispatch_next_event(void) {
-    gtk_main_iteration();
+    g_main_context_iteration(g_main_context_default(), FALSE);
 }
 
 void ui_dispatch_events(void)
 {
-    while (gtk_events_pending()) {
+    while (g_main_context_pending(g_main_context_default())) {
         ui_dispatch_next_event();
     }
 }

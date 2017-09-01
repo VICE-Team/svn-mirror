@@ -73,7 +73,6 @@ static GtkAccelGroup *group;
  * a lot of magic. I have no idea if I need to clean this up or if Glib handles
  * this. So more research is definitely needed.
  */
-static GClosure *reset_closure;
 
 
 /** \brief  Add keyboard shortcuts to \a window
@@ -87,6 +86,7 @@ static GClosure *reset_closure;
  */
 void add_accelerators_to_window(GtkWidget *window)
 {
+    GClosure *reset_closure;
     g_print("ADDING ACCELERATORS!\n");
 
    /* create a new accelerator group */
@@ -101,11 +101,9 @@ void add_accelerators_to_window(GtkWidget *window)
     reset_closure = g_cclosure_new(G_CALLBACK(reset_handler), NULL, NULL);
 
     /* add Alt+r to 'reset' the emu */
-    gtk_accel_group_connect(group, GDK_KEY_r, GDK_MOD1_MASK, /* Alt */
+    gtk_accel_group_connect(group, GDK_KEY_R, GDK_MOD1_MASK, /* Alt */
             GTK_ACCEL_MASK, /* FIXME: not sure about this one, worked somehow */
             reset_closure);
-
-    /* end loop */
 
     /* add finally add the custom shortcut(s) to the Gtk window */
     gtk_window_add_accel_group(GTK_WINDOW(window), group);
