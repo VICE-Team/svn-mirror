@@ -162,6 +162,29 @@ char *archdep_get_runtime_os(void)
 }
 
 
+/** \brief  Get the absolute path to the VICE dir
+ *
+ * \return  Path to VICE's directory
+ */
+const char *archdep_boot_path(void)
+{
+    /* FIXME: this code is copied from unix/archdep.c because the code below
+     * crashes with "g_path_get_dirname: assertion 'file_name != NULL' failed"
+     * when the program file is not in the PATH */
+    static char *boot;
+
+    if (boot == NULL) {
+        boot = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
+
+        /* Remove the program name.  */
+        *strrchr(boot, '\\') = '\0';
+    }
+
+    return boot;
+}
+
+
+
 char *archdep_make_backup_filename(const char *fname)
 {
     NOT_IMPLEMENTED();
