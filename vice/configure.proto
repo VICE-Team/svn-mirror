@@ -3758,7 +3758,7 @@ if test x"$with_png" != "xno" ; then
     fi
   fi
 
-  if test x"$HAVE_PNG_SUPPORT" != "xyes"; then
+  if test x"$HAVE_PNG_SUPPORT" != "xyes" -a x"$cross_compiling" != "xyes"; then
     PKG_PROG_PKG_CONFIG
     if test x"$PKG_CONFIG" != "x"; then
       AC_MSG_CHECKING([if pkgconfig libpng is present])
