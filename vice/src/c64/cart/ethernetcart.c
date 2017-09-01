@@ -70,9 +70,9 @@
 /*    resources support functions                                            */
 
 /* Some prototypes are needed */
-static BYTE ethernetcart_read(WORD io_address);
-static BYTE ethernetcart_peek(WORD io_address);
-static void ethernetcart_store(WORD io_address, BYTE byte);
+static uint8_t ethernetcart_read(uint16_t io_address);
+static uint8_t ethernetcart_peek(uint16_t io_address);
+static void ethernetcart_store(uint16_t io_address, uint8_t byte);
 static int ethernetcart_dump(void);
 
 static io_source_t ethernetcart_device = {
@@ -143,7 +143,7 @@ void ethernetcart_detach(void)
 /* ------------------------------------------------------------------------- */
 
 /* ----- read byte from I/O range in VICE ----- */
-static BYTE ethernetcart_read(WORD io_address)
+static uint8_t ethernetcart_read(uint16_t io_address)
 {
     ethernetcart_device.io_source_valid = 1;
 
@@ -157,7 +157,7 @@ static BYTE ethernetcart_read(WORD io_address)
 }
 
 /* ----- peek byte with no sideeffects from I/O range in VICE ----- */
-static BYTE ethernetcart_peek(WORD io_address)
+static uint8_t ethernetcart_peek(uint16_t io_address)
 {
     if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
         io_address ^= 8;
@@ -169,7 +169,7 @@ static BYTE ethernetcart_peek(WORD io_address)
 }
 
 /* ----- write byte to I/O range of VICE ----- */
-static void ethernetcart_store(WORD io_address, BYTE byte)
+static void ethernetcart_store(uint16_t io_address, uint8_t byte)
 {
     if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
         io_address ^= 8;
@@ -266,8 +266,8 @@ static int set_ethernetcart_base(int val, void *param)
         case 0xdee0:
         case 0xdef0:
             if (machine_class != VICE_MACHINE_VIC20) {
-                ethernetcart_device.start_address = (WORD)addr;
-                ethernetcart_device.end_address = (WORD)(addr + 0xf);
+                ethernetcart_device.start_address = (uint16_t)addr;
+                ethernetcart_device.end_address = (uint16_t)(addr + 0xf);
                 export_res.io1 = &ethernetcart_device;
                 export_res.io2 = NULL;
             } else {
@@ -291,8 +291,8 @@ static int set_ethernetcart_base(int val, void *param)
         case 0xdfe0:
         case 0xdff0:
             if (machine_class != VICE_MACHINE_VIC20) {
-                ethernetcart_device.start_address = (WORD)addr;
-                ethernetcart_device.end_address = (WORD)(addr + 0xf);
+                ethernetcart_device.start_address = (uint16_t)addr;
+                ethernetcart_device.end_address = (uint16_t)(addr + 0xf);
                 export_res.io1 = NULL;
                 export_res.io2 = &ethernetcart_device;
             } else {
@@ -332,8 +332,8 @@ static int set_ethernetcart_base(int val, void *param)
         case 0x9ce0:
         case 0x9cf0:
             if (machine_class == VICE_MACHINE_VIC20) {
-                ethernetcart_device.start_address = (WORD)addr;
-                ethernetcart_device.end_address = (WORD)(addr + 0xf);
+                ethernetcart_device.start_address = (uint16_t)addr;
+                ethernetcart_device.end_address = (uint16_t)(addr + 0xf);
             } else {
                 return -1;
             }
@@ -511,7 +511,7 @@ int ethernetcart_snapshot_read_module(snapshot_t *s)
 {
     return -1;
 #if 0
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

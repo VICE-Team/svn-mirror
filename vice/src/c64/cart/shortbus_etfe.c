@@ -57,9 +57,9 @@
 /*    resources support functions                                            */
 
 /* Some prototypes are needed */
-static BYTE shortbus_etfe_read(WORD io_address);
-static BYTE shortbus_etfe_peek(WORD io_address);
-static void shortbus_etfe_store(WORD io_address, BYTE byte);
+static uint8_t shortbus_etfe_read(uint16_t io_address);
+static uint8_t shortbus_etfe_peek(uint16_t io_address);
+static void shortbus_etfe_store(uint16_t io_address, uint8_t byte);
 static int shortbus_etfe_dump(void);
 
 static io_source_t shortbus_etfe_device = {
@@ -176,8 +176,8 @@ static int set_shortbus_etfe_base(int val, void *param)
         case 0xde00:
         case 0xde10:
         case 0xdf00:
-            shortbus_etfe_device.start_address = (WORD)addr;
-            shortbus_etfe_device.end_address = (WORD)(addr + 0xf);
+            shortbus_etfe_device.start_address = (uint16_t)addr;
+            shortbus_etfe_device.end_address = (uint16_t)(addr + 0xf);
             break;
         default:
             return -1;
@@ -278,7 +278,7 @@ int shortbus_etfe_enabled(void)
 /* ------------------------------------------------------------------------- */
 
 /* ----- read byte from I/O range in VICE ----- */
-static BYTE shortbus_etfe_read(WORD io_address)
+static uint8_t shortbus_etfe_read(uint16_t io_address)
 {
     shortbus_etfe_device.io_source_valid = 1;
 
@@ -286,13 +286,13 @@ static BYTE shortbus_etfe_read(WORD io_address)
 }
 
 /* ----- peek byte with no sideeffects from I/O range in VICE ----- */
-static BYTE shortbus_etfe_peek(WORD io_address)
+static uint8_t shortbus_etfe_peek(uint16_t io_address)
 {
     return cs8900io_peek(io_address);
 }
 
 /* ----- write byte to I/O range of VICE ----- */
-static void shortbus_etfe_store(WORD io_address, BYTE byte)
+static void shortbus_etfe_store(uint16_t io_address, uint8_t byte)
 {
     cs8900io_store(io_address, byte);
 }
@@ -341,7 +341,7 @@ int shortbus_etfe_read_snapshot_module(snapshot_t *s)
 {
     return -1;
 #if 0
-    BYTE vmajor, vminor;
+    uint8_t vmajor, vminor;
     snapshot_module_t *m;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);

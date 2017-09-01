@@ -215,8 +215,8 @@ void debug_set_machine_parameter(unsigned int cycles, unsigned int lines)
 #define RLINE(clk)  ((unsigned int)((clk) / cycles_per_line % screen_lines))
 #define RCYCLE(clk) ((unsigned int)((clk) % cycles_per_line))
 
-void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
-                   BYTE reg_x, BYTE reg_y, BYTE reg_sp)
+void debug_maincpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint8_t reg_a,
+                   uint8_t reg_x, uint8_t reg_y, uint8_t reg_sp)
 {
     switch (debug.trace_mode) {
         case DEBUG_SMALL:
@@ -267,8 +267,8 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
     }
 }
 
-void debug_main65816cpu(DWORD reg_pc, CLOCK mclk, const char *dis, WORD reg_c,
-                   WORD reg_x, WORD reg_y, WORD reg_sp, BYTE reg_pbr)
+void debug_main65816cpu(uint32_t reg_pc, CLOCK mclk, const char *dis, uint16_t reg_c,
+                   uint16_t reg_x, uint16_t reg_y, uint16_t reg_sp, uint8_t reg_pbr)
 {
     switch (debug.trace_mode) {
         case DEBUG_SMALL:
@@ -320,8 +320,8 @@ void debug_main65816cpu(DWORD reg_pc, CLOCK mclk, const char *dis, WORD reg_c,
     }
 }
 
-void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
-                 BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp,
+void debug_drive(uint32_t reg_pc, CLOCK mclk, const char *dis,
+                 uint8_t reg_a, uint8_t reg_x, uint8_t reg_y, uint8_t reg_sp,
                  unsigned int driveno)
 {
     char st[DEBUG_MAXLINELEN];
