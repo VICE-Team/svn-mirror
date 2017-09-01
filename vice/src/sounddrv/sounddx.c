@@ -199,14 +199,14 @@ static LPVOID fragment_pointer;
 #endif
 
 /*  Last played sample. This will be played in underflow condition */
-static SWORD last_buffered_sample[2];
+static int16_t last_buffered_sample[2];
 
 /*  Flag: is soundcard a 16bit or 8bit card? */
 static int is16bit;
 
 #if 0
 /*  Streaming buffer */
-static SWORD                *stream_buffer;
+static int16_t                *stream_buffer;
 
 /*  Offset of first buffered sample */
 static volatile int stream_buffer_first;
@@ -456,7 +456,7 @@ static int dx_bufferspace(void)
     return free_samples;
 }
 
-static int dx_write(SWORD *pbuf, size_t nr)
+static int dx_write(int16_t *pbuf, size_t nr)
 {
     LPVOID lpvPtr1;
     DWORD dwBytes1;
@@ -525,7 +525,7 @@ static int dx_write(SWORD *pbuf, size_t nr)
 static int dx_suspend(void)
 {
     int i;
-    SWORD *p = lib_malloc(stream_buffer_size * sizeof(SWORD));
+    int16_t *p = lib_malloc(stream_buffer_size * sizeof(int16_t));
 
     if (!p) {
         return 0;

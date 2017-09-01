@@ -1648,7 +1648,7 @@ console_t *console_open(const char *id)
     return console_open_internal(id, GetActiveWindow(), NULL, 0, 0, 0, 0, 0);
 }
 
-console_t *uimon_console_open_mdi(const char *id, void *hw, void *hwndParent, void *hwMdiClient, DWORD dwStyle, int x, int y, int dx, int dy)
+console_t *uimon_console_open_mdi(const char *id, void *hw, void *hwndParent, void *hwMdiClient, uint32_t dwStyle, int x, int y, int dx, int dy)
 {
     console_t *console_log;
 

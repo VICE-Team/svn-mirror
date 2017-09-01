@@ -54,9 +54,9 @@ typedef enum {
     K_PAUSE, K_PRTSCR, K_KPDIV, K_RIGHTALT, K_BREAK, K_LEFTW95, K_RIGHTW95
 } kbd_code_t;
 
-extern BYTE _kbd_extended_key_tab[];
+extern uint8_t _kbd_extended_key_tab[];
 
-extern int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
-extern int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
+extern int kbd_handle_keydown(uint32_t virtual_key, uint32_t key_data);
+extern int kbd_handle_keyup(uint32_t virtual_key, uint32_t key_data);
 
 #endif

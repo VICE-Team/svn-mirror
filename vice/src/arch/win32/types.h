@@ -33,26 +33,10 @@
 
 #include "vice.h"
 
-#if defined(WATCOM_COMPILE) || defined(__WATCOMC__)
-#include <windef.h>
-#endif
-
 #include <inttypes.h>
 
-#if !defined(_WINDEF_) && !defined(_WINDEF_H)
+typedef uint32_t CLOCK;
 
-typedef uint8_t BYTE;
-
-typedef uint16_t WORD;
-
-typedef uint32_t DWORD;
-#endif
-
-typedef int8_t SIGNED_CHAR;
-typedef int16_t SWORD;
-typedef int32_t SDWORD;
-
-typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 

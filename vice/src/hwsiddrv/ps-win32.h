@@ -29,13 +29,13 @@
 
 #include "types.h"
 
-extern void ps_dll_out_ctr(BYTE parsid_ctrport, int chipno);
-extern void ps_io_out_ctr(BYTE parsid_ctrport, int chipno);
-extern void ps_ieee1284_out_ctr(BYTE parsid_ctrport, int chipno);
+extern void ps_dll_out_ctr(uint8_t parsid_ctrport, int chipno);
+extern void ps_io_out_ctr(uint8_t parsid_ctrport, int chipno);
+extern void ps_ieee1284_out_ctr(uint8_t parsid_ctrport, int chipno);
 
-extern BYTE ps_dll_in_ctr(int chipno);
-extern BYTE ps_io_in_ctr(int chipno);
-extern BYTE ps_ieee1284_in_ctr(int chipno);
+extern uint8_t ps_dll_in_ctr(int chipno);
+extern uint8_t ps_io_in_ctr(int chipno);
+extern uint8_t ps_ieee1284_in_ctr(int chipno);
 
 extern int ps_dll_open(void);
 extern int ps_io_open(void);
@@ -45,13 +45,13 @@ extern int ps_dll_close(void);
 extern int ps_io_close(void);
 extern int ps_ieee1284_close(void);
 
-extern BYTE ps_dll_in_data(int chipno);
-extern BYTE ps_io_in_data(int chipno);
-extern BYTE ps_ieee1284_in_data(int chipno);
+extern uint8_t ps_dll_in_data(int chipno);
+extern uint8_t ps_io_in_data(int chipno);
+extern uint8_t ps_ieee1284_in_data(int chipno);
 
-extern void ps_dll_out_data(BYTE addr, int chipno);
-extern void ps_io_out_data(BYTE addr, int chipno);
-extern void ps_ieee1284_out_data(BYTE addr, int chipno);
+extern void ps_dll_out_data(uint8_t addr, int chipno);
+extern void ps_io_out_data(uint8_t addr, int chipno);
+extern void ps_ieee1284_out_data(uint8_t addr, int chipno);
 
 extern int ps_dll_available(void);
 extern int ps_io_available(void);

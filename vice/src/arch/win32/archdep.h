@@ -142,7 +142,7 @@ extern void archdep_workaround_nop(const char *otto);
 
 extern struct console_s *uimon_console_open_mdi(const char *id, void *,
                                                 void *, void *,
-                                                DWORD dwStyle,
+                                                uint32_t dwStyle,
                                                 int x, int y, int dx, int dy );
 
 /* Default sound output mode */
