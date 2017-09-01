@@ -210,16 +210,17 @@ int archdep_expand_path(char **return_path, const char *orig_name)
  */
 const char *archdep_boot_path(void)
 {
-    /* FIXME: this code is copied from unix/archdep.c because the code below
-     * crashes with "g_path_get_dirname: assertion 'file_name != NULL' failed"
-     * when the program file is not in the PATH */
     static char *boot;
+    char *sep;
 
     if (boot == NULL) {
         boot = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
 
         /* Remove the program name.  */
-        *strrchr(boot, '/') = '\0';
+        sep = strrchr(boot, '/');
+        if (sep != NULL) {
+           *sep = '\0';
+        }
     }
 
     return boot;
