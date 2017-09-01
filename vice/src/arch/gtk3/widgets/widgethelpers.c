@@ -40,6 +40,8 @@
 #include "lib.h"
 #include "vsync.h"
 
+#include "debug_gtk3.h"
+
 #include "widgethelpers.h"
 
 
@@ -166,7 +168,7 @@ void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
     int radio_index = 0;
 
 
-    g_print("Looking for index %d\n", index);
+    debug_gtk3("Looking for index %d\n", index);
 
     if (index < 0) {
         return;
@@ -175,8 +177,7 @@ void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
     while (1) {
         radio = gtk_grid_get_child_at(GTK_GRID(grid), 0, row);
         if (radio == NULL) {
-            g_print("NOT A RADIO\n");
-            return;
+            debug_gtk3("current widget NOT a radio button\n");
         } else {
             if (GTK_IS_TOGGLE_BUTTON(radio)) {
                 /* found first toggle button */
@@ -195,4 +196,3 @@ void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
         row++;
     }
 }
-

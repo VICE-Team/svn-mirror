@@ -31,6 +31,9 @@
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
+
+#include "debug_gtk3.h"
+
 #include "widgethelpers.h"
 
 #include "refreshratewidget.h"
@@ -54,26 +57,23 @@ static ui_text_int_pair_t refresh_rates[] = {
 };
 
 
-
+/** \brief  Event handler for the radio buttons in the widget
+ *
+ * Updates the 'RefreshRate' resource
+ *
+ * \param[in]   widget      radio button triggering the event
+ * \param[in]   user_data   new refresh rate
+ */
 static void refreshrate_callback(GtkWidget *widget, gpointer user_data)
 {
     gint rate = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-#ifdef HAVE_DEBUG_GTK3UI
-        g_print("[debug-gtk3ui] %s(): got refresh rate %d\n", __func__, rate);
-#endif
+        debug_gtk3("got refresh rate %d\n", rate);
         vsync_suspend_speed_eval();
         resources_set_int("RefreshRate", rate);
     }
 }
-
-
-#if 0
-static GtkWidget *create_custom_refresh_widget(void)
-{
-}
-#endif
 
 
 /** \brief  Create 'fresh rate' widget

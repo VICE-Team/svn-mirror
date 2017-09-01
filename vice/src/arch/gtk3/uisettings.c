@@ -51,6 +51,8 @@
 #include "resources.h"
 #include "vsync.h"
 
+#include "debug_gtk3.h"
+
 #include "widgethelpers.h"
 #include "uispeed.h"
 
@@ -105,38 +107,31 @@ static GtkWidget *save_on_exit = NULL;
 
 static void on_load_clicked(GtkWidget *widget, gpointer user_data)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s() called\n", __func__);
-#endif
+    debug_gtk3("called\n");
 }
 
 
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s() called\n", __func__);
-#endif
+    debug_gtk3("called\n");
 }
 
 
 static void on_load_file_clicked(GtkWidget *widget, gpointer user_data)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s() called\n", __func__);
-#endif
+    debug_gtk3("called\n");
 }
 
 
 static void on_save_file_clicked(GtkWidget *widget, gpointer user_data)
 {
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s() called\n", __func__);
-#endif
+    debug_gtk3("called\n");
 }
 
 
 static void on_close_clicked(GtkWidget *widget, gpointer user_data)
 {
+    debug_gtk3("called\n");
     gtk_widget_destroy(settings_window);
 }
 
@@ -228,9 +223,7 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     GtkWidget *parent;
     int soe_state;      /* save-on-exit state */
 
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s() called\n", __func__);
-#endif
+    debug_gtk3("called\n");
 
 
     settings_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);

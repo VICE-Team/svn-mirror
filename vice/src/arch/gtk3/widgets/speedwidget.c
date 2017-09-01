@@ -33,6 +33,8 @@
 #include "vsync.h"
 #include "widgethelpers.h"
 
+#include "debug_gtk3.h"
+
 #include "speedwidget.h"
 
 
@@ -61,25 +63,16 @@ static void speed_callback(GtkWidget *widget, gpointer user_data)
     gint speed = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-#ifdef HAVE_DEBUG_GTK3UI
-        g_print("[debug-gtk3ui] %s(): got speed %d%%\n", __func__, speed);
-#endif
+        debug_gtk3("got speed %d%%\n", speed);
         vsync_suspend_speed_eval();
         resources_set_int("Speed", speed);
     }
 }
 
 
-#if 0
-static GtkWidget *create_custom_refresh_widget(void)
-{
-}
-#endif
-
-
-/** \brief  Create 'fresh rate' widget
+/** \brief  Create 'speed' widget
  *
- * \todo    Get current refresh rate from resources and set proper radio button
+ * \todo    Get current speed from resources and set proper radio button
  *
  * \return  GtkWidget
  */
@@ -91,9 +84,8 @@ GtkWidget *create_speed_widget(void)
 
     /* now set the proper value */
     value = resources_get_int("Speed", &value);
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s() speed = %d\n", __func__, value);
-#endif
+    debug_gtk3("speed = %d\n", value);
+
     for (index = 0; speed_rates[index].text != NULL; index++) {
         if (value == speed_rates[index].value) {
             break;
