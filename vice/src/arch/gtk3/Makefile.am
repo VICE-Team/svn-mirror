@@ -54,6 +54,7 @@ libarch_a_SOURCES = \
 	uimenu.c \
 	uimon.c \
 	uimon-fallback.c \
+	uikeyboard.c \
 	uisettings.c \
 	uispeed.c \
 	uistatusbar.c \
@@ -91,6 +92,7 @@ EXTRA_DIST = \
 	uiabout.h \
 	uiattach.h \
 	uiaccelerators.h \
+	uikeyboard.h \
 	uimenu.h \
 	uisettings.h \
 	uispeed.h \

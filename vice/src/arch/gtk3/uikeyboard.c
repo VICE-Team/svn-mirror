@@ -1,5 +1,5 @@
 /*
- * uisettings.h - GTK3 settings dialog - header
+ * uikeyboard.c - GTK3 keyboard settings central widget for the settings dialog
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,26 +24,44 @@
  */
 
 
-#ifndef VICE_UISETTINGS_H
-#define VICE_UISETTINGS_H
-
-
 #include "vice.h"
 
 #include <gtk/gtk.h>
 
+#include "lib.h"
+#include "ui.h"
+#include "resources.h"
+#include "vsync.h"
+#include "widgethelpers.h"
 
-/** \brief  Settings tree node object
- */
-typedef struct ui_settings_tree_node_s {
-    char *name;
-    GtkWidget *(*callback)(void);
-    /* child nodes */
-    struct ui_settings_tree_node_s *children;
-} ui_settings_tree_node_t;
+#include "kbdmappingwidget.h"
+#include "kbdlayoutwidget.h"
+
+#include "uikeyboard.h"
 
 
-void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data);
 
-#endif
+
+
+GtkWidget *uikeyboard_create_central_widget(void)
+{
+    GtkWidget *layout;
+    GtkWidget *mapping_widget;
+    GtkWidget *layout_widget;
+
+    layout = gtk_grid_new();
+
+    mapping_widget = create_kbdmapping_widget();
+    gtk_grid_attach(GTK_GRID(layout), mapping_widget, 0, 0, 1, 1);
+
+    layout_widget = create_kbdlayout_widget();
+
+    gtk_grid_attach(GTK_GRID(layout), layout_widget, 0, 1, 1, 1);
+
+    gtk_widget_show_all(layout);
+    return layout;
+}
+
+
+
 

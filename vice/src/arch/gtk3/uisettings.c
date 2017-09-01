@@ -46,6 +46,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "lib.h"
 #include "resources.h"
@@ -55,6 +56,7 @@
 
 #include "widgethelpers.h"
 #include "uispeed.h"
+#include "uikeyboard.h"
 
 
 #include "uisettings.h"
@@ -63,6 +65,16 @@
 #define NUM_COLUMNS 1
 
 
+static ui_settings_tree_node_t main_nodes[] = {
+    { "Speed", uispeed_create_central_widget, NULL },
+    { "Keyboard", uikeyboard_create_central_widget, NULL },
+    { "Sound", NULL, NULL },
+    { NULL, NULL, NULL }
+};
+
+
+
+static void ui_settings_set_central_widget(GtkWidget *widget);
 
 static void on_load_clicked(GtkWidget *widget, gpointer data);
 static void on_save_clicked(GtkWidget *widget, gpointer data);
@@ -70,15 +82,6 @@ static void on_load_file_clicked(GtkWidget *widget, gpointer data);
 static void on_save_file_clicked(GtkWidget *widget, gpointer data);
 static void on_close_clicked(GtkWidget *widget, gpointer data);
 
-
-
-
-#if 0
-typedef struct button_info_s {
-    const gchar *text;
-    void (*callback)(GtkWidget *widget, gpointer user_data);
-} button_info_t;
-#endif
 
 
 /** \brief  List of buttons for the 'button box' of the main settings window
@@ -104,6 +107,35 @@ static GtkWidget *settings_grid = NULL;
  */
 static GtkWidget *save_on_exit = NULL;
 
+
+
+static void on_tree_selection_changed(
+        GtkTreeSelection *selection,
+        gpointer user_data)
+{
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+    gchar *name;
+
+    if (gtk_tree_selection_get_selected(selection, &model, &iter))
+    {
+        size_t i;
+        gtk_tree_model_get(model, &iter, 0 /* col 0 */, &name, -1);
+        debug_gtk3("item '%s' clicked\n", name);
+
+        /* stupid way: find item in list */
+        for (i = 0; main_nodes[i].name != NULL; i++) {
+            if (strcmp(main_nodes[i].name, name) == 0) {
+                /* got the item */
+                if (main_nodes[i].callback != NULL) {
+                    ui_settings_set_central_widget(main_nodes[i].callback());
+                    break;
+                }
+            }
+        }
+        g_free(name);
+    }
+}
 
 static void on_load_clicked(GtkWidget *widget, gpointer user_data)
 {
@@ -165,6 +197,7 @@ static GtkWidget *create_treeview(void)
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
     GtkTreeIter iter;   /* parent iter */
+    size_t i;
 #if 0
     GtkTreeIter child;  /* child iter */
 #endif
@@ -173,12 +206,15 @@ static GtkWidget *create_treeview(void)
     store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING);
 
     /* add root node */
-    gtk_tree_store_append(store, &iter, NULL);
+    /*    gtk_tree_store_append(store, &iter, NULL); */
 
-    gtk_tree_store_set(
-            store, &iter,
-            0, "Speed",
-            -1);
+    for (i = 0; main_nodes[i].name != NULL; i++) {
+        gtk_tree_store_append(store, &iter, NULL);
+        gtk_tree_store_set(
+                store, &iter,
+                0, main_nodes[i].name,
+                -1);
+    }
 
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 
@@ -223,6 +259,9 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     GtkWidget *parent;
     int soe_state;      /* save-on-exit state */
 
+    GtkTreeSelection *selection;
+
+
     debug_gtk3("called\n");
 
 
@@ -246,8 +285,15 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     settings_grid = gtk_grid_new();
     tree = create_treeview();
+
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    g_signal_connect(G_OBJECT(selection), "changed",
+            G_CALLBACK(on_tree_selection_changed), NULL);
+
     gtk_grid_attach(GTK_GRID(settings_grid), tree, 0, 0, 1, 1);
 
+    /* TODO: remember the previously selected setting/widget and set it here */
     ui_settings_set_central_widget(uispeed_create_central_widget());
 
     gtk_grid_attach(GTK_GRID(settings_grid),

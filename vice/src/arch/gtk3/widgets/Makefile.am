@@ -17,9 +17,13 @@ noinst_LIBRARIES = libwidgets.a
 libwidgets_a_SOURCES = \
 	widgethelpers.c \
 	refreshratewidget.c \
-	speedwidget.c
+	speedwidget.c \
+	kbdmappingwidget.c \
+	kbdlayoutwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
 	refreshratewidget.h \
-	speedwidget.h
+	speedwidget.h \
+	kbdmappingwidget.h \
+	kbdlayoutwidget.h

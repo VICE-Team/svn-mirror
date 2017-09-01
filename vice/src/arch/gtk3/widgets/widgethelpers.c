@@ -177,7 +177,8 @@ void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
     while (1) {
         radio = gtk_grid_get_child_at(GTK_GRID(grid), 0, row);
         if (radio == NULL) {
-            debug_gtk3("current widget NOT a radio button\n");
+            debug_gtk3("not a widget, exiting\n");
+            return;
         } else {
             if (GTK_IS_TOGGLE_BUTTON(radio)) {
                 /* found first toggle button */

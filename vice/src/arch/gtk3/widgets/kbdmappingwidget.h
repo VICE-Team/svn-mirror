@@ -1,5 +1,5 @@
 /*
- * uisettings.h - GTK3 settings dialog - header
+ * kbdmappingwidget.h - GTK3 keyboard mapping widget for the settings dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,27 +23,17 @@
  *  02111-1307  USA.
  */
 
-
-#ifndef VICE_UISETTINGS_H
-#define VICE_UISETTINGS_H
-
+#ifndef HAVE_KBDMAPPINGWIDGET_H
+#define HAVE_KBDMAPPINGWIDGET_H
 
 #include "vice.h"
 
 #include <gtk/gtk.h>
 
+GtkWidget *create_kbdmapping_widget(void);
 
-/** \brief  Settings tree node object
- */
-typedef struct ui_settings_tree_node_s {
-    char *name;
-    GtkWidget *(*callback)(void);
-    /* child nodes */
-    struct ui_settings_tree_node_s *children;
-} ui_settings_tree_node_t;
-
-
-void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data);
 
 #endif
+
+
 
