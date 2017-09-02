@@ -369,7 +369,7 @@ static int pcxdrv_open_memmap(const char *filename, int x_size, int y_size)
     return 0;
 }
 
-static int pcxdrv_save_memmap(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
+static int pcxdrv_save_memmap(const char *filename, int x_size, int y_size, uint8_t *gfx, uint8_t *palette)
 {
     int line;
 
