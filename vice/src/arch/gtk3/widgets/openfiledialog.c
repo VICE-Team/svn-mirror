@@ -1,4 +1,6 @@
-/*
+/** \file   src/arch/gtk3/widgets/fileopendialog.c
+ * \brief   Wrapper around the GtkFileChooser dialog for simple cases
+ *
  * fileopendialog.c - GTK3 file open dialog
  *
  * Written by
@@ -32,9 +34,20 @@
 
 #include "openfiledialog.h"
 
+
+/** \brief  The callback set through ui_file_dialog_create()
+ *
+ * The GtkWidget* is probably not needed
+ */
 static void (*user_callback)(GtkWidget *widget, void *data);
 
 
+
+/** \brief  Handler for the "response" event of the GtkFileChooserDialog
+ *
+ * \param[in]   widget      file chooser widget
+ * \param[in]   user_data   response ID
+ */
 static void response_callback(GtkWidget *widget, gpointer user_data)
 {
     int response_id = GPOINTER_TO_INT(user_data);
@@ -50,7 +63,14 @@ static void response_callback(GtkWidget *widget, gpointer user_data)
 }
 
 
-
+/** \brief  Create an 'open file' dialog
+ *
+ * \param[in]   widget      parent widget
+ * \param[in]   title       dialog title
+ * \param[in]   filter_desc file filter name
+ * \param[in]   filter_list list of file type filters, NULL-terminated
+ * \param[in]   callback    callback accepting filename (or NULL on cancel)
+ */
 void ui_open_file_dialog_create(
         GtkWidget *widget,
         const char *title,
@@ -90,7 +110,3 @@ void ui_open_file_dialog_create(
     gtk_widget_show(dialog);
     g_print("FILE DIALOG SHOWN\n");
 }
-
-
-
-

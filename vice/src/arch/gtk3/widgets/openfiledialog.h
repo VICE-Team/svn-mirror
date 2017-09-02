@@ -1,4 +1,5 @@
-/*
+/** \file   src/arch/gtk3/widgets/openfiledialog.h
+ *
  * fileopendialog.h - GTK3 file open dialog - header
  *
  * Written by
@@ -40,8 +41,4 @@ void ui_open_file_dialog_create(
         const char **filter_list,
         void (*callback)(GtkWidget *widget, void *));
 
-
-
 #endif
-
-
