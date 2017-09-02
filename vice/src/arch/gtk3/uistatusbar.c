@@ -47,7 +47,7 @@
  * on. */
 static struct ui_sb_state_s {
     /* TODO: The PET can have 2 tape drives */
-    int tape_status, tape_motor_status, tape_counter;
+    int tape_control, tape_motor_status, tape_counter;
     /* TODO: does not cover two-unit drives */
     int drive_led_types[DRIVE_NUM];
     unsigned int current_drive_leds[DRIVE_NUM][2];
@@ -78,7 +78,7 @@ void ui_statusbar_init(void)
         }
     }
 
-    sb_state.tape_status = 0;
+    sb_state.tape_control = 0;
     sb_state.tape_motor_status = 0;
     sb_state.tape_counter = 0;
     for (i = 0; i < DRIVE_NUM; ++i) {
@@ -112,14 +112,71 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
         y = (height - width) / 2.0;
         inset = width / 10.0;
     }
-    
-    /* TODO: This is a stopgap render of no-motor and stopped */
-    cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+
+    if (sb_state.tape_motor_status) {
+        cairo_set_source_rgb(cr, 0, 0.75, 0);
+    } else {
+        cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+    }
     cairo_rectangle(cr, x + inset, y + inset, inset * 8, inset * 8);
     cairo_fill(cr);
+
     cairo_set_source_rgb(cr, 0, 0, 0);
-    cairo_rectangle(cr, x + 2.5*inset, y + 2.5*inset, inset * 5, inset * 5);
-    cairo_fill(cr);
+    switch (sb_state.tape_control) {
+    case DATASETTE_CONTROL_STOP:
+        cairo_rectangle(cr, x + 2.5*inset, y + 2.5*inset, inset * 5, inset * 5);
+        cairo_fill(cr);
+        break;
+    case DATASETTE_CONTROL_START:
+        cairo_move_to(cr, x + 3*inset, y + 2.5*inset);
+        cairo_line_to(cr, x + 3*inset, y + 7.5*inset);
+        cairo_line_to(cr, x + 7*inset, y + 5*inset);
+        cairo_close_path(cr);
+        cairo_fill(cr);
+        break;
+    case DATASETTE_CONTROL_FORWARD:
+        cairo_move_to(cr, x + 2.5*inset, y + 2.5*inset);
+        cairo_line_to(cr, x + 2.5*inset, y + 7.5*inset);
+        cairo_line_to(cr, x + 5*inset, y + 5*inset);
+        cairo_close_path(cr);
+        cairo_fill(cr);
+        cairo_move_to(cr, x + 5*inset, y + 2.5*inset);
+        cairo_line_to(cr, x + 5*inset, y + 7.5*inset);
+        cairo_line_to(cr, x + 7.5*inset, y + 5*inset);
+        cairo_close_path(cr);
+        cairo_fill(cr);
+        break;
+    case DATASETTE_CONTROL_REWIND:
+        cairo_move_to(cr, x + 5*inset, y + 2.5*inset);
+        cairo_line_to(cr, x + 5*inset, y + 7.5*inset);
+        cairo_line_to(cr, x + 2.5*inset, y + 5*inset);
+        cairo_close_path(cr);
+        cairo_fill(cr);
+        cairo_move_to(cr, x + 7.5*inset, y + 2.5*inset);
+        cairo_line_to(cr, x + 7.5*inset, y + 7.5*inset);
+        cairo_line_to(cr, x + 5*inset, y + 5*inset);
+        cairo_close_path(cr);
+        cairo_fill(cr);
+        break;
+    case DATASETTE_CONTROL_RECORD:
+        cairo_new_sub_path(cr);
+        cairo_arc(cr, x + 5*inset, y + 5*inset, 2.5*inset, 0, 2 * G_PI);
+        cairo_close_path(cr);
+        cairo_fill(cr);
+        cairo_set_source_rgb(cr, 1, 0, 0);
+        cairo_new_sub_path(cr);
+        cairo_arc(cr, x + 5*inset, y + 5*inset, 2*inset, 0, 2 * G_PI);
+        cairo_close_path(cr);
+        cairo_fill(cr);
+        break;
+    case DATASETTE_CONTROL_RESET:
+    case DATASETTE_CONTROL_RESET_COUNTER:
+    default:
+        /* Things that aren't really controls look like we stop it. */
+        /* TODO: Should RESET_COUNTER be wiped out by the time it gets here? */
+        cairo_rectangle(cr, x + 2.5*inset, y + 2.5*inset, inset * 5, inset * 5);
+        cairo_fill(cr);
+    }
 
     return FALSE;
 }
@@ -434,7 +491,18 @@ void ui_display_joyport(uint8_t *joyport)
 
 void ui_display_tape_control_status(int control)
 {
-    printf("TAPE CONTROL: %d\n", control);
+    if (control != sb_state.tape_control) {
+        int i;
+        sb_state.tape_control = control;
+        for (i = 0; i < MAX_STATUS_BARS; ++i) {
+            if (allocated_bars[i].tape) {
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 2, 0);
+                if (widget) {
+                    gtk_widget_queue_draw(widget);
+                }
+            }
+        }
+    }
 }
 
 void ui_display_tape_counter(int counter)
@@ -458,12 +526,24 @@ void ui_display_tape_counter(int counter)
 
 void ui_display_tape_motor_status(int motor)
 {
-    printf("TAPE MOTOR STATUS: %d\n", motor);
+    if (motor != sb_state.tape_motor_status) {
+        int i;
+        sb_state.tape_motor_status = motor;
+        for (i = 0; i < MAX_STATUS_BARS; ++i) {
+            if (allocated_bars[i].tape) {
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 2, 0);
+                if (widget) {
+                    gtk_widget_queue_draw(widget);
+                }
+            }
+        }
+    }
 }
 
 void ui_set_tape_status(int tape_status)
 {
-    printf("TAPE DRIVE STATUS: %d\n", tape_status);
+    /* TODO: What does this even mean? The other GUIs don't represent it */
+    /* printf("TAPE DRIVE STATUS: %d\n", tape_status); */
 }
 
 void ui_display_tape_current_image(const char *image)
