@@ -32,6 +32,7 @@
 
 #include "not_implemented.h"
 
+#include "datasette.h"
 #include "drive.h"
 #include "joyport.h"
 #include "lib.h"
@@ -40,21 +41,13 @@
 
 #include "uistatusbar.h"
 
-/*
- * Counters for warnings issued, the below counters keep track of warnings
- * that get issued many times due to vsync and other events.
- *
- * These vars are used in NOT_IMPLEMENTED_WARN_X_TIMES() macro calls.
- */
-static int tape_status_msgs = 0;
-static int tape_counter_msgs = 0;
-static int tape_motor_msgs = 0;
-
 #define MAX_STATUS_BARS 3
 
 /* Global data that custom status bar widgets base their rendering
  * on. */
 static struct ui_sb_state_s {
+    /* TODO: The PET can have 2 tape drives */
+    int tape_status, tape_motor_status, tape_counter;
     /* TODO: does not cover two-unit drives */
     int drive_led_types[DRIVE_NUM];
     unsigned int current_drive_leds[DRIVE_NUM][2];
@@ -64,7 +57,7 @@ static struct ui_sb_state_s {
 typedef struct ui_statusbar_s {
     GtkWidget *bar;
     GtkLabel *msg;
-    /* TODO: Tape */
+    GtkWidget *tape;
     GtkWidget *joysticks;
     GtkWidget *drives[DRIVE_NUM];
 } ui_statusbar_t;
@@ -78,12 +71,16 @@ void ui_statusbar_init(void)
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         allocated_bars[i].bar = NULL;
         allocated_bars[i].msg = NULL;
+        allocated_bars[i].tape = NULL;
         allocated_bars[i].joysticks = NULL;
         for (j = 0; j < DRIVE_NUM; ++j) {
             allocated_bars[i].drives[j] = NULL;
         }
     }
 
+    sb_state.tape_status = 0;
+    sb_state.tape_motor_status = 0;
+    sb_state.tape_counter = 0;
     for (i = 0; i < DRIVE_NUM; ++i) {
         sb_state.drive_led_types[i] = 0;
         sb_state.current_drive_leds[i][0] = 0;
@@ -98,6 +95,33 @@ void ui_statusbar_init(void)
 void ui_statusbar_shutdown(void)
 {
     /* Any universal resources we allocate get cleaned up here */
+}
+
+static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
+{
+    int width, height;
+    double x, y, inset;
+    width = gtk_widget_get_allocated_width(widget);
+    height = gtk_widget_get_allocated_height(widget);
+    if (width > height) {
+        x = (width - height) / 2.0;
+        y = 0.0;
+        inset = height / 10.0;
+    } else {
+        x = 0.0;
+        y = (height - width) / 2.0;
+        inset = width / 10.0;
+    }
+    
+    /* TODO: This is a stopgap render of no-motor and stopped */
+    cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+    cairo_rectangle(cr, x + inset, y + inset, inset * 8, inset * 8);
+    cairo_fill(cr);
+    cairo_set_source_rgb(cr, 0, 0, 0);
+    cairo_rectangle(cr, x + 2.5*inset, y + 2.5*inset, inset * 5, inset * 5);
+    cairo_fill(cr);
+
+    return FALSE;
 }
 
 static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
@@ -216,12 +240,38 @@ static GtkWidget *ui_drive_widget_create(int unit)
     return grid;
 }
 
+static GtkWidget *ui_tape_widget_create(void)
+{
+    GtkWidget *grid, *header, *counter, *state;
+    int *drive_index;
+
+    grid = gtk_grid_new();
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_hexpand(grid, FALSE);
+    header = gtk_label_new(_("Tape:"));
+    gtk_widget_set_hexpand(header, TRUE);
+    gtk_label_set_xalign(GTK_LABEL(header), 0.0);
+
+    counter = gtk_label_new("000");
+    state = gtk_drawing_area_new();
+    gtk_widget_set_size_request(state, 20, 20);
+    gtk_container_add(GTK_CONTAINER(grid), header);
+    gtk_container_add(GTK_CONTAINER(grid), counter);
+    gtk_container_add(GTK_CONTAINER(grid), state);
+    drive_index = lib_malloc(sizeof(int));
+    *drive_index = 0;
+    g_signal_connect(state, "destroy", G_CALLBACK(destroy_ancillary_index_cb), drive_index);
+    g_signal_connect(state, "draw", G_CALLBACK(draw_tape_icon_cb), drive_index);
+    return grid;
+}
+
 static GtkWidget *ui_joystick_widget_create(void)
 {
     GtkWidget *grid, *label;
     int i;
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_hexpand(grid, FALSE);
     label = gtk_label_new(_("Joysticks:"));
     gtk_label_set_xalign(GTK_LABEL(label), 0.0);
     gtk_widget_set_hexpand(label, TRUE);
@@ -263,7 +313,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 
 GtkWidget *ui_statusbar_create(void)
 {
-    GtkWidget *sb, *msg, *joysticks;
+    GtkWidget *sb, *msg, *tape, *joysticks;
     int i, j;
 
     TEMPORARY_IMPLEMENTATION();
@@ -293,8 +343,10 @@ GtkWidget *ui_statusbar_create(void)
     allocated_bars[i].msg = GTK_LABEL(msg);
     gtk_grid_attach(GTK_GRID(sb), msg, 0, 0, 1, 2);
     /* Second column: Tape and joysticks */
-    /* TODO: tape */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), 1, 0, 1, 2);
+    tape = ui_tape_widget_create();
+    gtk_grid_attach(GTK_GRID(sb), tape, 2, 0, 1, 1);
+    allocated_bars[i].tape = tape;
     joysticks = ui_joystick_widget_create();
     gtk_grid_attach(GTK_GRID(sb), joysticks, 2, 1, 1, 1);
     allocated_bars[i].joysticks = joysticks;
@@ -382,27 +434,44 @@ void ui_display_joyport(uint8_t *joyport)
 
 void ui_display_tape_control_status(int control)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    printf("TAPE CONTROL: %d\n", control);
 }
 
 void ui_display_tape_counter(int counter)
 {
-    NOT_IMPLEMENTED_WARN_X_TIMES(tape_counter_msgs, 3);
+    if (counter != sb_state.tape_counter) {
+        int i;
+        char buf[8];
+        snprintf(buf, 8, "%03d", counter%1000);
+        buf[7] = 0;
+        sb_state.tape_counter = counter;
+        for (i = 0; i < MAX_STATUS_BARS; ++i) {
+            if (allocated_bars[i].tape) {
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 1, 0);
+                if (widget) {
+                    gtk_label_set_text(GTK_LABEL(widget), buf);
+                }
+            }
+        }
+    }
 }
 
 void ui_display_tape_motor_status(int motor)
 {
-    NOT_IMPLEMENTED_WARN_X_TIMES(tape_motor_msgs, 3);
+    printf("TAPE MOTOR STATUS: %d\n", motor);
 }
 
 void ui_set_tape_status(int tape_status)
 {
-    NOT_IMPLEMENTED_WARN_X_TIMES(tape_status_msgs, 3);
+    printf("TAPE DRIVE STATUS: %d\n", tape_status);
 }
 
 void ui_display_tape_current_image(const char *image)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    char buf[256];
+    snprintf(buf, 256, _("Attached %s to tape unit"), image);
+    buf[255]=0;
+    ui_display_statustext(buf, 1);
 }
 
 /* TODO: status display for DRIVE emulation
