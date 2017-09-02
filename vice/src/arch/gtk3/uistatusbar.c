@@ -619,7 +619,7 @@ void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar) {
             GtkWidget *drive, *led;
-            drive = allocated_bars[i].drives[i];
+            drive = allocated_bars[i].drives[drive_number];
             led = gtk_grid_get_child_at(GTK_GRID(drive), 2, 0);
             if (led) {
                 gtk_widget_queue_draw(led);
@@ -632,15 +632,15 @@ void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
 {
-    int i, unit = drive_base-8;
-    if (unit < 0 || unit > DRIVE_NUM-1) {
+    int i;
+    if (drive_number > DRIVE_NUM-1) {
         /* TODO: Fatal error? */
         return;
     }
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar) {
             GtkWidget *drive, *track;
-            drive = allocated_bars[i].drives[i];
+            drive = allocated_bars[i].drives[drive_number];
             track = gtk_grid_get_child_at(GTK_GRID(drive), 1, 0);
             if (track) {
                 char track_str[16];
