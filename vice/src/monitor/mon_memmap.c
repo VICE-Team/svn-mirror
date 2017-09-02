@@ -67,10 +67,10 @@ uint8_t memmap_state = 0;
 
 /* Types */
 
-#define MEMMAP_ELEM WORD
+#define MEMMAP_ELEM uint16_t
 
 struct cpuhistory_s {
-   WORD addr;
+   uint16_t addr;
    uint8_t op;
    uint8_t p1;
    uint8_t p2;
@@ -78,7 +78,7 @@ struct cpuhistory_s {
    uint8_t reg_x;
    uint8_t reg_y;
    uint8_t reg_sp;
-   WORD reg_st;
+   uint16_t reg_st;
 };
 typedef struct cpuhistory_s cpuhistory_t;
 
@@ -116,7 +116,7 @@ void mon_cpuhistory(int count)
 {
     uint8_t op, p1, p2, p3 = 0;
     MEMSPACE mem;
-    WORD loc, addr;
+    uint16_t loc, addr;
     int hex_mode = 1;
     const char *dis_inst;
     unsigned opc_size;

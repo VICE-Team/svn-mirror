@@ -124,7 +124,7 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 static void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     monitor_memmap_store(addr, MEMMAP_RAM_W);
-    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (uint8_t)(value));
+    (*_mem_write_tab_ptr[(addr) >> 8])((uint16_t)(addr), (uint8_t)(value));
 }
 
 static void memmap_mark_read(unsigned int addr)
@@ -136,7 +136,7 @@ static void memmap_mark_read(unsigned int addr)
 static uint8_t memmap_mem_read(unsigned int addr)
 {
     memmap_mark_read(addr);
-    return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
+    return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
 }
 #endif
 
