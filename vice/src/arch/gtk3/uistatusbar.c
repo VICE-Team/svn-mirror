@@ -49,6 +49,7 @@ static struct ui_sb_state_s {
     /* TODO: The PET can have 2 tape drives */
     int tape_control, tape_motor_status, tape_counter;
     /* TODO: does not cover two-unit drives */
+    int drives_enabled;
     int drive_led_types[DRIVE_NUM];
     unsigned int current_drive_leds[DRIVE_NUM][2];
     int current_joyports[JOYPORT_MAX_PORTS];
@@ -77,10 +78,11 @@ void ui_statusbar_init(void)
             allocated_bars[i].drives[j] = NULL;
         }
     }
-
+    
     sb_state.tape_control = 0;
     sb_state.tape_motor_status = 0;
     sb_state.tape_counter = 0;
+    sb_state.drives_enabled = 0;
     for (i = 0; i < DRIVE_NUM; ++i) {
         sb_state.drive_led_types[i] = 0;
         sb_state.current_drive_leds[i][0] = 0;
@@ -350,19 +352,62 @@ static GtkWidget *ui_joystick_widget_create(void)
     return grid;
 }
 
+static void layout_statusbar_drives(int bar_index)
+{
+    int i, state;
+    int enabled_drive_index = 0;
+    GtkWidget *bar = allocated_bars[bar_index].bar;
+    if (!bar) {
+        return;
+    }
+    /* Delete all the drives and dividers that may exist. WARNING:
+     * This code assumes that the drive widgets are the rightmost
+     * elements of the status bar. */
+    for (i = 0; i < ((DRIVE_NUM + 1) / 2) * 2; ++i) {
+        /* This shifts widgets left, so we just keep deleting the same
+         * column */
+        gtk_grid_remove_column(GTK_GRID(bar), 3);
+    }
+    state = sb_state.drives_enabled;
+    for (i = 0; i < DRIVE_NUM; ++i) {
+        if (state & 1) {
+            GtkWidget *drive = allocated_bars[bar_index].drives[i];
+            int row = enabled_drive_index % 2;
+            int column = (enabled_drive_index / 2) * 2 + 4;
+            if (row == 0) {
+                gtk_grid_attach(GTK_GRID(bar), gtk_separator_new(GTK_ORIENTATION_VERTICAL), column-1, 0, 1, 2);
+            }
+            gtk_grid_attach(GTK_GRID(bar), drive, column, row, 1, 1);
+            ++enabled_drive_index;
+        }
+        state >>= 1;
+    }
+}    
+
 static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 {
     int i, j;
 
-    /* TODO: Unreference all widgets to allow collection. This work
-     *       must be done in concert with the changes to
-     *       ui_statusbar_create(). */
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == sb) {
             allocated_bars[i].bar = NULL;
-            allocated_bars[i].msg = NULL;
+            if (allocated_bars[i].msg) {
+                g_object_unref(G_OBJECT(allocated_bars[i].msg));
+                allocated_bars[i].msg = NULL;
+            }
+            if (allocated_bars[i].msg) {
+                g_object_unref(G_OBJECT(allocated_bars[i].tape));
+                allocated_bars[i].tape = NULL;
+            }
+            if (allocated_bars[i].msg) {
+                g_object_unref(G_OBJECT(allocated_bars[i].joysticks));
+                allocated_bars[i].joysticks = NULL;
+            }
             for (j = 0; j < DRIVE_NUM; ++j) {
-                allocated_bars[i].drives[j] = NULL;
+                if (allocated_bars[i].drives[j]) {
+                    g_object_unref(G_OBJECT(allocated_bars[i].drives[j]));
+                    allocated_bars[i].drives[j] = NULL;
+                }
             }
         }
     }
@@ -372,8 +417,6 @@ GtkWidget *ui_statusbar_create(void)
 {
     GtkWidget *sb, *msg, *tape, *joysticks;
     int i, j;
-
-    TEMPORARY_IMPLEMENTATION();
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].bar == NULL) {
@@ -386,13 +429,16 @@ GtkWidget *ui_statusbar_create(void)
         return NULL;
     }
 
-    /* TODO: Create all elements independently and keep them
-     *       referenced by this code, even when not part of any
-     *       immediate display. Procedurally lay out all active
-     *       devices based on system status. */
+    /* While the status bar itself is returned floating, we sink all
+     * of its information-bearing subwidgets. This is so that we can
+     * remove or add them to the status bar as the configuration
+     * demands, while ensuring they remain alive. They receive an
+     * extra dereference in ui_statusbar_destroy() so nothing should
+     * leak. */
     sb = gtk_grid_new();
     /* First column: messages */
     msg = gtk_label_new(NULL);
+    g_object_ref(G_OBJECT(msg));
     gtk_label_set_xalign(GTK_LABEL(msg), 0.0);
     gtk_widget_set_hexpand(msg, TRUE);
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
@@ -402,23 +448,24 @@ GtkWidget *ui_statusbar_create(void)
     /* Second column: Tape and joysticks */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), 1, 0, 1, 2);
     tape = ui_tape_widget_create();
+    g_object_ref(G_OBJECT(tape));
     gtk_grid_attach(GTK_GRID(sb), tape, 2, 0, 1, 1);
     allocated_bars[i].tape = tape;
     joysticks = ui_joystick_widget_create();
+    g_object_ref(joysticks);
     gtk_grid_attach(GTK_GRID(sb), joysticks, 2, 1, 1, 1);
     allocated_bars[i].joysticks = joysticks;
-    /* Third column on: Drives */
-    /* TODO: Only the ones that exist! */
+    /* Third column on: Drives. */
     for (j = 0; j < DRIVE_NUM; ++j) {
         GtkWidget *drive = ui_drive_widget_create(j);
-        int row = j % 2;
-        int column = (j / 2) * 2 + 4;
-        if (row == 0) {
-            gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), column-1, 0, 1, 2);
-        }
-        gtk_grid_attach(GTK_GRID(sb), drive, column, row, 1, 1);
+        g_object_ref(G_OBJECT(drive));
         allocated_bars[i].drives[j] = drive;
     }
+    /* WARNING: The current implementation of ui_enable_drive_status()
+     * relies on the fact that the drives are the last elements of the
+     * statusbar display. If more widgets are added past this point,
+     * that function will need to change as well. */
+    layout_statusbar_drives(i);
 
     return sb;
 }
@@ -607,17 +654,31 @@ void ui_display_drive_track(unsigned int drive_number,
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
-    int i;
+    int i, enabled;
 
+    /* Update the drive LEDs first, unconditionally. If the drive is
+     * *actually on* while this is called, the UI will not reflect the
+     * LED type change until the next time the led's values are
+     * updated. This should not happen under normal circumstances. */
+    enabled = state;
     for (i = 0; i < DRIVE_NUM; ++i) {
-        if (state & 1) {
+        if (enabled & 1) {
             sb_state.drive_led_types[i] = drive_led_color[i];
             sb_state.current_drive_leds[i][0] = 0;
             sb_state.current_drive_leds[i][1] = 0;
         }
-        state >>= 1;
+        enabled >>= 1;
     }
-    TEMPORARY_IMPLEMENTATION();
+
+    /* Now, if necessary, update the status bar layouts. We won't need
+     * to do this if the only change was the kind of drives hooked up,
+     * instead of the number */
+    if (state != sb_state.drives_enabled) {
+        sb_state.drives_enabled = state;
+        for (i = 0; i < MAX_STATUS_BARS; ++i) {
+            layout_statusbar_drives(i);
+        }
+    }
 }
 
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
