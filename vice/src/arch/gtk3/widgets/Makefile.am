@@ -19,11 +19,14 @@ libwidgets_a_SOURCES = \
 	refreshratewidget.c \
 	speedwidget.c \
 	kbdmappingwidget.c \
-	kbdlayoutwidget.c
+	kbdlayoutwidget.c \
+	openfiledialog.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
 	refreshratewidget.h \
 	speedwidget.h \
 	kbdmappingwidget.h \
-	kbdlayoutwidget.h
+	kbdlayoutwidget.h \
+	openfiledialog.h
+

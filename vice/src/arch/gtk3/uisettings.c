@@ -266,7 +266,7 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 
 
     settings_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_modal(GTK_WINDOW(settings_window), TRUE);
+/*    gtk_window_set_modal(GTK_WINDOW(settings_window), TRUE);*/
     gtk_window_set_title(GTK_WINDOW(settings_window), "VICE settings");
 
 
@@ -309,6 +309,8 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_widget_show(settings_grid);
     gtk_widget_show(tree);
 
+    gtk_widget_set_size_request(tree, 200, 500);
+    gtk_widget_set_size_request(settings_grid, 600, 550);
 
     gtk_container_add(GTK_CONTAINER(settings_window), settings_grid);
     gtk_widget_show(settings_window);

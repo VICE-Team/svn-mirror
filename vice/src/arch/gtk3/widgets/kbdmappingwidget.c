@@ -33,11 +33,16 @@
 #include "resources.h"
 #include "vsync.h"
 #include "widgethelpers.h"
+#include "openfiledialog.h"
 
 #include "debug_gtk3.h"
 
 #include "kbdmappingwidget.h"
 
+
+/** \brief  GtkGrid layout for the widget
+ */
+static GtkWidget *layout = NULL;
 
 
 /** \brief  Keyboard mapping types
@@ -51,6 +56,47 @@ static ui_text_int_pair_t mappings[] = {
 };
 
 
+/** \brief  Load user symbolic keymap file
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   user_data   filename returned by 'open file' dialog
+ */
+static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
+{
+    char *filename = user_data;
+
+    debug_gtk3("got file \"%s\"\n", filename);
+    if (filename != NULL) {
+        resources_set_string("KeymapSymFile", filename);
+        g_free(filename);
+        resources_set_int("KeymapIndex", 2);
+        /* set proper radio button */
+        uihelpers_set_radio_button_grid_by_index(layout, 2);
+
+    }
+}
+
+
+/** \brief  Load user positional keymap file
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   user_data   filename returned by 'open file' dialog
+ */
+static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
+{
+    char *filename = user_data;
+
+    debug_gtk3("got file \"%s\"\n", filename);
+    if (filename != NULL) {
+        resources_set_string("KeymapPosFile", filename);
+        g_free(filename);
+        resources_set_int("KeymapIndex", 3);
+        /* set proper radio button */
+        uihelpers_set_radio_button_grid_by_index(layout, 3);
+    }
+}
+
+
 /** \brief  Temporary implemention: display message and exit
  *
  * This should be a 'open file' dialog, but since I'm working on a helper
@@ -58,19 +104,31 @@ static ui_text_int_pair_t mappings[] = {
  *
  * \param[in]   title   open file dialog title
  */
-static char *get_file_dialog(const char *title)
+static void get_sym_file_dialog(GtkWidget *widget, const char *title)
 {
-    GtkWidget *dialog;
+    const char *filters[] = { "*.vkm", NULL };
 
-    dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
-            GTK_BUTTONS_OK,
-            "Sorry, '%s' not implemented yet", title);
-    gtk_dialog_run(GTK_DIALOG(dialog));
-    gtk_widget_destroy(dialog);
-    return NULL;
+    ui_open_file_dialog_create(widget, title, "Keymaps", filters, open_sym_file_callback);
 }
 
 
+/** \brief  Open User positional file
+ *
+ * \param[in]   title   open file dialog title
+ */
+static void get_pos_file_dialog(GtkWidget *widget, const char *title)
+{
+    const char *filters[] = { "*.vkm", NULL };
+
+    ui_open_file_dialog_create(widget, title, "Keymaps", filters, open_pos_file_callback);
+}
+
+
+/** \brief  Event handler for changing keymapping
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   user_data   value for 'KeymapIndex' resource
+ */
 static void on_mapping_changed(GtkWidget *widget, gpointer user_data)
 {
     int index = GPOINTER_TO_INT(user_data);
@@ -80,22 +138,30 @@ static void on_mapping_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Event handler for button 'Load symbolic keymap'
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   user_data   data for event (unused)
+ */
 static void on_button_symbolic_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("clicked\n");
 
-    get_file_dialog("Select symbolic keymap");
+    get_sym_file_dialog(widget, "Select symbolic keymap");
 }
 
 
+/** \brief  Event handler for button 'Load positional keymap'
+*
+* \param[in]   widget      widget triggering the event
+* \param[in]   user_data   data for event (unused)
+*/
 static void on_button_positional_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("clicked\n");
 
-    get_file_dialog("Select positional keymap");
+    get_pos_file_dialog(widget, "Select positional keymap");
 }
-
-
 
 
 /** \brief  Create a keyboard mapping selection widget
@@ -107,7 +173,6 @@ static void on_button_positional_clicked(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *create_kbdmapping_widget(void)
 {
-    GtkWidget *layout;
     GtkWidget *btn_sym;
     GtkWidget *btn_pos;
     int index = 0;
@@ -138,5 +203,3 @@ GtkWidget *create_kbdmapping_widget(void)
     gtk_widget_show_all(layout);
     return layout;
 }
-
-

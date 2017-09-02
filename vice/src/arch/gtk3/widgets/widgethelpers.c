@@ -138,6 +138,13 @@ GtkWidget *uihelpers_create_int_radiogroup_with_label(
 }
 
 
+/** \brief  Create a GtkButtonBox
+ *
+ * \param[in]   buttons     list of (title, callback) tuples, NULL-terminated
+ * \param[in]   orientation orientation of the box (\see GtkOrientation)
+ *
+ * \return  GtkButtonBox
+ */
 GtkWidget *uihelpers_create_button_box(
         ui_button_t *buttons,
         GtkOrientation orientation)
@@ -161,6 +168,17 @@ GtkWidget *uihelpers_create_button_box(
 }
 
 
+/** \brief  Set a radio button to active in a GktGrid
+ *
+ * This function only checks for radio buttons in the first row of the \a grid,
+ * so it works fine with widgets created through
+ * uihelpers_uihelpers_create_int_radiogroup_with_label(), but not much else.
+ * So it might need some refactoring
+ *
+ * \param[in]   grid    GtkGrid containing radio buttons
+ * \param[in[   index   index of the radio button (the actual index of the
+ *                      radio button, other widgets are skipped)
+ */
 void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
 {
     GtkWidget *radio;
@@ -174,26 +192,16 @@ void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
         return;
     }
 
-    while (1) {
+    do {
         radio = gtk_grid_get_child_at(GTK_GRID(grid), 0, row);
-        if (radio == NULL) {
-            debug_gtk3("not a widget, exiting\n");
-            return;
-        } else {
-            if (GTK_IS_TOGGLE_BUTTON(radio)) {
-                /* found first toggle button */
-                radio_index = row;
-                while (radio != NULL && radio_index < index) {
-                    if (radio_index == index) {
-                        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-                        return;
-                    }
-                    row++;
-                    radio_index++;
-                    radio = gtk_grid_get_child_at(GTK_GRID(grid), 0, row);
-                }
+        if (GTK_IS_TOGGLE_BUTTON(radio)) {
+            debug_gtk3("got toggle button at row %d\n", row);
+            if (radio_index == index) {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                return;
             }
+            radio_index++;
         }
         row++;
-    }
+    } while (radio != NULL);
 }
