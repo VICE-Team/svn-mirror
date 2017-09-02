@@ -475,7 +475,8 @@ static snapfiles files[10];
 static int lastindex;
 static int snapcounter;
 
-static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
+static void save_quicksnapshot_trap(uint16_t unused_addr, void 
+*unused_data)
 {
     int i, j;
     char *fullname;
@@ -533,7 +534,7 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     free(fullname);
 }
 
-static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
+static void load_quicksnapshot_trap(uint16_t unused_addr, void *unused_data)
 {
     char *fullname;
 
@@ -587,7 +588,7 @@ void ui_display_paused(int flag)
     }
 }
 
-static void pause_trap(WORD addr, void *data)
+static void pause_trap(uint16_t addr, void *data)
 {
     ui_display_paused(1);
     vsync_suspend_speed_eval();
@@ -1701,7 +1702,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
     ui_display_statustext(text, 0);
 }
 
-static BYTE ui_joystick_status[3] = { 255, 255, 255 };
+static uint8_t ui_joystick_status[3] = { 255, 255, 255 };
 
 static void ui_display_joyport(int port_num)
 {
@@ -1737,7 +1738,7 @@ void ui_enable_joyport(void)
 }
 
 
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
     int i;
 

@@ -59,7 +59,7 @@ class ViceWindow : public BDirectWindow {
         ViceStatusbar *statusbar;
         ViceFilePanel *filepanel;
         ViceFilePanel *savepanel;
-        BYTE *fbits;
+        uint8_t *fbits;
         int32 fbytes_per_row;
         uint32 fbits_per_pixel;
         uint32 fcliplist_count;

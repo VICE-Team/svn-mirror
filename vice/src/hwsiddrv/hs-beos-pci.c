@@ -59,7 +59,7 @@ uint8_t hs_pci_read(uint16_t addr, int chipno)
     uint8_t ret = 0;
 
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
-        io_access_store_byte(base1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
+        io_access_store_byte(base1 + 4, (uint8_t)((chipno << 6) | (addr & 0x1f) | 0x20));
         snooze(2);
         io_access_store_byte(base2 + 2, 0x20);
         ret = io_access_read_byte(base1);

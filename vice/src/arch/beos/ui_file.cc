@@ -632,7 +632,7 @@ void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *filepa
     }
 }
 
-static void load_snapshot_trap(WORD unused_addr, void *path)
+static void load_snapshot_trap(uint16_t unused_addr, void *path)
 {
     if (machine_read_snapshot((char *)path, 0) < 0) {
         snapshot_display_error();
@@ -640,7 +640,7 @@ static void load_snapshot_trap(WORD unused_addr, void *path)
     lib_free(path);
 }
 
-static void save_snapshot_trap(WORD unused_addr, void *path)
+static void save_snapshot_trap(uint16_t unused_addr, void *path)
 {
     if (machine_write_snapshot((char *)path, 1, 1, 0) < 0) {
         snapshot_display_error();

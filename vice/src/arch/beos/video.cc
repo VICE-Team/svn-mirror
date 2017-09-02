@@ -202,9 +202,9 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
     int gbits = 0;
     int bshift = 0;
     int bbits = 0;
-    DWORD rmask = 0;
-    DWORD gmask = 0;
-    DWORD bmask = 0;
+    uint32_t rmask = 0;
+    uint32_t gmask = 0;
+    uint32_t bmask = 0;
 
     if (p == NULL) {
         return 0;	/* no palette, nothing to do. */
@@ -213,7 +213,7 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
     c->palette = p;
     DEBUG(("Allocating colors"));
     for (i = 0; i < p->num_entries; i++) {
-        DWORD col;
+        uint32_t col;
 
         switch (c->depth) {
             case 8:     /* CMAP8 */
@@ -260,7 +260,7 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
     int i, x_offset, y_offset, hh, ww, xxi, xxs, yyi, yys;
-    BYTE *p;
+    uint8_t *p;
     clipping_rect *clip;
     ViceWindow *vw = c->vicewindow;
 
@@ -278,7 +278,7 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
         w = MIN(w, c->draw_buffer->canvas_physical_width - xi);
         h = MIN(h, c->draw_buffer->canvas_physical_height - yi);
 
-        video_canvas_render(c, (BYTE *)(vw->bitmap->Bits()),
+        video_canvas_render(c, (uint8_t *)(vw->bitmap->Bits()),
                             w, h,
                             xs, ys,
                             xi, yi,
