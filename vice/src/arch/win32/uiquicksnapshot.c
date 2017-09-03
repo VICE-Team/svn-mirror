@@ -89,7 +89,7 @@ static void scan_files(void)
     lib_free(dirname);
 }
 
-static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
+static void save_quicksnapshot_trap(uint16_t unused_addr, void *unused_data)
 {
     int i, j;
     char *fullname, *fullname2;
@@ -157,7 +157,7 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     lib_free(fullname);
 }
 
-static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
+static void load_quicksnapshot_trap(uint16_t unused_addr, void *unused_data)
 {
     char *fullname;
 

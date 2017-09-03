@@ -65,7 +65,7 @@
 
 #define P00_HDR_LEN               26
 
-static const uint8_t p00_hdr_magic_string[8] = "C64File";
+static const unsigned char p00_hdr_magic_string[8] = "C64File";
 
 /* FIXME: There should be an enum for file types.  */
 static int p00_check_name(const char *name)

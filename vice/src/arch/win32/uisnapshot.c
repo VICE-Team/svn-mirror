@@ -184,14 +184,14 @@ static void ui_snapshot_load_dialog(HWND hwnd)
     }
 }
 
-static void save_snapshot_trap(WORD unused_addr, void *hwnd)
+static void save_snapshot_trap(uint16_t unused_addr, void *hwnd)
 {
     SuspendFullscreenModeKeep(hwnd);
     ui_snapshot_save_dialog(hwnd);
     ResumeFullscreenModeKeep(hwnd);
 }
 
-static void load_snapshot_trap(WORD unused_addr, void *hwnd)
+static void load_snapshot_trap(uint16_t unused_addr, void *hwnd)
 {
     SuspendFullscreenModeKeep(hwnd);
     ui_snapshot_load_dialog(hwnd);

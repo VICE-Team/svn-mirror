@@ -114,8 +114,11 @@
 
 #define MSVC_RC                 1
 
-#define strcasecmp(s1, s2)      _stricmp(s1, s2)
+#define strcasecmp			_stricmp
 #define HAVE_STRCASECMP         1
+
+#define strncasecmp			_strnicmp
+#define HAVE_STRNCASECMP
 
 #if defined _MSC_VER && _MSC_VER < 1900 
 #define snprintf _snprintf

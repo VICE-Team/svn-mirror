@@ -160,9 +160,9 @@ static DWORD hardsid_inl(unsigned int addrint)
     return 0;
 }
 
-int hs_pci_read(WORD addr, int chipno)
+int hs_pci_read(uint16_t addr, int chipno)
 {
-    BYTE ret = 0;
+    uint8_t ret = 0;
 
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         hardsid_outb(io1 + 4, (BYTE)((chipno << 6) | (addr & 0x1f) | 0x20));
@@ -174,7 +174,7 @@ int hs_pci_read(WORD addr, int chipno)
     return ret;
 }
 
-void hs_pci_store(WORD addr, BYTE outval, int chipno)
+void hs_pci_store(uint16_t addr, uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && hssids[chipno] != -1 && addr < 0x20) {
         hardsid_outb(io1 + 3, outval);

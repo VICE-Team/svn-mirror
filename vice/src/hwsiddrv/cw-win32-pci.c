@@ -152,7 +152,7 @@ static DWORD cw_inl(unsigned int addrint)
     return 0;
 }
 
-int cw_pci_read(WORD addr, int chipno)
+int cw_pci_read(uint16_t addr, int chipno)
 {
     unsigned char cmd;
 
@@ -168,7 +168,7 @@ int cw_pci_read(WORD addr, int chipno)
     return 0;
 }
 
-void cw_pci_store(WORD addr, BYTE outval, int chipno)
+void cw_pci_store(uint16_t addr, uint8_t outval, int chipno)
 {
     unsigned char cmd;
 

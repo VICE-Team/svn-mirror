@@ -1152,7 +1152,7 @@ int ui_extend_image_dialog(void)
 /* ------------------------------------------------------------------------- */
 static int is_paused = 0;
 
-static void pause_trap(WORD addr, void *data)
+static void pause_trap(uint16_t addr, void *data)
 {
     ui_display_paused(1);
     vsync_suspend_speed_eval();

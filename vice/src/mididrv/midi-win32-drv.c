@@ -322,7 +322,7 @@ void mididrv_out_close(void)
 }
 
 /* sends a byte to MIDI-Out */
-void mididrv_out(BYTE b)
+void mididrv_out(uint8_t b)
 {
     MMRESULT ret;
     int thres;
@@ -388,7 +388,7 @@ static void CALLBACK midi_callback(HMIDIIN handle, UINT uMsg, DWORD dwInstance, 
 
 
 /* gets a byte from MIDI-In, returns !=0 if byte received, byte in *b. */
-int mididrv_in(BYTE *b)
+int mididrv_in(uint8_t *b)
 {
     if (!handle_in) {
         log_error(mididrv_log, "Attempt to read from closed MIDI-In port!");

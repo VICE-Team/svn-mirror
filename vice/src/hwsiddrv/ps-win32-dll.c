@@ -116,7 +116,7 @@ static BYTE parsid_inb(unsigned int addrint)
     return retval;
 }
 
-void ps_dll_out_ctr(BYTE parsid_ctrport, int chipno)
+void ps_dll_out_ctr(uint8_t parsid_ctrport, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_outb(pssids[chipno] + 2, parsid_ctrport);
@@ -124,7 +124,7 @@ void ps_dll_out_ctr(BYTE parsid_ctrport, int chipno)
     }
 }
 
-BYTE ps_dll_in_ctr(int chipno)
+uint8_t ps_dll_in_ctr(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         if (psctrl[chipno] == -1) {
@@ -137,14 +137,14 @@ BYTE ps_dll_in_ctr(int chipno)
     return 0;
 }
 
-void ps_dll_out_data(BYTE outval, int chipno)
+void ps_dll_out_data(uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         parsid_outb(pssids[chipno], outval);
     }
 }
 
-BYTE ps_dll_in_data(int chipno)
+uint8_t ps_dll_in_data(int chipno)
 {
     if (chipno < MAXSID && pssids[chipno] != -1) {
         return parsid_inb(pssids[chipno]);

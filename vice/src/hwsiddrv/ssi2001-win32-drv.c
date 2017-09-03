@@ -149,7 +149,7 @@ static BYTE ssi2001_inb(unsigned int addrint)
     return retval;
 }
 
-int ssi2001_drv_read(WORD addr, int chipno)
+int ssi2001_drv_read(uint16_t addr, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20) {
         return ssi2001_inb(SSI2008_BASE + (addr & 0x1f));
@@ -157,7 +157,7 @@ int ssi2001_drv_read(WORD addr, int chipno)
     return 0;
 }
 
-void ssi2001_drv_store(WORD addr, BYTE outval, int chipno)
+void ssi2001_drv_store(uint16_t addr, uint8_t outval, int chipno)
 {
     if (chipno < MAXSID && addr < 0x20) {
         ssi2001_outb(SSI2008_BASE + (addr & 0x1f), outval);
