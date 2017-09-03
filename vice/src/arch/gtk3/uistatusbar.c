@@ -46,6 +46,7 @@
 /* Global data that custom status bar widgets base their rendering
  * on. */
 static struct ui_sb_state_s {
+    intptr_t statustext_msgid;
     /* TODO: The PET can have 2 tape drives */
     int tape_control, tape_motor_status, tape_counter;
     /* TODO: does not cover two-unit drives */
@@ -78,7 +79,8 @@ void ui_statusbar_init(void)
             allocated_bars[i].drives[j] = NULL;
         }
     }
-    
+
+    sb_state.statustext_msgid = 0;
     sb_state.tape_control = 0;
     sb_state.tape_motor_status = 0;
     sb_state.tape_counter = 0;
@@ -284,12 +286,12 @@ static GtkWidget *ui_drive_widget_create(int unit)
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
-    
+
     snprintf(drive_id, 4, "%d:", unit+8);
     drive_id[3]=0;
     number = gtk_label_new(drive_id);
     gtk_label_set_xalign(GTK_LABEL(number), 0.0);
-    
+
     track = gtk_label_new("18.5");
     gtk_widget_set_hexpand(track, TRUE);
     gtk_label_set_xalign(GTK_LABEL(track), 1.0);
@@ -389,7 +391,7 @@ static void layout_statusbar_drives(int bar_index)
         }
         state >>= 1;
     }
-}    
+}
 
 static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 {
@@ -492,21 +494,33 @@ void ui_display_recording(int recording_status)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
-void ui_display_statustext(const char *text, int fade_out)
+static void
+display_statustext_internal(const char *text)
 {
-    /* TODO: handle fade out properly. This may work better with a
-     *       GtkStatusBar and its per-message revocation methods, but
-     *       based on other implementations, we're much better off
-     *       pushing graphical updates to another function and using
-     *       this to set up a timer fed by the speed display */
     int i;
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
         if (allocated_bars[i].msg) {
             gtk_label_set_text(allocated_bars[i].msg, text);
         }
     }
+}
 
-    TEMPORARY_IMPLEMENTATION();
+static gboolean ui_statustext_fadeout(gpointer data)
+{
+    intptr_t my_id = (intptr_t)data;
+    if (my_id == sb_state.statustext_msgid) {
+        display_statustext_internal("");
+    }
+    return FALSE;
+}
+
+void ui_display_statustext(const char *text, int fade_out)
+{
+    ++sb_state.statustext_msgid;
+    display_statustext_internal(text);
+    if (fade_out) {
+        g_timeout_add(5000, ui_statustext_fadeout, (gpointer)sb_state.statustext_msgid);
+    }
 }
 
 void ui_display_volume(int vol)
