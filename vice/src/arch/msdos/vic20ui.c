@@ -61,7 +61,7 @@
 #include "util.h"
 #include "vic20ui.h"
 
-static WORD cartridge_type_to_address(int type)
+static uint16_t cartridge_type_to_address(int type)
 {
     /* We might use a simple AND here, but it's safer to use `switch()' as
        speed does not matter in this case.  */

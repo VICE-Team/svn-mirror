@@ -52,7 +52,7 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
         const char *s, *filter;
         int type = (int)param;
 
-        s = cartridge_get_file_name((WORD)0);
+        s = cartridge_get_file_name((uint16_t)0);
         util_fname_split(s, &directory, &default_item);
 
         filter = (type == CARTRIDGE_CRT) ? "*.crt" : "*";
@@ -80,7 +80,7 @@ static TUI_MENU_CALLBACK(cartridge_set_default_callback)
 
 static TUI_MENU_CALLBACK(cartridge_callback)
 {
-    const char *s = cartridge_get_file_name((WORD)0);
+    const char *s = cartridge_get_file_name((uint16_t)0);
 
     if (s == NULL || *s == '\0') {
         return "(none)";
@@ -190,7 +190,7 @@ static TUI_MENU_CALLBACK(detach_cartridge_callback)
         cartridge_detach_image(-1);
     }
 
-    s = cartridge_get_file_name((WORD)0);
+    s = cartridge_get_file_name((uint16_t)0);
 
     if (s == NULL || *s == '\0') {
         return "(none)";

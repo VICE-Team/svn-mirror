@@ -57,7 +57,7 @@ typedef enum {
     K_LEFTW95, K_RIGHTW95
 } kbd_code_t;
 
-extern BYTE _kbd_extended_key_tab[256];
+extern uint8_t _kbd_extended_key_tab[256];
 
 extern void kbd_install(void);
 extern void kbd_uninstall(void);

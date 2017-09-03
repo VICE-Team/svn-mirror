@@ -29,15 +29,15 @@
 
 #include "types.h"
 
-extern BYTE cbm_charset_1[];
-extern BYTE cbm_charset_2[];
+extern uint8_t cbm_charset_1[];
+extern uint8_t cbm_charset_2[];
 
-extern BYTE cbm_petscii_business_to_charset[0x100];
-extern BYTE cbm_petscii_graphics_to_charset[0x100];
+extern uint8_t cbm_petscii_business_to_charset[0x100];
+extern uint8_t cbm_petscii_graphics_to_charset[0x100];
 
 /* FIXME: These are currently unused.  */
-extern BYTE cbm_ascii_to_petscii[0x100];
-extern BYTE cbm_petscii_business_to_ascii[0x100];
-extern BYTE cbm_petscii_graphics_to_ascii[0x100];
+extern uint8_t cbm_ascii_to_petscii[0x100];
+extern uint8_t cbm_petscii_business_to_ascii[0x100];
+extern uint8_t cbm_petscii_graphics_to_ascii[0x100];
 
 #endif

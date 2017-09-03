@@ -33,28 +33,10 @@
 
 #include "vice.h"
 
-#define BYTE unsigned char
+#include <stdint.h>
 
-typedef signed char SIGNED_CHAR;
+typedef uint32_t CLOCK;
 
-#if SIZEOF_UNSIGNED_SHORT == 2
-typedef unsigned short WORD;
-typedef signed short SWORD;
-#else
-#error Cannot find a proper 16-bit type!
-#endif
-
-#if SIZEOF_UNSIGNED_INT == 4
-typedef unsigned int DWORD;
-typedef signed int SDWORD;
-#elif SIZEOF_UNSIGNED_LONG == 4
-typedef unsigned long DWORD;
-typedef signed long SWORD;
-#else
-#error Cannot find a proper 32-bit type!
-#endif
-
-typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 

@@ -220,7 +220,7 @@ void ui_main(char hotkey)
 
     /* Get the BIOS LED status and restore it.  */
     {
-        BYTE bios_leds;
+        uint8_t bios_leds;
         int leds = 0;
 
         _dosmemgetb(0x417, 1, &bios_leds);
@@ -543,7 +543,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 {
 }
 
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
 }
 

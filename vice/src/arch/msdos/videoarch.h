@@ -29,6 +29,9 @@
 #define VICE_VIDEOARCH_H
 
 #include <pc.h>			/* inportb(), outportb() */
+
+#include "types.h"
+
 #include <allegro.h>
 
 #include "palette.h"
@@ -121,7 +124,7 @@ extern void disable_text(void);
 extern void video_ack_vga_mode(void);
 extern int video_in_gfx_mode(void);
 
-extern void canvas_set_border_color(struct video_canvas_s *canvas, BYTE color);
+extern void canvas_set_border_color(struct video_canvas_s *canvas, uint8_t color);
 
 extern double vsync_get_avg_frame_rate(void);
 extern double vsync_get_avg_speed_index(void);

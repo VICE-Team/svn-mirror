@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include "types.h"
+
 #include <conio.h>
 #include <stdio.h>
 

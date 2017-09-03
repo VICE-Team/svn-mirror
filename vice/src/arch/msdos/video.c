@@ -566,7 +566,7 @@ inline void video_canvas_refresh(video_canvas_t *c,
     }
 
     video_canvas_render(c,
-                        (BYTE *)(c->render_bitmap->line[0]),
+                        (uint8_t *)(c->render_bitmap->line[0]),
                         w, h,
                         xs, ys,
                         xi, yi,
@@ -574,7 +574,7 @@ inline void video_canvas_refresh(video_canvas_t *c,
                         c->depth);
 
     DEBUG(("video_canvas_render: VR:%p w=%d h=%d xs=%d ys=%d xi=%d yi=%d linef=%d linev=%d",
-                      (BYTE *)(c->render_bitmap->line[0]),
+                      (uint8_t *)(c->render_bitmap->line[0]),
                       w, h,
                       xs, ys,
                       xi, yi,
@@ -602,7 +602,7 @@ inline void video_canvas_refresh(video_canvas_t *c,
 
 
 
-void canvas_set_border_color(video_canvas_t *canvas, BYTE color)
+void canvas_set_border_color(video_canvas_t *canvas, uint8_t color)
 {
     inportb(0x3da);
     outportb(0x3c0, 0x31);

@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include "types.h"
+
 #include <conio.h>
 #include <stdio.h>
 
@@ -40,8 +42,6 @@
 #include "resources.h"
 #include "translate.h"
 #include "tui.h"
-#include "types.h"
-
 
 /* ------------------------------------------------------------------------- */
 

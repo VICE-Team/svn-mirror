@@ -75,7 +75,7 @@ static struct {
 /* Function for triggering cartridge (e.g. AR) freezing.  */
 static void (*freeze_function)(void);
 
-BYTE _kbd_extended_key_tab[256] = {
+uint8_t _kbd_extended_key_tab[256] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, K_KPENTER, K_RIGHTCTRL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, K_KPDIV, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -110,7 +110,7 @@ typedef enum {
     KCMD_DATASETTE_RECORD
 } kbd_command_type_t;
 
-typedef DWORD kbd_command_data_t;
+typedef uint32_t kbd_command_data_t;
 
 typedef struct {
     kbd_command_type_t type;
@@ -137,7 +137,7 @@ static void queue_command_end(void)
 }
 
 /* CPU trap to enter the main menu.  */
-static void menu_trap(WORD addr, void *data)
+static void menu_trap(uint16_t addr, void *data)
 {
     ui_main((char)(unsigned long)data);
 }

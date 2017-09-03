@@ -30,6 +30,8 @@
 
 #include "vice.h"
 
+#include "types.h"
+
 #include <dpmi.h>
 #include <go32.h>
 #include <pc.h>
@@ -52,7 +54,6 @@
 #include "sound.h"
 #include "ui.h"
 #include "translate.h"
-#include "types.h"
 #include "vsync.h"
 
 #ifdef USE_MIDAS_SOUND

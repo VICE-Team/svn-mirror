@@ -33,6 +33,9 @@
 #if defined(__MSDOS__) && !defined(USE_MIDAS_SOUND)
 
 #include <stdio.h>
+
+#include "types.h"
+
 #include <allegro.h>            /* Must come after <stdio.h>.  */
 #include <dpmi.h>
 

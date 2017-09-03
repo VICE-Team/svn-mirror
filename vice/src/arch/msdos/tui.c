@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include "types.h"
+
 #include <conio.h>
 #include <ctype.h>
 #include <go32.h>

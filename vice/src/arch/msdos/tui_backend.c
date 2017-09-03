@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#include "types.h"
+
 #include <conio.h>
 #include <ctype.h>
 #include <go32.h>
@@ -42,16 +44,15 @@
 #include "lib.h"
 #include "tui.h"
 #include "tui_backend.h"
-#include "types.h"
 #include "util.h"
 #include "version.h"
 
-typedef BYTE attr_t;
+typedef uint8_t attr_t;
 attr_t current_attr;
 
 struct tui_area {
     int width, height;
-    BYTE *mem;
+    uint8_t *mem;
 };
 
 struct text_info text_mode_info;
@@ -103,7 +104,7 @@ void tui_set_attr(int foreground_color, int background_color, int blink)
     current_attr = make_attr(foreground_color, background_color, blink);
 }
 
-BYTE tui_ascii_conversion_table[] = {
+uint8_t tui_ascii_conversion_table[] = {
     128, 129, 130, 131, 132, 133, 134, 135,
     136, 137, 'S', 139, 'E', 141, 'Z', 143,
     144, 145, 146, 147, 148, 149, 150, 151,
@@ -122,10 +123,10 @@ BYTE tui_ascii_conversion_table[] = {
     248, 'u', 'u', 'u', 'u', 'y', 254, 'y',
 };
 
-void tui_put_char(int x, int y, BYTE c)
+void tui_put_char(int x, int y, uint8_t c)
 {
     unsigned long addr = screen_addr(x, y);
-    BYTE attr_byte = (BYTE)current_attr;
+    uint8_t attr_byte = (uint8_t)current_attr;
 
     _farsetsel(_dos_ds);
     if (c > 127) {
@@ -136,10 +137,10 @@ void tui_put_char(int x, int y, BYTE c)
     _farnspokeb(addr + 1, attr_byte);
 }
 
-void tui_hline(int x, int y, BYTE c, int count)
+void tui_hline(int x, int y, uint8_t c, int count)
 {
     unsigned long addr = screen_addr(x, y);
-    BYTE attr_byte = (BYTE)current_attr;
+    uint8_t attr_byte = (uint8_t)current_attr;
     int i;
 
     _farsetsel(_dos_ds);
@@ -150,10 +151,10 @@ void tui_hline(int x, int y, BYTE c, int count)
     }
 }
 
-void tui_vline(int x, int y, BYTE c, int count)
+void tui_vline(int x, int y, uint8_t c, int count)
 {
     unsigned long addr = screen_addr(x, y);
-    BYTE attr_byte = (BYTE)current_attr;
+    uint8_t attr_byte = (uint8_t)current_attr;
     int i;
 
     _farsetsel(_dos_ds);
@@ -178,7 +179,7 @@ void tui_flush_keys(void)
 
 void tui_display(int x, int y, int len, const char *format, ...)
 {
-    BYTE attr_byte = (BYTE)current_attr;
+    uint8_t attr_byte = (uint8_t)current_attr;
     unsigned long addr = screen_addr(x, y);
     char *buf;
     int i, buf_len;
@@ -216,7 +217,7 @@ void tui_beep(void)
 
 void tui_area_get(tui_area_t *a, int x, int y, int width, int height)
 {
-    BYTE *p;
+    uint8_t *p;
     int i, j;
 
     if (*a == NULL) {
@@ -241,7 +242,7 @@ void tui_area_get(tui_area_t *a, int x, int y, int width, int height)
 
 void tui_area_put(tui_area_t a, int x, int y)
 {
-    BYTE *p = a->mem;
+    uint8_t *p = a->mem;
     int i, j;
 
     _farsetsel(_dos_ds);

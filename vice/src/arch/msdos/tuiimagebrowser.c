@@ -45,14 +45,14 @@
 
 /* Character conversion table being used to translate from PETSCII to the VGA
    CBM-enhanched character set.  */
-static BYTE *char_conv_table;
+static uint8_t *char_conv_table;
 
-static int petscii_display(int x, int y, BYTE *data)
+static int petscii_display(int x, int y, uint8_t *data)
 {
     int i;
 
     for (i = 0; data[i] != 0; i++, x++) {
-        BYTE c;
+        uint8_t c;
 
         c = char_conv_table[(unsigned int)data[i]];
         tui_put_char(x, y, c);
@@ -103,7 +103,7 @@ static void update(int x, int y, int width, int height, image_contents_file_list
     }
 }
 
-static void display_title(int x, int y, BYTE *name, BYTE *id)
+static void display_title(int x, int y, uint8_t *name, uint8_t *id)
 {
     tui_set_attr(MENU_FORE, MENU_BACK, 0);
 
