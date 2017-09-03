@@ -76,10 +76,10 @@ int maincpu_ba_low_flags = 0;
 
 #define opcode_t         \
     struct {             \
-        BYTE ins;        \
+        uint8_t ins;        \
         union {          \
-            BYTE op8[2]; \
-            WORD op16;   \
+            uint8_t op8[2]; \
+            uint16_t op16;   \
         } op;            \
     }
 
