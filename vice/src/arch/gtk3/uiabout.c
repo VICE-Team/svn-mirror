@@ -240,5 +240,9 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     g_signal_connect(about, "response", G_CALLBACK(about_response_callback),
             NULL);
 
+    /* make the about dialog modal */
+    gtk_window_set_modal(GTK_WINDOW(about), TRUE);
+    
+    /* ... and show the dialog finally */
     gtk_widget_show(about);
 }
