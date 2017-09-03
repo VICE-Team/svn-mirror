@@ -264,6 +264,11 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     debug_gtk3("called\n");
 
+    /* if the settings dialog already exists, just show it */
+    if (GTK_IS_WIDGET(settings_window)) {
+        gtk_widget_show(settings_window);
+        return;
+    }
 
     settings_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 /*    gtk_window_set_modal(GTK_WINDOW(settings_window), TRUE);*/
