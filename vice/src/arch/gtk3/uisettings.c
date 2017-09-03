@@ -318,5 +318,7 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_widget_set_size_request(settings_grid, 600, 550);
 
     gtk_container_add(GTK_CONTAINER(settings_window), settings_grid);
+
+    gtk_window_set_resizable(GTK_WINDOW(settings_window), FALSE);
     gtk_widget_show(settings_window);
 }
