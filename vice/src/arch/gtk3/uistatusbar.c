@@ -283,10 +283,17 @@ static GtkWidget *ui_drive_widget_create(int unit)
 
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
+    gtk_widget_set_hexpand(grid, FALSE);
+    
     snprintf(drive_id, 4, "%d:", unit+8);
     drive_id[3]=0;
     number = gtk_label_new(drive_id);
+    gtk_label_set_xalign(GTK_LABEL(number), 0.0);
+    
     track = gtk_label_new("18.5");
+    gtk_widget_set_hexpand(track, TRUE);
+    gtk_label_set_xalign(GTK_LABEL(track), 1.0);
+
     led = gtk_drawing_area_new();
     gtk_widget_set_size_request(led, 30, 15);
     gtk_container_add(GTK_CONTAINER(grid), number);
