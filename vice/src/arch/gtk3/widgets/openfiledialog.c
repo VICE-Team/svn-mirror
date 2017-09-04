@@ -44,6 +44,9 @@
  * \param[in]   callback    callback accepting filename (or NULL on cancel)
  *
  * \return  filename or `NULL` on cancel
+ *
+ * \note    the filename returned is allocated by GLib and needs to be freed
+ *          after use with g_free()
  */
 gchar *ui_open_file_dialog(
         GtkWidget *widget,

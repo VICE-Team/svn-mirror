@@ -437,6 +437,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_container_add(GTK_CONTAINER(content), create_content_widget(dialog));
 
+    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
     gtk_widget_show_all(dialog);
 }
