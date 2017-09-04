@@ -26,18 +26,21 @@
 
 /* The settings_grid is supposed to become this:
  *
- * +------------+-------------------------+
- * | treeview   |                         |
- * |  with      |                         |
- * |   settings |   central widget,       |
- * |  more      |   depending on which    |
- * |   foo      |   item is selected in   |
- * |   bar      |   the treeview          |
- * |    whatever|                         |
- * | burp       |                         |
- * +------------+-------------------------+
- * | load  save  load...  save...  close  |
- * +--------------------------------------+
+ * +--------------+---------------------------+
+ * | treeview     |                           |
+ * |  with        |                           |
+ * |   settings   |    central widget,        |
+ * |  more        |    depending on which     |
+ * |   foo        |    item is selected in    |
+ * |   bar        |    the treeview           |
+ * |    whatever  |                           |
+ * | burp         |                           |
+ * +--------------+---------------------------+
+ *
+ * And this is handled by the dialog itself:
+ * +------------------------------------------+
+ * | load | save | load... | save... | close  |
+ * +------------------------------------------+
  */
 
 
@@ -62,16 +65,23 @@
 #include "uisettings.h"
 
 
-#define NUM_COLUMNS 1
+#define NUM_COLUMNS 2
 
-
+/** \brief  Enum used for the "resonse" callback of the settings dialog
+ *
+ * All values must be positive since Gtk reserves standard responses in its
+ * GtkResponse enum as negative values.
+ */
 enum {
-    RESPONSE_LOAD = 1,
-    RESPONSE_SAVE,
-    RESPONSE_LOAD_FILE,
-    RESPONSE_SAVE_FILE
+    RESPONSE_LOAD = 1,  /**< "Load" -> load settings from default file */
+    RESPONSE_SAVE,      /**< "Save" -> save settings from default file */
+    RESPONSE_LOAD_FILE, /**< "Load ..." -> load settings via dialog */
+    RESPONSE_SAVE_FILE  /**< "Save ..." -> save settings via dialog */
 };
 
+
+/** \brief  Main tree nodes
+ */
 static ui_settings_tree_node_t main_nodes[] = {
     { "Speed", uispeed_create_central_widget, NULL },
     { "Keyboard", uikeyboard_create_central_widget, NULL },
@@ -83,30 +93,8 @@ static ui_settings_tree_node_t main_nodes[] = {
 
 static void ui_settings_set_central_widget(GtkWidget *widget);
 
-#if 0
-static void on_load_clicked(GtkWidget *widget, gpointer data);
-static void on_save_clicked(GtkWidget *widget, gpointer data);
-static void on_load_file_clicked(GtkWidget *widget, gpointer data);
-static void on_save_file_clicked(GtkWidget *widget, gpointer data);
-static void on_close_clicked(GtkWidget *widget, gpointer data);
-#endif
 
-
-#if 0
-/** \brief  List of buttons for the 'button box' of the main settings window
- */
-static ui_button_t buttons[] = {
-    { "Load", on_load_clicked },
-    { "Save", on_load_file_clicked },
-    { "Load from ...", on_save_clicked },
-    { "Save as ..", on_save_file_clicked },
-    { "Close", on_close_clicked },
-    { NULL, NULL }
-};
-#endif
-
-
-/** \brief  Reference to the settings window
+/** \brief  Reference to the settings dialog
  *
  * Used to show/hide the widget without rebuilding it each time. Clean up
  * with ui_settings_dialog_shutdown()
@@ -114,6 +102,8 @@ static ui_button_t buttons[] = {
 static GtkWidget *settings_window = NULL;
 
 
+/** \brief  Reference to the 'content area' widget of the settings dialog
+ */
 static GtkWidget *settings_grid = NULL;
 
 
@@ -125,68 +115,39 @@ static GtkWidget *settings_grid = NULL;
 static GtkWidget *save_on_exit = NULL;
 
 
-
+/** \brief  Handler for the "changed" event of the tree view
+ *
+ * \param[in]   selection   GtkTreeSelection associated with the tree model
+ * \param[in]   user_data   data for the event (unused for now)
+ *
+ */
 static void on_tree_selection_changed(
         GtkTreeSelection *selection,
         gpointer user_data)
 {
     GtkTreeIter iter;
     GtkTreeModel *model;
-    gchar *name;
 
     if (gtk_tree_selection_get_selected(selection, &model, &iter))
     {
-        size_t i;
+        gchar *name;
+        GtkWidget *(*callback)(void *) = NULL;
         gtk_tree_model_get(model, &iter, 0 /* col 0 */, &name, -1);
         debug_gtk3("item '%s' clicked\n", name);
-
-        /* stupid way: find item in list */
-        for (i = 0; main_nodes[i].name != NULL; i++) {
-            if (strcmp(main_nodes[i].name, name) == 0) {
-                /* got the item */
-                if (main_nodes[i].callback != NULL) {
-                    ui_settings_set_central_widget(main_nodes[i].callback(NULL));
-                    break;
-                }
-            }
+        gtk_tree_model_get(model, &iter, 1, &callback, -1);
+        if (callback != NULL) {
+            ui_settings_set_central_widget(callback(NULL));
         }
         g_free(name);
     }
 }
 
-#if 0
-static void on_load_clicked(GtkWidget *widget, gpointer user_data)
-{
-    debug_gtk3("called\n");
-}
 
-
-static void on_save_clicked(GtkWidget *widget, gpointer user_data)
-{
-    debug_gtk3("called\n");
-}
-
-
-static void on_load_file_clicked(GtkWidget *widget, gpointer user_data)
-{
-    debug_gtk3("called\n");
-}
-
-
-static void on_save_file_clicked(GtkWidget *widget, gpointer user_data)
-{
-    debug_gtk3("called\n");
-}
-
-
-static void on_close_clicked(GtkWidget *widget, gpointer user_data)
-{
-    debug_gtk3("called\n");
-    gtk_widget_hide(settings_window);
-}
-#endif
-
-
+/** \brief  Handler for the 'toggled' event of the 'save on exit' checkbox
+ *
+ * \param[in]   widget      checkbox widget
+ * \param[in]   user_data   data for the event (unused)
+ */
 static void on_save_on_exit_toggled(GtkWidget *widget, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
@@ -194,6 +155,12 @@ static void on_save_on_exit_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Create the 'Save on exit' checkbox
+ *
+ * The current position/display of the checkbox is a little lame at the moment
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_save_on_exit_checkbox(void)
 {
     GtkWidget *check;
@@ -206,15 +173,22 @@ static GtkWidget *create_save_on_exit_checkbox(void)
 }
 
 
-/* TODO:    find a non-convoluted way to add items with callbacks setting the
- *          proper 'central widget'
+/** \brief  Create treeview for settings side-menu
+ *
+ * Reads items from `main_nodes` and adds them to the tree view.
+ *
+ * \return  GtkTreeView
+ *
+ * TODO:    handle nested items, and write up somewhere how the hell I finally
+ *          got the callbacks working
  */
 static GtkWidget *create_treeview(void)
 {
     GtkWidget *tree;
     GtkTreeStore *store;
-    GtkCellRenderer *renderer;
-    GtkTreeViewColumn *column;
+    GtkCellRenderer *text_renderer;
+    GtkTreeViewColumn *text_column;
+
     GtkTreeIter iter;   /* parent iter */
     size_t i;
 #if 0
@@ -222,7 +196,7 @@ static GtkWidget *create_treeview(void)
 #endif
 
     /* create the model */
-    store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING);
+    store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
 
     /* add root node */
     /*    gtk_tree_store_append(store, &iter, NULL); */
@@ -232,20 +206,27 @@ static GtkWidget *create_treeview(void)
         gtk_tree_store_set(
                 store, &iter,
                 0, main_nodes[i].name,
+                1, main_nodes[i].callback,
                 -1);
     }
 
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
 
-    renderer = gtk_cell_renderer_text_new();
-    column = gtk_tree_view_column_new_with_attributes(
-        NULL,
-        renderer,
-        "text", 0,
-        NULL);
 
-    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), column);
-
+    text_renderer = gtk_cell_renderer_text_new();
+    text_column = gtk_tree_view_column_new_with_attributes(
+            NULL,
+            text_renderer,
+            "text", 0,
+            NULL);
+/*    obj_column = gtk_tree_view_column_new_with_attributes(
+            NULL,
+            NULL,
+            "text", 0,
+            NULL);
+*/
+    /*    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), obj_column); */
+    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), text_column);
     return tree;
 }
 
@@ -264,12 +245,19 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
     if (child != NULL) {
         gtk_widget_destroy(child);
     }
-
     gtk_grid_attach(GTK_GRID(settings_grid), widget, 1, 0, 1, 1);
 }
 
 
-/* widget = dialog */
+/** \brief  Create the 'content widget' of the settings dialog
+ *
+ * This creates the widget in the dialog used to display the treeview and room
+ * for the widget connected to that tree's currently selected item.
+ *
+ * \param[in]   widget  parent widget
+ *
+ * \return  GtkGrid (as a GtkWidget)
+ */
 static GtkWidget *create_content_widget(GtkWidget *widget)
 {
     GtkWidget *tree;
@@ -281,21 +269,13 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 
     settings_grid = gtk_grid_new();
     tree = create_treeview();
-
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
-    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-    g_signal_connect(G_OBJECT(selection), "changed",
-            G_CALLBACK(on_tree_selection_changed), NULL);
+    g_print("tree created\n");
 
     gtk_grid_attach(GTK_GRID(settings_grid), tree, 0, 0, 1, 1);
 
     /* TODO: remember the previously selected setting/widget and set it here */
     ui_settings_set_central_widget(uispeed_create_central_widget(widget));
 
-/*    gtk_grid_attach(GTK_GRID(settings_grid),
-            uihelpers_create_button_box(buttons, GTK_ORIENTATION_HORIZONTAL),
-            0, 1, 2, 1);
-*/
     save_on_exit = create_save_on_exit_checkbox();
     soe_state= resources_get_int("SaveResourcesOnExit", &soe_state);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(save_on_exit), soe_state);
@@ -307,88 +287,15 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 
     gtk_widget_set_size_request(tree, 200, 500);
     gtk_widget_set_size_request(settings_grid, 600, 550);
-
-    return settings_grid;
-}
-
-
-#if 0
-/** \brief  Setup the settings dialog, called from a menu item
- */
-void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
-{
-    GtkWidget *tree;
-    GtkWidget *parent;
-    int soe_state;      /* save-on-exit state */
-
-    GtkTreeSelection *selection;
-
-
-    debug_gtk3("called\n");
-
-    /* if the settings dialog already exists, just show it */
-    if (GTK_IS_WIDGET(settings_window)) {
-        debug_gtk3("Showing old widget\n");
-        gtk_widget_show(settings_window);
-        return;
-    }
-
-    settings_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-/*    gtk_window_set_modal(GTK_WINDOW(settings_window), TRUE);*/
-    gtk_window_set_title(GTK_WINDOW(settings_window), "VICE settings");
-    /* make sure the 'X' button doesn't destroy the window */
-    g_signal_connect(settings_window, "delete-event",
-            G_CALLBACK(gtk_widget_hide_on_delete), NULL);
-
-
-    /* make the settings window a child of the toplevel window
-     *
-     * FIXME:   Does block the parent's input, but doesn't keep the window on
-     *          top of its parent, so perhaps use a GtkDialog, which is very
-     *          limited in use?
-     */
-    parent = gtk_widget_get_toplevel(widget);
-    if (gtk_widget_is_toplevel(parent)) {
-        gtk_window_set_transient_for(
-                GTK_WINDOW(settings_window),
-                GTK_WINDOW(parent));
-    }
-
-    settings_grid = gtk_grid_new();
-    tree = create_treeview();
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
             G_CALLBACK(on_tree_selection_changed), NULL);
 
-    gtk_grid_attach(GTK_GRID(settings_grid), tree, 0, 0, 1, 1);
 
-    /* TODO: remember the previously selected setting/widget and set it here */
-    ui_settings_set_central_widget(uispeed_create_central_widget(parent));
-
-    gtk_grid_attach(GTK_GRID(settings_grid),
-            uihelpers_create_button_box(buttons, GTK_ORIENTATION_HORIZONTAL),
-            0, 1, 2, 1);
-
-    save_on_exit = create_save_on_exit_checkbox();
-    soe_state= resources_get_int("SaveResourcesOnExit", &soe_state);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(save_on_exit), soe_state);
-    gtk_grid_attach(GTK_GRID(settings_grid), save_on_exit, 0, 2, 2, 1);
-
-
-    gtk_widget_show(settings_grid);
-    gtk_widget_show(tree);
-
-    gtk_widget_set_size_request(tree, 200, 500);
-    gtk_widget_set_size_request(settings_grid, 600, 550);
-
-    gtk_container_add(GTK_CONTAINER(settings_window), settings_grid);
-
-    gtk_window_set_resizable(GTK_WINDOW(settings_window), FALSE);
-    gtk_widget_show(settings_window);
+    return settings_grid;
 }
-#endif
 
 
 /** \brief  Properly destroy the settings window if required
@@ -401,6 +308,14 @@ void ui_settings_dialog_shutdown(void)
 }
 
 
+
+/** \brief  Handler for the "response" event of the settings dialog
+ *
+ * This determines what to do based on the 'reponse ID' emitted by the dialog.
+ *
+ * \param[in]   widget      widget triggering the event (button pushed)
+ * \param[in]   user_data   response ID (`gint`)
+ */
 static void response_callback(GtkWidget *widget, gpointer user_data)
 {
     gint response_id = GPOINTER_TO_INT(user_data);
@@ -417,7 +332,18 @@ static void response_callback(GtkWidget *widget, gpointer user_data)
 }
 
 
-
+/** \brief  Callback to create the main settings dialog from the menu
+ *
+ * \param[in]   widget      (direct) parent widget, the menu item
+ * \param[in]   user_data   data for the event (unused)
+ *
+ * \note    The appearance of minimize/maximize buttons seems to depend on which
+ *          Window Manager is active:
+ *
+ *          On MATE (marco, a Metacity fork) both buttons are hidden.
+ *          On KDE (KWin) the maximize button is still visible but inactive
+ *          On OpenBox both min/max are visible with only minimize working
+ */
 void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
@@ -441,4 +367,3 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
     gtk_widget_show_all(dialog);
 }
-

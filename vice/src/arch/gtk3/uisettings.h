@@ -36,10 +36,10 @@
 /** \brief  Settings tree node object
  */
 typedef struct ui_settings_tree_node_s {
-    char *name;
-    GtkWidget *(*callback)(GtkWidget *);
-    /* child nodes */
-    struct ui_settings_tree_node_s *children;
+    char *name;                                 /**< setting name */
+    GtkWidget *(*callback)(GtkWidget *);        /**< callback to select
+                                                     associated widget */
+    struct ui_settings_tree_node_s *children;   /**< child nodes */
 } ui_settings_tree_node_t;
 
 
