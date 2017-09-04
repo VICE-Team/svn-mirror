@@ -96,7 +96,14 @@ static ui_button_t buttons[] = {
 };
 
 
+/** \brief  Reference to the settings window
+ *
+ * Used to show/hide the widget without rebuilding it each time. Clean up
+ * with ui_settings_dialog_shutdown()
+ */
 static GtkWidget *settings_window = NULL;
+
+
 static GtkWidget *settings_grid = NULL;
 
 
@@ -164,7 +171,7 @@ static void on_save_file_clicked(GtkWidget *widget, gpointer user_data)
 static void on_close_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("called\n");
-    gtk_widget_destroy(settings_window);
+    gtk_widget_hide(settings_window);
 }
 
 
@@ -250,7 +257,6 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
 }
 
 
-
 /** \brief  Setup the settings dialog, called from a menu item
  */
 void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
@@ -266,6 +272,7 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* if the settings dialog already exists, just show it */
     if (GTK_IS_WIDGET(settings_window)) {
+        debug_gtk3("Showing old widget\n");
         gtk_widget_show(settings_window);
         return;
     }
@@ -273,6 +280,9 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     settings_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 /*    gtk_window_set_modal(GTK_WINDOW(settings_window), TRUE);*/
     gtk_window_set_title(GTK_WINDOW(settings_window), "VICE settings");
+    /* make sure the 'X' button doesn't destroy the window */
+    g_signal_connect(settings_window, "delete-event",
+            G_CALLBACK(gtk_widget_hide_on_delete), NULL);
 
 
     /* make the settings window a child of the toplevel window
@@ -322,3 +332,14 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_window_set_resizable(GTK_WINDOW(settings_window), FALSE);
     gtk_widget_show(settings_window);
 }
+
+
+/** \brief  Properly destroy the settings window if required
+ */
+void ui_settings_dialog_shutdown(void)
+{
+    if (settings_window != NULL && GTK_IS_WIDGET(settings_window)) {
+        gtk_widget_destroy(settings_window);
+    }
+}
+
