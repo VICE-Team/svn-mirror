@@ -63,7 +63,11 @@ static ui_text_int_pair_t mappings[] = {
  */
 static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
 {
-    char *filename = user_data;
+    gchar *filename;
+    const char *filters[] = { "*.vkm", NULL };
+
+    filename = ui_open_file_dialog(widget, "Open symbolic keymap file",
+            "Keymaps", filters);
 
     debug_gtk3("got file \"%s\"\n", filename);
     if (filename != NULL) {
@@ -84,7 +88,11 @@ static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
  */
 static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
 {
-    char *filename = user_data;
+    gchar *filename;
+    const char *filters[] = { "*.vkm", NULL };
+
+    filename = ui_open_file_dialog(widget, "Open positional keymap file",
+            "Keymaps", filters);
 
     debug_gtk3("got file \"%s\"\n", filename);
     if (filename != NULL) {
@@ -94,33 +102,6 @@ static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
         /* set proper radio button */
         uihelpers_set_radio_button_grid_by_index(layout, 3);
     }
-}
-
-
-/** \brief  Temporary implemention: display message and exit
- *
- * This should be a 'open file' dialog, but since I'm working on a helper
- * widget to handle all sorts of VICE files, this isn't implemented yet.
- *
- * \param[in]   title   open file dialog title
- */
-static void get_sym_file_dialog(GtkWidget *widget, const char *title)
-{
-    const char *filters[] = { "*.vkm", NULL };
-
-    ui_open_file_dialog_create(widget, title, "Keymaps", filters, open_sym_file_callback);
-}
-
-
-/** \brief  Open User positional file
- *
- * \param[in]   title   open file dialog title
- */
-static void get_pos_file_dialog(GtkWidget *widget, const char *title)
-{
-    const char *filters[] = { "*.vkm", NULL };
-
-    ui_open_file_dialog_create(widget, title, "Keymaps", filters, open_pos_file_callback);
 }
 
 
@@ -138,32 +119,6 @@ static void on_mapping_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Event handler for button 'Load symbolic keymap'
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   data for event (unused)
- */
-static void on_button_symbolic_clicked(GtkWidget *widget, gpointer user_data)
-{
-    debug_gtk3("clicked\n");
-
-    get_sym_file_dialog(widget, "Select symbolic keymap");
-}
-
-
-/** \brief  Event handler for button 'Load positional keymap'
-*
-* \param[in]   widget      widget triggering the event
-* \param[in]   user_data   data for event (unused)
-*/
-static void on_button_positional_clicked(GtkWidget *widget, gpointer user_data)
-{
-    debug_gtk3("clicked\n");
-
-    get_pos_file_dialog(widget, "Select positional keymap");
-}
-
-
 /** \brief  Create a keyboard mapping selection widget
  *
  * \return  GtkWidget
@@ -171,7 +126,7 @@ static void on_button_positional_clicked(GtkWidget *widget, gpointer user_data)
  * \fixme   I'm not really satisfied with the 'select file' buttons, perhaps
  *          they should be placed next to the radio buttons?
  */
-GtkWidget *create_kbdmapping_widget(void)
+GtkWidget *create_kbdmapping_widget(GtkWidget *widget)
 {
     GtkWidget *btn_sym;
     GtkWidget *btn_pos;
@@ -185,7 +140,7 @@ GtkWidget *create_kbdmapping_widget(void)
 
     btn_sym = gtk_button_new_with_label("Select file ...");
     g_signal_connect(btn_sym, "clicked",
-            G_CALLBACK(on_button_symbolic_clicked), NULL);
+            G_CALLBACK(open_sym_file_callback), (gpointer)(widget));
     g_object_set(btn_sym, "margin-left", 32, NULL);
 
     gtk_grid_insert_row(GTK_GRID(layout), 4);
@@ -194,7 +149,7 @@ GtkWidget *create_kbdmapping_widget(void)
 
     btn_pos = gtk_button_new_with_label("Select file ...");
     g_signal_connect(btn_pos, "clicked",
-            G_CALLBACK(on_button_positional_clicked), NULL);
+            G_CALLBACK(open_pos_file_callback), (gpointer)(widget));
 
     g_object_set(btn_pos, "margin-left", 32, NULL);
     gtk_grid_attach(GTK_GRID(layout), btn_pos, 0, 6, 1, 1);

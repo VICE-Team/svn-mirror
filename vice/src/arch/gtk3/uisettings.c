@@ -65,6 +65,13 @@
 #define NUM_COLUMNS 1
 
 
+enum {
+    RESPONSE_LOAD = 1,
+    RESPONSE_SAVE,
+    RESPONSE_LOAD_FILE,
+    RESPONSE_SAVE_FILE
+};
+
 static ui_settings_tree_node_t main_nodes[] = {
     { "Speed", uispeed_create_central_widget, NULL },
     { "Keyboard", uikeyboard_create_central_widget, NULL },
@@ -76,14 +83,16 @@ static ui_settings_tree_node_t main_nodes[] = {
 
 static void ui_settings_set_central_widget(GtkWidget *widget);
 
+#if 0
 static void on_load_clicked(GtkWidget *widget, gpointer data);
 static void on_save_clicked(GtkWidget *widget, gpointer data);
 static void on_load_file_clicked(GtkWidget *widget, gpointer data);
 static void on_save_file_clicked(GtkWidget *widget, gpointer data);
 static void on_close_clicked(GtkWidget *widget, gpointer data);
+#endif
 
 
-
+#if 0
 /** \brief  List of buttons for the 'button box' of the main settings window
  */
 static ui_button_t buttons[] = {
@@ -94,6 +103,7 @@ static ui_button_t buttons[] = {
     { "Close", on_close_clicked },
     { NULL, NULL }
 };
+#endif
 
 
 /** \brief  Reference to the settings window
@@ -135,7 +145,7 @@ static void on_tree_selection_changed(
             if (strcmp(main_nodes[i].name, name) == 0) {
                 /* got the item */
                 if (main_nodes[i].callback != NULL) {
-                    ui_settings_set_central_widget(main_nodes[i].callback());
+                    ui_settings_set_central_widget(main_nodes[i].callback(NULL));
                     break;
                 }
             }
@@ -144,6 +154,7 @@ static void on_tree_selection_changed(
     }
 }
 
+#if 0
 static void on_load_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("called\n");
@@ -173,6 +184,7 @@ static void on_close_clicked(GtkWidget *widget, gpointer user_data)
     debug_gtk3("called\n");
     gtk_widget_hide(settings_window);
 }
+#endif
 
 
 static void on_save_on_exit_toggled(GtkWidget *widget, gpointer user_data)
@@ -257,6 +269,50 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
 }
 
 
+/* widget = dialog */
+static GtkWidget *create_content_widget(GtkWidget *widget)
+{
+    GtkWidget *tree;
+    GtkTreeSelection *selection;
+    int soe_state;      /* save-on-exit state */
+
+
+    debug_gtk3("called\n");
+
+    settings_grid = gtk_grid_new();
+    tree = create_treeview();
+
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+    gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+    g_signal_connect(G_OBJECT(selection), "changed",
+            G_CALLBACK(on_tree_selection_changed), NULL);
+
+    gtk_grid_attach(GTK_GRID(settings_grid), tree, 0, 0, 1, 1);
+
+    /* TODO: remember the previously selected setting/widget and set it here */
+    ui_settings_set_central_widget(uispeed_create_central_widget(widget));
+
+/*    gtk_grid_attach(GTK_GRID(settings_grid),
+            uihelpers_create_button_box(buttons, GTK_ORIENTATION_HORIZONTAL),
+            0, 1, 2, 1);
+*/
+    save_on_exit = create_save_on_exit_checkbox();
+    soe_state= resources_get_int("SaveResourcesOnExit", &soe_state);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(save_on_exit), soe_state);
+    gtk_grid_attach(GTK_GRID(settings_grid), save_on_exit, 0, 2, 2, 1);
+
+
+    gtk_widget_show(settings_grid);
+    gtk_widget_show(tree);
+
+    gtk_widget_set_size_request(tree, 200, 500);
+    gtk_widget_set_size_request(settings_grid, 600, 550);
+
+    return settings_grid;
+}
+
+
+#if 0
 /** \brief  Setup the settings dialog, called from a menu item
  */
 void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
@@ -309,7 +365,7 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_grid_attach(GTK_GRID(settings_grid), tree, 0, 0, 1, 1);
 
     /* TODO: remember the previously selected setting/widget and set it here */
-    ui_settings_set_central_widget(uispeed_create_central_widget());
+    ui_settings_set_central_widget(uispeed_create_central_widget(parent));
 
     gtk_grid_attach(GTK_GRID(settings_grid),
             uihelpers_create_button_box(buttons, GTK_ORIENTATION_HORIZONTAL),
@@ -332,6 +388,7 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_window_set_resizable(GTK_WINDOW(settings_window), FALSE);
     gtk_widget_show(settings_window);
 }
+#endif
 
 
 /** \brief  Properly destroy the settings window if required
@@ -341,5 +398,46 @@ void ui_settings_dialog_shutdown(void)
     if (settings_window != NULL && GTK_IS_WIDGET(settings_window)) {
         gtk_widget_destroy(settings_window);
     }
+}
+
+
+static void response_callback(GtkWidget *widget, gpointer user_data)
+{
+    gint response_id = GPOINTER_TO_INT(user_data);
+
+    debug_gtk3("got response ID %d\n", response_id);
+
+    switch (response_id) {
+        case GTK_RESPONSE_DELETE_EVENT:
+            gtk_widget_destroy(widget);
+            break;
+        default:
+            break;
+    }
+}
+
+
+
+void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
+{
+    GtkWidget *dialog;
+    GtkWidget *content;
+
+    dialog = gtk_dialog_new_with_buttons(
+            "Settings",
+            GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+            GTK_DIALOG_MODAL,
+            "Load", RESPONSE_LOAD,
+            "Save", RESPONSE_SAVE,
+            "Load file ...", RESPONSE_LOAD_FILE,
+            "Save file ...", RESPONSE_SAVE_FILE,
+            "Close", GTK_RESPONSE_DELETE_EVENT,
+            NULL);
+
+    content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_container_add(GTK_CONTAINER(content), create_content_widget(dialog));
+
+    g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
+    gtk_widget_show_all(dialog);
 }
 

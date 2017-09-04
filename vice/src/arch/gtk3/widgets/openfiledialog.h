@@ -34,11 +34,10 @@
 #include <gtk/gtk.h>
 
 
-void ui_open_file_dialog_create(
+gchar *ui_open_file_dialog(
         GtkWidget *widget,
         const char *title,
         const char *filter_desc,
-        const char **filter_list,
-        void (*callback)(GtkWidget *widget, void *));
+        const char **filter_list);
 
 #endif

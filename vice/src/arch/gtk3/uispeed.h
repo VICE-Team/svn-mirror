@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 
 
-GtkWidget *uispeed_create_central_widget(void);
+GtkWidget *uispeed_create_central_widget(GtkWidget *widget);
 
 #endif
 

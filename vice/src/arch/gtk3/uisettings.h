@@ -37,13 +37,15 @@
  */
 typedef struct ui_settings_tree_node_s {
     char *name;
-    GtkWidget *(*callback)(void);
+    GtkWidget *(*callback)(GtkWidget *);
     /* child nodes */
     struct ui_settings_tree_node_s *children;
 } ui_settings_tree_node_t;
 
 
 void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data);
+
+void ui_settings_dialog_create(GtkWidget *, gpointer user_data);
 void ui_settings_dialog_shutdown(void);
 
 #endif

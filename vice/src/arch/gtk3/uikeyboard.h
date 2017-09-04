@@ -30,7 +30,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *uikeyboard_create_central_widget(void);
+GtkWidget *uikeyboard_create_central_widget(GtkWidget *widget);
 
 
 #endif

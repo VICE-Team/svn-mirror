@@ -119,7 +119,7 @@ static GtkWidget *create_pause_checkbox(void)
  *
  * \todo    Add 'advance frame' button
  */
-GtkWidget *uispeed_create_central_widget(void)
+GtkWidget *uispeed_create_central_widget(GtkWidget *widget)
 {
     GtkWidget *layout;
     int warp_state;

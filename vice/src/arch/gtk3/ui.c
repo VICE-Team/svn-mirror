@@ -95,7 +95,7 @@ static ui_menu_item_t help_menu[] = {
 
 static ui_menu_item_t settings_menu[] = {
     { "_Settings", UI_MENU_TYPE_ITEM_ACTION,
-        ui_settings_dialog_callback, NULL },
+        ui_settings_dialog_create, NULL },
     UI_MENU_TERMINATOR
 };
 

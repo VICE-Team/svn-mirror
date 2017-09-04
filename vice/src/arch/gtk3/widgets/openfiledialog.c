@@ -35,34 +35,6 @@
 #include "openfiledialog.h"
 
 
-/** \brief  The callback set through ui_file_dialog_create()
- *
- * The GtkWidget* is probably not needed
- */
-static void (*user_callback)(GtkWidget *widget, void *data);
-
-
-
-/** \brief  Handler for the "response" event of the GtkFileChooserDialog
- *
- * \param[in]   widget      file chooser widget
- * \param[in]   user_data   response ID
- */
-static void response_callback(GtkWidget *widget, gpointer user_data)
-{
-    int response_id = GPOINTER_TO_INT(user_data);
-    char *filename = NULL;
-
-    debug_gtk3("response ID = %d\n", response_id);
-
-    if (response_id == GTK_RESPONSE_ACCEPT) {
-        filename  = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-    }
-    gtk_widget_destroy(widget);
-    user_callback(widget, filename);
-}
-
-
 /** \brief  Create an 'open file' dialog
  *
  * \param[in]   widget      parent widget
@@ -70,27 +42,24 @@ static void response_callback(GtkWidget *widget, gpointer user_data)
  * \param[in]   filter_desc file filter name
  * \param[in]   filter_list list of file type filters, NULL-terminated
  * \param[in]   callback    callback accepting filename (or NULL on cancel)
+ *
+ * \return  filename or `NULL` on cancel
  */
-void ui_open_file_dialog_create(
+gchar *ui_open_file_dialog(
         GtkWidget *widget,
         const char *title,
         const char *filter_desc,
-        const char **filter_list,
-        void (*callback)(GtkWidget *, void *))
+        const char **filter_list)
 {
     GtkWidget *dialog;
-    GtkWidget *parent = NULL;
     GtkFileFilter *filter;
+    GtkWidget *parent;
     size_t i = 0;
+    gint result;
+    gchar *filename;
 
-    user_callback = callback;
-
-#if 0
     parent = gtk_widget_get_toplevel(widget);
-    if (!gtk_widget_is_toplevel(parent)) {
-        parent = NULL;
-    }
-#endif
+
     dialog = gtk_file_chooser_dialog_new(
             title,
             GTK_WINDOW(parent),
@@ -98,6 +67,7 @@ void ui_open_file_dialog_create(
             "Open", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL, NULL);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
 
     filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, filter_desc);
@@ -106,7 +76,12 @@ void ui_open_file_dialog_create(
     }
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
-    gtk_widget_show(dialog);
-    g_print("FILE DIALOG SHOWN\n");
+    result = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (result == GTK_RESPONSE_ACCEPT) {
+        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    } else {
+        filename = NULL;
+    }
+    gtk_widget_destroy(dialog);
+    return filename;
 }

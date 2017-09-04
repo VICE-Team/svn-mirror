@@ -30,7 +30,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *create_kbdmapping_widget(void);
+GtkWidget *create_kbdmapping_widget(GtkWidget *widget);
 
 
 #endif
