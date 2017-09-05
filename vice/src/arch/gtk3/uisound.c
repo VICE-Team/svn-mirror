@@ -36,6 +36,8 @@
 #include "debug_gtk3.h"
 
 #include "sounddriverwidget.h"
+#include "soundoutputmodewidget.h"
+#include "soundsyncwidget.h"
 
 #include "uisound.h"
 
@@ -67,7 +69,9 @@ static GtkWidget *create_inner_grid(void)
 
     grid = gtk_grid_new();
 
-    gtk_grid_attach(GTK_GRID(grid), create_sound_driver_widget(), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_sound_driver_widget(), 0, 0, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_sound_output_mode_widget(), 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_sound_sync_mode_widget(), 1, 1, 1, 1);
 
     return grid;
 }
