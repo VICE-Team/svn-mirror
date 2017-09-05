@@ -5108,7 +5108,6 @@ AC_OUTPUT([Makefile
            src/arch/win32/msvc/wpcap/net/Makefile
            src/arch/win32/utils/Makefile
            src/arch/win32/vs_tmpl/Makefile
-           src/arch/win32/watcom/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
            src/c64/Makefile
