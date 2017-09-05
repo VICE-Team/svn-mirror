@@ -1,7 +1,7 @@
 ## Makefile.am for the Win32 version of `libarch.a'.
 
 if !CROSS
-SUBDIRS = evc mingw32 msvc utils vs_tmpl
+SUBDIRS = evc mingw32 msvc utils
 endif
 
 SUFFIXES = .rc
@@ -61,7 +61,6 @@ libarch_a_SOURCES = \
 	lightpendrv.h \
 	mousedrv.c \
 	mousedrv.h \
-	msvc-d3d.h \
 	petui.c \
 	plus4ui.c \
 	rawnetarch.c \
@@ -351,38 +350,17 @@ endif
 EXTRA_DIST = \
 	c64.ico \
 	dirent.c \
-	generate_msvc6_project.bat \
-	generate_msvc70_ffmpeg_project.bat \
-	generate_msvc70_project.bat \
-	generate_msvc71_ffmpeg_project.bat \
-	generate_msvc71_project.bat \
-	generate_msvc8_ffmpeg_project.bat \
-	generate_msvc8_project.bat \
-	generate_msvc9_ffmpeg_project.bat \
-	generate_msvc9_project.bat \
-	generate_msvc10_ffmpeg_project.bat \
-	generate_msvc10_project.bat \
-	generate_msvc11_ffmpeg_project.bat \
-	generate_msvc11_project.bat \
-	generate_msvc12_ffmpeg_project.bat \
-	generate_msvc12_project.bat \
-	generate_msvc14_ffmpeg_project.bat \
-	generate_msvc14_project.bat \
 	genmenuid.sh \
 	genstringid.sh \
 	genwinres.sh \
 	make-bindist.sh \
 	montb.bmp \
-	msvc_mon_lex.c \
-	msvc_mon_parse.c \
 	res.txt \
 	resdialogs.txt \
 	resmenu.txt \
 	resstrings.txt \
 	system.c \
-	vice.manifest \
-	vice-version.bat \
-	vice-version.bat.in
+	vice.manifest
 
 BUILT_SOURCES = res.h menuid.h stringid.h
 

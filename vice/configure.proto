@@ -5097,14 +5097,12 @@ AC_OUTPUT([Makefile
            src/arch/unix/macosx/Resources/Makefile
            src/arch/unix/macosx/Resources/English.lproj/Makefile
            src/arch/win32/Makefile
-           src/arch/win32/vice-version.bat
            src/arch/win32/evc/Makefile
            src/arch/win32/mingw32/Makefile
            src/arch/win32/msvc/Makefile
            src/arch/win32/msvc/wpcap/Makefile
            src/arch/win32/msvc/wpcap/net/Makefile
            src/arch/win32/utils/Makefile
-           src/arch/win32/vs_tmpl/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
            src/c64/Makefile
