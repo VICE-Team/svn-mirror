@@ -12,8 +12,7 @@ SUBDIRS = \
 	os2-watcom \
 	qnx4 \
 	sortix-files \
-	syllable-files \
-	win32-watcom
+	syllable-files
 endif
 
 AM_CPPFLAGS = \
