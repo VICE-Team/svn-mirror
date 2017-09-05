@@ -42,7 +42,7 @@ static int aiff_init(const char *param, int *speed, int *fragsize, int *fragnr, 
     unsigned int check_value;
 
     /* AIFF header. */
-    uint8_t header[54] = "FORMssssAIFFCOMM\0\0\0\022\0cffff\0\020\100rrr\0\0\0\0\0\0SSNDssss\0\0\0\0\0\0\0\0";
+    unsigned char header[54] = "FORMssssAIFFCOMM\0\0\0\022\0cffff\0\020\100rrr\0\0\0\0\0\0SSNDssss\0\0\0\0\0\0\0\0";
 
     uint32_t sample_rate = (uint32_t)*speed;
 

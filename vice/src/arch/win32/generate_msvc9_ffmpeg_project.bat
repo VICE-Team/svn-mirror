@@ -34,6 +34,9 @@ cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs9-ffmpeg\make-msvc-bindist.bat
 copy msvc\winid*.bat vs9-ffmpeg
 copy msvc\debug.h vs9-ffmpeg\debug.h
+copy msvc\mon_parse.c vs9-ffmpeg\mon_lex.c
+copy msvc\mon_parse.c vs9-ffmpeg\mon_parse.c
+copy msvc\mon_parse.h vs9-ffmpeg\mon_parse.h
 echo MSVC9 project files generated in vs9-ffmpeg
 goto end
 :missingmkmsvc

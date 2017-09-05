@@ -7,6 +7,7 @@ PROJECTTYPE = library
 # project dependencies, one per line, preceeded by a tab
 PROJECTDEPS =
 	base
+	dat2h
 	geninfocontrib
 	genmsvcver
 	gentranslate
@@ -57,6 +58,8 @@ SOURCES =
 	arch\win32\kbd.c
 	arch\win32\lightpendrv.c
 	arch\win32\mousedrv.c
+	arch\win32\msvc_mon_lex.c
+	arch\win32\msvc_mon_parse.c
 	arch\win32\petui.c
 	arch\win32\plus4ui.c
 	arch\win32\rawnetarch.c

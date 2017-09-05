@@ -248,4 +248,6 @@ EXTRA_DIST = \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
 	make-bindist_syllable.sh \
-	make-bindist_win32.sh
+	make-bindist_win32.sh \
+	msvc_mon_lex.c \
+	msvc_mon_parse.c

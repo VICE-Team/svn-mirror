@@ -89,17 +89,17 @@ typedef struct sound_s sound_t;
 
 /* manage temporary buffers. if the requested size is smaller or equal to the
  * size of the already allocated buffer, reuse it.  */
-static int16_t *buf = NULL;
+static short *buf = NULL;
 static int blen = 0;
 
-static int16_t *getbuf(int len)
+static short *getbuf(int len)
 {
     if ((buf == NULL) || (blen < len)) {
         if (buf) {
             lib_free(buf);
         }
         blen = len;
-        buf = (int16_t *)lib_calloc(len, 1);
+        buf = (short *)lib_calloc(len, 1);
     }
     return buf;
 }
@@ -254,10 +254,10 @@ static void resid_reset(sound_t *psid, CLOCK cpu_clk)
     psid->sid->reset();
 }
 
-static int resid_calculate_samples(sound_t *psid, int16_t *pbuf, int nr,
+static int resid_calculate_samples(sound_t *psid, short *pbuf, int nr,
                                    int interleave, int *delta_t)
 {
-    int16_t *tmp_buf;
+    short *tmp_buf;
     int retval;
 
     if (psid->factor == 1000) {

@@ -1351,7 +1351,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 static BYTE ui_new_joyport[3] = { 0, 0, 0 };
 static BYTE ui_old_joyport[3] = { 0, 0, 0 };
 
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
     ui_new_joyport[1] = joyport[1];
     ui_new_joyport[2] = joyport[2];

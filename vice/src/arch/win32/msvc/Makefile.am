@@ -10,6 +10,9 @@ EXTRA_DIST = \
 	inttypes.h \
 	lame-config.h \
 	make-msvc-bindist-native.bat.proto \
+	mon_lex.c \
+	mon_parse.c \
+	mon_parse.h \
 	stdint.h \
 	system.h \
 	winid_arm.bat \

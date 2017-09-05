@@ -33,6 +33,9 @@ mkmsvc.exe -native -6 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs6\make-msvc-bindist.bat
 copy msvc\debug.h vs6\debug.h
+copy msvc\mon_parse.c vs6\mon_lex.c
+copy msvc\mon_parse.c vs6\mon_parse.c
+copy msvc\mon_parse.h vs6\mon_parse.h
 echo MSVC6 project files generated in vs6
 goto end
 :missingmkmsvc

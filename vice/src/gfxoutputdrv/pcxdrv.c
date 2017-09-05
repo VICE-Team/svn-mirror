@@ -187,7 +187,7 @@ static int pcxdrv_close(screenshot_t *screenshot)
     gfxoutputdrv_data_t *sdata;
     unsigned int i;
     int res = -1;
-    uint8_t pcx_color_prefix[2] = "\x0c";
+    unsigned char pcx_color_prefix[2] = "\x0c";
     uint8_t pcx_colors[256 * 3];
 
     sdata = screenshot->gfxoutputdrv_data;

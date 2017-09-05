@@ -313,6 +313,10 @@ static int test_win32_exception(char *name)
         return 1;
     }
 
+    if (!strcmp(name, "dat2h")) {
+        return 1;
+    }
+
     return 0;
 }
 

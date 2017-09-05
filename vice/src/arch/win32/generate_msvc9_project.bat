@@ -34,6 +34,9 @@ cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs9\make-msvc-bindist.bat
 copy msvc\winid*.bat vs9
 copy msvc\debug.h vs9\debug.h
+copy msvc\mon_parse.c vs9\mon_lex.c
+copy msvc\mon_parse.c vs9\mon_parse.c
+copy msvc\mon_parse.h vs9\mon_parse.h
 echo MSVC9 project files generated in vs9
 goto end
 :missingmkmsvc

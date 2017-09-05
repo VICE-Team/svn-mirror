@@ -40,8 +40,8 @@ static int stereo = 0;
 static int iff_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     /* IFF/8SVX header. */
-    uint8_t mono_header[48] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\000BODYssss";
-    uint8_t stereo_header[60] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\0CHAN\0\0\0\004\0\0\0\006BODYssss";
+    unsigned char mono_header[48] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\000BODYssss";
+    unsigned char stereo_header[60] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\0CHAN\0\0\0\004\0\0\0\006BODYssss";
 
     uint16_t sample_rate = (uint16_t)*speed;
 

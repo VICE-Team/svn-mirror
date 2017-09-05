@@ -50,7 +50,7 @@ static void le_store(uint8_t *buf, uint32_t val, int len)
 static int wav_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     /* RIFF/WAV header. */
-    uint8_t header[45] = "RIFFllllWAVEfmt \020\0\0\0\001\0ccrrrrbbbb88\020\0datallll";
+    unsigned char header[45] = "RIFFllllWAVEfmt \020\0\0\0\001\0ccrrrrbbbb88\020\0datallll";
     uint32_t sample_rate = (uint32_t)*speed;
     uint32_t bytes_per_sec = (uint32_t)(*speed * *channels * 2);
 

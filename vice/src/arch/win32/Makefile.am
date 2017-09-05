@@ -373,6 +373,8 @@ EXTRA_DIST = \
 	genwinres.sh \
 	make-bindist.sh \
 	montb.bmp \
+	msvc_mon_lex.c \
+	msvc_mon_parse.c \
 	res.txt \
 	resdialogs.txt \
 	resmenu.txt \

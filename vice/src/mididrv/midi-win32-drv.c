@@ -32,7 +32,8 @@
 
 #ifdef HAVE_MIDI
 
-#include <basetsd.h>
+#include "types.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,10 +46,11 @@
 
 #include "resources.h"
 #include "translate.h"
-#include "types.h"
 
+#if 0
 #ifndef DWORD_PTR
 #define DWORD_PTR unsigned long
+#endif
 #endif
 
 /* ------------------------------------------------------------------------- */

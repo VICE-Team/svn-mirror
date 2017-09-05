@@ -33,6 +33,9 @@ mkmsvc.exe -native -70 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs70\make-msvc-bindist.bat
 copy msvc\debug.h vs70\debug.h
+copy msvc\mon_parse.c vs70\mon_lex.c
+copy msvc\mon_parse.c vs70\mon_parse.c
+copy msvc\mon_parse.h vs70\mon_parse.h
 echo MSVC7.0 project files generated in vs70
 goto end
 :missingmkmsvc

@@ -33,6 +33,9 @@ mkmsvc.exe -ffmpeg -native -70 vice
 cd ..
 copy msvc\make-msvc-bindist-native.bat.proto vs70-ffmpeg\make-msvc-bindist.bat
 copy msvc\debug.h vs70-ffmpeg\debug.h
+copy msvc\mon_parse.c vs70-ffmpeg\mon_lex.c
+copy msvc\mon_parse.c vs70-ffmpeg\mon_parse.c
+copy msvc\mon_parse.h vs70-ffmpeg\mon_parse.h
 echo MSVC7.0 project files generated in vs70-ffmpeg
 goto end
 :missingmkmsvc

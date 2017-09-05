@@ -99,7 +99,7 @@ struct sid_engine_s {
     uint8_t (*read)(struct sound_s *psid, uint16_t addr);
     void (*store)(struct sound_s *psid, uint16_t addr, uint8_t val);
     void (*reset)(struct sound_s *psid, CLOCK cpu_clk);
-    int (*calculate_samples)(struct sound_s *psid, int16_t *pbuf, int nr,
+    int (*calculate_samples)(struct sound_s *psid, short *pbuf, int nr,
                              int interleave, int *delta_t);
     void (*prevent_clk_overflow)(struct sound_s *psid, CLOCK sub);
     char *(*dump_state)(struct sound_s *psid);

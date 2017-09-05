@@ -43,8 +43,8 @@ static int extra_block = 0;
 static int voc_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     /* VOC header. */
-    uint8_t header[26] = "Creative Voice File\032\032\0\024\001\037\021";
-    uint8_t block_header[16] = "\011sssrrrr\026c\004\0\0\0\0\0";
+    unsigned char header[26] = "Creative Voice File\032\032\0\024\001\037\021";
+    unsigned char block_header[16] = "\011sssrrrr\026c\004\0\0\0\0\0";
     uint32_t sample_rate = (uint32_t)*speed;
 
     voc_fd = fopen(param ? param : "vicesnd.voc", MODE_WRITE);
@@ -77,7 +77,7 @@ static int voc_write(int16_t *pbuf, size_t nr)
     uint8_t rlen[3];
 
     /* VOC block header. */
-    uint8_t extra_block_header[] = "\002sss";
+    unsigned char extra_block_header[] = "\002sss";
 
 #ifdef WORDS_BIGENDIAN
     unsigned int i;
