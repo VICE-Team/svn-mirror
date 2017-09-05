@@ -5096,7 +5096,6 @@ AC_OUTPUT([Makefile
            src/arch/unix/macosx/cocoa/dialog/Makefile
            src/arch/unix/macosx/Resources/Makefile
            src/arch/unix/macosx/Resources/English.lproj/Makefile
-           src/arch/watcom-source-wrappers/Makefile
            src/arch/win32/Makefile
            src/arch/win32/vice-version.bat
            src/arch/win32/evc/Makefile

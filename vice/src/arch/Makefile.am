@@ -34,12 +34,6 @@ SUBDIRS = msdos
 
 endif
 
-if OS2_COMPILE
-
-SUBDIRS = watcom-source-wrappers
-
-endif
-
 if BEOS_COMPILE
 
 SUBDIRS = beos
