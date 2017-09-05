@@ -57,6 +57,9 @@ EXTRA_DIST = \
 	maincpu.tgt \
 	make-watcom-bindist.bat \
 	mididrv.tgt \
+	mon_lex.c \
+	mon_parse.c \
+	mon_parse.h \
 	monitor.tgt \
 	p64.tgt \
 	parallel.tgt \
