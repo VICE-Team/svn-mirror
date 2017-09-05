@@ -58,8 +58,10 @@
 #include "debug_gtk3.h"
 
 #include "widgethelpers.h"
+
 #include "uispeed.h"
 #include "uikeyboard.h"
+#include "uisound.h"
 
 
 #include "uisettings.h"
@@ -85,7 +87,7 @@ enum {
 static ui_settings_tree_node_t main_nodes[] = {
     { "Speed", uispeed_create_central_widget, NULL },
     { "Keyboard", uikeyboard_create_central_widget, NULL },
-    { "Sound", NULL, NULL },
+    { "Sound", uisound_create_central_widget, NULL },
     { NULL, NULL, NULL }
 };
 
@@ -285,7 +287,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(tree);
 
-    gtk_widget_set_size_request(tree, 200, 500);
+    gtk_widget_set_size_request(tree, 150, 500);
     gtk_widget_set_size_request(settings_grid, 600, 550);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));

@@ -20,7 +20,8 @@ libwidgets_a_SOURCES = \
 	speedwidget.c \
 	kbdmappingwidget.c \
 	kbdlayoutwidget.c \
-	openfiledialog.c
+	openfiledialog.c \
+	sounddriverwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -28,5 +29,6 @@ EXTRA_DIST = \
 	speedwidget.h \
 	kbdmappingwidget.h \
 	kbdlayoutwidget.h \
-	openfiledialog.h
+	openfiledialog.h \
+	sounddriverwidget.h
 

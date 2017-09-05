@@ -56,6 +56,7 @@ libarch_a_SOURCES = \
 	uimon-fallback.c \
 	uikeyboard.c \
 	uisettings.c \
+	uisound.c \
 	uispeed.c \
 	uistatusbar.c \
 	vic20ui.c \
@@ -95,6 +96,7 @@ EXTRA_DIST = \
 	uikeyboard.h \
 	uimenu.h \
 	uisettings.h \
+	uisound.h \
 	uispeed.h \
 	uistatusbar.h \
 	videoarch.h
