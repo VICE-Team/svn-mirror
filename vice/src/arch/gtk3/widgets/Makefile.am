@@ -25,7 +25,9 @@ libwidgets_a_SOURCES = \
 	soundoutputmodewidget.c \
 	soundsyncwidget.c \
 	soundsampleratewidget.c \
-	soundbuffersizewidget.c
+	soundbuffersizewidget.c \
+	soundfragmentsizewidget.c \
+	soundsuspendtimewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -38,5 +40,7 @@ EXTRA_DIST = \
 	soundoutputmodewidget.h \
 	soundsyncwidget.h \
 	soundsampleratewidget.h \
-	soundbuffersizewidget.h
+	soundbuffersizewidget.h \
+	soundfragmentsizewidget.h \
+	soundsuspendtimewidget.h
 

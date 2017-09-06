@@ -40,6 +40,8 @@
 #include "soundsyncwidget.h"
 #include "soundsampleratewidget.h"
 #include "soundbuffersizewidget.h"
+#include "soundfragmentsizewidget.h"
+#include "soundsuspendtimewidget.h"
 
 #include "uisound.h"
 
@@ -83,6 +85,12 @@ static GtkWidget *create_inner_grid(void)
     gtk_grid_attach(GTK_GRID(grid), create_sound_sample_rate_widget(), 0, 2, 1, 1);
     /* row 2, column 1 */
     gtk_grid_attach(GTK_GRID(grid), create_sound_buffer_size_widget(), 1 ,2 ,1 ,1);
+
+    /* row 3, columm 0 */
+    gtk_grid_attach(GTK_GRID(grid), create_sound_fragment_size_widget(), 0, 3, 1, 1);
+    /* row 3, column 1 */
+    gtk_grid_attach(GTK_GRID(grid), create_sound_suspend_time_widget(), 1, 3, 1, 1);
+
     return grid;
 }
 
