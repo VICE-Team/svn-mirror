@@ -1152,7 +1152,7 @@ static void ALWAYS_INLINE x264_macroblock_cache_load( x264_t *h, int mb_x, int m
         }
         else
         {
-            { x264_uint128_t tmp__0 = {{0,0}}; (((x264_union128_t*)(h->mb.cache.mv[l][i8]))->i) = (tmp__0); }
+			M128( h->mb.cache.mv[l][i8] ) = M128_ZERO;
 			M32( &h->mb.cache.ref[l][i8] ) = (uint8_t)(-2) * 0x01010101U;
         }
 
@@ -1894,18 +1894,18 @@ void x264_macroblock_cache_save( x264_t *h )
         {
             M16( &ref0[0*s8x8] ) = (uint8_t)(-1) * 0x0101;
             M16( &ref0[1*s8x8] ) = (uint8_t)(-1) * 0x0101;
-            (((x264_union128_t*)(&mv0[0*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[0][x264_scan8[0]+8*0]))->i);
-            (((x264_union128_t*)(&mv0[1*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[0][x264_scan8[0]+8*1]))->i);
-            (((x264_union128_t*)(&mv0[2*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[0][x264_scan8[0]+8*2]))->i);
-            (((x264_union128_t*)(&mv0[3*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[0][x264_scan8[0]+8*3]))->i);
+			M128( &mv0[0*s4x4] ) = M128_ZERO;
+            M128( &mv0[1*s4x4] ) = M128_ZERO;
+            M128( &mv0[2*s4x4] ) = M128_ZERO;
+            M128( &mv0[3*s4x4] ) = M128_ZERO;
 			if( h->sh.i_type == SLICE_TYPE_B )
             {
                 M16( &ref1[0*s8x8] ) = (uint8_t)(-1) * 0x0101;
                 M16( &ref1[1*s8x8] ) = (uint8_t)(-1) * 0x0101;
-                (((x264_union128_t*)(&mv1[0*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[1][x264_scan8[0]+8*0]))->i);
-                (((x264_union128_t*)(&mv1[1*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[1][x264_scan8[0]+8*1]))->i);
-                (((x264_union128_t*)(&mv1[2*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[1][x264_scan8[0]+8*2]))->i);
-                (((x264_union128_t*)(&mv1[3*s4x4]))->i) = (((x264_union128_t*)(h->mb.cache.mv[1][x264_scan8[0]+8*3]))->i);
+				M128( &mv1[0*s4x4] ) = M128_ZERO;
+                M128( &mv1[1*s4x4] ) = M128_ZERO;
+                M128( &mv1[2*s4x4] ) = M128_ZERO;
+                M128( &mv1[3*s4x4] ) = M128_ZERO;
 			}
         }
     }
@@ -1935,9 +1935,9 @@ void x264_macroblock_cache_save( x264_t *h )
         }
         else
         {
-            { x264_uint128_t tmp__9 = {{0,0}}; (((x264_union128_t*)(mvd0[0]))->i) = (tmp__9); }
+			M128( mvd0[0] ) = M128_ZERO;
 			if( h->sh.i_type == SLICE_TYPE_B )
-                { x264_uint128_t tmp__10 = {{0,0}}; (((x264_union128_t*)(mvd1[0]))->i) = (tmp__10); }
+				M128( mvd1[0] ) = M128_ZERO;
 		}
 
         if( h->sh.i_type == SLICE_TYPE_B )
