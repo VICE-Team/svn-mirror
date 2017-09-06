@@ -463,14 +463,8 @@ int x264_frame_copy_picture( x264_t *h, x264_frame_t *dst, x264_picture_t *src )
         else if( i_csp == X264_CSP_I420 || i_csp == X264_CSP_I422 || i_csp == X264_CSP_YV12 || i_csp == X264_CSP_YV16 )
         {
             int uv_swap = i_csp == X264_CSP_YV12 || i_csp == X264_CSP_YV16;
-        do{
-			if( get_plane_ptr(h, src, &pix[1], &stride[1], uv_swap ? 2 : 1, 1, v_shift) )
-				return -1;
-		} while(0);
-        do{
-			if( get_plane_ptr(h, src, &pix[2], &stride[2], uv_swap ? 1 : 2, 1, v_shift) )
-				return -1;
-		} while(0);
+            get_plane_ptr( h, src, &pix[1], &stride[1], uv_swap ? 2 : 1, 1, v_shift );
+            get_plane_ptr( h, src, &pix[2], &stride[2], uv_swap ? 1 : 2, 1, v_shift );
 			h->mc.plane_copy_interleave( dst->plane[1], dst->i_stride[1],
                                          (pixel*)pix[1], stride[1]/sizeof(pixel),
                                          (pixel*)pix[2], stride[2]/sizeof(pixel),
