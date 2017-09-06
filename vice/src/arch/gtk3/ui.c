@@ -132,6 +132,46 @@ static ui_menu_item_t file_menu[] = {
 };
 
 
+static ui_menu_item_t snapshot_menu[] = {
+    { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Select history directory ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Start recording events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Stop recording events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Start playing back events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Stop playing back events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Set recording milestone", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Return to milestone", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Recording start mode ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    /* XXX: this item should be removed and its functionality added to the
+     *      'Save media file' item like I did in the SDL UI: Saving a media
+     *      file should handle image, sound and/or video
+     *      -- Compyx
+     */
+    { "Sound recording ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_TERMINATOR
+};
+
+
 static ui_menu_item_t help_menu[] = {
     { "_About", UI_MENU_TYPE_ITEM_ACTION,
         ui_about_dialog_callback, NULL },
@@ -232,6 +272,8 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
 
     /* generate File menu */
     ui_menu_file_add(file_menu);
+    /* generate Snapshot menu */
+    ui_menu_snapshot_add(snapshot_menu);
     /* settings menu */
     ui_menu_settings_add(settings_menu);
     /* generate Help menu */

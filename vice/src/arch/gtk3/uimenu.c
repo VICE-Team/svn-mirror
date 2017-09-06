@@ -119,8 +119,6 @@ GtkWidget *ui_menu_bar_create(void)
 
     /* snapshot menu */
     GtkWidget *snap_item;
-    GtkWidget *load_item;
-    GtkWidget *save_item;
 
     /* settings menu */
     GtkWidget *settings_item;
@@ -161,10 +159,12 @@ GtkWidget *ui_menu_bar_create(void)
     /* create the top-level 'Snapshot' menu */
     snap_item = gtk_menu_item_new_with_mnemonic("_Snapshot");
     snapshot_submenu = gtk_menu_new();
+#if 0
     load_item = gtk_menu_item_new_with_mnemonic("_Load");
     save_item = gtk_menu_item_new_with_mnemonic("_Save");
     gtk_menu_shell_append(GTK_MENU_SHELL(snapshot_submenu), load_item);
     gtk_menu_shell_append(GTK_MENU_SHELL(snapshot_submenu), save_item);
+#endif
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(snap_item), snapshot_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), snap_item);
 
@@ -221,6 +221,9 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                             "activate",
                             G_CALLBACK(items[i].callback),
                             (gpointer)(items[i].data));
+                } else {
+                    /* no callback: 'grey-out'/'ghost' the item */
+                    gtk_widget_set_sensitive(item, FALSE);
                 }
                 break;
             case UI_MENU_TYPE_SEPARATOR:
@@ -257,6 +260,17 @@ GtkWidget *ui_menu_settings_add(ui_menu_item_t *items)
 }
 
 
+/** \brief  Add menu \a items to the 'Snapshot' menu
+ *
+ * \param[in]       items   menu items to add to the 'Snapshot' menu
+ *
+ * \return  'Help' menu reference
+ */
+
+GtkWidget *ui_menu_snapshot_add(ui_menu_item_t *items)
+{
+    return ui_menu_add(snapshot_submenu, items);
+}
 
 /** \brief  Add menu \a items to the 'Help' menu
  *
