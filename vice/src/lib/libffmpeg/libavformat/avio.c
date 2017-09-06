@@ -78,21 +78,12 @@ static const AVClass *urlcontext_child_class_next(const AVClass *prev)
 
 static const AVOption options[] = { { NULL } };
 const AVClass ffurl_context_class = {
-#ifdef IDE_COMPILE
-    "URLContext",
-    urlcontext_to_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, urlcontext_child_next,
-    urlcontext_child_class_next,
-#else
 	.class_name       = "URLContext",
     .item_name        = urlcontext_to_name,
     .option           = options,
     .version          = LIBAVUTIL_VERSION_INT,
     .child_next       = urlcontext_child_next,
     .child_class_next = urlcontext_child_class_next,
-#endif
 };
 /*@}*/
 

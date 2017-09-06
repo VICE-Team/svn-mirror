@@ -23,10 +23,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/avutil.h"
 #include "libavutil/bswap.h"
@@ -35,13 +31,7 @@
 #include "libavutil/mathematics.h"
 #include "libavutil/pixdesc.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#include "libavutil/internal.h"
-#else
 #include "config.h"
-#endif
 
 #include "rgb2rgb.h"
 #include "swscale_internal.h"
@@ -305,14 +295,10 @@ static av_always_inline void hcscale(SwsContext *c, int16_t *dst1,
         c->chrConvertRange(dst1, dst2, dstWidth);
 }
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define DEBUG_SWSCALE_BUFFERS 0
 #define DEBUG_BUFFERS(...)                      \
     if (DEBUG_SWSCALE_BUFFERS)                  \
         av_log(c, AV_LOG_DEBUG, __VA_ARGS__)
-#else
-#define DEBUG_BUFFERS var_args_dummy
-#endif
 
 static int swscale(SwsContext *c, const uint8_t *src[],
                    int srcStride[], int srcSliceY,

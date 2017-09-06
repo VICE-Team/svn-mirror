@@ -58,21 +58,12 @@ static const AVOption ffio_url_options[] = {
 };
 
 const AVClass ffio_url_class = {
-#ifdef IDE_COMPILE
-    "AVIOContext",
-    av_default_item_name,
-    ffio_url_options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, ffio_url_child_next,
-    ffio_url_child_class_next,
-#else
 	.class_name = "AVIOContext",
     .item_name  = av_default_item_name,
     .version    = LIBAVUTIL_VERSION_INT,
     .option     = ffio_url_options,
     .child_next = ffio_url_child_next,
     .child_class_next = ffio_url_child_class_next,
-#endif
 };
 
 static void fill_buffer(AVIOContext *s);

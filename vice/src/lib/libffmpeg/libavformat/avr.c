@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
 #include "internal.h"
@@ -92,16 +88,6 @@ static int avr_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_avr_demuxer = {
-#ifdef IDE_COMPILE
-    "avr",
-    "AVR (Audio Visual Research)",
-    AVFMT_GENERIC_INDEX,
-    "avr",
-    0, 0, 0, 0, 0, 0, avr_probe,
-    avr_read_header,
-    ff_pcm_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           = "avr",
     .long_name      = NULL_IF_CONFIG_SMALL("AVR (Audio Visual Research)"),
     .read_probe     = avr_probe,
@@ -110,5 +96,4 @@ AVInputFormat ff_avr_demuxer = {
     .read_seek      = ff_pcm_read_seek,
     .extensions     = "avr",
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

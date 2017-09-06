@@ -18,12 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "common.h"
 #include "bswap.h"
@@ -301,15 +296,6 @@ static struct {
     uint8_t  bits;
     uint32_t poly;
 } av_crc_table_params[AV_CRC_MAX] = {
-#ifdef IDE_COMPILE
-    { 0, 8, 0x07 },
-    { 0, 16, 0x8005 },
-    { 0, 16, 0x1021 },
-    { 0, 32, 0x04C11DB7 },
-    { 1, 32, 0xEDB88320 },
-    { 1, 16, 0xA001 },
-    { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0, 24, 0x864CFB },
-#else
 	[AV_CRC_8_ATM]      = { 0,  8,       0x07 },
     [AV_CRC_16_ANSI]    = { 0, 16,     0x8005 },
     [AV_CRC_16_CCITT]   = { 0, 16,     0x1021 },
@@ -317,7 +303,6 @@ static struct {
     [AV_CRC_32_IEEE]    = { 0, 32, 0x04C11DB7 },
     [AV_CRC_32_IEEE_LE] = { 1, 32, 0xEDB88320 },
     [AV_CRC_16_ANSI_LE] = { 1, 16,     0xA001 },
-#endif
 };
 static AVCRC av_crc_table[AV_CRC_MAX][CRC_TABLE_SIZE];
 #endif

@@ -324,15 +324,9 @@ static int read_packet(AVFormatContext *s,
 
 #define OFFSET(x) offsetof(BinDemuxContext, x)
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "linespeed", "set simulated line speed (bytes per second)", OFFSET(chars_per_frame), AV_OPT_TYPE_INT, {6000}, 1, INT_MAX, AV_OPT_FLAG_DECODING_PARAM},
-    { "video_size", "set video size, such as 640x480 or hd720.", OFFSET(width), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) NULL}, 0, 0, AV_OPT_FLAG_DECODING_PARAM },
-    { "framerate", "set framerate (frames per second)", OFFSET(framerate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "linespeed", "set simulated line speed (bytes per second)", OFFSET(chars_per_frame), AV_OPT_TYPE_INT, {.i64 = 6000}, 1, INT_MAX, AV_OPT_FLAG_DECODING_PARAM},
     { "video_size", "set video size, such as 640x480 or hd720.", OFFSET(width), AV_OPT_TYPE_IMAGE_SIZE, {.str = NULL}, 0, 0, AV_OPT_FLAG_DECODING_PARAM },
     { "framerate", "set framerate (frames per second)", OFFSET(framerate), AV_OPT_TYPE_VIDEO_RATE, {.str = "25"}, 0, 0, AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
@@ -345,20 +339,8 @@ static const AVOption options[] = {
 }}
 
 #if CONFIG_BINTEXT_DEMUXER
-#ifdef IDE_COMPILE
-static const AVClass tmp1[1] = {{ "Binary text demuxer", av_default_item_name, options, (54<<16 | 7<<8 | 100), }};
-#endif
 
 AVInputFormat ff_bintext_demuxer = {
-#ifdef IDE_COMPILE
-    "bin",
-    "Binary text",
-    0, "bin",
-    0, tmp1,
-    0, 0, 0, sizeof(BinDemuxContext),
-    0, bintext_read_header,
-    read_packet,
-#else
 	.name           = "bin",
     .long_name      = NULL_IF_CONFIG_SMALL("Binary text"),
     .priv_data_size = sizeof(BinDemuxContext),
@@ -366,25 +348,12 @@ AVInputFormat ff_bintext_demuxer = {
     .read_packet    = read_packet,
     .extensions     = "bin",
     .priv_class     = CLASS("Binary text demuxer"),
-#endif
 };
 #endif
 
 #if CONFIG_XBIN_DEMUXER
-#ifdef IDE_COMPILE
-static const AVClass tmp2[1] = {{ "eXtended BINary text (XBIN) demuxer", av_default_item_name, options, (54<<16 | 7<<8 | 100), }};
-#endif
 
 AVInputFormat ff_xbin_demuxer = {
-#ifdef IDE_COMPILE
-    "xbin",
-    "eXtended BINary text (XBIN)",
-    0, 0, 0, tmp2,
-    0, 0, 0, sizeof(BinDemuxContext),
-    xbin_probe,
-    xbin_read_header,
-    read_packet,
-#else
 	.name           = "xbin",
     .long_name      = NULL_IF_CONFIG_SMALL("eXtended BINary text (XBIN)"),
     .priv_data_size = sizeof(BinDemuxContext),
@@ -392,25 +361,12 @@ AVInputFormat ff_xbin_demuxer = {
     .read_header    = xbin_read_header,
     .read_packet    = read_packet,
     .priv_class     = CLASS("eXtended BINary text (XBIN) demuxer"),
-#endif
 };
 #endif
 
 #if CONFIG_ADF_DEMUXER
-#ifdef IDE_COMPILE
-static const AVClass tmp3[1] = {{ "Artworx Data Format demuxer", av_default_item_name, options, (54<<16 | 7<<8 | 100), }};
-#endif
 
 AVInputFormat ff_adf_demuxer = {
-#ifdef IDE_COMPILE
-    "adf",
-    "Artworx Data Format",
-    0, "adf",
-    0, tmp3,
-    0, 0, 0, sizeof(BinDemuxContext),
-    0, adf_read_header,
-    read_packet,
-#else
 	.name           = "adf",
     .long_name      = NULL_IF_CONFIG_SMALL("Artworx Data Format"),
     .priv_data_size = sizeof(BinDemuxContext),
@@ -418,26 +374,12 @@ AVInputFormat ff_adf_demuxer = {
     .read_packet    = read_packet,
     .extensions     = "adf",
     .priv_class     = CLASS("Artworx Data Format demuxer"),
-#endif
 };
 #endif
 
 #if CONFIG_IDF_DEMUXER
-#ifdef IDE_COMPILE
-static const AVClass tmp4[1] = {{ "iCE Draw File demuxer", av_default_item_name, options, (54<<16 | 7<<8 | 100), }};
-#endif
 
 AVInputFormat ff_idf_demuxer = {
-#ifdef IDE_COMPILE
-    "idf",
-    "iCE Draw File",
-    0, "idf",
-    0, tmp4,
-    0, 0, 0, sizeof(BinDemuxContext),
-    idf_probe,
-    idf_read_header,
-    read_packet,
-#else
 	.name           = "idf",
     .long_name      = NULL_IF_CONFIG_SMALL("iCE Draw File"),
     .priv_data_size = sizeof(BinDemuxContext),
@@ -446,6 +388,5 @@ AVInputFormat ff_idf_demuxer = {
     .read_packet    = read_packet,
     .extensions     = "idf",
     .priv_class     = CLASS("iCE Draw File demuxer"),
-#endif
 };
 #endif

@@ -377,15 +377,6 @@ static int fourxm_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_fourxm_demuxer = {
-#ifdef IDE_COMPILE
-    "4xm",
-    "4X Technologies",
-    0, 0, 0, 0, 0, 0, 0, sizeof(FourxmDemuxContext),
-    fourxm_probe,
-    fourxm_read_header,
-    fourxm_read_packet,
-    fourxm_read_close,
-#else
 	.name           = "4xm",
     .long_name      = NULL_IF_CONFIG_SMALL("4X Technologies"),
     .priv_data_size = sizeof(FourxmDemuxContext),
@@ -393,5 +384,4 @@ AVInputFormat ff_fourxm_demuxer = {
     .read_header    = fourxm_read_header,
     .read_packet    = fourxm_read_packet,
     .read_close     = fourxm_read_close,
-#endif
 };

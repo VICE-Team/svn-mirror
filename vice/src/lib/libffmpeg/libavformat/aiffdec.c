@@ -367,21 +367,7 @@ static int aiff_read_packet(AVFormatContext *s,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp1[] = { ff_codec_aiff_tags, 0 };
-#endif
-
 AVInputFormat ff_aiff_demuxer = {
-#ifdef IDE_COMPILE
-    "aiff",
-    "Audio IFF",
-    0, 0, tmp1,
-    0, 0, 0, 0, sizeof(AIFFInputContext),
-    aiff_probe,
-    aiff_read_header,
-    aiff_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           = "aiff",
     .long_name      = NULL_IF_CONFIG_SMALL("Audio IFF"),
     .priv_data_size = sizeof(AIFFInputContext),
@@ -390,5 +376,4 @@ AVInputFormat ff_aiff_demuxer = {
     .read_packet    = aiff_read_packet,
     .read_seek      = ff_pcm_read_seek,
     .codec_tag      = (const AVCodecTag* const []){ ff_codec_aiff_tags, 0 },
-#endif
 };

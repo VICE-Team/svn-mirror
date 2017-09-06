@@ -18,13 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#include "libavutil/internal.h"
-#else
 #include "config.h"
-#endif
 
 #define _DEFAULT_SOURCE
 #define _SVID_SOURCE // needed for MAP_ANONYMOUS
@@ -86,149 +80,6 @@ typedef struct FormatEntry {
 } FormatEntry;
 
 static const FormatEntry format_entries[AV_PIX_FMT_NB] = {
-#ifdef IDE_COMPILE
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 0 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 0 }, { 0 }, { 1, 1 },
-    { 0, 0 },
-    { 1, 1 },
-    { 0, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 0, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 0 }, { 0 }, { 0 }, { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 0 }, { 0 }, { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 0 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 0 }, { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 0 },
-    { 1, 0 },
-    { 0 }, { 0 }, { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 0 }, { 1, 1, 1 },
-    { 1, 1, 1 },
-    { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 1, 1 },
-    { 0 }, { 1, 0 },
-    { 1, 0 },
-    { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 1, 1, 1 },
-    { 1, 1, 1 },
-    { 1, 1, 1 },
-    { 1, 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 1 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 1 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-    { 1, 0 },
-#else
 	[AV_PIX_FMT_YUV420P]     = { 1, 1 },
     [AV_PIX_FMT_YUYV422]     = { 1, 1 },
     [AV_PIX_FMT_RGB24]       = { 1, 1 },
@@ -370,7 +221,6 @@ static const FormatEntry format_entries[AV_PIX_FMT_NB] = {
     [AV_PIX_FMT_BAYER_GBRG16BE] = { 1, 0 },
     [AV_PIX_FMT_BAYER_GRBG16LE] = { 1, 0 },
     [AV_PIX_FMT_BAYER_GRBG16BE] = { 1, 0 },
-#endif
 };
 
 int sws_isSupportedInput(enum AVPixelFormat pix_fmt)
@@ -1447,12 +1297,8 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         } else
 #endif /* HAVE_MMXEXT_INLINE */
         {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
             const int filterAlign = X86_MMX(cpu_flags)     ? 4 :
                                     PPC_ALTIVEC(cpu_flags) ? 8 : 1;
-#else
-            const int filterAlign = 1;
-#endif
             if (initFilter(&c->hLumFilter, &c->hLumFilterPos,
                            &c->hLumFilterSize, c->lumXInc,
                            srcW, dstW, filterAlign, 1 << 14,
@@ -1476,12 +1322,8 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
 
     /* precalculate vertical scaler filter coefficients */
     {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
         const int filterAlign = X86_MMX(cpu_flags)     ? 2 :
                                 PPC_ALTIVEC(cpu_flags) ? 8 : 1;
-#else
-        const int filterAlign = 1;
-#endif
 
         if (initFilter(&c->vLumFilter, &c->vLumFilterPos, &c->vLumFilterSize,
                        c->lumYInc, srcH, dstH, filterAlign, (1 << 12),
@@ -1612,7 +1454,6 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
 #endif
                av_get_pix_fmt_name(dstFormat));
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
         if (INLINE_MMXEXT(cpu_flags))
             cpucaps = "MMXEXT";
         else if (INLINE_AMD3DNOW(cpu_flags))
@@ -1622,7 +1463,6 @@ av_cold int sws_init_context(SwsContext *c, SwsFilter *srcFilter,
         else if (PPC_ALTIVEC(cpu_flags))
             cpucaps = "AltiVec";
         else
-#endif
 			cpucaps = "C";
 
         av_log(c, AV_LOG_INFO, "using %s\n", cpucaps);

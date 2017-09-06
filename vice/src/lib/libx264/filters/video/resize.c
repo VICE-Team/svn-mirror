@@ -26,9 +26,7 @@
 #include "video.h"
 #define NAME "resize"
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, NAME, __VA_ARGS__ )
-#endif
 
 cli_vid_filter_t resize_filter;
 
@@ -577,14 +575,7 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
     }
 
     /* pass if nothing needs to be done, otherwise fail */
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( ret, "not compiled with swscale support\n" )
-#else
-    if( ret ){
-		x264_cli_log( "resize", 0, "not compiled with swscale support\n" );
-		return -1;
-	}
-#endif
 	return 0;
 }
 

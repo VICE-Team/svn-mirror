@@ -32,18 +32,6 @@ typedef struct SampleFmtInfo {
 
 /** this table gives more information about formats */
 static const SampleFmtInfo sample_fmt_info[AV_SAMPLE_FMT_NB] = {
-#ifdef IDE_COMPILE
-    { "u8", 8, 0, AV_SAMPLE_FMT_U8P },
-    { "s16", 16, 0, AV_SAMPLE_FMT_S16P },
-    { "s32", 32, 0, AV_SAMPLE_FMT_S32P },
-    { "flt", 32, 0, AV_SAMPLE_FMT_FLTP },
-    { "dbl", 64, 0, AV_SAMPLE_FMT_DBLP },
-    { "u8p", 8, 1, AV_SAMPLE_FMT_U8 },
-    { "s16p", 16, 1, AV_SAMPLE_FMT_S16 },
-    { "s32p", 32, 1, AV_SAMPLE_FMT_S32 },
-    { "fltp", 32, 1, AV_SAMPLE_FMT_FLT },
-    { "dblp", 64, 1, AV_SAMPLE_FMT_DBL },
-#else
 	[AV_SAMPLE_FMT_U8]   = { .name =   "u8", .bits =  8, .planar = 0, .altform = AV_SAMPLE_FMT_U8P  },
     [AV_SAMPLE_FMT_S16]  = { .name =  "s16", .bits = 16, .planar = 0, .altform = AV_SAMPLE_FMT_S16P },
     [AV_SAMPLE_FMT_S32]  = { .name =  "s32", .bits = 32, .planar = 0, .altform = AV_SAMPLE_FMT_S32P },
@@ -54,7 +42,6 @@ static const SampleFmtInfo sample_fmt_info[AV_SAMPLE_FMT_NB] = {
     [AV_SAMPLE_FMT_S32P] = { .name = "s32p", .bits = 32, .planar = 1, .altform = AV_SAMPLE_FMT_S32  },
     [AV_SAMPLE_FMT_FLTP] = { .name = "fltp", .bits = 32, .planar = 1, .altform = AV_SAMPLE_FMT_FLT  },
     [AV_SAMPLE_FMT_DBLP] = { .name = "dblp", .bits = 64, .planar = 1, .altform = AV_SAMPLE_FMT_DBL  },
-#endif
 };
 
 const char *av_get_sample_fmt_name(enum AVSampleFormat sample_fmt)

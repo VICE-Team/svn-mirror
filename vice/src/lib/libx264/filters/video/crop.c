@@ -27,9 +27,7 @@
 #include "video.h"
 #define NAME "crop"
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, NAME, __VA_ARGS__ )
-#endif
 
 cli_vid_filter_t crop_filter;
 
@@ -57,14 +55,7 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
     char **opts;
 	int i;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	FAIL_IF_ERROR( x264_cli_csp_is_invalid( info->csp ), "invalid csp %d\n", info->csp )
-#else
-    if( x264_cli_csp_is_invalid( info->csp ) ){
-		x264_cli_log( "crop", 0, "invalid csp %d\n", info->csp );
-		return -1;
-	}
-#endif
 
 	h = calloc( 1, sizeof(crop_hnd_t) );
     if( !h )
@@ -79,45 +70,17 @@ static int init( hnd_t *handle, cli_vid_filter_t *filter, video_info_t *info, x2
         char *opt = x264_get_option( optlist[i], opts );
         int dim_mod;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR( !opt, "%s crop value not specified\n", optlist[i] )
-#else
-		if( !opt ){
-    		x264_cli_log( "crop", 0, "%s crop value not specified\n", optlist[i] );
-	    	return -1;
-    	}
-#endif
 
 	h->dims[i] = x264_otoi( opt, -1 );
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( h->dims[i] < 0, "%s crop value `%s' is less than 0\n", optlist[i], opt )
-#else
-		if( h->dims[i] < 0 ){
-    		x264_cli_log( "crop", 0, "%s crop value `%s' is less than 0\n", optlist[i], opt );
-	    	return -1;
-    	}
-#endif
 		dim_mod = i&1 ? (h->csp->mod_height << info->interlaced) : h->csp->mod_width;
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( h->dims[i] % dim_mod, "%s crop value `%s' is not a multiple of %d\n", optlist[i], opt, dim_mod )
-#else
-		if( h->dims[i] % dim_mod ){
-    		x264_cli_log( "crop", 0, "%s crop value `%s' is not a multiple of %d\n", optlist[i], opt, dim_mod );
-	    	return -1;
-    	}
-#endif
 	}
     x264_free_string_array( opts );
     h->dims[2] = info->width  - h->dims[0] - h->dims[2];
     h->dims[3] = info->height - h->dims[1] - h->dims[3];
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( h->dims[2] <= 0 || h->dims[3] <= 0, "invalid output resolution %dx%d\n", h->dims[2], h->dims[3] )
-#else
-	if( h->dims[2] <= 0 || h->dims[3] <= 0 ){
-		x264_cli_log( "crop", 0, "invalid output resolution %dx%d\n", h->dims[2], h->dims[3] );
-	    return -1;
-    }
-#endif
 
     if( info->width != h->dims[2] || info->height != h->dims[3] )
         x264_cli_log( NAME, X264_LOG_INFO, "cropping to %dx%d\n", h->dims[2], h->dims[3] );

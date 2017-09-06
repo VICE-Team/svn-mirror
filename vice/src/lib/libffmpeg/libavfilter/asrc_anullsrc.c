@@ -48,21 +48,12 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption anullsrc_options[]= {
-#ifdef IDE_COMPILE
-	{ "channel_layout", "set channel_layout", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {(intptr_t) "stereo"}, 0, 0, FLAGS },
-    { "cl",             "set channel_layout", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {(intptr_t) "stereo"}, 0, 0, FLAGS },
-    { "sample_rate",    "set sample rate",    OFFSET(sample_rate_str)   , AV_OPT_TYPE_STRING, {(intptr_t) "44100"}, 0, 0, FLAGS },
-    { "r",              "set sample rate",    OFFSET(sample_rate_str)   , AV_OPT_TYPE_STRING, {(intptr_t) "44100"}, 0, 0, FLAGS },
-    { "nb_samples",     "set the number of samples per requested frame", OFFSET(nb_samples), AV_OPT_TYPE_INT, {1024}, 0, INT_MAX, FLAGS },
-    { "n",              "set the number of samples per requested frame", OFFSET(nb_samples), AV_OPT_TYPE_INT, {1024}, 0, INT_MAX, FLAGS },
-#else
 	{ "channel_layout", "set channel_layout", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {.str = "stereo"}, 0, 0, FLAGS },
     { "cl",             "set channel_layout", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {.str = "stereo"}, 0, 0, FLAGS },
     { "sample_rate",    "set sample rate",    OFFSET(sample_rate_str)   , AV_OPT_TYPE_STRING, {.str = "44100"}, 0, 0, FLAGS },
     { "r",              "set sample rate",    OFFSET(sample_rate_str)   , AV_OPT_TYPE_STRING, {.str = "44100"}, 0, 0, FLAGS },
     { "nb_samples",     "set the number of samples per requested frame", OFFSET(nb_samples), AV_OPT_TYPE_INT, {.i64 = 1024}, 0, INT_MAX, FLAGS },
     { "n",              "set the number of samples per requested frame", OFFSET(nb_samples), AV_OPT_TYPE_INT, {.i64 = 1024}, 0, INT_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -135,32 +126,15 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad avfilter_asrc_anullsrc_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = config_props,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_asrc_anullsrc = {
-#ifdef IDE_COMPILE
-    "anullsrc",
-    NULL_IF_CONFIG_SMALL("Null audio source, return empty audio frames."),
-    NULL,
-    avfilter_asrc_anullsrc_outputs,
-    &anullsrc_class,
-    0, init,
-    0, 0, query_formats,
-    sizeof(ANullContext),
-#else
 	.name          = "anullsrc",
     .description   = NULL_IF_CONFIG_SMALL("Null audio source, return empty audio frames."),
     .init          = init,
@@ -169,5 +143,4 @@ AVFilter ff_asrc_anullsrc = {
     .inputs        = NULL,
     .outputs       = avfilter_asrc_anullsrc_outputs,
     .priv_class    = &anullsrc_class,
-#endif
 };

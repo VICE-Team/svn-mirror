@@ -164,15 +164,6 @@ static int amr_read_packet(AVFormatContext *s, AVPacket *pkt)
 
 #if CONFIG_AMR_DEMUXER
 AVInputFormat ff_amr_demuxer = {
-#ifdef IDE_COMPILE
-    "amr",
-    "3GPP AMR",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, 0, sizeof(AMRContext),
-    amr_probe,
-    amr_read_header,
-    amr_read_packet,
-#else
 	.name           = "amr",
     .long_name      = NULL_IF_CONFIG_SMALL("3GPP AMR"),
     .priv_data_size = sizeof(AMRContext),
@@ -180,23 +171,11 @@ AVInputFormat ff_amr_demuxer = {
     .read_header    = amr_read_header,
     .read_packet    = amr_read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };
 #endif
 
 #if CONFIG_AMR_MUXER
 AVOutputFormat ff_amr_muxer = {
-#ifdef IDE_COMPILE
-    "amr",
-    "3GPP AMR",
-    "audio/amr",
-    "amr",
-    AV_CODEC_ID_AMR_NB,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    0, 0, 0, 0, amr_write_header,
-    amr_write_packet,
-#else
 	.name              = "amr",
     .long_name         = NULL_IF_CONFIG_SMALL("3GPP AMR"),
     .mime_type         = "audio/amr",
@@ -206,6 +185,5 @@ AVOutputFormat ff_amr_muxer = {
     .write_header      = amr_write_header,
     .write_packet      = amr_write_packet,
     .flags             = AVFMT_NOTIMESTAMPS,
-#endif
 };
 #endif

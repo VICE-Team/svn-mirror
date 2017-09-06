@@ -28,15 +28,7 @@
 
 uint64_t flv_dbl2int( double value )
 {
-#ifdef IDE_COMPILE
-	union {
-		double f;
-		uint64_t i;
-	} tmp__0 = {value};
-	return tmp__0.i;
-#else
 	return (union {double f; uint64_t i;}){value}.i;
-#endif
 }
 
 /* Put functions  */

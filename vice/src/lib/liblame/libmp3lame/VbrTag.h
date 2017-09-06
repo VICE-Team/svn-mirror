@@ -22,10 +22,6 @@
 #ifndef LAME_VRBTAG_H
 #define LAME_VRBTAG_H
 
-#ifdef IDE_COMPILE
-#include "lame-config.h"
-#endif
-
 /* -----------------------------------------------------------
  * A Vbr header may be present in the ancillary
  * data field of the first frame of an mp3 bitstream

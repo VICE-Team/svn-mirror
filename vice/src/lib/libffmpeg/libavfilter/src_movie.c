@@ -73,18 +73,6 @@ typedef struct MovieContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM | AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption movie_options[]= {
-#ifdef IDE_COMPILE
-	{ "filename", NULL, OFFSET(file_name), AV_OPT_TYPE_STRING, {0}, 0, 0, FLAGS },
-	{ "format_name", "set format name", OFFSET(format_name), AV_OPT_TYPE_STRING, {0}, 0, 0, FLAGS },
-	{ "f", "set format name", OFFSET(format_name), AV_OPT_TYPE_STRING, {0}, 0, 0, FLAGS },
-    { "stream_index", "set stream index", OFFSET(stream_index), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "si", "set stream index", OFFSET(stream_index), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "seek_point", "set seekpoint (seconds)", OFFSET(seek_point_d), AV_OPT_TYPE_DOUBLE, {0}, 0, (INT64_MAX-1) / 1000000, FLAGS },
-    { "sp", "set seekpoint (seconds)", OFFSET(seek_point_d), AV_OPT_TYPE_DOUBLE, {0}, 0, (INT64_MAX-1) / 1000000, FLAGS },
-    { "streams", "set streams", OFFSET(stream_specs), AV_OPT_TYPE_STRING, {(intptr_t) 0}, CHAR_MAX, CHAR_MAX, FLAGS },
-    { "s", "set streams", OFFSET(stream_specs), AV_OPT_TYPE_STRING, {(intptr_t) 0}, CHAR_MAX, CHAR_MAX, FLAGS },
-    { "loop", "set loop count", OFFSET(loop_count), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, FLAGS },
-#else
 	{ "filename",     NULL,                      OFFSET(file_name),    AV_OPT_TYPE_STRING,                                    .flags = FLAGS },
     { "format_name",  "set format name",         OFFSET(format_name),  AV_OPT_TYPE_STRING,                                    .flags = FLAGS },
     { "f",            "set format name",         OFFSET(format_name),  AV_OPT_TYPE_STRING,                                    .flags = FLAGS },
@@ -95,7 +83,6 @@ static const AVOption movie_options[]= {
     { "streams",      "set streams",             OFFSET(stream_specs), AV_OPT_TYPE_STRING, {.str =  0},  CHAR_MAX, CHAR_MAX, FLAGS },
     { "s",            "set streams",             OFFSET(stream_specs), AV_OPT_TYPE_STRING, {.str =  0},  CHAR_MAX, CHAR_MAX, FLAGS },
     { "loop",         "set loop count",          OFFSET(loop_count),   AV_OPT_TYPE_INT,    {.i64 =  1},  0,        INT_MAX, FLAGS },
-#endif
 	{ NULL },
 };
 
@@ -398,41 +385,21 @@ static char *describe_frame_to_str(char *dst, size_t dst_size,
                                    AVFrame *frame, enum AVMediaType frame_type,
                                    AVFilterLink *link)
 {
-#ifdef IDE_COMPILE
-	char tmp1[32] = {0};
-	char tmp2[32] = {0};
-#endif
 
 	switch (frame_type) {
     case AVMEDIA_TYPE_VIDEO:
-#ifdef IDE_COMPILE
-		snprintf(dst, dst_size,
-                 "video pts:%s time:%s size:%dx%d aspect:%d/%d",
-                 av_ts_make_string(tmp1, frame->pts), av_ts_make_time_string(tmp2, frame->pts, &link->time_base),
-                 frame->width, frame->height,
-                 frame->sample_aspect_ratio.num,
-                 frame->sample_aspect_ratio.den);
-#else
 		snprintf(dst, dst_size,
                  "video pts:%s time:%s size:%dx%d aspect:%d/%d",
                  av_ts2str(frame->pts), av_ts2timestr(frame->pts, &link->time_base),
                  frame->width, frame->height,
                  frame->sample_aspect_ratio.num,
                  frame->sample_aspect_ratio.den);
-#endif
 		         break;
     case AVMEDIA_TYPE_AUDIO:
-#ifdef IDE_COMPILE
-		snprintf(dst, dst_size,
-                 "audio pts:%s time:%s samples:%d",
-                 av_ts_make_string(tmp1, frame->pts), av_ts_make_time_string(tmp2, frame->pts, &link->time_base),
-                 frame->nb_samples);
-#else
 		snprintf(dst, dst_size,
                  "audio pts:%s time:%s samples:%d",
                  av_ts2str(frame->pts), av_ts2timestr(frame->pts, &link->time_base),
                  frame->nb_samples);
-#endif
 		         break;
     default:
         snprintf(dst, dst_size, "%s BUG", av_get_media_type_string(frame_type));
@@ -451,13 +418,7 @@ static int rewind_file(AVFilterContext *ctx)
         timestamp += movie->format_ctx->start_time;
     ret = av_seek_frame(movie->format_ctx, -1, timestamp, AVSEEK_FLAG_BACKWARD);
     if (ret < 0) {
-#ifdef IDE_COMPILE
-		char tmpx[64] = {0};
-
-		av_log(ctx, AV_LOG_ERROR, "Unable to loop: %s\n", av_make_error_string(tmpx, 64, ret));
-#else
 		av_log(ctx, AV_LOG_ERROR, "Unable to loop: %s\n", av_err2str(ret));
-#endif
 		movie->loop_count = 1; /* do not try again */
         return ret;
     }
@@ -490,9 +451,6 @@ static int movie_push_frame(AVFilterContext *ctx, unsigned out_id)
     int ret, got_frame = 0, pkt_out_id;
     AVFilterLink *outlink;
     AVFrame *frame;
-#ifdef IDE_COMPILE
-	char tmpz[1024] = {0};
-#endif
 
     if (!pkt->size) {
         if (movie->eof) {
@@ -552,13 +510,7 @@ static int movie_push_frame(AVFilterContext *ctx, unsigned out_id)
         break;
     }
     if (ret < 0) {
-#ifdef IDE_COMPILE
-		char tmpy[64] = {0};
-
-		av_log(ctx, AV_LOG_WARNING, "Decode error: %s\n", av_make_error_string(tmpy, 64, ret));
-#else
 		av_log(ctx, AV_LOG_WARNING, "Decode error: %s\n", av_err2str(ret));
-#endif
 		av_frame_free(&frame);
         av_free_packet(&movie->pkt0);
         movie->pkt.size = 0;
@@ -583,13 +535,8 @@ static int movie_push_frame(AVFilterContext *ctx, unsigned out_id)
     }
 
     frame->pts = av_frame_get_best_effort_timestamp(frame);
-#ifdef IDE_COMPILE
-	av_dlog(ctx, "movie_push_frame(): file:'%s' %s\n", movie->file_name,
-            describe_frame_to_str(tmpz, 1024, frame, frame_type, outlink));
-#else
 	av_dlog(ctx, "movie_push_frame(): file:'%s' %s\n", movie->file_name,
             describe_frame_to_str((char[1024]){0}, 1024, frame, frame_type, outlink));
-#endif
 
     if (st->st->codec->codec_type == AVMEDIA_TYPE_VIDEO) {
         if (frame->format != outlink->format) {
@@ -626,18 +573,6 @@ static int movie_request_frame(AVFilterLink *outlink)
 AVFILTER_DEFINE_CLASS(movie);
 
 AVFilter ff_avsrc_movie = {
-#ifdef IDE_COMPILE
-    "movie",
-    NULL_IF_CONFIG_SMALL("Read from a movie source."),
-    NULL,
-    NULL,
-    &movie_class,
-    AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-    movie_common_init,
-    0, movie_uninit,
-    movie_query_formats,
-    sizeof(MovieContext),
-#else
 	.name          = "movie",
     .description   = NULL_IF_CONFIG_SMALL("Read from a movie source."),
     .priv_size     = sizeof(MovieContext),
@@ -648,7 +583,6 @@ AVFilter ff_avsrc_movie = {
     .inputs    = NULL,
     .outputs   = NULL,
     .flags     = AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-#endif
 };
 
 #endif  /* CONFIG_MOVIE_FILTER */
@@ -659,18 +593,6 @@ AVFilter ff_avsrc_movie = {
 AVFILTER_DEFINE_CLASS(amovie);
 
 AVFilter ff_avsrc_amovie = {
-#ifdef IDE_COMPILE
-    "amovie",
-    NULL_IF_CONFIG_SMALL("Read audio from a movie source."),
-    NULL,
-    NULL,
-    &amovie_class,
-    AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-    movie_common_init,
-    0, movie_uninit,
-    movie_query_formats,
-    sizeof(MovieContext),
-#else
 	.name          = "amovie",
     .description   = NULL_IF_CONFIG_SMALL("Read audio from a movie source."),
     .priv_size     = sizeof(MovieContext),
@@ -681,7 +603,6 @@ AVFilter ff_avsrc_amovie = {
     .outputs    = NULL,
     .priv_class = &amovie_class,
     .flags      = AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-#endif
 };
 
 #endif /* CONFIG_AMOVIE_FILTER */

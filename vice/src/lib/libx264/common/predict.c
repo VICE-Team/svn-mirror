@@ -71,20 +71,7 @@ void x264_predict_16x16_dc_c( pixel *src )
     }
     dcsplat = PIXEL_SPLAT_X4( ( dc + 16 ) >> 5 );
 
-#ifdef IDE_COMPILE
-    {
-        int i = 0;
-        for(  ; i < 16; i++ ) {
-            (((x264_union32_t*)(src+ 0))->i) = dcsplat;
-            (((x264_union32_t*)(src+ 4))->i) = dcsplat;
-            (((x264_union32_t*)(src+ 8))->i) = dcsplat;
-            (((x264_union32_t*)(src+12))->i) = dcsplat;
-            src += 32;
-        };
-   }
-#else
 	PREDICT_16x16_DC( dcsplat );
-#endif
 }
 
 static void x264_predict_16x16_dc_left_c( pixel *src )
@@ -98,20 +85,7 @@ static void x264_predict_16x16_dc_left_c( pixel *src )
     }
     dcsplat = PIXEL_SPLAT_X4( ( dc + 8 ) >> 4 );
 
-#ifdef IDE_COMPILE
-    {
-        int i = 0;
-        for(  ; i < 16; i++ ) {
-            (((x264_union32_t*)(src+ 0))->i) = dcsplat;
-            (((x264_union32_t*)(src+ 4))->i) = dcsplat;
-            (((x264_union32_t*)(src+ 8))->i) = dcsplat;
-            (((x264_union32_t*)(src+12))->i) = dcsplat;
-            src += 32;
-        };
-    }
-#else
 	PREDICT_16x16_DC( dcsplat );
-#endif
 }
 
 static void x264_predict_16x16_dc_top_c( pixel *src )
@@ -124,29 +98,12 @@ static void x264_predict_16x16_dc_top_c( pixel *src )
         dc += src[i2 - FDEC_STRIDE];
     dcsplat = PIXEL_SPLAT_X4( ( dc + 8 ) >> 4 );
 
-#ifdef IDE_COMPILE
-    {
-        int i = 0;
-        for(  ; i < 16; i++ ) {
-            (((x264_union32_t*)(src+ 0))->i) = dcsplat;
-            (((x264_union32_t*)(src+ 4))->i) = dcsplat;
-            (((x264_union32_t*)(src+ 8))->i) = dcsplat;
-            (((x264_union32_t*)(src+12))->i) = dcsplat;
-            src += 32;
-        };
-     }
-#else
 	PREDICT_16x16_DC( dcsplat );
-#endif
 }
 
 static void x264_predict_16x16_dc_128_c( pixel *src )
 {
-#ifdef IDE_COMPILE
-    { int i = 0; for(  ; i < 16; i++ ) { (((x264_union32_t*)(src+ 0))->i) = ((1 << (8 -1))*0x01010101U); (((x264_union32_t*)(src+ 4))->i) = ((1 << (8 -1))*0x01010101U); (((x264_union32_t*)(src+ 8))->i) = ((1 << (8 -1))*0x01010101U); (((x264_union32_t*)(src+12))->i) = ((1 << (8 -1))*0x01010101U); src += 32; }; }
-#else
 	PREDICT_16x16_DC( PIXEL_SPLAT_X4( 1 << (BIT_DEPTH-1) ) );
-#endif
 }
 
 void x264_predict_16x16_h_c( pixel *src )
@@ -820,33 +777,21 @@ static void x264_predict_8x8_filter_c( pixel *src, pixel edge[36], int i_neighbo
 
 static void x264_predict_8x8_dc_128_c( pixel *src, pixel edge[36] )
 {
-#ifdef IDE_COMPILE
-    { int y = 0; for(  ; y < 8; y++ ) { (((x264_union32_t*)(src+0))->i) = ((1 << (8 -1))*0x01010101U); (((x264_union32_t*)(src+4))->i) = ((1 << (8 -1))*0x01010101U); src += 32; }; }
-#else
 	PREDICT_8x8_DC( PIXEL_SPLAT_X4( 1 << (BIT_DEPTH-1) ) );
-#endif
 }
 
 static void x264_predict_8x8_dc_left_c( pixel *src, pixel edge[36] )
 {
     PREDICT_8x8_LOAD_LEFT
     pixel4 dc = PIXEL_SPLAT_X4( (l0+l1+l2+l3+l4+l5+l6+l7+4) >> 3 );
-#ifdef IDE_COMPILE
-	{ int y = 0; for(  ; y < 8; y++ ) { (((x264_union32_t*)(src+0))->i) = dc; (((x264_union32_t*)(src+4))->i) = dc; src += 32; }; }
-#else
 	PREDICT_8x8_DC( dc );
-#endif
 }
 
 static void x264_predict_8x8_dc_top_c( pixel *src, pixel edge[36] )
 {
     PREDICT_8x8_LOAD_TOP
     pixel4 dc = PIXEL_SPLAT_X4( (t0+t1+t2+t3+t4+t5+t6+t7+4) >> 3 );
-#ifdef IDE_COMPILE
-    { int y = 0; for(  ; y < 8; y++ ) { (((x264_union32_t*)(src+0))->i) = dc; (((x264_union32_t*)(src+4))->i) = dc; src += 32; }; }
-#else
 	PREDICT_8x8_DC( dc );
-#endif
 }
 
 void x264_predict_8x8_dc_c( pixel *src, pixel edge[36] )
@@ -854,11 +799,7 @@ void x264_predict_8x8_dc_c( pixel *src, pixel edge[36] )
     PREDICT_8x8_LOAD_LEFT
     PREDICT_8x8_LOAD_TOP
     pixel4 dc = PIXEL_SPLAT_X4( (l0+l1+l2+l3+l4+l5+l6+l7+t0+t1+t2+t3+t4+t5+t6+t7+8) >> 4 );
-#ifdef IDE_COMPILE
-	{ int y = 0; for(  ; y < 8; y++ ) { (((x264_union32_t*)(src+0))->i) = dc; (((x264_union32_t*)(src+4))->i) = dc; src += 32; }; }
-#else
 	PREDICT_8x8_DC( dc );
-#endif
 }
 
 void x264_predict_8x8_h_c( pixel *src, pixel edge[36] )
@@ -869,6 +810,7 @@ void x264_predict_8x8_h_c( pixel *src, pixel edge[36] )
     ROW(0); ROW(1); ROW(2); ROW(3); ROW(4); ROW(5); ROW(6); ROW(7);
 #undef ROW
 }
+
 void x264_predict_8x8_v_c( pixel *src, pixel edge[36] )
 {
     pixel4 top[2] = { MPIXEL_X4( edge+16 ),

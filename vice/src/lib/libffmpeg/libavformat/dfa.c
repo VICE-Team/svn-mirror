@@ -73,12 +73,7 @@ static int dfa_read_header(AVFormatContext *s)
         return AVERROR(ENOMEM);
     AV_WL16(st->codec->extradata, version);
     if (version == 0x100) {
-#ifdef IDE_COMPILE
-		st->sample_aspect_ratio.num = 2;
-		st->sample_aspect_ratio.den = 1;
-#else
 		st->sample_aspect_ratio = (AVRational){2, 1};
-#endif
 	}
     return 0;
 }
@@ -128,19 +123,10 @@ static int dfa_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_dfa_demuxer = {
-#ifdef IDE_COMPILE
-    "dfa",
-    "Chronomaster DFA",
-    0x0100,
-    0, 0, 0, 0, 0, 0, 0, dfa_probe,
-    dfa_read_header,
-    dfa_read_packet,
-#else
 	.name           = "dfa",
     .long_name      = NULL_IF_CONFIG_SMALL("Chronomaster DFA"),
     .read_probe     = dfa_probe,
     .read_header    = dfa_read_header,
     .read_packet    = dfa_read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

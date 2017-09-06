@@ -23,8 +23,6 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
-#elif IDE_COMPILE
-# include "lame-config.h"
 #endif
 
 

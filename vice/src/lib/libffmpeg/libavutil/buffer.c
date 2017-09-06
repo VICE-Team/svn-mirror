@@ -19,10 +19,6 @@
 #include <stdint.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "atomic.h"
 #include "buffer_internal.h"
 #include "common.h"

@@ -110,17 +110,9 @@ static int data_read(URLContext *h, unsigned char *buf, int size)
 }
 
 URLProtocol ff_data_protocol = {
-#ifdef IDE_COMPILE
-    "data",
-    data_open,
-    0, data_read,
-    0, 0, data_close,
-    0, 0, 0, 0, 0, 0, sizeof(DataContext),
-#else
 	.name           = "data",
     .url_open       = data_open,
     .url_close      = data_close,
     .url_read       = data_read,
     .priv_data_size = sizeof(DataContext),
-#endif
 };

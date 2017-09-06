@@ -27,10 +27,6 @@
  * http://www.goice.co.jp/member/mo/formats/au.html
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avformat.h"
 #include "internal.h"
 #include "avio_internal.h"
@@ -153,20 +149,7 @@ static int au_read_header(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp1[] = { codec_au_tags, 0 };
-#endif
-
 AVInputFormat ff_au_demuxer = {
-#ifdef IDE_COMPILE
-    "au",
-    "Sun AU",
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, au_probe,
-    au_read_header,
-    ff_pcm_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name        = "au",
     .long_name   = NULL_IF_CONFIG_SMALL("Sun AU"),
     .read_probe  = au_probe,
@@ -174,7 +157,6 @@ AVInputFormat ff_au_demuxer = {
     .read_packet = ff_pcm_read_packet,
     .read_seek   = ff_pcm_read_seek,
     .codec_tag   = (const AVCodecTag* const []) { codec_au_tags, 0 },
-#endif
 };
 
 #endif /* CONFIG_AU_DEMUXER */
@@ -227,24 +209,7 @@ static int au_write_trailer(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp2[] = { codec_au_tags, 0 };
-#endif
-
 AVOutputFormat ff_au_muxer = {
-#ifdef IDE_COMPILE
-    "au",
-    "Sun AU",
-    "audio/basic",
-    "au",
-    AV_CODEC_ID_PCM_S16BE,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    tmp2,
-    0, 0, 0, au_write_header,
-    ff_raw_write_packet,
-    au_write_trailer,
-#else
 	.name          = "au",
     .long_name     = NULL_IF_CONFIG_SMALL("Sun AU"),
     .mime_type     = "audio/basic",
@@ -256,7 +221,6 @@ AVOutputFormat ff_au_muxer = {
     .write_trailer = au_write_trailer,
     .codec_tag     = (const AVCodecTag* const []) { codec_au_tags, 0 },
     .flags         = AVFMT_NOTIMESTAMPS,
-#endif
 };
 
 #endif /* CONFIG_AU_MUXER */

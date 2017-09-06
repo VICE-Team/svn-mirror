@@ -58,12 +58,6 @@ typedef struct {
 #define V AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption concat_options[] = {
-#ifdef IDE_COMPILE
-	{ "n", "specify the number of segments", OFFSET(nb_segments), AV_OPT_TYPE_INT, {2}, 2, INT_MAX, V|A|F},
-    { "v", "specify the number of video streams", OFFSET(nb_streams[AVMEDIA_TYPE_VIDEO]), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, V|F },
-    { "a", "specify the number of audio streams", OFFSET(nb_streams[AVMEDIA_TYPE_AUDIO]), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, A|F},
-    { "unsafe", "enable unsafe mode", OFFSET(unsafe), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, V|A|F},
-#else
 	{ "n", "specify the number of segments", OFFSET(nb_segments),
       AV_OPT_TYPE_INT, { .i64 = 2 }, 2, INT_MAX, V|A|F},
     { "v", "specify the number of video streams",
@@ -75,7 +69,6 @@ static const AVOption concat_options[] = {
     { "unsafe", "enable unsafe mode",
       OFFSET(unsafe),
       AV_OPT_TYPE_INT, { .i64 = 0 }, 0, INT_MAX, V|A|F},
-#endif
 	{ NULL }
 };
 
@@ -134,12 +127,7 @@ static int config_output(AVFilterLink *outlink)
     AVFilterLink *inlink = ctx->inputs[in_no];
 
     /* enhancement: find a common one */
-#ifdef IDE_COMPILE
-	outlink->time_base.num = 1;
-	outlink->time_base.den = AV_TIME_BASE;
-#else
 	outlink->time_base           = AV_TIME_BASE_Q;
-#endif
 	outlink->w                   = inlink->w;
     outlink->h                   = inlink->h;
     outlink->sample_aspect_ratio = inlink->sample_aspect_ratio;
@@ -380,17 +368,10 @@ static av_cold int init(AVFilterContext *ctx)
         for (type = 0; type < TYPE_ALL; type++) {
             for (str = 0; str < cat->nb_streams[type]; str++) {
                 AVFilterPad pad = {
-#ifdef IDE_COMPILE
-                    0, type,
-                    0, 0, 0, get_video_buffer,
-                    get_audio_buffer,
-                    0, 0, filter_frame,
-#else
 					.type             = type,
                     .get_video_buffer = get_video_buffer,
                     .get_audio_buffer = get_audio_buffer,
                     .filter_frame     = filter_frame,
-#endif
 				};
                 pad.name = av_asprintf("in%d:%c%d", seg, "va"[type], str);
                 ff_insert_inpad(ctx, ctx->nb_inputs, &pad);
@@ -401,15 +382,9 @@ static av_cold int init(AVFilterContext *ctx)
     for (type = 0; type < TYPE_ALL; type++) {
         for (str = 0; str < cat->nb_streams[type]; str++) {
             AVFilterPad pad = {
-#ifdef IDE_COMPILE
-                0, type,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-                config_output,
-#else
 				.type          = type,
                 .config_props  = config_output,
                 .request_frame = request_frame,
-#endif
 			};
             pad.name = av_asprintf("out:%c%d", "va"[type], str);
             ff_insert_outpad(ctx, ctx->nb_outputs, &pad);
@@ -438,18 +413,6 @@ static av_cold void uninit(AVFilterContext *ctx)
 }
 
 AVFilter ff_avf_concat = {
-#ifdef IDE_COMPILE
-    "concat",
-    NULL_IF_CONFIG_SMALL("Concatenate audio and video streams."),
-    NULL,
-    NULL,
-    &concat_class,
-    AVFILTER_FLAG_DYNAMIC_INPUTS | AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(ConcatContext),
-#else
 	.name          = "concat",
     .description   = NULL_IF_CONFIG_SMALL("Concatenate audio and video streams."),
     .init          = init,
@@ -460,5 +423,4 @@ AVFilter ff_avf_concat = {
     .outputs       = NULL,
     .priv_class    = &concat_class,
     .flags         = AVFILTER_FLAG_DYNAMIC_INPUTS | AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-#endif
 };

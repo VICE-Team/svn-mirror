@@ -22,10 +22,6 @@
 #include "libavutil/avassert.h"
 #include "libavutil/channel_layout.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #define TEMPLATE_REMATRIX_FLT
 #include "rematrix_template.c"
 #undef TEMPLATE_REMATRIX_FLT

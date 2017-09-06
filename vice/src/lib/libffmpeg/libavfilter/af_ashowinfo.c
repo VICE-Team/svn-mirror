@@ -176,18 +176,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
     av_get_channel_layout_string(chlayout_str, sizeof(chlayout_str), -1,
                                  buf->channel_layout);
 
-#ifdef IDE_COMPILE
-    { char tmp__0[32] = {0}; { char tmp__1[32] = {0}; av_log(ctx, 32,
-           "n:%""I64d"" pts:%s pts_time:%s pos:%""I64d"" "
-           "fmt:%s channels:%d chlayout:%s rate:%d nb_samples:%d "
-           "checksum:%08""X"" ",
-           inlink->frame_count,
-           av_ts_make_string(tmp__0, buf->pts), av_ts_make_time_string(tmp__1, buf->pts, &inlink->time_base),
-           av_frame_get_pkt_pos(buf),
-           av_get_sample_fmt_name(buf->format), av_frame_get_channels(buf), chlayout_str,
-           buf->sample_rate, buf->nb_samples,
-           checksum); } }
-#else
 	av_log(ctx, AV_LOG_INFO,
            "n:%"PRId64" pts:%s pts_time:%s pos:%"PRId64" "
            "fmt:%s channels:%d chlayout:%s rate:%d nb_samples:%d "
@@ -198,7 +186,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
            av_get_sample_fmt_name(buf->format), av_frame_get_channels(buf), chlayout_str,
            buf->sample_rate, buf->nb_samples,
            checksum);
-#endif
 
     av_log(ctx, AV_LOG_INFO, "plane_checksums: [ ");
     for (i = 0; i < planes; i++)
@@ -224,46 +211,26 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
 
 static const AVFilterPad inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_ashowinfo = {
-#ifdef IDE_COMPILE
-    "ashowinfo",
-    NULL_IF_CONFIG_SMALL("Show textual information for each audio frame."),
-    inputs,
-    outputs,
-    0, 0, 0, 0, uninit,
-    0, sizeof(AShowInfoContext),
-#else
 	.name        = "ashowinfo",
     .description = NULL_IF_CONFIG_SMALL("Show textual information for each audio frame."),
     .priv_size   = sizeof(AShowInfoContext),
     .uninit      = uninit,
     .inputs      = inputs,
     .outputs     = outputs,
-#endif
 };

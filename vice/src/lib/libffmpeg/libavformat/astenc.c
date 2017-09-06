@@ -187,48 +187,19 @@ static int ast_write_trailer(AVFormatContext *s)
 
 #define OFFSET(obj) offsetof(ASTMuxContext, obj)
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-  { "loopstart", "Loopstart position in milliseconds.", OFFSET(loopstart), AV_OPT_TYPE_INT64, {-1}, -1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-  { "loopend", "Loopend position in milliseconds.", OFFSET(loopend), AV_OPT_TYPE_INT64, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-#else
   { "loopstart", "Loopstart position in milliseconds.", OFFSET(loopstart), AV_OPT_TYPE_INT64, { .i64 = -1 }, -1, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
   { "loopend",   "Loopend position in milliseconds.",   OFFSET(loopend),   AV_OPT_TYPE_INT64, { .i64 = 0 }, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-#endif
   { NULL },
 };
 
 static const AVClass ast_muxer_class = {
-#ifdef IDE_COMPILE
-    "AST muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "AST muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp1[] = {ff_codec_ast_tags, 0};
-#endif
-
 AVOutputFormat ff_ast_muxer = {
-#ifdef IDE_COMPILE
-    "ast",
-    "AST (Audio Stream)",
-    0, "ast",
-    AV_CODEC_ID_PCM_S16BE_PLANAR,
-    AV_CODEC_ID_NONE,
-    0, 0, tmp1,
-    &ast_muxer_class,
-    0, sizeof(ASTMuxContext),
-    ast_write_header,
-    ast_write_packet,
-    ast_write_trailer,
-#else
 	.name              = "ast",
     .long_name         = NULL_IF_CONFIG_SMALL("AST (Audio Stream)"),
     .extensions        = "ast",
@@ -240,5 +211,4 @@ AVOutputFormat ff_ast_muxer = {
     .write_trailer     = ast_write_trailer,
     .priv_class        = &ast_muxer_class,
     .codec_tag         = (const AVCodecTag* const []){ff_codec_ast_tags, 0},
-#endif
 };

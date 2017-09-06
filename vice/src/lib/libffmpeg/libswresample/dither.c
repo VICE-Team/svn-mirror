@@ -23,10 +23,6 @@
 
 #include "noise_shaping_data.c"
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 void swri_get_dither(SwrContext *s, void *dst, int len, unsigned seed, enum AVSampleFormat noise_fmt) {
     double scale = s->dither.noise_scale;
 #define TMP_EXTRA 2

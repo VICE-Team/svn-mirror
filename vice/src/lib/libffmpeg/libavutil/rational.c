@@ -25,10 +25,6 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #include "avassert.h"
 #include <limits.h>
 
@@ -48,12 +44,7 @@ int av_reduce(int *dst_num, int *dst_den,
         den = FFABS(den) / gcd;
     }
     if (num <= max && den <= max) {
-#ifdef IDE_COMPILE
-		a1.num = num;
-		a1.den = den;
-#else
 		a1 = (AVRational) { num, den };
-#endif
 		den = 0;
     }
 
@@ -68,23 +59,13 @@ int av_reduce(int *dst_num, int *dst_den,
             if (a1.den) x = FFMIN(x, (max - a0.den) / a1.den);
 
             if (den * (2 * x * a1.den + a0.den) > num * a1.den) {
-#ifdef IDE_COMPILE
-				a1.num = x * a1.num + a0.num;
-				a1.den = x * a1.den + a0.den;
-#else
 				a1 = (AVRational) { x * a1.num + a0.num, x * a1.den + a0.den };
-#endif
 			}
 			break;
         }
 
         a0  = a1;
-#ifdef IDE_COMPILE
-		a1.num = a2n;
-		a1.den = a2d;
-#else
 		a1  = (AVRational) { a2n, a2d };
-#endif
 		num = den;
         den = next_den;
     }
@@ -106,15 +87,7 @@ AVRational av_mul_q(AVRational b, AVRational c)
 
 AVRational av_div_q(AVRational b, AVRational c)
 {
-#ifdef IDE_COMPILE
-	AVRational tmp;
-	
-	tmp.num = c.den;
-	tmp.den = c.num;
-	return av_mul_q(b, tmp);
-#else
 	return av_mul_q(b, (AVRational) { c.den, c.num });
-#endif
 }
 
 AVRational av_add_q(AVRational b, AVRational c) {
@@ -127,15 +100,7 @@ AVRational av_add_q(AVRational b, AVRational c) {
 
 AVRational av_sub_q(AVRational b, AVRational c)
 {
-#ifdef IDE_COMPILE
-	AVRational tmp;
-	
-	tmp.num = -c.num;
-	tmp.den = c.den;
-	return av_add_q(b, tmp);
-#else
 	return av_add_q(b, (AVRational) { -c.num, c.den });
-#endif
 }
 
 AVRational av_d2q(double d, int max)
@@ -145,20 +110,10 @@ AVRational av_d2q(double d, int max)
     int exponent;
     int64_t den;
     if (isnan(d)) {
-#ifdef IDE_COMPILE
-		AVRational tmp = { 0,0 };
-		return tmp;
-#else
 		return (AVRational) { 0,0 };
-#endif
 	}
 	if (fabs(d) > INT_MAX + LLN(3)) {
-#ifdef IDE_COMPILE
-		AVRational tmp = { d < 0 ? -1 : 1, 0 };
-		return tmp;
-#else
 		return (AVRational) { d < 0 ? -1 : 1, 0 };
-#endif
 	}
 	exponent = FFMAX( (int)(log(fabs(d) + 1e-20)/LOG2), 0);
     den = LLN(1) << (61 - exponent);

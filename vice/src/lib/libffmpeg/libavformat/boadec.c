@@ -69,19 +69,10 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_boa_demuxer = {
-#ifdef IDE_COMPILE
-    "boa",
-    "Black Ops Audio",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, 0, 0, probe,
-    read_header,
-    read_packet,
-#else
 	.name           = "boa",
     .long_name      = NULL_IF_CONFIG_SMALL("Black Ops Audio"),
     .read_probe     = probe,
     .read_header    = read_header,
     .read_packet    = read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

@@ -84,17 +84,9 @@ static int apc_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_apc_demuxer = {
-#ifdef IDE_COMPILE
-    "apc",
-    "CRYO APC",
-    0, 0, 0, 0, 0, 0, 0, 0, apc_probe,
-    apc_read_header,
-    apc_read_packet,
-#else
 	.name           = "apc",
     .long_name      = NULL_IF_CONFIG_SMALL("CRYO APC"),
     .read_probe     = apc_probe,
     .read_header    = apc_read_header,
     .read_packet    = apc_read_packet,
-#endif
 };

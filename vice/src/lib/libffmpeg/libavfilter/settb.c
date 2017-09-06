@@ -59,16 +59,6 @@ typedef struct SetTBContext {
 
 #define OFFSET(x) offsetof(SetTBContext, x)
 
-#ifdef IDE_COMPILE
-#define DEFINE_OPTIONS(filt_name, filt_type)                                               \
-static const AVOption filt_name##_options[] = {                                            \
-    { "expr", "set expression determining the output timebase", OFFSET(tb_expr), AV_OPT_TYPE_STRING, {(intptr_t) "intb"}, 0, 0, \
-           AV_OPT_FLAG_##filt_type##_PARAM|AV_OPT_FLAG_FILTERING_PARAM },           \
-    { "tb",   "set expression determining the output timebase", OFFSET(tb_expr), AV_OPT_TYPE_STRING, {(intptr_t) "intb"}, 0, 0, \
-           AV_OPT_FLAG_##filt_type##_PARAM|AV_OPT_FLAG_FILTERING_PARAM },           \
-    { NULL }                                                                               \
-}
-#else
 #define DEFINE_OPTIONS(filt_name, filt_type)                                               \
 static const AVOption filt_name##_options[] = {                                            \
     { "expr", "set expression determining the output timebase", OFFSET(tb_expr), AV_OPT_TYPE_STRING, {.str="intb"}, \
@@ -77,7 +67,6 @@ static const AVOption filt_name##_options[] = {                                 
            .flags=AV_OPT_FLAG_##filt_type##_PARAM|AV_OPT_FLAG_FILTERING_PARAM },           \
     { NULL }                                                                               \
 }
-#endif
 
 static int config_output_props(AVFilterLink *outlink)
 {
@@ -87,15 +76,8 @@ static int config_output_props(AVFilterLink *outlink)
     AVRational time_base;
     int ret;
     double res;
-#ifdef IDE_COMPILE
-	AVRational tmp;
 
-    tmp.num = 1;
-    tmp.den = AV_TIME_BASE;
-    settb->var_values[VAR_AVTB] = av_q2d(tmp);
-#else
     settb->var_values[VAR_AVTB] = av_q2d(AV_TIME_BASE_Q);
-#endif
 
 	settb->var_values[VAR_INTB] = av_q2d(inlink->time_base);
     settb->var_values[VAR_SR]   = inlink->sample_rate;
@@ -147,50 +129,29 @@ AVFILTER_DEFINE_CLASS(settb);
 
 static const AVFilterPad avfilter_vf_settb_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_settb_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_settb = {
-#ifdef IDE_COMPILE
-    "settb",
-    NULL_IF_CONFIG_SMALL("Set timebase for the video output link."),
-    avfilter_vf_settb_inputs,
-    avfilter_vf_settb_outputs,
-    &settb_class,
-    0, 0, 0, 0, 0, sizeof(SetTBContext),
-#else
 	.name        = "settb",
     .description = NULL_IF_CONFIG_SMALL("Set timebase for the video output link."),
     .priv_size   = sizeof(SetTBContext),
     .priv_class  = &settb_class,
     .inputs      = avfilter_vf_settb_inputs,
     .outputs     = avfilter_vf_settb_outputs,
-#endif
 };
 #endif /* CONFIG_SETTB_FILTER */
 
@@ -201,49 +162,28 @@ AVFILTER_DEFINE_CLASS(asettb);
 
 static const AVFilterPad avfilter_af_asettb_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_af_asettb_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_output_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_asettb = {
-#ifdef IDE_COMPILE
-    "asettb",
-    NULL_IF_CONFIG_SMALL("Set timebase for the audio output link."),
-    avfilter_af_asettb_inputs,
-    avfilter_af_asettb_outputs,
-    &asettb_class,
-    0, 0, 0, 0, 0, sizeof(SetTBContext),
-#else
 	.name        = "asettb",
     .description = NULL_IF_CONFIG_SMALL("Set timebase for the audio output link."),
     .priv_size   = sizeof(SetTBContext),
     .inputs      = avfilter_af_asettb_inputs,
     .outputs     = avfilter_af_asettb_outputs,
     .priv_class  = &asettb_class,
-#endif
 };
 #endif /* CONFIG_ASETTB_FILTER */

@@ -43,16 +43,6 @@ static int daud_write_packet(struct AVFormatContext *s, AVPacket *pkt)
 }
 
 AVOutputFormat ff_daud_muxer = {
-#ifdef IDE_COMPILE
-    "daud",
-    "D-Cinema audio",
-    0, "302",
-    AV_CODEC_ID_PCM_S24DAUD,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    0, 0, 0, 0, daud_write_header,
-    daud_write_packet,
-#else
 	.name         = "daud",
     .long_name    = NULL_IF_CONFIG_SMALL("D-Cinema audio"),
     .extensions   = "302",
@@ -61,5 +51,4 @@ AVOutputFormat ff_daud_muxer = {
     .write_header = daud_write_header,
     .write_packet = daud_write_packet,
     .flags        = AVFMT_NOTIMESTAMPS,
-#endif
 };

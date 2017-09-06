@@ -177,10 +177,6 @@ struct x264_ratecontrol_t
 };
 
 
-#if defined(IDE_COMPILE) && (_MSC_VER < 1400)
-#define powf(x, y) ((float)pow(x, y))
-#endif
-
 static int parse_zones( x264_t *h );
 static int init_pass2(x264_t *);
 static float rate_estimate_qscale( x264_t *h );
@@ -197,10 +193,6 @@ static void update_predictor( predictor_t *p, float q, float var, float bits );
         return -1;\
     }\
 }
-
-#ifdef IDE_COMPILE
-#define isfinite _finite
-#endif
 
 /* Terminology:
  * qp = h.264's quantizer
@@ -251,11 +243,7 @@ static ALWAYS_INLINE uint32_t ac_energy_plane( x264_t *h, int mb_x, int mb_y, x2
     stride <<= b_field;
     if( b_chroma )
     {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         ALIGNED_ARRAY_16( pixel, pix,[FENC_STRIDE*16] );
-#else
-		__declspec(align(16))pixel pix [16*16];
-#endif
 
 		int chromapix = h->luma2chroma_pixel[PIXEL_16x16];
         int shift = 7 - CHROMA_V_SHIFT;
@@ -611,11 +599,7 @@ int x264_macroblock_tree_read( x264_t *h, x264_frame_t *frame, float *quant_offs
         rc->mbtree.qpbuf_pos--;
     }
     else
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         x264_stack_align( x264_adaptive_quant_frame, h, frame, quant_offsets );
-#else
-        x264_adaptive_quant_frame(h, frame, quant_offsets);
-#endif
     return 0;
 fail:
     x264_log( h, X264_LOG_ERROR, "Incomplete MB-tree stats file.\n" );

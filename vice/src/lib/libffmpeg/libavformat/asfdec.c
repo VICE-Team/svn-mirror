@@ -83,26 +83,15 @@ typedef struct {
 } ASFContext;
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "no_resync_search", "Don't try to resynchronize by looking for a certain optional start code", offsetof(ASFContext, no_resync_search), AV_OPT_TYPE_INT, {0}, 0, 1, AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "no_resync_search", "Don't try to resynchronize by looking for a certain optional start code", offsetof(ASFContext, no_resync_search), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass asf_class = {
-#ifdef IDE_COMPILE
-    "asf demuxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "asf demuxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 #undef NDEBUG
@@ -711,9 +700,6 @@ static int asf_read_marker(AVFormatContext *s, int64_t size)
     for (i = 0; i < count; i++) {
         int64_t pres_time;
         int name_len;
-#ifdef IDE_COMPILE
-        AVRational tmp;
-#endif
 
         avio_rl64(pb);             // offset, 8 bytes
         pres_time = avio_rl64(pb); // presentation time
@@ -725,14 +711,8 @@ static int asf_read_marker(AVFormatContext *s, int64_t size)
         if ((ret = avio_get_str16le(pb, name_len * 2, name,
                                     sizeof(name))) < name_len)
             avio_skip(pb, name_len - ret);
-#ifdef IDE_COMPILE
-		tmp.num = 1;
-		tmp.den = 10000000;
-		avpriv_new_chapter(s, i, tmp, pres_time, AV_NOPTS_VALUE, name);
-#else
 		avpriv_new_chapter(s, i, (AVRational) { 1, 10000000 }, pres_time,
                            AV_NOPTS_VALUE, name);
-#endif
 	}
 
     return 0;
@@ -1618,19 +1598,6 @@ static int asf_read_seek(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_asf_demuxer = {
-#ifdef IDE_COMPILE
-    "asf",
-    "ASF (Advanced / Active Streaming Format)",
-    AVFMT_NOBINSEARCH | AVFMT_NOGENSEARCH,
-    0, 0, &asf_class,
-    0, 0, 0, sizeof(ASFContext),
-    asf_probe,
-    asf_read_header,
-    asf_read_packet,
-    asf_read_close,
-    asf_read_seek,
-    asf_read_pts,
-#else
 	.name           = "asf",
     .long_name      = NULL_IF_CONFIG_SMALL("ASF (Advanced / Active Streaming Format)"),
     .priv_data_size = sizeof(ASFContext),
@@ -1642,5 +1609,4 @@ AVInputFormat ff_asf_demuxer = {
     .read_timestamp = asf_read_pts,
     .flags          = AVFMT_NOBINSEARCH | AVFMT_NOGENSEARCH,
     .priv_class     = &asf_class,
-#endif
 };

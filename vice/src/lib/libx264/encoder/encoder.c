@@ -651,52 +651,6 @@ static int x264_validate_parameters( x264_t *h, int b_open )
         uint32_t fps_den;
 
 		/* [50/100/200][res][fps] */
-#ifdef IDE_COMPILE
-        static const struct
-        {
-            uint16_t fps_num;
-            uint16_t fps_den;
-            uint8_t interlaced;
-            uint16_t frame_size;
-            const uint8_t *cqm_4ic;
-            const uint8_t *cqm_8iy;
-        } avcintra_lut[3][2][7] =
-        {
-            {{{ 60000, 1001, 0, 912, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 50, 1, 0, 1100, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 30000, 1001, 0, 912, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 25, 1, 0, 1100, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 24000, 1001, 0, 912, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy }},
-             {{ 30000, 1001, 1, 1820, x264_cqm_avci50_4ic, x264_cqm_avci50_1080i_8iy },
-              { 25, 1, 1, 2196, x264_cqm_avci50_4ic, x264_cqm_avci50_1080i_8iy },
-              { 60000, 1001, 0, 1820, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 30000, 1001, 0, 1820, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 50, 1, 0, 2196, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 25, 1, 0, 2196, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy },
-              { 24000, 1001, 0, 1820, x264_cqm_avci50_4ic, x264_cqm_avci50_p_8iy }}},
-            {{{ 60000, 1001, 0, 1848, x264_cqm_avci100_720p_4ic, x264_cqm_avci100_720p_8iy },
-              { 50, 1, 0, 2224, x264_cqm_avci100_720p_4ic, x264_cqm_avci100_720p_8iy },
-              { 30000, 1001, 0, 1848, x264_cqm_avci100_720p_4ic, x264_cqm_avci100_720p_8iy },
-              { 25, 1, 0, 2224, x264_cqm_avci100_720p_4ic, x264_cqm_avci100_720p_8iy },
-              { 24000, 1001, 0, 1848, x264_cqm_avci100_720p_4ic, x264_cqm_avci100_720p_8iy }},
-             {{ 30000, 1001, 1, 3692, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080i_8iy },
-              { 25, 1, 1, 4444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080i_8iy },
-              { 60000, 1001, 0, 3692, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 30000, 1001, 0, 3692, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 50, 1, 0, 4444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 25, 1, 0, 4444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 24000, 1001, 0, 3692, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy }}},
-            {{{ 60000, 1001, 0, 3724, x264_cqm_avci100_720p_4ic, x264_cqm_avci100_720p_8iy },
-              { 50, 1, 0, 4472, x264_cqm_avci100_720p_4ic, x264_cqm_avci100_720p_8iy }},
-             {{ 30000, 1001, 1, 7444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080i_8iy },
-              { 25, 1, 1, 8940, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080i_8iy },
-              { 60000, 1001, 0, 7444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 30000, 1001, 0, 7444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 50, 1, 0, 8940, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 25, 1, 0, 8940, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
-              { 24000, 1001, 0, 7444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy }}}
-        };
-#else
 		static const struct
         {
             uint16_t fps_num;
@@ -741,7 +695,6 @@ static int x264_validate_parameters( x264_t *h, int b_open )
               {    25,    1, 0, 8940, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy },
               { 24000, 1001, 0, 7444, x264_cqm_avci100_1080_4ic, x264_cqm_avci100_1080p_8iy }}}
         };
-#endif
 		int res;
 		
 		if( BIT_DEPTH != 10 )
@@ -1599,11 +1552,7 @@ x264_t *x264_encoder_open( x264_param_t *param )
     if( h->param.b_cabac )
         x264_cabac_init( h );
     else
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         x264_stack_align( x264_cavlc_init, h );
-#else
-        x264_cavlc_init(h);
-#endif
 
     mbcmp_init( h );
     chroma_dsp_init( h );
@@ -3199,11 +3148,7 @@ static void *x264_slices_write( x264_t *h )
             }
         }
         h->sh.i_last_mb = X264_MIN( h->sh.i_last_mb, last_thread_mb );
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         if( x264_stack_align( x264_slice_write, h ) )
-#else
-        if( x264_slice_write(h) )
-#endif
             goto fail;
         h->sh.i_first_mb = h->sh.i_last_mb + 1;
         // if i_first_mb is not the last mb in a row then go to the next mb in MBAFF order
@@ -3242,11 +3187,7 @@ static int x264_threaded_slices_write( x264_t *h )
         t->sh.i_last_mb  =   t->i_threadslice_end * h->mb.i_mb_width - 1;
     }
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     x264_stack_align( x264_analyse_weight_frame, h, h->mb.i_mb_height*16 + 16 );
-#else
-    x264_analyse_weight_frame(h, h->mb.i_mb_height*16 + 16);
-#endif
     x264_threads_distribute_ratecontrol( h );
 
     /* setup */
@@ -3421,11 +3362,7 @@ int     x264_encoder_encode( x264_t *h,
                 return -1;
         }
         else
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
             x264_stack_align( x264_adaptive_quant_frame, h, fenc, pic_in->prop.quant_offsets );
-#else
-            x264_adaptive_quant_frame(h, fenc, pic_in->prop.quant_offsets);
-#endif
 
         if( pic_in->prop.quant_offsets_free )
             pic_in->prop.quant_offsets_free( pic_in->prop.quant_offsets );

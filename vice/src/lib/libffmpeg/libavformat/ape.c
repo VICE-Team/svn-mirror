@@ -263,15 +263,9 @@ static int ape_read_header(AVFormatContext * s)
         return AVERROR_INVALIDDATA;
     }
     if (ape->seektablelength / sizeof(*ape->seektable) < ape->totalframes) {
-#ifdef IDE_COMPILE
-        av_log(s, AV_LOG_ERROR,
-               "Number of seek entries is less than number of frames: %""zu"" vs. %""u""\n",
-               ape->seektablelength / sizeof(*ape->seektable), ape->totalframes);
-#else
 		av_log(s, AV_LOG_ERROR,
                "Number of seek entries is less than number of frames: %"SIZE_SPECIFIER" vs. %"PRIu32"\n",
                ape->seektablelength / sizeof(*ape->seektable), ape->totalframes);
-#endif
 		return AVERROR_INVALIDDATA;
     }
     ape->frames       = av_malloc(ape->totalframes * sizeof(APEFrame));
@@ -466,17 +460,6 @@ static int ape_read_seek(AVFormatContext *s, int stream_index, int64_t timestamp
 }
 
 AVInputFormat ff_ape_demuxer = {
-#ifdef IDE_COMPILE
-    "ape",
-    "Monkey's Audio",
-    0, "ape,apl,mac",
-    0, 0, 0, 0, 0, sizeof(APEContext),
-    ape_probe,
-    ape_read_header,
-    ape_read_packet,
-    ape_read_close,
-    ape_read_seek,
-#else
 	.name           = "ape",
     .long_name      = NULL_IF_CONFIG_SMALL("Monkey's Audio"),
     .priv_data_size = sizeof(APEContext),
@@ -486,5 +469,4 @@ AVInputFormat ff_ape_demuxer = {
     .read_close     = ape_read_close,
     .read_seek      = ape_read_seek,
     .extensions     = "ape,apl,mac",
-#endif
 };

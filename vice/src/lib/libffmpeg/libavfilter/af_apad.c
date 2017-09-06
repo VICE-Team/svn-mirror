@@ -47,15 +47,9 @@ typedef struct {
 #define A AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption apad_options[] = {
-#ifdef IDE_COMPILE
-	{ "packet_size", "set silence packet size",                                  OFFSET(packet_size), AV_OPT_TYPE_INT,   {4096}, 0, INT_MAX, A },
-    { "pad_len",     "set number of samples of silence to add",                  OFFSET(pad_len),     AV_OPT_TYPE_INT64, {-1}, -1, INT64_MAX, A },
-    { "whole_len",   "set minimum target number of samples in the audio stream", OFFSET(whole_len),   AV_OPT_TYPE_INT64, {-1}, -1, INT64_MAX, A },
-#else
 	{ "packet_size", "set silence packet size",                                  OFFSET(packet_size), AV_OPT_TYPE_INT,   { .i64 = 4096 }, 0, INT_MAX, A },
     { "pad_len",     "set number of samples of silence to add",                  OFFSET(pad_len),     AV_OPT_TYPE_INT64, { .i64 = -1 }, -1, INT64_MAX, A },
     { "whole_len",   "set minimum target number of samples in the audio stream", OFFSET(whole_len),   AV_OPT_TYPE_INT64, { .i64 = -1 }, -1, INT64_MAX, A },
-#endif
 	{ NULL }
 };
 
@@ -80,9 +74,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 {
     AVFilterContext *ctx = inlink->dst;
     APadContext *apad = ctx->priv;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (apad->whole_len >= 0) {
         apad->whole_len_left = FFMAX(apad->whole_len_left - frame->nb_samples, 0);
@@ -90,13 +81,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
                "n_out:%d whole_len_left:%"PRId64"\n", frame->nb_samples, apad->whole_len_left);
     }
 
-#ifdef IDE_COMPILE
-	tmp.num = 1;
-	tmp.den = inlink->sample_rate;
-	apad->next_pts = frame->pts + av_rescale_q(frame->nb_samples, tmp, inlink->time_base);
-#else
 	apad->next_pts = frame->pts + av_rescale_q(frame->nb_samples, (AVRational){1, inlink->sample_rate}, inlink->time_base);
-#endif
 
 	return ff_filter_frame(ctx->outputs[0], frame);
 }
@@ -106,9 +91,6 @@ static int request_frame(AVFilterLink *outlink)
     AVFilterContext *ctx = outlink->src;
     APadContext *apad = ctx->priv;
     int ret;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     ret = ff_request_frame(ctx->inputs[0]);
 
@@ -143,13 +125,7 @@ static int request_frame(AVFilterLink *outlink)
 
         outsamplesref->pts = apad->next_pts;
         if (apad->next_pts != AV_NOPTS_VALUE) {
-#ifdef IDE_COMPILE
-			tmp.num = 1;
-			tmp.den = outlink->sample_rate;
-			apad->next_pts += av_rescale_q(n_out, tmp, outlink->time_base);
-#else
 			apad->next_pts += av_rescale_q(n_out, (AVRational){1, outlink->sample_rate}, outlink->time_base);
-#endif
 		}
         return ff_filter_frame(outlink, outsamplesref);
     }
@@ -158,45 +134,23 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad apad_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad apad_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-#else
 		.name          = "default",
         .request_frame = request_frame,
         .type          = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_apad = {
-#ifdef IDE_COMPILE
-    "apad",
-    NULL_IF_CONFIG_SMALL("Pad audio with silence."),
-    apad_inputs,
-    apad_outputs,
-    &apad_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-    init,
-    0, 0, 0, sizeof(APadContext),
-#else
 	.name          = "apad",
     .description   = NULL_IF_CONFIG_SMALL("Pad audio with silence."),
     .init          = init,
@@ -205,5 +159,4 @@ AVFilter ff_af_apad = {
     .outputs       = apad_outputs,
     .priv_class    = &apad_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-#endif
 };

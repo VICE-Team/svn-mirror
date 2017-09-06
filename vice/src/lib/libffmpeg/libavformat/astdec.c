@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
@@ -114,21 +110,7 @@ static int ast_read_packet(AVFormatContext *s, AVPacket *pkt)
     return ret;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp1[] = {ff_codec_ast_tags, 0};
-#endif
-
 AVInputFormat ff_ast_demuxer = {
-#ifdef IDE_COMPILE
-    "ast",
-    "AST (Audio Stream)",
-    AVFMT_GENERIC_INDEX,
-    "ast",
-    tmp1,
-    0, 0, 0, 0, 0, ast_probe,
-    ast_read_header,
-    ast_read_packet,
-#else
 	.name           = "ast",
     .long_name      = NULL_IF_CONFIG_SMALL("AST (Audio Stream)"),
     .read_probe     = ast_probe,
@@ -137,5 +119,4 @@ AVInputFormat ff_ast_demuxer = {
     .extensions     = "ast",
     .flags          = AVFMT_GENERIC_INDEX,
     .codec_tag      = (const AVCodecTag* const []){ff_codec_ast_tags, 0},
-#endif
 };

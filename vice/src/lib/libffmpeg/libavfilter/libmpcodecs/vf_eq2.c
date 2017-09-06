@@ -29,12 +29,7 @@
 #include <math.h>
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "mp_msg.h"
 #include "cpudetect.h"

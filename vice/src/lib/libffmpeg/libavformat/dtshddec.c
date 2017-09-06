@@ -127,17 +127,6 @@ static int raw_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_dtshd_demuxer = {
-#ifdef IDE_COMPILE
-    "dtshd",
-    "raw DTS-HD",
-    AVFMT_GENERIC_INDEX,
-    "dtshd",
-    0, 0, 0, 0, AV_CODEC_ID_DTS,
-    sizeof(DTSHDDemuxContext),
-    dtshd_probe,
-    dtshd_read_header,
-    raw_read_packet,
-#else
 	.name           = "dtshd",
     .long_name      = NULL_IF_CONFIG_SMALL("raw DTS-HD"),
     .priv_data_size = sizeof(DTSHDDemuxContext),
@@ -147,5 +136,4 @@ AVInputFormat ff_dtshd_demuxer = {
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "dtshd",
     .raw_codec_id   = AV_CODEC_ID_DTS,
-#endif
 };

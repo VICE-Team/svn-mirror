@@ -181,19 +181,10 @@ static int64_t concat_seek(URLContext *h, int64_t pos, int whence)
 }
 
 URLProtocol ff_concat_protocol = {
-#ifdef IDE_COMPILE
-    "concat",
-    concat_open,
-    0, concat_read,
-    0, concat_seek,
-    concat_close,
-    0, 0, 0, 0, 0, 0, sizeof(struct concat_data),
-#else
 	.name           = "concat",
     .url_open       = concat_open,
     .url_read       = concat_read,
     .url_seek       = concat_seek,
     .url_close      = concat_close,
     .priv_data_size = sizeof(struct concat_data),
-#endif
 };

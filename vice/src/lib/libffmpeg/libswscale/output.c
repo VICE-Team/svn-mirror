@@ -32,12 +32,7 @@
 #include "libavutil/mathematics.h"
 #include "libavutil/pixdesc.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "rgb2rgb.h"
 #include "swscale.h"

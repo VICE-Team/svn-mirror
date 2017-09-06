@@ -57,17 +57,6 @@ static int crc_write_trailer(struct AVFormatContext *s)
 }
 
 AVOutputFormat ff_crc_muxer = {
-#ifdef IDE_COMPILE
-    "crc",
-    "CRC testing",
-    0, 0, AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_RAWVIDEO,
-    0, AVFMT_NOTIMESTAMPS,
-    0, 0, 0, sizeof(CRCState),
-    crc_write_header,
-    crc_write_packet,
-    crc_write_trailer,
-#else
 	.name              = "crc",
     .long_name         = NULL_IF_CONFIG_SMALL("CRC testing"),
     .priv_data_size    = sizeof(CRCState),
@@ -77,5 +66,4 @@ AVOutputFormat ff_crc_muxer = {
     .write_packet      = crc_write_packet,
     .write_trailer     = crc_write_trailer,
     .flags             = AVFMT_NOTIMESTAMPS,
-#endif
 };

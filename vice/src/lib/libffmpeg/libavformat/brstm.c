@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/bytestream.h"
 #include "avformat.h"
@@ -290,16 +286,6 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_brstm_demuxer = {
-#ifdef IDE_COMPILE
-    "brstm",
-    "BRSTM (Binary Revolution Stream)",
-    0, "brstm",
-    0, 0, 0, 0, 0, sizeof(BRSTMDemuxContext),
-    probe,
-    read_header,
-    read_packet,
-    read_close,
-#else
 	.name           = "brstm",
     .long_name      = NULL_IF_CONFIG_SMALL("BRSTM (Binary Revolution Stream)"),
     .priv_data_size = sizeof(BRSTMDemuxContext),
@@ -308,5 +294,4 @@ AVInputFormat ff_brstm_demuxer = {
     .read_packet    = read_packet,
     .read_close     = read_close,
     .extensions     = "brstm",
-#endif
 };

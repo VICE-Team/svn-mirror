@@ -304,51 +304,21 @@ static int aiff_write_trailer(AVFormatContext *s)
 #define OFFSET(x) offsetof(AIFFOutputContext, x)
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "write_id3v2", "Enable ID3 tags writing.", OFFSET(write_id3v2), AV_OPT_TYPE_INT, {0}, 0, 1, ENC },
-    { "id3v2_version", "Select ID3v2 version to write. Currently 3 and 4 are supported.", OFFSET(id3v2_version), AV_OPT_TYPE_INT, {4}, 3, 4, ENC },
-#else
 	{ "write_id3v2", "Enable ID3 tags writing.",
       OFFSET(write_id3v2), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, ENC },
     { "id3v2_version", "Select ID3v2 version to write. Currently 3 and 4 are supported.",
       OFFSET(id3v2_version), AV_OPT_TYPE_INT, {.i64 = 4}, 3, 4, ENC },
-#endif
 	{ NULL },
 };
 
 static const AVClass aiff_muxer_class = {
-#ifdef IDE_COMPILE
-    "AIFF muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name     = "AIFF muxer",
     .item_name      = av_default_item_name,
     .option         = options,
     .version        = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp1[] = { ff_codec_aiff_tags, 0 };
-#endif
-
 AVOutputFormat ff_aiff_muxer = {
-#ifdef IDE_COMPILE
-    "aiff",
-    "Audio IFF",
-    "audio/aiff",
-    "aif,aiff,afc,aifc",
-    AV_CODEC_ID_PCM_S16BE,
-    AV_CODEC_ID_PNG,
-    0, 0, tmp1,
-    &aiff_muxer_class,
-    0, sizeof(AIFFOutputContext),
-    aiff_write_header,
-    aiff_write_packet,
-    aiff_write_trailer,
-#else
 	.name              = "aiff",
     .long_name         = NULL_IF_CONFIG_SMALL("Audio IFF"),
     .mime_type         = "audio/aiff",
@@ -361,5 +331,4 @@ AVOutputFormat ff_aiff_muxer = {
     .write_trailer     = aiff_write_trailer,
     .codec_tag         = (const AVCodecTag* const []){ ff_codec_aiff_tags, 0 },
     .priv_class        = &aiff_muxer_class,
-#endif
 };

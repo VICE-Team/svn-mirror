@@ -123,41 +123,18 @@ static int aqt_read_close(AVFormatContext *s)
 #define OFFSET(x) offsetof(AQTitleContext, x)
 #define SD AV_OPT_FLAG_SUBTITLE_PARAM|AV_OPT_FLAG_DECODING_PARAM
 static const AVOption aqt_options[] = {
-#ifdef IDE_COMPILE
-	{ "subfps", "set the movie frame rate", OFFSET(frame_rate), AV_OPT_TYPE_RATIONAL, {0x4039000000000000}, 0, INT_MAX, SD },
-#else
 	{ "subfps", "set the movie frame rate", OFFSET(frame_rate), AV_OPT_TYPE_RATIONAL, {.dbl=25}, 0, INT_MAX, SD },
-#endif
 	{ NULL }
 };
 
 static const AVClass aqt_class = {
-#ifdef IDE_COMPILE
-    "aqtdec",
-    av_default_item_name,
-    aqt_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "aqtdec",
     .item_name  = av_default_item_name,
     .option     = aqt_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_aqtitle_demuxer = {
-#ifdef IDE_COMPILE
-    "aqtitle",
-    "AQTitle subtitles",
-    0, "aqt",
-    0, &aqt_class,
-    0, 0, 0, sizeof(AQTitleContext),
-    aqt_probe,
-    aqt_read_header,
-    aqt_read_packet,
-    aqt_read_close,
-    0, 0, 0, 0, aqt_read_seek,
-#else
 	.name           = "aqtitle",
     .long_name      = NULL_IF_CONFIG_SMALL("AQTitle subtitles"),
     .priv_data_size = sizeof(AQTitleContext),
@@ -168,5 +145,4 @@ AVInputFormat ff_aqtitle_demuxer = {
     .read_close     = aqt_read_close,
     .extensions     = "aqt",
     .priv_class     = &aqt_class,
-#endif
 };

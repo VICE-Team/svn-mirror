@@ -94,16 +94,6 @@ static int adx_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_adx_demuxer = {
-#ifdef IDE_COMPILE
-    "adx",
-    "CRI ADX",
-    AVFMT_GENERIC_INDEX,
-    "adx",
-    0, 0, 0, 0, AV_CODEC_ID_ADPCM_ADX,
-    sizeof(ADXDemuxerContext),
-    0, adx_read_header,
-    adx_read_packet,
-#else
 	.name           = "adx",
     .long_name      = NULL_IF_CONFIG_SMALL("CRI ADX"),
     .priv_data_size = sizeof(ADXDemuxerContext),
@@ -112,5 +102,4 @@ AVInputFormat ff_adx_demuxer = {
     .extensions     = "adx",
     .raw_codec_id   = AV_CODEC_ID_ADPCM_ADX,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

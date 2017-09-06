@@ -170,31 +170,15 @@ static void x264_predict_16x16_p_##name( pixel *src )\
 PREDICT_16x16_P_INLINE( sse2, sse2 )
 #else // !HIGH_BIT_DEPTH
 #if !ARCH_X86_64
-#ifdef IDE_COMPILE
-static void x264_predict_16x16_p_mmx2( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[7 +1 - 32 ] - src[7 -1 - 32 ] ); V += 1 * ( src[(7 +1)*32 -1] - src[(7 -1)*32 -1] ); H += 2 * ( src[7 +2 - 32 ] - src[7 -2 - 32 ] ); V += 2 * ( src[(7 +2)*32 -1] - src[(7 -2)*32 -1] ); H += 3 * ( src[7 +3 - 32 ] - src[7 -3 - 32 ] ); V += 3 * ( src[(7 +3)*32 -1] - src[(7 -3)*32 -1] ); H += 4 * ( src[7 +4 - 32 ] - src[7 -4 - 32 ] ); V += 4 * ( src[(7 +4)*32 -1] - src[(7 -4)*32 -1] ); H += 5 * ( src[7 +5 - 32 ] - src[7 -5 - 32 ] ); V += 5 * ( src[(7 +5)*32 -1] - src[(7 -5)*32 -1] ); H += 6 * ( src[7 +6 - 32 ] - src[7 -6 - 32 ] ); V += 6 * ( src[(7 +6)*32 -1] - src[(7 -6)*32 -1] ); H += 7 * ( src[7 +7 - 32 ] - src[7 -7 - 32 ] ); V += 7 * ( src[(7 +7)*32 -1] - src[(7 -7)*32 -1] ); H += 8 * ( src[7 +8 - 32 ] - src[7 -8 - 32 ] ); V += 8 * ( src[(7 +8)*32 -1] - src[(7 -8)*32 -1] ); { int a = 16 * ( src[15*32 -1] + src[15 - 32] ); { int b = ( 5 * H + 32 ) >> 6; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a - b * 7 - c * 7 + 16; if( 8 > 8 && (i00 > 0x7fff || abs(b) > 1092 || abs(c) > 1092) ) x264_predict_16x16_p_c( src ); else x264_predict_16x16_p_core_mmx2( src, i00, b, c );} } } } }
-#else
 PREDICT_16x16_P( mmx2, mmx2 )
-#endif
 #endif // !ARCH_X86_64
-#ifdef IDE_COMPILE
-static void x264_predict_16x16_p_sse2( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[7 +1 - 32 ] - src[7 -1 - 32 ] ); V += 1 * ( src[(7 +1)*32 -1] - src[(7 -1)*32 -1] ); H += 2 * ( src[7 +2 - 32 ] - src[7 -2 - 32 ] ); V += 2 * ( src[(7 +2)*32 -1] - src[(7 -2)*32 -1] ); H += 3 * ( src[7 +3 - 32 ] - src[7 -3 - 32 ] ); V += 3 * ( src[(7 +3)*32 -1] - src[(7 -3)*32 -1] ); H += 4 * ( src[7 +4 - 32 ] - src[7 -4 - 32 ] ); V += 4 * ( src[(7 +4)*32 -1] - src[(7 -4)*32 -1] ); H += 5 * ( src[7 +5 - 32 ] - src[7 -5 - 32 ] ); V += 5 * ( src[(7 +5)*32 -1] - src[(7 -5)*32 -1] ); H += 6 * ( src[7 +6 - 32 ] - src[7 -6 - 32 ] ); V += 6 * ( src[(7 +6)*32 -1] - src[(7 -6)*32 -1] ); H += 7 * ( src[7 +7 - 32 ] - src[7 -7 - 32 ] ); V += 7 * ( src[(7 +7)*32 -1] - src[(7 -7)*32 -1] ); H += 8 * ( src[7 +8 - 32 ] - src[7 -8 - 32 ] ); V += 8 * ( src[(7 +8)*32 -1] - src[(7 -8)*32 -1] ); { int a = 16 * ( src[15*32 -1] + src[15 - 32] ); { int b = ( 5 * H + 32 ) >> 6; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a - b * 7 - c * 7 + 16; if( 8 > 8 && (i00 > 0x7fff || abs(b) > 1092 || abs(c) > 1092) ) x264_predict_16x16_p_c( src ); else x264_predict_16x16_p_core_sse2( src, i00, b, c );} } } } }
-#else
 PREDICT_16x16_P( sse2, sse2 )
-#endif
 #if HAVE_X86_INLINE_ASM
 PREDICT_16x16_P_INLINE( ssse3, sse2 )
 #endif // HAVE_X86_INLINE_ASM
-#ifdef IDE_COMPILE
-static void x264_predict_16x16_p_avx( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[7 +1 - 32 ] - src[7 -1 - 32 ] ); V += 1 * ( src[(7 +1)*32 -1] - src[(7 -1)*32 -1] ); H += 2 * ( src[7 +2 - 32 ] - src[7 -2 - 32 ] ); V += 2 * ( src[(7 +2)*32 -1] - src[(7 -2)*32 -1] ); H += 3 * ( src[7 +3 - 32 ] - src[7 -3 - 32 ] ); V += 3 * ( src[(7 +3)*32 -1] - src[(7 -3)*32 -1] ); H += 4 * ( src[7 +4 - 32 ] - src[7 -4 - 32 ] ); V += 4 * ( src[(7 +4)*32 -1] - src[(7 -4)*32 -1] ); H += 5 * ( src[7 +5 - 32 ] - src[7 -5 - 32 ] ); V += 5 * ( src[(7 +5)*32 -1] - src[(7 -5)*32 -1] ); H += 6 * ( src[7 +6 - 32 ] - src[7 -6 - 32 ] ); V += 6 * ( src[(7 +6)*32 -1] - src[(7 -6)*32 -1] ); H += 7 * ( src[7 +7 - 32 ] - src[7 -7 - 32 ] ); V += 7 * ( src[(7 +7)*32 -1] - src[(7 -7)*32 -1] ); H += 8 * ( src[7 +8 - 32 ] - src[7 -8 - 32 ] ); V += 8 * ( src[(7 +8)*32 -1] - src[(7 -8)*32 -1] ); { int a = 16 * ( src[15*32 -1] + src[15 - 32] ); { int b = ( 5 * H + 32 ) >> 6; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a - b * 7 - c * 7 + 16; if( 8 > 8 && (i00 > 0x7fff || abs(b) > 1092 || abs(c) > 1092) ) x264_predict_16x16_p_c( src ); else x264_predict_16x16_p_core_avx( src, i00, b, c );} } } } }
-#else
 PREDICT_16x16_P_INLINE( avx, avx )
-#endif
 #endif // HIGH_BIT_DEPTH
-#ifdef IDE_COMPILE
-static void x264_predict_16x16_p_avx2( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[7 +1 - 32 ] - src[7 -1 - 32 ] ); V += 1 * ( src[(7 +1)*32 -1] - src[(7 -1)*32 -1] ); H += 2 * ( src[7 +2 - 32 ] - src[7 -2 - 32 ] ); V += 2 * ( src[(7 +2)*32 -1] - src[(7 -2)*32 -1] ); H += 3 * ( src[7 +3 - 32 ] - src[7 -3 - 32 ] ); V += 3 * ( src[(7 +3)*32 -1] - src[(7 -3)*32 -1] ); H += 4 * ( src[7 +4 - 32 ] - src[7 -4 - 32 ] ); V += 4 * ( src[(7 +4)*32 -1] - src[(7 -4)*32 -1] ); H += 5 * ( src[7 +5 - 32 ] - src[7 -5 - 32 ] ); V += 5 * ( src[(7 +5)*32 -1] - src[(7 -5)*32 -1] ); H += 6 * ( src[7 +6 - 32 ] - src[7 -6 - 32 ] ); V += 6 * ( src[(7 +6)*32 -1] - src[(7 -6)*32 -1] ); H += 7 * ( src[7 +7 - 32 ] - src[7 -7 - 32 ] ); V += 7 * ( src[(7 +7)*32 -1] - src[(7 -7)*32 -1] ); H += 8 * ( src[7 +8 - 32 ] - src[7 -8 - 32 ] ); V += 8 * ( src[(7 +8)*32 -1] - src[(7 -8)*32 -1] ); { int a = 16 * ( src[15*32 -1] + src[15 - 32] ); { int b = ( 5 * H + 32 ) >> 6; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a - b * 7 - c * 7 + 16; if( 8 > 8 && (i00 > 0x7fff || abs(b) > 1092 || abs(c) > 1092) ) x264_predict_16x16_p_c( src ); else x264_predict_16x16_p_core_avx2( src, i00, b, c );} } } } }
-#else
 PREDICT_16x16_P_INLINE( avx2, avx2 )
-#endif
 #define PREDICT_8x16C_P_CORE\
     int H = 0, V = 0;\
     for( int i = 0; i < 4; i++ )\
@@ -225,21 +209,11 @@ static void x264_predict_8x16c_p_##name( pixel *src )\
 }
 
 #if !ARCH_X86_64 && !HIGH_BIT_DEPTH
-#ifdef IDE_COMPILE
-static void x264_predict_8x16c_p_mmx2( pixel *src ){ int H = 0, V = 0; { int i = 0; for(  ; i < 4; i++ ) H += ( i + 1 ) * ( src[4 + i - 32] - src[2 - i - 32] ); }{ int i = 0; for(  ; i < 8; i++ ) V += ( i + 1 ) * ( src[-1 + (i+8)*32] - src[-1 + (6-i)*32] ); }{ int a = 16 * ( src[-1 + 15*32] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a -3*b -7*c + 16; x264_predict_8x16c_p_core_mmx2( src, i00, b, c );} } } } }
-#else
 PREDICT_8x16C_P( mmx2 )
-#endif
 #endif // !ARCH_X86_64 && !HIGH_BIT_DEPTH
-#ifdef IDE_COMPILE
-static void x264_predict_8x16c_p_sse2( pixel *src ){ int H = 0, V = 0; { int i = 0; for(  ; i < 4; i++ ) H += ( i + 1 ) * ( src[4 + i - 32] - src[2 - i - 32] ); }{ int i = 0; for(  ; i < 8; i++ ) V += ( i + 1 ) * ( src[-1 + (i+8)*32] - src[-1 + (6-i)*32] ); }{ int a = 16 * ( src[-1 + 15*32] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a -3*b -7*c + 16; x264_predict_8x16c_p_core_sse2( src, i00, b, c );} } } } }
-static void x264_predict_8x16c_p_avx( pixel *src ){ int H = 0, V = 0; { int i = 0; for(  ; i < 4; i++ ) H += ( i + 1 ) * ( src[4 + i - 32] - src[2 - i - 32] ); }{ int i = 0; for(  ; i < 8; i++ ) V += ( i + 1 ) * ( src[-1 + (i+8)*32] - src[-1 + (6-i)*32] ); }{ int a = 16 * ( src[-1 + 15*32] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a -3*b -7*c + 16; x264_predict_8x16c_p_core_avx( src, i00, b, c );} } } } }
-static void x264_predict_8x16c_p_avx2( pixel *src ){ int H = 0, V = 0; { int i = 0; for(  ; i < 4; i++ ) H += ( i + 1 ) * ( src[4 + i - 32] - src[2 - i - 32] ); }{ int i = 0; for(  ; i < 8; i++ ) V += ( i + 1 ) * ( src[-1 + (i+8)*32] - src[-1 + (6-i)*32] ); }{ int a = 16 * ( src[-1 + 15*32] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 5 * V + 32 ) >> 6; { int i00 = a -3*b -7*c + 16; x264_predict_8x16c_p_core_avx2( src, i00, b, c );} } } } }
-#else
 PREDICT_8x16C_P( sse2 )
 PREDICT_8x16C_P( avx )
 PREDICT_8x16C_P( avx2 )
-#endif
 
 #define PREDICT_8x8C_P_CORE\
     int H = 0;\
@@ -324,28 +298,15 @@ static void x264_predict_8x8c_p_##name( pixel *src )\
 PREDICT_8x8C_P_INLINE( sse2, sse2 )
 #else  //!HIGH_BIT_DEPTH
 #if !ARCH_X86_64
-#ifdef IDE_COMPILE
-static void x264_predict_8x8c_p_mmx2( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[3 +1 - 32 ] - src[3 -1 - 32 ] ); V += 1 * ( src[(3 +1)*32 -1] - src[(3 -1)*32 -1] ); H += 2 * ( src[3 +2 - 32 ] - src[3 -2 - 32 ] ); V += 2 * ( src[(3 +2)*32 -1] - src[(3 -2)*32 -1] ); H += 3 * ( src[3 +3 - 32 ] - src[3 -3 - 32 ] ); V += 3 * ( src[(3 +3)*32 -1] - src[(3 -3)*32 -1] ); H += 4 * ( src[3 +4 - 32 ] - src[3 -4 - 32 ] ); V += 4 * ( src[(3 +4)*32 -1] - src[(3 -4)*32 -1] ); { int a = 16 * ( src[7*32 -1] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 17 * V + 16 ) >> 5; { int i00 = a -3*b -3*c + 16; x264_predict_8x8c_p_core_mmx2( src, i00, b, c );} } } } }
-#else
 PREDICT_8x8C_P( mmx2, mmx2 )
-#endif
 #endif // !ARCH_X86_64
-#ifdef IDE_COMPILE
-static void x264_predict_8x8c_p_sse2( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[3 +1 - 32 ] - src[3 -1 - 32 ] ); V += 1 * ( src[(3 +1)*32 -1] - src[(3 -1)*32 -1] ); H += 2 * ( src[3 +2 - 32 ] - src[3 -2 - 32 ] ); V += 2 * ( src[(3 +2)*32 -1] - src[(3 -2)*32 -1] ); H += 3 * ( src[3 +3 - 32 ] - src[3 -3 - 32 ] ); V += 3 * ( src[(3 +3)*32 -1] - src[(3 -3)*32 -1] ); H += 4 * ( src[3 +4 - 32 ] - src[3 -4 - 32 ] ); V += 4 * ( src[(3 +4)*32 -1] - src[(3 -4)*32 -1] ); { int a = 16 * ( src[7*32 -1] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 17 * V + 16 ) >> 5; { int i00 = a -3*b -3*c + 16; x264_predict_8x8c_p_core_sse2( src, i00, b, c );} } } } }
-#else
 PREDICT_8x8C_P( sse2, sse2 )
-#endif
 #if HAVE_X86_INLINE_ASM
 PREDICT_8x8C_P_INLINE( ssse3, sse2 )
 #endif // HAVE_X86_INLINE_ASM
 #endif // HIGH_BIT_DEPTH
-#ifdef IDE_COMPILE
-static void x264_predict_8x8c_p_avx( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[3 +1 - 32 ] - src[3 -1 - 32 ] ); V += 1 * ( src[(3 +1)*32 -1] - src[(3 -1)*32 -1] ); H += 2 * ( src[3 +2 - 32 ] - src[3 -2 - 32 ] ); V += 2 * ( src[(3 +2)*32 -1] - src[(3 -2)*32 -1] ); H += 3 * ( src[3 +3 - 32 ] - src[3 -3 - 32 ] ); V += 3 * ( src[(3 +3)*32 -1] - src[(3 -3)*32 -1] ); H += 4 * ( src[3 +4 - 32 ] - src[3 -4 - 32 ] ); V += 4 * ( src[(3 +4)*32 -1] - src[(3 -4)*32 -1] ); { int a = 16 * ( src[7*32 -1] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 17 * V + 16 ) >> 5; { int i00 = a -3*b -3*c + 16; x264_predict_8x8c_p_core_avx( src, i00, b, c );} } } } }
-static void x264_predict_8x8c_p_avx2( pixel *src ){ int H = 0; int V = 0; H += 1 * ( src[3 +1 - 32 ] - src[3 -1 - 32 ] ); V += 1 * ( src[(3 +1)*32 -1] - src[(3 -1)*32 -1] ); H += 2 * ( src[3 +2 - 32 ] - src[3 -2 - 32 ] ); V += 2 * ( src[(3 +2)*32 -1] - src[(3 -2)*32 -1] ); H += 3 * ( src[3 +3 - 32 ] - src[3 -3 - 32 ] ); V += 3 * ( src[(3 +3)*32 -1] - src[(3 -3)*32 -1] ); H += 4 * ( src[3 +4 - 32 ] - src[3 -4 - 32 ] ); V += 4 * ( src[(3 +4)*32 -1] - src[(3 -4)*32 -1] ); { int a = 16 * ( src[7*32 -1] + src[7 - 32] ); { int b = ( 17 * H + 16 ) >> 5; { int c = ( 17 * V + 16 ) >> 5; { int i00 = a -3*b -3*c + 16; x264_predict_8x8c_p_core_avx2( src, i00, b, c );} } } } }
-#else
 PREDICT_8x8C_P_INLINE( avx, avx )
 PREDICT_8x8C_P_INLINE( avx2, avx2 )
-#endif
 
 #if ARCH_X86_64 && !HIGH_BIT_DEPTH
 static void x264_predict_8x8c_dc_left( uint8_t *src )

@@ -27,10 +27,6 @@
  * @see http://www.svatopluk.com/andux/docs/dfvid.html
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
@@ -293,15 +289,6 @@ static int vid_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_bethsoftvid_demuxer = {
-#ifdef IDE_COMPILE
-    "bethsoftvid",
-    "Bethesda Softworks VID",
-    0, 0, 0, 0, 0, 0, 0, sizeof(BVID_DemuxContext),
-    vid_probe,
-    vid_read_header,
-    vid_read_packet,
-    vid_read_close,
-#else
 	.name           = "bethsoftvid",
     .long_name      = NULL_IF_CONFIG_SMALL("Bethesda Softworks VID"),
     .priv_data_size = sizeof(BVID_DemuxContext),
@@ -309,5 +296,4 @@ AVInputFormat ff_bethsoftvid_demuxer = {
     .read_header    = vid_read_header,
     .read_packet    = vid_read_packet,
     .read_close     = vid_read_close,
-#endif
 };

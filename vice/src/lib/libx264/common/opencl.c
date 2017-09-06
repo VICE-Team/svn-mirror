@@ -113,11 +113,7 @@ void x264_opencl_close_library( x264_opencl_function_t *ocl )
 #define CL_DEVICE_SIMD_INSTRUCTION_WIDTH_AMD        0x4042
 
 /* Requires full include path in case of out-of-tree builds */
-#ifdef IDE_COMPILE
-#include "common/oclobj-msvc.h"
-#else
 #include "common/oclobj.h"
-#endif
 
 static int x264_detect_switchable_graphics( void );
 

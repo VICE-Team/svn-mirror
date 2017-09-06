@@ -103,17 +103,6 @@ static int adts_aac_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_aac_demuxer = {
-#ifdef IDE_COMPILE
-    "aac",
-    "raw ADTS AAC (Advanced Audio Coding)",
-    AVFMT_GENERIC_INDEX,
-    "aac",
-    0, 0, "audio/aac,audio/aacp,audio/x-aac",
-    0, AV_CODEC_ID_AAC,
-    0, adts_aac_probe,
-    adts_aac_read_header,
-    ff_raw_read_partial_packet,
-#else
 	.name         = "aac",
     .long_name    = NULL_IF_CONFIG_SMALL("raw ADTS AAC (Advanced Audio Coding)"),
     .read_probe   = adts_aac_probe,
@@ -123,5 +112,4 @@ AVInputFormat ff_aac_demuxer = {
     .extensions   = "aac",
     .mime_type    = "audio/aac,audio/aacp,audio/x-aac",
     .raw_codec_id = AV_CODEC_ID_AAC,
-#endif
 };

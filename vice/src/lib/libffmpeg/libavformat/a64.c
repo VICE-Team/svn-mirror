@@ -59,19 +59,10 @@ static int a64_write_header(AVFormatContext *s)
 }
 
 AVOutputFormat ff_a64_muxer = {
-#ifdef IDE_COMPILE
-    "a64",
-    "a64 - video for Commodore 64",
-    0, "a64, A64",
-    0, AV_CODEC_ID_A64_MULTI,
-    0, 0, 0, 0, 0, 0, a64_write_header,
-    ff_raw_write_packet,
-#else
 	.name           = "a64",
     .long_name      = NULL_IF_CONFIG_SMALL("a64 - video for Commodore 64"),
     .extensions     = "a64, A64",
     .video_codec    = AV_CODEC_ID_A64_MULTI,
     .write_header   = a64_write_header,
     .write_packet   = ff_raw_write_packet,
-#endif
 };

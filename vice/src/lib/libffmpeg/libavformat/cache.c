@@ -132,19 +132,10 @@ static int cache_close(URLContext *h)
 }
 
 URLProtocol ff_cache_protocol = {
-#ifdef IDE_COMPILE
-    "cache",
-    cache_open,
-    0, cache_read,
-    0, cache_seek,
-    cache_close,
-    0, 0, 0, 0, 0, 0, sizeof(Context),
-#else
 	.name                = "cache",
     .url_open            = cache_open,
     .url_read            = cache_read,
     .url_seek            = cache_seek,
     .url_close           = cache_close,
     .priv_data_size      = sizeof(Context),
-#endif
 };

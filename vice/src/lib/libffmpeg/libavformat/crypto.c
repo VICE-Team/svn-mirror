@@ -47,28 +47,16 @@ typedef struct {
 #define OFFSET(x) offsetof(CryptoContext, x)
 #define D AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"key", "AES decryption key", OFFSET(key), AV_OPT_TYPE_BINARY, {0}, 0, 0, D },
-	{"iv", "AES decryption initialization vector", OFFSET(iv), AV_OPT_TYPE_BINARY, {0}, 0, 0, D },
-#else
 	{"key", "AES decryption key", OFFSET(key), AV_OPT_TYPE_BINARY, .flags = D },
     {"iv",  "AES decryption initialization vector", OFFSET(iv), AV_OPT_TYPE_BINARY, .flags = D },
-#endif
 	{ NULL }
 };
 
 static const AVClass crypto_class = {
-#ifdef IDE_COMPILE
-    "crypto",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name     = "crypto",
     .item_name      = av_default_item_name,
     .option         = options,
     .version        = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static int crypto_open2(URLContext *h, const char *uri, int flags, AVDictionary **options)
@@ -172,15 +160,6 @@ static int crypto_close(URLContext *h)
 }
 
 URLProtocol ff_crypto_protocol = {
-#ifdef IDE_COMPILE
-    "crypto",
-    0, crypto_open2,
-    crypto_read,
-    0, 0, crypto_close,
-    0, 0, 0, 0, 0, 0, sizeof(CryptoContext),
-    &crypto_class,
-    1,
-#else
 	.name            = "crypto",
     .url_open2       = crypto_open2,
     .url_read        = crypto_read,
@@ -188,5 +167,4 @@ URLProtocol ff_crypto_protocol = {
     .priv_data_size  = sizeof(CryptoContext),
     .priv_data_class = &crypto_class,
     .flags           = URL_PROTOCOL_FLAG_NESTED_SCHEME,
-#endif
 };

@@ -25,10 +25,6 @@
 
 #include <stdint.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avstring.h"
 #include "avutil.h"
 #include "channel_layout.h"
@@ -41,33 +37,6 @@ struct channel_name {
 };
 
 static const struct channel_name channel_names[] = {
-#ifdef IDE_COMPILE
-     { "FL", "front left" },
-     { "FR", "front right" },
-     { "FC", "front center" },
-     { "LFE", "low frequency" },
-     { "BL", "back left" },
-     { "BR", "back right" },
-     { "FLC", "front left-of-center" },
-     { "FRC", "front right-of-center" },
-     { "BC", "back center" },
-     { "SL", "side left" },
-    { "SR", "side right" },
-    { "TC", "top center" },
-    { "TFL", "top front left" },
-    { "TFC", "top front center" },
-    { "TFR", "top front right" },
-    { "TBL", "top back left" },
-    { "TBC", "top back center" },
-    { "TBR", "top back right" },
-    { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { 0 }, { "DL", "downmix left" },
-    { "DR", "downmix right" },
-    { "WL", "wide left" },
-    { "WR", "wide right" },
-    { "SDL", "surround direct left" },
-    { "SDR", "surround direct right" },
-    { "LFE2", "low frequency 2" },
-#else
 	 [0] = { "FL",        "front left"            },
      [1] = { "FR",        "front right"           },
      [2] = { "FC",        "front center"          },
@@ -93,7 +62,6 @@ static const struct channel_name channel_names[] = {
     [33] = { "SDL",       "surround direct left"  },
     [34] = { "SDR",       "surround direct right" },
     [35] = { "LFE2",      "low frequency 2"       },
-#endif
 };
 
 static const char *get_channel_name(int channel_id)

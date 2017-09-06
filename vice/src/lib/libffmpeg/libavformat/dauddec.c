@@ -51,17 +51,9 @@ static int daud_packet(AVFormatContext *s, AVPacket *pkt) {
 }
 
 AVInputFormat ff_daud_demuxer = {
-#ifdef IDE_COMPILE
-    "daud",
-    "D-Cinema audio",
-    0, "302,daud",
-    0, 0, 0, 0, 0, 0, 0, daud_header,
-    daud_packet,
-#else
 	.name           = "daud",
     .long_name      = NULL_IF_CONFIG_SMALL("D-Cinema audio"),
     .read_header    = daud_header,
     .read_packet    = daud_packet,
     .extensions     = "302,daud",
-#endif
 };

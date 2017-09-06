@@ -531,11 +531,7 @@ int trellis_coef( int j, int const_level, int abs_level, int prefix, int suffix_
         if( const_level > 1 && node_ctx == 7 )
             nodes_cur[node_ctx].cabac_state[levelgt1_ctx-6] = x264_cabac_transition_unary[prefix][levelgt1_state];
         nodes_cur[node_ctx].level_idx = nodes_prev[j].level_idx;
-#ifdef IDE_COMPILE
-        { if( sizeof(trellis_level_t) == sizeof(uint32_t) ) (((x264_union32_t*)(&level_tree[levels_used]))->i) = pack16to32( nodes_prev[j].level_idx, abs_level ); else { trellis_level_t tmp__0 = { nodes_prev[j].level_idx, abs_level }; level_tree[levels_used] = tmp__0; }nodes_cur[node_ctx].level_idx= levels_used; levels_used++;};
-#else
 		SET_LEVEL( nodes_cur[node_ctx], nodes_prev[j], abs_level );
-#endif
 	}
     return levels_used;
 }
@@ -557,11 +553,7 @@ int trellis_coef0_0( uint64_t ssd0, trellis_node_t *nodes_cur, trellis_node_t *n
         nodes_cur[j].score = nodes_prev[j].score;
         if( j >= 3 )
             M32(nodes_cur[j].cabac_state) = M32(nodes_prev[j].cabac_state);
-#ifdef IDE_COMPILE
-        { if( sizeof(trellis_level_t) == sizeof(uint32_t) ) (((x264_union32_t*)(&level_tree[levels_used]))->i) = pack16to32( nodes_prev[j].level_idx, 0 ); else { trellis_level_t tmp__1 = { nodes_prev[j].level_idx, 0 }; level_tree[levels_used] = tmp__1; }nodes_cur[j].level_idx= levels_used; levels_used++;};
-#else
 		SET_LEVEL( nodes_cur[j], nodes_prev[j], 0 );
-#endif
 	}
     return levels_used;
 }
@@ -578,16 +570,11 @@ int trellis_coef0_1( uint64_t ssd0, trellis_node_t *nodes_cur, trellis_node_t *n
             nodes_cur[j].score = nodes_prev[j].score;
             if( j >= 3 )
                 M32(nodes_cur[j].cabac_state) = M32(nodes_prev[j].cabac_state);
-#ifdef IDE_COMPILE
-            { if( sizeof(trellis_level_t) == sizeof(uint32_t) ) (((x264_union32_t*)(&level_tree[levels_used]))->i) = pack16to32( nodes_prev[j].level_idx, 0 ); else { trellis_level_t tmp__2 = { nodes_prev[j].level_idx, 0 }; level_tree[levels_used] = tmp__2; }nodes_cur[j].level_idx= levels_used; levels_used++;};
-#else
 			SET_LEVEL( nodes_cur[j], nodes_prev[j], 0 );
-#endif
 		}
     return levels_used;
 }
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define COEF(const_level, ctx_hi, j, ...)\
     if( !j || (int64_t)nodes_prev[j].score >= 0 )\
         levels_used = trellis_coef( j, const_level, abs_level, prefix, suffix_cost, __VA_ARGS__,\
@@ -595,15 +582,6 @@ int trellis_coef0_1( uint64_t ssd0, trellis_node_t *nodes_cur, trellis_node_t *n
                                     level_tree, levels_used, lambda2, level_state );\
     else if( !ctx_hi )\
         return levels_used;
-#else
-#define COEF(const_level, ctx_hi, j, a, b, c)\
-    if( !j || (int64_t)nodes_prev[j].score >= 0 )\
-        levels_used = trellis_coef( j, const_level, abs_level, prefix, suffix_cost, a, b, c,\
-                                    j?ssd1:ssd0, cost_siglast, nodes_cur, nodes_prev,\
-                                    level_tree, levels_used, lambda2, level_state );\
-    else if( !ctx_hi )\
-        return levels_used;
-#endif
 
 static NOINLINE
 int trellis_coef1_0( uint64_t ssd0, uint64_t ssd1, int cost_siglast[3],
@@ -675,13 +653,8 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
                          const uint8_t *zigzag, int ctx_block_cat, int lambda2, int b_ac,
                          int b_chroma, int dc, int num_coefs, int idx )
 {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_N( dctcoef, orig_coefs, [64] );
     ALIGNED_ARRAY_N( dctcoef, quant_coefs, [64] );
-#else
-	__declspec(align(32))dctcoef orig_coefs [64];
-    __declspec(align(32))dctcoef quant_coefs [64];
-#endif
 
 	const uint32_t *coef_weight1 = num_coefs == 64 ? x264_dct8_weight_tab : x264_dct4_weight_tab;
     const uint32_t *coef_weight2 = num_coefs == 64 ? x264_dct8_weight2_tab : x264_dct4_weight2_tab;
@@ -910,11 +883,7 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
 
     // keep 2 versions of the main quantization loop, depending on which subsets of the node_ctxs are live
     // node_ctx 0..3, i.e. having not yet encountered any coefs that might be quantized to >1
-#ifdef IDE_COMPILE
-    for( ; i >= b_ac; i-- ) { if( !quant_coefs[i] ) { if( !0 ) { int sigindex = !dc && num_coefs == 64 ? x264_significant_coeff_flag_offset_8x8[b_interlaced][i] : b_chroma && dc && num_coefs == 8 ? x264_coeff_flag_offset_chroma_422_dc[i] : i; uint64_t cost_sig0 = x264_cabac_size_decision_noup2( &cabac_state_sig[sigindex], 0 ) * (uint64_t)lambda2 >> ( 8 - 4 ); nodes_cur[0].score -= cost_sig0; } { int j = 1; for(  ; j < (0?8:4); j++ ) { if( sizeof(trellis_level_t) == sizeof(uint32_t) ) (((x264_union32_t*)(&level_tree[levels_used]))->i) = pack16to32( nodes_cur[j].level_idx, 0 ); else { trellis_level_t tmp__3 = { nodes_cur[j].level_idx, 0 }; level_tree[levels_used] = tmp__3; }nodes_cur[j].level_idx= levels_used; levels_used++;}; }continue;} { int sign_coef = orig_coefs[zigzag[i]]; { int abs_coef = abs( sign_coef ); { int q = abs( quant_coefs[i] ); { int cost_siglast[3]; do{ trellis_node_t* t = nodes_cur; nodes_cur = nodes_prev; nodes_prev = t; } while(0); { int j = 0; for(  ; j < 8; j++ ) nodes_cur[j].score = LLN(-1); }if(i < num_coefs-1 || 0 ) { int sigindex = !dc && num_coefs == 64 ? x264_significant_coeff_flag_offset_8x8[b_interlaced][i] : b_chroma && dc && num_coefs == 8 ? x264_coeff_flag_offset_chroma_422_dc[i] : i; int lastindex = !dc && num_coefs == 64 ? x264_last_coeff_flag_offset_8x8[i] : b_chroma && dc && num_coefs == 8 ? x264_coeff_flag_offset_chroma_422_dc[i] : i; cost_siglast[0] = x264_cabac_size_decision_noup2( &cabac_state_sig[sigindex], 0 ); { int cost_sig1 = x264_cabac_size_decision_noup2( &cabac_state_sig[sigindex], 1 ); cost_siglast[1] = x264_cabac_size_decision_noup2( &cabac_state_last[lastindex], 0 ) + cost_sig1; if( !0 ) cost_siglast[2] = x264_cabac_size_decision_noup2( &cabac_state_last[lastindex], 1 ) + cost_sig1; } }else{ cost_siglast[0] = cost_siglast[1] = cost_siglast[2] = 0; } { uint64_t ssd0[2], ssd1[2]; { int k = 0; for(  ; k < 2; k++ ) { int abs_level = q-1+k; int unquant_abs_level = (((dc?unquant_mf[0]<<1:unquant_mf[zigzag[i]]) * abs_level + 128) >> 8); int d = abs_coef - unquant_abs_level; if( h->mb.i_psy_trellis && i && !dc && !b_chroma ) { int orig_coef = (num_coefs == 64) ? h->mb.pic.fenc_dct8[idx][zigzag[i]] : h->mb.pic.fenc_dct4[idx][zigzag[i]]; int predicted_coef = orig_coef - sign_coef; int psy_value = abs(unquant_abs_level + ((predicted_coef^(sign_coef >> 31))-(sign_coef >> 31))); int psy_weight = coef_weight1[zigzag[i]] * h->mb.i_psy_trellis; ssd1[k] = (uint64_t)d*d * coef_weight2[zigzag[i]] - psy_weight * psy_value; } else ssd1[k] = (uint64_t)d*d * (dc?256:coef_weight2[zigzag[i]]); ssd0[k] = ssd1[k]; if( !i && !dc && !0 ) { d = sign_coef - ((((unquant_abs_level^(sign_coef >> 31))-(sign_coef >> 31)) + 8)&~15); ssd0[k] = (uint64_t)d*d * coef_weight2[zigzag[i]]; } } }switch(q ) { case 1: ssd1[0] += (uint64_t)cost_siglast[0] * lambda2 >> ( 8 - 4 ); levels_used = trellis_coef0_0( ssd0[0]-ssd1[0], nodes_cur, nodes_prev, level_tree, levels_used ); levels_used = trellis_coef1_0( ssd0[1]-ssd1[0], ssd1[1]-ssd1[0], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state ); goto next0; case 2: levels_used = trellis_coef1_0( ssd0[0], ssd1[0], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state ); levels_used = trellis_coefn_0( q, ssd0[1], ssd1[1], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state, levelgt1_ctx ); goto next1; default: levels_used = trellis_coefn_0( q-1, ssd0[0], ssd1[0], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state, levelgt1_ctx ); levels_used = trellis_coefn_0( q, ssd0[1], ssd1[1], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state, levelgt1_ctx ); goto next1; } next0:; } } } } } }bnode=&nodes_cur[0];{ int j = 0 +1; for(  ; j < (0?8:4); j++ ) if( nodes_cur[j].score < bnode->score ) bnode = &nodes_cur[j]; };
-#else
 	TRELLIS_LOOP(0);
-#endif
 
     if( bnode == &nodes_cur[0] )
     {
@@ -928,49 +897,7 @@ int quant_trellis_cabac( x264_t *h, dctcoef *dct,
     if(0) // accessible only by goto, not fallthrough
     {
         // node_ctx 1..7 (ctx0 ruled out because we never try both level0 and level2+ on the same coef)
-#ifdef IDE_COMPILE
-		for( ; i >= b_ac; i-- ) {
-			if( !quant_coefs[i] ) {
-				if( !1 ) {
-					int sigindex = !dc && num_coefs == 64 ? x264_significant_coeff_flag_offset_8x8[b_interlaced][i] : b_chroma && dc && num_coefs == 8 ? x264_coeff_flag_offset_chroma_422_dc[i] : i;
-					uint64_t cost_sig0 = x264_cabac_size_decision_noup2( &cabac_state_sig[sigindex], 0 ) * (uint64_t)lambda2 >> ( 8 - 4 );
-					nodes_cur[0].score -= cost_sig0;
-				}
-				{ int j = 1;
-				for(  ; j < (1?8:4); j++ ) {
-					if( sizeof(trellis_level_t) == sizeof(uint32_t) )
-						(((x264_union32_t*)(&level_tree[levels_used]))->i) = pack16to32( nodes_cur[j].level_idx, 0 );
-					else {
-						trellis_level_t tmp__4 = {
-							nodes_cur[j].level_idx, 0
-						};
-						level_tree[levels_used] = tmp__4;
-					}
-					nodes_cur[j].level_idx= levels_used;
-					levels_used++;
-				};
-			}
-			continue;
-		}
-		{
-			int sign_coef = orig_coefs[zigzag[i]];
-			{
-				int abs_coef = abs( sign_coef );
-				{
-					int q = abs( quant_coefs[i] );
-					{
-						int cost_siglast[3];
-						do{
-							trellis_node_t* t = nodes_cur;
-							nodes_cur = nodes_prev;
-							nodes_prev = t;
-						} while(0);
-						{
-							int j = 1;
-							for(  ; j < 8; j++ ) nodes_cur[j].score = LLN(-1); }if(i < num_coefs-1 || 1 ) { int sigindex = !dc && num_coefs == 64 ? x264_significant_coeff_flag_offset_8x8[b_interlaced][i] : b_chroma && dc && num_coefs == 8 ? x264_coeff_flag_offset_chroma_422_dc[i] : i; int lastindex = !dc && num_coefs == 64 ? x264_last_coeff_flag_offset_8x8[i] : b_chroma && dc && num_coefs == 8 ? x264_coeff_flag_offset_chroma_422_dc[i] : i; cost_siglast[0] = x264_cabac_size_decision_noup2( &cabac_state_sig[sigindex], 0 ); { int cost_sig1 = x264_cabac_size_decision_noup2( &cabac_state_sig[sigindex], 1 ); cost_siglast[1] = x264_cabac_size_decision_noup2( &cabac_state_last[lastindex], 0 ) + cost_sig1; if( !1 ) cost_siglast[2] = x264_cabac_size_decision_noup2( &cabac_state_last[lastindex], 1 ) + cost_sig1; } }else{ cost_siglast[0] = cost_siglast[1] = cost_siglast[2] = 0; } { uint64_t ssd0[2], ssd1[2]; { int k = 0; for(  ; k < 2; k++ ) { int abs_level = q-1+k; int unquant_abs_level = (((dc?unquant_mf[0]<<1:unquant_mf[zigzag[i]]) * abs_level + 128) >> 8); int d = abs_coef - unquant_abs_level; if( h->mb.i_psy_trellis && i && !dc && !b_chroma ) { int orig_coef = (num_coefs == 64) ? h->mb.pic.fenc_dct8[idx][zigzag[i]] : h->mb.pic.fenc_dct4[idx][zigzag[i]]; int predicted_coef = orig_coef - sign_coef; int psy_value = abs(unquant_abs_level + ((predicted_coef^(sign_coef >> 31))-(sign_coef >> 31))); int psy_weight = coef_weight1[zigzag[i]] * h->mb.i_psy_trellis; ssd1[k] = (uint64_t)d*d * coef_weight2[zigzag[i]] - psy_weight * psy_value; } else ssd1[k] = (uint64_t)d*d * (dc?256:coef_weight2[zigzag[i]]); ssd0[k] = ssd1[k]; if( !i && !dc && !1 ) { d = sign_coef - ((((unquant_abs_level^(sign_coef >> 31))-(sign_coef >> 31)) + 8)&~15); ssd0[k] = (uint64_t)d*d * coef_weight2[zigzag[i]]; } } }switch(q ) { case 1: ssd1[0] += (uint64_t)cost_siglast[0] * lambda2 >> ( 8 - 4 ); levels_used = trellis_coef0_1( ssd0[0]-ssd1[0], nodes_cur, nodes_prev, level_tree, levels_used ); levels_used = trellis_coef1_1( ssd0[1]-ssd1[0], ssd1[1]-ssd1[0], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state ); goto next1; case 2: levels_used = trellis_coef1_1( ssd0[0], ssd1[0], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state ); levels_used = trellis_coefn_1( q, ssd0[1], ssd1[1], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state, levelgt1_ctx ); goto next1; default: levels_used = trellis_coefn_1( q-1, ssd0[0], ssd1[0], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state, levelgt1_ctx ); levels_used = trellis_coefn_1( q, ssd0[1], ssd1[1], cost_siglast, nodes_cur, nodes_prev, level_tree, levels_used, lambda2, level_state, levelgt1_ctx ); goto next1; } next1:; } } } } } }bnode=&nodes_cur[1];{ int j = 1 +1; for(  ; j < (1?8:4); j++ ) if( nodes_cur[j].score < bnode->score ) bnode = &nodes_cur[j]; };
-#else
 		TRELLIS_LOOP(1);
-#endif
 	}
 
     level = bnode->level_idx;

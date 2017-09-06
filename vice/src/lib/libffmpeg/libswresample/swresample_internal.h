@@ -24,12 +24,7 @@
 #include "swresample.h"
 #include "libavutil/channel_layout.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #define SWR_CH_MAX 32
 

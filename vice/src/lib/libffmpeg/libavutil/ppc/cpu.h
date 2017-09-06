@@ -19,12 +19,7 @@
 #ifndef AVUTIL_PPC_CPU_H
 #define AVUTIL_PPC_CPU_H
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "libavutil/cpu.h"
 #include "libavutil/cpu_internal.h"

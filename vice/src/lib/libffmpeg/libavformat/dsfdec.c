@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
 #include "internal.h"
@@ -153,15 +149,6 @@ static int dsf_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_dsf_demuxer = {
-#ifdef IDE_COMPILE
-    "dsf",
-    "DSD Stream File (DSF)",
-    AVFMT_GENERIC_INDEX | AVFMT_NO_BYTE_SEEK,
-    0, 0, 0, 0, 0, 0, sizeof(DSFContext),
-    dsf_probe,
-    dsf_read_header,
-    dsf_read_packet,
-#else
 	.name           = "dsf",
     .long_name      = NULL_IF_CONFIG_SMALL("DSD Stream File (DSF)"),
     .priv_data_size = sizeof(DSFContext),
@@ -169,5 +156,4 @@ AVInputFormat ff_dsf_demuxer = {
     .read_header    = dsf_read_header,
     .read_packet    = dsf_read_packet,
     .flags          = AVFMT_GENERIC_INDEX | AVFMT_NO_BYTE_SEEK,
-#endif
 };

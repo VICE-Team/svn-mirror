@@ -220,11 +220,7 @@ static NOINLINE unsigned int x264_weight_cost_luma( x264_t *h, x264_frame_t *fen
     int i_width = fenc->i_width_lowres;
     pixel *fenc_plane = fenc->lowres[0];
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	ALIGNED_ARRAY_16( pixel, buf,[8*8] );
-#else
-	__declspec(align(16))pixel buf[8*8];
-#endif
 
 	int pixoff = 0;
     int i_mb = 0;
@@ -265,11 +261,7 @@ static NOINLINE unsigned int x264_weight_cost_chroma( x264_t *h, x264_frame_t *f
     int i_width = fenc->i_width[1];
     pixel *src = ref + (i_stride >> 1);
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	ALIGNED_ARRAY_16( pixel, buf, [8*16] );
-#else
-	__declspec(align(16))pixel buf[8*16];
-#endif
 
 	int pixoff = 0;
     int height = 16 >> CHROMA_V_SHIFT;
@@ -309,11 +301,7 @@ static NOINLINE unsigned int x264_weight_cost_chroma444( x264_t *h, x264_frame_t
     int i_width = fenc->i_width[p];
     pixel *src = fenc->plane[p];
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	ALIGNED_ARRAY_16( pixel, buf, [16*16] );
-#else
-	__declspec(align(16))pixel buf[16*16];
-#endif
 
 	int pixoff = 0;
     if( w )
@@ -600,11 +588,7 @@ static void x264_slicetype_mb_cost( x264_t *h, x264_mb_analysis_t *a,
                             i_mb_y > 0 && i_mb_y < h->mb.i_mb_height - 1) ||
                             h->mb.i_mb_width <= 2 || h->mb.i_mb_height <= 2;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     ALIGNED_ARRAY_16( pixel, pix1,[9*FDEC_STRIDE] );
-#else
-	__declspec(align(16))pixel pix1[9*32];
-#endif
 
 	pixel *pix2 = pix1+8;
     x264_me_t m[2];
@@ -689,11 +673,7 @@ static void x264_slicetype_mb_cost( x264_t *h, x264_mb_analysis_t *a,
     {
         int16_t *mvr = fref1->lowres_mvs[0][p1-p0-1][i_mb_xy];
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		ALIGNED_ARRAY_8( int16_t, dmv,[2],[2] );
-#else
-		__declspec(align(8))int16_t dmv[2][2];
-#endif
 
         m[1].i_pixel = PIXEL_8x8;
         m[1].p_cost_mv = a->p_cost_mv;
@@ -786,11 +766,7 @@ skip_motionest:
 lowres_intra_mb:
     if( !fenc->b_intra_calculated )
     {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		ALIGNED_ARRAY_16( pixel, edge,[36] );
-#else
-		__declspec(align(16))pixel edge[36];
-#endif
 
 		pixel *pix = &pix1[8+FDEC_STRIDE];
         pixel *src = &fenc->lowres[0][i_pel_offset];
@@ -1026,16 +1002,9 @@ static int x264_slicetype_frame_cost( x264_t *h, x264_mb_analysis_t *a,
                 memset( output_inter[0], 0, (output_buf_size - PAD_SIZE) * sizeof(int) );
                 memset( output_intra[0], 0, (output_buf_size - PAD_SIZE) * sizeof(int) );
                 output_inter[0][NUM_ROWS] = output_intra[0][NUM_ROWS] = h->mb.i_mb_height;
-#ifdef IDE_COMPILE
-                { x264_slicetype_slice_t s = { h, a, frames, p0, p1, b, dist_scale_factor, do_search, w,
-                    output_inter[0], output_intra[0] };
-                x264_slicetype_slice_cost( &s );
-            }
-#else
 		    x264_slicetype_slice_t s = (x264_slicetype_slice_t){ h, a, frames, p0, p1, b, dist_scale_factor, do_search, w,
                     output_inter[0], output_intra[0] };
                 x264_slicetype_slice_cost( &s );
-#endif
 			}
 
             /* Sum up accumulators */

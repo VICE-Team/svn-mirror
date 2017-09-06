@@ -106,21 +106,12 @@ static int read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_bit_demuxer = {
-#ifdef IDE_COMPILE
-    "bit",
-    "G.729 BIT file format",
-    0, "bit",
-    0, 0, 0, 0, 0, 0, probe,
-    read_header,
-    read_packet,
-#else
 	.name        = "bit",
     .long_name   = NULL_IF_CONFIG_SMALL("G.729 BIT file format"),
     .read_probe  = probe,
     .read_header = read_header,
     .read_packet = read_packet,
     .extensions  = "bit",
-#endif
 };
 
 #if CONFIG_MUXERS
@@ -153,16 +144,6 @@ static int write_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVOutputFormat ff_bit_muxer = {
-#ifdef IDE_COMPILE
-    "bit",
-    "G.729 BIT file format",
-    "audio/bit",
-    "bit",
-    AV_CODEC_ID_G729,
-    AV_CODEC_ID_NONE,
-    0, 0, 0, 0, 0, 0, write_header,
-    write_packet,
-#else
 	.name         = "bit",
     .long_name    = NULL_IF_CONFIG_SMALL("G.729 BIT file format"),
     .mime_type    = "audio/bit",
@@ -171,6 +152,5 @@ AVOutputFormat ff_bit_muxer = {
     .video_codec  = AV_CODEC_ID_NONE,
     .write_header = write_header,
     .write_packet = write_packet,
-#endif
 };
 #endif

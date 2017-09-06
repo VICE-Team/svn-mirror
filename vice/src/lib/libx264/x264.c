@@ -46,9 +46,7 @@
 #include "output/output.h"
 #include "filters/filters.h"
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR( cond, ... ) FAIL_IF_ERR( cond, "x264", __VA_ARGS__ )
-#endif
 
 #if HAVE_LAVF
 #undef DECLARE_ALIGNED
@@ -241,15 +239,6 @@ enum pulldown_type_e
 
 static const cli_pulldown_t pulldown_values[] =
 {
-#ifdef IDE_COMPILE
-    { 0 }, {1, {TB}, 1.0},
-	{4, {TBT, BT, BTB, TB}, 1.25},
-	{2, {PIC_STRUCT_DOUBLE, PIC_STRUCT_TRIPLE}, 1.0},
-	{1, {PIC_STRUCT_DOUBLE}, 2.0},
-	{1, {PIC_STRUCT_TRIPLE}, 3.0},
-	{24, {TBT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT,
-                                   BTB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB}, 25.0/24.0}
-#else
 	[X264_PULLDOWN_22]     = {1,  {TB},                                   1.0},
     [X264_PULLDOWN_32]     = {4,  {TBT, BT, BTB, TB},                     1.25},
     [X264_PULLDOWN_64]     = {2,  {PIC_STRUCT_DOUBLE, PIC_STRUCT_TRIPLE}, 1.0},
@@ -257,7 +246,6 @@ static const cli_pulldown_t pulldown_values[] =
     [X264_PULLDOWN_TRIPLE] = {1,  {PIC_STRUCT_TRIPLE},                    3.0},
     [X264_PULLDOWN_EURO]   = {24, {TBT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT, BT,
                                    BTB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB, TB}, 25.0/24.0}
-#endif
 };
 
 #undef TB
@@ -365,25 +353,11 @@ int main( int argc, char **argv )
     cli_opt_t opt = {0};
     int ret = 0;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( x264_threading_init(), "unable to initialize threading\n" )
-#else
-	if( x264_threading_init() ){
-		x264_cli_log( "x264", 0, "unable to initialize threading\n" );
-		return -1;
-	}
-#endif
 
 #ifdef _WIN32
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	FAIL_IF_ERROR( !get_argv_utf8( &argc, &argv ), "unable to convert command line to UTF-8\n" )
-#else
-	if( !get_argv_utf8( &argc, &argv ) ){
-		x264_cli_log( "x264", 0, "unable to convert command line to UTF-8\n" );
-		return -1;
-	}
-#endif
 
     GetConsoleTitleW( org_console_title, CONSOLE_TITLE_SIZE );
     _setmode( _fileno( stdin ),  _O_BINARY );
@@ -1280,14 +1254,7 @@ static int select_input( const char *demuxer, char *used_demuxer, char *filename
             cli_input = raw_input;
         }
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( !(*p_handle), "could not open input file `%s' via any method!\n", filename )
-#else
-		if( !(*p_handle) ){
-			x264_cli_log( "x264", 0, "could not open input file `%s' via any method!\n", filename );
-			return -1;
-		}
-#endif
 	}
     strcpy( used_demuxer, module );
 
@@ -1478,38 +1445,17 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
                 output_filename = optarg;
                 break;
             case OPT_MUXER:
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 FAIL_IF_ERROR( parse_enum_name( optarg, muxer_names, &muxer ), "Unknown muxer `%s'\n", optarg )
-#else
-				if( parse_enum_name( optarg, muxer_names, &muxer ) ){
-					x264_cli_log( "x264", 0, "Unknown muxer `%s'\n", optarg );
-					return -1;
-				}
-#endif
 				break;
             case OPT_DEMUXER:
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 FAIL_IF_ERROR( parse_enum_name( optarg, demuxer_names, &demuxer ), "Unknown demuxer `%s'\n", optarg )
-#else
-				if( parse_enum_name( optarg, demuxer_names, &demuxer ) ){
-					x264_cli_log( "x264", 0, "Unknown demuxer `%s'\n", optarg );
-					return -1;
-				}
-#endif
 				break;
             case OPT_INDEX:
                 input_opt.index_file = optarg;
                 break;
             case OPT_QPFILE:
                 opt->qpfile = x264_fopen( optarg, "rb" );
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 				FAIL_IF_ERROR( !opt->qpfile, "can't open qpfile `%s'\n", optarg )
-#else
-				if( !opt->qpfile ){
-					x264_cli_log( "x264", 0, "can't open qpfile `%s'\n", optarg );
-					return -1;
-				}
-#endif
 
 				if( !x264_is_regular_file( opt->qpfile ) )
                 {
@@ -1563,27 +1509,13 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
                 break;
             case OPT_TCFILE_OUT:
                 opt->tcfile_out = x264_fopen( optarg, "wb" );
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 				FAIL_IF_ERROR( !opt->tcfile_out, "can't open `%s'\n", optarg )
-#else
-				if( !opt->tcfile_out ){
-					x264_cli_log( "x264", 0, "can't open `%s'\n", optarg );
-					return -1;
-				}
-#endif
 				break;
             case OPT_TIMEBASE:
                 input_opt.timebase = optarg;
                 break;
             case OPT_PULLDOWN:
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 FAIL_IF_ERROR( parse_enum_value( optarg, pulldown_names, &opt->i_pulldown ), "Unknown pulldown `%s'\n", optarg )
-#else
-                if( parse_enum_value( optarg, pulldown_names, &opt->i_pulldown ) ){
-					x264_cli_log( "x264", 0, "Unknown pulldown `%s'\n", optarg );
-					return -1;
-				}
-#endif
 				break;
             case OPT_VIDEO_FILTER:
                 vid_filters = optarg;
@@ -1604,14 +1536,7 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
                 output_opt.use_dts_compress = 1;
                 break;
             case OPT_OUTPUT_CSP:
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 FAIL_IF_ERROR( parse_enum_value( optarg, output_csp_names, &output_csp ), "Unknown output csp `%s'\n", optarg )
-#else
-                if( parse_enum_value( optarg, output_csp_names, &output_csp ) ){
-					x264_cli_log( "x264", 0, "Unknown output csp `%s'\n", optarg );
-					return -1;
-				}
-#endif
 				// correct the parsed value to the libx264 csp value
 				{
 #if X264_CHROMA_FORMAT
@@ -1623,25 +1548,11 @@ static int parse( int argc, char **argv, x264_param_t *param, cli_opt_t *opt )
 				}
 				break;
             case OPT_INPUT_RANGE:
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 FAIL_IF_ERROR( parse_enum_value( optarg, range_names, &input_opt.input_range ), "Unknown input range `%s'\n", optarg )
-#else
-                if( parse_enum_value( optarg, range_names, &input_opt.input_range ) ){
-					x264_cli_log( "x264", 0, "Unknown input range `%s'\n", optarg );
-					return -1;
-				}
-#endif
 				input_opt.input_range += RANGE_AUTO;
                 break;
             case OPT_RANGE:
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
                 FAIL_IF_ERROR( parse_enum_value( optarg, range_names, &param->vui.b_fullrange ), "Unknown range `%s'\n", optarg );
-#else
-                if( parse_enum_value( optarg, range_names, &param->vui.b_fullrange ) ){
-					x264_cli_log( "x264", 0, "Unknown range `%s'\n", optarg );
-					return -1;
-				};
-#endif
 				input_opt.output_range = param->vui.b_fullrange += RANGE_AUTO;
                 break;
             default:
@@ -1684,27 +1595,13 @@ generic_option:
         return -1;
 
     /* Get the file name */
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( optind > argc - 1 || !output_filename, "No %s file. Run x264 --help for a list of options.\n",
                    optind > argc - 1 ? "input" : "output" )
-#else
-	if( optind > argc - 1 || !output_filename ){
-		x264_cli_log( "x264", 0, "No %s file. Run x264 --help for a list of options.\n", optind > argc - 1 ? "input" : "output" );
-		return -1;
-	}
-#endif
 
     if( select_output( muxer, output_filename, param ) )
         return -1;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	FAIL_IF_ERROR( cli_output.open_file( output_filename, &opt->hout, &output_opt ), "could not open output file `%s'\n", output_filename )
-#else
-	if( cli_output.open_file( output_filename, &opt->hout, &output_opt ) ){
-		x264_cli_log( "x264", 0, "could not open output file `%s'\n", output_filename );
-		return -1;
-	}
-#endif
 
     input_filename = argv[optind++];
 
@@ -1729,15 +1626,8 @@ generic_option:
     if( select_input( demuxer, demuxername, input_filename, &opt->hin, &info, &input_opt ) )
         return -1;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     FAIL_IF_ERROR( !opt->hin && cli_input.open_file( input_filename, &opt->hin, &info, &input_opt ),
                    "could not open input file `%s'\n", input_filename )
-#else
-    if( !opt->hin && cli_input.open_file( input_filename, &opt->hin, &info, &input_opt ) ){
-		x264_cli_log( "x264", 0, "could not open input file `%s'\n", input_filename );
-		return -1;
-	}
-#endif
 
     x264_reduce_fraction( &info.sar_width, &info.sar_height );
     x264_reduce_fraction( &info.fps_num, &info.fps_den );
@@ -1747,30 +1637,12 @@ generic_option:
 
     if( tcfile_name )
     {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         FAIL_IF_ERROR( b_user_fps, "--fps + --tcfile-in is incompatible.\n" )
         FAIL_IF_ERROR( timecode_input.open_file( tcfile_name, &opt->hin, &info, &input_opt ), "timecode input failed\n" )
-#else
-		if( b_user_fps ){
-			x264_cli_log( "x264", 0, "--fps + --tcfile-in is incompatible.\n" );
-			return -1;
-		}
-        if( timecode_input.open_file( tcfile_name, &opt->hin, &info, &input_opt ) ){
-			x264_cli_log( "x264", 0, "timecode input failed\n" );
-			return -1;
-		}
-#endif
 		cli_input = timecode_input;
     }
     else
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR( !info.vfr && input_opt.timebase, "--timebase is incompatible with cfr input\n" )
-#else
-        if( !info.vfr && input_opt.timebase ){
-			x264_cli_log( "x264", 0, "--timebase is incompatible with cfr input\n" );
-			return -1;
-		}
-#endif
 
     /* init threaded input while the information about the input video is unaltered by filtering */
 #if HAVE_THREAD
@@ -1808,29 +1680,15 @@ generic_option:
         uint64_t i_user_timebase_den;
         int ret = sscanf( input_opt.timebase, "%"SCNu64"/%"SCNu64, &i_user_timebase_num, &i_user_timebase_den );
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR( !ret, "invalid argument: timebase = %s\n", input_opt.timebase )
-#else
-		if( !ret ){
-			x264_cli_log( "x264", 0, "invalid argument: timebase = %s\n", input_opt.timebase );
-			return -1;
-		}
-#endif
 
 		else if( ret == 1 )
         {
             i_user_timebase_num = info.timebase_num;
             i_user_timebase_den = strtoul( input_opt.timebase, NULL, 10 );
         }
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR( i_user_timebase_num > UINT32_MAX || i_user_timebase_den > UINT32_MAX,
                        "timebase you specified exceeds H.264 maximum\n" )
-#else
-		if( i_user_timebase_num > 0xffffffff || i_user_timebase_den > 0xffffffff ){
-			x264_cli_log( "x264", 0, "timebase you specified exceeds H.264 maximum\n" );
-			return -1;
-		}
-#endif
 
 		opt->timebase_convert_multiplier = ((double)i_user_timebase_den / info.timebase_den)
                                          * ((double)info.timebase_num / i_user_timebase_num);
@@ -1884,14 +1742,7 @@ generic_option:
             param->vui.b_fullrange = RANGE_PC;
         /* otherwise fail if they specified tv */
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR( !param->vui.b_fullrange, "RGB must be PC range" )
-#else
-		if( !param->vui.b_fullrange ){
-			x264_cli_log( "x264", 0, "RGB must be PC range" );
-			return -1;
-		}
-#endif
 	}
 
     /* Automatically reduce reference frame count to match the user's target level
@@ -2012,7 +1863,6 @@ static void convert_cli_to_lib_pic( x264_picture_t *lib, cli_pic_t *cli )
     lib->i_pts = cli->pts;
 }
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define FAIL_IF_ERROR2( cond, ... )\
 if( cond )\
 {\
@@ -2020,7 +1870,6 @@ if( cond )\
     retval = -1;\
     goto fail;\
 }
-#endif
 
 static int encode( x264_param_t *param, cli_opt_t *opt )
 {
@@ -2056,16 +1905,8 @@ static int encode( x264_param_t *param, cli_opt_t *opt )
         pulldown = &pulldown_values[opt->i_pulldown];
         param->i_timebase_num = param->i_fps_den;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR2( fmod( param->i_fps_num * pulldown->fps_factor, 1 ),
                         "unsupported framerate for chosen pulldown\n" )
-#else
-		if( fmod( param->i_fps_num * pulldown->fps_factor, 1 ) ){
-			x264_cli_log( "x264", 0, "unsupported framerate for chosen pulldown\n" );
-			retval = -1;
-			goto fail;
-		}
-#endif
 
 		param->i_timebase_den = param->i_fps_num * pulldown->fps_factor;
     }
@@ -2082,15 +1923,7 @@ static int encode( x264_param_t *param, cli_opt_t *opt )
     /* ticks/frame = ticks/second / frames/second */
     ticks_per_frame = (int64_t)param->i_timebase_den * param->i_fps_den / param->i_timebase_num / param->i_fps_num;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	FAIL_IF_ERROR2( ticks_per_frame < 1 && !param->b_vfr_input, "ticks_per_frame invalid: %"PRId64"\n", ticks_per_frame )
-#else
-	if( ticks_per_frame < 1 && !param->b_vfr_input ){
-		x264_cli_log( "x264", 0, "ticks_per_frame invalid: %""I64d""\n", ticks_per_frame );
-		retval = -1;
-		goto fail;
-	}
-#endif
 
 	ticks_per_frame = X264_MAX( ticks_per_frame, 1 );
 
@@ -2100,21 +1933,8 @@ static int encode( x264_param_t *param, cli_opt_t *opt )
         x264_nal_t *headers;
         int i_nal;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		FAIL_IF_ERROR2( x264_encoder_headers( h, &headers, &i_nal ) < 0, "x264_encoder_headers failed\n" )
         FAIL_IF_ERROR2( (i_file = cli_output.write_headers( opt->hout, headers )) < 0, "error writing headers to output file\n" );
-#else
-		if( x264_encoder_headers( h, &headers, &i_nal ) < 0 ){
-			x264_cli_log( "x264", 0, "x264_encoder_headers failed\n" );
-			retval = -1;
-			goto fail;
-		}
-        if( (i_file = cli_output.write_headers( opt->hout, headers )) < 0 ){
-			x264_cli_log( "x264", 0, "error writing headers to output file\n" );
-			retval = -1;
-			goto fail;
-		};
-#endif
 
 	}
 

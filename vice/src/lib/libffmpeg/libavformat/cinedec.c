@@ -25,10 +25,6 @@
  * @author Peter Ross <pross@xvid.org>
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/bmp.h"
 #include "avformat.h"
@@ -305,15 +301,6 @@ static int cine_read_seek(AVFormatContext *avctx, int stream_index, int64_t time
 }
 
 AVInputFormat ff_cine_demuxer = {
-#ifdef IDE_COMPILE
-    "cine",
-    "Phantom Cine",
-    0, 0, 0, 0, 0, 0, 0, sizeof(CineDemuxContext),
-    cine_read_probe,
-    cine_read_header,
-    cine_read_packet,
-    0, cine_read_seek,
-#else
 	.name           = "cine",
     .long_name      = NULL_IF_CONFIG_SMALL("Phantom Cine"),
     .priv_data_size = sizeof(CineDemuxContext),
@@ -321,5 +308,4 @@ AVInputFormat ff_cine_demuxer = {
     .read_header    = cine_read_header,
     .read_packet    = cine_read_packet,
     .read_seek      = cine_read_seek,
-#endif
 };

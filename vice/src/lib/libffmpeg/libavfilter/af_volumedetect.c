@@ -133,42 +133,22 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad volumedetect_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad volumedetect_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_volumedetect = {
-#ifdef IDE_COMPILE
-    "volumedetect",
-    NULL_IF_CONFIG_SMALL("Detect audio volume."),
-    volumedetect_inputs,
-    volumedetect_outputs,
-    0, 0, 0, 0, uninit,
-    query_formats,
-    sizeof(VolDetectContext),
-#else
 	.name          = "volumedetect",
     .description   = NULL_IF_CONFIG_SMALL("Detect audio volume."),
     .priv_size     = sizeof(VolDetectContext),
@@ -176,5 +156,4 @@ AVFilter ff_af_volumedetect = {
     .uninit        = uninit,
     .inputs        = volumedetect_inputs,
     .outputs       = volumedetect_outputs,
-#endif
 };

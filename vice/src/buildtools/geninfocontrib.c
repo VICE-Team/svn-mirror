@@ -34,17 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#  ifdef _MSC_VER
-#    if (_MSC_VER >= 1400)
-#      define unlink _unlink
-#    endif
-#  else
-#    include <io.h>
-#  endif
-#else
 #include <unistd.h>
-#endif
 
 #ifdef NEXT
 #define NEED_STRDUP
