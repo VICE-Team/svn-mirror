@@ -181,10 +181,37 @@ static ui_menu_item_t help_menu[] = {
 
 
 static ui_menu_item_t settings_menu[] = {
-    { "_Settings", UI_MENU_TYPE_ITEM_ACTION,
+    { "Settings", UI_MENU_TYPE_ITEM_ACTION,
         ui_settings_dialog_create, NULL },
     UI_MENU_TERMINATOR
 };
+
+
+#ifdef DEBUG
+static ui_menu_item_t debug_menu[] = {
+    { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    /* shouldn't this be drive 8-11? */
+    { "Drive0 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
+    { "Drive1 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
+    { "Drive2 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
+    { "Drive3 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Save core dump", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_TERMINATOR
+};
+#endif
+
 
 
 /** \brief  Struct holding basic UI rescources
@@ -278,6 +305,9 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     ui_menu_settings_add(settings_menu);
     /* generate Help menu */
     ui_menu_help_add(help_menu);
+#ifdef DEBUG
+    ui_menu_debug_add(debug_menu);
+#endif
 
     canvas->drawing_area = new_drawing_area;
 

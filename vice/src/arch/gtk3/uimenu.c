@@ -212,7 +212,8 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
     while (items[i].label != NULL || items[i].type >= 0) {
         GtkWidget *item = NULL;
         switch (items[i].type) {
-            case UI_MENU_TYPE_ITEM_ACTION:
+            case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
+            case UI_MENU_TYPE_ITEM_CHECK:   /* XXX: for now */
                 /* normal callback item */
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
@@ -282,4 +283,17 @@ GtkWidget *ui_menu_snapshot_add(ui_menu_item_t *items)
 GtkWidget *ui_menu_help_add(ui_menu_item_t *items)
 {
     return ui_menu_add(help_submenu, items);
+}
+
+
+
+/** \brief  Add menu \a items to the 'Debug' menu
+ *
+ * \param[in]       items   menu items to add to the 'Debug' menu
+ *
+ * \return  'Debug' menu reference
+ */
+GtkWidget *ui_menu_debug_add(ui_menu_item_t *items)
+{
+    return ui_menu_add(debug_submenu, items);
 }
