@@ -34,8 +34,6 @@
 
 #include "types.h"
 
-#include "msvc-d3d.h"
-
 #if defined(HAVE_D3D9_H) && !defined(RC_INVOKED)
 #include <d3d9.h>
 #endif
