@@ -38,6 +38,8 @@
 #include "sounddriverwidget.h"
 #include "soundoutputmodewidget.h"
 #include "soundsyncwidget.h"
+#include "soundsampleratewidget.h"
+#include "soundbuffersizewidget.h"
 
 #include "uisound.h"
 
@@ -69,10 +71,18 @@ static GtkWidget *create_inner_grid(void)
 
     grid = gtk_grid_new();
 
+    /* row 0, columns 0 & 1 */
     gtk_grid_attach(GTK_GRID(grid), create_sound_driver_widget(), 0, 0, 2, 1);
+
+    /* row 1, column 0 */
     gtk_grid_attach(GTK_GRID(grid), create_sound_output_mode_widget(), 0, 1, 1, 1);
+    /* row 1, column 1 */
     gtk_grid_attach(GTK_GRID(grid), create_sound_sync_mode_widget(), 1, 1, 1, 1);
 
+    /* row 2, column 0 */
+    gtk_grid_attach(GTK_GRID(grid), create_sound_sample_rate_widget(), 0, 2, 1, 1);
+    /* row 2, column 1 */
+    gtk_grid_attach(GTK_GRID(grid), create_sound_buffer_size_widget(), 1 ,2 ,1 ,1);
     return grid;
 }
 

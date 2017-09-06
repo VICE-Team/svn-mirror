@@ -94,20 +94,10 @@ static void on_argument_changed(GtkWidget *widget, gpointer user_data)
 /** \brief  Create the bold title label
  *
  * \return  label
- *
- * TODO:    perhaps move into widgethelpers.c, I'll be using this a lot
  */
 static GtkWidget *create_title_label(void)
 {
-    GtkWidget *label;
-    gchar buffer[LABEL_BUFFER_SIZE];
-
-    label = gtk_label_new(NULL);
-    g_snprintf(buffer, LABEL_BUFFER_SIZE, "<b>Driver</b>");
-    gtk_label_set_markup(GTK_LABEL(label), buffer);
-    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
-    g_object_set(label, "margin-bottom", 8, NULL);
-    return label;
+    return uihelpers_create_grid_label("Sound driver");
 }
 
 
@@ -141,24 +131,6 @@ static GtkWidget *create_device_combobox(void)
     g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
 
     return combo;
-}
-
-
-/** \brief  Create a left-aligned, 16 units indented label
- *
- * \param[in]   text    label text
- *
- * \return  label
- *
- * TODO:    perhaps move into widgethelpers.c, I'll be using this a lot
- */
-static GtkWidget *create_indented_label(const char *text)
-{
-    GtkWidget *label = gtk_label_new(text);
-
-    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
-    g_object_set(label, "margin-left", 16, NULL);
-    return label;
 }
 
 
@@ -200,12 +172,14 @@ GtkWidget *create_sound_driver_widget(void)
     gtk_grid_attach(GTK_GRID(grid), create_title_label(), 0, 0, 2, 1);
 
     gtk_grid_attach(GTK_GRID(grid),
-            create_indented_label("Device name"), 0, 1, 1, 1);
+            uihelpers_create_indented_label("Device name"), 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_device_combobox(), 1, 1, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid),
-            create_indented_label("Driver argument"), 0, 2, 1, 1);
+            uihelpers_create_indented_label("Driver argument"), 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_argument_entry(), 1, 2, 1, 1);
+
+    g_object_set(grid, "margin", 8, NULL);
 
     gtk_widget_show_all(grid);
     return grid;

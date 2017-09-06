@@ -205,3 +205,39 @@ void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index)
         row++;
     } while (radio != NULL);
 }
+
+
+
+/** \brief  Create the bold title label of a settings widget's grid
+ *
+ * \return  label
+ */
+GtkWidget *uihelpers_create_grid_label(const char *text)
+{
+    GtkWidget *label;
+    gchar buffer[LABEL_BUFFER_SIZE];
+
+    label = gtk_label_new(NULL);
+    g_snprintf(buffer, LABEL_BUFFER_SIZE, "<b>%s</b>", text);
+    gtk_label_set_markup(GTK_LABEL(label), buffer);
+    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+    g_object_set(label, "margin-bottom", 8, NULL);
+    return label;
+}
+
+
+
+/** \brief  Create a left-aligned, 16 units indented label
+ *
+ * \param[in]   text    label text
+ *
+ * \return  label
+  */
+GtkWidget *uihelpers_create_indented_label(const char *text)
+{
+    GtkWidget *label = gtk_label_new(text);
+
+    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+    g_object_set(label, "margin-left", 16, NULL);
+    return label;
+}

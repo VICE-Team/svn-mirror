@@ -59,6 +59,10 @@ GtkWidget *uihelpers_create_int_radiogroup_with_label(
 
 void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index);
 
+GtkWidget *uihelpers_create_grid_label(const char *text);
+
+GtkWidget *uihelpers_create_indented_label(const char *text);
+
 #endif
 
 

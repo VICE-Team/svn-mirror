@@ -23,7 +23,9 @@ libwidgets_a_SOURCES = \
 	openfiledialog.c \
 	sounddriverwidget.c \
 	soundoutputmodewidget.c \
-	soundsyncwidget.c
+	soundsyncwidget.c \
+	soundsampleratewidget.c \
+	soundbuffersizewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -34,5 +36,7 @@ EXTRA_DIST = \
 	openfiledialog.h \
 	sounddriverwidget.h \
 	soundoutputmodewidget.h \
-	soundsyncwidget.h
+	soundsyncwidget.h \
+	soundsampleratewidget.h \
+	soundbuffersizewidget.h
 
