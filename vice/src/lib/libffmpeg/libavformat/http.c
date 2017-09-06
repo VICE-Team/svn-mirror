@@ -23,13 +23,7 @@
 #define HAVE_INT32_T
 #endif
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#include "libavutil/internal.h"
-#else
 #include "config.h"
-#endif
 
 #if CONFIG_ZLIB
 #include <zconf.h>
@@ -115,30 +109,6 @@ typedef struct {
 #define DEFAULT_USER_AGENT "Lavf/" AV_STRINGIFY(LIBAVFORMAT_VERSION)
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "seekable", "control seekability of connection", OFFSET(seekable), AV_OPT_TYPE_INT, {-1}, -1, 1, D },
-    { "chunked_post", "use chunked transfer-encoding for posts", OFFSET(chunked_post), AV_OPT_TYPE_INT, {1}, 0, 1, E },
-    { "headers", "set custom HTTP headers, can override built in default headers", OFFSET(headers), AV_OPT_TYPE_STRING, {0}, 0, 0, D | E },
-	{ "content_type", "set a specific content type for the POST messages", OFFSET(content_type), AV_OPT_TYPE_STRING, {0}, 0, 0, D | E },
-    { "user_agent", "override User-Agent header", OFFSET(user_agent), AV_OPT_TYPE_STRING, {(intptr_t) DEFAULT_USER_AGENT }, 0, 0, D },
-    { "user-agent", "override User-Agent header", OFFSET(user_agent), AV_OPT_TYPE_STRING, {(intptr_t) DEFAULT_USER_AGENT }, 0, 0, D },
-    { "multiple_requests", "use persistent connections", OFFSET(multiple_requests), AV_OPT_TYPE_INT, {0}, 0, 1, D | E },
-	{ "post_data", "set custom HTTP post data", OFFSET(post_data), AV_OPT_TYPE_BINARY, {0}, 0, 0, D | E },
-    { "mime_type", "export the MIME type", OFFSET(mime_type), AV_OPT_TYPE_STRING, {0}, 0, 0, AV_OPT_FLAG_EXPORT | AV_OPT_FLAG_READONLY },
-    { "cookies", "set cookies to be sent in applicable future requests, use newline delimited Set-Cookie HTTP field value syntax", OFFSET(cookies), AV_OPT_TYPE_STRING, {0}, 0, 0, D },
-    { "icy", "request ICY metadata", OFFSET(icy), AV_OPT_TYPE_INT, {1}, 0, 1, D },
-    { "icy_metadata_headers", "return ICY metadata headers", OFFSET(icy_metadata_headers), AV_OPT_TYPE_STRING, {0}, 0, 0, AV_OPT_FLAG_EXPORT },
-    { "icy_metadata_packet", "return current ICY metadata packet", OFFSET(icy_metadata_packet), AV_OPT_TYPE_STRING, {0}, 0, 0, AV_OPT_FLAG_EXPORT },
-    { "metadata", "metadata read from the bitstream", OFFSET(metadata), AV_OPT_TYPE_DICT, {0}, 0, 0, AV_OPT_FLAG_EXPORT },
-    { "auth_type", "HTTP authentication type", OFFSET(auth_state.auth_type), AV_OPT_TYPE_INT, {HTTP_AUTH_NONE}, HTTP_AUTH_NONE, HTTP_AUTH_BASIC, D | E, "auth_type"},
-    { "none", "No auth method set, autodetect", 0, AV_OPT_TYPE_CONST, {HTTP_AUTH_NONE}, 0, 0, D | E, "auth_type"},
-    { "basic", "HTTP basic authentication", 0, AV_OPT_TYPE_CONST, {HTTP_AUTH_BASIC}, 0, 0, D | E, "auth_type"},
-    { "send_expect_100", "Force sending an Expect: 100-continue header for POST", OFFSET(send_expect_100), AV_OPT_TYPE_INT, {0}, 0, 1, E },
-    { "location", "The actual location of the data received", OFFSET(location), AV_OPT_TYPE_STRING, {0}, 0, 0, D | E },
-    { "offset", "initial byte offset", OFFSET(off), AV_OPT_TYPE_INT64, {0}, 0, INT64_MAX, D },
-    { "end_offset", "try to limit the request to bytes preceding this offset", OFFSET(end_off), AV_OPT_TYPE_INT64, {0}, 0, INT64_MAX, D },
-    { "method", "Override the HTTP method", OFFSET(method), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, E },
-#else
 	{ "seekable", "control seekability of connection", OFFSET(seekable), AV_OPT_TYPE_INT, { .i64 = -1 }, -1, 1, D },
     { "chunked_post", "use chunked transfer-encoding for posts", OFFSET(chunked_post), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, E },
     { "headers", "set custom HTTP headers, can override built in default headers", OFFSET(headers), AV_OPT_TYPE_STRING, { 0 }, 0, 0, D | E },
@@ -161,7 +131,6 @@ static const AVOption options[] = {
     { "offset", "initial byte offset", OFFSET(off), AV_OPT_TYPE_INT64, { .i64 = 0 }, 0, INT64_MAX, D },
     { "end_offset", "try to limit the request to bytes preceding this offset", OFFSET(end_off), AV_OPT_TYPE_INT64, { .i64 = 0 }, 0, INT64_MAX, D },
     { "method", "Override the HTTP method", OFFSET(method), AV_OPT_TYPE_STRING, { .str = NULL }, 0, 0, E },
-#endif
 	{ NULL }
 };
 
@@ -1177,15 +1146,6 @@ static int http_get_file_handle(URLContext *h)
     return ffurl_get_file_handle(s->hd);
 }
 
-#ifdef IDE_COMPILE
-#define HTTP_CLASS(flavor)                          \
-static const AVClass flavor ## _context_class = {   \
-    # flavor,                         \
-    av_default_item_name,             \
-    options,                          \
-    LIBAVUTIL_VERSION_INT,            \
-}
-#else
 #define HTTP_CLASS(flavor)                          \
 static const AVClass flavor ## _context_class = {   \
     .class_name = # flavor,                         \
@@ -1193,25 +1153,11 @@ static const AVClass flavor ## _context_class = {   \
     .option     = options,                          \
     .version    = LIBAVUTIL_VERSION_INT,            \
 }
-#endif
 
 #if CONFIG_HTTP_PROTOCOL
 HTTP_CLASS(http);
 
 URLProtocol ff_http_protocol = {
-#ifdef IDE_COMPILE
-    "http",
-    0, http_open,
-    http_read,
-    http_write,
-    http_seek,
-    http_close,
-    0, 0, 0, http_get_file_handle,
-    0, http_shutdown,
-    sizeof(HTTPContext),
-    &http_context_class,
-    URL_PROTOCOL_FLAG_NETWORK,
-#else
 	.name                = "http",
     .url_open2           = http_open,
     .url_read            = http_read,
@@ -1223,7 +1169,6 @@ URLProtocol ff_http_protocol = {
     .priv_data_size      = sizeof(HTTPContext),
     .priv_data_class     = &http_context_class,
     .flags               = URL_PROTOCOL_FLAG_NETWORK,
-#endif
 };
 #endif /* CONFIG_HTTP_PROTOCOL */
 
@@ -1344,16 +1289,6 @@ static int http_proxy_write(URLContext *h, const uint8_t *buf, int size)
 }
 
 URLProtocol ff_httpproxy_protocol = {
-#ifdef IDE_COMPILE
-    "httpproxy",
-    http_proxy_open,
-    0, http_buf_read,
-    http_proxy_write,
-    0, http_proxy_close,
-    0, 0, 0, http_get_file_handle,
-    0, 0, sizeof(HTTPContext),
-    0, URL_PROTOCOL_FLAG_NETWORK,
-#else
 	.name                = "httpproxy",
     .url_open            = http_proxy_open,
     .url_read            = http_buf_read,
@@ -1362,6 +1297,5 @@ URLProtocol ff_httpproxy_protocol = {
     .url_get_file_handle = http_get_file_handle,
     .priv_data_size      = sizeof(HTTPContext),
     .flags               = URL_PROTOCOL_FLAG_NETWORK,
-#endif
 };
 #endif /* CONFIG_HTTPPROXY_PROTOCOL */

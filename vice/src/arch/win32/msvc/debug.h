@@ -36,12 +36,6 @@
 #define DEBUG
 #endif
 
-/* IDE defined. */
-#if defined(IDE_COMPILE) && defined(_DEBUG)
-/* This enables debugging.  Attention: It makes things a bit slower.  */
-#define DEBUG
-#endif
-
 #define DEBUG_NORMAL    0
 #define DEBUG_SMALL     1
 #define DEBUG_HISTORY   2

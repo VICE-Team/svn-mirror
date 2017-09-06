@@ -44,37 +44,12 @@
 #include <stdarg.h>
 
 #include "x264.h"
-
-#ifdef IDE_COMPILE
-#include "x264-config.h"
-#else
 #include "config.h"
-#endif
 
 #ifdef __INTEL_COMPILER
 #include <mathimf.h>
 #else
 #include <math.h>
-#endif
-
-#if defined(IDE_COMPILE) && defined(_MSC_VER) && (_MSC_VER >= 1400)
-#define fileno _fileno
-#endif
-
-#ifdef IDE_COMPILE
-#if (_MSC_VER < 1500)
-static double log2(double x)
-{
-	return log(x) / log(2);
-}
-
-static float log2f(float x)
-{
-	return (float)(log2((double)x));
-}
-#define LOG2_DEFINED
-
-#endif
 #endif
 
 #if !HAVE_LOG2F && !defined(LOG2_DEFINED)
@@ -87,9 +62,7 @@ static float log2f(float x)
 #define strcasecmp _stricmp
 #define strncasecmp _strnicmp
 #define snprintf _snprintf
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define strtok_r strtok_s
-#endif
 #define S_ISREG(x) (((x) & S_IFMT) == S_IFREG)
 #endif
 
@@ -105,7 +78,7 @@ static float log2f(float x)
 #define strtok_r(a, b, c) strtok(a, b)
 #endif
 
-#if defined(_WIN32) || (defined(IDE_COMPILE) && (_MSC_VER < 1400))
+#ifdef _WIN32
 #ifndef strtok_r
 #define strtok_r(str,delim,save) strtok(str,delim)
 #endif
@@ -146,7 +119,6 @@ int x264_is_pipe( const char *path );
 // - Apple gcc only maintains 4 byte alignment
 // - llvm can align the stack, but only in svn and (unrelated) it exposes bugs in all released GNU binutils...
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define ALIGNED_ARRAY_EMU( mask, type, name, sub1, ... )\
     uint8_t name##_u [sizeof(type sub1 __VA_ARGS__) + mask]; \
     type (*name) __VA_ARGS__ = (void*)((intptr_t)(name##_u+mask) & ~mask)
@@ -175,7 +147,6 @@ int x264_is_pipe( const char *path );
 #endif
 
 #define ALIGNED_ARRAY_64( ... ) EXPAND( ALIGNED_ARRAY_EMU( 63, __VA_ARGS__ ) )
-#endif
 
 /* For AVX2 */
 #if ARCH_X86 || ARCH_X86_64

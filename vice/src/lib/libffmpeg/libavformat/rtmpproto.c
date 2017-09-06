@@ -2893,28 +2893,6 @@ static int rtmp_write(URLContext *s, const uint8_t *buf, int size)
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 
 static const AVOption rtmp_options[] = {
-#ifdef IDE_COMPILE
-	{"rtmp_app", "Name of application to connect to on the RTMP server", OFFSET(app), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC|ENC},
-    {"rtmp_buffer", "Set buffer time in milliseconds. The default is 3000.", OFFSET(client_buffer_time), AV_OPT_TYPE_INT, {3000}, 0, INT_MAX, DEC|ENC},
-    {"rtmp_conn", "Append arbitrary AMF data to the Connect message", OFFSET(conn), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC|ENC},
-    {"rtmp_flashver", "Version of the Flash plugin used to run the SWF player.", OFFSET(flashver), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC|ENC},
-    {"rtmp_flush_interval", "Number of packets flushed in the same request (RTMPT only).", OFFSET(flush_interval), AV_OPT_TYPE_INT, {10}, 0, INT_MAX, ENC},
-    {"rtmp_live", "Specify that the media is a live stream.", OFFSET(live), AV_OPT_TYPE_INT, {-2}, INT_MIN, INT_MAX, DEC, "rtmp_live"},
-    {"any", "both", 0, AV_OPT_TYPE_CONST, {-2}, 0, 0, DEC, "rtmp_live"},
-    {"live", "live stream", 0, AV_OPT_TYPE_CONST, {-1}, 0, 0, DEC, "rtmp_live"},
-    {"recorded", "recorded stream", 0, AV_OPT_TYPE_CONST, {0}, 0, 0, DEC, "rtmp_live"},
-    {"rtmp_pageurl", "URL of the web page in which the media was embedded. By default no value will be sent.", OFFSET(pageurl), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC},
-    {"rtmp_playpath", "Stream identifier to play or to publish", OFFSET(playpath), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC|ENC},
-    {"rtmp_subscribe", "Name of live stream to subscribe to. Defaults to rtmp_playpath.", OFFSET(subscribe), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC},
-	{"rtmp_swfhash", "SHA256 hash of the decompressed SWF file (32 bytes).", OFFSET(swfhash), AV_OPT_TYPE_BINARY, {0}, 0, 0, DEC},
-    {"rtmp_swfsize", "Size of the decompressed SWF file, required for SWFVerification.", OFFSET(swfsize), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, DEC},
-    {"rtmp_swfurl", "URL of the SWF player. By default no value will be sent", OFFSET(swfurl), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC|ENC},
-    {"rtmp_swfverify", "URL to player swf file, compute hash/size automatically.", OFFSET(swfverify), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC},
-    {"rtmp_tcurl", "URL of the target stream. Defaults to proto://host[:port]/app.", OFFSET(tcurl), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, DEC|ENC},
-    {"rtmp_listen", "Listen for incoming rtmp connections", OFFSET(listen), AV_OPT_TYPE_INT, {0}, INT_MIN, INT_MAX, DEC, "rtmp_listen" },
-    {"listen", "Listen for incoming rtmp connections", OFFSET(listen), AV_OPT_TYPE_INT, {0}, INT_MIN, INT_MAX, DEC, "rtmp_listen" },
-    {"timeout", "Maximum timeout (in seconds) to wait for incoming connections. -1 is infinite. Implies -rtmp_listen 1",  OFFSET(listen_timeout), AV_OPT_TYPE_INT, {-1}, INT_MIN, INT_MAX, DEC, "rtmp_listen" },
-#else
 	{"rtmp_app", "Name of application to connect to on the RTMP server", OFFSET(app), AV_OPT_TYPE_STRING, {.str = NULL }, 0, 0, DEC|ENC},
     {"rtmp_buffer", "Set buffer time in milliseconds. The default is 3000.", OFFSET(client_buffer_time), AV_OPT_TYPE_INT, {.i64 = 3000}, 0, INT_MAX, DEC|ENC},
     {"rtmp_conn", "Append arbitrary AMF data to the Connect message", OFFSET(conn), AV_OPT_TYPE_STRING, {.str = NULL }, 0, 0, DEC|ENC},
@@ -2935,35 +2913,9 @@ static const AVOption rtmp_options[] = {
     {"rtmp_listen", "Listen for incoming rtmp connections", OFFSET(listen), AV_OPT_TYPE_INT, {.i64 = 0}, INT_MIN, INT_MAX, DEC, "rtmp_listen" },
     {"listen",      "Listen for incoming rtmp connections", OFFSET(listen), AV_OPT_TYPE_INT, {.i64 = 0}, INT_MIN, INT_MAX, DEC, "rtmp_listen" },
     {"timeout", "Maximum timeout (in seconds) to wait for incoming connections. -1 is infinite. Implies -rtmp_listen 1",  OFFSET(listen_timeout), AV_OPT_TYPE_INT, {.i64 = -1}, INT_MIN, INT_MAX, DEC, "rtmp_listen" },
-#endif
 	{ NULL },
 };
 
-#ifdef IDE_COMPILE
-#define RTMP_PROTOCOL(flavor)                    \
-static const AVClass flavor##_class = {          \
-    #flavor,                       \
-    av_default_item_name,          \
-    rtmp_options,                  \
-    LIBAVUTIL_VERSION_INT,         \
-};                                               \
-                                                 \
-URLProtocol ff_##flavor##_protocol = {           \
-    #flavor,                   \
-    rtmp_open,                 \
-    0, \
-    rtmp_read,                 \
-    rtmp_write,                \
-    0, \
-    rtmp_close,                \
-    0, 0, \
-    rtmp_seek,                 \
-    0, 0, 0, \
-    sizeof(RTMPContext),       \
-    &flavor##_class,           \
-    URL_PROTOCOL_FLAG_NETWORK, \
-};
-#else
 #define RTMP_PROTOCOL(flavor)                    \
 static const AVClass flavor##_class = {          \
     .class_name = #flavor,                       \
@@ -2983,8 +2935,6 @@ URLProtocol ff_##flavor##_protocol = {           \
     .flags          = URL_PROTOCOL_FLAG_NETWORK, \
     .priv_data_class= &flavor##_class,           \
 };
-#endif
-
 
 RTMP_PROTOCOL(rtmp)
 RTMP_PROTOCOL(rtmpe)

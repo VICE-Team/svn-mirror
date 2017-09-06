@@ -399,16 +399,6 @@ static int parse_h264_sdp_line(AVFormatContext *s, int st_index,
 }
 
 RTPDynamicProtocolHandler ff_h264_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "H264",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H264,
-    0, h264_init,
-    parse_h264_sdp_line,
-    h264_new_context,
-    h264_free_context,
-    h264_handle_packet
-#else
 	.enc_name         = "H264",
     .codec_type       = AVMEDIA_TYPE_VIDEO,
     .codec_id         = AV_CODEC_ID_H264,
@@ -417,5 +407,4 @@ RTPDynamicProtocolHandler ff_h264_dynamic_handler = {
     .alloc            = h264_new_context,
     .free             = h264_free_context,
     .parse_packet     = h264_handle_packet
-#endif
 };

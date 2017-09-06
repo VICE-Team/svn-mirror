@@ -26,10 +26,8 @@
 
 #include "vice.h"
 
-#ifndef IDE_COMPILE
 #define WINVER 0x0500
 #include <windows.h>
-#endif
 
 #include "vsync.h"
 #include "kbdbuf.h"
@@ -72,7 +70,6 @@ void vsyncarch_init(void)
 
 // -------------------------------------------------------------------------
 
-#if !defined(IDE_COMPILE) && !defined(WATCOM_COMPILE)
 typedef WINUSERAPI UINT (WINAPI *FPTR_SendInput)(UINT, LPINPUT,int);
 
 static FPTR_SendInput pfnSendInput = NULL;
@@ -106,7 +103,6 @@ static void win32_mouse_jitter(void)
         pfnSendInput(1, &ip, sizeof(INPUT));
     }
 }
-#endif
 
 // Display speed (percentage) and frame rate (frames per second).
 void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
@@ -150,10 +146,8 @@ void vsyncarch_postsync(void)
     /* Dispatch all the pending UI events.  */
     ui_dispatch_events();
 
-#if !defined(IDE_COMPILE) && !defined(WATCOM_COMPILE)
     /* prevent screensaver */
     win32_mouse_jitter();
-#endif
 
     ui_frame_update_gui();
 }

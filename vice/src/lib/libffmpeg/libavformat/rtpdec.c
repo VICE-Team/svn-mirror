@@ -37,51 +37,27 @@
 #define MIN_FEEDBACK_INTERVAL 200000 /* 200 ms in us */
 
 static RTPDynamicProtocolHandler gsm_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "GSM",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_GSM,
-#else
 	.enc_name   = "GSM",
     .codec_type = AVMEDIA_TYPE_AUDIO,
     .codec_id   = AV_CODEC_ID_GSM,
-#endif
 };
 
 static RTPDynamicProtocolHandler realmedia_mp3_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "X-MP3-draft-00",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP3ADU,
-#else
 	.enc_name   = "X-MP3-draft-00",
     .codec_type = AVMEDIA_TYPE_AUDIO,
     .codec_id   = AV_CODEC_ID_MP3ADU,
-#endif
 };
 
 static RTPDynamicProtocolHandler speex_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "speex",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_SPEEX,
-#else
 	.enc_name   = "speex",
     .codec_type = AVMEDIA_TYPE_AUDIO,
     .codec_id   = AV_CODEC_ID_SPEEX,
-#endif
 };
 
 static RTPDynamicProtocolHandler opus_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "opus",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_OPUS,
-#else
 	.enc_name   = "opus",
     .codec_type = AVMEDIA_TYPE_AUDIO,
     .codec_id   = AV_CODEC_ID_OPUS,
-#endif
 };
 
 static RTPDynamicProtocolHandler *rtp_first_dynamic_payload_handler = NULL;
@@ -799,17 +775,8 @@ static int rtp_parse_one_packet(RTPDemuxContext *s, AVPacket *pkt,
 
     if (s->st) {
         int64_t received = av_gettime();
-#ifdef IDE_COMPILE
-		uint32_t arrival_ts;
-        AVRational tmp;
-		
-		tmp.num = 1;
-		tmp.den = AV_TIME_BASE;
-		arrival_ts = av_rescale_q(received, tmp, s->st->time_base);
-#else
 		uint32_t arrival_ts = av_rescale_q(received, AV_TIME_BASE_Q,
                                            s->st->time_base);
-#endif
 		timestamp = AV_RB32(buf + 4);
         // Calculate the jitter immediately, before queueing the packet
         // into the reordering queue.

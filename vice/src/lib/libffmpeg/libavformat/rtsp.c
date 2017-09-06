@@ -68,58 +68,20 @@
 #define DEC AV_OPT_FLAG_DECODING_PARAM
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 
-#ifdef IDE_COMPILE
-#define RTSP_FLAG_OPTS(name, longname) \
-    { name, longname, OFFSET(rtsp_flags), AV_OPT_TYPE_FLAGS, {0}, INT_MIN, INT_MAX, DEC, "rtsp_flags" }, \
-    { "filter_src", "only receive packets from the negotiated peer IP", 0, AV_OPT_TYPE_CONST, {RTSP_FLAG_FILTER_SRC}, 0, 0, DEC, "rtsp_flags" }
-#else
 #define RTSP_FLAG_OPTS(name, longname) \
     { name, longname, OFFSET(rtsp_flags), AV_OPT_TYPE_FLAGS, {.i64 = 0}, INT_MIN, INT_MAX, DEC, "rtsp_flags" }, \
     { "filter_src", "only receive packets from the negotiated peer IP", 0, AV_OPT_TYPE_CONST, {.i64 = RTSP_FLAG_FILTER_SRC}, 0, 0, DEC, "rtsp_flags" }
-#endif
 
-#ifdef IDE_COMPILE
-#define RTSP_MEDIATYPE_OPTS(name, longname) \
-    { name, longname, OFFSET(media_type_mask), AV_OPT_TYPE_FLAGS, {(1 << (AVMEDIA_TYPE_DATA+1)) - 1}, INT_MIN, INT_MAX, DEC, "allowed_media_types" }, \
-    { "video", "Video", 0, AV_OPT_TYPE_CONST, {1 << AVMEDIA_TYPE_VIDEO}, 0, 0, DEC, "allowed_media_types" }, \
-    { "audio", "Audio", 0, AV_OPT_TYPE_CONST, {1 << AVMEDIA_TYPE_AUDIO}, 0, 0, DEC, "allowed_media_types" }, \
-    { "data", "Data", 0, AV_OPT_TYPE_CONST, {1 << AVMEDIA_TYPE_DATA}, 0, 0, DEC, "allowed_media_types" }
-#else
 #define RTSP_MEDIATYPE_OPTS(name, longname) \
     { name, longname, OFFSET(media_type_mask), AV_OPT_TYPE_FLAGS, { .i64 = (1 << (AVMEDIA_TYPE_DATA+1)) - 1 }, INT_MIN, INT_MAX, DEC, "allowed_media_types" }, \
     { "video", "Video", 0, AV_OPT_TYPE_CONST, {.i64 = 1 << AVMEDIA_TYPE_VIDEO}, 0, 0, DEC, "allowed_media_types" }, \
     { "audio", "Audio", 0, AV_OPT_TYPE_CONST, {.i64 = 1 << AVMEDIA_TYPE_AUDIO}, 0, 0, DEC, "allowed_media_types" }, \
     { "data", "Data", 0, AV_OPT_TYPE_CONST, {.i64 = 1 << AVMEDIA_TYPE_DATA}, 0, 0, DEC, "allowed_media_types" }
-#endif
 
-#ifdef IDE_COMPILE
-#define RTSP_REORDERING_OPTS() \
-    { "reorder_queue_size", "set number of packets to buffer for handling of reordered packets", OFFSET(reordering_queue_size), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, DEC }
-#else
 #define RTSP_REORDERING_OPTS() \
     { "reorder_queue_size", "set number of packets to buffer for handling of reordered packets", OFFSET(reordering_queue_size), AV_OPT_TYPE_INT, { .i64 = -1 }, -1, INT_MAX, DEC }
-#endif
 
 const AVOption ff_rtsp_options[] = {
-#ifdef IDE_COMPILE
-	{ "initial_pause", "do not start playing the stream immediately", OFFSET(initial_pause), AV_OPT_TYPE_INT, {0}, 0, 1, DEC },
-    FF_RTP_FLAG_OPTS(RTSPState, rtp_muxer_flags),
-    { "rtsp_transport", "set RTSP transport protocols", OFFSET(lower_transport_mask), AV_OPT_TYPE_FLAGS, {0}, INT_MIN, INT_MAX, DEC|ENC, "rtsp_transport" },
-    { "udp", "UDP", 0, AV_OPT_TYPE_CONST, {1 << RTSP_LOWER_TRANSPORT_UDP}, 0, 0, DEC|ENC, "rtsp_transport" },
-    { "tcp", "TCP", 0, AV_OPT_TYPE_CONST, {1 << RTSP_LOWER_TRANSPORT_TCP}, 0, 0, DEC|ENC, "rtsp_transport" },
-    { "udp_multicast", "UDP multicast", 0, AV_OPT_TYPE_CONST, {1 << RTSP_LOWER_TRANSPORT_UDP_MULTICAST}, 0, 0, DEC, "rtsp_transport" },
-    { "http", "HTTP tunneling", 0, AV_OPT_TYPE_CONST, {(1 << RTSP_LOWER_TRANSPORT_HTTP)}, 0, 0, DEC, "rtsp_transport" },
-    RTSP_FLAG_OPTS("rtsp_flags", "set RTSP flags"),
-    { "listen", "wait for incoming connections", 0, AV_OPT_TYPE_CONST, {RTSP_FLAG_LISTEN}, 0, 0, DEC, "rtsp_flags" },
-    { "prefer_tcp", "try RTP via TCP first, if available", 0, AV_OPT_TYPE_CONST, {RTSP_FLAG_PREFER_TCP}, 0, 0, DEC|ENC, "rtsp_flags" },
-    RTSP_MEDIATYPE_OPTS("allowed_media_types", "set media types to accept from the server"),
-    { "min_port", "set minimum local UDP port", OFFSET(rtp_port_min), AV_OPT_TYPE_INT, {RTSP_RTP_PORT_MIN}, 0, 65535, DEC|ENC },
-    { "max_port", "set maximum local UDP port", OFFSET(rtp_port_max), AV_OPT_TYPE_INT, {RTSP_RTP_PORT_MAX}, 0, 65535, DEC|ENC },
-    { "timeout", "set maximum timeout (in seconds) to wait for incoming connections (-1 is infinite, imply flag listen)", OFFSET(initial_timeout), AV_OPT_TYPE_INT, {-1}, INT_MIN, INT_MAX, DEC },
-    { "stimeout", "set timeout (in microseconds) of socket TCP I/O operations", OFFSET(stimeout), AV_OPT_TYPE_INT, {0}, INT_MIN, INT_MAX, DEC },
-    RTSP_REORDERING_OPTS(),
-    { "user-agent", "override User-Agent header", OFFSET(user_agent), AV_OPT_TYPE_STRING, {(intptr_t) LIBAVFORMAT_IDENT}, 0, 0, DEC },
-#else
 	{ "initial_pause",  "do not start playing the stream immediately", OFFSET(initial_pause), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, DEC },
     FF_RTP_FLAG_OPTS(RTSPState, rtp_muxer_flags),
     { "rtsp_transport", "set RTSP transport protocols", OFFSET(lower_transport_mask), AV_OPT_TYPE_FLAGS, {.i64 = 0}, INT_MIN, INT_MAX, DEC|ENC, "rtsp_transport" }, \
@@ -137,19 +99,13 @@ const AVOption ff_rtsp_options[] = {
     { "stimeout", "set timeout (in microseconds) of socket TCP I/O operations", OFFSET(stimeout), AV_OPT_TYPE_INT, {.i64 = 0}, INT_MIN, INT_MAX, DEC },
     RTSP_REORDERING_OPTS(),
     { "user-agent", "override User-Agent header", OFFSET(user_agent), AV_OPT_TYPE_STRING, {.str = LIBAVFORMAT_IDENT}, 0, 0, DEC },
-#endif
 	{ NULL },
 };
 
 static const AVOption sdp_options[] = {
 	RTSP_FLAG_OPTS("sdp_flags", "SDP flags"),
-#ifdef IDE_COMPILE
-    { "custom_io", "use custom I/O", 0, AV_OPT_TYPE_CONST, {RTSP_FLAG_CUSTOM_IO}, 0, 0, DEC, "rtsp_flags" },
-    { "rtcp_to_source", "send RTCP packets to the source address of received packets", 0, AV_OPT_TYPE_CONST, {RTSP_FLAG_RTCP_TO_SOURCE}, 0, 0, DEC, "rtsp_flags" },
-#else
     { "custom_io", "use custom I/O", 0, AV_OPT_TYPE_CONST, {.i64 = RTSP_FLAG_CUSTOM_IO}, 0, 0, DEC, "rtsp_flags" },
     { "rtcp_to_source", "send RTCP packets to the source address of received packets", 0, AV_OPT_TYPE_CONST, {.i64 = RTSP_FLAG_RTCP_TO_SOURCE}, 0, 0, DEC, "rtsp_flags" },
-#endif
     RTSP_MEDIATYPE_OPTS("allowed_media_types", "set media types to accept from the server"),
     RTSP_REORDERING_OPTS(),
 	{ NULL },
@@ -2296,30 +2252,13 @@ static int sdp_read_close(AVFormatContext *s)
 }
 
 static const AVClass sdp_demuxer_class = {
-#ifdef IDE_COMPILE
-    "SDP demuxer",
-    av_default_item_name,
-    sdp_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name     = "SDP demuxer",
     .item_name      = av_default_item_name,
     .option         = sdp_options,
     .version        = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_sdp_demuxer = {
-#ifdef IDE_COMPILE
-    "sdp",
-    "SDP",
-    0, 0, 0, &sdp_demuxer_class,
-    0, 0, 0, sizeof(RTSPState),
-    sdp_probe,
-    sdp_read_header,
-    ff_rtsp_fetch_packet,
-    sdp_read_close,
-#else
 	.name           = "sdp",
     .long_name      = NULL_IF_CONFIG_SMALL("SDP"),
     .priv_data_size = sizeof(RTSPState),
@@ -2328,7 +2267,6 @@ AVInputFormat ff_sdp_demuxer = {
     .read_packet    = ff_rtsp_fetch_packet,
     .read_close     = sdp_read_close,
     .priv_class     = &sdp_demuxer_class,
-#endif
 };
 #endif /* CONFIG_SDP_DEMUXER */
 
@@ -2431,31 +2369,13 @@ fail:
 }
 
 static const AVClass rtp_demuxer_class = {
-#ifdef IDE_COMPILE
-    "RTP demuxer",
-    av_default_item_name,
-    rtp_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name     = "RTP demuxer",
     .item_name      = av_default_item_name,
     .option         = rtp_options,
     .version        = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_rtp_demuxer = {
-#ifdef IDE_COMPILE
-    "rtp",
-    "RTP input",
-    AVFMT_NOFILE,
-    0, 0, &rtp_demuxer_class,
-    0, 0, 0, sizeof(RTSPState),
-    rtp_probe,
-    rtp_read_header,
-    ff_rtsp_fetch_packet,
-    sdp_read_close,
-#else
 	.name           = "rtp",
     .long_name      = NULL_IF_CONFIG_SMALL("RTP input"),
     .priv_data_size = sizeof(RTSPState),
@@ -2465,6 +2385,5 @@ AVInputFormat ff_rtp_demuxer = {
     .read_close     = sdp_read_close,
     .flags          = AVFMT_NOFILE,
     .priv_class     = &rtp_demuxer_class,
-#endif
 };
 #endif /* CONFIG_RTP_DEMUXER */

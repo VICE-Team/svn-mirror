@@ -25,12 +25,7 @@
  * utils.
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "libavutil/atomic.h"
 #include "libavutil/attributes.h"
@@ -260,12 +255,7 @@ int ff_set_sar(AVCodecContext *avctx, AVRational sar)
     if (ret < 0) {
         av_log(avctx, AV_LOG_WARNING, "ignoring invalid SAR: %u/%u\n",
                sar.num, sar.den);
-#ifdef IDE_COMPILE
-		avctx->sample_aspect_ratio.num = 0;
-		avctx->sample_aspect_ratio.den = 1;
-#else
 		avctx->sample_aspect_ratio = (AVRational){ 0, 1 };
-#endif
 		return ret;
     } else {
         avctx->sample_aspect_ratio = sar;
@@ -821,12 +811,7 @@ int ff_init_buffer_info(AVCodecContext *avctx, AVFrame *frame)
             av_log(avctx, AV_LOG_WARNING, "ignoring invalid SAR: %u/%u\n",
                    frame->sample_aspect_ratio.num,
                    frame->sample_aspect_ratio.den);
-#ifdef IDE_COMPILE
-			frame->sample_aspect_ratio.num = 0;
-			frame->sample_aspect_ratio.den = 1;
-#else
 			frame->sample_aspect_ratio = (AVRational){ 0, 1 };
-#endif
 		}
 
         break;
@@ -1397,12 +1382,7 @@ int attribute_align_arg avcodec_open2(AVCodecContext *avctx, const AVCodec *code
             av_log(avctx, AV_LOG_WARNING, "ignoring invalid SAR: %u/%u\n",
                    avctx->sample_aspect_ratio.num,
                    avctx->sample_aspect_ratio.den);
-#ifdef IDE_COMPILE
-			avctx->sample_aspect_ratio.num = 0;
-			avctx->sample_aspect_ratio.den = 1;
-#else
 			avctx->sample_aspect_ratio = (AVRational){ 0, 1 };
-#endif
 		}
     }
 
@@ -2496,20 +2476,9 @@ int attribute_align_arg avcodec_decode_audio4(AVCodecContext *avctx,
                 av_samples_copy(frame->extended_data, frame->extended_data, 0, avctx->internal->skip_samples,
                                 frame->nb_samples - avctx->internal->skip_samples, avctx->channels, frame->format);
                 if(avctx->pkt_timebase.num && avctx->sample_rate) {
-#ifdef IDE_COMPILE
-					int64_t diff_ts;
-					AVRational tmp;
-
-					tmp.num = 1;
-					tmp.den = avctx->sample_rate;
-					diff_ts = av_rescale_q(avctx->internal->skip_samples,
-                                                   tmp,
-                                                   avctx->pkt_timebase);
-#else
 					int64_t diff_ts = av_rescale_q(avctx->internal->skip_samples,
                                                    (AVRational){1, avctx->sample_rate},
                                                    avctx->pkt_timebase);
-#endif
 					if(frame->pkt_pts!=AV_NOPTS_VALUE)
                         frame->pkt_pts += diff_ts;
                     if(frame->pkt_dts!=AV_NOPTS_VALUE)
@@ -2531,20 +2500,9 @@ int attribute_align_arg avcodec_decode_audio4(AVCodecContext *avctx,
                 *got_frame_ptr = 0;
             } else {
                 if(avctx->pkt_timebase.num && avctx->sample_rate) {
-#ifdef IDE_COMPILE
-					int64_t diff_ts;
-                    AVRational tmp;
-
-					tmp.num = 1;
-					tmp.den = avctx->sample_rate;
-					diff_ts = av_rescale_q(frame->nb_samples - discard_padding,
-                                                   tmp,
-                                                   avctx->pkt_timebase);
-#else
 					int64_t diff_ts = av_rescale_q(frame->nb_samples - discard_padding,
                                                    (AVRational){1, avctx->sample_rate},
                                                    avctx->pkt_timebase);
-#endif
 					if (av_frame_get_pkt_duration(frame) >= diff_ts)
                         av_frame_set_pkt_duration(frame, av_frame_get_pkt_duration(frame) - diff_ts);
                 } else {
@@ -2664,12 +2622,6 @@ int avcodec_decode_subtitle2(AVCodecContext *avctx, AVSubtitle *sub,
                              AVPacket *avpkt)
 {
     int i, ret = 0;
-#ifdef IDE_COMPILE
-	AVRational tbq;
-	
-	tbq.num = 1;
-	tbq.den = AV_TIME_BASE;
-#endif
 
     if (!avpkt->data && avpkt->size) {
         av_log(avctx, AV_LOG_ERROR, "invalid packet: NULL data, size != 0\n");
@@ -2709,13 +2661,8 @@ int avcodec_decode_subtitle2(AVCodecContext *avctx, AVSubtitle *sub,
             avctx->internal->pkt = &pkt_recoded;
 
             if (avctx->pkt_timebase.den && avpkt->pts != AV_NOPTS_VALUE)
-#ifdef IDE_COMPILE
-				sub->pts = av_rescale_q(avpkt->pts,
-                                        avctx->pkt_timebase, tbq);
-#else
 				sub->pts = av_rescale_q(avpkt->pts,
                                         avctx->pkt_timebase, AV_TIME_BASE_Q);
-#endif
 			ret = avctx->codec->decode(avctx, sub, got_sub_ptr, &pkt_recoded);
             av_assert1((ret >= 0) >= !!*got_sub_ptr &&
                        !!*got_sub_ptr >= !!sub->num_rects);
@@ -3202,18 +3149,6 @@ int av_get_exact_bits_per_sample(enum AVCodecID codec_id)
 enum AVCodecID av_get_pcm_codec(enum AVSampleFormat fmt, int be)
 {
     static const enum AVCodecID map[AV_SAMPLE_FMT_NB][2] = {
-#ifdef IDE_COMPILE
-        { AV_CODEC_ID_PCM_U8, AV_CODEC_ID_PCM_U8 },
-        { AV_CODEC_ID_PCM_S16LE, AV_CODEC_ID_PCM_S16BE },
-        { AV_CODEC_ID_PCM_S32LE, AV_CODEC_ID_PCM_S32BE },
-        { AV_CODEC_ID_PCM_F32LE, AV_CODEC_ID_PCM_F32BE },
-        { AV_CODEC_ID_PCM_F64LE, AV_CODEC_ID_PCM_F64BE },
-        { AV_CODEC_ID_PCM_U8, AV_CODEC_ID_PCM_U8 },
-        { AV_CODEC_ID_PCM_S16LE, AV_CODEC_ID_PCM_S16BE },
-        { AV_CODEC_ID_PCM_S32LE, AV_CODEC_ID_PCM_S32BE },
-        { AV_CODEC_ID_PCM_F32LE, AV_CODEC_ID_PCM_F32BE },
-        { AV_CODEC_ID_PCM_F64LE, AV_CODEC_ID_PCM_F64BE },
-#else
 		[AV_SAMPLE_FMT_U8  ] = { AV_CODEC_ID_PCM_U8,    AV_CODEC_ID_PCM_U8    },
         [AV_SAMPLE_FMT_S16 ] = { AV_CODEC_ID_PCM_S16LE, AV_CODEC_ID_PCM_S16BE },
         [AV_SAMPLE_FMT_S32 ] = { AV_CODEC_ID_PCM_S32LE, AV_CODEC_ID_PCM_S32BE },
@@ -3224,7 +3159,6 @@ enum AVCodecID av_get_pcm_codec(enum AVSampleFormat fmt, int be)
         [AV_SAMPLE_FMT_S32P] = { AV_CODEC_ID_PCM_S32LE, AV_CODEC_ID_PCM_S32BE },
         [AV_SAMPLE_FMT_FLTP] = { AV_CODEC_ID_PCM_F32LE, AV_CODEC_ID_PCM_F32BE },
         [AV_SAMPLE_FMT_DBLP] = { AV_CODEC_ID_PCM_F64LE, AV_CODEC_ID_PCM_F64BE },
-#endif
 	};
     if (fmt < 0 || fmt >= AV_SAMPLE_FMT_NB)
         return AV_CODEC_ID_NONE;

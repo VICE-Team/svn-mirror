@@ -57,17 +57,6 @@ typedef struct IcecastContext {
 #define E AV_OPT_FLAG_ENCODING_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "ice_genre", "set stream genre", OFFSET(genre), AV_OPT_TYPE_STRING, {0}, 0, 0, E },
-    { "ice_name", "set stream description", OFFSET(name), AV_OPT_TYPE_STRING, {0}, 0, 0, E },
-    { "ice_description", "set stream description", OFFSET(description), AV_OPT_TYPE_STRING, {0}, 0, 0, E },
-    { "ice_url", "set stream website", OFFSET(url), AV_OPT_TYPE_STRING, {0}, 0, 0, E },
-    { "ice_public", "set if stream is public", OFFSET(public), AV_OPT_TYPE_INT, {0}, 0, 1, E },
-    { "user_agent", "override User-Agent header", OFFSET(user_agent), AV_OPT_TYPE_STRING, {0}, 0, 0, E },
-    { "password", "set password", OFFSET(pass), AV_OPT_TYPE_STRING, {0}, 0, 0, E },
-    { "content_type", "set content-type, MUST be set if not audio/mpeg", OFFSET(content_type), AV_OPT_TYPE_STRING, {0}, 0, 0, E },
-    { "legacy_icecast", "use legacy SOURCE method, for Icecast < v2.4", OFFSET(legacy_icecast), AV_OPT_TYPE_INT, {0}, 0, 1, E },
-#else
 	{ "ice_genre", "set stream genre", OFFSET(genre), AV_OPT_TYPE_STRING, { 0 }, 0, 0, E },
     { "ice_name", "set stream description", OFFSET(name), AV_OPT_TYPE_STRING, { 0 }, 0, 0, E },
     { "ice_description", "set stream description", OFFSET(description), AV_OPT_TYPE_STRING, { 0 }, 0, 0, E },
@@ -77,7 +66,6 @@ static const AVOption options[] = {
     { "password", "set password", OFFSET(pass), AV_OPT_TYPE_STRING, { 0 }, 0, 0, E },
     { "content_type", "set content-type, MUST be set if not audio/mpeg", OFFSET(content_type), AV_OPT_TYPE_STRING, { 0 }, 0, 0, E },
     { "legacy_icecast", "use legacy SOURCE method, for Icecast < v2.4", OFFSET(legacy_icecast), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, E },
-#endif
 	{ NULL }
 };
 
@@ -214,29 +202,13 @@ static int icecast_write(URLContext *h, const uint8_t *buf, int size)
 }
 
 static const AVClass icecast_context_class = {
-#ifdef IDE_COMPILE
-    "icecast",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name     = "icecast",
     .item_name      = av_default_item_name,
     .option         = options,
     .version        = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 URLProtocol ff_icecast_protocol = {
-#ifdef IDE_COMPILE
-    "icecast",
-    icecast_open,
-    0, 0, icecast_write,
-    0, icecast_close,
-    0, 0, 0, 0, 0, 0, sizeof(IcecastContext),
-    &icecast_context_class,
-    URL_PROTOCOL_FLAG_NETWORK,
-#else
 	.name            = "icecast",
     .url_open        = icecast_open,
     .url_write       = icecast_write,
@@ -244,5 +216,4 @@ URLProtocol ff_icecast_protocol = {
     .priv_data_size  = sizeof(IcecastContext),
     .priv_data_class = &icecast_context_class,
     .flags           = URL_PROTOCOL_FLAG_NETWORK,
-#endif
 };

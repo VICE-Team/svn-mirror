@@ -59,13 +59,8 @@ typedef struct PSNRContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption psnr_options[] = {
-#ifdef IDE_COMPILE
-	{"stats_file", "Set file where to store per-frame difference information", OFFSET(stats_file_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    {"f", "Set file where to store per-frame difference information", OFFSET(stats_file_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-#else
 	{"stats_file", "Set file where to store per-frame difference information", OFFSET(stats_file_str), AV_OPT_TYPE_STRING, {.str=NULL}, 0, 0, FLAGS },
     {"f",          "Set file where to store per-frame difference information", OFFSET(stats_file_str), AV_OPT_TYPE_STRING, {.str=NULL}, 0, 0, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -358,60 +353,29 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad psnr_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "main",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "main",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},{
-#ifdef IDE_COMPILE
-        "reference",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input_ref,
-#else
 		.name         = "reference",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input_ref,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad psnr_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_psnr = {
-#ifdef IDE_COMPILE
-    "psnr",
-    NULL_IF_CONFIG_SMALL("Calculate the PSNR between two video streams."),
-    psnr_inputs,
-    psnr_outputs,
-    &psnr_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(PSNRContext),
-#else
 	.name          = "psnr",
     .description   = NULL_IF_CONFIG_SMALL("Calculate the PSNR between two video streams."),
     .init          = init,
@@ -421,5 +385,4 @@ AVFilter ff_vf_psnr = {
     .priv_class    = &psnr_class,
     .inputs        = psnr_inputs,
     .outputs       = psnr_outputs,
-#endif
 };

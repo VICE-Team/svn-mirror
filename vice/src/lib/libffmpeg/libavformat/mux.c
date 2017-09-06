@@ -457,17 +457,8 @@ static int compute_pkt_fields2(AVFormatContext *s, AVStream *st, AVPacket *pkt)
     int delay = FFMAX(st->codec->has_b_frames, st->codec->max_b_frames > 0);
     int num, den, i;
     int frame_size;
-#ifdef IDE_COMPILE
-	char tmp1[32] = {0};
-	char tmp2[32] = {0};
-	char tmp3[32] = {0};
-
-	av_dlog(s, "compute_pkt_fields2: pts:%s dts:%s cur_dts:%s b:%d size:%d st:%d\n",
-            av_ts_make_string(tmp1, pkt->pts), av_ts_make_string(tmp2, pkt->dts), av_ts_make_string(tmp3, st->cur_dts), delay, pkt->size, pkt->stream_index);
-#else
 	av_dlog(s, "compute_pkt_fields2: pts:%s dts:%s cur_dts:%s b:%d size:%d st:%d\n",
             av_ts2str(pkt->pts), av_ts2str(pkt->dts), av_ts2str(st->cur_dts), delay, pkt->size, pkt->stream_index);
-#endif
 
     if (pkt->duration < 0 && st->codec->codec_type != AVMEDIA_TYPE_SUBTITLE) {
         av_log(s, AV_LOG_WARNING, "Packet with invalid duration %d in stream %d\n",
@@ -512,35 +503,19 @@ static int compute_pkt_fields2(AVFormatContext *s, AVStream *st, AVPacket *pkt)
     if (st->cur_dts && st->cur_dts != AV_NOPTS_VALUE &&
         ((!(s->oformat->flags & AVFMT_TS_NONSTRICT) &&
           st->cur_dts >= pkt->dts) || st->cur_dts > pkt->dts)) {
-#ifdef IDE_COMPILE
-        av_log(s, AV_LOG_ERROR,
-               "Application provided invalid, non monotonically increasing dts to muxer in stream %d: %s >= %s\n",
-               st->index, av_ts_make_string(tmp1, st->cur_dts), av_ts_make_string(tmp2, pkt->dts));
-#else
         av_log(s, AV_LOG_ERROR,
                "Application provided invalid, non monotonically increasing dts to muxer in stream %d: %s >= %s\n",
                st->index, av_ts2str(st->cur_dts), av_ts2str(pkt->dts));
-#endif
 		return AVERROR(EINVAL);
     }
     if (pkt->dts != AV_NOPTS_VALUE && pkt->pts != AV_NOPTS_VALUE && pkt->pts < pkt->dts) {
-#ifdef IDE_COMPILE
-		av_log(s, AV_LOG_ERROR, "pts (%s) < dts (%s) in stream %d\n",
-               av_ts_make_string(tmp1, pkt->pts), av_ts_make_string(tmp2, pkt->dts), st->index);
-#else
 		av_log(s, AV_LOG_ERROR, "pts (%s) < dts (%s) in stream %d\n",
                av_ts2str(pkt->pts), av_ts2str(pkt->dts), st->index);
-#endif
 		return AVERROR(EINVAL);
     }
 
-#ifdef IDE_COMPILE
-	av_dlog(s, "av_write_frame: pts2:%s dts2:%s\n",
-            av_ts_make_string(tmp1, pkt->pts), av_ts_make_string(tmp2, pkt->dts));
-#else
 	av_dlog(s, "av_write_frame: pts2:%s dts2:%s\n",
             av_ts2str(pkt->pts), av_ts2str(pkt->dts));
-#endif
 	st->cur_dts = pkt->dts;
     st->pts.val = pkt->dts;
 
@@ -580,16 +555,7 @@ static int write_packet(AVFormatContext *s, AVPacket *pkt)
 
     if (s->output_ts_offset) {
         AVStream *st = s->streams[pkt->stream_index];
-#ifdef IDE_COMPILE
-		int64_t offset;
-        AVRational tmp;
-		
-		tmp.num = 1;
-		tmp.den = AV_TIME_BASE;
-		offset = av_rescale_q(s->output_ts_offset, tmp, st->time_base);
-#else
 		int64_t offset = av_rescale_q(s->output_ts_offset, AV_TIME_BASE_Q, st->time_base);
-#endif
 
         if (pkt->dts != AV_NOPTS_VALUE)
             pkt->dts += offset;
@@ -734,16 +700,7 @@ FF_ENABLE_DEPRECATION_WARNINGS
     }
 
     if (chunked) {
-#ifdef IDE_COMPILE
-		uint64_t max;
-        AVRational tmp;
-		
-		tmp.num = 1;
-		tmp.den = AV_TIME_BASE;
-		max = av_rescale_q_rnd(s->max_chunk_duration, tmp, st->time_base, AV_ROUND_UP);
-#else
 		uint64_t max= av_rescale_q_rnd(s->max_chunk_duration, AV_TIME_BASE_Q, st->time_base, AV_ROUND_UP);
-#endif
 
 		st->interleaver_chunk_size     += pkt->size;
         st->interleaver_chunk_duration += pkt->duration;
@@ -796,19 +753,8 @@ static int interleave_compare_dts(AVFormatContext *s, AVPacket *next,
     int comp      = av_compare_ts(next->dts, st2->time_base, pkt->dts,
                                   st->time_base);
     if (s->audio_preload && ((st->codec->codec_type == AVMEDIA_TYPE_AUDIO) != (st2->codec->codec_type == AVMEDIA_TYPE_AUDIO))) {
-#ifdef IDE_COMPILE
-		int64_t ts;
-        int64_t ts2;
-        AVRational tmp;
-
-		tmp.num = 1;
-		tmp.den = AV_TIME_BASE;
-		ts = av_rescale_q(pkt ->dts, st ->time_base, tmp) - s->audio_preload*(st ->codec->codec_type == AVMEDIA_TYPE_AUDIO);
-        ts2= av_rescale_q(next->dts, st2->time_base, tmp) - s->audio_preload*(st2->codec->codec_type == AVMEDIA_TYPE_AUDIO);
-#else
 		int64_t ts = av_rescale_q(pkt ->dts, st ->time_base, AV_TIME_BASE_Q) - s->audio_preload*(st ->codec->codec_type == AVMEDIA_TYPE_AUDIO);
         int64_t ts2= av_rescale_q(next->dts, st2->time_base, AV_TIME_BASE_Q) - s->audio_preload*(st2->codec->codec_type == AVMEDIA_TYPE_AUDIO);
-#endif
 		if (ts == ts2) {
             ts= ( pkt ->dts* st->time_base.num*AV_TIME_BASE - s->audio_preload*(int64_t)(st ->codec->codec_type == AVMEDIA_TYPE_AUDIO)* st->time_base.den)*st2->time_base.den
                -( next->dts*st2->time_base.num*AV_TIME_BASE - s->audio_preload*(int64_t)(st2->codec->codec_type == AVMEDIA_TYPE_AUDIO)*st2->time_base.den)* st->time_base.den;
@@ -856,43 +802,20 @@ int ff_interleave_packet_per_dts(AVFormatContext *s, AVPacket *out,
         AVPacket *top_pkt = &s->packet_buffer->pkt;
         int64_t delta_dts = INT64_MIN;
 
-#ifdef IDE_COMPILE
-		int64_t top_dts;
-        AVRational tmp;
-		
-		tmp.num = 1;
-		tmp.den = AV_TIME_BASE;
-		top_dts = av_rescale_q(top_pkt->dts,
-                                       s->streams[top_pkt->stream_index]->time_base,
-                                       tmp);
-#else
 		int64_t top_dts = av_rescale_q(top_pkt->dts,
                                        s->streams[top_pkt->stream_index]->time_base,
                                        AV_TIME_BASE_Q);
-#endif
 
         for (i = 0; i < s->nb_streams; i++) {
             int64_t last_dts;
             const AVPacketList *last = s->streams[i]->last_in_packet_buffer;
-#ifdef IDE_COMPILE
-            AVRational tmp;
-
-			tmp.num = 1;
-			tmp.den = AV_TIME_BASE;
-#endif
 
             if (!last)
                 continue;
 
-#ifdef IDE_COMPILE
-			last_dts = av_rescale_q(last->pkt.dts,
-                                    s->streams[i]->time_base,
-                                    tmp);
-#else
 			last_dts = av_rescale_q(last->pkt.dts,
                                     s->streams[i]->time_base,
                                     AV_TIME_BASE_Q);
-#endif
 			delta_dts = FFMAX(delta_dts, last_dts - top_dts);
         }
 
@@ -956,16 +879,8 @@ int av_interleaved_write_frame(AVFormatContext *s, AVPacket *pkt)
 
     if (pkt) {
         AVStream *st = s->streams[pkt->stream_index];
-#ifdef IDE_COMPILE
-		char tmp1[32] = {0};
-		char tmp2[32] = {0};
-
-		av_dlog(s, "av_interleaved_write_frame size:%d dts:%s pts:%s\n",
-                pkt->size, av_ts_make_string(tmp1, pkt->dts), av_ts_make_string(tmp2, pkt->pts));
-#else
         av_dlog(s, "av_interleaved_write_frame size:%d dts:%s pts:%s\n",
                 pkt->size, av_ts2str(pkt->dts), av_ts2str(pkt->pts));
-#endif
         if ((ret = compute_pkt_fields2(s, st, pkt)) < 0 && !(s->oformat->flags & AVFMT_NOTIMESTAMPS))
             goto fail;
 

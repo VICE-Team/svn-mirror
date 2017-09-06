@@ -97,10 +97,6 @@ extern attribute_deprecated const uint8_t av_reverse[256];
 #   include "intmath.h"
 #endif
 
-#ifdef IDE_COMPILE
-#include "intmath.h"
-#endif
-
 /* Pull in unguarded fallback defines at the end of this file. */
 #include "common.h"
 

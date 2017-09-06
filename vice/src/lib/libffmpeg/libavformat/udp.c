@@ -97,20 +97,6 @@ typedef struct {
 #define D AV_OPT_FLAG_DECODING_PARAM
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-{"buffer_size", "set packet buffer size in bytes", OFFSET(buffer_size), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, D|E },
-{"localport", "set local port to bind to", OFFSET(local_port), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, D|E },
-{"localaddr", "choose local IP address", OFFSET(local_addr), AV_OPT_TYPE_STRING, {(intptr_t) ""}, 0, 0, D|E },
-{"pkt_size", "set size of UDP packets", OFFSET(packet_size), AV_OPT_TYPE_INT, {1472}, 0, INT_MAX, D|E },
-{"reuse", "explicitly allow or disallow reusing UDP sockets", OFFSET(reuse_socket), AV_OPT_TYPE_INT, {0}, 0, 1, D|E },
-{"broadcast", "explicitly allow or disallow broadcast destination", OFFSET(is_broadcast), AV_OPT_TYPE_INT, {0}, 0, 1, E },
-{"ttl", "set the time to live value (for multicast only)", OFFSET(ttl), AV_OPT_TYPE_INT, {16}, 0, INT_MAX, E },
-{"connect", "set if connect() should be called on socket", OFFSET(is_connected), AV_OPT_TYPE_INT, {0}, 0, 1, D|E },
-/* TODO 'sources', 'block' option */
-{"fifo_size", "set the UDP receiving circular buffer size, expressed as a number of packets with size of 188 bytes", OFFSET(circular_buffer_size), AV_OPT_TYPE_INT, {7*4096}, 0, INT_MAX, D },
-{"overrun_nonfatal", "survive in case of UDP receiving circular buffer overrun", OFFSET(overrun_nonfatal), AV_OPT_TYPE_INT, {0}, 0, 1, D },
-{"timeout", "set raise error timeout (only in read mode)", OFFSET(timeout), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, D },
-#else
 {"buffer_size", "set packet buffer size in bytes", OFFSET(buffer_size), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, D|E },
 {"localport", "set local port to bind to", OFFSET(local_port), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, D|E },
 {"localaddr", "choose local IP address", OFFSET(local_addr), AV_OPT_TYPE_STRING, {.str = ""}, 0, 0, D|E },
@@ -123,22 +109,14 @@ static const AVOption options[] = {
 {"fifo_size", "set the UDP receiving circular buffer size, expressed as a number of packets with size of 188 bytes", OFFSET(circular_buffer_size), AV_OPT_TYPE_INT, {.i64 = 7*4096}, 0, INT_MAX, D },
 {"overrun_nonfatal", "survive in case of UDP receiving circular buffer overrun", OFFSET(overrun_nonfatal), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, D },
 {"timeout", "set raise error timeout (only in read mode)", OFFSET(timeout), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, D },
-#endif
 {NULL}
 };
 
 static const AVClass udp_context_class = {
-#ifdef IDE_COMPILE
-    "udp",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name     = "udp",
     .item_name      = av_default_item_name,
     .option         = options,
     .version        = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static void log_net_error(void *ctx, int level, const char* prefix)
@@ -910,17 +888,6 @@ static int udp_close(URLContext *h)
 }
 
 URLProtocol ff_udp_protocol = {
-#ifdef IDE_COMPILE
-    "udp",
-    udp_open,
-    0, udp_read,
-    udp_write,
-    0, udp_close,
-    0, 0, 0, udp_get_file_handle,
-    0, 0, sizeof(UDPContext),
-    &udp_context_class,
-    URL_PROTOCOL_FLAG_NETWORK,
-#else
 	.name                = "udp",
     .url_open            = udp_open,
     .url_read            = udp_read,
@@ -930,5 +897,4 @@ URLProtocol ff_udp_protocol = {
     .priv_data_size      = sizeof(UDPContext),
     .priv_data_class     = &udp_context_class,
     .flags               = URL_PROTOCOL_FLAG_NETWORK,
-#endif
 };

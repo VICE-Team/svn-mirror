@@ -38,14 +38,10 @@
    actually automake barfs if the source directory was already
    configured, so this should not be an issue anymore.  */
 
-#ifdef IDE_COMPILE
-# include <ide-config.h> /* standard config file for IDE based compiles. */
-#else
-# ifdef ANDROID_COMPILE
+#ifdef ANDROID_COMPILE
 #  include <config.android.h>
-# else
+#else
 #  include <config.h> /* Automagically created by the `configure' script.  */
-# endif
 #endif
 
 /* ------------------------------------------------------------------------- */

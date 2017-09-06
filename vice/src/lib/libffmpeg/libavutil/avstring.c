@@ -24,12 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "common.h"
 #include "mem.h"

@@ -27,12 +27,7 @@
  * miscellaneous OS support macros and functions.
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #ifdef __AROS__
 #include <proto/socket.h>
