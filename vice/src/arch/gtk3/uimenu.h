@@ -77,6 +77,11 @@ typedef struct ui_menu_item_s {
 #define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL }
 
 
+/** \brief  Menu items separator
+ */
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL }
+
+
 /*
  * Public functions
  */

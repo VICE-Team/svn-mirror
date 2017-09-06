@@ -74,13 +74,60 @@ enum {
 };
 
 
-/** \brief  Tiny menu test
+/** \brief  'File' menu
  */
 static ui_menu_item_t file_menu[] = {
-    { "_Attach", UI_MENU_TYPE_ITEM_ACTION,
+    { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
         ui_attach_dialog_callback, NULL },
-    { "_Quit", UI_MENU_TYPE_ITEM_ACTION,
-        ui_window_destroy_callback, NULL },
+    { "Autostart settings", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    /* disk */
+    { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Detach disk image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Flip list ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    /* tape (funny how create & attach are flipped here) */
+    { "Create a new tape image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Datasette controls ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    /* cart */
+    { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    /* cwd */
+    { "Change current working directory ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    /* monitor */
+    { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Monitor settings ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Reset ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Action on CPU JAM ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
+    UI_MENU_SEPARATOR,
+
+    { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION, ui_window_destroy_callback, NULL },
+
     UI_MENU_TERMINATOR
 };
 

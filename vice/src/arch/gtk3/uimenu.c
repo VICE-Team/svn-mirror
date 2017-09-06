@@ -210,13 +210,29 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 {
     size_t i = 0;
     while (items[i].label != NULL || items[i].type >= 0) {
-        GtkWidget *item = gtk_menu_item_new_with_mnemonic(items[i].label);
-        /* TODO: handle other types than 'action' */
-        if (items[i].callback != NULL) {
-            g_signal_connect(item, "activate", G_CALLBACK(items[i].callback),
-                    (gpointer)(items[i].data));
+        GtkWidget *item = NULL;
+        switch (items[i].type) {
+            case UI_MENU_TYPE_ITEM_ACTION:
+                /* normal callback item */
+                item = gtk_menu_item_new_with_mnemonic(items[i].label);
+                if (items[i].callback != NULL) {
+                    g_signal_connect(
+                            item,
+                            "activate",
+                            G_CALLBACK(items[i].callback),
+                            (gpointer)(items[i].data));
+                }
+                break;
+            case UI_MENU_TYPE_SEPARATOR:
+                item = gtk_separator_menu_item_new();
+                break;
+            default:
+                item = NULL;
+                break;
         }
-        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        if (item != NULL) {
+            gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        }
         i++;
     }
     return menu;
