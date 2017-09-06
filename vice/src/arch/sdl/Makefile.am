@@ -8,7 +8,6 @@ endif
 
 if DUMMY_COMPILE
 SUBDIRS = \
-	msvc-files \
 	qnx4 \
 	sortix-files \
 	syllable-files
@@ -205,47 +204,10 @@ EXTRA_DIST = \
 	console_amiga.c \
 	console_sdl.c \
 	console_unix.c \
-	generate_msvc6_sdl1x.bat \
-	generate_msvc6_sdl2x.bat \
-	generate_msvc70_ffmpeg_sdl1x.bat \
-	generate_msvc70_ffmpeg_sdl2x.bat \
-	generate_msvc70_sdl1x.bat \
-	generate_msvc70_sdl2x.bat \
-	generate_msvc71_ffmpeg_sdl1x.bat \
-	generate_msvc71_ffmpeg_sdl2x.bat \
-	generate_msvc71_sdl1x.bat \
-	generate_msvc71_sdl2x.bat \
-	generate_msvc8_ffmpeg_sdl1x.bat \
-	generate_msvc8_ffmpeg_sdl2x.bat \
-	generate_msvc8_sdl1x.bat \
-	generate_msvc8_sdl2x.bat \
-	generate_msvc9_ffmpeg_sdl1x.bat \
-	generate_msvc9_ffmpeg_sdl2x.bat \
-	generate_msvc9_sdl1x.bat \
-	generate_msvc9_sdl2x.bat \
-	generate_msvc10_ffmpeg_sdl1x.bat \
-	generate_msvc10_ffmpeg_sdl2x.bat \
-	generate_msvc10_sdl1x.bat \
-	generate_msvc10_sdl2x.bat \
-	generate_msvc11_ffmpeg_sdl1x.bat \
-	generate_msvc11_ffmpeg_sdl2x.bat \
-	generate_msvc11_sdl1x.bat \
-	generate_msvc11_sdl2x.bat \
-	generate_msvc12_ffmpeg_sdl1x.bat \
-	generate_msvc12_ffmpeg_sdl2x.bat \
-	generate_msvc12_sdl1x.bat \
-	generate_msvc12_sdl2x.bat \
-	generate_msvc14_ffmpeg_sdl1x.bat \
-	generate_msvc14_ffmpeg_sdl2x.bat \
-	generate_msvc14_sdl1x.bat \
-	generate_msvc14_sdl2x.bat \
-	generate_msvcmips_sdl1x.bat \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_qnx6.sh \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
 	make-bindist_syllable.sh \
-	make-bindist_win32.sh \
-	msvc_mon_lex.c \
-	msvc_mon_parse.c
+	make-bindist_win32.sh
