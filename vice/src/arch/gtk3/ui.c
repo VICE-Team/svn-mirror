@@ -79,7 +79,8 @@ enum {
 static ui_menu_item_t file_menu[] = {
     { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
         ui_attach_dialog_callback, NULL },
-    { "Autostart settings", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Autostart settings [MOVED TO SETTINGS]", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL },
 
     UI_MENU_SEPARATOR,
 
