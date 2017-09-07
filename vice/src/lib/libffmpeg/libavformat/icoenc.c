@@ -189,19 +189,6 @@ static int ico_write_trailer(AVFormatContext *s)
 }
 
 AVOutputFormat ff_ico_muxer = {
-#ifdef IDE_COMPILE
-    "ico",
-    "Microsoft Windows ICO",
-    "image/vnd.microsoft.icon",
-    "ico",
-    AV_CODEC_ID_NONE,
-    AV_CODEC_ID_BMP,
-    0, AVFMT_NOTIMESTAMPS,
-    0, 0, 0, sizeof(IcoMuxContext),
-    ico_write_header,
-    ico_write_packet,
-    ico_write_trailer,
-#else
 	.name           = "ico",
     .long_name      = NULL_IF_CONFIG_SMALL("Microsoft Windows ICO"),
     .priv_data_size = sizeof(IcoMuxContext),
@@ -213,5 +200,4 @@ AVOutputFormat ff_ico_muxer = {
     .write_packet   = ico_write_packet,
     .write_trailer  = ico_write_trailer,
     .flags          = AVFMT_NOTIMESTAMPS,
-#endif
 };

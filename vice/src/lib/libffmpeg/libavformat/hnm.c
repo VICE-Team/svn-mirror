@@ -196,16 +196,6 @@ static int hnm_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_hnm_demuxer = {
-#ifdef IDE_COMPILE
-    "hnm",
-    "Cryo HNM v4",
-    AVFMT_NO_BYTE_SEEK | AVFMT_NOGENSEARCH | AVFMT_NOBINSEARCH,
-    0, 0, 0, 0, 0, 0, sizeof(Hnm4DemuxContext),
-    hnm_probe,
-    hnm_read_header,
-    hnm_read_packet,
-    hnm_read_close
-#else
 	.name           = "hnm",
     .long_name      = NULL_IF_CONFIG_SMALL("Cryo HNM v4"),
     .priv_data_size = sizeof(Hnm4DemuxContext),
@@ -214,5 +204,4 @@ AVInputFormat ff_hnm_demuxer = {
     .read_packet    = hnm_read_packet,
     .read_close     = hnm_read_close,
     .flags          = AVFMT_NO_BYTE_SEEK | AVFMT_NOGENSEARCH | AVFMT_NOBINSEARCH
-#endif
 };

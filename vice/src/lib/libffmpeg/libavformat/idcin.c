@@ -371,16 +371,6 @@ static int idcin_read_seek(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_idcin_demuxer = {
-#ifdef IDE_COMPILE
-    "idcin",
-    "id Cinematic",
-    AVFMT_NO_BYTE_SEEK,
-    0, 0, 0, 0, 0, 0, sizeof(IdcinDemuxContext),
-    idcin_probe,
-    idcin_read_header,
-    idcin_read_packet,
-    0, idcin_read_seek,
-#else
 	.name           = "idcin",
     .long_name      = NULL_IF_CONFIG_SMALL("id Cinematic"),
     .priv_data_size = sizeof(IdcinDemuxContext),
@@ -389,5 +379,4 @@ AVInputFormat ff_idcin_demuxer = {
     .read_packet    = idcin_read_packet,
     .read_seek      = idcin_read_seek,
     .flags          = AVFMT_NO_BYTE_SEEK,
-#endif
 };

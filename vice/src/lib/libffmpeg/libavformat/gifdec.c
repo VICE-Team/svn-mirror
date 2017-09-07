@@ -308,45 +308,21 @@ resync:
 }
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "min_delay", "minimum valid delay between frames (in hundredths of second)", offsetof(GIFDemuxContext, min_delay), AV_OPT_TYPE_INT, {GIF_MIN_DELAY}, 0, 100 * 60, AV_OPT_FLAG_DECODING_PARAM },
-    { "default_delay", "default delay between frames (in hundredths of second)", offsetof(GIFDemuxContext, default_delay), AV_OPT_TYPE_INT, {GIF_DEFAULT_DELAY}, 0, 100 * 60, AV_OPT_FLAG_DECODING_PARAM },
-    { "ignore_loop", "ignore loop setting (netscape extension)", offsetof(GIFDemuxContext, ignore_loop), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "min_delay"    , "minimum valid delay between frames (in hundredths of second)", offsetof(GIFDemuxContext, min_delay)    , AV_OPT_TYPE_INT, {.i64 = GIF_MIN_DELAY}    , 0, 100 * 60, AV_OPT_FLAG_DECODING_PARAM },
     { "default_delay", "default delay between frames (in hundredths of second)"      , offsetof(GIFDemuxContext, default_delay), AV_OPT_TYPE_INT, {.i64 = GIF_DEFAULT_DELAY}, 0, 100 * 60, AV_OPT_FLAG_DECODING_PARAM },
     { "ignore_loop"  , "ignore loop setting (netscape extension)"                    , offsetof(GIFDemuxContext, ignore_loop)  , AV_OPT_TYPE_INT, {.i64 = 1}                , 0,        1, AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass demuxer_class = {
-#ifdef IDE_COMPILE
-    "GIF demuxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, 0, 0, AV_CLASS_CATEGORY_DEMUXER,
-#else
 	.class_name = "GIF demuxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
     .category   = AV_CLASS_CATEGORY_DEMUXER,
-#endif
 };
 
 AVInputFormat ff_gif_demuxer = {
-#ifdef IDE_COMPILE
-    "gif",
-    "CompuServe Graphics Interchange Format (GIF)",
-    AVFMT_GENERIC_INDEX,
-    0, 0, &demuxer_class,
-    0, 0, 0, sizeof(GIFDemuxContext),
-    gif_probe,
-    gif_read_header,
-    gif_read_packet,
-#else
 	.name           = "gif",
     .long_name      = NULL_IF_CONFIG_SMALL("CompuServe Graphics Interchange Format (GIF)"),
     .priv_data_size = sizeof(GIFDemuxContext),
@@ -355,5 +331,4 @@ AVInputFormat ff_gif_demuxer = {
     .read_packet    = gif_read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
     .priv_class     = &demuxer_class,
-#endif
 };

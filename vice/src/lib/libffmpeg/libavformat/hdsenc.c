@@ -19,12 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include <float.h>
 
@@ -533,26 +528,14 @@ static int hds_write_packet(AVFormatContext *s, AVPacket *pkt)
     OutputStream *os = &c->streams[s->streams[pkt->stream_index]->id];
     int64_t end_dts = os->fragment_index * (int64_t)c->min_frag_duration;
     int ret;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (st->first_dts == AV_NOPTS_VALUE)
         st->first_dts = pkt->dts;
 
-#ifdef IDE_COMPILE
-    tmp.num = 1;
-	tmp.den = AV_TIME_BASE;
-	if ((!os->has_video || st->codec->codec_type == AVMEDIA_TYPE_VIDEO) &&
-        av_compare_ts(pkt->dts - st->first_dts, st->time_base,
-                      end_dts, tmp) >= 0 &&
-        pkt->flags & AV_PKT_FLAG_KEY && os->packets_written) {
-#else
 	if ((!os->has_video || st->codec->codec_type == AVMEDIA_TYPE_VIDEO) &&
         av_compare_ts(pkt->dts - st->first_dts, st->time_base,
                       end_dts, AV_TIME_BASE_Q) >= 0 &&
         pkt->flags & AV_PKT_FLAG_KEY && os->packets_written) {
-#endif
 
         if ((ret = hds_flush(s, os, 0, pkt->dts)) < 0)
             return ret;
@@ -595,47 +578,21 @@ static int hds_write_trailer(AVFormatContext *s)
 #define OFFSET(x) offsetof(HDSContext, x)
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "window_size", "number of fragments kept in the manifest", OFFSET(window_size), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, E },
-    { "extra_window_size", "number of fragments kept outside of the manifest before removing from disk", OFFSET(extra_window_size), AV_OPT_TYPE_INT, {5}, 0, INT_MAX, E },
-    { "min_frag_duration", "minimum fragment duration (in microseconds)", OFFSET(min_frag_duration), AV_OPT_TYPE_INT64, {10000000}, 0, INT_MAX, E },
-    { "remove_at_exit", "remove all fragments when finished", OFFSET(remove_at_exit), AV_OPT_TYPE_INT, {0}, 0, 1, E },
-#else
 	{ "window_size", "number of fragments kept in the manifest", OFFSET(window_size), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, INT_MAX, E },
     { "extra_window_size", "number of fragments kept outside of the manifest before removing from disk", OFFSET(extra_window_size), AV_OPT_TYPE_INT, { .i64 = 5 }, 0, INT_MAX, E },
     { "min_frag_duration", "minimum fragment duration (in microseconds)", OFFSET(min_frag_duration), AV_OPT_TYPE_INT64, { .i64 = 10000000 }, 0, INT_MAX, E },
     { "remove_at_exit", "remove all fragments when finished", OFFSET(remove_at_exit), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, E },
-#endif
 	{ NULL },
 };
 
 static const AVClass hds_class = {
-#ifdef IDE_COMPILE
-    "HDS muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "HDS muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_hds_muxer = {
-#ifdef IDE_COMPILE
-    "hds",
-    "HDS Muxer",
-    0, 0, AV_CODEC_ID_AAC,
-    AV_CODEC_ID_H264,
-    0, AVFMT_GLOBALHEADER | AVFMT_NOFILE,
-    0, &hds_class,
-    0, sizeof(HDSContext),
-    hds_write_header,
-    hds_write_packet,
-    hds_write_trailer,
-#else
 	.name           = "hds",
     .long_name      = NULL_IF_CONFIG_SMALL("HDS Muxer"),
     .priv_data_size = sizeof(HDSContext),
@@ -646,5 +603,4 @@ AVOutputFormat ff_hds_muxer = {
     .write_packet   = hds_write_packet,
     .write_trailer  = hds_write_trailer,
     .priv_class     = &hds_class,
-#endif
 };

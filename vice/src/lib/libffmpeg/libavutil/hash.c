@@ -64,23 +64,6 @@ static const struct {
     const char *name;
     int size;
 } hashdesc[] = {
-#ifdef IDE_COMPILE
-    {"MD5", 16},
-    {"murmur3", 16},
-    {"RIPEMD128", 16},
-    {"RIPEMD160", 20},
-    {"RIPEMD256", 32},
-    {"RIPEMD320", 40},
-    {"SHA160", 20},
-    {"SHA224", 28},
-    {"SHA256", 32},
-    {"SHA512/224", 28},
-    {"SHA512/256", 32},
-    {"SHA384", 48},
-    {"SHA512", 64},
-    {"CRC32", 4},
-    {"adler32", 4},
-#else
 	[MD5]     = {"MD5",     16},
     [MURMUR3] = {"murmur3", 16},
     [RIPEMD128] = {"RIPEMD128", 16},
@@ -96,7 +79,6 @@ static const struct {
     [SHA512]  = {"SHA512",  64},
     [CRC32]   = {"CRC32",    4},
     [ADLER32] = {"adler32",  4},
-#endif
 };
 
 const char *av_hash_names(int i)

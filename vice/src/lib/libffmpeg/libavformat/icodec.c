@@ -24,10 +24,6 @@
  * Microsoft Windows ICO demuxer
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/bytestream.h"
 #include "libavcodec/bmp.h"
@@ -176,15 +172,6 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_ico_demuxer = {
-#ifdef IDE_COMPILE
-    "ico",
-    "Microsoft Windows ICO",
-    AVFMT_NOTIMESTAMPS,
-    0, 0, 0, 0, 0, 0, sizeof(IcoDemuxContext),
-    probe,
-    read_header,
-    read_packet,
-#else
 	.name           = "ico",
     .long_name      = NULL_IF_CONFIG_SMALL("Microsoft Windows ICO"),
     .priv_data_size = sizeof(IcoDemuxContext),
@@ -192,5 +179,4 @@ AVInputFormat ff_ico_demuxer = {
     .read_header    = read_header,
     .read_packet    = read_packet,
     .flags          = AVFMT_NOTIMESTAMPS,
-#endif
 };

@@ -710,9 +710,6 @@ static int gxf_write_header(AVFormatContext *s)
     int i, media_info = 0;
     int ret;
     AVDictionaryEntry *tcr = av_dict_get(s->metadata, "timecode", NULL, 0);
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (!pb->seekable) {
         av_log(s, AV_LOG_ERROR, "gxf muxer does not support streamed output, patch welcome\n");
@@ -761,23 +758,13 @@ static int gxf_write_header(AVFormatContext *s)
                 sc->frame_rate_index = 5;
                 sc->sample_rate = 60;
                 gxf->flags |= 0x00000080;
-#ifdef IDE_COMPILE
-				gxf->time_base.num = 1001;
-				gxf->time_base.den = 60000;
-#else
 				gxf->time_base = (AVRational){ 1001, 60000 };
-#endif
 			} else if (st->codec->height == 576 || st->codec->height == 608) { /* PAL or PAL+VBI */
                 sc->frame_rate_index = 6;
                 sc->media_type++;
                 sc->sample_rate = 50;
                 gxf->flags |= 0x00000040;
-#ifdef IDE_COMPILE
-				gxf->time_base.num = 1001;
-				gxf->time_base.den = 60000;
-#else
 				gxf->time_base = (AVRational){ 1, 50 };
-#endif
 			} else {
                 av_log(s, AV_LOG_ERROR, "unsupported video resolution, "
                        "gxf muxer only accepts PAL or NTSC resolutions currently\n");
@@ -833,15 +820,8 @@ static int gxf_write_header(AVFormatContext *s)
         sc->order = s->nb_streams - st->index;
     }
 
-#ifdef IDE_COMPILE
-	tmp.num = 1;
-	tmp.den = 48000;
-	if (ff_audio_interleave_init(s, GXF_samples_per_frame, tmp) < 0)
-        return -1;
-#else
 	if (ff_audio_interleave_init(s, GXF_samples_per_frame, (AVRational){ 1, 48000 }) < 0)
         return -1;
-#endif
 	
     if (tcr && vsc)
         gxf_init_timecode(s, &gxf->tc, tcr->value, vsc->fields);
@@ -1040,18 +1020,6 @@ static int gxf_interleave_packet(AVFormatContext *s, AVPacket *out, AVPacket *pk
 }
 
 AVOutputFormat ff_gxf_muxer = {
-#ifdef IDE_COMPILE
-    "gxf",
-    "GXF (General eXchange Format)",
-    0, "gxf",
-    AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_MPEG2VIDEO,
-    0, 0, 0, 0, 0, sizeof(GXFContext),
-    gxf_write_header,
-    gxf_write_packet,
-    gxf_write_trailer,
-    gxf_interleave_packet,
-#else
 	.name              = "gxf",
     .long_name         = NULL_IF_CONFIG_SMALL("GXF (General eXchange Format)"),
     .extensions        = "gxf",
@@ -1062,5 +1030,4 @@ AVOutputFormat ff_gxf_muxer = {
     .write_packet      = gxf_write_packet,
     .write_trailer     = gxf_write_trailer,
     .interleave_packet = gxf_interleave_packet,
-#endif
 };

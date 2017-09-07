@@ -80,39 +80,18 @@ static int g729_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 static const AVOption g729_options[] = {
-#ifdef IDE_COMPILE
-	{ "bit_rate", "", offsetof(G729DemuxerContext, bit_rate), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "bit_rate", "", offsetof(G729DemuxerContext, bit_rate), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass g729_demuxer_class = {
-#ifdef IDE_COMPILE
-    "g729 demuxer",
-    av_default_item_name,
-    g729_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "g729 demuxer",
     .item_name  = av_default_item_name,
     .option     = g729_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_g729_demuxer = {
-#ifdef IDE_COMPILE
-    "g729",
-    "G.729 raw format demuxer",
-    AVFMT_GENERIC_INDEX,
-    "g729",
-    0, &g729_demuxer_class,
-    0, 0, 0, sizeof(G729DemuxerContext),
-    0, g729_read_header,
-    g729_read_packet,
-#else
 	.name           = "g729",
     .long_name      = NULL_IF_CONFIG_SMALL("G.729 raw format demuxer"),
     .priv_data_size = sizeof(G729DemuxerContext),
@@ -121,5 +100,4 @@ AVInputFormat ff_g729_demuxer = {
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "g729",
     .priv_class     = &g729_demuxer_class,
-#endif
 };

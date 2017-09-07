@@ -77,19 +77,10 @@ static int g723_1_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_g723_1_demuxer = {
-#ifdef IDE_COMPILE
-    "g723_1",
-    "G.723.1",
-    AVFMT_GENERIC_INDEX,
-    "tco,rco,g723_1",
-    0, 0, 0, 0, 0, 0, 0, g723_1_init,
-    g723_1_read_packet
-#else
 	.name        = "g723_1",
     .long_name   = NULL_IF_CONFIG_SMALL("G.723.1"),
     .read_header = g723_1_init,
     .read_packet = g723_1_read_packet,
     .extensions  = "tco,rco,g723_1",
     .flags       = AVFMT_GENERIC_INDEX
-#endif
 };

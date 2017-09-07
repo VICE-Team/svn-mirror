@@ -314,19 +314,10 @@ retry:
 }
 
 URLProtocol ff_hls_protocol = {
-#ifdef IDE_COMPILE
-    "hls",
-    hls_open,
-    0, hls_read,
-    0, 0, hls_close,
-    0, 0, 0, 0, 0, 0, sizeof(HLSContext),
-    0, 1,
-#else
 	.name           = "hls",
     .url_open       = hls_open,
     .url_read       = hls_read,
     .url_close      = hls_close,
     .flags          = URL_PROTOCOL_FLAG_NESTED_SCHEME,
     .priv_data_size = sizeof(HLSContext),
-#endif
 };

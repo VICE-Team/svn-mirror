@@ -276,9 +276,6 @@ static int hls_write_packet(AVFormatContext *s, AVPacket *pkt)
     int64_t end_pts = hls->recording_time * hls->number;
     int is_ref_pkt = 1;
     int ret, can_split = 1;
-#ifdef IDE_COMPILE
-    AVRational tmp;
-#endif
 
     if (hls->start_pts == AV_NOPTS_VALUE) {
         hls->start_pts = pkt->pts;
@@ -297,16 +294,8 @@ static int hls_write_packet(AVFormatContext *s, AVPacket *pkt)
         hls->duration = (double)(pkt->pts - hls->end_pts)
                                    * st->time_base.num / st->time_base.den;
 
-#ifdef IDE_COMPILE
-	tmp.num = 1;
-	tmp.den = AV_TIME_BASE;
-
-	if (can_split && av_compare_ts(pkt->pts - hls->start_pts, st->time_base,
-                                   end_pts, tmp) >= 0) {
-#else
 	if (can_split && av_compare_ts(pkt->pts - hls->start_pts, st->time_base,
                                    end_pts, AV_TIME_BASE_Q) >= 0) {
-#endif
 	    ret = hls_append_segment(hls, hls->duration);
         if (ret)
             return ret;
@@ -353,50 +342,22 @@ static int hls_write_trailer(struct AVFormatContext *s)
 #define OFFSET(x) offsetof(HLSContext, x)
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"start_number", "set first number in the sequence", OFFSET(start_sequence), AV_OPT_TYPE_INT64, {0}, 0, INT64_MAX, E},
-    {"hls_time", "set segment length in seconds", OFFSET(time), AV_OPT_TYPE_FLOAT, {0x4000000000000000}, 0, FLT_MAX, E},
-    {"hls_list_size", "set maximum number of playlist entries", OFFSET(max_nb_segments), AV_OPT_TYPE_INT, {5}, 0, INT_MAX, E},
-    {"hls_wrap", "set number after which the index wraps", OFFSET(wrap), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, E},
-    {"hls_base_url", "url to prepend to each playlist entry", OFFSET(baseurl), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E},
-#else
 	{"start_number",  "set first number in the sequence",        OFFSET(start_sequence),AV_OPT_TYPE_INT64,  {.i64 = 0},     0, INT64_MAX, E},
     {"hls_time",      "set segment length in seconds",           OFFSET(time),    AV_OPT_TYPE_FLOAT,  {.dbl = 2},     0, FLT_MAX, E},
     {"hls_list_size", "set maximum number of playlist entries",  OFFSET(max_nb_segments),    AV_OPT_TYPE_INT,    {.i64 = 5},     0, INT_MAX, E},
     {"hls_wrap",      "set number after which the index wraps",  OFFSET(wrap),    AV_OPT_TYPE_INT,    {.i64 = 0},     0, INT_MAX, E},
     {"hls_base_url",  "url to prepend to each playlist entry",   OFFSET(baseurl), AV_OPT_TYPE_STRING, {.str = NULL},  0, 0,       E},
-#endif
 	{ NULL },
 };
 
 static const AVClass hls_class = {
-#ifdef IDE_COMPILE
-    "hls muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "hls muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_hls_muxer = {
-#ifdef IDE_COMPILE
-    "hls",
-    "Apple HTTP Live Streaming",
-    0, "m3u8",
-    AV_CODEC_ID_AAC,
-    AV_CODEC_ID_H264,
-    0, AVFMT_NOFILE | AVFMT_ALLOW_FLUSH,
-    0, &hls_class,
-    0, sizeof(HLSContext),
-    hls_write_header,
-    hls_write_packet,
-    hls_write_trailer,
-#else
 	.name           = "hls",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple HTTP Live Streaming"),
     .extensions     = "m3u8",
@@ -408,5 +369,4 @@ AVOutputFormat ff_hls_muxer = {
     .write_packet   = hls_write_packet,
     .write_trailer  = hls_write_trailer,
     .priv_class     = &hls_class,
-#endif
 };

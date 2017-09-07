@@ -101,19 +101,10 @@ static int frm_read_packet(AVFormatContext *avctx, AVPacket *pkt)
 }
 
 AVInputFormat ff_frm_demuxer = {
-#ifdef IDE_COMPILE
-    "frm",
-    "Megalux Frame",
-    0, 0, 0, 0, 0, 0, 0, sizeof(FrmContext),
-    frm_read_probe,
-    frm_read_header,
-    frm_read_packet,
-#else
 	.name           = "frm",
     .priv_data_size = sizeof(FrmContext),
     .long_name      = NULL_IF_CONFIG_SMALL("Megalux Frame"),
     .read_probe     = frm_read_probe,
     .read_header    = frm_read_header,
     .read_packet    = frm_read_packet,
-#endif
 };

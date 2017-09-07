@@ -604,27 +604,7 @@ static int flv_write_packet(AVFormatContext *s, AVPacket *pkt)
     return pb->error;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = {
-                          flv_video_codec_ids, flv_audio_codec_ids, 0
-                      };
-#endif
-
 AVOutputFormat ff_flv_muxer = {
-#ifdef IDE_COMPILE
-    "flv",
-    "FLV (Flash Video)",
-    "video/x-flv",
-    "flv",
-    1 ? AV_CODEC_ID_MP3 : AV_CODEC_ID_ADPCM_SWF,
-    AV_CODEC_ID_FLV1,
-    0, AVFMT_GLOBALHEADER | AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT,
-    tmpx,
-    0, 0, sizeof(FLVContext),
-    flv_write_header,
-    flv_write_packet,
-    flv_write_trailer,
-#else
 	.name           = "flv",
     .long_name      = NULL_IF_CONFIG_SMALL("FLV (Flash Video)"),
     .mime_type      = "video/x-flv",
@@ -640,5 +620,4 @@ AVOutputFormat ff_flv_muxer = {
                       },
     .flags          = AVFMT_GLOBALHEADER | AVFMT_VARIABLE_FPS |
                       AVFMT_TS_NONSTRICT,
-#endif
 };
