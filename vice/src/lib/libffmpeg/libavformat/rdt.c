@@ -552,19 +552,6 @@ rdt_free_context (PayloadContext *rdt)
     av_free(rdt);
 }
 
-#ifdef IDE_COMPILE
-#define RDT_HANDLER(n, s, t) \
-static RTPDynamicProtocolHandler rdt_ ## n ## _handler = { \
-    s, \
-    t, \
-    AV_CODEC_ID_NONE, \
-    0, 0, \
-    rdt_parse_sdp_line, \
-    rdt_new_context, \
-    rdt_free_context, \
-    rdt_parse_packet \
-}
-#else
 #define RDT_HANDLER(n, s, t) \
 static RTPDynamicProtocolHandler rdt_ ## n ## _handler = { \
     .enc_name         = s, \
@@ -575,7 +562,6 @@ static RTPDynamicProtocolHandler rdt_ ## n ## _handler = { \
     .free             = rdt_free_context, \
     .parse_packet     = rdt_parse_packet \
 }
-#endif
 
 RDT_HANDLER(live_video, "x-pn-multirate-realvideo-live", AVMEDIA_TYPE_VIDEO);
 RDT_HANDLER(live_audio, "x-pn-multirate-realaudio-live", AVMEDIA_TYPE_AUDIO);

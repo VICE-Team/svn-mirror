@@ -60,9 +60,6 @@ static void parse_waveformatex(AVIOContext *pb, AVCodecContext *c)
 {
     ff_asf_guid subformat;
     int bps = avio_rl16(pb);
-#ifdef IDE_COMPILE
-	const uint8_t tmpz[] = { FF_MEDIASUBTYPE_BASE_GUID };
-#endif
 
 	if (bps)
         c->bits_per_coded_sample = bps;
@@ -70,12 +67,8 @@ static void parse_waveformatex(AVIOContext *pb, AVCodecContext *c)
     c->channel_layout        = avio_rl32(pb); /* dwChannelMask */
 
     ff_get_guid(pb, &subformat);
-#ifdef IDE_COMPILE
-	if (!memcmp(subformat + 4, tmpz, 12)) {
-#else
 	if (!memcmp(subformat + 4,
                 (const uint8_t[]){ FF_MEDIASUBTYPE_BASE_GUID }, 12)) {
-#endif
 		c->codec_tag = AV_RL32(subformat);
         c->codec_id  = ff_wav_codec_get_id(c->codec_tag,
                                            c->bits_per_coded_sample);

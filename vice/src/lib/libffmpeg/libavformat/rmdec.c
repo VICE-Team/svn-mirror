@@ -1073,17 +1073,6 @@ static int rm_read_seek(AVFormatContext *s, int stream_index,
 
 
 AVInputFormat ff_rm_demuxer = {
-#ifdef IDE_COMPILE
-    "rm",
-    "RealMedia",
-    0, 0, 0, 0, 0, 0, 0, sizeof(RMDemuxContext),
-    rm_probe,
-    rm_read_header,
-    rm_read_packet,
-    rm_read_close,
-    rm_read_seek,
-    rm_read_dts,
-#else
 	.name           = "rm",
     .long_name      = NULL_IF_CONFIG_SMALL("RealMedia"),
     .priv_data_size = sizeof(RMDemuxContext),
@@ -1093,21 +1082,12 @@ AVInputFormat ff_rm_demuxer = {
     .read_close     = rm_read_close,
     .read_timestamp = rm_read_dts,
     .read_seek      = rm_read_seek,
-#endif
 };
 
 AVInputFormat ff_rdt_demuxer = {
-#ifdef IDE_COMPILE
-    "rdt",
-    "RDT demuxer",
-    AVFMT_NOFILE,
-    0, 0, 0, 0, 0, 0, sizeof(RMDemuxContext),
-    0, 0, 0, rm_read_close,
-#else
 	.name           = "rdt",
     .long_name      = NULL_IF_CONFIG_SMALL("RDT demuxer"),
     .priv_data_size = sizeof(RMDemuxContext),
     .read_close     = rm_read_close,
     .flags          = AVFMT_NOFILE,
-#endif
 };

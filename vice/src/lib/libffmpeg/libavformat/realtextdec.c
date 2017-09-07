@@ -144,17 +144,6 @@ static int realtext_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_realtext_demuxer = {
-#ifdef IDE_COMPILE
-    "realtext",
-    "RealText subtitle format",
-    0, "rt",
-    0, 0, 0, 0, 0, sizeof(RealTextContext),
-    realtext_probe,
-    realtext_read_header,
-    realtext_read_packet,
-    realtext_read_close,
-    0, 0, 0, 0, realtext_read_seek,
-#else
 	.name           = "realtext",
     .long_name      = NULL_IF_CONFIG_SMALL("RealText subtitle format"),
     .priv_data_size = sizeof(RealTextContext),
@@ -164,5 +153,4 @@ AVInputFormat ff_realtext_demuxer = {
     .read_seek2     = realtext_read_seek,
     .read_close     = realtext_read_close,
     .extensions     = "rt",
-#endif
 };

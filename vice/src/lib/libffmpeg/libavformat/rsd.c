@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavcodec/bytestream.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
@@ -161,20 +157,7 @@ static int rsd_read_packet(AVFormatContext *s, AVPacket *pkt)
     return ret;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = {rsd_tags, 0};
-#endif
-
 AVInputFormat ff_rsd_demuxer = {
-#ifdef IDE_COMPILE
-    "rsd",
-    "GameCube RSD",
-    0, "rsd",
-    tmpx,
-    0, 0, 0, 0, 0, rsd_probe,
-    rsd_read_header,
-    rsd_read_packet,
-#else
 	.name           =   "rsd",
     .long_name      =   NULL_IF_CONFIG_SMALL("GameCube RSD"),
     .read_probe     =   rsd_probe,
@@ -182,5 +165,4 @@ AVInputFormat ff_rsd_demuxer = {
     .read_packet    =   rsd_read_packet,
     .extensions     =   "rsd",
     .codec_tag      =   (const AVCodecTag* const []){rsd_tags, 0},
-#endif
 };
