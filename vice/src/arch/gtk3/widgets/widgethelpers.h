@@ -63,6 +63,10 @@ GtkWidget *uihelpers_create_grid_label(const char *text);
 
 GtkWidget *uihelpers_create_indented_label(const char *text);
 
+
+GtkWidget *uihelpers_create_resource_checkbox(
+        const char *label, const char *resource);
+
 #endif
 
 

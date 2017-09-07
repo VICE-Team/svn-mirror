@@ -62,6 +62,7 @@
 #include "uispeed.h"
 #include "uikeyboard.h"
 #include "uisound.h"
+#include "uiautostart.h"
 
 
 #include "uisettings.h"
@@ -88,6 +89,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Speed", uispeed_create_central_widget, NULL },
     { "Keyboard", uikeyboard_create_central_widget, NULL },
     { "Sound", uisound_create_central_widget, NULL },
+    { "Autostart", uiautostart_create_central_widget, NULL },
     { NULL, NULL, NULL }
 };
 
@@ -144,7 +146,7 @@ static void on_tree_selection_changed(
     }
 }
 
-
+#if 0
 /** \brief  Handler for the 'toggled' event of the 'save on exit' checkbox
  *
  * \param[in]   widget      checkbox widget
@@ -155,6 +157,7 @@ static void on_save_on_exit_toggled(GtkWidget *widget, gpointer user_data)
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     resources_set_int("SaveResourcesOnExit", state);
 }
+#endif
 
 
 /** \brief  Create the 'Save on exit' checkbox
@@ -165,6 +168,10 @@ static void on_save_on_exit_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_save_on_exit_checkbox(void)
 {
+    return uihelpers_create_resource_checkbox(
+            "Save settings on exit",
+            "SaveResourcesOnExit");
+#if 0
     GtkWidget *check;
 
     check = gtk_check_button_new_with_label("Save settings on exit");
@@ -172,6 +179,7 @@ static GtkWidget *create_save_on_exit_checkbox(void)
     g_signal_connect(check, "toggled", G_CALLBACK(on_save_on_exit_toggled),
             NULL);
     return check;
+#endif
 }
 
 

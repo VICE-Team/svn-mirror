@@ -38,6 +38,7 @@
 #include <gtk/gtk.h>
 
 #include "lib.h"
+#include "resources.h"
 #include "vsync.h"
 
 #include "debug_gtk3.h"
@@ -241,3 +242,44 @@ GtkWidget *uihelpers_create_indented_label(const char *text)
     g_object_set(label, "margin-left", 16, NULL);
     return label;
 }
+
+
+
+/** \brief  Handler for the ui_helpers_create_resource_checkbox() toggled event
+ *
+ * \param[in]   widget      checkbox
+ * \param[in]   user_data   resource name
+ */
+static void resource_callback(GtkWidget *widget, gpointer user_data)
+{
+    const char *resource = (const char *)user_data;
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+    debug_gtk3("resource '%s' -> %d\n", resource, state);
+    resources_set_int(resource, state);
+}
+
+
+/** \brief  Create a checkbox connected to a VICE resource
+ *
+ * \param[in]   label       checkbox text
+ * \param[in]   resource    name of resource to set/unset
+ *
+ * \return  checkbox
+ */
+GtkWidget *uihelpers_create_resource_checkbox(const char *label,
+                                              const char *resource)
+{
+    GtkWidget *check;
+    int state;
+
+    check =  gtk_check_button_new_with_label(label);
+    resources_get_int(resource, &state);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
+
+    g_signal_connect(check, "toggled", G_CALLBACK(resource_callback),
+            (gpointer)(resource));
+
+    return check;
+}
+
