@@ -93,7 +93,10 @@ GtkWidget *ui_menu_file_add(ui_menu_item_t *items);
 GtkWidget *ui_menu_snapshot_add(ui_menu_item_t *items);
 GtkWidget *ui_menu_settings_add(ui_menu_item_t *items);
 GtkWidget *ui_menu_help_add(ui_menu_item_t *items);
+#ifdef DEBUG
 GtkWidget *ui_menu_debug_add(ui_menu_item_t *items);
+#endif
+
 
 
 #endif

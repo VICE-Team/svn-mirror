@@ -286,7 +286,7 @@ GtkWidget *ui_menu_help_add(ui_menu_item_t *items)
 }
 
 
-
+#ifdef DEBUG
 /** \brief  Add menu \a items to the 'Debug' menu
  *
  * \param[in]       items   menu items to add to the 'Debug' menu
@@ -297,3 +297,4 @@ GtkWidget *ui_menu_debug_add(ui_menu_item_t *items)
 {
     return ui_menu_add(debug_submenu, items);
 }
+#endif
