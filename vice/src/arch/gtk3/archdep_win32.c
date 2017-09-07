@@ -166,6 +166,7 @@ char *archdep_get_runtime_os(void)
  *
  * \return  Path to VICE's directory
  */
+char boot_path[MAX_PATH];
 const char *archdep_boot_path(void)
 {
     char *checkpath;
