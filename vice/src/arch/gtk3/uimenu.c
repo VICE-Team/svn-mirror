@@ -123,8 +123,10 @@ GtkWidget *ui_menu_bar_create(void)
     /* settings menu */
     GtkWidget *settings_item;
 
+#ifdef DEBUG
     /* debug menu */
     GtkWidget *debug_item;
+#endif
 
     /* help menu */
     GtkWidget *help_item;
