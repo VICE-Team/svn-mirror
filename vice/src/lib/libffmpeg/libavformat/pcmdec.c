@@ -60,17 +60,11 @@ static int pcm_read_header(AVFormatContext *s)
 }
 
 static const AVOption pcm_options[] = {
-#ifdef IDE_COMPILE
-	{ "sample_rate", "", offsetof(PCMAudioDemuxerContext, sample_rate), AV_OPT_TYPE_INT, {44100}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-    { "channels", "", offsetof(PCMAudioDemuxerContext, channels), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "sample_rate", "", offsetof(PCMAudioDemuxerContext, sample_rate), AV_OPT_TYPE_INT, {.i64 = 44100}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
     { "channels",    "", offsetof(PCMAudioDemuxerContext, channels),    AV_OPT_TYPE_INT, {.i64 = 1}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
-#ifndef IDE_COMPILE
 #define PCMDEF(name_, long_name_, ext, codec)               \
 static const AVClass name_ ## _demuxer_class = {            \
     .class_name = #name_ " demuxer",                        \
@@ -90,30 +84,6 @@ AVInputFormat ff_pcm_ ## name_ ## _demuxer = {              \
     .raw_codec_id   = codec,                                \
     .priv_class     = &name_ ## _demuxer_class,             \
 };
-#else
-#define PCMDEF(name_, long_name_, ext, codec)               \
-static const AVClass name_ ## _demuxer_class = {            \
-    #name_ " demuxer",                        \
-    av_default_item_name,                     \
-    pcm_options,                              \
-    LIBAVUTIL_VERSION_INT,                    \
-};                                                          \
-AVInputFormat ff_pcm_ ## name_ ## _demuxer = {              \
-    #name_,                               \
-    long_name_,     \
-    AVFMT_GENERIC_INDEX,                  \
-    ext,                                  \
-    0, \
-    &name_ ## _demuxer_class,             \
-    0, 0, \
-    codec,                                \
-    sizeof(PCMAudioDemuxerContext),       \
-    0, \
-    pcm_read_header,                      \
-    ff_pcm_read_packet,                   \
-    ff_pcm_read_seek,                     \
-};
-#endif
 
 PCMDEF(f64be, "PCM 64-bit floating-point big-endian",
        NULL, AV_CODEC_ID_PCM_F64BE)
@@ -176,43 +146,19 @@ PCMDEF(mulaw, "PCM mu-law",
        "ul", AV_CODEC_ID_PCM_MULAW)
 
 static const AVOption sln_options[] = {
-#ifdef IDE_COMPILE
-	{ "sample_rate", "", offsetof(PCMAudioDemuxerContext, sample_rate), AV_OPT_TYPE_INT, {8000}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-    { "channels", "", offsetof(PCMAudioDemuxerContext, channels), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "sample_rate", "", offsetof(PCMAudioDemuxerContext, sample_rate), AV_OPT_TYPE_INT, {.i64 = 8000}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
     { "channels",    "", offsetof(PCMAudioDemuxerContext, channels),    AV_OPT_TYPE_INT, {.i64 = 1}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass sln_demuxer_class = {
-#ifdef IDE_COMPILE
-    "sln demuxer",
-    av_default_item_name,
-    sln_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "sln demuxer",
     .item_name  = av_default_item_name,
     .option     = sln_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_sln_demuxer = {
-#ifdef IDE_COMPILE
-    "sln",
-    "Asterisk raw pcm",
-    AVFMT_GENERIC_INDEX,
-    "sln",
-    0, &sln_demuxer_class,
-    0, 0, AV_CODEC_ID_PCM_S16LE,
-    sizeof(PCMAudioDemuxerContext),
-    0, pcm_read_header,
-    ff_pcm_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           = "sln",
     .long_name      = NULL_IF_CONFIG_SMALL("Asterisk raw pcm"),
     .priv_data_size = sizeof(PCMAudioDemuxerContext),
@@ -223,5 +169,4 @@ AVInputFormat ff_sln_demuxer = {
     .extensions     = "sln",
     .raw_codec_id   = AV_CODEC_ID_PCM_S16LE,
     .priv_class     = &sln_demuxer_class,
-#endif
 };

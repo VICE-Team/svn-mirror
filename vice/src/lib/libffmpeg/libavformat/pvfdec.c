@@ -64,16 +64,6 @@ static int pvf_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_pvf_demuxer = {
-#ifdef IDE_COMPILE
-    "pvf",
-    "PVF (Portable Voice Format)",
-    AVFMT_GENERIC_INDEX,
-    "pvf",
-    0, 0, 0, 0, 0, 0, pvf_probe,
-    pvf_read_header,
-    ff_pcm_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           = "pvf",
     .long_name      = NULL_IF_CONFIG_SMALL("PVF (Portable Voice Format)"),
     .read_probe     = pvf_probe,
@@ -82,5 +72,4 @@ AVInputFormat ff_pvf_demuxer = {
     .read_seek      = ff_pcm_read_seek,
     .extensions     = "pvf",
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

@@ -30,10 +30,6 @@
 
 #include <stdio.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/intreadwrite.h"
 #include "oggdec.h"
@@ -899,19 +895,6 @@ static int ogg_probe(AVProbeData *p)
 }
 
 AVInputFormat ff_ogg_demuxer = {
-#ifdef IDE_COMPILE
-    "ogg",
-    "Ogg",
-    AVFMT_GENERIC_INDEX | AVFMT_TS_DISCONT | AVFMT_NOBINSEARCH,
-    "ogg",
-    0, 0, 0, 0, 0, sizeof(struct ogg),
-    ogg_probe,
-    ogg_read_header,
-    ogg_read_packet,
-    ogg_read_close,
-    ogg_read_seek,
-    ogg_read_timestamp,
-#else
 	.name           = "ogg",
     .long_name      = NULL_IF_CONFIG_SMALL("Ogg"),
     .priv_data_size = sizeof(struct ogg),
@@ -923,5 +906,4 @@ AVInputFormat ff_ogg_demuxer = {
     .read_timestamp = ogg_read_timestamp,
     .extensions     = "ogg",
     .flags          = AVFMT_GENERIC_INDEX | AVFMT_TS_DISCONT | AVFMT_NOBINSEARCH,
-#endif
 };

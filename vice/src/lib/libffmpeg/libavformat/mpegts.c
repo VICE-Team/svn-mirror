@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/buffer.h"
 #include "libavutil/crc.h"
 #include "libavutil/intreadwrite.h"
@@ -159,22 +155,11 @@ struct MpegTSContext {
     int current_pid;
 };
 
-#ifdef IDE_COMPILE
-#define MPEGTS_OPTIONS \
-    { "resync_size", "Size limit for looking up a new synchronization.", offsetof(MpegTSContext, resync_size), AV_OPT_TYPE_INT, {MAX_RESYNC_SIZE}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM }
-#else
 #define MPEGTS_OPTIONS \
     { "resync_size",   "Size limit for looking up a new synchronization.", offsetof(MpegTSContext, resync_size), AV_OPT_TYPE_INT,  { .i64 =  MAX_RESYNC_SIZE}, 0, INT_MAX,  AV_OPT_FLAG_DECODING_PARAM }
-#endif
 
 static const AVOption options[] = {
     MPEGTS_OPTIONS,
-#ifdef IDE_COMPILE
-	{"fix_teletext_pts", "Try to fix pts values of dvb teletext streams.", offsetof(MpegTSContext, fix_teletext_pts), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_DECODING_PARAM },
-    {"ts_packetsize", "Output option carrying the raw packet size.", offsetof(MpegTSContext, raw_packet_size), AV_OPT_TYPE_INT, {0}, 0, 0, AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_EXPORT | AV_OPT_FLAG_READONLY },
-    {"skip_changes", "Skip changing / adding streams / programs.", offsetof(MpegTSContext, skip_changes), AV_OPT_TYPE_INT, {0}, 0, 1, 0 },
-    {"skip_clear", "Skip clearing programs.", offsetof(MpegTSContext, skip_clear), AV_OPT_TYPE_INT, {0}, 0, 1, 0 },
-#else
 	{"fix_teletext_pts", "Try to fix pts values of dvb teletext streams.", offsetof(MpegTSContext, fix_teletext_pts), AV_OPT_TYPE_INT,
      {.i64 = 1}, 0, 1, AV_OPT_FLAG_DECODING_PARAM },
     {"ts_packetsize", "Output option carrying the raw packet size.", offsetof(MpegTSContext, raw_packet_size), AV_OPT_TYPE_INT,
@@ -183,30 +168,18 @@ static const AVOption options[] = {
      {.i64 = 0}, 0, 1, 0 },
     {"skip_clear", "Skip clearing programs.", offsetof(MpegTSContext, skip_clear), AV_OPT_TYPE_INT,
      {.i64 = 0}, 0, 1, 0 },
-#endif
 	{ NULL },
 };
 
 static const AVClass mpegts_class = {
-#ifdef IDE_COMPILE
-    "mpegts demuxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "mpegts demuxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static const AVOption raw_options[] = {
     MPEGTS_OPTIONS,
-#ifdef IDE_COMPILE
-	{ "compute_pcr", "Compute exact PCR for each transport stream packet.", offsetof(MpegTSContext, mpeg2ts_compute_pcr), AV_OPT_TYPE_INT, {0}, 0, 1, AV_OPT_FLAG_DECODING_PARAM },
-    { "ts_packetsize", "Output option carrying the raw packet size.", offsetof(MpegTSContext, raw_packet_size), AV_OPT_TYPE_INT, {0}, 0, 0, AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_EXPORT | AV_OPT_FLAG_READONLY },
-#else
 	{ "compute_pcr",   "Compute exact PCR for each transport stream packet.",
           offsetof(MpegTSContext, mpeg2ts_compute_pcr), AV_OPT_TYPE_INT,
           { .i64 = 0 }, 0, 1,  AV_OPT_FLAG_DECODING_PARAM },
@@ -214,22 +187,14 @@ static const AVOption raw_options[] = {
       offsetof(MpegTSContext, raw_packet_size), AV_OPT_TYPE_INT,
       { .i64 = 0 }, 0, 0,
       AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_EXPORT | AV_OPT_FLAG_READONLY },
-#endif
 	{ NULL },
 };
 
 static const AVClass mpegtsraw_class = {
-#ifdef IDE_COMPILE
-    "mpegtsraw demuxer",
-    av_default_item_name,
-    raw_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "mpegtsraw demuxer",
     .item_name  = av_default_item_name,
     .option     = raw_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 /* TS stream handling */
@@ -2723,18 +2688,6 @@ void avpriv_mpegts_parse_close(MpegTSContext *ts)
 }
 
 AVInputFormat ff_mpegts_demuxer = {
-#ifdef IDE_COMPILE
-    "mpegts",
-    "MPEG-TS (MPEG-2 Transport Stream)",
-    AVFMT_SHOW_IDS | AVFMT_TS_DISCONT,
-    0, 0, &mpegts_class,
-    0, 0, 0, sizeof(MpegTSContext),
-    mpegts_probe,
-    mpegts_read_header,
-    mpegts_read_packet,
-    mpegts_read_close,
-    0, mpegts_get_dts,
-#else
 	.name           = "mpegts",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-TS (MPEG-2 Transport Stream)"),
     .priv_data_size = sizeof(MpegTSContext),
@@ -2745,21 +2698,9 @@ AVInputFormat ff_mpegts_demuxer = {
     .read_timestamp = mpegts_get_dts,
     .flags          = AVFMT_SHOW_IDS | AVFMT_TS_DISCONT,
     .priv_class     = &mpegts_class,
-#endif
 };
 
 AVInputFormat ff_mpegtsraw_demuxer = {
-#ifdef IDE_COMPILE
-    "mpegtsraw",
-    "raw MPEG-TS (MPEG-2 Transport Stream)",
-    AVFMT_SHOW_IDS | AVFMT_TS_DISCONT,
-    0, 0, &mpegtsraw_class,
-    0, 0, 0, sizeof(MpegTSContext),
-    0, mpegts_read_header,
-    mpegts_raw_read_packet,
-    mpegts_read_close,
-    0, mpegts_get_dts,
-#else
 	.name           = "mpegtsraw",
     .long_name      = NULL_IF_CONFIG_SMALL("raw MPEG-TS (MPEG-2 Transport Stream)"),
     .priv_data_size = sizeof(MpegTSContext),
@@ -2769,5 +2710,4 @@ AVInputFormat ff_mpegtsraw_demuxer = {
     .read_timestamp = mpegts_get_dts,
     .flags          = AVFMT_SHOW_IDS | AVFMT_TS_DISCONT,
     .priv_class     = &mpegtsraw_class,
-#endif
 };

@@ -42,10 +42,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "avformat.h"
 #include "internal.h"
@@ -200,9 +196,6 @@ static int decrypt_init(AVFormatContext *s, ID3v2ExtraMeta *em, uint8_t *header)
     OMAContext *oc = s->priv_data;
     ID3v2ExtraMetaGEOB *geob = NULL;
     uint8_t *gdata;
-#ifdef IDE_COMPILE
-	const uint8_t tmpz[8] = {0};
-#endif
 
     oc->encrypted = 1;
     av_log(s, AV_LOG_INFO, "File is encrypted\n");
@@ -260,15 +253,9 @@ static int decrypt_init(AVFormatContext *s, ID3v2ExtraMeta *em, uint8_t *header)
     if (s->keylen > 0) {
         kset(s, s->key, s->key, s->keylen);
     }
-#ifdef IDE_COMPILE
-	if (!memcmp(oc->r_val, tmpz, 8) ||
-        rprobe(s, gdata, geob->datasize, oc->r_val) < 0 &&
-        nprobe(s, gdata, geob->datasize, oc->n_val) < 0) {
-#else
 	if (!memcmp(oc->r_val, (const uint8_t[8]){0}, 8) ||
         rprobe(s, gdata, geob->datasize, oc->r_val) < 0 &&
         nprobe(s, gdata, geob->datasize, oc->n_val) < 0) {
-#endif
 		int i;
         for (i = 0; i < FF_ARRAY_ELEMS(leaf_table); i += 2) {
             uint8_t buf[16];
@@ -307,22 +294,14 @@ static int oma_read_header(AVFormatContext *s)
     AVStream *st;
     ID3v2ExtraMeta *extra_meta = NULL;
     OMAContext *oc = s->priv_data;
-#ifdef IDE_COMPILE
-	const uint8_t tmpz[] = {'E', 'A', '3'};
-#endif
 
     ff_id3v2_read(s, ID3v2_EA3_MAGIC, &extra_meta, 0);
     ret = avio_read(s->pb, buf, EA3_HEADER_SIZE);
     if (ret < EA3_HEADER_SIZE)
         return -1;
 
-#ifdef IDE_COMPILE
-	if (memcmp(buf, tmpz, 3) ||
-        buf[4] != 0 || buf[5] != EA3_HEADER_SIZE) {
-#else
 	if (memcmp(buf, ((const uint8_t[]){'E', 'A', '3'}), 3) ||
         buf[4] != 0 || buf[5] != EA3_HEADER_SIZE) {
-#endif
 		av_log(s, AV_LOG_ERROR, "Couldn't find the EA3 header !\n");
         return AVERROR_INVALIDDATA;
     }
@@ -507,23 +486,7 @@ wipe:
     return err;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = {ff_oma_codec_tags, 0};
-#endif
-
 AVInputFormat ff_oma_demuxer = {
-#ifdef IDE_COMPILE
-    "oma",
-    "Sony OpenMG audio",
-    AVFMT_GENERIC_INDEX,
-    "oma,omg,aa3",
-    tmpx,
-    0, 0, 0, 0, sizeof(OMAContext),
-    oma_read_probe,
-    oma_read_header,
-    oma_read_packet,
-    0, oma_read_seek,
-#else
 	.name           = "oma",
     .long_name      = NULL_IF_CONFIG_SMALL("Sony OpenMG audio"),
     .priv_data_size = sizeof(OMAContext),
@@ -534,5 +497,4 @@ AVInputFormat ff_oma_demuxer = {
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "oma,omg,aa3",
     .codec_tag      = (const AVCodecTag* const []){ff_oma_codec_tags, 0},
-#endif
 };

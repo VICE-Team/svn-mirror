@@ -180,73 +180,37 @@ ogm_packet(AVFormatContext *s, int idx)
 }
 
 const struct ogg_codec ff_ogm_video_codec = {
-#ifdef IDE_COMPILE
-    "\001video",
-    6,
-    0, ogm_header,
-    ogm_packet,
-    0, 1,
-    2,
-#else
 	.magic = "\001video",
     .magicsize = 6,
     .header = ogm_header,
     .packet = ogm_packet,
     .granule_is_start = 1,
     .nb_header = 2,
-#endif
 };
 
 const struct ogg_codec ff_ogm_audio_codec = {
-#ifdef IDE_COMPILE
-    "\001audio",
-    6,
-    0, ogm_header,
-    ogm_packet,
-    0, 1,
-    2,
-#else
 	.magic = "\001audio",
     .magicsize = 6,
     .header = ogm_header,
     .packet = ogm_packet,
     .granule_is_start = 1,
     .nb_header = 2,
-#endif
 };
 
 const struct ogg_codec ff_ogm_text_codec = {
-#ifdef IDE_COMPILE
-    "\001text",
-    5,
-    0, ogm_header,
-    ogm_packet,
-    0, 1,
-    2,
-#else
 	.magic = "\001text",
     .magicsize = 5,
     .header = ogm_header,
     .packet = ogm_packet,
     .granule_is_start = 1,
     .nb_header = 2,
-#endif
 };
 
 const struct ogg_codec ff_ogm_old_codec = {
-#ifdef IDE_COMPILE
-    "\001Direct Show Samples embedded in Ogg",
-    35,
-    0, ogm_dshow_header,
-    ogm_packet,
-    0, 1,
-    1,
-#else
 	.magic = "\001Direct Show Samples embedded in Ogg",
     .magicsize = 35,
     .header = ogm_dshow_header,
     .packet = ogm_packet,
     .granule_is_start = 1,
     .nb_header = 1,
-#endif
 };

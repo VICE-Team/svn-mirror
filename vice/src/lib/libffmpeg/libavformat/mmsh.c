@@ -118,15 +118,9 @@ static int read_data_packet(MMSHContext *mmsh, const int len)
     MMSContext *mms   = &mmsh->mms;
     int res;
     if (len > sizeof(mms->in_buffer)) {
-#ifdef IDE_COMPILE
-        av_log(NULL, AV_LOG_ERROR,
-               "Data packet length %d exceeds the in_buffer size %""zu""\n",
-               len, sizeof(mms->in_buffer));
-#else
 		av_log(NULL, AV_LOG_ERROR,
                "Data packet length %d exceeds the in_buffer size %"SIZE_SPECIFIER"\n",
                len, sizeof(mms->in_buffer));
-#endif
 		return AVERROR(EIO);
     }
     res = ffurl_read_complete(mms->mms_hd, mms->in_buffer, len);
@@ -199,15 +193,9 @@ static int get_http_header_data(MMSHContext *mmsh)
         } else {
             if (len) {
                 if (len > sizeof(mms->in_buffer)) {
-#ifdef IDE_COMPILE
-                    av_log(NULL, AV_LOG_ERROR,
-                           "Other packet len = %d exceed the in_buffer size %""zu""\n",
-                           len, sizeof(mms->in_buffer));
-#else
 					av_log(NULL, AV_LOG_ERROR,
                            "Other packet len = %d exceed the in_buffer size %"SIZE_SPECIFIER"\n",
                            len, sizeof(mms->in_buffer));
-#endif
 					return AVERROR(EIO);
                 }
                 res = ffurl_read_complete(mms->mms_hd, mms->in_buffer, len);
@@ -414,16 +402,6 @@ static int64_t mmsh_seek(URLContext *h, int64_t pos, int whence)
 }
 
 URLProtocol ff_mmsh_protocol = {
-#ifdef IDE_COMPILE
-    "mmsh",
-    mmsh_open,
-    0, mmsh_read,
-    0, mmsh_seek,
-    mmsh_close,
-    0, 0, mmsh_read_seek,
-    0, 0, 0, sizeof(MMSHContext),
-    0, URL_PROTOCOL_FLAG_NETWORK,
-#else
 	.name           = "mmsh",
     .url_open       = mmsh_open,
     .url_read       = mmsh_read,
@@ -432,5 +410,4 @@ URLProtocol ff_mmsh_protocol = {
     .url_read_seek  = mmsh_read_seek,
     .priv_data_size = sizeof(MMSHContext),
     .flags          = URL_PROTOCOL_FLAG_NETWORK,
-#endif
 };

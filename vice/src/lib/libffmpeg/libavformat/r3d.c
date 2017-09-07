@@ -397,16 +397,6 @@ static int r3d_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_r3d_demuxer = {
-#ifdef IDE_COMPILE
-    "r3d",
-    "REDCODE R3D",
-    0, 0, 0, 0, 0, 0, 0, sizeof(R3DContext),
-    r3d_probe,
-    r3d_read_header,
-    r3d_read_packet,
-    r3d_close,
-    r3d_seek,
-#else
 	.name           = "r3d",
     .long_name      = NULL_IF_CONFIG_SMALL("REDCODE R3D"),
     .priv_data_size = sizeof(R3DContext),
@@ -415,5 +405,4 @@ AVInputFormat ff_r3d_demuxer = {
     .read_packet    = r3d_read_packet,
     .read_close     = r3d_close,
     .read_seek      = r3d_seek,
-#endif
 };

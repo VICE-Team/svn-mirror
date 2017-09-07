@@ -184,16 +184,6 @@ static int pmp_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_pmp_demuxer = {
-#ifdef IDE_COMPILE
-    "pmp",
-    "Playstation Portable PMP",
-    0, 0, 0, 0, 0, 0, 0, sizeof(PMPContext),
-    pmp_probe,
-    pmp_header,
-    pmp_packet,
-    pmp_close,
-    pmp_seek,
-#else
 	.name           = "pmp",
     .long_name      = NULL_IF_CONFIG_SMALL("Playstation Portable PMP"),
     .priv_data_size = sizeof(PMPContext),
@@ -202,5 +192,4 @@ AVInputFormat ff_pmp_demuxer = {
     .read_packet    = pmp_packet,
     .read_seek      = pmp_seek,
     .read_close     = pmp_close,
-#endif
 };

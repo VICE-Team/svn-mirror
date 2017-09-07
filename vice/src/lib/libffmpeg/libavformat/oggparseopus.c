@@ -173,19 +173,10 @@ static int opus_packet(AVFormatContext *avf, int idx)
 }
 
 const struct ogg_codec ff_opus_codec = {
-#ifdef IDE_COMPILE
-    "OpusHead",
-    8,
-    "Opus",
-    opus_header,
-    opus_packet,
-    0, 0, 1,
-#else
 	.name             = "Opus",
     .magic            = "OpusHead",
     .magicsize        = 8,
     .header           = opus_header,
     .packet           = opus_packet,
     .nb_header        = 1,
-#endif
 };

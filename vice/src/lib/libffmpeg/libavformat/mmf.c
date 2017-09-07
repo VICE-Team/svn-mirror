@@ -300,15 +300,6 @@ static int mmf_read_packet(AVFormatContext *s, AVPacket *pkt)
 
 #if CONFIG_MMF_DEMUXER
 AVInputFormat ff_mmf_demuxer = {
-#ifdef IDE_COMPILE
-    "mmf",
-    "Yamaha SMAF",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, 0, sizeof(MMFContext),
-    mmf_probe,
-    mmf_read_header,
-    mmf_read_packet,
-#else
 	.name           = "mmf",
     .long_name      = NULL_IF_CONFIG_SMALL("Yamaha SMAF"),
     .priv_data_size = sizeof(MMFContext),
@@ -316,24 +307,11 @@ AVInputFormat ff_mmf_demuxer = {
     .read_header    = mmf_read_header,
     .read_packet    = mmf_read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };
 #endif
 
 #if CONFIG_MMF_MUXER
 AVOutputFormat ff_mmf_muxer = {
-#ifdef IDE_COMPILE
-    "mmf",
-    "Yamaha SMAF",
-    "application/vnd.smaf",
-    "mmf",
-    AV_CODEC_ID_ADPCM_YAMAHA,
-    AV_CODEC_ID_NONE,
-    0, 0, 0, 0, 0, sizeof(MMFContext),
-    mmf_write_header,
-    ff_raw_write_packet,
-    mmf_write_trailer,
-#else
 	.name           = "mmf",
     .long_name      = NULL_IF_CONFIG_SMALL("Yamaha SMAF"),
     .mime_type      = "application/vnd.smaf",
@@ -344,6 +322,5 @@ AVOutputFormat ff_mmf_muxer = {
     .write_header   = mmf_write_header,
     .write_packet   = ff_raw_write_packet,
     .write_trailer  = mmf_write_trailer,
-#endif
 };
 #endif

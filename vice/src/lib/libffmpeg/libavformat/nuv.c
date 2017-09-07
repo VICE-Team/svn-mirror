@@ -378,16 +378,6 @@ static int64_t nuv_read_dts(AVFormatContext *s, int stream_index,
 
 
 AVInputFormat ff_nuv_demuxer = {
-#ifdef IDE_COMPILE
-    "nuv",
-    "NuppelVideo",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, 0, sizeof(NUVContext),
-    nuv_probe,
-    nuv_header,
-    nuv_packet,
-    0, 0, nuv_read_dts,
-#else
 	.name           = "nuv",
     .long_name      = NULL_IF_CONFIG_SMALL("NuppelVideo"),
     .priv_data_size = sizeof(NUVContext),
@@ -396,5 +386,4 @@ AVInputFormat ff_nuv_demuxer = {
     .read_packet    = nuv_packet,
     .read_timestamp = nuv_read_dts,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

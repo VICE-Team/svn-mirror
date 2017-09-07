@@ -136,20 +136,10 @@ const MXFSamplesPerFrame *ff_mxf_get_samples_per_frame(AVFormatContext *s,
 {
     int idx = av_find_nearest_q_idx(time_base, mxf_time_base);
     AVRational diff = av_sub_q(time_base, mxf_time_base[idx]);
-#ifdef IDE_COMPILE
-    AVRational tmp;
-
-	tmp.num = 1;
-	tmp.den = 1000;
-#endif
 
     diff.num = abs(diff.num);
 
-#ifdef IDE_COMPILE
-	if (av_cmp_q(diff, tmp) >= 0)
-#else
 	if (av_cmp_q(diff, (AVRational){1, 1000}) >= 0)
-#endif
 		return NULL;
 
     if (av_cmp_q(time_base, mxf_time_base[idx]))

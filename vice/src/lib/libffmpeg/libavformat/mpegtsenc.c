@@ -1421,25 +1421,6 @@ static int mpegts_write_end(AVFormatContext *s)
 }
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "mpegts_transport_stream_id", "Set transport_stream_id field.", offsetof(MpegTSWrite, transport_stream_id), AV_OPT_TYPE_INT, {0x0001}, 0x0001, 0xffff, AV_OPT_FLAG_ENCODING_PARAM },
-    { "mpegts_original_network_id", "Set original_network_id field.", offsetof(MpegTSWrite, original_network_id), AV_OPT_TYPE_INT, {0x0001}, 0x0001, 0xffff, AV_OPT_FLAG_ENCODING_PARAM },
-    { "mpegts_service_id", "Set service_id field.", offsetof(MpegTSWrite, service_id), AV_OPT_TYPE_INT, {0x0001}, 0x0001, 0xffff, AV_OPT_FLAG_ENCODING_PARAM },
-    { "mpegts_pmt_start_pid", "Set the first pid of the PMT.", offsetof(MpegTSWrite, pmt_start_pid), AV_OPT_TYPE_INT, {0x1000 }, 0x0010, 0x1f00, AV_OPT_FLAG_ENCODING_PARAM },
-    { "mpegts_start_pid", "Set the first pid.", offsetof(MpegTSWrite, start_pid), AV_OPT_TYPE_INT, {0x0100}, 0x0100, 0x0f00, AV_OPT_FLAG_ENCODING_PARAM },
-    { "mpegts_m2ts_mode", "Enable m2ts mode.", offsetof(MpegTSWrite, m2ts_mode), AV_OPT_TYPE_INT, {-1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM },
-    { "muxrate", NULL, offsetof(MpegTSWrite, mux_rate), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-    { "pes_payload_size", "Minimum PES packet payload in bytes", offsetof(MpegTSWrite, pes_payload_size), AV_OPT_TYPE_INT, {DEFAULT_PES_PAYLOAD_SIZE}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-    { "mpegts_flags", "MPEG-TS muxing flags", offsetof(MpegTSWrite, flags), AV_OPT_TYPE_FLAGS, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "mpegts_flags" },
-    { "resend_headers", "Reemit PAT/PMT before writing the next packet", 0, AV_OPT_TYPE_CONST, {MPEGTS_FLAG_REEMIT_PAT_PMT}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "mpegts_flags" },
-    { "latm", "Use LATM packetization for AAC", 0, AV_OPT_TYPE_CONST, {MPEGTS_FLAG_AAC_LATM}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "mpegts_flags" },
-    // backward compatibility
-    { "resend_headers", "Reemit PAT/PMT before writing the next packet", offsetof(MpegTSWrite, reemit_pat_pmt), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-    { "mpegts_copyts", "don't offset dts/pts", offsetof(MpegTSWrite, copyts), AV_OPT_TYPE_INT, {-1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM },
-    { "tables_version", "set PAT, PMT and SDT version", offsetof(MpegTSWrite, tables_version), AV_OPT_TYPE_INT, {0}, 0, 31, AV_OPT_FLAG_ENCODING_PARAM },
-    { "omit_video_pes_length", "Omit the PES packet length for video packets", offsetof(MpegTSWrite, omit_video_pes_length), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM },
-    { "pcr_period", "PCR retransmission time", offsetof(MpegTSWrite, pcr_period), AV_OPT_TYPE_INT, {PCR_RETRANS_TIME}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-#else
 	{ "mpegts_transport_stream_id", "Set transport_stream_id field.",
       offsetof(MpegTSWrite, transport_stream_id), AV_OPT_TYPE_INT,
       { .i64 = 0x0001 }, 0x0001, 0xffff, AV_OPT_FLAG_ENCODING_PARAM },
@@ -1489,39 +1470,17 @@ static const AVOption options[] = {
     { "pcr_period", "PCR retransmission time",
       offsetof(MpegTSWrite, pcr_period), AV_OPT_TYPE_INT,
       { .i64 = PCR_RETRANS_TIME }, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass mpegts_muxer_class = {
-#ifdef IDE_COMPILE
-    "MPEGTS muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "MPEGTS muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_mpegts_muxer = {
-#ifdef IDE_COMPILE
-    "mpegts",
-    "MPEG-TS (MPEG-2 Transport Stream)",
-    "video/MP2T",
-    "ts,m2t,m2ts,mts",
-    AV_CODEC_ID_MP2,
-    AV_CODEC_ID_MPEG2VIDEO,
-    0, AVFMT_ALLOW_FLUSH,
-    0, &mpegts_muxer_class,
-    0, sizeof(MpegTSWrite),
-    mpegts_write_header,
-    mpegts_write_packet,
-    mpegts_write_end,
-#else
 	.name           = "mpegts",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-TS (MPEG-2 Transport Stream)"),
     .mime_type      = "video/MP2T",
@@ -1534,5 +1493,4 @@ AVOutputFormat ff_mpegts_muxer = {
     .write_trailer  = mpegts_write_end,
     .flags          = AVFMT_ALLOW_FLUSH,
     .priv_class     = &mpegts_muxer_class,
-#endif
 };

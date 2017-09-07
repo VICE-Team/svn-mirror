@@ -27,19 +27,10 @@ static int null_write_packet(struct AVFormatContext *s, AVPacket *pkt)
 }
 
 AVOutputFormat ff_null_muxer = {
-#ifdef IDE_COMPILE
-    "null",
-    "raw null video",
-    0, 0, (AV_CODEC_ID_PCM_S16LE),
-    AV_CODEC_ID_RAWVIDEO,
-    0, AVFMT_VARIABLE_FPS | AVFMT_NOFILE | AVFMT_NOTIMESTAMPS | AVFMT_RAWPICTURE,
-    0, 0, 0, 0, 0, null_write_packet,
-#else
     .name              = "null",
     .long_name         = NULL_IF_CONFIG_SMALL("raw null video"),
     .audio_codec       = AV_NE(AV_CODEC_ID_PCM_S16BE, AV_CODEC_ID_PCM_S16LE),
     .video_codec       = AV_CODEC_ID_RAWVIDEO,
     .write_packet      = null_write_packet,
     .flags             = AVFMT_VARIABLE_FPS | AVFMT_NOFILE | AVFMT_NOTIMESTAMPS | AVFMT_RAWPICTURE,
-#endif
 };

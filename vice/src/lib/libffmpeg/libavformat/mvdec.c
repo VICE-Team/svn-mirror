@@ -24,10 +24,6 @@
  * Silicon Graphics Movie demuxer
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "libavutil/eval.h"
 #include "libavutil/intreadwrite.h"
@@ -85,19 +81,8 @@ static AVRational var_read_float(AVIOContext *pb, int size)
 {
     AVRational v;
     char *s = var_read_string(pb, size);
-#ifdef IDE_COMPILE
-    AVRational tmp;
-
-	tmp.num = 0;
-	tmp.den = 0;
-#endif
-
 	if (!s) {
-#ifdef IDE_COMPILE
-		return tmp;
-#else
 		return (AVRational) { 0, 0 };
-#endif
 	}
 	v = av_d2q(av_strtod(s, NULL), INT_MAX);
     av_free(s);
@@ -474,15 +459,6 @@ static int mv_read_seek(AVFormatContext *avctx, int stream_index,
 }
 
 AVInputFormat ff_mv_demuxer = {
-#ifdef IDE_COMPILE
-    "mv",
-    "Silicon Graphics Movie",
-    0, 0, 0, 0, 0, 0, 0, sizeof(MvContext),
-    mv_probe,
-    mv_read_header,
-    mv_read_packet,
-    0, mv_read_seek,
-#else
 	.name           = "mv",
     .long_name      = NULL_IF_CONFIG_SMALL("Silicon Graphics Movie"),
     .priv_data_size = sizeof(MvContext),
@@ -490,5 +466,4 @@ AVInputFormat ff_mv_demuxer = {
     .read_header    = mv_read_header,
     .read_packet    = mv_read_packet,
     .read_seek      = mv_read_seek,
-#endif
 };

@@ -1193,25 +1193,11 @@ static int mpeg_mux_end(AVFormatContext *ctx)
 #define OFFSET(x) offsetof(MpegMuxContext, x)
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "muxrate", NULL, OFFSET(user_mux_rate), AV_OPT_TYPE_INT, {0}, 0, ((1<<22) - 1) * (8 * 50), E },
-    { "preload", "Initial demux-decode delay in microseconds.", OFFSET(preload), AV_OPT_TYPE_INT, {500000}, 0, INT_MAX, E },
-#else
 	{ "muxrate", NULL,                                          OFFSET(user_mux_rate), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, ((1<<22) - 1) * (8 * 50), E },
     { "preload", "Initial demux-decode delay in microseconds.", OFFSET(preload),  AV_OPT_TYPE_INT, { .i64 = 500000 }, 0, INT_MAX, E },
-#endif
 	{ NULL },
 };
 
-#ifdef IDE_COMPILE
-#define MPEGENC_CLASS(flavor)                   \
-static const AVClass flavor ## _class = {       \
-    #flavor " muxer",             \
-    av_default_item_name,         \
-    options,                      \
-    LIBAVUTIL_VERSION_INT,        \
-};
-#else
 #define MPEGENC_CLASS(flavor)                   \
 static const AVClass flavor ## _class = {       \
     .class_name = #flavor " muxer",             \
@@ -1219,24 +1205,10 @@ static const AVClass flavor ## _class = {       \
     .version    = LIBAVUTIL_VERSION_INT,        \
     .option     = options,                      \
 };
-#endif
 
 #if CONFIG_MPEG1SYSTEM_MUXER
 MPEGENC_CLASS(mpeg)
 AVOutputFormat ff_mpeg1system_muxer = {
-#ifdef IDE_COMPILE
-    "mpeg",
-    "MPEG-1 Systems / MPEG program stream",
-    "video/mpeg",
-    "mpg,mpeg",
-    AV_CODEC_ID_MP2,
-    AV_CODEC_ID_MPEG1VIDEO,
-    0, 0, 0, &mpeg_class,
-    0, sizeof(MpegMuxContext),
-    mpeg_mux_init,
-    mpeg_mux_write_packet,
-    mpeg_mux_end,
-#else
 	.name              = "mpeg",
     .long_name         = NULL_IF_CONFIG_SMALL("MPEG-1 Systems / MPEG program stream"),
     .mime_type         = "video/mpeg",
@@ -1248,25 +1220,12 @@ AVOutputFormat ff_mpeg1system_muxer = {
     .write_packet      = mpeg_mux_write_packet,
     .write_trailer     = mpeg_mux_end,
     .priv_class        = &mpeg_class,
-#endif
 };
 #endif
 
 #if CONFIG_MPEG1VCD_MUXER
 MPEGENC_CLASS(vcd)
 AVOutputFormat ff_mpeg1vcd_muxer = {
-#ifdef IDE_COMPILE
-    "vcd",
-    "MPEG-1 Systems / MPEG program stream (VCD)",
-    "video/mpeg",
-    0, AV_CODEC_ID_MP2,
-    AV_CODEC_ID_MPEG1VIDEO,
-    0, 0, 0, &vcd_class,
-    0, sizeof(MpegMuxContext),
-    mpeg_mux_init,
-    mpeg_mux_write_packet,
-    mpeg_mux_end,
-#else
 	.name              = "vcd",
     .long_name         = NULL_IF_CONFIG_SMALL("MPEG-1 Systems / MPEG program stream (VCD)"),
     .mime_type         = "video/mpeg",
@@ -1277,26 +1236,12 @@ AVOutputFormat ff_mpeg1vcd_muxer = {
     .write_packet      = mpeg_mux_write_packet,
     .write_trailer     = mpeg_mux_end,
     .priv_class        = &vcd_class,
-#endif
 };
 #endif
 
 #if CONFIG_MPEG2VOB_MUXER
 MPEGENC_CLASS(vob)
 AVOutputFormat ff_mpeg2vob_muxer = {
-#ifdef IDE_COMPILE
-    "vob",
-    "MPEG-2 PS (VOB)",
-    "video/mpeg",
-    "vob",
-    AV_CODEC_ID_MP2,
-    AV_CODEC_ID_MPEG2VIDEO,
-    0, 0, 0, &vob_class,
-    0, sizeof(MpegMuxContext),
-    mpeg_mux_init,
-    mpeg_mux_write_packet,
-    mpeg_mux_end,
-#else
 	.name              = "vob",
     .long_name         = NULL_IF_CONFIG_SMALL("MPEG-2 PS (VOB)"),
     .mime_type         = "video/mpeg",
@@ -1308,7 +1253,6 @@ AVOutputFormat ff_mpeg2vob_muxer = {
     .write_packet      = mpeg_mux_write_packet,
     .write_trailer     = mpeg_mux_end,
     .priv_class        = &vob_class,
-#endif
 };
 #endif
 
@@ -1316,19 +1260,6 @@ AVOutputFormat ff_mpeg2vob_muxer = {
 #if CONFIG_MPEG2SVCD_MUXER
 MPEGENC_CLASS(svcd)
 AVOutputFormat ff_mpeg2svcd_muxer = {
-#ifdef IDE_COMPILE
-    "svcd",
-    "MPEG-2 PS (SVCD)",
-    "video/mpeg",
-    "vob",
-    AV_CODEC_ID_MP2,
-    AV_CODEC_ID_MPEG2VIDEO,
-    0, 0, 0, &svcd_class,
-    0, sizeof(MpegMuxContext),
-    mpeg_mux_init,
-    mpeg_mux_write_packet,
-    mpeg_mux_end,
-#else
 	.name              = "svcd",
     .long_name         = NULL_IF_CONFIG_SMALL("MPEG-2 PS (SVCD)"),
     .mime_type         = "video/mpeg",
@@ -1340,7 +1271,6 @@ AVOutputFormat ff_mpeg2svcd_muxer = {
     .write_packet      = mpeg_mux_write_packet,
     .write_trailer     = mpeg_mux_end,
     .priv_class        = &svcd_class,
-#endif
 };
 #endif
 
@@ -1348,19 +1278,6 @@ AVOutputFormat ff_mpeg2svcd_muxer = {
 #if CONFIG_MPEG2DVD_MUXER
 MPEGENC_CLASS(dvd)
 AVOutputFormat ff_mpeg2dvd_muxer = {
-#ifdef IDE_COMPILE
-    "dvd",
-    "MPEG-2 PS (DVD VOB)",
-    "video/mpeg",
-    "dvd",
-    AV_CODEC_ID_MP2,
-    AV_CODEC_ID_MPEG2VIDEO,
-    0, 0, 0, &dvd_class,
-    0, sizeof(MpegMuxContext),
-    mpeg_mux_init,
-    mpeg_mux_write_packet,
-    mpeg_mux_end,
-#else
 	.name              = "dvd",
     .long_name         = NULL_IF_CONFIG_SMALL("MPEG-2 PS (DVD VOB)"),
     .mime_type         = "video/mpeg",
@@ -1372,6 +1289,5 @@ AVOutputFormat ff_mpeg2dvd_muxer = {
     .write_packet      = mpeg_mux_write_packet,
     .write_trailer     = mpeg_mux_end,
     .priv_class        = &dvd_class,
-#endif
 };
 #endif

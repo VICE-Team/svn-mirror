@@ -384,17 +384,6 @@ static int decode_stream_header(NUTContext *nut)
     switch (class) {
     case 0:
         st->codec->codec_type = AVMEDIA_TYPE_VIDEO;
-#ifdef IDE_COMPILE
-        {
-			const AVCodecTag * const tmpx[] = {
-                                                    ff_nut_video_tags,
-                                                    ff_codec_bmp_tags,
-                                                    ff_codec_movvideo_tags,
-                                                    0
-                                                };
-			st->codec->codec_id = av_codec_get_id(tmpx, tmp);
-		}
-#else
 		st->codec->codec_id   = av_codec_get_id((const AVCodecTag * const []) {
                                                     ff_nut_video_tags,
                                                     ff_codec_bmp_tags,
@@ -402,21 +391,9 @@ static int decode_stream_header(NUTContext *nut)
                                                     0
                                                 },
                                                 tmp);
-#endif
 		break;
     case 1:
         st->codec->codec_type = AVMEDIA_TYPE_AUDIO;
-#ifdef IDE_COMPILE
-        {
-			const AVCodecTag * const tmpx[] = {
-                                                    ff_nut_audio_tags,
-                                                    ff_codec_wav_tags,
-                                                    ff_nut_audio_extra_tags,
-                                                    0
-                                                };
-			st->codec->codec_id = av_codec_get_id(tmpx, tmp);
-		}
-#else
 		st->codec->codec_id   = av_codec_get_id((const AVCodecTag * const []) {
                                                     ff_nut_audio_tags,
                                                     ff_codec_wav_tags,
@@ -424,7 +401,6 @@ static int decode_stream_header(NUTContext *nut)
                                                     0
                                                 },
                                                 tmp);
-#endif
 		break;
     case 2:
         st->codec->codec_type = AVMEDIA_TYPE_SUBTITLE;
@@ -620,24 +596,11 @@ static int decode_syncpoint(NUTContext *nut, int64_t *ts, int64_t *back_ptr)
                     tmp / nut->time_base_count);
 
     if (nut->flags & NUT_BROADCAST) {
-#ifdef IDE_COMPILE
-        AVRational tmp0;
-#endif
 		tmp = ffio_read_varlen(bc);
-#ifdef IDE_COMPILE
-        tmp0.num = 1;
-		tmp0.den = AV_TIME_BASE;
-
-		av_log(s, AV_LOG_VERBOSE, "Syncpoint wallclock %"PRId64"\n",
-               av_rescale_q(tmp / nut->time_base_count,
-                            nut->time_base[tmp % nut->time_base_count],
-                            tmp0));
-#else
 		av_log(s, AV_LOG_VERBOSE, "Syncpoint wallclock %"PRId64"\n",
                av_rescale_q(tmp / nut->time_base_count,
                             nut->time_base[tmp % nut->time_base_count],
                             AV_TIME_BASE_Q));
-#endif
 	}
 
     if (skip_reserved(bc, end) || ffio_get_checksum(bc)) {
@@ -678,13 +641,6 @@ static int find_and_decode_index(NUTContext *nut)
     uint64_t max_pts;
     int8_t *has_keyframe;
     int ret = AVERROR_INVALIDDATA;
-#ifdef IDE_COMPILE
-	AVRational tmp0;
-
-    tmp0.num = 1;
-	tmp0.den = AV_TIME_BASE;
-#endif
-
 
     if(filesize <= 0)
         return -1;
@@ -703,15 +659,9 @@ static int find_and_decode_index(NUTContext *nut)
     end += avio_tell(bc);
 
     max_pts = ffio_read_varlen(bc);
-#ifdef IDE_COMPILE
-	s->duration = av_rescale_q(max_pts / nut->time_base_count,
-                               nut->time_base[max_pts % nut->time_base_count],
-                               tmp0);
-#else
 	s->duration = av_rescale_q(max_pts / nut->time_base_count,
                                nut->time_base[max_pts % nut->time_base_count],
                                AV_TIME_BASE_Q);
-#endif
 	s->duration_estimation_method = AVFMT_DURATION_FROM_PTS;
 
     GET_V(syncpoint_count, tmp < INT_MAX / 8 && tmp > 0);
@@ -1193,13 +1143,8 @@ static int read_seek(AVFormatContext *s, int stream_index,
 {
     NUTContext *nut    = s->priv_data;
     AVStream *st       = s->streams[stream_index];
-#ifdef IDE_COMPILE
-    Syncpoint dummy = { 0, 0, pts * av_q2d(st->time_base) * 1000000 };
-    Syncpoint nopts_sp = { 0, AV_NOPTS_VALUE, AV_NOPTS_VALUE };
-#else
     Syncpoint dummy    = { .ts = pts * av_q2d(st->time_base) * AV_TIME_BASE };
     Syncpoint nopts_sp = { .ts = AV_NOPTS_VALUE, .back_ptr = AV_NOPTS_VALUE };
-#endif
     Syncpoint *sp;
     SP_void_t next_node;
     int64_t pos, pos2, ts;
@@ -1279,19 +1224,6 @@ static int nut_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_nut_demuxer = {
-#ifdef IDE_COMPILE
-    "nut",
-    "NUT",
-    AVFMT_SEEK_TO_PTS,
-    "nut",
-    ff_nut_codec_tags,
-    0, 0, 0, 0, sizeof(NUTContext),
-    nut_probe,
-    nut_read_header,
-    nut_read_packet,
-    nut_read_close,
-    read_seek,
-#else
 	.name           = "nut",
     .long_name      = NULL_IF_CONFIG_SMALL("NUT"),
     .flags          = AVFMT_SEEK_TO_PTS,
@@ -1303,5 +1235,4 @@ AVInputFormat ff_nut_demuxer = {
     .read_seek      = read_seek,
     .extensions     = "nut",
     .codec_tag      = ff_nut_codec_tags,
-#endif
 };

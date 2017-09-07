@@ -51,30 +51,6 @@
 #include <assert.h>
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "movflags", "MOV muxer flags", offsetof(MOVMuxContext, flags), AV_OPT_TYPE_FLAGS, {0}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "rtphint", "Add RTP hint tracks", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_RTP_HINT}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "moov_size", "maximum moov size so it can be placed at the begin", offsetof(MOVMuxContext, reserved_moov_size), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, 0 },
-    { "empty_moov", "Make the initial moov atom empty (not supported by QuickTime)", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_EMPTY_MOOV}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "frag_keyframe", "Fragment at video keyframes", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_FRAG_KEYFRAME}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "separate_moof", "Write separate moof/mdat atoms for each track", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_SEPARATE_MOOF}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "frag_custom", "Flush fragments on caller requests", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_FRAG_CUSTOM}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "isml", "Create a live smooth streaming feed (for pushing to a publishing point)", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_ISML}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "faststart", "Run a second pass to put the index (moov atom) at the beginning of the file", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_FASTSTART}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "omit_tfhd_offset", "Omit the base data offset in tfhd atoms", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_OMIT_TFHD_OFFSET}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    { "disable_chpl", "Disable Nero chapter atom", 0, AV_OPT_TYPE_CONST, {FF_MOV_FLAG_DISABLE_CHPL}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
-    FF_RTP_FLAG_OPTS(MOVMuxContext, rtp_flags),
-    { "skip_iods", "Skip writing iods atom.", offsetof(MOVMuxContext, iods_skip), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM},
-    { "iods_audio_profile", "iods audio profile atom.", offsetof(MOVMuxContext, iods_audio_profile), AV_OPT_TYPE_INT, {-1}, -1, 255, AV_OPT_FLAG_ENCODING_PARAM},
-    { "iods_video_profile", "iods video profile atom.", offsetof(MOVMuxContext, iods_video_profile), AV_OPT_TYPE_INT, {-1}, -1, 255, AV_OPT_FLAG_ENCODING_PARAM},
-    { "frag_duration", "Maximum fragment duration", offsetof(MOVMuxContext, max_fragment_duration), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-    { "min_frag_duration", "Minimum fragment duration", offsetof(MOVMuxContext, min_fragment_duration), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-    { "frag_size", "Maximum fragment size", offsetof(MOVMuxContext, max_fragment_size), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-    { "ism_lookahead", "Number of lookahead entries for ISM files", offsetof(MOVMuxContext, ism_lookahead), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-    { "use_editlist", "use edit list", offsetof(MOVMuxContext, use_editlist), AV_OPT_TYPE_INT, {-1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM},
-    { "video_track_timescale", "set timescale of all video tracks", offsetof(MOVMuxContext, video_track_timescale), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
-    { "brand", "Override major brand", offsetof(MOVMuxContext, major_brand), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, AV_OPT_FLAG_ENCODING_PARAM },
-#else
 	{ "movflags", "MOV muxer flags", offsetof(MOVMuxContext, flags), AV_OPT_TYPE_FLAGS, {.i64 = 0}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
     { "rtphint", "Add RTP hint tracks", 0, AV_OPT_TYPE_CONST, {.i64 = FF_MOV_FLAG_RTP_HINT}, INT_MIN, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, "movflags" },
     { "moov_size", "maximum moov size so it can be placed at the begin", offsetof(MOVMuxContext, reserved_moov_size), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM, 0 },
@@ -97,19 +73,9 @@ static const AVOption options[] = {
     { "use_editlist", "use edit list", offsetof(MOVMuxContext, use_editlist), AV_OPT_TYPE_INT, {.i64 = -1}, -1, 1, AV_OPT_FLAG_ENCODING_PARAM},
     { "video_track_timescale", "set timescale of all video tracks", offsetof(MOVMuxContext, video_track_timescale), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM},
     { "brand",    "Override major brand", offsetof(MOVMuxContext, major_brand),   AV_OPT_TYPE_STRING, {.str = NULL}, .flags = AV_OPT_FLAG_ENCODING_PARAM },
-#endif
 	{ NULL },
 };
 
-#ifdef IDE_COMPILE
-#define MOV_CLASS(flavor)\
-static const AVClass flavor ## _muxer_class = {\
-    #flavor " muxer",\
-    av_default_item_name,\
-    options,\
-    LIBAVUTIL_VERSION_INT,\
-};
-#else
 #define MOV_CLASS(flavor)\
 static const AVClass flavor ## _muxer_class = {\
     .class_name = #flavor " muxer",\
@@ -117,7 +83,6 @@ static const AVClass flavor ## _muxer_class = {\
     .option     = options,\
     .version    = LIBAVUTIL_VERSION_INT,\
 };
-#endif
 
 static int get_moov_size(AVFormatContext *s);
 
@@ -2532,17 +2497,8 @@ static int mov_write_chpl_tag(AVIOContext *pb, AVFormatContext *s)
     for (i = 0; i < nb_chapters; i++) {
         AVChapter *c = s->chapters[i];
         AVDictionaryEntry *t;
-#ifdef IDE_COMPILE
-		AVRational tmp;
-#endif
 
-#ifdef IDE_COMPILE
-		tmp.num = 1;
-		tmp.den = 10000000;
-		avio_wb64(pb, av_rescale_q(c->start, c->time_base, tmp));
-#else
 		avio_wb64(pb, av_rescale_q(c->start, c->time_base, (AVRational){1,10000000}));
-#endif
 
 		if ((t = av_dict_get(c->metadata, "title", NULL, 0))) {
             int len = FFMIN(strlen(t->value), 255);
@@ -3676,19 +3632,9 @@ static int mov_write_single_packet(AVFormatContext *s, AVPacket *pkt)
             return 0;             /* Discard 0 sized packets */
 
         if (trk->entry && pkt->stream_index < s->nb_streams) {
-#ifdef IDE_COMPILE
-            AVRational tmp;
-
-			tmp.num = 1;
-			tmp.den = AV_TIME_BASE;
-			frag_duration = av_rescale_q(pkt->dts - trk->cluster[0].dts,
-                                         s->streams[pkt->stream_index]->time_base,
-                                         tmp);
-#else
 			frag_duration = av_rescale_q(pkt->dts - trk->cluster[0].dts,
                                          s->streams[pkt->stream_index]->time_base,
                                          AV_TIME_BASE_Q);
-#endif
 		}
 		if ((mov->max_fragment_duration &&
              frag_duration >= mov->max_fragment_duration) ||
@@ -3779,11 +3725,7 @@ static int mov_create_chapter_track(AVFormatContext *s, int tracknum)
 
     MOVMuxContext *mov = s->priv_data;
     MOVTrack *track = &mov->tracks[tracknum];
-#ifdef IDE_COMPILE
-    AVPacket pkt = { 0, 0, 0, 0, 0, tracknum, AV_PKT_FLAG_KEY };
-#else
 	AVPacket pkt = { .stream_index = tracknum, .flags = AV_PKT_FLAG_KEY };
-#endif
 	int i, len;
 
     track->mode = mov->mode;
@@ -3848,22 +3790,9 @@ static int mov_create_chapter_track(AVFormatContext *s, int tracknum)
     for (i = 0; i < s->nb_chapters; i++) {
         AVChapter *c = s->chapters[i];
         AVDictionaryEntry *t;
-#ifdef IDE_COMPILE
-		AVRational tmp;
-		int64_t end;
-#endif
 
-#ifdef IDE_COMPILE
-		tmp.num = 1;
-		tmp.den = MOV_TIMESCALE;
-		end = av_rescale_q(c->end, c->time_base, tmp);
-        tmp.num = 1;
-		tmp.den = MOV_TIMESCALE;
-        pkt.pts = pkt.dts = av_rescale_q(c->start, c->time_base, tmp);
-#else
 		int64_t end = av_rescale_q(c->end, c->time_base, (AVRational){1,MOV_TIMESCALE});
         pkt.pts = pkt.dts = av_rescale_q(c->start, c->time_base, (AVRational){1,MOV_TIMESCALE});
-#endif
 		pkt.duration = end - pkt.dts;
 
         if ((t = av_dict_get(c->metadata, "title", NULL, 0))) {
@@ -3894,11 +3823,7 @@ static int mov_create_timecode_track(AVFormatContext *s, int index, int src_inde
     MOVTrack *track     = &mov->tracks[index];
     AVStream *src_st    = s->streams[src_index];
     AVTimecode tc;
-#ifdef IDE_COMPILE
-    AVPacket pkt = {0, 0, 0, 0, 4, index, AV_PKT_FLAG_KEY};
-#else
 	AVPacket pkt    = {.stream_index = index, .flags = AV_PKT_FLAG_KEY, .size = 4};
-#endif
 	AVRational rate = find_fps(s, src_st);
 
     /* compute the frame number */
@@ -4617,28 +4542,9 @@ error:
 }
 
 #if CONFIG_MOV_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp1[] = {
-        ff_codec_movvideo_tags, ff_codec_movaudio_tags, 0
-    };
-#endif
 
 MOV_CLASS(mov)
 AVOutputFormat ff_mov_muxer = {
-#ifdef IDE_COMPILE
-    "mov",
-    "QuickTime / MOV",
-    0, "mov",
-    AV_CODEC_ID_AAC,
-    CONFIG_LIBX264_ENCODER ? AV_CODEC_ID_H264 : AV_CODEC_ID_MPEG4,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
-    tmp1,
-    &mov_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "mov",
     .long_name         = NULL_IF_CONFIG_SMALL("QuickTime / MOV"),
     .extensions        = "mov",
@@ -4654,31 +4560,13 @@ AVOutputFormat ff_mov_muxer = {
         ff_codec_movvideo_tags, ff_codec_movaudio_tags, 0
     },
     .priv_class        = &mov_muxer_class,
-#endif
 };
 #endif
 
 #if CONFIG_TGP_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp2[] = { codec_3gp_tags, 0 };
-#endif
 
 MOV_CLASS(tgp)
 AVOutputFormat ff_tgp_muxer = {
-#ifdef IDE_COMPILE
-    "3gp",
-    "3GP (3GPP file format)",
-    0, "3gp",
-    AV_CODEC_ID_AMR_NB,
-    AV_CODEC_ID_H263,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
-    tmp2,
-    &tgp_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "3gp",
     .long_name         = NULL_IF_CONFIG_SMALL("3GP (3GPP file format)"),
     .extensions        = "3gp",
@@ -4691,32 +4579,13 @@ AVOutputFormat ff_tgp_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
     .codec_tag         = (const AVCodecTag* const []){ codec_3gp_tags, 0 },
     .priv_class        = &tgp_muxer_class,
-#endif
 };
 #endif
 
 #if CONFIG_MP4_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp3[] = { ff_mp4_obj_type, 0 };
-#endif
 
 MOV_CLASS(mp4)
 AVOutputFormat ff_mp4_muxer = {
-#ifdef IDE_COMPILE
-    "mp4",
-    "MP4 (MPEG-4 Part 14)",
-    "application/mp4",
-    "mp4",
-    AV_CODEC_ID_AAC,
-    CONFIG_LIBX264_ENCODER ? AV_CODEC_ID_H264 : AV_CODEC_ID_MPEG4,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
-    tmp3,
-    &mp4_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "mp4",
     .long_name         = NULL_IF_CONFIG_SMALL("MP4 (MPEG-4 Part 14)"),
     .mime_type         = "application/mp4",
@@ -4731,31 +4600,13 @@ AVOutputFormat ff_mp4_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
     .codec_tag         = (const AVCodecTag* const []){ ff_mp4_obj_type, 0 },
     .priv_class        = &mp4_muxer_class,
-#endif
 };
 #endif
 
 #if CONFIG_PSP_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp4[] = { ff_mp4_obj_type, 0 };
-#endif
 
 MOV_CLASS(psp)
 AVOutputFormat ff_psp_muxer = {
-#ifdef IDE_COMPILE
-    "psp",
-    "PSP MP4 (MPEG-4 Part 14)",
-    0, "mp4,psp",
-    AV_CODEC_ID_AAC,
-    CONFIG_LIBX264_ENCODER ? AV_CODEC_ID_H264 : AV_CODEC_ID_MPEG4,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
-    tmp4,
-    &psp_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "psp",
     .long_name         = NULL_IF_CONFIG_SMALL("PSP MP4 (MPEG-4 Part 14)"),
     .extensions        = "mp4,psp",
@@ -4769,31 +4620,13 @@ AVOutputFormat ff_psp_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
     .codec_tag         = (const AVCodecTag* const []){ ff_mp4_obj_type, 0 },
     .priv_class        = &psp_muxer_class,
-#endif
 };
 #endif
 
 #if CONFIG_TG2_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp5[] = { codec_3gp_tags, 0 };
-#endif
 
 MOV_CLASS(tg2)
 AVOutputFormat ff_tg2_muxer = {
-#ifdef IDE_COMPILE
-    "3g2",
-    "3GP2 (3GPP2 file format)",
-    0, "3g2",
-    AV_CODEC_ID_AMR_NB,
-    AV_CODEC_ID_H263,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
-    tmp5,
-    &tg2_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "3g2",
     .long_name         = NULL_IF_CONFIG_SMALL("3GP2 (3GPP2 file format)"),
     .extensions        = "3g2",
@@ -4806,32 +4639,13 @@ AVOutputFormat ff_tg2_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
     .codec_tag         = (const AVCodecTag* const []){ codec_3gp_tags, 0 },
     .priv_class        = &tg2_muxer_class,
-#endif
 };
 #endif
 
 #if CONFIG_IPOD_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp6[] = { codec_ipod_tags, 0 };
-#endif
 
 MOV_CLASS(ipod)
 AVOutputFormat ff_ipod_muxer = {
-#ifdef IDE_COMPILE
-    "ipod",
-    "iPod H.264 MP4 (MPEG-4 Part 14)",
-    "application/mp4",
-    "m4v,m4a",
-    AV_CODEC_ID_AAC,
-    AV_CODEC_ID_H264,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
-    tmp6,
-    &ipod_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "ipod",
     .long_name         = NULL_IF_CONFIG_SMALL("iPod H.264 MP4 (MPEG-4 Part 14)"),
     .mime_type         = "application/mp4",
@@ -4845,32 +4659,13 @@ AVOutputFormat ff_ipod_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
     .codec_tag         = (const AVCodecTag* const []){ codec_ipod_tags, 0 },
     .priv_class        = &ipod_muxer_class,
-#endif
 };
 #endif
 
 #if CONFIG_ISMV_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp7[] = { ff_mp4_obj_type, 0 };
-#endif
 
 MOV_CLASS(ismv)
 AVOutputFormat ff_ismv_muxer = {
-#ifdef IDE_COMPILE
-    "ismv",
-    "ISMV/ISMA (Smooth Streaming)",
-    "application/mp4",
-    "ismv,isma",
-    AV_CODEC_ID_AAC,
-    AV_CODEC_ID_H264,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
-    tmp7,
-    &ismv_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "ismv",
     .long_name         = NULL_IF_CONFIG_SMALL("ISMV/ISMA (Smooth Streaming)"),
     .mime_type         = "application/mp4",
@@ -4884,32 +4679,13 @@ AVOutputFormat ff_ismv_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH | AVFMT_TS_NEGATIVE,
     .codec_tag         = (const AVCodecTag* const []){ ff_mp4_obj_type, 0 },
     .priv_class        = &ismv_muxer_class,
-#endif
 };
 #endif
 
 #if CONFIG_F4V_MUXER
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmp8[] = { codec_f4v_tags, 0 };
-#endif
 
 MOV_CLASS(f4v)
 AVOutputFormat ff_f4v_muxer = {
-#ifdef IDE_COMPILE
-    "f4v",
-    "F4V Adobe Flash Video",
-    "application/f4v",
-    "f4v",
-    AV_CODEC_ID_AAC,
-    AV_CODEC_ID_H264,
-    0, AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH,
-    tmp8,
-    &f4v_muxer_class,
-    0, sizeof(MOVMuxContext),
-    mov_write_header,
-    mov_write_packet,
-    mov_write_trailer,
-#else
 	.name              = "f4v",
     .long_name         = NULL_IF_CONFIG_SMALL("F4V Adobe Flash Video"),
     .mime_type         = "application/f4v",
@@ -4923,6 +4699,5 @@ AVOutputFormat ff_f4v_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_ALLOW_FLUSH,
     .codec_tag         = (const AVCodecTag* const []){ codec_f4v_tags, 0 },
     .priv_class        = &f4v_muxer_class,
-#endif
 };
 #endif

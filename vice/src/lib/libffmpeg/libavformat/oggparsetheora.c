@@ -205,19 +205,10 @@ static int theora_packet(AVFormatContext *s, int idx)
 }
 
 const struct ogg_codec ff_theora_codec = {
-#ifdef IDE_COMPILE
-    "\200theora",
-    7,
-    0, theora_header,
-    theora_packet,
-    theora_gptopts,
-    0, 3,
-#else
 	.magic     = "\200theora",
     .magicsize = 7,
     .header    = theora_header,
     .packet    = theora_packet,
     .gptopts   = theora_gptopts,
     .nb_header = 3,
-#endif
 };

@@ -188,19 +188,10 @@ static int read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_mm_demuxer = {
-#ifdef IDE_COMPILE
-    "mm",
-    "American Laser Games MM",
-    0, 0, 0, 0, 0, 0, 0, sizeof(MmDemuxContext),
-    probe,
-    read_header,
-    read_packet,
-#else
 	.name           = "mm",
     .long_name      = NULL_IF_CONFIG_SMALL("American Laser Games MM"),
     .priv_data_size = sizeof(MmDemuxContext),
     .read_probe     = probe,
     .read_header    = read_header,
     .read_packet    = read_packet,
-#endif
 };

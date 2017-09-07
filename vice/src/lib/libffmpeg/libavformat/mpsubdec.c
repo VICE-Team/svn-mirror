@@ -56,19 +56,10 @@ static int mpsub_read_header(AVFormatContext *s)
     MPSubContext *mpsub = s->priv_data;
     AVStream *st;
     AVBPrint buf;
-#ifdef IDE_COMPILE
-	AVRational pts_info; // ts based by default
-#else
 	AVRational pts_info = (AVRational){ 100, 1 }; // ts based by default
-#endif
 	int res = 0;
     float multiplier = 100.0;
     float current_pts = 0;
-
-#ifdef IDE_COMPILE
-	pts_info.num = 100;
-	pts_info.den = 1;
-#endif
 
 	av_bprint_init(&buf, 0, AV_BPRINT_SIZE_UNLIMITED);
 
@@ -83,14 +74,8 @@ static int mpsub_read_header(AVFormatContext *s)
         line[strcspn(line, "\r\n")] = 0;
 
         if (sscanf(line, "FORMAT=%d", &fps) == 1 && fps > 3 && fps < 100) {
-#ifdef IDE_COMPILE
-			/* frame based timing */
-            pts_info.num = fps;
-            pts_info.den = 1;
-#else
 			/* frame based timing */
             pts_info = (AVRational){ fps, 1 };
-#endif
 			multiplier = 1.0;
         } else if (sscanf(line, "%f %f", &start, &duration) == 2) {
             AVPacket *sub;
@@ -147,17 +132,6 @@ static int mpsub_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_mpsub_demuxer = {
-#ifdef IDE_COMPILE
-    "mpsub",
-    "MPlayer subtitles",
-    0, "sub",
-    0, 0, 0, 0, 0, sizeof(MPSubContext),
-    mpsub_probe,
-    mpsub_read_header,
-    mpsub_read_packet,
-    mpsub_read_close,
-    0, 0, 0, 0, mpsub_read_seek,
-#else
 	.name           = "mpsub",
     .long_name      = NULL_IF_CONFIG_SMALL("MPlayer subtitles"),
     .priv_data_size = sizeof(MPSubContext),
@@ -167,5 +141,4 @@ AVInputFormat ff_mpsub_demuxer = {
     .read_seek2     = mpsub_read_seek,
     .read_close     = mpsub_read_close,
     .extensions     = "sub",
-#endif
 };

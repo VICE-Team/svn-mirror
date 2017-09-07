@@ -47,23 +47,12 @@ static int ogm_chapter(AVFormatContext *as, uint8_t *key, uint8_t *val)
         return 0;
 
     if (keylen <= 10) {
-#ifdef IDE_COMPILE
-		AVRational tmp;
-#endif
 		if (sscanf(val, "%02d:%02d:%02d.%03d", &h, &m, &s, &ms) < 4)
             return 0;
 
-#ifdef IDE_COMPILE
-		tmp.num = 1;
-		tmp.den = 1000;
-		avpriv_new_chapter(as, cnum, tmp,
-                           ms + 1000 * (s + 60 * (m + 60 * h)),
-                           AV_NOPTS_VALUE, NULL);
-#else
 		avpriv_new_chapter(as, cnum, (AVRational) { 1, 1000 },
                            ms + 1000 * (s + 60 * (m + 60 * h)),
                            AV_NOPTS_VALUE, NULL);
-#endif
 		av_free(val);
     } else if (!strcmp(key + keylen - 4, "NAME")) {
         for (i = 0; i < as->nb_chapters; i++)
@@ -195,13 +184,8 @@ int ff_vorbis_comment(AVFormatContext *as, AVDictionary **m,
     }
 
     if (p != end)
-#ifdef IDE_COMPILE
-        av_log(as, AV_LOG_INFO,
-               "%""td"" bytes of comment header remain\n", end - p);
-#else
 		av_log(as, AV_LOG_INFO,
                "%"PTRDIFF_SPECIFIER" bytes of comment header remain\n", end - p);
-#endif
 	if (n > 0)
         av_log(as, AV_LOG_INFO,
                "truncated comment header, %i comments not found\n", n);
@@ -501,19 +485,10 @@ static int vorbis_packet(AVFormatContext *s, int idx)
 }
 
 const struct ogg_codec ff_vorbis_codec = {
-#ifdef IDE_COMPILE
-    "\001vorbis",
-    7,
-    0, vorbis_header,
-    vorbis_packet,
-    0, 0, 3,
-    vorbis_cleanup,
-#else
 	.magic     = "\001vorbis",
     .magicsize = 7,
     .header    = vorbis_header,
     .packet    = vorbis_packet,
     .cleanup   = vorbis_cleanup,
     .nb_header = 3,
-#endif
 };

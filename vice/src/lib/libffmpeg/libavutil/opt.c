@@ -25,11 +25,6 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#include "libavutil/internal.h"
-#endif
-
 #include "avutil.h"
 #include "avstring.h"
 #include "channel_layout.h"
@@ -126,15 +121,7 @@ static int write_number(void *obj, const AVOption *o, void *dst, double num, int
     case AV_OPT_TYPE_DOUBLE:*(double    *)dst= num*intnum/den;         break;
     case AV_OPT_TYPE_RATIONAL:
         if ((int)num == num) {
-#ifdef IDE_COMPILE
-			AVRational tmp;
-
-			tmp.num = num*intnum;
-			tmp.den = den;
-			*(AVRational*)dst= tmp;
-#else
 			*(AVRational*)dst= (AVRational){num*intnum, den};
-#endif
 		} else {
 			*(AVRational*)dst= av_d2q(num*intnum/den, 1<<24);
 		}
@@ -813,27 +800,12 @@ AVRational av_get_q(void *obj, const char *name, const AVOption **o_out)
     int64_t intnum=1;
     double num=1;
     int den=1;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (get_number(obj, name, o_out, &num, &den, &intnum, 0) < 0) {
-#ifdef IDE_COMPILE
-		tmp.num = 0;
-		tmp.den = 0;
-		return tmp;
-#else
 		return (AVRational){0, 0};
-#endif
 	}
 	if (num == 1.0 && (int)intnum == intnum) {
-#ifdef IDE_COMPILE
-		tmp.num = intnum;
-		tmp.den = den;
-		return tmp;
-#else
 		return (AVRational){intnum, den};
-#endif
 	} else
         return av_d2q(num*intnum/den, 1<<24);
 }
@@ -879,22 +851,12 @@ int av_opt_get_q(void *obj, const char *name, int search_flags, AVRational *out_
     int64_t intnum = 1;
     double     num = 1;
     int   ret, den = 1;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
-
 
     if ((ret = get_number(obj, name, NULL, &num, &den, &intnum, search_flags)) < 0)
         return ret;
 
     if (num == 1.0 && (int)intnum == intnum) {
-#ifdef IDE_COMPILE
-		tmp.num = intnum;
-		tmp.den = den;
-		*out_val = tmp;
-#else
 		*out_val = (AVRational){intnum, den};
-#endif
 	} else
         *out_val = av_d2q(num*intnum/den, 1<<24);
     return 0;
@@ -923,21 +885,12 @@ int av_opt_get_video_rate(void *obj, const char *name, int search_flags, AVRatio
     int64_t intnum = 1;
     double     num = 1;
     int   ret, den = 1;
-#ifdef IDE_COMPILE
-    AVRational tmp;
-#endif
 
     if ((ret = get_number(obj, name, NULL, &num, &den, &intnum, search_flags)) < 0)
         return ret;
 
     if (num == 1.0 && (int)intnum == intnum) {
-#ifdef IDE_COMPILE
-		tmp.num = intnum;
-		tmp.den = den;
-		*out_val = tmp;
-#else
 		*out_val = (AVRational){intnum, den};
-#endif
 	} else
         *out_val = av_d2q(num*intnum/den, 1<<24);
     return 0;
@@ -1449,14 +1402,8 @@ int av_opt_set_from_string(void *ctx, const char *opts,
             if (ret == AVERROR(EINVAL)) {
                 av_log(ctx, AV_LOG_ERROR, "No option name near '%s'\n", opts);
 			} else {
-#ifdef IDE_COMPILE
-				char tmpx[64] = {0};
-				av_log(ctx, AV_LOG_ERROR, "Unable to parse '%s': %s\n", opts,
-                       av_make_error_string(tmpx, 64, ret));
-#else
 				av_log(ctx, AV_LOG_ERROR, "Unable to parse '%s': %s\n", opts,
                        av_err2str(ret));
-#endif
 			}
 			return ret;
         }

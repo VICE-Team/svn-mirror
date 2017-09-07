@@ -128,19 +128,10 @@ static int vp8_packet(AVFormatContext *s, int idx)
 }
 
 const struct ogg_codec ff_vp8_codec = {
-#ifdef IDE_COMPILE
-    "OVP80",
-    5,
-    0, vp8_header,
-    vp8_packet,
-    vp8_gptopts,
-    0, 1,
-#else
 	.magic     = "OVP80",
     .magicsize = 5,
     .header    = vp8_header,
     .packet    = vp8_packet,
     .gptopts   = vp8_gptopts,
     .nb_header = 1,
-#endif
 };

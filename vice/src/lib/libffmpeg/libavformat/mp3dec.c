@@ -164,18 +164,9 @@ static void mp3_parse_info_tag(AVFormatContext *s, AVStream *st,
         }
     }
     if (v & XING_FLAG_TOC) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-
-		tmp.num = spf;
-		tmp.den = c->sample_rate;
-		read_xing_toc(s, mp3->header_filesize, av_rescale_q(mp3->frames,
-                                       tmp, st->time_base));
-#else
 		read_xing_toc(s, mp3->header_filesize, av_rescale_q(mp3->frames,
                                        (AVRational){spf, c->sample_rate},
                                        st->time_base));
-#endif
 	}
 	/* VBR quality */
     if(v & 8)
@@ -230,17 +221,9 @@ static void mp3_parse_info_tag(AVFormatContext *s, AVStream *st,
         mp3->  end_pad = v&4095;
         st->skip_samples = mp3->start_pad + 528 + 1;
         if (!st->start_time) {
-#ifdef IDE_COMPILE
-            AVRational tmp;
-			tmp.num = 1;
-			tmp.den = c->sample_rate;
-			st->start_time = av_rescale_q(st->skip_samples,
-                                            tmp, st->time_base);
-#else
 			st->start_time = av_rescale_q(st->skip_samples,
                                             (AVRational){1, c->sample_rate},
                                             st->time_base);
-#endif
 		}
 		av_log(s, AV_LOG_DEBUG, "pad %d %d\n", mp3->start_pad, mp3->  end_pad);
     }
@@ -325,16 +308,8 @@ static int mp3_parse_vbr_tags(AVFormatContext *s, AVStream *st, int64_t base)
     avio_seek(s->pb, base + vbrtag_size, SEEK_SET);
 
     if (mp3->frames) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-
-		tmp.num = spf;
-		tmp.den = c.sample_rate;
-		st->duration = av_rescale_q(mp3->frames, tmp, st->time_base);
-#else
 		st->duration = av_rescale_q(mp3->frames, (AVRational){spf, c.sample_rate},
                                     st->time_base);
-#endif
 	}
 	if (mp3->header_filesize && mp3->frames && !mp3->is_cbr)
         st->codec->bit_rate = av_rescale(mp3->header_filesize, 8 * c.sample_rate, mp3->frames * (int64_t)spf);
@@ -505,43 +480,19 @@ static int mp3_seek(AVFormatContext *s, int stream_index, int64_t timestamp,
 }
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "usetoc", "use table of contents", offsetof(MP3DecContext, usetoc), AV_OPT_TYPE_INT, {-1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM},
-#else
 	{ "usetoc", "use table of contents", offsetof(MP3DecContext, usetoc), AV_OPT_TYPE_INT, {.i64 = -1}, -1, 1, AV_OPT_FLAG_DECODING_PARAM},
-#endif
 	{ NULL },
 };
 
 static const AVClass demuxer_class = {
-#ifdef IDE_COMPILE
-    "mp3",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, 0, 0, AV_CLASS_CATEGORY_DEMUXER,
-#else
 	.class_name = "mp3",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
     .category   = AV_CLASS_CATEGORY_DEMUXER,
-#endif
 };
 
 AVInputFormat ff_mp3_demuxer = {
-#ifdef IDE_COMPILE
-    "mp3",
-    "MP2/3 (MPEG audio layer 2/3)",
-    AVFMT_GENERIC_INDEX,
-    "mp2,mp3,m2a,mpa",
-    0, &demuxer_class,
-    0, 0, 0, sizeof(MP3DecContext),
-    mp3_read_probe,
-    mp3_read_header,
-    mp3_read_packet,
-    0, mp3_seek,
-#else
 	.name           = "mp3",
     .long_name      = NULL_IF_CONFIG_SMALL("MP2/3 (MPEG audio layer 2/3)"),
     .read_probe     = mp3_read_probe,
@@ -552,5 +503,4 @@ AVInputFormat ff_mp3_demuxer = {
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "mp2,mp3,m2a,mpa", /* XXX: use probe */
     .priv_class     = &demuxer_class,
-#endif
 };

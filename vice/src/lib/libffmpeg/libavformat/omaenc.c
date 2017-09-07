@@ -94,22 +94,7 @@ static av_cold int oma_write_header(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = {ff_oma_codec_tags, 0};
-#endif
-
 AVOutputFormat ff_oma_muxer = {
-#ifdef IDE_COMPILE
-    "oma",
-    "Sony OpenMG audio",
-    "audio/x-oma",
-    "oma",
-    AV_CODEC_ID_ATRAC3,
-    0, 0, AVFMT_NOTIMESTAMPS,
-    tmpx,
-    0, 0, 0, oma_write_header,
-    ff_raw_write_packet,
-#else
 	.name              = "oma",
     .long_name         = NULL_IF_CONFIG_SMALL("Sony OpenMG audio"),
     .mime_type         = "audio/x-oma",
@@ -119,5 +104,4 @@ AVOutputFormat ff_oma_muxer = {
     .write_packet      = ff_raw_write_packet,
     .codec_tag         = (const AVCodecTag* const []){ff_oma_codec_tags, 0},
     .flags             = AVFMT_NOTIMESTAMPS,
-#endif
 };

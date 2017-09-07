@@ -22,21 +22,6 @@
 #include "avformat.h"
 #include "rawenc.h"
 
-#ifdef IDE_COMPILE
-#define PCMDEF(name_, long_name_, ext, codec)               \
-AVOutputFormat ff_pcm_ ## name_ ## _muxer = {               \
-    #name_,                                 \
-    long_name_,       \
-    0, \
-    ext,                                    \
-    codec,                                  \
-    AV_CODEC_ID_NONE,                          \
-    0, \
-    AVFMT_NOTIMESTAMPS,                     \
-	0, 0, 0, 0, 0, \
-    ff_raw_write_packet,                    \
-};
-#else
 #define PCMDEF(name_, long_name_, ext, codec)               \
 AVOutputFormat ff_pcm_ ## name_ ## _muxer = {               \
     .name         = #name_,                                 \
@@ -47,7 +32,6 @@ AVOutputFormat ff_pcm_ ## name_ ## _muxer = {               \
     .write_packet = ff_raw_write_packet,                    \
     .flags        = AVFMT_NOTIMESTAMPS,                     \
 };
-#endif
 
 PCMDEF(f64be, "PCM 64-bit floating-point big-endian",
        NULL, AV_CODEC_ID_PCM_F64BE)

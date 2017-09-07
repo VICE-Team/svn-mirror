@@ -99,37 +99,19 @@ static uint64_t old_dirac_gptopts(AVFormatContext *s, int idx, uint64_t gp,
 }
 
 const struct ogg_codec ff_dirac_codec = {
-#ifdef IDE_COMPILE
-    "BBCD\0",
-    5,
-    0, dirac_header,
-    0, dirac_gptopts,
-    1,
-    1,
-#else
 	.magic = "BBCD\0",
     .magicsize = 5,
     .header = dirac_header,
     .gptopts = dirac_gptopts,
     .granule_is_start = 1,
     .nb_header = 1,
-#endif
 };
 
 const struct ogg_codec ff_old_dirac_codec = {
-#ifdef IDE_COMPILE
-    "KW-DIRAC",
-    8,
-    0, old_dirac_header,
-    0, old_dirac_gptopts,
-    1,
-    1,
-#else
 	.magic = "KW-DIRAC",
     .magicsize = 8,
     .header = old_dirac_header,
     .gptopts = old_dirac_gptopts,
     .granule_is_start = 1,
     .nb_header = 1,
-#endif
 };

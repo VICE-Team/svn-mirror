@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avstring.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
@@ -124,16 +120,6 @@ static int nist_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_nistsphere_demuxer = {
-#ifdef IDE_COMPILE
-    "nistsphere",
-    "NIST SPeech HEader REsources",
-    AVFMT_GENERIC_INDEX,
-    "nist,sph",
-    0, 0, 0, 0, 0, 0, nist_probe,
-    nist_read_header,
-    ff_pcm_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           = "nistsphere",
     .long_name      = NULL_IF_CONFIG_SMALL("NIST SPeech HEader REsources"),
     .read_probe     = nist_probe,
@@ -142,5 +128,4 @@ AVInputFormat ff_nistsphere_demuxer = {
     .read_seek      = ff_pcm_read_seek,
     .extensions     = "nist,sph",
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

@@ -56,18 +56,6 @@ static int mpjpeg_write_trailer(AVFormatContext *s)
 }
 
 AVOutputFormat ff_mpjpeg_muxer = {
-#ifdef IDE_COMPILE
-    "mpjpeg",
-    "MIME multipart JPEG",
-    "multipart/x-mixed-replace;boundary=" "ffserver",
-    "mjpg",
-    AV_CODEC_ID_NONE,
-    AV_CODEC_ID_MJPEG,
-    0, AVFMT_NOTIMESTAMPS,
-    0, 0, 0, 0, mpjpeg_write_header,
-    mpjpeg_write_packet,
-    mpjpeg_write_trailer,
-#else
 	.name              = "mpjpeg",
     .long_name         = NULL_IF_CONFIG_SMALL("MIME multipart JPEG"),
     .mime_type         = "multipart/x-mixed-replace;boundary=" BOUNDARY_TAG,
@@ -78,5 +66,4 @@ AVOutputFormat ff_mpjpeg_muxer = {
     .write_packet      = mpjpeg_write_packet,
     .write_trailer     = mpjpeg_write_trailer,
     .flags             = AVFMT_NOTIMESTAMPS,
-#endif
 };

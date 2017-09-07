@@ -401,9 +401,6 @@ static int mov_read_chpl(MOVContext *c, AVIOContext *pb, MOVAtom atom)
     nb_chapters = avio_r8(pb);
 
     for (i = 0; i < nb_chapters; i++) {
-#ifdef IDE_COMPILE
-		AVRational tmp;
-#endif
 
 		if (atom.size < 9)
             return 0;
@@ -416,13 +413,7 @@ static int mov_read_chpl(MOVContext *c, AVIOContext *pb, MOVAtom atom)
 
         avio_read(pb, str, str_len);
         str[str_len] = 0;
-#ifdef IDE_COMPILE
-		tmp.num = 1;
-		tmp.den = 10000000;
-		avpriv_new_chapter(c->fc, i, tmp, start, AV_NOPTS_VALUE, str);
-#else
 		avpriv_new_chapter(c->fc, i, (AVRational){1,10000000}, start, AV_NOPTS_VALUE, str);
-#endif
 	}
     return 0;
 }
@@ -631,14 +622,7 @@ static int mov_read_dac3(MOVContext *c, AVIOContext *pb, MOVAtom atom)
     acmod = (ac3info >> 11) & 0x7;
     lfeon = (ac3info >> 10) & 0x1;
 
-#ifdef IDE_COMPILE
-    {
-		int tmpx[] = {2,1,2,3,3,4,4,5};
-		st->codec->channels = (tmpx)[acmod] + lfeon;
-	}
-#else
 	st->codec->channels = ((int[]){2,1,2,3,3,4,4,5})[acmod] + lfeon;
-#endif
 	st->codec->channel_layout = avpriv_ac3_channel_layout_tab[acmod];
     if (lfeon)
         st->codec->channel_layout |= AV_CH_LOW_FREQUENCY;
@@ -1475,11 +1459,7 @@ static void mov_parse_stsd_subtitle(MOVContext *c, AVIOContext *pb,
 {
     // ttxt stsd contains display flags, justification, background
     // color, fonts, and default styles, so fake an atom to read it
-#ifdef IDE_COMPILE
-    MOVAtom fake_atom = { 0, size };
-#else
 	MOVAtom fake_atom = { .size = size };
-#endif
 	// mp4s contains a regular esds atom
     if (st->codec->codec_tag != AV_RL32("mp4s"))
         mov_read_glbl(c, pb, fake_atom);
@@ -3738,20 +3718,13 @@ static int mov_read_packet(AVFormatContext *s, AVPacket *pkt)
  retry:
     sample = mov_find_next_sample(s, &st);
     if (!sample) {
-#ifdef IDE_COMPILE
-		MOVAtom tmpz = { AV_RL32("root"), INT64_MAX };
-#endif
 		mov->found_mdat = 0;
         if (!mov->next_root_atom)
             return AVERROR_EOF;
         avio_seek(s->pb, mov->next_root_atom, SEEK_SET);
         mov->next_root_atom = 0;
-#ifdef IDE_COMPILE
-		if (mov_read_default(mov, s->pb, tmpz) < 0 || avio_feof(s->pb))
-#else
 		if (mov_read_default(mov, s->pb, (MOVAtom){ AV_RL32("root"), INT64_MAX }) < 0 ||
             avio_feof(s->pb))
-#endif
 			return AVERROR_EOF;
         av_dlog(s, "read fragments, offset 0x%"PRIx64"\n", avio_tell(s->pb));
         goto retry;
@@ -3888,48 +3861,23 @@ static int mov_read_seek(AVFormatContext *s, int stream_index, int64_t sample_ti
 }
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"use_absolute_path", "allow using absolute path when opening alias, this is a possible security issue", offsetof(MOVContext, use_absolute_path), FF_OPT_TYPE_INT, {0}, 0, 1, AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_DECODING_PARAM},
-    {"ignore_editlist", "", offsetof(MOVContext, ignore_editlist), FF_OPT_TYPE_INT, {0}, 0, 1, AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_DECODING_PARAM},
-#else
 	{"use_absolute_path",
         "allow using absolute path when opening alias, this is a possible security issue",
         offsetof(MOVContext, use_absolute_path), FF_OPT_TYPE_INT, {.i64 = 0},
         0, 1, AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_DECODING_PARAM},
     {"ignore_editlist", "", offsetof(MOVContext, ignore_editlist), FF_OPT_TYPE_INT, {.i64 = 0},
         0, 1, AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_DECODING_PARAM},
-#endif
 	{NULL}
 };
 
 static const AVClass mov_class = {
-#ifdef IDE_COMPILE
-    "mov,mp4,m4a,3gp,3g2,mj2",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "mov,mp4,m4a,3gp,3g2,mj2",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_mov_demuxer = {
-#ifdef IDE_COMPILE
-    "mov,mp4,m4a,3gp,3g2,mj2",
-    "QuickTime / MOV",
-    AVFMT_NO_BYTE_SEEK,
-    "mov,mp4,m4a,3gp,3g2,mj2",
-    0, &mov_class,
-    0, 0, 0, sizeof(MOVContext),
-    mov_probe,
-    mov_read_header,
-    mov_read_packet,
-    mov_read_close,
-    mov_read_seek,
-#else
 	.name           = "mov,mp4,m4a,3gp,3g2,mj2",
     .long_name      = NULL_IF_CONFIG_SMALL("QuickTime / MOV"),
     .priv_data_size = sizeof(MOVContext),
@@ -3941,5 +3889,4 @@ AVInputFormat ff_mov_demuxer = {
     .read_seek      = mov_read_seek,
     .priv_class     = &mov_class,
     .flags          = AVFMT_NO_BYTE_SEEK,
-#endif
 };

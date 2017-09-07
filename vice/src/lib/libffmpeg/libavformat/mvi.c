@@ -137,19 +137,10 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_mvi_demuxer = {
-#ifdef IDE_COMPILE
-    "mvi",
-    "Motion Pixels MVI",
-    0, "mvi",
-    0, 0, 0, 0, 0, sizeof(MviDemuxContext),
-    0, read_header,
-    read_packet,
-#else
 	.name           = "mvi",
     .long_name      = NULL_IF_CONFIG_SMALL("Motion Pixels MVI"),
     .priv_data_size = sizeof(MviDemuxContext),
     .read_header    = read_header,
     .read_packet    = read_packet,
     .extensions     = "mvi",
-#endif
 };

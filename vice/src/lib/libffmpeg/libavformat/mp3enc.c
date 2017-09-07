@@ -383,16 +383,6 @@ static int query_codec(enum AVCodecID id, int std_compliance)
 
 #if CONFIG_MP2_MUXER
 AVOutputFormat ff_mp2_muxer = {
-#ifdef IDE_COMPILE
-    "mp2",
-    "MP2 (MPEG audio layer 2)",
-    "audio/mpeg",
-    "mp2,m2a,mpa",
-    AV_CODEC_ID_MP2,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    0, 0, 0, 0, 0, ff_raw_write_packet,
-#else
 	.name              = "mp2",
     .long_name         = NULL_IF_CONFIG_SMALL("MP2 (MPEG audio layer 2)"),
     .mime_type         = "audio/mpeg",
@@ -401,40 +391,26 @@ AVOutputFormat ff_mp2_muxer = {
     .video_codec       = AV_CODEC_ID_NONE,
     .write_packet      = ff_raw_write_packet,
     .flags             = AVFMT_NOTIMESTAMPS,
-#endif
 };
 #endif
 
 #if CONFIG_MP3_MUXER
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "id3v2_version", "Select ID3v2 version to write. Currently 3 and 4 are supported.", offsetof(MP3Context, id3v2_version), AV_OPT_TYPE_INT, {4}, 0, 4, AV_OPT_FLAG_ENCODING_PARAM},
-    { "write_id3v1", "Enable ID3v1 writing. ID3v1 tags are written in UTF-8 which may not be supported by most software.", offsetof(MP3Context, write_id3v1), AV_OPT_TYPE_INT, {0}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM},
-    { "write_xing", "Write the Xing header containing file duration.", offsetof(MP3Context, write_xing), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM},
-#else
 	{ "id3v2_version", "Select ID3v2 version to write. Currently 3 and 4 are supported.",
       offsetof(MP3Context, id3v2_version), AV_OPT_TYPE_INT, {.i64 = 4}, 0, 4, AV_OPT_FLAG_ENCODING_PARAM},
     { "write_id3v1", "Enable ID3v1 writing. ID3v1 tags are written in UTF-8 which may not be supported by most software.",
       offsetof(MP3Context, write_id3v1), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM},
     { "write_xing",  "Write the Xing header containing file duration.",
       offsetof(MP3Context, write_xing),  AV_OPT_TYPE_INT, {.i64 = 1}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM},
-#endif
 	{ NULL },
 };
 
 static const AVClass mp3_muxer_class = {
-#ifdef IDE_COMPILE
-    "MP3 muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name     = "MP3 muxer",
     .item_name      = av_default_item_name,
     .option         = options,
     .version        = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static int mp3_write_packet(AVFormatContext *s, AVPacket *pkt)
@@ -553,21 +529,6 @@ static int mp3_write_header(struct AVFormatContext *s)
 }
 
 AVOutputFormat ff_mp3_muxer = {
-#ifdef IDE_COMPILE
-    "mp3",
-    "MP3 (MPEG audio layer 3)",
-    "audio/mpeg",
-    "mp3",
-    AV_CODEC_ID_MP3,
-    AV_CODEC_ID_PNG,
-    0, AVFMT_NOTIMESTAMPS,
-    0, &mp3_muxer_class,
-    0, sizeof(MP3Context),
-    mp3_write_header,
-    mp3_write_packet,
-    mp3_write_trailer,
-    0, query_codec,
-#else
 	.name              = "mp3",
     .long_name         = NULL_IF_CONFIG_SMALL("MP3 (MPEG audio layer 3)"),
     .mime_type         = "audio/mpeg",
@@ -581,6 +542,5 @@ AVOutputFormat ff_mp3_muxer = {
     .query_codec       = query_codec,
     .flags             = AVFMT_NOTIMESTAMPS,
     .priv_class        = &mp3_muxer_class,
-#endif
 };
 #endif
