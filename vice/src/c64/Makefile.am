@@ -290,7 +290,7 @@ EXTRA_DIST =
 SUFFIXES = .a65
 
 .a65.h:
-	xa -R -G $< -o $(srcdir)/$*.o65
+	$(XA) -R -G $< -o $(srcdir)/$*.o65
 	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@
 
 .PHONY: libc64cart libc64cartsystem libc64commoncart

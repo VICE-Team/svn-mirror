@@ -678,6 +678,12 @@ fi
 
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
 
+AC_CHECK_PROGS(XA, [xa xa65], no)
+
+if test x"$XA" = "xno"; then
+  AC_MSG_ERROR([xa is missing])
+fi
+
 if test x"$SVN" != "x"; then
   svnrevision=`$SVN 2>dummy.tmp info $srcdir | grep Revision | cut -d " " -f 2`
   rm dummy.tmp
