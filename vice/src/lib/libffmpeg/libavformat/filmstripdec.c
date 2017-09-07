@@ -24,10 +24,6 @@
  * Adobe Filmstrip demuxer
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
 #include "internal.h"
@@ -104,15 +100,6 @@ static int read_seek(AVFormatContext *s, int stream_index, int64_t timestamp, in
 }
 
 AVInputFormat ff_filmstrip_demuxer = {
-#ifdef IDE_COMPILE
-    "filmstrip",
-    "Adobe Filmstrip",
-    0, "flm",
-    0, 0, 0, 0, 0, sizeof(FilmstripDemuxContext),
-    0, read_header,
-    read_packet,
-    0, read_seek,
-#else
 	.name           = "filmstrip",
     .long_name      = NULL_IF_CONFIG_SMALL("Adobe Filmstrip"),
     .priv_data_size = sizeof(FilmstripDemuxContext),
@@ -120,5 +107,4 @@ AVInputFormat ff_filmstrip_demuxer = {
     .read_packet    = read_packet,
     .read_seek      = read_seek,
     .extensions     = "flm",
-#endif
 };

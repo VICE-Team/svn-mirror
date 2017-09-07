@@ -260,19 +260,10 @@ static int flic_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_flic_demuxer = {
-#ifdef IDE_COMPILE
-    "flic",
-    "FLI/FLC/FLX animation",
-    0, 0, 0, 0, 0, 0, 0, sizeof(FlicDemuxContext),
-    flic_probe,
-    flic_read_header,
-    flic_read_packet,
-#else
 	.name           = "flic",
     .long_name      = NULL_IF_CONFIG_SMALL("FLI/FLC/FLX animation"),
     .priv_data_size = sizeof(FlicDemuxContext),
     .read_probe     = flic_probe,
     .read_header    = flic_read_header,
     .read_packet    = flic_read_packet,
-#endif
 };

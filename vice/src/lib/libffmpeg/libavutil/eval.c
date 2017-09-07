@@ -26,10 +26,6 @@
  * see http://joe.hotchkiss.com/programming/eval/eval.html
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #include <float.h>
 #include "attributes.h"
 #include "avutil.h"
@@ -61,28 +57,6 @@ typedef struct Parser {
 static const AVClass eval_class = { "Eval", av_default_item_name, NULL, LIBAVUTIL_VERSION_INT, offsetof(Parser,log_offset), offsetof(Parser,log_ctx) };
 
 static const int8_t si_prefixes['z' - 'E' + 1] = {
-#ifdef IDE_COMPILE
-    18,
-    0, 9,
-    0, 0, 0, 3,
-    0, 6,
-    0, 0, 15,
-    0, 0, 0, 12,
-    0, 0, 0, 0, 24,
-    21,
-    0, 0, 0, 0, 0, 0, -18,
-    0, - 2,
-    - 1,
-    0, -15,
-    0, 2,
-    0, 0, 3,
-    0, - 3,
-    - 9,
-    0, -12,
-    0, 0, 0, 0, - 6,
-    0, 0, 0, -24,
-    -21,
-#else
 	['y'-'E']= -24,
     ['z'-'E']= -21,
     ['a'-'E']= -18,
@@ -103,7 +77,6 @@ static const int8_t si_prefixes['z' - 'E' + 1] = {
     ['E'-'E']=  18,
     ['Z'-'E']=  21,
     ['Y'-'E']=  24,
-#endif
 };
 
 static const struct {

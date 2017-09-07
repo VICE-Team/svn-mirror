@@ -95,15 +95,6 @@ static int cdata_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_ea_cdata_demuxer = {
-#ifdef IDE_COMPILE
-    "ea_cdata",
-    "Electronic Arts cdata",
-    0, "cdata",
-    0, 0, 0, 0, 0, sizeof(CdataDemuxContext),
-    cdata_probe,
-    cdata_read_header,
-    cdata_read_packet,
-#else
 	.name           = "ea_cdata",
     .long_name      = NULL_IF_CONFIG_SMALL("Electronic Arts cdata"),
     .priv_data_size = sizeof(CdataDemuxContext),
@@ -111,5 +102,4 @@ AVInputFormat ff_ea_cdata_demuxer = {
     .read_header    = cdata_read_header,
     .read_packet    = cdata_read_packet,
     .extensions = "cdata",
-#endif
 };

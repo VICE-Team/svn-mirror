@@ -229,17 +229,6 @@ static av_unused int64_t flac_read_timestamp(AVFormatContext *s, int stream_inde
 }
 
 AVInputFormat ff_flac_demuxer = {
-#ifdef IDE_COMPILE
-    "flac",
-    "raw FLAC",
-    AVFMT_GENERIC_INDEX,
-    "flac",
-    0, 0, 0, 0, AV_CODEC_ID_FLAC,
-    0, flac_probe,
-    flac_read_header,
-    ff_raw_read_partial_packet,
-    0, 0, flac_read_timestamp,
-#else
 	.name           = "flac",
     .long_name      = NULL_IF_CONFIG_SMALL("raw FLAC"),
     .read_probe     = flac_probe,
@@ -249,5 +238,4 @@ AVInputFormat ff_flac_demuxer = {
     .flags          = AVFMT_GENERIC_INDEX,
     .extensions     = "flac",
     .raw_codec_id   = AV_CODEC_ID_FLAC,
-#endif
 };

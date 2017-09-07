@@ -185,43 +185,18 @@ static int flac_write_packet(struct AVFormatContext *s, AVPacket *pkt)
 }
 
 static const AVOption flacenc_options[] = {
-#ifdef IDE_COMPILE
-	{ "write_header", "Write the file header", offsetof(FlacMuxerContext, write_header), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM },
-#else
 	{ "write_header", "Write the file header", offsetof(FlacMuxerContext, write_header), AV_OPT_TYPE_INT, {.i64 = 1}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass flac_muxer_class = {
-#ifdef IDE_COMPILE
-    "flac muxer",
-    av_default_item_name,
-    flacenc_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "flac muxer",
     .item_name  = av_default_item_name,
     .option     = flacenc_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_flac_muxer = {
-#ifdef IDE_COMPILE
-    "flac",
-    "raw FLAC",
-    "audio/x-flac",
-    "flac",
-    AV_CODEC_ID_FLAC,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    0, &flac_muxer_class,
-    0, sizeof(FlacMuxerContext),
-    flac_write_header,
-    flac_write_packet,
-    flac_write_trailer,
-#else
 	.name              = "flac",
     .long_name         = NULL_IF_CONFIG_SMALL("raw FLAC"),
     .priv_data_size    = sizeof(FlacMuxerContext),
@@ -234,5 +209,4 @@ AVOutputFormat ff_flac_muxer = {
     .write_trailer     = flac_write_trailer,
     .flags             = AVFMT_NOTIMESTAMPS,
     .priv_class        = &flac_muxer_class,
-#endif
 };

@@ -27,10 +27,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
 #include "internal.h"
@@ -312,12 +308,7 @@ static void process_video_header_mdec(AVFormatContext *s)
     avio_skip(pb, 4);
     ea->width       = avio_rl16(pb);
     ea->height      = avio_rl16(pb);
-#ifdef IDE_COMPILE
-	ea->time_base.num = 1;
-	ea->time_base.den = 15;
-#else
 	ea->time_base   = (AVRational) { 1, 15 };
-#endif
 	ea->video_codec = AV_CODEC_ID_MDEC;
 }
 
@@ -348,12 +339,7 @@ static void process_video_header_cmv(AVFormatContext *s)
     avio_skip(s->pb, 10);
     fps = avio_rl16(s->pb);
     if (fps) {
-#ifdef IDE_COMPILE
-		ea->time_base.num = 1;
-		ea->time_base.den = fps;
-#else
 		ea->time_base = (AVRational) { 1, fps };
-#endif
 	}
 	ea->video_codec = AV_CODEC_ID_CMV;
 }
@@ -427,33 +413,18 @@ static int process_ea_header(AVFormatContext *s)
         case pQGT_TAG:
         case TGQs_TAG:
             ea->video_codec = AV_CODEC_ID_TGQ;
-#ifdef IDE_COMPILE
-			ea->time_base.num = 1;
-			ea->time_base.den = 15;
-#else
 			ea->time_base   = (AVRational) { 1, 15 };
-#endif
 			break;
 
         case pIQT_TAG:
             ea->video_codec = AV_CODEC_ID_TQI;
-#ifdef IDE_COMPILE
-			ea->time_base.num = 1;
-			ea->time_base.den = 15;
-#else
 			ea->time_base   = (AVRational) { 1, 15 };
-#endif
 			break;
 
         case MADk_TAG:
             ea->video_codec = AV_CODEC_ID_MAD;
             avio_skip(pb, 6);
-#ifdef IDE_COMPILE
-			ea->time_base.num = avio_rl16(pb);
-			ea->time_base.den = 1000;
-#else
 			ea->time_base = (AVRational) { avio_rl16(pb), 1000 };
-#endif
 			break;
 
         case MVhd_TAG:
@@ -723,19 +694,10 @@ get_video_packet:
 }
 
 AVInputFormat ff_ea_demuxer = {
-#ifdef IDE_COMPILE
-    "ea",
-    "Electronic Arts Multimedia",
-    0, 0, 0, 0, 0, 0, 0, sizeof(EaDemuxContext),
-    ea_probe,
-    ea_read_header,
-    ea_read_packet,
-#else
 	.name           = "ea",
     .long_name      = NULL_IF_CONFIG_SMALL("Electronic Arts Multimedia"),
     .priv_data_size = sizeof(EaDemuxContext),
     .read_probe     = ea_probe,
     .read_header    = ea_read_header,
     .read_packet    = ea_read_packet,
-#endif
 };

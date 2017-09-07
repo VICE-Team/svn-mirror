@@ -268,18 +268,6 @@ static int ffm_write_trailer(AVFormatContext *s)
 }
 
 AVOutputFormat ff_ffm_muxer = {
-#ifdef IDE_COMPILE
-    "ffm",
-    "FFM (FFserver live feed)",
-    0, "ffm",
-    AV_CODEC_ID_MP2,
-    AV_CODEC_ID_MPEG1VIDEO,
-    0, AVFMT_TS_NEGATIVE,
-    0, 0, 0, sizeof(FFMContext),
-    ffm_write_header,
-    ffm_write_packet,
-    ffm_write_trailer,
-#else
 	.name              = "ffm",
     .long_name         = NULL_IF_CONFIG_SMALL("FFM (FFserver live feed)"),
     .extensions        = "ffm",
@@ -290,5 +278,4 @@ AVOutputFormat ff_ffm_muxer = {
     .write_packet      = ffm_write_packet,
     .write_trailer     = ffm_write_trailer,
     .flags             = AVFMT_TS_NEGATIVE,
-#endif
 };

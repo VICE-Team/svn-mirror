@@ -154,19 +154,9 @@ static int read_header(AVFormatContext *s)
 
     s->start_time = 0;
     if (s->nb_chapters) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-
-        tmp.num = 1;
-		tmp.den = AV_TIME_BASE;
-		s->duration = av_rescale_q(s->chapters[s->nb_chapters - 1]->end,
-                                   s->chapters[s->nb_chapters - 1]->time_base,
-                                   tmp);
-#else
 		s->duration = av_rescale_q(s->chapters[s->nb_chapters - 1]->end,
                                    s->chapters[s->nb_chapters - 1]->time_base,
                                    AV_TIME_BASE_Q);
-#endif
 	}
     return 0;
 }
@@ -177,17 +167,9 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_ffmetadata_demuxer = {
-#ifdef IDE_COMPILE
-    "ffmetadata",
-    "FFmpeg metadata in text",
-    0, 0, 0, 0, 0, 0, 0, 0, probe,
-    read_header,
-    read_packet,
-#else
 	.name        = "ffmetadata",
     .long_name   = NULL_IF_CONFIG_SMALL("FFmpeg metadata in text"),
     .read_probe  = probe,
     .read_header = read_header,
     .read_packet = read_packet,
-#endif
 };

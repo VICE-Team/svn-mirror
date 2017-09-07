@@ -248,14 +248,7 @@ static int dv_extract_audio_info(DVDemuxContext *c, uint8_t *frame)
     }
 
     /* note: ach counts PAIRS of channels (i.e. stereo channels) */
-#ifdef IDE_COMPILE
-    {
-		int tmpx[4] = { 1, 0, 2, 4 };
-		ach = (tmpx)[stype];
-	}
-#else
 	ach = ((int[4]) { 1, 0, 2, 4 })[stype];
-#endif
 	if (ach == 1 && quant && freq == 2)
         ach = 2;
 
@@ -294,9 +287,6 @@ static int dv_extract_video_info(DVDemuxContext *c, uint8_t *frame)
     int size = 0;
 
     if (c->sys) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-#endif
 		avctx = c->vst->codec;
 
         avpriv_set_pts_info(c->vst, 64, c->sys->time_base.num,
@@ -309,17 +299,9 @@ static int dv_extract_video_info(DVDemuxContext *c, uint8_t *frame)
         is16_9   = (vsc_pack && ((vsc_pack[2] & 0x07) == 0x02 ||
                                  (!apt && (vsc_pack[2] & 0x07) == 0x07)));
         c->vst->sample_aspect_ratio = c->sys->sar[is16_9];
-#ifdef IDE_COMPILE
-		tmp.num = 8;
-		tmp.den = 1;
-		avctx->bit_rate = av_rescale_q(c->sys->frame_size,
-                                       tmp,
-                                       c->sys->time_base);
-#else
 		avctx->bit_rate = av_rescale_q(c->sys->frame_size,
                                        (AVRational) { 8, 1 },
                                        c->sys->time_base);
-#endif
 		size = c->sys->frame_size;
     }
     return size;
@@ -458,21 +440,12 @@ static int64_t dv_frame_offset(AVFormatContext *s, DVDemuxContext *c,
 
 void ff_dv_offset_reset(DVDemuxContext *c, int64_t frame_offset)
 {
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
 	c->frames = frame_offset;
     if (c->ach) {
         if (c->sys) {
-#ifdef IDE_COMPILE
-		tmp.num = 8;
-		tmp.den = c->ast[0]->codec->bit_rate;
-		c->abytes = av_rescale_q(c->frames, c->sys->time_base, tmp);
-#else
 		c->abytes = av_rescale_q(c->frames, c->sys->time_base,
                                  (AVRational) { 8, c->ast[0]->codec->bit_rate });
-#endif
 		} else
             av_log(c->fctx, AV_LOG_ERROR, "cannot adjust audio bytes\n");
     }
@@ -525,9 +498,6 @@ static int dv_read_header(AVFormatContext *s)
 {
     unsigned state, marker_pos = 0;
     RawDVContext *c = s->priv_data;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     c->dv_demux = avpriv_dv_init_demux(s);
     if (!c->dv_demux)
@@ -563,17 +533,9 @@ static int dv_read_header(AVFormatContext *s)
         return -1;
     }
 
-#ifdef IDE_COMPILE
-	tmp.num = 8;
-	tmp.den = 1;
-	s->bit_rate = av_rescale_q(c->dv_demux->sys->frame_size,
-                               tmp,
-                               c->dv_demux->sys->time_base);
-#else
 	s->bit_rate = av_rescale_q(c->dv_demux->sys->frame_size,
                                (AVRational) { 8, 1 },
                                c->dv_demux->sys->time_base);
-#endif
 
     if (s->pb->seekable)
         dv_read_timecode(s);
@@ -666,17 +628,6 @@ static int dv_probe(AVProbeData *p)
 }
 
 AVInputFormat ff_dv_demuxer = {
-#ifdef IDE_COMPILE
-    "dv",
-    "DV (Digital Video)",
-    0, "dv,dif",
-    0, 0, 0, 0, 0, sizeof(RawDVContext),
-    dv_probe,
-    dv_read_header,
-    dv_read_packet,
-    dv_read_close,
-    dv_read_seek,
-#else
 	.name           = "dv",
     .long_name      = NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
     .priv_data_size = sizeof(RawDVContext),
@@ -686,5 +637,4 @@ AVInputFormat ff_dv_demuxer = {
     .read_close     = dv_read_close,
     .read_seek      = dv_read_seek,
     .extensions     = "dv,dif",
-#endif
 };
