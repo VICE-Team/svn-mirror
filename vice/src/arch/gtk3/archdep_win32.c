@@ -168,20 +168,18 @@ char *archdep_get_runtime_os(void)
  */
 const char *archdep_boot_path(void)
 {
-    static char *boot;
-    char *sep;
+    char *checkpath;
 
-    if (boot == NULL) {
-        boot = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
+    GetModuleFileName(NULL, boot_path, MAX_PATH);
 
-        /* Remove the program name.  */
-        sep = strrchr(boot, '\\');
-        if (sep != NULL) {
-            *sep = '\0';
-        }
+    checkpath = boot_path + strlen(boot_path);
+
+    while (*checkpath != '\\') {
+        checkpath--;
     }
+    *checkpath = 0;
 
-    return boot;
+    return boot_path;
 }
 
 
