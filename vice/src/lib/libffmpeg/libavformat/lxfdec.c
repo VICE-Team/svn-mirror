@@ -21,10 +21,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/bytestream.h"
 #include "avformat.h"
@@ -338,20 +334,7 @@ static int lxf_read_packet(AVFormatContext *s, AVPacket *pkt)
     return ret;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = {lxf_tags, 0};
-#endif
-
 AVInputFormat ff_lxf_demuxer = {
-#ifdef IDE_COMPILE
-    "lxf",
-    "VR native stream (LXF)",
-    0, 0, tmpx,
-    0, 0, 0, 0, sizeof(LXFDemuxContext),
-    lxf_probe,
-    lxf_read_header,
-    lxf_read_packet,
-#else
 	.name           = "lxf",
     .long_name      = NULL_IF_CONFIG_SMALL("VR native stream (LXF)"),
     .priv_data_size = sizeof(LXFDemuxContext),
@@ -359,5 +342,4 @@ AVInputFormat ff_lxf_demuxer = {
     .read_header    = lxf_read_header,
     .read_packet    = lxf_read_packet,
     .codec_tag      = (const AVCodecTag* const []){lxf_tags, 0},
-#endif
 };

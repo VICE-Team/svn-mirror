@@ -26,13 +26,7 @@
 
 #define _XOPEN_SOURCE 600
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#include "libavutil/internal.h"
-#else
 #include "config.h"
-#endif
 
 #include <limits.h>
 #include <stdint.h>

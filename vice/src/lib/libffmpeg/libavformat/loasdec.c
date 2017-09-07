@@ -84,15 +84,6 @@ static int loas_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_loas_demuxer = {
-#ifdef IDE_COMPILE
-    "loas",
-    "LOAS AudioSyncStream",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, AV_CODEC_ID_AAC_LATM,
-    0, loas_probe,
-    loas_read_header,
-    ff_raw_read_partial_packet,
-#else
 	.name           = "loas",
     .long_name      = NULL_IF_CONFIG_SMALL("LOAS AudioSyncStream"),
     .read_probe     = loas_probe,
@@ -100,5 +91,4 @@ AVInputFormat ff_loas_demuxer = {
     .read_packet    = ff_raw_read_partial_packet,
     .flags= AVFMT_GENERIC_INDEX,
     .raw_codec_id = AV_CODEC_ID_AAC_LATM,
-#endif
 };

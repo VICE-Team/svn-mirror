@@ -59,15 +59,6 @@ static int ivf_write_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVOutputFormat ff_ivf_muxer = {
-#ifdef IDE_COMPILE
-    "ivf",
-    "On2 IVF",
-    0, "ivf",
-    AV_CODEC_ID_NONE,
-    AV_CODEC_ID_VP8,
-    0, 0, 0, 0, 0, 0, ivf_write_header,
-    ivf_write_packet,
-#else
 	.name         = "ivf",
     .long_name    = NULL_IF_CONFIG_SMALL("On2 IVF"),
     .extensions   = "ivf",
@@ -75,5 +66,4 @@ AVOutputFormat ff_ivf_muxer = {
     .video_codec  = AV_CODEC_ID_VP8,
     .write_header = ivf_write_header,
     .write_packet = ivf_write_packet,
-#endif
 };

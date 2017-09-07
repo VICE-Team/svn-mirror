@@ -78,21 +78,12 @@ static const char *bom = "\xEF\xBB\xBF";
 
 static int microdvd_read_header(AVFormatContext *s)
 {
-#ifdef IDE_COMPILE
-	AVRational pts_info;  /* default: 23.976 fps */
-#else
 	AVRational pts_info = (AVRational){ 2997, 125 };  /* default: 23.976 fps */
-#endif
 	MicroDVDContext *microdvd = s->priv_data;
     AVStream *st = avformat_new_stream(s, NULL);
     int i = 0;
     char line_buf[MAX_LINESIZE];
     int has_real_fps = 0;
-
-#ifdef IDE_COMPILE
-	pts_info.num = 2997;
-	pts_info.den = 125;
-#endif
 	
 	if (!st)
         return AVERROR(ENOMEM);
@@ -188,40 +179,18 @@ static int microdvd_read_close(AVFormatContext *s)
 #define OFFSET(x) offsetof(MicroDVDContext, x)
 #define SD AV_OPT_FLAG_SUBTITLE_PARAM|AV_OPT_FLAG_DECODING_PARAM
 static const AVOption microdvd_options[] = {
-#ifdef IDE_COMPILE
-	{ "subfps", "set the movie frame rate fallback", OFFSET(frame_rate), AV_OPT_TYPE_RATIONAL, {0}, 0, INT_MAX, SD },
-#else
 	{ "subfps", "set the movie frame rate fallback", OFFSET(frame_rate), AV_OPT_TYPE_RATIONAL, {.dbl=0}, 0, INT_MAX, SD },
-#endif
 	{ NULL }
 };
 
 static const AVClass microdvd_class = {
-#ifdef IDE_COMPILE
-    "microdvddec",
-    av_default_item_name,
-    microdvd_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "microdvddec",
     .item_name  = av_default_item_name,
     .option     = microdvd_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_microdvd_demuxer = {
-#ifdef IDE_COMPILE
-    "microdvd",
-    "MicroDVD subtitle format",
-    0, 0, 0, &microdvd_class,
-    0, 0, 0, sizeof(MicroDVDContext),
-    microdvd_probe,
-    microdvd_read_header,
-    microdvd_read_packet,
-    microdvd_read_close,
-    0, 0, 0, 0, microdvd_read_seek,
-#else
 	.name           = "microdvd",
     .long_name      = NULL_IF_CONFIG_SMALL("MicroDVD subtitle format"),
     .priv_data_size = sizeof(MicroDVDContext),
@@ -231,5 +200,4 @@ AVInputFormat ff_microdvd_demuxer = {
     .read_seek2     = microdvd_read_seek,
     .read_close     = microdvd_read_close,
     .priv_class     = &microdvd_class,
-#endif
 };

@@ -260,16 +260,6 @@ static int jacosub_read_seek(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_jacosub_demuxer = {
-#ifdef IDE_COMPILE
-    "jacosub",
-    "JACOsub subtitle format",
-    0, 0, 0, 0, 0, 0, 0, sizeof(JACOsubContext),
-    jacosub_probe,
-    jacosub_read_header,
-    jacosub_read_packet,
-    jacosub_read_close,
-    0, 0, 0, 0, jacosub_read_seek,
-#else
 	.name           = "jacosub",
     .long_name      = NULL_IF_CONFIG_SMALL("JACOsub subtitle format"),
     .priv_data_size = sizeof(JACOsubContext),
@@ -278,5 +268,4 @@ AVInputFormat ff_jacosub_demuxer = {
     .read_packet    = jacosub_read_packet,
     .read_seek2     = jacosub_read_seek,
     .read_close     = jacosub_read_close,
-#endif
 };

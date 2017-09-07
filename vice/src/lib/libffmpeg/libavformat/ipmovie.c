@@ -650,19 +650,10 @@ static int ipmovie_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_ipmovie_demuxer = {
-#ifdef IDE_COMPILE
-    "ipmovie",
-    "Interplay MVE",
-    0, 0, 0, 0, 0, 0, 0, sizeof(IPMVEContext),
-    ipmovie_probe,
-    ipmovie_read_header,
-    ipmovie_read_packet,
-#else
 	.name           = "ipmovie",
     .long_name      = NULL_IF_CONFIG_SMALL("Interplay MVE"),
     .priv_data_size = sizeof(IPMVEContext),
     .read_probe     = ipmovie_probe,
     .read_header    = ipmovie_read_header,
     .read_packet    = ipmovie_read_packet,
-#endif
 };

@@ -109,19 +109,10 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_iv8_demuxer = {
-#ifdef IDE_COMPILE
-    "iv8",
-    "IndigoVision 8000 video",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, 0, 0, probe,
-    read_header,
-    read_packet,
-#else
 	.name           = "iv8",
     .long_name      = NULL_IF_CONFIG_SMALL("IndigoVision 8000 video"),
     .read_probe     = probe,
     .read_header    = read_header,
     .read_packet    = read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

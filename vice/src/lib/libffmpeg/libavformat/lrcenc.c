@@ -140,16 +140,6 @@ static int lrc_write_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVOutputFormat ff_lrc_muxer = {
-#ifdef IDE_COMPILE
-    "lrc",
-    "LRC lyrics",
-    0, "lrc",
-    0, 0, AV_CODEC_ID_SUBRIP,
-    AVFMT_VARIABLE_FPS | AVFMT_GLOBALHEADER | AVFMT_TS_NEGATIVE | AVFMT_TS_NONSTRICT,
-    0, 0, 0, 0,
-    lrc_write_header,
-    lrc_write_packet
-#else
 	.name           = "lrc",
     .long_name      = NULL_IF_CONFIG_SMALL("LRC lyrics"),
     .extensions     = "lrc",
@@ -159,5 +149,4 @@ AVOutputFormat ff_lrc_muxer = {
     .flags          = AVFMT_VARIABLE_FPS | AVFMT_GLOBALHEADER |
                       AVFMT_TS_NEGATIVE | AVFMT_TS_NONSTRICT,
     .subtitle_codec = AV_CODEC_ID_SUBRIP
-#endif
 };

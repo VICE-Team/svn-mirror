@@ -55,28 +55,16 @@ static void md5_finish(struct AVFormatContext *s, char *buf)
 #define OFFSET(x) offsetof(struct MD5Context, x)
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption hash_options[] = {
-#ifdef IDE_COMPILE
-	{ "hash", "set hash to use", OFFSET(hash_name), AV_OPT_TYPE_STRING, {(intptr_t) "md5"}, 0, 0, ENC },
-    { "format_version", "file format version", OFFSET(format_version), AV_OPT_TYPE_INT, {1}, 1, 1, ENC },
-#else
 	{ "hash", "set hash to use", OFFSET(hash_name), AV_OPT_TYPE_STRING, {.str = "md5"}, 0, 0, ENC },
     { "format_version", "file format version", OFFSET(format_version), AV_OPT_TYPE_INT, {.i64 = 1}, 1, 1, ENC },
-#endif
 	{ NULL },
 };
 
 static const AVClass md5enc_class = {
-#ifdef IDE_COMPILE
-    "hash encoder class",
-    av_default_item_name,
-    hash_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "hash encoder class",
     .item_name  = av_default_item_name,
     .option     = hash_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 #if CONFIG_MD5_MUXER
@@ -111,18 +99,6 @@ static int write_trailer(struct AVFormatContext *s)
 }
 
 AVOutputFormat ff_md5_muxer = {
-#ifdef IDE_COMPILE
-    "md5",
-    "MD5 testing",
-    0, 0, AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_RAWVIDEO,
-    0, AVFMT_NOTIMESTAMPS,
-    0, &md5enc_class,
-    0, sizeof(struct MD5Context),
-    write_header,
-    write_packet,
-    write_trailer,
-#else
 	.name              = "md5",
     .long_name         = NULL_IF_CONFIG_SMALL("MD5 testing"),
     .priv_data_size    = sizeof(struct MD5Context),
@@ -133,7 +109,6 @@ AVOutputFormat ff_md5_muxer = {
     .write_trailer     = write_trailer,
     .flags             = AVFMT_NOTIMESTAMPS,
     .priv_class        = &md5enc_class,
-#endif
 };
 #endif
 
@@ -173,32 +148,13 @@ static int framemd5_write_trailer(struct AVFormatContext *s)
 }
 
 static const AVClass framemd5_class = {
-#ifdef IDE_COMPILE
-    "frame hash encoder class",
-    av_default_item_name,
-    hash_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "frame hash encoder class",
     .item_name  = av_default_item_name,
     .option     = hash_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_framemd5_muxer = {
-#ifdef IDE_COMPILE
-    "framemd5",
-    "Per-frame MD5 testing",
-    0, 0, AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_RAWVIDEO,
-    0, AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT | AVFMT_TS_NEGATIVE,
-    0, &framemd5_class,
-    0, sizeof(struct MD5Context),
-    framemd5_write_header,
-    framemd5_write_packet,
-    framemd5_write_trailer,
-#else
     .name              = "framemd5",
     .long_name         = NULL_IF_CONFIG_SMALL("Per-frame MD5 testing"),
     .priv_data_size    = sizeof(struct MD5Context),
@@ -210,6 +166,5 @@ AVOutputFormat ff_framemd5_muxer = {
     .flags             = AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT |
                          AVFMT_TS_NEGATIVE,
     .priv_class        = &framemd5_class,
-#endif
 };
 #endif

@@ -97,19 +97,10 @@ static int read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_mgsts_demuxer = {
-#ifdef IDE_COMPILE
-    "mgsts",
-    "Metal Gear Solid: The Twin Snakes",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, 0, 0, read_probe,
-    read_header,
-    read_packet,
-#else
 	.name        = "mgsts",
     .long_name   = NULL_IF_CONFIG_SMALL("Metal Gear Solid: The Twin Snakes"),
     .read_probe  = read_probe,
     .read_header = read_header,
     .read_packet = read_packet,
     .flags       = AVFMT_GENERIC_INDEX,
-#endif
 };

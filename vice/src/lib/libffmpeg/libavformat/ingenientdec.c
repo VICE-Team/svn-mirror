@@ -54,17 +54,6 @@ static int ingenient_read_packet(AVFormatContext *s, AVPacket *pkt)
 FF_RAWVIDEO_DEMUXER_CLASS(ingenient)
 
 AVInputFormat ff_ingenient_demuxer = {
-#ifdef IDE_COMPILE
-    "ingenient",
-    "raw Ingenient MJPEG",
-    AVFMT_GENERIC_INDEX,
-    "cgi",
-    0, &ingenient_demuxer_class,
-    0, 0, AV_CODEC_ID_MJPEG,
-    sizeof(FFRawVideoDemuxerContext),
-    0, ff_raw_video_read_header,
-    ingenient_read_packet,
-#else
 	.name           = "ingenient",
     .long_name      = NULL_IF_CONFIG_SMALL("raw Ingenient MJPEG"),
     .priv_data_size = sizeof(FFRawVideoDemuxerContext),
@@ -74,5 +63,4 @@ AVInputFormat ff_ingenient_demuxer = {
     .extensions     = "cgi", // FIXME
     .raw_codec_id   = AV_CODEC_ID_MJPEG,
     .priv_class     = &ingenient_demuxer_class,
-#endif
 };

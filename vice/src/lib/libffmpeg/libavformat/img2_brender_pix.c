@@ -39,30 +39,13 @@ static int brender_read_probe(AVProbeData *p)
 }
 
 static const AVClass image2_brender_pix_class = {
-#ifdef IDE_COMPILE
-    "brender_pix demuxer",
-    av_default_item_name,
-    ff_img_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "brender_pix demuxer",
     .item_name  = av_default_item_name,
     .option     = ff_img_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_image2_brender_pix_demuxer = {
-#ifdef IDE_COMPILE
-    "brender_pix",
-    "BRender PIX image",
-    0, 0, 0, &image2_brender_pix_class,
-    0, 0, AV_CODEC_ID_BRENDER_PIX,
-    sizeof(VideoDemuxData),
-    brender_read_probe,
-    ff_img_read_header,
-    ff_img_read_packet,
-#else
 	.name           = "brender_pix",
     .long_name      = NULL_IF_CONFIG_SMALL("BRender PIX image"),
     .priv_data_size = sizeof(VideoDemuxData),
@@ -71,5 +54,4 @@ AVInputFormat ff_image2_brender_pix_demuxer = {
     .read_packet    = ff_img_read_packet,
     .raw_codec_id   = AV_CODEC_ID_BRENDER_PIX,
     .priv_class     = &image2_brender_pix_class,
-#endif
 };

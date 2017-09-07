@@ -24,12 +24,7 @@
  * logging functions
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #if HAVE_IO_H
 #include <io.h>
@@ -62,32 +57,6 @@ static int flags;
 
 #if defined(_WIN32) && !defined(__MINGW32CE__) && HAVE_SETCONSOLETEXTATTRIBUTE
 static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
-#ifdef IDE_COMPILE
-    12,
-    12,
-    12,
-    14,
-    7,
-    10,
-    10,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 7,
-    13,
-    5,
-    13,
-    5,
-    11,
-    3,
-    10,
-    9,
-    7,
-    7,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13,
-    5,
-    13,
-    5,
-    13,
-    5,
-#else
 	[AV_LOG_PANIC  /8] = 12,
     [AV_LOG_FATAL  /8] = 12,
     [AV_LOG_ERROR  /8] = 12,
@@ -112,7 +81,6 @@ static const uint8_t color[16 + AV_CLASS_CATEGORY_NB] = {
     [16+AV_CLASS_CATEGORY_DEVICE_AUDIO_INPUT  ] = 5,
     [16+AV_CLASS_CATEGORY_DEVICE_OUTPUT       ] = 13,
     [16+AV_CLASS_CATEGORY_DEVICE_INPUT        ] = 5,
-#endif
 };
 
 static int16_t background, attr_orig;
@@ -376,16 +344,6 @@ end:
 
 static void (*av_log_callback)(void*, int, const char*, va_list) =
     av_log_default_callback;
-
-#if defined(IDE_COMPILE) && (_MSC_VER < 1400)
-void var_arg_dummy(const char *fmt, ...)
-{
-}
-
-void var_args_dummy(const char *fmt, ...)
-{
-}
-#endif
 
 void av_log(void* avcl, int level, const char *fmt, ...)
 {

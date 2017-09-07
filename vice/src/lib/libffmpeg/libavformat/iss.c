@@ -144,19 +144,10 @@ static int iss_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_iss_demuxer = {
-#ifdef IDE_COMPILE
-    "iss",
-    "Funcom ISS",
-    0, 0, 0, 0, 0, 0, 0, sizeof(IssDemuxContext),
-    iss_probe,
-    iss_read_header,
-    iss_read_packet,
-#else
 	.name           = "iss",
     .long_name      = NULL_IF_CONFIG_SMALL("Funcom ISS"),
     .priv_data_size = sizeof(IssDemuxContext),
     .read_probe     = iss_probe,
     .read_header    = iss_read_header,
     .read_packet    = iss_read_packet,
-#endif
 };

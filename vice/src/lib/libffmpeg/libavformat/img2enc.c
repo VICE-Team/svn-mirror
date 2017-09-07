@@ -174,49 +174,22 @@ static int write_packet(AVFormatContext *s, AVPacket *pkt)
 #define OFFSET(x) offsetof(VideoMuxData, x)
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption muxoptions[] = {
-#ifdef IDE_COMPILE
-	{ "updatefirst", "continuously overwrite one file", OFFSET(update), AV_OPT_TYPE_INT, {0}, 0, 1, ENC },
-    { "update", "continuously overwrite one file", OFFSET(update), AV_OPT_TYPE_INT, {0}, 0, 1, ENC },
-    { "start_number", "set first number in the sequence", OFFSET(img_number), AV_OPT_TYPE_INT, {1}, 0, INT_MAX, ENC },
-    { "strftime", "use strftime for filename", OFFSET(use_strftime), AV_OPT_TYPE_INT, {0}, 0, 1, ENC },
-#else
 	{ "updatefirst",  "continuously overwrite one file", OFFSET(update),  AV_OPT_TYPE_INT, { .i64 = 0 }, 0,       1, ENC },
     { "update",       "continuously overwrite one file", OFFSET(update),  AV_OPT_TYPE_INT, { .i64 = 0 }, 0,       1, ENC },
     { "start_number", "set first number in the sequence", OFFSET(img_number), AV_OPT_TYPE_INT,  { .i64 = 1 }, 0, INT_MAX, ENC },
     { "strftime",     "use strftime for filename", OFFSET(use_strftime), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, ENC },
-#endif
 	{ NULL },
 };
 
 #if CONFIG_IMAGE2_MUXER
 static const AVClass img2mux_class = {
-#ifdef IDE_COMPILE
-    "image2 muxer",
-    av_default_item_name,
-    muxoptions,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "image2 muxer",
     .item_name  = av_default_item_name,
     .option     = muxoptions,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_image2_muxer = {
-#ifdef IDE_COMPILE
-    "image2",
-    "image2 sequence",
-    0, "bmp,dpx,jls,jpeg,jpg,ljpg,pam,pbm,pcx,pgm,pgmyuv,png,"
-                      "ppm,sgi,tga,tif,tiff,jp2,j2c,j2k,xwd,sun,ras,rs,im1,im8,im24,"
-                      "sunras,webp,xbm,xface,pix,y",
-    0, AV_CODEC_ID_MJPEG,
-    0, AVFMT_NOTIMESTAMPS | AVFMT_NODIMENSIONS | AVFMT_NOFILE,
-    0, &img2mux_class,
-    0, sizeof(VideoMuxData),
-    write_header,
-    write_packet,
-#else
 	.name           = "image2",
     .long_name      = NULL_IF_CONFIG_SMALL("image2 sequence"),
     .extensions     = "bmp,dpx,jls,jpeg,jpg,ljpg,pam,pbm,pcx,pgm,pgmyuv,png,"
@@ -228,21 +201,11 @@ AVOutputFormat ff_image2_muxer = {
     .write_packet   = write_packet,
     .flags          = AVFMT_NOTIMESTAMPS | AVFMT_NODIMENSIONS | AVFMT_NOFILE,
     .priv_class     = &img2mux_class,
-#endif
 };
 #endif
 
 #if CONFIG_IMAGE2PIPE_MUXER
 AVOutputFormat ff_image2pipe_muxer = {
-#ifdef IDE_COMPILE
-    "image2pipe",
-    "piped image2 sequence",
-    0, 0, 0, AV_CODEC_ID_MJPEG,
-    0, AVFMT_NOTIMESTAMPS | AVFMT_NODIMENSIONS,
-    0, 0, 0, sizeof(VideoMuxData),
-    write_header,
-    write_packet
-#else
 	.name           = "image2pipe",
     .long_name      = NULL_IF_CONFIG_SMALL("piped image2 sequence"),
     .priv_data_size = sizeof(VideoMuxData),
@@ -250,6 +213,5 @@ AVOutputFormat ff_image2pipe_muxer = {
     .write_header   = write_header,
     .write_packet   = write_packet,
     .flags          = AVFMT_NOTIMESTAMPS | AVFMT_NODIMENSIONS
-#endif
 };
 #endif

@@ -276,14 +276,7 @@ static ebml_master start_ebml_master(AVIOContext *pb, unsigned int elementid,
     int bytes = expectedsize ? ebml_num_size(expectedsize) : 8;
     put_ebml_id(pb, elementid);
     put_ebml_size_unknown(pb, bytes);
-#ifdef IDE_COMPILE
-    {
-		ebml_master tmpx = {avio_tell(pb), bytes };
-		return tmpx;
-	}
-#else
 	return (ebml_master) {avio_tell(pb), bytes };
-#endif
 }
 
 static void end_ebml_master(AVIOContext *pb, ebml_master master)
@@ -878,17 +871,6 @@ static int mkv_write_track(AVFormatContext *s, MatroskaMuxContext *mkv,
     }
 
     if (codec->codec_type == AVMEDIA_TYPE_AUDIO && codec->delay && codec->codec_id == AV_CODEC_ID_OPUS) {
-#ifdef IDE_COMPILE
-		AVRational tmp1;
-		AVRational tmp2;
-
-		tmp1.num = 1;
-		tmp1.den = codec->sample_rate;
-	    tmp2.num = 1;
-		tmp2.den = 1000000000;
-        put_ebml_uint(pb, MATROSKA_ID_CODECDELAY,
-                      av_rescale_q(codec->delay, tmp1, tmp2));
-#else
 //         mkv->tracks[i].ts_offset = av_rescale_q(codec->delay,
 //                                                 (AVRational){ 1, codec->sample_rate },
 //                                                 st->time_base);
@@ -896,7 +878,6 @@ static int mkv_write_track(AVFormatContext *s, MatroskaMuxContext *mkv,
         put_ebml_uint(pb, MATROSKA_ID_CODECDELAY,
                       av_rescale_q(codec->delay, (AVRational){ 1, codec->sample_rate },
                                    (AVRational){ 1, 1000000000 }));
-#endif
 	}
     if (codec->codec_id == AV_CODEC_ID_OPUS) {
         put_ebml_uint(pb, MATROSKA_ID_SEEKPREROLL, OPUS_SEEK_PREROLL);
@@ -1528,10 +1509,6 @@ static void mkv_write_block(AVFormatContext *s, AVIOContext *pb,
     uint64_t additional_id = 0;
     int64_t discard_padding = 0;
     ebml_master block_group, block_additions, block_more;
-#ifdef IDE_COMPILE
-	AVRational tmp1;
-	AVRational tmp2;
-#endif
 
     av_log(s, AV_LOG_DEBUG, "Writing block at offset %" PRIu64 ", size %d, "
            "pts %" PRId64 ", dts %" PRId64 ", duration %d, flags %d\n",
@@ -1564,17 +1541,9 @@ static void mkv_write_block(AVFormatContext *s, AVIOContext *pb,
                                         &side_data_size);
 
     if (side_data && side_data_size >= 10) {
-#ifdef IDE_COMPILE
-		tmp1.num = 1;
-		tmp1.den = codec->sample_rate;
-	    tmp2.num = 1;
-		tmp2.den = 1000000000;
-		discard_padding = av_rescale_q(AV_RL32(side_data + 4), tmp1, tmp2);
-#else
 		discard_padding = av_rescale_q(AV_RL32(side_data + 4),
                                        (AVRational){1, codec->sample_rate},
                                        (AVRational){1, 1000000000});
-#endif
 	}
 
     side_data = av_packet_get_side_data(pkt,
@@ -2043,62 +2012,23 @@ static const AVCodecTag additional_video_tags[] = {
 #define OFFSET(x) offsetof(MatroskaMuxContext, x)
 #define FLAGS AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "reserve_index_space", "Reserve a given amount of space (in bytes) at the beginning of the file for the index (cues).", OFFSET(reserve_cues_space), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-    { "cluster_size_limit", "Store at most the provided amount of bytes in a cluster. ", OFFSET(cluster_size_limit), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "cluster_time_limit", "Store at most the provided number of milliseconds in a cluster.", OFFSET(cluster_time_limit), AV_OPT_TYPE_INT64, {-1}, -1, INT64_MAX, FLAGS },
-    { "dash", "Create a WebM file conforming to WebM DASH specification", OFFSET(is_dash), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "dash_track_number", "Track number for the DASH stream", OFFSET(dash_track_number), AV_OPT_TYPE_INT, {1}, 0, 127, FLAGS },
-#else
 	{ "reserve_index_space", "Reserve a given amount of space (in bytes) at the beginning of the file for the index (cues).", OFFSET(reserve_cues_space), AV_OPT_TYPE_INT,   { .i64 = 0 },   0, INT_MAX,   FLAGS },
     { "cluster_size_limit",  "Store at most the provided amount of bytes in a cluster. ",                                     OFFSET(cluster_size_limit), AV_OPT_TYPE_INT  , { .i64 = -1 }, -1, INT_MAX,   FLAGS },
     { "cluster_time_limit",  "Store at most the provided number of milliseconds in a cluster.",                               OFFSET(cluster_time_limit), AV_OPT_TYPE_INT64, { .i64 = -1 }, -1, INT64_MAX, FLAGS },
     { "dash", "Create a WebM file conforming to WebM DASH specification", OFFSET(is_dash), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, FLAGS },
     { "dash_track_number", "Track number for the DASH stream", OFFSET(dash_track_number), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 127, FLAGS },
-#endif
 	{ NULL },
 };
 
 #if CONFIG_MATROSKA_MUXER
 static const AVClass matroska_class = {
-#ifdef IDE_COMPILE
-    "matroska muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "matroska muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpz[] = {
-         ff_codec_bmp_tags, ff_codec_wav_tags,
-         additional_audio_tags, additional_video_tags, 0
-    };
-#endif
-
 AVOutputFormat ff_matroska_muxer = {
-#ifdef IDE_COMPILE
-    "matroska",
-    "Matroska",
-    "video/x-matroska",
-    "mkv",
-    CONFIG_LIBVORBIS_ENCODER ? AV_CODEC_ID_VORBIS : AV_CODEC_ID_AC3,
-    CONFIG_LIBX264_ENCODER ? AV_CODEC_ID_H264 : AV_CODEC_ID_MPEG4,
-    AV_CODEC_ID_ASS,
-    AVFMT_GLOBALHEADER | AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT | AVFMT_ALLOW_FLUSH,
-    tmpz,
-    &matroska_class,
-    0, sizeof(MatroskaMuxContext),
-    mkv_write_header,
-    mkv_write_flush_packet,
-    mkv_write_trailer,
-    0, mkv_query_codec,
-#else
 	.name              = "matroska",
     .long_name         = NULL_IF_CONFIG_SMALL("Matroska"),
     .mime_type         = "video/x-matroska",
@@ -2120,41 +2050,18 @@ AVOutputFormat ff_matroska_muxer = {
     .subtitle_codec    = AV_CODEC_ID_ASS,
     .query_codec       = mkv_query_codec,
     .priv_class        = &matroska_class,
-#endif
 };
 #endif
 
 #if CONFIG_WEBM_MUXER
 static const AVClass webm_class = {
-#ifdef IDE_COMPILE
-    "webm muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "webm muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_webm_muxer = {
-#ifdef IDE_COMPILE
-    "webm",
-    "WebM",
-    "video/webm",
-    "webm",
-    AV_CODEC_ID_VORBIS,
-    AV_CODEC_ID_VP8,
-    AV_CODEC_ID_WEBVTT,
-    AVFMT_GLOBALHEADER | AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT | AVFMT_ALLOW_FLUSH,
-    0, &webm_class,
-    0, sizeof(MatroskaMuxContext),
-    mkv_write_header,
-    mkv_write_flush_packet,
-    mkv_write_trailer,
-#else
 	.name              = "webm",
     .long_name         = NULL_IF_CONFIG_SMALL("WebM"),
     .mime_type         = "video/webm",
@@ -2169,47 +2076,18 @@ AVOutputFormat ff_webm_muxer = {
     .flags             = AVFMT_GLOBALHEADER | AVFMT_VARIABLE_FPS |
                          AVFMT_TS_NONSTRICT | AVFMT_ALLOW_FLUSH,
     .priv_class        = &webm_class,
-#endif
 };
 #endif
 
 #if CONFIG_MATROSKA_AUDIO_MUXER
 static const AVClass mka_class = {
-#ifdef IDE_COMPILE
-    "matroska audio muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "matroska audio muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpa[] = {
-        ff_codec_wav_tags, additional_audio_tags, 0
-    };
-#endif
-
 AVOutputFormat ff_matroska_audio_muxer = {
-#ifdef IDE_COMPILE
-    "matroska",
-    "Matroska Audio",
-    "audio/x-matroska",
-    "mka",
-    CONFIG_LIBVORBIS_ENCODER ? AV_CODEC_ID_VORBIS : AV_CODEC_ID_AC3,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_GLOBALHEADER | AVFMT_TS_NONSTRICT | AVFMT_ALLOW_FLUSH,
-    tmpa,
-    &mka_class,
-    0, sizeof(MatroskaMuxContext),
-    mkv_write_header,
-    mkv_write_flush_packet,
-    mkv_write_trailer,
-#else
 	.name              = "matroska",
     .long_name         = NULL_IF_CONFIG_SMALL("Matroska Audio"),
     .mime_type         = "audio/x-matroska",
@@ -2227,6 +2105,5 @@ AVOutputFormat ff_matroska_audio_muxer = {
         ff_codec_wav_tags, additional_audio_tags, 0
     },
     .priv_class        = &mka_class,
-#endif
 };
 #endif

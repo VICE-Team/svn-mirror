@@ -24,10 +24,6 @@
  * Magic Lantern Video (MLV) demuxer
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/eval.h"
 #include "libavutil/intreadwrite.h"
 #include "libavutil/rational.h"
@@ -353,13 +349,7 @@ static int read_header(AVFormatContext *avctx)
             av_log(avctx, AV_LOG_INFO, "scanning %s\n", filename);
             ret = scan_file(avctx, vst, ast, i);
             if (ret < 0) {
-#ifdef IDE_COMPILE
-				char tmp1[64] = {0};
-
-				av_log(avctx, AV_LOG_WARNING, "ignoring %s; %s\n", filename, av_make_error_string(tmp1, 64, ret));
-#else
 				av_log(avctx, AV_LOG_WARNING, "ignoring %s; %s\n", filename, av_err2str(ret));
-#endif
 				avio_close(mlv->pb[i]);
                 mlv->pb[i] = NULL;
                 continue;
@@ -462,16 +452,6 @@ static int read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_mlv_demuxer = {
-#ifdef IDE_COMPILE
-    "mlv",
-    "Magic Lantern Video (MLV)",
-    0, 0, 0, 0, 0, 0, 0, sizeof(MlvContext),
-    probe,
-    read_header,
-    read_packet,
-    read_close,
-    read_seek,
-#else
 	.name           = "mlv",
     .long_name      = NULL_IF_CONFIG_SMALL("Magic Lantern Video (MLV)"),
     .priv_data_size = sizeof(MlvContext),
@@ -480,5 +460,4 @@ AVInputFormat ff_mlv_demuxer = {
     .read_packet    = read_packet,
     .read_close     = read_close,
     .read_seek      = read_seek,
-#endif
 };

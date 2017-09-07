@@ -40,27 +40,16 @@ typedef struct {
 } LATMContext;
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"smc-interval", "StreamMuxConfig interval.", offsetof(LATMContext, mod), AV_OPT_TYPE_INT, {0x0014}, 0x0001, 0xffff, AV_OPT_FLAG_ENCODING_PARAM},
-#else
 	{"smc-interval", "StreamMuxConfig interval.",
      offsetof(LATMContext, mod), AV_OPT_TYPE_INT, {.i64 = 0x0014}, 0x0001, 0xffff, AV_OPT_FLAG_ENCODING_PARAM},
-#endif
 	{NULL},
 };
 
 static const AVClass latm_muxer_class = {
-#ifdef IDE_COMPILE
-    "LATM/LOAS muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "LATM/LOAS muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static int latm_decode_extradata(LATMContext *ctx, uint8_t *buf, int size)
@@ -228,19 +217,6 @@ too_large:
 }
 
 AVOutputFormat ff_latm_muxer = {
-#ifdef IDE_COMPILE
-    "latm",
-    "LOAS/LATM",
-    "audio/MP4A-LATM",
-    "latm,loas",
-    AV_CODEC_ID_AAC,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    0, &latm_muxer_class,
-    0, sizeof(LATMContext),
-    latm_write_header,
-    latm_write_packet,
-#else
 	.name           = "latm",
     .long_name      = NULL_IF_CONFIG_SMALL("LOAS/LATM"),
     .mime_type      = "audio/MP4A-LATM",
@@ -252,5 +228,4 @@ AVOutputFormat ff_latm_muxer = {
     .write_packet   = latm_write_packet,
     .priv_class     = &latm_muxer_class,
     .flags          = AVFMT_NOTIMESTAMPS,
-#endif
 };

@@ -50,21 +50,7 @@ static int ircam_write_header(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag *const tmpx[] = { ff_codec_ircam_le_tags, 0 };
-#endif
-
 AVOutputFormat ff_ircam_muxer = {
-#ifdef IDE_COMPILE
-    "ircam",
-    "Berkeley/IRCAM/CARL Sound Format",
-    0, "sf,ircam",
-    AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_NONE,
-    0, 0, tmpx,
-    0, 0, 0, ircam_write_header,
-    ff_raw_write_packet,
-#else
 	.name           = "ircam",
     .extensions     = "sf,ircam",
     .long_name      = NULL_IF_CONFIG_SMALL("Berkeley/IRCAM/CARL Sound Format"),
@@ -73,5 +59,4 @@ AVOutputFormat ff_ircam_muxer = {
     .write_header   = ircam_write_header,
     .write_packet   = ff_raw_write_packet,
     .codec_tag      = (const AVCodecTag *const []){ ff_codec_ircam_le_tags, 0 },
-#endif
 };

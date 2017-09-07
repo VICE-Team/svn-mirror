@@ -22,11 +22,6 @@
 #ifndef AVUTIL_LFG_H
 #define AVUTIL_LFG_H
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#endif
-
 typedef struct AVLFG {
     unsigned int state[64];
     int index;

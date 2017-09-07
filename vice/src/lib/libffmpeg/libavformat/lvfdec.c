@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
 #include "riff.h"
@@ -146,15 +142,6 @@ static int lvf_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_lvf_demuxer = {
-#ifdef IDE_COMPILE
-    "lvf",
-    "LVF",
-    AVFMT_GENERIC_INDEX,
-    "lvf",
-    0, 0, 0, 0, 0, 0, lvf_probe,
-    lvf_read_header,
-    lvf_read_packet,
-#else
 	.name        = "lvf",
     .long_name   = NULL_IF_CONFIG_SMALL("LVF"),
     .read_probe  = lvf_probe,
@@ -162,5 +149,4 @@ AVInputFormat ff_lvf_demuxer = {
     .read_packet = lvf_read_packet,
     .extensions  = "lvf",
     .flags       = AVFMT_GENERIC_INDEX,
-#endif
 };

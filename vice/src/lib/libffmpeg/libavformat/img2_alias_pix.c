@@ -55,30 +55,13 @@ static int alias_pix_read_probe(AVProbeData *p)
 }
 
 static const AVClass image2_alias_pix_class = {
-#ifdef IDE_COMPILE
-    "alias_pix demuxer",
-    av_default_item_name,
-    ff_img_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "alias_pix demuxer",
     .item_name  = av_default_item_name,
     .option     = ff_img_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_image2_alias_pix_demuxer = {
-#ifdef IDE_COMPILE
-    "alias_pix",
-    "Alias/Wavefront PIX image",
-    0, 0, 0, &image2_alias_pix_class,
-    0, 0, AV_CODEC_ID_ALIAS_PIX,
-    sizeof(VideoDemuxData),
-    alias_pix_read_probe,
-    ff_img_read_header,
-    ff_img_read_packet,
-#else
 	.name           = "alias_pix",
     .long_name      = NULL_IF_CONFIG_SMALL("Alias/Wavefront PIX image"),
     .priv_data_size = sizeof(VideoDemuxData),
@@ -87,5 +70,4 @@ AVInputFormat ff_image2_alias_pix_demuxer = {
     .read_packet    = ff_img_read_packet,
     .raw_codec_id   = AV_CODEC_ID_ALIAS_PIX,
     .priv_class     = &image2_alias_pix_class,
-#endif
 };

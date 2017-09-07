@@ -35,12 +35,7 @@
 #include <stddef.h>
 #include <assert.h>
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "attributes.h"
 #include "timer.h"
@@ -57,16 +52,12 @@
 #   define emms_c()
 #endif
 
-#ifndef IDE_COMPILE
 #ifndef attribute_align_arg
 #if ARCH_X86_32 && AV_GCC_VERSION_AT_LEAST(4,2)
 #    define attribute_align_arg __attribute__((force_align_arg_pointer))
 #else
 #    define attribute_align_arg
 #endif
-#endif
-#else
-#define attribute_align_arg
 #endif
 
 #if defined(_MSC_VER) && CONFIG_SHARED
@@ -115,7 +106,6 @@
         int x_##o[offsetof(s, m) == o? 1: -1];         \
     }
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define LOCAL_ALIGNED_A(a, t, v, s, o, ...)             \
     uint8_t la_##v[sizeof(t s o) + (a)];                \
     t (*v) o = (void *)FFALIGN((uintptr_t)la_##v, a)
@@ -142,7 +132,6 @@
 #   define LOCAL_ALIGNED_32(t, v, ...) E1(LOCAL_ALIGNED_D(32, t, v, __VA_ARGS__,,))
 #else
 #   define LOCAL_ALIGNED_32(t, v, ...) LOCAL_ALIGNED(32, t, v, __VA_ARGS__)
-#endif
 #endif
 
 #define FF_ALLOC_OR_GOTO(ctx, p, size, label)\
@@ -183,11 +172,9 @@
 
 #include "libm.h"
 
-#ifndef IDE_COMPILE
 #if defined(_MSC_VER)
 #pragma comment(linker, "/include:"EXTERN_PREFIX"avpriv_strtod")
 #pragma comment(linker, "/include:"EXTERN_PREFIX"avpriv_snprintf")
-#endif
 #endif
 
 /**
@@ -279,14 +266,6 @@ int avpriv_set_systematic_pal2(uint32_t pal[256], enum AVPixelFormat pix_fmt);
 
 #if FF_API_GET_CHANNEL_LAYOUT_COMPAT
 uint64_t ff_get_channel_layout(const char *name, int compat);
-#endif
-
-#ifdef IDE_COMPILE
-#if (_MSC_VER >= 1310)
-long long int strtoll (const char* str, char** endptr, int base);
-#else
-__int64 strtoll (const char* str, char** endptr, int base);
-#endif
 #endif
 
 void var_args_dummy(const char *fmt, ...);

@@ -527,23 +527,6 @@ static int img_read_seek(AVFormatContext *s, int stream_index, int64_t timestamp
 #define OFFSET(x) offsetof(VideoDemuxData, x)
 #define DEC AV_OPT_FLAG_DECODING_PARAM
 const AVOption ff_img_options[] = {
-#ifdef IDE_COMPILE
-	{ "framerate", "set the video framerate", OFFSET(framerate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, DEC },
-    { "loop", "force loop over input file sequence", OFFSET(loop), AV_OPT_TYPE_INT, {0}, 0, 1, DEC },
-    { "pattern_type", "set pattern type", OFFSET(pattern_type), AV_OPT_TYPE_INT, {PT_GLOB_SEQUENCE}, 0, INT_MAX, DEC, "pattern_type"},
-    { "glob_sequence", "select glob/sequence pattern type", 0, AV_OPT_TYPE_CONST, {PT_GLOB_SEQUENCE}, INT_MIN, INT_MAX, DEC, "pattern_type" },
-    { "glob", "select glob pattern type", 0, AV_OPT_TYPE_CONST, {PT_GLOB}, INT_MIN, INT_MAX, DEC, "pattern_type" },
-    { "sequence", "select sequence pattern type", 0, AV_OPT_TYPE_CONST, {PT_SEQUENCE}, INT_MIN, INT_MAX, DEC, "pattern_type" },
-    { "pixel_format", "set video pixel format", OFFSET(pixel_format), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, DEC },
-    { "start_number", "set first number in the sequence", OFFSET(start_number), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, DEC },
-    { "start_number_range", "set range for looking at the first sequence number", OFFSET(start_number_range), AV_OPT_TYPE_INT, {5}, 1, INT_MAX, DEC },
-    { "video_size", "set video size", OFFSET(width), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) NULL}, 0, 0, DEC },
-    { "frame_size", "force frame size in bytes", OFFSET(frame_size), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, DEC },
-    { "ts_from_file", "set frame timestamp from file's one", OFFSET(ts_from_file), AV_OPT_TYPE_INT, {0}, 0, 2, DEC, "ts_type" },
-    { "none", "none", 0, AV_OPT_TYPE_CONST, {0}, 0, 2, DEC, "ts_type" },
-    { "sec", "second precision", 0, AV_OPT_TYPE_CONST, {1}, 0, 2, DEC, "ts_type" },
-	{ "ns", "nano second precision", 0, AV_OPT_TYPE_CONST, {2}, 0, 2, DEC, "ts_type" },
-#else
 	{ "framerate",    "set the video framerate",             OFFSET(framerate),    AV_OPT_TYPE_VIDEO_RATE, {.str = "25"}, 0, 0,   DEC },
     { "loop",         "force loop over input file sequence", OFFSET(loop),         AV_OPT_TYPE_INT,    {.i64 = 0   }, 0, 1,       DEC },
     { "pattern_type", "set pattern type",                    OFFSET(pattern_type), AV_OPT_TYPE_INT,    {.i64=PT_GLOB_SEQUENCE}, 0,       INT_MAX, DEC, "pattern_type"},
@@ -559,38 +542,18 @@ const AVOption ff_img_options[] = {
     { "none", "none",                   0, AV_OPT_TYPE_CONST,    {.i64 = 0   }, 0, 2,       DEC, "ts_type" },
     { "sec",  "second precision",       0, AV_OPT_TYPE_CONST,    {.i64 = 1   }, 0, 2,       DEC, "ts_type" },
     { "ns",   "nano second precision",  0, AV_OPT_TYPE_CONST,    {.i64 = 2   }, 0, 2,       DEC, "ts_type" },
-#endif
 	{ NULL },
 };
 
 #if CONFIG_IMAGE2_DEMUXER
 static const AVClass img2_class = {
-#ifdef IDE_COMPILE
-    "image2 demuxer",
-    av_default_item_name,
-    ff_img_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "image2 demuxer",
     .item_name  = av_default_item_name,
     .option     = ff_img_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_image2_demuxer = {
-#ifdef IDE_COMPILE
-    "image2",
-    "image2 sequence",
-    AVFMT_NOFILE,
-    0, 0, &img2_class,
-    0, 0, 0, sizeof(VideoDemuxData),
-    img_read_probe,
-    ff_img_read_header,
-    ff_img_read_packet,
-    img_read_close,
-    img_read_seek,
-#else
 	.name           = "image2",
     .long_name      = NULL_IF_CONFIG_SMALL("image2 sequence"),
     .priv_data_size = sizeof(VideoDemuxData),
@@ -601,41 +564,24 @@ AVInputFormat ff_image2_demuxer = {
     .read_seek      = img_read_seek,
     .flags          = AVFMT_NOFILE,
     .priv_class     = &img2_class,
-#endif
 };
 #endif
 
 #if CONFIG_IMAGE2PIPE_DEMUXER
 static const AVClass img2pipe_class = {
-#ifdef IDE_COMPILE
-    "image2pipe demuxer",
-    av_default_item_name,
-    ff_img_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "image2pipe demuxer",
     .item_name  = av_default_item_name,
     .option     = ff_img_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_image2pipe_demuxer = {
-#ifdef IDE_COMPILE
-    "image2pipe",
-    "piped image2 sequence",
-    0, 0, 0, &img2pipe_class,
-    0, 0, 0, sizeof(VideoDemuxData),
-    0, ff_img_read_header,
-    ff_img_read_packet,
-#else
 	.name           = "image2pipe",
     .long_name      = NULL_IF_CONFIG_SMALL("piped image2 sequence"),
     .priv_data_size = sizeof(VideoDemuxData),
     .read_header    = ff_img_read_header,
     .read_packet    = ff_img_read_packet,
     .priv_class     = &img2pipe_class,
-#endif
 };
 #endif
 
@@ -755,30 +701,6 @@ static int webp_probe(AVProbeData *p)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-#define IMAGEAUTO_DEMUXER(imgname, codecid)\
-static const AVClass imgname ## _class = {\
-    AV_STRINGIFY(imgname) " demuxer",\
-    av_default_item_name,\
-    ff_img_options,\
-    LIBAVUTIL_VERSION_INT,\
-};\
-AVInputFormat ff_image_ ## imgname ## _pipe_demuxer = {\
-    AV_STRINGIFY(imgname) "_pipe",\
-    "piped " AV_STRINGIFY(imgname) " sequence",\
-    AVFMT_GENERIC_INDEX, \
-    0, \
-	0, \
-    & imgname ## _class, \
-    0, \
-	0, \
-    codecid,\
-    sizeof(VideoDemuxData),\
-    imgname ## _probe,\
-    ff_img_read_header,\
-    ff_img_read_packet,\
-};
-#else
 #define IMAGEAUTO_DEMUXER(imgname, codecid)\
 static const AVClass imgname ## _class = {\
     .class_name = AV_STRINGIFY(imgname) " demuxer",\
@@ -797,7 +719,6 @@ AVInputFormat ff_image_ ## imgname ## _pipe_demuxer = {\
     .flags          = AVFMT_GENERIC_INDEX, \
     .raw_codec_id   = codecid,\
 };
-#endif
 
 IMAGEAUTO_DEMUXER(bmp,     AV_CODEC_ID_BMP)
 IMAGEAUTO_DEMUXER(dpx,     AV_CODEC_ID_DPX)

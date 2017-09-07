@@ -191,15 +191,7 @@ int64_t av_add_stable(AVRational ts_tb, int64_t ts, AVRational inc_tb, int64_t i
     int64_t m, d;
 
     if (inc != 1) {
-#ifdef IDE_COMPILE
-		AVRational tmp;
-		
-		tmp.num = inc;
-		tmp.den = 1;
-		inc_tb = av_mul_q(inc_tb, tmp);
-#else
 		inc_tb = av_mul_q(inc_tb, (AVRational) {inc, 1});
-#endif
 	}
     m = inc_tb.num * (int64_t)ts_tb.den;
     d = inc_tb.den * (int64_t)ts_tb.num;
