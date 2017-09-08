@@ -83,6 +83,7 @@ EXTRA_DIST = \
 	joy-win32.h \
 	joy-win32-dinput-handle.h \
 	kbd.h \
+	make-bindist_win32.sh \
 	mousedrv.h \
 	not_implemented.h \
 	rawnetarch_unix.c \

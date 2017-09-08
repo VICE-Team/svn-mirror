@@ -4396,6 +4396,7 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a"
   if test x"$is_win32" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/msvc/wpcap"
+    AM_CONDITIONAL(MAKE_BINDIST, true)
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
   fi
@@ -4480,7 +4481,11 @@ if test x"$is_unix" = "xyes"; then
 
   AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
   AM_CONDITIONAL(UNIX_COMPILE, true)
-  AM_CONDITIONAL(WIN32_COMPILE, false)
+  if test x"$is_win32_gtk3" = "xyes"; then
+     AM_CONDITIONAL(WIN32_COMPILE, true)
+  else
+     AM_CONDITIONAL(WIN32_COMPILE, false)
+  fi
   AM_CONDITIONAL(MSDOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
