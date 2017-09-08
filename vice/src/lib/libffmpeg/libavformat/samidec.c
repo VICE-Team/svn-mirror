@@ -128,17 +128,6 @@ static int sami_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_sami_demuxer = {
-#ifdef IDE_COMPILE
-    "sami",
-    "SAMI subtitle format",
-    0, "smi,sami",
-    0, 0, 0, 0, 0, sizeof(SAMIContext),
-    sami_probe,
-    sami_read_header,
-    sami_read_packet,
-    sami_read_close,
-    0, 0, 0, 0, sami_read_seek,
-#else
 	.name           = "sami",
     .long_name      = NULL_IF_CONFIG_SMALL("SAMI subtitle format"),
     .priv_data_size = sizeof(SAMIContext),
@@ -148,5 +137,4 @@ AVInputFormat ff_sami_demuxer = {
     .read_seek2     = sami_read_seek,
     .read_close     = sami_read_close,
     .extensions     = "smi,sami",
-#endif
 };

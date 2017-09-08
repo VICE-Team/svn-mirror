@@ -99,33 +99,17 @@ int ff_h263_handle_packet(AVFormatContext *ctx, PayloadContext *data,
 }
 
 RTPDynamicProtocolHandler ff_h263_1998_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "H263-1998",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H263,
-    0, h263_init,
-    0, 0, 0, ff_h263_handle_packet,
-#else
 	.enc_name         = "H263-1998",
     .codec_type       = AVMEDIA_TYPE_VIDEO,
     .codec_id         = AV_CODEC_ID_H263,
     .init             = h263_init,
     .parse_packet     = ff_h263_handle_packet,
-#endif
 };
 
 RTPDynamicProtocolHandler ff_h263_2000_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "H263-2000",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H263,
-    0, h263_init,
-    0, 0, 0, ff_h263_handle_packet,
-#else
 	.enc_name         = "H263-2000",
     .codec_type       = AVMEDIA_TYPE_VIDEO,
     .codec_id         = AV_CODEC_ID_H263,
     .init             = h263_init,
     .parse_packet     = ff_h263_handle_packet,
-#endif
 };

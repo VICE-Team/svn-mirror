@@ -142,19 +142,10 @@ static int sol_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_sol_demuxer = {
-#ifdef IDE_COMPILE
-    "sol",
-    "Sierra SOL",
-    0, 0, 0, 0, 0, 0, 0, 0, sol_probe,
-    sol_read_header,
-    sol_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           = "sol",
     .long_name      = NULL_IF_CONFIG_SMALL("Sierra SOL"),
     .read_probe     = sol_probe,
     .read_header    = sol_read_header,
     .read_packet    = sol_read_packet,
     .read_seek      = ff_pcm_read_seek,
-#endif
 };

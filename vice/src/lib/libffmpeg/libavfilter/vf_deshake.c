@@ -68,26 +68,6 @@
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption deshake_options[] = {
-#ifdef IDE_COMPILE
-	{ "x", "set x for the rectangular search area", OFFSET(cx), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "y", "set y for the rectangular search area", OFFSET(cy), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "w", "set width for the rectangular search area", OFFSET(cw), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "h", "set height for the rectangular search area", OFFSET(ch), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "rx", "set x for the rectangular search area", OFFSET(rx), AV_OPT_TYPE_INT, {16}, 0, MAX_R, FLAGS },
-    { "ry", "set y for the rectangular search area", OFFSET(ry), AV_OPT_TYPE_INT, {16}, 0, MAX_R, FLAGS },
-    { "edge", "set edge mode", OFFSET(edge), AV_OPT_TYPE_INT, {FILL_MIRROR}, FILL_BLANK, FILL_COUNT-1, FLAGS, "edge"},
-    { "blank", "fill zeroes at blank locations", 0, AV_OPT_TYPE_CONST, {FILL_BLANK}, INT_MIN, INT_MAX, FLAGS, "edge" },
-    { "original", "original image at blank locations", 0, AV_OPT_TYPE_CONST, {FILL_ORIGINAL}, INT_MIN, INT_MAX, FLAGS, "edge" },
-    { "clamp", "extruded edge value at blank locations", 0, AV_OPT_TYPE_CONST, {FILL_CLAMP}, INT_MIN, INT_MAX, FLAGS, "edge" },
-    { "mirror", "mirrored edge at blank locations", 0, AV_OPT_TYPE_CONST, {FILL_MIRROR}, INT_MIN, INT_MAX, FLAGS, "edge" },
-    { "blocksize", "set motion search blocksize", OFFSET(blocksize), AV_OPT_TYPE_INT, {8}, 4, 128, FLAGS },
-    { "contrast", "set contrast threshold for blocks", OFFSET(contrast), AV_OPT_TYPE_INT, {125}, 1, 255, FLAGS },
-    { "search", "set search strategy", OFFSET(search), AV_OPT_TYPE_INT, {EXHAUSTIVE}, EXHAUSTIVE, SEARCH_COUNT-1, FLAGS, "smode" },
-    { "exhaustive", "exhaustive search", 0, AV_OPT_TYPE_CONST, {EXHAUSTIVE}, INT_MIN, INT_MAX, FLAGS, "smode" },
-    { "less", "less exhaustive search", 0, AV_OPT_TYPE_CONST, {SMART_EXHAUSTIVE}, INT_MIN, INT_MAX, FLAGS, "smode" },
-    { "filename", "set motion search detailed log file name", OFFSET(filename), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "opencl", "use OpenCL filtering capabilities", OFFSET(opencl), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "x", "set x for the rectangular search area",      OFFSET(cx), AV_OPT_TYPE_INT, {.i64=-1}, -1, INT_MAX, .flags = FLAGS },
     { "y", "set y for the rectangular search area",      OFFSET(cy), AV_OPT_TYPE_INT, {.i64=-1}, -1, INT_MAX, .flags = FLAGS },
     { "w", "set width for the rectangular search area",  OFFSET(cw), AV_OPT_TYPE_INT, {.i64=-1}, -1, INT_MAX, .flags = FLAGS },
@@ -106,7 +86,6 @@ static const AVOption deshake_options[] = {
         { "less",       "less exhaustive search", 0, AV_OPT_TYPE_CONST, {.i64=SMART_EXHAUSTIVE}, INT_MIN, INT_MAX, FLAGS, "smode" },
     { "filename", "set motion search detailed log file name", OFFSET(filename), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
     { "opencl", "use OpenCL filtering capabilities", OFFSET(opencl), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -567,46 +546,23 @@ static int filter_frame(AVFilterLink *link, AVFrame *in)
 
 static const AVFilterPad deshake_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad deshake_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_deshake = {
-#ifdef IDE_COMPILE
-    "deshake",
-    NULL_IF_CONFIG_SMALL("Stabilize shaky video."),
-    deshake_inputs,
-    deshake_outputs,
-    &deshake_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(DeshakeContext),
-#else
 	.name          = "deshake",
     .description   = NULL_IF_CONFIG_SMALL("Stabilize shaky video."),
     .priv_size     = sizeof(DeshakeContext),
@@ -616,5 +572,4 @@ AVFilter ff_vf_deshake = {
     .inputs        = deshake_inputs,
     .outputs       = deshake_outputs,
     .priv_class    = &deshake_class,
-#endif
 };

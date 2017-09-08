@@ -231,19 +231,10 @@ int ff_spdif_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_spdif_demuxer = {
-#ifdef IDE_COMPILE
-    "spdif",
-    "IEC 61937 (compressed data in S/PDIF)",
-    AVFMT_GENERIC_INDEX,
-    0, 0, 0, 0, 0, 0, 0, spdif_probe,
-    spdif_read_header,
-    ff_spdif_read_packet,
-#else
 	.name           = "spdif",
     .long_name      = NULL_IF_CONFIG_SMALL("IEC 61937 (compressed data in S/PDIF)"),
     .read_probe     = spdif_probe,
     .read_header    = spdif_read_header,
     .read_packet    = ff_spdif_read_packet,
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

@@ -245,19 +245,10 @@ static int smush_read_packet(AVFormatContext *ctx, AVPacket *pkt)
 }
 
 AVInputFormat ff_smush_demuxer = {
-#ifdef IDE_COMPILE
-    "smush",
-    "LucasArts Smush",
-    0, 0, 0, 0, 0, 0, 0, sizeof(SMUSHContext),
-    smush_read_probe,
-    smush_read_header,
-    smush_read_packet,
-#else
 	.name           = "smush",
     .long_name      = NULL_IF_CONFIG_SMALL("LucasArts Smush"),
     .priv_data_size = sizeof(SMUSHContext),
     .read_probe     = smush_read_probe,
     .read_header    = smush_read_header,
     .read_packet    = smush_read_packet,
-#endif
 };

@@ -178,16 +178,6 @@ static int tta_read_seek(AVFormatContext *s, int stream_index, int64_t timestamp
 }
 
 AVInputFormat ff_tta_demuxer = {
-#ifdef IDE_COMPILE
-    "tta",
-    "TTA (True Audio)",
-    0, "tta",
-    0, 0, 0, 0, 0, sizeof(TTAContext),
-    tta_probe,
-    tta_read_header,
-    tta_read_packet,
-    0, tta_read_seek,
-#else
 	.name           = "tta",
     .long_name      = NULL_IF_CONFIG_SMALL("TTA (True Audio)"),
     .priv_data_size = sizeof(TTAContext),
@@ -196,5 +186,4 @@ AVInputFormat ff_tta_demuxer = {
     .read_packet    = tta_read_packet,
     .read_seek      = tta_read_seek,
     .extensions     = "tta",
-#endif
 };

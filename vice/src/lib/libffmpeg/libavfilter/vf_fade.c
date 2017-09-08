@@ -349,23 +349,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption fade_options[] = {
-#ifdef IDE_COMPILE
-	{ "type", "'in' or 'out' for fade-in/fade-out", OFFSET(type), AV_OPT_TYPE_INT, {FADE_IN}, FADE_IN, FADE_OUT, FLAGS, "type" },
-    { "t", "'in' or 'out' for fade-in/fade-out", OFFSET(type), AV_OPT_TYPE_INT, {FADE_IN}, FADE_IN, FADE_OUT, FLAGS, "type" },
-    { "in",  "fade-in", 0, AV_OPT_TYPE_CONST, {FADE_IN}, 0, 0, 0, "type" },
-    { "out", "fade-out", 0, AV_OPT_TYPE_CONST, {FADE_OUT}, 0, 0, 0, "type" },
-    { "start_frame", "Number of the first frame to which to apply the effect.", OFFSET(start_frame), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-    { "s", "Number of the first frame to which to apply the effect.", OFFSET(start_frame), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-    { "nb_frames", "Number of frames to which the effect should be applied.", OFFSET(nb_frames), AV_OPT_TYPE_INT, {25}, 0, INT_MAX, FLAGS },
-    { "n", "Number of frames to which the effect should be applied.", OFFSET(nb_frames), AV_OPT_TYPE_INT, {25}, 0, INT_MAX, FLAGS },
-    { "alpha", "fade alpha if it is available on the input", OFFSET(alpha), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "start_time", "Number of seconds of the beginning of the effect.", OFFSET(start_time), AV_OPT_TYPE_DURATION, {0}, 0, INT32_MAX, FLAGS },
-    { "st", "Number of seconds of the beginning of the effect.", OFFSET(start_time), AV_OPT_TYPE_DURATION, {0}, 0, INT32_MAX, FLAGS },
-    { "duration", "Duration of the effect in seconds.", OFFSET(duration), AV_OPT_TYPE_DURATION, {0}, 0, INT32_MAX, FLAGS },
-    { "d", "Duration of the effect in seconds.", OFFSET(duration), AV_OPT_TYPE_DURATION, {0}, 0, INT32_MAX, FLAGS },
-    { "color", "set color", OFFSET(color_rgba), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "c", "set color", OFFSET(color_rgba), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-#else
 	{ "type", "'in' or 'out' for fade-in/fade-out", OFFSET(type), AV_OPT_TYPE_INT, { .i64 = FADE_IN }, FADE_IN, FADE_OUT, FLAGS, "type" },
     { "t",    "'in' or 'out' for fade-in/fade-out", OFFSET(type), AV_OPT_TYPE_INT, { .i64 = FADE_IN }, FADE_IN, FADE_OUT, FLAGS, "type" },
         { "in",  "fade-in",  0, AV_OPT_TYPE_CONST, { .i64 = FADE_IN },  .unit = "type" },
@@ -389,7 +372,6 @@ static const AVOption fade_options[] = {
                                                     OFFSET(duration),    AV_OPT_TYPE_DURATION, {.i64 = 0. }, 0, INT32_MAX, FLAGS },
     { "color",       "set color",                   OFFSET(color_rgba),  AV_OPT_TYPE_COLOR,    {.str = "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "c",           "set color",                   OFFSET(color_rgba),  AV_OPT_TYPE_COLOR,    {.str = "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -397,48 +379,24 @@ AVFILTER_DEFINE_CLASS(fade);
 
 static const AVFilterPad avfilter_vf_fade_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-        0, 1,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_VIDEO,
         .config_props   = config_props,
         .filter_frame   = filter_frame,
         .needs_writable = 1,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_fade_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_fade = {
-#ifdef IDE_COMPILE
-    "fade",
-    NULL_IF_CONFIG_SMALL("Fade in/out input video."),
-    avfilter_vf_fade_inputs,
-    avfilter_vf_fade_outputs,
-    &fade_class,
-    AVFILTER_FLAG_SLICE_THREADS,
-    init,
-    0, 0, query_formats,
-    sizeof(FadeContext),
-#else
 	.name          = "fade",
     .description   = NULL_IF_CONFIG_SMALL("Fade in/out input video."),
     .init          = init,
@@ -448,5 +406,4 @@ AVFilter ff_vf_fade = {
     .inputs        = avfilter_vf_fade_inputs,
     .outputs       = avfilter_vf_fade_outputs,
     .flags         = AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

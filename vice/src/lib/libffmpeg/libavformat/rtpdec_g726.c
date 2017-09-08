@@ -22,28 +22,6 @@
 #include "avformat.h"
 #include "rtpdec_formats.h"
 
-#ifdef IDE_COMPILE
-#define RTP_G726_HANDLER(bitrate) \
-static av_cold int g726_ ## bitrate ##_init(AVFormatContext *s, int st_index, \
-                                            PayloadContext *data) \
-{ \
-    AVStream *stream = s->streams[st_index]; \
-    AVCodecContext *codec = stream->codec; \
-\
-    codec->bits_per_coded_sample = bitrate/8; \
-    codec->bit_rate = codec->bits_per_coded_sample * codec->sample_rate; \
-\
-    return 0; \
-} \
-\
-RTPDynamicProtocolHandler ff_g726_ ## bitrate ## _dynamic_handler = { \
-    "G726-" #bitrate, \
-    AVMEDIA_TYPE_AUDIO, \
-    AV_CODEC_ID_ADPCM_G726, \
-    0, \
-    g726_ ## bitrate ## _init, \
-}
-#else
 #define RTP_G726_HANDLER(bitrate) \
 static av_cold int g726_ ## bitrate ##_init(AVFormatContext *s, int st_index, \
                                             PayloadContext *data) \
@@ -63,7 +41,6 @@ RTPDynamicProtocolHandler ff_g726_ ## bitrate ## _dynamic_handler = { \
     .codec_id   = AV_CODEC_ID_ADPCM_G726, \
     .init       = g726_ ## bitrate ## _init, \
 }
-#endif
 
 RTP_G726_HANDLER(16);
 RTP_G726_HANDLER(24);

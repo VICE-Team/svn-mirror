@@ -210,17 +210,10 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption cropdetect_options[] = {
-#ifdef IDE_COMPILE
-	{ "limit", "Threshold below which the pixel is considered black", OFFSET(limit), AV_OPT_TYPE_INT, {24}, 0, 255, FLAGS },
-    { "round", "Value by which the width/height should be divisible", OFFSET(round), AV_OPT_TYPE_INT, {16}, 0, INT_MAX, FLAGS },
-    { "reset", "Recalculate the crop area after this many frames", OFFSET(reset_count), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-    { "reset_count", "Recalculate the crop area after this many frames", OFFSET(reset_count), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-#else
 	{ "limit", "Threshold below which the pixel is considered black", OFFSET(limit),       AV_OPT_TYPE_INT, { .i64 = 24 }, 0, 255, FLAGS },
     { "round", "Value by which the width/height should be divisible", OFFSET(round),       AV_OPT_TYPE_INT, { .i64 = 16 }, 0, INT_MAX, FLAGS },
     { "reset", "Recalculate the crop area after this many frames",    OFFSET(reset_count), AV_OPT_TYPE_INT, { .i64 = 0 },  0, INT_MAX, FLAGS },
     { "reset_count", "Recalculate the crop area after this many frames",OFFSET(reset_count),AV_OPT_TYPE_INT,{ .i64 = 0 },  0, INT_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -228,46 +221,23 @@ AVFILTER_DEFINE_CLASS(cropdetect);
 
 static const AVFilterPad avfilter_vf_cropdetect_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_cropdetect_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_cropdetect = {
-#ifdef IDE_COMPILE
-    "cropdetect",
-    "Auto-detect crop size.",
-    avfilter_vf_cropdetect_inputs,
-    avfilter_vf_cropdetect_outputs,
-    &cropdetect_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, 0, query_formats,
-    sizeof(CropDetectContext),
-#else
 	.name          = "cropdetect",
     .description   = NULL_IF_CONFIG_SMALL("Auto-detect crop size."),
     .priv_size     = sizeof(CropDetectContext),
@@ -277,5 +247,4 @@ AVFilter ff_vf_cropdetect = {
     .inputs        = avfilter_vf_cropdetect_inputs,
     .outputs       = avfilter_vf_cropdetect_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

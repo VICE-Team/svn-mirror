@@ -20,10 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
@@ -76,20 +72,7 @@ static int rso_read_header(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = {ff_codec_rso_tags, 0};
-#endif
-
 AVInputFormat ff_rso_demuxer = {
-#ifdef IDE_COMPILE
-    "rso",
-    "Lego Mindstorms RSO",
-    0, "rso",
-    tmpx,
-    0, 0, 0, 0, 0, 0, rso_read_header,
-    ff_pcm_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           =   "rso",
     .long_name      =   NULL_IF_CONFIG_SMALL("Lego Mindstorms RSO"),
     .extensions     =   "rso",
@@ -97,5 +80,4 @@ AVInputFormat ff_rso_demuxer = {
     .read_packet    =   ff_pcm_read_packet,
     .read_seek      =   ff_pcm_read_seek,
     .codec_tag      =   (const AVCodecTag* const []){ff_codec_rso_tags, 0},
-#endif
 };

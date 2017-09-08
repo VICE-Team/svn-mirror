@@ -334,20 +334,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption boxblur_options[] = {
-#ifdef IDE_COMPILE
-	{ "luma_radius", "Radius of the luma blurring box", OFFSET(luma_param.radius_expr), AV_OPT_TYPE_STRING, {(intptr_t) "2"}, 0, 0, FLAGS },
-    { "lr", "Radius of the luma blurring box", OFFSET(luma_param.radius_expr), AV_OPT_TYPE_STRING, {(intptr_t) "2"}, 0, 0, FLAGS },
-    { "luma_power", "How many times should the boxblur be applied to luma", OFFSET(luma_param.power), AV_OPT_TYPE_INT, {2}, 0, INT_MAX, FLAGS },
-    { "lp", "How many times should the boxblur be applied to luma", OFFSET(luma_param.power), AV_OPT_TYPE_INT, {2}, 0, INT_MAX, FLAGS },
-    { "chroma_radius", "Radius of the chroma blurring box", OFFSET(chroma_param.radius_expr), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "cr", "Radius of the chroma blurring box", OFFSET(chroma_param.radius_expr), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "chroma_power", "How many times should the boxblur be applied to chroma", OFFSET(chroma_param.power), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "cp", "How many times should the boxblur be applied to chroma", OFFSET(chroma_param.power), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "alpha_radius", "Radius of the alpha blurring box", OFFSET(alpha_param.radius_expr), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "ar", "Radius of the alpha blurring box", OFFSET(alpha_param.radius_expr), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "alpha_power", "How many times should the boxblur be applied to alpha", OFFSET(alpha_param.power), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "ap", "How many times should the boxblur be applied to alpha", OFFSET(alpha_param.power), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-#else
 	{ "luma_radius", "Radius of the luma blurring box", OFFSET(luma_param.radius_expr), AV_OPT_TYPE_STRING, {.str="2"}, .flags = FLAGS },
     { "lr",          "Radius of the luma blurring box", OFFSET(luma_param.radius_expr), AV_OPT_TYPE_STRING, {.str="2"}, .flags = FLAGS },
     { "luma_power",  "How many times should the boxblur be applied to luma",  OFFSET(luma_param.power), AV_OPT_TYPE_INT, {.i64=2}, 0, INT_MAX, .flags = FLAGS },
@@ -360,7 +346,6 @@ static const AVOption boxblur_options[] = {
     { "ar",           "Radius of the alpha blurring box", OFFSET(alpha_param.radius_expr), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
     { "alpha_power",  "How many times should the boxblur be applied to alpha",  OFFSET(alpha_param.power), AV_OPT_TYPE_INT, {.i64=-1}, -1, INT_MAX, .flags = FLAGS },
     { "ap",           "How many times should the boxblur be applied to alpha",  OFFSET(alpha_param.power), AV_OPT_TYPE_INT, {.i64=-1}, -1, INT_MAX, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -368,47 +353,23 @@ AVFILTER_DEFINE_CLASS(boxblur);
 
 static const AVFilterPad avfilter_vf_boxblur_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_boxblur_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_boxblur = {
-#ifdef IDE_COMPILE
-    "boxblur",
-    NULL_IF_CONFIG_SMALL("Blur the input."),
-    avfilter_vf_boxblur_inputs,
-    avfilter_vf_boxblur_outputs,
-    &boxblur_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(BoxBlurContext),
-#else
 	.name          = "boxblur",
     .description   = NULL_IF_CONFIG_SMALL("Blur the input."),
     .priv_size     = sizeof(BoxBlurContext),
@@ -419,5 +380,4 @@ AVFilter ff_vf_boxblur = {
     .inputs        = avfilter_vf_boxblur_inputs,
     .outputs       = avfilter_vf_boxblur_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

@@ -159,15 +159,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption fieldorder_options[] = {
-#ifdef IDE_COMPILE
-	{ "order", "output field order", OFFSET(dst_tff), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS, "order" },
-    { "bff", "bottom field first", 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "order" },
-    { "tff", "top field first", 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "order" },
-#else
 	{ "order", "output field order", OFFSET(dst_tff), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, FLAGS, "order" },
         { "bff", "bottom field first", 0, AV_OPT_TYPE_CONST, { .i64 = 0 }, .flags=FLAGS, .unit = "order" },
         { "tff", "top field first",    0, AV_OPT_TYPE_CONST, { .i64 = 1 }, .flags=FLAGS, .unit = "order" },
-#endif
 	{ NULL }
 };
 
@@ -175,45 +169,23 @@ AVFILTER_DEFINE_CLASS(fieldorder);
 
 static const AVFilterPad avfilter_vf_fieldorder_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_fieldorder_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_fieldorder = {
-#ifdef IDE_COMPILE
-    "fieldorder",
-    NULL_IF_CONFIG_SMALL("Set the field order."),
-    avfilter_vf_fieldorder_inputs,
-    avfilter_vf_fieldorder_outputs,
-    &fieldorder_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, 0, query_formats,
-    sizeof(FieldOrderContext),
-#else
 	.name          = "fieldorder",
     .description   = NULL_IF_CONFIG_SMALL("Set the field order."),
     .priv_size     = sizeof(FieldOrderContext),
@@ -222,5 +194,4 @@ AVFilter ff_vf_fieldorder = {
     .inputs        = avfilter_vf_fieldorder_inputs,
     .outputs       = avfilter_vf_fieldorder_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

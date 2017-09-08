@@ -99,19 +99,10 @@ static int mpegts_handle_packet(AVFormatContext *ctx, PayloadContext *data,
 }
 
 RTPDynamicProtocolHandler ff_mpegts_dynamic_handler = {
-#ifdef IDE_COMPILE
-    { 0 }, AVMEDIA_TYPE_DATA,
-    0, 33,
-    mpegts_init,
-    0, mpegts_new_context,
-    mpegts_free_context,
-    mpegts_handle_packet,
-#else
 	.codec_type        = AVMEDIA_TYPE_DATA,
     .parse_packet      = mpegts_handle_packet,
     .alloc             = mpegts_new_context,
     .init              = mpegts_init,
     .free              = mpegts_free_context,
     .static_payload_id = 33,
-#endif
 };

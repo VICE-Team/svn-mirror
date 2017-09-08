@@ -111,15 +111,6 @@ static int sdr2_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_sdr2_demuxer = {
-#ifdef IDE_COMPILE
-    "sdr2",
-    "SDR2",
-    AVFMT_GENERIC_INDEX,
-    "sdr2",
-    0, 0, 0, 0, 0, 0, sdr2_probe,
-    sdr2_read_header,
-    sdr2_read_packet,
-#else
 	.name        = "sdr2",
     .long_name   = NULL_IF_CONFIG_SMALL("SDR2"),
     .read_probe  = sdr2_probe,
@@ -127,5 +118,4 @@ AVInputFormat ff_sdr2_demuxer = {
     .read_packet = sdr2_read_packet,
     .extensions  = "sdr2",
     .flags       = AVFMT_GENERIC_INDEX,
-#endif
 };

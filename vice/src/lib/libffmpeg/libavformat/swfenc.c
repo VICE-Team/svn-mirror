@@ -517,19 +517,6 @@ static int swf_write_trailer(AVFormatContext *s)
 
 #if CONFIG_SWF_MUXER
 AVOutputFormat ff_swf_muxer = {
-#ifdef IDE_COMPILE
-    "swf",
-    "SWF (ShockWave Flash)",
-    "application/x-shockwave-flash",
-    "swf",
-    AV_CODEC_ID_MP3,
-    AV_CODEC_ID_FLV1,
-    0, AVFMT_TS_NONSTRICT,
-    0, 0, 0, sizeof(SWFContext),
-    swf_write_header,
-    swf_write_packet,
-    swf_write_trailer,
-#else
 	.name              = "swf",
     .long_name         = NULL_IF_CONFIG_SMALL("SWF (ShockWave Flash)"),
     .mime_type         = "application/x-shockwave-flash",
@@ -541,24 +528,11 @@ AVOutputFormat ff_swf_muxer = {
     .write_packet      = swf_write_packet,
     .write_trailer     = swf_write_trailer,
     .flags             = AVFMT_TS_NONSTRICT,
-#endif
 };
 #endif
 
 #if CONFIG_AVM2_MUXER
 AVOutputFormat ff_avm2_muxer = {
-#ifdef IDE_COMPILE
-    "avm2",
-    "SWF (ShockWave Flash) (AVM2)",
-    "application/x-shockwave-flash",
-    0, AV_CODEC_ID_MP3,
-    AV_CODEC_ID_FLV1,
-    0, AVFMT_TS_NONSTRICT,
-    0, 0, 0, sizeof(SWFContext),
-    swf_write_header,
-    swf_write_packet,
-    swf_write_trailer,
-#else
 	.name              = "avm2",
     .long_name         = NULL_IF_CONFIG_SMALL("SWF (ShockWave Flash) (AVM2)"),
     .mime_type         = "application/x-shockwave-flash",
@@ -569,6 +543,5 @@ AVOutputFormat ff_avm2_muxer = {
     .write_packet      = swf_write_packet,
     .write_trailer     = swf_write_trailer,
     .flags             = AVFMT_TS_NONSTRICT,
-#endif
 };
 #endif

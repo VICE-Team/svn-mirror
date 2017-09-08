@@ -139,11 +139,7 @@ static int query_formats(AVFilterContext *ctx)
 
 #define OFFSET(x) offsetof(FormatContext, x)
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "pix_fmts", "A '|'-separated list of pixel formats", OFFSET(pix_fmts), AV_OPT_TYPE_STRING, {0}, 0, 0, AV_OPT_FLAG_VIDEO_PARAM },
-#else
 	{ "pix_fmts", "A '|'-separated list of pixel formats", OFFSET(pix_fmts), AV_OPT_TYPE_STRING, .flags = AV_OPT_FLAG_VIDEO_PARAM },
-#endif
 	{ NULL }
 };
 
@@ -154,44 +150,22 @@ AVFILTER_DEFINE_CLASS(format);
 
 static const AVFilterPad avfilter_vf_format_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, ff_null_get_video_buffer,
-#else
 		.name             = "default",
         .type             = AVMEDIA_TYPE_VIDEO,
         .get_video_buffer = ff_null_get_video_buffer,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_format_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_format = {
-#ifdef IDE_COMPILE
-    "format",
-    NULL_IF_CONFIG_SMALL("Convert the input video to one of the specified pixel formats."),
-    avfilter_vf_format_inputs,
-    avfilter_vf_format_outputs,
-    &format_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(FormatContext),
-#else
 	.name          = "format",
     .description   = NULL_IF_CONFIG_SMALL("Convert the input video to one of the specified pixel formats."),
     .init          = init,
@@ -201,7 +175,6 @@ AVFilter ff_vf_format = {
     .priv_class    = &format_class,
     .inputs        = avfilter_vf_format_inputs,
     .outputs       = avfilter_vf_format_outputs,
-#endif
 };
 #endif /* CONFIG_FORMAT_FILTER */
 
@@ -212,44 +185,22 @@ AVFILTER_DEFINE_CLASS(noformat);
 
 static const AVFilterPad avfilter_vf_noformat_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, ff_null_get_video_buffer,
-#else
 		.name             = "default",
         .type             = AVMEDIA_TYPE_VIDEO,
         .get_video_buffer = ff_null_get_video_buffer,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_noformat_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_noformat = {
-#ifdef IDE_COMPILE
-    "noformat",
-    NULL_IF_CONFIG_SMALL("Force libavfilter not to use any of the specified pixel formats for the input to the next filter."),
-    avfilter_vf_noformat_inputs,
-    avfilter_vf_noformat_outputs,
-    &noformat_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(FormatContext),
-#else
 	.name          = "noformat",
     .description   = NULL_IF_CONFIG_SMALL("Force libavfilter not to use any of the specified pixel formats for the input to the next filter."),
     .init          = init,
@@ -259,6 +210,5 @@ AVFilter ff_vf_noformat = {
     .priv_class    = &noformat_class,
     .inputs        = avfilter_vf_noformat_inputs,
     .outputs       = avfilter_vf_noformat_outputs,
-#endif
 };
 #endif /* CONFIG_NOFORMAT_FILTER */

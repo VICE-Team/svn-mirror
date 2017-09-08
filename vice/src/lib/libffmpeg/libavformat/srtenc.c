@@ -103,17 +103,6 @@ static int srt_write_packet(AVFormatContext *avf, AVPacket *pkt)
 }
 
 AVOutputFormat ff_srt_muxer = {
-#ifdef IDE_COMPILE
-    "srt",
-    "SubRip subtitle",
-    "application/x-subrip",
-    "srt",
-    0, 0, AV_CODEC_ID_SUBRIP,
-    AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT,
-    0, 0, 0, sizeof(SRTContext),
-    srt_write_header,
-    srt_write_packet,
-#else
 	.name           = "srt",
     .long_name      = NULL_IF_CONFIG_SMALL("SubRip subtitle"),
     .mime_type      = "application/x-subrip",
@@ -123,5 +112,4 @@ AVOutputFormat ff_srt_muxer = {
     .write_packet   = srt_write_packet,
     .flags          = AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT,
     .subtitle_codec = AV_CODEC_ID_SUBRIP,
-#endif
 };

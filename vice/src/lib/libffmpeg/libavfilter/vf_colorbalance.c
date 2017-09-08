@@ -52,17 +52,6 @@ typedef struct {
 #define OFFSET(x) offsetof(ColorBalanceContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption colorbalance_options[] = {
-#ifdef IDE_COMPILE
-	{ "rs", "set red shadows", OFFSET(cyan_red.shadows), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "gs", "set green shadows", OFFSET(magenta_green.shadows), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "bs", "set blue shadows", OFFSET(yellow_blue.shadows), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "rm", "set red midtones", OFFSET(cyan_red.midtones), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "gm", "set green midtones", OFFSET(magenta_green.midtones), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "bm", "set blue midtones", OFFSET(yellow_blue.midtones), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "rh", "set red highlights", OFFSET(cyan_red.highlights), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "gh", "set green highlights", OFFSET(magenta_green.highlights), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-    { "bh", "set blue highlights", OFFSET(yellow_blue.highlights), AV_OPT_TYPE_DOUBLE, {0}, -1, 1, FLAGS },
-#else
 	{ "rs", "set red shadows",      OFFSET(cyan_red.shadows),         AV_OPT_TYPE_DOUBLE, {.dbl=0}, -1, 1, FLAGS },
     { "gs", "set green shadows",    OFFSET(magenta_green.shadows),    AV_OPT_TYPE_DOUBLE, {.dbl=0}, -1, 1, FLAGS },
     { "bs", "set blue shadows",     OFFSET(yellow_blue.shadows),      AV_OPT_TYPE_DOUBLE, {.dbl=0}, -1, 1, FLAGS },
@@ -72,7 +61,6 @@ static const AVOption colorbalance_options[] = {
     { "rh", "set red highlights",   OFFSET(cyan_red.highlights),      AV_OPT_TYPE_DOUBLE, {.dbl=0}, -1, 1, FLAGS },
     { "gh", "set green highlights", OFFSET(magenta_green.highlights), AV_OPT_TYPE_DOUBLE, {.dbl=0}, -1, 1, FLAGS },
     { "bh", "set blue highlights",  OFFSET(yellow_blue.highlights),   AV_OPT_TYPE_DOUBLE, {.dbl=0}, -1, 1, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -197,45 +185,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static const AVFilterPad colorbalance_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad colorbalance_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_colorbalance = {
-#ifdef IDE_COMPILE
-    "colorbalance",
-    NULL_IF_CONFIG_SMALL("Adjust the color balance."),
-    colorbalance_inputs,
-    colorbalance_outputs,
-    &colorbalance_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, 0, query_formats,
-    sizeof(ColorBalanceContext),
-#else
 	.name          = "colorbalance",
     .description   = NULL_IF_CONFIG_SMALL("Adjust the color balance."),
     .priv_size     = sizeof(ColorBalanceContext),
@@ -244,5 +210,4 @@ AVFilter ff_vf_colorbalance = {
     .inputs        = colorbalance_inputs,
     .outputs       = colorbalance_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

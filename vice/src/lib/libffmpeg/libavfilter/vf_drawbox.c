@@ -237,18 +237,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 #if CONFIG_DRAWBOX_FILTER
 
 static const AVOption drawbox_options[] = {
-#ifdef IDE_COMPILE
-	{ "x", "set horizontal position of the left box edge", OFFSET(x_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "y", "set vertical position of the top box edge", OFFSET(y_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "width", "set width of the box", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "w", "set width of the box", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "height", "set height of the box", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "h", "set height of the box", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "color", "set color of the box", OFFSET(color_str), AV_OPT_TYPE_STRING, {(intptr_t) "black" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "c", "set color of the box", OFFSET(color_str), AV_OPT_TYPE_STRING, {(intptr_t) "black" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "thickness", "set the box thickness", OFFSET(t_expr), AV_OPT_TYPE_STRING, {(intptr_t) "3" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "t", "set the box thickness", OFFSET(t_expr), AV_OPT_TYPE_STRING, {(intptr_t) "3" }, CHAR_MIN, CHAR_MAX, FLAGS },
-#else
 	{ "x",         "set horizontal position of the left box edge", OFFSET(x_expr),    AV_OPT_TYPE_STRING, { .str="0" },       CHAR_MIN, CHAR_MAX, FLAGS },
     { "y",         "set vertical position of the top box edge",    OFFSET(y_expr),    AV_OPT_TYPE_STRING, { .str="0" },       CHAR_MIN, CHAR_MAX, FLAGS },
     { "width",     "set width of the box",                         OFFSET(w_expr),    AV_OPT_TYPE_STRING, { .str="0" },       CHAR_MIN, CHAR_MAX, FLAGS },
@@ -259,7 +247,6 @@ static const AVOption drawbox_options[] = {
     { "c",         "set color of the box",                         OFFSET(color_str), AV_OPT_TYPE_STRING, { .str = "black" }, CHAR_MIN, CHAR_MAX, FLAGS },
     { "thickness", "set the box thickness",                        OFFSET(t_expr),    AV_OPT_TYPE_STRING, { .str="3" },       CHAR_MIN, CHAR_MAX, FLAGS },
     { "t",         "set the box thickness",                        OFFSET(t_expr),    AV_OPT_TYPE_STRING, { .str="3" },       CHAR_MIN, CHAR_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -267,48 +254,24 @@ AVFILTER_DEFINE_CLASS(drawbox);
 
 static const AVFilterPad drawbox_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-        0, 1,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_VIDEO,
         .config_props   = config_input,
         .filter_frame   = filter_frame,
         .needs_writable = 1,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad drawbox_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_drawbox = {
-#ifdef IDE_COMPILE
-    "drawbox",
-    NULL_IF_CONFIG_SMALL("Draw a colored box on the input video."),
-    drawbox_inputs,
-    drawbox_outputs,
-    &drawbox_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, 0, query_formats,
-    sizeof(DrawBoxContext),
-#else
 	.name          = "drawbox",
     .description   = NULL_IF_CONFIG_SMALL("Draw a colored box on the input video."),
     .priv_size     = sizeof(DrawBoxContext),
@@ -318,7 +281,6 @@ AVFilter ff_vf_drawbox = {
     .inputs        = drawbox_inputs,
     .outputs       = drawbox_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };
 #endif /* CONFIG_DRAWBOX_FILTER */
 
@@ -381,18 +343,6 @@ static int drawgrid_filter_frame(AVFilterLink *inlink, AVFrame *frame)
 }
 
 static const AVOption drawgrid_options[] = {
-#ifdef IDE_COMPILE
-	{ "x", "set horizontal offset", OFFSET(x_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "y", "set vertical offset", OFFSET(y_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "width", "set width of grid cell", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "w", "set width of grid cell", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "height", "set height of grid cell", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "h", "set height of grid cell", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "color", "set color of the grid", OFFSET(color_str), AV_OPT_TYPE_STRING, {(intptr_t) "black" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "c", "set color of the grid", OFFSET(color_str), AV_OPT_TYPE_STRING, {(intptr_t) "black" }, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "thickness", "set grid line thickness", OFFSET(t_expr), AV_OPT_TYPE_STRING, {(intptr_t) "1"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "t", "set grid line thickness", OFFSET(t_expr), AV_OPT_TYPE_STRING, {(intptr_t) "1"}, CHAR_MIN, CHAR_MAX, FLAGS },
-#else
 	{ "x",         "set horizontal offset",   OFFSET(x_expr),    AV_OPT_TYPE_STRING, { .str="0" },       CHAR_MIN, CHAR_MAX, FLAGS },
     { "y",         "set vertical offset",     OFFSET(y_expr),    AV_OPT_TYPE_STRING, { .str="0" },       CHAR_MIN, CHAR_MAX, FLAGS },
     { "width",     "set width of grid cell",  OFFSET(w_expr),    AV_OPT_TYPE_STRING, { .str="0" },       CHAR_MIN, CHAR_MAX, FLAGS },
@@ -403,7 +353,6 @@ static const AVOption drawgrid_options[] = {
     { "c",         "set color of the grid",   OFFSET(color_str), AV_OPT_TYPE_STRING, { .str = "black" }, CHAR_MIN, CHAR_MAX, FLAGS },
     { "thickness", "set grid line thickness", OFFSET(t_expr),    AV_OPT_TYPE_STRING, {.str="1"},         CHAR_MIN, CHAR_MAX, FLAGS },
     { "t",         "set grid line thickness", OFFSET(t_expr),    AV_OPT_TYPE_STRING, {.str="1"},         CHAR_MIN, CHAR_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -411,48 +360,24 @@ AVFILTER_DEFINE_CLASS(drawgrid);
 
 static const AVFilterPad drawgrid_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, drawgrid_filter_frame,
-        0, 0, config_input,
-        0, 1,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_VIDEO,
         .config_props   = config_input,
         .filter_frame   = drawgrid_filter_frame,
         .needs_writable = 1,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad drawgrid_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_drawgrid = {
-#ifdef IDE_COMPILE
-    "drawgrid",
-    NULL_IF_CONFIG_SMALL("Draw a colored grid on the input video."),
-    drawgrid_inputs,
-    drawgrid_outputs,
-    &drawgrid_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, 0, query_formats,
-    sizeof(DrawBoxContext),
-#else
 	.name          = "drawgrid",
     .description   = NULL_IF_CONFIG_SMALL("Draw a colored grid on the input video."),
     .priv_size     = sizeof(DrawBoxContext),
@@ -462,7 +387,6 @@ AVFilter ff_vf_drawgrid = {
     .inputs        = drawgrid_inputs,
     .outputs       = drawgrid_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };
 
 #endif  /* CONFIG_DRAWGRID_FILTER */

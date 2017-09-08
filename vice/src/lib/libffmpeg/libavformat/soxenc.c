@@ -109,18 +109,6 @@ static int sox_write_trailer(AVFormatContext *s)
 }
 
 AVOutputFormat ff_sox_muxer = {
-#ifdef IDE_COMPILE
-    "sox",
-    "SoX native",
-    0, "sox",
-    AV_CODEC_ID_PCM_S32LE,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    0, 0, 0, sizeof(SoXContext),
-    sox_write_header,
-    ff_raw_write_packet,
-    sox_write_trailer,
-#else
 	.name              = "sox",
     .long_name         = NULL_IF_CONFIG_SMALL("SoX native"),
     .extensions        = "sox",
@@ -131,5 +119,4 @@ AVOutputFormat ff_sox_muxer = {
     .write_packet      = ff_raw_write_packet,
     .write_trailer     = sox_write_trailer,
     .flags             = AVFMT_NOTIMESTAMPS,
-#endif
 };

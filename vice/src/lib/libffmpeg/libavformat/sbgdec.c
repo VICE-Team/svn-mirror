@@ -821,22 +821,6 @@ static void free_script(struct sbg_script *s)
 static int parse_script(void *log, char *script, int script_len,
                             struct sbg_script *rscript)
 {
-#ifdef IDE_COMPILE
-    struct sbg_parser sp = {
-        log,
-        script,
-        script + script_len,
-        script,
-        {
-
-            0, 0, 0, 0, 0, 0, 0, 0, 0, ((int64_t)ULLN(0x8000000000000000)),
-            0, 60 * 1000000,
-            0, 0, 44100,
-        },
-        { 0 }, 0, 0, 0, 0, 0, 1,
-        "",
-    };
-#else
 	struct sbg_parser sp = {
         .log     = log,
         .script  = script,
@@ -851,7 +835,6 @@ static int parse_script(void *log, char *script, int script_len,
             .opt_fade_time = 60 * AV_TIME_BASE,
         },
     };
-#endif
 	int r;
 
     lex_space(&sp);
@@ -1241,19 +1224,8 @@ static int generate_transition(void *log, struct sbg_script *s,
         for (i = 0; i < nb_elements; i++) {
 			s1 = i < ev1->nb_elements ? &s->synth.t_sst[ev1->elements + i] : &s1mod;
             s2 = i < ev2->nb_elements ? &s->synth.t_sst[ev2->elements + i] : &s2mod;
-#ifdef IDE_COMPILE
-            {
-				struct sbg_script_synth tmp0 = { 0 };
-				s1mod = s1 != &s1mod ? *s1 : tmp0;
-			}
-            {
-				struct sbg_script_synth tmp1 = { 0 };
-				s2mod = s2 != &s2mod ? *s2 : tmp1;
-			}
-#else
 			s1mod = s1 != &s1mod ? *s1 : (struct sbg_script_synth){ 0 };
             s2mod = s2 != &s2mod ? *s2 : (struct sbg_script_synth){ 0 };
-#endif
 			if (ev1->fade.slide) {
                 /* for slides, and only for slides, silence ("-") is equivalent
                    to anything with volume 0 */
@@ -1524,15 +1496,7 @@ static int sbg_read_seek2(AVFormatContext *avf, int stream_index,
     if (flags || stream_index > 0)
         return AVERROR(EINVAL);
     if (stream_index < 0) {
-#ifdef IDE_COMPILE
-        AVRational tbq;
-		
-		tbq.num = 1;
-		tbq.den = AV_TIME_BASE;
-		ts = av_rescale_q(ts, tbq, avf->streams[0]->time_base);
-#else
 		ts = av_rescale_q(ts, AV_TIME_BASE_Q, avf->streams[0]->time_base);
-#endif
 	}
 	avf->streams[0]->cur_dts = ts;
     return 0;
@@ -1545,11 +1509,6 @@ static int sbg_read_seek(AVFormatContext *avf, int stream_index,
 }
 
 static const AVOption sbg_options[] = {
-#ifdef IDE_COMPILE
-	{ "sample_rate", "", offsetof(struct sbg_demuxer, sample_rate), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-    { "frame_size", "", offsetof(struct sbg_demuxer, frame_size), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-    { "max_file_size", "", offsetof(struct sbg_demuxer, max_file_size), AV_OPT_TYPE_INT, {5000000}, 0, INT_MAX, AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "sample_rate", "", offsetof(struct sbg_demuxer, sample_rate),
       AV_OPT_TYPE_INT, { .i64 = 0 }, 0, INT_MAX,
       AV_OPT_FLAG_DECODING_PARAM },
@@ -1559,37 +1518,17 @@ static const AVOption sbg_options[] = {
     { "max_file_size", "", offsetof(struct sbg_demuxer, max_file_size),
       AV_OPT_TYPE_INT, { .i64 = 5000000 }, 0, INT_MAX,
       AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass sbg_demuxer_class = {
-#ifdef IDE_COMPILE
-    "sbg_demuxer",
-    av_default_item_name,
-    sbg_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "sbg_demuxer",
     .item_name  = av_default_item_name,
     .option     = sbg_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_sbg_demuxer = {
-#ifdef IDE_COMPILE
-    "sbg",
-    "SBaGen binaural beats script",
-    0, "sbg",
-    0, &sbg_demuxer_class,
-    0, 0, 0, sizeof(struct sbg_demuxer),
-    sbg_read_probe,
-    sbg_read_header,
-    sbg_read_packet,
-    0, sbg_read_seek,
-    0, 0, 0, sbg_read_seek2,
-#else
 	.name           = "sbg",
     .long_name      = NULL_IF_CONFIG_SMALL("SBaGen binaural beats script"),
     .priv_data_size = sizeof(struct sbg_demuxer),
@@ -1600,5 +1539,4 @@ AVInputFormat ff_sbg_demuxer = {
     .read_seek2     = sbg_read_seek2,
     .extensions     = "sbg",
     .priv_class     = &sbg_demuxer_class,
-#endif
 };

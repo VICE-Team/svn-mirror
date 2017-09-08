@@ -157,15 +157,6 @@ typedef struct DelogoContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption delogo_options[]= {
-#ifdef IDE_COMPILE
-	{ "x", "set logo x position", OFFSET(x), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "y", "set logo y position", OFFSET(y), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "w", "set logo width", OFFSET(w), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "h", "set logo height", OFFSET(h), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, FLAGS },
-    { "band", "set delogo area band size", OFFSET(band), AV_OPT_TYPE_INT, {4}, 1, INT_MAX, FLAGS },
-    { "t", "set delogo area band size", OFFSET(band), AV_OPT_TYPE_INT, {4}, 1, INT_MAX, FLAGS },
-    { "show", "show delogo area", OFFSET(show), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "x",    "set logo x position",       OFFSET(x),    AV_OPT_TYPE_INT, { .i64 = -1 }, -1, INT_MAX, FLAGS },
     { "y",    "set logo y position",       OFFSET(y),    AV_OPT_TYPE_INT, { .i64 = -1 }, -1, INT_MAX, FLAGS },
     { "w",    "set logo width",            OFFSET(w),    AV_OPT_TYPE_INT, { .i64 = -1 }, -1, INT_MAX, FLAGS },
@@ -173,7 +164,6 @@ static const AVOption delogo_options[]= {
     { "band", "set delogo area band size", OFFSET(band), AV_OPT_TYPE_INT, { .i64 =  4 },  1, INT_MAX, FLAGS },
     { "t",    "set delogo area band size", OFFSET(band), AV_OPT_TYPE_INT, { .i64 =  4 },  1, INT_MAX, FLAGS },
     { "show", "show delogo area",          OFFSET(show), AV_OPT_TYPE_INT, { .i64 =  0 },  0, 1,       FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -272,44 +262,22 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static const AVFilterPad avfilter_vf_delogo_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_delogo_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_delogo = {
-#ifdef IDE_COMPILE
-    "delogo",
-    NULL_IF_CONFIG_SMALL("Remove logo from input video."),
-    avfilter_vf_delogo_inputs,
-    avfilter_vf_delogo_outputs,
-    &delogo_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, 0, query_formats,
-    sizeof(DelogoContext),
-#else
 	.name          = "delogo",
     .description   = NULL_IF_CONFIG_SMALL("Remove logo from input video."),
     .priv_size     = sizeof(DelogoContext),
@@ -319,5 +287,4 @@ AVFilter ff_vf_delogo = {
     .inputs        = avfilter_vf_delogo_inputs,
     .outputs       = avfilter_vf_delogo_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

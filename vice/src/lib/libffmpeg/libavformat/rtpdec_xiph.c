@@ -255,15 +255,9 @@ parse_packed_headers(const uint8_t * packed_headers,
     uint8_t *ptr;
 
     if (packed_headers_end - packed_headers < 9) {
-#ifdef IDE_COMPILE
-        av_log(codec, AV_LOG_ERROR,
-               "Invalid %""td"" byte packed header.",
-               packed_headers_end - packed_headers);
-#else
 		av_log(codec, AV_LOG_ERROR,
                "Invalid %"PTRDIFF_SPECIFIER" byte packed header.",
                packed_headers_end - packed_headers);
-#endif
 		return AVERROR_INVALIDDATA;
     }
 
@@ -283,15 +277,9 @@ parse_packed_headers(const uint8_t * packed_headers,
 
     if (packed_headers_end - packed_headers != length ||
         length1 > length || length2 > length - length1) {
-#ifdef IDE_COMPILE
-        av_log(codec, AV_LOG_ERROR,
-               "Bad packed header lengths (%d,%d,%""td"",%d)\n", length1,
-               length2, packed_headers_end - packed_headers, length);
-#else
 		av_log(codec, AV_LOG_ERROR,
                "Bad packed header lengths (%d,%d,%"PTRDIFF_SPECIFIER",%d)\n", length1,
                length2, packed_headers_end - packed_headers, length);
-#endif
 		return AVERROR_INVALIDDATA;
     }
 
@@ -403,15 +391,6 @@ static int xiph_parse_sdp_line(AVFormatContext *s, int st_index,
 }
 
 RTPDynamicProtocolHandler ff_theora_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "theora",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_THEORA,
-    0, 0, xiph_parse_sdp_line,
-    xiph_new_context,
-    xiph_free_context,
-    xiph_handle_packet
-#else
 	.enc_name         = "theora",
     .codec_type       = AVMEDIA_TYPE_VIDEO,
     .codec_id         = AV_CODEC_ID_THEORA,
@@ -419,20 +398,9 @@ RTPDynamicProtocolHandler ff_theora_dynamic_handler = {
     .alloc            = xiph_new_context,
     .free             = xiph_free_context,
     .parse_packet     = xiph_handle_packet
-#endif
 };
 
 RTPDynamicProtocolHandler ff_vorbis_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "vorbis",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_VORBIS,
-    0, xiph_vorbis_init,
-    xiph_parse_sdp_line,
-    xiph_new_context,
-    xiph_free_context,
-    xiph_handle_packet
-#else
 	.enc_name         = "vorbis",
     .codec_type       = AVMEDIA_TYPE_AUDIO,
     .codec_id         = AV_CODEC_ID_VORBIS,
@@ -441,5 +409,4 @@ RTPDynamicProtocolHandler ff_vorbis_dynamic_handler = {
     .alloc            = xiph_new_context,
     .free             = xiph_free_context,
     .parse_packet     = xiph_handle_packet
-#endif
 };

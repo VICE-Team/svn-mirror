@@ -82,17 +82,6 @@ static int vc1test_write_trailer(AVFormatContext *s)
 }
 
 AVOutputFormat ff_vc1t_muxer = {
-#ifdef IDE_COMPILE
-    "vc1test",
-    "VC-1 test bitstream",
-    0, "rcv",
-    AV_CODEC_ID_NONE,
-    AV_CODEC_ID_WMV3,
-    0, 0, 0, 0, 0, sizeof(RCVContext),
-    vc1test_write_header,
-    vc1test_write_packet,
-    vc1test_write_trailer,
-#else
 	.name              = "vc1test",
     .long_name         = NULL_IF_CONFIG_SMALL("VC-1 test bitstream"),
     .extensions        = "rcv",
@@ -102,5 +91,4 @@ AVOutputFormat ff_vc1t_muxer = {
     .write_header      = vc1test_write_header,
     .write_packet      = vc1test_write_packet,
     .write_trailer     = vc1test_write_trailer,
-#endif
 };

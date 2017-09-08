@@ -197,17 +197,8 @@ static int config_input(AVFilterLink *link)
         return AVERROR(EINVAL);
 
     if (s->keep_aspect) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-		AVRational dar;
-
-		tmp.num = link->w;
-		tmp.den = link->h;
-		dar = av_mul_q(link->sample_aspect_ratio, tmp);
-#else
 		AVRational dar = av_mul_q(link->sample_aspect_ratio,
                                   (AVRational){ link->w, link->h });
-#endif
 		av_reduce(&s->out_sar.num, &s->out_sar.den,
                   dar.num * s->h, dar.den * s->w, INT_MAX);
     } else
@@ -310,15 +301,6 @@ static int filter_frame(AVFilterLink *link, AVFrame *frame)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption crop_options[] = {
-#ifdef IDE_COMPILE
-	{ "out_w", "set the width crop area expression", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "w", "set the width crop area expression", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "out_h", "set the height crop area expression", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "h", "set the height crop area expression", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "x", "set the x crop area expression", OFFSET(x_expr), AV_OPT_TYPE_STRING, {(intptr_t) "(in_w-out_w)/2"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "y", "set the y crop area expression", OFFSET(y_expr), AV_OPT_TYPE_STRING, {(intptr_t) "(in_h-out_h)/2"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "keep_aspect", "keep aspect ratio", OFFSET(keep_aspect), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "out_w",       "set the width crop area expression",   OFFSET(w_expr), AV_OPT_TYPE_STRING, {.str = "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "w",           "set the width crop area expression",   OFFSET(w_expr), AV_OPT_TYPE_STRING, {.str = "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "out_h",       "set the height crop area expression",  OFFSET(h_expr), AV_OPT_TYPE_STRING, {.str = "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
@@ -326,7 +308,6 @@ static const AVOption crop_options[] = {
     { "x",           "set the x crop area expression",       OFFSET(x_expr), AV_OPT_TYPE_STRING, {.str = "(in_w-out_w)/2"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "y",           "set the y crop area expression",       OFFSET(y_expr), AV_OPT_TYPE_STRING, {.str = "(in_h-out_h)/2"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "keep_aspect", "keep aspect ratio",                    OFFSET(keep_aspect), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -334,47 +315,24 @@ AVFILTER_DEFINE_CLASS(crop);
 
 static const AVFilterPad avfilter_vf_crop_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_crop_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_crop = {
-#ifdef IDE_COMPILE
-    "crop",
-    NULL_IF_CONFIG_SMALL("Crop the input video."),
-    avfilter_vf_crop_inputs,
-    avfilter_vf_crop_outputs,
-    &crop_class,
-    0, 0, 0, uninit,
-    query_formats,
-    sizeof(CropContext),
-#else
 	.name          = "crop",
     .description   = NULL_IF_CONFIG_SMALL("Crop the input video."),
     .priv_size     = sizeof(CropContext),
@@ -383,5 +341,4 @@ AVFilter ff_vf_crop = {
     .uninit        = uninit,
     .inputs        = avfilter_vf_crop_inputs,
     .outputs       = avfilter_vf_crop_outputs,
-#endif
 };

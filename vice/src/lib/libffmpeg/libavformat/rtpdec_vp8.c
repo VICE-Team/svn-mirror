@@ -288,15 +288,6 @@ static int vp8_need_keyframe(PayloadContext *vp8)
 }
 
 RTPDynamicProtocolHandler ff_vp8_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "VP8",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP8,
-    0, 0, 0, vp8_new_context,
-    vp8_free_context,
-    vp8_handle_packet,
-    vp8_need_keyframe,
-#else
 	.enc_name       = "VP8",
     .codec_type     = AVMEDIA_TYPE_VIDEO,
     .codec_id       = AV_CODEC_ID_VP8,
@@ -304,5 +295,4 @@ RTPDynamicProtocolHandler ff_vp8_dynamic_handler = {
     .free           = vp8_free_context,
     .parse_packet   = vp8_handle_packet,
     .need_keyframe  = vp8_need_keyframe,
-#endif
 };

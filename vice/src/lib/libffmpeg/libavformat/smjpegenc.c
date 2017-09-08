@@ -132,23 +132,7 @@ static int smjpeg_write_trailer(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag *const tmpz[] = { ff_codec_smjpeg_video_tags, ff_codec_smjpeg_audio_tags, 0 };
-#endif
-
 AVOutputFormat ff_smjpeg_muxer = {
-#ifdef IDE_COMPILE
-    "smjpeg",
-    "Loki SDL MJPEG",
-    0, 0, AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_MJPEG,
-    0, AVFMT_GLOBALHEADER | AVFMT_TS_NONSTRICT,
-    tmpz,
-    0, 0, sizeof(SMJPEGMuxContext),
-    smjpeg_write_header,
-    smjpeg_write_packet,
-    smjpeg_write_trailer,
-#else
 	.name           = "smjpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("Loki SDL MJPEG"),
     .priv_data_size = sizeof(SMJPEGMuxContext),
@@ -159,5 +143,4 @@ AVOutputFormat ff_smjpeg_muxer = {
     .write_trailer  = smjpeg_write_trailer,
     .flags          = AVFMT_GLOBALHEADER | AVFMT_TS_NONSTRICT,
     .codec_tag      = (const AVCodecTag *const []){ ff_codec_smjpeg_video_tags, ff_codec_smjpeg_audio_tags, 0 },
-#endif
 };

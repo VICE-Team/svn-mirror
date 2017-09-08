@@ -125,19 +125,10 @@ static int sox_read_header(AVFormatContext *s)
 }
 
 AVInputFormat ff_sox_demuxer = {
-#ifdef IDE_COMPILE
-    "sox",
-    "SoX native",
-    0, 0, 0, 0, 0, 0, 0, 0, sox_probe,
-    sox_read_header,
-    ff_pcm_read_packet,
-    0, ff_pcm_read_seek,
-#else
 	.name           = "sox",
     .long_name      = NULL_IF_CONFIG_SMALL("SoX native"),
     .read_probe     = sox_probe,
     .read_header    = sox_read_header,
     .read_packet    = ff_pcm_read_packet,
     .read_seek      = ff_pcm_read_seek,
-#endif
 };

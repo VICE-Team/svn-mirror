@@ -124,19 +124,10 @@ static void svq3_extradata_free(PayloadContext *sv)
 }
 
 RTPDynamicProtocolHandler ff_svq3_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "X-SV3V-ES",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_NONE,
-    0, 0, 0, svq3_extradata_new,
-    svq3_extradata_free,
-    svq3_parse_packet,
-#else
 	.enc_name         = "X-SV3V-ES",
     .codec_type       = AVMEDIA_TYPE_VIDEO,
     .codec_id         = AV_CODEC_ID_NONE,      // see if (config_packet) above
     .alloc            = svq3_extradata_new,
     .free             = svq3_extradata_free,
     .parse_packet     = svq3_parse_packet,
-#endif
 };

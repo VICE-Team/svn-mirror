@@ -28,10 +28,6 @@
  * Tasche (DOI: 10.1016/j.laa.2004.07.015).
  */
 
-#ifdef IDE_COMPILE
-#include <math.h>
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/eval.h"
 #include "libavutil/opt.h"
@@ -81,21 +77,12 @@ typedef struct DCTdnoizContext {
 #define OFFSET(x) offsetof(DCTdnoizContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption dctdnoiz_options[] = {
-#ifdef IDE_COMPILE
-	{ "sigma", "set noise sigma constant", OFFSET(sigma), AV_OPT_TYPE_FLOAT, {0}, 0, 999, FLAGS },
-    { "s", "set noise sigma constant", OFFSET(sigma), AV_OPT_TYPE_FLOAT, {0}, 0, 999, FLAGS },
-    { "overlap", "set number of block overlapping pixels", OFFSET(overlap), AV_OPT_TYPE_INT, {-1}, -1, (1<<MAX_NBITS)-1, FLAGS },
-    { "expr", "set coefficient factor expression", OFFSET(expr_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "e", "set coefficient factor expression", OFFSET(expr_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "n", "set the block size, expressed in bits", OFFSET(n), AV_OPT_TYPE_INT, {DEFAULT_NBITS}, MIN_NBITS, MAX_NBITS, FLAGS },
-#else
 	{ "sigma",   "set noise sigma constant",               OFFSET(sigma),    AV_OPT_TYPE_FLOAT,  {.dbl=0},            0, 999,          .flags = FLAGS },
     { "s",       "set noise sigma constant",               OFFSET(sigma),    AV_OPT_TYPE_FLOAT,  {.dbl=0},            0, 999,          .flags = FLAGS },
     { "overlap", "set number of block overlapping pixels", OFFSET(overlap),  AV_OPT_TYPE_INT,    {.i64=-1}, -1, (1<<MAX_NBITS)-1, .flags = FLAGS },
     { "expr",    "set coefficient factor expression",      OFFSET(expr_str), AV_OPT_TYPE_STRING, {.str=NULL},                          .flags = FLAGS },
     { "e",       "set coefficient factor expression",      OFFSET(expr_str), AV_OPT_TYPE_STRING, {.str=NULL},                          .flags = FLAGS },
     { "n",       "set the block size, expressed in bits",  OFFSET(n),        AV_OPT_TYPE_INT,    {.i64=DEFAULT_NBITS}, MIN_NBITS, MAX_NBITS, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -694,17 +681,10 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                            in->data[0], in->linesize[0],
                            s->pr_width, s->pr_height);
     for (plane = 0; plane < 3; plane++) {
-#ifdef IDE_COMPILE
-        ThreadData td = {
-            s->cbuf[0][plane],
-            s->cbuf[1][plane],
-        };
-#else
 		ThreadData td = {
             .src = s->cbuf[0][plane],
             .dst = s->cbuf[1][plane],
         };
-#endif
 		ctx->internal->execute(ctx, filter_slice, &td, NULL, s->nb_threads);
     }
     s->color_correlation(out->data[0], out->linesize[0],
@@ -766,47 +746,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad dctdnoiz_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad dctdnoiz_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_dctdnoiz = {
-#ifdef IDE_COMPILE
-    "dctdnoiz",
-    NULL_IF_CONFIG_SMALL("Denoise frames using 2D DCT."),
-    dctdnoiz_inputs,
-    dctdnoiz_outputs,
-    &dctdnoiz_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(DCTdnoizContext),
-#else
 	.name          = "dctdnoiz",
     .description   = NULL_IF_CONFIG_SMALL("Denoise frames using 2D DCT."),
     .priv_size     = sizeof(DCTdnoizContext),
@@ -817,5 +773,4 @@ AVFilter ff_vf_dctdnoiz = {
     .outputs       = dctdnoiz_outputs,
     .priv_class    = &dctdnoiz_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

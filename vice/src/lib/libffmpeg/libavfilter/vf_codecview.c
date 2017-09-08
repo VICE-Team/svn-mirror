@@ -48,17 +48,10 @@ typedef struct {
 #define OFFSET(x) offsetof(CodecViewContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption codecview_options[] = {
-#ifdef IDE_COMPILE
-	{"mv", "set motion vectors to visualize", OFFSET(mv), AV_OPT_TYPE_FLAGS, {0}, 0, INT_MAX, FLAGS, "mv" },
-    {"pf", "forward predicted MVs of P-frames", 0, AV_OPT_TYPE_CONST, {MV_P_FOR }, INT_MIN, INT_MAX, FLAGS, "mv"},
-    {"bf", "forward predicted MVs of B-frames", 0, AV_OPT_TYPE_CONST, {MV_B_FOR }, INT_MIN, INT_MAX, FLAGS, "mv"},
-    {"bb", "backward predicted MVs of B-frames", 0, AV_OPT_TYPE_CONST, {MV_B_BACK }, INT_MIN, INT_MAX, FLAGS, "mv"},
-#else
 	{"mv", "set motion vectors to visualize", OFFSET(mv), AV_OPT_TYPE_FLAGS, {.i64=0}, 0, INT_MAX, FLAGS, "mv" },
     {"pf", "forward predicted MVs of P-frames",  0, AV_OPT_TYPE_CONST, {.i64 = MV_P_FOR },  INT_MIN, INT_MAX, FLAGS, "mv"},
     {"bf", "forward predicted MVs of B-frames",  0, AV_OPT_TYPE_CONST, {.i64 = MV_B_FOR },  INT_MIN, INT_MAX, FLAGS, "mv"},
     {"bb", "backward predicted MVs of B-frames", 0, AV_OPT_TYPE_CONST, {.i64 = MV_B_BACK }, INT_MIN, INT_MAX, FLAGS, "mv"},
-#endif
 	{ NULL }
 };
 
@@ -223,45 +216,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 
 static const AVFilterPad codecview_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, 0, 0, 1,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_VIDEO,
         .filter_frame   = filter_frame,
         .needs_writable = 1,
-#endif
 	},
      { NULL }
 };
 
 static const AVFilterPad codecview_outputs[] = {
      {
-#ifdef IDE_COMPILE
-         "default",
-         AVMEDIA_TYPE_VIDEO,
-#else
 		 .name = "default",
          .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	 },
      { NULL }
 };
 
 AVFilter ff_vf_codecview = {
-#ifdef IDE_COMPILE
-    "codecview",
-    NULL_IF_CONFIG_SMALL("Visualize information about some codecs"),
-    codecview_inputs,
-    codecview_outputs,
-    &codecview_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, 0, query_formats,
-    sizeof(CodecViewContext),
-#else
 	.name          = "codecview",
     .description   = NULL_IF_CONFIG_SMALL("Visualize information about some codecs"),
     .priv_size     = sizeof(CodecViewContext),
@@ -270,5 +241,4 @@ AVFilter ff_vf_codecview = {
     .outputs       = codecview_outputs,
     .priv_class    = &codecview_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

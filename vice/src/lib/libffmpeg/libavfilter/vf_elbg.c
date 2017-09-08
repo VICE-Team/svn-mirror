@@ -51,21 +51,12 @@ typedef struct ColorContext {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption elbg_options[] = {
-#ifdef IDE_COMPILE
-	{ "codebook_length", "set codebook length", OFFSET(codebook_length), AV_OPT_TYPE_INT, {256}, 1, INT_MAX, FLAGS },
-    { "l", "set codebook length", OFFSET(codebook_length), AV_OPT_TYPE_INT, {256}, 1, INT_MAX, FLAGS },
-    { "nb_steps", "set max number of steps used to compute the mapping", OFFSET(max_steps_nb), AV_OPT_TYPE_INT, {1}, 1, INT_MAX, FLAGS },
-    { "n", "set max number of steps used to compute the mapping", OFFSET(max_steps_nb), AV_OPT_TYPE_INT, {1}, 1, INT_MAX, FLAGS },
-    { "seed", "set the random seed", OFFSET(lfg_seed), AV_OPT_TYPE_INT, {-1}, -1, UINT32_MAX, FLAGS },
-    { "s", "set the random seed", OFFSET(lfg_seed), AV_OPT_TYPE_INT, {-1}, -1, UINT32_MAX, FLAGS },
-#else
 	{ "codebook_length", "set codebook length", OFFSET(codebook_length), AV_OPT_TYPE_INT, { .i64 = 256 }, 1, INT_MAX, FLAGS },
     { "l",               "set codebook length", OFFSET(codebook_length), AV_OPT_TYPE_INT, { .i64 = 256 }, 1, INT_MAX, FLAGS },
     { "nb_steps", "set max number of steps used to compute the mapping", OFFSET(max_steps_nb), AV_OPT_TYPE_INT, { .i64 = 1 }, 1, INT_MAX, FLAGS },
     { "n",        "set max number of steps used to compute the mapping", OFFSET(max_steps_nb), AV_OPT_TYPE_INT, { .i64 = 1 }, 1, INT_MAX, FLAGS },
     { "seed", "set the random seed", OFFSET(lfg_seed), AV_OPT_TYPE_INT, {.i64 = -1}, -1, UINT32_MAX, FLAGS },
     { "s",    "set the random seed", OFFSET(lfg_seed), AV_OPT_TYPE_INT, { .i64 = -1 }, -1, UINT32_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -191,48 +182,24 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad elbg_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-        0, 1,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_VIDEO,
         .config_props   = config_input,
         .filter_frame   = filter_frame,
         .needs_writable = 1,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad elbg_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_elbg = {
-#ifdef IDE_COMPILE
-    "elbg",
-    NULL_IF_CONFIG_SMALL("Apply posterize effect, using the ELBG algorithm."),
-    elbg_inputs,
-    elbg_outputs,
-    &elbg_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(ELBGContext),
-#else
 	.name          = "elbg",
     .description   = NULL_IF_CONFIG_SMALL("Apply posterize effect, using the ELBG algorithm."),
     .priv_size     = sizeof(ELBGContext),
@@ -242,5 +209,4 @@ AVFilter ff_vf_elbg = {
     .uninit        = uninit,
     .inputs        = elbg_inputs,
     .outputs       = elbg_outputs,
-#endif
 };

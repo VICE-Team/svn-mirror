@@ -33,29 +33,18 @@ typedef struct {
 } TEDCaptionsDemuxer;
 
 static const AVOption tedcaptions_options[] = {
-#ifdef IDE_COMPILE
-	{ "start_time", "set the start time (offset) of the subtitles, in ms", offsetof(TEDCaptionsDemuxer, start_time), FF_OPT_TYPE_INT64, {15000}, INT64_MIN, INT64_MAX, AV_OPT_FLAG_SUBTITLE_PARAM | AV_OPT_FLAG_DECODING_PARAM },
-#else
 	{ "start_time", "set the start time (offset) of the subtitles, in ms",
       offsetof(TEDCaptionsDemuxer, start_time), FF_OPT_TYPE_INT64,
       { .i64 = 15000 }, INT64_MIN, INT64_MAX,
       AV_OPT_FLAG_SUBTITLE_PARAM | AV_OPT_FLAG_DECODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass tedcaptions_demuxer_class = {
-#ifdef IDE_COMPILE
-    "tedcaptions_demuxer",
-    av_default_item_name,
-    tedcaptions_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "tedcaptions_demuxer",
     .item_name  = av_default_item_name,
     .option     = tedcaptions_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 #define BETWEEN(a, amin, amax) ((unsigned)((a) - (amin)) <= (amax) - (amin))
@@ -365,17 +354,6 @@ static int tedcaptions_read_seek(AVFormatContext *avf, int stream_index,
 }
 
 AVInputFormat ff_tedcaptions_demuxer = {
-#ifdef IDE_COMPILE
-    "tedcaptions",
-    "TED Talks captions",
-    0, 0, 0, &tedcaptions_demuxer_class,
-    0, 0, 0, sizeof(TEDCaptionsDemuxer),
-    tedcaptions_read_probe,
-    tedcaptions_read_header,
-    tedcaptions_read_packet,
-    tedcaptions_read_close,
-    0, 0, 0, 0, tedcaptions_read_seek,
-#else
 	.name           = "tedcaptions",
     .long_name      = NULL_IF_CONFIG_SMALL("TED Talks captions"),
     .priv_data_size = sizeof(TEDCaptionsDemuxer),
@@ -385,5 +363,4 @@ AVInputFormat ff_tedcaptions_demuxer = {
     .read_close     = tedcaptions_read_close,
     .read_probe     = tedcaptions_read_probe,
     .read_seek2     = tedcaptions_read_seek,
-#endif
 };

@@ -25,10 +25,6 @@
  * @author Ronald S. Bultje <rbultje@ronald.bitfreak.net>
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avformat.h"
 #include "internal.h"
 #include "avio_internal.h"
@@ -250,18 +246,6 @@ static void qt_rtp_free(PayloadContext *qt)
     av_free(qt);
 }
 
-#ifdef IDE_COMPILE
-#define RTP_QT_HANDLER(m, n, s, t) \
-RTPDynamicProtocolHandler ff_ ## m ## _rtp_ ## n ## _handler = { \
-    s, \
-    t, \
-    AV_CODEC_ID_NONE, \
-    0, 0, 0, \
-    qt_rtp_new,    \
-    qt_rtp_free,   \
-    qt_rtp_parse_packet, \
-}
-#else
 #define RTP_QT_HANDLER(m, n, s, t) \
 RTPDynamicProtocolHandler ff_ ## m ## _rtp_ ## n ## _handler = { \
     .enc_name         = s, \
@@ -271,7 +255,6 @@ RTPDynamicProtocolHandler ff_ ## m ## _rtp_ ## n ## _handler = { \
     .free             = qt_rtp_free,   \
     .parse_packet     = qt_rtp_parse_packet, \
 }
-#endif
 
 RTP_QT_HANDLER(qt,        vid, "X-QT",        AVMEDIA_TYPE_VIDEO);
 RTP_QT_HANDLER(qt,        aud, "X-QT",        AVMEDIA_TYPE_AUDIO);

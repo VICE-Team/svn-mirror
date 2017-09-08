@@ -23,12 +23,7 @@
 #ifndef AVFORMAT_SWF_H
 #define AVFORMAT_SWF_H
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #if CONFIG_ZLIB
 #include <zlib.h>

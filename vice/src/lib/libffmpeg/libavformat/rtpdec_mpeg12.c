@@ -57,33 +57,17 @@ static int mpeg_parse_packet(AVFormatContext *ctx, PayloadContext *data,
 }
 
 RTPDynamicProtocolHandler ff_mpeg_audio_dynamic_handler = {
-#ifdef IDE_COMPILE
-    { 0 }, AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP3,
-    14,
-    mpeg_init,
-    0, 0, 0, mpeg_parse_packet,
-#else
 	.codec_type        = AVMEDIA_TYPE_AUDIO,
     .codec_id          = AV_CODEC_ID_MP3,
     .init              = mpeg_init,
     .parse_packet      = mpeg_parse_packet,
     .static_payload_id = 14,
-#endif
 };
 
 RTPDynamicProtocolHandler ff_mpeg_video_dynamic_handler = {
-#ifdef IDE_COMPILE
-    { 0 }, AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MPEG2VIDEO,
-    32,
-    mpeg_init,
-    0, 0, 0, mpeg_parse_packet,
-#else
 	.codec_type        = AVMEDIA_TYPE_VIDEO,
     .codec_id          = AV_CODEC_ID_MPEG2VIDEO,
     .init              = mpeg_init,
     .parse_packet      = mpeg_parse_packet,
     .static_payload_id = 32,
-#endif
 };

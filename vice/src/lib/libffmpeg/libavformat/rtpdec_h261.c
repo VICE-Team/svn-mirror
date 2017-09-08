@@ -194,16 +194,6 @@ int ff_h261_handle_packet(AVFormatContext *ctx, PayloadContext *data,
 }
 
 RTPDynamicProtocolHandler ff_h261_dynamic_handler = {
-#ifdef IDE_COMPILE
-    "H261",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H261,
-    31,
-    h261_init,
-    0, h261_new_context,
-    h261_free_context,
-    ff_h261_handle_packet,
-#else
 	.enc_name          = "H261",
     .codec_type        = AVMEDIA_TYPE_VIDEO,
     .codec_id          = AV_CODEC_ID_H261,
@@ -212,5 +202,4 @@ RTPDynamicProtocolHandler ff_h261_dynamic_handler = {
     .alloc             = h261_new_context,
     .free              = h261_free_context,
     .static_payload_id = 31,
-#endif
 };

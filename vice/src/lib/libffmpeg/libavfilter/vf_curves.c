@@ -76,30 +76,6 @@ typedef struct ThreadData {
 #define OFFSET(x) offsetof(CurvesContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption curves_options[] = {
-#ifdef IDE_COMPILE
-	{ "preset", "select a color curves preset", OFFSET(preset), AV_OPT_TYPE_INT, {PRESET_NONE}, PRESET_NONE, NB_PRESETS-1, FLAGS, "preset_name" },
-    { "none", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_NONE}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "color_negative", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_COLOR_NEGATIVE}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "cross_process", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_CROSS_PROCESS}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "darker", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_DARKER}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "increase_contrast",  NULL, 0, AV_OPT_TYPE_CONST, {PRESET_INCREASE_CONTRAST}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "lighter", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_LIGHTER}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "linear_contrast", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_LINEAR_CONTRAST}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "medium_contrast", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_MEDIUM_CONTRAST}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "negative", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_NEGATIVE}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "strong_contrast", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_STRONG_CONTRAST}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "vintage", NULL, 0, AV_OPT_TYPE_CONST, {PRESET_VINTAGE}, INT_MIN, INT_MAX, FLAGS, "preset_name" },
-    { "master", "set master points coordinates", OFFSET(comp_points_str[NB_COMP]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "m", "set master points coordinates", OFFSET(comp_points_str[NB_COMP]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "red", "set red points coordinates", OFFSET(comp_points_str[0]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "r", "set red points coordinates", OFFSET(comp_points_str[0]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "green", "set green points coordinates", OFFSET(comp_points_str[1]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "g", "set green points coordinates", OFFSET(comp_points_str[1]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "blue", "set blue points coordinates", OFFSET(comp_points_str[2]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "b", "set blue points coordinates", OFFSET(comp_points_str[2]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "all", "set points coordinates for all components", OFFSET(comp_points_str_all), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "psfile", "set Photoshop curves file name", OFFSET(psfile), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-#else
 	{ "preset", "select a color curves preset", OFFSET(preset), AV_OPT_TYPE_INT, {.i64=PRESET_NONE}, PRESET_NONE, NB_PRESETS-1, FLAGS, "preset_name" },
         { "none",               NULL, 0, AV_OPT_TYPE_CONST, {.i64=PRESET_NONE},                 INT_MIN, INT_MAX, FLAGS, "preset_name" },
         { "color_negative",     NULL, 0, AV_OPT_TYPE_CONST, {.i64=PRESET_COLOR_NEGATIVE},       INT_MIN, INT_MAX, FLAGS, "preset_name" },
@@ -122,43 +98,11 @@ static const AVOption curves_options[] = {
     { "b",     "set blue points coordinates",  OFFSET(comp_points_str[2]), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
     { "all",   "set points coordinates for all components", OFFSET(comp_points_str_all), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
     { "psfile", "set Photoshop curves file name", OFFSET(psfile), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
 AVFILTER_DEFINE_CLASS(curves);
 
-#ifdef IDE_COMPILE
-static const struct {
-    const char *r;
-    const char *g;
-    const char *b;
-    const char *master;
-} curves_presets[] = {
-    { 0 }, {
-        "0/1 0.129/1 0.466/0.498 0.725/0 1/0",
-        "0/1 0.109/1 0.301/0.498 0.517/0 1/0",
-        "0/1 0.098/1 0.235/0.498 0.423/0 1/0",
-    },
-    {
-        "0.25/0.156 0.501/0.501 0.686/0.745",
-        "0.25/0.188 0.38/0.501 0.745/0.815 1/0.815",
-        "0.231/0.094 0.709/0.874",
-    },
-    { 0, 0, 0, "0.5/0.4" },
-    { 0, 0, 0, "0.149/0.066 0.831/0.905 0.905/0.98" },
-    { 0, 0, 0, "0.4/0.5" },
-    { 0, 0, 0, "0.305/0.286 0.694/0.713" },
-    { 0, 0, 0, "0.286/0.219 0.639/0.643" },
-    { 0, 0, 0, "0/1 1/0" },
-    { 0, 0, 0, "0.301/0.196 0.592/0.6 0.686/0.737" },
-    {
-        "0/0.11 0.42/0.51 1/0.95",
-        "0.50/0.48",
-        "0/0.22 0.49/0.44 1/0.8",
-    }
-};
-#else
 static const struct {
     const char *r;
     const char *g;
@@ -188,7 +132,6 @@ static const struct {
         "0/0.22 0.49/0.44 1/0.8",
     }
 };
-#endif
 
 static struct keypoint *make_point(double x, double y, struct keypoint *next)
 {
@@ -598,46 +541,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static const AVFilterPad curves_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad curves_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_curves = {
-#ifdef IDE_COMPILE
-    "curves",
-    NULL_IF_CONFIG_SMALL("Adjust components curves."),
-    curves_inputs,
-    curves_outputs,
-    &curves_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-    init,
-    0, 0, query_formats,
-    sizeof(CurvesContext),
-#else
 	.name          = "curves",
     .description   = NULL_IF_CONFIG_SMALL("Adjust components curves."),
     .priv_size     = sizeof(CurvesContext),
@@ -647,5 +567,4 @@ AVFilter ff_vf_curves = {
     .outputs       = curves_outputs,
     .priv_class    = &curves_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

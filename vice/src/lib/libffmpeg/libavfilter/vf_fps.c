@@ -62,16 +62,6 @@ typedef struct FPSContext {
 #define V AV_OPT_FLAG_VIDEO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption fps_options[] = {
-#ifdef IDE_COMPILE
-	{ "fps", "A string describing desired output framerate", OFFSET(framerate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25" }, 0, 0, V|F },
-    { "start_time", "Assume the first PTS should be this value.", OFFSET(start_time), AV_OPT_TYPE_DOUBLE, {0x7fefffffffffffff}, -DBL_MAX, DBL_MAX, V },
-    { "round", "set rounding method for timestamps", OFFSET(rounding), AV_OPT_TYPE_INT, {AV_ROUND_NEAR_INF}, 0, 5, V|F, "round" },
-	{ "zero", "round towards 0", OFFSET(rounding), AV_OPT_TYPE_CONST, {AV_ROUND_ZERO}, 0, 5, V|F, "round" },
-	{ "inf", "round away from 0", OFFSET(rounding), AV_OPT_TYPE_CONST, {AV_ROUND_INF}, 0, 5, V|F, "round" },
-    { "down", "round towards -infty", OFFSET(rounding), AV_OPT_TYPE_CONST, {AV_ROUND_DOWN}, 0, 5, V|F, "round" },
-    { "up", "round towards +infty", OFFSET(rounding), AV_OPT_TYPE_CONST, {AV_ROUND_UP}, 0, 5, V|F, "round" },
-    { "near", "round to nearest", OFFSET(rounding), AV_OPT_TYPE_CONST, {AV_ROUND_NEAR_INF}, 0, 5, V|F, "round" },
-#else
 	{ "fps", "A string describing desired output framerate", OFFSET(framerate), AV_OPT_TYPE_VIDEO_RATE, { .str = "25" }, .flags = V|F },
     { "start_time", "Assume the first PTS should be this value.", OFFSET(start_time), AV_OPT_TYPE_DOUBLE, { .dbl = DBL_MAX}, -DBL_MAX, DBL_MAX, V },
     { "round", "set rounding method for timestamps", OFFSET(rounding), AV_OPT_TYPE_INT, { .i64 = AV_ROUND_NEAR_INF }, 0, 5, V|F, "round" },
@@ -80,7 +70,6 @@ static const AVOption fps_options[] = {
     { "down", "round towards -infty", OFFSET(rounding), AV_OPT_TYPE_CONST, { .i64 = AV_ROUND_DOWN     }, 0, 5, V|F, "round" },
     { "up",   "round towards +infty", OFFSET(rounding), AV_OPT_TYPE_CONST, { .i64 = AV_ROUND_UP       }, 0, 5, V|F, "round" },
     { "near", "round to nearest",     OFFSET(rounding), AV_OPT_TYPE_CONST, { .i64 = AV_ROUND_NEAR_INF }, 0, 5, V|F, "round" },
-#endif
 	{ NULL }
 };
 
@@ -196,26 +185,13 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
 
             if (s->start_time != DBL_MAX && s->start_time != AV_NOPTS_VALUE) {
                 double first_pts = s->start_time * AV_TIME_BASE;
-#ifdef IDE_COMPILE
-                AVRational tmp;
-#endif
 				
 				first_pts = FFMIN(FFMAX(first_pts, INT64_MIN), INT64_MAX);
-#ifdef IDE_COMPILE
-                tmp.num = 1;
-				tmp.den = AV_TIME_BASE;
-
-				s->first_pts = av_rescale_q(first_pts, tmp, inlink->time_base);
-				av_log(ctx, AV_LOG_VERBOSE, "Set first pts to (in:%"PRId64" out:%"PRId64")\n",
-                       s->first_pts, av_rescale_q(first_pts, tmp,
-                                                  outlink->time_base));
-#else
 				s->first_pts = av_rescale_q(first_pts, AV_TIME_BASE_Q,
                                                      inlink->time_base);
 				av_log(ctx, AV_LOG_VERBOSE, "Set first pts to (in:%"PRId64" out:%"PRId64")\n",
                        s->first_pts, av_rescale_q(first_pts, AV_TIME_BASE_Q,
                                                   outlink->time_base));
-#endif
             } else {
                 s->first_pts = buf->pts;
             }
@@ -296,47 +272,24 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
 
 static const AVFilterPad avfilter_vf_fps_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_fps_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_props
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_fps = {
-#ifdef IDE_COMPILE
-    "fps",
-    NULL_IF_CONFIG_SMALL("Force constant framerate."),
-    avfilter_vf_fps_inputs,
-    avfilter_vf_fps_outputs,
-    &fps_class,
-    0, init,
-    0, uninit,
-    0, sizeof(FPSContext),
-#else
 	.name        = "fps",
     .description = NULL_IF_CONFIG_SMALL("Force constant framerate."),
     .init        = init,
@@ -345,5 +298,4 @@ AVFilter ff_vf_fps = {
     .priv_class  = &fps_class,
     .inputs      = avfilter_vf_fps_inputs,
     .outputs     = avfilter_vf_fps_outputs,
-#endif
 };

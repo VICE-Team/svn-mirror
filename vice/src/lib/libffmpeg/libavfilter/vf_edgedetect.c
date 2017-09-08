@@ -56,19 +56,11 @@ typedef struct {
 #define OFFSET(x) offsetof(EdgeDetectContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption edgedetect_options[] = {
-#ifdef IDE_COMPILE
-	{ "high", "set high threshold", OFFSET(high), AV_OPT_TYPE_DOUBLE, {0x3fc9191919191919}, 0, 1, FLAGS },
-    { "low",  "set low threshold", OFFSET(low), AV_OPT_TYPE_DOUBLE, {0x3fb4141414141414}, 0, 1, FLAGS },
-    { "mode", "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_WIRES}, 0, NB_MODE-1, FLAGS, "mode" },
-    { "wires", "white/gray wires on black", 0, AV_OPT_TYPE_CONST, {MODE_WIRES}, INT_MIN, INT_MAX, FLAGS, "mode" },
-    { "colormix", "mix colors", 0, AV_OPT_TYPE_CONST, {MODE_COLORMIX}, INT_MIN, INT_MAX, FLAGS, "mode" },
-#else
 	{ "high", "set high threshold", OFFSET(high), AV_OPT_TYPE_DOUBLE, {.dbl=50/255.}, 0, 1, FLAGS },
     { "low",  "set low threshold",  OFFSET(low),  AV_OPT_TYPE_DOUBLE, {.dbl=20/255.}, 0, 1, FLAGS },
     { "mode", "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=MODE_WIRES}, 0, NB_MODE-1, FLAGS, "mode" },
         { "wires",    "white/gray wires on black",  0, AV_OPT_TYPE_CONST, {.i64=MODE_WIRES},    INT_MIN, INT_MAX, FLAGS, "mode" },
         { "colormix", "mix colors",                 0, AV_OPT_TYPE_CONST, {.i64=MODE_COLORMIX}, INT_MIN, INT_MAX, FLAGS, "mode" },
-#endif
 	{ NULL }
 };
 
@@ -372,47 +364,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad edgedetect_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_props,
         .filter_frame = filter_frame,
-#endif
 	},
      { NULL }
 };
 
 static const AVFilterPad edgedetect_outputs[] = {
      {
-#ifdef IDE_COMPILE
-         "default",
-         AVMEDIA_TYPE_VIDEO,
-#else
 		 .name = "default",
          .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	 },
      { NULL }
 };
 
 AVFilter ff_vf_edgedetect = {
-#ifdef IDE_COMPILE
-    "edgedetect",
-    NULL_IF_CONFIG_SMALL("Detect and draw edge."),
-    edgedetect_inputs,
-    edgedetect_outputs,
-    &edgedetect_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(EdgeDetectContext),
-#else
 	.name          = "edgedetect",
     .description   = NULL_IF_CONFIG_SMALL("Detect and draw edge."),
     .priv_size     = sizeof(EdgeDetectContext),
@@ -423,5 +391,4 @@ AVFilter ff_vf_edgedetect = {
     .outputs       = edgedetect_outputs,
     .priv_class    = &edgedetect_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

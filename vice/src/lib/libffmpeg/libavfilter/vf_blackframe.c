@@ -102,18 +102,12 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 #define OFFSET(x) offsetof(BlackFrameContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption blackframe_options[] = {
-#ifdef IDE_COMPILE
-	{ "amount", "Percentage of the pixels that have to be below the threshold for the frame to be considered black.", OFFSET(bamount), AV_OPT_TYPE_INT, {98}, 0, 100, FLAGS },
-    { "threshold", "threshold below which a pixel value is considered black", OFFSET(bthresh), AV_OPT_TYPE_INT, {32}, 0, 255, FLAGS },
-    { "thresh", "threshold below which a pixel value is considered black", OFFSET(bthresh), AV_OPT_TYPE_INT, {32}, 0, 255, FLAGS },
-#else
 	{ "amount", "Percentage of the pixels that have to be below the threshold "
         "for the frame to be considered black.", OFFSET(bamount), AV_OPT_TYPE_INT, { .i64 = 98 }, 0, 100,     FLAGS },
     { "threshold", "threshold below which a pixel value is considered black",
                                                  OFFSET(bthresh), AV_OPT_TYPE_INT, { .i64 = 32 }, 0, 255,     FLAGS },
     { "thresh", "threshold below which a pixel value is considered black",
                                                  OFFSET(bthresh), AV_OPT_TYPE_INT, { .i64 = 32 }, 0, 255,     FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -121,42 +115,22 @@ AVFILTER_DEFINE_CLASS(blackframe);
 
 static const AVFilterPad avfilter_vf_blackframe_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_blackframe_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_blackframe = {
-#ifdef IDE_COMPILE
-    "blackframe",
-    NULL_IF_CONFIG_SMALL("Detect frames that are (almost) black."),
-    avfilter_vf_blackframe_inputs,
-    avfilter_vf_blackframe_outputs,
-    &blackframe_class,
-    0, 0, 0, 0, query_formats,
-    sizeof(BlackFrameContext),
-#else
 	.name          = "blackframe",
     .description   = NULL_IF_CONFIG_SMALL("Detect frames that are (almost) black."),
     .priv_size     = sizeof(BlackFrameContext),
@@ -164,5 +138,4 @@ AVFilter ff_vf_blackframe = {
     .query_formats = query_formats,
     .inputs        = avfilter_vf_blackframe_inputs,
     .outputs       = avfilter_vf_blackframe_outputs,
-#endif
 };

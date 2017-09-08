@@ -703,17 +703,6 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
     struct tm ti;
     int64_t usecs;
     int64_t wrapped_val;
-#ifdef IDE_COMPILE
-	char tmp1[32] = {0};
-	char tmp2[32] = {0};
-	char tmp3[32] = {0};
-	char tmp4[32] = {0};
-	char tmp5[32] = {0};
-    AVRational tbq;
-	
-	tbq.num = 1;
-	tbq.den = AV_TIME_BASE;
-#endif
 
     if (seg->times) {
         end_pts = seg->segment_count < seg->nb_times ?
@@ -742,29 +731,12 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
         }
     }
 
-#ifdef IDE_COMPILE
-	av_dlog(s, "packet stream:%d pts:%s pts_time:%s duration_time:%s is_key:%d frame:%d\n",
-            pkt->stream_index, av_ts_make_string(tmp1, pkt->pts), av_ts_make_time_string(tmp2, pkt->pts, &st->time_base),
-            av_ts_make_time_string(tmp3, pkt->duration, &st->time_base),
-            pkt->flags & AV_PKT_FLAG_KEY,
-            pkt->stream_index == seg->reference_stream_index ? seg->frame_count : -1);
-#else
 	av_dlog(s, "packet stream:%d pts:%s pts_time:%s duration_time:%s is_key:%d frame:%d\n",
             pkt->stream_index, av_ts2str(pkt->pts), av_ts2timestr(pkt->pts, &st->time_base),
             av_ts2timestr(pkt->duration, &st->time_base),
             pkt->flags & AV_PKT_FLAG_KEY,
             pkt->stream_index == seg->reference_stream_index ? seg->frame_count : -1);
-#endif
 
-#ifdef IDE_COMPILE
-	if (pkt->stream_index == seg->reference_stream_index &&
-        pkt->flags & AV_PKT_FLAG_KEY &&
-        seg->segment_frame_count > 0 &&
-        (seg->cut_pending || seg->frame_count >= start_frame ||
-         (pkt->pts != AV_NOPTS_VALUE &&
-          av_compare_ts(pkt->pts, st->time_base,
-                        end_pts-seg->time_delta, tbq) >= 0))) {
-#else
 	if (pkt->stream_index == seg->reference_stream_index &&
         pkt->flags & AV_PKT_FLAG_KEY &&
         seg->segment_frame_count > 0 &&
@@ -772,7 +744,6 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
          (pkt->pts != AV_NOPTS_VALUE &&
           av_compare_ts(pkt->pts, st->time_base,
                         end_pts-seg->time_delta, AV_TIME_BASE_Q) >= 0))) {
-#endif
 		/* sanitize end time in case last packet didn't have a defined duration */
         if (seg->cur_entry.last_duration == 0)
             seg->cur_entry.end_time = (double)pkt->pts * av_q2d(st->time_base);
@@ -786,11 +757,7 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
         seg->cut_pending = 0;
         seg->cur_entry.index = seg->segment_idx + seg->segment_idx_wrap*seg->segment_idx_wrap_nb;
         seg->cur_entry.start_time = (double)pkt->pts * av_q2d(st->time_base);
-#ifdef IDE_COMPILE
-		seg->cur_entry.start_pts = av_rescale_q(pkt->pts, st->time_base, tbq);
-#else
 		seg->cur_entry.start_pts = av_rescale_q(pkt->pts, st->time_base, AV_TIME_BASE_Q);
-#endif
 		seg->cur_entry.end_time = seg->cur_entry.start_time +
             pkt->pts != AV_NOPTS_VALUE ? (double)(pkt->pts + pkt->duration) * av_q2d(st->time_base) : 0;
     } else if (pkt->pts != AV_NOPTS_VALUE && pkt->stream_index == seg->reference_stream_index) {
@@ -800,53 +767,28 @@ static int seg_write_packet(AVFormatContext *s, AVPacket *pkt)
     }
 
     if (seg->segment_frame_count == 0) {
-#ifdef IDE_COMPILE
-		av_log(s, AV_LOG_VERBOSE, "segment:'%s' starts with packet stream:%d pts:%s pts_time:%s frame:%d\n",
-               seg->avf->filename, pkt->stream_index,
-               av_ts_make_string(tmp1, pkt->pts), av_ts_make_time_string(tmp2, pkt->pts, &st->time_base), seg->frame_count);
-#else
 		av_log(s, AV_LOG_VERBOSE, "segment:'%s' starts with packet stream:%d pts:%s pts_time:%s frame:%d\n",
                seg->avf->filename, pkt->stream_index,
                av_ts2str(pkt->pts), av_ts2timestr(pkt->pts, &st->time_base), seg->frame_count);
-#endif
 	}
 
-#ifdef IDE_COMPILE
-	av_log(s, AV_LOG_DEBUG, "stream:%d start_pts_time:%s pts:%s pts_time:%s dts:%s dts_time:%s",
-           pkt->stream_index,
-           av_ts_make_time_string(tmp1, seg->cur_entry.start_pts, &tbq),
-           av_ts_make_string(tmp2, pkt->pts), av_ts_make_time_string(tmp3, pkt->pts, &st->time_base),
-           av_ts_make_string(tmp4, pkt->dts), av_ts_make_time_string(tmp5, pkt->dts, &st->time_base));
-#else
 	av_log(s, AV_LOG_DEBUG, "stream:%d start_pts_time:%s pts:%s pts_time:%s dts:%s dts_time:%s",
            pkt->stream_index,
            av_ts2timestr(seg->cur_entry.start_pts, &AV_TIME_BASE_Q),
            av_ts2str(pkt->pts), av_ts2timestr(pkt->pts, &st->time_base),
            av_ts2str(pkt->dts), av_ts2timestr(pkt->dts, &st->time_base));
-#endif
 
     /* compute new timestamps */
-#ifdef IDE_COMPILE
-	offset = av_rescale_q(seg->initial_offset - (seg->reset_timestamps ? seg->cur_entry.start_pts : 0),
-                          tbq, st->time_base);
-#else
 	offset = av_rescale_q(seg->initial_offset - (seg->reset_timestamps ? seg->cur_entry.start_pts : 0),
                           AV_TIME_BASE_Q, st->time_base);
-#endif
 	if (pkt->pts != AV_NOPTS_VALUE)
         pkt->pts += offset;
     if (pkt->dts != AV_NOPTS_VALUE)
         pkt->dts += offset;
 
-#ifdef IDE_COMPILE
-	av_log(s, AV_LOG_DEBUG, " -> pts:%s pts_time:%s dts:%s dts_time:%s\n",
-           av_ts_make_string(tmp1, pkt->pts), av_ts_make_time_string(tmp2, pkt->pts, &st->time_base),
-           av_ts_make_string(tmp3, pkt->dts), av_ts_make_time_string(tmp3, pkt->dts, &st->time_base));
-#else
 	av_log(s, AV_LOG_DEBUG, " -> pts:%s pts_time:%s dts:%s dts_time:%s\n",
            av_ts2str(pkt->pts), av_ts2timestr(pkt->pts, &st->time_base),
            av_ts2str(pkt->dts), av_ts2timestr(pkt->dts, &st->time_base));
-#endif
 
     ret = ff_write_chained(seg->avf, pkt->stream_index, pkt, s, seg->initial_offset || seg->reset_timestamps);
 
@@ -899,36 +841,6 @@ fail:
 #define OFFSET(x) offsetof(SegmentContext, x)
 #define E AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "reference_stream", "set reference stream", OFFSET(reference_stream_specifier), AV_OPT_TYPE_STRING, {(intptr_t) "auto"}, CHAR_MIN, CHAR_MAX, E },
-    { "segment_format", "set container format used for the segments", OFFSET(format), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E },
-    { "segment_format_options", "set list of options for the container format used for the segments", OFFSET(format_options_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E },
-    { "segment_list", "set the segment list filename", OFFSET(list), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E },
-    { "segment_list_flags", "set flags affecting segment list generation", OFFSET(list_flags), AV_OPT_TYPE_FLAGS, {SEGMENT_LIST_FLAG_CACHE}, 0, UINT_MAX, E, "list_flags"},
-    { "cache", "allow list caching", 0, AV_OPT_TYPE_CONST, {SEGMENT_LIST_FLAG_CACHE}, INT_MIN, INT_MAX,  E, "list_flags"},
-    { "live", "enable live-friendly list generation (useful for HLS)", 0, AV_OPT_TYPE_CONST, {SEGMENT_LIST_FLAG_LIVE}, INT_MIN, INT_MAX, E, "list_flags"},
-    { "segment_list_size", "set the maximum number of playlist entries", OFFSET(list_size), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, E },
-    { "segment_list_type", "set the segment list type", OFFSET(list_type), AV_OPT_TYPE_INT, {LIST_TYPE_UNDEFINED}, -1, LIST_TYPE_NB-1, E, "list_type" },
-    { "flat", "flat format", 0, AV_OPT_TYPE_CONST, {LIST_TYPE_FLAT}, INT_MIN, INT_MAX, E, "list_type" },
-    { "csv",  "csv format", 0, AV_OPT_TYPE_CONST, {LIST_TYPE_CSV}, INT_MIN, INT_MAX, E, "list_type" },
-    { "ext", "extended format", 0, AV_OPT_TYPE_CONST, {LIST_TYPE_EXT}, INT_MIN, INT_MAX, E, "list_type" },
-    { "ffconcat", "ffconcat format", 0, AV_OPT_TYPE_CONST, {LIST_TYPE_FFCONCAT}, INT_MIN, INT_MAX, E, "list_type" },
-    { "m3u8", "M3U8 format", 0, AV_OPT_TYPE_CONST, {LIST_TYPE_M3U8}, INT_MIN, INT_MAX, E, "list_type" },
-    { "hls", "Apple HTTP Live Streaming compatible", 0, AV_OPT_TYPE_CONST, {LIST_TYPE_M3U8}, INT_MIN, INT_MAX, E, "list_type" },
-    { "segment_atclocktime", "set segment to be cut at clocktime",  OFFSET(use_clocktime), AV_OPT_TYPE_INT, {0}, 0, 1, E},
-    { "segment_time", "set segment duration", OFFSET(time_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E },
-    { "segment_time_delta", "set approximation value used for the segment times", OFFSET(time_delta), AV_OPT_TYPE_DURATION, {0}, 0, 0, E },
-    { "segment_times", "set segment split time points", OFFSET(times_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E },
-    { "segment_frames", "set segment split frame numbers", OFFSET(frames_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E },
-    { "segment_wrap", "set number after which the index wraps", OFFSET(segment_idx_wrap), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, E },
-    { "segment_list_entry_prefix", "set base url prefix for segments", OFFSET(entry_prefix), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, E },
-    { "segment_start_number", "set the sequence number of the first segment", OFFSET(segment_idx), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, E },
-    { "segment_wrap_number", "set the number of wrap before the first segment", OFFSET(segment_idx_wrap_nb), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, E },
-    { "individual_header_trailer", "write header/trailer to each segment", OFFSET(individual_header_trailer), AV_OPT_TYPE_INT, {1}, 0, 1, E },
-    { "write_header_trailer", "write a header to the first segment and a trailer to the last one", OFFSET(write_header_trailer), AV_OPT_TYPE_INT, {1}, 0, 1, E },
-    { "reset_timestamps", "reset timestamps at the begin of each segment", OFFSET(reset_timestamps), AV_OPT_TYPE_INT, {0}, 0, 1, E },
-    { "initial_offset", "set initial timestamp offset", OFFSET(initial_offset), AV_OPT_TYPE_DURATION, {0}, -INT64_MAX, INT64_MAX, E },
-#else
 	{ "reference_stream",  "set reference stream", OFFSET(reference_stream_specifier), AV_OPT_TYPE_STRING, {.str = "auto"}, CHAR_MIN, CHAR_MAX, E },
     { "segment_format",    "set container format used for the segments", OFFSET(format),  AV_OPT_TYPE_STRING, {.str = NULL},  0, 0,       E },
     { "segment_format_options", "set list of options for the container format used for the segments", OFFSET(format_options_str), AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, E },
@@ -962,35 +874,17 @@ static const AVOption options[] = {
     { "write_header_trailer", "write a header to the first segment and a trailer to the last one", OFFSET(write_header_trailer), AV_OPT_TYPE_INT, {.i64 = 1}, 0, 1, E },
     { "reset_timestamps", "reset timestamps at the begin of each segment", OFFSET(reset_timestamps), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, E },
     { "initial_offset", "set initial timestamp offset", OFFSET(initial_offset), AV_OPT_TYPE_DURATION, {.i64 = 0}, -INT64_MAX, INT64_MAX, E },
-#endif
 	{ NULL },
 };
 
 static const AVClass seg_class = {
-#ifdef IDE_COMPILE
-    "segment muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "segment muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_segment_muxer = {
-#ifdef IDE_COMPILE
-    "segment",
-    "segment",
-    0, 0, 0, 0, 0, AVFMT_NOFILE|AVFMT_GLOBALHEADER,
-    0, &seg_class,
-    0, sizeof(SegmentContext),
-    seg_write_header,
-    seg_write_packet,
-    seg_write_trailer,
-#else
 	.name           = "segment",
     .long_name      = NULL_IF_CONFIG_SMALL("segment"),
     .priv_data_size = sizeof(SegmentContext),
@@ -999,34 +893,16 @@ AVOutputFormat ff_segment_muxer = {
     .write_packet   = seg_write_packet,
     .write_trailer  = seg_write_trailer,
     .priv_class     = &seg_class,
-#endif
 };
 
 static const AVClass sseg_class = {
-#ifdef IDE_COMPILE
-    "stream_segment muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "stream_segment muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_stream_segment_muxer = {
-#ifdef IDE_COMPILE
-    "stream_segment,ssegment",
-    "streaming segment muxer",
-    0, 0, 0, 0, 0, AVFMT_NOFILE,
-    0, &sseg_class,
-    0, sizeof(SegmentContext),
-    seg_write_header,
-    seg_write_packet,
-    seg_write_trailer,
-#else
 	.name           = "stream_segment,ssegment",
     .long_name      = NULL_IF_CONFIG_SMALL("streaming segment muxer"),
     .priv_data_size = sizeof(SegmentContext),
@@ -1035,5 +911,4 @@ AVOutputFormat ff_stream_segment_muxer = {
     .write_packet   = seg_write_packet,
     .write_trailer  = seg_write_trailer,
     .priv_class     = &sseg_class,
-#endif
 };

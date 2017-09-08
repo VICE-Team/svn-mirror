@@ -47,24 +47,6 @@ typedef struct {
 #define OFFSET(x) offsetof(ColorChannelMixerContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption colorchannelmixer_options[] = {
-#ifdef IDE_COMPILE
-	{ "rr", "set the red gain for the red channel", OFFSET(rr), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, -2, 2, FLAGS },
-    { "rg", "set the green gain for the red channel", OFFSET(rg), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "rb", "set the blue gain for the red channel", OFFSET(rb), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "ra", "set the alpha gain for the red channel", OFFSET(ra), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "gr", "set the red gain for the green channel", OFFSET(gr), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "gg", "set the green gain for the green channel", OFFSET(gg), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, -2, 2, FLAGS },
-    { "gb", "set the blue gain for the green channel",  OFFSET(gb), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "ga", "set the alpha gain for the green channel", OFFSET(ga), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "br", "set the red gain for the blue channel", OFFSET(br), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "bg", "set the green gain for the blue channel", OFFSET(bg), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "bb", "set the blue gain for the blue channel", OFFSET(bb), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, -2, 2, FLAGS },
-    { "ba", "set the alpha gain for the blue channel", OFFSET(ba), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "ar", "set the red gain for the alpha channel", OFFSET(ar), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "ag", "set the green gain for the alpha channel", OFFSET(ag), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "ab", "set the blue gain for the alpha channel", OFFSET(ab), AV_OPT_TYPE_DOUBLE, {0}, -2, 2, FLAGS },
-    { "aa", "set the alpha gain for the alpha channel", OFFSET(aa), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, -2, 2, FLAGS },
-#else
 	{ "rr", "set the red gain for the red channel",     OFFSET(rr), AV_OPT_TYPE_DOUBLE, {.dbl=1}, -2, 2, FLAGS },
     { "rg", "set the green gain for the red channel",   OFFSET(rg), AV_OPT_TYPE_DOUBLE, {.dbl=0}, -2, 2, FLAGS },
     { "rb", "set the blue gain for the red channel",    OFFSET(rb), AV_OPT_TYPE_DOUBLE, {.dbl=0}, -2, 2, FLAGS },
@@ -81,7 +63,6 @@ static const AVOption colorchannelmixer_options[] = {
     { "ag", "set the green gain for the alpha channel", OFFSET(ag), AV_OPT_TYPE_DOUBLE, {.dbl=0}, -2, 2, FLAGS },
     { "ab", "set the blue gain for the alpha channel",  OFFSET(ab), AV_OPT_TYPE_DOUBLE, {.dbl=0}, -2, 2, FLAGS },
     { "aa", "set the alpha gain for the alpha channel", OFFSET(aa), AV_OPT_TYPE_DOUBLE, {.dbl=1}, -2, 2, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -350,46 +331,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad colorchannelmixer_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad colorchannelmixer_outputs[] = {
 {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_colorchannelmixer = {
-#ifdef IDE_COMPILE
-    "colorchannelmixer",
-    NULL_IF_CONFIG_SMALL("Adjust colors by mixing color channels."),
-    colorchannelmixer_inputs,
-    colorchannelmixer_outputs,
-    &colorchannelmixer_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, uninit,
-    query_formats,
-    sizeof(ColorChannelMixerContext),
-#else
 	.name          = "colorchannelmixer",
     .description   = NULL_IF_CONFIG_SMALL("Adjust colors by mixing color channels."),
     .priv_size     = sizeof(ColorChannelMixerContext),
@@ -399,5 +357,4 @@ AVFilter ff_vf_colorchannelmixer = {
     .inputs        = colorchannelmixer_inputs,
     .outputs       = colorchannelmixer_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };
