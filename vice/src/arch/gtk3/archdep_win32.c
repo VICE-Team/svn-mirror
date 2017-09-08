@@ -111,7 +111,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                 boot_path, "\\PRINTER", NULL);
     }
 
-    return default_path;
+    return lib_stralloc(default_path);
 }
 
 
