@@ -3835,17 +3835,16 @@ if test x"$enable_portaudio" != "xno"; then
   AC_CHECK_HEADERS(portaudio.h, PA_HEADERS="yes", PA_HEADERS="no")
 
   if test x"$PA_HEADERS" = "xyes"; then
-    AC_CHECK_LIB(portaudio, Pa_Initialize,
-                 [LIBS="$LIBS -lportaudio";
-                  USE_PORTAUDIO_SUPPORT="yes";
-                  AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)
-
-    if test x"$USE_PORTAUDIO_SUPPORT" != "xyes" -a x"$is_win32" = "xyes"; then
-      unset ac_cv_lib_portaudio_Pa_Initialize
+    if test x"$is_win32" = "xyes" -o x"$is_win32_gtk3" = "xyes"; then
       AC_CHECK_LIB(portaudio, Pa_Initialize,
                    [LIBS="$LIBS -lportaudio -lwinmm";
                     USE_PORTAUDIO_SUPPORT="yes";
                     AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,-lwinmm)
+    else
+      AC_CHECK_LIB(portaudio, Pa_Initialize,
+                 [LIBS="$LIBS -lportaudio";
+                  USE_PORTAUDIO_SUPPORT="yes";
+                  AC_DEFINE(USE_PORTAUDIO,,[Enable portaudio sampling support.])],,)
     fi
   fi
 
