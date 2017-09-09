@@ -145,8 +145,26 @@
 #  include <gnu/libc-version.h>
 #endif
 
-static char linux_version[100];
-static char linux_cpu[100];
+#ifndef _UTSNAME_SYSNAME_LENGTH
+#define _UTSNAME_SYSNAME_LENGTH 100
+#endif
+
+#ifndef _UTSNAME_RELEASE_LENGTH
+#define _UTSNAME_RELEASE_LENGTH 100
+#endif
+
+#ifndef _UTSNAME_MACHINE_LENGTH
+#define _UTSNAME_MACHINE_LENGTH 100
+#endif
+
+#if (_UTSNAME_MACHINE_LENGTH < 100)
+#define LINUX_CPU_LEN 100
+#else
+#define LINUX_CPU_LEN _UTSNAME_MACHINE_LENGTH
+#endif
+
+static char linux_version[_UTSNAME_SYSNAME_LENGTH + _UTSNAME_RELEASE_LENGTH + 2];
+static char linux_cpu[LINUX_CPU_LEN];
 static int got_linux_version = 0;
 static int got_linux_cpu = 0;
 
