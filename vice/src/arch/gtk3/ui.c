@@ -41,17 +41,18 @@
 #include "machine.h"
 #include "resources.h"
 #include "translate.h"
+#include "util.h"
+#include "videoarch.h"
+#include "vsync.h"
+
 #include "uiaccelerators.h"
 #include "uiapi.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
-#include "util.h"
-#include "videoarch.h"
-#include "vsync.h"
-
+#include "uismartattach.h"
 #include "uiabout.h"
-#include "uiattach.h"
+/* #include "uiattach.h" */
 
 #include "ui.h"
 
@@ -78,7 +79,7 @@ enum {
  */
 static ui_menu_item_t file_menu[] = {
     { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
-        ui_attach_dialog_callback, NULL },
+        ui_smart_attach_callback, NULL },
     { "Autostart settings [MOVED TO SETTINGS]", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL },
 
@@ -730,7 +731,18 @@ void ui_error(const char *format, ...)
 
 void ui_message(const char *format, ...)
 {
-    NOT_IMPLEMENTED();
+    GtkWidget *dialog;
+    char buffer[1024];
+    va_list ap;
+
+    va_start(ap, format);
+    g_vsnprintf(buffer, 1024, format, ap);
+    va_end(ap);
+
+    dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
+            GTK_BUTTONS_OK, "%s", buffer);
+    gtk_dialog_run(GTK_DIALOG(dialog));
+
 }
 
 /* display FPS (and some other stuff) in the title bar of the window(s) */
@@ -744,7 +756,6 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
 
     for (i = 0; i < NUM_WINDOWS; i++) {
         if (ui_resources.canvas[i] && GTK_WINDOW(ui_resources.window_widget[i])) {
-            /* FIXME: handle paused mode */
             warp = (warp_flag ? _("(warp)") : "");
             str[0] = 0;
             snprintf(str, 128, "%s%s - %3d%%, %2d fps %s%s",
