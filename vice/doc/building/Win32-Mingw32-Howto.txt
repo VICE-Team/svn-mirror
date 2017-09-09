@@ -68,7 +68,4 @@ by typing 'make bindist'.
 
 You can then run VICE from the newly created binary distribution directory.
 
-Questions related to the described set-up of the Cygnus/Mingw32/DirectX
-environment can be sent to 'gritsch@iue.tuwien.ac.at'
-
 Have fun!

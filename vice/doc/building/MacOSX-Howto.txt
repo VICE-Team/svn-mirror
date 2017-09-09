@@ -1,3 +1,6 @@
+NOTE: The native cocoa port is deprecated and unmaintained and will be removed
+      when the GTK3 port is ready for prime time.
+
 Building VICE on Mac OS X
 -------------------------
 

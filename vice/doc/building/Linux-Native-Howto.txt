@@ -21,6 +21,7 @@ $ sudo apt-get install build-essential  # (contains gcc, make)
 $ sudo apt-get install autoconf
 $ sudo apt-get install automake
 $ sudo apt-get install byacc
+$ sudo apt-get install xa65             # needed to build the vsid driver
 $ sudo apt-get install texi2html
 $ sudo apt-get install flex
 $ sudo apt-get install libreadline-dev
