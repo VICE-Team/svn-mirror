@@ -46,27 +46,14 @@ enum {
 };
 
 
-/* TODO: move these patterns into widgets/filechooserhelpers.c to be able to
- *       use them as 'stock' patterns
+/** \brief  File type filters for the dialog
  */
-const gchar *pattern_all[] = { "*.*", NULL };
-const gchar *pattern_disk[] = {
-    "*.d64", "*.d67", "*.d71", "*.d8[0-2]",
-    "*.d1m", "*.d2m", "*.d4m",
-    "*.g64", "*.g71", "*.g41", "*.p64",
-    "*.x64",
-    NULL
-};
-const gchar *pattern_tape[] = { "*.t64", "*.tap", NULL };   /* T64 is NOT a tape */
-const gchar *pattern_prg[] = { "*.prg", "*.p[0-9][0-9]" };
-const gchar *pattern_zip[] = { "*.bz2", "*.gz", ".rar", "*.[zZ]", "*.zip" };
-
 static ui_file_filter_t filters[] = {
-    { "All files", pattern_all },
-    { "Disk images", pattern_disk },
-    { "Tape images", pattern_tape },
-    { "Program files", pattern_prg },
-    { "Compressed files", pattern_zip },
+    { "All files", file_chooser_pattern_all },
+    { "Disk images", file_chooser_pattern_disk },
+    { "Tape images", file_chooser_pattern_tape },
+    { "Program files", file_chooser_pattern_prg },
+    { "Compressed files", file_chooser_pattern_zip },
     { NULL, NULL }
 };
 

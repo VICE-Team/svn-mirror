@@ -30,6 +30,15 @@
 
 #include <gtk/gtk.h>
 
+extern const gchar *file_chooser_pattern_all[];
+extern const gchar *file_chooser_pattern_disk[];
+extern const gchar *file_chooser_pattern_tape[];
+extern const gchar *file_chooser_pattern_tape[];
+extern const gchar *file_chooser_pattern_prg[];
+extern const gchar *file_chooser_pattern_archive[];
+extern const gchar *file_chooser_pattern_zip[];
+
+
 /** \brief  Object to construct a GtkFileFilter with
  */
 typedef struct ui_file_filter_s {
@@ -37,8 +46,7 @@ typedef struct ui_file_filter_s {
     const gchar **patterns;     /**< NULL-terminated list of glob patterns */
 } ui_file_filter_t;
 
+
 GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter);
 
-
 #endif
-

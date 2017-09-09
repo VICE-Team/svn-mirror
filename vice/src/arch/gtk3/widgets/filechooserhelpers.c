@@ -33,6 +33,70 @@
 #include "filechooserhelpers.h"
 
 
+/*
+ * 'Stock' file patterns
+ */
+
+/** \brief  Patterns for all files
+ */
+const gchar *file_chooser_pattern_all[] = {
+    "*.*", NULL
+};
+
+
+/** \brief  Patterns for disk images
+ */
+const gchar *file_chooser_pattern_disk[] = {
+    "*.d64", "*.d67", "*.d71", "*.d8[0-2]",
+    "*.d1m", "*.d2m", "*.d4m",
+    "*.g64", "*.g71", "*.g41", "*.p64",
+    "*.x64",
+    NULL
+};
+
+
+/** \brief  Patterns for tapes
+ *
+ * T64 is NOT a tape, so probably should be moved to a 'archive' pattern group,
+ * together with ZipCode, Lynx, Ark, etc.
+ */
+const gchar *file_chooser_pattern_tape[] = {
+    "*.t64", "*.tap", NULL
+};
+
+
+/** \brief  Patterns for program files
+ */
+const gchar *file_chooser_pattern_prg[] = {
+    "*.prg", "*.p[0-9][0-9]"
+};
+
+
+/** \brief  C64 native archives
+ *
+ * Not all of these are supported, Lynx and ZipCoded disks are supported through
+ * calling c1541.
+ */
+const char *file_chooser_pattern_archive[] = {
+    "*.ark",    /* ARK archive */
+    "*.lnx",    /* Lynx archive */
+    "[1-4]1*",  /* ZipCode disk */
+    "[1-6]!!*", /* ZipSix */
+    "[a-z]!*",  /* ZipFile*/
+    NULL
+};
+
+
+/** \brief  Patterns for host-compressed files
+ *
+ * XXX: Once we have libarchive implemented, we could probably query libarchive
+ *      for the extensions supported
+ */
+const gchar *file_chooser_pattern_zip[] = {
+    "*.bz2", "*.gz", ".rar", "*.[zZ]", "*.zip"
+};
+
+
 
 /** \brief  Create a GtkFileFilter instance from \a filter
  *
