@@ -56,12 +56,6 @@ typedef struct InterlaceContext {
 #define OFFSET(x) offsetof(InterlaceContext, x)
 #define V AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption interlace_options[] = {
-#ifdef IDE_COMPILE
-	{ "scan", "scanning mode", OFFSET(scan), AV_OPT_TYPE_INT, {MODE_TFF}, 0, 1, V, "scan" },
-    { "tff", "top field first", 0, AV_OPT_TYPE_CONST, {MODE_TFF}, INT_MIN, INT_MAX, V, "scan" },
-    { "bff", "bottom field first", 0, AV_OPT_TYPE_CONST, {MODE_BFF}, INT_MIN, INT_MAX, V, "scan" },
-    { "lowpass", "enable vertical low-pass filter", OFFSET(lowpass), AV_OPT_TYPE_INT, {1}, 0, 1, V },
-#else
 	{ "scan", "scanning mode", OFFSET(scan),
         AV_OPT_TYPE_INT,   {.i64 = MODE_TFF }, 0, 1, .flags = V, .unit = "scan" },
     { "tff", "top field first", 0,
@@ -70,7 +64,6 @@ static const AVOption interlace_options[] = {
         AV_OPT_TYPE_CONST, {.i64 = MODE_BFF }, INT_MIN, INT_MAX, .flags = V, .unit = "scan" },
     { "lowpass", "enable vertical low-pass filter", OFFSET(lowpass),
         AV_OPT_TYPE_INT,   {.i64 = 1 },        0, 1, .flags = V },
-#endif
 	{ NULL }
 };
 
@@ -228,45 +221,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
 
 static const AVFilterPad inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_out_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_out_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_interlace = {
-#ifdef IDE_COMPILE
-    "interlace",
-    NULL_IF_CONFIG_SMALL("Convert progressive video into interlaced."),
-    inputs,
-    outputs,
-    &interlace_class,
-    0, 0, 0, uninit,
-    query_formats,
-    sizeof(InterlaceContext),
-#else
 	.name          = "interlace",
     .description   = NULL_IF_CONFIG_SMALL("Convert progressive video into interlaced."),
     .uninit        = uninit,
@@ -275,5 +246,4 @@ AVFilter ff_vf_interlace = {
     .query_formats = query_formats,
     .inputs        = inputs,
     .outputs       = outputs,
-#endif
 };

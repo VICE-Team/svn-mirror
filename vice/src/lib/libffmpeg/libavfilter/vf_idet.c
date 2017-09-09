@@ -30,13 +30,8 @@
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption idet_options[] = {
-#ifdef IDE_COMPILE
-	{ "intl_thres", "set interlacing threshold", OFFSET(interlace_threshold), AV_OPT_TYPE_FLOAT, {0x3ff0a3d70a3d70a4}, -1, FLT_MAX, FLAGS },
-    { "prog_thres", "set progressive threshold", OFFSET(progressive_threshold), AV_OPT_TYPE_FLOAT, {0x3ff8000000000000}, -1, FLT_MAX, FLAGS },
-#else
 	{ "intl_thres", "set interlacing threshold", OFFSET(interlace_threshold),   AV_OPT_TYPE_FLOAT, {.dbl = 1.04}, -1, FLT_MAX, FLAGS },
     { "prog_thres", "set progressive threshold", OFFSET(progressive_threshold), AV_OPT_TYPE_FLOAT, {.dbl = 1.5},  -1, FLT_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -261,46 +256,23 @@ static av_cold int init(AVFilterContext *ctx)
 
 static const AVFilterPad idet_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad idet_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_idet = {
-#ifdef IDE_COMPILE
-    "idet",
-    NULL_IF_CONFIG_SMALL("Interlace detect Filter."),
-    idet_inputs,
-    idet_outputs,
-    &idet_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(IDETContext),
-#else
 	.name          = "idet",
     .description   = NULL_IF_CONFIG_SMALL("Interlace detect Filter."),
     .priv_size     = sizeof(IDETContext),
@@ -310,5 +282,4 @@ AVFilter ff_vf_idet = {
     .inputs        = idet_inputs,
     .outputs       = idet_outputs,
     .priv_class    = &idet_class,
-#endif
 };

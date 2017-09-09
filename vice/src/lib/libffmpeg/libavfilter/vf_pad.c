@@ -359,15 +359,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption pad_options[] = {
-#ifdef IDE_COMPILE
-	{ "width", "set the pad area width expression", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "w", "set the pad area width expression", OFFSET(w_expr), AV_OPT_TYPE_STRING, {(intptr_t) "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "height", "set the pad area height expression", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "h", "set the pad area height expression", OFFSET(h_expr), AV_OPT_TYPE_STRING, {(intptr_t) "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "x", "set the x offset expression for the input image position", OFFSET(x_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "y", "set the y offset expression for the input image position", OFFSET(y_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "color", "set the color of the padded area border", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, 0, 0, FLAGS },
-#else
 	{ "width",  "set the pad area width expression",       OFFSET(w_expr), AV_OPT_TYPE_STRING, {.str = "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "w",      "set the pad area width expression",       OFFSET(w_expr), AV_OPT_TYPE_STRING, {.str = "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "height", "set the pad area height expression",      OFFSET(h_expr), AV_OPT_TYPE_STRING, {.str = "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
@@ -375,7 +366,6 @@ static const AVOption pad_options[] = {
     { "x",      "set the x offset expression for the input image position", OFFSET(x_expr), AV_OPT_TYPE_STRING, {.str = "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "y",      "set the y offset expression for the input image position", OFFSET(y_expr), AV_OPT_TYPE_STRING, {.str = "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "color",  "set the color of the padded area border", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {.str = "black"}, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -383,48 +373,25 @@ AVFILTER_DEFINE_CLASS(pad);
 
 static const AVFilterPad avfilter_vf_pad_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, get_video_buffer,
-        0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name             = "default",
         .type             = AVMEDIA_TYPE_VIDEO,
         .config_props     = config_input,
         .get_video_buffer = get_video_buffer,
         .filter_frame     = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_pad_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_pad = {
-#ifdef IDE_COMPILE
-    "pad",
-    NULL_IF_CONFIG_SMALL("Pad the input video."),
-    avfilter_vf_pad_inputs,
-    avfilter_vf_pad_outputs,
-    &pad_class,
-    0, 0, 0, 0, query_formats,
-    sizeof(PadContext),
-#else
 	.name          = "pad",
     .description   = NULL_IF_CONFIG_SMALL("Pad the input video."),
     .priv_size     = sizeof(PadContext),
@@ -432,5 +399,4 @@ AVFilter ff_vf_pad = {
     .query_formats = query_formats,
     .inputs        = avfilter_vf_pad_inputs,
     .outputs       = avfilter_vf_pad_outputs,
-#endif
 };

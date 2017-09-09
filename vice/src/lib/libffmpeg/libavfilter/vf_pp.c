@@ -41,11 +41,7 @@ typedef struct {
 #define OFFSET(x) offsetof(PPFilterContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption pp_options[] = {
-#ifdef IDE_COMPILE
-	{ "subfilters", "set postprocess subfilters", OFFSET(subfilters), AV_OPT_TYPE_STRING, {(intptr_t) "de"}, 0, 0, FLAGS },
-#else
 	{ "subfilters", "set postprocess subfilters", OFFSET(subfilters), AV_OPT_TYPE_STRING, {.str="de"}, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -159,48 +155,23 @@ static av_cold void pp_uninit(AVFilterContext *ctx)
 
 static const AVFilterPad pp_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, pp_filter_frame,
-        0, 0, pp_config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = pp_config_props,
         .filter_frame = pp_filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad pp_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_pp = {
-#ifdef IDE_COMPILE
-    "pp",
-    NULL_IF_CONFIG_SMALL("Filter video using libpostproc."),
-    pp_inputs,
-    pp_outputs,
-    &pp_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    pp_init,
-    0, pp_uninit,
-    pp_query_formats,
-    sizeof(PPFilterContext),
-    0, pp_process_command,
-#else
 	.name            = "pp",
     .description     = NULL_IF_CONFIG_SMALL("Filter video using libpostproc."),
     .priv_size       = sizeof(PPFilterContext),
@@ -212,5 +183,4 @@ AVFilter ff_vf_pp = {
     .process_command = pp_process_command,
     .priv_class      = &pp_class,
     .flags           = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

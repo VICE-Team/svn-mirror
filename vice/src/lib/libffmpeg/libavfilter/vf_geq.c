@@ -48,22 +48,6 @@ enum { Y = 0, U, V, A, G, B, R };
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption geq_options[] = {
-#ifdef IDE_COMPILE
-	{ "lum_expr", "set luminance expression", OFFSET(expr_str[Y]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "lum", "set luminance expression", OFFSET(expr_str[Y]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "cb_expr", "set chroma blue expression", OFFSET(expr_str[U]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "cb", "set chroma blue expression", OFFSET(expr_str[U]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "cr_expr", "set chroma red expression", OFFSET(expr_str[V]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "cr", "set chroma red expression", OFFSET(expr_str[V]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "alpha_expr", "set alpha expression", OFFSET(expr_str[A]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "a", "set alpha expression", OFFSET(expr_str[A]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "red_expr", "set red expression", OFFSET(expr_str[R]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "r", "set red expression", OFFSET(expr_str[R]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "green_expr", "set green expression", OFFSET(expr_str[G]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "g", "set green expression", OFFSET(expr_str[G]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "blue_expr", "set blue expression", OFFSET(expr_str[B]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "b", "set blue expression", OFFSET(expr_str[B]), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-#else
 	{ "lum_expr",   "set luminance expression",   OFFSET(expr_str[Y]), AV_OPT_TYPE_STRING, {.str=NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "lum",        "set luminance expression",   OFFSET(expr_str[Y]), AV_OPT_TYPE_STRING, {.str=NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "cb_expr",    "set chroma blue expression", OFFSET(expr_str[U]), AV_OPT_TYPE_STRING, {.str=NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
@@ -78,7 +62,6 @@ static const AVOption geq_options[] = {
     { "g",          "set green expression",       OFFSET(expr_str[G]), AV_OPT_TYPE_STRING, {.str=NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "blue_expr",  "set blue expression",        OFFSET(expr_str[B]), AV_OPT_TYPE_STRING, {.str=NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "b",          "set blue expression",        OFFSET(expr_str[B]), AV_OPT_TYPE_STRING, {.str=NULL}, CHAR_MIN, CHAR_MAX, FLAGS },
-#endif
 	{NULL},
 };
 
@@ -218,13 +201,8 @@ static int geq_filter_frame(AVFilterLink *inlink, AVFrame *in)
     AVFilterLink *outlink = inlink->dst->outputs[0];
     AVFrame *out;
     double values[VAR_VARS_NB] = {
-#ifdef IDE_COMPILE
-        0, 0, 0, 0, inlink->frame_count,
-        0, 0, in->pts == AV_NOPTS_VALUE ? NAN : in->pts * av_q2d(inlink->time_base),
-#else
 		[VAR_N] = inlink->frame_count,
         [VAR_T] = in->pts == AV_NOPTS_VALUE ? NAN : in->pts * av_q2d(inlink->time_base),
-#endif
 	};
 
     geq->picref = in;
@@ -272,47 +250,23 @@ static av_cold void geq_uninit(AVFilterContext *ctx)
 
 static const AVFilterPad geq_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, geq_filter_frame,
-        0, 0, geq_config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = geq_config_props,
         .filter_frame = geq_filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad geq_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_geq = {
-#ifdef IDE_COMPILE
-    "geq",
-    NULL_IF_CONFIG_SMALL("Apply generic equation to each pixel."),
-    geq_inputs,
-    geq_outputs,
-    &geq_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    geq_init,
-    0, geq_uninit,
-    geq_query_formats,
-    sizeof(GEQContext),
-#else
 	.name          = "geq",
     .description   = NULL_IF_CONFIG_SMALL("Apply generic equation to each pixel."),
     .priv_size     = sizeof(GEQContext),
@@ -323,5 +277,4 @@ AVFilter ff_vf_geq = {
     .outputs       = geq_outputs,
     .priv_class    = &geq_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

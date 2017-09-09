@@ -78,26 +78,9 @@ typedef struct {
 #define OFFSET(x) offsetof(MCDeintContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
-#ifdef IDE_COMPILE
-#define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {val}, INT_MIN, INT_MAX, FLAGS, unit }
-#else
 #define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {.i64=val}, INT_MIN, INT_MAX, FLAGS, unit }
-#endif
 
 static const AVOption mcdeint_options[] = {
-#ifdef IDE_COMPILE
-	{ "mode", "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_FAST}, 0, MODE_NB-1, FLAGS, "mode" },
-    CONST("fast", NULL, MODE_FAST, "mode"),
-    CONST("medium", NULL, MODE_MEDIUM, "mode"),
-    CONST("slow", NULL, MODE_SLOW, "mode"),
-    CONST("extra_slow", NULL, MODE_EXTRA_SLOW, "mode"),
-
-    { "parity", "set the assumed picture field parity", OFFSET(parity), AV_OPT_TYPE_INT, {PARITY_BFF}, -1, 1, FLAGS, "parity" },
-    CONST("tff", "assume top field first", PARITY_TFF, "parity"),
-    CONST("bff", "assume bottom field first", PARITY_BFF, "parity"),
-
-	{ "qp", "set qp", OFFSET(qp), AV_OPT_TYPE_INT, {1}, INT_MIN, INT_MAX, FLAGS },
-#else
 	{ "mode", "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=MODE_FAST}, 0, MODE_NB-1, FLAGS, .unit="mode" },
     CONST("fast",       NULL, MODE_FAST,       "mode"),
     CONST("medium",     NULL, MODE_MEDIUM,     "mode"),
@@ -109,7 +92,6 @@ static const AVOption mcdeint_options[] = {
     CONST("bff", "assume bottom field first", PARITY_BFF, "parity"),
 
 	{ "qp", "set qp", OFFSET(qp), AV_OPT_TYPE_INT, {.i64=1}, INT_MIN, INT_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -135,12 +117,7 @@ static int config_props(AVFilterLink *inlink)
     enc_ctx = mcdeint->enc_ctx;
     enc_ctx->width  = inlink->w;
     enc_ctx->height = inlink->h;
-#ifdef IDE_COMPILE
-	enc_ctx->time_base.num = 1;  // meaningless
-	enc_ctx->time_base.den = 25;  // meaningless
-#else
 	enc_ctx->time_base = (AVRational){1,25};  // meaningless
-#endif
 	enc_ctx->gop_size = 300;
     enc_ctx->max_b_frames = 0;
     enc_ctx->pix_fmt = AV_PIX_FMT_YUV420P;
@@ -311,45 +288,23 @@ end:
 
 static const AVFilterPad mcdeint_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad mcdeint_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_mcdeint = {
-#ifdef IDE_COMPILE
-    "mcdeint",
-    NULL_IF_CONFIG_SMALL("Apply motion compensating deinterlacing."),
-    mcdeint_inputs,
-    mcdeint_outputs,
-    &mcdeint_class,
-    0, 0, 0, uninit,
-    query_formats,
-    sizeof(MCDeintContext),
-#else
 	.name          = "mcdeint",
     .description   = NULL_IF_CONFIG_SMALL("Apply motion compensating deinterlacing."),
     .priv_size     = sizeof(MCDeintContext),
@@ -358,5 +313,4 @@ AVFilter ff_vf_mcdeint = {
     .inputs        = mcdeint_inputs,
     .outputs       = mcdeint_outputs,
     .priv_class    = &mcdeint_class,
-#endif
 };

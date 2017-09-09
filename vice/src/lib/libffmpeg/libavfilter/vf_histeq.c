@@ -68,28 +68,15 @@ typedef struct {
 #define OFFSET(x) offsetof(HisteqContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
-#ifdef IDE_COMPILE
-#define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {val}, INT_MIN, INT_MAX, FLAGS, unit }
-#else
 #define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {.i64=val}, INT_MIN, INT_MAX, FLAGS, unit }
-#endif
 
 static const AVOption histeq_options[] = {
-#ifdef IDE_COMPILE
-	{ "strength", "set the strength", OFFSET(strength), AV_OPT_TYPE_FLOAT, {0x3fc999999999999a}, 0, 1, FLAGS },
-    { "intensity", "set the intensity", OFFSET(intensity), AV_OPT_TYPE_FLOAT, {0x3fcae147ae147ae1}, 0, 1, FLAGS },
-    { "antibanding", "set the antibanding level", OFFSET(antibanding), AV_OPT_TYPE_INT, {HISTEQ_ANTIBANDING_NONE}, 0, HISTEQ_ANTIBANDING_NB-1, FLAGS, "antibanding" },
-    CONST("none",    "apply no antibanding",     HISTEQ_ANTIBANDING_NONE,   "antibanding"),
-    CONST("weak",    "apply weak antibanding",   HISTEQ_ANTIBANDING_WEAK,   "antibanding"),
-    CONST("strong",  "apply strong antibanding", HISTEQ_ANTIBANDING_STRONG, "antibanding"),
-#else
 	{ "strength",    "set the strength", OFFSET(strength), AV_OPT_TYPE_FLOAT, {.dbl=0.2}, 0, 1, FLAGS },
     { "intensity",   "set the intensity", OFFSET(intensity), AV_OPT_TYPE_FLOAT, {.dbl=0.21}, 0, 1, FLAGS },
     { "antibanding", "set the antibanding level", OFFSET(antibanding), AV_OPT_TYPE_INT, {.i64=HISTEQ_ANTIBANDING_NONE}, 0, HISTEQ_ANTIBANDING_NB-1, FLAGS, "antibanding" },
     CONST("none",    "apply no antibanding",     HISTEQ_ANTIBANDING_NONE,   "antibanding"),
     CONST("weak",    "apply weak antibanding",   HISTEQ_ANTIBANDING_WEAK,   "antibanding"),
     CONST("strong",  "apply strong antibanding", HISTEQ_ANTIBANDING_STRONG, "antibanding"),
-#endif
 	{ NULL }
 };
 
@@ -266,46 +253,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *inpic)
 
 static const AVFilterPad histeq_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad histeq_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_histeq = {
-#ifdef IDE_COMPILE
-    "histeq",
-    NULL_IF_CONFIG_SMALL("Apply global color histogram equalization."),
-    histeq_inputs,
-    histeq_outputs,
-    &histeq_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, 0, query_formats,
-    sizeof(HisteqContext),
-#else
 	.name          = "histeq",
     .description   = NULL_IF_CONFIG_SMALL("Apply global color histogram equalization."),
     .priv_size     = sizeof(HisteqContext),
@@ -315,5 +279,4 @@ AVFilter ff_vf_histeq = {
     .outputs       = histeq_outputs,
     .priv_class    = &histeq_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

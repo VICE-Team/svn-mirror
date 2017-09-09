@@ -226,13 +226,8 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption gradfun_options[] = {
-#ifdef IDE_COMPILE
-	{ "strength", "The maximum amount by which the filter will change any one pixel.", OFFSET(strength), AV_OPT_TYPE_FLOAT, {0x3ff3333333333333}, 0.51, 64, FLAGS },
-    { "radius", "The neighborhood to fit the gradient to.", OFFSET(radius), AV_OPT_TYPE_INT, {16}, 4, 32, FLAGS },
-#else
 	{ "strength", "The maximum amount by which the filter will change any one pixel.", OFFSET(strength), AV_OPT_TYPE_FLOAT, { .dbl = 1.2 }, 0.51, 64, FLAGS },
     { "radius",   "The neighborhood to fit the gradient to.",                          OFFSET(radius),   AV_OPT_TYPE_INT,   { .i64 = 16  }, 4,    32, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -240,47 +235,23 @@ AVFILTER_DEFINE_CLASS(gradfun);
 
 static const AVFilterPad avfilter_vf_gradfun_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_gradfun_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_gradfun = {
-#ifdef IDE_COMPILE
-    "gradfun",
-    NULL_IF_CONFIG_SMALL("Debands video quickly using gradients."),
-    avfilter_vf_gradfun_inputs,
-    avfilter_vf_gradfun_outputs,
-    &gradfun_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(GradFunContext),
-#else
 	.name          = "gradfun",
     .description   = NULL_IF_CONFIG_SMALL("Debands video quickly using gradients."),
     .priv_size     = sizeof(GradFunContext),
@@ -291,5 +262,4 @@ AVFilter ff_vf_gradfun = {
     .inputs        = avfilter_vf_gradfun_inputs,
     .outputs       = avfilter_vf_gradfun_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

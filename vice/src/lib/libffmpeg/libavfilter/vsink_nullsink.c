@@ -28,31 +28,17 @@ static int filter_frame(AVFilterLink *link, AVFrame *frame)
 
 static const AVFilterPad avfilter_vsink_nullsink_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name        = "default",
         .type        = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL },
 };
 
 AVFilter ff_vsink_nullsink = {
-#ifdef IDE_COMPILE
-    "nullsink",
-    NULL_IF_CONFIG_SMALL("Do absolutely nothing with the input video."),
-    avfilter_vsink_nullsink_inputs,
-    NULL,
-    0, 0, 0, 0, 0, 0, 0,
-#else
 	.name        = "nullsink",
     .description = NULL_IF_CONFIG_SMALL("Do absolutely nothing with the input video."),
     .priv_size = 0,
     .inputs    = avfilter_vsink_nullsink_inputs,
     .outputs   = NULL,
-#endif
 };

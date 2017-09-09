@@ -263,21 +263,6 @@ end:
 #define MIN_SIZE 3
 #define MAX_SIZE 63
 static const AVOption unsharp_options[] = {
-#ifdef IDE_COMPILE
-	{ "luma_msize_x", "set luma matrix horizontal size", OFFSET(lmsize_x), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "lx", "set luma matrix horizontal size", OFFSET(lmsize_x), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "luma_msize_y", "set luma matrix vertical size", OFFSET(lmsize_y), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "ly", "set luma matrix vertical size", OFFSET(lmsize_y), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "luma_amount", "set luma effect strength", OFFSET(lamount), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, -2, 5, FLAGS },
-    { "la", "set luma effect strength", OFFSET(lamount), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, -2, 5, FLAGS },
-    { "chroma_msize_x", "set chroma matrix horizontal size", OFFSET(cmsize_x), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "cx", "set chroma matrix horizontal size", OFFSET(cmsize_x), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "chroma_msize_y", "set chroma matrix vertical size", OFFSET(cmsize_y), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "cy", "set chroma matrix vertical size", OFFSET(cmsize_y), AV_OPT_TYPE_INT, {5}, MIN_SIZE, MAX_SIZE, FLAGS },
-    { "chroma_amount", "set chroma effect strength", OFFSET(camount), AV_OPT_TYPE_FLOAT, {0}, -2, 5, FLAGS },
-    { "ca", "set chroma effect strength", OFFSET(camount), AV_OPT_TYPE_FLOAT, {0}, -2, 5, FLAGS },
-    { "opencl", "use OpenCL filtering capabilities", OFFSET(opencl), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "luma_msize_x",   "set luma matrix horizontal size",   OFFSET(lmsize_x), AV_OPT_TYPE_INT,   { .i64 = 5 }, MIN_SIZE, MAX_SIZE, FLAGS },
     { "lx",             "set luma matrix horizontal size",   OFFSET(lmsize_x), AV_OPT_TYPE_INT,   { .i64 = 5 }, MIN_SIZE, MAX_SIZE, FLAGS },
     { "luma_msize_y",   "set luma matrix vertical size",     OFFSET(lmsize_y), AV_OPT_TYPE_INT,   { .i64 = 5 }, MIN_SIZE, MAX_SIZE, FLAGS },
@@ -291,7 +276,6 @@ static const AVOption unsharp_options[] = {
     { "chroma_amount",  "set chroma effect strength",        OFFSET(camount),  AV_OPT_TYPE_FLOAT, { .dbl = 0 },       -2,        5, FLAGS },
     { "ca",             "set chroma effect strength",        OFFSET(camount),  AV_OPT_TYPE_FLOAT, { .dbl = 0 },       -2,        5, FLAGS },
     { "opencl",         "use OpenCL filtering capabilities", OFFSET(opencl), AV_OPT_TYPE_INT, { .i64 = 0 },        0,        1, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -299,47 +283,23 @@ AVFILTER_DEFINE_CLASS(unsharp);
 
 static const AVFilterPad avfilter_vf_unsharp_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_unsharp_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_unsharp = {
-#ifdef IDE_COMPILE
-    "unsharp",
-    NULL_IF_CONFIG_SMALL("Sharpen or blur the input video."),
-    avfilter_vf_unsharp_inputs,
-    avfilter_vf_unsharp_outputs,
-    &unsharp_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(UnsharpContext),
-#else
 	.name          = "unsharp",
     .description   = NULL_IF_CONFIG_SMALL("Sharpen or blur the input video."),
     .priv_size     = sizeof(UnsharpContext),
@@ -350,5 +310,4 @@ AVFilter ff_vf_unsharp = {
     .inputs        = avfilter_vf_unsharp_inputs,
     .outputs       = avfilter_vf_unsharp_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

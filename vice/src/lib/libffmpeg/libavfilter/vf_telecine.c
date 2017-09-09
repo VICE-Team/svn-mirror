@@ -56,21 +56,12 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption telecine_options[] = {
-#ifdef IDE_COMPILE
-	{"first_field", "select first field", OFFSET(first_field), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS, "field"},
-    {"top", "select top field first", 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "field"},
-    {"t", "select top field first", 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "field"},
-    {"bottom", "select bottom field first", 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "field"},
-    {"b", "select bottom field first", 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "field"},
-    {"pattern", "pattern that describe for how many fields a frame is to be displayed", OFFSET(pattern), AV_OPT_TYPE_STRING, {(intptr_t) "23"}, 0, 0, FLAGS},
-#else
 	{"first_field", "select first field", OFFSET(first_field), AV_OPT_TYPE_INT,   {.i64=0}, 0, 1, FLAGS, "field"},
     {"top",    "select top field first",                0, AV_OPT_TYPE_CONST, {.i64=0}, 0, 0, FLAGS, "field"},
     {"t",      "select top field first",                0, AV_OPT_TYPE_CONST, {.i64=0}, 0, 0, FLAGS, "field"},
     {"bottom", "select bottom field first",             0, AV_OPT_TYPE_CONST, {.i64=1}, 0, 0, FLAGS, "field"},
     {"b",      "select bottom field first",             0, AV_OPT_TYPE_CONST, {.i64=1}, 0, 0, FLAGS, "field"},
     {"pattern", "pattern that describe for how many fields a frame is to be displayed", OFFSET(pattern), AV_OPT_TYPE_STRING, {.str="23"}, 0, 0, FLAGS},
-#endif
 	{NULL}
 };
 
@@ -264,48 +255,24 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad telecine_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .filter_frame  = filter_frame,
         .config_props  = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad telecine_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_telecine = {
-#ifdef IDE_COMPILE
-    "telecine",
-    NULL_IF_CONFIG_SMALL("Apply a telecine pattern."),
-    telecine_inputs,
-    telecine_outputs,
-    &telecine_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(TelecineContext),
-#else
 	.name          = "telecine",
     .description   = NULL_IF_CONFIG_SMALL("Apply a telecine pattern."),
     .priv_size     = sizeof(TelecineContext),
@@ -315,5 +282,4 @@ AVFilter ff_vf_telecine = {
     .query_formats = query_formats,
     .inputs        = telecine_inputs,
     .outputs       = telecine_outputs,
-#endif
 };

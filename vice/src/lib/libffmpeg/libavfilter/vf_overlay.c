@@ -577,15 +577,8 @@ static AVFrame *do_blend(AVFilterContext *ctx, AVFrame *mainpic,
 static int filter_frame(AVFilterLink *inlink, AVFrame *inpicref)
 {
     OverlayContext *s = inlink->dst->priv;
-#ifdef IDE_COMPILE
-	char tmp1[32] = {0};
-#endif
 	
-#ifdef IDE_COMPILE
-	av_log(inlink->dst, AV_LOG_DEBUG, "Incoming frame (time:%s) from link #%d\n", av_ts_make_time_string(tmp1, inpicref->pts, &inlink->time_base), FF_INLINK_IDX(inlink));
-#else
 	av_log(inlink->dst, AV_LOG_DEBUG, "Incoming frame (time:%s) from link #%d\n", av_ts2timestr(inpicref->pts, &inlink->time_base), FF_INLINK_IDX(inlink));
-#endif
 
 	return ff_dualinput_filter_frame(&s->dinput, inlink, inpicref);
 }
@@ -622,25 +615,6 @@ static av_cold int init(AVFilterContext *ctx)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption overlay_options[] = {
-#ifdef IDE_COMPILE
-	{ "x", "set the x expression", OFFSET(x_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "y", "set the y expression", OFFSET(y_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "eof_action", "Action to take when encountering EOF from secondary input ", OFFSET(eof_action), AV_OPT_TYPE_INT, {EOF_ACTION_REPEAT}, EOF_ACTION_REPEAT, EOF_ACTION_PASS, FLAGS, "eof_action" },
-    { "repeat", "Repeat the previous frame.", 0, AV_OPT_TYPE_CONST, {EOF_ACTION_REPEAT}, 0, 0, FLAGS, "eof_action" },
-    { "endall", "End both streams.", 0, AV_OPT_TYPE_CONST, {EOF_ACTION_ENDALL}, 0, 0, FLAGS, "eof_action" },
-    { "pass", "Pass through the main input.", 0, AV_OPT_TYPE_CONST, {EOF_ACTION_PASS}, 0, 0, FLAGS, "eof_action" },
-    { "eval", "specify when to evaluate expressions", OFFSET(eval_mode), AV_OPT_TYPE_INT, {EVAL_MODE_FRAME}, 0, EVAL_MODE_NB-1, FLAGS, "eval" },
-    { "init", "eval expressions once during initialization", 0, AV_OPT_TYPE_CONST, {EVAL_MODE_INIT}, 0, 0, FLAGS, "eval" },
-    { "frame", "eval expressions per-frame", 0, AV_OPT_TYPE_CONST, {EVAL_MODE_FRAME}, 0, 0, FLAGS, "eval" },
-    { "rgb", "force packed RGB in input and output (deprecated)", OFFSET(allow_packed_rgb), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "shortest", "force termination when the shortest input terminates", OFFSET(dinput.shortest), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "format", "set output format", OFFSET(format), AV_OPT_TYPE_INT, {OVERLAY_FORMAT_YUV420}, 0, OVERLAY_FORMAT_NB-1, FLAGS, "format" },
-    { "yuv420", "", 0, AV_OPT_TYPE_CONST, {OVERLAY_FORMAT_YUV420}, 0, 0, FLAGS, "format" },
-    { "yuv422", "", 0, AV_OPT_TYPE_CONST, {OVERLAY_FORMAT_YUV422}, 0, 0, FLAGS, "format" },
-    { "yuv444", "", 0, AV_OPT_TYPE_CONST, {OVERLAY_FORMAT_YUV444}, 0, 0, FLAGS, "format" },
-    { "rgb", "", 0, AV_OPT_TYPE_CONST, {OVERLAY_FORMAT_RGB}, 0, 0, FLAGS, "format" },
-    { "repeatlast", "repeat overlay of the last overlay frame", OFFSET(dinput.repeatlast), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
-#else
 	{ "x", "set the x expression", OFFSET(x_expr), AV_OPT_TYPE_STRING, {.str = "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "y", "set the y expression", OFFSET(y_expr), AV_OPT_TYPE_STRING, {.str = "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "eof_action", "Action to take when encountering EOF from secondary input ",
@@ -660,7 +634,6 @@ static const AVOption overlay_options[] = {
         { "yuv444", "", 0, AV_OPT_TYPE_CONST, {.i64=OVERLAY_FORMAT_YUV444}, .flags = FLAGS, .unit = "format" },
         { "rgb",    "", 0, AV_OPT_TYPE_CONST, {.i64=OVERLAY_FORMAT_RGB},    .flags = FLAGS, .unit = "format" },
     { "repeatlast", "repeat overlay of the last overlay frame", OFFSET(dinput.repeatlast), AV_OPT_TYPE_INT, {.i64=1}, 0, 1, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -668,67 +641,32 @@ AVFILTER_DEFINE_CLASS(overlay);
 
 static const AVFilterPad avfilter_vf_overlay_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "main",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input_main,
-        0, 1,
-#else
 		.name         = "main",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input_main,
         .filter_frame = filter_frame,
         .needs_writable = 1,
-#endif
 	},
     {
-#ifdef IDE_COMPILE
-        "overlay",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input_overlay,
-#else
 		.name         = "overlay",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input_overlay,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_overlay_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_overlay = {
-#ifdef IDE_COMPILE
-    "overlay",
-    NULL_IF_CONFIG_SMALL("Overlay a video source on top of the input."),
-    avfilter_vf_overlay_inputs,
-    avfilter_vf_overlay_outputs,
-    &overlay_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(OverlayContext),
-    0, process_command,
-#else
 	.name          = "overlay",
     .description   = NULL_IF_CONFIG_SMALL("Overlay a video source on top of the input."),
     .init          = init,
@@ -740,5 +678,4 @@ AVFilter ff_vf_overlay = {
     .inputs        = avfilter_vf_overlay_inputs,
     .outputs       = avfilter_vf_overlay_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-#endif
 };

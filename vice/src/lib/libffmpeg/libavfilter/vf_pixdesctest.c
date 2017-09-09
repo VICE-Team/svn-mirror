@@ -109,48 +109,27 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static const AVFilterPad avfilter_vf_pixdesctest_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_pixdesctest_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_pixdesctest = {
-#ifdef IDE_COMPILE
-    "pixdesctest",
-    NULL_IF_CONFIG_SMALL("Test pixel format definitions."),
-    avfilter_vf_pixdesctest_inputs,
-    avfilter_vf_pixdesctest_outputs,
-    0, 0, 0, 0, uninit,
-    0, sizeof(PixdescTestContext),
-#else
 	.name        = "pixdesctest",
     .description = NULL_IF_CONFIG_SMALL("Test pixel format definitions."),
     .priv_size   = sizeof(PixdescTestContext),
     .uninit      = uninit,
     .inputs      = avfilter_vf_pixdesctest_inputs,
     .outputs     = avfilter_vf_pixdesctest_outputs,
-#endif
 };

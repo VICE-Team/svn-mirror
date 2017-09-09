@@ -49,11 +49,7 @@ typedef struct ThreadData {
 #define OFFSET(x) offsetof(HQXContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption hqx_options[] = {
-#ifdef IDE_COMPILE
-	{ "n", "set scale factor", OFFSET(n), AV_OPT_TYPE_INT, {3}, 2, 4, FLAGS },
-#else
 	{ "n", "set scale factor", OFFSET(n), AV_OPT_TYPE_INT, {.i64 = 3}, 2, 4, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -537,46 +533,23 @@ static av_cold int init(AVFilterContext *ctx)
 
 static const AVFilterPad hqx_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad hqx_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_hqx = {
-#ifdef IDE_COMPILE
-    "hqx",
-    NULL_IF_CONFIG_SMALL("Scale the input by 2, 3 or 4 using the hq*x magnification algorithm."),
-    hqx_inputs,
-    hqx_outputs,
-    &hqx_class,
-    AVFILTER_FLAG_SLICE_THREADS,
-    init,
-    0, 0, query_formats,
-    sizeof(HQXContext),
-#else
 	.name          = "hqx",
     .description   = NULL_IF_CONFIG_SMALL("Scale the input by 2, 3 or 4 using the hq*x magnification algorithm."),
     .priv_size     = sizeof(HQXContext),
@@ -586,5 +559,4 @@ AVFilter ff_vf_hqx = {
     .outputs       = hqx_outputs,
     .priv_class    = &hqx_class,
     .flags         = AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

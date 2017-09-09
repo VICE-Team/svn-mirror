@@ -44,19 +44,11 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption setfield_options[] = {
-#ifdef IDE_COMPILE
-	{"mode", "select interlace mode", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_AUTO}, -1, MODE_PROG, FLAGS, "mode"},
-    {"auto", "keep the same input field", 0, AV_OPT_TYPE_CONST, {MODE_AUTO}, INT_MIN, INT_MAX, FLAGS, "mode"},
-    {"bff", "mark as bottom-field-first", 0, AV_OPT_TYPE_CONST, {MODE_BFF}, INT_MIN, INT_MAX, FLAGS, "mode"},
-    {"tff", "mark as top-field-first", 0, AV_OPT_TYPE_CONST, {MODE_TFF}, INT_MIN, INT_MAX, FLAGS, "mode"},
-    {"prog", "mark as progressive", 0, AV_OPT_TYPE_CONST, {MODE_PROG}, INT_MIN, INT_MAX, FLAGS, "mode"},
-#else
 	{"mode", "select interlace mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=MODE_AUTO}, -1, MODE_PROG, FLAGS, "mode"},
     {"auto", "keep the same input field",  0, AV_OPT_TYPE_CONST, {.i64=MODE_AUTO}, INT_MIN, INT_MAX, FLAGS, "mode"},
     {"bff",  "mark as bottom-field-first", 0, AV_OPT_TYPE_CONST, {.i64=MODE_BFF},  INT_MIN, INT_MAX, FLAGS, "mode"},
     {"tff",  "mark as top-field-first",    0, AV_OPT_TYPE_CONST, {.i64=MODE_TFF},  INT_MIN, INT_MAX, FLAGS, "mode"},
     {"prog", "mark as progressive",        0, AV_OPT_TYPE_CONST, {.i64=MODE_PROG}, INT_MIN, INT_MAX, FLAGS, "mode"},
-#endif
 	{NULL}
 };
 
@@ -77,46 +69,26 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *picref)
 
 static const AVFilterPad setfield_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad setfield_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_setfield = {
-#ifdef IDE_COMPILE
-    "setfield",
-    NULL_IF_CONFIG_SMALL("Force field for the output video frame."),
-    setfield_inputs,
-    setfield_outputs,
-    &setfield_class,
-    0, 0, 0, 0, 0, sizeof(SetFieldContext),
-#else
 	.name        = "setfield",
     .description = NULL_IF_CONFIG_SMALL("Force field for the output video frame."),
     .priv_size   = sizeof(SetFieldContext),
     .priv_class  = &setfield_class,
     .inputs      = setfield_inputs,
     .outputs     = setfield_outputs,
-#endif
 };

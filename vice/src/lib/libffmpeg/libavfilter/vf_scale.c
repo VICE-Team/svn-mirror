@@ -244,9 +244,6 @@ static int config_props(AVFilterLink *outlink)
     char *expr;
     int ret;
     int factor_w, factor_h;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
 	var_values[VAR_IN_W]  = var_values[VAR_IW] = inlink->w;
     var_values[VAR_IN_H]  = var_values[VAR_IH] = inlink->h;
@@ -389,13 +386,7 @@ static int config_props(AVFilterLink *outlink)
     }
 
     if (inlink->sample_aspect_ratio.num){
-#ifdef IDE_COMPILE
-		tmp.num = outlink->h * inlink->w;
-		tmp.den = outlink->w * inlink->h;
-		outlink->sample_aspect_ratio = av_mul_q(tmp, inlink->sample_aspect_ratio);
-#else
 		outlink->sample_aspect_ratio = av_mul_q((AVRational){outlink->h * inlink->w, outlink->w * inlink->h}, inlink->sample_aspect_ratio);
-#endif
 	} else
         outlink->sample_aspect_ratio = inlink->sample_aspect_ratio;
 
@@ -548,34 +539,6 @@ static const AVClass *child_class_next(const AVClass *prev)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption scale_options[] = {
-#ifdef IDE_COMPILE
-	{ "w", "Output video width", OFFSET(w_expr), AV_OPT_TYPE_STRING, {0}, 0, 0, FLAGS },
-	{ "width", "Output video width", OFFSET(w_expr), AV_OPT_TYPE_STRING, {0}, 0, 0, FLAGS },
-	{ "h", "Output video height", OFFSET(h_expr), AV_OPT_TYPE_STRING, {0}, 0, 0, FLAGS },
-	{ "height", "Output video height", OFFSET(h_expr), AV_OPT_TYPE_STRING, {0}, 0, 0, FLAGS },
-    { "flags", "Flags to pass to libswscale", OFFSET(flags_str), AV_OPT_TYPE_STRING, {(intptr_t) "bilinear" }, 0, 0, FLAGS },
-    { "interl", "set interlacing", OFFSET(interlaced), AV_OPT_TYPE_INT, {0}, -1, 1, FLAGS },
-    { "size", "set video size", OFFSET(size_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, FLAGS },
-    { "s", "set video size", OFFSET(size_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, FLAGS },
-    { "in_color_matrix", "set input YCbCr type", OFFSET(in_color_matrix), AV_OPT_TYPE_STRING, {(intptr_t) "auto" }, 0, 0, FLAGS },
-    { "out_color_matrix", "set output YCbCr type", OFFSET(out_color_matrix), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, FLAGS },
-    { "in_range", "set input color range", OFFSET( in_range), AV_OPT_TYPE_INT, {AVCOL_RANGE_UNSPECIFIED}, 0, 2, FLAGS, "range" },
-    { "out_range", "set output color range", OFFSET(out_range), AV_OPT_TYPE_INT, {AVCOL_RANGE_UNSPECIFIED}, 0, 2, FLAGS, "range" },
-    { "auto", NULL, 0, AV_OPT_TYPE_CONST, {AVCOL_RANGE_UNSPECIFIED}, 0, 0, FLAGS, "range" },
-    { "full", NULL, 0, AV_OPT_TYPE_CONST, {AVCOL_RANGE_JPEG}, 0, 0, FLAGS, "range" },
-    { "jpeg", NULL, 0, AV_OPT_TYPE_CONST, {AVCOL_RANGE_JPEG}, 0, 0, FLAGS, "range" },
-    { "mpeg", NULL, 0, AV_OPT_TYPE_CONST, {AVCOL_RANGE_MPEG}, 0, 0, FLAGS, "range" },
-    { "tv", NULL, 0, AV_OPT_TYPE_CONST, {AVCOL_RANGE_MPEG}, 0, 0, FLAGS, "range" },
-    { "pc", NULL, 0, AV_OPT_TYPE_CONST, {AVCOL_RANGE_JPEG}, 0, 0, FLAGS, "range" },
-    { "in_v_chr_pos", "input vertical chroma position in luma grid/256", OFFSET(in_v_chr_pos), AV_OPT_TYPE_INT, {-513}, -513, 512, FLAGS },
-    { "in_h_chr_pos", "input horizontal chroma position in luma grid/256", OFFSET(in_h_chr_pos), AV_OPT_TYPE_INT, {-513}, -513, 512, FLAGS },
-    { "out_v_chr_pos", "output vertical chroma position in luma grid/256", OFFSET(out_v_chr_pos), AV_OPT_TYPE_INT, {-513}, -513, 512, FLAGS },
-    { "out_h_chr_pos", "output horizontal chroma position in luma grid/256", OFFSET(out_h_chr_pos), AV_OPT_TYPE_INT, {-513}, -513, 512, FLAGS },
-    { "force_original_aspect_ratio", "decrease or increase w/h if necessary to keep the original AR", OFFSET(force_original_aspect_ratio), AV_OPT_TYPE_INT, {0}, 0, 2, FLAGS, "force_oar" },
-    { "disable", NULL, 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "force_oar" },
-    { "decrease", NULL, 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "force_oar" },
-    { "increase", NULL, 0, AV_OPT_TYPE_CONST, {2}, 0, 0, FLAGS, "force_oar" },
-#else
 	{ "w",     "Output video width",          OFFSET(w_expr),    AV_OPT_TYPE_STRING,        .flags = FLAGS },
     { "width", "Output video width",          OFFSET(w_expr),    AV_OPT_TYPE_STRING,        .flags = FLAGS },
     { "h",     "Output video height",         OFFSET(h_expr),    AV_OPT_TYPE_STRING,        .flags = FLAGS },
@@ -602,70 +565,37 @@ static const AVOption scale_options[] = {
     { "disable",  NULL, 0, AV_OPT_TYPE_CONST, {.i64 = 0 }, 0, 0, FLAGS, "force_oar" },
     { "decrease", NULL, 0, AV_OPT_TYPE_CONST, {.i64 = 1 }, 0, 0, FLAGS, "force_oar" },
     { "increase", NULL, 0, AV_OPT_TYPE_CONST, {.i64 = 2 }, 0, 0, FLAGS, "force_oar" },
-#endif
 	{ NULL }
 };
 
 static const AVClass scale_class = {
-#ifdef IDE_COMPILE
-    "scale",
-    av_default_item_name,
-    scale_options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, 0, child_class_next,
-    AV_CLASS_CATEGORY_FILTER,
-#else
 	.class_name       = "scale",
     .item_name        = av_default_item_name,
     .option           = scale_options,
     .version          = LIBAVUTIL_VERSION_INT,
     .category         = AV_CLASS_CATEGORY_FILTER,
     .child_class_next = child_class_next,
-#endif
 };
 
 static const AVFilterPad avfilter_vf_scale_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_scale_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_scale = {
-#ifdef IDE_COMPILE
-    "scale",
-    NULL_IF_CONFIG_SMALL("Scale the input video size and/or convert the image format."),
-    avfilter_vf_scale_inputs,
-    avfilter_vf_scale_outputs,
-    &scale_class,
-    0, 0, init_dict,
-    uninit,
-    query_formats,
-    sizeof(ScaleContext),
-#else
 	.name          = "scale",
     .description   = NULL_IF_CONFIG_SMALL("Scale the input video size and/or convert the image format."),
     .init_dict     = init_dict,
@@ -675,5 +605,4 @@ AVFilter ff_vf_scale = {
     .priv_class    = &scale_class,
     .inputs        = avfilter_vf_scale_inputs,
     .outputs       = avfilter_vf_scale_outputs,
-#endif
 };

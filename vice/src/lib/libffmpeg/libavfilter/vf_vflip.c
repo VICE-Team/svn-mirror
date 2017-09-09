@@ -86,48 +86,27 @@ static int filter_frame(AVFilterLink *link, AVFrame *frame)
 
 static const AVFilterPad avfilter_vf_vflip_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, get_video_buffer,
-        0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name             = "default",
         .type             = AVMEDIA_TYPE_VIDEO,
         .get_video_buffer = get_video_buffer,
         .filter_frame     = filter_frame,
         .config_props     = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_vflip_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_vflip = {
-#ifdef IDE_COMPILE
-    "vflip",
-    NULL_IF_CONFIG_SMALL("Flip the input video vertically."),
-    avfilter_vf_vflip_inputs,
-    avfilter_vf_vflip_outputs,
-    0, 0, 0, 0, 0, 0, sizeof(FlipContext),
-#else
 	.name        = "vflip",
     .description = NULL_IF_CONFIG_SMALL("Flip the input video vertically."),
     .priv_size   = sizeof(FlipContext),
     .inputs      = avfilter_vf_vflip_inputs,
     .outputs     = avfilter_vf_vflip_outputs,
-#endif
 };

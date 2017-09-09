@@ -85,46 +85,26 @@ static int query_formats(AVFilterContext *ctx)
 
 static const AVFilterPad swapuv_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, get_video_buffer,
-        0, 0, 0, filter_frame,
-#else
 		.name             = "default",
         .type             = AVMEDIA_TYPE_VIDEO,
         .get_video_buffer = get_video_buffer,
         .filter_frame     = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad swapuv_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_swapuv = {
-#ifdef IDE_COMPILE
-    "swapuv",
-    NULL_IF_CONFIG_SMALL("Swap U and V components."),
-    swapuv_inputs,
-    swapuv_outputs,
-    0, 0, 0, 0, 0, query_formats,
-#else
 	.name          = "swapuv",
     .description   = NULL_IF_CONFIG_SMALL("Swap U and V components."),
     .query_formats = query_formats,
     .inputs        = swapuv_inputs,
     .outputs       = swapuv_outputs,
-#endif
 };

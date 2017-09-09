@@ -127,80 +127,44 @@ fail:
 #define OFFSET(x) offsetof(ShufflePlanesContext, x)
 #define FLAGS (AV_OPT_FLAG_FILTERING_PARAM | AV_OPT_FLAG_VIDEO_PARAM)
 static const AVOption shuffleplanes_options[] = {
-#ifdef IDE_COMPILE
-	{ "map0", "Index of the input plane to be used as the first output plane ", OFFSET(map[0]), AV_OPT_TYPE_INT, {0}, 0, 4, FLAGS },
-    { "map1", "Index of the input plane to be used as the second output plane ", OFFSET(map[1]), AV_OPT_TYPE_INT, {1}, 0, 4, FLAGS },
-    { "map2", "Index of the input plane to be used as the third output plane ", OFFSET(map[2]), AV_OPT_TYPE_INT, {2}, 0, 4, FLAGS },
-    { "map3", "Index of the input plane to be used as the fourth output plane ", OFFSET(map[3]), AV_OPT_TYPE_INT, {3}, 0, 4, FLAGS },
-#else
 	{ "map0", "Index of the input plane to be used as the first output plane ",  OFFSET(map[0]), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 4, FLAGS },
     { "map1", "Index of the input plane to be used as the second output plane ", OFFSET(map[1]), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 4, FLAGS },
     { "map2", "Index of the input plane to be used as the third output plane ",  OFFSET(map[2]), AV_OPT_TYPE_INT, { .i64 = 2 }, 0, 4, FLAGS },
     { "map3", "Index of the input plane to be used as the fourth output plane ", OFFSET(map[3]), AV_OPT_TYPE_INT, { .i64 = 3 }, 0, 4, FLAGS },
-#endif
 	{ NULL },
 };
 
 static const AVClass shuffleplanes_class = {
-#ifdef IDE_COMPILE
-    "shuffleplanes",
-    av_default_item_name,
-    shuffleplanes_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "shuffleplanes",
     .item_name  = av_default_item_name,
     .option     = shuffleplanes_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static const AVFilterPad shuffleplanes_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, ff_null_get_video_buffer,
-        0, 0, 0, shuffleplanes_filter_frame,
-        0, 0, shuffleplanes_config_input,
-#else
 		.name             = "default",
         .type             = AVMEDIA_TYPE_VIDEO,
         .config_props     = shuffleplanes_config_input,
         .filter_frame     = shuffleplanes_filter_frame,
         .get_video_buffer = ff_null_get_video_buffer,
-#endif
 	},
     { NULL },
 };
 
 static const AVFilterPad shuffleplanes_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL },
 };
 
 AVFilter ff_vf_shuffleplanes = {
-#ifdef IDE_COMPILE
-    "shuffleplanes",
-    NULL_IF_CONFIG_SMALL("Shuffle video planes"),
-    shuffleplanes_inputs,
-    shuffleplanes_outputs,
-    &shuffleplanes_class,
-    0, 0, 0, 0, 0, sizeof(ShufflePlanesContext),
-#else
 	.name         = "shuffleplanes",
     .description  = NULL_IF_CONFIG_SMALL("Shuffle video planes"),
     .priv_size    = sizeof(ShufflePlanesContext),
     .priv_class   = &shuffleplanes_class,
     .inputs       = shuffleplanes_inputs,
     .outputs      = shuffleplanes_outputs,
-#endif
 };

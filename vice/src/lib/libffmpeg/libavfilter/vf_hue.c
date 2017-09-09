@@ -85,12 +85,6 @@ typedef struct {
 #define OFFSET(x) offsetof(HueContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption hue_options[] = {
-#ifdef IDE_COMPILE
-	{ "h", "set the hue angle degrees expression", OFFSET(hue_deg_expr), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, FLAGS },
-    { "s", "set the saturation expression", OFFSET(saturation_expr), AV_OPT_TYPE_STRING, {(intptr_t) "1" }, 0, 0, FLAGS },
-    { "H", "set the hue angle radians expression", OFFSET(hue_expr), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, FLAGS },
-    { "b", "set the brightness expression", OFFSET(brightness_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, 0, 0, FLAGS },
-#else
 	{ "h", "set the hue angle degrees expression", OFFSET(hue_deg_expr), AV_OPT_TYPE_STRING,
       { .str = NULL }, .flags = FLAGS },
     { "s", "set the saturation expression", OFFSET(saturation_expr), AV_OPT_TYPE_STRING,
@@ -99,7 +93,6 @@ static const AVOption hue_options[] = {
       { .str = NULL }, .flags = FLAGS },
     { "b", "set the brightness expression", OFFSET(brightness_expr), AV_OPT_TYPE_STRING,
       { .str = "0" }, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -429,48 +422,23 @@ static int process_command(AVFilterContext *ctx, const char *cmd, const char *ar
 
 static const AVFilterPad hue_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad hue_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_hue = {
-#ifdef IDE_COMPILE
-    "hue",
-    NULL_IF_CONFIG_SMALL("Adjust the hue and saturation of the input video."),
-    hue_inputs,
-    hue_outputs,
-    &hue_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(HueContext),
-    0, process_command,
-#else
 	.name            = "hue",
     .description     = NULL_IF_CONFIG_SMALL("Adjust the hue and saturation of the input video."),
     .priv_size       = sizeof(HueContext),
@@ -482,5 +450,4 @@ AVFilter ff_vf_hue = {
     .outputs         = hue_outputs,
     .priv_class      = &hue_class,
     .flags           = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

@@ -55,19 +55,6 @@ typedef struct PerspectiveContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption perspective_options[] = {
-#ifdef IDE_COMPILE
-	{ "x0", "set top left x coordinate", OFFSET(expr_str[0][0]), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, 0, 0, FLAGS },
-    { "y0", "set top left y coordinate", OFFSET(expr_str[0][1]), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, 0, 0, FLAGS },
-    { "x1", "set top right x coordinate", OFFSET(expr_str[1][0]), AV_OPT_TYPE_STRING, {(intptr_t) "W"}, 0, 0, FLAGS },
-    { "y1", "set top right y coordinate", OFFSET(expr_str[1][1]), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, 0, 0, FLAGS },
-    { "x2", "set bottom left x coordinate", OFFSET(expr_str[2][0]), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, 0, 0, FLAGS },
-    { "y2", "set bottom left y coordinate", OFFSET(expr_str[2][1]), AV_OPT_TYPE_STRING, {(intptr_t) "H"}, 0, 0, FLAGS },
-    { "x3", "set bottom right x coordinate", OFFSET(expr_str[3][0]), AV_OPT_TYPE_STRING, {(intptr_t) "W"}, 0, 0, FLAGS },
-    { "y3", "set bottom right y coordinate", OFFSET(expr_str[3][1]), AV_OPT_TYPE_STRING, {(intptr_t) "H"}, 0, 0, FLAGS },
-    { "interpolation", "set interpolation", OFFSET(interpolation), AV_OPT_TYPE_INT, {LINEAR}, 0, 1, FLAGS, "interpolation" },
-    { "linear", "", 0, AV_OPT_TYPE_CONST, {LINEAR}, 0, 0, FLAGS, "interpolation" },
-    { "cubic", "", 0, AV_OPT_TYPE_CONST, {CUBIC}, 0, 0, FLAGS, "interpolation" },
-#else
 	{ "x0", "set top left x coordinate",     OFFSET(expr_str[0][0]), AV_OPT_TYPE_STRING, {.str="0"}, 0, 0, FLAGS },
     { "y0", "set top left y coordinate",     OFFSET(expr_str[0][1]), AV_OPT_TYPE_STRING, {.str="0"}, 0, 0, FLAGS },
     { "x1", "set top right x coordinate",    OFFSET(expr_str[1][0]), AV_OPT_TYPE_STRING, {.str="W"}, 0, 0, FLAGS },
@@ -79,7 +66,6 @@ static const AVOption perspective_options[] = {
     { "interpolation", "set interpolation", OFFSET(interpolation), AV_OPT_TYPE_INT, {.i64=LINEAR}, 0, 1, FLAGS, "interpolation" },
     {      "linear", "", 0, AV_OPT_TYPE_CONST, {.i64=LINEAR}, 0, 0, FLAGS, "interpolation" },
     {       "cubic", "", 0, AV_OPT_TYPE_CONST, {.i64=CUBIC},  0, 0, FLAGS, "interpolation" },
-#endif
 	{ NULL }
 };
 
@@ -124,11 +110,7 @@ static int config_input(AVFilterLink *inlink)
     PerspectiveContext *s = ctx->priv;
     double (*ref)[2] = s->ref;
     const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(inlink->format);
-#ifdef IDE_COMPILE
-    double values[VAR_VARS_NB] = { inlink->w, inlink->h };
-#else
 	double values[VAR_VARS_NB] = { [VAR_W] = inlink->w, [VAR_H] = inlink->h };
-#endif
 	int h = inlink->h;
     int w = inlink->w;
     int x, y, i, j, ret;
@@ -402,16 +384,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     for (plane = 0; plane < s->nb_planes; plane++) {
         int hsub = plane == 1 || plane == 2 ? s->hsub : 0;
         int vsub = plane == 1 || plane == 2 ? s->vsub : 0;
-#ifdef IDE_COMPILE
-        ThreadData td = {out->data[plane],
-                         out->linesize[plane],
-                         frame->data[plane],
-                         frame->linesize[plane],
-                         s->linesize[plane],
-                         s->height[plane],
-                         hsub,
-                         vsub };
-#else
 		ThreadData td = {.dst = out->data[plane],
                          .dst_linesize = out->linesize[plane],
                          .src = frame->data[plane],
@@ -420,7 +392,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
                          .h = s->height[plane],
                          .hsub = hsub,
                          .vsub = vsub };
-#endif
 		ctx->internal->execute(ctx, s->perspective, &td, NULL, FFMIN(td.h, ctx->graph->nb_threads));
     }
 
@@ -437,47 +408,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad perspective_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad perspective_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_perspective = {
-#ifdef IDE_COMPILE
-    "perspective",
-    NULL_IF_CONFIG_SMALL("Correct the perspective of video."),
-    perspective_inputs,
-    perspective_outputs,
-    &perspective_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(PerspectiveContext),
-#else
 	.name          = "perspective",
     .description   = NULL_IF_CONFIG_SMALL("Correct the perspective of video."),
     .priv_size     = sizeof(PerspectiveContext),
@@ -488,5 +435,4 @@ AVFilter ff_vf_perspective = {
     .outputs       = perspective_outputs,
     .priv_class    = &perspective_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

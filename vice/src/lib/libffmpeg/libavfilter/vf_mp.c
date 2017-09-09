@@ -190,11 +190,7 @@ typedef struct {
 #define OFFSET(x) offsetof(MPContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption mp_options[] = {
-#ifdef IDE_COMPILE
-	{ "filter", "set MPlayer filter name and parameters", OFFSET(filter), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-#else
 	{ "filter", "set MPlayer filter name and parameters", OFFSET(filter), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -765,50 +761,25 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *inpic)
 
 static const AVFilterPad mp_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_inprops,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_inprops,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad mp_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_outprops,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_outprops,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_mp = {
-#ifdef IDE_COMPILE
-    "mp",
-    NULL_IF_CONFIG_SMALL("Apply a libmpcodecs filter to the input video."),
-    mp_inputs,
-    mp_outputs,
-    &mp_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(MPContext),
-#else
 	.name          = "mp",
     .description   = NULL_IF_CONFIG_SMALL("Apply a libmpcodecs filter to the input video."),
     .init          = init,
@@ -818,5 +789,4 @@ AVFilter ff_vf_mp = {
     .inputs        = mp_inputs,
     .outputs       = mp_outputs,
     .priv_class    = &mp_class,
-#endif
 };

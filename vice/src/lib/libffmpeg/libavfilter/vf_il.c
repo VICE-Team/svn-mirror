@@ -49,35 +49,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption il_options[] = {
-#ifdef IDE_COMPILE
-	{"luma_mode", "select luma mode", OFFSET(luma_mode), AV_OPT_TYPE_INT, {MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "luma_mode"},
-    {"l", "select luma mode", OFFSET(luma_mode), AV_OPT_TYPE_INT, {MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "luma_mode"},
-    {"none", NULL, 0, AV_OPT_TYPE_CONST, {MODE_NONE}, 0, 0, FLAGS, "luma_mode"},
-    {"interleave", NULL, 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE}, 0, 0, FLAGS, "luma_mode"},
-    {"i", NULL, 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE}, 0, 0, FLAGS, "luma_mode"},
-    {"deinterleave", NULL, 0, AV_OPT_TYPE_CONST, {MODE_DEINTERLEAVE}, 0, 0, FLAGS, "luma_mode"},
-    {"d", NULL, 0, AV_OPT_TYPE_CONST, {MODE_DEINTERLEAVE}, 0, 0, FLAGS, "luma_mode"},
-    {"chroma_mode", "select chroma mode", OFFSET(chroma_mode), AV_OPT_TYPE_INT, {MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "chroma_mode"},
-    {"c", "select chroma mode", OFFSET(chroma_mode), AV_OPT_TYPE_INT, {MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "chroma_mode"},
-    {"none", NULL, 0, AV_OPT_TYPE_CONST, {MODE_NONE}, 0, 0, FLAGS, "chroma_mode"},
-    {"interleave", NULL, 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE}, 0, 0, FLAGS, "chroma_mode"},
-    {"i", NULL, 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE}, 0, 0, FLAGS, "chroma_mode"},
-    {"deinterleave", NULL, 0, AV_OPT_TYPE_CONST, {MODE_DEINTERLEAVE}, 0, 0, FLAGS, "chroma_mode"},
-    {"d", NULL, 0, AV_OPT_TYPE_CONST, {MODE_DEINTERLEAVE}, 0, 0, FLAGS, "chroma_mode"},
-    {"alpha_mode", "select alpha mode", OFFSET(alpha_mode), AV_OPT_TYPE_INT, {MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "alpha_mode"},
-    {"a", "select alpha mode", OFFSET(alpha_mode), AV_OPT_TYPE_INT, {MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "alpha_mode"},
-    {"none", NULL, 0, AV_OPT_TYPE_CONST, {MODE_NONE}, 0, 0, FLAGS, "alpha_mode"},
-    {"interleave", NULL, 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE}, 0, 0, FLAGS, "alpha_mode"},
-    {"i", NULL, 0, AV_OPT_TYPE_CONST, {MODE_INTERLEAVE}, 0, 0, FLAGS, "alpha_mode"},
-    {"deinterleave", NULL, 0, AV_OPT_TYPE_CONST, {MODE_DEINTERLEAVE}, 0, 0, FLAGS, "alpha_mode"},
-    {"d", NULL, 0, AV_OPT_TYPE_CONST, {MODE_DEINTERLEAVE}, 0, 0, FLAGS, "alpha_mode"},
-    {"luma_swap", "swap luma fields", OFFSET(luma_swap), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS},
-    {"ls", "swap luma fields", OFFSET(luma_swap), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS},
-    {"chroma_swap", "swap chroma fields", OFFSET(chroma_swap), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS},
-    {"cs", "swap chroma fields", OFFSET(chroma_swap), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS},
-    {"alpha_swap", "swap alpha fields", OFFSET(alpha_swap), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS},
-    {"as", "swap alpha fields", OFFSET(alpha_swap), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS},
-#else
 	{"luma_mode",   "select luma mode", OFFSET(luma_mode), AV_OPT_TYPE_INT, {.i64=MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "luma_mode"},
     {"l",           "select luma mode", OFFSET(luma_mode), AV_OPT_TYPE_INT, {.i64=MODE_NONE}, MODE_NONE, MODE_DEINTERLEAVE, FLAGS, "luma_mode"},
     {"none",         NULL, 0, AV_OPT_TYPE_CONST, {.i64=MODE_NONE},         0, 0, FLAGS, "luma_mode"},
@@ -105,7 +76,6 @@ static const AVOption il_options[] = {
     {"cs",          "swap chroma fields", OFFSET(chroma_swap), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS},
     {"alpha_swap",  "swap alpha fields",  OFFSET(alpha_swap),  AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS},
     {"as",          "swap alpha fields",  OFFSET(alpha_swap),  AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS},
-#endif
 	{NULL}
 };
 
@@ -214,45 +184,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *inpicref)
 
 static const AVFilterPad inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_il = {
-#ifdef IDE_COMPILE
-    "il",
-    NULL_IF_CONFIG_SMALL("Deinterleave or interleave fields."),
-    inputs,
-    outputs,
-    &il_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, 0, query_formats,
-    sizeof(IlContext),
-#else
 	.name          = "il",
     .description   = NULL_IF_CONFIG_SMALL("Deinterleave or interleave fields."),
     .priv_size     = sizeof(IlContext),
@@ -261,5 +209,4 @@ AVFilter ff_vf_il = {
     .outputs       = outputs,
     .priv_class    = &il_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

@@ -81,19 +81,6 @@ typedef struct LutContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "c0", "set component #0 expression", OFFSET(comp_expr_str[0]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "c1", "set component #1 expression", OFFSET(comp_expr_str[1]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "c2", "set component #2 expression", OFFSET(comp_expr_str[2]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "c3", "set component #3 expression", OFFSET(comp_expr_str[3]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "y", "set Y expression", OFFSET(comp_expr_str[Y]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "u", "set U expression", OFFSET(comp_expr_str[U]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "v", "set V expression", OFFSET(comp_expr_str[V]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "r", "set R expression", OFFSET(comp_expr_str[R]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "g", "set G expression", OFFSET(comp_expr_str[G]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "b", "set B expression", OFFSET(comp_expr_str[B]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-    { "a", "set A expression", OFFSET(comp_expr_str[A]), AV_OPT_TYPE_STRING, {(intptr_t) "val" }, 0, 0, FLAGS },
-#else
 	{ "c0", "set component #0 expression", OFFSET(comp_expr_str[0]),  AV_OPT_TYPE_STRING, { .str = "val" }, .flags = FLAGS },
     { "c1", "set component #1 expression", OFFSET(comp_expr_str[1]),  AV_OPT_TYPE_STRING, { .str = "val" }, .flags = FLAGS },
     { "c2", "set component #2 expression", OFFSET(comp_expr_str[2]),  AV_OPT_TYPE_STRING, { .str = "val" }, .flags = FLAGS },
@@ -105,7 +92,6 @@ static const AVOption options[] = {
     { "g",  "set G expression",            OFFSET(comp_expr_str[G]),  AV_OPT_TYPE_STRING, { .str = "val" }, .flags = FLAGS },
     { "b",  "set B expression",            OFFSET(comp_expr_str[B]),  AV_OPT_TYPE_STRING, { .str = "val" }, .flags = FLAGS },
     { "a",  "set A expression",            OFFSET(comp_expr_str[A]),  AV_OPT_TYPE_STRING, { .str = "val" }, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -345,49 +331,21 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 }
 
 static const AVFilterPad inputs[] = {
-#ifdef IDE_COMPILE
-    { "default",
-      AVMEDIA_TYPE_VIDEO,
-      0, 0, 0, 0, 0, 0, 0, filter_frame,
-      0, 0, config_props,
-#else
 	{ .name         = "default",
       .type         = AVMEDIA_TYPE_VIDEO,
       .filter_frame = filter_frame,
       .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad outputs[] = {
-#ifdef IDE_COMPILE
-    { "default",
-      AVMEDIA_TYPE_VIDEO,
-#else
 	{ .name = "default",
       .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
-#ifdef IDE_COMPILE
-#define DEFINE_LUT_FILTER(name_, description_)                          \
-AVFilter ff_vf_##name_ = {                                          \
-        #name_,                                        \
-        NULL_IF_CONFIG_SMALL(description_),            \
-        inputs,                                        \
-        outputs,                                       \
-        &name_ ## _class,                              \
-        AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,        \
-        name_##_init,                                  \
-		0, \
-        uninit,                                        \
-        query_formats,                                 \
-        sizeof(LutContext),                            \
-    }
-#else
 #define DEFINE_LUT_FILTER(name_, description_)                          \
     AVFilter ff_vf_##name_ = {                                          \
         .name          = #name_,                                        \
@@ -401,7 +359,6 @@ AVFilter ff_vf_##name_ = {                                          \
         .outputs       = outputs,                                       \
         .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,        \
     }
-#endif
 
 #if CONFIG_LUT_FILTER
 
@@ -453,11 +410,7 @@ DEFINE_LUT_FILTER(lutrgb, "Compute and apply a lookup table to the RGB input vid
 #if CONFIG_NEGATE_FILTER
 
 static const AVOption negate_options[] = {
-#ifdef IDE_COMPILE
-	{ "negate_alpha", NULL, OFFSET(negate_alpha), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "negate_alpha", NULL, OFFSET(negate_alpha), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, FLAGS },
-#endif
 	{ NULL }
 };
 

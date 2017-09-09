@@ -28,40 +28,23 @@
 
 static const AVFilterPad avfilter_vf_null_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_null_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_null = {
-#ifdef IDE_COMPILE
-    "null",
-    NULL_IF_CONFIG_SMALL("Pass the source unchanged to the output."),
-    avfilter_vf_null_inputs,
-    avfilter_vf_null_outputs,
-#else
 	.name        = "null",
     .description = NULL_IF_CONFIG_SMALL("Pass the source unchanged to the output."),
     .inputs      = avfilter_vf_null_inputs,
     .outputs     = avfilter_vf_null_outputs,
-#endif
 };

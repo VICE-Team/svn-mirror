@@ -47,19 +47,11 @@ typedef struct {
 #define OFFSET(x) offsetof(OWDenoiseContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption owdenoise_options[] = {
-#ifdef IDE_COMPILE
-	{ "depth", "set depth", OFFSET(depth), AV_OPT_TYPE_INT, {8}, 8, 16, FLAGS },
-    { "luma_strength", "set luma strength", OFFSET(luma_strength), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, 0, 1000, FLAGS },
-    { "ls", "set luma strength", OFFSET(luma_strength), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, 0, 1000, FLAGS },
-    { "chroma_strength", "set chroma strength", OFFSET(chroma_strength), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, 0, 1000, FLAGS },
-    { "cs", "set chroma strength", OFFSET(chroma_strength), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, 0, 1000, FLAGS },
-#else
 	{ "depth",           "set depth",           OFFSET(depth),           AV_OPT_TYPE_INT,    {.i64 =   8}, 8,   16, FLAGS },
     { "luma_strength",   "set luma strength",   OFFSET(luma_strength),   AV_OPT_TYPE_DOUBLE, {.dbl = 1.0}, 0, 1000, FLAGS },
     { "ls",              "set luma strength",   OFFSET(luma_strength),   AV_OPT_TYPE_DOUBLE, {.dbl = 1.0}, 0, 1000, FLAGS },
     { "chroma_strength", "set chroma strength", OFFSET(chroma_strength), AV_OPT_TYPE_DOUBLE, {.dbl = 1.0}, 0, 1000, FLAGS },
     { "cs",              "set chroma strength", OFFSET(chroma_strength), AV_OPT_TYPE_DOUBLE, {.dbl = 1.0}, 0, 1000, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -321,46 +313,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad owdenoise_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad owdenoise_outputs[] = {
      {
-#ifdef IDE_COMPILE
-         "default",
-         AVMEDIA_TYPE_VIDEO,
-#else
 		 .name = "default",
          .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	 },
      { NULL }
 };
 
 AVFilter ff_vf_owdenoise = {
-#ifdef IDE_COMPILE
-    "owdenoise",
-    NULL_IF_CONFIG_SMALL("Denoise using wavelets."),
-    owdenoise_inputs,
-    owdenoise_outputs,
-    &owdenoise_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, uninit,
-    query_formats,
-    sizeof(OWDenoiseContext),
-#else
 	.name          = "owdenoise",
     .description   = NULL_IF_CONFIG_SMALL("Denoise using wavelets."),
     .priv_size     = sizeof(OWDenoiseContext),
@@ -370,5 +339,4 @@ AVFilter ff_vf_owdenoise = {
     .outputs       = owdenoise_outputs,
     .priv_class    = &owdenoise_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

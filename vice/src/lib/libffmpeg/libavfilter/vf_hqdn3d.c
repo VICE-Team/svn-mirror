@@ -28,12 +28,7 @@
 
 #include <float.h>
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "libavutil/attributes.h"
 #include "libavutil/common.h"
@@ -156,7 +151,6 @@ static void denoise_depth(HQDN3DContext *s,
     emms_c();
 }
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #define denoise(...) \
     switch (s->depth) {\
         case  8: denoise_depth(__VA_ARGS__,  8); break;\
@@ -164,7 +158,6 @@ static void denoise_depth(HQDN3DContext *s,
         case 10: denoise_depth(__VA_ARGS__, 10); break;\
         case 16: denoise_depth(__VA_ARGS__, 16); break;\
     }
-#endif
 
 static int16_t *precalc_coefs(double dist25, int depth)
 {
@@ -307,7 +300,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     }
 
     for (c = 0; c < 3; c++) {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
         denoise(s, in->data[c], out->data[c],
                 s->line, &s->frame_prev[c],
                 FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
@@ -315,46 +307,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                 in->linesize[c], out->linesize[c],
                 s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
                 s->coefs[c ? CHROMA_TMP     : LUMA_TMP]);
-#else
-    switch (s->depth) {
-        case 8:
-			denoise_depth(s, in->data[c], out->data[c],
-                s->line, &s->frame_prev[c],
-                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
-                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
-                in->linesize[c], out->linesize[c],
-                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
-                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 8);
-		    break;
-        case 9:
-			denoise_depth(s, in->data[c], out->data[c],
-                s->line, &s->frame_prev[c],
-                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
-                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
-                in->linesize[c], out->linesize[c],
-                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
-                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 9);
-		    break;
-        case 10:
-			denoise_depth(s, in->data[c], out->data[c],
-                s->line, &s->frame_prev[c],
-                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
-                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
-                in->linesize[c], out->linesize[c],
-                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
-                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 10);
-		    break;
-        case 16:
-			denoise_depth(s, in->data[c], out->data[c],
-                s->line, &s->frame_prev[c],
-                FF_CEIL_RSHIFT(in->width,  (!!c * s->hsub)),
-                FF_CEIL_RSHIFT(in->height, (!!c * s->vsub)),
-                in->linesize[c], out->linesize[c],
-                s->coefs[c ? CHROMA_SPATIAL : LUMA_SPATIAL],
-                s->coefs[c ? CHROMA_TMP     : LUMA_TMP], 16);
-		    break;
-    }
-#endif
 	}
 
     if (ctx->is_disabled) {
@@ -371,17 +323,10 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 #define OFFSET(x) offsetof(HQDN3DContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption hqdn3d_options[] = {
-#ifdef IDE_COMPILE
-	{ "luma_spatial", "spatial luma strength", OFFSET(strength[LUMA_SPATIAL]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
-    { "chroma_spatial", "spatial chroma strength", OFFSET(strength[CHROMA_SPATIAL]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
-    { "luma_tmp", "temporal luma strength", OFFSET(strength[LUMA_TMP]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
-    { "chroma_tmp", "temporal chroma strength", OFFSET(strength[CHROMA_TMP]), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
-#else
 	{ "luma_spatial",   "spatial luma strength",    OFFSET(strength[LUMA_SPATIAL]),   AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
     { "chroma_spatial", "spatial chroma strength",  OFFSET(strength[CHROMA_SPATIAL]), AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
     { "luma_tmp",       "temporal luma strength",   OFFSET(strength[LUMA_TMP]),       AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
     { "chroma_tmp",     "temporal chroma strength", OFFSET(strength[CHROMA_TMP]),     AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, 0, DBL_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -389,47 +334,23 @@ AVFILTER_DEFINE_CLASS(hqdn3d);
 
 static const AVFilterPad avfilter_vf_hqdn3d_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_hqdn3d_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_hqdn3d = {
-#ifdef IDE_COMPILE
-    "hqdn3d",
-    NULL_IF_CONFIG_SMALL("Apply a High Quality 3D Denoiser."),
-    avfilter_vf_hqdn3d_inputs,
-    avfilter_vf_hqdn3d_outputs,
-    &hqdn3d_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(HQDN3DContext),
-#else
 	.name          = "hqdn3d",
     .description   = NULL_IF_CONFIG_SMALL("Apply a High Quality 3D Denoiser."),
     .priv_size     = sizeof(HQDN3DContext),
@@ -440,5 +361,4 @@ AVFilter ff_vf_hqdn3d = {
     .inputs        = avfilter_vf_hqdn3d_inputs,
     .outputs       = avfilter_vf_hqdn3d_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-#endif
 };

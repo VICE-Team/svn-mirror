@@ -325,50 +325,28 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *inpicref)
 
 static const AVFilterPad super2xsai_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad super2xsai_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_super2xsai = {
-#ifdef IDE_COMPILE
-    "super2xsai",
-    NULL_IF_CONFIG_SMALL("Scale the input by 2x using the Super2xSaI pixel art algorithm."),
-    super2xsai_inputs,
-    super2xsai_outputs,
-    0, 0, 0, 0, 0, query_formats,
-    sizeof(Super2xSaIContext),
-#else
 	.name          = "super2xsai",
     .description   = NULL_IF_CONFIG_SMALL("Scale the input by 2x using the Super2xSaI pixel art algorithm."),
     .priv_size     = sizeof(Super2xSaIContext),
     .query_formats = query_formats,
     .inputs        = super2xsai_inputs,
     .outputs       = super2xsai_outputs,
-#endif
 };

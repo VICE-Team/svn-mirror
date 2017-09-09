@@ -116,17 +116,6 @@ static int vplayer_read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_vplayer_demuxer = {
-#ifdef IDE_COMPILE
-    "vplayer",
-    "VPlayer subtitles",
-    0, "txt",
-    0, 0, 0, 0, 0, sizeof(VPlayerContext),
-    vplayer_probe,
-    vplayer_read_header,
-    vplayer_read_packet,
-    vplayer_read_close,
-    0, 0, 0, 0, vplayer_read_seek,
-#else
 	.name           = "vplayer",
     .long_name      = NULL_IF_CONFIG_SMALL("VPlayer subtitles"),
     .priv_data_size = sizeof(VPlayerContext),
@@ -136,5 +125,4 @@ AVInputFormat ff_vplayer_demuxer = {
     .read_seek2     = vplayer_read_seek,
     .read_close     = vplayer_read_close,
     .extensions     = "txt",
-#endif
 };

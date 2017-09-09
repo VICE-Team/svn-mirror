@@ -37,11 +37,7 @@ typedef struct NullContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption framestep_options[] = {
-#ifdef IDE_COMPILE
-	{ "step", "set frame step", OFFSET(frame_step), AV_OPT_TYPE_INT, {1}, 1, INT_MAX, FLAGS},
-#else
 	{ "step", "set frame step",  OFFSET(frame_step), AV_OPT_TYPE_INT, {.i64=1}, 1, INT_MAX, FLAGS},
-#endif
 	{ NULL },
 };
 
@@ -52,19 +48,10 @@ static int config_output_props(AVFilterLink *outlink)
     AVFilterContext *ctx = outlink->src;
     FrameStepContext *framestep = ctx->priv;
     AVFilterLink *inlink = ctx->inputs[0];
-#ifdef IDE_COMPILE
-    AVRational tmp;
-#endif
 
     outlink->flags |= FF_LINK_FLAG_REQUEST_LOOP;
-#ifdef IDE_COMPILE
-	tmp.num = framestep->frame_step;
-	tmp.den = 1;
-	outlink->frame_rate = av_div_q(inlink->frame_rate, tmp);
-#else
 	outlink->frame_rate =
         av_div_q(inlink->frame_rate, (AVRational){framestep->frame_step, 1});
-#endif
 
     av_log(ctx, AV_LOG_VERBOSE, "step:%d frame_rate:%d/%d(%f) -> frame_rate:%d/%d(%f)\n",
            framestep->frame_step,
@@ -87,44 +74,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *ref)
 
 static const AVFilterPad framestep_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad framestep_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_framestep = {
-#ifdef IDE_COMPILE
-    "framestep",
-    NULL_IF_CONFIG_SMALL("Select one frame every N frames."),
-    framestep_inputs,
-    framestep_outputs,
-    &framestep_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, 0, 0, sizeof(FrameStepContext),
-#else
 	.name        = "framestep",
     .description = NULL_IF_CONFIG_SMALL("Select one frame every N frames."),
     .priv_size   = sizeof(FrameStepContext),
@@ -132,5 +98,4 @@ AVFilter ff_vf_framestep = {
     .inputs      = framestep_inputs,
     .outputs     = framestep_outputs,
     .flags       = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

@@ -113,15 +113,8 @@ static int config_props_output(AVFilterLink *outlink)
     outlink->h = inlink->w;
 
     if (inlink->sample_aspect_ratio.num) {
-#ifdef IDE_COMPILE
-		AVRational tmp;
-		tmp.num = 1;
-		tmp.den = 1;
-		outlink->sample_aspect_ratio = av_div_q(tmp, inlink->sample_aspect_ratio);
-#else
 		outlink->sample_aspect_ratio = av_div_q((AVRational) { 1, 1 },
                                                 inlink->sample_aspect_ratio);
-#endif
 	} else
         outlink->sample_aspect_ratio = inlink->sample_aspect_ratio;
 
@@ -266,17 +259,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption transpose_options[] = {
-#ifdef IDE_COMPILE
-	{ "dir", "set transpose direction", OFFSET(dir), AV_OPT_TYPE_INT, {TRANSPOSE_CCLOCK_FLIP}, 0, 7, FLAGS, "dir" },
-    { "cclock_flip", "rotate counter-clockwise with vertical flip", 0, AV_OPT_TYPE_CONST, {TRANSPOSE_CCLOCK_FLIP }, 0, 0, 0, "dir" },
-    { "clock", "rotate clockwise", 0, AV_OPT_TYPE_CONST, {TRANSPOSE_CLOCK}, 0, 0, 0, "dir" },
-    { "cclock", "rotate counter-clockwise", 0, AV_OPT_TYPE_CONST, {TRANSPOSE_CCLOCK}, 0, 0, 0, "dir" },
-    { "clock_flip", "rotate clockwise with vertical flip", 0, AV_OPT_TYPE_CONST, {TRANSPOSE_CLOCK_FLIP}, 0, 0, 0, "dir" },
-    { "passthrough", "do not apply transposition if the input matches the specified geometry", OFFSET(passthrough), AV_OPT_TYPE_INT, {TRANSPOSE_PT_TYPE_NONE}, 0, INT_MAX, FLAGS, "passthrough" },
-    { "none", "always apply transposition", 0, AV_OPT_TYPE_CONST, {TRANSPOSE_PT_TYPE_NONE}, INT_MIN, INT_MAX, FLAGS, "passthrough" },
-    { "portrait", "preserve portrait geometry", 0, AV_OPT_TYPE_CONST, {TRANSPOSE_PT_TYPE_PORTRAIT}, INT_MIN, INT_MAX, FLAGS, "passthrough" },
-    { "landscape", "preserve landscape geometry", 0, AV_OPT_TYPE_CONST, {TRANSPOSE_PT_TYPE_LANDSCAPE}, INT_MIN, INT_MAX, FLAGS, "passthrough" },
-#else
 	{ "dir", "set transpose direction", OFFSET(dir), AV_OPT_TYPE_INT, { .i64 = TRANSPOSE_CCLOCK_FLIP }, 0, 7, FLAGS, "dir" },
         { "cclock_flip", "rotate counter-clockwise with vertical flip", 0, AV_OPT_TYPE_CONST, { .i64 = TRANSPOSE_CCLOCK_FLIP }, .unit = "dir" },
         { "clock",       "rotate clockwise",                            0, AV_OPT_TYPE_CONST, { .i64 = TRANSPOSE_CLOCK       }, .unit = "dir" },
@@ -288,7 +270,6 @@ static const AVOption transpose_options[] = {
         { "none",      "always apply transposition",   0, AV_OPT_TYPE_CONST, {.i64=TRANSPOSE_PT_TYPE_NONE},      INT_MIN, INT_MAX, FLAGS, "passthrough" },
         { "portrait",  "preserve portrait geometry",   0, AV_OPT_TYPE_CONST, {.i64=TRANSPOSE_PT_TYPE_PORTRAIT},  INT_MIN, INT_MAX, FLAGS, "passthrough" },
         { "landscape", "preserve landscape geometry",  0, AV_OPT_TYPE_CONST, {.i64=TRANSPOSE_PT_TYPE_LANDSCAPE}, INT_MIN, INT_MAX, FLAGS, "passthrough" },
-#endif
     { NULL }
 };
 
@@ -296,47 +277,24 @@ AVFILTER_DEFINE_CLASS(transpose);
 
 static const AVFilterPad avfilter_vf_transpose_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, get_video_buffer,
-        0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .get_video_buffer = get_video_buffer,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_transpose_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_props_output,
-#else
 		.name         = "default",
         .config_props = config_props_output,
         .type         = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_transpose = {
-#ifdef IDE_COMPILE
-    "transpose",
-    NULL_IF_CONFIG_SMALL("Transpose input video."),
-    avfilter_vf_transpose_inputs,
-    avfilter_vf_transpose_outputs,
-    &transpose_class,
-    AVFILTER_FLAG_SLICE_THREADS,
-    0, 0, 0, query_formats,
-    sizeof(TransContext),
-#else
 	.name          = "transpose",
     .description   = NULL_IF_CONFIG_SMALL("Transpose input video."),
     .priv_size     = sizeof(TransContext),
@@ -345,5 +303,4 @@ AVFilter ff_vf_transpose = {
     .inputs        = avfilter_vf_transpose_inputs,
     .outputs       = avfilter_vf_transpose_outputs,
     .flags         = AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

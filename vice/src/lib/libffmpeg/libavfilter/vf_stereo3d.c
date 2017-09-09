@@ -70,52 +70,6 @@ typedef struct StereoComponent {
     int row_left, row_right;
 } StereoComponent;
 
-#ifdef IDE_COMPILE
-static const int ana_coeff[][3][6] = {
-  {{19595, 38470, 7471, 0, 0, 0},
-     { 0, 0, 0, 19595, 38470, 7471},
-     { 0, 0, 0, 19595, 38470, 7471}},
-  {{19595, 38470, 7471, 0, 0, 0},
-     { 0, 0, 0, 0, 65536, 0},
-     { 0, 0, 0, 0, 0, 65536}},
-  {{65536, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 65536, 0},
-     { 0, 0, 0, 0, 0, 65536}},
-  {{29891, 32800, 11559, -2849, -5763, -102},
-     {-2627, -2479, -1033, 24804, 48080, -1209},
-     { -997, -1350, -358, -4729, -7403, 80373}},
-  {{ 0, 0, 0, 19595, 38470, 7471},
-     {19595, 38470, 7471, 0, 0, 0},
-     { 0, 0, 0, 19595, 38470, 7471}},
-  {{ 0, 0, 0, 65536, 0, 0},
-     {19595, 38470, 7471, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 65536}},
-  {{ 0, 0, 0, 65536, 0, 0},
-     { 0, 65536, 0, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 65536}},
-  {{-4063,-10354, -2556, 34669, 46203, 1573},
-     {18612, 43778, 9372, -1049, -983, -4260},
-     { -983, -1769, 1376, 590, 4915, 61407}},
-  {{ 0, 0, 0, 19595, 38470, 7471},
-     { 0, 0, 0, 19595, 38470, 7471},
-     {19595, 38470, 7471, 0, 0, 0}},
-  {{ 0, 0, 0, 65536, 0, 0},
-     { 0, 0, 0, 0, 65536, 0},
-     {19595, 38470, 7471, 0, 0, 0}},
-  {{ 0, 0, 0, 65536, 0, 0},
-     { 0, 0, 0, 0, 65536, 0},
-     { 0, 0, 65536, 0, 0, 0}},
-  {{65535,-12650,18451, -987, -7590, -1049},
-     {-1604, 56032, 4196, 370, 3826, -1049},
-     {-2345,-10676, 1358, 5801, 11416, 56217}},
-  {{19595, 38470, 7471, 0, 0, 0},
-     { 0, 0, 0, 0, 0, 0},
-     { 0, 0, 0, 19595, 38470, 7471}},
-  {{19595, 38470, 7471, 0, 0, 0},
-     { 0, 0, 0, 19595, 38470, 7471},
-     { 0, 0, 0, 0, 0, 0}},
-};
-#else
 static const int ana_coeff[][3][6] = {
   [ANAGLYPH_RB_GRAY]   =
     {{19595, 38470,  7471,     0,     0,     0},
@@ -174,7 +128,6 @@ static const int ana_coeff[][3][6] = {
      {-1604, 56032, 4196,    370,  3826, -1049},
      {-2345,-10676, 1358,   5801, 11416, 56217}},
 };
-#endif
 
 typedef struct Stereo3DContext {
     const AVClass *class;
@@ -195,48 +148,6 @@ typedef struct Stereo3DContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption stereo3d_options[] = {
-#ifdef IDE_COMPILE
-	{ "in", "set input format", OFFSET(in.format), AV_OPT_TYPE_INT, {SIDE_BY_SIDE_LR}, SIDE_BY_SIDE_LR, STEREO_CODE_COUNT-1, FLAGS, "in"},
-    { "ab2l", "above below half height left first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_2_LR}, 0, 0, FLAGS, "in" },
-    { "ab2r", "above below half height right first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_2_RL}, 0, 0, FLAGS, "in" },
-    { "abl", "above below left first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_LR}, 0, 0, FLAGS, "in" },
-    { "abr", "above below right first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_RL}, 0, 0, FLAGS, "in" },
-    { "al", "alternating frames left first", 0, AV_OPT_TYPE_CONST, {ALTERNATING_LR}, 0, 0, FLAGS, "in" },
-    { "ar", "alternating frames right first", 0, AV_OPT_TYPE_CONST, {ALTERNATING_RL}, 0, 0, FLAGS, "in" },
-    { "sbs2l", "side by side half width left first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_2_LR}, 0, 0, FLAGS, "in" },
-    { "sbs2r", "side by side half width right first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_2_RL}, 0, 0, FLAGS, "in" },
-    { "sbsl", "side by side left first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_LR}, 0, 0, FLAGS, "in" },
-    { "sbsr", "side by side right first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_RL}, 0, 0, FLAGS, "in" },
-    { "out", "set output format", OFFSET(out.format), AV_OPT_TYPE_INT, {ANAGLYPH_RC_DUBOIS}, 0, STEREO_CODE_COUNT-1, FLAGS, "out"},
-    { "ab2l", "above below half height left first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_2_LR}, 0, 0, FLAGS, "out" },
-    { "ab2r", "above below half height right first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_2_RL}, 0, 0, FLAGS, "out" },
-    { "abl", "above below left first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_LR}, 0, 0, FLAGS, "out" },
-    { "abr", "above below right first", 0, AV_OPT_TYPE_CONST, {ABOVE_BELOW_RL}, 0, 0, FLAGS, "out" },
-    { "agmc", "anaglyph green magenta color", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_GM_COLOR}, 0, 0, FLAGS, "out" },
-    { "agmd", "anaglyph green magenta dubois", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_GM_DUBOIS}, 0, 0, FLAGS, "out" },
-    { "agmg", "anaglyph green magenta gray", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_GM_GRAY}, 0, 0, FLAGS, "out" },
-    { "agmh", "anaglyph green magenta half color", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_GM_HALF}, 0, 0, FLAGS, "out" },
-    { "al", "alternating frames left first", 0, AV_OPT_TYPE_CONST, {ALTERNATING_LR}, 0, 0, FLAGS, "out" },
-    { "ar", "alternating frames right first", 0, AV_OPT_TYPE_CONST, {ALTERNATING_RL}, 0, 0, FLAGS, "out" },
-    { "arbg", "anaglyph red blue gray", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_RB_GRAY}, 0, 0, FLAGS, "out" },
-    { "arcc", "anaglyph red cyan color", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_RC_COLOR}, 0, 0, FLAGS, "out" },
-    { "arcd", "anaglyph red cyan dubois", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_RC_DUBOIS}, 0, 0, FLAGS, "out" },
-    { "arcg", "anaglyph red cyan gray", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_RC_GRAY}, 0, 0, FLAGS, "out" },
-    { "arch", "anaglyph red cyan half color", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_RC_HALF}, 0, 0, FLAGS, "out" },
-    { "argg", "anaglyph red green gray", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_RG_GRAY}, 0, 0, FLAGS, "out" },
-    { "aybc", "anaglyph yellow blue color", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_YB_COLOR}, 0, 0, FLAGS, "out" },
-    { "aybd", "anaglyph yellow blue dubois", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_YB_DUBOIS}, 0, 0, FLAGS, "out" },
-    { "aybg", "anaglyph yellow blue gray", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_YB_GRAY}, 0, 0, FLAGS, "out" },
-    { "aybh", "anaglyph yellow blue half color", 0, AV_OPT_TYPE_CONST, {ANAGLYPH_YB_HALF}, 0, 0, FLAGS, "out" },
-    { "irl", "interleave rows left first", 0, AV_OPT_TYPE_CONST, {INTERLEAVE_ROWS_LR}, 0, 0, FLAGS, "out" },
-    { "irr", "interleave rows right first", 0, AV_OPT_TYPE_CONST, {INTERLEAVE_ROWS_RL}, 0, 0, FLAGS, "out" },
-    { "ml", "mono left", 0, AV_OPT_TYPE_CONST, {MONO_L}, 0, 0, FLAGS, "out" },
-    { "mr", "mono right", 0, AV_OPT_TYPE_CONST, {MONO_R}, 0, 0, FLAGS, "out" },
-    { "sbs2l", "side by side half width left first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_2_LR}, 0, 0, FLAGS, "out" },
-    { "sbs2r", "side by side half width right first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_2_RL}, 0, 0, FLAGS, "out" },
-    { "sbsl", "side by side left first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_LR}, 0, 0, FLAGS, "out" },
-    { "sbsr", "side by side right first", 0, AV_OPT_TYPE_CONST, {SIDE_BY_SIDE_RL}, 0, 0, FLAGS, "out" },
-#else
 	{ "in",    "set input format",  OFFSET(in.format),  AV_OPT_TYPE_INT, {.i64=SIDE_BY_SIDE_LR}, SIDE_BY_SIDE_LR, STEREO_CODE_COUNT-1, FLAGS, "in"},
     { "ab2l",  "above below half height left first",  0, AV_OPT_TYPE_CONST, {.i64=ABOVE_BELOW_2_LR},  0, 0, FLAGS, "in" },
     { "ab2r",  "above below half height right first", 0, AV_OPT_TYPE_CONST, {.i64=ABOVE_BELOW_2_RL},  0, 0, FLAGS, "in" },
@@ -277,7 +188,6 @@ static const AVOption stereo3d_options[] = {
     { "sbs2r", "side by side half width right first", 0, AV_OPT_TYPE_CONST, {.i64=SIDE_BY_SIDE_2_RL},  0, 0, FLAGS, "out" },
     { "sbsl",  "side by side left first",             0, AV_OPT_TYPE_CONST, {.i64=SIDE_BY_SIDE_LR},    0, 0, FLAGS, "out" },
     { "sbsr",  "side by side right first",            0, AV_OPT_TYPE_CONST, {.i64=SIDE_BY_SIDE_RL},    0, 0, FLAGS, "out" },
-#endif
 	{ NULL }
 };
 
@@ -726,45 +636,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad stereo3d_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad stereo3d_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_stereo3d = {
-#ifdef IDE_COMPILE
-    "stereo3d",
-    NULL_IF_CONFIG_SMALL("Convert video stereoscopic 3D view."),
-    stereo3d_inputs,
-    stereo3d_outputs,
-    &stereo3d_class,
-    0, 0, 0, uninit,
-    query_formats,
-    sizeof(Stereo3DContext),
-#else
 	.name          = "stereo3d",
     .description   = NULL_IF_CONFIG_SMALL("Convert video stereoscopic 3D view."),
     .priv_size     = sizeof(Stereo3DContext),
@@ -773,5 +661,4 @@ AVFilter ff_vf_stereo3d = {
     .inputs        = stereo3d_inputs,
     .outputs       = stereo3d_outputs,
     .priv_class    = &stereo3d_class,
-#endif
 };

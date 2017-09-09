@@ -50,13 +50,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption tile_options[] = {
-#ifdef IDE_COMPILE
-	{ "layout", "set grid size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "6x5"}, 0, 0, FLAGS },
-    { "nb_frames", "set maximum number of frame to render", OFFSET(nb_frames), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-    { "margin", "set outer border margin in pixels", OFFSET(margin), AV_OPT_TYPE_INT, {0}, 0, 1024, FLAGS },
-    { "padding", "set inner border thickness in pixels", OFFSET(padding), AV_OPT_TYPE_INT, {0}, 0, 1024, FLAGS },
-    { "color", "set the color of the unused area", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, 0, 0, FLAGS },
-#else
 	{ "layout", "set grid size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE,
         {.str = "6x5"}, 0, 0, FLAGS },
     { "nb_frames", "set maximum number of frame to render", OFFSET(nb_frames),
@@ -66,7 +59,6 @@ static const AVOption tile_options[] = {
     { "padding", "set inner border thickness in pixels", OFFSET(padding),
         AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1024, FLAGS },
     { "color",   "set the color of the unused area", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {.str = "black"}, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -224,47 +216,24 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad tile_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad tile_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_props,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_tile = {
-#ifdef IDE_COMPILE
-    "tile",
-    NULL_IF_CONFIG_SMALL("Tile several successive frames together."),
-    tile_inputs,
-    tile_outputs,
-    &tile_class,
-    0, init,
-    0, 0, query_formats,
-    sizeof(TileContext),
-#else
 	.name          = "tile",
     .description   = NULL_IF_CONFIG_SMALL("Tile several successive frames together."),
     .init          = init,
@@ -273,5 +242,4 @@ AVFilter ff_vf_tile = {
     .inputs        = tile_inputs,
     .outputs       = tile_outputs,
     .priv_class    = &tile_class,
-#endif
 };

@@ -97,13 +97,8 @@ typedef struct {
 #define OFFSET(x) offsetof(RemovelogoContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption removelogo_options[] = {
-#ifdef IDE_COMPILE
-	{ "filename", "set bitmap filename", OFFSET(filename), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "f", "set bitmap filename", OFFSET(filename), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-#else
 	{ "filename", "set bitmap filename", OFFSET(filename), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
     { "f",        "set bitmap filename", OFFSET(filename), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -560,47 +555,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad removelogo_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_props_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad removelogo_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_removelogo = {
-#ifdef IDE_COMPILE
-    "removelogo",
-    NULL_IF_CONFIG_SMALL("Remove a TV logo based on a mask image."),
-    removelogo_inputs,
-    removelogo_outputs,
-    &removelogo_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(RemovelogoContext),
-#else
 	.name          = "removelogo",
     .description   = NULL_IF_CONFIG_SMALL("Remove a TV logo based on a mask image."),
     .priv_size     = sizeof(RemovelogoContext),
@@ -611,5 +582,4 @@ AVFilter ff_vf_removelogo = {
     .outputs       = removelogo_outputs,
     .priv_class    = &removelogo_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

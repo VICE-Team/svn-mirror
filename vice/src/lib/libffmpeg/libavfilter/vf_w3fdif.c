@@ -46,28 +46,15 @@ typedef struct W3FDIFContext {
 #define OFFSET(x) offsetof(W3FDIFContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
-#ifdef IDE_COMPILE
-#define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {val}, 0, 0, FLAGS, unit }
-#else
 #define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {.i64=val}, 0, 0, FLAGS, unit }
-#endif
 
 static const AVOption w3fdif_options[] = {
-#ifdef IDE_COMPILE
-	{ "filter", "specify the filter", OFFSET(filter), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS, "filter" },
-    CONST("simple", NULL, 0, "filter"),
-    CONST("complex", NULL, 1, "filter"),
-    { "deint", "specify which frames to deinterlace", OFFSET(deint), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS, "deint" },
-    CONST("all", "deinterlace all frames", 0, "deint"),
-    CONST("interlaced", "only deinterlace frames marked as interlaced", 1, "deint"),
-#else
 	{ "filter", "specify the filter", OFFSET(filter), AV_OPT_TYPE_INT, {.i64=1}, 0, 1, FLAGS, "filter" },
     CONST("simple",  NULL, 0, "filter"),
     CONST("complex", NULL, 1, "filter"),
     { "deint",  "specify which frames to deinterlace", OFFSET(deint), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS, "deint" },
     CONST("all",        "deinterlace all frames",                       0, "deint"),
     CONST("interlaced", "only deinterlace frames marked as interlaced", 1, "deint"),
-#endif
 	{ NULL }
 };
 
@@ -377,50 +364,25 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad w3fdif_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .filter_frame  = filter_frame,
         .config_props  = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad w3fdif_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_w3fdif = {
-#ifdef IDE_COMPILE
-    "w3fdif",
-    NULL_IF_CONFIG_SMALL("Apply Martin Weston three field deinterlace."),
-    w3fdif_inputs,
-    w3fdif_outputs,
-    &w3fdif_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-    0, 0, uninit,
-    query_formats,
-    sizeof(W3FDIFContext),
-#else
 	.name          = "w3fdif",
     .description   = NULL_IF_CONFIG_SMALL("Apply Martin Weston three field deinterlace."),
     .priv_size     = sizeof(W3FDIFContext),
@@ -430,5 +392,4 @@ AVFilter ff_vf_w3fdif = {
     .inputs        = w3fdif_inputs,
     .outputs       = w3fdif_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-#endif
 };

@@ -55,18 +55,11 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption mpdecimate_options[] = {
-#ifdef IDE_COMPILE
-	{ "max", "set the maximum number of consecutive dropped frames (positive), or the minimum interval between dropped frames (negative)", OFFSET(max_drop_count), AV_OPT_TYPE_INT, {0}, INT_MIN, INT_MAX, FLAGS },
-    { "hi", "set high dropping threshold", OFFSET(hi), AV_OPT_TYPE_INT, {64*12}, INT_MIN, INT_MAX, FLAGS },
-    { "lo", "set low dropping threshold", OFFSET(lo), AV_OPT_TYPE_INT, {64*5}, INT_MIN, INT_MAX, FLAGS },
-    { "frac", "set fraction dropping threshold", OFFSET(frac), AV_OPT_TYPE_FLOAT, {0x3fd51eb851eb851f}, 0, 1, FLAGS },
-#else
 	{ "max",  "set the maximum number of consecutive dropped frames (positive), or the minimum interval between dropped frames (negative)",
       OFFSET(max_drop_count), AV_OPT_TYPE_INT, {.i64=0}, INT_MIN, INT_MAX, FLAGS },
     { "hi",   "set high dropping threshold", OFFSET(hi), AV_OPT_TYPE_INT, {.i64=64*12}, INT_MIN, INT_MAX, FLAGS },
     { "lo",   "set low dropping threshold", OFFSET(lo), AV_OPT_TYPE_INT, {.i64=64*5}, INT_MIN, INT_MAX, FLAGS },
     { "frac", "set fraction dropping threshold",  OFFSET(frac), AV_OPT_TYPE_FLOAT, {.dbl=0.33}, 0, 1, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -187,10 +180,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *cur)
     DecimateContext *decimate = inlink->dst->priv;
     AVFilterLink *outlink = inlink->dst->outputs[0];
     int ret;
-#ifdef IDE_COMPILE
-	char tmp1[32] = {0};
-	char tmp2[32] = {0};
-#endif
 
     if (decimate->ref && decimate_frame(inlink->dst, cur, decimate->ref)) {
         decimate->drop_count = FFMAX(1, decimate->drop_count+1);
@@ -203,19 +192,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *cur)
             return ret;
     }
 
-#ifdef IDE_COMPILE
-	av_log(inlink->dst, AV_LOG_DEBUG,
-           "%s pts:%s pts_time:%s drop_count:%d\n",
-           decimate->drop_count > 0 ? "drop" : "keep",
-           av_ts_make_string(tmp1, cur->pts), av_ts_make_time_string(tmp2, cur->pts, &inlink->time_base),
-           decimate->drop_count);
-#else
 	av_log(inlink->dst, AV_LOG_DEBUG,
            "%s pts:%s pts_time:%s drop_count:%d\n",
            decimate->drop_count > 0 ? "drop" : "keep",
            av_ts2str(cur->pts), av_ts2timestr(cur->pts, &inlink->time_base),
            decimate->drop_count);
-#endif
 
     if (decimate->drop_count > 0)
         av_frame_free(&cur);
@@ -238,48 +219,24 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad mpdecimate_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad mpdecimate_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_mpdecimate = {
-#ifdef IDE_COMPILE
-    "mpdecimate",
-    NULL_IF_CONFIG_SMALL("Remove near-duplicate frames."),
-    mpdecimate_inputs,
-    mpdecimate_outputs,
-    &mpdecimate_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(DecimateContext),
-#else
 	.name          = "mpdecimate",
     .description   = NULL_IF_CONFIG_SMALL("Remove near-duplicate frames."),
     .init          = init,
@@ -289,5 +246,4 @@ AVFilter ff_vf_mpdecimate = {
     .query_formats = query_formats,
     .inputs        = mpdecimate_inputs,
     .outputs       = mpdecimate_outputs,
-#endif
 };

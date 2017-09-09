@@ -164,20 +164,7 @@ static int voc_read_packet(AVFormatContext *s, AVPacket *pkt)
     return ff_voc_get_packet(s, pkt, s->streams[0], 0);
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = { ff_voc_codec_tags, 0 };
-#endif
-
 AVInputFormat ff_voc_demuxer = {
-#ifdef IDE_COMPILE
-    "voc",
-    "Creative Voice",
-    0, 0, tmpx,
-    0, 0, 0, 0, sizeof(VocDecContext),
-    voc_probe,
-    voc_read_header,
-    voc_read_packet,
-#else
 	.name           = "voc",
     .long_name      = NULL_IF_CONFIG_SMALL("Creative Voice"),
     .priv_data_size = sizeof(VocDecContext),
@@ -185,5 +172,4 @@ AVInputFormat ff_voc_demuxer = {
     .read_header    = voc_read_header,
     .read_packet    = voc_read_packet,
     .codec_tag      = (const AVCodecTag* const []){ ff_voc_codec_tags, 0 },
-#endif
 };

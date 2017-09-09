@@ -95,25 +95,7 @@ static int voc_write_trailer(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpz[] = { ff_voc_codec_tags, 0 };
-#endif
-
 AVOutputFormat ff_voc_muxer = {
-#ifdef IDE_COMPILE
-    "voc",
-    "Creative Voice",
-    "audio/x-voc",
-    "voc",
-    AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_NOTIMESTAMPS,
-    tmpz,
-    0, 0, sizeof(VocEncContext),
-    voc_write_header,
-    voc_write_packet,
-    voc_write_trailer,
-#else
 	.name              = "voc",
     .long_name         = NULL_IF_CONFIG_SMALL("Creative Voice"),
     .mime_type         = "audio/x-voc",
@@ -126,5 +108,4 @@ AVOutputFormat ff_voc_muxer = {
     .write_trailer     = voc_write_trailer,
     .codec_tag         = (const AVCodecTag* const []){ ff_voc_codec_tags, 0 },
     .flags             = AVFMT_NOTIMESTAMPS,
-#endif
 };

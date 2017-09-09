@@ -56,26 +56,6 @@ typedef struct HistogramContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption histogram_options[] = {
-#ifdef IDE_COMPILE
-	{ "mode", "set histogram mode", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_LEVELS}, 0, MODE_NB-1, FLAGS, "mode"},
-    { "levels", "standard histogram", 0, AV_OPT_TYPE_CONST, {MODE_LEVELS}, 0, 0, FLAGS, "mode" },
-    { "waveform", "per row/column luminance graph", 0, AV_OPT_TYPE_CONST, {MODE_WAVEFORM}, 0, 0, FLAGS, "mode" },
-    { "color", "chroma values in vectorscope", 0, AV_OPT_TYPE_CONST, {MODE_COLOR}, 0, 0, FLAGS, "mode" },
-    { "color2", "chroma values in vectorscope", 0, AV_OPT_TYPE_CONST, {MODE_COLOR2}, 0, 0, FLAGS, "mode" },
-    { "level_height", "set level height", OFFSET(level_height), AV_OPT_TYPE_INT, {200}, 50, 2048, FLAGS},
-    { "scale_height", "set scale height", OFFSET(scale_height), AV_OPT_TYPE_INT, {12}, 0, 40, FLAGS},
-    { "step", "set waveform step value", OFFSET(step), AV_OPT_TYPE_INT, {10}, 1, 255, FLAGS},
-    { "waveform_mode", "set waveform mode", OFFSET(waveform_mode), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS, "waveform_mode"},
-    { "row", NULL, 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "waveform_mode" },
-    { "column", NULL, 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "waveform_mode" },
-    { "waveform_mirror", "set waveform mirroring", OFFSET(waveform_mirror), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS, "waveform_mirror"},
-    { "display_mode", "set display mode", OFFSET(display_mode), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS, "display_mode"},
-    { "parade",  NULL, 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "display_mode" },
-    { "overlay", NULL, 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "display_mode" },
-    { "levels_mode", "set levels mode", OFFSET(levels_mode), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS, "levels_mode"},
-    { "linear", NULL, 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "levels_mode" },
-    { "logarithmic", NULL, 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "levels_mode" },
-#else
 	{ "mode", "set histogram mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=MODE_LEVELS}, 0, MODE_NB-1, FLAGS, "mode"},
     { "levels", "standard histogram", 0, AV_OPT_TYPE_CONST, {.i64=MODE_LEVELS}, 0, 0, FLAGS, "mode" },
     { "waveform", "per row/column luminance graph", 0, AV_OPT_TYPE_CONST, {.i64=MODE_WAVEFORM}, 0, 0, FLAGS, "mode" },
@@ -94,7 +74,6 @@ static const AVOption histogram_options[] = {
     { "levels_mode", "set levels mode", OFFSET(levels_mode), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS, "levels_mode"},
     { "linear",      NULL, 0, AV_OPT_TYPE_CONST, {.i64=0}, 0, 0, FLAGS, "levels_mode" },
     { "logarithmic", NULL, 0, AV_OPT_TYPE_CONST, {.i64=1}, 0, 0, FLAGS, "levels_mode" },
-#endif
 	{ NULL }
 };
 
@@ -197,12 +176,7 @@ static int config_output(AVFilterLink *outlink)
         av_assert0(0);
     }
 
-#ifdef IDE_COMPILE
-	outlink->sample_aspect_ratio.num = 1;
-	outlink->sample_aspect_ratio.den = 1;
-#else
 	outlink->sample_aspect_ratio = (AVRational){1,1};
-#endif
 
     return 0;
 }
@@ -374,46 +348,24 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static const AVFilterPad inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_histogram = {
-#ifdef IDE_COMPILE
-    "histogram",
-    NULL_IF_CONFIG_SMALL("Compute and draw a histogram."),
-    inputs,
-    outputs,
-    &histogram_class,
-    0, 0, 0, 0, query_formats,
-    sizeof(HistogramContext),
-#else
 	.name          = "histogram",
     .description   = NULL_IF_CONFIG_SMALL("Compute and draw a histogram."),
     .priv_size     = sizeof(HistogramContext),
@@ -421,5 +373,4 @@ AVFilter ff_vf_histogram = {
     .inputs        = inputs,
     .outputs       = outputs,
     .priv_class    = &histogram_class,
-#endif
 };

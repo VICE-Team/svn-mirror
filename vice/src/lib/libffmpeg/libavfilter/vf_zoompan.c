@@ -90,21 +90,12 @@ typedef struct ZPcontext {
 #define OFFSET(x) offsetof(ZPContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption zoompan_options[] = {
-#ifdef IDE_COMPILE
-	{ "zoom", "set the zoom expression", OFFSET(zoom_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "1" }, 0, 0, FLAGS },
-    { "z", "set the zoom expression", OFFSET(zoom_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "1" }, 0, 0, FLAGS },
-    { "x", "set the x expression", OFFSET(x_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, 0, 0, FLAGS },
-    { "y", "set the y expression", OFFSET(y_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, 0, 0, FLAGS },
-    { "d", "set the duration expression", OFFSET(duration_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "90"}, 0, 0, FLAGS },
-    { "s", "set the output image size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "hd720"}, 0, 0, FLAGS },
-#else
 	{ "zoom", "set the zoom expression", OFFSET(zoom_expr_str), AV_OPT_TYPE_STRING, {.str = "1" }, .flags = FLAGS },
     { "z", "set the zoom expression", OFFSET(zoom_expr_str), AV_OPT_TYPE_STRING, {.str = "1" }, .flags = FLAGS },
     { "x", "set the x expression", OFFSET(x_expr_str), AV_OPT_TYPE_STRING, {.str="0"}, .flags = FLAGS },
     { "y", "set the y expression", OFFSET(y_expr_str), AV_OPT_TYPE_STRING, {.str="0"}, .flags = FLAGS },
     { "d", "set the duration expression", OFFSET(duration_expr_str), AV_OPT_TYPE_STRING, {.str="90"}, .flags = FLAGS },
     { "s", "set the output image size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {.str="hd720"}, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -288,47 +279,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_zoompan = {
-#ifdef IDE_COMPILE
-    "zoompan",
-    NULL_IF_CONFIG_SMALL("Apply Zoom & Pan effect."),
-    inputs,
-    outputs,
-    &zoompan_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(ZPContext),
-#else
 	.name          = "zoompan",
     .description   = NULL_IF_CONFIG_SMALL("Apply Zoom & Pan effect."),
     .priv_size     = sizeof(ZPContext),
@@ -339,5 +306,4 @@ AVFilter ff_vf_zoompan = {
     .inputs        = inputs,
     .outputs       = outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

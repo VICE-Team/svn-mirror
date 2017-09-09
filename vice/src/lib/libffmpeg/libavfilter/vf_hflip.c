@@ -174,44 +174,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static const AVFilterPad avfilter_vf_hflip_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_hflip_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_hflip = {
-#ifdef IDE_COMPILE
-    "hflip",
-    NULL_IF_CONFIG_SMALL("Horizontally flip the input video."),
-    avfilter_vf_hflip_inputs,
-    avfilter_vf_hflip_outputs,
-    0, AVFILTER_FLAG_SLICE_THREADS,
-    0, 0, 0, query_formats,
-    sizeof(FlipContext),
-#else
 	.name          = "hflip",
     .description   = NULL_IF_CONFIG_SMALL("Horizontally flip the input video."),
     .priv_size     = sizeof(FlipContext),
@@ -219,5 +198,4 @@ AVFilter ff_vf_hflip = {
     .inputs        = avfilter_vf_hflip_inputs,
     .outputs       = avfilter_vf_hflip_outputs,
     .flags         = AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

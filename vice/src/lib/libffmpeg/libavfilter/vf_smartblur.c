@@ -63,20 +63,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption smartblur_options[] = {
-#ifdef IDE_COMPILE
-	{ "luma_radius", "set luma radius", OFFSET(luma.radius), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, RADIUS_MIN, RADIUS_MAX, FLAGS },
-    { "lr", "set luma radius", OFFSET(luma.radius), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, RADIUS_MIN, RADIUS_MAX, FLAGS },
-    { "luma_strength", "set luma strength", OFFSET(luma.strength), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, STRENGTH_MIN, STRENGTH_MAX, FLAGS },
-    { "ls", "set luma strength", OFFSET(luma.strength), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, STRENGTH_MIN, STRENGTH_MAX, FLAGS },
-    { "luma_threshold", "set luma threshold", OFFSET(luma.threshold), AV_OPT_TYPE_INT, {0}, THRESHOLD_MIN, THRESHOLD_MAX, FLAGS },
-    { "lt", "set luma threshold", OFFSET(luma.threshold), AV_OPT_TYPE_INT, {0}, THRESHOLD_MIN, THRESHOLD_MAX, FLAGS },
-    { "chroma_radius", "set chroma radius", OFFSET(chroma.radius), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, RADIUS_MIN-1, RADIUS_MAX, FLAGS },
-    { "cr", "set chroma radius", OFFSET(chroma.radius), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, RADIUS_MIN-1, RADIUS_MAX, FLAGS },
-    { "chroma_strength", "set chroma strength", OFFSET(chroma.strength), AV_OPT_TYPE_FLOAT, {0xc000000000000000}, STRENGTH_MIN-1, STRENGTH_MAX, FLAGS },
-    { "cs", "set chroma strength", OFFSET(chroma.strength), AV_OPT_TYPE_FLOAT, {0xc000000000000000}, STRENGTH_MIN-1, STRENGTH_MAX, FLAGS },
-    { "chroma_threshold", "set chroma threshold", OFFSET(chroma.threshold), AV_OPT_TYPE_INT, {THRESHOLD_MIN-1}, THRESHOLD_MIN-1, THRESHOLD_MAX, FLAGS },
-    { "ct", "set chroma threshold", OFFSET(chroma.threshold), AV_OPT_TYPE_INT, {THRESHOLD_MIN-1}, THRESHOLD_MIN-1, THRESHOLD_MAX, FLAGS },
-#else
 	{ "luma_radius",    "set luma radius",    OFFSET(luma.radius),    AV_OPT_TYPE_FLOAT, {.dbl=1.0}, RADIUS_MIN, RADIUS_MAX, .flags=FLAGS },
     { "lr"         ,    "set luma radius",    OFFSET(luma.radius),    AV_OPT_TYPE_FLOAT, {.dbl=1.0}, RADIUS_MIN, RADIUS_MAX, .flags=FLAGS },
     { "luma_strength",  "set luma strength",  OFFSET(luma.strength),  AV_OPT_TYPE_FLOAT, {.dbl=1.0}, STRENGTH_MIN, STRENGTH_MAX, .flags=FLAGS },
@@ -90,7 +76,6 @@ static const AVOption smartblur_options[] = {
     { "cs",               "set chroma strength",  OFFSET(chroma.strength),  AV_OPT_TYPE_FLOAT, {.dbl=STRENGTH_MIN-1}, STRENGTH_MIN-1, STRENGTH_MAX, .flags=FLAGS },
     { "chroma_threshold", "set chroma threshold", OFFSET(chroma.threshold), AV_OPT_TYPE_INT,   {.i64=THRESHOLD_MIN-1}, THRESHOLD_MIN-1, THRESHOLD_MAX, .flags=FLAGS },
     { "ct",               "set chroma threshold", OFFSET(chroma.threshold), AV_OPT_TYPE_INT,   {.i64=THRESHOLD_MIN-1}, THRESHOLD_MIN-1, THRESHOLD_MAX, .flags=FLAGS },
-#endif
     { NULL }
 };
 
@@ -288,47 +273,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *inpic)
 
 static const AVFilterPad smartblur_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad smartblur_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_smartblur = {
-#ifdef IDE_COMPILE
-    "smartblur",
-    NULL_IF_CONFIG_SMALL("Blur the input video without impacting the outlines."),
-    smartblur_inputs,
-    smartblur_outputs,
-    &smartblur_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(SmartblurContext),
-#else
 	.name          = "smartblur",
     .description   = NULL_IF_CONFIG_SMALL("Blur the input video without impacting the outlines."),
     .priv_size     = sizeof(SmartblurContext),
@@ -339,5 +300,4 @@ AVFilter ff_vf_smartblur = {
     .outputs       = smartblur_outputs,
     .priv_class    = &smartblur_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

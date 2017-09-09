@@ -49,19 +49,11 @@ typedef struct {
 #define OFFSET(x) offsetof(KerndeintContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption kerndeint_options[] = {
-#ifdef IDE_COMPILE
-	{ "thresh", "set the threshold", OFFSET(thresh), AV_OPT_TYPE_INT, {10}, 0, 255, FLAGS },
-    { "map", "set the map", OFFSET(map), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "order", "set the order", OFFSET(order), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "sharp", "enable sharpening", OFFSET(sharp), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "twoway", "enable twoway", OFFSET(twoway), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "thresh", "set the threshold", OFFSET(thresh), AV_OPT_TYPE_INT, {.i64=10}, 0, 255, FLAGS },
     { "map",    "set the map", OFFSET(map), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS },
     { "order",  "set the order", OFFSET(order), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS },
     { "sharp",  "enable sharpening", OFFSET(sharp), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS },
     { "twoway", "enable twoway", OFFSET(twoway), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -297,45 +289,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *inpic)
 
 static const AVFilterPad kerndeint_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad kerndeint_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_kerndeint = {
-#ifdef IDE_COMPILE
-    "kerndeint",
-    NULL_IF_CONFIG_SMALL("Apply kernel deinterlacing to the input."),
-    kerndeint_inputs,
-    kerndeint_outputs,
-    &kerndeint_class,
-    0, 0, 0, uninit,
-    query_formats,
-    sizeof(KerndeintContext),
-#else
 	.name          = "kerndeint",
     .description   = NULL_IF_CONFIG_SMALL("Apply kernel deinterlacing to the input."),
     .priv_size     = sizeof(KerndeintContext),
@@ -344,5 +314,4 @@ AVFilter ff_vf_kerndeint = {
     .query_formats = query_formats,
     .inputs        = kerndeint_inputs,
     .outputs       = kerndeint_outputs,
-#endif
 };

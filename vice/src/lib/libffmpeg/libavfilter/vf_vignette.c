@@ -74,20 +74,6 @@ typedef struct {
 #define OFFSET(x) offsetof(VignetteContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption vignette_options[] = {
-#ifdef IDE_COMPILE
-	{ "angle", "set lens angle", OFFSET(angle_expr), AV_OPT_TYPE_STRING, {(intptr_t) "PI/5"}, 0, 0, FLAGS },
-    { "a", "set lens angle", OFFSET(angle_expr), AV_OPT_TYPE_STRING, {(intptr_t) "PI/5"}, 0, 0, FLAGS },
-    { "x0", "set circle center position on x-axis", OFFSET(x0_expr), AV_OPT_TYPE_STRING, {(intptr_t) "w/2"}, 0, 0, FLAGS },
-    { "y0", "set circle center position on y-axis", OFFSET(y0_expr), AV_OPT_TYPE_STRING, {(intptr_t) "h/2"}, 0, 0, FLAGS },
-    { "mode", "set forward/backward mode", OFFSET(backward), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS, "mode" },
-    { "forward", NULL, 0, AV_OPT_TYPE_CONST, {0}, INT_MIN, INT_MAX, FLAGS, "mode"},
-    { "backward", NULL, 0, AV_OPT_TYPE_CONST, {1}, INT_MIN, INT_MAX, FLAGS, "mode"},
-    { "eval", "specify when to evaluate expressions", OFFSET(eval_mode), AV_OPT_TYPE_INT, {EVAL_MODE_INIT}, 0, EVAL_MODE_NB-1, FLAGS, "eval" },
-    { "init", "eval expressions once during initialization", 0, AV_OPT_TYPE_CONST, {EVAL_MODE_INIT}, 0, 0, FLAGS, "eval" },
-    { "frame", "eval expressions for each frame", 0, AV_OPT_TYPE_CONST, {EVAL_MODE_FRAME}, 0, 0, FLAGS, "eval" },
-    { "dither", "set dithering", OFFSET(do_dither), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
-    { "aspect", "set aspect ratio", OFFSET(aspect), AV_OPT_TYPE_RATIONAL, {0x3ff0000000000000}, 0, DBL_MAX, FLAGS },
-#else
 	{ "angle", "set lens angle", OFFSET(angle_expr), AV_OPT_TYPE_STRING, {.str="PI/5"}, .flags = FLAGS },
     { "a",     "set lens angle", OFFSET(angle_expr), AV_OPT_TYPE_STRING, {.str="PI/5"}, .flags = FLAGS },
     { "x0", "set circle center position on x-axis", OFFSET(x0_expr), AV_OPT_TYPE_STRING, {.str="w/2"}, .flags = FLAGS },
@@ -100,7 +86,6 @@ static const AVOption vignette_options[] = {
          { "frame", "eval expressions for each frame",             0, AV_OPT_TYPE_CONST, {.i64=EVAL_MODE_FRAME}, .flags = FLAGS, .unit = "eval" },
     { "dither", "set dithering", OFFSET(do_dither), AV_OPT_TYPE_INT, {.i64 = 1}, 0, 1, FLAGS },
     { "aspect", "set aspect ratio", OFFSET(aspect), AV_OPT_TYPE_RATIONAL, {.dbl = 1}, 0, DBL_MAX, .flags = FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -331,47 +316,23 @@ static int config_props(AVFilterLink *inlink)
 
 static const AVFilterPad vignette_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad vignette_outputs[] = {
      {
-#ifdef IDE_COMPILE
-         "default",
-         AVMEDIA_TYPE_VIDEO,
-#else
 		 .name = "default",
          .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	 },
      { NULL }
 };
 
 AVFilter ff_vf_vignette = {
-#ifdef IDE_COMPILE
-    "vignette",
-    NULL_IF_CONFIG_SMALL("Make or reverse a vignette effect."),
-    vignette_inputs,
-    vignette_outputs,
-    &vignette_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(VignetteContext),
-#else
 	.name          = "vignette",
     .description   = NULL_IF_CONFIG_SMALL("Make or reverse a vignette effect."),
     .priv_size     = sizeof(VignetteContext),
@@ -382,5 +343,4 @@ AVFilter ff_vf_vignette = {
     .outputs       = vignette_outputs,
     .priv_class    = &vignette_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

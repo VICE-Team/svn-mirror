@@ -83,20 +83,6 @@ static int query_formats(AVFilterContext *ctx)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption sab_options[] = {
-#ifdef IDE_COMPILE
-	{ "luma_radius", "set luma radius", OFFSET(luma.radius), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, RADIUS_MIN, RADIUS_MAX, FLAGS },
-    { "lr" "set luma radius", OFFSET(luma.radius), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, RADIUS_MIN, RADIUS_MAX, FLAGS },
-    { "luma_pre_filter_radius", "set luma pre-filter radius", OFFSET(luma.pre_filter_radius), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, PRE_FILTER_RADIUS_MIN, PRE_FILTER_RADIUS_MAX, FLAGS },
-    { "lpfr", "set luma pre-filter radius", OFFSET(luma.pre_filter_radius), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, PRE_FILTER_RADIUS_MIN, PRE_FILTER_RADIUS_MAX, FLAGS },
-    { "luma_strength", "set luma strength", OFFSET(luma.strength), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, STRENGTH_MIN, STRENGTH_MAX, FLAGS },
-    { "ls", "set luma strength", OFFSET(luma.strength), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, STRENGTH_MIN, STRENGTH_MAX, FLAGS },
-    { "chroma_radius", "set chroma radius", OFFSET(chroma.radius), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, RADIUS_MIN-1, RADIUS_MAX, FLAGS },
-    { "cr", "set chroma radius", OFFSET(chroma.radius), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, RADIUS_MIN-1, RADIUS_MAX, FLAGS },
-    { "chroma_pre_filter_radius", "set chroma pre-filter radius", OFFSET(chroma.pre_filter_radius), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, PRE_FILTER_RADIUS_MIN-1, PRE_FILTER_RADIUS_MAX, FLAGS },
-    { "cpfr", "set chroma pre-filter radius", OFFSET(chroma.pre_filter_radius), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, PRE_FILTER_RADIUS_MIN-1, PRE_FILTER_RADIUS_MAX, FLAGS },
-    { "chroma_strength", "set chroma strength", OFFSET(chroma.strength), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, STRENGTH_MIN-1, STRENGTH_MAX, FLAGS },
-    { "cs", "set chroma strength", OFFSET(chroma.strength), AV_OPT_TYPE_FLOAT, {0xbfeccccccccccccd}, STRENGTH_MIN-1, STRENGTH_MAX, FLAGS },
-#else
 	{ "luma_radius",            "set luma radius", OFFSET(luma.radius), AV_OPT_TYPE_FLOAT, {.dbl=1.0}, RADIUS_MIN, RADIUS_MAX, .flags=FLAGS },
     { "lr"         ,            "set luma radius", OFFSET(luma.radius), AV_OPT_TYPE_FLOAT, {.dbl=1.0}, RADIUS_MIN, RADIUS_MAX, .flags=FLAGS },
     { "luma_pre_filter_radius", "set luma pre-filter radius", OFFSET(luma.pre_filter_radius), AV_OPT_TYPE_FLOAT, {.dbl=1.0}, PRE_FILTER_RADIUS_MIN, PRE_FILTER_RADIUS_MAX, .flags=FLAGS },
@@ -112,7 +98,6 @@ static const AVOption sab_options[] = {
                                   PRE_FILTER_RADIUS_MIN-1, PRE_FILTER_RADIUS_MAX, .flags=FLAGS },
     { "chroma_strength",          "set chroma strength", OFFSET(chroma.strength), AV_OPT_TYPE_FLOAT, {.dbl=STRENGTH_MIN-1}, STRENGTH_MIN-1, STRENGTH_MAX, .flags=FLAGS },
     { "cs",                       "set chroma strength", OFFSET(chroma.strength), AV_OPT_TYPE_FLOAT, {.dbl=STRENGTH_MIN-1}, STRENGTH_MIN-1, STRENGTH_MAX, .flags=FLAGS },
-#endif
     { NULL }
 };
 
@@ -323,47 +308,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *inpic)
 
 static const AVFilterPad sab_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad sab_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_sab = {
-#ifdef IDE_COMPILE
-    "sab",
-    NULL_IF_CONFIG_SMALL("Apply shape adaptive blur."),
-    sab_inputs,
-    sab_outputs,
-    &sab_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(SabContext),
-#else
 	.name          = "sab",
     .description   = NULL_IF_CONFIG_SMALL("Apply shape adaptive blur."),
     .priv_size     = sizeof(SabContext),
@@ -374,5 +335,4 @@ AVFilter ff_vf_sab = {
     .outputs       = sab_outputs,
     .priv_class    = &sab_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

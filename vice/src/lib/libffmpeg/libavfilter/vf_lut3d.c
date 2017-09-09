@@ -81,21 +81,12 @@ typedef struct ThreadData {
 #define OFFSET(x) offsetof(LUT3DContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
-#ifdef IDE_COMPILE
-#define COMMON_OPTIONS \
-    { "interp", "select interpolation mode", OFFSET(interpolation), AV_OPT_TYPE_INT, {INTERPOLATE_TETRAHEDRAL}, 0, NB_INTERP_MODE-1, FLAGS, "interp_mode" }, \
-    { "nearest", "use values from the nearest defined points", 0, AV_OPT_TYPE_CONST, {INTERPOLATE_NEAREST}, INT_MIN, INT_MAX, FLAGS, "interp_mode" }, \
-    { "trilinear", "interpolate values using the 8 points defining a cube", 0, AV_OPT_TYPE_CONST, {INTERPOLATE_TRILINEAR}, INT_MIN, INT_MAX, FLAGS, "interp_mode" }, \
-    { "tetrahedral", "interpolate values using a tetrahedron", 0, AV_OPT_TYPE_CONST, {INTERPOLATE_TETRAHEDRAL}, INT_MIN, INT_MAX, FLAGS, "interp_mode" }, \
-    { NULL }
-#else
 #define COMMON_OPTIONS \
     { "interp", "select interpolation mode", OFFSET(interpolation), AV_OPT_TYPE_INT, {.i64=INTERPOLATE_TETRAHEDRAL}, 0, NB_INTERP_MODE-1, FLAGS, "interp_mode" }, \
         { "nearest",     "use values from the nearest defined points",            0, AV_OPT_TYPE_CONST, {.i64=INTERPOLATE_NEAREST},     INT_MIN, INT_MAX, FLAGS, "interp_mode" }, \
         { "trilinear",   "interpolate values using the 8 points defining a cube", 0, AV_OPT_TYPE_CONST, {.i64=INTERPOLATE_TRILINEAR},   INT_MIN, INT_MAX, FLAGS, "interp_mode" }, \
         { "tetrahedral", "interpolate values using a tetrahedron",                0, AV_OPT_TYPE_CONST, {.i64=INTERPOLATE_TETRAHEDRAL}, INT_MIN, INT_MAX, FLAGS, "interp_mode" }, \
     { NULL }
-#endif
 
 static inline float lerpf(float v0, float v1, float f)
 {
@@ -558,11 +549,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 #if CONFIG_LUT3D_FILTER
 static const AVOption lut3d_options[] = {
-#ifdef IDE_COMPILE
-	{ "file", "set 3D LUT file name", OFFSET(file), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-#else
 	{ "file", "set 3D LUT file name", OFFSET(file), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
-#endif
 	COMMON_OPTIONS
 };
 
@@ -582,15 +569,8 @@ static av_cold int lut3d_init(AVFilterContext *ctx)
 
     f = fopen(lut3d->file, "r");
     if (!f) {
-#ifdef IDE_COMPILE
-		char tmp1[64] = {0};
-#endif
 		ret = AVERROR(errno);
-#ifdef IDE_COMPILE
-		av_log(ctx, AV_LOG_ERROR, "%s: %s\n", lut3d->file, av_make_error_string(tmp1, 64, ret));
-#else
 		av_log(ctx, AV_LOG_ERROR, "%s: %s\n", lut3d->file, av_err2str(ret));
-#endif
 		return ret;
     }
 
@@ -627,46 +607,23 @@ end:
 
 static const AVFilterPad lut3d_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad lut3d_outputs[] = {
      {
-#ifdef IDE_COMPILE
-         "default",
-         AVMEDIA_TYPE_VIDEO,
-#else
 		 .name = "default",
          .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	 },
      { NULL }
 };
 
 AVFilter ff_vf_lut3d = {
-#ifdef IDE_COMPILE
-    "lut3d",
-    NULL_IF_CONFIG_SMALL("Adjust colors using a 3D LUT."),
-    lut3d_inputs,
-    lut3d_outputs,
-    &lut3d_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-    lut3d_init,
-    0, 0, query_formats,
-    sizeof(LUT3DContext),
-#else
 	.name          = "lut3d",
     .description   = NULL_IF_CONFIG_SMALL("Adjust colors using a 3D LUT."),
     .priv_size     = sizeof(LUT3DContext),
@@ -676,7 +633,6 @@ AVFilter ff_vf_lut3d = {
     .outputs       = lut3d_outputs,
     .priv_class    = &lut3d_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };
 #endif
 
@@ -813,13 +769,8 @@ static av_cold void haldclut_uninit(AVFilterContext *ctx)
 }
 
 static const AVOption haldclut_options[] = {
-#ifdef IDE_COMPILE
-	{ "shortest", "force termination when the shortest input terminates", OFFSET(dinput.shortest), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-    { "repeatlast", "continue applying the last clut after eos", OFFSET(dinput.repeatlast), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
-#else
 	{ "shortest",   "force termination when the shortest input terminates", OFFSET(dinput.shortest),   AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, FLAGS },
     { "repeatlast", "continue applying the last clut after eos",            OFFSET(dinput.repeatlast), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, FLAGS },
-#endif
 	COMMON_OPTIONS
 };
 
@@ -827,63 +778,30 @@ AVFILTER_DEFINE_CLASS(haldclut);
 
 static const AVFilterPad haldclut_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "main",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame_hald,
-        0, 0, config_input,
-#else
 		.name         = "main",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame_hald,
         .config_props = config_input,
-#endif
 	},{
-#ifdef IDE_COMPILE
-        "clut",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame_hald,
-        0, 0, config_clut,
-#else
 		.name         = "clut",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame_hald,
         .config_props = config_clut,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad haldclut_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_haldclut = {
-#ifdef IDE_COMPILE
-    "haldclut",
-    NULL_IF_CONFIG_SMALL("Adjust colors using a Hald CLUT."),
-    haldclut_inputs,
-    haldclut_outputs,
-    &haldclut_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL | AVFILTER_FLAG_SLICE_THREADS,
-    haldclut_init,
-    0, haldclut_uninit,
-    query_formats,
-    sizeof(LUT3DContext),
-#else
 	.name          = "haldclut",
     .description   = NULL_IF_CONFIG_SMALL("Adjust colors using a Hald CLUT."),
     .priv_size     = sizeof(LUT3DContext),
@@ -894,6 +812,5 @@ AVFilter ff_vf_haldclut = {
     .outputs       = haldclut_outputs,
     .priv_class    = &haldclut_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL | AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };
 #endif

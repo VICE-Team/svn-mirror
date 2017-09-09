@@ -93,17 +93,6 @@ typedef struct ThreadData {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption rotate_options[] = {
-#ifdef IDE_COMPILE
-	{ "angle", "set angle (in radians)", OFFSET(angle_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "a", "set angle (in radians)", OFFSET(angle_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "out_w", "set output width expression",  OFFSET(outw_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "ow", "set output width expression",  OFFSET(outw_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "iw"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "out_h", "set output height expression", OFFSET(outh_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "oh", "set output height expression", OFFSET(outh_expr_str), AV_OPT_TYPE_STRING, {(intptr_t) "ih"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "fillcolor", "set background fill color", OFFSET(fillcolor_str), AV_OPT_TYPE_STRING, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "c", "set background fill color", OFFSET(fillcolor_str), AV_OPT_TYPE_STRING, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "bilinear", "use bilinear interpolation", OFFSET(use_bilinear), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
-#else
 	{ "angle",     "set angle (in radians)",       OFFSET(angle_expr_str), AV_OPT_TYPE_STRING, {.str="0"}, CHAR_MIN, CHAR_MAX, .flags=FLAGS },
     { "a",         "set angle (in radians)",       OFFSET(angle_expr_str), AV_OPT_TYPE_STRING, {.str="0"}, CHAR_MIN, CHAR_MAX, .flags=FLAGS },
     { "out_w",     "set output width expression",  OFFSET(outw_expr_str), AV_OPT_TYPE_STRING, {.str="iw"}, CHAR_MIN, CHAR_MAX, .flags=FLAGS },
@@ -113,7 +102,6 @@ static const AVOption rotate_options[] = {
     { "fillcolor", "set background fill color",    OFFSET(fillcolor_str), AV_OPT_TYPE_STRING, {.str="black"}, CHAR_MIN, CHAR_MAX, .flags=FLAGS },
     { "c",         "set background fill color",    OFFSET(fillcolor_str), AV_OPT_TYPE_STRING, {.str="black"}, CHAR_MIN, CHAR_MAX, .flags=FLAGS },
     { "bilinear",  "use bilinear interpolation",   OFFSET(use_bilinear),  AV_OPT_TYPE_INT, {.i64=1}, 0, 1, .flags=FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -506,16 +494,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
         int vsub = plane == 1 || plane == 2 ? rot->vsub : 0;
         const int outw = FF_CEIL_RSHIFT(outlink->w, hsub);
         const int outh = FF_CEIL_RSHIFT(outlink->h, vsub);
-#ifdef IDE_COMPILE
-        ThreadData td = { in, out,
-                          FF_CEIL_RSHIFT(inlink->w, hsub),
-                          FF_CEIL_RSHIFT(inlink->h, vsub),
-                          outw, outh,
-                          plane, -(outw-1) * c / 2,
-                          (outw-1) * s / 2,
-                          -(outh-1) * s / 2,
-                          -(outh-1) * c / 2, c, s };
-#else
 		ThreadData td = { .in = in,   .out  = out,
                           .inw  = FF_CEIL_RSHIFT(inlink->w, hsub),
                           .inh  = FF_CEIL_RSHIFT(inlink->h, vsub),
@@ -524,7 +502,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                           .xprime = -(outh-1) * s / 2,
                           .yprime = -(outh-1) * c / 2,
                           .plane = plane, .c = c, .s = s };
-#endif
 
         ctx->internal->execute(ctx, filter_slice, &td, NULL, FFMIN(outh, ctx->graph->nb_threads));
     }
@@ -558,48 +535,23 @@ static int process_command(AVFilterContext *ctx, const char *cmd, const char *ar
 
 static const AVFilterPad rotate_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad rotate_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_rotate = {
-#ifdef IDE_COMPILE
-    "rotate",
-    NULL_IF_CONFIG_SMALL("Rotate the input image."),
-    rotate_inputs,
-    rotate_outputs,
-    &rotate_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(RotContext),
-    0, process_command,
-#else
 	.name          = "rotate",
     .description   = NULL_IF_CONFIG_SMALL("Rotate the input image."),
     .priv_size     = sizeof(RotContext),
@@ -611,5 +563,4 @@ AVFilter ff_vf_rotate = {
     .outputs       = rotate_outputs,
     .priv_class    = &rotate_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
-#endif
 };

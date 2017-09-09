@@ -52,18 +52,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption signalstats_options[] = {
-#ifdef IDE_COMPILE
-	{"stat", "set statistics filters", OFFSET(filters), AV_OPT_TYPE_FLAGS, {0}, 0, INT_MAX, FLAGS, "filters"},
-    {"tout", "analyze pixels for temporal outliers", 0, AV_OPT_TYPE_CONST, {1<<FILTER_TOUT}, 0, 0, FLAGS, "filters"},
-    {"vrep", "analyze video lines for vertical line repitition", 0, AV_OPT_TYPE_CONST, {1<<FILTER_VREP}, 0, 0, FLAGS, "filters"},
-    {"brng", "analyze for pixels outside of broadcast range", 0, AV_OPT_TYPE_CONST, {1<<FILTER_BRNG}, 0, 0, FLAGS, "filters"},
-    {"out", "set video filter", OFFSET(outfilter), AV_OPT_TYPE_INT, {FILTER_NONE}, -1, FILT_NUMB-1, FLAGS, "out"},
-    {"tout", "highlight pixels that depict temporal outliers", 0, AV_OPT_TYPE_CONST, {FILTER_TOUT}, 0, 0, FLAGS, "out"},
-    {"vrep", "highlight video lines that depict vertical line repitition", 0, AV_OPT_TYPE_CONST, {FILTER_VREP}, 0, 0, FLAGS, "out"},
-    {"brng", "highlight pixels that are outside of broadcast range", 0, AV_OPT_TYPE_CONST, {FILTER_BRNG}, 0, 0, FLAGS, "out"},
-    {"c", "set highlight color", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {(intptr_t) "yellow"}, 0, 0, FLAGS},
-    {"color", "set highlight color", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {(intptr_t) "yellow"}, 0, 0, FLAGS},
-#else
 	{"stat", "set statistics filters", OFFSET(filters), AV_OPT_TYPE_FLAGS, {.i64=0}, 0, INT_MAX, FLAGS, "filters"},
         {"tout", "analyze pixels for temporal outliers",                0, AV_OPT_TYPE_CONST, {.i64=1<<FILTER_TOUT}, 0, 0, FLAGS, "filters"},
         {"vrep", "analyze video lines for vertical line repitition",    0, AV_OPT_TYPE_CONST, {.i64=1<<FILTER_VREP}, 0, 0, FLAGS, "filters"},
@@ -74,7 +62,6 @@ static const AVOption signalstats_options[] = {
         {"brng", "highlight pixels that are outside of broadcast range",        0, AV_OPT_TYPE_CONST, {.i64=FILTER_BRNG}, 0, 0, FLAGS, "out"},
     {"c",     "set highlight color", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {.str="yellow"}, .flags=FLAGS},
     {"color", "set highlight color", OFFSET(rgba_color), AV_OPT_TYPE_COLOR, {.str="yellow"}, .flags=FLAGS},
-#endif
 	{NULL}
 };
 
@@ -462,46 +449,23 @@ static int filter_frame(AVFilterLink *link, AVFrame *in)
 
 static const AVFilterPad signalstats_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_VIDEO,
         .filter_frame   = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad signalstats_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_props,
-#else
 		.name           = "default",
         .config_props   = config_props,
         .type           = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_signalstats = {
-#ifdef IDE_COMPILE
-    "signalstats",
-    "Generate statistics from video analysis.",
-    signalstats_inputs,
-    signalstats_outputs,
-    &signalstats_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(SignalstatsContext),
-#else
 	.name          = "signalstats",
     .description   = "Generate statistics from video analysis.",
     .init          = init,
@@ -511,5 +475,4 @@ AVFilter ff_vf_signalstats = {
     .inputs        = signalstats_inputs,
     .outputs       = signalstats_outputs,
     .priv_class    = &signalstats_class,
-#endif
 };
