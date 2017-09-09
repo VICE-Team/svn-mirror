@@ -61,25 +61,6 @@ typedef struct MPTestContext {
 #define OFFSET(x) offsetof(MPTestContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption mptestsrc_options[]= {
-#ifdef IDE_COMPILE
-	{ "rate", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },
-    { "r", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },
-    { "duration", "set video duration", OFFSET(duration), AV_OPT_TYPE_DURATION, {-1}, -1, INT64_MAX, FLAGS },
-    { "d", "set video duration", OFFSET(duration), AV_OPT_TYPE_DURATION, {-1}, -1, INT64_MAX, FLAGS },
-    { "test", "set test to perform", OFFSET(test), AV_OPT_TYPE_INT, {TEST_ALL}, 0, INT_MAX, FLAGS, "test" },
-    { "t", "set test to perform", OFFSET(test), AV_OPT_TYPE_INT, {TEST_ALL}, 0, INT_MAX, FLAGS, "test" },
-    { "dc_luma", "", 0, AV_OPT_TYPE_CONST, {TEST_DC_LUMA}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "dc_chroma", "", 0, AV_OPT_TYPE_CONST, {TEST_DC_CHROMA}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "freq_luma", "", 0, AV_OPT_TYPE_CONST, {TEST_FREQ_LUMA}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "freq_chroma", "", 0, AV_OPT_TYPE_CONST, {TEST_FREQ_CHROMA}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "amp_luma", "", 0, AV_OPT_TYPE_CONST, {TEST_AMP_LUMA}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "amp_chroma", "", 0, AV_OPT_TYPE_CONST, {TEST_AMP_CHROMA}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "cbp", "", 0, AV_OPT_TYPE_CONST, {TEST_CBP}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "mv", "", 0, AV_OPT_TYPE_CONST, {TEST_MV}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "ring1", "", 0, AV_OPT_TYPE_CONST, {TEST_RING1}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "ring2", "", 0, AV_OPT_TYPE_CONST, {TEST_RING2}, INT_MIN, INT_MAX, FLAGS, "test" },
-    { "all", "", 0, AV_OPT_TYPE_CONST, {TEST_ALL}, INT_MIN, INT_MAX, FLAGS, "test" },
-#else
 	{ "rate",     "set video rate",     OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {.str = "25"}, 0, 0, FLAGS },
     { "r",        "set video rate",     OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {.str = "25"}, 0, 0, FLAGS },
     { "duration", "set video duration", OFFSET(duration), AV_OPT_TYPE_DURATION, {.i64 = -1}, -1, INT64_MAX, FLAGS },
@@ -98,7 +79,6 @@ static const AVOption mptestsrc_options[]= {
         { "ring1",       "", 0, AV_OPT_TYPE_CONST, {.i64=TEST_RING1},       INT_MIN, INT_MAX, FLAGS, "test" },
         { "ring2",       "", 0, AV_OPT_TYPE_CONST, {.i64=TEST_RING2},       INT_MIN, INT_MAX, FLAGS, "test" },
         { "all",         "", 0, AV_OPT_TYPE_CONST, {.i64=TEST_ALL},         INT_MIN, INT_MAX, FLAGS, "test" },
-#endif
 	{ NULL }
 };
 
@@ -276,19 +256,9 @@ static void ring2_test(uint8_t *dst, int dst_linesize, int off)
 static av_cold int init(AVFilterContext *ctx)
 {
     MPTestContext *test = ctx->priv;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
-#ifdef IDE_COMPILE
-    tmp.num = 1;
-	tmp.den = AV_TIME_BASE;
-	test->max_pts = test->duration >= 0 ?
-        av_rescale_q(test->duration, tmp, av_inv_q(test->frame_rate)) : -1;
-#else
 	test->max_pts = test->duration >= 0 ?
         av_rescale_q(test->duration, AV_TIME_BASE_Q, av_inv_q(test->frame_rate)) : -1;
-#endif
 	test->pts = 0;
 
     av_log(ctx, AV_LOG_VERBOSE, "rate:%d/%d duration:%f\n",
@@ -371,32 +341,15 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad mptestsrc_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vsrc_mptestsrc = {
-#ifdef IDE_COMPILE
-    "mptestsrc",
-    NULL_IF_CONFIG_SMALL("Generate various test pattern."),
-    NULL,
-    mptestsrc_outputs,
-    &mptestsrc_class,
-    0, init,
-    0, 0, query_formats,
-    sizeof(MPTestContext),
-#else
 	.name          = "mptestsrc",
     .description   = NULL_IF_CONFIG_SMALL("Generate various test pattern."),
     .priv_size     = sizeof(MPTestContext),
@@ -405,5 +358,4 @@ AVFilter ff_vsrc_mptestsrc = {
     .query_formats = query_formats,
     .inputs        = NULL,
     .outputs       = mptestsrc_outputs,
-#endif
 };

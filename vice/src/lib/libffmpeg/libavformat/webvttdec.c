@@ -194,49 +194,22 @@ static int webvtt_read_close(AVFormatContext *s)
 #define KIND_FLAGS AV_OPT_FLAG_SUBTITLE_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "kind", "Set kind of WebVTT track", OFFSET(kind), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, KIND_FLAGS, "webvtt_kind" },
-    { "subtitles", "WebVTT subtitles kind", 0, AV_OPT_TYPE_CONST, {0}, INT_MIN, INT_MAX, 0, "webvtt_kind" },
-    { "captions", "WebVTT captions kind", 0, AV_OPT_TYPE_CONST, {AV_DISPOSITION_CAPTIONS}, INT_MIN, INT_MAX, 0, "webvtt_kind" },
-    { "descriptions", "WebVTT descriptions kind", 0, AV_OPT_TYPE_CONST, {AV_DISPOSITION_DESCRIPTIONS}, INT_MIN, INT_MAX, 0, "webvtt_kind" },
-    { "metadata", "WebVTT metadata kind", 0, AV_OPT_TYPE_CONST, {AV_DISPOSITION_METADATA }, INT_MIN, INT_MAX, 0, "webvtt_kind" },
-#else
 	{ "kind", "Set kind of WebVTT track", OFFSET(kind), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, INT_MAX, KIND_FLAGS, "webvtt_kind" },
         { "subtitles",    "WebVTT subtitles kind",    0, AV_OPT_TYPE_CONST, { .i64 = 0 },                           INT_MIN, INT_MAX, 0, "webvtt_kind" },
         { "captions",     "WebVTT captions kind",     0, AV_OPT_TYPE_CONST, { .i64 = AV_DISPOSITION_CAPTIONS },     INT_MIN, INT_MAX, 0, "webvtt_kind" },
         { "descriptions", "WebVTT descriptions kind", 0, AV_OPT_TYPE_CONST, { .i64 = AV_DISPOSITION_DESCRIPTIONS }, INT_MIN, INT_MAX, 0, "webvtt_kind" },
         { "metadata",     "WebVTT metadata kind",     0, AV_OPT_TYPE_CONST, { .i64 = AV_DISPOSITION_METADATA },     INT_MIN, INT_MAX, 0, "webvtt_kind" },
-#endif
 	{ NULL }
 };
 
 static const AVClass webvtt_demuxer_class = {
-#ifdef IDE_COMPILE
-    "WebVTT demuxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name  = "WebVTT demuxer",
     .item_name   = av_default_item_name,
     .option      = options,
     .version     = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVInputFormat ff_webvtt_demuxer = {
-#ifdef IDE_COMPILE
-    "webvtt",
-    "WebVTT subtitle",
-    0, "vtt",
-    0, &webvtt_demuxer_class,
-    0, 0, 0, sizeof(WebVTTContext),
-    webvtt_probe,
-    webvtt_read_header,
-    webvtt_read_packet,
-    webvtt_read_close,
-    0, 0, 0, 0, webvtt_read_seek,
-#else
 	.name           = "webvtt",
     .long_name      = NULL_IF_CONFIG_SMALL("WebVTT subtitle"),
     .priv_data_size = sizeof(WebVTTContext),
@@ -247,5 +220,4 @@ AVInputFormat ff_webvtt_demuxer = {
     .read_close     = webvtt_read_close,
     .extensions     = "vtt",
     .priv_class     = &webvtt_demuxer_class,
-#endif
 };

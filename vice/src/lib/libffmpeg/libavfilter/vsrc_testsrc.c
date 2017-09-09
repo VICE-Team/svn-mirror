@@ -79,18 +79,6 @@ typedef struct TestSourceContext {
 #define OFFSET(x) offsetof(TestSourceContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
-#ifdef IDE_COMPILE
-#define SIZE_OPTIONS \
-    { "size", "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "320x240"}, 0, 0, FLAGS },\
-    { "s", "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "320x240"}, 0, 0, FLAGS },\
-
-#define COMMON_OPTIONS_NOSIZE \
-    { "rate", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },\
-    { "r", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },\
-    { "duration", "set video duration", OFFSET(duration), AV_OPT_TYPE_DURATION, {-1}, -1, INT64_MAX, FLAGS },\
-    { "d", "set video duration", OFFSET(duration), AV_OPT_TYPE_DURATION, {-1}, -1, INT64_MAX, FLAGS },\
-    { "sar", "set video sample aspect ratio", OFFSET(sar), AV_OPT_TYPE_RATIONAL, {0x3ff0000000000000}, 0, INT_MAX, FLAGS },
-#else
 #define SIZE_OPTIONS \
     { "size",     "set video size",     OFFSET(w),        AV_OPT_TYPE_IMAGE_SIZE, {.str = "320x240"}, 0, 0, FLAGS },\
     { "s",        "set video size",     OFFSET(w),        AV_OPT_TYPE_IMAGE_SIZE, {.str = "320x240"}, 0, 0, FLAGS },\
@@ -101,7 +89,6 @@ typedef struct TestSourceContext {
     { "duration", "set video duration", OFFSET(duration), AV_OPT_TYPE_DURATION, {.i64 = -1}, -1, INT64_MAX, FLAGS },\
     { "d",        "set video duration", OFFSET(duration), AV_OPT_TYPE_DURATION, {.i64 = -1}, -1, INT64_MAX, FLAGS },\
     { "sar",      "set video sample aspect ratio", OFFSET(sar), AV_OPT_TYPE_RATIONAL, {.dbl= 1},  0, INT_MAX, FLAGS },
-#endif
 
 #define COMMON_OPTIONS SIZE_OPTIONS COMMON_OPTIONS_NOSIZE
 
@@ -149,21 +136,9 @@ static int request_frame(AVFilterLink *outlink)
 {
     TestSourceContext *test = outlink->src->priv;
     AVFrame *frame;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-
-    tmp.num = 1;
-	tmp.den = AV_TIME_BASE;
-
-	if (test->duration >= 0 &&
-        av_rescale_q(test->pts, test->time_base, tmp) >= test->duration)
-        return AVERROR_EOF;
-#else
     if (test->duration >= 0 &&
         av_rescale_q(test->pts, test->time_base, AV_TIME_BASE_Q) >= test->duration)
         return AVERROR_EOF;
-#endif
-
 
     if (test->draw_once) {
         if (test->draw_once_reset) {
@@ -200,13 +175,8 @@ static int request_frame(AVFilterLink *outlink)
 #if CONFIG_COLOR_FILTER
 
 static const AVOption color_options[] = {
-#ifdef IDE_COMPILE
-	{ "color", "set color", OFFSET(color_rgba), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "c", "set color", OFFSET(color_rgba), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-#else
 	{ "color", "set color", OFFSET(color_rgba), AV_OPT_TYPE_COLOR, {.str = "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "c",     "set color", OFFSET(color_rgba), AV_OPT_TYPE_COLOR, {.str = "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-#endif
 	COMMON_OPTIONS
     { NULL }
 };
@@ -279,34 +249,15 @@ static int color_process_command(AVFilterContext *ctx, const char *cmd, const ch
 
 static const AVFilterPad color_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        color_config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = color_config_props,
-#endif
 	},
     {  NULL }
 };
 
 AVFilter ff_vsrc_color = {
-#ifdef IDE_COMPILE
-    "color",
-    NULL_IF_CONFIG_SMALL("Provide an uniformly colored input."),
-    NULL,
-    color_outputs,
-    &color_class,
-    0, color_init,
-    0, uninit,
-    color_query_formats,
-    sizeof(TestSourceContext),
-    0, color_process_command,
-#else
 	.name            = "color",
     .description     = NULL_IF_CONFIG_SMALL("Provide an uniformly colored input."),
     .priv_class      = &color_class,
@@ -317,7 +268,6 @@ AVFilter ff_vsrc_color = {
     .inputs          = NULL,
     .outputs         = color_outputs,
     .process_command = color_process_command,
-#endif
 };
 
 #endif /* CONFIG_COLOR_FILTER */
@@ -325,11 +275,7 @@ AVFilter ff_vsrc_color = {
 #if CONFIG_HALDCLUTSRC_FILTER
 
 static const AVOption haldclutsrc_options[] = {
-#ifdef IDE_COMPILE
-	{ "level", "set level", OFFSET(level), AV_OPT_TYPE_INT, {6}, 2, 8, FLAGS },
-#else
 	{ "level", "set level", OFFSET(level), AV_OPT_TYPE_INT, {.i64 = 6}, 2, 8, FLAGS },
-#endif
 	COMMON_OPTIONS_NOSIZE
     { NULL }
 };
@@ -434,33 +380,15 @@ static int haldclutsrc_config_props(AVFilterLink *outlink)
 
 static const AVFilterPad haldclutsrc_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        haldclutsrc_config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = haldclutsrc_config_props,
-#endif
 	},
     {  NULL }
 };
 
 AVFilter ff_vsrc_haldclutsrc = {
-#ifdef IDE_COMPILE
-    "haldclutsrc",
-    NULL_IF_CONFIG_SMALL("Provide an identity Hald CLUT."),
-    NULL,
-    haldclutsrc_outputs,
-    &haldclutsrc_class,
-    0, haldclutsrc_init,
-    0, uninit,
-    haldclutsrc_query_formats,
-    sizeof(TestSourceContext),
-#else
 	.name          = "haldclutsrc",
     .description   = NULL_IF_CONFIG_SMALL("Provide an identity Hald CLUT."),
     .priv_class    = &haldclutsrc_class,
@@ -470,7 +398,6 @@ AVFilter ff_vsrc_haldclutsrc = {
     .query_formats = haldclutsrc_query_formats,
     .inputs        = NULL,
     .outputs       = haldclutsrc_outputs,
-#endif
 };
 #endif /* CONFIG_HALDCLUTSRC_FILTER */
 
@@ -491,32 +418,15 @@ static av_cold int nullsrc_init(AVFilterContext *ctx)
 
 static const AVFilterPad nullsrc_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL },
 };
 
 AVFilter ff_vsrc_nullsrc = {
-#ifdef IDE_COMPILE
-    "nullsrc",
-    NULL_IF_CONFIG_SMALL("Null video source, return unprocessed video frames."),
-    NULL,
-    nullsrc_outputs,
-    &nullsrc_class,
-    0, nullsrc_init,
-    0, uninit,
-    0, sizeof(TestSourceContext),
-#else
 	.name        = "nullsrc",
     .description = NULL_IF_CONFIG_SMALL("Null video source, return unprocessed video frames."),
     .init        = nullsrc_init,
@@ -525,7 +435,6 @@ AVFilter ff_vsrc_nullsrc = {
     .priv_class  = &nullsrc_class,
     .inputs      = NULL,
     .outputs     = nullsrc_outputs,
-#endif
 };
 
 #endif /* CONFIG_NULLSRC_FILTER */
@@ -534,13 +443,8 @@ AVFilter ff_vsrc_nullsrc = {
 
 static const AVOption testsrc_options[] = {
     COMMON_OPTIONS
-#ifdef IDE_COMPILE
-	{ "decimals", "set number of decimals to show", OFFSET(nb_decimals), AV_OPT_TYPE_INT, {0}, 0, 17, FLAGS },
-    { "n", "set number of decimals to show", OFFSET(nb_decimals), AV_OPT_TYPE_INT, {0}, 0, 17, FLAGS },
-#else
 	{ "decimals", "set number of decimals to show", OFFSET(nb_decimals), AV_OPT_TYPE_INT, {.i64=0},  0, 17, FLAGS },
     { "n",        "set number of decimals to show", OFFSET(nb_decimals), AV_OPT_TYPE_INT, {.i64=0},  0, 17, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -747,33 +651,15 @@ static int test_query_formats(AVFilterContext *ctx)
 
 static const AVFilterPad avfilter_vsrc_testsrc_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vsrc_testsrc = {
-#ifdef IDE_COMPILE
-    "testsrc",
-    NULL_IF_CONFIG_SMALL("Generate test pattern."),
-    NULL,
-    avfilter_vsrc_testsrc_outputs,
-    &testsrc_class,
-    0, test_init,
-    0, uninit,
-    test_query_formats,
-    sizeof(TestSourceContext),
-#else
 	.name          = "testsrc",
     .description   = NULL_IF_CONFIG_SMALL("Generate test pattern."),
     .priv_size     = sizeof(TestSourceContext),
@@ -783,7 +669,6 @@ AVFilter ff_vsrc_testsrc = {
     .query_formats = test_query_formats,
     .inputs        = NULL,
     .outputs       = avfilter_vsrc_testsrc_outputs,
-#endif
 };
 
 #endif /* CONFIG_TESTSRC_FILTER */
@@ -882,33 +767,15 @@ static int rgbtest_config_props(AVFilterLink *outlink)
 
 static const AVFilterPad avfilter_vsrc_rgbtestsrc_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        rgbtest_config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = rgbtest_config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vsrc_rgbtestsrc = {
-#ifdef IDE_COMPILE
-    "rgbtestsrc",
-    NULL_IF_CONFIG_SMALL("Generate RGB test pattern."),
-    NULL,
-    avfilter_vsrc_rgbtestsrc_outputs,
-    &rgbtestsrc_class,
-    0, rgbtest_init,
-    0, uninit,
-    rgbtest_query_formats,
-    sizeof(TestSourceContext),
-#else
 	.name          = "rgbtestsrc",
     .description   = NULL_IF_CONFIG_SMALL("Generate RGB test pattern."),
     .priv_size     = sizeof(TestSourceContext),
@@ -918,7 +785,6 @@ AVFilter ff_vsrc_rgbtestsrc = {
     .query_formats = rgbtest_query_formats,
     .inputs        = NULL,
     .outputs       = avfilter_vsrc_rgbtestsrc_outputs,
-#endif
 };
 
 #endif /* CONFIG_RGBTESTSRC_FILTER */
@@ -1022,17 +888,10 @@ static int smptebars_query_formats(AVFilterContext *ctx)
 
 static const AVFilterPad smptebars_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL }
 };
@@ -1091,17 +950,6 @@ static av_cold int smptebars_init(AVFilterContext *ctx)
 }
 
 AVFilter ff_vsrc_smptebars = {
-#ifdef IDE_COMPILE
-    "smptebars",
-    NULL_IF_CONFIG_SMALL("Generate SMPTE color bars."),
-    NULL,
-    smptebars_outputs,
-    &smptebars_class,
-    0, smptebars_init,
-    0, uninit,
-    smptebars_query_formats,
-    sizeof(TestSourceContext),
-#else
 	.name          = "smptebars",
     .description   = NULL_IF_CONFIG_SMALL("Generate SMPTE color bars."),
     .priv_size     = sizeof(TestSourceContext),
@@ -1111,7 +959,6 @@ AVFilter ff_vsrc_smptebars = {
     .query_formats = smptebars_query_formats,
     .inputs        = NULL,
     .outputs       = smptebars_outputs,
-#endif
 };
 
 #endif  /* CONFIG_SMPTEBARS_FILTER */
@@ -1208,17 +1055,6 @@ static av_cold int smptehdbars_init(AVFilterContext *ctx)
 }
 
 AVFilter ff_vsrc_smptehdbars = {
-#ifdef IDE_COMPILE
-    "smptehdbars",
-    NULL_IF_CONFIG_SMALL("Generate SMPTE HD color bars."),
-    NULL,
-    smptebars_outputs,
-    &smptehdbars_class,
-    0, smptehdbars_init,
-    0, uninit,
-    smptebars_query_formats,
-    sizeof(TestSourceContext),
-#else
 	.name          = "smptehdbars",
     .description   = NULL_IF_CONFIG_SMALL("Generate SMPTE HD color bars."),
     .priv_size     = sizeof(TestSourceContext),
@@ -1228,7 +1064,6 @@ AVFilter ff_vsrc_smptehdbars = {
     .query_formats = smptebars_query_formats,
     .inputs        = NULL,
     .outputs       = smptebars_outputs,
-#endif
 };
 
 #endif  /* CONFIG_SMPTEHDBARS_FILTER */

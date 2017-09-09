@@ -87,32 +87,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption mandelbrot_options[] = {
-#ifdef IDE_COMPILE
-	{"size", "set frame size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "640x480"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    {"s", "set frame size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "640x480"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    {"rate", "set frame rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    {"r", "set frame rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    {"maxiter", "set max iterations number", OFFSET(maxiter), AV_OPT_TYPE_INT, {7189}, 1, INT_MAX, FLAGS },
-    {"start_x", "set the initial x position", OFFSET(start_x), AV_OPT_TYPE_DOUBLE, {0xbfe7cbee43d63cbe}, -100, 100, FLAGS },
-    {"start_y", "set the initial y position", OFFSET(start_y), AV_OPT_TYPE_DOUBLE, {0xbfc0dfabd5a9e9ae}, -100, 100, FLAGS },
-    {"start_scale", "set the initial scale value", OFFSET(start_scale), AV_OPT_TYPE_DOUBLE, {0x4008000000000000}, 0, FLT_MAX, FLAGS },
-    {"end_scale", "set the terminal scale value", OFFSET(end_scale), AV_OPT_TYPE_DOUBLE, {0x3fd3333333333333}, 0, FLT_MAX, FLAGS },
-    {"end_pts", "set the terminal pts value", OFFSET(end_pts), AV_OPT_TYPE_DOUBLE, {0x4079000000000000}, 0, INT64_MAX, FLAGS },
-    {"bailout", "set the bailout value", OFFSET(bailout), AV_OPT_TYPE_DOUBLE, {0x4024000000000000}, 0, FLT_MAX, FLAGS },
-    {"morphxf", "set morph x frequency", OFFSET(morphxf), AV_OPT_TYPE_DOUBLE, {0x3f847ae147ae147b}, -FLT_MAX, FLT_MAX, FLAGS },
-    {"morphyf", "set morph y frequency", OFFSET(morphyf), AV_OPT_TYPE_DOUBLE, {0x3f8930be0ded288d}, -FLT_MAX, FLT_MAX, FLAGS },
-    {"morphamp", "set morph amplitude", OFFSET(morphamp), AV_OPT_TYPE_DOUBLE, {0}, -FLT_MAX, FLT_MAX, FLAGS },
-    {"outer", "set outer coloring mode", OFFSET(outer), AV_OPT_TYPE_INT, {NORMALIZED_ITERATION_COUNT}, 0, INT_MAX, FLAGS, "outer" },
-    {"iteration_count", "set iteration count mode", 0, AV_OPT_TYPE_CONST, {ITERATION_COUNT}, INT_MIN, INT_MAX, FLAGS, "outer" },
-    {"normalized_iteration_count", "set normalized iteration count mode", 0, AV_OPT_TYPE_CONST, {NORMALIZED_ITERATION_COUNT}, INT_MIN, INT_MAX, FLAGS, "outer" },
-    {"white", "set white mode", 0, AV_OPT_TYPE_CONST, {WHITE}, INT_MIN, INT_MAX, FLAGS, "outer" },
-    {"outz", "set outz mode", 0, AV_OPT_TYPE_CONST, {OUTZ}, INT_MIN, INT_MAX, FLAGS, "outer" },
-    {"inner", "set inner coloring mode", OFFSET(inner), AV_OPT_TYPE_INT, {MINCOL}, 0, INT_MAX, FLAGS, "inner" },
-    {"black", "set black mode", 0, AV_OPT_TYPE_CONST, {BLACK}, INT_MIN, INT_MAX, FLAGS, "inner"},
-    {"period", "set period mode", 0, AV_OPT_TYPE_CONST, {PERIOD}, INT_MIN, INT_MAX, FLAGS, "inner"},
-    {"convergence", "show time until convergence", 0, AV_OPT_TYPE_CONST, {CONVTIME}, INT_MIN, INT_MAX, FLAGS, "inner"},
-    {"mincol", "color based on point closest to the origin of the iterations", 0, AV_OPT_TYPE_CONST, {MINCOL}, INT_MIN, INT_MAX, FLAGS, "inner"},
-#else
 	{"size",        "set frame size",                OFFSET(w),       AV_OPT_TYPE_IMAGE_SIZE, {.str="640x480"},  CHAR_MIN, CHAR_MAX, FLAGS },
     {"s",           "set frame size",                OFFSET(w),       AV_OPT_TYPE_IMAGE_SIZE, {.str="640x480"},  CHAR_MIN, CHAR_MAX, FLAGS },
     {"rate",        "set frame rate",                OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {.str="25"},  CHAR_MIN, CHAR_MAX, FLAGS },
@@ -139,7 +113,6 @@ static const AVOption mandelbrot_options[] = {
     {"period",      "set period mode",               0, AV_OPT_TYPE_CONST, {.i64=PERIOD}, INT_MIN, INT_MAX, FLAGS, "inner"},
     {"convergence", "show time until convergence",   0, AV_OPT_TYPE_CONST, {.i64=CONVTIME}, INT_MIN, INT_MAX, FLAGS, "inner"},
     {"mincol",      "color based on point closest to the origin of the iterations",   0, AV_OPT_TYPE_CONST, {.i64=MINCOL}, INT_MIN, INT_MAX, FLAGS, "inner"},
-#endif
     {NULL},
 };
 
@@ -426,12 +399,7 @@ static int request_frame(AVFilterLink *link)
     if (!picref)
         return AVERROR(ENOMEM);
 
-#ifdef IDE_COMPILE
-	picref->sample_aspect_ratio.num = 1;
-	picref->sample_aspect_ratio.den = 1;
-#else
 	picref->sample_aspect_ratio = (AVRational) {1, 1};
-#endif
 	picref->pts = mb->pts++;
 
     draw_mandelbrot(link->src, (uint32_t*)picref->data[0], picref->linesize[0]/4, picref->pts);
@@ -440,33 +408,15 @@ static int request_frame(AVFilterLink *link)
 
 static const AVFilterPad mandelbrot_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vsrc_mandelbrot = {
-#ifdef IDE_COMPILE
-    "mandelbrot",
-    NULL_IF_CONFIG_SMALL("Render a Mandelbrot fractal."),
-    NULL,
-    mandelbrot_outputs,
-    &mandelbrot_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(MBContext),
-#else
 	.name          = "mandelbrot",
     .description   = NULL_IF_CONFIG_SMALL("Render a Mandelbrot fractal."),
     .priv_size     = sizeof(MBContext),
@@ -476,5 +426,4 @@ AVFilter ff_vsrc_mandelbrot = {
     .query_formats = query_formats,
     .inputs        = NULL,
     .outputs       = mandelbrot_outputs,
-#endif
 };

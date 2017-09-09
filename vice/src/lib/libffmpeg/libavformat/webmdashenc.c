@@ -297,31 +297,13 @@ static const AVOption options[] = {
 
 #if CONFIG_WEBM_DASH_MANIFEST_MUXER
 static const AVClass webm_dash_class = {
-#ifdef IDE_COMPILE
-    "WebM DASH Manifest muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "WebM DASH Manifest muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVOutputFormat ff_webm_dash_manifest_muxer = {
-#ifdef IDE_COMPILE
-    "webm_dash_manifest",
-    "WebM DASH Manifest",
-    "application/xml",
-    "xml",
-    0, 0, 0, 0, 0, &webm_dash_class,
-    0, sizeof(WebMDashMuxContext),
-    webm_dash_manifest_write_header,
-    webm_dash_manifest_write_packet,
-    webm_dash_manifest_write_trailer,
-#else
 	.name              = "webm_dash_manifest",
     .long_name         = NULL_IF_CONFIG_SMALL("WebM DASH Manifest"),
     .mime_type         = "application/xml",
@@ -331,6 +313,5 @@ AVOutputFormat ff_webm_dash_manifest_muxer = {
     .write_packet      = webm_dash_manifest_write_packet,
     .write_trailer     = webm_dash_manifest_write_trailer,
     .priv_class        = &webm_dash_class,
-#endif
 };
 #endif

@@ -261,19 +261,10 @@ static int wsvqa_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_wsvqa_demuxer = {
-#ifdef IDE_COMPILE
-    "wsvqa",
-    "Westwood Studios VQA",
-    0, 0, 0, 0, 0, 0, 0, sizeof(WsVqaDemuxContext),
-    wsvqa_probe,
-    wsvqa_read_header,
-    wsvqa_read_packet,
-#else
 	.name           = "wsvqa",
     .long_name      = NULL_IF_CONFIG_SMALL("Westwood Studios VQA"),
     .priv_data_size = sizeof(WsVqaDemuxContext),
     .read_probe     = wsvqa_probe,
     .read_header    = wsvqa_read_header,
     .read_packet    = wsvqa_read_packet,
-#endif
 };

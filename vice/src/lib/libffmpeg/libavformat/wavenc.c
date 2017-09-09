@@ -31,10 +31,6 @@
 #include <stdint.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avstring.h"
 #include "libavutil/dict.h"
 #include "libavutil/common.h"
@@ -493,20 +489,6 @@ static int wav_write_trailer(AVFormatContext *s)
 #define OFFSET(x) offsetof(WAVMuxContext, x)
 #define ENC AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "write_bext", "Write BEXT chunk.", OFFSET(write_bext), AV_OPT_TYPE_INT, {0}, 0, 1, ENC },
-    { "write_peak", "Write Peak Envelope chunk.", OFFSET(write_peak), AV_OPT_TYPE_INT, {0}, 0, 2, ENC, "peak" },
-    { "off", "Do not write peak chunk.", 0, AV_OPT_TYPE_CONST, {PEAK_OFF}, 0, 0, ENC, "peak" },
-    { "on", "Append peak chunk after wav data.", 0, AV_OPT_TYPE_CONST, {PEAK_ON}, 0, 0, ENC, "peak" },
-    { "only", "Write only peak chunk, omit wav data.", 0, AV_OPT_TYPE_CONST, {PEAK_ONLY}, 0, 0, ENC, "peak" },
-    { "rf64", "Use RF64 header rather than RIFF for large files.", OFFSET(rf64), AV_OPT_TYPE_INT, {RF64_NEVER}, -1, 1, ENC, "rf64" },
-    { "auto", "Write RF64 header if file grows large enough.", 0, AV_OPT_TYPE_CONST, {RF64_AUTO}, 0, 0, ENC, "rf64" },
-    { "always", "Always write RF64 header regardless of file size.", 0, AV_OPT_TYPE_CONST, {RF64_ALWAYS}, 0, 0, ENC, "rf64" },
-    { "never", "Never write RF64 header regardless of file size.", 0, AV_OPT_TYPE_CONST, {RF64_NEVER}, 0, 0, ENC, "rf64" },
-    { "peak_block_size", "Number of audio samples used to generate each peak frame.", OFFSET(peak_block_size), AV_OPT_TYPE_INT, {256}, 0, 65536, ENC },
-    { "peak_format", "The format of the peak envelope data (1: uint8, 2: uint16).", OFFSET(peak_format), AV_OPT_TYPE_INT, {PEAK_FORMAT_UINT16}, PEAK_FORMAT_UINT8, PEAK_FORMAT_UINT16, ENC },
-    { "peak_ppv", "Number of peak points per peak value (1 or 2).", OFFSET(peak_ppv), AV_OPT_TYPE_INT, {2}, 1, 2, ENC },
-#else
 	{ "write_bext", "Write BEXT chunk.", OFFSET(write_bext), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, ENC },
     { "write_peak", "Write Peak Envelope chunk.",            OFFSET(write_peak), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 2, ENC, "peak" },
     { "off",        "Do not write peak chunk.",              0,                  AV_OPT_TYPE_CONST, { .i64 = PEAK_OFF  }, 0, 0, ENC, "peak" },
@@ -519,44 +501,17 @@ static const AVOption options[] = {
     { "peak_block_size", "Number of audio samples used to generate each peak frame.",   OFFSET(peak_block_size), AV_OPT_TYPE_INT, { .i64 = 256 }, 0, 65536, ENC },
     { "peak_format",     "The format of the peak envelope data (1: uint8, 2: uint16).", OFFSET(peak_format), AV_OPT_TYPE_INT,     { .i64 = PEAK_FORMAT_UINT16 }, PEAK_FORMAT_UINT8, PEAK_FORMAT_UINT16, ENC },
     { "peak_ppv",        "Number of peak points per peak value (1 or 2).",              OFFSET(peak_ppv), AV_OPT_TYPE_INT, { .i64 = 2 }, 1, 2, ENC },
-#endif
 	{ NULL },
 };
 
 static const AVClass wav_muxer_class = {
-#ifdef IDE_COMPILE
-    "WAV muxer",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "WAV muxer",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpz[] = { ff_codec_wav_tags, 0 };
-#endif
-
 AVOutputFormat ff_wav_muxer = {
-#ifdef IDE_COMPILE
-    "wav",
-    "WAV / WAVE (Waveform Audio)",
-    "audio/x-wav",
-    "wav",
-    AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_TS_NONSTRICT,
-    tmpz,
-    &wav_muxer_class,
-    0, sizeof(WAVMuxContext),
-    wav_write_header,
-    wav_write_packet,
-    wav_write_trailer,
-#else
 	.name              = "wav",
     .long_name         = NULL_IF_CONFIG_SMALL("WAV / WAVE (Waveform Audio)"),
     .mime_type         = "audio/x-wav",
@@ -570,7 +525,6 @@ AVOutputFormat ff_wav_muxer = {
     .flags             = AVFMT_TS_NONSTRICT,
     .codec_tag         = (const AVCodecTag* const []){ ff_codec_wav_tags, 0 },
     .priv_class        = &wav_muxer_class,
-#endif
 };
 #endif /* CONFIG_WAV_MUXER */
 
@@ -656,24 +610,7 @@ static int w64_write_trailer(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag* const tmpx[] = { ff_codec_wav_tags, 0 };
-#endif
-
 AVOutputFormat ff_w64_muxer = {
-#ifdef IDE_COMPILE
-    "w64",
-    "Sony Wave64",
-    0, "w64",
-    AV_CODEC_ID_PCM_S16LE,
-    AV_CODEC_ID_NONE,
-    0, AVFMT_TS_NONSTRICT,
-    tmpx,
-    0, 0, sizeof(WAVMuxContext),
-    w64_write_header,
-    wav_write_packet,
-    w64_write_trailer,
-#else
 	.name              = "w64",
     .long_name         = NULL_IF_CONFIG_SMALL("Sony Wave64"),
     .extensions        = "w64",
@@ -685,6 +622,5 @@ AVOutputFormat ff_w64_muxer = {
     .write_trailer     = w64_write_trailer,
     .flags             = AVFMT_TS_NONSTRICT,
     .codec_tag         = (const AVCodecTag* const []){ ff_codec_wav_tags, 0 },
-#endif
 };
 #endif /* CONFIG_W64_MUXER */

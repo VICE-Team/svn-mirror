@@ -77,24 +77,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption life_options[] = {
-#ifdef IDE_COMPILE
-	{ "filename", "set source file", OFFSET(filename), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "f", "set source file", OFFSET(filename), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "size", "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "s", "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "rate", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },
-    { "r", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },
-    { "rule", "set rule", OFFSET(rule_str), AV_OPT_TYPE_STRING, {(intptr_t) "B3/S23"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "random_fill_ratio", "set fill ratio for filling initial grid randomly", OFFSET(random_fill_ratio), AV_OPT_TYPE_DOUBLE, {0x3fe3c6ef372fe94f}, 0, 1, FLAGS },
-    { "ratio", "set fill ratio for filling initial grid randomly", OFFSET(random_fill_ratio), AV_OPT_TYPE_DOUBLE, {0x3fe3c6ef372fe94f}, 0, 1, FLAGS },
-    { "random_seed", "set the seed for filling the initial grid randomly", OFFSET(random_seed), AV_OPT_TYPE_INT, {-1}, -1, UINT32_MAX, FLAGS },
-    { "seed", "set the seed for filling the initial grid randomly", OFFSET(random_seed), AV_OPT_TYPE_INT, {-1}, -1, UINT32_MAX, FLAGS },
-    { "stitch", "stitch boundaries", OFFSET(stitch), AV_OPT_TYPE_INT, {1}, 0, 1, FLAGS },
-    { "mold", "set mold speed for dead cells", OFFSET(mold), AV_OPT_TYPE_INT, {0}, 0, 0xFF, FLAGS },
-    { "life_color", "set life color", OFFSET( life_color), AV_OPT_TYPE_COLOR, {(intptr_t) "white"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "death_color", "set death color", OFFSET(death_color), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-    { "mold_color", "set mold color", OFFSET( mold_color), AV_OPT_TYPE_COLOR, {(intptr_t) "black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-#else
 	{ "filename", "set source file",  OFFSET(filename), AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
     { "f",        "set source file",  OFFSET(filename), AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
     { "size",     "set video size",   OFFSET(w),        AV_OPT_TYPE_IMAGE_SIZE, {.str = NULL}, 0, 0, FLAGS },
@@ -111,7 +93,6 @@ static const AVOption life_options[] = {
     { "life_color",  "set life color",  OFFSET( life_color), AV_OPT_TYPE_COLOR, {.str="white"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "death_color", "set death color", OFFSET(death_color), AV_OPT_TYPE_COLOR, {.str="black"}, CHAR_MIN, CHAR_MAX, FLAGS },
     { "mold_color",  "set mold color",  OFFSET( mold_color), AV_OPT_TYPE_COLOR, {.str="black"}, CHAR_MIN, CHAR_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -419,12 +400,7 @@ static int request_frame(AVFilterLink *outlink)
     AVFrame *picref = ff_get_video_buffer(outlink, life->w, life->h);
     if (!picref)
         return AVERROR(ENOMEM);
-#ifdef IDE_COMPILE
-	picref->sample_aspect_ratio.num = 1;
-	picref->sample_aspect_ratio.den = 1;
-#else
 	picref->sample_aspect_ratio = (AVRational) {1, 1};
-#endif
 	picref->pts = life->pts++;
 
     life->draw(outlink->src, picref);
@@ -453,33 +429,15 @@ static int query_formats(AVFilterContext *ctx)
 
 static const AVFilterPad life_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL}
 };
 
 AVFilter ff_vsrc_life = {
-#ifdef IDE_COMPILE
-    "life",
-    NULL_IF_CONFIG_SMALL("Create life."),
-    NULL,
-    life_outputs,
-    &life_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(LifeContext),
-#else
 	.name          = "life",
     .description   = NULL_IF_CONFIG_SMALL("Create life."),
     .priv_size     = sizeof(LifeContext),
@@ -489,5 +447,4 @@ AVFilter ff_vsrc_life = {
     .query_formats = query_formats,
     .inputs        = NULL,
     .outputs       = life_outputs,
-#endif
 };

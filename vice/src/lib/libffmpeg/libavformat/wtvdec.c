@@ -639,9 +639,6 @@ static AVStream * parse_media_type(AVFormatContext *s, AVStream *st, int sid,
 {
     WtvContext *wtv = s->priv_data;
     AVIOContext *pb = wtv->pb;
-#ifdef IDE_COMPILE
-    const uint8_t tmpa[] = {FF_MEDIASUBTYPE_BASE_GUID};
-#endif
 
 	if (!ff_guidcmp(subtype, ff_mediasubtype_cpfilters_processed) &&
         !ff_guidcmp(formattype, ff_format_cpfilters_processed)) {
@@ -676,11 +673,7 @@ static AVStream * parse_media_type(AVFormatContext *s, AVStream *st, int sid,
             avio_skip(pb, size);
         }
 
-#ifdef IDE_COMPILE
-		if (!memcmp(subtype + 4, tmpa, 12)) {
-#else
 		if (!memcmp(subtype + 4, (const uint8_t[]){FF_MEDIASUBTYPE_BASE_GUID}, 12)) {
-#endif
 			st->codec->codec_id = ff_wav_codec_get_id(AV_RL32(subtype), st->codec->bits_per_coded_sample);
         } else if (!ff_guidcmp(subtype, mediasubtype_mpeg1payload)) {
             if (st->codec->extradata && st->codec->extradata_size >= 22)
@@ -710,11 +703,7 @@ static AVStream * parse_media_type(AVFormatContext *s, AVStream *st, int sid,
             avio_skip(pb, size);
         }
 
-#ifdef IDE_COMPILE
-		if (!memcmp(subtype + 4, tmpa, 12)) {
-#else
 		if (!memcmp(subtype + 4, (const uint8_t[]){FF_MEDIASUBTYPE_BASE_GUID}, 12)) {
-#endif
 			st->codec->codec_id = ff_codec_get_id(ff_codec_bmp_tags, AV_RL32(subtype));
         } else {
             st->codec->codec_id = ff_codec_guid_get_id(ff_video_guids, subtype);
@@ -793,25 +782,6 @@ static int parse_chunks(AVFormatContext *s, int mode, int64_t seekts, int *len_p
 {
     WtvContext *wtv = s->priv_data;
     AVIOContext *pb = wtv->pb;
-#ifdef IDE_COMPILE
-    const ff_asf_guid tmpa = {0x83,0x95,0x74,0x40,0x9D,0x6B,0xEC,0x4E,0xB4,0x3C,0x67,0xA1,0x80,0x1E,0x1A,0x9B};
-    const ff_asf_guid tmp1 = {0x14,0x56,0x1A,0x0C,0xCD,0x30,0x40,0x4F,0xBC,0xBF,0xD0,0x3E,0x52,0x30,0x62,0x07};
-    const ff_asf_guid tmp2 = {0x79,0x66,0xB5,0xE0,0xB9,0x12,0xCC,0x43,0xB7,0xDF,0x57,0x8C,0xAA,0x5A,0x7B,0x63};
-	const ff_asf_guid tmp3 = {0x02,0xAE,0x5B,0x2F,0x8F,0x7B,0x60,0x4F,0x82,0xD6,0xE4,0xEA,0x2F,0x1F,0x4C,0x99};
-    const ff_asf_guid tmp4 = {0xCC,0x32,0x64,0xDD,0x29,0xE2,0xDB,0x40,0x80,0xF6,0xD2,0x63,0x28,0xD2,0x76,0x1F};
-    const ff_asf_guid tmp5 = {0xE5,0xC5,0x67,0x90,0x5C,0x4C,0x05,0x42,0x86,0xC8,0x7A,0xFE,0x20,0xFE,0x1E,0xFA};
-    const ff_asf_guid tmp6 = {0x80,0x6D,0xF3,0x41,0x32,0x41,0xC2,0x4C,0xB1,0x21,0x01,0xA4,0x32,0x19,0xD8,0x1B};
-    const ff_asf_guid tmp7 = {0x51,0x1D,0xAB,0x72,0xD2,0x87,0x9B,0x48,0xBA,0x11,0x0E,0x08,0xDC,0x21,0x02,0x43};
-    const ff_asf_guid tmp8 = {0x65,0x8F,0xFC,0x47,0xBB,0xE2,0x34,0x46,0x9C,0xEF,0xFD,0xBF,0xE6,0x26,0x1D,0x5C};
-	const ff_asf_guid tmp9 = {0xCB,0xC5,0x68,0x80,0x04,0x3C,0x2B,0x49,0xB4,0x7D,0x03,0x08,0x82,0x0D,0xCE,0x51};
-	const ff_asf_guid tmp10 = {0xBC,0x2E,0xAF,0x82,0xA6,0x30,0x64,0x42,0xA8,0x0B,0xAD,0x2E,0x13,0x72,0xAC,0x60};
-	const ff_asf_guid tmp11 = {0x1E,0xBE,0xC3,0xC5,0x43,0x92,0xDC,0x11,0x85,0xE5,0x00,0x12,0x3F,0x6F,0x73,0xB9};
-    const ff_asf_guid tmp12 = {0x3B,0x86,0xA2,0xB1,0xEB,0x1E,0xC3,0x44,0x8C,0x88,0x1C,0xA3,0xFF,0xE3,0xE7,0x6A};
-    const ff_asf_guid tmp13 = {0x4E,0x7F,0x4C,0x5B,0xC4,0xD0,0x38,0x4B,0xA8,0x3E,0x21,0x7F,0x7B,0xBF,0x52,0xE7};
-    const ff_asf_guid tmp14 = {0x63,0x36,0xEB,0xFE,0xA1,0x7E,0xD9,0x11,0x83,0x08,0x00,0x07,0xE9,0x5E,0xAD,0x8D};
-    const ff_asf_guid tmp15 = {0x70,0xE9,0xF1,0xF8,0x89,0xA4,0x4C,0x4D,0x83,0x73,0xB8,0x12,0xE0,0xD5,0xF8,0x1E};
-    const ff_asf_guid tmp16 = {0xF7,0x10,0x02,0xB9,0xEE,0x7C,0xED,0x4E,0xBD,0x7F,0x05,0x40,0x35,0x86,0x18,0xA1};
-#endif
 	
 	while (!avio_feof(pb)) {
         ff_asf_guid g;
@@ -947,38 +917,11 @@ static int parse_chunks(AVFormatContext *s, int mode, int64_t seekts, int *len_p
                 }
                 return stream_index;
             }
-#ifdef IDE_COMPILE
-		} else if (!ff_guidcmp(g, /* DSATTRIB_WMDRMProtectionInfo */ tmpa)) {
-#else
 		} else if (!ff_guidcmp(g, /* DSATTRIB_WMDRMProtectionInfo */ (const ff_asf_guid){0x83,0x95,0x74,0x40,0x9D,0x6B,0xEC,0x4E,0xB4,0x3C,0x67,0xA1,0x80,0x1E,0x1A,0x9B})) {
-#endif
 			int stream_index = ff_find_stream_index(s, sid);
             if (stream_index >= 0)
                 av_log(s, AV_LOG_WARNING, "encrypted stream detected (st:%d), decoding will likely fail\n", stream_index);
         } else if (
-#ifdef IDE_COMPILE
-			!ff_guidcmp(g, /* DSATTRIB_CAPTURE_STREAMTIME */ tmp1) ||
-            !ff_guidcmp(g, /* DSATTRIB_PBDATAG_ATTRIBUTE */ tmp2) ||
-            !ff_guidcmp(g, /* DSATTRIB_PicSampleSeq */ tmp3) ||
-            !ff_guidcmp(g, /* DSATTRIB_TRANSPORT_PROPERTIES */ ff_DSATTRIB_TRANSPORT_PROPERTIES) ||
-            !ff_guidcmp(g, /* dvr_ms_vid_frame_rep_data */ tmp4) ||
-            !ff_guidcmp(g, /* EVENTID_ChannelChangeSpanningEvent */ tmp5) ||
-            !ff_guidcmp(g, /* EVENTID_ChannelInfoSpanningEvent */ tmp6) ||
-            !ff_guidcmp(g, /* EVENTID_ChannelTypeSpanningEvent */ tmp7) ||
-            !ff_guidcmp(g, /* EVENTID_PIDListSpanningEvent */ tmp8) ||
-            !ff_guidcmp(g, /* EVENTID_SignalAndServiceStatusSpanningEvent */ tmp9) ||
-            !ff_guidcmp(g, /* EVENTID_StreamTypeSpanningEvent */ tmp10) ||
-            !ff_guidcmp(g, tmp11) ||
-            !ff_guidcmp(g, tmp12) ||
-            !ff_guidcmp(g, tmp13) ||
-            !ff_guidcmp(g, tmp14) ||
-            !ff_guidcmp(g, tmp15) ||
-            !ff_guidcmp(g, ff_index_guid) ||
-            !ff_guidcmp(g, ff_sync_guid) ||
-            !ff_guidcmp(g, ff_stream1_guid) ||
-            !ff_guidcmp(g, tmp16)) {
-            //ignore known guids
-#else
 			!ff_guidcmp(g, /* DSATTRIB_CAPTURE_STREAMTIME */ (const ff_asf_guid){0x14,0x56,0x1A,0x0C,0xCD,0x30,0x40,0x4F,0xBC,0xBF,0xD0,0x3E,0x52,0x30,0x62,0x07}) ||
             !ff_guidcmp(g, /* DSATTRIB_PBDATAG_ATTRIBUTE */ (const ff_asf_guid){0x79,0x66,0xB5,0xE0,0xB9,0x12,0xCC,0x43,0xB7,0xDF,0x57,0x8C,0xAA,0x5A,0x7B,0x63}) ||
             !ff_guidcmp(g, /* DSATTRIB_PicSampleSeq */ (const ff_asf_guid){0x02,0xAE,0x5B,0x2F,0x8F,0x7B,0x60,0x4F,0x82,0xD6,0xE4,0xEA,0x2F,0x1F,0x4C,0x99}) ||
@@ -1000,7 +943,6 @@ static int parse_chunks(AVFormatContext *s, int mode, int64_t seekts, int *len_p
             !ff_guidcmp(g, ff_stream1_guid) ||
             !ff_guidcmp(g, (const ff_asf_guid){0xF7,0x10,0x02,0xB9,0xEE,0x7C,0xED,0x4E,0xBD,0x7F,0x05,0x40,0x35,0x86,0x18,0xA1})) {
             //ignore known guids
-#endif
 		} else
             av_log(s, AV_LOG_WARNING, "unsupported chunk:"FF_PRI_GUID"\n", FF_ARG_GUID(g));
 
@@ -1169,17 +1111,6 @@ static int read_close(AVFormatContext *s)
 }
 
 AVInputFormat ff_wtv_demuxer = {
-#ifdef IDE_COMPILE
-    "wtv",
-    "Windows Television (WTV)",
-    AVFMT_SHOW_IDS,
-    0, 0, 0, 0, 0, 0, sizeof(WtvContext),
-    read_probe,
-    read_header,
-    read_packet,
-    read_close,
-    read_seek,
-#else
 	.name           = "wtv",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Television (WTV)"),
     .priv_data_size = sizeof(WtvContext),
@@ -1189,5 +1120,4 @@ AVInputFormat ff_wtv_demuxer = {
     .read_seek      = read_seek,
     .read_close     = read_close,
     .flags          = AVFMT_SHOW_IDS,
-#endif
 };

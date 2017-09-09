@@ -89,16 +89,6 @@ static int webvtt_write_packet(AVFormatContext *ctx, AVPacket *pkt)
 }
 
 AVOutputFormat ff_webvtt_muxer = {
-#ifdef IDE_COMPILE
-    "webvtt",
-    "WebVTT subtitle",
-    "text/vtt",
-    "vtt",
-    0, 0, AV_CODEC_ID_WEBVTT,
-    AVFMT_VARIABLE_FPS | AVFMT_TS_NONSTRICT,
-    0, 0, 0, 0, webvtt_write_header,
-    webvtt_write_packet,
-#else
 	.name              = "webvtt",
     .long_name         = NULL_IF_CONFIG_SMALL("WebVTT subtitle"),
     .extensions        = "vtt",
@@ -107,5 +97,4 @@ AVOutputFormat ff_webvtt_muxer = {
     .subtitle_codec    = AV_CODEC_ID_WEBVTT,
     .write_header      = webvtt_write_header,
     .write_packet      = webvtt_write_packet,
-#endif
 };

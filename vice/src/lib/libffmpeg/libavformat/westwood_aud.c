@@ -33,10 +33,6 @@
  * qualify a file. Refer to wsaud_probe() for the precise parameters.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "avformat.h"
@@ -177,17 +173,9 @@ static int wsaud_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_wsaud_demuxer = {
-#ifdef IDE_COMPILE
-    "wsaud",
-    "Westwood Studios audio",
-    0, 0, 0, 0, 0, 0, 0, 0, wsaud_probe,
-    wsaud_read_header,
-    wsaud_read_packet,
-#else
 	.name           = "wsaud",
     .long_name      = NULL_IF_CONFIG_SMALL("Westwood Studios audio"),
     .read_probe     = wsaud_probe,
     .read_header    = wsaud_read_header,
     .read_packet    = wsaud_read_packet,
-#endif
 };

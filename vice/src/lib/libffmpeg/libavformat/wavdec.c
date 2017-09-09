@@ -588,45 +588,18 @@ static int wav_read_seek(AVFormatContext *s,
 #define OFFSET(x) offsetof(WAVDemuxContext, x)
 #define DEC AV_OPT_FLAG_DECODING_PARAM
 static const AVOption demux_options[] = {
-#ifdef IDE_COMPILE
-	{ "ignore_length", "Ignore length", OFFSET(ignore_length), AV_OPT_TYPE_INT, {0}, 0, 1, DEC },
-#else
 	{ "ignore_length", "Ignore length", OFFSET(ignore_length), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, DEC },
-#endif
 	{ NULL },
 };
 
 static const AVClass wav_demuxer_class = {
-#ifdef IDE_COMPILE
-    "WAV demuxer",
-    av_default_item_name,
-    demux_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "WAV demuxer",
     .item_name  = av_default_item_name,
     .option     = demux_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const AVCodecTag * const tmpz[] = { ff_codec_wav_tags, 0 };
-#endif
-
 AVInputFormat ff_wav_demuxer = {
-#ifdef IDE_COMPILE
-    "wav",
-    "WAV / WAVE (Waveform Audio)",
-    AVFMT_GENERIC_INDEX,
-    0, tmpz,
-    &wav_demuxer_class,
-    0, 0, 0, sizeof(WAVDemuxContext),
-    wav_probe,
-    wav_read_header,
-    wav_read_packet,
-    0, wav_read_seek,
-#else
 	.name           = "wav",
     .long_name      = NULL_IF_CONFIG_SMALL("WAV / WAVE (Waveform Audio)"),
     .priv_data_size = sizeof(WAVDemuxContext),
@@ -637,7 +610,6 @@ AVInputFormat ff_wav_demuxer = {
     .flags          = AVFMT_GENERIC_INDEX,
     .codec_tag      = (const AVCodecTag * const []) { ff_codec_wav_tags,  0 },
     .priv_class     = &wav_demuxer_class,
-#endif
 };
 #endif /* CONFIG_WAV_DEMUXER */
 
@@ -760,22 +732,7 @@ static int w64_read_header(AVFormatContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const AVCodecTag * const tmpy[] = { ff_codec_wav_tags, 0 };
-#endif
-
 AVInputFormat ff_w64_demuxer = {
-#ifdef IDE_COMPILE
-    "w64",
-    "Sony Wave64",
-    AVFMT_GENERIC_INDEX,
-    0, tmpy,
-    0, 0, 0, 0, sizeof(WAVDemuxContext),
-    w64_probe,
-    w64_read_header,
-    wav_read_packet,
-    0, wav_read_seek,
-#else
 	.name           = "w64",
     .long_name      = NULL_IF_CONFIG_SMALL("Sony Wave64"),
     .priv_data_size = sizeof(WAVDemuxContext),
@@ -785,6 +742,5 @@ AVInputFormat ff_w64_demuxer = {
     .read_seek      = wav_read_seek,
     .flags          = AVFMT_GENERIC_INDEX,
     .codec_tag      = (const AVCodecTag * const []) { ff_codec_wav_tags, 0 },
-#endif
 };
 #endif /* CONFIG_W64_DEMUXER */
