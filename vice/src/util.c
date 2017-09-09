@@ -163,9 +163,6 @@ char *util_strjoin(const char **list, const char *sep)
     }
 
     total_len += ((list_size - 1) * sep_len) + 1;
-    printf("%s(): total size = %lu\n", __func__, (unsigned long)(total_len));
-
-
     result = lib_malloc(total_len);
 
     p = result;

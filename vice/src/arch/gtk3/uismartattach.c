@@ -110,6 +110,10 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \param[in]   widget      the dialog
  * \param[in]   user_data   reponse ID (`int`)
+ *
+ * TODO:    proper (error) messages, which requires implementing ui_error() and
+ *          ui_message() and moving them into gtk3/widgets to avoid circular
+ *          references
  */
 static void on_response(GtkWidget *widget, gpointer user_data)
 {
@@ -119,6 +123,7 @@ static void on_response(GtkWidget *widget, gpointer user_data)
     debug_gtk3("got response ID %d\n", response_id);
 
     switch (response_id) {
+
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
@@ -138,6 +143,27 @@ static void on_response(GtkWidget *widget, gpointer user_data)
             g_free(filename);
             gtk_widget_destroy(widget);
             break;
+
+        /* 'Autostart' button clicked */
+        case RESPONSE_AUTOSTART:
+            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+            debug_gtk3("Autostarting file '%s'\n", filename);
+            /* if this function exists, why is there no attach_autodetect()
+             * or something similar? -- compyx */
+            if (autostart_autodetect(
+                        filename,
+                        NULL,   /* program name */
+                        0,      /* Program number? Probably used when clicking
+                                   in the preview widget to load the proper
+                                   file in an image */
+                        AUTOSTART_MODE_RUN) < 0) {
+                /* oeps */
+                debug_gtk3("autostart-smart-attach failed\n");
+            }
+            g_free(filename);
+            gtk_widget_destroy(widget);
+            break;
+
         /* 'Close'/'X' button */
         case GTK_RESPONSE_REJECT:
             gtk_widget_destroy(widget);
