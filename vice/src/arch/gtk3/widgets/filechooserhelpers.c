@@ -67,7 +67,7 @@ const gchar *file_chooser_pattern_tape[] = {
 
 /** \brief  Patterns for program files
  */
-const gchar *file_chooser_pattern_prg[] = {
+const gchar *file_chooser_pattern_program[] = {
     "*.prg", "*.p[0-9][0-9]"
 };
 
@@ -92,8 +92,8 @@ const char *file_chooser_pattern_archive[] = {
  * XXX: Once we have libarchive implemented, we could probably query libarchive
  *      for the extensions supported
  */
-const gchar *file_chooser_pattern_zip[] = {
-    "*.bz2", "*.gz", ".rar", "*.[zZ]", "*.zip"
+const gchar *file_chooser_pattern_compressed[] = {
+    "*7z", "*.bz2", "*.gz", ".rar", "*.[zZ]", "*.zip"
 };
 
 
@@ -113,16 +113,21 @@ const gchar *file_chooser_pattern_zip[] = {
  *
  * \return  a new GtkFileFilter instance
  */
-GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter)
+GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
+                                          gboolean show_globs)
 {
     GtkFileFilter *ff;
     size_t i;
     char *globs;
     char *name;
 
-    globs = util_strjoin(filter.patterns, ";");
-    name = util_concat(filter.name, " (", globs, ")", NULL);
-    lib_free(globs);
+    if (show_globs) {
+        globs = util_strjoin(filter.patterns, ";");
+        name = util_concat(filter.name, " (", globs, ")", NULL);
+        lib_free(globs);
+    } else {
+        name = lib_stralloc(filter.name);
+    }
 
     ff = gtk_file_filter_new();
     gtk_file_filter_set_name(ff, name);
@@ -134,7 +139,6 @@ GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter)
      * (according to the Git repo on 2017-09-09)
      */
     lib_free(name);
-
     return ff;
 }
 

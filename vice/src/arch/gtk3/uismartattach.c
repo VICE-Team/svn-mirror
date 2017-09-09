@@ -52,8 +52,9 @@ static ui_file_filter_t filters[] = {
     { "All files", file_chooser_pattern_all },
     { "Disk images", file_chooser_pattern_disk },
     { "Tape images", file_chooser_pattern_tape },
-    { "Program files", file_chooser_pattern_prg },
-    { "Compressed files", file_chooser_pattern_zip },
+    { "Program files", file_chooser_pattern_program },
+    { "Archives files", file_chooser_pattern_archive },
+    { "Compressed files", file_chooser_pattern_compressed },
     { NULL, NULL }
 };
 
@@ -226,7 +227,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
-                create_file_chooser_filter(filters[i]));
+                create_file_chooser_filter(filters[i], TRUE));
     }
 
     /* connect "reponse" handler: the `user_data` argument gets filled in when

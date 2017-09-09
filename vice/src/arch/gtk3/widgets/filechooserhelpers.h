@@ -34,9 +34,9 @@ extern const gchar *file_chooser_pattern_all[];
 extern const gchar *file_chooser_pattern_disk[];
 extern const gchar *file_chooser_pattern_tape[];
 extern const gchar *file_chooser_pattern_tape[];
-extern const gchar *file_chooser_pattern_prg[];
+extern const gchar *file_chooser_pattern_program[];
 extern const gchar *file_chooser_pattern_archive[];
-extern const gchar *file_chooser_pattern_zip[];
+extern const gchar *file_chooser_pattern_compressed[];
 
 
 /** \brief  Object to construct a GtkFileFilter with
@@ -47,6 +47,7 @@ typedef struct ui_file_filter_s {
 } ui_file_filter_t;
 
 
-GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter);
+GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
+                                          gboolean show_globs);
 
 #endif
