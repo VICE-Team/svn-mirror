@@ -43,6 +43,7 @@
 #define util_arraysize(_x) (sizeof(_x) / sizeof(_x[0]))
 
 extern char *util_concat(const char *s1, ...);
+extern char *util_strjoin(const char **list, const char *sep);
 extern void util_addline(char **list, const char *line);
 extern void util_addline_free(char **list, char *line);
 extern uint8_t *util_bufcat(uint8_t *buf, int *buf_size, size_t *max_buf_size,

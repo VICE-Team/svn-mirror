@@ -116,6 +116,75 @@ char *util_concat(const char *s, ...)
     return newp;
 }
 
+
+/** \brief  Join the strings in \a list with \a sep as separator
+ *
+ * \param[in]   list    list of strings, `NULL`-terminated
+ * \param[in]   sep     separator string (optional)
+ *
+ * Example:
+ * \code{.c}
+ *
+ *  const char **list[] = { "foo", "bar", "meloen" };
+ *  char *s = util_strjoin(list, ";");
+ *  // returns: foo;bar;meloen
+ * \endcode
+ *
+ * \return  heap-allocated string, deallocate with lib_free()
+ */
+char *util_strjoin(const char **list, const char *sep)
+{
+    char *result;
+    char *p;
+    size_t i;
+    size_t list_size;
+    size_t total_len = 0;
+    size_t sep_len;
+
+    for (i = 0; list[i] != NULL; i++) {
+        total_len += strlen(list[i]);
+        /* NOP */
+    }
+    list_size = i;
+    /* total_len is now all strings in list added together without sep */
+
+    if (list_size == 0) {
+        /* no list */
+        return NULL;
+    } else if (list_size == 1) {
+        /* one item, just copy */
+        return lib_stralloc(*list);
+    }
+
+    if (sep != NULL && *sep != '\0') {
+        sep_len = strlen(sep);
+    } else {
+        sep_len = 0;
+    }
+
+    total_len += ((list_size - 1) * sep_len) + 1;
+    printf("%s(): total size = %lu\n", __func__, (unsigned long)(total_len));
+
+
+    result = lib_malloc(total_len);
+
+    p = result;
+    for (i = 0; i < list_size; i++) {
+        size_t ilen;
+        if (i > 0 && (sep_len > 0)) {
+            /* add sepatator */
+            memcpy(p, sep, sep_len);
+            p += sep_len;
+        }
+        ilen = strlen(list[i]);
+        memcpy(p, list[i], ilen);
+        p += ilen;
+    }
+    *p = '\0';
+    return result;
+}
+
+
 /* Add a line to a string.  */
 void util_addline(char **list, const char *line)
 {
