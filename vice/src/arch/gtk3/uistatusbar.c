@@ -449,7 +449,9 @@ GtkWidget *ui_statusbar_create(void)
     msg = gtk_label_new(NULL);
     g_object_ref(G_OBJECT(msg));
     gtk_label_set_xalign(GTK_LABEL(msg), 0.0);
+    gtk_label_set_ellipsize(GTK_LABEL(msg), PANGO_ELLIPSIZE_END);
     gtk_widget_set_hexpand(msg, TRUE);
+
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
     allocated_bars[i].msg = GTK_LABEL(msg);
