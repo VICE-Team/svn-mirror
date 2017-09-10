@@ -176,21 +176,7 @@ static int xface_decode_frame(AVCodecContext *avctx,
     return avpkt->size;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_MONOWHITE, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_xface_decoder = {
-#ifdef IDE_COMPILE
-    "xface",
-    "X-face image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_XFACE,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(XFaceContext),
-    0, 0, 0, 0, 0, xface_decode_init,
-    0, 0, xface_decode_frame,
-#else
 	.name           = "xface",
     .long_name      = NULL_IF_CONFIG_SMALL("X-face image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -199,5 +185,4 @@ AVCodec ff_xface_decoder = {
     .init           = xface_decode_init,
     .decode         = xface_decode_frame,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_MONOWHITE, AV_PIX_FMT_NONE },
-#endif
 };

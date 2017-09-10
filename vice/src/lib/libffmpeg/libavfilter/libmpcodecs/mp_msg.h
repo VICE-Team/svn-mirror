@@ -140,12 +140,7 @@ extern int ff_mp_msg_level_all;
 void ff_mp_msg_init(void);
 int ff_mp_msg_test(int mod, int lev);
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 void ff_mp_msg_va(int mod, int lev, const char *format, va_list va);
 #ifdef __GNUC__
@@ -158,16 +153,12 @@ void ff_mp_msg(int mod, int lev, const char *format, ... ) __attribute__ ((forma
 #   endif
 #else // not GNU C
 void ff_mp_msg(int mod, int lev, const char *format, ... );
-#   if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #      ifdef MP_DEBUG
 #         define mp_dbg(mod,lev, ... ) ff_mp_msg(mod, lev, __VA_ARGS__)
 #      else
           // only useful for developers, disable but check syntax
 #         define mp_dbg(mod,lev, ... ) do { if (0) ff_mp_msg(mod, lev, __VA_ARGS__); } while (0)
 #      endif
-#   else
-#      define mp_dbg var_args_dummy
-#   endif
 #endif /* __GNUC__ */
 
 const char* ff_filename_recode(const char* filename);

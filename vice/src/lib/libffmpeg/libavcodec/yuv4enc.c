@@ -79,21 +79,7 @@ static av_cold int yuv4_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_yuv4_encoder = {
-#ifdef IDE_COMPILE
-    "yuv4",
-    "Uncompressed packed 4:2:0",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_YUV4,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, yuv4_encode_init,
-    0, yuv4_encode_frame,
-    0, yuv4_encode_close,
-#else
 	.name         = "yuv4",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed 4:2:0"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -102,5 +88,4 @@ AVCodec ff_yuv4_encoder = {
     .encode2      = yuv4_encode_frame,
     .close        = yuv4_encode_close,
     .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
-#endif
 };

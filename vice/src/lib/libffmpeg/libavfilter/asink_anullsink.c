@@ -30,27 +30,14 @@ static int null_filter_frame(AVFilterLink *link, AVFrame *frame)
 
 static const AVFilterPad avfilter_asink_anullsink_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, null_filter_frame,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_AUDIO,
         .filter_frame   = null_filter_frame,
-#endif
 	},
     { NULL },
 };
 
 AVFilter ff_asink_anullsink = {
-#ifdef IDE_COMPILE
-    "anullsink",
-    NULL_IF_CONFIG_SMALL("Do absolutely nothing with the input audio."),
-    avfilter_asink_anullsink_inputs,
-    NULL,
-    0, 0, 0, 0, 0, 0, 0,
-#else
 	.name        = "anullsink",
     .description = NULL_IF_CONFIG_SMALL("Do absolutely nothing with the input audio."),
 
@@ -58,5 +45,4 @@ AVFilter ff_asink_anullsink = {
 
     .inputs    = avfilter_asink_anullsink_inputs,
     .outputs   = NULL,
-#endif
 };

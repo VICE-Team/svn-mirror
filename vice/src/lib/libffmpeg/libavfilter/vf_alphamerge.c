@@ -172,60 +172,30 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad alphamerge_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "main",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input_main,
-        0, 1,
-#else
 		.name             = "main",
         .type             = AVMEDIA_TYPE_VIDEO,
         .config_props     = config_input_main,
         .filter_frame     = filter_frame,
         .needs_writable   = 1,
-#endif
 	},{
-#ifdef IDE_COMPILE
-        "alpha",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name             = "alpha",
         .type             = AVMEDIA_TYPE_VIDEO,
         .filter_frame     = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad alphamerge_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_alphamerge = {
-#ifdef IDE_COMPILE
-    "alphamerge",
-    NULL_IF_CONFIG_SMALL("Copy the luma value of the second input into the alpha channel of the first input."),
-    alphamerge_inputs,
-    alphamerge_outputs,
-    0, 0, 0, 0, uninit,
-    query_formats,
-    sizeof(AlphaMergeContext),
-#else
 	.name           = "alphamerge",
     .description    = NULL_IF_CONFIG_SMALL("Copy the luma value of the second "
                       "input into the alpha channel of the first input."),
@@ -234,5 +204,4 @@ AVFilter ff_vf_alphamerge = {
     .query_formats  = query_formats,
     .inputs         = alphamerge_inputs,
     .outputs        = alphamerge_outputs,
-#endif
 };

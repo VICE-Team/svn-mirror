@@ -45,13 +45,8 @@ typedef struct {
 #define A AV_OPT_FLAG_AUDIO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption aconvert_options[] = {
-#ifdef IDE_COMPILE
-	{ "sample_fmt",     "", OFFSET(format_str),         AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
-	{ "channel_layout", "", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
-#else
 	{ "sample_fmt",     "", OFFSET(format_str),         AV_OPT_TYPE_STRING, .flags = A|F },
     { "channel_layout", "", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, .flags = A|F },
-#endif
 	{ NULL }
 };
 
@@ -172,46 +167,23 @@ static int  filter_frame(AVFilterLink *inlink, AVFrame *insamplesref)
 
 static const AVFilterPad aconvert_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad aconvert_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_aconvert = {
-#ifdef IDE_COMPILE
-    "aconvert",
-    NULL_IF_CONFIG_SMALL("Convert the input audio to sample_fmt:channel_layout."),
-    aconvert_inputs,
-    aconvert_outputs,
-    &aconvert_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(AConvertContext),
-#else
 	.name          = "aconvert",
     .description   = NULL_IF_CONFIG_SMALL("Convert the input audio to sample_fmt:channel_layout."),
     .priv_size     = sizeof(AConvertContext),
@@ -221,5 +193,4 @@ AVFilter ff_af_aconvert = {
     .query_formats = query_formats,
     .inputs        = aconvert_inputs,
     .outputs       = aconvert_outputs,
-#endif
 };

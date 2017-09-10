@@ -53,22 +53,6 @@ typedef struct FlangerContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption flanger_options[] = {
-#ifdef IDE_COMPILE
-	{ "delay", "base delay in milliseconds",        OFFSET(delay_min),   AV_OPT_TYPE_DOUBLE, {0}, 0, 30, A },
-    { "depth", "added swept delay in milliseconds", OFFSET(delay_depth), AV_OPT_TYPE_DOUBLE, {0x4000000000000000}, 0, 10, A },
-    { "regen", "percentage regeneration (delayed signal feedback)", OFFSET(feedback_gain), AV_OPT_TYPE_DOUBLE, {0}, -95, 95, A },
-    { "width", "percentage of delayed signal mixed with original", OFFSET(delay_gain), AV_OPT_TYPE_DOUBLE, {0x4051c00000000000}, 0, 100, A },
-    { "speed", "sweeps per second (Hz)", OFFSET(speed), AV_OPT_TYPE_DOUBLE, {0x3fe0000000000000}, 0.1, 10, A },
-    { "shape", "swept wave shape", OFFSET(wave_shape), AV_OPT_TYPE_INT, {WAVE_SIN}, WAVE_SIN, WAVE_NB-1, A, "type" },
-    { "triangular",  NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_TRI}, 0, 0, A, "type" },
-    { "t",           NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_TRI}, 0, 0, A, "type" },
-    { "sinusoidal",  NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_SIN}, 0, 0, A, "type" },
-    { "s",           NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_SIN}, 0, 0, A, "type" },
-    { "phase", "swept wave percentage phase-shift for multi-channel", OFFSET(channel_phase), AV_OPT_TYPE_DOUBLE, {0x4039000000000000}, 0, 100, A },
-    { "interp", "delay-line interpolation", OFFSET(interpolation), AV_OPT_TYPE_INT, {0}, 0, 1, A, "itype" },
-    { "linear",     NULL, 0, AV_OPT_TYPE_CONST,  {INTERPOLATION_LINEAR}, 0, 0, A, "itype" },
-    { "quadratic",  NULL, 0, AV_OPT_TYPE_CONST,  {INTERPOLATION_QUADRATIC}, 0, 0, A, "itype" },
-#else
 	{ "delay", "base delay in milliseconds",        OFFSET(delay_min),   AV_OPT_TYPE_DOUBLE, {.dbl=0}, 0, 30, A },
     { "depth", "added swept delay in milliseconds", OFFSET(delay_depth), AV_OPT_TYPE_DOUBLE, {.dbl=2}, 0, 10, A },
     { "regen", "percentage regeneration (delayed signal feedback)", OFFSET(feedback_gain), AV_OPT_TYPE_DOUBLE, {.dbl=0}, -95, 95, A },
@@ -83,7 +67,6 @@ static const AVOption flanger_options[] = {
     { "interp", "delay-line interpolation", OFFSET(interpolation), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, A, "itype" },
     { "linear",     NULL, 0, AV_OPT_TYPE_CONST,  {.i64=INTERPOLATION_LINEAR},    0, 0, A, "itype" },
     { "quadratic",  NULL, 0, AV_OPT_TYPE_CONST,  {.i64=INTERPOLATION_QUADRATIC}, 0, 0, A, "itype" },
-#endif
 	{ NULL }
 };
 
@@ -229,46 +212,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad flanger_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad flanger_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_flanger = {
-#ifdef IDE_COMPILE
-    "flanger",
-    NULL_IF_CONFIG_SMALL("Apply a flanging effect to the audio."),
-    flanger_inputs,
-    flanger_outputs,
-    &flanger_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(FlangerContext),
-#else
 	.name          = "flanger",
     .description   = NULL_IF_CONFIG_SMALL("Apply a flanging effect to the audio."),
     .query_formats = query_formats,
@@ -278,5 +238,4 @@ AVFilter ff_af_flanger = {
     .uninit        = uninit,
     .inputs        = flanger_inputs,
     .outputs       = flanger_outputs,
-#endif
 };

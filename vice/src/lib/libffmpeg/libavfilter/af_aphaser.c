@@ -56,18 +56,6 @@ typedef struct AudioPhaserContext {
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption aphaser_options[] = {
-#ifdef IDE_COMPILE
-	{ "in_gain",  "set input gain",            OFFSET(in_gain),  AV_OPT_TYPE_DOUBLE, {0x3fd999999999999a}, 0, 1, FLAGS },
-    { "out_gain", "set output gain",           OFFSET(out_gain), AV_OPT_TYPE_DOUBLE, {0x3fe7ae147ae147ae}, 0,  1e9, FLAGS },
-    { "delay",    "set delay in milliseconds", OFFSET(delay),    AV_OPT_TYPE_DOUBLE, {0x4008000000000000},  0,  5,   FLAGS },
-    { "decay",    "set decay",                 OFFSET(decay),    AV_OPT_TYPE_DOUBLE, {0x3fd999999999999a},  0, .99,  FLAGS },
-    { "speed",    "set modulation speed",      OFFSET(speed),    AV_OPT_TYPE_DOUBLE, {0x3fe0000000000000}, .1,  2,   FLAGS },
-    { "type",     "set modulation type",       OFFSET(type),     AV_OPT_TYPE_INT,    {WAVE_TRI}, 0, WAVE_NB-1, FLAGS, "type" },
-    { "triangular",  NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_TRI}, 0, 0, FLAGS, "type" },
-    { "t",           NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_TRI}, 0, 0, FLAGS, "type" },
-    { "sinusoidal",  NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_SIN}, 0, 0, FLAGS, "type" },
-    { "s",           NULL, 0, AV_OPT_TYPE_CONST,  {WAVE_SIN}, 0, 0, FLAGS, "type" },
-#else
 	{ "in_gain",  "set input gain",            OFFSET(in_gain),  AV_OPT_TYPE_DOUBLE, {.dbl=.4},  0,  1,   FLAGS },
     { "out_gain", "set output gain",           OFFSET(out_gain), AV_OPT_TYPE_DOUBLE, {.dbl=.74}, 0,  1e9, FLAGS },
     { "delay",    "set delay in milliseconds", OFFSET(delay),    AV_OPT_TYPE_DOUBLE, {.dbl=3.},  0,  5,   FLAGS },
@@ -78,7 +66,6 @@ static const AVOption aphaser_options[] = {
     { "t",           NULL, 0, AV_OPT_TYPE_CONST,  {.i64=WAVE_TRI}, 0, 0, FLAGS, "type" },
     { "sinusoidal",  NULL, 0, AV_OPT_TYPE_CONST,  {.i64=WAVE_SIN}, 0, 0, FLAGS, "type" },
     { "s",           NULL, 0, AV_OPT_TYPE_CONST,  {.i64=WAVE_SIN}, 0, 0, FLAGS, "type" },
-#endif
 	{ NULL }
 };
 
@@ -280,46 +267,23 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad aphaser_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad aphaser_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_aphaser = {
-#ifdef IDE_COMPILE
-    "aphaser",
-    NULL_IF_CONFIG_SMALL("Add a phasing effect to the audio."),
-    aphaser_inputs,
-    aphaser_outputs,
-    &aphaser_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(AudioPhaserContext),
-#else
 	.name          = "aphaser",
     .description   = NULL_IF_CONFIG_SMALL("Add a phasing effect to the audio."),
     .query_formats = query_formats,
@@ -329,5 +293,4 @@ AVFilter ff_af_aphaser = {
     .inputs        = aphaser_inputs,
     .outputs       = aphaser_outputs,
     .priv_class    = &aphaser_class,
-#endif
 };

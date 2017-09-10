@@ -152,12 +152,7 @@ static int config_output(AVFilterLink *outlink)
     out_rate   = av_get_int(aresample->swr, "osr", NULL);
     out_layout = av_get_int(aresample->swr, "ocl", NULL);
     out_format = av_get_int(aresample->swr, "osf", NULL);
-#ifdef IDE_COMPILE
-	outlink->time_base.num = 1;
-	outlink->time_base.den = out_rate;
-#else
 	outlink->time_base = (AVRational) {1, out_rate};
-#endif
 
     av_assert0(outlink->sample_rate == out_rate);
     av_assert0(outlink->channel_layout == out_layout || !outlink->channel_layout);
@@ -278,76 +273,39 @@ static void *resample_child_next(void *obj, void *prev)
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"sample_rate", NULL, OFFSET(sample_rate_arg), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-#else
 	{"sample_rate", NULL, OFFSET(sample_rate_arg), AV_OPT_TYPE_INT, {.i64=0},  0,        INT_MAX, FLAGS },
-#endif
 	{NULL}
 };
 
 static const AVClass aresample_class = {
-#ifdef IDE_COMPILE
-    "aresample",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, resample_child_next,
-    resample_child_class_next,
-#else
 	.class_name       = "aresample",
     .item_name        = av_default_item_name,
     .option           = options,
     .version          = LIBAVUTIL_VERSION_INT,
     .child_class_next = resample_child_class_next,
     .child_next       = resample_child_next,
-#endif
 };
 
 static const AVFilterPad aresample_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad aresample_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .config_props  = config_output,
         .request_frame = request_frame,
         .type          = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_aresample = {
-#ifdef IDE_COMPILE
-    "aresample",
-    NULL_IF_CONFIG_SMALL("Resample audio data."),
-    aresample_inputs,
-    aresample_outputs,
-    &aresample_class,
-    0, 0, init_dict,
-    uninit,
-    query_formats,
-    sizeof(AResampleContext),
-#else
 	.name          = "aresample",
     .description   = NULL_IF_CONFIG_SMALL("Resample audio data."),
     .init_dict     = init_dict,
@@ -357,5 +315,4 @@ AVFilter ff_af_aresample = {
     .priv_class    = &aresample_class,
     .inputs        = aresample_inputs,
     .outputs       = aresample_outputs,
-#endif
 };

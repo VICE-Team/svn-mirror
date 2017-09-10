@@ -334,25 +334,6 @@ unsigned av_buffersrc_get_nb_failed_requests(AVFilterContext *buffer_src)
 #define V AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption buffer_options[] = {
-#ifdef IDE_COMPILE
-	{ "width", NULL, OFFSET(w), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, V },
-	{ "video_size", NULL, OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {0}, 0, 0, V },
-    { "height", NULL, OFFSET(h), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, V },
-    { "pix_fmt", NULL, OFFSET(pix_fmt), AV_OPT_TYPE_PIXEL_FMT, {AV_PIX_FMT_NONE}, AV_PIX_FMT_NONE, INT_MAX, V },
-#if FF_API_OLD_FILTER_OPTS
-    /* those 4 are for compatibility with the old option passing system where each filter
-     * did its own parsing */
-    { "time_base_num", "deprecated, do not use", OFFSET(time_base.num), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, V },
-    { "time_base_den", "deprecated, do not use", OFFSET(time_base.den), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, V },
-    { "sar_num", "deprecated, do not use", OFFSET(pixel_aspect.num), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, V },
-    { "sar_den", "deprecated, do not use", OFFSET(pixel_aspect.den), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, V },
-#endif
-    { "sar", "sample aspect ratio", OFFSET(pixel_aspect), AV_OPT_TYPE_RATIONAL, {0x3ff0000000000000}, 0, DBL_MAX, V },
-    { "pixel_aspect", "sample aspect ratio", OFFSET(pixel_aspect), AV_OPT_TYPE_RATIONAL, {0x3ff0000000000000}, 0, DBL_MAX, V },
-    { "time_base", NULL, OFFSET(time_base), AV_OPT_TYPE_RATIONAL, {0}, 0, DBL_MAX, V },
-    { "frame_rate", NULL, OFFSET(frame_rate), AV_OPT_TYPE_RATIONAL, {0}, 0, DBL_MAX, V },
-	{ "sws_param", NULL, OFFSET(sws_param), AV_OPT_TYPE_STRING, {0}, 0, 0, V },
-#else
 	{ "width",         NULL,                     OFFSET(w),                AV_OPT_TYPE_INT,      { .i64 = 0 }, 0, INT_MAX, V },
     { "video_size",    NULL,                     OFFSET(w),                AV_OPT_TYPE_IMAGE_SIZE,                .flags = V },
     { "height",        NULL,                     OFFSET(h),                AV_OPT_TYPE_INT,      { .i64 = 0 }, 0, INT_MAX, V },
@@ -370,26 +351,17 @@ static const AVOption buffer_options[] = {
     { "time_base",     NULL,                     OFFSET(time_base),        AV_OPT_TYPE_RATIONAL, { .dbl = 0 }, 0, DBL_MAX, V },
     { "frame_rate",    NULL,                     OFFSET(frame_rate),       AV_OPT_TYPE_RATIONAL, { .dbl = 0 }, 0, DBL_MAX, V },
     { "sws_param",     NULL,                     OFFSET(sws_param),        AV_OPT_TYPE_STRING,                    .flags = V },
-#endif
 	{ NULL },
 };
 
 AVFILTER_DEFINE_CLASS(buffer);
 
 static const AVOption abuffer_options[] = {
-#ifdef IDE_COMPILE
-	{ "time_base", NULL, OFFSET(time_base), AV_OPT_TYPE_RATIONAL, {0}, 0, INT_MAX, A },
-    { "sample_rate", NULL, OFFSET(sample_rate), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, A },
-    { "sample_fmt", NULL, OFFSET(sample_fmt), AV_OPT_TYPE_SAMPLE_FMT, {AV_SAMPLE_FMT_NONE}, AV_SAMPLE_FMT_NONE, INT_MAX, A },
-	{ "channel_layout", NULL, OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {0}, 0, 0, A },
-    { "channels", NULL, OFFSET(channels), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, A },
-#else
 	{ "time_base",      NULL, OFFSET(time_base),           AV_OPT_TYPE_RATIONAL, { .dbl = 0 }, 0, INT_MAX, A },
     { "sample_rate",    NULL, OFFSET(sample_rate),         AV_OPT_TYPE_INT,      { .i64 = 0 }, 0, INT_MAX, A },
     { "sample_fmt",     NULL, OFFSET(sample_fmt),          AV_OPT_TYPE_SAMPLE_FMT, { .i64 = AV_SAMPLE_FMT_NONE }, .min = AV_SAMPLE_FMT_NONE, .max = INT_MAX, .flags = A },
     { "channel_layout", NULL, OFFSET(channel_layout_str),  AV_OPT_TYPE_STRING,             .flags = A },
     { "channels",       NULL, OFFSET(channels),            AV_OPT_TYPE_INT,      { .i64 = 0 }, 0, INT_MAX, A },
-#endif
 	{ NULL },
 };
 
@@ -435,12 +407,7 @@ static av_cold int init_audio(AVFilterContext *ctx)
         return AVERROR(ENOMEM);
 
     if (!s->time_base.num) {
-#ifdef IDE_COMPILE
-		s->time_base.num = 1;
-		s->time_base.den = s->sample_rate;
-#else
 		s->time_base = (AVRational){1, s->sample_rate};
-#endif
 	}
 
     av_log(ctx, AV_LOG_VERBOSE,
@@ -544,35 +511,16 @@ static int poll_frame(AVFilterLink *link)
 
 static const AVFilterPad avfilter_vsrc_buffer_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, poll_frame,
-        request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .request_frame = request_frame,
         .poll_frame    = poll_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vsrc_buffer = {
-#ifdef IDE_COMPILE
-    "buffer",
-    NULL_IF_CONFIG_SMALL("Buffer video frames, and make them accessible to the filterchain."),
-    NULL,
-    avfilter_vsrc_buffer_outputs,
-    &buffer_class,
-    0, init_video,
-    0, uninit,
-    query_formats,
-    sizeof(BufferSourceContext),
-#else
 	.name      = "buffer",
     .description = NULL_IF_CONFIG_SMALL("Buffer video frames, and make them accessible to the filterchain."),
     .priv_size = sizeof(BufferSourceContext),
@@ -582,40 +530,20 @@ AVFilter ff_vsrc_buffer = {
     .inputs    = NULL,
     .outputs   = avfilter_vsrc_buffer_outputs,
     .priv_class = &buffer_class,
-#endif
 };
 
 static const AVFilterPad avfilter_asrc_abuffer_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, poll_frame,
-        request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .request_frame = request_frame,
         .poll_frame    = poll_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_asrc_abuffer = {
-#ifdef IDE_COMPILE
-    "abuffer",
-    NULL_IF_CONFIG_SMALL("Buffer audio frames, and make them accessible to the filterchain."),
-    NULL,
-    avfilter_asrc_abuffer_outputs,
-    &abuffer_class,
-    0, init_audio,
-    0, uninit,
-    query_formats,
-    sizeof(BufferSourceContext),
-#else
 	.name          = "abuffer",
     .description   = NULL_IF_CONFIG_SMALL("Buffer audio frames, and make them accessible to the filterchain."),
     .priv_size     = sizeof(BufferSourceContext),
@@ -625,5 +553,4 @@ AVFilter ff_asrc_abuffer = {
     .inputs    = NULL,
     .outputs   = avfilter_asrc_abuffer_outputs,
     .priv_class = &abuffer_class,
-#endif
 };

@@ -29,10 +29,6 @@
 
 #include "libavutil/intreadwrite.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avformat.h"
 #include "internal.h"
 #include "riff.h"
@@ -572,15 +568,6 @@ static int xmv_read_packet(AVFormatContext *s,
 }
 
 AVInputFormat ff_xmv_demuxer = {
-#ifdef IDE_COMPILE
-    "xmv",
-    "Microsoft XMV",
-    0, 0, 0, 0, 0, 0, 0, sizeof(XMVDemuxContext),
-    xmv_probe,
-    xmv_read_header,
-    xmv_read_packet,
-    xmv_read_close,
-#else
 	.name           = "xmv",
     .long_name      = NULL_IF_CONFIG_SMALL("Microsoft XMV"),
     .priv_data_size = sizeof(XMVDemuxContext),
@@ -588,5 +575,4 @@ AVInputFormat ff_xmv_demuxer = {
     .read_header    = xmv_read_header,
     .read_packet    = xmv_read_packet,
     .read_close     = xmv_read_close,
-#endif
 };

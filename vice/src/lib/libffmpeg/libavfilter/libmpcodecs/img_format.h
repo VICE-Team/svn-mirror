@@ -19,12 +19,7 @@
 #ifndef MPLAYER_IMG_FORMAT_H
 #define MPLAYER_IMG_FORMAT_H
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 /* RGB/BGR Formats */
 

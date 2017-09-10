@@ -177,18 +177,6 @@ typedef struct MixContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption amix_options[] = {
-#ifdef IDE_COMPILE
-	{ "inputs", "Number of inputs.",
-            OFFSET(nb_inputs), AV_OPT_TYPE_INT, {2}, 1, 32, A|F },
-    { "duration", "How to determine the end-of-stream.",
-            OFFSET(duration_mode), AV_OPT_TYPE_INT, {DURATION_LONGEST}, 0,  2, A|F, "duration" },
-        { "longest",  "Duration of longest input.",  0, AV_OPT_TYPE_CONST, {DURATION_LONGEST}, INT_MIN, INT_MAX, A|F, "duration" },
-        { "shortest", "Duration of shortest input.", 0, AV_OPT_TYPE_CONST, {DURATION_SHORTEST}, INT_MIN, INT_MAX, A|F, "duration" },
-        { "first",    "Duration of first input.",    0, AV_OPT_TYPE_CONST, {DURATION_FIRST}, INT_MIN, INT_MAX, A|F, "duration" },
-    { "dropout_transition", "Transition time, in seconds, for volume "
-                            "renormalization when an input stream ends.",
-            OFFSET(dropout_transition), AV_OPT_TYPE_FLOAT, {0x4000000000000000}, 0, INT_MAX, A|F },
-#else
 	{ "inputs", "Number of inputs.",
             OFFSET(nb_inputs), AV_OPT_TYPE_INT, { .i64 = 2 }, 1, 32, A|F },
     { "duration", "How to determine the end-of-stream.",
@@ -199,7 +187,6 @@ static const AVOption amix_options[] = {
     { "dropout_transition", "Transition time, in seconds, for volume "
                             "renormalization when an input stream ends.",
             OFFSET(dropout_transition), AV_OPT_TYPE_FLOAT, { .dbl = 2.0 }, 0, INT_MAX, A|F },
-#endif
 	{ NULL }
 };
 
@@ -238,12 +225,7 @@ static int config_output(AVFilterLink *outlink)
 
     s->planar          = av_sample_fmt_is_planar(outlink->format);
     s->sample_rate     = outlink->sample_rate;
-#ifdef IDE_COMPILE
-	outlink->time_base.num = 1;
-	outlink->time_base.den = outlink->sample_rate;
-#else
 	outlink->time_base = (AVRational){ 1, outlink->sample_rate };
-#endif
 	s->next_pts        = AV_NOPTS_VALUE;
 
     s->frame_list = av_mallocz(sizeof(*s->frame_list));
@@ -556,34 +538,15 @@ static int query_formats(AVFilterContext *ctx)
 
 static const AVFilterPad avfilter_af_amix_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = config_output,
         .request_frame = request_frame
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_amix = {
-#ifdef IDE_COMPILE
-    "amix",
-    NULL_IF_CONFIG_SMALL("Audio mixing."),
-    NULL,
-    avfilter_af_amix_outputs,
-    &amix_class,
-    AVFILTER_FLAG_DYNAMIC_INPUTS,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(MixContext),
-#else
 	.name           = "amix",
     .description    = NULL_IF_CONFIG_SMALL("Audio mixing."),
     .priv_size      = sizeof(MixContext),
@@ -594,5 +557,4 @@ AVFilter ff_af_amix = {
     .inputs         = NULL,
     .outputs        = avfilter_af_amix_outputs,
     .flags          = AVFILTER_FLAG_DYNAMIC_INPUTS,
-#endif
 };

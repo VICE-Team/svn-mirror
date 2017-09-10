@@ -27,15 +27,6 @@
 #include "avformat.h"
 #include "internal.h"
 
-#ifdef IDE_COMPILE
-#ifndef FF_DISABLE_DEPRECATION_WARNINGS
-#define FF_DISABLE_DEPRECATION_WARNINGS
-#endif
-#ifndef FF_ENABLE_DEPRECATION_WARNINGS
-#define FF_ENABLE_DEPRECATION_WARNINGS
-#endif
-#endif
-
 typedef struct yop_dec_context {
     AVPacket video_packet;
 
@@ -101,12 +92,7 @@ static int yop_read_header(AVFormatContext *s)
     video_dec->width        = avio_rl16(pb);
     video_dec->height       = avio_rl16(pb);
 
-#ifdef IDE_COMPILE
-	video_stream->sample_aspect_ratio.num = 1;
-	video_stream->sample_aspect_ratio.den = 2;
-#else
 	video_stream->sample_aspect_ratio = (AVRational){1, 2};
-#endif
 
     ret = avio_read(pb, video_dec->extradata, 8);
     if (ret < 8)
@@ -231,18 +217,6 @@ static int yop_read_seek(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_yop_demuxer = {
-#ifdef IDE_COMPILE
-    "yop",
-    "Psygnosis YOP",
-    AVFMT_GENERIC_INDEX,
-    "yop",
-    0, 0, 0, 0, 0, sizeof(YopDecContext),
-    yop_probe,
-    yop_read_header,
-    yop_read_packet,
-    yop_read_close,
-    yop_read_seek,
-#else
 	.name           = "yop",
     .long_name      = NULL_IF_CONFIG_SMALL("Psygnosis YOP"),
     .priv_data_size = sizeof(YopDecContext),
@@ -253,5 +227,4 @@ AVInputFormat ff_yop_demuxer = {
     .read_seek      = yop_read_seek,
     .extensions     = "yop",
     .flags          = AVFMT_GENERIC_INDEX,
-#endif
 };

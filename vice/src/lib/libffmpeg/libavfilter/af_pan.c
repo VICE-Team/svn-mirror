@@ -394,11 +394,7 @@ static av_cold void uninit(AVFilterContext *ctx)
 #define OFFSET(x) offsetof(PanContext, x)
 
 static const AVOption pan_options[] = {
-#ifdef IDE_COMPILE
-	{ "args", NULL, OFFSET(args), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, CHAR_MIN, CHAR_MAX, AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_FILTERING_PARAM },
-#else
 	{ "args", NULL, OFFSET(args), AV_OPT_TYPE_STRING, { .str = NULL }, CHAR_MIN, CHAR_MAX, AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_FILTERING_PARAM },
-#endif
 	{ NULL }
 };
 
@@ -406,46 +402,23 @@ AVFILTER_DEFINE_CLASS(pan);
 
 static const AVFilterPad pan_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_props,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad pan_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_pan = {
-#ifdef IDE_COMPILE
-    "pan",
-    NULL_IF_CONFIG_SMALL("Remix channels with coefficients (panning)."),
-    pan_inputs,
-    pan_outputs,
-    &pan_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(PanContext),
-#else
 	.name          = "pan",
     .description   = NULL_IF_CONFIG_SMALL("Remix channels with coefficients (panning)."),
     .priv_size     = sizeof(PanContext),
@@ -455,5 +428,4 @@ AVFilter ff_af_pan = {
     .query_formats = query_formats,
     .inputs        = pan_inputs,
     .outputs       = pan_outputs,
-#endif
 };

@@ -344,15 +344,6 @@ static int wv_read_seek(AVFormatContext *s, int stream_index,
 }
 
 AVInputFormat ff_wv_demuxer = {
-#ifdef IDE_COMPILE
-    "wv",
-    "WavPack",
-    0, 0, 0, 0, 0, 0, 0, sizeof(WVContext),
-    wv_probe,
-    wv_read_header,
-    wv_read_packet,
-    0, wv_read_seek,
-#else
 	.name           = "wv",
     .long_name      = NULL_IF_CONFIG_SMALL("WavPack"),
     .priv_data_size = sizeof(WVContext),
@@ -360,5 +351,4 @@ AVInputFormat ff_wv_demuxer = {
     .read_header    = wv_read_header,
     .read_packet    = wv_read_packet,
     .read_seek      = wv_read_seek,
-#endif
 };

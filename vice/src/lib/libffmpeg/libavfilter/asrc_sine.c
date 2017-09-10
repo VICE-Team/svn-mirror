@@ -48,16 +48,9 @@ typedef struct {
 #define CONTEXT SineContext
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
-#ifdef IDE_COMPILE
-#define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
-    { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
-      { def }, min, max, FLAGS, __VA_ARGS__ }
-#else
 #define OPT_GENERIC(name, field, def, min, max, descr, type, deffield, ...) \
     { name, descr, offsetof(CONTEXT, field), AV_OPT_TYPE_ ## type,          \
       { .deffield = def }, min, max, FLAGS, __VA_ARGS__ }
-#endif
 
 #define OPT_INT(name, field, def, min, max, descr, ...) \
     OPT_GENERIC(name, field, def, min, max, descr, INT, i64, __VA_ARGS__)
@@ -67,10 +60,8 @@ typedef struct {
 
 #define OPT_DUR(name, field, def, min, max, descr, ...) \
     OPT_GENERIC(name, field, def, min, max, descr, DURATION, str, __VA_ARGS__)
-#endif
 
 static const AVOption sine_options[] = {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	OPT_DBL("frequency",         frequency,            440, 0, DBL_MAX,   "set the sine frequency"),
     OPT_DBL("f",                 frequency,            440, 0, DBL_MAX,   "set the sine frequency"),
     OPT_DBL("beep_factor",       beep_factor,            0, 0, DBL_MAX,   "set the beep fequency factor"),
@@ -80,17 +71,6 @@ static const AVOption sine_options[] = {
     OPT_DUR("duration",          duration,               0, 0, INT64_MAX, "set the audio duration"),
     OPT_DUR("d",                 duration,               0, 0, INT64_MAX, "set the audio duration"),
     OPT_INT("samples_per_frame", samples_per_frame,   1024, 0, INT_MAX,   "set the number of samples per frame"),
-#else
-	{ "frequency", "set the sine frequency", offsetof (SineContext, frequency), AV_OPT_TYPE_DOUBLE, {440}, 0, DBL_MAX, FLAGS, },
-    { "f", "set the sine frequency", offsetof (SineContext, frequency), AV_OPT_TYPE_DOUBLE, {440 }, 0, DBL_MAX, FLAGS, },
-    { "beep_factor", "set the beep fequency factor", offsetof (SineContext, beep_factor), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS, },
-    { "b", "set the beep fequency factor", offsetof (SineContext, beep_factor), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS, },
-    { "sample_rate", "set the sample rate", offsetof (SineContext, sample_rate), AV_OPT_TYPE_INT, {44100}, 1, INT_MAX, FLAGS, },
-    { "r", "set the sample rate", offsetof (SineContext, sample_rate), AV_OPT_TYPE_INT, {44100}, 1, INT_MAX, FLAGS, },
-    { "duration", "set the audio duration", offsetof (SineContext, duration), AV_OPT_TYPE_DURATION, {(intptr_t) 0}, 0, INT64_MAX, FLAGS, },
-    { "d", "set the audio duration", offsetof (SineContext, duration), AV_OPT_TYPE_DURATION, {(intptr_t) 0}, 0, INT64_MAX, FLAGS, },
-    { "samples_per_frame", "set the number of samples per frame", offsetof (SineContext, samples_per_frame), AV_OPT_TYPE_INT, {1024}, 0, INT_MAX, FLAGS, },
-#endif
 	{NULL}
 };
 
@@ -222,33 +202,15 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad sine_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_props,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .request_frame = request_frame,
         .config_props  = config_props,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_asrc_sine = {
-#ifdef IDE_COMPILE
-    "sine",
-    NULL_IF_CONFIG_SMALL("Generate sine wave audio signal."),
-    NULL,
-    sine_outputs,
-    &sine_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(SineContext),
-#else
 	.name          = "sine",
     .description   = NULL_IF_CONFIG_SMALL("Generate sine wave audio signal."),
     .query_formats = query_formats,
@@ -258,5 +220,4 @@ AVFilter ff_asrc_sine = {
     .inputs        = NULL,
     .outputs       = sine_outputs,
     .priv_class    = &sine_class,
-#endif
 };

@@ -208,40 +208,7 @@ static int xwd_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_BGRA,
-                                                 AV_PIX_FMT_RGBA,
-                                                 AV_PIX_FMT_ARGB,
-                                                 AV_PIX_FMT_ABGR,
-                                                 AV_PIX_FMT_RGB24,
-                                                 AV_PIX_FMT_BGR24,
-                                                 AV_PIX_FMT_RGB565BE,
-                                                 AV_PIX_FMT_RGB565LE,
-                                                 AV_PIX_FMT_BGR565BE,
-                                                 AV_PIX_FMT_BGR565LE,
-                                                 AV_PIX_FMT_RGB555BE,
-                                                 AV_PIX_FMT_RGB555LE,
-                                                 AV_PIX_FMT_BGR555BE,
-                                                 AV_PIX_FMT_BGR555LE,
-                                                 AV_PIX_FMT_RGB8,
-                                                 AV_PIX_FMT_BGR8,
-                                                 AV_PIX_FMT_RGB4_BYTE,
-                                                 AV_PIX_FMT_BGR4_BYTE,
-                                                 AV_PIX_FMT_PAL8,
-                                                 AV_PIX_FMT_GRAY8,
-                                                 AV_PIX_FMT_MONOWHITE,
-                                                 AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_xwd_encoder = {
-#ifdef IDE_COMPILE
-    "xwd",
-    "XWD (X Window Dump) image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_XWD,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, xwd_encode_frame,
-#else
 	.name         = "xwd",
     .long_name    = NULL_IF_CONFIG_SMALL("XWD (X Window Dump) image"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -269,5 +236,4 @@ AVCodec ff_xwd_encoder = {
                                                  AV_PIX_FMT_GRAY8,
                                                  AV_PIX_FMT_MONOWHITE,
                                                  AV_PIX_FMT_NONE },
-#endif
 };

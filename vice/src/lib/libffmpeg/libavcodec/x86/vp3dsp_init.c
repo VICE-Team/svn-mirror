@@ -27,12 +27,7 @@
 #include "libavcodec/avcodec.h"
 #include "libavcodec/vp3dsp.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 void ff_vp3_idct_put_mmx(uint8_t *dest, int line_size, int16_t *block);
 void ff_vp3_idct_add_mmx(uint8_t *dest, int line_size, int16_t *block);

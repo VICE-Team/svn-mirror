@@ -63,23 +63,6 @@ static const char *const var_names[] = {
 #define F AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption volume_options[] = {
-#ifdef IDE_COMPILE
-	{ "volume", "set volume adjustment expression", OFFSET(volume_expr), AV_OPT_TYPE_STRING, {(intptr_t) "1.0" }, 0, 0, A|F },
-    { "precision", "select mathematical precision", OFFSET(precision), AV_OPT_TYPE_INT, {PRECISION_FLOAT}, PRECISION_FIXED, PRECISION_DOUBLE, A|F, "precision" },
-    { "fixed", "select 8-bit fixed-point", 0, AV_OPT_TYPE_CONST, {PRECISION_FIXED}, INT_MIN, INT_MAX, A|F, "precision" },
-    { "float", "select 32-bit floating-point", 0, AV_OPT_TYPE_CONST, {PRECISION_FLOAT}, INT_MIN, INT_MAX, A|F, "precision" },
-    { "double", "select 64-bit floating-point", 0, AV_OPT_TYPE_CONST, {PRECISION_DOUBLE}, INT_MIN, INT_MAX, A|F, "precision" },
-    { "eval", "specify when to evaluate expressions", OFFSET(eval_mode), AV_OPT_TYPE_INT, {EVAL_MODE_ONCE}, 0, EVAL_MODE_NB-1, A|F, "eval" },
-    { "once", "eval volume expression once", 0, AV_OPT_TYPE_CONST, {EVAL_MODE_ONCE}, 0, 0, A|F, "eval" },
-    { "frame", "eval volume expression per-frame", 0, AV_OPT_TYPE_CONST, {EVAL_MODE_FRAME}, 0, 0, A|F, "eval" },
-    { "replaygain", "Apply replaygain side data when present", OFFSET(replaygain), AV_OPT_TYPE_INT, {REPLAYGAIN_DROP}, REPLAYGAIN_DROP, REPLAYGAIN_ALBUM, A, "replaygain" },
-    { "drop", "replaygain side data is dropped", 0, AV_OPT_TYPE_CONST, {REPLAYGAIN_DROP}, 0, 0, A, "replaygain" },
-    { "ignore", "replaygain side data is ignored", 0, AV_OPT_TYPE_CONST, {REPLAYGAIN_IGNORE}, 0, 0, A, "replaygain" },
-    { "track", "track gain is preferred", 0, AV_OPT_TYPE_CONST, {REPLAYGAIN_TRACK}, 0, 0, A, "replaygain" },
-	{ "album", "album gain is preferred", 0, AV_OPT_TYPE_CONST, {REPLAYGAIN_ALBUM}, 0, 0, A, "replaygain" },
-    { "replaygain_preamp", "Apply replaygain pre-amplification", OFFSET(replaygain_preamp), AV_OPT_TYPE_DOUBLE, {0}, -15.0, 15.0, A },
-    { "replaygain_noclip", "Apply replaygain clipping prevention", OFFSET(replaygain_noclip), AV_OPT_TYPE_INT, {1}, 0, 1, A },
-#else
 	{ "volume", "set volume adjustment expression",
             OFFSET(volume_expr), AV_OPT_TYPE_STRING, { .str = "1.0" }, .flags = A|F },
     { "precision", "select mathematical precision",
@@ -100,7 +83,6 @@ static const AVOption volume_options[] = {
             OFFSET(replaygain_preamp), AV_OPT_TYPE_DOUBLE, { .dbl = 0.0 }, -15.0, 15.0, A },
     { "replaygain_noclip", "Apply replaygain clipping prevention",
             OFFSET(replaygain_noclip), AV_OPT_TYPE_INT, { .i64 = 1 }, 0, 1, A },
-#endif
 	{ NULL },
 };
 
@@ -145,27 +127,6 @@ static int query_formats(AVFilterContext *ctx)
     AVFilterFormats *formats = NULL;
     AVFilterChannelLayouts *layouts;
     static const enum AVSampleFormat sample_fmts[][7] = {
-#ifdef IDE_COMPILE
-        {
-            AV_SAMPLE_FMT_U8,
-            AV_SAMPLE_FMT_U8P,
-            AV_SAMPLE_FMT_S16,
-            AV_SAMPLE_FMT_S16P,
-            AV_SAMPLE_FMT_S32,
-            AV_SAMPLE_FMT_S32P,
-            AV_SAMPLE_FMT_NONE
-        },
-        {
-            AV_SAMPLE_FMT_FLT,
-            AV_SAMPLE_FMT_FLTP,
-            AV_SAMPLE_FMT_NONE
-        },
-        {
-            AV_SAMPLE_FMT_DBL,
-            AV_SAMPLE_FMT_DBLP,
-            AV_SAMPLE_FMT_NONE
-        }
-#else
 		[PRECISION_FIXED] = {
             AV_SAMPLE_FMT_U8,
             AV_SAMPLE_FMT_U8P,
@@ -185,7 +146,6 @@ static int query_formats(AVFilterContext *ctx)
             AV_SAMPLE_FMT_DBLP,
             AV_SAMPLE_FMT_NONE
         }
-#endif
 	};
 
     layouts = ff_all_channel_counts();
@@ -493,48 +453,23 @@ end:
 
 static const AVFilterPad avfilter_af_volume_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_AUDIO,
         .filter_frame   = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_af_volume_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_volume = {
-#ifdef IDE_COMPILE
-    "volume",
-    NULL_IF_CONFIG_SMALL("Change input volume."),
-    avfilter_af_volume_inputs,
-    avfilter_af_volume_outputs,
-    &volume_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(VolumeContext),
-    0, process_command,
-#else
 	.name           = "volume",
     .description    = NULL_IF_CONFIG_SMALL("Change input volume."),
     .query_formats  = query_formats,
@@ -546,5 +481,4 @@ AVFilter ff_af_volume = {
     .outputs        = avfilter_af_volume_outputs,
     .flags          = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
     .process_command = process_command,
-#endif
 };

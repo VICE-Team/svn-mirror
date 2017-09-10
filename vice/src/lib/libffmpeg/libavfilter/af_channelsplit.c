@@ -44,11 +44,7 @@ typedef struct ChannelSplitContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption channelsplit_options[] = {
-#ifdef IDE_COMPILE
-	{ "channel_layout", "Input channel layout.", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, { (intptr_t) "stereo" }, 0, 0, A|F },
-#else
 	{ "channel_layout", "Input channel layout.", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, { .str = "stereo" }, .flags = A|F },
-#endif
 	{ NULL }
 };
 
@@ -133,31 +129,14 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
 
 static const AVFilterPad avfilter_af_channelsplit_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_channelsplit = {
-#ifdef IDE_COMPILE
-    "channelsplit",
-    NULL_IF_CONFIG_SMALL("Split audio into per-channel streams."),
-    avfilter_af_channelsplit_inputs,
-    NULL,
-    &channelsplit_class,
-    AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-    init,
-    0, 0, query_formats,
-    sizeof(ChannelSplitContext),
-#else
 	.name           = "channelsplit",
     .description    = NULL_IF_CONFIG_SMALL("Split audio into per-channel streams."),
     .priv_size      = sizeof(ChannelSplitContext),
@@ -167,5 +146,4 @@ AVFilter ff_af_channelsplit = {
     .inputs         = avfilter_af_channelsplit_inputs,
     .outputs        = NULL,
     .flags          = AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-#endif
 };

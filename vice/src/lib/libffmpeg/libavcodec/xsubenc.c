@@ -212,19 +212,10 @@ static av_cold int xsub_encoder_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_xsub_encoder = {
-#ifdef IDE_COMPILE
-    "xsub",
-    "DivX subtitles (XSUB)",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_XSUB,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, xsub_encoder_init,
-    xsub_encode,
-#else
 	.name       = "xsub",
     .long_name  = NULL_IF_CONFIG_SMALL("DivX subtitles (XSUB)"),
     .type       = AVMEDIA_TYPE_SUBTITLE,
     .id         = AV_CODEC_ID_XSUB,
     .init       = xsub_encoder_init,
     .encode_sub = xsub_encode,
-#endif
 };

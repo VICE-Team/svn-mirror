@@ -29,42 +29,24 @@
 
 static const AVFilterPad avfilter_af_anull_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_af_anull_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_anull = {
-#ifdef IDE_COMPILE
-    "anull",
-    NULL_IF_CONFIG_SMALL("Pass the source unchanged to the output."),
-    avfilter_af_anull_inputs,
-    avfilter_af_anull_outputs,
-    0, 0, 0, 0, 0, ff_query_formats_all,
-#else
 	.name          = "anull",
     .description   = NULL_IF_CONFIG_SMALL("Pass the source unchanged to the output."),
     .query_formats = ff_query_formats_all,
     .inputs        = avfilter_af_anull_inputs,
     .outputs       = avfilter_af_anull_outputs,
-#endif
 };

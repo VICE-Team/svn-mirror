@@ -152,15 +152,9 @@ typedef struct {
 #define OFFSET(x) offsetof(ATempoContext, x)
 
 static const AVOption atempo_options[] = {
-#ifdef IDE_COMPILE
-	{ "tempo", "set tempo scale factor",
-      OFFSET(tempo), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, 0.5, 2.0,
-      AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_FILTERING_PARAM },
-#else
 	{ "tempo", "set tempo scale factor",
       OFFSET(tempo), AV_OPT_TYPE_DOUBLE, { .dbl = 1.0 }, 0.5, 2.0,
       AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_FILTERING_PARAM },
-#endif
 	{ NULL }
 };
 
@@ -1059,27 +1053,15 @@ static int push_samples(ATempoContext *atempo,
                         int n_out)
 {
     int ret;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     atempo->dst_buffer->sample_rate = outlink->sample_rate;
     atempo->dst_buffer->nb_samples  = n_out;
 
     // adjust the PTS:
-#ifdef IDE_COMPILE
-	tmp.num = 1;
-	tmp.den = outlink->sample_rate;
-	atempo->dst_buffer->pts =
-        av_rescale_q(atempo->nsamples_out,
-                     tmp,
-                     outlink->time_base);
-#else
 	atempo->dst_buffer->pts =
         av_rescale_q(atempo->nsamples_out,
                      (AVRational){ 1, outlink->sample_rate },
                      outlink->time_base);
-#endif
 
     ret = ff_filter_frame(outlink, atempo->dst_buffer);
     atempo->dst_buffer = NULL;
@@ -1189,49 +1171,24 @@ static int process_command(AVFilterContext *ctx,
 
 static const AVFilterPad atempo_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
         .config_props = config_props,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad atempo_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-#else
 		.name          = "default",
         .request_frame = request_frame,
         .type          = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_atempo = {
-#ifdef IDE_COMPILE
-    "atempo",
-    NULL_IF_CONFIG_SMALL("Adjust audio tempo."),
-    atempo_inputs,
-    atempo_outputs,
-    &atempo_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(ATempoContext),
-    0, process_command,
-#else
 	.name            = "atempo",
     .description     = NULL_IF_CONFIG_SMALL("Adjust audio tempo."),
     .init            = init,
@@ -1242,5 +1199,4 @@ AVFilter ff_af_atempo = {
     .priv_class      = &atempo_class,
     .inputs          = atempo_inputs,
     .outputs         = atempo_outputs,
-#endif
 };

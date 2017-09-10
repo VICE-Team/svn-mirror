@@ -70,17 +70,10 @@ typedef struct ChannelMapContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption channelmap_options[] = {
-#ifdef IDE_COMPILE
-	{ "map", "A comma-separated list of input channel numbers in output order.",
-	OFFSET(mapping_str),        AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
-    { "channel_layout", "Output channel layout.",
-	OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
-#else
 	{ "map", "A comma-separated list of input channel numbers in output order.",
           OFFSET(mapping_str),        AV_OPT_TYPE_STRING, .flags = A|F },
     { "channel_layout", "Output channel layout.",
           OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, .flags = A|F },
-#endif
 	{ NULL }
 };
 
@@ -389,47 +382,24 @@ static int channelmap_config_input(AVFilterLink *inlink)
 
 static const AVFilterPad avfilter_af_channelmap_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, channelmap_filter_frame,
-        0, 0, channelmap_config_input,
-        0, 1,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_AUDIO,
         .filter_frame   = channelmap_filter_frame,
         .config_props   = channelmap_config_input,
         .needs_writable = 1,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_af_channelmap_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_channelmap = {
-#ifdef IDE_COMPILE
-    "channelmap",
-    NULL_IF_CONFIG_SMALL("Remap audio channels."),
-    avfilter_af_channelmap_inputs,
-    avfilter_af_channelmap_outputs,
-    &channelmap_class,
-    0, channelmap_init,
-    0, 0, channelmap_query_formats,
-    sizeof(ChannelMapContext),
-#else
 	.name          = "channelmap",
     .description   = NULL_IF_CONFIG_SMALL("Remap audio channels."),
     .init          = channelmap_init,
@@ -438,5 +408,4 @@ AVFilter ff_af_channelmap = {
     .priv_class    = &channelmap_class,
     .inputs        = avfilter_af_channelmap_inputs,
     .outputs       = avfilter_af_channelmap_outputs,
-#endif
 };

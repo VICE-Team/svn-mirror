@@ -158,19 +158,6 @@ enum {
 #define V AV_OPT_FLAG_VIDEO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption ebur128_options[] = {
-#ifdef IDE_COMPILE
-	{ "video", "set video output", OFFSET(do_video), AV_OPT_TYPE_INT, {0}, 0, 1, V|F },
-    { "size",  "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "640x480"}, 0, 0, V|F },
-    { "meter", "set scale meter (+9 to +18)", OFFSET(meter), AV_OPT_TYPE_INT, {9}, 9, 18, V|F },
-    { "framelog", "force frame logging level", OFFSET(loglevel), AV_OPT_TYPE_INT, {-1}, INT_MIN, INT_MAX, A|V|F, "level" },
-    { "info", "information logging level", 0, AV_OPT_TYPE_CONST, {AV_LOG_INFO}, INT_MIN, INT_MAX, A|V|F, "level" },
-    { "verbose", "verbose logging level", 0, AV_OPT_TYPE_CONST, {AV_LOG_VERBOSE}, INT_MIN, INT_MAX, A|V|F, "level" },
-    { "metadata", "inject metadata in the filtergraph", OFFSET(metadata), AV_OPT_TYPE_INT, {0}, 0, 1, A|V|F },
-    { "peak", "set peak mode", OFFSET(peak_mode), AV_OPT_TYPE_FLAGS, {PEAK_MODE_NONE}, 0, INT_MAX, A|F, "mode" },
-    { "none", "disable any peak mode", 0, AV_OPT_TYPE_CONST, {PEAK_MODE_NONE}, INT_MIN, INT_MAX, A|F, "mode" },
-    { "sample", "enable peak-sample mode", 0, AV_OPT_TYPE_CONST, {PEAK_MODE_SAMPLES_PEAKS}, INT_MIN, INT_MAX, A|F, "mode" },
-    { "true", "enable true-peak mode", 0, AV_OPT_TYPE_CONST, {PEAK_MODE_TRUE_PEAKS}, INT_MIN, INT_MAX, A|F, "mode" },
-#else
 	{ "video", "set video output", OFFSET(do_video), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, V|F },
     { "size",  "set video size",   OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {.str = "640x480"}, 0, 0, V|F },
     { "meter", "set scale meter (+9 to +18)",  OFFSET(meter), AV_OPT_TYPE_INT, {.i64 = 9}, 9, 18, V|F },
@@ -182,7 +169,6 @@ static const AVOption ebur128_options[] = {
         { "none",   "disable any peak mode",   0, AV_OPT_TYPE_CONST, {.i64 = PEAK_MODE_NONE},          INT_MIN, INT_MAX, A|F, "mode" },
         { "sample", "enable peak-sample mode", 0, AV_OPT_TYPE_CONST, {.i64 = PEAK_MODE_SAMPLES_PEAKS}, INT_MIN, INT_MAX, A|F, "mode" },
         { "true",   "enable true-peak mode",   0, AV_OPT_TYPE_CONST, {.i64 = PEAK_MODE_TRUE_PEAKS},    INT_MIN, INT_MAX, A|F, "mode" },
-#endif
 	{ NULL },
 };
 
@@ -314,12 +300,7 @@ static int config_video_output(AVFilterLink *outlink)
         ff_get_video_buffer(outlink, outlink->w, outlink->h);
     if (!outpicref)
         return AVERROR(ENOMEM);
-#ifdef IDE_COMPILE
-	outlink->sample_aspect_ratio.num = 1;
-	outlink->sample_aspect_ratio.den = 1;
-#else
 	outlink->sample_aspect_ratio = (AVRational){1,1};
-#endif
 
     /* init y references values (to draw LU lines) */
     ebur128->y_line_ref = av_calloc(ebur128->graph.h + 1, sizeof(*ebur128->y_line_ref));
@@ -511,42 +492,20 @@ static av_cold int init(AVFilterContext *ctx)
 
     /* insert output pads */
     if (ebur128->do_video) {
-#ifdef IDE_COMPILE
-        {
-			AVFilterPad tmp__1 = {
-                av_strdup("out0"),
-                AVMEDIA_TYPE_VIDEO,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_video_output,
-            };
-			pad = tmp__1;
-		}
-#else
 		pad = (AVFilterPad){
             .name         = av_strdup("out0"),
             .type         = AVMEDIA_TYPE_VIDEO,
             .config_props = config_video_output,
         };
-#endif
 		if (!pad.name)
             return AVERROR(ENOMEM);
         ff_insert_outpad(ctx, 0, &pad);
     }
-#ifdef IDE_COMPILE
-    {
-		AVFilterPad tmp__2 = {
-            av_asprintf("out%d", ebur128->do_video),
-            AVMEDIA_TYPE_AUDIO,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_audio_output,
-        };
-		pad = tmp__2;
-	}
-#else
 	pad = (AVFilterPad){
         .name         = av_asprintf("out%d", ebur128->do_video),
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_audio_output,
     };
-#endif
 	if (!pad.name)
         return AVERROR(ENOMEM);
     ff_insert_outpad(ctx, ebur128->do_video, &pad);
@@ -675,20 +634,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *insamples)
             double loudness_400, loudness_3000;
             double power_400 = 1e-12, power_3000 = 1e-12;
             AVFilterLink *outlink = ctx->outputs[0];
-#ifdef IDE_COMPILE
-			char tmpstr[32] = {0};
-			AVRational tmp;
-			int64_t pts;
-			tmp.num = 1;
-			tmp.den = inlink->sample_rate;
-			pts = insamples->pts +
-                av_rescale_q(idx_insample, tmp,
-                             outlink->time_base);
-#else
 			const int64_t pts = insamples->pts +
                 av_rescale_q(idx_insample, (AVRational){ 1, inlink->sample_rate },
                              outlink->time_base);
-#endif
             ebur128->sample_count = 0;
 
 #define COMPUTE_LOUDNESS(m, time) do {                                              \
@@ -842,17 +790,10 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *insamples)
                 SET_META_PEAK(true,   TRUE);
             }
 
-#ifdef IDE_COMPILE
-			av_log(ctx, ebur128->loglevel, "t: %-10s " LOG_FMT,
-                   av_ts_make_time_string(tmpstr, pts, &outlink->time_base),
-                   loudness_400, loudness_3000,
-                   ebur128->integrated_loudness, ebur128->loudness_range);
-#else
 			av_log(ctx, ebur128->loglevel, "t: %-10s " LOG_FMT,
                    av_ts2timestr(pts, &outlink->time_base),
                    loudness_400, loudness_3000,
                    ebur128->integrated_loudness, ebur128->loudness_range);
-#endif
 
 #define PRINT_PEAKS(str, sp, ptype) do {                            \
     if (ebur128->peak_mode & PEAK_MODE_ ## ptype ## _PEAKS) {       \
@@ -975,34 +916,15 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad ebur128_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_audio_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
         .config_props = config_audio_input,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_ebur128 = {
-#ifdef IDE_COMPILE
-    "ebur128",
-    NULL_IF_CONFIG_SMALL("EBU R128 scanner."),
-    ebur128_inputs,
-    NULL,
-    &ebur128_class,
-    AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-    init,
-    0, uninit,
-    query_formats,
-    sizeof(EBUR128Context),
-#else
 	.name          = "ebur128",
     .description   = NULL_IF_CONFIG_SMALL("EBU R128 scanner."),
     .priv_size     = sizeof(EBUR128Context),
@@ -1013,5 +935,4 @@ AVFilter ff_af_ebur128 = {
     .outputs       = NULL,
     .priv_class    = &ebur128_class,
     .flags         = AVFILTER_FLAG_DYNAMIC_OUTPUTS,
-#endif
 };

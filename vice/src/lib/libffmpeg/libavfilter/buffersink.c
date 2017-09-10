@@ -160,9 +160,6 @@ static int read_from_fifo(AVFilterContext *ctx, AVFrame *frame,
     BufferSinkContext *s = ctx->priv;
     AVFilterLink   *link = ctx->inputs[0];
     AVFrame *tmp;
-#ifdef IDE_COMPILE
-	AVRational tmp2;
-#endif
 
     if (!(tmp = ff_get_audio_buffer(link, nb_samples)))
         return AVERROR(ENOMEM);
@@ -170,14 +167,8 @@ static int read_from_fifo(AVFilterContext *ctx, AVFrame *frame,
 
     tmp->pts = s->next_pts;
     if (s->next_pts != AV_NOPTS_VALUE) {
-#ifdef IDE_COMPILE
-		tmp2.num = 1;
-		tmp2.den = link->sample_rate;
-		s->next_pts += av_rescale_q(nb_samples, tmp2, link->time_base);
-#else
 		s->next_pts += av_rescale_q(nb_samples, (AVRational){1, link->sample_rate},
                                     link->time_base);
-#endif
 	}
     av_frame_move_ref(frame, tmp);
     av_frame_free(&tmp);
@@ -192,9 +183,6 @@ int attribute_align_arg av_buffersink_get_samples(AVFilterContext *ctx,
     AVFilterLink   *link = ctx->inputs[0];
     AVFrame *cur_frame;
     int ret = 0;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (!s->audio_fifo) {
         int nb_channels = link->channels;
@@ -218,18 +206,10 @@ int attribute_align_arg av_buffersink_get_samples(AVFilterContext *ctx,
         }
 
         if (cur_frame->pts != AV_NOPTS_VALUE) {
-#ifdef IDE_COMPILE
-			tmp.num = 1;
-			tmp.den = link->sample_rate;
-			s->next_pts = cur_frame->pts -
-                          av_rescale_q(av_audio_fifo_size(s->audio_fifo),
-                                       tmp, link->time_base);
-#else
 			s->next_pts = cur_frame->pts -
                           av_rescale_q(av_audio_fifo_size(s->audio_fifo),
                                        (AVRational){ 1, link->sample_rate },
                                        link->time_base);
-#endif
 		}
 
         ret = av_audio_fifo_write(s->audio_fifo, (void**)cur_frame->extended_data,
@@ -514,29 +494,17 @@ static int asink_query_formats(AVFilterContext *ctx)
 #define OFFSET(x) offsetof(BufferSinkContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption buffersink_options[] = {
-#ifdef IDE_COMPILE
-	{ "pix_fmts", "set the supported pixel formats", OFFSET(pixel_fmts), AV_OPT_TYPE_BINARY, {0}, 0, 0, FLAGS },
-#else
 	{ "pix_fmts", "set the supported pixel formats", OFFSET(pixel_fmts), AV_OPT_TYPE_BINARY, .flags = FLAGS },
-#endif
 	{ NULL },
 };
 #undef FLAGS
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption abuffersink_options[] = {
-#ifdef IDE_COMPILE
-	{ "sample_fmts", "set the supported sample formats", OFFSET(sample_fmts), AV_OPT_TYPE_BINARY, {0}, 0, 0, FLAGS },
-	{ "sample_rates", "set the supported sample rates", OFFSET(sample_rates), AV_OPT_TYPE_BINARY, {0}, 0, 0, FLAGS },
-	{ "channel_layouts", "set the supported channel layouts", OFFSET(channel_layouts), AV_OPT_TYPE_BINARY, {0}, 0, 0, FLAGS },
-	{ "channel_counts", "set the supported channel counts",  OFFSET(channel_counts), AV_OPT_TYPE_BINARY, {0}, 0, 0, FLAGS },
-    { "all_channel_counts", "accept all channel counts", OFFSET(all_channel_counts), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "sample_fmts",     "set the supported sample formats",  OFFSET(sample_fmts),     AV_OPT_TYPE_BINARY, .flags = FLAGS },
     { "sample_rates",    "set the supported sample rates",    OFFSET(sample_rates),    AV_OPT_TYPE_BINARY, .flags = FLAGS },
     { "channel_layouts", "set the supported channel layouts", OFFSET(channel_layouts), AV_OPT_TYPE_BINARY, .flags = FLAGS },
     { "channel_counts",  "set the supported channel counts",  OFFSET(channel_counts),  AV_OPT_TYPE_BINARY, .flags = FLAGS },
     { "all_channel_counts", "accept all channel counts", OFFSET(all_channel_counts), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, FLAGS },
-#endif
 	{ NULL },
 };
 #undef FLAGS
@@ -553,31 +521,14 @@ AVFILTER_DEFINE_CLASS(ffabuffersink);
 
 static const AVFilterPad ffbuffersink_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name      = "default",
         .type      = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL },
 };
 
 AVFilter ff_vsink_ffbuffersink = {
-#ifdef IDE_COMPILE
-    "ffbuffersink",
-    NULL_IF_CONFIG_SMALL("Buffer video frames, and make them available to the end of the filter graph."),
-    ffbuffersink_inputs,
-    ((void *)0),
-    &ffbuffersink_class,
-    0, 0, 0, uninit,
-    vsink_query_formats,
-    sizeof(BufferSinkContext),
-    0, 0, vsink_init,
-#else
 	.name      = "ffbuffersink",
     .description = NULL_IF_CONFIG_SMALL("Buffer video frames, and make them available to the end of the filter graph."),
     .priv_size = sizeof(BufferSinkContext),
@@ -587,36 +538,18 @@ AVFilter ff_vsink_ffbuffersink = {
     .query_formats = vsink_query_formats,
     .inputs        = ffbuffersink_inputs,
     .outputs       = NULL,
-#endif
 };
 
 static const AVFilterPad ffabuffersink_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name           = "default",
         .type           = AVMEDIA_TYPE_AUDIO,
         .filter_frame   = filter_frame,
-#endif
 	},
     { NULL },
 };
 
 AVFilter ff_asink_ffabuffersink = {
-#ifdef IDE_COMPILE
-    "ffabuffersink",
-    NULL_IF_CONFIG_SMALL("Buffer audio frames, and make them available to the end of the filter graph."),
-    ffabuffersink_inputs,
-    NULL,
-    &ffabuffersink_class,
-    0, 0, 0, uninit,
-    asink_query_formats,
-    sizeof(BufferSinkContext),
-    0, 0, asink_init,
-#else
 	.name      = "ffabuffersink",
     .description = NULL_IF_CONFIG_SMALL("Buffer audio frames, and make them available to the end of the filter graph."),
     .init_opaque = asink_init,
@@ -626,37 +559,19 @@ AVFilter ff_asink_ffabuffersink = {
     .query_formats = asink_query_formats,
     .inputs        = ffabuffersink_inputs,
     .outputs       = NULL,
-#endif
 };
 #endif /* FF_API_AVFILTERBUFFER */
 
 static const AVFilterPad avfilter_vsink_buffer_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vsink_buffer = {
-#ifdef IDE_COMPILE
-    "buffersink",
-    NULL_IF_CONFIG_SMALL("Buffer video frames, and make them available to the end of the filter graph."),
-    avfilter_vsink_buffer_inputs,
-    NULL,
-    &buffersink_class,
-    0, 0, 0, uninit,
-    vsink_query_formats,
-    sizeof(BufferSinkContext),
-    0, 0, vsink_init,
-#else
 	.name        = "buffersink",
     .description = NULL_IF_CONFIG_SMALL("Buffer video frames, and make them available to the end of the filter graph."),
     .priv_size   = sizeof(BufferSinkContext),
@@ -666,36 +581,18 @@ AVFilter ff_vsink_buffer = {
     .query_formats = vsink_query_formats,
     .inputs      = avfilter_vsink_buffer_inputs,
     .outputs     = NULL,
-#endif
 };
 
 static const AVFilterPad avfilter_asink_abuffer_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_asink_abuffer = {
-#ifdef IDE_COMPILE
-    "abuffersink",
-    NULL_IF_CONFIG_SMALL("Buffer audio frames, and make them available to the end of the filter graph."),
-    avfilter_asink_abuffer_inputs,
-    NULL,
-    &abuffersink_class,
-    0, 0, 0, uninit,
-    asink_query_formats,
-    sizeof(BufferSinkContext),
-    0, 0, asink_init,
-#else
 	.name        = "abuffersink",
     .description = NULL_IF_CONFIG_SMALL("Buffer audio frames, and make them available to the end of the filter graph."),
     .priv_class  = &abuffersink_class,
@@ -705,5 +602,4 @@ AVFilter ff_asink_abuffer = {
     .query_formats = asink_query_formats,
     .inputs      = avfilter_asink_abuffer_inputs,
     .outputs     = NULL,
-#endif
 };

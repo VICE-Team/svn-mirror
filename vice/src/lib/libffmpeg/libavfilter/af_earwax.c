@@ -147,46 +147,26 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *insamples)
 
 static const AVFilterPad earwax_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad earwax_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_earwax = {
-#ifdef IDE_COMPILE
-    "earwax",
-    NULL_IF_CONFIG_SMALL("Widen the stereo image."),
-    earwax_inputs,
-    earwax_outputs,
-    0, 0, 0, 0, 0, query_formats,
-    sizeof(EarwaxContext),
-#else
 	.name           = "earwax",
     .description    = NULL_IF_CONFIG_SMALL("Widen the stereo image."),
     .query_formats  = query_formats,
     .priv_size      = sizeof(EarwaxContext),
     .inputs         = earwax_inputs,
     .outputs        = earwax_outputs,
-#endif
 };

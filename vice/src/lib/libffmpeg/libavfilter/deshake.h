@@ -22,12 +22,7 @@
 #ifndef AVFILTER_DESHAKE_H
 #define AVFILTER_DESHAKE_H
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "avfilter.h"
 #include "transform.h"

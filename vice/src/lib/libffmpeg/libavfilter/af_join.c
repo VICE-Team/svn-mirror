@@ -67,18 +67,12 @@ typedef struct JoinContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM
 #define F AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption join_options[] = {
-#ifdef IDE_COMPILE
-	{ "inputs",         "Number of input streams.", OFFSET(inputs), AV_OPT_TYPE_INT, {2}, 1, INT_MAX, A|F },
-    { "channel_layout", "Channel layout of the output stream.", OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {(intptr_t) "stereo"}, 0, 0, A|F },
-	{ "map",            "A comma-separated list of channels maps in the format 'input_stream.input_channel-output_channel.", OFFSET(map), AV_OPT_TYPE_STRING, {0}, 0, 0, A|F },
-#else
 	{ "inputs",         "Number of input streams.", OFFSET(inputs),             AV_OPT_TYPE_INT,    { .i64 = 2 }, 1, INT_MAX,       A|F },
     { "channel_layout", "Channel layout of the "
                         "output stream.",           OFFSET(channel_layout_str), AV_OPT_TYPE_STRING, {.str = "stereo"}, 0, 0, A|F },
     { "map",            "A comma-separated list of channels maps in the format "
                         "'input_stream.input_channel-output_channel.",
                                                     OFFSET(map),                AV_OPT_TYPE_STRING,                 .flags = A|F },
-#endif
 	{ NULL }
 };
 
@@ -499,34 +493,15 @@ fail:
 
 static const AVFilterPad avfilter_af_join_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, join_request_frame,
-        join_config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = join_config_output,
         .request_frame = join_request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_join = {
-#ifdef IDE_COMPILE
-    "join",
-    NULL_IF_CONFIG_SMALL("Join multiple audio streams into " "multi-channel output."),
-    NULL,
-    avfilter_af_join_outputs,
-    &join_class,
-    AVFILTER_FLAG_DYNAMIC_INPUTS,
-    join_init,
-    0, join_uninit,
-    join_query_formats,
-    sizeof(JoinContext),
-#else
 	.name           = "join",
     .description    = NULL_IF_CONFIG_SMALL("Join multiple audio streams into "
                                            "multi-channel output."),
@@ -538,5 +513,4 @@ AVFilter ff_af_join = {
     .inputs         = NULL,
     .outputs        = avfilter_af_join_outputs,
     .flags          = AVFILTER_FLAG_DYNAMIC_INPUTS,
-#endif
 };

@@ -55,23 +55,6 @@ typedef struct AudioVectorScopeContext {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption avectorscope_options[] = {
-#ifdef IDE_COMPILE
-	{ "mode", "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {LISSAJOUS}, 0, MODE_NB-1, FLAGS, "mode" },
-    { "m",    "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {LISSAJOUS}, 0, MODE_NB-1, FLAGS, "mode" },
-    { "lissajous",    "", 0, AV_OPT_TYPE_CONST, {LISSAJOUS}, 0, 0, FLAGS, "mode" },
-    { "lissajous_xy", "", 0, AV_OPT_TYPE_CONST, {LISSAJOUS_XY}, 0, 0, FLAGS, "mode" },
-    { "rate", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },
-    { "r",    "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {(intptr_t) "25"}, 0, 0, FLAGS },
-    { "size", "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "400x400"}, 0, 0, FLAGS },
-    { "s",    "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "400x400"}, 0, 0, FLAGS },
-    { "rc", "set red contrast",   OFFSET(contrast[0]), AV_OPT_TYPE_INT, {40}, 0, 255, FLAGS },
-    { "gc", "set green contrast", OFFSET(contrast[1]), AV_OPT_TYPE_INT, {160}, 0, 255, FLAGS },
-    { "bc", "set blue contrast",  OFFSET(contrast[2]), AV_OPT_TYPE_INT, {80}, 0, 255, FLAGS },
-    { "rf", "set red fade",       OFFSET(fade[0]), AV_OPT_TYPE_INT, {15}, 0, 255, FLAGS },
-    { "gf", "set green fade",     OFFSET(fade[1]), AV_OPT_TYPE_INT, {10}, 0, 255, FLAGS },
-    { "bf", "set blue fade",      OFFSET(fade[2]), AV_OPT_TYPE_INT, {5}, 0, 255, FLAGS },
-    { "zoom", "set zoom factor",  OFFSET(zoom), AV_OPT_TYPE_DOUBLE, {0x3ff0000000000000}, 1, 10, FLAGS },
-#else
 	{ "mode", "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=LISSAJOUS}, 0, MODE_NB-1, FLAGS, "mode" },
     { "m",    "set mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64=LISSAJOUS}, 0, MODE_NB-1, FLAGS, "mode" },
     { "lissajous",    "", 0, AV_OPT_TYPE_CONST, {.i64=LISSAJOUS},    0, 0, FLAGS, "mode" },
@@ -87,7 +70,6 @@ static const AVOption avectorscope_options[] = {
     { "gf", "set green fade",     OFFSET(fade[1]), AV_OPT_TYPE_INT, {.i64=10}, 0, 255, FLAGS },
     { "bf", "set blue fade",      OFFSET(fade[2]), AV_OPT_TYPE_INT, {.i64=5}, 0, 255, FLAGS },
     { "zoom", "set zoom factor",  OFFSET(zoom), AV_OPT_TYPE_DOUBLE, {.dbl=1}, 1, 10, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -180,12 +162,7 @@ static int config_output(AVFilterLink *outlink)
 
     outlink->w = p->w;
     outlink->h = p->h;
-#ifdef IDE_COMPILE
-	outlink->sample_aspect_ratio.num = 1;
-	outlink->sample_aspect_ratio.den = 1;
-#else
 	outlink->sample_aspect_ratio = (AVRational){1,1};
-#endif
 	outlink->frame_rate = p->frame_rate;
 
     p->hw = p->w / 2;
@@ -268,47 +245,24 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad audiovectorscope_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad audiovectorscope_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, config_output,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = config_output,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_avf_avectorscope = {
-#ifdef IDE_COMPILE
-    "avectorscope",
-    NULL_IF_CONFIG_SMALL("Convert input audio to vectorscope video output."),
-    audiovectorscope_inputs,
-    audiovectorscope_outputs,
-    &avectorscope_class,
-    0, 0, 0, uninit,
-    query_formats,
-    sizeof(AudioVectorScopeContext),
-#else
 	.name          = "avectorscope",
     .description   = NULL_IF_CONFIG_SMALL("Convert input audio to vectorscope video output."),
     .uninit        = uninit,
@@ -317,5 +271,4 @@ AVFilter ff_avf_avectorscope = {
     .inputs        = audiovectorscope_inputs,
     .outputs       = audiovectorscope_outputs,
     .priv_class    = &avectorscope_class,
-#endif
 };

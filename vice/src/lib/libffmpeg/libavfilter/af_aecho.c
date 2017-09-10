@@ -47,17 +47,10 @@ typedef struct AudioEchoContext {
 #define A AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption aecho_options[] = {
-#ifdef IDE_COMPILE
-	{ "in_gain",  "set signal input gain",  OFFSET(in_gain),  AV_OPT_TYPE_FLOAT,  {0x3fe3333333333333}, 0, 1, A },
-    { "out_gain", "set signal output gain", OFFSET(out_gain), AV_OPT_TYPE_FLOAT,  {0x3fd3333333333333}, 0, 1, A },
-    { "delays",   "set list of signal delays", OFFSET(delays), AV_OPT_TYPE_STRING, {(intptr_t) "1000"}, 0, 0, A },
-    { "decays",   "set list of signal decays", OFFSET(decays), AV_OPT_TYPE_STRING, {(intptr_t) "0.5"}, 0, 0, A },
-#else
 	{ "in_gain",  "set signal input gain",  OFFSET(in_gain),  AV_OPT_TYPE_FLOAT,  {.dbl=0.6}, 0, 1, A },
     { "out_gain", "set signal output gain", OFFSET(out_gain), AV_OPT_TYPE_FLOAT,  {.dbl=0.3}, 0, 1, A },
     { "delays",   "set list of signal delays", OFFSET(delays), AV_OPT_TYPE_STRING, {.str="1000"}, 0, 0, A },
     { "decays",   "set list of signal decays", OFFSET(decays), AV_OPT_TYPE_STRING, {.str="0.5"}, 0, 0, A },
-#endif
 	{ NULL }
 };
 
@@ -278,9 +271,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     AVFilterContext *ctx = inlink->dst;
     AudioEchoContext *s = ctx->priv;
     AVFrame *out_frame;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (av_frame_is_writable(frame)) {
         out_frame = frame;
@@ -294,13 +284,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     s->echo_samples(s, s->delayptrs, frame->extended_data, out_frame->extended_data,
                     frame->nb_samples, inlink->channels);
 
-#ifdef IDE_COMPILE
-	tmp.num = 1;
-	tmp.den = inlink->sample_rate;
-	s->next_pts = frame->pts + av_rescale_q(frame->nb_samples, tmp, inlink->time_base);
-#else
 	s->next_pts = frame->pts + av_rescale_q(frame->nb_samples, (AVRational){1, inlink->sample_rate}, inlink->time_base);
-#endif
 
     if (frame != out_frame)
         av_frame_free(&frame);
@@ -313,9 +297,6 @@ static int request_frame(AVFilterLink *outlink)
     AVFilterContext *ctx = outlink->src;
     AudioEchoContext *s = ctx->priv;
     int ret;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     ret = ff_request_frame(ctx->inputs[0]);
 
@@ -338,13 +319,7 @@ static int request_frame(AVFilterLink *outlink)
 
         frame->pts = s->next_pts;
         if (s->next_pts != AV_NOPTS_VALUE) {
-#ifdef IDE_COMPILE
-			tmp.num = 1;
-			tmp.den = outlink->sample_rate;
-			s->next_pts += av_rescale_q(nb_samples, tmp, outlink->time_base);
-#else
 			s->next_pts += av_rescale_q(nb_samples, (AVRational){1, outlink->sample_rate}, outlink->time_base);
-#endif
 		}
 
         return ff_filter_frame(outlink, frame);
@@ -355,48 +330,24 @@ static int request_frame(AVFilterLink *outlink)
 
 static const AVFilterPad aecho_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad aecho_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .request_frame = request_frame,
         .config_props  = config_output,
         .type          = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_aecho = {
-#ifdef IDE_COMPILE
-    "aecho",
-    NULL_IF_CONFIG_SMALL("Add echoing to the audio."),
-    aecho_inputs,
-    aecho_outputs,
-    &aecho_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(AudioEchoContext),
-#else
 	.name          = "aecho",
     .description   = NULL_IF_CONFIG_SMALL("Add echoing to the audio."),
     .query_formats = query_formats,
@@ -406,5 +357,4 @@ AVFilter ff_af_aecho = {
     .uninit        = uninit,
     .inputs        = aecho_inputs,
     .outputs       = aecho_outputs,
-#endif
 };

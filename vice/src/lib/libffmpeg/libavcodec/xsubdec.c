@@ -57,12 +57,6 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
     int64_t packet_time = 0;
     GetBitContext gb;
     int has_alpha = avctx->codec_tag == MKTAG('D','X','S','A');
-#ifdef IDE_COMPILE
-    AVRational tbq;
-	
-	tbq.num = 1;
-	tbq.den = AV_TIME_BASE;
-#endif
 
     // check that at least header fits
     if (buf_size < 27 + 7 * 2 + 4 * 3) {
@@ -76,15 +70,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
         return -1;
     }
     if (avpkt->pts != AV_NOPTS_VALUE) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-		
-		tmp.num = 1;
-		tmp.den = 1000;
-        packet_time = av_rescale_q(avpkt->pts, tbq, tmp);
-#else
 		packet_time = av_rescale_q(avpkt->pts, AV_TIME_BASE_Q, (AVRational){1, 1000});
-#endif
 	}
 	sub->start_display_time = parse_timecode(buf +  1, packet_time);
     sub->end_display_time   = parse_timecode(buf + 14, packet_time);
@@ -151,19 +137,10 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *data_size,
 }
 
 AVCodec ff_xsub_decoder = {
-#ifdef IDE_COMPILE
-    "xsub",
-    "XSUB",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_XSUB,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name      = "xsub",
     .long_name = NULL_IF_CONFIG_SMALL("XSUB"),
     .type      = AVMEDIA_TYPE_SUBTITLE,
     .id        = AV_CODEC_ID_XSUB,
     .init      = decode_init,
     .decode    = decode_frame,
-#endif
 };

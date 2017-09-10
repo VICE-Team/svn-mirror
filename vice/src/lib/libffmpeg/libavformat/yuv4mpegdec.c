@@ -253,12 +253,7 @@ static int yuv4_read_header(AVFormatContext *s)
     st->codec->pix_fmt                = pix_fmt;
     st->codec->codec_type             = AVMEDIA_TYPE_VIDEO;
     st->codec->codec_id               = AV_CODEC_ID_RAWVIDEO;
-#ifdef IDE_COMPILE
-	st->sample_aspect_ratio.num       = aspectn;
-	st->sample_aspect_ratio.den       = aspectd;
-#else
 	st->sample_aspect_ratio           = (AVRational){ aspectn, aspectd };
-#endif
 	st->codec->chroma_sample_location = chroma_sample_location;
     st->codec->field_order            = field_order;
 
@@ -316,19 +311,10 @@ static int yuv4_probe(AVProbeData *pd)
 }
 
 AVInputFormat ff_yuv4mpegpipe_demuxer = {
-#ifdef IDE_COMPILE
-    "yuv4mpegpipe",
-    "YUV4MPEG pipe",
-    0, "y4m",
-    0, 0, 0, 0, 0, 0, yuv4_probe,
-    yuv4_read_header,
-    yuv4_read_packet,
-#else
 	.name           = "yuv4mpegpipe",
     .long_name      = NULL_IF_CONFIG_SMALL("YUV4MPEG pipe"),
     .read_probe     = yuv4_probe,
     .read_header    = yuv4_read_header,
     .read_packet    = yuv4_read_packet,
     .extensions     = "y4m",
-#endif
 };

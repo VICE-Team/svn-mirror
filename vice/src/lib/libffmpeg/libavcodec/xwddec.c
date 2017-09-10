@@ -22,10 +22,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/imgutils.h"
 #include "avcodec.h"
 #include "bytestream.h"
@@ -248,19 +244,10 @@ static int xwd_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_xwd_decoder = {
-#ifdef IDE_COMPILE
-    "xwd",
-    "XWD (X Window Dump) image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_XWD,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, xwd_decode_frame,
-#else
 	.name           = "xwd",
     .long_name      = NULL_IF_CONFIG_SMALL("XWD (X Window Dump) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_XWD,
     .decode         = xwd_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

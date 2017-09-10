@@ -20,12 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include <string.h>
 
@@ -45,13 +40,6 @@
 #define OFFSET(x) offsetof(AVFilterGraph, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 static const AVOption filtergraph_options[] = {
-#ifdef IDE_COMPILE
-	{ "thread_type", "Allowed thread types", OFFSET(thread_type), AV_OPT_TYPE_FLAGS, {AVFILTER_THREAD_SLICE}, 0, INT_MAX, FLAGS, "thread_type" },
-    { "slice", NULL, 0, AV_OPT_TYPE_CONST, {AVFILTER_THREAD_SLICE}, 0, 0, FLAGS, "thread_type" },
-    { "threads", "Maximum number of threads", OFFSET(nb_threads), AV_OPT_TYPE_INT, {0}, 0, INT_MAX, FLAGS },
-    {"scale_sws_opts", "default scale filter options", OFFSET(scale_sws_opts), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    {"aresample_swr_opts", "default aresample filter options", OFFSET(aresample_swr_opts), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-#else
 	{ "thread_type", "Allowed thread types", OFFSET(thread_type), AV_OPT_TYPE_FLAGS,
         { .i64 = AVFILTER_THREAD_SLICE }, 0, INT_MAX, FLAGS, "thread_type" },
         { "slice", NULL, 0, AV_OPT_TYPE_CONST, { .i64 = AVFILTER_THREAD_SLICE }, .flags = FLAGS, .unit = "thread_type" },
@@ -61,24 +49,15 @@ static const AVOption filtergraph_options[] = {
         AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
     {"aresample_swr_opts"   , "default aresample filter options"    , OFFSET(aresample_swr_opts)    ,
         AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
-#endif
 	{ NULL },
 };
 
 static const AVClass filtergraph_class = {
-#ifdef IDE_COMPILE
-    "AVFilterGraph",
-    av_default_item_name,
-    filtergraph_options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, 0, 0, AV_CLASS_CATEGORY_FILTER,
-#else
 	.class_name = "AVFilterGraph",
     .item_name  = av_default_item_name,
     .version    = LIBAVUTIL_VERSION_INT,
     .option     = filtergraph_options,
     .category   = AV_CLASS_CATEGORY_FILTER,
-#endif
 };
 
 #if !HAVE_THREADS
@@ -339,14 +318,8 @@ static int filter_query_formats(AVFilterContext *ctx)
 
     if ((ret = ctx->filter->query_formats(ctx)) < 0) {
         if (ret != AVERROR(EAGAIN)) {
-#ifdef IDE_COMPILE
-			char tmp[64] = {0};
-			av_log(ctx, AV_LOG_ERROR, "Query format failed for '%s': %s\n",
-                   ctx->name, av_make_error_string(tmp, 64, ret));
-#else
 			av_log(ctx, AV_LOG_ERROR, "Query format failed for '%s': %s\n",
                    ctx->name, av_err2str(ret));
-#endif
 		}
 		return ret;
     }

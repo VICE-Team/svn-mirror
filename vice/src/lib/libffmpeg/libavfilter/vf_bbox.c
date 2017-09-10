@@ -39,11 +39,7 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption bbox_options[] = {
-#ifdef IDE_COMPILE
-	{ "min_val", "set minimum luminance value for bounding box", OFFSET(min_val), AV_OPT_TYPE_INT, {16}, 0, 254, FLAGS },
-#else
 	{ "min_val", "set minimum luminance value for bounding box", OFFSET(min_val), AV_OPT_TYPE_INT, { .i64 = 16 }, 0, 254, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -73,10 +69,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     BBoxContext *bbox = ctx->priv;
     FFBoundingBox box;
     int has_bbox, w, h;
-#ifdef IDE_COMPILE
-	char tmp1[32] = {0};
-	char tmp2[32] = {0};
-#endif
 
     has_bbox =
         ff_calculate_bounding_box(&box,
@@ -85,15 +77,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     w = box.x2 - box.x1 + 1;
     h = box.y2 - box.y1 + 1;
 
-#ifdef IDE_COMPILE
-	av_log(ctx, AV_LOG_INFO,
-           "n:%"PRId64" pts:%s pts_time:%s", inlink->frame_count,
-           av_ts_make_string(tmp1, frame->pts), av_ts_make_time_string(tmp2, frame->pts, &inlink->time_base));
-#else
 	av_log(ctx, AV_LOG_INFO,
            "n:%"PRId64" pts:%s pts_time:%s", inlink->frame_count,
            av_ts2str(frame->pts), av_ts2timestr(frame->pts, &inlink->time_base));
-#endif
     if (has_bbox) {
         AVDictionary **metadata = avpriv_frame_get_metadatap(frame);
 
@@ -118,43 +104,22 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
 
 static const AVFilterPad bbox_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad bbox_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_bbox = {
-#ifdef IDE_COMPILE
-    "bbox",
-    NULL_IF_CONFIG_SMALL("Compute bounding box for each frame."),
-    bbox_inputs,
-    bbox_outputs,
-    &bbox_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    0, 0, 0, query_formats,
-    sizeof(BBoxContext),
-#else
 	.name          = "bbox",
     .description   = NULL_IF_CONFIG_SMALL("Compute bounding box for each frame."),
     .priv_size     = sizeof(BBoxContext),
@@ -163,5 +128,4 @@ AVFilter ff_vf_bbox = {
     .inputs        = bbox_inputs,
     .outputs       = bbox_outputs,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

@@ -22,10 +22,6 @@
 #include <inttypes.h>
 #include <stdint.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avformat.h"
 #include "internal.h"
 #include "riff.h"
@@ -282,19 +278,10 @@ static int xwma_read_packet(AVFormatContext *s, AVPacket *pkt)
 }
 
 AVInputFormat ff_xwma_demuxer = {
-#ifdef IDE_COMPILE
-    "xwma",
-    "Microsoft xWMA",
-    0, 0, 0, 0, 0, 0, 0, sizeof(XWMAContext),
-    xwma_probe,
-    xwma_read_header,
-    xwma_read_packet,
-#else
 	.name           = "xwma",
     .long_name      = NULL_IF_CONFIG_SMALL("Microsoft xWMA"),
     .priv_data_size = sizeof(XWMAContext),
     .read_probe     = xwma_probe,
     .read_header    = xwma_read_header,
     .read_packet    = xwma_read_packet,
-#endif
 };

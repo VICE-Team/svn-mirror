@@ -65,30 +65,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption showspectrum_options[] = {
-#ifdef IDE_COMPILE
-	{ "size", "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "640x512"}, 0, 0, FLAGS },
-    { "s",    "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {(intptr_t) "640x512"}, 0, 0, FLAGS },
-    { "slide", "set sliding mode", OFFSET(sliding), AV_OPT_TYPE_INT, {0}, 0, NB_SLIDES, FLAGS, "slide" },
-        { "replace", "replace old columns with new", 0, AV_OPT_TYPE_CONST, {REPLACE}, 0, 0, FLAGS, "slide" },
-        { "scroll", "scroll from right to left", 0, AV_OPT_TYPE_CONST, {SCROLL}, 0, 0, FLAGS, "slide" },
-        { "fullframe", "return full frames", 0, AV_OPT_TYPE_CONST, {FULLFRAME}, 0, 0, FLAGS, "slide" },
-    { "mode", "set channel display mode", OFFSET(mode), AV_OPT_TYPE_INT, {COMBINED}, COMBINED, NB_MODES-1, FLAGS, "mode" },
-        { "combined", "combined mode", 0, AV_OPT_TYPE_CONST, {COMBINED}, 0, 0, FLAGS, "mode" },
-        { "separate", "separate mode", 0, AV_OPT_TYPE_CONST, {SEPARATE}, 0, 0, FLAGS, "mode" },
-    { "color", "set channel coloring", OFFSET(color_mode), AV_OPT_TYPE_INT, {CHANNEL}, CHANNEL, NB_CLMODES-1, FLAGS, "color" },
-        { "channel",   "separate color for each channel", 0, AV_OPT_TYPE_CONST, {CHANNEL},   0, 0, FLAGS, "color" },
-        { "intensity", "intensity based coloring",        0, AV_OPT_TYPE_CONST, {INTENSITY}, 0, 0, FLAGS, "color" },
-    { "scale", "set display scale", OFFSET(scale), AV_OPT_TYPE_INT, {SQRT}, LINEAR, NB_SCALES-1, FLAGS, "scale" },
-        { "sqrt", "square root", 0, AV_OPT_TYPE_CONST, {SQRT},   0, 0, FLAGS, "scale" },
-        { "cbrt", "cubic root",  0, AV_OPT_TYPE_CONST, {CBRT},   0, 0, FLAGS, "scale" },
-        { "log",  "logarithmic", 0, AV_OPT_TYPE_CONST, {LOG},    0, 0, FLAGS, "scale" },
-        { "lin",  "linear",      0, AV_OPT_TYPE_CONST, {LINEAR}, 0, 0, FLAGS, "scale" },
-    { "saturation", "color saturation multiplier", OFFSET(saturation), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, -10, 10, FLAGS },
-    { "win_func", "set window function", OFFSET(win_func), AV_OPT_TYPE_INT, {WFUNC_HANN}, 0, NB_WFUNC-1, FLAGS, "win_func" },
-        { "hann",     "Hann window",     0, AV_OPT_TYPE_CONST, {WFUNC_HANN},     0, 0, FLAGS, "win_func" },
-        { "hamming",  "Hamming window",  0, AV_OPT_TYPE_CONST, {WFUNC_HAMMING},  0, 0, FLAGS, "win_func" },
-        { "blackman", "Blackman window", 0, AV_OPT_TYPE_CONST, {WFUNC_BLACKMAN}, 0, 0, FLAGS, "win_func" },
-#else
 	{ "size", "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {.str = "640x512"}, 0, 0, FLAGS },
     { "s",    "set video size", OFFSET(w), AV_OPT_TYPE_IMAGE_SIZE, {.str = "640x512"}, 0, 0, FLAGS },
     { "slide", "set sliding mode", OFFSET(sliding), AV_OPT_TYPE_INT, {.i64 = 0}, 0, NB_SLIDES, FLAGS, "slide" },
@@ -111,7 +87,6 @@ static const AVOption showspectrum_options[] = {
         { "hann",     "Hann window",     0, AV_OPT_TYPE_CONST, {.i64 = WFUNC_HANN},     0, 0, FLAGS, "win_func" },
         { "hamming",  "Hamming window",  0, AV_OPT_TYPE_CONST, {.i64 = WFUNC_HAMMING},  0, 0, FLAGS, "win_func" },
         { "blackman", "Blackman window", 0, AV_OPT_TYPE_CONST, {.i64 = WFUNC_BLACKMAN}, 0, 0, FLAGS, "win_func" },
-#endif
 	{ NULL }
 };
 
@@ -266,12 +241,7 @@ static int config_output(AVFilterLink *outlink)
             ff_get_video_buffer(outlink, outlink->w, outlink->h);
         if (!outpicref)
             return AVERROR(ENOMEM);
-#ifdef IDE_COMPILE
-		outlink->sample_aspect_ratio.num = 1;
-		outlink->sample_aspect_ratio.den = 1;
-#else
 		outlink->sample_aspect_ratio = (AVRational){1,1};
-#endif
 		for (i = 0; i < outlink->h; i++) {
             memset(outpicref->data[0] + i * outpicref->linesize[0],   0, outlink->w);
             memset(outpicref->data[1] + i * outpicref->linesize[1], 128, outlink->w);
@@ -533,47 +503,24 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *insamples)
 
 static const AVFilterPad showspectrum_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad showspectrum_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_avf_showspectrum = {
-#ifdef IDE_COMPILE
-    "showspectrum",
-    NULL_IF_CONFIG_SMALL("Convert input audio to a spectrum video output."),
-    showspectrum_inputs,
-    showspectrum_outputs,
-    &showspectrum_class,
-    0, 0, 0, uninit,
-    query_formats,
-    sizeof(ShowSpectrumContext),
-#else
 	.name          = "showspectrum",
     .description   = NULL_IF_CONFIG_SMALL("Convert input audio to a spectrum video output."),
     .uninit        = uninit,
@@ -582,5 +529,4 @@ AVFilter ff_avf_showspectrum = {
     .inputs        = showspectrum_inputs,
     .outputs       = showspectrum_outputs,
     .priv_class    = &showspectrum_class,
-#endif
 };

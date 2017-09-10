@@ -75,15 +75,6 @@ typedef struct SilenceRemoveContext {
 #define OFFSET(x) offsetof(SilenceRemoveContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_AUDIO_PARAM
 static const AVOption silenceremove_options[] = {
-#ifdef IDE_COMPILE
-	{ "start_periods",   NULL, OFFSET(start_periods),   AV_OPT_TYPE_INT, {0}, 0, 9000, FLAGS },
-    { "start_duration",  NULL, OFFSET(start_duration),  AV_OPT_TYPE_DURATION, {0}, 0, 9000, FLAGS },
-    { "start_threshold", NULL, OFFSET(start_threshold), AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
-    { "stop_periods",    NULL, OFFSET(stop_periods),    AV_OPT_TYPE_INT, {0}, -9000, 9000, FLAGS },
-    { "stop_duration",   NULL, OFFSET(stop_duration),   AV_OPT_TYPE_DURATION, {0}, 0, 9000, FLAGS },
-    { "stop_threshold",  NULL, OFFSET(stop_threshold),  AV_OPT_TYPE_DOUBLE, {0}, 0, DBL_MAX, FLAGS },
-    { "leave_silence",   NULL, OFFSET(leave_silence),   AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS },
-#else
 	{ "start_periods",   NULL, OFFSET(start_periods),   AV_OPT_TYPE_INT,      {.i64=0},     0,    9000, FLAGS },
     { "start_duration",  NULL, OFFSET(start_duration),  AV_OPT_TYPE_DURATION, {.i64=0},     0,    9000, FLAGS },
     { "start_threshold", NULL, OFFSET(start_threshold), AV_OPT_TYPE_DOUBLE,   {.dbl=0},     0, DBL_MAX, FLAGS },
@@ -91,7 +82,6 @@ static const AVOption silenceremove_options[] = {
     { "stop_duration",   NULL, OFFSET(stop_duration),   AV_OPT_TYPE_DURATION, {.i64=0},     0,    9000, FLAGS },
     { "stop_threshold",  NULL, OFFSET(stop_threshold),  AV_OPT_TYPE_DOUBLE,   {.dbl=0},     0, DBL_MAX, FLAGS },
     { "leave_silence",   NULL, OFFSET(leave_silence),   AV_OPT_TYPE_INT,      {.i64=0},     0,       1, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -458,50 +448,25 @@ static av_cold void uninit(AVFilterContext *ctx)
 
 static const AVFilterPad silenceremove_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .config_props = config_input,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad silenceremove_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_silenceremove = {
-#ifdef IDE_COMPILE
-    "silenceremove",
-    NULL_IF_CONFIG_SMALL("Remove silence."),
-    silenceremove_inputs,
-    silenceremove_outputs,
-    &silenceremove_class,
-    0, init,
-    0, uninit,
-    query_formats,
-    sizeof(SilenceRemoveContext),
-#else
 	.name          = "silenceremove",
     .description   = NULL_IF_CONFIG_SMALL("Remove silence."),
     .priv_size     = sizeof(SilenceRemoveContext),
@@ -511,5 +476,4 @@ AVFilter ff_af_silenceremove = {
     .query_formats = query_formats,
     .inputs        = silenceremove_inputs,
     .outputs       = silenceremove_outputs,
-#endif
 };

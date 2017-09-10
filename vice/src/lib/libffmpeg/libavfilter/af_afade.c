@@ -48,32 +48,6 @@ enum CurveType { TRI, QSIN, ESIN, HSIN, LOG, PAR, QUA, CUB, SQU, CBR };
 #define FLAGS AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
 
 static const AVOption afade_options[] = {
-#ifdef IDE_COMPILE
-	{ "type",         "set the fade direction",                      OFFSET(type),         AV_OPT_TYPE_INT,    {0}, 0, 1, FLAGS, "type" },
-	{ "t",            "set the fade direction",                      OFFSET(type),         AV_OPT_TYPE_INT,    {0}, 0, 1, FLAGS, "type" },
-	{ "in",           "fade-in",                                     0,                    AV_OPT_TYPE_CONST,  {0}, 0, 0, FLAGS, "type" },
-    { "out",          "fade-out",                                    0,                    AV_OPT_TYPE_CONST,  {1}, 0, 0, FLAGS, "type" },
-    { "start_sample", "set number of first sample to start fading",  OFFSET(start_sample), AV_OPT_TYPE_INT64,  {0}, 0, INT64_MAX, FLAGS },
-    { "ss",           "set number of first sample to start fading",  OFFSET(start_sample), AV_OPT_TYPE_INT64,  {0}, 0, INT64_MAX, FLAGS },
-    { "nb_samples",   "set number of samples for fade duration",     OFFSET(nb_samples),   AV_OPT_TYPE_INT,    {44100}, 1, INT32_MAX, FLAGS },
-    { "ns",           "set number of samples for fade duration",     OFFSET(nb_samples),   AV_OPT_TYPE_INT,    {44100}, 1, INT32_MAX, FLAGS },
-    { "start_time",   "set time to start fading",                    OFFSET(start_time),   AV_OPT_TYPE_DURATION, {0.}, 0, INT32_MAX, FLAGS },
-    { "st",           "set time to start fading",                    OFFSET(start_time),   AV_OPT_TYPE_DURATION, {0.}, 0, INT32_MAX, FLAGS },
-    { "duration",     "set fade duration",                           OFFSET(duration),     AV_OPT_TYPE_DURATION, {0.}, 0, INT32_MAX, FLAGS },
-    { "d",            "set fade duration",                           OFFSET(duration),     AV_OPT_TYPE_DURATION, {0.}, 0, INT32_MAX, FLAGS },
-    { "curve",        "set fade curve type",                         OFFSET(curve),        AV_OPT_TYPE_INT,    {TRI}, TRI, CBR, FLAGS, "curve" },
-    { "c",            "set fade curve type",                         OFFSET(curve),        AV_OPT_TYPE_INT,    {TRI}, TRI, CBR, FLAGS, "curve" },
-    { "tri",          "linear slope",                                0,                    AV_OPT_TYPE_CONST,  {TRI}, 0, 0, FLAGS, "curve" },
-    { "qsin",         "quarter of sine wave",                        0,                    AV_OPT_TYPE_CONST,  {QSIN}, 0, 0, FLAGS, "curve" },
-    { "esin",         "exponential sine wave",                       0,                    AV_OPT_TYPE_CONST,  {ESIN}, 0, 0, FLAGS, "curve" },
-    { "hsin",         "half of sine wave",                           0,                    AV_OPT_TYPE_CONST,  {HSIN}, 0, 0, FLAGS, "curve" },
-    { "log",          "logarithmic",                                 0,                    AV_OPT_TYPE_CONST,  {LOG}, 0, 0, FLAGS, "curve" },
-    { "par",          "inverted parabola",                           0,                    AV_OPT_TYPE_CONST,  {PAR}, 0, 0, FLAGS, "curve" },
-    { "qua",          "quadratic",                                   0,                    AV_OPT_TYPE_CONST,  {QUA}, 0, 0, FLAGS, "curve" },
-    { "cub",          "cubic",                                       0,                    AV_OPT_TYPE_CONST,  {CUB}, 0, 0, FLAGS, "curve" },
-    { "squ",          "square root",                                 0,                    AV_OPT_TYPE_CONST,  {SQU}, 0, 0, FLAGS, "curve" },
-    { "cbr",          "cubic root",                                  0,                    AV_OPT_TYPE_CONST,  {CBR}, 0, 0, FLAGS, "curve" },
-#else
 	{ "type",         "set the fade direction",                      OFFSET(type),         AV_OPT_TYPE_INT,    {.i64 = 0    }, 0, 1, FLAGS, "type" },
     { "t",            "set the fade direction",                      OFFSET(type),         AV_OPT_TYPE_INT,    {.i64 = 0    }, 0, 1, FLAGS, "type" },
     { "in",           "fade-in",                                     0,                    AV_OPT_TYPE_CONST,  {.i64 = 0    }, 0, 0, FLAGS, "type" },
@@ -98,7 +72,6 @@ static const AVOption afade_options[] = {
     { "cub",          "cubic",                                       0,                    AV_OPT_TYPE_CONST,  {.i64 = CUB  }, 0, 0, FLAGS, "curve" },
     { "squ",          "square root",                                 0,                    AV_OPT_TYPE_CONST,  {.i64 = SQU  }, 0, 0, FLAGS, "curve" },
     { "cbr",          "cubic root",                                  0,                    AV_OPT_TYPE_CONST,  {.i64 = CBR  }, 0, 0, FLAGS, "curve" },
-#endif
 	{ NULL }
 };
 
@@ -257,16 +230,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
     AVFilterLink *outlink   = inlink->dst->outputs[0];
     int nb_samples          = buf->nb_samples;
     AVFrame *out_buf;
-#ifdef IDE_COMPILE
-    int64_t cur_sample;
-    AVRational tmp;
-
-	tmp.num = 1;
-	tmp.den = outlink->sample_rate;
-	cur_sample = av_rescale_q(buf->pts, tmp, outlink->time_base);
-#else
 	int64_t cur_sample = av_rescale_q(buf->pts, (AVRational){1, outlink->sample_rate}, outlink->time_base);
-#endif
 
     if ((!s->type && (s->start_sample + s->nb_samples < cur_sample)) ||
         ( s->type && (cur_sample + s->nb_samples < s->start_sample)))
@@ -307,46 +271,23 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
 
 static const AVFilterPad avfilter_af_afade_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, config_input,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
         .config_props = config_input,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_af_afade_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_afade = {
-#ifdef IDE_COMPILE
-    "afade",
-    NULL_IF_CONFIG_SMALL("Fade in/out input audio."),
-    avfilter_af_afade_inputs,
-    avfilter_af_afade_outputs,
-    &afade_class,
-    AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-    init,
-    0, 0, query_formats,
-    sizeof(AudioFadeContext),
-#else
 	.name          = "afade",
     .description   = NULL_IF_CONFIG_SMALL("Fade in/out input audio."),
     .query_formats = query_formats,
@@ -356,5 +297,4 @@ AVFilter ff_af_afade = {
     .outputs       = avfilter_af_afade_outputs,
     .priv_class    = &afade_class,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-#endif
 };

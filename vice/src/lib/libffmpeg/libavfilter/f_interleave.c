@@ -41,21 +41,12 @@ typedef struct {
 
 #define OFFSET(x) offsetof(InterleaveContext, x)
 
-#ifdef IDE_COMPILE
-#define DEFINE_OPTIONS(filt_name, flags_)                           \
-static const AVOption filt_name##_options[] = {                     \
-   { "nb_inputs", "set number of inputs", OFFSET(nb_inputs), AV_OPT_TYPE_INT, {2}, 1, INT_MAX, flags_ }, \
-   { "n",         "set number of inputs", OFFSET(nb_inputs), AV_OPT_TYPE_INT, {2}, 1, INT_MAX, flags_ }, \
-   { NULL }                                                         \
-}
-#else
 #define DEFINE_OPTIONS(filt_name, flags_)                           \
 static const AVOption filt_name##_options[] = {                     \
    { "nb_inputs", "set number of inputs", OFFSET(nb_inputs), AV_OPT_TYPE_INT, {.i64 = 2}, 1, INT_MAX, .flags = flags_ }, \
    { "n",         "set number of inputs", OFFSET(nb_inputs), AV_OPT_TYPE_INT, {.i64 = 2}, 1, INT_MAX, .flags = flags_ }, \
    { NULL }                                                         \
 }
-#endif
 
 inline static int push_frame(AVFilterContext *ctx)
 {
@@ -63,9 +54,6 @@ inline static int push_frame(AVFilterContext *ctx)
     AVFrame *frame;
     int i, queue_idx = -1;
     int64_t pts_min = INT64_MAX;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     /* look for oldest frame */
     for (i = 0; i < ctx->nb_inputs; i++) {
@@ -87,15 +75,8 @@ inline static int push_frame(AVFilterContext *ctx)
         return AVERROR_EOF;
 
     frame = ff_bufqueue_get(&s->queues[queue_idx]);
-#ifdef IDE_COMPILE
-    tmp.num = 1;
-	tmp.den = AV_TIME_BASE;
-	av_log(ctx, AV_LOG_DEBUG, "queue:%d -> frame time:%f\n",
-           queue_idx, frame->pts * av_q2d(tmp));
-#else
 	av_log(ctx, AV_LOG_DEBUG, "queue:%d -> frame time:%f\n",
            queue_idx, frame->pts * av_q2d(AV_TIME_BASE_Q));
-#endif
 	return ff_filter_frame(ctx->outputs[0], frame);
 }
 
@@ -104,9 +85,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     AVFilterContext *ctx = inlink->dst;
     InterleaveContext *s = ctx->priv;
     unsigned in_no = FF_INLINK_IDX(inlink);
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (frame->pts == AV_NOPTS_VALUE) {
         av_log(ctx, AV_LOG_WARNING,
@@ -116,17 +94,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
     }
 
     /* queue frame */
-#ifdef IDE_COMPILE
-    tmp.num = 1;
-	tmp.den = AV_TIME_BASE;
-    frame->pts = av_rescale_q(frame->pts, inlink->time_base, tmp);
-	av_log(ctx, AV_LOG_DEBUG, "frame pts:%f -> queue idx:%d available:%d\n",
-           frame->pts * av_q2d(tmp), in_no, s->queues[in_no].available);
-#else
     frame->pts = av_rescale_q(frame->pts, inlink->time_base, AV_TIME_BASE_Q);
 	av_log(ctx, AV_LOG_DEBUG, "frame pts:%f -> queue idx:%d available:%d\n",
            frame->pts * av_q2d(AV_TIME_BASE_Q), in_no, s->queues[in_no].available);
-#endif
 	ff_bufqueue_add(ctx, &s->queues[in_no], frame);
 
     return push_frame(ctx);
@@ -184,22 +154,12 @@ static int config_output(AVFilterLink *outlink)
     int i;
 
     if (outlink->type == AVMEDIA_TYPE_VIDEO) {
-#ifdef IDE_COMPILE
-		outlink->time_base.num = 1;
-		outlink->time_base.den = AV_TIME_BASE;
-#else
 		outlink->time_base           = AV_TIME_BASE_Q;
-#endif
 		outlink->w                   = inlink0->w;
         outlink->h                   = inlink0->h;
         outlink->sample_aspect_ratio = inlink0->sample_aspect_ratio;
         outlink->format              = inlink0->format;
-#ifdef IDE_COMPILE
-		outlink->frame_rate.num = 1;
-		outlink->frame_rate.den = 0;
-#else
 		outlink->frame_rate = (AVRational) {1, 0};
-#endif
 		for (i = 1; i < ctx->nb_inputs; i++) {
             AVFilterLink *inlink = ctx->inputs[i];
 
@@ -249,32 +209,15 @@ AVFILTER_DEFINE_CLASS(interleave);
 
 static const AVFilterPad interleave_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_VIDEO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_interleave = {
-#ifdef IDE_COMPILE
-    "interleave",
-    NULL_IF_CONFIG_SMALL("Temporally interleave video inputs."),
-    0, interleave_outputs,
-    &interleave_class,
-    AVFILTER_FLAG_DYNAMIC_INPUTS,
-    init,
-    0, uninit,
-    0, sizeof(InterleaveContext),
-#else
 	.name        = "interleave",
     .description = NULL_IF_CONFIG_SMALL("Temporally interleave video inputs."),
     .priv_size   = sizeof(InterleaveContext),
@@ -283,7 +226,6 @@ AVFilter ff_vf_interleave = {
     .outputs     = interleave_outputs,
     .priv_class  = &interleave_class,
     .flags       = AVFILTER_FLAG_DYNAMIC_INPUTS,
-#endif
 };
 
 #endif
@@ -295,32 +237,15 @@ AVFILTER_DEFINE_CLASS(ainterleave);
 
 static const AVFilterPad ainterleave_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, request_frame,
-        config_output,
-#else
 		.name          = "default",
         .type          = AVMEDIA_TYPE_AUDIO,
         .config_props  = config_output,
         .request_frame = request_frame,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_ainterleave = {
-#ifdef IDE_COMPILE
-    "ainterleave",
-    NULL_IF_CONFIG_SMALL("Temporally interleave audio inputs."),
-    0, ainterleave_outputs,
-    &ainterleave_class,
-    AVFILTER_FLAG_DYNAMIC_INPUTS,
-    init,
-    0, uninit,
-    0, sizeof(InterleaveContext),
-#else
 	.name        = "ainterleave",
     .description = NULL_IF_CONFIG_SMALL("Temporally interleave audio inputs."),
     .priv_size   = sizeof(InterleaveContext),
@@ -329,7 +254,6 @@ AVFilter ff_af_ainterleave = {
     .outputs     = ainterleave_outputs,
     .priv_class  = &ainterleave_class,
     .flags       = AVFILTER_FLAG_DYNAMIC_INPUTS,
-#endif
 };
 
 #endif

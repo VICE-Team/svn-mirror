@@ -89,22 +89,7 @@ static av_cold int y41p_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV411P,
-                                                 AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_y41p_encoder = {
-#ifdef IDE_COMPILE
-    "y41p",
-    "Uncompressed YUV 4:1:1 12-bit",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_Y41P,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, y41p_encode_init,
-    0, y41p_encode_frame,
-    0, y41p_encode_close,
-#else
 	.name         = "y41p",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed YUV 4:1:1 12-bit"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -114,5 +99,4 @@ AVCodec ff_y41p_encoder = {
     .close        = y41p_encode_close,
     .pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV411P,
                                                  AV_PIX_FMT_NONE },
-#endif
 };

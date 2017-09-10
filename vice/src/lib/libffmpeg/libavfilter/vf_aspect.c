@@ -175,15 +175,8 @@ static int setdar_config_props(AVFilterLink *inlink)
         inlink->sample_aspect_ratio = s->sar;
         dar = s->dar;
     } else {
-#ifdef IDE_COMPILE
-		inlink->sample_aspect_ratio.num = 1;
-		inlink->sample_aspect_ratio.den = 1;
-        dar.num = inlink->w;
-        dar.den = inlink->h;
-#else
 		inlink->sample_aspect_ratio = (AVRational){ 1, 1 };
         dar = (AVRational){ inlink->w, inlink->h };
-#endif
 	}
 
     compute_dar(&old_dar, old_sar, inlink->w, inlink->h);
@@ -195,15 +188,6 @@ static int setdar_config_props(AVFilterLink *inlink)
 }
 
 static const AVOption setdar_options[] = {
-#ifdef IDE_COMPILE
-	{ "dar", "set display aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0"}, 0, 0, FLAGS },
-    { "ratio", "set display aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, 0, 0, FLAGS },
-    { "r", "set display aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, 0, 0, FLAGS },
-#if FF_API_OLD_FILTER_OPTS
-    { "dar_den", NULL, OFFSET(aspect_den), AV_OPT_TYPE_FLOAT, {0}, 0, FLT_MAX, FLAGS },
-#endif
-    { "max", "set max value for nominator or denominator in the ratio", OFFSET(max), AV_OPT_TYPE_INT, {100}, 1, INT_MAX, FLAGS },
-#else
 	{ "dar",   "set display aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, { .str = "0" }, .flags = FLAGS },
     { "ratio", "set display aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, { .str = "0" }, .flags = FLAGS },
     { "r",     "set display aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, { .str = "0" }, .flags = FLAGS },
@@ -211,7 +195,6 @@ static const AVOption setdar_options[] = {
     { "dar_den", NULL, OFFSET(aspect_den), AV_OPT_TYPE_FLOAT, { .dbl = 0 }, 0, FLT_MAX, FLAGS },
 #endif
     { "max",   "set max value for nominator or denominator in the ratio", OFFSET(max), AV_OPT_TYPE_INT, {.i64=100}, 1, INT_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -219,44 +202,23 @@ AVFILTER_DEFINE_CLASS(setdar);
 
 static const AVFilterPad avfilter_vf_setdar_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, setdar_config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = setdar_config_props,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_setdar_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_setdar = {
-#ifdef IDE_COMPILE
-    "setdar",
-    NULL_IF_CONFIG_SMALL("Set the frame display aspect ratio."),
-    avfilter_vf_setdar_inputs,
-    avfilter_vf_setdar_outputs,
-    &setdar_class,
-    0, init,
-    0, 0, 0, sizeof(AspectContext),
-#else
 	.name        = "setdar",
     .description = NULL_IF_CONFIG_SMALL("Set the frame display aspect ratio."),
     .init        = init,
@@ -264,7 +226,6 @@ AVFilter ff_vf_setdar = {
     .priv_class  = &setdar_class,
     .inputs      = avfilter_vf_setdar_inputs,
     .outputs     = avfilter_vf_setdar_outputs,
-#endif
 };
 
 #endif /* CONFIG_SETDAR_FILTER */
@@ -299,15 +260,6 @@ static int setsar_config_props(AVFilterLink *inlink)
 }
 
 static const AVOption setsar_options[] = {
-#ifdef IDE_COMPILE
-	{ "sar", "set sample (pixel) aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, 0, 0, FLAGS },
-    { "ratio", "set sample (pixel) aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, 0, 0, FLAGS },
-    { "r", "set sample (pixel) aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, {(intptr_t) "0" }, 0, 0, FLAGS },
-#if FF_API_OLD_FILTER_OPTS
-    { "sar_den", NULL, OFFSET(aspect_den), AV_OPT_TYPE_FLOAT, {0}, 0, FLT_MAX, FLAGS },
-#endif
-    { "max", "set max value for nominator or denominator in the ratio", OFFSET(max), AV_OPT_TYPE_INT, {100}, 1, INT_MAX, FLAGS },
-#else
 	{ "sar",   "set sample (pixel) aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, { .str = "0" }, .flags = FLAGS },
     { "ratio", "set sample (pixel) aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, { .str = "0" }, .flags = FLAGS },
     { "r",     "set sample (pixel) aspect ratio", OFFSET(ratio_expr), AV_OPT_TYPE_STRING, { .str = "0" }, .flags = FLAGS },
@@ -315,7 +267,6 @@ static const AVOption setsar_options[] = {
     { "sar_den", NULL, OFFSET(aspect_den), AV_OPT_TYPE_FLOAT, { .dbl = 0 }, 0, FLT_MAX, FLAGS },
 #endif
     { "max",   "set max value for nominator or denominator in the ratio", OFFSET(max), AV_OPT_TYPE_INT, {.i64=100}, 1, INT_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -323,44 +274,23 @@ AVFILTER_DEFINE_CLASS(setsar);
 
 static const AVFilterPad avfilter_vf_setsar_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-        0, 0, setsar_config_props,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .config_props = setsar_config_props,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad avfilter_vf_setsar_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_setsar = {
-#ifdef IDE_COMPILE
-    "setsar",
-    NULL_IF_CONFIG_SMALL("Set the pixel sample aspect ratio."),
-    avfilter_vf_setsar_inputs,
-    avfilter_vf_setsar_outputs,
-    &setsar_class,
-    0, init,
-    0, 0, 0, sizeof(AspectContext),
-#else
 	.name        = "setsar",
     .description = NULL_IF_CONFIG_SMALL("Set the pixel sample aspect ratio."),
     .init        = init,
@@ -368,7 +298,6 @@ AVFilter ff_vf_setsar = {
     .priv_class  = &setsar_class,
     .inputs      = avfilter_vf_setsar_inputs,
     .outputs     = avfilter_vf_setsar_outputs,
-#endif
 };
 
 #endif /* CONFIG_SETSAR_FILTER */

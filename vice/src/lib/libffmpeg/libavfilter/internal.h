@@ -232,14 +232,10 @@ void ff_command_queue_pop(AVFilterContext *filter);
 
 /* #define FF_AVFILTER_TRACE */
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 #ifdef FF_AVFILTER_TRACE
 #    define ff_tlog(pctx, ...) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__)
 #else
 #    define ff_tlog(pctx, ...) do { if (0) av_log(pctx, AV_LOG_DEBUG, __VA_ARGS__); } while (0)
-#endif
-#else
-#  define ff_tlog var_args_dummy
 #endif
 
 #define FF_TPRINTF_START(ctx, func) ff_tlog(NULL, "%-16s: ", #func)
@@ -313,17 +309,6 @@ int ff_poll_frame(AVFilterLink *link);
  */
 int ff_request_frame(AVFilterLink *link);
 
-#ifdef IDE_COMPILE
-#define AVFILTER_DEFINE_CLASS(fname)       \
-    static const AVClass fname##_class = { \
-        #fname,                            \
-        av_default_item_name,              \
-        fname##_options,                   \
-        LIBAVUTIL_VERSION_INT,             \
-        0, 0, 0, 0,                        \
-        AV_CLASS_CATEGORY_FILTER,          \
-    }
-#else
 #define AVFILTER_DEFINE_CLASS(fname)            \
     static const AVClass fname##_class = {      \
         .class_name = #fname,                   \
@@ -332,7 +317,6 @@ int ff_request_frame(AVFilterLink *link);
         .version    = LIBAVUTIL_VERSION_INT,    \
         .category   = AV_CLASS_CATEGORY_FILTER, \
     }
-#endif
 
 AVFilterBufferRef *ff_copy_buffer_ref(AVFilterLink *outlink,
                                       AVFilterBufferRef *ref);
