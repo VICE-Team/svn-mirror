@@ -130,7 +130,7 @@ static GtkWidget *create_fixed_delay_widget(void)
             "0 = machine-specific delay for KERNAL boot");
     int delay;
 
-    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin", 8, NULL);
 
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);

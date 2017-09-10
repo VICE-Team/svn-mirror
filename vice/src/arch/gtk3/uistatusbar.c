@@ -292,11 +292,11 @@ static GtkWidget *ui_drive_widget_create(int unit)
     snprintf(drive_id, 4, "%d:", unit+8);
     drive_id[3]=0;
     number = gtk_label_new(drive_id);
-    gtk_label_set_xalign(GTK_LABEL(number), 0.0);
+    gtk_widget_set_halign(number, GTK_ALIGN_START);
 
     track = gtk_label_new("18.5");
     gtk_widget_set_hexpand(track, TRUE);
-    gtk_label_set_xalign(GTK_LABEL(track), 1.0);
+    gtk_widget_set_halign(track, GTK_ALIGN_END);
 
     led = gtk_drawing_area_new();
     gtk_widget_set_size_request(led, 30, 15);
@@ -313,12 +313,19 @@ static GtkWidget *ui_drive_widget_create(int unit)
 static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     intptr_t i = (intptr_t)data;
-    if (allocated_bars[i].tape && allocated_bars[i].tape_menu) {
+    if (allocated_bars[i].tape && allocated_bars[i].tape_menu && event->type == GDK_BUTTON_PRESS) {
+#if GTK_CHECK_VERSION(3,22,0)
         gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
                                  allocated_bars[i].tape,
                                  GDK_GRAVITY_NORTH_EAST,
                                  GDK_GRAVITY_SOUTH_EAST,
                                  event);
+#else
+        GdkEventButton *buttonEvent = (GdkEventButton *)event;
+        gtk_menu_popup(GTK_MENU(allocated_bars[i].tape_menu),
+                       NULL, NULL, NULL, NULL,
+                       buttonEvent->button, buttonEvent->time);
+#endif
     }
     return TRUE;
 }
@@ -333,7 +340,7 @@ static GtkWidget *ui_tape_widget_create(void)
     gtk_widget_set_hexpand(grid, FALSE);
     header = gtk_label_new(_("Tape:"));
     gtk_widget_set_hexpand(header, TRUE);
-    gtk_label_set_xalign(GTK_LABEL(header), 0.0);
+    gtk_widget_set_halign(header, GTK_ALIGN_START);
 
     counter = gtk_label_new("000");
     state = gtk_drawing_area_new();
@@ -359,7 +366,7 @@ static GtkWidget *ui_joystick_widget_create(void)
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
     label = gtk_label_new(_("Joysticks:"));
-    gtk_label_set_xalign(GTK_LABEL(label), 0.0);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, TRUE);
     gtk_container_add(GTK_CONTAINER(grid), label);
     /* TODO: At some point, it should be possible for the core to
@@ -381,7 +388,7 @@ static GtkWidget *ui_joystick_widget_create(void)
 
 static void layout_statusbar_drives(int bar_index)
 {
-    int i, state;
+    int i, j, state;
     int enabled_drive_index = 0;
     GtkWidget *bar = allocated_bars[bar_index].bar;
     if (!bar) {
@@ -391,9 +398,12 @@ static void layout_statusbar_drives(int bar_index)
      * This code assumes that the drive widgets are the rightmost
      * elements of the status bar. */
     for (i = 0; i < ((DRIVE_NUM + 1) / 2) * 2; ++i) {
-        /* This shifts widgets left, so we just keep deleting the same
-         * column */
-        gtk_grid_remove_column(GTK_GRID(bar), 3);
+        for (j = 0; j < 2; ++j) {
+            GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar), 3+i, j);
+            if (child) {
+                gtk_container_remove(GTK_CONTAINER(bar), child);
+            }
+        }
     }
     state = sb_state.drives_enabled;
     for (i = 0; i < DRIVE_NUM; ++i) {
@@ -470,9 +480,9 @@ GtkWidget *ui_statusbar_create(void)
     /* First column: messages */
     msg = gtk_label_new(NULL);
     g_object_ref(G_OBJECT(msg));
-    gtk_label_set_xalign(GTK_LABEL(msg), 0.0);
-    gtk_label_set_ellipsize(GTK_LABEL(msg), PANGO_ELLIPSIZE_END);
+    gtk_widget_set_halign(msg, GTK_ALIGN_START);
     gtk_widget_set_hexpand(msg, TRUE);
+    gtk_label_set_ellipsize(GTK_LABEL(msg), PANGO_ELLIPSIZE_END);
 
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;

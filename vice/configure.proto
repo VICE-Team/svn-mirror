@@ -3028,12 +3028,7 @@ fi
 dnl Check and setup native GTK3 compilation.
 if test x"$enable_native_gtk3ui" = "xyes"; then
 
-  dnl This demands the absolute latest version of GTK3. While that is
-  dnl currently necessary, it might be nice to include fallbacks for
-  dnl earlier versions back to, say, 3.16 (when GtkGLArea is first
-  dnl introduced).
-
-  PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.22])
+  PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.2])
   AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
   HAVE_CAIRO_SUPPORT="yes"
   PKG_CHECK_MODULES(GLIB, [glib-2.0])
