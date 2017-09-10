@@ -38,6 +38,7 @@
 #include "lib.h"
 #include "types.h"
 #include "uiapi.h"
+#include "uidatasette.h"
 
 #include "uistatusbar.h"
 
@@ -59,7 +60,7 @@ static struct ui_sb_state_s {
 typedef struct ui_statusbar_s {
     GtkWidget *bar;
     GtkLabel *msg;
-    GtkWidget *tape;
+    GtkWidget *tape, *tape_menu;
     GtkWidget *joysticks;
     GtkWidget *drives[DRIVE_NUM];
 } ui_statusbar_t;
@@ -74,6 +75,7 @@ void ui_statusbar_init(void)
         allocated_bars[i].bar = NULL;
         allocated_bars[i].msg = NULL;
         allocated_bars[i].tape = NULL;
+        allocated_bars[i].tape_menu = NULL;
         allocated_bars[i].joysticks = NULL;
         for (j = 0; j < DRIVE_NUM; ++j) {
             allocated_bars[i].drives[j] = NULL;
@@ -308,6 +310,19 @@ static GtkWidget *ui_drive_widget_create(int unit)
     return grid;
 }
 
+static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+    intptr_t i = (intptr_t)data;
+    if (allocated_bars[i].tape && allocated_bars[i].tape_menu) {
+        gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
+                                 allocated_bars[i].tape,
+                                 GDK_GRAVITY_NORTH_EAST,
+                                 GDK_GRAVITY_SOUTH_EAST,
+                                 event);
+    }
+    return TRUE;
+}
+
 static GtkWidget *ui_tape_widget_create(void)
 {
     GtkWidget *grid, *header, *counter, *state;
@@ -323,6 +338,9 @@ static GtkWidget *ui_tape_widget_create(void)
     counter = gtk_label_new("000");
     state = gtk_drawing_area_new();
     gtk_widget_set_size_request(state, 20, 20);
+    /* Labels will notice clicks by default, but drawing areas need to
+     * be told to. */
+    gtk_widget_add_events(state, GDK_BUTTON_PRESS_MASK);
     gtk_container_add(GTK_CONTAINER(grid), header);
     gtk_container_add(GTK_CONTAINER(grid), counter);
     gtk_container_add(GTK_CONTAINER(grid), state);
@@ -404,11 +422,15 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                 g_object_unref(G_OBJECT(allocated_bars[i].msg));
                 allocated_bars[i].msg = NULL;
             }
-            if (allocated_bars[i].msg) {
+            if (allocated_bars[i].tape) {
                 g_object_unref(G_OBJECT(allocated_bars[i].tape));
                 allocated_bars[i].tape = NULL;
             }
-            if (allocated_bars[i].msg) {
+            if (allocated_bars[i].tape_menu) {
+                g_object_unref(G_OBJECT(allocated_bars[i].tape_menu));
+                allocated_bars[i].tape_menu = NULL;
+            }
+            if (allocated_bars[i].joysticks) {
                 g_object_unref(G_OBJECT(allocated_bars[i].joysticks));
                 allocated_bars[i].joysticks = NULL;
             }
@@ -424,7 +446,7 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 
 GtkWidget *ui_statusbar_create(void)
 {
-    GtkWidget *sb, *msg, *tape, *joysticks;
+    GtkWidget *sb, *msg, *tape, *tape_events, *joysticks;
     int i, j;
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -460,8 +482,18 @@ GtkWidget *ui_statusbar_create(void)
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), 1, 0, 1, 2);
     tape = ui_tape_widget_create();
     g_object_ref(G_OBJECT(tape));
-    gtk_grid_attach(GTK_GRID(sb), tape, 2, 0, 1, 1);
+    /* Clicking the tape status is supposed to pop up a window. This
+     * requires a way to make sure events are captured by random
+     * internal widgets; the GtkEventBox manages that task for us. */
+    tape_events = gtk_event_box_new();
+    gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape_events), FALSE);
+    gtk_container_add(GTK_CONTAINER(tape_events), tape);
+    gtk_grid_attach(GTK_GRID(sb), tape_events, 2, 0, 1, 1);
     allocated_bars[i].tape = tape;
+    allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
+    g_object_ref(G_OBJECT(allocated_bars[i].tape_menu));
+    g_signal_connect(tape_events, "button-press-event", G_CALLBACK(ui_do_datasette_popup), (gpointer)((intptr_t)i));
+
     joysticks = ui_joystick_widget_create();
     g_object_ref(joysticks);
     gtk_grid_attach(GTK_GRID(sb), joysticks, 2, 1, 1, 1);
