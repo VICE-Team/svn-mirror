@@ -97,7 +97,7 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
  *                          is toggled (`NULL` == no callback)
  *
  * \note    keep in mind that the callback is also triggered when a radio button
- *          is deactivated, so use gtk_toggle_button_is_active() if you only
+ *          is deactivated, so use gtk_toggle_button_get_active() if you only
  *          want to respond to the currently activated radio button
  *
  * \return  GtkGrid
