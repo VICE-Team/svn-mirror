@@ -58,23 +58,7 @@ void ff_rv10_encode_picture_header(MpegEncContext *s, int picture_number)
 
 FF_MPV_GENERIC_CLASS(rv10)
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_rv10_encoder = {
-#ifdef IDE_COMPILE
-    "rv10",
-    "RealVideo 1.0",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_RV10,
-    0, 0, tmp0,
-    0, 0, 0, 0, &rv10_class,
-    0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_mpv_encode_init,
-    0, ff_mpv_encode_picture,
-    0, ff_mpv_encode_end,
-#else
 	.name           = "rv10",
     .long_name      = NULL_IF_CONFIG_SMALL("RealVideo 1.0"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -85,5 +69,4 @@ AVCodec ff_rv10_encoder = {
     .close          = ff_mpv_encode_end,
     .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .priv_class     = &rv10_class,
-#endif
 };

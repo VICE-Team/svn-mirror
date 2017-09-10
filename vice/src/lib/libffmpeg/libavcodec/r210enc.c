@@ -87,21 +87,7 @@ static av_cold int encode_close(AVCodecContext *avctx)
 
 #if CONFIG_R210_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_RGB48LE, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_r210_encoder = {
-#ifdef IDE_COMPILE
-    "r210",
-    "Uncompressed RGB 10-bit",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_R210,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_close,
-#else
 	.name           = "r210",
     .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed RGB 10-bit"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -110,27 +96,12 @@ AVCodec ff_r210_encoder = {
     .encode2        = encode_frame,
     .close          = encode_close,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_RGB48, AV_PIX_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_R10K_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp2[] = { AV_PIX_FMT_RGB48LE, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_r10k_encoder = {
-#ifdef IDE_COMPILE
-    "r10k",
-    "AJA Kona 10-bit RGB Codec",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_R10K,
-    0, 0, tmp2,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_close,
-#else
 	.name           = "r10k",
     .long_name      = NULL_IF_CONFIG_SMALL("AJA Kona 10-bit RGB Codec"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -139,27 +110,12 @@ AVCodec ff_r10k_encoder = {
     .encode2        = encode_frame,
     .close          = encode_close,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_RGB48, AV_PIX_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_AVRP_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp3[] = { AV_PIX_FMT_RGB48LE, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_avrp_encoder = {
-#ifdef IDE_COMPILE
-    "avrp",
-    "Avid 1:1 10-bit RGB Packer",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_AVRP,
-    0, 0, tmp3,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_close,
-#else
 	.name           = "avrp",
     .long_name      = NULL_IF_CONFIG_SMALL("Avid 1:1 10-bit RGB Packer"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -168,6 +124,5 @@ AVCodec ff_avrp_encoder = {
     .encode2        = encode_frame,
     .close          = encode_close,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_RGB48, AV_PIX_FMT_NONE },
-#endif
 };
 #endif

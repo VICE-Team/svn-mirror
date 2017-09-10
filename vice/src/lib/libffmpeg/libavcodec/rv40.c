@@ -564,29 +564,7 @@ static av_cold int rv40_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_rv40_decoder = {
-#ifdef IDE_COMPILE
-    "rv40",
-    "RealVideo 4.0",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_RV40,
-    CODEC_CAP_DR1 | CODEC_CAP_DELAY | CODEC_CAP_FRAME_THREADS,
-    0, tmp0,
-    0, 0, 0, 0, 0, 0, sizeof(RV34DecContext),
-    0, ff_rv34_decode_init_thread_copy,
-    ff_rv34_decode_update_thread_context,
-    0, 0, rv40_decode_init,
-    0, 0, ff_rv34_decode_frame,
-    ff_rv34_decode_end,
-    ff_mpeg_flush,
-#else
 	.name                  = "rv40",
     .long_name             = NULL_IF_CONFIG_SMALL("RealVideo 4.0"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -604,5 +582,4 @@ AVCodec ff_rv40_decoder = {
     },
     .init_thread_copy      = ONLY_IF_THREADS_ENABLED(ff_rv34_decode_init_thread_copy),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(ff_rv34_decode_update_thread_context),
-#endif
 };

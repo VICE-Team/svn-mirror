@@ -162,27 +162,7 @@ static int s302m_encode2_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S32,
-                                                            AV_SAMPLE_FMT_S16,
-                                                            AV_SAMPLE_FMT_NONE };
-
-static const int tmp2[] = { 48000, 0 };
-#endif
-
 AVCodec ff_s302m_encoder = {
-#ifdef IDE_COMPILE
-    "s302m",
-    "SMPTE 302M",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_S302M,
-    CODEC_CAP_VARIABLE_FRAME_SIZE | CODEC_CAP_EXPERIMENTAL,
-    0, 0, tmp2,
-    tmp1,
-    0, 0, 0, 0, sizeof(S302MEncContext),
-    0, 0, 0, 0, 0, s302m_encode_init,
-    0, s302m_encode2_frame,
-#else
 	.name                  = "s302m",
     .long_name             = NULL_IF_CONFIG_SMALL("SMPTE 302M"),
     .type                  = AVMEDIA_TYPE_AUDIO,
@@ -195,5 +175,4 @@ AVCodec ff_s302m_encoder = {
                                                             AV_SAMPLE_FMT_NONE },
     .capabilities          = CODEC_CAP_VARIABLE_FRAME_SIZE | CODEC_CAP_EXPERIMENTAL,
     .supported_samplerates = (const int[]) { 48000, 0 },
-#endif
 };

@@ -214,17 +214,6 @@ static av_cold int rl2_decode_end(AVCodecContext *avctx)
 
 
 AVCodec ff_rl2_decoder = {
-#ifdef IDE_COMPILE
-    "rl2",
-    "RL2 video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_RL2,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(Rl2Context),
-    0, 0, 0, 0, 0, rl2_decode_init,
-    0, 0, rl2_decode_frame,
-    rl2_decode_end,
-#else
 	.name           = "rl2",
     .long_name      = NULL_IF_CONFIG_SMALL("RL2 video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -234,5 +223,4 @@ AVCodec ff_rl2_decoder = {
     .close          = rl2_decode_end,
     .decode         = rl2_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

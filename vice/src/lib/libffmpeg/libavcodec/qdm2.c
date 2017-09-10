@@ -35,10 +35,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #define BITSTREAM_READER_LE
 #include "libavutil/channel_layout.h"
 #include "avcodec.h"
@@ -2051,17 +2047,6 @@ static int qdm2_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_qdm2_decoder = {
-#ifdef IDE_COMPILE
-    "qdm2",
-    "QDesign Music Codec 2",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_QDM2,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(QDM2Context),
-    0, 0, 0, 0, 0, qdm2_decode_init,
-    0, 0, qdm2_decode_frame,
-    qdm2_decode_close,
-#else
 	.name             = "qdm2",
     .long_name        = NULL_IF_CONFIG_SMALL("QDesign Music Codec 2"),
     .type             = AVMEDIA_TYPE_AUDIO,
@@ -2071,5 +2056,4 @@ AVCodec ff_qdm2_decoder = {
     .close            = qdm2_decode_close,
     .decode           = qdm2_decode_frame,
     .capabilities     = CODEC_CAP_DR1,
-#endif
 };

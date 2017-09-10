@@ -341,18 +341,6 @@ static av_cold int decode_init(AVCodecContext *avctx){
 }
 
 AVCodec ff_qpeg_decoder = {
-#ifdef IDE_COMPILE
-    "qpeg",
-    "Q-team QPEG",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_QPEG,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(QpegContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-    decode_flush,
-#else
 	.name           = "qpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("Q-team QPEG"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -363,5 +351,4 @@ AVCodec ff_qpeg_decoder = {
     .decode         = decode_frame,
     .flush          = decode_flush,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

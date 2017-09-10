@@ -74,19 +74,10 @@ static int realtext_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_realtext_decoder = {
-#ifdef IDE_COMPILE
-    "realtext",
-    "RealText subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_REALTEXT,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ff_ass_subtitle_header_default,
-    0, 0, realtext_decode_frame,
-#else
 	.name           = "realtext",
     .long_name      = NULL_IF_CONFIG_SMALL("RealText subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
     .id             = AV_CODEC_ID_REALTEXT,
     .decode         = realtext_decode_frame,
     .init           = ff_ass_subtitle_header_default,
-#endif
 };

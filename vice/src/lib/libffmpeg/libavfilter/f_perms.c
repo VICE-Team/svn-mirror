@@ -44,15 +44,6 @@ typedef struct {
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM | AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_VIDEO_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "mode", "select permissions mode", OFFSET(mode), AV_OPT_TYPE_INT, {MODE_NONE}, MODE_NONE, NB_MODES-1, FLAGS, "mode" },
-    { "none", "do nothing", 0, AV_OPT_TYPE_CONST, {MODE_NONE}, INT_MIN, INT_MAX, FLAGS, "mode" },
-    { "ro", "set all output frames read-only", 0, AV_OPT_TYPE_CONST, {MODE_RO}, INT_MIN, INT_MAX, FLAGS, "mode" },
-    { "rw", "set all output frames writable", 0, AV_OPT_TYPE_CONST, {MODE_RW}, INT_MIN, INT_MAX, FLAGS, "mode" },
-    { "toggle", "switch permissions", 0, AV_OPT_TYPE_CONST, {MODE_TOGGLE}, INT_MIN, INT_MAX, FLAGS, "mode" },
-    { "random", "set permissions randomly", 0, AV_OPT_TYPE_CONST, {MODE_RANDOM}, INT_MIN, INT_MAX, FLAGS, "mode" },
-    { "seed", "set the seed for the random mode", OFFSET(random_seed), AV_OPT_TYPE_INT64, {-1}, -1, UINT32_MAX, FLAGS },
-#else
 	{ "mode", "select permissions mode", OFFSET(mode), AV_OPT_TYPE_INT, {.i64 = MODE_NONE}, MODE_NONE, NB_MODES-1, FLAGS, "mode" },
         { "none",   "do nothing",                       0, AV_OPT_TYPE_CONST, {.i64 = MODE_NONE},       INT_MIN, INT_MAX, FLAGS, "mode" },
         { "ro",     "set all output frames read-only",  0, AV_OPT_TYPE_CONST, {.i64 = MODE_RO},         INT_MIN, INT_MAX, FLAGS, "mode" },
@@ -60,7 +51,6 @@ static const AVOption options[] = {
         { "toggle", "switch permissions",               0, AV_OPT_TYPE_CONST, {.i64 = MODE_TOGGLE},     INT_MIN, INT_MAX, FLAGS, "mode" },
         { "random", "set permissions randomly",         0, AV_OPT_TYPE_CONST, {.i64 = MODE_RANDOM},     INT_MIN, INT_MAX, FLAGS, "mode" },
     { "seed", "set the seed for the random mode", OFFSET(random_seed), AV_OPT_TYPE_INT64, {.i64 = -1}, -1, UINT32_MAX, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -128,42 +118,22 @@ AVFILTER_DEFINE_CLASS(aperms);
 
 static const AVFilterPad aperms_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad aperms_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_aperms = {
-#ifdef IDE_COMPILE
-    "aperms",
-    NULL_IF_CONFIG_SMALL("Set permissions for the output audio frame."),
-    aperms_inputs,
-    aperms_outputs,
-    &aperms_class,
-    0, init,
-    0, 0, 0, sizeof(PermsContext),
-#else
 	.name        = "aperms",
     .description = NULL_IF_CONFIG_SMALL("Set permissions for the output audio frame."),
     .init        = init,
@@ -171,7 +141,6 @@ AVFilter ff_af_aperms = {
     .inputs      = aperms_inputs,
     .outputs     = aperms_outputs,
     .priv_class  = &aperms_class,
-#endif
 };
 #endif /* CONFIG_APERMS_FILTER */
 
@@ -182,42 +151,22 @@ AVFILTER_DEFINE_CLASS(perms);
 
 static const AVFilterPad perms_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad perms_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_perms = {
-#ifdef IDE_COMPILE
-    "perms",
-    NULL_IF_CONFIG_SMALL("Set permissions for the output video frame."),
-    perms_inputs,
-    perms_outputs,
-    &perms_class,
-    0, init,
-    0, 0, 0, sizeof(PermsContext),
-#else
 	.name        = "perms",
     .description = NULL_IF_CONFIG_SMALL("Set permissions for the output video frame."),
     .init        = init,
@@ -225,6 +174,5 @@ AVFilter ff_vf_perms = {
     .inputs      = perms_inputs,
     .outputs     = perms_outputs,
     .priv_class  = &perms_class,
-#endif
 };
 #endif /* CONFIG_PERMS_FILTER */

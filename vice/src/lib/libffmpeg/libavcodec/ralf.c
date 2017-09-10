@@ -26,10 +26,6 @@
  * Dedicated to the mastermind behind it, Ralph Wiggum.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "libavutil/channel_layout.h"
 #include "avcodec.h"
@@ -523,25 +519,7 @@ static void decode_flush(AVCodecContext *avctx)
     ctx->has_pkt = 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_ralf_decoder = {
-#ifdef IDE_COMPILE
-    "ralf",
-    "RealAudio Lossless",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_RALF,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(RALFContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_close,
-    decode_flush,
-#else
 	.name           = "ralf",
     .long_name      = NULL_IF_CONFIG_SMALL("RealAudio Lossless"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -554,5 +532,4 @@ AVCodec ff_ralf_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };

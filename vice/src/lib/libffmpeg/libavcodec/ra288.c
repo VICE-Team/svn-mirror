@@ -141,19 +141,12 @@ static void do_hybrid_window(RA288Context *ractx,
     float buffer1[MAX_BACKWARD_FILTER_ORDER + 1];
     float buffer2[MAX_BACKWARD_FILTER_ORDER + 1];
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED(32, float, work, [FFALIGN(MAX_BACKWARD_FILTER_ORDER +
                                             MAX_BACKWARD_FILTER_LEN   +
                                             MAX_BACKWARD_FILTER_NONREC, 16)]);
-#else
-	uint8_t la_work[sizeof(float [(((36 + 40 + 35)+(16)-1)&~((16)-1))] ) + (32)];
-	float (*work) = (void *)((((uintptr_t)la_work)+(32)-1)&~((32)-1));
-#endif
 
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	av_assert2(order>=0);
-#endif
 
     ractx->fdsp.vector_fmul(work, window, hist, FFALIGN(order + n + non_rec, 16));
 
@@ -237,16 +230,6 @@ static int ra288_decode_frame(AVCodecContext * avctx, void *data,
 }
 
 AVCodec ff_ra_288_decoder = {
-#ifdef IDE_COMPILE
-    "real_288",
-    "RealAudio 2.0 (28.8K)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_RA_288,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(RA288Context),
-    0, 0, 0, 0, 0, ra288_decode_init,
-    0, 0, ra288_decode_frame,
-#else
 	.name           = "real_288",
     .long_name      = NULL_IF_CONFIG_SMALL("RealAudio 2.0 (28.8K)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -255,5 +238,4 @@ AVCodec ff_ra_288_decoder = {
     .init           = ra288_decode_init,
     .decode         = ra288_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

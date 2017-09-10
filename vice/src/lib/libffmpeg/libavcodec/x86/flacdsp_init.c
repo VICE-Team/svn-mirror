@@ -21,12 +21,7 @@
 #include "libavcodec/flacdsp.h"
 #include "libavutil/x86/cpu.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 void ff_flac_lpc_32_sse4(int32_t *samples, const int coeffs[32], int order,
                          int qlevel, int len);

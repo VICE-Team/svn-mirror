@@ -58,24 +58,8 @@ void ff_rv20_encode_picture_header(MpegEncContext *s, int picture_number){
 }
 
 FF_MPV_GENERIC_CLASS(rv20)
-
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE };
-#endif
 	
 AVCodec ff_rv20_encoder = {
-#ifdef IDE_COMPILE
-    "rv20",
-    "RealVideo 2.0",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_RV20,
-    0, 0, tmp0,
-    0, 0, 0, 0, &rv20_class,
-    0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_mpv_encode_init,
-    0, ff_mpv_encode_picture,
-    0, ff_mpv_encode_end,
-#else
 	.name           = "rv20",
     .long_name      = NULL_IF_CONFIG_SMALL("RealVideo 2.0"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -86,5 +70,4 @@ AVCodec ff_rv20_encoder = {
     .close          = ff_mpv_encode_end,
     .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .priv_class     = &rv20_class,
-#endif
 };

@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/common.h"
 #include "libavutil/intreadwrite.h"
 #include "libavutil/imgutils.h"
@@ -87,19 +83,10 @@ static int ptx_decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 }
 
 AVCodec ff_ptx_decoder = {
-#ifdef IDE_COMPILE
-    "ptx",
-    "V.Flash PTX image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_PTX,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ptx_decode_frame,
-#else
 	.name           = "ptx",
     .long_name      = NULL_IF_CONFIG_SMALL("V.Flash PTX image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_PTX,
     .decode         = ptx_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

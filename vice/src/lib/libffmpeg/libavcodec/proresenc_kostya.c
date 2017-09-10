@@ -23,10 +23,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
@@ -129,48 +125,6 @@ static const struct prores_profile {
     int         br_tab[NUM_MB_LIMITS];
     int         quant;
 } prores_profile_info[5] = {
-#ifdef IDE_COMPILE
-    {
-        "proxy",
-        MKTAG('a', 'p', 'c', 'o'),
-        4,
-        8,
-        { 300, 242, 220, 194 },
-        QUANT_MAT_PROXY,
-    },
-    {
-        "LT",
-        MKTAG('a', 'p', 'c', 's'),
-        1,
-        9,
-        { 720, 560, 490, 440 },
-        QUANT_MAT_LT,
-    },
-    {
-        "standard",
-        MKTAG('a', 'p', 'c', 'n'),
-        1,
-        6,
-        { 1050, 808, 710, 632 },
-        QUANT_MAT_STANDARD,
-    },
-    {
-        "high quality",
-        MKTAG('a', 'p', 'c', 'h'),
-        1,
-        6,
-        { 1566, 1216, 1070, 950 },
-        QUANT_MAT_HQ,
-    },
-    {
-        "4444",
-        MKTAG('a', 'p', '4', 'h'),
-        1,
-        6,
-        { 2350, 1828, 1600, 1425 },
-        QUANT_MAT_HQ,
-    }
-#else
 	{
         .full_name = "proxy",
         .tag       = MKTAG('a', 'p', 'c', 'o'),
@@ -211,7 +165,6 @@ static const struct prores_profile {
         .br_tab    = { 2350, 1828, 1600, 1425 },
         .quant     = QUANT_MAT_HQ,
     }
-#endif
 };
 
 #define TRELLIS_WIDTH 16
@@ -1340,26 +1293,6 @@ static av_cold int encode_init(AVCodecContext *avctx)
 #define VE     AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "mbs_per_slice", "macroblocks per slice", OFFSET(mbs_per_slice), AV_OPT_TYPE_INT, {8}, 1, MAX_MBS_PER_SLICE, VE },
-    { "profile", NULL, OFFSET(profile), AV_OPT_TYPE_INT, {PRORES_PROFILE_AUTO}, PRORES_PROFILE_AUTO, PRORES_PROFILE_4444, VE, "profile" },
-    { "auto", NULL, 0, AV_OPT_TYPE_CONST, {PRORES_PROFILE_AUTO}, 0, 0, VE, "profile" },
-    { "proxy", NULL, 0, AV_OPT_TYPE_CONST, {PRORES_PROFILE_PROXY}, 0, 0, VE, "profile" },
-    { "lt", NULL, 0, AV_OPT_TYPE_CONST, {PRORES_PROFILE_LT}, 0, 0, VE, "profile" },
-    { "standard", NULL, 0, AV_OPT_TYPE_CONST, {PRORES_PROFILE_STANDARD}, 0, 0, VE, "profile" },
-    { "hq", NULL, 0, AV_OPT_TYPE_CONST, {PRORES_PROFILE_HQ}, 0, 0, VE, "profile" },
-    { "4444", NULL, 0, AV_OPT_TYPE_CONST, {PRORES_PROFILE_4444}, 0, 0, VE, "profile" },
-    { "vendor", "vendor ID", OFFSET(vendor), AV_OPT_TYPE_STRING, {(intptr_t) "Lavc" }, CHAR_MIN, CHAR_MAX, VE },
-    { "bits_per_mb", "desired bits per macroblock", OFFSET(bits_per_mb), AV_OPT_TYPE_INT, {0}, 0, 8192, VE },
-    { "quant_mat", "quantiser matrix", OFFSET(quant_sel), AV_OPT_TYPE_INT, {-1}, -1, QUANT_MAT_DEFAULT, VE, "quant_mat" },
-    { "auto", NULL, 0, AV_OPT_TYPE_CONST, {-1}, 0, 0, VE, "quant_mat" },
-    { "proxy", NULL, 0, AV_OPT_TYPE_CONST, {QUANT_MAT_PROXY}, 0, 0, VE, "quant_mat" },
-    { "lt", NULL, 0, AV_OPT_TYPE_CONST, {QUANT_MAT_LT}, 0, 0, VE, "quant_mat" },
-    { "standard", NULL, 0, AV_OPT_TYPE_CONST, {QUANT_MAT_STANDARD}, 0, 0, VE, "quant_mat" },
-    { "hq", NULL, 0, AV_OPT_TYPE_CONST, {QUANT_MAT_HQ}, 0, 0, VE, "quant_mat" },
-    { "default", NULL, 0, AV_OPT_TYPE_CONST, {QUANT_MAT_DEFAULT}, 0, 0, VE, "quant_mat" },
-    { "alpha_bits", "bits for alpha plane", OFFSET(alpha_bits), AV_OPT_TYPE_INT, {16}, 0, 16, VE },
-#else
 	{ "mbs_per_slice", "macroblocks per slice", OFFSET(mbs_per_slice),
         AV_OPT_TYPE_INT, { .i64 = 8 }, 1, MAX_MBS_PER_SLICE, VE },
     { "profile",       NULL, OFFSET(profile), AV_OPT_TYPE_INT,
@@ -1397,45 +1330,17 @@ static const AVOption options[] = {
         0, 0, VE, "quant_mat" },
     { "alpha_bits", "bits for alpha plane", OFFSET(alpha_bits), AV_OPT_TYPE_INT,
         { .i64 = 16 }, 0, 16, VE },
-#endif
 	{ NULL }
 };
 
 static const AVClass proresenc_class = {
-#ifdef IDE_COMPILE
-    "ProRes encoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "ProRes encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-                          AV_PIX_FMT_YUV422P10LE, AV_PIX_FMT_YUV444P10LE,
-                          AV_PIX_FMT_YUVA444P10LE, AV_PIX_FMT_NONE
-                      };
-#endif
-
 AVCodec ff_prores_ks_encoder = {
-#ifdef IDE_COMPILE
-    "prores_ks",
-    "Apple ProRes (iCodec Pro)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_PRORES,
-    0x2000,
-    0, tmp1,
-    0, 0, 0, 0, &proresenc_class,
-    0, sizeof(ProresContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_close,
-#else
 	.name           = "prores_ks",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple ProRes (iCodec Pro)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1450,5 +1355,4 @@ AVCodec ff_prores_ks_encoder = {
                           AV_PIX_FMT_YUVA444P10, AV_PIX_FMT_NONE
                       },
     .priv_class     = &proresenc_class,
-#endif
 };

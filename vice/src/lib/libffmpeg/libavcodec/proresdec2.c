@@ -28,19 +28,11 @@
 
 #define LONG_BITSTREAM_READER
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "idctdsp.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#else
 #include "internal.h"
-#endif
 
 #include "simple_idct.h"
 #include "proresdec.h"
@@ -371,12 +363,7 @@ static int decode_slice_luma(AVCodecContext *avctx, SliceContext *slice,
 {
     ProresContext *ctx = avctx->priv_data;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
-#else
-	uint8_t la_blocks[sizeof(int16_t [8*4*64] ) + (16)];
-	int16_t (*blocks) = (void *)((((uintptr_t)la_blocks)+(16)-1)&~((16)-1));
-#endif
 
 	int16_t *block;
     GetBitContext gb;
@@ -411,12 +398,7 @@ static int decode_slice_chroma(AVCodecContext *avctx, SliceContext *slice,
 {
     ProresContext *ctx = avctx->priv_data;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
-#else
-	uint8_t la_blocks[sizeof(int16_t [8*4*64] ) + (16)];
-	int16_t (*blocks) = (void *)((((uintptr_t)la_blocks)+(16)-1)&~((16)-1));
-#endif
 
 	int16_t *block;
     GetBitContext gb;
@@ -500,12 +482,7 @@ static void decode_slice_alpha(ProresContext *ctx,
     GetBitContext gb;
     int i;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_16(int16_t, blocks, [8*4*64]);
-#else
-	uint8_t la_blocks[sizeof(int16_t [8*4*64] ) + (16)];
-	int16_t (*blocks) = (void *)((((uintptr_t)la_blocks)+(16)-1)&~((16)-1));
-#endif
 
 	int16_t *block;
 
@@ -708,17 +685,6 @@ static av_cold int decode_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_prores_decoder = {
-#ifdef IDE_COMPILE
-    "prores",
-    "ProRes",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_PRORES,
-    CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(ProresContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_close,
-#else
 	.name           = "prores",
     .long_name      = NULL_IF_CONFIG_SMALL("ProRes"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -728,5 +694,4 @@ AVCodec ff_prores_decoder = {
     .close          = decode_close,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-#endif
 };

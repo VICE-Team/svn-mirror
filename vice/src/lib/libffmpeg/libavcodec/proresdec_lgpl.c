@@ -771,17 +771,6 @@ static av_cold int decode_close(AVCodecContext *avctx)
 
 
 AVCodec ff_prores_lgpl_decoder = {
-#ifdef IDE_COMPILE
-    "prores_lgpl",
-    "Apple ProRes (iCodec Pro)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_PRORES,
-    CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(ProresContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_close,
-#else
 	.name           = "prores_lgpl",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple ProRes (iCodec Pro)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -791,5 +780,4 @@ AVCodec ff_prores_lgpl_decoder = {
     .close          = decode_close,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-#endif
 };

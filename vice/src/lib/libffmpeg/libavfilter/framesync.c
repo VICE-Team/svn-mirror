@@ -32,21 +32,12 @@ static const char *framesync_name(void *ptr)
 }
 
 static const AVClass framesync_class = {
-#ifdef IDE_COMPILE
-    "framesync",
-    framesync_name,
-    NULL,
-    LIBAVUTIL_VERSION_INT,
-    0, OFFSET(parent),
-    0, 0, AV_CLASS_CATEGORY_FILTER,
-#else
 	.version                   = LIBAVUTIL_VERSION_INT,
     .class_name                = "framesync",
     .item_name                 = framesync_name,
     .category                  = AV_CLASS_CATEGORY_FILTER,
     .option                    = NULL,
     .parent_log_context_offset = OFFSET(parent),
-#endif
 };
 
 enum {

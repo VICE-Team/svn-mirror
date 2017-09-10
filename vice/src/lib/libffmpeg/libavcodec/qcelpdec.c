@@ -29,10 +29,6 @@
 
 #include <stddef.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/channel_layout.h"
 #include "libavutil/float_dsp.h"
@@ -794,16 +790,6 @@ erasure:
 }
 
 AVCodec ff_qcelp_decoder = {
-#ifdef IDE_COMPILE
-    "qcelp",
-    "QCELP / PureVoice",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_QCELP,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(QCELPContext),
-    0, 0, 0, 0, 0, qcelp_decode_init,
-    0, 0, qcelp_decode_frame,
-#else
 	.name           = "qcelp",
     .long_name      = NULL_IF_CONFIG_SMALL("QCELP / PureVoice"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -812,5 +798,4 @@ AVCodec ff_qcelp_decoder = {
     .decode         = qcelp_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .priv_data_size = sizeof(QCELPContext),
-#endif
 };

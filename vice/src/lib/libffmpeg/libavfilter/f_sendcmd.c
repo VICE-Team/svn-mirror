@@ -82,17 +82,10 @@ typedef struct {
 #define OFFSET(x) offsetof(SendCmdContext, x)
 #define FLAGS AV_OPT_FLAG_FILTERING_PARAM | AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "commands", "set commands", OFFSET(commands_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "c",        "set commands", OFFSET(commands_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "filename", "set commands file",  OFFSET(commands_filename), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-    { "f",        "set commands file",  OFFSET(commands_filename), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, FLAGS },
-#else
 	{ "commands", "set commands", OFFSET(commands_str), AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
     { "c",        "set commands", OFFSET(commands_str), AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
     { "filename", "set commands file",  OFFSET(commands_filename), AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
     { "f",        "set commands file",  OFFSET(commands_filename), AV_OPT_TYPE_STRING, {.str = NULL}, 0, 0, FLAGS },
-#endif
 	{ NULL }
 };
 
@@ -453,20 +446,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *ref)
     SendCmdContext *sendcmd = ctx->priv;
     int64_t ts;
     int i, j, ret;
-#ifdef IDE_COMPILE
-    AVRational tmp;
-#endif
 
     if (ref->pts == AV_NOPTS_VALUE)
         goto end;
 
-#ifdef IDE_COMPILE
-    tmp.num = 1;
-    tmp.den = AV_TIME_BASE;
-	ts = av_rescale_q(ref->pts, inlink->time_base, tmp);
-#else
 	ts = av_rescale_q(ref->pts, inlink->time_base, AV_TIME_BASE_Q);
-#endif
 
 #define WITHIN_INTERVAL(ts, start_ts, end_ts) ((ts) >= (start_ts) && (ts) < (end_ts))
 
@@ -496,9 +480,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *ref)
                 char buf[1024];
 
                 if (cmd->flags & flags) {
-#ifdef IDE_COMPILE
-					char tmp[64] = {0};
-#endif
 
 					av_log(ctx, AV_LOG_VERBOSE,
                            "Processing command #%d target:%s command:%s arg:%s\n",
@@ -507,15 +488,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *ref)
                                                       cmd->target, cmd->command, cmd->arg,
                                                       buf, sizeof(buf),
                                                       AVFILTER_CMD_FLAG_ONE);
-#ifdef IDE_COMPILE
-					av_log(ctx, AV_LOG_VERBOSE,
-                           "Command reply for command #%d: ret:%s res:%s\n",
-                           cmd->index, av_make_error_string(tmp, 64, ret), buf);
-#else
 					av_log(ctx, AV_LOG_VERBOSE,
                            "Command reply for command #%d: ret:%s res:%s\n",
                            cmd->index, av_err2str(ret), buf);
-#endif
 				}
             }
         }
@@ -538,43 +513,22 @@ AVFILTER_DEFINE_CLASS(sendcmd);
 
 static const AVFilterPad sendcmd_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_VIDEO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad sendcmd_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_VIDEO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_VIDEO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_vf_sendcmd = {
-#ifdef IDE_COMPILE
-    "sendcmd",
-    NULL_IF_CONFIG_SMALL("Send commands to filters."),
-    sendcmd_inputs,
-    sendcmd_outputs,
-    &sendcmd_class,
-    0, init,
-    0, uninit,
-    0, sizeof(SendCmdContext),
-#else
 	.name        = "sendcmd",
     .description = NULL_IF_CONFIG_SMALL("Send commands to filters."),
     .init        = init,
@@ -583,7 +537,6 @@ AVFilter ff_vf_sendcmd = {
     .inputs      = sendcmd_inputs,
     .outputs     = sendcmd_outputs,
     .priv_class  = &sendcmd_class,
-#endif
 };
 
 #endif
@@ -595,43 +548,22 @@ AVFILTER_DEFINE_CLASS(asendcmd);
 
 static const AVFilterPad asendcmd_inputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-        0, 0, 0, 0, 0, 0, 0, filter_frame,
-#else
 		.name         = "default",
         .type         = AVMEDIA_TYPE_AUDIO,
         .filter_frame = filter_frame,
-#endif
 	},
     { NULL }
 };
 
 static const AVFilterPad asendcmd_outputs[] = {
     {
-#ifdef IDE_COMPILE
-        "default",
-        AVMEDIA_TYPE_AUDIO,
-#else
 		.name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
-#endif
 	},
     { NULL }
 };
 
 AVFilter ff_af_asendcmd = {
-#ifdef IDE_COMPILE
-    "asendcmd",
-    NULL_IF_CONFIG_SMALL("Send commands to filters."),
-    asendcmd_inputs,
-    asendcmd_outputs,
-    &asendcmd_class,
-    0, init,
-    0, uninit,
-    0, sizeof(SendCmdContext),
-#else
 	.name        = "asendcmd",
     .description = NULL_IF_CONFIG_SMALL("Send commands to filters."),
     .init        = init,
@@ -640,7 +572,6 @@ AVFilter ff_af_asendcmd = {
     .inputs      = asendcmd_inputs,
     .outputs     = asendcmd_outputs,
     .priv_class  = &asendcmd_class,
-#endif
 };
 
 #endif

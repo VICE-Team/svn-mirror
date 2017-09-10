@@ -27,10 +27,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/imgutils.h"
 
 #include "avcodec.h"
@@ -387,34 +383,13 @@ static int rv20_decode_picture_header(RVDecContext *rv)
 
             // attempt to keep aspect during typical resolution switches
             if (!old_aspect.num) {
-#ifdef IDE_COMPILE
-				old_aspect.num = 1;
-				old_aspect.den = 1;
-#else
 				old_aspect = (AVRational){1, 1};
-#endif
 			}
 			if (2 * new_w * s->height == new_h * s->width) {
-#ifdef IDE_COMPILE
-				AVRational tmp;
-				
-				tmp.num = 2;
-				tmp.den = 1;
-				s->avctx->sample_aspect_ratio = av_mul_q(old_aspect, tmp);
-#else
 				s->avctx->sample_aspect_ratio = av_mul_q(old_aspect, (AVRational){2, 1});
-#endif
 			}
 			if (new_w * s->height == 2 * new_h * s->width) {
-#ifdef IDE_COMPILE
-				AVRational tmp;
-				
-				tmp.num = 1;
-				tmp.den = 2;
-				s->avctx->sample_aspect_ratio = av_mul_q(old_aspect, tmp);
-#else
 				s->avctx->sample_aspect_ratio = av_mul_q(old_aspect, (AVRational){1, 2});
-#endif
 			}
             ret = ff_set_dimensions(s->avctx, new_w, new_h);
             if (ret < 0)
@@ -813,27 +788,7 @@ static int rv10_decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
     return avpkt->size;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp4[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_rv10_decoder = {
-#ifdef IDE_COMPILE
-    "rv10",
-    "RealVideo 1.0",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_RV10,
-    CODEC_CAP_DR1,
-    0, tmp4,
-    0, 0, 0, 3,
-    0, 0, sizeof(RVDecContext),
-    0, 0, 0, 0, 0, rv10_decode_init,
-    0, 0, rv10_decode_frame,
-    rv10_decode_end,
-#else
 	.name           = "rv10",
     .long_name      = NULL_IF_CONFIG_SMALL("RealVideo 1.0"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -848,31 +803,9 @@ AVCodec ff_rv10_decoder = {
         AV_PIX_FMT_YUV420P,
         AV_PIX_FMT_NONE
     },
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp5[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_rv20_decoder = {
-#ifdef IDE_COMPILE
-    "rv20",
-    "RealVideo 2.0",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_RV20,
-    CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    0, tmp5,
-    0, 0, 0, 3,
-    0, 0, sizeof(RVDecContext),
-    0, 0, 0, 0, 0, rv10_decode_init,
-    0, 0, rv10_decode_frame,
-    rv10_decode_end,
-    ff_mpeg_flush,
-#else
 	.name           = "rv20",
     .long_name      = NULL_IF_CONFIG_SMALL("RealVideo 2.0"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -888,5 +821,4 @@ AVCodec ff_rv20_decoder = {
         AV_PIX_FMT_YUV420P,
         AV_PIX_FMT_NONE
     },
-#endif
 };

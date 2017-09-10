@@ -141,15 +141,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_qdraw_decoder = {
-#ifdef IDE_COMPILE
-    "qdraw",
-    "Apple QuickDraw",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_QDRAW,
-    0x0002,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "qdraw",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple QuickDraw"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -157,5 +148,4 @@ AVCodec ff_qdraw_decoder = {
     .init           = decode_init,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

@@ -32,10 +32,6 @@
 #include "mpegvideo.h"
 #include "libavutil/eval.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #undef NDEBUG // Always check asserts, the speed effect is far too small to disable them.
 #include <assert.h>
 
