@@ -4,6 +4,9 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  SoundOutput - output mode: system (0), mono (1), stereo (2) (int)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

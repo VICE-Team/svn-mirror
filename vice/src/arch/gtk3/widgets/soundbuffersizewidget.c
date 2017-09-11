@@ -4,6 +4,9 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  SoundBufferSize - sound buffer size in milliseconds (int)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -4,6 +4,11 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  SoundSpeedAdjustment - specify what adjustment method the audio renderer
+ *                         should use: flexible (0), adjusting (1), exact (2)
+ *                         (integer)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

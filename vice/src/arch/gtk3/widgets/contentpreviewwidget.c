@@ -30,6 +30,13 @@
 
 #include "contentpreviewwidget.h"
 
+
+/** \brief  Create widget to show image contents in a file dialog
+ *
+ * \param[in]   selected    callback used when the user double-clicked a file
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *create_content_preview_widget(void (*selected)(GtkWidget *, void *))
 {
     GtkWidget *grid;

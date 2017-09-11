@@ -94,7 +94,8 @@ static ui_settings_tree_node_t main_nodes[] = {
 };
 
 
-
+/** \brief  Reference to the current 'central' widget in the settings dialog
+ */
 static void ui_settings_set_central_widget(GtkWidget *widget);
 
 

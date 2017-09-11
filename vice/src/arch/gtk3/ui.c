@@ -97,7 +97,8 @@ static ui_menu_item_t file_menu[] = {
     { "Create a new tape image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
     { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
     { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Datasette controls ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Datasette controls [USE TAPEWIDGET IN STATUSBAR]",
+        UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
 
     UI_MENU_SEPARATOR,
 

@@ -4,6 +4,13 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  KeymapIndex   - determines keymapping: symbolic (0), positional (1),
+ *                  user-defined symbolic (2) and user-defined positional (3)
+ *                  (integer)
+ *  KeymapPosFile - user-defined positional mapping file (string)
+ *  KeymapSymFike - user-defined symbolic mapping file (string)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

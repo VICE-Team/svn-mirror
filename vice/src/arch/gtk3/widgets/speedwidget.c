@@ -1,6 +1,9 @@
 /*
  * speedwidget.c - GTK3 speed control widget
  *
+ * Controls the following resource(s):
+ *  Speed - relative emulator speed in % (integer)
+ *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
@@ -38,7 +41,7 @@
 #include "speedwidget.h"
 
 
-/** \brief  List of text/id pairs for the refresh rates
+/** \brief  List of text/id pairs for the speed rates
  */
 static ui_text_int_pair_t speed_rates[] = {
     { "Unlimited", 0 }, /* this one works a little weird, probably wrong value */
@@ -56,7 +59,6 @@ static ui_text_int_pair_t speed_rates[] = {
  *
  * \param[in]   widget      widget triggering the callback
  * \param[in]   user_data   the speed setting (`int`)
- *
  */
 static void speed_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -74,7 +76,7 @@ static void speed_callback(GtkWidget *widget, gpointer user_data)
  *
  * \todo    Get current speed from resources and set proper radio button
  *
- * \return  GtkWidget
+ * \return  GtkGrid
  */
 GtkWidget *create_speed_widget(void)
 {

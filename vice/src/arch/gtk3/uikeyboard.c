@@ -41,8 +41,12 @@
 
 
 
-
-
+/** \brief  Create keyboard settings widget
+ *
+ * \param[in]   widget  parent widget
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *uikeyboard_create_central_widget(GtkWidget *widget)
 {
     GtkWidget *layout;
@@ -61,7 +65,3 @@ GtkWidget *uikeyboard_create_central_widget(GtkWidget *widget)
     gtk_widget_show_all(layout);
     return layout;
 }
-
-
-
-

@@ -4,6 +4,9 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following rescource(3):
+ *  RefreshRate - 0 == auto, 1-10 == 1/[1-10] (int)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -80,7 +83,7 @@ static void refreshrate_callback(GtkWidget *widget, gpointer user_data)
  *
  * \todo    Get current refresh rate from resources and set proper radio button
  *
- * \return  GtkWidget
+ * \return  GtkGrid
  */
 GtkWidget *create_refreshrate_widget(void)
 {

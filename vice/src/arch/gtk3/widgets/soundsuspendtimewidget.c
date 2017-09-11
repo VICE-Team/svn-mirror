@@ -4,6 +4,10 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  SoundSuspendTime - time (seconds) to suspend sound playback to allow the
+ *                     emulation to catch up
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -39,15 +43,15 @@
 #include "soundsuspendtimewidget.h"
 
 
-/** \brief  Minimum value for the buffer size spin button (msec)
+/** \brief  Minimum value for the buffer size spin button (sec)
  */
 #define SPIN_MIN    0.0
 
-/** \brief  Maximum value for the buffer size spin button (msec)
+/** \brief  Maximum value for the buffer size spin button (sec)
  */
 #define SPIN_MAX    10.0
 
-/** \brief  Step size of the spin button (msec) when pushing +/-
+/** \brief  Step size of the spin button (sec) when pushing +/-
  */
 #define SPIN_STEP   1.0
 
@@ -109,5 +113,3 @@ GtkWidget *create_sound_suspend_time_widget(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-

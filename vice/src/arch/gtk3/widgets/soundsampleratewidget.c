@@ -4,6 +4,10 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  SoundSampleRate - sample rate in Hertz (8000-48000) (int)
+ *
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -39,7 +43,7 @@
 #include "soundsampleratewidget.h"
 
 
-/** \brief  List of sound synchronization modes
+/** \brief  List of sound sampling rates
  */
 static ui_text_int_pair_t sample_rates[] = {
     { "8000 Hz", 8000 },

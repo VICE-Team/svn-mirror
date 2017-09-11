@@ -4,6 +4,10 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  SoundDeviceName - sound device/driver to use (string)
+ *  SoundDeviceArg  - optional argument to the driver (string)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

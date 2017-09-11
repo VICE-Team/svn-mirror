@@ -4,6 +4,9 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  KeyboardMapping - keyboard layout for various regions
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -54,6 +57,11 @@ static ui_text_int_pair_t kbd_layouts[] = {
 };
 
 
+/** \brief  Callback for a change in the radio buttons selection
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   user_data   radio button group index
+ */
 static void on_layout_changed(GtkWidget *widget, gpointer user_data)
 {
     int index = GPOINTER_TO_INT(user_data);
@@ -66,7 +74,7 @@ static void on_layout_changed(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create a keyboard layout selection widget
  *
- * \return  GtkWidget
+ * \return  GtkGrid
  *
  * \fixme   I'm not really satisfied with the 'select file' buttons, perhaps
  *          they should be placed next to the radio buttons?

@@ -4,6 +4,9 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s)"
+ *  SoundFragmentSize - sound fragment size (0-5) (int)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -66,7 +69,7 @@ static void on_fragment_size_changed(GtkWidget *widget, gpointer user_data)
 
 /** \brief  Create widget to set the "SoundFragmentSize" resource
  *
- * \return  grid
+ * \return  GtkGrid
  */
 GtkWidget *create_sound_fragment_size_widget(void)
 {
