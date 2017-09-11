@@ -46,7 +46,8 @@ static ui_text_int_pair_t fragment_sizes[] = {
     { "Small", 1 },
     { "Medium", 2 },
     { "Large", 3 },
-    { "Very large", 4 }
+    { "Very large", 4 },
+    { NULL, -1 }
 };
 
 
