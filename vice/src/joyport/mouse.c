@@ -979,12 +979,6 @@ static int set_smart_mouse_rtc_save(int val, void *param)
     return 0;
 }
 
-#ifdef ANDROID_COMPILE
-#define MOUSE_ENABLE_DEFAULT  1
-#else
-#define MOUSE_ENABLE_DEFAULT  0
-#endif
-
 static const resource_int_t resources_int[] = {
     { "Mouse", MOUSE_ENABLE_DEFAULT, RES_EVENT_SAME, NULL,
       &_mouse_enabled, set_mouse_enabled, NULL },
