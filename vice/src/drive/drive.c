@@ -381,7 +381,7 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
 int drive_get_disk_drive_type(int dnr)
 {
     if (dnr >= 0 && dnr < DRIVE_NUM) {
-	return drive_context[dnr]->drive->type;
+        return drive_context[dnr]->drive->type;
     }
 
     return DRIVE_TYPE_NONE;
@@ -547,7 +547,7 @@ void drive_reset(void)
 /* Move the head to half track `num'.  */
 void drive_set_half_track(int num, int side, drive_t *dptr)
 {
-	int tmp;
+    int tmp;
     if ((dptr->type == DRIVE_TYPE_1540
          || dptr->type == DRIVE_TYPE_1541
          || dptr->type == DRIVE_TYPE_1541II
