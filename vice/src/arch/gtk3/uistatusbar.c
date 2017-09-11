@@ -194,7 +194,7 @@ static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
-    drive = *((int *)data);
+    drive = GPOINTER_TO_INT(data);
     for (i = 0; i < 2; ++i) {
         int led_color = sb_state.drive_led_types[drive] & (1 << i);
         if (led_color) {
@@ -218,13 +218,11 @@ static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     int width, height, val;
-    int *port;
     double e, s, x, y;
 
     width = gtk_widget_get_allocated_width(widget);
     height = gtk_widget_get_allocated_height(widget);
-    port = ((int *)data);
-    val = port ? sb_state.current_joyports[*port] : 0;
+    val = sb_state.current_joyports[GPOINTER_TO_INT(data)];
 
     /* This widget "wants" to draw 6x6 squares inside a 20x20
      * space. We compute x and y offsets for a scaled square within
@@ -274,11 +272,6 @@ static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     return FALSE;
 }
 
-static void destroy_ancillary_index_cb(GtkWidget *drive, gpointer data)
-{
-    lib_free(data);
-}
-
 static GtkWidget *ui_drive_widget_create(int unit)
 {
     GtkWidget *grid, *number, *track, *led;
@@ -303,10 +296,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
     gtk_container_add(GTK_CONTAINER(grid), number);
     gtk_container_add(GTK_CONTAINER(grid), track);
     gtk_container_add(GTK_CONTAINER(grid), led);
-    drive_index = lib_malloc(sizeof(int));
-    *drive_index = unit;
-    g_signal_connect(led, "destroy", G_CALLBACK(destroy_ancillary_index_cb), drive_index);
-    g_signal_connect(led, "draw", G_CALLBACK(draw_drive_led_cb), drive_index);
+    g_signal_connect(led, "draw", G_CALLBACK(draw_drive_led_cb), GINT_TO_POINTER(unit));
     return grid;
 }
 
@@ -333,7 +323,6 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
 static GtkWidget *ui_tape_widget_create(void)
 {
     GtkWidget *grid, *header, *counter, *state;
-    int *drive_index;
 
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
@@ -351,10 +340,7 @@ static GtkWidget *ui_tape_widget_create(void)
     gtk_container_add(GTK_CONTAINER(grid), header);
     gtk_container_add(GTK_CONTAINER(grid), counter);
     gtk_container_add(GTK_CONTAINER(grid), state);
-    drive_index = lib_malloc(sizeof(int));
-    *drive_index = 0;
-    g_signal_connect(state, "destroy", G_CALLBACK(destroy_ancillary_index_cb), drive_index);
-    g_signal_connect(state, "draw", G_CALLBACK(draw_tape_icon_cb), drive_index);
+    g_signal_connect(state, "draw", G_CALLBACK(draw_tape_icon_cb), GINT_TO_POINTER(0));
     return grid;
 }
 
@@ -375,13 +361,9 @@ static GtkWidget *ui_joystick_widget_create(void)
      *       assume "just ports 1 and 2". */
     for (i = 0; i < 2; ++i) {
         GtkWidget *joyport = gtk_drawing_area_new();
-        int *port_index;
         gtk_widget_set_size_request(joyport,20,20);
         gtk_container_add(GTK_CONTAINER(grid), joyport);
-        port_index = lib_malloc(sizeof(int));
-        *port_index = i;
-        g_signal_connect(joyport, "destroy", G_CALLBACK(destroy_ancillary_index_cb), port_index);
-        g_signal_connect(joyport, "draw", G_CALLBACK(draw_joyport_cb), port_index);
+        g_signal_connect(joyport, "draw", G_CALLBACK(draw_joyport_cb), GINT_TO_POINTER(i));
     }
     return grid;
 }
