@@ -1,5 +1,5 @@
 /*
- * uismartattach.c - GTK3 smart-attach dialog
+ * uidiskattach.c - GTK3 disk-attach dialog
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -33,8 +33,9 @@
 #include "debug_gtk3.h"
 #include "contentpreviewwidget.h"
 #include "filechooserhelpers.h"
+#include "driveunitwidget.h"
 
-#include "uismartattach.h"
+#include "uidiskattach.h"
 
 
 /** \brief  Custom response ID's for the dialog
@@ -51,13 +52,15 @@ enum {
 static ui_file_filter_t filters[] = {
     { "All files", file_chooser_pattern_all },
     { "Disk images", file_chooser_pattern_disk },
-    { "Tape images", file_chooser_pattern_tape },
-    { "Program files", file_chooser_pattern_program },
-    { "Archives files", file_chooser_pattern_archive },
     { "Compressed files", file_chooser_pattern_compressed },
     { NULL, NULL }
 };
 
+
+
+/** \brief  Unit number to attach disk to
+ */
+static int unit_number = 8;
 
 
 
@@ -116,16 +119,14 @@ static void on_response(GtkWidget *widget, gpointer user_data)
         case GTK_RESPONSE_ACCEPT:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
-            debug_gtk3("Opening file '%s'\n", filename);
+            debug_gtk3("Attaching file '%s' to unit #%d\n",
+                    filename, unit_number);
 
             /* copied from Gtk2: I fail to see how brute-forcing your way
              * through file types is 'smart', but hell, it works */
-            if (file_system_attach_disk(8, filename) < 0
-                    && tape_image_attach(1, filename) < 0
-                    && autostart_snapshot(filename, NULL) < 0
-                    && autostart_prg(filename, AUTOSTART_MODE_LOAD) < 0) {
+            if (file_system_attach_disk(unit_number, filename) < 0) {
                 /* failed */
-                debug_gtk3("smart attach failed\n");
+                debug_gtk3("disk attach failed\n");
             }
 
             g_free(filename);
@@ -138,7 +139,7 @@ static void on_response(GtkWidget *widget, gpointer user_data)
             debug_gtk3("Autostarting file '%s'\n", filename);
             /* if this function exists, why is there no attach_autodetect()
              * or something similar? -- compyx */
-            if (autostart_autodetect(
+            if (autostart_disk(
                         filename,
                         NULL,   /* program name */
                         0,      /* Program number? Probably used when clicking
@@ -146,7 +147,7 @@ static void on_response(GtkWidget *widget, gpointer user_data)
                                    file in an image */
                         AUTOSTART_MODE_RUN) < 0) {
                 /* oeps */
-                debug_gtk3("autostart-smart-attach failed\n");
+                debug_gtk3("autostart disk attach failed\n");
             }
             g_free(filename);
             gtk_widget_destroy(widget);
@@ -165,6 +166,8 @@ static void on_response(GtkWidget *widget, gpointer user_data)
 /** \brief  Create the 'extra' widget
  *
  * \return  GtkGrid
+ *
+ * TODO: 'grey-out'/disable units without a proper drive attached
  */
 static GtkWidget *create_extra_widget(GtkWidget *parent)
 {
@@ -189,18 +192,22 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
             NULL);
     gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
 
+    /* second row, three cols wide */
+    gtk_grid_attach(GTK_GRID(grid), create_drive_unit_widget(8, &unit_number),
+            0, 1, 3, 1);
+
     gtk_widget_show_all(grid);
     return grid;
 }
 
 
-/** \brief  Create the smart-attach dialog
+/** \brief  Create the disk attach dialog
  *
  * \param[in]   parent  parent widget, used to get the top level window
  *
  * \return  GtkFileChooserDialog
  */
-static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
+static GtkWidget *create_disk_attach_dialog(GtkWidget *parent)
 {
     GtkWidget *dialog;
     GtkWidget *preview;
@@ -208,7 +215,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
 
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
-            "Smart-attach a file",
+            "Attach a disk image",
             GTK_WINDOW(gtk_widget_get_toplevel(parent)),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
@@ -246,14 +253,12 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
  * \param[in]   widget      menu item triggering the callback
  * \param[in]   user_data   data for the event (unused)
  */
-void ui_smart_attach_callback(GtkWidget *widget, gpointer user_data)
+void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
     debug_gtk3("called\n");
-
-    dialog = create_smart_attach_dialog(widget);
-
+    dialog = create_disk_attach_dialog(widget);
     gtk_widget_show(dialog);
 
 }

@@ -51,6 +51,7 @@
 #include "uisettings.h"
 #include "uistatusbar.h"
 #include "uismartattach.h"
+#include "uidiskattach.h"
 #include "uiabout.h"
 /* #include "uiattach.h" */
 
@@ -86,7 +87,8 @@ static ui_menu_item_t file_menu[] = {
     UI_MENU_SEPARATOR,
 
     /* disk */
-    { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION,
+        ui_disk_attach_callback, (gpointer)8 },
     { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
     { "Detach disk image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
     { "Flip list ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
