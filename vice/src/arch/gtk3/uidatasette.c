@@ -32,7 +32,7 @@
 
 static void interpret_tape_action_cb(GtkWidget *widget, gpointer data)
 {
-    intptr_t val = (intptr_t)data;
+    int val = GPOINTER_TO_INT(data);
     if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
         datasette_control(val);
     } else {
@@ -43,7 +43,7 @@ static void interpret_tape_action_cb(GtkWidget *widget, gpointer data)
 GtkWidget *ui_create_datasette_control_menu(void)
 {
     GtkWidget *menu, *menu_items[DATASETTE_CONTROL_RESET_COUNTER+1];
-    intptr_t i;
+    int i;
 
     menu = gtk_menu_new();
     menu_items[0] = gtk_menu_item_new_with_label(_("Stop"));
@@ -59,7 +59,7 @@ GtkWidget *ui_create_datasette_control_menu(void)
          * menu items are invisible unless shown. We set that while we
          * set the rest up. */
         gtk_widget_show(menu_items[i]);
-        g_signal_connect(menu_items[i], "activate", G_CALLBACK(interpret_tape_action_cb), (gpointer)i);
+        g_signal_connect(menu_items[i], "activate", G_CALLBACK(interpret_tape_action_cb), GINT_TO_POINTER(i));
     }
     return menu;
 }

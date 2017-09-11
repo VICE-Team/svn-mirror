@@ -312,7 +312,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
 
 static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    intptr_t i = (intptr_t)data;
+    int i = GPOINTER_TO_INT(data);
     if (allocated_bars[i].tape && allocated_bars[i].tape_menu && event->type == GDK_BUTTON_PRESS) {
 #if GTK_CHECK_VERSION(3,22,0)
         gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
@@ -502,7 +502,7 @@ GtkWidget *ui_statusbar_create(void)
     allocated_bars[i].tape = tape;
     allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
     g_object_ref(G_OBJECT(allocated_bars[i].tape_menu));
-    g_signal_connect(tape_events, "button-press-event", G_CALLBACK(ui_do_datasette_popup), (gpointer)((intptr_t)i));
+    g_signal_connect(tape_events, "button-press-event", G_CALLBACK(ui_do_datasette_popup), GINT_TO_POINTER(i));
 
     joysticks = ui_joystick_widget_create();
     g_object_ref(joysticks);
@@ -551,7 +551,7 @@ display_statustext_internal(const char *text)
 
 static gboolean ui_statustext_fadeout(gpointer data)
 {
-    intptr_t my_id = (intptr_t)data;
+    intptr_t my_id = GPOINTER_TO_INT(data);
     if (my_id == sb_state.statustext_msgid) {
         display_statustext_internal("");
     }
@@ -563,7 +563,7 @@ void ui_display_statustext(const char *text, int fade_out)
     ++sb_state.statustext_msgid;
     display_statustext_internal(text);
     if (fade_out) {
-        g_timeout_add(5000, ui_statustext_fadeout, (gpointer)sb_state.statustext_msgid);
+        g_timeout_add(5000, ui_statustext_fadeout, GINT_TO_POINTER(sb_state.statustext_msgid));
     }
 }
 
