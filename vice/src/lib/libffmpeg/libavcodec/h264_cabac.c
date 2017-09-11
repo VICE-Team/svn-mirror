@@ -32,21 +32,12 @@
 #include "libavutil/avassert.h"
 #include "libavutil/timer.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "cabac.h"
 #include "cabac_functions.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#else
 #include "internal.h"
-#endif
 
 #include "avcodec.h"
 #include "h264.h"

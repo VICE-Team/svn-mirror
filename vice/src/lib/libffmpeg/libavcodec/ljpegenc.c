@@ -312,27 +312,7 @@ static av_cold int ljpeg_encode_init(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_BGR24 , AV_PIX_FMT_BGRA , AV_PIX_FMT_BGR0,
-        AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_YUVJ444P, AV_PIX_FMT_YUVJ422P,
-        AV_PIX_FMT_YUV420P , AV_PIX_FMT_YUV444P , AV_PIX_FMT_YUV422P,
-        AV_PIX_FMT_NONE};
-#endif
-
 AVCodec ff_ljpeg_encoder = {
-#ifdef IDE_COMPILE
-    "ljpeg",
-    "Lossless JPEG",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_LJPEG,
-    CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(LJpegEncContext),
-    0, 0, 0, 0, 0, ljpeg_encode_init,
-    0, ljpeg_encode_frame,
-    0, ljpeg_encode_close,
-#else
 	.name           = "ljpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("Lossless JPEG"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -347,5 +327,4 @@ AVCodec ff_ljpeg_encoder = {
         AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_YUVJ444P, AV_PIX_FMT_YUVJ422P,
         AV_PIX_FMT_YUV420P , AV_PIX_FMT_YUV444P , AV_PIX_FMT_YUV422P,
         AV_PIX_FMT_NONE},
-#endif
 };

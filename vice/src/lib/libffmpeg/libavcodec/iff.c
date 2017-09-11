@@ -27,10 +27,6 @@
 
 #include <stdint.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/imgutils.h"
 #include "bytestream.h"
 #include "avcodec.h"
@@ -883,17 +879,6 @@ static int decode_frame(AVCodecContext *avctx,
 
 #if CONFIG_IFF_ILBM_DECODER
 AVCodec ff_iff_ilbm_decoder = {
-#ifdef IDE_COMPILE
-    "iff",
-    "IFF",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_IFF_ILBM,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(IffContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "iff",
     .long_name      = NULL_IF_CONFIG_SMALL("IFF"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -903,23 +888,11 @@ AVCodec ff_iff_ilbm_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 #endif
 
 #if CONFIG_IFF_BYTERUN1_DECODER
 AVCodec ff_iff_byterun1_decoder = {
-#ifdef IDE_COMPILE
-    "iff",
-    "IFF",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_IFF_BYTERUN1,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(IffContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "iff",
     .long_name      = NULL_IF_CONFIG_SMALL("IFF"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -929,6 +902,5 @@ AVCodec ff_iff_byterun1_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 #endif

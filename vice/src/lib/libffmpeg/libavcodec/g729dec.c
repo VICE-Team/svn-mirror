@@ -155,39 +155,21 @@ typedef struct {
 }  G729Context;
 
 static const G729FormatDescription format_g729_8k = {
-#ifdef IDE_COMPILE
-    {8,5},
-    1,
-    GC_1ST_IDX_BITS_8K,
-    GC_2ND_IDX_BITS_8K,
-    4,
-    13,
-#else
 	.ac_index_bits     = {8,5},
     .parity_bit        = 1,
     .gc_1st_index_bits = GC_1ST_IDX_BITS_8K,
     .gc_2nd_index_bits = GC_2ND_IDX_BITS_8K,
     .fc_signs_bits     = 4,
     .fc_indexes_bits   = 13,
-#endif
 };
 
 static const G729FormatDescription format_g729d_6k4 = {
-#ifdef IDE_COMPILE
-    {8,4},
-    0,
-    GC_1ST_IDX_BITS_6K4,
-    GC_2ND_IDX_BITS_6K4,
-    2,
-    9,
-#else
 	.ac_index_bits     = {8,4},
     .parity_bit        = 0,
     .gc_1st_index_bits = GC_1ST_IDX_BITS_6K4,
     .gc_2nd_index_bits = GC_2ND_IDX_BITS_6K4,
     .fc_signs_bits     = 2,
     .fc_indexes_bits   = 9,
-#endif
 };
 
 /**
@@ -733,16 +715,6 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame_ptr,
 }
 
 AVCodec ff_g729_decoder = {
-#ifdef IDE_COMPILE
-    "g729",
-    "G.729",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_G729,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(G729Context),
-    0, 0, 0, 0, 0, decoder_init,
-    0, 0, decode_frame,
-#else
 	.name           = "g729",
     .long_name      = NULL_IF_CONFIG_SMALL("G.729"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -751,5 +723,4 @@ AVCodec ff_g729_decoder = {
     .init           = decoder_init,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

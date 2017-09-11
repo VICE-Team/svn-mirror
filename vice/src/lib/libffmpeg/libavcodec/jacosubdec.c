@@ -196,19 +196,10 @@ end:
 }
 
 AVCodec ff_jacosub_decoder = {
-#ifdef IDE_COMPILE
-    "jacosub",
-    "JACOsub subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_JACOSUB,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ff_ass_subtitle_header_default,
-    0, 0, jacosub_decode_frame,
-#else
 	.name           = "jacosub",
     .long_name      = NULL_IF_CONFIG_SMALL("JACOsub subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
     .id             = AV_CODEC_ID_JACOSUB,
     .init           = ff_ass_subtitle_header_default,
     .decode         = jacosub_decode_frame,
-#endif
 };

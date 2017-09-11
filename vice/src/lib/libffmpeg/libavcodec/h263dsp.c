@@ -21,12 +21,7 @@
 #include "libavutil/attributes.h"
 #include "libavutil/common.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "h263dsp.h"
 

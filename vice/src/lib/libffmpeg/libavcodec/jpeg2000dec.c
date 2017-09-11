@@ -27,11 +27,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
 #include "libavutil/common.h"
@@ -787,15 +782,9 @@ static int jpeg2000_decode_packet(Jpeg2000DecoderContext *s,
             if ((ret = get_bits(s, av_log2(newpasses) + cblk->lblock)) < 0)
                 return ret;
             if (ret > sizeof(cblk->data)) {
-#ifdef IDE_COMPILE
-                avpriv_request_sample(s->avctx,
-                                      "Block with lengthinc greater than %""zu""",
-                                      sizeof(cblk->data));
-#else
 				avpriv_request_sample(s->avctx,
                                       "Block with lengthinc greater than %"SIZE_SPECIFIER"",
                                       sizeof(cblk->data));
-#endif
 				return AVERROR_PATCHWELCOME;
             }
             cblk->lengthinc = ret;
@@ -1636,11 +1625,7 @@ static int jpeg2000_decode_frame(AVCodecContext *avctx, void *data,
                                  int *got_frame, AVPacket *avpkt)
 {
     Jpeg2000DecoderContext *s = avctx->priv_data;
-#ifdef IDE_COMPILE
-    ThreadFrame frame = { data };
-#else
 	ThreadFrame frame = { .f = data };
-#endif
 	AVFrame *picture = data;
     int tileno, ret;
 
@@ -1717,12 +1702,8 @@ static av_cold void jpeg2000_init_static_data(AVCodec *codec)
 #define VD AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_DECODING_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "lowres",  "Lower the decoding resolution by a power of two", OFFSET(reduction_factor), AV_OPT_TYPE_INT, {0}, 0, JPEG2000_MAX_RESLEVELS - 1, VD },
-#else
 	{ "lowres",  "Lower the decoding resolution by a power of two",
         OFFSET(reduction_factor), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, JPEG2000_MAX_RESLEVELS - 1, VD },
-#endif
 	{ NULL },
 };
 
@@ -1736,33 +1717,13 @@ static const AVProfile profiles[] = {
 };
 
 static const AVClass jpeg2000_class = {
-#ifdef IDE_COMPILE
-    "jpeg2000",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "jpeg2000",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_jpeg2000_decoder = {
-#ifdef IDE_COMPILE
-    "jpeg2000",
-    "JPEG 2000",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_JPEG2000,
-    CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 5,
-    &jpeg2000_class,
-    profiles,
-    sizeof(Jpeg2000DecoderContext),
-    0, 0, 0, 0, jpeg2000_init_static_data,
-    0, 0, 0, jpeg2000_decode_frame
-#else
 	.name             = "jpeg2000",
     .long_name        = NULL_IF_CONFIG_SMALL("JPEG 2000"),
     .type             = AVMEDIA_TYPE_VIDEO,
@@ -1774,5 +1735,4 @@ AVCodec ff_jpeg2000_decoder = {
     .priv_class       = &jpeg2000_class,
     .max_lowres       = 5,
     .profiles         = NULL_IF_CONFIG_SMALL(profiles)
-#endif
 };

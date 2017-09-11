@@ -105,15 +105,8 @@ static int latm_parse(AVCodecParserContext *s1, AVCodecContext *avctx,
 }
 
 AVCodecParser ff_aac_latm_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_AAC_LATM },
-    sizeof(LATMParseContext),
-    0, latm_parse,
-    ff_parse_close
-#else
 	.codec_ids      = { AV_CODEC_ID_AAC_LATM },
     .priv_data_size = sizeof(LATMParseContext),
     .parser_parse   = latm_parse,
     .parser_close   = ff_parse_close
-#endif
 };

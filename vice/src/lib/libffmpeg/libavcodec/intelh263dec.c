@@ -127,26 +127,7 @@ int ff_intel_h263_decode_picture_header(MpegEncContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_h263i_decoder = {
-#ifdef IDE_COMPILE
-    "h263i",
-    "Intel H.263",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H263I,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    0, tmp0,
-    0, 0, 0, 0, 0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_h263_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-#else
 	.name           = "h263i",
     .long_name      = NULL_IF_CONFIG_SMALL("Intel H.263"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -160,5 +141,4 @@ AVCodec ff_h263i_decoder = {
         AV_PIX_FMT_YUV420P,
         AV_PIX_FMT_NONE
     },
-#endif
 };

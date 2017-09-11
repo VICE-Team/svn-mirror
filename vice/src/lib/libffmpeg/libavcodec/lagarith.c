@@ -27,10 +27,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "mathops.h"
@@ -532,11 +528,7 @@ static int lag_decode_frame(AVCodecContext *avctx,
     const uint8_t *buf = avpkt->data;
     unsigned int buf_size = avpkt->size;
     LagarithContext *l = avctx->priv_data;
-#ifdef IDE_COMPILE
-    ThreadFrame frame = { data };
-#else
 	ThreadFrame frame = { .f = data };
-#endif
 	AVFrame *const p  = data;
     uint8_t frametype = 0;
     uint32_t offset_gu = 0, offset_bv = 0, offset_ry = 9;
@@ -748,17 +740,6 @@ static av_cold int lag_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_lagarith_decoder = {
-#ifdef IDE_COMPILE
-    "lagarith",
-    "Lagarith lossless",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_LAGARITH,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(LagarithContext),
-    0, 0, 0, 0, 0, lag_decode_init,
-    0, 0, lag_decode_frame,
-    lag_decode_end,
-#else
 	.name           = "lagarith",
     .long_name      = NULL_IF_CONFIG_SMALL("Lagarith lossless"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -768,5 +749,4 @@ AVCodec ff_lagarith_decoder = {
     .close          = lag_decode_end,
     .decode         = lag_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-#endif
 };

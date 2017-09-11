@@ -28,10 +28,6 @@
  * huffyuv encoder
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "huffyuv.h"
 #include "huffman.h"
@@ -1049,65 +1045,27 @@ static av_cold int encode_end(AVCodecContext *avctx)
 }
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "non_deterministic", "Allow multithreading for e.g. context=1 at the expense of determinism", offsetof(HYuvContext, non_determ), AV_OPT_TYPE_INT, {1}, 0, 1, AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM },
-#else
 	{ "non_deterministic", "Allow multithreading for e.g. context=1 at the expense of determinism",
       offsetof(HYuvContext, non_determ), AV_OPT_TYPE_INT, { .i64 = 1 },
       0, 1, AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass normal_class = {
-#ifdef IDE_COMPILE
-    "huffyuv",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "huffyuv",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static const AVClass ff_class = {
-#ifdef IDE_COMPILE
-    "ffvhuff",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "ffvhuff",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_YUV422P, AV_PIX_FMT_RGB24,
-        AV_PIX_FMT_BGRA, AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_huffyuv_encoder = {
-#ifdef IDE_COMPILE
-    "huffyuv",
-    "Huffyuv / HuffYUV",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_HUFFYUV,
-    CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
-    0, tmp1,
-    0, 0, 0, 0, &normal_class,
-    0, sizeof(HYuvContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_end,
-#else
 	.name           = "huffyuv",
     .long_name      = NULL_IF_CONFIG_SMALL("Huffyuv / HuffYUV"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1122,46 +1080,11 @@ AVCodec ff_huffyuv_encoder = {
         AV_PIX_FMT_YUV422P, AV_PIX_FMT_RGB24,
         AV_PIX_FMT_RGB32, AV_PIX_FMT_NONE
     },
-#endif
 };
 
 #if CONFIG_FFVHUFF_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp2[] = {
-        AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUV422P, AV_PIX_FMT_YUV444P, AV_PIX_FMT_YUV411P,
-        AV_PIX_FMT_YUV410P, AV_PIX_FMT_YUV440P,
-        AV_PIX_FMT_GBRP,
-        AV_PIX_FMT_GBRP9LE, AV_PIX_FMT_GBRP10LE, AV_PIX_FMT_GBRP12LE, AV_PIX_FMT_GBRP14LE,
-        AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY16LE,
-        AV_PIX_FMT_YUVA420P, AV_PIX_FMT_YUVA422P, AV_PIX_FMT_YUVA444P,
-        AV_PIX_FMT_GBRAP,
-        AV_PIX_FMT_GRAY8A,
-        AV_PIX_FMT_YUV420P9LE, AV_PIX_FMT_YUV420P10LE, AV_PIX_FMT_YUV420P12LE, AV_PIX_FMT_YUV420P14LE, AV_PIX_FMT_YUV420P16LE,
-        AV_PIX_FMT_YUV422P9LE, AV_PIX_FMT_YUV422P10LE, AV_PIX_FMT_YUV422P12LE, AV_PIX_FMT_YUV422P14LE, AV_PIX_FMT_YUV422P16LE,
-        AV_PIX_FMT_YUV444P9LE, AV_PIX_FMT_YUV444P10LE, AV_PIX_FMT_YUV444P12LE, AV_PIX_FMT_YUV444P14LE, AV_PIX_FMT_YUV444P16LE,
-        AV_PIX_FMT_YUVA420P9LE, AV_PIX_FMT_YUVA420P10LE, AV_PIX_FMT_YUVA420P16LE,
-        AV_PIX_FMT_YUVA422P9LE, AV_PIX_FMT_YUVA422P10LE, AV_PIX_FMT_YUVA422P16LE,
-        AV_PIX_FMT_YUVA444P9LE, AV_PIX_FMT_YUVA444P10LE, AV_PIX_FMT_YUVA444P16LE,
-        AV_PIX_FMT_RGB24,
-        AV_PIX_FMT_BGRA, AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_ffvhuff_encoder = {
-#ifdef IDE_COMPILE
-    "ffvhuff",
-    "Huffyuv FFmpeg variant",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FFVHUFF,
-    CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
-    0, tmp2,
-    0, 0, 0, 0, &ff_class,
-    0, sizeof(HYuvContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_end,
-#else
 	.name           = "ffvhuff",
     .long_name      = NULL_IF_CONFIG_SMALL("Huffyuv FFmpeg variant"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1190,6 +1113,5 @@ AVCodec ff_ffvhuff_encoder = {
         AV_PIX_FMT_RGB24,
         AV_PIX_FMT_RGB32, AV_PIX_FMT_NONE
     },
-#endif
 };
 #endif

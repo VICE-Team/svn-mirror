@@ -32,10 +32,6 @@
 #include "avcodec.h"
 #include "jpeg2000.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #define SHL(a, n) ((n) >= 0 ? (a) << (n) : (a) >> -(n))
 
 /* tag tree routines */

@@ -566,12 +566,7 @@ not_coded:
 
 static int h263_skip_b_part(MpegEncContext *s, int cbp)
 {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(int16_t, dblock, [64]);
-#else
-	uint8_t la_dblock[sizeof(int16_t [64] ) + (16)];
-	int16_t (*dblock) = (void *)((((uintptr_t)la_dblock)+(16)-1)&~((16)-1));
-#endif
 
 	int i, mbi;
     int bli[6];
@@ -953,15 +948,8 @@ int ff_h263_decode_picture_header(MpegEncContext *s)
 
         s->width = width;
         s->height = height;
-#ifdef IDE_COMPILE
-		s->avctx->sample_aspect_ratio.num = 12;
-		s->avctx->sample_aspect_ratio.den = 11;
-        s->avctx->time_base.num = 1001;
-        s->avctx->time_base.den = 30000;
-#else
 		s->avctx->sample_aspect_ratio= (AVRational){12,11};
         s->avctx->time_base= (AVRational){1001, 30000};
-#endif
 	} else {
         int ufep;
 
@@ -1050,12 +1038,7 @@ int ff_h263_decode_picture_header(MpegEncContext *s)
             } else {
                 width = ff_h263_format[format][0];
                 height = ff_h263_format[format][1];
-#ifdef IDE_COMPILE
-				s->avctx->sample_aspect_ratio.num = 12;
-				s->avctx->sample_aspect_ratio.den = 11;
-#else
 				s->avctx->sample_aspect_ratio= (AVRational){12,11};
-#endif
 			}
             s->avctx->sample_aspect_ratio.den <<= s->ehc_mode;
             if ((width == 0) || (height == 0))
@@ -1076,12 +1059,7 @@ int ff_h263_decode_picture_header(MpegEncContext *s)
                 s->avctx->time_base.den /= gcd;
                 s->avctx->time_base.num /= gcd;
             }else{
-#ifdef IDE_COMPILE
-				s->avctx->time_base.num = 1001;
-				s->avctx->time_base.den = 30000;
-#else
 				s->avctx->time_base= (AVRational){1001, 30000};
-#endif
 			}
         }
 

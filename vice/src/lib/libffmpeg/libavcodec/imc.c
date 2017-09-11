@@ -1018,12 +1018,7 @@ static int imc_decode_frame(AVCodecContext *avctx, void *data,
 
     IMCContext *q = avctx->priv_data;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(uint16_t, buf16, [IMC_BLOCK_SIZE / 2 + FF_INPUT_BUFFER_PADDING_SIZE/2]);
-#else
-	uint8_t la_buf16[sizeof(uint16_t [64 / 2 + 32/2] ) + (16)];
-	uint16_t (*buf16) = (void *)((((uintptr_t)la_buf16)+(16)-1)&~((16)-1));
-#endif
 
     if (buf_size < IMC_BLOCK_SIZE * avctx->channels) {
         av_log(avctx, AV_LOG_ERROR, "frame too small!\n");
@@ -1078,25 +1073,7 @@ static av_cold void flush(AVCodecContext *avctx)
 
 #if CONFIG_IMC_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_imc_decoder = {
-#ifdef IDE_COMPILE
-    "imc",
-    "IMC (Intel Music Coder)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_IMC,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(IMCContext),
-    0, 0, 0, 0, 0, imc_decode_init,
-    0, 0, imc_decode_frame,
-    imc_decode_close,
-    flush,
-#else
 	.name           = "imc",
     .long_name      = NULL_IF_CONFIG_SMALL("IMC (Intel Music Coder)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1109,31 +1086,12 @@ AVCodec ff_imc_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_IAC_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_iac_decoder = {
-#ifdef IDE_COMPILE
-    "iac",
-    "IAC (Indeo Audio Coder)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_IAC,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp2,
-    0, 0, 0, 0, sizeof(IMCContext),
-    0, 0, 0, 0, 0, imc_decode_init,
-    0, 0, imc_decode_frame,
-    imc_decode_close,
-    flush,
-#else
 	.name           = "iac",
     .long_name      = NULL_IF_CONFIG_SMALL("IAC (Indeo Audio Coder)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1146,6 +1104,5 @@ AVCodec ff_iac_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif

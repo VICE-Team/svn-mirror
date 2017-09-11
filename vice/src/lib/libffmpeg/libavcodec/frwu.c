@@ -103,41 +103,19 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 }
 
 static const AVOption frwu_options[] = {
-#ifdef IDE_COMPILE
-	{"change_field_order", "Change field order", offsetof(FRWUContext, change_field_order), FF_OPT_TYPE_INT, {0}, 0, 1, AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_VIDEO_PARAM},
-#else
 	{"change_field_order", "Change field order", offsetof(FRWUContext, change_field_order), FF_OPT_TYPE_INT,
      {.i64 = 0}, 0, 1, AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_VIDEO_PARAM},
-#endif
 	{NULL}
 };
 
 static const AVClass frwu_class = {
-#ifdef IDE_COMPILE
-    "frwu Decoder",
-    av_default_item_name,
-    frwu_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "frwu Decoder",
     .item_name  = av_default_item_name,
     .option     = frwu_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_frwu_decoder = {
-#ifdef IDE_COMPILE
-    "frwu",
-    "Forward Uncompressed",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FRWU,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, &frwu_class,
-    0, sizeof(FRWUContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "frwu",
     .long_name      = NULL_IF_CONFIG_SMALL("Forward Uncompressed"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -147,5 +125,4 @@ AVCodec ff_frwu_decoder = {
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .priv_class     = &frwu_class,
-#endif
 };

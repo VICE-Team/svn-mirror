@@ -375,25 +375,8 @@ av_cold void ff_h261_encode_init(MpegEncContext *s)
 }
 
 FF_MPV_GENERIC_CLASS(h261)
-
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = { AV_PIX_FMT_YUV420P,
-                                                     AV_PIX_FMT_NONE };
-#endif
 	
 AVCodec ff_h261_encoder = {
-#ifdef IDE_COMPILE
-    "h261",
-    "H.261",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H261,
-    0, 0, tmp0,
-    0, 0, 0, 0, &h261_class,
-    0, sizeof(H261Context),
-    0, 0, 0, 0, 0, ff_mpv_encode_init,
-    0, ff_mpv_encode_picture,
-    0, ff_mpv_encode_end,
-#else
 	.name           = "h261",
     .long_name      = NULL_IF_CONFIG_SMALL("H.261"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -405,5 +388,4 @@ AVCodec ff_h261_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                      AV_PIX_FMT_NONE },
     .priv_class     = &h261_class,
-#endif
 };

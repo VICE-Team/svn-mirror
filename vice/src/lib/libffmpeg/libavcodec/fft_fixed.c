@@ -16,10 +16,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #define FFT_FLOAT 0
 #define FFT_FIXED_32 0
 #include "fft_template.c"

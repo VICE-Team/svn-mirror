@@ -529,46 +529,22 @@ static av_cold int gif_decode_close(AVCodecContext *avctx)
 }
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "trans_color", "color value (ARGB) that is used instead of transparent color", offsetof(GifState, trans_color), AV_OPT_TYPE_INT, {GIF_TRANSPARENT_COLOR}, 0, 0xffffffff, AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_VIDEO_PARAM },
-#else
 	{ "trans_color", "color value (ARGB) that is used instead of transparent color",
       offsetof(GifState, trans_color), AV_OPT_TYPE_INT,
       {.i64 = GIF_TRANSPARENT_COLOR}, 0, 0xffffffff,
       AV_OPT_FLAG_DECODING_PARAM|AV_OPT_FLAG_VIDEO_PARAM },
-#endif
 	{ NULL },
 };
 
 static const AVClass decoder_class = {
-#ifdef IDE_COMPILE
-    "gif decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-    0, 0, 0, 0, AV_CLASS_CATEGORY_DECODER,
-#else
 	.class_name = "gif decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
     .category   = AV_CLASS_CATEGORY_DECODER,
-#endif
 };
 
 AVCodec ff_gif_decoder = {
-#ifdef IDE_COMPILE
-    "gif",
-    "GIF (Graphics Interchange Format)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_GIF,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, &decoder_class,
-    0, sizeof(GifState),
-    0, 0, 0, 0, 0, gif_decode_init,
-    0, 0, gif_decode_frame,
-    gif_decode_close,
-#else
 	.name           = "gif",
     .long_name      = NULL_IF_CONFIG_SMALL("GIF (Graphics Interchange Format)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -579,5 +555,4 @@ AVCodec ff_gif_decoder = {
     .decode         = gif_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .priv_class     = &decoder_class,
-#endif
 };

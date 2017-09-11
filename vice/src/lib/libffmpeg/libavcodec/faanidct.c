@@ -21,11 +21,6 @@
 #include "faanidct.h"
 #include "libavutil/common.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#include "libavutil/internal.h"
-#endif
-
 /* To allow switching to double. */
 #define FLOAT float
 

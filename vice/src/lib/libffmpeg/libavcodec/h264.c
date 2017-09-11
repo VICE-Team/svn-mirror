@@ -34,11 +34,7 @@
 #include "libavutil/stereo3d.h"
 #include "libavutil/timer.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#else
 #include "internal.h"
-#endif
 
 #include "cabac.h"
 #include "cabac_functions.h"
@@ -2012,47 +2008,19 @@ static const AVProfile profiles[] = {
 };
 
 static const AVOption h264_options[] = {
-#ifdef IDE_COMPILE
-	{"is_avc", "is avc", offsetof(H264Context, is_avc), FF_OPT_TYPE_INT, {0}, 0, 1, 0},
-    {"nal_length_size", "nal_length_size", offsetof(H264Context, nal_length_size), FF_OPT_TYPE_INT, {0}, 0, 4, 0},
-#else
 	{"is_avc", "is avc", offsetof(H264Context, is_avc), FF_OPT_TYPE_INT, {.i64 = 0}, 0, 1, 0},
     {"nal_length_size", "nal_length_size", offsetof(H264Context, nal_length_size), FF_OPT_TYPE_INT, {.i64 = 0}, 0, 4, 0},
-#endif
 	{NULL}
 };
 
 static const AVClass h264_class = {
-#ifdef IDE_COMPILE
-    "H264 Decoder",
-    av_default_item_name,
-    h264_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "H264 Decoder",
     .item_name  = av_default_item_name,
     .option     = h264_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_h264_decoder = {
-#ifdef IDE_COMPILE
-    "h264",
-    "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H264,
-    CODEC_CAP_DR1 | CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, &h264_class,
-    profiles,
-    sizeof(H264Context),
-    0, decode_init_thread_copy,
-    ff_h264_update_thread_context,
-    0, 0, ff_h264_decode_init,
-    0, 0, h264_decode_frame,
-    h264_decode_end,
-    flush_dpb,
-#else
 	.name                  = "h264",
     .long_name             = NULL_IF_CONFIG_SMALL("H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -2069,7 +2037,6 @@ AVCodec ff_h264_decoder = {
     .update_thread_context = ONLY_IF_THREADS_ENABLED(ff_h264_update_thread_context),
     .profiles              = NULL_IF_CONFIG_SMALL(profiles),
     .priv_class            = &h264_class,
-#endif
 };
 
 #if CONFIG_H264_VDPAU_DECODER

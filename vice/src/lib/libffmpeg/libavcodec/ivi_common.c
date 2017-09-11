@@ -28,10 +28,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #define BITSTREAM_READER_LE
 #include "libavutil/attributes.h"
 #include "libavutil/timer.h"

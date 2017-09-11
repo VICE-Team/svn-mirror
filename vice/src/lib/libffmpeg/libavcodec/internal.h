@@ -32,12 +32,7 @@
 #include "libavutil/pixfmt.h"
 #include "avcodec.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #define FF_SANE_NB_CHANNELS 63U
 
@@ -201,20 +196,11 @@ int ff_alloc_packet(AVPacket *avpkt, int size);
 static av_always_inline int64_t ff_samples_to_time_base(AVCodecContext *avctx,
                                                         int64_t samples)
 {
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
 	if(samples == AV_NOPTS_VALUE)
         return AV_NOPTS_VALUE;
-#ifdef IDE_COMPILE
-	tmp.num = 1;
-	tmp.den = avctx->sample_rate;
-	return av_rescale_q(samples, tmp, avctx->time_base);
-#else
 	return av_rescale_q(samples, (AVRational){ 1, avctx->sample_rate },
                         avctx->time_base);
-#endif
 }
 
 /**

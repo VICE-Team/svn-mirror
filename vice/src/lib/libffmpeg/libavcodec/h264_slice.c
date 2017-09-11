@@ -25,10 +25,6 @@
  * @author Michael Niedermayer <michaelni@gmx.at>
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/timer.h"
@@ -2438,23 +2434,12 @@ static int decode_slice(struct AVCodecContext *avctx, void *arg)
                 return 0;
             }
             if (h->cabac.bytestream > h->cabac.bytestream_end + 2 )
-#ifdef IDE_COMPILE
-                av_log(h->avctx, AV_LOG_DEBUG, "bytestream overread %""td""\n", h->cabac.bytestream_end - h->cabac.bytestream);
-#else
 				av_log(h->avctx, AV_LOG_DEBUG, "bytestream overread %"PTRDIFF_SPECIFIER"\n", h->cabac.bytestream_end - h->cabac.bytestream);
-#endif
 			if (ret < 0 || h->cabac.bytestream > h->cabac.bytestream_end + 4) {
-#ifdef IDE_COMPILE
-                av_log(h->avctx, AV_LOG_ERROR,
-                       "error while decoding MB %d %d, bytestream %""td""\n",
-                       h->mb_x, h->mb_y,
-                       h->cabac.bytestream_end - h->cabac.bytestream);
-#else
 				av_log(h->avctx, AV_LOG_ERROR,
                        "error while decoding MB %d %d, bytestream %"PTRDIFF_SPECIFIER"\n",
                        h->mb_x, h->mb_y,
                        h->cabac.bytestream_end - h->cabac.bytestream);
-#endif
 				er_add_slice(h, h->resync_mb_x, h->resync_mb_y, h->mb_x,
                              h->mb_y, ER_MB_ERROR);
                 return AVERROR_INVALIDDATA;

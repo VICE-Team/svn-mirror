@@ -710,20 +710,6 @@ const enum AVPixelFormat ff_h263_hwaccel_pixfmt_list_420[] = {
 };
 
 AVCodec ff_h263_decoder = {
-#ifdef IDE_COMPILE
-    "h263",
-    "H.263 / H.263-1996, H.263+ / H.263-1998 / H.263 version 2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H263,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY,
-    0, ff_h263_hwaccel_pixfmt_list_420,
-    0, 0, 0, 3,
-    0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_h263_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-    ff_mpeg_flush,
-#else
 	.name           = "h263",
     .long_name      = NULL_IF_CONFIG_SMALL("H.263 / H.263-1996, H.263+ / H.263-1998 / H.263 version 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -737,24 +723,9 @@ AVCodec ff_h263_decoder = {
     .flush          = ff_mpeg_flush,
     .max_lowres     = 3,
     .pix_fmts       = ff_h263_hwaccel_pixfmt_list_420,
-#endif
 };
 
 AVCodec ff_h263p_decoder = {
-#ifdef IDE_COMPILE
-    "h263p",
-    "H.263 / H.263-1996, H.263+ / H.263-1998 / H.263 version 2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H263P,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY,
-    0, ff_h263_hwaccel_pixfmt_list_420,
-    0, 0, 0, 3,
-    0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_h263_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-    ff_mpeg_flush,
-#else
 	.name           = "h263p",
     .long_name      = NULL_IF_CONFIG_SMALL("H.263 / H.263-1996, H.263+ / H.263-1998 / H.263 version 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -768,5 +739,4 @@ AVCodec ff_h263p_decoder = {
     .flush          = ff_mpeg_flush,
     .max_lowres     = 3,
     .pix_fmts       = ff_h263_hwaccel_pixfmt_list_420,
-#endif
 };

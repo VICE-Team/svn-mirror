@@ -39,11 +39,7 @@
 #include "golomb.h"
 #include "hevc.h"
 
-#ifdef IDE_COMPILE
-const uint8_t ff_hevc_pel_weight[65] = { 0, 0, 0, 0, 1, 0, 2, 0, 3, 0, 0, 0, 4, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9 };
-#else
 const uint8_t ff_hevc_pel_weight[65] = { [2] = 0, [4] = 1, [6] = 2, [8] = 3, [12] = 4, [16] = 5, [24] = 6, [32] = 7, [48] = 8, [64] = 9 };
-#endif
 
 /**
  * NOTE: Each function hls_foo correspond to the function foo in the
@@ -3436,49 +3432,21 @@ static const AVProfile profiles[] = {
 };
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "apply_defdispwin", "Apply default display window from VUI", OFFSET(apply_defdispwin), AV_OPT_TYPE_INT, {0}, 0, 1, PAR },
-    { "strict-displaywin", "stricly apply default display window size", OFFSET(apply_defdispwin), AV_OPT_TYPE_INT, {0}, 0, 1, PAR },
-#else
 	{ "apply_defdispwin", "Apply default display window from VUI", OFFSET(apply_defdispwin),
         AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, PAR },
     { "strict-displaywin", "stricly apply default display window size", OFFSET(apply_defdispwin),
         AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, PAR },
-#endif
 	{ NULL },
 };
 
 static const AVClass hevc_decoder_class = {
-#ifdef IDE_COMPILE
-    "HEVC decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "HEVC decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_hevc_decoder = {
-#ifdef IDE_COMPILE
-    "hevc",
-    "HEVC (High Efficiency Video Coding)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_HEVC,
-    CODEC_CAP_DR1 | CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, &hevc_decoder_class,
-    profiles,
-    sizeof(HEVCContext),
-    0, hevc_init_thread_copy,
-    hevc_update_thread_context,
-    0, 0, hevc_decode_init,
-    0, 0, hevc_decode_frame,
-    hevc_decode_free,
-    hevc_decode_flush,
-#else
 	.name                  = "hevc",
     .long_name             = NULL_IF_CONFIG_SMALL("HEVC (High Efficiency Video Coding)"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -3494,5 +3462,4 @@ AVCodec ff_hevc_decoder = {
     .capabilities          = CODEC_CAP_DR1 | CODEC_CAP_DELAY |
                              CODEC_CAP_SLICE_THREADS | CODEC_CAP_FRAME_THREADS,
     .profiles              = NULL_IF_CONFIG_SMALL(profiles),
-#endif
 };

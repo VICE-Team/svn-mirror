@@ -341,19 +341,10 @@ static void hevc_close(AVCodecParserContext *s)
 }
 
 AVCodecParser ff_hevc_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_HEVC },
-    sizeof(HEVCParseContext),
-    hevc_init,
-    hevc_parse,
-    hevc_close,
-    hevc_split,
-#else
 	.codec_ids      = { AV_CODEC_ID_HEVC },
     .priv_data_size = sizeof(HEVCParseContext),
     .parser_init    = hevc_init,
     .parser_parse   = hevc_parse,
     .parser_close   = hevc_close,
     .split          = hevc_split,
-#endif
 };

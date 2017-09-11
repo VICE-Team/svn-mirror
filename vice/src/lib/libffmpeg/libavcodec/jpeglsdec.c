@@ -499,17 +499,6 @@ end:
 }
 
 AVCodec ff_jpegls_decoder = {
-#ifdef IDE_COMPILE
-    "jpegls",
-    "JPEG-LS",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_JPEGLS,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MJpegDecodeContext),
-    0, 0, 0, 0, 0, ff_mjpeg_decode_init,
-    0, 0, ff_mjpeg_decode_frame,
-    ff_mjpeg_decode_end,
-#else
 	.name           = "jpegls",
     .long_name      = NULL_IF_CONFIG_SMALL("JPEG-LS"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -519,5 +508,4 @@ AVCodec ff_jpegls_decoder = {
     .close          = ff_mjpeg_decode_end,
     .decode         = ff_mjpeg_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

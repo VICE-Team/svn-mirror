@@ -24,10 +24,6 @@
  * LOCO codec.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "golomb.h"
@@ -305,16 +301,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_loco_decoder = {
-#ifdef IDE_COMPILE
-    "loco",
-    "LOCO",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_LOCO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(LOCOContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "loco",
     .long_name      = NULL_IF_CONFIG_SMALL("LOCO"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -323,5 +309,4 @@ AVCodec ff_loco_decoder = {
     .init           = decode_init,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

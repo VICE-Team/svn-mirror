@@ -1316,42 +1316,20 @@ static int g723_1_decode_frame(AVCodecContext *avctx, void *data,
 #define AD     AV_OPT_FLAG_AUDIO_PARAM | AV_OPT_FLAG_DECODING_PARAM
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "postfilter", "postfilter on/off", OFFSET(postfilter), AV_OPT_TYPE_INT, {1}, 0, 1, AD },
-#else
 	{ "postfilter", "postfilter on/off", OFFSET(postfilter), AV_OPT_TYPE_INT,
       { .i64 = 1 }, 0, 1, AD },
-#endif
 	{ NULL }
 };
 
 
 static const AVClass g723_1dec_class = {
-#ifdef IDE_COMPILE
-    "G.723.1 decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "G.723.1 decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_g723_1_decoder = {
-#ifdef IDE_COMPILE
-    "g723_1",
-    "G.723.1",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_G723_1,
-    CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, &g723_1dec_class,
-    0, sizeof(G723_1_Context),
-    0, 0, 0, 0, 0, g723_1_decode_init,
-    0, 0, g723_1_decode_frame,
-#else
 	.name           = "g723_1",
     .long_name      = NULL_IF_CONFIG_SMALL("G.723.1"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1361,7 +1339,6 @@ AVCodec ff_g723_1_decoder = {
     .decode         = g723_1_decode_frame,
     .capabilities   = CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
     .priv_class     = &g723_1dec_class,
-#endif
 };
 
 #if CONFIG_G723_1_ENCODER
@@ -2493,22 +2470,7 @@ static int g723_1_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = {AV_SAMPLE_FMT_S16,
-                                                    AV_SAMPLE_FMT_NONE};
-#endif
-
 AVCodec ff_g723_1_encoder = {
-#ifdef IDE_COMPILE
-    "g723_1",
-    "G.723.1",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_G723_1,
-    0, 0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(G723_1_Context),
-    0, 0, 0, 0, 0, g723_1_encode_init,
-    0, g723_1_encode_frame,
-#else
 	.name           = "g723_1",
     .long_name      = NULL_IF_CONFIG_SMALL("G.723.1"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -2518,6 +2480,5 @@ AVCodec ff_g723_1_encoder = {
     .encode2        = g723_1_encode_frame,
     .sample_fmts    = (const enum AVSampleFormat[]){AV_SAMPLE_FMT_S16,
                                                     AV_SAMPLE_FMT_NONE},
-#endif
 };
 #endif

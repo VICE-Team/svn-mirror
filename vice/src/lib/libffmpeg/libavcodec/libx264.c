@@ -86,17 +86,10 @@ typedef struct X264Context {
 static void X264_log(void *p, int level, const char *fmt, va_list args)
 {
     static const int level_map[] = {
-#ifdef IDE_COMPILE
-        16,
-        24,
-        32,
-        48
-#else
 		[X264_LOG_ERROR]   = AV_LOG_ERROR,
         [X264_LOG_WARNING] = AV_LOG_WARNING,
         [X264_LOG_INFO]    = AV_LOG_INFO,
         [X264_LOG_DEBUG]   = AV_LOG_DEBUG
-#endif
 	};
 
     if (level < 0 || level > X264_LOG_DEBUG)
@@ -760,60 +753,6 @@ static av_cold void X264_init_static(AVCodec *codec)
 #define OFFSET(x) offsetof(X264Context, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "preset", "Set the encoding preset (cf. x264 --fullhelp)", OFFSET(preset), AV_OPT_TYPE_STRING, {(intptr_t) "medium" }, 0, 0, VE},
-    { "tune", "Tune the encoding params (cf. x264 --fullhelp)", OFFSET(tune), AV_OPT_TYPE_STRING, {0}, 0, 0, VE},
-    { "profile", "Set profile restrictions (cf. x264 --fullhelp) ", OFFSET(profile), AV_OPT_TYPE_STRING, {0}, 0, 0, VE},
-    { "fastfirstpass", "Use fast settings when encoding first pass", OFFSET(fastfirstpass), AV_OPT_TYPE_INT, {1}, 0, 1, VE},
-    {"level", "Specify level (as defined by Annex A)", OFFSET(level), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, VE},
-    {"passlogfile", "Filename for 2 pass stats", OFFSET(stats), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, VE},
-    {"wpredp", "Weighted prediction for P-frames", OFFSET(wpredp), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, VE},
-    {"x264opts", "x264 options", OFFSET(x264opts), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, 0, 0, VE},
-    { "crf", "Select the quality for constant quality mode", OFFSET(crf), AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1, FLT_MAX, VE },
-    { "crf_max", "In CRF mode, prevents VBV from lowering quality beyond this point.", OFFSET(crf_max), AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1, FLT_MAX, VE },
-    { "qp", "Constant quantization parameter rate control method", OFFSET(cqp), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE },
-    { "aq-mode", "AQ method", OFFSET(aq_mode), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE, "aq_mode"},
-    { "none", NULL, 0, AV_OPT_TYPE_CONST, {X264_AQ_NONE}, INT_MIN, INT_MAX, VE, "aq_mode" },
-    { "variance", "Variance AQ (complexity mask)", 0, AV_OPT_TYPE_CONST, {X264_AQ_VARIANCE}, INT_MIN, INT_MAX, VE, "aq_mode" },
-    { "autovariance", "Auto-variance AQ (experimental)", 0, AV_OPT_TYPE_CONST, {X264_AQ_AUTOVARIANCE}, INT_MIN, INT_MAX, VE, "aq_mode" },
-    { "aq-strength", "AQ strength. Reduces blocking and blurring in flat and textured areas.", OFFSET(aq_strength), AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1, FLT_MAX, VE},
-    { "psy", "Use psychovisual optimizations.", OFFSET(psy), AV_OPT_TYPE_INT, {-1}, -1, 1, VE },
-    { "psy-rd", "Strength of psychovisual optimization, in <psy-rd>:<psy-trellis> format.", OFFSET(psy_rd), AV_OPT_TYPE_STRING, {0}, 0, 0, VE},
-    { "rc-lookahead", "Number of frames to look ahead for frametype and ratecontrol", OFFSET(rc_lookahead), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE },
-    { "weightb", "Weighted prediction for B-frames.", OFFSET(weightb), AV_OPT_TYPE_INT, {-1}, -1, 1, VE },
-    { "weightp", "Weighted prediction analysis method.", OFFSET(weightp), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE, "weightp" },
-    { "none", NULL, 0, AV_OPT_TYPE_CONST, {X264_WEIGHTP_NONE}, INT_MIN, INT_MAX, VE, "weightp" },
-    { "simple", NULL, 0, AV_OPT_TYPE_CONST, {X264_WEIGHTP_SIMPLE}, INT_MIN, INT_MAX, VE, "weightp" },
-    { "smart", NULL, 0, AV_OPT_TYPE_CONST, {X264_WEIGHTP_SMART}, INT_MIN, INT_MAX, VE, "weightp" },
-    { "ssim", "Calculate and print SSIM stats.", OFFSET(ssim), AV_OPT_TYPE_INT, {-1}, -1, 1, VE },
-    { "intra-refresh", "Use Periodic Intra Refresh instead of IDR frames.", OFFSET(intra_refresh), AV_OPT_TYPE_INT, {-1}, -1, 1, VE },
-    { "bluray-compat", "Bluray compatibility workarounds.", OFFSET(bluray_compat) ,AV_OPT_TYPE_INT, {-1}, -1, 1, VE },
-    { "b-bias", "Influences how often B-frames are used", OFFSET(b_bias), AV_OPT_TYPE_INT, {INT_MIN}, INT_MIN, INT_MAX, VE },
-    { "b-pyramid", "Keep some B-frames as references.", OFFSET(b_pyramid), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE, "b_pyramid" },
-    { "none", NULL, 0, AV_OPT_TYPE_CONST, {X264_B_PYRAMID_NONE}, INT_MIN, INT_MAX, VE, "b_pyramid" },
-    { "strict", "Strictly hierarchical pyramid", 0, AV_OPT_TYPE_CONST, {X264_B_PYRAMID_STRICT}, INT_MIN, INT_MAX, VE, "b_pyramid" },
-    { "normal", "Non-strict (not Blu-ray compatible)", 0, AV_OPT_TYPE_CONST, {X264_B_PYRAMID_NORMAL}, INT_MIN, INT_MAX, VE, "b_pyramid" },
-    { "mixed-refs", "One reference per partition, as opposed to one reference per macroblock", OFFSET(mixed_refs), AV_OPT_TYPE_INT, {-1}, -1, 1, VE },
-    { "8x8dct", "High profile 8x8 transform.", OFFSET(dct8x8), AV_OPT_TYPE_INT, {-1}, -1, 1, VE},
-    { "fast-pskip", NULL, OFFSET(fast_pskip), AV_OPT_TYPE_INT, {-1}, -1, 1, VE},
-    { "aud", "Use access unit delimiters.", OFFSET(aud), AV_OPT_TYPE_INT, {-1}, -1, 1, VE},
-    { "mbtree", "Use macroblock tree ratecontrol.", OFFSET(mbtree), AV_OPT_TYPE_INT, {-1}, -1, 1, VE},
-    { "deblock", "Loop filter parameters, in <alpha:beta> form.", OFFSET(deblock), AV_OPT_TYPE_STRING, {0}, 0, 0, VE},
-    { "cplxblur", "Reduce fluctuations in QP (before curve compression)", OFFSET(cplxblur), AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1, FLT_MAX, VE},
-    { "partitions", "A comma-separated list of partitions to consider. Possible values: p8x8, p4x4, b8x8, i8x8, i4x4, none, all", OFFSET(partitions), AV_OPT_TYPE_STRING, {0}, 0, 0, VE},
-    { "direct-pred", "Direct MV prediction mode", OFFSET(direct_pred), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE, "direct-pred" },
-    { "none", NULL, 0, AV_OPT_TYPE_CONST, {X264_DIRECT_PRED_NONE}, 0, 0, VE, "direct-pred" },
-    { "spatial", NULL, 0, AV_OPT_TYPE_CONST, {X264_DIRECT_PRED_SPATIAL}, 0, 0, VE, "direct-pred" },
-    { "temporal", NULL, 0, AV_OPT_TYPE_CONST, {X264_DIRECT_PRED_TEMPORAL}, 0, 0, VE, "direct-pred" },
-    { "auto", NULL, 0, AV_OPT_TYPE_CONST, {X264_DIRECT_PRED_AUTO}, 0, 0, VE, "direct-pred" },
-    { "slice-max-size", "Limit the size of each slice in bytes", OFFSET(slice_max_size), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE },
-    { "stats", "Filename for 2 pass stats", OFFSET(stats), AV_OPT_TYPE_STRING, {0}, 0, 0, VE },
-    { "nal-hrd", "Signal HRD information (requires vbv-bufsize; cbr not allowed in .mp4)", OFFSET(nal_hrd), AV_OPT_TYPE_INT, {-1}, -1, INT_MAX, VE, "nal-hrd" },
-    { "none", NULL, 0, AV_OPT_TYPE_CONST, {X264_NAL_HRD_NONE}, INT_MIN, INT_MAX, VE, "nal-hrd" },
-    { "vbr", NULL, 0, AV_OPT_TYPE_CONST, {X264_NAL_HRD_VBR}, INT_MIN, INT_MAX, VE, "nal-hrd" },
-    { "cbr", NULL, 0, AV_OPT_TYPE_CONST, {X264_NAL_HRD_CBR}, INT_MIN, INT_MAX, VE, "nal-hrd" },
-    { "x264-params", "Override the x264 configuration using a :-separated list of key=value parameters", OFFSET(x264_params), AV_OPT_TYPE_STRING, {0}, 0, 0, VE },
-#else
 	{ "preset",        "Set the encoding preset (cf. x264 --fullhelp)",   OFFSET(preset),        AV_OPT_TYPE_STRING, { .str = "medium" }, 0, 0, VE},
     { "tune",          "Tune the encoding params (cf. x264 --fullhelp)",  OFFSET(tune),          AV_OPT_TYPE_STRING, { 0 }, 0, 0, VE},
     { "profile",       "Set profile restrictions (cf. x264 --fullhelp) ", OFFSET(profile),       AV_OPT_TYPE_STRING, { 0 }, 0, 0, VE},
@@ -868,36 +807,21 @@ static const AVOption options[] = {
     { "vbr",           NULL, 0, AV_OPT_TYPE_CONST, {.i64 = X264_NAL_HRD_VBR},  INT_MIN, INT_MAX, VE, "nal-hrd" },
     { "cbr",           NULL, 0, AV_OPT_TYPE_CONST, {.i64 = X264_NAL_HRD_CBR},  INT_MIN, INT_MAX, VE, "nal-hrd" },
     { "x264-params",  "Override the x264 configuration using a :-separated list of key=value parameters", OFFSET(x264_params), AV_OPT_TYPE_STRING, { 0 }, 0, 0, VE },
-#endif
 	{ NULL },
 };
 
 static const AVClass x264_class = {
-#ifdef IDE_COMPILE
-    "libx264",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "libx264",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static const AVClass rgbclass = {
-#ifdef IDE_COMPILE
-    "libx264rgb",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "libx264rgb",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static const AVCodecDefault x264_defaults[] = {
@@ -932,20 +856,6 @@ static const AVCodecDefault x264_defaults[] = {
 };
 
 AVCodec ff_libx264_encoder = {
-#ifdef IDE_COMPILE
-    "libx264",
-    "libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H264,
-    CODEC_CAP_DELAY | CODEC_CAP_AUTO_THREADS,
-    0, 0, 0, 0, 0, 0, &x264_class,
-    0, sizeof(X264Context),
-    0, 0, 0, x264_defaults,
-    X264_init_static,
-    X264_init,
-    0, X264_frame,
-    0, X264_close,
-#else
 	.name             = "libx264",
     .long_name        = NULL_IF_CONFIG_SMALL("libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
     .type             = AVMEDIA_TYPE_VIDEO,
@@ -958,24 +868,9 @@ AVCodec ff_libx264_encoder = {
     .priv_class       = &x264_class,
     .defaults         = x264_defaults,
     .init_static_data = X264_init_static,
-#endif
 };
 
 AVCodec ff_libx264rgb_encoder = {
-#ifdef IDE_COMPILE
-    "libx264rgb",
-    "libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 RGB",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H264,
-    CODEC_CAP_DELAY | CODEC_CAP_AUTO_THREADS,
-    0, pix_fmts_8bit_rgb,
-    0, 0, 0, 0, &rgbclass,
-    0, sizeof(X264Context),
-    0, 0, 0, x264_defaults,
-    0, X264_init,
-    0, X264_frame,
-    0, X264_close,
-#else
 	.name           = "libx264rgb",
     .long_name      = NULL_IF_CONFIG_SMALL("libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 RGB"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -988,5 +883,4 @@ AVCodec ff_libx264rgb_encoder = {
     .priv_class     = &rgbclass,
     .defaults       = x264_defaults,
     .pix_fmts       = pix_fmts_8bit_rgb,
-#endif
 };

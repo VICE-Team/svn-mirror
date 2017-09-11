@@ -25,10 +25,6 @@
  * FF Video Codec 1 (a lossless codec) encoder
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
 #include "libavutil/crc.h"
@@ -1134,14 +1130,7 @@ retry:
     }
     if (!fs->ac) {
         if (f->version > 2)
-#ifdef IDE_COMPILE
-        {
-			uint8_t tmp1[] = { 129 };
-			put_rac(&fs->c, tmp1, 0);
-		}
-#else
 			put_rac(&fs->c, (uint8_t[]) { 129 }, 0);
-#endif
 		fs->ac_byte_count = f->version > 2 || (!x && !y) ? ff_rac_terminate(&fs->c) : 0;
         init_put_bits(&fs->pb,
                       fs->c.bytestream_start + fs->ac_byte_count,
@@ -1334,26 +1323,15 @@ static av_cold int encode_close(AVCodecContext *avctx)
 #define OFFSET(x) offsetof(FFV1Context, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "slicecrc", "Protect slices with CRCs", OFFSET(ec), AV_OPT_TYPE_INT, {-1}, -1, 1, VE },
-#else
 	{ "slicecrc", "Protect slices with CRCs", OFFSET(ec), AV_OPT_TYPE_INT, { .i64 = -1 }, -1, 1, VE },
-#endif
 	{ NULL }
 };
 
 static const AVClass ffv1_class = {
-#ifdef IDE_COMPILE
-    "ffv1 encoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "ffv1 encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static const AVCodecDefault ffv1_defaults[] = {
@@ -1361,37 +1339,7 @@ static const AVCodecDefault ffv1_defaults[] = {
     { NULL },
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp2[] = {
-        AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUVA420P, AV_PIX_FMT_YUVA422P, AV_PIX_FMT_YUV444P,
-        AV_PIX_FMT_YUVA444P, AV_PIX_FMT_YUV440P, AV_PIX_FMT_YUV422P, AV_PIX_FMT_YUV411P,
-        AV_PIX_FMT_YUV410P, AV_PIX_FMT_BGR0, AV_PIX_FMT_BGRA, AV_PIX_FMT_YUV420P16LE,
-        AV_PIX_FMT_YUV422P16LE, AV_PIX_FMT_YUV444P16LE, AV_PIX_FMT_YUV444P9LE, AV_PIX_FMT_YUV422P9LE,
-        AV_PIX_FMT_YUV420P9LE, AV_PIX_FMT_YUV420P10LE, AV_PIX_FMT_YUV422P10LE, AV_PIX_FMT_YUV444P10LE,
-        AV_PIX_FMT_YUVA444P16LE, AV_PIX_FMT_YUVA422P16LE, AV_PIX_FMT_YUVA420P16LE,
-        AV_PIX_FMT_YUVA444P10LE, AV_PIX_FMT_YUVA422P10LE, AV_PIX_FMT_YUVA420P10LE,
-        AV_PIX_FMT_YUVA444P9LE, AV_PIX_FMT_YUVA422P9LE, AV_PIX_FMT_YUVA420P9LE,
-        AV_PIX_FMT_GRAY16LE, AV_PIX_FMT_GRAY8, AV_PIX_FMT_GBRP9LE, AV_PIX_FMT_GBRP10LE,
-        AV_PIX_FMT_GBRP12LE, AV_PIX_FMT_GBRP14LE,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_ffv1_encoder = {
-#ifdef IDE_COMPILE
-    "ffv1",
-    "FFmpeg video codec #1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FFV1,
-    CODEC_CAP_SLICE_THREADS | CODEC_CAP_DELAY,
-    0, tmp2,
-    0, 0, 0, 0, &ffv1_class,
-    0, sizeof(FFV1Context),
-    0, 0, 0, ffv1_defaults,
-    0, encode_init,
-    0, encode_frame,
-    0, encode_close,
-#else
 	.name           = "ffv1",
     .long_name      = NULL_IF_CONFIG_SMALL("FFmpeg video codec #1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1416,5 +1364,4 @@ AVCodec ff_ffv1_encoder = {
 	},
     .defaults       = ffv1_defaults,
     .priv_class     = &ffv1_class,
-#endif
 };

@@ -246,17 +246,6 @@ static av_cold int ir2_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_indeo2_decoder = {
-#ifdef IDE_COMPILE
-    "indeo2",
-    "Intel Indeo 2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_INDEO2,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(Ir2Context),
-    0, 0, 0, 0, 0, ir2_decode_init,
-    0, 0, ir2_decode_frame,
-    ir2_decode_end,
-#else
 	.name           = "indeo2",
     .long_name      = NULL_IF_CONFIG_SMALL("Intel Indeo 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -266,5 +255,4 @@ AVCodec ff_indeo2_decoder = {
     .close          = ir2_decode_end,
     .decode         = ir2_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

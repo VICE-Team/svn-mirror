@@ -1036,26 +1036,7 @@ static int j2kenc_destroy(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_RGB24, AV_PIX_FMT_YUV444P, AV_PIX_FMT_GRAY8,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_jpeg2000_encoder = {
-#ifdef IDE_COMPILE
-    "jpeg2000",
-    "JPEG 2000",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_JPEG2000,
-    CODEC_CAP_EXPERIMENTAL,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(Jpeg2000EncoderContext),
-    0, 0, 0, 0, 0, j2kenc_init,
-    0, encode_frame,
-    0, j2kenc_destroy
-#else
 	.name           = "jpeg2000",
     .long_name      = NULL_IF_CONFIG_SMALL("JPEG 2000"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1072,5 +1053,4 @@ AVCodec ff_jpeg2000_encoder = {
         AV_PIX_FMT_YUV410P, AV_PIX_FMT_YUV411P,*/
         AV_PIX_FMT_NONE
     }
-#endif
 };

@@ -30,10 +30,6 @@
  * - integrate deinterlacing, postprocessing and scaling in the conversion process
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "imgconvert.h"
 #include "internal.h"

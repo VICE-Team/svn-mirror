@@ -32,10 +32,6 @@
 
 #define UNCHECKED_BITSTREAM_READER 1
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "huffyuv.h"
@@ -887,11 +883,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
     const int width2 = s->width >> 1;
     const int height = s->height;
     int fake_ystride, fake_ustride, fake_vstride;
-#ifdef IDE_COMPILE
-    ThreadFrame frame = { data };
-#else
 	ThreadFrame frame = { .f = data };
-#endif
 	AVFrame *const p = data;
     int table_size = 0, ret;
 
@@ -1232,18 +1224,6 @@ static av_cold int decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_huffyuv_decoder = {
-#ifdef IDE_COMPILE
-    "huffyuv",
-    "Huffyuv / HuffYUV",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_HUFFYUV,
-    CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(HYuvContext),
-    0, decode_init_thread_copy,
-    0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name             = "huffyuv",
     .long_name        = NULL_IF_CONFIG_SMALL("Huffyuv / HuffYUV"),
     .type             = AVMEDIA_TYPE_VIDEO,
@@ -1255,23 +1235,10 @@ AVCodec ff_huffyuv_decoder = {
     .capabilities     = CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND |
                         CODEC_CAP_FRAME_THREADS,
     .init_thread_copy = ONLY_IF_THREADS_ENABLED(decode_init_thread_copy),
-#endif
 };
 
 #if CONFIG_FFVHUFF_DECODER
 AVCodec ff_ffvhuff_decoder = {
-#ifdef IDE_COMPILE
-    "ffvhuff",
-    "Huffyuv FFmpeg variant",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FFVHUFF,
-    CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(HYuvContext),
-    0, decode_init_thread_copy,
-    0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name             = "ffvhuff",
     .long_name        = NULL_IF_CONFIG_SMALL("Huffyuv FFmpeg variant"),
     .type             = AVMEDIA_TYPE_VIDEO,
@@ -1283,6 +1250,5 @@ AVCodec ff_ffvhuff_decoder = {
     .capabilities     = CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND |
                         CODEC_CAP_FRAME_THREADS,
     .init_thread_copy = ONLY_IF_THREADS_ENABLED(decode_init_thread_copy),
-#endif
 };
 #endif /* CONFIG_FFVHUFF_DECODER */

@@ -99,12 +99,7 @@ int ff_flv_decode_picture_header(MpegEncContext *s)
     s->f_code = 1;
 
     if (s->ehc_mode)
-#ifdef IDE_COMPILE
-		s->avctx->sample_aspect_ratio.num = 1;
-		s->avctx->sample_aspect_ratio.den = 2;
-#else
 		s->avctx->sample_aspect_ratio= (AVRational){1,2};
-#endif
 
     if (s->avctx->debug & FF_DEBUG_PICT_INFO) {
         av_log(s->avctx, AV_LOG_DEBUG, "%c esc_type:%d, qp:%d num:%d\n",
@@ -117,25 +112,7 @@ int ff_flv_decode_picture_header(MpegEncContext *s)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV420P,
-                                                     AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_flv_decoder = {
-#ifdef IDE_COMPILE
-    "flv",
-    "FLV / Sorenson Spark / Sorenson H.263 (Flash Video)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FLV1,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    0, tmp1,
-    0, 0, 0, 3,
-    0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_h263_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-#else
 	.name           = "flv",
     .long_name      = NULL_IF_CONFIG_SMALL("FLV / Sorenson Spark / Sorenson H.263 (Flash Video)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -148,5 +125,4 @@ AVCodec ff_flv_decoder = {
     .max_lowres     = 3,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                      AV_PIX_FMT_NONE },
-#endif
 };

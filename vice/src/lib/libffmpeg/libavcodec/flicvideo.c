@@ -39,10 +39,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
 #include "bytestream.h"
@@ -810,17 +806,6 @@ static av_cold int flic_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_flic_decoder = {
-#ifdef IDE_COMPILE
-    "flic",
-    "Autodesk Animator Flic video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FLIC,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(FlicDecodeContext),
-    0, 0, 0, 0, 0, flic_decode_init,
-    0, 0, flic_decode_frame,
-    flic_decode_end,
-#else
 	.name           = "flic",
     .long_name      = NULL_IF_CONFIG_SMALL("Autodesk Animator Flic video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -830,5 +815,4 @@ AVCodec ff_flic_decoder = {
     .close          = flic_decode_end,
     .decode         = flic_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

@@ -88,15 +88,8 @@ static int h263_parse(AVCodecParserContext *s,
 }
 
 AVCodecParser ff_h263_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_H263 },
-    sizeof(ParseContext),
-    0, h263_parse,
-    ff_parse_close,
-#else
 	.codec_ids      = { AV_CODEC_ID_H263 },
     .priv_data_size = sizeof(ParseContext),
     .parser_parse   = h263_parse,
     .parser_close   = ff_parse_close,
-#endif
 };

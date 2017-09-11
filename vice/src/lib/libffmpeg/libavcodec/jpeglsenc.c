@@ -424,26 +424,7 @@ static av_cold int encode_init_ls(AVCodecContext *ctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_BGR24, AV_PIX_FMT_RGB24,
-        AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY16LE,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_jpegls_encoder = {
-#ifdef IDE_COMPILE
-    "jpegls",
-    "JPEG-LS",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_JPEGLS,
-    CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, encode_init_ls,
-    0, encode_picture_ls,
-    0, encode_close,
-#else
 	.name           = "jpegls",
     .long_name      = NULL_IF_CONFIG_SMALL("JPEG-LS"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -457,5 +438,4 @@ AVCodec ff_jpegls_encoder = {
         AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY16,
         AV_PIX_FMT_NONE
     },
-#endif
 };

@@ -89,12 +89,7 @@ av_const int ff_h263_aspect_to_info(AVRational aspect){
     int i;
 
     if (aspect.num == 0) {
-#ifdef IDE_COMPILE
-		aspect.num = 1;
-		aspect.den = 1;
-#else
 		aspect= (AVRational){1,1};
-#endif
 	}
 
     for(i=1; i<6; i++){

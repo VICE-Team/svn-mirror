@@ -452,17 +452,6 @@ static av_cold int fic_decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_fic_decoder = {
-#ifdef IDE_COMPILE
-    "fic",
-    "Mirillis FIC",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FIC,
-    CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(FICContext),
-    0, 0, 0, 0, 0, fic_decode_init,
-    0, 0, fic_decode_frame,
-    fic_decode_close,
-#else
 	.name           = "fic",
     .long_name      = NULL_IF_CONFIG_SMALL("Mirillis FIC"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -472,5 +461,4 @@ AVCodec ff_fic_decoder = {
     .decode         = fic_decode_frame,
     .close          = fic_decode_close,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-#endif
 };

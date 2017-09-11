@@ -26,10 +26,6 @@
 #include "lpc.h"
 #include "libavutil/avassert.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 /**
  * Apply Welch window function to audio block
  */
@@ -213,12 +209,7 @@ int ff_lpc_calc_coefs(LPCContext *s,
     if (lpc_type == FF_LPC_TYPE_CHOLESKY) {
         LLSModel m[2];
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 		LOCAL_ALIGNED(32, double, var, [FFALIGN(MAX_LPC_ORDER+1,4)]);
-#else
-		uint8_t la_var[sizeof(double [(((32 +1)+(4)-1)&~((4)-1))] ) + (32)];
-		double (*var) = (void *)((((uintptr_t)la_var)+(32)-1)&~((32)-1));
-#endif
 
 		double av_uninit(weight);
         memset(var, 0, FFALIGN(MAX_LPC_ORDER+1,4)*sizeof(*var));

@@ -22,12 +22,7 @@
 #include "libavutil/samplefmt.h"
 #include "flacdsp.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #define SAMPLE_SIZE 16
 #define PLANAR 0

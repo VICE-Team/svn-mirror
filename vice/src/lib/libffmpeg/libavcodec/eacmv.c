@@ -154,12 +154,7 @@ static int cmv_process_header(CmvContext *s, const uint8_t *buf, const uint8_t *
 
     fps = AV_RL16(&buf[10]);
     if (fps > 0) {
-#ifdef IDE_COMPILE
-		s->avctx->time_base.num = 1;
-		s->avctx->time_base.den = fps;
-#else
 		s->avctx->time_base = (AVRational){ 1, fps };
-#endif
 	}
     pal_start = AV_RL16(&buf[12]);
     pal_count = AV_RL16(&buf[14]);
@@ -239,17 +234,6 @@ static av_cold int cmv_decode_end(AVCodecContext *avctx){
 }
 
 AVCodec ff_eacmv_decoder = {
-#ifdef IDE_COMPILE
-    "eacmv",
-    "Electronic Arts CMV video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_CMV,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(CmvContext),
-    0, 0, 0, 0, 0, cmv_decode_init,
-    0, 0, cmv_decode_frame,
-    cmv_decode_end,
-#else
 	.name           = "eacmv",
     .long_name      = NULL_IF_CONFIG_SMALL("Electronic Arts CMV video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -259,5 +243,4 @@ AVCodec ff_eacmv_decoder = {
     .close          = cmv_decode_end,
     .decode         = cmv_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

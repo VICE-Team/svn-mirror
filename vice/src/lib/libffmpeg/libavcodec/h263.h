@@ -26,12 +26,6 @@
 #include "mpegvideo.h"
 #include "rl.h"
 
-#ifdef IDE_COMPILE
-#ifndef INT_BIT
-#    define INT_BIT (CHAR_BIT * sizeof(int))
-#endif
-#endif
-
 #if !FF_API_ASPECT_EXTENDED
 #define FF_ASPECT_EXTENDED 15
 #endif

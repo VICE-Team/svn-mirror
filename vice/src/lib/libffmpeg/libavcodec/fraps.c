@@ -134,11 +134,7 @@ static int decode_frame(AVCodecContext *avctx,
     FrapsContext * const s = avctx->priv_data;
     const uint8_t *buf     = avpkt->data;
     int buf_size           = avpkt->size;
-#ifdef IDE_COMPILE
-    ThreadFrame frame = { data };
-#else
 	ThreadFrame frame = { .f = data };
-#endif
 	AVFrame * const f = data;
     uint32_t header;
     unsigned int version,header_size;
@@ -318,17 +314,6 @@ static av_cold int decode_end(AVCodecContext *avctx)
 
 
 AVCodec ff_fraps_decoder = {
-#ifdef IDE_COMPILE
-    "fraps",
-    "Fraps",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_FRAPS,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(FrapsContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "fraps",
     .long_name      = NULL_IF_CONFIG_SMALL("Fraps"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -338,5 +323,4 @@ AVCodec ff_fraps_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-#endif
 };

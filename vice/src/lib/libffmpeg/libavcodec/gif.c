@@ -28,10 +28,6 @@
  * @see http://www.w3.org/Graphics/GIF/spec-gif89a.txt
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #define BITSTREAM_WRITER_LE
 #include "libavutil/opt.h"
 #include "libavutil/imgutils.h"
@@ -295,52 +291,20 @@ static int gif_encode_close(AVCodecContext *avctx)
 #define OFFSET(x) offsetof(GIFContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption gif_options[] = {
-#ifdef IDE_COMPILE
-	{ "gifflags", "set GIF flags", OFFSET(flags), AV_OPT_TYPE_FLAGS, {GF_OFFSETTING|GF_TRANSDIFF}, 0, INT_MAX, FLAGS, "flags" },
-    { "offsetting", "enable picture offsetting", 0, AV_OPT_TYPE_CONST, {GF_OFFSETTING}, INT_MIN, INT_MAX, FLAGS, "flags" },
-    { "transdiff", "enable transparency detection between frames", 0, AV_OPT_TYPE_CONST, {GF_TRANSDIFF}, INT_MIN, INT_MAX, FLAGS, "flags" },
-#else
 	{ "gifflags", "set GIF flags", OFFSET(flags), AV_OPT_TYPE_FLAGS, {.i64 = GF_OFFSETTING|GF_TRANSDIFF}, 0, INT_MAX, FLAGS, "flags" },
     { "offsetting", "enable picture offsetting", 0, AV_OPT_TYPE_CONST, {.i64=GF_OFFSETTING}, INT_MIN, INT_MAX, FLAGS, "flags" },
     { "transdiff", "enable transparency detection between frames", 0, AV_OPT_TYPE_CONST, {.i64=GF_TRANSDIFF}, INT_MIN, INT_MAX, FLAGS, "flags" },
-#endif
 	{ NULL }
 };
 
 static const AVClass gif_class = {
-#ifdef IDE_COMPILE
-    "GIF encoder",
-    av_default_item_name,
-    gif_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "GIF encoder",
     .item_name  = av_default_item_name,
     .option     = gif_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_RGB8, AV_PIX_FMT_BGR8, AV_PIX_FMT_RGB4_BYTE, AV_PIX_FMT_BGR4_BYTE,
-        AV_PIX_FMT_GRAY8, AV_PIX_FMT_PAL8, AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_gif_encoder = {
-#ifdef IDE_COMPILE
-    "gif",
-    "GIF (Graphics Interchange Format)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_GIF,
-    0, 0, tmp1,
-    0, 0, 0, 0, &gif_class,
-    0, sizeof(GIFContext),
-    0, 0, 0, 0, 0, gif_encode_init,
-    0, gif_encode_frame,
-    0, gif_encode_close,
-#else
 	.name           = "gif",
     .long_name      = NULL_IF_CONFIG_SMALL("GIF (Graphics Interchange Format)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -354,5 +318,4 @@ AVCodec ff_gif_encoder = {
         AV_PIX_FMT_GRAY8, AV_PIX_FMT_PAL8, AV_PIX_FMT_NONE
     },
     .priv_class     = &gif_class,
-#endif
 };

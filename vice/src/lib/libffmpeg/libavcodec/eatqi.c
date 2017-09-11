@@ -56,12 +56,7 @@ static av_cold int tqi_decode_init(AVCodecContext *avctx)
     ff_init_scantable_permutation(s->idsp.idct_permutation, FF_IDCT_PERM_NONE);
     ff_init_scantable(s->idsp.idct_permutation, &s->intra_scantable, ff_zigzag_direct);
     s->qscale = 1;
-#ifdef IDE_COMPILE
-	avctx->time_base.num = 1;
-	avctx->time_base.den = 15;
-#else
 	avctx->time_base = (AVRational){1, 15};
-#endif
 	avctx->pix_fmt = AV_PIX_FMT_YUV420P;
     ff_mpeg12_init_vlcs();
     return 0;
@@ -159,17 +154,6 @@ static av_cold int tqi_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_eatqi_decoder = {
-#ifdef IDE_COMPILE
-    "eatqi",
-    "Electronic Arts TQI Video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_TQI,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(TqiContext),
-    0, 0, 0, 0, 0, tqi_decode_init,
-    0, 0, tqi_decode_frame,
-    tqi_decode_end,
-#else
 	.name           = "eatqi",
     .long_name      = NULL_IF_CONFIG_SMALL("Electronic Arts TQI Video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -179,5 +163,4 @@ AVCodec ff_eatqi_decoder = {
     .close          = tqi_decode_end,
     .decode         = tqi_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

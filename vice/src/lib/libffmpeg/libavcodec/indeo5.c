@@ -27,10 +27,6 @@
  * Known FOURCCs: 'IV50'
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #define BITSTREAM_READER_LE
 #include "avcodec.h"
 #include "get_bits.h"
@@ -684,17 +680,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_indeo5_decoder = {
-#ifdef IDE_COMPILE
-    "indeo5",
-    "Intel Indeo Video Interactive 5",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_INDEO5,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(IVI45DecContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, ff_ivi_decode_frame,
-    ff_ivi_decode_close,
-#else
 	.name           = "indeo5",
     .long_name      = NULL_IF_CONFIG_SMALL("Intel Indeo Video Interactive 5"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -704,5 +689,4 @@ AVCodec ff_indeo5_decoder = {
     .close          = ff_ivi_decode_close,
     .decode         = ff_ivi_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

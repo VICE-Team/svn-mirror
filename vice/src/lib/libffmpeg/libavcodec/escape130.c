@@ -348,17 +348,6 @@ static int escape130_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_escape130_decoder = {
-#ifdef IDE_COMPILE
-    "escape130",
-    "Escape 130",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_ESCAPE130,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(Escape130Context),
-    0, 0, 0, 0, 0, escape130_decode_init,
-    0, 0, escape130_decode_frame,
-    escape130_decode_close,
-#else
 	.name           = "escape130",
     .long_name      = NULL_IF_CONFIG_SMALL("Escape 130"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -368,5 +357,4 @@ AVCodec ff_escape130_decoder = {
     .close          = escape130_decode_close,
     .decode         = escape130_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

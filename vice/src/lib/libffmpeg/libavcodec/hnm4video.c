@@ -496,17 +496,6 @@ static av_cold int hnm_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_hnm4_video_decoder = {
-#ifdef IDE_COMPILE
-    "hnm4video",
-    "HNM 4 video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_HNM4_VIDEO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(Hnm4VideoContext),
-    0, 0, 0, 0, 0, hnm_decode_init,
-    0, 0, hnm_decode_frame,
-    hnm_decode_end,
-#else
 	.name           = "hnm4video",
     .long_name      = NULL_IF_CONFIG_SMALL("HNM 4 video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -516,5 +505,4 @@ AVCodec ff_hnm4_video_decoder = {
     .close          = hnm_decode_end,
     .decode         = hnm_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

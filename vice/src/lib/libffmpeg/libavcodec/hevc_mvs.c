@@ -23,10 +23,6 @@
 
 #include "hevc.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 static const uint8_t l0_l1_cand_idx[12][2] = {
     { 0, 1, },
     { 1, 0, },
@@ -488,12 +484,7 @@ void ff_hevc_luma_mv_merge_mode(HEVCContext *s, int x0, int y0, int nPbW,
     int singleMCLFlag = 0;
     int nCS = 1 << log2_cb_size;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED(4, MvField, mergecand_list, [MRG_MAX_NUM_CANDS]);
-#else
-	uint8_t la_mergecand_list[sizeof(MvField [5] ) + (4)];
-	MvField (*mergecand_list) = (void *)((((uintptr_t)la_mergecand_list)+(4)-1)&~((4)-1));
-#endif
 
 	int nPbW2 = nPbW;
     int nPbH2 = nPbH;

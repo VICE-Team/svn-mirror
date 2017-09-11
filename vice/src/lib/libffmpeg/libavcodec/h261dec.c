@@ -492,12 +492,7 @@ static int h261_decode_picture_header(H261Context *h)
         i += 32;
     s->picture_number = (s->picture_number & ~31) + i;
 
-#ifdef IDE_COMPILE
-	s->avctx->time_base.num = 1001;
-	s->avctx->time_base.den = 30000;
-#else
 	s->avctx->time_base      = (AVRational) { 1001, 30000 };
-#endif
 
     /* PTYPE starts here */
     skip_bits1(&s->gb); /* split screen off */
@@ -677,18 +672,6 @@ static av_cold int h261_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_h261_decoder = {
-#ifdef IDE_COMPILE
-    "h261",
-    "H.261",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_H261,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 3,
-    0, 0, sizeof(H261Context),
-    0, 0, 0, 0, 0, h261_decode_init,
-    0, 0, h261_decode_frame,
-    h261_decode_end,
-#else
 	.name           = "h261",
     .long_name      = NULL_IF_CONFIG_SMALL("H.261"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -699,5 +682,4 @@ AVCodec ff_h261_decoder = {
     .decode         = h261_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .max_lowres     = 3,
-#endif
 };
