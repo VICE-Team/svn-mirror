@@ -22,10 +22,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #define BITSTREAM_READER_LE
 #include "avcodec.h"
 #include "bytestream.h"
@@ -750,19 +746,10 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 }
 
 AVCodec ff_dxtory_decoder = {
-#ifdef IDE_COMPILE
-    "dxtory",
-    "Dxtory",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DXTORY,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_frame,
-#else
 	.name           = "dxtory",
     .long_name      = NULL_IF_CONFIG_SMALL("Dxtory"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_DXTORY,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

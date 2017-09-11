@@ -460,17 +460,6 @@ static int vmdvideo_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_vmdvideo_decoder = {
-#ifdef IDE_COMPILE
-    "vmdvideo",
-    "Sierra VMD video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VMDVIDEO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VmdVideoContext),
-    0, 0, 0, 0, 0, vmdvideo_decode_init,
-    0, 0, vmdvideo_decode_frame,
-    vmdvideo_decode_end,
-#else
 	.name           = "vmdvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("Sierra VMD video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -480,5 +469,4 @@ AVCodec ff_vmdvideo_decoder = {
     .close          = vmdvideo_decode_end,
     .decode         = vmdvideo_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

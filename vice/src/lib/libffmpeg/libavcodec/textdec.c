@@ -37,11 +37,7 @@ typedef struct {
 #define OFFSET(x) offsetof(TextContext, x)
 #define SD AV_OPT_FLAG_SUBTITLE_PARAM | AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "keep_ass_markup", "Set if ASS tags must be escaped", OFFSET(keep_ass_markup), AV_OPT_TYPE_INT, {0}, 0, 1, SD },
-#else
 	{ "keep_ass_markup", "Set if ASS tags must be escaped", OFFSET(keep_ass_markup), AV_OPT_TYPE_INT,    {.i64=0}, 0, 1, .flags=SD },
-#endif
 	{ NULL }
 };
 
@@ -52,20 +48,9 @@ static int text_decode_frame(AVCodecContext *avctx, void *data,
     AVSubtitle *sub = data;
     const char *ptr = avpkt->data;
     const TextContext *text = avctx->priv_data;
-#ifdef IDE_COMPILE
-    AVRational tmp;
-	int ts_start;
-    int ts_duration;
-
-    tmp.num = 1;
-	tmp.den = 100;
-	ts_start = av_rescale_q(avpkt->pts, avctx->time_base, tmp);
-    ts_duration = avpkt->duration != -1 ? av_rescale_q(avpkt->duration, avctx->time_base, tmp) : -1;
-#else
 	const int ts_start     = av_rescale_q(avpkt->pts,      avctx->time_base, (AVRational){1,100});
     const int ts_duration  = avpkt->duration != -1 ?
                              av_rescale_q(avpkt->duration, avctx->time_base, (AVRational){1,100}) : -1;
-#endif
 
     av_bprint_init(&buf, 0, AV_BPRINT_SIZE_UNLIMITED);
     if (ptr && avpkt->size > 0 && *ptr) {
@@ -81,37 +66,18 @@ static int text_decode_frame(AVCodecContext *avctx, void *data,
     return avpkt->size;
 }
 
-#ifdef IDE_COMPILE
-#define DECLARE_CLASS(decname) static const AVClass decname ## _decoder_class = {   \
-    #decname " decoder",      \
-    av_default_item_name,     \
-    decname ## _options,      \
-    LIBAVUTIL_VERSION_INT,    \
-}
-#else
 #define DECLARE_CLASS(decname) static const AVClass decname ## _decoder_class = {   \
     .class_name = #decname " decoder",      \
     .item_name  = av_default_item_name,     \
     .option     = decname ## _options,      \
     .version    = LIBAVUTIL_VERSION_INT,    \
 }
-#endif
 
 #if CONFIG_TEXT_DECODER
 #define text_options options
 DECLARE_CLASS(text);
 
 AVCodec ff_text_decoder = {
-#ifdef IDE_COMPILE
-    "text",
-    "Raw text subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_TEXT,
-    0, 0, 0, 0, 0, 0, 0, &text_decoder_class,
-    0, sizeof(TextContext),
-    0, 0, 0, 0, 0, ff_ass_subtitle_header_default,
-    0, 0, text_decode_frame,
-#else
 	.name           = "text",
     .long_name      = NULL_IF_CONFIG_SMALL("Raw text subtitle"),
     .priv_data_size = sizeof(TextContext),
@@ -120,7 +86,6 @@ AVCodec ff_text_decoder = {
     .decode         = text_decode_frame,
     .init           = ff_ass_subtitle_header_default,
     .priv_class     = &text_decoder_class,
-#endif
 };
 #endif
 
@@ -138,16 +103,6 @@ static int linebreak_init(AVCodecContext *avctx)
 DECLARE_CLASS(vplayer);
 
 AVCodec ff_vplayer_decoder = {
-#ifdef IDE_COMPILE
-    "vplayer",
-    "VPlayer subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_VPLAYER,
-    0, 0, 0, 0, 0, 0, 0, &vplayer_decoder_class,
-    0, sizeof(TextContext),
-    0, 0, 0, 0, 0, linebreak_init,
-    0, 0, text_decode_frame,
-#else
 	.name           = "vplayer",
     .long_name      = NULL_IF_CONFIG_SMALL("VPlayer subtitle"),
     .priv_data_size = sizeof(TextContext),
@@ -156,7 +111,6 @@ AVCodec ff_vplayer_decoder = {
     .decode         = text_decode_frame,
     .init           = linebreak_init,
     .priv_class     = &vplayer_decoder_class,
-#endif
 };
 #endif
 
@@ -165,16 +119,6 @@ AVCodec ff_vplayer_decoder = {
 DECLARE_CLASS(pjs);
 
 AVCodec ff_pjs_decoder = {
-#ifdef IDE_COMPILE
-    "pjs",
-    "PJS subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_PJS,
-    0, 0, 0, 0, 0, 0, 0, &pjs_decoder_class,
-    0, sizeof(TextContext),
-    0, 0, 0, 0, 0, linebreak_init,
-    0, 0, text_decode_frame,
-#else
 	.name           = "pjs",
     .long_name      = NULL_IF_CONFIG_SMALL("PJS subtitle"),
     .priv_data_size = sizeof(TextContext),
@@ -183,7 +127,6 @@ AVCodec ff_pjs_decoder = {
     .decode         = text_decode_frame,
     .init           = linebreak_init,
     .priv_class     = &pjs_decoder_class,
-#endif
 };
 #endif
 
@@ -192,16 +135,6 @@ AVCodec ff_pjs_decoder = {
 DECLARE_CLASS(subviewer1);
 
 AVCodec ff_subviewer1_decoder = {
-#ifdef IDE_COMPILE
-    "subviewer1",
-    "SubViewer1 subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_SUBVIEWER1,
-    0, 0, 0, 0, 0, 0, 0, &subviewer1_decoder_class,
-    0, sizeof(TextContext),
-    0, 0, 0, 0, 0, linebreak_init,
-    0, 0, text_decode_frame,
-#else
 	.name           = "subviewer1",
     .long_name      = NULL_IF_CONFIG_SMALL("SubViewer1 subtitle"),
     .priv_data_size = sizeof(TextContext),
@@ -210,7 +143,6 @@ AVCodec ff_subviewer1_decoder = {
     .decode         = text_decode_frame,
     .init           = linebreak_init,
     .priv_class     = &subviewer1_decoder_class,
-#endif
 };
 #endif
 

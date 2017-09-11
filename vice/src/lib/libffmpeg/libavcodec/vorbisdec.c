@@ -1833,26 +1833,7 @@ static av_cold void vorbis_decode_flush(AVCodecContext *avctx)
     vc->first_frame = 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
-                                                       AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_vorbis_decoder = {
-#ifdef IDE_COMPILE
-    "vorbis",
-    "Vorbis",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_VORBIS,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    ff_vorbis_channel_layouts,
-    0, 0, 0, sizeof(vorbis_context),
-    0, 0, 0, 0, 0, vorbis_decode_init,
-    0, 0, vorbis_decode_frame,
-    vorbis_decode_close,
-    vorbis_decode_flush,
-#else
 	.name            = "vorbis",
     .long_name       = NULL_IF_CONFIG_SMALL("Vorbis"),
     .type            = AVMEDIA_TYPE_AUDIO,
@@ -1866,5 +1847,4 @@ AVCodec ff_vorbis_decoder = {
     .channel_layouts = ff_vorbis_channel_layouts,
     .sample_fmts     = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                        AV_SAMPLE_FMT_NONE },
-#endif
 };

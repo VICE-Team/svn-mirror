@@ -2959,15 +2959,6 @@ static av_cold int wavpack_encode_close(AVCodecContext *avctx)
 #define OFFSET(x) offsetof(WavPackEncodeContext, x)
 #define FLAGS AV_OPT_FLAG_ENCODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "joint_stereo", "", OFFSET(joint), AV_OPT_TYPE_INT, {0}, -1, 1, FLAGS, "joint" },
-    { "on", "mid/side", 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "joint"},
-    { "off", "left/right", 0, AV_OPT_TYPE_CONST, {-1}, 0, 0, FLAGS, "joint"},
-    { "auto", NULL, 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "joint"},
-    { "optimize_mono", "", OFFSET(optimize_mono), AV_OPT_TYPE_INT, {0}, 0, 1, FLAGS, "opt_mono" },
-    { "on", NULL, 0, AV_OPT_TYPE_CONST, {1}, 0, 0, FLAGS, "opt_mono"},
-    { "off", NULL, 0, AV_OPT_TYPE_CONST, {0}, 0, 0, FLAGS, "opt_mono"},
-#else
 	{ "joint_stereo",  "", OFFSET(joint), AV_OPT_TYPE_INT, {.i64=0},-1, 1, FLAGS, "joint" },
     { "on",   "mid/side",   0, AV_OPT_TYPE_CONST, {.i64= 1}, 0, 0, FLAGS, "joint"},
     { "off",  "left/right", 0, AV_OPT_TYPE_CONST, {.i64=-1}, 0, 0, FLAGS, "joint"},
@@ -2975,46 +2966,17 @@ static const AVOption options[] = {
     { "optimize_mono",        "", OFFSET(optimize_mono), AV_OPT_TYPE_INT, {.i64=0}, 0, 1, FLAGS, "opt_mono" },
     { "on",   NULL, 0, AV_OPT_TYPE_CONST, {.i64=1}, 0, 0, FLAGS, "opt_mono"},
     { "off",  NULL, 0, AV_OPT_TYPE_CONST, {.i64=0}, 0, 0, FLAGS, "opt_mono"},
-#endif
 	{ NULL },
 };
 
 static const AVClass wavpack_encoder_class = {
-#ifdef IDE_COMPILE
-    "WavPack encoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "WavPack encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_U8P,
-                                                     AV_SAMPLE_FMT_S16P,
-                                                     AV_SAMPLE_FMT_S32P,
-                                                     AV_SAMPLE_FMT_FLTP,
-                                                     AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_wavpack_encoder = {
-#ifdef IDE_COMPILE
-    "wavpack",
-    "WavPack",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_WAVPACK,
-    CODEC_CAP_SMALL_LAST_FRAME,
-    0, 0, 0, tmp1,
-    0, 0, &wavpack_encoder_class,
-    0, sizeof(WavPackEncodeContext),
-    0, 0, 0, 0, 0, wavpack_encode_init,
-    0, wavpack_encode_frame,
-    0, wavpack_encode_close,
-#else
 	.name           = "wavpack",
     .long_name      = NULL_IF_CONFIG_SMALL("WavPack"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -3030,5 +2992,4 @@ AVCodec ff_wavpack_encoder = {
                                                      AV_SAMPLE_FMT_S32P,
                                                      AV_SAMPLE_FMT_FLTP,
                                                      AV_SAMPLE_FMT_NONE },
-#endif
 };

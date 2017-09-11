@@ -273,29 +273,7 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_GRAY8,
-        AV_PIX_FMT_RGB24, AV_PIX_FMT_RGBA, AV_PIX_FMT_ABGR,
-        AV_PIX_FMT_GRAY16LE, AV_PIX_FMT_GRAY16BE,
-        AV_PIX_FMT_RGB48LE, AV_PIX_FMT_RGB48BE,
-        AV_PIX_FMT_RGBA64LE, AV_PIX_FMT_RGBA64BE,
-        AV_PIX_FMT_GBRP10LE, AV_PIX_FMT_GBRP10BE,
-        AV_PIX_FMT_GBRP12LE, AV_PIX_FMT_GBRP12BE,
-        AV_PIX_FMT_NONE};
-#endif
-
 AVCodec ff_dpx_encoder = {
-#ifdef IDE_COMPILE
-    "dpx",
-    "DPX (Digital Picture Exchange) image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DPX,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(DPXContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-#else
 	.name           = "dpx",
     .long_name      = NULL_IF_CONFIG_SMALL("DPX (Digital Picture Exchange) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -312,5 +290,4 @@ AVCodec ff_dpx_encoder = {
         AV_PIX_FMT_GBRP10LE, AV_PIX_FMT_GBRP10BE,
         AV_PIX_FMT_GBRP12LE, AV_PIX_FMT_GBRP12BE,
         AV_PIX_FMT_NONE},
-#endif
 };

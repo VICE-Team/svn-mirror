@@ -20,10 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/bswap.h"
 #include "libavutil/imgutils.h"
@@ -1520,17 +1516,6 @@ static int decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_sanm_decoder = {
-#ifdef IDE_COMPILE
-    "sanm",
-    "LucasArts SANM/Smush video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SANM,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(SANMVideoContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "sanm",
     .long_name      = NULL_IF_CONFIG_SMALL("LucasArts SANM/Smush video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1540,5 +1525,4 @@ AVCodec ff_sanm_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

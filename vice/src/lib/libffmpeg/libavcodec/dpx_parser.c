@@ -107,15 +107,8 @@ flush:
 }
 
 AVCodecParser ff_dpx_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_DPX },
-    sizeof(DPXParseContext),
-    0, dpx_parse,
-    ff_parse_close,
-#else
 	.codec_ids      = { AV_CODEC_ID_DPX },
     .priv_data_size = sizeof(DPXParseContext),
     .parser_parse   = dpx_parse,
     .parser_close   = ff_parse_close,
-#endif
 };

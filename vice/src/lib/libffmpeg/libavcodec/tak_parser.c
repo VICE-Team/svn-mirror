@@ -115,15 +115,8 @@ found:
 }
 
 AVCodecParser ff_tak_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_TAK },
-    sizeof(TAKParseContext),
-    0, tak_parse,
-    ff_parse_close,
-#else
 	.codec_ids      = { AV_CODEC_ID_TAK },
     .priv_data_size = sizeof(TAKParseContext),
     .parser_parse   = tak_parse,
     .parser_close   = ff_parse_close,
-#endif
 };

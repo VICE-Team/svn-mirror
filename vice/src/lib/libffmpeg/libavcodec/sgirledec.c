@@ -26,10 +26,6 @@
  * The algorithm and pixfmt are subtly different from SGI images.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/common.h"
 
 #include "avcodec.h"
@@ -152,17 +148,6 @@ static av_cold int sgirle_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_sgirle_decoder = {
-#ifdef IDE_COMPILE
-    "sgirle",
-    "Silicon Graphics RLE 8-bit video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SGIRLE,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(SGIRLEContext),
-    0, 0, 0, 0, 0, sgirle_decode_init,
-    0, 0, sgirle_decode_frame,
-    sgirle_decode_end,
-#else
 	.name           = "sgirle",
     .long_name      = NULL_IF_CONFIG_SMALL("Silicon Graphics RLE 8-bit video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -172,5 +157,4 @@ AVCodec ff_sgirle_decoder = {
     .close          = sgirle_decode_end,
     .decode         = sgirle_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

@@ -21,12 +21,7 @@
 #ifndef AVCODEC_SINEWIN_H
 #define AVCODEC_SINEWIN_H
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "libavutil/mem.h"
 

@@ -666,25 +666,7 @@ static av_cold int shorten_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_U8P,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_shorten_decoder = {
-#ifdef IDE_COMPILE
-    "shorten",
-    "Shorten",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_SHORTEN,
-    CODEC_CAP_DELAY | CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(ShortenContext),
-    0, 0, 0, 0, 0, shorten_decode_init,
-    0, 0, shorten_decode_frame,
-    shorten_decode_close,
-#else
 	.name           = "shorten",
     .long_name      = NULL_IF_CONFIG_SMALL("Shorten"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -697,5 +679,4 @@ AVCodec ff_shorten_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_U8P,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };

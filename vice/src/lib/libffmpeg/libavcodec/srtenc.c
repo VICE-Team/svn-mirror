@@ -233,18 +233,6 @@ static void srt_end_cb(void *priv)
 }
 
 static const ASSCodesCallbacks srt_callbacks = {
-#ifdef IDE_COMPILE
-    srt_text_cb,
-    srt_new_line_cb,
-    srt_style_cb,
-    srt_color_cb,
-    0, srt_font_name_cb,
-    srt_font_size_cb,
-    srt_alignment_cb,
-    srt_cancel_overrides_cb,
-    srt_move_cb,
-    0, srt_end_cb,
-#else
 	.text             = srt_text_cb,
     .new_line         = srt_new_line_cb,
     .style            = srt_style_cb,
@@ -255,7 +243,6 @@ static const ASSCodesCallbacks srt_callbacks = {
     .cancel_overrides = srt_cancel_overrides_cb,
     .move             = srt_move_cb,
     .end              = srt_end_cb,
-#endif
 };
 
 static int srt_encode_frame(AVCodecContext *avctx,
@@ -320,16 +307,6 @@ static int srt_encode_close(AVCodecContext *avctx)
 #if CONFIG_SRT_ENCODER
 /* deprecated encoder */
 AVCodec ff_srt_encoder = {
-#ifdef IDE_COMPILE
-    "srt",
-    "SubRip subtitle with embedded timing",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_SRT,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(SRTContext),
-    0, 0, 0, 0, 0, srt_encode_init,
-    srt_encode_frame,
-    0, 0, srt_encode_close,
-#else
 	.name           = "srt",
     .long_name      = NULL_IF_CONFIG_SMALL("SubRip subtitle with embedded timing"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
@@ -338,22 +315,11 @@ AVCodec ff_srt_encoder = {
     .init           = srt_encode_init,
     .encode_sub     = srt_encode_frame,
     .close          = srt_encode_close,
-#endif
 };
 #endif
 
 #if CONFIG_SUBRIP_ENCODER
 AVCodec ff_subrip_encoder = {
-#ifdef IDE_COMPILE
-    "subrip",
-    "SubRip subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_SUBRIP,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(SRTContext),
-    0, 0, 0, 0, 0, srt_encode_init,
-    srt_encode_frame,
-    0, 0, srt_encode_close,
-#else
 	.name           = "subrip",
     .long_name      = NULL_IF_CONFIG_SMALL("SubRip subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
@@ -362,6 +328,5 @@ AVCodec ff_subrip_encoder = {
     .init           = srt_encode_init,
     .encode_sub     = srt_encode_frame,
     .close          = srt_encode_close,
-#endif
 };
 #endif

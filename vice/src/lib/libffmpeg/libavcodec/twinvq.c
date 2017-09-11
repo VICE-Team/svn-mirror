@@ -27,11 +27,7 @@
 #include "avcodec.h"
 #include "fft.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#else
 #include "internal.h"
-#endif
 
 #include "lsp.h"
 #include "sinewin.h"

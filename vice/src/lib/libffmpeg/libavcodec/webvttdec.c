@@ -80,20 +80,9 @@ static int webvtt_decode_frame(AVCodecContext *avctx,
 
     av_bprint_init(&buf, 0, AV_BPRINT_SIZE_UNLIMITED);
     if (ptr && avpkt->size > 0 && !webvtt_event_to_ass(&buf, ptr)) {
-#ifdef IDE_COMPILE
-		int ts_start;
-        int ts_duration;
-        AVRational tmp;
-		
-		tmp.num = 1;
-		tmp.den = 100;
-		ts_start = av_rescale_q(avpkt->pts, avctx->time_base, tmp);
-        ts_duration = avpkt->duration != -1 ? av_rescale_q(avpkt->duration, avctx->time_base, tmp) : -1;
-#else
 		int ts_start     = av_rescale_q(avpkt->pts, avctx->time_base, (AVRational){1,100});
         int ts_duration  = avpkt->duration != -1 ?
                            av_rescale_q(avpkt->duration, avctx->time_base, (AVRational){1,100}) : -1;
-#endif
 		ff_ass_add_rect(sub, buf.str, ts_start, ts_duration, 0);
     }
     *got_sub_ptr = sub->num_rects > 0;
@@ -102,19 +91,10 @@ static int webvtt_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_webvtt_decoder = {
-#ifdef IDE_COMPILE
-    "webvtt",
-    "WebVTT subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_WEBVTT,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ff_ass_subtitle_header_default,
-    0, 0, webvtt_decode_frame,
-#else
 	.name           = "webvtt",
     .long_name      = NULL_IF_CONFIG_SMALL("WebVTT subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
     .id             = AV_CODEC_ID_WEBVTT,
     .decode         = webvtt_decode_frame,
     .init           = ff_ass_subtitle_header_default,
-#endif
 };

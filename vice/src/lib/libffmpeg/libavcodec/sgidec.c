@@ -289,16 +289,6 @@ static av_cold int sgi_decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_sgi_decoder = {
-#ifdef IDE_COMPILE
-    "sgi",
-    "SGI image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SGI,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(SgiState),
-    0, 0, 0, 0, 0, sgi_decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "sgi",
     .long_name      = NULL_IF_CONFIG_SMALL("SGI image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -307,5 +297,4 @@ AVCodec ff_sgi_decoder = {
     .decode         = decode_frame,
     .init           = sgi_decode_init,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

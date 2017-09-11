@@ -209,27 +209,7 @@ static const AVCodecDefault sunrast_defaults[] = {
      { NULL },
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_BGR24,
-                                                  AV_PIX_FMT_PAL8,
-                                                  AV_PIX_FMT_GRAY8,
-                                                  AV_PIX_FMT_MONOWHITE,
-                                                  AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_sunrast_encoder = {
-#ifdef IDE_COMPILE
-    "sunrast",
-    "Sun Rasterfile image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SUNRAST,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(SUNRASTContext),
-    0, 0, 0, sunrast_defaults,
-    0, sunrast_encode_init,
-    0, sunrast_encode_frame,
-    0, sunrast_encode_close,
-#else
 	.name           = "sunrast",
     .long_name      = NULL_IF_CONFIG_SMALL("Sun Rasterfile image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -244,5 +224,4 @@ AVCodec ff_sunrast_encoder = {
                                                   AV_PIX_FMT_GRAY8,
                                                   AV_PIX_FMT_MONOWHITE,
                                                   AV_PIX_FMT_NONE },
-#endif
 };

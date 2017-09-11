@@ -1195,24 +1195,7 @@ error:
     return ret;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp14[] = { AV_SAMPLE_FMT_FLTP,
-                                                     AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_vorbis_encoder = {
-#ifdef IDE_COMPILE
-    "vorbis",
-    "Vorbis",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_VORBIS,
-    CODEC_CAP_DELAY | CODEC_CAP_EXPERIMENTAL,
-    0, 0, 0, tmp14,
-    0, 0, 0, 0, sizeof(vorbis_enc_context),
-    0, 0, 0, 0, 0, vorbis_encode_init,
-    0, vorbis_encode_frame,
-    0, vorbis_encode_close,
-#else
 	.name           = "vorbis",
     .long_name      = NULL_IF_CONFIG_SMALL("Vorbis"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1224,5 +1207,4 @@ AVCodec ff_vorbis_encoder = {
     .capabilities   = CODEC_CAP_DELAY | CODEC_CAP_EXPERIMENTAL,
     .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLTP,
                                                      AV_SAMPLE_FMT_NONE },
-#endif
 };

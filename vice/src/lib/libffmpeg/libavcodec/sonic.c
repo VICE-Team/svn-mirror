@@ -1051,17 +1051,6 @@ static int sonic_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_sonic_decoder = {
-#ifdef IDE_COMPILE
-    "sonic",
-    "Sonic",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_SONIC,
-    CODEC_CAP_DR1 | CODEC_CAP_EXPERIMENTAL,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(SonicContext),
-    0, 0, 0, 0, 0, sonic_decode_init,
-    0, 0, sonic_decode_frame,
-    sonic_decode_close,
-#else
 	.name           = "sonic",
     .long_name      = NULL_IF_CONFIG_SMALL("Sonic"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1071,29 +1060,12 @@ AVCodec ff_sonic_decoder = {
     .close          = sonic_decode_close,
     .decode         = sonic_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_EXPERIMENTAL,
-#endif
 };
 #endif /* CONFIG_SONIC_DECODER */
 
 #if CONFIG_SONIC_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_sonic_encoder = {
-#ifdef IDE_COMPILE
-    "sonic",
-    "Sonic",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_SONIC,
-    CODEC_CAP_EXPERIMENTAL,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(SonicContext),
-    0, 0, 0, 0, 0, sonic_encode_init,
-    0, sonic_encode_frame,
-    0, sonic_encode_close,
-#else
 	.name           = "sonic",
     .long_name      = NULL_IF_CONFIG_SMALL("Sonic"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1104,29 +1076,12 @@ AVCodec ff_sonic_encoder = {
     .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE },
     .capabilities   = CODEC_CAP_EXPERIMENTAL,
     .close          = sonic_encode_close,
-#endif
 };
 #endif
 
 #if CONFIG_SONIC_LS_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_sonic_ls_encoder = {
-#ifdef IDE_COMPILE
-    "sonicls",
-    "Sonic lossless",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_SONIC_LS,
-    CODEC_CAP_EXPERIMENTAL,
-    0, 0, 0, tmp2,
-    0, 0, 0, 0, sizeof(SonicContext),
-    0, 0, 0, 0, 0, sonic_encode_init,
-    0, sonic_encode_frame,
-    0, sonic_encode_close,
-#else
 	.name           = "sonicls",
     .long_name      = NULL_IF_CONFIG_SMALL("Sonic lossless"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1137,6 +1092,5 @@ AVCodec ff_sonic_ls_encoder = {
     .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE },
     .capabilities   = CODEC_CAP_EXPERIMENTAL,
     .close          = sonic_encode_close,
-#endif
 };
 #endif

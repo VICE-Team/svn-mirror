@@ -24,13 +24,7 @@
  * DV encoder
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#include "libavutil/internal.h"
-#else
 #include "config.h"
-#endif
 
 #include "libavutil/attributes.h"
 #include "libavutil/pixdesc.h"
@@ -254,12 +248,7 @@ static av_always_inline int dv_init_enc_block(EncBlockInfo *bi, uint8_t *data,
 {
     const int *weight;
     const uint8_t *zigzag_scan;
-#ifdef IDE_COMPILE
-    int16_t la_blk[64];
-	int16_t (*blk) = la_blk;
-#else
 	LOCAL_ALIGNED_16(int16_t, blk, [64]);
-#endif
 	int i, area;
     /* We offer two different methods for class number assignment: the
      * method suggested in SMPTE 314M Table 22, and an improved
@@ -436,12 +425,7 @@ static int dv_encode_video_segment(AVCodecContext *avctx, void *arg)
     int mb_x, mb_y, c_offset, linesize, y_stride;
     uint8_t *y_ptr;
     uint8_t *dif;
-#ifdef IDE_COMPILE
-    uint8_t la_scratch[128];
-	uint8_t (*scratch) = la_scratch;
-#else
 	LOCAL_ALIGNED_8(uint8_t, scratch, [128]);
-#endif
 	EncBlockInfo enc_blks[5 * DV_MAX_BPM];
     PutBitContext pbs[5 * DV_MAX_BPM];
     PutBitContext *pb;
@@ -765,26 +749,7 @@ static int dvvideo_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_YUV411P, AV_PIX_FMT_YUV422P,
-        AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_dvvideo_encoder = {
-#ifdef IDE_COMPILE
-    "dvvideo",
-    "DV (Digital Video)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DVVIDEO,
-    CODEC_CAP_SLICE_THREADS,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(DVVideoContext),
-    0, 0, 0, 0, 0, dvvideo_encode_init,
-    0, dvvideo_encode_frame,
-    0, dvvideo_encode_close,
-#else
 	.name           = "dvvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -798,5 +763,4 @@ AVCodec ff_dvvideo_encoder = {
         AV_PIX_FMT_YUV411P, AV_PIX_FMT_YUV422P,
         AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE
     },
-#endif
 };

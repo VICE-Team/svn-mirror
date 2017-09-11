@@ -191,29 +191,12 @@ static av_cold int smvjpeg_decode_end(AVCodecContext *avctx)
 }
 
 static const AVClass smvjpegdec_class = {
-#ifdef IDE_COMPILE
-    "SMVJPEG decoder",
-    av_default_item_name,
-    0, LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "SMVJPEG decoder",
     .item_name  = av_default_item_name,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_smvjpeg_decoder = {
-#ifdef IDE_COMPILE
-    "smvjpeg",
-    "SMV JPEG",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SMVJPEG,
-    0, 0, 0, 0, 0, 0, 0, &smvjpegdec_class,
-    0, sizeof(SMVJpegDecodeContext),
-    0, 0, 0, 0, 0, smvjpeg_decode_init,
-    0, 0, smvjpeg_decode_frame,
-    smvjpeg_decode_end,
-#else
 	.name           = "smvjpeg",
     .long_name      = NULL_IF_CONFIG_SMALL("SMV JPEG"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -223,5 +206,4 @@ AVCodec ff_smvjpeg_decoder = {
     .close          = smvjpeg_decode_end,
     .decode         = smvjpeg_decode_frame,
     .priv_class     = &smvjpegdec_class,
-#endif
 };

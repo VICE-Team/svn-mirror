@@ -27,12 +27,7 @@
 
 #include "startcode.h"
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 int ff_startcode_find_candidate_c(const uint8_t *buf, int size)
 {

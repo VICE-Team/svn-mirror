@@ -73,15 +73,6 @@ static int y216_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_targa_y216_decoder = {
-#ifdef IDE_COMPILE
-    "targa_y216",
-    "Pinnacle TARGA CineWave YUV16",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_TARGA_Y216,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, y216_decode_init,
-    0, 0, y216_decode_frame,
-#else
 	.name         = "targa_y216",
     .long_name    = NULL_IF_CONFIG_SMALL("Pinnacle TARGA CineWave YUV16"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -89,5 +80,4 @@ AVCodec ff_targa_y216_decoder = {
     .init         = y216_decode_init,
     .decode       = y216_decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };

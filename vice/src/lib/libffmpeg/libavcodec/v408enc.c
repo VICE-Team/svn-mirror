@@ -89,21 +89,7 @@ static av_cold int v408_encode_close(AVCodecContext *avctx)
 
 #if CONFIG_AYUV_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUVA444P, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_ayuv_encoder = {
-#ifdef IDE_COMPILE
-    "ayuv",
-    "Uncompressed packed MS 4:4:4:4",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_AYUV,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v408_encode_init,
-    0, v408_encode_frame,
-    0, v408_encode_close,
-#else
 	.name         = "ayuv",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed MS 4:4:4:4"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -112,27 +98,12 @@ AVCodec ff_ayuv_encoder = {
     .encode2      = v408_encode_frame,
     .close        = v408_encode_close,
     .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUVA444P, AV_PIX_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_V408_ENCODER
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp2[] = { AV_PIX_FMT_YUVA444P, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_v408_encoder = {
-#ifdef IDE_COMPILE
-    "v408",
-    "Uncompressed packed QT 4:4:4:4",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_V408,
-    0, 0, tmp2,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v408_encode_init,
-    0, v408_encode_frame,
-    0, v408_encode_close,
-#else
 	.name         = "v408",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed QT 4:4:4:4"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -141,6 +112,5 @@ AVCodec ff_v408_encoder = {
     .encode2      = v408_encode_frame,
     .close        = v408_encode_close,
     .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUVA444P, AV_PIX_FMT_NONE },
-#endif
 };
 #endif

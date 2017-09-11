@@ -2795,18 +2795,6 @@ static int vp8_decode_update_thread_context(AVCodecContext *dst,
 
 #if CONFIG_VP7_DECODER
 AVCodec ff_vp7_decoder = {
-#ifdef IDE_COMPILE
-    "vp7",
-    "On2 VP7",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP7,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VP8Context),
-    0, 0, 0, 0, 0, vp7_decode_init,
-    0, 0, vp7_decode_frame,
-    ff_vp8_decode_free,
-    vp8_decode_flush,
-#else
 	.name                  = "vp7",
     .long_name             = NULL_IF_CONFIG_SMALL("On2 VP7"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -2817,26 +2805,11 @@ AVCodec ff_vp7_decoder = {
     .decode                = vp7_decode_frame,
     .capabilities          = CODEC_CAP_DR1,
     .flush                 = vp8_decode_flush,
-#endif
 };
 #endif /* CONFIG_VP7_DECODER */
 
 #if CONFIG_VP8_DECODER
 AVCodec ff_vp8_decoder = {
-#ifdef IDE_COMPILE
-    "vp8",
-    "On2 VP8",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP8,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS | CODEC_CAP_SLICE_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VP8Context),
-    0, vp8_decode_init_thread_copy,
-    vp8_decode_update_thread_context,
-    0, 0, ff_vp8_decode_init,
-    0, 0, ff_vp8_decode_frame,
-    ff_vp8_decode_free,
-    vp8_decode_flush,
-#else
 	.name                  = "vp8",
     .long_name             = NULL_IF_CONFIG_SMALL("On2 VP8"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -2849,6 +2822,5 @@ AVCodec ff_vp8_decoder = {
     .flush                 = vp8_decode_flush,
     .init_thread_copy      = ONLY_IF_THREADS_ENABLED(vp8_decode_init_thread_copy),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(vp8_decode_update_thread_context),
-#endif
 };
 #endif /* CONFIG_VP7_DECODER */

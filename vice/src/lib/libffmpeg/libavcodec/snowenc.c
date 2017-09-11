@@ -18,11 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intmath.h"
 #include "libavutil/log.h"
 #include "libavutil/opt.h"
@@ -1875,51 +1870,19 @@ static av_cold int encode_end(AVCodecContext *avctx)
 #define OFFSET(x) offsetof(SnowContext, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "memc_only", "Only do ME/MC (I frames -> ref, P frame -> ME+MC).", OFFSET(memc_only), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
-    { "no_bitstream", "Skip final bitstream writeout.", OFFSET(no_bitstream), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
-#else
 	{ "memc_only",      "Only do ME/MC (I frames -> ref, P frame -> ME+MC).",   OFFSET(memc_only), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "no_bitstream",   "Skip final bitstream writeout.",                    OFFSET(no_bitstream), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
-#endif
 	{ NULL },
 };
 
 static const AVClass snowenc_class = {
-#ifdef IDE_COMPILE
-    "snow encoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "snow encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUV410P, AV_PIX_FMT_YUV444P,
-        AV_PIX_FMT_GRAY8,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_snow_encoder = {
-#ifdef IDE_COMPILE
-    "snow",
-    "Snow",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SNOW,
-    0, 0, tmp1,
-    0, 0, 0, 0, &snowenc_class,
-    0, sizeof(SnowContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_end,
-#else
 	.name           = "snow",
     .long_name      = NULL_IF_CONFIG_SMALL("Snow"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1934,9 +1897,7 @@ AVCodec ff_snow_encoder = {
         AV_PIX_FMT_NONE
     },
     .priv_class     = &snowenc_class,
-#endif
 };
-
 
 #ifdef TEST
 #undef malloc

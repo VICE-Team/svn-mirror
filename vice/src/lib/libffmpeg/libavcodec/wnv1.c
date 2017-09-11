@@ -24,10 +24,6 @@
  * Winnov WNV1 codec.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "internal.h"
@@ -150,16 +146,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_wnv1_decoder = {
-#ifdef IDE_COMPILE
-    "wnv1",
-    "Winnov WNV1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_WNV1,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(WNV1Context),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "wnv1",
     .long_name      = NULL_IF_CONFIG_SMALL("Winnov WNV1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -168,5 +154,4 @@ AVCodec ff_wnv1_decoder = {
     .init           = decode_init,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

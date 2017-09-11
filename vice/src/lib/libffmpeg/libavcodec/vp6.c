@@ -29,10 +29,6 @@
 
 #include <stdlib.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "huffman.h"
@@ -336,14 +332,7 @@ static void vp6_parse_vector_adjustment(VP56Context *s, VP56mv *vect)
     VP56Model *model = s->modelp;
     int comp;
 
-#ifdef IDE_COMPILE
-    {
-		VP56mv tmp1 = {0,0};
-		*vect = tmp1;
-	}
-#else
 	*vect = (VP56mv) {0,0};
-#endif
 	if (s->vector_candidate_pos < 2)
         *vect = s->vector_candidate[0];
 
@@ -682,17 +671,6 @@ static av_cold void vp6_decode_free_context(VP56Context *s)
 }
 
 AVCodec ff_vp6_decoder = {
-#ifdef IDE_COMPILE
-    "vp6",
-    "On2 VP6",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP6,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VP56Context),
-    0, 0, 0, 0, 0, vp6_decode_init,
-    0, 0, ff_vp56_decode_frame,
-    vp6_decode_free,
-#else
 	.name           = "vp6",
     .long_name      = NULL_IF_CONFIG_SMALL("On2 VP6"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -702,22 +680,10 @@ AVCodec ff_vp6_decoder = {
     .close          = vp6_decode_free,
     .decode         = ff_vp56_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 
 /* flash version, not flipped upside-down */
 AVCodec ff_vp6f_decoder = {
-#ifdef IDE_COMPILE
-    "vp6f",
-    "On2 VP6 (Flash version)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP6F,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VP56Context),
-    0, 0, 0, 0, 0, vp6_decode_init,
-    0, 0, ff_vp56_decode_frame,
-    vp6_decode_free,
-#else
 	.name           = "vp6f",
     .long_name      = NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -727,22 +693,10 @@ AVCodec ff_vp6f_decoder = {
     .close          = vp6_decode_free,
     .decode         = ff_vp56_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 
 /* flash version, not flipped upside-down, with alpha channel */
 AVCodec ff_vp6a_decoder = {
-#ifdef IDE_COMPILE
-    "vp6a",
-    "On2 VP6 (Flash version, with alpha channel)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP6A,
-    CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VP56Context),
-    0, 0, 0, 0, 0, vp6_decode_init,
-    0, 0, ff_vp56_decode_frame,
-    vp6_decode_free,
-#else
 	.name           = "vp6a",
     .long_name      = NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version, with alpha channel)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -752,5 +706,4 @@ AVCodec ff_vp6a_decoder = {
     .close          = vp6_decode_free,
     .decode         = ff_vp56_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-#endif
 };

@@ -214,12 +214,7 @@ static void dec_bark_env(TwinVQContext *tctx, const uint8_t *in, int use_hist,
     const TwinVQModeTab *mtab = tctx->mtab;
     int i, j;
     float *hist     = tctx->bark_hist[ftype][ch];
-#ifdef IDE_COMPILE
-    const float tmp1[] = { 0.4, 0.35, 0.28 };
-	float val = (tmp1)[ftype];
-#else
 	float val       = ((const float []) { 0.4, 0.35, 0.28 })[ftype];
-#endif
 	int bark_n_coef = mtab->fmode[ftype].bark_n_coef;
     int fw_cb_len   = mtab->fmode[ftype].bark_env_size / bark_n_coef;
     int idx         = 0;
@@ -417,24 +412,7 @@ static av_cold int twinvq_decode_init(AVCodecContext *avctx)
     return ff_twinvq_decode_init(avctx);
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_twinvq_decoder = {
-#ifdef IDE_COMPILE
-    "twinvq",
-    "VQF TwinVQ",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_TWINVQ,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp2,
-    0, 0, 0, 0, sizeof(TwinVQContext),
-    0, 0, 0, 0, 0, twinvq_decode_init,
-    0, 0, ff_twinvq_decode_frame,
-    ff_twinvq_decode_close,
-#else
 	.name           = "twinvq",
     .long_name      = NULL_IF_CONFIG_SMALL("VQF TwinVQ"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -446,5 +424,4 @@ AVCodec ff_twinvq_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };

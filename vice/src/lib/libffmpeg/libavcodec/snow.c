@@ -25,11 +25,7 @@
 #include "me_cmp.h"
 #include "snow_dwt.h"
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#else
 #include "internal.h"
-#endif
 
 #include "snow.h"
 #include "snowdata.h"

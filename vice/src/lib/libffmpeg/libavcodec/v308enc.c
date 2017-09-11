@@ -82,21 +82,7 @@ static av_cold int v308_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV444P, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_v308_encoder = {
-#ifdef IDE_COMPILE
-    "v308",
-    "Uncompressed packed 4:4:4",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_V308,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v308_encode_init,
-    0, v308_encode_frame,
-    0, v308_encode_close,
-#else
 	.name         = "v308",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed 4:4:4"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -105,5 +91,4 @@ AVCodec ff_v308_encoder = {
     .encode2      = v308_encode_frame,
     .close        = v308_encode_close,
     .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV444P, AV_PIX_FMT_NONE },
-#endif
 };

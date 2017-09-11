@@ -376,17 +376,6 @@ static av_cold int tscc2_decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_tscc2_decoder = {
-#ifdef IDE_COMPILE
-    "tscc2",
-    "TechSmith Screen Codec 2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_TSCC2,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(TSCC2Context),
-    0, 0, 0, 0, 0, tscc2_decode_init,
-    0, 0, tscc2_decode_frame,
-    tscc2_decode_end,
-#else
 	.name           = "tscc2",
     .long_name      = NULL_IF_CONFIG_SMALL("TechSmith Screen Codec 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -396,5 +385,4 @@ AVCodec ff_tscc2_decoder = {
     .close          = tscc2_decode_end,
     .decode         = tscc2_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

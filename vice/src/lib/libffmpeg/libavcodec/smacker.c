@@ -804,17 +804,6 @@ error:
 }
 
 AVCodec ff_smacker_decoder = {
-#ifdef IDE_COMPILE
-    "smackvid",
-    "Smacker video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SMACKVIDEO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(SmackVContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "smackvid",
     .long_name      = NULL_IF_CONFIG_SMALL("Smacker video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -824,19 +813,9 @@ AVCodec ff_smacker_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 
 AVCodec ff_smackaud_decoder = {
-#ifdef IDE_COMPILE
-    "smackaud",
-    "Smacker audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_SMACKAUDIO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, smka_decode_init,
-    0, 0, smka_decode_frame,
-#else
 	.name           = "smackaud",
     .long_name      = NULL_IF_CONFIG_SMALL("Smacker audio"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -844,5 +823,4 @@ AVCodec ff_smackaud_decoder = {
     .init           = smka_decode_init,
     .decode         = smka_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

@@ -651,39 +651,17 @@ static av_cold int dvdsub_close(AVCodecContext *avctx)
 #define OFFSET(field) offsetof(DVDSubContext, field)
 #define VD AV_OPT_FLAG_SUBTITLE_PARAM | AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "palette", "set the global palette", OFFSET(palette_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL }, 0, 0, VD },
-#else
 	{ "palette", "set the global palette", OFFSET(palette_str), AV_OPT_TYPE_STRING, { .str = NULL }, 0, 0, VD },
-#endif
 	{ NULL }
 };
 static const AVClass dvdsub_class = {
-#ifdef IDE_COMPILE
-    "dvdsubdec",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "dvdsubdec",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_dvdsub_decoder = {
-#ifdef IDE_COMPILE
-    "dvdsub",
-    "DVD subtitles",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_DVD_SUBTITLE,
-    0, 0, 0, 0, 0, 0, 0, &dvdsub_class,
-    0, sizeof(DVDSubContext),
-    0, 0, 0, 0, 0, dvdsub_init,
-    0, 0, dvdsub_decode,
-    dvdsub_close,
-#else
 	.name           = "dvdsub",
     .long_name      = NULL_IF_CONFIG_SMALL("DVD subtitles"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
@@ -693,5 +671,4 @@ AVCodec ff_dvdsub_decoder = {
     .decode         = dvdsub_decode,
     .close          = dvdsub_close,
     .priv_class     = &dvdsub_class,
-#endif
 };

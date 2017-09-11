@@ -34,11 +34,6 @@ static int parse(AVCodecParserContext *s,
 }
 
 AVCodecParser ff_vp8_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_VP8 },
-    0, 0, parse,
-#else
 	.codec_ids    = { AV_CODEC_ID_VP8 },
     .parser_parse = parse,
-#endif
 };

@@ -33,10 +33,6 @@
  * should be 4 extra bytes for v1 data and 6 extra bytes for v2 data.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 
 #include "avcodec.h"
@@ -930,13 +926,9 @@ static int wma_decode_superframe(AVCodecContext *avctx, void *data,
         samples_offset += s->frame_len;
     }
 
-#ifdef IDE_COMPILE
-    av_log(s->avctx, 48, "%d %d %d %d outbytes:%""td"" eaten:%d\n", s->frame_len_bits, s->block_len_bits, s->frame_len, s->block_len, (int8_t *) samples - (int8_t *) data, avctx->block_align);
-#else
 	av_dlog(s->avctx, "%d %d %d %d outbytes:%"PTRDIFF_SPECIFIER" eaten:%d\n",
             s->frame_len_bits, s->block_len_bits, s->frame_len, s->block_len,
             (int8_t *) samples - (int8_t *) data, avctx->block_align);
-#endif
 
     *got_frame_ptr = 1;
 
@@ -958,25 +950,7 @@ static av_cold void flush(AVCodecContext *avctx)
 
 #if CONFIG_WMAV1_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_wmav1_decoder = {
-#ifdef IDE_COMPILE
-    "wmav1",
-    "Windows Media Audio 1",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_WMAV1,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(WMACodecContext),
-    0, 0, 0, 0, 0, wma_decode_init,
-    0, 0, wma_decode_superframe,
-    ff_wma_end,
-    flush,
-#else
 	.name           = "wmav1",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio 1"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -989,31 +963,12 @@ AVCodec ff_wmav1_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_WMAV2_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_wmav2_decoder = {
-#ifdef IDE_COMPILE
-    "wmav2",
-    "Windows Media Audio 2",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_WMAV2,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp2,
-    0, 0, 0, 0, sizeof(WMACodecContext),
-    0, 0, 0, 0, 0, wma_decode_init,
-    0, 0, wma_decode_superframe,
-    ff_wma_end,
-    flush,
-#else
 	.name           = "wmav2",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio 2"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1026,6 +981,5 @@ AVCodec ff_wmav2_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif

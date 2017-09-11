@@ -74,19 +74,10 @@ static int subviewer_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_subviewer_decoder = {
-#ifdef IDE_COMPILE
-    "subviewer",
-    "SubViewer subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_SUBVIEWER,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ff_ass_subtitle_header_default,
-    0, 0, subviewer_decode_frame,
-#else
 	.name           = "subviewer",
     .long_name      = NULL_IF_CONFIG_SMALL("SubViewer subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
     .id             = AV_CODEC_ID_SUBVIEWER,
     .decode         = subviewer_decode_frame,
     .init           = ff_ass_subtitle_header_default,
-#endif
 };

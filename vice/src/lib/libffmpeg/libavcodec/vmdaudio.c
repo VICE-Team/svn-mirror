@@ -224,16 +224,6 @@ static int vmdaudio_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_vmdaudio_decoder = {
-#ifdef IDE_COMPILE
-    "vmdaudio",
-    "Sierra VMD audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_VMDAUDIO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VmdAudioContext),
-    0, 0, 0, 0, 0, vmdaudio_decode_init,
-    0, 0, vmdaudio_decode_frame,
-#else
 	.name           = "vmdaudio",
     .long_name      = NULL_IF_CONFIG_SMALL("Sierra VMD audio"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -242,5 +232,4 @@ AVCodec ff_vmdaudio_decoder = {
     .init           = vmdaudio_decode_init,
     .decode         = vmdaudio_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

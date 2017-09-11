@@ -24,10 +24,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
 
@@ -1317,26 +1313,7 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_S32P,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_wmalossless_decoder = {
-#ifdef IDE_COMPILE
-    "wmalossless",
-    "Windows Media Audio Lossless",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_WMALOSSLESS,
-    CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(WmallDecodeCtx),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_packet,
-    decode_close,
-    flush,
-#else
 	.name           = "wmalossless",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio Lossless"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1350,5 +1327,4 @@ AVCodec ff_wmalossless_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_S32P,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };

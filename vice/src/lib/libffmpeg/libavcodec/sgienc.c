@@ -212,27 +212,7 @@ static av_cold int encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_RGB24, AV_PIX_FMT_RGBA,
-        AV_PIX_FMT_RGB48LE, AV_PIX_FMT_RGB48BE,
-        AV_PIX_FMT_RGBA64LE, AV_PIX_FMT_RGBA64BE,
-        AV_PIX_FMT_GRAY16LE, AV_PIX_FMT_GRAY16BE, AV_PIX_FMT_GRAY8,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_sgi_encoder = {
-#ifdef IDE_COMPILE
-    "sgi",
-    "SGI image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SGI,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_close,
-#else
 	.name      = "sgi",
     .long_name = NULL_IF_CONFIG_SMALL("SGI image"),
     .type      = AVMEDIA_TYPE_VIDEO,
@@ -247,5 +227,4 @@ AVCodec ff_sgi_encoder = {
         AV_PIX_FMT_GRAY16LE, AV_PIX_FMT_GRAY16BE, AV_PIX_FMT_GRAY8,
         AV_PIX_FMT_NONE
     },
-#endif
 };

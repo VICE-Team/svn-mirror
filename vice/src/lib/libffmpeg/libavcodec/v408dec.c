@@ -81,15 +81,6 @@ static int v408_decode_frame(AVCodecContext *avctx, void *data,
 
 #if CONFIG_AYUV_DECODER
 AVCodec ff_ayuv_decoder = {
-#ifdef IDE_COMPILE
-    "ayuv",
-    "Uncompressed packed MS 4:4:4:4",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_AYUV,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v408_decode_init,
-    0, 0, v408_decode_frame,
-#else
 	.name         = "ayuv",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed MS 4:4:4:4"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -97,21 +88,11 @@ AVCodec ff_ayuv_decoder = {
     .init         = v408_decode_init,
     .decode       = v408_decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };
 #endif
 
 #if CONFIG_V408_DECODER
 AVCodec ff_v408_decoder = {
-#ifdef IDE_COMPILE
-    "v408",
-    "Uncompressed packed QT 4:4:4:4",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_V408,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v408_decode_init,
-    0, 0, v408_decode_frame,
-#else
 	.name         = "v408",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed QT 4:4:4:4"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -119,6 +100,5 @@ AVCodec ff_v408_decoder = {
     .init         = v408_decode_init,
     .decode       = v408_decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };
 #endif

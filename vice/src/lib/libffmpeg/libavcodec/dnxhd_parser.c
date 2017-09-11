@@ -109,15 +109,8 @@ static int dnxhd_parse(AVCodecParserContext *s,
 }
 
 AVCodecParser ff_dnxhd_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_DNXHD },
-    sizeof(DNXHDParserContext),
-    0, dnxhd_parse,
-    ff_parse_close,
-#else
 	.codec_ids      = { AV_CODEC_ID_DNXHD },
     .priv_data_size = sizeof(DNXHDParserContext),
     .parser_parse   = dnxhd_parse,
     .parser_close   = ff_parse_close,
-#endif
 };

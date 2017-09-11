@@ -142,18 +142,6 @@ static void webvtt_end_cb(void *priv)
 }
 
 static const ASSCodesCallbacks webvtt_callbacks = {
-#ifdef IDE_COMPILE
-    webvtt_text_cb,
-    webvtt_new_line_cb,
-    webvtt_style_cb,
-    NULL,
-    0, NULL,
-    NULL,
-    NULL,
-    webvtt_cancel_overrides_cb,
-    NULL,
-    0, webvtt_end_cb,
-#else
 	.text             = webvtt_text_cb,
     .new_line         = webvtt_new_line_cb,
     .style            = webvtt_style_cb,
@@ -164,7 +152,6 @@ static const ASSCodesCallbacks webvtt_callbacks = {
     .cancel_overrides = webvtt_cancel_overrides_cb,
     .move             = NULL,
     .end              = webvtt_end_cb,
-#endif
 };
 
 static int webvtt_encode_frame(AVCodecContext *avctx,
@@ -221,16 +208,6 @@ static av_cold int webvtt_encode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_webvtt_encoder = {
-#ifdef IDE_COMPILE
-    "webvtt",
-    "WebVTT subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_WEBVTT,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(WebVTTContext),
-    0, 0, 0, 0, 0, webvtt_encode_init,
-    webvtt_encode_frame,
-    0, 0, webvtt_encode_close,
-#else
 	.name           = "webvtt",
     .long_name      = NULL_IF_CONFIG_SMALL("WebVTT subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
@@ -239,5 +216,4 @@ AVCodec ff_webvtt_encoder = {
     .init           = webvtt_encode_init,
     .encode_sub     = webvtt_encode_frame,
     .close          = webvtt_encode_close,
-#endif
 };

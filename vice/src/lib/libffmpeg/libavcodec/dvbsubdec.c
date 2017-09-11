@@ -19,14 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include <assert.h>
-#endif
-
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "bytestream.h"
@@ -782,12 +774,6 @@ static void save_subtitle_set(AVCodecContext *avctx, AVSubtitle *sub, int *got_o
     uint32_t *clut_table;
     int i;
     int offset_x=0, offset_y=0;
-#ifdef IDE_COMPILE
-	AVRational tbq;
-	
-	tbq.num = 1;
-	tbq.den = AV_TIME_BASE;
-#endif
 
     if (display_def) {
         offset_x = display_def->x;
@@ -809,15 +795,7 @@ static void save_subtitle_set(AVCodecContext *avctx, AVSubtitle *sub, int *got_o
         sub->end_display_time = ctx->time_out * 1000;
         *got_output = 1;
     } else if (ctx->prev_start != AV_NOPTS_VALUE) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-
-		tmp.num = 1;
-		tmp.den = 1000;
-		sub->end_display_time = av_rescale_q((sub->pts - ctx->prev_start ), tbq, tmp) - 1;
-#else
 		sub->end_display_time = av_rescale_q((sub->pts - ctx->prev_start ), AV_TIME_BASE_Q, (AVRational){ 1, 1000 }) - 1;
-#endif
 		*got_output = 1;
     }
     if (sub->num_rects > 0) {
@@ -1608,39 +1586,17 @@ end:
 
 #define DS AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_SUBTITLE_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"compute_edt", "compute end of time using pts or timeout", offsetof(DVBSubContext, compute_edt), FF_OPT_TYPE_INT, {0}, 0, 1, DS},
-#else
 	{"compute_edt", "compute end of time using pts or timeout", offsetof(DVBSubContext, compute_edt), FF_OPT_TYPE_INT, {.i64 = 0}, 0, 1, DS},
-#endif
 	{NULL}
 };
 static const AVClass dvbsubdec_class = {
-#ifdef IDE_COMPILE
-    "DVB Sub Decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "DVB Sub Decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_dvbsub_decoder = {
-#ifdef IDE_COMPILE
-    "dvbsub",
-    "DVB subtitles",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_DVB_SUBTITLE,
-    0, 0, 0, 0, 0, 0, 0, &dvbsubdec_class,
-    0, sizeof(DVBSubContext),
-    0, 0, 0, 0, 0, dvbsub_init_decoder,
-    0, 0, dvbsub_decode,
-    dvbsub_close_decoder,
-#else
 	.name           = "dvbsub",
     .long_name      = NULL_IF_CONFIG_SMALL("DVB subtitles"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
@@ -1650,5 +1606,4 @@ AVCodec ff_dvbsub_decoder = {
     .close          = dvbsub_close_decoder,
     .decode         = dvbsub_decode,
     .priv_class     = &dvbsubdec_class,
-#endif
 };

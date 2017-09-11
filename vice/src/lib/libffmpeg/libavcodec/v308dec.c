@@ -73,15 +73,6 @@ static int v308_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_v308_decoder = {
-#ifdef IDE_COMPILE
-    "v308",
-    "Uncompressed packed 4:4:4",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_V308,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v308_decode_init,
-    0, 0, v308_decode_frame,
-#else
 	.name         = "v308",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed 4:4:4"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -89,5 +80,4 @@ AVCodec ff_v308_decoder = {
     .init         = v308_decode_init,
     .decode       = v308_decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };

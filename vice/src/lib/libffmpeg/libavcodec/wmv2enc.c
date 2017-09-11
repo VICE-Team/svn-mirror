@@ -222,23 +222,7 @@ void ff_wmv2_encode_mb(MpegEncContext *s, int16_t block[6][64],
         s->p_tex_bits += get_bits_diff(s);
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = { AV_PIX_FMT_YUV420P,
-                                                     AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_wmv2_encoder = {
-#ifdef IDE_COMPILE
-    "wmv2",
-    "Windows Media Video 8",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_WMV2,
-    0, 0, tmp0,
-    0, 0, 0, 0, 0, 0, sizeof(Wmv2Context),
-    0, 0, 0, 0, 0, wmv2_encode_init,
-    0, ff_mpv_encode_picture,
-    0, ff_mpv_encode_end,
-#else
 	.name           = "wmv2",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 8"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -249,5 +233,4 @@ AVCodec ff_wmv2_encoder = {
     .close          = ff_mpv_encode_end,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                      AV_PIX_FMT_NONE },
-#endif
 };

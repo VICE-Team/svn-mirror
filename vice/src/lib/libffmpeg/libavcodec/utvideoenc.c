@@ -633,26 +633,7 @@ static int utvideo_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-                          AV_PIX_FMT_RGB24, AV_PIX_FMT_RGBA, AV_PIX_FMT_YUV422P,
-                          AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE
-                      };
-#endif
-
 AVCodec ff_utvideo_encoder = {
-#ifdef IDE_COMPILE
-    "utvideo",
-    "Ut Video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_UTVIDEO,
-    CODEC_CAP_FRAME_THREADS | CODEC_CAP_INTRA_ONLY,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(UtvideoContext),
-    0, 0, 0, 0, 0, utvideo_encode_init,
-    0, utvideo_encode_frame,
-    0, utvideo_encode_close,
-#else
 	.name           = "utvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("Ut Video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -666,5 +647,4 @@ AVCodec ff_utvideo_encoder = {
                           AV_PIX_FMT_RGB24, AV_PIX_FMT_RGBA, AV_PIX_FMT_YUV422P,
                           AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE
                       },
-#endif
 };

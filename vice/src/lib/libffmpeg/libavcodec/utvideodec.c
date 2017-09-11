@@ -27,10 +27,6 @@
 #include <inttypes.h>
 #include <stdlib.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
 #include "bswapdsp.h"
@@ -337,11 +333,7 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
     int plane_size, max_slice_size = 0, slice_start, slice_end, slice_size;
     int ret;
     GetByteContext gb;
-#ifdef IDE_COMPILE
-    ThreadFrame frame = { data };
-#else
 	ThreadFrame frame = { .f = data };
-#endif
 
     if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
         return ret;
@@ -554,17 +546,6 @@ static av_cold int decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_utvideo_decoder = {
-#ifdef IDE_COMPILE
-    "utvideo",
-    "Ut Video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_UTVIDEO,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(UtvideoContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "utvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("Ut Video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -574,5 +555,4 @@ AVCodec ff_utvideo_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-#endif
 };

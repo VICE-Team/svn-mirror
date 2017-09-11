@@ -33,10 +33,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/imgutils.h"
 
 #include "avcodec.h"
@@ -2505,20 +2501,6 @@ static av_cold int theora_decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_theora_decoder = {
-#ifdef IDE_COMPILE
-    "theora",
-    "Theora",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_THEORA,
-    CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(Vp3DecodeContext),
-    0, vp3_init_thread_copy,
-    vp3_update_thread_context,
-    0, 0, theora_decode_init,
-    0, 0, vp3_decode_frame,
-    vp3_decode_end,
-    vp3_decode_flush
-#else
 	.name                  = "theora",
     .long_name             = NULL_IF_CONFIG_SMALL("Theora"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -2532,25 +2514,10 @@ AVCodec ff_theora_decoder = {
     .flush                 = vp3_decode_flush,
     .init_thread_copy      = ONLY_IF_THREADS_ENABLED(vp3_init_thread_copy),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(vp3_update_thread_context)
-#endif
 };
 #endif
 
 AVCodec ff_vp3_decoder = {
-#ifdef IDE_COMPILE
-    "vp3",
-    "On2 VP3",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP3,
-    CODEC_CAP_DR1 | CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(Vp3DecodeContext),
-    0, vp3_init_thread_copy,
-    vp3_update_thread_context,
-    0, 0, vp3_decode_init,
-    0, 0, vp3_decode_frame,
-    vp3_decode_end,
-    vp3_decode_flush,
-#else
 	.name                  = "vp3",
     .long_name             = NULL_IF_CONFIG_SMALL("On2 VP3"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -2564,5 +2531,4 @@ AVCodec ff_vp3_decoder = {
     .flush                 = vp3_decode_flush,
     .init_thread_copy      = ONLY_IF_THREADS_ENABLED(vp3_init_thread_copy),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(vp3_update_thread_context),
-#endif
 };

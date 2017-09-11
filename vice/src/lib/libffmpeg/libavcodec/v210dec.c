@@ -164,12 +164,8 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 
 #define V210DEC_FLAGS AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_VIDEO_PARAM
 static const AVOption v210dec_options[] = {
-#ifdef IDE_COMPILE
-	{"custom_stride", "Custom V210 stride", offsetof(V210DecContext, custom_stride), FF_OPT_TYPE_INT, {0}, INT_MIN, INT_MAX, V210DEC_FLAGS},
-#else
 	{"custom_stride", "Custom V210 stride", offsetof(V210DecContext, custom_stride), FF_OPT_TYPE_INT,
      {.i64 = 0}, INT_MIN, INT_MAX, V210DEC_FLAGS},
-#endif
 	{NULL}
 };
 
@@ -181,17 +177,6 @@ static const AVClass v210dec_class = {
 };
 
 AVCodec ff_v210_decoder = {
-#ifdef IDE_COMPILE
-    "v210",
-    "Uncompressed 4:2:2 10-bit",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_V210,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, &v210dec_class,
-    0, sizeof(V210DecContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "v210",
     .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -201,5 +186,4 @@ AVCodec ff_v210_decoder = {
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .priv_class     = &v210dec_class,
-#endif
 };

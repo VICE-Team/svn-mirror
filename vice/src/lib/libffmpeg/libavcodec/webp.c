@@ -604,11 +604,7 @@ static int decode_entropy_coded_image(WebPContext *s, enum ImageRole role,
     img->frame->height = h;
 
     if (role == IMAGE_ROLE_ARGB && !img->is_alpha_primary) {
-#ifdef IDE_COMPILE
-        ThreadFrame pt = { img->frame };
-#else
 		ThreadFrame pt = { .f = img->frame };
-#endif
 		ret = ff_thread_get_buffer(s->avctx, &pt, 0);
     } else
         ret = av_frame_get_buffer(img->frame, 1);
@@ -1506,16 +1502,6 @@ static av_cold int webp_decode_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_webp_decoder = {
-#ifdef IDE_COMPILE
-    "webp",
-    "WebP image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_WEBP,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(WebPContext),
-    0, 0, 0, 0, 0, 0, 0, 0, webp_decode_frame,
-    webp_decode_close,
-#else
 	.name           = "webp",
     .long_name      = NULL_IF_CONFIG_SMALL("WebP image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1524,5 +1510,4 @@ AVCodec ff_webp_decoder = {
     .decode         = webp_decode_frame,
     .close          = webp_decode_close,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-#endif
 };

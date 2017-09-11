@@ -52,12 +52,7 @@
 #ifndef AVCODEC_AMRWBDEC_MIPS_H
 #define AVCODEC_AMRWBDEC_MIPS_H
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #if HAVE_MIPSFPU && HAVE_INLINE_ASM
 void hb_fir_filter_mips(float *out, const float fir_coef[],

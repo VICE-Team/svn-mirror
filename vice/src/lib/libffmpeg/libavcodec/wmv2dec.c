@@ -480,24 +480,7 @@ static av_cold int wmv2_decode_end(AVCodecContext *avctx)
     return ff_h263_decode_end(avctx);
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = { AV_PIX_FMT_YUV420P,
-                                                     AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_wmv2_decoder = {
-#ifdef IDE_COMPILE
-    "wmv2",
-    "Windows Media Video 8",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_WMV2,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    0, tmp0,
-    0, 0, 0, 0, 0, 0, sizeof(Wmv2Context),
-    0, 0, 0, 0, 0, wmv2_decode_init,
-    0, 0, ff_h263_decode_frame,
-    wmv2_decode_end,
-#else
 	.name           = "wmv2",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 8"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -509,5 +492,4 @@ AVCodec ff_wmv2_decoder = {
     .capabilities   = CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                      AV_PIX_FMT_NONE },
-#endif
 };

@@ -119,21 +119,9 @@ static int sami_decode_frame(AVCodecContext *avctx,
     SAMIContext *sami = avctx->priv_data;
 
     if (ptr && avpkt->size > 0 && !sami_paragraph_to_ass(avctx, ptr)) {
-#ifdef IDE_COMPILE
-        AVRational tmp;
-		int ts_start;
-        int ts_duration;
-
-		tmp.num = 1;
-		tmp.den = 100;
-		ts_start = av_rescale_q(avpkt->pts, avctx->time_base, tmp);
-        ts_duration  = avpkt->duration != -1 ?
-                           av_rescale_q(avpkt->duration, avctx->time_base, tmp) : -1;
-#else
 		int ts_start     = av_rescale_q(avpkt->pts, avctx->time_base, (AVRational){1,100});
         int ts_duration  = avpkt->duration != -1 ?
                            av_rescale_q(avpkt->duration, avctx->time_base, (AVRational){1,100}) : -1;
-#endif
 		ff_ass_add_rect(sub, sami->full.str, ts_start, ts_duration, 0);
     }
     *got_sub_ptr = sub->num_rects > 0;
@@ -159,16 +147,6 @@ static av_cold int sami_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_sami_decoder = {
-#ifdef IDE_COMPILE
-    "sami",
-    "SAMI subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_SAMI,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(SAMIContext),
-    0, 0, 0, 0, 0, sami_init,
-    0, 0, sami_decode_frame,
-    sami_close,
-#else
 	.name           = "sami",
     .long_name      = NULL_IF_CONFIG_SMALL("SAMI subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
@@ -177,5 +155,4 @@ AVCodec ff_sami_decoder = {
     .init           = sami_init,
     .close          = sami_close,
     .decode         = sami_decode_frame,
-#endif
 };

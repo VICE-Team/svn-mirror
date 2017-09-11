@@ -307,22 +307,6 @@ static const int16_t vp9_ac_qlookup[256] = {
 };
 
 static const enum TxfmType vp9_intra_txfm_type[14] = {
-#ifdef IDE_COMPILE
-    ADST_DCT,
-    DCT_ADST,
-    DCT_DCT,
-    DCT_DCT,
-    ADST_ADST,
-    ADST_DCT,
-    DCT_ADST,
-    ADST_DCT,
-    DCT_ADST,
-    ADST_ADST,
-    DCT_DCT,
-    DCT_DCT,
-    DCT_DCT,
-    DCT_DCT,
-#else
 	[VERT_PRED]            = ADST_DCT,
     [HOR_PRED]             = DCT_ADST,
     [DC_PRED]              = DCT_DCT,
@@ -337,7 +321,6 @@ static const enum TxfmType vp9_intra_txfm_type[14] = {
     [NEARMV]               = DCT_DCT,
     [ZEROMV]               = DCT_DCT,
     [NEWMV]                = DCT_DCT,
-#endif
 };
 
 static const int16_t vp9_default_scan_4x4[16] = {

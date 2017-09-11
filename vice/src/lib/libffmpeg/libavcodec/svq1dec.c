@@ -830,25 +830,7 @@ static void svq1_flush(AVCodecContext *avctx)
     av_frame_unref(s->prev);
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV410P,
-                                                     AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_svq1_decoder = {
-#ifdef IDE_COMPILE
-    "svq1",
-    "Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SVQ1,
-    CODEC_CAP_DR1,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(SVQ1Context),
-    0, 0, 0, 0, 0, svq1_decode_init,
-    0, 0, svq1_decode_frame,
-    svq1_decode_end,
-    svq1_flush,
-#else
 	.name           = "svq1",
     .long_name      = NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -861,5 +843,4 @@ AVCodec ff_svq1_decoder = {
     .flush          = svq1_flush,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV410P,
                                                      AV_PIX_FMT_NONE },
-#endif
 };

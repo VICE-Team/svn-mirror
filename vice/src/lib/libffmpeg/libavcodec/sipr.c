@@ -67,71 +67,6 @@ typedef struct {
 } SiprModeParam;
 
 static const SiprModeParam modes[MODE_COUNT] = {
-#ifdef IDE_COMPILE
-    {
-        "16k",
-        160,
-        2,
-        1,
-        0.00,
-
-        10,
-        1,
-        {7, 8, 7, 7, 7},
-        {9, 6},
-        4,
-        {4, 5, 4, 5, 4, 5, 4, 5, 4, 5},
-        5
-    },
-
-    {
-        "8k5",
-        152,
-        3,
-        1,
-        0.8,
-
-        3,
-        0,
-        {6, 7, 7, 7, 5},
-        {8, 5, 5},
-        0,
-        {9, 9, 9},
-        7
-    },
-
-    {
-        "6k5",
-        232,
-        3,
-        2,
-        0.8,
-
-        3,
-        0,
-        {6, 7, 7, 7, 5},
-        {8, 5, 5},
-        0,
-        {5, 5, 5},
-        7
-    },
-
-    {
-        "5k0",
-        296,
-        5,
-        2,
-        0.85,
-
-        1,
-        0,
-        {6, 7, 7, 7, 5},
-        {8, 5, 8, 5, 5},
-        0,
-        {10},
-        7
-    }
-#else
 	[MODE_16k] = {
         .mode_name          = "16k",
         .bits_per_frame     = 160,
@@ -195,7 +130,6 @@ static const SiprModeParam modes[MODE_COUNT] = {
         .fc_index_bits        = {10},
         .gc_index_bits        = 7
     }
-#endif
 };
 
 const float ff_pow_0_5[] = {
@@ -535,26 +469,12 @@ static void decode_frame(SiprContext *ctx, SiprParameters *params,
     memmove(ctx->excitation, excitation - PITCH_DELAY_MAX - L_INTERPOL,
            (PITCH_DELAY_MAX + L_INTERPOL) * sizeof(float));
 
-#ifdef IDE_COMPILE
-    {
-		const float tmp1[2] = {-1.99997 , 1.000000000};
-		const float tmp2[2] = {-1.93307352, 0.935891986};
-
-		ff_acelp_apply_order_2_transfer_function(out_data, synth,
-                                             tmp1,
-                                             tmp2,
-                                             0.939805806,
-                                             ctx->highpass_filt_mem,
-                                             frame_size);
-	}
-#else
 	ff_acelp_apply_order_2_transfer_function(out_data, synth,
                                              (const float[2]) {-1.99997   , 1.000000000},
                                              (const float[2]) {-1.93307352, 0.935891986},
                                              0.939805806,
                                              ctx->highpass_filt_mem,
                                              frame_size);
-#endif
 }
 
 static av_cold int sipr_decoder_init(AVCodecContext * avctx)
@@ -643,16 +563,6 @@ static int sipr_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_sipr_decoder = {
-#ifdef IDE_COMPILE
-    "sipr",
-    "RealAudio SIPR / ACELP.NET",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_SIPR,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(SiprContext),
-    0, 0, 0, 0, 0, sipr_decoder_init,
-    0, 0, sipr_decode_frame,
-#else
 	.name           = "sipr",
     .long_name      = NULL_IF_CONFIG_SMALL("RealAudio SIPR / ACELP.NET"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -661,5 +571,4 @@ AVCodec ff_sipr_decoder = {
     .init           = sipr_decoder_init,
     .decode         = sipr_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

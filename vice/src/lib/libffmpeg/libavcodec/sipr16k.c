@@ -23,10 +23,6 @@
 
 #include <math.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #include "sipr.h"
 #include "libavutil/attributes.h"
 #include "libavutil/common.h"

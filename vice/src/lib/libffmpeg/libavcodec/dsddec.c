@@ -151,19 +151,6 @@ static int decode_frame(AVCodecContext *avctx, void *data,
 
 static const enum AVSampleFormat tmp0[] = { AV_SAMPLE_FMT_FLTP, AV_SAMPLE_FMT_NONE }; \
 
-#ifdef IDE_COMPILE
-#define DSD_DECODER(id_, name_, long_name_) \
-AVCodec ff_##name_##_decoder = { \
-    #name_, \
-    long_name_, \
-    AVMEDIA_TYPE_AUDIO, \
-    AV_CODEC_ID_##id_, \
-    0, 0, 0, 0, tmp0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
-    decode_init, \
-    0, 0, \
-    decode_frame, \
-};
-#else
 #define DSD_DECODER(id_, name_, long_name_) \
 AVCodec ff_##name_##_decoder = { \
     .name         = #name_, \
@@ -175,7 +162,6 @@ AVCodec ff_##name_##_decoder = { \
     .sample_fmts  = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLTP, \
                                                    AV_SAMPLE_FMT_NONE }, \
 };
-#endif
 
 DSD_DECODER(DSD_LSBF, dsd_lsbf, "DSD (Direct Stream Digital), least significant bit first")
 DSD_DECODER(DSD_MSBF, dsd_msbf, "DSD (Direct Stream Digital), most significant bit first")

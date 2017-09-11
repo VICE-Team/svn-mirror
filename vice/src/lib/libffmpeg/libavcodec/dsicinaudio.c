@@ -122,16 +122,6 @@ static int cinaudio_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_dsicinaudio_decoder = {
-#ifdef IDE_COMPILE
-    "dsicinaudio",
-    "Delphine Software International CIN audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_DSICINAUDIO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(CinAudioContext),
-    0, 0, 0, 0, 0, cinaudio_decode_init,
-    0, 0, cinaudio_decode_frame,
-#else
 	.name           = "dsicinaudio",
     .long_name      = NULL_IF_CONFIG_SMALL("Delphine Software International CIN audio"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -140,5 +130,4 @@ AVCodec ff_dsicinaudio_decoder = {
     .init           = cinaudio_decode_init,
     .decode         = cinaudio_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

@@ -24,13 +24,7 @@
  * @author Konstantin Shishkov
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#include "libavutil/internal.h"
-#else
 #include "config.h"
-#endif
 
 #if CONFIG_ZLIB
 #include <zconf.h>
@@ -1175,11 +1169,7 @@ static int decode_frame(AVCodecContext *avctx,
 {
     TiffContext *const s = avctx->priv_data;
     AVFrame *const p = data;
-#ifdef IDE_COMPILE
-    ThreadFrame frame = { data };
-#else
 	ThreadFrame frame = { .f = data };
-#endif
 	unsigned off;
     int le, ret, plane, planes;
     int i, j, entries, stride;
@@ -1379,18 +1369,6 @@ static av_cold int tiff_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_tiff_decoder = {
-#ifdef IDE_COMPILE
-    "tiff",
-    "TIFF image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_TIFF,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(TiffContext),
-    0, tiff_init,
-    0, 0, 0, tiff_init,
-    0, 0, decode_frame,
-    tiff_end,
-#else
 	.name           = "tiff",
     .long_name      = NULL_IF_CONFIG_SMALL("TIFF image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1401,5 +1379,4 @@ AVCodec ff_tiff_decoder = {
     .decode         = decode_frame,
     .init_thread_copy = ONLY_IF_THREADS_ENABLED(tiff_init),
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-#endif
 };

@@ -674,11 +674,7 @@ static int tak_decode_frame(AVCodecContext *avctx, void *data,
 {
     TAKDecContext *s  = avctx->priv_data;
     AVFrame *frame    = data;
-#ifdef IDE_COMPILE
-    ThreadFrame tframe = { data };
-#else
 	ThreadFrame tframe = { .f = data };
-#endif
 	GetBitContext *gb = &s->gb;
     int chan, i, ret, hsize;
 
@@ -934,28 +930,7 @@ static av_cold int tak_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_U8P,
-                                                        AV_SAMPLE_FMT_S16P,
-                                                        AV_SAMPLE_FMT_S32P,
-                                                        AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_tak_decoder = {
-#ifdef IDE_COMPILE
-    "tak",
-    "TAK (Tom's lossless Audio Kompressor)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_TAK,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(TAKDecContext),
-    0, init_thread_copy,
-    update_thread_context,
-    0, 0, tak_decode_init,
-    0, 0, tak_decode_frame,
-    tak_decode_close,
-#else
 	.name             = "tak",
     .long_name        = NULL_IF_CONFIG_SMALL("TAK (Tom's lossless Audio Kompressor)"),
     .type             = AVMEDIA_TYPE_AUDIO,
@@ -971,5 +946,4 @@ AVCodec ff_tak_decoder = {
                                                         AV_SAMPLE_FMT_S16P,
                                                         AV_SAMPLE_FMT_S32P,
                                                         AV_SAMPLE_FMT_NONE },
-#endif
 };

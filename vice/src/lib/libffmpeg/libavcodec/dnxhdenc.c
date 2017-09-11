@@ -44,27 +44,16 @@
 
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "nitris_compat", "encode with Avid Nitris compatibility", offsetof(DNXHDEncContext, nitris_compat), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
-#else
 	{ "nitris_compat", "encode with Avid Nitris compatibility",
         offsetof(DNXHDEncContext, nitris_compat), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
-#endif
 	{ NULL }
 };
 
 static const AVClass dnxhd_class = {
-#ifdef IDE_COMPILE
-    "dnxhd",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "dnxhd",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static void dnxhd_8bit_get_pixels_8x4_sym(int16_t *av_restrict block,
@@ -625,12 +614,7 @@ static int dnxhd_calc_bits_thread(AVCodecContext *avctx, void *arg,
     int mb_y = jobnr, mb_x;
     int qscale = ctx->qscale;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_16(int16_t, block, [64]);
-#else
-	uint8_t la_block[sizeof(int16_t [64] ) + (16)];
-	int16_t (*block) = (void *)((((uintptr_t)la_block)+(16)-1)&~((16)-1));
-#endif
 
 	ctx = ctx->thread[threadnr];
 
@@ -1157,29 +1141,7 @@ static const AVCodecDefault dnxhd_defaults[] = {
     { NULL },
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_YUV422P,
-        AV_PIX_FMT_YUV422P10LE,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_dnxhd_encoder = {
-#ifdef IDE_COMPILE
-    "dnxhd",
-    "VC3/DNxHD",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DNXHD,
-    CODEC_CAP_SLICE_THREADS,
-    0, tmp1,
-    0, 0, 0, 0, &dnxhd_class,
-    0, sizeof(DNXHDEncContext),
-    0, 0, 0, dnxhd_defaults,
-    0, dnxhd_encode_init,
-    0, dnxhd_encode_picture,
-    0, dnxhd_encode_end,
-#else
 	.name           = "dnxhd",
     .long_name      = NULL_IF_CONFIG_SMALL("VC3/DNxHD"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1196,5 +1158,4 @@ AVCodec ff_dnxhd_encoder = {
     },
     .priv_class     = &dnxhd_class,
     .defaults       = dnxhd_defaults,
-#endif
 };

@@ -24,12 +24,7 @@
 #include "avcodec.h"
 #include "get_bits.h"
 
-#ifdef IDE_COMPILE
-#include "libavcodec/internal.h"
-#include "libavutil/internal.h"
-#else
 #include "internal.h"
-#endif
 
 #include "thread.h"
 #include "videodsp.h"
@@ -962,34 +957,6 @@ static void find_ref_mvs(VP9Context *s,
                          VP56mv *pmv, int ref, int z, int idx, int sb)
 {
     static const int8_t mv_ref_blk_off[N_BS_SIZES][8][2] = {
-#ifdef IDE_COMPILE
-        {{ 3, -1 }, { -1, 3 }, { 4, -1 }, { -1, 4 },
-                      { -1, -1 }, { 0, -1 }, { -1, 0 }, { 6, -1 }},
-        {{ 0, -1 }, { -1, 0 }, { 4, -1 }, { -1, 2 },
-                      { -1, -1 }, { 0, -3 }, { -3, 0 }, { 2, -1 }},
-        {{ -1, 0 }, { 0, -1 }, { -1, 4 }, { 2, -1 },
-                      { -1, -1 }, { -3, 0 }, { 0, -3 }, { -1, 2 }},
-        {{ 1, -1 }, { -1, 1 }, { 2, -1 }, { -1, 2 },
-                      { -1, -1 }, { 0, -3 }, { -3, 0 }, { -3, -3 }},
-        {{ 0, -1 }, { -1, 0 }, { 2, -1 }, { -1, -1 },
-                      { -1, 1 }, { 0, -3 }, { -3, 0 }, { -3, -3 }},
-        {{ -1, 0 }, { 0, -1 }, { -1, 2 }, { -1, -1 },
-                      { 1, -1 }, { -3, 0 }, { 0, -3 }, { -3, -3 }},
-        {{ 0, -1 }, { -1, 0 }, { 1, -1 }, { -1, 1 },
-                      { -1, -1 }, { 0, -3 }, { -3, 0 }, { -3, -3 }},
-        {{ 0, -1 }, { -1, 0 }, { 1, -1 }, { -1, -1 },
-                      { 0, -2 }, { -2, 0 }, { -2, -1 }, { -1, -2 }},
-        {{ -1, 0 }, { 0, -1 }, { -1, 1 }, { -1, -1 },
-                      { -2, 0 }, { 0, -2 }, { -1, -2 }, { -2, -1 }},
-        {{ 0, -1 }, { -1, 0 }, { -1, -1 }, { 0, -2 },
-                      { -2, 0 }, { -1, -2 }, { -2, -1 }, { -2, -2 }},
-        {{ 0, -1 }, { -1, 0 }, { -1, -1 }, { 0, -2 },
-                      { -2, 0 }, { -1, -2 }, { -2, -1 }, { -2, -2 }},
-        {{ 0, -1 }, { -1, 0 }, { -1, -1 }, { 0, -2 },
-                      { -2, 0 }, { -1, -2 }, { -2, -1 }, { -2, -2 }},
-        {{ 0, -1 }, { -1, 0 }, { -1, -1 }, { 0, -2 },
-                      { -2, 0 }, { -1, -2 }, { -2, -1 }, { -2, -2 }},
-#else
 		[BS_64x64] = {{  3, -1 }, { -1,  3 }, {  4, -1 }, { -1,  4 },
                       { -1, -1 }, {  0, -1 }, { -1,  0 }, {  6, -1 }},
         [BS_64x32] = {{  0, -1 }, { -1,  0 }, {  4, -1 }, { -1,  2 },
@@ -1016,7 +983,6 @@ static void find_ref_mvs(VP9Context *s,
                       { -2,  0 }, { -1, -2 }, { -2, -1 }, { -2, -2 }},
         [BS_4x4]   = {{  0, -1 }, { -1,  0 }, { -1, -1 }, {  0, -2 },
                       { -2,  0 }, { -1, -2 }, { -2, -1 }, { -2, -2 }},
-#endif
 	};
     VP9Block *b = s->b;
     int row = s->row, col = s->col, row7 = s->row7;
@@ -2357,28 +2323,6 @@ static av_always_inline int check_intra_mode(VP9Context *s, int mode, uint8_t **
     int have_left = col > s->tiling.tile_col_start || x > 0;
     int have_right = x < w - 1;
     static const uint8_t mode_conv[10][2 /* have_left */][2 /* have_top */] = {
-#ifdef IDE_COMPILE
-        { { DC_127_PRED, VERT_PRED },
-                                   { DC_127_PRED, VERT_PRED } },
-        { { DC_129_PRED, DC_129_PRED },
-                                   { HOR_PRED, HOR_PRED } },
-        { { DC_128_PRED, TOP_DC_PRED },
-                                   { LEFT_DC_PRED, DC_PRED } },
-        { { DC_127_PRED, DIAG_DOWN_LEFT_PRED },
-                                   { DC_127_PRED, DIAG_DOWN_LEFT_PRED } },
-        { { DIAG_DOWN_RIGHT_PRED, DIAG_DOWN_RIGHT_PRED },
-                                   { DIAG_DOWN_RIGHT_PRED, DIAG_DOWN_RIGHT_PRED } },
-        { { VERT_RIGHT_PRED, VERT_RIGHT_PRED },
-                                   { VERT_RIGHT_PRED, VERT_RIGHT_PRED } },
-        { { HOR_DOWN_PRED, HOR_DOWN_PRED },
-                                   { HOR_DOWN_PRED, HOR_DOWN_PRED } },
-        { { DC_127_PRED, VERT_LEFT_PRED },
-                                   { DC_127_PRED, VERT_LEFT_PRED } },
-        { { DC_129_PRED, DC_129_PRED },
-                                   { HOR_UP_PRED, HOR_UP_PRED } },
-        { { DC_129_PRED, VERT_PRED },
-                                   { HOR_PRED, TM_VP8_PRED } },
-#else
 		[VERT_PRED]            = { { DC_127_PRED,          VERT_PRED },
                                    { DC_127_PRED,          VERT_PRED } },
         [HOR_PRED]             = { { DC_129_PRED,          DC_129_PRED },
@@ -2399,7 +2343,6 @@ static av_always_inline int check_intra_mode(VP9Context *s, int mode, uint8_t **
                                    { HOR_UP_PRED,          HOR_UP_PRED } },
         [TM_VP8_PRED]          = { { DC_129_PRED,          VERT_PRED },
                                    { HOR_PRED,             TM_VP8_PRED } },
-#endif
 	};
     static const struct {
         uint8_t needs_left:1;
@@ -2407,23 +2350,6 @@ static av_always_inline int check_intra_mode(VP9Context *s, int mode, uint8_t **
         uint8_t needs_topleft:1;
         uint8_t needs_topright:1;
     } edges[N_INTRA_PRED_MODES] = {
-#ifdef IDE_COMPILE
-        { 0, 1 },
-        { 1 },
-        { 1, 1 },
-        { 0, 1, 0, 1 },
-        { 1, 1, 1 },
-        { 1, 1, 1 },
-        { 1, 1, 1 },
-        { 0, 1, 0, 1 },
-        { 1 },
-        { 1, 1, 1 },
-        { 1 },
-        { 0, 1 },
-        { 0 },
-        { 0 },
-        { 0 }
-#else
 		[VERT_PRED]            = { .needs_top  = 1 },
         [HOR_PRED]             = { .needs_left = 1 },
         [DC_PRED]              = { .needs_top  = 1, .needs_left = 1 },
@@ -2439,7 +2365,6 @@ static av_always_inline int check_intra_mode(VP9Context *s, int mode, uint8_t **
         [DC_128_PRED]          = { 0 },
         [DC_127_PRED]          = { 0 },
         [DC_129_PRED]          = { 0 }
-#endif
 	};
 
     av_assert2(mode >= 0 && mode < 10);
@@ -2536,15 +2461,8 @@ static void intra_recon(AVCodecContext *ctx, ptrdiff_t y_off, ptrdiff_t uv_off)
     int uvstep1d = 1 << b->uvtx, p;
     uint8_t *dst = s->dst[0], *dst_r = s->frames[CUR_FRAME].tf.f->data[0] + y_off;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_32(uint8_t, a_buf, [64]);
     LOCAL_ALIGNED_32(uint8_t, l, [32]);
-#else
-	uint8_t la_a_buf[sizeof(uint8_t [64] ) + (32)];
-	uint8_t (*a_buf) = (void *)((((uintptr_t)la_a_buf)+(32)-1)&~((32)-1));
-    uint8_t la_l[sizeof(uint8_t [32] ) + (32)];
-	uint8_t (*l) = (void *)((((uintptr_t)la_l)+(32)-1)&~((32)-1));
-#endif
 
     for (n = 0, y = 0; y < end_y; y += step1d) {
         uint8_t *ptr = dst, *ptr_r = dst_r;
@@ -4150,20 +4068,6 @@ static int vp9_decode_update_thread_context(AVCodecContext *dst, const AVCodecCo
 }
 
 AVCodec ff_vp9_decoder = {
-#ifdef IDE_COMPILE
-    "vp9",
-    "Google VP9",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_VP9,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(VP9Context),
-    0, vp9_decode_init_thread_copy,
-    vp9_decode_update_thread_context,
-    0, 0, vp9_decode_init,
-    0, 0, vp9_decode_frame,
-    vp9_decode_free,
-    vp9_decode_flush,
-#else
 	.name                  = "vp9",
     .long_name             = NULL_IF_CONFIG_SMALL("Google VP9"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -4176,5 +4080,4 @@ AVCodec ff_vp9_decoder = {
     .flush                 = vp9_decode_flush,
     .init_thread_copy      = ONLY_IF_THREADS_ENABLED(vp9_decode_init_thread_copy),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(vp9_decode_update_thread_context),
-#endif
 };

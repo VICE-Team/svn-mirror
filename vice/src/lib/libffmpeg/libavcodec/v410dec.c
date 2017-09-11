@@ -88,15 +88,6 @@ static int v410_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_v410_decoder = {
-#ifdef IDE_COMPILE
-    "v410",
-    "Uncompressed 4:4:4 10-bit",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_V410,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v410_decode_init,
-    0, 0, v410_decode_frame,
-#else
 	.name         = "v410",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed 4:4:4 10-bit"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -104,5 +95,4 @@ AVCodec ff_v410_decoder = {
     .init         = v410_decode_init,
     .decode       = v410_decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };

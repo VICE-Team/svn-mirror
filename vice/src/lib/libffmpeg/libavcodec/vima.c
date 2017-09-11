@@ -208,15 +208,6 @@ static int decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_adpcm_vima_decoder = {
-#ifdef IDE_COMPILE
-    "adpcm_vima",
-    "LucasArts VIMA audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_ADPCM_VIMA,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name         = "adpcm_vima",
     .long_name    = NULL_IF_CONFIG_SMALL("LucasArts VIMA audio"),
     .type         = AVMEDIA_TYPE_AUDIO,
@@ -224,19 +215,9 @@ AVCodec ff_adpcm_vima_decoder = {
     .init         = decode_init,
     .decode       = decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };
 
 AVCodec ff_vima_decoder = {
-#ifdef IDE_COMPILE
-    "vima",
-    "LucasArts VIMA audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_ADPCM_VIMA,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name         = "vima",
     .long_name    = NULL_IF_CONFIG_SMALL("LucasArts VIMA audio"),
     .type         = AVMEDIA_TYPE_AUDIO,
@@ -244,5 +225,4 @@ AVCodec ff_vima_decoder = {
     .init         = decode_init,
     .decode       = decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };

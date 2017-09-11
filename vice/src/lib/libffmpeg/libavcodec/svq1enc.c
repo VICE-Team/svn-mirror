@@ -628,23 +628,7 @@ static int svq1_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV410P,
-                                                     AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_svq1_encoder = {
-#ifdef IDE_COMPILE
-    "svq1",
-    "Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SVQ1,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(SVQ1EncContext),
-    0, 0, 0, 0, 0, svq1_encode_init,
-    0, svq1_encode_frame,
-    0, svq1_encode_end,
-#else
 	.name           = "svq1",
     .long_name      = NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -655,5 +639,4 @@ AVCodec ff_svq1_encoder = {
     .close          = svq1_encode_end,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV410P,
                                                      AV_PIX_FMT_NONE },
-#endif
 };

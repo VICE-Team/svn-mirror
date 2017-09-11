@@ -31,31 +31,17 @@
 #include "h264pred.h"
 
 static const uint8_t vp7_pred4x4_mode[] = {
-#ifdef IDE_COMPILE
-	DC_PRED,
-    TM_VP8_PRED,
-    TM_VP8_PRED,
-    TM_VP8_PRED,
-#else
 	[DC_PRED8x8]    = DC_PRED,
     [VERT_PRED8x8]  = TM_VP8_PRED,
     [HOR_PRED8x8]   = TM_VP8_PRED,
     [PLANE_PRED8x8] = TM_VP8_PRED,
-#endif
 };
 
 static const uint8_t vp8_pred4x4_mode[] = {
-#ifdef IDE_COMPILE
-	DC_PRED,
-    VERT_PRED,
-    HOR_PRED,
-    TM_VP8_PRED,
-#else
 	[DC_PRED8x8]    = DC_PRED,
     [VERT_PRED8x8]  = VERT_PRED,
     [HOR_PRED8x8]   = HOR_PRED,
     [PLANE_PRED8x8] = TM_VP8_PRED,
-#endif
 };
 
 static const int8_t vp8_pred16x16_tree_intra[4][2] = {

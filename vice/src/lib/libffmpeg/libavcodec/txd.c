@@ -132,19 +132,10 @@ unsupported:
 }
 
 AVCodec ff_txd_decoder = {
-#ifdef IDE_COMPILE
-    "txd",
-    "Renderware TXD (TeXture Dictionary) image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_TXD,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, txd_decode_frame,
-#else
 	.name           = "txd",
     .long_name      = NULL_IF_CONFIG_SMALL("Renderware TXD (TeXture Dictionary) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_TXD,
     .decode         = txd_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

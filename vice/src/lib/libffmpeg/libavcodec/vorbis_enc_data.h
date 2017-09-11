@@ -447,22 +447,6 @@ static const uint8_t codebook28[] = {
      9, 10, 10, 10,
 };
 
-#ifdef IDE_COMPILE
-static const uint8_t tmp1[] = { 1, 0, 2, };
-static const uint8_t tmp2[] = { 2, 1, 3, 0, 4, };
-static const uint8_t tmp3[] = { 2, 1, 3, 0, 4, };
-static const uint8_t tmp4[] = { 4, 3, 5, 2, 6, 1, 7, 0, 8, };
-static const uint8_t tmp5[] = { 4, 3, 5, 2, 6, 1, 7, 0, 8, };
-static const uint8_t tmp6[] = { 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15, 0, 16, };
-static const uint8_t tmp7[] = { 1, 0, 2, };
-static const uint8_t tmp8[] = { 5, 4, 6, 3, 7, 2, 8, 1, 9, 0, 10, };
-static const uint8_t tmp9[] = { 6, 5, 7, 4, 8, 3, 9, 2, 10, 1, 11, 0, 12, };
-static const uint8_t tmp10[] = { 2, 1, 3, 0, 4, };
-static const uint8_t tmp11[] = { 6, 5, 7, 4, 8, 3, 9, 2, 10, 1, 11, 0, 12, };
-static const uint8_t tmp12[] = { 7, 6, 8, 5, 9, 4, 10, 3, 11, 2, 12, 1, 13, 0, 14, };
-static const uint8_t tmp13[] = { 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15, 0, 16, };
-#endif
-
 static const struct {
     int dim;
     int len;
@@ -473,37 +457,6 @@ static const struct {
     float delta;
     const uint8_t *quant;
 } cvectors[] = {
-#ifdef IDE_COMPILE
-    { 2, 16, 16, codebook0, 0 },
-    { 2, 8, 8, codebook1, 0 },
-    { 2, 256, 256, codebook2, 0 },
-    { 2, 64, 64, codebook3, 0 },
-    { 2, 128, 128, codebook4, 0 },
-    { 2, 32, 32, codebook5, 0 },
-    { 2, 96, 96, codebook6, 0 },
-    { 2, 32, 32, codebook7, 0 },
-    { 2, 96, 96, codebook8, 0 },
-    { 2, 17, 17, codebook9, 0 },
-    { 2, 32, 32, codebook10, 0 },
-    { 2, 78, 78, codebook11, 0 },
-    { 2, 17, 17, codebook12, 0 },
-    { 2, 32, 32, codebook13, 0 },
-    { 2, 78, 78, codebook14, 0 },
-    { 2, 100, 100, codebook15, 0 },
-    { 8, 1641, 6561, codebook16, 1, -1.0, 1.0, tmp1},
-    { 4, 443, 625, codebook17, 1, -2.0, 1.0, tmp2},
-    { 4, 105, 625, codebook18, 1, -2.0, 1.0, tmp3},
-    { 2, 68, 81, codebook19, 1, -4.0, 1.0, tmp4},
-    { 2, 81, 81, codebook20, 1, -4.0, 1.0, tmp5},
-    { 2, 289, 289, codebook21, 1, -8.0, 1.0, tmp6},
-    { 4, 81, 81, codebook22, 1, -11.0, 11.0, tmp7},
-    { 2, 121, 121, codebook23, 1, -5.0, 1.0, tmp8},
-    { 2, 169, 169, codebook24, 1, -30.0, 5.0, tmp9},
-    { 2, 25, 25, codebook25, 1, -2.0, 1.0, tmp10},
-    { 2, 169, 169, codebook26, 1, -1530.0, 255.0, tmp11},
-    { 2, 225, 225, codebook27, 1, -119.0, 17.0, tmp12},
-    { 2, 289, 289, codebook28, 1, -8.0, 1.0, tmp13},
-#else
 	{ 2,   16,   16, codebook0,  0 },
     { 2,    8,    8, codebook1,  0 },
     { 2,  256,  256, codebook2,  0 },
@@ -533,7 +486,6 @@ static const struct {
     { 2,  169,  169, codebook26, 1, -1530.0, 255.0, (const uint8_t[]){ 6, 5, 7, 4, 8, 3, 9, 2, 10, 1, 11, 0, 12, } },
     { 2,  225,  225, codebook27, 1,  -119.0,  17.0, (const uint8_t[]){ 7, 6, 8, 5, 9, 4, 10, 3, 11, 2, 12, 1, 13, 0, 14, } },
     { 2,  289,  289, codebook28, 1,    -8.0,   1.0, (const uint8_t[]){ 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15, 0, 16, } },
-#endif
 };
 
 static const struct {

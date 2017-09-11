@@ -86,21 +86,7 @@ static av_cold int v410_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV444P10LE, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_v410_encoder = {
-#ifdef IDE_COMPILE
-    "v410",
-    "Uncompressed 4:4:4 10-bit",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_V410,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, v410_encode_init,
-    0, v410_encode_frame,
-    0, v410_encode_close,
-#else
 	.name         = "v410",
     .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed 4:4:4 10-bit"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -109,5 +95,4 @@ AVCodec ff_v410_encoder = {
     .encode2      = v410_encode_frame,
     .close        = v410_encode_close,
     .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV444P10, AV_PIX_FMT_NONE },
-#endif
 };

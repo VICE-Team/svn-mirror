@@ -215,26 +215,7 @@ static av_cold int tta_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_U8,
-                                                     AV_SAMPLE_FMT_S16,
-                                                     AV_SAMPLE_FMT_S32,
-                                                     AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_tta_encoder = {
-#ifdef IDE_COMPILE
-    "tta",
-    "TTA (True Audio)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_TTA,
-    CODEC_CAP_SMALL_LAST_FRAME | CODEC_CAP_LOSSLESS,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(TTAEncContext),
-    0, 0, 0, 0, 0, tta_encode_init,
-    0, tta_encode_frame,
-    0, tta_encode_close,
-#else
 	.name           = "tta",
     .long_name      = NULL_IF_CONFIG_SMALL("TTA (True Audio)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -248,5 +229,4 @@ AVCodec ff_tta_encoder = {
                                                      AV_SAMPLE_FMT_S16,
                                                      AV_SAMPLE_FMT_S32,
                                                      AV_SAMPLE_FMT_NONE },
-#endif
 };

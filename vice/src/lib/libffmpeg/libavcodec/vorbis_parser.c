@@ -25,10 +25,6 @@
  * Determines the duration for each packet.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "get_bits.h"
 #include "parser.h"
 #include "xiph.h"
@@ -290,14 +286,8 @@ end:
 }
 
 AVCodecParser ff_vorbis_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_VORBIS },
-    sizeof(VorbisParseContext),
-    0, vorbis_parse,
-#else
 	.codec_ids      = { AV_CODEC_ID_VORBIS },
     .priv_data_size = sizeof(VorbisParseContext),
     .parser_parse   = vorbis_parse,
-#endif
 };
 #endif /* CONFIG_VORBIS_PARSER */

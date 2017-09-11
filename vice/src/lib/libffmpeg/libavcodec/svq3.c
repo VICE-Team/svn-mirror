@@ -42,10 +42,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "internal.h"
 #include "avcodec.h"
@@ -1371,24 +1367,7 @@ static av_cold int svq3_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUVJ420P,
-                                                     AV_PIX_FMT_NONE};
-#endif
-
 AVCodec ff_svq3_decoder = {
-#ifdef IDE_COMPILE
-    "svq3",
-    "Sorenson Vector Quantizer 3 / Sorenson Video 3 / SVQ3",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_SVQ3,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(SVQ3Context),
-    0, 0, 0, 0, 0, svq3_decode_init,
-    0, 0, svq3_decode_frame,
-    svq3_decode_end,
-#else
 	.name           = "svq3",
     .long_name      = NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 3 / Sorenson Video 3 / SVQ3"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1402,5 +1381,4 @@ AVCodec ff_svq3_decoder = {
                       CODEC_CAP_DELAY,
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUVJ420P,
                                                      AV_PIX_FMT_NONE},
-#endif
 };

@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "libavutil/intfloat.h"
 #include "libavutil/imgutils.h"
@@ -159,12 +155,7 @@ static int decode_frame(AVCodecContext *avctx,
                    avctx->sample_aspect_ratio.num,  avctx->sample_aspect_ratio.den,
                   0x10000);
     else {
-#ifdef IDE_COMPILE
-		avctx->sample_aspect_ratio.num = 0;
-		avctx->sample_aspect_ratio.den = 1;
-#else
 		avctx->sample_aspect_ratio = (AVRational){ 0, 1 };
-#endif
 	}
     if (offset >= 1724 + 4) {
         buf = avpkt->data + 1724;
@@ -365,19 +356,10 @@ static int decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_dpx_decoder = {
-#ifdef IDE_COMPILE
-    "dpx",
-    "DPX (Digital Picture Exchange) image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DPX,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_frame,
-#else
 	.name           = "dpx",
     .long_name      = NULL_IF_CONFIG_SMALL("DPX (Digital Picture Exchange) image"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_DPX,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

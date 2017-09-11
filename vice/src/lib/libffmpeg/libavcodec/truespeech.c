@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
@@ -359,16 +355,6 @@ static int truespeech_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_truespeech_decoder = {
-#ifdef IDE_COMPILE
-    "truespeech",
-    "DSP Group TrueSpeech",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_TRUESPEECH,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(TSContext),
-    0, 0, 0, 0, 0, truespeech_decode_init,
-    0, 0, truespeech_decode_frame,
-#else
 	.name           = "truespeech",
     .long_name      = NULL_IF_CONFIG_SMALL("DSP Group TrueSpeech"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -377,5 +363,4 @@ AVCodec ff_truespeech_decoder = {
     .init           = truespeech_decode_init,
     .decode         = truespeech_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

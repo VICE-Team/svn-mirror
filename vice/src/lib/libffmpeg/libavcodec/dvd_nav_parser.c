@@ -108,15 +108,8 @@ static int dvd_nav_parse(AVCodecParserContext *s,
 }
 
 AVCodecParser ff_dvd_nav_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_DVD_NAV },
-    sizeof(DVDNavParseContext),
-    dvd_nav_parse_init,
-    dvd_nav_parse,
-#else
 	.codec_ids      = { AV_CODEC_ID_DVD_NAV },
     .priv_data_size = sizeof(DVDNavParseContext),
     .parser_init    = dvd_nav_parse_init,
     .parser_parse   = dvd_nav_parse,
-#endif
 };

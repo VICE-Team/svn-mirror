@@ -175,18 +175,9 @@ static int dv_decode_video_segment(AVCodecContext *avctx, void *arg)
     GetBitContext gb;
     BlockInfo mb_data[5 * DV_MAX_BPM], *mb, *mb1;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_16(int16_t, sblock, [5 * DV_MAX_BPM], [64]);
     LOCAL_ALIGNED_16(uint8_t, mb_bit_buffer, [80     + FF_INPUT_BUFFER_PADDING_SIZE]); /* allow some slack */
     LOCAL_ALIGNED_16(uint8_t, vs_bit_buffer, [80 * 5 + FF_INPUT_BUFFER_PADDING_SIZE]); /* allow some slack */
-#else
-	uint8_t la_sblock[sizeof(int16_t [5 * 8] [64]) + (16)];
-	int16_t (*sblock) [64] = (void *)((((uintptr_t)la_sblock)+(16)-1)&~((16)-1));
-    uint8_t la_mb_bit_buffer[sizeof(uint8_t [80 + 32] ) + (16)];
-	uint8_t (*mb_bit_buffer) = (void *)((((uintptr_t)la_mb_bit_buffer)+(16)-1)&~((16)-1));
-    uint8_t la_vs_bit_buffer[sizeof(uint8_t [80 * 5 + 32] ) + (16)];
-	uint8_t (*vs_bit_buffer) = (void *)((((uintptr_t)la_vs_bit_buffer)+(16)-1)&~((16)-1));
-#endif
 
 	const int log2_blocksize = 3-s->avctx->lowres;
     int is_field_mode[5];
@@ -430,17 +421,6 @@ static int dvvideo_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_dvvideo_decoder = {
-#ifdef IDE_COMPILE
-    "dvvideo",
-    "DV (Digital Video)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DVVIDEO,
-    CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
-    0, 0, 0, 0, 0, 3,
-    0, 0, sizeof(DVVideoContext),
-    0, 0, 0, 0, 0, dvvideo_decode_init,
-    0, 0, dvvideo_decode_frame,
-#else
 	.name           = "dvvideo",
     .long_name      = NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -450,5 +430,4 @@ AVCodec ff_dvvideo_decoder = {
     .decode         = dvvideo_decode_frame,
     .capabilities   = CODEC_CAP_DR1 | CODEC_CAP_SLICE_THREADS,
     .max_lowres     = 3,
-#endif
 };

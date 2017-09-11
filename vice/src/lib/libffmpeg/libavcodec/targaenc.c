@@ -188,24 +188,7 @@ static av_cold int targa_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_BGR24, AV_PIX_FMT_BGRA, AV_PIX_FMT_RGB555LE, AV_PIX_FMT_GRAY8, AV_PIX_FMT_PAL8,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_targa_encoder = {
-#ifdef IDE_COMPILE
-    "targa",
-    "Truevision Targa image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_TARGA,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, targa_encode_init,
-    0, targa_encode_frame,
-    0, targa_encode_close,
-#else
 	.name           = "targa",
     .long_name      = NULL_IF_CONFIG_SMALL("Truevision Targa image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -217,5 +200,4 @@ AVCodec ff_targa_encoder = {
         AV_PIX_FMT_BGR24, AV_PIX_FMT_BGRA, AV_PIX_FMT_RGB555LE, AV_PIX_FMT_GRAY8, AV_PIX_FMT_PAL8,
         AV_PIX_FMT_NONE
     },
-#endif
 };
