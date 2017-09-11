@@ -276,7 +276,6 @@ static GtkWidget *ui_drive_widget_create(int unit)
 {
     GtkWidget *grid, *number, *track, *led;
     char drive_id[4];
-    int *drive_index;
 
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
