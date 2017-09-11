@@ -49,27 +49,65 @@
 #define DRIVE_IDLE_SKIP_CYCLES 1
 #define DRIVE_IDLE_TRAP_IDLE   2
 
-/* Drive type.  */
-#define DRIVE_TYPE_NONE      0
-#define DRIVE_TYPE_ANY    9999
+/* Drive type ID's and names. When adding things here, please also update
+ * the `drive_type_info_list` array in src/drive/drive.c to keep UI's current
+ */
+#define DRIVE_TYPE_NONE     0
+#define DRIVE_NAME_NONE     "None"
 
-#define DRIVE_TYPE_1540   1540
-#define DRIVE_TYPE_1541   1541
-#define DRIVE_TYPE_1541II 1542
-#define DRIVE_TYPE_1551   1551
-#define DRIVE_TYPE_1570   1570
-#define DRIVE_TYPE_1571   1571
-#define DRIVE_TYPE_1571CR 1573
-#define DRIVE_TYPE_1581   1581
-#define DRIVE_TYPE_2000   2000
-#define DRIVE_TYPE_4000   4000
-#define DRIVE_TYPE_2031   2031
-#define DRIVE_TYPE_2040   2040  /* DOS 1 dual floppy drive, 170k/disk */
-#define DRIVE_TYPE_3040   3040  /* DOS 2.0 dual floppy drive, 170k/disk */
-#define DRIVE_TYPE_4040   4040  /* DOS 2.5 dual floppy drive, 170k/disk */
-#define DRIVE_TYPE_1001   1001  /* DOS 2.7 single floppy drive, 1M/disk */
-#define DRIVE_TYPE_8050   8050  /* DOS 2.7 dual floppy drive, 0.5M/disk */
-#define DRIVE_TYPE_8250   8250  /* DOS 2.7 dual floppy drive, 1M/disk */
+#define DRIVE_TYPE_ANY      9999
+#define DRIVE_NAME_ANY      "Any"
+
+#define DRIVE_TYPE_1540     1540
+#define DRIVE_NAME_1540     "CBM 1540"
+
+#define DRIVE_TYPE_1541     1541
+#define DRIVE_NAME_1541     "CBM 1541"
+
+#define DRIVE_TYPE_1541II   1542
+#define DRIVE_NAME_1541II   "CBM 1541-II"
+
+#define DRIVE_TYPE_1551     1551
+#define DRIVE_NAME_1551     "CBM 1551"
+
+#define DRIVE_TYPE_1570     1570
+#define DRIVE_NAME_1570     "CBM 1570"
+
+#define DRIVE_TYPE_1571     1571
+#define DRIVE_NAME_1571     "CBM 1571"
+
+#define DRIVE_TYPE_1571CR   1573
+#define DRIVE_NAME_1571CR   "CBM 1571 CR"
+
+#define DRIVE_TYPE_1581     1581
+#define DRIVE_NAME_1581     "CBM 1581"
+
+#define DRIVE_TYPE_2000     2000
+#define DRIVE_NAME_2000     "CMD FD-2000"
+
+#define DRIVE_TYPE_4000     4000
+#define DRIVE_NAME_4000     "CMD FD-4000"
+
+#define DRIVE_TYPE_2031     2031
+#define DRIVE_NAME_2031     "CBM 2031"
+
+#define DRIVE_TYPE_2040     2040    /* DOS 1 dual floppy drive, 170k/disk */
+#define DRIVE_NAME_2040     "CBM 2040"
+
+#define DRIVE_TYPE_3040     3040    /* DOS 2.0 dual floppy drive, 170k/disk */
+#define DRIVE_NAME_3040     "CBM 3040"
+
+#define DRIVE_TYPE_4040     4040    /* DOS 2.5 dual floppy drive, 170k/disk */
+#define DRIVE_NAME_4040     "CBM 4040"
+
+#define DRIVE_TYPE_1001     1001    /* DOS 2.7 single floppy drive, 1M/disk */
+#define DRIVE_NAME_1001     "CBM SFD-1001"
+
+#define DRIVE_TYPE_8050     8050    /* DOS 2.7 dual floppy drive, 0.5M/disk */
+#define DRIVE_NAME_8050     "CBM 8050"
+
+#define DRIVE_TYPE_8250     8250    /* DOS 2.7 dual floppy drive, 1M/disk */
+#define DRIVE_NAME_8250     "CBM 8250"
 
 #define DRIVE_TYPE_NUM    17
 
@@ -104,6 +142,12 @@
 #define DRIVE_PC_NUM 4
 
 /* ------------------------------------------------------------------------- */
+
+typedef struct drive_type_info_s {
+    const char *name;
+    int         id;
+} drive_type_info_t;
+
 
 struct gcr_s;
 struct disk_image_s;
@@ -348,5 +392,7 @@ extern int drive_num_leds(unsigned int dnr);
 extern void drive_setup_context(void);
 
 extern int drive_resources_type_init(unsigned int default_type);
+
+extern drive_type_info_t *drive_get_type_info_list(void);
 
 #endif
