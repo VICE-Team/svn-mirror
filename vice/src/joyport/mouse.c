@@ -979,8 +979,15 @@ static int set_smart_mouse_rtc_save(int val, void *param)
     return 0;
 }
 
+/* FIXME: this should get moved into archdep */
+#ifdef ANDROID_COMPILE
+#define ARCHDEP_MOUSE_ENABLE_DEFAULT  1
+#else
+#define ARCHDEP_MOUSE_ENABLE_DEFAULT  0
+#endif
+
 static const resource_int_t resources_int[] = {
-    { "Mouse", MOUSE_ENABLE_DEFAULT, RES_EVENT_SAME, NULL,
+    { "Mouse", ARCHDEP_MOUSE_ENABLE_DEFAULT, RES_EVENT_SAME, NULL,
       &_mouse_enabled, set_mouse_enabled, NULL },
     RESOURCE_INT_LIST_END
 };
