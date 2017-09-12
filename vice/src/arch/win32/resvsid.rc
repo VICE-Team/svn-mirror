@@ -3,10 +3,6 @@
 
 #include "vice.h"
 
-#ifdef IDE_COMPILE
-#include <winuser.h>
-#endif
-
 #include "debug.h"
 #include "res.h"
 #include "rescommon.h"
