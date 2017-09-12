@@ -83,11 +83,11 @@ extern int debug_cmdline_options_init(void);
 
 extern void debug_set_machine_parameter(unsigned int cycles,
                                         unsigned int lines);
-extern void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis,
+extern void debug_maincpu(uint32_t reg_pc, CLOCK mclk, const char *dis,
                           BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
-extern void debug_main65816cpu(DWORD reg_pc, CLOCK mclk, const char *dis, WORD reg_c,
+extern void debug_main65816cpu(uint32_t reg_pc, CLOCK mclk, const char *dis, WORD reg_c,
                                WORD reg_x, WORD reg_y, WORD reg_sp, BYTE reg_pbr);
-extern void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
+extern void debug_drive(uint32_t reg_pc, CLOCK mclk, const char *dis,
                         BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp,
                         unsigned int driveno);
 extern void debug_irq(struct interrupt_cpu_status_s *cs, CLOCK iclk);
