@@ -176,17 +176,6 @@ static av_cold int bfi_decode_close(AVCodecContext *avctx)
 }
 
 AVCodec ff_bfi_decoder = {
-#ifdef IDE_COMPILE
-    "bfi",
-    "Brute Force & Ignorance",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_BFI,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(BFIContext),
-    0, 0, 0, 0, 0, bfi_decode_init,
-    0, 0, bfi_decode_frame,
-    bfi_decode_close,
-#else
 	.name           = "bfi",
     .long_name      = NULL_IF_CONFIG_SMALL("Brute Force & Ignorance"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -196,5 +185,4 @@ AVCodec ff_bfi_decoder = {
     .close          = bfi_decode_close,
     .decode         = bfi_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

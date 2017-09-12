@@ -72,15 +72,6 @@ static int paf_audio_decode(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_paf_audio_decoder = {
-#ifdef IDE_COMPILE
-    "paf_audio",
-    "Amazing Studio Packed Animation File Audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_PAF_AUDIO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, paf_audio_init,
-    0, 0, paf_audio_decode,
-#else
 	.name         = "paf_audio",
     .long_name    = NULL_IF_CONFIG_SMALL("Amazing Studio Packed Animation File Audio"),
     .type         = AVMEDIA_TYPE_AUDIO,
@@ -88,5 +79,4 @@ AVCodec ff_paf_audio_decoder = {
     .init         = paf_audio_init,
     .decode       = paf_audio_decode,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };

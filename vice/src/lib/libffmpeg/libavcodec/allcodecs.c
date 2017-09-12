@@ -24,12 +24,7 @@
  * Provide registration of all codecs, parsers and bitstream filters for libavcodec.
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "avcodec.h"
 #include "version.h"

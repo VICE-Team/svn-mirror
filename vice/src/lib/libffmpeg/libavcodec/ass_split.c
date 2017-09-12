@@ -48,67 +48,6 @@ typedef struct {
 } ASSSection;
 
 static const ASSSection ass_sections[] = {
-#ifdef IDE_COMPILE
-    { "Script Info",
-      0, 0, 0, offsetof(ASS, script_info),
-      0, {{"ScriptType", ASS_STR, offsetof(ASSScriptInfo, script_type)},
-                 {"Collisions", ASS_STR, offsetof(ASSScriptInfo, collisions) },
-                 {"PlayResX", ASS_INT, offsetof(ASSScriptInfo, play_res_x) },
-                 {"PlayResY", ASS_INT, offsetof(ASSScriptInfo, play_res_y) },
-                 {"Timer", ASS_FLT, offsetof(ASSScriptInfo, timer) },
-                 {0},
-        }
-    },
-    { "V4+ Styles",
-      "Format",
-      "Style",
-      sizeof(ASSStyle),
-      offsetof(ASS, styles),
-      offsetof(ASS, styles_count),
-      {{"Name", ASS_STR, offsetof(ASSStyle, name) },
-                 {"Fontname", ASS_STR, offsetof(ASSStyle, font_name) },
-                 {"Fontsize", ASS_INT, offsetof(ASSStyle, font_size) },
-                 {"PrimaryColour", ASS_COLOR, offsetof(ASSStyle, primary_color)},
-                 {"BackColour", ASS_COLOR, offsetof(ASSStyle, back_color) },
-                 {"Bold", ASS_INT, offsetof(ASSStyle, bold) },
-                 {"Italic", ASS_INT, offsetof(ASSStyle, italic) },
-                 {"Underline", ASS_INT, offsetof(ASSStyle, underline) },
-                 {"Alignment", ASS_INT, offsetof(ASSStyle, alignment) },
-                 {0},
-        }
-    },
-    { "V4 Styles",
-      "Format",
-      "Style",
-      sizeof(ASSStyle),
-      offsetof (ASS, styles),
-      offsetof(ASS, styles_count),
-      {{"Name", ASS_STR, offsetof(ASSStyle, name) },
-                 {"Fontname", ASS_STR, offsetof(ASSStyle, font_name) },
-                 {"Fontsize", ASS_INT, offsetof(ASSStyle, font_size) },
-                 {"PrimaryColour", ASS_COLOR, offsetof(ASSStyle, primary_color)},
-                 {"BackColour", ASS_COLOR, offsetof(ASSStyle, back_color) },
-                 {"Bold", ASS_INT, offsetof(ASSStyle, bold) },
-                 {"Italic", ASS_INT, offsetof(ASSStyle, italic) },
-                 {"Alignment", ASS_ALGN, offsetof(ASSStyle, alignment) },
-                 {0},
-        }
-    },
-    { "Events",
-      "Format",
-      "Dialogue",
-      sizeof(ASSDialog),
-      offsetof(ASS, dialogs),
-      offsetof(ASS, dialogs_count),
-      {{"Layer", ASS_INT, offsetof(ASSDialog, layer) },
-                 {"Start", ASS_TIMESTAMP, offsetof(ASSDialog, start) },
-                 {"End", ASS_TIMESTAMP, offsetof(ASSDialog, end) },
-                 {"Style", ASS_STR, offsetof(ASSDialog, style) },
-                 {"Text", ASS_STR, offsetof(ASSDialog, text) },
-                 {0},
-        }
-    },
-#else
 	{ .section       = "Script Info",
       .offset        = offsetof(ASS, script_info),
       .fields = {{"ScriptType", ASS_STR, offsetof(ASSScriptInfo, script_type)},
@@ -168,7 +107,6 @@ static const ASSSection ass_sections[] = {
                  {0},
         }
     },
-#endif
 };
 
 
@@ -218,21 +156,12 @@ static int convert_alignment(void *dest, const char *buf, int len)
 }
 
 static const ASSConvertFunc convert_func[] = {
-#ifdef IDE_COMPILE
-    convert_str,
-    convert_int,
-    convert_flt,
-    convert_color,
-    convert_timestamp,
-    convert_alignment,
-#else
 	[ASS_STR]       = convert_str,
     [ASS_INT]       = convert_int,
     [ASS_FLT]       = convert_flt,
     [ASS_COLOR]     = convert_color,
     [ASS_TIMESTAMP] = convert_timestamp,
     [ASS_ALGN]      = convert_alignment,
-#endif
 };
 
 struct ASSSplitContext {

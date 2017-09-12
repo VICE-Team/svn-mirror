@@ -24,10 +24,6 @@
  * Deluxe Paint Animation decoder
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "bytestream.h"
 #include "internal.h"
@@ -192,17 +188,6 @@ static av_cold int decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_anm_decoder = {
-#ifdef IDE_COMPILE
-    "anm",
-    "Deluxe Paint Animation",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_ANM,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(AnmContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "anm",
     .long_name      = NULL_IF_CONFIG_SMALL("Deluxe Paint Animation"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -212,5 +197,4 @@ AVCodec ff_anm_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

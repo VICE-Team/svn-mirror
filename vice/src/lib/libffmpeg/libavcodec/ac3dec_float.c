@@ -31,16 +31,6 @@
 #include "ac3dec.c"
 
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "drc_scale", "percentage of dynamic range compression to apply", OFFSET(drc_scale), AV_OPT_TYPE_FLOAT, {0x3ff0000000000000}, 0.0, 6.0, PAR },
-    { "heavy_compr", "heavy dynamic range compression enabled", OFFSET(heavy_compression), AV_OPT_TYPE_INT, {0}, 0, 1, PAR },
-    { "target_level", "target level in -dBFS (0 not applied)", OFFSET(target_level), AV_OPT_TYPE_INT, {0}, -31, 0, PAR },
-    {"dmix_mode", "Preferred Stereo Downmix Mode", OFFSET(preferred_stereo_downmix), AV_OPT_TYPE_INT, {-1}, -1, 2, 0, "dmix_mode"},
-    {"ltrt_cmixlev", "Lt/Rt Center Mix Level", OFFSET(ltrt_center_mix_level), AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1.0, 2.0, 0},
-    {"ltrt_surmixlev", "Lt/Rt Surround Mix Level", OFFSET(ltrt_surround_mix_level), AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1.0, 2.0, 0},
-    {"loro_cmixlev", "Lo/Ro Center Mix Level", OFFSET(loro_center_mix_level), AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1.0, 2.0, 0},
-    {"loro_surmixlev", "Lo/Ro Surround Mix Level", OFFSET(loro_surround_mix_level),  AV_OPT_TYPE_FLOAT, {0xbff0000000000000}, -1.0, 2.0, 0},
-#else
 	{ "drc_scale", "percentage of dynamic range compression to apply", OFFSET(drc_scale), AV_OPT_TYPE_FLOAT, {.dbl = 1.0}, 0.0, 6.0, PAR },
     { "heavy_compr", "heavy dynamic range compression enabled", OFFSET(heavy_compression), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, 1, PAR },
     { "target_level", "target level in -dBFS (0 not applied)", OFFSET(target_level), AV_OPT_TYPE_INT, {.i64 = 0 }, -31, 0, PAR },
@@ -49,43 +39,17 @@ static const AVOption options[] = {
     {"ltrt_surmixlev", "Lt/Rt Surround Mix Level", OFFSET(ltrt_surround_mix_level),  AV_OPT_TYPE_FLOAT, {.dbl = -1.0 }, -1.0, 2.0, 0},
     {"loro_cmixlev",   "Lo/Ro Center Mix Level",   OFFSET(loro_center_mix_level),    AV_OPT_TYPE_FLOAT, {.dbl = -1.0 }, -1.0, 2.0, 0},
     {"loro_surmixlev", "Lo/Ro Surround Mix Level", OFFSET(loro_surround_mix_level),  AV_OPT_TYPE_FLOAT, {.dbl = -1.0 }, -1.0, 2.0, 0},
-#endif
 	{ NULL},
 };
 
 static const AVClass ac3_decoder_class = {
-#ifdef IDE_COMPILE
-    "AC3 decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "AC3 decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_ac3_decoder = {
-#ifdef IDE_COMPILE
-        "ac3",
-    "ATSC A/52A (AC-3)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_AC3,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, &ac3_decoder_class,
-    0, sizeof (AC3DecodeContext),
-    0, 0, 0, 0, 0, ac3_decode_init,
-    0, 0, ac3_decode_frame,
-    ac3_decode_end,
-#else
 	.name           = "ac3",
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_AC3,
@@ -98,43 +62,17 @@ AVCodec ff_ac3_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
     .priv_class     = &ac3_decoder_class,
-#endif
 };
 
 #if CONFIG_EAC3_DECODER
 static const AVClass eac3_decoder_class = {
-#ifdef IDE_COMPILE
-    "E-AC3 decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "E-AC3 decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_eac3_decoder = {
-#ifdef IDE_COMPILE
-    "eac3",
-    "ATSC A/52B (AC-3, E-AC-3)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_EAC3,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp2,
-    0, 0, &eac3_decoder_class,
-    0, sizeof (AC3DecodeContext),
-    0, 0, 0, 0, 0, ac3_decode_init,
-    0, 0, ac3_decode_frame,
-    ac3_decode_end,
-#else
 	.name           = "eac3",
     .type           = AVMEDIA_TYPE_AUDIO,
     .id             = AV_CODEC_ID_EAC3,
@@ -147,6 +85,5 @@ AVCodec ff_eac3_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
     .priv_class     = &eac3_decoder_class,
-#endif
 };
 #endif

@@ -21,10 +21,6 @@
 
 #include <stdint.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #include "libavutil/common.h"
 #include "libavutil/internal.h"
 #include "libavutil/mathematics.h"
@@ -332,12 +328,7 @@ static void hybrid6_cx(PSDSPContext *dsp, float (*in)[2], float (*out)[32][2],
 {
     int i;
     int N = 8;
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_16(float, temp, [8], [2]);
-#else
-	uint8_t la_temp[sizeof(float[8][2]) + (16)];
-	float (*temp)[2] = (void *)((((uintptr_t)la_temp)+(16)-1)&~((16)-1));
-#endif
 
     for (i = 0; i < len; i++, in++) {
         dsp->hybrid_analysis(temp, in, (const float (*)[8][2]) filter, 1, N);
@@ -638,15 +629,8 @@ static void map_val_20_to_34(float par[PS_MAX_NR_IIDICC])
 
 static void decorrelation(PSContext *ps, float (*out)[32][2], const float (*s)[32][2], int is34)
 {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(float, power, [34], [PS_QMF_TIME_SLOTS]);
     LOCAL_ALIGNED_16(float, transient_gain, [34], [PS_QMF_TIME_SLOTS]);
-#else
-	uint8_t la_power[sizeof(float[34][32]) + (16)];
-	float (*power)[32] = (void *)((((uintptr_t)la_power)+(16)-1)&~((16)-1));
-    uint8_t la_transient_gain[sizeof(float[34][32]) + (16)];
-	float (*transient_gain)[32] = (void *)((((uintptr_t)la_transient_gain)+(16)-1)&~((16)-1));
-#endif
 
 	float *peak_decay_nrg = ps->peak_decay_nrg;
     float *power_smooth = ps->power_smooth;
@@ -926,15 +910,8 @@ static void stereo_processing(PSContext *ps, float (*l)[32][2], float (*r)[32][2
 
 int ff_ps_apply(AVCodecContext *avctx, PSContext *ps, float L[2][38][64], float R[2][38][64], int top)
 {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_16(float, Lbuf, [91], [32][2]);
     LOCAL_ALIGNED_16(float, Rbuf, [91], [32][2]);
-#else
-	uint8_t la_Lbuf[sizeof(float[91][32][2]) + (16)];
-	float (*Lbuf)[32][2] = (void *)((((uintptr_t)la_Lbuf)+(16)-1)&~((16)-1));
-    uint8_t la_Rbuf[sizeof(float[91][32][2]) + (16)];
-	float (*Rbuf)[32][2] = (void *)((((uintptr_t)la_Rbuf)+(16)-1)&~((16)-1));
-#endif
 
 	const int len = 32;
     int is34 = ps->is34bands;

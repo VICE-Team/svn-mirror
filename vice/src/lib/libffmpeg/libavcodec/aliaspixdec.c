@@ -119,19 +119,10 @@ static int decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 }
 
 AVCodec ff_alias_pix_decoder = {
-#ifdef IDE_COMPILE
-    "alias_pix",
-    "Alias/Wavefront PIX image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_ALIAS_PIX,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, decode_frame,
-#else
 	.name         = "alias_pix",
     .long_name    = NULL_IF_CONFIG_SMALL("Alias/Wavefront PIX image"),
     .type         = AVMEDIA_TYPE_VIDEO,
     .id           = AV_CODEC_ID_ALIAS_PIX,
     .decode       = decode_frame,
     .capabilities = CODEC_CAP_DR1,
-#endif
 };

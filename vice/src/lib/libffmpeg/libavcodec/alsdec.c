@@ -27,10 +27,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "unary.h"
@@ -1805,18 +1801,6 @@ static av_cold void flush(AVCodecContext *avctx)
 
 
 AVCodec ff_als_decoder = {
-#ifdef IDE_COMPILE
-    "als",
-    "MPEG-4 Audio Lossless Coding (ALS)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP4ALS,
-    CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(ALSDecContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-    flush,
-#else
 	.name           = "als",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 Audio Lossless Coding (ALS)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1827,5 +1811,4 @@ AVCodec ff_als_decoder = {
     .decode         = decode_frame,
     .flush          = flush,
     .capabilities   = CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
-#endif
 };

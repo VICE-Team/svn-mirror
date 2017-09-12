@@ -24,10 +24,6 @@
  * Pictor/PC Paint decoder
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/imgutils.h"
 #include "avcodec.h"
 #include "bytestream.h"
@@ -93,21 +89,12 @@ static void picmemset(PicContext *s, AVFrame *frame, int value, int run,
 }
 
 static const uint8_t cga_mode45_index[6][4] = {
-#ifdef IDE_COMPILE
-    { 0, 3, 5, 7 },
-    { 0, 2, 4, 6 },
-    { 0, 3, 4, 7 },
-    { 0, 11, 13, 15 },
-    { 0, 10, 12, 14 },
-    { 0, 11, 12, 15 },
-#else
 	[0] = { 0, 3,  5,   7 }, // mode4, palette#1, low intensity
     [1] = { 0, 2,  4,   6 }, // mode4, palette#2, low intensity
     [2] = { 0, 3,  4,   7 }, // mode5, low intensity
     [3] = { 0, 11, 13, 15 }, // mode4, palette#1, high intensity
     [4] = { 0, 10, 12, 14 }, // mode4, palette#2, high intensity
     [5] = { 0, 11, 12, 15 }, // mode5, high intensity
-#endif
 };
 
 static int decode_frame(AVCodecContext *avctx,
@@ -270,15 +257,6 @@ finish:
 }
 
 AVCodec ff_pictor_decoder = {
-#ifdef IDE_COMPILE
-    "pictor",
-    "Pictor/PC Paint",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_PICTOR,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(PicContext),
-    0, 0, 0, 0, 0, 0, 0, 0, decode_frame,
-#else
 	.name           = "pictor",
     .long_name      = NULL_IF_CONFIG_SMALL("Pictor/PC Paint"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -286,5 +264,4 @@ AVCodec ff_pictor_decoder = {
     .priv_data_size = sizeof(PicContext),
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

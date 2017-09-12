@@ -25,15 +25,6 @@
 #include "parser.h"
 #include "aac_ac3_parser.h"
 
-#ifdef IDE_COMPILE
-#ifndef FF_DISABLE_DEPRECATION_WARNINGS
-#define FF_DISABLE_DEPRECATION_WARNINGS
-#endif
-#ifndef FF_ENABLE_DEPRECATION_WARNINGS
-#define FF_ENABLE_DEPRECATION_WARNINGS
-#endif
-#endif
-
 int ff_aac_ac3_parse(AVCodecParserContext *s1,
                      AVCodecContext *avctx,
                      const uint8_t **poutbuf, int *poutbuf_size,

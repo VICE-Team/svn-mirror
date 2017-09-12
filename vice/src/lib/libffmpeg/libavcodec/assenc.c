@@ -109,15 +109,6 @@ static int ass_encode_frame(AVCodecContext *avctx,
 
 #if CONFIG_SSA_ENCODER
 AVCodec ff_ssa_encoder = {
-#ifdef IDE_COMPILE
-    "ssa",
-    "SSA (SubStation Alpha) subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_SSA,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(ASSEncodeContext),
-    0, 0, 0, 0, 0, ass_encode_init,
-    ass_encode_frame,
-#else
 	.name         = "ssa",
     .long_name    = NULL_IF_CONFIG_SMALL("SSA (SubStation Alpha) subtitle"),
     .type         = AVMEDIA_TYPE_SUBTITLE,
@@ -125,21 +116,11 @@ AVCodec ff_ssa_encoder = {
     .init         = ass_encode_init,
     .encode_sub   = ass_encode_frame,
     .priv_data_size = sizeof(ASSEncodeContext),
-#endif
 };
 #endif
 
 #if CONFIG_ASS_ENCODER
 AVCodec ff_ass_encoder = {
-#ifdef IDE_COMPILE
-    "ass",
-    "ASS (Advanced SubStation Alpha) subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_ASS,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, sizeof(ASSEncodeContext),
-    0, 0, 0, 0, 0, ass_encode_init,
-    ass_encode_frame,
-#else
 	.name         = "ass",
     .long_name    = NULL_IF_CONFIG_SMALL("ASS (Advanced SubStation Alpha) subtitle"),
     .type         = AVMEDIA_TYPE_SUBTITLE,
@@ -147,6 +128,5 @@ AVCodec ff_ass_encoder = {
     .init         = ass_encode_init,
     .encode_sub   = ass_encode_frame,
     .priv_data_size = sizeof(ASSEncodeContext),
-#endif
 };
 #endif

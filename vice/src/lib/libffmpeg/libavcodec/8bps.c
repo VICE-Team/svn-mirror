@@ -177,16 +177,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_eightbps_decoder = {
-#ifdef IDE_COMPILE
-    "8bps",
-    "QuickTime 8BPS video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_8BPS,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(EightBpsContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "8bps",
     .long_name      = NULL_IF_CONFIG_SMALL("QuickTime 8BPS video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -195,5 +185,4 @@ AVCodec ff_eightbps_decoder = {
     .init           = decode_init,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

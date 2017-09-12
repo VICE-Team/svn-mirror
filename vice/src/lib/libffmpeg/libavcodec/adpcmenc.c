@@ -80,39 +80,6 @@ static av_cold int adpcm_encode_init(AVCodecContext *avctx)
     if (avctx->trellis) {
         int frontier  = 1 << avctx->trellis;
         int max_paths =  frontier * FREEZE_INTERVAL;
-#ifdef IDE_COMPILE
-        {
-			s->paths = av_malloc(max_paths * sizeof(*s->paths));
-			if (!(s->paths) && (max_paths * sizeof(*s->paths)) != 0) {
-				av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-				goto error;
-			}
-		}
-                                                              ;
-        {
-			s->node_buf = av_malloc(2 * frontier * sizeof(*s->node_buf));
-			if (!(s->node_buf) && (2 * frontier * sizeof(*s->node_buf)) != 0) {
-				av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-				goto error;
-			}
-		}
-                                                                     ;
-        {
-			s->nodep_buf = av_malloc(2 * frontier * sizeof(*s->nodep_buf));
-			if (!(s->nodep_buf) && (2 * frontier * sizeof(*s->nodep_buf)) != 0) {
-				av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-				goto error;
-			}
-		}
-                                                                     ;
-        {
-			s->trellis_hash = av_malloc(65536 * sizeof(*s->trellis_hash));
-			if (!(s->trellis_hash) && (65536 * sizeof(*s->trellis_hash)) != 0) {
-				av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-				goto error;
-			}
-		}
-#else
 		FF_ALLOC_OR_GOTO(avctx, s->paths,
                          max_paths * sizeof(*s->paths), error);
         FF_ALLOC_OR_GOTO(avctx, s->node_buf,
@@ -121,7 +88,6 @@ static av_cold int adpcm_encode_init(AVCodecContext *avctx)
                          2 * frontier * sizeof(*s->nodep_buf), error);
         FF_ALLOC_OR_GOTO(avctx, s->trellis_hash,
                          65536 * sizeof(*s->trellis_hash), error);
-#endif
 	}
 
     avctx->bits_per_coded_sample = av_get_bits_per_sample(avctx->codec->id);
@@ -543,17 +509,7 @@ static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
 
         /* stereo: 4 bytes (8 samples) for left, 4 bytes for right */
         if (avctx->trellis > 0) {
-#ifdef IDE_COMPILE
-            {
-				buf = av_malloc_array(avctx->channels, blocks * 8);
-				if (!buf) {
-					av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-					goto error;
-				}
-			};
-#else
 			FF_ALLOC_ARRAY_OR_GOTO(avctx, buf, avctx->channels, blocks * 8, error);
-#endif
 			for (ch = 0; ch < avctx->channels; ch++) {
                 adpcm_compress_trellis(avctx, &samples_p[ch][1],
                                        buf + ch * blocks * 8, &c->status[ch],
@@ -632,17 +588,7 @@ static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
         }
 
         if (avctx->trellis > 0) {
-#ifdef IDE_COMPILE
-            {
-				buf = av_malloc(2 * n);
-				if (!(buf) && (2 * n) != 0) {
-					av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-					goto error;
-				}
-			};
-#else
 			FF_ALLOC_OR_GOTO(avctx, buf, 2 * n, error);
-#endif
 			adpcm_compress_trellis(avctx, samples + avctx->channels, buf,
                                    &c->status[0], n, avctx->channels);
             if (avctx->channels == 2)
@@ -690,17 +636,7 @@ static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
 
         if (avctx->trellis > 0) {
             n = avctx->block_align - 7 * avctx->channels;
-#ifdef IDE_COMPILE
-            {
-				buf = av_malloc(2 * n);
-				if (!(buf) && (2 * n) != 0) {
-					av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-					goto error;
-				}
-			};
-#else
 			FF_ALLOC_OR_GOTO(avctx, buf, 2 * n, error);
-#endif
 
 			if (avctx->channels == 1) {
                 adpcm_compress_trellis(avctx, samples, buf, &c->status[0], n,
@@ -728,17 +664,7 @@ static int adpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     case AV_CODEC_ID_ADPCM_YAMAHA:
         n = frame->nb_samples / 2;
         if (avctx->trellis > 0) {
-#ifdef IDE_COMPILE
-            {
-				buf = av_malloc(2 * n * 2);
-				if (!(buf) && (2 * n * 2) != 0) {
-					av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-					goto error;
-				}
-			};
-#else
 			FF_ALLOC_OR_GOTO(avctx, buf, 2 * n * 2, error);
-#endif
 			n *= 2;
             if (avctx->channels == 1) {
                 adpcm_compress_trellis(avctx, samples, buf, &c->status[0], n,
@@ -781,25 +707,6 @@ static const enum AVSampleFormat sample_fmts_p[] = {
     AV_SAMPLE_FMT_S16P, AV_SAMPLE_FMT_NONE
 };
 
-#ifdef IDE_COMPILE
-#define ADPCM_ENCODER(id_, name_, sample_fmts_, long_name_) \
-AVCodec ff_ ## name_ ## _encoder = {                        \
-    #name_,                               \
-    long_name_,     \
-    AVMEDIA_TYPE_AUDIO,                   \
-    id_,                                  \
-    0, 0, 0, 0, \
-    sample_fmts_,                         \
-    0, 0, 0, 0, \
-    sizeof(ADPCMEncodeContext),           \
-    0, 0, 0, 0, 0, \
-    adpcm_encode_init,                    \
-    0, \
-    adpcm_encode_frame,                   \
-    0, \
-    adpcm_encode_close,                   \
-}
-#else
 #define ADPCM_ENCODER(id_, name_, sample_fmts_, long_name_) \
 AVCodec ff_ ## name_ ## _encoder = {                        \
     .name           = #name_,                               \
@@ -812,7 +719,6 @@ AVCodec ff_ ## name_ ## _encoder = {                        \
     .close          = adpcm_encode_close,                   \
     .sample_fmts    = sample_fmts_,                         \
 }
-#endif
 
 ADPCM_ENCODER(AV_CODEC_ID_ADPCM_IMA_QT,  adpcm_ima_qt,  sample_fmts_p, "ADPCM IMA QuickTime");
 ADPCM_ENCODER(AV_CODEC_ID_ADPCM_IMA_WAV, adpcm_ima_wav, sample_fmts_p, "ADPCM IMA WAV");

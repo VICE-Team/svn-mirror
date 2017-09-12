@@ -179,17 +179,6 @@ static av_cold int avs_decode_end(AVCodecContext *avctx)
 
 
 AVCodec ff_avs_decoder = {
-#ifdef IDE_COMPILE
-    "avs",
-    "AVS (Audio Video Standard) video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_AVS,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(AvsContext),
-    0, 0, 0, 0, 0, avs_decode_init,
-    0, 0, avs_decode_frame,
-    avs_decode_end,
-#else
 	.name           = "avs",
     .long_name      = NULL_IF_CONFIG_SMALL("AVS (Audio Video Standard) video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -199,5 +188,4 @@ AVCodec ff_avs_decoder = {
     .decode         = avs_decode_frame,
     .close          = avs_decode_end,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

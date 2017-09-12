@@ -69,13 +69,7 @@ fail:
 }
 
 AVCodecParser ff_opus_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_OPUS },
-    sizeof(OpusParseContext),
-    0, opus_parse,
-#else
 	.codec_ids      = { AV_CODEC_ID_OPUS },
     .priv_data_size = sizeof(OpusParseContext),
     .parser_parse   = opus_parse,
-#endif
 };

@@ -26,10 +26,6 @@
 
 #include <stdint.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #include "libavutil/float_dsp.h"
 
 #include "opus.h"

@@ -37,17 +37,10 @@
 #include "ac3enc_opts_template.c"
 
 static const AVClass ac3enc_class = {
-#ifdef IDE_COMPILE
-    "Fixed-Point AC-3 Encoder",
-    av_default_item_name,
-    ac3_options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "Fixed-Point AC-3 Encoder",
     .item_name  = av_default_item_name,
     .option     = ac3_options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 #include "ac3enc_template.c"
@@ -149,26 +142,7 @@ static av_cold int ac3_fixed_encode_init(AVCodecContext *avctx)
     return ff_ac3_encode_init(avctx);
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_ac3_fixed_encoder = {
-#ifdef IDE_COMPILE
-    "ac3_fixed",
-    "ATSC A/52A (AC-3)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_AC3,
-    0, 0, 0, 0, tmp1,
-    ff_ac3_channel_layouts,
-    0, &ac3enc_class,
-    0, sizeof(AC3EncodeContext),
-    0, 0, 0, ac3_defaults,
-    0, ac3_fixed_encode_init,
-    0, ff_ac3_fixed_encode_frame,
-    0, ff_ac3_encode_close,
-#else
 	.name            = "ac3_fixed",
     .long_name       = NULL_IF_CONFIG_SMALL("ATSC A/52A (AC-3)"),
     .type            = AVMEDIA_TYPE_AUDIO,
@@ -182,5 +156,4 @@ AVCodec ff_ac3_fixed_encoder = {
     .priv_class      = &ac3enc_class,
     .channel_layouts = ff_ac3_channel_layouts,
     .defaults        = ac3_defaults,
-#endif
 };

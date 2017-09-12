@@ -340,19 +340,10 @@ static int bmp_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_bmp_decoder = {
-#ifdef IDE_COMPILE
-    "bmp",
-    "BMP (Windows and OS/2 bitmap)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_BMP,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, bmp_decode_frame,
-#else
 	.name           = "bmp",
     .long_name      = NULL_IF_CONFIG_SMALL("BMP (Windows and OS/2 bitmap)"),
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_BMP,
     .decode         = bmp_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

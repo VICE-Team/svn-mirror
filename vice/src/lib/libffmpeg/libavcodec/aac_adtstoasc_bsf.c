@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "aacadtsdec.h"
 #include "put_bits.h"
@@ -117,13 +113,7 @@ static int aac_adtstoasc_filter(AVBitStreamFilterContext *bsfc,
 }
 
 AVBitStreamFilter ff_aac_adtstoasc_bsf = {
-#ifdef IDE_COMPILE
-    "aac_adtstoasc",
-    sizeof(AACBSFContext),
-    aac_adtstoasc_filter,
-#else
 	.name           = "aac_adtstoasc",
     .priv_data_size = sizeof(AACBSFContext),
     .filter         = aac_adtstoasc_filter,
-#endif
 };

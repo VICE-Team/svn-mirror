@@ -30,10 +30,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "get_bits.h"
 #include "bytestream.h"
@@ -1541,24 +1537,6 @@ static const enum AVSampleFormat sample_fmts_both[] = { AV_SAMPLE_FMT_S16,
                                                         AV_SAMPLE_FMT_S16P,
                                                         AV_SAMPLE_FMT_NONE };
 
-#ifdef IDE_COMPILE
-#define ADPCM_DECODER(id_, sample_fmts_, name_, long_name_) \
-AVCodec ff_ ## name_ ## _decoder = {                        \
-    #name_,                               \
-    long_name_,     \
-    AVMEDIA_TYPE_AUDIO,                   \
-    id_,                                  \
-    CODEC_CAP_DR1,                        \
-    0, 0, 0, \
-    sample_fmts_,                         \
-    0, 0, 0, 0, \
-    sizeof(ADPCMDecodeContext),           \
-    0, 0, 0, 0, 0, \
-    adpcm_decode_init,                    \
-    0, 0, \
-    adpcm_decode_frame,                   \
-}
-#else
 #define ADPCM_DECODER(id_, sample_fmts_, name_, long_name_) \
 AVCodec ff_ ## name_ ## _decoder = {                        \
     .name           = #name_,                               \
@@ -1571,7 +1549,6 @@ AVCodec ff_ ## name_ ## _decoder = {                        \
     .capabilities   = CODEC_CAP_DR1,                        \
     .sample_fmts    = sample_fmts_,                         \
 }
-#endif
 
 /* Note: Do not forget to add new entries to the Makefile as well. */
 ADPCM_DECODER(AV_CODEC_ID_ADPCM_4XM,         sample_fmts_s16p, adpcm_4xm,         "ADPCM 4X Movie");

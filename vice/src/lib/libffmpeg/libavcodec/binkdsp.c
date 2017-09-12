@@ -24,12 +24,7 @@
  * Bink DSP routines
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "libavutil/attributes.h"
 #include "binkdsp.h"

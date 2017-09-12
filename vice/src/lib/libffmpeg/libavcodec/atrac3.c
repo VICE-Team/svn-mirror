@@ -36,10 +36,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "libavutil/float_dsp.h"
 #include "libavutil/libm.h"
@@ -931,24 +927,7 @@ static av_cold int atrac3_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
-                                                        AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_atrac3_decoder = {
-#ifdef IDE_COMPILE
-    "atrac3",
-    "ATRAC3 (Adaptive TRansform Acoustic Coding 3)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_ATRAC3,
-    CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(ATRAC3Context),
-    0, 0, 0, 0, 0, atrac3_decode_init,
-    0, 0, atrac3_decode_frame,
-    atrac3_decode_close,
-#else
 	.name             = "atrac3",
     .long_name        = NULL_IF_CONFIG_SMALL("ATRAC3 (Adaptive TRansform Acoustic Coding 3)"),
     .type             = AVMEDIA_TYPE_AUDIO,
@@ -960,5 +939,4 @@ AVCodec ff_atrac3_decoder = {
     .capabilities     = CODEC_CAP_SUBFRAMES | CODEC_CAP_DR1,
     .sample_fmts      = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                         AV_SAMPLE_FMT_NONE },
-#endif
 };

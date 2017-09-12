@@ -957,17 +957,9 @@ static FFPsyWindowInfo psy_lame_window(FFPsyContext *ctx, const float *audio,
 
 const FFPsyModel ff_aac_psy_model =
 {
-#ifdef IDE_COMPILE
-    "3GPP TS 26.403-inspired model",
-    psy_3gpp_init,
-    psy_lame_window,
-    psy_3gpp_analyze,
-    psy_3gpp_end,
-#else
 	.name    = "3GPP TS 26.403-inspired model",
     .init    = psy_3gpp_init,
     .window  = psy_lame_window,
     .analyze = psy_3gpp_analyze,
     .end     = psy_3gpp_end,
-#endif
 };

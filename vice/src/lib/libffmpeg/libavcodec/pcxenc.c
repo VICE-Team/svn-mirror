@@ -26,10 +26,6 @@
  * @see http://www.qzx.com/pc-gpe/pcx.txt
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "bytestream.h"
 #include "libavutil/imgutils.h"
@@ -214,27 +210,7 @@ static int pcx_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_RGB24,
-        AV_PIX_FMT_RGB8, AV_PIX_FMT_BGR8, AV_PIX_FMT_RGB4_BYTE, AV_PIX_FMT_BGR4_BYTE,
-        AV_PIX_FMT_GRAY8, AV_PIX_FMT_PAL8,
-        AV_PIX_FMT_MONOBLACK,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_pcx_encoder = {
-#ifdef IDE_COMPILE
-    "pcx",
-    "PC Paintbrush PCX image",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_PCX,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, pcx_encode_init,
-    0, pcx_encode_frame,
-    0, pcx_encode_close,
-#else
 	.name           = "pcx",
     .long_name      = NULL_IF_CONFIG_SMALL("PC Paintbrush PCX image"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -249,5 +225,4 @@ AVCodec ff_pcx_encoder = {
         AV_PIX_FMT_MONOBLACK,
         AV_PIX_FMT_NONE
     },
-#endif
 };

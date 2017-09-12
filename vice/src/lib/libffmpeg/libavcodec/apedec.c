@@ -22,10 +22,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/channel_layout.h"
 #include "libavutil/opt.h"
@@ -264,19 +260,9 @@ static av_cold int ape_decode_init(AVCodecContext *avctx)
     for (i = 0; i < APE_FILTER_LEVELS; i++) {
         if (!ape_filter_orders[s->fset][i])
             break;
-#ifdef IDE_COMPILE
-        {
-			s->filterbuf[i] = av_malloc((ape_filter_orders[s->fset][i] * 3 + HISTORY_SIZE) * 4);
-			if (!(s->filterbuf[i]) && ((ape_filter_orders[s->fset][i] * 3 + HISTORY_SIZE) * 4) != 0) {
-				av_log(avctx, AV_LOG_ERROR, "Cannot allocate memory.\n");
-				goto filter_alloc_fail;
-			}
-		}
-#else
 		FF_ALLOC_OR_GOTO(avctx, s->filterbuf[i],
                          (ape_filter_orders[s->fset][i] * 3 + HISTORY_SIZE) * 4,
                          filter_alloc_fail);
-#endif
 	}
 
     if (s->fileversion < 3860) {
@@ -1578,52 +1564,19 @@ static void ape_flush(AVCodecContext *avctx)
 #define OFFSET(x) offsetof(APEContext, x)
 #define PAR (AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM)
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "max_samples", "maximum number of samples decoded per call", OFFSET(blocks_per_loop), AV_OPT_TYPE_INT, {4608}, 1, INT_MAX, PAR, "max_samples" },
-    { "all", "no maximum. decode all samples for each packet at once", 0, AV_OPT_TYPE_CONST, {INT_MAX}, INT_MIN, INT_MAX, PAR, "max_samples" },
-#else
 	{ "max_samples", "maximum number of samples decoded per call",             OFFSET(blocks_per_loop), AV_OPT_TYPE_INT,   { .i64 = 4608 },    1,       INT_MAX, PAR, "max_samples" },
     { "all",         "no maximum. decode all samples for each packet at once", 0,                       AV_OPT_TYPE_CONST, { .i64 = INT_MAX }, INT_MIN, INT_MAX, PAR, "max_samples" },
-#endif
 	{ NULL},
 };
 
 static const AVClass ape_decoder_class = {
-#ifdef IDE_COMPILE
-    "APE decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "APE decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_U8P,
-                                                      AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_S32P,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_ape_decoder = {
-#ifdef IDE_COMPILE
-    "ape",
-    "Monkey's Audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_APE,
-    CODEC_CAP_SUBFRAMES | CODEC_CAP_DELAY | CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, &ape_decoder_class,
-    0, sizeof(APEContext),
-    0, 0, 0, 0, 0, ape_decode_init,
-    0, 0, ape_decode_frame,
-    ape_decode_close,
-    ape_flush,
-#else
 	.name           = "ape",
     .long_name      = NULL_IF_CONFIG_SMALL("Monkey's Audio"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1639,5 +1592,4 @@ AVCodec ff_ape_decoder = {
                                                       AV_SAMPLE_FMT_S32P,
                                                       AV_SAMPLE_FMT_NONE },
     .priv_class     = &ape_decoder_class,
-#endif
 };

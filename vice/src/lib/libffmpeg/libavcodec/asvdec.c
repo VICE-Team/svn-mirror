@@ -23,10 +23,6 @@
  * ASUS V1/V2 decoder.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "libavutil/mem.h"
 
@@ -318,17 +314,6 @@ static av_cold int decode_end(AVCodecContext *avctx)
 
 #if CONFIG_ASV1_DECODER
 AVCodec ff_asv1_decoder = {
-#ifdef IDE_COMPILE
-    "asv1",
-    "ASUS V1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_ASV1,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(ASV1Context),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "asv1",
     .long_name      = NULL_IF_CONFIG_SMALL("ASUS V1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -338,23 +323,11 @@ AVCodec ff_asv1_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 #endif
 
 #if CONFIG_ASV2_DECODER
 AVCodec ff_asv2_decoder = {
-#ifdef IDE_COMPILE
-    "asv2",
-    "ASUS V2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_ASV2,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(ASV1Context),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "asv2",
     .long_name      = NULL_IF_CONFIG_SMALL("ASUS V2"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -364,6 +337,5 @@ AVCodec ff_asv2_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 #endif

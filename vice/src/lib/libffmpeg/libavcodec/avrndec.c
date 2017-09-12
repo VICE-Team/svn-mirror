@@ -118,18 +118,6 @@ static int decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_avrn_decoder = {
-#ifdef IDE_COMPILE
-    "avrn",
-    "Avid AVI Codec",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_AVRN,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 3,
-    0, 0, sizeof(AVRnContext),
-    0, 0, 0, 0, 0, init,
-    0, 0, decode_frame,
-    end,
-#else
 	.name           = "avrn",
     .long_name      = NULL_IF_CONFIG_SMALL("Avid AVI Codec"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -140,5 +128,4 @@ AVCodec ff_avrn_decoder = {
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .max_lowres     = 3,
-#endif
 };

@@ -1038,12 +1038,7 @@ static int count_mantissa_bits(AC3EncodeContext *s)
 {
     int ch, max_end_freq;
 
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
 	LOCAL_ALIGNED_16(uint16_t, mant_cnt, [AC3_MAX_BLOCKS], [16]);
-#else
-	uint8_t la_mant_cnt[sizeof(uint16_t[6][16]) + (16)];
-	uint16_t (*mant_cnt)[16] = (void *)((((uintptr_t)la_mant_cnt)+(16)-1)&~((16)-1));
-#endif
 
     count_mantissa_bits_init(mant_cnt);
 
@@ -2165,14 +2160,7 @@ static av_cold int validate_options(AC3EncodeContext *s)
                  found use either 6 blocks or 1 block, even though 2 or 3 blocks
                  would work as far as the bit rate is concerned. */
         for (num_blks_code = 3; num_blks_code >= 0; num_blks_code--) {
-#ifdef IDE_COMPILE
-            {
-				int tmp0[] = { 1, 2, 3, 6 };
-				num_blocks = (tmp0)[num_blks_code];
-			}
-#else
 			num_blocks = ((int[]){ 1, 2, 3, 6 })[num_blks_code];
-#endif
 			frame_samples  = AC3_BLOCK_SIZE * num_blocks;
             max_br = 2048 * s->sample_rate / frame_samples * 16;
             min_br = ((s->sample_rate + (frame_samples-1)) / frame_samples) * 16;

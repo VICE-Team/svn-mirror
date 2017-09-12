@@ -662,18 +662,6 @@ fail:
 }
 
 AVCodec ff_opus_decoder = {
-#ifdef IDE_COMPILE
-    "opus",
-    "Opus",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_OPUS,
-    CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(OpusContext),
-    0, 0, 0, 0, 0, opus_decode_init,
-    0, 0, opus_decode_packet,
-    opus_decode_close,
-    opus_decode_flush,
-#else
 	.name            = "opus",
     .long_name       = NULL_IF_CONFIG_SMALL("Opus"),
     .type            = AVMEDIA_TYPE_AUDIO,
@@ -684,5 +672,4 @@ AVCodec ff_opus_decoder = {
     .decode          = opus_decode_packet,
     .flush           = opus_decode_flush,
     .capabilities    = CODEC_CAP_DR1 | CODEC_CAP_DELAY,
-#endif
 };

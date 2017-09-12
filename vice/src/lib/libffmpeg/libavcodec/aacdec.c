@@ -81,11 +81,6 @@
            Parametric Stereo.
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/float_dsp.h"
 #include "libavutil/opt.h"
 #include "avcodec.h"
@@ -229,46 +224,14 @@ static int assign_pair(struct elem_to_channel e2c_vec[MAX_ELEM_ID],
                        uint64_t right, int pos)
 {
     if (layout_map[offset][0] == TYPE_CPE) {
-#ifdef IDE_COMPILE
-        {
-			struct elem_to_channel tmp1 = {
-                left | right,
-                TYPE_CPE,
-                layout_map[offset][1],
-                pos
-            };
-    		e2c_vec[offset] = tmp1;
-		}
-#else
 		e2c_vec[offset] = (struct elem_to_channel) {
             .av_position  = left | right,
             .syn_ele      = TYPE_CPE,
             .elem_id      = layout_map[offset][1],
             .aac_position = pos
         };
-#endif
 		return 1;
     } else {
-#ifdef IDE_COMPILE
-        {
-			struct elem_to_channel tmp2 = {
-                left,
-                TYPE_SCE,
-                layout_map[offset][1],
-                pos
-            };
-			e2c_vec[offset] = tmp2;
-		}
-        {
-			struct elem_to_channel tmp3 = {
-                right,
-                TYPE_SCE,
-                layout_map[offset + 1][1],
-                pos
-            };
-			e2c_vec[offset + 1] = tmp3;
-		}
-#else
 		e2c_vec[offset] = (struct elem_to_channel) {
             .av_position  = left,
             .syn_ele      = TYPE_SCE,
@@ -281,7 +244,6 @@ static int assign_pair(struct elem_to_channel e2c_vec[MAX_ELEM_ID],
             .elem_id      = layout_map[offset + 1][1],
             .aac_position = pos
         };
-#endif
 		return 2;
     }
 }
@@ -344,24 +306,12 @@ static uint64_t sniff_channel_order(uint8_t (*layout_map)[3], int tags)
 
     i = 0;
     if (num_front_channels & 1) {
-#ifdef IDE_COMPILE
-        {
-			struct elem_to_channel tmp4 = {
-                AV_CH_FRONT_CENTER,
-                TYPE_SCE,
-                layout_map[i][1],
-                AAC_CHANNEL_FRONT
-            };
-			e2c_vec[i] = tmp4;
-		}
-#else
 		e2c_vec[i] = (struct elem_to_channel) {
             .av_position  = AV_CH_FRONT_CENTER,
             .syn_ele      = TYPE_SCE,
             .elem_id      = layout_map[i][1],
             .aac_position = AAC_CHANNEL_FRONT
         };
-#endif
 		i++;
         num_front_channels--;
     }
@@ -417,68 +367,32 @@ static uint64_t sniff_channel_order(uint8_t (*layout_map)[3], int tags)
         num_back_channels -= 2;
     }
     if (num_back_channels) {
-#ifdef IDE_COMPILE
-        {
-			struct elem_to_channel tmp5 = {
-                AV_CH_BACK_CENTER,
-                TYPE_SCE,
-                layout_map[i][1],
-                AAC_CHANNEL_BACK
-            };
-			e2c_vec[i] = tmp5;
-		}
-#else
 		e2c_vec[i] = (struct elem_to_channel) {
             .av_position  = AV_CH_BACK_CENTER,
             .syn_ele      = TYPE_SCE,
             .elem_id      = layout_map[i][1],
             .aac_position = AAC_CHANNEL_BACK
         };
-#endif
 		i++;
         num_back_channels--;
     }
 
     if (i < tags && layout_map[i][2] == AAC_CHANNEL_LFE) {
-#ifdef IDE_COMPILE
-        {
-			struct elem_to_channel tmp6 = {
-                AV_CH_LOW_FREQUENCY,
-                TYPE_LFE,
-                layout_map[i][1],
-                AAC_CHANNEL_LFE
-            };
-			e2c_vec[i] = tmp6;
-		}
-#else
 		e2c_vec[i] = (struct elem_to_channel) {
             .av_position  = AV_CH_LOW_FREQUENCY,
             .syn_ele      = TYPE_LFE,
             .elem_id      = layout_map[i][1],
             .aac_position = AAC_CHANNEL_LFE
         };
-#endif
 		i++;
     }
     while (i < tags && layout_map[i][2] == AAC_CHANNEL_LFE) {
-#ifdef IDE_COMPILE
-        {
-			struct elem_to_channel tmp7 = {
-                UINT64_MAX,
-                TYPE_LFE,
-                layout_map[i][1],
-                AAC_CHANNEL_LFE
-            };
-			e2c_vec[i] = tmp7;
-		}
-#else
 		e2c_vec[i] = (struct elem_to_channel) {
             .av_position  = UINT64_MAX,
             .syn_ele      = TYPE_LFE,
             .elem_id      = layout_map[i][1],
             .aac_position = AAC_CHANNEL_LFE
         };
-#endif
 		i++;
     }
 
@@ -1632,16 +1546,8 @@ static inline float *VMUL4S(float *dst, const float *v, unsigned idx,
                             unsigned sign, const float *scale)
 {
     unsigned nz = idx >> 12;
-#ifdef IDE_COMPILE
-	union av_intfloat32 s;
-#else
 	union av_intfloat32 s = { .f = *scale };
-#endif
 	union av_intfloat32 t;
-
-#ifdef IDE_COMPILE
-	s.f = *scale;
-#endif
 
 	t.i = s.i ^ (sign & 1U<<31);
     *dst++ = v[idx    & 3] * t.f;
@@ -3517,13 +3423,6 @@ static void aacdec_init(AACContext *c)
  */
 #define AACDEC_FLAGS AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"dual_mono_mode", "Select the channel to decode for dual mono", offsetof(AACContext, force_dmono_mode), AV_OPT_TYPE_INT, {-1}, -1, 2, AACDEC_FLAGS, "dual_mono_mode"},
-    {"auto", "autoselection", 0, AV_OPT_TYPE_CONST, {-1}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
-    {"main", "Select Main/Left channel", 0, AV_OPT_TYPE_CONST, {1}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
-    {"sub" , "Select Sub/Right channel", 0, AV_OPT_TYPE_CONST, {2}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
-    {"both", "Select both channels", 0, AV_OPT_TYPE_CONST, {0}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
-#else
 	{"dual_mono_mode", "Select the channel to decode for dual mono",
      offsetof(AACContext, force_dmono_mode), AV_OPT_TYPE_INT, {.i64=-1}, -1, 2,
      AACDEC_FLAGS, "dual_mono_mode"},
@@ -3531,46 +3430,17 @@ static const AVOption options[] = {
     {"main", "Select Main/Left channel", 0, AV_OPT_TYPE_CONST, {.i64= 1}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
     {"sub" , "Select Sub/Right channel", 0, AV_OPT_TYPE_CONST, {.i64= 2}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
     {"both", "Select both channels",     0, AV_OPT_TYPE_CONST, {.i64= 0}, INT_MIN, INT_MAX, AACDEC_FLAGS, "dual_mono_mode"},
-#endif
     {NULL},
 };
 
 static const AVClass aac_decoder_class = {
-#ifdef IDE_COMPILE
-    "AAC decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "AAC decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp8[] = {
-        AV_SAMPLE_FMT_FLTP, AV_SAMPLE_FMT_NONE
-    };
-#endif
-
 AVCodec ff_aac_decoder = {
-#ifdef IDE_COMPILE
-    "aac",
-    "AAC (Advanced Audio Coding)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_AAC,
-    CODEC_CAP_CHANNEL_CONF | CODEC_CAP_DR1,
-    0, 0, 0, tmp8,
-    aac_channel_layout,
-    0, &aac_decoder_class,
-    0, sizeof(AACContext),
-    0, 0, 0, 0, 0, aac_decode_init,
-    0, 0, aac_decode_frame,
-    aac_decode_close,
-    flush,
-#else
 	.name            = "aac",
     .long_name       = NULL_IF_CONFIG_SMALL("AAC (Advanced Audio Coding)"),
     .type            = AVMEDIA_TYPE_AUDIO,
@@ -3586,14 +3456,7 @@ AVCodec ff_aac_decoder = {
     .channel_layouts = aac_channel_layout,
     .flush = flush,
     .priv_class      = &aac_decoder_class,
-#endif
 };
-
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp9[] = {
-        AV_SAMPLE_FMT_FLTP, AV_SAMPLE_FMT_NONE
-    };
-#endif
 
 /*
     Note: This decoder filter is intended to decode LATM streams transferred
@@ -3601,20 +3464,6 @@ static const enum AVSampleFormat tmp9[] = {
     To do a more complex LATM demuxing a separate LATM demuxer should be used.
 */
 AVCodec ff_aac_latm_decoder = {
-#ifdef IDE_COMPILE
-    "aac_latm",
-    "AAC LATM (Advanced Audio Coding LATM syntax)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_AAC_LATM,
-    CODEC_CAP_CHANNEL_CONF | CODEC_CAP_DR1,
-    0, 0, 0, tmp9,
-    aac_channel_layout,
-    0, 0, 0, sizeof(struct LATMContext),
-    0, 0, 0, 0, 0, latm_decode_init,
-    0, 0, latm_decode_frame,
-    aac_decode_close,
-    flush,
-#else
 	.name            = "aac_latm",
     .long_name       = NULL_IF_CONFIG_SMALL("AAC LATM (Advanced Audio Coding LATM syntax)"),
     .type            = AVMEDIA_TYPE_AUDIO,
@@ -3629,5 +3478,4 @@ AVCodec ff_aac_latm_decoder = {
     .capabilities    = CODEC_CAP_CHANNEL_CONF | CODEC_CAP_DR1,
     .channel_layouts = aac_channel_layout,
     .flush = flush,
-#endif
 };

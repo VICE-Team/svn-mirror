@@ -374,24 +374,7 @@ static av_cold int atrac1_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_atrac1_decoder = {
-#ifdef IDE_COMPILE
-    "atrac1",
-    "ATRAC1 (Adaptive TRansform Acoustic Coding)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_ATRAC1,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(AT1Ctx),
-    0, 0, 0, 0, 0, atrac1_decode_init,
-    0, 0, atrac1_decode_frame,
-    atrac1_decode_end,
-#else
 	.name           = "atrac1",
     .long_name      = NULL_IF_CONFIG_SMALL("ATRAC1 (Adaptive TRansform Acoustic Coding)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -403,5 +386,4 @@ AVCodec ff_atrac1_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };

@@ -30,10 +30,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #include "avcodec.h"
 #include "atrac.h"
 

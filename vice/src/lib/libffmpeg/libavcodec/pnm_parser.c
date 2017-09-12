@@ -84,17 +84,9 @@ retry:
 }
 
 AVCodecParser ff_pnm_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_PGM, AV_CODEC_ID_PGMYUV, AV_CODEC_ID_PPM,
-                        AV_CODEC_ID_PBM, AV_CODEC_ID_PAM },
-    sizeof(ParseContext),
-    0, pnm_parse,
-    ff_parse_close,
-#else
 	.codec_ids      = { AV_CODEC_ID_PGM, AV_CODEC_ID_PGMYUV, AV_CODEC_ID_PPM,
                         AV_CODEC_ID_PBM, AV_CODEC_ID_PAM },
     .priv_data_size = sizeof(ParseContext),
     .parser_parse   = pnm_parse,
     .parser_close   = ff_parse_close,
-#endif
 };

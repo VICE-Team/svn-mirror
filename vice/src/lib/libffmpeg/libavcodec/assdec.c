@@ -73,15 +73,6 @@ static int ssa_decode_frame(AVCodecContext *avctx, void *data, int *got_sub_ptr,
 }
 
 AVCodec ff_ssa_decoder = {
-#ifdef IDE_COMPILE
-    "ssa",
-    "SSA (SubStation Alpha) subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_SSA,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ass_decode_init,
-    0, 0, ssa_decode_frame,
-    ass_decode_close,
-#else
 	.name         = "ssa",
     .long_name    = NULL_IF_CONFIG_SMALL("SSA (SubStation Alpha) subtitle"),
     .type         = AVMEDIA_TYPE_SUBTITLE,
@@ -89,7 +80,6 @@ AVCodec ff_ssa_decoder = {
     .init         = ass_decode_init,
     .decode       = ssa_decode_frame,
     .close        = ass_decode_close,
-#endif
 };
 #endif
 
@@ -119,15 +109,6 @@ static int ass_decode_frame(AVCodecContext *avctx, void *data, int *got_sub_ptr,
 }
 
 AVCodec ff_ass_decoder = {
-#ifdef IDE_COMPILE
-    "ass",
-    "ASS (Advanced SubStation Alpha) subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_ASS,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ass_decode_init,
-    0, 0, ass_decode_frame,
-    ass_decode_close,
-#else
 	.name         = "ass",
     .long_name    = NULL_IF_CONFIG_SMALL("ASS (Advanced SubStation Alpha) subtitle"),
     .type         = AVMEDIA_TYPE_SUBTITLE,
@@ -135,6 +116,5 @@ AVCodec ff_ass_decoder = {
     .init         = ass_decode_init,
     .decode       = ass_decode_frame,
     .close        = ass_decode_close,
-#endif
 };
 #endif

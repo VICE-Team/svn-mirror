@@ -675,40 +675,18 @@ static int decode(AVCodecContext *avctx, void *data, int *data_size,
 #define OFFSET(x) offsetof(PGSSubContext, x)
 #define SD AV_OPT_FLAG_SUBTITLE_PARAM | AV_OPT_FLAG_DECODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{"forced_subs_only", "Only show forced subtitles", OFFSET(forced_subs_only), AV_OPT_TYPE_INT, {0}, 0, 1, SD},
-#else
 	{"forced_subs_only", "Only show forced subtitles", OFFSET(forced_subs_only), AV_OPT_TYPE_INT, {.i64 = 0}, 0, 1, SD},
-#endif
 	{ NULL },
 };
 
 static const AVClass pgsdec_class = {
-#ifdef IDE_COMPILE
-    "PGS subtitle decoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "PGS subtitle decoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 AVCodec ff_pgssub_decoder = {
-#ifdef IDE_COMPILE
-    "pgssub",
-    "HDMV Presentation Graphic Stream subtitles",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_HDMV_PGS_SUBTITLE,
-    0, 0, 0, 0, 0, 0, 0, &pgsdec_class,
-    0, sizeof(PGSSubContext),
-    0, 0, 0, 0, 0, init_decoder,
-    0, 0, decode,
-    close_decoder,
-#else
 	.name           = "pgssub",
     .long_name      = NULL_IF_CONFIG_SMALL("HDMV Presentation Graphic Stream subtitles"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
@@ -718,5 +696,4 @@ AVCodec ff_pgssub_decoder = {
     .close          = close_decoder,
     .decode         = decode,
     .priv_class     = &pgsdec_class,
-#endif
 };

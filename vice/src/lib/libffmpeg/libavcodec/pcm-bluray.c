@@ -301,22 +301,7 @@ static int pcm_bluray_decode_frame(AVCodecContext *avctx, void *data,
     return retval + 4;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = {
-        AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_S32, AV_SAMPLE_FMT_NONE
-    };
-#endif
-
 AVCodec ff_pcm_bluray_decoder = {
-#ifdef IDE_COMPILE
-    "pcm_bluray",
-    "PCM signed 16|20|24-bit big-endian for Blu-ray media",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_PCM_BLURAY,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, pcm_bluray_decode_frame,
-#else
 	.name           = "pcm_bluray",
     .long_name      = NULL_IF_CONFIG_SMALL("PCM signed 16|20|24-bit big-endian for Blu-ray media"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -326,5 +311,4 @@ AVCodec ff_pcm_bluray_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]){
         AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_S32, AV_SAMPLE_FMT_NONE
     },
-#endif
 };

@@ -20,10 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "internal.h"
 #include "libavutil/intreadwrite.h"
@@ -153,15 +149,6 @@ static int zero12v_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_zero12v_decoder = {
-#ifdef IDE_COMPILE
-    "012v",
-    "Uncompressed 4:2:2 10-bit",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_012V,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, zero12v_decode_init,
-    0, 0, zero12v_decode_frame,
-#else
 	.name           = "012v",
     .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -169,5 +156,4 @@ AVCodec ff_zero12v_decoder = {
     .init           = zero12v_decode_init,
     .decode         = zero12v_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

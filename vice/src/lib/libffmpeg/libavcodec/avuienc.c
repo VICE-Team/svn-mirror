@@ -100,22 +100,7 @@ static av_cold int avui_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_UYVY422, AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_avui_encoder = {
-#ifdef IDE_COMPILE
-    "avui",
-    "Avid Meridien Uncompressed",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_AVUI,
-    CODEC_CAP_EXPERIMENTAL,
-    0, tmp1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, avui_encode_init,
-    0, avui_encode_frame,
-    0, avui_encode_close,
-#else
 	.name         = "avui",
     .long_name    = NULL_IF_CONFIG_SMALL("Avid Meridien Uncompressed"),
     .type         = AVMEDIA_TYPE_VIDEO,
@@ -125,5 +110,4 @@ AVCodec ff_avui_encoder = {
     .close        = avui_encode_close,
     .capabilities = CODEC_CAP_EXPERIMENTAL,
     .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_UYVY422, AV_PIX_FMT_NONE },
-#endif
 };
