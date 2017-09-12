@@ -953,33 +953,7 @@ static const AVCodecDefault defaults[] = {
     { NULL },
 };
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S32,
-                                                            AV_SAMPLE_FMT_NONE };
-
-static const uint64_t tmp2[] = { (0x00000004),
-                                                  (0x00000001|0x00000002),
-                                                  ((0x00000001|0x00000002)|0x00000200|0x00000400),
-                                                  (((0x00000001|0x00000002)|0x00000004)|0x00000200|0x00000400),
-                                                  ((((0x00000001|0x00000002)|0x00000004)|0x00000200|0x00000400)|0x00000008),
-                                                  0 };
-#endif
-
 AVCodec ff_dca_encoder = {
-#ifdef IDE_COMPILE
-    "dca",
-    "DCA (DTS Coherent Acoustics)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_DTS,
-    CODEC_CAP_EXPERIMENTAL,
-    0, 0, sample_rates,
-    tmp1,
-    tmp2,
-    0, 0, 0, sizeof(DCAContext),
-    0, 0, 0, defaults,
-    0, encode_init,
-    0, encode_frame,
-#else
 	.name                  = "dca",
     .long_name             = NULL_IF_CONFIG_SMALL("DCA (DTS Coherent Acoustics)"),
     .type                  = AVMEDIA_TYPE_AUDIO,
@@ -998,5 +972,4 @@ AVCodec ff_dca_encoder = {
                                                   AV_CH_LAYOUT_5POINT1,
                                                   0 },
     .defaults              = defaults,
-#endif
 };

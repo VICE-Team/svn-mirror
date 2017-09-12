@@ -79,15 +79,6 @@ static int bmv_aud_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_bmv_audio_decoder = {
-#ifdef IDE_COMPILE
-    "bmv_audio",
-    "Discworld II BMV audio",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_BMV_AUDIO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, bmv_aud_decode_init,
-    0, 0, bmv_aud_decode_frame,
-#else
 	.name           = "bmv_audio",
     .long_name      = NULL_IF_CONFIG_SMALL("Discworld II BMV audio"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -95,5 +86,4 @@ AVCodec ff_bmv_audio_decoder = {
     .init           = bmv_aud_decode_init,
     .decode         = bmv_aud_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

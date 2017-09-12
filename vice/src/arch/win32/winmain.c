@@ -53,10 +53,8 @@ HINSTANCE winmain_instance;
 HINSTANCE winmain_prev_instance;
 int winmain_cmd_show;
 
-#ifndef IDE_COMPILE
-#  if !defined(__MSVCRT__) && !defined(_MSC_VER) && !defined(_WIN64) && !defined(__WATCOMC__) && !defined(WATCOM_COMPILE)
+#if !defined(__MSVCRT__) && !defined(_MSC_VER) && !defined(_WIN64) && !defined(__WATCOMC__) && !defined(WATCOM_COMPILE)
 extern void __GetMainArgs(int *, char ***, char ***, int);
-#  endif
 #endif
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, int cmd_show)
@@ -81,7 +79,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, 
         _CrtSetDbgFlag(tmpFlag);
     }
 #  endif
-#  ifndef IDE_COMPILE
     if (!__argc) {
         // For now we always pass 8-bit args to main_program()
         char *vice_cmdline;
@@ -123,11 +120,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, 
     } else {
         main_program(__argc, __argv);
     }
-#  else
-    main_program(__argc, __argv);
-#  endif
 #else
-#  ifndef IDE_COMPILE
     if (_argc) {
         main_program(_argc, _argv);
     } else {
@@ -138,9 +131,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prev_instance, char *cmd_line, 
         __GetMainArgs(&vice_argc, &vice_argv, &dummy, -1);
         main_program(vice_argc, vice_argv);
     }
-#  else
-    main_program(_argc, _argv);
-#  endif
 #endif
 
     return 0;

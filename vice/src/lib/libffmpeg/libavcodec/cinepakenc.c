@@ -168,34 +168,19 @@ typedef struct {
 #define OFFSET(x) offsetof(CinepakEncContext, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "max_extra_cb_iterations", "Max extra codebook recalculation passes, more is better and slower", OFFSET(max_extra_cb_iterations), AV_OPT_TYPE_INT, {2}, 0, INT_MAX, VE },
-    { "skip_empty_cb", "Avoid wasting bytes, ignore vintage MacOS decoder", OFFSET(skip_empty_cb), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
-    { "max_strips", "Limit strips/frame, vintage compatible is 1..3, otherwise the more the better", OFFSET(max_max_strips), AV_OPT_TYPE_INT, {3}, MIN_STRIPS, MAX_STRIPS, VE },
-    { "min_strips", "Enforce min strips/frame, more is worse and faster, must be <= max_strips", OFFSET(min_min_strips), AV_OPT_TYPE_INT, {MIN_STRIPS}, MIN_STRIPS, MAX_STRIPS, VE },
-    { "strip_number_adaptivity", "How fast the strip number adapts, more is slightly better, much slower", OFFSET(strip_number_delta_range), AV_OPT_TYPE_INT, {0}, 0, MAX_STRIPS-MIN_STRIPS, VE },
-#else
 	{ "max_extra_cb_iterations", "Max extra codebook recalculation passes, more is better and slower", OFFSET(max_extra_cb_iterations), AV_OPT_TYPE_INT, { .i64 = 2 }, 0, INT_MAX, VE },
     { "skip_empty_cb", "Avoid wasting bytes, ignore vintage MacOS decoder", OFFSET(skip_empty_cb), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "max_strips", "Limit strips/frame, vintage compatible is 1..3, otherwise the more the better", OFFSET(max_max_strips), AV_OPT_TYPE_INT, { .i64 = 3 }, MIN_STRIPS, MAX_STRIPS, VE },
     { "min_strips", "Enforce min strips/frame, more is worse and faster, must be <= max_strips", OFFSET(min_min_strips), AV_OPT_TYPE_INT, { .i64 = MIN_STRIPS }, MIN_STRIPS, MAX_STRIPS, VE },
     { "strip_number_adaptivity", "How fast the strip number adapts, more is slightly better, much slower", OFFSET(strip_number_delta_range), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, MAX_STRIPS-MIN_STRIPS, VE },
-#endif
 	{ NULL },
 };
 
 static const AVClass cinepak_class = {
-#ifdef IDE_COMPILE
-    "cinepak",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "cinepak",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
 static av_cold int cinepak_encode_init(AVCodecContext *avctx)
@@ -1344,23 +1329,7 @@ static av_cold int cinepak_encode_end(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {AV_PIX_FMT_RGB24, AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE};
-#endif
-
 AVCodec ff_cinepak_encoder = {
-#ifdef IDE_COMPILE
-    "cinepak",
-    "Cinepak / CVID",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_CINEPAK,
-    0, 0, tmp1,
-    0, 0, 0, 0, &cinepak_class,
-    0, sizeof(CinepakEncContext),
-    0, 0, 0, 0, 0, cinepak_encode_init,
-    0, cinepak_encode_frame,
-    0, cinepak_encode_end,
-#else
 	.name           = "cinepak",
     .type           = AVMEDIA_TYPE_VIDEO,
     .id             = AV_CODEC_ID_CINEPAK,
@@ -1371,5 +1340,4 @@ AVCodec ff_cinepak_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]){AV_PIX_FMT_RGB24, AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE},
     .long_name      = NULL_IF_CONFIG_SMALL("Cinepak / CVID"),
     .priv_class     = &cinepak_class,
-#endif
 };

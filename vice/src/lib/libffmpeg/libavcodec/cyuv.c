@@ -177,16 +177,6 @@ static int cyuv_decode_frame(AVCodecContext *avctx,
 
 #if CONFIG_AURA_DECODER
 AVCodec ff_aura_decoder = {
-#ifdef IDE_COMPILE
-    "aura",
-    "Auravision AURA",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_AURA,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(CyuvDecodeContext),
-    0, 0, 0, 0, 0, cyuv_decode_init,
-    0, 0, cyuv_decode_frame,
-#else
 	.name           = "aura",
     .long_name      = NULL_IF_CONFIG_SMALL("Auravision AURA"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -195,22 +185,11 @@ AVCodec ff_aura_decoder = {
     .init           = cyuv_decode_init,
     .decode         = cyuv_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 #endif
 
 #if CONFIG_CYUV_DECODER
 AVCodec ff_cyuv_decoder = {
-#ifdef IDE_COMPILE
-    "cyuv",
-    "Creative YUV (CYUV)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_CYUV,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(CyuvDecodeContext),
-    0, 0, 0, 0, 0, cyuv_decode_init,
-    0, 0, cyuv_decode_frame,
-#else
 	.name           = "cyuv",
     .long_name      = NULL_IF_CONFIG_SMALL("Creative YUV (CYUV)"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -219,6 +198,5 @@ AVCodec ff_cyuv_decoder = {
     .init           = cyuv_decode_init,
     .decode         = cyuv_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };
 #endif

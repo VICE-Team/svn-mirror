@@ -410,17 +410,6 @@ static av_cold int dfa_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_dfa_decoder = {
-#ifdef IDE_COMPILE
-    "dfa",
-    "Chronomaster DFA",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DFA,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(DfaContext),
-    0, 0, 0, 0, 0, dfa_decode_init,
-    0, 0, dfa_decode_frame,
-    dfa_decode_end,
-#else
 	.name           = "dfa",
     .long_name      = NULL_IF_CONFIG_SMALL("Chronomaster DFA"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -430,5 +419,4 @@ AVCodec ff_dfa_decoder = {
     .close          = dfa_decode_end,
     .decode         = dfa_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

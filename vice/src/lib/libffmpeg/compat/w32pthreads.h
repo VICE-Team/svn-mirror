@@ -63,7 +63,7 @@ typedef struct pthread_cond_t {
 } pthread_cond_t;
 
 /* function pointers to conditional variable API on windows 6.0+ kernels */
-#if _WIN32_WINNT < 0x0600 || defined(IDE_COMPILE)
+#if _WIN32_WINNT < 0x0600
 static void (WINAPI *cond_broadcast)(pthread_cond_t *cond);
 static void (WINAPI *cond_init)(pthread_cond_t *cond);
 static void (WINAPI *cond_signal)(pthread_cond_t *cond);

@@ -287,16 +287,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_bmv_video_decoder = {
-#ifdef IDE_COMPILE
-    "bmv_video",
-    "Discworld II BMV video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_BMV_VIDEO,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(BMVDecContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-#else
 	.name           = "bmv_video",
     .long_name      = NULL_IF_CONFIG_SMALL("Discworld II BMV video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -305,5 +295,4 @@ AVCodec ff_bmv_video_decoder = {
     .init           = decode_init,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

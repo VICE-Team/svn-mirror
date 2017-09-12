@@ -98,17 +98,9 @@ static int cavsvideo_parse(AVCodecParserContext *s,
 }
 
 AVCodecParser ff_cavsvideo_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_CAVS },
-    sizeof(ParseContext),
-    0, cavsvideo_parse,
-    ff_parse_close,
-    ff_mpeg4video_split,
-#else
 	.codec_ids      = { AV_CODEC_ID_CAVS },
     .priv_data_size = sizeof(ParseContext),
     .parser_parse   = cavsvideo_parse,
     .parser_close   = ff_parse_close,
     .split          = ff_mpeg4video_split,
-#endif
 };

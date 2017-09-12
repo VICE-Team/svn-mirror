@@ -251,15 +251,8 @@ static void dirac_parse_close(AVCodecParserContext *s)
 }
 
 AVCodecParser ff_dirac_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_DIRAC },
-    sizeof(DiracParseContext),
-    0, dirac_parse,
-    dirac_parse_close,
-#else
 	.codec_ids      = { AV_CODEC_ID_DIRAC },
     .priv_data_size = sizeof(DiracParseContext),
     .parser_parse   = dirac_parse,
     .parser_close   = dirac_parse_close,
-#endif
 };

@@ -98,44 +98,18 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
 #define OFFSET(x) offsetof(CLJRContext, x)
 #define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
 static const AVOption options[] = {
-#ifdef IDE_COMPILE
-	{ "dither_type", "Dither type", OFFSET(dither_type), AV_OPT_TYPE_INT, {1}, 0, 2, VE},
-#else
 	{ "dither_type",   "Dither type",   OFFSET(dither_type),        AV_OPT_TYPE_INT, { .i64=1 }, 0, 2, VE},
-#endif
 	{ NULL },
 };
 
 static const AVClass cljr_class = {
-#ifdef IDE_COMPILE
-    "cljr encoder",
-    av_default_item_name,
-    options,
-    LIBAVUTIL_VERSION_INT,
-#else
 	.class_name = "cljr encoder",
     .item_name  = av_default_item_name,
     .option     = options,
     .version    = LIBAVUTIL_VERSION_INT,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV411P,
-                                                   AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_cljr_encoder = {
-#ifdef IDE_COMPILE
-    "cljr",
-    "Cirrus Logic AccuPak",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_CLJR,
-    0, 0, tmp1,
-    0, 0, 0, 0, &cljr_class,
-    0, sizeof(CLJRContext),
-    0, 0, 0, 0, 0, 0, 0, encode_frame,
-#else
 	.name           = "cljr",
     .long_name      = NULL_IF_CONFIG_SMALL("Cirrus Logic AccuPak"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -145,5 +119,4 @@ AVCodec ff_cljr_encoder = {
     .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV411P,
                                                    AV_PIX_FMT_NONE },
     .priv_class     = &cljr_class,
-#endif
 };

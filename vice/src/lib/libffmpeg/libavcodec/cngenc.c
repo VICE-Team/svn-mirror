@@ -102,23 +102,7 @@ static int cng_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16,
-                                                     AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_comfortnoise_encoder = {
-#ifdef IDE_COMPILE
-    "comfortnoise",
-    "RFC 3389 comfort noise generator",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_COMFORT_NOISE,
-    0, 0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(CNGContext),
-    0, 0, 0, 0, 0, cng_encode_init,
-    0, cng_encode_frame,
-    0, cng_encode_close,
-#else
 	.name           = "comfortnoise",
     .long_name      = NULL_IF_CONFIG_SMALL("RFC 3389 comfort noise generator"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -129,5 +113,4 @@ AVCodec ff_comfortnoise_encoder = {
     .close          = cng_encode_close,
     .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16,
                                                      AV_SAMPLE_FMT_NONE },
-#endif
 };

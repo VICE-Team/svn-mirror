@@ -19,10 +19,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "bytestream.h"
 #include "internal.h"
@@ -264,17 +260,6 @@ static int decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_c93_decoder = {
-#ifdef IDE_COMPILE
-    "c93",
-    "Interplay C93",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_C93,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(C93DecoderContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end,
-#else
 	.name           = "c93",
     .long_name      = NULL_IF_CONFIG_SMALL("Interplay C93"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -284,5 +269,4 @@ AVCodec ff_c93_decoder = {
     .close          = decode_end,
     .decode         = decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

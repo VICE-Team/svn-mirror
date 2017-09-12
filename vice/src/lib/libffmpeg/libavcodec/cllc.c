@@ -22,10 +22,6 @@
 
 #include <inttypes.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/intreadwrite.h"
 #include "bswapdsp.h"
 #include "get_bits.h"
@@ -486,17 +482,6 @@ static av_cold int cllc_decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_cllc_decoder = {
-#ifdef IDE_COMPILE
-    "cllc",
-    "Canopus Lossless Codec",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_CLLC,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(CLLCContext),
-    0, 0, 0, 0, 0, cllc_decode_init,
-    0, 0, cllc_decode_frame,
-    cllc_decode_close,
-#else
 	.name           = "cllc",
     .long_name      = NULL_IF_CONFIG_SMALL("Canopus Lossless Codec"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -506,5 +491,4 @@ AVCodec ff_cllc_decoder = {
     .decode         = cllc_decode_frame,
     .close          = cllc_decode_close,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

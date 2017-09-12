@@ -1989,18 +1989,6 @@ static int dirac_decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
 }
 
 AVCodec ff_dirac_decoder = {
-#ifdef IDE_COMPILE
-    "dirac",
-    "BBC Dirac VC-2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_DIRAC,
-    CODEC_CAP_DELAY,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(DiracContext),
-    0, 0, 0, 0, 0, dirac_decode_init,
-    0, 0, dirac_decode_frame,
-    dirac_decode_end,
-    dirac_decode_flush,
-#else
 	.name           = "dirac",
     .long_name      = NULL_IF_CONFIG_SMALL("BBC Dirac VC-2"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -2011,5 +1999,4 @@ AVCodec ff_dirac_decoder = {
     .decode         = dirac_decode_frame,
     .capabilities   = CODEC_CAP_DELAY,
     .flush          = dirac_decode_flush,
-#endif
 };
