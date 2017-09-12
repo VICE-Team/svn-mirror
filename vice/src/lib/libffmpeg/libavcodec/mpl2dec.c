@@ -69,20 +69,9 @@ static int mpl2_decode_frame(AVCodecContext *avctx, void *data,
     AVBPrint buf;
     AVSubtitle *sub = data;
     const char *ptr = avpkt->data;
-#ifdef IDE_COMPILE
-    AVRational tmp;
-	int ts_start;
-    int ts_duration;
-
-    tmp.num = 1;
-	tmp.den = 100;
-	ts_start = av_rescale_q(avpkt->pts, avctx->time_base, tmp);
-    ts_duration = avpkt->duration != -1 ? av_rescale_q(avpkt->duration, avctx->time_base, tmp) : -1;
-#else
 	const int ts_start     = av_rescale_q(avpkt->pts,      avctx->time_base, (AVRational){1,100});
     const int ts_duration  = avpkt->duration != -1 ?
                              av_rescale_q(avpkt->duration, avctx->time_base, (AVRational){1,100}) : -1;
-#endif
 
     av_bprint_init(&buf, 0, AV_BPRINT_SIZE_UNLIMITED);
     if (ptr && avpkt->size > 0 && *ptr && !mpl2_event_to_ass(&buf, ptr)) {
@@ -98,19 +87,10 @@ static int mpl2_decode_frame(AVCodecContext *avctx, void *data,
 }
 
 AVCodec ff_mpl2_decoder = {
-#ifdef IDE_COMPILE
-    "mpl2",
-    "MPL2 subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_MPL2,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ff_ass_subtitle_header_default,
-    0, 0, mpl2_decode_frame,
-#else
 	.name           = "mpl2",
     .long_name      = NULL_IF_CONFIG_SMALL("MPL2 subtitle"),
     .type           = AVMEDIA_TYPE_SUBTITLE,
     .id             = AV_CODEC_ID_MPL2,
     .decode         = mpl2_decode_frame,
     .init           = ff_ass_subtitle_header_default,
-#endif
 };

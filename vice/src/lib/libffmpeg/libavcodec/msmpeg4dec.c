@@ -911,27 +911,7 @@ int ff_msmpeg4_decode_motion(MpegEncContext * s,
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp0[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_msmpeg4v1_decoder = {
-#ifdef IDE_COMPILE
-    "msmpeg4v1",
-    "MPEG-4 part 2 Microsoft variant version 1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MSMPEG4V1,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    0, tmp0,
-    0, 0, 0, 3,
-    0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_msmpeg4_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-#else
 	.name           = "msmpeg4v1",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -946,30 +926,9 @@ AVCodec ff_msmpeg4v1_decoder = {
         AV_PIX_FMT_YUV420P,
         AV_PIX_FMT_NONE
     },
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_msmpeg4v2_decoder = {
-#ifdef IDE_COMPILE
-    "msmpeg4v2",
-    "MPEG-4 part 2 Microsoft variant version 2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MSMPEG4V2,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    0, tmp1,
-    0, 0, 0, 3,
-    0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_msmpeg4_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-#else
 	.name           = "msmpeg4v2",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 2"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -984,30 +943,9 @@ AVCodec ff_msmpeg4v2_decoder = {
         AV_PIX_FMT_YUV420P,
         AV_PIX_FMT_NONE
     },
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp2[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_msmpeg4v3_decoder = {
-#ifdef IDE_COMPILE
-    "msmpeg4",
-    "MPEG-4 part 2 Microsoft variant version 3",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MSMPEG4V3,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    0, tmp2,
-    0, 0, 0, 3,
-    0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_msmpeg4_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-#else
 	.name           = "msmpeg4",
     .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 3"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1022,30 +960,9 @@ AVCodec ff_msmpeg4v3_decoder = {
         AV_PIX_FMT_YUV420P,
         AV_PIX_FMT_NONE
     },
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp3[] = {
-        AV_PIX_FMT_YUV420P,
-        AV_PIX_FMT_NONE
-    };
-#endif
-
 AVCodec ff_wmv1_decoder = {
-#ifdef IDE_COMPILE
-    "wmv1",
-    "Windows Media Video 7",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_WMV1,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1,
-    0, tmp3,
-    0, 0, 0, 3,
-    0, 0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, ff_msmpeg4_decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-#else
 	.name           = "wmv1",
     .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 7"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -1060,5 +977,4 @@ AVCodec ff_wmv1_decoder = {
         AV_PIX_FMT_YUV420P,
         AV_PIX_FMT_NONE
     },
-#endif
 };

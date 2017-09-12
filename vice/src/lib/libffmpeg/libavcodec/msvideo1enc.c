@@ -292,22 +292,7 @@ static av_cold int encode_end(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = {AV_PIX_FMT_RGB555LE, AV_PIX_FMT_NONE};
-#endif
-
 AVCodec ff_msvideo1_encoder = {
-#ifdef IDE_COMPILE
-    "msvideo1",
-    "Microsoft Video-1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MSVIDEO1,
-    0, 0, tmp1,
-    0, 0, 0, 0, 0, 0, sizeof(Msvideo1EncContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, encode_frame,
-    0, encode_end,
-#else
 	.name           = "msvideo1",
     .long_name = NULL_IF_CONFIG_SMALL("Microsoft Video-1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -317,5 +302,4 @@ AVCodec ff_msvideo1_encoder = {
     .encode2        = encode_frame,
     .close          = encode_end,
     .pix_fmts = (const enum AVPixelFormat[]){AV_PIX_FMT_RGB555, AV_PIX_FMT_NONE},
-#endif
 };

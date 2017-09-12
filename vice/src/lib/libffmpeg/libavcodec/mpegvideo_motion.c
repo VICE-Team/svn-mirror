@@ -663,12 +663,7 @@ static inline void apply_obmc(MpegEncContext *s,
                               uint8_t **ref_picture,
                               op_pixels_func (*pix_op)[4])
 {
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1400))
     LOCAL_ALIGNED_8(int16_t, mv_cache, [4], [4][2]);
-#else
-	uint8_t la_mv_cache[sizeof(int16_t [4] [4][2]) + (8)];
-	int16_t (*mv_cache) [4][2] = (void *)((((uintptr_t)la_mv_cache)+(8)-1)&~((8)-1));
-#endif
 
 	Picture *cur_frame   = &s->current_picture;
     int mb_x = s->mb_x;

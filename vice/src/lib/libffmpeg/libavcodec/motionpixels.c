@@ -343,17 +343,6 @@ end:
 }
 
 AVCodec ff_motionpixels_decoder = {
-#ifdef IDE_COMPILE
-    "motionpixels",
-    "Motion Pixels video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MOTIONPIXELS,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MotionPixelsContext),
-    0, 0, 0, 0, 0, mp_decode_init,
-    0, 0, mp_decode_frame,
-    mp_decode_end,
-#else
 	.name           = "motionpixels",
     .long_name      = NULL_IF_CONFIG_SMALL("Motion Pixels video"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -363,5 +352,4 @@ AVCodec ff_motionpixels_decoder = {
     .close          = mp_decode_end,
     .decode         = mp_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

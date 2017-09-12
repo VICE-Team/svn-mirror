@@ -27,10 +27,6 @@
 
 #define UNCHECKED_BITSTREAM_READER 1
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
 #include "libavutil/timecode.h"
@@ -82,11 +78,7 @@ static av_cold void init_2d_vlc_rl(RLTable *rl, unsigned static_size)
 {
     int i;
     VLC_TYPE table[680][2] = {{0}};
-#ifdef IDE_COMPILE
-    VLC vlc = { 0, table, 0, static_size };
-#else
 	VLC vlc = { .table = table, .table_allocated = static_size };
-#endif
 	av_assert0(static_size <= FF_ARRAY_ELEMS(table));
     init_vlc(&vlc, TEX_VLC_BITS, rl->n + 2, &rl->table_vlc[0][1], 4, 2, &rl->table_vlc[0][0], 4, 2, INIT_VLC_USE_NEW_STATIC);
 

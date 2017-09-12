@@ -64,11 +64,7 @@ static av_cold void mpegaudio_tableinit(void)
             /* cbrtf() isn't available on all systems, so we use powf(). */
             double f = (double)value * pow(value, 1.0 / 3.0) * pow(2, (exponent - 400) * 0.25 + FRAC_BITS + 5) / IMDCT_SCALAR;
             /* llrint() isn't always available, so round and cast manually. */
-#if !defined(IDE_COMPILE) || (defined(IDE_COMPILE) && (_MSC_VER >= 1310))
 			expval_table_fixed[exponent][value] = (long long int) (f < 0xFFFFFFFF ? floor(f + 0.5) : 0xFFFFFFFF);
-#else
-			expval_table_fixed[exponent][value] = (__int64) (f < 0xFFFFFFFF ? floor(f + 0.5) : 0xFFFFFFFF);
-#endif
 			expval_table_float[exponent][value] = f;
         }
         exp_table_fixed[exponent] = expval_table_fixed[exponent][1];

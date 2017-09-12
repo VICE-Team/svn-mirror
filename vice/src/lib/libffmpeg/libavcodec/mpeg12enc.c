@@ -104,18 +104,9 @@ static av_cold void init_uni_ac_vlc(RLTable *rl, uint8_t *uni_ac_vlc_len)
 static int find_frame_rate_index(MpegEncContext *s)
 {
     int i;
-#ifdef IDE_COMPILE
-	AVRational bestq;
-#else
 	AVRational bestq = (AVRational) {0, 0};
-#endif
 	AVRational ext;
     AVRational target = av_inv_q(s->avctx->time_base);
-
-#ifdef IDE_COMPILE
-	bestq.num = 0;
-	bestq.den = 0;
-#endif
 	
 	for (i = 1; i < 14; i++) {
         if (s->avctx->strict_std_compliance > FF_COMPLIANCE_UNOFFICIAL &&
@@ -253,12 +244,7 @@ static void mpeg1_encode_sequence_header(MpegEncContext *s)
     AVRational aspect_ratio = s->avctx->sample_aspect_ratio;
 
     if (aspect_ratio.num == 0 || aspect_ratio.den == 0) {
-#ifdef IDE_COMPILE
-		aspect_ratio.num = 1;             // pixel aspect 1.1 (VGA)
-		aspect_ratio.den = 1;             // pixel aspect 1.1 (VGA)
-#else
 		aspect_ratio = (AVRational){1,1};             // pixel aspect 1.1 (VGA)
-#endif
 	}
     if (s->current_picture.f->key_frame) {
         AVRational framerate = ff_mpeg12_frame_rate_tab[s->frame_rate_index];
@@ -1118,17 +1104,6 @@ av_cold void ff_mpeg1_encode_init(MpegEncContext *s)
 #define OFFSET(x) offsetof(MpegEncContext, x)
 #define VE AV_OPT_FLAG_ENCODING_PARAM | AV_OPT_FLAG_VIDEO_PARAM
 
-#ifdef IDE_COMPILE
-#define COMMON_OPTS                                                           \
-    { "gop_timecode", "MPEG GOP Timecode in hh:mm:ss[:;.]ff format",   \
-      OFFSET(tc_opt_str), AV_OPT_TYPE_STRING, {(intptr_t) NULL}, CHAR_MIN, CHAR_MAX, VE },\
-    { "intra_vlc", "Use MPEG-2 intra VLC table.",                   \
-      OFFSET(intra_vlc_format), AV_OPT_TYPE_INT, {0}, 0, 1, VE }, \
-    { "drop_frame_timecode", "Timecode is in drop frame format.",             \
-      OFFSET(drop_frame_timecode), AV_OPT_TYPE_INT, {0}, 0, 1, VE }, \
-    { "scan_offset", "Reserve space for SVCD scan offset user data.", \
-      OFFSET(scan_offset), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
-#else
 #define COMMON_OPTS                                                           \
     { "gop_timecode",        "MPEG GOP Timecode in hh:mm:ss[:;.]ff format",   \
       OFFSET(tc_opt_str), AV_OPT_TYPE_STRING, {.str=NULL}, CHAR_MIN, CHAR_MAX, VE },\
@@ -1138,7 +1113,6 @@ av_cold void ff_mpeg1_encode_init(MpegEncContext *s)
       OFFSET(drop_frame_timecode), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE }, \
     { "scan_offset",         "Reserve space for SVCD scan offset user data.", \
       OFFSET(scan_offset),         AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
-#endif
 
 static const AVOption mpeg1_options[] = {
     COMMON_OPTS
@@ -1148,34 +1122,16 @@ static const AVOption mpeg1_options[] = {
 
 static const AVOption mpeg2_options[] = {
     COMMON_OPTS
-#ifdef IDE_COMPILE
-	{ "non_linear_quant", "Use nonlinear quantizer.", OFFSET(q_scale_type), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
-    { "alternate_scan", "Enable alternate scantable.", OFFSET(alternate_scan), AV_OPT_TYPE_INT, {0}, 0, 1, VE },
-    { "seq_disp_ext", "Write sequence_display_extension blocks.", OFFSET(seq_disp_ext), AV_OPT_TYPE_INT, {-1}, -1, 1, VE, "seq_disp_ext" },
-    { "auto", NULL, 0, AV_OPT_TYPE_CONST, {-1}, 0, 0, VE, "seq_disp_ext" },
-    { "never", NULL, 0, AV_OPT_TYPE_CONST, {0}, 0, 0, VE, "seq_disp_ext" },
-    { "always", NULL, 0, AV_OPT_TYPE_CONST, {1}, 0, 0, VE, "seq_disp_ext" },
-#else
 	{ "non_linear_quant", "Use nonlinear quantizer.",    OFFSET(q_scale_type),   AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "alternate_scan",   "Enable alternate scantable.", OFFSET(alternate_scan), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, 1, VE },
     { "seq_disp_ext",     "Write sequence_display_extension blocks.", OFFSET(seq_disp_ext), AV_OPT_TYPE_INT, { .i64 = -1 }, -1, 1, VE, "seq_disp_ext" },
     {     "auto",   NULL, 0, AV_OPT_TYPE_CONST,  {.i64 = -1},  0, 0, VE, "seq_disp_ext" },
     {     "never",  NULL, 0, AV_OPT_TYPE_CONST,  {.i64 = 0 },  0, 0, VE, "seq_disp_ext" },
     {     "always", NULL, 0, AV_OPT_TYPE_CONST,  {.i64 = 1 },  0, 0, VE, "seq_disp_ext" },
-#endif
 	FF_MPV_COMMON_OPTS
     { NULL },
 };
 
-#ifdef IDE_COMPILE
-#define mpeg12_class(x)                                 \
-static const AVClass mpeg ## x ## _class = {            \
-    "mpeg" # x "video encoder",           \
-    av_default_item_name,                 \
-    mpeg ## x ## _options,                \
-    LIBAVUTIL_VERSION_INT,                \
-};
-#else
 #define mpeg12_class(x)                                 \
 static const AVClass mpeg ## x ## _class = {            \
     .class_name = "mpeg" # x "video encoder",           \
@@ -1183,31 +1139,11 @@ static const AVClass mpeg ## x ## _class = {            \
     .option     = mpeg ## x ## _options,                \
     .version    = LIBAVUTIL_VERSION_INT,                \
 };
-#endif
 
 mpeg12_class(1)
 mpeg12_class(2)
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp1[] = { AV_PIX_FMT_YUV420P,
-                                                           AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_mpeg1video_encoder = {
-#ifdef IDE_COMPILE
-    "mpeg1video",
-    "MPEG-1 video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MPEG1VIDEO,
-    CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS,
-    ff_mpeg12_frame_rate_tab + 1,
-    tmp1,
-    0, 0, 0, 0, &mpeg1_class,
-    0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, ff_mpv_encode_picture,
-    0, ff_mpv_encode_end,
-#else
     .name                 = "mpeg1video",
     .long_name            = NULL_IF_CONFIG_SMALL("MPEG-1 video"),
     .type                 = AVMEDIA_TYPE_VIDEO,
@@ -1221,30 +1157,9 @@ AVCodec ff_mpeg1video_encoder = {
                                                            AV_PIX_FMT_NONE },
     .capabilities         = CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS,
     .priv_class           = &mpeg1_class,
-#endif
 };
 
-#ifdef IDE_COMPILE
-static const enum AVPixelFormat tmp2[] = { AV_PIX_FMT_YUV420P,
-                                                           AV_PIX_FMT_YUV422P,
-                                                           AV_PIX_FMT_NONE };
-#endif
-
 AVCodec ff_mpeg2video_encoder = {
-#ifdef IDE_COMPILE
-    "mpeg2video",
-    "MPEG-2 video",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MPEG2VIDEO,
-    CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS,
-    ff_mpeg2_frame_rate_tab,
-    tmp2,
-    0, 0, 0, 0, &mpeg2_class,
-    0, sizeof(MpegEncContext),
-    0, 0, 0, 0, 0, encode_init,
-    0, ff_mpv_encode_picture,
-    0, ff_mpv_encode_end,
-#else
 	.name                 = "mpeg2video",
     .long_name            = NULL_IF_CONFIG_SMALL("MPEG-2 video"),
     .type                 = AVMEDIA_TYPE_VIDEO,
@@ -1259,5 +1174,4 @@ AVCodec ff_mpeg2video_encoder = {
                                                            AV_PIX_FMT_NONE },
     .capabilities         = CODEC_CAP_DELAY | CODEC_CAP_SLICE_THREADS,
     .priv_class           = &mpeg2_class,
-#endif
 };

@@ -101,23 +101,10 @@ static int mpeg4_decode_header(AVCodecParserContext *s1, AVCodecContext *avctx,
             return ret;
     }
     if((s1->flags & PARSER_FLAG_USE_CODEC_TS) && s->avctx->time_base.den>0 && ret>=0) {
-#ifdef IDE_COMPILE
-        AVRational tmp1;
-        AVRational tmp2;
-#endif
 		av_assert1(s1->pts == AV_NOPTS_VALUE);
         av_assert1(s1->dts == AV_NOPTS_VALUE);
 
-#ifdef IDE_COMPILE
-        tmp1.num = 1;
-		tmp1.den = s->avctx->time_base.den;
-	    tmp2.num = 1;
-		tmp2.den = 1200000;
-
-		s1->pts = av_rescale_q(s->time, tmp1, tmp2);
-#else
 		s1->pts = av_rescale_q(s->time, (AVRational){1, s->avctx->time_base.den}, (AVRational){1, 1200000});
-#endif
 	}
 
     s1->pict_type     = s->pict_type;
@@ -165,19 +152,10 @@ static int mpeg4video_parse(AVCodecParserContext *s,
 }
 
 AVCodecParser ff_mpeg4video_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_MPEG4 },
-    sizeof(struct Mp4vParseContext),
-    mpeg4video_parse_init,
-    mpeg4video_parse,
-    ff_parse_close,
-    ff_mpeg4video_split,
-#else
 	.codec_ids      = { AV_CODEC_ID_MPEG4 },
     .priv_data_size = sizeof(struct Mp4vParseContext),
     .parser_init    = mpeg4video_parse_init,
     .parser_parse   = mpeg4video_parse,
     .parser_close   = ff_parse_close,
     .split          = ff_mpeg4video_split,
-#endif
 };

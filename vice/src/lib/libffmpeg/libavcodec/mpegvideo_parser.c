@@ -209,19 +209,10 @@ static int mpegvideo_parse_init(AVCodecParserContext *s)
 }
 
 AVCodecParser ff_mpegvideo_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_MPEG1VIDEO, AV_CODEC_ID_MPEG2VIDEO },
-    sizeof(struct MpvParseContext),
-    mpegvideo_parse_init,
-    mpegvideo_parse,
-    ff_parse_close,
-    mpegvideo_split,
-#else
 	.codec_ids      = { AV_CODEC_ID_MPEG1VIDEO, AV_CODEC_ID_MPEG2VIDEO },
     .priv_data_size = sizeof(struct MpvParseContext),
     .parser_init    = mpegvideo_parse_init,
     .parser_parse   = mpegvideo_parse,
     .parser_close   = ff_parse_close,
     .split          = mpegvideo_split,
-#endif
 };

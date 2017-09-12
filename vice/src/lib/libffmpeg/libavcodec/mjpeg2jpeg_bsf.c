@@ -111,11 +111,6 @@ static int mjpeg2jpeg_filter(AVBitStreamFilterContext *bsfc,
 }
 
 AVBitStreamFilter ff_mjpeg2jpeg_bsf = {
-#ifdef IDE_COMPILE
-    "mjpeg2jpeg",
-    0, mjpeg2jpeg_filter,
-#else
 	.name           = "mjpeg2jpeg",
     .filter         = mjpeg2jpeg_filter,
-#endif
 };

@@ -21,29 +21,7 @@
 
 #include "mpegaudioenc_template.c"
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16,
-                                                            AV_SAMPLE_FMT_NONE };
-
-static const int tmp2[] = { 44100, 48000, 32000, 22050, 24000, 16000, 0 };
-
-static const uint64_t tmp3[] = { (AV_CH_LAYOUT_MONO), (AV_CH_LAYOUT_STEREO), 0 };
-#endif
-
 AVCodec ff_mp2fixed_encoder = {
-#ifdef IDE_COMPILE
-    "mp2fixed",
-    "MP2 fixed point (MPEG audio layer 2)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP2,
-    0, 0, 0, tmp2,
-    tmp1,
-    tmp3,
-    0, 0, 0, sizeof(MpegAudioContext),
-    0, 0, 0, mp2_defaults,
-    0, MPA_encode_init,
-    0, MPA_encode_frame,
-#else
 	.name                  = "mp2fixed",
     .long_name             = NULL_IF_CONFIG_SMALL("MP2 fixed point (MPEG audio layer 2)"),
     .type                  = AVMEDIA_TYPE_AUDIO,
@@ -60,5 +38,4 @@ AVCodec ff_mp2fixed_encoder = {
                                                  AV_CH_LAYOUT_STEREO,
                                                  0 },
     .defaults              = mp2_defaults,
-#endif
 };

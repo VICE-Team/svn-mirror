@@ -167,11 +167,7 @@ static int decode_frame(AVCodecContext *avctx,
     MDECContext * const a = avctx->priv_data;
     const uint8_t *buf    = avpkt->data;
     int buf_size          = avpkt->size;
-#ifdef IDE_COMPILE
-    ThreadFrame frame = { data };
-#else
 	ThreadFrame frame     = { .f = data };
-#endif
 	int ret;
 
     if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
@@ -252,18 +248,6 @@ static av_cold int decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_mdec_decoder = {
-#ifdef IDE_COMPILE
-    "mdec",
-    "Sony PlayStation MDEC (Motion DECoder)",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MDEC,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MDECContext),
-    0, decode_init_thread_copy,
-    0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    decode_end
-#else
 	.name             = "mdec",
     .long_name        = NULL_IF_CONFIG_SMALL("Sony PlayStation MDEC (Motion DECoder)"),
     .type             = AVMEDIA_TYPE_VIDEO,
@@ -274,5 +258,4 @@ AVCodec ff_mdec_decoder = {
     .decode           = decode_frame,
     .capabilities     = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
     .init_thread_copy = ONLY_IF_THREADS_ENABLED(decode_init_thread_copy)
-#endif
 };

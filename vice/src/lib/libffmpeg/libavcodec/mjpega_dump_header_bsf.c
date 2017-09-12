@@ -88,11 +88,6 @@ static int mjpega_dump_header(AVBitStreamFilterContext *bsfc, AVCodecContext *av
 }
 
 AVBitStreamFilter ff_mjpega_dump_header_bsf = {
-#ifdef IDE_COMPILE
-    "mjpegadump",
-    0, mjpega_dump_header,
-#else
 	.name   = "mjpegadump",
     .filter = mjpega_dump_header,
-#endif
 };

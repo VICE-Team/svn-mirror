@@ -109,15 +109,8 @@ static int mpegaudio_parse(AVCodecParserContext *s1,
 
 
 AVCodecParser ff_mpegaudio_parser = {
-#ifdef IDE_COMPILE
-    { AV_CODEC_ID_MP1, AV_CODEC_ID_MP2, AV_CODEC_ID_MP3 },
-    sizeof(MpegAudioParseContext),
-    0, mpegaudio_parse,
-    ff_parse_close,
-#else
 	.codec_ids      = { AV_CODEC_ID_MP1, AV_CODEC_ID_MP2, AV_CODEC_ID_MP3 },
     .priv_data_size = sizeof(MpegAudioParseContext),
     .parser_parse   = mpegaudio_parse,
     .parser_close   = ff_parse_close,
-#endif
 };

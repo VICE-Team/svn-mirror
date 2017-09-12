@@ -20,11 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/channel_layout.h"
 #include "libavutil/float_dsp.h"
 #include "avcodec.h"
@@ -1009,24 +1004,7 @@ static av_cold int on2avc_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_on2avc_decoder = {
-#ifdef IDE_COMPILE
-    "on2avc",
-    "On2 Audio for Video Codec",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_ON2AVC,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(On2AVCContext),
-    0, 0, 0, 0, 0, on2avc_decode_init,
-    0, 0, on2avc_decode_frame,
-    on2avc_decode_close,
-#else
 	.name           = "on2avc",
     .long_name      = NULL_IF_CONFIG_SMALL("On2 Audio for Video Codec"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -1038,5 +1016,4 @@ AVCodec ff_on2avc_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };

@@ -1644,11 +1644,7 @@ av_cold void ff_init_vlc_rl(RLTable *rl, unsigned static_size)
 {
     int i, q;
     VLC_TYPE table[1500][2] = {{0}};
-#ifdef IDE_COMPILE
-    VLC vlc = { 0, table, 0, static_size };
-#else
 	VLC vlc = { .table = table, .table_allocated = static_size };
-#endif
 	av_assert0(static_size <= FF_ARRAY_ELEMS(table));
     init_vlc(&vlc, 9, rl->n + 1, &rl->table_vlc[0][1], 4, 2, &rl->table_vlc[0][0], 4, 2, INIT_VLC_USE_NEW_STATIC);
 

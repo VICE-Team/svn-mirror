@@ -157,18 +157,6 @@ read_header:
 }
 
 AVCodec ff_mjpegb_decoder = {
-#ifdef IDE_COMPILE
-    "mjpegb",
-    "Apple MJPEG-B",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MJPEGB,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 3,
-    0, 0, sizeof(MJpegDecodeContext),
-    0, 0, 0, 0, 0, ff_mjpeg_decode_init,
-    0, 0, mjpegb_decode_frame,
-    ff_mjpeg_decode_end,
-#else
 	.name           = "mjpegb",
     .long_name      = NULL_IF_CONFIG_SMALL("Apple MJPEG-B"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -179,5 +167,4 @@ AVCodec ff_mjpegb_decoder = {
     .decode         = mjpegb_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
     .max_lowres     = 3,
-#endif
 };

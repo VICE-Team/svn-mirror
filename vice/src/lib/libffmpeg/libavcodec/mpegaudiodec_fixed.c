@@ -18,12 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef IDE_COMPILE
-#include "ffmpeg-config.h"
-#include "ide-config.h"
-#else
 #include "config.h"
-#endif
 
 #include "libavutil/samplefmt.h"
 
@@ -46,25 +41,7 @@
 
 #if CONFIG_MP1_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp1[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_S16,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_mp1_decoder = {
-#ifdef IDE_COMPILE
-    "mp1",
-    "MP1 (MPEG audio layer 1)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP1,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp1,
-    0, 0, 0, 0, sizeof(MPADecodeContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    0, flush,
-#else
 	.name           = "mp1",
     .long_name      = NULL_IF_CONFIG_SMALL("MP1 (MPEG audio layer 1)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -77,31 +54,12 @@ AVCodec ff_mp1_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_S16,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_MP2_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_S16,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_mp2_decoder = {
-#ifdef IDE_COMPILE
-    "mp2",
-    "MP2 (MPEG audio layer 2)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP2,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp2,
-    0, 0, 0, 0, sizeof(MPADecodeContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    0, flush,
-#else
 	.name           = "mp2",
     .long_name      = NULL_IF_CONFIG_SMALL("MP2 (MPEG audio layer 2)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -114,31 +72,12 @@ AVCodec ff_mp2_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_S16,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_MP3_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp3[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_S16,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_mp3_decoder = {
-#ifdef IDE_COMPILE
-    "mp3",
-    "MP3 (MPEG audio layer 3)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP3,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp3,
-    0, 0, 0, 0, sizeof(MPADecodeContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame,
-    0, flush,
-#else
 	.name           = "mp3",
     .long_name      = NULL_IF_CONFIG_SMALL("MP3 (MPEG audio layer 3)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -151,31 +90,12 @@ AVCodec ff_mp3_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_S16,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_MP3ADU_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp4[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_S16,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_mp3adu_decoder = {
-#ifdef IDE_COMPILE
-    "mp3adu",
-    "ADU (Application Data Unit) MP3 (MPEG audio layer 3)",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP3ADU,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp4,
-    0, 0, 0, 0, sizeof(MPADecodeContext),
-    0, 0, 0, 0, 0, decode_init,
-    0, 0, decode_frame_adu,
-    0, flush,
-#else
 	.name           = "mp3adu",
     .long_name      = NULL_IF_CONFIG_SMALL("ADU (Application Data Unit) MP3 (MPEG audio layer 3)"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -188,31 +108,12 @@ AVCodec ff_mp3adu_decoder = {
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_S16,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif
 
 #if CONFIG_MP3ON4_DECODER
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp5[] = { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_mp3on4_decoder = {
-#ifdef IDE_COMPILE
-    "mp3on4",
-    "MP3onMP4",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_MP3ON4,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp5,
-    0, 0, 0, 0, sizeof(MP3On4DecodeContext),
-    0, 0, 0, 0, 0, decode_init_mp3on4,
-    0, 0, decode_frame_mp3on4,
-    decode_close_mp3on4,
-    flush_mp3on4,
-#else
 	.name           = "mp3on4",
     .long_name      = NULL_IF_CONFIG_SMALL("MP3onMP4"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -225,6 +126,5 @@ AVCodec ff_mp3on4_decoder = {
     .flush          = flush_mp3on4,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };
 #endif

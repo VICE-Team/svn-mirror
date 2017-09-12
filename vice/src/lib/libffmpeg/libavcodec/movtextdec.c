@@ -64,9 +64,6 @@ static int mov_text_decode_frame(AVCodecContext *avctx,
     AVBPrint buf;
     const char *ptr = avpkt->data;
     const char *end;
-#ifdef IDE_COMPILE
-	AVRational tmp;
-#endif
 
     if (!ptr || avpkt->size < 2)
         return AVERROR_INVALIDDATA;
@@ -89,23 +86,12 @@ static int mov_text_decode_frame(AVCodecContext *avctx,
     end = ptr + FFMIN(2 + AV_RB16(ptr), avpkt->size);
     ptr += 2;
 
-#ifdef IDE_COMPILE
-	tmp.num = 1;
-	tmp.den = 100;
-	ts_start = av_rescale_q(avpkt->pts,
-                            avctx->time_base,
-                            tmp);
-    ts_end   = av_rescale_q(avpkt->pts + avpkt->duration,
-                            avctx->time_base,
-                            tmp);
-#else
 	ts_start = av_rescale_q(avpkt->pts,
                             avctx->time_base,
                             (AVRational){1,100});
     ts_end   = av_rescale_q(avpkt->pts + avpkt->duration,
                             avctx->time_base,
                             (AVRational){1,100});
-#endif
 
     // Note that the spec recommends lines be no longer than 2048 characters.
     av_bprint_init(&buf, 0, AV_BPRINT_SIZE_UNLIMITED);
@@ -121,19 +107,10 @@ static int mov_text_decode_frame(AVCodecContext *avctx,
 }
 
 AVCodec ff_movtext_decoder = {
-#ifdef IDE_COMPILE
-    "mov_text",
-    "3GPP Timed Text subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_MOV_TEXT,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mov_text_init,
-    0, 0, mov_text_decode_frame,
-#else
 	.name         = "mov_text",
     .long_name    = NULL_IF_CONFIG_SMALL("3GPP Timed Text subtitle"),
     .type         = AVMEDIA_TYPE_SUBTITLE,
     .id           = AV_CODEC_ID_MOV_TEXT,
     .init         = mov_text_init,
     .decode       = mov_text_decode_frame,
-#endif
 };

@@ -25,10 +25,6 @@
 #include <math.h>
 #include <stdint.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/libm.h"
-#endif
-
 #define BITSTREAM_READER_LE
 #include "libavutil/channel_layout.h"
 #include "libavutil/float_dsp.h"
@@ -122,19 +118,10 @@ static void dec_bark_env(TwinVQContext *tctx, const uint8_t *in, int use_hist,
     const TwinVQModeTab *mtab = tctx->mtab;
     int i, j;
     float *hist     = tctx->bark_hist[ftype][ch];
-#ifdef IDE_COMPILE
-    float val;
-	const float tmp1[] = { 0.4, 0.35, 0.28 };
-#else
 	float val       = ((const float []) { 0.4, 0.35, 0.28 })[ftype];
-#endif
 	int bark_n_coef = mtab->fmode[ftype].bark_n_coef;
     int fw_cb_len   = mtab->fmode[ftype].bark_env_size / bark_n_coef;
     int idx         = 0;
-
-#ifdef IDE_COMPILE
-	val = (tmp1)[ftype];
-#endif
 	
 	if (tctx->avctx->channels == 1)
         val = 0.5;
@@ -387,24 +374,7 @@ static av_cold int metasound_decode_init(AVCodecContext *avctx)
     return ff_twinvq_decode_init(avctx);
 }
 
-#ifdef IDE_COMPILE
-static const enum AVSampleFormat tmp2[] = { AV_SAMPLE_FMT_FLTP,
-                                                      AV_SAMPLE_FMT_NONE };
-#endif
-
 AVCodec ff_metasound_decoder = {
-#ifdef IDE_COMPILE
-    "metasound",
-    "Voxware MetaSound",
-    AVMEDIA_TYPE_AUDIO,
-    AV_CODEC_ID_METASOUND,
-    CODEC_CAP_DR1,
-    0, 0, 0, tmp2,
-    0, 0, 0, 0, sizeof(TwinVQContext),
-    0, 0, 0, 0, 0, metasound_decode_init,
-    0, 0, ff_twinvq_decode_frame,
-    ff_twinvq_decode_close,
-#else
 	.name           = "metasound",
     .long_name      = NULL_IF_CONFIG_SMALL("Voxware MetaSound"),
     .type           = AVMEDIA_TYPE_AUDIO,
@@ -416,5 +386,4 @@ AVCodec ff_metasound_decoder = {
     .capabilities   = CODEC_CAP_DR1,
     .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
-#endif
 };

@@ -338,17 +338,6 @@ static av_cold int msvideo1_decode_end(AVCodecContext *avctx)
 }
 
 AVCodec ff_msvideo1_decoder = {
-#ifdef IDE_COMPILE
-    "msvideo1",
-    "Microsoft Video 1",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MSVIDEO1,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(Msvideo1Context),
-    0, 0, 0, 0, 0, msvideo1_decode_init,
-    0, 0, msvideo1_decode_frame,
-    msvideo1_decode_end,
-#else
 	.name           = "msvideo1",
     .long_name      = NULL_IF_CONFIG_SMALL("Microsoft Video 1"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -358,5 +347,4 @@ AVCodec ff_msvideo1_decoder = {
     .close          = msvideo1_decode_end,
     .decode         = msvideo1_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

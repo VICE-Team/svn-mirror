@@ -22,10 +22,6 @@
 
 #define UNCHECKED_BITSTREAM_READER 1
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "libavutil/opt.h"
 #include "error_resilience.h"
 #include "idctdsp.h"
@@ -2751,13 +2747,8 @@ static const AVProfile mpeg4_video_profiles[] = {
 };
 
 static const AVOption mpeg4_options[] = {
-#ifdef IDE_COMPILE
-	{"quarter_sample", "1/4 subpel MC", offsetof(MpegEncContext, quarter_sample), FF_OPT_TYPE_INT, {0}, 0, 1, 0},
-    {"divx_packed", "divx style packed b frames", offsetof(MpegEncContext, divx_packed), FF_OPT_TYPE_INT, {0}, 0, 1, 0},
-#else
 	{"quarter_sample", "1/4 subpel MC", offsetof(MpegEncContext, quarter_sample), FF_OPT_TYPE_INT, {.i64 = 0}, 0, 1, 0},
     {"divx_packed", "divx style packed b frames", offsetof(MpegEncContext, divx_packed), FF_OPT_TYPE_INT, {.i64 = 0}, 0, 1, 0},
-#endif
 	{NULL}
 };
 
@@ -2769,23 +2760,6 @@ static const AVClass mpeg4_class = {
 };
 
 AVCodec ff_mpeg4_decoder = {
-#ifdef IDE_COMPILE
-    "mpeg4",
-    "MPEG-4 part 2",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MPEG4,
-    CODEC_CAP_DRAW_HORIZ_BAND | CODEC_CAP_DR1 | CODEC_CAP_TRUNCATED | CODEC_CAP_DELAY | CODEC_CAP_FRAME_THREADS,
-    0, ff_h263_hwaccel_pixfmt_list_420,
-    0, 0, 0, 3,
-    &mpeg4_class,
-    mpeg4_video_profiles,
-    sizeof(Mpeg4DecContext),
-    0, 0, mpeg4_update_thread_context,
-    0, 0, decode_init,
-    0, 0, ff_h263_decode_frame,
-    ff_h263_decode_end,
-    ff_mpeg_flush,
-#else
 	.name                  = "mpeg4",
     .long_name             = NULL_IF_CONFIG_SMALL("MPEG-4 part 2"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -2803,7 +2777,6 @@ AVCodec ff_mpeg4_decoder = {
     .profiles              = NULL_IF_CONFIG_SMALL(mpeg4_video_profiles),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(mpeg4_update_thread_context),
     .priv_class = &mpeg4_class,
-#endif
 };
 
 

@@ -670,17 +670,6 @@ static av_cold int mss4_decode_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_mts2_decoder = {
-#ifdef IDE_COMPILE
-    "mts2",
-    "MS Expression Encoder Screen",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MTS2,
-    CODEC_CAP_DR1,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MSS4Context),
-    0, 0, 0, 0, 0, mss4_decode_init,
-    0, 0, mss4_decode_frame,
-    mss4_decode_end,
-#else
 	.name           = "mts2",
     .long_name      = NULL_IF_CONFIG_SMALL("MS Expression Encoder Screen"),
     .type           = AVMEDIA_TYPE_VIDEO,
@@ -690,5 +679,4 @@ AVCodec ff_mts2_decoder = {
     .close          = mss4_decode_end,
     .decode         = mss4_decode_frame,
     .capabilities   = CODEC_CAP_DR1,
-#endif
 };

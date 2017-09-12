@@ -220,7 +220,7 @@ int ff_msmpeg4_pred_dc(MpegEncContext *s, int n,
        necessitate to modify mpegvideo.c. The problem comes from the
        fact they decided to store the quantized DC (which would lead
        to problems if Q could vary !) */
-#if ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE && !defined(IDE_COMPILE)
+#if ARCH_X86 && HAVE_7REGS && HAVE_EBX_AVAILABLE
     __asm__ volatile(
         "movl %3, %%eax         \n\t"
         "shrl $1, %%eax         \n\t"

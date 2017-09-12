@@ -23,10 +23,6 @@
 #include <string.h>
 #include <stdint.h>
 
-#ifdef IDE_COMPILE
-#include "libavutil/internal.h"
-#endif
-
 #include "avcodec.h"
 #include "blockdsp.h"
 #include "internal.h"
@@ -475,19 +471,6 @@ static av_cold int mimic_init_thread_copy(AVCodecContext *avctx)
 }
 
 AVCodec ff_mimic_decoder = {
-#ifdef IDE_COMPILE
-    "mimic",
-    "Mimic",
-    AVMEDIA_TYPE_VIDEO,
-    AV_CODEC_ID_MIMIC,
-    CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
-    0, 0, 0, 0, 0, 0, 0, 0, sizeof(MimicContext),
-    0, mimic_init_thread_copy,
-    mimic_decode_update_thread_context,
-    0, 0, mimic_decode_init,
-    0, 0, mimic_decode_frame,
-    mimic_decode_end,
-#else
 	.name                  = "mimic",
     .long_name             = NULL_IF_CONFIG_SMALL("Mimic"),
     .type                  = AVMEDIA_TYPE_VIDEO,
@@ -499,5 +482,4 @@ AVCodec ff_mimic_decoder = {
     .capabilities          = CODEC_CAP_DR1 | CODEC_CAP_FRAME_THREADS,
     .update_thread_context = ONLY_IF_THREADS_ENABLED(mimic_decode_update_thread_context),
     .init_thread_copy      = ONLY_IF_THREADS_ENABLED(mimic_init_thread_copy),
-#endif
 };

@@ -307,23 +307,10 @@ static int microdvd_decode_frame(AVCodecContext *avctx,
     if (*decoded_sub) {
         int64_t start    = avpkt->pts;
         int64_t duration = avpkt->duration;
-#ifdef IDE_COMPILE
-		int ts_start;
-		int ts_duration;
-		AVRational tmp;
-#else
 		int ts_start     = av_rescale_q(start,    avctx->time_base, (AVRational){1,100});
 		int ts_duration  = duration != -1 ?
                            av_rescale_q(duration, avctx->time_base, (AVRational){1,100}) : -1;
-#endif
 
-#ifdef IDE_COMPILE
-		tmp.num = 1;
-		tmp.den = 100;
-
-		ts_start = av_rescale_q(start, avctx->time_base, tmp);
-		ts_duration = duration != -1 ? av_rescale_q(duration, avctx->time_base, tmp) : -1;
-#endif
 		ff_ass_add_rect(sub, decoded_sub, ts_start, ts_duration, 0);
     }
     av_free(decoded_sub);
@@ -382,19 +369,10 @@ static int microdvd_init(AVCodecContext *avctx)
 }
 
 AVCodec ff_microdvd_decoder = {
-#ifdef IDE_COMPILE
-    "microdvd",
-    "MicroDVD subtitle",
-    AVMEDIA_TYPE_SUBTITLE,
-    AV_CODEC_ID_MICRODVD,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, microdvd_init,
-    0, 0, microdvd_decode_frame,
-#else
 	.name         = "microdvd",
     .long_name    = NULL_IF_CONFIG_SMALL("MicroDVD subtitle"),
     .type         = AVMEDIA_TYPE_SUBTITLE,
     .id           = AV_CODEC_ID_MICRODVD,
     .init         = microdvd_init,
     .decode       = microdvd_decode_frame,
-#endif
 };
