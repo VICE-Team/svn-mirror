@@ -37,15 +37,23 @@
 #include "drive.h"
 #include "drive-check.h"
 
-
-
 #include "drivetypewidget.h"
 
 
+/** \brief  Unit number (8-11)
+ */
 static int unit_number = 8;
 
+static void(*unit_callback)(int) = NULL;
+
+extern GtkWidget *drive_extend_widget;
 
 
+/** \brief  Handler for the "toggled" event of the radio buttons
+ *
+ * \param[in]   widget      radio button
+ * \param[in]   user_data   unit number
+ */
 static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
@@ -55,12 +63,24 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
         g_snprintf(buffer, 64, "Drive%dType", unit_number);
         debug_gtk3("setting %s to %d\n", buffer, type);
         resources_set_int(buffer, type);
+
+        /* TODO: enable/disable 40-track settings widget */
+        gtk_widget_set_sensitive(drive_extend_widget,
+                drive_check_extend_policy(type));
     }
 }
 
 
-
-GtkWidget *create_drive_type_widget(int unit)
+/** \brief  Create a drive unit selection widget
+ *
+ * Creates a widget with four radio buttons, horizontally aligned, to select
+ * a drive unit (8-11)
+ *
+ * \param[in]   unit    default drive unit
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *create_drive_type_widget(int unit, void (*callback)(int))
 {
     GtkWidget *grid;
     drive_type_info_t *list;
@@ -69,6 +89,7 @@ GtkWidget *create_drive_type_widget(int unit)
     size_t i;
 
     unit_number = unit;
+    unit_callback = callback;
 
     grid = uihelpers_create_grid_with_label("Drive type", 1);
     list = drive_get_type_info_list();
@@ -77,17 +98,6 @@ GtkWidget *create_drive_type_widget(int unit)
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
         g_object_set(radio, "margin-left", 16, NULL);
 
-#if 0
-        if (callback != NULL) {
-            g_signal_connect(radio, "toggled", G_CALLBACK(callback),
-                    GINT_TO_POINTER(data[i].value));
-        }
-#endif
-#if 0
-        gtk_widget_set_sensitive(radio,
-                drive_check_type((unsigned int)(list[i].id),
-                    (unsigned int)(unit - 8)));
-#endif
         g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
                 GINT_TO_POINTER(list[i].id));
 
@@ -101,6 +111,11 @@ GtkWidget *create_drive_type_widget(int unit)
 }
 
 
+/** \brief  Update the drive type widget with a new unit number
+ *
+ * \param[in,out]   widget  drive type widget
+ * \param[in]       unit    new unit number
+ */
 void update_drive_type_widget(GtkWidget *widget, int unit)
 {
     drive_type_info_t *list;
@@ -127,5 +142,3 @@ void update_drive_type_widget(GtkWidget *widget, int unit)
         }
     }
 }
-
-

@@ -126,6 +126,9 @@ static int drive_led_color[DRIVE_NUM];
  * to display and and ID to use in callbacks.
  *
  * \return  list of drive types, NULL terminated
+ *
+ * \note    'supported' in this context means the drives VICE can support, not
+ *          what actually is supported due to ROMs and other settings
  */
 drive_type_info_t *drive_get_type_info_list(void)
 {

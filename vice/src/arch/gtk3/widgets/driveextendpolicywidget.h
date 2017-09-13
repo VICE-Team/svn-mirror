@@ -1,8 +1,11 @@
-/** \file   src/arch/gtk3/uidrivesettings.h
- * \brief   Drive settings dialog - header
+/** \file   src/arch/gtk3/widgets/driveextendpolicywidget.h
+ * \brief   Drive 40-track extend policy widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Controls the following resource(s):
+ *  Drive[8-11]ExtendPolicy
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,18 +27,16 @@
  *
  */
 
-
-/* XXX: unbelievable, but there already was a H_UIDRIVESETTINGS_H*/
-#ifndef HAVE_UIDRIVESETTINGS_GTK3_H
-#define HAVE_UIDRIVESETTINGS_GTK3_H
+#ifndef HAVE_DRIVEEXTENDPOLICYWIDGET_H
+#define HAVE_DRIVEEXTENDPOLICYWIDGET_H
 
 #include "vice.h"
 
 #include <gtk/gtk.h>
 
-/* this sucks */
-extern GtkWidget *drive_extend_widget;
+GtkWidget * create_drive_extend_policy_widget(int unit);
+void        update_drive_extend_policy_widget(GtkWidget *widget, int unit);
 
-GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent);
 
 #endif
+

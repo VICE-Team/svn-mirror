@@ -47,12 +47,14 @@
 
 #include "debug_gtk3.h"
 #include "not_implemented.h"
-
+#include "drive.h"
+#include "drive-check.h"
 #include "machine.h"
 #include "resources.h"
 #include "widgethelpers.h"
 #include "driveunitwidget.h"
 #include "drivetypewidget.h"
+#include "driveextendpolicywidget.h"
 
 #include "uidrivesettings.h"
 
@@ -61,7 +63,19 @@
  */
 static int unit_number = 8;
 
+
+/** \brief  Reference to the drive type widget
+ *
+ * Used in unit_changed_callback() to update the widget
+ */
 static GtkWidget *drive_type_widget = NULL;
+
+
+/** \brief  Widget controlling 40-track handling
+ *
+ * This is horrible, this really should be static
+ */
+GtkWidget *drive_extend_widget = NULL;
 
 
 /** \brief  Extra callback when the unit number has changed
@@ -73,11 +87,26 @@ static GtkWidget *drive_type_widget = NULL;
  */
 static void unit_changed_callback(int unit)
 {
+    gchar res_name[64];
+    int type;
+
+    g_snprintf(res_name, 64, "Drive%dType", unit);
+    resources_get_int(res_name, &type);
+
     debug_gtk3("got unit %d\n", unit);
     update_drive_type_widget(drive_type_widget, unit);
+
+    update_drive_extend_policy_widget(drive_extend_widget, unit);
+    gtk_widget_set_sensitive(drive_extend_widget, drive_check_extend_policy(type));
 }
 
 
+/** \brief  Create drive settings widget for the settings dialog
+ *
+ * \paramp[in]  parent  parent widget
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
@@ -94,9 +123,14 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
             0, 0, 2, 1);
 
     /* row 1, column 0 */
-    drive_type_widget = create_drive_type_widget(unit_number);
+    drive_type_widget = create_drive_type_widget(unit_number, unit_changed_callback);
     update_drive_type_widget(drive_type_widget, unit_number);
     gtk_grid_attach(GTK_GRID(layout), drive_type_widget, 0, 1, 1, 1);
+
+    /* row 1, colum 1 */
+    drive_extend_widget = create_drive_extend_policy_widget(unit_number);
+    update_drive_extend_policy_widget(drive_extend_widget, unit_number);
+    gtk_grid_attach(GTK_GRID(layout), drive_extend_widget, 1, 1, 1,1 );
 
     gtk_widget_show_all(layout);
     return layout;

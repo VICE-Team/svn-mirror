@@ -35,10 +35,20 @@
 
 
 /** \brief  Destination of the unit number when changed
+ *
+ * Set when the unit number in the widget changes, pass `NULL` as the `target`
+ * argument to disable this.
  */
 static int *unit_target;
 
-static void (*unit_callback)(int);
+
+/** \brief  Callback triggered on unit number change
+ *
+ * This is an optional callback to allow updating other widgets depending on
+ * the selected unit number. Pass `NULL` as the `callback` argument to
+ * create_drive_unit_widget() to disable this.
+ */
+static void (*unit_callback)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" events of the radio buttons
