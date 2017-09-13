@@ -128,7 +128,6 @@ static void on_response(GtkWidget *widget, gpointer user_data)
                 /* failed */
                 debug_gtk3("disk attach failed\n");
             }
-
             g_free(filename);
             gtk_widget_destroy(widget);
             break;
@@ -193,7 +192,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
 
     /* second row, three cols wide */
-    gtk_grid_attach(GTK_GRID(grid), create_drive_unit_widget(8, &unit_number),
+    gtk_grid_attach(GTK_GRID(grid), create_drive_unit_widget(8, &unit_number,
+                NULL),
             0, 1, 3, 1);
 
     gtk_widget_show_all(grid);

@@ -431,8 +431,12 @@ void archdep_signals_pipe_unset(void)
 
 char *archdep_default_rtc_file_name(void)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+    if (archdep_pref_path == NULL) {
+        /* XDG-spec path */
+        return util_concat(archdep_home_path(), "/.config/vice/vice.rtc", NULL);
+    } else {
+        return util_concat(archdep_pref_path, "/vice-rtc", NULL);
+    }
 }
 
 int archdep_file_is_chardev(const char *name)

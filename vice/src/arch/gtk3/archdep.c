@@ -66,6 +66,9 @@
  */
 static char *argv0 = NULL;
 
+const char *archdep_pref_path = NULL;
+
+
 #ifdef UNIX_COMPILE
 #include "archdep_unix.c"
 #endif

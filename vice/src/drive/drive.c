@@ -74,6 +74,11 @@
 #include "monitor.h"
 
 
+/** \brief  List of drive type names and ID's
+ *
+ * Convenience function for UI's. This list should be updated whenever drive
+ * types are added or removed.
+ */
 static drive_type_info_t drive_type_info_list[] = {
     { DRIVE_NAME_NONE, DRIVE_TYPE_NONE },
     { DRIVE_NAME_1540, DRIVE_TYPE_1540 },

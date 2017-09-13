@@ -30,7 +30,8 @@ libwidgets_a_SOURCES = \
 	soundsuspendtimewidget.c \
 	contentpreviewwidget.c \
 	filechooserhelpers.c \
-	driveunitwidget.c
+	driveunitwidget.c \
+	drivetypewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -48,5 +49,6 @@ EXTRA_DIST = \
 	soundsuspendtimewidget.h \
 	contentpreviewwidget.h \
 	filechooserhelpers.h \
-	driveunitwidget.h
+	driveunitwidget.h \
+	drivetypewidget.h
 

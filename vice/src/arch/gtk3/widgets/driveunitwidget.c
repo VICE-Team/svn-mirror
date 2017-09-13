@@ -38,6 +38,8 @@
  */
 static int *unit_target;
 
+static void (*unit_callback)(int);
+
 
 /** \brief  Handler for the "toggled" events of the radio buttons
  *
@@ -50,7 +52,12 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         debug_gtk3("setting unit to %d\n", unit);
-        *unit_target = unit;
+        if (unit_target != NULL) {
+            *unit_target = unit;
+        }
+        if (unit_callback != NULL) {
+            unit_callback(unit);
+        }
     }
 }
 
@@ -108,13 +115,17 @@ static GtkWidget *create_radio_group(int unit)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_drive_unit_widget(int unit, int *target)
+GtkWidget *create_drive_unit_widget(int unit, int *target, void (*callback)(int))
 {
     GtkWidget *grid;
     GtkWidget *label;
 
     unit_target = target;
-    *target = unit; /* make sure we don't end up with unintialized data */
+    unit_callback = callback;
+
+    if (target != NULL) {
+        *target = unit; /* make sure we don't end up with unintialized data */
+    }
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);

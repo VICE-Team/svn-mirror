@@ -102,6 +102,22 @@ void machine_drive_stub(void)
 {
 }
 
+
+static drive_type_info_t drive_dummy_list[] = {
+    { NULL, -1 }
+};
+
+
+/** \brief  Dummy function
+ *
+ * Added here to make gtk3/widgets/drivetypewidget.c compile, due to using
+ * static libraries. This function will not be used in the VSID Gtk3 UI
+ */
+drive_type_info_t *drive_get_type_info_list(void)
+{
+    return drive_dummy_list;
+}
+
 /*******************************************************************************
     Cartridge system
 *******************************************************************************/

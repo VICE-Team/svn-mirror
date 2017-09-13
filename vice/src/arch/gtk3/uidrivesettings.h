@@ -1,5 +1,5 @@
-/*
- * driveunitwidget.h - GTK3 drive unit selection widget - header
+/** \file   src/arch/gtk3/uidrivesettings.h
+ * \brief   Drive settings dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -21,15 +21,18 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef HAVE_DRIVEUNITWIDGET_H
-#define HAVE_DRIVEUNITWIDGET_H
+
+/* XXX: unbelievable, but there already was a H_UIDRIVESETTINGS_H*/
+#ifndef HAVE_UIDRIVESETTINGS_GTK3_H
+#define HAVE_UIDRIVESETTINGS_GTK3_H
 
 #include "vice.h"
 
 #include <gtk/gtk.h>
 
-GtkWidget *create_drive_unit_widget(int unit, int *target, void (*callback)(int));
+GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent);
 
 #endif

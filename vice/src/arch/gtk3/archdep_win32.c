@@ -262,8 +262,9 @@ void archdep_signals_pipe_unset(void)
 
 char *archdep_default_rtc_file_name(void)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+    /* XXX: temp hack, should resolve %APPDATA%\\vice
+     *      2017-09-13 -- Compyx */
+    return util_concat(archdep_boot_path(), "\\vice.rtc", NULL);
 }
 
 int archdep_file_is_chardev(const char *name)
