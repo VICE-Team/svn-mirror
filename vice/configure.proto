@@ -4359,7 +4359,7 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/msvc/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/mingw32/wpcap"
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
   fi
@@ -4392,7 +4392,7 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a"
   if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/msvc/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/mingw32/wpcap"
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
@@ -5106,9 +5106,8 @@ AC_OUTPUT([Makefile
            src/arch/win32/Makefile
            src/arch/win32/evc/Makefile
            src/arch/win32/mingw32/Makefile
-           src/arch/win32/msvc/Makefile
-           src/arch/win32/msvc/wpcap/Makefile
-           src/arch/win32/msvc/wpcap/net/Makefile
+           src/arch/win32/mingw32/wpcap/Makefile
+           src/arch/win32/mingw32/wpcap/net/Makefile
            src/arch/win32/utils/Makefile
            src/buildtools/Makefile
            src/c128/Makefile

@@ -1,14 +1,14 @@
 ## Makefile.am for the Win32 version of `libarch.a'.
 
 if !CROSS
-SUBDIRS = evc mingw32 msvc utils
+SUBDIRS = evc mingw32 utils
 endif
 
 SUFFIXES = .rc
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
-	@ARCH_INCLUDES@/msvc/wpcap \
+	@ARCH_INCLUDES@/mingw32/wpcap \
 	@ARCH_INCLUDES@/mingw32 \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
