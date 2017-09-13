@@ -38,7 +38,6 @@
 #include "intl.h"
 #include "lib.h"
 #include "machine.h"
-#include "platform_discovery.h"
 #include "res.h"
 #include "system.h"
 #include "translate.h"
@@ -110,15 +109,16 @@ static BOOL CALLBACK AboutDialogProc(HWND hDlg, UINT iMsg, WPARAM wParam, LPARAM
             element = GetDlgItem(hDlg, ID_TEXT + 2);
 #ifdef UNSTABLE
 #  ifdef USE_SVN_REVISION
-            text = lib_msprintf(translate_text(IDS_VERSION_S_REV_S_UNSTABLE), VERSION, VICE_SVN_REV_STRING, PLATFORM);
+            text = 
+lib_msprintf(translate_text(IDS_VERSION_S_REV_S_UNSTABLE), VERSION, VICE_SVN_REV_STRING, "Windows");
 #  else
-            text = lib_msprintf(translate_text(IDS_VERSION_S_UNSTABLE), VERSION, PLATFORM);
+            text = lib_msprintf(translate_text(IDS_VERSION_S_UNSTABLE), VERSION, "Windows");
 #  endif
 #else /* #ifdef UNSTABLE */
 #  ifdef USE_SVN_REVISION
-            text = lib_msprintf(translate_text(IDS_VERSION_S_REV_S), VERSION, VICE_SVN_REV_STRING, PLATFORM);
+            text = lib_msprintf(translate_text(IDS_VERSION_S_REV_S), VERSION, VICE_SVN_REV_STRING, "Windows");
 #  else
-            text = lib_msprintf(translate_text(IDS_VERSION_S), VERSION, PLATFORM);
+            text = lib_msprintf(translate_text(IDS_VERSION_S), VERSION, "Windows");
 #  endif
 #endif /* #ifdef UNSTABLE */
             st_text = system_mbstowcs_alloc(text);

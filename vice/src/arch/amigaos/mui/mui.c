@@ -38,7 +38,6 @@
 #include "info.h"
 #include "mui.h"
 #include "private.h"
-#include "platform_discovery.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -406,9 +405,9 @@ void ui_about(void)
         "Versatile Commodore Emulator",
         "",
 #ifdef USE_SVN_REVISION
-        "Version " VERSION "rev " VICE_SVN_REV_STRING " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+        "Version " VERSION "rev " VICE_SVN_REV_STRING,
 #else
-        "Version " VERSION " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+        "Version " VERSION,
 #endif
         "",
         "The VICE Team",

@@ -66,7 +66,6 @@
 #include "log.h"
 #include "machine.h"
 #include "monitor.h"
-#include "platform.h"
 #include "ui.h"
 #include "util.h"
 
@@ -666,12 +665,6 @@ static void archdep_shutdown_extra(void)
     lib_free(argv0);
     lib_free(boot_path);
 }
-
-
-/* Fetch Platform Stuff for Mac OS X */
-#ifdef MACOSX_BUNDLE
-#include "../platform/platform_macosx.c"
-#endif
 
 /******************************************************************************/
 

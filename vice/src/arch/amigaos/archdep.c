@@ -51,7 +51,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "platform.h"
 #include "ui.h"
 #include "util.h"
 
@@ -415,59 +414,6 @@ int archdep_rtc_get_centisecond(void)
     return now.tv_usec / 10;
 }
 #endif
-
-#ifdef AMIGA_MORPHOS
-static char *archdep_get_mos_runtime_os(void)
-{
-    /* TODO: Add MorphOS version detection */
-    return "MorphOS";
-}
-
-
-static char *archdep_get_mos_runtime_cpu(void)
-{
-    /* TODO: Add PPC type detection */
-    return "Unknown PPC CPU";
-}
-#endif
-
-char *archdep_get_runtime_os(void)
-{
-#ifdef AMIGA_M68K
-    return platform_get_amigaos3_runtime_os();
-#endif
-
-#ifdef AMIGA_OS4
-    return platform_get_amigaos4_runtime_os();
-#endif
-
-#ifdef AMIGA_MORPHOS
-    return archdep_get_mos_runtime_os();
-#endif
-
-#ifdef AMIGA_AROS
-    return platform_get_aros_runtime_os();
-#endif
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-#ifdef AMIGA_M68K
-    return platform_get_amigaos3_runtime_cpu();
-#endif
-
-#ifdef AMIGA_OS4
-    return platform_get_amigaos4_runtime_cpu();
-#endif
-
-#ifdef AMIGA_MORPHOS
-    return archdep_get_mos_runtime_cpu();
-#endif
-
-#ifdef AMIGA_AROS
-    return platform_get_aros_runtime_cpu();
-#endif
-}
 
 char *archdep_extra_title_text(void)
 {

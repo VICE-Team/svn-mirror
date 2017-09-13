@@ -68,7 +68,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "platform.h"
 #include "util.h"
 
 
@@ -404,26 +403,6 @@ void archdep_shutdown(void)
 {
     lib_free(argv0);
     archdep_network_shutdown();
-}
-
-char *archdep_get_runtime_os(void)
-{
-    if (CheckForHaiku()) {
-        return platform_get_haiku_runtime_os();
-    }
-    if (CheckForZeta()) {
-        return platform_get_zeta_runtime_os();
-    }
-    return platform_get_beos_runtime_os();
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-#ifdef WORDS_BIGENDIAN
-    return platform_get_beosppc_runtime_cpu();
-#else
-    return platform_get_x86_runtime_cpu();
-#endif
 }
 
 char *archdep_extra_title_text(void)

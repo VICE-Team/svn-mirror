@@ -53,7 +53,6 @@
 #include "catweaselmkiii.h"
 #include "cw-win32.h"
 #include "log.h"
-#include "platform.h"
 #include "sid-resources.h"
 #include "types.h"
 #include "wininpoutp.h"
@@ -262,16 +261,6 @@ static LONG RegOpenKeyEx3264(HKEY hKey, LPCTSTR lpSubKey, DWORD ulOptions, REGSA
     retval = RegOpenKeyEx(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 
     return retval;
-}
-
-static int is_windows_nt(void)
-{
-    char *nt = platform_get_windows_runtime_os();
-
-    if (!strncmp(nt, "Windows NT", 10)) {
-        return 1;
-    }
-    return 0;
 }
 
 static int has_pci(void)

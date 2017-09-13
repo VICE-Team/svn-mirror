@@ -56,8 +56,7 @@ SUBDIRS = \
 	plus4 \
 	cbm2 \
 	arch \
-	lib \
-	platform
+	lib
 
 endif
 
@@ -108,7 +107,6 @@ DIST_SUBDIRS = \
 	@RESIDSUB@ \
 	@RESIDDTVSUB@ \
 	lib \
-	platform \
 	buildtools
 
 AM_CPPFLAGS = \
@@ -127,7 +125,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/diag \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
-	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/tapeport \
@@ -1302,7 +1299,6 @@ monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
-platform_lib = $(top_builddir)/src/platform/libplatform.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
@@ -1427,8 +1423,7 @@ vsid_libs =  \
 	$(common_libs) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(joyport_lib) \
-	$(platform_lib)
+	$(joyport_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1455,7 +1450,6 @@ vsid-all: \
 	libserial \
 	libcore \
 	libjoyport \
-	libplatform \
 	vsid$(EXEEXT)
 
 # x64
@@ -1489,8 +1483,7 @@ x64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(ffmpeg_libs)
 
 x64_SOURCES = $(base_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1543,7 +1536,6 @@ x64-all: \
 	librtc \
 	libuserport \
 	libtapeport \
-	libplatform \
 	x64$(EXEEXT)
 
 # x64sc
@@ -1577,8 +1569,7 @@ x64sc_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(ffmpeg_libs)
 
 x64sc_SOURCES = $(base_sources) $(midi_sources)
 x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1631,7 +1622,6 @@ x64sc-all: \
 	librtc \
 	libuserport \
 	libtapeport \
-	libplatform \
 	x64sc$(EXEEXT)
 
 # x64dtv
@@ -1663,8 +1653,7 @@ x64dtv_libs =  \
 	$(resid_dtv_libs) \
 	$(ffmpeg_libs) \
 	$(c64dtvstubs_lib) \
-	$(joyport_lib) \
-	$(platform_lib)
+	$(joyport_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1715,7 +1704,6 @@ x64dtv-all: \
 	libfileio \
 	libcore \
 	librtc \
-	libplatform \
 	x64dtv$(EXEEXT)
 
 # xscpu64
@@ -1748,8 +1736,7 @@ xscpu64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(ffmpeg_libs)
 
 xscpu64_SOURCES = $(base_sources) $(midi_sources)
 xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1800,7 +1787,6 @@ xscpu64-all: \
 	libcore \
 	librtc \
 	libuserport \
-	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xscpu64$(EXEEXT)
@@ -1839,8 +1825,7 @@ x128_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(ffmpeg_libs)
 
 x128_SOURCES = $(base_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1894,7 +1879,6 @@ x128-all: \
 	librtc \
 	libuserport \
 	libtapeport \
-	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	x128$(EXEEXT)
@@ -1927,8 +1911,7 @@ xvic_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(ffmpeg_libs)
 
 xvic_SOURCES = $(base_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1977,7 +1960,6 @@ xvic-all: \
 	librtc \
 	libuserport \
 	libtapeport \
-	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xvic$(EXEEXT)
@@ -2008,7 +1990,6 @@ xpet_libs =  \
 	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(platform_lib) \
 	$(rtc_lib)
 
 xpet_SOURCES = $(base_sources)
@@ -2054,7 +2035,6 @@ xpet-all: \
 	libuserport \
 	libtapeport \
 	libjoyport \
-	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xpet$(EXEEXT)
@@ -2087,8 +2067,7 @@ xplus4_libs =  \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(ffmpeg_libs)
 
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -2135,7 +2114,6 @@ xplus4-all: \
 	librtc \
 	libuserport \
 	libtapeport \
-	libplatform \
 	@RESID_DEP@ \
 	@FFMPEG_DEP@ \
 	xplus4$(EXEEXT)
@@ -2166,7 +2144,6 @@ xcbm2_libs = \
 	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(platform_lib) \
 	$(rtc_lib)
 
 xcbm2_SOURCES = $(base_sources)
@@ -2214,7 +2191,6 @@ xcbm2-all: \
 	libuserport \
 	libtapeport \
 	libjoyport \
-	libplatform \
 	xcbm2$(EXEEXT)
 
 # xcbm5x0
@@ -2243,8 +2219,7 @@ xcbm5x0_libs = \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs) \
-	$(platform_lib)
+	$(ffmpeg_libs)
 
 xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -2291,7 +2266,6 @@ xcbm5x0-all: \
 	libcore \
 	librtc \
 	libtapeport \
-	libplatform \
 	xcbm5x0$(EXEEXT)
 
 # c1541
@@ -2332,7 +2306,6 @@ c1541_LDADD = \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	$(serial_lib) \
-	$(platform_lib) \
 	$(socketdrv_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
@@ -2349,7 +2322,6 @@ c1541-all: \
 	libtape \
 	libimagecontents \
 	libfileio \
-	libplatform \
 	libsocketdrv \
 	c1541$(EXEEXT)
 
@@ -2370,7 +2342,6 @@ petcat_SOURCES = \
 petcat_LDADD = \
 	$(ARCH_EXTRA_OBJECTS) \
 	$(fileio_lib) \
-	$(platform_lib) \
 	$(socketdrv_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@ZLIB_LIBS@
@@ -2380,7 +2351,6 @@ petcat-all: \
 	$(BUILT_SOURCES) \
 	libarch \
 	libfileio \
-	libplatform \
 	libsocketdrv \
 	petcat$(EXEEXT)
 
@@ -2516,9 +2486,6 @@ libparallel:
 libpet:
 	@echo "making all in pet"
 	@(cd pet && $(MAKE))
-libplatform:
-	@echo "making all in platform"
-	@(cd platform && $(MAKE))
 libplus4:
 	@echo "making all in plus4"
 	@(cd plus4 && $(MAKE))

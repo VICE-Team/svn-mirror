@@ -82,7 +82,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "platform.h"
 #include "util.h"
 
 #define STDIN_FILENO  0
@@ -735,26 +734,6 @@ void closedir(DIR *dir)
     lib_free(dir);
 }
 #endif
-
-char *archdep_get_runtime_os(void)
-{
-#ifdef WINMIPS
-    return "MIPS NT";
-#else
-    return platform_get_windows_runtime_os();
-#endif
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-#if defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__)
-    return platform_get_x86_runtime_cpu();
-#else
-    /* TODO: add runtime cpu detection code */
-    /* arm/mips/alpha/ppc/ia64/sh */
-    return "Unknown CPU";
-#endif
-}
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good

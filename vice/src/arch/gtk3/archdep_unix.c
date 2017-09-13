@@ -37,7 +37,6 @@
 
 #include "ioutil.h"
 #include "lib.h"
-#include "platform.h"
 #include "util.h"
 
 #include "not_implemented.h"
@@ -225,38 +224,6 @@ const char *archdep_boot_path(void)
 
     return boot;
 }
-
-
-
-/** \brief  Determine OS during runtime
- *
- * \return  OS name
- */
-char *archdep_get_runtime_os(void)
-{
-/* TODO: add runtime os detection code for other *nix os'es */
-#ifndef RUNTIME_OS_CALL
-    return "*nix";
-#else
-    return RUNTIME_OS_CALL();
-#endif
-}
-
-
-/** \brief  Determine CPU type during runtime
- *
- * \return  CPU name
- */
-char *archdep_get_runtime_cpu(void)
-{
-/* TODO: add runtime cpu detection code for other cpu's */
-#ifndef RUNTIME_CPU_CALL
-    return "Unknown CPU";
-#else
-    return RUNTIME_CPU_CALL();
-#endif
-}
-
 
 char *archdep_make_backup_filename(const char *fname)
 {

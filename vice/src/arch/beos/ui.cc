@@ -75,8 +75,6 @@ extern "C" {
 #include "mos6510.h"
 #include "mouse.h"
 #include "network.h"
-#include "platform.h"
-#include "platform_discovery.h"
 #include "printer.h"
 #include "resources.h"
 #include "sampler.h"
@@ -1095,7 +1093,7 @@ void ui_dispatch_events(void)
 #ifdef USE_SVN_REVISION
                                   " rev" VICE_SVN_REV_STRING,
 #endif
-                                  "\n (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n\n",
+                                  "\n\n",
                                   NULL);
                 for (i = 0; core_team[i].name; i++) {
                     abouttext = util_concat(tmp, "\xC2\xA9 ", core_team[i].years, " ", core_team[i].name, "\n", NULL);

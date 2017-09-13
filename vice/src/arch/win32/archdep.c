@@ -84,7 +84,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "platform.h"
 #include "system.h"
 #include "util.h"
 #include "version.h"
@@ -797,26 +796,6 @@ int archdep_rtc_get_centisecond(void)
     return (int)(t.wMilliseconds / 10);
 }
 
-char *archdep_get_runtime_os(void)
-{
-#ifdef WINMIPS
-    return "MIPS NT";
-#else
-    return platform_get_windows_runtime_os();
-#endif
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-#if defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__)
-    return platform_get_x86_runtime_cpu();
-#else
-    /* TODO: add runtime cpu detection code */
-    /* arm/mips/alpha/ppc/ia64/sh */
-    return "Unknown CPU";
-#endif
-}
-
 /* Provide a usleep replacement */
 void vice_usleep(__int64 waitTime)
 { 
@@ -833,6 +812,21 @@ void vice_usleep(__int64 waitTime)
 char *archdep_extra_title_text(void)
 {
     return NULL;
+}
+
+int is_windows_nt(void)
+{
+    OSVERSIONINFO os_version_info;
+
+    ZeroMemory(&os_version_info, sizeof(os_version_info));
+    os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
+
+    GetVersionEx(&os_version_info);
+
+    if (os_version_info.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+        return 1;
+    }
+    return 0;
 }
 
 /* include system.c here, instead of compiling it seperatly */

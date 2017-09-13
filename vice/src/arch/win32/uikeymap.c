@@ -97,7 +97,7 @@ static void init_keymap_dialog(HWND hwnd)
     const char *filename;
     TCHAR *st_filename;
     int res_value_loop;
-    int active_value;
+    int active_value = 0;
     int xpos;
     RECT rect;
     mapping_info_t *kbdlist = keyboard_get_info_list();

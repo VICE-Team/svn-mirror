@@ -97,7 +97,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "platform.h"
 #include "util.h"
 #include "resources.h"
 #include "vsyncapi.h"
@@ -571,19 +570,6 @@ int archdep_rtc_get_centisecond(void)
     return (int)tb.millitm / 10;
 }
 #endif
-
-static char archdep_os_version[128];
-
-char *archdep_get_runtime_os(void)
-{
-    return platform_get_os2_runtime_os();
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-    /* I don't think vice compiles for PPC-OS/2 */
-    return platform_get_x86_runtime_cpu();
-}
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good

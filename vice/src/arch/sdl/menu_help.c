@@ -36,7 +36,6 @@
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_help.h"
-#include "platform_discovery.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "util.h"
@@ -359,9 +358,9 @@ static UI_MENU_CALLBACK(about_callback)
 #endif
         i++;
 #ifdef USE_SDLUI2
-        sdl_ui_print_center("SDL2 " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, i++);
+        sdl_ui_print_center("SDL2", i++);
 #else
-        sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, i++);
+        sdl_ui_print_center("SDL", i++);
 #endif
         i++;
         sdl_ui_print_center("The VICE Team", i++);

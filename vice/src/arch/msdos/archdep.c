@@ -52,7 +52,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "platform.h"
 #include "util.h"
 #include "video.h"
 
@@ -430,16 +429,6 @@ void archdep_shutdown(void)
 #ifdef HAVE_NETWORK
     archdep_network_shutdown();
 #endif
-}
-
-char *archdep_get_runtime_os(void)
-{
-    return platform_get_dos_runtime_os();
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-    return platform_get_x86_runtime_cpu();
 }
 
 char *archdep_extra_title_text(void)

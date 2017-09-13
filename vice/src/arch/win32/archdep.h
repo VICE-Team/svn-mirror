@@ -156,4 +156,6 @@ extern struct console_s *uimon_console_open_mdi(const char *id, void *,
 
 extern void vice_usleep(__int64 waitTime);
 
+extern int is_windows_nt(void);
+
 #endif

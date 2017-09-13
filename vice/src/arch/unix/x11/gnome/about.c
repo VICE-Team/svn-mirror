@@ -28,7 +28,6 @@
 
 #include "info.h"
 #include "lib.h"
-#include "platform_discovery.h"
 #include "uiarch.h"
 #include "util.h"
 #include "version.h"
@@ -236,9 +235,9 @@ void ui_about(gpointer data)
         about = g_object_new(GTK_TYPE_ABOUT_DIALOG,
                              "name", "V I C E",
 #ifdef USE_SVN_REVISION
-                             "version", VERSION " r" VICE_SVN_REV_STRING " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+                             "version", VERSION " r" VICE_SVN_REV_STRING " (GTK+)",
 #else
-                             "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+                             "version", VERSION " (GTK+)",
 #endif
                              "copyright", _("(c) 1998 - 2017 The VICE Team"),
                              "comments", "Versatile Commodore Emulator",

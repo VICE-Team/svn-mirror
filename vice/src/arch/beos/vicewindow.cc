@@ -46,7 +46,6 @@ extern "C" {
 #include "mousedrv.h"
 #include "lib.h"
 #include "machine.h"
-#include "platform.h"
 #include "resources.h"
 #include "ui.h"
 #include "util.h"

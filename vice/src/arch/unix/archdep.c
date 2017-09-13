@@ -59,7 +59,6 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "platform.h"
 #include "ui.h"
 #include "util.h"
 
@@ -651,26 +650,6 @@ void archdep_shutdown(void)
     lib_free(argv0);
     lib_free(boot_path);
     archdep_network_shutdown();
-}
-
-char *archdep_get_runtime_os(void)
-{
-/* TODO: add runtime os detection code for other *nix os'es */
-#ifndef RUNTIME_OS_CALL
-    return "*nix";
-#else
-    return RUNTIME_OS_CALL();
-#endif
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-/* TODO: add runtime cpu detection code for other cpu's */
-#ifndef RUNTIME_CPU_CALL
-    return "Unknown CPU";
-#else
-    return RUNTIME_CPU_CALL();
-#endif
 }
 
 char *archdep_extra_title_text(void)
