@@ -1,3 +1,8 @@
+NOTE: the native win32 build is deprecated and will get removed when the GTK3
+      port is ready for prime time.
+
+--------------------------------------------------------------------------------
+
 This file documents the Unicode build of WinVICE.
 
 How To Build
