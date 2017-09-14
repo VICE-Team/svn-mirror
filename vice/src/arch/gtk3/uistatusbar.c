@@ -62,7 +62,7 @@ typedef struct ui_statusbar_s {
     GtkLabel *msg;
     GtkWidget *tape, *tape_menu;
     GtkWidget *joysticks;
-    GtkWidget *drives[DRIVE_NUM];
+    GtkWidget *drives[DRIVE_NUM], *drive_popups[DRIVE_NUM];
 } ui_statusbar_t;
 
 static ui_statusbar_t allocated_bars[MAX_STATUS_BARS];
@@ -79,6 +79,7 @@ void ui_statusbar_init(void)
         allocated_bars[i].joysticks = NULL;
         for (j = 0; j < DRIVE_NUM; ++j) {
             allocated_bars[i].drives[j] = NULL;
+            allocated_bars[i].drive_popups[j] = NULL;
         }
     }
 
@@ -295,6 +296,9 @@ static GtkWidget *ui_drive_widget_create(int unit)
     gtk_container_add(GTK_CONTAINER(grid), number);
     gtk_container_add(GTK_CONTAINER(grid), track);
     gtk_container_add(GTK_CONTAINER(grid), led);
+    /* Labels will notice clicks by default, but drawing areas need to
+     * be told to. */
+    gtk_widget_add_events(led, GDK_BUTTON_PRESS_MASK);
     g_signal_connect(led, "draw", G_CALLBACK(draw_drive_led_cb), GINT_TO_POINTER(unit));
     return grid;
 }
@@ -303,6 +307,11 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
 {
     int i = GPOINTER_TO_INT(data);
     if (allocated_bars[i].tape && allocated_bars[i].tape_menu && event->type == GDK_BUTTON_PRESS) {
+        /* 3.22 isn't available on the latest stable version of all
+         * distros yet. This is expected to change when Ubuntu 18.04
+         * is released. Since popup handling is the only thing 3.22
+         * requires be done differently than its predecessors, this is
+         * the only place we should rely on version checks. */
 #if GTK_CHECK_VERSION(3,22,0)
         gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
                                  allocated_bars[i].tape,
@@ -316,6 +325,37 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
                        buttonEvent->button, buttonEvent->time);
 #endif
     }
+    return TRUE;
+}
+
+static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+    /* FIXME: This should use the clicked bar's menu. */
+    int i = GPOINTER_TO_INT(data);
+    GtkWidget *drive_menu = allocated_bars[0].drive_popups[i];
+
+    /* TODO: Repopulate the menu with the fliplist information. */
+
+    /* 3.22 isn't available on the latest stable version of all
+     * distros yet. This is expected to change when Ubuntu 18.04 is
+     * released. Since popup handling is the only thing 3.22 requires
+     * be done differently than its predecessors, this is the only
+     * place we should rely on version checks. */
+#if GTK_CHECK_VERSION(3,22,0)
+    gtk_menu_popup_at_widget(GTK_MENU(drive_menu),
+                             widget,
+                             GDK_GRAVITY_NORTH_EAST,
+                             GDK_GRAVITY_SOUTH_EAST,
+                             event);
+#else
+    {
+        GdkEventButton *buttonEvent = (GdkEventButton *)event;
+
+        gtk_menu_popup(GTK_MENU(drive_menu),
+                       NULL, NULL, NULL, NULL,
+                       buttonEvent->button, buttonEvent->time);
+    }
+#endif
     return TRUE;
 }
 
@@ -382,6 +422,19 @@ static void layout_statusbar_drives(int bar_index)
         for (j = 0; j < 2; ++j) {
             GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar), 3+i, j);
             if (child) {
+                /* Fun GTK3 fact! If you destroy an event box, then
+                 * even if the thing it contains still has references
+                 * left, that child is destroyed _anyway_. To avoid
+                 * this tragic eventuality, we detach the child files
+                 * before removing the box. */
+                /* TODO: This implies that we really should not be
+                 * relying on g_object_ref to preserve objects, and
+                 * instead keep track of widget indices the hard
+                 * way. */
+                if (GTK_IS_EVENT_BOX(child)) {
+                    GtkWidget *grandchild = gtk_bin_get_child(GTK_BIN(child));
+                    gtk_container_remove(GTK_CONTAINER(child), grandchild);
+                }
                 gtk_container_remove(GTK_CONTAINER(bar), child);
             }
         }
@@ -390,16 +443,21 @@ static void layout_statusbar_drives(int bar_index)
     for (i = 0; i < DRIVE_NUM; ++i) {
         if (state & 1) {
             GtkWidget *drive = allocated_bars[bar_index].drives[i];
+            GtkWidget *event_box = gtk_event_box_new();
             int row = enabled_drive_index % 2;
             int column = (enabled_drive_index / 2) * 2 + 4;
             if (row == 0) {
                 gtk_grid_attach(GTK_GRID(bar), gtk_separator_new(GTK_ORIENTATION_VERTICAL), column-1, 0, 1, 2);
             }
-            gtk_grid_attach(GTK_GRID(bar), drive, column, row, 1, 1);
+            gtk_container_add(GTK_CONTAINER(event_box), drive);
+            gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
+            g_signal_connect(event_box, "button-press-event", G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
+            gtk_grid_attach(GTK_GRID(bar), event_box, column, row, 1, 1);
             ++enabled_drive_index;
         }
         state >>= 1;
     }
+    gtk_widget_show_all(bar);
 }
 
 static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
@@ -428,11 +486,26 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
             for (j = 0; j < DRIVE_NUM; ++j) {
                 if (allocated_bars[i].drives[j]) {
                     g_object_unref(G_OBJECT(allocated_bars[i].drives[j]));
+                    g_object_unref(G_OBJECT(allocated_bars[i].drive_popups[j]));
                     allocated_bars[i].drives[j] = NULL;
+                    allocated_bars[i].drive_popups[j] = NULL;
                 }
             }
         }
     }
+}
+
+static GtkWidget *ui_drive_menu_create(int unit)
+{
+    char buf[128];
+    GtkWidget *drive_menu = gtk_menu_new();
+    GtkWidget *drive_menu_item;
+    snprintf(buf, 128, _("Attach to drive %d..."), unit + 8);
+    buf[127] = 0;
+    drive_menu_item = gtk_menu_item_new_with_label(buf);
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+    gtk_widget_show(drive_menu_item);
+    return drive_menu;
 }
 
 GtkWidget *ui_statusbar_create(void)
@@ -492,8 +565,11 @@ GtkWidget *ui_statusbar_create(void)
     /* Third column on: Drives. */
     for (j = 0; j < DRIVE_NUM; ++j) {
         GtkWidget *drive = ui_drive_widget_create(j);
+        GtkWidget *drive_menu = ui_drive_menu_create(j);
         g_object_ref(G_OBJECT(drive));
+        g_object_ref(G_OBJECT(drive_menu));
         allocated_bars[i].drives[j] = drive;
+        allocated_bars[i].drive_popups[j] = drive_menu;
     }
     /* WARNING: The current implementation of ui_enable_drive_status()
      * relies on the fact that the drives are the last elements of the
