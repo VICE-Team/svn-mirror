@@ -4639,19 +4639,6 @@ elif test x"$is_win32" = "xyes"; then
     ARCH_SRC_DIR="\$(top_srcdir)/src/arch/win32"
     ARCH_LIBS="$ARCH_DIR/libarch.a"
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
-    if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
-      AC_DEFINE([PLATFORM], ["win32 x86 cygwin"],[The current arch, cpu and compiler used.])
-    else
-      if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-        AC_DEFINE([PLATFORM], ["win64 x64 mingw"], [The current arch, cpu and compiler used.])
-      else
-        if test x"$CC" = "xowcc"; then
-          AC_DEFINE([PLATFORM], ["win32 x86 owcc"], [The current arch, cpu and compiler used.])
-        else
-          AC_DEFINE([PLATFORM], ["win32 x86 mingw"], [The current arch, cpu and compiler used.])
-        fi
-      fi
-    fi
   fi
   AC_DEFINE(WIN32_COMPILE,,[Are we compiling for win32?])
 
@@ -5143,7 +5130,6 @@ AC_OUTPUT([Makefile
            src/monitor/Makefile
            src/parallel/Makefile
            src/pet/Makefile
-           src/platform/Makefile
            src/plus4/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
