@@ -106,9 +106,14 @@ ARCH_RISCOS_INPUT+=" ../src/arch/riscos/binfiles"
 #../src/arch/sdl/winmips-msvc
 #../src/arch/sdl/xbox
 
-ARCH_UNIX_INPUT=" ../src/arch/unix"
-ARCH_UNIX_INPUT+=" ../src/arch/unix/gui"
-ARCH_UNIX_INPUT+=" ../src/arch/unix/readline"
+if [ "$3" = "gtk3" ]; then
+    # FIXME: add unix specific directories used in GTK3 here
+    ARCH_UNIX_INPUT=" "
+else
+    ARCH_UNIX_INPUT=" ../src/arch/unix"
+    ARCH_UNIX_INPUT+=" ../src/arch/unix/gui"
+    ARCH_UNIX_INPUT+=" ../src/arch/unix/readline"
+fi
 
 #../src/arch/unix/hpux
 
@@ -179,13 +184,18 @@ ARCH_UNIX_XAW_INPUT+=" ../src/arch/unix/x11/xaw/widgets"
 #../src/arch/win32/watcom
 #../src/arch/win64
 
+ARCH_GTK3_INPUT=" ../src/arch/gtk3"
+ARCH_GTK3_INPUT+=" ../src/arch/gtk3/widgets"
+
 INPUT+=" ../src/core"
+INPUT+=" ../src/diag"
 INPUT+=" ../src/diskimage"
 INPUT+=" ../src/drive"
 INPUT+=" ../src/drive/iec"
 INPUT+=" ../src/fileio"
 INPUT+=" ../src/fsdevice"
 INPUT+=" ../src/gfxoutputdrv"
+INPUT+=" ../src/hwsiddrv"
 INPUT+=" ../src/iecbus"
 INPUT+=" ../src/imagecontents"
 INPUT+=" ../src/monitor"
@@ -194,9 +204,11 @@ INPUT+=" ../src/printerdrv"
 INPUT+=" ../src/raster"
 INPUT+=" ../src/rs232drv"
 INPUT+=" ../src/rtc"
+INPUT+=" ../src/samplerdrv"
 INPUT+=" ../src/serial"
 INPUT+=" ../src/sounddrv"
 INPUT+=" ../src/tape"
+INPUT+=" ../src/tapeport"
 INPUT+=" ../src/userport"
 INPUT+=" ../src/vdrive"
 INPUT+=" ../src/video"
@@ -209,6 +221,11 @@ LIB_INPUT+=" ../src/lib/libffmpeg/libavdevice"
 LIB_INPUT+=" ../src/lib/libffmpeg/libavformat"
 LIB_INPUT+=" ../src/lib/libffmpeg/libavutil"
 LIB_INPUT+=" ../src/lib/libffmpeg/libswscale"
+# FIXME: add subdirs
+LIB_INPUT+=" ../src/lib/liblame"
+# FIXME: add subdirs
+LIB_INPUT+=" ../src/lib/libx264"
+LIB_INPUT+=" ../src/lib/p64"
 
 # chips
 CRTC_INPUT=" ../src/crtc"
@@ -316,23 +333,27 @@ case "$1" in
    ;;
 esac
 
+
 # port
 case "$2" in
 "linux")
     ARCH_INPUT+="$ARCH_UNIX_INPUT"
-   ;;
+    ;;
 "win32")
     ARCH_INPUT+="$ARCH_WIN32_INPUT"
-   ;;
+    ;;
 "osx")
     ARCH_INPUT+="$ARCH_OSX_INPUT"
-   ;;
+    ;;
 *)
-   ;;
+    ;;
 esac
 
 # gui
 case "$3" in
+"gtk3")
+    ARCH_INPUT+="$ARCH_GTK3_INPUT"
+   ;;
 "gtk")
     ARCH_INPUT+="$ARCH_UNIX_X11_INPUT $ARCH_UNIX_GNOME_INPUT"
    ;;
@@ -388,8 +409,28 @@ ARCH_LINUX_EXCLUDE+=" ../src/sounddrv/soundmmos2.c"
 ARCH_LINUX_EXCLUDE+=" ../src/gfxoutputdrv/quicktimedrv.c"
 ARCH_LINUX_EXCLUDE+=" ../src/gfxoutputdrv/quicktimedrv.h"
 ARCH_LINUX_EXCLUDE+=" ../src/video/render1x1_dingoo.h"
+# FIXME: add non unix GTK3 stuff
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/archdep_win32.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/archdep_win32.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/dynlib-win32.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-osx-hid.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-osx-hid.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-osx-hidlib.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-osx-hidmgr.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-osx-hidutil.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-osx.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-osx.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-win32-dinput-handle.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-win32-dinput-handle.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-win32.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/joy-win32.h"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/rawnetarch_win32.c"
+ARCH_LINUX_EXCLUDE+=" ../src/arch/gtk3/rs232-win32-dev.c"
+# FIXME: add non unix SDL stuff
 
 GUI_GTK_EXCLUDE+=" ../src/vice_sdl.h"
+
+GUI_GTK3_EXCLUDE+=" ../src/vice_sdl.h"
 
 C64EXCLUDE+=" ../src/monitor/asm6502dtv.c"
 C64EXCLUDE+=" ../src/monitor/asmz80.c"
@@ -485,10 +526,33 @@ X64SC_GUI_GTK_EXCLUDE+=" ../src/arch/unix/vsiduiunix.h"
 VSID_GUI_GTK_EXCLUDE="$C64_GUI_GTK_EXCLUDE"
 VSID_GUI_GTK_EXCLUDE+=" ../src/arch/unix/gui/c64ui.c"
 
+
+C64_GUI_GTK3_EXCLUDE=" ../src/arch/gtk3/c64dtvui.c"
+C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c128ui.c"
+C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/cbm2ui.c"
+C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/cbm5x0ui.c"
+C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/petui.c"
+C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/plus4ui.c"
+C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/scpu64ui.c"
+C64_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vic20ui.c"
+
+X64SC_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
+X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.c"
+X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.h"
+
+X64SC_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
+X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64ui.c"
+X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.c"
+X64SC_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/vsidui.h"
+
+VSID_GUI_GTK3_EXCLUDE="$C64_GUI_GTK3_EXCLUDE"
+VSID_GUI_GTK3_EXCLUDE+=" ../src/arch/gtk3/c64ui.c"
+
 # machine
 case "$1" in
 "vsid")
     MACHINE_EXCLUDE="$VSIDEXCLUDE"
+    GUI_GTK3_EXCLUDE+="$VSID_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$VSID_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$VSID_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$VSID_GUI_COCOA_EXCLUDE"
@@ -496,6 +560,7 @@ case "$1" in
    ;;
 "x128")
     MACHINE_EXCLUDE="$X128EXCLUDE"
+    GUI_GTK3_EXCLUDE+="$X128_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$X128_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$X128_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$X128_GUI_COCOA_EXCLUDE"
@@ -503,6 +568,7 @@ case "$1" in
    ;;
 "x64")
     MACHINE_EXCLUDE="$X64EXCLUDE"
+    GUI_GTK3_EXCLUDE+="$X64_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$X64_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$X64_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$X64_GUI_COCOA_EXCLUDE"
@@ -510,6 +576,7 @@ case "$1" in
    ;;
 "x64dtv")
     MACHINE_EXCLUDE="$X64DTVEXCLUDE"
+    GUI_GTK3_EXCLUDE+="$X64DTV_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$X64DTV_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$X64DTV_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$X64DTV_GUI_COCOA_EXCLUDE"
@@ -517,6 +584,7 @@ case "$1" in
    ;;
 "x64sc")
     MACHINE_EXCLUDE="$X64SCEXCLUDE"
+    GUI_GTK3_EXCLUDE+="$X64SC_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$X64SC_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$X64SC_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$X64SC_GUI_COCOA_EXCLUDE"
@@ -524,6 +592,7 @@ case "$1" in
    ;;
 "xcbm2")
     MACHINE_EXCLUDE="$XCBM2EXCLUDE"
+    GUI_GTK3_EXCLUDE+="$XCBM2_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$XCBM2_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$XCBM2_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$XCBM2_GUI_COCOA_EXCLUDE"
@@ -531,6 +600,7 @@ case "$1" in
    ;;
 "xcbm5x0")
     MACHINE_EXCLUDE="$XCBM5X0EXCLUDE"
+    GUI_GTK3_EXCLUDE+="$XCBM5X0_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$XCBM5X0_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$XCBM5X0_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$XCBM5X0_GUI_COCOA_EXCLUDE"
@@ -538,6 +608,7 @@ case "$1" in
    ;;
 "xpet")
     MACHINE_EXCLUDE="$XPETEXCLUDE"
+    GUI_GTK3_EXCLUDE+="$XPET_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$XPET_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$XPET_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$XPET_GUI_COCOA_EXCLUDE"
@@ -545,6 +616,7 @@ case "$1" in
    ;;
 "xplus4")
     MACHINE_EXCLUDE="$XPLUS4EXCLUDE"
+    GUI_GTK3_EXCLUDE+="$XPLUS4_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$XPLUS4_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$XPLUS4_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$XPLUS4_GUI_COCOA_EXCLUDE"
@@ -552,6 +624,7 @@ case "$1" in
    ;;
 "xvic")
     MACHINE_EXCLUDE="$XVICEXCLUDE"
+    GUI_GTK3_EXCLUDE+="$XVIC_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$XVIC_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$XVIC_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$XVIC_GUI_COCOA_EXCLUDE"
@@ -559,6 +632,7 @@ case "$1" in
    ;;
 "xscpu64")
     MACHINE_EXCLUDE="$XSCPU64EXCLUDE"
+    GUI_GTK3_EXCLUDE+="$XSCPU64_GUI_GTK3_EXCLUDE"
     GUI_GTK_EXCLUDE+="$XSCPU64_GUI_GTK_EXCLUDE"
     GUI_WIN32_EXCLUDE+="$XSCPU64_GUI_WIN32_EXCLUDE"
     GUI_COCOA_EXCLUDE+="$XSCPU64_GUI_COCOA_EXCLUDE"
@@ -585,6 +659,9 @@ esac
 
 # gui
 case "$3" in
+"gtk3")
+    GUI_EXCLUDE="$GUI_GTK3_EXCLUDE"
+   ;;
 "gtk")
     GUI_EXCLUDE="$GUI_GTK_EXCLUDE"
    ;;
@@ -669,7 +746,7 @@ function makeindex
 # defaults
 MACHINE="all"
 PORT="linux"
-GUI="gtk"
+GUI="gtk3"
 
 # machine
 case "$1" in
@@ -717,15 +794,15 @@ esac
 case "$2" in
 "linux")
    PORT="linux"
-   GUI="gtk"
+   GUI="gtk3"
    ;;
 "win32")
    PORT="win32"
-   GUI="win32"
+   GUI="gtk3"
    ;;
 "osx")
    PORT="osx"
-   GUI="cocoa"
+   GUI="gtk3"
    ;;
 *)
    ;;
@@ -738,6 +815,9 @@ case "$3" in
    ;;
 "gtk")
    GUI="gtk"
+   ;;
+"gtk3")
+   GUI="gtk3"
    ;;
 "cocoa")
    GUI="cocoa"

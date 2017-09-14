@@ -15,8 +15,6 @@
   \n
   \subpage howtonls
   \n
-  \subpage howtoosxtree
-  \n
   \subpage howtobuild
   \n
   \subpage readmes
@@ -39,17 +37,19 @@
   \htmlinclude Documentation-Howto.txt
   \page howtonls National Language Support
   \htmlinclude NLS-Howto.txt
-  \page howtoosxtree the OSX resource tree
-  \htmlinclude MacOSX-ResourceTree.txt
 */
 
 /*!
   \page howtobuild How to build VICE
+  \subpage buildgtk3
+  \n
   \subpage buildwindowsmingw
   \n
   \subpage buildwindowscygwin
   \n
   \subpage buildlinuxmingw
+  \n
+  \subpage buildlinux
   \n
   \subpage buildosx
   \n
@@ -58,19 +58,23 @@
   \n
   \subpage buildsdl
   \n
+  \subpage buildandroid
+  \n
   \subpage buildminix
   \n
   \subpage buildopenvms
-  \n
-  \subpage buildwatcom
 */
 /*!
+  \page buildgtk3 native GTK3
+  \htmlinclude GTK3-Howto.txt
   \page buildwindowsmingw WinVICE (mingw32)
   \htmlinclude Win32-Mingw32-Howto.txt
   \page buildwindowscygwin WinVICE (cygwin)
   \htmlinclude Win32-Cygwin-Howto.txt
   \page buildlinuxmingw WinVICE on Linux (mingw32)
   \htmlinclude Linux-Mingw32-Howto.txt
+  \page buildlinux building the Linux port
+  \htmlinclude Linux-Native-Howto.txt
   \page buildosx building on OSX
   \htmlinclude MacOSX-Howto.txt
   \page buildmsdos building the MSDOS port (djgpp)
@@ -79,13 +83,15 @@
   \htmlinclude MSDOS-Ethernet-Howto.txt
   \page buildsdl building the SDL ports
   \htmlinclude SDL-Howto.txt
+  \page buildandroid building the Android port
+  \htmlinclude Android-Howto.txt
   \page buildminix building VICE on Minix
   \htmlinclude Minix-Howto.txt
   \page buildopenvms building VICE on OpenVMS
   \htmlinclude OpenVMS-Howto.txt
-  \page buildwatcom building VICE using Open Watcom
-  \htmlinclude OpenWatcom-Howto.txt
 */
+
+
 
 /*!
   \page readmes ReadMes
@@ -105,7 +111,12 @@
   \n
   \subpage readmeos2
   \n
+  \subpage readmeunix
+  \n
+  \subpage readmegtk3
+  \n
   \subpage readmesdl
+  \subpage readmesdl2
   \n
 */
 /*!
@@ -127,5 +138,10 @@
   \htmlinclude Readme-OS2.txt
   \page readmesdl SDL
   \htmlinclude Readme-SDL.txt
+  \page readmesdl2 SDL2
+  \htmlinclude Readme-SDL2.txt
+  \page readmeunix Unix
+  \htmlinclude Readme-Unix.txt
+  \page readmegtk3 GTK3
+  \htmlinclude Readme-GTK3.txt
 */
-
