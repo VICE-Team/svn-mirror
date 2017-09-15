@@ -2,7 +2,9 @@
  * \brief   Drive settings dialog
  *
  * Controls the following resource(s):
- *  (See used widgets)
+ *  DriveTrueEmulation
+ *
+ *  (for more, see used widgets)
  *
  *
  * Written by
@@ -47,6 +49,7 @@
 #include "driveexpansionwidget.h"
 #include "driveidlemethodwidget.h"
 #include "driveparallelcablewidget.h"
+#include "driveoptionswidget.h"
 
 #include "uidrivesettings.h"
 
@@ -75,6 +78,8 @@ GtkWidget *drive_expansion_widget = NULL;
 GtkWidget *drive_idle_method_widget = NULL;
 
 GtkWidget *drive_parallel_cable_widget = NULL;
+
+GtkWidget *drive_options_widget = NULL;
 
 
 /** \brief  Extra callback when the unit number has changed
@@ -115,9 +120,23 @@ static void unit_changed_callback(int unit)
     if (drive_parallel_cable_widget != NULL) {
         update_drive_parallel_cable_widget(drive_parallel_cable_widget, unit);
     }
+
+    if (drive_options_widget != NULL) {
+        update_drive_options_widget(drive_options_widget, unit);
+    }
 }
 
 
+/** \brief  Handler for the "destroy" event of the widget
+ *
+ * Right now sets widget references to `NULL` to avoid other event handlers
+ * trying to update those widgets. I should look into setting up the event
+ * handlers *after* all widgets are created and their values set, which should
+ * result in event handlers not being triggered while setting up the UI
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   user_data   data for event (unused)
+ */
 static void on_destroy(GtkWidget *widget, gpointer user_data)
 {
     drive_type_widget = NULL;
@@ -125,7 +144,49 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
     drive_expansion_widget = NULL;
     drive_idle_method_widget = NULL;
     drive_parallel_cable_widget = NULL;
+    drive_options_widget = NULL;
 }
+
+
+/** \brief  Handler for the "toggled" event of the TDE check button
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   user_data   data for event (unused)
+ */
+static void on_tde_toggled(GtkWidget *widget, gpointer user_data)
+{
+    resources_set_int("DriveTrueEmulation",
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+}
+
+static void on_drive_sound_toggled(GtkWidget *widget, gpointer user_data)
+{
+}
+
+static GtkWidget *create_tde_check_button(void)
+{
+    GtkWidget *check;
+    int state;
+
+    check = gtk_check_button_new_with_label("Enable true drive emulation");
+    g_object_set(check, "margin-left", 8, NULL);
+    resources_get_int("DriveTrueEmulation", &state);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
+
+    g_signal_connect(check, "toggled", G_CALLBACK(on_tde_toggled), NULL);
+    return check;
+}
+
+
+static GtkWidget *create_drive_sound_check_button(void)
+{
+    GtkWidget *check = gtk_check_button_new_with_label(
+            "Enable drive sound emulation");
+    g_object_set(check, "margin-left", 8, NULL);
+    g_signal_connect(check, "toggled", G_CALLBACK(on_drive_sound_toggled), NULL);
+    return check;
+}
+
 
 
 
@@ -139,42 +200,53 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
 GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
+    GtkWidget *unit_widget;
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
     g_object_set(layout, "margin", 8, NULL);
 
-    /* row 0, column 0-2 */
-    gtk_grid_attach(
-            GTK_GRID(layout),
-            create_drive_unit_widget(8, &unit_number, unit_changed_callback),
-            0, 0, 3, 1);
 
-    /* row 1 & 2, column 0 */
+    gtk_grid_attach(GTK_GRID(layout), create_tde_check_button(), 0, 0, 3, 1);
+    gtk_grid_attach(GTK_GRID(layout), create_drive_sound_check_button(),
+            0, 1, 3, 1);
+
+    unit_widget = create_drive_unit_widget(8, &unit_number, unit_changed_callback);
+    g_object_set(unit_widget, "margin-left", 8, NULL);
+    /* row 2, column 0-2 */
+    gtk_grid_attach(GTK_GRID(layout), unit_widget, 0, 2, 3, 1);
+
+    /* row 3 & 4, column 0 */
     drive_type_widget = create_drive_type_widget(unit_number, unit_changed_callback);
     update_drive_type_widget(drive_type_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_type_widget, 0, 1, 1, 2);
+    gtk_grid_attach(GTK_GRID(layout), drive_type_widget, 0, 3, 1, 3);
 
-    /* row 1, colum 1 */
+    /* row 3, colum 1 */
     drive_extend_widget = create_drive_extend_policy_widget(unit_number);
     update_drive_extend_policy_widget(drive_extend_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_extend_widget, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_extend_widget, 1, 3, 1, 1);
 
-    /* row 2, column 1 */
+    /* row 4, column 1 */
     drive_expansion_widget = create_drive_expansion_widget(unit_number);
     update_drive_expansion_widget(drive_expansion_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 4, 1, 1);
 
-    /* row 1, column 2 */
+    /* row 3, column 2 */
     drive_idle_method_widget = create_drive_idle_method_widget(unit_number);
     update_drive_idle_method_widget(drive_idle_method_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_idle_method_widget, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_idle_method_widget, 2, 3, 1, 1);
 
-    /* row 2, column 2 */
+    /* row 4, column 2 */
     drive_parallel_cable_widget = create_drive_parallel_cable_widget(unit_number);
     update_drive_parallel_cable_widget(drive_parallel_cable_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_parallel_cable_widget, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_parallel_cable_widget, 2, 4, 1, 1);
+
+    /* row 5, column 1 & 2 */
+    drive_options_widget = create_drive_options_widget(unit_number);
+    update_drive_options_widget(drive_options_widget, unit_number);
+    gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 5, 2, 1);
+
 
     g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);
 
