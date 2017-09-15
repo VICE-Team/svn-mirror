@@ -36,8 +36,10 @@
 #include "resources.h"
 #include "drive.h"
 #include "drive-check.h"
+#include "driveexpansionwidget.h"
 
 #include "drivetypewidget.h"
+
 
 
 /** \brief  Unit number (8-11)
@@ -47,6 +49,7 @@ static int unit_number = 8;
 static void(*unit_callback)(int) = NULL;
 
 extern GtkWidget *drive_extend_widget;
+extern GtkWidget *drive_expansion_widget;
 
 
 /** \brief  Handler for the "toggled" event of the radio buttons
@@ -64,9 +67,15 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
         debug_gtk3("setting %s to %d\n", buffer, type);
         resources_set_int(buffer, type);
 
-        /* TODO: enable/disable 40-track settings widget */
-        gtk_widget_set_sensitive(drive_extend_widget,
-                drive_check_extend_policy(type));
+        /* enable/disable 40-track settings widget */
+        if (drive_extend_widget != NULL) {
+            gtk_widget_set_sensitive(drive_extend_widget,
+                    drive_check_extend_policy(type));
+        }
+        /* update expansions widget */
+        if (drive_expansion_widget != NULL) {
+            update_drive_expansion_widget(drive_expansion_widget, unit_number);
+        }
     }
 }
 
@@ -102,7 +111,6 @@ GtkWidget *create_drive_type_widget(int unit, void (*callback)(int))
                 GINT_TO_POINTER(list[i].id));
 
         gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
-        gtk_widget_show(radio);
         last = GTK_RADIO_BUTTON(radio);
     }
 
@@ -130,9 +138,10 @@ void update_drive_type_widget(GtkWidget *widget, int unit)
 
     list = drive_get_type_info_list();
 
+    debug_gtk3("updating drive type list\n");
     for (i = 0; list[i].name != NULL; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
-        if (widget != NULL && GTK_IS_RADIO_BUTTON(radio)) {
+        if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
             gtk_widget_set_sensitive(radio, drive_check_type(
                         (unsigned int)(list[i].id), (unsigned int)(unit - 8)));
             if (list[i].id == type) {

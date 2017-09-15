@@ -118,6 +118,48 @@ drive_type_info_t *drive_get_type_info_list(void)
     return drive_dummy_list;
 }
 
+int drive_check_expansion2000(int type)
+{
+    return 0;
+}
+
+int drive_check_expansion4000(int type)
+{
+    return 0;
+}
+
+int drive_check_expansion6000(int type)
+{
+    return 0;
+}
+
+int drive_check_expansion8000(int type)
+{
+    return 0;
+}
+
+int drive_check_expansionA000(int type)
+{
+    return 0;
+}
+
+int drive_check_profdos(int type)
+{
+    return 0;
+}
+
+int drive_check_stardos(int type)
+{
+    return 0;
+}
+
+int drive_check_supercard(int type)
+{
+    return 0;
+}
+
+
+
 /*******************************************************************************
     Cartridge system
 *******************************************************************************/

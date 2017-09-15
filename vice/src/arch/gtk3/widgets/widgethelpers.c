@@ -77,6 +77,7 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
     g_snprintf(buffer, LABEL_BUFFER_SIZE, "<b>%s</b>", text);
 
     grid = gtk_grid_new();
+    g_object_set(grid, "margin", 8, NULL);
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), buffer);
     gtk_widget_set_halign(label, GTK_ALIGN_START);    /* align left */

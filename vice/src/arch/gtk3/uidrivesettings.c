@@ -2,19 +2,8 @@
  * \brief   Drive settings dialog
  *
  * Controls the following resource(s):
- * XXX: replace
- *  AutostartDelay                    - delay in seconds (0-1000) (integer)
- *  AutostartDelayRandom              - add random delay to autostart (boolean)
- *  AutostartPrgMode                  - autostart mode for PRG/P00 files:
- *                                      VirtualFS (0), InjectIntoRam (1),
- *                                      Disk (2) (integer)
- *  AutostartPrgDiskImage             - disk image to use in case of
- *                                      AutostartPrgMode disk (string)
- *  AutostartRunWithColon             - add ':' after RUN (boolean)
- *  AutostartBasicLoad                - load PRG into BASIC (LOAD"*",8) (boolean)
- *  AutostartWarp                     - use warp during autostart (boolean)
- *  AutostartHandleTrueDriveEmulation - use True Drive Emulation during
- *                                      autostart (boolean)
+ *  (See used widgets)
+ *
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -55,6 +44,7 @@
 #include "driveunitwidget.h"
 #include "drivetypewidget.h"
 #include "driveextendpolicywidget.h"
+#include "driveexpansionwidget.h"
 
 #include "uidrivesettings.h"
 
@@ -78,6 +68,9 @@ static GtkWidget *drive_type_widget = NULL;
 GtkWidget *drive_extend_widget = NULL;
 
 
+GtkWidget *drive_expansion_widget = NULL;
+
+
 /** \brief  Extra callback when the unit number has changed
  *
  * This will update the various widgets with the proper settings for the
@@ -94,10 +87,14 @@ static void unit_changed_callback(int unit)
     resources_get_int(res_name, &type);
 
     debug_gtk3("got unit %d\n", unit);
+
     update_drive_type_widget(drive_type_widget, unit);
 
     update_drive_extend_policy_widget(drive_extend_widget, unit);
-    gtk_widget_set_sensitive(drive_extend_widget, drive_check_extend_policy(type));
+    gtk_widget_set_sensitive(drive_extend_widget,
+            drive_check_extend_policy(type));
+
+    update_drive_expansion_widget(drive_expansion_widget, unit);
 }
 
 
@@ -111,6 +108,10 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
 
+    drive_type_widget = NULL;
+    drive_extend_widget = NULL;
+    drive_expansion_widget = NULL;
+
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
@@ -122,15 +123,20 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
             create_drive_unit_widget(8, &unit_number, unit_changed_callback),
             0, 0, 2, 1);
 
-    /* row 1, column 0 */
+    /* row 1 & 2, column 0 */
     drive_type_widget = create_drive_type_widget(unit_number, unit_changed_callback);
     update_drive_type_widget(drive_type_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_type_widget, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_type_widget, 0, 1, 1, 2);
 
     /* row 1, colum 1 */
     drive_extend_widget = create_drive_extend_policy_widget(unit_number);
     update_drive_extend_policy_widget(drive_extend_widget, unit_number);
     gtk_grid_attach(GTK_GRID(layout), drive_extend_widget, 1, 1, 1,1 );
+
+    /* row 2, column 1 */
+    drive_expansion_widget = create_drive_expansion_widget(unit_number);
+    update_drive_expansion_widget(drive_expansion_widget, unit_number);
+    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1 ,2, 1, 1);
 
     gtk_widget_show_all(layout);
     return layout;

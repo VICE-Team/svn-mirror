@@ -32,7 +32,8 @@ libwidgets_a_SOURCES = \
 	filechooserhelpers.c \
 	driveunitwidget.c \
 	drivetypewidget.c \
-	driveextendpolicywidget.c
+	driveextendpolicywidget.c \
+	driveexpansionwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -52,5 +53,6 @@ EXTRA_DIST = \
 	filechooserhelpers.h \
 	driveunitwidget.h \
 	drivetypewidget.h \
-	driveextendpolicywidget.h
+	driveextendpolicywidget.h \
+	driveexpansionwidget.h
 
