@@ -156,7 +156,6 @@ libarch_a_SOURCES = \
 	rs232dev.c \
 	sdlmain.c \
 	signals.c \
-	types.h \
 	ui.c \
 	ui.h \
 	uifilereq.c \

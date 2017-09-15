@@ -134,7 +134,6 @@ libarch_a_SOURCES = \
 	signals.c \
 	statusbar.c \
 	statusbar.h \
-	types.h \
 	ui-resources.c \
 	ui.c \
 	ui.h \

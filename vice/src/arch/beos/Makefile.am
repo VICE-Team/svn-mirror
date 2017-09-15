@@ -50,7 +50,6 @@ libarch_a_SOURCES = \
 	signals.c \
 	statusbar.cc \
 	statusbar.h \
-	types.h \
 	ui.cc \
 	ui.h \
 	ui_autostart.cc \

@@ -64,7 +64,6 @@ libarch_a_SOURCES = \
 	rs232dev.c \
 	signals.c \
 	rawnetarch.c \
-	types.h \
 	ui.h \
 	uimenu.h \
 	unixmain.c \

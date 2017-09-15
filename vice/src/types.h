@@ -2,10 +2,6 @@
  * types.h - Type definitions for VICE.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Andreas Boose <viceteam@t-online.de>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -33,11 +29,22 @@
 
 #include "vice.h"
 
-#include <inttypes.h>
+#if defined(USE_SDLUI) || defined(USE_SDLUI2)
+#  include "vice_sdl.h"
+#endif
+
+#ifdef HAVE_INTTYPES_H
+#  include <inttypes.h>
+#else
+#  ifdef HAVE_STDINT_H
+#    include <stdint.h>
+#  endif
+#endif
 
 typedef uint32_t CLOCK;
 
 /* Maximum value of a CLOCK.  */
+#undef CLOCK_MAX
 #define CLOCK_MAX (~((CLOCK)0))
 
 #ifdef _WIN64

@@ -247,6 +247,7 @@ noinst_HEADERS = \
 	translate_languages.h \
 	translate_text.c \
 	traps.h \
+	types.h \
 	uiapi.h \
 	uicmdline.h \
 	uicolor.h \

@@ -94,7 +94,6 @@ EXTRA_DIST = \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
 	rs232-win32-dev.c \
-	types.h \
 	ui.h \
 	uiabout.h \
 	uiattach.h \

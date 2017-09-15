@@ -105,7 +105,6 @@ libarch_a_SOURCES = \
 	rawnetarch.c \
 	timer.c \
 	timer.h \
-	types.h \
 	ui.c \
 	ui.h \
 	uiapi.c \
