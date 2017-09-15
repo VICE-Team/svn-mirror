@@ -45,6 +45,8 @@
 #include "drivetypewidget.h"
 #include "driveextendpolicywidget.h"
 #include "driveexpansionwidget.h"
+#include "driveidlemethodwidget.h"
+#include "driveparallelcablewidget.h"
 
 #include "uidrivesettings.h"
 
@@ -70,6 +72,10 @@ GtkWidget *drive_extend_widget = NULL;
 
 GtkWidget *drive_expansion_widget = NULL;
 
+GtkWidget *drive_idle_method_widget = NULL;
+
+GtkWidget *drive_parallel_cable_widget = NULL;
+
 
 /** \brief  Extra callback when the unit number has changed
  *
@@ -88,14 +94,40 @@ static void unit_changed_callback(int unit)
 
     debug_gtk3("got unit %d\n", unit);
 
-    update_drive_type_widget(drive_type_widget, unit);
+    if (drive_type_widget != NULL) {
+        update_drive_type_widget(drive_type_widget, unit);
+    }
 
-    update_drive_extend_policy_widget(drive_extend_widget, unit);
-    gtk_widget_set_sensitive(drive_extend_widget,
-            drive_check_extend_policy(type));
+    if (drive_extend_widget != NULL) {
+        update_drive_extend_policy_widget(drive_extend_widget, unit);
+        gtk_widget_set_sensitive(drive_extend_widget,
+                drive_check_extend_policy(type));
+    }
 
-    update_drive_expansion_widget(drive_expansion_widget, unit);
+    if (drive_expansion_widget != NULL) {
+        update_drive_expansion_widget(drive_expansion_widget, unit);
+    }
+
+    if (drive_idle_method_widget != NULL) {
+        update_drive_idle_method_widget(drive_idle_method_widget, unit);
+    }
+
+    if (drive_parallel_cable_widget != NULL) {
+        update_drive_parallel_cable_widget(drive_parallel_cable_widget, unit);
+    }
 }
+
+
+static void on_destroy(GtkWidget *widget, gpointer user_data)
+{
+    drive_type_widget = NULL;
+    drive_extend_widget = NULL;
+    drive_expansion_widget = NULL;
+    drive_idle_method_widget = NULL;
+    drive_parallel_cable_widget = NULL;
+}
+
+
 
 
 /** \brief  Create drive settings widget for the settings dialog
@@ -108,20 +140,16 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
 
-    drive_type_widget = NULL;
-    drive_extend_widget = NULL;
-    drive_expansion_widget = NULL;
-
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
     g_object_set(layout, "margin", 8, NULL);
 
-    /* row 0, column 0 & 1 */
+    /* row 0, column 0-2 */
     gtk_grid_attach(
             GTK_GRID(layout),
             create_drive_unit_widget(8, &unit_number, unit_changed_callback),
-            0, 0, 2, 1);
+            0, 0, 3, 1);
 
     /* row 1 & 2, column 0 */
     drive_type_widget = create_drive_type_widget(unit_number, unit_changed_callback);
@@ -131,12 +159,24 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     /* row 1, colum 1 */
     drive_extend_widget = create_drive_extend_policy_widget(unit_number);
     update_drive_extend_policy_widget(drive_extend_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_extend_widget, 1, 1, 1,1 );
+    gtk_grid_attach(GTK_GRID(layout), drive_extend_widget, 1, 1, 1, 1);
 
     /* row 2, column 1 */
     drive_expansion_widget = create_drive_expansion_widget(unit_number);
     update_drive_expansion_widget(drive_expansion_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1 ,2, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 2, 1, 1);
+
+    /* row 1, column 2 */
+    drive_idle_method_widget = create_drive_idle_method_widget(unit_number);
+    update_drive_idle_method_widget(drive_idle_method_widget, unit_number);
+    gtk_grid_attach(GTK_GRID(layout), drive_idle_method_widget, 2, 1, 1, 1);
+
+    /* row 2, column 2 */
+    drive_parallel_cable_widget = create_drive_parallel_cable_widget(unit_number);
+    update_drive_parallel_cable_widget(drive_parallel_cable_widget, unit_number);
+    gtk_grid_attach(GTK_GRID(layout), drive_parallel_cable_widget, 2, 2, 1, 1);
+
+    g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(layout);
     return layout;

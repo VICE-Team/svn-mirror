@@ -51,8 +51,6 @@
 
 
 /** \brief  Unit number (8-11)
- *
- * XXX: probably not required
  */
 static int unit_number = 8;
 
@@ -67,6 +65,21 @@ static GtkWidget *ramA000_widget = NULL;
 static GtkWidget *profdos_widget = NULL;
 static GtkWidget *stardos_widget = NULL;
 static GtkWidget *supercard_widget = NULL;
+
+
+
+static void on_destroy(GtkWidget *widget, gpointer user_data)
+{
+    ram2000_widget = NULL;
+    ram4000_widget = NULL;
+    ram6000_widget = NULL;
+    ram8000_widget = NULL;
+    ramA000_widget = NULL;
+    profdos_widget = NULL;
+    stardos_widget = NULL;
+    supercard_widget = NULL;
+}
+
 
 
 /** \brief  Handler for "toggled" event of RAM expansion check buttons
@@ -178,6 +191,8 @@ GtkWidget *create_drive_expansion_widget(int unit)
     gtk_grid_attach(GTK_GRID(grid), profdos_widget, 0, 6, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stardos_widget, 0, 7, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), supercard_widget, 0, 8, 1, 1);
+
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;
