@@ -36,6 +36,7 @@
 #include "drive.h"
 #include "joyport.h"
 #include "lib.h"
+#include "resources.h"
 #include "types.h"
 #include "uiapi.h"
 #include "uidatasette.h"
@@ -293,6 +294,7 @@ static GtkWidget *ui_drive_widget_create(int unit)
 
     led = gtk_drawing_area_new();
     gtk_widget_set_size_request(led, 30, 15);
+    gtk_widget_set_no_show_all(led, TRUE);
     gtk_container_add(GTK_CONTAINER(grid), number);
     gtk_container_add(GTK_CONTAINER(grid), track);
     gtk_container_add(GTK_CONTAINER(grid), led);
@@ -409,9 +411,10 @@ static GtkWidget *ui_joystick_widget_create(void)
 
 static void layout_statusbar_drives(int bar_index)
 {
-    int i, j, state;
+    int i, j, state, tde = 0;
     int enabled_drive_index = 0;
     GtkWidget *bar = allocated_bars[bar_index].bar;
+    resources_get_int("DriveTrueEmulation", &tde);
     if (!bar) {
         return;
     }
@@ -452,6 +455,11 @@ static void layout_statusbar_drives(int bar_index)
             gtk_container_add(GTK_CONTAINER(event_box), drive);
             gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
             g_signal_connect(event_box, "button-press-event", G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
+            if (tde) {
+                gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
+            } else {
+                gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
+            }
             gtk_grid_attach(GTK_GRID(bar), event_box, column, row, 1, 1);
             ++enabled_drive_index;
         }
