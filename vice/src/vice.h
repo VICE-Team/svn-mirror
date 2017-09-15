@@ -191,4 +191,8 @@ static int noop;
 #undef HAVE_RS232DEV
 #endif
 
+#if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
+#define atexit vice_atexit
+#endif
+
 #endif

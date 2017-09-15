@@ -57,6 +57,44 @@
 
 #include "ui.h"
 
+/* Temporary windows atexit() crash workaround */
+#ifdef WIN32_COMPILE
+#define ATEXIT_MAX_FUNCS 64
+
+static void *atexit_functions[ATEXIT_MAX_FUNCS + 1];
+
+static int atexit_counter = 0;
+
+int vice_atexit(void (*function)(void))
+{
+    int i;
+
+    if (!atexit_counter) {
+        for (i = 0; i <= ATEXIT_MAX_FUNCS; ++i) {
+            atexit_functions[i] = NULL;
+        }
+    }
+
+    if (atexit_counter == ATEXIT_MAX_FUNCS) {
+        return 1;
+    }
+
+    atexit_functions[atexit_counter++] = function;
+
+    return 0;
+}
+
+static void atexit_functions_execute(void)
+{
+    int i = 0;
+    void (*f)(void) = NULL;
+
+    while (atexit_functions[i]) {
+        f = atexit_functions[i++];
+        f();
+    }
+}
+#endif
 
 /** \brief  Default HTML browser
  *
@@ -827,5 +865,8 @@ void ui_exit(void)
 {
     /* TODO: Confirmation dialog, etc. */
     INCOMPLETE_IMPLEMENTATION();
+#ifdef WIN32_COMPILE
+    atexit_functions_execute();
+#endif
     exit(0);
 }
