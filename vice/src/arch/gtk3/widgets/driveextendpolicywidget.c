@@ -45,7 +45,8 @@
 static ui_text_int_pair_t policies[] = {
     { "Never extend", 0 },
     { "Ask on extend", 1 },
-    { "Extend on access", 2 }
+    { "Extend on access", 2 },
+    { NULL, -1 }
 };
 
 
@@ -123,7 +124,6 @@ void update_drive_extend_policy_widget(GtkWidget *widget, int unit)
     /* determine if this widget is valid for the current drive type */
     g_snprintf(res_name, 256, "Drive%dType", unit_number);
     resources_get_int(res_name, &drive_type);
-
     gtk_widget_set_sensitive(widget,
             drive_check_extend_policy(drive_type));
 }
