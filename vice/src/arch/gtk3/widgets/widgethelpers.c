@@ -284,3 +284,25 @@ GtkWidget *uihelpers_create_resource_checkbox(const char *label,
     return check;
 }
 
+
+/** \brief  Set a drive resource, using \a fmt as a format string
+ *
+ * \param[in]   widget      check button
+ * \param[in]   fmt         printf-like format string
+ * \param[in]   unit        unit number (8-11)
+ */
+void uihelpers_set_drive_resource_from_check_button(
+        GtkWidget *widget,
+        const char *fmt,
+        int unit)
+{
+    char buffer[256];
+    int state;
+
+    g_snprintf(buffer, 256, fmt, unit);
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    debug_gtk3("setting %s to %s\n", buffer, state ? "ON" : "OFF");
+    resources_set_int(buffer, state);
+}
+
+

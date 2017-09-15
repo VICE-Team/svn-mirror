@@ -3,6 +3,7 @@
  *
  * Controls the following resource(s):
  *  DriveTrueEmulation
+ *  DriveSoundEmulation
  *
  *  (for more, see used widgets)
  *
@@ -159,31 +160,42 @@ static void on_tde_toggled(GtkWidget *widget, gpointer user_data)
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
+
+/** \brief  Handler for the "toggled" event of the drive sound check button
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   user_data   data for event (unused)
+ */
 static void on_drive_sound_toggled(GtkWidget *widget, gpointer user_data)
 {
+    resources_set_int("DriveSoundEmulation",
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
+
+/** \brief  Create check button to set the "DriveTrueEmulation" resource
+ *
+ * \return GtkCheckButton
+ */
 static GtkWidget *create_tde_check_button(void)
 {
     GtkWidget *check;
-    int state;
 
-    check = gtk_check_button_new_with_label("Enable true drive emulation");
-    g_object_set(check, "margin-left", 8, NULL);
-    resources_get_int("DriveTrueEmulation", &state);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
+    check = uihelpers_create_resource_checkbox("Enable true drive emulation",
+            "DriveTrueEmulation");
 
-    g_signal_connect(check, "toggled", G_CALLBACK(on_tde_toggled), NULL);
+    g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
 
 
+/** \brief  Create check button to control
+ */
 static GtkWidget *create_drive_sound_check_button(void)
 {
-    GtkWidget *check = gtk_check_button_new_with_label(
-            "Enable drive sound emulation");
+    GtkWidget *check = uihelpers_create_resource_checkbox(
+            "Enable drive sound emulation", "DriveSoundEmulation");
     g_object_set(check, "margin-left", 8, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_drive_sound_toggled), NULL);
     return check;
 }
 
@@ -196,11 +208,16 @@ static GtkWidget *create_drive_sound_check_button(void)
  * \paramp[in]  parent  parent widget
  *
  * \return  GtkGrid
+ *
+ * FIXME:   this just became a bit messy, I should document the wrappers
  */
 GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *unit_widget;
+
+    GtkWidget *type_40_grid;
+    GtkWidget *idle_par_grid;
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
@@ -217,35 +234,44 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     /* row 2, column 0-2 */
     gtk_grid_attach(GTK_GRID(layout), unit_widget, 0, 2, 3, 1);
 
-    /* row 3 & 4, column 0 */
-    drive_type_widget = create_drive_type_widget(unit_number, unit_changed_callback);
-    update_drive_type_widget(drive_type_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_type_widget, 0, 3, 1, 3);
 
-    /* row 3, colum 1 */
+    type_40_grid = gtk_grid_new();
+
+    drive_type_widget = create_drive_type_widget(unit_number,
+            unit_changed_callback);
+    update_drive_type_widget(drive_type_widget, unit_number);
+    gtk_grid_attach(GTK_GRID(type_40_grid), drive_type_widget, 0, 0, 1, 1);
+
     drive_extend_widget = create_drive_extend_policy_widget(unit_number);
     update_drive_extend_policy_widget(drive_extend_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_extend_widget, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(type_40_grid), drive_extend_widget, 0, 1, 1, 1);
 
-    /* row 4, column 1 */
+    gtk_grid_attach(GTK_GRID(layout), type_40_grid, 0, 3, 1, 2);
+
+    /* row 3, column 1 */
     drive_expansion_widget = create_drive_expansion_widget(unit_number);
     update_drive_expansion_widget(drive_expansion_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 3, 1, 1);
 
     /* row 3, column 2 */
+
+    idle_par_grid = gtk_grid_new();
     drive_idle_method_widget = create_drive_idle_method_widget(unit_number);
     update_drive_idle_method_widget(drive_idle_method_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_idle_method_widget, 2, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(idle_par_grid), drive_idle_method_widget,
+            0, 0, 1, 1);
+    drive_parallel_cable_widget = create_drive_parallel_cable_widget(
+            unit_number);
+    update_drive_parallel_cable_widget(drive_parallel_cable_widget,
+            unit_number);
+    gtk_grid_attach(GTK_GRID(idle_par_grid), drive_parallel_cable_widget,
+            0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), idle_par_grid, 2, 3, 1, 1);
 
-    /* row 4, column 2 */
-    drive_parallel_cable_widget = create_drive_parallel_cable_widget(unit_number);
-    update_drive_parallel_cable_widget(drive_parallel_cable_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_parallel_cable_widget, 2, 4, 1, 1);
-
-    /* row 5, column 1 & 2 */
+    /* row 4, column 1 & 2 */
     drive_options_widget = create_drive_options_widget(unit_number);
     update_drive_options_widget(drive_options_widget, unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 5, 2, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 4, 2, 1);
 
 
     g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);

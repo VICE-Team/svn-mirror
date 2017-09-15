@@ -44,12 +44,16 @@
 static int unit_number = 8;
 
 
+
+/** \brief  Idle method (name,id) tuples
+ */
 static ui_text_int_pair_t idle_methods[] = {
     { "None", 0 },
     { "Skip cycles", 1 },
     { "Trap idle", 2 },
     { NULL, -1 }
 };
+
 
 
 static void on_idle_method_changed(GtkWidget *widget, gpointer user_data)

@@ -97,7 +97,14 @@ static void on_rtc_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-
+/** \brief  Handler for the "destroy" event of the widget
+ *
+ * Sets widget references to `NULL`, this shouldn't be needed once I move
+ * the g_signal_connect() calls to their proper place
+ *
+ * \param[in]   widget      widget triggering the event
+ * \param[in]   user_data   data for the event (unused)
+ */
 static void on_destroy(GtkWidget *widget, gpointer user_data)
 {
     iec_widget = NULL;
