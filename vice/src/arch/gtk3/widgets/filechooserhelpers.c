@@ -39,14 +39,14 @@
 
 /** \brief  Patterns for all files
  */
-const gchar *file_chooser_pattern_all[] = {
+const char *file_chooser_pattern_all[] = {
     "*.*", NULL
 };
 
 
 /** \brief  Patterns for disk images
  */
-const gchar *file_chooser_pattern_disk[] = {
+const char *file_chooser_pattern_disk[] = {
     "*.d64", "*.d67", "*.d71", "*.d8[0-2]",
     "*.d1m", "*.d2m", "*.d4m",
     "*.g64", "*.g71", "*.g41", "*.p64",
@@ -60,15 +60,15 @@ const gchar *file_chooser_pattern_disk[] = {
  * T64 is NOT a tape, so probably should be moved to a 'archive' pattern group,
  * together with ZipCode, Lynx, Ark, etc.
  */
-const gchar *file_chooser_pattern_tape[] = {
+const char *file_chooser_pattern_tape[] = {
     "*.t64", "*.tap", NULL
 };
 
 
 /** \brief  Patterns for program files
  */
-const gchar *file_chooser_pattern_program[] = {
-    "*.prg", "*.p[0-9][0-9]"
+const char *file_chooser_pattern_program[] = {
+    "*.prg", "*.p[0-9][0-9]", NULL
 };
 
 
@@ -92,8 +92,8 @@ const char *file_chooser_pattern_archive[] = {
  * XXX: Once we have libarchive implemented, we could probably query libarchive
  *      for the extensions supported
  */
-const gchar *file_chooser_pattern_compressed[] = {
-    "*7z", "*.bz2", "*.gz", ".rar", "*.[zZ]", "*.zip"
+const char *file_chooser_pattern_compressed[] = {
+    "*7z", "*.bz2", "*.gz", ".rar", "*.[zZ]", "*.zip", NULL
 };
 
 
