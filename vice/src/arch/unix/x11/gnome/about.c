@@ -33,6 +33,8 @@
 #include "version.h"
 #include "vicefeatures.h"
 
+#include <string.h>
+
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif
