@@ -107,12 +107,11 @@ GtkWidget *create_drive_type_widget(int unit, void (*callback)(int))
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
         g_object_set(radio, "margin-left", 16, NULL);
 
-        g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
-                GINT_TO_POINTER(list[i].id));
-
         gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
         last = GTK_RADIO_BUTTON(radio);
     }
+
+    update_drive_type_widget(grid, unit);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -151,3 +150,26 @@ void update_drive_type_widget(GtkWidget *widget, int unit)
         }
     }
 }
+
+
+/** \brief  Setup signal handlers for the drive type widget
+ *
+ * \param[in,out]   widget  drive type widget
+ */
+void connect_drive_type_widget_signals(GtkWidget *widget)
+{
+    drive_type_info_t *list;
+    size_t i;
+
+    list = drive_get_type_info_list();
+    for (i = 0; list[i].name != NULL; i++) {
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
+        /* debug_gtk3("connecting handle for %s/%d\n", list[i].name, list[i].id); */
+        if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
+            g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
+                    GINT_TO_POINTER(list[i].id));
+        }
+    }
+}
+
+

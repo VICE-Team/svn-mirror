@@ -55,7 +55,8 @@ static ui_text_int_pair_t idle_methods[] = {
 };
 
 
-
+/** \brief  Handler for the "toggled" event of the radio buttons
+ */
 static void on_idle_method_changed(GtkWidget *widget, gpointer user_data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {

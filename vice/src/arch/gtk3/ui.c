@@ -292,6 +292,8 @@ static int is_paused = 0;
  */
 void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
+    debug_gtk3("called\n");
+    vsync_suspend_speed_eval();
     ui_exit();
 }
 

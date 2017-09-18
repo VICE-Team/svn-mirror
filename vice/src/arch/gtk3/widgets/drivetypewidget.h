@@ -33,6 +33,7 @@
 #include <gtk/gtk.h>
 
 GtkWidget *create_drive_type_widget(int unit, void (*callback)(int));
+void connect_drive_type_widget_signals(GtkWidget *widget);
 void update_drive_type_widget(GtkWidget *widget, int unit);
 
 #endif

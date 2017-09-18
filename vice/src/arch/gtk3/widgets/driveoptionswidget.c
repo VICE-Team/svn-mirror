@@ -1,5 +1,5 @@
 /** \file   src/arch/gtk3/driveoptionswidget.c
- * \brief   Drive options widgeg
+ * \brief   Drive options widget
  *
  * Controls the following resource(s):
  *  IECDevice[8-11]
@@ -8,6 +8,10 @@
  *  FSDevice[8-11]ConvertP00
  *  FSDevice[8-11]SaveP00
  *  FSDevice[8-11]HideCBMFiles
+ *  Drive[8-11]RPM
+ *  Drive[8-11]Wobble
+ *  Drive[8-11]RTCSave
+ *
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -54,7 +58,23 @@
 static int unit_number = 8;
 
 
+/** Row number of the various widgets
+ */
+enum {
+    ROW_IEC = 1,
+    ROW_READONLY,
+    ROW_FSDIR,
+    ROW_P00CONVERT,
+    ROW_P00CREATE,
+    ROW_P00ONLY,
+    ROW_RPM,
+    ROW_RTC
+};
 
+
+/*
+ * References to widget, to be used in update_drive_options_widget()
+ */
 static GtkWidget *iec_widget = NULL;
 static GtkWidget *readonly_widget = NULL;
 static GtkWidget *fsdir_widget = NULL;
@@ -67,33 +87,80 @@ static GtkWidget *rtc_widget = NULL;
 
 static void on_iec_toggled(GtkWidget *widget, gpointer user_data)
 {
-    return;
+    uihelpers_set_drive_resource_from_check_button(
+            widget, "IECDevice%d", unit_number);
 }
 
 static void on_readonly_toggled(GtkWidget *widget, gpointer user_data)
 {
-    return;
+    uihelpers_set_drive_resource_from_check_button(
+            widget, "AttachDevice%dReadonly",
+            unit_number);
 }
+
 
 static void on_p00convert_toggled(GtkWidget *widget, gpointer user_data)
 {
-    return;
+    uihelpers_set_drive_resource_from_check_button(
+            widget, "FSDevice%dConvertP00",
+            unit_number);
 }
+
 
 static void on_p00create_toggled(GtkWidget *widget, gpointer user_data)
 {
-    return;
+    uihelpers_set_drive_resource_from_check_button(
+            widget, "FSDevice%dCreateP00",
+            unit_number);
 }
 
 static void on_p00only_toggled(GtkWidget *widget, gpointer user_data)
 {
-    return;
+    uihelpers_set_drive_resource_from_check_button(
+            widget, "FSDevice%dHideCBMFiles",
+            unit_number);
 }
 
 
 static void on_rtc_toggled(GtkWidget *widget, gpointer user_data)
 {
-    return;
+    uihelpers_set_drive_resource_from_check_button(
+            widget, "Drive%dRTCSave",
+            unit_number);
+}
+
+
+/** \brief  Handler for the "changed" event of the RPM spinbox
+ *
+ * \param[in]   widget      RPM spin button
+ * \param[in[   user_data   data for event (unused)
+ */
+static void on_rpm_changed(GtkWidget *widget, gpointer user_data)
+{
+    int value;
+    char res_name[256];
+
+    g_snprintf(res_name, 256, "Drive%dRPM", unit_number);
+    value = (int)(100.0 * gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget)));
+    debug_gtk3("setting %s to %d\n", res_name, value);
+    resources_set_int(res_name, value);
+}
+
+
+/** \brief  Handler for the "changed" event of the Wobble spinbox
+ *
+ * \param[in]   widget      Wobble spin button
+ * \param[in[   user_data   data for event (unused)
+ */
+static void on_wobble_changed(GtkWidget *widget, gpointer user_data)
+{
+    int value;
+    char res_name[256];
+
+    g_snprintf(res_name, 256, "Drive%dWobble", unit_number);
+    value = (int)(100.0 * gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget)));
+    debug_gtk3("setting %s to %d\n", res_name, value);
+    resources_set_int(res_name, value);
 }
 
 
@@ -123,7 +190,6 @@ static GtkWidget *create_iec_check_button(void)
     GtkWidget *check = gtk_check_button_new_with_label("Enable IEC Device");
 
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_iec_toggled), NULL);
     return check;
 }
 
@@ -133,7 +199,6 @@ static GtkWidget *create_readonly_check_button(void)
     GtkWidget *check = gtk_check_button_new_with_label("Read only access");
 
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_readonly_toggled), NULL);
     return check;
 }
 
@@ -172,7 +237,6 @@ static GtkWidget *create_p00convert_check_button(void)
     GtkWidget *check = gtk_check_button_new_with_label("Convert P00 file names");
 
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_p00convert_toggled), NULL);
     return check;
 }
 
@@ -181,7 +245,6 @@ static GtkWidget *create_p00create_check_button(void)
     GtkWidget *check = gtk_check_button_new_with_label("Create P00 files on save");
 
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_p00create_toggled), NULL);
     return check;
 }
 
@@ -191,7 +254,6 @@ static GtkWidget *create_p00only_check_button(void)
     GtkWidget *check = gtk_check_button_new_with_label("Hide non-P00 files");
 
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_p00only_toggled), NULL);
     return check;
 }
 
@@ -244,14 +306,52 @@ static GtkWidget *create_rtc_check_button(void)
     GtkWidget *check = gtk_check_button_new_with_label("Enable RTC saving");
 
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_rtc_toggled), NULL);
 
     return check;
 }
 
 
 
+static void connect_signal_handlers(void)
+{
+    GtkWidget *spin;
 
+    g_signal_connect(iec_widget, "toggled",
+            G_CALLBACK(on_iec_toggled), NULL);
+    g_signal_connect(readonly_widget, "toggled",
+            G_CALLBACK(on_readonly_toggled), NULL);
+    g_signal_connect(p00convert_widget, "toggled",
+            G_CALLBACK(on_p00convert_toggled), NULL);
+    g_signal_connect(p00create_widget, "toggled",
+            G_CALLBACK(on_p00create_toggled), NULL);
+    g_signal_connect(p00only_widget, "toggled",
+            G_CALLBACK(on_p00only_toggled), NULL);
+
+    /* RPM spinbox */
+    spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 0);
+    /* this works for the +/- buttons, but not when entering a value */
+    g_signal_connect(spin, "value-changed",
+            G_CALLBACK(on_rpm_changed), NULL);
+
+    /* Wobble spinbox */
+    spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 1);
+    /* this works for the +/- buttons, but not when entering a value */
+    g_signal_connect(spin, "value-changed",
+            G_CALLBACK(on_wobble_changed), NULL);
+
+
+    g_signal_connect(rtc_widget, "toggled", G_CALLBACK(on_rtc_toggled), NULL);
+
+}
+
+
+
+/** \brief  Create drive options widget for \a unit
+ *
+ * \param[in]   unit    drive unit number
+ *
+ * \return GtkGrid
+ */
 GtkWidget *create_drive_options_widget(int unit)
 {
     GtkWidget *grid;
@@ -261,28 +361,34 @@ GtkWidget *create_drive_options_widget(int unit)
     grid = uihelpers_create_grid_with_label("Options", 1);
 
     iec_widget = create_iec_check_button();
-    gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, ROW_IEC, 1, 1);
 
     readonly_widget = create_readonly_check_button();
-    gtk_grid_attach(GTK_GRID(grid), readonly_widget, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), readonly_widget, 0, ROW_READONLY, 1, 1);
 
     fsdir_widget = create_fsdir_widget();
-    gtk_grid_attach(GTK_GRID(grid), fsdir_widget, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), fsdir_widget, 0, ROW_FSDIR, 1, 1);
 
     p00convert_widget = create_p00convert_check_button();
-    gtk_grid_attach(GTK_GRID(grid), p00convert_widget, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), p00convert_widget, 0, ROW_P00CONVERT, 1, 1);
 
     p00create_widget = create_p00create_check_button();
-    gtk_grid_attach(GTK_GRID(grid), p00create_widget, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), p00create_widget, 0, ROW_P00CREATE, 1, 1);
 
     p00only_widget = create_p00only_check_button();
-    gtk_grid_attach(GTK_GRID(grid), p00only_widget, 0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), p00only_widget, 0, ROW_P00ONLY, 1, 1);
 
     rpm_widget = create_rpm_widget();
-    gtk_grid_attach(GTK_GRID(grid), rpm_widget, 0, 7, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rpm_widget, 0, ROW_RPM, 1, 1);
 
     rtc_widget = create_rtc_check_button();
-    gtk_grid_attach(GTK_GRID(grid), rtc_widget, 0, 8, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rtc_widget, 0, ROW_RTC, 1, 1);
+
+    /* set current values */
+    update_drive_options_widget(grid, unit);
+
+    /* now set up signals */
+    connect_signal_handlers();
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
@@ -291,8 +397,34 @@ GtkWidget *create_drive_options_widget(int unit)
 }
 
 
+/** \brief  Update the options widget using the resources for \a unit
+ *
+ * \param[in,out]   widget  drive options widget
+ * \param[in]       unit    drive unit number (8-11)
+ */
 void update_drive_options_widget(GtkWidget *widget, int unit)
 {
-    return;
+    unit_number = unit;
+
+    int value;
+    char res_name[256];
+    GtkWidget *spin;
+
+    uihelpers_get_drive_resource_from_check_button(
+            iec_widget, "IECDevice%d", unit);
+    uihelpers_get_drive_resource_from_check_button(
+            readonly_widget, "AttachDevice%dReadonly", unit);
+
+    /* RPM */
+    g_snprintf(res_name, 256, "Drive%dRPM", unit);
+    resources_get_int(res_name, &value);
+    spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 0);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)(value / 100));
+
+    /* Wobble */
+    g_snprintf(res_name, 256, "Drive%dWobble", unit);
+    resources_get_int(res_name, &value);
+    spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 1);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)(value / 100));
 }
 

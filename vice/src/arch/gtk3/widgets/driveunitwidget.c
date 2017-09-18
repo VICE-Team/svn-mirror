@@ -106,9 +106,8 @@ static GtkWidget *create_radio_group(int unit)
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         }
 
-        g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
-                GINT_TO_POINTER(i));
-
+        /* don't connect signal handlers here, since that can trigger the
+         * handlers through the previous statement */
 
         last = GTK_RADIO_BUTTON(radio);
     }
@@ -129,6 +128,8 @@ GtkWidget *create_drive_unit_widget(int unit, int *target, void (*callback)(int)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    GtkWidget *group;
+    int i;
 
     unit_target = target;
     unit_callback = callback;
@@ -143,10 +144,17 @@ GtkWidget *create_drive_unit_widget(int unit, int *target, void (*callback)(int)
     label = gtk_label_new("Unit #:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_radio_group(unit), 1, 0, 1, 1);
+    group = create_radio_group(unit);
+    gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
+
+    /* connect signal handlers */
+    for (i = 0; i < 4; i++) {
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), i, 0);
+        g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
+            GINT_TO_POINTER(i));
+    }
 
     gtk_widget_show_all(grid);
     return grid;
 }
-
 

@@ -67,21 +67,19 @@ static int unit_number = 8;
 static GtkWidget *drive_type_widget = NULL;
 
 
-/** \brief  Widget controlling 40-track handling
- *
- * This is horrible, this really should be static
+/*
+ * TODO: Update code to avoid these non-static variables
  */
 GtkWidget *drive_extend_widget = NULL;
-
-
 GtkWidget *drive_expansion_widget = NULL;
-
 GtkWidget *drive_idle_method_widget = NULL;
-
 GtkWidget *drive_parallel_cable_widget = NULL;
-
 GtkWidget *drive_options_widget = NULL;
 
+
+/*****************************************************************************
+ *                          non-Gtk+ event handlers                          *
+ *****************************************************************************/
 
 /** \brief  Extra callback when the unit number has changed
  *
@@ -126,6 +124,12 @@ static void unit_changed_callback(int unit)
         update_drive_options_widget(drive_options_widget, unit);
     }
 }
+
+
+/*****************************************************************************
+ *                              Gtk+ event handlers                          *
+ *****************************************************************************/
+
 
 
 /** \brief  Handler for the "destroy" event of the widget
@@ -173,6 +177,13 @@ static void on_drive_sound_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+
+/*****************************************************************************
+ *                              Private functions                            *
+ *****************************************************************************/
+
+
+
 /** \brief  Create check button to set the "DriveTrueEmulation" resource
  *
  * \return GtkCheckButton
@@ -183,8 +194,7 @@ static GtkWidget *create_tde_check_button(void)
 
     check = uihelpers_create_resource_checkbox("Enable true drive emulation",
             "DriveTrueEmulation");
-
-    g_object_set(check, "margin-left", 16, NULL);
+    g_object_set(check, "margin-left", 8, NULL);
     return check;
 }
 
@@ -201,11 +211,13 @@ static GtkWidget *create_drive_sound_check_button(void)
 
 
 
-
+/*****************************************************************************
+ *                              Public functions                             *
+ *****************************************************************************/
 
 /** \brief  Create drive settings widget for the settings dialog
  *
- * \paramp[in]  parent  parent widget
+ * \param[in]  parent  parent widget
  *
  * \return  GtkGrid
  *
@@ -237,9 +249,10 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 
     type_40_grid = gtk_grid_new();
 
+    /* create drive type widget, but don't connect signal handler yet, to avoid
+     * reseting a drive */
     drive_type_widget = create_drive_type_widget(unit_number,
             unit_changed_callback);
-    update_drive_type_widget(drive_type_widget, unit_number);
     gtk_grid_attach(GTK_GRID(type_40_grid), drive_type_widget, 0, 0, 1, 1);
 
     drive_extend_widget = create_drive_extend_policy_widget(unit_number);
@@ -273,6 +286,8 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     update_drive_options_widget(drive_options_widget, unit_number);
     gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 4, 2, 1);
 
+    /* now connect the drive type widget's signal handlers */
+    connect_drive_type_widget_signals(drive_type_widget);
 
     g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);
 

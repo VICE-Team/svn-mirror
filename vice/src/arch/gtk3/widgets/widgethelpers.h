@@ -67,6 +67,14 @@ GtkWidget *uihelpers_create_indented_label(const char *text);
 GtkWidget *uihelpers_create_resource_checkbox(
         const char *label, const char *resource);
 
+void uihelpers_set_drive_resource_from_check_button(
+        GtkWidget *widget,
+        const char *fmt,
+        int unit);
+int uihelpers_get_drive_resource_from_check_button(
+        GtkWidget *widget,
+        const char *fmt,
+        int unit);
 #endif
 
 

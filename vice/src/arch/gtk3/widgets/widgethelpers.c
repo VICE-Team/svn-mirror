@@ -285,7 +285,7 @@ GtkWidget *uihelpers_create_resource_checkbox(const char *label,
 }
 
 
-/** \brief  Set a drive resource, using \a fmt as a format string
+/** \brief  Set drive \a unit resource from \a widget
  *
  * \param[in]   widget      check button
  * \param[in]   fmt         printf-like format string
@@ -305,4 +305,24 @@ void uihelpers_set_drive_resource_from_check_button(
     resources_set_int(buffer, state);
 }
 
+
+/** \brief  Get drive \a unit resource from \a widget
+ *
+ * \param[in]   widget      check button
+ * \param[in]   fmt         printf-like format string
+ * \param[in]   unit        unit number (8-11)
+ */
+int uihelpers_get_drive_resource_from_check_button(
+        GtkWidget *widget,
+        const char *fmt,
+        int unit)
+{
+    char buffer[256];
+    int state;
+
+    g_snprintf(buffer, 256, fmt, unit);
+    resources_get_int(buffer, &state);
+    debug_gtk3("getting %s -> %s\n", buffer, state ? "ON" : "OFF");
+    return state;
+}
 
