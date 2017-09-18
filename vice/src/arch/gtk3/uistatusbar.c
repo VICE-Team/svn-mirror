@@ -52,7 +52,7 @@ static struct ui_sb_state_s {
     /* TODO: The PET can have 2 tape drives */
     int tape_control, tape_motor_status, tape_counter;
     /* TODO: does not cover two-unit drives */
-    int drives_enabled;
+    int drives_enabled, drives_tde_enabled;
     int drive_led_types[DRIVE_NUM];
     unsigned int current_drive_leds[DRIVE_NUM][2];
     int current_joyports[JOYPORT_MAX_PORTS];
@@ -89,6 +89,7 @@ void ui_statusbar_init(void)
     sb_state.tape_motor_status = 0;
     sb_state.tape_counter = 0;
     sb_state.drives_enabled = 0;
+    sb_state.drives_tde_enabled = 0;
     for (i = 0; i < DRIVE_NUM; ++i) {
         sb_state.drive_led_types[i] = 0;
         sb_state.current_drive_leds[i][0] = 0;
@@ -103,6 +104,20 @@ void ui_statusbar_init(void)
 void ui_statusbar_shutdown(void)
 {
     /* Any universal resources we allocate get cleaned up here */
+}
+
+static int compute_drives_enabled_mask(void)
+{
+    int unit, mask;
+    int result = 0;
+    for (unit = 0, mask=1; unit < 4; ++unit, mask <<= 1) {
+        int status = 0, value = 0;
+        status = resources_get_int_sprintf("Drive%dType", &value, unit+8);
+        if (status == 0 && value != 0) {
+            result |= mask;
+        }
+    }
+    return result;
 }
 
 static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
@@ -414,7 +429,6 @@ static void layout_statusbar_drives(int bar_index)
     int i, j, state, tde = 0;
     int enabled_drive_index = 0;
     GtkWidget *bar = allocated_bars[bar_index].bar;
-    resources_get_int("DriveTrueEmulation", &tde);
     if (!bar) {
         return;
     }
@@ -443,6 +457,7 @@ static void layout_statusbar_drives(int bar_index)
         }
     }
     state = sb_state.drives_enabled;
+    tde = sb_state.drives_tde_enabled;
     for (i = 0; i < DRIVE_NUM; ++i) {
         if (state & 1) {
             GtkWidget *drive = allocated_bars[bar_index].drives[i];
@@ -455,7 +470,7 @@ static void layout_statusbar_drives(int bar_index)
             gtk_container_add(GTK_CONTAINER(event_box), drive);
             gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
             g_signal_connect(event_box, "button-press-event", G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
-            if (tde) {
+            if (tde & 1) {
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
             } else {
                 gtk_widget_hide(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
@@ -464,6 +479,7 @@ static void layout_statusbar_drives(int bar_index)
             ++enabled_drive_index;
         }
         state >>= 1;
+        tde >>= 1;
     }
     gtk_widget_show_all(bar);
 }
@@ -800,11 +816,16 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
         enabled >>= 1;
     }
 
+    /* Now give enabled its "real" value based on the drive
+     * definitions. */
+    enabled = compute_drives_enabled_mask();
+    
     /* Now, if necessary, update the status bar layouts. We won't need
      * to do this if the only change was the kind of drives hooked up,
      * instead of the number */
-    if (state != sb_state.drives_enabled) {
-        sb_state.drives_enabled = state;
+    if ((state != sb_state.drives_tde_enabled) || (enabled != sb_state.drives_enabled)) {
+        sb_state.drives_enabled = enabled;
+        sb_state.drives_tde_enabled = state;
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
             layout_statusbar_drives(i);
         }
