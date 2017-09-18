@@ -89,7 +89,7 @@ static void atexit_functions_execute(void)
     int i = atexit_counter -1;
     void (*f)(void) = NULL;
 
-    while (i > 0 && atexit_functions[i]) {
+    while (i >= 0 && atexit_functions[i]) {
         f = atexit_functions[i--];
         f();
     }
