@@ -168,7 +168,7 @@ static void on_response(GtkWidget *widget, gpointer user_data)
  *
  * TODO: 'grey-out'/disable units without a proper drive attached
  */
-static GtkWidget *create_extra_widget(GtkWidget *parent)
+static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 {
     GtkWidget *grid;
     GtkWidget *hidden_check;
@@ -192,7 +192,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
 
     /* second row, three cols wide */
-    gtk_grid_attach(GTK_GRID(grid), create_drive_unit_widget(8, &unit_number,
+    gtk_grid_attach(GTK_GRID(grid), create_drive_unit_widget(unit, &unit_number,
                 NULL),
             0, 1, 3, 1);
 
@@ -207,7 +207,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
  *
  * \return  GtkFileChooserDialog
  */
-static GtkWidget *create_disk_attach_dialog(GtkWidget *parent)
+static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 {
     GtkWidget *dialog;
     GtkWidget *preview;
@@ -225,8 +225,11 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent)
             NULL, NULL);
 
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
+    if (unit < 8 || unit > 11) {
+        unit = 8;
+    }
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
-            create_extra_widget(dialog));
+                                      create_extra_widget(dialog, unit));
 
     preview = create_content_preview_widget(NULL);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview);
@@ -258,7 +261,7 @@ void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
 
     debug_gtk3("called\n");
-    dialog = create_disk_attach_dialog(widget);
+    dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));
     gtk_widget_show(dialog);
 
 }

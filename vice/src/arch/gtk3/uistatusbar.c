@@ -40,6 +40,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "uidatasette.h"
+#include "uidiskattach.h"
 
 #include "uistatusbar.h"
 
@@ -527,6 +528,7 @@ static GtkWidget *ui_drive_menu_create(int unit)
     snprintf(buf, 128, _("Attach to drive %d..."), unit + 8);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
+    g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     gtk_widget_show(drive_menu_item);
     return drive_menu;
