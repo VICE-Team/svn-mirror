@@ -37,6 +37,8 @@
 #include "drive.h"
 #include "drive-check.h"
 #include "driveexpansionwidget.h"
+#include "driveparallelcablewidget.h"
+
 
 #include "drivetypewidget.h"
 
@@ -50,6 +52,7 @@ static void(*unit_callback)(int) = NULL;
 
 extern GtkWidget *drive_extend_widget;
 extern GtkWidget *drive_expansion_widget;
+extern GtkWidget *drive_parallel_cable_widget;
 
 
 /** \brief  Handler for the "toggled" event of the radio buttons
@@ -75,6 +78,11 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
         /* update expansions widget */
         if (drive_expansion_widget != NULL) {
             update_drive_expansion_widget(drive_expansion_widget, unit_number);
+        }
+        /* update parallel cable widget */
+        if (drive_parallel_cable_widget != NULL) {
+            update_drive_parallel_cable_widget(drive_parallel_cable_widget,
+                    unit_number);
         }
     }
 }

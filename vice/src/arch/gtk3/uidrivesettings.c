@@ -275,8 +275,6 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
             0, 0, 1, 1);
     drive_parallel_cable_widget = create_drive_parallel_cable_widget(
             unit_number);
-    update_drive_parallel_cable_widget(drive_parallel_cable_widget,
-            unit_number);
     gtk_grid_attach(GTK_GRID(idle_par_grid), drive_parallel_cable_widget,
             0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), idle_par_grid, 2, 3, 1, 1);
