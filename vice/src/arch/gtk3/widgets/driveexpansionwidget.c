@@ -46,6 +46,7 @@
 #include "resources.h"
 #include "drive.h"
 #include "drive-check.h"
+#include "machine.h"
 
 #include "driveexpansionwidget.h"
 
@@ -134,9 +135,6 @@ static GtkWidget *create_ram_check_button(unsigned int base)
 
     check = gtk_check_button_new_with_label(buffer);
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_ram_toggled),
-            GUINT_TO_POINTER(base));
-
     return check;
 }
 
@@ -154,9 +152,6 @@ static GtkWidget *create_dos_check_button(const char *name, const char *res)
 
     check = gtk_check_button_new_with_label(name);
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_dos_toggled),
-            (gpointer)res);
-
     return check;
 }
 
@@ -191,6 +186,26 @@ GtkWidget *create_drive_expansion_widget(int unit)
     gtk_grid_attach(GTK_GRID(grid), profdos_widget, 0, 6, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stardos_widget, 0, 7, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), supercard_widget, 0, 8, 1, 1);
+
+    update_drive_expansion_widget(grid, unit);
+
+    g_signal_connect(ram2000_widget, "toggled", G_CALLBACK(on_ram_toggled),
+            GUINT_TO_POINTER(0x2000));
+    g_signal_connect(ram4000_widget, "toggled", G_CALLBACK(on_ram_toggled),
+            GUINT_TO_POINTER(0x4000));
+    g_signal_connect(ram6000_widget, "toggled", G_CALLBACK(on_ram_toggled),
+            GUINT_TO_POINTER(0x6000));
+    g_signal_connect(ram8000_widget, "toggled", G_CALLBACK(on_ram_toggled),
+            GUINT_TO_POINTER(0x8000));
+    g_signal_connect(ramA000_widget, "toggled", G_CALLBACK(on_ram_toggled),
+            GUINT_TO_POINTER(0xA000));
+
+    g_signal_connect(profdos_widget, "toggled", G_CALLBACK(on_dos_toggled),
+            (gpointer)"ProfDOS");
+    g_signal_connect(stardos_widget, "toggled", G_CALLBACK(on_dos_toggled),
+            (gpointer)"StarDos");
+    g_signal_connect(supercard_widget, "toggled", G_CALLBACK(on_dos_toggled),
+            (gpointer)"SuperCard");
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
@@ -228,10 +243,23 @@ void update_drive_expansion_widget(GtkWidget *widget, int unit)
             drive_check_expansionA000(drive_type));
 
     /* check DOS extensions */
-    gtk_widget_set_sensitive(profdos_widget, drive_check_profdos(drive_type));
-    gtk_widget_set_sensitive(stardos_widget, drive_check_stardos(drive_type));
-    gtk_widget_set_sensitive(supercard_widget, drive_check_supercard(drive_type));
-
-
-    return;
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:
+            /* supported, depending on drive type */
+            gtk_widget_set_sensitive(profdos_widget,
+                    drive_check_profdos(drive_type));
+            gtk_widget_set_sensitive(stardos_widget,
+                    drive_check_stardos(drive_type));
+            gtk_widget_set_sensitive(supercard_widget,
+                    drive_check_supercard(drive_type));
+            break;
+        default:
+            /* not supported for the current machine */
+            gtk_widget_set_sensitive(profdos_widget, FALSE);
+            gtk_widget_set_sensitive(stardos_widget, FALSE);
+            gtk_widget_set_sensitive(supercard_widget, FALSE);
+    }
 }

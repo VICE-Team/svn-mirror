@@ -263,7 +263,6 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 
     /* row 3, column 1 */
     drive_expansion_widget = create_drive_expansion_widget(unit_number);
-    update_drive_expansion_widget(drive_expansion_widget, unit_number);
     gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 3, 1, 1);
 
     /* row 3, column 2 */
