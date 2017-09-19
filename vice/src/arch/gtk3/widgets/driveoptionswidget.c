@@ -110,7 +110,7 @@ static void on_p00convert_toggled(GtkWidget *widget, gpointer user_data)
 static void on_p00create_toggled(GtkWidget *widget, gpointer user_data)
 {
     uihelpers_set_drive_resource_from_check_button(
-            widget, "FSDevice%dCreateP00",
+            widget, "FSDevice%dSaveP00",
             unit_number);
 }
 
@@ -351,6 +351,9 @@ static void connect_signal_handlers(void)
  * \param[in]   unit    drive unit number
  *
  * \return GtkGrid
+ *
+ * TODO:    move signal handler setup further down to avoid calling resource
+ *          setters triggering those callbacks
  */
 GtkWidget *create_drive_options_widget(int unit)
 {
@@ -401,6 +404,8 @@ GtkWidget *create_drive_options_widget(int unit)
  *
  * \param[in,out]   widget  drive options widget
  * \param[in]       unit    drive unit number (8-11)
+ *
+ * TODO:    handle more resources
  */
 void update_drive_options_widget(GtkWidget *widget, int unit)
 {
