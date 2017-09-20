@@ -1,6 +1,6 @@
 /** \file   src/arch/gtk3/widgets/openfiledialog.h
  *
- * fileopendialog.h - GTK3 file open dialog - header
+ * openfiledialog.h - GTK3 file open dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>

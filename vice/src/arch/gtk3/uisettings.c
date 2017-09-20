@@ -56,8 +56,8 @@
 #include "vsync.h"
 
 #include "debug_gtk3.h"
-
 #include "widgethelpers.h"
+#include "savefiledialog.h"
 
 #include "uispeed.h"
 #include "uikeyboard.h"
@@ -71,7 +71,7 @@
 
 #define NUM_COLUMNS 2
 
-/** \brief  Enum used for the "resonse" callback of the settings dialog
+/** \brief  Enum used for the "response" callback of the settings dialog
  *
  * All values must be positive since Gtk reserves standard responses in its
  * GtkResponse enum as negative values.
@@ -332,6 +332,7 @@ void ui_settings_dialog_shutdown(void)
 static void response_callback(GtkWidget *widget, gpointer user_data)
 {
     gint response_id = GPOINTER_TO_INT(user_data);
+    gchar *filename;
 
     debug_gtk3("got response ID %d\n", response_id);
 
@@ -339,6 +340,14 @@ static void response_callback(GtkWidget *widget, gpointer user_data)
         case GTK_RESPONSE_DELETE_EVENT:
             gtk_widget_destroy(widget);
             break;
+
+        case RESPONSE_SAVE_FILE:
+            filename = ui_save_file_dialog(widget, "Save settings as ...", NULL);
+            debug_gtk3("got save filename '%s'\n", filename ? filename : "NULL");
+            g_free(filename);
+            break;
+
+
         default:
             break;
     }

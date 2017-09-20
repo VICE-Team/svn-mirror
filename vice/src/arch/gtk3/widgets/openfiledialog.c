@@ -1,7 +1,7 @@
-/** \file   src/arch/gtk3/widgets/fileopendialog.c
+/** \file   src/arch/gtk3/widgets/openfiledialog.c
  * \brief   Wrapper around the GtkFileChooser dialog for simple cases
  *
- * fileopendialog.c - GTK3 file open dialog
+ * openfiledialog.c - GTK3 file open dialog
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
