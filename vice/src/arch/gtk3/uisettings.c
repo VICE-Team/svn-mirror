@@ -342,7 +342,8 @@ static void response_callback(GtkWidget *widget, gpointer user_data)
             break;
 
         case RESPONSE_SAVE_FILE:
-            filename = ui_save_file_dialog(widget, "Save settings as ...", NULL);
+            filename = ui_save_file_dialog(widget, "Save settings as ...",
+                    NULL, TRUE);
             debug_gtk3("got save filename '%s'\n", filename ? filename : "NULL");
             g_free(filename);
             break;
