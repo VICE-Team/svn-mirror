@@ -49,6 +49,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "widgethelpers.h"
+#include "selectdirectorydialog.h"
 
 #include "driveoptionswidget.h"
 
@@ -164,6 +165,39 @@ static void on_wobble_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
+static void on_fsdir_button_clicked(GtkWidget *widget, gpointer user_data)
+{
+    gchar *filename;
+
+    /* XXX: On my box, using Gtk3 3.22.11, and allowing CREATE, the first click
+     *      on a directory doesn't enable the "Select" button in the dialog for
+     *      some obscure reason, disallowing CREATE makes the selection work on
+     *      the first click -- compyx
+     */
+    filename = ui_select_directory_dialog(widget, "Select directory", NULL,
+            TRUE);
+    debug_gtk3("got directory '%s'\n", filename ? filename : "NULL");
+    if (filename != NULL) {
+        GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(fsdir_widget), 1, 0);
+        gtk_entry_set_text(GTK_ENTRY(entry), filename);
+
+        g_free(filename);
+    }
+}
+
+
+static void on_fsdir_entry_changed(GtkWidget *widget, gpointer user_data)
+{
+    GtkEntry *entry = GTK_ENTRY(widget);
+    const char *path = gtk_entry_get_text(entry);
+
+    debug_gtk3("setting FSDevice%dDir to '%s'\n", unit_number, path);
+    resources_set_string_sprintf("FSDevice%dDir", path, unit_number);
+}
+
+
+
+
 /** \brief  Handler for the "destroy" event of the widget
  *
  * Sets widget references to `NULL`, this shouldn't be needed once I move
@@ -210,6 +244,7 @@ static GtkWidget *create_fsdir_widget(void)
     GtkWidget *label;
     GtkWidget *entry;
     GtkWidget *button;
+    const char *value = NULL;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -219,12 +254,24 @@ static GtkWidget *create_fsdir_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
+    /* text entry box */
     entry = gtk_entry_new();
     gtk_widget_set_hexpand(entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 0, 1, 1);
+    resources_get_string_sprintf("FSDevice%dDir", &value, unit_number);
+    if (value != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(entry), value);
+    }
 
+    /* "Browse" button */
     button = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), button, 2, 0, 1, 1);
+
+    /* hook up signal handlers */
+    g_signal_connect(entry, "changed", G_CALLBACK(on_fsdir_entry_changed),
+            NULL);
+    g_signal_connect(button, "clicked", G_CALLBACK(on_fsdir_button_clicked),
+            NULL);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -22,6 +22,7 @@ libwidgets_a_SOURCES = \
 	kbdlayoutwidget.c \
 	openfiledialog.c \
 	savefiledialog.c \
+	selectdirectorydialog.c \
 	sounddriverwidget.c \
 	soundoutputmodewidget.c \
 	soundsyncwidget.c \
@@ -47,6 +48,7 @@ EXTRA_DIST = \
 	kbdlayoutwidget.h \
 	openfiledialog.h \
 	savefiledialog.h \
+	selectdirectorydialog.h \
 	sounddriverwidget.h \
 	soundoutputmodewidget.h \
 	soundsyncwidget.h \
