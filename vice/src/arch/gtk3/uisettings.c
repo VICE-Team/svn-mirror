@@ -57,6 +57,7 @@
 
 #include "debug_gtk3.h"
 #include "widgethelpers.h"
+#include "openfiledialog.h"
 #include "savefiledialog.h"
 
 #include "uispeed.h"
@@ -334,20 +335,54 @@ static void response_callback(GtkWidget *widget, gpointer user_data)
     gint response_id = GPOINTER_TO_INT(user_data);
     gchar *filename;
 
-    debug_gtk3("got response ID %d\n", response_id);
-
     switch (response_id) {
+
+        /* close dialog */
         case GTK_RESPONSE_DELETE_EVENT:
+            debug_gtk3("destroying settings widget\n");
             gtk_widget_destroy(widget);
             break;
 
+        /* load vicerc from default location */
+        case RESPONSE_LOAD:
+            debug_gtk3("loading resources from default file\n");
+            if(resources_load(NULL) != 0) {
+                debug_gtk3("failed\n");
+            }
+            break;
+
+        /* load vicerc from a user-specified location */
+        case RESPONSE_LOAD_FILE:
+            filename = ui_open_file_dialog(widget, "Load settings file",
+                    NULL, NULL);
+            if (filename!= NULL) {
+                debug_gtk3("loading settings from '%s'\n", filename);
+                if (resources_load(filename) != 0) {
+                    debug_gtk3("failed\n");
+                }
+            }
+            break;
+
+        /* save settings to default location */
+        case RESPONSE_SAVE:
+            debug_gtk3("saving vicerc to default location\n");
+            if (resources_save(NULL) != 0) {
+                debug_gtk3("failed!\n");
+            }
+            break;
+
+        /* save settings to a user-specified location */
         case RESPONSE_SAVE_FILE:
             filename = ui_save_file_dialog(widget, "Save settings as ...",
                     NULL, TRUE);
-            debug_gtk3("got save filename '%s'\n", filename ? filename : "NULL");
-            g_free(filename);
+            if (filename != NULL) {
+                debug_gtk3("saving setting as '%s'\n", filename ? filename : "NULL");
+                if (resources_save(filename) != 0) {
+                    debug_gtk3("failed!\n");
+                }
+                g_free(filename);
+            }
             break;
-
 
         default:
             break;

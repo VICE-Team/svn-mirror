@@ -85,10 +85,35 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
+/** \brief  Generate path to vice.ini
+ *
+ * The value returned needs to be freed using lib_free()
+ *
+ * \return  absolute path to vice.ini
+ */
+char *archdep_default_resource_file_name(void)
+{
+    char *cfg;
+    gchar *tmp;
+    char *path;
+
+    cfg = archdep_user_config_path();
+    tmp = g_build_path(path_separator, cfg, "vice.ini", NULL);
+    /* transfer ownership to VICE */
+    path = lib_stralloc(tmp);
+    g_free(tmp);
+    lib_free(cfg);
+    return path;
+}
+
+
 char *archdep_default_save_resource_file_name(void)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+    /* XXX: taken from SDL, but is wrong, this returns the directoru in which
+     *      $emu is executing plus 'vice.ini', while the proper dir would be
+     *      %APPDATA%/vice
+     */
+    return archdep_default_resource_file_name();
 }
 
 

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -89,10 +90,57 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 
+/** \brief  Generate path to vicerc
+ *
+ * The value returned needs to be freed using lib_free()
+ *
+ * \return  absolute path to vice.ini
+ */
+char *archdep_default_resource_file_name(void)
+{
+    char *cfg;
+    gchar *tmp;
+    char *path;
+
+    cfg = archdep_user_config_path();
+    tmp = g_build_path(path_separator, cfg, "vicerc", NULL);
+    /* transfer ownership to VICE */
+    path = lib_stralloc(tmp);
+    g_free(tmp);
+    lib_free(cfg);
+    return path;
+}
+
+
+/** \brief  Get default settings file name
+ *
+ * \return  path to default settings file
+ */
 char *archdep_default_save_resource_file_name(void)
 {
-    NOT_IMPLEMENTED();
-    return NULL;
+    char *fname;
+    const char *home;
+    const char *viceuserdir;
+
+    if (archdep_pref_path == NULL) {
+        home = archdep_home_path();
+        /* XDG spec */
+        viceuserdir = util_concat(home, "/.config/vice", NULL);
+    } else {
+        viceuserdir = archdep_pref_path;
+    }
+
+    if (access(viceuserdir, F_OK) != 0) {
+        mkdir(viceuserdir, 0700);
+    }
+
+    fname = util_concat(viceuserdir, "/vicerc", NULL);
+
+    if (archdep_pref_path == NULL) {
+        lib_free(viceuserdir);
+    }
+
+    return fname;
 }
 
 
@@ -227,8 +275,7 @@ const char *archdep_boot_path(void)
 
 char *archdep_make_backup_filename(const char *fname)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return util_concat(fname, "~", NULL);
 }
 
 

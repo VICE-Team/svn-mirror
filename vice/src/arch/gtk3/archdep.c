@@ -243,29 +243,6 @@ char *archdep_default_autostart_disk_image_file_name(void)
 }
 
 
-/** \brief  Generate path to vice.ini
- *
- * The value returned needs to be freed using lib_free()
- *
- * \return  absolute path to vice.ini
- */
-char *archdep_default_resource_file_name(void)
-{
-    char *cfg;
-    gchar *tmp;
-    char *path;
-
-    cfg = archdep_user_config_path();
-    tmp = g_build_path(path_separator, cfg, "vice.ini", NULL);
-    /* transfer ownership to VICE */
-    path = lib_stralloc(tmp);
-    g_free(tmp);
-    lib_free(cfg);
-    return path;
-}
-
-
-
 /** \brief  Open the default log file
  *
  * XXX: For now, this returns stdout, until I figure out why MacOSX duplicates
