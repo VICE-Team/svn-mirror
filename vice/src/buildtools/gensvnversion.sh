@@ -35,6 +35,11 @@ svnrevision=`$1 $2`
 # first split the second part from the first, then remove the non-numeric part
 svnrevisionnr=`echo $svnrevision | sed 's/.*:\(.*\)/\1/' | sed 's/\([0-9]*\).*/\1/'`
 
+# something went wrong, use 0 as the number so compile will work
+if test x"$svnrevisionnr" = "x"; then
+  svnrevisionnr="0"
+fi
+
 # if the output file exists, and contains the same svnrevisionnr, then exit
 # early and do not produce a new output file
 if test -f $3; then
