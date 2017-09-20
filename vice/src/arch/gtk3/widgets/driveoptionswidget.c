@@ -49,6 +49,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "widgethelpers.h"
+#include "drivewidgethelpers.h"
 #include "selectdirectorydialog.h"
 
 #include "driveoptionswidget.h"
@@ -376,13 +377,11 @@ static void connect_signal_handlers(void)
 
     /* RPM spinbox */
     spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 0);
-    /* this works for the +/- buttons, but not when entering a value */
     g_signal_connect(spin, "value-changed",
             G_CALLBACK(on_rpm_changed), NULL);
 
     /* Wobble spinbox */
     spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 1);
-    /* this works for the +/- buttons, but not when entering a value */
     g_signal_connect(spin, "value-changed",
             G_CALLBACK(on_wobble_changed), NULL);
 
@@ -451,8 +450,6 @@ GtkWidget *create_drive_options_widget(int unit)
  *
  * \param[in,out]   widget  drive options widget
  * \param[in]       unit    drive unit number (8-11)
- *
- * TODO:    handle more resources
  */
 void update_drive_options_widget(GtkWidget *widget, int unit)
 {
@@ -478,5 +475,17 @@ void update_drive_options_widget(GtkWidget *widget, int unit)
     resources_get_int(res_name, &value);
     spin = gtk_grid_get_child_at(GTK_GRID(rpm_widget), 1, 1);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)(value / 100));
+
+    /* RTC */
+    if (drive_check_rtc(ui_get_drive_type(unit))) {
+        /* supported */
+        int state;
+
+        resources_get_int_sprintf("Drive%dRTCSave", &state, unit);
+        gtk_widget_set_sensitive(rtc_widget, TRUE);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rtc_widget), state);
+    } else {
+        gtk_widget_set_sensitive(rtc_widget, FALSE);
+    }
 }
 

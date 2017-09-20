@@ -386,6 +386,7 @@ extern int drive_check_extend_policy(int drive_type);
 extern int drive_check_profdos(int drive_type);
 extern int drive_check_supercard(int drive_type);
 extern int drive_check_stardos(int drive_type);
+extern int drive_check_rtc(int drive_type);
 
 extern int drive_num_leds(unsigned int dnr);
 

@@ -30,7 +30,15 @@
 
 #include "resources.h"
 
+#include "drivewidgethelpers.h"
 
+
+/** \brief  Get drive type of \a unit by inspecting the related resource
+ *
+ * \param[in]   unit    drive unit number (8-11)
+ *
+ * \return  drive type
+ */
 int ui_get_drive_type(int unit)
 {
     int type;
@@ -38,8 +46,3 @@ int ui_get_drive_type(int unit)
     resources_get_int_sprintf("Drive%dType", &type, unit);
     return type;
 }
-
-
-
-
-

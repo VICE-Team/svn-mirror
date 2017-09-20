@@ -298,7 +298,6 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 
     /* row 4, column 1 & 2 */
     drive_options_widget = create_drive_options_widget(unit_number);
-    update_drive_options_widget(drive_options_widget, unit_number);
     gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 4, 2, 1);
 
     /* now connect the drive type widget's signal handlers */

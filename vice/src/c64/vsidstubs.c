@@ -158,6 +158,10 @@ int drive_check_supercard(int type)
     return 0;
 }
 
+int drive_check_rtc(int type)
+{
+    return 0;
+}
 
 
 /*******************************************************************************
