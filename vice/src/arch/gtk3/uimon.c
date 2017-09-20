@@ -33,9 +33,11 @@
 #include "console.h"
 #include "monitor.h"
 #include "kbd.h"
+#include "resources.h"
 #include "ui.h"
 #include "uimon.h"
 #include "videoarch.h"
+#include "vsync.h"
 
 #ifdef HAVE_VTE
 
@@ -84,3 +86,38 @@ console_t *uimon_window_resume(void)
 }
 
 #endif
+
+/** \brief  Callback to activate the ML-monitor
+ *
+ * \param[in,out]   widget      widget triggering the event
+ * \param[in]       user_data   data for the event (unused)
+ */
+void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
+{
+    int v;
+#ifdef HAVE_DEBUG_GTK3UI
+    g_print("[debug-gtk3ui] %s(): called\n", __func__);
+#endif
+    resources_get_int("MonitorServer", &v);
+
+    if (v == 0) {
+#ifdef HAVE_FULLSCREEN
+        fullscreen_suspend(0);
+#endif
+        vsync_suspend_speed_eval();
+        /* ui_autorepeat_on(); */
+
+#ifdef HAVE_MOUSE
+        /* FIXME: restore mouse in case it was grabbed */
+        /* ui_restore_mouse(); */
+#endif
+        if (!ui_emulation_is_paused()) {
+            monitor_startup_trap();
+        } else {
+            monitor_startup(e_default_space);
+#ifdef HAVE_FULLSCREEN
+            fullscreen_resume();
+#endif
+        }
+    }
+}

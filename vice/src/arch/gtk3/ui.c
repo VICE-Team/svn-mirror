@@ -48,6 +48,7 @@
 #include "uiaccelerators.h"
 #include "uiapi.h"
 #include "uimenu.h"
+#include "uimon.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
 #include "uismartattach.h"
@@ -155,7 +156,7 @@ static ui_menu_item_t file_menu[] = {
     UI_MENU_SEPARATOR,
 
     /* monitor */
-    { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION, ui_monitor_activate_callback, NULL },
     { "Monitor settings ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
 
     UI_MENU_SEPARATOR,
