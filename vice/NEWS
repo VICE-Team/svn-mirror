@@ -12,6 +12,14 @@ If you run into trouble please try removing any VICE configuration files
 left from previous installs.
 (vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
 
+* Changes in VICE 3.2
+======================
+
+SDL changes
+-----------
+
+- New drag'n'drop support for the SDL2 port(s).
+
 * Changes in VICE 3.1
 ======================
 
