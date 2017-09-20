@@ -38,7 +38,7 @@
 #include "drive-check.h"
 #include "driveexpansionwidget.h"
 #include "driveparallelcablewidget.h"
-
+#include "drivewidgethelpers.h"
 
 #include "drivetypewidget.h"
 
@@ -63,12 +63,10 @@ extern GtkWidget *drive_parallel_cable_widget;
 static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        gchar buffer[64];
         int type = GPOINTER_TO_INT(user_data);
 
-        g_snprintf(buffer, 64, "Drive%dType", unit_number);
-        debug_gtk3("setting %s to %d\n", buffer, type);
-        resources_set_int(buffer, type);
+        debug_gtk3("setting Drive%dType to %d\n", unit_number, type);
+        resources_set_int_sprintf("Drive%dType", type, unit_number);
 
         /* enable/disable 40-track settings widget */
         if (drive_extend_widget != NULL) {
@@ -135,16 +133,11 @@ void update_drive_type_widget(GtkWidget *widget, int unit)
 {
     drive_type_info_t *list;
     size_t i;
-    gchar res_name[64];
-    int type;
+    int type = ui_get_drive_type(unit);
 
     unit_number = unit;
 
-    g_snprintf(res_name, 64, "Drive%dType", unit);
-    resources_get_int(res_name, &type);
-
     list = drive_get_type_info_list();
-
     debug_gtk3("updating drive type list\n");
     for (i = 0; list[i].name != NULL; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
@@ -179,5 +172,3 @@ void connect_drive_type_widget_signals(GtkWidget *widget)
         }
     }
 }
-
-

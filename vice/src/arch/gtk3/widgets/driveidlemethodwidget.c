@@ -60,17 +60,20 @@ static ui_text_int_pair_t idle_methods[] = {
 static void on_idle_method_changed(GtkWidget *widget, gpointer user_data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        char res_name[256];
         int value = GPOINTER_TO_INT(user_data);
 
-        g_snprintf(res_name, 256, "Drive%dIdleMethod", unit_number);
-        debug_gtk3("setting %s to %d\n", res_name, value);
-        resources_set_int(res_name, value);
+        debug_gtk3("setting Drive%dIdleMethod to %d\n", unit_number, value);
+        resources_set_int_sprintf("Drive%dIdleMethod", value, unit_number);
     }
 }
 
 
-
+/** \brief  Create widget to set the drive idle method
+ *
+ * \param[in]   unit    current drive unit number
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *create_drive_idle_method_widget(int unit)
 {
     GtkWidget *widget;
@@ -86,19 +89,17 @@ GtkWidget *create_drive_idle_method_widget(int unit)
 }
 
 
+/** \brief  Update the widget
+ *
+ * \param[in,out]   widget  drive idle widget
+ * \param[in]       unit    drive unit number
+ */
 void update_drive_idle_method_widget(GtkWidget *widget, int unit)
 {
-    char res_name[256];
     int value;
 
     unit_number = unit;
 
-    snprintf(res_name, 256, "Drive%dIdleMethod", unit);
-    resources_get_int(res_name, &value);
+    resources_get_int_sprintf("Drive%dIdleMethod", &value, unit);
     uihelpers_set_radio_button_grid_by_index(widget, value);
 }
-
-
-
-
-

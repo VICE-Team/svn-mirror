@@ -157,4 +157,3 @@ GtkWidget *create_drive_unit_widget(int unit, int *target, void (*callback)(int)
     gtk_widget_show_all(grid);
     return grid;
 }
-
