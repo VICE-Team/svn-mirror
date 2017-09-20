@@ -90,16 +90,13 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
  */
 static void on_ram_toggled(GtkWidget *widget, gpointer user_data)
 {
-    gchar res_name[256];
     int state;
-
-    debug_gtk3("called\n");
+    unsigned int base = GPOINTER_TO_UINT(user_data);
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    g_snprintf(res_name, 256, "Drive%dRAM%04X", unit_number,
-            GPOINTER_TO_UINT(user_data));
-    debug_gtk3("setting %s to %s\n", res_name, state ? "ON" : "OFF");
-    resources_set_int(res_name, state);
+    debug_gtk3("setting Drive%dRAM%04X to %s\n", unit_number, base,
+            state ? "ON" : "OFF");
+    resources_set_int_sprintf("Drive%dRAM%04X", state, unit_number, base);
 }
 
 
@@ -110,13 +107,13 @@ static void on_ram_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_dos_toggled(GtkWidget *widget, gpointer user_data)
 {
-    gchar buffer[256];
     int state;
+    const char *dos = (const char *)user_data;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    g_snprintf(buffer, 256, "Drive%d%s", unit_number, (const char *)user_data);
-    debug_gtk3("setting %s to %s\n", buffer, state ? "ON" : "OFF");
-    resources_set_int(buffer, state);
+    debug_gtk3("setting Drive%d%s to %s\n", unit_number, dos,
+            state ? "ON" : "OFF");
+    resources_set_int_sprintf("Drive%d%s", state, unit_number, dos);
 }
 
 
@@ -222,13 +219,11 @@ GtkWidget *create_drive_expansion_widget(int unit)
 void update_drive_expansion_widget(GtkWidget *widget, int unit)
 {
     int drive_type;
-    gchar buffer[256];
 
     unit_number = unit;
 
     /* determine drive type */
-    g_snprintf(buffer, 256, "Drive%dType", unit);
-    resources_get_int(buffer, &drive_type);
+    resources_get_int_sprintf("Drive%dType", &drive_type, unit);
 
     /* check RAM expansions */
     gtk_widget_set_sensitive(ram2000_widget,

@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "drive.h"
 #include "drive-check.h"
+#include "drivewidgethelpers.h"
 
 #include "driveextendpolicywidget.h"
 
@@ -65,14 +66,10 @@ static int unit_number = 8;
 static void on_radio_toggle(GtkWidget *widget, gpointer user_data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        gchar res_name[64];
-        int policy;
+        int policy = GPOINTER_TO_INT(user_data);
 
-        policy = GPOINTER_TO_INT(user_data);
-
-        g_snprintf(res_name, 64, "Drive%dExtendImagePolicy", unit_number);
-        debug_gtk3("setting %s to %d\n", res_name, policy);
-        resources_set_int(res_name, policy);
+        debug_gtk3("setting Drive%dExtendImagePolicy to %d\n", unit_number, policy);
+        resources_set_int_sprintf("Drive%dExtendImagePolicy", policy, unit_number);
     }
 }
 
@@ -107,14 +104,12 @@ GtkWidget *create_drive_extend_policy_widget(int unit)
 void update_drive_extend_policy_widget(GtkWidget *widget, int unit)
 {
     GtkWidget *radio;
-    gchar res_name[256];
     int policy;
-    int drive_type;
+    int drive_type = ui_get_drive_type(unit);
 
     unit_number = unit;
 
-    g_snprintf(res_name, 256, "Drive%dExtendImagePolicy", unit);
-    resources_get_int(res_name, &policy);
+    resources_get_int_sprintf("Drive%dExtendImagePolicy", &policy, unit);
 
     radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, policy + 1);
     if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
@@ -122,8 +117,6 @@ void update_drive_extend_policy_widget(GtkWidget *widget, int unit)
     }
 
     /* determine if this widget is valid for the current drive type */
-    g_snprintf(res_name, 256, "Drive%dType", unit_number);
-    resources_get_int(res_name, &drive_type);
     gtk_widget_set_sensitive(widget,
             drive_check_extend_policy(drive_type));
 }

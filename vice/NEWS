@@ -15,7 +15,14 @@ left from previous installs.
 * Changes in VICE 3.2
 ======================
 
-SDL changes
+** General
+----------
+
+- Handling of the `-keybuf` command now works properly for all emulators and
+  RAM sizes.
+
+
+** SDL changes
 -----------
 
 - New drag'n'drop support for the SDL2 port(s).
@@ -32,9 +39,6 @@ SDL changes
 - New support for double sided 1571 g64 and p64 images.
 
 - SID filter improvements.
-
-- Handling of the `-keybuf` command now works properly for all emulators and
-  RAM sizes.
 
 - Video/Audio codec selection when recording now works correctly.
 

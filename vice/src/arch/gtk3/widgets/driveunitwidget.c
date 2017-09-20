@@ -151,7 +151,7 @@ GtkWidget *create_drive_unit_widget(int unit, int *target, void (*callback)(int)
     for (i = 0; i < 4; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(group), i, 0);
         g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
-            GINT_TO_POINTER(i));
+            GINT_TO_POINTER(i + 8));
     }
 
     gtk_widget_show_all(grid);

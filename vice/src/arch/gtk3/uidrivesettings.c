@@ -44,6 +44,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "widgethelpers.h"
+#include "drivewidgethelpers.h"
 #include "driveunitwidget.h"
 #include "drivetypewidget.h"
 #include "driveextendpolicywidget.h"
@@ -90,11 +91,7 @@ GtkWidget *drive_options_widget = NULL;
  */
 static void unit_changed_callback(int unit)
 {
-    gchar res_name[64];
-    int type;
-
-    g_snprintf(res_name, 64, "Drive%dType", unit);
-    resources_get_int(res_name, &type);
+    int type = ui_get_drive_type(unit);
 
     debug_gtk3("got unit %d\n", unit);
 
