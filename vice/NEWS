@@ -20,6 +20,9 @@ SDL changes
 
 - New drag'n'drop support for the SDL2 port(s).
 
+- Fixed monitor display of printables with the 'M' (memdump) command.
+
+
 * Changes in VICE 3.1
 ======================
 
@@ -29,6 +32,13 @@ SDL changes
 - New support for double sided 1571 g64 and p64 images.
 
 - SID filter improvements.
+
+- Handling of the `-keybuf` command now works properly for all emulators and
+  RAM sizes.
+
+- Video/Audio codec selection when recording now works correctly.
+
+- Fixed the monitor 'H' (hunt) command.
 
 
 ** C64(SC)/SCPU64/C64DTV/C128 changes
