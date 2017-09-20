@@ -34,19 +34,19 @@
 #ifndef VICE_JOY_UNIX_H
 #define VICE_JOY_UNIX_H
 
-extern void joystick_close(void);
-extern void joystick(void);
-extern void old_joystick_init(void);
-extern void old_joystick_close(void);
-extern void old_joystick(void);
-extern void new_joystick_init(void);
-extern void new_joystick_close(void);
-extern void new_joystick(void);
+void joystick_close(void);
+void joystick(void);
+void old_joystick_init(void);
+void old_joystick_close(void);
+void old_joystick(void);
+void new_joystick_init(void);
+void new_joystick_close(void);
+void new_joystick(void);
 
 #ifdef HAS_USB_JOYSTICK
-extern int usb_joystick_init(void);
-extern void usb_joystick_close(void);
-extern void usb_joystick(void);
+int usb_joystick_init(void);
+void usb_joystick_close(void);
+void usb_joystick(void);
 #endif
 
 #define JOYDEV_NONE      0

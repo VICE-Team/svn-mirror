@@ -39,6 +39,8 @@ typedef struct ui_file_filter_s {
 } ui_file_filter_t;
 
 
+/* these need extern, so now I'm wondering if this the correct approach
+ * perhaps some 'getters' would be better, avoiding problems -- compyx */
 extern const gchar *file_chooser_pattern_all[];
 extern const gchar *file_chooser_pattern_disk[];
 extern const gchar *file_chooser_pattern_tape[];

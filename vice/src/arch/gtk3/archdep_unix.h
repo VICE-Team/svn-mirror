@@ -86,10 +86,10 @@
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
-extern const char *archdep_home_path(void);
+const char *archdep_home_path(void);
 
 /* set this path to customize the preference storage */
-extern const char *archdep_pref_path;
+const char *archdep_pref_path;
 
 #define LIBDIR VICEDIR
 
@@ -105,9 +105,9 @@ extern const char *archdep_pref_path;
     these are used for socket send/recv. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.
 */
-extern void archdep_signals_init(int do_core_dumps);
-extern void archdep_signals_pipe_set(void);
-extern void archdep_signals_pipe_unset(void);
+void archdep_signals_init(int do_core_dumps);
+void archdep_signals_pipe_set(void);
+void archdep_signals_pipe_unset(void);
 
 #ifdef MACOSX_SUPPORT
 #define MAKE_SO_NAME_VERSION_PROTO(name, version)  "lib" #name "." #version ".dylib"

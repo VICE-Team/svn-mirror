@@ -34,7 +34,7 @@
 #include <gtk/gtk.h>
 
 /* this sucks */
-extern GtkWidget *drive_extend_widget;
+GtkWidget *drive_extend_widget;
 
 GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent);
 

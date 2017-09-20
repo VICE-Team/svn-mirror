@@ -78,7 +78,7 @@
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE SOUND_FRAGMENT_MEDIUM
 
-extern void archdep_workaround_nop(const char *otto);
+void archdep_workaround_nop(const char *otto);
 
 /*
     FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
@@ -87,7 +87,7 @@ extern void archdep_workaround_nop(const char *otto);
 
            see archdep_unix.c and bug #3201796
 */
-extern void archdep_signals_init(int do_coredumps);
+void archdep_signals_init(int do_coredumps);
 #define archdep_signals_pipe_set()
 #define archdep_signals_pipe_unset()
 
@@ -116,6 +116,6 @@ extern void archdep_signals_init(int do_coredumps);
 /* Keyword to use for a static prototype */
 #define STATIC_PROTOTYPE static
 
-extern void vice_usleep(__int64 waitTime);
+void vice_usleep(__int64 waitTime);
 
 #endif

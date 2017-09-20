@@ -84,17 +84,17 @@ struct joy_axis {
 
     int  min_threshold;     /* calculated internal value */
     int  max_threshold;     /* calculated internal value */
-    
+
     int  logical;            /* read logical values instead of physical values */
     int  min,max;           /* min, max values */
-    
+
     int  mapped;            /* is axis successfully mapped by HID driver? */
 };
 typedef struct joy_axis joy_axis_t;
 
 /* describe a button */
 struct joy_button {
-    int id;                 /* id of button in HID device */    
+    int id;                 /* id of button in HID device */
     int press;              /* auto fire press delay */
     int release;            /* auto fire release delay */
     int counter;            /* counter for auto fire */
@@ -106,7 +106,6 @@ typedef struct joy_button joy_button_t;
 /* describe a hat switch */
 struct joy_hat_switch {
     int id;
-    
     int mapped;
 };
 typedef struct joy_hat_switch joy_hat_switch_t;
@@ -133,21 +132,21 @@ struct joystick_descriptor  {
 typedef struct joystick_descriptor joystick_descriptor_t;
 
 /* access number of joyports and extra joyports for machine */
-extern int joy_num_ports;
-extern int joy_num_extra_ports;
+int joy_num_ports;
+int joy_num_extra_ports;
 
 /* UI accesses joy descriptors */
-extern joystick_descriptor_t joy_a;
-extern joystick_descriptor_t joy_b;
+joystick_descriptor_t joy_a;
+joystick_descriptor_t joy_b;
 
 /* functions */
-extern void joystick_close(void);
-extern void joystick(void);
+void joystick_close(void);
+void joystick(void);
 
-extern void joy_reload_device_list(void);
-extern void joy_calc_threshold(int min, int max, int threshold, int *min_t, int *max_t);
+void joy_reload_device_list(void);
+void joy_calc_threshold(int min, int max, int threshold, int *min_t, int *max_t);
 
-extern void joy_reset_axis_range(joystick_descriptor_t *joy, int id);
+void joy_reset_axis_range(joystick_descriptor_t *joy, int id);
 
 #endif /* HAS_JOYSTICK */
 

@@ -32,22 +32,22 @@
 #include "sound.h"
 
 /* Extra functions for SDL UI */
-extern char *archdep_default_hotkey_file_name(void);
-extern char *archdep_default_joymap_file_name(void);
+char *archdep_default_hotkey_file_name(void);
+char *archdep_default_joymap_file_name(void);
 
 /* returns a NULL terminated list of strings. Both the list and the strings
  * must be freed by the caller using lib_free(void*) */
-extern char **archdep_list_drives(void);
+char **archdep_list_drives(void);
 
 /* returns a string that corresponds to the current drive. The string must
  * be freed by the caller using lib_free(void*) */
-extern char *archdep_get_current_drive(void);
+char *archdep_get_current_drive(void);
 
 /* sets the current drive to the given string */
-extern void archdep_set_current_drive(const char *drive);
+void archdep_set_current_drive(const char *drive);
 
 /* Virtual keyboard handling */
-extern int archdep_require_vkbd(void);
+int archdep_require_vkbd(void);
 
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE   1

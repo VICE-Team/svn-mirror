@@ -41,7 +41,7 @@ struct joy_hid_axis_info {
 typedef struct joy_hid_axis_info joy_hid_axis_info_t;
 
 /* public list of axis names */
-extern joy_hid_axis_info_t joy_hid_axis_infos[];
+joy_hid_axis_info_t joy_hid_axis_infos[];
 
 /* describe the HID specific parts of the joystick */
 struct joy_hid_descriptor  {
@@ -61,35 +61,35 @@ struct joystick_descriptor;
 
 /* ----- API ----- */
 
-extern int  joy_hid_init(void); /* return number of total devices found. <0 error */
-extern void joy_hid_exit(void);
-extern int  joy_hid_reload(void); /* return number of total device found. <0 error */
-extern const joy_hid_device_array_t *joy_hid_get_devices(void);
+int  joy_hid_init(void); /* return number of total devices found. <0 error */
+void joy_hid_exit(void);
+int  joy_hid_reload(void); /* return number of total device found. <0 error */
+const joy_hid_device_array_t *joy_hid_get_devices(void);
 
 /* device functions */
-extern int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *device);
-extern void joy_hid_unmap_device(struct joystick_descriptor *joy);
+int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t *device);
+void joy_hid_unmap_device(struct joystick_descriptor *joy);
 
 /* axis functions */
-extern int  joy_hid_reset_axis_range(struct joystick_descriptor *joy, int id, int usage, int logical);
-extern int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage, int logical);
-extern int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id, int logical);
-extern int  joy_hid_read_axis(struct joystick_descriptor *joy,int id,int *value, int logical);
-extern int  joy_hid_info_axis(struct joystick_descriptor *joy,int id,int *min, int *max, int logical);
+int  joy_hid_reset_axis_range(struct joystick_descriptor *joy, int id, int usage, int logical);
+int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage, int logical);
+int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id, int logical);
+int  joy_hid_read_axis(struct joystick_descriptor *joy,int id,int *value, int logical);
+int  joy_hid_info_axis(struct joystick_descriptor *joy,int id,int *min, int *max, int logical);
 
 /* button functions */
-extern int  joy_hid_assign_button(struct joystick_descriptor *joy, int id, int usage);
-extern int  joy_hid_detect_button(struct joystick_descriptor *joy);
-extern int  joy_hid_read_button(struct joystick_descriptor *joy, int id, int *value);
+int  joy_hid_assign_button(struct joystick_descriptor *joy, int id, int usage);
+int  joy_hid_detect_button(struct joystick_descriptor *joy);
+int  joy_hid_read_button(struct joystick_descriptor *joy, int id, int *value);
 
 /* hat switch functions */
-extern int  joy_hid_assign_hat_switch(struct joystick_descriptor *joy, int serial);
-extern int  joy_hid_detect_hat_switch(struct joystick_descriptor *joy);
-extern int  joy_hid_read_hat_switch(struct joystick_descriptor *joy, int *value);
+int  joy_hid_assign_hat_switch(struct joystick_descriptor *joy, int serial);
+int  joy_hid_detect_hat_switch(struct joystick_descriptor *joy);
+int  joy_hid_read_hat_switch(struct joystick_descriptor *joy, int *value);
 
 /* axis map functions */
-extern const char *joy_hid_get_axis_name(int usage);
-extern int joy_hid_get_axis_usage(const char *name);
+const char *joy_hid_get_axis_name(int usage);
+int joy_hid_get_axis_usage(const char *name);
 
 #endif
 #endif

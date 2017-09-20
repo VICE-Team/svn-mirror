@@ -29,16 +29,16 @@
 
 #include <gtk/gtk.h>
 
-extern void kbd_arch_init(void);
-extern int kbd_arch_get_host_mapping(void);
-extern void kbd_initialize_numpad_joykeys(int *joykeys);
-extern void kbd_connect_handlers(GtkWidget *widget, void *data);
+void kbd_arch_init(void);
+int kbd_arch_get_host_mapping(void);
+void kbd_initialize_numpad_joykeys(int *joykeys);
+void kbd_connect_handlers(GtkWidget *widget, void *data);
 
 #define KBD_PORT_PREFIX "gtk3"
 
 /* add more function prototypes as needed below */
 
-extern signed long kbd_arch_keyname_to_keynum(char *keyname);
-extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+signed long kbd_arch_keyname_to_keynum(char *keyname);
+const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
 #endif

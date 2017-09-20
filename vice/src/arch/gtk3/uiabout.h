@@ -28,7 +28,7 @@
 #define VICE_UIABOUT_H
 
 
-extern void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data);
+void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data);
 
 #endif
 

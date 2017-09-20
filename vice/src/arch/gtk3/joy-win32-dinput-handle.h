@@ -37,7 +37,7 @@
 #define DIDFT_OPTIONAL 0x80000000
 #endif
 
-extern LPDIRECTINPUT get_directinput_handle(void);
+LPDIRECTINPUT get_directinput_handle(void);
 #endif
 
 #endif

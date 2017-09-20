@@ -28,7 +28,7 @@
 #define VICE_UIATTACH_H
 
 
-extern void ui_attach_dialog_callback(GtkWidget *widget, gpointer user_data);
+void ui_attach_dialog_callback(GtkWidget *widget, gpointer user_data);
 
 #endif
 

@@ -36,8 +36,8 @@ typedef int joystick_device_t;
 #define JOYDEV_HW1     4
 #define JOYDEV_HW2     5
 
-extern int joystick_close(void);
-extern void joystick_update(void);
-extern char joystick_uses_direct_input(void);
+int joystick_close(void);
+void joystick_update(void);
+char joystick_uses_direct_input(void);
 
 #endif

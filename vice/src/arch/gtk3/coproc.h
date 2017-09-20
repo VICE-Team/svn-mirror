@@ -30,6 +30,6 @@
 #ifndef VICE_COPROC_H
 #define VICE_COPROC_H
 
-extern int fork_coproc(int *fd_wr, int *fd_rd, char *cmd);
+int fork_coproc(int *fd_wr, int *fd_rd, char *cmd);
 
 #endif

@@ -150,19 +150,6 @@ static void on_tree_selection_changed(
     }
 }
 
-#if 0
-/** \brief  Handler for the 'toggled' event of the 'save on exit' checkbox
- *
- * \param[in]   widget      checkbox widget
- * \param[in]   user_data   data for the event (unused)
- */
-static void on_save_on_exit_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    resources_set_int("SaveResourcesOnExit", state);
-}
-#endif
-
 
 /** \brief  Create the 'Save on exit' checkbox
  *
@@ -175,16 +162,22 @@ static GtkWidget *create_save_on_exit_checkbox(void)
     return uihelpers_create_resource_checkbox(
             "Save settings on exit",
             "SaveResourcesOnExit");
-#if 0
-    GtkWidget *check;
-
-    check = gtk_check_button_new_with_label("Save settings on exit");
-    gtk_widget_show(check);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_save_on_exit_toggled),
-            NULL);
-    return check;
-#endif
 }
+
+
+/** \brief  Create the 'Confirm on exit' checkbox
+ *
+ * The current position/display of the checkbox is a little lame at the moment
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_confirm_on_exit_checkbox(void)
+{
+    return uihelpers_create_resource_checkbox(
+            "Confirm on exit",
+            "ConfirmOnExit");
+}
+
 
 
 /** \brief  Create treeview for settings side-menu
@@ -300,7 +293,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(tree);
 
     gtk_widget_set_size_request(tree, 150, 500);
-    gtk_widget_set_size_request(settings_grid, 600, 550);
+    gtk_widget_set_size_request(settings_grid, 800, 600);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
