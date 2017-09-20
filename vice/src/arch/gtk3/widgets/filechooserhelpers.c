@@ -40,7 +40,7 @@
 /** \brief  Patterns for all files
  */
 const char *file_chooser_pattern_all[] = {
-    "*.*", NULL
+    "*", NULL
 };
 
 
