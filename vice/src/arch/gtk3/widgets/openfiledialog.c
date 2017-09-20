@@ -30,7 +30,7 @@
 #include <gtk/gtk.h>
 
 #include "debug_gtk3.h"
-
+#include "filechooserhelpers.h"
 
 #include "openfiledialog.h"
 
@@ -57,7 +57,6 @@ gchar *ui_open_file_dialog(
     GtkWidget *dialog;
     GtkFileFilter *filter;
     GtkWidget *parent;
-    size_t i = 0;
     gint result;
     gchar *filename;
 
@@ -72,12 +71,16 @@ gchar *ui_open_file_dialog(
             NULL, NULL);
     gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
 
-    filter = gtk_file_filter_new();
-    gtk_file_filter_set_name(filter, filter_desc);
-    for (i = 0; filter_list[i] != NULL; i++) {
-        gtk_file_filter_add_pattern(filter, filter_list[i]);
-    }
+    /* create *.* filter */
+    filter = create_file_chooser_filter(file_chooser_filter_all, TRUE);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+
+    /* add extra filter if given */
+    if (filter_desc != NULL && filter_list != NULL) {
+        ui_file_filter_t temp = { filter_desc, filter_list };
+        filter = create_file_chooser_filter(temp, TRUE);
+        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+    }
 
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     if (result == GTK_RESPONSE_ACCEPT) {

@@ -97,6 +97,41 @@ const char *file_chooser_pattern_compressed[] = {
 };
 
 
+/*
+ * 'Stock' filters, for convenience
+ */
+
+const ui_file_filter_t file_chooser_filter_all = {
+    "All files",
+    file_chooser_pattern_all
+};
+
+const ui_file_filter_t file_chooser_filter_disk = {
+    "Disk images",
+    file_chooser_pattern_disk
+};
+
+const ui_file_filter_t file_chooser_filter_tape = {
+    "Tape images",
+    file_chooser_pattern_tape
+};
+
+const ui_file_filter_t file_chooser_filter_program = {
+    "Program files",
+    file_chooser_pattern_program
+};
+
+const ui_file_filter_t file_chooser_filter_archive = {
+    "Archive files",
+    file_chooser_pattern_archive
+};
+
+const ui_file_filter_t file_chooser_filter_compressed = {
+    "Compressed files",
+    file_chooser_pattern_compressed
+};
+
+
 
 /** \brief  Create a GtkFileFilter instance from \a filter
  *
