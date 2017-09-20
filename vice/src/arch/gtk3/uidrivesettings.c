@@ -61,6 +61,16 @@
 static int unit_number = 8;
 
 
+/** \brief  Drive types for all units
+ *
+ * This array keeps track of the drive types for drives to avoid resetting the
+ * drive when updating the UI
+ */
+static int drive_types[4] = {
+    DRIVE_TYPE_NONE, DRIVE_TYPE_NONE, DRIVE_TYPE_NONE, DRIVE_TYPE_NONE
+};
+
+
 /** \brief  Reference to the drive type widget
  *
  * Used in unit_changed_callback() to update the widget
@@ -217,26 +227,37 @@ static GtkWidget *create_drive_sound_check_button(void)
  * \param[in]  parent  parent widget
  *
  * \return  GtkGrid
- *
- * FIXME:   this just became a bit messy, I should document the wrappers
  */
 GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *unit_widget;
 
-    GtkWidget *type_40_grid;
-    GtkWidget *idle_par_grid;
+    GtkWidget *type_40_grid;    /* wrapper to contain the drive type and the
+                                   40-track extend widget */
+    GtkWidget *idle_par_grid;   /* wrapper to contain the idle widget and the
+                                   parallel cable widget */
+
+    GtkWidget *tde_widget;
+    GtkWidget *sound_widget;
+
+    int unit;
+
+    /* get drive types */
+    for (unit = 8; unit < 12; unit++) {
+        drive_types[unit - 8] = ui_get_drive_type(unit);
+    }
+
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
     g_object_set(layout, "margin", 8, NULL);
 
-
-    gtk_grid_attach(GTK_GRID(layout), create_tde_check_button(), 0, 0, 3, 1);
-    gtk_grid_attach(GTK_GRID(layout), create_drive_sound_check_button(),
-            0, 1, 3, 1);
+    tde_widget = create_tde_check_button();
+    gtk_grid_attach(GTK_GRID(layout), tde_widget, 0, 0, 3, 1);
+    sound_widget = create_drive_sound_check_button();
+    gtk_grid_attach(GTK_GRID(layout), sound_widget,0, 1, 3, 1);
 
     unit_widget = create_drive_unit_widget(8, &unit_number, unit_changed_callback);
     g_object_set(unit_widget, "margin-left", 8, NULL);
@@ -282,6 +303,10 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 
     /* now connect the drive type widget's signal handlers */
     connect_drive_type_widget_signals(drive_type_widget);
+
+    g_signal_connect(tde_widget, "toggled", G_CALLBACK(on_tde_toggled), NULL);
+    g_signal_connect(sound_widget, "toggled",
+            G_CALLBACK(on_drive_sound_toggled), NULL);
 
     g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);
 
