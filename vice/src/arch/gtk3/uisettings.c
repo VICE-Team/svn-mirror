@@ -115,14 +115,6 @@ static GtkWidget *settings_window = NULL;
 static GtkWidget *settings_grid = NULL;
 
 
-/** \brief  Checkbox for 'Save settings on exit'
- *
- * This can probably moved inside the settings widget constructor once the
- * layout is settled using gtk_grid_get_child_at()
- */
-static GtkWidget *save_on_exit = NULL;
-
-
 /** \brief  Handler for the "changed" event of the tree view
  *
  * \param[in]   selection   GtkTreeSelection associated with the tree model
@@ -269,8 +261,8 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 {
     GtkWidget *tree;
     GtkTreeSelection *selection;
-    int soe_state;      /* save-on-exit state */
 
+    GtkWidget *extra;
 
     debug_gtk3("called\n");
 
@@ -283,17 +275,25 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     /* TODO: remember the previously selected setting/widget and set it here */
     ui_settings_set_central_widget(uispeed_create_central_widget(widget));
 
-    save_on_exit = create_save_on_exit_checkbox();
-    soe_state= resources_get_int("SaveResourcesOnExit", &soe_state);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(save_on_exit), soe_state);
-    gtk_grid_attach(GTK_GRID(settings_grid), save_on_exit, 0, 2, 2, 1);
+    /* create container for generic settings */
+    extra = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(extra), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(extra), 8);
+    g_object_set(extra, "margin", 16, NULL);
 
+    gtk_grid_attach(GTK_GRID(extra), create_save_on_exit_checkbox(),
+            0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(extra), create_confirm_on_exit_checkbox(),
+            1, 0, 1, 1);
+
+    /* add to main layout */
+    gtk_grid_attach(GTK_GRID(settings_grid), extra, 0, 2, 2, 1);
 
     gtk_widget_show(settings_grid);
     gtk_widget_show(tree);
 
-    gtk_widget_set_size_request(tree, 150, 500);
-    gtk_widget_set_size_request(settings_grid, 800, 600);
+    gtk_widget_set_size_request(tree, 150, 630);
+    gtk_widget_set_size_request(settings_grid, 800, 680);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
