@@ -866,7 +866,27 @@ int ui_emulation_is_paused(void)
 
 void ui_exit(void)
 {
+    int soe;    /* save on exit */
+    int coe;    /* confirm on exit */
+
     /* TODO: Confirmation dialog, etc. */
+
+    resources_get_int("ConfirmOnExit", &coe);
+    if (coe) {
+#if 0
+        if (!confirm_dialog("Exit VICE", "Exit VICE?")) {
+            return;
+        }
+#endif
+    }
+
+    resources_get_int("SaveResourcesOnExit", &soe);
+    if (soe) {
+        resources_save(NULL);
+    }
+
+
+
     INCOMPLETE_IMPLEMENTATION();
 #ifdef WIN32_COMPILE
     atexit_functions_execute();
