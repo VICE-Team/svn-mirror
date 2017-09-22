@@ -61,16 +61,6 @@
 static int unit_number = 8;
 
 
-/** \brief  Drive types for all units
- *
- * This array keeps track of the drive types for drives to avoid resetting the
- * drive when updating the UI
- */
-static int drive_types[4] = {
-    DRIVE_TYPE_NONE, DRIVE_TYPE_NONE, DRIVE_TYPE_NONE, DRIVE_TYPE_NONE
-};
-
-
 /** \brief  Reference to the drive type widget
  *
  * Used in unit_changed_callback() to update the widget
@@ -240,14 +230,6 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 
     GtkWidget *tde_widget;
     GtkWidget *sound_widget;
-
-    int unit;
-
-    /* get drive types */
-    for (unit = 8; unit < 12; unit++) {
-        drive_types[unit - 8] = ui_get_drive_type(unit);
-    }
-
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);

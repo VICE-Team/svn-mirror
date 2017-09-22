@@ -65,15 +65,20 @@ extern GtkWidget *drive_options_widget;
 static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
 {
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        int type = GPOINTER_TO_INT(user_data);
+        int new_type = GPOINTER_TO_INT(user_data);
+        int old_type = ui_get_drive_type(unit_number);
 
-        debug_gtk3("setting Drive%dType to %d\n", unit_number, type);
-        resources_set_int_sprintf("Drive%dType", type, unit_number);
+        /* prevent drive reset when switching unit number and updating the
+         * drive type widget */
+        if (new_type != old_type) {
+            debug_gtk3("setting Drive%dType to %d\n", unit_number, new_type);
+            resources_set_int_sprintf("Drive%dType", new_type, unit_number);
+        }
 
         /* enable/disable 40-track settings widget */
         if (drive_extend_widget != NULL) {
             gtk_widget_set_sensitive(drive_extend_widget,
-                    drive_check_extend_policy(type));
+                    drive_check_extend_policy(new_type));
         }
         /* update expansions widget */
         if (drive_expansion_widget != NULL) {
