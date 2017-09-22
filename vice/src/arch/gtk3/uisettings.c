@@ -65,6 +65,7 @@
 #include "uisound.h"
 #include "uiautostart.h"
 #include "uidrivesettings.h"
+#include "uimodel.h"
 
 
 #include "uisettings.h"
@@ -93,6 +94,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Sound", uisound_create_central_widget, NULL },
     { "Autostart", uiautostart_create_central_widget, NULL },
     { "Drive settings", uidrivesettings_create_central_widget, NULL },
+    { "Model settings", uimodel_create_central_widget, NULL },
     { NULL, NULL, NULL }
 };
 

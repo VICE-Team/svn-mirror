@@ -10,7 +10,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
-	-I$(top_srcdir)/src/sid
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
+	-I$(top_srcdir)/src/c128
 
 noinst_LIBRARIES = libwidgets.a
 
@@ -39,7 +42,8 @@ libwidgets_a_SOURCES = \
 	driveexpansionwidget.c \
 	driveidlemethodwidget.c \
 	driveparallelcablewidget.c \
-	driveoptionswidget.c
+	driveoptionswidget.c \
+	machinemodelwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -66,4 +70,5 @@ EXTRA_DIST = \
 	driveexpansionwidget.h \
 	driveidlemethodwidget.h \
 	driveparallelcablewidget.h \
-	driveoptionswidget.h
+	driveoptionswidget.h \
+	machinemodelwidget.h

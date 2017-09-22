@@ -29,6 +29,8 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "c128model.h"
+#include "machinemodelwidget.h"
 
 #include "c128ui.h"
 
@@ -38,6 +40,10 @@ int c128ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
      * be shifted over */
+
+    machine_model_widget_getter(c128model_get);
+    machine_model_widget_setter(c128model_set);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

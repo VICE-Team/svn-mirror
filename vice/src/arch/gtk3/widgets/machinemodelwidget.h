@@ -1,8 +1,10 @@
-/*
- * c64dtvui.c - Native GTK3 C64DTV UI.
+/** \file   src/arch/gtk3/widgets/machinemodelwidget.h
+ * \brief   Machine model selection widget- header
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Controls the following resource(s):
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,31 +26,16 @@
  *
  */
 
+#ifndef HAVE_MACHINEMODELWIDGET_H
+
 #include "vice.h"
-
-#include <stdio.h>
-
-#include "not_implemented.h"
-#include "c64dtvmodel.h"
-#include "machinemodelwidget.h"
-
-#include "c64ui.h"
+#include <gtk/gtk.h>
 
 
-int c64dtvui_init(void)
-{
-    /* Some of the work here is done by video.c now, and would need to
-     * be shifted over */
+void machine_model_widget_getter(int (*f)(void));
+void machine_model_widget_setter(void (*f)(int model));
 
-    machine_model_widget_getter(dtvmodel_get);
-    machine_model_widget_setter(dtvmodel_set);
+GtkWidget *create_machine_model_widget(void);
+void update_machine_model_widget(GtkWidget *widget);
 
-    INCOMPLETE_IMPLEMENTATION();
-    return 0;
-}
-
-void c64dtvui_shutdown(void)
-{
-    INCOMPLETE_IMPLEMENTATION();
-}
-
+#endif

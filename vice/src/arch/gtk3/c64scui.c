@@ -29,6 +29,8 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "c64model.h"
+#include "machinemodelwidget.h"
 
 #include "c64ui.h"
 
@@ -37,6 +39,10 @@ int c64scui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
      * be shifted over */
+
+    machine_model_widget_getter(c64model_get);
+    machine_model_widget_setter(c64model_set);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

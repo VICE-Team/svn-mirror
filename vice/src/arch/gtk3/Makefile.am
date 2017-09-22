@@ -13,7 +13,10 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/sid \
-	-I$(top_srcdir)/src/arch/gtk3/widgets
+	-I$(top_srcdir)/src/arch/gtk3/widgets \
+	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/c64dtv \
+	-I$(top_srcdir)/src/c128
 
 noinst_LIBRARIES = libarch.a
 
@@ -67,7 +70,8 @@ libarch_a_SOURCES = \
 	vic20ui.c \
 	video.c \
 	vsidui.c \
-	vsyncarch.c
+	vsyncarch.c \
+	uimodel.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -109,5 +113,6 @@ EXTRA_DIST = \
 	uisound.h \
 	uispeed.h \
 	uistatusbar.h \
-	videoarch.h
+	videoarch.h \
+	uimodel.h
 

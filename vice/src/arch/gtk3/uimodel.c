@@ -1,8 +1,13 @@
-/*
- * c64dtvui.c - Native GTK3 C64DTV UI.
+/** \file   src/arch/gtk3/uimodel.c
+ * \brief   Model settings dialog
+ *
+ * Controls the following resource(s):
+ *
+ *  (for more, see used widgets)
+ *
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,28 +32,29 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <gtk/gtk.h>
 
+#include "debug_gtk3.h"
 #include "not_implemented.h"
-#include "c64dtvmodel.h"
+#include "machine.h"
 #include "machinemodelwidget.h"
 
-#include "c64ui.h"
+
+#include "uimodel.h"
 
 
-int c64dtvui_init(void)
+GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 {
-    /* Some of the work here is done by video.c now, and would need to
-     * be shifted over */
+    GtkWidget *layout;
 
-    machine_model_widget_getter(dtvmodel_get);
-    machine_model_widget_setter(dtvmodel_set);
 
-    INCOMPLETE_IMPLEMENTATION();
-    return 0;
+    layout = gtk_grid_new();
+
+    gtk_grid_attach(GTK_GRID(layout), create_machine_model_widget(), 0, 0, 1, 1);
+
+
+    gtk_widget_show_all(layout);
+
+    return layout;
 }
-
-void c64dtvui_shutdown(void)
-{
-    INCOMPLETE_IMPLEMENTATION();
-}
-
