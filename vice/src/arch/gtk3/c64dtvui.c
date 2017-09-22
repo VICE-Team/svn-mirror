@@ -35,6 +35,11 @@
 #include "c64ui.h"
 
 
+static const char *c64dtv_model_list[] = {
+    "V2 PAL", "V2 NTSC", "V3 PAL", "V3 NTSC", "Hummer (NTSC)", NULL
+};
+
+
 int c64dtvui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -42,6 +47,7 @@ int c64dtvui_init(void)
 
     machine_model_widget_getter(dtvmodel_get);
     machine_model_widget_setter(dtvmodel_set);
+    machine_model_widget_set_models(c64dtv_model_list);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

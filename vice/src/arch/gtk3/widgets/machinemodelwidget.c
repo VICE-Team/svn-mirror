@@ -34,94 +34,14 @@
 #include "debug_gtk3.h"
 #include "resources.h"
 #include "machine.h"
-/* nasty, I know, but I need get around the link-everything-into massive blobs
- * and not having a VICE_MACHINE constant */
-#include "ui.h"
 
 #include "machinemodelwidget.h"
 
 
 static int  (*model_get)(void) = NULL;
 static void (*model_set)(int) = NULL;
+static const char **model_list = NULL;
 
-
-
-static const char *c64_model_list[] = {
-    "C64 PAL", "C64C PAL", "C64 old PAL", "C64 NTSC", "C64C NTSC",
-    "C64 old NTSC", "Drean" "C64 SX PAL", "C64 SX NTSC", "Japanese", "C64 GS",
-    "PET64 PAL", "PET64 NTSC", "Ultimax", NULL };
-
-
-static const char *c128_model_list[] = {
-    "C128 PAL", "C128D PAL", "C128 NTSC", "C128D NTSC", NULL
-};
-
-
-static const char *c64dtv_model_list[] = {
-    "V2 PAL", "V2 NTSC", "V3 PAL", "V3 NTSC", "Hummer (NTSC)", NULL
-};
-
-static const char *c64scpu_model_list[] = {
-    "C64 PAL", "C64C PAL", "C64 old PAL", "C64 NTSC", "C64C NTSC",
-    "C64 old NTSC", "Drean" "C64 SX PAL", "C64 SX NTSC", "Japanese", "C64 GS",
-    NULL
-};
-
-
-/* XXX: careful: the first entry has an ID of 2 when calling cbm2model_*()*/
-static const char *cbm2_model_list[] = {
-    "CBM 610 PAL", "CBM 610 NTSC", "CBM 620 PAL", "CBM 620 NTSC",
-    "CBM 620+ (1M) PAL", "CBM 620+ (1M) NTSC", "CBM 710 NTSC", "CBM 720 NTSC",
-    "CBM 720+ (1M) NTSC", NULL
-};
-
-static const char *cbm5x0_model_list[] = {
-    "CBM 510 PAL", "CBM 510 NTSC", NULL
-};
-
-
-static const char *pet_model_list[] = {
-    "PET 2001", "PET 3008", "PET 3016", "PET 3032", "PET 3032B", "PET 4016",
-    "PET 4032", "PET 4032B", "PET 8032", "PET 8096", "PET 8296", "SuperPET",
-    NULL
-};
-
-static const char *vic20_model_list[] = {
-    "VIC20 PAL", "VIC20 NTSC", "VIC21", NULL
-};
-
-static const char *plus4_model_list[] = {
-    "C16 PAL", "C16 NTSC", "Plus4 PAL", "Plus4 NTSC", "V364 NTSC", "232 NTSC",
-    NULL
-};
-
-
-static const char **get_model_list(void)
-{
-    switch (machine_class) {
-        case VICE_MACHINE_C64:  /* fall through */
-        case VICE_MACHINE_C64SC:
-            return c64_model_list;
-        case VICE_MACHINE_C64DTV:
-            return c64dtv_model_list;
-        case VICE_MACHINE_C128:
-            return c128_model_list;
-        case VICE_MACHINE_SCPU64:
-            return c64scpu_model_list;
-        case VICE_MACHINE_CBM5x0:
-            return cbm5x0_model_list;
-        case VICE_MACHINE_CBM6x0:
-            return cbm2_model_list;
-        case VICE_MACHINE_PET:
-            return pet_model_list;
-        case VICE_MACHINE_VIC20:
-            return vic20_model_list;
-        case VICE_MACHINE_PLUS4:
-            return plus4_model_list;
-        default:
-            return NULL;
-    }
-}
 
 
 void machine_model_widget_getter(int (*f)(void)) {
@@ -131,6 +51,11 @@ void machine_model_widget_getter(int (*f)(void)) {
 void machine_model_widget_setter(void (*f)(int model))
 {
     model_set = f;
+}
+
+void machine_model_widget_set_models(const char **list)
+{
+    model_list = list;
 }
 
 
@@ -143,7 +68,7 @@ GtkWidget *create_machine_model_widget(void)
     int i;
 
     grid = uihelpers_create_grid_with_label("Model", 1);
-    list = get_model_list();
+    list = model_list;
     if (list != NULL) {
         last = NULL;
         group = NULL;
@@ -168,6 +93,9 @@ void update_machine_model_widget(GtkWidget *widget)
 
     if (model_get != NULL) {
         model = model_get();
+        if (machine_class == VICE_MACHINE_CBM6x0) {
+            model -= 2; /*adjust since cbm2/cbm5 share defines */
+        }
     } else {
         model = -1;
     }
@@ -182,4 +110,3 @@ void update_machine_model_widget(GtkWidget *widget)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
     }
 }
-

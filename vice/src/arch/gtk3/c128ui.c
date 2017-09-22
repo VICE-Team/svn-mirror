@@ -35,6 +35,9 @@
 #include "c128ui.h"
 
 
+static const char *c128_model_list[] = {
+    "C128 PAL", "C128D PAL", "C128 NTSC", "C128D NTSC", NULL
+};
 
 int c128ui_init(void)
 {
@@ -43,6 +46,7 @@ int c128ui_init(void)
 
     machine_model_widget_getter(c128model_get);
     machine_model_widget_setter(c128model_set);
+    machine_model_widget_set_models(c128_model_list);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

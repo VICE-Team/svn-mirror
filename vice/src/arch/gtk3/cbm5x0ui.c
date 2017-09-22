@@ -35,6 +35,11 @@
 #include "cbm2ui.h"
 
 
+static const char *cbm5x0_model_list[] = {
+    "CBM 510 PAL", "CBM 510 NTSC", NULL
+};
+
+
 int cbm5x0ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -42,6 +47,7 @@ int cbm5x0ui_init(void)
 
     machine_model_widget_getter(cbm2model_get);
     machine_model_widget_setter(cbm2model_set);
+    machine_model_widget_set_models(cbm5x0_model_list);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

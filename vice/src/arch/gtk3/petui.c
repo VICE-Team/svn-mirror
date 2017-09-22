@@ -29,14 +29,31 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "petmodel.h"
+#include "machinemodelwidget.h"
 
 #include "petui.h"
+
+
+static const char *pet_model_list[] = {
+    "PET 2001", "PET 3008", "PET 3016", "PET 3032", "PET 3032B", "PET 4016",
+    "PET 4032", "PET 4032B", "PET 8032", "PET 8096", "PET 8296", "SuperPET",
+    NULL
+};
 
 
 int petui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
      * be shifted over */
+
+    machine_model_widget_getter(petmodel_get);
+    machine_model_widget_setter(petmodel_set);
+    machine_model_widget_set_models(pet_model_list);
+
+
+
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

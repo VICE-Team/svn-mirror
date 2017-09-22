@@ -29,14 +29,27 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "plus4model.h"
+#include "machinemodelwidget.h"
 
 #include "plus4ui.h"
+
+
+static const char *plus4_model_list[] = {
+    "C16 PAL", "C16 NTSC", "Plus4 PAL", "Plus4 NTSC", "V364 NTSC", "232 NTSC",
+    NULL
+};
 
 
 int plus4ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
      * be shifted over */
+
+    machine_model_widget_getter(plus4model_get);
+    machine_model_widget_setter(plus4model_set);
+    machine_model_widget_set_models(plus4_model_list);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

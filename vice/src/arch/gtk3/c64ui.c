@@ -34,6 +34,14 @@
 
 #include "c64ui.h"
 
+
+static const char *c64_model_list[] = {
+    "C64 PAL", "C64C PAL", "C64 old PAL", "C64 NTSC", "C64C NTSC",
+    "C64 old NTSC", "Drean" "C64 SX PAL", "C64 SX NTSC", "Japanese", "C64 GS",
+    "PET64 PAL", "PET64 NTSC", "Ultimax", NULL };
+
+
+
 int c64ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -41,6 +49,7 @@ int c64ui_init(void)
 
     machine_model_widget_getter(c64model_get);
     machine_model_widget_setter(c64model_set);
+    machine_model_widget_set_models(c64_model_list);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

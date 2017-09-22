@@ -35,6 +35,14 @@
 #include "cbm2ui.h"
 
 
+/* XXX: careful: the first entry has an ID of 2 when calling cbm2model_*()*/
+static const char *cbm2_model_list[] = {
+    "CBM 610 PAL", "CBM 610 NTSC", "CBM 620 PAL", "CBM 620 NTSC",
+    "CBM 620+ (1M) PAL", "CBM 620+ (1M) NTSC", "CBM 710 NTSC", "CBM 720 NTSC",
+    "CBM 720+ (1M) NTSC", NULL
+};
+
+
 int cbm2ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -42,6 +50,7 @@ int cbm2ui_init(void)
 
     machine_model_widget_getter(cbm2model_get);
     machine_model_widget_setter(cbm2model_set);
+    machine_model_widget_set_models(cbm2_model_list);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
