@@ -29,6 +29,8 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "cbm2model.h"
+#include "machinemodelwidget.h"
 
 #include "cbm2ui.h"
 
@@ -37,6 +39,10 @@ int cbm5x0ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
      * be shifted over */
+
+    machine_model_widget_getter(cbm2model_get);
+    machine_model_widget_setter(cbm2model_set);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
