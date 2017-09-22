@@ -1,5 +1,5 @@
 /*
- * uimon.h - GTK3 about dialog - header
+ * uimon.h - GTK3 Monitor - header
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -27,7 +27,22 @@
 #ifndef VICE_UIMON_H
 #define VICE_UIMON_H
 
+#include "vice.h"
+
+#include <gtk/gtk.h>
+#include "console.h"
+#include "monitor.h"
+
 void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data);
+int uimon_out(const char *buffer);
+char *uimon_in(const char *prompt);
+char *uimon_get_in(char **ppchCommandLine, const char *prompt);
+void uimon_notify_change(void);
+console_t *uimon_window_resume(void);
+console_t *uimon_window_open(void);
+void uimon_window_suspend(void);
+void uimon_window_close(void);
+void uimon_set_interface(monitor_interface_t **monitor_interface_init, int count);
 
 #endif
 
