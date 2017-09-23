@@ -48,7 +48,7 @@
 #include "uiaccelerators.h"
 #include "uiapi.h"
 #include "uimenu.h"
-#include "uimon.h"
+#include "uimonarch.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
 #include "uismartattach.h"

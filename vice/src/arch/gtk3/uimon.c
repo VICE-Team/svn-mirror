@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uimon.h"
+#include "uimonarch"
 #include "videoarch.h"
 #include "vsync.h"
 
