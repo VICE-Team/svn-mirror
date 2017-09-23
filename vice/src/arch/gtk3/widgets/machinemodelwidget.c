@@ -43,6 +43,12 @@ static void (*model_set)(int) = NULL;
 static const char **model_list = NULL;
 
 
+static void on_model_toggled(GtkWidget *widget, gpointer user_data)
+{
+    int model = GPOINTER_TO_INT(user_data);
+    debug_gtk3("setting model to %d\n", model);
+    model_set(model);
+}
 
 void machine_model_widget_getter(int (*f)(void)) {
     model_get = f;
@@ -110,3 +116,31 @@ void update_machine_model_widget(GtkWidget *widget)
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
     }
 }
+
+
+void connect_machine_model_widget_signals(GtkWidget *widget)
+{
+    size_t i = 0;
+
+    while (1) {
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
+        int value;
+        if (radio == NULL) {
+            break;
+        }
+
+        if (machine_class == VICE_MACHINE_CBM6x0) {
+            value = i + 2;
+        } else {
+            value = i;
+        }
+        g_signal_connect(radio, "toggled", G_CALLBACK(on_model_toggled),
+                GINT_TO_POINTER(i));
+
+        i++;
+    }
+}
+
+
+
+

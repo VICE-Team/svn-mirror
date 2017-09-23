@@ -38,5 +38,6 @@ void machine_model_widget_set_models(const char **list);
 
 GtkWidget *create_machine_model_widget(void);
 void update_machine_model_widget(GtkWidget *widget);
+void connect_machine_model_widget_signals(GtkWidget *widget);
 
 #endif

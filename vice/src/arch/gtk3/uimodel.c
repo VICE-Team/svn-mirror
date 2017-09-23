@@ -48,11 +48,17 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
 
+    GtkWidget *model_widget;
+
 
     layout = gtk_grid_new();
 
-    gtk_grid_attach(GTK_GRID(layout), create_machine_model_widget(), 0, 0, 1, 1);
+    model_widget = create_machine_model_widget();
+    gtk_grid_attach(GTK_GRID(layout), model_widget, 0, 0, 1, 1);
 
+
+
+    connect_machine_model_widget_signals(model_widget);
 
     gtk_widget_show_all(layout);
 
