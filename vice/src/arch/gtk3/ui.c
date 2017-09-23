@@ -226,9 +226,13 @@ static ui_menu_item_t snapshot_menu[] = {
 
 
 static ui_menu_item_t help_menu[] = {
-    { "_About", UI_MENU_TYPE_ITEM_ACTION,
-        ui_about_dialog_callback, NULL },
-    { NULL, -1, NULL, NULL },
+    { "Browse manual", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Commandline options ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Compiletime features ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "_About VICE", UI_MENU_TYPE_ITEM_ACTION, ui_about_dialog_callback, NULL },
+    /* FIXME: this should be moved to settings */
+    { "Set browser command ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+
     UI_MENU_TERMINATOR
 };
 
