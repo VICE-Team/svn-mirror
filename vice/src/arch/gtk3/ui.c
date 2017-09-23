@@ -47,6 +47,7 @@
 
 #include "uiaccelerators.h"
 #include "uiapi.h"
+#include "uiedit.h"
 #include "uimenu.h"
 #include "uimonarch.h"
 #include "uisettings.h"
@@ -175,6 +176,14 @@ static ui_menu_item_t file_menu[] = {
     UI_MENU_TERMINATOR
 };
 
+/** \brief  'Edit' menu
+ */
+static ui_menu_item_t edit_menu[] = {
+    { "Copy", UI_MENU_TYPE_ITEM_ACTION, ui_copy_callback, NULL },
+    { "Paste", UI_MENU_TYPE_ITEM_ACTION, ui_paste_callback, NULL },
+
+    UI_MENU_TERMINATOR
+};
 
 static ui_menu_item_t snapshot_menu[] = {
     { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
@@ -345,6 +354,8 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
 
     /* generate File menu */
     ui_menu_file_add(file_menu);
+    /* generate Edit menu */
+    ui_menu_edit_add(edit_menu);
     /* generate Snapshot menu */
     ui_menu_snapshot_add(snapshot_menu);
     /* settings menu */

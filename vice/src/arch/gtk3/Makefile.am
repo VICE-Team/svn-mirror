@@ -64,6 +64,7 @@ libarch_a_SOURCES = \
 	uidatasette.c \
 	uidiskattach.c \
 	uidrivesettings.c \
+	uiedit.c \
 	uimenu.c \
 	uimon.c \
 	uimon-fallback.c \
@@ -113,6 +114,7 @@ EXTRA_DIST = \
 	uidiskattach.h \
 	uidrivesettings.h \
 	uikeyboard.h \
+	uiedit.h \
 	uimenu.h \
 	uisettings.h \
 	uismartattach.h \

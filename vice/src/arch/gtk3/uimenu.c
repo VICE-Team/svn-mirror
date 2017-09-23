@@ -114,8 +114,6 @@ GtkWidget *ui_menu_bar_create(void)
 
     /* edit menu */
     GtkWidget *edit_item;
-    GtkWidget *copy_item;
-    GtkWidget *paste_item;
 
     /* snapshot menu */
     GtkWidget *snap_item;
@@ -151,10 +149,6 @@ GtkWidget *ui_menu_bar_create(void)
     /* create the top-level 'Edit' menu */
     edit_item = gtk_menu_item_new_with_mnemonic("_Edit");
     edit_submenu = gtk_menu_new();
-    copy_item = gtk_menu_item_new_with_mnemonic("_Copy");
-    paste_item = gtk_menu_item_new_with_mnemonic("_Paste");
-    gtk_menu_shell_append(GTK_MENU_SHELL(edit_submenu), copy_item);
-    gtk_menu_shell_append(GTK_MENU_SHELL(edit_submenu), paste_item);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(edit_item), edit_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), edit_item);
 
@@ -254,6 +248,17 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 GtkWidget *ui_menu_file_add(ui_menu_item_t *items)
 {
     return ui_menu_add(file_submenu, items);
+}
+
+/** \brief  Add menu \a items to the 'Edit' menu
+ *
+ * \param[in]       items   menu items to add to the 'File' menu
+ *
+ * \return  'Edit' menu reference
+ */
+GtkWidget *ui_menu_edit_add(ui_menu_item_t *items)
+{
+    return ui_menu_add(edit_submenu, items);
 }
 
 
