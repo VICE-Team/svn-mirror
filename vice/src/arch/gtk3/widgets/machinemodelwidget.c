@@ -38,51 +38,96 @@
 #include "machinemodelwidget.h"
 
 
+/** \brief  Machine-specific model get function */
 static int  (*model_get)(void) = NULL;
+
+/** \brief  Machine-specific model set function */
 static void (*model_set)(int) = NULL;
+
+/** \brief  Machine-specific List of supported models */
 static const char **model_list = NULL;
 
 
+/** \brief  Handler for 'toggled' events of the radio buttons in the widget
+ *
+ * \param[in]   widget      radio button triggering the event
+ * \param[in]   user_data   model ID (int)
+ */
 static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 {
     int model = GPOINTER_TO_INT(user_data);
-    debug_gtk3("setting model to %d\n", model);
-    model_set(model);
+
+    if (model_set != NULL &&
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
+        debug_gtk3("setting model to %d\n", model);
+        model_set(model);
+    }
 }
 
+
+/** \brief  Set machine-specific function to get the model
+ *
+ * \param[in]   f   model getter function
+ */
 void machine_model_widget_getter(int (*f)(void)) {
     model_get = f;
 }
 
+
+/** \brief  Set machine-specific function to set the model
+ *
+ * \param[in]   f   model setter function
+ */
 void machine_model_widget_setter(void (*f)(int model))
 {
     model_set = f;
 }
 
+
+/** \brief  Set machine-specific list of supported models
+ *
+ * \param[in]   list    list of models, NULL-terminatd
+ */
 void machine_model_widget_set_models(const char **list)
 {
     model_list = list;
 }
 
 
+/** \brief  Create machine model widget
+ *
+ * Radio buttons for the models start at row 2 in the grid, while a special
+ * 'Unknown' radio button is added at row 1, to allow displaying that no valid
+ * model could be found for the current settings.
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *create_machine_model_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *radio;
     GtkRadioButton *last;
     GSList *group;
     const char **list;
     int i;
 
     grid = uihelpers_create_grid_with_label("Model", 1);
+
+    /* add 'unknown' model radio */
+    group = NULL;
+    radio = gtk_radio_button_new_with_label(group, "Unknown");
+    g_object_set(radio, "margin-left", 16, NULL);
+    gtk_widget_set_sensitive(radio, FALSE);
+    gtk_grid_attach(GTK_GRID(grid), radio, 0, 1, 1, 1);
+
+    last = GTK_RADIO_BUTTON(radio);
     list = model_list;
     if (list != NULL) {
-        last = NULL;
-        group = NULL;
         for (i = 0; list[i] != NULL; i++) {
-            GtkWidget *radio = gtk_radio_button_new_with_label(group, list[i]);
+            radio = gtk_radio_button_new_with_label(group, list[i]);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
             g_object_set(radio, "margin-left", 16, NULL);
-            gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 2, 1, 1);
             last = GTK_RADIO_BUTTON(radio);
         }
 
@@ -93,49 +138,73 @@ GtkWidget *create_machine_model_widget(void)
 }
 
 
+/** \brief  Update the machine model widget
+ *
+ * \param[in,out]   widget  machine model widget
+ */
 void update_machine_model_widget(GtkWidget *widget)
 {
-    int model;
+    GtkWidget *radio;
+    int model = 99;
 
     if (model_get != NULL) {
         model = model_get();
-        if (machine_class == VICE_MACHINE_CBM6x0) {
+        if (model < 0) {
+            /* error retrieving resources */
+            model = 99;
+        }
+    }
+    if (machine_class == VICE_MACHINE_CBM6x0) {
+        if (model != 99) {
             model -= 2; /*adjust since cbm2/cbm5 share defines */
         }
-    } else {
-        model = -1;
     }
+    debug_gtk3("model ID = %d\n", model);
 
-    if (model < 0) {
-        /* TODO: make all radio buttons 'empty'/unselected */
+    if (model == 99) {
+        /* invalid model, make all radio buttons unselected
+         *
+         * XXX: doesn't appear to actually work on my box, so perhaps an
+         *      'uknown' radio button should be added, but then I'd have to
+         *      guard against the user selecting that one
+         */
+        radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         return;
     }
 
-    GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, model + 1);
+    radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, model + 2);
     if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
     }
 }
 
 
+/** \brief  Connect signal handlers
+ *
+ * \param[in,out]   widget  machine model widget
+ */
 void connect_machine_model_widget_signals(GtkWidget *widget)
 {
     size_t i = 0;
 
     while (1) {
-        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
+        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 2);
         int value;
         if (radio == NULL) {
             break;
         }
 
+        /* xcbm2 (CMB6x0) and xcbm5x0 (CBM5x0) and  use the same 'enum', with
+         * the first two values reserved for CBM5x0, and the others for CBM6x0
+         */
         if (machine_class == VICE_MACHINE_CBM6x0) {
             value = i + 2;
         } else {
             value = i;
         }
         g_signal_connect(radio, "toggled", G_CALLBACK(on_model_toggled),
-                GINT_TO_POINTER(i));
+                GINT_TO_POINTER(value));
 
         i++;
     }
