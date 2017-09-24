@@ -29,8 +29,11 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "machine.h"
 #include "plus4model.h"
+#include "widgethelpers.h"
 #include "machinemodelwidget.h"
+#include "videomodelwidget.h"
 
 #include "plus4ui.h"
 

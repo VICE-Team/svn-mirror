@@ -51,11 +51,11 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     GtkWidget *layout;
 
     GtkWidget *model_widget;
-    GtkWidget *video_widget;
-    GtkWidget *vdc_widget = NULL;     /* for the C128's VDC widget */
+    GtkWidget *video_widget = NULL;
+    GtkWidget *vdc_widget = NULL;       /* for the C128's VDC widget */
 
-    GtkWidget *video_wrapper;   /* wrapper to have two video model widgets in
-                                   case of the C128 */
+    GtkWidget *video_wrapper = NULL;    /* wrapper to have two video model
+                                           widgets in case of the C128 */
 
 
     layout = gtk_grid_new();
