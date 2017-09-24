@@ -87,6 +87,14 @@ enum {
 
 
 /** \brief  Main tree nodes
+ *
+ *
+ * TODO: When creating the SID model/SID settings widget: The fastSiD/ReSID
+ *       selection ("SidEngine" resource) should be moved to 'SID Settings',
+ *       while the SID model (6581/8580(D), "SidModel" resource should be in
+ *       the SID Model widget, with the reSID/fastSID options removed.
+ *
+ * -- compyx 2017-09-24
  */
 static ui_settings_tree_node_t main_nodes[] = {
     { "Speed", uispeed_create_central_widget, NULL },
