@@ -41,6 +41,11 @@ static const char *plus4_model_list[] = {
 };
 
 
+static const ui_text_int_pair_t plus4_ted_models[] = {
+    { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
+};
+
+
 int plus4ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -49,6 +54,11 @@ int plus4ui_init(void)
     machine_model_widget_getter(plus4model_get);
     machine_model_widget_setter(plus4model_set);
     machine_model_widget_set_models(plus4_model_list);
+
+    video_model_widget_set_title("TED model");
+    video_model_widget_set_resource("MachineVideoStandard");
+    video_model_widget_set_models(plus4_ted_models);
+
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

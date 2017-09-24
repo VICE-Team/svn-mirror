@@ -29,14 +29,23 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "machine.h"
 #include "c64dtvmodel.h"
 #include "machinemodelwidget.h"
+#include "videomodelwidget.h"
 
 #include "c64ui.h"
 
 
 static const char *c64dtv_model_list[] = {
     "V2 PAL", "V2 NTSC", "V3 PAL", "V3 NTSC", "Hummer (NTSC)", NULL
+};
+
+
+static ui_text_int_pair_t c64dtv_vicii_models[] = {
+     { "PAL-G", MACHINE_SYNC_PAL },
+     { "NTSC-M", MACHINE_SYNC_NTSC },
+     { NULL, -1 }
 };
 
 
@@ -48,6 +57,10 @@ int c64dtvui_init(void)
     machine_model_widget_getter(dtvmodel_get);
     machine_model_widget_setter(dtvmodel_set);
     machine_model_widget_set_models(c64dtv_model_list);
+
+    video_model_widget_set_title("VIC_II model");
+    video_model_widget_set_resource("MachineVideoStandard");
+    video_model_widget_set_models(c64dtv_vicii_models);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

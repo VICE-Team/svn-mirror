@@ -39,6 +39,8 @@
 #include "not_implemented.h"
 #include "machine.h"
 #include "machinemodelwidget.h"
+#include "videomodelwidget.h"
+#include "vdcmodelwidget.h"
 
 
 #include "uimodel.h"
@@ -49,6 +51,11 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     GtkWidget *layout;
 
     GtkWidget *model_widget;
+    GtkWidget *video_widget;
+    GtkWidget *vdc_widget = NULL;     /* for the C128's VDC widget */
+
+    GtkWidget *video_wrapper;   /* wrapper to have two video model widgets in
+                                   case of the C128 */
 
 
     layout = gtk_grid_new();
@@ -56,11 +63,35 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     model_widget = create_machine_model_widget();
     gtk_grid_attach(GTK_GRID(layout), model_widget, 0, 0, 1, 1);
 
+    if (machine_class != VICE_MACHINE_CBM6x0 &&
+            machine_class != VICE_MACHINE_PET) {
+
+        video_wrapper = gtk_grid_new();
+
+        video_widget = create_video_model_widget();
+        gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
+
+        if (machine_class == VICE_MACHINE_C128) {
+            vdc_widget = vdc_model_widget_create();
+            gtk_grid_attach(GTK_GRID(video_wrapper), vdc_widget, 0, 1, 1, 1);
+        }
+        gtk_widget_show_all(video_wrapper);
+
+        gtk_grid_attach(GTK_GRID(layout), video_wrapper, 1, 0, 1, 1);
+    }
 
 
     connect_machine_model_widget_signals(model_widget);
-
+    if (machine_class != VICE_MACHINE_CBM6x0 &&
+            machine_class != VICE_MACHINE_PET) {
+        connect_video_model_widget_signals(video_widget);
+    }
+    if (machine_class == VICE_MACHINE_C128) {
+        vdc_model_widget_connect_signals(vdc_widget);
+    }
     gtk_widget_show_all(layout);
 
     return layout;
 }
+
+

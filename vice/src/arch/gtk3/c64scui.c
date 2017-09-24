@@ -29,8 +29,11 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "widgethelpers.h"
 #include "c64model.h"
+#include "vicii.h"
 #include "machinemodelwidget.h"
+#include "videomodelwidget.h"
 
 #include "c64ui.h"
 
@@ -45,6 +48,17 @@ static const char *c64_model_list[] = {
     "Ultimax", NULL };
 
 
+static const ui_text_int_pair_t c64sc_vicii_models[] = {
+    { "6569 (PAL)",             VICII_MODEL_6569 },
+    { "8565 (PAL)",             VICII_MODEL_8565 },
+    { "6569R1 (old PAL)",       VICII_MODEL_6569R1 },
+    { "6567 (NTSC)",            VICII_MODEL_6567 },
+    { "8562 (NTSC)",            VICII_MODEL_8562 },
+    { "6567R56A (old NTSC)",    VICII_MODEL_6567R56A },
+    { "6572 (PAL-N)",           VICII_MODEL_6572 },
+    { NULL, -1 }
+};
+
 
 int c64scui_init(void)
 {
@@ -54,6 +68,10 @@ int c64scui_init(void)
     machine_model_widget_getter(c64model_get);
     machine_model_widget_setter(c64model_set);
     machine_model_widget_set_models(c64_model_list);
+
+    video_model_widget_set_title("VIC-II model");
+    video_model_widget_set_resource("VICIIModel");
+    video_model_widget_set_models(c64sc_vicii_models);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

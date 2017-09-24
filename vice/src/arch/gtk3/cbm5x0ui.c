@@ -29,8 +29,11 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "machine.h"
 #include "cbm2model.h"
+#include "widgethelpers.h"
 #include "machinemodelwidget.h"
+#include "videomodelwidget.h"
 
 #include "cbm2ui.h"
 
@@ -39,6 +42,10 @@ static const char *cbm5x0_model_list[] = {
     "CBM 510 PAL", "CBM 510 NTSC", NULL
 };
 
+
+static const ui_text_int_pair_t cbm5x0_vicii_models[] = {
+    { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
+};
 
 int cbm5x0ui_init(void)
 {
@@ -49,6 +56,9 @@ int cbm5x0ui_init(void)
     machine_model_widget_setter(cbm2model_set);
     machine_model_widget_set_models(cbm5x0_model_list);
 
+    video_model_widget_set_title("VIC-II model");
+    video_model_widget_set_resource("MachineVideoStandard");
+    video_model_widget_set_models(cbm5x0_vicii_models);
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

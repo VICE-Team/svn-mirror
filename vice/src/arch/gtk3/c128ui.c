@@ -29,8 +29,11 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "widgethelpers.h"
+#include "machine.h"
 #include "c128model.h"
 #include "machinemodelwidget.h"
+#include "videomodelwidget.h"
 
 #include "c128ui.h"
 
@@ -38,6 +41,13 @@
 static const char *c128_model_list[] = {
     "C128 PAL", "C128D PAL", "C128 NTSC", "C128D NTSC", NULL
 };
+
+
+static const ui_text_int_pair_t c128_vicii_models[] = {
+    { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
+};
+
+
 
 int c128ui_init(void)
 {
@@ -47,6 +57,10 @@ int c128ui_init(void)
     machine_model_widget_getter(c128model_get);
     machine_model_widget_setter(c128model_set);
     machine_model_widget_set_models(c128_model_list);
+
+    video_model_widget_set_title("VIC-II model");
+    video_model_widget_set_resource("MachineVideoStandard");
+    video_model_widget_set_models(c128_vicii_models);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

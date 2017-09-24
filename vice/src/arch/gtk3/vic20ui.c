@@ -29,14 +29,22 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "machine.h"
 #include "vic20model.h"
 #include "machinemodelwidget.h"
+#include "widgethelpers.h"
+#include "videomodelwidget.h"
 
 #include "vic20ui.h"
 
 
 static const char *vic20_model_list[] = {
     "VIC20 PAL", "VIC20 NTSC", "VIC21", NULL
+};
+
+
+static const ui_text_int_pair_t vic20_vic_models[] = {
+    { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
 };
 
 
@@ -50,6 +58,9 @@ int vic20ui_init(void)
     machine_model_widget_setter(vic20model_set);
     machine_model_widget_set_models(vic20_model_list);
 
+    video_model_widget_set_title("VIC model");
+    video_model_widget_set_resource("MachineVideoStandard");
+    video_model_widget_set_models(vic20_vic_models);
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

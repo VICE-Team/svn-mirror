@@ -30,7 +30,10 @@
 
 #include "not_implemented.h"
 #include "c64model.h"
+#include "vicii.h"
+#include "widgethelpers.h"
 #include "machinemodelwidget.h"
+#include "videomodelwidget.h"
 
 #include "c64ui.h"
 
@@ -42,7 +45,18 @@ static const char *c64_model_list[] = {
     "C64 SX PAL", "C64 SX NTSC",
     "Japanese", "C64 GS",
     "PET64 PAL", "PET64 NTSC",
-    "Ultimax", NULL };
+    "Ultimax", NULL
+};
+
+
+static const ui_text_int_pair_t c64_vicii_models[] = {
+    { "PAL",        VICII_MODEL_PALG },
+    { "Old PAL",    VICII_MODEL_PALG_OLD },
+    { "NTSC",       VICII_MODEL_NTSCM },
+    { "Old NTSC",   VICII_MODEL_NTSCM_OLD },
+    { "PAL-N",      VICII_MODEL_PALN },
+    { NULL, -1 }
+};
 
 
 
@@ -55,9 +69,14 @@ int c64ui_init(void)
     machine_model_widget_setter(c64model_set);
     machine_model_widget_set_models(c64_model_list);
 
+    video_model_widget_set_title("VIC-II model");
+    video_model_widget_set_resource("MachineVideoStandard");
+    video_model_widget_set_models(c64_vicii_models);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
+
 
 void c64ui_shutdown(void)
 {

@@ -48,7 +48,9 @@ libwidgets_a_SOURCES = \
 	driveidlemethodwidget.c \
 	driveparallelcablewidget.c \
 	driveoptionswidget.c \
-	machinemodelwidget.c
+	machinemodelwidget.c \
+	videomodelwidget.c \
+	vdcmodelwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -76,4 +78,6 @@ EXTRA_DIST = \
 	driveidlemethodwidget.h \
 	driveparallelcablewidget.h \
 	driveoptionswidget.h \
-	machinemodelwidget.h
+	machinemodelwidget.h \
+	videomodelwidget.h \
+	vdcmodelwidget.h
