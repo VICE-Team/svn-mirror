@@ -61,21 +61,13 @@
 static int unit_number = 8;
 
 
-/** \brief  Reference to the drive type widget
- *
- * Used in unit_changed_callback() to update the widget
- */
+/* References to various interconnected widget */
 static GtkWidget *drive_type_widget = NULL;
-
-
-/*
- * TODO: Update code to avoid these non-static variables
- */
-GtkWidget *drive_extend_widget = NULL;
-GtkWidget *drive_expansion_widget = NULL;
-GtkWidget *drive_idle_method_widget = NULL;
-GtkWidget *drive_parallel_cable_widget = NULL;
-GtkWidget *drive_options_widget = NULL;
+static GtkWidget *drive_extend_widget = NULL;
+static GtkWidget *drive_expansion_widget = NULL;
+static GtkWidget *drive_idle_method_widget = NULL;
+static GtkWidget *drive_parallel_cable_widget = NULL;
+static GtkWidget *drive_options_widget = NULL;
 
 
 /*****************************************************************************
@@ -284,6 +276,12 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
 
     /* now connect the drive type widget's signal handlers */
     connect_drive_type_widget_signals(drive_type_widget);
+
+    drive_type_widget_set_extend_widget(drive_extend_widget);
+    drive_type_widget_set_expansion_widget(drive_expansion_widget);
+    drive_type_widget_set_parallel_cable_widget(drive_parallel_cable_widget);
+    drive_type_widget_set_options_widget(drive_options_widget);
+
 
     g_signal_connect(tde_widget, "toggled", G_CALLBACK(on_tde_toggled), NULL);
     g_signal_connect(sound_widget, "toggled",

@@ -25,16 +25,13 @@
  */
 
 
-/* XXX: unbelievable, but there already was a H_UIDRIVESETTINGS_H*/
+/* XXX: unbelievable, but there already was a HAVE_UIDRIVESETTINGS_H*/
 #ifndef HAVE_UIDRIVESETTINGS_GTK3_H
 #define HAVE_UIDRIVESETTINGS_GTK3_H
 
 #include "vice.h"
 
 #include <gtk/gtk.h>
-
-/* this sucks */
-GtkWidget *drive_extend_widget;
 
 GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent);
 

@@ -51,10 +51,34 @@ static int unit_number = 8;
 
 static void(*unit_callback)(int) = NULL;
 
-extern GtkWidget *drive_extend_widget;
-extern GtkWidget *drive_expansion_widget;
-extern GtkWidget *drive_parallel_cable_widget;
-extern GtkWidget *drive_options_widget;
+static GtkWidget *drive_extend_widget;
+static GtkWidget *drive_expansion_widget;
+static GtkWidget *drive_parallel_cable_widget;
+static GtkWidget *drive_options_widget;
+
+
+
+void drive_type_widget_set_extend_widget(GtkWidget *widget)
+{
+    drive_extend_widget = widget;
+}
+
+
+void drive_type_widget_set_expansion_widget(GtkWidget *widget)
+{
+    drive_expansion_widget = widget;
+}
+
+void drive_type_widget_set_parallel_cable_widget(GtkWidget *widget)
+{
+    drive_parallel_cable_widget = widget;
+}
+
+void drive_type_widget_set_options_widget(GtkWidget *widget)
+{
+    drive_options_widget = widget;
+}
+
 
 
 /** \brief  Handler for the "toggled" event of the radio buttons
