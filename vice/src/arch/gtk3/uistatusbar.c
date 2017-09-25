@@ -34,6 +34,7 @@
 
 #include "datasette.h"
 #include "drive.h"
+#include "fliplist.h"
 #include "joyport.h"
 #include "lib.h"
 #include "resources.h"
@@ -523,18 +524,56 @@ static GtkWidget *ui_drive_menu_create(int unit)
     char buf[128];
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
+    const char *fliplist_string;
     snprintf(buf, 128, _("Attach to drive #%d..."), unit + 8);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
-    gtk_widget_show(drive_menu_item);
     snprintf(buf, 128, _("Detach disk from drive #%d"), unit + 8);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_detach_callback), GINT_TO_POINTER(unit+8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
-    gtk_widget_show(drive_menu_item);
+    /* GTK2/GNOME UI put TDE and Read-only checkboxes here, but that
+     * seems excessive or possibly too fine-grained, so skip that for
+     * now */
+    /* Fliplist controls in GTK2/GNOME are next/previous and then the
+     * full list of entries within it. For GTK3 we only show these if
+     * the fliplist isn't empty for this drive. */
+    /* TODO: Add/Remove current image to/from fliplist should really
+     * be here too. */
+    /* TODO: This should be wiped out and rebuilt every time the popup
+     * happens. */
+    /* TODO: All of these image names should be shortened to the
+     * suffix from the last path separator. */
+    fliplist_string = fliplist_get_next(unit+8);
+    if (fliplist_string) {
+        fliplist_t fliplist_iterator;
+        gtk_container_add(GTK_CONTAINER(drive_menu), gtk_separator_menu_item_new());
+        snprintf(buf, 128, _("Next: %s"), fliplist_string);
+        buf[127] = 0;
+        drive_menu_item = gtk_menu_item_new_with_label(buf);
+        /* TODO: Signal connect. Fliplist iteration seems a little weird. */
+        gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+        fliplist_string = fliplist_get_prev(unit+8);
+        if (fliplist_string) {
+            snprintf(buf, 128, _("Previous: %s"), fliplist_string);
+            buf[127] = 0;
+            drive_menu_item = gtk_menu_item_new_with_label(buf);
+            /* TODO: Signal connect. Fliplist iteration seems a little weird. */
+            gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+        }
+        gtk_container_add(GTK_CONTAINER(drive_menu), gtk_separator_menu_item_new());
+        fliplist_iterator = fliplist_init_iterate(unit+8);
+        while (fliplist_iterator) {
+            drive_menu_item = gtk_menu_item_new_with_label(fliplist_get_image(fliplist_iterator));
+            /* TODO: Signal connect. Fliplist iteration seems a little weird. */
+            gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+            fliplist_iterator = fliplist_next_iterate(unit+8);
+        }
+    }
+    gtk_widget_show_all(drive_menu);
     return drive_menu;
 }
 
