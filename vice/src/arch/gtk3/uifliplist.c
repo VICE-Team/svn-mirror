@@ -25,9 +25,38 @@
 
 
 #include "vice.h"
+#include "attach.h"
 #include "fliplist.h"
 
 #include "uifliplist.h"
+
+static void ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data);
+    fliplist_attach_head(unit, 1);
+}
+
+static void ui_fliplist_prev_cb(GtkWidget *widget, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data);
+    fliplist_attach_head(unit, 0);
+}
+
+static void ui_fliplist_select_cb(GtkWidget *widget, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data) & 0xff;
+    int index = (GPOINTER_TO_INT(data) >> 8) & 0xff;
+    int i;
+    if (index == 0) {
+        fliplist_t list = fliplist_init_iterate(unit);
+        const char *image = fliplist_get_image(list);
+        file_system_attach_disk(unit, image);
+    } else {
+        for (i = 0; i < index; ++i) {
+            fliplist_attach_head(unit, 1);
+        }
+    }
+}
 
 /** \brief Fill in a menu with controls for fliplist control.
  *
@@ -71,27 +100,30 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
     if (fliplist_string) {
         char buf[128];
         fliplist_t fliplist_iterator;
+        int index;
         gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
         snprintf(buf, 128, _("Next: %s"), fliplist_string);
         buf[127] = 0;
         menu_item = gtk_menu_item_new_with_label(buf);
-        /* TODO: Signal connect. Fliplist iteration seems a little weird. */
+        g_signal_connect(menu_item, "activate", G_CALLBACK(ui_fliplist_next_cb), GINT_TO_POINTER(unit));
         gtk_container_add(GTK_CONTAINER(menu), menu_item);
         fliplist_string = fliplist_get_prev(unit);
         if (fliplist_string) {
             snprintf(buf, 128, _("Previous: %s"), fliplist_string);
             buf[127] = 0;
             menu_item = gtk_menu_item_new_with_label(buf);
-            /* TODO: Signal connect. Fliplist iteration seems a little weird. */
+            g_signal_connect(menu_item, "activate", G_CALLBACK(ui_fliplist_prev_cb), GINT_TO_POINTER(unit));
             gtk_container_add(GTK_CONTAINER(menu), menu_item);
         }
         gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
         fliplist_iterator = fliplist_init_iterate(unit);
+        index = 0;
         while (fliplist_iterator) {
             menu_item = gtk_menu_item_new_with_label(fliplist_get_image(fliplist_iterator));
-            /* TODO: Signal connect. Fliplist iteration seems a little weird. */
+            g_signal_connect(menu_item, "activate", G_CALLBACK(ui_fliplist_select_cb), GINT_TO_POINTER(unit+(index << 8)));
             gtk_container_add(GTK_CONTAINER(menu), menu_item);
             fliplist_iterator = fliplist_next_iterate(unit);
+            ++index;
         }
     }
 }
