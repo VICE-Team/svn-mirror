@@ -846,7 +846,11 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
     char buf[256];
-    snprintf(buf, 256, _("Attached %s to unit %d"), image, drive_number+8);
+    if (image && *image) {
+        snprintf(buf, 256, _("Attached %s to unit %d"), image, drive_number+8);
+    } else {
+        snprintf(buf, 256, _("Unit %d is empty"), drive_number+8);
+    }
     buf[255]=0;
     ui_display_statustext(buf, 1);
 }
