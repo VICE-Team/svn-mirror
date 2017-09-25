@@ -32,5 +32,6 @@
 
 
 void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data);
+void ui_disk_detach_callback(GtkWidget *widget, gpointer user_data);
 
 #endif

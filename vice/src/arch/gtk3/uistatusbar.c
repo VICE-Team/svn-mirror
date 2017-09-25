@@ -523,10 +523,16 @@ static GtkWidget *ui_drive_menu_create(int unit)
     char buf[128];
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
-    snprintf(buf, 128, _("Attach to drive %d..."), unit + 8);
+    snprintf(buf, 128, _("Attach to drive #%d..."), unit + 8);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
+    gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
+    gtk_widget_show(drive_menu_item);
+    snprintf(buf, 128, _("Detach disk from drive #%d"), unit + 8);
+    buf[127] = 0;
+    drive_menu_item = gtk_menu_item_new_with_label(buf);
+    g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_detach_callback), GINT_TO_POINTER(unit+8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
     gtk_widget_show(drive_menu_item);
     return drive_menu;
@@ -819,7 +825,7 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
     /* Now give enabled its "real" value based on the drive
      * definitions. */
     enabled = compute_drives_enabled_mask();
-    
+
     /* Now, if necessary, update the status bar layouts. We won't need
      * to do this if the only change was the kind of drives hooked up,
      * instead of the number */

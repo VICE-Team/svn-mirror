@@ -249,12 +249,12 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 }
 
 
-/** \brief  Callback for the File menu's "smart-attach" item
+/** \brief  Callback for the "smart-attach" and "attach to #%d" menu items
  *
  * Creates the smart-dialog and runs it.
  *
  * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   data for the event (unused)
+ * \param[in]   user_data   integer from 8-11 for the default drive to attach to
  */
 void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -264,4 +264,20 @@ void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
     dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));
     gtk_widget_show(dialog);
 
+}
+
+/** \brief  Callback for "detach from #%d" menu items
+ *
+ * Removes any disk from the specified drive. No additional UI is
+ * presented.
+ *
+ * \param[in]   widget      menu item triggering the callback
+ * \param[in]   user_data   integer from 8-11 for the drive to
+ *                          close, or -1 to detach all disks
+ */
+void ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
+{
+    /* This function does its own interpretation and input validation,
+     * so we can simply forward the call directly. */
+    file_system_detach_disk(GPOINTER_TO_INT(user_data));
 }
