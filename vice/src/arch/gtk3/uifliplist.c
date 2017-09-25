@@ -46,7 +46,19 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
 {
     const char *fliplist_string;
     GtkWidget *menu_item;
-    /* TODO: Wipe out fliplist entries */
+    GList *children = gtk_container_get_children(GTK_CONTAINER(menu));
+    GList *child_iter = g_list_first(children);
+    int separators_so_far = 0;
+    while (child_iter) {
+        if (GTK_IS_SEPARATOR_MENU_ITEM(child_iter->data)) {
+            ++separators_so_far;
+        }
+        if (separators_so_far > separator_count) {
+            gtk_container_remove(GTK_CONTAINER(menu), child_iter->data);
+        }
+        child_iter = child_iter->next;
+    }
+    g_list_free(children);
     
     /* Fliplist controls in GTK2/GNOME are next/previous and then the
      * full list of entries within it. For GTK3 we only show these if

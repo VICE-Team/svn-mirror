@@ -349,17 +349,18 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
 
 static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
-    GtkMenu *drive_menu = (GtkMenu *)data;
+    int i = GPOINTER_TO_INT(data);
+    GtkWidget *drive_menu = allocated_bars[0].drive_popups[i];
 
-    /* TODO: Repopulate the menu with the fliplist information. */
-
+    ui_populate_fliplist_menu(drive_menu, i+8, 0);
+    gtk_widget_show_all(drive_menu);
     /* 3.22 isn't available on the latest stable version of all
      * distros yet. This is expected to change when Ubuntu 18.04 is
      * released. Since popup handling is the only thing 3.22 requires
      * be done differently than its predecessors, this is the only
      * place we should rely on version checks. */
 #if GTK_CHECK_VERSION(3,22,0)
-    gtk_menu_popup_at_widget(drive_menu,
+    gtk_menu_popup_at_widget(GTK_MENU(drive_menu),
                              widget,
                              GDK_GRAVITY_NORTH_EAST,
                              GDK_GRAVITY_SOUTH_EAST,
@@ -368,7 +369,7 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     {
         GdkEventButton *buttonEvent = (GdkEventButton *)event;
 
-        gtk_menu_popup(drive_menu,
+        gtk_menu_popup(GTK_MENU(drive_menu),
                        NULL, NULL, NULL, NULL,
                        buttonEvent->button, buttonEvent->time);
     }
@@ -469,7 +470,7 @@ static void layout_statusbar_drives(int bar_index)
             }
             gtk_container_add(GTK_CONTAINER(event_box), drive);
             gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
-            g_signal_connect(event_box, "button-press-event", G_CALLBACK(ui_do_drive_popup), allocated_bars[bar_index].drive_popups[i]);
+            g_signal_connect(event_box, "button-press-event", G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
             if (tde & 1) {
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
             } else {
