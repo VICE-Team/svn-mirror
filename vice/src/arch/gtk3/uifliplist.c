@@ -25,8 +25,11 @@
 
 
 #include "vice.h"
+
 #include "attach.h"
 #include "fliplist.h"
+#include "lib.h"
+#include "util.h"
 
 #include "uifliplist.h"
 
@@ -94,22 +97,27 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
      * the fliplist isn't empty for this drive. */
     /* TODO: Add/Remove current image to/from fliplist should really
      * be here too. */
-    /* TODO: All of these image names should be shortened to the
-     * suffix from the last path separator. */
     fliplist_string = fliplist_get_next(unit);
     if (fliplist_string) {
         char buf[128];
+        char *basename = NULL;
         fliplist_t fliplist_iterator;
         int index;
         gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
-        snprintf(buf, 128, _("Next: %s"), fliplist_string);
+        util_fname_split(fliplist_string, NULL, &basename);
+        snprintf(buf, 128, _("Next: %s"), basename ? basename : fliplist_string);
+        lib_free(basename);
+        basename = NULL;
         buf[127] = 0;
         menu_item = gtk_menu_item_new_with_label(buf);
         g_signal_connect(menu_item, "activate", G_CALLBACK(ui_fliplist_next_cb), GINT_TO_POINTER(unit));
         gtk_container_add(GTK_CONTAINER(menu), menu_item);
         fliplist_string = fliplist_get_prev(unit);
         if (fliplist_string) {
-            snprintf(buf, 128, _("Previous: %s"), fliplist_string);
+            util_fname_split(fliplist_string, NULL, &basename);
+            snprintf(buf, 128, _("Previous: %s"), basename ? basename : fliplist_string);
+            lib_free(basename);
+            basename = NULL;
             buf[127] = 0;
             menu_item = gtk_menu_item_new_with_label(buf);
             g_signal_connect(menu_item, "activate", G_CALLBACK(ui_fliplist_prev_cb), GINT_TO_POINTER(unit));
@@ -119,7 +127,11 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
         fliplist_iterator = fliplist_init_iterate(unit);
         index = 0;
         while (fliplist_iterator) {
-            menu_item = gtk_menu_item_new_with_label(fliplist_get_image(fliplist_iterator));
+            fliplist_string = fliplist_get_image(fliplist_iterator);
+            util_fname_split(fliplist_string, NULL, &basename);
+            menu_item = gtk_menu_item_new_with_label(basename ? basename : fliplist_string);
+            lib_free(basename);
+            basename = NULL;
             g_signal_connect(menu_item, "activate", G_CALLBACK(ui_fliplist_select_cb), GINT_TO_POINTER(unit+(index << 8)));
             gtk_container_add(GTK_CONTAINER(menu), menu_item);
             fliplist_iterator = fliplist_next_iterate(unit);
