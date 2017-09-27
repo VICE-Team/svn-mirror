@@ -14549,6 +14549,23 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_4_ADDRESS,    N_("Specify base address for 4th SID")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_4_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_4_ADDRESS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_SID_4_ADDRESS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_4_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_4_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_4_ADDRESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_SID_4_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_4_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_SID_4_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_SID_4_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_4_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_4_ADDRESS_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_SID_FILTERS,    N_("Emulate SID filters")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SID_FILTERS_DA, "Emulér SID-filtre"},

@@ -127,6 +127,9 @@ ui_menu_entry_t sid_extra_sids_submenu[] = {
     { N_("Two"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SidStereo, (ui_callback_data_t)2, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Three"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SidStereo, (ui_callback_data_t)3, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_LIST_END
 };
 

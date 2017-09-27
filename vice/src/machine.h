@@ -155,6 +155,9 @@ extern int machine_sid2_check_range(unsigned int sid2_adr);
 /* Check the base address for the third sid chip.  */
 extern int machine_sid3_check_range(unsigned int sid3_adr);
 
+/* Check the base address for the fourth sid chip.  */
+extern int machine_sid4_check_range(unsigned int sid4_adr);
+
 /* Change the timing parameters of the maching (for example PAL/NTSC).  */
 extern void machine_change_timing(int timeval, int border_mode);
 

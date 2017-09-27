@@ -66,6 +66,8 @@ unsigned int sid_stereo_address_start;
 unsigned int sid_stereo_address_end;
 unsigned int sid_triple_address_start;
 unsigned int sid_triple_address_end;
+unsigned int sid_quad_address_start;
+unsigned int sid_quad_address_end;
 static int sid_engine;
 #ifdef HAVE_HARDSID
 static int sid_hardsid_main;
@@ -178,6 +180,21 @@ int sid_set_sid_triple_address(int val, void *param)
 
     sid_triple_address_start = sid3_adr;
     sid_triple_address_end = sid_triple_address_start + 32;
+    return 0;
+}
+
+int sid_set_sid_quad_address(int val, void *param)
+{
+    unsigned int sid4_adr;
+
+    sid4_adr = (unsigned int)val;
+
+    if (machine_sid4_check_range(sid4_adr) < 0) {
+        return -1;
+    }
+
+    sid_quad_address_start = sid4_adr;
+    sid_quad_address_end = sid_quad_address_start + 32;
     return 0;
 }
 

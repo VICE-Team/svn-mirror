@@ -212,6 +212,7 @@ TUI_MENU_DEFINE_TOGGLE(SidFilters)
 TUI_MENU_DEFINE_RADIO(SidStereo)
 TUI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 TUI_MENU_DEFINE_RADIO(SidTripleAddressStart)
+TUI_MENU_DEFINE_RADIO(SidQuadAddressStart)
 
 static TUI_MENU_CALLBACK(sid_amount_submenu_callback)
 {
@@ -233,6 +234,9 @@ static tui_menu_item_def_t sid_amount_submenu[] = {
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "2", "Two extra SID chips",
       radio_SidStereo_callback, (void *)2, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "3", "Three extra SID chips",
+      radio_SidStereo_callback, (void *)3, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     TUI_MENU_ITEM_DEF_LIST_END
 };
@@ -259,18 +263,35 @@ static TUI_MENU_CALLBACK(sid_triple_address_submenu_callback)
     return s;
 }
 
+static TUI_MENU_CALLBACK(sid_quad_address_submenu_callback)
+{
+    static char s[256];
+    int value;
+
+    resources_get_int("SidQuadAddressStart", &value);
+    sprintf(s, "%04X", value);
+
+    return s;
+}
+
 SID_D4XX_MENU(sid_stereo_address_d4xx_submenu, radio_SidStereoAddressStart_callback)
 SID_D4XX_MENU(sid_triple_address_d4xx_submenu, radio_SidTripleAddressStart_callback)
+SID_D4XX_MENU(sid_quad_address_d4xx_submenu, radio_SidQuadAddressStart_callback)
 SID_D5XX_MENU(sid_stereo_address_d5xx_submenu, radio_SidStereoAddressStart_callback)
 SID_D5XX_MENU(sid_triple_address_d5xx_submenu, radio_SidTripleAddressStart_callback)
+SID_D5XX_MENU(sid_quad_address_d5xx_submenu, radio_SidQuadAddressStart_callback)
 SID_D6XX_MENU(sid_stereo_address_d6xx_submenu, radio_SidStereoAddressStart_callback)
 SID_D6XX_MENU(sid_triple_address_d6xx_submenu, radio_SidTripleAddressStart_callback)
+SID_D6XX_MENU(sid_quad_address_d6xx_submenu, radio_SidQuadAddressStart_callback)
 SID_D7XX_MENU(sid_stereo_address_d7xx_submenu, radio_SidStereoAddressStart_callback)
 SID_D7XX_MENU(sid_triple_address_d7xx_submenu, radio_SidTripleAddressStart_callback)
+SID_D7XX_MENU(sid_quad_address_d7xx_submenu, radio_SidQuadAddressStart_callback)
 SID_DEXX_MENU(sid_stereo_address_dexx_submenu, radio_SidStereoAddressStart_callback)
 SID_DEXX_MENU(sid_triple_address_dexx_submenu, radio_SidTripleAddressStart_callback)
+SID_DEXX_MENU(sid_quad_address_dexx_submenu, radio_SidQuadAddressStart_callback)
 SID_DFXX_MENU(sid_stereo_address_dfxx_submenu, radio_SidStereoAddressStart_callback)
 SID_DFXX_MENU(sid_triple_address_dfxx_submenu, radio_SidTripleAddressStart_callback)
+SID_DFXX_MENU(sid_quad_address_dfxx_submenu, radio_SidQuadAddressStart_callback)
 
 static tui_menu_item_def_t sid_stereo_address_submenu[] = {
     { "$D4xx:",
@@ -328,6 +349,34 @@ static tui_menu_item_def_t sid_triple_address_submenu[] = {
     TUI_MENU_ITEM_DEF_LIST_END
 };
 
+static tui_menu_item_def_t sid_quad_address_submenu[] = {
+    { "$D4xx:",
+      "Quad SID in the $D4xx range",
+      sid_quad_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_quad_address_d4xx_submenu, "Quad SID in the $D4xx range" },
+    { "$D5xx:",
+      "Quad SID in the $D5xx range",
+      sid_quad_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_quad_address_d5xx_submenu, "Quad SID in the $D5xx range" },
+    { "$D6xx:",
+      "Quad SID in the $D6xx range",
+      sid_quad_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_quad_address_d6xx_submenu, "Quad SID in the $D6xx range" },
+    { "$D7xx:",
+      "Quad SID in the $D7xx range",
+      sid_quad_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_quad_address_d7xx_submenu, "Quad SID in the $D7xx range" },
+    { "$DExx:",
+      "Quad SID in the $DExx range",
+      sid_quad_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_quad_address_dexx_submenu, "Quad SID in the $DExx range" },
+    { "$DFxx:",
+      "Quad SID in the $DFxx range",
+      sid_quad_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_quad_address_dfxx_submenu, "Quad SID in the $DFxx range" },
+    { NULL }
+};
+
 tui_menu_item_def_t sid_c64_ui_menu_items[] = {
     { "--" },
     { "SID _Engine/Model:",
@@ -351,6 +400,10 @@ tui_menu_item_def_t sid_c64_ui_menu_items[] = {
       "Select the address of the third SID chip",
       sid_triple_address_submenu_callback, NULL, 5,
       TUI_MENU_BEH_CONTINUE, sid_triple_address_submenu, "Address of the third SID chip" },
+    { "Quad SID address:",
+      "Select the address of the fourth SID chip",
+      sid_quad_address_submenu_callback, NULL, 5,
+      TUI_MENU_BEH_CONTINUE, sid_quad_address_submenu, "Address of the fourth SID chip" },
 #ifdef HAVE_RESID
     { "--"},
     { "ReSID s_ampling method:",

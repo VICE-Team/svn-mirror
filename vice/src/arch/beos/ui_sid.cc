@@ -91,6 +91,7 @@ class SidWindow : public BWindow {
         BOptionPopUp *engine_model_popup;
         BOptionPopUp *second_sid_popup;
         BOptionPopUp *third_sid_popup;
+        BOptionPopUp *fourth_sid_popup;
         BBox *extrasidbox;
         BBox *residbox;
 
@@ -184,7 +185,7 @@ SidWindow::SidWindow()
 
         /* Extra SIDs */
         resources_get_int("SidStereo", &res_val);
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < 4; i++) {
             msg = new BMessage(MESSAGE_SID_STEREO);
             msg->AddInt32("sids", i);
             sprintf(st, "%d", i);
@@ -202,10 +203,13 @@ SidWindow::SidWindow()
         second_sid_popup->SetEnabled(res_val >= 1);
         third_sid_popup = CreateAddressPopUp(BRect(60, 45, 220, 70), "Third SID at", "SidTripleAddressStart");
         third_sid_popup->SetEnabled(res_val >= 2);
+        fourth_sid_popup = CreateAddressPopUp(BRect(60, 45, 220, 70), "Fourth SID at", "SidQuadAddressStart");
+        fourth_sid_popup->SetEnabled(res_val >= 2);
     } else {
         extrasidbox = NULL;
         second_sid_popup = NULL;
         third_sid_popup = NULL;
+        fourth_sid_popup = NULL;
         ResizeTo(330, 270);
     }
 
@@ -282,6 +286,7 @@ void SidWindow::MessageReceived(BMessage *msg)
                 resources_set_int("SidStereo", (int)val);
                 second_sid_popup->SetEnabled(val >= 1);
                 third_sid_popup->SetEnabled(val >= 2);
+                fourth_sid_popup->SetEnabled(val >= 3);
             }
             break;
         case MESSAGE_SID_ADDRESS:

@@ -68,6 +68,7 @@ static void enable_general_sid_controls(HWND hwnd)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_SID_STEREOADDRESS), sel_extra_sids >= 1);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS), sel_extra_sids >= 2);
+    EnableWindow(GetDlgItem(hwnd, IDC_SID_QUADADDRESS), sel_extra_sids >= 3);
 }
 
 static void enable_resid_sid_controls(HWND hwnd)
@@ -127,6 +128,7 @@ static uilib_localize_dialog_param general_sid_dialog_trans[] = {
     { IDC_SID_EXTRA_AMOUNT_LABEL, IDS_SID_EXTRA_AMOUNT_LABEL, 0 },
     { IDC_SID_STEREOADDRESS_LABEL, IDS_SID_STEREOADDRESS_LABEL, 0 },
     { IDC_SID_TRIPLEADDRESS_LABEL, IDS_SID_TRIPLEADDRESS_LABEL, 0 },
+    { IDC_SID_QUADADDRESS_LABEL, IDS_SID_QUADADDRESS_LABEL, 0 },
     { IDC_SID_FILTERS, IDS_SID_FILTERS, 0 },
     { 0, 0, 0 }
 };
@@ -160,6 +162,7 @@ static void init_general_sid_dialog(HWND hwnd)
     SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("0"));
     SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("1"));
     SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("2"));
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("3"));
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)sel_extra_sids, 0);
 
     resources_get_int("SidStereoAddressStart", &res_value);
@@ -169,6 +172,10 @@ static void init_general_sid_dialog(HWND hwnd)
     resources_get_int("SidTripleAddressStart", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS);
     CreateAndGetSidAddress(sid_hwnd, 0, res_value, "SidTripleAddressStart");
+
+    resources_get_int("SidQuadAddressStart", &res_value);
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_QUADADDRESS);
+    CreateAndGetSidAddress(sid_hwnd, 0, res_value, "SidQuadAddressStart");
 
     ui_sid_engine_model_list = sid_get_engine_model_list();
 
@@ -243,6 +250,17 @@ static void resize_general_sid_dialog(HWND hwnd)
         new_xpos = xpos;
     }
 
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_QUADADDRESS_LABEL);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    xpos = child_rect.rect.left + xsize + 20 + 10;
+
+    if (xpos > new_xpos) {
+        new_xpos = xpos;
+    }
+
     child_hwnd = GetDlgItem(hwnd, IDC_SID_EXTRA_AMOUNT);
     GetClientRect(child_hwnd, &child_rect.rect);
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
@@ -254,6 +272,11 @@ static void resize_general_sid_dialog(HWND hwnd)
     MoveWindow(child_hwnd, new_xpos, child_rect.rect.top, child_rect.rect.right - child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    MoveWindow(child_hwnd, new_xpos, child_rect.rect.top, child_rect.rect.right - child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_QUADADDRESS);
     GetClientRect(child_hwnd, &child_rect.rect);
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     MoveWindow(child_hwnd, new_xpos, child_rect.rect.top, child_rect.rect.right - child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
@@ -491,6 +514,9 @@ static void end_general_dialog(HWND hwnd)
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS);
     CreateAndGetSidAddress(sid_hwnd, 1, (int)SendMessage(sid_hwnd, CB_GETCURSEL, 0, 0), "SidTripleAddressStart");
+
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_QUADADDRESS);
+    CreateAndGetSidAddress(sid_hwnd, 1, (int)SendMessage(sid_hwnd, CB_GETCURSEL, 0, 0), "SidQuadAddressStart");
 
     temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
     engine = temp >> 8;

@@ -250,6 +250,7 @@ static char *ui_extra_sid_amount[] = {
     "0",
     "1",
     "2",
+    "3",
     NULL
 };
 
@@ -257,6 +258,7 @@ static const int ui_extra_sid_amount_values[] = {
     0,
     1,
     2,
+    3,
     -1
 };
 
@@ -294,6 +296,7 @@ static ui_to_from_t ui_to_from64[] = {
     { NULL, MUI_TYPE_CYCLE, "SidStereo", ui_extra_sid_amount, ui_extra_sid_amount_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", ui_sid_address64, ui_sid_address64_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidTripleAddressStart", ui_sid_address64, ui_sid_address64_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidQuadAddressStart", ui_sid_address64, ui_sid_address64_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sid_enable, ui_sid_enable_values, NULL },
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
@@ -309,6 +312,7 @@ static ui_to_from_t ui_to_from128[] = {
     { NULL, MUI_TYPE_CYCLE, "SidStereo", ui_extra_sid_amount, ui_extra_sid_amount_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", ui_sid_address128, ui_sid_address128_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidTripleAddressStart", ui_sid_address128, ui_sid_address128_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidQuadAddressStart", ui_sid_address128, ui_sid_address128_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sid_enable, ui_sid_enable_values, NULL },
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
@@ -359,12 +363,13 @@ static APTR build_gui64(void)
            CYCLE(ui_to_from64[1].object, translate_text(IDS_AMOUNT_OF_EXTRA_SIDS), ui_extra_sid_amount)
            CYCLE(ui_to_from64[2].object, translate_text(IDS_STEREO_SID_AT), ui_sid_address64)
            CYCLE(ui_to_from64[3].object, translate_text(IDS_TRIPLE_SID_AT), ui_sid_address64)
-           CYCLE(ui_to_from64[4].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
+           CYCLE(ui_to_from64[4].object, translate_text(IDS_QUAD_SID_AT), ui_sid_address64)
+           CYCLE(ui_to_from64[5].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
 #ifdef HAVE_RESID
-           CYCLE(ui_to_from64[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-           NSTRING(ui_to_from64[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
-           NSTRING(ui_to_from64[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
-           NSTRING(ui_to_from64[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
+           CYCLE(ui_to_from64[6].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
+           NSTRING(ui_to_from64[7].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           NSTRING(ui_to_from64[8].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           NSTRING(ui_to_from64[9].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;
@@ -391,12 +396,13 @@ static APTR build_gui128(void)
            CYCLE(ui_to_from128[1].object, translate_text(IDS_AMOUNT_OF_EXTRA_SIDS), ui_extra_sid_amount)
            CYCLE(ui_to_from128[2].object, translate_text(IDS_STEREO_SID_AT), ui_sid_address128)
            CYCLE(ui_to_from128[3].object, translate_text(IDS_TRIPLE_SID_AT), ui_sid_address128)
-           CYCLE(ui_to_from128[4].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
+           CYCLE(ui_to_from128[4].object, translate_text(IDS_QUAD_SID_AT), ui_sid_address128)
+           CYCLE(ui_to_from128[5].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
 #ifdef HAVE_RESID
-           CYCLE(ui_to_from128[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-           NSTRING(ui_to_from128[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
-           NSTRING(ui_to_from128[7].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
-           NSTRING(ui_to_from128[8].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
+           CYCLE(ui_to_from128[6].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
+           NSTRING(ui_to_from128[7].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+           NSTRING(ui_to_from128[8].object, translate_text(IDS_GAIN_90_100), "0123456789", 5+1)
+           NSTRING(ui_to_from128[9].object, translate_text(IDS_BIAS_M5000_P5000), "0123456789", 5+1)
 #endif
            OK_CANCEL_BUTTON
          End;

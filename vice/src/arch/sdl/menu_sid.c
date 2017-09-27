@@ -111,6 +111,7 @@ UI_MENU_DEFINE_TOGGLE(SidFilters)
 UI_MENU_DEFINE_RADIO(SidStereo)
 UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 UI_MENU_DEFINE_RADIO(SidTripleAddressStart)
+UI_MENU_DEFINE_RADIO(SidQuadAddressStart)
 
 static UI_MENU_CALLBACK(show_SidStereoAddressStart_callback)
 {
@@ -390,6 +391,80 @@ static const ui_menu_entry_t c64_triple_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
+static UI_MENU_CALLBACK(show_SidQuadAddressStart_callback)
+{
+    static char buf[20];
+    int value;
+
+    resources_get_int("SidQuadAddressStart", &value);
+
+    sprintf(buf, "$%04x", value);
+    return buf;
+}
+
+SID_D4XX_MENU(sid4_d4x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
+SID_D5XX_MENU(sid4_d5x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
+SID_D6XX_MENU(sid4_d6x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
+SID_D7XX_MENU(sid4_d7x0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
+SID_DEXX_MENU(sid4_dex0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
+SID_DFXX_MENU(sid4_dfx0_menu, "Fourth SID base address", show_SidQuadAddressStart_callback, radio_SidQuadAddressStart_callback)
+
+static const ui_menu_entry_t c128_quad_sid_base_menu[] = {
+    { "Fourth SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidQuadAddressStart_callback,
+      NULL},
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_d4x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t c64_triple_sid_base_menu[] = {
+    { "Fourth SID base address",
+      MENU_ENTRY_TEXT,
+      show_SidQuadAddressStart_callback,
+      NULL },
+    { "$D4x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_d4x0_menu },
+    { "$D5x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_d5x0_menu },
+    { "$D6x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_d6x0_menu },
+    { "$D7x0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_d7x0_menu },
+    { "$DEx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_dex0_menu },
+    { "$DFx0",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)sid4_dfx0_menu },
+    SDL_MENU_LIST_END
+};
+
 static UI_MENU_CALLBACK(show_SidStereo_callback)
 {
     int value;
@@ -400,6 +475,8 @@ static UI_MENU_CALLBACK(show_SidStereo_callback)
             return "One";
         case 2:
             return "Two";
+        case 3:
+            return "Three";
     }
     return "None";
 }
@@ -417,6 +494,10 @@ static const ui_menu_entry_t c64_stereo_sid_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SidStereo_callback,
       (ui_callback_data_t)2 },
+    { "Three",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SidStereo_callback,
+      (ui_callback_data_t)3 },
     SDL_MENU_LIST_END
 };
 
@@ -437,6 +518,10 @@ ui_menu_entry_t sid_c64_menu[] = {
       MENU_ENTRY_SUBMENU,
       show_SidTripleAddressStart_callback,
       (ui_callback_data_t)c64_triple_sid_base_menu },
+    { "Fourth SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidQuadAddressStart_callback,
+      (ui_callback_data_t)c64_quad_sid_base_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,
@@ -464,6 +549,10 @@ ui_menu_entry_t sid_c128_menu[] = {
       MENU_ENTRY_SUBMENU,
       show_SidTripleAddressStart_callback,
       (ui_callback_data_t)c128_triple_sid_base_menu },
+    { "Fourth SID base address",
+      MENU_ENTRY_SUBMENU,
+      show_SidQuadAddressStart_callback,
+      (ui_callback_data_t)c128_quad_sid_base_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,

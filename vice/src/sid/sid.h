@@ -76,12 +76,15 @@ extern uint8_t sid_read(uint16_t address);
 extern uint8_t sid_peek(uint16_t address);
 extern uint8_t sid2_read(uint16_t address);
 extern uint8_t sid3_read(uint16_t address);
+extern uint8_t sid4_read(uint16_t address);
 extern void sid_store(uint16_t address, uint8_t byte);
 extern void sid2_store(uint16_t address, uint8_t byte);
 extern void sid3_store(uint16_t address, uint8_t byte);
+extern void sid4_store(uint16_t address, uint8_t byte);
 extern int sid_dump(void);
 extern int sid2_dump(void);
 extern int sid3_dump(void);
+extern int sid4_dump(void);
 extern void sid_reset(void);
 
 extern void sid_set_machine_parameter(long clock_rate);

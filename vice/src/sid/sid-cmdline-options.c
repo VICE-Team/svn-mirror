@@ -210,6 +210,11 @@ static cmdline_option_t stereo_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_COMBO,
       IDCLS_P_BASE_ADDRESS, IDCLS_SPECIFY_SID_3_ADDRESS,
       NULL, NULL },
+    { "-sidquadaddress", SET_RESOURCE, 1,
+      NULL, NULL, "SidQuadAddressStart", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_BASE_ADDRESS, IDCLS_SPECIFY_SID_4_ADDRESS,
+      NULL, NULL },
     CMDLINE_LIST_END
 };
 

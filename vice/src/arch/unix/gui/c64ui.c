@@ -360,6 +360,7 @@ static ui_menu_entry_t c64_model_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 UI_MENU_DEFINE_RADIO(SidTripleAddressStart)
+UI_MENU_DEFINE_RADIO(SidQuadAddressStart)
 
 SID_D4XX_MENU(set_sid_stereo_address_d4xx_submenu, radio_SidStereoAddressStart)
 SID_D5XX_MENU(set_sid_stereo_address_d5xx_submenu, radio_SidStereoAddressStart)
@@ -419,6 +420,23 @@ static ui_menu_entry_t set_sid_triple_address_submenu[] = {
     UI_MENU_ENTRY_LIST_END
 };
 
+SID_D4XX_MENU(set_sid_quad_address_d4xx_submenu, radio_SidQuadAddressStart)
+SID_D5XX_MENU(set_sid_quad_address_d5xx_submenu, radio_SidQuadAddressStart)
+SID_D6XX_MENU(set_sid_quad_address_d6xx_submenu, radio_SidQuadAddressStart)
+SID_D7XX_MENU(set_sid_quad_address_d7xx_submenu, radio_SidQuadAddressStart)
+SID_DEXX_MENU(set_sid_quad_address_dexx_submenu, radio_SidQuadAddressStart)
+SID_DFXX_MENU(set_sid_quad_address_dfxx_submenu, radio_SidQuadAddressStart)
+
+static ui_menu_entry_t set_sid_quad_address_submenu[] = {
+    { "$D4xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d4xx_submenu },
+    { "$D5xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d5xx_submenu },
+    { "$D6xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d6xx_submenu },
+    { "$D7xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d7xx_submenu },
+    { "$DExx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_dexx_submenu },
+    { "$DFxx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_dfxx_submenu },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
@@ -433,6 +451,9 @@ static ui_menu_entry_t sid_submenu[] = {
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { N_("Third SID base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sid_triple_address_submenu,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Fourth SID base address"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_sid_quad_address_submenu,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_SEPERATOR,
     { N_("SID filters"), UI_MENU_TYPE_TICK,

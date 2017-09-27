@@ -9941,6 +9941,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_TRIPLE_SID_AT_SV, "Trippel-SID på" },
 /* tr */ { IDS_TRIPLE_SID_AT_TR, "Üçlü SID konumu" },
 
+/* en */ { IDS_QUAD_SID_AT,    "Quad SID at" },
+/* da */ { IDS_QUAD_SID_AT_DA, "" },  /* fuzzy */
+/* de */ { IDS_QUAD_SID_AT_DE, "" },  /* fuzzy */
+/* es */ { IDS_QUAD_SID_AT_ES, "" },  /* fuzzy */
+/* fr */ { IDS_QUAD_SID_AT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_QUAD_SID_AT_HU, "" },  /* fuzzy */
+/* it */ { IDS_QUAD_SID_AT_IT, "" },  /* fuzzy */
+/* ko */ { IDS_QUAD_SID_AT_KO, "" },  /* fuzzy */
+/* nl */ { IDS_QUAD_SID_AT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_QUAD_SID_AT_PL, "" },  /* fuzzy */
+/* ru */ { IDS_QUAD_SID_AT_RU, "" },  /* fuzzy */
+/* sv */ { IDS_QUAD_SID_AT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_QUAD_SID_AT_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SID_FILTERS,    "SID filters" },
 /* da */ { IDS_SID_FILTERS_DA, "SID-filtre" },
 /* de */ { IDS_SID_FILTERS_DE, "SID Filter" },

@@ -17,7 +17,7 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX     "", IDC_SID_GENGROUP1,
-                 10, 5, 125, 25
+                 10, 5, 140, 25
     COMBOBOX     IDC_SID_ENGINE_MODEL,
                  15, 15, 150, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX     "", IDC_SID_GENGROUP3,
@@ -34,6 +34,10 @@ BEGIN
                  15, 75, 55, 10
     COMBOBOX     IDC_SID_TRIPLEADDRESS,
                  85, 73, 45, 100, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT        "", IDC_SID_QUADADDRESS_LABEL,
+                 15, 90, 55, 10
+    COMBOBOX     IDC_SID_QUADADDRESS,
+                 85, 88, 45, 100, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     AUTOCHECKBOX "", IDC_SID_FILTERS,
                  15, 105, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 END
@@ -103,6 +107,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
   IDS_SID_STEREOADDRESS_LABEL "Second SID at"
   IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID options"
   IDS_SID_RESID_SAMPLE        "Sample method"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -129,6 +134,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Antal ekstra SID-kredse"
   IDS_SID_STEREOADDRESS_LABEL "Anden SID på"
   IDS_SID_TRIPLEADDRESS_LABEL "Tredie SID på"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID options"
   IDS_SID_RESID_SAMPLE        "Samplingmetode"
   IDS_SID_RESID_PASSBAND      "Pasbånd (0..90%)"
@@ -155,6 +161,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Anzahl der extra SID Chips"
   IDS_SID_STEREOADDRESS_LABEL "Zweiter SID auf"
   IDS_SID_TRIPLEADDRESS_LABEL "Dritter SID auf"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID Optionen"
   IDS_SID_RESID_SAMPLE        "Sample Methode"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -181,6 +188,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Cantidad de chips SID extra"
   IDS_SID_STEREOADDRESS_LABEL "Segundo SID en"
   IDS_SID_TRIPLEADDRESS_LABEL "Tercer SID en"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "Opciones reSID"
   IDS_SID_RESID_SAMPLE        "Método de muestreo"
   IDS_SID_RESID_PASSBAND      "Pasabanda (0..90%)"
@@ -207,6 +215,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Quantité de puces SID supplémentaires"
   IDS_SID_STEREOADDRESS_LABEL "Second SID à"
   IDS_SID_TRIPLEADDRESS_LABEL "Troisième SID à"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID options"
   IDS_SID_RESID_SAMPLE        "Méthode d'échantillonnage"
   IDS_SID_RESID_PASSBAND      "Bande passante (0..90%)"
@@ -236,6 +245,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
   IDS_SID_STEREOADDRESS_LABEL "Second SID at"
   IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID options"
   IDS_SID_RESID_SAMPLE        "Mintavételezés módja"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -265,6 +275,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Numero di SID chip aggiuntivi"
   IDS_SID_STEREOADDRESS_LABEL "Secondo SID a"
   IDS_SID_TRIPLEADDRESS_LABEL "Terzo SID a"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "Opzioni reSID"
   IDS_SID_RESID_SAMPLE        "Metodo di campionamento"
   IDS_SID_RESID_PASSBAND      "Banda passante (0..90%)"
@@ -294,6 +305,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
   IDS_SID_STEREOADDRESS_LABEL "Second SID at"
   IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID options"
   IDS_SID_RESID_SAMPLE        "Sample method"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -323,6 +335,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Aantal extra SID chips"
   IDS_SID_STEREOADDRESS_LABEL "Tweede SID op"
   IDS_SID_TRIPLEADDRESS_LABEL "Derde SID op"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID opties"
   IDS_SID_RESID_SAMPLE        "Sample methode"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -352,6 +365,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Liczba dodatkowych czipów SID"
   IDS_SID_STEREOADDRESS_LABEL "Drugi SID w"
   IDS_SID_TRIPLEADDRESS_LABEL "Trzeci SID w"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "Opcje reSID"
   IDS_SID_RESID_SAMPLE        "Metoda samplowania"
   IDS_SID_RESID_PASSBAND      "Pasmo przepuszczania (0..90%)"
@@ -384,6 +398,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "ºÞÛØçÕáâÒÞ ÔÞßÞÛÝØâÕÛìÝëå SID çØßÞÒ"
   IDS_SID_STEREOADDRESS_LABEL "Second SID at"
   IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID options"
   IDS_SID_RESID_SAMPLE        "Sample method"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -413,6 +428,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Antal extra SID-kretsar"
   IDS_SID_STEREOADDRESS_LABEL "Andra SID på"
   IDS_SID_TRIPLEADDRESS_LABEL "Tredje SID på"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID-inställningar"
   IDS_SID_RESID_SAMPLE        "Samplingsmetod"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -442,6 +458,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Ekstra SID çip adedi"
   IDS_SID_STEREOADDRESS_LABEL "Ýkinci SID konumu"
   IDS_SID_TRIPLEADDRESS_LABEL "Üçüncü SID konumu"
+  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
   IDS_SID_RESID_GROUP         "reSID options"
   IDS_SID_RESID_SAMPLE        "Örnekleme metodu"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
@@ -454,5 +471,3 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

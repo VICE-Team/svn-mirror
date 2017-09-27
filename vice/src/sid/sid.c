@@ -213,6 +213,12 @@ uint8_t sid_read(uint16_t addr)
         return sid_read_chip(addr, 2);
     }
 
+    if (sid_stereo >= 3
+        && addr >= sid_quad_address_start
+        && addr < sid_quad_address_end) {
+        return sid_read_chip(addr, 3);
+    }
+
     return sid_read_chip(addr, 0);
 }
 
@@ -230,6 +236,12 @@ uint8_t sid_peek(uint16_t addr)
         return sid_peek_chip(addr, 2);
     }
 
+    if (sid_stereo >= 3
+        && addr >= sid_quad_address_start
+        && addr < sid_quad_address_end) {
+        return sid_peek_chip(addr, 3);
+    }
+
     return sid_peek_chip(addr, 0);
 }
 
@@ -241,6 +253,11 @@ uint8_t sid2_read(uint16_t addr)
 uint8_t sid3_read(uint16_t addr)
 {
     return sid_read_chip(addr, 2);
+}
+
+uint8_t sid4_read(uint16_t addr)
+{
+    return sid_read_chip(addr, 3);
 }
 
 void sid_store(uint16_t addr, uint8_t byte)
@@ -257,6 +274,11 @@ void sid_store(uint16_t addr, uint8_t byte)
         sid_store_chip(addr, byte, 2);
         return;
     }
+    if (sid_stereo >= 3
+        && addr >= sid_quad_address_start
+        && addr < sid_quad_address_end) {
+        sid_store_chip(addr, byte, 3);
+    }
     sid_store_chip(addr, byte, 0);
 }
 
@@ -268,6 +290,11 @@ void sid2_store(uint16_t addr, uint8_t byte)
 void sid3_store(uint16_t addr, uint8_t byte)
 {
     sid_store_chip(addr, byte, 2);
+}
+
+void sid4_store(uint16_t addr, uint8_t byte)
+{
+    sid_store_chip(addr, byte, 3);
 }
 
 int sid_dump(void)
@@ -283,6 +310,11 @@ int sid2_dump(void)
 int sid3_dump(void)
 {
     return sid_dump_chip(2);
+}
+
+int sid4_dump(void)
+{
+    return sid_dump_chip(3);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -319,8 +351,11 @@ sound_t *sid_sound_machine_open(int chipno)
  * size of the already allocated buffer, reuse it.  */
 static int16_t *buf1 = NULL;
 static int16_t *buf2 = NULL;
+static int16_t *buf3 = NULL;
+
 static int blen1 = 0;
 static int blen2 = 0;
+static int blen3 = 0;
 
 static int16_t *getbuf1(int len)
 {
@@ -346,6 +381,18 @@ static int16_t *getbuf2(int len)
     return buf2;
 }
 
+static int16_t *getbuf3(int len)
+{
+    if ((buf3 == NULL) || (blen3 < len)) {
+        if (buf3) {
+            lib_free(buf3);
+        }
+        blen3 = len;
+        buf3 = lib_calloc(len, 1);
+    }
+    return buf3;
+}
+
 int sid_sound_machine_init_vbr(sound_t *psid, int speed, int cycles_per_sec, int factor)
 {
     return sid_engine.init(psid, speed * factor / 1000, cycles_per_sec, factor);
@@ -367,6 +414,10 @@ void sid_sound_machine_close(sound_t *psid)
     if (buf2) {
         lib_free(buf2);
         buf2 = NULL;
+    }
+    if (buf3) {
+        lib_free(buf3);
+        buf3 = NULL;
     }
 }
 
@@ -390,6 +441,7 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
     int i;
     int16_t *tmp_buf1;
     int16_t *tmp_buf2;
+    int16_t *tmp_buf3;
     int tmp_nr = 0;
     int tmp_delta_t = *delta_t;
 
@@ -418,6 +470,23 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
         }
         return tmp_nr;
     }
+    if (soc == 1 && scc == 4) {
+        tmp_buf1 = getbuf1(2 * nr);
+        tmp_buf2 = getbuf2(2 * nr);
+        tmp_buf3 = getbuf3(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[0], tmp_buf1, nr, 1, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf2, nr, 1, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[3], tmp_buf3, nr, 1, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf, nr, 1, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf1[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf2[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf3[i]);
+        }
+        return tmp_nr;
+    }
     if (soc == 2 && scc == 1) {
         tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, delta_t);
         for (i = 0; i < tmp_nr; i++) {
@@ -439,6 +508,19 @@ int sid_sound_machine_calculate_samples(sound_t **psid, int16_t *pbuf, int nr, i
         for (i = 0; i < tmp_nr; i++) {
             pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf1[i]);
             pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[i]);
+        }
+    }
+    if (soc == 2 && scc == 4) {
+        tmp_buf1 = getbuf1(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf1, nr, 2, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[3], tmp_buf1 + 1, nr, 2, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf + 1, nr, 2, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf1[i * 2]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[(i * 2) + 1]);
         }
     }
     return tmp_nr;

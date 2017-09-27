@@ -68,6 +68,11 @@ int machine_sid3_check_range(unsigned int sid3_adr)
     return -1;
 }
 
+int machine_sid4_check_range(unsigned int sid3_adr)
+{
+    return -1;
+}
+
 void machine_sid2_enable(int val)
 {
 }
