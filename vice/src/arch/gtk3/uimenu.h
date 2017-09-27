@@ -67,7 +67,8 @@ typedef struct ui_menu_item_s {
     /** menu item callback function (NULL == no callback) */
     void (*callback)(GtkWidget *widget, gpointer user_data);
 
-    /** callback data */
+    /** callback data, or a pointer to an array of submenu items if the menu
+     *  type is UI_MENU_TYPE_SUBMENU */
     void *data;
 } ui_menu_item_t;
 

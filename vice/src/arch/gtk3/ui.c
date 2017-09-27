@@ -39,6 +39,7 @@
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
+#include "drive.h"
 #include "resources.h"
 #include "translate.h"
 #include "util.h"
@@ -116,6 +117,54 @@ enum {
 };
 
 
+/** \brief  Callback for the soft/hard reset items
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
+ */
+static void reset_callback(GtkWidget *widget, gpointer user_data)
+{
+    vsync_suspend_speed_eval();
+    machine_trigger_reset(GPOINTER_TO_INT(user_data));
+}
+
+
+/** \brief  Callback for the drive reset items
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   drive unit number (8-11) (int)
+ */
+static void drive_reset_callback(GtkWidget *widget, gpointer user_data)
+{
+    vsync_suspend_speed_eval();
+    drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);
+}
+
+
+/** \brief  File->Reset submenu
+ */
+static ui_menu_item_t reset_submenu[] = {
+    { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
+        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT) },
+    { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
+        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD) },
+
+    UI_MENU_SEPARATOR,
+
+    { "Reset drive #8", UI_MENU_TYPE_ITEM_ACTION,
+        drive_reset_callback, GINT_TO_POINTER(8) },
+    { "Reset drive #9", UI_MENU_TYPE_ITEM_ACTION,
+        drive_reset_callback, GINT_TO_POINTER(9) },
+    { "Reset drive #10", UI_MENU_TYPE_ITEM_ACTION,
+        drive_reset_callback, GINT_TO_POINTER(10) },
+    { "Reset drive #11", UI_MENU_TYPE_ITEM_ACTION,
+        drive_reset_callback, GINT_TO_POINTER(11) },
+
+    UI_MENU_TERMINATOR
+};
+
+
+
 /** \brief  'File' menu
  */
 static ui_menu_item_t file_menu[] = {
@@ -166,7 +215,7 @@ static ui_menu_item_t file_menu[] = {
 
     UI_MENU_SEPARATOR,
 
-    { "Reset ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Reset ...", UI_MENU_TYPE_SUBMENU, NULL, reset_submenu },
     { "Action on CPU JAM ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
 
     UI_MENU_SEPARATOR,
@@ -409,7 +458,7 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
 
     /* keyboard shortcuts work, but only if kbd_connect_handlers() isn't called */
-    add_accelerators_to_window(new_window);
+    /* add_accelerators_to_window(new_window) */
     kbd_connect_handlers(new_window, NULL);
 }
 

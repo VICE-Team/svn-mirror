@@ -21,9 +21,6 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
- *  TODO:   add code to dynamically add submenus and menu items (not all emus
- *          have the same menu)
  */
 
 #include "vice.h"
@@ -153,7 +150,7 @@ GtkWidget *ui_menu_bar_create(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), edit_item);
 
     /* create the top-level 'Snapshot' menu */
-    snap_item = gtk_menu_item_new_with_mnemonic("_Snapshot");
+    snap_item = gtk_menu_item_new_with_mnemonic("S_napshot");
     snapshot_submenu = gtk_menu_new();
 #if 0
     load_item = gtk_menu_item_new_with_mnemonic("_Load");
@@ -207,10 +204,13 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
     size_t i = 0;
     while (items[i].label != NULL || items[i].type >= 0) {
         GtkWidget *item = NULL;
+        GtkWidget *submenu;
+
         switch (items[i].type) {
             case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
             case UI_MENU_TYPE_ITEM_CHECK:   /* XXX: for now */
                 /* normal callback item */
+                debug_gtk3("adding menu item '%s'\n", items[i].label);
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
                     g_signal_connect(
@@ -223,9 +223,20 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                     gtk_widget_set_sensitive(item, FALSE);
                 }
                 break;
+
             case UI_MENU_TYPE_SEPARATOR:
+                /* add a separator */
                 item = gtk_separator_menu_item_new();
                 break;
+
+            case UI_MENU_TYPE_SUBMENU:
+                /* add a submenu */
+                submenu = gtk_menu_new();
+                item = gtk_menu_item_new_with_mnemonic(items[i].label);
+                gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), submenu);
+                ui_menu_add(submenu, (ui_menu_item_t *)items[i].data);
+                break;
+
             default:
                 item = NULL;
                 break;
