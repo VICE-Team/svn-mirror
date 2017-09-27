@@ -24,6 +24,7 @@ noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES = \
 	widgethelpers.c \
+	basedialogs.c \
 	refreshratewidget.c \
 	speedwidget.c \
 	kbdmappingwidget.c \
@@ -54,6 +55,7 @@ libwidgets_a_SOURCES = \
 
 EXTRA_DIST = \
 	widgethelpers.h \
+	basedialogs.h \
 	refreshratewidget.h \
 	speedwidget.h \
 	kbdmappingwidget.h \

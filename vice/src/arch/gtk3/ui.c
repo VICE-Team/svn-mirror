@@ -46,7 +46,7 @@
 #include "videoarch.h"
 #include "vsync.h"
 
-#include "uiaccelerators.h"
+#include "basedialogs.h"
 #include "uiapi.h"
 #include "uiedit.h"
 #include "uimenu.h"
@@ -99,6 +99,32 @@ static void atexit_functions_execute(void)
 }
 #endif
 
+
+#define NUM_WINDOWS 3
+
+/** \brief  Struct holding basic UI rescources
+ */
+typedef struct ui_resources_s {
+
+    char *html_browser_command; /**< HTMLBrowserCommand (str) */
+    int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
+    int confirm_on_exit;        /**< ConfirmOnExit (bool) */
+
+    int depth;
+
+    video_canvas_t *canvas[NUM_WINDOWS];
+    GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
+    int window_width[NUM_WINDOWS];
+    int window_height[NUM_WINDOWS];
+    int window_xpos[NUM_WINDOWS];
+    int window_ypos[NUM_WINDOWS];
+
+} ui_resource_t;
+
+
+static ui_resource_t ui_resources;
+
+
 /** \brief  Default HTML browser
  *
  * \todo    Needs ifdef's for different archs
@@ -106,7 +132,6 @@ static void atexit_functions_execute(void)
 #define HTML_BROWSER_COMMAND_DEFAULT    "firefox %s"
 
 
-#define NUM_WINDOWS 3
 
 /** \brief  Windows indici
  */
@@ -139,6 +164,41 @@ static void drive_reset_callback(GtkWidget *widget, gpointer user_data)
     vsync_suspend_speed_eval();
     drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);
 }
+
+
+
+
+/** \brief  Callback for the File->Exit menu item
+ *
+ * This asks the user to confirm to exit the emulator if ConfirmOnExit is set.
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   window index, optional, defaults to primary
+ */
+static void ui_close_callback(GtkWidget *widget, gpointer user_data)
+{
+    int index;
+    int confirm;
+
+    if (user_data == NULL) {
+        index = PRIMARY_WINDOW;
+    } else {
+        index = GPOINTER_TO_INT(user_data);
+    }
+
+    resources_get_int("ConfirmOnExit", &confirm);
+    if (!confirm) {
+        gtk_widget_destroy(ui_resources.window_widget[index]);
+        return;
+    }
+
+    if (ui_message_confirm(ui_resources.window_widget[index], "Exit VICE",
+                "Do you really wish to exit VICE?")) {
+        debug_gtk3("Exit confirmed\n");
+        gtk_widget_destroy(ui_resources.window_widget[index]);
+    }
+}
+
 
 
 /** \brief  File->Reset submenu
@@ -260,7 +320,7 @@ static ui_menu_item_t file_menu[] = {
     UI_MENU_SEPARATOR,
 
     { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION,
-        ui_window_destroy_callback, NULL,
+        ui_close_callback, NULL,
         0, 0 },
 
     UI_MENU_TERMINATOR
@@ -419,28 +479,6 @@ static ui_menu_item_t debug_menu[] = {
 
 
 
-/** \brief  Struct holding basic UI rescources
- */
-typedef struct ui_resources_s {
-
-    char *html_browser_command; /**< HTMLBrowserCommand (str) */
-    int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
-    int confirm_on_exit;        /**< ConfirmOnExit (bool) */
-
-    int depth;
-
-    video_canvas_t *canvas[NUM_WINDOWS];
-    GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
-    int window_width[NUM_WINDOWS];
-    int window_height[NUM_WINDOWS];
-    int window_xpos[NUM_WINDOWS];
-    int window_ypos[NUM_WINDOWS];
-
-} ui_resource_t;
-
-
-static ui_resource_t ui_resources;
-
 /** \brief  Flag indicating pause mode
  */
 static int is_paused = 0;
@@ -458,6 +496,20 @@ void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
     vsync_suspend_speed_eval();
     ui_exit();
 }
+
+
+static gboolean on_delete_event(GtkWidget *widget, GdkEvent *event,
+                                gpointer user_data)
+{
+    debug_gtk3("got 'delete-event'\n'");
+    if (ui_message_confirm(widget, "Exit VICE",
+                "Do you really wish to exit VICE?")) {
+        debug_gtk3("Exit confirmed\n");
+        return FALSE;
+    }
+    return TRUE;
+}
+
 
 /* FIXME: the code that calls this apparently creates the VDC window for x128
           before the VIC window (primary) - this is probably done so the VIC
@@ -534,6 +586,8 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     gtk_widget_set_hexpand(new_drawing_area, TRUE);
     gtk_widget_set_vexpand(new_drawing_area, TRUE);
 
+    g_signal_connect(new_window, "delete-event",
+            G_CALLBACK(on_delete_event), NULL);
     g_signal_connect(new_window, "destroy",
             G_CALLBACK(ui_window_destroy_callback), NULL);
 
@@ -559,8 +613,7 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
     ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
 
-    /* keyboard shortcuts work, but only if kbd_connect_handlers() isn't called */
-    /* add_accelerators_to_window(new_window) */
+    /* connect keyboard handlers */
     kbd_connect_handlers(new_window, NULL);
 }
 
@@ -1033,18 +1086,6 @@ int ui_emulation_is_paused(void)
 void ui_exit(void)
 {
     int soe;    /* save on exit */
-    int coe;    /* confirm on exit */
-
-    /* TODO: Confirmation dialog, etc. */
-
-    resources_get_int("ConfirmOnExit", &coe);
-    if (coe) {
-#if 0
-        if (!confirm_dialog("Exit VICE", "Exit VICE?")) {
-            return;
-        }
-#endif
-    }
 
     resources_get_int("SaveResourcesOnExit", &soe);
     if (soe) {
