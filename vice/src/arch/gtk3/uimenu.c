@@ -47,6 +47,9 @@
 #include "uimenu.h"
 
 
+
+static GtkAccelGroup *accel_group = NULL;
+
 /*
  * The following are translation unit local so we can create functions like
  * add_to_file_menu() or even functions that alter the top bar itself.
@@ -210,7 +213,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
             case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
             case UI_MENU_TYPE_ITEM_CHECK:   /* XXX: for now */
                 /* normal callback item */
-                debug_gtk3("adding menu item '%s'\n", items[i].label);
+                /* debug_gtk3("adding menu item '%s'\n", items[i].label); */
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
                     g_signal_connect(
@@ -242,6 +245,17 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                 break;
         }
         if (item != NULL) {
+
+            if (items[i].keysym != 0) {
+                debug_gtk3("adding accelerator %d to item %s'\n",
+                        items[i].keysym, items[i].label);
+                gtk_widget_add_accelerator(item, "activate", accel_group,
+                        items[i].keysym, items[i].modifier,
+                        GTK_ACCEL_VISIBLE);
+            }
+
+
+
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         }
         i++;
@@ -316,3 +330,16 @@ GtkWidget *ui_menu_debug_add(ui_menu_item_t *items)
     return ui_menu_add(debug_submenu, items);
 }
 #endif
+
+
+/** \brief  Create accelerator group and add it to \a window
+ *
+ * \param[in,out]   window  top level window
+ */
+void ui_menu_init_accelerators(GtkWidget *window)
+{
+    accel_group = gtk_accel_group_new();
+    gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
+}
+
+

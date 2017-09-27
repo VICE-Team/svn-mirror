@@ -70,17 +70,26 @@ typedef struct ui_menu_item_s {
     /** callback data, or a pointer to an array of submenu items if the menu
      *  type is UI_MENU_TYPE_SUBMENU */
     void *data;
+
+    /** accelerator key, without modifier
+     * (see /usr/include/gtk-3.0/gdk/gdkkeysyms.h)
+     */
+    guint keysym;
+
+    /** modifier (ie Alt) */
+    GdkModifierType modifier;
+
 } ui_menu_item_t;
 
 
 /** \brief  Terminator of a menu items list
  */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL }
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL, 0, 0 }
 
 
 /** \brief  Menu items separator
  */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL }
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL, 0, 0 }
 
 
 /*
@@ -99,6 +108,8 @@ GtkWidget *ui_menu_help_add(ui_menu_item_t *items);
 GtkWidget *ui_menu_debug_add(ui_menu_item_t *items);
 #endif
 
+
+void ui_menu_init_accelerators(GtkWidget *window);
 
 
 #endif

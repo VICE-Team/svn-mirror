@@ -145,20 +145,26 @@ static void drive_reset_callback(GtkWidget *widget, gpointer user_data)
  */
 static ui_menu_item_t reset_submenu[] = {
     { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
-        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT) },
+        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
+        GDK_KEY_F9, GDK_MOD1_MASK },
     { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
-        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD) },
+        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
+        0,0 },
 
     UI_MENU_SEPARATOR,
 
     { "Reset drive #8", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(8) },
+        drive_reset_callback, GINT_TO_POINTER(8),
+        0, 0 },
     { "Reset drive #9", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(9) },
+        drive_reset_callback, GINT_TO_POINTER(9),
+        0, 0 },
     { "Reset drive #10", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(10) },
+        drive_reset_callback, GINT_TO_POINTER(10),
+        0, 0 },
     { "Reset drive #11", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(11) },
+        drive_reset_callback, GINT_TO_POINTER(11),
+        0, 0 },
 
     UI_MENU_TERMINATOR
 };
@@ -169,58 +175,93 @@ static ui_menu_item_t reset_submenu[] = {
  */
 static ui_menu_item_t file_menu[] = {
     { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
-        ui_smart_attach_callback, NULL },
+        ui_smart_attach_callback, NULL,
+        0, 0 },
     { "Autostart settings [MOVED TO SETTINGS]", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL },
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
     /* disk */
     { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION,
-        ui_disk_attach_callback, (gpointer)8 },
-    { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Detach disk image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Flip list ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+        ui_disk_attach_callback, GINT_TO_POINTER(8),
+        0, 0 },
+    { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Detach disk image", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Flip list ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
     /* tape (funny how create & attach are flipped here) */
-    { "Create a new tape image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Create a new tape image ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL,
+        0, 0 },
     { "Datasette controls [USE TAPEWIDGET IN STATUSBAR]",
-        UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+        UI_MENU_TYPE_ITEM_ACTION, NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
     /* cart */
-    { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
     /* cwd */
-    { "Change current working directory ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Change current working directory ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
     /* monitor */
-    { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION, ui_monitor_activate_callback, NULL },
-    { "Monitor settings ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
+        ui_monitor_activate_callback, NULL,
+        0, 0 },
+    { "Monitor settings ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Reset ...", UI_MENU_TYPE_SUBMENU, NULL, reset_submenu },
-    { "Action on CPU JAM ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Reset ...", UI_MENU_TYPE_SUBMENU,
+        NULL, reset_submenu,
+        0, 0 },
+    { "Action on CPU JAM ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION, ui_window_destroy_callback, NULL },
+    { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION,
+        ui_window_destroy_callback, NULL,
+        0, 0 },
 
     UI_MENU_TERMINATOR
 };
@@ -228,38 +269,68 @@ static ui_menu_item_t file_menu[] = {
 /** \brief  'Edit' menu
  */
 static ui_menu_item_t edit_menu[] = {
-    { "Copy", UI_MENU_TYPE_ITEM_ACTION, ui_copy_callback, NULL },
-    { "Paste", UI_MENU_TYPE_ITEM_ACTION, ui_paste_callback, NULL },
+    { "Copy", UI_MENU_TYPE_ITEM_ACTION,
+        ui_copy_callback, NULL,
+        0, 0 },
+    { "Paste", UI_MENU_TYPE_ITEM_ACTION,
+        ui_paste_callback, NULL,
+        0, 0 },
 
     UI_MENU_TERMINATOR
 };
 
 static ui_menu_item_t snapshot_menu[] = {
-    { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Select history directory ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Start recording events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Stop recording events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Start playing back events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Stop playing back events", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Set recording milestone", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Return to milestone", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Select history directory ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Start recording events", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Stop recording events", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Start playing back events", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Stop playing back events", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Set recording milestone", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Return to milestone", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Recording start mode ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Recording start mode ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
@@ -268,19 +339,31 @@ static ui_menu_item_t snapshot_menu[] = {
      *      file should handle image, sound and/or video
      *      -- Compyx
      */
-    { "Sound recording ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Sound recording ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_TERMINATOR
 };
 
 
 static ui_menu_item_t help_menu[] = {
-    { "Browse manual", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Commandline options ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Compiletime features ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "_About VICE", UI_MENU_TYPE_ITEM_ACTION, ui_about_dialog_callback, NULL },
+    { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Commandline options ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Compiletime features ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "_About VICE", UI_MENU_TYPE_ITEM_ACTION,
+        ui_about_dialog_callback, NULL,
+        0, 0 },
     /* FIXME: this should be moved to settings */
-    { "Set browser command ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Set browser command ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_TERMINATOR
 };
@@ -288,31 +371,47 @@ static ui_menu_item_t help_menu[] = {
 
 static ui_menu_item_t settings_menu[] = {
     { "Settings", UI_MENU_TYPE_ITEM_ACTION,
-        ui_settings_dialog_create, NULL },
+        ui_settings_dialog_create, NULL,
+        0, 0 },
     UI_MENU_TERMINATOR
 };
 
 
 #ifdef DEBUG
 static ui_menu_item_t debug_menu[] = {
-    { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
+    { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    /* shouldn't this be drive 8-11? */
-    { "Drive0 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
-    { "Drive1 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
-    { "Drive2 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
-    { "Drive3 CPU trace", UI_MENU_TYPE_ITEM_CHECK, NULL, NULL },
+    { "Drive #8 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        NULL, NULL,
+        0, 0 },
+    { "Drive #9 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        NULL, NULL,
+        0, 0 },
+    { "Drive #10 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        NULL, NULL,
+        0, 0 },
+    { "Drive #11 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 
-    { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
-    { "Save core dump", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL },
+    { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
+    { "Save core dump", UI_MENU_TYPE_ITEM_ACTION,
+        NULL, NULL,
+        0, 0 },
 
     UI_MENU_TERMINATOR
 };
@@ -395,6 +494,9 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     int target_window;
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    /* this needs to be here to make the menus with accelerators work */
+    ui_menu_init_accelerators(new_window);
+
     grid = gtk_grid_new();
     new_drawing_area = gtk_drawing_area_new();
     status_bar = ui_statusbar_create();
