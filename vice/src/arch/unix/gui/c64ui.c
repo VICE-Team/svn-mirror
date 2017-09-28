@@ -428,13 +428,25 @@ SID_DEXX_MENU(set_sid_quad_address_dexx_submenu, radio_SidQuadAddressStart)
 SID_DFXX_MENU(set_sid_quad_address_dfxx_submenu, radio_SidQuadAddressStart)
 
 static ui_menu_entry_t set_sid_quad_address_submenu[] = {
-    { "$D4xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d4xx_submenu },
-    { "$D5xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d5xx_submenu },
-    { "$D6xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d6xx_submenu },
-    { "$D7xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_d7xx_submenu },
-    { "$DExx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_dexx_submenu },
-    { "$DFxx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_quad_address_dfxx_submenu },
-    { NULL }
+    { "$D4xx", UI_MENU_TYPE_NORMAL,
+        NULL, NULL, set_sid_quad_address_d4xx_submenu,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$D5xx", UI_MENU_TYPE_NORMAL,
+        NULL, NULL, set_sid_quad_address_d5xx_submenu,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$D6xx", UI_MENU_TYPE_NORMAL,
+        NULL, NULL, set_sid_quad_address_d6xx_submenu,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$D7xx", UI_MENU_TYPE_NORMAL,
+        NULL, NULL, set_sid_quad_address_d7xx_submenu,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DExx", UI_MENU_TYPE_NORMAL,
+        NULL, NULL, set_sid_quad_address_dexx_submenu,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { "$DFxx", UI_MENU_TYPE_NORMAL,
+        NULL, NULL, set_sid_quad_address_dfxx_submenu,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
 };
 
 UI_MENU_DEFINE_TOGGLE(SidFilters)
