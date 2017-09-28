@@ -41,6 +41,7 @@
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
 #include "vdcmodelwidget.h"
+#include "sidmodelwidget.h"
 
 
 #include "uimodel.h"
@@ -56,7 +57,7 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 
     GtkWidget *video_wrapper = NULL;    /* wrapper to have two video model
                                            widgets in case of the C128 */
-
+    GtkWidget *sid_widget = NULL;
 
     layout = gtk_grid_new();
 
@@ -79,6 +80,10 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 
         gtk_grid_attach(GTK_GRID(layout), video_wrapper, 1, 0, 1, 1);
     }
+
+    sid_widget = sid_model_widget_create(model_widget);
+
+    gtk_grid_attach(GTK_GRID(layout), sid_widget, 2, 0, 1, 1);
 
 
     connect_machine_model_widget_signals(model_widget);

@@ -54,7 +54,8 @@ libwidgets_a_SOURCES = \
 	videomodelwidget.c \
 	vdcmodelwidget.c \
 	htmlbrowserwidget.c \
-	cwdwidget.c
+	cwdwidget.c \
+	sidmodelwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -88,4 +89,5 @@ EXTRA_DIST = \
 	videomodelwidget.h \
 	vdcmodelwidget.h \
 	htmlbrowserwidget.h \
-	cwdwidget.h
+	cwdwidget.h \
+	sidmodelwidget.h
