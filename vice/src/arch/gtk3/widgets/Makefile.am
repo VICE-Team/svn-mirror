@@ -52,7 +52,9 @@ libwidgets_a_SOURCES = \
 	driveoptionswidget.c \
 	machinemodelwidget.c \
 	videomodelwidget.c \
-	vdcmodelwidget.c
+	vdcmodelwidget.c \
+	htmlbrowserwidget.c \
+	cwdwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -84,4 +86,6 @@ EXTRA_DIST = \
 	driveoptionswidget.h \
 	machinemodelwidget.h \
 	videomodelwidget.h \
-	vdcmodelwidget.h
+	vdcmodelwidget.h \
+	htmlbrowserwidget.h \
+	cwdwidget.h

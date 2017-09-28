@@ -79,7 +79,8 @@ libarch_a_SOURCES = \
 	video.c \
 	vsidui.c \
 	vsyncarch.c \
-	uimodel.c
+	uimodel.c \
+	uimisc.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -124,5 +125,5 @@ EXTRA_DIST = \
 	uispeed.h \
 	uistatusbar.h \
 	videoarch.h \
-	uimodel.h
-
+	uimodel.h \
+	uimisc.h

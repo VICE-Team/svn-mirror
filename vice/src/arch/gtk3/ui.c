@@ -131,7 +131,8 @@ static int set_window_height(int val, void *param);
 static int set_window_width(int val, void *param);
 static int set_window_xpos(int val, void *param);
 static int set_window_ypos(int val, void *param);
-static void ui_chdir_callback(GtkWidget *widget, gpointer user_data);
+
+
 
 /*****************************************************************************
  *                              Static data                                  *
@@ -314,13 +315,6 @@ static ui_menu_item_t file_menu[] = {
 
     UI_MENU_SEPARATOR,
 
-    /* cwd */
-    { "Change current working directory ...", UI_MENU_TYPE_ITEM_ACTION,
-        ui_chdir_callback, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         ui_monitor_activate_callback, NULL,
@@ -452,10 +446,6 @@ static ui_menu_item_t help_menu[] = {
         0, 0 },
     { "_About VICE", UI_MENU_TYPE_ITEM_ACTION,
         ui_about_dialog_callback, NULL,
-        0, 0 },
-    /* FIXME: this should be moved to settings */
-    { "Set browser command ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
         0, 0 },
 
     UI_MENU_TERMINATOR
@@ -807,34 +797,6 @@ static int set_window_ypos(int val, void *param)
     ui_resources.window_ypos[index] = val;
     return 0;
 }
-
-
-
-/** \brief  Callback for the File->Change cwd menu item
- *
- * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   data for the event (unused)
- */
-static void ui_chdir_callback(GtkWidget *widget, gpointer user_data)
-{
-    char *path;
-    int result;
-
-    path = ui_select_directory_dialog(widget, "Select working directory",
-            NULL, TRUE);
-    if (path == NULL) {
-        return;
-    }
-
-    result = g_chdir(path);
-    debug_gtk3("changing directory to '%s' -> %d\n", path, result);
-    if (result != 0) {
-        ui_message_error(widget, "Error",
-                "Failed to change directory to '%s'\n", path);
-    }
-    g_free(path);
-}
-
 
 
 
