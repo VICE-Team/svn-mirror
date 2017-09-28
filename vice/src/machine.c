@@ -71,12 +71,20 @@
 #include "vsync.h"
 #include "zfile.h"
 
+/* #define DEBUGMACHINE */
+
 #ifdef HAS_JOYSTICK
 #include "joy.h"
 #endif
 
 #ifndef EXIT_SUCCESS
 #define EXIT_SUCCESS 0
+#endif
+
+#ifdef DEBUGMACHINE
+#define DBG(x) printf x
+#else
+#define DBG(x)
 #endif
 
 static int machine_init_was_called = 0;
@@ -175,6 +183,8 @@ void machine_reset_event_playback(CLOCK offset, void *data)
 void machine_reset(void)
 {
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
+
+    ignore_jam = 0;
 
     /* Do machine-specific initialization.  */
     if (!mem_initialized) {
