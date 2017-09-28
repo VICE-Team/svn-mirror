@@ -414,7 +414,7 @@ void vic_trigger_light_pen_internal(int retrigger)
     /* HACK for the magic 6 in the PAL dump */
     x += vic.light_pen.x_extra_bits;
 
-    vic.light_pen.x = x;
+    vic.light_pen.x = x | 1;
     vic.light_pen.y = y / 2;
     vic.light_pen.x_extra_bits = 1;
 }
