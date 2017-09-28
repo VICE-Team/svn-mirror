@@ -35,6 +35,16 @@
 #include "basedialogs.h"
 
 
+/** \brief  Create a GtkMessageDialog
+ *
+ * \param[in]   widget      parent widget
+ * \param[in]   type        message type
+ * \param[in]   buttons     buttons to use
+ * \param[in]   title       dialog title
+ * \param[in]   text        dialog text, optional marked-up with Pango
+ *
+ * \return  GtkMessageDialog
+ */
 static GtkWidget *create_dialog(GtkWidget *widget,
                                 GtkMessageType type, GtkButtonsType buttons,
                                 const char *title, const char *text)
@@ -52,6 +62,20 @@ static GtkWidget *create_dialog(GtkWidget *widget,
 }
 
 
+/* XXX: All the following functions use the same function signature, even if
+ *      returning a `gboolean` doesn't really make sense, that way they can
+ *      be used with a generic function-pointer, should we require that.
+ */
+
+
+/** \brief  Create 'info' dialog
+ *
+ * \param[in]   widget      parent widget
+ * \param[in[   title       dialog title
+ * \param[in]   fmt         message format string and arguments
+ *
+ * \return  `TRUE`
+ */
 gboolean ui_message_info(GtkWidget *widget,
                          const char *title,
                          const char *fmt, ...)
@@ -59,7 +83,6 @@ gboolean ui_message_info(GtkWidget *widget,
     GtkWidget *dialog;
     va_list args;
     char *buffer;
-    int result;
 
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
@@ -68,13 +91,21 @@ gboolean ui_message_info(GtkWidget *widget,
 
     dialog = create_dialog(widget, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
             title, buffer);
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
     gtk_widget_destroy(dialog);
-    return (gboolean)result;
+    return TRUE;
 }
 
 
+/** \brief  Create 'confirm' dialog
+ *
+ * \param[in]   widget      parent widget
+ * \param[in[   title       dialog title
+ * \param[in]   fmt         message format string and arguments
+ *
+ * \return  `TRUE` on OK/Yes, `FALSE` otherwise
+ */
 gboolean ui_message_confirm(GtkWidget *widget,
                             const char *title,
                             const char *fmt, ...)
@@ -103,6 +134,14 @@ gboolean ui_message_confirm(GtkWidget *widget,
 }
 
 
+/** \brief  Create 'error' dialog
+ *
+ * \param[in]   widget      parent widget
+ * \param[in[   title       dialog title
+ * \param[in]   fmt         message format string and arguments
+ *
+ * \return  `TRUE`
+ */
 gboolean ui_message_error(GtkWidget *widget,
                           const char *title,
                           const char *fmt, ...)
@@ -110,7 +149,6 @@ gboolean ui_message_error(GtkWidget *widget,
     GtkWidget *dialog;
     va_list args;
     char *buffer;
-    int result;
 
     va_start(args, fmt);
     buffer = lib_mvsprintf(fmt, args);
@@ -119,9 +157,9 @@ gboolean ui_message_error(GtkWidget *widget,
 
     dialog = create_dialog(widget, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
             title, buffer);
-    result = gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
     gtk_widget_destroy(dialog);
-    return (gboolean)result;
+    return TRUE;
 }
 

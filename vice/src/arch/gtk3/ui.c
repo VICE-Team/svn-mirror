@@ -30,6 +30,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
+/* required for g_chdir() */
+#include <glib/gstdio.h>
 
 #include "debug_gtk3.h"
 #include "not_implemented.h"
@@ -56,51 +58,37 @@
 #include "uismartattach.h"
 #include "uidiskattach.h"
 #include "uiabout.h"
-/* #include "uiattach.h" */
+#include "selectdirectorydialog.h"
+#include "jamdialog.h"
 
 #include "ui.h"
 
-/* Temporary windows atexit() crash workaround */
-#ifdef WIN32_COMPILE
-#define ATEXIT_MAX_FUNCS 64
-
-static void *atexit_functions[ATEXIT_MAX_FUNCS + 1];
-
-static int atexit_counter = 0;
-
-int vice_atexit(void (*function)(void))
-{
-    int i;
-
-    if (!atexit_counter) {
-        for (i = 0; i <= ATEXIT_MAX_FUNCS; ++i) {
-            atexit_functions[i] = NULL;
-        }
-    }
-
-    if (atexit_counter == ATEXIT_MAX_FUNCS) {
-        return 1;
-    }
-
-    atexit_functions[atexit_counter++] = function;
-
-    return 0;
-}
-
-static void atexit_functions_execute(void)
-{
-    int i = atexit_counter -1;
-    void (*f)(void) = NULL;
-
-    while (i >= 0 && atexit_functions[i]) {
-        f = atexit_functions[i--];
-        f();
-    }
-}
-#endif
 
 
+/*****************************************************************************
+ *                  Defines, enums, type declarations                        *
+ ****************************************************************************/
+
+/** \brief  Default HTML browser
+ *
+ * \todo    Needs ifdef's for different archs
+ */
+#define HTML_BROWSER_COMMAND_DEFAULT    "firefox %s"
+
+
+/** \brief  Number of GtkWindow's in the ui_resources
+ */
 #define NUM_WINDOWS 3
+
+
+/** \brief  Windows indici
+ */
+enum {
+    PRIMARY_WINDOW,     /**< primary window, all emulators */
+    SECONDARY_WINDOW,   /**< secondary window, C128's VDC */
+    MONITOR_WINDOW,     /**< optional monitor window/terminal */
+};
+
 
 /** \brief  Struct holding basic UI rescources
  */
@@ -122,93 +110,133 @@ typedef struct ui_resources_s {
 } ui_resource_t;
 
 
+/** \brief  Collection of UI resources
+ *
+ * This needs to stay here, to allow the command line and resources initializers
+ * to references the ui resources
+ */
 static ui_resource_t ui_resources;
 
 
-/** \brief  Default HTML browser
- *
- * \todo    Needs ifdef's for different archs
+
+/* Forward declarations of static functions */
+static void machine_reset_callback(GtkWidget *widget, gpointer user_data);
+static void drive_reset_callback(GtkWidget *widget, gpointer user_data);
+static void ui_close_callback(GtkWidget *widget, gpointer user_data);
+static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
+static int set_html_browser_command(const char *val, void *param);
+static int set_save_resources_on_exit(int val, void *param);
+static int set_confirm_on_exit(int val, void *param);
+static int set_window_height(int val, void *param);
+static int set_window_width(int val, void *param);
+static int set_window_xpos(int val, void *param);
+static int set_window_ypos(int val, void *param);
+static void ui_chdir_callback(GtkWidget *widget, gpointer user_data);
+
+/*****************************************************************************
+ *                              Static data                                  *
+ ****************************************************************************/
+
+
+/** \brief  String type resources list
  */
-#define HTML_BROWSER_COMMAND_DEFAULT    "firefox %s"
-
-
-
-/** \brief  Windows indici
- */
-enum {
-    PRIMARY_WINDOW,     /**< primary window, all emulators */
-    SECONDARY_WINDOW,   /**< secondary window, C128's VDC */
-    MONITOR_WINDOW,     /**< optional monitor window/terminal */
+static const resource_string_t resources_string[] = {
+    { "HTMLBrowserCommand", HTML_BROWSER_COMMAND_DEFAULT, RES_EVENT_NO, NULL,
+        &ui_resources.html_browser_command, set_html_browser_command, NULL },
+    RESOURCE_STRING_LIST_END
 };
 
 
-/** \brief  Callback for the soft/hard reset items
- *
- * \param[in]   widget      menu item triggering the event (unused)
- * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
+/** \brief  Integer/Boolean type resources list
  */
-static void reset_callback(GtkWidget *widget, gpointer user_data)
-{
-    vsync_suspend_speed_eval();
-    machine_trigger_reset(GPOINTER_TO_INT(user_data));
-}
+static const resource_int_t resources_int_primary_window[] = {
+    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
+        &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
+    { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
+        &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
+
+    /* Window size and position setters */
+
+    /* primary window (all emulators) */
+    { "Window0Height", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_height[PRIMARY_WINDOW]), set_window_height,
+        (void*)PRIMARY_WINDOW },
+    { "Window0Width", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_width[PRIMARY_WINDOW]), set_window_width,
+        (void*)PRIMARY_WINDOW },
+    { "Window0Xpos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_xpos[PRIMARY_WINDOW]), set_window_xpos,
+        (void*)PRIMARY_WINDOW },
+    { "Window0Ypos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_ypos[PRIMARY_WINDOW]), set_window_ypos,
+        (void*)PRIMARY_WINDOW },
+
+    RESOURCE_INT_LIST_END
+};
 
 
-/** \brief  Callback for the drive reset items
- *
- * \param[in]   widget      menu item triggering the event (unused)
- * \param[in]   user_data   drive unit number (8-11) (int)
+static const resource_int_t resources_int_secondary_window[] = {
+    /* secondary window (C128's VDC display) */
+    { "Window1Height", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_height[SECONDARY_WINDOW]), set_window_height,
+        (void*)SECONDARY_WINDOW },
+    { "Window1Width", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_width[SECONDARY_WINDOW]), set_window_width,
+        (void*)SECONDARY_WINDOW },
+    { "Window1Xpos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_xpos[SECONDARY_WINDOW]), set_window_xpos,
+        (void*)SECONDARY_WINDOW },
+    { "Window1Ypos", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.window_ypos[SECONDARY_WINDOW]), set_window_ypos,
+        (void*)SECONDARY_WINDOW },
+
+    RESOURCE_INT_LIST_END
+};
+
+
+/** \brief  Command line options shared between emu's, include VSID
  */
-static void drive_reset_callback(GtkWidget *widget, gpointer user_data)
-{
-    vsync_suspend_speed_eval();
-    drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);
-}
+static const cmdline_option_t cmdline_options_common[] = {
+    { "-htmlbrowser", SET_RESOURCE, 1,
+        NULL, NULL, "HTMLBrowserCommand", NULL,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        N_("<Command>"), N_("Specify and HTML browser for the on-line help") },
 
+    { "-confirmexit", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void*)1,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Never confirm quitting VICE") },
+    { "+confirmexit", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void*)0,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Don't confirm quitting VICE") },
 
+    { "-saveres", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void *)1,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Save settings on exit") },
+    { "+saveres", SET_RESOURCE, 0,
+        NULL, NULL, "SaveResourcesOnExit", (void *)0,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Never save settings on exit") },
 
-
-/** \brief  Callback for the File->Exit menu item
- *
- * This asks the user to confirm to exit the emulator if ConfirmOnExit is set.
- *
- * \param[in]   widget      menu item triggering the event (unused)
- * \param[in]   user_data   window index, optional, defaults to primary
- */
-static void ui_close_callback(GtkWidget *widget, gpointer user_data)
-{
-    int index;
-    int confirm;
-
-    if (user_data == NULL) {
-        index = PRIMARY_WINDOW;
-    } else {
-        index = GPOINTER_TO_INT(user_data);
-    }
-
-    resources_get_int("ConfirmOnExit", &confirm);
-    if (!confirm) {
-        gtk_widget_destroy(ui_resources.window_widget[index]);
-        return;
-    }
-
-    if (ui_message_confirm(ui_resources.window_widget[index], "Exit VICE",
-                "Do you really wish to exit VICE?")) {
-        debug_gtk3("Exit confirmed\n");
-        gtk_widget_destroy(ui_resources.window_widget[index]);
-    }
-}
-
+    CMDLINE_LIST_END
+};
 
 
 /** \brief  File->Reset submenu
  */
 static ui_menu_item_t reset_submenu[] = {
     { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
-        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
+        machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
         GDK_KEY_F9, GDK_MOD1_MASK },
     { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
-        reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
+        machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
         0,0 },
 
     UI_MENU_SEPARATOR,
@@ -228,7 +256,6 @@ static ui_menu_item_t reset_submenu[] = {
 
     UI_MENU_TERMINATOR
 };
-
 
 
 /** \brief  'File' menu
@@ -289,7 +316,7 @@ static ui_menu_item_t file_menu[] = {
 
     /* cwd */
     { "Change current working directory ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        ui_chdir_callback, NULL,
         0, 0 },
 
     UI_MENU_SEPARATOR,
@@ -326,6 +353,7 @@ static ui_menu_item_t file_menu[] = {
     UI_MENU_TERMINATOR
 };
 
+
 /** \brief  'Edit' menu
  */
 static ui_menu_item_t edit_menu[] = {
@@ -339,6 +367,9 @@ static ui_menu_item_t edit_menu[] = {
     UI_MENU_TERMINATOR
 };
 
+
+/** \brief  'Snapshot' menu
+ */
 static ui_menu_item_t snapshot_menu[] = {
     { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
@@ -407,6 +438,8 @@ static ui_menu_item_t snapshot_menu[] = {
 };
 
 
+/** \brief  'Help' menu items
+ */
 static ui_menu_item_t help_menu[] = {
     { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
@@ -429,6 +462,8 @@ static ui_menu_item_t help_menu[] = {
 };
 
 
+/** \brief  'Settings' menu items
+ */
 static ui_menu_item_t settings_menu[] = {
     { "Settings", UI_MENU_TYPE_ITEM_ACTION,
         ui_settings_dialog_create, NULL,
@@ -437,6 +472,8 @@ static ui_menu_item_t settings_menu[] = {
 };
 
 
+/** \brief  'Debug' menu items
+ */
 #ifdef DEBUG
 static ui_menu_item_t debug_menu[] = {
     { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
@@ -484,24 +521,93 @@ static ui_menu_item_t debug_menu[] = {
 static int is_paused = 0;
 
 
-
-/** \brief  Callback for a windows' "destroy" event
- *
- * \param[in]   widget      widget triggering the event (unused)
- * \param[in]   user_data   extra data for the callback (unused)
+/** \brief  Signals the html_browser_command field of the resource got allocated
  */
-void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
+static int html_browser_command_set = 0;
+
+
+
+/******************************************************************************
+ *                              Event handlers                                *
+ *****************************************************************************/
+
+
+/** \brief  Callback for the soft/hard reset items
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
+ */
+static void machine_reset_callback(GtkWidget *widget, gpointer user_data)
 {
-    debug_gtk3("called\n");
     vsync_suspend_speed_eval();
-    ui_exit();
+    machine_trigger_reset(GPOINTER_TO_INT(user_data));
 }
 
 
+/** \brief  Callback for the drive reset items
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   drive unit number (8-11) (int)
+ */
+static void drive_reset_callback(GtkWidget *widget, gpointer user_data)
+{
+    vsync_suspend_speed_eval();
+    drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);
+}
+
+
+/** \brief  Callback for the File->Exit menu item
+ *
+ * This asks the user to confirm to exit the emulator if ConfirmOnExit is set.
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   window index, optional, defaults to primary
+ */
+static void ui_close_callback(GtkWidget *widget, gpointer user_data)
+{
+    int index;
+    int confirm;
+
+    if (user_data == NULL) {
+        index = PRIMARY_WINDOW;
+    } else {
+        index = GPOINTER_TO_INT(user_data);
+    }
+
+    resources_get_int("ConfirmOnExit", &confirm);
+    if (!confirm) {
+        gtk_widget_destroy(ui_resources.window_widget[index]);
+        return;
+    }
+
+    if (ui_message_confirm(ui_resources.window_widget[index], "Exit VICE",
+                "Do you really wish to exit VICE?")) {
+        debug_gtk3("Exit confirmed\n");
+        gtk_widget_destroy(ui_resources.window_widget[index]);
+    }
+}
+
+
+/** \brief  Handler for the "delete-event" of a GtkWindow
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       event details (unused)
+ * \param[in]   user_data   extra data for the event (unused)
+ *
+ * \return  `FALSE` to exit the emulator, `TRUE` to continue
+ */
 static gboolean on_delete_event(GtkWidget *widget, GdkEvent *event,
                                 gpointer user_data)
 {
+    int confirm;
+
     debug_gtk3("got 'delete-event'\n'");
+
+    resources_get_int("ConfirmOnExit", &confirm);
+    if (!confirm) {
+        return FALSE;
+    }
+
     if (ui_message_confirm(widget, "Exit VICE",
                 "Do you really wish to exit VICE?")) {
         debug_gtk3("Exit confirmed\n");
@@ -511,133 +617,62 @@ static gboolean on_delete_event(GtkWidget *widget, GdkEvent *event,
 }
 
 
-/* FIXME: the code that calls this apparently creates the VDC window for x128
-          before the VIC window (primary) - this is probably done so the VIC
-          window ends up being on top of the VDC window. however, we better call
-          some "move window to front" function instead, and create the windows
-          starting with the primary one. */
-/* FIXME: the code below deals with the above mentioned fact and sets up the
-          window_widget pointers correctly. this hackish magic can be eliminated
-          when the code that creates the windows was moved over here AND the
-          calling code is fixed to create the windows in different order. */
-/** \brief Create a toplevel window to represent a video canvas.
+/** \brief  Callback for a windows' "destroy" event
  *
- * This function takes a video canvas structure and builds the widgets
- * that will represent that canvas in the UI as a whole. The
- * GtkDrawingArea that represents the actual screen backed by the
- * canvas will be entered into canvas->drawing_area.
- *
- * While it creates the widgets, it does not make them visible. The
- * video canvas routines are expected to do any last-minute processing
- * or preparation, and then call ui_display_toplevel_window() when
- * ready.
- *
- * \warning The "meaning" of the window depends on how many times the
- *          function has been called. On a C128, the first call
- *          produces the VDC window and the second produces the
- *          primary window. On all other machines, the first call
- *          produces the primary window. All subsequent calls will
- *          replace or leak the "monitor" window, but the nature of
- *          monitor windows is such that this should never happen.
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   user_data   extra data for the callback (unused)
  */
-void ui_create_toplevel_window(struct video_canvas_s *canvas) {
-    GtkWidget *new_window, *grid, *new_drawing_area, *status_bar;
-    GtkWidget *menu_bar;
-    int target_window;
-
-    new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-    /* this needs to be here to make the menus with accelerators work */
-    ui_menu_init_accelerators(new_window);
-
-    grid = gtk_grid_new();
-    new_drawing_area = gtk_drawing_area_new();
-    status_bar = ui_statusbar_create();
-
-    /* I'm pretty sure when running x128 we get two menu instances, so this
-     * should go somewhere else: call ui_menu_bar_create() once and attach the
-     * result menu to each GtkWindow instance
-     */
-    menu_bar = ui_menu_bar_create();
-
-    /* generate File menu */
-    ui_menu_file_add(file_menu);
-    /* generate Edit menu */
-    ui_menu_edit_add(edit_menu);
-    /* generate Snapshot menu */
-    ui_menu_snapshot_add(snapshot_menu);
-    /* settings menu */
-    ui_menu_settings_add(settings_menu);
-    /* generate Help menu */
-    ui_menu_help_add(help_menu);
-#ifdef DEBUG
-    ui_menu_debug_add(debug_menu);
-#endif
-
-    canvas->drawing_area = new_drawing_area;
-
-    gtk_container_add(GTK_CONTAINER(new_window), grid);
-    /* When we have a menu bar, we'll add it at the top here */
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
-
-    gtk_container_add(GTK_CONTAINER(grid), menu_bar);
-    gtk_container_add(GTK_CONTAINER(grid), new_drawing_area);
-    gtk_container_add(GTK_CONTAINER(grid), status_bar);
-
-    gtk_widget_set_hexpand(new_drawing_area, TRUE);
-    gtk_widget_set_vexpand(new_drawing_area, TRUE);
-
-    g_signal_connect(new_window, "delete-event",
-            G_CALLBACK(on_delete_event), NULL);
-    g_signal_connect(new_window, "destroy",
-            G_CALLBACK(ui_window_destroy_callback), NULL);
-
-    /* We've defaulted to PRIMARY_WINDOW. C128, however, gets its VDC
-     * window created first, so shunt this window to secondary status
-     * if that is what it is. */
-    target_window = PRIMARY_WINDOW;
-    if (machine_class == VICE_MACHINE_C128 && ui_resources.window_widget[SECONDARY_WINDOW] == NULL) {
-        target_window = SECONDARY_WINDOW;
-    }
-    /* Recreated canvases go to MONITOR_WINDOW. */
-    if (ui_resources.window_widget[target_window] != NULL) {
-        /* TODO: This doesn't make even a little bit of sense. The monitor
-         * window doesn't have a Commodore-screen canvas associated with
-         * it! Monitors should be tracked completely seperately. */
-        /* TODO: Ending up here should be a fatal error */
-        target_window = MONITOR_WINDOW;
-    }
-
-    ui_resources.canvas[target_window] = canvas;
-    ui_resources.window_widget[target_window] = new_window;
-
-    /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
-    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
-
-    /* connect keyboard handlers */
-    kbd_connect_handlers(new_window, NULL);
+static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
+{
+    debug_gtk3("called\n");
+    vsync_suspend_speed_eval();
+    ui_exit();
 }
 
-/** \brief  Finds the window associated with this canvas and makes it visible. */
 
-void ui_display_toplevel_window(struct video_canvas_s *canvas)
+
+/*****************************************************************************
+ *                  Temporary windows atexit() crash workaround              *
+ ****************************************************************************/
+#ifdef WIN32_COMPILE
+#define ATEXIT_MAX_FUNCS 64
+
+static void *atexit_functions[ATEXIT_MAX_FUNCS + 1];
+
+static int atexit_counter = 0;
+
+int vice_atexit(void (*function)(void))
 {
     int i;
-    for (i = 0; i < NUM_WINDOWS; ++i) {
-        if (ui_resources.canvas[i] == canvas) {
-            /* Normally this would show everything in the window,
-             * including hidden status bar displays, but we've
-             * disabled secondary displays in the status bar code with
-             * gtk_widget_set_no_show_all(). */
-            gtk_widget_show_all(ui_resources.window_widget[i]);
-            break;
+
+    if (!atexit_counter) {
+        for (i = 0; i <= ATEXIT_MAX_FUNCS; ++i) {
+            atexit_functions[i] = NULL;
         }
     }
+
+    if (atexit_counter == ATEXIT_MAX_FUNCS) {
+        return 1;
+    }
+
+    atexit_functions[atexit_counter++] = function;
+
+    return 0;
 }
 
+static void atexit_functions_execute(void)
+{
+    int i = atexit_counter -1;
+    void (*f)(void) = NULL;
 
-/** \brief  Signals the html_browser_command field of the resource got allocated
- */
-static int html_browser_command_set = 0;
+    while (i >= 0 && atexit_functions[i]) {
+        f = atexit_functions[i--];
+        f();
+    }
+}
+#endif  /* ifdef WIN32_COMPILE */
+
+
 
 /** \brief  Get a window-spec array index from \a param
  *
@@ -775,137 +810,224 @@ static int set_window_ypos(int val, void *param)
 
 
 
-/** \brief  String type resources list
+/** \brief  Callback for the File->Change cwd menu item
+ *
+ * \param[in]   widget      menu item triggering the callback
+ * \param[in]   user_data   data for the event (unused)
  */
-static const resource_string_t resources_string[] = {
-    { "HTMLBrowserCommand", HTML_BROWSER_COMMAND_DEFAULT, RES_EVENT_NO, NULL,
-        &ui_resources.html_browser_command, set_html_browser_command, NULL },
-    RESOURCE_STRING_LIST_END
-};
+static void ui_chdir_callback(GtkWidget *widget, gpointer user_data)
+{
+    char *path;
+    int result;
+
+    path = ui_select_directory_dialog(widget, "Select working directory",
+            NULL, TRUE);
+    if (path == NULL) {
+        return;
+    }
+
+    result = g_chdir(path);
+    debug_gtk3("changing directory to '%s' -> %d\n", path, result);
+    if (result != 0) {
+        ui_message_error(widget, "Error",
+                "Failed to change directory to '%s'\n", path);
+    }
+    g_free(path);
+}
 
 
-/** \brief  Integer/Boolean type resources list
+
+
+/* FIXME: the code that calls this apparently creates the VDC window for x128
+          before the VIC window (primary) - this is probably done so the VIC
+          window ends up being on top of the VDC window. however, we better call
+          some "move window to front" function instead, and create the windows
+          starting with the primary one. */
+/* FIXME: the code below deals with the above mentioned fact and sets up the
+          window_widget pointers correctly. this hackish magic can be eliminated
+          when the code that creates the windows was moved over here AND the
+          calling code is fixed to create the windows in different order. */
+/** \brief Create a toplevel window to represent a video canvas.
+ *
+ * This function takes a video canvas structure and builds the widgets
+ * that will represent that canvas in the UI as a whole. The
+ * GtkDrawingArea that represents the actual screen backed by the
+ * canvas will be entered into canvas->drawing_area.
+ *
+ * While it creates the widgets, it does not make them visible. The
+ * video canvas routines are expected to do any last-minute processing
+ * or preparation, and then call ui_display_toplevel_window() when
+ * ready.
+ *
+ * \warning The "meaning" of the window depends on how many times the
+ *          function has been called. On a C128, the first call
+ *          produces the VDC window and the second produces the
+ *          primary window. On all other machines, the first call
+ *          produces the primary window. All subsequent calls will
+ *          replace or leak the "monitor" window, but the nature of
+ *          monitor windows is such that this should never happen.
  */
-static const resource_int_t resources_int_primary_window[] = {
-    { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
-        &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
-    { "ConfirmOnExit", 1, RES_EVENT_NO, NULL,
-        &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
+void ui_create_toplevel_window(struct video_canvas_s *canvas) {
+    GtkWidget *new_window, *grid, *new_drawing_area, *status_bar;
+    GtkWidget *menu_bar;
+    int target_window;
 
-    /* Window size and position setters */
+    new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+    /* this needs to be here to make the menus with accelerators work */
+    ui_menu_init_accelerators(new_window);
 
-    /* primary window (all emulators) */
-    { "Window0Height", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_height[PRIMARY_WINDOW]), set_window_height,
-        (void*)PRIMARY_WINDOW },
-    { "Window0Width", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_width[PRIMARY_WINDOW]), set_window_width,
-        (void*)PRIMARY_WINDOW },
-    { "Window0Xpos", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_xpos[PRIMARY_WINDOW]), set_window_xpos,
-        (void*)PRIMARY_WINDOW },
-    { "Window0Ypos", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_ypos[PRIMARY_WINDOW]), set_window_ypos,
-        (void*)PRIMARY_WINDOW },
+    grid = gtk_grid_new();
+    new_drawing_area = gtk_drawing_area_new();
+    status_bar = ui_statusbar_create();
 
-    RESOURCE_INT_LIST_END
-};
+    /* I'm pretty sure when running x128 we get two menu instances, so this
+     * should go somewhere else: call ui_menu_bar_create() once and attach the
+     * result menu to each GtkWindow instance
+     */
+    menu_bar = ui_menu_bar_create();
+
+    /* generate File menu */
+    ui_menu_file_add(file_menu);
+    /* generate Edit menu */
+    ui_menu_edit_add(edit_menu);
+    /* generate Snapshot menu */
+    ui_menu_snapshot_add(snapshot_menu);
+    /* settings menu */
+    ui_menu_settings_add(settings_menu);
+    /* generate Help menu */
+    ui_menu_help_add(help_menu);
+#ifdef DEBUG
+    ui_menu_debug_add(debug_menu);
+#endif
+
+    canvas->drawing_area = new_drawing_area;
+
+    gtk_container_add(GTK_CONTAINER(new_window), grid);
+    /* When we have a menu bar, we'll add it at the top here */
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
+
+    gtk_container_add(GTK_CONTAINER(grid), menu_bar);
+    gtk_container_add(GTK_CONTAINER(grid), new_drawing_area);
+    gtk_container_add(GTK_CONTAINER(grid), status_bar);
+
+    gtk_widget_set_hexpand(new_drawing_area, TRUE);
+    gtk_widget_set_vexpand(new_drawing_area, TRUE);
+
+    g_signal_connect(new_window, "delete-event",
+            G_CALLBACK(on_delete_event), NULL);
+    g_signal_connect(new_window, "destroy",
+            G_CALLBACK(ui_window_destroy_callback), NULL);
+
+    /* We've defaulted to PRIMARY_WINDOW. C128, however, gets its VDC
+     * window created first, so shunt this window to secondary status
+     * if that is what it is. */
+    target_window = PRIMARY_WINDOW;
+    if (machine_class == VICE_MACHINE_C128 && ui_resources.window_widget[SECONDARY_WINDOW] == NULL) {
+        target_window = SECONDARY_WINDOW;
+    }
+    /* Recreated canvases go to MONITOR_WINDOW. */
+    if (ui_resources.window_widget[target_window] != NULL) {
+        /* TODO: This doesn't make even a little bit of sense. The monitor
+         * window doesn't have a Commodore-screen canvas associated with
+         * it! Monitors should be tracked completely seperately. */
+        /* TODO: Ending up here should be a fatal error */
+        target_window = MONITOR_WINDOW;
+    }
+
+    ui_resources.canvas[target_window] = canvas;
+    ui_resources.window_widget[target_window] = new_window;
+
+    /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
+    ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
+
+    /* connect keyboard handlers */
+    kbd_connect_handlers(new_window, NULL);
+}
+
+/** \brief  Finds the window associated with this canvas and makes it visible. */
+
+void ui_display_toplevel_window(struct video_canvas_s *canvas)
+{
+    int i;
+    for (i = 0; i < NUM_WINDOWS; ++i) {
+        if (ui_resources.canvas[i] == canvas) {
+            /* Normally this would show everything in the window,
+             * including hidden status bar displays, but we've
+             * disabled secondary displays in the status bar code with
+             * gtk_widget_set_no_show_all(). */
+            gtk_widget_show_all(ui_resources.window_widget[i]);
+            break;
+        }
+    }
+}
 
 
-static const resource_int_t resources_int_secondary_window[] = {
-    /* secondary window (C128's VDC display) */
-    { "Window1Height", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_height[SECONDARY_WINDOW]), set_window_height,
-        (void*)SECONDARY_WINDOW },
-    { "Window1Width", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_width[SECONDARY_WINDOW]), set_window_width,
-        (void*)SECONDARY_WINDOW },
-    { "Window1Xpos", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_xpos[SECONDARY_WINDOW]), set_window_xpos,
-        (void*)SECONDARY_WINDOW },
-    { "Window1Ypos", 0, RES_EVENT_NO, NULL,
-        &(ui_resources.window_ypos[SECONDARY_WINDOW]), set_window_ypos,
-        (void*)SECONDARY_WINDOW },
 
-    RESOURCE_INT_LIST_END
-};
-
-
-/** \brief  Command line options shared between emu's, include VSID
+/** \brief  Initialize command line options (generic)
+ *
+ * \return  0 on success, -1 on failure
  */
-static const cmdline_option_t cmdline_options_common[] = {
-    { "-htmlbrowser", SET_RESOURCE, 1,
-        NULL, NULL, "HTMLBrowserCommand", NULL,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDCLS_UNUSED, IDCLS_UNUSED,
-        N_("<Command>"), N_("Specify and HTML browser for the on-line help") },
-
-    { "-confirmexit", SET_RESOURCE, 0,
-        NULL, NULL, "SaveResourcesOnExit", (void*)1,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Never confirm quitting VICE") },
-    { "+confirmexit", SET_RESOURCE, 0,
-        NULL, NULL, "SaveResourcesOnExit", (void*)0,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Don't confirm quitting VICE") },
-
-    { "-saveres", SET_RESOURCE, 0,
-        NULL, NULL, "SaveResourcesOnExit", (void *)1,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Save settings on exit") },
-    { "+saveres", SET_RESOURCE, 0,
-        NULL, NULL, "SaveResourcesOnExit", (void *)0,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Never save settings on exit") },
-
-    CMDLINE_LIST_END
-};
-
 int ui_cmdline_options_init(void)
 {
     INCOMPLETE_IMPLEMENTATION();
     return cmdline_register_options(cmdline_options_common);
 }
 
+
+/* FIXME: what is this supposed to do? */
 char *ui_get_file(const char *format, ...)
 {
     NOT_IMPLEMENTED();
     return NULL;
 }
 
+
+/** \brief  Initialize Gtk3/GLib
+ *
+ * \param[in]   argc    pointer to main()'s argc
+ * \param[in]   argv    main()'s argv
+ *
+ * \return 0;
+ */
 int ui_init(int *argc, char **argv)
 {
+    INCOMPLETE_IMPLEMENTATION();
     gtk_init(argc, &argv);
     ui_statusbar_init();
-    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
+
+/* FIXME: do we need this? Doesn't seem like it -- compyx */
 int ui_init_finalize(void)
 {
-    int status = 0;
-#if 0
-    char *argv[] = { "x64", NULL };
-#endif
-
-    VICE_GTK3_FUNC_ENTERED();
-    NOT_IMPLEMENTED_WARN_ONLY();
-    return status;
+    return 0;
 }
 
+
+/* FIXME: do we need this? Doesn't seem like it -- compyx */
 int ui_init_finish(void)
 {
     return 0;
 }
 
+
+
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
-    NOT_IMPLEMENTED();
-    return UI_JAM_NONE;
+    va_list args;
+    char *buffer;
+    int result;
+
+    va_start(args, format);
+    buffer = lib_mvsprintf(format, args);
+    va_end(args);
+
+    /* XXX: this sucks */
+    result = jam_dialog(ui_resources.window_widget[PRIMARY_WINDOW], buffer);
+    lib_free(buffer);
+
+    return result;
 }
 
 
@@ -963,10 +1085,22 @@ void ui_update_menus(void)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+
+/** \brief  Dispatch next GLib main context event
+ *
+ * FIXME:   According to the Gtk3/GLib devs, this will at some point bite us
+ *          in the arse.
+ */
 void ui_dispatch_next_event(void) {
     g_main_context_iteration(g_main_context_default(), FALSE);
 }
 
+
+/** \brief  Dispatch events pending in the GLib main context loop
+ *
+ * FIXME:   According to the Gtk3/GLib devs, this will at some point bite us
+ *          in the arse.
+ */
 void ui_dispatch_events(void)
 {
     while (g_main_context_pending(g_main_context_default())) {
@@ -980,6 +1114,9 @@ int ui_extend_image_dialog(void)
     return 0;
 }
 
+
+/** XXX: Look at src/arch/gtk3/widgets/basedialogs.c for proper implemention
+ */
 void ui_error(const char *format, ...)
 {
     va_list ap;
@@ -992,6 +1129,9 @@ void ui_error(const char *format, ...)
     TEMPORARY_IMPLEMENTATION();
 }
 
+
+/** XXX: Look at src/arch/gtk3/widgets/basedialogs.c for proper implemention
+ */
 void ui_message(const char *format, ...)
 {
     GtkWidget *dialog;
@@ -1083,6 +1223,8 @@ int ui_emulation_is_paused(void)
 }
 
 
+/** \brief  Shutdown the UI, clean up resources
+ */
 void ui_exit(void)
 {
     int soe;    /* save on exit */
@@ -1091,8 +1233,6 @@ void ui_exit(void)
     if (soe) {
         resources_save(NULL);
     }
-
-
 
     INCOMPLETE_IMPLEMENTATION();
 #ifdef WIN32_COMPILE

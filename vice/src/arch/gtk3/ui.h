@@ -31,14 +31,15 @@
 
 #include <gtk/gtk.h>
 
+#include "videoarch.h"
+#include "palette.h"
+
+
 /* Number of drives we support in the UI.  */
 #define NUM_DRIVES 4
 
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
-
-struct video_canvas_s;
-struct palette_s;
 
 void ui_create_toplevel_window(struct video_canvas_s *canvas);
 void ui_display_toplevel_window(struct video_canvas_s *canvas);
@@ -65,6 +66,5 @@ void ui_set_selected_file(int num);
 void ui_common_init(void);
 void ui_common_shutdown(void);
 
-void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 
 #endif
