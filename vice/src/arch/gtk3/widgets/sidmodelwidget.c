@@ -5,6 +5,7 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
+ *  SidModel
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -147,9 +148,10 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             on_sid_model_toggled,
             current_model);
 
-    /* does the Plus4 or PET actually have a SidCart? */
+    /* does the Plus4, PET or VIC20 actually have a SidCart? */
     if (machine_class == VICE_MACHINE_PLUS4
-            || machine_class == VICE_MACHINE_PET) {
+            || machine_class == VICE_MACHINE_PET
+            || machine_class == VICE_MACHINE_VIC20) {
         int sidcart;
 
         resources_get_int("SidCart", &sidcart);
