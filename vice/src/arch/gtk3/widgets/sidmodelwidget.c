@@ -148,7 +148,11 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             on_sid_model_toggled,
             current_model);
 
-    /* does the Plus4, PET or VIC20 actually have a SidCart? */
+    /* does the Plus4, PET or VIC20 actually have a SidCart?
+     * Yes: plus4: http://plus4world.powweb.com/hardware.php?ht=11
+     *      pet  : http://www.cbmhardware.de/show.php?r=14&id=71/PETSID
+     *      vic20: c64 cart adapter with any c64 sid cart
+     */
     if (machine_class == VICE_MACHINE_PLUS4
             || machine_class == VICE_MACHINE_PET
             || machine_class == VICE_MACHINE_VIC20) {
