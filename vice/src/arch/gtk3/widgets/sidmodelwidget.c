@@ -126,10 +126,12 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             break;
 
         case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM6x0:
             models = sid_models_cbm5x0;
             break;
 
         case VICE_MACHINE_PLUS4:
+        case VICE_MACHINE_PET:
             models = sid_models_c64;
             break;
 
@@ -145,8 +147,9 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             on_sid_model_toggled,
             current_model);
 
-    /* does the Plus4 actually have a SidCart? */
-    if (machine_class == VICE_MACHINE_PLUS4) {
+    /* does the Plus4 or PET actually have a SidCart? */
+    if (machine_class == VICE_MACHINE_PLUS4
+            || machine_class == VICE_MACHINE_PET) {
         int sidcart;
 
         resources_get_int("SidCart", &sidcart);
