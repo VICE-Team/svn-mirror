@@ -70,7 +70,7 @@ void mousedrv_init(void)
 
 void mousedrv_mouse_changed(void)
 {
-    NOT_IMPLEMENTED();
+    NOT_IMPLEMENTED_WARN_ONLY();
 }
 
 int mousedrv_resources_init(mouse_func_t *funcs)
