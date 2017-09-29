@@ -1077,18 +1077,25 @@ int ui_extend_image_dialog(void)
 }
 
 
-/** XXX: Look at src/arch/gtk3/widgets/basedialogs.c for proper implemention
+/** \brief  Display error message through the UI
+ *
  */
 void ui_error(const char *format, ...)
 {
+    GtkWidget *window;
+    char *buffer;
     va_list ap;
-    char str[1024];
 
     va_start(ap, format);
-    vsprintf(str, format, ap);
+    buffer = lib_mvsprintf(format, ap);
     va_end(ap);
-    fprintf(stderr, "VICE Error!:%s\n", str);
-    TEMPORARY_IMPLEMENTATION();
+
+    /* use primary window as blocking toplevel */
+    window = ui_resources.window_widget[PRIMARY_WINDOW];
+    if (window == NULL) {
+        window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    }
+    ui_message_error(window, "VICE Error", buffer);
 }
 
 

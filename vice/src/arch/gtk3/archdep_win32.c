@@ -207,10 +207,8 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     return 0;
 }
 
-void archdep_startup_log_error(const char *format, ...)
-{
-    NOT_IMPLEMENTED();
-}
+
+
 
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {

@@ -47,6 +47,7 @@
 #include "log.h"
 #include "machine.h"
 #include "util.h"
+#include "uiapi.h"
 
 
 /** \brief  Prefix used for autostart disk images
@@ -327,6 +328,18 @@ int archdep_rename(const char *oldpath, const char *newpath)
 }
 
 
+void archdep_startup_log_error(const char *format, ...)
+{
+    char *tmp;
+    va_list args;
+
+    va_start(args, format);
+    tmp = lib_mvsprintf(format, args);
+    va_end(args);
+
+    ui_error(tmp);
+    lib_free(tmp);
+}
 
 /** \brief  Arch-dependent init
  *
