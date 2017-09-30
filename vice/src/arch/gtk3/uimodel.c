@@ -73,7 +73,7 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 
     layout = gtk_grid_new();
 
-    model_widget = create_machine_model_widget();
+    model_widget = machine_model_widget_create();
     gtk_grid_attach(GTK_GRID(layout), model_widget, 0, 0, 1, 1);
 
     if (machine_class != VICE_MACHINE_CBM6x0 &&
@@ -81,7 +81,7 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 
         video_wrapper = gtk_grid_new();
 
-        video_widget = create_video_model_widget();
+        video_widget = video_model_widget_create();
         gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
 
         if (machine_class == VICE_MACHINE_C128) {
@@ -131,10 +131,10 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     /*
      * Connect signals that were not connected in the previous calls
      */
-    connect_machine_model_widget_signals(model_widget);
+    machine_model_widget_connect_signals(model_widget);
     if (machine_class != VICE_MACHINE_CBM6x0 &&
             machine_class != VICE_MACHINE_PET) {
-        connect_video_model_widget_signals(video_widget);
+        video_model_widget_connect_signals(video_widget);
     }
     if (machine_class == VICE_MACHINE_C128) {
         vdc_model_widget_connect_signals(vdc_widget);

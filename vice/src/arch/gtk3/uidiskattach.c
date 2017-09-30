@@ -192,7 +192,7 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
 
     /* second row, three cols wide */
-    gtk_grid_attach(GTK_GRID(grid), create_drive_unit_widget(unit, &unit_number,
+    gtk_grid_attach(GTK_GRID(grid), drive_unit_widget_create(unit, &unit_number,
                 NULL),
             0, 1, 3, 1);
 
@@ -231,7 +231,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog, unit));
 
-    preview = create_content_preview_widget(NULL);
+    preview = content_preview_widget_create(NULL);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview);
 
     /* add filters */

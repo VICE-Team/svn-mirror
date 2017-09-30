@@ -30,6 +30,6 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *create_drive_unit_widget(int unit, int *target, void (*callback)(int));
+GtkWidget * drive_unit_widget_create(int unit, int *target, void (*callback)(int));
 
 #endif

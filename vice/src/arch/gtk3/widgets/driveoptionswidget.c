@@ -401,7 +401,7 @@ static void connect_signal_handlers(void)
  * TODO:    move signal handler setup further down to avoid calling resource
  *          setters triggering those callbacks
  */
-GtkWidget *create_drive_options_widget(int unit)
+GtkWidget *drive_options_widget_create(int unit)
 {
     GtkWidget *grid;
 
@@ -434,7 +434,7 @@ GtkWidget *create_drive_options_widget(int unit)
     gtk_grid_attach(GTK_GRID(grid), rtc_widget, 0, ROW_RTC, 1, 1);
 
     /* set current values */
-    update_drive_options_widget(grid, unit);
+    drive_options_widget_update(grid, unit);
 
     /* now set up signals */
     connect_signal_handlers();
@@ -451,7 +451,7 @@ GtkWidget *create_drive_options_widget(int unit)
  * \param[in,out]   widget  drive options widget
  * \param[in]       unit    drive unit number (8-11)
  */
-void update_drive_options_widget(GtkWidget *widget, int unit)
+void drive_options_widget_update(GtkWidget *widget, int unit)
 {
     unit_number = unit;
 

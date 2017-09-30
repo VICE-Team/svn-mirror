@@ -102,7 +102,7 @@ void machine_model_widget_set_models(const char **list)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_machine_model_widget(void)
+GtkWidget *machine_model_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *radio;
@@ -131,7 +131,7 @@ GtkWidget *create_machine_model_widget(void)
             last = GTK_RADIO_BUTTON(radio);
         }
 
-        update_machine_model_widget(grid);
+        machine_model_widget_update(grid);
     }
     gtk_widget_show_all(grid);
     return grid;
@@ -142,7 +142,7 @@ GtkWidget *create_machine_model_widget(void)
  *
  * \param[in,out]   widget  machine model widget
  */
-void update_machine_model_widget(GtkWidget *widget)
+void machine_model_widget_update(GtkWidget *widget)
 {
     GtkWidget *radio;
     int model = 99;
@@ -184,7 +184,7 @@ void update_machine_model_widget(GtkWidget *widget)
  *
  * \param[in,out]   widget  machine model widget
  */
-void connect_machine_model_widget_signals(GtkWidget *widget)
+void machine_model_widget_connect_signals(GtkWidget *widget)
 {
     size_t i = 0;
 

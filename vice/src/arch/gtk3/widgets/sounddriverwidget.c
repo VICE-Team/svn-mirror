@@ -164,7 +164,7 @@ static GtkWidget *create_argument_entry(void)
  *
  * \return  driver widget (GtkGrid)
  */
-GtkWidget *create_sound_driver_widget(void)
+GtkWidget *sound_driver_widget_create(void)
 {
     GtkWidget *grid;
 

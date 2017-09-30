@@ -27,12 +27,8 @@
 #define HAVE_KBDLAYOUTWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-GtkWidget *create_kbdlayout_widget(void);
-
+GtkWidget * kbdlayout_widget_create(void);
 
 #endif
-
-

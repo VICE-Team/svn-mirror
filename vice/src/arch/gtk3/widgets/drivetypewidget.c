@@ -106,15 +106,15 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
         }
         /* update expansions widget */
         if (drive_expansion_widget != NULL) {
-            update_drive_expansion_widget(drive_expansion_widget, unit_number);
+            drive_expansion_widget_update(drive_expansion_widget, unit_number);
         }
         /* update parallel cable widget */
         if (drive_parallel_cable_widget != NULL) {
-            update_drive_parallel_cable_widget(drive_parallel_cable_widget,
+            drive_parallel_cable_widget_update(drive_parallel_cable_widget,
                     unit_number);
         }
         if (drive_options_widget != NULL) {
-            update_drive_options_widget(drive_options_widget, unit_number);
+            drive_options_widget_update(drive_options_widget, unit_number);
         }
     }
 }
@@ -129,7 +129,7 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_drive_type_widget(int unit, void (*callback)(int))
+GtkWidget *drive_type_widget_create(int unit, void (*callback)(int))
 {
     GtkWidget *grid;
     drive_type_info_t *list;
@@ -151,7 +151,7 @@ GtkWidget *create_drive_type_widget(int unit, void (*callback)(int))
         last = GTK_RADIO_BUTTON(radio);
     }
 
-    update_drive_type_widget(grid, unit);
+    drive_type_widget_update(grid, unit);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -163,7 +163,7 @@ GtkWidget *create_drive_type_widget(int unit, void (*callback)(int))
  * \param[in,out]   widget  drive type widget
  * \param[in]       unit    new unit number
  */
-void update_drive_type_widget(GtkWidget *widget, int unit)
+void drive_type_widget_update(GtkWidget *widget, int unit)
 {
     drive_type_info_t *list;
     size_t i;
@@ -191,7 +191,7 @@ void update_drive_type_widget(GtkWidget *widget, int unit)
  *
  * \param[in,out]   widget  drive type widget
  */
-void connect_drive_type_widget_signals(GtkWidget *widget)
+void drive_type_widget_connect_signals(GtkWidget *widget)
 {
     drive_type_info_t *list;
     size_t i;

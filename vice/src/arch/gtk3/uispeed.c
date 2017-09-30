@@ -138,8 +138,8 @@ GtkWidget *uispeed_create_central_widget(GtkWidget *widget)
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_warp), warp_state);
 
     /* create layout */
-    gtk_grid_attach(GTK_GRID(layout), create_refreshrate_widget(), 0, 0, 1, 3);
-    gtk_grid_attach(GTK_GRID(layout), create_speed_widget(), 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), refreshrate_widget_create(), 0, 0, 1, 3);
+    gtk_grid_attach(GTK_GRID(layout), speed_widget_create(), 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), checkbox_warp, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), checkbox_pause, 1, 2, 1, 1);
 

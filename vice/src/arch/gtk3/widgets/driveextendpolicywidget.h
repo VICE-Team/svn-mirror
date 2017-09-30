@@ -34,8 +34,8 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget * create_drive_extend_policy_widget(int unit);
-void        update_drive_extend_policy_widget(GtkWidget *widget, int unit);
+GtkWidget * drive_extend_policy_widget_create(int unit);
+void        drive_extend_policy_widget_update(GtkWidget *widget, int unit);
 
 
 #endif

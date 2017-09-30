@@ -23,18 +23,12 @@
  *  02111-1307  USA.
  */
 
-
 #ifndef HAVE_SPEEDWIDGET_H
 #define HAVE_SPEEDWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-
-GtkWidget *create_speed_widget(void);
-
+GtkWidget * speed_widget_create(void);
 
 #endif
-
-

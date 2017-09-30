@@ -34,6 +34,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *html_browser_widget_create(void);
+GtkWidget * html_browser_widget_create(void);
 
 #endif

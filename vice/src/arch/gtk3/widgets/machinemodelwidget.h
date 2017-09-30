@@ -31,13 +31,12 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+void        machine_model_widget_getter(int (*f)(void));
+void        machine_model_widget_setter(void (*f)(int model));
+void        machine_model_widget_set_models(const char **list);
 
-void machine_model_widget_getter(int (*f)(void));
-void machine_model_widget_setter(void (*f)(int model));
-void machine_model_widget_set_models(const char **list);
-
-GtkWidget *create_machine_model_widget(void);
-void update_machine_model_widget(GtkWidget *widget);
-void connect_machine_model_widget_signals(GtkWidget *widget);
+GtkWidget * machine_model_widget_create(void);
+void        machine_model_widget_update(GtkWidget *widget);
+void        machine_model_widget_connect_signals(GtkWidget *widget);
 
 #endif

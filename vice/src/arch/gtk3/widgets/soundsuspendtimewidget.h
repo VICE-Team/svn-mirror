@@ -27,10 +27,8 @@
 #define HAVE_SOUNDSUSPENDTIMEWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-GtkWidget *create_sound_suspend_time_widget(void);
+GtkWidget * sound_suspend_time_widget_create(void);
 
 #endif
-

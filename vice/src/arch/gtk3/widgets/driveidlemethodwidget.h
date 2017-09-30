@@ -35,9 +35,8 @@
 #include <gtk/gtk.h>
 
 
-GtkWidget *create_drive_idle_method_widget(int unit);
-
-void update_drive_idle_method_widget(GtkWidget *widget, int unit);
+GtkWidget * drive_idle_method_widget_create(int unit);
+void        drive_idle_method_widget_update(GtkWidget *widget, int unit);
 
 
 #endif

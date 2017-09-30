@@ -27,10 +27,8 @@
 #define HAVE_SOUNDSYNCWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-GtkWidget *create_sound_sync_mode_widget(void);
-
+GtkWidget * sound_sync_mode_widget_create(void);
 
 #endif

@@ -77,7 +77,7 @@ static void on_sync_mode_changed(GtkWidget *widget, gpointer user_data)
  *
  * \return  grid
  */
-GtkWidget *create_sound_sync_mode_widget(void)
+GtkWidget *sound_sync_mode_widget_create(void)
 {
     GtkWidget *layout;
     int mode;

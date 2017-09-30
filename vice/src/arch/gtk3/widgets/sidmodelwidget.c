@@ -106,7 +106,7 @@ static void on_sid_model_toggled(GtkWidget *widget, gpointer user_data)
                  * will inspect various resources to determine a valid model.
                  * if invalid the 'unknown' radio button will be activated
                  */
-                update_machine_model_widget(machine_widget);
+                machine_model_widget_update(machine_widget);
             }
         }
     }

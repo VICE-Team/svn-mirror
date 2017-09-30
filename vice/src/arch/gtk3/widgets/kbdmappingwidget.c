@@ -133,7 +133,7 @@ static void on_mapping_changed(GtkWidget *widget, gpointer user_data)
  * \fixme   I'm not really satisfied with the 'select file' buttons, perhaps
  *          they should be placed next to the radio buttons?
  */
-GtkWidget *create_kbdmapping_widget(GtkWidget *widget)
+GtkWidget *kbdmapping_widget_create(GtkWidget *widget)
 {
     GtkWidget *btn_sym;
     GtkWidget *btn_pos;

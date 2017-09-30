@@ -23,18 +23,12 @@
  *  02111-1307  USA.
  */
 
-
 #ifndef HAVE_REFRESHRATEWIDGET_H
 #define HAVE_REFRESHRATEWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-
-GtkWidget *create_refreshrate_widget(void);
-
+GtkWidget *refreshrate_widget_create(void);
 
 #endif
-
-

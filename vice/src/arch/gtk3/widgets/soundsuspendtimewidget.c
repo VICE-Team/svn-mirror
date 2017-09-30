@@ -96,7 +96,7 @@ static GtkWidget *create_spinbutton(void)
  *
  * \return  grid
  */
-GtkWidget *create_sound_suspend_time_widget(void)
+GtkWidget *sound_suspend_time_widget_create(void)
 {
     GtkWidget *grid;
 

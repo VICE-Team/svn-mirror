@@ -75,7 +75,7 @@ static void on_output_mode_changed(GtkWidget *widget, gpointer user_data)
  *
  * \return  grid
  */
-GtkWidget *create_sound_output_mode_widget(void)
+GtkWidget *sound_output_mode_widget_create(void)
 {
     GtkWidget *layout;
     int mode;

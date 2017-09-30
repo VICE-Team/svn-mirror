@@ -88,29 +88,29 @@ static void unit_changed_callback(int unit)
     debug_gtk3("got unit %d\n", unit);
 
     if (drive_type_widget != NULL) {
-        update_drive_type_widget(drive_type_widget, unit);
+        drive_type_widget_update(drive_type_widget, unit);
     }
 
     if (drive_extend_widget != NULL) {
-        update_drive_extend_policy_widget(drive_extend_widget, unit);
+        drive_extend_policy_widget_update(drive_extend_widget, unit);
         gtk_widget_set_sensitive(drive_extend_widget,
                 drive_check_extend_policy(type));
     }
 
     if (drive_expansion_widget != NULL) {
-        update_drive_expansion_widget(drive_expansion_widget, unit);
+        drive_expansion_widget_update(drive_expansion_widget, unit);
     }
 
     if (drive_idle_method_widget != NULL) {
-        update_drive_idle_method_widget(drive_idle_method_widget, unit);
+        drive_idle_method_widget_update(drive_idle_method_widget, unit);
     }
 
     if (drive_parallel_cable_widget != NULL) {
-        update_drive_parallel_cable_widget(drive_parallel_cable_widget, unit);
+        drive_parallel_cable_widget_update(drive_parallel_cable_widget, unit);
     }
 
     if (drive_options_widget != NULL) {
-        update_drive_options_widget(drive_options_widget, unit);
+        drive_options_widget_update(drive_options_widget, unit);
     }
 }
 
@@ -233,49 +233,47 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     sound_widget = create_drive_sound_check_button();
     gtk_grid_attach(GTK_GRID(layout), sound_widget,0, 1, 3, 1);
 
-    unit_widget = create_drive_unit_widget(8, &unit_number, unit_changed_callback);
+    unit_widget = drive_unit_widget_create(8, &unit_number, unit_changed_callback);
     g_object_set(unit_widget, "margin-left", 8, NULL);
     /* row 2, column 0-2 */
     gtk_grid_attach(GTK_GRID(layout), unit_widget, 0, 2, 3, 1);
 
-
     type_40_grid = gtk_grid_new();
-
     /* create drive type widget, but don't connect signal handler yet, to avoid
      * reseting a drive */
-    drive_type_widget = create_drive_type_widget(unit_number,
+    drive_type_widget = drive_type_widget_create(unit_number,
             unit_changed_callback);
     gtk_grid_attach(GTK_GRID(type_40_grid), drive_type_widget, 0, 0, 1, 1);
 
-    drive_extend_widget = create_drive_extend_policy_widget(unit_number);
-    update_drive_extend_policy_widget(drive_extend_widget, unit_number);
+    drive_extend_widget = drive_extend_policy_widget_create(unit_number);
+    drive_extend_policy_widget_update(drive_extend_widget, unit_number);
     gtk_grid_attach(GTK_GRID(type_40_grid), drive_extend_widget, 0, 1, 1, 1);
 
     gtk_grid_attach(GTK_GRID(layout), type_40_grid, 0, 3, 1, 2);
 
     /* row 3, column 1 */
-    drive_expansion_widget = create_drive_expansion_widget(unit_number);
+    drive_expansion_widget = drive_expansion_widget_create(unit_number);
     gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 3, 1, 1);
 
     /* row 3, column 2 */
 
     idle_par_grid = gtk_grid_new();
-    drive_idle_method_widget = create_drive_idle_method_widget(unit_number);
-    update_drive_idle_method_widget(drive_idle_method_widget, unit_number);
+    drive_idle_method_widget = drive_idle_method_widget_create(unit_number);
+    drive_idle_method_widget_update(drive_idle_method_widget, unit_number);
     gtk_grid_attach(GTK_GRID(idle_par_grid), drive_idle_method_widget,
             0, 0, 1, 1);
-    drive_parallel_cable_widget = create_drive_parallel_cable_widget(
+    drive_parallel_cable_widget = drive_parallel_cable_widget_create(
             unit_number);
     gtk_grid_attach(GTK_GRID(idle_par_grid), drive_parallel_cable_widget,
             0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), idle_par_grid, 2, 3, 1, 1);
 
     /* row 4, column 1 & 2 */
-    drive_options_widget = create_drive_options_widget(unit_number);
+    drive_options_widget = drive_options_widget_create(unit_number);
     gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 4, 2, 1);
 
     /* now connect the drive type widget's signal handlers */
-    connect_drive_type_widget_signals(drive_type_widget);
+    drive_type_widget_connect_signals(drive_type_widget);
 
     drive_type_widget_set_extend_widget(drive_extend_widget);
     drive_type_widget_set_expansion_widget(drive_expansion_widget);

@@ -34,7 +34,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *create_drive_expansion_widget(int unit);
-void update_drive_expansion_widget(GtkWidget *widget, int unit);
+GtkWidget * drive_expansion_widget_create(int unit);
+void        drive_expansion_widget_update(GtkWidget *widget, int unit);
 
 #endif

@@ -157,7 +157,7 @@ static GtkWidget *create_dos_check_button(const char *name, const char *res)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_drive_expansion_widget(int unit)
+GtkWidget *drive_expansion_widget_create(int unit)
 {
     GtkWidget *grid;
 
@@ -184,7 +184,7 @@ GtkWidget *create_drive_expansion_widget(int unit)
     gtk_grid_attach(GTK_GRID(grid), stardos_widget, 0, 7, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), supercard_widget, 0, 8, 1, 1);
 
-    update_drive_expansion_widget(grid, unit);
+    drive_expansion_widget_update(grid, unit);
 
     g_signal_connect(ram2000_widget, "toggled", G_CALLBACK(on_ram_toggled),
             GUINT_TO_POINTER(0x2000));
@@ -216,7 +216,7 @@ GtkWidget *create_drive_expansion_widget(int unit)
  * \param[in,out]   widget  drive expansion widget
  * \param[in]       unit    drive unit number
  */
-void update_drive_expansion_widget(GtkWidget *widget, int unit)
+void drive_expansion_widget_update(GtkWidget *widget, int unit)
 {
     int drive_type;
 

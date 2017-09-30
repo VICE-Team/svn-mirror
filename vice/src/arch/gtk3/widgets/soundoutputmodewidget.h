@@ -27,10 +27,8 @@
 #define HAVE_SOUNDOUTPUTMODEWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-
-GtkWidget *create_sound_output_mode_widget(void);
+GtkWidget * sound_output_mode_widget_create(void);
 
 #endif

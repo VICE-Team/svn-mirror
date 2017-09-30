@@ -32,10 +32,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-
-GtkWidget *vdc_model_widget_create(void);
-void vdc_model_widget_update(GtkWidget *widget);
-void vdc_model_widget_connect_signals(GtkWidget *widget);
-
+GtkWidget * vdc_model_widget_create(void);
+void        vdc_model_widget_update(GtkWidget *widget);
+void        vdc_model_widget_connect_signals(GtkWidget *widget);
 
 #endif

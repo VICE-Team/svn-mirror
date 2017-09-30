@@ -32,13 +32,13 @@
 
 #include <gtk/gtk.h>
 
-void drive_type_widget_set_extend_widget(GtkWidget *widget);
-void drive_type_widget_set_expansion_widget(GtkWidget *widget);
-void drive_type_widget_set_parallel_cable_widget(GtkWidget *widget);
-void drive_type_widget_set_options_widget(GtkWidget *widget);
+void        drive_type_widget_set_extend_widget(GtkWidget *widget);
+void        drive_type_widget_set_expansion_widget(GtkWidget *widget);
+void        drive_type_widget_set_parallel_cable_widget(GtkWidget *widget);
+void        drive_type_widget_set_options_widget(GtkWidget *widget);
 
-GtkWidget *create_drive_type_widget(int unit, void (*callback)(int));
-void connect_drive_type_widget_signals(GtkWidget *widget);
-void update_drive_type_widget(GtkWidget *widget, int unit);
+GtkWidget * drive_type_widget_create(int unit, void (*callback)(int));
+void        drive_type_widget_update(GtkWidget *widget, int unit);
+void        drive_type_widget_connect_signals(GtkWidget *widget);
 
 #endif

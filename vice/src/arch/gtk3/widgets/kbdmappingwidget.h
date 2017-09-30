@@ -27,13 +27,8 @@
 #define HAVE_KBDMAPPINGWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-GtkWidget *create_kbdmapping_widget(GtkWidget *widget);
-
+GtkWidget * kbdmapping_widget_create(GtkWidget *widget);
 
 #endif
-
-
-

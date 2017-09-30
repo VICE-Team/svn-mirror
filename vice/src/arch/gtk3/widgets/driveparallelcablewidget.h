@@ -35,8 +35,7 @@
 
 #include <gtk/gtk.h>
 
-GtkWidget *create_drive_parallel_cable_widget(int unit);
-
-void update_drive_parallel_cable_widget(GtkWidget *widget, int unit);
+GtkWidget * drive_parallel_cable_widget_create(int unit);
+void        drive_parallel_cable_widget_update(GtkWidget *widget, int unit);
 
 #endif

@@ -95,7 +95,7 @@ static GtkWidget *create_spinbutton(void)
  *
  * \return  grid
  */
-GtkWidget *create_sound_buffer_size_widget(void)
+GtkWidget *sound_buffer_size_widget_create(void)
 {
     GtkWidget *grid;
 

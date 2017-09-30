@@ -26,8 +26,9 @@
 #ifndef HAVE_SOUNDFRAGMENTSIZEWIDGET_H
 #define HAVE_SOUNDFRAGMENTSIZEWIDGET_H
 
+#include "vice.h"
+#include <gtk/gtk.h>
 
-GtkWidget *create_sound_fragment_size_widget(void);
+GtkWidget * sound_fragment_size_widget_create(void);
 
 #endif
-

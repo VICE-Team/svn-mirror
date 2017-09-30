@@ -27,10 +27,8 @@
 #define HAVE_SOUNDSAMPLERATEWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-GtkWidget *create_sound_sample_rate_widget(void);
-
+GtkWidget * sound_sample_rate_widget_create(void);
 
 #endif

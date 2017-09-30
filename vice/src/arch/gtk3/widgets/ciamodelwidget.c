@@ -5,8 +5,8 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  CIA1Model
- *  CIA2Model
+ *  CIA1Model   (c64, c64sc, scpu64, c64dtv, c128, cbm5x0, cbm-ii, vsid)
+ *  CIA2Model   (c64, c64sc, scpu64, c64dtv, c128, vsid)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -63,7 +63,7 @@ static GtkWidget *cia2_widget = NULL;
 /** \brief  Handler for "toggled" event of CIA1 radio buttons
  *
  * \param[in]   widget      radio button
- * \param[in]   user_data   CIA model value
+ * \param[in]   user_data   CIA1 model value
  */
 static void on_cia1_toggled(GtkWidget *widget, gpointer user_data)
 {
@@ -79,7 +79,7 @@ static void on_cia1_toggled(GtkWidget *widget, gpointer user_data)
         resources_set_int("CIA1Model", new_model);
         /* update machine model widget */
         if (machine_widget != NULL) {
-            update_machine_model_widget(machine_widget);
+            machine_model_widget_update(machine_widget);
         }
     }
 }
@@ -88,7 +88,7 @@ static void on_cia1_toggled(GtkWidget *widget, gpointer user_data)
 /** \brief  Handler for "toggled" event of CIA2 radio buttons
  *
  * \param[in]   widget      radio button
- * \param[in]   user_data   CIA model value
+ * \param[in]   user_data   CIA2 model value
  */
 static void on_cia2_toggled(GtkWidget *widget, gpointer user_data)
 {
@@ -104,7 +104,7 @@ static void on_cia2_toggled(GtkWidget *widget, gpointer user_data)
         resources_set_int("CIA2Model", new_model);
         /* update machine model widget */
         if (machine_widget != NULL) {
-            update_machine_model_widget(machine_widget);
+            machine_model_widget_update(machine_widget);
         }
     }
 }

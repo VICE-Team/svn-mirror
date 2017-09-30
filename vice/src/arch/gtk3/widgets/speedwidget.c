@@ -78,7 +78,7 @@ static void speed_callback(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_speed_widget(void)
+GtkWidget *speed_widget_create(void)
 {
     GtkWidget *layout;
     int index;

@@ -78,7 +78,7 @@ static void on_sample_rate_changed(GtkWidget *widget, gpointer user_data)
  *
  * \return  grid
  */
-GtkWidget *create_sound_sample_rate_widget(void)
+GtkWidget *sound_sample_rate_widget_create(void)
 {
     GtkWidget *layout;
     int rate;

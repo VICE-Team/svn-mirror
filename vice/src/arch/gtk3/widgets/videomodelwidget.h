@@ -31,17 +31,14 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
-
 #include "widgethelpers.h"
 
-void video_model_widget_set_title(const char *title);
-void video_model_widget_set_resource(const char *resource);
-void video_model_widget_set_models(const ui_text_int_pair_t *models);
+void        video_model_widget_set_title(const char *title);
+void        video_model_widget_set_resource(const char *resource);
+void        video_model_widget_set_models(const ui_text_int_pair_t *models);
 
-GtkWidget *create_video_model_widget(void);
-void update_video_model_widget(GtkWidget *widget);
-void connect_video_model_widget_signals(GtkWidget *widget);
+GtkWidget * video_model_widget_create(void);
+void        video_model_widget_update(GtkWidget *widget);
+void        video_model_widget_connect_signals(GtkWidget *widget);
 
 #endif
-
-

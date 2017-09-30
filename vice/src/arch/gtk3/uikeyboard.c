@@ -55,10 +55,10 @@ GtkWidget *uikeyboard_create_central_widget(GtkWidget *widget)
 
     layout = gtk_grid_new();
 
-    mapping_widget = create_kbdmapping_widget(widget);
+    mapping_widget = kbdmapping_widget_create(widget);
     gtk_grid_attach(GTK_GRID(layout), mapping_widget, 0, 0, 1, 1);
 
-    layout_widget = create_kbdlayout_widget();
+    layout_widget = kbdlayout_widget_create();
 
     gtk_grid_attach(GTK_GRID(layout), layout_widget, 0, 1, 1, 1);
 

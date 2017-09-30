@@ -79,7 +79,7 @@ static void on_layout_changed(GtkWidget *widget, gpointer user_data)
  * \fixme   I'm not really satisfied with the 'select file' buttons, perhaps
  *          they should be placed next to the radio buttons?
  */
-GtkWidget *create_kbdlayout_widget(void)
+GtkWidget *kbdlayout_widget_create(void)
 {
     GtkWidget *layout;
     int index = 0;

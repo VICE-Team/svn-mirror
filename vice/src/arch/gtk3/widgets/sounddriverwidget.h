@@ -27,12 +27,8 @@
 #define HAVE_SOUNDDRIVERWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-
-GtkWidget *create_sound_driver_widget(void);
+GtkWidget * sound_driver_widget_create(void);
 
 #endif
-
-

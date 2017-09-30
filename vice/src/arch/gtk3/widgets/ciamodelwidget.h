@@ -34,7 +34,7 @@
 #include <gtk/gtk.h>
 
 
-GtkWidget *cia_model_widget_create(GtkWidget *machine_model_widget, int count);
-void cia_model_widget_update(GtkWidget *widget);
+GtkWidget * cia_model_widget_create(GtkWidget *machine_model_widget, int count);
+void        cia_model_widget_update(GtkWidget *widget);
 
 #endif

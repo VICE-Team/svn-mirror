@@ -37,7 +37,7 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *create_content_preview_widget(void (*selected)(GtkWidget *, void *))
+GtkWidget *content_preview_widget_create(void (*selected)(GtkWidget *, void *))
 {
     GtkWidget *grid;
     GtkWidget *label;

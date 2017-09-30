@@ -27,10 +27,8 @@
 #define HAVE_SOUNDBUFFERSIZEWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
-GtkWidget *create_sound_buffer_size_widget(void);
+GtkWidget * sound_buffer_size_widget_create(void);
 
 #endif
-

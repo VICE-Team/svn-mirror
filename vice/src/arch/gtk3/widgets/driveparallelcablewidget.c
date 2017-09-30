@@ -81,7 +81,7 @@ static void on_parallel_cable_changed(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_drive_parallel_cable_widget(int unit)
+GtkWidget *drive_parallel_cable_widget_create(int unit)
 {
     GtkWidget *widget;
     int i;
@@ -95,7 +95,7 @@ GtkWidget *create_drive_parallel_cable_widget(int unit)
             0);
 
     /* first update the widget */
-    update_drive_parallel_cable_widget(widget, unit);
+    drive_parallel_cable_widget_update(widget, unit);
 
     /* now connect the signal handlers */
     for (i = 0; parallel_cables[i].text != NULL; i++) {
@@ -119,7 +119,7 @@ GtkWidget *create_drive_parallel_cable_widget(int unit)
  * \param[in,out]   widget  drive parallel cable widget
  * \param[in]       unit    drive unit number
  */
-void update_drive_parallel_cable_widget(GtkWidget *widget, int unit)
+void drive_parallel_cable_widget_update(GtkWidget *widget, int unit)
 {
     int cable_type = 0; /* cable type, if set to < 0 causes the cable type
                            to revert to None (used for machines/drives that

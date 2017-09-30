@@ -80,7 +80,7 @@ static void on_radio_toggle(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_drive_extend_policy_widget(int unit)
+GtkWidget *drive_extend_policy_widget_create(int unit)
 {
     GtkWidget *grid;
 
@@ -101,7 +101,7 @@ GtkWidget *create_drive_extend_policy_widget(int unit)
  *
  * \param[in]   unit    drive unit number (8-11)
  */
-void update_drive_extend_policy_widget(GtkWidget *widget, int unit)
+void drive_extend_policy_widget_update(GtkWidget *widget, int unit)
 {
     GtkWidget *radio;
     int policy;

@@ -74,7 +74,7 @@ static void on_idle_method_changed(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_drive_idle_method_widget(int unit)
+GtkWidget *drive_idle_method_widget_create(int unit)
 {
     GtkWidget *widget;
 
@@ -94,7 +94,7 @@ GtkWidget *create_drive_idle_method_widget(int unit)
  * \param[in,out]   widget  drive idle widget
  * \param[in]       unit    drive unit number
  */
-void update_drive_idle_method_widget(GtkWidget *widget, int unit)
+void drive_idle_method_widget_update(GtkWidget *widget, int unit)
 {
     int value;
 

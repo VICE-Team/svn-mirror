@@ -71,7 +71,7 @@ static void on_fragment_size_changed(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_sound_fragment_size_widget(void)
+GtkWidget *sound_fragment_size_widget_create(void)
 {
     GtkWidget *grid;
     int size;

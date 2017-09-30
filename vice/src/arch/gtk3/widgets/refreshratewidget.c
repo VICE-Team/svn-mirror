@@ -4,7 +4,7 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following rescource(3):
+ * Controls the following rescource(s):
  *  RefreshRate - 0 == auto, 1-10 == 1/[1-10] (int)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -34,9 +34,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
-
 #include "debug_gtk3.h"
-
 #include "widgethelpers.h"
 
 #include "refreshratewidget.h"
@@ -85,7 +83,7 @@ static void refreshrate_callback(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *create_refreshrate_widget(void)
+GtkWidget *refreshrate_widget_create(void)
 {
     GtkWidget *layout;
 

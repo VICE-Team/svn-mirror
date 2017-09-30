@@ -87,7 +87,7 @@ void video_model_widget_set_models(const ui_text_int_pair_t *models)
 }
 
 
-GtkWidget *create_video_model_widget(void)
+GtkWidget *video_model_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *radio;
@@ -107,7 +107,7 @@ GtkWidget *create_video_model_widget(void)
         }
 
         /* now set the proper value */
-        update_video_model_widget(grid);
+        video_model_widget_update(grid);
     }
 
     gtk_widget_show_all(grid);
@@ -116,7 +116,7 @@ GtkWidget *create_video_model_widget(void)
 
 
 
-void update_video_model_widget(GtkWidget *widget)
+void video_model_widget_update(GtkWidget *widget)
 {
     GtkWidget *radio;
     int index;
@@ -137,7 +137,7 @@ void update_video_model_widget(GtkWidget *widget)
 }
 
 
-void connect_video_model_widget_signals(GtkWidget *widget)
+void video_model_widget_connect_signals(GtkWidget *widget)
 {
     GtkWidget *radio;
     int i = 0;
