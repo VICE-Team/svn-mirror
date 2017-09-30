@@ -42,6 +42,14 @@
 #include "sidmodelwidget.h"
 
 
+/** \brief  Empty list of SID models
+ */
+static ui_text_int_pair_t sid_models_none[] = {
+    { NULL, -1 }
+};
+
+/** \brief  All SID models
+ */
 static ui_text_int_pair_t sid_models_all[] = {
     { "6581", 0 },
     { "8580", 1 },
@@ -51,7 +59,9 @@ static ui_text_int_pair_t sid_models_all[] = {
     { NULL, -1 }
 };
 
-
+/** \brief  SID models used in the C64/C64SCPU, C128 and expanders for PET,
+ *          VIC-20 and Plus/4
+ */
 static ui_text_int_pair_t sid_models_c64[] = {
     { "6581", 0 },
     { "8580", 1 },
@@ -59,7 +69,8 @@ static ui_text_int_pair_t sid_models_c64[] = {
     { NULL, -1 }
 };
 
-
+/** \brief  SID models used in the CBM-II 510/520 models
+ */
 static ui_text_int_pair_t sid_models_cbm5x0[] = {
     { "6581", 0 },
     { NULL, -1 }
@@ -73,6 +84,11 @@ static ui_text_int_pair_t sid_models_cbm5x0[] = {
 static GtkWidget *machine_widget = NULL;
 
 
+/** \brief  Handler for the "toggled" event of a radio button
+ *
+ * \param[in]   widget      toggle button triggering the event
+ * \param[in]   user_data   SID model ID (int)
+ */
 static void on_sid_model_toggled(GtkWidget *widget, gpointer user_data)
 {
     int old_model = 0;
@@ -126,20 +142,24 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             models = sid_models_c64;
             break;
 
-        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_CBM5x0:   /* fall through */
         case VICE_MACHINE_CBM6x0:
             models = sid_models_cbm5x0;
             break;
 
-        case VICE_MACHINE_PLUS4:
-        case VICE_MACHINE_PET:
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_VIC20:
             models = sid_models_c64;
             break;
 
+        case VICE_MACHINE_C64DTV:
+            models = sid_models_all;
+            break;
 
         default:
-            /* DTV probably */
-            models = sid_models_all;
+            /* shouldn't get here */
+            models = sid_models_none;
     }
 
 
@@ -148,19 +168,35 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             on_sid_model_toggled,
             current_model);
 
-    /* does the Plus4, PET or VIC20 actually have a SidCart?
-     * Yes: plus4: http://plus4world.powweb.com/hardware.php?ht=11
-     *      pet  : http://www.cbmhardware.de/show.php?r=14&id=71/PETSID
-     *      vic20: c64 cart adapter with any c64 sid cart
+    /* SID cards for the Plus4, PET or VIC20:
+     *
+     *  plus4: http://plus4world.powweb.com/hardware.php?ht=11
+     *  pet  : http://www.cbmhardware.de/show.php?r=14&id=71/PETSID
+     *  vic20: c64 cart adapter with any c64 sid cart
+     *
+     * check if Plus4/PET/VIC20 has a SID cart active:
      */
     if (machine_class == VICE_MACHINE_PLUS4
             || machine_class == VICE_MACHINE_PET
             || machine_class == VICE_MACHINE_VIC20) {
         int sidcart;
 
+        /* make SID widget sensitive, depending on if a SID cart is active */
         resources_get_int("SidCart", &sidcart);
         gtk_widget_set_sensitive(grid, sidcart);
     }
 
     return grid;
 }
+
+
+/** \brief  Update the SID model widget
+ *
+ * \param[in,out]   widget      SID model widget
+ * \param[in]       model       SID model ID
+ */
+void sid_model_widget_update(GtkWidget *widget, int model)
+{
+    uihelpers_set_radio_button_grid_by_index(widget, model);
+}
+

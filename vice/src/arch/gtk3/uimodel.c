@@ -47,6 +47,12 @@
 #include "uimodel.h"
 
 
+/** \brief  Create 'Model' widget for the settings UI
+ *
+ * \param[in]   parent  parent widget
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
@@ -58,6 +64,7 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     GtkWidget *video_wrapper = NULL;    /* wrapper to have two video model
                                            widgets in case of the C128 */
     GtkWidget *sid_widget = NULL;
+
 
     layout = gtk_grid_new();
 
@@ -81,11 +88,15 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
         gtk_grid_attach(GTK_GRID(layout), video_wrapper, 1, 0, 1, 1);
     }
 
+    /* create SID widget: every machine either has a SID built-in or can have
+     * one via an expansion card, so no need to check machine_class here: */
     sid_widget = sid_model_widget_create(model_widget);
-
     gtk_grid_attach(GTK_GRID(layout), sid_widget, 2, 0, 1, 1);
 
 
+    /*
+     * Connect signals that were not connected in the previous calls
+     */
     connect_machine_model_widget_signals(model_widget);
     if (machine_class != VICE_MACHINE_CBM6x0 &&
             machine_class != VICE_MACHINE_PET) {
@@ -94,8 +105,8 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     if (machine_class == VICE_MACHINE_C128) {
         vdc_model_widget_connect_signals(vdc_widget);
     }
-    gtk_widget_show_all(layout);
 
+    gtk_widget_show_all(layout);
     return layout;
 }
 

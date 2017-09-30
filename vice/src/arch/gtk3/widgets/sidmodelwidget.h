@@ -34,6 +34,6 @@
 
 
 GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget);
+void sid_model_widget_update(GtkWidget *widget, int model);
 
 #endif
-
