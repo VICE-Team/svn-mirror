@@ -43,6 +43,7 @@
 #include "vdcmodelwidget.h"
 #include "sidmodelwidget.h"
 #include "ciamodelwidget.h"
+#include "kernalrevisionwidget.h"
 
 
 #include "uimodel.h"
@@ -69,6 +70,8 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     GtkWidget *video_wrapper = NULL;    /* wrapper to have two video model
                                            widgets in case of the C128 */
     GtkWidget *sid_widget = NULL;
+
+    GtkWidget *kernal_widget = NULL;
 
 
     layout = gtk_grid_new();
@@ -124,8 +127,11 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     }
 
     if (cia_widget != NULL) {
-        gtk_grid_attach(GTK_GRID(layout), cia_widget, 0, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(layout), cia_widget, 0, 1, 2, 1);
     }
+
+    kernal_widget = kernal_revision_widget_create();
+    gtk_grid_attach(GTK_GRID(layout), kernal_widget, 2, 1, 1, 1);
 
 
     /*

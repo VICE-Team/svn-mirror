@@ -56,7 +56,8 @@ libwidgets_a_SOURCES = \
 	htmlbrowserwidget.c \
 	cwdwidget.c \
 	sidmodelwidget.c \
-	ciamodelwidget.c
+	ciamodelwidget.c \
+	kernalrevisionwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -92,4 +93,5 @@ EXTRA_DIST = \
 	htmlbrowserwidget.h \
 	cwdwidget.h \
 	sidmodelwidget.h \
-	ciamodelwidget.h
+	ciamodelwidget.h \
+	kernalrevisionwidget.h
