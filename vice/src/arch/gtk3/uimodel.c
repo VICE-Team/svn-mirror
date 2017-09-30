@@ -42,9 +42,14 @@
 #include "videomodelwidget.h"
 #include "vdcmodelwidget.h"
 #include "sidmodelwidget.h"
+#include "ciamodelwidget.h"
 
 
 #include "uimodel.h"
+
+
+static GtkWidget *cia_widget = NULL;
+
 
 
 /** \brief  Create 'Model' widget for the settings UI
@@ -92,6 +97,35 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
      * one via an expansion card, so no need to check machine_class here: */
     sid_widget = sid_model_widget_create(model_widget);
     gtk_grid_attach(GTK_GRID(layout), sid_widget, 2, 0, 1, 1);
+
+
+    /* CIA widget(s) */
+    switch (machine_class) {
+
+        /* 2x CIA */
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_VSID:
+            cia_widget = cia_model_widget_create(model_widget, 2);
+            break;
+
+        /* 1x CIA */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            cia_widget = cia_model_widget_create(model_widget, 1);
+            break;
+
+        /* no CIA */
+        default:
+            /* other models don't have CIA's */
+            cia_widget = NULL;
+    }
+
+    if (cia_widget != NULL) {
+        gtk_grid_attach(GTK_GRID(layout), cia_widget, 0, 1, 1, 1);
+    }
 
 
     /*
