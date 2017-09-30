@@ -4,6 +4,7 @@
  * Controls the following resource(s):
  *  IECReset    (c64, c64sc)
  *  GlueLogic   (c64sc)
+ *  Go64Mode    (c128)
  *
  *  (for more, see used widgets)
  *
@@ -102,6 +103,21 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the C128 Go64 check button
+ *
+ * \param[in]   widget      check button triggering the event
+ * \param[in]   user_data   data for event (unused);
+ */
+static void on_go64_toggled(GtkWidget *widget, gpointer user_data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    debug_gtk3("setting Go64Mode to %s\n", state ? "ON" : "OFF");
+    resources_set_int("Go64Mode", state);
+}
+
+
+
+
 /** \brief  Create widget to toggle "Reset-to-IEC"
  *
  * \return  GtkGrid
@@ -119,6 +135,26 @@ static GtkWidget *create_reset_to_iec_widget(void)
     gtk_widget_show(check);
     return check;
 }
+
+
+/** \brief  Create widget to toggle "Go64Mode"
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_go64_widget(void)
+{
+    int state;
+    GtkWidget *check;
+
+    resources_get_int("Go64Mode", &state);
+    check = gtk_check_button_new_with_label("Switch to C64 mode on reset");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
+    g_signal_connect(check, "toggled", G_CALLBACK(on_go64_toggled),
+            NULL);
+    gtk_widget_show(check);
+    return check;
+}
+
 
 
 /** \brief  Create widget to select C64SC Glue Logic
@@ -167,7 +203,10 @@ static GtkWidget *create_c64_glue_widget(void)
 }
 
 
-
+/** \brief  Create 'misc' widget for C64/C64SC
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_c64_misc_widget(void)
 {
     GtkWidget *grid;
@@ -183,6 +222,26 @@ static GtkWidget *create_c64_misc_widget(void)
         glue_widget = create_c64_glue_widget();
         gtk_grid_attach(GTK_GRID(grid), glue_widget, 0, 2, 1, 1);
     }
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
+/** \brief  Create 'misc' widget for C128
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_c128_misc_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *go64_widget;
+
+    grid = uihelpers_create_grid_with_label("Miscellaneous", 1);
+
+    go64_widget = create_go64_widget();
+    g_object_set(go64_widget, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), go64_widget, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -228,6 +287,13 @@ static GtkWidget *create_scpu64_layout(GtkWidget *grid)
     return grid;
 }
 
+
+/** \brief  Create widget layout for C128
+ *
+ * \param[in,out]   grid    GtkGrid to use for layout
+ *
+ * \return  \a grid
+ */
 static GtkWidget *create_c128_layout(GtkWidget *grid)
 {
     GtkWidget *video_wrapper;
@@ -235,6 +301,28 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
+    /* wrap VIC-II and VDC in a single widget */
+    video_wrapper = gtk_grid_new();
+
+    /* VIC-II model widget */
+    video_widget = video_model_widget_create();
+    gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
+    /* VDC model widget */
+    vdc_widget = vdc_model_widget_create();
+    gtk_grid_attach(GTK_GRID(video_wrapper), vdc_widget, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), video_wrapper, 1, 0, 1, 1);
+
+    /* CIA1 & CIA2 widget */
+    cia_widget = cia_model_widget_create(machine_widget, 2);
+    gtk_grid_attach(GTK_GRID(grid), cia_widget, 0, 1, 2, 1);
+
+    /* SID widget */
+    sid_widget = sid_model_widget_create(machine_widget);
+    gtk_grid_attach(GTK_GRID(grid), sid_widget, 2, 0, 1, 1);
+
+    /* Misc widget */
+    gtk_grid_attach(GTK_GRID(grid), create_c128_misc_widget(), 2, 1, 1, 1);
+    return grid;
 #if 0
 
     if (machine_class != VICE_MACHINE_CBM6x0 &&
@@ -349,8 +437,6 @@ static GtkWidget *create_layout(void)
 GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 {
     GtkWidget *layout;
-    GtkWidget *video_wrapper = NULL;    /* wrapper to have two video model
-                                           widgets in case of the C128 */
 
     machine_widget = NULL;
     cia_widget = NULL;
