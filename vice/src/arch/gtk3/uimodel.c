@@ -203,7 +203,7 @@ static GtkWidget *create_c64_glue_widget(void)
 }
 
 
-/** \brief  Create 'misc' widget for C64/C64SC
+/** \brief  Create 'misc' widget for C64/C64SC/SCPU64
  *
  * \return  GtkGrid
  */
@@ -218,7 +218,8 @@ static GtkWidget *create_c64_misc_widget(void)
     iec_widget = create_reset_to_iec_widget();
     g_object_set(iec_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC
+            || machine_class == VICE_MACHINE_SCPU64) {
         glue_widget = create_c64_glue_widget();
         gtk_grid_attach(GTK_GRID(grid), glue_widget, 0, 2, 1, 1);
     }
@@ -275,15 +276,10 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
     kernal_widget = kernal_revision_widget_create();
     gtk_grid_attach(GTK_GRID(grid), kernal_widget, 2, 0, 1, 1);
 
-    /* Reset-to-IEC check button */
+    /* C64 misc. model settings */
     gtk_grid_attach(GTK_GRID(grid), create_c64_misc_widget(),
             2, 1, 1, 1);
 
-    return grid;
-}
-
-static GtkWidget *create_scpu64_layout(GtkWidget *grid)
-{
     return grid;
 }
 
@@ -400,10 +396,9 @@ static GtkWidget *create_layout(void)
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:
-            return create_c64_layout(grid);
+        case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_SCPU64:
-            return create_scpu64_layout(grid);
+            return create_c64_layout(grid);
         case VICE_MACHINE_C64DTV:
             return create_c64dtv_layout(grid);
         case VICE_MACHINE_C128:
