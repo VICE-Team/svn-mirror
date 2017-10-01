@@ -29,14 +29,16 @@
 #include <stdio.h>
 
 #include "not_implemented.h"
+#include "machine.h"
 #include "petmodel.h"
 #include "machinemodelwidget.h"
+#include "petkeyboardtypewidget.h"
 
 #include "petui.h"
 
 
 static const char *pet_model_list[] = {
-    "PET 2001", "PET 3008", "PET 3016", "PET 3032", "PET 3032B", "PET 4016",
+    "PET 2001-8N", "PET 3008", "PET 3016", "PET 3032", "PET 3032B", "PET 4016",
     "PET 4032", "PET 4032B", "PET 8032", "PET 8096", "PET 8296", "SuperPET",
     NULL
 };
@@ -51,8 +53,8 @@ int petui_init(void)
     machine_model_widget_setter(petmodel_set);
     machine_model_widget_set_models(pet_model_list);
 
-
-
+    pet_keyboard_type_widget_set_keyboard_num_get(machine_get_num_keyboard_types);
+    pet_keyboard_type_widget_set_keyboard_list_get(machine_get_keyboard_info_list);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

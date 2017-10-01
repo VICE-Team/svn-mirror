@@ -168,7 +168,7 @@ static kbdtype_info_t kbdinfo[KBD_TYPE_NUM + 1] = {
 
 kbdtype_info_t *machine_get_keyboard_info_list(void)
 {
-    return &kbdinfo[0];
+    return kbdinfo;
 }
 
 /* ------------------------------------------------------------------------ */

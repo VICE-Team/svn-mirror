@@ -50,6 +50,7 @@
 #include "kernalrevisionwidget.h"
 #include "c128machinetypewidget.h"
 #include "vic20memoryexpansionwidget.h"
+#include "petkeyboardtypewidget.h"
 
 
 #include "uimodel.h"
@@ -306,10 +307,10 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(machine_wrapper),
             c128_machine_type_widget_create(),
             0 ,1, 1, 1);
-   gtk_widget_show_all(machine_wrapper);
+    gtk_widget_show_all(machine_wrapper);
     gtk_grid_attach(GTK_GRID(grid), machine_wrapper, 0, 0, 1, 1);
 
-    /* wrap VIC-II and VDC in a single widget */
+    /* wrap VIC-II, VDC and CIA1/2 in a single widget */
     video_wrapper = gtk_grid_new();
 
     /* VIC-II model widget */
@@ -355,6 +356,7 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
 
 static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
 {
+    INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
 
@@ -389,26 +391,36 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
 
 static GtkWidget *create_plus4_layout(GtkWidget *grid)
 {
+    INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
 
 static GtkWidget *create_pet_layout(GtkWidget *grid)
 {
+    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), pet_keyboard_type_widget_create(),
+            1, 0, 1, 1);
+
+    INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
 
 static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
 {
+    INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
 
 static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 {
+    INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
 
 static GtkWidget *create_vsid_layout(GtkWidget *grid)
 {
+    INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
 

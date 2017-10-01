@@ -59,7 +59,8 @@ libwidgets_a_SOURCES = \
 	ciamodelwidget.c \
 	kernalrevisionwidget.c \
 	c128machinetypewidget.c \
-	vic20memoryexpansionwidget.c
+	vic20memoryexpansionwidget.c \
+	petkeyboardtypewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -98,4 +99,5 @@ EXTRA_DIST = \
 	ciamodelwidget.h \
 	kernalrevisionwidget.h \
 	c128machinetypewidget.h \
-	vic20memoryexpansionwidget.h
+	vic20memoryexpansionwidget.h \
+	petkeyboardtypewidge.h
