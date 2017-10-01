@@ -26,7 +26,7 @@
  */
 
 #ifndef HAVE_CWDWIDGET_H
-#define HAVE_CWDWIDGET_h
+#define HAVE_CWDWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

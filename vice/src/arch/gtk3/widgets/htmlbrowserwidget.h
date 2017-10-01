@@ -29,7 +29,7 @@
  */
 
 #ifndef HAVE_HTMLBROWSERWIDGET_H
-#define HAVE_HTMLBROWSERWIDGET_h
+#define HAVE_HTMLBROWSERWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
