@@ -49,6 +49,7 @@
 #include "ciamodelwidget.h"
 #include "kernalrevisionwidget.h"
 #include "c128machinetypewidget.h"
+#include "vic20memoryexpansionwidget.h"
 
 
 #include "uimodel.h"
@@ -357,10 +358,19 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
     return grid;
 }
 
+
+/** \brief  Create VIC20 model settings widget layout
+ *
+ * \param[in]   grid    GtkGrid to attach widget to
+ *
+ * \return  \a grid
+ */
 static GtkWidget *create_vic20_layout(GtkWidget *grid)
 {
+    GtkWidget *ram_widget;
+
     /* add machine widget */
-    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
     /* VIC model widget */
     video_widget = video_model_widget_create();
@@ -368,8 +378,12 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
 #if 0
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
-    gtk_grid_attach
 #endif
+
+    ram_widget = vic20_memory_expansion_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), ram_widget, 0, 1, 2, 1);
+
+    gtk_widget_show_all(grid);
     return grid;
 }
 
