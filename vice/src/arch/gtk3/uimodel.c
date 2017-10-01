@@ -2,8 +2,8 @@
  * \brief   Model settings dialog
  *
  * Controls the following resource(s):
- *  IECReset    (c64, c64sc)
- *  GlueLogic   (c64sc)
+ *  IECReset    (c64, c64sc, scpu64)
+ *  GlueLogic   (c64sc, scpu64
  *  Go64Mode    (c128)
  *
  *  (for more, see used widgets)
@@ -48,6 +48,7 @@
 #include "sidmodelwidget.h"
 #include "ciamodelwidget.h"
 #include "kernalrevisionwidget.h"
+#include "c128machinetypewidget.h"
 
 
 #include "uimodel.h"
@@ -147,7 +148,7 @@ static GtkWidget *create_go64_widget(void)
     GtkWidget *check;
 
     resources_get_int("Go64Mode", &state);
-    check = gtk_check_button_new_with_label("Switch to C64 mode on reset");
+    check = gtk_check_button_new_with_label("Always switch to C64 mode on reset");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
     g_signal_connect(check, "toggled", G_CALLBACK(on_go64_toggled),
             NULL);
@@ -293,9 +294,19 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
 static GtkWidget *create_c128_layout(GtkWidget *grid)
 {
     GtkWidget *video_wrapper;
+    GtkWidget *machine_wrapper;
 
-    /* add machine widget */
-    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
+    /* wrap machine model and machine type widgets in a single widget */
+    machine_wrapper = gtk_grid_new();
+
+    /* add machine model widget */
+    gtk_grid_attach(GTK_GRID(machine_wrapper), machine_widget, 0, 0, 1, 1);
+    /* add machine type widget */
+    gtk_grid_attach(GTK_GRID(machine_wrapper),
+            c128_machine_type_widget_create(),
+            0 ,1, 1, 1);
+   gtk_widget_show_all(machine_wrapper);
+    gtk_grid_attach(GTK_GRID(grid), machine_wrapper, 0, 0, 1, 1);
 
     /* wrap VIC-II and VDC in a single widget */
     video_wrapper = gtk_grid_new();
@@ -306,18 +317,17 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     /* VDC model widget */
     vdc_widget = vdc_model_widget_create();
     gtk_grid_attach(GTK_GRID(video_wrapper), vdc_widget, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), video_wrapper, 1, 0, 1, 1);
-
     /* CIA1 & CIA2 widget */
     cia_widget = cia_model_widget_create(machine_widget, 2);
-    gtk_grid_attach(GTK_GRID(grid), cia_widget, 0, 1, 2, 1);
+    gtk_grid_attach(GTK_GRID(video_wrapper), cia_widget, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), video_wrapper, 1, 0, 1, 1);
 
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 2, 0, 1, 1);
 
     /* Misc widget */
-    gtk_grid_attach(GTK_GRID(grid), create_c128_misc_widget(), 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_c128_misc_widget(), 0, 1, 3, 1);
     return grid;
 #if 0
 
@@ -349,6 +359,17 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
 
 static GtkWidget *create_vic20_layout(GtkWidget *grid)
 {
+    /* add machine widget */
+    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);
+
+    /* VIC model widget */
+    video_widget = video_model_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
+#if 0
+    /* SID widget */
+    sid_widget = sid_model_widget_create(machine_widget);
+    gtk_grid_attach
+#endif
     return grid;
 }
 

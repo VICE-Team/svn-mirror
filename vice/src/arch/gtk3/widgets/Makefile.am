@@ -57,7 +57,8 @@ libwidgets_a_SOURCES = \
 	cwdwidget.c \
 	sidmodelwidget.c \
 	ciamodelwidget.c \
-	kernalrevisionwidget.c
+	kernalrevisionwidget.c \
+	c128machinetypewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -94,4 +95,5 @@ EXTRA_DIST = \
 	cwdwidget.h \
 	sidmodelwidget.h \
 	ciamodelwidget.h \
-	kernalrevisionwidget.h
+	kernalrevisionwidget.h \
+	c128machinetypewidget.h
