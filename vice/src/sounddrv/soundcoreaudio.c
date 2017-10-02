@@ -52,7 +52,8 @@
 #include "sound.h"
 
 /* Requested audio device name */
-static const char* requested_device_name;
+CFStringRef requested_device_name_ref = NULL;
+char * requested_device_name = NULL;
 
 /* resolved device id */
 static AudioDeviceID device = kAudioDeviceUnknown;
@@ -237,6 +238,11 @@ static void converter_close(void)
     }
 }
 
+static int string_buf_size_for_utf8_char_length(int utf8Chars)
+{
+    return utf8Chars * 4 + 1;
+}
+
 #if defined(MAC_OS_X_VERSION_10_6) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_6)
 static int determine_output_device_id()
 {
@@ -275,7 +281,7 @@ static int determine_output_device_id()
 
     UInt32 device_count = size / sizeof(AudioDeviceID);
 
-    AudioDeviceID *audio_devices = (AudioDeviceID *)(malloc(size));
+    AudioDeviceID *audio_devices = (AudioDeviceID *)(lib_calloc(device_count, sizeof(AudioDeviceID)));
     if (audio_devices == NULL) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): Unable to allocate memory");
         return -1;
@@ -284,13 +290,14 @@ static int determine_output_device_id()
     err = AudioObjectGetPropertyData(kAudioObjectSystemObject, &property_address, 0, NULL, &size, audio_devices);
     if (err != kAudioHardwareNoError) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): AudioObjectGetPropertyData (kAudioHardwarePropertyDevices) failed: %d", (int)err);
-        free(audio_devices);
+        lib_free(audio_devices);
         audio_devices = NULL;
         return -1;
     }
 
     CFStringRef device_name_ref = NULL;
-    const char * device_name = NULL;
+    char * device_name = NULL;
+    CFIndex buffer_size = 0;
 
     /* search list of output devices for matching name */
     for(UInt32 i = 0; i < device_count; ++i) {
@@ -301,15 +308,12 @@ static int determine_output_device_id()
         err = AudioObjectGetPropertyDataSize(audio_devices[i], &property_address, 0, NULL, &size);
         if (err != kAudioHardwareNoError) {
             log_error(LOG_DEFAULT, "sound (coreaudio_init): AudioObjectGetPropertyDataSize (kAudioDevicePropertyStreamConfiguration) failed: %d", (int)err);
-            free(audio_devices);
+            lib_free(audio_devices);
             audio_devices = NULL;
             return -1;
         }
 
-        if (size <= 0) {
-            /* this device has no outputs */
-            continue;
-        }
+        bool outputs_found = size > 0;
 
         /* get device name */
         size = sizeof(device_name_ref);
@@ -317,13 +321,21 @@ static int determine_output_device_id()
         err = AudioObjectGetPropertyData(audio_devices[i], &property_address, 0, NULL, &size, &device_name_ref);
         if (err != kAudioHardwareNoError) {
             log_error(LOG_DEFAULT, "sound (coreaudio_init): AudioObjectGetPropertyData (kAudioDevicePropertyDeviceNameCFString) failed: %d", (int)err);
-            free(audio_devices);
+            lib_free(audio_devices);
             audio_devices = NULL;
             return -1;
         }
 
-        device_name = CFStringGetCStringPtr(device_name_ref, kCFStringEncodingMacRoman);
-        if (device_name == NULL) {
+        buffer_size = string_buf_size_for_utf8_char_length(CFStringGetLength(device_name_ref));
+        device_name = lib_calloc(1, buffer_size);
+
+        if(!CFStringGetCString(device_name_ref, device_name, buffer_size, kCFStringEncodingUTF8)) {
+            strcpy(device_name, "");
+        }
+
+        if (!outputs_found) {
+            log_message(LOG_DEFAULT, "sound (coreaudio_init): Found audio device with no outputs: %s", device_name);
+            lib_free(device_name);
             continue;
         }
 
@@ -334,16 +346,19 @@ static int determine_output_device_id()
         }
 
         if (requested_device_name == NULL) {
+            lib_free(device_name);
             continue;
         }
 
-        if (0 == strcmp(requested_device_name, device_name)) {
+        if (kCFCompareEqualTo == CFStringCompare(requested_device_name_ref, device_name_ref, 0)) {
             /* matches the requested audio device */
             device = audio_devices[i];
         }
+
+        lib_free(device_name);
     }
 
-    free(audio_devices);
+    lib_free(audio_devices);
     audio_devices = NULL;
 
     /* get final device name */
@@ -356,10 +371,14 @@ static int determine_output_device_id()
         return -1;
     }
 
-    device_name = CFStringGetCStringPtr(device_name_ref, kCFStringEncodingMacRoman);
-    if (device_name != NULL) {
-        log_message(LOG_DEFAULT, "sound (coreaudio_init): Using output audio device: %s", device_name);
+    buffer_size = string_buf_size_for_utf8_char_length(CFStringGetLength(device_name_ref));
+    device_name = lib_calloc(1, buffer_size);
+
+    if(!CFStringGetCString(device_name_ref, device_name, buffer_size, kCFStringEncodingUTF8)) {
+        strcpy(device_name, "");
     }
+
+    log_message(LOG_DEFAULT, "sound (coreaudio_init): Using output audio device: %s", device_name);
 
     return 0;
 }
@@ -684,7 +703,16 @@ static int coreaudio_init(const char *param, int *speed,
     int result;
 
     /* store fragment parameters */
-    requested_device_name = param;
+    if (param) {
+        requested_device_name_ref = CFStringCreateWithCString(NULL, param, kCFStringEncodingUTF8);
+
+        CFIndex buffer_size = string_buf_size_for_utf8_char_length(CFStringGetLength(requested_device_name_ref));
+        requested_device_name = lib_calloc(1, buffer_size);
+
+        if(!CFStringGetCString(requested_device_name_ref, requested_device_name, buffer_size, kCFStringEncodingUTF8)) {
+            strcpy(requested_device_name, "");
+        }
+    }
     fragment_count = *fragnr;
     frames_in_fragment = *fragsize;
     in_channels = *channels;
@@ -763,6 +791,16 @@ static void coreaudio_close(void)
 
     lib_free(soundbuffer);
     lib_free(silence);
+
+    if (requested_device_name_ref) {
+        CFRelease(requested_device_name_ref);
+        requested_device_name_ref = NULL;
+    }
+
+    if(requested_device_name) {
+        lib_free(requested_device_name);
+        requested_device_name = NULL;
+    }
 }
 
 static int coreaudio_suspend(void)
