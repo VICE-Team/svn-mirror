@@ -27,6 +27,7 @@
 #include "vice.h"
 #include "uidatasette.h"
 #include "datasette.h"
+#include "uitapeattach.h"
 
 #include <stdio.h>
 
@@ -42,10 +43,17 @@ static void interpret_tape_action_cb(GtkWidget *widget, gpointer data)
 
 GtkWidget *ui_create_datasette_control_menu(void)
 {
-    GtkWidget *menu, *menu_items[DATASETTE_CONTROL_RESET_COUNTER+1];
+    GtkWidget *menu, *item, *menu_items[DATASETTE_CONTROL_RESET_COUNTER+1];
     int i;
 
     menu = gtk_menu_new();
+    item = gtk_menu_item_new_with_label(_("Attach tape image..."));
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "activate", G_CALLBACK(ui_tape_attach_callback), NULL);
+    item = gtk_menu_item_new_with_label(_("Detach tape image"));
+    gtk_container_add(GTK_CONTAINER(menu), item);
+    g_signal_connect(item, "activate", G_CALLBACK(ui_tape_detach_callback), NULL);
+    gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
     menu_items[0] = gtk_menu_item_new_with_label(_("Stop"));
     menu_items[1] = gtk_menu_item_new_with_label(_("Start"));
     menu_items[2] = gtk_menu_item_new_with_label(_("Forward"));
@@ -55,11 +63,8 @@ GtkWidget *ui_create_datasette_control_menu(void)
     menu_items[6] = gtk_menu_item_new_with_label(_("Reset Counter"));
     for (i = 0; i <= DATASETTE_CONTROL_RESET_COUNTER; ++i) {
         gtk_container_add(GTK_CONTAINER(menu), menu_items[i]);
-        /* Because the popup isn't part of the normal display, our
-         * menu items are invisible unless shown. We set that while we
-         * set the rest up. */
-        gtk_widget_show(menu_items[i]);
         g_signal_connect(menu_items[i], "activate", G_CALLBACK(interpret_tape_action_cb), GINT_TO_POINTER(i));
     }
+    gtk_widget_show_all(menu);
     return menu;
 }

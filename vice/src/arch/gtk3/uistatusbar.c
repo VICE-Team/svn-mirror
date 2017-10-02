@@ -753,7 +753,12 @@ void ui_set_tape_status(int tape_status)
 void ui_display_tape_current_image(const char *image)
 {
     char buf[256];
-    snprintf(buf, 256, _("Attached %s to tape unit"), image);
+    if (image && *image) {
+        snprintf(buf, 256, _("Attached %s to tape unit"), image);
+    } else {
+        snprintf(buf, 256, _("Tape unit is empty"));
+    }
+
     buf[255]=0;
     ui_display_statustext(buf, 1);
 }

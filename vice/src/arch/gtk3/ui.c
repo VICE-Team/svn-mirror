@@ -57,6 +57,7 @@
 #include "uistatusbar.h"
 #include "uismartattach.h"
 #include "uidiskattach.h"
+#include "uitapeattach.h"
 #include "uiabout.h"
 #include "selectdirectorydialog.h"
 #include "jamdialog.h"
@@ -229,6 +230,23 @@ static const cmdline_option_t cmdline_options_common[] = {
     CMDLINE_LIST_END
 };
 
+/** \brief  File->Detach submenu
+ */
+static ui_menu_item_t detach_submenu[] = {
+    { "Drive #8", UI_MENU_TYPE_ITEM_ACTION,
+      ui_disk_detach_callback, GINT_TO_POINTER(8),
+      0, 0 },
+    { "Drive #9", UI_MENU_TYPE_ITEM_ACTION,
+      ui_disk_detach_callback, GINT_TO_POINTER(9),
+      0, 0 },
+    { "Drive #10", UI_MENU_TYPE_ITEM_ACTION,
+      ui_disk_detach_callback, GINT_TO_POINTER(10),
+      0, 0 },
+    { "Drive #11", UI_MENU_TYPE_ITEM_ACTION,
+      ui_disk_detach_callback, GINT_TO_POINTER(11),
+      0, 0 },
+    UI_MENU_TERMINATOR
+};
 
 /** \brief  File->Reset submenu
  */
@@ -278,8 +296,8 @@ static ui_menu_item_t file_menu[] = {
     { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
         0, 0 },
-    { "Detach disk image", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+    { "Detach disk image", UI_MENU_TYPE_SUBMENU,
+        NULL, detach_submenu,
         0, 0 },
     { "Flip list ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
@@ -292,9 +310,10 @@ static ui_menu_item_t file_menu[] = {
         NULL, NULL,
         0, 0 },
     { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        ui_tape_attach_callback, NULL,
         0, 0 },
-    { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION, NULL, NULL,
+    { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION,
+        ui_tape_detach_callback, NULL,
         0, 0 },
     { "Datasette controls [USE TAPEWIDGET IN STATUSBAR]",
         UI_MENU_TYPE_ITEM_ACTION, NULL, NULL,
