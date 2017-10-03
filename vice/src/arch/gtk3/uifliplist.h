@@ -30,6 +30,11 @@
 
 void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count);
 
+void ui_fliplist_next_cb(GtkWidget *widget, gpointer data);
+void ui_fliplist_prev_cb(GtkWidget *widget, gpointer data);
+
+void ui_fliplist_load_callback(GtkWidget *widget, gpointer data);
+
 #endif
 
 

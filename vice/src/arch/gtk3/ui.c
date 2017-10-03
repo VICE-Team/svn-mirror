@@ -51,6 +51,7 @@
 #include "basedialogs.h"
 #include "uiapi.h"
 #include "uiedit.h"
+#include "uifliplist.h"
 #include "uimenu.h"
 #include "uimonarch.h"
 #include "uisettings.h"
@@ -248,6 +249,30 @@ static ui_menu_item_t detach_submenu[] = {
     UI_MENU_TERMINATOR
 };
 
+/** \brief  File->Flip list submenu
+ */
+static ui_menu_item_t fliplist_submenu[] = {
+    { "Add current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
+      NULL, NULL,
+      0, 0 },
+    { "Remove current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
+      NULL, NULL,
+      0, 0 },
+    { "Attach next image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
+      ui_fliplist_next_cb, GINT_TO_POINTER(8),
+      0, 0 },
+    { "Attach previous image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
+      ui_fliplist_prev_cb, GINT_TO_POINTER(8),
+      0, 0 },
+    { "Load flip list file...", UI_MENU_TYPE_ITEM_ACTION,
+      ui_fliplist_load_callback, GINT_TO_POINTER(8),
+      0, 0 },
+    { "Save flip list file...", UI_MENU_TYPE_ITEM_ACTION,
+      NULL, NULL,
+      0, 0 },
+    UI_MENU_TERMINATOR
+};
+
 /** \brief  File->Reset submenu
  */
 static ui_menu_item_t reset_submenu[] = {
@@ -299,8 +324,8 @@ static ui_menu_item_t file_menu[] = {
     { "Detach disk image", UI_MENU_TYPE_SUBMENU,
         NULL, detach_submenu,
         0, 0 },
-    { "Flip list ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+    { "Flip list", UI_MENU_TYPE_SUBMENU,
+        NULL, fliplist_submenu,
         0, 0 },
 
     UI_MENU_SEPARATOR,

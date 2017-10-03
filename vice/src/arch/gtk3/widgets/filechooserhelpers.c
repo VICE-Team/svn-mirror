@@ -64,6 +64,11 @@ const char *file_chooser_pattern_tape[] = {
     "*.t64", "*.tap", NULL
 };
 
+/** \brief  Patterns for fliplists
+ */
+const char *file_chooser_pattern_fliplist[] = {
+    "*.vfl", NULL
+};
 
 /** \brief  Patterns for program files
  */
@@ -114,6 +119,11 @@ const ui_file_filter_t file_chooser_filter_disk = {
 const ui_file_filter_t file_chooser_filter_tape = {
     "Tape images",
     file_chooser_pattern_tape
+};
+
+const ui_file_filter_t file_chooser_filter_fliplist = {
+    "Flip lists",
+    file_chooser_pattern_fliplist
 };
 
 const ui_file_filter_t file_chooser_filter_program = {
