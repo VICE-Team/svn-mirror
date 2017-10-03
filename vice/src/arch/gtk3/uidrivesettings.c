@@ -223,20 +223,31 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     GtkWidget *tde_widget;
     GtkWidget *sound_widget;
 
+    GtkWidget *tde_sound_wrapper;
+
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
     g_object_set(layout, "margin", 8, NULL);
 
+    /* add TDE & sound widgets next to each other to save a bit of vertical
+     * space */
+    tde_sound_wrapper = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(tde_sound_wrapper), 8);
+
     tde_widget = create_tde_check_button();
-    gtk_grid_attach(GTK_GRID(layout), tde_widget, 0, 0, 3, 1);
+    gtk_grid_attach(GTK_GRID(tde_sound_wrapper), tde_widget, 0, 0, 1, 1);
     sound_widget = create_drive_sound_check_button();
-    gtk_grid_attach(GTK_GRID(layout), sound_widget,0, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(tde_sound_wrapper), sound_widget, 1, 0, 1, 1);
+
+    /* row 0, columns 0-2 */
+    gtk_grid_attach(GTK_GRID(layout), tde_sound_wrapper, 0, 0, 3, 1);
+
 
     unit_widget = drive_unit_widget_create(8, &unit_number, unit_changed_callback);
     g_object_set(unit_widget, "margin-left", 8, NULL);
-    /* row 2, column 0-2 */
-    gtk_grid_attach(GTK_GRID(layout), unit_widget, 0, 2, 3, 1);
+    /* row 1, column 0-2 */
+    gtk_grid_attach(GTK_GRID(layout), unit_widget, 0, 1, 3, 1);
 
     type_40_grid = gtk_grid_new();
     /* create drive type widget, but don't connect signal handler yet, to avoid
@@ -249,13 +260,14 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     drive_extend_policy_widget_update(drive_extend_widget, unit_number);
     gtk_grid_attach(GTK_GRID(type_40_grid), drive_extend_widget, 0, 1, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(layout), type_40_grid, 0, 3, 1, 2);
+    /* row 2, column 0 */
+    gtk_grid_attach(GTK_GRID(layout), type_40_grid, 0, 2, 1, 2);
 
-    /* row 3, column 1 */
+    /* row 2, column 1 */
     drive_expansion_widget = drive_expansion_widget_create(unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_expansion_widget, 1, 2, 1, 1);
 
-    /* row 3, column 2 */
+    /* row 2, column 2 */
 
     idle_par_grid = gtk_grid_new();
     drive_idle_method_widget = drive_idle_method_widget_create(unit_number);
@@ -266,11 +278,11 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
             unit_number);
     gtk_grid_attach(GTK_GRID(idle_par_grid), drive_parallel_cable_widget,
             0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), idle_par_grid, 2, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), idle_par_grid, 2, 2, 1, 1);
 
-    /* row 4, column 1 & 2 */
+    /* row 3, column 1 & 2 */
     drive_options_widget = drive_options_widget_create(unit_number);
-    gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 4, 2, 1);
+    gtk_grid_attach(GTK_GRID(layout), drive_options_widget, 1, 3, 2, 1);
 
     /* now connect the drive type widget's signal handlers */
     drive_type_widget_connect_signals(drive_type_widget);
