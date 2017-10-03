@@ -152,12 +152,12 @@ static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
  * moment.
  *
  * \param[in,out]   widget      widget triggering the event (the dialog)
- * \param[in]       user_data   response ID (\see GtkResponseType)
+ * \param[in]       response_id response ID
+ * \param[in]       user_data   extra data (unused)
  */
-static void about_response_callback(GtkWidget *widget, gpointer user_data)
+static void about_response_callback(GtkWidget *widget, gint response_id,
+                                    gpointer user_data)
 {
-    gint response_id = GPOINTER_TO_INT(user_data);
-
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s(): response id: %d\n", __func__, response_id);
 #endif
@@ -242,7 +242,7 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 
     /* make the about dialog modal */
     gtk_window_set_modal(GTK_WINDOW(about), TRUE);
-    
+
     /* ... and show the dialog finally */
     gtk_widget_show(about);
 }

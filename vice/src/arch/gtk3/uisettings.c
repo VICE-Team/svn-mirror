@@ -333,11 +333,12 @@ void ui_settings_dialog_shutdown(void)
  * This determines what to do based on the 'reponse ID' emitted by the dialog.
  *
  * \param[in]   widget      widget triggering the event (button pushed)
- * \param[in]   user_data   response ID (`gint`)
+ * \param[in]   response_id response ID
+ * \param[in]   user_data   extra data (unused)
  */
-static void response_callback(GtkWidget *widget, gpointer user_data)
+static void response_callback(GtkWidget *widget, gint response_id,
+                              gpointer user_data)
 {
-    gint response_id = GPOINTER_TO_INT(user_data);
     gchar *filename;
 
     switch (response_id) {

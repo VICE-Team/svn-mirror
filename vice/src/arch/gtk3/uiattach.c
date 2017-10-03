@@ -111,12 +111,12 @@ static void do_attach(GtkWidget *widget)
  * what to do.
  *
  * \param[in,out]   widget      file chooser dialog
- * \param[in]       user_data   response ID
+ * \param[in]       response_id response ID
+ * \param[in]       user_data   extra data (unused)
  */
-static void response_callback(GtkWidget *widget, gpointer user_data)
+static void response_callback(GtkWidget *widget, gint response_id,
+                              gpointer user_data)
 {
-    gint response_id = GPOINTER_TO_INT(user_data);
-
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s(): response ID = %d\n", __func__,response_id);
 #endif

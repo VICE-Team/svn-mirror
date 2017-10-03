@@ -92,15 +92,15 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
  * This handler is called when the user clicks a button in the dialog.
  *
  * \param[in]   widget      the dialog
- * \param[in]   user_data   reponse ID (`int`)
+ * \param[in]   response_id response ID
+ * \param[in]   user_data   extra data (unused)
  *
  * TODO:    proper (error) messages, which requires implementing ui_error() and
  *          ui_message() and moving them into gtk3/widgets to avoid circular
  *          references
  */
-static void on_response(GtkWidget *widget, gpointer user_data)
+static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
-    int response_id = GPOINTER_TO_INT(user_data);
     gchar *filename;
 
     debug_gtk3("got response ID %d\n", response_id);
