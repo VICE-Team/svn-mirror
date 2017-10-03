@@ -308,11 +308,12 @@ void cmdline_show_help(void *userparam)
     printf("\nAvailable command-line options:\n\n");
     for (i = 0; i < num_options; i++) {
         char *param = cmdline_options_get_param(i);
-        puts(options[i].name);
         if (options[i].need_arg && param != NULL) {
-            printf(" %s", param);
+            printf("%s %s\n", options[i].name, param);
+        } else {
+            puts(options[i].name);
         }
-        printf("\n\t%s\n", cmdline_options_get_description(i));
+        printf("\t%s\n", cmdline_options_get_description(i));
     }
     putchar('\n');
 }
