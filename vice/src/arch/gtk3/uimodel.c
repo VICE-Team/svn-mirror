@@ -55,7 +55,7 @@
 #include "petramsizewidget.h"
 #include "petiosizewidget.h"
 #include "petmiscwidget.h"
-
+#include "superpetwidget.h"
 
 #include "uimodel.h"
 
@@ -424,6 +424,11 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid),
             pet_misc_widget_create(),
             1, 2, 2, 1);
+
+    /* SuperPET widgets */
+    gtk_grid_attach(GTK_GRID(grid),
+            superpet_widget_create(),
+            0, 3, 3, 1);
 
     INCOMPLETE_IMPLEMENTATION();
     return grid;
