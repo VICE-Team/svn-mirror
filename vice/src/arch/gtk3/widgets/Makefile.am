@@ -61,7 +61,9 @@ libwidgets_a_SOURCES = \
 	c128machinetypewidget.c \
 	vic20memoryexpansionwidget.c \
 	petkeyboardtypewidget.c \
-	petvideosizewidget.c
+	petvideosizewidget.c \
+	petramsizewidget.c \
+	petiosizewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -102,4 +104,6 @@ EXTRA_DIST = \
 	c128machinetypewidget.h \
 	vic20memoryexpansionwidget.h \
 	petkeyboardtypewidget.h \
-	petvideosizewidget.h
+	petvideosizewidget.h \
+	petramsizewidget.h \
+	petiosizewidget.h

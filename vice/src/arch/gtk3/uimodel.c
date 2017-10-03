@@ -52,6 +52,8 @@
 #include "vic20memoryexpansionwidget.h"
 #include "petkeyboardtypewidget.h"
 #include "petvideosizewidget.h"
+#include "petramsizewidget.h"
+#include "petiosizewidget.h"
 
 
 #include "uimodel.h"
@@ -409,6 +411,14 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid),
             pet_video_size_widget_create(),
             1, 1, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid),
+            pet_ram_size_widget_create(),
+            2, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid),
+            pet_io_size_widget_create(),
+            2, 1, 1, 1);
 
     INCOMPLETE_IMPLEMENTATION();
     return grid;
