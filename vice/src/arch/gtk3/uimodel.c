@@ -54,6 +54,7 @@
 #include "petvideosizewidget.h"
 #include "petramsizewidget.h"
 #include "petiosizewidget.h"
+#include "petmiscwidget.h"
 
 
 #include "uimodel.h"
@@ -402,7 +403,7 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
 {
     gtk_grid_attach(GTK_GRID(grid),
             machine_widget,
-            0, 0, 1, 2);
+            0, 0, 1, 3);
 
     gtk_grid_attach(GTK_GRID(grid),
             pet_keyboard_type_widget_create(),
@@ -419,6 +420,10 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid),
             pet_io_size_widget_create(),
             2, 1, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid),
+            pet_misc_widget_create(),
+            1, 2, 2, 1);
 
     INCOMPLETE_IMPLEMENTATION();
     return grid;
