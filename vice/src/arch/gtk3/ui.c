@@ -308,9 +308,6 @@ static ui_menu_item_t file_menu[] = {
     { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
         ui_smart_attach_callback, NULL,
         0, 0 },
-    { "Autostart settings [MOVED TO SETTINGS]", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
 
     UI_MENU_SEPARATOR,
 
