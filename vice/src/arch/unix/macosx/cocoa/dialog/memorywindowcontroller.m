@@ -57,6 +57,7 @@
  
     windowBaseTitle = [[super window] title];
     [windowBaseTitle retain];
+    [memoryTable setDataSource:self];
 }
 
 -(void)readMemory
@@ -87,19 +88,8 @@
     }
 }
 
--(void)monitorInitDone:(NSNotification *)notification;
-{   
-#ifdef MONITOR_DEBUG
-    NSLog(@"mem: -> set data source");
-#endif
-    [memoryTable setDataSource:self];
-}
-
 -(void)monitorUpdate:(NSNotification *)notification
 {
-#ifdef MONITOR_DEBUG
-    NSLog(@"mem: -> update");
-#endif
     [self readMemory];
     [memoryTable reloadData];
 }
@@ -143,7 +133,7 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-    row:(int)rowIndex
+    row:(NSInteger)rowIndex
 {
     if(data == nil)
         return nil;
@@ -207,7 +197,7 @@
             line[i] = charset_p_toascii(bytes[i],0);
         }
         
-        theValue = [NSString stringWithCString:(char *)line encoding:NSUTF8StringEncoding];
+        theValue = [[NSString alloc] initWithBytes:line length:PER_LINE encoding:NSUTF8StringEncoding];
 
         // compare data and mark differences
         if(sameBank) {
@@ -225,7 +215,7 @@
             line[i] = charset_p_toascii(charset_screencode_to_petcii(bytes[i]),0);
         }
         
-        theValue = [NSString stringWithCString:(char *)line encoding:NSUTF8StringEncoding];
+        theValue = [[NSString alloc] initWithBytes:line length:PER_LINE encoding:NSUTF8StringEncoding];
         
         // compare data and mark differences
         if(sameBank) {
