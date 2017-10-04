@@ -45,7 +45,7 @@ struct video_param_s;
 #define NUM_KEY_MODIFIERS 4
 
 struct texture_s {
-    BYTE            *buffer;            /* raw data of texture */
+    uint8_t         *buffer;            /* raw data of texture */
     GLuint           bindId;            /* GL ID for binding */
     unsigned long    timeStamp;         /* when the machine wrote into buffer */
     int              frameNo;           /* frame number of emulation */
@@ -140,7 +140,7 @@ typedef struct texture_s texture_t;
 - (void)resizeCanvas:(NSSize)size;
 
 // get next render buffer for drawing by emu. may return NULL if out of buffers
-- (BYTE *)beginMachineDraw:(int)frameNo;
+- (uint8_t *)beginMachineDraw:(int)frameNo;
 
 // end rendering into buffer
 - (void)endMachineDraw;

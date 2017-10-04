@@ -294,7 +294,7 @@
     mon_navigate_set_memspace(&dp.navigate,memSpace);
     mon_navigate_set_startaddress(&dp.navigate, address);
     dp.navigate.Lines = numLines + 1;
-    WORD pos = mon_navigate_scroll(&dp.navigate, up ? MON_SCROLL_PAGE_UP : MON_SCROLL_PAGE_DOWN); 
+    uint16_t pos = mon_navigate_scroll(&dp.navigate, up ? MON_SCROLL_PAGE_UP : MON_SCROLL_PAGE_DOWN);
     return [NSNumber numberWithInt:pos];
 }
 
@@ -335,7 +335,7 @@ static char *snapshotName;
 static int snapshotSaveRoms;
 static int snapshotSaveDisks;
 
-static void loadSnapshotTrap(WORD unusedWord, void *unusedData)
+static void loadSnapshotTrap(uint16_t unusedWord, void *unusedData)
 {
     if (machine_read_snapshot(snapshotName, 0) < 0) {
         [[theVICEMachine app] runErrorMessage:@"Error loading Snapshot!"];
@@ -345,7 +345,7 @@ static void loadSnapshotTrap(WORD unusedWord, void *unusedData)
     free(snapshotName);
 }
 
-static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
+static void saveSnapshotTrap(uint16_t unusedWord, void *unusedData)
 {
     if (machine_write_snapshot(snapshotName, snapshotSaveRoms, snapshotSaveDisks, 0) < 0) {
         [[theVICEMachine app] runErrorMessage:@"Error saving Snapshot!"];        
@@ -758,7 +758,7 @@ extern void mouse_move_f(float x, float y);
         int len = [string length];
         char *pstr = (char *)malloc(len + 1);
         memcpy(pstr,cstr,len+1);
-        charset_petconvstring((BYTE*)pstr,0);
+        charset_petconvstring((uint8_t*)pstr,0);
         
         kbdbuf_feed(pstr);
         

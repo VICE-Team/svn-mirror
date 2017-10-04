@@ -301,7 +301,7 @@ extern log_t video_log;
 }
 
 // the emulation wants to draw a new frame (called from machine thread!)
-- (BYTE *)beginMachineDraw:(int)frameNo
+- (uint8_t *)beginMachineDraw:(int)frameNo
 {
     unsigned long timeStamp = (unsigned long)(CVGetCurrentHostTime() / hostToUsFactor);
 
@@ -1057,7 +1057,7 @@ extern log_t video_log;
     for(i=start;i<numTextures;i++) {
         glGenTextures(1, &texture[i].bindId);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, texture[i].bindId);
-        BYTE *data = texture[i].buffer;
+        uint8_t *data = texture[i].buffer;
         
         glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, textureByteSize, data);
         glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);

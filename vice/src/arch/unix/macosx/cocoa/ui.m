@@ -153,7 +153,7 @@ void ui_display_statustext(const char *text, int fade_out)
     NSLog(@"Status: %s %d",text,fade_out);
 }
 
-void ui_display_joyport(BYTE *joyport)
+void ui_display_joyport(uint8_t *joyport)
 {
     [[theVICEMachine machineNotifier] postDisplayJoystickNotification:(int)joyport[1]
                                         secondJoystick:(int)joyport[2]];

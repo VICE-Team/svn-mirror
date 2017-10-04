@@ -325,7 +325,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
     // get drawing buffer
     VICEGLView *view = canvas->view;
-    BYTE *buffer = [view beginMachineDraw:vsync_frame_counter];
+    uint8_t *buffer = [view beginMachineDraw:vsync_frame_counter];
     if(buffer == NULL) {
         return;
     }
@@ -350,9 +350,9 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
     int gbits = 0;
     int bshift = 0;
     int bbits = 0;
-    DWORD rmask = 0;
-    DWORD gmask = 0;
-    DWORD bmask = 0;
+    uint32_t rmask = 0;
+    uint32_t gmask = 0;
+    uint32_t bmask = 0;
 
     if (p == NULL) {
         return 0;	/* no palette, nothing to do */
@@ -363,7 +363,7 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
     // set 32bit palette
     for (i = 0; i < p->num_entries; i++)
     {
-        DWORD col;
+        uint32_t col;
 
         rbits = 0; rshift = 16; rmask = 0xff;
         gbits = 0; gshift = 8; gmask = 0xff;
@@ -395,12 +395,12 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 
 int uicolor_alloc_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long *color_pixel,
-                        BYTE *pixel_return)
+                        uint8_t *pixel_return)
 {
     return 0;
 }
 
-void uicolor_convert_color_table(unsigned int colnr, BYTE *data,
+void uicolor_convert_color_table(unsigned int colnr, uint8_t *data,
                                  long color_pixel, void *c)
 {
 }
