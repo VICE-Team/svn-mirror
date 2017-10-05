@@ -38,6 +38,7 @@ gchar *ui_open_file_dialog(
         GtkWidget *widget,
         const char *title,
         const char *filter_desc,
-        const char **filter_list);
+        const char **filter_list,
+        const char *path);
 
 #endif

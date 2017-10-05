@@ -41,6 +41,7 @@
  * \param[in]   title           dialog title
  * \param[in]   proposed        proposed directory name (optional)
  * \param[in]   allow_create    allow creating a new directory
+ * \param[in]   path        set starting directory (optional)
  *
  * \return  dircetory name or `NULL` on cancel
  *
@@ -51,7 +52,8 @@ gchar *ui_select_directory_dialog(
         GtkWidget *widget,
         const char *title,
         const char *proposed,
-        gboolean allow_create)
+        gboolean allow_create,
+        const char *path)
 {
     GtkWidget *dialog;
     GtkWidget *parent;
@@ -74,6 +76,11 @@ gchar *ui_select_directory_dialog(
     /* set proposed file name, if any */
     if (proposed != NULL && *proposed != '\0') {
         gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), proposed);
+    }
+
+    /* change directory if specified */
+    if (path != NULL && *path != '\0') {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
 
     result = gtk_dialog_run(GTK_DIALOG(dialog));

@@ -74,7 +74,7 @@ static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
     const char *filters[] = { "*.vkm", NULL };
 
     filename = ui_open_file_dialog(widget, "Open symbolic keymap file",
-            "Keymaps", filters);
+            "Keymaps", filters, NULL);
 
     debug_gtk3("got file \"%s\"\n", filename);
     if (filename != NULL) {
@@ -99,7 +99,7 @@ static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
     const char *filters[] = { "*.vkm", NULL };
 
     filename = ui_open_file_dialog(widget, "Open positional keymap file",
-            "Keymaps", filters);
+            "Keymaps", filters, NULL);
 
     debug_gtk3("got file \"%s\"\n", filename);
     if (filename != NULL) {

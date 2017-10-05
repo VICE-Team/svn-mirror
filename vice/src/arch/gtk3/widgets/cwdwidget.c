@@ -71,7 +71,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     gchar *filename;
 
     filename = ui_select_directory_dialog(widget, "Select directory",
-            NULL, TRUE);
+            NULL, TRUE, NULL);
     if (filename != NULL) {
         gtk_entry_set_text(GTK_ENTRY(entry), filename);
     }

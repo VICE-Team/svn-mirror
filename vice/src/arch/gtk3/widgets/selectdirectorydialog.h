@@ -36,6 +36,7 @@ gchar *ui_select_directory_dialog(
         GtkWidget *widget,
         const char *title,
         const char *proposed,
-        gboolean allow_create);
+        gboolean allow_create,
+        const char *path);
 
 #endif

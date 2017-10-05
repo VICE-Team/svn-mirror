@@ -360,7 +360,7 @@ static void response_callback(GtkWidget *widget, gint response_id,
         /* load vicerc from a user-specified location */
         case RESPONSE_LOAD_FILE:
             filename = ui_open_file_dialog(widget, "Load settings file",
-                    NULL, NULL);
+                    NULL, NULL, NULL);
             if (filename!= NULL) {
                 debug_gtk3("loading settings from '%s'\n", filename);
                 if (resources_load(filename) != 0) {
@@ -380,7 +380,7 @@ static void response_callback(GtkWidget *widget, gint response_id,
         /* save settings to a user-specified location */
         case RESPONSE_SAVE_FILE:
             filename = ui_save_file_dialog(widget, "Save settings as ...",
-                    NULL, TRUE);
+                    NULL, TRUE, NULL);
             if (filename != NULL) {
                 debug_gtk3("saving setting as '%s'\n", filename ? filename : "NULL");
                 if (resources_save(filename) != 0) {

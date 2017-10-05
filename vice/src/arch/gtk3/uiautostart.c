@@ -112,7 +112,7 @@ static void on_diskimage_browse_clicked(GtkWidget *widget, gpointer user_data)
     const char *filters[] = { "*.d64", NULL };
 
     filename = ui_open_file_dialog(widget, "Select D64 image",
-            "D64 images", filters);
+            "D64 images", filters, NULL);
     if (filename != NULL) {
         GtkEntry *entry = GTK_ENTRY(user_data);
         GtkEntryBuffer *buffer;

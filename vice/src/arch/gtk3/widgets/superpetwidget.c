@@ -103,7 +103,7 @@ static GtkWidget *create_superpet_enable_widget(void)
     GtkWidget *check;
     int enabled;
 
-    check = gtk_check_button_new_with_label("I/O Enable (disables 8x96");
+    check = gtk_check_button_new_with_label("I/O Enable (disables 8x96)");
     resources_get_int("SuperPet", &enabled);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
     g_signal_connect(check, "toggled", G_CALLBACK(on_superpet_enable_toggled),

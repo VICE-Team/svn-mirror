@@ -41,6 +41,7 @@
  * \param[in]   title       dialog title
  * \param[in]   proposed    proposed file name (optional)
  * \param[in]   confirm     confirm overwriting an existing file
+ * \param[in]   path        set starting directory (optional)
  *
  * \return  filename or `NULL` on cancel
  *
@@ -51,7 +52,8 @@ gchar *ui_save_file_dialog(
         GtkWidget *widget,
         const char *title,
         const char *proposed,
-        gboolean confirm)
+        gboolean confirm,
+        const char *path)
 {
     GtkWidget *dialog;
     GtkWidget *parent;
@@ -76,6 +78,11 @@ gchar *ui_save_file_dialog(
     /* set proposed file name, if any */
     if (proposed != NULL && *proposed != '\0') {
         gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), proposed);
+    }
+
+    /* change directory if specified */
+    if (path != NULL && *path != '\0') {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
     }
 
     result = gtk_dialog_run(GTK_DIALOG(dialog));

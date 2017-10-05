@@ -34,14 +34,18 @@
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
+#include "openfiledialog.h"
 
 #include "aciawidget.h"
 
 
-
+/** \brief  Reference to baud rates list
+ */
 static int *acia_baud_rates;
 
 
+/** \brief  List of ACIA devices
+ */
 static ui_text_int_pair_t acia_device_list[] = {
     { "Serial 1", 0 },
     { "Serial 2", 1 },
@@ -51,6 +55,12 @@ static ui_text_int_pair_t acia_device_list[] = {
 };
 
 
+/** \brief  Get index in the baud rates list
+ *
+ * \param[in]   baud    baud rate
+ *
+ * \return  index or -1 when not found
+ */
 static int get_baud_rate_index(int baud)
 {
     for (int i = 0; acia_baud_rates[i] > 0; i++) {
@@ -62,7 +72,11 @@ static int get_baud_rate_index(int baud)
 }
 
 
-
+/** \brief  Handler for the "toggled" event of the ACIA device toggle buttons
+ *
+ * \param[in]   widget      radio button triggering the event
+ * \param[in]   user_data   index of the device in the list (`int`)
+ */
 static void on_acia_device_changed(GtkWidget *widget, gpointer user_data)
 {
     int old_val;
@@ -79,6 +93,11 @@ static void on_acia_device_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "changed" event of a serial device text box
+ *
+ * \param[in]   widget      text box triggering the event
+ * \param[in]   user_data   serial device number (`int`)
+ */
 static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
 {
     int device = GPOINTER_TO_INT(user_data);
@@ -86,10 +105,15 @@ static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
 
     /* debug_gtk3("got RsDevice %d\n", device); */
     debug_gtk3("setting RsDevice%d to '%s'\n", device, text);
-    resources_set_string_sprintf("RsDecvice%d", text, device);
+    resources_set_string_sprintf("RsDevice%d", text, device);
 }
 
 
+/** \brief  Handler for the changed event for the baud rate combo boxes
+ *
+ * \param[in]   widget      combo box triggering the event
+ * \param[in]   user_data   serial device number (`int`)
+ */
 static void on_serial_baud_changed(GtkWidget *widget, gpointer user_data)
 {
     int device = GPOINTER_TO_INT(user_data);
@@ -100,6 +124,41 @@ static void on_serial_baud_changed(GtkWidget *widget, gpointer user_data)
                 device, acia_baud_rates[index]);
         resources_set_int_sprintf("RsDevice%dBaud",
                 acia_baud_rates[index], device);
+    }
+}
+
+
+/** \brief  Handler for the "clicked" event of the "browse" buttons
+ *
+ * \param[in]   widget      button triggering the event
+ * \param[in]   user_data   device number (`int`)
+ */
+static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
+{
+    int device;
+    const char *fdesc = "Serial ports";
+    const char *flist[] = { "ttyS*", NULL };
+    gchar *filename;
+    gchar title[256];
+
+    device = GPOINTER_TO_INT(user_data);
+    g_snprintf(title, 256, "Select serial device #%d", device);
+
+    filename = ui_open_file_dialog(widget, title, fdesc, flist, "/dev");
+    if (filename != NULL) {
+
+        GtkWidget *grid;
+        GtkWidget *entry;
+
+        debug_gtk3("setting RsDevice%d to '%s'\n", device, filename);
+        /* resources_set_string_sprintf("RsDevice%d", filename, device); */
+
+        /* update text entry box, forces an update of the resource */
+        grid = gtk_widget_get_parent(widget);
+        entry = gtk_grid_get_child_at(GTK_GRID(grid), 0, 1);
+        gtk_entry_set_text(GTK_ENTRY(entry), filename);
+
+        g_free(filename);
     }
 }
 
@@ -131,6 +190,12 @@ static GtkWidget *create_acia_device_widget(void)
 }
 
 
+/** \brief  Create a widget to set an ACIA serial device (path + baud rate)
+ *
+ * \param[in]   num     serial device number
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_acia_serial_device_widget(int num)
 {
     GtkWidget *grid;
@@ -140,7 +205,6 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     GtkWidget *combo;
     char *title;
     const char *path;
-    int device;
     int rate;
     int index;
 
@@ -148,8 +212,6 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     grid = uihelpers_create_grid_with_label(title, 2);
     g_object_set_data(G_OBJECT(grid), "SerialDevice", GINT_TO_POINTER(num));
     lib_free(title);
-
-    resources_get_int_sprintf("RsDevice%d", &device, num);
 
     /* add "RsDevice" property to widget to allow the event handlers to set
      * the proper resources
@@ -160,6 +222,8 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     gtk_widget_set_hexpand(entry, TRUE);
     g_object_set(entry, "margin-left", 16, NULL);
     browse = gtk_button_new_with_label("Browse ...");
+    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),
+            GINT_TO_POINTER(num));
 
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 1, 1, 1, 1);
@@ -209,7 +273,15 @@ static GtkWidget *create_acia_serial_device_widget(int num)
 }
 
 
-GtkWidget *acia_widget_create( int *baud)
+/** \brief  Create ACIA settings widget
+ *
+ * XXX: currently designed for PET, might need updating when used in other UI's
+ *
+ * \param[in]   baud    list of baud rates (list of `int`'s, terminated by -1)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *acia_widget_create(int *baud)
 {
     GtkWidget *grid;
     GtkWidget *device_widget;
@@ -234,7 +306,3 @@ GtkWidget *acia_widget_create( int *baud)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
-
-

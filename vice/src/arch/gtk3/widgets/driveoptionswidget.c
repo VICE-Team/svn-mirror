@@ -176,7 +176,7 @@ static void on_fsdir_button_clicked(GtkWidget *widget, gpointer user_data)
      *      the first click -- compyx
      */
     filename = ui_select_directory_dialog(widget, "Select directory", NULL,
-            TRUE);
+            TRUE, NULL);
     debug_gtk3("got directory '%s'\n", filename ? filename : "NULL");
     if (filename != NULL) {
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(fsdir_widget), 1, 0);

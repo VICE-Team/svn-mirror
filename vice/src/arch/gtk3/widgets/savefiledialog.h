@@ -38,6 +38,7 @@ gchar *ui_save_file_dialog(
         GtkWidget *widget,
         const char *title,
         const char *proposed,
-        gboolean confirm);
+        gboolean confirm,
+        const char *path);
 
 #endif

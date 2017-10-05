@@ -41,7 +41,7 @@
  * \param[in]   title       dialog title
  * \param[in]   filter_desc file filter name
  * \param[in]   filter_list list of file type filters, NULL-terminated
- * \param[in]   callback    callback accepting filename (or NULL on cancel)
+ * \param[in]   path        directory to use (optional)
  *
  * \return  filename or `NULL` on cancel
  *
@@ -52,7 +52,8 @@ gchar *ui_open_file_dialog(
         GtkWidget *widget,
         const char *title,
         const char *filter_desc,
-        const char **filter_list)
+        const char **filter_list,
+        const char *path)
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
@@ -71,7 +72,7 @@ gchar *ui_open_file_dialog(
             NULL, NULL);
     gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
 
-    /* create *.* filter */
+    /* create * filter */
     filter = create_file_chooser_filter(file_chooser_filter_all, TRUE);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
@@ -80,7 +81,14 @@ gchar *ui_open_file_dialog(
         ui_file_filter_t temp = { filter_desc, filter_list };
         filter = create_file_chooser_filter(temp, TRUE);
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+        gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
     }
+
+    /* change directory if specified */
+    if (path != NULL && *path != '\0') {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    }
+
 
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     if (result == GTK_RESPONSE_ACCEPT) {
