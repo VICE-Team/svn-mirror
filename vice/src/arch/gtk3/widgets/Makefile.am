@@ -67,7 +67,10 @@ libwidgets_a_SOURCES = \
 	petmiscwidget.c \
 	superpetwidget.c \
 	aciawidget.c \
-	plus4memoryexpansionwidget.c
+	plus4memoryexpansionwidget.c \
+	cbm2memorysizewidget.c \
+	cbm2hardwiredswitcheswidget.c \
+	cbm2rammappingwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -114,4 +117,7 @@ EXTRA_DIST = \
 	petmiscwidget.h \
 	superpetwidget.h \
 	aciawidget.h \
-	plus4memoryexpansionwidget.h
+	plus4memoryexpansionwidget.h \
+	cbm2memorysizewidget.h \
+	cbm2hardwiredswitcheswidget.h \
+	cbm2rammappingwidget.h

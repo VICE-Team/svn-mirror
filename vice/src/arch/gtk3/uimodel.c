@@ -57,6 +57,9 @@
 #include "petmiscwidget.h"
 #include "superpetwidget.h"
 #include "plus4memoryexpansionwidget.h"
+#include "cbm2memorysizewidget.h"
+#include "cbm2hardwiredswitcheswidget.h"
+#include "cbm2rammappingwidget.h"
 
 #include "uimodel.h"
 
@@ -450,6 +453,37 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
 
 static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
 {
+    GtkWidget *ram_widget;
+    GtkWidget *switches_widget;
+    GtkWidget *bank15_widget;
+
+    /* add machine widget */
+    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
+
+    /* add video widget */
+    video_widget = video_model_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
+
+    /* SID widget */
+    sid_widget = sid_model_widget_create(machine_widget);
+    gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 1, 1, 1);
+
+    /* CIA1 widget */
+    cia_widget = cia_model_widget_create(machine_widget, 1);
+    gtk_grid_attach(GTK_GRID(grid), cia_widget, 2, 0, 1, 1);
+
+    /* RAM size widget */
+    ram_widget = cbm2_memory_size_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), ram_widget, 0, 1, 1, 1);
+
+    /* Hardwired I/O port model switches */
+    switches_widget = cbm2_hardwired_switches_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), switches_widget, 2, 1, 1, 1);
+
+    /* Mapping RAM into bank 15 */
+    bank15_widget = cbm2_ram_mapping_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), bank15_widget, 0, 2, 1, 1);
+
     INCOMPLETE_IMPLEMENTATION();
     return grid;
 }

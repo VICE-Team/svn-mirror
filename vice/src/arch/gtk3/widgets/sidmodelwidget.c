@@ -1,5 +1,5 @@
 /** \file   src/arch/gtk3/widgets/sidmodelwidget.c
- * \brief   Widget to set the SID model
+ * \brief   Widget to select SID model
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -73,6 +73,8 @@ static ui_text_int_pair_t sid_models_c64[] = {
  */
 static ui_text_int_pair_t sid_models_cbm5x0[] = {
     { "6581", 0 },
+    { "8580", 1 },
+    { "8580D", 2 },
     { NULL, -1 }
 };
 
