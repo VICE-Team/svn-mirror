@@ -101,5 +101,5 @@ void drive_idle_method_widget_update(GtkWidget *widget, int unit)
     unit_number = unit;
 
     resources_get_int_sprintf("Drive%dIdleMethod", &value, unit);
-    uihelpers_set_radio_button_grid_by_index(widget, value);
+    uihelpers_radiogroup_set_index(widget, value);
 }

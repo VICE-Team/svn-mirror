@@ -61,7 +61,7 @@ GtkWidget *uihelpers_radiogroup_create(
 
 int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value);
 
-void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index);
+void uihelpers_radiogroup_set_index(GtkWidget *grid, int index);
 
 GtkWidget *uihelpers_create_grid_label(const char *text);
 

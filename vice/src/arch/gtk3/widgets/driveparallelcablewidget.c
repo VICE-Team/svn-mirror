@@ -177,6 +177,6 @@ void drive_parallel_cable_widget_update(GtkWidget *widget, int unit)
     } else {
         cable_type = 0; /* unsupported, set to 0 */
     }
-    uihelpers_set_radio_button_grid_by_index(widget, cable_type);
+    uihelpers_radiogroup_set_index(widget, cable_type);
 }
 

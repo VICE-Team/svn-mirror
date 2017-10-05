@@ -35,7 +35,7 @@
 
 void        video_model_widget_set_title(const char *title);
 void        video_model_widget_set_resource(const char *resource);
-void        video_model_widget_set_models(const ui_radiogroup_entry_t *models);
+void        video_model_widget_set_models(ui_radiogroup_entry_t *models);
 
 GtkWidget * video_model_widget_create(void);
 void        video_model_widget_update(GtkWidget *widget);

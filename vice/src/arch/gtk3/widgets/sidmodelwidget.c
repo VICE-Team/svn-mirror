@@ -199,6 +199,6 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
  */
 void sid_model_widget_update(GtkWidget *widget, int model)
 {
-    uihelpers_set_radio_button_grid_by_index(widget, model);
+    uihelpers_radiogroup_set_index(widget, model);
 }
 

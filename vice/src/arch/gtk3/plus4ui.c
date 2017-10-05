@@ -44,7 +44,7 @@ static const char *plus4_model_list[] = {
 };
 
 
-static const ui_radiogroup_entry_t plus4_ted_models[] = {
+static ui_radiogroup_entry_t plus4_ted_models[] = {
     { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
 };
 
