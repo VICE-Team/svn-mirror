@@ -27,6 +27,16 @@
 
 #include "vice.h"
 
+/* FIXME: when both PCAP and TUNTAP are enabled, the following code will crash. 
+ * 
+ *        r33410 needs to be reworked so only one of the two is active at any
+ *        time, and there needs to be a way to select which of the two is being
+ *        used.
+ */
+#ifdef HAVE_PCAP
+#undef HAVE_TUNTAP
+#endif
+
 #ifdef HAVE_RAWNET
 
 #ifdef HAVE_PCAP
