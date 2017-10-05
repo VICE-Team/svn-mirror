@@ -490,6 +490,38 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
 
 static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 {
+    GtkWidget *ram_widget;
+    GtkWidget *switches_widget;
+    GtkWidget *bank15_widget;
+
+    /* add machine widget */
+    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);
+#if 0
+    /* add video widget */
+    video_widget = video_model_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
+#endif
+    /* SID widget */
+    sid_widget = sid_model_widget_create(machine_widget);
+    gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 0, 1, 1);
+
+    /* Hardwired I/O port model switches */
+    switches_widget = cbm2_hardwired_switches_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), switches_widget, 2, 0, 1, 1);
+
+    /* CIA1 widget */
+    cia_widget = cia_model_widget_create(machine_widget, 1);
+    gtk_grid_attach(GTK_GRID(grid), cia_widget, 1, 1, 2, 1);
+
+    /* RAM size widget */
+    ram_widget = cbm2_memory_size_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), ram_widget, 0, 2, 1, 1);
+
+    /* Mapping RAM into bank 15 */
+    bank15_widget = cbm2_ram_mapping_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), bank15_widget, 1, 2, 2, 1);
+
+
     INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
@@ -574,7 +606,10 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
      * Connect signal handlers
      */
     machine_model_widget_connect_signals(machine_widget);
-    video_model_widget_connect_signals(video_widget);
+    if (machine_class != VICE_MACHINE_CBM6x0) {
+        /* CBM6x0 ony has a simple CRTC, so no video widget used */
+        video_model_widget_connect_signals(video_widget);
+    }
 
 #if 0
 
