@@ -56,6 +56,7 @@
 #include "petiosizewidget.h"
 #include "petmiscwidget.h"
 #include "superpetwidget.h"
+#include "plus4memoryexpansionwidget.h"
 
 #include "uimodel.h"
 
@@ -395,6 +396,19 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
 
 static GtkWidget *create_plus4_layout(GtkWidget *grid)
 {
+    GtkWidget *ram_widget;
+
+    /* add machine widget */
+    gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
+
+    /* VIC model widget */
+    video_widget = video_model_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
+
+    /* RAM size/expansion hacks */
+    ram_widget = plus4_memory_expansion_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), ram_widget, 2, 0, 1, 1);
+
     INCOMPLETE_IMPLEMENTATION();
     return grid;
 }
@@ -520,6 +534,13 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
 
     /* create machine-specific layout */
     layout = create_layout();
+
+
+    /*
+     * Connect signal handlers
+     */
+    machine_model_widget_connect_signals(machine_widget);
+    video_model_widget_connect_signals(video_widget);
 
 #if 0
 

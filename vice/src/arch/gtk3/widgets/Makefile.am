@@ -66,7 +66,8 @@ libwidgets_a_SOURCES = \
 	petiosizewidget.c \
 	petmiscwidget.c \
 	superpetwidget.c \
-	aciawidget.c
+	aciawidget.c \
+	plus4memoryexpansionwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -112,4 +113,5 @@ EXTRA_DIST = \
 	petiosizewidget.h \
 	petmiscwidget.h \
 	superpetwidget.h \
-	aciawidget.h
+	aciawidget.h \
+	plus4memoryexpansionwidget.h
