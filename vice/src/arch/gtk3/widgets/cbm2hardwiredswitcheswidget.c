@@ -5,7 +5,7 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  ModelLine
+ *  ModelLine - some weird resource
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,6 +41,8 @@
 #include "cbm2hardwiredswitcheswidget.h"
 
 
+/** \brief  Hardwired switches for 5x0 models
+ */
 static ui_radiogroup_entry_t models_cbm5x0[] = {
     { "50Hz 5x0", 2 },
     { "60Hz 5x0", 1 },
@@ -48,6 +50,8 @@ static ui_radiogroup_entry_t models_cbm5x0[] = {
 };
 
 
+/** \brief  Hardwired switches for 6x0 models
+ */
 static ui_radiogroup_entry_t models_cbm6x0[] = {
     { "50Hz 6x0", 2 },
     { "60Hz 6x0", 1 },
@@ -56,12 +60,24 @@ static ui_radiogroup_entry_t models_cbm6x0[] = {
 };
 
 
+/** \brief  Find index for \a model in \a list
+ *
+ * \param[in]   list    list of switches
+ * \param[in]   model   switch number to look up (`int`)
+ *
+ * \return  index or -1 when not found
+ */
 static int get_model_index(ui_radiogroup_entry_t *list, int model)
 {
     return uihelpers_radiogroup_get_index(list, model);
 }
 
 
+/** \brief  Handler for the "toggled" event of the radio buttons
+ *
+ * \param[in]   widget      radio button
+ * \param[in]   user_data   new value for resources (`int`)
+ */
 static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 {
     int old_val;
@@ -78,7 +94,10 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-
+/** \brief  Create widget to control the 'hardwired switches', whatever those may be
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *cbm2_hardwired_switches_widget_create(void)
 {
     GtkWidget *grid;

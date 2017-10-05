@@ -61,7 +61,7 @@
 static int unit_number = 8;
 
 
-/* References to various interconnected widget */
+/* References to various interconnected widgets */
 static GtkWidget *drive_type_widget = NULL;
 static GtkWidget *drive_extend_widget = NULL;
 static GtkWidget *drive_expansion_widget = NULL;
