@@ -51,7 +51,7 @@ typedef struct common_config_s {
 
 /** \brief  List of available RAM expansions
  */
-static ui_text_int_pair_t ram_blocks[] = {
+static ui_radiogroup_entry_t ram_blocks[] = {
     { "Block 0 (3KB at $0400-$0FFF)", 0 },
     { "Block 1 (8KB at $2000-$3FFF)", 1 },
     { "Block 2 (8KB at $4000-$5FFF)", 2 },

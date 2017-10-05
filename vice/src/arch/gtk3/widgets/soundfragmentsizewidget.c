@@ -44,7 +44,7 @@
 
 /** \brief  Sound buffer fragment sizes table
  */
-static ui_text_int_pair_t fragment_sizes[] = {
+static ui_radiogroup_entry_t fragment_sizes[] = {
     { "Very small", 0 },
     { "Small", 1 },
     { "Medium", 2 },
@@ -78,7 +78,7 @@ GtkWidget *sound_fragment_size_widget_create(void)
 
     resources_get_int("SoundFragmentSize", &size);
 
-    grid = uihelpers_create_int_radiogroup_with_label(
+    grid = uihelpers_radiogroup_create(
             "Sound fragment size", fragment_sizes,
             on_fragment_size_changed, size);
 

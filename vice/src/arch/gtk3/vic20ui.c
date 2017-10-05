@@ -43,7 +43,7 @@ static const char *vic20_model_list[] = {
 };
 
 
-static const ui_text_int_pair_t vic20_vic_models[] = {
+static const ui_radiogroup_entry_t vic20_vic_models[] = {
     { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
 };
 

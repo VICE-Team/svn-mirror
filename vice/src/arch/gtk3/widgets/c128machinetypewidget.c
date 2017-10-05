@@ -39,7 +39,7 @@
 #include "c128machinetypewidget.h"
 
 
-static ui_text_int_pair_t machine_types[] = {
+static ui_radiogroup_entry_t machine_types[] = {
     { "International",  C128_MACHINE_INT },
     /* any of these cause a KERNAL corrupted message from c128mem */
     { "Finish",         C128_MACHINE_FINNISH },
@@ -64,12 +64,7 @@ static ui_text_int_pair_t machine_types[] = {
  */
 static int get_machine_type_index(int type)
 {
-    for (int i = 0; machine_types[i].text != NULL; i++) {
-        if (machine_types[i].value == type) {
-            return i;
-        }
-    }
-    return -1;
+    return uihelpers_radiogroup_get_index(machine_types, type);
 }
 
 
@@ -108,7 +103,7 @@ GtkWidget * c128_machine_type_widget_create(void)
     resources_get_int("MachineType", &type);
     index = get_machine_type_index(type);
 
-    grid = uihelpers_create_int_radiogroup_with_label("Machine type",
+    grid = uihelpers_radiogroup_create("Machine type",
             machine_types,
             on_machine_type_toggled,
             index);

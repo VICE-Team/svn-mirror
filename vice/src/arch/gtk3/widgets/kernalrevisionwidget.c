@@ -45,7 +45,7 @@
  *
  * Taken from scr/c64/c64-resources.h
  */
-static ui_text_int_pair_t revisions[] = {
+static ui_radiogroup_entry_t revisions[] = {
     { "Revision 1", C64_KERNAL_REV1 },
     { "Revision 2", C64_KERNAL_REV2 },
     { "Revision 3", C64_KERNAL_REV3 },
@@ -63,15 +63,7 @@ static ui_text_int_pair_t revisions[] = {
  */
 static int get_revision_index(int rev)
 {
-    int i = 0;
-
-    while (revisions[i].text != NULL) {
-        if (revisions[i].value == rev) {
-            return i;
-        }
-        i++;
-    }
-    return -1;  /* goes nicely with the 'Unknown' radio button */
+    return uihelpers_radiogroup_get_index(revisions, rev);
 }
 
 

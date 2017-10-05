@@ -44,7 +44,7 @@
 
 /** \brief  List of sound output modes
  */
-static ui_text_int_pair_t output_modes[] = {
+static ui_radiogroup_entry_t output_modes[] = {
     { "System", SOUND_OUTPUT_SYSTEM },
     { "Mono", SOUND_OUTPUT_MONO },
     { "Stereo", SOUND_OUTPUT_STEREO },
@@ -82,7 +82,7 @@ GtkWidget *sound_output_mode_widget_create(void)
 
     resources_get_int("SoundOutput", &mode);
 
-    layout = uihelpers_create_int_radiogroup_with_label(
+    layout = uihelpers_radiogroup_create(
             "Sound output mode",
             output_modes,
             on_output_mode_changed,

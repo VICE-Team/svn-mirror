@@ -45,7 +45,7 @@
 
 /** \brief  Keyboard layout types
  */
-static ui_text_int_pair_t kbd_layouts[] = {
+static ui_radiogroup_entry_t kbd_layouts[] = {
     { "American", 0 },
     { "British", 1 },
     { "German", 2 },
@@ -87,7 +87,7 @@ GtkWidget *kbdlayout_widget_create(void)
     resources_get_int("KeyboardMapping", &index);
 
     /* create grid with label and six radio buttons */
-    layout = uihelpers_create_int_radiogroup_with_label(
+    layout = uihelpers_radiogroup_create(
             "Keyboard layout", kbd_layouts, on_layout_changed, index);
 
     gtk_widget_show_all(layout);

@@ -49,7 +49,7 @@ static const char *c64_model_list[] = {
 };
 
 
-static const ui_text_int_pair_t c64_vicii_models[] = {
+static const ui_radiogroup_entry_t c64_vicii_models[] = {
     { "PAL",        VICII_MODEL_PALG },
     { "Old PAL",    VICII_MODEL_PALG_OLD },
     { "NTSC",       VICII_MODEL_NTSCM },

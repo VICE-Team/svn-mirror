@@ -43,7 +43,7 @@
 
 /** \brief  List of (name,id) tuples for the radio buttons
  */
-static ui_text_int_pair_t policies[] = {
+static ui_radiogroup_entry_t policies[] = {
     { "Never extend", 0 },
     { "Ask on extend", 1 },
     { "Extend on access", 2 },
@@ -86,7 +86,7 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
 
     unit_number = 8;
 
-    grid = uihelpers_create_int_radiogroup_with_label(
+    grid = uihelpers_radiogroup_create(
             "40-track policy",
             policies,
             on_radio_toggle,

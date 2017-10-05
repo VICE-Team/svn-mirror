@@ -50,7 +50,7 @@ static int unit_number = 8;
 
 /** \brief  List of possible parallel cables
  */
-static ui_text_int_pair_t parallel_cables[] = {
+static ui_radiogroup_entry_t parallel_cables[] = {
     { "None", 0 },
     { "Standard", 1 },
     { "Professional DOS", 2 },
@@ -88,7 +88,7 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
 
     unit_number = unit;
 
-    widget = uihelpers_create_int_radiogroup_with_label(
+    widget = uihelpers_radiogroup_create(
             "Parallel cable",
             parallel_cables,
             NULL,   /* NULL: connect event handlers after setting the value */

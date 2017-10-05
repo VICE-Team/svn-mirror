@@ -66,7 +66,7 @@ static int baud_rates[] = { 300, 1200, 2400, 9600, 19200, -1 };
 
 /** \brief  List of CPU types
  */
-static ui_text_int_pair_t cpu_types[] = {
+static ui_radiogroup_entry_t cpu_types[] = {
     { "MOS 6502", 0 },
     { "Motorola 6809", 1 },
     { "Programmable", 2 },
@@ -195,7 +195,7 @@ static GtkWidget *create_superpet_cpu_widget(void)
 
     resources_get_int("CPUswitch", &cpu);
 
-    grid = uihelpers_create_int_radiogroup_with_label("CPU type",
+    grid = uihelpers_radiogroup_create("CPU type",
             cpu_types,
             on_superpet_cpu_type_changed,
             cpu);

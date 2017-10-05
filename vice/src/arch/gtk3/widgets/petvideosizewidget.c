@@ -40,7 +40,7 @@
 
 /** \brief  Data for the radio buttons group
  */
-static ui_text_int_pair_t video_sizes[] = {
+static ui_radiogroup_entry_t video_sizes[] = {
     { "Auto (from ROM)", 0 },
     { "40 Columns", 40 },
     { "80 Columns", 80 },
@@ -56,12 +56,7 @@ static ui_text_int_pair_t video_sizes[] = {
  */
 static int get_video_size_index(int size)
 {
-    for (int i = 0; video_sizes[i].text != NULL; i++) {
-        if (video_sizes[i].value == size) {
-            return i;
-        }
-    }
-    return -1;
+    return uihelpers_radiogroup_get_index(video_sizes, size);
 }
 
 
@@ -103,7 +98,7 @@ GtkWidget *pet_video_size_widget_create(void)
     resources_get_int("VideoSize", &size);
     index = get_video_size_index(size);
 
-    grid = uihelpers_create_int_radiogroup_with_label(
+    grid = uihelpers_radiogroup_create(
             "Video size",
             video_sizes,
             on_video_size_toggled,

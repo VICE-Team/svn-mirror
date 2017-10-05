@@ -48,7 +48,7 @@ static const char *c64_model_list[] = {
     "Ultimax", NULL };
 
 
-static const ui_text_int_pair_t c64sc_vicii_models[] = {
+static const ui_radiogroup_entry_t c64sc_vicii_models[] = {
     { "6569 (PAL)",             VICII_MODEL_6569 },
     { "8565 (PAL)",             VICII_MODEL_8565 },
     { "6569R1 (old PAL)",       VICII_MODEL_6569R1 },

@@ -47,7 +47,7 @@ static int unit_number = 8;
 
 /** \brief  Idle method (name,id) tuples
  */
-static ui_text_int_pair_t idle_methods[] = {
+static ui_radiogroup_entry_t idle_methods[] = {
     { "None", 0 },
     { "Skip cycles", 1 },
     { "Trap idle", 2 },
@@ -80,7 +80,7 @@ GtkWidget *drive_idle_method_widget_create(int unit)
 
     unit_number = unit;
 
-    widget = uihelpers_create_int_radiogroup_with_label(
+    widget = uihelpers_radiogroup_create(
             "Idle method",
             idle_methods,
             on_idle_method_changed,

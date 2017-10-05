@@ -45,7 +45,7 @@
 
 /** \brief  List of sound sampling rates
  */
-static ui_text_int_pair_t sample_rates[] = {
+static ui_radiogroup_entry_t sample_rates[] = {
     { "8000 Hz", 8000 },
     { "11025 Hz", 11025 },
     { "22050 Hz", 22050 },
@@ -96,7 +96,7 @@ GtkWidget *sound_sample_rate_widget_create(void)
         i = 0;
     }
 
-    layout = uihelpers_create_int_radiogroup_with_label(
+    layout = uihelpers_radiogroup_create(
             "Sound sample rate",
             sample_rates,
             on_sample_rate_changed,

@@ -43,7 +43,7 @@ static const char *c128_model_list[] = {
 };
 
 
-static const ui_text_int_pair_t c128_vicii_models[] = {
+static const ui_radiogroup_entry_t c128_vicii_models[] = {
     { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
 };
 

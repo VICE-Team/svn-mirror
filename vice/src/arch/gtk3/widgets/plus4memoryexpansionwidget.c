@@ -57,7 +57,7 @@ enum {
  *
  * This list is used to build the radio button group
  */
-static ui_text_int_pair_t expansions[] = {
+static ui_radiogroup_entry_t expansions[] = {
     { "16KB",           RAM_16KB },
     { "32KB",           RAM_32KB},
     { "64KB",           RAM_64KB },
@@ -134,7 +134,7 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
 {
     GtkWidget *grid;
 
-    grid = uihelpers_create_int_radiogroup_with_label("RAM settings",
+    grid = uihelpers_radiogroup_create("RAM settings",
             expansions, on_radio_toggled, 0);
 
     gtk_widget_show_all(grid);

@@ -43,7 +43,7 @@
 
 /** \brief  List of text/id pairs for the speed rates
  */
-static ui_text_int_pair_t speed_rates[] = {
+static ui_radiogroup_entry_t speed_rates[] = {
     { "Unlimited", 0 }, /* this one works a little weird, probably wrong value */
     { "200%", 200 },
     { "150%", 150 },
@@ -87,20 +87,11 @@ GtkWidget *speed_widget_create(void)
     /* now set the proper value */
     value = resources_get_int("Speed", &value);
     debug_gtk3("speed = %d\n", value);
+    index = uihelpers_radiogroup_get_index(speed_rates, value);
 
-    for (index = 0; speed_rates[index].text != NULL; index++) {
-        if (value == speed_rates[index].value) {
-            break;
-        }
-    }
-
-
-    layout = uihelpers_create_int_radiogroup_with_label("Speed",
+    layout = uihelpers_radiogroup_create("Speed",
             speed_rates, speed_callback, index);
-
 
     gtk_widget_show(layout);
     return layout;
 }
-
-

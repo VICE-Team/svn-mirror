@@ -41,7 +41,7 @@
 
 /** \brief  List of RAM sizes
  */
-static ui_text_int_pair_t ram_sizes[] = {
+static ui_radiogroup_entry_t ram_sizes[] = {
     { "64KB",   64 },
     { "128KB",  128 },
     { "256KB",  256 },
@@ -102,7 +102,7 @@ GtkWidget *cbm2_memory_size_widget_create(void)
     resources_get_int("RamSize", &size);
     index = get_ram_size_index(size);
 
-    grid = uihelpers_create_int_radiogroup_with_label("RAM size",
+    grid = uihelpers_radiogroup_create("RAM size",
             ram_sizes, on_ram_size_toggled, index);
 
     gtk_widget_show_all(grid);

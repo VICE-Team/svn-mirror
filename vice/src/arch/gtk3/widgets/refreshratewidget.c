@@ -42,7 +42,7 @@
 
 /** \brief  List of text/id pairs for the refresh rates
  */
-static ui_text_int_pair_t refresh_rates[] = {
+static ui_radiogroup_entry_t refresh_rates[] = {
     { "Automatic", 0 },
     { "1/1", 1 },
     { "1/2", 2 },
@@ -91,14 +91,8 @@ GtkWidget *refreshrate_widget_create(void)
     int value = 0;
 
     resources_get_int("RefreshRate", &value);
-
-    for (index = 0; refresh_rates[index].text != NULL; index++) {
-        if (refresh_rates[index].value == value) {
-            break;
-        }
-    }
-
-    layout = uihelpers_create_int_radiogroup_with_label("Refresh rate",
+    index = uihelpers_radiogroup_get_index(refresh_rates, value);
+    layout = uihelpers_radiogroup_create("Refresh rate",
             refresh_rates, refreshrate_callback, index);
 
     gtk_widget_show(layout);

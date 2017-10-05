@@ -40,8 +40,7 @@
 
 static const char *widget_title = NULL;
 static const char *resource_name = NULL;
-static const ui_text_int_pair_t *model_list = NULL;
-
+static const ui_radiogroup_entry_t *model_list = NULL;
 
 /** \brief  Get index in model list for model-ID \a model
  *
@@ -49,14 +48,7 @@ static const ui_text_int_pair_t *model_list = NULL;
  */
 static int get_model_index(int model)
 {
-    int i;
-
-    for (i = 0; model_list[i].text != NULL; i++) {
-        if (model_list[i].value == model) {
-            return i;
-        }
-    }
-    return -1;
+    uihelpers_radiogroup_get_index(model_list, model);
 }
 
 
@@ -81,7 +73,7 @@ void video_model_widget_set_resource(const char *resource)
 }
 
 
-void video_model_widget_set_models(const ui_text_int_pair_t *models)
+void video_model_widget_set_models(const ui_radiogroup_entry_t *models)
 {
     model_list = models;
 }

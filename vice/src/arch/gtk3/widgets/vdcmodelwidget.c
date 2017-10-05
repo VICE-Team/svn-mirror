@@ -38,7 +38,7 @@
 #include "vdcmodelwidget.h"
 
 
-static const ui_text_int_pair_t vdc_revs[] = {
+static ui_radiogroup_entry_t vdc_revs[] = {
     { "Revision 0", 0 },
     { "Revision 1", 1 },
     { "Revision 2", 2 },
@@ -48,14 +48,7 @@ static const ui_text_int_pair_t vdc_revs[] = {
 
 static int get_revision_index(int revision)
 {
-    int i;
-
-    for (i = 0; vdc_revs[i].text != NULL; i++) {
-        if (vdc_revs[i].value == revision) {
-            return i;
-        }
-    }
-    return -1;
+    return uihelpers_radiogroup_get_index(vdc_revs, revision);
 }
 
 

@@ -58,7 +58,7 @@
 
 /** \brief  Autostart modes for PRG files
  */
-static ui_text_int_pair_t autostart_modes[] = {
+static ui_radiogroup_entry_t autostart_modes[] = {
     { "Virtual FS", AUTOSTART_PRG_MODE_VFS /* 0 */ },
     { "Inject into RAM", AUTOSTART_PRG_MODE_INJECT /* 1 */ },
     { "Copy to D64", AUTOSTART_PRG_MODE_DISK /* 2 */ },
@@ -259,7 +259,7 @@ static GtkWidget *create_prg_widget(void)
     gtk_grid_attach(GTK_GRID(grid), basic, 0, 2, 1, 1);
 
     resources_get_int("AutostartPrgMode", &mode_value);
-    mode = uihelpers_create_int_radiogroup_with_label(
+    mode = uihelpers_radiogroup_create(
             "Autostart PRG mode", autostart_modes,
             on_autostartprg_mode_changed,
             mode_value);

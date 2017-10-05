@@ -40,7 +40,7 @@
 
 /** \brief  Data for the radio buttons group
  */
-static ui_text_int_pair_t ram_sizes[] = {
+static ui_radiogroup_entry_t ram_sizes[] = {
     { "4KB", 4 },
     { "8KB", 8 },
     { "16KB", 16 },
@@ -59,12 +59,7 @@ static ui_text_int_pair_t ram_sizes[] = {
  */
 static int get_ram_size_index(int size)
 {
-    for (int i = 0; ram_sizes[i].text != NULL; i++) {
-        if (ram_sizes[i].value == size) {
-            return i;
-        }
-    }
-    return -1;
+    return uihelpers_radiogroup_get_index(ram_sizes, size);
 }
 
 
@@ -106,7 +101,7 @@ GtkWidget *pet_ram_size_widget_create(void)
     resources_get_int("RamSize", &size);
     index = get_ram_size_index(size);
 
-    grid = uihelpers_create_int_radiogroup_with_label(
+    grid = uihelpers_radiogroup_create(
             "Memory size",
             ram_sizes,
             on_ram_size_toggled,

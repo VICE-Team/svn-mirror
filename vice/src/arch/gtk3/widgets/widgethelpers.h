@@ -33,10 +33,13 @@
 #include <gtk/gtk.h>
 
 
-typedef struct ui_text_int_pair_s {
-    char *text;
-    int value;
-} ui_text_int_pair_t;
+/** \brief  Entry for a radio button group
+ */
+typedef struct ui_radiogroup_entry_s {
+    char *  text;   /**< text to display */
+    int     value;  /**< integer value */
+} ui_radiogroup_entry_t;
+
 
 typedef struct ui_button_s {
     char *text;
@@ -50,12 +53,13 @@ GtkWidget *uihelpers_create_button_box(
 
 GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns);
 
-GtkWidget *uihelpers_create_int_radiogroup_with_label(
+GtkWidget *uihelpers_radiogroup_create(
         const gchar *label,
-        ui_text_int_pair_t *data,
+        ui_radiogroup_entry_t *data,
         void (*callback)(GtkWidget *, gpointer),
         int active);
 
+int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value);
 
 void uihelpers_set_radio_button_grid_by_index(GtkWidget *grid, int index);
 

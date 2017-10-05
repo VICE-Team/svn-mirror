@@ -46,7 +46,7 @@
 
 /** \brief  List of sound synchronization modes
  */
-static ui_text_int_pair_t sync_modes[] = {
+static ui_radiogroup_entry_t sync_modes[] = {
     { "Flexible", SOUND_ADJUST_FLEXIBLE },
     { "Adjusting", SOUND_ADJUST_ADJUSTING },
     { "Exact", SOUND_ADJUST_EXACT },
@@ -84,7 +84,7 @@ GtkWidget *sound_sync_mode_widget_create(void)
 
     resources_get_int("SoundSpeedAdjustment", &mode);
 
-    layout = uihelpers_create_int_radiogroup_with_label(
+    layout = uihelpers_radiogroup_create(
             "Sound synchronization mode",
             sync_modes,
             on_sync_mode_changed,

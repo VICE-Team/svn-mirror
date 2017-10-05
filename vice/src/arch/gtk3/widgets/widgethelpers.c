@@ -103,9 +103,9 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
  *
  * \return  GtkGrid
  */
-GtkWidget *uihelpers_create_int_radiogroup_with_label(
+GtkWidget *uihelpers_radiogroup_create(
         const gchar *label,
-        ui_text_int_pair_t *data,
+        ui_radiogroup_entry_t *data,
         void (*callback)(GtkWidget *, gpointer),
         int active)
 {
@@ -137,6 +137,24 @@ GtkWidget *uihelpers_create_int_radiogroup_with_label(
     g_object_set(grid, "margin", 8, NULL);
     gtk_widget_show(grid);
     return grid;
+}
+
+
+/** \brief  Get index of \a value in \a list
+ *
+ * \param[in]   list    radio button group array
+ * \param[in]   value   value to find in \a list
+ *
+ * \return  index of \a value or -1 when not found
+ */
+int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value)
+{
+    for (int i = 0; list[i].text != NULL; i++) {
+        if (list[i].value == value) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 
@@ -325,4 +343,3 @@ int uihelpers_get_drive_resource_from_check_button(
     debug_gtk3("getting %s -> %s\n", buffer, state ? "ON" : "OFF");
     return state;
 }
-

@@ -46,7 +46,7 @@ static int *acia_baud_rates;
 
 /** \brief  List of ACIA devices
  */
-static ui_text_int_pair_t acia_device_list[] = {
+static ui_radiogroup_entry_t acia_device_list[] = {
     { "Serial 1", 0 },
     { "Serial 2", 1 },
     { "Dump to file", 2 },
@@ -180,7 +180,7 @@ static GtkWidget *create_acia_device_widget(void)
 
     resources_get_int("Acia1Dev", &device);
 
-    grid = uihelpers_create_int_radiogroup_with_label("ACIA device",
+    grid = uihelpers_radiogroup_create("ACIA device",
             acia_device_list,
             on_acia_device_changed,
             device);

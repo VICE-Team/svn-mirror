@@ -42,7 +42,7 @@ static const char *c64dtv_model_list[] = {
 };
 
 
-static ui_text_int_pair_t c64dtv_vicii_models[] = {
+static ui_radiogroup_entry_t c64dtv_vicii_models[] = {
      { "PAL-G", MACHINE_SYNC_PAL },
      { "NTSC-M", MACHINE_SYNC_NTSC },
      { NULL, -1 }

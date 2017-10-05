@@ -41,14 +41,14 @@
 #include "cbm2hardwiredswitcheswidget.h"
 
 
-static ui_text_int_pair_t models_cbm5x0[] = {
+static ui_radiogroup_entry_t models_cbm5x0[] = {
     { "50Hz 5x0", 2 },
     { "60Hz 5x0", 1 },
     { NULL, -1 }
 };
 
 
-static ui_text_int_pair_t models_cbm6x0[] = {
+static ui_radiogroup_entry_t models_cbm6x0[] = {
     { "50Hz 6x0", 2 },
     { "60Hz 6x0", 1 },
     { "50Hz 7x0", 0 },
@@ -56,14 +56,9 @@ static ui_text_int_pair_t models_cbm6x0[] = {
 };
 
 
-static int get_model_index(ui_text_int_pair_t *list, int model)
+static int get_model_index(ui_radiogroup_entry_t *list, int model)
 {
-    for (int i = 0; list[i].text != NULL; i++) {
-        if (list[i].value == model) {
-            return i;
-        }
-    }
-    return -1;
+    return uihelpers_radiogroup_get_index(list, model);
 }
 
 
@@ -89,7 +84,7 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
     GtkWidget *grid;
     int model;
     int index;
-    ui_text_int_pair_t *list;
+    ui_radiogroup_entry_t *list;
 
     resources_get_int("ModelLine", &model);
     if (machine_class == VICE_MACHINE_CBM5x0) {
@@ -100,7 +95,7 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
     index = get_model_index(list, model);
 
 
-    grid = uihelpers_create_int_radiogroup_with_label("Hardwired switches",
+    grid = uihelpers_radiogroup_create("Hardwired switches",
             list, on_model_toggled, index);
 
     gtk_widget_show_all(grid);
