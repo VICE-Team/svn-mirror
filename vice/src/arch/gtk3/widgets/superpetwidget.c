@@ -5,7 +5,18 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  SuperPET - Enable/disable SuperPET I/O and 6809 CPU
+ *  SuperPET        - Enable/disable SuperPET I/O and 6809 CPU
+ *  Ram9            - Enable RAM at $9000-$9FFF
+ *  RamA            - Enable RAM at $A000-$BFFF
+ *  CPUswitch       - CPU type (0 = 6502, 1 = 6809, 2 = programmable)
+ *  H6809RomAName   - ROM file for $A000-$AFFF
+ *  H6809RomBName   - ROM file for $B000-$BFFF
+ *  H6809RomCName   - ROM file for $C000-$CFFF
+ *  H6809RomDName   - ROM file for $D000-$DFFF
+ *  H6809RomEName   - ROM file for $E000-$EFFF
+ *  H6809RomFName   - ROM file for $F000-$FFFF
+ *
+ * See the widgets/aciawidget.c file for additional resources.
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,7 +45,7 @@
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
-
+#include "openfiledialog.h"
 #include "aciawidget.h"
 
 #include "superpetwidget.h"
@@ -48,8 +59,13 @@ static GtkWidget *ram_9xxx_widget = NULL;
 static GtkWidget *ram_axxx_widget = NULL;
 
 
+/** \brief  List of baud rates for the ACIA widget
+ */
 static int baud_rates[] = { 300, 1200, 2400, 9600, 19200, -1 };
 
+
+/** \brief  List of CPU types
+ */
 static ui_text_int_pair_t cpu_types[] = {
     { "MOS 6502", 0 },
     { "Motorola 6809", 1 },
@@ -78,6 +94,11 @@ static void on_superpet_enable_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the CPU type radio buttons
+ *
+ * \param[in]   widget      radio button
+ * \param[in]   user_data   new resourc value (`int`)
+ */
 static void on_superpet_cpu_type_changed(GtkWidget *widget, gpointer user_data)
 {
     int old_val;
@@ -90,6 +111,53 @@ static void on_superpet_cpu_type_changed(GtkWidget *widget, gpointer user_data)
             && new_val != old_val) {
         debug_gtk3("setting CPUswitch to %d\n", new_val);
         resources_set_int("CPUswitch", new_val);
+    }
+}
+
+
+/** \brief  Handler for the "changed" event of the ROM text boxes
+ *
+ * \param[in]   widget      text entry
+ * \param[in]   user_data   ROM index ('A'-'F') (`int`)
+ */
+static void on_superpet_rom_changed(GtkWidget *widget, gpointer user_data)
+{
+    int rom = GPOINTER_TO_INT(user_data);
+    const char *path = gtk_entry_get_text(GTK_ENTRY(widget));
+
+    debug_gtk3("setting H6809Rom%cName to '%s'\n", rom, path);
+    resources_set_string_sprintf("H6809Rom%cName", path, rom);
+}
+
+
+/** \brief  Handler for the "clicked" event of the ROM browse buttons
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   ROM index ('A'-'F') (`int`)
+ */
+static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data)
+{
+    int rom = GPOINTER_TO_INT(user_data);
+    gchar *filename;
+    char title[256];
+
+    g_snprintf(title, 256, "Select $%cXXX ROM", rom);
+
+    filename = ui_open_file_dialog(widget, title, NULL, NULL, NULL);
+    if (filename != NULL) {
+        GtkWidget *grid;
+        GtkWidget *entry;
+        int row;
+
+        /* determine location of related text entry */
+        row = rom - 'A' + 1;
+        grid = gtk_widget_get_parent(widget);
+        entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, row);
+
+        /* update text entry, forcing update of the related resource */
+        gtk_entry_set_text(GTK_ENTRY(entry), filename);
+
+        g_free(filename);
     }
 }
 
@@ -113,6 +181,12 @@ static GtkWidget *create_superpet_enable_widget(void)
 }
 
 
+/** \brief  Create SuperPET CPU selection widget
+ *
+ * Select between 'MOS 6502, 'Motorola 6809' or 'programmable'
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_superpet_cpu_widget(void)
 {
     GtkWidget *grid;
@@ -131,6 +205,10 @@ static GtkWidget *create_superpet_cpu_widget(void)
 }
 
 
+/** \brief  Create widget to select SuperCPU ROMs at $A000-$FFFF
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_superpet_rom_widget(void)
 {
     GtkWidget *grid;
@@ -146,8 +224,7 @@ static GtkWidget *create_superpet_rom_widget(void)
         gchar buffer[64];
         const char *path;
 
-        /* XXX: assumes ASCII, which should be safe, except for old IBM
-         *      main frames */
+        /* assumes ASCII, should be safe, except for old IBM main frames */
         g_snprintf(buffer, 64, "$%cxxx", bank + 'A');
         label = gtk_label_new(buffer);
         g_object_set(label, "margin-left", 16, NULL);
@@ -163,7 +240,13 @@ static GtkWidget *create_superpet_rom_widget(void)
         gtk_grid_attach(GTK_GRID(grid), entry, 1, bank + 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), browse, 2, bank + 1, 1, 1);
 
-        /* TODO: hook up event handlers */
+        /* hook up event handlers */
+        g_signal_connect(entry, "changed", G_CALLBACK(on_superpet_rom_changed),
+                GINT_TO_POINTER(bank + 'A'));
+        g_signal_connect(browse, "clicked",
+                G_CALLBACK(on_superpet_rom_browse_clicked),
+                GINT_TO_POINTER(bank + 'A'));
+
     }
 
     gtk_widget_show_all(grid);
@@ -171,7 +254,11 @@ static GtkWidget *create_superpet_rom_widget(void)
 }
 
 
-
+/** \brief  Handler for "toggled" event for the "RAM at $9XXX" check button
+ *
+ * \param[in]   widget      check button triggering the event
+ * \param[in]   user_data   extra data for the event (unused)
+ */
 static void on_ram_9xxx_toggled(GtkWidget *widget, gpointer user_data)
 {
     int old_val;
@@ -187,12 +274,17 @@ static void on_ram_9xxx_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Handler for "toggled" event for the "RAM at $AXXX" check button
+ *
+ * \param[in]   widget      check button triggering the event
+ * \param[in]   user_data   extra data for the event (unused)
+ */
 static void on_ram_axxx_toggled(GtkWidget *widget, gpointer user_data)
 {
     int old_val;
     int new_val;
 
-    resources_get_int("Ram9", &old_val);
+    resources_get_int("RamA", &old_val);
     new_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
     if (new_val != old_val) {
@@ -202,6 +294,10 @@ static void on_ram_axxx_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Create check button for the Ram9 resource
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_superpet_9xxx_ram_widget(void)
 {
     GtkWidget *check;
@@ -216,12 +312,16 @@ static GtkWidget *create_superpet_9xxx_ram_widget(void)
 }
 
 
+/** \brief  Create check button for the RamA resource
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_superpet_axxx_ram_widget(void)
 {
     GtkWidget *check;
     int enabled;
 
-    resources_get_int("Ram9", &enabled);
+    resources_get_int("RamA", &enabled);
     check = gtk_check_button_new_with_label("$Axxx as RAM");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
     g_signal_connect(check, "toggled", G_CALLBACK(on_ram_axxx_toggled), NULL);
