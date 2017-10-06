@@ -214,9 +214,9 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_about_dialog_set_license_type(GTK_ABOUT_DIALOG(about), GTK_LICENSE_GPL_2_0);
     /* set website link and title */
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about),
-            "http://vice.pokefinder.org");
+            "http://vice-emu.sourceforge.net/");
     gtk_about_dialog_set_website_label(GTK_ABOUT_DIALOG(about),
-            "http://vice.pokefinder.org");
+            "http://vice-emu.sourceforge.net/");
     /* set list of current team members */
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about), (const gchar **)authors);
     /* set copyright string */
