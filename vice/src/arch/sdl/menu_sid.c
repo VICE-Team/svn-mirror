@@ -433,7 +433,7 @@ static const ui_menu_entry_t c128_quad_sid_base_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t c64_triple_sid_base_menu[] = {
+static const ui_menu_entry_t c64_quad_sid_base_menu[] = {
     { "Fourth SID base address",
       MENU_ENTRY_TEXT,
       show_SidQuadAddressStart_callback,
