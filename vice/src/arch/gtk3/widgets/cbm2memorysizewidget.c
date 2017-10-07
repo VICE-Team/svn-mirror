@@ -59,7 +59,9 @@ static ui_radiogroup_entry_t ram_sizes[] = {
  */
 static int get_ram_size_index(int size)
 {
-    for (int i = 0; ram_sizes[i].text != NULL; i++) {
+    int i;
+
+    for (i = 0; ram_sizes[i].text != NULL; i++) {
         if (ram_sizes[i].value == size) {
             return i;
         }

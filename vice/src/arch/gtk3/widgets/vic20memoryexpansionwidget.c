@@ -93,7 +93,9 @@ static GtkWidget *blocks_widget = NULL;
  */
 static int get_ram_block_index(int block)
 {
-    for (int i = 0; ram_blocks[i].text != NULL; i++) {
+    int i;
+
+    for (i = 0; ram_blocks[i].text != NULL; i++) {
         if (ram_blocks[i].value == block) {
             return i;
         }
@@ -141,13 +143,14 @@ static void on_common_config_changed(GtkWidget *widget, gpointer user_data)
     int index = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
     int count = (int)(sizeof common_configs / sizeof common_configs[0]) - 1;
     const int *config;
+    int i;
 
     if (index < 0 || index >= count) {
         return;
     }
 
     config = common_configs[index].blocks;
-    for (int i = 0; i < 5; i++) {
+    for (i = 0; i < 5; i++) {
         GtkWidget *check = gtk_grid_get_child_at(GTK_GRID(blocks_widget), 0, i +1);
         debug_gtk3("setting RAM block %d to %d\n", i, config[i]);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), config[i]);
@@ -164,12 +167,13 @@ static GtkWidget * vic20_common_config_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *combo;
+    int i;
 
     grid = uihelpers_create_grid_with_label("Common configurations", 1);
 
     combo = gtk_combo_box_text_new();
     g_object_set(combo, "margin-left", 16, NULL);
-    for (int i = 0; common_configs[i].text != NULL; i++) {
+    for (i = 0; common_configs[i].text != NULL; i++) {
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                NULL, common_configs[i].text);
     }
@@ -189,9 +193,10 @@ static GtkWidget * vic20_common_config_widget_create(void)
 static GtkWidget * vic20_ram_blocks_widget_create(void)
 {
     GtkWidget *grid;
+    int i;
 
     grid = uihelpers_create_grid_with_label("RAM blocks", 1);
-    for (int i = 0; ram_blocks[i].text != NULL; i++) {
+    for (i = 0; ram_blocks[i].text != NULL; i++) {
 
         GtkWidget *check = gtk_check_button_new_with_label(ram_blocks[i].text);
         int active;

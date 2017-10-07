@@ -106,12 +106,12 @@ GtkWidget * pet_keyboard_type_widget_create(void)
     debug_gtk3("number of keyboards = %d\n", num);
     if (num > 0) {
         GtkWidget *radio;
-        int active;
+        int active, i;
 
         list = get_keyboard_list();
         resources_get_int("KeyboardType", &active);
 
-        for (int i = 0; i < num; i++) {
+        for (i = 0; i < num; i++) {
             radio = gtk_radio_button_new_with_label(group, list[i].name);
             g_object_set(radio, "margin-left", 16, NULL);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);

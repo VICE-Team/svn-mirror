@@ -212,11 +212,12 @@ static GtkWidget *create_superpet_cpu_widget(void)
 static GtkWidget *create_superpet_rom_widget(void)
 {
     GtkWidget *grid;
+    int bank;
 
     grid = uihelpers_create_grid_with_label("6809 ROMs", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
-    for (int bank = 0; bank < 6; bank++) {
+    for (bank = 0; bank < 6; bank++) {
 
         GtkWidget *label;
         GtkWidget *entry;

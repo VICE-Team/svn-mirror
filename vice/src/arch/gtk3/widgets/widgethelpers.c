@@ -149,7 +149,9 @@ GtkWidget *uihelpers_radiogroup_create(
  */
 int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value)
 {
-    for (int i = 0; list[i].text != NULL; i++) {
+    int i;
+
+    for (i = 0; list[i].text != NULL; i++) {
         if (list[i].value == value) {
             return i;
         }

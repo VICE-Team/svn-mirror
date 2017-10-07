@@ -63,7 +63,9 @@ static ui_radiogroup_entry_t acia_device_list[] = {
  */
 static int get_baud_rate_index(int baud)
 {
-    for (int i = 0; acia_baud_rates[i] > 0; i++) {
+    int i;
+
+    for (i = 0; acia_baud_rates[i] > 0; i++) {
         if (acia_baud_rates[i] == baud) {
             return i;
         }
@@ -207,6 +209,7 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     const char *path;
     int rate;
     int index;
+    int i;
 
     title = lib_msprintf("Serial %d device", num);
     grid = uihelpers_create_grid_with_label(title, 2);
@@ -234,7 +237,7 @@ static GtkWidget *create_acia_serial_device_widget(int num)
 
     combo = gtk_combo_box_text_new();
     gtk_widget_set_hexpand(combo, TRUE);
-    for (int i = 0; acia_baud_rates[i] > 0; i++) {
+    for (i = 0; acia_baud_rates[i] > 0; i++) {
         gchar buffer[64];
 
         g_snprintf(buffer, 64, "%d", acia_baud_rates[i]);

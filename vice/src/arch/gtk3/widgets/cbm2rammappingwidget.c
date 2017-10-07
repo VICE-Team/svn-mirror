@@ -72,9 +72,10 @@ static void on_ram_mapping_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *cbm2_ram_mapping_widget_create(void)
 {
     GtkWidget *grid;
+    int i;
 
     grid = uihelpers_create_grid_with_label("Map RAM into bank 15", 1);
-    for (int i = 0; mappings[i].text != NULL; i++) {
+    for (i = 0; mappings[i].text != NULL; i++) {
         GtkWidget *check;
         int enabled;
 
