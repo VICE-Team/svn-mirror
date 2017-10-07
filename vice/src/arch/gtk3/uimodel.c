@@ -272,7 +272,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);
 
     /* VIC-II model widget */
-    video_widget = video_model_widget_create();
+    video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     /* SID widget */
@@ -322,7 +322,7 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     video_wrapper = gtk_grid_new();
 
     /* VIC-II model widget */
-    video_widget = video_model_widget_create();
+    video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
     /* VDC model widget */
     vdc_widget = vdc_model_widget_create();
@@ -383,7 +383,7 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
     /* VIC model widget */
-    video_widget = video_model_widget_create();
+    video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 #if 0
     /* SID widget */
@@ -405,7 +405,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
     /* VIC model widget */
-    video_widget = video_model_widget_create();
+    video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     /* RAM size/expansion hacks */
@@ -461,7 +461,7 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
     /* add video widget */
-    video_widget = video_model_widget_create();
+    video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     /* SID widget */
