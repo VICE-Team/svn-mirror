@@ -42,6 +42,9 @@ static const char *widget_title = NULL;
 static const char *resource_name = NULL;
 static ui_radiogroup_entry_t *model_list = NULL;
 
+static GtkWidget *machine_widget= NULL;
+
+
 /** \brief  Get index in model list for model-ID \a model
  *
  * \return  index in list or -1 when not found
@@ -79,7 +82,7 @@ void video_model_widget_set_models(ui_radiogroup_entry_t *models)
 }
 
 
-GtkWidget *video_model_widget_create(void)
+GtkWidget *video_model_widget_create(GtkWidget *machine)
 {
     GtkWidget *grid;
     GtkWidget *radio;
@@ -87,6 +90,7 @@ GtkWidget *video_model_widget_create(void)
     GSList *group = NULL;
     int i;
 
+    machine_widget = machine;
     grid = uihelpers_create_grid_with_label(widget_title, 1);
 
     if (model_list != NULL) {
