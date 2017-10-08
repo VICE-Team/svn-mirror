@@ -79,6 +79,10 @@ int uihelpers_get_drive_resource_from_check_button(
         GtkWidget *widget,
         const char *fmt,
         int unit);
+
+
+GtkWidget *uihelpers_create_int_combo_box(const int *list, const char *resource);
+
+
+
 #endif
-
-

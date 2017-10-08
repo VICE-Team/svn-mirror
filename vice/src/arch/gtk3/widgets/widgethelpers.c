@@ -345,3 +345,57 @@ int uihelpers_get_drive_resource_from_check_button(
     debug_gtk3("getting %s -> %s\n", buffer, state ? "ON" : "OFF");
     return state;
 }
+
+
+
+static void on_int_combo_changed(GtkComboBoxText *combo, char *resource)
+{
+    long value;
+    gchar *text;
+    char *endptr;
+
+    text = gtk_combo_box_text_get_active_text(combo);
+    value = strtol(text, &endptr, 0);
+    if (*endptr == '\0') {
+        debug_gtk3("setting %s to %ld\n", resource, value);
+        resources_set_int(resource, (int)value);
+    }
+}
+
+
+/** \brief  Create a combo box with integers in \a list for \a resource
+ *
+ * \param[in]   list        list of values, terminated with -1
+ * \param[in]   resource    resource name
+ *
+ * \note    The strtol(3) call in the event handler can probably be avoided by
+ *          using a proper GtkComboBox with a GtkListStore
+ *
+ * \return  GtkComboBoxText
+ */
+GtkWidget *uihelpers_create_int_combo_box(const int *list, const char *resource)
+{
+    GtkWidget *combo;
+    int value;
+    int i;
+
+    resources_get_int(resource, &value);
+    debug_gtk3("got %d for %s\n", value, resource);
+
+    combo = gtk_combo_box_text_new();
+    for (i = 0; list[i] >= 0; i++) {
+        gchar buffer[64];
+
+        g_snprintf(buffer, 64, "%d", list[i]);
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), NULL, buffer);
+        if (list[i] == value) {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
+        }
+    }
+
+    g_signal_connect(combo, "changed", G_CALLBACK(on_int_combo_changed),
+            (gpointer)resource);
+
+    gtk_widget_show(combo);
+    return combo;
+}

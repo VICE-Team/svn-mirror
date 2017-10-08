@@ -46,27 +46,9 @@
 /** \brief  List of powers of two used for the widgets
  */
 static const int powers_of_two[] = {
-    1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, -1
+    0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, -1
 };
 
-#if 0
-/** \brief  Look up index of \a value in the powers_of_two array
- *
- * \param[in]   value   value to look up
- *
- * \return  index in array or -1 when not found
- */
-static int find_power_of_two_index(int value)
-{
-    int i;
-    for (i = 0; powers_of_two[i] > 0; i++) {
-        if (powers_of_two[i] == value) {
-            return i;
-        }
-    }
-    return -1;
-}
-#endif
 
 /* for some reason GtkSpinButton refuses displaying/parsing hex values, I even
  * followed the demo code at GitHub, still no dice
@@ -123,40 +105,6 @@ static void on_start_value_changed(GtkSpinButton *spin_button)
 }
 
 
-/** \brief  Handler for the "changed" event of the value invert widget
- *
- * \param[in]   spin_button spin button triggering the event
- */
-static void on_value_invert_changed(GtkComboBox *combo_box)
-{
-    int index;
-    int value;
-
-    index = gtk_combo_box_get_active(combo_box);
-    value = powers_of_two[index];
-
-    debug_gtk3("setting RAMInitValueInvert to %d\n", value);
-    resources_set_int("RAMInitValueInvert", value);
-}
-
-
-/** \brief  Handler for the "changed" event of the pattern invert widget
- *
- * \param[in]   spin_button spin button triggering the event
- */
-static void on_pattern_invert_changed(GtkComboBox *combo_box)
-{
-    int index;
-    int value;
-
-    index = gtk_combo_box_get_active(combo_box);
-    value = powers_of_two[index];
-
-    debug_gtk3("setting RAMInitPatternInvert to %d\n", value);
-    resources_set_int("RAMInitPatternInvert", value);
-}
-
-
 /** \brief  Create a spin button controlling the "RAMInitStartValue" resource
  *
  * \return  GtkSpinButton
@@ -186,69 +134,6 @@ static GtkWidget *create_start_value_widget(void)
 }
 
 
-/** \brief  Create combo box to control the "RAMInitValueInvert" resource
- *
- * \return  GtkComboBoxText
- */
-static GtkWidget *create_value_invert_widget(void)
-{
-    GtkWidget *combo;
-    int value;
-    int i;
-
-    resources_get_int("RAMInitValueInvert", &value);
-
-    combo = gtk_combo_box_text_new();
-    for (i = 0; powers_of_two[i] > 0; i++) {
-        gchar buffer[64];
-
-        g_snprintf(buffer, 64, "%d", powers_of_two[i]);
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), NULL, buffer);
-        if (powers_of_two[i] == value) {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
-        }
-    }
-
-    g_signal_connect(combo, "changed", G_CALLBACK(on_value_invert_changed),
-            NULL);
-
-    gtk_widget_show(combo);
-    return combo;
-}
-
-
-/** \brief  Create combo box to control the "RAMInitPatternInvert" resource
- *
- * \return  GtkComboBoxText
- */
-static GtkWidget *create_pattern_invert_widget(void)
-{
-    GtkWidget *combo;
-    int value;
-    int i;
-
-    resources_get_int("RAMInitValueInvert", &value);
-
-    combo = gtk_combo_box_text_new();
-    for (i = 0; powers_of_two[i] > 0; i++) {
-        gchar buffer[64];
-
-        g_snprintf(buffer, 64, "%d", powers_of_two[i]);
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), NULL, buffer);
-        if (powers_of_two[i] == value) {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
-        }
-
-    }
-
-    g_signal_connect(combo, "changed", G_CALLBACK(on_pattern_invert_changed),
-            NULL);
-
-    gtk_widget_show(combo);
-    return combo;
-}
-
-
 /** \brief  Create widget to control RAM init settings
  *
  * \return  GtkGrid
@@ -274,14 +159,16 @@ GtkWidget *ram_reset_widget_create(void)
     label = gtk_label_new("Length of constant values");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    value_invert_widget = create_value_invert_widget();
+    value_invert_widget = uihelpers_create_int_combo_box(powers_of_two,
+            "RAMInitValueInvert");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), value_invert_widget, 1, 2, 1, 1);
 
     label = gtk_label_new("Length of constant patterns");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    pattern_invert_widget = create_pattern_invert_widget();
+    pattern_invert_widget = uihelpers_create_int_combo_box(powers_of_two,
+            "RAMInitPatternInvert");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), pattern_invert_widget, 1, 3, 1, 1);
 
