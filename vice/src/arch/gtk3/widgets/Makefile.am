@@ -70,7 +70,8 @@ libwidgets_a_SOURCES = \
 	plus4memoryexpansionwidget.c \
 	cbm2memorysizewidget.c \
 	cbm2hardwiredswitcheswidget.c \
-	cbm2rammappingwidget.c
+	cbm2rammappingwidget.c \
+	ramresetwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -120,4 +121,5 @@ EXTRA_DIST = \
 	plus4memoryexpansionwidget.h \
 	cbm2memorysizewidget.h \
 	cbm2hardwiredswitcheswidget.h \
-	cbm2rammappingwidget.h
+	cbm2rammappingwidget.h \
+	ramresetwidget.h
