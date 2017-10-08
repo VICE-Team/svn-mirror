@@ -142,64 +142,6 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the TDE check button
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   data for event (unused)
- */
-static void on_tde_toggled(GtkWidget *widget, gpointer user_data)
-{
-    resources_set_int("DriveTrueEmulation",
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
-}
-
-
-/** \brief  Handler for the "toggled" event of the drive sound check button
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   data for event (unused)
- */
-static void on_drive_sound_toggled(GtkWidget *widget, gpointer user_data)
-{
-    resources_set_int("DriveSoundEmulation",
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
-}
-
-
-
-/*****************************************************************************
- *                              Private functions                            *
- *****************************************************************************/
-
-
-
-/** \brief  Create check button to set the "DriveTrueEmulation" resource
- *
- * \return GtkCheckButton
- */
-static GtkWidget *create_tde_check_button(void)
-{
-    GtkWidget *check;
-
-    check = uihelpers_create_resource_checkbox("Enable true drive emulation",
-            "DriveTrueEmulation");
-    g_object_set(check, "margin-left", 8, NULL);
-    return check;
-}
-
-
-/** \brief  Create check button to control
- */
-static GtkWidget *create_drive_sound_check_button(void)
-{
-    GtkWidget *check = uihelpers_create_resource_checkbox(
-            "Enable drive sound emulation", "DriveSoundEmulation");
-    g_object_set(check, "margin-left", 8, NULL);
-    return check;
-}
-
-
-
 /*****************************************************************************
  *                              Public functions                             *
  *****************************************************************************/
@@ -235,9 +177,13 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     tde_sound_wrapper = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(tde_sound_wrapper), 8);
 
-    tde_widget = create_tde_check_button();
+    tde_widget = uihelpers_create_resource_checkbox(
+            "Enable true drive emulation", "DriveTrueEmulation");
+    g_object_set(tde_widget, "margin-left", 8, NULL);
     gtk_grid_attach(GTK_GRID(tde_sound_wrapper), tde_widget, 0, 0, 1, 1);
-    sound_widget = create_drive_sound_check_button();
+    sound_widget = uihelpers_create_resource_checkbox(
+            "Enable drive sound emulation", "DriveSoundEmulation");
+    g_object_set(sound_widget, "margin-left", 8, NULL);
     gtk_grid_attach(GTK_GRID(tde_sound_wrapper), sound_widget, 1, 0, 1, 1);
 
     /* row 0, columns 0-2 */
@@ -292,10 +238,6 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     drive_type_widget_set_parallel_cable_widget(drive_parallel_cable_widget);
     drive_type_widget_set_options_widget(drive_options_widget);
 
-
-    g_signal_connect(tde_widget, "toggled", G_CALLBACK(on_tde_toggled), NULL);
-    g_signal_connect(sound_widget, "toggled",
-            G_CALLBACK(on_drive_sound_toggled), NULL);
 
     g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);
 

@@ -276,7 +276,7 @@ static void resource_callback(GtkWidget *widget, gpointer user_data)
     const char *resource = (const char *)user_data;
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    debug_gtk3("resource '%s' -> %d\n", resource, state);
+    debug_gtk3("setting '%s' to %d\n", resource, state);
     resources_set_int(resource, state);
 }
 

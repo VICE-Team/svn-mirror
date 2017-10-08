@@ -5,7 +5,7 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *
+ *  VirtualDevices  - enable virtual devices/device traps
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -47,11 +47,14 @@ GtkWidget *uimisc_create_central_widget(GtkWidget *widget)
     GtkWidget *grid;
     GtkWidget *browser = html_browser_widget_create();
     GtkWidget *cwd_widget = cwd_widget_create();
+    GtkWidget *vdev_widget = uihelpers_create_resource_checkbox(
+            "Enable virtual devices", "VirtualDevices");
 
     grid = gtk_grid_new();
     gtk_grid_attach(GTK_GRID(grid), browser, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, 1, 1, 1);
-
+    g_object_set(vdev_widget, "margin-left",8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), vdev_widget, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
