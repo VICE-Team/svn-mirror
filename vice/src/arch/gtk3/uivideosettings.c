@@ -55,13 +55,18 @@ static GtkWidget *video_cache_widget = NULL;
 static GtkWidget *vert_stretch_widget = NULL;
 static GtkWidget *video_render_widget = NULL;
 static GtkWidget *audio_leak_widget = NULL;
+static GtkWidget *sprite_sprite_widget = NULL;
+static GtkWidget *sprite_background_widget = NULL;
+static GtkWidget *vsp_bug_widget = NULL;
 
 static char *double_size_resname = NULL;
 static char *double_scan_resname = NULL;
 static char *video_cache_resname = NULL;
 static char *vert_stretch_resname = NULL;
 static char *audio_leak_resname = NULL;
-
+static char *sprite_sprite_resname = NULL;
+static char *sprite_background_resname = NULL;
+static char *vsp_bug_resname = NULL;
 
 static void on_destroy(GtkWidget *widget)
 {
@@ -71,6 +76,9 @@ static void on_destroy(GtkWidget *widget)
     vert_stretch_widget = NULL;
     video_render_widget = NULL;
     audio_leak_widget = NULL;
+    sprite_sprite_resname = NULL;
+    sprite_background_resname = NULL;
+    vsp_bug_widget = NULL;
 
     if (double_size_resname != NULL) {
         lib_free(double_size_resname);
@@ -87,9 +95,16 @@ static void on_destroy(GtkWidget *widget)
     if (audio_leak_resname != NULL) {
         lib_free(audio_leak_resname);
     }
+    if (sprite_sprite_resname != NULL) {
+        lib_free(sprite_sprite_resname);
+    }
+    if (sprite_background_resname != NULL) {
+        lib_free(sprite_background_resname);
+    }
+    if (vsp_bug_resname != NULL) {
+        lib_free(vsp_bug_resname);
+    }
 }
-
-
 
 
 static const char *video_chip_prefix(void)
@@ -168,6 +183,36 @@ static GtkWidget *create_audio_leak_widget(void)
 }
 
 
+static GtkWidget *create_sprite_sprite_widget(void)
+{
+    /* really fucked up resource name by the way */
+    sprite_sprite_resname = lib_msprintf("%sCheckSsColl", video_chip_prefix());
+    return uihelpers_create_resource_checkbox(
+            "Sprite-sprite collisions", sprite_sprite_resname);
+}
+
+
+static GtkWidget *create_sprite_background_widget(void)
+{
+    /* really fucked up resource name by the way */
+    sprite_background_resname = lib_msprintf("%sCheckSbColl",
+            video_chip_prefix());
+    return uihelpers_create_resource_checkbox(
+            "Sprite-background collisions", sprite_background_resname);
+}
+
+
+static GtkWidget *create_vsp_bug_widget(void)
+{
+    vsp_bug_resname = lib_msprintf("%sVSPBug",
+            video_chip_prefix());
+    return uihelpers_create_resource_checkbox(
+            "VSP bug emulation", vsp_bug_resname);
+}
+
+
+
+
 
 GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
 {
@@ -187,6 +232,11 @@ GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
     video_cache_widget = create_video_cache_widget();
     vert_stretch_widget = create_vert_stretch_widget();
     audio_leak_widget = create_audio_leak_widget();
+    sprite_sprite_widget = create_sprite_sprite_widget();
+    sprite_background_widget = create_sprite_background_widget();
+    vsp_bug_widget = create_vsp_bug_widget();
+
+
     gtk_widget_set_vexpand(audio_leak_widget, FALSE);
 
     gtk_grid_attach(GTK_GRID(wrapper), double_size_widget, 0, 0, 1, 1);
@@ -215,8 +265,18 @@ GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
                 1, 2, 1, 1);
     }
     /* row 2, column2 */
-    gtk_grid_attach(GTK_GRID(layout), audio_leak_widget, 2, 2, 1, 1);
-    g_object_set(audio_leak_widget, "margin-top", 0, NULL);
+    wrapper = uihelpers_create_grid_with_label("Other shit", 1);
+    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
+
+    gtk_grid_attach(GTK_GRID(wrapper), audio_leak_widget, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), sprite_sprite_widget, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), sprite_background_widget, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), vsp_bug_widget, 0, 4, 1, 1);
+    if (machine_class != VICE_MACHINE_C64SC
+            && machine_class != VICE_MACHINE_SCPU64) {
+        gtk_widget_set_sensitive(vsp_bug_widget, FALSE);
+    }
+    gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 2, 1, 1);
 
     gtk_widget_show_all(layout);
 
