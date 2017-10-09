@@ -68,6 +68,7 @@
 #include "uimodel.h"
 #include "uimisc.h"
 #include "ramresetwidget.h"
+#include "uivideosettings.h"
 
 #include "uisettings.h"
 
@@ -106,6 +107,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Model settings", uimodel_create_central_widget, NULL },
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },
     { "Miscellaneous", uimisc_create_central_widget, NULL },
+    { "Video settings", uivideosettings_widget_create, NULL },
     { NULL, NULL, NULL }
 };
 
