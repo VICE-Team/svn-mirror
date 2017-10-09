@@ -10555,7 +10555,7 @@ Boolean specifying whether to enable/disable video to audio leak emulation.
 @vindex CrtcFilter
 @item CrtcFilter
 Integer specifying rendering filter.
-(0: None, 2: CRT emulation, 3: Scale2x)
+(0: None, 1: CRT emulation, 2: Scale2x)
 
 @end table
 

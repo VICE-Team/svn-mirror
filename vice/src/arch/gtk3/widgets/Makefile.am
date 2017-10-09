@@ -72,7 +72,8 @@ libwidgets_a_SOURCES = \
 	cbm2hardwiredswitcheswidget.c \
 	cbm2rammappingwidget.c \
 	ramresetwidget.c \
-	videopalettewidget.c
+	videopalettewidget.c \
+	videorenderfilterwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -124,4 +125,5 @@ EXTRA_DIST = \
 	cbm2hardwiredswitcheswidget.h \
 	cbm2rammappingwidget.h \
 	ramresetwidget.h \
-	videopalettewidget.h
+	videopalettewidget.h \
+	videorenderfilterwidget.h

@@ -42,6 +42,7 @@
 #include "resources.h"
 #include "machine.h"
 #include "videopalettewidget.h"
+#include "videorenderfilterwidget.h"
 
 #include "uivideosettings.h"
 
@@ -51,6 +52,7 @@ static GtkWidget *double_size_widget = NULL;
 static GtkWidget *double_scan_widget = NULL;
 static GtkWidget *video_cache_widget = NULL;
 static GtkWidget *vert_stretch_widget = NULL;
+static GtkWidget *video_render_widget = NULL;
 
 static char *double_size_resname = NULL;
 static char *double_scan_resname = NULL;
@@ -65,6 +67,7 @@ static void on_destroy(GtkWidget *widget)
     double_scan_widget = NULL;
     video_cache_widget = NULL;
     vert_stretch_widget = NULL;
+    video_render_widget = NULL;
 
     if (double_size_resname != NULL) {
         lib_free(double_size_resname);
@@ -185,6 +188,10 @@ GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
             video_palette_widget_create(video_chip_prefix()),
             0, 1, 3, 1);
 
+    /* row 2, column 0 */
+    gtk_grid_attach(GTK_GRID(layout),
+            video_render_filter_widget_create(video_chip_prefix()),
+            0, 2, 1, 1);
 
     gtk_widget_show_all(layout);
 
