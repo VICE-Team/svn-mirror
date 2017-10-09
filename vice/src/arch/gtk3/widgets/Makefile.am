@@ -73,7 +73,8 @@ libwidgets_a_SOURCES = \
 	cbm2rammappingwidget.c \
 	ramresetwidget.c \
 	videopalettewidget.c \
-	videorenderfilterwidget.c
+	videorenderfilterwidget.c \
+	videobordermodewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -126,4 +127,5 @@ EXTRA_DIST = \
 	cbm2rammappingwidget.h \
 	ramresetwidget.h \
 	videopalettewidget.h \
-	videorenderfilterwidget.h
+	videorenderfilterwidget.h \
+	videobordermodewidget.h

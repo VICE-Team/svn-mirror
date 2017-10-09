@@ -43,6 +43,7 @@
 #include "machine.h"
 #include "videopalettewidget.h"
 #include "videorenderfilterwidget.h"
+#include "videobordermodewidget.h"
 
 #include "uivideosettings.h"
 
@@ -53,12 +54,13 @@ static GtkWidget *double_scan_widget = NULL;
 static GtkWidget *video_cache_widget = NULL;
 static GtkWidget *vert_stretch_widget = NULL;
 static GtkWidget *video_render_widget = NULL;
+static GtkWidget *audio_leak_widget = NULL;
 
 static char *double_size_resname = NULL;
 static char *double_scan_resname = NULL;
 static char *video_cache_resname = NULL;
 static char *vert_stretch_resname = NULL;
-
+static char *audio_leak_resname = NULL;
 
 
 static void on_destroy(GtkWidget *widget)
@@ -68,6 +70,7 @@ static void on_destroy(GtkWidget *widget)
     video_cache_widget = NULL;
     vert_stretch_widget = NULL;
     video_render_widget = NULL;
+    audio_leak_widget = NULL;
 
     if (double_size_resname != NULL) {
         lib_free(double_size_resname);
@@ -81,7 +84,9 @@ static void on_destroy(GtkWidget *widget)
     if (vert_stretch_resname != NULL) {
         lib_free(vert_stretch_resname);
     }
-
+    if (audio_leak_resname != NULL) {
+        lib_free(audio_leak_resname);
+    }
 }
 
 
@@ -155,6 +160,13 @@ static GtkWidget *create_vert_stretch_widget(void)
 }
 
 
+static GtkWidget *create_audio_leak_widget(void)
+{
+    audio_leak_resname = lib_msprintf("%sAudioLeak", video_chip_prefix());
+    return uihelpers_create_resource_checkbox(
+            "Audio leak emulation", audio_leak_resname);
+}
+
 
 
 GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
@@ -174,6 +186,8 @@ GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
     double_scan_widget = create_double_scan_widget();
     video_cache_widget = create_video_cache_widget();
     vert_stretch_widget = create_vert_stretch_widget();
+    audio_leak_widget = create_audio_leak_widget();
+    gtk_widget_set_vexpand(audio_leak_widget, FALSE);
 
     gtk_grid_attach(GTK_GRID(wrapper), double_size_widget, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), double_scan_widget, 1, 0, 1, 1);
@@ -192,6 +206,17 @@ GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout),
             video_render_filter_widget_create(video_chip_prefix()),
             0, 2, 1, 1);
+    /* row 2, column 1 */
+    if (machine_class != VICE_MACHINE_PET
+            && machine_class != VICE_MACHINE_CBM6x0) {
+        /* add border mode widget */
+        gtk_grid_attach(GTK_GRID(layout),
+                video_border_mode_widget_create(video_chip_prefix()),
+                1, 2, 1, 1);
+    }
+    /* row 2, column2 */
+    gtk_grid_attach(GTK_GRID(layout), audio_leak_widget, 2, 2, 1, 1);
+    g_object_set(audio_leak_widget, "margin-top", 0, NULL);
 
     gtk_widget_show_all(layout);
 
