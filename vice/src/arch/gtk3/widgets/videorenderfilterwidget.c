@@ -86,7 +86,7 @@ GtkWidget *video_render_filter_widget_create(const char *chip)
     int current;
 
     chip_prefix = chip;
-    resources_get_int_sprintf("%Filter", &current, chip);
+    resources_get_int_sprintf("%sFilter", &current, chip);
 
     grid = uihelpers_radiogroup_create("Render filter", filters,
             on_render_filter_toggled, current);
