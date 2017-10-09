@@ -31,7 +31,7 @@
 
 #include <stdio.h>
 
-static void interpret_tape_action_cb(GtkWidget *widget, gpointer data)
+void ui_datasette_tape_action_cb(GtkWidget *widget, gpointer data)
 {
     int val = GPOINTER_TO_INT(data);
     if (val >= DATASETTE_CONTROL_STOP && val <= DATASETTE_CONTROL_RESET_COUNTER) {
@@ -63,7 +63,7 @@ GtkWidget *ui_create_datasette_control_menu(void)
     menu_items[6] = gtk_menu_item_new_with_label(_("Reset Counter"));
     for (i = 0; i <= DATASETTE_CONTROL_RESET_COUNTER; ++i) {
         gtk_container_add(GTK_CONTAINER(menu), menu_items[i]);
-        g_signal_connect(menu_items[i], "activate", G_CALLBACK(interpret_tape_action_cb), GINT_TO_POINTER(i));
+        g_signal_connect(menu_items[i], "activate", G_CALLBACK(ui_datasette_tape_action_cb), GINT_TO_POINTER(i));
     }
     gtk_widget_show_all(menu);
     return menu;

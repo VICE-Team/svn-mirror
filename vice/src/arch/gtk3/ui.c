@@ -50,6 +50,7 @@
 
 #include "basedialogs.h"
 #include "uiapi.h"
+#include "uidatasette.h"
 #include "uiedit.h"
 #include "uifliplist.h"
 #include "uimenu.h"
@@ -273,6 +274,34 @@ static ui_menu_item_t fliplist_submenu[] = {
     UI_MENU_TERMINATOR
 };
 
+/** \brief  File->Datasette control submenu
+ */
+
+static ui_menu_item_t datasette_control_submenu[] = {
+    { "Stop", UI_MENU_TYPE_ITEM_ACTION,
+      ui_datasette_tape_action_cb, GINT_TO_POINTER(0),
+      0, 0 },
+    { "Start", UI_MENU_TYPE_ITEM_ACTION,
+      ui_datasette_tape_action_cb, GINT_TO_POINTER(1),
+      0, 0 },
+    { "Forward", UI_MENU_TYPE_ITEM_ACTION,
+      ui_datasette_tape_action_cb, GINT_TO_POINTER(2),
+      0, 0 },
+    { "Rewind", UI_MENU_TYPE_ITEM_ACTION,
+      ui_datasette_tape_action_cb, GINT_TO_POINTER(3),
+      0, 0 },
+    { "Record", UI_MENU_TYPE_ITEM_ACTION,
+      ui_datasette_tape_action_cb, GINT_TO_POINTER(4),
+      0, 0 },
+    { "Reset", UI_MENU_TYPE_ITEM_ACTION,
+      ui_datasette_tape_action_cb, GINT_TO_POINTER(5),
+      0, 0 },
+    { "Reset Counter", UI_MENU_TYPE_ITEM_ACTION,
+      ui_datasette_tape_action_cb, GINT_TO_POINTER(6),
+      0, 0 },
+    UI_MENU_TERMINATOR
+};
+
 /** \brief  File->Reset submenu
  */
 static ui_menu_item_t reset_submenu[] = {
@@ -337,8 +366,8 @@ static ui_menu_item_t file_menu[] = {
     { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION,
         ui_tape_detach_callback, NULL,
         0, 0 },
-    { "Datasette controls [USE TAPEWIDGET IN STATUSBAR]",
-        UI_MENU_TYPE_ITEM_ACTION, NULL, NULL,
+    { "Datasette controls",
+        UI_MENU_TYPE_SUBMENU, NULL, datasette_control_submenu,
         0, 0 },
 
     UI_MENU_SEPARATOR,
