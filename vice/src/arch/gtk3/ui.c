@@ -253,10 +253,10 @@ static ui_menu_item_t detach_submenu[] = {
  */
 static ui_menu_item_t fliplist_submenu[] = {
     { "Add current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-      NULL, NULL,
+      ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
       0, 0 },
     { "Remove current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-      NULL, NULL,
+      ui_fliplist_remove_current_cb, GINT_TO_POINTER(8),
       0, 0 },
     { "Attach next image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
       ui_fliplist_next_cb, GINT_TO_POINTER(8),
@@ -268,7 +268,7 @@ static ui_menu_item_t fliplist_submenu[] = {
       ui_fliplist_load_callback, GINT_TO_POINTER(8),
       0, 0 },
     { "Save flip list file...", UI_MENU_TYPE_ITEM_ACTION,
-      NULL, NULL,
+      ui_fliplist_save_callback, GINT_TO_POINTER(8),
       0, 0 },
     UI_MENU_TERMINATOR
 };

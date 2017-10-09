@@ -34,6 +34,18 @@
 
 #include "uifliplist.h"
 
+void ui_fliplist_add_current_cb(GtkWidget *widget, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data);
+    fliplist_add_image(unit);
+}
+
+void ui_fliplist_remove_current_cb(GtkWidget *widget, gpointer data)
+{
+    int unit = GPOINTER_TO_INT(data);
+    fliplist_remove(unit, NULL);
+}
+
 void ui_fliplist_next_cb(GtkWidget *widget, gpointer data)
 {
     int unit = GPOINTER_TO_INT(data);
@@ -182,4 +194,40 @@ void ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
     gtk_widget_show_all(dialog);
 }
         
-        
+static void fliplist_save_response(GtkWidget *widget, gint response_id, gpointer user_data)
+{
+    int unit = GPOINTER_TO_INT(user_data);
+    gchar *filename;
+    filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
+    if (response_id == GTK_RESPONSE_ACCEPT) {
+        fliplist_save_list(unit, filename);
+    }
+    gtk_widget_destroy(widget);
+}
+
+/** \brief   Create and show the "save fliplist" dialog.
+ *
+ *  \param   parent     Widget that sent the event
+ *  \param   data       Drive to save fliplist from, or FLIPLIST_ALL_UNITS
+ */
+void ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
+{
+    GtkWidget *dialog;
+    unsigned int unit = (unsigned int)GPOINTER_TO_INT(data);
+    if (unit != FLIPLIST_ALL_UNITS && (unit < 8 || unit > 11)) {
+        return;
+    }
+    dialog = gtk_file_chooser_dialog_new(
+        _("Select flip list file"),
+        GTK_WINDOW(gtk_widget_get_toplevel(parent)),
+        GTK_FILE_CHOOSER_ACTION_SAVE,
+        /* buttons */
+        _("Save"), GTK_RESPONSE_ACCEPT,
+        _("Cancel"), GTK_RESPONSE_REJECT,
+        NULL, NULL);
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
+            create_file_chooser_filter(file_chooser_filter_fliplist, TRUE));
+    gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+    g_signal_connect(dialog, "response", G_CALLBACK(fliplist_save_response), data);
+    gtk_widget_show_all(dialog);
+}
