@@ -25,7 +25,7 @@
  */
 
 #ifndef HAVE_VIDEOBORDERMODEWIDGET_H
-#define HAVE_VIDEOBORDERMODERWIDGET_H
+#define HAVE_VIDEOBORDERMODEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
