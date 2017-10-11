@@ -34,6 +34,8 @@
 #include "vicii.h"
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
+#include "sampler.h"
+#include "uisamplersettings.h"
 
 #include "scpu64ui.h"
 
@@ -71,6 +73,8 @@ int scpu64ui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("VICIIModel");
     video_model_widget_set_models(c64scpu_vicii_models);
+
+    uisamplersettings_set_devices_getter(sampler_get_devices);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

@@ -31,6 +31,8 @@
 #include "not_implemented.h"
 #include "cbm2model.h"
 #include "machinemodelwidget.h"
+#include "sampler.h"
+#include "uisamplersettings.h"
 
 #include "cbm2ui.h"
 
@@ -51,6 +53,8 @@ int cbm2ui_init(void)
     machine_model_widget_getter(cbm2model_get);
     machine_model_widget_setter(cbm2model_set);
     machine_model_widget_set_models(cbm2_model_list);
+
+    uisamplersettings_set_devices_getter(sampler_get_devices);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

@@ -6,10 +6,39 @@
  *
  * Controls the following resource(s):
  *  CrtcDoubleSize
+ *  CrtcDoubleScan
+ *  CrtcVideoCache
+ *  CrtcStretchVertical
+ *  CrtcAudioLeak
+ *  CrtcHwScale
  *  TEDDoubleSize
+ *  TEDDoubleScan
+ *  TEDVideoCache
+ *  TEDAudioLeak
+ *  TEDHwScale
  *  VDCDoubleSize
+ *  VDCDoubleScan
+ *  VDCVideoCache
+ *  VDCStretchVertical
+ *  VDCAudioLeak
+ *  VDCHwScale
  *  VICDoubleSize
+ *  VICDoubleScan
+ *  VICVideoCache
+ *  VICAudioLeak
+ *  VICHwScale
  *  VICIIDoubleSize
+ *  VICIIDoubleScan
+ *  VICIIVideoCache
+ *  VICIIAudioLeak
+ *  VICIICheckSbColl        - check sprite-background collisions
+ *  VICIICheckSsColl        - check sprite-sprite collisions
+ *  VICIIVSPBug             - emulate VSP bug
+ *  VICIIHwScale
+ *  KeepAspectRatio
+ *  TrueAspectRatio
+ *
+ *  (see included widgets for more resources)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

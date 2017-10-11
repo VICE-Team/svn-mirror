@@ -21,7 +21,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/scpu64 \
-	-I$(top_srcdir)/src/vic20
+	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/samplerdrv
 
 
 noinst_LIBRARIES = libarch.a
@@ -82,7 +83,8 @@ libarch_a_SOURCES = \
 	uimodel.c \
 	uimisc.c \
 	uivideo.c \
-	uivideosettings.c
+	uivideosettings.c \
+	uisamplersettings.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -130,4 +132,5 @@ EXTRA_DIST = \
 	uimodel.h \
 	uimisc.h \
 	uivideo.h \
-	uivideosettings.h
+	uivideosettings.h \
+	uisamplersettings.h

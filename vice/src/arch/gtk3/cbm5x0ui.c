@@ -33,6 +33,8 @@
 #include "cbm2model.h"
 #include "widgethelpers.h"
 #include "machinemodelwidget.h"
+#include "sampler.h"
+#include "uisamplersettings.h"
 #include "videomodelwidget.h"
 
 #include "cbm2ui.h"
@@ -59,6 +61,9 @@ int cbm5x0ui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(cbm5x0_vicii_models);
+
+    uisamplersettings_set_devices_getter(sampler_get_devices);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

@@ -52,6 +52,7 @@
 #include <string.h>
 
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "vsync.h"
 
@@ -69,6 +70,7 @@
 #include "uimisc.h"
 #include "ramresetwidget.h"
 #include "uivideosettings.h"
+#include "uisamplersettings.h"
 
 #include "uisettings.h"
 
@@ -99,11 +101,12 @@ enum {
  * -- compyx 2017-09-24
  */
 static ui_settings_tree_node_t main_nodes[] = {
-    { "Speed", uispeed_create_central_widget, NULL },
-    { "Keyboard", uikeyboard_create_central_widget, NULL },
-    { "Sound", uisound_create_central_widget, NULL },
-    { "Autostart", uiautostart_create_central_widget, NULL },
+    { "Speed settings", uispeed_create_central_widget, NULL },
+    { "Keyboard settings", uikeyboard_create_central_widget, NULL },
+    { "Sound settings", uisound_create_central_widget, NULL },
+    { "Autostart settings", uiautostart_create_central_widget, NULL },
     { "Drive settings", uidrivesettings_create_central_widget, NULL },
+    { "Samper settings", uisamplersettings_widget_create, NULL },
     { "Model settings", uimodel_create_central_widget, NULL },
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },
     { "Miscellaneous", uimisc_create_central_widget, NULL },
@@ -415,9 +418,12 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
+    char title[256];
+
+    g_snprintf(title, 256, "%s Settings", machine_name);
 
     dialog = gtk_dialog_new_with_buttons(
-            "Settings",
+            title,
             GTK_WINDOW(gtk_widget_get_toplevel(widget)),
             GTK_DIALOG_MODAL,
             "Load", RESPONSE_LOAD,

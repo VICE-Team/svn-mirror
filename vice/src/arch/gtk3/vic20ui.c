@@ -34,6 +34,9 @@
 #include "machinemodelwidget.h"
 #include "widgethelpers.h"
 #include "videomodelwidget.h"
+#include "sampler.h"
+#include "uisamplersettings.h"
+
 
 #include "vic20ui.h"
 
@@ -61,6 +64,9 @@ int vic20ui_init(void)
     video_model_widget_set_title("VIC model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(vic20_vic_models);
+
+    uisamplersettings_set_devices_getter(sampler_get_devices);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

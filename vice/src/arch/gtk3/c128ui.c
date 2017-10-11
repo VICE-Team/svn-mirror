@@ -32,8 +32,10 @@
 #include "widgethelpers.h"
 #include "machine.h"
 #include "c128model.h"
+#include "sampler.h"
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
+#include "uisamplersettings.h"
 
 #include "c128ui.h"
 
@@ -61,6 +63,9 @@ int c128ui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(c128_vicii_models);
+
+    uisamplersettings_set_devices_getter(sampler_get_devices);
+
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

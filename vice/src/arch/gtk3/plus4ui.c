@@ -34,6 +34,8 @@
 #include "widgethelpers.h"
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
+#include "sampler.h"
+#include "uisamplersettings.h"
 
 #include "plus4ui.h"
 
@@ -62,6 +64,7 @@ int plus4ui_init(void)
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(plus4_ted_models);
 
+    uisamplersettings_set_devices_getter(sampler_get_devices);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

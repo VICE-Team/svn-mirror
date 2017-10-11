@@ -31,9 +31,11 @@
 #include "not_implemented.h"
 #include "c64model.h"
 #include "vicii.h"
+#include "sampler.h"
 #include "widgethelpers.h"
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
+#include "uisamplersettings.h"
 
 #include "c64ui.h"
 
@@ -72,6 +74,8 @@ int c64ui_init(void)
     video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(c64_vicii_models);
+
+    uisamplersettings_set_devices_getter(sampler_get_devices);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
