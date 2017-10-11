@@ -81,6 +81,7 @@ libarch_a_SOURCES = \
 	vsyncarch.c \
 	uimodel.c \
 	uimisc.c \
+	uivideo.c \
 	uivideosettings.c
 
 EXTRA_DIST = \
@@ -128,4 +129,5 @@ EXTRA_DIST = \
 	videoarch.h \
 	uimodel.h \
 	uimisc.h \
+	uivideo.h \
 	uivideosettings.h

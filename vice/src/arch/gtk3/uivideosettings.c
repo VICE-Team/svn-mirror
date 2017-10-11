@@ -41,6 +41,7 @@
 #include "debug_gtk3.h"
 #include "resources.h"
 #include "machine.h"
+#include "uivideo.h"
 #include "videopalettewidget.h"
 #include "videorenderfilterwidget.h"
 #include "videobordermodewidget.h"
@@ -137,39 +138,6 @@ static void on_destroy(GtkWidget *widget)
 }
 
 
-static const char *get_video_chip_name(void)
-{
-    switch (machine_class) {
-        /* VIC */
-        case VICE_MACHINE_VIC20:
-            return "VIC";
-
-        /* VIC-II */
-        case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
-        case VICE_MACHINE_C64DTV:   /* fall through */
-        case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_CBM5x0:   /* fall through */
-        case VICE_MACHINE_VSID:
-            return "VICII";
-
-        /* TED */
-        case VICE_MACHINE_PLUS4:
-            return "TED";
-
-        /* CRTC */
-        case VICE_MACHINE_PET:      /* fall through */
-        case VICE_MACHINE_CBM6x0:
-            return "Crtc";
-
-        default:
-            /* should never get here */
-            fprintf(stderr, "%s:%d:%s(): error: got machine class %d\n",
-                    __FILE__, __LINE__, __func__, machine_class);
-            exit(1);
-    }
-}
 
 
 static GtkWidget *create_double_size_widget(int index)
@@ -294,6 +262,14 @@ static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+/** \brief  Create a per-chip video settings layout
+ *
+ * \param[in]   parent  parent widget, required for dialogs
+ * \param[in]   chip    chip name ("Crtc", "TED", "VDC", "VIC", or "VICII")
+ * \param[in[   index   index in the general layout (0 or 1 (x128))
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 {
     GtkWidget *layout;
@@ -323,19 +299,26 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     g_object_set(double_size_widget, "margin-left", 16, NULL);
     double_scan_widget = create_double_scan_widget(index);
     video_cache_widget = create_video_cache_widget(index);
-    vert_stretch_widget = create_vert_stretch_widget(index);
+    if (uivideo_chip_has_vert_stretch(chip)) {
+        vert_stretch_widget = create_vert_stretch_widget(index);
+    }
     audio_leak_widget = create_audio_leak_widget(index);
-    sprite_sprite_widget = create_sprite_sprite_widget(index);
-    sprite_background_widget = create_sprite_background_widget(index);
-    vsp_bug_widget = create_vsp_bug_widget(index);
-
+    if (uivideo_chip_has_sprites(chip)) {
+        sprite_sprite_widget = create_sprite_sprite_widget(index);
+        sprite_background_widget = create_sprite_background_widget(index);
+    }
+    if (uivideo_chip_has_vsp_bug(chip)) {
+        vsp_bug_widget = create_vsp_bug_widget(index);
+    }
 
     gtk_widget_set_vexpand(audio_leak_widget, FALSE);
 
     gtk_grid_attach(GTK_GRID(wrapper), double_size_widget, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), double_scan_widget, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(wrapper), video_cache_widget, 2, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), vert_stretch_widget, 3, 0, 1, 1);
+    if (uivideo_chip_has_vert_stretch(chip)) {
+        gtk_grid_attach(GTK_GRID(wrapper), vert_stretch_widget, 3, 0, 1, 1);
+    }
 
     /* row 1, columns 0-2 */
     gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 1, 3, 1);
@@ -350,8 +333,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
             video_render_filter_widget_create(chip),
             0, 3, 1, 1);
     /* row 3, column 1 */
-    if (machine_class != VICE_MACHINE_PET
-            && machine_class != VICE_MACHINE_CBM6x0) {
+    if (uivideo_chip_has_border_mode(chip)) {
         /* add border mode widget */
         gtk_grid_attach(GTK_GRID(layout),
                 video_border_mode_widget_create(chip),
@@ -362,13 +344,14 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
 
     gtk_grid_attach(GTK_GRID(wrapper), audio_leak_widget, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), sprite_sprite_widget, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), sprite_background_widget, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), vsp_bug_widget, 0, 4, 1, 1);
-    if (machine_class != VICE_MACHINE_C64SC
-            && machine_class != VICE_MACHINE_SCPU64) {
-        gtk_widget_set_sensitive(vsp_bug_widget, FALSE);
+    if (uivideo_chip_has_sprites(chip)) {
+        gtk_grid_attach(GTK_GRID(wrapper), sprite_sprite_widget, 0, 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(wrapper), sprite_background_widget, 0, 3, 1, 1);
     }
+    if (uivideo_chip_has_vsp_bug(chip)) {
+        gtk_grid_attach(GTK_GRID(wrapper), vsp_bug_widget, 0, 4, 1, 1);
+    }
+
     gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 3, 1, 1);
 
 
@@ -398,7 +381,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
                 G_CALLBACK(on_true_aspect_toggled),
                 GINT_TO_POINTER(index == 0 ? 1: 0));
     }
- 
+
     gtk_grid_attach(GTK_GRID(wrapper), true_aspect_widget[index], 2 ,1 ,1, 1);
 
     g_signal_connect(hw_scale_widget, "toggled",
@@ -420,7 +403,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid = gtk_grid_new();
-    const char *chip = get_video_chip_name();
+    const char *chip = uivideo_chip_name();
 
     gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
