@@ -152,15 +152,18 @@ GtkWidget *uisamplersettings_widget_create(GtkWidget *parent)
 
     /* sampler device */
     label = gtk_label_new("Sampler device");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_device_widget(), 1, 1, 2, 1);
 
     label = gtk_label_new("Sampler gain");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_gain_widget(), 1, 2, 2, 1);
 
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     label = gtk_label_new("Sampler media file");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
