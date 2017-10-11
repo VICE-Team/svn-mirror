@@ -47,10 +47,22 @@
 
 #include "uivideosettings.h"
 
+
+/** \brief  Heap allocated titles for the sub-widgets
+ */
 static char *widget_title[2] = { NULL, NULL };
+
+/** \brief  References to the chip names passed to create_layout()
+ */
 static const char *chip_name[2] = { NULL, NULL };
 
-
+/*
+ * A bunch of heap allocated resource names to use in the calls to
+ * uihelpers_create_resource_checkbox(). Since that function only passes a
+ * pointer to the resource name to its event handler, we can't use a temp buffer
+ * to set up the resource names, these need to live on the heap until the
+ * checkbox is destroyed.
+ */
 static char *double_size_resname[2] = { NULL, NULL };
 static char *double_scan_resname[2] = { NULL, NULL };
 static char *video_cache_resname[2] = { NULL, NULL };
@@ -59,7 +71,27 @@ static char *audio_leak_resname[2] = { NULL, NULL };
 static char *sprite_sprite_resname[2] = { NULL, NULL };
 static char *sprite_background_resname[2] = { NULL, NULL };
 static char *vsp_bug_resname[2] = { NULL, NULL };
+static char *hw_scale_resname[2] = { NULL, NULL };
+static char *keep_aspect_resname[2] = { NULL, NULL };
+static char *true_aspect_resname[2] = { NULL, NULL };
 
+
+/* These are required for x128, since these resources are chip-independent, but
+ * there's a TODO to make these resources chip-dependent. For now toggling a
+ * checkbox in VICII settings should update the checkbox in VDC settings, and
+ * vice-versa. Once the resources are chip-dependent, this can be removed.
+ */
+static GtkWidget *keep_aspect_widget[2] = { NULL, NULL };
+static GtkWidget *true_aspect_widget[2] = { NULL, NULL };
+
+
+
+/** \brief  Handler for the "destroy" event of the main widget
+ *
+ * Cleans up heap-allocated resources
+ *
+ * \param[in]   widget  main widget
+ */
 static void on_destroy(GtkWidget *widget)
 {
     int i;
@@ -88,6 +120,15 @@ static void on_destroy(GtkWidget *widget)
         }
         if (vsp_bug_resname[i] != NULL) {
             lib_free(vsp_bug_resname[i]);
+        }
+        if (hw_scale_resname[i] != NULL) {
+            lib_free(hw_scale_resname[i]);
+        }
+        if (keep_aspect_resname[i] != NULL) {
+            lib_free(keep_aspect_resname[i]);
+        }
+        if (true_aspect_resname[i] != NULL) {
+            lib_free(true_aspect_resname[i]);
         }
         if (widget_title[i] != NULL) {
             lib_free(widget_title[i]);
@@ -200,6 +241,59 @@ static GtkWidget *create_vsp_bug_widget(int index)
 }
 
 
+static GtkWidget *create_hw_scale_widget(int index)
+{
+    hw_scale_resname[index] = lib_msprintf("%sHwScale", chip_name[index]);
+    return uihelpers_create_resource_checkbox(
+            "Hardware scaling", hw_scale_resname[index]);
+}
+
+
+static GtkWidget *create_keep_aspect_widget(int index)
+{
+    /* change lib_stralloc() to lib_msprintf("%sKeepAspectRatio", chip_name[i])
+     * once per-chip KeepAspectRatio is implemented */
+    keep_aspect_resname[index] = lib_stralloc("KeepAspectRatio");
+    return uihelpers_create_resource_checkbox(
+            "Keep aspect ratio", keep_aspect_resname[index]);
+}
+
+static GtkWidget *create_true_aspect_widget(int index)
+{
+    /* change lib_stralloc() to lib_msprintf("%sTrueAspectRatio", chip_name[i])
+     * once per-chip TrueAspectRatio is implemented */
+    true_aspect_resname[index] = lib_stralloc("TrueAspectRatio");
+    return uihelpers_create_resource_checkbox(
+            "True aspect ratio", true_aspect_resname[index]);
+}
+
+
+static void on_hw_scale_toggled(GtkWidget *check, gpointer user_data)
+{
+    int enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+    int index = GPOINTER_TO_INT(user_data);
+
+    gtk_widget_set_sensitive(keep_aspect_widget[index], enabled);
+    gtk_widget_set_sensitive(true_aspect_widget[index], enabled);
+}
+
+
+static void on_keep_aspect_toggled(GtkWidget *check, gpointer user_data)
+{
+    int index = GPOINTER_TO_INT(user_data);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(keep_aspect_widget[index]),
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)));
+}
+
+
+static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
+{
+    int index = GPOINTER_TO_INT(user_data);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(true_aspect_widget[index]),
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)));
+}
+
+
 static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 {
     GtkWidget *layout;
@@ -208,11 +302,11 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     GtkWidget *double_scan_widget = NULL;
     GtkWidget *video_cache_widget = NULL;
     GtkWidget *vert_stretch_widget = NULL;
-    GtkWidget *video_render_widget = NULL;
     GtkWidget *audio_leak_widget = NULL;
     GtkWidget *sprite_sprite_widget = NULL;
     GtkWidget *sprite_background_widget = NULL;
     GtkWidget *vsp_bug_widget = NULL;
+    GtkWidget *hw_scale_widget = NULL;
 
     widget_title[index] = lib_msprintf("%s Settings", chip);
     chip_name[index] = chip;
@@ -264,7 +358,7 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
                 1, 3, 1, 1);
     }
     /* row 3, column2 */
-    wrapper = uihelpers_create_grid_with_label("Other shit", 1);
+    wrapper = uihelpers_create_grid_with_label("Miscellaneous", 1);
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
 
     gtk_grid_attach(GTK_GRID(wrapper), audio_leak_widget, 0, 1, 1, 1);
@@ -276,6 +370,42 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
         gtk_widget_set_sensitive(vsp_bug_widget, FALSE);
     }
     gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 3, 1, 1);
+
+
+    /* row 4, column 0-2 */
+    wrapper = uihelpers_create_grid_with_label("Scaling and fullscreen", 3);
+
+    hw_scale_widget = create_hw_scale_widget(index);
+    gtk_grid_attach(GTK_GRID(wrapper), hw_scale_widget, 0, 1, 1, 1);
+
+    keep_aspect_widget[index] = create_keep_aspect_widget(index);
+    /* until per-chip KeepAspectRatio is implemented, connect the VICII and
+     * VDC KeepAspectRatio checkboxes, so toggling the VICII checkbox also
+     * updates the VDC checkbox, and vice-versa */
+    if (machine_class == VICE_MACHINE_C128) {
+        g_signal_connect(keep_aspect_widget[index], "toggled",
+                G_CALLBACK(on_keep_aspect_toggled),
+                GINT_TO_POINTER(index == 0 ? 1: 0));
+    }
+    gtk_grid_attach(GTK_GRID(wrapper), keep_aspect_widget[index], 1 ,1 ,1, 1);
+
+    true_aspect_widget[index] = create_true_aspect_widget(index);
+    /* until per-chip TrueAspectRatio is implemented, connect the VICII and
+     * VDC TrueAspectRatio checkboxes, so toggling the VICII checkbox also
+     * updates the VDC checkbox, and vice-versa */
+    if (machine_class == VICE_MACHINE_C128) {
+        g_signal_connect(true_aspect_widget[index], "toggled",
+                G_CALLBACK(on_true_aspect_toggled),
+                GINT_TO_POINTER(index == 0 ? 1: 0));
+    }
+ 
+    gtk_grid_attach(GTK_GRID(wrapper), true_aspect_widget[index], 2 ,1 ,1, 1);
+
+    g_signal_connect(hw_scale_widget, "toggled",
+            G_CALLBACK(on_hw_scale_toggled), GINT_TO_POINTER(index));
+
+    gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 4, 3, 1);
+
 
     gtk_widget_show_all(layout);
 
