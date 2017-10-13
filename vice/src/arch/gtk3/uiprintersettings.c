@@ -34,9 +34,13 @@
 #include "debug_gtk3.h"
 #include "resources.h"
 #include "printer.h"
+
+/* widgets */
 #include "printeremulationtypewidget.h"
+#include "printerdriverwidget.h"
 
 #include "uiprintersettings.h"
+
 
 #define PRINTER_NUM 4   /**< number of printer devices supported */
 #define PRINTER_MIN 4   /**< lowest device number for a printer */
@@ -65,6 +69,8 @@ static GtkWidget *create_printer_widget(int device)
         /* device 4,5,6 are 'normal' printers */
         gtk_grid_attach(GTK_GRID(grid),
                 printer_emulation_type_widget_create(device), 0, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid),
+                printer_driver_widget_create(device), 1, 1, 1, 1);
     } else if (device == 7) {
         /* device 7 is 'special' */
     }
