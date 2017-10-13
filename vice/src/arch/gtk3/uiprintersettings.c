@@ -191,6 +191,38 @@ static GtkWidget *create_userport_widget(void)
 }
 
 
+
+static GtkWidget *create_printer_text_devices_widget(void)
+{
+    GtkWidget *grid;
+    int i;
+
+    grid = uihelpers_create_grid_with_label("Printer text output devices", 6);
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    for (i = 0; i < 3; i++) {
+        GtkWidget *label;
+        GtkWidget *entry;
+        const char *text;
+        gchar title[64];
+
+        g_snprintf(title, 64, "#%d", i + 1);
+
+        label= gtk_label_new(title);
+        if (i == 0) {
+            g_object_set(label, "margin-left", 16, NULL);
+        }
+        gtk_grid_attach(GTK_GRID(grid), label, i * 2, 1, 1, 1);
+        entry = gtk_entry_new();
+        resources_get_string_sprintf("PrinterTextDevice%d", &text, i + 1);
+        gtk_entry_set_text(GTK_ENTRY(entry), text);
+        gtk_grid_attach(GTK_GRID(grid), entry, i * 2 + 1, 1, 1, 1);
+    }
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
 /** \brief  Create widget to control printer settings
  *
  * \param[in]   parent  parent widget
@@ -243,6 +275,10 @@ GtkWidget *uiprintersettings_widget_create(GtkWidget *parent)
 
     gtk_orientable_set_orientation(GTK_ORIENTABLE(stack_switcher),
             GTK_ORIENTATION_HORIZONTAL);
+
+    gtk_grid_attach(GTK_GRID(layout), create_printer_text_devices_widget(),
+            0, 2, 1, 1);
+
     gtk_widget_show_all(layout);
     return layout;
 }

@@ -80,7 +80,7 @@ static void on_output_mode_toggled(GtkRadioButton *radio, gpointer user_data)
 static GtkWidget *create_text_device_widget(int device)
 {
     GtkWidget *grid;
-    const char *labels[] = { "1 (file dump)", "2 (exec)", "3 (exec)" };
+    const char *labels[] = { "#1 (file dump)", "#2 (exec)", "#3 (exec)" };
     size_t index;
     GSList *group = NULL;
     GtkRadioButton *last = NULL;
