@@ -3193,6 +3193,23 @@ going'' is selected, no pausing is done.
 
 @end itemize
 
+The following menu items control sound input:
+
+@cindex Sampler Device
+@item
+``Sampler Device'' specifies the host device/method used for sampling/sound input,
+currently portaudio (if linked in) and file methods are supported.
+
+@cindex Sampler Gain
+@item
+``Sampler Gain'' specifies the amount of gain (increase the input volume if above 100
+or decrease the input volume if below 100) for the input of the sampler device.
+
+@cindex Sampler File
+@item
+``Sampler File'' specifies the name of the file to be uses as an input source for
+the 'file' method/device.
+
 @menu
 * Sound resources::
 * Sound options::
@@ -3349,7 +3366,20 @@ or 'always stereo' (output is always stereo, mono streams are multiplexed to a s
 stream).
 (0: system, 1: mono, 2: stereo)
 
-@end table
+@vindex SamplerDevice
+@item SamplerDevice
+Integer specifying the device/method to be used for sound input.
+(0: sample file device, 1: PortAudio device)
+
+@vindex SamplerGain
+@item SamplerGain
+Integer specifying the gain to be used for sound input.
+(>100 increase input volume, <100: decrease input volume)
+
+@vindex SampleFile
+@item SampleFile
+String specifying the name of the file/sample to be used as the input
+source for the 'file' sampler device.
 
 @node Sound options,  , Sound resources, Sound settings
 @subsection Sound command-line options
@@ -3423,6 +3453,23 @@ Specify the pause interval when audio underflows (clicks) happen. 0 means no pau
 Specify the sound volume
 (@code{SoundVolume}).
 (0..100)
+
+@findex -samplerdev
+@item -samplerdev <device number>
+Specify the device to use for audio input
+(@code{SamplerDevice}).
+(0: file device, 1: portaudio device)
+
+@findex -samplergain
+@item -samplergain <percent>
+Specify the amount of gain (volume increase/decrease) for the audio input device
+(@code{SamplerGain}).
+(0..200)
+
+@findex -samplename
+@item -samplename <name>
+Specify the name of the file to use for the 'file' audio input device
+(@code{SampleFile}).
 
 @end table
 
