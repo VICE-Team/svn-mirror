@@ -38,6 +38,7 @@
 /* widgets */
 #include "printeremulationtypewidget.h"
 #include "printerdriverwidget.h"
+#include "printeroutputwidget.h"
 
 #include "uiprintersettings.h"
 
@@ -45,6 +46,33 @@
 #define PRINTER_NUM 4   /**< number of printer devices supported */
 #define PRINTER_MIN 4   /**< lowest device number for a printer */
 #define PRINTER_MAX 7   /**< highest device number for a printer */
+
+
+static void on_iec_toggled(GtkRadioButton *radio, gpointer user_data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio));
+    int device = GPOINTER_TO_INT(user_data);
+
+    debug_gtk3("setting IECDevice%d to %s\n", device, state ? "ON" : "OFF");
+    resources_set_int_sprintf("IECDevice%d", state, device);
+}
+
+
+static GtkWidget *create_iec_widget(int device)
+{
+    GtkWidget *check;
+    int value;
+
+    resources_get_int_sprintf("IECDevice%d", &value, device);
+
+    check = gtk_check_button_new_with_label("Enable IEC device");
+    g_object_set(check, "margin-left", 16, NULL);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
+
+    g_signal_connect(check, "toggled", G_CALLBACK(on_iec_toggled),
+            GINT_TO_POINTER(device));
+    return check;
+}
 
 
 /** \brief  Create a widget for the settings of printer # \a device
@@ -67,10 +95,23 @@ static GtkWidget *create_printer_widget(int device)
 
     if (device == 4 || device == 5 || device == 6) {
         /* device 4,5,6 are 'normal' printers */
-        gtk_grid_attach(GTK_GRID(grid),
-                printer_emulation_type_widget_create(device), 0, 1, 1, 1);
+        GtkWidget *wrapper;
+
+        wrapper = gtk_grid_new();
+
+        gtk_grid_attach(GTK_GRID(wrapper),
+                printer_emulation_type_widget_create(device), 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(wrapper),
+                create_iec_widget(device), 0, 1, 1, 1);
+
+        gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 1, 1, 1);
+
+
+
         gtk_grid_attach(GTK_GRID(grid),
                 printer_driver_widget_create(device), 1, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid),
+                printer_output_widget_create(device), 2, 1, 1, 1);
     } else if (device == 7) {
         /* device 7 is 'special' */
     }

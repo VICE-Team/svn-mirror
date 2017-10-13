@@ -76,7 +76,8 @@ libwidgets_a_SOURCES = \
 	videorenderfilterwidget.c \
 	videobordermodewidget.c \
 	printeremulationtypewidget.c \
-	printerdriverwidget.c
+	printerdriverwidget.c \
+	printeroutputwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -132,4 +133,5 @@ EXTRA_DIST = \
 	videorenderfilterwidget.h \
 	videobordermodewidget.h \
 	printeremulationtypewidget.h \
-	printerdrivewidget.h
+	printerdrivewidget.h \
+	printeroutputwidget.h
