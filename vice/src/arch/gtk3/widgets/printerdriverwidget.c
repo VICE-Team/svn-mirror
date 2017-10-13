@@ -211,7 +211,6 @@ void printer_driver_widget_update(GtkWidget *widget, const char *driver)
             index = 2;  /* RAW */
         }
     } else {
-        return; /* invalid device number */
         fprintf(stderr, "%s:%d:%s(): invalid printer device #%d\n",
                 __FILE__, __LINE__, __func__, device);
         exit(1);
