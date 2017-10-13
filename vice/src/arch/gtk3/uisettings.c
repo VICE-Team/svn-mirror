@@ -71,6 +71,7 @@
 #include "ramresetwidget.h"
 #include "uivideosettings.h"
 #include "uisamplersettings.h"
+#include "uiprintersettings.h"
 
 #include "uisettings.h"
 
@@ -106,6 +107,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Sound settings", uisound_create_central_widget, NULL },
     { "Autostart settings", uiautostart_create_central_widget, NULL },
     { "Drive settings", uidrivesettings_create_central_widget, NULL },
+    { "Printer settings", uiprintersettings_widget_create, NULL },
     { "Samper settings", uisamplersettings_widget_create, NULL },
     { "Model settings", uimodel_create_central_widget, NULL },
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },

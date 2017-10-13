@@ -74,7 +74,8 @@ libwidgets_a_SOURCES = \
 	ramresetwidget.c \
 	videopalettewidget.c \
 	videorenderfilterwidget.c \
-	videobordermodewidget.c
+	videobordermodewidget.c \
+	printeremulationtypewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -128,4 +129,5 @@ EXTRA_DIST = \
 	ramresetwidget.h \
 	videopalettewidget.h \
 	videorenderfilterwidget.h \
-	videobordermodewidget.h
+	videobordermodewidget.h \
+	printeremulationtypewidget.h
