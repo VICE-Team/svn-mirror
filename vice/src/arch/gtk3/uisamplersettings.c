@@ -5,9 +5,9 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  None
- *
- *  (see included widgets for more resources)
+ *  SamplerDevice       - sampler device ID (`int`)
+ *  SamplerGain         - gain (0-200) (`int`)
+ *  SampleName          - file name of sampler input file (`string`)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,40 +32,101 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
-#include <stdlib.h>
-#include <string.h>
 
-#include "lib.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
-#include "machine.h"
 #include "sampler.h"
-#include "basedialogs.h"
+#include "openfiledialog.h"
 
 #include "uisamplersettings.h"
 
 
+/** \brief  Function to retrieve the list of sampler input devices
+ */
 static sampler_device_t *(*devices_getter)(void) = NULL;
 
 
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
+/** \brief  Reference to the text entry
+ *
+ * Used by the "browse" button callback to set the new file name and trigger
+ * a resource update
+ */
+static GtkWidget *entry_widget;
+
+
+/** \brief  Handler for the "changed" event of the devices combo box
+ *
+ * \param[in]   combo       combo box with devices
+ * \param[in]   user_data   extra data (unused)
+ */
+static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
 {
-    ui_message_info(widget, "Select sampler input",
-            "There is no resource for <i>SamplerInput</i> or whatever you"
-            " want to call it.\n\n"
-            "<b>This not normal method!</b>");
+    int index = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
+
+    debug_gtk3("setting SamplerDevice to %d\n", index);
+    resources_set_int("SamplerDevice", index);
 }
 
 
+/** \brief  Handler for the "value-changed" event of the gain slider
+ *
+ * \param[in]   scale       gain slider
+ * \param[in]   user_data   extra data (unused)
+ */
+static void on_gain_changed(GtkScale *scale, gpointer user_data)
+{
+    int value = (int)gtk_range_get_value(GTK_RANGE(scale));
+
+    debug_gtk3("setting SamplerGain to %d\n", value);
+    resources_set_int("SamplerGain", value);
+}
+
+
+/** \brief  Handler for the "changed" event of the text entry box
+ *
+ * \param[in]   entry       input file text box
+ * \param[in]   user_data   extra data (unused)
+ */
+static void on_entry_changed(GtkEntry *entry, gpointer user_data)
+{
+    const char *text;
+
+    text = gtk_entry_get_text(entry);
+    debug_gtk3("setting SampleName to '%s'\n", text);
+    resources_set_string("SampleName", text);
+}
+
+
+/** \brief  Handler for the "clicked" event of the "browse" button
+ *
+ * \param[in]   widget      browse button
+ * \param[in]   user_data   extra data (unused)
+ */
+static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
+{
+    gchar *filename;
+
+    filename = ui_open_file_dialog(widget, "Select input file", NULL, NULL, NULL);
+    if (filename != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
+        g_free(filename);
+    }
+}
+
+
+/** \brief  Create combo box for the devices list
+ *
+ * \return  GtkComboBoxText
+ */
 static GtkWidget *create_device_widget(void)
 {
     GtkWidget *combo;
     sampler_device_t *devices;
-    const char *current;
+    int current;
     int i;
 
-    resources_get_string("SamplerDevice", &current);
+    resources_get_int("SamplerDevice", &current);
 
     combo = gtk_combo_box_text_new();
     if (devices_getter != NULL) {
@@ -76,14 +137,20 @@ static GtkWidget *create_device_widget(void)
     for (i = 0; devices[i].name != NULL; i++) {
         gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                 devices[i].name, devices[i].name);
-        if (strcmp(devices[i].name, current) == 0) {
+        if (i ==  current) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
         }
     }
+
+    g_signal_connect(combo, "changed", G_CALLBACK(on_device_changed), NULL);
     return combo;
 }
 
 
+/** \brief  Create slider for the gain
+ *
+ * \return  GtkScale
+ */
 static GtkWidget *create_gain_widget(void)
 {
     GtkWidget *scale;
@@ -110,21 +177,38 @@ static GtkWidget *create_gain_widget(void)
         gtk_range_set_value(GTK_RANGE(scale), 100.0);
     }
 
+    g_signal_connect(scale, "value-changed", G_CALLBACK(on_gain_changed), NULL);
+
     gtk_widget_show_all(scale);
     return scale;
 }
 
 
+/** \brief  Create text entry for the input file name
+ *
+ * \return  GtkEntry
+ */
 static GtkWidget *create_input_entry(void)
 {
     GtkWidget *entry;
+    const char *text;
+
+    resources_get_string("SampleName", &text);
 
     entry = gtk_entry_new();
-    gtk_entry_set_text(GTK_ENTRY(entry), "I haz no resource");
+    if (text != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(entry), text);
+    }
+
+    g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
     return entry;
 }
 
 
+/** \brief  Create the "browse" button
+ *
+ * \return  GtkButton
+ */
 static GtkWidget *create_input_button(void)
 {
     GtkWidget *button;
@@ -135,46 +219,54 @@ static GtkWidget *create_input_button(void)
 }
 
 
+/** \brief  Set the function to retrieve the input devices list
+ *
+ * \param[in]   func    pointer to function to retrieve devices list
+ */
 void uisamplersettings_set_devices_getter(sampler_device_t *(func)(void))
 {
     devices_getter = func;
 }
 
 
+/** \brief  Create widget to control sampler settings
+ *
+ * \param[in]   parent  parent widget
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *uisamplersettings_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
-    GtkWidget *entry;
 
     grid = uihelpers_create_grid_with_label("Sampler settings", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
-    /* sampler device */
+    /* sampler device list */
     label = gtk_label_new("Sampler device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_device_widget(), 1, 1, 2, 1);
 
+    /* sampler gain */
     label = gtk_label_new("Sampler gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_gain_widget(), 1, 2, 2, 1);
 
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    /* sampler input file text entry and browse button */
     label = gtk_label_new("Sampler media file");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    entry = create_input_entry();
-    gtk_widget_set_hexpand(entry, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 3, 1, 1);
+    entry_widget = create_input_entry();
+    gtk_widget_set_hexpand(entry_widget, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), entry_widget, 1, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_input_button(), 2, 3, 1, 1);
-
-
 
     gtk_widget_show_all(grid);
     return grid;
 }
-
