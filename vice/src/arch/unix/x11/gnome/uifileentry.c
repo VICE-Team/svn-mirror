@@ -157,6 +157,7 @@ GtkWidget *vice_file_entry(const char *title, GtkWidget* parent_window, const ch
 
     fb = gtk_file_chooser_dialog_new(title, GTK_WINDOW(parent_window), a, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, accept_button, GTK_RESPONSE_ACCEPT, NULL);
 
+    gtk_window_set_resizable(GTK_WINDOW(fb), TRUE);
     for (i = 0; i < num_patterns; i++) {
         int j;
         GtkFileFilter *ff = gtk_file_filter_new();

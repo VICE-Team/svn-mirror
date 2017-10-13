@@ -39,6 +39,7 @@
 #include "printeremulationtypewidget.h"
 #include "printerdriverwidget.h"
 #include "printeroutputwidget.h"
+#include "userportprinterwidget.h"
 
 #include "uiprintersettings.h"
 
@@ -82,6 +83,21 @@ static void on_iec_toggled(GtkCheckButton *check, gpointer user_data)
 
     debug_gtk3("setting IECDevice%d to %s\n", device, state ? "ON" : "OFF");
     resources_set_int_sprintf("IECDevice%d", state, device);
+}
+
+
+/** \brief  Set PrinterTextDevice[1-3] resource
+ *
+ * \param[in]   entry       text entry
+ * \param[in]   user_data   resource index (1-3)
+ */
+static void on_text_device_changed(GtkEntry *entry, gpointer user_data)
+{
+    int num = GPOINTER_TO_INT(user_data);
+    const gchar *text = gtk_entry_get_text(entry);
+
+    debug_gtk3("setting PrinterTextDevice%d to '%s'\n", num, text);
+    resources_set_string_sprintf("PrinterTextDevice%d", text, num);
 }
 
 
@@ -181,6 +197,7 @@ static GtkWidget *create_printer_widget(int device)
 }
 
 
+#if 0
 static GtkWidget *create_userport_widget(void)
 {
     GtkWidget *grid;
@@ -189,7 +206,7 @@ static GtkWidget *create_userport_widget(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
+#endif
 
 
 static GtkWidget *create_printer_text_devices_widget(void)
@@ -216,6 +233,9 @@ static GtkWidget *create_printer_text_devices_widget(void)
         resources_get_string_sprintf("PrinterTextDevice%d", &text, i + 1);
         gtk_entry_set_text(GTK_ENTRY(entry), text);
         gtk_grid_attach(GTK_GRID(grid), entry, i * 2 + 1, 1, 1, 1);
+
+        g_signal_connect(entry, "changed", G_CALLBACK(on_text_device_changed),
+                GINT_TO_POINTER(i + 1));
     }
 
     gtk_widget_show_all(grid);
@@ -255,7 +275,7 @@ GtkWidget *uiprintersettings_widget_create(GtkWidget *parent)
     }
     gtk_widget_show_all(layout_printers);
 
-    layout_userport = create_userport_widget();
+    layout_userport = userport_printer_widget_create();
 
     gtk_stack_add_titled(GTK_STACK(stack), layout_printers, "printers",
             "Standard printers");
