@@ -3191,8 +3191,6 @@ pick the smallest value your machine can handle without problems.
 specified number of seconds whenever some clicking happens.  If ``Keep
 going'' is selected, no pausing is done.
 
-@end itemize
-
 The following menu items control sound input:
 
 @cindex Sampler Device
@@ -3209,6 +3207,8 @@ or decrease the input volume if below 100) for the input of the sampler device.
 @item
 ``Sampler File'' specifies the name of the file to be uses as an input source for
 the 'file' method/device.
+
+@end itemize
 
 @menu
 * Sound resources::
@@ -3380,6 +3380,8 @@ Integer specifying the gain to be used for sound input.
 @item SampleFile
 String specifying the name of the file/sample to be used as the input
 source for the 'file' sampler device.
+
+@end table
 
 @node Sound options,  , Sound resources, Sound settings
 @subsection Sound command-line options
