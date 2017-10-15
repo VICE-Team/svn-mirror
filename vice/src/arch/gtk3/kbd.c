@@ -100,22 +100,13 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint key;
 
-/*    gtk_window_propagate_key_event(GTK_WINDOW(w), (GdkEventKey *)report); */
-
-    /* XXX: This is required to make the top level window handler its
-     *      accelerators, this sends a key press to the top level window
-     *
-     *      Unfortunately, when using, for example 'Alt+f' to open the file
-     *      menu, the file menu is opened, but the 'f' is sent to the machine,
-     *      so perhaps something like gtk_accel_group_find() can be used to
-     *      determine if the current key is an accelerator and thus send the
-     *      event to the window, but not to the emulated machine.
-     */
-    gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report);
-
     key = report->key.keyval;
     switch (report->type) {
         case GDK_KEY_PRESS:
+            if (gtk_window_activate_key(GTK_WINDOW(w), (GdkEventKey *)report)) {
+                return TRUE;
+            }
+
             /* fprintf(stderr, "KeyPress: %d.\n", key); */
             keyboard_key_pressed((signed long)key);
             return TRUE;
