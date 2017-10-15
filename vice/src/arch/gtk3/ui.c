@@ -63,6 +63,7 @@
 #include "uiabout.h"
 #include "selectdirectorydialog.h"
 #include "jamdialog.h"
+#include "uicmdline.h"
 
 #include "ui.h"
 
@@ -128,6 +129,8 @@ static void drive_reset_callback(GtkWidget *widget, gpointer user_data);
 static void ui_close_callback(GtkWidget *widget, gpointer user_data);
 static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
+static void ui_warp_callback(GtkWidget *widget, gpointer user_data);
+
 static void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data);
 static int set_html_browser_command(const char *val, void *param);
 static int set_save_resources_on_exit(int val, void *param);
@@ -511,12 +514,12 @@ static ui_menu_item_t help_menu[] = {
         NULL, NULL,
         0, 0 },
     { "Commandline options ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        uicmdline_dialog_show, NULL,
         0, 0 },
     { "Compiletime features ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
         0, 0 },
-    { "_About VICE", UI_MENU_TYPE_ITEM_ACTION,
+    { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
         ui_about_dialog_callback, NULL,
         0, 0 },
 
@@ -527,15 +530,21 @@ static ui_menu_item_t help_menu[] = {
 /** \brief  'Settings' menu items
  */
 static ui_menu_item_t settings_menu[] = {
-    { "Settings", UI_MENU_TYPE_ITEM_ACTION,
-        ui_settings_dialog_create, NULL,
-        0, 0 },
-    { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
+   { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
         ui_fullscreen_callback, NULL,
         GDK_KEY_D, GDK_MOD1_MASK },
     { "Toggle menu/status in fullscreen", UI_MENU_TYPE_ITEM_ACTION,
         ui_fullscreen_decorations_callback, NULL,
         GDK_KEY_B, GDK_MOD1_MASK },
+    { "Toggle warp mode", UI_MENU_TYPE_ITEM_ACTION,
+        ui_warp_callback, NULL,
+        GDK_KEY_W, GDK_MOD1_MASK },
+
+    UI_MENU_SEPARATOR,
+
+    { "Settings", UI_MENU_TYPE_ITEM_ACTION,
+        ui_settings_dialog_create, NULL,
+        0, 0 },
     UI_MENU_TERMINATOR
 };
 
@@ -1311,6 +1320,20 @@ void ui_pause_emulation(int flag)
         ui_display_paused(0);
         is_paused = 0;
     }
+}
+
+
+/** \brief  Switch warp mode
+ *
+ * \param[in]   widget      widget triggering the event (invalid)
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void ui_warp_callback(GtkWidget *widget, gpointer user_data)
+{
+    int state;
+
+    resources_get_int("WarpMode", &state);
+    resources_set_int("WarpMode", state ? 0 : 1);
 }
 
 

@@ -84,7 +84,8 @@ libarch_a_SOURCES = \
 	uivideo.c \
 	uivideosettings.c \
 	uisamplersettings.c \
-	uiprintersettings.c
+	uiprintersettings.c \
+	uicmdline.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -133,4 +134,5 @@ EXTRA_DIST = \
 	uivideo.h \
 	uivideosettings.h \
 	uisamplersettings.h \
-	uiprintersettings.h
+	uiprintersettings.h \
+	uicmdline.h

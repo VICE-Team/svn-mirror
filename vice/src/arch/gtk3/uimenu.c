@@ -157,12 +157,6 @@ GtkWidget *ui_menu_bar_create(void)
     /* create the top-level 'Snapshot' menu */
     snap_item = gtk_menu_item_new_with_label("Snapshot");
     snapshot_submenu = gtk_menu_new();
-#if 0
-    load_item = gtk_menu_item_new_with_mnemonic("_Load");
-    save_item = gtk_menu_item_new_with_mnemonic("_Save");
-    gtk_menu_shell_append(GTK_MENU_SHELL(snapshot_submenu), load_item);
-    gtk_menu_shell_append(GTK_MENU_SHELL(snapshot_submenu), save_item);
-#endif
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(snap_item), snapshot_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), snap_item);
 
@@ -186,10 +180,10 @@ GtkWidget *ui_menu_bar_create(void)
      *          work right now and all functions that seem to handle this are
      *          marked 'deprecated' -- compyx
      */
-    gtk_widget_set_halign(GTK_WIDGET(help_item), GTK_ALIGN_END);
     help_submenu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(help_item), help_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), help_item);
+    gtk_widget_set_halign(GTK_WIDGET(help_item), GTK_ALIGN_END);
 
     main_menu_bar = bar;    /* XXX: do I need g_object_ref()/g_object_unref()
                                     for this */
