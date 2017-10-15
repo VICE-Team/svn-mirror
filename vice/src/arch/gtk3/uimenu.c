@@ -144,19 +144,19 @@ GtkWidget *ui_menu_bar_create(void)
      */
 
     /* create the top-level 'File' menu */
-    file_item = gtk_menu_item_new_with_mnemonic("_File");
+    file_item = gtk_menu_item_new_with_label("File");
     file_submenu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(file_item), file_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), file_item);
 
     /* create the top-level 'Edit' menu */
-    edit_item = gtk_menu_item_new_with_mnemonic("_Edit");
+    edit_item = gtk_menu_item_new_with_label("Edit");
     edit_submenu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(edit_item), edit_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), edit_item);
 
     /* create the top-level 'Snapshot' menu */
-    snap_item = gtk_menu_item_new_with_mnemonic("S_napshot");
+    snap_item = gtk_menu_item_new_with_label("Snapshot");
     snapshot_submenu = gtk_menu_new();
 #if 0
     load_item = gtk_menu_item_new_with_mnemonic("_Load");
@@ -168,21 +168,21 @@ GtkWidget *ui_menu_bar_create(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), snap_item);
 
     /* create the top-level 'Settings' menu */
-    settings_item = gtk_menu_item_new_with_mnemonic("_Settings");
+    settings_item = gtk_menu_item_new_with_label("Settings");
     settings_submenu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(settings_item), settings_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), settings_item);
 
 #ifdef DEBUG
     /* create the top-level 'Debug' menu stub (when --enable-debug is used) */
-    debug_item = gtk_menu_item_new_with_mnemonic("_Debug");
+    debug_item = gtk_menu_item_new_with_label("Debug");
     debug_submenu = gtk_menu_new();
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(debug_item), debug_submenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(bar), debug_item);
 #endif
 
     /* create the top-level 'Help' menu */
-    help_item = gtk_menu_item_new_with_mnemonic("_Help");   /* F1? */
+    help_item = gtk_menu_item_new_with_label("Help");   /* F1? */
     /* FIXME:   make 'Help' appear at the right end of the menu bar, doesn't
      *          work right now and all functions that seem to handle this are
      *          marked 'deprecated' -- compyx
