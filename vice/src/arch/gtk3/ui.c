@@ -255,16 +255,16 @@ static ui_menu_item_t detach_submenu[] = {
 static ui_menu_item_t fliplist_submenu[] = {
     { "Add current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
       ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
-      0, 0 },
+      GDK_KEY_I, GDK_MOD1_MASK },
     { "Remove current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
       ui_fliplist_remove_current_cb, GINT_TO_POINTER(8),
-      0, 0 },
+      GDK_KEY_K, GDK_MOD1_MASK },
     { "Attach next image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
       ui_fliplist_next_cb, GINT_TO_POINTER(8),
-      0, 0 },
+      GDK_KEY_N, GDK_MOD1_MASK },
     { "Attach previous image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
       ui_fliplist_prev_cb, GINT_TO_POINTER(8),
-      0, 0 },
+      GDK_KEY_N, GDK_SHIFT_MASK | GDK_MOD1_MASK },
     { "Load flip list file...", UI_MENU_TYPE_ITEM_ACTION,
       ui_fliplist_load_callback, GINT_TO_POINTER(8),
       0, 0 },
@@ -310,7 +310,7 @@ static ui_menu_item_t reset_submenu[] = {
         GDK_KEY_F9, GDK_MOD1_MASK },
     { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
         machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
-        0,0 },
+        GDK_KEY_F12, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
 
@@ -336,14 +336,14 @@ static ui_menu_item_t reset_submenu[] = {
 static ui_menu_item_t file_menu[] = {
     { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
         ui_smart_attach_callback, NULL,
-        0, 0 },
+        GDK_KEY_A, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
 
     /* disk */
     { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION,
         ui_disk_attach_callback, GINT_TO_POINTER(8),
-        0, 0 },
+        GDK_KEY_8, GDK_MOD1_MASK },
     { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
         0, 0 },
@@ -362,7 +362,7 @@ static ui_menu_item_t file_menu[] = {
         0, 0 },
     { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION,
         ui_tape_attach_callback, NULL,
-        0, 0 },
+        GDK_KEY_T, GDK_MOD1_MASK },
     { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION,
         ui_tape_detach_callback, NULL,
         0, 0 },
@@ -375,20 +375,20 @@ static ui_menu_item_t file_menu[] = {
     /* cart */
     { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_C, GDK_MOD1_MASK },
     { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
         0, 0 },
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_Z, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
 
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         ui_monitor_activate_callback, NULL,
-        0, 0 },
+        GDK_KEY_H, GDK_MOD1_MASK },
     { "Monitor settings ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
         0, 0 },
@@ -412,7 +412,7 @@ static ui_menu_item_t file_menu[] = {
 
     { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION,
         ui_close_callback, NULL,
-        0, 0 },
+        GDK_KEY_Q, GDK_MOD1_MASK },
 
     UI_MENU_TERMINATOR
 };
@@ -437,19 +437,19 @@ static ui_menu_item_t edit_menu[] = {
 static ui_menu_item_t snapshot_menu[] = {
     { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_L, GDK_MOD1_MASK },
     { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_S, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
 
     { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_F10, GDK_MOD1_MASK },
     { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_F11, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
 
@@ -470,10 +470,10 @@ static ui_menu_item_t snapshot_menu[] = {
         0, 0 },
     { "Set recording milestone", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_E, GDK_MOD1_MASK },
     { "Return to milestone", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
-        0, 0 },
+        GDK_KEY_U, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
 
