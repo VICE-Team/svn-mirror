@@ -55,13 +55,13 @@ static log_t    gtk3video_log = LOG_ERR;
 
 
 /** \brief  Keep aspect ratio when resizing */
-static int keepaspect;
+static int keepaspect = 0;
 
 /** \brief  Use true aspect ratio */
-static int trueaspect;
+static int trueaspect = 0;
 
 /** \brief  Display depth in bits (8, 15, 16, 24, 32) */
-static int display_depth;
+static int display_depth = 24;
 
 
 /** \brief  Set KeepAspectRatio resource (bool)
@@ -74,7 +74,7 @@ static int display_depth;
 static int set_keepaspect(int val, void *param)
 {
     keepaspect = val ? 1 : 0;
-    /* ui_trigger_resize(); */
+    ui_trigger_resize();
     return 0;
 }
 
@@ -89,7 +89,7 @@ static int set_keepaspect(int val, void *param)
 static int set_trueaspect(int val, void *param)
 {
     trueaspect = val ? 1 : 0;
-    /* ui_trigger_resize(); */
+    ui_trigger_resize();
     return 0;
 }
 
@@ -192,24 +192,31 @@ resize_canvas_container_cb (GtkWidget *widget, GdkEventConfigure *event, gpointe
         /* Size of widget */
         double width = (double)gtk_widget_get_allocated_width(widget);
         double height = (double)gtk_widget_get_allocated_height(widget);
-        /* TODO: This is the keepaspect = TRUE, trueaspect = FALSE
-         * case. Each of these (and the entirely unscaled case) will
-         * need their own transformation matrices. It's possible some
-         * of them can be built out of the others so these end up
-         * incremental. That would be nice, but it isn't guaranteed at
-         * this time. */
-        /* Try the Y-fit first */
-        double scale = source_height / height;
+        double scale_x = 1.0, scale_y = 1.0;
         double offset_x = 0.0, offset_y = 0.0;
-        if (source_width / scale > width) {
-            /* Need to X-fit instead */
-            scale = (double)source_width / width;
-            offset_y = ((source_height / scale) - height) / 2.0;
+
+        if (keepaspect) {
+            double aspect_fix = 1.0;
+            if (trueaspect) {
+                aspect_fix = canvas->geometry->pixel_aspect_ratio;
+            }
+            /* Try the Y-fit first */
+            double scale = source_height / height;
+            if (source_width * aspect_fix / scale > width) {
+                /* Need to X-fit instead */
+                scale = (double)source_width * aspect_fix / width;
+                offset_y = ((source_height / scale) - height) / 2.0;
+            } else {
+                offset_x = ((source_width * aspect_fix / scale) - width) / 2.0;
+            }
+            scale_x = scale / aspect_fix;
+            scale_y = scale;
         } else {
-            offset_x = ((source_width / scale) - width) / 2.0;
+            scale_x = (double)source_width / width;
+            scale_y = (double)source_height / height;
         }
         /* Apply the computed scaling factor to both dimensions */
-        cairo_matrix_init_scale(&canvas->transform, scale, scale);
+        cairo_matrix_init_scale(&canvas->transform, scale_x, scale_y);
         /* Center the result in the widget */
         cairo_matrix_translate(&canvas->transform, offset_x, offset_y);
     }
@@ -302,7 +309,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 
     ui_create_toplevel_window(canvas);
     if (width && height && *width && *height) {
-        gtk_widget_set_size_request(canvas->drawing_area, *width, *height);
+        unsigned int aspect_width = *width;
+        if (keepaspect && trueaspect) {
+            aspect_width *= canvas->geometry->pixel_aspect_ratio;
+        }
+        gtk_widget_set_size_request(canvas->drawing_area, aspect_width, *height);
     }
     g_signal_connect(canvas->drawing_area, "draw", G_CALLBACK(draw_canvas_cb), canvas);
     g_signal_connect(canvas->drawing_area, "configure_event", G_CALLBACK(resize_canvas_container_cb), canvas);
@@ -420,9 +431,25 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
             exit(-1);
         }
 
+        if (keepaspect && trueaspect) {
+            new_width *= canvas->geometry->pixel_aspect_ratio;
+        }
+
         /* Finally alter our minimum size so the GUI may react */
         gtk_widget_set_size_request(canvas->drawing_area, new_width, new_height);
     }
+}
+
+void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas)
+{
+    int width = canvas->draw_buffer->canvas_physical_width;
+    int height = canvas->draw_buffer->canvas_physical_height;
+    if (keepaspect && trueaspect) {
+        width *= canvas->geometry->pixel_aspect_ratio;
+    }
+
+    /* Finally alter our minimum size so the GUI may respect the new minima/maxima */
+    gtk_widget_set_size_request(canvas->drawing_area, width, height);
 }
 
 int video_canvas_set_palette(struct video_canvas_s *canvas,

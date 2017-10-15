@@ -740,6 +740,19 @@ int ui_is_fullscreen(void)
     return is_fullscreen;
 }
 
+void ui_trigger_resize(void)
+{
+    int i;
+    for (i = 0; i < NUM_WINDOWS; ++i) {
+        if (ui_resources.canvas[i]) {
+            video_canvas_adjust_aspect_ratio(ui_resources.canvas[i]);
+        }
+        if (ui_resources.window_widget[i]) {
+            gtk_widget_queue_resize(ui_resources.window_widget[i]);
+        }
+    }
+}
+
 /** \brief Callback for the "fullscreen" action */
 static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 {

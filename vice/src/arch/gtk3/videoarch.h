@@ -59,4 +59,6 @@ struct video_canvas_s {
 };
 typedef struct video_canvas_s video_canvas_t;
 
+void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas);
+
 #endif
