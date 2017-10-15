@@ -30,7 +30,7 @@
 
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
-#include "resources.h"
+#include "machine.h"
 #include "cmdline.h"
 
 #include "uicmdline.h"
@@ -47,21 +47,32 @@ static GtkWidget *create_content_widget(void)
     GtkTextBuffer *buffer;
     GtkTextIter iter;
     GtkTextTag *name_tag;
+    GtkTextTag *inv_tag;
     GtkTextTag *desc_tag;
     int num_options = cmdline_get_num_options();
     int i;
 
     view = gtk_text_view_new();
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(view), FALSE);
+    gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view), FALSE);
     gtk_text_view_set_monospace(GTK_TEXT_VIEW(view), TRUE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(view), GTK_WRAP_WORD_CHAR);
+    gtk_text_view_set_left_margin(GTK_TEXT_VIEW(view),16);
+    gtk_text_view_set_right_margin(GTK_TEXT_VIEW(view),16);
+
+
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(view));
 
-    /* name: bold */
+    /* name: bold (for -option) */
     name_tag = gtk_text_buffer_create_tag(buffer, "name_tag",
             "weight", PANGO_WEIGHT_BOLD, NULL);
+    /* name: bold and red (for +option) */
+    inv_tag = gtk_text_buffer_create_tag(buffer, "inv_tag",
+            "weight", PANGO_WEIGHT_BOLD,
+            "foreground", "red", NULL);
     /* description: indented and sans-serif */
     desc_tag = gtk_text_buffer_create_tag(buffer, "desc_tag",
-            "left-margin", 32,
+            "left-margin", 48,
             "family", "sans-serif", NULL);
 
     scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -79,7 +90,13 @@ static GtkWidget *create_content_widget(void)
         param = cmdline_options_get_param(i);
         desc = cmdline_options_get_description(i);
 
-        gtk_text_buffer_insert_with_tags(buffer, &iter, name, -1, name_tag, NULL);
+        if (name[0] == '-') {
+            gtk_text_buffer_insert_with_tags(buffer, &iter, name, -1,
+                    name_tag, NULL);
+        } else {
+            gtk_text_buffer_insert_with_tags(buffer, &iter, name, -1,
+                    inv_tag, NULL);
+        }
 
         if (param != NULL) {
             gtk_text_buffer_insert(buffer, &iter, " ", -1);
@@ -89,8 +106,10 @@ static GtkWidget *create_content_widget(void)
 
         if (desc == NULL) {
             fprintf(stderr, "no desc for '%s'\n", name);
+            desc = "[DESCRIPTION MISSING]";
         }
-        gtk_text_buffer_insert_with_tags(buffer, &iter, desc, -1, desc_tag, NULL);
+        gtk_text_buffer_insert_with_tags(buffer, &iter, desc, -1,
+                desc_tag, NULL);
         gtk_text_buffer_insert(buffer, &iter, "\n\n", -1);
     }
 
@@ -108,17 +127,21 @@ void uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
+    gchar title[256];
 
-    dialog = gtk_dialog_new_with_buttons("Command line options",
-            GTK_WINDOW(gtk_widget_get_toplevel(widget)), GTK_DIALOG_MODAL,
+    g_snprintf(title, 256, "%s command line options", machine_name);
+
+    dialog = gtk_dialog_new_with_buttons(title,
+            GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+            GTK_DIALOG_MODAL,
             "Close", GTK_RESPONSE_ACCEPT,
             NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    gtk_box_pack_start(GTK_BOX(content), create_content_widget(), TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(content), create_content_widget(),
+            TRUE, TRUE, 0);
 
 
-    if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT) {
-        gtk_widget_destroy(dialog);
-    }
+    gtk_dialog_run(GTK_DIALOG(dialog));
+    gtk_widget_destroy(dialog);
 }
