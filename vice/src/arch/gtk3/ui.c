@@ -127,6 +127,8 @@ static void machine_reset_callback(GtkWidget *widget, gpointer user_data);
 static void drive_reset_callback(GtkWidget *widget, gpointer user_data);
 static void ui_close_callback(GtkWidget *widget, gpointer user_data);
 static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
+static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
+static void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data);
 static int set_html_browser_command(const char *val, void *param);
 static int set_save_resources_on_exit(int val, void *param);
 static int set_confirm_on_exit(int val, void *param);
@@ -528,6 +530,12 @@ static ui_menu_item_t settings_menu[] = {
     { "Settings", UI_MENU_TYPE_ITEM_ACTION,
         ui_settings_dialog_create, NULL,
         0, 0 },
+    { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
+        ui_fullscreen_callback, NULL,
+        GDK_KEY_D, GDK_MOD1_MASK },
+    { "Toggle menu/status in fullscreen", UI_MENU_TYPE_ITEM_ACTION,
+        ui_fullscreen_decorations_callback, NULL,
+        GDK_KEY_B, GDK_MOD1_MASK },
     UI_MENU_TERMINATOR
 };
 
@@ -585,6 +593,13 @@ static int is_paused = 0;
  */
 static int html_browser_command_set = 0;
 
+/** \brief  Flag indicating whether we're supposed to be in fullscreen
+ */
+static int is_fullscreen = 0;
+
+/** \brief  Flag inidicating whether fullscreen mode shows the decorations. 
+ */
+static int fullscreen_has_decorations = 0;
 
 
 /******************************************************************************
@@ -689,7 +704,51 @@ static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
     ui_exit();
 }
 
+/** \brief Show or hide the window decorations as needed
+ */
 
+static void ui_update_fullscreen_decorations(void)
+{
+    /* TODO: This needs to handle any window that is triggered */
+    int has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
+    GtkWidget *window = ui_resources.window_widget[PRIMARY_WINDOW];
+    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(window));
+    GtkWidget *menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    GtkWidget *status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+    if (has_decorations) {
+        gtk_widget_show(menu_bar);
+        gtk_widget_show(status_bar);
+    } else {
+        gtk_widget_hide(menu_bar);
+        gtk_widget_hide(status_bar);
+    }
+}
+
+/** \brief Returns if we're in fullscreen mode. */
+int ui_is_fullscreen(void)
+{
+    return is_fullscreen;
+}
+
+/** \brief Callback for the "fullscreen" action */
+static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
+{
+    /* TODO: We need to know which window asked for this. */
+    GtkWindow *window = GTK_WINDOW(ui_resources.window_widget[PRIMARY_WINDOW]);
+    is_fullscreen = !is_fullscreen;
+    if (is_fullscreen) {
+        gtk_window_fullscreen(window);
+    } else {
+        gtk_window_unfullscreen(window);
+    }
+    ui_update_fullscreen_decorations();
+}
+
+static void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
+{
+    fullscreen_has_decorations = !fullscreen_has_decorations;
+    ui_update_fullscreen_decorations();
+}
 
 /*****************************************************************************
  *                  Temporary windows atexit() crash workaround              *
@@ -911,11 +970,14 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     grid = gtk_grid_new();
     new_drawing_area = gtk_drawing_area_new();
     status_bar = ui_statusbar_create();
+    gtk_widget_show_all(status_bar);
+    gtk_widget_set_no_show_all(status_bar, TRUE);
 
     /* I'm pretty sure when running x128 we get two menu instances, so this
      * should go somewhere else: call ui_menu_bar_create() once and attach the
      * result menu to each GtkWindow instance
      */
+    /* DANGER: This could make the VDC screen unfullscreenable */
     menu_bar = ui_menu_bar_create();
 
     /* generate File menu */

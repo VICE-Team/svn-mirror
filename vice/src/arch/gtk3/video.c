@@ -154,9 +154,13 @@ draw_canvas_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
     video_canvas_t *canvas = (video_canvas_t *)data;
 
     /* Half-grey background for those parts of the window that aren't
-     * video. TODO: configurable? Black when fullscreen? Black all the
-     * time? */
-    cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+     * video, or black if it's fullscreen. 
+     * TODO: configurable? */
+    if (ui_is_fullscreen()) {
+        cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+    } else {
+        cairo_set_source_rgb(cr, 0.5, 0.5, 0.5);
+    }
     cairo_paint(cr);
 
     if (canvas && canvas->backing_surface) {

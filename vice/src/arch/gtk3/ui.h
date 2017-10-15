@@ -56,6 +56,7 @@ void ui_autorepeat_off(void);
 void ui_display_paused(int flag);
 void ui_pause_emulation(int flag);
 int  ui_emulation_is_paused(void);
+int  ui_is_fullscreen(void);
 
 void ui_check_mouse_cursor(void);
 void ui_restore_mouse(void);
