@@ -45,6 +45,9 @@ static GtkWidget *create_content_widget(void)
     GtkWidget *view;
     GtkWidget *scrolled;
     GtkTextBuffer *buffer;
+    GtkTextIter iter;
+    GtkTextTag *name_tag;
+    GtkTextTag *desc_tag;
     int num_options = cmdline_get_num_options();
     int i;
 
@@ -53,9 +56,19 @@ static GtkWidget *create_content_widget(void)
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(view), GTK_WRAP_WORD_CHAR);
     buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(view));
 
+    /* name: bold */
+    name_tag = gtk_text_buffer_create_tag(buffer, "name_tag",
+            "weight", PANGO_WEIGHT_BOLD, NULL);
+    /* description: indented and sans-serif */
+    desc_tag = gtk_text_buffer_create_tag(buffer, "desc_tag",
+            "left-margin", 32,
+            "family", "sans-serif", NULL);
+
     scrolled = gtk_scrolled_window_new(NULL, NULL);
     gtk_widget_set_size_request(scrolled, 800, 600);
     gtk_container_add(GTK_CONTAINER(scrolled), view);
+
+    gtk_text_buffer_get_iter_at_offset(buffer, &iter, 0);
 
     for (i = 0; i < num_options; i++) {
         char *name;
@@ -66,16 +79,19 @@ static GtkWidget *create_content_widget(void)
         param = cmdline_options_get_param(i);
         desc = cmdline_options_get_description(i);
 
-        gtk_text_buffer_insert_at_cursor(buffer, name, -1);
-        if (param != NULL) {
-            gtk_text_buffer_insert_at_cursor(buffer, " ", -1);
-            gtk_text_buffer_insert_at_cursor(buffer, param, -1);
-        }
-        gtk_text_buffer_insert_at_cursor(buffer, "\n", -1);
-        gtk_text_buffer_insert_at_cursor(buffer, "\t", -1);
-        gtk_text_buffer_insert_at_cursor(buffer, desc, -1);
-        gtk_text_buffer_insert_at_cursor(buffer, "\n\n", -1);
+        gtk_text_buffer_insert_with_tags(buffer, &iter, name, -1, name_tag, NULL);
 
+        if (param != NULL) {
+            gtk_text_buffer_insert(buffer, &iter, " ", -1);
+            gtk_text_buffer_insert(buffer, &iter, param, -1);
+        }
+        gtk_text_buffer_insert(buffer, &iter, "\n", -1);
+
+        if (desc == NULL) {
+            fprintf(stderr, "no desc for '%s'\n", name);
+        }
+        gtk_text_buffer_insert_with_tags(buffer, &iter, desc, -1, desc_tag, NULL);
+        gtk_text_buffer_insert(buffer, &iter, "\n\n", -1);
     }
 
     gtk_widget_show_all(scrolled);
