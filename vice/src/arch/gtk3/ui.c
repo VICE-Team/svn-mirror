@@ -64,6 +64,7 @@
 #include "selectdirectorydialog.h"
 #include "jamdialog.h"
 #include "uicmdline.h"
+#include "uicompiletimefeatures.h"
 
 #include "ui.h"
 
@@ -517,7 +518,7 @@ static ui_menu_item_t help_menu[] = {
         uicmdline_dialog_show, NULL,
         0, 0 },
     { "Compiletime features ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        uicompiletimefeatures_dialog_show, NULL,
         0, 0 },
     { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
         ui_about_dialog_callback, NULL,
