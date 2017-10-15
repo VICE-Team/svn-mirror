@@ -130,7 +130,7 @@ static void drive_reset_callback(GtkWidget *widget, gpointer user_data);
 static void ui_close_callback(GtkWidget *widget, gpointer user_data);
 static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
-static void ui_warp_callback(GtkWidget *widget, gpointer user_data);
+static gboolean ui_warp_callback(GtkWidget *widget, gpointer user_data);
 
 static void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data);
 static int set_html_browser_command(const char *val, void *param);
@@ -538,7 +538,7 @@ static ui_menu_item_t settings_menu[] = {
         ui_fullscreen_decorations_callback, NULL,
         GDK_KEY_B, GDK_MOD1_MASK },
     { "Toggle warp mode", UI_MENU_TYPE_ITEM_ACTION,
-        ui_warp_callback, NULL,
+        (void*)(ui_warp_callback), NULL,
         GDK_KEY_W, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
@@ -1329,12 +1329,13 @@ void ui_pause_emulation(int flag)
  * \param[in]   widget      widget triggering the event (invalid)
  * \param[in]   user_data   extra data for event (unused)
  */
-static void ui_warp_callback(GtkWidget *widget, gpointer user_data)
+static gboolean ui_warp_callback(GtkWidget *widget, gpointer user_data)
 {
     int state;
 
     resources_get_int("WarpMode", &state);
     resources_set_int("WarpMode", state ? 0 : 1);
+    return TRUE;
 }
 
 
