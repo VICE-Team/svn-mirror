@@ -60,7 +60,6 @@ libarch_a_SOURCES = \
 	ui.c \
 	uiabout.c \
 	uiautostart.c \
-	uiaccelerators.c \
 	uidatasette.c \
 	uidiskattach.c \
 	uidrivesettings.c \
@@ -115,7 +114,6 @@ EXTRA_DIST = \
 	ui.h \
 	uiabout.h \
 	uiautostart.h \
-	uiaccelerators.h \
 	uidatasette.h \
 	uidiskattach.h \
 	uidrivesettings.h \

@@ -38,7 +38,6 @@
 #include "machine.h"
 #include "resources.h"
 #include "translate.h"
-#include "uiaccelerators.h"
 #include "uiapi.h"
 #include "uiabout.h"
 #include "uistatusbar.h"
