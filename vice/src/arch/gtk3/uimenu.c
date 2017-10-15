@@ -46,7 +46,10 @@
 
 #include "uimenu.h"
 
-
+typedef struct ui_accel_data_s {
+    GtkWidget *widget;
+    ui_menu_item_t *item;
+} ui_accel_data_t;
 
 static GtkAccelGroup *accel_group = NULL;
 
@@ -194,6 +197,28 @@ GtkWidget *ui_menu_bar_create(void)
     return bar;
 }
 
+/** \brief  Constructor for accelerator data */
+static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *item)
+{
+    ui_accel_data_t *accel_data = lib_malloc(sizeof(ui_accel_data_t));
+    accel_data->widget = widget;
+    accel_data->item = item;
+    return accel_data;
+}
+
+/** \brief  Destructor for accelerator data. */
+static void ui_accel_data_delete(gpointer data, GClosure *closure)
+{
+    lib_free(data);
+}
+
+/** \brief  Callback that forwards accelerator codes.
+ */
+static void handle_accelerator(GtkAccelGroup *accel_group, GObject *acceleratable, guint keyval, GdkModifierType modifier, gpointer user_data)
+{
+    ui_accel_data_t *accel_data = (ui_accel_data_t *)user_data;
+    accel_data->item->callback(accel_data->widget, accel_data->item->data);
+}
 
 /** \brief  Add menu \a items to \a menu
  *
@@ -246,12 +271,21 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
         }
         if (item != NULL) {
 
-            if (items[i].keysym != 0) {
+            if (items[i].keysym != 0 && items[i].callback != NULL) {
+                GClosure *accel_closure;
                 debug_gtk3("adding accelerator %d to item %s'\n",
                         items[i].keysym, items[i].label);
-                gtk_widget_add_accelerator(item, "activate", accel_group,
-                        items[i].keysym, items[i].modifier,
-                        GTK_ACCEL_VISIBLE);
+                /* Normally you would use gtk_widget_add_accelerator
+                 * here, but that will disable the accelerators if the
+                 * menu is hidden, which can be configured to happen
+                 * while in fullscreen. We instead create the closure
+                 * by hand, add it to the GtkAccelGroup, and update
+                 * the accelerator information. */
+                accel_closure = g_cclosure_new(G_CALLBACK(handle_accelerator),
+                                               ui_accel_data_new(item, &items[i]),
+                                               ui_accel_data_delete);
+                gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
+                gtk_accel_label_set_accel(GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item))), items[i].keysym, items[i].modifier);
             }
 
 
