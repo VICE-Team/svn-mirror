@@ -258,33 +258,34 @@ static void neos_get_new_movement(void)
 void neos_mouse_store(uint8_t val)
 {
     if ((neos_prev & 16) != (val & 16)) {
+        /* each change on the strobe line advances to the next state */
         switch (neos_state) {
+            case NEOS_XH:
+                if (val & 16) {
+                    neos_state = NEOS_XL;
+                }
+                break;
+            case NEOS_XL:
+                if (neos_prev & 16) {
+                    neos_state = NEOS_YH;
+                }
+                break;
+            case NEOS_YH:
+                if (val & 16) {
+                    neos_state = NEOS_YL;
+                }
+                break;
             case NEOS_YL:
-                if ((val ^ neos_prev) & neos_prev & 16) {
+                if (neos_prev & 16) {
                     neos_state = NEOS_XH;
                     neos_get_new_movement();
                 }
                 break;
-            case NEOS_XH:
-                if ((val ^ neos_prev) & val & 16) {
-                    ++neos_state;
-                    neos_last_trigger = maincpu_clk;
-                }
-                break;
-            case NEOS_XL:
-                if ((val ^ neos_prev) & neos_prev & 16) {
-                    ++neos_state;
-                }
-                break;
-            case NEOS_YH:
-                if ((val ^ neos_prev) & val & 16) {
-                    ++neos_state;
-                }
-                break;
             default:
-                /* NOP */
+                /* never reaches here */
                 break;
         }
+        /* every change on the strobe line resets the timeout */
         neos_last_trigger = maincpu_clk;
         neos_prev = val;
     }
@@ -292,7 +293,7 @@ void neos_mouse_store(uint8_t val)
 
 uint8_t neos_mouse_read(void)
 {
-    if (neos_state != NEOS_XH && maincpu_clk > neos_last_trigger + neos_time_out_cycles) {
+    if ((neos_state != NEOS_XH) && (maincpu_clk > (neos_last_trigger + neos_time_out_cycles))) {
         neos_state = NEOS_XH;
         neos_get_new_movement();
     }
@@ -311,6 +312,7 @@ uint8_t neos_mouse_read(void)
             return (neos_y & 0xf) | 0xf0;
             break;
         default:
+            /* never reaches here */
             return 0xff;
             break;
     }
