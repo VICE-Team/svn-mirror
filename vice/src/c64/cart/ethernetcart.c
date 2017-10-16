@@ -148,10 +148,10 @@ static uint8_t ethernetcart_read(uint16_t io_address)
     ethernetcart_device.io_source_valid = 1;
 
     if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
-        io_address ^= 8;
         if (io_address < 2) {
             return 0;
         }
+        io_address ^= 8;
     }
     return cs8900io_read(io_address);
 }
@@ -160,10 +160,10 @@ static uint8_t ethernetcart_read(uint16_t io_address)
 static uint8_t ethernetcart_peek(uint16_t io_address)
 {
     if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
-        io_address ^= 8;
         if (io_address < 2) {
             return 0;
         }
+        io_address ^= 8;
     }
     return cs8900io_peek(io_address);
 }
@@ -172,10 +172,10 @@ static uint8_t ethernetcart_peek(uint16_t io_address)
 static void ethernetcart_store(uint16_t io_address, uint8_t byte)
 {
     if (ethernetcart_mode == ETHERNETCART_MODE_RRNET) {
-        io_address ^= 8;
         if (io_address < 2) {
             return;
         }
+        io_address ^= 8;
     }
     cs8900io_store(io_address, byte);
 }
