@@ -86,7 +86,8 @@ libarch_a_SOURCES = \
 	uisamplersettings.c \
 	uiprintersettings.c \
 	uicmdline.c \
-	uicompiletimefeatures.c
+	uicompiletimefeatures.c \
+	uicontrolport.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -137,4 +138,5 @@ EXTRA_DIST = \
 	uisamplersettings.h \
 	uiprintersettings.h \
 	uicmdline.h \
-	uicompiletimefeatures.h
+	uicompiletimefeatures.h \
+	uicontrolport.h
