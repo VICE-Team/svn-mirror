@@ -800,7 +800,7 @@ static int mouse_cx22_write_snapshot(struct snapshot_s *s, int port);
 static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_cx22_joyport_device = {
-    "Mouse (CX-22)",
+    "Trackball (Atari CX-22)",
     IDGS_MOUSE_CX22,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
