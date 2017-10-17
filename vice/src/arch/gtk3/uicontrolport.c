@@ -10,6 +10,7 @@
  *  JoyPort3Device
  *  JoyPort4Device
  *  JoyPort5Device
+ *  BBRTCSave
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -86,6 +87,20 @@ static void on_joyport_changed(GtkComboBoxText *combo, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the BBRTC checkbox
+ *
+ * \param[in]   check       check box
+ * \param[in]   user_data   extra data (unused)
+ */
+static void on_bbrtc_toggled(GtkCheckButton *check, gpointer user_data)
+{
+    int state;
+
+    resources_get_int("BBRTCSave", &state);
+    debug_gtk3("setting BBRTCSave to %s\n", state ? "OFF" : "ON");
+    resources_set_int("BBRTCSave", state ? 0 : 1);
+}
+
 /** \brief  Create combo box for joyport \a port
  *
  * \param[in]   port    Joyport number (0-4, 0 == JoyPort1Device)
@@ -132,62 +147,38 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
 }
 
 
+/** \brief  Create checkbox for the battery-backed RTC save option
+ *
+ * \return  GtkCheckButton
+ */
+static void *create_bbrtc_widget(void)
+{
+    GtkWidget *check;
+    int state;
+
+    resources_get_int("BBRTCSave", &state);
+
+    check = gtk_check_button_new_with_label(
+            "Save battery-backed real time clock data when changed");
+    g_object_set(check, "margin-left", 16, NULL);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
+
+    g_signal_connect(check, "toggled", G_CALLBACK(on_bbrtc_toggled), NULL);
+    return check;
+}
+
+
 /** \brief  Retrieve valid devices for each joyport
  *
+ * joyport_get_valid_devices() returns an empty list for unsupported devices,
+ * so no need to check for machine type.
  */
 static void joyport_devices_list_init(void)
 {
-    bool ports[JOYPORT_MAX_PORTS] = { false, false, false, false, false };
     int i;
 
-    switch (machine_class) {
-        case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
-        case VICE_MACHINE_C128:
-            ports[JOYPORT_1] = true;
-            ports[JOYPORT_2] = true;
-            ports[JOYPORT_3] = true;
-            ports[JOYPORT_4] = true;
-            break;
-        case VICE_MACHINE_C64DTV:
-            ports[JOYPORT_1] = true;
-            ports[JOYPORT_2] = true;
-            ports[JOYPORT_3] = true;
-            break;
-        case VICE_MACHINE_VIC20:
-            ports[JOYPORT_1] = true;    /* only one control port */
-            ports[JOYPORT_3] = true;
-            ports[JOYPORT_4] = true;
-            break;
-        case VICE_MACHINE_PLUS4:
-            ports[JOYPORT_1] = true;
-            ports[JOYPORT_2] = true;
-            ports[JOYPORT_3] = true;
-            ports[JOYPORT_4] = true;
-            ports[JOYPORT_5] = true;    /* SIDCard control port */
-            break;
-        case VICE_MACHINE_CBM5x0:
-            ports[JOYPORT_1] = true;
-            ports[JOYPORT_2] = true;
-            break;
-        case VICE_MACHINE_PET:
-        case VICE_MACHINE_CBM6x0:
-            ports[JOYPORT_3] = true;
-            ports[JOYPORT_4] = true;
-            break;
-        case VICE_MACHINE_VSID:
-            break;  /* no control ports or user ports */
-        default:
-            break;
-    }
-
     for (i = 0; i < JOYPORT_MAX_PORTS; i++) {
-        if (ports[i]) {
-            joyport_devices[i] = joyport_get_valid_devices(i);
-        } else {
-            joyport_devices[i] = NULL;
-        }
+        joyport_devices[i] = joyport_get_valid_devices(i);
     }
 }
 
@@ -214,22 +205,24 @@ static void joyport_devices_list_shutdown(void)
  * Two control ports and two userport adapter ports.
  *
  * \param[in,out]   grid    main widget grid
+ *
+ * \return  number of rows used in the \a grid
  */
-static void create_c64_layout(GtkGrid *grid)
+static int create_c64_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_1, "Control port 1"),
-            0, 1, 1, 1);
+            0, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_2, "Control port 2"),
-            1, 1, 1, 1);
+            1, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
-            0, 2, 1, 1);
+            0, 1, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
-            1, 2, 1, 1);
-
+            1, 1, 1, 1);
+    return 2;
 }
 
 
@@ -238,18 +231,21 @@ static void create_c64_layout(GtkGrid *grid)
  * Two control ports and one userport adapter port.
  *
  * \param[in,out]   grid    main widget grid
+ *
+ * \return  number of rows used in the \a grid
  */
-static void create_c64dtv_layout(GtkGrid *grid)
+static int create_c64dtv_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_1, "Control port 1"),
-            0, 1, 1, 1);
+            0, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_2, "Control port 2"),
-            1, 1, 1, 1);
+            1, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
-            0, 2, 1, 1);
+            0, 1, 1, 1);
+    return 2;
 }
 
 
@@ -258,18 +254,21 @@ static void create_c64dtv_layout(GtkGrid *grid)
  * One control port and two userport adapter ports.
  *
  * \param[in,out]   grid    main widget grid
+ *
+ * \return  number of rows used in the \a grid
  */
-static void create_vic20_layout(GtkGrid *grid)
+static int create_vic20_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_1, "Control port"),
-            0, 1, 1, 1);
+            0, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
-            0, 2, 1, 1);
+            0, 1, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
-            1, 2, 1, 1);
+            1, 1, 1, 1);
+    return 2;
 }
 
 
@@ -278,25 +277,27 @@ static void create_vic20_layout(GtkGrid *grid)
  * Two control ports, two userport adapter ports and one SIDCard control port.
  *
  * \param[in,out]   grid    main widget grid
+ *
+ * \return  number of rows used in the \a grid
  */
-static void create_plus4_layout(GtkGrid *grid)
+static int create_plus4_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_1, "Control port 1"),
-            0, 1, 1, 1);
+            0, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_2, "Control port 2"),
-            1, 1, 1, 1);
+            1, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
-            0, 2, 1, 1);
+            0, 1, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
-            1, 2, 1, 1);
+            1, 1, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_5, "SIDCard control port"),
-            0, 3, 1, 1);
-
+            0, 2, 1, 1);
+    return 3;
 }
 
 
@@ -305,15 +306,18 @@ static void create_plus4_layout(GtkGrid *grid)
  * Two control ports.
  *
  * \param[in,out]   grid    main widget grid
+ *
+ * \return  number of rows used in the \a grid
  */
-static void create_cbm5x0_layout(GtkGrid *grid)
+static int create_cbm5x0_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_1, "Control port 1"),
-            0, 1, 1, 1);
+            0, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_2, "Control port 2"),
-            1, 1, 1, 1);
+            1, 0, 1, 1);
+    return 1;
 }
 
 
@@ -322,16 +326,18 @@ static void create_cbm5x0_layout(GtkGrid *grid)
  * Two userport adapter ports.
  *
  * \param[in,out]   grid    main widget grid
+ *
+ * \return  number of rows used in the \a grid
  */
-
-static void create_cbm6x0_layout(GtkGrid *grid)
+static int create_cbm6x0_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
-            0, 1, 1, 1);
+            0, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
-            1, 1, 1, 1);
+            1, 0, 1, 1);
+    return 1;
 }
 
 
@@ -349,6 +355,7 @@ static void create_cbm6x0_layout(GtkGrid *grid)
 GtkWidget *uicontrolport_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
+    int rows = 0;
 
     joyport_devices_list_init();
 
@@ -361,28 +368,33 @@ GtkWidget *uicontrolport_widget_create(GtkWidget *parent)
         case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:
-            create_c64_layout(GTK_GRID(layout));
+            rows = create_c64_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_C64DTV:
-            create_c64dtv_layout(GTK_GRID(layout));
+            rows = create_c64dtv_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_VIC20:
-            create_vic20_layout(GTK_GRID(layout));
+            rows = create_vic20_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_PLUS4:
-            create_plus4_layout(GTK_GRID(layout));
+            rows = create_plus4_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_CBM5x0:
-            create_cbm5x0_layout(GTK_GRID(layout));
+            rows = create_cbm5x0_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_PET:          /* fall through */
         case VICE_MACHINE_CBM6x0:
-            create_cbm6x0_layout(GTK_GRID(layout));
+            rows = create_cbm6x0_layout(GTK_GRID(layout));
             break;
         case VICE_MACHINE_VSID:
             break;  /* no control ports or user ports */
         default:
             break;
+    }
+
+    /* add BBRTC checkbox */
+    if (rows > 0) {
+        gtk_grid_attach(GTK_GRID(layout), create_bbrtc_widget(), 0, rows, 2, 1);
     }
 
     g_signal_connect(layout, "destroy", G_CALLBACK(on_destroy), NULL);
