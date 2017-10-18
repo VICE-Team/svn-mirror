@@ -2937,6 +2937,10 @@ Set the device attached to:
 userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
+@vindex BBRTCSave
+@item BBRTCSave
+Enable saving of the battery-backed real time clock data.
+
 @end table
 
 
@@ -2978,6 +2982,16 @@ Set the device attached to:
 userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
 (@code{JoyPort4Device}).
 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+
+@findex -bbrtcsave
+@item -bbrtcsave
+Enable saving of the battery-backed real time clock data
+(@code{BBRTCSave}).
+
+@findex +bbrtcsave
+@item +bbrtcsave
+Disable saving of the battery-backed real time clock data
+(@code{BBRTCSave}).
 
 @end table
 
