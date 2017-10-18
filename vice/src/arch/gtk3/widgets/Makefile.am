@@ -78,7 +78,8 @@ libwidgets_a_SOURCES = \
 	printeremulationtypewidget.c \
 	printerdriverwidget.c \
 	printeroutputwidget.c \
-	userportprinterwidget.c
+	userportprinterwidget.c \
+	joystickdevicewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -136,4 +137,5 @@ EXTRA_DIST = \
 	printeremulationtypewidget.h \
 	printerdrivewidget.h \
 	printeroutputwidget.h \
-	userportprinterwidget.h
+	userportprinterwidget.h \
+	joystickdevicewidget.h
