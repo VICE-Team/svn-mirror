@@ -229,7 +229,6 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 
         switch (items[i].type) {
             case UI_MENU_TYPE_ITEM_ACTION:  /* fall through */
-            case UI_MENU_TYPE_ITEM_CHECK:   /* XXX: for now */
                 /* normal callback item */
                 /* debug_gtk3("adding menu item '%s'\n", items[i].label); */
                 item = gtk_menu_item_new_with_mnemonic(items[i].label);
@@ -241,6 +240,29 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                             (gpointer)(items[i].data));
                 } else {
                     /* no callback: 'grey-out'/'ghost' the item */
+                    gtk_widget_set_sensitive(item, FALSE);
+                }
+                break;
+            case UI_MENU_TYPE_ITEM_CHECK:
+                /* check mark item */
+                item = gtk_check_menu_item_new_with_mnemonic(items[i].label);
+                if (items[i].callback != NULL) {
+                    g_signal_connect(
+                            item,
+                            "activate",
+                            G_CALLBACK(items[i].callback),
+                            NULL);
+                    /* use `data` as the resource to determine the state of
+                     * the checkmark
+                     */
+                    if (items[i].data != NULL) {
+                        int state;
+                        resources_get_int((const char *)items[i].data, & state);
+                        gtk_check_menu_item_set_active(
+                                GTK_CHECK_MENU_ITEM(item), (gboolean)state);
+                    }
+                } else {
+                    /* grey out */
                     gtk_widget_set_sensitive(item, FALSE);
                 }
                 break;

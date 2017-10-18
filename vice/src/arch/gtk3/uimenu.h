@@ -68,7 +68,8 @@ typedef struct ui_menu_item_s {
     void (*callback)(GtkWidget *widget, gpointer user_data);
 
     /** callback data, or a pointer to an array of submenu items if the menu
-     *  type is UI_MENU_TYPE_SUBMENU */
+     *  type is UI_MENU_TYPE_SUBMENU, or a resource name in case of
+     *  UI_MENU_ITEM_TYPE_CHECK */
     void *data;
 
     /** accelerator key, without modifier
