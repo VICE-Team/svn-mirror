@@ -148,6 +148,11 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
 }
 
 
+/** \brief  Set joystick device \a widget to \a id
+ *
+ * \param]in,out]   widget  joystick device widget
+ * \param[in]       id      new value for the \a widget
+ */
 void joystick_device_widget_update(GtkWidget *widget, int id)
 {
     char id_str[32];

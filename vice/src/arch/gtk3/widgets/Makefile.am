@@ -18,7 +18,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/scpu64 \
-	-I$(top_srcdir)/src/vic20
+	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/userport
 
 noinst_LIBRARIES = libwidgets.a
 
@@ -79,7 +80,8 @@ libwidgets_a_SOURCES = \
 	printerdriverwidget.c \
 	printeroutputwidget.c \
 	userportprinterwidget.c \
-	joystickdevicewidget.c
+	joystickdevicewidget.c \
+	joystickuserportadapterwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -138,4 +140,5 @@ EXTRA_DIST = \
 	printerdrivewidget.h \
 	printeroutputwidget.h \
 	userportprinterwidget.h \
-	joystickdevicewidget.h
+	joystickdevicewidget.h \
+	joystickuserportadapterwidget.h
