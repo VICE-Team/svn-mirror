@@ -1,5 +1,7 @@
 ## Makefile.am for the native GTK3 version of `libwidgets.a'.
 
+SUBDIRS = base
+
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -19,7 +21,9 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/scpu64 \
 	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/userport
+	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/arch/gtk3/widgets \
+	-I$(top_srcdir)/src/arch/gtk3/widgets/base
 
 noinst_LIBRARIES = libwidgets.a
 

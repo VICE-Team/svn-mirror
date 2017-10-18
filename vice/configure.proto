@@ -4395,7 +4395,7 @@ AM_CONDITIONAL(MAKE_BINDIST, false)
 if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/gtk3"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
-  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a"
+  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a"
   if test x"$is_win32" = "xyes"; then
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/mingw32/wpcap"
     AM_CONDITIONAL(MAKE_BINDIST, true)
@@ -4785,8 +4785,8 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
   AM_CONDITIONAL(UNIX_SCO4_COMPILE, false)
   AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
-  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)  
-  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)  
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
   AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
@@ -5068,6 +5068,7 @@ AC_OUTPUT([Makefile
            src/arch/beos/Makefile
            src/arch/gtk3/Makefile
            src/arch/gtk3/widgets/Makefile
+           src/arch/gtk3/widgets/base/Makefile
            src/arch/msdos/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/qnx4/Makefile

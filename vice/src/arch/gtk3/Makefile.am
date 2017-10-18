@@ -14,6 +14,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
+	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
