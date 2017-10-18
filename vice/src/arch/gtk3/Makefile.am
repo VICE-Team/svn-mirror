@@ -88,7 +88,8 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uicompiletimefeatures.c \
 	uicontrolport.c \
-	uijoystick.c
+	uijoystick.c \
+	uicommands.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -141,4 +142,5 @@ EXTRA_DIST = \
 	uicmdline.h \
 	uicompiletimefeatures.h \
 	uicontrolport.h \
-	uijoystick.h
+	uijoystick.h \
+	uicommands.h

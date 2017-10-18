@@ -50,6 +50,7 @@
 
 #include "basedialogs.h"
 #include "uiapi.h"
+#include "uicommands.h"
 #include "uidatasette.h"
 #include "uiedit.h"
 #include "uifliplist.h"
@@ -130,13 +131,7 @@ static void drive_reset_callback(GtkWidget *widget, gpointer user_data);
 static void ui_close_callback(GtkWidget *widget, gpointer user_data);
 static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
-static gboolean ui_warp_callback(GtkWidget *widget, gpointer user_data);
-static gboolean ui_swap_joysticks_callback(GtkWidget *widget,
-                                           gpointer user_data);
-static gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
-                                                    gpointer user_data);
-static gboolean ui_allow_keyset_joystick_callback(GtkWidget *widget,
-                                                  gpointer user_data);
+
 static void ui_fullscreen_decorations_callback(GtkWidget *widget,
                                                gpointer user_data);
 static int set_html_browser_command(const char *val, void *param);
@@ -546,8 +541,8 @@ static ui_menu_item_t settings_menu[] = {
 
     UI_MENU_SEPARATOR,
 
-    { "Toggle warp mode", UI_MENU_TYPE_ITEM_ACTION,
-        (void*)(ui_warp_callback), NULL,
+    { "Toggle warp mode", UI_MENU_TYPE_ITEM_CHECK,
+        (void*)(ui_warp_callback), (void*)"WarpMode",
         GDK_KEY_W, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,
@@ -1359,84 +1354,6 @@ void ui_pause_emulation(int flag)
     }
 }
 
-
-/** \brief  Switch warp mode
- *
- * \param[in]   widget      widget triggering the event (invalid)
- * \param[in]   user_data   extra data for event (unused)
- *
- * \return  TRUE
- */
-static gboolean ui_warp_callback(GtkWidget *widget, gpointer user_data)
-{
-    int state;
-
-    resources_get_int("WarpMode", &state);
-    resources_set_int("WarpMode", state ? 0 : 1);
-    return TRUE;
-}
-
-
-/** \brief  Swap joysticks
- *
- * \param[in]   widget      widget triggering the event (invalid)
- * \param[in]   user_data   extra data for event (unused)
- *
- * \return  TRUE
- */
-static gboolean ui_swap_joysticks_callback(GtkWidget *widget, gpointer user_data)
-{
-    int joy1;
-    int joy2;
-
-    resources_get_int("JoyDevice1", &joy1);
-    resources_get_int("JoyDevice2", &joy2);
-    resources_set_int("JoyDevice1", joy2);
-    resources_set_int("JoyDevice2", joy1);
-
-    return TRUE;
-}
-
-
-/** \brief  Swap userport joysticks
- *
- * \param[in]   widget      widget triggering the event (invalid)
- * \param[in]   user_data   extra data for event (unused)
- *
- * \return  TRUE
- */
-static gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
-                                                    gpointer user_data)
-{
-    int joy3;
-    int joy4;
-
-    resources_get_int("JoyDevice3", &joy3);
-    resources_get_int("JoyDevice4", &joy4);
-    resources_set_int("JoyDevice3", joy4);
-    resources_set_int("JoyDevice4", joy3);
-
-    return TRUE;
-}
-
-
-/** \brief  Toggle keyset joystick support
- *
- * \param[in]   widget      widget triggering the event (the menu item)
- * \param[in]   user_data   extra data for event (unused)
- *
- * \return  TRUE
- */
-static gboolean ui_allow_keyset_joystick_callback(GtkWidget *widget,
-                                                  gpointer user_data)
-{
-    int state;
-
-    resources_get_int("KeySetEnable", &state);
-    resources_set_int("KeySetEnable", state ? 0 : 1);
-
-    return TRUE;
-}
 
 
 /** \brief  Check if emulation is paused
