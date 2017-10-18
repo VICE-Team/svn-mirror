@@ -313,7 +313,7 @@ void mon_memmap_shutdown(void)
 /* stubs */
 static void mon_memmap_stub(void)
 {
-    mon_out("Disabled. configure with --enable-memmap and recompile.\n");
+    mon_out("Disabled. configure with --enable-cpuhistory and recompile.\n");
 }
 
 void mon_cpuhistory(int count)
