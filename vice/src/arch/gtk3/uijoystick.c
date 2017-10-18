@@ -14,7 +14,7 @@
  *  JoyOpposite
  *  KeySetEnable
  *
- *  (see used widget for more)
+ *  (see used external widgets for more)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -56,6 +56,10 @@
 #include "uijoystick.h"
 
 
+/*****************************************************************************
+ *                                Static data                                *
+ ****************************************************************************/
+
 /** \brief  References to the joystick device widgets
  *
  * These references are used to update the UI when swapping joysticks
@@ -65,8 +69,18 @@ static GtkWidget *device_widgets[JOYPORT_MAX_PORTS] = {
 };
 
 
+/** \brief  Reference to the userport adapter widget
+ *
+ * Used to enable/disable the widget depending on the "Enable userport adapter"
+ * checkbox
+ */
 static GtkWidget *adapter_widget = NULL;
 
+
+
+/*****************************************************************************
+ *                                Event handlers                             *
+ ****************************************************************************/
 
 /** \brief  Handler for the "clicked" event of the "swap joysticks" button
  *
@@ -129,6 +143,11 @@ static void on_swap_userport_joysticks_clicked(GtkWidget *button,
 }
 
 
+/** \brief  Handler for the "toggled" event of the "Enable keysets" checkbox
+ *
+ * \param[in]   check       check button
+ * \param[in]   user_data   extra event data (unused)
+ */
 static void on_keyset_enable_toggled(GtkWidget *check, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
@@ -138,6 +157,11 @@ static void on_keyset_enable_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the "Enable opposite" checkbox
+ *
+ * \param[in]   check       check button
+ * \param[in]   user_data   extra event data (unused)
+ */
 static void on_opposite_enable_toggled(GtkWidget *check, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
@@ -147,6 +171,11 @@ static void on_opposite_enable_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "toggled" event of the "Userport adapter" checkbox
+ *
+ * \param[in]   check       check button
+ * \param[in]   user_data   extra event data (unused)
+ */
 static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
@@ -156,6 +185,12 @@ static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
 
     gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
 }
+
+
+
+/*****************************************************************************
+ *                      Functions to create simple widgets                   *
+ ****************************************************************************/
 
 /** \brief  Create a button to swap joysticks #1 and #2
  *
@@ -193,6 +228,10 @@ static GtkWidget *create_swap_userport_joysticks_button(void)
 }
 
 
+/** \brief  Create a check button to enable "user-defined keysets"
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_keyset_enable_checkbox(void)
 {
     GtkWidget *check;
@@ -210,6 +249,10 @@ static GtkWidget *create_keyset_enable_checkbox(void)
 }
 
 
+/** \brief  Create a check button to enable "Allow opposite directions"
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_opposite_enable_checkbox(void)
 {
     GtkWidget *check;
@@ -227,6 +270,10 @@ static GtkWidget *create_opposite_enable_checkbox(void)
 }
 
 
+/** \brief  Create a check button to enable "Userport joystick adapter"
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_userportjoy_enable_checkbox(void)
 {
     GtkWidget *check;
@@ -242,6 +289,12 @@ static GtkWidget *create_userportjoy_enable_checkbox(void)
     gtk_widget_show(check);
     return check;
 }
+
+
+
+/*****************************************************************************
+ *                Functions to create machine-specific layouts               *
+ ****************************************************************************/
 
 /** \brief  Create layout for x64/x64sc/xscpu64/x128
  *
@@ -436,6 +489,10 @@ static int create_cbm6x0_layout(GtkGrid *grid)
 
 
 
+/*****************************************************************************
+ *                              Public functions                             *
+ ****************************************************************************/
+
 /** \brief  Create joystick settings main widget
  *
  * \param   parent  parent widget
@@ -455,11 +512,12 @@ GtkWidget *uijoystick_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
 
+    /* create adapter selection widget and enable/disable it */
     adapter_widget = joystick_userport_adapter_widget_create();
     resources_get_int("UserportJoy", &adapter_state);
     gtk_widget_set_sensitive(adapter_widget, adapter_state ? TRUE : FALSE);
 
-
+    /* create basic layout, depending on machine class */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -489,6 +547,7 @@ GtkWidget *uijoystick_widget_create(GtkWidget *parent)
             break;
     }
 
+    /* add check buttons for resources */
     keyset_widget = create_keyset_enable_checkbox();
     g_object_set(keyset_widget, "margin-left", 16, NULL);
     opposite_widget = create_opposite_enable_checkbox();

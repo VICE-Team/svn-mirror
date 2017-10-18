@@ -5,6 +5,11 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
+ *  JoyDevice1
+ *  JoyDevice2
+ *  JoyDevice3
+ *  JoyDevice4
+ *  JoyDevice5
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -136,13 +141,6 @@ GtkWidget *joystick_device_widget_create(int device, const char *title)
            GINT_TO_POINTER(device));
 
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
-#if 0
-    /* set property "DeviceNumber" on widget to remember device number (0-4)
-     * to allow joystick_device_widget_update() to work without passing in the
-     * device number again
-     */
-    g_object_set_data(G_OBJECT(grid), "DeviceNumber", GINT_TO_POINTER(device));
-#endif
     gtk_widget_show_all(grid);
     return grid;
 }

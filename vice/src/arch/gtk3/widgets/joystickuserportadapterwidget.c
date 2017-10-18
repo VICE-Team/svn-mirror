@@ -78,6 +78,11 @@ static adapter_info_t adapter_list_other[] = {
 };
 
 
+/** \brief  Empty list, used as a safety measure
+ *
+ * If an empty combo box shows up in the main joystick settings widget, there's
+ * something wrong with the code in uijoystick.c.
+ */
 static adapter_info_t adapter_list_empty[] = {
     { NULL, -1 }
 };
@@ -115,10 +120,11 @@ GtkWidget *joystick_userport_adapter_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *combo;
-    int i;
-    int current;
     adapter_info_t *list;
+    int current;
+    int i;
 
+    /* determine the list of available adapters based on machine class */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -142,6 +148,7 @@ GtkWidget *joystick_userport_adapter_widget_create(void)
     }
 
 
+    /* get current value for resource */
     resources_get_int("UserportJoyType", &current);
 
     grid = uihelpers_create_grid_with_label("Userport adapter", 1);
