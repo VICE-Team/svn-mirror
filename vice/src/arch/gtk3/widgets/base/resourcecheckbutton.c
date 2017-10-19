@@ -31,10 +31,26 @@
 #include <gtk/gtk.h>
 
 #include "debug_gtk3.h"
+#include "lib.h"
 #include "resources.h"
 
 #include "resourcecheckbutton.h"
 
+
+/** \brief  Handler for the "destroy" event of the check button
+ *
+ * Frees the heap-allocated copy of the resource name.
+ *
+ * \param[in]   check       check button
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
+{
+    char *resource;
+
+    resource = (char *)(g_object_get_data(G_OBJECT(check), "ResourceName"));
+    lib_free(resource);
+}
 
 
 /** \brief  Handler for the "toggled" event of the check button
@@ -48,7 +64,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
     int state;
     int current;
 
-    resource = (const char *)user_data;
+    resource = (const char *)g_object_get_data(G_OBJECT(check), "ResourceName");
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
     resources_get_int(resource, &current);
 
@@ -63,10 +79,14 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 
 /** \brief  Create check button to toggle \a resource
  *
+ * Creates a check button to toggle \a resource. Makes a heap-allocated copy
+ * of the resource name so initializing this widget with a constructed/temporary
+ * resource name works as well.
+ *
  * \param[in]   resource    resource name
  * \param[in]   label       label of the check button
  *
- * \note    Sets the "ResourceName" property on the button for convenience
+ * \note    The resource name is stored in the "ResourceName" property.
  *
  * \return  new check button
  */
@@ -82,11 +102,16 @@ GtkWidget *resource_check_button_create(const char *resource,
     check = gtk_check_button_new_with_label(label);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
             state ? TRUE : FALSE);
-    /* store resource name as an extra property */
-    g_object_set_data(G_OBJECT(check), "ResourceName", (gpointer)resource);
+
+    /* make a copy of the resource name and store the pointer in the propery
+     * "ResourceName" */
+    g_object_set_data(G_OBJECT(check), "ResourceName",
+            (gpointer)lib_stralloc(resource));
 
     g_signal_connect(check, "toggled", G_CALLBACK(on_check_button_toggled),
             (gpointer)resource);
+    g_signal_connect(check, "destroy", G_CALLBACK(on_check_button_destroy),
+            NULL);
 
     gtk_widget_show(check);
     return check;

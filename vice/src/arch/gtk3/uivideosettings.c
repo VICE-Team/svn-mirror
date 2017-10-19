@@ -87,25 +87,6 @@ static char *widget_title[2] = { NULL, NULL };
  */
 static const char *chip_name[2] = { NULL, NULL };
 
-/*
- * A bunch of heap allocated resource names to use in the calls to
- * uihelpers_create_resource_checkbox(). Since that function only passes a
- * pointer to the resource name to its event handler, we can't use a temp buffer
- * to set up the resource names, these need to live on the heap until the
- * checkbox is destroyed.
- */
-static char *double_size_resname[2] = { NULL, NULL };
-static char *double_scan_resname[2] = { NULL, NULL };
-static char *video_cache_resname[2] = { NULL, NULL };
-static char *vert_stretch_resname[2] = { NULL, NULL };
-static char *audio_leak_resname[2] = { NULL, NULL };
-static char *sprite_sprite_resname[2] = { NULL, NULL };
-static char *sprite_background_resname[2] = { NULL, NULL };
-static char *vsp_bug_resname[2] = { NULL, NULL };
-static char *hw_scale_resname[2] = { NULL, NULL };
-static char *keep_aspect_resname[2] = { NULL, NULL };
-static char *true_aspect_resname[2] = { NULL, NULL };
-
 
 /* These are required for x128, since these resources are chip-independent, but
  * there's a TODO to make these resources chip-dependent. For now toggling a
@@ -125,45 +106,11 @@ static GtkWidget *true_aspect_widget[2] = { NULL, NULL };
  */
 static void on_destroy(GtkWidget *widget)
 {
-    int i;
-
-    for (i = 0; i < 2; i++) {
-        if (double_size_resname[i] != NULL) {
-            lib_free(double_size_resname[i]);
-        }
-        if (double_scan_resname[i] != NULL) {
-            lib_free(double_scan_resname[i]);
-        }
-        if (video_cache_resname[i] != NULL) {
-            lib_free(video_cache_resname[i]);
-        }
-        if (vert_stretch_resname[i] != NULL) {
-            lib_free(vert_stretch_resname[i]);
-        }
-        if (audio_leak_resname[i] != NULL) {
-            lib_free(audio_leak_resname[i]);
-        }
-        if (sprite_sprite_resname[i] != NULL) {
-            lib_free(sprite_sprite_resname[i]);
-        }
-        if (sprite_background_resname[i] != NULL) {
-            lib_free(sprite_background_resname[i]);
-        }
-        if (vsp_bug_resname[i] != NULL) {
-            lib_free(vsp_bug_resname[i]);
-        }
-        if (hw_scale_resname[i] != NULL) {
-            lib_free(hw_scale_resname[i]);
-        }
-        if (keep_aspect_resname[i] != NULL) {
-            lib_free(keep_aspect_resname[i]);
-        }
-        if (true_aspect_resname[i] != NULL) {
-            lib_free(true_aspect_resname[i]);
-        }
-        if (widget_title[i] != NULL) {
-            lib_free(widget_title[i]);
-        }
+    if (widget_title[0] != NULL) {
+        lib_free(widget_title[0]);
+    }
+    if (widget_title[1] != NULL) {
+        lib_free(widget_title[1]);
     }
 }
 
@@ -172,107 +119,86 @@ static void on_destroy(GtkWidget *widget)
 
 static GtkWidget *create_double_size_widget(int index)
 {
-    double_size_resname[index] = lib_msprintf("%sDoubleSize", chip_name[index]);
-    return resource_check_button_create(
-            double_size_resname[index],
-            "Double size");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sDoubleSize", chip_name[index]);
+    return resource_check_button_create(resname, "Double size");
 }
 
 
 static GtkWidget *create_double_scan_widget(int index)
 {
-    double_scan_resname[index] = lib_msprintf("%sDoubleScan", chip_name[index]);
-    return resource_check_button_create(
-            double_scan_resname[index],
-            "Double scan");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sDoubleScan", chip_name[index]);
+    return resource_check_button_create(resname, "Double scan");
 }
 
 
 static GtkWidget *create_video_cache_widget(int index)
 {
-    video_cache_resname[index] = lib_msprintf("%sVideoCache", chip_name[index]);
-    return resource_check_button_create(
-            video_cache_resname[index],
-            "Video cache");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sVideoCache", chip_name[index]);
+    return resource_check_button_create(resname, "Video cache");
 }
 
 
 static GtkWidget *create_vert_stretch_widget(int index)
 {
-    vert_stretch_resname[index] = lib_msprintf("%sStretchVertical",
-            chip_name[index]);
-    return resource_check_button_create(
-            vert_stretch_resname[index],
-            "Stretch vertically");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sStretchVertical", chip_name[index]);
+    return resource_check_button_create(resname, "Stretch vertically");
 }
 
 
 static GtkWidget *create_audio_leak_widget(int index)
 {
-    audio_leak_resname[index] = lib_msprintf("%sAudioLeak", chip_name[index]);
-    return resource_check_button_create(
-            audio_leak_resname[index],
-            "Audio leak emulation");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sAudioLeak", chip_name[index]);
+    return resource_check_button_create(resname, "Audio leak emulation");
 }
 
 
 static GtkWidget *create_sprite_sprite_widget(int index)
 {
-    /* really fucked up resource name by the way */
-    sprite_sprite_resname[index] = lib_msprintf("%sCheckSsColl",
-            chip_name[index]);
-    return resource_check_button_create(
-            sprite_sprite_resname[index],
-            "Sprite-sprite collisions");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sCheckSsColl", chip_name[index]);
+    return resource_check_button_create(resname, "Sprite-sprite collisions");
 }
 
 
 static GtkWidget *create_sprite_background_widget(int index)
 {
-    /* really fucked up resource name by the way */
-    sprite_background_resname[index] = lib_msprintf("%sCheckSbColl",
-            chip_name[index]);
-    return resource_check_button_create(
-            sprite_background_resname[index],
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sCheckSbColl", chip_name[index]);
+    return resource_check_button_create(resname,
             "Sprite-background collisions");
 }
 
 
 static GtkWidget *create_vsp_bug_widget(int index)
 {
-    vsp_bug_resname[index] = lib_msprintf("%sVSPBug", chip_name[index]);
-    return resource_check_button_create(
-            vsp_bug_resname[index],
-            "VSP bug emulation");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sVSPBug", chip_name[index]);
+    return resource_check_button_create(resname, "VSP bug emulation");
 }
 
 
 static GtkWidget *create_hw_scale_widget(int index)
 {
-    hw_scale_resname[index] = lib_msprintf("%sHwScale", chip_name[index]);
-    return resource_check_button_create(
-            hw_scale_resname[index],
-            "Hardware scaling");
+    gchar resname[256];
+    g_snprintf(resname, 256, "%sHwScale", chip_name[index]);
+    return resource_check_button_create(resname, "Hardware scaling");
 }
 
 
 static GtkWidget *create_keep_aspect_widget(int index)
 {
-    /* change lib_stralloc() to lib_msprintf("%sKeepAspectRatio", chip_name[i])
-     * once per-chip KeepAspectRatio is implemented */
-    keep_aspect_resname[index] = lib_stralloc("KeepAspectRatio");
-    return resource_check_button_create(
-            keep_aspect_resname[index],
+    return resource_check_button_create("KeepAspectRatio",
             "Keep aspect ratio");
 }
 
 static GtkWidget *create_true_aspect_widget(int index)
 {
-    /* change lib_stralloc() to lib_msprintf("%sTrueAspectRatio", chip_name[i])
-     * once per-chip TrueAspectRatio is implemented */
-    true_aspect_resname[index] = lib_stralloc("TrueAspectRatio");
-    return resource_check_button_create(
-            true_aspect_resname[index],
+    return resource_check_button_create("TrueAspectRatio",
             "True aspect ratio");
 }
 
