@@ -45,6 +45,11 @@
 #endif
 #include <sys/time.h>
 
+#ifdef MACOSX_SUPPORT
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+#endif
+
 /* hook to ui event dispatcher */
 static void_hook_t ui_dispatch_hook;
 static int pause_pending = 0;
@@ -71,9 +76,20 @@ signed long vsyncarch_frequency(void)
 unsigned long vsyncarch_gettime(void)
 {
 #ifdef HAVE_NANOSLEEP
+ #ifdef MACOSX_SUPPORT
+    static uint64_t factor = 0;
+    uint64_t time = mach_absolute_time();
+    if (!factor) {
+        mach_timebase_info_data_t info;
+        kern_return_t ret = mach_timebase_info(&info);
+        factor = info.numer / info.denom;
+    }
+    return time * factor;
+ #else
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
     return (TICKSPERSECOND * now.tv_sec) + (TICKSPERNSEC * now.tv_nsec);
+ #endif
 #else
     /* this is really really bad, we should never use the wallclock
        see: https://blog.habets.se/2010/09/gettimeofday-should-never-be-used-to-measure-time.html */
