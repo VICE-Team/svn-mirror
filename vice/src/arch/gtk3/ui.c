@@ -529,9 +529,9 @@ static ui_menu_item_t help_menu[] = {
 };
 
 
-/** \brief  'Settings' menu items
+/** \brief  'Settings' menu items - head section
  */
-static ui_menu_item_t settings_menu[] = {
+static ui_menu_item_t settings_menu_head[] = {
    { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
         ui_fullscreen_callback, NULL,
         GDK_KEY_D, GDK_MOD1_MASK },
@@ -547,20 +547,43 @@ static ui_menu_item_t settings_menu[] = {
 
     UI_MENU_SEPARATOR,
 
-    /* TODO: only add if the machine supports 'normal' joysticks */
+    UI_MENU_TERMINATOR
+};
+
+/** \brief  'Settings' menu "swap joysticks" item
+ *
+ * Only valid for x64/x64sc/xscpu64/x128/xplus4/xcbm5x0
+ */
+static ui_menu_item_t settings_menu_swap_joy[] = {
+
     { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
         (void*)(ui_swap_joysticks_callback), NULL,
         GDK_KEY_J, GDK_MOD1_MASK },
-    /* TODO: only add if the machine supports userport joysticks */
+    UI_MENU_TERMINATOR
+};
+
+/** \brief  'Settings' menu "swap userport joysticks" item
+ *
+ * Only valid for x64/x64sc/xscpu64/x128/xplus4/xvic/xpet/xcbm2
+ */
+static ui_menu_item_t settings_menu_swap_userport_joy[] = {
     { "Swap userport joysticks", UI_MENU_TYPE_ITEM_ACTION,
         (void*)(ui_swap_userport_joysticks_callback), NULL,
         GDK_KEY_U, GDK_MOD1_MASK|GDK_SHIFT_MASK },
+    UI_MENU_TERMINATOR
+};
+
+/** \brief  'Settings' menu tail section
+ */
+static ui_menu_item_t settings_menu_tail[] = {
+    /* continue with joystick item(s) here */
     { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
         (void*)(ui_allow_keyset_joystick_callback), (void*)"KeySetEnable",
         GDK_KEY_J, GDK_MOD1_MASK|GDK_SHIFT_MASK },
 
     UI_MENU_SEPARATOR,
 
+    /* the settings dialog */
     { "Settings", UI_MENU_TYPE_ITEM_ACTION,
         ui_settings_dialog_create, NULL,
         0, 0 },
@@ -1027,8 +1050,38 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     ui_menu_edit_add(edit_menu);
     /* generate Snapshot menu */
     ui_menu_snapshot_add(snapshot_menu);
+
     /* settings menu */
-    ui_menu_settings_add(settings_menu);
+    ui_menu_settings_add(settings_menu_head);
+
+    /* determine which joystick swap menu items should be added */
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_PLUS4:
+            /* add both swap-joy and swap-userport-joy */
+            ui_menu_settings_add(settings_menu_swap_joy);
+            ui_menu_settings_add(settings_menu_swap_userport_joy);
+            break;
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_CBM5x0:
+            /* only add swap-joy */
+            ui_menu_settings_add(settings_menu_swap_joy);
+            break;
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_VIC20:    /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            ui_menu_settings_add(settings_menu_swap_userport_joy);
+            break;
+        case VICE_MACHINE_VSID:
+            break;
+        default:
+            break;
+    }
+    ui_menu_settings_add(settings_menu_tail);
+
     /* generate Help menu */
     ui_menu_help_add(help_menu);
 #ifdef DEBUG
