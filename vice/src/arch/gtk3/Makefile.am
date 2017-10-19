@@ -90,7 +90,8 @@ libarch_a_SOURCES = \
 	uicompiletimefeatures.c \
 	uicontrolport.c \
 	uijoystick.c \
-	uicommands.c
+	uicommands.c \
+	uimousesettings.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -144,4 +145,5 @@ EXTRA_DIST = \
 	uicompiletimefeatures.h \
 	uicontrolport.h \
 	uijoystick.h \
-	uicommands.h
+	uicommands.h \
+	uimousesettings.h

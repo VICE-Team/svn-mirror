@@ -75,6 +75,7 @@
 #include "uiprintersettings.h"
 #include "uicontrolport.h"
 #include "uijoystick.h"
+#include "uimousesettings.h"
 
 #include "uisettings.h"
 
@@ -114,6 +115,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Printer settings", uiprintersettings_widget_create, NULL },
     { "Control port settings", uicontrolport_widget_create, NULL },
     { "Joystick settings", uijoystick_widget_create, NULL },
+    { "Mouse settings", uimousesettings_widget_create, NULL },
     { "Model settings", uimodel_create_central_widget, NULL },
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },
     { "Miscellaneous", uimisc_create_central_widget, NULL },
