@@ -54,6 +54,7 @@ static int pause_pending = 0;
 #define TICKSPERSECOND  1000000000L  /* Nanoseconds resolution. */
 #define TICKSPERMSEC    1000000L
 #define TICKSPERUSEC    1000L
+#define TICKSPERNSEC    1L
 #else
 #define TICKSPERSECOND  1000000L     /* Microseconds resolution. */
 #define TICKSPERMSEC    1000L
@@ -69,11 +70,17 @@ signed long vsyncarch_frequency(void)
 /* Get time in timer units. */
 unsigned long vsyncarch_gettime(void)
 {
+#ifdef HAVE_NANOSLEEP
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+    return (TICKSPERSECOND * now.tv_sec) + (TICKSPERNSEC * now.tv_nsec);
+#else
+    /* this is really really bad, we should never use the wallclock
+       see: https://blog.habets.se/2010/09/gettimeofday-should-never-be-used-to-measure-time.html */
     struct timeval now;
-
     gettimeofday(&now, NULL);
-
     return (TICKSPERSECOND * now.tv_sec) + (TICKSPERUSEC * now.tv_usec);
+#endif
 }
 
 void vsyncarch_init(void)
