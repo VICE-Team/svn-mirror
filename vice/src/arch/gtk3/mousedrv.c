@@ -30,6 +30,7 @@
 
 #include "not_implemented.h"
 
+#include "vsyncapi.h"
 #include "mouse.h"
 #include "mousedrv.h"
 
@@ -39,6 +40,10 @@
 
 static mouse_func_t mouse_funcs;
 
+static float mouse_x = 0.0;
+static float mouse_y = 0.0;
+static unsigned long mouse_timestamp = 0;
+
 
 int mousedrv_cmdline_options_init(void)
 {
@@ -47,21 +52,42 @@ int mousedrv_cmdline_options_init(void)
 
 unsigned long mousedrv_get_timestamp(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return mouse_timestamp;
 }
 
 int mousedrv_get_x(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return (int)mouse_x;
 }
 
 int mousedrv_get_y(void)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return (int)mouse_y;
 }
+
+
+void mouse_move(float dx, float dy)
+{
+    mouse_x += dx;
+    mouse_y -= dy;  /* why ? */
+
+    /* can't this be done with int modulo ? */
+    while (mouse_x < 0.0) {
+        mouse_x += 65536.0;
+    }
+    while (mouse_x >= 65536.0) {
+        mouse_x -= 65536.0;
+    }
+    while (mouse_y < 0.0) {
+        mouse_y += 65536.0;
+    }
+    while (mouse_y >= 65536.0) {
+        mouse_y -= 65536.0;
+    }
+
+    mouse_timestamp = vsyncarch_gettime();
+}
+
 
 void mousedrv_init(void)
 {
@@ -70,6 +96,7 @@ void mousedrv_init(void)
 
 void mousedrv_mouse_changed(void)
 {
+    /* ui_check_mouse_cursor(); */
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
