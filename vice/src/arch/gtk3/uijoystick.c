@@ -49,7 +49,6 @@
 #include "resources.h"
 #include "joyport.h"
 #include "joystick.h"
-#include "foo.h"
 
 #include "joystickdevicewidget.h"
 #include "joystickuserportadapterwidget.h"
@@ -559,8 +558,6 @@ GtkWidget *uijoystick_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, rows, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, rows, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 2, rows, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(layout), foo_widget_create(), 0, rows +1, 1, 1);
 
     gtk_widget_show_all(layout);
     return layout;

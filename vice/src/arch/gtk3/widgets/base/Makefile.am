@@ -25,7 +25,7 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libbasewidgets.a
 
 libbasewidgets_a_SOURCES = \
-	foo.c
+	resourcecheckbutton.c
 
 EXTRA_DIST = \
-	foo.h
+	resourcecheckbutton.h
