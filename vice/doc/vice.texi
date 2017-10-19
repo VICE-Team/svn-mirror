@@ -3040,6 +3040,11 @@ Integer specifying the type of adapter used for the extra joysticks
 @item Mouse
 Boolean, enables mouse emulation
 
+@vindex SmartMouseRTCSave
+@item SmartMouseRTCSave
+Boolean, specified whether to save real time clock data for the SmartMouse
+
+
 @vindex KeySet1NorthWest
 @vindex KeySet1North
 @vindex KeySet1NorthEast

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uicommand.c
+/** \file   src/arch/gtk3/uicommands.c
  * \brief   Simple commands triggered from the menu
  *
  * Written by
@@ -11,6 +11,7 @@
  *  JoyDevice2
  *  JoyDevice3
  *  JoyDevice4
+ *  Mouse
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -118,6 +119,24 @@ gboolean ui_allow_keyset_joystick_callback(GtkWidget *widget,
 
     resources_get_int("KeySetEnable", &state);
     resources_set_int("KeySetEnable", state ? 0 : 1);
+
+    return TRUE;
+}
+
+
+/** \brief  Toggle mouse grab
+ *
+ * \param[in]   widget      widget triggering the event (the menu item)
+ * \param[in]   user_data   extra data for event (unused)
+ *
+ * \return  TRUE
+ */
+gboolean ui_mouse_grab_callback(GtkWidget *widget, gpointer user_data)
+{
+    int state;
+
+    resources_get_int("Mouse", &state);
+    resources_set_int("Mouse", state ? 0 : 1);
 
     return TRUE;
 }

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uicommand.h
+/** \file   src/arch/gtk3/uicommands.h
  * \brief   Simple commands triggered from the menu - header
  *
  * Written by
@@ -36,5 +36,6 @@ gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
                                              gpointer user_data);
 gboolean ui_allow_keyset_joystick_callback(GtkWidget *widget,
                                            gpointer user_data);
+gboolean ui_mouse_grab_callback(GtkWidget *widget, gpointer user_data);
 
 #endif

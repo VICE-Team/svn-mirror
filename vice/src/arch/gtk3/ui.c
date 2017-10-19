@@ -581,6 +581,10 @@ static ui_menu_item_t settings_menu_tail[] = {
         (void*)(ui_allow_keyset_joystick_callback), (void*)"KeySetEnable",
         GDK_KEY_J, GDK_MOD1_MASK|GDK_SHIFT_MASK },
 
+    { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
+        (void*)ui_mouse_grab_callback, (void*)"Mouse",
+        GDK_KEY_M, GDK_MOD1_MASK },
+
     UI_MENU_SEPARATOR,
 
     /* the settings dialog */
