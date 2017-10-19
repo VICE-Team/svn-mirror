@@ -304,11 +304,7 @@ static void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
     uint32_t count_new_bitcell, cyc_sum_frv /*, sum_new_bitcell*/;
     unsigned int dnr = dptr->mynumber;
     int wobble;
-#ifdef _MSC_VER
-    __int64 tmp = 30000UL;
-#else
-    unsigned long long tmp = 30000UL;
-#endif
+    uint64_t tmp = 30000UL;
 
     rptr = &rotation[dptr->mynumber];
 
@@ -952,11 +948,7 @@ static void rotation_1541_simple(drive_t *dptr)
     CLOCK delta;
     int tdelta;
     int bits_moved = 0;
-#ifdef _MSC_VER
-    __int64 tmp = 1000000UL;
-#else
-    unsigned long long tmp = 1000000UL;
-#endif
+    uint64_t tmp = 1000000UL;
     unsigned long rpmscale;
     int wobble;
 

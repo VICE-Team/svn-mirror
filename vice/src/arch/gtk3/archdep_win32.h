@@ -116,6 +116,6 @@ void archdep_signals_init(int do_coredumps);
 /* Keyword to use for a static prototype */
 #define STATIC_PROTOTYPE static
 
-void vice_usleep(__int64 waitTime);
+void vice_usleep(uint64_t waitTime);
 
 #endif

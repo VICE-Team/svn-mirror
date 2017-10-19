@@ -154,7 +154,7 @@ extern struct console_s *uimon_console_open_mdi(const char *id, void *,
 /* define if the platform supports the monitor in a seperate window */
 #define ARCHDEP_SEPERATE_MONITOR_WINDOW
 
-extern void vice_usleep(__int64 waitTime);
+extern void vice_usleep(uint64_t waitTime);
 
 extern int is_windows_nt(void);
 

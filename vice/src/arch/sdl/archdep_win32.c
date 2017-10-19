@@ -778,9 +778,9 @@ int kbd_arch_get_host_mapping(void)
 }
 
 /* Provide a usleep replacement */
-void vice_usleep(__int64 waitTime)
+void vice_usleep(uint64_t waitTime)
 { 
-    __int64 time1 = 0, time2 = 0, freq = 0;
+    uint64_t time1 = 0, time2 = 0, freq = 0;
 
     QueryPerformanceCounter((LARGE_INTEGER *) &time1);
     QueryPerformanceFrequency((LARGE_INTEGER *)&freq);
