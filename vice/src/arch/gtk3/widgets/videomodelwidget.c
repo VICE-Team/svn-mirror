@@ -41,8 +41,7 @@
 static const char *widget_title = NULL;
 static const char *resource_name = NULL;
 static ui_radiogroup_entry_t *model_list = NULL;
-
-static GtkWidget *machine_widget= NULL;
+static GtkWidget *machine_widget = NULL;
 
 
 /** \brief  Get index in model list for model-ID \a model
@@ -55,6 +54,11 @@ static int get_model_index(int model)
 }
 
 
+/** \brief  Handler for the "toggled" event of the model radio buttons
+ *
+ * \param[in]   widget      radio button
+ * \param[in]   user_data   model ID (`int`
+ */
 static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 {
     int model_id = GPOINTER_TO_INT(user_data);
@@ -65,23 +69,45 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
     }
 }
 
+
+/** \brief  Set title of the widget
+ *
+ * \param[in]   title   title for the widget
+ */
 void video_model_widget_set_title(const char *title)
 {
     widget_title = title;
 }
 
+
+/** \brief  Set resource name of the widget
+ *
+ * \param[in]   resource    name of the resource
+ */
 void video_model_widget_set_resource(const char *resource)
 {
     resource_name = resource;
 }
 
 
+/** \brief  Set list of valid models for the widget
+ *
+ * \param[in]   models  list of video models
+ */
 void video_model_widget_set_models(ui_radiogroup_entry_t *models)
 {
     model_list = models;
 }
 
 
+/** \brief  Create widget to control video model
+ *
+ * The \a machine argument is used to
+ *
+ * \param[in,out]   machine machine model widget
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *video_model_widget_create(GtkWidget *machine)
 {
     GtkWidget *grid;
@@ -111,7 +137,10 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
 }
 
 
-
+/** \brief  Update the video model \a widget
+ *
+ * \param[in,out]   widget  video model widget
+ */
 void video_model_widget_update(GtkWidget *widget)
 {
     GtkWidget *radio;
@@ -133,6 +162,10 @@ void video_model_widget_update(GtkWidget *widget)
 }
 
 
+/** \brief  Setup signal handlers of the video model \a widget
+ *
+ * \param[in,out]   widget  video model widget
+ */
 void video_model_widget_connect_signals(GtkWidget *widget)
 {
     GtkWidget *radio;

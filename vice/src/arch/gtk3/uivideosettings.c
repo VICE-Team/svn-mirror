@@ -66,6 +66,7 @@
 #include <stdlib.h>
 
 #include "lib.h"
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -172,24 +173,27 @@ static void on_destroy(GtkWidget *widget)
 static GtkWidget *create_double_size_widget(int index)
 {
     double_size_resname[index] = lib_msprintf("%sDoubleSize", chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-            "Double size", double_size_resname[index]);
+    return resource_check_button_create(
+            double_size_resname[index],
+            "Double size");
 }
 
 
 static GtkWidget *create_double_scan_widget(int index)
 {
     double_scan_resname[index] = lib_msprintf("%sDoubleScan", chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-            "Double scan", double_scan_resname[index]);
+    return resource_check_button_create(
+            double_scan_resname[index],
+            "Double scan");
 }
 
 
 static GtkWidget *create_video_cache_widget(int index)
 {
     video_cache_resname[index] = lib_msprintf("%sVideoCache", chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-        "Video cache", video_cache_resname[index]);
+    return resource_check_button_create(
+            video_cache_resname[index],
+            "Video cache");
 }
 
 
@@ -197,16 +201,18 @@ static GtkWidget *create_vert_stretch_widget(int index)
 {
     vert_stretch_resname[index] = lib_msprintf("%sStretchVertical",
             chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-        "Stretch vertically", vert_stretch_resname[index]);
+    return resource_check_button_create(
+            vert_stretch_resname[index],
+            "Stretch vertically");
 }
 
 
 static GtkWidget *create_audio_leak_widget(int index)
 {
     audio_leak_resname[index] = lib_msprintf("%sAudioLeak", chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-            "Audio leak emulation", audio_leak_resname[index]);
+    return resource_check_button_create(
+            audio_leak_resname[index],
+            "Audio leak emulation");
 }
 
 
@@ -215,8 +221,9 @@ static GtkWidget *create_sprite_sprite_widget(int index)
     /* really fucked up resource name by the way */
     sprite_sprite_resname[index] = lib_msprintf("%sCheckSsColl",
             chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-            "Sprite-sprite collisions", sprite_sprite_resname[index]);
+    return resource_check_button_create(
+            sprite_sprite_resname[index],
+            "Sprite-sprite collisions");
 }
 
 
@@ -225,24 +232,27 @@ static GtkWidget *create_sprite_background_widget(int index)
     /* really fucked up resource name by the way */
     sprite_background_resname[index] = lib_msprintf("%sCheckSbColl",
             chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-            "Sprite-background collisions", sprite_background_resname[index]);
+    return resource_check_button_create(
+            sprite_background_resname[index],
+            "Sprite-background collisions");
 }
 
 
 static GtkWidget *create_vsp_bug_widget(int index)
 {
     vsp_bug_resname[index] = lib_msprintf("%sVSPBug", chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-            "VSP bug emulation", vsp_bug_resname[index]);
+    return resource_check_button_create(
+            vsp_bug_resname[index],
+            "VSP bug emulation");
 }
 
 
 static GtkWidget *create_hw_scale_widget(int index)
 {
     hw_scale_resname[index] = lib_msprintf("%sHwScale", chip_name[index]);
-    return uihelpers_create_resource_checkbox(
-            "Hardware scaling", hw_scale_resname[index]);
+    return resource_check_button_create(
+            hw_scale_resname[index],
+            "Hardware scaling");
 }
 
 
@@ -251,8 +261,9 @@ static GtkWidget *create_keep_aspect_widget(int index)
     /* change lib_stralloc() to lib_msprintf("%sKeepAspectRatio", chip_name[i])
      * once per-chip KeepAspectRatio is implemented */
     keep_aspect_resname[index] = lib_stralloc("KeepAspectRatio");
-    return uihelpers_create_resource_checkbox(
-            "Keep aspect ratio", keep_aspect_resname[index]);
+    return resource_check_button_create(
+            keep_aspect_resname[index],
+            "Keep aspect ratio");
 }
 
 static GtkWidget *create_true_aspect_widget(int index)
@@ -260,8 +271,9 @@ static GtkWidget *create_true_aspect_widget(int index)
     /* change lib_stralloc() to lib_msprintf("%sTrueAspectRatio", chip_name[i])
      * once per-chip TrueAspectRatio is implemented */
     true_aspect_resname[index] = lib_stralloc("TrueAspectRatio");
-    return uihelpers_create_resource_checkbox(
-            "True aspect ratio", true_aspect_resname[index]);
+    return resource_check_button_create(
+            true_aspect_resname[index],
+            "True aspect ratio");
 }
 
 
@@ -418,17 +430,17 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 
     gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 4, 3, 1);
 
-
     gtk_widget_show_all(layout);
-
     return layout;
 }
 
 
-
-
-
-
+/** \brief  Create video settings widget
+ *
+ * \param[in]   parent  parent widget
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid = gtk_grid_new();
@@ -450,4 +462,3 @@ GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-

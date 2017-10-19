@@ -43,6 +43,7 @@
 #include "drive-check.h"
 #include "machine.h"
 #include "resources.h"
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "drivewidgethelpers.h"
 #include "driveunitwidget.h"
@@ -177,12 +178,12 @@ GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent)
     tde_sound_wrapper = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(tde_sound_wrapper), 8);
 
-    tde_widget = uihelpers_create_resource_checkbox(
-            "Enable true drive emulation", "DriveTrueEmulation");
+    tde_widget = resource_check_button_create("DriveTrueEmulation",
+            "Enable true drive emulation");
     g_object_set(tde_widget, "margin-left", 8, NULL);
     gtk_grid_attach(GTK_GRID(tde_sound_wrapper), tde_widget, 0, 0, 1, 1);
-    sound_widget = uihelpers_create_resource_checkbox(
-            "Enable drive sound emulation", "DriveSoundEmulation");
+    sound_widget = resource_check_button_create("DriveSoundEmulation",
+            "Enable drive sound emulation");
     g_object_set(sound_widget, "margin-left", 8, NULL);
     gtk_grid_attach(GTK_GRID(tde_sound_wrapper), sound_widget, 1, 0, 1, 1);
 

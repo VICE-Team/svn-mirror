@@ -42,6 +42,7 @@
 #include "not_implemented.h"
 #include "machine.h"
 #include "resources.h"
+#include "resourcecheckbutton.h"
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
 #include "vdcmodelwidget.h"
@@ -84,19 +85,6 @@ static GtkWidget *sid_widget = NULL;
 static GtkWidget *kernal_widget = NULL;
 
 
-/** \brief  Handler for the "toggled" event of the Reset-to-IEC radio buttons
- *
- * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   data for event (unused)
- */
-static void on_reset_to_iec_toggle(GtkWidget *widget, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("setting IECReset to %s\n", state ? "ON" : "OFF");
-    resources_set_int("IECReset", state);
-}
-
-
 /** \brief  Handler for the "toggled" event of the C64SC Glue Logic radio buttons
  *
  * \param[in]   widget      radio button triggering the event
@@ -114,20 +102,6 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "toggled" event of the C128 Go64 check button
- *
- * \param[in]   widget      check button triggering the event
- * \param[in]   user_data   data for event (unused);
- */
-static void on_go64_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("setting Go64Mode to %s\n", state ? "ON" : "OFF");
-    resources_set_int("Go64Mode", state);
-}
-
-
-
 
 /** \brief  Create widget to toggle "Reset-to-IEC"
  *
@@ -135,16 +109,7 @@ static void on_go64_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_reset_to_iec_widget(void)
 {
-    int state;
-    GtkWidget *check;
-
-    resources_get_int("IECReset", &state);
-    check = gtk_check_button_new_with_label("Reset goes to IEC");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_reset_to_iec_toggle),
-            NULL);
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("IECReset", "Reset goes to IEC");
 }
 
 
@@ -154,16 +119,8 @@ static GtkWidget *create_reset_to_iec_widget(void)
  */
 static GtkWidget *create_go64_widget(void)
 {
-    int state;
-    GtkWidget *check;
-
-    resources_get_int("Go64Mode", &state);
-    check = gtk_check_button_new_with_label("Always switch to C64 mode on reset");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_go64_toggled),
-            NULL);
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("Go64Mode",
+            "Always switch to C64 mode on reset");
 }
 
 

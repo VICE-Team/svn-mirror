@@ -2,7 +2,7 @@
  * \brief   Drive options widget
  *
  * Controls the following resource(s):
- *  IECDevice[8-11]
+ *  IECDevice[8-11]     (only x64/x64sc/xscpu64/x64dtv/x128/xplus/xvic)
  *  AttachDevice[8-11]Readonly
  *  FSDevice[8-11]Dir
  *  FSDevice[8-11]ConvertP00
@@ -140,12 +140,10 @@ static void on_rtc_toggled(GtkWidget *widget, gpointer user_data)
 static void on_rpm_changed(GtkWidget *widget, gpointer user_data)
 {
     int value;
-    char res_name[256];
 
-    g_snprintf(res_name, 256, "Drive%dRPM", unit_number);
     value = (int)(100.0 * gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget)));
-    debug_gtk3("setting %s to %d\n", res_name, value);
-    resources_set_int(res_name, value);
+    debug_gtk3("setting Drive%dRPM to %d\n", unit_number, value);
+    resources_set_int_sprintf("Drive%dRPM", value, unit_number);
 }
 
 
@@ -157,12 +155,10 @@ static void on_rpm_changed(GtkWidget *widget, gpointer user_data)
 static void on_wobble_changed(GtkWidget *widget, gpointer user_data)
 {
     int value;
-    char res_name[256];
 
-    g_snprintf(res_name, 256, "Drive%dWobble", unit_number);
     value = (int)(100.0 * gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget)));
-    debug_gtk3("setting %s to %d\n", res_name, value);
-    resources_set_int(res_name, value);
+    debug_gtk3("setting Drive%dWobble to %d\n", unit_number, value);
+    resources_set_int_sprintf("Drive%dWobble", value, unit_number);
 }
 
 
@@ -225,6 +221,14 @@ static GtkWidget *create_iec_check_button(void)
     GtkWidget *check = gtk_check_button_new_with_label("Enable IEC Device");
 
     g_object_set(check, "margin-left", 16, NULL);
+
+    /* xpet/xcbm5x0/xcbm2 doesn't support the IECDevice[8-11] resources */
+    if (machine_class == VICE_MACHINE_PET
+            || machine_class == VICE_MACHINE_CBM5x0
+            || machine_class == VICE_MACHINE_CBM6x0)
+    {
+        gtk_widget_set_sensitive(check, FALSE);
+    }
     return check;
 }
 

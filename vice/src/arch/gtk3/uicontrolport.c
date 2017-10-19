@@ -39,6 +39,7 @@
 #include <stdlib.h>
 
 #include "lib.h"
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "machine.h"
@@ -86,20 +87,6 @@ static void on_joyport_changed(GtkComboBoxText *combo, gpointer user_data)
     resources_set_int_sprintf("JoyPort%dDevice", id, port + 1);
 }
 
-
-/** \brief  Handler for the "toggled" event of the BBRTC checkbox
- *
- * \param[in]   check       check box
- * \param[in]   user_data   extra data (unused)
- */
-static void on_bbrtc_toggled(GtkCheckButton *check, gpointer user_data)
-{
-    int state;
-
-    resources_get_int("BBRTCSave", &state);
-    debug_gtk3("setting BBRTCSave to %s\n", state ? "OFF" : "ON");
-    resources_set_int("BBRTCSave", state ? 0 : 1);
-}
 
 /** \brief  Create combo box for joyport \a port
  *
@@ -154,16 +141,10 @@ static GtkWidget *create_joyport_widget(int port, const char *title)
 static void *create_bbrtc_widget(void)
 {
     GtkWidget *check;
-    int state;
 
-    resources_get_int("BBRTCSave", &state);
-
-    check = gtk_check_button_new_with_label(
+    check = resource_check_button_create("BBRTCSave",
             "Save battery-backed real time clock data when changed");
     g_object_set(check, "margin-left", 16, NULL);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
-
-    g_signal_connect(check, "toggled", G_CALLBACK(on_bbrtc_toggled), NULL);
     return check;
 }
 

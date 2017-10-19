@@ -43,6 +43,7 @@
 #include <gtk/gtk.h>
 
 #include "widgethelpers.h"
+#include "resourcecheckbutton.h"
 #include "debug_gtk3.h"
 #include "resources.h"
 #include "openfiledialog.h"
@@ -72,26 +73,6 @@ static ui_radiogroup_entry_t cpu_types[] = {
     { "Programmable", 2 },
     { NULL, -1 },
 };
-
-
-/** \brief  Handler for the "toggled" event of the SuperPET check button
- *
- * \param[in]   widget      SuperPET check button
- * \param[in]   user_data   extra data (unused)
- */
-static void on_superpet_enable_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("SuperPET", &old_val);
-    new_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    if (old_val != new_val) {
-        debug_gtk3("setting SuperPET to %s\n", new_val ? "ON" : "OFF");
-        resources_set_int("SuperPET", new_val);
-    }
-}
 
 
 /** \brief  Handler for the "toggled" event of the CPU type radio buttons
@@ -168,16 +149,8 @@ static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data
  */
 static GtkWidget *create_superpet_enable_widget(void)
 {
-    GtkWidget *check;
-    int enabled;
-
-    check = gtk_check_button_new_with_label("I/O Enable (disables 8x96)");
-    resources_get_int("SuperPet", &enabled);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_superpet_enable_toggled),
-            NULL);
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("SuperPET",
+            "I/O Enable (disables x96)");
 }
 
 
@@ -255,61 +228,13 @@ static GtkWidget *create_superpet_rom_widget(void)
 }
 
 
-/** \brief  Handler for "toggled" event for the "RAM at $9XXX" check button
- *
- * \param[in]   widget      check button triggering the event
- * \param[in]   user_data   extra data for the event (unused)
- */
-static void on_ram_9xxx_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("Ram9", &old_val);
-    new_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    if (new_val != old_val) {
-        debug_gtk3("setting Ram9 to %s\n", new_val ? "ON" : "OFF");
-        resources_set_int("Ram9", new_val);
-    }
-}
-
-
-/** \brief  Handler for "toggled" event for the "RAM at $AXXX" check button
- *
- * \param[in]   widget      check button triggering the event
- * \param[in]   user_data   extra data for the event (unused)
- */
-static void on_ram_axxx_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("RamA", &old_val);
-    new_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    if (new_val != old_val) {
-        debug_gtk3("setting RamA to %s\n", new_val ? "ON" : "OFF");
-        resources_set_int("RamA", new_val);
-    }
-}
-
-
 /** \brief  Create check button for the Ram9 resource
  *
  * \return  GtkCheckButton
  */
 static GtkWidget *create_superpet_9xxx_ram_widget(void)
 {
-    GtkWidget *check;
-    int enabled;
-
-    resources_get_int("Ram9", &enabled);
-    check = gtk_check_button_new_with_label("$9xxx as RAM");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_ram_9xxx_toggled), NULL);
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("Ram9", "$9XXX as RAM");
 }
 
 
@@ -319,15 +244,7 @@ static GtkWidget *create_superpet_9xxx_ram_widget(void)
  */
 static GtkWidget *create_superpet_axxx_ram_widget(void)
 {
-    GtkWidget *check;
-    int enabled;
-
-    resources_get_int("RamA", &enabled);
-    check = gtk_check_button_new_with_label("$Axxx as RAM");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_ram_axxx_toggled), NULL);
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("RamA", "$AXXX as RAM");
 }
 
 
@@ -365,9 +282,6 @@ GtkWidget *superpet_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), ram_9xxx_widget, 0, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ram_axxx_widget, 0, 5, 1, 1);
 
-
-
     gtk_widget_show_all(grid);
     return grid;
 }
-

@@ -32,6 +32,9 @@
 #include "ui.h"
 #include "resources.h"
 #include "vsync.h"
+
+#include "debug_gtk3.h"
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "refreshratewidget.h"
 #include "speedwidget.h"
@@ -58,23 +61,8 @@ static void pause_callback(GtkWidget *widget, gpointer data)
 {
     int pause = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s(): pause %s\n",
-            __func__, pause ? "ON" : "OFF");
-#endif
+    debug_gtk3("%spausing emulation", pause ? "" : "un");
     ui_pause_emulation(pause);
-}
-
-
-/** \brief  Event handler for the 'warp mode' checkbox
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   data for the event (unused)
- */
-static void warp_callback(GtkWidget *widget, gpointer data)
-{
-    int warp = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    resources_set_int("WarpMode", warp);
 }
 
 
@@ -84,12 +72,7 @@ static void warp_callback(GtkWidget *widget, gpointer data)
  */
 static GtkWidget *create_warp_checkbox(void)
 {
-    GtkWidget *check;
-
-    check = gtk_check_button_new_with_label("Warp mode");
-    g_signal_connect(check, "toggled", G_CALLBACK(warp_callback), NULL);
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("WarpMode", "Warp mode");
 }
 
 

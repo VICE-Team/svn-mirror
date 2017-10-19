@@ -44,11 +44,20 @@
  */
 static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 {
-    const char *resource = (const char *)user_data;
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+    const char *resource;
+    int state;
+    int current;
 
-    debug_gtk3("setting %s to %s\n", resource, state ? "ON": "OFF");
-    resources_set_int(resource, state ? 1 : 0);
+    resource = (const char *)user_data;
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+    resources_get_int(resource, &current);
+
+    /* make sure we don't update a resource when the UI happens to be out of
+     * sync for some reason */
+    if (state != current) {
+        debug_gtk3("setting %s to %s\n", resource, state ? "True": "False");
+        resources_set_int(resource, state ? 1 : 0);
+    }
 }
 
 

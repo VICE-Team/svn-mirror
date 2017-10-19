@@ -43,6 +43,7 @@
 #include <stdlib.h>
 
 #include "lib.h"
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "machine.h"
@@ -143,34 +144,6 @@ static void on_swap_userport_joysticks_clicked(GtkWidget *button,
 }
 
 
-/** \brief  Handler for the "toggled" event of the "Enable keysets" checkbox
- *
- * \param[in]   check       check button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_keyset_enable_toggled(GtkWidget *check, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-
-    debug_gtk3("setting KeySetEnable to %s\n", state ? "ON" : "OFF");
-    resources_set_int("KeySetEnable", state);
-}
-
-
-/** \brief  Handler for the "toggled" event of the "Enable opposite" checkbox
- *
- * \param[in]   check       check button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_opposite_enable_toggled(GtkWidget *check, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-
-    debug_gtk3("setting JoyOpposite to %s\n", state ? "ON" : "OFF");
-    resources_set_int("JoyOpposite", state);
-}
-
-
 /** \brief  Handler for the "toggled" event of the "Userport adapter" checkbox
  *
  * \param[in]   check       check button
@@ -179,10 +152,6 @@ static void on_opposite_enable_toggled(GtkWidget *check, gpointer user_data)
 static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-
-    debug_gtk3("setting UserportJoy to %s\n", state ? "ON" : "OFF");
-    resources_set_int("UserportJoy", state);
-
     gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
 }
 
@@ -234,18 +203,8 @@ static GtkWidget *create_swap_userport_joysticks_button(void)
  */
 static GtkWidget *create_keyset_enable_checkbox(void)
 {
-    GtkWidget *check;
-    int current;
-
-    resources_get_int("KeySetEnable", &current);
-
-    check = gtk_check_button_new_with_label("Enable user-defined keysets");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), current);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_keyset_enable_toggled),
-            NULL);
-
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("KeySetEnable",
+            "Enable user-defined keysets");
 }
 
 
@@ -255,18 +214,8 @@ static GtkWidget *create_keyset_enable_checkbox(void)
  */
 static GtkWidget *create_opposite_enable_checkbox(void)
 {
-    GtkWidget *check;
-    int current;
-
-    resources_get_int("JoyOpposite", &current);
-
-    check = gtk_check_button_new_with_label("Allow opposite directions");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), current);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_opposite_enable_toggled),
-            NULL);
-
-    gtk_widget_show(check);
-    return check;
+    return resource_check_button_create("JoyOpposite",
+            "Allow opposite directions");
 }
 
 
@@ -277,16 +226,12 @@ static GtkWidget *create_opposite_enable_checkbox(void)
 static GtkWidget *create_userportjoy_enable_checkbox(void)
 {
     GtkWidget *check;
-    int current;
 
-    resources_get_int("UserportJoy", &current);
-
-    check = gtk_check_button_new_with_label("Enable Userport joysticks");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), current);
+    check = resource_check_button_create("UserportJoy",
+            "Enable userport joysticks");
+    /* extra handler to enable/disable the userport adapter widget */
     g_signal_connect(check, "toggled",
             G_CALLBACK(on_userportjoy_enable_toggled), NULL);
-
-    gtk_widget_show(check);
     return check;
 }
 
@@ -478,11 +423,11 @@ static int create_cbm6x0_layout(GtkGrid *grid)
     gtk_grid_attach(grid, device_widgets[JOYPORT_3], 0, 0, 1, 1);
     gtk_grid_attach(grid, device_widgets[JOYPORT_4], 1, 0, 1, 1);
 
-    swap_button2 = create_swap_joysticks_button();
+    swap_button2 = create_swap_userport_joysticks_button();
     g_object_set(swap_button2, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 1, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 1, 1, 1);
 
     return 2;
 }

@@ -57,6 +57,7 @@
 #include "vsync.h"
 
 #include "debug_gtk3.h"
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
@@ -175,9 +176,8 @@ static void on_tree_selection_changed(
  */
 static GtkWidget *create_save_on_exit_checkbox(void)
 {
-    return uihelpers_create_resource_checkbox(
-            "Save settings on exit",
-            "SaveResourcesOnExit");
+    return resource_check_button_create("SaveResourcesOnExit",
+            "Save settings on exit");
 }
 
 
@@ -189,11 +189,8 @@ static GtkWidget *create_save_on_exit_checkbox(void)
  */
 static GtkWidget *create_confirm_on_exit_checkbox(void)
 {
-    return uihelpers_create_resource_checkbox(
-            "Confirm on exit",
-            "ConfirmOnExit");
+    return resource_check_button_create("ConfirmOnExit", "Confirm on exit");
 }
-
 
 
 /** \brief  Create treeview for settings side-menu

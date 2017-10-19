@@ -50,6 +50,8 @@
 #include "videopalettewidget.h"
 
 
+/** \brief  video chip prefix, used to construct proper resource names
+ */
 static const char *chip_prefix = NULL;
 
 
@@ -59,6 +61,11 @@ static GtkWidget *combo_external = NULL;
 static GtkWidget *button_custom = NULL;
 
 
+/** \brief  Handler for the "changed" event of the palettes combo box
+ *
+ * \param[in]   combo       combo box
+ * \param[in]   user_data   extra event data (unused)
+ */
 static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 {
     int index = gtk_combo_box_get_active(combo);
@@ -70,6 +77,13 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "clicked" event of the "browse ..." button
+ *
+ * Opens a custom palette file and adds the file name to the combo box.
+ *
+ * \param[in]   button      browse button (unused)
+ * \param[in]   user_data   extra event data (unused)
+ */
 static void on_browse_clicked(GtkButton *button, gpointer user_data)
 {
     gchar *filename;
@@ -91,6 +105,10 @@ static void on_browse_clicked(GtkButton *button, gpointer user_data)
 }
 
 
+/** \brief  Create combo box with available palettes for the current chip
+ *
+ * \return  GtkComboBoxText
+ */
 static GtkWidget *create_combo_box(void)
 {
     GtkWidget *combo;
@@ -120,7 +138,10 @@ static GtkWidget *create_combo_box(void)
 }
 
 
-
+/** \brief  Create "browse ..." button to select a palette file
+ *
+ * \return  GtkButton
+ */
 static GtkWidget *create_browse_button(void)
 {
     GtkWidget *button;
@@ -131,6 +152,12 @@ static GtkWidget *create_browse_button(void)
 }
 
 
+/** \brief  Create video palette widget
+ *
+ * \param[in]   chip    chip name (used as prefix for resources)
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *video_palette_widget_create(const char *chip)
 {
     GtkWidget *grid;
@@ -169,10 +196,3 @@ GtkWidget *video_palette_widget_create(const char *chip)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
-
-
-
-
-

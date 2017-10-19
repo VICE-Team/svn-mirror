@@ -32,6 +32,7 @@
 #include "ui.h"
 #include "resources.h"
 #include "vsync.h"
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 
@@ -45,22 +46,6 @@
 
 #include "uisound.h"
 
-
-/** \brief  Handler for the "toggled" event of the 'sound enabled checkbox
- *
- * Sets the "Sound" resource and toggles the 'sensitive' state of the the inner
- * grid containing widgets
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   reference to the inner grid
- */
-static void on_sound_enabled_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    resources_set_int("Sound", state);
-    gtk_widget_set_sensitive(GTK_WIDGET(user_data), state);
-}
 
 
 /** \brief  Create the 'inner' grid, the one containing all the widgets
@@ -104,22 +89,19 @@ static GtkWidget *create_inner_grid(void)
  */
 GtkWidget *uisound_create_central_widget(GtkWidget *widget)
 {
-    GtkWidget *outer;
-    GtkWidget *inner;
-    GtkWidget *enabled_check;
-    int enabled_state;
+    GtkWidget * outer;
+    GtkWidget * inner;
+    GtkWidget * enabled_check;
+    int         enabled_state;
 
-    debug_gtk3("called\n");
-
-    resources_get_int("Sound", &enabled_state);
 
     /* outer grid: contains the checkbox and an 'inner' grid for the widgets */
     outer = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(outer), 8);
 
     /* add checkbox for 'sound enabled' */
-    enabled_check = gtk_check_button_new_with_label("Enable sound playback");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(enabled_check), enabled_state);
+    enabled_check = resource_check_button_create("Sound",
+            "Enable sound playback");
     gtk_grid_attach(GTK_GRID(outer), enabled_check, 0, 0, 1, 1);
 
     /* inner grid: contains widgets and can be enabled/disabled depending on
@@ -127,11 +109,10 @@ GtkWidget *uisound_create_central_widget(GtkWidget *widget)
     inner = create_inner_grid();
     gtk_grid_set_column_spacing(GTK_GRID(inner), 8);
     g_object_set(inner, "margin", 8, NULL);
+
+    resources_get_int("Sound", &enabled_state);
     gtk_widget_set_sensitive(inner, enabled_state); /* set enabled state */
 
-    /* connect signal handler for the 'sound enabled' checkbox */
-    g_signal_connect(enabled_check, "toggled",
-            G_CALLBACK(on_sound_enabled_toggled), (gpointer)(inner));
     gtk_grid_attach(GTK_GRID(outer), inner, 0, 1, 1, 1);
 
     gtk_widget_show_all(outer);

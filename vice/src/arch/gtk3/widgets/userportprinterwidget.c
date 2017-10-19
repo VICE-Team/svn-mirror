@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -50,22 +51,6 @@ static ui_radiogroup_entry_t text_devices[] = {
     { "#3 (exec)", 2 },
     { NULL, -1 }
 };
-
-
-/** \brief  Handler for the "toggled" event of the PrinterUserport resource
- *
- * \param[in]   check       check button
- * \param[in]   user_data   data for the event (unused)
- */
-static void on_userport_emulation_toggled(GtkCheckButton *check,
-                                          gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-
-    debug_gtk3("setting PrinterUserport to %s\n", state ? "ON" : "OFF");
-    resources_set_int("PrinterUserport", state);
-}
-
 
 
 /** \brief  Handler for the "toggled" event of the driver radio buttons
@@ -126,16 +111,10 @@ static void on_text_device_toggled(GtkWidget *radio, gpointer user_data)
 static GtkWidget *create_userport_emulation_widget(void)
 {
     GtkWidget *check;
-    int state;
 
-    resources_get_int("PrinterUserPort", &state);
-
-    check = gtk_check_button_new_with_label("Enable userport printer emulation");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), state);
+    check = resource_check_button_create("PrinterUserPort",
+            "Enable userport printer emulation");
     g_object_set(check, "margin-left", 16, NULL);
-    g_signal_connect(check, "toggled",
-            G_CALLBACK(on_userport_emulation_toggled), NULL);
-    gtk_widget_show(check);
     return check;
 }
 

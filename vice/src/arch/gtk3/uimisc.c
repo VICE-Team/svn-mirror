@@ -1,11 +1,12 @@
-/** \file   src/arch/gtk3/ui_misc.c
+/** \file   src/arch/gtk3/uimisc.c
  * \brief   Widget to control resources that are hard to place properly
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  VirtualDevices  - enable virtual devices/device traps
+ *  VirtualDevices
+ *  HTMLBrowserCommand
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,6 +32,7 @@
 
 #include <gtk/gtk.h>
 
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -41,14 +43,22 @@
 #include "uimisc.h"
 
 
-
+/** \brief  Create miscellaneous settings widget
+ *
+ * Basically a widget to contain (hopefully temporarily) widgets controlling
+ * resources that can't (yet) be placed in a more logical location
+ *
+ * \param[in]   widget  parent widget (used for dialogs)
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *uimisc_create_central_widget(GtkWidget *widget)
 {
     GtkWidget *grid;
     GtkWidget *browser = html_browser_widget_create();
     GtkWidget *cwd_widget = cwd_widget_create();
-    GtkWidget *vdev_widget = uihelpers_create_resource_checkbox(
-            "Enable virtual devices", "VirtualDevices");
+    GtkWidget *vdev_widget = resource_check_button_create("VirtualDevices",
+            "Enable virtual devices");
 
     grid = gtk_grid_new();
     gtk_grid_attach(GTK_GRID(grid), browser, 0, 0, 1, 1);
@@ -59,6 +69,3 @@ GtkWidget *uimisc_create_central_widget(GtkWidget *widget)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
-

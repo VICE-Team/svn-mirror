@@ -30,6 +30,7 @@
 
 #include <gtk/gtk.h>
 
+#include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -37,7 +38,8 @@
 
 #include "vdcmodelwidget.h"
 
-
+/** \brief  List of VDC revisions
+ */
 static ui_radiogroup_entry_t vdc_revs[] = {
     { "Revision 0", 0 },
     { "Revision 1", 1 },
@@ -46,21 +48,26 @@ static ui_radiogroup_entry_t vdc_revs[] = {
 };
 
 
+/** \brief  Get index in revisions table of \a revision
+ *
+ * \param[in]   revision    revision number
+ *
+ * \return  index in revisions table or -1 on error
+ *
+ * \note    Looks a bit over-the-top for a simple sequence, but should revision
+ *          numbers change somehow, this code will still work.
+ */
 static int get_revision_index(int revision)
 {
     return uihelpers_radiogroup_get_index(vdc_revs, revision);
 }
 
 
-static void on_64kb_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    debug_gtk3("setting VDC64KB to %s\n", active ? "ON" : "OFF");
-    resources_set_int("VDC64KB", active);
-}
-
-
+/** \brief  Handler for the "toggled" event of the revision radio buttons
+ *
+ * \param[in]   widget      radio button
+ * \param[in]   user_data   revision (`int`)
+ */
 static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
 {
     int rev = GPOINTER_TO_INT(user_data);
@@ -72,20 +79,24 @@ static void on_revision_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Create check button to toggle 64KB video ram
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_64kb_widget(void)
 {
     GtkWidget *check;
-    int value;
 
-    check = gtk_check_button_new_with_label("Enable 64KB video ram");
-    resources_get_int("VDC64KB", &value);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
+    check = resource_check_button_create("VDC64KB", "Enable 64KB video ram");
     g_object_set(check, "margin-left", 16, NULL);
-
     return check;
 }
 
 
+/** \brief  Create widget to manipulate VDC settings
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *vdc_model_widget_create(void)
 {
     GtkWidget *grid;
@@ -115,6 +126,10 @@ GtkWidget *vdc_model_widget_create(void)
 }
 
 
+/** \brief  Update the VDC model widget
+ *
+ * \param[in,out]   widget  VDC model widget
+ */
 void vdc_model_widget_update(GtkWidget *widget)
 {
     int rev;
@@ -142,15 +157,14 @@ void vdc_model_widget_update(GtkWidget *widget)
 }
 
 
-
+/** \brief  Connect signal handlers of the VDC widget
+ *
+ * \param[in,out]   widget  VDC model widget
+ */
 void vdc_model_widget_connect_signals(GtkWidget *widget)
 {
-    GtkWidget *check;
     GtkWidget *radio;
     int i = 0;
-
-    check = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
-    g_signal_connect(check, "toggled", G_CALLBACK(on_64kb_toggled), NULL);
 
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 2)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
