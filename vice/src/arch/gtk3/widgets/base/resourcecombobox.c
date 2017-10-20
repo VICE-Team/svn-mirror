@@ -124,6 +124,40 @@ GtkWidget *resource_combo_box_int_create(const char *resource,
 }
 
 
+/** \brief  Create combo box for integer \a resource with a \a label
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   entries     list of entries for the combo box
+ * \param[in]   label       text for the label
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *resource_combo_box_int_create_with_label(
+        const char *resource,
+        const ui_combo_entry_int_t *entries,
+        const char *label)
+{
+    GtkWidget *grid;
+    GtkWidget *lbl;
+    GtkWidget *combo;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+
+    lbl = gtk_label_new(label);
+    gtk_widget_set_halign(lbl, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), lbl, 0, 0, 1, 1);
+
+    combo = resource_combo_box_int_create(resource, entries);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
+
+
 /** \brief  Update integer combo box by ID
  *
  * Set new ID of the combo box
@@ -131,11 +165,19 @@ GtkWidget *resource_combo_box_int_create(const char *resource,
  * \param[in,out]   combo   combo box
  * \param[in]       id      new ID of the combo box
  */
-void resource_combo_box_int_update(GtkWidget *combo, int id)
+void resource_combo_box_int_update(GtkWidget *widget, int id)
 {
+    GtkWidget *combo;
     char id_str[80];
 
     g_snprintf(id_str, 80, "%d", id);
+
+    if (GTK_IS_GRID(widget)) {
+        /* widget is a grid with label & combo */
+        combo = gtk_grid_get_child_at(GTK_GRID(widget), 1, 0);
+    } else {
+        combo = widget;
+    }
     gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), id_str);
 }
 
@@ -227,6 +269,38 @@ GtkWidget *resource_combo_box_str_create(const char *resource,
 }
 
 
+/** \brief  Create combo box for string \a resource with a \a label
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   entries     list of entries for the combo box
+ * \param[in]   label       text for the label
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *resource_combo_box_str_create_with_label(
+        const char *resource,
+        const ui_combo_entry_str_t *entries,
+        const char *label)
+{
+    GtkWidget *grid;
+    GtkWidget *lbl;
+    GtkWidget *combo;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+
+    lbl = gtk_label_new(label);
+    gtk_widget_set_halign(lbl, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), lbl, 0, 0, 1, 1);
+
+    combo = resource_combo_box_str_create(resource, entries);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
 /** \brief  Update string combo box by ID
  *
  * Set new ID of the combo box
@@ -234,7 +308,14 @@ GtkWidget *resource_combo_box_str_create(const char *resource,
  * \param[in,out]   combo   combo box
  * \param[in]       id      new ID of the combo box
  */
-void resource_combo_box_str_update(GtkWidget *combo, const char *id)
+void resource_combo_box_str_update(GtkWidget *widget, const char *id)
 {
+    GtkWidget *combo;
+
+    if (GTK_IS_GRID(widget)) {
+        combo = gtk_grid_get_child_at(GTK_GRID(widget), 1, 0);
+    } else {
+        combo = widget;
+    }
     gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), id);
 }
