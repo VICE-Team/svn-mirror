@@ -30,6 +30,8 @@
 
 #include "vice.h"
 
+#ifndef HAVE_USLEEP
+
 #if defined(HAVE_UNISTD_H) && !defined(AMIGA_MORPHOS)
 #include <unistd.h>
 #endif
@@ -86,3 +88,4 @@ int usleep(unsigned long int microSeconds)
 
     return 0;
 }
+#endif
