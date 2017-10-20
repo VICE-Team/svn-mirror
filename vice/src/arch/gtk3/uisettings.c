@@ -95,6 +95,14 @@ enum {
 };
 
 
+static ui_settings_tree_node_t subnodes[] = {
+    { "Compyx", NULL, NULL },
+    { "Fucking", NULL, NULL },
+    { "Rules!!", NULL, NULL },
+    { NULL, NULL, NULL }
+};
+
+
 /** \brief  Main tree nodes
  *
  *
@@ -120,8 +128,11 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },
     { "Miscellaneous", uimisc_create_central_widget, NULL },
     { "Video settings", uivideosettings_widget_create, NULL },
+    { "Subitem test", NULL, subnodes },
     { NULL, NULL, NULL }
 };
+
+
 
 
 /** \brief  Reference to the current 'central' widget in the settings dialog
@@ -195,6 +206,44 @@ static GtkWidget *create_confirm_on_exit_checkbox(void)
 }
 
 
+/** \brief  Create tree store containing settings items and children
+ *
+ * \return  GtkTreeStore
+ */
+static GtkTreeStore *create_tree_store(void)
+{
+    GtkTreeStore *store;
+    GtkTreeIter iter;
+    GtkTreeIter child;
+    int i;
+
+    store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
+
+    for (i = 0; main_nodes[i].name != NULL; i++) {
+        gtk_tree_store_append(store, &iter, NULL);
+        gtk_tree_store_set(store, &iter,
+                0, main_nodes[i].name,
+                1, main_nodes[i].callback,
+                -1);
+        /* this bit will need proper recursion if we need more than two
+         * levels of subitems */
+        if (main_nodes[i].children != NULL) {
+            int c;
+            ui_settings_tree_node_t *list = main_nodes[i].children;
+
+            for (c = 0; list[c].name != NULL; c++) {
+                gtk_tree_store_append(store, &child, &iter);
+                gtk_tree_store_set(store, &child,
+                        0, list[c].name,
+                        1, list[c].callback,
+                        -1);
+            }
+        }
+    }
+    return store;
+}
+
+
 /** \brief  Create treeview for settings side-menu
  *
  * Reads items from `main_nodes` and adds them to the tree view.
@@ -211,29 +260,8 @@ static GtkWidget *create_treeview(void)
     GtkCellRenderer *text_renderer;
     GtkTreeViewColumn *text_column;
 
-    GtkTreeIter iter;   /* parent iter */
-    size_t i;
-#if 0
-    GtkTreeIter child;  /* child iter */
-#endif
-
-    /* create the model */
-    store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
-
-    /* add root node */
-    /*    gtk_tree_store_append(store, &iter, NULL); */
-
-    for (i = 0; main_nodes[i].name != NULL; i++) {
-        gtk_tree_store_append(store, &iter, NULL);
-        gtk_tree_store_set(
-                store, &iter,
-                0, main_nodes[i].name,
-                1, main_nodes[i].callback,
-                -1);
-    }
-
+    store = create_tree_store();
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-
 
     text_renderer = gtk_cell_renderer_text_new();
     text_column = gtk_tree_view_column_new_with_attributes(
@@ -241,12 +269,6 @@ static GtkWidget *create_treeview(void)
             text_renderer,
             "text", 0,
             NULL);
-/*    obj_column = gtk_tree_view_column_new_with_attributes(
-            NULL,
-            NULL,
-            "text", 0,
-            NULL);
-*/
     /*    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), obj_column); */
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree), text_column);
     return tree;
@@ -315,8 +337,8 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(tree);
 
-    gtk_widget_set_size_request(tree, 150, 630);
-    gtk_widget_set_size_request(settings_grid, 800, 680);
+    gtk_widget_set_size_request(tree, 180, 630);
+    gtk_widget_set_size_request(settings_grid, 800, 720);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
