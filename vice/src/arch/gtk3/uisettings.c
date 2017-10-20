@@ -109,7 +109,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Speed settings", uispeed_create_central_widget, NULL },
     { "Keyboard settings", uikeyboard_create_central_widget, NULL },
     { "Sound settings", uisound_create_central_widget, NULL },
-    { "Samper settings", uisamplersettings_widget_create, NULL },
+    { "Sampler settings", uisamplersettings_widget_create, NULL },
     { "Autostart settings", uiautostart_create_central_widget, NULL },
     { "Drive settings", uidrivesettings_create_central_widget, NULL },
     { "Printer settings", uiprintersettings_widget_create, NULL },
