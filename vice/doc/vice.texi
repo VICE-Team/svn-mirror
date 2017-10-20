@@ -834,7 +834,7 @@ at a time out of 64k into the @code{$9***} area.  Also it has an ACIA
 SuperPET is now emulated, since release 2.4, including the 6702 dongle
 chip.
 
-The Super-OS/9 MMU expansion, developed by TPUG (Toronto PET Users
+The Super-OS-9 MMU expansion, developed by TPUG (Toronto PET Users
 Group) is also emulated.
 
 The PET computers came with three major ROM revisions, so-called BASIC
@@ -10400,8 +10400,8 @@ thus are not present in the other emulators.
 * PET settings::
 * Colour PET::
 * PET colors::
-* PET DWW high resolution grapics::
-* PET HRE (HiRes Emulator) high resolution grapics::
+* PET DWW high resolution graphics::
+* PET HRE (HiRes Emulator) high resolution graphics::
 @end menu
 
 @node PET model
@@ -11147,9 +11147,9 @@ feeling;
 @code{white.vpl} (``white''), simple white-on-black palette.
 @end itemize
 
-@node PET DWW high resolution grapics
+@node PET DWW high resolution graphics
 
-@subsection DWW high resolution grapics
+@subsection DWW high resolution graphics
 @cindex DWW
 The DWW, or Double-W
 @footnote{Dubbel-W bord, designed by Ben de Winter and Pieter
@@ -11227,9 +11227,9 @@ when memory mapped to $EC00:
 Unfortunately there is no logical means of expanding the memory
 to 16 K, so even in an 80 columns PET the resolution will be the same.
 
-@node PET HRE (HiRes Emulator) high resolution grapics
+@node PET HRE (HiRes Emulator) high resolution graphics
 
-@subsection HRE high resolution grapics
+@subsection HRE high resolution graphics
 
 This information comes from @email{kontakt@@michau.name, Michal Pleban},
 @uref{http://www.cbm-ii.com}.
@@ -16034,8 +16034,8 @@ Version numbers: Major 1, Minor 3
 @tab SHIFT
 @item BYTE
 @tab SuperPET config 2
-@tab Extra bits due to the Super-OS/9 MMU. Bit 5: FIRQ disabled. Bit 6:
-expansion memory in OS/9 flat mode.
+@tab Extra bits due to the Super-OS-9 MMU. Bit 5: FIRQ disabled. Bit 6:
+expansion memory in OS-9 flat mode.
 
 @end multitable
 
