@@ -675,6 +675,7 @@ static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value)
                     iecbus_device_write(devnr, (uint8_t)(IECBUS_DEVICE_WRITE_CLK
                                                       | IECBUS_DEVICE_WRITE_DATA));
                     iec->state = P_READY;
+                    /* FIXME: is this the correct place for the break? */
                     break;
                 }
             case P_READY:
