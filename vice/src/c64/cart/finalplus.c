@@ -107,7 +107,7 @@ static const export_resource_t export_res_plus = {
 uint8_t final_plus_io2_read(uint16_t addr)
 {
     DBG(("io2 r %04x\n", addr));
-    return ((fcplus_bit << 7) || (fcplus_roml << 6) || (fcplus_romh << 5) || (fcplus_enabled << 4));
+    return ((fcplus_bit << 7) | (fcplus_roml << 6) | (fcplus_romh << 5) | (fcplus_enabled << 4));
 }
 
 void final_plus_io2_store(uint16_t addr, uint8_t value)
