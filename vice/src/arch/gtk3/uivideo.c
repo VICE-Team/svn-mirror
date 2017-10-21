@@ -175,7 +175,7 @@ bool uivideo_chip_has_vsp_bug(const char *chip)
     switch (machine_class) {
         case VICE_MACHINE_C64SC:      /* fall through */
         case VICE_MACHINE_SCPU64:
-            return false;
+            return true;
         /* VDC */
         case VICE_MACHINE_C128:
             /* not right now, unless VICII emulation in x128 gets it later */
