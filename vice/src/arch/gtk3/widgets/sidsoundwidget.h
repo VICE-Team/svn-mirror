@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/base/basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   src/arch/gtk3/widgets/sidsoundwidget.h
+ * \brief   Settings for SID emulation - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -21,19 +21,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_SIDSOUNDWIDGET_H
+#define VICE_SIDSOUNDWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basewidget_types.h"
-
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceradiogroup.h"
+GtkWidget *sid_sound_widget_create(GtkWidget *parent);
 
 #endif

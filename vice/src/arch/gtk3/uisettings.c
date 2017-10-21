@@ -76,6 +76,7 @@
 #include "uicontrolport.h"
 #include "uijoystick.h"
 #include "uimousesettings.h"
+#include "uisoundchipsettings.h"
 
 #include "uisettings.h"
 
@@ -128,6 +129,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },
     { "Miscellaneous", uimisc_create_central_widget, NULL },
     { "Video settings", uivideosettings_widget_create, NULL },
+    { "Soundchip settings", uisoundchipsettings_widget_create, NULL },
     { "Subitem test", NULL, subnodes },
     { NULL, NULL, NULL }
 };

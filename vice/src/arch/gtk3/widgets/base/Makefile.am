@@ -26,10 +26,12 @@ noinst_LIBRARIES = libbasewidgets.a
 
 libbasewidgets_a_SOURCES = \
 	resourcecheckbutton.c \
-	resourcecombobox.c
+	resourcecombobox.c \
+	resourceradiogroup.c
 
 EXTRA_DIST = \
 	basewidgets.h \
 	basewidget_types.h \
 	resourcecheckbutton.h \
-	resourcecombobox.h
+	resourcecombobox.h \
+	resourceradiogroup.h

@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/base/basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   src/arch/gtk3/uisoundchipsettings.c
+ * \brief   Sound chip settings main widget for the settings UI
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -21,19 +21,39 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
 
 #include "vice.h"
+
 #include <gtk/gtk.h>
 
-#include "basewidget_types.h"
+#include "lib.h"
+#include "resources.h"
+#include "debug_gtk3.h"
 
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceradiogroup.h"
+#include "sidsoundwidget.h"
 
-#endif
+
+#include "uisoundchipsettings.h"
+
+
+GtkWidget *uisoundchipsettings_widget_create(GtkWidget *parent)
+{
+    GtkWidget *layout;
+    GtkWidget *sid_widget = NULL;
+
+    layout = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
+    g_object_set(layout, "margin", 16, NULL);
+
+    sid_widget = sid_sound_widget_create(layout);
+
+    gtk_grid_attach(GTK_GRID(layout), sid_widget, 0, 0, 1, 1);
+
+    gtk_widget_show_all(layout);
+    return layout;
+}
+
+

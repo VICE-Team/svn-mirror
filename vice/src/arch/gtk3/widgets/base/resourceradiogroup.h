@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/base/basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   src/arch/gtk3/widgets/base/resourceradiogroup.h
+ * \brief   Group of radio buttons controlling a resource - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,16 +24,16 @@
  *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_RESOURCERADIOGROUP_H
+#define VICE_RESOURCERADIOGROUP_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
-
 #include "basewidget_types.h"
 
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceradiogroup.h"
+GtkWidget * resource_radiogroup_create(const char *resource,
+                                       const ui_radiogroup_entry_t *entries,
+                                       GtkOrientation orientation);
 
+void        resource_radiogroup_update(GtkWidget *widget, int id);
 #endif

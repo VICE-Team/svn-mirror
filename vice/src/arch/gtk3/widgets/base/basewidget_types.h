@@ -47,4 +47,12 @@ typedef struct ui_combo_entry_str_s {
 } ui_combo_entry_str_t;
 
 
+/** \brief  Entry for a radio button group using an integer as ID
+ */
+typedef struct ui_radiogroup_entry_s {
+    const char *name;   /**< label for the radio button */
+    int         id;     /**< ID for the radio button */
+} ui_radiogroup_entry_t;
+
+
 #endif

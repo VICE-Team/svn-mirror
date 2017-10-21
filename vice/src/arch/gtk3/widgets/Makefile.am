@@ -85,7 +85,8 @@ libwidgets_a_SOURCES = \
 	printeroutputwidget.c \
 	userportprinterwidget.c \
 	joystickdevicewidget.c \
-	joystickuserportadapterwidget.c
+	joystickuserportadapterwidget.c \
+	sidsoundwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -145,4 +146,5 @@ EXTRA_DIST = \
 	printeroutputwidget.h \
 	userportprinterwidget.h \
 	joystickdevicewidget.h \
-	joystickuserportadapterwidget.h
+	joystickuserportadapterwidget.h \
+	sidsoundwidget.h

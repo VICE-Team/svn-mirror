@@ -1,5 +1,5 @@
-/*
- * uisound.c - GTK3 sound settings central widget for the settings dialog
+/** \file   uisound.c
+ * \brief   Sound settings main widget for the settings dialog
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>

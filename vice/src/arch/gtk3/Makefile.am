@@ -91,7 +91,8 @@ libarch_a_SOURCES = \
 	uicontrolport.c \
 	uijoystick.c \
 	uicommands.c \
-	uimousesettings.c
+	uimousesettings.c \
+	uisoundchipsettings.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -146,4 +147,5 @@ EXTRA_DIST = \
 	uicontrolport.h \
 	uijoystick.h \
 	uicommands.h \
-	uimousesettings.h
+	uimousesettings.h \
+	uisoundchipsettings.h

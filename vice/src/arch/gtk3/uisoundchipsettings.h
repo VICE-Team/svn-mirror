@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/base/basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   src/arch/gtk3/uisoundchipsettings.h
+ * \brief   Sound chip settings main widget for the settings UI - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -21,19 +21,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_UISOUNDCHIPSETTINGS_H
+#define VICE_UISOUNDCHIPSETTINGS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basewidget_types.h"
-
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceradiogroup.h"
+GtkWidget *uisoundchipsettings_widget_create(GtkWidget *parent);
 
 #endif
