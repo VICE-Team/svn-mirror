@@ -152,10 +152,6 @@ char *archdep_default_save_resource_file_name(void)
  */
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-#ifdef MINIX_SUPPORT
-    static char *default_path_temp;
-#endif
-
     if (default_path == NULL) {
         const char *boot_path;
         const char *config_path;
@@ -166,30 +162,13 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         /* First search in the `LIBDIR' then the $HOME/.config/vice/ dir (config_path)
            and then in the `boot_path'.  */
 
-#ifdef MINIX_SUPPORT
-        default_path_temp = util_concat(
-                LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/", emu_id, NULL);
-
-        default_path = util_concat(
-                default_path_temp, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                LIBDIR, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/DRIVES", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                config_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                boot_path, "/PRINTER", NULL);
-        lib_free(default_path_temp);
-
-#else
-# if defined(MACOSX_BUNDLE)
+#if defined(MACOSX_BUNDLE)
         /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
-#  if defined(MACOSX_COCOA)
-#   define MACOSX_ROMDIR "/../Resources/ROM/"
-#  else
-#   define MACOSX_ROMDIR "/../ROM/"
-#  endif
+# if defined(MACOSX_COCOA)
+#  define MACOSX_ROMDIR "/../Resources/ROM/"
+# else
+#  define MACOSX_ROMDIR "/../ROM/"
+# endif
         default_path = util_concat(
                 boot_path, MACOSX_ROMDIR, emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
@@ -200,7 +179,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                 boot_path, MACOSX_ROMDIR, "PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 config_path, "/PRINTER", NULL);
-# else
+#else
         default_path = util_concat(
                 LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 config_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
@@ -211,9 +190,8 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                 LIBDIR, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 config_path, "/PRINTER", ARCHDEP_FINDPATH_SEPARATOR_STRING,
                 boot_path, "/PRINTER", NULL);
-# endif
-        lib_free(config_path);
 #endif
+        lib_free(config_path);
     }
 
     /* We allocate a fresh string here because sysfile.c, among other
@@ -298,7 +276,6 @@ void archdep_shutdown(void)
 int archdep_spawn(const char *name, char **argv,
                   char **pstdout_redir, const char *stderr_redir)
 {
-#if !defined(OPENSTEP_COMPILE) && !defined(NEXTSTEP_COMPILE)
     pid_t child_pid;
     int child_status;
     char *stdout_redir;
@@ -342,9 +319,6 @@ int archdep_spawn(const char *name, char **argv,
     } else {
         return -1;
     }
-#else
-    return -1;
-#endif
 }
 
 /* for when I figure this out: */
