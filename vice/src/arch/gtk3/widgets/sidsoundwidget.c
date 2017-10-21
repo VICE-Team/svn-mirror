@@ -133,6 +133,22 @@ static ui_combo_entry_int_t sid_address_c128[] = {
 };
 
 
+
+GtkWidget *resid_sampling;
+
+
+/** \brief  Extra callback register to the SidEngine radiogroup
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   engine  engine ID
+ */
+static void on_sid_engine_changed(GtkWidget *widget, int engine)
+{
+    debug_gtk3("SID engine changed to %d\n", engine);
+    gtk_widget_set_sensitive(resid_sampling, engine == 1);
+}
+
+
 /** \brief  Create widget to control the SID engine
  *
  * \return  GtkGrid
@@ -156,6 +172,8 @@ static GtkWidget *create_sid_engine_widget(void)
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+
+    resource_radiogroup_add_callback(radio_group, on_sid_engine_changed);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -259,9 +277,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     GtkWidget *layout;
     GtkWidget *label;
     GtkWidget *engine;
-    GtkWidget *resid_sampling;
     GtkWidget *num_sids;
     GtkWidget *filters;
+    int current_engine;
     int i;
 
     layout = gtk_grid_new();
@@ -278,6 +296,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
     resid_sampling = create_resid_sampling_widget();
     gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
+    resources_get_int("SidEngine", &current_engine);
+    gtk_widget_set_sensitive(resid_sampling, current_engine == 2);
+
 
     num_sids = create_num_sids_widget();
     gtk_grid_attach(GTK_GRID(layout), num_sids, 2, 1, 1, 1);

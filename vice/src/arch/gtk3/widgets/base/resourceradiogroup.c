@@ -63,6 +63,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
     int old_val;
     int new_val;
     char *resource;
+    void (*callback)(int);
 
     /* parent widget (grid) contains the "ResourceName" property */
     parent = gtk_widget_get_parent(radio);
@@ -75,6 +76,11 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
             && (old_val != new_val)) {
         debug_gtk3("setting %s to %d\n", resource, new_val);
         resources_set_int(resource, new_val);
+
+        callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
+        if (callback != NULL) {
+            callback(new_val);
+        }
     }
 }
 
@@ -175,4 +181,23 @@ void resource_radiogroup_update(GtkWidget *widget, int id)
             break;
         }
     }
+}
+
+
+/** \brief  Add an extra callback to \a widget
+ *
+ * This callback should allow widgets interacting with other widgets without
+ * usingany global references.
+ *
+ * The widget returned is the actual radio group GtkGrid, the integer value is
+ * the curent IID of the radiogroup's currently selected radio button.
+ *
+ * \param[in,out]   widget      radiogroup widget
+ * \param[in]       callback    function to call when the radiogroup selection
+ *                              changes
+ */
+void resource_radiogroup_add_callback(GtkWidget *widget,
+                                      void (*callback)(GtkWidget *, int))
+{
+    g_object_set_data(G_OBJECT(widget), "ExtraCallback", (gpointer)callback);
 }
