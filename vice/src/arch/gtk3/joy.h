@@ -1,5 +1,5 @@
-/*
- * joy.h - Joystick support wrapper for native GTK3 UI.
+/** \file   src/arch/gtk3/joy.h
+ * \brief   Joystick support wrapper for native GTK3 UI - header
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

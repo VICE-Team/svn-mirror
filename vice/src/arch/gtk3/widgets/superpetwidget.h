@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_SUPERPETWIDGET_H
-#define HAVE_SUPERPETWIDGET_H
+#ifndef VICE_SUPERPETWIDGET_H
+#define VICE_SUPERPETWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

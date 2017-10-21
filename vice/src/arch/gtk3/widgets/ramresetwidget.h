@@ -24,14 +24,13 @@
  *
  */
 
-#ifndef HAVE_RAMRESETWIDGET_H
-#define HAVE_RAMRESETWIDGET_H
+#ifndef VICE_RAMRESETWIDGET_H
+#define VICE_RAMRESETWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
 GtkWidget *ram_reset_widget_create(void);
-
 GtkWidget *create_ram_reset_central_widget(GtkWidget *parent);
 
 #endif

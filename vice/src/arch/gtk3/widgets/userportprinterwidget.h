@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_USERPORTPRINTERWIDGET_H
-#define HAVE_USERPORTPRINTERWIDGET_H
+#ifndef VICE_USERPORTPRINTERWIDGET_H
+#define VICE_USERPORTPRINTERWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

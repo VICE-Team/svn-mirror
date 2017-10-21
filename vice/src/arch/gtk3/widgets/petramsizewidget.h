@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_PETRAMSIZEWIDGET_H
-#define HAVE_PETRAMSIZEWIDGET_H
+#ifndef VICE_PETRAMSIZEWIDGET_H
+#define VICE_PETRAMSIZEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

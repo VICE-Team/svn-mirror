@@ -3,9 +3,6 @@
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
- *   MachineType
- *
- * Controls the following resource(s):
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_PETKEYBOARDTYPEWIDGET_H
-#define HAVE_PETKEYBOARDTYPEWIDGET_H
+#ifndef VICE_PETKEYBOARDTYPEWIDGET_H
+#define VICE_PETKEYBOARDTYPEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

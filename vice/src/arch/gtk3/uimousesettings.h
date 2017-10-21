@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_UIMOUSESETTINGS_H
-#define HAVE_UIMOUSESETTINGS_H
+#ifndef VICE_UIMOUSESETTINGS_H
+#define VICE_UIMOUSESETTINGS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

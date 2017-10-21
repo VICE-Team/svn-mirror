@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_ACIAWIDGET_H
-#define HAVE_ACIAWIDGET_H
+#ifndef VICE_ACIAWIDGET_H
+#define VICE_ACIAWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

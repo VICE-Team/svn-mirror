@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_VIDEOPALETTEWIDGET_H
-#define HAVE_VIDEOPALETTEWIDGET_H
+#ifndef VICE_VIDEOPALETTEWIDGET_H
+#define VICE_VIDEOPALETTEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
@@ -33,4 +33,3 @@
 GtkWidget *video_palette_widget_create(const char *chip);
 
 #endif
-

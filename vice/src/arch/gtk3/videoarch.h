@@ -1,5 +1,5 @@
-/*
- * videoarch.h - Native GTK3 graphics routines.
+/** \file   src/arch/gtk3/videoarch.h
+ * \broef   Native GTK3 graphics routines.
  *
  * based on the X11 version written by
  *  Ettore Perazzoli
@@ -43,7 +43,7 @@ struct video_canvas_s {
     unsigned char *backbuffer;
     cairo_surface_t *backing_surface;
     cairo_matrix_t transform;
-    
+
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;

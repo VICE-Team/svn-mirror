@@ -1,5 +1,5 @@
-/*
- * uisound.h - GTK3 sound settings central widget for the settings dialog - header
+/** \file   src/arch/gtk3/uisound.h
+ * \brief   Sound settings main widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,14 +23,12 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_UISOUND_H
-#define HAVE_UISOUND_H
+#ifndef VICE_UISOUND_H
+#define VICE_UISOUND_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 GtkWidget *uisound_create_central_widget(GtkWidget *widget);
-
 
 #endif

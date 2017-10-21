@@ -1,5 +1,5 @@
-/*
- * uiedit.h
+/** \file   src/arch/gtk3/uiedit.h
+ * \brief   Edit menu handlers - header
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -23,16 +23,13 @@
  *  02111-1307  USA.
  */
 
-
 #ifndef VICE_UIEDIT_H
 #define VICE_UIEDIT_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 void ui_copy_callback(GtkWidget *widget, gpointer user_data);
 void ui_paste_callback(GtkWidget *widget, gpointer user_data);
 
 #endif
-

@@ -1,5 +1,5 @@
-/*
- * driveunitwidget.h - GTK3 drive unit selection widget - header
+/** \file   src/arch/gtk3/widgets/driveunitwidget.h
+ * \brief   Drive unit selection widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,11 +23,10 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_DRIVEUNITWIDGET_H
-#define HAVE_DRIVEUNITWIDGET_H
+#ifndef VICE_DRIVEUNITWIDGET_H
+#define VICE_DRIVEUNITWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 GtkWidget * drive_unit_widget_create(int unit, int *target, void (*callback)(int));

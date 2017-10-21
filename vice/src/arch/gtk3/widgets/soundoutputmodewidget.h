@@ -1,5 +1,5 @@
-/*
- * soundoutputmodewidget.h - GTK3 sound output mode widget - header
+/** \file   src/arch/gtk3/widgets/oundoutputmodewidget.h
+ * \brief   Sound output mode widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SOUNDOUTPUTMODEWIDGET_H
-#define HAVE_SOUNDOUTPUTMODEWIDGET_H
+#ifndef VICE_SOUNDOUTPUTMODEWIDGET_H
+#define VICE_SOUNDOUTPUTMODEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

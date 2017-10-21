@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_SIDMODELWIDGET_H
-#define HAVE_SIDMODELWIDGET_H
+#ifndef VICE_SIDMODELWIDGET_H
+#define VICE_SIDMODELWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

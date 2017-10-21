@@ -1,5 +1,5 @@
-/*
- * uitapeattach.h - GTK3 disk image attach dialog - header
+/** \file   src/arch/gtk3/uitapeattach.h
+ * \brief   Tape image attach dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,13 +24,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_UITAPEATTACH_H
-#define HAVE_UITAPEATTACH_H
+#ifndef VICE_UITAPEATTACH_H
+#define VICE_UITAPEATTACH_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 void ui_tape_attach_callback(GtkWidget *widget, gpointer user_data);
 void ui_tape_detach_callback(GtkWidget *widget, gpointer user_data);

@@ -27,16 +27,13 @@
  *
  */
 
-#ifndef HAVE_DRIVEEXTENDPOLICYWIDGET_H
-#define HAVE_DRIVEEXTENDPOLICYWIDGET_H
+#ifndef VICE_DRIVEEXTENDPOLICYWIDGET_H
+#define VICE_DRIVEEXTENDPOLICYWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 GtkWidget * drive_extend_policy_widget_create(int unit);
 void        drive_extend_policy_widget_update(GtkWidget *widget, int unit);
 
-
 #endif
-

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_PRINTERDRIVERWIDGET_H
-#define HAVE_PRINTERDRIVERWIDGET_H
+#ifndef VICE_PRINTERDRIVERWIDGET_H
+#define VICE_PRINTERDRIVERWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

@@ -1,5 +1,5 @@
-/*
- * soundsampleratewidget.h - GTK3 sound sample rate widget - header
+/** \file   src/arch/gtk3/widgets/soundsampleratewidget.h
+ * \brief   Sund sample rate widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SOUNDSAMPLERATEWIDGET_H
-#define HAVE_SOUNDSAMPLERATEWIDGET_H
+#ifndef VICE_SOUNDSAMPLERATEWIDGET_H
+#define VICE_SOUNDSAMPLERATEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

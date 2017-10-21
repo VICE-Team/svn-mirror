@@ -1,5 +1,5 @@
-/*
- * uimonarch.h - GTK3 Monitor - header
+/** \file   src/arch/gt3k/uimonarch.h
+ * \brief   GTK3 Monitor - header
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -23,7 +23,6 @@
  *  02111-1307  USA.
  */
 
-
 #ifndef VICE_UIMONARCH_H
 #define VICE_UIMONARCH_H
 
@@ -34,4 +33,3 @@
 void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data);
 
 #endif
-

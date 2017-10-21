@@ -1,5 +1,5 @@
-/*
- * kbd.h - Native GTK3 specfic keyboard driver.
+/** \file   src/arch/gtk3/kbd.h
+ * \brief   Native GTK3 specfic keyboard driver - header
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

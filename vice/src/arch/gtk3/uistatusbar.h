@@ -1,5 +1,5 @@
-/*
- * uistatusbar.h
+/** \file   src/arch/gtk3/uistatusbar.h
+ * \brief   Gtk3 status bar - header
  *
  * Written by
  *  Michael C. Martin <mcmartin@gmail.com>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_UISTATUSBAR_H_
-#define VICE_UISTATUSBAR_H_
+#ifndef VICE_UISTATUSBAR_H
+#define VICE_UISTATUSBAR_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

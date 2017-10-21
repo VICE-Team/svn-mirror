@@ -1,5 +1,5 @@
 /** \file   src/arch/gtk3/uicontrolport.h
- * \brief   Wigdte to control settings for control ports - header
+ * \brief   Wigdet to control settings for control ports - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UICONTROLPORT_H
-#define HAVE_UICONTROLPORT_H
+#ifndef VICE_UICONTROLPORT_H
+#define VICE_UICONTROLPORT_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

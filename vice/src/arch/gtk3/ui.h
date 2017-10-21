@@ -1,5 +1,5 @@
-/*
- * ui.h
+/** \file   src/arch/gtk3/ui.h
+ * \brief   Main Gtk3 UI code - header
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_UI_H_
-#define VICE_UI_H_
+#ifndef VICE_UI_H
+#define VICE_UI_H
 
 #include "vice.h"
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_PETMISCWIDGET_H
-#define HAVE_PETMISCWIDGET_H
+#ifndef VICE_PETMISCWIDGET_H
+#define VICE_PETMISCWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
@@ -33,6 +33,3 @@
 GtkWidget *pet_misc_widget_create(void);
 
 #endif
-
-
-

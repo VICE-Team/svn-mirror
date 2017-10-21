@@ -1,5 +1,5 @@
-/*
- * joy-win32-dinput-handle.h - Functionality shared by DirectInput joystick and mouse drivers.
+/** \file   src/arch/gtk3/joy-win32-dinput-handle.h 
+ * \brief   Functionality shared by DirectInput joystick and mouse drivers - header
  *
  * Written by
  *  Fabrizio Gennari <fabrizio.ge@tiscali.it>

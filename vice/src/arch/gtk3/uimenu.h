@@ -1,5 +1,5 @@
-/*
- * uimenu.h - Native GTK3 menu handling - header
+/** \file   src/arch/gtk3/uimenu.h
+ * \brief   Native GTK3 menu handling - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -22,15 +22,12 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
- *  TODO:   add structs to specify menu items and submenus, like the shared UI
- *          code of Gtk2/Xaw, but less heavy on the preprocessor use, please
  */
 
 #ifndef VICE_UIMENU_H
 #define VICE_UIMENU_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 
@@ -109,8 +106,7 @@ GtkWidget *ui_menu_help_add(ui_menu_item_t *items);
 GtkWidget *ui_menu_debug_add(ui_menu_item_t *items);
 #endif
 
-
+/* FIXME: is this still even used? */
 void ui_menu_init_accelerators(GtkWidget *window);
-
 
 #endif

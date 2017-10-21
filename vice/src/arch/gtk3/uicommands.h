@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UICOMMANDS_H
-#define HAVE_UICOMMANDS_H
+#ifndef VICE_UICOMMANDS_H
+#define VICE_UICOMMANDS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

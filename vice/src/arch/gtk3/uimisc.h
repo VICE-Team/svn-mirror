@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UIMISC_H
-#define HAVE_UIMISC_H
+#ifndef VICE_UIMISC_H
+#define VICE_UIMISC_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

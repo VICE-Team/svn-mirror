@@ -1,5 +1,5 @@
-/*
- * uidatasette.h - independent datasette control widgets - header
+/** \file   src/arch/gtk3/uidatasette.h
+ * \brief   Independent datasette control widgets - header
  *
  * Written by
  *  Michael C. Martin <mcmartin@gmail.com>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_UIDATASETTE_H_
-#define VICE_UIDATASETTE_H_
+#ifndef VICE_UIDATASETTE_H
+#define VICE_UIDATASETTE_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

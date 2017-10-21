@@ -1,5 +1,5 @@
-/*
- * joy-osx-hidlib.h - Common interface for the HID implementations.
+/** \file   src/arch/gtk3/joy-osx-hidlib.h
+ * \brief   Common interface for the HID implementations - header
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>

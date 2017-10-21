@@ -1,6 +1,5 @@
-
-/*
- * coproc.h - co-process fork
+/** \file   src/arch/gtk3/coproc.h
+ * \brief   co-process fork - header
  *
  * Written by
  *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>

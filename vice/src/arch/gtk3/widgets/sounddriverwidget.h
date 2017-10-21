@@ -1,5 +1,5 @@
-/*
- * sounddriverwidget.h - GTK3 sound driver widget - header
+/** \file   src/arch/gtk3/widgets/sounddriverwidget.h
+ * \brtief  Sound driver widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SOUNDDRIVERWIDGET_H
-#define HAVE_SOUNDDRIVERWIDGET_H
+#ifndef VICE_SOUNDDRIVERWIDGET_H
+#define VICE_SOUNDDRIVERWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

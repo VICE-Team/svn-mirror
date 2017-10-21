@@ -1,5 +1,5 @@
-/*
- * soundbuffersizewidget.h - GTK3 sound buffer size widget - header
+/** \file   src/arch/gtk3/widgets/soundbuffersizewidget.h
+ * \brief   Sound buffer size widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SOUNDBUFFERSIZEWIDGET_H
-#define HAVE_SOUNDBUFFERSIZEWIDGET_H
+#ifndef VICE_SOUNDBUFFERSIZEWIDGET_H
+#define VICE_SOUNDBUFFERSIZEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

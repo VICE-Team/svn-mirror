@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_PRINTEROUTPUT_WIDGET_H
-#define HAVE_PRINTEROUTPUT_WIDGET_H
+#ifndef VICE_PRINTEROUTPUT_WIDGET_H
+#define VICE_PRINTEROUTPUT_WIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

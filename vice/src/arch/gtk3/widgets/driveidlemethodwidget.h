@@ -28,15 +28,13 @@
  *
  */
 
-#ifndef HAVE_DRIVEIDLEMETHODWIDGET_H
-#define HAVE_DRIVEIDLEMETHODWIDGET_H
+#ifndef VICE_DRIVEIDLEMETHODWIDGET_H
+#define VICE_DRIVEIDLEMETHODWIDGET_H
+
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 GtkWidget * drive_idle_method_widget_create(int unit);
 void        drive_idle_method_widget_update(GtkWidget *widget, int unit);
-
 
 #endif

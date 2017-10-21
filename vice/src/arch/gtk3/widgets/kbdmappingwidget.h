@@ -1,5 +1,5 @@
-/*
- * kbdmappingwidget.h - GTK3 keyboard mapping widget for the settings dialog - header
+/** \file   src/arch/gtk3/widgets/kbdmappingwidget.h
+ * \brief   Keyboard mapping widget for the settings dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_KBDMAPPINGWIDGET_H
-#define HAVE_KBDMAPPINGWIDGET_H
+#ifndef VICE_KBDMAPPINGWIDGET_H
+#define VICE_KBDMAPPINGWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

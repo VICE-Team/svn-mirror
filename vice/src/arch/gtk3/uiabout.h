@@ -1,5 +1,5 @@
-/*
- * uiabout.h - GTK3 about dialog - header
+/** \file   src/arch/gtk3/uiabout.h
+ * \brief   GTK3 about dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,12 +23,9 @@
  *  02111-1307  USA.
  */
 
-
 #ifndef VICE_UIABOUT_H
 #define VICE_UIABOUT_H
-
 
 void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data);
 
 #endif
-

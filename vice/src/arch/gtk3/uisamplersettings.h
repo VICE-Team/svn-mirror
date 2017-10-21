@@ -24,14 +24,14 @@
  *
  */
 
-#ifndef HAVE_UISAMPLERSETTINGS_H
-#define HAVE_UISAMPLERSETTINGS_H
+#ifndef VICE_UISAMPLERSETTINGS_H
+#define VICE_UISAMPLERSETTINGS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 #include "sampler.h"
 
-void uisamplersettings_set_devices_getter(sampler_device_t *(func)(void));
-GtkWidget *uisamplersettings_widget_create(GtkWidget *parent);
+void        uisamplersettings_set_devices_getter(sampler_device_t *(func)(void));
+GtkWidget * uisamplersettings_widget_create(GtkWidget *parent);
 
 #endif

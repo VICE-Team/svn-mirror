@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_UIJOYSTICK_H
-#define HAVE_UIJOYSTICK_H
+#ifndef VICE_UIJOYSTICK_H
+#define VICE_UIJOYSTICK_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
@@ -35,4 +35,3 @@
 GtkWidget *uijoystick_widget_create(GtkWidget *parent);
 
 #endif
-

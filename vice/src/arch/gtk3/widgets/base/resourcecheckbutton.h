@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_RESOURCECHECKBUTTON_H
-#define HAVE_RESOURCECHECKBUTTON_H
+#ifndef VICE_RESOURCECHECKBUTTON_H
+#define VICE_RESOURCECHECKBUTTON_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

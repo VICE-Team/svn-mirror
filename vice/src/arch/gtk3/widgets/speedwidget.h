@@ -1,5 +1,5 @@
-/*
- * speedwidget.h - GTK3 emulation speed widget - header
+/** \file   src/arch/gtk3/widgets/speedwidget.h
+ * \brief   Emulation speed widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SPEEDWIDGET_H
-#define HAVE_SPEEDWIDGET_H
+#ifndef VICE_SPEEDWIDGET_H
+#define VICE_SPEEDWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

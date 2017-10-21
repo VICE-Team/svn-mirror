@@ -1,5 +1,5 @@
-/*
- * archdep_win32.h - Architecture dependant defines.
+/** \file   src/arch/gtk3/archdep_win32.h
+ * \brief   Windows-specific stuff - header
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

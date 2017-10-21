@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_VDCMODELWIDGET_H
-#define HAVE_VDCMODELWIDGET_H
+#ifndef VICE_VDCMODELWIDGET_H
+#define VICE_VDCMODELWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

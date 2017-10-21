@@ -1,5 +1,5 @@
-/*
- * joy-win32.h - Joystick support for Windows.
+/** \file   src/arch/gtk3/joy-win32.h
+ * \brief   Joystick support for Windows - header
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>

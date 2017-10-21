@@ -1,5 +1,5 @@
-/*
- * uikeyboard.h - GTK3 keyboard settings central widget for the settings dialog - header
+/** \file   src/arch/gtk3/uikeyboard.h
+ * \brief   Keyboard settings main widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,16 +23,12 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_UIKEYBOARD_H
-#define HAVE_UIKEYBOARD_H
+#ifndef VICE_UIKEYBOARD_H
+#define VICE_UIKEYBOARD_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 GtkWidget *uikeyboard_create_central_widget(GtkWidget *widget);
 
-
 #endif
-
-

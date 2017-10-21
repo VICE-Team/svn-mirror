@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_PETVIDEOSIZEWIDGET_H
-#define HAVE_PETVIDEOSIZEWIDGET_H
+#ifndef VICE_PETVIDEOSIZEWIDGET_H
+#define VICE_PETVIDEOSIZEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

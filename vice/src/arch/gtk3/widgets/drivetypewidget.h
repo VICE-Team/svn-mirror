@@ -25,11 +25,10 @@
  */
 
 
-#ifndef HAVE_UIDRIVESETTINGS_H
-#define HAVE_UIDRIVESETTINGS_H
+#ifndef VICE_UIDRIVESETTINGS_H
+#define VICE_UIDRIVESETTINGS_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 void        drive_type_widget_set_extend_widget(GtkWidget *widget);

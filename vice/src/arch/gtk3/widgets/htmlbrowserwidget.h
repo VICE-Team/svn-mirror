@@ -4,10 +4,6 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  HTMLBrowserCommand
- *
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -28,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_HTMLBROWSERWIDGET_H
-#define HAVE_HTMLBROWSERWIDGET_H
+#ifndef VICE_HTMLBROWSERWIDGET_H
+#define VICE_HTMLBROWSERWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

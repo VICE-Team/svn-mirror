@@ -27,8 +27,8 @@
  *
  */
 
-#ifndef HAVE_CIAMODELWIDGET_H
-#define HAVE_CIAMODELWIDGET_H
+#ifndef VICE_CIAMODELWIDGET_H
+#define VICE_CIAMODELWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

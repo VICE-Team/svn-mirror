@@ -1,5 +1,5 @@
-/*
- * soundsyncwidget.h - GTK3 sound synchronization mode widget - header
+/** \file   src/arch/gtk3/widgets/soundsyncwidget.h
+ * \brief   Sound synchronization mode widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SOUNDSYNCWIDGET_H
-#define HAVE_SOUNDSYNCWIDGET_H
+#ifndef VICE_SOUNDSYNCWIDGET_H
+#define VICE_SOUNDSYNCWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

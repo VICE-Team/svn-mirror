@@ -1,5 +1,5 @@
-/*
- * uiautostart.h - GTK3 autostart settings central widget - header
+/** \file   src/arch/gtk3/uiautostart.h
+ * \brief   GTK3 autostart settings central widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,15 +24,12 @@
  *
  */
 
-#ifndef HAVE_UIAUTOSTART_H
-#define HAVE_UIAUTOSTART_H
+#ifndef VICE_UIAUTOSTART_H
+#define VICE_UIAUTOSTART_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 GtkWidget *uiautostart_create_central_widget(GtkWidget *parent);
 
 #endif
-
-

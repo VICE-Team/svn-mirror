@@ -1,5 +1,5 @@
-/*
- * filechooserhelpers.h - GtkFileChooser helper functions - header
+/** \file   src/arch/gtk3/widgets/filechooserhelpers.h
+ * \brief   GtkFileChooser helper functions - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,13 +23,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_FILECHOOSERHELPERS_H
-#define HAVE_FILECHOOSERHELPERS_H
+#ifndef VICE_FILECHOOSERHELPERS_H
+#define VICE_FILECHOOSERHELPERS_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 /** \brief  Object to construct a GtkFileFilter with
  */
@@ -56,9 +54,6 @@ extern const ui_file_filter_t file_chooser_filter_fliplist;
 extern const ui_file_filter_t file_chooser_filter_program;
 extern const ui_file_filter_t file_chooser_filter_archive;
 extern const ui_file_filter_t file_chooser_filter_compressed;
-
-
-
 
 GtkFileFilter *create_file_chooser_filter(const ui_file_filter_t filter,
                                           gboolean show_globs);

@@ -63,7 +63,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
     int old_val;
     int new_val;
     char *resource;
-    void (*callback)(int);
+    void (*callback)(GtkWidget *, int);
 
     /* parent widget (grid) contains the "ResourceName" property */
     parent = gtk_widget_get_parent(radio);
@@ -75,11 +75,17 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))
             && (old_val != new_val)) {
         debug_gtk3("setting %s to %d\n", resource, new_val);
+
+        /* FIXME: something is not right here, looks like setting this resource
+         *        to invalid values (ie HardSID), fails to actually set the
+         *        resource, keeping SidEngine at either 0 or 1, making the
+         *        callback to enable/disable the ReSID sampling fail.
+         */
         resources_set_int(resource, new_val);
 
         callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
         if (callback != NULL) {
-            callback(new_val);
+            callback(radio, new_val);
         }
     }
 }
@@ -190,7 +196,7 @@ void resource_radiogroup_update(GtkWidget *widget, int id)
  * usingany global references.
  *
  * The widget returned is the actual radio group GtkGrid, the integer value is
- * the curent IID of the radiogroup's currently selected radio button.
+ * the curent ID of the radiogroup's currently selected radio button.
  *
  * \param[in,out]   widget      radiogroup widget
  * \param[in]       callback    function to call when the radiogroup selection

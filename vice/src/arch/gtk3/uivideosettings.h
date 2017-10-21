@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UIVIDEOSETTINGS_H
-#define HAVE_UIVIDEOSETTINGS_H
+#ifndef VICE_UIVIDEOSETTINGS_H
+#define VICE_UIVIDEOSETTINGS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

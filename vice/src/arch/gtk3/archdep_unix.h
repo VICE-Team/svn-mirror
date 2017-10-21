@@ -1,5 +1,5 @@
-/*
- * archdep_unix.h - Miscellaneous system-specific stuff.
+/** \file   src/arch/gtk3/archdep_unix.h
+ * \brief   Miscellaneous system-specific stuff - header
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

@@ -1,5 +1,5 @@
-/*
- * mousedrv.h - Mouse handling for native GTK3 UI
+/** \file   src/arch/gtk3/mousedrv.h
+ * \brief   Mouse handling for native GTK3 UI - header
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

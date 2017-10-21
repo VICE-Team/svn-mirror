@@ -1,6 +1,5 @@
 /** \file   src/arch/gtk3/widgets/openfiledialog.h
- *
- * openfiledialog.h - GTK3 file open dialog - header
+ * \brief   Gtk3 file open dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,15 +23,11 @@
  *  02111-1307  USA.
  */
 
-
-#ifndef HAVE_OPENFILEDIALOG_H
-#define HAVE_OPENFILEDIALOG_H
-
+#ifndef VICE_OPENFILEDIALOG_H
+#define VICE_OPENFILEDIALOG_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 gchar *ui_open_file_dialog(
         GtkWidget *widget,

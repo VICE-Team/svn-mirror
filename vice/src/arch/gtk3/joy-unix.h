@@ -1,5 +1,5 @@
-/*
- * joy-unix.h - Joystick support for Linux.
+/** \file   src/arch/gtk3/joy-unix.h
+ * \brief   Joystick support for Linux.
  *
  * Written by
  *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>

@@ -1,5 +1,7 @@
-/*
- * uihelpers.h - GTK3 helper function for create widgets - header
+/** \file   src/arch/gtk3/widgets/widgethelpers.h
+ * \brief   GTK3 helper functions for widgets - header
+ *
+ * TODO:    Remove once the 'base widgets' are implemented properly
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -21,17 +23,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
- *  TODO:   rename functions and types
  */
 
-#ifndef HAVE_WIDGETHELPERS_H
-#define HAVE_WIDGETHELPERS_H
+#ifndef VICE_WIDGETHELPERS_H
+#define VICE_WIDGETHELPERS_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 /** \brief  Entry for a radio button group
  */
@@ -82,7 +80,5 @@ int uihelpers_get_drive_resource_from_check_button(
 
 
 GtkWidget *uihelpers_create_int_combo_box(const int *list, const char *resource);
-
-
 
 #endif

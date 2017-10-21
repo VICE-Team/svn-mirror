@@ -1,5 +1,5 @@
-/*
- * kbdlayoutwidget.h - GTK3 keyboard layout widget for the settings dialog - header
+/** \file   src/arch/gtk3/kbdlayoutwidget.h
+ * \brief   Keyboard layout widget for the settings dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_KBDLAYOUTWIDGET_H
-#define HAVE_KBDLAYOUTWIDGET_H
+#ifndef VICE_KBDLAYOUTWIDGET_H
+#define VICE_KBDLAYOUTWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

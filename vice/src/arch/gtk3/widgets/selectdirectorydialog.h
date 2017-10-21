@@ -25,12 +25,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SELECTDIRECTORYDIALOG
-#define HAVE_SELECTDIRECTORYDIALOG
+#ifndef VICE_SELECTDIRECTORYDIALOG
+#define VICE_SELECTDIRECTORYDIALOG
 
 #include "vice.h"
 #include <gtk/gtk.h>
-
 
 gchar *ui_select_directory_dialog(
         GtkWidget *widget,

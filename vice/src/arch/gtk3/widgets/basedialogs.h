@@ -25,8 +25,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_BASEDIALOGS_H
-#define HAVE_BASEDIALOGS_H
+#ifndef VICE_BASEDIALOGS_H
+#define VICE_BASEDIALOGS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

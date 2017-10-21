@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_PETIOSIZEWIDGET_H
-#define HAVE_PETIOSIZEWIDGET_H
+#ifndef VICE_PETIOSIZEWIDGET_H
+#define VICE_PETIOSIZEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

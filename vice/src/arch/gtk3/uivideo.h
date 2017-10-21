@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UIVIDEO_H
-#define HAVE_UIVIDEO_H
+#ifndef VICE_UIVIDEO_H
+#define VICE_UIVIDEO_H
 
 #include "vice.h"
 #include <stdbool.h>

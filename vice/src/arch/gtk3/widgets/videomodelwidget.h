@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_VIDEOMODELWIDGET_H
-#define HAVE_VIDEOMODELWIDGET_H
+#ifndef VICE_VIDEOMODELWIDGET_H
+#define VICE_VIDEOMODELWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

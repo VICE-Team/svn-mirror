@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef HAVE_C128MACHINETYPEWIDGET_H
-#define HAVE_C128MACHINETYPEWIDGET_H
+#ifndef VICE_C128MACHINETYPEWIDGET_H
+#define VICE_C128MACHINETYPEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

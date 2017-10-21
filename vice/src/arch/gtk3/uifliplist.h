@@ -1,5 +1,5 @@
-/*
- * uifliplist.h - Fliplist menu management (header)
+/** \file   src/arch/gtk3/uifliplist.h
+ * \brief   Fliplist menu management - header
  *
  * Written by
  *  Michael C. Martin <mcmartin@gmail.com>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_UIFLIPLIST_H_
-#define VICE_UIFLIPLIST_H_
+#ifndef VICE_UIFLIPLIST_H
+#define VICE_UIFLIPLIST_H
 
 #include <gtk/gtk.h>
 
@@ -39,5 +39,3 @@ void ui_fliplist_load_callback(GtkWidget *widget, gpointer data);
 void ui_fliplist_save_callback(GtkWidget *widget, gpointer data);
 
 #endif
-
-

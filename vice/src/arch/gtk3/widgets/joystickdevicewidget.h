@@ -26,7 +26,8 @@
  *
  */
 
-#ifndef HAVE_JOYSTICKDEVICEWIDGET_H
+#ifndef VICE_JOYSTICKDEVICEWIDGET_H
+#define VICE_JOYSTICKDEVICEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

@@ -1,6 +1,5 @@
-/* not_implemented.h
- *
- * temporary header file for not implemented functions.
+/** \file   src/arch/gtk3/not_implemented.h
+ * \brief   Temporary file to signal implemetation state of functions
  */
 
 #ifndef VICE_NOT_IMPLEMENTED_H
@@ -17,8 +16,6 @@
             "%s:%d: error: function %s() is not implemented yet, exiting\n", \
             __FILE__, __LINE__, __func__); \
     exit(1)
-
-#endif
 
 
 /** \brief  Not-implemented message with file, function and lineno, only warns
@@ -64,3 +61,5 @@
     fprintf(stderr, \
             "%s:%d: warning: function %s() contains a temporary implementation, continuing\n", \
             __FILE__, __LINE__, __func__)
+
+#endif

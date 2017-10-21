@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_CBM2RAMMAPPINGWIDGET_H
-#define HAVE_CBM2RAMMAPPINGWIDGET_H
+#ifndef VICE_CBM2RAMMAPPINGWIDGET_H
+#define VICE_CBM2RAMMAPPINGWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

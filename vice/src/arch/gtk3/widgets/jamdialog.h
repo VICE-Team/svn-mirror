@@ -25,14 +25,13 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_JAMDIALOG_H
-#define HAVE_JAMDIALOG_H
+#ifndef VICE_JAMDIALOG_H
+#define VICE_JAMDIALOG_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 #include "uiapi.h"
 
 ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg);
-
 
 #endif

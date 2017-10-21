@@ -1,5 +1,5 @@
-/*
- * joy-osx-hid.h - Joystick support for Mac OS X using USB HID devices.
+/** \brief  src/arch/gtk3/joy-osx-hid.h
+ * \brief   Joystick support for Mac OS X using USB HID devices - header
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>

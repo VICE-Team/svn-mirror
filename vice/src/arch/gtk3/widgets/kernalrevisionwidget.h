@@ -1,5 +1,5 @@
-/*
- * kernalrevisionwidget.h - GTK3 KERNAL revision widget - header
+/** \file   src/arch/gtk3/widgets/kernalrevisionwidget.h
+ * \brief   KERNAL revision widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -26,8 +26,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_KERNALREVISIONWIDGET_H
-#define HAVE_KERNALREVISIONWIDGET_H
+#ifndef VICE_KERNALREVISIONWIDGET_H
+#define VICE_KERNALREVISIONWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

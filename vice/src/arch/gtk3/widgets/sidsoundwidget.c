@@ -297,7 +297,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     resid_sampling = create_resid_sampling_widget();
     gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
     resources_get_int("SidEngine", &current_engine);
-    gtk_widget_set_sensitive(resid_sampling, current_engine == 2);
+    gtk_widget_set_sensitive(resid_sampling, current_engine == 1);
 
 
     num_sids = create_num_sids_widget();

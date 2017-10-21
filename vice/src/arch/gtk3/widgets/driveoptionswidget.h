@@ -28,8 +28,8 @@
  *
  */
 
-#ifndef HAVE_DRIVEOPTIONSWIDGET_H
-#define HAVE_DRIVEOPTIONSWIDGET_H
+#ifndef VICE_DRIVEOPTIONSWIDGET_H
+#define VICE_DRIVEOPTIONSWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

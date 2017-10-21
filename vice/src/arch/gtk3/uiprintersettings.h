@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UIPRINTERSETTINGS_H
-#define HAVE_UIPRINTERSETTINGS_H
+#ifndef VICE_UIPRINTERSETTINGS_H
+#define VICE_UIPRINTERSETTINGS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

@@ -24,12 +24,11 @@
  *
  */
 
-#ifndef HAVE_DRIVEWIDGETHELPERS_H
-#define HAVE_DRIVEWIDGETHELPERS_H
+#ifndef VICE_DRIVEWIDGETHELPERS_H
+#define VICE_DRIVEWIDGETHELPERS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
-
 
 int ui_get_drive_type(int unit);
 

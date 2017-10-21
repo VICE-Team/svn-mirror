@@ -26,7 +26,8 @@
  *
  */
 
-#ifndef HAVE_MACHINEMODELWIDGET_H
+#ifndef VICE_MACHINEMODELWIDGET_H
+#define VICE_MACHINEMODELWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

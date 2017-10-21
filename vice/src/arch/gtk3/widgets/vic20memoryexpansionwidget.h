@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_VIC20MEMORYEXPANSIONWIDGET_H
-#define HAVE_VIC20MEMORYEXPANSIONWIDGET_H
+#ifndef VICE_VIC20MEMORYEXPANSIONWIDGET_H
+#define VICE_VIC20MEMORYEXPANSIONWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
@@ -33,4 +33,3 @@
 GtkWidget * vic20_memory_expansion_widget_create(void);
 
 #endif
-

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UICOMPILETIMEFEATURES_H
-#define HAVE_UICOMPILETIMEFEATURES_H
+#ifndef VICE_UICOMPILETIMEFEATURES_H
+#define VICE_UICOMPILETIMEFEATURES_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

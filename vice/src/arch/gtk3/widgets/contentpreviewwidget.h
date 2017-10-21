@@ -23,13 +23,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_CONTENTPREVIEWWIDGET_H
-#define HAVE_CONTENTPREVIEWWIDGET_H
+#ifndef VICE_CONTENTPREVIEWWIDGET_H
+#define VICE_CONTENTPREVIEWWIDGET_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 GtkWidget *content_preview_widget_create(void (*selected)(GtkWidget *, void *));
 

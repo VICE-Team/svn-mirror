@@ -29,8 +29,8 @@
  *
  */
 
-#ifndef HAVE_UIMODEL_H
-#define HAVE_UIMODEL_H
+#ifndef VICE_UIMODEL_H
+#define VICE_UIMODEL_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

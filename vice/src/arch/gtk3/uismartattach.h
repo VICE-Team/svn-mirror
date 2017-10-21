@@ -1,5 +1,5 @@
-/*
- * uismartattach.h - GTK3 smart-attach dialog - header
+/** \file   src/arch/gtk3/uismartattach.h
+ * \brief   GTK3 smart-attach dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,13 +23,11 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_UISMARTATTACH_H
-#define HAVE_UISMARTATTACH_H
+#ifndef VICE_UISMARTATTACH_H
+#define VICE_UISMARTATTACH_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 void ui_smart_attach_callback(GtkWidget *widget, gpointer user_data);
 

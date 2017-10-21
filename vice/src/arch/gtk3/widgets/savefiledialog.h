@@ -1,4 +1,5 @@
 /** \file   src/arch/gtk3/widgets/savefiledialog.h
+ * \brief   Gtk3 save file dialog helper
  *
  * savefiledialog.h - GTK3 file save dialog - header
  *
@@ -24,15 +25,11 @@
  *  02111-1307  USA.
  */
 
-
-#ifndef HAVE_SAVEFILEDIALOG_H
-#define HAVE_SAVEFILEDIALOG_H
-
+#ifndef VICE_SAVEFILEDIALOG_H
+#define VICE_SAVEFILEDIALOG_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 gchar *ui_save_file_dialog(
         GtkWidget *widget,

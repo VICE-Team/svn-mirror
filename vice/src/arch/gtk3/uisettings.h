@@ -1,5 +1,5 @@
-/*
- * uisettings.h - GTK3 settings dialog - header
+/** \file   src/arch/gtk3/uisettings.h
+ * \brief   GTK3 settings dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,13 +23,10 @@
  *  02111-1307  USA.
  */
 
-
 #ifndef VICE_UISETTINGS_H
 #define VICE_UISETTINGS_H
 
-
 #include "vice.h"
-
 #include <gtk/gtk.h>
 
 
@@ -49,4 +46,3 @@ void ui_settings_dialog_create(GtkWidget *, gpointer user_data);
 void ui_settings_dialog_shutdown(void);
 
 #endif
-

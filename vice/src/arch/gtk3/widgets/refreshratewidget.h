@@ -1,5 +1,5 @@
-/*
- * refreshratewidget.h - GTK3 refresh rate widget - header
+/** \file   src/arch/gk3/widgets/refreshratewidget.h
+ * \brief   Refresh rate widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_REFRESHRATEWIDGET_H
-#define HAVE_REFRESHRATEWIDGET_H
+#ifndef VICE_REFRESHRATEWIDGET_H
+#define VICE_REFRESHRATEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

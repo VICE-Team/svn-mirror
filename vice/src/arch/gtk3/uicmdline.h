@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_UICMDLINE_H
-#define HAVE_UICMDLINE_H
+#ifndef VICE_UICMDLINE_H
+#define VICE_UICMDLINE_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

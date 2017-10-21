@@ -1,5 +1,5 @@
-/*
- * soundfragmentizewidget.h - GTK3 sound fragment size widget - header
+/** \file   src/arch/gtk3/widgets/soundfragmentizewidget.h
+ * \brief   Sound fragment size widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,8 +23,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_SOUNDFRAGMENTSIZEWIDGET_H
-#define HAVE_SOUNDFRAGMENTSIZEWIDGET_H
+#ifndef VICE_SOUNDFRAGMENTSIZEWIDGET_H
+#define VICE_SOUNDFRAGMENTSIZEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

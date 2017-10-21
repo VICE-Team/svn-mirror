@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef HAVE_CBM2MEMORYSIZEWIDGET_H
-#define HAVE_CBM2MEMORYSIZEWIDGET_H
+#ifndef VICE_CBM2MEMORYSIZEWIDGET_H
+#define VICE_CBM2MEMORYSIZEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

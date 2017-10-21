@@ -1,5 +1,5 @@
-/*
- * uispeed.h - GTK3 speed control central widget for the settings dialog - header
+/** \file   src/arch/gtk3/uispeed.h
+ * \brief   Speed control central widget for the settings dialog - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,15 +23,12 @@
  *  02111-1307  USA.
  */
 
-#ifndef HAVE_UISPEED_H
-#define HAVE_UISPEED_H
+#ifndef VICE_UISPEED_H
+#define VICE_UISPEED_H
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-
 
 GtkWidget *uispeed_create_central_widget(GtkWidget *widget);
 
 #endif
-
