@@ -212,9 +212,14 @@ static GtkWidget *create_sid_engine_widget(void)
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
-    for (p = 2; p < 7; p++) {
+    for (p = 1; p < 7; p++) {
         gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), FALSE);
     }
+
+#ifdef HAVE_RESID
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group), 0, 1),
+            TRUE);
+#endif
 
 #ifdef HAVE_CATWEASELMKIII
     if (catweaselmkiii_available()) {
@@ -269,6 +274,10 @@ static GtkWidget *create_resid_sampling_widget(void)
             resid_sampling_modes, GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+
+#ifndef HAVE_RESID
+    gtk_widget_set_sensitive(grid, FALSE);
+#endif
 
     gtk_widget_show_all(grid);
     return grid;
