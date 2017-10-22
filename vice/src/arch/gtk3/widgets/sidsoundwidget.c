@@ -233,7 +233,6 @@ static GtkWidget *create_sid_engine_widget(void)
 
 #ifdef HAVE_PARSID
     if (parsid_available()) {
-    {
         for (p = 4; p < 7; p++) {
             gtk_widget_set_sensitive(
                     gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), TRUE);
