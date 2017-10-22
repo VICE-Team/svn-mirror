@@ -42,9 +42,18 @@
 #include "resources.h"
 #include "basewidgets.h"
 #include "debug_gtk3.h"
+
+#ifdef HAVE_CATWEASELMKIII
 #include "catweaselmkiii.h"
+#endif
+
+#ifdef HAVE_HARDSID
 #include "hardsid.h"
+#endif
+
+#ifdef HAVE_PARSID
 #include "parsid.h"
+#endif
 
 #include "sidsoundwidget.h"
 
@@ -202,15 +211,33 @@ static GtkWidget *create_sid_engine_widget(void)
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
+#ifdef HAVE_CATWEASELMKIII
     if (!catweaselmkiii_available()) {
         gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
                     0, 2), FALSE);
     }
-    if (!hardsid_drv_available()) {
+#else
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
+                0, 2), FALSE);
+#endif
+
+#ifdef HAVE_HARDSID
+    if (!hardsid_available()) {
         gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
                     0, 3), FALSE);
+
     }
-    if (!parsid_drv_available()) {
+#else
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
+                0, 3), FALSE);
+
+#endif
+
+#ifdef HAVE_PARSID
+    if (!parsid_available()) {
+#else
+    {
+#endif
         int p;
         for (p = 4; p < 7; p++) {
             gtk_widget_set_sensitive(
