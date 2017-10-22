@@ -1036,7 +1036,11 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     ui_menu_init_accelerators(new_window);
 
     grid = gtk_grid_new();
-    new_drawing_area = gtk_drawing_area_new();
+    if (canvas->renderer == VICE_GTK3_RENDERER_CAIRO) {
+        new_drawing_area = gtk_drawing_area_new();
+    } else {
+        new_drawing_area = gtk_gl_area_new();
+    }
     status_bar = ui_statusbar_create();
     gtk_widget_show_all(status_bar);
     gtk_widget_set_no_show_all(status_bar, TRUE);

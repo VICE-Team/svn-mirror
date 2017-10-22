@@ -149,7 +149,7 @@ static const resource_int_t resources_int[] = {
  * that is already clipped to only draw the exposed areas of the
  * widget */
 static gboolean
-draw_canvas_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
+draw_canvas_cairo_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     video_canvas_t *canvas = (video_canvas_t *)data;
 
@@ -165,7 +165,7 @@ draw_canvas_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
 
     if (canvas && canvas->backing_surface) {
         cairo_pattern_t *pattern = cairo_pattern_create_for_surface(canvas->backing_surface);
-        cairo_pattern_set_matrix(pattern, &canvas->transform);
+        cairo_pattern_set_matrix(pattern, &canvas->cairo_transform);
         cairo_set_source(cr, pattern);
         cairo_paint(cr);
         cairo_pattern_destroy(pattern);
@@ -178,7 +178,7 @@ draw_canvas_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
  *          the canvas is not
  */
 static gboolean
-resize_canvas_container_cb (GtkWidget *widget, GdkEventConfigure *event, gpointer data)
+resize_canvas_container_cairo_cb (GtkWidget *widget, GdkEventConfigure *event, gpointer data)
 {
     /* The GtkDrawingArea that holds the canvas is "widget." */
     /* "canvas" is the data structure that holds the information we
@@ -216,9 +216,9 @@ resize_canvas_container_cb (GtkWidget *widget, GdkEventConfigure *event, gpointe
             scale_y = (double)source_height / height;
         }
         /* Apply the computed scaling factor to both dimensions */
-        cairo_matrix_init_scale(&canvas->transform, scale_x, scale_y);
+        cairo_matrix_init_scale(&canvas->cairo_transform, scale_x, scale_y);
         /* Center the result in the widget */
-        cairo_matrix_translate(&canvas->transform, offset_x, offset_y);
+        cairo_matrix_translate(&canvas->cairo_transform, offset_x, offset_y);
     }
     /* No further processing should be needed */
     return FALSE;
@@ -276,6 +276,21 @@ char video_canvas_can_resize(video_canvas_t *canvas)
     return 1;
 }
 
+static int
+video_canvas_backbuffer_init_cairo(video_canvas_t *canvas, unsigned int width, unsigned int height)
+{
+    int stride = cairo_format_stride_for_width(CAIRO_FORMAT_RGB24, width);
+    if (stride <= 0) {
+        fprintf(stderr, "Could not compute backbuffer size for %dx%d\n", width, height);
+        return 0;
+    }
+    canvas->backbuffer = lib_malloc(stride * height);
+    memset(canvas->backbuffer, 0, stride * height);
+    canvas->backing_surface = cairo_image_surface_create_for_data(canvas->backbuffer, CAIRO_FORMAT_RGB24, width, height, stride);
+    cairo_matrix_init_translate(&canvas->cairo_transform, 0, 0);
+    return 1;
+}
+
 /* FIXME: temporary hack */
 extern void ui_set_toplevel_widget(GtkWidget *win, GtkWidget *status);
 
@@ -286,37 +301,28 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     VICE_GTK3_FUNC_ENTERED();
     canvas->initialized = 0;
     canvas->created = 0;
+    canvas->renderer = VICE_GTK3_RENDERER_CAIRO;
     canvas->backbuffer = NULL;
     canvas->backing_surface = NULL;
+    canvas->shader = 0;
+    canvas->texture = 0;
+    ui_create_toplevel_window(canvas); /* Creates the drawing area */
 
+    /* Make sure we got actual size data: initialization will often
+     * send us a 0x0 initial canvas until it knows more about what
+     * exactly will be running and how */
     if (width && *width && height && *height) {
-        int stride = cairo_format_stride_for_width(CAIRO_FORMAT_RGB24, *width);
-        if (stride <= 0) {
-            fprintf(stderr, "Could not compute backbuffer size for %dx%d\n", *width, *height);
-            return NULL;
-        }
-        canvas->backbuffer = lib_malloc(stride * *height);
-        memset(canvas->backbuffer, 0, stride * *height);
-        canvas->backing_surface = cairo_image_surface_create_for_data(canvas->backbuffer, CAIRO_FORMAT_RGB24, *width, *height, stride);
-        cairo_matrix_init_translate(&canvas->transform, 0, 0);
-    } else {
-        /* This isn't a bug; basic initialization will quite happily
-         * send us a 0x0 initial canvas until it knows more about what
-         * exactly will be running and how */
-        canvas->backbuffer = NULL;
-        canvas->backing_surface = NULL;
-    }
-
-    ui_create_toplevel_window(canvas);
-    if (width && height && *width && *height) {
         unsigned int aspect_width = *width;
         if (keepaspect && trueaspect) {
             aspect_width *= canvas->geometry->pixel_aspect_ratio;
         }
         gtk_widget_set_size_request(canvas->drawing_area, aspect_width, *height);
+        if (!video_canvas_backbuffer_init_cairo(canvas, *width, *height)) {
+            return NULL;
+        }
     }
-    g_signal_connect(canvas->drawing_area, "draw", G_CALLBACK(draw_canvas_cb), canvas);
-    g_signal_connect(canvas->drawing_area, "configure_event", G_CALLBACK(resize_canvas_container_cb), canvas);
+    g_signal_connect(canvas->drawing_area, "draw", G_CALLBACK(draw_canvas_cairo_cb), canvas);
+    g_signal_connect(canvas->drawing_area, "configure_event", G_CALLBACK(resize_canvas_container_cairo_cb), canvas);
     ui_display_toplevel_window(canvas);
 
     canvas->created = 1;
@@ -423,7 +429,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
         canvas->backing_surface = cairo_image_surface_create_for_data(canvas->backbuffer, CAIRO_FORMAT_RGB24, new_width, new_height, stride);
 
         /* And configure the matrix to fit it in the widget as it exists */
-        resize_canvas_container_cb (canvas->drawing_area, NULL, canvas);
+        resize_canvas_container_cairo_cb (canvas->drawing_area, NULL, canvas);
 
         /* Set the palette */
         if (video_canvas_set_palette(canvas, canvas->palette) < 0) {

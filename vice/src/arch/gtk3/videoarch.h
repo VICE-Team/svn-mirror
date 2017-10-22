@@ -35,15 +35,39 @@
 
 #include <gtk/gtk.h>
 
+typedef enum {
+    VICE_GTK3_RENDERER_CAIRO,
+    VICE_GTK3_RENDERER_OPENGL,
+    /* We may want to extend this later with:
+     *   - Open GL Legacy
+     *   - Open GL ES
+     */
+    VICE_NUM_GTK3_RENDERERS
+} vice_gtk3_renderer_t;
+
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
 
+    vice_gtk3_renderer_t renderer;
+    /* GTK3's video canvas is either a GtkDrawingArea or a GtkGLArea,
+     * depending on which renderer has been selected. Each is
+     * ultimately represented as a GtkWidget object and backed by a
+     * 24-bit backbuffer. */
     GtkWidget *drawing_area;
     unsigned char *backbuffer;
-    cairo_surface_t *backing_surface;
-    cairo_matrix_t transform;
 
+    /* The Cairo backend uses these values to properly render the
+     * backbuffer image into the drawing area. */
+    cairo_surface_t *backing_surface;
+    cairo_matrix_t cairo_transform;
+
+    /* The OpenGL backend uses these values to properly render the
+     * backbuffer image into the GL context. */
+    uint32_t shader, texture;
+
+    /* The remainder is code the core needs to communicate with the
+     * renderers. */
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
