@@ -42,6 +42,9 @@
 #include "resources.h"
 #include "basewidgets.h"
 #include "debug_gtk3.h"
+#include "catweaselmkiii.h"
+#include "hardsid.h"
+#include "parsid.h"
 
 #include "sidsoundwidget.h"
 
@@ -172,6 +175,23 @@ static GtkWidget *create_sid_engine_widget(void)
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+
+    if (!catweaselmkiii_available()) {
+        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
+                    0, 2), FALSE);
+    }
+    if (!hardsid_drv_available()) {
+        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
+                    0, 3), FALSE);
+    }
+    if (!parsid_drv_available()) {
+        int p;
+        for (p = 4; p < 7; p++) {
+            gtk_widget_set_sensitive(
+                    gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), FALSE);
+        }
+    }
+
 
     resource_radiogroup_add_callback(radio_group, on_sid_engine_changed);
 
