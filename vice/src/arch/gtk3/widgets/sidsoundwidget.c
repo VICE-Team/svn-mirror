@@ -224,6 +224,59 @@ static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Handler for "clicked" event of reset-to-default for passband
+ *
+ * Restores the ReSID passband slider back to default
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void on_resid_passband_default_clicked(GtkWidget *widget,
+                                              gpointer user_data)
+{
+    int value;
+
+    resources_get_default_value("SidResidPassband", (void *)&value);
+    resource_scale_int_update(resid_passband, value);
+}
+
+
+/** \brief  Handler for "clicked" event of reset-to-default for gain
+ *
+ * Restores the ReSID gain slider back to default
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void on_resid_gain_default_clicked(GtkWidget *widget,
+                                          gpointer user_data)
+{
+    int value;
+
+    resources_get_default_value("SidResidGain", (void *)&value);
+    resource_scale_int_update(resid_gain, value);
+
+}
+
+
+/** \brief  Handler for "clicked" event of reset-to-default for filter bias
+ *
+ * Restores the ReSID filter bias slider back to default
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void on_resid_bias_default_clicked(GtkWidget *widget,
+                                          gpointer user_data)
+{
+    int value;
+
+    resources_get_default_value("SidResidFilterBias", (void *)&value);
+    resource_scale_int_update(resid_bias, value);
+
+}
+
+
 /** \brief  Create widget to control the SID engine
  *
  * \return  GtkGrid
@@ -431,11 +484,15 @@ static GtkWidget *create_resid_bias_widget(void)
  * \param[in]   parent  parent widget
  *
  * \return  GtkGrid
+ *
+ * TODO:    refactor reset-to-default buttons code into separate function with
+ *          a single callback
  */
 GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *label;
+    GtkWidget *button;
     GtkWidget *engine;
     GtkWidget *num_sids;
     GtkWidget *filters;
@@ -478,22 +535,43 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     resid_passband = create_resid_passband_widget();
+    button = gtk_button_new_with_label("Reset to default");
+    gtk_widget_set_vexpand(button, FALSE);
+    gtk_widget_set_valign(button, GTK_ALIGN_END);
+    g_object_set(button, "margin-left", 16, NULL);
+    g_signal_connect(button, "clicked",
+            G_CALLBACK(on_resid_passband_default_clicked), NULL);
     gtk_grid_attach(GTK_GRID(layout), label, 0, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), resid_passband, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), button, 2, 4, 1, 1);
 
     label = gtk_label_new("ReSID gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     resid_gain = create_resid_gain_widget();
+    button = gtk_button_new_with_label("Reset to default");
+    gtk_widget_set_vexpand(button, FALSE);
+    gtk_widget_set_valign(button, GTK_ALIGN_END);
+    g_object_set(button, "margin-left", 16, NULL);
+    g_signal_connect(button, "clicked",
+            G_CALLBACK(on_resid_gain_default_clicked), NULL);
     gtk_grid_attach(GTK_GRID(layout), label, 0, 5, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), resid_gain, 1, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), button, 2, 5, 1, 1);
 
     label = gtk_label_new("ReSID filter bias");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     resid_bias = create_resid_bias_widget();
+    button = gtk_button_new_with_label("Reset to default");
+    gtk_widget_set_vexpand(button, FALSE);
+    gtk_widget_set_valign(button, GTK_ALIGN_END);
+    g_object_set(button, "margin-left", 16, NULL);
+    g_signal_connect(button, "clicked",
+            G_CALLBACK(on_resid_bias_default_clicked), NULL);
     gtk_grid_attach(GTK_GRID(layout), label, 0, 6, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), resid_bias, 1, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), button, 2, 6, 1, 1);
 
 
 #ifndef HAVE_RESID
