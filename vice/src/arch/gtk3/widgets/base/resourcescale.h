@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/base/basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   src/arch/gtk3/widgets/base/resourcescale.h
+ * \brief   Scale to control an integer resource - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,17 +24,19 @@
  *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_RESOURCESCALE_H
+#define VICE_RESOURCESCALE_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
-
 #include "basewidget_types.h"
 
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceradiogroup.h"
-#include "resourcescale.h"
+GtkWidget * resource_scale_int_create(const char *resource,
+                                      GtkOrientation orientation,
+                                      int low, int high, int step);
+
+void        resource_scale_int_update(GtkWidget *scale, int value);
+
+void        resource_scale_int_set_marks(GtkWidget *scale, int step);
 
 #endif

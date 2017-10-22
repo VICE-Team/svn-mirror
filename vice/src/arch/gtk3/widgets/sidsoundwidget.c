@@ -8,6 +8,9 @@
  *  SidEngine
  *  SidStereo (int (0-3), enabled extra SIDs)
  *  SidResidSampling
+ *  SidResidPassband
+ *  SidResidGain
+ *  SidResidFilterBias
  *  SidFilters
  *  SidStereoAddressStart
  *  SidTripleAddressStart
@@ -151,12 +154,30 @@ static ui_combo_entry_int_t sid_address_c128[] = {
  */
 static GtkWidget *resid_sampling;
 
-
 /** \brief  Reference to the extra SID address widgets
  *
  * Used to enable/disable depending on the number of SIDs active
  */
 static GtkWidget *address_widgets[3];
+
+/** \brief  Reference to the SidResidPassband widget
+ *
+ * Used to enable/disable the widget based on the SidFilters setting
+ */
+static GtkWidget *resid_passband;
+
+/** \brief  Reference to the SidResidGain widget
+ *
+ * Used to enable/disable the widget based on the SidFilters setting
+ */
+static GtkWidget *resid_gain;
+
+/** \brief  Reference to the SidResidFilterBias widget
+ *
+ * Used to enable/disable the widget based on the SidFilters setting
+ */
+static GtkWidget *resid_bias;
+
 
 
 /** \brief  Extra callback registered to the SidEngine radiogroup
@@ -184,6 +205,22 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
     gtk_widget_set_sensitive(address_widgets[0], count > 0);
     gtk_widget_set_sensitive(address_widgets[1], count > 1);
     gtk_widget_set_sensitive(address_widgets[2], count > 2);
+}
+
+
+/** \brief  Extra handler for the "toggled" event of the SID filters
+ *
+ * Enables/disables ReSID filter settings
+ *
+ * \param[in]   widget      ReSID filters check button
+ * \param[in]   user_data   extra data for event (unused)
+ */
+static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    gtk_widget_set_sensitive(resid_passband, state);
+    gtk_widget_set_sensitive(resid_gain, state);
+    gtk_widget_set_sensitive(resid_bias, state);
 }
 
 
@@ -343,6 +380,52 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
 }
 
 
+/** \brief  Create scale to control the "SidResidPassband" resource
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_resid_passband_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = resource_scale_int_create("SidResidPassband",
+            GTK_ORIENTATION_HORIZONTAL, 0, 90, 5);
+    resource_scale_int_set_marks(scale, 10);
+    return scale;
+}
+
+
+/** \brief  Create scale to control the "SidResidGain" resource
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_resid_gain_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = resource_scale_int_create("SidResidGain",
+            GTK_ORIENTATION_HORIZONTAL, 90, 100, 1);
+    resource_scale_int_set_marks(scale, 1);
+    return scale;
+}
+
+
+/** \brief  Create scale to control the "SidResidFilterBias" resource
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_resid_bias_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = resource_scale_int_create("SidResidFilterBias",
+            GTK_ORIENTATION_HORIZONTAL, -5000, 5000, 500);
+    resource_scale_int_set_marks(scale, 500);
+    return scale;
+}
+
+
+
 /** \brief  Create widget to control SID settings
  *
  * \param[in]   parent  parent widget
@@ -391,14 +474,43 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, 3, 3, 1);
 
+    label = gtk_label_new("ReSID passband");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 16, NULL);
+    resid_passband = create_resid_passband_widget();
+    gtk_grid_attach(GTK_GRID(layout), label, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), resid_passband, 1, 4, 1, 1);
+
+    label = gtk_label_new("ReSID gain");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 16, NULL);
+    resid_gain = create_resid_gain_widget();
+    gtk_grid_attach(GTK_GRID(layout), label, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), resid_gain, 1, 5, 1, 1);
+
+    label = gtk_label_new("ReSID filter bias");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    g_object_set(label, "margin-left", 16, NULL);
+    resid_bias = create_resid_bias_widget();
+    gtk_grid_attach(GTK_GRID(layout), label, 0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), resid_bias, 1, 6, 1, 1);
+
+
 #ifndef HAVE_RESID
     gtk_widget_set_sensitive(filters, FALSE);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(filters), FALSE);
+    gtk_widget_set_sensitive(resid_passband, FALSE);
+    gtk_widget_set_sensitive(resid_gain, FALSE);
+    gtk_widget_set_sensitive(resid_bais, FALSE);
 #endif
 
     /* set sensitivity of address widgets */
     resources_get_int("SidStereo", &stereo);
     on_sid_count_changed(NULL, stereo);
+
+    g_signal_connect(filters, "toggled", G_CALLBACK(on_sid_filters_toggled),
+            NULL);
+    on_sid_filters_toggled(filters, NULL);
 
     gtk_widget_show_all(layout);
     return layout;
