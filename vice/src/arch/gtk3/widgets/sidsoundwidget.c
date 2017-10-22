@@ -136,11 +136,21 @@ static ui_combo_entry_int_t sid_address_c128[] = {
 };
 
 
+/** \brief  Reference to resid sampling widget
+ *
+ * Used to enable/disable when the SID engine changes
+ */
+static GtkWidget *resid_sampling;
 
-GtkWidget *resid_sampling;
+
+/** \brief  Reference to the extra SID address widgets
+ *
+ * Used to enable/disable depending on the number of SIDs active
+ */
+static GtkWidget *address_widgets[3];
 
 
-/** \brief  Extra callback register to the SidEngine radiogroup
+/** \brief  Extra callback registered to the SidEngine radiogroup
  *
  * \param[in]   widget  widget triggering the event
  * \param[in]   engine  engine ID
@@ -149,6 +159,22 @@ static void on_sid_engine_changed(GtkWidget *widget, int engine)
 {
     debug_gtk3("SID engine changed to %d\n", engine);
     gtk_widget_set_sensitive(resid_sampling, engine == 1);
+}
+
+
+/** \brief  Extra callback registered to the 'number of SIDs' radiogroup
+ *
+ * \param[in]   widget  widget triggering the event
+ * \param[in]   count   number of extra SIDs (0-3)
+ */
+
+static void on_sid_count_changed(GtkWidget *widget, int count)
+{
+    debug_gtk3("extra SIDs count changed to %d\n", count);
+
+    gtk_widget_set_sensitive(address_widgets[0], count > 0);
+    gtk_widget_set_sensitive(address_widgets[1], count > 1);
+    gtk_widget_set_sensitive(address_widgets[2], count > 2);
 }
 
 
@@ -191,7 +217,6 @@ static GtkWidget *create_sid_engine_widget(void)
                     gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), FALSE);
         }
     }
-
 
     resource_radiogroup_add_callback(radio_group, on_sid_engine_changed);
 
@@ -253,6 +278,8 @@ static GtkWidget *create_num_sids_widget(void)
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
+    resource_radiogroup_add_callback(radio_group, on_sid_count_changed);
+
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -300,6 +327,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     GtkWidget *num_sids;
     GtkWidget *filters;
     int current_engine;
+    int stereo;
     int i;
 
     layout = gtk_grid_new();
@@ -324,7 +352,8 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), num_sids, 2, 1, 1, 1);
 
     for (i = 1; i < 4; i++) {
-        gtk_grid_attach(GTK_GRID(layout), create_extra_sid_address_widget(i),
+        address_widgets[i - 1] = create_extra_sid_address_widget(i);
+        gtk_grid_attach(GTK_GRID(layout), address_widgets[i - 1],
                 i - 1, 2, 1, 1);
     }
 
@@ -332,6 +361,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, 3, 3, 1);
 
+    /* set sensitivity of address widgets */
+    resources_get_int("SidStereo", &stereo);
+    on_sid_count_changed(NULL, stereo);
 
     gtk_widget_show_all(layout);
     return layout;
