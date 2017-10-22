@@ -391,6 +391,11 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, 3, 3, 1);
 
+#ifndef HAVE_RESID
+    gtk_widget_set_sensitive(filters, FALSE);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(filters), FALSE);
+#endif
+
     /* set sensitivity of address widgets */
     resources_get_int("SidStereo", &stereo);
     on_sid_count_changed(NULL, stereo);
