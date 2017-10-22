@@ -196,6 +196,7 @@ static GtkWidget *create_sid_engine_widget(void)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *radio_group;
+    int p;
 
     grid = gtk_grid_new();
     g_object_set(grid, "margin-left", 8, NULL);
@@ -211,40 +212,34 @@ static GtkWidget *create_sid_engine_widget(void)
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
-#ifdef HAVE_CATWEASELMKIII
-    if (!catweaselmkiii_available()) {
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
-                    0, 2), FALSE);
+    for (p = 2; p < 7; p++) {
+        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), FALSE);
     }
-#else
-    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
-                0, 2), FALSE);
+
+#ifdef HAVE_CATWEASELMKIII
+    if (catweaselmkiii_available()) {
+        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
+                    0, 2), TRUE);
+    }
 #endif
 
 #ifdef HAVE_HARDSID
-    if (!hardsid_available()) {
+    if (hardsid_available()) {
         gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
-                    0, 3), FALSE);
+                    0, 3), TRUE);
 
     }
-#else
-    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group),
-                0, 3), FALSE);
-
 #endif
 
 #ifdef HAVE_PARSID
-    if (!parsid_available()) {
-#else
+    if (parsid_available()) {
     {
-#endif
-        int p;
         for (p = 4; p < 7; p++) {
             gtk_widget_set_sensitive(
-                    gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), FALSE);
+                    gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), TRUE);
         }
     }
-
+#endif
     resource_radiogroup_add_callback(radio_group, on_sid_engine_changed);
 
     gtk_widget_show_all(grid);
