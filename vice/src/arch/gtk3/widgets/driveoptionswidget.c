@@ -1,5 +1,8 @@
-/** \file   src/arch/gtk3/driveoptionswidget.c
+/** \file   src/arch/gtk3/widgets/driveoptionswidget.c
  * \brief   Drive options widget
+ *
+ * Written by
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  IECDevice[8-11]     (only x64/x64sc/xscpu64/x64dtv/x128/xplus/xvic)
@@ -12,9 +15,6 @@
  *  Drive[8-11]Wobble
  *  Drive[8-11]RTCSave
  *
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -55,23 +56,7 @@ static ui_radiogroup_entry_t policies[] = {
  */
 static int unit_number = 8;
 
-
-/** \brief  Handler for the "toggle" event of the radio buttons
- *
- * Sets the 40-track expansion policy.
- *
- * \param[in]   widget      radio button
- * \param[in]   user_data   policy (int)
- */
-static void on_radio_toggle(GtkWidget *widget, gpointer user_data)
-{
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        int policy = GPOINTER_TO_INT(user_data);
-
-        debug_gtk3("setting Drive%dExtendImagePolicy to %d\n", unit_number, policy);
-        resources_set_int_sprintf("Drive%dExtendImagePolicy", policy, unit_number);
-    }
-}
+static GtkWidget *radio_group = NULL;
 
 
 /** \brief  Create 40-track extend policy widget
@@ -83,16 +68,17 @@ static void on_radio_toggle(GtkWidget *widget, gpointer user_data)
 GtkWidget *drive_extend_policy_widget_create(int unit)
 {
     GtkWidget *grid;
+    char buffer[256];
 
     unit_number = 8;
 
-    grid = uihelpers_radiogroup_create(
-            "40-track policy",
-            policies,
-            on_radio_toggle,
-            0); /* update_drive_extend_policy_widget() should be called right
-                   after this function, so this is fine*/
-
+    grid = uihelpers_create_grid_with_label("40-track policy", 1);
+    g_snprintf(buffer, 256, "Drive%dExtendImagePolicy", unit);
+    radio_group = resource_radiogroup_create(buffer, policies,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
     return grid;
 }
 
@@ -103,18 +89,13 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
  */
 void drive_extend_policy_widget_update(GtkWidget *widget, int unit)
 {
-    GtkWidget *radio;
     int policy;
     int drive_type = ui_get_drive_type(unit);
 
     unit_number = unit;
 
     resources_get_int_sprintf("Drive%dExtendImagePolicy", &policy, unit);
-
-    radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, policy + 1);
-    if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-    }
+    resource_radiogroup_update(radio_group, policy);
 
     /* determine if this widget is valid for the current drive type */
     gtk_widget_set_sensitive(widget,

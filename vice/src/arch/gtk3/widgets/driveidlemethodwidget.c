@@ -32,6 +32,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -39,9 +40,6 @@
 #include "drive-check.h"
 
 #include "driveidlemethodwidget.h"
-
-
-static int unit_number = 8;
 
 
 
@@ -55,19 +53,6 @@ static ui_radiogroup_entry_t idle_methods[] = {
 };
 
 
-/** \brief  Handler for the "toggled" event of the radio buttons
- */
-static void on_idle_method_changed(GtkWidget *widget, gpointer user_data)
-{
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        int value = GPOINTER_TO_INT(user_data);
-
-        debug_gtk3("setting Drive%dIdleMethod to %d\n", unit_number, value);
-        resources_set_int_sprintf("Drive%dIdleMethod", value, unit_number);
-    }
-}
-
-
 /** \brief  Create widget to set the drive idle method
  *
  * \param[in]   unit    current drive unit number
@@ -76,16 +61,18 @@ static void on_idle_method_changed(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *drive_idle_method_widget_create(int unit)
 {
-    GtkWidget *widget;
+    GtkWidget *grid;
+    GtkWidget *radio_group;
+    char buffer[256];
 
-    unit_number = unit;
-
-    widget = uihelpers_radiogroup_create(
-            "Idle method",
-            idle_methods,
-            on_idle_method_changed,
-            0);
-    return widget;
+    g_snprintf(buffer, 256, "Drive%dIdleMethod", unit);
+    grid = uihelpers_create_grid_with_label("Idle method", 1);
+    radio_group = resource_radiogroup_create(buffer, idle_methods,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
 }
 
 
@@ -96,10 +83,12 @@ GtkWidget *drive_idle_method_widget_create(int unit)
  */
 void drive_idle_method_widget_update(GtkWidget *widget, int unit)
 {
+    GtkWidget *radio_group;
     int value;
 
-    unit_number = unit;
-
-    resources_get_int_sprintf("Drive%dIdleMethod", &value, unit);
-    uihelpers_radiogroup_set_index(widget, value);
+    radio_group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    if (radio_group != NULL && GTK_IS_GRID(radio_group)) {
+        resources_get_int_sprintf("Drive%dIdleMethod", &value, unit);
+        resource_radiogroup_update(radio_group, value);
+    }
 }
