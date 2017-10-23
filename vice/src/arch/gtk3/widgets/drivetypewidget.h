@@ -25,19 +25,18 @@
  */
 
 
-#ifndef VICE_UIDRIVESETTINGS_H
-#define VICE_UIDRIVESETTINGS_H
+#ifndef VICE_UIDRIVETYPEWIDGET_H
+#define VICE_UIDRIVETYPEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void        drive_type_widget_set_extend_widget(GtkWidget *widget);
-void        drive_type_widget_set_expansion_widget(GtkWidget *widget);
-void        drive_type_widget_set_parallel_cable_widget(GtkWidget *widget);
-void        drive_type_widget_set_options_widget(GtkWidget *widget);
 
-GtkWidget * drive_type_widget_create(int unit, void (*callback)(int));
-void        drive_type_widget_update(GtkWidget *widget, int unit);
-void        drive_type_widget_connect_signals(GtkWidget *widget);
+GtkWidget * drive_type_widget_create(int unit);
+void        drive_type_widget_update(GtkWidget *widget);
+
+void drive_type_widget_add_callback(GtkWidget *widget,
+                                    void (*cb_func)(GtkWidget *, gpointer),
+                                    gpointer cb_data);
 
 #endif

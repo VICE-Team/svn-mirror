@@ -54,7 +54,6 @@ static ui_radiogroup_entry_t policies[] = {
 
 /** \brief  Unit number
  */
-static int unit_number = 8;
 
 static GtkWidget *radio_group = NULL;
 
@@ -70,9 +69,10 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
     GtkWidget *grid;
     char buffer[256];
 
-    unit_number = 8;
-
     grid = uihelpers_create_grid_with_label("40-track policy", 1);
+    /* store unit number in "UnitNumber" property for later use */
+    g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
+
     g_snprintf(buffer, 256, "Drive%dExtendImagePolicy", unit);
     radio_group = resource_radiogroup_create(buffer, policies,
             GTK_ORIENTATION_VERTICAL);
@@ -85,17 +85,15 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
 
 /** \brief  Update the widget with data from \a unit
  *
- * \param[in]   unit    drive unit number (8-11)
+ * \param[in,out]   widget  drive 40-track extend policy widget
  */
-void drive_extend_policy_widget_update(GtkWidget *widget, int unit)
+void drive_extend_policy_widget_update(GtkWidget *widget)
 {
-    int policy;
-    int drive_type = ui_get_drive_type(unit);
+    int unit;
+    int drive_type;
 
-    unit_number = unit;
-
-    resources_get_int_sprintf("Drive%dExtendImagePolicy", &policy, unit);
-    resource_radiogroup_update(radio_group, policy);
+    unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
+    drive_type = ui_get_drive_type(unit);
 
     /* determine if this widget is valid for the current drive type */
     gtk_widget_set_sensitive(widget,

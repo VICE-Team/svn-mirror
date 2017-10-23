@@ -66,7 +66,7 @@
 #include "uikeyboard.h"
 #include "uisound.h"
 #include "uiautostart.h"
-#include "uidrivesettings.h"
+#include "uidrivesettings_new.h"
 #include "uimodel.h"
 #include "uimisc.h"
 #include "ramresetwidget.h"
@@ -120,7 +120,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Sound settings", uisound_create_central_widget, NULL },
     { "Sampler settings", uisamplersettings_widget_create, NULL },
     { "Autostart settings", uiautostart_create_central_widget, NULL },
-    { "Drive settings", uidrivesettings_create_central_widget, NULL },
+    { "Drive settings", uidrivesettings_widget_create, NULL },
     { "Printer settings", uiprintersettings_widget_create, NULL },
     { "Control port settings", uicontrolport_widget_create, NULL },
     { "Joystick settings", uijoystick_widget_create, NULL },

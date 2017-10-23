@@ -7,6 +7,10 @@
  *
  *  (for more, see used widgets)
  *
+ * XXX: Being reworking in uidrivesettings_new.c, so this will soon be
+ *      deprecated and thus removed. Only serves as copy/paste fodder.
+ *      (Already removed from Makefile.am to avoid conflicts with refactored
+ *      drive[something]widget.{c,h} files.
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>

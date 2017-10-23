@@ -63,7 +63,6 @@ libarch_a_SOURCES = \
 	uiautostart.c \
 	uidatasette.c \
 	uidiskattach.c \
-	uidrivesettings.c \
 	uiedit.c \
 	uifliplist.c \
 	uimenu.c \
@@ -92,7 +91,8 @@ libarch_a_SOURCES = \
 	uijoystick.c \
 	uicommands.c \
 	uimousesettings.c \
-	uisoundchipsettings.c
+	uisoundchipsettings.c \
+	uidrivesettings_new.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -124,7 +124,6 @@ EXTRA_DIST = \
 	uiautostart.h \
 	uidatasette.h \
 	uidiskattach.h \
-	uidrivesettings.h \
 	uifliplist.h \
 	uikeyboard.h \
 	uiedit.h \
@@ -148,4 +147,5 @@ EXTRA_DIST = \
 	uijoystick.h \
 	uicommands.h \
 	uimousesettings.h \
-	uisoundchipsettings.h
+	uisoundchipsettings.h \
+	uidrivesettings_new.h
