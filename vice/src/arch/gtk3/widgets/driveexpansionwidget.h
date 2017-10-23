@@ -4,9 +4,6 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  Drive[8-11]Type
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -35,6 +32,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget * drive_expansion_widget_create(int unit);
-void        drive_expansion_widget_update(GtkWidget *widget, int unit);
+void        drive_expansion_widget_update(GtkWidget *widget);
 
 #endif

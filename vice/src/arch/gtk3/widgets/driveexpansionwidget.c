@@ -32,15 +32,13 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
- * TODO:    check machine type (x64, x64sc, xscpu64 or x128) to enable/disable
- *          the DOS expansion check buttons
  */
 
 #include "vice.h"
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -51,103 +49,46 @@
 #include "driveexpansionwidget.h"
 
 
-/** \brief  Unit number (8-11)
- */
-static int unit_number = 8;
-
-/*
- * References to check buttons in the widget
- */
-static GtkWidget *ram2000_widget = NULL;
-static GtkWidget *ram4000_widget = NULL;
-static GtkWidget *ram6000_widget = NULL;
-static GtkWidget *ram8000_widget = NULL;
-static GtkWidget *ramA000_widget = NULL;
-static GtkWidget *profdos_widget = NULL;
-static GtkWidget *stardos_widget = NULL;
-static GtkWidget *supercard_widget = NULL;
-
-
-
-static void on_destroy(GtkWidget *widget, gpointer user_data)
-{
-    ram2000_widget = NULL;
-    ram4000_widget = NULL;
-    ram6000_widget = NULL;
-    ram8000_widget = NULL;
-    ramA000_widget = NULL;
-    profdos_widget = NULL;
-    stardos_widget = NULL;
-    supercard_widget = NULL;
-}
-
-
-
-/** \brief  Handler for "toggled" event of RAM expansion check buttons
- *
- * \param[in]   widget      check button
- * \param[in]   user_data   RAM base address (word)
- */
-static void on_ram_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state;
-    unsigned int base = GPOINTER_TO_UINT(user_data);
-
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("setting Drive%dRAM%04X to %s\n", unit_number, base,
-            state ? "ON" : "OFF");
-    resources_set_int_sprintf("Drive%dRAM%04X", state, unit_number, base);
-}
-
-
-/** \brief  Handler for "toggled" event of DOS expansion check buttons
- *
- * \param[in]   widget      check button
- * \param[in]   user_data   last part of resource name (ie 'ProfDOS')
- */
-static void on_dos_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state;
-    const char *dos = (const char *)user_data;
-
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("setting Drive%d%s to %s\n", unit_number, dos,
-            state ? "ON" : "OFF");
-    resources_set_int_sprintf("Drive%d%s", state, unit_number, dos);
-}
-
 
 /** \brief  Create drive RAM expansion check button
  *
+ * \param[in]   unit    unit number (8-11)
  * \param[in]   base    RAM base address (word)
  *
  * \return  GtkCheckButton
  */
-static GtkWidget *create_ram_check_button(unsigned int base)
+static GtkWidget *create_ram_check_button(int unit, unsigned int base)
 {
     GtkWidget *check;
-    gchar buffer[256];
+    char label[256];
+    char resource[256];
 
-    g_snprintf(buffer, 256, "$%04X-$%04X RAM", base, base + 0x1fff);
+    g_snprintf(resource, 256, "Drive%dRAM%04x", unit, base);
+    g_snprintf(label, 256, "$%04X-$%04X RAM", base, base + 0x1fff);
 
-    check = gtk_check_button_new_with_label(buffer);
+    check = resource_check_button_create(resource, label);
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
 
 
-/** \brief  Create DOS expansion widget
+/** \brief  Create DOS expansion check button
  *
- * \param[in]   name    name of the expansion
- * \param[in]   res     final part of resource name
+ * \param[in]   unit    unit number (8-11)
+ * \param[in]   dos     final part of the resource name (ie 'ProfDOS')
+ * \param[in]   label   labe for the check button
  *
  * \return  GtkCheckButton
  */
-static GtkWidget *create_dos_check_button(const char *name, const char *res)
+static GtkWidget *create_dos_check_button(int unit, const char *dos,
+                                          const char *label)
 {
     GtkWidget *check;
+    char resource[256];
 
-    check = gtk_check_button_new_with_label(name);
+    g_snprintf(resource, 256, "Drive%d%s", unit, dos);
+
+    check = resource_check_button_create(resource, label);
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
@@ -160,16 +101,24 @@ static GtkWidget *create_dos_check_button(const char *name, const char *res)
 GtkWidget *drive_expansion_widget_create(int unit)
 {
     GtkWidget *grid;
-
-    unit_number = unit;
+    GtkWidget *ram2000_widget;
+    GtkWidget *ram4000_widget;
+    GtkWidget *ram6000_widget;
+    GtkWidget *ram8000_widget;
+    GtkWidget *ramA000_widget;
+    GtkWidget *profdos_widget;
+    GtkWidget *stardos_widget;
+    GtkWidget *supercard_widget;
 
     grid = uihelpers_create_grid_with_label("drive expansions", 1);
 
-    ram2000_widget = create_ram_check_button(0x2000);
-    ram4000_widget = create_ram_check_button(0x4000);
-    ram6000_widget = create_ram_check_button(0x6000);
-    ram8000_widget = create_ram_check_button(0x8000);
-    ramA000_widget = create_ram_check_button(0xA000);
+    g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
+
+    ram2000_widget = create_ram_check_button(unit, 0x2000);
+    ram4000_widget = create_ram_check_button(unit, 0x4000);
+    ram6000_widget = create_ram_check_button(unit, 0x6000);
+    ram8000_widget = create_ram_check_button(unit, 0x8000);
+    ramA000_widget = create_ram_check_button(unit, 0xA000);
 
     gtk_grid_attach(GTK_GRID(grid), ram2000_widget, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ram4000_widget, 0, 2, 1, 1);
@@ -177,34 +126,14 @@ GtkWidget *drive_expansion_widget_create(int unit)
     gtk_grid_attach(GTK_GRID(grid), ram8000_widget, 0, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ramA000_widget, 0, 5, 1, 1);
 
-    profdos_widget = create_dos_check_button("Professional DOS", "ProfDOS");
-    stardos_widget = create_dos_check_button("StarDOS", "StarDos");
-    supercard_widget = create_dos_check_button("SuperCard+", "SuperCard");
+    profdos_widget = create_dos_check_button(unit, "ProfDos", "Professional DOS");
+    stardos_widget = create_dos_check_button(unit, "StarDOS", "StarDos");
+    supercard_widget = create_dos_check_button(unit, "SuperCard", "SuperCard+");
     gtk_grid_attach(GTK_GRID(grid), profdos_widget, 0, 6, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stardos_widget, 0, 7, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), supercard_widget, 0, 8, 1, 1);
 
-    drive_expansion_widget_update(grid, unit);
-
-    g_signal_connect(ram2000_widget, "toggled", G_CALLBACK(on_ram_toggled),
-            GUINT_TO_POINTER(0x2000));
-    g_signal_connect(ram4000_widget, "toggled", G_CALLBACK(on_ram_toggled),
-            GUINT_TO_POINTER(0x4000));
-    g_signal_connect(ram6000_widget, "toggled", G_CALLBACK(on_ram_toggled),
-            GUINT_TO_POINTER(0x6000));
-    g_signal_connect(ram8000_widget, "toggled", G_CALLBACK(on_ram_toggled),
-            GUINT_TO_POINTER(0x8000));
-    g_signal_connect(ramA000_widget, "toggled", G_CALLBACK(on_ram_toggled),
-            GUINT_TO_POINTER(0xA000));
-
-    g_signal_connect(profdos_widget, "toggled", G_CALLBACK(on_dos_toggled),
-            (gpointer)"ProfDOS");
-    g_signal_connect(stardos_widget, "toggled", G_CALLBACK(on_dos_toggled),
-            (gpointer)"StarDos");
-    g_signal_connect(supercard_widget, "toggled", G_CALLBACK(on_dos_toggled),
-            (gpointer)"SuperCard");
-
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
+    drive_expansion_widget_update(grid);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -216,25 +145,27 @@ GtkWidget *drive_expansion_widget_create(int unit)
  * \param[in,out]   widget  drive expansion widget
  * \param[in]       unit    drive unit number
  */
-void drive_expansion_widget_update(GtkWidget *widget, int unit)
+void drive_expansion_widget_update(GtkWidget *widget)
 {
     int drive_type;
+    int unit;
 
-    unit_number = unit;
+    /* get unit number */
+    unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
 
     /* determine drive type */
     resources_get_int_sprintf("Drive%dType", &drive_type, unit);
 
     /* check RAM expansions */
-    gtk_widget_set_sensitive(ram2000_widget,
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(widget), 0, 1),
             drive_check_expansion2000(drive_type));
-    gtk_widget_set_sensitive(ram4000_widget,
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(widget), 0, 2),
             drive_check_expansion4000(drive_type));
-    gtk_widget_set_sensitive(ram6000_widget,
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(widget), 0, 3),
             drive_check_expansion6000(drive_type));
-    gtk_widget_set_sensitive(ram8000_widget,
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(widget), 0, 4),
             drive_check_expansion8000(drive_type));
-    gtk_widget_set_sensitive(ramA000_widget,
+    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(widget), 0, 5),
             drive_check_expansionA000(drive_type));
 
     /* check DOS extensions */
@@ -244,17 +175,29 @@ void drive_expansion_widget_update(GtkWidget *widget, int unit)
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:
             /* supported, depending on drive type */
-            gtk_widget_set_sensitive(profdos_widget,
+            gtk_widget_set_sensitive(
+                    gtk_grid_get_child_at(GTK_GRID(widget), 0, 6),
                     drive_check_profdos(drive_type));
-            gtk_widget_set_sensitive(stardos_widget,
+
+            gtk_widget_set_sensitive(
+                    gtk_grid_get_child_at(GTK_GRID(widget), 0, 7),
                     drive_check_stardos(drive_type));
-            gtk_widget_set_sensitive(supercard_widget,
+
+            gtk_widget_set_sensitive(
+                    gtk_grid_get_child_at(GTK_GRID(widget), 0, 8),
                     drive_check_supercard(drive_type));
+
             break;
         default:
             /* not supported for the current machine */
-            gtk_widget_set_sensitive(profdos_widget, FALSE);
-            gtk_widget_set_sensitive(stardos_widget, FALSE);
-            gtk_widget_set_sensitive(supercard_widget, FALSE);
+            gtk_widget_set_sensitive(
+                    gtk_grid_get_child_at(GTK_GRID(widget), 0, 6), FALSE);
+
+            gtk_widget_set_sensitive(
+                    gtk_grid_get_child_at(GTK_GRID(widget), 0, 7), FALSE);
+
+            gtk_widget_set_sensitive(
+                    gtk_grid_get_child_at(GTK_GRID(widget), 0, 8), FALSE);
+            break;
     }
 }

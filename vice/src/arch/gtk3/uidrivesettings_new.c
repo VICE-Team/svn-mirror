@@ -64,6 +64,11 @@
 #define CHILD_DRIVE_EXTEND_XPOS 0
 #define CHILD_DRIVE_EXTEND_YPOS 2
 
+/* position in a stack child widget of the drive expansions widget */
+#define CHILD_DRIVE_EXPAND_XPOS 1
+#define CHILD_DRIVE_EXPAND_YPOS 0
+
+
 
 /** \brief  Callback for changes in the drive type widget
  *
@@ -81,6 +86,7 @@
 static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
 {
     GtkWidget *drive_extend;
+    GtkWidget *drive_expand;
     int unit;
     int type;
 
@@ -97,6 +103,14 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
         gtk_widget_set_sensitive(drive_extend,
                 drive_check_extend_policy(type));
     }
+
+    /* determine which expansions are valid for current unit number and its
+     * drive type */
+    drive_expand = gtk_grid_get_child_at(GTK_GRID(data),
+            CHILD_DRIVE_EXPAND_XPOS, CHILD_DRIVE_EXPAND_YPOS);
+    if (drive_expand != NULL) {
+        drive_expansion_widget_update(drive_expand);
+    }
 }
 
 
@@ -112,6 +126,7 @@ static GtkWidget *create_stack_child_widget(int unit)
     GtkWidget *grid;
     GtkWidget *drive_type;
     GtkWidget *drive_extend;
+    GtkWidget *drive_expand;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -128,6 +143,10 @@ static GtkWidget *create_stack_child_widget(int unit)
     drive_extend = drive_extend_policy_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_extend,
             CHILD_DRIVE_EXTEND_XPOS, CHILD_DRIVE_EXTEND_YPOS, 1, 1);
+
+    drive_expand= drive_expansion_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_expand,
+            CHILD_DRIVE_EXPAND_XPOS, CHILD_DRIVE_EXPAND_YPOS, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
