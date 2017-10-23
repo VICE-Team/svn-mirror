@@ -26,8 +26,8 @@
 
 /*
  * The RS232 emulation captures the bytes sent to the RS232 interfaces
- * available (currently ACIA 6551, std C64 and Daniel Dallmanns fast RS232
- * with 9600 Baud).
+ * available (currently, ACIA 6551, std. C64, and Daniel Dallmann's fast RS232
+ * with 9600 BPS).
  *
  * I/O is done to a physical COM port.
  */
@@ -38,11 +38,10 @@
 #define DEBUG_FAKE_INPUT_OUTPUT (5 * 80)
 #undef DEBUG_FAKE_INPUT_OUTPUT
 
-#include <stdint.h>
-
 #include "vice.h"
 
 #include <errno.h>
+#include <stdint.h>
 #include <string.h>
 #include <winsock.h>
 
@@ -52,11 +51,9 @@
 
 #include "log.h"
 #include "rs232.h"
+#include "rs232dev.h"
 #include "types.h"
 #include "util.h"
-
-#include "rs232dev.h"
-
 
 #ifdef DEBUG
 # define DEBUG_LOG_MESSAGE(_xxx) log_message _xxx
@@ -245,7 +242,7 @@ void rs232dev_close(int fd)
 
 #if DEBUG_FAKE_INPUT_OUTPUT
 static char rs232_debug_fake_input = 0;
-static int rs232_debug_fake_input_available = 0;
+static unsigned rs232_debug_fake_input_available = 0;
 #endif
 
 /* sends a byte to the RS232 line */
@@ -261,12 +258,11 @@ int rs232dev_putc(int fd, uint8_t b)
     rs232_debug_fake_input = b;
 
 #else
-    if ( WriteFile(fds[fd].fd, &b, number_of_bytes,
-                (LPDWORD)&number_of_bytes, NULL) == 0) {
+    if (WriteFile(fds[fd].fd, &b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
         return -1;
     }
 
-    if (number_of_bytes != 1) {
+    if (number_of_bytes == 0) {
         return -1;
     }
 #endif
@@ -274,32 +270,24 @@ int rs232dev_putc(int fd, uint8_t b)
     return 0;
 }
 
-/* gets a byte to the RS232 line, returns !=0 if byte received, byte in *b. */
-int rs232dev_getc(int fd, uint8_t * b)
+/* gets a byte from the RS232 line, returns !=0 if byte received, byte in *b. */
+int rs232dev_getc(int fd, uint8_t *b)
 {
     uint32_t number_of_bytes = 1;
 
 #if DEBUG_FAKE_INPUT_OUTPUT
 
-    if (fds[fd].rts && fds[fd].dtr && rs232_debug_fake_input_available) {
-        if (rs232_debug_fake_input_available > 0) {
-            --rs232_debug_fake_input_available;
-        }
+    if (rs232_debug_fake_input_available != 0) {
+        --rs232_debug_fake_input_available;
         *b = rs232_debug_fake_input;
     } else {
         number_of_bytes = 0;
     }
 
 #else
-    if (fds[fd].rts && fds[fd].dtr) {
-        if (ReadFile(fds[fd].fd, b, number_of_bytes,
-                    (LPDWORD)&number_of_bytes, NULL) == 0) {
-            return -1;
-        }
-    } else {
-        number_of_bytes = 0;
+    if (ReadFile(fds[fd].fd, b, (DWORD)1, (LPDWORD)&number_of_bytes, NULL) == 0) {
+        return -1;
     }
-
 #endif
 
     if (number_of_bytes) {
