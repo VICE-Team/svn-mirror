@@ -196,16 +196,16 @@ static GtkWidget * vic20_ram_blocks_widget_create(void)
     int i;
 
     grid = uihelpers_create_grid_with_label("RAM blocks", 1);
-    for (i = 0; ram_blocks[i].text != NULL; i++) {
+    for (i = 0; ram_blocks[i].name != NULL; i++) {
 
-        GtkWidget *check = gtk_check_button_new_with_label(ram_blocks[i].text);
+        GtkWidget *check = gtk_check_button_new_with_label(ram_blocks[i].name);
         int active;
 
-        resources_get_int_sprintf("RamBlock%d", &active, ram_blocks[i].value);
+        resources_get_int_sprintf("RamBlock%d", &active, ram_blocks[i].id);
         g_object_set(check, "margin-left", 16, NULL);
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), active);
         g_signal_connect(check, "toggled", G_CALLBACK(on_ram_block_toggled),
-                GINT_TO_POINTER(ram_blocks[i].value));
+                GINT_TO_POINTER(ram_blocks[i].id));
         gtk_grid_attach(GTK_GRID(grid), check, 0, i + 1, 1, 1);
     }
 

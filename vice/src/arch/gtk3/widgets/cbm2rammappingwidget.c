@@ -36,18 +36,23 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
 
 #include "cbm2rammappingwidget.h"
 
+/** \brief  Struct with ram mapping resource names and labels
+ */
 typedef struct ram_mapping_s {
     const char *text;
     char *resource;
 } ram_mapping_t;
 
 
+/** \brief  List of RAM mappings
+ */
 static const ram_mapping_t mappings[] = {
     { "$0800-$0FFF", "Ram08" },
     { "$1000-$1FFF", "Ram1" },
@@ -59,16 +64,10 @@ static const ram_mapping_t mappings[] = {
 };
 
 
-static void on_ram_mapping_toggled(GtkWidget *widget, gpointer user_data)
-{
-    char *res = (char *)user_data;
-    int enabled = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    debug_gtk3("setting %s to %s\n", res, enabled ? "ON" : "OFF");
-    resources_set_int(res, enabled);
-}
-
-
+/** \brief  Create widget with RAM to expansion ROM mappings
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *cbm2_ram_mapping_widget_create(void)
 {
     GtkWidget *grid;
@@ -77,14 +76,10 @@ GtkWidget *cbm2_ram_mapping_widget_create(void)
     grid = uihelpers_create_grid_with_label("Map RAM into bank 15", 1);
     for (i = 0; mappings[i].text != NULL; i++) {
         GtkWidget *check;
-        int enabled;
 
-        check = gtk_check_button_new_with_label(mappings[i].text);
+        check = resource_check_button_create(mappings[i].resource,
+                mappings[i].text);
         g_object_set(check, "margin-left", 16, NULL);
-        resources_get_int(mappings[i].resource, &enabled);
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), enabled);
-        g_signal_connect(check, "toggled", G_CALLBACK(on_ram_mapping_toggled),
-                (gpointer)mappings[i].resource);
         gtk_grid_attach(GTK_GRID(grid), check, 0, i + 1, 1, 1);
     }
 

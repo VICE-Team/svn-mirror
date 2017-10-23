@@ -31,13 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-/** \brief  Entry for a radio button group
- */
-typedef struct ui_radiogroup_entry_s {
-    char *  text;   /**< text to display */
-    int     value;  /**< integer value */
-} ui_radiogroup_entry_t;
-
+#include "basewidget_types.h"
 
 typedef struct ui_button_s {
     char *text;

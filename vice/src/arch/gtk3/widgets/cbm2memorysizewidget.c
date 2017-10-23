@@ -32,6 +32,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -51,46 +52,6 @@ static ui_radiogroup_entry_t ram_sizes[] = {
 };
 
 
-/** \brief  Find index in ram sizes array of \a size
- *
- * \param[in]   size    RAM size in KB
- *
- * \return  index in array or -1 when not found
- */
-static int get_ram_size_index(int size)
-{
-    int i;
-
-    for (i = 0; ram_sizes[i].text != NULL; i++) {
-        if (ram_sizes[i].value == size) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * \param[in]   widget      radio button
- * \param[in]   user_data   RAM size in KB (`int`)
- */
-static void on_ram_size_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("RamSize", &old_val);
-    new_val = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
-            && new_val != old_val) {
-        debug_gtk3("setting RamSize to %dKB\n", new_val);
-        resources_set_int("RamSize", new_val);
-    }
-}
-
-
 /** \brief  Create CBM-II memory size widget
  *
  * \return  GtkGrid
@@ -98,18 +59,13 @@ static void on_ram_size_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *cbm2_memory_size_widget_create(void)
 {
     GtkWidget *grid;
-    int size = 0;
-    int index = 0;
+    GtkWidget *radio_group;
 
-    resources_get_int("RamSize", &size);
-    index = get_ram_size_index(size);
-
-    grid = uihelpers_radiogroup_create("RAM size",
-            ram_sizes, on_ram_size_toggled, index);
-
+    grid = uihelpers_create_grid_with_label("RAM size", 1);
+    radio_group = resource_radiogroup_create("RamSize", ram_sizes,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
-

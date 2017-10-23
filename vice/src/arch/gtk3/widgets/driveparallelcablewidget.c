@@ -98,12 +98,12 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
     drive_parallel_cable_widget_update(widget, unit);
 
     /* now connect the signal handlers */
-    for (i = 0; parallel_cables[i].text != NULL; i++) {
+    for (i = 0; parallel_cables[i].name != NULL; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
             g_signal_connect(radio, "toggled",
                     G_CALLBACK(on_parallel_cable_changed),
-                    GINT_TO_POINTER(parallel_cables[i].value));
+                    GINT_TO_POINTER(parallel_cables[i].id));
         }
     }
 

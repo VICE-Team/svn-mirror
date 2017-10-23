@@ -120,8 +120,8 @@ GtkWidget *video_model_widget_create(GtkWidget *machine)
     grid = uihelpers_create_grid_with_label(widget_title, 1);
 
     if (model_list != NULL) {
-        for (i = 0; model_list[i].text != NULL; i++) {
-            radio = gtk_radio_button_new_with_label(group, model_list[i].text);
+        for (i = 0; model_list[i].name != NULL; i++) {
+            radio = gtk_radio_button_new_with_label(group, model_list[i].name);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
             g_object_set(radio, "margin-left", 16, NULL);
             gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
@@ -174,7 +174,7 @@ void video_model_widget_connect_signals(GtkWidget *widget)
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
             g_signal_connect(radio, "toggled", G_CALLBACK(on_model_toggled),
-                    GINT_TO_POINTER(model_list[i].value));
+                    GINT_TO_POINTER(model_list[i].id));
         } else {
             break;
         }

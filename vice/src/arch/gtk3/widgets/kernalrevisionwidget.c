@@ -110,8 +110,8 @@ GtkWidget *kernal_revision_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), radio, 0, 1, 1, 1);
 
     last = GTK_RADIO_BUTTON(radio);
-    for (i = 0; revisions[i].text != NULL; i++) {
-        radio = gtk_radio_button_new_with_label(group, revisions[i].text);
+    for (i = 0; revisions[i].name != NULL; i++) {
+        radio = gtk_radio_button_new_with_label(group, revisions[i].name);
         g_object_set(radio, "margin-left", 16, NULL);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
 
@@ -121,7 +121,7 @@ GtkWidget *kernal_revision_widget_create(void)
         }
 
         g_signal_connect(radio, "toggled", G_CALLBACK(on_revision_toggled),
-                GINT_TO_POINTER(revisions[i].value));
+                GINT_TO_POINTER(revisions[i].id));
         gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 2, 1, 1);
         last = GTK_RADIO_BUTTON(radio);
     }

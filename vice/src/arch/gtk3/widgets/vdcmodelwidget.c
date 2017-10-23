@@ -110,8 +110,8 @@ GtkWidget *vdc_model_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), create_64kb_widget(), 0, 1, 1, 1);
 
     /* add VDC revisions */
-    for (i = 0; vdc_revs[i].text != NULL; i++) {
-        radio = gtk_radio_button_new_with_label(group, vdc_revs[i].text);
+    for (i = 0; vdc_revs[i].name != NULL; i++) {
+        radio = gtk_radio_button_new_with_label(group, vdc_revs[i].name);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
         g_object_set(radio, "margin-left", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 2, 1, 1);
@@ -169,7 +169,7 @@ void vdc_model_widget_connect_signals(GtkWidget *widget)
     while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 2)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
             g_signal_connect(radio, "toggled", G_CALLBACK(on_revision_toggled),
-                    GINT_TO_POINTER(vdc_revs[i].value));
+                    GINT_TO_POINTER(vdc_revs[i].id));
         }
         i++;
     }

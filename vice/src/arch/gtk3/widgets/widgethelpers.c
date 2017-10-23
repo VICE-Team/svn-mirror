@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uihelpers.c
+/** \file   src/arch/gtk3/widgets/widgethelpers.c
  * \brief   Helpers for creating Gtk3 widgets
  *
  * This file is supposed to contain some helper functions for boiler plate
@@ -117,8 +117,8 @@ GtkWidget *uihelpers_radiogroup_create(
     grid = uihelpers_create_grid_with_label(label, 1);
 
     last = NULL;
-    for (i = 0; data[i].text != NULL; i++) {
-        GtkWidget *radio = gtk_radio_button_new_with_label(group, data[i].text);
+    for (i = 0; data[i].name != NULL; i++) {
+        GtkWidget *radio = gtk_radio_button_new_with_label(group, data[i].name);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
         gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 1, 1, 1);
         g_object_set(radio, "margin-left", 16, NULL);  /* indent 16 units */
@@ -129,7 +129,7 @@ GtkWidget *uihelpers_radiogroup_create(
 
         if (callback != NULL) {
             g_signal_connect(radio, "toggled", G_CALLBACK(callback),
-                    GINT_TO_POINTER(data[i].value));
+                    GINT_TO_POINTER(data[i].id));
         }
         gtk_widget_show(radio);
         last = GTK_RADIO_BUTTON(radio);
@@ -151,8 +151,8 @@ int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value)
 {
     int i;
 
-    for (i = 0; list[i].text != NULL; i++) {
-        if (list[i].value == value) {
+    for (i = 0; list[i].name != NULL; i++) {
+        if (list[i].id == value) {
             return i;
         }
     }

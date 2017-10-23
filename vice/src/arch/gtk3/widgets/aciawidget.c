@@ -31,6 +31,7 @@
 #include <gtk/gtk.h>
 
 #include "lib.h"
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -44,6 +45,9 @@
 static int *acia_baud_rates;
 
 
+static ui_combo_entry_int_t *baud_rate_list = NULL;
+
+
 /** \brief  List of ACIA devices
  */
 static ui_radiogroup_entry_t acia_device_list[] = {
@@ -55,43 +59,54 @@ static ui_radiogroup_entry_t acia_device_list[] = {
 };
 
 
-/** \brief  Get index in the baud rates list
+/** \brief  Generate heap-allocated list to use in a resourcecombobox
  *
- * \param[in]   baud    baud rate
- *
- * \return  index or -1 when not found
+ * Creates a list of ui_combo_box_int_t entries from the `acia_baud_rates` list
  */
-static int get_baud_rate_index(int baud)
+static void generate_baud_rate_list(void)
 {
-    int i;
+    unsigned int i;
 
+    /* count number of baud rates */
     for (i = 0; acia_baud_rates[i] > 0; i++) {
-        if (acia_baud_rates[i] == baud) {
-            return i;
-        }
+        /* NOP */
     }
-    return -1;
+
+    baud_rate_list = lib_malloc((i + 1) * sizeof *baud_rate_list);
+    for (i = 0; acia_baud_rates[i] > 0; i++) {
+        baud_rate_list[i].name = lib_msprintf("%d", acia_baud_rates[i]);
+        baud_rate_list[i].id = acia_baud_rates[i];
+    }
+    /* terminate list */
+    baud_rate_list[i].name = NULL;
+    baud_rate_list[i].id = -1;
 }
 
 
-/** \brief  Handler for the "toggled" event of the ACIA device toggle buttons
- *
- * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   index of the device in the list (`int`)
+/** \brief  Free memory used by `baud_rate_list`
  */
-static void on_acia_device_changed(GtkWidget *widget, gpointer user_data)
+static void free_baud_rate_list(void)
 {
-    int old_val;
-    int new_val;
+    int i;
 
-    resources_get_int("Acia1Dev", &old_val);
-    new_val = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
-            && new_val != old_val) {
-        debug_gtk3("setting Acia1Dev to %d\n", new_val);
-        resources_set_int("Acia1Dev", new_val);
+    for (i = 0; baud_rate_list[i].name != NULL; i++) {
+        lib_free(baud_rate_list[i].name);
     }
+    lib_free(baud_rate_list);
+    baud_rate_list = NULL;
+}
+
+
+/** \brief  Handler for the "destroy" event of the main widget
+ *
+ * Frees memory used by the baud rate list
+ *
+ * \param[in]   widget      main widget (unused)
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_destroy(GtkWidget *widget, gpointer user_data)
+{
+    free_baud_rate_list();
 }
 
 
@@ -108,25 +123,6 @@ static void on_serial_device_changed(GtkWidget *widget, gpointer user_data)
     /* debug_gtk3("got RsDevice %d\n", device); */
     debug_gtk3("setting RsDevice%d to '%s'\n", device, text);
     resources_set_string_sprintf("RsDevice%d", text, device);
-}
-
-
-/** \brief  Handler for the changed event for the baud rate combo boxes
- *
- * \param[in]   widget      combo box triggering the event
- * \param[in]   user_data   serial device number (`int`)
- */
-static void on_serial_baud_changed(GtkWidget *widget, gpointer user_data)
-{
-    int device = GPOINTER_TO_INT(user_data);
-    int index = gtk_combo_box_get_active(GTK_COMBO_BOX(widget));
-
-    if (index > 0) {
-        debug_gtk3("setting RsDevice%dBaud to %d\n",
-                device, acia_baud_rates[index]);
-        resources_set_int_sprintf("RsDevice%dBaud",
-                acia_baud_rates[index], device);
-    }
 }
 
 
@@ -165,28 +161,21 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Create a Acia device widget for ACIA \a num
+/** \brief  Create an ACIA device widget
  *
- * Creates a widget to select an ACIA device. Uses a custom GObject propery
- * 'AciaNum' on the containing GtkGrid to be able to distingish between which
- * Acia[num]Dev resource needs to be altered.
- *
- * \param[in]   acia_num    ACIA number (1 or 2)
+ * Creates a widget to select an ACIA device.
  *
  * \return  GtkGrid
  */
 static GtkWidget *create_acia_device_widget(void)
 {
     GtkWidget *grid;
-    int device;
+    GtkWidget *radio_group;
 
-    resources_get_int("Acia1Dev", &device);
-
-    grid = uihelpers_radiogroup_create("ACIA device",
-            acia_device_list,
-            on_acia_device_changed,
-            device);
-
+    grid = uihelpers_create_grid_with_label("ACIA device", 1);
+    radio_group = resource_radiogroup_create("Acia1Dev", acia_device_list,
+            GTK_ORIENTATION_VERTICAL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -207,9 +196,7 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     GtkWidget *combo;
     char *title;
     const char *path;
-    int rate;
-    int index;
-    int i;
+    char buffer[256];
 
     title = lib_msprintf("Serial %d device", num);
     grid = uihelpers_create_grid_with_label(title, 2);
@@ -235,16 +222,8 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-    combo = gtk_combo_box_text_new();
-    gtk_widget_set_hexpand(combo, TRUE);
-    for (i = 0; acia_baud_rates[i] > 0; i++) {
-        gchar buffer[64];
-
-        g_snprintf(buffer, 64, "%d", acia_baud_rates[i]);
-        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                NULL, buffer);
-    }
-
+    g_snprintf(buffer, 256, "RsDevice%dBaud", num);
+    combo = resource_combo_box_int_create(buffer, baud_rate_list);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 2, 1, 1);
@@ -257,19 +236,9 @@ static GtkWidget *create_acia_serial_device_widget(int num)
         gtk_entry_set_text(GTK_ENTRY(entry), path);
     }
 
-    resources_get_int_sprintf("RsDevice%dBaud", &rate, num);
-    index = get_baud_rate_index(rate);
-    gtk_combo_box_set_active(GTK_COMBO_BOX(combo),index);
-
     /* connect handlers */
     g_signal_connect(entry, "changed", G_CALLBACK(on_serial_device_changed),
             GINT_TO_POINTER(num));
-
-    /* connect handlers */
-    g_signal_connect(combo, "changed", G_CALLBACK(on_serial_baud_changed),
-            GINT_TO_POINTER(num));
-
-
 
     gtk_widget_show_all(grid);
     return grid;
@@ -292,6 +261,7 @@ GtkWidget *acia_widget_create(int *baud)
     GtkWidget *serial2_widget;
 
     acia_baud_rates = baud;
+    generate_baud_rate_list();
 
     grid = uihelpers_create_grid_with_label("ACIA settings", 3);
 
@@ -305,6 +275,7 @@ GtkWidget *acia_widget_create(int *baud)
     serial2_widget = create_acia_serial_device_widget(2);
     gtk_grid_attach(GTK_GRID(grid), serial2_widget, 2, 1, 1, 1);
 
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     return grid;

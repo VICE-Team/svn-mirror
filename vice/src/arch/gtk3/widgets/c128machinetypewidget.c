@@ -3,7 +3,7 @@
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
- *   MachineType
+ *   MachineType (x128 only)
  *
  * Controls the following resource(s):
  *
@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -38,7 +39,8 @@
 
 #include "c128machinetypewidget.h"
 
-
+/** \brief  List of C128 machine types
+ */
 static ui_radiogroup_entry_t machine_types[] = {
     { "International",  C128_MACHINE_INT },
     /* any of these cause a KERNAL corrupted message from c128mem */
@@ -53,43 +55,6 @@ static ui_radiogroup_entry_t machine_types[] = {
 };
 
 
-/** \brief  Get index of machine \a type in array
- *
- * Right now the C128 machine type are just like an enum (0..n), but if those
- * defines change, this widget will still work
- *
- * \param[in]   type    C128 machine type (\see src/c128/c128.h)
- *
- * \return  index in array or -1 when not found
- */
-static int get_machine_type_index(int type)
-{
-    return uihelpers_radiogroup_get_index(machine_types, type);
-}
-
-
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   machine type ID (`int`)
- */
-static void on_machine_type_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_type;
-    int new_type;
-
-    resources_get_int("MachineType", &old_type);
-    new_type = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
-            && old_type != new_type) {
-        /* update resource */
-        debug_gtk3("setting MachineType to %d\n", new_type);
-        resources_set_int("MachineType", new_type);
-    }
-}
-
-
 /** \brief  Create C128 machine type widget
  *
  * \return  GtkGrid
@@ -97,16 +62,13 @@ static void on_machine_type_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget * c128_machine_type_widget_create(void)
 {
     GtkWidget *grid;
-    int type;
-    int index;
+    GtkWidget *radio_group;
 
-    resources_get_int("MachineType", &type);
-    index = get_machine_type_index(type);
-
-    grid = uihelpers_radiogroup_create("Machine type",
-            machine_types,
-            on_machine_type_toggled,
-            index);
+    grid = uihelpers_create_grid_with_label("Machine type", 1);
+    radio_group = resource_radiogroup_create("MachineType", machine_types,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

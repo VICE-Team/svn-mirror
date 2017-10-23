@@ -33,6 +33,7 @@
 #include <glib/gstdio.h>
 
 #include "lib.h"
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -60,40 +61,6 @@ static ui_radiogroup_entry_t models_cbm6x0[] = {
 };
 
 
-/** \brief  Find index for \a model in \a list
- *
- * \param[in]   list    list of switches
- * \param[in]   model   switch number to look up (`int`)
- *
- * \return  index or -1 when not found
- */
-static int get_model_index(ui_radiogroup_entry_t *list, int model)
-{
-    return uihelpers_radiogroup_get_index(list, model);
-}
-
-
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * \param[in]   widget      radio button
- * \param[in]   user_data   new value for resources (`int`)
- */
-static void on_model_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("ModelLine", &old_val);
-    new_val = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
-            && new_val != old_val) {
-        debug_gtk3("setting ModelLine to %d\n", new_val);
-        resources_set_int("ModelLine", new_val);
-    }
-}
-
-
 /** \brief  Create widget to control the 'hardwired switches', whatever those may be
  *
  * \return  GtkGrid
@@ -101,22 +68,14 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *cbm2_hardwired_switches_widget_create(void)
 {
     GtkWidget *grid;
-    int model;
-    int index;
-    ui_radiogroup_entry_t *list;
+    GtkWidget *radio_group;
 
-    resources_get_int("ModelLine", &model);
-    if (machine_class == VICE_MACHINE_CBM5x0) {
-        list = models_cbm5x0;
-    } else {
-        list = models_cbm6x0;
-    }
-    index = get_model_index(list, model);
-
-
-    grid = uihelpers_radiogroup_create("Hardwired switches",
-            list, on_model_toggled, index);
-
+    grid = uihelpers_create_grid_with_label("Hardwired switches", 1);
+    radio_group = resource_radiogroup_create("ModelLine",
+            machine_class == VICE_MACHINE_CBM5x0 ? models_cbm5x0 : models_cbm6x0,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

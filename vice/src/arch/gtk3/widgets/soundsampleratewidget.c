@@ -86,13 +86,13 @@ GtkWidget *sound_sample_rate_widget_create(void)
 
     /* turn rate into radio button index */
     resources_get_int("SoundSampleRate", &rate);
-    for (i = 0; sample_rates[i].text != NULL; i++) {
-        if (sample_rates[i].value == rate) {
+    for (i = 0; sample_rates[i].name != NULL; i++) {
+        if (sample_rates[i].id == rate) {
             break;
         }
     }
     /* guard against invalid index */
-    if (sample_rates[i].text == NULL) {
+    if (sample_rates[i].name == NULL) {
         i = 0;
     }
 

@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_BASEWIDGET_TYPES_H
-#define VICE_BASEWIDGET_TYPES_H
+#ifndef VICE_BASEWIDGETTYPES_H
+#define VICE_BASEWIDGETTYPES_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
@@ -34,24 +34,24 @@
 /** \brief  Entry for a combo box using an integer as ID
  */
 typedef struct ui_combo_entry_int_s {
-    const char *name;   /**< displayed in the combo box */
-    int         id;     /**< ID for the entry in the combo box */
+    char *name;     /**< displayed in the combo box */
+    int   id;       /**< ID for the entry in the combo box */
 } ui_combo_entry_int_t;
 
 
 /** \brief  Entry for a combo box using a string as ID
  */
 typedef struct ui_combo_entry_str_s {
-    const char *name;   /**< displayed in the combo box */
-    const char *id;     /**< ID for the entry in the combo box */
+    char *name;     /**< displayed in the combo box */
+    char *id;       /**< ID for the entry in the combo box */
 } ui_combo_entry_str_t;
 
 
 /** \brief  Entry for a radio button group using an integer as ID
  */
 typedef struct ui_radiogroup_entry_s {
-    const char *name;   /**< label for the radio button */
-    int         id;     /**< ID for the radio button */
+    char *name;     /**< label for the radio button */
+    int   id;       /**< ID for the radio button */
 } ui_radiogroup_entry_t;
 
 
