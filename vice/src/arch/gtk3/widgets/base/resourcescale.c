@@ -145,3 +145,22 @@ void resource_scale_int_update(GtkWidget *scale, int value)
 {
     gtk_range_set_value(GTK_RANGE(scale), (gdouble)value);
 }
+
+
+/** \brief  Restore the \a scale to the resource's default value
+ *
+ * Restores the value to the 'factory value' specified for the resource and
+ * updates the widget.
+ *
+ * \param[in,out]   scale   integer scale widget
+ */
+void resource_scale_int_reset(GtkWidget *scale)
+{
+    const char *resource;
+    int value;
+
+    resource = (const char*)g_object_get_data(G_OBJECT(scale), "ResourceName");
+    resources_get_default_value(resource, &value);
+    debug_gtk3("resetting %s to factory value %d\n", resource, value);
+    resource_scale_int_update(scale, value);
+}

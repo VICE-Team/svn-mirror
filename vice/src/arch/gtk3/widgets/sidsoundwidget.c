@@ -234,10 +234,7 @@ static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
 static void on_resid_passband_default_clicked(GtkWidget *widget,
                                               gpointer user_data)
 {
-    int value;
-
-    resources_get_default_value("SidResidPassband", (void *)&value);
-    resource_scale_int_update(resid_passband, value);
+    resource_scale_int_reset(resid_passband);
 }
 
 
@@ -251,11 +248,7 @@ static void on_resid_passband_default_clicked(GtkWidget *widget,
 static void on_resid_gain_default_clicked(GtkWidget *widget,
                                           gpointer user_data)
 {
-    int value;
-
-    resources_get_default_value("SidResidGain", (void *)&value);
-    resource_scale_int_update(resid_gain, value);
-
+    resource_scale_int_reset(resid_gain);
 }
 
 
@@ -269,10 +262,7 @@ static void on_resid_gain_default_clicked(GtkWidget *widget,
 static void on_resid_bias_default_clicked(GtkWidget *widget,
                                           gpointer user_data)
 {
-    int value;
-
-    resources_get_default_value("SidResidFilterBias", (void *)&value);
-    resource_scale_int_update(resid_bias, value);
+    resource_scale_int_reset(resid_bias);
 
 }
 

@@ -39,4 +39,6 @@ void        resource_scale_int_update(GtkWidget *scale, int value);
 
 void        resource_scale_int_set_marks(GtkWidget *scale, int step);
 
+void        resource_scale_int_reset(GtkWidget *scale);
+
 #endif
