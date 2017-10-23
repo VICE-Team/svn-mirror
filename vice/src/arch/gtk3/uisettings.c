@@ -129,7 +129,10 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },
     { "Miscellaneous", uimisc_create_central_widget, NULL },
     { "Video settings", uivideosettings_widget_create, NULL },
-    { "Soundchip settings", uisoundchipsettings_widget_create, NULL },
+    /* TODO: only enable this item when a SID is supported or can be supported
+     *       through an I/O extension
+     */
+    { "SID settings", uisoundchipsettings_widget_create, NULL },
     { "Subitem test", NULL, subnodes },
     { NULL, NULL, NULL }
 };

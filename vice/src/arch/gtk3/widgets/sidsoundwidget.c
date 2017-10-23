@@ -478,15 +478,34 @@ static GtkWidget *create_resid_bias_widget(void)
 }
 
 
+/** \brief  Create "Reset to default" button
+ *
+ * \param[in]   callback    callback for the button
+ *
+ * \return  GtkButton
+ */
+static GtkWidget *create_resource_reset_button(
+        void (*callback)(GtkWidget *, gpointer))
+{
+    GtkWidget *button;
+
+    button = gtk_button_new_with_label("Reset to default");
+    gtk_widget_set_valign(button, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(button, FALSE);
+    g_object_set(button, "margin-left", 16, NULL);
+
+    g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);
+
+    gtk_widget_show(button);
+    return button;
+}
+
 
 /** \brief  Create widget to control SID settings
  *
  * \param[in]   parent  parent widget
  *
  * \return  GtkGrid
- *
- * TODO:    refactor reset-to-default buttons code into separate function with
- *          a single callback
  */
 GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 {
@@ -494,10 +513,11 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *engine;
-    GtkWidget *num_sids;
+    GtkWidget *num_sids = NULL;
     GtkWidget *filters;
     int current_engine;
     int stereo;
+    int row;
     int i;
 
     layout = gtk_grid_new();
@@ -520,59 +540,58 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
     num_sids = create_num_sids_widget();
     gtk_grid_attach(GTK_GRID(layout), num_sids, 2, 1, 1, 1);
+    /* Plus4 and CBM5x0/CBM6x0 only support a single SID */
+    if (machine_class == VICE_MACHINE_PLUS4
+            || machine_class == VICE_MACHINE_CBM5x0
+            || machine_class == VICE_MACHINE_CBM6x0)
+    {
+        gtk_widget_set_sensitive(num_sids, FALSE);
+    }
 
-    for (i = 1; i < 4; i++) {
-        address_widgets[i - 1] = create_extra_sid_address_widget(i);
-        gtk_grid_attach(GTK_GRID(layout), address_widgets[i - 1],
-                i - 1, 2, 1, 1);
+    if (machine_class != VICE_MACHINE_PLUS4
+            && machine_class != VICE_MACHINE_CBM5x0
+            && machine_class != VICE_MACHINE_CBM6x0)
+    {
+        for (i = 1; i < 4; i++) {
+            address_widgets[i - 1] = create_extra_sid_address_widget(i);
+            gtk_grid_attach(GTK_GRID(layout), address_widgets[i - 1],
+                    i - 1, 2, 1, 1);
+        }
+        row = 3;
+    } else {
+        row = 2;
     }
 
     filters = resource_check_button_create("SidFilters",
             "Enable SID filter emulation");
-    gtk_grid_attach(GTK_GRID(layout), filters, 0, 3, 3, 1);
+    gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
 
     label = gtk_label_new("ReSID passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     resid_passband = create_resid_passband_widget();
-    button = gtk_button_new_with_label("Reset to default");
-    gtk_widget_set_vexpand(button, FALSE);
-    gtk_widget_set_valign(button, GTK_ALIGN_END);
-    g_object_set(button, "margin-left", 16, NULL);
-    g_signal_connect(button, "clicked",
-            G_CALLBACK(on_resid_passband_default_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(layout), label, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), resid_passband, 1, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), button, 2, 4, 1, 1);
+    button = create_resource_reset_button(on_resid_passband_default_clicked);
+    gtk_grid_attach(GTK_GRID(layout), label, 0, row + 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), resid_passband, 1, row + 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), button, 2, row + 1, 1, 1);
 
     label = gtk_label_new("ReSID gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     resid_gain = create_resid_gain_widget();
-    button = gtk_button_new_with_label("Reset to default");
-    gtk_widget_set_vexpand(button, FALSE);
-    gtk_widget_set_valign(button, GTK_ALIGN_END);
-    g_object_set(button, "margin-left", 16, NULL);
-    g_signal_connect(button, "clicked",
-            G_CALLBACK(on_resid_gain_default_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(layout), label, 0, 5, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), resid_gain, 1, 5, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), button, 2, 5, 1, 1);
+    button = create_resource_reset_button(on_resid_gain_default_clicked);
+    gtk_grid_attach(GTK_GRID(layout), label, 0, row + 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), resid_gain, 1, row + 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), button, 2, row + 2, 1, 1);
 
     label = gtk_label_new("ReSID filter bias");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     resid_bias = create_resid_bias_widget();
-    button = gtk_button_new_with_label("Reset to default");
-    gtk_widget_set_vexpand(button, FALSE);
-    gtk_widget_set_valign(button, GTK_ALIGN_END);
-    g_object_set(button, "margin-left", 16, NULL);
-    g_signal_connect(button, "clicked",
-            G_CALLBACK(on_resid_bias_default_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(layout), label, 0, 6, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), resid_bias, 1, 6, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), button, 2, 6, 1, 1);
-
+    button = create_resource_reset_button(on_resid_bias_default_clicked);
+    gtk_grid_attach(GTK_GRID(layout), label, 0, row + 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), resid_bias, 1, row + 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), button, 2, row + 3, 1, 1);
 
 #ifndef HAVE_RESID
     gtk_widget_set_sensitive(filters, FALSE);
@@ -582,9 +601,14 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_widget_set_sensitive(resid_bais, FALSE);
 #endif
 
-    /* set sensitivity of address widgets */
-    resources_get_int("SidStereo", &stereo);
-    on_sid_count_changed(NULL, stereo);
+    if (machine_class != VICE_MACHINE_PLUS4
+            && machine_class != VICE_MACHINE_CBM5x0
+            && machine_class != VICE_MACHINE_CBM6x0)
+    {
+        /* set sensitivity of address widgets */
+        resources_get_int("SidStereo", &stereo);
+        on_sid_count_changed(NULL, stereo);
+    }
 
     g_signal_connect(filters, "toggled", G_CALLBACK(on_sid_filters_toggled),
             NULL);
