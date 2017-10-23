@@ -114,3 +114,22 @@ GtkWidget *resource_check_button_create(const char *resource,
     gtk_widget_show(check);
     return check;
 }
+
+
+void resource_check_button_update(GtkWidget *check, gboolean value)
+{
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
+}
+
+
+void resource_check_button_reset(GtkWidget *check)
+{
+    const char *resource;
+    int value;
+
+    resource = (const char*)g_object_get_data(G_OBJECT(check), "ResourceName");
+    resources_get_default_value(resource, &value);
+    debug_gtk3("resetting %s to factory value %s\n",
+            resource, value ? "True" : "False");
+    resource_check_button_update(check, (gboolean)value);
+}

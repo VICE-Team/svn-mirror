@@ -190,6 +190,22 @@ void resource_radiogroup_update(GtkWidget *widget, int id)
 }
 
 
+/** \brief  Reset radio group to its factory default
+ *
+ * \param[in,out]   widget  radio group
+ */
+void resource_radiogroup_reset(GtkWidget *widget)
+{
+    const char *resource;
+    int value;
+
+    resource = (const char*)g_object_get_data(G_OBJECT(widget), "ResourceName");
+    resources_get_default_value(resource, &value);
+    debug_gtk3("resetting %s to factory value %d\n", resource, value);
+    resource_radiogroup_update(widget, value);
+}
+
+
 /** \brief  Add an extra callback to \a widget
  *
  * This callback should allow widgets interacting with other widgets without

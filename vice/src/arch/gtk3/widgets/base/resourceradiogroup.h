@@ -37,6 +37,9 @@ GtkWidget * resource_radiogroup_create(const char *resource,
 
 void        resource_radiogroup_update(GtkWidget *widget, int id);
 
+void        resource_radiogroup_reset(GtkWidget *widget);
+
 void        resource_radiogroup_add_callback(GtkWidget *widget,
                                              void (*callback)(GtkWidget*, int));
+
 #endif

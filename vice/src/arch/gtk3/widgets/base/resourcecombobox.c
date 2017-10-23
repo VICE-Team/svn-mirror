@@ -182,6 +182,21 @@ void resource_combo_box_int_update(GtkWidget *widget, int id)
 }
 
 
+/** \brief  Reset integer combo box to its factory default
+ *
+ * \param[in,out]   widget  integer combo box
+ */
+void resource_combo_box_int_reset(GtkWidget *widget)
+{
+    const char *resource;
+    int value;
+
+    resource = (const char*)g_object_get_data(G_OBJECT(widget), "ResourceName");
+    resources_get_default_value(resource, &value);
+    debug_gtk3("resetting %s to factory value %d\n", resource, value);
+    resource_combo_box_int_update(widget, value);
+}
+
 
 /*****************************************************************************
  *                      Combo box for string resources                       *
@@ -319,3 +334,21 @@ void resource_combo_box_str_update(GtkWidget *widget, const char *id)
     }
     gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), id);
 }
+
+
+/** \brief  Reset string combo box to its factory default
+ *
+ * \param[in,out]   widget  string combo box
+ */
+void resource_combo_box_str_reset(GtkWidget *widget)
+{
+    const char *resource;
+    const char *value;
+
+    resource = (const char*)g_object_get_data(G_OBJECT(widget), "ResourceName");
+    resources_get_default_value(resource, &value);
+    debug_gtk3("resetting %s to factory value '%s'\n", resource, value);
+    resource_combo_box_str_update(widget, value);
+}
+
+
