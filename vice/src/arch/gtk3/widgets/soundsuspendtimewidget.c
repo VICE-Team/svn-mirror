@@ -1,5 +1,5 @@
-/*
- * soundsuspendtimewidget.c - GTK3 sound suspend time widget
+/** \file   src/arch/gtk3/widgets/soundsuspendtimewidget.c
+ * \brief   Sound suspend time widget
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "vsync.h"
 #include "sound.h"
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 
@@ -45,31 +46,15 @@
 
 /** \brief  Minimum value for the buffer size spin button (sec)
  */
-#define SPIN_MIN    0.0
+#define SPIN_MIN    0
 
 /** \brief  Maximum value for the buffer size spin button (sec)
  */
-#define SPIN_MAX    10.0
+#define SPIN_MAX    10
 
 /** \brief  Step size of the spin button (sec) when pushing +/-
  */
-#define SPIN_STEP   1.0
-
-
-
-/** \brief  Handler for the "changed" event of the spin button
- *
- * \param[in]   widget      spin button widget
- * \param[in[   user_data   data for the event (unused)
- */
-static void on_suspend_time_changed(GtkWidget *widget, gpointer user_data)
-{
-    gdouble sec;
-
-    sec = gtk_spin_button_get_value(GTK_SPIN_BUTTON(widget));
-    debug_gtk3("got %d sec\n", (int)sec);
-    resources_set_int("SoundSuspendTime", (int)sec);
-}
+#define SPIN_STEP   1
 
 
 
@@ -79,16 +64,8 @@ static void on_suspend_time_changed(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_spinbutton(void)
 {
-    GtkWidget *spin;
-    int sec;
-
-    resources_get_int("SoundSuspendTime", &sec);
-
-    spin = gtk_spin_button_new_with_range(SPIN_MIN, SPIN_MAX, SPIN_STEP);
-    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)(sec));
-    g_signal_connect(spin, "changed", G_CALLBACK(on_suspend_time_changed), NULL);
-    return spin;
+    return resource_spin_button_int_create("SoundSuspendTime",
+            SPIN_MIN, SPIN_MAX, SPIN_STEP);
 }
 
 

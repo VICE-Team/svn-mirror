@@ -28,7 +28,8 @@ libbasewidgets_a_SOURCES = \
 	resourcecheckbutton.c \
 	resourcecombobox.c \
 	resourceradiogroup.c \
-	resourcescale.c
+	resourcescale.c \
+	resourcespinbutton.c
 
 EXTRA_DIST = \
 	basewidgets.h \
@@ -36,4 +37,5 @@ EXTRA_DIST = \
 	resourcecheckbutton.h \
 	resourcecombobox.h \
 	resourceradiogroup.h \
-	resourcescale.h
+	resourcescale.h \
+	resourcespinbutton.h
