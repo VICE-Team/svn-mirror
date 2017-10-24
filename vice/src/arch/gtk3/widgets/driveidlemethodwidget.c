@@ -67,28 +67,12 @@ GtkWidget *drive_idle_method_widget_create(int unit)
 
     g_snprintf(buffer, 256, "Drive%dIdleMethod", unit);
     grid = uihelpers_create_grid_with_label("Idle method", 1);
+    g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
+
     radio_group = resource_radiogroup_create(buffer, idle_methods,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Update the widget
- *
- * \param[in,out]   widget  drive idle widget
- * \param[in]       unit    drive unit number
- */
-void drive_idle_method_widget_update(GtkWidget *widget, int unit)
-{
-    GtkWidget *radio_group;
-    int value;
-
-    radio_group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
-    if (radio_group != NULL && GTK_IS_GRID(radio_group)) {
-        resources_get_int_sprintf("Drive%dIdleMethod", &value, unit);
-        resource_radiogroup_update(radio_group, value);
-    }
 }

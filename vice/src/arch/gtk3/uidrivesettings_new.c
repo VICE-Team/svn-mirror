@@ -62,11 +62,20 @@
 
 /* position in a stack child widget of the drive extend policy widget */
 #define CHILD_DRIVE_EXTEND_XPOS 0
-#define CHILD_DRIVE_EXTEND_YPOS 2
+#define CHILD_DRIVE_EXTEND_YPOS 3
 
 /* position in a stack child widget of the drive expansions widget */
 #define CHILD_DRIVE_EXPAND_XPOS 1
 #define CHILD_DRIVE_EXPAND_YPOS 0
+
+/* position in a stack child widget of the drive idle method widget */
+#define CHILD_DRIVE_IDLE_XPOS 2
+#define CHILD_DRIVE_IDLE_YPOS 0
+
+/* position in a stack child widget of the drive parallel cable widget */
+#define CHILD_DRIVE_PARALLEL_XPOS 2
+#define CHILD_DRIVE_PARALLEL_YPOS 1
+
 
 
 
@@ -87,6 +96,7 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
 {
     GtkWidget *drive_extend;
     GtkWidget *drive_expand;
+    GtkWidget *drive_parallel;
     int unit;
     int type;
 
@@ -111,6 +121,16 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
     if (drive_expand != NULL) {
         drive_expansion_widget_update(drive_expand);
     }
+
+    /* determine which parallel cables are valid for current unit number and
+     * its drive type */
+    drive_parallel = gtk_grid_get_child_at(GTK_GRID(data),
+            CHILD_DRIVE_PARALLEL_XPOS, CHILD_DRIVE_PARALLEL_YPOS);
+    if (drive_parallel != NULL) {
+        drive_parallel_cable_widget_update(drive_parallel);
+    }
+
+
 }
 
 
@@ -127,6 +147,8 @@ static GtkWidget *create_stack_child_widget(int unit)
     GtkWidget *drive_type;
     GtkWidget *drive_extend;
     GtkWidget *drive_expand;
+    GtkWidget *drive_idle;
+    GtkWidget *drive_parallel;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -138,7 +160,7 @@ static GtkWidget *create_stack_child_widget(int unit)
     drive_type_widget_add_callback(drive_type, stack_child_drive_type_callback,
             (gpointer)(grid));
     gtk_grid_attach(GTK_GRID(grid), drive_type,
-            CHILD_DRIVE_TYPE_XPOS, CHILD_DRIVE_TYPE_YPOS, 1, 2);
+            CHILD_DRIVE_TYPE_XPOS, CHILD_DRIVE_TYPE_YPOS, 1, 3);
 
     drive_extend = drive_extend_policy_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_extend,
@@ -146,7 +168,16 @@ static GtkWidget *create_stack_child_widget(int unit)
 
     drive_expand= drive_expansion_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_expand,
-            CHILD_DRIVE_EXPAND_XPOS, CHILD_DRIVE_EXPAND_YPOS, 1, 1);
+            CHILD_DRIVE_EXPAND_XPOS, CHILD_DRIVE_EXPAND_YPOS, 1, 2);
+
+    drive_idle = drive_idle_method_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_idle,
+            CHILD_DRIVE_IDLE_XPOS, CHILD_DRIVE_IDLE_YPOS, 1, 1);
+
+    drive_parallel = drive_parallel_cable_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_parallel,
+            CHILD_DRIVE_PARALLEL_XPOS, CHILD_DRIVE_PARALLEL_YPOS, 1, 1);
+
 
     gtk_widget_show_all(grid);
     return grid;

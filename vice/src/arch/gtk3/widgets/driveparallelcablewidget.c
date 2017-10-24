@@ -32,6 +32,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -41,11 +42,6 @@
 #include "drivewidgethelpers.h"
 
 #include "driveparallelcablewidget.h"
-
-
-/** \brief  The current unit number
- */
-static int unit_number = 8;
 
 
 /** \brief  List of possible parallel cables
@@ -59,22 +55,6 @@ static ui_radiogroup_entry_t parallel_cables[] = {
 };
 
 
-/** \brief  Handler for "toggled" event of the radio buttons
- *
- * \param[in]   widget      radio button
- * \param[in]   user_data   parallel cable ID (0-3) (int)
- */
-static void on_parallel_cable_changed(GtkWidget *widget, gpointer user_data)
-{
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        int value = GPOINTER_TO_INT(user_data);
-
-        debug_gtk3("setting Drive%dParallelCable to %d\n", unit_number, value);
-        resources_set_int_sprintf("Drive%dParallelCable", value, unit_number);
-    }
-}
-
-
 /** \brief  Create drive parallel cable widget
  *
  * \param[in]   unit    drive unit
@@ -83,31 +63,23 @@ static void on_parallel_cable_changed(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *drive_parallel_cable_widget_create(int unit)
 {
-    GtkWidget *widget;
-    int i;
+    GtkWidget *grid;
+    GtkWidget *radio_group;
+    char resource[256];
 
-    unit_number = unit;
+    grid = uihelpers_create_grid_with_label("Parallel cable", 1);
+    g_snprintf(resource, 256, "Drive%dParallelCable", unit);
+    debug_gtk3("setting UnitNumber property to %d\n", unit);
+    g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    widget = uihelpers_radiogroup_create(
-            "Parallel cable",
-            parallel_cables,
-            NULL,   /* NULL: connect event handlers after setting the value */
-            0);
+    radio_group = resource_radiogroup_create(resource, parallel_cables,
+            GTK_ORIENTATION_VERTICAL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
-    /* first update the widget */
-    drive_parallel_cable_widget_update(widget, unit);
+    drive_parallel_cable_widget_update(grid);
 
-    /* now connect the signal handlers */
-    for (i = 0; parallel_cables[i].name != NULL; i++) {
-        GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
-        if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
-            g_signal_connect(radio, "toggled",
-                    G_CALLBACK(on_parallel_cable_changed),
-                    GINT_TO_POINTER(parallel_cables[i].id));
-        }
-    }
-
-    return widget;
+    gtk_widget_show_all(grid);
+    return grid;
 }
 
 
@@ -117,22 +89,23 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
  * and the machine class.
  *
  * \param[in,out]   widget  drive parallel cable widget
- * \param[in]       unit    drive unit number
  */
-void drive_parallel_cable_widget_update(GtkWidget *widget, int unit)
+void drive_parallel_cable_widget_update(GtkWidget *widget)
 {
     int cable_type = 0; /* cable type, if set to < 0 causes the cable type
                            to revert to None (used for machines/drives that
                            don't support drive parallel cables */
+    GtkWidget *radio_group;
     int drive_type;
     GtkWidget *radio;
     int enabled;
     int count;
     int i;
+    int unit;
+
+    unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
 
     debug_gtk3("called with unit #%d\n", unit);
-
-    unit_number = unit;
 
     /* determine if parallel cables are supported by the currently selected
      * drive type */
@@ -162,8 +135,9 @@ void drive_parallel_cable_widget_update(GtkWidget *widget, int unit)
             break;
     }
 
+    radio_group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     for (i = 0; i < 4; i++) {
-        radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
+        radio = gtk_grid_get_child_at(GTK_GRID(radio_group), 0, i);
         if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
             if (i == count) {
                 enabled = !enabled;
@@ -177,6 +151,5 @@ void drive_parallel_cable_widget_update(GtkWidget *widget, int unit)
     } else {
         cable_type = 0; /* unsupported, set to 0 */
     }
-    uihelpers_radiogroup_set_index(widget, cable_type);
+    resource_radiogroup_update(radio_group, cable_type);
 }
-

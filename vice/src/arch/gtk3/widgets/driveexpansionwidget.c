@@ -126,6 +126,7 @@ GtkWidget *drive_expansion_widget_create(int unit)
     gtk_grid_attach(GTK_GRID(grid), ram8000_widget, 0, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ramA000_widget, 0, 5, 1, 1);
 
+    /* TODO: check `machine_class` before adding these */
     profdos_widget = create_dos_check_button(unit, "ProfDos", "Professional DOS");
     stardos_widget = create_dos_check_button(unit, "StarDOS", "StarDos");
     supercard_widget = create_dos_check_button(unit, "SuperCard", "SuperCard+");
