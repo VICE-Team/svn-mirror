@@ -47,7 +47,11 @@
 #include "widgethelpers.h"
 #include "drivewidgethelpers.h"
 #include "driveunitwidget.h"
+#if 0
 #include "drivetypewidget.h"
+#else
+#include "drivetypewidget_new.h"
+#endif
 #include "driveextendpolicywidget.h"
 #include "driveexpansionwidget.h"
 #include "driveidlemethodwidget.h"
@@ -65,8 +69,8 @@
 #define CHILD_DRIVE_TYPE_YPOS   0
 
 /* position in a stack child widget of the drive extend policy widget */
-#define CHILD_DRIVE_EXTEND_XPOS 0
-#define CHILD_DRIVE_EXTEND_YPOS 3
+#define CHILD_DRIVE_EXTEND_XPOS 2
+#define CHILD_DRIVE_EXTEND_YPOS 1
 
 /* position in a stack child widget of the drive expansions widget */
 #define CHILD_DRIVE_EXPAND_XPOS 1
@@ -77,10 +81,10 @@
 #define CHILD_DRIVE_IDLE_YPOS 0
 
 /* position in a stack child widget of the drive parallel cable widget */
-#define CHILD_DRIVE_PARALLEL_XPOS 2
-#define CHILD_DRIVE_PARALLEL_YPOS 1
+#define CHILD_DRIVE_PARALLEL_XPOS 1
+#define CHILD_DRIVE_PARALLEL_YPOS 2
 
-#define CHILD_DRIVE_RPM_XPOS 2
+#define CHILD_DRIVE_RPM_XPOS 0
 #define CHILD_DRIVE_RPM_YPOS 2
 
 
@@ -156,6 +160,7 @@ static GtkWidget *create_stack_child_widget(int unit)
     GtkWidget *drive_idle;
     GtkWidget *drive_parallel;
     GtkWidget *drive_rpm;
+    GtkWidget *label;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -189,6 +194,11 @@ static GtkWidget *create_stack_child_widget(int unit)
     gtk_grid_attach(GTK_GRID(grid), drive_rpm,
             CHILD_DRIVE_RPM_XPOS, CHILD_DRIVE_RPM_YPOS, 1, 1);
 
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Help, I'm forced to do Gtk3 stuff!</b>:");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 4, 1);
+
+
 
     gtk_widget_show_all(grid);
     return grid;
@@ -213,8 +223,8 @@ GtkWidget *uidrivesettings_widget_create(GtkWidget *parent)
 
     /* three column wide grid */
     layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
+    gtk_grid_set_column_spacing(GTK_GRID(layout), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(layout), 16);
 
     wrapper = gtk_grid_new();
     g_object_set(wrapper, "margin-left", 16, NULL);
@@ -226,7 +236,7 @@ GtkWidget *uidrivesettings_widget_create(GtkWidget *parent)
             "Drive sound emulation");
     gtk_grid_attach(GTK_GRID(wrapper), sound, 1, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 0, 3, 1);
+    gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 0, 2, 1);
 
 
     stack = gtk_stack_new();
@@ -253,6 +263,7 @@ GtkWidget *uidrivesettings_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(layout), switcher, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(layout), stack, 0, 2, 3, 1);
+
 
     gtk_widget_show_all(layout);
     return layout;

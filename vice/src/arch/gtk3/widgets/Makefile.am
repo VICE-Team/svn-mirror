@@ -49,7 +49,6 @@ libwidgets_a_SOURCES = \
 	filechooserhelpers.c \
 	drivewidgethelpers.c \
 	driveunitwidget.c \
-	drivetypewidget.c \
 	driveextendpolicywidget.c \
 	driveexpansionwidget.c \
 	driveidlemethodwidget.c \
@@ -87,7 +86,8 @@ libwidgets_a_SOURCES = \
 	joystickdevicewidget.c \
 	joystickuserportadapterwidget.c \
 	sidsoundwidget.c \
-	driverpmwidget.c
+	driverpmwidget.c \
+	drivetypewidget_new.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -111,7 +111,6 @@ EXTRA_DIST = \
 	filechooserhelpers.h \
 	drivewidgethelpers.h \
 	driveunitwidget.h \
-	drivetypewidget.h \
 	driveextendpolicywidget.h \
 	driveexpansionwidget.h \
 	driveidlemethodwidget.h \
@@ -149,4 +148,5 @@ EXTRA_DIST = \
 	joystickdevicewidget.h \
 	joystickuserportadapterwidget.h \
 	sidsoundwidget.h \
-	driverpmwidget.h
+	driverpmwidget.h \
+	drivetypewidget_new.h
