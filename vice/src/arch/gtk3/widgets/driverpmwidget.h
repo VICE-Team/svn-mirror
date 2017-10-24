@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/base/resourcespinbutton.h
- * \brief   Spin buttons to control resources - header
+/** \file   src/arch/gtk3/widgets/driverpmwidget.h
+ * \brief   Drive RPM settings widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,19 +24,12 @@
  *
  */
 
-#ifndef VICE_RESOURCESPINBUTTON_H
-#define VICE_RESOURCESPINBUTTON_H
+#ifndef VICE_DRIVERPMWIDGET_H
+#define VICE_DRIVERPMWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-
-GtkWidget * resource_spin_button_int_create(const char *resource,
-                                            int lower, int upper, int step);
-
-void        resource_spin_button_int_update(GtkWidget *widget, int value);
-
-void        resource_spin_button_int_set_fake_digits(GtkSpinButton *spin,
-                                                     int digits);
+GtkWidget *drive_rpm_widget_create(int unit);
 
 #endif

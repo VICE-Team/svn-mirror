@@ -52,7 +52,11 @@
 #include "driveexpansionwidget.h"
 #include "driveidlemethodwidget.h"
 #include "driveparallelcablewidget.h"
+#if 0
 #include "driveoptionswidget.h"
+#endif
+#include "driverpmwidget.h"
+
 
 #include "uidrivesettings_new.h"
 
@@ -76,6 +80,8 @@
 #define CHILD_DRIVE_PARALLEL_XPOS 2
 #define CHILD_DRIVE_PARALLEL_YPOS 1
 
+#define CHILD_DRIVE_RPM_XPOS 2
+#define CHILD_DRIVE_RPM_YPOS 2
 
 
 
@@ -149,6 +155,7 @@ static GtkWidget *create_stack_child_widget(int unit)
     GtkWidget *drive_expand;
     GtkWidget *drive_idle;
     GtkWidget *drive_parallel;
+    GtkWidget *drive_rpm;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -177,6 +184,10 @@ static GtkWidget *create_stack_child_widget(int unit)
     drive_parallel = drive_parallel_cable_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_parallel,
             CHILD_DRIVE_PARALLEL_XPOS, CHILD_DRIVE_PARALLEL_YPOS, 1, 1);
+
+    drive_rpm = drive_rpm_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_rpm,
+            CHILD_DRIVE_RPM_XPOS, CHILD_DRIVE_RPM_YPOS, 1, 1);
 
 
     gtk_widget_show_all(grid);

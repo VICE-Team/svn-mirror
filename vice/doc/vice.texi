@@ -3853,8 +3853,8 @@ Integers specifying the idling method for the drive CPU.
 @itemx Drive9RPM
 @itemx Drive10RPM
 @itemx Drive11RPM
-Integers specifying the rotation speed of the drive, multiplied by 100 so 300rpm
-equal 30000.
+Integers specifying the rotation speed of the drive, multiplied by 100, so
+300rpm equals 30000.
 
 @vindex Drive8Wobble
 @vindex Drive9Wobble
@@ -3864,8 +3864,8 @@ equal 30000.
 @itemx Drive9Wobble
 @itemx Drive10Wobble
 @itemx Drive11Wobble
-Integers specifying the random deviation of the rotation speed, multiplied by 100
-so 100 equals +/- 1rpm.
+Integers specifying the random deviation of the rotation speed, multiplied by
+100 so 100 equals +/- 1rpm.
 
 @vindex DosName1540
 @vindex DosName1541
