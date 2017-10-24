@@ -38,6 +38,8 @@ typedef struct ui_combo_entry_int_s {
     int   id;       /**< ID for the entry in the combo box */
 } ui_combo_entry_int_t;
 
+#define UI_COMBO_ENTRY_INT_LIST_END { NULL, -1 }
+
 
 /** \brief  Entry for a combo box using a string as ID
  */
@@ -46,6 +48,8 @@ typedef struct ui_combo_entry_str_s {
     char *id;       /**< ID for the entry in the combo box */
 } ui_combo_entry_str_t;
 
+#define UI_COMBO_ENTRY_STR_LIST_END { NULL, NULL }
+
 
 /** \brief  Entry for a radio button group using an integer as ID
  */
@@ -53,6 +57,8 @@ typedef struct ui_radiogroup_entry_s {
     char *name;     /**< label for the radio button */
     int   id;       /**< ID for the radio button */
 } ui_radiogroup_entry_t;
+
+#define UI_RADIOGROUP_ENTRY_LIST_END { NULL, -1 }
 
 
 #endif

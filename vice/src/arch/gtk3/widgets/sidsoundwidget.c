@@ -123,7 +123,8 @@ static ui_combo_entry_int_t sid_address_c64[] = {
 
     { "$df00", 0xdf00 }, { "$df20", 0xdf20 }, { "$df40", 0xdf40 },
     { "$df60", 0xdf60 }, { "$df80", 0xdf80 }, { "$dfa0", 0xdfa0 },
-    { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 }
+    { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 },
+    UI_COMBO_ENTRY_INT_LIST_END
 };
 
 
@@ -144,7 +145,8 @@ static ui_combo_entry_int_t sid_address_c128[] = {
 
     { "$df00", 0xdf00 }, { "$df20", 0xdf20 }, { "$df40", 0xdf40 },
     { "$df60", 0xdf60 }, { "$df80", 0xdf80 }, { "$dfa0", 0xdfa0 },
-    { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 }
+    { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 },
+    UI_COMBO_ENTRY_INT_LIST_END
 };
 
 
