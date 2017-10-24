@@ -471,6 +471,7 @@ static void layout_statusbar_drives(int bar_index)
             gtk_container_add(GTK_CONTAINER(event_box), drive);
             gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
             g_signal_connect(event_box, "button-press-event", G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
+            gtk_widget_show_all(event_box);
             if (tde & 1) {
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
             } else {
@@ -568,7 +569,7 @@ GtkWidget *ui_statusbar_create(void)
     sb = gtk_grid_new();
     /* First column: messages */
     msg = gtk_label_new(NULL);
-    g_object_ref(G_OBJECT(msg));
+    g_object_ref_sink(G_OBJECT(msg));
     gtk_widget_set_halign(msg, GTK_ALIGN_START);
     gtk_widget_set_hexpand(msg, TRUE);
     gtk_label_set_ellipsize(GTK_LABEL(msg), PANGO_ELLIPSIZE_END);
@@ -580,7 +581,7 @@ GtkWidget *ui_statusbar_create(void)
     /* Second column: Tape and joysticks */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), 1, 0, 1, 2);
     tape = ui_tape_widget_create();
-    g_object_ref(G_OBJECT(tape));
+    g_object_ref_sink(G_OBJECT(tape));
     /* Clicking the tape status is supposed to pop up a window. This
      * requires a way to make sure events are captured by random
      * internal widgets; the GtkEventBox manages that task for us. */
@@ -590,7 +591,7 @@ GtkWidget *ui_statusbar_create(void)
     gtk_grid_attach(GTK_GRID(sb), tape_events, 2, 0, 1, 1);
     allocated_bars[i].tape = tape;
     allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
-    g_object_ref(G_OBJECT(allocated_bars[i].tape_menu));
+    g_object_ref_sink(G_OBJECT(allocated_bars[i].tape_menu));
     g_signal_connect(tape_events, "button-press-event", G_CALLBACK(ui_do_datasette_popup), GINT_TO_POINTER(i));
 
     joysticks = ui_joystick_widget_create();
@@ -601,8 +602,8 @@ GtkWidget *ui_statusbar_create(void)
     for (j = 0; j < DRIVE_NUM; ++j) {
         GtkWidget *drive = ui_drive_widget_create(j);
         GtkWidget *drive_menu = ui_drive_menu_create(j);
-        g_object_ref(G_OBJECT(drive));
-        g_object_ref(G_OBJECT(drive_menu));
+        g_object_ref_sink(G_OBJECT(drive));
+        g_object_ref_sink(G_OBJECT(drive_menu));
         allocated_bars[i].drives[j] = drive;
         allocated_bars[i].drive_popups[j] = drive_menu;
     }
