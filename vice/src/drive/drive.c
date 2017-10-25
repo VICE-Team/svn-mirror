@@ -73,36 +73,6 @@
 #include "p64.h"
 #include "monitor.h"
 
-
-/** \brief  List of drive type names and ID's
- *
- * Convenience function for UI's. This list should be updated whenever drive
- * types are added or removed.
- */
-static drive_type_info_t drive_type_info_list[] = {
-    { DRIVE_NAME_NONE, DRIVE_TYPE_NONE },
-    { DRIVE_NAME_1540, DRIVE_TYPE_1540 },
-    { DRIVE_NAME_1541, DRIVE_TYPE_1541 },
-    { DRIVE_NAME_1541II, DRIVE_TYPE_1541II },
-    { DRIVE_NAME_1551, DRIVE_TYPE_1551 },
-    { DRIVE_NAME_1570, DRIVE_TYPE_1570 },
-    { DRIVE_NAME_1571, DRIVE_TYPE_1571 },
-    { DRIVE_NAME_1571CR, DRIVE_TYPE_1571CR },
-    { DRIVE_NAME_1581, DRIVE_TYPE_1581 },
-    { DRIVE_NAME_2000, DRIVE_TYPE_2000 },
-    { DRIVE_NAME_4000, DRIVE_TYPE_4000 },
-    { DRIVE_NAME_2031, DRIVE_TYPE_2031 },
-    { DRIVE_NAME_2040, DRIVE_TYPE_2040 },
-    { DRIVE_NAME_3040, DRIVE_TYPE_3040 },
-    { DRIVE_NAME_4040, DRIVE_TYPE_4040 },
-    { DRIVE_NAME_1001, DRIVE_TYPE_1001 },
-    { DRIVE_NAME_8050, DRIVE_TYPE_8050 },
-    { DRIVE_NAME_8250, DRIVE_TYPE_8250 },
-    { NULL, -1 }
-};
-
-
-
 static int drive_init_was_called = 0;
 
 drive_context_t *drive_context[DRIVE_NUM];
@@ -118,24 +88,6 @@ int rom_loaded = 0;
 static int drive_led_color[DRIVE_NUM];
 
 /* ------------------------------------------------------------------------- */
-
-
-/** \brief  Get a list of (name, id) tuples for the drives handles by VICE
- *
- * Usefull for UI's, get a list of currently supported drive types with a name
- * to display and and ID to use in callbacks.
- *
- * \return  list of drive types, NULL terminated
- *
- * \note    'supported' in this context means the drives VICE can support, not
- *          what actually is supported due to ROMs and other settings
- */
-drive_type_info_t *drive_get_type_info_list(void)
-{
-    return drive_type_info_list;
-}
-
-
 
 void drive_set_disk_memory(uint8_t *id, unsigned int track, unsigned int sector,
                            struct drive_context_s *drv)

@@ -33,6 +33,7 @@
 
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
+#include "machine-drive.h"
 #include "resources.h"
 #include "drive.h"
 #include "drive-check.h"
@@ -137,7 +138,7 @@ GtkWidget *drive_type_widget_create(int unit)
     /* store unit number as a property in the widget */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    list = drive_get_type_info_list();
+    list = machine_drive_get_type_info_list();
     for (i = 0; list[i].name != NULL; i++) {
         /* NOP */
     }
@@ -204,7 +205,7 @@ void drive_type_widget_update(GtkWidget *widget)
     unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
     type = ui_get_drive_type(unit);
 
-    list = drive_get_type_info_list();
+    list = machine_drive_get_type_info_list();
     debug_gtk3("updating drive type list\n");
     for (i = 0; list[i].name != NULL; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);

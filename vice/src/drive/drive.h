@@ -394,6 +394,4 @@ extern void drive_setup_context(void);
 
 extern int drive_resources_type_init(unsigned int default_type);
 
-extern drive_type_info_t *drive_get_type_info_list(void);
-
 #endif

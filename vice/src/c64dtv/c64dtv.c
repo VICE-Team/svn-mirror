@@ -990,3 +990,40 @@ int machine_register_userport(void)
 
     return 0;
 }
+
+/* ------------------------------------------------------------------------- */
+
+/** \brief  List of drive type names and ID's supported by C64DTV
+ *
+ * Convenience function for UI's. This list should be updated whenever drive
+ * types are added or removed.
+ *
+ * XXX: This is here because there is no c64dtvdrive.c.
+ */
+static drive_type_info_t drive_type_info_list[] = {
+    { DRIVE_NAME_NONE, DRIVE_TYPE_NONE },
+    { DRIVE_NAME_1540, DRIVE_TYPE_1540 },
+    { DRIVE_NAME_1541, DRIVE_TYPE_1541 },
+    { DRIVE_NAME_1541II, DRIVE_TYPE_1541II },
+    { DRIVE_NAME_1570, DRIVE_TYPE_1570 },
+    { DRIVE_NAME_1571, DRIVE_TYPE_1571 },
+    { DRIVE_NAME_1581, DRIVE_TYPE_1581 },
+    { DRIVE_NAME_2000, DRIVE_TYPE_2000 },
+    { DRIVE_NAME_4000, DRIVE_TYPE_4000 },
+    { NULL, -1 }
+};
+
+/** \brief  Get a list of (name, id) tuples for the drives handles by C64DTV
+ *
+ * Usefull for UI's, get a list of currently supported drive types with a name
+ * to display and and ID to use in callbacks.
+ *
+ * \return  list of drive types, NULL terminated
+ *
+ * \note    'supported' in this context means the drives C64DTV can support,
+ *          not what actually is supported due to ROMs and other settings
+ */
+drive_type_info_t *machine_drive_get_type_info_list(void)
+{
+    return drive_type_info_list;
+}
