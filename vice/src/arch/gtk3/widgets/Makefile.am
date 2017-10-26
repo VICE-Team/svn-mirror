@@ -89,7 +89,8 @@ libwidgets_a_SOURCES = \
 	driverpmwidget.c \
 	drivemodelwidget.c \
 	driveramwidget.c \
-	drivedoswidget.c
+	drivedoswidget.c \
+	drivefsdevicewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -153,4 +154,5 @@ EXTRA_DIST = \
 	driverpmwidget.h \
 	drivemodelwidget.h \
 	driveramwidget.h \
-	drivedoswidget.h
+	drivedoswidget.h \
+	drivefsdevicewidget.h

@@ -61,6 +61,7 @@
 #include "driverpmwidget.h"
 #include "driveramwidget.h"
 #include "drivedoswidget.h"
+#include "drivefsdevicewidget.h"
 
 #include "uidrivesettings_new.h"
 
@@ -133,6 +134,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     GtkWidget *drive_rpm;
     GtkWidget *drive_ram;
     GtkWidget *drive_dos;
+    GtkWidget *drive_fsdevice;
     GtkWidget *wrapper;
 
     /* row 0 & 1, column 0 */
@@ -164,6 +166,9 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     drive_rpm = drive_rpm_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_rpm, 0, 2, 1, 1);
 
+    /* row 2, column 1 & 2 */
+    drive_fsdevice = drive_fsdevice_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_fsdevice, 1, 2, 2, 1);
     return grid;
 }
 
