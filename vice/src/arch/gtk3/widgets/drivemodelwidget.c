@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/drivetypewidget.c
- * \brief   Drive type selection dialog
+/** \file   src/arch/gtk3/widgets/drivemodelwidget.c
+ * \brief   Drive model selection widget
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -33,6 +33,7 @@
 
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
+#include "machine-drive.h"
 #include "resources.h"
 #include "drive.h"
 #include "drive-check.h"
@@ -41,7 +42,7 @@
 #include "drivewidgethelpers.h"
 #include "driveoptionswidget.h"
 
-#include "drivetypewidget.h"
+#include "drivemodelwidget.h"
 
 
 /** \brief  Handler for the "toggled" event of the radio buttons
@@ -120,7 +121,7 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *drive_type_widget_create(int unit)
+GtkWidget *drive_model_widget_create(int unit)
 {
     GtkWidget *grid;
     drive_type_info_t *list;
@@ -128,15 +129,22 @@ GtkWidget *drive_type_widget_create(int unit)
     GSList *group = NULL;
     size_t i;
     int type;
+    int num;
+    int row;
 
     resources_get_int_sprintf("Drive%dType", &type, unit);
 
-    grid = uihelpers_create_grid_with_label("Drive type", 1);
+    grid = uihelpers_create_grid_with_label("Drive type", 2);
     /* store unit number as a property in the widget */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    list = drive_get_type_info_list();
+    list = machine_drive_get_type_info_list();
     for (i = 0; list[i].name != NULL; i++) {
+        /* NOP */
+    }
+    num = i;
+
+    for (i = 0; list[i].name != NULL && i < num / 2; i++) {
         GtkWidget *radio = gtk_radio_button_new_with_label(group, list[i].name);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
         g_object_set(radio, "margin-left", 16, NULL);
@@ -152,7 +160,26 @@ GtkWidget *drive_type_widget_create(int unit)
         last = GTK_RADIO_BUTTON(radio);
     }
 
-    drive_type_widget_update(grid);
+    row = 1;
+    while (list[i].name != NULL) {
+        GtkWidget *radio = gtk_radio_button_new_with_label(group, list[i].name);
+        gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
+        g_object_set(radio, "margin-left", 16, NULL);
+
+        if (list[i].id == type) {
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+        }
+
+        g_signal_connect(radio, "toggled", G_CALLBACK(on_radio_toggled),
+                GINT_TO_POINTER(list[i].id));
+
+        gtk_grid_attach(GTK_GRID(grid), radio, 1, row, 1, 1);
+        row++;
+        last = GTK_RADIO_BUTTON(radio);
+        i++;
+    }
+
+    drive_model_widget_update(grid);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -167,7 +194,7 @@ GtkWidget *drive_type_widget_create(int unit)
  * \param[in,out]   widget  drive type widget
  * \param[in]       unit    new unit number
  */
-void drive_type_widget_update(GtkWidget *widget)
+void drive_model_widget_update(GtkWidget *widget)
 {
     drive_type_info_t *list;
     size_t i;
@@ -177,7 +204,7 @@ void drive_type_widget_update(GtkWidget *widget)
     unit = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget), "UnitNumber"));
     type = ui_get_drive_type(unit);
 
-    list = drive_get_type_info_list();
+    list = machine_drive_get_type_info_list();
     debug_gtk3("updating drive type list\n");
     for (i = 0; list[i].name != NULL; i++) {
         GtkWidget *radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 1);
@@ -193,9 +220,9 @@ void drive_type_widget_update(GtkWidget *widget)
 }
 
 
-void drive_type_widget_add_callback(GtkWidget *widget,
-                                    void (*cb_func)(GtkWidget *, gpointer),
-                                    gpointer cb_data)
+void drive_model_widget_add_callback(GtkWidget *widget,
+                                     void (*cb_func)(GtkWidget *, gpointer),
+                                     gpointer cb_data)
 {
     g_object_set_data(G_OBJECT(widget), "CallbackFunc", (gpointer)cb_func);
     g_object_set_data(G_OBJECT(widget), "CallbackData", cb_data);

@@ -50,7 +50,7 @@
 #if 0
 #include "drivetypewidget.h"
 #else
-#include "drivetypewidget_new.h"
+#include "drivemodelwidget.h"
 #endif
 #include "driveextendpolicywidget.h"
 #include "driveidlemethodwidget.h"
@@ -126,7 +126,7 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
 
 static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 {
-    GtkWidget *drive_type;
+    GtkWidget *drive_model;
     GtkWidget *drive_extend;
     GtkWidget *drive_idle;
     GtkWidget *drive_parallel;
@@ -136,10 +136,10 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     GtkWidget *wrapper;
 
     /* row 0 & 1, column 0 */
-    drive_type = drive_type_widget_create(unit);
-    drive_type_widget_add_callback(drive_type, stack_child_drive_type_callback,
+    drive_model = drive_model_widget_create(unit);
+    drive_model_widget_add_callback(drive_model, stack_child_drive_type_callback,
             (gpointer)(grid));
-    gtk_grid_attach(GTK_GRID(grid), drive_type, 0, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(grid), drive_model, 0, 0, 1, 2);
 
     /* row 0, column 1 */
     drive_ram = drive_ram_widget_create(unit);

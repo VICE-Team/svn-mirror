@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/drivetypewidget.h
- * \brief   Drive settings dialog - header
+/** \file   src/arch/gtk3/widgets/drivemodelwidget.h
+ * \brief   Drive model selection widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -25,18 +25,18 @@
  */
 
 
-#ifndef VICE_UIDRIVETYPEWIDGET_H
-#define VICE_UIDRIVETYPEWIDGET_H
+#ifndef VICE_DRIVEMODELWIDGET_H
+#define VICE_DRIVEMODELWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
 
-GtkWidget * drive_type_widget_create(int unit);
-void        drive_type_widget_update(GtkWidget *widget);
+GtkWidget * drive_model_widget_create(int unit);
+void        drive_model_widget_update(GtkWidget *widget);
 
-void drive_type_widget_add_callback(GtkWidget *widget,
-                                    void (*cb_func)(GtkWidget *, gpointer),
-                                    gpointer cb_data);
+void drive_model_widget_add_callback(GtkWidget *widget,
+                                     void (*cb_func)(GtkWidget *, gpointer),
+                                     gpointer cb_data);
 
 #endif
