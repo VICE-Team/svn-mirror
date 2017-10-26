@@ -27,6 +27,7 @@ noinst_LIBRARIES = libbasewidgets.a
 libbasewidgets_a_SOURCES = \
 	resourcecheckbutton.c \
 	resourcecombobox.c \
+	resourceentry.c \
 	resourceradiogroup.c \
 	resourcescale.c \
 	resourcespinbutton.c
@@ -36,6 +37,7 @@ EXTRA_DIST = \
 	basewidget_types.h \
 	resourcecheckbutton.h \
 	resourcecombobox.h \
+	resourceentry.h \
 	resourceradiogroup.h \
 	resourcescale.h \
 	resourcespinbutton.h

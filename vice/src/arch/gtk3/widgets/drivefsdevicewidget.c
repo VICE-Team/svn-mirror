@@ -64,35 +64,6 @@ static ui_combo_entry_int_t device_types[] = {
  *          src/arch/gtk3/widgets/base
  */
 
-/** \brief  Handler for "destroy" event of the fsdir entry widget
- *
- * Frees memory allocated for the resource name
- *
- * \param[in]   widget      fs dir entry widget
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_fsdir_entry_destroy(GtkWidget *widget, gpointer user_data)
-{
-    char *resource;
-
-    resource = (char *)g_object_get_data(G_OBJECT(widget), "ResourceName");
-    lib_free(resource);
-}
-
-
-/** \brief  Handler for the "changed" event of the fs dir entry widget
- *
- * \param[in]   widget      fs dir entry widget
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_fsdir_entry_changed(GtkWidget *widget, gpointer user_data)
-{
-    const char *resource;
-
-    resource = (const char *)g_object_get_data(G_OBJECT(widget), "ResourceName");
-    resources_set_string(resource, gtk_entry_get_text(GTK_ENTRY(widget)));
-}
-
 
 /** \brief  Handler for the "clicked" event of the fs dir browse button
  *
@@ -144,26 +115,9 @@ static GtkWidget *create_fsdir_entry_widget(int unit)
 {
     GtkWidget *entry;
     char resource[256];
-    const char *dir;
 
     g_snprintf(resource, 256, "FSDevice%dDir", unit);
-
-    entry = gtk_entry_new();
-    g_object_set_data(G_OBJECT(entry), "ResourceName",
-            (gpointer)lib_stralloc(resource));
-    if (resources_get_string(resource, &dir) < 0) {
-        debug_gtk3("warning: couldn't retrieve value for resource '%s'\n",
-                resource);
-        dir = NULL;
-    }
-    gtk_entry_set_text(GTK_ENTRY(entry), dir);
-
-    g_signal_connect(entry, "changed", G_CALLBACK(on_fsdir_entry_changed),
-            NULL);
-    g_signal_connect(entry, "destroy", G_CALLBACK(on_fsdir_entry_destroy),
-            NULL);
-
-    gtk_widget_show(entry);
+    entry = resource_entry_create(resource);
     return entry;
 }
 

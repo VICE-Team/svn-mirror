@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/base/basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   src/arch/gtk3/widgets/resourceentry.c
+ * \brief   Text entry connected to a resource - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,19 +24,16 @@
  *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_RESOURCEENTRY_H
+#define VICE_RESOURCEENTRY_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "basewidget_types.h"
+GtkWidget * resource_entry_create(const char *resource);
 
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceentry.h"
-#include "resourceradiogroup.h"
-#include "resourcescale.h"
-#include "resourcespinbutton.h"
+void        resource_entry_update(GtkEntry *entry, const char *value);
+
+void        resource_entry_reset(GtkEntry *check);
 
 #endif
