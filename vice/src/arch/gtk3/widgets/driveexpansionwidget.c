@@ -10,9 +10,9 @@
  *  Drive[8-11]RAM6000
  *  Drive[8-11]RAM8000
  *  Drive[8-11]RAMA000
- *  Drive[8-11]ProfDOS
- *  Drive[8-11]StarDos
- *  Drive[8-11]SuperCard
+ *  Drive[8-11]ProfDOS (x64, x64sc, xscpu64 and x128)
+ *  Drive[8-11]StarDos (x64, x64sc, xscpu64 and x128)
+ *  Drive[8-11]SuperCard (x64, x64sc, xscpu64 and x128)
  *
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -127,12 +127,19 @@ GtkWidget *drive_expansion_widget_create(int unit)
     gtk_grid_attach(GTK_GRID(grid), ramA000_widget, 0, 5, 1, 1);
 
     /* TODO: check `machine_class` before adding these */
-    profdos_widget = create_dos_check_button(unit, "ProfDos", "Professional DOS");
-    stardos_widget = create_dos_check_button(unit, "StarDOS", "StarDos");
-    supercard_widget = create_dos_check_button(unit, "SuperCard", "SuperCard+");
-    gtk_grid_attach(GTK_GRID(grid), profdos_widget, 0, 6, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), stardos_widget, 0, 7, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), supercard_widget, 0, 8, 1, 1);
+    if (machine_class == VICE_MACHINE_C64
+            || machine_class == VICE_MACHINE_C64SC
+            || machine_class == VICE_MACHINE_SCPU64
+            || machine_class == VICE_MACHINE_C128) {
+        profdos_widget = create_dos_check_button(unit, "ProfDos",
+                "Professional DOS");
+        stardos_widget = create_dos_check_button(unit, "StarDOS", "StarDos");
+        supercard_widget = create_dos_check_button(unit, "SuperCard",
+                "SuperCard+");
+        gtk_grid_attach(GTK_GRID(grid), profdos_widget, 0, 6, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), stardos_widget, 0, 7, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), supercard_widget, 0, 8, 1, 1);
+    }
 
     drive_expansion_widget_update(grid);
 
@@ -170,6 +177,7 @@ void drive_expansion_widget_update(GtkWidget *widget)
             drive_check_expansionA000(drive_type));
 
     /* check DOS extensions */
+#if 0
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -201,4 +209,5 @@ void drive_expansion_widget_update(GtkWidget *widget)
                     gtk_grid_get_child_at(GTK_GRID(widget), 0, 8), FALSE);
             break;
     }
+#endif
 }
