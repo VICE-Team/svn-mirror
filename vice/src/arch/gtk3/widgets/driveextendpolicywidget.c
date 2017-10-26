@@ -44,18 +44,12 @@
 
 /** \brief  List of (name,id) tuples for the radio buttons
  */
-static ui_radiogroup_entry_t policies[] = {
+static ui_combo_entry_int_t policies[] = {
     { "Never extend", 0 },
     { "Ask on extend", 1 },
     { "Extend on access", 2 },
     { NULL, -1 }
 };
-
-
-/** \brief  Unit number
- */
-
-static GtkWidget *radio_group = NULL;
 
 
 /** \brief  Create 40-track extend policy widget
@@ -67,6 +61,7 @@ static GtkWidget *radio_group = NULL;
 GtkWidget *drive_extend_policy_widget_create(int unit)
 {
     GtkWidget *grid;
+    GtkWidget *combo;
     char buffer[256];
 
     grid = uihelpers_create_grid_with_label("40-track policy", 1);
@@ -74,10 +69,10 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     g_snprintf(buffer, 256, "Drive%dExtendImagePolicy", unit);
-    radio_group = resource_radiogroup_create(buffer, policies,
-            GTK_ORIENTATION_VERTICAL);
-    g_object_set(radio_group, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    combo = resource_combo_box_int_create(buffer, policies);
+    gtk_widget_set_hexpand(combo, TRUE);
+    g_object_set(combo, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

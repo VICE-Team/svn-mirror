@@ -133,6 +133,7 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     GtkWidget *drive_rpm;
     GtkWidget *drive_ram;
     GtkWidget *drive_dos;
+    GtkWidget *wrapper;
 
     /* row 0 & 1, column 0 */
     drive_type = drive_type_widget_create(unit);
@@ -148,21 +149,20 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     drive_dos = drive_dos_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
 
-    /* row 0, column 2 */
+    /* row 0 & 1, column 2 */
+    wrapper = gtk_grid_new();
     drive_extend = drive_extend_policy_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_extend, 2, 0, 1, 1);
-
-    /* row 1, column 2 */
     drive_idle = drive_idle_method_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_idle, 2, 1, 1 , 1);
+    drive_parallel = drive_parallel_cable_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_extend, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_idle, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel, 0, 2, 1, 1);
+    gtk_widget_show_all(wrapper);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
 
     /* row 2, column 0 */
     drive_rpm = drive_rpm_widget_create(unit);
     gtk_grid_attach(GTK_GRID(grid), drive_rpm, 0, 2, 1, 1);
-
-    /* row 2, column 1*/
-    drive_parallel = drive_parallel_cable_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_parallel, 1, 2, 1, 1);
 
     return grid;
 }

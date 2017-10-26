@@ -45,7 +45,7 @@
 
 /** \brief  Idle method (name,id) tuples
  */
-static ui_radiogroup_entry_t idle_methods[] = {
+static ui_combo_entry_int_t idle_methods[] = {
     { "None", 0 },
     { "Skip cycles", 1 },
     { "Trap idle", 2 },
@@ -62,17 +62,17 @@ static ui_radiogroup_entry_t idle_methods[] = {
 GtkWidget *drive_idle_method_widget_create(int unit)
 {
     GtkWidget *grid;
-    GtkWidget *radio_group;
+    GtkWidget *combo;
     char buffer[256];
 
     g_snprintf(buffer, 256, "Drive%dIdleMethod", unit);
     grid = uihelpers_create_grid_with_label("Idle method", 1);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    radio_group = resource_radiogroup_create(buffer, idle_methods,
-            GTK_ORIENTATION_VERTICAL);
-    g_object_set(radio_group, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    combo = resource_combo_box_int_create(buffer, idle_methods);
+    gtk_widget_set_hexpand(combo, TRUE);
+    g_object_set(combo, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
