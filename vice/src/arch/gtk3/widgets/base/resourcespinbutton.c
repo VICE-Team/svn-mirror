@@ -55,6 +55,7 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
+#include "resourcehelpers.h"
 
 #include "resourcespinbutton.h"
 
@@ -66,10 +67,9 @@
  * \param[in]   widget      integer spin button
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_spin_button_destroy(GtkSpinButton *spin, gpointer user_data)
+static void on_spin_button_destroy(GtkWidget *spin, gpointer user_data)
 {
-    char *res = (char *)g_object_get_data(G_OBJECT(spin), "ResourceName");
-    lib_free(res);
+    resource_widget_free_resource_name(spin);
 }
 
 
@@ -83,7 +83,7 @@ static void on_spin_button_destroy(GtkSpinButton *spin, gpointer user_data)
  *
  * \return  TRUE when input is valid, GTK_INPUT_ERROR on invalid input
  */
-static gint on_spin_button_input(GtkSpinButton *spin,
+static gint on_spin_button_input(GtkWidget *spin,
                                  gpointer new_value,
                                  gpointer user_data)
 {
@@ -93,7 +93,7 @@ static gint on_spin_button_input(GtkSpinButton *spin,
     gdouble multiplier;
     int digits;
 
-    digits = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(spin), "FakeDigits"));
+    digits = resource_widget_get_int(spin, "FakeDigits");
     multiplier = pow(10.0, (gdouble)digits);
 
     text = gtk_entry_get_text(GTK_ENTRY(spin));
@@ -117,7 +117,7 @@ static gint on_spin_button_input(GtkSpinButton *spin,
  *
  * \return  TRUE
  */
-static gboolean on_spin_button_output(GtkSpinButton *spin, gpointer user_data)
+static gboolean on_spin_button_output(GtkWidget *spin, gpointer user_data)
 {
     GtkAdjustment *adj;
     gchar *text;
@@ -129,10 +129,10 @@ static gboolean on_spin_button_output(GtkSpinButton *spin, gpointer user_data)
         "%.1f", "%.2f", "%.3f","%.4f", "%.5f"
     };
 
-    digits = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(spin), "FakeDigits"));
+    digits = resource_widget_get_int(spin, "FakeDigits");
     divisor = pow(10.0, (gdouble)digits);
 
-    adj = gtk_spin_button_get_adjustment(spin);
+    adj = gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(spin));
     value = gtk_adjustment_get_value(adj);
     text = g_strdup_printf(fmt[digits - 1], value / divisor);
     gtk_entry_set_text(GTK_ENTRY(spin), text);
@@ -150,13 +150,13 @@ static gboolean on_spin_button_output(GtkSpinButton *spin, gpointer user_data)
  * \param[in]   spin        integer spin button
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_spin_button_value_changed(GtkSpinButton *spin, gpointer user_data)
+static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
 {
     const char *res;
     int value;
 
-    res = (const char *)g_object_get_data(G_OBJECT(spin), "ResourceName");
-    value = gtk_spin_button_get_value_as_int(spin);
+    res = resource_widget_get_resource_name(spin);
+    value = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin));
     debug_gtk3("setting %s to %d\n", res, value);
     resources_set_int(res, value);
 }
@@ -181,8 +181,7 @@ GtkWidget *resource_spin_button_int_create(const char *resource,
             (gdouble)step);
 
     /* set a copy of the resource name */
-    g_object_set_data(G_OBJECT(spin), "ResourceName",
-            (gpointer)lib_stralloc(resource));
+    resource_widget_set_resource_name(spin, resource);
 
     /* set fake digits to 0 */
     g_object_set_data(G_OBJECT(spin), "FakeDigits", GINT_TO_POINTER(0));
@@ -209,13 +208,13 @@ GtkWidget *resource_spin_button_int_create(const char *resource,
  * \param[in]       digits  number of fake digits to display
  *
  */
-void resource_spin_button_int_set_fake_digits(GtkSpinButton *spin, int digits)
+void resource_spin_button_int_set_fake_digits(GtkWidget *spin, int digits)
 {
     if (digits <= 0 || digits > 5) {
         return;
     }
-    g_object_set_data(G_OBJECT(spin), "FakeDigits", GINT_TO_POINTER(digits));
-    gtk_spin_button_set_digits(spin, digits);
+    resource_widget_set_int(spin, "FakeDigits", digits);
+    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), digits);
     g_signal_connect(spin, "input", G_CALLBACK(on_spin_button_input), NULL);
     g_signal_connect(spin, "output", G_CALLBACK(on_spin_button_output), NULL);
 }

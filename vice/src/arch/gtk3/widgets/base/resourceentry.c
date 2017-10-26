@@ -31,6 +31,7 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
+#include "resourcehelpers.h"
 
 #include "resourceentry.h"
 
@@ -42,12 +43,9 @@
  * \param[in]   entry       entry
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_entry_destroy(GtkEntry *entry, gpointer user_data)
+static void on_entry_destroy(GtkWidget *entry, gpointer user_data)
 {
-    char *resource;
-
-    resource = (char *)(g_object_get_data(G_OBJECT(entry), "ResourceName"));
-    lib_free(resource);
+    resource_widget_free_resource_name(entry);
 }
 
 
@@ -56,13 +54,14 @@ static void on_entry_destroy(GtkEntry *entry, gpointer user_data)
  * \param[in]   entry       entry
  * \param[in]   user_data   unused
  */
-static void on_entry_changed(GtkEntry *entry, gpointer user_data)
+static void on_entry_changed(GtkWidget *entry, gpointer user_data)
 {
     const char *resource;
 
-    resource = (const char *)g_object_get_data(G_OBJECT(entry), "ResourceName");
-    debug_gtk3("setting %s to '%s'\n", resource, gtk_entry_get_text(entry));
-    resources_set_string(resource, gtk_entry_get_text(entry));
+    resource = resource_widget_get_resource_name(entry);
+    debug_gtk3("setting %s to '%s'\n", resource,
+            gtk_entry_get_text(GTK_ENTRY(entry)));
+    resources_set_string(resource, gtk_entry_get_text(GTK_ENTRY(entry)));
 }
 
 
@@ -95,8 +94,7 @@ GtkWidget *resource_entry_create(const char *resource)
 
     /* make a copy of the resource name and store the pointer in the propery
      * "ResourceName" */
-    g_object_set_data(G_OBJECT(entry), "ResourceName",
-            (gpointer)lib_stralloc(resource));
+    resource_widget_set_resource_name(entry, resource);
 
     g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
     g_signal_connect(entry, "destroy", G_CALLBACK(on_entry_destroy), NULL);
@@ -111,9 +109,9 @@ GtkWidget *resource_entry_create(const char *resource)
  * \param[in]   entry   entry
  * \param[in]   value   new text for \a entry
  */
-void resource_entry_update(GtkEntry *entry, const char *value)
+void resource_entry_update(GtkWidget *entry, const char *value)
 {
-    gtk_entry_set_text(entry, value);
+    gtk_entry_set_text(GTK_ENTRY(entry), value);
 }
 
 
@@ -121,12 +119,12 @@ void resource_entry_update(GtkEntry *entry, const char *value)
  *
  * \param[in]   entry   entry
  */
-void resource_entry_reset(GtkEntry *entry)
+void resource_entry_reset(GtkWidget *entry)
 {
     const char *resource;
     const char *factory;
 
-    resource = (const char*)g_object_get_data(G_OBJECT(entry), "ResourceName");
+    resource = resource_widget_get_resource_name(entry);
     resources_get_default_value(resource, &factory);
     debug_gtk3("resetting %s to factory value %s\n", resource, factory);
     resource_entry_update(entry, factory);

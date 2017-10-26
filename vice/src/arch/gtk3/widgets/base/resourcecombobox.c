@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "basewidget_types.h"
+#include "resourcehelpers.h"
 
 #include "resourcecombobox.h"
 
@@ -49,10 +50,9 @@
  * \param[im]   combo       combo box
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_combo_int_destroy(GtkComboBoxText *combo, gpointer user_data)
+static void on_combo_int_destroy(GtkWidget *combo, gpointer user_data)
 {
-    char *resource = (char *)g_object_get_data(G_OBJECT(combo), "ResourceName");
-    lib_free(resource);
+    resource_widget_free_resource_name(combo);
 }
 
 
@@ -63,14 +63,14 @@ static void on_combo_int_destroy(GtkComboBoxText *combo, gpointer user_data)
  * \param[im]   combo       combo box
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_combo_int_changed(GtkComboBoxText *combo, gpointer user_data)
+static void on_combo_int_changed(GtkWidget *combo, gpointer user_data)
 {
     const char *id_str;
     int id_val;
     char *endptr;
     const char *resource;
 
-    resource = (const char *)g_object_get_data(G_OBJECT(combo), "ResourceName");
+    resource = resource_widget_get_resource_name(combo);
     id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
     id_val = strtol(id_str, &endptr, 10);
     if (*endptr == '\0') {
@@ -97,8 +97,7 @@ GtkWidget *resource_combo_box_int_create(const char *resource,
     combo = gtk_combo_box_text_new();
 
     /* store a heap-allocated copy of the resource name in the object */
-    g_object_set_data(G_OBJECT(combo), "ResourceName",
-            (gpointer)lib_stralloc(resource));
+    resource_widget_set_resource_name(combo, resource);
 
     /* get current value of resource */
     resources_get_int(resource, &current);
@@ -191,7 +190,7 @@ void resource_combo_box_int_reset(GtkWidget *widget)
     const char *resource;
     int value;
 
-    resource = (const char*)g_object_get_data(G_OBJECT(widget), "ResourceName");
+    resource = resource_widget_get_resource_name(widget);
     resources_get_default_value(resource, &value);
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
     resource_combo_box_int_update(widget, value);
@@ -209,10 +208,9 @@ void resource_combo_box_int_reset(GtkWidget *widget)
  * \param[im]   combo       combo box
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_combo_str_destroy(GtkComboBoxText *combo, gpointer user_data)
+static void on_combo_str_destroy(GtkWidget *combo, gpointer user_data)
 {
-    char *resource = (char *)g_object_get_data(G_OBJECT(combo), "ResourceName");
-    lib_free(resource);
+    resource_widget_free_resource_name(combo);
 }
 
 
@@ -223,12 +221,12 @@ static void on_combo_str_destroy(GtkComboBoxText *combo, gpointer user_data)
  * \param[im]   combo       combo box
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_combo_str_changed(GtkComboBoxText *combo, gpointer user_data)
+static void on_combo_str_changed(GtkWidget *combo, gpointer user_data)
 {
     const char *id_str;
     const char *resource;
 
-    resource = (const char *)g_object_get_data(G_OBJECT(combo), "ResourceName");
+    resource = resource_widget_get_resource_name(combo);
     id_str = gtk_combo_box_get_active_id(GTK_COMBO_BOX(combo));
     debug_gtk3("setting %s to '%s'\n", resource, id_str);
     resources_set_string(resource, id_str);
@@ -252,8 +250,7 @@ GtkWidget *resource_combo_box_str_create(const char *resource,
     combo = gtk_combo_box_text_new();
 
     /* store a heap-allocated copy of the resource name in the object */
-    g_object_set_data(G_OBJECT(combo), "ResourceName",
-            (gpointer)lib_stralloc(resource));
+    resource_widget_set_resource_name(combo, resource);
 
     /* get current value of resource */
     resources_get_string(resource, &current);
@@ -345,10 +342,8 @@ void resource_combo_box_str_reset(GtkWidget *widget)
     const char *resource;
     const char *value;
 
-    resource = (const char*)g_object_get_data(G_OBJECT(widget), "ResourceName");
+    resource = resource_widget_get_resource_name(widget);
     resources_get_default_value(resource, &value);
     debug_gtk3("resetting %s to factory value '%s'\n", resource, value);
     resource_combo_box_str_update(widget, value);
 }
-
-

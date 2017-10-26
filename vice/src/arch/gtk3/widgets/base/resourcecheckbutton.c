@@ -31,6 +31,7 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
+#include "resourcehelpers.h"
 
 #include "resourcecheckbutton.h"
 
@@ -44,10 +45,7 @@
  */
 static void on_check_button_destroy(GtkWidget *check, gpointer user_data)
 {
-    char *resource;
-
-    resource = (char *)(g_object_get_data(G_OBJECT(check), "ResourceName"));
-    lib_free(resource);
+    resource_widget_free_resource_name(check);
 }
 
 
@@ -62,7 +60,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
     int state;
     int current;
 
-    resource = (const char *)g_object_get_data(G_OBJECT(check), "ResourceName");
+    resource = resource_widget_get_resource_name(check);
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
     if (resources_get_int(resource, &current) < 0) {
         /* invalid resource, exit */
@@ -111,8 +109,7 @@ GtkWidget *resource_check_button_create(const char *resource,
 
     /* make a copy of the resource name and store the pointer in the propery
      * "ResourceName" */
-    g_object_set_data(G_OBJECT(check), "ResourceName",
-            (gpointer)lib_stralloc(resource));
+    resource_widget_set_resource_name(check, resource);
 
     g_signal_connect(check, "toggled", G_CALLBACK(on_check_button_toggled),
             (gpointer)resource);
@@ -124,18 +121,27 @@ GtkWidget *resource_check_button_create(const char *resource,
 }
 
 
+/** \brief  Set new \a value for \a check button
+ *
+ * \param[in,out]   check   check button
+ * \param[in]       value   new value
+ */
 void resource_check_button_update(GtkWidget *check, gboolean value)
 {
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
 }
 
 
+/** \brief  Reset check button to factory state
+ *
+ * \param[in,out]   check   check button
+ */
 void resource_check_button_reset(GtkWidget *check)
 {
     const char *resource;
     int value;
 
-    resource = (const char*)g_object_get_data(G_OBJECT(check), "ResourceName");
+    resource = resource_widget_get_resource_name(check);
     resources_get_default_value(resource, &value);
     debug_gtk3("resetting %s to factory value %s\n",
             resource, value ? "True" : "False");

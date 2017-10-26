@@ -82,7 +82,7 @@ GtkWidget *drive_rpm_widget_create(int unit)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     rpm = resource_spin_button_int_create(resource, RPM_MIN, RPM_MAX, RPM_STEP);
-    resource_spin_button_int_set_fake_digits(GTK_SPIN_BUTTON(rpm), 2);
+    resource_spin_button_int_set_fake_digits(rpm, 2);
     g_object_set(rpm, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rpm, 1, 1, 1, 1);
@@ -94,7 +94,7 @@ GtkWidget *drive_rpm_widget_create(int unit)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     wobble = resource_spin_button_int_create(resource,
             WOBBLE_MIN, WOBBLE_MAX, WOBBLE_STEP);
-    resource_spin_button_int_set_fake_digits(GTK_SPIN_BUTTON(wobble), 2);
+    resource_spin_button_int_set_fake_digits(wobble, 2);
     g_object_set(wobble, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wobble, 1, 2, 1, 1);

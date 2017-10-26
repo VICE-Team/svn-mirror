@@ -32,6 +32,7 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
+#include "resourcehelpers.h"
 
 #include "resourcescale.h"
 
@@ -43,12 +44,9 @@
  * \param[in]   scale       integer scale widget
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_scale_int_destroy(GtkScale *scale, gpointer user_data)
+static void on_scale_int_destroy(GtkWidget *scale, gpointer user_data)
 {
-    char *resource;
-
-    resource = (char*)g_object_get_data(G_OBJECT(scale), "ResourceName");
-    lib_free(resource);
+    resource_widget_free_resource_name(scale);
 }
 
 
@@ -59,13 +57,13 @@ static void on_scale_int_destroy(GtkScale *scale, gpointer user_data)
  * \param[in]   scale       integer scale widget
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_scale_int_changed(GtkScale *scale, gpointer user_data)
+static void on_scale_int_changed(GtkWidget *scale, gpointer user_data)
 {
     const char *resource;
     int old_val;
     int new_val;
 
-    resource = (const char*)g_object_get_data(G_OBJECT(scale), "ResourceName");
+    resource = resource_widget_get_resource_name(scale);
     resources_get_int(resource, &old_val);
     new_val = (int)gtk_range_get_value(GTK_RANGE(scale));
     /* only update resource when required */
@@ -98,8 +96,7 @@ GtkWidget *resource_scale_int_create(const char *resource,
     gtk_scale_set_digits(GTK_SCALE(scale), 0);
 
     /* store copy of resource name */
-    g_object_set_data(G_OBJECT(scale), "ResourceName",
-            (gpointer)lib_stralloc(resource));
+    resource_widget_set_resource_name(scale, resource);
 
     /* set current value */
     resources_get_int(resource, &value);
@@ -159,7 +156,7 @@ void resource_scale_int_reset(GtkWidget *scale)
     const char *resource;
     int value;
 
-    resource = (const char*)g_object_get_data(G_OBJECT(scale), "ResourceName");
+    resource = resource_widget_get_resource_name(scale);
     resources_get_default_value(resource, &value);
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
     resource_scale_int_update(scale, value);

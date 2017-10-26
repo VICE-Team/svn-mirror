@@ -32,6 +32,7 @@
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "resources.h"
+#include "resourcehelpers.h"
 
 #include "resourceradiogroup.h"
 
@@ -45,10 +46,7 @@
  */
 static void on_radiogroup_destroy(GtkWidget *widget, gpointer user_data)
 {
-    char *resource;
-
-    resource = (char *)g_object_get_data(G_OBJECT(widget), "ResourceName");
-    lib_free(resource);
+    resource_widget_free_resource_name(widget);
 }
 
 
@@ -62,12 +60,12 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
     GtkWidget *parent;
     int old_val;
     int new_val;
-    char *resource;
+    const char *resource;
     void (*callback)(GtkWidget *, int);
 
     /* parent widget (grid) contains the "ResourceName" property */
     parent = gtk_widget_get_parent(radio);
-    resource = (char *)g_object_get_data(G_OBJECT(parent), "ResourceName");
+    resource = resource_widget_get_resource_name(radio);
     /* get new and old values */
     resources_get_int(resource, &old_val);
     new_val = GPOINTER_TO_INT(user_data);
@@ -122,8 +120,7 @@ GtkWidget *resource_radiogroup_create(const char *resource,
     resources_get_int(resource, &current);
 
     /* store a copy of the resource name in the object */
-    g_object_set_data(G_OBJECT(grid), "ResourceName",
-            (gpointer)lib_stralloc(resource));
+    resource_widget_set_resource_name(grid, resource);
     /* store a reference to the entries in the object */
     g_object_set_data(G_OBJECT(grid), "Entries", (gpointer)entries);
     /* store the orientation in the object */
@@ -199,7 +196,7 @@ void resource_radiogroup_reset(GtkWidget *widget)
     const char *resource;
     int value;
 
-    resource = (const char*)g_object_get_data(G_OBJECT(widget), "ResourceName");
+    resource = resource_widget_get_resource_name(widget);
     resources_get_default_value(resource, &value);
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
     resource_radiogroup_update(widget, value);

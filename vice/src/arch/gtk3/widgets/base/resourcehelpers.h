@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/resourceentry.c
- * \brief   Text entry connected to a resource - header
+/** \file   src/arch/gtk3/widgets/base/resourcehelpers.h
+ * \brief   Helper functions for resource widgets - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -21,19 +21,23 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
 
-#ifndef VICE_RESOURCEENTRY_H
-#define VICE_RESOURCEENTRY_H
+#ifndef VICE_RESOURCEHELPERS_H
+#define VICE_RESOURCEHELPERS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * resource_entry_create(const char *resource);
+void resource_widget_set_int(GtkWidget *widget, const char *key, int value);
+int resource_widget_get_int(GtkWidget *widget, const char *key);
+void resource_widget_set_string(GtkWidget *widget, const char *key,
+                                const char *value);
+const char *resource_widget_get_string(GtkWidget *widget, const char *key);
+void resource_widget_free_string(GtkWidget *widget, const char *key);
 
-void        resource_entry_update(GtkWidget *entry, const char *value);
-
-void        resource_entry_reset(GtkWidget *entry);
+void resource_widget_set_resource_name(GtkWidget *widget, const char *resource);
+const char *resource_widget_get_resource_name(GtkWidget *widget);
+void resource_widget_free_resource_name(GtkWidget *widget);
 
 #endif
