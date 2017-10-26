@@ -195,7 +195,8 @@ static GtkWidget *create_stack_child_widget(int unit)
             CHILD_DRIVE_RPM_XPOS, CHILD_DRIVE_RPM_YPOS, 1, 1);
 
     label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>Help, I'm forced to do Gtk3 stuff!</b>:");
+    gtk_label_set_markup(GTK_LABEL(label), "More widgets to come here ?");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 4, 1);
 
 

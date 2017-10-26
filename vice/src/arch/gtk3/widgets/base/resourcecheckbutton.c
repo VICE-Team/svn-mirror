@@ -64,7 +64,11 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
 
     resource = (const char *)g_object_get_data(G_OBJECT(check), "ResourceName");
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-    resources_get_int(resource, &current);
+    if (resources_get_int(resource, &current) < 0) {
+        /* invalid resource, exit */
+        debug_gtk3("warning: invalid resource '%s'\n", resource);
+        return;
+    }
 
     /* make sure we don't update a resource when the UI happens to be out of
      * sync for some reason */
@@ -95,7 +99,11 @@ GtkWidget *resource_check_button_create(const char *resource,
     int state;
 
     /* get current resource value */
-    resources_get_int(resource, &state);
+    if (resources_get_int(resource, &state) < 0) {
+        /* invalid resource, set state to off */
+        debug_gtk3("warning: invalid resource '%s'\n", resource);
+        state = 0;
+    }
 
     check = gtk_check_button_new_with_label(label);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
