@@ -126,6 +126,77 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Create layout for x64/x64sc/xscpu64 and x128
+ *
+ * \param[in]   grid    main widget grid
+ * \param[in]   unit    unit number
+ *
+ * \return  \a grid
+ */
+static GtkWidget *create_vic20_layout(GtkWidget *grid, int unit)
+{
+    GtkWidget *drive_model;
+    GtkWidget *drive_options;
+    GtkWidget *drive_extend;
+    GtkWidget *drive_idle;
+    /* GtkWidget *drive_parallel; */
+    GtkWidget *drive_rpm;
+    GtkWidget *drive_ram;
+    /* GtkWidget *drive_dos; */
+    GtkWidget *drive_fsdevice;
+    GtkWidget *wrapper;
+
+    /* row 0 & 1, column 0 */
+
+    wrapper = gtk_grid_new();
+
+    drive_model = drive_model_widget_create(unit);
+    drive_model_widget_add_callback(drive_model, stack_child_drive_type_callback,
+            (gpointer)(grid));
+    gtk_grid_attach(GTK_GRID(wrapper), drive_model, 0, 0, 1, 1);
+    drive_options = drive_options_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_options, 0, 1, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
+
+    /* row 0, column 1 */
+    drive_ram = drive_ram_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_ram, 1, 0, 1, 1);
+
+    /* row 1, column 1 */
+    /*    drive_dos = drive_dos_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
+    */
+
+    /* row 0 & 1, column 2 */
+    wrapper = gtk_grid_new();
+    drive_extend = drive_extend_policy_widget_create(unit);
+    drive_idle = drive_idle_method_widget_create(unit);
+    /*    drive_parallel = drive_parallel_cable_widget_create(unit); */
+    gtk_grid_attach(GTK_GRID(wrapper), drive_extend, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_idle, 0, 1, 1, 1);
+    /*    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel, 0, 2, 1, 1); */
+    gtk_widget_show_all(wrapper);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
+
+    /* row 2, column 0 */
+    drive_rpm = drive_rpm_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_rpm, 0, 2, 1, 1);
+
+    /* row 2, column 1 & 2 */
+    drive_fsdevice = drive_fsdevice_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_fsdevice, 1, 2, 2, 1);
+    return grid;
+}
+
+
+/** \brief  Create layout for xvic
+ *
+ * \param[in]   grid    main widget grid
+ * \param[in]   unit    unit number
+ *
+ * \return  \a grid
+ */
 static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 {
     GtkWidget *drive_model;
@@ -182,6 +253,79 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 }
 
 
+/** \brief  Create layout for xplus4
+ *
+ * \param[in]   grid    main widget grid
+ * \param[in]   unit    unit number
+ *
+ * \return  \a grid
+ */
+static GtkWidget *create_plus4_layout(GtkWidget *grid, int unit)
+{
+    GtkWidget *drive_model;
+    GtkWidget *drive_options;
+    GtkWidget *drive_extend;
+    GtkWidget *drive_idle;
+#if 0
+    GtkWidget *drive_parallel;
+#endif
+    GtkWidget *drive_rpm;
+    /* GtkWidget *drive_ram; */
+    /* GtkWidget *drive_dos; */
+    GtkWidget *drive_fsdevice;
+    GtkWidget *wrapper;
+
+    /* row 0 & 1, column 0 */
+
+    wrapper = gtk_grid_new();
+
+    drive_model = drive_model_widget_create(unit);
+    drive_model_widget_add_callback(drive_model, stack_child_drive_type_callback,
+            (gpointer)(grid));
+    gtk_grid_attach(GTK_GRID(wrapper), drive_model, 0, 0, 1, 1);
+    drive_options = drive_options_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_options, 0, 1, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
+
+    /* row 0, column 1 */
+#if 0
+    drive_ram = drive_ram_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_ram, 1, 0, 1, 1);
+
+    /* row 1, column 1 */
+    drive_dos = drive_dos_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
+#endif
+    /* row 0 & 1, column 2 */
+    wrapper = gtk_grid_new();
+    drive_extend = drive_extend_policy_widget_create(unit);
+    drive_idle = drive_idle_method_widget_create(unit);
+
+    /* FIXME: vice.texi mentions parallel support for Plus4, the Gtk2 UI does
+     *        not provide this
+     */
+#if 0
+    drive_parallel = drive_parallel_cable_widget_create(unit);
+#endif
+    gtk_grid_attach(GTK_GRID(wrapper), drive_extend, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_idle, 0, 1, 1, 1);
+#if 0
+    gtk_grid_attach(GTK_GRID(wrapper), drive_parallel, 0, 2, 1, 1);
+#endif
+    gtk_widget_show_all(wrapper);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 2, 0, 1, 2);
+
+    /* row 2, column 0 */
+    drive_rpm = drive_rpm_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_rpm, 0, 2, 1, 1);
+
+    /* row 2, column 1 & 2 */
+    drive_fsdevice = drive_fsdevice_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_fsdevice, 1, 2, 2, 1);
+    return grid;
+}
+
 
 
 /** \brief  Create a composite widget with settings for drive \a unit
@@ -205,6 +349,16 @@ static GtkWidget *create_stack_child_widget(int unit)
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:
             create_c64_layout(grid, unit);
+            break;
+        case VICE_MACHINE_VIC20:
+            create_vic20_layout(grid, unit);
+            break;
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:   /* fall through */
+        case VICE_MACHINE_C64DTV:
+            create_plus4_layout(grid, unit);
             break;
         default:
             break;
