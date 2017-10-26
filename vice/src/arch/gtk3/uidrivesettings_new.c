@@ -62,6 +62,7 @@
 #include "driveramwidget.h"
 #include "drivedoswidget.h"
 #include "drivefsdevicewidget.h"
+#include "driveoptionswidget.h"
 
 #include "uidrivesettings_new.h"
 
@@ -128,6 +129,7 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
 static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
 {
     GtkWidget *drive_model;
+    GtkWidget *drive_options;
     GtkWidget *drive_extend;
     GtkWidget *drive_idle;
     GtkWidget *drive_parallel;
@@ -138,10 +140,17 @@ static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
     GtkWidget *wrapper;
 
     /* row 0 & 1, column 0 */
+
+    wrapper = gtk_grid_new();
+
     drive_model = drive_model_widget_create(unit);
     drive_model_widget_add_callback(drive_model, stack_child_drive_type_callback,
             (gpointer)(grid));
-    gtk_grid_attach(GTK_GRID(grid), drive_model, 0, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_model, 0, 0, 1, 1);
+    drive_options = drive_options_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(wrapper), drive_options, 0, 1, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 0, 1, 2);
 
     /* row 0, column 1 */
     drive_ram = drive_ram_widget_create(unit);
