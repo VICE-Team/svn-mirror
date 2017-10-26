@@ -53,39 +53,16 @@
 #include "drivetypewidget_new.h"
 #endif
 #include "driveextendpolicywidget.h"
-#include "driveexpansionwidget.h"
 #include "driveidlemethodwidget.h"
 #include "driveparallelcablewidget.h"
 #if 0
 #include "driveoptionswidget.h"
 #endif
 #include "driverpmwidget.h"
-
+#include "driveramwidget.h"
+#include "drivedoswidget.h"
 
 #include "uidrivesettings_new.h"
-
-/* position in a stack child widget of the drive type widget */
-#define CHILD_DRIVE_TYPE_XPOS   0
-#define CHILD_DRIVE_TYPE_YPOS   0
-
-/* position in a stack child widget of the drive extend policy widget */
-#define CHILD_DRIVE_EXTEND_XPOS 2
-#define CHILD_DRIVE_EXTEND_YPOS 1
-
-/* position in a stack child widget of the drive expansions widget */
-#define CHILD_DRIVE_EXPAND_XPOS 1
-#define CHILD_DRIVE_EXPAND_YPOS 0
-
-/* position in a stack child widget of the drive idle method widget */
-#define CHILD_DRIVE_IDLE_XPOS 2
-#define CHILD_DRIVE_IDLE_YPOS 0
-
-/* position in a stack child widget of the drive parallel cable widget */
-#define CHILD_DRIVE_PARALLEL_XPOS 1
-#define CHILD_DRIVE_PARALLEL_YPOS 2
-
-#define CHILD_DRIVE_RPM_XPOS 0
-#define CHILD_DRIVE_RPM_YPOS 2
 
 
 
@@ -99,11 +76,14 @@
  *      What did I get myself into, just to avoid globals and to make the
  *      glue logic simpler?     -- compyx
  *
+ * TODO:    Change behaviour, depending on machine class
+ *
  * \param[in,out]   widget  drive type widget
  * \param[in,out]   data    the child widget of the GtkStack
  */
 static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
 {
+#if 0
     GtkWidget *drive_extend;
     GtkWidget *drive_expand;
     GtkWidget *drive_parallel;
@@ -139,9 +119,54 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
     if (drive_parallel != NULL) {
         drive_parallel_cable_widget_update(drive_parallel);
     }
-
+#endif
 
 }
+
+
+static GtkWidget *create_c64_layout(GtkWidget *grid, int unit)
+{
+    GtkWidget *drive_type;
+    GtkWidget *drive_extend;
+    GtkWidget *drive_idle;
+    GtkWidget *drive_parallel;
+    GtkWidget *drive_rpm;
+    GtkWidget *drive_ram;
+    GtkWidget *drive_dos;
+
+    /* row 0 & 1, column 0 */
+    drive_type = drive_type_widget_create(unit);
+    drive_type_widget_add_callback(drive_type, stack_child_drive_type_callback,
+            (gpointer)(grid));
+    gtk_grid_attach(GTK_GRID(grid), drive_type, 0, 0, 1, 2);
+
+    /* row 0, column 1 */
+    drive_ram = drive_ram_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_ram, 1, 0, 1, 1);
+
+    /* row 1, column 1 */
+    drive_dos = drive_dos_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_dos, 1, 1, 1, 1);
+
+    /* row 0, column 2 */
+    drive_extend = drive_extend_policy_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_extend, 2, 0, 1, 1);
+
+    /* row 1, column 2 */
+    drive_idle = drive_idle_method_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_idle, 2, 1, 1 , 1);
+
+    /* row 2, column 0 */
+    drive_rpm = drive_rpm_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_rpm, 0, 2, 1, 1);
+
+    /* row 2, column 1*/
+    drive_parallel = drive_parallel_cable_widget_create(unit);
+    gtk_grid_attach(GTK_GRID(grid), drive_parallel, 1, 2, 1, 1);
+
+    return grid;
+}
+
 
 
 
@@ -154,52 +179,22 @@ static void stack_child_drive_type_callback(GtkWidget *widget, gpointer data)
 static GtkWidget *create_stack_child_widget(int unit)
 {
     GtkWidget *grid;
-    GtkWidget *drive_type;
-    GtkWidget *drive_extend;
-    GtkWidget *drive_expand;
-    GtkWidget *drive_idle;
-    GtkWidget *drive_parallel;
-    GtkWidget *drive_rpm;
-    GtkWidget *label;
-
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
     g_object_set(grid, "margin-left", 8, NULL);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    drive_type = drive_type_widget_create(unit);
-    drive_type_widget_add_callback(drive_type, stack_child_drive_type_callback,
-            (gpointer)(grid));
-    gtk_grid_attach(GTK_GRID(grid), drive_type,
-            CHILD_DRIVE_TYPE_XPOS, CHILD_DRIVE_TYPE_YPOS, 1, 3);
-
-    drive_extend = drive_extend_policy_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_extend,
-            CHILD_DRIVE_EXTEND_XPOS, CHILD_DRIVE_EXTEND_YPOS, 1, 1);
-
-    drive_expand= drive_expansion_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_expand,
-            CHILD_DRIVE_EXPAND_XPOS, CHILD_DRIVE_EXPAND_YPOS, 1, 2);
-
-    drive_idle = drive_idle_method_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_idle,
-            CHILD_DRIVE_IDLE_XPOS, CHILD_DRIVE_IDLE_YPOS, 1, 1);
-
-    drive_parallel = drive_parallel_cable_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_parallel,
-            CHILD_DRIVE_PARALLEL_XPOS, CHILD_DRIVE_PARALLEL_YPOS, 1, 1);
-
-    drive_rpm = drive_rpm_widget_create(unit);
-    gtk_grid_attach(GTK_GRID(grid), drive_rpm,
-            CHILD_DRIVE_RPM_XPOS, CHILD_DRIVE_RPM_YPOS, 1, 1);
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "More widgets to come here ?");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 4, 1);
-
-
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:
+            create_c64_layout(grid, unit);
+            break;
+        default:
+            break;
+    }
 
     gtk_widget_show_all(grid);
     return grid;

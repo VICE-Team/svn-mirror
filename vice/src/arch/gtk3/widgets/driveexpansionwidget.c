@@ -5,11 +5,11 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Drive[8-11]RAM2000
- *  Drive[8-11]RAM4000
- *  Drive[8-11]RAM6000
- *  Drive[8-11]RAM8000
- *  Drive[8-11]RAMA000
+ *  Drive[8-11]RAM2000 (1540, 1541 and 1541-II)
+ *  Drive[8-11]RAM4000 (1540, 1541, 1541-II, 1570, 1571 and 1751CR)
+ *  Drive[8-11]RAM6000 (1540, 1541, 1541-II, 1570, 1571 and 1751CR)
+ *  Drive[8-11]RAM8000 (1540, 1541 and 1541-II)
+ *  Drive[8-11]RAMA000 (1540, 1541 and 1541-II)
  *  Drive[8-11]ProfDOS (x64, x64sc, xscpu64 and x128)
  *  Drive[8-11]StarDos (x64, x64sc, xscpu64 and x128)
  *  Drive[8-11]SuperCard (x64, x64sc, xscpu64 and x128)
@@ -76,7 +76,7 @@ static GtkWidget *create_ram_check_button(int unit, unsigned int base)
  *
  * \param[in]   unit    unit number (8-11)
  * \param[in]   dos     final part of the resource name (ie 'ProfDOS')
- * \param[in]   label   labe for the check button
+ * \param[in]   label   label for the check button
  *
  * \return  GtkCheckButton
  */
