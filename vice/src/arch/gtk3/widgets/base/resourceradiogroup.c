@@ -65,7 +65,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 
     /* parent widget (grid) contains the "ResourceName" property */
     parent = gtk_widget_get_parent(radio);
-    resource = resource_widget_get_resource_name(radio);
+    resource = resource_widget_get_resource_name(parent);
     /* get new and old values */
     resources_get_int(resource, &old_val);
     new_val = GPOINTER_TO_INT(user_data);
