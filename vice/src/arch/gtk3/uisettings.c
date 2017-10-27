@@ -78,6 +78,9 @@
 #include "uimousesettings.h"
 #include "uisoundchipsettings.h"
 
+/* I/O extension widgets */
+#include "c64memoryexpansionhackswidget.h"
+
 #include "uisettings.h"
 
 
@@ -105,12 +108,12 @@ enum {
 };
 
 
-/** \brief  List of C64 I/O extensions
+/** \brief  List of C64 I/O extensions (x64, x64sc)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
-    { "Memory Expansions Hack",     NULL, NULL },
+    { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
 
     { "GEO-RAM",                    NULL, NULL },
     { "RAM Expansion Module",       NULL, NULL },

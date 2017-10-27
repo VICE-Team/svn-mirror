@@ -91,7 +91,8 @@ libwidgets_a_SOURCES = \
 	drivedoswidget.c \
 	drivefsdevicewidget.c \
 	printeroutputmodewidget.c \
-	printeroutputdevicewidget.c
+	printeroutputdevicewidget.c \
+	c64memoryexpansionhackswidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -157,4 +158,5 @@ EXTRA_DIST = \
 	drivedoswidget.h \
 	drivefsdevicewidget.h \
 	printeroutputmodewidget.h \
-	printeroutputdevicewidget.h
+	printeroutputdevicewidget.h \
+	c64memoryexpansionhackswidget.h
