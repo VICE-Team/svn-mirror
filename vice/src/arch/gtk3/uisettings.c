@@ -83,6 +83,15 @@
 
 #define NUM_COLUMNS 2
 
+
+#define DIALOG_WIDTH 800
+#define DIALOG_HEIGHT 560
+
+
+#define DIALOG_WIDTH_MAX 1024
+#define DIALOG_HEIGHT_MAX 640
+
+
 /** \brief  Enum used for the "response" callback of the settings dialog
  *
  * All values must be positive since Gtk reserves standard responses in its
@@ -343,7 +352,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(tree);
 
     gtk_widget_set_size_request(tree, 180, 500);
-    gtk_widget_set_size_request(settings_grid, 800, 560);
+    gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
@@ -434,6 +443,23 @@ static void response_callback(GtkWidget *widget, gint response_id,
 }
 
 
+static gboolean on_dialog_configure_event(GtkWidget *widget, GdkEvent *event,
+        gpointer user_data)
+{
+    if (event->type == GDK_CONFIGURE) {
+        GdkRGBA color = { 1.0, 0.0, 0.0, 1.0 };
+        int width = ((GdkEventConfigure*)event)->width;
+        int height = ((GdkEventConfigure*)event)->height;
+        debug_gtk3("width %d, height %d\n", width, height);
+        if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
+            gtk_widget_override_background_color(widget, 0, &color);
+        }
+
+    }
+    return FALSE;
+}
+
+
 /** \brief  Callback to create the main settings dialog from the menu
  *
  * \param[in]   widget      (direct) parent widget, the menu item
@@ -470,5 +496,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
+    g_signal_connect(dialog, "configure-event",
+            G_CALLBACK(on_dialog_configure_event), NULL);
     gtk_widget_show_all(dialog);
 }
