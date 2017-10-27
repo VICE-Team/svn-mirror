@@ -105,10 +105,48 @@ enum {
 };
 
 
-static ui_settings_tree_node_t subnodes[] = {
-    { "Compyx", NULL, NULL },
-    { "Fucking", NULL, NULL },
-    { "Rules!!", NULL, NULL },
+/** \brief  List of C64 I/O extensions
+ *
+ * Every empty line indicates a separator in the Gtk2 UI's menu
+ */
+static ui_settings_tree_node_t c64_io_extensions[] = {
+    { "Memory Expansions Hack",     NULL, NULL },
+
+    { "GEO-RAM",                    NULL, NULL },
+    { "RAM Expansion Module",       NULL, NULL },
+    { "RamCart",                    NULL, NULL },
+
+    { "Double Quick Brown Box",     NULL, NULL },
+    { "Expert Cartridge",           NULL, NULL },
+    { "ISEPIC",                     NULL, NULL },
+
+    { "EasyFlash",                  NULL, NULL },
+    { "GMod2",                      NULL, NULL },
+    { "IDE64",                      NULL, NULL },
+    { "MMC64",                      NULL, NULL },
+    { "MMC Replay",                 NULL, NULL },
+    { "Retro Replay",               NULL, NULL },
+    { "Super Snapshot V5",          NULL, NULL },
+
+    { "Ethernet Cartridge",         NULL, NULL },
+    { "RR-Net Mk3",                 NULL, NULL },
+
+    { "IEEE-448 Interface",         NULL, NULL },
+    { "Burst Mode Modification",    NULL, NULL },
+
+    { "DigiMAX",                    NULL, NULL },
+    { "Magic Voice",                NULL, NULL },
+    { "MIDI emulation",             NULL, NULL },
+    { "SFX Sound Expander",         NULL, NULL },
+    { "SFX Sound Sampler",          NULL, NULL },   /* checkmark in Gtk2 */
+    { "CP/M Cartridge",             NULL, NULL },   /* checkmark in Gtk2 */
+
+    { "DS12C887 Real Time Clock",   NULL, NULL },
+    { "Userport devices",           NULL, NULL },
+    { "Tape port devices",          NULL, NULL },
+
+    { "I/O collision handling ($d800-$d8ff)", NULL, NULL },
+    { "Reset on cart change",       NULL, NULL },   /* checkmark in Gtk2 */
     { NULL, NULL, NULL }
 };
 
@@ -142,7 +180,7 @@ static ui_settings_tree_node_t main_nodes[] = {
      *       through an I/O extension
      */
     { "SID settings", uisoundchipsettings_widget_create, NULL },
-    { "Subitem test", NULL, subnodes },
+    { "I/O extensions", NULL, c64_io_extensions },  /* C64 only for now */
     { NULL, NULL, NULL }
 };
 
@@ -320,7 +358,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 {
     GtkWidget *tree;
     GtkTreeSelection *selection;
-
+    GtkWidget *scroll;
     GtkWidget *extra;
 
     debug_gtk3("called\n");
@@ -329,7 +367,13 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     tree = create_treeview();
     g_print("tree created\n");
 
-    gtk_grid_attach(GTK_GRID(settings_grid), tree, 0, 0, 1, 1);
+    /* pack the tree in a scrolled window to allow scrolling of the tree when
+     * it gets too large for the dialog
+     */
+    scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_container_add(GTK_CONTAINER(scroll), tree);
+
+    gtk_grid_attach(GTK_GRID(settings_grid), scroll, 0, 0, 1, 1);
 
     /* TODO: remember the previously selected setting/widget and set it here */
     ui_settings_set_central_widget(uispeed_create_central_widget(widget));
@@ -351,7 +395,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(tree);
 
-    gtk_widget_set_size_request(tree, 180, 500);
+    gtk_widget_set_size_request(scroll, 180, 500);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
