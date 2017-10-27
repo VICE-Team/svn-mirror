@@ -80,6 +80,7 @@
 
 /* I/O extension widgets */
 #include "c64memoryexpansionhackswidget.h"
+#include "georamwidget.h"
 
 #include "uisettings.h"
 
@@ -115,7 +116,7 @@ enum {
 static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
 
-    { "GEO-RAM",                    NULL, NULL },
+    { "GEO-RAM",                    georam_widget_create, NULL },
     { "RAM Expansion Module",       NULL, NULL },
     { "RamCart",                    NULL, NULL },
 

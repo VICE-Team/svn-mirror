@@ -92,7 +92,8 @@ libwidgets_a_SOURCES = \
 	drivefsdevicewidget.c \
 	printeroutputmodewidget.c \
 	printeroutputdevicewidget.c \
-	c64memoryexpansionhackswidget.c
+	c64memoryexpansionhackswidget.c \
+	georamwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -159,4 +160,5 @@ EXTRA_DIST = \
 	drivefsdevicewidget.h \
 	printeroutputmodewidget.h \
 	printeroutputdevicewidget.h \
-	c64memoryexpansionhackswidget.h
+	c64memoryexpansionhackswidget.h \
+	georamwidget.h

@@ -77,7 +77,7 @@ gchar *ui_save_file_dialog(
 
     /* set proposed file name, if any */
     if (proposed != NULL && *proposed != '\0') {
-        gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(dialog), proposed);
+        gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog), proposed);
     }
 
     /* change directory if specified */
