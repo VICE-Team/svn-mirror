@@ -35,6 +35,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -43,27 +44,14 @@
 #include "printeremulationtypewidget.h"
 
 
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * \param[in]   radio       radio button
- * \param[in]   user_data   new value for the resource (`int`)
+/** \brief  List of printer emulation types
  */
-static void on_radio_toggled(GtkRadioButton *radio, gpointer user_data)
-{
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
-        int device;
-        int type;
-
-        /* get device number from the "DeviceNumber" property of the radio
-         * button */
-        device = GPOINTER_TO_INT(
-                g_object_get_data(G_OBJECT(radio), "DeviceNumber"));
-        type = GPOINTER_TO_INT(user_data);
-        debug_gtk3("setting Printer%d to %d\n", device, type);
-        resources_set_int_sprintf("Printer%d", type, device);
-    }
-}
+static ui_radiogroup_entry_t emu_types[] = {
+    { "None", PRINTER_DEVICE_NONE },
+    { "File system access", PRINTER_DEVICE_FS },
+    { "Real device access", PRINTER_DEVICE_REAL },
+    { NULL, -1 }
+};
 
 
 /** \brief  Create printer emulation type widget
@@ -79,52 +67,17 @@ static void on_radio_toggled(GtkRadioButton *radio, gpointer user_data)
 GtkWidget *printer_emulation_type_widget_create(int device)
 {
     GtkWidget *grid;
-    GtkWidget *radio_none;
-    GtkWidget *radio_fs;
-    GtkWidget *radio_real;
-    GSList *group = NULL;
-    int type;
+    GtkWidget *radio_group;
+    char resource[256];
+
+    g_snprintf(resource, 256, "Printer%d", device);
 
     /* build grid */
     grid = uihelpers_create_grid_with_label("Emulation type", 1);
-
-    /* PRINTER_DEVICE_NONE */
-    radio_none = gtk_radio_button_new_with_label(group, "None");
-    g_object_set_data(G_OBJECT(radio_none), "DeviceNumber",
-            GINT_TO_POINTER(device));
-    g_object_set(radio_none, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_none, 0, 1, 1, 1);
-
-    /* PRINTER_DEVICE_FS */
-    radio_fs = gtk_radio_button_new_with_label(group, "File system access");
-    gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_fs),
-            GTK_RADIO_BUTTON(radio_none));
-    g_object_set_data(G_OBJECT(radio_fs), "DeviceNumber",
-            GINT_TO_POINTER(device));
-    g_object_set(radio_fs, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_fs, 0, 2, 1, 1);
-
-    /* PRINTER_DEVICE_REAL */
-    radio_real = gtk_radio_button_new_with_label(group, "Real device access");
-    gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_real),
-            GTK_RADIO_BUTTON(radio_fs));
-    g_object_set_data(G_OBJECT(radio_real), "DeviceNumber",
-            GINT_TO_POINTER(device));
-    g_object_set(radio_real, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_real, 0, 3, 1, 1);
-
-    /* set current type from resource */
-    resources_get_int_sprintf("Printer%d", &type, device);
-    printer_emulation_type_widget_update(grid, type);
-
-    /* connect signal handlers */
-    g_signal_connect(radio_none, "toggled", G_CALLBACK(on_radio_toggled),
-            GINT_TO_POINTER(PRINTER_DEVICE_NONE));
-    g_signal_connect(radio_fs, "toggled", G_CALLBACK(on_radio_toggled),
-            GINT_TO_POINTER(PRINTER_DEVICE_FS));
-    g_signal_connect(radio_real, "toggled", G_CALLBACK(on_radio_toggled),
-            GINT_TO_POINTER(PRINTER_DEVICE_REAL));
-
+    radio_group = resource_radiogroup_create(resource, emu_types,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(radio_group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -138,11 +91,8 @@ GtkWidget *printer_emulation_type_widget_create(int device)
  */
 void printer_emulation_type_widget_update(GtkWidget *widget, int type)
 {
-    GtkWidget *radio;
+    GtkWidget *radio_group;
 
-    radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, type + 1);
-    if (radio != NULL && GTK_IS_RADIO_BUTTON(radio)) {
-        /* set toggle button to active, this also sets the resource */
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-    }
+    radio_group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    resource_radiogroup_update(radio_group, type);
 }

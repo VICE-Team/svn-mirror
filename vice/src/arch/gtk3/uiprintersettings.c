@@ -30,6 +30,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -38,7 +39,11 @@
 /* widgets */
 #include "printeremulationtypewidget.h"
 #include "printerdriverwidget.h"
+#if 0
 #include "printeroutputwidget.h"
+#endif
+#include "printeroutputmodewidget.h"
+#include "printeroutputdevicewidget.h"
 #include "userportprinterwidget.h"
 
 #include "uiprintersettings.h"
@@ -70,7 +75,7 @@ static void on_real_device7_toggled(GtkCheckButton *check, gpointer user_data)
 }
 
 
-
+#if 0
 /** \brief  Handler for the "toggled" event of the IEC checkboxes
  *
  * \param[in]   check       IEC checkbox
@@ -84,6 +89,7 @@ static void on_iec_toggled(GtkCheckButton *check, gpointer user_data)
     debug_gtk3("setting IECDevice%d to %s\n", device, state ? "ON" : "OFF");
     resources_set_int_sprintf("IECDevice%d", state, device);
 }
+#endif
 
 
 /** \brief  Set PrinterTextDevice[1-3] resource
@@ -110,21 +116,21 @@ static void on_text_device_changed(GtkEntry *entry, gpointer user_data)
 static GtkWidget *create_iec_widget(int device)
 {
     GtkWidget *check;
-    int value;
+    char resource[256];
 
-    resources_get_int_sprintf("IECDevice%d", &value, device);
+    g_snprintf(resource, 256, "IECDevice%d", device);
 
-    check = gtk_check_button_new_with_label("Enable IEC device");
+    check = resource_check_button_create(resource, "Enable IEC device");
     g_object_set(check, "margin-left", 16, NULL);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
-
-    g_signal_connect(check, "toggled", G_CALLBACK(on_iec_toggled),
-            GINT_TO_POINTER(device));
+    gtk_widget_show(check);
     return check;
 }
 
 
 /** \brief  Create checkbox to switch between NONE/REAL emu mode for Printer7
+ *
+ * NOTE: Cannot use resourcecheckbutton here since this toggle button switches
+ *       between PRINTER_DEVICE_NONE (0) and PRINTER_DEVICE_REAL (2).
  *
  * \return  GtkCheckButton
  */
@@ -159,7 +165,7 @@ static GtkWidget *create_printer_widget(int device)
 
     g_snprintf(title, 256, "Printer #%d settings", device);
 
-    grid = uihelpers_create_grid_with_label(title, 3);
+    grid = uihelpers_create_grid_with_label(title, 4);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     if (device == 4 || device == 5 || device == 6) {
@@ -175,12 +181,14 @@ static GtkWidget *create_printer_widget(int device)
 
         gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 1, 1, 1);
 
-
-
         gtk_grid_attach(GTK_GRID(grid),
                 printer_driver_widget_create(device), 1, 1, 1, 1);
         gtk_grid_attach(GTK_GRID(grid),
-                printer_output_widget_create(device), 2, 1, 1, 1);
+                printer_output_mode_widget_create(device), 2, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid),
+                printer_output_device_widget_create(device), 3, 1, 1, 1);
+
+
     } else if (device == 7) {
         /* device 7 is 'special' */
         GtkWidget *iec_widget = create_iec_widget(device);
@@ -254,9 +262,9 @@ GtkWidget *uiprintersettings_widget_create(GtkWidget *parent)
     GtkWidget *layout;
     GtkWidget *stack;
     GtkWidget *stack_switcher;
-    GtkWidget *layout_printers;
     GtkWidget *layout_userport;
     int p;
+    char buffer[256];
 
     layout = gtk_grid_new();
 
@@ -265,20 +273,14 @@ GtkWidget *uiprintersettings_widget_create(GtkWidget *parent)
             GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT);
     gtk_stack_set_transition_duration(GTK_STACK(stack), 1000);
 
-    layout_printers = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout_printers), 8);
-
     for (p = PRINTER_MIN; p <= PRINTER_MAX; p++) {
-        gtk_grid_attach(GTK_GRID(layout_printers),
-                create_printer_widget(p),
-                0, p - PRINTER_MIN + 1, 1, 1);
+        g_snprintf(buffer, 256, "Printer #%d", p);
+        gtk_stack_add_titled(GTK_STACK(stack), create_printer_widget(p),
+                buffer, buffer);
     }
-    gtk_widget_show_all(layout_printers);
 
     layout_userport = userport_printer_widget_create();
 
-    gtk_stack_add_titled(GTK_STACK(stack), layout_printers, "printers",
-            "Standard printers");
     gtk_stack_add_titled(GTK_STACK(stack), layout_userport, "userport",
             "Userport printer");
 

@@ -1,8 +1,11 @@
-/** \file   src/arch/gtk3/widgets/printeroutputwidget.h
- * \brief   Widget to control printer output settings - header
+/** \file   src/arch/gtk3/widgets/printeroutputmodewidget.h
+ * \brief   Widget to control printer output mode settings - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Controls the following resource(s):
+ *  Printer[4-6]Output
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +27,13 @@
  *
  */
 
-#ifndef VICE_PRINTEROUTPUT_WIDGET_H
-#define VICE_PRINTEROUTPUT_WIDGET_H
+#ifndef VICE_PRINTEROUTPUTMODEWIDGET_H
+#define VICE_PRINTEROUTPUTMODEWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget  *printer_output_widget_create(int device);
+
+GtkWidget *printer_output_mode_widget_create(int device);
 
 #endif

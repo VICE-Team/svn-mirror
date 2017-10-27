@@ -1,10 +1,11 @@
 /** \file   src/arch/gtk3/widgets/printerdriverwidget.c
- * \brief   Widget to control printer drive
+ * \brief   Widget to control printer driver
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
+ *  Printer
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,6 +35,7 @@
 #include <string.h>
 
 #include "widgethelpers.h"
+#include "resourcehelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
 #include "printer.h"
@@ -46,7 +48,7 @@
  * \param[in]   radio       radio button
  * \param[in]   user_data   new value for the resource (`const char *`)
  */
-static void on_radio_toggled(GtkRadioButton *radio, gpointer user_data)
+static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 {
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
@@ -55,8 +57,7 @@ static void on_radio_toggled(GtkRadioButton *radio, gpointer user_data)
 
         /* get device number from the "DeviceNumber" property of the radio
          * button */
-        device = GPOINTER_TO_INT(
-                g_object_get_data(G_OBJECT(radio), "DeviceNumber"));
+        device = resource_widget_get_int(radio, "DeviceNumber");
         type = (const char *)user_data;
         debug_gtk3("setting Printer%dDriver to '%s'\n", device, type);
         resources_set_string_sprintf("Printer%dDriver", type, device);
@@ -92,7 +93,7 @@ GtkWidget *printer_driver_widget_create(int device)
     /* build grid */
     grid = uihelpers_create_grid_with_label("Driver", 1);
     /* set DeviceNumber property to allow the update function to work */
-    g_object_set_data(G_OBJECT(grid), "DeviceNumber", GINT_TO_POINTER(device));
+    resource_widget_set_int(grid, "DeviceNumber", device);
 
     if (device == 4 || device == 5) {
         /* 'normal' printers */

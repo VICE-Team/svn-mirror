@@ -81,7 +81,6 @@ libwidgets_a_SOURCES = \
 	videobordermodewidget.c \
 	printeremulationtypewidget.c \
 	printerdriverwidget.c \
-	printeroutputwidget.c \
 	userportprinterwidget.c \
 	joystickdevicewidget.c \
 	joystickuserportadapterwidget.c \
@@ -90,7 +89,9 @@ libwidgets_a_SOURCES = \
 	drivemodelwidget.c \
 	driveramwidget.c \
 	drivedoswidget.c \
-	drivefsdevicewidget.c
+	drivefsdevicewidget.c \
+	printeroutputmodewidget.c \
+	printeroutputdevicewidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -146,7 +147,6 @@ EXTRA_DIST = \
 	videobordermodewidget.h \
 	printeremulationtypewidget.h \
 	printerdrivewidget.h \
-	printeroutputwidget.h \
 	userportprinterwidget.h \
 	joystickdevicewidget.h \
 	joystickuserportadapterwidget.h \
@@ -155,4 +155,6 @@ EXTRA_DIST = \
 	drivemodelwidget.h \
 	driveramwidget.h \
 	drivedoswidget.h \
-	drivefsdevicewidget.h
+	drivefsdevicewidget.h \
+	printeroutputmodewidget.h \
+	printeroutputdevicewidget.h
