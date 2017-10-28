@@ -35,10 +35,14 @@
 #include <gtk/gtk.h>
 
 #include "machine.h"
+#if 0
+#include "georam.h"
+#endif
 #include "resources.h"
 #include "debug_gtk3.h"
 #include "basewidgets.h"
 #include "widgethelpers.h"
+#include "basedialogs.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 
@@ -59,7 +63,8 @@ static ui_radiogroup_entry_t ram_sizes[] = {
 
 
 /* list of widgets, used to enable/disable depending on GEORAM resource */
-static GtkWidget *georam_enable = NULL;
+static GtkWidget *georam_enable_widget = NULL;  /* georam_enable lives in
+                                                   georam.c */
 static GtkWidget *georam_size = NULL;
 static GtkWidget *georam_ioswap = NULL;
 static GtkWidget *georam_image = NULL;
@@ -133,7 +138,16 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
             fname, TRUE, dname);
     if (new_filename != NULL) {
         debug_gtk3("writing GEORAM file image as '%s'\n", new_filename);
-        /* TODO; actually write file */
+        /* write file */
+#if 0
+        if (georam_bin_save(new_filename) < 0) {
+            /* oops */
+#endif
+            ui_message_error(button, "I/O error",
+                    "Failed to save '%s'", new_filename);
+#if 0
+        }
+#endif
         g_free(new_filename);
     }
 
@@ -247,8 +261,8 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    georam_enable = create_georam_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), georam_enable, 0, 0, 1, 1);
+    georam_enable_widget = create_georam_enable_widget();
+    gtk_grid_attach(GTK_GRID(grid), georam_enable_widget, 0, 0, 1, 1);
 
     if (machine_class == VICE_MACHINE_VIC20) {
         georam_ioswap = create_georam_ioswap_widget();
@@ -261,11 +275,11 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
     georam_image = create_georam_image_widget();
     gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
 
-    g_signal_connect(georam_enable, "toggled", G_CALLBACK(on_enable_toggled),
+    g_signal_connect(georam_enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
             NULL);
 
-    /* enable/disable widget based on georam-enable */
-    on_enable_toggled(georam_enable, NULL);
+    /* enable/disable widget based on georam-enable (dirty trick, I know) */
+    on_enable_toggled(georam_enable_widget, NULL);
 
     gtk_widget_show_all(grid);
     return grid;
