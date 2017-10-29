@@ -37,7 +37,6 @@
 #include "resources.h"
 #include "drive.h"
 #include "drive-check.h"
-#include "driveexpansionwidget.h"
 #include "driveparallelcablewidget.h"
 #include "drivewidgethelpers.h"
 #include "driveoptionswidget.h"

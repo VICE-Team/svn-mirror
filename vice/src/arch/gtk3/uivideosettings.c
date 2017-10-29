@@ -119,74 +119,64 @@ static void on_destroy(GtkWidget *widget)
 
 static GtkWidget *create_double_size_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sDoubleSize", chip_name[index]);
-    return resource_check_button_create(resname, "Double size");
+    return resource_check_button_create_sprintf("%sDoubleSize", "Double size",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_double_scan_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sDoubleScan", chip_name[index]);
-    return resource_check_button_create(resname, "Double scan");
+    return resource_check_button_create_sprintf("%sDoubleScan", "Double scan",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_video_cache_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sVideoCache", chip_name[index]);
-    return resource_check_button_create(resname, "Video cache");
+    return resource_check_button_create_sprintf("%sVideoCache", "Video cache",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_vert_stretch_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sStretchVertical", chip_name[index]);
-    return resource_check_button_create(resname, "Stretch vertically");
+    return resource_check_button_create_sprintf("%sStretchVertical",
+            "Stretch vertically", chip_name[index]);
 }
 
 
 static GtkWidget *create_audio_leak_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sAudioLeak", chip_name[index]);
-    return resource_check_button_create(resname, "Audio leak emulation");
+    return resource_check_button_create_sprintf("%sAudioLeak",
+            "Audio leak emulation", chip_name[index]);
 }
 
 
 static GtkWidget *create_sprite_sprite_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sCheckSsColl", chip_name[index]);
-    return resource_check_button_create(resname, "Sprite-sprite collisions");
+    return resource_check_button_create_sprintf("%sCheckSsColl",
+            "Sprite-sprite collisions", chip_name[index]);
 }
 
 
 static GtkWidget *create_sprite_background_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sCheckSbColl", chip_name[index]);
-    return resource_check_button_create(resname,
-            "Sprite-background collisions");
+    return resource_check_button_create_sprintf("%sCheckSbColl",
+            "Sprite-background collisions", chip_name[index]);
 }
 
 
 static GtkWidget *create_vsp_bug_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sVSPBug", chip_name[index]);
-    return resource_check_button_create(resname, "VSP bug emulation");
+    return resource_check_button_create_sprintf("%sVSPBug",
+            "VSP bug emulation", chip_name[index]);
 }
 
 
 static GtkWidget *create_hw_scale_widget(int index)
 {
-    gchar resname[256];
-    g_snprintf(resname, 256, "%sHwScale", chip_name[index]);
-    return resource_check_button_create(resname, "Hardware scaling");
+    return resource_check_button_create_sprintf("%sHwScale",
+            "Hardware scaling", chip_name[index]);
 }
 
 

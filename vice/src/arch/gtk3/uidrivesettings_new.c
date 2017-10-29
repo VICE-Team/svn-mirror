@@ -47,17 +47,10 @@
 #include "widgethelpers.h"
 #include "drivewidgethelpers.h"
 #include "driveunitwidget.h"
-#if 0
-#include "drivetypewidget.h"
-#else
 #include "drivemodelwidget.h"
-#endif
 #include "driveextendpolicywidget.h"
 #include "driveidlemethodwidget.h"
 #include "driveparallelcablewidget.h"
-#if 0
-#include "driveoptionswidget.h"
-#endif
 #include "driverpmwidget.h"
 #include "driveramwidget.h"
 #include "drivedoswidget.h"

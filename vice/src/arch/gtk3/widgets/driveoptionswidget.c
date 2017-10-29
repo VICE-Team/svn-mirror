@@ -65,11 +65,7 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
 static GtkWidget *create_iec_check_button(int unit)
 {
     GtkWidget *check;
-#if 0
-    char resource[256];
 
-    g_snprintf(resource, 256, "IECDevice%d", unit);
-#endif
     check = resource_check_button_create_sprintf(
             "IECDevice%d", "IEC Device", unit);
 
@@ -88,12 +84,8 @@ static GtkWidget *create_iec_check_button(int unit)
 
 static GtkWidget *create_readonly_check_button(int unit)
 {
-    GtkWidget *check;
-    char resource[256];
-
-    g_snprintf(resource, 256, "AttachDevice%dReadonly", unit);
-    check = resource_check_button_create(resource, "Read Only");
-    return check;
+    return resource_check_button_create_sprintf("AttachDevice%dReadonly",
+            "Read Only", unit);
 }
 
 
@@ -101,11 +93,10 @@ static GtkWidget *create_readonly_check_button(int unit)
 static GtkWidget *create_rtc_check_button(int unit)
 {
     GtkWidget *check;
-    char resource[256];
     int drive_type;
 
-    g_snprintf(resource, 256, "Drive%dRTCSave", unit);
-    check = resource_check_button_create(resource, "RTC Save");
+    check = resource_check_button_create_sprintf("Drive%dRTCSave",
+            "RTC Save", unit);
 
     drive_type = ui_get_drive_type(unit);
     gtk_widget_set_sensitive(check,
@@ -193,4 +184,3 @@ void drive_options_widget_update(GtkWidget *widget, int unit)
     }
 #endif
 }
-

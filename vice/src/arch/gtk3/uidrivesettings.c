@@ -53,7 +53,6 @@
 #include "driveunitwidget.h"
 #include "drivetypewidget.h"
 #include "driveextendpolicywidget.h"
-#include "driveexpansionwidget.h"
 #include "driveidlemethodwidget.h"
 #include "driveparallelcablewidget.h"
 #include "driveoptionswidget.h"

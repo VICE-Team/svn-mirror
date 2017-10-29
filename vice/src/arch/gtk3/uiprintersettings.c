@@ -116,13 +116,10 @@ static void on_text_device_changed(GtkEntry *entry, gpointer user_data)
 static GtkWidget *create_iec_widget(int device)
 {
     GtkWidget *check;
-    char resource[256];
 
-    g_snprintf(resource, 256, "IECDevice%d", device);
-
-    check = resource_check_button_create(resource, "Enable IEC device");
+    check = resource_check_button_create_sprintf("IECDevice%d",
+            "Enable IEC device", device);
     g_object_set(check, "margin-left", 16, NULL);
-    gtk_widget_show(check);
     return check;
 }
 

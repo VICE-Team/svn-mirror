@@ -55,11 +55,8 @@ static GtkWidget *create_dos_check_button(int unit, const char *dos,
                                           const char *label)
 {
     GtkWidget *check;
-    char resource[256];
 
-    g_snprintf(resource, 256, "Drive%d%s", unit, dos);
-
-    check = resource_check_button_create(resource, label);
+    check = resource_check_button_create_sprintf("Drive%d%s", label, unit, dos);
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }

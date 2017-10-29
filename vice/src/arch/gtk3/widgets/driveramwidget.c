@@ -65,12 +65,10 @@ static GtkWidget *create_ram_check_button(int unit, unsigned int base)
 {
     GtkWidget *check;
     char label[256];
-    char resource[256];
 
-    g_snprintf(resource, 256, "Drive%dRAM%04x", unit, base);
     g_snprintf(label, 256, "$%04X-$%04X RAM", base, base + 0x1fff);
-
-    check = resource_check_button_create(resource, label);
+    check = resource_check_button_create_sprintf("Drive%dRAM%04X", label,
+            unit, base);
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }

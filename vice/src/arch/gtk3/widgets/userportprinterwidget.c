@@ -6,6 +6,9 @@
  *
  * Controls the following resource(s):
  *  PrinterUserPort
+ *  PrinterUserportDriver
+ *  PrinterUserportOutput
+ *  PrinterUserportTextDevice
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

@@ -51,7 +51,6 @@ libwidgets_a_SOURCES = \
 	drivewidgethelpers.c \
 	driveunitwidget.c \
 	driveextendpolicywidget.c \
-	driveexpansionwidget.c \
 	driveidlemethodwidget.c \
 	driveparallelcablewidget.c \
 	driveoptionswidget.c \
@@ -119,7 +118,6 @@ EXTRA_DIST = \
 	drivewidgethelpers.h \
 	driveunitwidget.h \
 	driveextendpolicywidget.h \
-	driveexpansionwidget.h \
 	driveidlemethodwidget.h \
 	driveparallelcablewidget.h \
 	driveoptionswidget.h \
