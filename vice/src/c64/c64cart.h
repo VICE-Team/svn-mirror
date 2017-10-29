@@ -73,7 +73,7 @@ typedef struct {
 extern export_t export;
 
 #define CARTRIDGE_INCLUDE_PUBLIC_API
-#include "cart/expert.h"
+#include "cart/expert.h"    /* provide defines for ExpertCartridgeMode resource */
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 
 #endif
