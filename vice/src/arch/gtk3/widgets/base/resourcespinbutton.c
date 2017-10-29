@@ -162,26 +162,18 @@ static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
 }
 
 
-/** \brief  Create integer spin button to control \a resource
+/** \brief  Create integer spin button to control a resource - helper
  *
- * \param[in]   resource    resource name
- * \param[in]   lower       lowest value
- * \param[in]   upper       highest value
- * \param[in]   step        step for the +/- buttons
+ * \param[in]   spin    spin button
  *
  * \return  GtkSpinButton
  */
-GtkWidget *resource_spin_button_int_create(const char *resource,
-                                           int lower, int upper, int step)
+static GtkWidget *resource_spin_button_int_create_helper(GtkWidget *spin)
 {
-    GtkWidget *spin;
     int current;
+    const char *resource;
 
-    spin = gtk_spin_button_new_with_range((gdouble)lower, (gdouble)upper,
-            (gdouble)step);
-
-    /* set a copy of the resource name */
-    resource_widget_set_resource_name(spin, resource);
+    resource = resource_widget_get_resource_name(spin);
 
     /* set fake digits to 0 */
     g_object_set_data(G_OBJECT(spin), "FakeDigits", GINT_TO_POINTER(0));
@@ -199,6 +191,63 @@ GtkWidget *resource_spin_button_int_create(const char *resource,
 
     gtk_widget_show(spin);
     return spin;
+}
+
+
+
+/** \brief  Create integer spin button to control \a resource
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   lower       lowest value
+ * \param[in]   upper       highest value
+ * \param[in]   step        step for the +/- buttons
+ *
+ * \return  GtkSpinButton
+ */
+GtkWidget *resource_spin_button_int_create(const char *resource,
+                                           int lower, int upper, int step)
+{
+    GtkWidget *spin;
+
+    spin = gtk_spin_button_new_with_range((gdouble)lower, (gdouble)upper,
+            (gdouble)step);
+
+    /* set a copy of the resource name */
+    resource_widget_set_resource_name(spin, resource);
+
+    return resource_spin_button_int_create_helper(spin);
+}
+
+
+/** \brief  Create integer spin button to control \a resource
+ *
+ * Allows setting the resource name with a variable argument list
+ *
+ * \param[in]   fmt     resource name format string
+ * \param[in]   lower   lowest value
+ * \param[in]   upper   highest value
+ * \param[in]   step    step for the +/- buttons
+ *
+ * \return  GtkSpinButton
+ */
+GtkWidget *resource_spin_button_int_create_sprintf(
+        const char *fmt,
+        int lower, int upper, int step,
+        ...)
+{
+    GtkWidget *spin;
+    char *resource;
+    va_list args;
+
+    spin = gtk_spin_button_new_with_range((gdouble)lower, (gdouble)upper,
+            (gdouble)step);
+
+    va_start(args, step);
+    resource = lib_mvsprintf(fmt, args);
+    g_object_set_data(G_OBJECT(spin), "ResourceName", (gpointer)resource);
+    va_end(args);
+
+    return resource_spin_button_int_create_helper(spin);
 }
 
 

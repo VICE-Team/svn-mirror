@@ -71,29 +71,27 @@ GtkWidget *drive_rpm_widget_create(int unit)
     GtkWidget *rpm;
     GtkWidget *wobble;
     GtkWidget *label;
-    char resource[256];
 
     grid = uihelpers_create_grid_with_label("RPM settings", 2);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
     /* RPM */
-    g_snprintf(resource, 256, "Drive%dRPM", unit);
     label = gtk_label_new("RPM");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    rpm = resource_spin_button_int_create(resource, RPM_MIN, RPM_MAX, RPM_STEP);
+    rpm = resource_spin_button_int_create_sprintf("Drive%dRPM",
+            RPM_MIN, RPM_MAX, RPM_STEP, unit);
     resource_spin_button_int_set_fake_digits(rpm, 2);
     g_object_set(rpm, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rpm, 1, 1, 1, 1);
 
     /* Wobble */
-    g_snprintf(resource, 256, "Drive%dWobble", unit);
     label = gtk_label_new("Wobble");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    wobble = resource_spin_button_int_create(resource,
-            WOBBLE_MIN, WOBBLE_MAX, WOBBLE_STEP);
+    wobble = resource_spin_button_int_create_sprintf("Drive%dWobble",
+            WOBBLE_MIN, WOBBLE_MAX, WOBBLE_STEP, unit);
     resource_spin_button_int_set_fake_digits(wobble, 2);
     g_object_set(wobble, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
