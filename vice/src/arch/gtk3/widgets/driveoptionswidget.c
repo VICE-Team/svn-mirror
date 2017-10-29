@@ -65,11 +65,13 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
 static GtkWidget *create_iec_check_button(int unit)
 {
     GtkWidget *check;
+#if 0
     char resource[256];
 
     g_snprintf(resource, 256, "IECDevice%d", unit);
-
-    check = resource_check_button_create(resource, "IEC Device");
+#endif
+    check = resource_check_button_create_sprintf(
+            "IECDevice%d", "IEC Device", unit);
 
 /*    g_object_set(check, "margin-left", 16, NULL); */
 

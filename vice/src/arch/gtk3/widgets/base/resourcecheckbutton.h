@@ -33,6 +33,12 @@
 GtkWidget * resource_check_button_create(const char *resource,
                                          const char *label);
 
+GtkWidget * resource_check_button_create_sprintf(const char *fmt,
+                                                 const char *label,
+                                                 ...);
+
+
+
 void        resource_check_button_update(GtkWidget *check, gboolean value);
 
 void        resource_check_button_reset(GtkWidget *check);
