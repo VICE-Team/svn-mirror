@@ -89,38 +89,28 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 }
 
 
-/** \brief  Create a radiogroup widget
+/** \brief  Helper function for the create() functions
  *
- * A radiogroup widget is a composite widget consisting of a GtkGrid with
- * a number of GtkRadioButton's, laid out according to \a orientation
- *
- * Three GObject properties are set: "ResourceName", a heap-allocated copy
- * of the \a resource argument, "Entries", a reference to the \a entries and
- * "Orientation", the \a orientation argument. These are all required to make
- * the event handlers and resource_radiogroup_update() work properly.
- *
- * \param[in]   resource    resource name
+ * \param[in]   grid        containing grid
  * \param[in]   entries     list of entries for the group
  * \param[in]   orientation layout direction of the radio buttons
  *
  * \return  GtkGrid
  */
-GtkWidget *resource_radiogroup_create(const char *resource,
-                                      const ui_radiogroup_entry_t *entries,
-                                      GtkOrientation orientation)
+static GtkWidget *resource_radiogroup_create_helper(
+        GtkWidget *grid,
+        const ui_radiogroup_entry_t *entries,
+        GtkOrientation orientation)
 {
-    GtkWidget *grid;
     GtkRadioButton *last = NULL;
     GSList *group = NULL;
     int i;
     int current;
+    const char *resource;
 
-    grid = gtk_grid_new();
-
+    resource = resource_widget_get_resource_name(grid);
     resources_get_int(resource, &current);
 
-    /* store a copy of the resource name in the object */
-    resource_widget_set_resource_name(grid, resource);
     /* store a reference to the entries in the object */
     g_object_set_data(G_OBJECT(grid), "Entries", (gpointer)entries);
     /* store the orientation in the object */
@@ -153,6 +143,75 @@ GtkWidget *resource_radiogroup_create(const char *resource,
 
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+/** \brief  Create a radiogroup widget
+ *
+ * A radiogroup widget is a composite widget consisting of a GtkGrid with
+ * a number of GtkRadioButton's, laid out according to \a orientation
+ *
+ * Three GObject properties are set: "ResourceName", a heap-allocated copy
+ * of the \a resource argument, "Entries", a reference to the \a entries and
+ * "Orientation", the \a orientation argument. These are all required to make
+ * the event handlers and resource_radiogroup_update() work properly.
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   entries     list of entries for the group
+ * \param[in]   orientation layout direction of the radio buttons
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *resource_radiogroup_create(const char *resource,
+                                      const ui_radiogroup_entry_t *entries,
+                                      GtkOrientation orientation)
+{
+    GtkWidget *grid;
+
+    grid = gtk_grid_new();
+
+    /* store a copy of the resource name in the object */
+    resource_widget_set_resource_name(grid, resource);
+
+    return resource_radiogroup_create_helper(grid, entries, orientation);
+}
+
+
+/** \brief  Create a radiogroup widget, using sprintf()-style formatting of
+ *          the resource name
+ *
+ * A radiogroup widget is a composite widget consisting of a GtkGrid with
+ * a number of GtkRadioButton's, laid out according to \a orientation
+ *
+ * Three GObject properties are set: "ResourceName", a heap-allocated copy
+ * of the \a resource argument, "Entries", a reference to the \a entries and
+ * "Orientation", the \a orientation argument. These are all required to make
+ * the event handlers and resource_radiogroup_update() work properly.
+ *
+ * \param[in]   fmt         resource name format string
+ * \param[in]   entries     list of entries for the group
+ * \param[in]   orientation layout direction of the radio buttons
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *resource_radiogroup_create_sprintf(
+        const char *fmt,
+        const ui_radiogroup_entry_t *entries,
+        GtkOrientation orientation,
+        ...)
+{
+    GtkWidget *grid;
+    char *resource;
+    va_list args;
+
+    grid = gtk_grid_new();
+
+    va_start(args, orientation);
+    resource = lib_mvsprintf(fmt, args);
+    g_object_set_data(G_OBJECT(grid), "ResourceName", (gpointer)resource);
+    va_end(args);
+
+    return resource_radiogroup_create_helper(grid, entries, orientation);
 }
 
 

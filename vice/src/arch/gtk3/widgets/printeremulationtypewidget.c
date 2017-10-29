@@ -68,14 +68,11 @@ GtkWidget *printer_emulation_type_widget_create(int device)
 {
     GtkWidget *grid;
     GtkWidget *radio_group;
-    char resource[256];
-
-    g_snprintf(resource, 256, "Printer%d", device);
 
     /* build grid */
     grid = uihelpers_create_grid_with_label("Emulation type", 1);
-    radio_group = resource_radiogroup_create(resource, emu_types,
-            GTK_ORIENTATION_VERTICAL);
+    radio_group = resource_radiogroup_create_sprintf("Printer%d", emu_types,
+            GTK_ORIENTATION_VERTICAL, device);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 

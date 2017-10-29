@@ -88,9 +88,8 @@ static GtkWidget *create_cia_widget(int num)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    g_snprintf(buffer, 256, "CIA%dModel", num);
-    radio_group = resource_radiogroup_create(buffer, cia_models,
-            GTK_ORIENTATION_HORIZONTAL);
+    radio_group = resource_radiogroup_create_sprintf("CIA%dModel", cia_models,
+            GTK_ORIENTATION_HORIZONTAL, num);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 1, 0, 1, 1);
 
     gtk_widget_show_all(grid);

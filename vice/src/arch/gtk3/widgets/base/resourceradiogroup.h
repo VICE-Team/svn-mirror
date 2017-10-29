@@ -35,6 +35,12 @@ GtkWidget * resource_radiogroup_create(const char *resource,
                                        const ui_radiogroup_entry_t *entries,
                                        GtkOrientation orientation);
 
+GtkWidget *resource_radiogroup_create_sprintf(
+        const char *fmt,
+        const ui_radiogroup_entry_t *entries,
+        GtkOrientation orientation,
+        ...);
+
 void        resource_radiogroup_update(GtkWidget *widget, int id);
 
 void        resource_radiogroup_reset(GtkWidget *widget);
