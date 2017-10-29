@@ -37,6 +37,9 @@
 #include "sampler.h"
 #include "uisamplersettings.h"
 
+#include "georam.h"
+#include "georamwidget.h"
+
 #include "scpu64ui.h"
 
 
@@ -75,6 +78,10 @@ int scpu64ui_init(void)
     video_model_widget_set_models(c64scpu_vicii_models);
 
     uisamplersettings_set_devices_getter(sampler_get_devices);
+
+    /* I/O extension function pointers */
+    georam_widget_set_save_handler(georam_bin_save);
+
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

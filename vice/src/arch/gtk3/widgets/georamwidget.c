@@ -69,6 +69,8 @@ static GtkWidget *georam_size = NULL;
 static GtkWidget *georam_ioswap = NULL;
 static GtkWidget *georam_image = NULL;
 
+static int (*georam_save_func)(const char *) = NULL;
+
 
 /** \brief  Handler for the "toggled" event of the georam_enable widget
  *
@@ -139,15 +141,16 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     if (new_filename != NULL) {
         debug_gtk3("writing GEORAM file image as '%s'\n", new_filename);
         /* write file */
-#if 0
-        if (georam_bin_save(new_filename) < 0) {
-            /* oops */
-#endif
-            ui_message_error(button, "I/O error",
-                    "Failed to save '%s'", new_filename);
-#if 0
+        if (georam_save_func != NULL) {
+            if (georam_save_func(new_filename) < 0) {
+                /* oops */
+                ui_message_error(button, "I/O error",
+                        "Failed to save '%s'", new_filename);
+            }
+        } else {
+            ui_message_error(button, "Core error",
+                    "GEORAM save handler not specified");
         }
-#endif
         g_free(new_filename);
     }
 
@@ -284,3 +287,14 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+/** \brief  Set save function for the GEORAM extension
+ *
+ * \param[in]   func    save function
+ */
+void georam_widget_set_save_handler(int (*func)(const char *))
+{
+    georam_save_func = func;
+}
+

@@ -33,5 +33,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget *georam_widget_create(GtkWidget *parent);
+void georam_widget_set_save_handler(int (*func)(const char *));
 
 #endif
