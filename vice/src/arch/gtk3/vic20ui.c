@@ -39,8 +39,6 @@
 
 #include "georam.h"
 #include "georamwidget.h"
-#include "reu.h"
-#include "reuwidget.h"
 
 #include "vic20ui.h"
 
@@ -73,7 +71,6 @@ int vic20ui_init(void)
 
     /* I/O extension function pointers */
     georam_widget_set_save_handler(georam_bin_save);
-    reu_widget_set_save_handler(reu_bin_save);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
