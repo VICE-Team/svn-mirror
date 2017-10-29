@@ -63,13 +63,12 @@ GtkWidget *drive_idle_method_widget_create(int unit)
 {
     GtkWidget *grid;
     GtkWidget *combo;
-    char buffer[256];
 
-    g_snprintf(buffer, 256, "Drive%dIdleMethod", unit);
     grid = uihelpers_create_grid_with_label("Idle method", 1);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    combo = resource_combo_box_int_create(buffer, idle_methods);
+    combo = resource_combo_box_int_create_sprintf("Drive%dIdleMethod",
+            idle_methods, unit);
     gtk_widget_set_hexpand(combo, TRUE);
     g_object_set(combo, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);

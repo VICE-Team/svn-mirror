@@ -34,6 +34,11 @@
 GtkWidget * resource_combo_box_int_create(const char *resource,
                                           const ui_combo_entry_int_t *entries);
 
+GtkWidget *resource_combo_box_int_create_sprintf(
+        const char *fmt,
+        const ui_combo_entry_int_t *entries,
+        ...);
+
 GtkWidget * resource_combo_box_int_create_with_label(const char *resource,
                                                      const ui_combo_entry_int_t *entries,
                                                      const char *label);
@@ -44,6 +49,12 @@ void        resource_combo_box_int_reset(GtkWidget *widget);
 
 GtkWidget * resource_combo_box_str_create(const char *resource,
                                           const ui_combo_entry_str_t *entries);
+
+GtkWidget *resource_combo_box_str_create_sprintf(
+        const char *fmt,
+        const ui_combo_entry_str_t *entries,
+        ...);
+
 
 GtkWidget * resource_combo_box_str_create_with_label(const char *resource,
                                                      const ui_combo_entry_str_t *entries,

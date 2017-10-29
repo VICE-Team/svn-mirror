@@ -94,14 +94,8 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_device_type_widget(int unit)
 {
-    GtkWidget *combo;
-    char resource[256];
-
-    g_snprintf(resource, 256, "FileSystemDevice%d", unit);
-
-    combo = resource_combo_box_int_create(resource, device_types);
-    gtk_widget_show(combo);
-    return combo;
+    return resource_combo_box_int_create_sprintf("FileSystemDevice%d",
+            device_types, unit);
 }
 
 

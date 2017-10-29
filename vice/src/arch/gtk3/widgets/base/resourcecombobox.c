@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "debug_gtk3.h"
 #include "lib.h"
@@ -79,25 +80,22 @@ static void on_combo_int_changed(GtkWidget *combo, gpointer user_data)
     }
 }
 
-
 /** \brief  Create a combo box to control an integer resource
  *
- * \param[in]   resource    resource name
- * \param[in]   entries     list of entries for the combo box
+ * \param[in]   combo   combo box
+ * \param[in]   entries list of entries for the combo box
  *
  * \return  GtkComboBoxText
  */
-GtkWidget *resource_combo_box_int_create(const char *resource,
-                                         const ui_combo_entry_int_t *entries)
+static GtkWidget *resource_combo_box_int_create_helper(
+        GtkWidget *combo,
+        const ui_combo_entry_int_t *entries)
 {
-    GtkWidget *combo;
     int index;
     int current;
+    const char *resource;
 
-    combo = gtk_combo_box_text_new();
-
-    /* store a heap-allocated copy of the resource name in the object */
-    resource_widget_set_resource_name(combo, resource);
+    resource = resource_widget_get_resource_name(combo);
 
     /* get current value of resource */
     resources_get_int(resource, &current);
@@ -121,6 +119,55 @@ GtkWidget *resource_combo_box_int_create(const char *resource,
     gtk_widget_show(combo);
     return combo;
 }
+
+
+/** \brief  Create a combo box to control an integer resource
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   entries     list of entries for the combo box
+ *
+ * \return  GtkComboBoxText
+ */
+GtkWidget *resource_combo_box_int_create(const char *resource,
+                                         const ui_combo_entry_int_t *entries)
+{
+    GtkWidget * combo = gtk_combo_box_text_new();
+
+    /* store a heap-allocated copy of the resource name in the object */
+    resource_widget_set_resource_name(combo, resource);
+
+    return resource_combo_box_int_create_helper(combo, entries);
+}
+
+
+/** \brief  Create a combo box to control an integer resource
+ *
+ * Allows setting the resource name via sprintf()-syntax
+ *
+ * \param[in]   fmt     format string for the resource name
+ * \param[in]   entries list of entries for the combo box
+ *
+ * \return  GtkComboBoxText
+ */
+GtkWidget *resource_combo_box_int_create_sprintf(
+        const char *fmt,
+        const ui_combo_entry_int_t *entries,
+        ...)
+{
+    GtkWidget *combo;
+    char *resource;
+    va_list args;
+
+    combo = gtk_combo_box_text_new();
+
+    va_start(args, entries);
+    resource = lib_mvsprintf(fmt, args);
+    g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
+    va_end(args);
+
+    return resource_combo_box_int_create_helper(combo, entries);
+}
+
 
 
 /** \brief  Create combo box for integer \a resource with a \a label
@@ -235,19 +282,20 @@ static void on_combo_str_changed(GtkWidget *combo, gpointer user_data)
 
 /** \brief  Create a combo box to control a string resource
  *
- * \param[in]   resource    resource name
- * \param[in]   entries     list of entries for the combo box
+ * \param[in]   combo   combo box
+ * \param[in]   entries list of entries for the combo box
  *
  * \return  GtkComboBoxText
  */
-GtkWidget *resource_combo_box_str_create(const char *resource,
-                                         const ui_combo_entry_str_t *entries)
+static GtkWidget *resource_combo_box_str_create_helper(
+        GtkWidget *combo,
+        const ui_combo_entry_str_t *entries)
 {
-    GtkWidget *combo;
     int index;
     const char *current;
+    const char *resource;
 
-    combo = gtk_combo_box_text_new();
+    resource = resource_widget_get_resource_name(combo);
 
     /* store a heap-allocated copy of the resource name in the object */
     resource_widget_set_resource_name(combo, resource);
@@ -278,6 +326,54 @@ GtkWidget *resource_combo_box_str_create(const char *resource,
 
     gtk_widget_show(combo);
     return combo;
+}
+
+
+/** \brief  Create a combo box to control a string resource
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   entries     list of entries for the combo box
+ *
+ * \return  GtkComboBoxText
+ */
+GtkWidget *resource_combo_box_str_create(const char *resource,
+                                         const ui_combo_entry_str_t *entries)
+{
+    GtkWidget *combo;
+
+    combo = gtk_combo_box_text_new();
+
+    /* store a heap-allocated copy of the resource name in the object */
+    resource_widget_set_resource_name(combo, resource);
+
+    return resource_combo_box_str_create_helper(combo, entries);
+}
+
+
+/** \brief  Create a combo box to control a string resource
+ *
+ * \param[in]   resource    resource name
+ * \param[in]   entries     list of entries for the combo box
+ *
+ * \return  GtkComboBoxText
+ */
+GtkWidget *resource_combo_box_str_create_sprintf(
+        const char *fmt,
+        const ui_combo_entry_str_t *entries,
+        ...)
+{
+    GtkWidget *combo;
+    char *resource;
+    va_list args;
+
+    combo = gtk_combo_box_text_new();
+
+    va_start(args, entries);
+    resource = lib_mvsprintf(fmt, args);
+    g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
+    va_end(args);
+
+    return resource_combo_box_str_create_helper(combo, entries);
 }
 
 

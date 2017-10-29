@@ -62,14 +62,13 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
 {
     GtkWidget *grid;
     GtkWidget *combo;
-    char buffer[256];
 
     grid = uihelpers_create_grid_with_label("40-track policy", 1);
     /* store unit number in "UnitNumber" property for later use */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    g_snprintf(buffer, 256, "Drive%dExtendImagePolicy", unit);
-    combo = resource_combo_box_int_create(buffer, policies);
+    combo = resource_combo_box_int_create_sprintf("Drive%dExtendImagePolicy",
+            policies, unit);
     gtk_widget_set_hexpand(combo, TRUE);
     g_object_set(combo, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);

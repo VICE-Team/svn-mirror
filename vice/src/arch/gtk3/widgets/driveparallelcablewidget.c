@@ -73,7 +73,6 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
 {
     GtkWidget *grid;
     GtkWidget *combo;
-    char resource[256];
     ui_combo_entry_int_t *list;
 
     if (machine_class == VICE_MACHINE_PLUS4) {
@@ -83,11 +82,11 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
     }
 
     grid = uihelpers_create_grid_with_label("Parallel cable", 1);
-    g_snprintf(resource, 256, "Drive%dParallelCable", unit);
     debug_gtk3("setting UnitNumber property to %d\n", unit);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    combo = resource_combo_box_int_create(resource, list);
+    combo = resource_combo_box_int_create_sprintf("Drive%dParallelCable",
+            list, unit);
     gtk_widget_set_hexpand(combo, TRUE);
     g_object_set(combo, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
