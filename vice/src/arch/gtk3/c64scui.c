@@ -39,6 +39,8 @@
 
 #include "georamwidget.h"
 #include "georam.h"
+#include "reu.h"
+#include "reuwidget.h"
 
 #include "c64ui.h"
 
@@ -82,7 +84,7 @@ int c64scui_init(void)
 
     /* I/O extension function pointers */
     georam_widget_set_save_handler(georam_bin_save);
-
+    reu_widget_set_save_handler(reu_bin_save);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

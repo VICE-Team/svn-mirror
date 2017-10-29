@@ -7639,7 +7639,7 @@ String specifying the filename of the REU image.
 
 @vindex REUImageWrite
 @item REUImageWrite
-Boolean, if true write back the REU image file automatically, incase the RAM
+Boolean, if true write back the REU image file automatically, in case the RAM
 contents changed, when detaching or quitting the emulator.
 
 @vindex REUsize

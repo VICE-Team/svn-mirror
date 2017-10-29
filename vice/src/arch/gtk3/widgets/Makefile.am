@@ -93,7 +93,8 @@ libwidgets_a_SOURCES = \
 	printeroutputmodewidget.c \
 	printeroutputdevicewidget.c \
 	c64memoryexpansionhackswidget.c \
-	georamwidget.c
+	georamwidget.c \
+	reuwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -160,4 +161,5 @@ EXTRA_DIST = \
 	printeroutputmodewidget.h \
 	printeroutputdevicewidget.h \
 	c64memoryexpansionhackswidget.h \
-	georamwidget.h
+	georamwidget.h \
+	reuwidget.h

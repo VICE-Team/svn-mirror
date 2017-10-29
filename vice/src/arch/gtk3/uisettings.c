@@ -81,6 +81,7 @@
 /* I/O extension widgets */
 #include "c64memoryexpansionhackswidget.h"
 #include "georamwidget.h"
+#include "reuwidget.h"
 
 #include "uisettings.h"
 
@@ -117,7 +118,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
 
     { "GEO-RAM",                    georam_widget_create, NULL },
-    { "RAM Expansion Module",       NULL, NULL },
+    { "RAM Expansion Module",       reu_widget_create, NULL },
     { "RamCart",                    NULL, NULL },
 
     { "Double Quick Brown Box",     NULL, NULL },
