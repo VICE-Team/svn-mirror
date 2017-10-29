@@ -101,7 +101,7 @@ void vsyncarch_display_speed(double speed, double fps, int warp_enabled)
 }
 
 /* sleep the given amount of timer units */
-void vsyncarch_sleep(signed long delay)
+void vsyncarch_sleep(unsigned long delay)
 {
     timer_usleep(vice_timer, delay);
 }

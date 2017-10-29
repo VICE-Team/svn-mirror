@@ -110,7 +110,7 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     ui_display_speed((float) speed, (float)frame_rate, warp_enabled);
 }
 
-void vsyncarch_sleep(signed long delay)
+void vsyncarch_sleep(unsigned long delay)
 {
     int32_t current_time = (int32_t) timeGetTime();
     int32_t target_time = current_time + (delay >> EXTRA_PRECISION);

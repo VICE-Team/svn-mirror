@@ -113,7 +113,7 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 }
 
 /* Sleep a number of timer units. */
-void vsyncarch_sleep(signed long delay)
+void vsyncarch_sleep(unsigned long delay)
 {
 #ifdef HAVE_NANOSLEEP
     struct timespec ts;
