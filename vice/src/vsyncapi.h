@@ -34,7 +34,7 @@ struct video_canvas_s;
 typedef void (*void_hook_t)(void);
 
 /* number of timer units per second - used to calc speed and fps */
-extern signed long vsyncarch_frequency(void);
+extern unsigned long vsyncarch_frequency(void);
 
 /* provide the actual time in timer units */
 extern unsigned long vsyncarch_gettime(void);

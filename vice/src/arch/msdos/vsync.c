@@ -132,7 +132,7 @@ int vsync_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-signed long vsyncarch_frequency(void)
+unsigned long vsyncarch_frequency(void)
 {
     return 1000000;
 }

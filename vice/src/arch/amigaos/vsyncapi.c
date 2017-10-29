@@ -66,7 +66,7 @@
 static int pause_pending = 0;
 
 /* number of timer units per second - used to calc speed and fps */
-signed long vsyncarch_frequency(void)
+unsigned long vsyncarch_frequency(void)
 {
     return 1000000;
 }

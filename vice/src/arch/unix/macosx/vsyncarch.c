@@ -48,7 +48,7 @@ unsigned long hostToUsFactor = 1000UL;
 #endif
 
 /* Number of timer units per second. */
-signed long vsyncarch_frequency(void)
+unsigned long vsyncarch_frequency(void)
 {
     /* how to convert host time to us */
     hostToUsFactor = (unsigned long)(CVGetHostClockFrequency() / TICKSPERSECOND);

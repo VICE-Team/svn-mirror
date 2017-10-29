@@ -405,10 +405,12 @@ uint8_t mouse_poll(void)
         /* calculate the interval between the latest two mousedrv
          * updates in emulated cycles */
         os_iv = os_now - latest_os_ts;
-        if (os_iv > (unsigned long)vsyncarch_frequency()) {
-            os_iv = (unsigned long)vsyncarch_frequency(); /* more than a second response time?! */
+        /* FIXME: call function only once */
+        if (os_iv > vsyncarch_frequency()) {
+            os_iv = vsyncarch_frequency(); /* more than a second response time?! */
         }
         emu_iv = (CLOCK)((float)os_iv * emu_units_per_os_units);
+        /* FIXME: call function only once, remove cast */
         if (emu_iv > (unsigned long)machine_get_cycles_per_frame() * 2) {
             emu_iv = (CLOCK)machine_get_cycles_per_frame() * 2;   /* move in not more than 2 frames */
         }
@@ -463,10 +465,12 @@ uint8_t mouse_poll(void)
 
         /* The mouse read is probably old. Do the movement since then */
         os_iv2 = vsyncarch_gettime() - os_now;
-        if (os_iv2 > (unsigned long)vsyncarch_frequency()) {
-            os_iv2 = (unsigned long)vsyncarch_frequency(); /* more than a second response time?! */
+        /* FIXME: call function only once */
+        if (os_iv2 > vsyncarch_frequency()) {
+            os_iv2 = vsyncarch_frequency(); /* more than a second response time?! */
         }
         emu_iv2 = (CLOCK)((float)os_iv2 * emu_units_per_os_units);
+        /* FIXME: call function only once, remove cast */
         if (emu_iv2 > (unsigned long)machine_get_cycles_per_second()) {
             emu_iv2 = (CLOCK)machine_get_cycles_per_second();   /* more than a second? */
         }

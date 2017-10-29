@@ -68,7 +68,7 @@ static int pause_pending = 0;
 #ifndef MACOSX_SUPPORT
 
 /* Number of timer units per second. */
-signed long vsyncarch_frequency(void)
+unsigned long vsyncarch_frequency(void)
 {
     return TICKSPERSECOND;
 }

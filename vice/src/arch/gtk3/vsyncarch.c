@@ -66,8 +66,9 @@ static int pause_pending = 0;
 #define TICKSPERUSEC    1L
 #endif
 
+/* FIXME: this function should be a constant */
 /* Number of timer units per second. */
-signed long vsyncarch_frequency(void)
+unsigned long vsyncarch_frequency(void)
 {
     return TICKSPERSECOND;
 }

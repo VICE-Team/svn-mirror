@@ -41,7 +41,7 @@
 static int pause_pending = 0;
 
 /* Number of timer units per second. */
-signed long vsyncarch_frequency(void)
+unsigned long vsyncarch_frequency(void)
 {
     /* Microseconds resolution. */
     return 1000000;

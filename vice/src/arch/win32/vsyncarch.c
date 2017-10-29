@@ -51,7 +51,7 @@ static int pause_pending = 0;
 
 enum { EXTRA_PRECISION = 10 };
 
-signed long vsyncarch_frequency(void)
+unsigned long vsyncarch_frequency(void)
 {
     return 1000 << EXTRA_PRECISION;
 }
