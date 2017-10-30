@@ -27,7 +27,7 @@
  */
 
 #ifndef VICE_REUWIDGET_H
-#define VICE_REUEWIDGET_H
+#define VICE_REUWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
