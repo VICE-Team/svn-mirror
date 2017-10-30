@@ -56,16 +56,6 @@ int cartridge_type_enabled(int type)
     return 0;
 }
 
-int cartridge_flush_image(int type)
-{
-    return 0;
-}
-
-int cartridge_save_image(int type, const char *filename)
-{
-    return 0;
-}
-
 int mmc64_clockport_enabled = 0;
 int mmc64_hw_clockport = 0;
 int rr_clockport_enabled = 0;
