@@ -491,7 +491,7 @@ const char *cartridge_get_file_name(int addr)
 int cartridge_bin_save(int type, const char *filename)
 {
     switch (type) {
-        case CARTRIDGE_GEORAM:
+        case CARTRIDGE_VIC20_GEORAM:
             return georam_bin_save(filename);
     }
     return -1;
@@ -523,7 +523,7 @@ int cartridge_crt_save(int type, const char *filename)
 int cartridge_flush_image(int type)
 {
     switch (type) {
-        case CARTRIDGE_GEORAM:
+        case CARTRIDGE_VIC20_GEORAM:
             return georam_flush_image();
     }
     return -1;

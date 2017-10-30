@@ -315,6 +315,26 @@ extern void cartridge_sound_chip_init(void);
 /*
  * VIC20 cartridge system
  */
+
+/* I/O only C64 cartridges can be used with the "Masquerade" adapter */
+/* FIXME: currently we need to make sure to use the same IDs here as for C64 */
+#define CARTRIDGE_VIC20_DIGIMAX            -100 /* digimax.c */
+#define CARTRIDGE_VIC20_GEORAM             -102 /* georam.c */
+#define CARTRIDGE_VIC20_SFX_SOUND_EXPANDER -106 /* sfx_soundexpander.c, fmopl.c */
+#define CARTRIDGE_VIC20_SFX_SOUND_SAMPLER  -107 /* sfx_soundsampler.c */
+#define CARTRIDGE_VIC20_MIDI_PASSPORT      -108 /* c64-midi.c */
+#define CARTRIDGE_VIC20_MIDI_DATEL         -109 /* c64-midi.c */
+#define CARTRIDGE_VIC20_MIDI_SEQUENTIAL    -110 /* c64-midi.c */
+#define CARTRIDGE_VIC20_MIDI_NAMESOFT      -111 /* c64-midi.c */
+#define CARTRIDGE_VIC20_MIDI_MAPLIN        -112 /* c64-midi.c */
+#define CARTRIDGE_VIC20_DS12C887RTC        -113 /* ds12c887rtc.c */
+#define CARTRIDGE_VIC20_TFE                -116 /* ethernetcart.c */
+#define CARTRIDGE_VIC20_TURBO232           -117 /* c64acia1.c */
+#define CARTRIDGE_VIC20_SWIFTLINK          -118 /* c64acia1.c */
+#define CARTRIDGE_VIC20_ACIA               -119 /* c64acia1.c */
+
+#define CARTRIDGE_VIC20_DEBUGCART          -124 /* debugcart.c */
+
 /* #define CARTRIDGE_NONE               -1 */
 #define CARTRIDGE_VIC20_GENERIC         1   /* generic.c */
 #define CARTRIDGE_VIC20_MEGACART        2   /* megacart.c */
