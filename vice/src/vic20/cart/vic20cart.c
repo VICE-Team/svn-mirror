@@ -481,6 +481,66 @@ const char *cartridge_get_file_name(int addr)
     return cartfile;
 }
 
+/*
+    save cartridge to binary file
+
+    *atleast* all carts whose image might be modified at runtime should be hooked up here.
+
+    TODO: add bin save for all ROM carts also
+*/
+int cartridge_bin_save(int type, const char *filename)
+{
+    switch (type) {
+        case CARTRIDGE_GEORAM:
+            return georam_bin_save(filename);
+    }
+    return -1;
+}
+
+/* FIXME: this can be used once we implement a crt like format for vic20 */
+#if 0
+/*
+    save cartridge to crt file
+
+    *atleast* all carts whose image might be modified at runtime AND
+    which have a valid crt id should be hooked up here.
+
+    TODO: add crt save for all ROM carts also
+*/
+int cartridge_crt_save(int type, const char *filename)
+{
+    switch (type) {
+    }
+    return -1;
+}
+#endif
+
+/*
+    flush cart image
+
+    all carts whose image might be modified at runtime should be hooked up here.
+*/
+int cartridge_flush_image(int type)
+{
+    switch (type) {
+        case CARTRIDGE_GEORAM:
+            return georam_flush_image();
+    }
+    return -1;
+}
+
+int cartridge_save_image(int type, const char *filename)
+{
+/* FIXME: this can be used once we implement a crt like format for vic20 */
+#if 0
+    char *ext = util_get_extension((char *)filename);
+    if (ext != NULL && !strcmp(ext, "crt")) {
+        return cartridge_crt_save(type, filename);
+    }
+#endif
+    return cartridge_bin_save(type, filename);
+}
+
 /* ------------------------------------------------------------------------- */
 
 #define VIC20CART_DUMP_MAX_CARTS  16
