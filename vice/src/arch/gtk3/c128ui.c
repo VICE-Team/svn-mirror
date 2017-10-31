@@ -43,6 +43,7 @@
 #include "reu.h"
 #include "reuwidget.h"
 #include "ramcartwidget.h"
+#include "dqbbwidget.h"
 
 #include "c128ui.h"
 
@@ -77,6 +78,7 @@ int c128ui_init(void)
     georam_widget_set_save_handler(cartridge_bin_save);
     reu_widget_set_save_handler(reu_bin_save);
     ramcart_widget_set_save_handler(cartridge_bin_save);
+    dqbb_widget_set_save_handler(cartridge_bin_save);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

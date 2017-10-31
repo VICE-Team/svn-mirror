@@ -83,6 +83,7 @@
 #include "georamwidget.h"
 #include "reuwidget.h"
 #include "ramcartwidget.h"
+#include "dqbbwidget.h"
 
 #include "uisettings.h"
 
@@ -122,7 +123,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "RAM Expansion Module",       reu_widget_create, NULL },
     { "RamCart",                    ramcart_widget_create, NULL },
 
-    { "Double Quick Brown Box",     NULL, NULL },
+    { "Double Quick Brown Box",     dqbb_widget_create, NULL },
     { "Expert Cartridge",           NULL, NULL },
     { "ISEPIC",                     NULL, NULL },
 

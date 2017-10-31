@@ -95,7 +95,8 @@ libwidgets_a_SOURCES = \
 	c64memoryexpansionhackswidget.c \
 	georamwidget.c \
 	reuwidget.c \
-	ramcartwidget.c
+	ramcartwidget.c \
+	dqbbwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -164,4 +165,5 @@ EXTRA_DIST = \
 	c64memoryexpansionhackswidget.h \
 	georamwidget.h \
 	reuwidget.h \
-	ramcartwidget.h
+	ramcartwidget.h \
+	dqbbwidget.h
