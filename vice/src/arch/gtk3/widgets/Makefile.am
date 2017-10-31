@@ -98,7 +98,8 @@ libwidgets_a_SOURCES = \
 	ramcartwidget.c \
 	dqbbwidget.c \
 	expertwidget.c \
-	isepicwidget.c
+	isepicwidget.c \
+	easyflashwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -170,4 +171,5 @@ EXTRA_DIST = \
 	ramcartwidget.h \
 	dqbbwidget.h \
 	expertwidget.h \
-	isepicwidget.h
+	isepicwidget.h \
+	easyflashwidget.h

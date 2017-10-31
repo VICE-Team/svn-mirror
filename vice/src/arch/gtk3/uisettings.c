@@ -86,6 +86,7 @@
 #include "dqbbwidget.h"
 #include "expertwidget.h"
 #include "isepicwidget.h"
+#include "easyflashwidget.h"
 
 #include "uisettings.h"
 
@@ -129,7 +130,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Expert Cartridge",           expert_widget_create, NULL },
     { "ISEPIC",                     isepic_widget_create, NULL },
 
-    { "EasyFlash",                  NULL, NULL },
+    { "EasyFlash",                  easyflash_widget_create, NULL },
     { "GMod2",                      NULL, NULL },
     { "IDE64",                      NULL, NULL },
     { "MMC64",                      NULL, NULL },
