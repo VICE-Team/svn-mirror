@@ -42,6 +42,7 @@
 #include "basedialogs.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
+#include "cartimagewidget.h"
 #include "cartridge.h"
 
 #include "georamwidget.h"
@@ -87,7 +88,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
     gtk_widget_set_sensitive(georam_image, state);
 }
 
-
+#if 0
 /** \brief  Handler for the "clicked" event of the "browse" button
  *
  * Select an image file for the GEORAM extension.
@@ -178,7 +179,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
                 "GEO-RAM flush handler not specified");
     }
 }
-
+#endif
 
 
 /** \brief  Create GEORAM enable check button
@@ -230,8 +231,9 @@ static GtkWidget *create_georam_size_widget(void)
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_georam_image_widget(void)
+static GtkWidget *create_georam_image_widget(GtkWidget *parent)
 {
+#if 0
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *entry;
@@ -273,6 +275,12 @@ static GtkWidget *create_georam_image_widget(void)
 
     gtk_widget_show_all(grid);
     return grid;
+#endif
+
+    return cart_image_widget_create(
+            parent, "GEORAMfilename", "GEORAMImageWrite",
+            georam_save_func, georam_flush_func,
+            CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
 }
 
 
@@ -301,7 +309,7 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
     georam_size = create_georam_size_widget();
     gtk_grid_attach(GTK_GRID(grid), georam_size, 0, 1, 1, 1);
 
-    georam_image = create_georam_image_widget();
+    georam_image = create_georam_image_widget(parent);
     gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
 
     g_signal_connect(georam_enable_widget, "toggled", G_CALLBACK(on_enable_toggled),

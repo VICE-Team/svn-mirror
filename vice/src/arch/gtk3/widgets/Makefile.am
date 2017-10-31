@@ -29,16 +29,11 @@ AM_CPPFLAGS = \
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES = \
-	widgethelpers.c \
-	basedialogs.c \
 	jamdialog.c \
 	refreshratewidget.c \
 	speedwidget.c \
 	kbdmappingwidget.c \
 	kbdlayoutwidget.c \
-	openfiledialog.c \
-	savefiledialog.c \
-	selectdirectorydialog.c \
 	sounddriverwidget.c \
 	soundoutputmodewidget.c \
 	soundsyncwidget.c \
@@ -47,7 +42,6 @@ libwidgets_a_SOURCES = \
 	soundfragmentsizewidget.c \
 	soundsuspendtimewidget.c \
 	contentpreviewwidget.c \
-	filechooserhelpers.c \
 	drivewidgethelpers.c \
 	driveunitwidget.c \
 	driveextendpolicywidget.c \
@@ -102,8 +96,6 @@ libwidgets_a_SOURCES = \
 	easyflashwidget.c
 
 EXTRA_DIST = \
-	widgethelpers.h \
-	basedialogs.h \
 	jamdialog.h \
 	refreshratewidget.h \
 	speedwidget.h \

@@ -30,7 +30,7 @@
 #include "fliplist.h"
 #include "lib.h"
 #include "util.h"
-#include "widgets/filechooserhelpers.h"
+#include "filechooserhelpers.h"
 
 #include "uifliplist.h"
 
