@@ -62,6 +62,7 @@ static GtkWidget *expert_image = NULL;
 static GtkWidget *expert_mode = NULL;
 
 static int (*expert_save_func)(int, const char *) = NULL;
+static int (*expert_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the expert_enable widget
@@ -152,6 +153,24 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "clicked" event of the "Flush image" button
+ *
+ * \param[in]   widget      button triggering the event
+ * \param[in]   user_data   unused
+ */
+static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
+{
+    if (expert_flush_func != NULL) {
+        if (expert_flush_func(CARTRIDGE_EXPERT) < 0) {
+            ui_message_error(widget, "I/O error", "Failed to flush image");
+        }
+    } else {
+        ui_message_error(widget, "Core error",
+                "Expert Cartridge flush handler not specified");
+    }
+}
+
+
 /** \brief  Create Expert Cartridge enable check button
  *
  * \return  GtkCheckButton
@@ -199,6 +218,7 @@ static GtkWidget *create_expert_image_widget(void)
     GtkWidget *browse;
     GtkWidget *auto_save;
     GtkWidget *save_button;
+    GtkWidget *flush_button;
 
     grid = uihelpers_create_grid_with_label("Image file", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -221,8 +241,13 @@ static GtkWidget *create_expert_image_widget(void)
     save_button = gtk_button_new_with_label("Save ...");
     gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
 
+    flush_button = gtk_button_new_with_label("Flush image");
+    gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
+
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked), NULL);
+    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
+            NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -271,4 +296,14 @@ GtkWidget *expert_widget_create(GtkWidget *parent)
 void expert_widget_set_save_handler(int (*func)(int, const char *))
 {
     expert_save_func = func;
+}
+
+
+/** \brief  Set flush function for the Expert Cartridge extension
+ *
+ * \param[in]   func    save function
+ */
+void expert_widget_set_flush_handler(int (*func)(int))
+{
+    expert_flush_func = func;
 }

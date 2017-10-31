@@ -65,7 +65,8 @@ static GtkWidget *ramcart_size = NULL;
 static GtkWidget *ramcart_readonly = NULL;
 static GtkWidget *ramcart_image = NULL;
 
-static int (*ramcart_save_handler)(int, const char *) = NULL;
+static int (*ramcart_save_func)(int, const char *) = NULL;
+static int (*ramcart_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the ramcart_enable widget
@@ -129,21 +130,21 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     }
 
     new_filename = ui_save_file_dialog(button,
-            "Save RAMCART image file",
+            "Save RamCart image file",
             fname, TRUE, dname);
     if (new_filename != NULL) {
-        debug_gtk3("writing RAMCART file image as '%s'\n",
+        debug_gtk3("writing RamCart file image as '%s'\n",
                 new_filename);
         /* write file */
-        if (ramcart_save_handler != NULL) {
-            if (ramcart_save_handler(CARTRIDGE_RAMCART, new_filename) < 0) {
+        if (ramcart_save_func != NULL) {
+            if (ramcart_save_func(CARTRIDGE_RAMCART, new_filename) < 0) {
                 /* oops */
                 ui_message_error(button, "I/O error",
                         "Failed to save '%s'", new_filename);
             }
         } else {
             ui_message_error(button, "Core error",
-                    "RAMCART save handler not specified");
+                    "RamCart save handler not specified");
         }
         g_free(new_filename);
     }
@@ -153,6 +154,24 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     }
     if (dname != NULL) {
         g_free(dname);
+    }
+}
+
+
+/** \brief  Handler for the "clicked" event of the "Flush image" button
+ *
+ * \param[in]   widget      button triggering the event
+ * \param[in]   user_data   unused
+ */
+static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
+{
+    if (ramcart_flush_func != NULL) {
+        if (ramcart_flush_func(CARTRIDGE_RAMCART) < 0) {
+            ui_message_error(widget, "I/O error", "Failed to flush image");
+        }
+    } else {
+        ui_message_error(widget, "Core error",
+                "RamCart flush handler not specified");
     }
 }
 
@@ -205,6 +224,7 @@ static GtkWidget *create_ramcart_image_widget(void)
     GtkWidget *browse;
     GtkWidget *auto_save;
     GtkWidget *save_button;
+    GtkWidget *flush_button;
 
     grid = uihelpers_create_grid_with_label("Image file", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -227,9 +247,13 @@ static GtkWidget *create_ramcart_image_widget(void)
     save_button = gtk_button_new_with_label("Save ...");
     gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
 
+    flush_button = gtk_button_new_with_label("Flush image");
+    gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
+
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked), NULL);
-
+    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
+            NULL);
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -272,11 +296,21 @@ GtkWidget *ramcart_widget_create(GtkWidget *parent)
 }
 
 
-/** \brief  Set save function for the RAM module extension
+/** \brief  Set save function for the RAMCART extension
  *
  * \param[in]   func    save function
  */
 void ramcart_widget_set_save_handler(int (*func)(int, const char *))
 {
-    ramcart_save_handler = func;
+    ramcart_save_func = func;
+}
+
+
+/** \brief  Set flush function for the RAMCART extension
+ *
+ * \param[in]   func    save function
+ */
+void ramcart_widget_set_flush_handler(int (*func)(int))
+{
+    ramcart_flush_func = func;
 }
