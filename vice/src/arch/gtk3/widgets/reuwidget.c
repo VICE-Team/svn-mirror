@@ -43,6 +43,7 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "cartridge.h"
+#include "cartimagewidget.h"
 
 #include "reuwidget.h"
 
@@ -86,98 +87,6 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
         gtk_widget_set_sensitive(reu_ioswap, state);
     }
     gtk_widget_set_sensitive(reu_image, state);
-}
-
-
-/** \brief  Handler for the "clicked" event of the "browse" button
- *
- * Select an image file for the GEORAM extension.
- *
- * \param[in]   button      browse button
- * \param[in]   user_data   unused
- */
-static void on_browse_clicked(GtkWidget *button, gpointer user_data)
-{
-    gchar *filename;
-
-    filename = ui_open_file_dialog(button,
-            "Open RAM Expansion Module image file", NULL, NULL, NULL);
-    if (filename != NULL) {
-        GtkWidget *grid = gtk_widget_get_parent(button);
-        GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
-        gtk_entry_set_text(GTK_ENTRY(entry), filename);
-        g_free(filename);
-    }
-}
-
-
-/** \brief  Handler for the "clicked" event of the "save" button
- *
- * Save REU image file. Uses dirname()/basename() on the REUfilename
- * resource to act as a "Save" button, but also allows changing filename/dir
- * to act as a "Save As" button.
- *
- * \param[in]   button      save button
- * \param[in]   user_data   unused
- */
-static void on_save_clicked(GtkWidget *button, gpointer user_data)
-{
-    const char *current_filename;
-    gchar *new_filename;
-    gchar *fname = NULL;
-    gchar *dname = NULL;
-
-    resources_get_string("REUfilename", &current_filename);
-    if (current_filename != NULL && *current_filename != '\0') {
-        /* provide the current filename and path */
-        fname = g_path_get_basename(current_filename);
-        dname = g_path_get_dirname(current_filename);
-        debug_gtk3("got dir '%s', file '%s'\n", dname, fname);
-    }
-
-    new_filename = ui_save_file_dialog(button,
-            "Save RAM Expansion Module image file",
-            fname, TRUE, dname);
-    if (new_filename != NULL) {
-        debug_gtk3("writing RAM Expansion Module file image as '%s'\n",
-                new_filename);
-        /* write file */
-        if (reu_save_func != NULL) {
-            if (reu_save_func(CARTRIDGE_REU, new_filename) < 0) {
-                /* oops */
-                ui_message_error(button, "I/O error",
-                        "Failed to save '%s'", new_filename);
-            }
-        } else {
-            ui_message_error(button, "Core error",
-                    "RAM Expansion Module save handler not specified");
-        }
-        g_free(new_filename);
-    }
-
-    if (fname != NULL) {
-        g_free(fname);
-    }
-    if (dname != NULL) {
-        g_free(dname);
-    }
-}
-
-/** \brief  Handler for the "clicked" event of the "Flush image" button
- *
- * \param[in]   widget      button triggering the event
- * \param[in]   user_data   unused
- */
-static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
-{
-    if (reu_flush_func != NULL) {
-        if (reu_flush_func(CARTRIDGE_REU) < 0) {
-            ui_message_error(widget, "I/O error", "Failed to flush image");
-        }
-    } else {
-        ui_message_error(widget, "Core error",
-                "RAM Expansion Module flush handler not specified");
-    }
 }
 
 
@@ -227,48 +136,12 @@ static GtkWidget *create_reu_size_widget(void)
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_reu_image_widget(void)
+static GtkWidget *create_reu_image_widget(GtkWidget *parent)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *entry;
-    GtkWidget *browse;
-    GtkWidget *auto_save;
-    GtkWidget *save_button;
-    GtkWidget *flush_button;
-
-    grid = uihelpers_create_grid_with_label("Image file", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-    label = gtk_label_new("file name");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-left", 16, NULL);
-    entry = resource_entry_create("REUfilename");
-    gtk_widget_set_hexpand(entry, TRUE);
-    browse = gtk_button_new_with_label("Browse ...");
-
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
-
-    auto_save = resource_check_button_create("REUImageWrite",
-            "Write image on image detach/emulator quit");
-    g_object_set(auto_save, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), auto_save, 0, 2, 2, 1);
-
-    save_button = gtk_button_new_with_label("Save ...");
-    gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
-
-    flush_button = gtk_button_new_with_label("Flush image");
-    gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
-
-
-    g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
-    g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked), NULL);
-    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
-            NULL);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    return cart_image_widget_create(parent,
+            "REUfilename", "REUImageWrite",
+            reu_save_func, reu_flush_func,
+            CARTRIDGE_NAME_REU, CARTRIDGE_REU);
 }
 
 
@@ -297,7 +170,7 @@ GtkWidget *reu_widget_create(GtkWidget *parent)
     reu_size = create_reu_size_widget();
     gtk_grid_attach(GTK_GRID(grid), reu_size, 0, 1, 1, 1);
 
-    reu_image = create_reu_image_widget();
+    reu_image = create_reu_image_widget(parent);
     gtk_grid_attach(GTK_GRID(grid), reu_image, 1, 1, 1, 1);
 
     g_signal_connect(reu_enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
