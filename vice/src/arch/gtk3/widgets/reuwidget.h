@@ -33,6 +33,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget * reu_widget_create(GtkWidget *parent);
-void        reu_widget_set_save_handler(int (*func)(const char *));
+void        reu_widget_set_save_handler(int (*func)(int, const char *));
 
 #endif

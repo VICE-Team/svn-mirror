@@ -72,7 +72,7 @@ int vic20ui_init(void)
 
     /* I/O extension function pointers */
 #if 0
-    georam_widget_set_save_handler(cartridge_bin_save);
+    georam_widget_set_save_handler(cartridge_save_image);
 #endif
     INCOMPLETE_IMPLEMENTATION();
     return 0;

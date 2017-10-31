@@ -35,9 +35,6 @@
 #include <gtk/gtk.h>
 
 #include "machine.h"
-#if 0
-#include "reu.h"
-#endif
 #include "resources.h"
 #include "debug_gtk3.h"
 #include "basewidgets.h"
@@ -45,6 +42,7 @@
 #include "basedialogs.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
+#include "cartridge.h"
 
 #include "reuwidget.h"
 
@@ -70,7 +68,7 @@ static GtkWidget *reu_size = NULL;
 static GtkWidget *reu_ioswap = NULL;
 static GtkWidget *reu_image = NULL;
 
-static int (*reu_save_func)(const char *) = NULL;
+static int (*reu_save_func)(int, const char *) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the reu_enable widget
@@ -144,7 +142,7 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
                 new_filename);
         /* write file */
         if (reu_save_func != NULL) {
-            if (reu_save_func(new_filename) < 0) {
+            if (reu_save_func(CARTRIDGE_REU, new_filename) < 0) {
                 /* oops */
                 ui_message_error(button, "I/O error",
                         "Failed to save '%s'", new_filename);
@@ -292,7 +290,7 @@ GtkWidget *reu_widget_create(GtkWidget *parent)
  *
  * \param[in]   func    save function
  */
-void reu_widget_set_save_handler(int (*func)(const char *))
+void reu_widget_set_save_handler(int (*func)(int, const char *))
 {
     reu_save_func = func;
 }

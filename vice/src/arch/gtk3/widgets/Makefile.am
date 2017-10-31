@@ -96,7 +96,8 @@ libwidgets_a_SOURCES = \
 	georamwidget.c \
 	reuwidget.c \
 	ramcartwidget.c \
-	dqbbwidget.c
+	dqbbwidget.c \
+	expertwidget.c
 
 EXTRA_DIST = \
 	widgethelpers.h \
@@ -166,4 +167,5 @@ EXTRA_DIST = \
 	georamwidget.h \
 	reuwidget.h \
 	ramcartwidget.h \
-	dqbbwidget.h
+	dqbbwidget.h \
+	expertwidget.h

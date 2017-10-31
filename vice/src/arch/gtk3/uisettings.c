@@ -84,6 +84,7 @@
 #include "reuwidget.h"
 #include "ramcartwidget.h"
 #include "dqbbwidget.h"
+#include "expertwidget.h"
 
 #include "uisettings.h"
 
@@ -124,7 +125,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "RamCart",                    ramcart_widget_create, NULL },
 
     { "Double Quick Brown Box",     dqbb_widget_create, NULL },
-    { "Expert Cartridge",           NULL, NULL },
+    { "Expert Cartridge",           expert_widget_create, NULL },
     { "ISEPIC",                     NULL, NULL },
 
     { "EasyFlash",                  NULL, NULL },
