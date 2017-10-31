@@ -69,6 +69,7 @@ static GtkWidget *reu_ioswap = NULL;
 static GtkWidget *reu_image = NULL;
 
 static int (*reu_save_func)(int, const char *) = NULL;
+static int (*reu_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the reu_enable widget
@@ -162,6 +163,23 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     }
 }
 
+/** \brief  Handler for the "clicked" event of the "Flush image" button
+ *
+ * \param[in]   widget      button triggering the event
+ * \param[in]   user_data   unused
+ */
+static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
+{
+    if (reu_flush_func != NULL) {
+        if (reu_flush_func(CARTRIDGE_REU) < 0) {
+            ui_message_error(widget, "I/O error", "Failed to flush image");
+        }
+    } else {
+        ui_message_error(widget, "Core error",
+                "RAM Expansion Module flush handler not specified");
+    }
+}
+
 
 /** \brief  Create REU enable check button
  *
@@ -169,7 +187,7 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
  */
 static GtkWidget *create_reu_enable_widget(void)
 {
-    return resource_check_button_create("REU", "Enable RAM expansion module");
+    return resource_check_button_create("REU", "Enable RAM Expansion Module");
 }
 
 
@@ -217,6 +235,7 @@ static GtkWidget *create_reu_image_widget(void)
     GtkWidget *browse;
     GtkWidget *auto_save;
     GtkWidget *save_button;
+    GtkWidget *flush_button;
 
     grid = uihelpers_create_grid_with_label("Image file", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -239,8 +258,14 @@ static GtkWidget *create_reu_image_widget(void)
     save_button = gtk_button_new_with_label("Save ...");
     gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
 
+    flush_button = gtk_button_new_with_label("Flush image");
+    gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
+
+
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked), NULL);
+    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
+            NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -286,12 +311,22 @@ GtkWidget *reu_widget_create(GtkWidget *parent)
 }
 
 
-/** \brief  Set save function for the RAM module extension
+/** \brief  Set save function for the RAM Module Extension
  *
  * \param[in]   func    save function
  */
 void reu_widget_set_save_handler(int (*func)(int, const char *))
 {
     reu_save_func = func;
+}
+
+
+/** \brief  Set flush function for the RAM Module Extension
+ *
+ * \param[in]   func    flush function
+ */
+void reu_widget_set_flush_handler(int (*func)(int))
+{
+    reu_flush_func = func;
 }
 

@@ -266,7 +266,7 @@ void dqbb_widget_set_save_handler(int (*func)(int, const char *))
 
 /** \brief  Set flush function for the Double Quick Brown Box extension
  *
- * \param[in]   func    save function
+ * \param[in]   func    flush function
  */
 void dqbb_widget_set_flush_handler(int (*func)(int))
 {

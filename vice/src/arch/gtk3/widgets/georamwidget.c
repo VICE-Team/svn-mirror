@@ -327,7 +327,7 @@ void georam_widget_set_save_handler(int (*func)(int, const char *))
 
 /** \brief  Set flush function for the GEORAM extension
  *
- * \param[in]   func    save function
+ * \param[in]   func    flush function
  */
 void georam_widget_set_flush_handler(int (*func)(int))
 {

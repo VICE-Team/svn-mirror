@@ -34,5 +34,6 @@
 
 GtkWidget * reu_widget_create(GtkWidget *parent);
 void        reu_widget_set_save_handler(int (*func)(int, const char *));
+void        reu_widget_set_flush_handler(int (*func)(int));
 
 #endif
