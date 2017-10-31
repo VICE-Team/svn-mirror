@@ -50,7 +50,8 @@
 static GtkWidget *dqbb_enable_widget = NULL;
 static GtkWidget *dqbb_image = NULL;
 
-static int (*dqbb_save_func)(int, const char *) = NULL; /* cartridge_bin_save;*/
+static int (*dqbb_save_func)(int, const char *) = NULL;
+static int (*dqbb_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the dqbb_enable widget
@@ -141,6 +142,25 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "clicked" event of the "Flush image" button
+ *
+ * \param[in]   widget      button triggering the event
+ * \param[in]   user_data   unused
+ */
+static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
+{
+    if (dqbb_flush_func != NULL) {
+        if (dqbb_flush_func(CARTRIDGE_DQBB) < 0) {
+            ui_message_error(widget, "I/O error", "Failed to flush image");
+        }
+    } else {
+        ui_message_error(widget, "Core error",
+                "Double Quick Brown Bow flush handler not specified");
+    }
+}
+
+
+
 /** \brief  Create Double Quick Brown Box enable check button
  *
  * \return  GtkCheckButton
@@ -167,6 +187,7 @@ static GtkWidget *create_dqbb_image_widget(void)
     GtkWidget *browse;
     GtkWidget *auto_save;
     GtkWidget *save_button;
+    GtkWidget *flush_button;
 
     grid = uihelpers_create_grid_with_label("Image file", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -189,8 +210,13 @@ static GtkWidget *create_dqbb_image_widget(void)
     save_button = gtk_button_new_with_label("Save ...");
     gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
 
+    flush_button = gtk_button_new_with_label("Flush image");
+    gtk_grid_attach(GTK_GRID(grid), flush_button, 2, 3, 1, 1);
+
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked), NULL);
     g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked), NULL);
+    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
+            NULL);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -235,4 +261,14 @@ GtkWidget *dqbb_widget_create(GtkWidget *parent)
 void dqbb_widget_set_save_handler(int (*func)(int, const char *))
 {
     dqbb_save_func = func;
+}
+
+
+/** \brief  Set flush function for the Double Quick Brown Box extension
+ *
+ * \param[in]   func    save function
+ */
+void dqbb_widget_set_flush_handler(int (*func)(int))
+{
+    dqbb_flush_func = func;
 }

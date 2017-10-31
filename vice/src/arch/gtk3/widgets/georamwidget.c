@@ -35,9 +35,6 @@
 #include <gtk/gtk.h>
 
 #include "machine.h"
-#if 0
-#include "georam.h"
-#endif
 #include "resources.h"
 #include "debug_gtk3.h"
 #include "basewidgets.h"
@@ -72,7 +69,6 @@ static GtkWidget *georam_image = NULL;
 
 static int (*georam_save_func)(int, const char *) = NULL;
 static int (*georam_flush_func)(int) = NULL;
-
 
 
 /** \brief  Handler for the "toggled" event of the georam_enable widget
@@ -166,6 +162,11 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
+/** \brief  Handler for the "clicked" event of the "Flush image" button
+ *
+ * \param[in]   widget      button triggering the event
+ * \param[in]   user_data   unused
+ */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (georam_flush_func != NULL) {
@@ -174,7 +175,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
         }
     } else {
         ui_message_error(widget, "Core error",
-                "GEORAM flush handler to specified");
+                "GEO-RAM flush handler not specified");
     }
 }
 

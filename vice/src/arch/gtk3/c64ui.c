@@ -92,6 +92,7 @@ int c64ui_init(void)
     reu_widget_set_save_handler(cartridge_save_image);
     ramcart_widget_set_save_handler(cartridge_save_image);
     dqbb_widget_set_save_handler(cartridge_save_image);
+    dqbb_widget_set_flush_handler(cartridge_flush_image);
     expert_widget_set_save_handler(cartridge_save_image);
 
     INCOMPLETE_IMPLEMENTATION();

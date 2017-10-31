@@ -30,7 +30,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *dqbb_widget_create(GtkWidget *parent);
-void dqbb_widget_set_save_handler(int (*func)(int, const char *));
+GtkWidget * dqbb_widget_create(GtkWidget *parent);
+void        dqbb_widget_set_save_handler(int (*func)(int, const char *));
+void        dqbb_widget_set_flush_handler(int (*func)(int));
 
 #endif
