@@ -295,7 +295,7 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
 
     if (machine_class == VICE_MACHINE_VIC20) {
         georam_ioswap = create_georam_ioswap_widget();
-        gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 2, 1, 1);
     }
 
     georam_size = create_georam_size_widget();

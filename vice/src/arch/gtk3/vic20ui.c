@@ -38,7 +38,6 @@
 #include "uisamplersettings.h"
 
 #include "cartridge.h"
-#include "georam.h"
 #include "georamwidget.h"
 
 #include "vic20ui.h"
@@ -71,9 +70,9 @@ int vic20ui_init(void)
     uisamplersettings_set_devices_getter(sampler_get_devices);
 
     /* I/O extension function pointers */
-#if 0
     georam_widget_set_save_handler(cartridge_save_image);
-#endif
+    georam_widget_set_flush_handler(cartridge_flush_image);
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
