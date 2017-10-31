@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/georamwidget.h
- * \brief   Widget to control GEO-RAM resources - header
+/** \file   src/arch/gtk3/widgets/expertwidget.h
+ * \brief   Widget to control Expert Cartridge resources - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,14 +24,13 @@
  *
  */
 
-#ifndef VICE_GEORAMWIDGET_H
-#define VICE_GEORAMWIDGET_H
+#ifndef VICE_EXPERTWIDGET_H
+#define VICE_EXPERTWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * georam_widget_create(GtkWidget *parent);
-void        georam_widget_set_save_handler(int (*func)(int, const char *));
-void        georam_widget_set_flush_handler(int (*func)(int));
+GtkWidget *expert_widget_create(GtkWidget *parent);
+void expert_widget_set_save_handler(int (*func)(int, const char *));
 
 #endif

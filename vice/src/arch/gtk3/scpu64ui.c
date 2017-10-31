@@ -87,6 +87,7 @@ int scpu64ui_init(void)
 
     /* I/O extension function pointers */
     georam_widget_set_save_handler(cartridge_save_image);
+    georam_widget_set_flush_handler(cartridge_flush_image);
     reu_widget_set_save_handler(cartridge_save_image);
     ramcart_widget_set_save_handler(cartridge_save_image);
     dqbb_widget_set_save_handler(cartridge_save_image);
