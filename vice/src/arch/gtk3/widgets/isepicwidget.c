@@ -1,15 +1,14 @@
-/** \file   src/arch/gtk3/widgets/georamwidget.c
- * \brief   Widget to control GEO-RAM resources
+/** \file   src/arch/gtk3/widgets/isepicwidget.c
+ * \brief   Widget to control ISEPIC resources
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  GEORAM
- *  GEORAMsize
- *  GEORAMfilename
- *  GEORAMImageWrite
- *  GOERAMIOSwap (xvic)
+ *  IsepicCartridgeEnabled
+ *  Isepicfilename
+ *  IsepicSwitch
+ *  IsepicImageWrite
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -44,34 +43,18 @@
 #include "savefiledialog.h"
 #include "cartridge.h"
 
-#include "georamwidget.h"
+#include "isepicwidget.h"
 
-/** \brief  List of supported RAM sizes
- */
-static ui_radiogroup_entry_t ram_sizes[] = {
-    { "64KB", 64 },
-    { "128KB", 128 },
-    { "256KB", 256 },
-    { "512KB", 512 },
-    { "1MB", 1024 },
-    { "2MB", 2048 },
-    { "4MB", 4096 },
-    { NULL, -1 }
-};
+/* list of widgets, used to enable/disable depending on ISEPIC resource */
+static GtkWidget *isepic_enable_widget = NULL;
+static GtkWidget *isepic_image = NULL;
+static GtkWidget *isepic_switch = NULL;
+
+static int (*isepic_save_func)(int, const char *) = NULL;
+static int (*isepic_flush_func)(int) = NULL;
 
 
-/* list of widgets, used to enable/disable depending on GEORAM resource */
-static GtkWidget *georam_enable_widget = NULL;  /* georam_enable lives in
-                                                   georam.c */
-static GtkWidget *georam_size = NULL;
-static GtkWidget *georam_ioswap = NULL;
-static GtkWidget *georam_image = NULL;
-
-static int (*georam_save_func)(int, const char *) = NULL;
-static int (*georam_flush_func)(int) = NULL;
-
-
-/** \brief  Handler for the "toggled" event of the georam_enable widget
+/** \brief  Handler for the "toggled" event of the isepic_enable widget
  *
  * \param[in]   widget      check button
  * \param[in]   user_data   unused
@@ -80,17 +63,14 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
     gboolean state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    gtk_widget_set_sensitive(georam_size, state);
-    if (georam_ioswap != NULL) {
-        gtk_widget_set_sensitive(georam_ioswap, state);
-    }
-    gtk_widget_set_sensitive(georam_image, state);
+    gtk_widget_set_sensitive(isepic_image, state);
+    gtk_widget_set_sensitive(isepic_switch, state);
 }
 
 
 /** \brief  Handler for the "clicked" event of the "browse" button
  *
- * Select an image file for the GEORAM extension.
+ * Select an image file for the ISEPIC extension.
  *
  * \param[in]   button      browse button
  * \param[in]   user_data   unused
@@ -100,7 +80,7 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
     gchar *filename;
 
     filename = ui_open_file_dialog(button,
-            "Open GEORAM image file", NULL, NULL, NULL);
+            "Open ISEPIC image file", NULL, NULL, NULL);
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
@@ -112,7 +92,7 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
 
 /** \brief  Handler for the "clicked" event of the "save" button
  *
- * Save GEORAM image file. Uses dirname()/basename() on the GEORAMfilename
+ * Save ISEPIC image file. Uses dirname()/basename() on the ISEPICfilename
  * resource to act as a "Save" button, but also allows changing filename/dir
  * to act as a "Save As" button.
  *
@@ -126,7 +106,7 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     gchar *fname = NULL;
     gchar *dname = NULL;
 
-    resources_get_string("GEORAMfilename", &current_filename);
+    resources_get_string("ISEPICfilename", &current_filename);
     if (current_filename != NULL && *current_filename != '\0') {
         /* provide the current filename and path */
         fname = g_path_get_basename(current_filename);
@@ -135,20 +115,20 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
     }
 
     new_filename = ui_save_file_dialog(button,
-            "Save GEORAM image file",
+            "Save ISEPIC image file",
             fname, TRUE, dname);
     if (new_filename != NULL) {
-        debug_gtk3("writing GEORAM file image as '%s'\n", new_filename);
+        debug_gtk3("writing ISEPIC file image as '%s'\n", new_filename);
         /* write file */
-        if (georam_save_func != NULL) {
-            if (georam_save_func(CARTRIDGE_GEORAM, new_filename) < 0) {
+        if (isepic_save_func != NULL) {
+            if (isepic_save_func(CARTRIDGE_ISEPIC, new_filename) < 0) {
                 /* oops */
                 ui_message_error(button, "I/O error",
                         "Failed to save '%s'", new_filename);
             }
         } else {
             ui_message_error(button, "Core error",
-                    "GEORAM save handler not specified");
+                    "ISEPIC save handler not specified");
         }
         g_free(new_filename);
     }
@@ -169,68 +149,84 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (georam_flush_func != NULL) {
-        if (georam_flush_func(CARTRIDGE_GEORAM) < 0) {
+    if (isepic_flush_func != NULL) {
+        if (isepic_flush_func(CARTRIDGE_ISEPIC) < 0) {
             ui_message_error(widget, "I/O error", "Failed to flush image");
         }
     } else {
         ui_message_error(widget, "Core error",
-                "GEO-RAM flush handler not specified");
+                "ISEPIC flush handler not specified");
     }
 }
 
 
 
-/** \brief  Create GEORAM enable check button
+/** \brief  Create ISEPIC enable check button
  *
  * \return  GtkCheckButton
  */
-static GtkWidget *create_georam_enable_widget(void)
+static GtkWidget *create_isepic_enable_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("GEORAM", "Enable GEO-RAM");
+    check = resource_check_button_create("IsepicCartridgeEnabled",
+            "Enable ISEPIC");
     return check;
 }
 
 
-/** \brief  Create IO-swap check button (seems to be valid for xvic only)
+/** \brief  Handler for the "state-set" event of the "IsepicSwitch" resource
  *
- * \return  GtkCheckButton
+ * \param[in]   widget      switch widget
+ * \param[in]   state       new state of \a widget
+ * \param[in]   user_data   unused
+ *
+ * \return  FALSE
  */
-static GtkWidget *create_georam_ioswap_widget(void)
+static gboolean on_isepic_switch_state_set(GtkWidget *widget, gboolean state,
+        gpointer user_data)
 {
-    GtkWidget *check;
-
-    check = resource_check_button_create("GEORAMIOSwap", "MasC=uarade I/O swap");
-    return check;
+    debug_gtk3("setting IsepicSwitch to %s\n", state ? "ON" : "OFF");
+    resources_set_int("IsepicSwitch", state);
+    return FALSE;
 }
 
 
-/** \brief  Create radio button group to determine GEORAM RAM size
+/** \brief  Create ISEPIC switch button
  *
- * \return  GtkGrid
+ * \return  GtkCheckButton
  */
-static GtkWidget *create_georam_size_widget(void)
+static GtkWidget *create_isepic_switch_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *radio_group;
+    GtkWidget *label;
+    GtkWidget *button;
+    int state;
 
-    grid = uihelpers_create_grid_with_label("RAM Size", 1);
-    radio_group = resource_radiogroup_create("GEORAMsize", ram_sizes,
-            GTK_ORIENTATION_VERTICAL);
-    g_object_set(radio_group, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    g_object_set(grid, "margin-left", 16, NULL);
+
+    label = gtk_label_new("L'Isepic Bouton");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
+    button = gtk_switch_new();
+    resources_get_int("IsepicSwitch", &state);
+    gtk_switch_set_active(GTK_SWITCH(button), state);
+    gtk_grid_attach(GTK_GRID(grid), button, 1, 0, 1, 1);
     gtk_widget_show_all(grid);
+
+    g_signal_connect(button, "state-set", G_CALLBACK(on_isepic_switch_state_set),
+            NULL);
     return grid;
 }
 
 
-/** \brief  Create widget to load/save GEORAM image file
+/** \brief  Create widget to load/save ISEPIC image file
  *
  * \return  GtkGrid
  */
-static GtkWidget *create_georam_image_widget(void)
+static GtkWidget *create_isepic_image_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -245,7 +241,7 @@ static GtkWidget *create_georam_image_widget(void)
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = resource_entry_create("GEORAMfilename");
+    entry = resource_entry_create("Isepicfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
@@ -253,12 +249,10 @@ static GtkWidget *create_georam_image_widget(void)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    auto_save = resource_check_button_create("GEORAMImageWrite",
+    auto_save = resource_check_button_create("IsepicImageWrite",
             "Write image on image detach/emulator quit");
     g_object_set(auto_save, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), auto_save, 0, 2, 2, 1);
-
-
 
     save_button = gtk_button_new_with_label("Save as ...");
     gtk_grid_attach(GTK_GRID(grid), save_button, 2, 2, 1, 1);
@@ -276,13 +270,13 @@ static GtkWidget *create_georam_image_widget(void)
 }
 
 
-/** \brief  Create widget to control GEORAM resources
+/** \brief  Create widget to control ISEPIC resources
  *
  * \param[in]   parent  parent widget, used for dialogs
  *
  * \return  GtkGrid
  */
-GtkWidget *georam_widget_create(GtkWidget *parent)
+GtkWidget *isepic_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
@@ -290,46 +284,41 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    georam_enable_widget = create_georam_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), georam_enable_widget, 0, 0, 1, 1);
+    isepic_enable_widget = create_isepic_enable_widget();
+    gtk_grid_attach(GTK_GRID(grid), isepic_enable_widget, 0, 0, 1, 1);
 
-    if (machine_class == VICE_MACHINE_VIC20) {
-        georam_ioswap = create_georam_ioswap_widget();
-        gtk_grid_attach(GTK_GRID(grid), georam_ioswap, 0, 2, 1, 1);
-    }
+    isepic_switch = create_isepic_switch_widget();
+    gtk_grid_attach(GTK_GRID(grid), isepic_switch, 0, 1, 1, 1);
 
-    georam_size = create_georam_size_widget();
-    gtk_grid_attach(GTK_GRID(grid), georam_size, 0, 1, 1, 1);
+    isepic_image = create_isepic_image_widget();
+    gtk_grid_attach(GTK_GRID(grid), isepic_image, 0, 2, 1, 1);
 
-    georam_image = create_georam_image_widget();
-    gtk_grid_attach(GTK_GRID(grid), georam_image, 1, 1, 1, 1);
-
-    g_signal_connect(georam_enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
+    g_signal_connect(isepic_enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
             NULL);
 
-    /* enable/disable widget based on georam-enable (dirty trick, I know) */
-    on_enable_toggled(georam_enable_widget, NULL);
+    /* enable/disable widget based on isepic-enable (dirty trick, I know) */
+    on_enable_toggled(isepic_enable_widget, NULL);
 
     gtk_widget_show_all(grid);
     return grid;
 }
 
 
-/** \brief  Set save function for the GEORAM extension
+/** \brief  Set save function for the ISEPIC extension
  *
  * \param[in]   func    save function
  */
-void georam_widget_set_save_handler(int (*func)(int, const char *))
+void isepic_widget_set_save_handler(int (*func)(int, const char *))
 {
-    georam_save_func = func;
+    isepic_save_func = func;
 }
 
 
-/** \brief  Set flush function for the GEORAM extension
+/** \brief  Set flush function for the ISEPIC extension
  *
  * \param[in]   func    flush function
  */
-void georam_widget_set_flush_handler(int (*func)(int))
+void isepic_widget_set_flush_handler(int (*func)(int))
 {
-    georam_flush_func = func;
+    isepic_flush_func = func;
 }
