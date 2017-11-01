@@ -1406,20 +1406,20 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_RETURN_DESCRIPTION,    N_("Continues execution and returns to the monitor just before the next\nRTS or RTI is executed.")},
+/* en */ {IDGS_MON_RETURN_DESCRIPTION,    N_("Continues execution and returns to the monitor just after the next\nRTS or RTI is executed.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_RETURN_DESCRIPTION_DA, "Fortsæt eksekveringen og vend tilbage til monitoren lige inden næste\nRTS eller RTI udføres."},
-/* de */ {IDGS_MON_RETURN_DESCRIPTION_DE, "Setzt Ausführung fort und retourniert bevor der nächsten RTS oder RTI instruction."},
-/* es */ {IDGS_MON_RETURN_DESCRIPTION_ES, "Continuar ejecución y volver al monitor justo antes que la siguiente\nRTS o RTI sea ejecutada."},
-/* fr */ {IDGS_MON_RETURN_DESCRIPTION_FR, "Continuer l'exécution et retourner au moniteur juste avant la prochaine\nexécution de RTS ou RTI."},
-/* hu */ {IDGS_MON_RETURN_DESCRIPTION_HU, "Folytatja a végrehajtást és visszatér a monitorba a következõ\nRTS vagy RTI utasítás elõtt."},
-/* it */ {IDGS_MON_RETURN_DESCRIPTION_IT, "Continua l'esecuzione e ritorna al monitor subito prima della prossima\nesecuzione di RTS o RTI."},
+/* da */ {IDGS_MON_RETURN_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_RETURN_DESCRIPTION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MON_RETURN_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_RETURN_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_RETURN_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_RETURN_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_RETURN_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_RETURN_DESCRIPTION_NL, "Ga door met uitvoeren van instructies en keer terug naar de monitor net voordat de\nvolgende RTS of RTI wordt uitgevoerd."},
-/* pl */ {IDGS_MON_RETURN_DESCRIPTION_PL, "Wykonuje dalej i wraca do monitora tu¿ przed wykonaniem\nnastêpnego RTS lub RTI."},
-/* ru */ {IDGS_MON_RETURN_DESCRIPTION_RU, "Continues execution and returns to the monitor just before the next\nRTS or RTI is executed."},
-/* sv */ {IDGS_MON_RETURN_DESCRIPTION_SV, "Fortsätt exekveringen och återgå till monitorn precis innan nästa\nRTS eller RTI exekveras."},
-/* tr */ {IDGS_MON_RETURN_DESCRIPTION_TR, "Çalýþmaya devam eder ve sonraki RTS ya da RTI çalýþtýrýlmadan hemen önce\nmonitöre geri döner."},
+/* nl */ {IDGS_MON_RETURN_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_RETURN_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_RETURN_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_RETURN_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_RETURN_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
