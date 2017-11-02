@@ -46,6 +46,7 @@
 #include "dqbbwidget.h"
 #include "expertwidget.h"
 #include "isepicwidget.h"
+#include "gmod2widget.h"
 
 #include "c64ui.h"
 
@@ -100,6 +101,8 @@ int c64ui_init(void)
     expert_widget_set_flush_handler(cartridge_flush_image);
     isepic_widget_set_save_handler(cartridge_save_image);
     isepic_widget_set_flush_handler(cartridge_flush_image);
+    gmod2_widget_set_save_handler(cartridge_save_image);
+    gmod2_widget_set_flush_handler(cartridge_flush_image);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

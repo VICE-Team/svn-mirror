@@ -87,6 +87,7 @@
 #include "expertwidget.h"
 #include "isepicwidget.h"
 #include "easyflashwidget.h"
+#include "gmod2widget.h"
 
 #include "uisettings.h"
 
@@ -131,7 +132,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "ISEPIC",                     isepic_widget_create, NULL },
 
     { "EasyFlash",                  easyflash_widget_create, NULL },
-    { "GMod2",                      NULL, NULL },
+    { "GMod2",                      gmod2_widget_create, NULL },
     { "IDE64",                      NULL, NULL },
     { "MMC64",                      NULL, NULL },
     { "MMC Replay",                 NULL, NULL },

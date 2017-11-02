@@ -115,7 +115,7 @@ static GtkWidget *create_isepic_switch_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     g_object_set(grid, "margin-left", 16, NULL);
 
-    label = gtk_label_new("L'Isepic Bouton");
+    label = gtk_label_new("Isepic switch");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     button = gtk_switch_new();

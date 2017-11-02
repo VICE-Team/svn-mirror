@@ -93,7 +93,8 @@ libwidgets_a_SOURCES = \
 	dqbbwidget.c \
 	expertwidget.c \
 	isepicwidget.c \
-	easyflashwidget.c
+	easyflashwidget.c \
+	gmod2widget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -164,4 +165,5 @@ EXTRA_DIST = \
 	dqbbwidget.h \
 	expertwidget.h \
 	isepicwidget.h \
-	easyflashwidget.h
+	easyflashwidget.h \
+	gmod2widget.h

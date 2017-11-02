@@ -76,4 +76,3 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-
