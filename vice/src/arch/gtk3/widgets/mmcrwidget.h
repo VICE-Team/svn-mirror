@@ -30,6 +30,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *mmcr_widget_create(GtkWidget *parent);
+GtkWidget * mmcr_widget_create(GtkWidget *parent);
+void        mmcr_widget_set_eeprom_save_func(int (*func)(int, const char *));
+void        mmcr_widget_set_eeprom_flush_func(int (*func)(int));
 
 #endif
