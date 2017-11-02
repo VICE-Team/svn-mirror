@@ -95,7 +95,8 @@ libwidgets_a_SOURCES = \
 	isepicwidget.c \
 	easyflashwidget.c \
 	gmod2widget.c \
-	mmcrwidget.c
+	mmcrwidget.c \
+	mmc64widget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -168,4 +169,5 @@ EXTRA_DIST = \
 	isepicwidget.h \
 	easyflashwidget.h \
 	gmod2widget.h \
-	mmcrwidget.h
+	mmcrwidget.h \
+	mmc64widget.h

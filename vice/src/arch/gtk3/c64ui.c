@@ -51,6 +51,7 @@
 #include "isepicwidget.h"
 #include "gmod2widget.h"
 #include "mmcrwidget.h"
+#include "mmc64widget.h"
 
 #include "c64ui.h"
 
@@ -112,6 +113,9 @@ int c64ui_init(void)
     gmod2_widget_set_flush_handler(cartridge_flush_image);
     mmcr_widget_set_eeprom_save_func(cartridge_save_image);
     mmcr_widget_set_eeprom_flush_func(cartridge_flush_image);
+    mmc64_widget_set_eeprom_save_func(cartridge_save_image);
+    mmc64_widget_set_eeprom_flush_func(cartridge_flush_image);
+
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
