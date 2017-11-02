@@ -20,7 +20,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/scpu64 \
 	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/userport
+	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/c64/cart
 
 noinst_LIBRARIES = libbasewidgets.a
 
@@ -38,7 +39,8 @@ libbasewidgets_a_SOURCES = \
 	openfiledialog.c \
 	savefiledialog.c \
 	selectdirectorydialog.c \
-	filechooserhelpers.c
+	filechooserhelpers.c \
+	clockportdevicewidget.c
 
 EXTRA_DIST = \
 	basedialogs.h \
@@ -56,4 +58,5 @@ EXTRA_DIST = \
 	openfiledialog.h \
 	savefiledialog.h \
 	selectdirectorydialog.h \
-	filechooserhelpers.h
+	filechooserhelpers.h \
+	clockportdevicewidget.h

@@ -37,6 +37,11 @@
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
 
+#include "clockportdevicewidget.h"
+#include "clockport.h"
+
+
+
 #include "cartridge.h"
 #include "georamwidget.h"
 #include "georam.h"
@@ -87,6 +92,8 @@ int c64scui_init(void)
     video_model_widget_set_models(c64sc_vicii_models);
 
     uisamplersettings_set_devices_getter(sampler_get_devices);
+    /* work around VSID again */
+    clockport_device_widget_set_devices((void *)clockport_supported_devices);
 
     /* I/O extension function pointers */
     georam_widget_set_save_handler(cartridge_save_image);

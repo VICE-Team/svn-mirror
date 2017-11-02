@@ -37,6 +37,9 @@
 #include "videomodelwidget.h"
 #include "uisamplersettings.h"
 
+#include "clockportdevicewidget.h"
+#include "clockport.h"
+
 #include "cartridge.h"
 #include "georam.h"
 #include "georamwidget.h"
@@ -76,6 +79,7 @@ int c128ui_init(void)
     video_model_widget_set_models(c128_vicii_models);
 
     uisamplersettings_set_devices_getter(sampler_get_devices);
+    clockport_device_widget_set_devices((void *)clockport_supported_devices);
 
     /* I/O extension function pointers */
     georam_widget_set_save_handler(cartridge_save_image);
