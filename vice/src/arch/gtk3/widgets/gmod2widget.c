@@ -60,7 +60,7 @@ static int (*gmod2_flush_func)(int) = NULL;
  */
 static GtkWidget *create_gmod2_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent,
+    return cart_image_widget_create(parent, "GMOD2 EEPROM image",
             "GMOD2EEPROMImage", "GMod2FlashWrite",
             gmod2_save_func, gmod2_flush_func,
             CARTRIDGE_NAME_GMOD2, CARTRIDGE_GMOD2);

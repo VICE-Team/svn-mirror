@@ -32,6 +32,7 @@
 
 #include "basewidget_types.h"
 
+#include "cartimagewidget.h"
 #include "resourcecheckbutton.h"
 #include "resourcecombobox.h"
 #include "resourceentry.h"

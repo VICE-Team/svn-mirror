@@ -138,7 +138,7 @@ static GtkWidget *create_reu_size_widget(void)
  */
 static GtkWidget *create_reu_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent,
+    return cart_image_widget_create(parent, "REU image",
             "REUfilename", "REUImageWrite",
             reu_save_func, reu_flush_func,
             CARTRIDGE_NAME_REU, CARTRIDGE_REU);

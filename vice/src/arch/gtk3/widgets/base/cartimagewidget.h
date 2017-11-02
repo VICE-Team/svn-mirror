@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 
 GtkWidget *cart_image_widget_create(
-        GtkWidget *parent,
+        GtkWidget *parent, const char *title,
         const char *resource_fname, const char *resource_write,
         int (*func_save)(int, const char *),
         int (*func_flush)(int),

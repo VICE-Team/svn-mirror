@@ -140,8 +140,8 @@ static GtkWidget *create_georam_size_widget(void)
  */
 static GtkWidget *create_georam_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(
-            parent, "GEORAMfilename", "GEORAMImageWrite",
+    return cart_image_widget_create(parent, "GEORAM Image",
+            "GEORAMfilename", "GEORAMImageWrite",
             georam_save_func, georam_flush_func,
             CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
 }

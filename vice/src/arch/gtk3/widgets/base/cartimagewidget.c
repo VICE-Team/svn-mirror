@@ -145,6 +145,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 /** \brief  Create widget to load/save/flush cart image file
  *
  * \param[in]   parent          parent widget (used for dialogs)
+ * \param[in]   title           widget title
  * \param[in[   resource_fname  resource for the image file name
  * \param[in]   resource_fwrite resource controlling flush-on-exit/detach
  * \param[in]   func_save       function to save the image via dialog
@@ -157,7 +158,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  * \return  GtkGrid
  */
 GtkWidget *cart_image_widget_create(
-        GtkWidget *parent,
+        GtkWidget *parent, const char *title,
         const char *resource_fname, const char *resource_write,
         int (*func_save)(int, const char *),
         int (*func_flush)(int),
@@ -178,7 +179,7 @@ GtkWidget *cart_image_widget_create(
     crt_name = cart_name;
     crt_id = cart_id;
 
-    grid = uihelpers_create_grid_with_label("Image file", 3);
+    grid = uihelpers_create_grid_with_label(title, 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);

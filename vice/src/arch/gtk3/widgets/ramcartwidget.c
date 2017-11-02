@@ -123,7 +123,7 @@ static GtkWidget *create_ramcart_size_widget(void)
  */
 static GtkWidget *create_ramcart_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent,
+    return cart_image_widget_create(parent, "RAMCART image",
             "RAMCARTfilename", "RAMCARTImageWrite",
             ramcart_save_func, ramcart_flush_func,
             CARTRIDGE_NAME_RAMCART, CARTRIDGE_RAMCART);

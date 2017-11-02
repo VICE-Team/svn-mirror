@@ -121,8 +121,8 @@ static GtkWidget *create_expert_mode_widget(void)
  */
 static GtkWidget *create_expert_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(
-            parent, "Expertfilename", "ExpertImageWrite",
+    return cart_image_widget_create(parent, "Expert Cartridge image",
+            "Expertfilename", "ExpertImageWrite",
             expert_save_func, expert_flush_func,
             CARTRIDGE_NAME_EXPERT, CARTRIDGE_EXPERT);
 }

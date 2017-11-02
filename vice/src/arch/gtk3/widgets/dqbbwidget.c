@@ -88,7 +88,7 @@ static GtkWidget *create_dqbb_enable_widget(void)
  */
 static GtkWidget *create_dqbb_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent,
+    return cart_image_widget_create(parent, "DQBB image",
             "DQBBfilename", "DQBBImageWrite",
             dqbb_save_func, dqbb_flush_func,
             CARTRIDGE_NAME_DQBB, CARTRIDGE_DQBB);

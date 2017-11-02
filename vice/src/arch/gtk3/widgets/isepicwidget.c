@@ -136,7 +136,7 @@ static GtkWidget *create_isepic_switch_widget(void)
  */
 static GtkWidget *create_isepic_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent,
+    return cart_image_widget_create(parent, "ISEPIC image",
             "Isepicfilename", "IsepicImageWrite",
             isepic_save_func, isepic_flush_func,
             CARTRIDGE_NAME_ISEPIC, CARTRIDGE_ISEPIC);
