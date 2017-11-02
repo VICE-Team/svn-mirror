@@ -6201,6 +6201,11 @@ Integer that specifies the reported type for the emulated SD-Card.
 @item MMCREEPROMRW
 Boolean specifying if the MMCR EEPROM image is writeable.
 
+@vindex MMCRClockPort
+@item MMCRClockPort
+Integer that specifies the clockport device.
+(0: None, 1: RRNet, 2: MP3@64, 3: ETH64-II, 4: Silver Surfer, 5: Catweasel MkIII SID)
+
 @vindex RAMCART
 @item RAMCART
 Boolean specifying whether the RAMCart should be emulated or not.
@@ -6709,6 +6714,12 @@ Specify MMC Replay EEPROM image filename
 @itemx +mmcreepromrw
 Allow/disallow writes to MMC Replay EEPROM image
 (@code{MMCREEPROMRW=1}, @code{MMCREEPROMRW=0}).
+
+@findex -mmcrclockportdevice
+@item -mmcrclockportdevice <id>
+Set MMC Replay clockport device
+(@code{MMCRClockPort}).
+(0: None, 1: RRNet, 2: MP3@64, 3: ETH64-II, 4: Silver Surfer, 5: Catweasel MkIII SID)
 
 @findex -cartmv
 @item -cartmv <name>
