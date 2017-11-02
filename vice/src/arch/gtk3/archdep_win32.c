@@ -266,7 +266,6 @@ int archdep_file_is_chardev(const char *name)
 
 int archdep_file_is_blockdev(const char *name)
 {
-    NOT_IMPLEMENTED();
     return 0;
 }
 

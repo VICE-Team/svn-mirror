@@ -430,7 +430,15 @@ int archdep_file_is_chardev(const char *name)
 
 int archdep_file_is_blockdev(const char *name)
 {
-    NOT_IMPLEMENTED();
+    struct stat buf;
+
+    if (stat(name, &buf) != 0) {
+        return 0;
+    }
+
+    if (S_ISBLK(buf.st_mode)) {
+        return 1;
+    }
     return 0;
 }
 
