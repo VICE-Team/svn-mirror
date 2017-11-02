@@ -333,9 +333,18 @@ static GtkTreeStore *create_tree_store(void)
             ui_settings_tree_node_t *list = main_nodes[i].children;
 
             for (c = 0; list[c].name != NULL; c++) {
+                char buffer[256];
+
+                /* mark items without callback with 'TODO' */
+                if (list[c].callback != NULL) {
+                    g_snprintf(buffer, 256, "%s", list[c].name);
+                } else {
+                    g_snprintf(buffer, 256, "TODO: %s", list[c].name);
+                }
+
                 gtk_tree_store_append(store, &child, &iter);
                 gtk_tree_store_set(store, &child,
-                        0, list[c].name,
+                        0, buffer,
                         1, list[c].callback,
                         -1);
             }
