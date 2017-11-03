@@ -55,7 +55,11 @@ static GtkWidget *create_content_widget(void)
     view = gtk_text_view_new();
     gtk_text_view_set_editable(GTK_TEXT_VIEW(view), FALSE);
     gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(view), FALSE);
+    /* FIXME: There is probably a way to get monospaced fonts that
+       doesn't require GTK+ 3.16. */
+#if GTK_CHECK_VERSION(3,16,0)
     gtk_text_view_set_monospace(GTK_TEXT_VIEW(view), TRUE);
+#endif
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(view), GTK_WRAP_WORD_CHAR);
     gtk_text_view_set_left_margin(GTK_TEXT_VIEW(view),16);
     gtk_text_view_set_right_margin(GTK_TEXT_VIEW(view),16);
