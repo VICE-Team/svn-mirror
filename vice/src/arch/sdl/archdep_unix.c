@@ -81,6 +81,7 @@ static const char *illegal_name_tokens = "/";
 
 static char *argv0 = NULL;
 static char *boot_path = NULL;
+static char *program_name;
 
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
@@ -127,8 +128,6 @@ static int archdep_init_extra(int *argc, char **argv)
 
 char *archdep_program_name(void)
 {
-    static char *program_name = NULL;
-
     if (program_name == NULL) {
         char *p;
 
@@ -664,6 +663,7 @@ static void archdep_shutdown_extra(void)
 {
     lib_free(argv0);
     lib_free(boot_path);
+    lib_free(program_name);
 }
 
 /******************************************************************************/
@@ -707,7 +707,9 @@ int archdep_rename(const char *oldpath, const char *newpath)
     return rename(oldpath, newpath);
 }
 
-char *archdep_get_runtime_os(void)
+/* doesn't seem to be required -- compyx */
+#if 0
+static char *archdep_get_runtime_os(void)
 {
 /* TODO: add runtime os detection code for other *nix os'es */
 #ifndef RUNTIME_OS_CALL
@@ -717,7 +719,7 @@ char *archdep_get_runtime_os(void)
 #endif
 }
 
-char *archdep_get_runtime_cpu(void)
+static char *archdep_get_runtime_cpu(void)
 {
 /* TODO: add runtime cpu detection code for other cpu's */
 #ifndef RUNTIME_CPU_CALL
@@ -726,6 +728,8 @@ char *archdep_get_runtime_cpu(void)
     return RUNTIME_CPU_CALL();
 #endif
 }
+#endif
+
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
    starting with a black (default) config, so an educated guess works good

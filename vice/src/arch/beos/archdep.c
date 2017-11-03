@@ -80,6 +80,8 @@ static const char *illegal_name_tokens = "/";
 
 static char *orig_workdir;
 static char *argv0 = NULL;
+static char *default_path;
+
 
 int archdep_init(int *argc, char **argv)
 {
@@ -134,7 +136,6 @@ const char *archdep_boot_path(void)
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
-    static char *default_path;
 
     if (default_path == NULL) {
         const char *boot_path = archdep_boot_path();
@@ -402,6 +403,9 @@ int archdep_rename(const char *oldpath, const char *newpath)
 void archdep_shutdown(void)
 {
     lib_free(argv0);
+    if (default_path != NULL) {
+        lib_free(default_path);
+    }
     archdep_network_shutdown();
 }
 
