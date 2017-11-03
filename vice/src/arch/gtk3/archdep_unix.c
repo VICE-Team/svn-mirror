@@ -72,6 +72,10 @@ static const char *illegal_name_tokens = "/";
 static char *default_path = NULL;
 
 
+
+static char *boot_path_dinges = NULL;
+
+
 /** \brief  Write log message to stdout
  *
  * param[in]    level_string    log level string
@@ -235,20 +239,19 @@ int archdep_expand_path(char **return_path, const char *orig_name)
  */
 const char *archdep_boot_path(void)
 {
-    static char *boot;
     char *sep;
 
-    if (boot == NULL) {
-        boot = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
+    if (boot_path_dinges == NULL) {
+        boot_path_dinges = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
 
         /* Remove the program name.  */
-        sep = strrchr(boot, '/');
+        sep = strrchr(boot_path_dinges, '/');
         if (sep != NULL) {
            *sep = '\0';
         }
     }
 
-    return boot;
+    return boot_path_dinges;
 }
 
 char *archdep_make_backup_filename(const char *fname)
@@ -265,6 +268,11 @@ void archdep_shutdown(void)
     if (argv0 != NULL) {
         lib_free(argv0);
         argv0 = NULL;
+    }
+
+    if (boot_path_dinges != NULL) {
+        lib_free(boot_path_dinges);
+        boot_path_dinges = NULL;
     }
 
     archdep_network_shutdown();
