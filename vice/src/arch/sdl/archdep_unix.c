@@ -81,7 +81,7 @@ static const char *illegal_name_tokens = "/";
 
 static char *argv0 = NULL;
 static char *boot_path = NULL;
-static char *program_name;
+static char *program_name = NULL;
 
 /* alternate storage of preferences */
 const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
@@ -663,7 +663,10 @@ static void archdep_shutdown_extra(void)
 {
     lib_free(argv0);
     lib_free(boot_path);
-    lib_free(program_name);
+    if (program_name != NULL) {
+        lib_free(program_name);
+        program_name = NULL;
+    }
 }
 
 /******************************************************************************/

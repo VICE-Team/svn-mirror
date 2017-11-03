@@ -625,7 +625,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
         }
         lib_free(temp_name);
     }
-    lib_free(progname);
+/*    lib_free(progname); */
     slots->number_of_elements = total;
     if (mode == SLOTREQ_MODE_CHOOSE_SLOT) {
         cur = last_selected_pos;

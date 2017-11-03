@@ -66,6 +66,7 @@
  *        the functions using it
  */
 static char *argv0 = NULL;
+static char *program_name = NULL;
 
 const char *archdep_pref_path = NULL;
 
@@ -87,8 +88,10 @@ const char *archdep_pref_path = NULL;
  */
 char *archdep_program_name(void)
 {
-    return lib_stralloc(g_path_get_basename(argv0));
-
+    if (program_name != NULL) {
+        program_name = lib_stralloc(g_path_get_basename(argv0));
+    }
+    return program_name;
 }
 
 
@@ -372,7 +375,6 @@ int archdep_init(int *argc, char **argv)
     printf("VICE searchpath = \"%s\"\n", searchpath);
     printf("vice.ini path   = \"%s\"\n", vice_ini);
 
-    lib_free(prg_name);
     lib_free(searchpath);
     lib_free(vice_ini);
     lib_free(cfg_path);

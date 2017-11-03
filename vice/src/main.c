@@ -260,7 +260,7 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
     log_message(LOG_DEFAULT, " ");
 
-    lib_free(program_name);
+    /* lib_free(program_name); */
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */

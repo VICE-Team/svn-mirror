@@ -274,6 +274,10 @@ void archdep_shutdown(void)
         lib_free(boot_path_dinges);
         boot_path_dinges = NULL;
     }
+    if (program_name != NULL) {
+        lib_free(program_name);
+        program_name = NULL;
+    }
 
     archdep_network_shutdown();
 

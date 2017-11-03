@@ -195,6 +195,11 @@ void archdep_shutdown(void)
         argv0 = NULL;
     }
 
+    if (program_name != NULL) {
+        lib_free(program_name);
+        program_name = NULL;
+    }
+
     /* archdep_network_shutdown(); */
 
     /* partially implemented */
