@@ -6170,6 +6170,11 @@ Boolean, if true the SD-Card image is mounted read-only.
 Integer that specifies the reported type for the emulated SD-Card.
 (0: Auto, 1: MMC, 2: SD, 3: SDHC)
 
+@vindex MMC64ClockPort
+@item MMC64ClockPort
+Integer that specifies the clockport device used.
+(0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
+
 @vindex MMCRCardImage
 @item MMCRCardImage
 String specifying the filename of the SD-Card image used by the MMCR emulation.
@@ -6204,7 +6209,7 @@ Boolean specifying if the MMCR EEPROM image is writeable.
 @vindex MMCRClockPort
 @item MMCRClockPort
 Integer that specifies the clockport device.
-(0: None, 1: RRNet, 2: MP3@@64, 3: ETH64-II, 4: Silver Surfer, 5: Catweasel MkIII SID)
+(0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
 
 @vindex RAMCART
 @item RAMCART
@@ -6671,6 +6676,12 @@ Specify MMC64 SD type
 (@code{MMC64_sd_type}).
 (0: Auto, 1: MMC, 2: SD, 3: SDHC)
 
+@findex -mmc64clockportdevice
+@item -mmc64clockportdevice <device>
+Set MMC64 clockport device
+(@code{MMC64ClockPort})
+(0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
+
 @findex -cartmmcr
 @item -cartmmcr <name>
 Attach raw 512kB MMC Replay cartridge image.
@@ -6719,7 +6730,7 @@ Allow/disallow writes to MMC Replay EEPROM image
 @item -mmcrclockportdevice <id>
 Set MMC Replay clockport device
 (@code{MMCRClockPort}).
-(0: None, 1: RRNet, 2: MP3@@64, 3: ETH64-II, 4: Silver Surfer, 5: Catweasel MkIII SID)
+(0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
 
 @findex -cartmv
 @item -cartmv <name>
