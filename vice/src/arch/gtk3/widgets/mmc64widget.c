@@ -5,13 +5,14 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  MMC64CardImage (x64/x64sc/xscpu64/x128)
- *  MMC64EEPROMIMage (x64/x64sc/xscpu64/x128)
- *  MMC64EEPROMRW (x64/x64sc/xscpu64/x128)
- *  MMC64RescueMode (x64/x64sc/xscpu64/x128)
- *  MMC64ImageWrite (x64/x64sc/xscpu64/x128)
- *  MMC64CardRW (x64/x64sc/xscpu64/x128)
- *  MMC64SDType (x64/x64sc/xscpu64/x128)
+ *  MMC64 (x64/x64sc/xscpu64/x128)
+ *  MMC64BIOSfilename (x64/x64sc/xscpu64/x128)
+ *  MMC64_bios_write (x64/x64sc/xscpu64/x128)
+ *  MMC64_flashjumper (x64/x64sc/xscpu64/x128)
+ *  MMC64_revision (x64/x64sc/xscpu64/x128)
+ *  MMC64imagefilename (x64/x64sc/xscpu64/x128)
+ *  MMC64_RO (x64/x64sc/xscpu64/x128)
+ *  MMC64_sd_type (x64/x64sc/xscpu64/x128)
  *  MMC64ClockPort (x64/x64sc/xscpu64/x128)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -51,6 +52,8 @@
 #include "mmc64widget.h"
 
 
+/** \brief  List of revisions
+ */
 static ui_radiogroup_entry_t revisions[] = {
     { "Rev. A", 0 },
     { "Rev. B", 1 },
@@ -104,6 +107,11 @@ static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
 }
 
 
+/** \brief  Extra handler for the "toggled" event of the "MMC64 Enabled" widget
+ *
+ * This function enables/disables the other widgets, based on the state of
+ * the "MMC64 Enable" widget.
+ */
 static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 {
     int state;
@@ -119,6 +127,10 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+/** \brief  Create widget to toggle the MMC64 on/off
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_mmc64_enable_widget(void)
 {
     GtkWidget *check;
@@ -129,6 +141,10 @@ static GtkWidget *create_mmc64_enable_widget(void)
 }
 
 
+/** \brief  Create widget to toggle the MMC64 flash jumper
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_mmc64_jumper_widget(void)
 {
     GtkWidget *check;
@@ -139,6 +155,10 @@ static GtkWidget *create_mmc64_jumper_widget(void)
 }
 
 
+/** \brief  Create widget to set the MMC64 revision
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_mmc64_revision_widget(void)
 {
     GtkWidget *grid;
@@ -245,6 +265,10 @@ static GtkWidget *create_card_type_widget(void)
 }
 
 
+/** \brief  Create widget to select the clockport device
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_clockport_widget(void)
 {
     GtkWidget *grid;
@@ -312,12 +336,20 @@ GtkWidget *mmc64_widget_create(GtkWidget *parent)
 }
 
 
+/** \brief  Set function to use to save the EEPROM image
+ *
+ * \param[in]   func    function
+ */
 void mmc64_widget_set_eeprom_save_func(int (*func)(int, const char *))
 {
     eeprom_save_func = func;
 }
 
 
+/** \brief  Set function to use to flush the EEPROM image
+ *
+ * \param[in]   func    function
+ */
 void mmc64_widget_set_eeprom_flush_func(int (*func)(int))
 {
     eeprom_flush_func = func;

@@ -230,12 +230,20 @@ GtkWidget *mmcr_widget_create(GtkWidget *parent)
 }
 
 
+/** \brief  Set function to use to save the EEPROM image
+ *
+ * \param[in]   func    function
+ */
 void mmcr_widget_set_eeprom_save_func(int (*func)(int, const char *))
 {
     eeprom_save_func = func;
 }
 
 
+/** \brief  Set function to use to flush the EEPROM image
+ *
+ * \param[in]   func    function
+ */
 void mmcr_widget_set_eeprom_flush_func(int (*func)(int))
 {
     eeprom_flush_func = func;
