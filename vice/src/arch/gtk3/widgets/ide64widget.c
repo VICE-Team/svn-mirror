@@ -5,6 +5,35 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
+ *  IDE64AutodetectSize1
+ *  IDE64AutodetectSize2
+ *  IDE64AutodetectSize3
+ *  IDE64AutodetectSize4
+ *  IDE64version
+ *  IDE64Image1
+ *  IDE64Image2
+ *  IDE64Image3
+ *  IDE64Image4
+ *  IDE64ClockPort
+ *  IDE64Cylinders1
+ *  IDE64Cylinders2
+ *  IDE64Cylinders3
+ *  IDE64Cylinders4
+ *  IDE64Heads1
+ *  IDE64Heads2
+ *  IDE64Heads3
+ *  IDE64Heads4
+ *  IDE64Sectors1
+ *  IDE64Sectors2
+ *  IDE64Sectors3
+ *  IDE64Sectors4
+ *  IDE64USBServer
+ *  IDE64USBServerAddress
+ *  IDE64RTCSave
+ *  SBDIGIMAX
+ *  SBDIGIMAXbase
+ *  SBETFE
+ *  SBETFEbase
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,15 +65,13 @@
 #include "widgethelpers.h"
 #include "basedialogs.h"
 #include "openfiledialog.h"
-#include "savefiledialog.h"
-#if 0
-#include "cartimagewidget.h"
-#include "cartridge.h"
-#endif
 #include "ide64.h"
 
 #include "ide64widget.h"
 
+
+/** \brief  List of IDE64 revisions
+ */
 static ui_radiogroup_entry_t revisions[] = {
     { "Version 3", IDE64_VERSION_3 },
     { "Version 4.1", IDE64_VERSION_4_1 },
@@ -53,6 +80,8 @@ static ui_radiogroup_entry_t revisions[] = {
 };
 
 
+/** \brief  List of ShortBus DIGIMAX I/O bases
+ */
 static ui_combo_entry_int_t digimax_addresses[] = {
     { "$DE40", 0xde40 },
     { "$DE48", 0xde48 },
@@ -60,6 +89,8 @@ static ui_combo_entry_int_t digimax_addresses[] = {
 };
 
 #ifdef HAVE_RAWNET
+/** \brief  List of ShortBus ETFE I/O bases
+ */
 static ui_combo_entry_int_t etfe_addresses[] = {
     { "$DE00", 0xde00 },
     { "$DE10", 0xde10 },
@@ -69,16 +100,82 @@ static ui_combo_entry_int_t etfe_addresses[] = {
 #endif
 
 
-/** \brief  Handler for the "destroy" event of the main widget
+
+
+/** \brief  Handler for the "toggled" event of the USB Server check button
  *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   extra event data (unused
+ * \param[in]       widget      check button triggering the event
+ * \param[in,out]   user_data   reference to the USB server address widget
  */
-static void on_ide64_widget_destroy(GtkWidget *widget, gpointer user_data)
+static void on_usb_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
+    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
 
+/** \brief  Handler for the "clicked" event of the HD image "browse" buttons
+ *
+ * \param[in]       widget      button
+ * \param[in,out]   user_data   entry box to store the HD image file
+ */
+static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
+{
+    gchar *filename;
+    const char *filter_list[] = {
+        "*.hdd", "*.iso", "*.fdd", "*.cfa", NULL
+    };
+
+    filename = ui_open_file_dialog(widget, "Select disk image file",
+            "HD image files", filter_list, NULL);
+    if (filename != NULL) {
+        GtkEntry *entry = GTK_ENTRY(user_data);
+        gtk_entry_set_text(entry, filename);
+        g_free(filename);
+    }
+}
+
+
+/** \brief  Handler for the "toggled" event of the "Autodetect Size" widgets
+ *
+ * \param[in]       widget      check button triggering the event
+ * \param[in,out]   user_data   reference to the geometry widget
+ */
+static void on_autosize_toggled(GtkWidget *widget, gpointer user_data)
+{
+    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
+            !(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))));
+}
+
+
+/** \brief  Handler for the "toggled" event of the "Enable DigiMAX" widget
+ *
+ * \param[in]       widget      check button triggering the event
+ * \param[in,out]   user_data   reference to the DigiMax address widget
+ */
+static void on_digimax_toggled(GtkWidget *widget, gpointer user_data)
+{
+    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+}
+
+
+/** \brief  Handler for the "toggled" event of the "Enable ETFE" widget
+ *
+ * \param[in]       widget      check button triggering the event
+ * \param[in,out]   user_data   reference to the ETFE address widget
+ */
+static void on_etfe_toggled(GtkWidget *widget, gpointer user_data)
+{
+    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+}
+
+
+/** \brief  Create widget to set the IDE64 revision
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_ide64_revision_widget(void)
 {
     GtkWidget *grid;
@@ -102,13 +199,10 @@ static GtkWidget *create_ide64_revision_widget(void)
 }
 
 
-static void on_usb_enable_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
-}
-
-
+/** \brief  Create widget to control the USB server resources
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_ide64_usb_widget(void)
 {
     GtkWidget *grid;
@@ -140,6 +234,10 @@ static GtkWidget *create_ide64_usb_widget(void)
 }
 
 
+/** \brief  Create widget to select the IDE64 clockport device
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_ide64_clockport_widget(void)
 {
     GtkWidget *grid;
@@ -160,38 +258,14 @@ static GtkWidget *create_ide64_clockport_widget(void)
     return grid;
 }
 
+
+/** \brief  Create widget to control the RTC-save resource
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_ide64_rtc_widget(void)
 {
     return resource_check_button_create("IDE64RTCSave", "Enable RTC saving");
-}
-
-
-/** \brief  Handler for the "clicked" event of the HD image "browse" buttons
- *
- * \param[in]       widget      button
- * \param[in,out]   user_data   entry box to store the HD image file
- */
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
-{
-    gchar *filename;
-    const char *filter_list[] = {
-        "*.hdd", "*.iso", "*.fdd", "*.cfa", NULL
-    };
-
-    filename = ui_open_file_dialog(widget, "Select disk image file",
-            "HD image files", filter_list, NULL);
-    if (filename != NULL) {
-        GtkEntry *entry = GTK_ENTRY(user_data);
-        gtk_entry_set_text(entry, filename);
-        g_free(filename);
-    }
-}
-
-
-static void on_autosize_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
-            !(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))));
 }
 
 
@@ -255,7 +329,7 @@ static GtkWidget *create_ide64_device_widget(int device)
     gtk_grid_attach(GTK_GRID(geometry), label, 0, 0, 1, 1);
 
     cylinders = resource_spin_button_int_create_sprintf("IDE64cylinders%d",
-            0, 65536, 1024, device);
+            0, 65536, 256, device);
     gtk_widget_set_hexpand(cylinders, FALSE);
     gtk_grid_attach(GTK_GRID(geometry), cylinders, 1, 0, 1, 1);
 
@@ -289,20 +363,6 @@ static GtkWidget *create_ide64_device_widget(int device)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-static void on_digimax_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
-}
-
-
-static void on_etfe_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
 
 
@@ -396,6 +456,9 @@ GtkWidget *ide64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(wrapper), create_ide64_clockport_widget(), 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 2, 1, 1);
 
+    /* create stack and stack switcher (tab-like interface) for the HD image
+     * settings widgets
+     */
     stack = gtk_stack_new();
     gtk_stack_set_transition_type(GTK_STACK(stack),
             GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
@@ -421,9 +484,6 @@ GtkWidget *ide64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), stack, 0, 4, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), create_ide64_shortbus_widget(), 0, 5, 1, 1);
-
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_ide64_widget_destroy),
-            NULL);
 
     gtk_widget_show_all(grid);
     return grid;
