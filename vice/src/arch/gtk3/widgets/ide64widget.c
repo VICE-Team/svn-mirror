@@ -53,6 +53,22 @@ static ui_radiogroup_entry_t revisions[] = {
 };
 
 
+static ui_combo_entry_int_t digimax_addresses[] = {
+    { "$DE40", 0xde40 },
+    { "$DE48", 0xde48 },
+    { NULL, -1 }
+};
+
+#ifdef HAVE_RAWNET
+static ui_combo_entry_int_t etfe_addresses[] = {
+    { "$DE00", 0xde00 },
+    { "$DE10", 0xde10 },
+    { "$DF00", 0xdf00 },
+    { NULL, -1 }
+};
+#endif
+
+
 /** \brief  Handler for the "destroy" event of the main widget
  *
  * \param[in]   widget      widget triggering the event
@@ -172,6 +188,12 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
+static void on_autosize_toggled(GtkWidget *widget, gpointer user_data)
+{
+    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
+            !(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))));
+}
+
 
 /** \brief  Create widget to select HD image and set geometry
  *
@@ -186,6 +208,7 @@ static GtkWidget *create_ide64_device_widget(int device)
     GtkWidget *entry;
     GtkWidget *browse;
     GtkWidget *autosize;
+    GtkWidget *geometry;
     GtkWidget *cylinders;
     GtkWidget *heads;
     GtkWidget *sectors;
@@ -215,45 +238,131 @@ static GtkWidget *create_ide64_device_widget(int device)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    /* TODO: enable/disable the cylinders/heads/sectors widget depending on the
-     *       state of this toggle button
-     */
     autosize = resource_check_button_create_sprintf(
             "IDE64AutodetectSize%d", "Autodetect image size", device);
     g_object_set(autosize, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), autosize, 0, 2, 3, 1);
 
+    /* create grid for the geomerty spin buttons */
+
+    geometry = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(geometry), 8);
+
+
     label = gtk_label_new("Cylinders");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(geometry), label, 0, 0, 1, 1);
 
     cylinders = resource_spin_button_int_create_sprintf("IDE64cylinders%d",
             0, 65536, 1024, device);
     gtk_widget_set_hexpand(cylinders, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), cylinders, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(geometry), cylinders, 1, 0, 1, 1);
 
     label = gtk_label_new("Heads");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(geometry), label, 0, 1, 1, 1);
 
     heads = resource_spin_button_int_create_sprintf("IDE64heads%d",
             0, 16, 1, device);
     gtk_widget_set_hexpand(heads, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), heads, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(geometry), heads, 1, 1, 1, 1);
 
     label = gtk_label_new("Sectors");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(geometry), label, 0, 2, 1, 1);
 
     sectors = resource_spin_button_int_create_sprintf("IDE64sectors%d",
             0, 63, 1, device);
     gtk_widget_set_hexpand(heads, FALSE);
-    gtk_grid_attach(GTK_GRID(grid), sectors, 1, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(geometry), sectors, 1, 2, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), geometry, 0, 3, 3, 1);
+
+    g_signal_connect(autosize, "toggled", G_CALLBACK(on_autosize_toggled),
+            (gpointer)geometry);
+
+    /* enable/disable geometry widgets depending on 'autosize' state */
+    on_autosize_toggled(autosize, (gpointer)geometry);
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
 
 
+static void on_digimax_toggled(GtkWidget *widget, gpointer user_data)
+{
+    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+}
+
+
+static void on_etfe_toggled(GtkWidget *widget, gpointer user_data)
+{
+    gtk_widget_set_sensitive(GTK_WIDGET(user_data),
+            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+}
+
+
+/** \brief  Create ShortBus settings widget
+ *
+ * Handles the SBDIGIMAX/SBDIGIMAXbase and SBETFE/SBETFEbase resources
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_ide64_shortbus_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *digimax_enable;
+    GtkWidget *digimax_label;
+    GtkWidget *digimax_address;
+#ifdef HAVE_RAWNET
+    GtkWidget *etfe_enable;
+    GtkWidget *etfe_label;
+    GtkWidget *etfe_address;
+#endif
+
+    grid = uihelpers_create_grid_with_label("ShortBus settings", 3);
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+
+    digimax_enable = resource_check_button_create("SBDIGIMAX",
+            "Enable DigiMAX");
+    g_object_set(digimax_enable, "margin-left", 16, NULL);
+    digimax_label = gtk_label_new("DigMAX base address");
+    gtk_widget_set_halign(digimax_label, GTK_ALIGN_END);
+    digimax_address = resource_combo_box_int_create("SBDIGIMAXbase",
+            digimax_addresses);
+
+    gtk_grid_attach(GTK_GRID(grid), digimax_enable, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), digimax_label, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), digimax_address, 2, 1, 1, 1);
+
+    g_signal_connect(digimax_enable, "toggled", G_CALLBACK(on_digimax_toggled),
+            (gpointer)digimax_address);
+
+    on_digimax_toggled(digimax_enable, (gpointer)digimax_address);
+
+#ifdef HAVE_RAWNET
+    etfe_enable = resource_check_button_create("SBETFE",
+            "Enable ETFE");
+    g_object_set(etfe_enable, "margin-left", 16, NULL);
+    etfe_label = gtk_label_new("ETFE base address");
+    gtk_widget_set_halign(etfe_label, GTK_ALIGN_END);
+    etfe_address = resource_combo_box_int_create("SBETFEbase",
+            etfe_addresses);
+
+    gtk_grid_attach(GTK_GRID(grid), etfe_enable, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), etfe_label, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), etfe_address, 2, 2, 1, 1);
+
+    g_signal_connect(etfe_enable, "toggled", G_CALLBACK(on_etfe_toggled),
+            (gpointer)etfe_address);
+
+    on_etfe_toggled(etfe_enable, (gpointer)etfe_address);
+
+#endif
 
     gtk_widget_show_all(grid);
     return grid;
@@ -310,6 +419,8 @@ GtkWidget *ide64_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(grid), stack_switcher, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stack, 0, 4, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), create_ide64_shortbus_widget(), 0, 5, 1, 1);
 
     g_signal_connect(grid, "destroy", G_CALLBACK(on_ide64_widget_destroy),
             NULL);
