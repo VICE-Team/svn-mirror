@@ -90,6 +90,7 @@
 #include "gmod2widget.h"
 #include "mmcrwidget.h"
 #include "mmc64widget.h"
+#include "ide64widget.h"
 
 #include "uisettings.h"
 
@@ -135,7 +136,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 
     { "EasyFlash",                  easyflash_widget_create, NULL },
     { "GMod2",                      gmod2_widget_create, NULL },
-    { "IDE64",                      NULL, NULL },
+    { "IDE64",                      ide64_widget_create, NULL },
     { "MMC64",                      mmc64_widget_create, NULL },
     { "MMC Replay",                 mmcr_widget_create, NULL },
     { "Retro Replay",               NULL, NULL },
