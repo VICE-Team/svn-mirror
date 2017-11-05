@@ -254,7 +254,19 @@ static void vice_cairo_set_palette(video_canvas_t *canvas)
     video_render_initraw(canvas->videoconfig);
 }
 
+static int vice_cairo_backend_init(void)
+{
+    /* Cairo is always OK */
+    return 1;
+}
+
+static void vice_cairo_backend_shutdown(void)
+{
+}
+
 vice_renderer_backend_t vice_cairo_backend = {
+    vice_cairo_backend_init,
+    vice_cairo_backend_shutdown,
     vice_cairo_create_widget,
     vice_cairo_update_context,
     vice_cairo_destroy_context,

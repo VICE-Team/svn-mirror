@@ -68,6 +68,8 @@ void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas);
 
 /* The renderer backend selected for use this run. */
 struct vice_renderer_backend_s {
+    int (*init_backend)(void);
+    void (*destroy_backend)(void);
     GtkWidget *(*create_widget)(video_canvas_t *canvas);
     void (*update_context)(video_canvas_t *canvas,
                            unsigned int width, unsigned int height);
