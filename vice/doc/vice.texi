@@ -6251,6 +6251,12 @@ Boolean specifying whether the RR bank jumper is set or not.
 Boolean, if true write back the RR Flash ROM image file automatically, incase the
 contents changed, when detaching or quitting the emulator.
 
+@vindex RRClockPort
+@item RRClockPort
+Integer that specifies the clockport device.
+(0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
+
+
 @vindex SSRamExpansion
 @item SSRamExpansion
 Boolean, if true enable the 32k addon RAM of the Supersnapshot V5
@@ -6839,6 +6845,13 @@ Set/unset RR Flash Jumper
 Set the RR revision
 (@code{RRrevision}).
 (0: Retro Replay, 1: Nordic Replay)
+
+@findex -rrclockportdevice
+@item -rrclockportdevice <device>
+Set the RR clockport device
+(@code{RRClockPort})
+(0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
+
 
 @findex -cartru
 @item -cartru <name>
