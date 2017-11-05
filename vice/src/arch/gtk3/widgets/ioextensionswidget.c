@@ -174,6 +174,111 @@ static GtkWidget *create_c128_full_banks_widget(void)
 }
 
 
+/** \brief  Create check button to enable Final Expansion write back
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_final_expansion_writeback_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("FinalExpansionWriteBack",
+            "Enable Final Expansion image write back");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable Vic Flash write back
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_vic_flash_writeback_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("VicFlashPluginWriteBack",
+            "Enable Vic Flash image write back");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable UltiMem write back
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_ultimem_writeback_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("UltiMemWriteBack",
+            "Enable UltiMem image write back");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable VIC-1112 IEEE-488 interface
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_vic_ieee488_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("IEEE488",
+            "Enable VIC-1112 IEEE-488 interface");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable VIC-20 I/O-2 RAM Cartridge
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_vic_io2ram_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("IO2RAM",
+            "Enable I/O-2 RAM Cartridge ($9800-$9BFF)");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable VIC-20 I/O-3 RAM Cartridge
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_vic_io3ram_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("IO3RAM",
+            "Enable I/O-3 RAM Cartridge ($9C00-$9FFF)");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable VIC-20 VFLI modification
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_vic_vfli_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("VFLImod",
+            "Enable VFLI modification");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
 /** \brief  Create layout for x64/x64sc
  *
  * \param[in,out]   grid    grid to add widgets to
@@ -249,8 +354,21 @@ static void create_vic20_layout(GtkWidget *grid)
 
     collision_widget = create_collision_widget("$9000-$93FF, $9800-$9FFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_final_expansion_writeback_widget(),
+            0, 3, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_vic_flash_writeback_widget(),
+            0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_ultimem_writeback_widget(),
+            0, 5, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_vic_ieee488_widget(),
+            0, 6, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_vic_io2ram_widget(),
+            0, 7, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_vic_io3ram_widget(),
+            0, 8, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_vic_vfli_widget(),
+            0, 9, 3, 1);
 
 }
 

@@ -173,11 +173,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
  */
 static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Mega Cart",                  NULL, NULL },
-    { "Final Expansion",            NULL, NULL },
-    { "Vic Flash Plugin",           NULL, NULL },
-    { "UltiMem",                    NULL, NULL },
     { "SID Cartridge",              NULL, NULL },
-    { "VIC-1112 IEEE-488 interface", NULL, NULL },  /* checkmark in Gtk2 */
     { "I/O RAM",                    NULL, NULL },
     { "VFLI modification",          NULL, NULL },   /* checkmark in Gtk2 */
 

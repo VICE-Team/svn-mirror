@@ -9221,6 +9221,10 @@ Boolean specifying whether the I/O-2 ($9800-$9BFF) RAM cartridge should be emula
 @item IO3RAM
 Boolean specifying whether the I/O-3 ($9C00-$9FFF) RAM cartridge should be emulated or not.
 
+@vindex VFLImod
+@item VFLImod
+Boolean specifying whether the VFLI modification should be enabled.
+
 @vindex TFEIOSwap
 @item TFEIOSwap
 Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
@@ -9420,6 +9424,12 @@ Enable/disable the I/O-3 ($9C00-$9FFF) RAM cartridge
 @itemx +ieee488
 Enable/disable VIC-1112 IEEE488 interface
 (@code{IEEE488=1}, @code{IEEE488=0}).
+
+@findex -vflimod, +vflimod
+@item -vflimod
+@itemx +vflimod
+Enable/disable VIC-20 VFLI modification
+(@code{VFLImod=1}, @code{VFLImod=0})
 
 @findex -sidcart, +sidcart
 @item -sidcart
