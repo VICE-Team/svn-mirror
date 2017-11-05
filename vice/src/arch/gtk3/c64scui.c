@@ -55,6 +55,7 @@
 #include "mmcrwidget.h"
 #include "mmc64widget.h"
 #include "retroreplaywidget.h"
+#include "easyflashwidget.h"
 
 #include "c64ui.h"
 
@@ -119,6 +120,9 @@ int c64scui_init(void)
     mmc64_widget_set_eeprom_flush_func(cartridge_flush_image);
     retroreplay_widget_set_save_func(cartridge_save_image);
     retroreplay_widget_set_flush_func(cartridge_flush_image);
+    easyflash_widget_set_save_func(cartridge_save_image);
+    easyflash_widget_set_flush_func(cartridge_flush_image);
+
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

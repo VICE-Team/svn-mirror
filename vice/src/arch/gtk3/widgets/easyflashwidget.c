@@ -45,6 +45,44 @@
 #include "easyflashwidget.h"
 
 
+static int (*save_func)(int, const char *) = NULL;
+static int (*flush_func)(int) = NULL;
+
+
+/** \brief  Handler for the "clicked" event of the "Save As" button
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_save_clicked(GtkWidget *widget, gpointer user_data)
+{
+    gchar *filename;
+
+    filename = ui_save_file_dialog(widget, "Save image as", NULL, TRUE, NULL);
+    if (filename != NULL) {
+        debug_gtk3("writing EF image file as '%s'\n", filename);
+        if (save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
+            /* ui_error("Failed to save EF image '%s'", filename); */
+        }
+        g_free(filename);
+    }
+}
+
+
+/** \brief  Handler for the "clicked" event of the "Flush now" button
+ *
+ * \param[in]   widget      button
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
+{
+    debug_gtk3("flushing EF image\n");
+    if (flush_func(CARTRIDGE_EASYFLASH) < 0) {
+        /* TODO: report error */
+    }
+}
+
+
 /** \brief  Create Easy Flash widget
  *
  * \param[in]   parent  parent widget
@@ -57,9 +95,11 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     GtkWidget *jumper;
     GtkWidget *write_crt;
     GtkWidget *optimize_crt;
+    GtkWidget *save_button;
+    GtkWidget *flush_button;
 
     grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     jumper = resource_check_button_create("EasyFlashJumper",
@@ -73,6 +113,38 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), write_crt, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), optimize_crt, 0, 2, 1, 1);
 
+    /* Save image as... */
+    save_button = gtk_button_new_with_label("Save image as ...");
+    gtk_grid_attach(GTK_GRID(grid), save_button, 1, 0, 1, 1);
+    g_signal_connect(save_button, "clicked", G_CALLBACK(on_save_clicked),
+            NULL);
+
+    /* Flush image now */
+    flush_button = gtk_button_new_with_label("Flush image now");
+    gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 1, 1, 1);
+    g_signal_connect(flush_button, "clicked", G_CALLBACK(on_flush_clicked),
+            NULL);
+
     gtk_widget_show_all(grid);
     return grid;
+}
+
+
+/** \brief  Set function to save EF image to disk
+ *
+ * \param[in]   func    function to save image
+ */
+void easyflash_widget_set_save_func(int (*func)(int, const char *))
+{
+    save_func = func;
+}
+
+
+/** \brief  Set function to flush EF image to disk
+ *
+ * \param[in]   func    function to flush image
+ */
+void easyflash_widget_set_flush_func(int (*func)(int))
+{
+    flush_func = func;
 }
