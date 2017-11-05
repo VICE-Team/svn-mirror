@@ -79,6 +79,7 @@
 #include "uisoundchipsettings.h"
 
 /* I/O extension widgets */
+#include "ioextensionswidget.h"
 #include "c64memoryexpansionhackswidget.h"
 #include "georamwidget.h"
 #include "reuwidget.h"
@@ -232,7 +233,7 @@ static ui_settings_tree_node_t main_nodes[] = {
      *       through an I/O extension
      */
     { "SID settings", uisoundchipsettings_widget_create, NULL },
-    { "I/O extensions", NULL, c64_io_extensions },  /* C64 only for now */
+    { "I/O extensions", ioextensions_widget_create, c64_io_extensions },  /* C64 only for now */
     { NULL, NULL, NULL }
 };
 
@@ -384,6 +385,9 @@ static GtkWidget *create_treeview(void)
             break;
         case VICE_MACHINE_VIC20:
             io_nodes = vic20_io_extensions;
+            break;
+        case VICE_MACHINE_C64DTV:
+            io_nodes = NULL;
             break;
         default:
             io_nodes = no_io_extensions;
