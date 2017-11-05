@@ -7991,6 +7991,10 @@ Integer that specifies the base address of the 256K RAM expansion.
 Integer that specifies the video standard of the emulated machine
 (0: PAL, 1: Old PAL, 2: NTSC, 3: Old NTSC, 4: PAL-N).
 
+@vindex CPMCart
+@item CPMCart
+Boolean that specifies if a CP/M cartridge is attached.
+
 @end table
 
 @c @node FIXME
@@ -8071,6 +8075,13 @@ Set the C64 model
 @code{ChargenName}, @code{SidEngine}, @code{SidModel})
 (x64 and x64sc only).
 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)
+
+@findex -cpmcart
+@item -cpmcart
+@itemx +cpmcart
+Enable/disable the CP/M cartridge
+(@code{CPMCart=1}. @code{CPMCart=0})
+
 
 @end table
 
