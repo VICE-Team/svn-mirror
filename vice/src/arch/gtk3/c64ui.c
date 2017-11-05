@@ -52,6 +52,7 @@
 #include "gmod2widget.h"
 #include "mmcrwidget.h"
 #include "mmc64widget.h"
+#include "retroreplaywidget.h"
 
 #include "c64ui.h"
 
@@ -115,6 +116,8 @@ int c64ui_init(void)
     mmcr_widget_set_eeprom_flush_func(cartridge_flush_image);
     mmc64_widget_set_eeprom_save_func(cartridge_save_image);
     mmc64_widget_set_eeprom_flush_func(cartridge_flush_image);
+    retroreplay_widget_set_save_func(cartridge_save_image);
+    retroreplay_widget_set_flush_func(cartridge_flush_image);
 
 
     INCOMPLETE_IMPLEMENTATION();

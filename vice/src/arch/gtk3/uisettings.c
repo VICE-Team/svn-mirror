@@ -91,6 +91,7 @@
 #include "mmcrwidget.h"
 #include "mmc64widget.h"
 #include "ide64widget.h"
+#include "retroreplaywidget.h"
 
 #include "uisettings.h"
 
@@ -139,7 +140,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "IDE64",                      ide64_widget_create, NULL },
     { "MMC64",                      mmc64_widget_create, NULL },
     { "MMC Replay",                 mmcr_widget_create, NULL },
-    { "Retro Replay",               NULL, NULL },
+    { "Retro Replay",               retroreplay_widget_create, NULL },
     { "Super Snapshot V5",          NULL, NULL },
 
     { "Ethernet Cartridge",         NULL, NULL },
