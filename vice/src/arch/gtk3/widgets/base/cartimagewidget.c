@@ -81,12 +81,13 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
  */
 static void on_save_clicked(GtkWidget *button, gpointer user_data)
 {
-    const char *current_filename;
     gchar *new_filename;
     gchar *fname = NULL;
     gchar *dname = NULL;
     char buffer[256];
 
+    /* the BIOS/EEPROM filename isn't always/never is the cartridge image name */
+#if 0
     resources_get_string(res_fname, &current_filename);
     if (current_filename != NULL && *current_filename != '\0') {
         /* provide the current filename and path */
@@ -94,6 +95,7 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
         dname = g_path_get_dirname(current_filename);
         debug_gtk3("got dir '%s', file '%s'\n", dname, fname);
     }
+#endif
 
     g_snprintf(buffer, 256, "Save %s image file", crt_name);
     new_filename = ui_save_file_dialog(button,
