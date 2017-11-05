@@ -5,8 +5,23 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  IOCollisionHandling
- *  CartridgeReset
+ *  IOCollisionHandling (all except vsid)
+ *  CartridgeReset (all except vsid)
+ *  SSRamExpansion (x64/x64sc/xscpu64/x128)
+ *  SFXSoundSampler (x64/x64sc/xscpu64/x128)
+ *  CPMCart (x64/x64sc)
+ *  C128FullBanks (x128)
+ *  FinalExpansionWriteBack (xvic)
+ *  VicFlashPluginWriteBack (xvic)
+ *  UltiMemWriteBack (xvic)
+ *  IO2RAM (xvic)
+ *  IO3RAM (xvic)
+ *  VFLImod (xvic)
+ *  IEEE488 (xvic)
+ *  Acia1Enable (xplus4)
+ *  DIGIBLASTER (xplus4)
+ *  UserPortDAC (xplus4)
+ *  FIXME: UserportDAC (xpet)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -279,6 +294,51 @@ static GtkWidget *create_vic_vfli_widget(void)
 }
 
 
+/** \brief  Create check button to enable Plus4 ACIA
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_plus4_acia_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("Acia1Enable",
+            "Enable ACIA");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable Plus4 DigiBlaster
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_plus4_digiblaster_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("DIGIBLASTER",
+            "Enable DigiBlaster add-on");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable Plus4 Userport 8-bit DAC
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_plus4_8bitdac_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("UserPortDAC",
+            "Enable Userport 8-bit DAC");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
 /** \brief  Create layout for x64/x64sc
  *
  * \param[in,out]   grid    grid to add widgets to
@@ -373,6 +433,26 @@ static void create_vic20_layout(GtkWidget *grid)
 }
 
 
+/** \brief  Create layout for xplus4
+ *
+ * \param[in,out]   grid    grid to add widgets to
+ */
+static void create_plus4_layout(GtkWidget *grid)
+{
+    GtkWidget *collision_widget;
+
+    collision_widget = create_collision_widget("$FD00-$FEFF");
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_plus4_acia_widget(), 0, 3, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_plus4_digiblaster_widget(),
+            0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_plus4_8bitdac_widget(),
+            0, 5, 3, 1);
+
+}
+
+
 
 /** \brief  Create widget for generic I/O extension settings
  *
@@ -413,6 +493,11 @@ GtkWidget *ioextensions_widget_create(GtkWidget *parent)
         case VICE_MACHINE_VIC20:
             create_vic20_layout(grid);
             break;
+
+        case VICE_MACHINE_PLUS4:
+            create_plus4_layout(grid);
+            break;
+
         default:
             /* NOP */
             break;
