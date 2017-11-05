@@ -112,7 +112,69 @@ static GtkWidget *create_cart_reset_widget(void)
 }
 
 
-/** \brief  Create layout for x64/x64sc/xscpu64/x128
+/** \brief  Create check button for Supersnapshot 32KB expansion
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_supersnapshot_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("SSRamExpansion",
+            "Enable 32KB Super Snapshot RAM expansion");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button for SFX Sound Sampler
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_sfx_sound_sampler_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("SFXSoundSampler",
+            "Enable SFX Sound Sampler");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button for CP/M Cartridge
+ *
+ * For x64/x64sc, NOT xscu64 or x128, or any others
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_cpm_cartridge_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("CPMCart",
+            "Enable CP/M Cartridge");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to select C128 full banks
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_c128_full_banks_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("C128FullBanks",
+            "Enable RAM banks 2 & 3");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create layout for x64/x64sc
  *
  * \param[in,out]   grid    grid to add widgets to
  */
@@ -122,9 +184,45 @@ static void create_c64_layout(GtkWidget *grid)
 
     collision_widget = create_collision_widget("$D000-$DFFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
-
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_supersnapshot_widget(), 0, 3, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cpm_cartridge_widget(), 0, 5, 3, 1);
 }
+
+
+/** \brief  Create layout for xscpu64
+ *
+ * \param[in,out]   grid    grid to add widgets to
+ */
+static void create_scpu64_layout(GtkWidget *grid)
+{
+    GtkWidget *collision_widget;
+
+    collision_widget = create_collision_widget("$D000-$DFFF");
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_supersnapshot_widget(), 0, 3, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 4, 3, 1);
+}
+
+
+/** \brief  Create layout for x128
+ *
+ * \param[in,out]   grid    grid to add widgets to
+ */
+static void create_c128_layout(GtkWidget *grid)
+{
+    GtkWidget *collision_widget;
+
+    collision_widget = create_collision_widget("$D000-$DFFF");
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_c128_full_banks_widget(), 0, 3, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_supersnapshot_widget(), 0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 5, 3, 1);
+}
+
 
 
 /** \brief  Create layout for x64dtv
@@ -178,10 +276,16 @@ GtkWidget *ioextensions_widget_create(GtkWidget *parent)
     switch (machine_class) {
 
         case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
-        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64SC:
             create_c64_layout(grid);
+            break;
+
+        case VICE_MACHINE_SCPU64:
+            create_scpu64_layout(grid);
+            break;
+
+        case VICE_MACHINE_C128:
+            create_c128_layout(grid);
             break;
 
         case VICE_MACHINE_C64DTV:
