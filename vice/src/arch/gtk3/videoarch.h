@@ -35,38 +35,19 @@
 
 #include <gtk/gtk.h>
 
-typedef enum {
-    VICE_GTK3_RENDERER_CAIRO,
-    VICE_GTK3_RENDERER_OPENGL,
-    /* We may want to extend this later with:
-     *   - Open GL Legacy
-     *   - Open GL ES
-     */
-    VICE_NUM_GTK3_RENDERERS
-} vice_gtk3_renderer_t;
-
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
 
-    vice_gtk3_renderer_t renderer;
     /* GTK3's video canvas is either a GtkDrawingArea or a GtkGLArea,
      * depending on which renderer has been selected. Each is
-     * ultimately represented as a GtkWidget object and backed by a
-     * 24-bit backbuffer. */
+     * ultimately represented as a GtkWidget object. */
     GtkWidget *drawing_area;
-    unsigned char *backbuffer;
+    /* Renderers have data unique to themselves, too. They'll know
+     * what this is. */
+    void *renderer_context;
 
-    /* The Cairo backend uses these values to properly render the
-     * backbuffer image into the drawing area. */
-    cairo_surface_t *backing_surface;
-    cairo_matrix_t cairo_transform;
-
-    /* The OpenGL backend uses these values to properly render the
-     * backbuffer image into the GL context. */
-    uint32_t shader, texture;
-
-    /* The remainder is code the core needs to communicate with the
+    /* The remainder are fields the core needs to communicate with the
      * renderers. */
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
@@ -84,5 +65,23 @@ struct video_canvas_s {
 typedef struct video_canvas_s video_canvas_t;
 
 void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas);
+
+/* The renderer backend selected for use this run. */
+struct vice_renderer_backend_s {
+    GtkWidget *(*create_widget)(video_canvas_t *canvas);
+    void (*update_context)(video_canvas_t *canvas,
+                           unsigned int width, unsigned int height);
+    void (*destroy_context)(video_canvas_t *canvas);
+    int (*get_backbuffer_info)(video_canvas_t *canvas, unsigned int *width,
+                                unsigned int *height, unsigned int *stride);
+    void (*refresh_rect)(video_canvas_t *canvas,
+                         unsigned int xs, unsigned int ys,
+                         unsigned int xi, unsigned int yi,
+                         unsigned int w, unsigned int h);
+    void (*set_palette)(video_canvas_t *canvas);
+};
+typedef struct vice_renderer_backend_s vice_renderer_backend_t;
+
+extern vice_renderer_backend_t *vice_renderer_backend;
 
 #endif

@@ -36,6 +36,7 @@ libarch_a_SOURCES = \
 	c64dtvui.c \
 	c64scui.c \
 	c64ui.c \
+	cairo_renderer.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
 	console.c \
@@ -101,6 +102,7 @@ EXTRA_DIST = \
 	archdep_unix.h \
 	archdep_win32.c \
 	archdep_win32.h \
+	cairo_renderer.h \
 	coproc.h \
 	debug_gtk3.h \
 	dynlib-unix.c \
