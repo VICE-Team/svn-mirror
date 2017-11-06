@@ -20,8 +20,7 @@
  *  IEEE488 (xvic)
  *  Acia1Enable (xplus4)
  *  DIGIBLASTER (xplus4)
- *  UserPortDAC (xplus4)
- *  FIXME: UserportDAC (xpet)
+ *  UserportDAC (xplus4, xpet)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -332,8 +331,38 @@ static GtkWidget *create_plus4_8bitdac_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("UserPortDAC",
+    check = resource_check_button_create("UserportDAC",
             "Enable Userport 8-bit DAC");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable PET HRE hires
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_pet_hre_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("PETHRE",
+            "Enable HRE hi-res graphics");
+    g_object_set(check, "margin-left", 16, NULL);
+    return check;
+}
+
+
+/** \brief  Create check button to enable PET diagnostic pin
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_pet_diagnostic_widget(void)
+{
+    GtkWidget *check;
+
+    check = resource_check_button_create("DiagPin",
+            "Enable userport diagnostic pin");
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
@@ -453,6 +482,20 @@ static void create_plus4_layout(GtkWidget *grid)
 }
 
 
+/** \brief  Create layout for xpet
+ *
+ * \param[in,out]   grid    grid to add widgets to
+ */
+static void create_pet_layout(GtkWidget *grid)
+{
+    GtkWidget *collision_widget;
+
+    collision_widget = create_collision_widget("$8800-$8FFF, $E900-$EEFF");
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_pet_hre_widget(), 0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_pet_diagnostic_widget(), 0, 3, 3, 1);
+}
+
 
 /** \brief  Create widget for generic I/O extension settings
  *
@@ -496,6 +539,10 @@ GtkWidget *ioextensions_widget_create(GtkWidget *parent)
 
         case VICE_MACHINE_PLUS4:
             create_plus4_layout(grid);
+            break;
+
+        case VICE_MACHINE_PET:
+            create_pet_layout(grid);
             break;
 
         default:

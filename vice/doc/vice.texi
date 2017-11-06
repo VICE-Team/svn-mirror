@@ -10454,6 +10454,13 @@ Set active memory expansion hack
 @itemx +acia
 Enable/Disable the ACIA emulation
 
+@findex -userportdac, +userportdac
+@item -userportdac
+@itemx +userportdac
+Enable/disable the userport DAC
+(@code{UserportDAC=1}, @code{UserportDAC=0}).
+
+
 @end table
 
 @c -----------------------------------------------------------------------------
