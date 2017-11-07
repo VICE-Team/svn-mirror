@@ -332,9 +332,9 @@ static int create_vic20_layout(GtkGrid *grid)
 
     swap_button2 = create_swap_userport_joysticks_button();
     g_object_set(swap_button2, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), swap_button2, 1, 3, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), adapter_widget, 2, 3, 1, 1);
 
     return 2;
 }
