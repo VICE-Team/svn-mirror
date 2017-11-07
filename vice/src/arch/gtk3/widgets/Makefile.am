@@ -99,7 +99,8 @@ libwidgets_a_SOURCES = \
 	mmc64widget.c \
 	ide64widget.c \
 	retroreplaywidget.c \
-	ioextensionswidget.c
+	ioextensionswidget.c \
+	ethernetcartwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -176,4 +177,5 @@ EXTRA_DIST = \
 	mmc64widget.h \
 	ide64widget.h \
 	retroreplaywidget.h \
-	ioextensionswidget.h
+	ioextensionswidget.h \
+	ethernetcartwidget.h

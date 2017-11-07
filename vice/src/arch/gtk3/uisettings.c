@@ -93,6 +93,7 @@
 #include "mmc64widget.h"
 #include "ide64widget.h"
 #include "retroreplaywidget.h"
+#include "ethernetcartwidget.h"
 
 #include "uisettings.h"
 
@@ -142,9 +143,10 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "MMC64",                      mmc64_widget_create, NULL },
     { "MMC Replay",                 mmcr_widget_create, NULL },
     { "Retro Replay",               retroreplay_widget_create, NULL },
-    { "Super Snapshot V5",          NULL, NULL },
 
-    { "Ethernet Cartridge",         NULL, NULL },
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
+#endif
     { "RR-Net Mk3",                 NULL, NULL },
 
     { "IEEE-448 Interface",         NULL, NULL },
@@ -180,6 +182,12 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "DigiMAX (MasC=uerade",       NULL, NULL },
     { "DS12C887 Real Time Clock (MasC=uerade)", NULL, NULL },
     { "GEO-RAM (MasC=uerade)",      georam_widget_create, NULL },
+    { "SFX Sound Expander (MasC=uerade)", NULL, NULL },
+    { "SFX Sound Sampler (MasC=uerade)", NULL, NULL },
+
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge (MasC=uerade)", ethernet_cart_widget_create, NULL },
+#endif
 
     /* XXX: much more to come here */
     { NULL, NULL, NULL }
