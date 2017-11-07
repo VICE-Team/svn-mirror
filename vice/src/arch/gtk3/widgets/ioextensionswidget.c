@@ -21,6 +21,8 @@
  *  Acia1Enable (xplus4)
  *  DIGIBLASTER (xplus4)
  *  UserportDAC (xplus4, xpet)
+ *  PETHRE (xpet)
+ *  DiagPin (xpet)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -497,6 +499,21 @@ static void create_pet_layout(GtkWidget *grid)
 }
 
 
+/** \brief  Create layout for xcbm5x0/xcbm2
+ *
+ * \param[in,out]   grid    grid to add widgets to
+ */
+static void create_cbm5x0_layout(GtkWidget *grid)
+{
+    GtkWidget *collision_widget;
+
+    collision_widget = create_collision_widget("$D800-$DFFF");
+    gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
+}
+
+
+
 /** \brief  Create widget for generic I/O extension settings
  *
  * Creates a widget for generic I/O extension settings and settings that don't
@@ -543,6 +560,11 @@ GtkWidget *ioextensions_widget_create(GtkWidget *parent)
 
         case VICE_MACHINE_PET:
             create_pet_layout(grid);
+            break;
+
+        case VICE_MACHINE_CBM5x0:       /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            create_cbm5x0_layout(grid);
             break;
 
         default:
