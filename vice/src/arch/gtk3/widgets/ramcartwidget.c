@@ -78,6 +78,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 
     gtk_widget_set_sensitive(ramcart_size, state);
     gtk_widget_set_sensitive(ramcart_image, state);
+    gtk_widget_set_sensitive(ramcart_readonly,state);
 }
 
 
