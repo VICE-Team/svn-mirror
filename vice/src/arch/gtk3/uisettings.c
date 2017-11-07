@@ -94,6 +94,7 @@
 #include "ide64widget.h"
 #include "retroreplaywidget.h"
 #include "ethernetcartwidget.h"
+#include "rrnetmk3widget.h"
 
 #include "uisettings.h"
 
@@ -146,8 +147,8 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
+    { "RR-Net Mk3",                 rrnetmk3_widget_create, NULL },
 #endif
-    { "RR-Net Mk3",                 NULL, NULL },
 
     { "IEEE-448 Interface",         NULL, NULL },
     { "Burst Mode Modification",    NULL, NULL },
