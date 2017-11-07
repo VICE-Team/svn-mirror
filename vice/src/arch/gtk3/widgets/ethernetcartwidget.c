@@ -6,7 +6,7 @@
  *
  * Controls the following resource(s):
  *  ETHERNETCART_ACTIVE (x64/x64s/xscpu64/x128/xvic)
- *  ETHERNETCARTMode (x64/x64s/xscpu64/x128/xvic)
+ *  ETHERNETCARTMode (x64/x64s/xscpu64/x128)
  *  ETHERNETCARTBase (x64/x64s/xscpu64/x128/xvic)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -54,6 +54,26 @@ static ui_radiogroup_entry_t modes[] = {
 };
 
 
+static GtkWidget *mode_widget = NULL;
+static GtkWidget *base_widget = NULL;
+
+/** \brief  Handler for the "toggled" event of the Ethernet Enable check button
+ *
+ * \param[in]   widget      check button
+ * \param[in]   user_data   extra event data (unused)
+ */
+static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+    if (mode_widget != NULL) {
+        /* xvic guard */
+        gtk_widget_set_sensitive(mode_widget, state);
+    }
+    gtk_widget_set_sensitive(base_widget, state);
+}
+
+
 /** \brief  Handler for the "changed" event of the I/O base combo box
  *
  * \param[in]   widget      combo box
@@ -80,23 +100,12 @@ static void on_base_changed(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_cartridge_mode_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
     GtkWidget *group;
-
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-
-    label = gtk_label_new("Cartridge mode");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     group = resource_radiogroup_create("ETHERNETCARTMode", modes,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
-    gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    return group;
 }
 
 
@@ -106,20 +115,12 @@ static GtkWidget *create_cartridge_mode_widget(void)
  */
 static GtkWidget *create_cartridge_base_widget(void)
 {
-    GtkWidget *grid;
-    GtkWidget *label;
     GtkWidget *combo;
     unsigned int base;
     char text[256];
     char id[80];
     int current;
     int index;
-
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-
-    label = gtk_label_new("Cartridge base");
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     resources_get_int("ETHERNETCARTBase", &current);
 
@@ -172,10 +173,7 @@ static GtkWidget *create_cartridge_base_widget(void)
     }
     g_signal_connect(combo, "changed", G_CALLBACK(on_base_changed), NULL);
 
-    gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
+    return combo;
 }
 
 
@@ -189,8 +187,9 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable_widget;
-    GtkWidget *mode_widget;
-    GtkWidget *base_widget;
+    GtkWidget *mode_label = NULL;
+    GtkWidget *base_label;
+    int row;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -200,11 +199,41 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
             "Enable ethernet cartridge");
     gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 1, 1);
 
-    mode_widget = create_cartridge_mode_widget();
-    gtk_grid_attach(GTK_GRID(grid), mode_widget, 0, 1, 1, 1);
+    row = 1;    /* next row in grid */
 
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fallthrough */
+        case VICE_MACHINE_C64SC:    /* fallthrough */
+        case VICE_MACHINE_C128:     /* fallthrough */
+        case VICE_MACHINE_SCPU64:
+            mode_widget = create_cartridge_mode_widget();
+            mode_label = gtk_label_new("Ethernet Cartridge mode");
+            g_object_set(mode_label, "margin-left", 16, NULL);
+            gtk_widget_set_halign(mode_label, GTK_ALIGN_START);
+            gtk_grid_attach(GTK_GRID(grid), mode_label, 0, row, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), mode_widget, 1, row, 1, 1);
+            row++;
+            break;
+
+        case VICE_MACHINE_VIC20:
+            break;
+        default:
+            break;
+    }
+
+    base_label = gtk_label_new("Cartridge I/O base");
+    gtk_widget_set_halign(base_label, GTK_ALIGN_START);
+    g_object_set(base_label, "margin-left", 16, NULL);
+
+    gtk_grid_attach(GTK_GRID(grid), base_label, 0, row, 1,1);
     base_widget = create_cartridge_base_widget();
-    gtk_grid_attach(GTK_GRID(grid), base_widget, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), base_widget, 1, row, 1, 1);
+
+    g_signal_connect(enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
+            NULL);
+
+    /* hack: enable/disable widgets */
+    on_enable_toggled(enable_widget, NULL);
 
     gtk_widget_show_all(grid);
     return grid;
