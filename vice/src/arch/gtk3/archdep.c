@@ -88,7 +88,7 @@ const char *archdep_pref_path = NULL;
  */
 char *archdep_program_name(void)
 {
-    if (program_name != NULL) {
+    if (program_name == NULL) {
         program_name = lib_stralloc(g_path_get_basename(argv0));
     }
     return program_name;
