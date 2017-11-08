@@ -49,18 +49,6 @@
 #include "driveoptionswidget.h"
 
 
-/** \brief  Handler for the "destroy" event of the widget
- *
- * Sets widget references to `NULL`, this shouldn't be needed once I move
- * the g_signal_connect() calls to their proper place
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   data for the event (unused)
- */
-static void on_destroy(GtkWidget *widget, gpointer user_data)
-{
-}
-
 
 static GtkWidget *create_iec_check_button(int unit)
 {
@@ -68,16 +56,6 @@ static GtkWidget *create_iec_check_button(int unit)
 
     check = resource_check_button_create_sprintf(
             "IECDevice%d", "IEC Device", unit);
-
-/*    g_object_set(check, "margin-left", 16, NULL); */
-
-    /* xpet/xcbm5x0/xcbm2 doesn't support the IECDevice[8-11] resources */
-    if (machine_class == VICE_MACHINE_PET
-            || machine_class == VICE_MACHINE_CBM5x0
-            || machine_class == VICE_MACHINE_CBM6x0)
-    {
-        gtk_widget_set_sensitive(check, FALSE);
-    }
     return check;
 }
 
@@ -115,26 +93,35 @@ static GtkWidget *create_rtc_check_button(int unit)
 GtkWidget *drive_options_widget_create(int unit)
 {
     GtkWidget *grid;
-    GtkWidget *iec_widget;
+    GtkWidget *iec_widget = NULL;
     GtkWidget *readonly_widget;
-    GtkWidget *rtc_widget;
-
+    GtkWidget *rtc_widget = NULL;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
-
-    iec_widget = create_iec_check_button(unit);
-    gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 0, 1, 1);
+    g_object_set(grid, "margin-left", 16, NULL);
 
     readonly_widget = create_readonly_check_button(unit);
-    gtk_grid_attach(GTK_GRID(grid), readonly_widget, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), readonly_widget, 0, 0, 1, 1);
 
-    rtc_widget = create_rtc_check_button(unit);
-    gtk_grid_attach(GTK_GRID(grid), rtc_widget, 2, 0, 1, 1);
-
-    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
-
+    switch (machine_class) {
+        /* these machines have IEC */
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_VIC20:    /* fall through */
+        case VICE_MACHINE_PLUS4:
+            iec_widget = create_iec_check_button(unit);
+            gtk_grid_attach(GTK_GRID(grid), iec_widget, 1, 0, 1, 1);
+            rtc_widget = create_rtc_check_button(unit);
+            gtk_grid_attach(GTK_GRID(grid), rtc_widget, 2, 0, 1, 1);
+           break;
+        default:
+            break;
+    }
     gtk_widget_show_all(grid);
     return grid;
 }
