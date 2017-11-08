@@ -146,6 +146,12 @@ static void on_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
+static void on_drive_model_changed(GtkWidget *widget, gpointer user_data)
+{
+    debug_gtk3("called\n");
+}
+
+
 /*****************************************************************************
  *                              Public functions                             *
  *****************************************************************************/
