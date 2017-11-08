@@ -295,7 +295,8 @@ static GtkWidget *create_sid_engine_widget(void)
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
     for (p = 1; p < 7; p++) {
-        gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group), 0, p), FALSE);
+        gtk_widget_set_sensitive(gtk_grid_get_child_at(
+                    GTK_GRID(radio_group), 0, p), FALSE);
     }
 
 #ifdef HAVE_RESID
@@ -532,17 +533,24 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 
     num_sids = create_num_sids_widget();
     gtk_grid_attach(GTK_GRID(layout), num_sids, 2, 1, 1, 1);
-    /* Plus4 and CBM5x0/CBM6x0 only support a single SID */
+    /* Plus4, CBM5x0/CBM6x0, PET, DTV only support a single SID */
     if (machine_class == VICE_MACHINE_PLUS4
             || machine_class == VICE_MACHINE_CBM5x0
-            || machine_class == VICE_MACHINE_CBM6x0)
+            || machine_class == VICE_MACHINE_CBM6x0
+            || machine_class == VICE_MACHINE_C64DTV
+            || machine_class == VICE_MACHINE_PET
+            || machine_class == VICE_MACHINE_VIC20)
     {
         gtk_widget_set_sensitive(num_sids, FALSE);
     }
 
+    /* FIXME; doing two machine_class checks is a little silly */
     if (machine_class != VICE_MACHINE_PLUS4
             && machine_class != VICE_MACHINE_CBM5x0
-            && machine_class != VICE_MACHINE_CBM6x0)
+            && machine_class != VICE_MACHINE_CBM6x0
+            && machine_class != VICE_MACHINE_C64DTV
+            && machine_class != VICE_MACHINE_PET
+            && machine_class != VICE_MACHINE_VIC20)
     {
         for (i = 1; i < 4; i++) {
             address_widgets[i - 1] = create_extra_sid_address_widget(i);
