@@ -24,12 +24,12 @@
  *
  */
 
-#ifndef VICE_UIDRIVESETTINGS_GTK3_H
-#define VICE_UIDRIVESETTINGS_GTK3_H
+#ifndef VICE_UIDRIVESETTINGS_H
+#define VICE_UIDRIVESETTINGS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uidrivesettings_create_central_widget(GtkWidget *parent);
+GtkWidget *uidrivesettings_widget_create(GtkWidget *parent);
 
 #endif

@@ -66,7 +66,7 @@
 #include "uikeyboard.h"
 #include "uisound.h"
 #include "uiautostart.h"
-#include "uidrivesettings_new.h"
+#include "uidrivesettings.h"
 #include "uimodel.h"
 #include "uimisc.h"
 #include "ramresetwidget.h"
