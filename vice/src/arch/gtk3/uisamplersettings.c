@@ -52,7 +52,12 @@ static sampler_device_t *(*devices_getter)(void) = NULL;
  * Used by the "browse" button callback to set the new file name and trigger
  * a resource update
  */
-static GtkWidget *entry_widget;
+static GtkWidget *entry_widget = NULL;
+
+
+/** \brief  Reference to the "browse" button
+ */
+static GtkWidget *browse_button = NULL;
 
 
 /** \brief  Handler for the "changed" event of the devices combo box
@@ -66,6 +71,10 @@ static void on_device_changed(GtkComboBoxText *combo, gpointer user_data)
 
     debug_gtk3("setting SamplerDevice to %d\n", index);
     resources_set_int("SamplerDevice", index);
+
+    /* this assumes the "media file input" is always first in the list */
+    gtk_widget_set_sensitive(entry_widget, index == 0);
+    gtk_widget_set_sensitive(browse_button, index == 0);
 }
 
 
@@ -239,6 +248,8 @@ GtkWidget *uisamplersettings_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    GtkWidget *combo;
+    int index;
 
     grid = uihelpers_create_grid_with_label("Sampler settings", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -248,7 +259,8 @@ GtkWidget *uisamplersettings_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_device_widget(), 1, 1, 2, 1);
+    combo = create_device_widget();
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 1, 2, 1);
 
     /* sampler gain */
     label = gtk_label_new("Sampler gain");
@@ -265,7 +277,14 @@ GtkWidget *uisamplersettings_widget_create(GtkWidget *parent)
     entry_widget = create_input_entry();
     gtk_widget_set_hexpand(entry_widget, TRUE);
     gtk_grid_attach(GTK_GRID(grid), entry_widget, 1, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_input_button(), 2, 3, 1, 1);
+    browse_button = create_input_button();
+    gtk_grid_attach(GTK_GRID(grid), browse_button, 2, 3, 1, 1);
+
+    /* update sensitivity of entry and button */
+    index = gtk_combo_box_get_active(GTK_COMBO_BOX(combo));
+
+    gtk_widget_set_sensitive(entry_widget, index == 0);
+    gtk_widget_set_sensitive(browse_button, index == 0);
 
     gtk_widget_show_all(grid);
     return grid;
