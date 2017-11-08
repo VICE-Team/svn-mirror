@@ -5,6 +5,31 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
+ *  IECDevice4
+ *  IECDevice5
+ *  IECDevice6
+ *  IECDevice7
+ *  Printer4
+ *  Printer5
+ *  Printer6
+ *  Printer7
+ *  Printer4Driver
+ *  Printer5Driver
+ *  Printer6Driver
+ *  Printer4Output
+ *  Printer5Output
+ *  Printer6Output
+ *  PrinterTextDevice1
+ *  PrinterTextDevice2
+ *  PrinterTextDevice3
+ *  Printer4TextDevice
+ *  Printer5TextDevice
+ *  Printer6TextDevice
+ *  Printer7TextDevice
+ *  PrinterUserport
+ *  PrinterUserportTextDevice
+ *  PrinterUserportDriver
+ *  PrinterUserportOutput
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,6 +59,7 @@
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
+#include "machine.h"
 #include "printer.h"
 
 /* widgets */
@@ -73,23 +99,6 @@ static void on_real_device7_toggled(GtkCheckButton *check, gpointer user_data)
     debug_gtk3("setting Printer7 to '%s'\n", state ? "REAL" : "NONE");
     resources_set_int("Printer7", state);
 }
-
-
-#if 0
-/** \brief  Handler for the "toggled" event of the IEC checkboxes
- *
- * \param[in]   check       IEC checkbox
- * \param[in]   user_data   device number (`int`)
- */
-static void on_iec_toggled(GtkCheckButton *check, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-    int device = GPOINTER_TO_INT(user_data);
-
-    debug_gtk3("setting IECDevice%d to %s\n", device, state ? "ON" : "OFF");
-    resources_set_int_sprintf("IECDevice%d", state, device);
-}
-#endif
 
 
 /** \brief  Set PrinterTextDevice[1-3] resource
@@ -137,6 +146,7 @@ static GtkWidget *create_real_device7_checkbox(void)
     int value;
 
     check = gtk_check_button_new_with_label("Real device access");
+    g_object_set(check, "margin-left", 16, NULL);
     resources_get_int("Printer7", &value);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
     g_signal_connect(check, "toggled", G_CALLBACK(on_real_device7_toggled),
@@ -169,14 +179,33 @@ static GtkWidget *create_printer_widget(int device)
         /* device 4,5,6 are 'normal' printers */
         GtkWidget *wrapper;
 
-        wrapper = gtk_grid_new();
+        switch (machine_class) {
+            /* these machines have IEC */
+            case VICE_MACHINE_C64:      /* fall through */
+            case VICE_MACHINE_C64SC:    /* fall through */
+            case VICE_MACHINE_SCPU64:   /* fall through */
+            case VICE_MACHINE_C128:     /* fall through */
+            case VICE_MACHINE_C64DTV:   /* fall through */
+            case VICE_MACHINE_VIC20:    /* fall through */
+            case VICE_MACHINE_PLUS4:
 
-        gtk_grid_attach(GTK_GRID(wrapper),
-                printer_emulation_type_widget_create(device), 0, 0, 1, 1);
-        gtk_grid_attach(GTK_GRID(wrapper),
-                create_iec_widget(device), 0, 1, 1, 1);
+                wrapper = gtk_grid_new();
+                gtk_grid_attach(GTK_GRID(wrapper),
+                        printer_emulation_type_widget_create(device),
+                        0, 0, 1, 1);
+                gtk_grid_attach(GTK_GRID(wrapper),
+                        create_iec_widget(device), 0, 1, 1, 1);
 
-        gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 1, 1, 1);
+                gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 1, 1, 1);
+                break;
+
+            default:
+                /* No IEC */
+                gtk_grid_attach(GTK_GRID(grid),
+                        printer_emulation_type_widget_create(device),
+                        0, 1, 1, 1);
+                break;
+        }
 
         gtk_grid_attach(GTK_GRID(grid),
                 printer_driver_widget_create(device), 1, 1, 1, 1);
@@ -190,11 +219,24 @@ static GtkWidget *create_printer_widget(int device)
         /* device 7 is 'special' */
         GtkWidget *iec_widget = create_iec_widget(device);
 
-        g_object_set(iec_widget, "margin-left", 16, NULL);
-        gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
-
         gtk_grid_attach(GTK_GRID(grid), create_real_device7_checkbox(),
-                1, 1, 1,1);
+                0, 1, 1, 1);
+
+        switch (machine_class) {
+            /* these machines have IEC */
+            case VICE_MACHINE_C64:      /* fall through */
+            case VICE_MACHINE_C64SC:    /* fall through */
+            case VICE_MACHINE_SCPU64:   /* fall through */
+            case VICE_MACHINE_C128:     /* fall through */
+            case VICE_MACHINE_C64DTV:   /* fall through */
+            case VICE_MACHINE_VIC20:    /* fall through */
+            case VICE_MACHINE_PLUS4:
+                gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 2, 1, 1);
+                break;
+
+            default:
+                break;
+        }
     }
 
     gtk_widget_show_all(grid);
@@ -202,18 +244,10 @@ static GtkWidget *create_printer_widget(int device)
 }
 
 
-#if 0
-static GtkWidget *create_userport_widget(void)
-{
-    GtkWidget *grid;
-
-    grid = uihelpers_create_grid_with_label("Userport printer settings", 3);
-    gtk_widget_show_all(grid);
-    return grid;
-}
-#endif
-
-
+/** \brief  Create widget to control Printer Text Devices 1-3
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_printer_text_devices_widget(void)
 {
     GtkWidget *grid;
@@ -259,7 +293,7 @@ GtkWidget *uiprintersettings_widget_create(GtkWidget *parent)
     GtkWidget *layout;
     GtkWidget *stack;
     GtkWidget *stack_switcher;
-    GtkWidget *layout_userport;
+    GtkWidget *layout_userport = NULL;
     int p;
     char buffer[256];
 
@@ -276,10 +310,25 @@ GtkWidget *uiprintersettings_widget_create(GtkWidget *parent)
                 buffer, buffer);
     }
 
-    layout_userport = userport_printer_widget_create();
-
-    gtk_stack_add_titled(GTK_STACK(stack), layout_userport, "userport",
-            "Userport printer");
+    /* determine if the userport is available */
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_VIC20:    /* fall through */
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            /* create userport printer widget and add to stack */
+            layout_userport = userport_printer_widget_create();
+            gtk_stack_add_titled(GTK_STACK(stack), layout_userport, "userport",
+                    "Userport printer");
+            break;
+        default:
+            /* No userport (C64DTV, CBM 5x0, VSID) or not usable for printer
+             * (Plus4) */
+            break;
+    }
 
     stack_switcher = gtk_stack_switcher_new();
     gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(stack_switcher),
