@@ -2,6 +2,9 @@
  * \brief   Mouse settings widget
  *
  * Controls the following resource(s):
+ *  Mouse
+ *  SmartMouseRTCSave (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0)
+ *  MouseSensitivity (Appears to be Windows-only)
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -32,11 +35,19 @@
 
 #include "debug_gtk3.h"
 #include "resources.h"
+#include "machine.h"
 #include "resourcecheckbutton.h"
 
 #include "uimousesettings.h"
 
 
+#ifdef WIN32_COMPILE
+/** \brief  Create mouse sensitivity slider
+ *
+ * Appears to be Win32 only.
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_sensitivity_widget(void)
 {
     GtkWidget * grid;
@@ -65,6 +76,7 @@ static GtkWidget *create_sensitivity_widget(void)
     gtk_widget_show_all(grid);
     return grid;
 }
+#endif
 
 
 /** \brief  Create mouse settings widget
@@ -77,7 +89,7 @@ GtkWidget *uimousesettings_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *mouse_grab;
-    GtkWidget *mouse_save;
+    GtkWidget *mouse_save = NULL;
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
@@ -85,13 +97,28 @@ GtkWidget *uimousesettings_widget_create(GtkWidget *parent)
     g_object_set(layout, "margin", 16, NULL);
 
     mouse_grab = resource_check_button_create("Mouse", "Enable mouse grab");
-    mouse_save = resource_check_button_create("SmartMouseRTCSave",
-            "Enable SmartMouse RTC Saving");
-
     gtk_grid_attach(GTK_GRID(layout), mouse_grab, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), mouse_save, 1, 0, 1, 1);
 
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_VIC20:    /* fall through */
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_CBM5x0:
+            mouse_save = resource_check_button_create("SmartMouseRTCSave",
+                    "Enable SmartMouse RTC Saving");
+            gtk_grid_attach(GTK_GRID(layout), mouse_save, 1, 0, 1, 1);
+            break;
+        default:
+            /* No SmartMouse support */
+            break;
+    }
+
+#ifdef WIN32_COMPILE
     gtk_grid_attach(GTK_GRID(layout), create_sensitivity_widget(), 0, 1, 2, 1);
+#endif
 
     gtk_widget_show_all(layout);
     return layout;
