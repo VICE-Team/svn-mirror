@@ -102,7 +102,9 @@ libwidgets_a_SOURCES = \
 	ioextensionswidget.c \
 	ethernetcartwidget.c \
 	rrnetmk3widget.c \
-	c128functionromwidget.c
+	c128functionromwidget.c \
+	ieee488widget.c \
+	digimaxwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -182,4 +184,6 @@ EXTRA_DIST = \
 	ioextensionswidget.h \
 	ethernetcartwidget.h \
 	rrnetmk3widget.h \
-	c128functionromwidget.h
+	c128functionromwidget.h \
+	ieee488widget.h \
+	digimaxwidget.h
