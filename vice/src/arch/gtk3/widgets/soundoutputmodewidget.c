@@ -83,7 +83,7 @@ GtkWidget *sound_output_mode_widget_create(void)
     resources_get_int("SoundOutput", &mode);
 
     layout = uihelpers_radiogroup_create(
-            "Sound output mode",
+            "Output mode",
             output_modes,
             on_output_mode_changed,
             mode);

@@ -97,7 +97,7 @@ GtkWidget *sound_sample_rate_widget_create(void)
     }
 
     layout = uihelpers_radiogroup_create(
-            "Sound sample rate",
+            "Sample rate",
             sample_rates,
             on_sample_rate_changed,
             i);

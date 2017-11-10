@@ -76,16 +76,19 @@ static GtkWidget *create_spinbutton(void)
 GtkWidget *sound_suspend_time_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *spin;
 
     grid = gtk_grid_new();
     g_object_set(grid, "margin", 8, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     gtk_grid_attach(GTK_GRID(grid),
-            uihelpers_create_grid_label("Sound suspend time"),
+            uihelpers_create_grid_label("Suspend time"),
             0, 0, 2, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_spinbutton(), 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("seconds"), 1, 1, 1, 1);
+    spin = create_spinbutton();
+    g_object_set(spin, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("sec."), 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

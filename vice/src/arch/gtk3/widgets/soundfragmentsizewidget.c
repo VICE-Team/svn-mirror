@@ -79,7 +79,7 @@ GtkWidget *sound_fragment_size_widget_create(void)
     resources_get_int("SoundFragmentSize", &size);
 
     grid = uihelpers_radiogroup_create(
-            "Sound fragment size", fragment_sizes,
+            "Fragment size", fragment_sizes,
             on_fragment_size_changed, size);
 
     gtk_widget_show_all(grid);

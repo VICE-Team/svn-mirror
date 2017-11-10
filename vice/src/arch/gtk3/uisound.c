@@ -55,6 +55,7 @@
 static GtkWidget *create_inner_grid(void)
 {
     GtkWidget *grid;
+    GtkWidget *wrapper;
 
     grid = gtk_grid_new();
 
@@ -65,16 +66,17 @@ static GtkWidget *create_inner_grid(void)
     gtk_grid_attach(GTK_GRID(grid), sound_output_mode_widget_create(), 0, 1, 1, 1);
     /* row 1, column 1 */
     gtk_grid_attach(GTK_GRID(grid), sound_sync_mode_widget_create(), 1, 1, 1, 1);
+    /* row 1, columm 2 */
+    gtk_grid_attach(GTK_GRID(grid), sound_fragment_size_widget_create(), 2, 1, 1, 1);
 
     /* row 2, column 0 */
     gtk_grid_attach(GTK_GRID(grid), sound_sample_rate_widget_create(), 0, 2, 1, 1);
-    /* row 2, column 1 */
-    gtk_grid_attach(GTK_GRID(grid), sound_buffer_size_widget_create(), 1 ,2 ,1 ,1);
 
-    /* row 3, columm 0 */
-    gtk_grid_attach(GTK_GRID(grid), sound_fragment_size_widget_create(), 0, 3, 1, 1);
-    /* row 3, column 1 */
-    gtk_grid_attach(GTK_GRID(grid), sound_suspend_time_widget_create(), 1, 3, 1, 1);
+    /* row 2, column 1 */
+    wrapper = gtk_grid_new();
+    gtk_grid_attach(GTK_GRID(wrapper), sound_buffer_size_widget_create(), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), sound_suspend_time_widget_create(), 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 2, 1, 1);
 
     return grid;
 }

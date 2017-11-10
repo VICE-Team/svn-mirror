@@ -101,7 +101,7 @@ static void on_argument_changed(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_title_label(void)
 {
-    return uihelpers_create_grid_label("Sound driver");
+    return uihelpers_create_grid_label("Driver");
 }
 
 

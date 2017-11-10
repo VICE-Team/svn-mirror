@@ -85,7 +85,7 @@ GtkWidget *sound_sync_mode_widget_create(void)
     resources_get_int("SoundSpeedAdjustment", &mode);
 
     layout = uihelpers_radiogroup_create(
-            "Sound synchronization mode",
+            "Synchronization mode",
             sync_modes,
             on_sync_mode_changed,
             mode);
