@@ -23,6 +23,7 @@
  *  UserportDAC (xplus4, xpet)
  *  PETHRE (xpet)
  *  DiagPin (xpet)
+ *  BurstMod (x64/x64sc/xscpu64)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -65,6 +66,14 @@ static ui_radiogroup_entry_t io_collision_methods[] = {
     { "Detach all", IO_COLLISION_METHOD_DETACH_ALL },
     { "Detach last", IO_COLLISION_METHOD_DETACH_LAST },
     { "AND values", IO_COLLISION_METHOD_AND_WIRES },
+    { NULL, -1 }
+};
+
+
+static ui_radiogroup_entry_t burst_modes[] = {
+    { "None", 0 },
+    { "CIA1", 1 },
+    { "CIA2", 2 },
     { NULL, -1 }
 };
 
@@ -370,6 +379,32 @@ static GtkWidget *create_pet_diagnostic_widget(void)
 }
 
 
+/** \brief  Create Burst Mode widget
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_burst_mode_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *group;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+
+    label = gtk_label_new("Burst mode modification");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+
+    group = resource_radiogroup_create("BurstMod", burst_modes,
+            GTK_ORIENTATION_HORIZONTAL);
+    gtk_grid_set_column_spacing(GTK_GRID(group), 16);
+    gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);
+
+    g_object_set(grid, "margin-left", 16, NULL);
+    return grid;
+}
+
+
 /** \brief  Create layout for x64/x64sc
  *
  * \param[in,out]   grid    grid to add widgets to
@@ -384,6 +419,7 @@ static void create_c64_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), create_supersnapshot_widget(), 0, 3, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 4, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cpm_cartridge_widget(), 0, 5, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 6, 3, 1);
 }
 
 
@@ -400,6 +436,7 @@ static void create_scpu64_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_supersnapshot_widget(), 0, 3, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 5, 3, 1);
 }
 
 

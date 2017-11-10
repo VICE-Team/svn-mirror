@@ -155,7 +155,6 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 #endif
 
     { "IEEE-448 Interface",         NULL, NULL },
-    { "Burst Mode Modification",    NULL, NULL },
 
     { "DigiMAX",                    NULL, NULL },
     { "Magic Voice",                NULL, NULL },
@@ -195,7 +194,6 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
 #endif
 
     { "IEEE-448 Interface",         NULL, NULL },
-    { "Burst Mode Modification",    NULL, NULL },
 
     { "DigiMAX",                    NULL, NULL },
     { "Magic Voice",                NULL, NULL },
