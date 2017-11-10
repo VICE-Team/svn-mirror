@@ -169,6 +169,46 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 };
 
 
+/** \brief  I/O extensions for C128
+ */
+static ui_settings_tree_node_t c128_io_extensions[] = {
+    { "Function ROM",               NULL, NULL },
+    { "GEO-RAM",                    georam_widget_create, NULL },
+    { "RAM Expansion Module",       reu_widget_create, NULL },
+    { "RamCart",                    ramcart_widget_create, NULL },
+
+    { "Double Quick Brown Box",     dqbb_widget_create, NULL },
+    { "Expert Cartridge",           expert_widget_create, NULL },
+    { "ISEPIC",                     isepic_widget_create, NULL },
+
+    { "EasyFlash",                  easyflash_widget_create, NULL },
+    { "GMod2",                      gmod2_widget_create, NULL },
+    { "IDE64",                      ide64_widget_create, NULL },
+    { "MMC64",                      mmc64_widget_create, NULL },
+    { "MMC Replay",                 mmcr_widget_create, NULL },
+    { "Retro Replay",               retroreplay_widget_create, NULL },
+
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
+    { "RR-Net Mk3",                 rrnetmk3_widget_create, NULL },
+#endif
+
+    { "IEEE-448 Interface",         NULL, NULL },
+    { "Burst Mode Modification",    NULL, NULL },
+
+    { "DigiMAX",                    NULL, NULL },
+    { "Magic Voice",                NULL, NULL },
+    { "MIDI emulation",             NULL, NULL },
+    { "SFX Sound Expander",         NULL, NULL },
+
+    { "DS12C887 Real Time Clock",   NULL, NULL },
+    { "Userport devices",           NULL, NULL },
+    { "Tape port devices",          NULL, NULL },
+
+    { NULL, NULL, NULL }
+};
+
+
 /** \brief  List of VIC-20 I/O extensions (x64, x64sc)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
@@ -193,6 +233,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
 
     { NULL, NULL, NULL }
 };
+
 
 
 static ui_settings_tree_node_t no_io_extensions[] = {
@@ -387,12 +428,17 @@ static GtkWidget *create_treeview(void)
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
         case VICE_MACHINE_SCPU64:
-        case VICE_MACHINE_C128:
             io_nodes = c64_io_extensions;
             break;
+
+        case VICE_MACHINE_C128:
+            io_nodes = c128_io_extensions;
+            break;
+
         case VICE_MACHINE_VIC20:
             io_nodes = vic20_io_extensions;
             break;
+
         case VICE_MACHINE_C64DTV:
             io_nodes = NULL;
             break;

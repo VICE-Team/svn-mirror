@@ -30,6 +30,8 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
+ * FIXME; the enabling/disabling of the various memory hack widgets can be done
+ *        a little less hackish -- compyx
  */
 
 #include "vice.h"
@@ -73,6 +75,10 @@ static ui_radiogroup_entry_t plus_60k_base_addresses[] = {
 };
 
 
+/*
+ * References to widget that need to be enabled/disabled, depending on the 
+ * memory expansion hack selected
+ */
 static GtkWidget *c64_256k_base = NULL;
 static GtkWidget *c64_256k_image = NULL;
 static GtkWidget *plus_60k_base = NULL;
