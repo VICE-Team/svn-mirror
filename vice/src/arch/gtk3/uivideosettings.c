@@ -364,13 +364,36 @@ GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
 
     gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
-    gtk_grid_attach(GTK_GRID(grid),
-            create_layout(parent, chip, 0),
-            0, 0, 1, 1);
-    if (machine_class == VICE_MACHINE_C128) {
+    if (machine_class != VICE_MACHINE_C128) {
         gtk_grid_attach(GTK_GRID(grid),
-                create_layout(parent, "VDC", 1),
-                0, 1, 1, 1);
+                create_layout(parent, chip, 0),
+                0, 0, 1, 1);
+    } else {
+        /* pack VIC-II and VDC widgets into a stack with switcher to avoid
+         * making the widget too large */
+
+        GtkWidget *stack;
+        GtkWidget *switcher;
+
+        stack = gtk_stack_new();
+        gtk_stack_set_transition_type(GTK_STACK(stack),
+                GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
+        gtk_stack_set_transition_duration(GTK_STACK(stack), 1000);
+
+        gtk_stack_add_titled(GTK_STACK(stack), create_layout(parent, chip, 0),
+                "VIC-II", "VIC-II");
+        gtk_stack_add_titled(GTK_STACK(stack), create_layout(parent, "VDC", 1),
+                "VDC", "VDC");
+
+        switcher = gtk_stack_switcher_new();
+        gtk_orientable_set_orientation(GTK_ORIENTABLE(switcher),
+                GTK_ORIENTATION_HORIZONTAL);
+        gtk_widget_set_halign(switcher, GTK_ALIGN_CENTER);
+        gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher),
+                GTK_STACK(stack));
+
+        gtk_grid_attach(GTK_GRID(grid), switcher, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
     }
 
 
