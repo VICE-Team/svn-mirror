@@ -126,6 +126,9 @@ enum {
 /** \brief  List of C64 I/O extensions (x64, x64sc, xscpu64, x128)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
+ *
+ * TODO: x128 needs its own separate list of extensions, and perhaps xscpu64
+ *       as well -- compyx
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
@@ -157,15 +160,11 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Magic Voice",                NULL, NULL },
     { "MIDI emulation",             NULL, NULL },
     { "SFX Sound Expander",         NULL, NULL },
-    { "SFX Sound Sampler",          NULL, NULL },   /* checkmark in Gtk2 */
-    { "CP/M Cartridge",             NULL, NULL },   /* checkmark in Gtk2 */
 
     { "DS12C887 Real Time Clock",   NULL, NULL },
     { "Userport devices",           NULL, NULL },
     { "Tape port devices",          NULL, NULL },
 
-    { "I/O collision handling ($d800-$d8ff)", NULL, NULL },
-    { "Reset on cart change",       NULL, NULL },   /* checkmark in Gtk2 */
     { NULL, NULL, NULL }
 };
 
@@ -177,8 +176,6 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Mega Cart",                  NULL, NULL },
     { "SID Cartridge",              NULL, NULL },
-    { "I/O RAM",                    NULL, NULL },
-    { "VFLI modification",          NULL, NULL },   /* checkmark in Gtk2 */
 
     { "DigiMAX (MasC=uerade",       NULL, NULL },
     { "DS12C887 Real Time Clock (MasC=uerade)", NULL, NULL },
@@ -190,7 +187,10 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Ethernet Cartridge (MasC=uerade)", ethernet_cart_widget_create, NULL },
 #endif
 
-    /* XXX: much more to come here */
+    { "MIDI emulation",             NULL, NULL },
+    { "Userport devices",           NULL, NULL },
+    { "Tapeport devices",           NULL, NULL },
+
     { NULL, NULL, NULL }
 };
 
@@ -234,11 +234,13 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "RAM reset pattern", create_ram_reset_central_widget, NULL },
     { "Miscellaneous", uimisc_create_central_widget, NULL },
     { "Video settings", uivideosettings_widget_create, NULL },
-    /* TODO: only enable this item when a SID is supported or can be supported
-     *       through an I/O extension
-     */
     { "SID settings", uisoundchipsettings_widget_create, NULL },
-    { "I/O extensions", ioextensions_widget_create, c64_io_extensions },  /* C64 only for now */
+
+    /* the `c64_io_extensions` is a placeholder: it will get replaced by the
+     * proper per-machine list. Unfortunately with a fixed index into this list
+     * until I refactor the tree model code into something more flexible
+     * -- compyx*/
+    { "I/O extensions", ioextensions_widget_create, c64_io_extensions },
     { NULL, NULL, NULL }
 };
 

@@ -30,4 +30,7 @@
 
 GtkWidget *rrnetmk3_widget_create(GtkWidget *parent);
 
+void rrnetmk3_widget_set_save_func(int (*func)(int, const char *));
+void rrnetmk3_widget_set_flush_func(int (*func)(int));
+
 #endif
