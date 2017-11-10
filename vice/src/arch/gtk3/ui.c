@@ -92,7 +92,7 @@
 enum {
     PRIMARY_WINDOW,     /**< primary window, all emulators */
     SECONDARY_WINDOW,   /**< secondary window, C128's VDC */
-    MONITOR_WINDOW,     /**< optional monitor window/terminal */
+    MONITOR_WINDOW      /**< optional monitor window/terminal */
 };
 
 
@@ -648,6 +648,10 @@ static int is_paused = 0;
  */
 static int html_browser_command_set = 0;
 
+/** \brief  Index of the most recently focused main window
+ */
+static int active_win_index = -1;
+
 /** \brief  Flag indicating whether we're supposed to be in fullscreen
  */
 static int is_fullscreen = 0;
@@ -759,17 +763,44 @@ static void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
     ui_exit();
 }
 
+
+/** \brief  Get a window's index
+ *
+ * \param[in]   widget      window to get the index of
+ *
+ * \return  window index, or -1 if not a main window
+*/
+static int ui_get_window_index(GtkWidget *widget)
+{
+    if (widget == NULL) {
+        return -1;
+    } else if (widget == ui_resources.window_widget[PRIMARY_WINDOW]) {
+        return PRIMARY_WINDOW;
+    } else if (widget == ui_resources.window_widget[SECONDARY_WINDOW]) {
+        return SECONDARY_WINDOW;
+    } else {
+        return -1;
+    }
+}
+
+
 /** \brief Show or hide the window decorations as needed
  */
-
 static void ui_update_fullscreen_decorations(void)
 {
-    /* TODO: This needs to handle any window that is triggered */
-    int has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
-    GtkWidget *window = ui_resources.window_widget[PRIMARY_WINDOW];
-    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(window));
-    GtkWidget *menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    GtkWidget *status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+    GtkWidget *window, *grid, *menu_bar, *status_bar;
+    int has_decorations;
+
+    if (active_win_index < 0) {
+        return;
+    }
+
+    has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
+    window = ui_resources.window_widget[active_win_index];
+    grid = gtk_bin_get_child(GTK_BIN(window));
+    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
+    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+
     if (has_decorations) {
         gtk_widget_show(menu_bar);
         gtk_widget_show(status_bar);
@@ -778,6 +809,49 @@ static void ui_update_fullscreen_decorations(void)
         gtk_widget_hide(status_bar);
     }
 }
+
+/** \brief  Handler for the "window-state-event" of a GtkWindow
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       window state details
+ * \param[in]   user_data   extra data for the event (unused)
+ *
+ * \return  `FALSE` to continue processing
+ */
+static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *event,
+                                      gpointer user_data)
+{
+    GdkWindowState win_state = event->new_window_state;
+    int index = ui_get_window_index(widget);
+
+    if (index < 0) {
+        /* XXX: We should never end up here. */
+        fprintf(stderr, "window-state-event: window not found\n");
+        return FALSE;
+    }
+
+    /* FIXME: Trying to track the currently-focused window from here doesn't
+              work very well, or at all on some systems; perhaps handling the
+              "focus-in-event” signal would work better? */
+    if (win_state & GDK_WINDOW_STATE_FOCUSED) {
+        active_win_index = index;
+    }
+
+    if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
+        if (!is_fullscreen) {
+            is_fullscreen = 1;
+            ui_update_fullscreen_decorations();
+        }
+    } else {
+        if (is_fullscreen) {
+            is_fullscreen = 0;
+            ui_update_fullscreen_decorations();
+        }
+    }
+
+    return FALSE;
+}
+
 
 /** \brief Returns if we're in fullscreen mode. */
 int ui_is_fullscreen(void)
@@ -801,14 +875,21 @@ void ui_trigger_resize(void)
 /** \brief Callback for the "fullscreen" action */
 static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 {
-    /* TODO: We need to know which window asked for this. */
-    GtkWindow *window = GTK_WINDOW(ui_resources.window_widget[PRIMARY_WINDOW]);
+    GtkWindow *window;
+
+    if (active_win_index < 0) {
+        return;
+    }
+
+    window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
     is_fullscreen = !is_fullscreen;
+
     if (is_fullscreen) {
         gtk_window_fullscreen(window);
     } else {
         gtk_window_unfullscreen(window);
     }
+
     ui_update_fullscreen_decorations();
 }
 
@@ -1105,10 +1186,12 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     gtk_widget_set_hexpand(new_drawing_area, TRUE);
     gtk_widget_set_vexpand(new_drawing_area, TRUE);
 
+    g_signal_connect(new_window, "window-state-event",
+                     G_CALLBACK(on_window_state_event), NULL);
     g_signal_connect(new_window, "delete-event",
-            G_CALLBACK(on_delete_event), NULL);
+                     G_CALLBACK(on_delete_event), NULL);
     g_signal_connect(new_window, "destroy",
-            G_CALLBACK(ui_window_destroy_callback), NULL);
+                     G_CALLBACK(ui_window_destroy_callback), NULL);
 
     /* We've defaulted to PRIMARY_WINDOW. C128, however, gets its VDC
      * window created first, so shunt this window to secondary status
