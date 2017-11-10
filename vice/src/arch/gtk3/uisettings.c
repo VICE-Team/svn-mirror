@@ -95,6 +95,7 @@
 #include "retroreplaywidget.h"
 #include "ethernetcartwidget.h"
 #include "rrnetmk3widget.h"
+#include "c128functionromwidget.h"
 
 #include "uisettings.h"
 
@@ -172,7 +173,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 /** \brief  I/O extensions for C128
  */
 static ui_settings_tree_node_t c128_io_extensions[] = {
-    { "Function ROM",               NULL, NULL },
+    { "Function ROM",               c128_function_rom_widget_create, NULL },
     { "GEO-RAM",                    georam_widget_create, NULL },
     { "RAM Expansion Module",       reu_widget_create, NULL },
     { "RamCart",                    ramcart_widget_create, NULL },
