@@ -164,7 +164,8 @@ GtkWidget *drive_model_widget_create(int unit)
         GtkWidget *radio = gtk_radio_button_new_with_label(group, list[i].name);
         gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
         g_object_set(radio, "margin-left", 16, NULL);
-
+        g_object_set_data(G_OBJECT(radio), "ModelID",
+                GINT_TO_POINTER(list[i].id));
         if (list[i].id == type) {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
         }

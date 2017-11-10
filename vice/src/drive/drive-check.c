@@ -49,7 +49,7 @@ static unsigned int drive_check_ieee(unsigned int type)
     return 0;
 }
 
-static unsigned int drive_check_iec(unsigned int type)
+int drive_check_iec(int type)
 {
     switch (type) {
         case DRIVE_TYPE_1540:

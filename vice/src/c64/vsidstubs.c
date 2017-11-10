@@ -163,6 +163,11 @@ int drive_check_rtc(int type)
     return 0;
 }
 
+int drive_check_iec(int type)
+{
+    return 0;
+}
+
 
 /*******************************************************************************
     Cartridge system
