@@ -3029,7 +3029,7 @@ fi
 dnl Check and setup native GTK3 compilation.
 if test x"$enable_native_gtk3ui" = "xyes"; then
 
-  PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.2])
+  PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.16])
   AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
   HAVE_CAIRO_SUPPORT="yes"
   PKG_CHECK_MODULES(GLIB, [glib-2.0])
@@ -3048,9 +3048,58 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
     echo "GTK3 on *nix (Experimental)"
   fi
 
-  dnl a check for hardware scaling needs to be added
-  dnl it needs to use AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
-  dnl and set HAVE_HWSCALE_SUPPORT="yes"
+  dnl Check for OpenGL 3.x.
+  dnl TODO: This should also check for GLEW on Windows and Linux and
+  dnl refuse to build without them. This will maximize the ability to
+  dnl run to the point of realizing it should fall back to Cairo
+  dnl instead.
+
+  AC_MSG_CHECKING(whether we can use the GL library)
+  old_LIBS="$LIBS"
+  LIBS="$LIBS -lGL"
+  AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
+#include <GL/gl.h>],
+              [glUniform4f(0,1,2,3,4);],
+              [AC_MSG_RESULT(yes);
+               have_opengl_lib=yes],
+              [AC_MSG_RESULT(no);
+               LIBS="$old_LIBS"])
+
+  if test x"$have_opengl_lib" != "xyes"; then
+    AC_MSG_CHECKING(whether we can use the opengl32 library...)
+    old_LIBS="$LIBS"
+    LIBS="$LIBS -lopengl32"
+    AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
+#include <GL/gl.h>],
+                [glUniform4f(0,1,2,3,4);],
+                [AC_MSG_RESULT(yes);
+                 have_opengl_lib=yes],
+                [AC_MSG_RESULT(no);
+                 LIBS="$old_LIBS"])
+  fi
+
+  if test x"$have_opengl_lib" != "xyes" -a x"$is_unix_macosx" = "xyes"; then
+    AC_MSG_CHECKING(whether we can use the OpenGL Framework)
+    old_LIBS="$LIBS"
+    LIBS="$LIBS -framework OpenGL"
+    AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
+#include <OpenGL/gl.h>],
+                [glUniform4f(0,1,2,3,4);],
+                [AC_MSG_RESULT(yes);
+                 have_opengl_lib=yes],
+                [AC_MSG_RESULT(no);
+                 LIBS="$old_LIBS"])
+  fi
+
+  dnl Note that even if HAVE_HWSCALE is "no", GTK3's base "Cairo"
+  dnl renderer can still do scaling, and even claims to do it in
+  dnl hardware. Our experimentation suggests that this is more
+  dnl aspirational than genuine, though...
+  AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
+  HAVE_HWSCALE_SUPPORT="yes"
+  if test x"$have_opengl_lib" = "xyes"; then
+    AC_DEFINE(HAVE_GTK3_OPENGL,,[Enable OpenGL support in GTK3 UI])
+  fi
 fi
 
 dnl ----- Sound Drivers -----
