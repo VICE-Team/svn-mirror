@@ -127,6 +127,10 @@ End 0 7 8
 Page_Down 0 2 8
 Page_Down 6 6 8
 
+# Restore key mapping
+Page_Up -3 0
+Prior -3 1
+
 ampersand 3 0 8
 apostrophe 6 2 8
 asciicircum 2 3 8
