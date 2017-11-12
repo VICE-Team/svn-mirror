@@ -218,7 +218,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Mega Cart",                  NULL, NULL },
     { "SID Cartridge",              NULL, NULL },
 
-    { "DigiMAX (MasC=uerade",       NULL, NULL },
+    { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
     { "DS12C887 Real Time Clock (MasC=uerade)", NULL, NULL },
     { "GEO-RAM (MasC=uerade)",      georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)", NULL, NULL },
