@@ -102,6 +102,11 @@ const char *file_chooser_pattern_compressed[] = {
 };
 
 
+/** \brief  Patterns for snapshot files
+ */
+const char *file_chooser_pattern_snapshot [] = { "*.vsf", NULL };
+
+
 /*
  * 'Stock' filters, for convenience
  */
@@ -139,6 +144,11 @@ const ui_file_filter_t file_chooser_filter_archive = {
 const ui_file_filter_t file_chooser_filter_compressed = {
     "Compressed files",
     file_chooser_pattern_compressed
+};
+
+const ui_file_filter_t file_chooser_filter_snapshot = {
+    "Snapshot files",
+    file_chooser_pattern_snapshot
 };
 
 

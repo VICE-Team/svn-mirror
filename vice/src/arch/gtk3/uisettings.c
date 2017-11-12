@@ -195,9 +195,9 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "RR-Net Mk3",                 rrnetmk3_widget_create, NULL },
 #endif
 
-    { "IEEE-448 Interface",         NULL, NULL },
+    { "IEEE-448 Interface",         ieee488_widget_create, NULL },
 
-    { "DigiMAX",                    NULL, NULL },
+    { "DigiMAX",                    digimax_widget_create, NULL },
     { "Magic Voice",                NULL, NULL },
     { "MIDI emulation",             NULL, NULL },
     { "SFX Sound Expander",         NULL, NULL },

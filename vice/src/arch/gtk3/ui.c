@@ -66,6 +66,7 @@
 #include "jamdialog.h"
 #include "uicmdline.h"
 #include "uicompiletimefeatures.h"
+#include "uisnapshot.h"
 
 #include "ui.h"
 
@@ -443,10 +444,10 @@ static ui_menu_item_t edit_menu[] = {
  */
 static ui_menu_item_t snapshot_menu[] = {
     { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        uisnapshot_open_file, NULL,
         GDK_KEY_L, GDK_MOD1_MASK },
     { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        uisnapshot_save_file, NULL,
         GDK_KEY_S, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,

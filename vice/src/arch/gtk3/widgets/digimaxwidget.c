@@ -41,12 +41,43 @@
 #include "digimaxwidget.h"
 
 
+static void on_combo_changed(GtkWidget *widget, gpointer user_data)
+{
+    int value;
+    char *endptr;
+
+
+}
+
+
 GtkWidget *digimax_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *combo;
+    unsigned int base;
 
     grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
+    gtk_grid_attach(GTK_GRID(grid), resource_check_button_create("DIGIMAX",
+                "Enable DigiMax"), 0, 0, 1, 1);
+
+    combo = gtk_combo_box_text_new();
+    for (base = 0xde00; base < 0xe000; base += 0x20) {
+        char text[256];
+        char id_str[80];
+
+        g_snprintf(text, 256, "$%04X", base);
+        g_snprintf(id_str, 80, "%u", base);
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), id_str, text);
+    }
+    g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
+
+    label = gtk_label_new("DigiMAX base");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), combo, 1, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
