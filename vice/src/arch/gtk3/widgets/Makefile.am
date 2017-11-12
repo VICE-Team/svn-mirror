@@ -107,7 +107,8 @@ libwidgets_a_SOURCES = \
 	digimaxwidget.c \
 	magicvoicewidget.c \
 	midiwidget.c \
-	sfxsoundexpanderwidget.c
+	sfxsoundexpanderwidget.c \
+	ds12c887widget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -192,4 +193,5 @@ EXTRA_DIST = \
 	digimaxwidget.h \
 	magicvoicewidget.h \
 	midiwidget.h \
-	sfxsoundexpanderwigdet.h
+	sfxsoundexpanderwigdet.h \
+	ds12c887widget.h

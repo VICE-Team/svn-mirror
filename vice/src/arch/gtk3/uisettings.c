@@ -101,6 +101,7 @@
 #include "magicvoicewidget.h"
 #include "midiwidget.h"
 #include "sfxsoundexpanderwidget.h"
+#include "ds12c887widget.h"
 
 #include "uisettings.h"
 
@@ -166,7 +167,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
 
-    { "DS12C887 Real Time Clock",   NULL, NULL },
+    { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
     { "Userport devices",           NULL, NULL },
     { "Tape port devices",          NULL, NULL },
 
@@ -222,7 +223,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "SID Cartridge",              NULL, NULL },
 
     { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
-    { "DS12C887 Real Time Clock (MasC=uerade)", NULL, NULL },
+    { "DS12C887 Real Time Clock (MasC=uerade)", ds12c887_widget_create, NULL },
     { "GEO-RAM (MasC=uerade)",      georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)", NULL, NULL },
     { "SFX Sound Sampler (MasC=uerade)", NULL, NULL },
