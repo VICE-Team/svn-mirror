@@ -35,4 +35,6 @@ void ui_statusbar_shutdown(void);
 
 GtkWidget *ui_statusbar_create(void);
 
+void ui_display_statustext(const char *text, int fadeout);
+
 #endif

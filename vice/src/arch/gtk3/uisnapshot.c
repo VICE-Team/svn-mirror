@@ -4,8 +4,6 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -47,13 +45,46 @@
 #include "interrupt.h"
 #include "vsync.h"
 #include "snapshot.h"
+#include "uistatusbar.h"
 
 #include "uisnapshot.h"
 
-/* this function lives in ui.c */
+/* this function lives in ui.c, but I'd rather not #include "ui.c", causing a
+ * circular reference. There's a few more ui_*() functions used by files
+ * included through ui.c, so we're having a little design flaw here. -- compyx
+ */
 extern int ui_emulation_is_paused(void);
 
 
+/*****************************************************************************
+ *                              Helper functions                             *
+ ****************************************************************************/
+
+
+/** \brief  Construct filename for quickload/quicksave snapshots
+ *
+ * \return  filename for the quickload/save file, heap-allocated by VICE, so
+ *          free after use with lib_free()
+ */
+static char *quicksnap_filename(void)
+{
+    char *fname;
+    const char *mname;
+
+    /* FIXME: returns '$HOME/.vice/$filename', should return
+     *        '$HOME/.config/vice/$filename' as per XDG
+     */
+    mname = machine_class == VICE_MACHINE_C64SC ? "c64sc" : machine_name;
+    fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
+            mname, ".vsf", NULL);
+    return fname;
+}
+
+
+/** \brief  Show dialog to save a snapshot
+ *
+ * \param[in]   parent  parent widget
+ */
 static void save_snapshot_dialog(GtkWidget *parent)
 {
     GtkWidget *dialog;
@@ -98,14 +129,19 @@ static void save_snapshot_dialog(GtkWidget *parent)
 
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gchar *filename;
+        char buffer[1024];
 
         filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         if (filename != NULL) {
             if (machine_write_snapshot(filename, save_roms, save_disks, 0) < 0) {
                 snapshot_display_error();
+                g_snprintf(buffer, 1024, "Failed to save snapshot '%s'",
+                        filename);
             } else {
                 debug_gtk3("Wrote snapshot file '%s'\n", filename);
+                g_snprintf(buffer, 1024, "Saved snapshot '%s'", filename);
             }
+            ui_display_statustext(buffer, TRUE);
             g_free(filename);
         }
     }
@@ -113,10 +149,21 @@ static void save_snapshot_dialog(GtkWidget *parent)
 }
 
 
+/*****************************************************************************
+ *                              CPU trap handlers                            *
+ ****************************************************************************/
+
+
+/** \brief  CPU trap handler for the load snapshot dialog
+ *
+ * \param[in]   addr    memory address (unused)
+ * \param[in]   data    parent widget for the dialog
+ */
 static void load_snapshot_trap(uint16_t addr, void *data)
 {
-    const char *filters[] = { ".vsf", NULL };
+    const char *filters[] = { "*.vsf", NULL };
     gchar *filename;
+    gchar buffer[1024];
 
     vsync_suspend_speed_eval();
 
@@ -126,17 +173,75 @@ static void load_snapshot_trap(uint16_t addr, void *data)
         /* load snapshot */
         if (machine_read_snapshot(filename, 0) < 0) {
             snapshot_display_error();
+            g_snprintf(buffer, 1024, "Failed to load snapshot '%s'", filename);
+        } else {
+            g_snprintf(buffer, 1024, "Loaded snapshot '%s'", filename);
         }
+        ui_display_statustext(buffer, TRUE);
         g_free(filename);
     }
 }
 
 
+/** \brief  CPU trap handler to trigger the Save dialog
+ *
+ * \param[in]   addr    memory address (unused)
+ * \param[in]   data    patent widget for the dialog
+ */
 static void save_snapshot_trap(uint16_t addr, void *data)
 {
     vsync_suspend_speed_eval();
     save_snapshot_dialog(data);
 }
+
+
+/** \brief  CPU trap handler for the QuickLoad snapshot menu item
+ *
+ * \param[in]   addr    memory address (unused)
+ * \param[in]   data    quickload snapshot filename
+ */
+static void quickload_snapshot_trap(uint16_t addr, void *data)
+{
+    char *filename = (char *)data;
+
+    vsync_suspend_speed_eval();
+
+    debug_gtk3("Quickloading file '%s'\n", filename);
+    if (machine_read_snapshot(filename, 0) < 0) {
+        snapshot_display_error();
+        ui_display_statustext("Failed to Quickload snapshot", TRUE);
+    } else {
+        ui_display_statustext("Quickloaded snapshot", TRUE);
+    }
+    lib_free(filename);
+}
+
+
+/** \brief  CPU trap handler for the QuickSave snapshot menu item
+ *
+ * \param[in]   addr    memory address (unused)
+ * \param[in]   data    quicksave snapshot filename
+ */
+static void quicksave_snapshot_trap(uint16_t addr, void *data)
+{
+    char *filename = (char *)data;
+
+    vsync_suspend_speed_eval();
+
+    debug_gtk3("Quicksaving file '%s'\n", filename);
+    if (machine_write_snapshot(filename, TRUE, TRUE, 0) < 0) {
+        snapshot_display_error();
+        ui_display_statustext("Failed to Quicksave snapshot", TRUE);
+    } else {
+        ui_display_statustext("Quicksaved snapshot", TRUE);
+    }
+    lib_free(filename);
+}
+
+
+/*****************************************************************************
+ *                              Public functions                             *
+ ****************************************************************************/
 
 
 /** \brief  Display UI to load a snapshot file
@@ -168,55 +273,12 @@ void uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
     }
 }
 
-static void quickload_snapshot_trap(uint16_t addr, void *data)
-{
-    char *filename = (char *)data;
 
-    vsync_suspend_speed_eval();
-
-    debug_gtk3("Quickloading file '%s'\n", filename);
-    if (machine_read_snapshot(filename, 0) < 0) {
-        snapshot_display_error();
-    }
-    lib_free(filename);
-}
-
-
-
-static void quicksave_snapshot_trap(uint16_t addr, void *data)
-{
-    char *filename = (char *)data;
-
-    vsync_suspend_speed_eval();
-
-    debug_gtk3("Quicksaving file '%s'\n", filename);
-    if (machine_write_snapshot(filename, TRUE, TRUE, 0) < 0) {
-        snapshot_display_error();
-    }
-    lib_free(filename);
-}
-
-
-/** \brief  Construct filename for quickload/quicksave snapshots
+/** \brief  Gtk event handler for the QuickLoad menu item
  *
- * \return  filename for the quickload/save file, heap-allocated by VICE, so
- *          free after use with lib_free()
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
  */
-static char *quicksnap_filename(void)
-{
-    char *fname;
-    const char *mname;
-
-    /* FIXME: returns '$HOME/.vice/$filename', should return
-     *        '$HOME/.config/vice/$filename' as per XDG
-     */
-    mname = machine_class == VICE_MACHINE_C64SC ? "c64sc" : machine_name;
-    fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
-            mname, ".vsf", NULL);
-    return fname;
-}
-
-
 void uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
 {
     char *fname = quicksnap_filename();
@@ -224,6 +286,12 @@ void uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
     interrupt_maincpu_trigger_trap(quickload_snapshot_trap, (void *)fname);
 }
 
+
+/** \brief  Gtk event handler for the QuickSave menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
 void uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
 {
     char *fname = quicksnap_filename();
