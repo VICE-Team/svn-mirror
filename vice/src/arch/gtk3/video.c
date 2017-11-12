@@ -47,10 +47,12 @@
 #include "cairo_renderer.h"
 #include "opengl_renderer.h"
 
-/* To test the OpenGL renderer, change the assigned value here to &vice_opengl_backend */
-/* WARNING: OpenGL backend isn't ready for prime-time yet */
 /* TODO: Make the rendering process transparent enough that this can be selected and altered as-needed */
+#ifdef HAVE_GTK3_OPENGL
+vice_renderer_backend_t *vice_renderer_backend = &vice_opengl_backend;
+#else
 vice_renderer_backend_t *vice_renderer_backend = &vice_cairo_backend;
+#endif
 
 #define VICE_DEBUG_NATIVE_GTK3
 

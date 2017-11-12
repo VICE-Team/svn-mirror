@@ -181,22 +181,9 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glVertexAttribPointer(ctx->position_index, 4, GL_FLOAT, GL_FALSE, 0, 0);
         glVertexAttribPointer(ctx->tex_coord_index, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
 
-        /* TODO: This code does not belong here. Code like this
-         * belongs in update_context and simpler code involving
-         * glTexSubImage2D belongs in refresh_rect. */
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ctx->width, ctx->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
         glBindTexture(GL_TEXTURE_2D, 0);
         
         glDisableVertexAttribArray(ctx->position_index);
@@ -311,6 +298,23 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         ctx->width = width;
         ctx->height = height;
         ctx->backbuffer = lib_malloc(width * height * 4);
+        gtk_gl_area_make_current(GTK_GL_AREA(canvas->drawing_area));
+        glActiveTexture(GL_TEXTURE0);
+        if (ctx->texture == 0) {
+            fprintf(stderr, "CRITICAL: We have tried to update the textures before we were realized");
+        }
+        glBindTexture(GL_TEXTURE_2D, ctx->texture);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ctx->width, ctx->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        /* These should be selectable as GL_LINEAR or GL_NEAREST */
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glBindTexture(GL_TEXTURE_2D, 0);
+
         resources_get_int("KeepAspectRatio", &keepaspect);
         resources_get_int("TrueAspectRatio", &trueaspect);
         if (keepaspect && trueaspect) {
@@ -337,6 +341,13 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
         return;
     }
     video_canvas_render(canvas, ctx->backbuffer, w, h, xs, ys, xi, yi, ctx->width * 4, 32);
+    
+    gtk_gl_area_make_current(GTK_GL_AREA(canvas->drawing_area));
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, ctx->texture);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, ctx->width);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, xi, yi, w, h, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer + 4 * (ctx->width * yi + xi));
     gtk_widget_queue_draw(canvas->drawing_area);    
 }
 
