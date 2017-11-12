@@ -105,7 +105,8 @@ libwidgets_a_SOURCES = \
 	c128functionromwidget.c \
 	ieee488widget.c \
 	digimaxwidget.c \
-	magicvoicewidget.c
+	magicvoicewidget.c \
+	midiwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -188,4 +189,5 @@ EXTRA_DIST = \
 	c128functionromwidget.h \
 	ieee488widget.h \
 	digimaxwidget.h \
-	magicvoicewidget.h
+	magicvoicewidget.h \
+	midiwidget.h

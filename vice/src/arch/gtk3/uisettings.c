@@ -99,6 +99,7 @@
 #include "ieee488widget.h"
 #include "digimaxwidget.h"
 #include "magicvoicewidget.h"
+#include "midiwidget.h"
 
 #include "uisettings.h"
 
@@ -161,7 +162,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 
     { "DigiMAX",                    digimax_widget_create, NULL },
     { "Magic Voice",                magic_voice_widget_create, NULL },
-    { "MIDI emulation",             NULL, NULL },
+    { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         NULL, NULL },
 
     { "DS12C887 Real Time Clock",   NULL, NULL },
@@ -200,7 +201,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
 
     { "DigiMAX",                    digimax_widget_create, NULL },
     { "Magic Voice",                magic_voice_widget_create, NULL },
-    { "MIDI emulation",             NULL, NULL },
+    { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         NULL, NULL },
 
     { "DS12C887 Real Time Clock",   NULL, NULL },
@@ -229,7 +230,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Ethernet Cartridge (MasC=uerade)", ethernet_cart_widget_create, NULL },
 #endif
 
-    { "MIDI emulation",             NULL, NULL },
+    { "MIDI emulation",             midi_widget_create, NULL },
     { "Userport devices",           NULL, NULL },
     { "Tapeport devices",           NULL, NULL },
 
