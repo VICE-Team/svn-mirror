@@ -453,10 +453,13 @@ static ui_menu_item_t snapshot_menu[] = {
     UI_MENU_SEPARATOR,
 
     { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        GDK_KEY_F10, GDK_MOD1_MASK },
+        uisnapshot_quickload_snapshot, NULL,
+        GDK_KEY_F10, GDK_MOD1_MASK },   /* Shortcut doesn't work in MATE, key
+                                           is mapped to Maximize Window. Using
+                                           the menu to active this item does
+                                           work though -- compyx */
     { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        uisnapshot_quicksave_snapshot, NULL,
         GDK_KEY_F11, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,

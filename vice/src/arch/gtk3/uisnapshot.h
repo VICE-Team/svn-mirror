@@ -34,4 +34,7 @@
 void uisnapshot_open_file(GtkWidget *parent, gpointer user_data);
 void uisnapshot_save_file(GtkWidget *parent, gpointer user_data);
 
+void uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data);
+void uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data);
+
 #endif

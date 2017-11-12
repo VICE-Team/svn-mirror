@@ -33,6 +33,8 @@
 #include <stdlib.h>
 
 #include "lib.h"
+#include "util.h"
+#include "archdep.h"
 #include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
@@ -136,6 +138,12 @@ static void save_snapshot_trap(uint16_t addr, void *data)
     save_snapshot_dialog(data);
 }
 
+
+/** \brief  Display UI to load a snapshot file
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
 void uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
 {
     if (!ui_emulation_is_paused()) {
@@ -146,6 +154,11 @@ void uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
 }
 
 
+/** \brief  Display UI to save a snapshot file
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
 void uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
 {
     if (!ui_emulation_is_paused()) {
@@ -155,4 +168,65 @@ void uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
     }
 }
 
+static void quickload_snapshot_trap(uint16_t addr, void *data)
+{
+    char *filename = (char *)data;
 
+    vsync_suspend_speed_eval();
+
+    debug_gtk3("Quickloading file '%s'\n", filename);
+    if (machine_read_snapshot(filename, 0) < 0) {
+        snapshot_display_error();
+    }
+    lib_free(filename);
+}
+
+
+
+static void quicksave_snapshot_trap(uint16_t addr, void *data)
+{
+    char *filename = (char *)data;
+
+    vsync_suspend_speed_eval();
+
+    debug_gtk3("Quicksaving file '%s'\n", filename);
+    if (machine_write_snapshot(filename, TRUE, TRUE, 0) < 0) {
+        snapshot_display_error();
+    }
+    lib_free(filename);
+}
+
+
+/** \brief  Construct filename for quickload/quicksave snapshots
+ *
+ * \return  filename for the quickload/save file, heap-allocated by VICE, so
+ *          free after use with lib_free()
+ */
+static char *quicksnap_filename(void)
+{
+    char *fname;
+    const char *mname;
+
+    /* FIXME: returns '$HOME/.vice/$filename', should return
+     *        '$HOME/.config/vice/$filename' as per XDG
+     */
+    mname = machine_class == VICE_MACHINE_C64SC ? "c64sc" : machine_name;
+    fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
+            mname, ".vsf", NULL);
+    return fname;
+}
+
+
+void uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data)
+{
+    char *fname = quicksnap_filename();
+
+    interrupt_maincpu_trigger_trap(quickload_snapshot_trap, (void *)fname);
+}
+
+void uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
+{
+    char *fname = quicksnap_filename();
+
+    interrupt_maincpu_trigger_trap(quicksave_snapshot_trap, (void *)fname);
+}
