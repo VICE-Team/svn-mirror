@@ -274,8 +274,3 @@ vice_renderer_backend_t vice_cairo_backend = {
     vice_cairo_refresh_rect,
     vice_cairo_set_palette
 };
-
-/* TODO: Once there is a choice of backends, move this declaration
- *       somewhere else and have it initialized based on backend
- *       selection */
-vice_renderer_backend_t *vice_renderer_backend = &vice_cairo_backend;

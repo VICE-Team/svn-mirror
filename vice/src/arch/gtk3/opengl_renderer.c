@@ -390,9 +390,4 @@ vice_renderer_backend_t vice_opengl_backend = {
     vice_opengl_set_palette
 };
 
-/* Not yet */
-/*
-vice_renderer_backend_t *vice_renderer_backend = &vice_opengl_backend;
-*/
-
 #endif
