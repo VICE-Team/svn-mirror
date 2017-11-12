@@ -368,7 +368,8 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_REG_PC
-uint16_t reg_pc;
+/* FIXME: this should really be uint16_t, but it breaks things (eg trap17.prg) */
+unsigned int reg_pc;
 #endif
 
 static uint8_t **o_bank_base;
@@ -394,7 +395,8 @@ void maincpu_mainloop(void)
     uint8_t flag_n = 0;
     uint8_t flag_z = 0;
 #ifndef NEED_REG_PC
-    uint16_t reg_pc;
+    /* FIXME: this should really be uint16_t, but it breaks things (eg trap17.prg) */
+    unsigned int reg_pc;
 #endif
     uint8_t *bank_base;
     int bank_start = 0;
