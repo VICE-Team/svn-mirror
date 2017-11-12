@@ -43,8 +43,9 @@
 
 typedef struct vice_opengl_renderer_context_s {
     GLuint program, position_index, tex_coord_index;
-    GLuint vbo, vao;
+    GLuint vbo, vao, texture;
     unsigned int width, height;
+    unsigned char *backbuffer;
 } context_t;
 
 static float vertexData[] = {
@@ -72,12 +73,8 @@ static const char *fragmentShader = "#version 150\n"
     "uniform sampler2D sampler;\n"
     "smooth in vec2 texCoord;\n"
     "out vec4 outputColor;\n"
-    "void main() {outputColor.rg = texCoord.xy;outputColor.b = 0;}\n";
-/*
-    The above shader just draws a gradient. Using the sampler will use this:
-
     "void main() { outputColor = texture2D(sampler, texCoord); }\n";
-*/
+
 
 static GLuint create_shader(GLenum shader_type, const char *text)
 {
@@ -159,20 +156,7 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glGenVertexArrays(1, &ctx->vao);
-    /*
-            glActiveTexture(GL_TEXTURE0);
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glBindTexture(GL_TEXTURE_2D, 0);
-    */
+    glGenTextures(1, &ctx->texture);
 }
 
 static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointer data)
@@ -196,12 +180,25 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(ctx->position_index, 4, GL_FLOAT, GL_FALSE, 0, 0);
         glVertexAttribPointer(ctx->tex_coord_index, 2, GL_FLOAT, GL_FALSE, 0, (void*)64);
-        /* TODO
-        glBindTexture(GL_TEXTURE_2D, texture);
-        */
+
+        /* TODO: This code does not belong here. Code like this
+         * belongs in update_context and simpler code involving
+         * glTexSubImage2D belongs in refresh_rect. */
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, ctx->texture);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ctx->width, ctx->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
+        glBindTexture(GL_TEXTURE_2D, 0);
+        
         glDisableVertexAttribArray(ctx->position_index);
         glDisableVertexAttribArray(ctx->tex_coord_index);
         glUseProgram(0);
@@ -305,8 +302,15 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         double aspect = 1.0;
         int keepaspect = 1, trueaspect = 0;
         gint widget_width, widget_height;
+        if (ctx->width == width && ctx->height == height) {
+            return;
+        }
+        if (ctx->backbuffer) {
+            lib_free(ctx->backbuffer);
+        }
         ctx->width = width;
         ctx->height = height;
+        ctx->backbuffer = lib_malloc(width * height * 4);
         resources_get_int("KeepAspectRatio", &keepaspect);
         resources_get_int("TrueAspectRatio", &trueaspect);
         if (keepaspect && trueaspect) {
@@ -328,7 +332,11 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
                                      unsigned int xi, unsigned int yi,
                                      unsigned int w, unsigned int h)
 {
-    /* INCOMPLETE */
+    context_t *ctx = (context_t *)canvas->renderer_context;
+    if (!ctx || !ctx->backbuffer) {
+        return;
+    }
+    video_canvas_render(canvas, ctx->backbuffer, w, h, xs, ys, xi, yi, ctx->width * 4, 32);
     gtk_widget_queue_draw(canvas->drawing_area);    
 }
 
