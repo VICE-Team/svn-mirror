@@ -31,7 +31,7 @@
 
 #define GL_GLEXT_PROTOTYPES
 #ifdef MACOSX_SUPPORT
-#include <OpenGL/gl.h>
+#include <OpenGL/gl3.h>
 #else
 #include <GL/gl.h>
 #endif
@@ -139,9 +139,12 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
     context_t *ctx = NULL;
+    GError *err = NULL;
     
     gtk_gl_area_make_current(area);
-    if (gtk_gl_area_get_error(area) != NULL) {
+    err = gtk_gl_area_get_error(area);
+    if (err != NULL) {
+        fprintf(stderr, "CRITICAL: Could not realize GL context: %s\n", err->message);
         return;
     }
     if (canvas->renderer_context) {
@@ -308,8 +311,8 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, ctx->width, ctx->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         /* These should be selectable as GL_LINEAR or GL_NEAREST */
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
