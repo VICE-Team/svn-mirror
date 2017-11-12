@@ -100,6 +100,7 @@
 #include "digimaxwidget.h"
 #include "magicvoicewidget.h"
 #include "midiwidget.h"
+#include "sfxsoundexpanderwidget.h"
 
 #include "uisettings.h"
 
@@ -163,7 +164,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "DigiMAX",                    digimax_widget_create, NULL },
     { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             midi_widget_create, NULL },
-    { "SFX Sound Expander",         NULL, NULL },
+    { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
 
     { "DS12C887 Real Time Clock",   NULL, NULL },
     { "Userport devices",           NULL, NULL },
@@ -202,7 +203,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "DigiMAX",                    digimax_widget_create, NULL },
     { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             midi_widget_create, NULL },
-    { "SFX Sound Expander",         NULL, NULL },
+    { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
 
     { "DS12C887 Real Time Clock",   NULL, NULL },
     { "Userport devices",           NULL, NULL },

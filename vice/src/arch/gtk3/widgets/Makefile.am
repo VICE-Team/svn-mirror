@@ -106,7 +106,8 @@ libwidgets_a_SOURCES = \
 	ieee488widget.c \
 	digimaxwidget.c \
 	magicvoicewidget.c \
-	midiwidget.c
+	midiwidget.c \
+	sfxsoundexpanderwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -190,4 +191,5 @@ EXTRA_DIST = \
 	ieee488widget.h \
 	digimaxwidget.h \
 	magicvoicewidget.h \
-	midiwidget.h
+	midiwidget.h \
+	sfxsoundexpanderwigdet.h
