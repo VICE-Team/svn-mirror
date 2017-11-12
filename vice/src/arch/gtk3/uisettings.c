@@ -98,6 +98,7 @@
 #include "c128functionromwidget.h"
 #include "ieee488widget.h"
 #include "digimaxwidget.h"
+#include "magicvoicewidget.h"
 
 #include "uisettings.h"
 
@@ -159,7 +160,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "IEEE-448 Interface",         ieee488_widget_create, NULL },
 
     { "DigiMAX",                    digimax_widget_create, NULL },
-    { "Magic Voice",                NULL, NULL },
+    { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             NULL, NULL },
     { "SFX Sound Expander",         NULL, NULL },
 
@@ -198,7 +199,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "IEEE-448 Interface",         ieee488_widget_create, NULL },
 
     { "DigiMAX",                    digimax_widget_create, NULL },
-    { "Magic Voice",                NULL, NULL },
+    { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             NULL, NULL },
     { "SFX Sound Expander",         NULL, NULL },
 
