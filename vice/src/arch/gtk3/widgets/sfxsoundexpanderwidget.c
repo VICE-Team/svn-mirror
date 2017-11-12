@@ -70,6 +70,7 @@ static void on_sfx_sound_expander_toggled(GtkWidget *widget, gpointer user_data)
 static GtkWidget *create_sfx_chip_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
@@ -98,7 +99,6 @@ static GtkWidget *create_sfx_chip_widget(void)
 GtkWidget *sfx_sound_expander_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *label;
     GtkWidget *sfx_enable;
 
     grid = gtk_grid_new();
