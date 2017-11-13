@@ -71,12 +71,9 @@ static char *quicksnap_filename(void)
     char *fname;
     const char *mname;
 
-    /* FIXME: returns '$HOME/.vice/$filename', should return
-     *        '$HOME/.config/vice/$filename' as per XDG
-     */
     mname = machine_class == VICE_MACHINE_C64SC ? "c64sc" : machine_name;
-    fname = util_concat(archdep_home_path(), "/", VICEUSERDIR, "/",
-            mname, ".vsf", NULL);
+    fname = util_concat(archdep_user_config_path(), "/", mname, ".vsf", NULL);
+    debug_gtk3("quicksnap_filename = %s\n", fname);
     return fname;
 }
 
