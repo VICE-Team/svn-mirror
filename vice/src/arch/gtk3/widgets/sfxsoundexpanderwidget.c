@@ -7,6 +7,7 @@
  * Controls the following resource(s):
  *  SFXSoundExpander
  *  SFXSoundExpanderChip
+ *  SFXSoundExpanderIOSwap (xvic)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -44,6 +45,8 @@
 #include "sfxsoundexpanderwidget.h"
 
 
+/** \brief  List of YM chip models
+ */
 static ui_radiogroup_entry_t chip_models[] = {
     { "3526", 3526 },
     { "3812", 3812 },
@@ -51,22 +54,34 @@ static ui_radiogroup_entry_t chip_models[] = {
 };
 
 
+/*
+ * Widget references to be able to enable/disable them depending on the SFX
+ * Sound Expander enabled toggle button
+ */
 static GtkWidget *chip_group = NULL;
+static GtkWidget *io_swap = NULL;
 
-/** \brief  Handler for the "toggled" event of the DIGIMAX check button
+
+/** \brief  Handler for the "toggled" event of the SFXSE check button
  *
  * \param[in]       widget      check button
- * \param[in,out]   user_data   DIGIMAXbase combo box
+ * \param[in,out]   user_data   unused
  */
 static void on_sfx_sound_expander_toggled(GtkWidget *widget, gpointer user_data)
 {
-    GtkWidget *group = GTK_WIDGET(user_data);
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
-    gtk_widget_set_sensitive(group,
-            gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+    gtk_widget_set_sensitive(chip_group, state);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        gtk_widget_set_sensitive(io_swap, state);
+    }
 }
 
 
+/** \brief  Create YM chip selection widget
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_sfx_chip_widget(void)
 {
     GtkWidget *grid;
@@ -109,7 +124,14 @@ GtkWidget *sfx_sound_expander_widget_create(GtkWidget *parent)
             "Enable SFX Sound Expander");
     gtk_grid_attach(GTK_GRID(grid), sfx_enable, 0, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_sfx_chip_widget(), 0, 1, 1,1);
+    gtk_grid_attach(GTK_GRID(grid), create_sfx_chip_widget(), 0, 1, 1, 1);
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        io_swap = resource_check_button_create("SFXSoundExpanderIOSwap",
+                "Enable MasC=uerade I/O swap");
+        g_object_set(io_swap, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), io_swap, 0, 2, 1, 1);
+    }
 
     g_signal_connect(sfx_enable, "toggled",
             G_CALLBACK(on_sfx_sound_expander_toggled), (gpointer)chip_group);

@@ -226,7 +226,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
     { "DS12C887 Real Time Clock (MasC=uerade)", ds12c887_widget_create, NULL },
     { "GEO-RAM (MasC=uerade)",      georam_widget_create, NULL },
-    { "SFX Sound Expander (MasC=uerade)", NULL, NULL },
+    { "SFX Sound Expander (MasC=uerade)", sfx_sound_expander_widget_create, NULL },
     { "SFX Sound Sampler (MasC=uerade)", NULL, NULL },
 
 #ifdef HAVE_RAWNET
