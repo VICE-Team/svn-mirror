@@ -102,6 +102,7 @@
 #include "midiwidget.h"
 #include "sfxsoundexpanderwidget.h"
 #include "ds12c887widget.h"
+#include "userportdeviceswidget.h"
 
 #include "uisettings.h"
 
@@ -130,7 +131,7 @@ enum {
 };
 
 
-/** \brief  List of C64 I/O extensions (x64, x64sc, xscpu64, x128)
+/** \brief  List of C64 I/O extensions (x64, x64sc, xscpu64)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
  *
@@ -168,7 +169,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
-    { "Userport devices",           NULL, NULL },
+    { "Userport devices",           userport_devices_widget_create, NULL },
     { "Tape port devices",          NULL, NULL },
 
     { NULL, NULL, NULL }
@@ -206,15 +207,15 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
 
-    { "DS12C887 Real Time Clock",   NULL, NULL },
-    { "Userport devices",           NULL, NULL },
+    { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
+    { "Userport devices",           userport_devices_widget_create, NULL },
     { "Tape port devices",          NULL, NULL },
 
     { NULL, NULL, NULL }
 };
 
 
-/** \brief  List of VIC-20 I/O extensions (x64, x64sc)
+/** \brief  List of VIC-20 I/O extensions
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
@@ -233,7 +234,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
 #endif
 
     { "MIDI emulation",             midi_widget_create, NULL },
-    { "Userport devices",           NULL, NULL },
+    { "Userport devices",           userport_devices_widget_create, NULL },
     { "Tapeport devices",           NULL, NULL },
 
     { NULL, NULL, NULL }
