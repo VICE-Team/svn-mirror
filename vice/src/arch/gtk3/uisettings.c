@@ -105,6 +105,7 @@
 #include "userportdeviceswidget.h"
 #include "tapeportdeviceswidget.h"
 #include "sidcartwidget.h"
+#include "v364speechwidget.h"
 
 #include "uisettings.h"
 
@@ -249,7 +250,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
     { "SID Cartridge",              sidcart_widget_create, NULL },
-    { "V364 Speech",                NULL, NULL },
+    { "V364 Speech",                v364_speech_widget_create, NULL },
 
     { "Userport devices",           userport_devices_widget_create, NULL },
     { "Tape port devices",          tapeport_devices_widget_create, NULL },

@@ -111,7 +111,8 @@ libwidgets_a_SOURCES = \
 	ds12c887widget.c \
 	userportdeviceswidget.c \
 	tapeportdeviceswidget.c \
-	sidcartwidget.c
+	sidcartwidget.c \
+	v364speechwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -200,4 +201,5 @@ EXTRA_DIST = \
 	ds12c887widget.h \
 	userportdeviceswidget.h \
 	tapeportdeviceswidget.h \
-	sidcartwidget.h
+	sidcartwidget.h \
+	v364speechwidget.h
