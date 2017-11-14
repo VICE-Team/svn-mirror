@@ -5,13 +5,13 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Datasette
- *  TapeLog
- *  TapeLogDestination
- *  CPClockF83
- *  CPClockF83Save
- *  TapeSenseDongle
- *  DTLBasicDongle
+ *  Datasette (all except vsid)
+ *  TapeLog (all except vsid)
+ *  TapeLogDestination (all except vsid)
+ *  CPClockF83 (all except vsid)
+ *  CPClockF83Save (all except vsid)
+ *  TapeSenseDongle (all except vsid)
+ *  DTLBasicDongle (all except vsid)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

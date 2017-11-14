@@ -104,6 +104,7 @@
 #include "ds12c887widget.h"
 #include "userportdeviceswidget.h"
 #include "tapeportdeviceswidget.h"
+#include "sidcartwidget.h"
 
 #include "uisettings.h"
 
@@ -222,7 +223,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
  */
 static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Mega Cart",                  NULL, NULL },
-    { "SID Cartridge",              NULL, NULL },
+    { "SID Cartridge",              sidcart_widget_create, NULL },
 
     { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
     { "DS12C887 Real Time Clock (MasC=uerade)", ds12c887_widget_create, NULL },
@@ -247,7 +248,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
-    { "SID Cartridge",              NULL, NULL },
+    { "SID Cartridge",              sidcart_widget_create, NULL },
     { "V364 Speech",                NULL, NULL },
 
     { "Userport devices",           userport_devices_widget_create, NULL },
@@ -265,7 +266,7 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET RAM and Expansion Unit", NULL, NULL },
     { "PET Colour graphics",        NULL, NULL },
     { "PET DWW hi-res graphics",    NULL, NULL },
-    { "SID Cartridge",              NULL, NULL },
+    { "SID Cartridge",              sidcart_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
     { "Tape port devices",          tapeport_devices_widget_create, NULL },
     { NULL, NULL, NULL }

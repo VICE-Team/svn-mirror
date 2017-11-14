@@ -10,7 +10,6 @@
  *  MIDIDriver (x64/x64sc/xscpu64/x128/xvic)
  *  MIDIInDev (x64/x64sc/xscpu64/x128/xvic)
  *  MIDIOutDev (x64/x64sc/xscpu64/x128/xvic)
-
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -212,6 +211,10 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
 
     row++;
 #endif
+
+    /* TODO: seems like Windows uses a combobox with a list of drivers, so this
+     *       code only works for Unix (and not OSX probably)
+     */
 
     label = gtk_label_new("MIDI In");
     g_object_set(label, "margin-left", 16, NULL);
