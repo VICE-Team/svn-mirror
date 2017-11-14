@@ -106,6 +106,7 @@
 #include "tapeportdeviceswidget.h"
 #include "sidcartwidget.h"
 #include "v364speechwidget.h"
+#include "sfxsoundsamplerwidget.h"
 
 #include "uisettings.h"
 
@@ -230,7 +231,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "DS12C887 Real Time Clock (MasC=uerade)", ds12c887_widget_create, NULL },
     { "GEO-RAM (MasC=uerade)",      georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)", sfx_sound_expander_widget_create, NULL },
-    { "SFX Sound Sampler (MasC=uerade)", NULL, NULL },
+    { "SFX Sound Sampler (MasC=uerade)", sfx_sound_sampler_widget_create, NULL },
 
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge (MasC=uerade)", ethernet_cart_widget_create, NULL },
