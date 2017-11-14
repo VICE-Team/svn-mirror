@@ -241,11 +241,64 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
 };
 
 
+/** \brief  List of Plus4 I/O extensions
+ *
+ * Every empty line indicates a separator in the Gtk2 UI's menu
+ */
+static ui_settings_tree_node_t plus4_io_extensions[] = {
+    { "SID Cartridge",              NULL, NULL },
+    { "V364 Speech",                NULL, NULL },
 
+    { "Userport devices",           userport_devices_widget_create, NULL },
+    { "Tape port devices",          NULL, NULL },
+
+    { NULL, NULL, NULL }
+};
+
+
+/** \brief  List of PET I/O extensions
+ *
+ * Every empty line indicates a separator in the Gtk2 UI's menu
+ */
+static ui_settings_tree_node_t pet_io_extensions[] = {
+    { "PET RAM and Expansion Unit", NULL, NULL },
+    { "PET Colour graphics",        NULL, NULL },
+    { "PET DWW hi-res graphics",    NULL, NULL },
+    { "SID Cartridge",              NULL, NULL },
+    { "Userport devices",           userport_devices_widget_create, NULL },
+    { "Tape port devices",          NULL, NULL },
+    { NULL, NULL, NULL }
+};
+
+
+/** \brief  List of CBM 5x0 I/O extensions
+ *
+ * Every empty line indicates a separator in the Gtk2 UI's menu
+ */
+static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
+    { "Tape port devices",          NULL, NULL },
+    { NULL, NULL, NULL }
+};
+
+
+/** \brief  List of CBM 6x0 I/O extensions
+ *
+ * Every empty line indicates a separator in the Gtk2 UI's menu
+ */
+static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
+    { "Userport devices",           userport_devices_widget_create, NULL },
+    { "Tape port devices",          NULL, NULL },
+    { NULL, NULL, NULL }
+};
+
+
+/** \brief  No I/O extensions (temporary)
+ */
 static ui_settings_tree_node_t no_io_extensions[] = {
     { "NOT IMPLEMENTED", NULL, NULL },
     { NULL, NULL, NULL }
 };
+
 
 
 /** \brief  Index in the main nodes of the I/O extension sub nodes
@@ -431,8 +484,8 @@ static GtkWidget *create_treeview(void)
 
     /* hack: set I/O extension sub-nodes */
     switch (machine_class) {
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
         case VICE_MACHINE_SCPU64:
             io_nodes = c64_io_extensions;
             break;
@@ -448,8 +501,26 @@ static GtkWidget *create_treeview(void)
         case VICE_MACHINE_C64DTV:
             io_nodes = NULL;
             break;
+
+        case VICE_MACHINE_PLUS4:
+            io_nodes = plus4_io_extensions;
+            break;
+
+        case VICE_MACHINE_PET:
+            io_nodes = pet_io_extensions;
+            break;
+
+        case VICE_MACHINE_CBM5x0:
+            io_nodes = cbm5x0_io_extensions;
+            break;
+
+        case VICE_MACHINE_CBM6x0:
+            io_nodes = cbm6x0_io_extensions;
+            break;
+
         default:
             io_nodes = no_io_extensions;
+            break;
     }
     main_nodes[IO_EXTENSIONS_INDEX].children = io_nodes;
 
