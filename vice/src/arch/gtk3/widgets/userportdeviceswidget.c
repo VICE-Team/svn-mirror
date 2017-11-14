@@ -4,6 +4,16 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  Userport4bitSampler (x64/x64sc/xscpu64/x128/xcbm2)
+ *  Userport8BSS (x64/x64sc/xscpu64/x128/xcbm2)
+ *  UserportDAC (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet/plus4)
+ *  UserportDIGIMAX (x64/x64sc/xscpu64/x128/xcbm2)
+ *  Userport58321a (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ *  Userport58321aSave (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ *  UserportDS1307 (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ *  UserportDS1307Save (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

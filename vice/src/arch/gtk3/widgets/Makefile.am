@@ -109,7 +109,8 @@ libwidgets_a_SOURCES = \
 	midiwidget.c \
 	sfxsoundexpanderwidget.c \
 	ds12c887widget.c \
-	userportdeviceswidget.c
+	userportdeviceswidget.c \
+	tapeportdeviceswidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -196,4 +197,5 @@ EXTRA_DIST = \
 	midiwidget.h \
 	sfxsoundexpanderwigdet.h \
 	ds12c887widget.h \
-	userportdeviceswidget.h
+	userportdeviceswidget.h \
+	tapeportdeviceswidget.h

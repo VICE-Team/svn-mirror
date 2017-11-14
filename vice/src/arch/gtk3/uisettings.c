@@ -103,6 +103,7 @@
 #include "sfxsoundexpanderwidget.h"
 #include "ds12c887widget.h"
 #include "userportdeviceswidget.h"
+#include "tapeportdeviceswidget.h"
 
 #include "uisettings.h"
 
@@ -170,7 +171,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          NULL, NULL },
+    { "Tape port devices",          tapeport_devices_widget_create, NULL },
 
     { NULL, NULL, NULL }
 };
@@ -209,7 +210,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          NULL, NULL },
+    { "Tape port devices",          tapeport_devices_widget_create, NULL },
 
     { NULL, NULL, NULL }
 };
@@ -235,7 +236,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
 
     { "MIDI emulation",             midi_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tapeport devices",           NULL, NULL },
+    { "Tapeport devices",           tapeport_devices_widget_create, NULL },
 
     { NULL, NULL, NULL }
 };
@@ -250,7 +251,7 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
     { "V364 Speech",                NULL, NULL },
 
     { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          NULL, NULL },
+    { "Tape port devices",          tapeport_devices_widget_create, NULL },
 
     { NULL, NULL, NULL }
 };
@@ -266,7 +267,7 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET DWW hi-res graphics",    NULL, NULL },
     { "SID Cartridge",              NULL, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          NULL, NULL },
+    { "Tape port devices",          tapeport_devices_widget_create, NULL },
     { NULL, NULL, NULL }
 };
 
@@ -276,7 +277,7 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
-    { "Tape port devices",          NULL, NULL },
+    { "Tape port devices",          tapeport_devices_widget_create, NULL },
     { NULL, NULL, NULL }
 };
 
@@ -287,7 +288,7 @@ static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
  */
 static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
     { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          NULL, NULL },
+    { "Tape port devices",          tapeport_devices_widget_create, NULL },
     { NULL, NULL, NULL }
 };
 
