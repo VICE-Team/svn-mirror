@@ -105,16 +105,21 @@ const char *archdep_home_path(void)
 }
 
 
-
+/** \brief  Get user configuration directory
+ *
+ * \return  heap-allocated string, free after use with lib_free()
+ */
 char *archdep_user_config_path(void)
 {
     char *path;
     gchar *tmp = g_build_path(path_separator, g_get_user_config_dir(),
             VICEUSERDIR, NULL);
+    /* transfer ownership of string from GLib to VICE */
     path = lib_stralloc(tmp);
     g_free(tmp);
     return path;
 }
+
 
 /** \brief  Determine if \a path is an absolute path
  *
