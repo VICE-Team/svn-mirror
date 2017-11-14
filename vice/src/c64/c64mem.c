@@ -604,6 +604,15 @@ static void plus60k_init_config(void)
                     if (mem_write_tab[k][i][j] == raml_no_ultimax_store) {
                         mem_write_tab[k][i][j] = plus60k_ram_store; /* possibly breaks mmc64 and expert */
                     }
+                    if (mem_write_tab[k][i][j] == romh_no_ultimax_store) {
+                        mem_write_tab[k][i][j] = plus60k_ram_store; /* possibly breaks mmc64 and expert */
+                    }
+                    if (mem_write_tab[k][i][j] == ramh_no_ultimax_store) {
+                        mem_write_tab[k][i][j] = plus60k_ram_store; /* possibly breaks mmc64 and expert */
+                    }
+                    if (mem_write_tab[k][i][j] == romh_store) {
+                        mem_write_tab[k][i][j] = plus60k_ram_store;
+                    }
                 }
                 if (mem_read_tab[i][j] == ram_read) {
                     mem_read_tab[i][j] = plus60k_ram_read;
