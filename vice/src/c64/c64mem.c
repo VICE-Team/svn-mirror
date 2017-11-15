@@ -490,13 +490,34 @@ uint8_t colorram_read(uint16_t addr)
 /* FIXME: make sure all cartridge related callbacks are hooked correctly */
 static int check_256k_ram_write(int k, int i, int j)
 {
-    if (mem_write_tab[k][i][j] == vicii_mem_vbank_39xx_store || mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store ||
-        mem_write_tab[k][i][j] == vicii_mem_vbank_store || mem_write_tab[k][i][j] == ram_hi_store || mem_write_tab[k][i][j] == ram_store ||
-        mem_write_tab[k][i][j] == raml_no_ultimax_store) { /* possibly breaks mmc64 and expert */
+    if (mem_write_tab[k][i][j] == vicii_mem_vbank_39xx_store) {
         return 1;
-    } else {
-        return 0;
     }
+    if (mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store) {
+        return 1;
+    }
+    if (mem_write_tab[k][i][j] == vicii_mem_vbank_store) {
+        return 1;
+    }
+    if (mem_write_tab[k][i][j] == ram_hi_store) {
+        return 1;
+    }
+    if (mem_write_tab[k][i][j] == ram_store) {
+        return 1;
+    }
+    if (mem_write_tab[k][i][j] == raml_no_ultimax_store) { /* possibly breaks mmc64 and expert */
+        return 1;
+    }
+    if (mem_write_tab[k][i][j] == romh_no_ultimax_store) { /* possibly breaks mmc64 and expert */
+        return 1;
+    }
+    if (mem_write_tab[k][i][j] == ramh_no_ultimax_store) { /* possibly breaks mmc64 and expert */
+        return 1;
+    }
+    if (mem_write_tab[k][i][j] == romh_store) {
+        return 1;
+    }
+    return 0;
 }
 
 static void c64_256k_init_config(void)

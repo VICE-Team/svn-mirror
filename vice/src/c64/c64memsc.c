@@ -480,11 +480,25 @@ uint8_t colorram_read(uint16_t addr)
 
 static int check_256k_ram_write(int i, int j)
 {
-    if (mem_write_tab[i][j] == ram_hi_store || mem_write_tab[i][j] == ram_store) {
+    if (mem_write_tab[i][j] == ram_hi_store) {
         return 1;
-    } else {
-        return 0;
     }
+    if (mem_write_tab[i][j] == ram_store) {
+        return 1;
+    }
+    if (mem_write_tab[i][j] == raml_no_ultimax_store) {
+        return 1;
+    }
+    if (mem_write_tab[i][j] == romh_no_ultimax_store) {
+        return 1;
+    }
+    if (mem_write_tab[i][j] == ramh_no_ultimax_store) {
+        return 1;
+    }
+    if (mem_write_tab[i][j] == romh_store) {
+        return 1;
+    }
+    return 0;
 }
 
 static void c64_256k_init_config(void)
