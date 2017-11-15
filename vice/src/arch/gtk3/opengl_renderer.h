@@ -27,6 +27,11 @@
 
 #include "videoarch.h"
 
+#ifdef MACOSX_SUPPORT
+/* XXX: GdkGLContext is not implemented for Macs */
+#undef HAVE_GTK3_OPENGL
+#endif
+
 #ifdef HAVE_GTK3_OPENGL
 extern vice_renderer_backend_t vice_opengl_backend;
 #endif
