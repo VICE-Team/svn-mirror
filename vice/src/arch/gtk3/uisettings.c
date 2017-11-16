@@ -107,6 +107,7 @@
 #include "sidcartwidget.h"
 #include "v364speechwidget.h"
 #include "sfxsoundsamplerwidget.h"
+#include "megacartwidget.h"
 
 #include "uisettings.h"
 
@@ -224,7 +225,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t vic20_io_extensions[] = {
-    { "Mega Cart",                  NULL, NULL },
+    { "Mega Cart",                  mega_cart_widget_create, NULL },
     { "SID Cartridge",              sidcart_widget_create, NULL },
 
     { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
