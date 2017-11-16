@@ -373,38 +373,75 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     return grid;
 }
 
+
+/** \brief  Creat PET layout
+ *
+ * Uses a GtkStack and GtkStackSwitcher to reduce vertical space
+ *
+ * \return  \a grid
+ */
 static GtkWidget *create_pet_layout(GtkWidget *grid)
 {
-    gtk_grid_attach(GTK_GRID(grid),
+    GtkWidget *stack;
+    GtkWidget *switcher;
+    GtkWidget *pet_grid;
+    GtkWidget *superpet_grid;
+
+    pet_grid = gtk_grid_new();
+
+    /* Generic PET settings */
+    gtk_grid_attach(GTK_GRID(pet_grid),
             machine_widget,
             0, 0, 1, 3);
 
-    gtk_grid_attach(GTK_GRID(grid),
+    gtk_grid_attach(GTK_GRID(pet_grid),
             pet_keyboard_type_widget_create(),
             1, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid),
+    gtk_grid_attach(GTK_GRID(pet_grid),
             pet_video_size_widget_create(),
             1, 1, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid),
+    gtk_grid_attach(GTK_GRID(pet_grid),
             pet_ram_size_widget_create(),
             2, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid),
+    gtk_grid_attach(GTK_GRID(pet_grid),
             pet_io_size_widget_create(),
             2, 1, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid),
+    gtk_grid_attach(GTK_GRID(pet_grid),
             pet_misc_widget_create(),
             1, 2, 2, 1);
 
     /* SuperPET widgets */
-    gtk_grid_attach(GTK_GRID(grid),
-            superpet_widget_create(),
-            0, 3, 3, 1);
+    superpet_grid = superpet_widget_create();
 
-    INCOMPLETE_IMPLEMENTATION();
+    stack = gtk_stack_new();
+
+    gtk_stack_add_titled(GTK_STACK(stack), pet_grid, "PET", "PET");
+    gtk_stack_add_titled(GTK_STACK(stack), superpet_grid, "SuperPET", "SuperPET");
+    gtk_stack_set_transition_type(GTK_STACK(stack),
+            GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
+    gtk_stack_set_transition_duration(GTK_STACK(stack), 1000);
+    gtk_stack_set_homogeneous(GTK_STACK(stack), TRUE);
+
+    switcher = gtk_stack_switcher_new();
+    gtk_stack_switcher_set_stack(GTK_STACK_SWITCHER(switcher), GTK_STACK(stack));
+    gtk_widget_set_halign(switcher, GTK_ALIGN_CENTER);
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(switcher),
+            GTK_ORIENTATION_HORIZONTAL);
+
+    gtk_widget_show_all(stack);
+    gtk_widget_show_all(switcher);
+
+    gtk_stack_set_visible_child_name(GTK_STACK(stack), "PET");
+    gtk_grid_attach(GTK_GRID(grid), switcher, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
+
+
+
+    gtk_widget_show_all(grid);
     return grid;
 }
 
@@ -623,5 +660,3 @@ GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
     gtk_widget_show_all(layout);
     return layout;
 }
-
-

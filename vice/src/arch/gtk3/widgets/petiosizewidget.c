@@ -33,32 +33,19 @@
 
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
+#include "basewidgets.h"
 #include "resources.h"
 
 #include "petiosizewidget.h"
 
 
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * Sets the IOSize resource when it has been changed.
- *
- * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   value for the resource (`int`)
+/** \brief  Available I/O sizes
  */
-static void on_io_size_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("IOSize", &old_val);
-    new_val = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
-            && (new_val != old_val)) {
-        debug_gtk3("setting IOSize to %d bytes\n", new_val);
-        resources_set_int("IOSize", new_val);
-    }
-}
+static ui_radiogroup_entry_t io_sizes[] = {
+    { "256 bytes", 256 },
+    { "2048 bytes", 2048 },
+    { NULL, -1 }
+};
 
 
 /** \brief  Create PET I/O area size widget
@@ -68,35 +55,14 @@ static void on_io_size_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *pet_io_size_widget_create(void)
 {
     GtkWidget *grid;
-    GtkWidget *radio_256;
-    GtkWidget *radio_2kb;
-    GSList *group = NULL;
-    int size;
-
-    resources_get_int("IOSize", &size);
+    GtkWidget *group;
 
     grid = uihelpers_create_grid_with_label("I/O area size", 1);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-
-    radio_256 = gtk_radio_button_new_with_label(group, "256 bytes");
-    g_object_set(radio_256, "margin-left", 16, NULL);
-    radio_2kb = gtk_radio_button_new_with_label(group, "2048 bytes");
-    gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio_256),
-            GTK_RADIO_BUTTON(radio_2kb));
-
-    gtk_grid_attach(GTK_GRID(grid), radio_256, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), radio_2kb, 1, 1, 1, 1);
-
-    if (size < 2048) {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_256), TRUE);
-    } else {
-        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_2kb), TRUE);
-    }
-
-    g_signal_connect(radio_256, "toggled", G_CALLBACK(on_io_size_toggled),
-           GINT_TO_POINTER(256));
-    g_signal_connect(radio_2kb, "toggled", G_CALLBACK(on_io_size_toggled),
-            GINT_TO_POINTER(2048));
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    group = resource_radiogroup_create("IOSize", io_sizes,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

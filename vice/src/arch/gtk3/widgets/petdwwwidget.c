@@ -41,7 +41,6 @@
 
 #include "petdwwwidget.h"
 
-/* TODO: DWW can only be enabled when I/O size is 2KB! */
 
 /* references to widgets to be able to toggle sensitive state depending on the
  * DWW Enable check button
