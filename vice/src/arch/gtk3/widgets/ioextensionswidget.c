@@ -168,6 +168,7 @@ static GtkWidget *create_sfx_sound_sampler_widget(void)
 }
 
 
+#if 0
 /** \brief  Create check button for CP/M Cartridge
  *
  * For x64/x64sc, NOT xscu64 or x128, or any others
@@ -183,6 +184,7 @@ static GtkWidget *create_cpm_cartridge_widget(void)
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
+#endif
 
 
 /** \brief  Create check button to select C128 full banks
@@ -418,8 +420,7 @@ static void create_c64_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 3, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_cpm_cartridge_widget(), 0, 4, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 5, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 4, 3, 1);
 }
 
 

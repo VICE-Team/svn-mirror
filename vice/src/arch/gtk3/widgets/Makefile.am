@@ -118,7 +118,8 @@ libwidgets_a_SOURCES = \
 	petreuwidget.c \
 	petcolourgraphicswidget.c \
 	petdwwwidget.c \
-	supersnapshotwidget.c
+	supersnapshotwidget.c \
+	cpmwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -214,4 +215,5 @@ EXTRA_DIST = \
 	petreuwidget.h \
 	petcolourgraphicswidget.h \
 	petdwwwidget.h \
-	supersnapshotwidget.h
+	supersnapshotwidget.h \
+	cpmwidget.h

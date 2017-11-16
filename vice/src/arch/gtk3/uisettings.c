@@ -112,6 +112,7 @@
 #include "petcolourgraphicswidget.h"
 #include "petdwwwidget.h"
 #include "supersnapshotwidget.h"
+#include "cpmwidget.h"
 
 #include "uisettings.h"
 
@@ -143,9 +144,6 @@ enum {
 /** \brief  List of C64 I/O extensions (x64, x64sc, xscpu64)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
- *
- * TODO: x128 needs its own separate list of extensions, and perhaps xscpu64
- *       as well -- compyx
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
@@ -177,6 +175,8 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
+    { "SFX Sound Sampler",          NULL, NULL },
+    { "CP/M Cartridge",             cpm_widget_create, NULL },
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
@@ -184,6 +184,51 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 
     { NULL, NULL, NULL }
 };
+
+
+/** \brief  List of SCPU64 extensions
+ *
+ * Every empty line indicates a separator in the Gtk2 UI's menu
+ */
+static ui_settings_tree_node_t scpu64_io_extensions[] = {
+    { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
+
+    { "GEO-RAM",                    georam_widget_create, NULL },
+    { "RAM Expansion Module",       reu_widget_create, NULL },
+    { "RamCart",                    ramcart_widget_create, NULL },
+
+    { "Double Quick Brown Box",     dqbb_widget_create, NULL },
+    { "Expert Cartridge",           expert_widget_create, NULL },
+    { "ISEPIC",                     isepic_widget_create, NULL },
+
+    { "EasyFlash",                  easyflash_widget_create, NULL },
+    { "GMod2",                      gmod2_widget_create, NULL },
+    { "IDE64",                      ide64_widget_create, NULL },
+    { "MMC64",                      mmc64_widget_create, NULL },
+    { "MMC Replay",                 mmcr_widget_create, NULL },
+    { "Retro Replay",               retroreplay_widget_create, NULL },
+    { "Super Snapshot V5",          super_snapshot_widget_create, NULL },
+
+#ifdef HAVE_RAWNET
+    { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
+    { "RR-Net Mk3",                 rrnetmk3_widget_create, NULL },
+#endif
+
+    { "IEEE-448 Interface",         ieee488_widget_create, NULL },
+
+    { "DigiMAX",                    digimax_widget_create, NULL },
+    { "Magic Voice",                magic_voice_widget_create, NULL },
+    { "MIDI emulation",             midi_widget_create, NULL },
+    { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
+    { "SFX Sound Sampler",          NULL, NULL },
+
+    { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
+    { "Userport devices",           userport_devices_widget_create, NULL },
+    { "Tape port devices",          tapeport_devices_widget_create, NULL },
+
+    { NULL, NULL, NULL }
+};
+
 
 
 /** \brief  I/O extensions for C128
@@ -496,9 +541,12 @@ static GtkWidget *create_treeview(void)
     /* hack: set I/O extension sub-nodes */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_C64SC:
             io_nodes = c64_io_extensions;
+            break;
+
+        case VICE_MACHINE_SCPU64:
+            io_nodes = scpu64_io_extensions;
             break;
 
         case VICE_MACHINE_C128:
