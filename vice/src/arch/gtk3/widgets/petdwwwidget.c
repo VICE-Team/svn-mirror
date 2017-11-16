@@ -60,9 +60,57 @@ static GtkWidget *browse = NULL;
 static void on_dww_toggled(GtkWidget *widget, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    int io_size;
+
+    if (resources_get_int("IOSize", &io_size) < 0) {
+        io_size = 0;
+    }
+
+    /* only enable when I/O size is 2048 bytes */
+    if (state && (io_size < 2048)) {
+        ui_message_error(widget, "Cannot enable DWW",
+                "To be able to use DWW, the I/O size of the machine "
+                " needs to be 2048 bytes."
+                " The current I/O size is %d bytes.\n\n"
+                "Use the model settings dialog to set I/O size",
+                io_size);
+        state = 0;
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), FALSE);
+    } else {
+        resources_set_int("PETDWW", state);
+    }
 
     gtk_widget_set_sensitive(entry, state);
     gtk_widget_set_sensitive(browse, state);
+}
+
+
+/** \brief  Create PETDWW Enable check button
+ *
+ * Checks if the I/O size is 2048 bytes before setting the resource to TRUE and
+ * pops up an error message if the I/O size less than 2048 bytes.
+ * Also toggles the sensitivity of the text entry and browse button.
+ *
+ * \return  GtkCheckButton
+ */
+static GtkWidget *create_dww_check_button(void)
+{
+    GtkWidget *check;
+    int enabled;
+    int io_size;
+
+    check = gtk_check_button_new_with_label("Enable DWW hi-res graphics");
+    if (resources_get_int("PETDWW", &enabled) < 0) {
+        enabled = 0;
+    }
+    if (resources_get_int("IOSize", &io_size) < 0) {
+        io_size = 0;
+    }
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+            (enabled && io_size >= 2048));
+
+    g_signal_connect(check, "toggled", G_CALLBACK(on_dww_toggled), NULL);
+    return check;
 }
 
 
@@ -100,15 +148,14 @@ GtkWidget *pet_dww_widget_create(GtkWidget *parent)
     GtkWidget *grid;
     GtkWidget *enable;
     GtkWidget *label;
+    int state;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* DWW enable */
-    enable = resource_check_button_create("PETDWW",
-            "Enable PET DWW");
-    g_signal_connect(enable, "toggled", G_CALLBACK(on_dww_toggled), NULL);
+    enable = create_dww_check_button();
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);
 
 
@@ -127,7 +174,11 @@ GtkWidget *pet_dww_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
     /* set initial sensitive state of widgets */
-    on_dww_toggled(enable, NULL);
+    if (resources_get_int("PETDWW", &state) < 0) {
+        state = 0;
+    }
+    gtk_widget_set_sensitive(entry, state);
+    gtk_widget_set_sensitive(browse, state);
 
     gtk_widget_show_all(grid);
     return grid;

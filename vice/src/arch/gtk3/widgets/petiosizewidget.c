@@ -5,7 +5,7 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  IOSize - I/O area size in bytes (256 or 2048)
+ *  IOSize (xpet)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -86,6 +86,12 @@ GtkWidget *pet_io_size_widget_create(void)
 
     gtk_grid_attach(GTK_GRID(grid), radio_256, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), radio_2kb, 1, 1, 1, 1);
+
+    if (size < 2048) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_256), TRUE);
+    } else {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_2kb), TRUE);
+    }
 
     g_signal_connect(radio_256, "toggled", G_CALLBACK(on_io_size_toggled),
            GINT_TO_POINTER(256));
