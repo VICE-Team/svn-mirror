@@ -111,6 +111,7 @@
 #include "petreuwidget.h"
 #include "petcolourgraphicswidget.h"
 #include "petdwwwidget.h"
+#include "supersnapshotwidget.h"
 
 #include "uisettings.h"
 
@@ -163,6 +164,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "MMC64",                      mmc64_widget_create, NULL },
     { "MMC Replay",                 mmcr_widget_create, NULL },
     { "Retro Replay",               retroreplay_widget_create, NULL },
+    { "Super Snapshot V5",          super_snapshot_widget_create, NULL },
 
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
@@ -202,6 +204,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "MMC64",                      mmc64_widget_create, NULL },
     { "MMC Replay",                 mmcr_widget_create, NULL },
     { "Retro Replay",               retroreplay_widget_create, NULL },
+    { "Super Snapshot V5",          super_snapshot_widget_create, NULL },
 
 #ifdef HAVE_RAWNET
     { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
