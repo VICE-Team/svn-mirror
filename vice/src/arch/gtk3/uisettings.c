@@ -108,6 +108,7 @@
 #include "v364speechwidget.h"
 #include "sfxsoundsamplerwidget.h"
 #include "megacartwidget.h"
+#include "petreuwidget.h"
 
 #include "uisettings.h"
 
@@ -266,7 +267,7 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t pet_io_extensions[] = {
-    { "PET RAM and Expansion Unit", NULL, NULL },
+    { "PET RAM Expansion Unit",     pet_reu_widget_create, NULL },
     { "PET Colour graphics",        NULL, NULL },
     { "PET DWW hi-res graphics",    NULL, NULL },
     { "SID Cartridge",              sidcart_widget_create, NULL },
