@@ -5,7 +5,7 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  SFXSoundSampler (xvic)
+ *  SFXSoundSampler (x64/x64sc/xscpu64/x128/xvic)
  *  SFXSoundSamplerIOSwap (xvic)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -43,7 +43,7 @@
 #include "sfxsoundsamplerwidget.h"
 
 
-static GtkWidget *io_swap;
+static GtkWidget *io_swap = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the Enable check button
@@ -76,14 +76,16 @@ GtkWidget *sfx_sound_sampler_widget_create(GtkWidget *parent)
             "Enable SFX Sound Sampler");
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
 
-    io_swap = resource_check_button_create("SFXSoundSamplerIOSwap",
-            "Enable MasC=uerade I/O swap");
-    g_object_set(io_swap, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), io_swap, 0, 1, 1, 1);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        io_swap = resource_check_button_create("SFXSoundSamplerIOSwap",
+                "Enable MasC=uerade I/O swap");
+        g_object_set(io_swap, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), io_swap, 0, 1, 1, 1);
 
-    g_signal_connect(enable, "toggled", G_CALLBACK(on_enable_toggled), NULL);
+        g_signal_connect(enable, "toggled", G_CALLBACK(on_enable_toggled), NULL);
 
-    on_enable_toggled(enable, NULL);
+        on_enable_toggled(enable, NULL);
+    }
 
     gtk_widget_show_all(grid);
     return grid;

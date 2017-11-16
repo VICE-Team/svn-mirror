@@ -175,7 +175,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
-    { "SFX Sound Sampler",          NULL, NULL },
+    { "SFX Sound Sampler",          sfx_sound_sampler_widget_create, NULL },
     { "CP/M Cartridge",             cpm_widget_create, NULL },
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
@@ -220,7 +220,7 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
     { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
-    { "SFX Sound Sampler",          NULL, NULL },
+    { "SFX Sound Sampler",          sfx_sound_sampler_widget_create, NULL },
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
@@ -262,6 +262,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
     { "Magic Voice",                magic_voice_widget_create, NULL },
     { "MIDI emulation",             midi_widget_create, NULL },
     { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
+    { "SFX Sound Sampler",          sfx_sound_sampler_widget_create, NULL },
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },

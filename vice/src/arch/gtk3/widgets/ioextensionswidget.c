@@ -7,9 +7,6 @@
  * Controls the following resource(s):
  *  IOCollisionHandling (all except vsid)
  *  CartridgeReset (all except vsid)
- *  SSRamExpansion (x64/x64sc/xscpu64/x128)
- *  SFXSoundSampler (x64/x64sc/xscpu64/x128)
- *  CPMCart (x64/x64sc)
  *  C128FullBanks (x128)
  *  FinalExpansionWriteBack (xvic)
  *  VicFlashPluginWriteBack (xvic)
@@ -153,6 +150,7 @@ static GtkWidget *create_supersnapshot_widget(void)
 #endif
 
 
+#if 0
 /** \brief  Create check button for SFX Sound Sampler
  *
  * \return  GtkCheckButton
@@ -166,6 +164,7 @@ static GtkWidget *create_sfx_sound_sampler_widget(void)
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
+#endif
 
 
 #if 0
@@ -419,8 +418,7 @@ static void create_c64_layout(GtkWidget *grid)
     collision_widget = create_collision_widget("$D000-$DFFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 3, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 3, 3, 1);
 }
 
 
@@ -435,8 +433,7 @@ static void create_scpu64_layout(GtkWidget *grid)
     collision_widget = create_collision_widget("$D000-$DFFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 3, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 4, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 3, 3, 1);
 }
 
 
@@ -452,7 +449,6 @@ static void create_c128_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_c128_full_banks_widget(), 0, 3, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_sfx_sound_sampler_widget(), 0, 4, 3, 1);
 }
 
 
