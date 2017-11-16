@@ -110,6 +110,7 @@
 #include "megacartwidget.h"
 #include "petreuwidget.h"
 #include "petcolourgraphicswidget.h"
+#include "petdwwwidget.h"
 
 #include "uisettings.h"
 
@@ -270,7 +271,7 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
 static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET RAM Expansion Unit",     pet_reu_widget_create, NULL },
     { "PET Colour graphics",        pet_colour_graphics_widget_create, NULL },
-    { "PET DWW hi-res graphics",    NULL, NULL },
+    { "PET DWW hi-res graphics",    pet_dww_widget_create, NULL },
     { "SID Cartridge",              sidcart_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
     { "Tape port devices",          tapeport_devices_widget_create, NULL },
