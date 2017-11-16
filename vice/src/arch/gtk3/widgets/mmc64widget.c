@@ -188,7 +188,7 @@ static GtkWidget *create_mmc64_revision_widget(void)
  */
 static GtkWidget *create_eeprom_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent, "MMC64 EEPROM image",
+    return cart_image_widget_create(parent, "MMC64 BIOS image",
             "MMC64BIOSfilename", "MMC64_bios_write",
             eeprom_save_func, eeprom_flush_func,
             CARTRIDGE_NAME_MMC64, CARTRIDGE_MMC64);
