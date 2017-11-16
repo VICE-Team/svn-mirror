@@ -115,7 +115,8 @@ libwidgets_a_SOURCES = \
 	v364speechwidget.c \
 	sfxsoundsamplerwidget.c \
 	megacartwidget.c \
-	petreuwidget.c
+	petreuwidget.c \
+	petcolourgraphicswidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -208,4 +209,5 @@ EXTRA_DIST = \
 	v364speechwidget.h \
 	sfxsoundsamplerwidget.h \
 	megacartwidget.h \
-	petreuwidget.h
+	petreuwidget.h \
+	petcolourgraphicswidget.h
