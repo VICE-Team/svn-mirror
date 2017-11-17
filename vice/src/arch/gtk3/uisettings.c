@@ -113,6 +113,7 @@
 #include "petdwwwidget.h"
 #include "supersnapshotwidget.h"
 #include "cpmwidget.h"
+#include "burstmodewidget.h"
 
 #include "uisettings.h"
 
@@ -170,6 +171,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 #endif
 
     { "IEEE-448 Interface",         ieee488_widget_create, NULL },
+    { "Burst Mode Modification",    burst_mode_widget_create, NULL },
 
     { "DigiMAX",                    digimax_widget_create, NULL },
     { "Magic Voice",                magic_voice_widget_create, NULL },
@@ -215,6 +217,7 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
 #endif
 
     { "IEEE-448 Interface",         ieee488_widget_create, NULL },
+    { "Burst Mode Modification",    burst_mode_widget_create, NULL },
 
     { "DigiMAX",                    digimax_widget_create, NULL },
     { "Magic Voice",                magic_voice_widget_create, NULL },

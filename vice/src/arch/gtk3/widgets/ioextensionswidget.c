@@ -67,14 +67,6 @@ static ui_radiogroup_entry_t io_collision_methods[] = {
 };
 
 
-static ui_radiogroup_entry_t burst_modes[] = {
-    { "None", 0 },
-    { "CIA1", 1 },
-    { "CIA2", 2 },
-    { NULL, -1 }
-};
-
-
 /** \brief  Create widget to specify I/O collision handling method
  *
  * The \a desc is added as a label under the "I/O collision handling" label,
@@ -380,7 +372,7 @@ static GtkWidget *create_pet_diagnostic_widget(void)
     return check;
 }
 
-
+#if 0
 /** \brief  Create Burst Mode widget
  *
  * \return  GtkGrid
@@ -405,7 +397,7 @@ static GtkWidget *create_burst_mode_widget(void)
     g_object_set(grid, "margin-left", 16, NULL);
     return grid;
 }
-
+#endif
 
 /** \brief  Create layout for x64/x64sc
  *
@@ -418,7 +410,6 @@ static void create_c64_layout(GtkWidget *grid)
     collision_widget = create_collision_widget("$D000-$DFFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 3, 3, 1);
 }
 
 
@@ -433,7 +424,6 @@ static void create_scpu64_layout(GtkWidget *grid)
     collision_widget = create_collision_widget("$D000-$DFFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_burst_mode_widget(), 0, 3, 3, 1);
 }
 
 
