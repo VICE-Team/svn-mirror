@@ -115,6 +115,8 @@
 #include "cpmwidget.h"
 #include "burstmodewidget.h"
 #include "c128fullbankswidget.h"
+#include "plus4aciawidget.h"
+#include "plus4digiblasterwidget.h"
 
 #include "uisettings.h"
 
@@ -309,6 +311,8 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
+    { "ACIA",                       plus4_acia_widget_create, NULL },
+    { "Digiblaster add-on",         plus4_digiblaster_widget_create, NULL },
     { "SID Cartridge",              sidcart_widget_create, NULL },
     { "V364 Speech",                v364_speech_widget_create, NULL },
 

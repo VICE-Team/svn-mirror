@@ -14,12 +14,9 @@
  *  IO3RAM (xvic)
  *  VFLImod (xvic)
  *  IEEE488 (xvic)
- *  Acia1Enable (xplus4)
- *  DIGIBLASTER (xplus4)
  *  UserportDAC (xplus4, xpet)
  *  PETHRE (xpet)
  *  DiagPin (xpet)
- *  BurstMod (x64/x64sc/xscpu64)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -298,6 +295,7 @@ static GtkWidget *create_vic_vfli_widget(void)
 }
 
 
+#if 0
 /** \brief  Create check button to enable Plus4 ACIA
  *
  * \return  GtkCheckButton
@@ -311,8 +309,9 @@ static GtkWidget *create_plus4_acia_widget(void)
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
+#endif
 
-
+#if 0
 /** \brief  Create check button to enable Plus4 DigiBlaster
  *
  * \return  GtkCheckButton
@@ -326,8 +325,9 @@ static GtkWidget *create_plus4_digiblaster_widget(void)
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
+#endif
 
-
+#if 0
 /** \brief  Create check button to enable Plus4 Userport 8-bit DAC
  *
  * \return  GtkCheckButton
@@ -341,7 +341,7 @@ static GtkWidget *create_plus4_8bitdac_widget(void)
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
-
+#endif
 
 /** \brief  Create check button to enable PET HRE hires
  *
@@ -496,12 +496,6 @@ static void create_plus4_layout(GtkWidget *grid)
     collision_widget = create_collision_widget("$FD00-$FEFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_plus4_acia_widget(), 0, 3, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_plus4_digiblaster_widget(),
-            0, 4, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_plus4_8bitdac_widget(),
-            0, 5, 3, 1);
-
 }
 
 
