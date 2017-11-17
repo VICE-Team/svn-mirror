@@ -117,6 +117,12 @@
 #include "c128fullbankswidget.h"
 #include "plus4aciawidget.h"
 #include "plus4digiblasterwidget.h"
+#include "finalexpansionwidget.h"
+#include "vicflashwidget.h"
+#include "ultimemwidget.h"
+#include "vicieee488widget.h"
+#include "vicioramwidget.h"
+#include "vfliwidget.h"
 
 #include "uisettings.h"
 
@@ -286,7 +292,13 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
  */
 static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "Mega Cart",                  mega_cart_widget_create, NULL },
+    { "Final Expansion",            final_expansion_widget_create, NULL },
+    { "Vic Flash Plugin",           vic_flash_widget_create, NULL },
+    { "UltiMem",                    ultimem_widget_create, NULL },
     { "SID Cartridge",              sidcart_widget_create, NULL },
+    { "VIC-1112 IEEE-488 interface", vic_ieee488_widget_create, NULL },
+    { "I/O RAM",                    vic_ioram_widget_create, NULL },
+    { "VFLI modification",          vfli_widget_create, NULL },
 
     { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
     { "DS12C887 RTC (MasC=uerade)", ds12c887_widget_create, NULL },

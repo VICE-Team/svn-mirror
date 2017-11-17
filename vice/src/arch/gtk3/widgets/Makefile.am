@@ -123,7 +123,13 @@ libwidgets_a_SOURCES = \
 	burstmodewidget.c \
 	c128fullbankswidget.c \
 	plus4aciawidget.c \
-	plus4digiblasterwidget.c
+	plus4digiblasterwidget.c \
+	finalexpansionwidget.c \
+	vicflashwidget.c \
+	ultimemwidget.c \
+	vicieee488widget.c \
+	vicioramwidget.c \
+	vfliwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -224,4 +230,10 @@ EXTRA_DIST = \
 	burstmodewidget.h \
 	c128fullbankswidget.h \
 	plus4aciawidget.h \
-	plus4digiblasterwidget.h
+	plus4digiblasterwidget.h \
+	finalexpansionwidget.h \
+	vicflashwidget.h \
+	ultimemwidget.h \
+	vicieee488widget.h \
+	vicioramwidget.h \
+	vfliwidget.h
