@@ -120,7 +120,8 @@ libwidgets_a_SOURCES = \
 	petdwwwidget.c \
 	supersnapshotwidget.c \
 	cpmwidget.c \
-	burstmodewidget.c
+	burstmodewidget.c \
+	c128fullbankswidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -218,4 +219,5 @@ EXTRA_DIST = \
 	petdwwwidget.h \
 	supersnapshotwidget.h \
 	cpmwidget.h \
-	burstmodewidget.h
+	burstmodewidget.h \
+	c128fullbankswidget.h

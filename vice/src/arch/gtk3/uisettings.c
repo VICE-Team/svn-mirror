@@ -114,6 +114,7 @@
 #include "supersnapshotwidget.h"
 #include "cpmwidget.h"
 #include "burstmodewidget.h"
+#include "c128fullbankswidget.h"
 
 #include "uisettings.h"
 
@@ -238,6 +239,8 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
  */
 static ui_settings_tree_node_t c128_io_extensions[] = {
     { "Function ROM",               c128_function_rom_widget_create, NULL },
+    { "Banks 2 & 3",                c128_full_banks_widget_create, NULL },
+
     { "GEO-RAM",                    georam_widget_create, NULL },
     { "RAM Expansion Module",       reu_widget_create, NULL },
     { "RamCart",                    ramcart_widget_create, NULL },

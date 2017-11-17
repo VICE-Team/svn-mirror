@@ -7,7 +7,6 @@
  * Controls the following resource(s):
  *  IOCollisionHandling (all except vsid)
  *  CartridgeReset (all except vsid)
- *  C128FullBanks (x128)
  *  FinalExpansionWriteBack (xvic)
  *  VicFlashPluginWriteBack (xvic)
  *  UltiMemWriteBack (xvic)
@@ -177,7 +176,7 @@ static GtkWidget *create_cpm_cartridge_widget(void)
 }
 #endif
 
-
+#if 0
 /** \brief  Create check button to select C128 full banks
  *
  * \return  GtkCheckButton
@@ -191,6 +190,7 @@ static GtkWidget *create_c128_full_banks_widget(void)
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
+#endif
 
 
 /** \brief  Create check button to enable Final Expansion write back
@@ -438,7 +438,6 @@ static void create_c128_layout(GtkWidget *grid)
     collision_widget = create_collision_widget("$D000-$DFFF");
     gtk_grid_attach(GTK_GRID(grid), collision_widget, 0, 1, 3, 1);
     gtk_grid_attach(GTK_GRID(grid), create_cart_reset_widget(), 0, 2, 3, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_c128_full_banks_widget(), 0, 3, 3, 1);
 }
 
 
