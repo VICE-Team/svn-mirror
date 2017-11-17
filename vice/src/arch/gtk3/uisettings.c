@@ -123,6 +123,8 @@
 #include "vicieee488widget.h"
 #include "vicioramwidget.h"
 #include "vfliwidget.h"
+#include "petdiagpinwidget.h"
+#include "pethrewidget.h"
 
 #include "uisettings.h"
 
@@ -343,9 +345,11 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
     { "PET RAM Expansion Unit",     pet_reu_widget_create, NULL },
     { "PET Colour graphics",        pet_colour_graphics_widget_create, NULL },
     { "PET DWW hi-res graphics",    pet_dww_widget_create, NULL },
+    { "PET HRE hi-res graphics",    pet_hre_widget_create, NULL },
     { "SID Cartridge",              sidcart_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
     { "Tape port devices",          tapeport_devices_widget_create, NULL },
+    { "PET userport diagnostic pin", pet_diagpin_widget_create, NULL },
     { NULL, NULL, NULL }
 };
 
