@@ -284,7 +284,7 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
     { "SID Cartridge",              sidcart_widget_create, NULL },
 
     { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
-    { "DS12C887 Real Time Clock (MasC=uerade)", ds12c887_widget_create, NULL },
+    { "DS12C887 RTC (MasC=uerade)", ds12c887_widget_create, NULL },
     { "GEO-RAM (MasC=uerade)",      georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)", sfx_sound_expander_widget_create, NULL },
     { "SFX Sound Sampler (MasC=uerade)", sfx_sound_sampler_widget_create, NULL },
@@ -673,7 +673,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(tree);
 
-    gtk_widget_set_size_request(scroll, 180, 500);
+    gtk_widget_set_size_request(scroll, 300, 500);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
