@@ -30,8 +30,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
-/* required for g_chdir() */
-#include <glib/gstdio.h>
 
 #include "debug_gtk3.h"
 #include "not_implemented.h"
@@ -787,6 +785,36 @@ static int ui_get_window_index(GtkWidget *widget)
     }
 }
 
+/* XXX: GtkApplication tracks the currently-active window using a similar
+        method to this handler, so we should probably remove this if we start
+        using GtkApplication. */
+/** \brief  Handler for the "focus-in-event" of a GtkWindow
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       window focus details
+ * \param[in]   user_data   extra data for the event (unused)
+ *
+ * \return  `FALSE` to continue processing
+ */
+static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
+                                  gpointer user_data)
+{
+    int index = ui_get_window_index(widget);
+
+    if (index < 0) {
+        /* XXX: We should never end up here. */
+        fprintf(stderr, "focus-in-event: window not found\n");
+        return FALSE;
+    }
+
+    if (event->in == TRUE) {
+        /* fprintf(stderr, "window %d: focus-in\n", index); */
+        active_win_index = index;
+    }
+
+    return FALSE;
+}
+
 
 /** \brief Show or hide the window decorations as needed
  */
@@ -832,13 +860,6 @@ static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *ev
         /* XXX: We should never end up here. */
         fprintf(stderr, "window-state-event: window not found\n");
         return FALSE;
-    }
-
-    /* FIXME: Trying to track the currently-focused window from here doesn't
-              work very well, or at all on some systems; perhaps handling the
-              "focus-in-event” signal would work better? */
-    if (win_state & GDK_WINDOW_STATE_FOCUSED) {
-        active_win_index = index;
     }
 
     if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
@@ -1190,6 +1211,8 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
     gtk_widget_set_hexpand(new_drawing_area, TRUE);
     gtk_widget_set_vexpand(new_drawing_area, TRUE);
 
+    g_signal_connect(new_window, "focus-in-event",
+                     G_CALLBACK(on_focus_in_event), NULL);
     g_signal_connect(new_window, "window-state-event",
                      G_CALLBACK(on_window_state_event), NULL);
     g_signal_connect(new_window, "delete-event",
