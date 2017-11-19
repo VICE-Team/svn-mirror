@@ -376,26 +376,7 @@ static void vice_opengl_set_palette(video_canvas_t *canvas)
     video_render_initraw(canvas->videoconfig);
 }
 
-static int vice_opengl_backend_init(void)
-{
-    /* This *should* be a test where we try to initialize everything
-     * and do their version check, but for now we just let it slide if
-     * we could compile it in the first place */
-    /* FOR FUTURE WORK: This probably ends up being the wrong place
-     * for checking this. We can't actually tell that OpenGL will or
-     * won't work until the widget is put in place and realized. We
-     * need a mechanism for shifting backends *dynamically* without
-     * breaking. */
-    return 1;
-}
-
-static void vice_opengl_backend_shutdown(void)
-{
-}
-
 vice_renderer_backend_t vice_opengl_backend = {
-    vice_opengl_backend_init,
-    vice_opengl_backend_shutdown,
     vice_opengl_create_widget,
     vice_opengl_update_context,
     vice_opengl_destroy_context,
