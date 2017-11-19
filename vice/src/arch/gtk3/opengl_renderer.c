@@ -292,6 +292,7 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         double aspect = 1.0;
         int keepaspect = 1, trueaspect = 0;
         gint widget_width, widget_height;
+        GdkGLContext *old_gdk_context;
         if (ctx->width == width && ctx->height == height) {
             return;
         }
@@ -301,6 +302,8 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
         ctx->width = width;
         ctx->height = height;
         ctx->backbuffer = lib_malloc(width * height * 4);
+
+        old_gdk_context = gdk_gl_context_get_current();
         gtk_gl_area_make_current(GTK_GL_AREA(canvas->drawing_area));
         glActiveTexture(GL_TEXTURE0);
         if (ctx->texture == 0) {
@@ -331,6 +334,12 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
 
         /* Fix the widget's size request */
         gtk_widget_set_size_request(canvas->drawing_area, width * aspect, height);
+        /* Restore the original GL Context */
+        if (old_gdk_context == NULL) {
+            gdk_gl_context_clear_current();
+        } else {
+            gdk_gl_context_make_current(old_gdk_context);
+        }
     }
 }
 
@@ -340,17 +349,25 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
                                      unsigned int w, unsigned int h)
 {
     context_t *ctx = (context_t *)canvas->renderer_context;
+    GdkGLContext *old_gdk_context;
     if (!ctx || !ctx->backbuffer) {
         return;
     }
     video_canvas_render(canvas, ctx->backbuffer, w, h, xs, ys, xi, yi, ctx->width * 4, 32);
     
+    old_gdk_context = gdk_gl_context_get_current();
     gtk_gl_area_make_current(GTK_GL_AREA(canvas->drawing_area));
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, ctx->texture);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, ctx->width);
     glTexSubImage2D(GL_TEXTURE_2D, 0, xi, yi, w, h, GL_RGBA, GL_UNSIGNED_BYTE, ctx->backbuffer + 4 * (ctx->width * yi + xi));
+    /* Restore the original GL Context */
+    if (old_gdk_context == NULL) {
+        gdk_gl_context_clear_current();
+    } else {
+        gdk_gl_context_make_current(old_gdk_context);
+    }
     gtk_widget_queue_draw(canvas->drawing_area);    
 }
 
