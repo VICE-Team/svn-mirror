@@ -29,11 +29,15 @@
 
 #include <string.h>
 
-#define GL_GLEXT_PROTOTYPES
 #ifdef MACOSX_SUPPORT
 #include <OpenGL/gl3.h>
 #else
+#ifdef HAVE_GTK3_GLEW
+#include <GL/glew.h>
+#else
+#define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
+#endif
 #endif
 
 #include "lib.h"
@@ -140,6 +144,7 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     video_canvas_t *canvas = (video_canvas_t *)user_data;
     context_t *ctx = NULL;
     GError *err = NULL;
+    GLenum glErr;
     
     gtk_gl_area_make_current(area);
     err = gtk_gl_area_get_error(area);
@@ -153,6 +158,17 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     ctx = lib_malloc(sizeof(context_t));
     memset(ctx, 0, sizeof(context_t));
     canvas->renderer_context = ctx;
+#ifdef HAVE_GTK3_GLEW
+    glewExperimental = GL_TRUE;
+    glErr = glewInit();
+    if (glErr != GLEW_OK) {
+        fprintf(stderr, "GTKGL: Could not initialize GLEW\n");
+    }
+    if (!GLEW_VERSION_3_2) {
+        fprintf(stderr, "GTKGL: OpenGL version 3.2 not supported in this context\n");
+    }
+#endif
+    
     create_shader_program(ctx);
     glGenBuffers(1, &ctx->vbo);
     glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
