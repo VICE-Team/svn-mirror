@@ -105,6 +105,11 @@ static int set_window_width(int val, void *param);
 static int set_window_xpos(int val, void *param);
 static int set_window_ypos(int val, void *param);
 
+#ifdef DEBUG
+static gboolean ui_maincpu_trace_callback(GtkWidget *widget, gpointer user_data);
+static gboolean ui_drive_trace_callback(GtkWidget *widget, gpointer user_data);
+static gboolean ui_core_dump_callback(GtkWidget *widget, gpointer user_data);
+#endif
 
 
 /*****************************************************************************
@@ -572,22 +577,22 @@ static ui_menu_item_t debug_menu[] = {
     UI_MENU_SEPARATOR,
 
     { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        NULL, NULL,
+        (void *)ui_maincpu_trace_callback, (void *)"MainCPU_TRACE",
         0, 0 },
 
     UI_MENU_SEPARATOR,
 
     { "Drive #8 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        NULL, NULL,
+        (void *)ui_drive_trace_callback, (void *)"Drive0CPU_TRACE",
         0, 0 },
     { "Drive #9 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        NULL, NULL,
+        (void *)ui_drive_trace_callback, (void *)"Drive1CPU_TRACE",
         0, 0 },
     { "Drive #10 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        NULL, NULL,
+        (void *)ui_drive_trace_callback, (void *)"Drive2CPU_TRACE",
         0, 0 },
     { "Drive #11 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        NULL, NULL,
+        (void *)ui_drive_trace_callback, (void *)"Drive3CPU_TRACE",
         0, 0 },
 
     UI_MENU_SEPARATOR,
@@ -595,8 +600,8 @@ static ui_menu_item_t debug_menu[] = {
     { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL,
         0, 0 },
-    { "Save core dump", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+    { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
+        (void *)ui_core_dump_callback, (void *)"DoCoreDump",
         0, 0 },
 
     UI_MENU_TERMINATOR
@@ -631,8 +636,49 @@ static int fullscreen_has_decorations = 0;
  *                              Event handlers                                *
  *****************************************************************************/
 
+#ifdef DEBUG
 
+/* TODO: these should probably be moved into a separate menudebug.c file,
+ *       together with the debug_menu struct
+ */
 
+/** \brief  Toggle Main CPU trace
+ *
+ * \param[in,out]   widget      menu item triggering the callback
+ * \param[in]       user_data   resource name
+ */
+static gboolean ui_maincpu_trace_callback(GtkWidget *widget, gpointer user_data)
+{
+    int state;
+
+    resources_get_int("MainCPU_TRACE", &state);
+    resources_set_int("MainCPU_TRACE", state ? 0 : 1);
+
+    return TRUE;
+}
+
+static gboolean ui_drive_trace_callback(GtkWidget *widget, gpointer user_data)
+{
+    int state;
+    const char *resource = (const char *)user_data;
+
+    debug_gtk3("toggling %s\n", resource);
+
+    resources_get_int_sprintf(resource, &state, index);
+    resources_set_int_sprintf(resource, state ? 0 : 1);
+    return TRUE;
+}
+
+static gboolean ui_core_dump_callback(GtkWidget *widget, gpointer user_data)
+{
+    int state;
+
+    resources_get_int("DoCoreDump", &state);
+    resources_set_int("DoCoreDump", state ? 0 : 1);
+    return TRUE;
+}
+
+#endif  /* ifdef DEBUG */
 
 
 /** \brief  Get a window's index

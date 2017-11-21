@@ -251,7 +251,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                             item,
                             "activate",
                             G_CALLBACK(items[i].callback),
-                            NULL);
+                            items[i].data);
                     /* use `data` as the resource to determine the state of
                      * the checkmark
                      */
