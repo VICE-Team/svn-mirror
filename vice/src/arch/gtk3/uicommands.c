@@ -245,3 +245,34 @@ void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
     ui_exit();
 }
 
+
+/** \brief  Toggle boolean resource from the menu
+ *
+ * Toggles \a resource when a valid.
+ *
+ * \param[in]   widget      menu item triggering the event
+ * \param[in]   resource    resource name
+ *
+ * \return  TRUE if succesful, FALSE otherwise
+ */
+gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
+{
+    const char *res = (const char *)resource;
+
+    if (res != NULL) {
+        int state;
+
+        /* attempt to get resource */
+        if (resources_get_int(res, &state) < 0) {
+            debug_gtk3("reading resource %s failed\n", res);
+            return FALSE;
+        }
+        debug_gtk3("toggling %s to %s\n", res, state ? "False" : "True");
+        if (resources_set_int(res, state ? 0 : 1) < 0) {
+            debug_gtk3("setting resource %s failed\n", res);
+            return FALSE;
+        }
+        return TRUE;
+    }
+    return FALSE;
+}

@@ -30,6 +30,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource);
+
 gboolean ui_warp_callback(GtkWidget *widget, gpointer user_data);
 gboolean ui_swap_joysticks_callback(GtkWidget *widget, gpointer user_data);
 gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
