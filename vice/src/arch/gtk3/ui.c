@@ -65,6 +65,7 @@
 #include "uicmdline.h"
 #include "uicompiletimefeatures.h"
 #include "uisnapshot.h"
+#include "uidebug.h"
 
 #include "ui.h"
 
@@ -565,7 +566,7 @@ static ui_menu_item_t settings_menu_tail[] = {
 #ifdef DEBUG
 static ui_menu_item_t debug_menu[] = {
     { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        uidebug_trace_mode_callback, NULL,
         0, 0 },
 
     UI_MENU_SEPARATOR,
@@ -592,7 +593,7 @@ static ui_menu_item_t debug_menu[] = {
     UI_MENU_SEPARATOR,
 
     { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        uidebug_playback_frames_callback, NULL,
         0, 0 },
     { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
         (void *)ui_toggle_resource, (void *)"DoCoreDump",
