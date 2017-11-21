@@ -38,6 +38,42 @@
 /* Number of drives we support in the UI.  */
 #define NUM_DRIVES 4
 
+
+/** \brief  Number of GtkWindow's in the ui_resources
+ */
+#define NUM_WINDOWS 3
+
+
+/** \brief  Windows indici
+ */
+enum {
+    PRIMARY_WINDOW,     /**< primary window, all emulators */
+    SECONDARY_WINDOW,   /**< secondary window, C128's VDC */
+    MONITOR_WINDOW      /**< optional monitor window/terminal */
+};
+
+
+
+/** \brief  Struct holding basic UI rescources
+ */
+typedef struct ui_resources_s {
+
+    char *html_browser_command; /**< HTMLBrowserCommand (str) */
+    int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
+    int confirm_on_exit;        /**< ConfirmOnExit (bool) */
+
+    int depth;
+
+    video_canvas_t *canvas[NUM_WINDOWS];
+    GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
+    int window_width[NUM_WINDOWS];
+    int window_height[NUM_WINDOWS];
+    int window_xpos[NUM_WINDOWS];
+    int window_ypos[NUM_WINDOWS];
+
+} ui_resource_t;
+
+
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 

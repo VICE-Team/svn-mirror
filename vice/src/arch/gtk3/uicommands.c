@@ -41,8 +41,15 @@
 
 #include "resources.h"
 #include "debug_gtk3.h"
+#include "basedialogs.h"
+#include "drive.h"
+#include "machine.h"
+#include "vsync.h"
 
+#include "ui.h"
 #include "uicommands.h"
+
+extern ui_resource_t ui_resources;
 
 
 /** \brief  Switch warp mode
@@ -140,3 +147,101 @@ gboolean ui_mouse_grab_callback(GtkWidget *widget, gpointer user_data)
 
     return TRUE;
 }
+
+
+/** \brief  Callback for the soft/hard reset items
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
+ */
+void machine_reset_callback(GtkWidget *widget, gpointer user_data)
+{
+    vsync_suspend_speed_eval();
+    machine_trigger_reset(GPOINTER_TO_INT(user_data));
+}
+
+
+/** \brief  Callback for the drive reset items
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   drive unit number (8-11) (int)
+ */
+void drive_reset_callback(GtkWidget *widget, gpointer user_data)
+{
+    vsync_suspend_speed_eval();
+    drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);
+}
+
+
+/** \brief  Callback for the File->Exit menu item
+ *
+ * This asks the user to confirm to exit the emulator if ConfirmOnExit is set.
+ *
+ * \param[in]   widget      menu item triggering the event (unused)
+ * \param[in]   user_data   window index, optional, defaults to primary
+ */
+void ui_close_callback(GtkWidget *widget, gpointer user_data)
+{
+    int index;
+    int confirm;
+
+    if (user_data == NULL) {
+        index = PRIMARY_WINDOW;
+    } else {
+        index = GPOINTER_TO_INT(user_data);
+    }
+
+    resources_get_int("ConfirmOnExit", &confirm);
+    if (!confirm) {
+        gtk_widget_destroy(ui_resources.window_widget[index]);
+        return;
+    }
+
+    if (ui_message_confirm(ui_resources.window_widget[index], "Exit VICE",
+                "Do you really wish to exit VICE?")) {
+        debug_gtk3("Exit confirmed\n");
+        gtk_widget_destroy(ui_resources.window_widget[index]);
+    }
+}
+
+
+/** \brief  Handler for the "delete-event" of a GtkWindow
+ *
+ * \param[in]   widget      window triggering the event
+ * \param[in]   event       event details (unused)
+ * \param[in]   user_data   extra data for the event (unused)
+ *
+ * \return  `FALSE` to exit the emulator, `TRUE` to continue
+ */
+gboolean on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+    int confirm;
+
+    debug_gtk3("got 'delete-event'\n'");
+
+    resources_get_int("ConfirmOnExit", &confirm);
+    if (!confirm) {
+        return FALSE;
+    }
+
+    if (ui_message_confirm(widget, "Exit VICE",
+                "Do you really wish to exit VICE?")) {
+        debug_gtk3("Exit confirmed\n");
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
+/** \brief  Callback for a windows' "destroy" event
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   user_data   extra data for the callback (unused)
+ */
+void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
+{
+    debug_gtk3("called\n");
+    vsync_suspend_speed_eval();
+    ui_exit();
+}
+
