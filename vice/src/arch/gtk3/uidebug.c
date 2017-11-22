@@ -35,14 +35,15 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
 #include "basedialogs.h"
 #include "basewidgets.h"
+#include "debug_gtk3.h"
 #include "drive.h"
 #include "machine.h"
+#include "resources.h"
+#include "ui.h"
 #include "vsync.h"
+#include "widgethelpers.h"
 
 #include "uidebug.h"
 
@@ -95,32 +96,31 @@ static GtkWidget *create_trace_widget(void)
 
 
 
-static GtkWidget *create_trace_mode_dialog(GtkWidget *parent)
+static GtkWidget *create_trace_mode_dialog(GtkWindow *parent)
 {
     GtkWidget *dialog;
     GtkWidget *content;
 
     dialog = gtk_dialog_new_with_buttons("Select trace mode",
-            GTK_WINDOW(gtk_widget_get_toplevel(parent)), GTK_DIALOG_MODAL,
+            parent, GTK_DIALOG_MODAL,
             "Close", GTK_RESPONSE_CLOSE,
             NULL, NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_container_add(GTK_CONTAINER(content), create_trace_widget());
 
-    gtk_window_set_transient_for(GTK_WINDOW(dialog),
-            GTK_WINDOW(gtk_widget_get_toplevel(parent)));
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
     return dialog;
 }
 
 
-static GtkWidget *create_playback_frames_dialog(GtkWidget *parent)
+static GtkWidget *create_playback_frames_dialog(GtkWindow *parent)
 {
     GtkWidget *dialog;
     GtkWidget *content;
 
     dialog = gtk_dialog_new_with_buttons("Set auto playback frames",
-            GTK_WINDOW(gtk_widget_get_toplevel(parent)), GTK_DIALOG_MODAL,
+            parent, GTK_DIALOG_MODAL,
             "Close", GTK_RESPONSE_CLOSE,
             NULL, NULL);
 
@@ -128,8 +128,7 @@ static GtkWidget *create_playback_frames_dialog(GtkWidget *parent)
     gtk_container_add(GTK_CONTAINER(content), create_playback_widget());
 
 
-    gtk_window_set_transient_for(GTK_WINDOW(dialog),
-            GTK_WINDOW(gtk_widget_get_toplevel(parent)));
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
     return dialog;
 }
 
@@ -139,7 +138,7 @@ void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     int response;
 
-    dialog = create_trace_mode_dialog(widget);
+    dialog = create_trace_mode_dialog(ui_get_active_window());
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     debug_gtk3("Got response ID %d\n", response);
     gtk_widget_destroy(dialog);
@@ -151,7 +150,7 @@ void uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     int response;
 
-    dialog = create_playback_frames_dialog(widget);
+    dialog = create_playback_frames_dialog(ui_get_active_window());
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     debug_gtk3("Got response ID %d\n", response);
     gtk_widget_destroy(dialog);

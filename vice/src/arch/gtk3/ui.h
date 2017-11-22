@@ -104,5 +104,6 @@ void ui_set_selected_file(int num);
 void ui_common_init(void);
 void ui_common_shutdown(void);
 
+GtkWindow *ui_get_active_window(void);
 
 #endif

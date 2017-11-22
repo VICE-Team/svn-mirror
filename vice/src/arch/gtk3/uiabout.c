@@ -32,6 +32,7 @@
 
 #include "info.h"
 #include "lib.h"
+#include "ui.h"
 #include "version.h"
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
@@ -181,18 +182,17 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *about = gtk_about_dialog_new();
     GdkPixbuf *logo = get_vice_logo();
-    GtkWidget *window;
+    GtkWindow *window;
 
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
 #endif
 
     /* get toplevel window, Gtk doesn't like dialogs without parents */
-    window = gtk_widget_get_toplevel(widget);
-    /* if no toplevel is found, the widget itself is returned, we don't want
-     * that */
-    if (gtk_widget_is_toplevel(window)) {
-        gtk_window_set_transient_for(GTK_WINDOW(about), GTK_WINDOW(window));
+    window = ui_get_active_window();
+
+    if (gtk_widget_is_toplevel(GTK_WIDGET(window))) {
+        gtk_window_set_transient_for(GTK_WINDOW(about), window);
     }
 
     /* generate team members list */

@@ -631,6 +631,20 @@ static int fullscreen_has_decorations = 0;
  *                              Event handlers                                *
  *****************************************************************************/
 
+/** \brief  Get the most recently focused main window
+ *
+ * \return  pointer to a main window
+ */
+GtkWindow *ui_get_active_window(void)
+{
+    if (active_win_index < 0) {
+        /* Probably should never end up here. */
+        return GTK_WINDOW(ui_resources.window_widget[PRIMARY_WINDOW]);
+    }
+
+    return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
+}
+
 /** \brief  Get a window's index
  *
  * \param[in]   widget      window to get the index of
