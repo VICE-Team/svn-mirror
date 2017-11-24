@@ -309,12 +309,15 @@ static void vice_opengl_destroy_context(video_canvas_t *canvas)
 {
     if (canvas) {
         context_t *ctx = (context_t *)canvas->renderer_context;
-        if (!ctx) {
+        if (ctx == NULL) {
             return;
         }
         /* TODO: delete textures, shaders, backbuffers, etc */
-        lib_free(ctx);
+        if (ctx->backbuffer != NULL) {
+            lib_free(ctx->backbuffer);
+        }
         canvas->renderer_context = NULL;
+        lib_free(ctx);
     }
 }
 
