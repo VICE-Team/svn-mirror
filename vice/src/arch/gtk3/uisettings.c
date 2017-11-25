@@ -125,6 +125,7 @@
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
+#include "ui.h"
 
 #include "uisettings.h"
 
@@ -833,7 +834,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 
     dialog = gtk_dialog_new_with_buttons(
             title,
-            GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+            ui_get_active_window(),
             GTK_DIALOG_MODAL,
             "Load", RESPONSE_LOAD,
             "Save", RESPONSE_SAVE,

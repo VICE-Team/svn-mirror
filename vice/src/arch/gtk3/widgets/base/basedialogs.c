@@ -31,6 +31,7 @@
 
 #include "lib.h"
 #include "debug_gtk3.h"
+#include "ui.h"
 
 #include "basedialogs.h"
 
@@ -52,7 +53,7 @@ static GtkWidget *create_dialog(GtkWidget *widget,
     GtkWidget *dialog;
 
     dialog = gtk_message_dialog_new(
-            GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+            ui_get_active_window(),
             GTK_DIALOG_DESTROY_WITH_PARENT,
             type, buttons, NULL);
     gtk_window_set_title(GTK_WINDOW(dialog), title);

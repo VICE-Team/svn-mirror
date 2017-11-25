@@ -31,6 +31,7 @@
 #include "lib.h"
 #include "util.h"
 #include "filechooserhelpers.h"
+#include "ui.h"
 
 #include "uifliplist.h"
 
@@ -104,7 +105,7 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
         child_iter = child_iter->next;
     }
     g_list_free(children);
-    
+
     /* Fliplist controls in GTK2/GNOME are next/previous and then the
      * full list of entries within it. For GTK3 we only show these if
      * the fliplist isn't empty for this drive. */
@@ -180,7 +181,7 @@ void ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
     }
     dialog = gtk_file_chooser_dialog_new(
         _("Select flip list file"),
-        GTK_WINDOW(gtk_widget_get_toplevel(parent)),
+        ui_get_active_window(),
         GTK_FILE_CHOOSER_ACTION_OPEN,
         /* buttons */
         _("Open"), GTK_RESPONSE_ACCEPT,
@@ -193,7 +194,7 @@ void ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
     g_signal_connect(dialog, "response", G_CALLBACK(fliplist_load_response), data);
     gtk_widget_show_all(dialog);
 }
-        
+
 static void fliplist_save_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     int unit = GPOINTER_TO_INT(user_data);
@@ -219,7 +220,7 @@ void ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
     }
     dialog = gtk_file_chooser_dialog_new(
         _("Select flip list file"),
-        GTK_WINDOW(gtk_widget_get_toplevel(parent)),
+        ui_get_active_window(),
         GTK_FILE_CHOOSER_ACTION_SAVE,
         /* buttons */
         _("Save"), GTK_RESPONSE_ACCEPT,

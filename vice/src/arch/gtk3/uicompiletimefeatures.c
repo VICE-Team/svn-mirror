@@ -32,6 +32,7 @@
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "vicefeatures.h"
+#include "ui.h"
 
 #include "uicompiletimefeatures.h"
 
@@ -120,7 +121,7 @@ void uicompiletimefeatures_dialog_show(GtkWidget *widget, gpointer user_data)
     g_snprintf(title, 256, "%s compile time features", machine_name);
 
     dialog = gtk_dialog_new_with_buttons(title,
-            GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+            ui_get_active_window(),
             GTK_DIALOG_MODAL,
             "Close", GTK_RESPONSE_ACCEPT,
             NULL);

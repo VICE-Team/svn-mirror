@@ -46,6 +46,7 @@
 #include "vsync.h"
 #include "snapshot.h"
 #include "uistatusbar.h"
+#include "ui.h"
 
 #include "uisnapshot.h"
 
@@ -96,13 +97,12 @@ static void save_snapshot_dialog(GtkWidget *parent)
     int save_disks;
 
     dialog = gtk_file_chooser_dialog_new("Save snapshot file",
-            GTK_WINDOW(gtk_widget_get_toplevel(parent)),
+            ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_SAVE,
             "Save", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_CANCEL,
             NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog),
-            GTK_WINDOW(gtk_widget_get_toplevel(parent)));
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
 
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_snapshot, TRUE));

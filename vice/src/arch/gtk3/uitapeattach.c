@@ -34,6 +34,7 @@
 #include "debug_gtk3.h"
 #include "contentpreviewwidget.h"
 #include "filechooserhelpers.h"
+#include "ui.h"
 
 #include "uitapeattach.h"
 
@@ -200,7 +201,7 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
     /* create new dialog */
     dialog = gtk_file_chooser_dialog_new(
             "Attach a tape image",
-            GTK_WINDOW(gtk_widget_get_toplevel(parent)),
+            ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
             "Open", GTK_RESPONSE_ACCEPT,

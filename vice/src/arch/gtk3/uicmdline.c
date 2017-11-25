@@ -32,6 +32,7 @@
 #include "debug_gtk3.h"
 #include "machine.h"
 #include "cmdline.h"
+#include "ui.h"
 
 #include "uicmdline.h"
 
@@ -124,7 +125,7 @@ static GtkWidget *create_content_widget(void)
 
 /** \brief  Show list of command line options
  *
- * \param[in]   widget      parent widget
+ * \param[in]   widget      parent widget (unused)
  * \param[in]   user_data   extra data (unused)
  */
 void uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
@@ -136,7 +137,7 @@ void uicmdline_dialog_show(GtkWidget *widget, gpointer user_data)
     g_snprintf(title, 256, "%s command line options", machine_name);
 
     dialog = gtk_dialog_new_with_buttons(title,
-            GTK_WINDOW(gtk_widget_get_toplevel(widget)),
+            ui_get_active_window(),
             GTK_DIALOG_MODAL,
             "Close", GTK_RESPONSE_ACCEPT,
             NULL);

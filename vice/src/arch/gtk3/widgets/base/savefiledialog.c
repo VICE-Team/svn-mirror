@@ -31,6 +31,7 @@
 
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
+#include "ui.h"
 
 #include "savefiledialog.h"
 
@@ -56,20 +57,20 @@ gchar *ui_save_file_dialog(
         const char *path)
 {
     GtkWidget *dialog;
-    GtkWidget *parent;
+    GtkWindow *parent;
     gint result;
     gchar *filename;
 
-    parent = gtk_widget_get_toplevel(widget);
+    parent = ui_get_active_window();
 
     dialog = gtk_file_chooser_dialog_new(
             title,
-            GTK_WINDOW(parent),
+            parent,
             GTK_FILE_CHOOSER_ACTION_SAVE,
             "Save", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
 
     /* set overwrite confirmation */
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),

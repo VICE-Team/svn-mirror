@@ -31,6 +31,7 @@
 
 #include "debug_gtk3.h"
 #include "filechooserhelpers.h"
+#include "ui.h"
 
 #include "openfiledialog.h"
 
@@ -57,20 +58,20 @@ gchar *ui_open_file_dialog(
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
-    GtkWidget *parent;
+    GtkWindow *parent;
     gint result;
     gchar *filename;
 
-    parent = gtk_widget_get_toplevel(widget);
+    parent = ui_get_active_window();
 
     dialog = gtk_file_chooser_dialog_new(
             title,
-            GTK_WINDOW(parent),
+            parent,
             GTK_FILE_CHOOSER_ACTION_OPEN,
             "Open", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
             NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(parent));
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
 
     /* create * filter */
     filter = create_file_chooser_filter(file_chooser_filter_all, TRUE);
