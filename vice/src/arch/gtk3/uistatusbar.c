@@ -66,6 +66,7 @@ typedef struct ui_statusbar_s {
     GtkWidget *tape, *tape_menu;
     GtkWidget *joysticks;
     GtkWidget *drives[DRIVE_NUM], *drive_popups[DRIVE_NUM];
+    GdkCursor *hand_ptr;
 } ui_statusbar_t;
 
 static ui_statusbar_t allocated_bars[MAX_STATUS_BARS];
@@ -84,6 +85,7 @@ void ui_statusbar_init(void)
             allocated_bars[i].drives[j] = NULL;
             allocated_bars[i].drive_popups[j] = NULL;
         }
+        allocated_bars[i].hand_ptr = NULL;
     }
 
     sb_state.statustext_msgid = 0;
@@ -425,6 +427,44 @@ static GtkWidget *ui_joystick_widget_create(void)
     return grid;
 }
 
+static gboolean ui_statusbar_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+    ui_statusbar_t *sb = (ui_statusbar_t *)user_data;
+    if (event && event->type == GDK_ENTER_NOTIFY) {
+        GdkDisplay *display;
+        /* Sanity check arguments */
+        if (sb == NULL) {
+            /* Should be impossible */
+            return FALSE;
+        }
+        /* If the "hand" pointer hasn't been created yet, create it */
+        display = gtk_widget_get_display(widget);
+        if (display != NULL && sb->hand_ptr == NULL) {
+            sb->hand_ptr = gdk_cursor_new_from_name(display, "pointer");
+            if (sb->hand_ptr != NULL) {
+                g_object_ref_sink(G_OBJECT(sb->hand_ptr));
+            } else {
+                fprintf(stderr, "GTK3 CURSOR: Could not allocate custom pointer for status bar\n");
+            }
+        }
+        /* If the "hand" pointer is OK, use it */
+        if (sb->hand_ptr != NULL) {
+            GdkWindow *window = gtk_widget_get_window(widget);
+            if (window) {
+                gdk_window_set_cursor(window, sb->hand_ptr);
+            }
+        }
+    } else {
+        /* We're leaving the target widget, so change the pointer back
+         * to default */
+        GdkWindow *window = gtk_widget_get_window(widget);
+        if (window) {
+            gdk_window_set_cursor(window, NULL);
+        }
+    }
+    return FALSE;
+}
+
 static void layout_statusbar_drives(int bar_index)
 {
     int i, j, state, tde = 0;
@@ -471,6 +511,8 @@ static void layout_statusbar_drives(int bar_index)
             gtk_container_add(GTK_CONTAINER(event_box), drive);
             gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
             g_signal_connect(event_box, "button-press-event", G_CALLBACK(ui_do_drive_popup), GINT_TO_POINTER(i));
+            g_signal_connect(event_box, "enter-notify-event", G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+            g_signal_connect(event_box, "leave-notify-event", G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
             gtk_widget_show_all(event_box);
             if (tde & 1) {
                 gtk_widget_show(gtk_grid_get_child_at(GTK_GRID(drive), 2, 0));
@@ -516,6 +558,10 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                     allocated_bars[i].drives[j] = NULL;
                     allocated_bars[i].drive_popups[j] = NULL;
                 }
+            }
+            if (allocated_bars[i].hand_ptr) {
+                g_object_unref(G_OBJECT(allocated_bars[i].hand_ptr));
+                allocated_bars[i].hand_ptr = NULL;
             }
         }
     }
@@ -593,6 +639,8 @@ GtkWidget *ui_statusbar_create(void)
     allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
     g_object_ref_sink(G_OBJECT(allocated_bars[i].tape_menu));
     g_signal_connect(tape_events, "button-press-event", G_CALLBACK(ui_do_datasette_popup), GINT_TO_POINTER(i));
+    g_signal_connect(tape_events, "enter-notify-event", G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+    g_signal_connect(tape_events, "leave-notify-event", G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
 
     joysticks = ui_joystick_widget_create();
     g_object_ref(joysticks);
