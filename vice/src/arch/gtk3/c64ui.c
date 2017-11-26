@@ -55,6 +55,7 @@
 #include "retroreplaywidget.h"
 #include "easyflashwidget.h"
 #include "rrnetmk3widget.h"
+#include "uicart.h"
 
 #include "c64ui.h"
 
@@ -124,6 +125,11 @@ int c64ui_init(void)
     easyflash_widget_set_flush_func(cartridge_flush_image);
     rrnetmk3_widget_set_save_func(cartridge_save_image);
     rrnetmk3_widget_set_flush_func(cartridge_flush_image);
+
+    /* uicart_set_detect_func(cartridge_detect); only cbm2/plus4 */
+    uicart_set_attach_func(cartridge_attach_image);
+    uicart_set_freeze_func(cartridge_trigger_freeze);
+    uicart_set_detach_func(cartridge_detach_image);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

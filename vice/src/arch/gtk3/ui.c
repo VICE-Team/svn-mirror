@@ -66,6 +66,7 @@
 #include "uicompiletimefeatures.h"
 #include "uisnapshot.h"
 #include "uidebug.h"
+#include "uicart.h"
 
 #include "ui.h"
 
@@ -301,6 +302,16 @@ static ui_menu_item_t reset_submenu[] = {
 };
 
 
+/** \brief  'File->Cartridge attach' submenu
+ */
+static ui_menu_item_t cart_attach_submenu[] = {
+    { "Smart attach cart image ... ", UI_MENU_TYPE_ITEM_ACTION,
+        (void *)uicart_smart_attach_dialog, NULL,
+        GDK_KEY_C, GDK_MOD1_MASK },
+    UI_MENU_TERMINATOR
+};
+
+
 /** \brief  'File' menu
  */
 static ui_menu_item_t file_menu[] = {
@@ -343,14 +354,14 @@ static ui_menu_item_t file_menu[] = {
     UI_MENU_SEPARATOR,
 
     /* cart */
-    { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+    { "Attach cartridge image ...", UI_MENU_TYPE_SUBMENU,
+        NULL, cart_attach_submenu,
         GDK_KEY_C, GDK_MOD1_MASK },
     { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        (void *)uicart_detach, NULL,
         0, 0 },
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
+        (void *)uicart_trigger_freeze, NULL,
         GDK_KEY_Z, GDK_MOD1_MASK },
 
     UI_MENU_SEPARATOR,

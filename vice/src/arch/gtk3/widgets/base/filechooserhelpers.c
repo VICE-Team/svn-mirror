@@ -44,6 +44,12 @@ const char *file_chooser_pattern_all[] = {
 };
 
 
+/** \brief  Patterns for cartridge images
+ */
+const char *file_chooser_pattern_cart[] = {
+    "*.crt", "*.bin", NULL
+};
+
 /** \brief  Patterns for disk images
  */
 const char *file_chooser_pattern_disk[] = {
@@ -114,6 +120,11 @@ const char *file_chooser_pattern_snapshot [] = { "*.vsf", NULL };
 const ui_file_filter_t file_chooser_filter_all = {
     "All files",
     file_chooser_pattern_all
+};
+
+const ui_file_filter_t file_chooser_filter_cart = {
+    "Cartridge images",
+    file_chooser_pattern_cart
 };
 
 const ui_file_filter_t file_chooser_filter_disk = {

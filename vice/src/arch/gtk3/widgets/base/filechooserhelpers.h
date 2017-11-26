@@ -40,6 +40,7 @@ typedef struct ui_file_filter_s {
 /* these need extern, so now I'm wondering if this the correct approach
  * perhaps some 'getters' would be better, avoiding problems -- compyx */
 extern const gchar *file_chooser_pattern_all[];
+extern const gchar *file_chooser_pattern_cart[];
 extern const gchar *file_chooser_pattern_disk[];
 extern const gchar *file_chooser_pattern_tape[];
 extern const gchar *file_chooser_pattern_fliplist[];
@@ -49,6 +50,7 @@ extern const gchar *file_chooser_pattern_compressed[];
 extern const gchar *file_chooser_pattern_snapshot[];
 
 extern const ui_file_filter_t file_chooser_filter_all;
+extern const ui_file_filter_t file_chooser_filter_cart;
 extern const ui_file_filter_t file_chooser_filter_disk;
 extern const ui_file_filter_t file_chooser_filter_tape;
 extern const ui_file_filter_t file_chooser_filter_fliplist;

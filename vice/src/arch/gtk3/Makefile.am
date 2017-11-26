@@ -97,7 +97,8 @@ libarch_a_SOURCES = \
 	uisoundchipsettings.c \
 	uidrivesettings.c \
 	uisnapshot.c \
-	uidebug.c
+	uidebug.c \
+	uicart.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -157,4 +158,5 @@ EXTRA_DIST = \
 	uisoundchipsettings.h \
 	uidrivesettings.h \
 	uisnapshot.h \
-	uidebug.h
+	uidebug.h \
+	uicart.h
