@@ -119,6 +119,7 @@ int c64ui_init(void)
     mmcr_widget_set_eeprom_flush_func(cartridge_flush_image);
     mmc64_widget_set_eeprom_save_func(cartridge_save_image);
     mmc64_widget_set_eeprom_flush_func(cartridge_flush_image);
+    mmc64_widget_set_eeprom_enabled_func(cartridge_type_enabled);
     retroreplay_widget_set_save_func(cartridge_save_image);
     retroreplay_widget_set_flush_func(cartridge_flush_image);
     easyflash_widget_set_save_func(cartridge_save_image);

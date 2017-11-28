@@ -74,6 +74,7 @@ static const ui_radiogroup_entry_t card_types[] = {
 
 static int (*eeprom_save_func)(int, const char *) = NULL;
 static int (*eeprom_flush_func)(int) = NULL;
+static int (*eeprom_enabled_func)(int) = NULL;
 
 static GtkWidget *enable_widget = NULL;
 static GtkWidget *jumper_widget = NULL;
@@ -143,9 +144,11 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 
     debug_gtk3("called\n");
 
-    if (bios == NULL || *bios == '\0') {
-        debug_gtk3("can't enable MMC64, missing BIOS\n");
+    if (state && (bios == NULL || *bios == '\0')) {
+        debug_gtk3("can't enable MMC64, missing BIOS file\n");
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
+        ui_message_error(check, "VICE core error",
+                "Cannot enable cartridge due to missing BIOS file");
         return;
     }
 
@@ -154,6 +157,13 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
             /* failed to set resource */
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
             debug_gtk3("failed to activate MMC64, please set BIOS file\n");
+        }
+        /* doesn't work, attaching for example a KCS Power Cart will still
+         * return 37 (MMC64) */
+        if (eeprom_enabled_func != NULL) {
+            if (!eeprom_enabled_func(CARTRIDGE_MMC64)) {
+                debug_gtk3("failed to attach MMC64\n");
+            }
         }
     }
 }
@@ -234,6 +244,10 @@ static GtkWidget *create_mmc64_jumper_widget(void)
 }
 
 
+/** \brief  Create button to save the cartridge (BIOS) image
+ *
+ * \return  GtkButton
+ */
 static GtkWidget *create_save_button(void)
 {
     GtkWidget *button = gtk_button_new_with_label("Save image as ...");
@@ -242,6 +256,10 @@ static GtkWidget *create_save_button(void)
 }
 
 
+/** \brief  Create button to flush the cartridge (BIOS) image
+ *
+ * \return  GtkButton
+ */
 static GtkWidget *create_flush_button(void)
 {
     GtkWidget *button = gtk_button_new_with_label("Flush image");
@@ -398,7 +416,9 @@ static GtkWidget *create_clockport_widget(void)
 
     label = gtk_label_new("ClockPort device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+#if 0
     g_object_set(label, "margin-left", 16, NULL);
+#endif
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid),
@@ -432,22 +452,25 @@ GtkWidget *mmc64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), card_widget, 0, 2, 2, 1);
 
     card_type_widget = create_card_type_widget();
+    g_object_set(card_type_widget,
+            "margin-left", 16,
+            "margin-bottom", 16,
+            NULL);
     gtk_grid_attach(GTK_GRID(grid), card_type_widget, 0, 3, 2, 1);
 
     jumper_widget = create_mmc64_jumper_widget();
-    g_object_set(jumper_widget, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), jumper_widget, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), jumper_widget, 0, 4, 2, 1);
 
     revision_widget = create_mmc64_revision_widget();
-    gtk_grid_attach(GTK_GRID(grid), revision_widget, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), revision_widget, 0, 5, 2, 1);
 
     clockport_widget = create_clockport_widget();
-    gtk_grid_attach(GTK_GRID(grid), clockport_widget, 0, 5, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), clockport_widget, 0, 6, 2, 1);
 
     save_button = create_save_button();
     flush_button = create_flush_button();
-    gtk_grid_attach(GTK_GRID(grid), save_button, 0, 6, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), save_button, 0, 7, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), flush_button, 1, 7, 1, 1);
 
 #if 0
     eeprom_widget = create_eeprom_image_widget(parent);
@@ -485,3 +508,14 @@ void mmc64_widget_set_eeprom_flush_func(int (*func)(int))
 {
     eeprom_flush_func = func;
 }
+
+
+/** \brief  Set function to use to flush the EEPROM image
+ *
+ * \param[in]   func    function
+ */
+void mmc64_widget_set_eeprom_enabled_func(int (*func)(int))
+{
+    eeprom_enabled_func = func;
+}
+

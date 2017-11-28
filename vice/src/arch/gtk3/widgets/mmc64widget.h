@@ -33,5 +33,6 @@
 GtkWidget * mmc64_widget_create(GtkWidget *parent);
 void        mmc64_widget_set_eeprom_save_func(int (*func)(int, const char *));
 void        mmc64_widget_set_eeprom_flush_func(int (*func)(int));
+void        mmc64_widget_set_eeprom_enabled_func(int (*func)(int));
 
 #endif
