@@ -44,6 +44,7 @@
 #include "savefiledialog.h"
 #include "cartridge.h"
 #include "cartimagewidget.h"
+#include "carthelpers.h"
 
 #include "ramcartwidget.h"
 
@@ -62,9 +63,6 @@ static GtkWidget *ramcart_enable_widget = NULL;
 static GtkWidget *ramcart_size = NULL;
 static GtkWidget *ramcart_readonly = NULL;
 static GtkWidget *ramcart_image = NULL;
-
-static int (*ramcart_save_func)(int, const char *) = NULL;
-static int (*ramcart_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the ramcart_enable widget
@@ -126,7 +124,7 @@ static GtkWidget *create_ramcart_image_widget(GtkWidget *parent)
 {
     return cart_image_widget_create(parent, "RAMCART image",
             "RAMCARTfilename", "RAMCARTImageWrite",
-            ramcart_save_func, ramcart_flush_func,
+            carthelpers_save_func, carthelpers_flush_func,
             CARTRIDGE_NAME_RAMCART, CARTRIDGE_RAMCART);
 
 }
@@ -166,24 +164,4 @@ GtkWidget *ramcart_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set save function for the RAMCART extension
- *
- * \param[in]   func    save function
- */
-void ramcart_widget_set_save_handler(int (*func)(int, const char *))
-{
-    ramcart_save_func = func;
-}
-
-
-/** \brief  Set flush function for the RAMCART extension
- *
- * \param[in]   func    save function
- */
-void ramcart_widget_set_flush_handler(int (*func)(int))
-{
-    ramcart_flush_func = func;
 }

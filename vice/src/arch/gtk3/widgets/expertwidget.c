@@ -43,6 +43,7 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "cartridge.h"
+#include "carthelpers.h"
 
 #include "expertwidget.h"
 
@@ -61,9 +62,6 @@ static ui_radiogroup_entry_t mode_list[] = {
 static GtkWidget *expert_enable_widget = NULL;
 static GtkWidget *expert_image = NULL;
 static GtkWidget *expert_mode = NULL;
-
-static int (*expert_save_func)(int, const char *) = NULL;
-static int (*expert_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the expert_enable widget
@@ -123,7 +121,7 @@ static GtkWidget *create_expert_image_widget(GtkWidget *parent)
 {
     return cart_image_widget_create(parent, "Expert Cartridge image",
             "Expertfilename", "ExpertImageWrite",
-            expert_save_func, expert_flush_func,
+            carthelpers_save_func, carthelpers_flush_func,
             CARTRIDGE_NAME_EXPERT, CARTRIDGE_EXPERT);
 }
 
@@ -160,24 +158,4 @@ GtkWidget *expert_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set save function for the Expert Cartridge extension
- *
- * \param[in]   func    save function
- */
-void expert_widget_set_save_handler(int (*func)(int, const char *))
-{
-    expert_save_func = func;
-}
-
-
-/** \brief  Set flush function for the Expert Cartridge extension
- *
- * \param[in]   func    save function
- */
-void expert_widget_set_flush_handler(int (*func)(int))
-{
-    expert_flush_func = func;
 }

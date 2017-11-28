@@ -45,6 +45,7 @@
 #include "savefiledialog.h"
 #include "clockportdevicewidget.h"
 #include "cartridge.h"
+#include "carthelpers.h"
 
 #include "retroreplaywidget.h"
 
@@ -59,10 +60,6 @@ static ui_combo_entry_int_t rr_revisions[] = {
 
 
 
-static int (*save_func)(int, const char *) = NULL;
-static int (*flush_func)(int) = NULL;
-
-
 /** \brief  Handler for the "clicked" event of the "Save As" button
  *
  * \param[in]   widget      button
@@ -75,7 +72,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     filename = ui_save_file_dialog(widget, "Save image as", NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("writing RR image file as '%s'\n", filename);
-        if (save_func(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
+        if (carthelpers_save_func(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
             /* ui_error("Failed to save RR image '%s'", filename); */
         }
         g_free(filename);
@@ -91,7 +88,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("flushing RR image\n");
-    if (flush_func(CARTRIDGE_RETRO_REPLAY) < 0) {
+    if (carthelpers_flush_func(CARTRIDGE_RETRO_REPLAY) < 0) {
         /* TODO: report error */
     }
 }
@@ -164,24 +161,4 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set function to save RR image to disk
- *
- * \param[in]   func    function to save image
- */
-void retroreplay_widget_set_save_func(int (*func)(int, const char *))
-{
-    save_func = func;
-}
-
-
-/** \brief  Set function to flush RR image to disk
- *
- * \param[in]   func    function to flush image
- */
-void retroreplay_widget_set_flush_func(int (*func)(int))
-{
-    flush_func = func;
 }

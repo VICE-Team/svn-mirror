@@ -41,12 +41,9 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "cartridge.h"
+#include "carthelpers.h"
 
 #include "easyflashwidget.h"
-
-
-static int (*save_func)(int, const char *) = NULL;
-static int (*flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "clicked" event of the "Save As" button
@@ -61,7 +58,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     filename = ui_save_file_dialog(widget, "Save image as", NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("writing EF image file as '%s'\n", filename);
-        if (save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
+        if (carthelpers_save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
             /* ui_error("Failed to save EF image '%s'", filename); */
         }
         g_free(filename);
@@ -77,7 +74,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("flushing EF image\n");
-    if (flush_func(CARTRIDGE_EASYFLASH) < 0) {
+    if (carthelpers_flush_func(CARTRIDGE_EASYFLASH) < 0) {
         /* TODO: report error */
     }
 }
@@ -127,24 +124,4 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set function to save EF image to disk
- *
- * \param[in]   func    function to save image
- */
-void easyflash_widget_set_save_func(int (*func)(int, const char *))
-{
-    save_func = func;
-}
-
-
-/** \brief  Set function to flush EF image to disk
- *
- * \param[in]   func    function to flush image
- */
-void easyflash_widget_set_flush_func(int (*func)(int))
-{
-    flush_func = func;
 }

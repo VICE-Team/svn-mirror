@@ -1,5 +1,5 @@
-/** \file   src/arch/gtk3/widgets/mmc64widget.h
- * \brief   Widget to control MMC64 resources - header
+/** \file   src/arch/gtk3/widgets/base/carthelpers.h
+ * \brief   Cartridge helpers functions - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,12 +24,20 @@
  *
  */
 
-#ifndef VICE_MMC64WIDGET_H
-#define VICE_MMC64WIDGET_H
+#ifndef VICE_CARTHELPERS_H
+#define VICE_CARTHELPERS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget * mmc64_widget_create(GtkWidget *parent);
+int (*carthelpers_save_func)(int type, const char *filename);
+int (*carthelpers_flush_func)(int type);
+int (*carthelpers_enabled_func)(int type);
+
+
+void carthelpers_set_functions(
+        int (*save_func)(int, const char *),
+        int (*flush_func)(int),
+        int (*enabled_func)(int));
 
 #endif

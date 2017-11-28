@@ -55,6 +55,7 @@
 #include "retroreplaywidget.h"
 #include "easyflashwidget.h"
 #include "rrnetmk3widget.h"
+#include "carthelpers.h"
 
 #include "scpu64ui.h"
 
@@ -97,30 +98,10 @@ int scpu64ui_init(void)
     clockport_device_widget_set_devices((void *)clockport_supported_devices);
 
     /* I/O extension function pointers */
-    georam_widget_set_save_handler(cartridge_save_image);
-    georam_widget_set_flush_handler(cartridge_flush_image);
-    reu_widget_set_save_handler(cartridge_save_image);
-    reu_widget_set_flush_handler(cartridge_flush_image);
-    ramcart_widget_set_save_handler(cartridge_save_image);
-    ramcart_widget_set_flush_handler(cartridge_flush_image);
-    dqbb_widget_set_save_handler(cartridge_save_image);
-    dqbb_widget_set_flush_handler(cartridge_flush_image);
-    expert_widget_set_save_handler(cartridge_save_image);
-    expert_widget_set_flush_handler(cartridge_flush_image);
-    isepic_widget_set_save_handler(cartridge_save_image);
-    isepic_widget_set_flush_handler(cartridge_flush_image);
-    gmod2_widget_set_save_handler(cartridge_save_image);
-    gmod2_widget_set_flush_handler(cartridge_flush_image);
-    mmcr_widget_set_eeprom_save_func(cartridge_save_image);
-    mmcr_widget_set_eeprom_flush_func(cartridge_flush_image);
-    mmc64_widget_set_eeprom_save_func(cartridge_save_image);
-    mmc64_widget_set_eeprom_flush_func(cartridge_flush_image);
-    retroreplay_widget_set_save_func(cartridge_save_image);
-    retroreplay_widget_set_flush_func(cartridge_flush_image);
-    easyflash_widget_set_save_func(cartridge_save_image);
-    easyflash_widget_set_flush_func(cartridge_flush_image);
-    rrnetmk3_widget_set_save_func(cartridge_save_image);
-    rrnetmk3_widget_set_flush_func(cartridge_flush_image);
+    carthelpers_set_functions(
+            cartridge_save_image,
+            cartridge_flush_image,
+            cartridge_type_enabled);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

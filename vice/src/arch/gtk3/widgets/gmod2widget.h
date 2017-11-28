@@ -31,7 +31,5 @@
 #include <gtk/gtk.h>
 
 GtkWidget * gmod2_widget_create(GtkWidget *parent);
-void        gmod2_widget_set_save_handler(int (*func)(int, const char *));
-void        gmod2_widget_set_flush_handler(int (*func)(int));
 
 #endif

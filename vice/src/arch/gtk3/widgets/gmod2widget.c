@@ -42,12 +42,14 @@
 #include "savefiledialog.h"
 #include "cartridge.h"
 #include "cartimagewidget.h"
+#include "carthelpers.h"
 
 #include "gmod2widget.h"
 
-
+#if 0
 static int (*gmod2_save_func)(int, const char *) = NULL;
 static int (*gmod2_flush_func)(int) = NULL;
+#endif
 
 
 /** \brief  Handler for the "clicked" event of the Save Image button
@@ -57,22 +59,17 @@ static int (*gmod2_flush_func)(int) = NULL;
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (gmod2_save_func != NULL) {
-        /* TODO: retrieve filename of cart image */
-        gchar *filename = ui_save_file_dialog(widget, "Save Cartridge image",
-                NULL, TRUE, NULL);
-        if (filename != NULL) {
-            debug_gtk3("saving GMod2 cart image as '%s'\n", filename);
-            if (gmod2_save_func(CARTRIDGE_GMOD2, filename) < 0) {
-                ui_message_error(widget, "Saving failed",
-                        "Failed to save cartridge image '%s'",
-                        filename);
-            }
-            g_free(filename);
+    /* TODO: retrieve filename of cart image */
+    gchar *filename = ui_save_file_dialog(widget, "Save Cartridge image",
+            NULL, TRUE, NULL);
+    if (filename != NULL) {
+        debug_gtk3("saving GMod2 cart image as '%s'\n", filename);
+        if (carthelpers_save_func(CARTRIDGE_GMOD2, filename) < 0) {
+            ui_message_error(widget, "Saving failed",
+                    "Failed to save cartridge image '%s'",
+                    filename);
         }
-    } else {
-        ui_message_error(widget, "VICE core error",
-                "No gmod2_save_func() installed, check code");
+        g_free(filename);
     }
 }
 
@@ -84,15 +81,10 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (gmod2_flush_func != NULL) {
-        if (gmod2_flush_func(CARTRIDGE_GMOD2) < 0) {
-            debug_gtk3("Flusing GMod2 cart image\n");
-            ui_message_error(widget, "Flushing failed",
-                        "Failed to fush cartridge image");
-        }
-    } else {
-        ui_message_error(widget, "VICE core error",
-                "No gmod2_flush_func() installed, check code");
+    if (carthelpers_flush_func(CARTRIDGE_GMOD2) < 0) {
+        debug_gtk3("Flusing GMod2 cart image\n");
+        ui_message_error(widget, "Flushing failed",
+                    "Failed to fush cartridge image");
     }
 }
 
@@ -217,24 +209,4 @@ GtkWidget *gmod2_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set save function for the GMod2 extension
- *
- * \param[in]   func    save function
- */
-void gmod2_widget_set_save_handler(int (*func)(int, const char *))
-{
-    gmod2_save_func = func;
-}
-
-
-/** \brief  Set flush function for the GMod2 extension
- *
- * \param[in]   func    flush function
- */
-void gmod2_widget_set_flush_handler(int (*func)(int))
-{
-    gmod2_flush_func = func;
 }

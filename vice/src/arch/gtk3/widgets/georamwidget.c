@@ -43,6 +43,7 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "cartimagewidget.h"
+#include "carthelpers.h"
 #include "cartridge.h"
 
 #include "georamwidget.h"
@@ -67,9 +68,6 @@ static GtkWidget *georam_enable_widget = NULL;  /* georam_enable lives in
 static GtkWidget *georam_size = NULL;
 static GtkWidget *georam_ioswap = NULL;
 static GtkWidget *georam_image = NULL;
-
-static int (*georam_save_func)(int, const char *) = NULL;
-static int (*georam_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the georam_enable widget
@@ -142,7 +140,7 @@ static GtkWidget *create_georam_image_widget(GtkWidget *parent)
 {
     return cart_image_widget_create(parent, "GEORAM Image",
             "GEORAMfilename", "GEORAMImageWrite",
-            georam_save_func, georam_flush_func,
+            carthelpers_save_func, carthelpers_flush_func,
             CARTRIDGE_NAME_GEORAM, CARTRIDGE_GEORAM);
 }
 
@@ -183,24 +181,4 @@ GtkWidget *georam_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set save function for the GEORAM extension
- *
- * \param[in]   func    save function
- */
-void georam_widget_set_save_handler(int (*func)(int, const char *))
-{
-    georam_save_func = func;
-}
-
-
-/** \brief  Set flush function for the GEORAM extension
- *
- * \param[in]   func    flush function
- */
-void georam_widget_set_flush_handler(int (*func)(int))
-{
-    georam_flush_func = func;
 }

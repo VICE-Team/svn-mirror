@@ -38,12 +38,9 @@
 #include "basedialogs.h"
 #include "savefiledialog.h"
 #include "cartridge.h"
+#include "carthelpers.h"
 
 #include "rrnetmk3widget.h"
-
-
-static int (*save_func)(int, const char *) = NULL;
-static int (*flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "clicked" event of the "Save As" button
@@ -58,7 +55,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     filename = ui_save_file_dialog(widget, "Save image as", NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("writing RRNetMk3 image file as '%s'\n", filename);
-        if (save_func(CARTRIDGE_RRNETMK3, filename) < 0) {
+        if (carthelpers_save_func(CARTRIDGE_RRNETMK3, filename) < 0) {
             /* ui_error("Failed to save RRNetMk3 image '%s'", filename); */
         }
         g_free(filename);
@@ -74,7 +71,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("flushing RRNetMk3 image\n");
-    if (flush_func(CARTRIDGE_RRNETMK3) < 0) {
+    if (carthelpers_flush_func(CARTRIDGE_RRNETMK3) < 0) {
         /* TODO: report error */
     }
 }
@@ -121,24 +118,4 @@ GtkWidget *rrnetmk3_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set function to save RRNetMk3 image to disk
- *
- * \param[in]   func    function to save image
- */
-void rrnetmk3_widget_set_save_func(int (*func)(int, const char *))
-{
-    save_func = func;
-}
-
-
-/** \brief  Set function to flush RRNetMk3 image to disk
- *
- * \param[in]   func    function to flush image
- */
-void rrnetmk3_widget_set_flush_func(int (*func)(int))
-{
-    flush_func = func;
 }

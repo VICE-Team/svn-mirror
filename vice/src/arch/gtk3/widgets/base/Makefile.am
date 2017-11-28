@@ -40,7 +40,8 @@ libbasewidgets_a_SOURCES = \
 	savefiledialog.c \
 	selectdirectorydialog.c \
 	filechooserhelpers.c \
-	clockportdevicewidget.c
+	clockportdevicewidget.c \
+	carthelpers.c
 
 EXTRA_DIST = \
 	basedialogs.h \
@@ -59,4 +60,5 @@ EXTRA_DIST = \
 	savefiledialog.h \
 	selectdirectorydialog.h \
 	filechooserhelpers.h \
-	clockportdevicewidget.h
+	clockportdevicewidget.h \
+	carthelpers.h

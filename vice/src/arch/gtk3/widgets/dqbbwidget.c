@@ -42,6 +42,7 @@
 #include "savefiledialog.h"
 #include "cartimagewidget.h"
 #include "cartridge.h"
+#include "carthelpers.h"
 
 #include "dqbbwidget.h"
 
@@ -50,9 +51,6 @@
  * resources */
 static GtkWidget *dqbb_enable_widget = NULL;
 static GtkWidget *dqbb_image = NULL;
-
-static int (*dqbb_save_func)(int, const char *) = NULL;
-static int (*dqbb_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the dqbb_enable widget
@@ -90,7 +88,7 @@ static GtkWidget *create_dqbb_image_widget(GtkWidget *parent)
 {
     return cart_image_widget_create(parent, "DQBB image",
             "DQBBfilename", "DQBBImageWrite",
-            dqbb_save_func, dqbb_flush_func,
+            carthelpers_save_func, carthelpers_flush_func,
             CARTRIDGE_NAME_DQBB, CARTRIDGE_DQBB);
 }
 
@@ -123,24 +121,4 @@ GtkWidget *dqbb_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set save function for the Double Quick Brown Box extension
- *
- * \param[in]   func    save function
- */
-void dqbb_widget_set_save_handler(int (*func)(int, const char *))
-{
-    dqbb_save_func = func;
-}
-
-
-/** \brief  Set flush function for the Double Quick Brown Box extension
- *
- * \param[in]   func    flush function
- */
-void dqbb_widget_set_flush_handler(int (*func)(int))
-{
-    dqbb_flush_func = func;
 }

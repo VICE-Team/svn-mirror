@@ -44,6 +44,7 @@
 #include "savefiledialog.h"
 #include "cartridge.h"
 #include "cartimagewidget.h"
+#include "carthelpers.h"
 
 #include "reuwidget.h"
 
@@ -68,9 +69,6 @@ static GtkWidget *reu_enable_widget = NULL;
 static GtkWidget *reu_size = NULL;
 static GtkWidget *reu_ioswap = NULL;
 static GtkWidget *reu_image = NULL;
-
-static int (*reu_save_func)(int, const char *) = NULL;
-static int (*reu_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "toggled" event of the reu_enable widget
@@ -140,7 +138,7 @@ static GtkWidget *create_reu_image_widget(GtkWidget *parent)
 {
     return cart_image_widget_create(parent, "REU image",
             "REUfilename", "REUImageWrite",
-            reu_save_func, reu_flush_func,
+            carthelpers_save_func, carthelpers_flush_func,
             CARTRIDGE_NAME_REU, CARTRIDGE_REU);
 }
 
@@ -182,24 +180,3 @@ GtkWidget *reu_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
-/** \brief  Set save function for the RAM Module Extension
- *
- * \param[in]   func    save function
- */
-void reu_widget_set_save_handler(int (*func)(int, const char *))
-{
-    reu_save_func = func;
-}
-
-
-/** \brief  Set flush function for the RAM Module Extension
- *
- * \param[in]   func    flush function
- */
-void reu_widget_set_flush_handler(int (*func)(int))
-{
-    reu_flush_func = func;
-}
-

@@ -47,6 +47,7 @@
 #include "savefiledialog.h"
 #include "cartimagewidget.h"
 #include "cartridge.h"
+#include "carthelpers.h"
 
 #include "mmcrwidget.h"
 
@@ -60,10 +61,6 @@ static const ui_radiogroup_entry_t card_types[] = {
     { "SDHC", 3 },
     { NULL, -1 }
 };
-
-
-static int (*eeprom_save_func)(int, const char *) = NULL;
-static int (*eeprom_flush_func)(int) = NULL;
 
 
 /** \brief  Handler for the "clicked" event of the memory card browse button
@@ -121,7 +118,7 @@ static GtkWidget *create_eeprom_image_widget(GtkWidget *parent)
 {
     return cart_image_widget_create(parent, "MMC Replay EEPROM image",
             "MMCREEPROMImage", "MMCRImageWrite",
-            eeprom_save_func, eeprom_flush_func,
+            carthelpers_save_func, carthelpers_flush_func,
             CARTRIDGE_NAME_MMC_REPLAY, CARTRIDGE_MMC_REPLAY);
 }
 
@@ -227,24 +224,4 @@ GtkWidget *mmcr_widget_create(GtkWidget *parent)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Set function to use to save the EEPROM image
- *
- * \param[in]   func    function
- */
-void mmcr_widget_set_eeprom_save_func(int (*func)(int, const char *))
-{
-    eeprom_save_func = func;
-}
-
-
-/** \brief  Set function to use to flush the EEPROM image
- *
- * \param[in]   func    function
- */
-void mmcr_widget_set_eeprom_flush_func(int (*func)(int))
-{
-    eeprom_flush_func = func;
 }

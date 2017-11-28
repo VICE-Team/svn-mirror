@@ -48,6 +48,7 @@
 #include "savefiledialog.h"
 #include "cartimagewidget.h"
 #include "cartridge.h"
+#include "carthelpers.h"
 
 #include "mmc64widget.h"
 
@@ -71,10 +72,6 @@ static const ui_radiogroup_entry_t card_types[] = {
     { NULL, -1 }
 };
 
-
-static int (*eeprom_save_func)(int, const char *) = NULL;
-static int (*eeprom_flush_func)(int) = NULL;
-static int (*eeprom_enabled_func)(int) = NULL;
 
 static GtkWidget *enable_widget = NULL;
 static GtkWidget *jumper_widget = NULL;
@@ -160,10 +157,8 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
         }
         /* doesn't work, attaching for example a KCS Power Cart will still
          * return 37 (MMC64) */
-        if (eeprom_enabled_func != NULL) {
-            if (!eeprom_enabled_func(CARTRIDGE_MMC64)) {
-                debug_gtk3("failed to attach MMC64\n");
-            }
+        if (!carthelpers_enabled_func(CARTRIDGE_MMC64)) {
+            debug_gtk3("failed to attach MMC64\n");
         }
     }
 }
@@ -176,22 +171,17 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
  */
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (eeprom_save_func != NULL) {
-        /* TODO: retrieve filename of cart image */
-        gchar *filename = ui_save_file_dialog(widget, "Save Cartridge image",
-                NULL, TRUE, NULL);
-        if (filename != NULL) {
-            debug_gtk3("saving MMC64 cart image as '%s'\n", filename);
-            if (eeprom_save_func(CARTRIDGE_MMC64, filename) < 0) {
-                ui_message_error(widget, "Saving failed",
-                        "Failed to save cartridge image '%s'",
-                        filename);
-            }
-            g_free(filename);
+    /* TODO: retrieve filename of cart image */
+    gchar *filename = ui_save_file_dialog(widget, "Save Cartridge image",
+            NULL, TRUE, NULL);
+    if (filename != NULL) {
+        debug_gtk3("saving MMC64 cart image as '%s'\n", filename);
+        if (carthelpers_save_func(CARTRIDGE_MMC64, filename) < 0) {
+            ui_message_error(widget, "Saving failed",
+                    "Failed to save cartridge image '%s'",
+                    filename);
         }
-    } else {
-        ui_message_error(widget, "VICE core error",
-                "No mmc64_save_func() installed, check code");
+        g_free(filename);
     }
 }
 
@@ -203,15 +193,10 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
-    if (eeprom_flush_func != NULL) {
-        if (eeprom_flush_func(CARTRIDGE_MMC64) < 0) {
-            debug_gtk3("Flusing MMC64 cart image\n");
-            ui_message_error(widget, "Flushing failed",
-                        "Failed to fush cartridge image");
-        }
-    } else {
-        ui_message_error(widget, "VICE core error",
-                "No mmc64_flush_func() installed, check code");
+    if (carthelpers_flush_func(CARTRIDGE_MMC64) < 0) {
+        debug_gtk3("Flusing MMC64 cart image\n");
+        ui_message_error(widget, "Flushing failed",
+                    "Failed to fush cartridge image");
     }
 }
 
@@ -488,34 +473,3 @@ GtkWidget *mmc64_widget_create(GtkWidget *parent)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-
-/** \brief  Set function to use to save the EEPROM image
- *
- * \param[in]   func    function
- */
-void mmc64_widget_set_eeprom_save_func(int (*func)(int, const char *))
-{
-    eeprom_save_func = func;
-}
-
-
-/** \brief  Set function to use to flush the EEPROM image
- *
- * \param[in]   func    function
- */
-void mmc64_widget_set_eeprom_flush_func(int (*func)(int))
-{
-    eeprom_flush_func = func;
-}
-
-
-/** \brief  Set function to use to flush the EEPROM image
- *
- * \param[in]   func    function
- */
-void mmc64_widget_set_eeprom_enabled_func(int (*func)(int))
-{
-    eeprom_enabled_func = func;
-}
-
