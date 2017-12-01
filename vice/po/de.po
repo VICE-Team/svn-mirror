@@ -7,7 +7,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-30 14:00-0700\n"
 "PO-Revision-Date: 2017-04-01 12:55+0200\n"
-"Last-Translator: pottendo (pottendo@gmx.net)\n"
+"Last-Translator: Stefan Haubenthal (polluks@sdf.lonestar.org)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -2047,7 +2047,7 @@ msgstr "Vertikal dehnen"
 #: src/arch/unix/gui/uivicii.c:256 src/arch/win32/res.rc.po.c:1365
 #: src/arch/amigaos/intl_text.c.po.c:1685
 msgid "Double scan"
-msgstr "Doppelt Scan"
+msgstr "Doppelscan"
 
 #: src/arch/unix/gui/uicrtc.c:222 src/arch/unix/gui/uited.c:238
 #: src/arch/unix/gui/uivdc.c:236 src/arch/unix/gui/uivic.c:237
@@ -2493,7 +2493,7 @@ msgstr "Formel 64"
 #: src/arch/unix/gui/uidrivec64c128.c:97 src/arch/unix/gui/uidriveplus4.c:84
 #: src/arch/win32/res.rc.po.c:1503 src/arch/amigaos/intl_text.c.po.c:7229
 msgid "Parallel cable"
-msgstr "Parallel Kabel"
+msgstr "Parallelkabel"
 
 #: src/arch/unix/gui/uidrivec64c128.c:105 src/translate_text.c.po.c:11590
 msgid "Enable Professional DOS"
@@ -3287,7 +3287,7 @@ msgstr "Benutzerdefinierte Palette laden"
 msgid ""
 "Could not load palette file\n"
 "'%s'"
-msgstr "Kann Paletten Datei `%s' nicht laden."
+msgstr "Kann Palettendatei `%s' nicht laden."
 
 #: src/arch/unix/gui/uiperipheral.c:50 src/translate_text.c.po.c:17478
 msgid "Path"
@@ -4056,7 +4056,7 @@ msgstr "Full"
 #: src/arch/unix/gui/uivicii.c:157 src/arch/win32/res.rc.po.c:1133
 #: src/arch/amigaos/intl_text.c.po.c:11319
 msgid "Scale2x"
-msgstr "Scale2x"
+msgstr "Scale2×"
 
 #: src/arch/unix/gui/uited.c:250 src/arch/unix/gui/uivic.c:254
 #: src/arch/unix/gui/uivicii.c:271 src/arch/win32/rested.rc.po.c:34
@@ -5443,11 +5443,11 @@ msgstr "Kann Snapshot Datei `%s' nicht speichern."
 
 #: src/arch/win32/res.rc.po.c:1128
 msgid "Could not load palette file."
-msgstr "Kann Paletten Datei nicht laden."
+msgstr "Kann Palettendatei nicht laden."
 
 #: src/arch/win32/res.rc.po.c:1129
 msgid "Load VICE palette file"
-msgstr "VICE Paletten Datei laden"
+msgstr "VICE Palettendatei laden"
 
 #: src/arch/win32/res.rc.po.c:1130
 msgid "Fullscreen/DirectX"
@@ -5662,7 +5662,7 @@ msgstr "Alle Dateien (*.*)"
 
 #: src/arch/win32/res.rc.po.c:1201
 msgid "VICE palette files (*.vpl)"
-msgstr "Vice Paletten Dateien (*.vpl)"
+msgstr "Vice Palettendateien (*.vpl)"
 
 #: src/arch/win32/res.rc.po.c:1202
 msgid "VICE snapshot files (*.vsf)"
@@ -6113,7 +6113,7 @@ msgstr "Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1376
 msgid "VICII Palette"
-msgstr "VICII Paletten"
+msgstr "VIC-II Paletten"
 
 #: src/arch/win32/res.rc.po.c:1377
 msgid "VIC Palette"
@@ -6133,7 +6133,7 @@ msgstr "TED Palette"
 
 #: src/arch/win32/res.rc.po.c:1381
 msgid "VICII Colors"
-msgstr "VICII Farben"
+msgstr "VIC-II Farben"
 
 #: src/arch/win32/res.rc.po.c:1382
 msgid "VIC Colors"
@@ -6153,7 +6153,7 @@ msgstr "TED Farben"
 
 #: src/arch/win32/res.rc.po.c:1386
 msgid "VICII CRT emulation"
-msgstr "VICII CRT Emulation"
+msgstr "VIC-II CRT Emulation"
 
 #: src/arch/win32/res.rc.po.c:1387
 msgid "VIC CRT emulation"
@@ -6173,7 +6173,7 @@ msgstr "TED CRT Emulation"
 
 #: src/arch/win32/res.rc.po.c:1391
 msgid "VICII Render filter"
-msgstr "VICII Render Filter"
+msgstr "VIC-II Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1392
 msgid "VIC Render filter"
@@ -6193,7 +6193,7 @@ msgstr "TED Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1396
 msgid "VICII Audio leak"
-msgstr "VICII Audio Leak"
+msgstr "VIC-II Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1397
 msgid "VIC Audio leak"
@@ -6213,7 +6213,7 @@ msgstr "TED Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1401
 msgid "VICII Renderer"
-msgstr "VICII Renderer"
+msgstr "VIC-II Renderer"
 
 #: src/arch/win32/res.rc.po.c:1402
 msgid "VIC Renderer"
@@ -6483,7 +6483,7 @@ msgstr "Speicher"
 
 #: src/arch/win32/res.rc.po.c:1495 src/arch/amigaos/intl_text.c.po.c:7173
 msgid "Drive type"
-msgstr "Geräte Typ"
+msgstr "Gerätetyp"
 
 #: src/arch/win32/res.rc.po.c:1496 src/arch/amigaos/intl_text.c.po.c:7187
 msgid "40 track handling"
@@ -7679,19 +7679,19 @@ msgstr "IDE64 Shortbus Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:88 src/arch/amigaos/intl_text.c.po.c:10311
 msgid "IDE64 primary master device settings"
-msgstr "IDE64 Primär Master Geräte Einstellungen"
+msgstr "IDE64 Primär Master Geräteeinstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:89 src/arch/amigaos/intl_text.c.po.c:10325
 msgid "IDE64 primary slave device settings"
-msgstr "IDE64 Primär Slave Geräte Einstellungen"
+msgstr "IDE64 Primär Slave Geräteeinstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:90 src/arch/amigaos/intl_text.c.po.c:10339
 msgid "IDE64 secondary master device settings"
-msgstr "IDE64 Sekundär Master Geräte Einstellungen"
+msgstr "IDE64 Sekundär Master Geräteeinstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:91 src/arch/amigaos/intl_text.c.po.c:10353
 msgid "IDE64 secondary slave device settings"
-msgstr "IDE64 Sekundär Slave Geräte Einstellungen"
+msgstr "IDE64 Sekundär Slave Geräteeinstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:93
 msgid "IDE64 shortbus DigiMAX device"
@@ -8816,7 +8816,7 @@ msgstr "CBM510 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3099
 msgid "VICII video settings"
-msgstr "VICII Video Einstellungen"
+msgstr "VIC-II Video Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3113
 msgid "VIC video settings"
@@ -9382,27 +9382,27 @@ msgstr "RamCart Imagedatei bei Änderung speichern"
 #: src/arch/amigaos/intl_text.c.po.c:9219
 #: src/arch/amigaos/intl_text.c.po.c:11515
 msgid "VICII palette file"
-msgstr "VICII Paletten Datei"
+msgstr "VIC-II Palettendatei"
 
 #: src/arch/amigaos/intl_text.c.po.c:9233
 #: src/arch/amigaos/intl_text.c.po.c:11529
 msgid "VIC palette file"
-msgstr "VIC Paletten Datei"
+msgstr "VIC Palettendatei"
 
 #: src/arch/amigaos/intl_text.c.po.c:9247
 #: src/arch/amigaos/intl_text.c.po.c:11557
 msgid "VDC palette file"
-msgstr "VDC Paletten Datei"
+msgstr "VDC Palettendatei"
 
 #: src/arch/amigaos/intl_text.c.po.c:9261
 #: src/arch/amigaos/intl_text.c.po.c:11571
 msgid "CRTC palette file"
-msgstr "CRTC Paletten Datei"
+msgstr "CRTC Palettendatei"
 
 #: src/arch/amigaos/intl_text.c.po.c:9275
 #: src/arch/amigaos/intl_text.c.po.c:11543
 msgid "TED palette file"
-msgstr "TED Paletten Datei"
+msgstr "TED Palettendatei"
 
 #: src/arch/amigaos/intl_text.c.po.c:9289
 msgid "Select printer dump file"
@@ -9510,7 +9510,7 @@ msgstr "IEC Emulation für Gerät #7"
 
 #: src/arch/amigaos/intl_text.c.po.c:9695
 msgid "VICII model selection"
-msgstr "VICII Modell Auswahl"
+msgstr "VIC-II Modell Auswahl"
 
 #: src/arch/amigaos/intl_text.c.po.c:9751
 msgid "Userport RS232"
@@ -9635,7 +9635,7 @@ msgstr "Benutze externe Palette (Datei)"
 
 #: src/arch/amigaos/intl_text.c.po.c:11445
 msgid "External VICII palette"
-msgstr "Externe VICII Palette"
+msgstr "Externe VIC-II Palette"
 
 #: src/arch/amigaos/intl_text.c.po.c:11459
 msgid "External VIC palette"
@@ -10841,7 +10841,7 @@ msgstr ""
 "wurde (nicht bei allen Emulatoren!).\n"
 "Verwende (sonst ignoriert) die zwei-Byte Lade-Adresse aus der Datei, wenn\n"
 "keine Adresse angegeben wurde.\n"
-"Bei Gerät 0, wird die Datei vom Dateisystem gelade."
+"Bei Gerät 0 wird die Datei vom Dateisystem geladen."
 
 #: src/translate_text.c.po.c:2700
 msgid "Show current working directory."
@@ -10855,7 +10855,7 @@ msgid ""
 msgstr ""
 "Speichere den Speicher von Adresse1 bis Adresse2 in die angegebene Datei.\n"
 "Schreibe eine zwei-Byte Lade Adresse.\n"
-"Bei Gerät 0, wird dei Datei in das Dateisystem geschrieben."
+"Bei Gerät 0 wird die Datei in das Dateisystem geschrieben."
 
 #: src/translate_text.c.po.c:2734
 msgid "Other commands"
@@ -12853,7 +12853,7 @@ msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
 msgstr ""
-"Parallel Kabel Typ (0: Kein, 1: Standard, 2: Dolphin DOS 3, 3: Formel 64)"
+"Parallelkabeltyp (0: Kein, 1: Standard, 2: Dolphin DOS 3, 3: Formel 64)"
 
 #: src/translate_text.c.po.c:11607
 msgid "Disable Professional DOS"
@@ -12881,7 +12881,7 @@ msgstr "Name der StarDOS DOS ROM Imagedatei wählen"
 
 #: src/translate_text.c.po.c:11743
 msgid "Set parallel cable type (0: none, 1: standard)"
-msgstr "Parallelkabel Typ (0: kein, 1: Standard)"
+msgstr "Parallelkabeltyp (0: kein, 1: Standard)"
 
 #: src/translate_text.c.po.c:11760
 msgid "Specify name of 1571CR DOS ROM image"
@@ -13720,11 +13720,11 @@ msgstr "Doppelte Größe deaktivieren"
 
 #: src/translate_text.c.po.c:15397
 msgid "Enable double scan"
-msgstr "Doppelt Scan aktivieren"
+msgstr "Doppelscan aktivieren"
 
 #: src/translate_text.c.po.c:15414
 msgid "Disable double scan"
-msgstr "Doppelt Scan deaktivieren"
+msgstr "Doppelscan deaktivieren"
 
 #: src/translate_text.c.po.c:15431
 msgid "Enable audio leak emulation"
@@ -13744,7 +13744,7 @@ msgstr "Hardwareunterstützung für Skalierung deaktivieren"
 
 #: src/translate_text.c.po.c:15499
 msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-msgstr "Wähle Rendering Filter: (0: kein, 1: CRT Emulation, 2: Scale2x)"
+msgstr "Wähle Rendering Filter: (0: kein, 1: CRT Emulation, 2: Scale2×)"
 
 #: src/translate_text.c.po.c:15516
 msgid "Use an internal calculated palette"
@@ -14552,25 +14552,25 @@ msgid "Set raw drive device name"
 msgstr "Raw Laufwerk Gerätename setzen"
 
 #~ msgid "Drive #8 device type"
-#~ msgstr "Laufwerk #8 Geräte Typ"
+#~ msgstr "Laufwerk #8 Gerätetyp"
 
 #~ msgid "Drive #8 options"
 #~ msgstr "Laufwerk #8 Optionen"
 
 #~ msgid "Drive #9 device type"
-#~ msgstr "Laufwerk #9 Geräte Typ"
+#~ msgstr "Laufwerk #9 Gerätetyp"
 
 #~ msgid "Drive #9 options"
 #~ msgstr "Laufwerk #9 Optionen"
 
 #~ msgid "Drive #10 device type"
-#~ msgstr "Laufwerk #10 Geräte Typ"
+#~ msgstr "Laufwerk #10 Gerätetyp"
 
 #~ msgid "Drive #10 options"
 #~ msgstr "Laufwerk #10 Optionen"
 
 #~ msgid "Drive #11 device type"
-#~ msgstr "Laufwerk #11 Geräte Typ"
+#~ msgstr "Laufwerk #11 Gerätetyp"
 
 #~ msgid "Drive #11 options"
 #~ msgstr "Laufwerk #11 Optionen"
@@ -15243,7 +15243,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "ROM Satz Typ"
 
 #~ msgid "Device type"
-#~ msgstr "Geräte Typ"
+#~ msgstr "Gerätetyp"
 
 #~ msgid "Device #9"
 #~ msgstr "Laufwerk #9"
@@ -15364,19 +15364,19 @@ msgstr "Raw Laufwerk Gerätename setzen"
 
 #, fuzzy
 #~ msgid "IDE64 primary master settings"
-#~ msgstr "IDE64 Primär Master Geräte Einstellungen"
+#~ msgstr "IDE64 Primär Master Geräteeinstellungen"
 
 #, fuzzy
 #~ msgid "IDE64 primary slave settings"
-#~ msgstr "IDE64 Primär Slave Geräte Einstellungen"
+#~ msgstr "IDE64 Primär Slave Geräteeinstellungen"
 
 #, fuzzy
 #~ msgid "IDE64 secondary master settings"
-#~ msgstr "IDE64 Sekundär Master Geräte Einstellungen"
+#~ msgstr "IDE64 Sekundär Master Geräteeinstellungen"
 
 #, fuzzy
 #~ msgid "IDE64 secondary slave settings"
-#~ msgstr "IDE64 Sekundär Slave Geräte Einstellungen"
+#~ msgstr "IDE64 Sekundär Slave Geräteeinstellungen"
 
 #, fuzzy
 #~ msgid "Load new cart $1xxx"
@@ -15538,10 +15538,10 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ "Adressen."
 
 #~ msgid "Enable Scale2x"
-#~ msgstr "Scale2x aktivieren"
+#~ msgstr "Scale2× aktivieren"
 
 #~ msgid "Disable Scale2x"
-#~ msgstr "Scale2x deaktivieren"
+#~ msgstr "Scale2× deaktivieren"
 
 #, fuzzy
 #~ msgid "TCP Port"
@@ -16506,7 +16506,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Peripherie Einstellungen..."
 
 #~ msgid "Joystick settings..."
-#~ msgstr "Joystick Einstellungen..."
+#~ msgstr "Joystick Einstellungen"
 
 #~ msgid "Keyboard settings..."
 #~ msgstr "Tastatur Einstellungen..."
@@ -16623,7 +16623,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "V364 Stimme Einstellungen"
 
 #~ msgid "VIC settings..."
-#~ msgstr "VIC Einstellungen"
+#~ msgstr "VIC Einstellungen..."
 
 #~ msgid "IEEE488 Interface image..."
 #~ msgstr "IEEE 488 Schnittstellenmodul..."
@@ -16653,13 +16653,13 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "SIDcart Joystick"
 
 #~ msgid "VICII Palette file"
-#~ msgstr "VICII Paletten Datei"
+#~ msgstr "VIC-II Palettendatei"
 
 #~ msgid "VDC Palette file"
-#~ msgstr "VDC Paletten Datei"
+#~ msgstr "VDC Palettendatei"
 
 #~ msgid "Cannot switch IPV4/IPV6 while netplay is active."
-#~ msgstr "Kann zwischen IPV4/IPV6 nicht wechseln, solange netplay aktiv ist."
+#~ msgstr "Kann zwischen IPv4/IPv6 nicht wechseln, solange netplay aktiv ist."
 
 #~ msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
 #~ msgstr "Hummer Userport Gerät auswählen (0: Kein, 1: ADC, 2: Joystick)"
@@ -16677,10 +16677,10 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Doppelte Große im Vollbild Modus deaktivieren"
 
 #~ msgid "Enable double scan in fullscreen mode"
-#~ msgstr "Doppelt Scan im Vollbild Modus aktivieren"
+#~ msgstr "Doppelscan im Vollbild Modus aktivieren"
 
 #~ msgid "Disable double scan in fullscreen mode"
-#~ msgstr "Doppelt Scan im Vollbild Modus deaktivieren"
+#~ msgstr "Doppelscan im Vollbild Modus deaktivieren"
 
 #~ msgid "Use vsid mode"
 #~ msgstr "Benutze vsid Modus"
@@ -16782,7 +16782,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "PAL Unschärfe (0..1)"
 
 #~ msgid "Palette file"
-#~ msgstr "Palette Dateil"
+#~ msgstr "Palettendatei"
 
 #~ msgid "Digimax base"
 #~ msgstr "Digimax Basis"
