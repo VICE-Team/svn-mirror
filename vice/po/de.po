@@ -504,7 +504,7 @@ msgstr "Standard ROMs laden"
 #: src/arch/unix/gui/petui.c:343 src/arch/unix/gui/plus4ui.c:226
 #: src/arch/unix/gui/vic20ui.c:219
 msgid "Load new computer ROM"
-msgstr "Neues computer ROM laden"
+msgstr "Neues Computer ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:473 src/arch/unix/gui/c64dtvui.c:124
 #: src/arch/unix/gui/c64scui.c:564 src/arch/unix/gui/c64ui.c:615
@@ -1156,7 +1156,7 @@ msgstr "PET RAM Speicher und Erweiterungsmodul"
 
 #: src/arch/unix/gui/petui.c:288
 msgid "PET Colour graphics"
-msgstr "PET Farb Grafik"
+msgstr "PET Farbgrafik"
 
 #: src/arch/unix/gui/petui.c:291
 msgid "PET DWW hi-res graphics"
@@ -1848,7 +1848,7 @@ msgstr "Eventaufnahme Start"
 
 #: src/arch/unix/gui/uicommands.c:586
 msgid "Stop recording events"
-msgstr "Eventaufnahme Stop"
+msgstr "Eventaufnahme Stopp"
 
 #: src/arch/unix/gui/uicommands.c:589
 msgid "Start playing back events"
@@ -1856,7 +1856,7 @@ msgstr "Eventwiedergabe Start"
 
 #: src/arch/unix/gui/uicommands.c:592
 msgid "Stop playing back events"
-msgstr "Eventwiedergabe Stop"
+msgstr "Eventwiedergabe Stopp"
 
 #: src/arch/unix/gui/uicommands.c:595 src/arch/win32/res.rc.po.c:1617
 #: src/arch/amigaos/intl_text.c.po.c:1181
@@ -2150,7 +2150,7 @@ msgstr "Ungültiger Wert: %s"
 #: src/arch/unix/gui/uidatasette.c:92 src/arch/win32/res.rc.po.c:1589
 #: src/arch/amigaos/intl_text.c.po.c:285
 msgid "Stop"
-msgstr "Stop"
+msgstr "Stopp"
 
 #: src/arch/unix/gui/uidatasette.c:95
 msgid "Play"
@@ -2159,17 +2159,17 @@ msgstr "Play"
 #: src/arch/unix/gui/uidatasette.c:98 src/arch/win32/res.rc.po.c:1591
 #: src/arch/amigaos/intl_text.c.po.c:313
 msgid "Forward"
-msgstr "Forward"
+msgstr "Vorspulen"
 
 #: src/arch/unix/gui/uidatasette.c:101 src/arch/win32/res.rc.po.c:1592
 #: src/arch/amigaos/intl_text.c.po.c:327
 msgid "Rewind"
-msgstr "Rewind"
+msgstr "Rückspulen"
 
 #: src/arch/unix/gui/uidatasette.c:104 src/arch/win32/res.rc.po.c:1593
 #: src/arch/amigaos/intl_text.c.po.c:341
 msgid "Record"
-msgstr "Record"
+msgstr "Aufnahme"
 
 #: src/arch/unix/gui/uidatasette.c:111 src/arch/win32/res.rc.po.c:1298
 #: src/arch/amigaos/intl_text.c.po.c:6893
@@ -4086,7 +4086,7 @@ msgstr "64KB Bildschirm Speicher"
 #: src/arch/unix/gui/uivic.c:245 src/arch/amigaos/intl_text.c.po.c:3197
 #: src/arch/amigaos/intl_text.c.po.c:9177
 msgid "Color settings"
-msgstr "Farb Einstellungen"
+msgstr "Farbeinstellungen"
 
 #: src/arch/unix/gui/uivicii.c:278 src/arch/win32/resvicii.rc.po.c:88
 #: src/arch/amigaos/intl_text.c.po.c:10157
@@ -6694,11 +6694,11 @@ msgstr "Quick-Snapshot Datei speichern"
 
 #: src/arch/win32/res.rc.po.c:1615 src/arch/amigaos/intl_text.c.po.c:1153
 msgid "Start/Stop Recording History"
-msgstr "Start/Stop Aufnahme History"
+msgstr "Start/Stopp Aufnahme History"
 
 #: src/arch/win32/res.rc.po.c:1616 src/arch/amigaos/intl_text.c.po.c:1167
 msgid "Start/Stop Playback History"
-msgstr "Start/Stop Wiedergabe History"
+msgstr "Start/Stopp Wiedergabe History"
 
 #: src/arch/win32/res.rc.po.c:1622 src/arch/amigaos/intl_text.c.po.c:1265
 msgid "Overwrite Playback"
@@ -6710,7 +6710,7 @@ msgstr "Verzeichnis für Event Aufnahme"
 
 #: src/arch/win32/res.rc.po.c:1630
 msgid "Save/stop media file"
-msgstr "Speichern/stop media Datei"
+msgstr "Speichern/stopp Mediendatei"
 
 #: src/arch/win32/res.rc.po.c:1636 src/arch/amigaos/intl_text.c.po.c:1629
 msgid "Warp mode"
@@ -7014,11 +7014,11 @@ msgstr "Exit        Alt+F4"
 
 #: src/arch/win32/res.rc.po.c:1737
 msgid "Stop Debug"
-msgstr "Stop Debug"
+msgstr "Stopp Debug"
 
 #: src/arch/win32/res.rc.po.c:1738
 msgid "Stop Execution"
-msgstr "Stop Ausführung"
+msgstr "Stopp Ausführung"
 
 #: src/arch/win32/res.rc.po.c:1739
 msgid "Step into"
@@ -8151,7 +8151,7 @@ msgstr "Userport Baud Rate"
 
 #: src/arch/win32/ressampler.rc.po.c:39
 msgid "Select file for the media file input driver"
-msgstr "Mediendatei für Inputtreiber auswählen"
+msgstr "Mediendatei für Eingabetreiber auswählen"
 
 #: src/arch/win32/ressampler.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:7509
 msgid "Sampler device"
@@ -9196,7 +9196,7 @@ msgstr "Joystick Port 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:8028
 msgid "Stop/Blue"
-msgstr "Stop/Blau"
+msgstr "Stopp/Blau"
 
 #: src/arch/amigaos/intl_text.c.po.c:8042
 msgid "Select/Red"
@@ -9353,7 +9353,7 @@ msgstr "RGBI"
 
 #: src/arch/amigaos/intl_text.c.po.c:8743
 msgid "PET Colour settings"
-msgstr "PET Farb Einstellungen"
+msgstr "PET Farbeinstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:8771
 msgid "Select file for V364 Speech"
@@ -9466,19 +9466,19 @@ msgstr "Userport Drucker Ausgabegerät"
 
 #: src/arch/amigaos/intl_text.c.po.c:9527
 msgid "Send formfeed to printer #4"
-msgstr "Seitenvorschub zu Drucker #4 senden"
+msgstr "Seitenvorschub zum Drucker #4 senden"
 
 #: src/arch/amigaos/intl_text.c.po.c:9541
 msgid "Send formfeed to printer #5"
-msgstr "Seitenvorschub zu Drucker #5 senden"
+msgstr "Seitenvorschub zum Drucker #5 senden"
 
 #: src/arch/amigaos/intl_text.c.po.c:9555
 msgid "Send formfeed to printer #6"
-msgstr "Seitenvorschub zu Drucker #6 senden"
+msgstr "Seitenvorschub zum Drucker #6 senden"
 
 #: src/arch/amigaos/intl_text.c.po.c:9569
 msgid "Send formfeed to userport printer"
-msgstr "Seitenvorschub zui Userport Drucker senden"
+msgstr "Seitenvorschub zum Userport-Drucker senden"
 
 #: src/arch/amigaos/intl_text.c.po.c:9583
 msgid "Printer device #1 output"
@@ -10012,7 +10012,7 @@ msgstr "Kann Snapshot Datei für Transfer nicht laden"
 
 #: src/translate_text.c.po.c:534
 msgid "Sending snapshot to client"
-msgstr "Sende Snapshot zu Client"
+msgstr "Sende Snapshot zum Client"
 
 #: src/translate_text.c.po.c:551
 msgid "Cannot send snapshot to client"
@@ -10953,7 +10953,7 @@ msgid ""
 "5 = reset, 6 = reset counter."
 msgstr ""
 "Steuere die Datasette. Gültige Kommandos sind:\n"
-"0 = Stop, 1 = Start, 2 = Forwärts, 3 = Rückwärts, 4 = Aufnahme,\n"
+"0 = Stopp, 1 = Start, 2 = Vorspulen, 3 = Rückspulen, 4 = Aufnahme,\n"
 "5 = Reset, 6 = Reset Zähler."
 
 #: src/translate_text.c.po.c:3057
@@ -13025,11 +13025,11 @@ msgstr "Laufwerk 11 alle Dateien zeigen (CBM Dateien nicht ausblenden)"
 
 #: src/translate_text.c.po.c:12355
 msgid "Set bitrate for audio stream in media file"
-msgstr "Bitrate für Audio Stream für Media Datei setzen"
+msgstr "Bitrate für Audio Stream für Mediendatei setzen"
 
 #: src/translate_text.c.po.c:12372
 msgid "Set bitrate for video stream in media file"
-msgstr "Bitrate für Video Stream für Media Datei setzen"
+msgstr "Bitrate für Video Stream für Mediendatei setzen"
 
 #: src/translate_text.c.po.c:12389
 msgid ""
@@ -15032,7 +15032,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Copyright (c) 2011-2014 Ulrich Schulz"
 
 #~ msgid "Copyright (c) 2011-2014 Stefan Haubenthal"
-#~ msgstr "Copyright (c) 2011-2014 Stefan Haubenthal"
+#~ msgstr "Copyright (c) 2011-2017 Stefan Haubenthal"
 
 #~ msgid "Copyright (c) 2011-2014 Thomas Giesel"
 #~ msgstr "Copyright (c) 2011-2014 Thomas Giesel"
@@ -15169,9 +15169,8 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgid "Swedish Kernal"
 #~ msgstr "Schwedischer Kernal"
 
-#, fuzzy
 #~ msgid "Swiss Kernal"
-#~ msgstr "Schwedischer Kernal"
+#~ msgstr "Schweizer Kernal"
 
 #~ msgid "International Character"
 #~ msgstr "Internationaler Zeichensatz"
@@ -15185,9 +15184,8 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgid "Swedish Character"
 #~ msgstr "Schwedischer Zeichensatz"
 
-#, fuzzy
 #~ msgid "Swiss Character"
-#~ msgstr "Schwedischer Zeichensatz"
+#~ msgstr "Schweizer Zeichensatz"
 
 #~ msgid "C64 mode Kernal"
 #~ msgstr "C64 Modus Kernal"
@@ -15514,7 +15512,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "IEC Drucker #5 Treiber"
 
 #~ msgid "IEC printer #5 text output device"
-#~ msgstr "IEC Drucker #5 Ausgabe Text Ausgabegerät"
+#~ msgstr "IEC Drucker #5 Text Ausgabegerät"
 
 #~ msgid "HD image #1 file"
 #~ msgstr "HD Image #1 Datei"
@@ -15601,7 +15599,7 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "Typ"
 
 #~ msgid "Save Media File"
-#~ msgstr "Media Datei speichern"
+#~ msgstr "Mediendatei speichern"
 
 #~ msgid "Save Screenshot"
 #~ msgstr "Screenshot speichern"
@@ -15679,10 +15677,10 @@ msgstr "Raw Laufwerk Gerätename setzen"
 #~ msgstr "RamCart Einstellungen"
 
 #~ msgid "Read Only"
-#~ msgstr "Schreibgschutz"
+#~ msgstr "Schreibschutz"
 
 #~ msgid "read-only"
-#~ msgstr "Schreibgschutz"
+#~ msgstr "Schreibschutz"
 
 #~ msgid "PETREU image"
 #~ msgstr "PETREU Image"
