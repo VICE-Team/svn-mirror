@@ -52,6 +52,7 @@
  * Various fixes and enhancements by
  *   groepaz <groepaz@gmx.net>
  *   Ian Coog
+ *   Bas Wassink <b.wassink@ziggo.nl>
  *
  */
 
