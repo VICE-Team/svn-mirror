@@ -386,10 +386,10 @@ static int determine_output_device_id()
 
 /* ----- Audio API before AudioUnits ------------------------------------- */
 
+#ifndef HAVE_AUDIO_UNIT
+
 /* bytes per output frame */
 static unsigned int out_frame_byte_size;
-
-#ifndef HAVE_AUDIO_UNIT
 
 /* proc id */
 #if defined(MAC_OS_X_VERSION_10_5) && (MAC_OS_X_VERSION_MIN_REQUIRED>=MAC_OS_X_VERSION_10_5)
@@ -488,6 +488,13 @@ static int audio_stop(void)
 
 #else /* HAVE_AUDIO_UNIT */
 /* ------ Audio Unit API ------------------------------------------------- */
+
+#ifdef DEBUG
+/* FIXME: this hack fixes the processing of <CoreServices/CoreServices.h>
+   during a debug build. */
+#undef DEBUG
+#define DEBUG 1
+#endif
 
 #include <AudioUnit/AudioUnit.h>
 #include <CoreServices/CoreServices.h>
