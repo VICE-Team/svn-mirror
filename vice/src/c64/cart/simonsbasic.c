@@ -1,5 +1,5 @@
 /*
- * simonsbasic.c - Cartridge handling, Simons Basic cart.
+ * simonsbasic.c - Cartridge handling, Simons' Basic cart.
  *
  * Written by
  *  Groepaz <groepaz@gmx.net>
@@ -44,7 +44,7 @@
 #include "crt.h"
 
 /*
-    Simon's Basic Cartridge
+    Simons' Basic Cartridge
 
     - 16kb ROM
 

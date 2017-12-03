@@ -23,7 +23,7 @@
  * C64/128 BASIC programs into 7-bit ASCII text. Unprintable characters
  * can be shown as hexadecimal codes in parenthesis, via `-c' option.
  * It is also possible to convert programs from ascii listings into
- * tokenized basic v2.0, v3.5, v4.0, v7.0 or simon's basic programs. This
+ * tokenized basic v2.0, v3.5, v4.0, v7.0 or simons' basic programs. This
  * program also replaces certain control code names with the actual codes.
  *
  * A list of Toolkit Basic (published by Compute! Books) token codes
@@ -171,7 +171,7 @@ const char *turtlekwcc[] = {
     "deek",    "joy"
 };
 
-/* Simon's Basic (C64) -- Tokens 0x6400 - 0x647F */
+/* Simons' Basic (C64) -- Tokens 0x6400 - 0x647F */
 
 const char *simonskw[] = {
     "",         "hires",    "plot",     "line",    "block",    "fchr",
@@ -554,7 +554,7 @@ static basic_list_t basic_list[] = {
     { B_2,        76, 0xDD, 0x0801, 0, 0,    NULL, /* fix */    "2",         0, 0, 0, "Basic v2.0 (C64/VIC20/PET)" },
     { B_SUPEREXP, 18, 0xDD, 0x0401, 0, 0xCC, superexpkwcc,      "superexp",  0, 0, 0, "Basic v2.0 with Super Expander (VIC20)" },
     { B_TURTLE,   34, 0xED, 0x3701, 0, 0xCC, turtlekwcc,        "turtle",    0, 0, 0, "Basic v2.0 with Turtle Basic v1.0 (VIC20)" },
-    { B_SIMON,   128, 0xCB, 0x0801, 1, 0,    simonskw,          "simon",     1, 0, 0, "Basic v2.0 with Simon's Basic (C64)" },
+    { B_SIMON,   128, 0xCB, 0x0801, 1, 0,    simonskw,          "simon",     1, 0, 0, "Basic v2.0 with Simons' Basic (C64)" },
     { B_SPEECH,   27, 0xE6, 0x0801, 0, 0xCC, speechkwcc,        "speech",    0, 0, 0, "Basic v2.0 with Speech Basic v2.7 (C64)" },
     { B_ATBAS,    43, 0xF6, 0x0801, 0, 0xCC, atbasickwcc,       "a",         0, 0, 0, "Basic v2.0 with @Basic (C64)" },
     { B_4,        15, 0xDA, 0x0401, 0, 0xCC, petkwcc,           "40",        0, 0, 0, "Basic v4.0 (PET/CBM2)" },
@@ -1277,7 +1277,7 @@ void usage(char *progname)
             "\t\tin outputfile.txt, using BASIC V2 only\n"
             "\tpetcat -wsimon -o outputfile.prg -- inputfile.txt\n"
             "\t\tTokenize, convert inputfile.txt to a PRG file\n"
-            "\t\tin outputfile.prg, using Simon's BASIC\n");
+            "\t\tin outputfile.prg, using Simons' BASIC\n");
     fprintf(stdout,
             "\tpetcat -text -o outputfile.txt -- inputfile.seq\n"
             "\t\tConvert inputfile.seq to a Ascii text file\n"
@@ -1686,7 +1686,7 @@ static int p_expand(int version, int addr, int ctrls)
             }
 
             /*
-             * Simon's basic. Any flag for this is not needed since it is
+             * Simons' basic. Any flag for this is not needed since it is
              * mutually exclusive with all other implemented modes.
              */
 
