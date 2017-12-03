@@ -1725,8 +1725,8 @@ int ciacore_dump(cia_context_t *cia_context)
         (cia_context->c_cia[CIA_ICR] & (1<<4)) ? "on" : "off");
     mon_out("Port A:  %02x DDR: %02x\n", ciacore_peek(cia_context, 0x00), ciacore_peek(cia_context, 0x02));
     mon_out("Port B:  %02x DDR: %02x\n", ciacore_peek(cia_context, 0x01), ciacore_peek(cia_context, 0x03));
-    mon_out("Timer A: %04x\n", ciacore_peek(cia_context, 0x04) + (ciacore_peek(cia_context, 0x05) << 8));
-    mon_out("Timer B: %04x\n", ciacore_peek(cia_context, 0x06) + (ciacore_peek(cia_context, 0x07) << 8));
+    mon_out("Timer A: %04x (latched %04x)\n", ciacore_peek(cia_context, 0x04) + (ciacore_peek(cia_context, 0x05) << 8), cia_context->ta->latch);
+    mon_out("Timer B: %04x (latched %04x)\n", ciacore_peek(cia_context, 0x06) + (ciacore_peek(cia_context, 0x07) << 8), cia_context->tb->latch);
     mon_out("TOD Time:  %02x:%02x:%02x.%x (%s)\n", ciacore_peek(cia_context, 0x0b) & 0x7f, ciacore_peek(cia_context, 0x0a), ciacore_peek(cia_context, 0x09), ciacore_peek(cia_context, 0x08), ciacore_peek(cia_context, 0x0b) & 0x80 ? "pm" : "am");
     mon_out("TOD Alarm: %02x:%02x:%02x.%x (%s)\n", cia_context->todalarm[0x0b - CIA_TOD_TEN] & 0x7f, cia_context->todalarm[0x0a - CIA_TOD_TEN], cia_context->todalarm[0x09 - CIA_TOD_TEN], cia_context->todalarm[0x08 - CIA_TOD_TEN], cia_context->todalarm[0x0b - CIA_TOD_TEN] & 0x80 ? "pm" : "am");
     mon_out("\nSynchronous Serial I/O Data Buffer: %02x\n", ciacore_peek(cia_context, 0x0c));
