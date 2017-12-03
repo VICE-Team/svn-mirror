@@ -35,7 +35,6 @@
 typedef struct vice_cairo_renderer_context_s {
     cairo_surface_t *backing_surface;
     cairo_matrix_t transform;
-    unsigned char *backbuffer;
 } context_t;
 
 /* Note that the ::draw signal receives a ready-to-be-used cairo_t
@@ -141,9 +140,6 @@ static void vice_cairo_destroy_context(video_canvas_t *canvas)
             cairo_surface_finish(ctx->backing_surface);
             cairo_surface_destroy(ctx->backing_surface);
         }
-        if (ctx->backbuffer) {
-            lib_free(ctx->backbuffer);
-        }
         lib_free(ctx);
         canvas->renderer_context = NULL;
     }
@@ -182,28 +178,20 @@ static void vice_cairo_update_context(video_canvas_t *canvas, unsigned int width
         ctx = lib_malloc(sizeof(context_t));
         if (ctx) {
             ctx->backing_surface = NULL;
-            ctx->backbuffer = NULL;
             cairo_matrix_init_identity(&ctx->transform);
         }
         canvas->renderer_context = ctx;
         if (width != 0 && height != 0) {
             /* Actually create the backing surface */
-            int stride = cairo_format_stride_for_width(CAIRO_FORMAT_RGB24, width);
             int keepaspect=1, trueaspect=0;
             double aspect = 1.0;
-            if (stride <= 0) {
-                fprintf(stderr, "Could not compute backbuffer size for %dx%d\n", width, height);
-                return;
-            }
             resources_get_int("KeepAspectRatio", &keepaspect);
             resources_get_int("TrueAspectRatio", &trueaspect);
             if (keepaspect && trueaspect) {
                 aspect = canvas->geometry->pixel_aspect_ratio;
             }
 
-            ctx->backbuffer = lib_malloc(stride * height);
-            memset(ctx->backbuffer, 0, stride * height);
-            ctx->backing_surface = cairo_image_surface_create_for_data(ctx->backbuffer, CAIRO_FORMAT_RGB24, width, height, stride);
+            ctx->backing_surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
 
             /* Configure the matrix to fit it in the widget as it exists */
             resize_canvas_container_cairo_cb (canvas->drawing_area, NULL, canvas);
@@ -220,11 +208,16 @@ static void vice_cairo_refresh_rect(video_canvas_t *canvas,
                                     unsigned int w, unsigned int h)
 {
     context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
+    unsigned char *backbuffer;
     if (!ctx || !ctx->backing_surface) {
         return;
     }
     cairo_surface_flush(ctx->backing_surface);
-    video_canvas_render(canvas, ctx->backbuffer, w, h, xs, ys, xi, yi, cairo_image_surface_get_stride(ctx->backing_surface), 32);
+    backbuffer = cairo_image_surface_get_data(ctx->backing_surface);
+    if (!backbuffer) {
+        return;
+    }
+    video_canvas_render(canvas, backbuffer, w, h, xs, ys, xi, yi, cairo_image_surface_get_stride(ctx->backing_surface), 32);
     cairo_surface_mark_dirty_rectangle(ctx->backing_surface, xi, yi, w, h);
     gtk_widget_queue_draw(canvas->drawing_area);    
 }
