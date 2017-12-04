@@ -94,6 +94,8 @@ void ui_pause_emulation(int flag);
 int  ui_emulation_is_paused(void);
 int  ui_is_fullscreen(void);
 void ui_trigger_resize(void);
+void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
+void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data);
 
 void ui_check_mouse_cursor(void);
 void ui_restore_mouse(void);

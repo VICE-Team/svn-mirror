@@ -49,24 +49,12 @@
 #include "basedialogs.h"
 #include "uiapi.h"
 #include "uicommands.h"
-#include "uidatasette.h"
-#include "uiedit.h"
-#include "uifliplist.h"
+#include "uimachinemenu.h"
 #include "uimenu.h"
-#include "uimonarch.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
-#include "uismartattach.h"
-#include "uidiskattach.h"
-#include "uitapeattach.h"
-#include "uiabout.h"
 #include "selectdirectorydialog.h"
 #include "jamdialog.h"
-#include "uicmdline.h"
-#include "uicompiletimefeatures.h"
-#include "uisnapshot.h"
-#include "uidebug.h"
-#include "uicart.h"
 
 #include "ui.h"
 
@@ -95,10 +83,6 @@ ui_resource_t ui_resources; /* public for use in uicommands.c, not ideal */
 
 /* Forward declarations of static functions */
 
-static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data);
-
-static void ui_fullscreen_decorations_callback(GtkWidget *widget,
-                                               gpointer user_data);
 static int set_html_browser_command(const char *val, void *param);
 static int set_save_resources_on_exit(int val, void *param);
 static int set_confirm_on_exit(int val, void *param);
@@ -202,418 +186,6 @@ static const cmdline_option_t cmdline_options_common[] = {
 
     CMDLINE_LIST_END
 };
-
-/** \brief  File->Detach submenu
- */
-static ui_menu_item_t detach_submenu[] = {
-    { "Drive #8", UI_MENU_TYPE_ITEM_ACTION,
-      ui_disk_detach_callback, GINT_TO_POINTER(8),
-      0, 0 },
-    { "Drive #9", UI_MENU_TYPE_ITEM_ACTION,
-      ui_disk_detach_callback, GINT_TO_POINTER(9),
-      0, 0 },
-    { "Drive #10", UI_MENU_TYPE_ITEM_ACTION,
-      ui_disk_detach_callback, GINT_TO_POINTER(10),
-      0, 0 },
-    { "Drive #11", UI_MENU_TYPE_ITEM_ACTION,
-      ui_disk_detach_callback, GINT_TO_POINTER(11),
-      0, 0 },
-    UI_MENU_TERMINATOR
-};
-
-/** \brief  File->Flip list submenu
- */
-static ui_menu_item_t fliplist_submenu[] = {
-    { "Add current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-      ui_fliplist_add_current_cb, GINT_TO_POINTER(8),
-      GDK_KEY_I, GDK_MOD1_MASK },
-    { "Remove current image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-      ui_fliplist_remove_current_cb, GINT_TO_POINTER(8),
-      GDK_KEY_K, GDK_MOD1_MASK },
-    { "Attach next image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-      ui_fliplist_next_cb, GINT_TO_POINTER(8),
-      GDK_KEY_N, GDK_MOD1_MASK },
-    { "Attach previous image (Unit #8)", UI_MENU_TYPE_ITEM_ACTION,
-      ui_fliplist_prev_cb, GINT_TO_POINTER(8),
-      GDK_KEY_N, GDK_SHIFT_MASK | GDK_MOD1_MASK },
-    { "Load flip list file...", UI_MENU_TYPE_ITEM_ACTION,
-      ui_fliplist_load_callback, GINT_TO_POINTER(8),
-      0, 0 },
-    { "Save flip list file...", UI_MENU_TYPE_ITEM_ACTION,
-      ui_fliplist_save_callback, GINT_TO_POINTER(8),
-      0, 0 },
-    UI_MENU_TERMINATOR
-};
-
-/** \brief  File->Datasette control submenu
- */
-
-static ui_menu_item_t datasette_control_submenu[] = {
-    { "Stop", UI_MENU_TYPE_ITEM_ACTION,
-      ui_datasette_tape_action_cb, GINT_TO_POINTER(0),
-      0, 0 },
-    { "Start", UI_MENU_TYPE_ITEM_ACTION,
-      ui_datasette_tape_action_cb, GINT_TO_POINTER(1),
-      0, 0 },
-    { "Forward", UI_MENU_TYPE_ITEM_ACTION,
-      ui_datasette_tape_action_cb, GINT_TO_POINTER(2),
-      0, 0 },
-    { "Rewind", UI_MENU_TYPE_ITEM_ACTION,
-      ui_datasette_tape_action_cb, GINT_TO_POINTER(3),
-      0, 0 },
-    { "Record", UI_MENU_TYPE_ITEM_ACTION,
-      ui_datasette_tape_action_cb, GINT_TO_POINTER(4),
-      0, 0 },
-    { "Reset", UI_MENU_TYPE_ITEM_ACTION,
-      ui_datasette_tape_action_cb, GINT_TO_POINTER(5),
-      0, 0 },
-    { "Reset Counter", UI_MENU_TYPE_ITEM_ACTION,
-      ui_datasette_tape_action_cb, GINT_TO_POINTER(6),
-      0, 0 },
-    UI_MENU_TERMINATOR
-};
-
-/** \brief  File->Reset submenu
- */
-static ui_menu_item_t reset_submenu[] = {
-    { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
-        machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
-        GDK_KEY_F9, GDK_MOD1_MASK },
-    { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
-        machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
-        GDK_KEY_F12, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    { "Reset drive #8", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(8),
-        0, 0 },
-    { "Reset drive #9", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(9),
-        0, 0 },
-    { "Reset drive #10", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(10),
-        0, 0 },
-    { "Reset drive #11", UI_MENU_TYPE_ITEM_ACTION,
-        drive_reset_callback, GINT_TO_POINTER(11),
-        0, 0 },
-
-    UI_MENU_TERMINATOR
-};
-
-
-/** \brief  'File->Cartridge attach' submenu
- */
-static ui_menu_item_t cart_attach_submenu[] = {
-    { "Smart attach cart image ... ", UI_MENU_TYPE_ITEM_ACTION,
-        (void *)uicart_smart_attach_dialog, NULL,
-        GDK_KEY_C, GDK_MOD1_MASK },
-    UI_MENU_TERMINATOR
-};
-
-
-/** \brief  'File' menu
- */
-static ui_menu_item_t file_menu[] = {
-    { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
-        ui_smart_attach_callback, NULL,
-        GDK_KEY_A, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    /* disk */
-    { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION,
-        ui_disk_attach_callback, GINT_TO_POINTER(8),
-        GDK_KEY_8, GDK_MOD1_MASK },
-    { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Detach disk image", UI_MENU_TYPE_SUBMENU,
-        NULL, detach_submenu,
-        0, 0 },
-    { "Flip list", UI_MENU_TYPE_SUBMENU,
-        NULL, fliplist_submenu,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    /* tape (funny how create & attach are flipped here) */
-    { "Create a new tape image ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION,
-        ui_tape_attach_callback, NULL,
-        GDK_KEY_T, GDK_MOD1_MASK },
-    { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION,
-        ui_tape_detach_callback, NULL,
-        0, 0 },
-    { "Datasette controls",
-        UI_MENU_TYPE_SUBMENU, NULL, datasette_control_submenu,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    /* cart */
-    { "Attach cartridge image ...", UI_MENU_TYPE_SUBMENU,
-        NULL, cart_attach_submenu,
-        GDK_KEY_C, GDK_MOD1_MASK },
-    { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
-        (void *)uicart_detach, NULL,
-        0, 0 },
-    { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
-        (void *)uicart_trigger_freeze, NULL,
-        GDK_KEY_Z, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    /* monitor */
-    { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
-        ui_monitor_activate_callback, NULL,
-        GDK_KEY_H, GDK_MOD1_MASK },
-    { "Monitor settings ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    { "Reset ...", UI_MENU_TYPE_SUBMENU,
-        NULL, reset_submenu,
-        0, 0 },
-    { "Action on CPU JAM ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION,
-        ui_close_callback, NULL,
-        GDK_KEY_Q, GDK_MOD1_MASK },
-
-    UI_MENU_TERMINATOR
-};
-
-
-/** \brief  'Edit' menu
- */
-static ui_menu_item_t edit_menu[] = {
-    { "Copy", UI_MENU_TYPE_ITEM_ACTION,
-        ui_copy_callback, NULL,
-        0, 0 },
-    { "Paste", UI_MENU_TYPE_ITEM_ACTION,
-        ui_paste_callback, NULL,
-        0, 0 },
-
-    UI_MENU_TERMINATOR
-};
-
-
-/** \brief  'Snapshot' menu
- */
-static ui_menu_item_t snapshot_menu[] = {
-    { "Load snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
-        uisnapshot_open_file, NULL,
-        GDK_KEY_L, GDK_MOD1_MASK },
-    { "Save snapshot image ...", UI_MENU_TYPE_ITEM_ACTION,
-        uisnapshot_save_file, NULL,
-        GDK_KEY_S, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    { "Quickload snapshot", UI_MENU_TYPE_ITEM_ACTION,
-        uisnapshot_quickload_snapshot, NULL,
-        GDK_KEY_F10, GDK_MOD1_MASK },   /* Shortcut doesn't work in MATE, key
-                                           is mapped to Maximize Window. Using
-                                           the menu to active this item does
-                                           work though -- compyx */
-    { "Quicksave snapshot", UI_MENU_TYPE_ITEM_ACTION,
-        uisnapshot_quicksave_snapshot, NULL,
-        GDK_KEY_F11, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    { "Select history directory ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Start recording events", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Stop recording events", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Start playing back events", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Stop playing back events", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Set recording milestone", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        GDK_KEY_E, GDK_MOD1_MASK },
-    { "Return to milestone", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        GDK_KEY_U, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    { "Recording start mode ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    /* XXX: this item should be removed and its functionality added to the
-     *      'Save media file' item like I did in the SDL UI: Saving a media
-     *      file should handle image, sound and/or video
-     *      -- Compyx
-     */
-    { "Sound recording ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-
-    UI_MENU_TERMINATOR
-};
-
-
-/** \brief  'Help' menu items
- */
-static ui_menu_item_t help_menu[] = {
-    { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL,
-        0, 0 },
-    { "Command line options ...", UI_MENU_TYPE_ITEM_ACTION,
-        uicmdline_dialog_show, NULL,
-        0, 0 },
-    { "Compile time features ...", UI_MENU_TYPE_ITEM_ACTION,
-        uicompiletimefeatures_dialog_show, NULL,
-        0, 0 },
-    { "About VICE", UI_MENU_TYPE_ITEM_ACTION,
-        ui_about_dialog_callback, NULL,
-        0, 0 },
-
-    UI_MENU_TERMINATOR
-};
-
-
-/** \brief  'Settings' menu items - head section
- */
-static ui_menu_item_t settings_menu_head[] = {
-   { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
-        ui_fullscreen_callback, NULL,
-        GDK_KEY_D, GDK_MOD1_MASK },
-    { "Toggle menu/status in fullscreen", UI_MENU_TYPE_ITEM_ACTION,
-        ui_fullscreen_decorations_callback, NULL,
-        GDK_KEY_B, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    { "Toggle warp mode", UI_MENU_TYPE_ITEM_CHECK,
-        (void *)ui_toggle_resource, (void*)"WarpMode",
-        GDK_KEY_W, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    UI_MENU_TERMINATOR
-};
-
-/** \brief  'Settings' menu "swap joysticks" item
- *
- * Only valid for x64/x64sc/xscpu64/x128/xplus4/xcbm5x0
- */
-static ui_menu_item_t settings_menu_swap_joy[] = {
-
-    { "Swap joysticks", UI_MENU_TYPE_ITEM_ACTION,
-        (void*)(ui_swap_joysticks_callback), NULL,
-        GDK_KEY_J, GDK_MOD1_MASK },
-    UI_MENU_TERMINATOR
-};
-
-/** \brief  'Settings' menu "swap userport joysticks" item
- *
- * Only valid for x64/x64sc/xscpu64/x128/xplus4/xvic/xpet/xcbm2
- */
-static ui_menu_item_t settings_menu_swap_userport_joy[] = {
-    { "Swap userport joysticks", UI_MENU_TYPE_ITEM_ACTION,
-        (void*)(ui_swap_userport_joysticks_callback), NULL,
-        GDK_KEY_U, GDK_MOD1_MASK|GDK_SHIFT_MASK },
-    UI_MENU_TERMINATOR
-};
-
-/** \brief  'Settings' menu tail section
- */
-static ui_menu_item_t settings_menu_tail[] = {
-    /* continue with joystick item(s) here */
-    { "Allow keyset joystick", UI_MENU_TYPE_ITEM_CHECK,
-        (void*)(ui_toggle_resource), (void*)"KeySetEnable",
-        GDK_KEY_J, GDK_MOD1_MASK|GDK_SHIFT_MASK },
-
-    { "Enable mouse grab", UI_MENU_TYPE_ITEM_CHECK,
-        (void*)ui_toggle_resource, (void*)"Mouse",
-        GDK_KEY_M, GDK_MOD1_MASK },
-
-    UI_MENU_SEPARATOR,
-
-    /* the settings dialog */
-    { "Settings", UI_MENU_TYPE_ITEM_ACTION,
-        ui_settings_dialog_create, NULL,
-        0, 0 },
-    UI_MENU_TERMINATOR
-};
-
-
-/** \brief  'Debug' menu items
- */
-#ifdef DEBUG
-static ui_menu_item_t debug_menu[] = {
-    { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
-        uidebug_trace_mode_callback, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        (void *)ui_toggle_resource, (void *)"MainCPU_TRACE",
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    { "Drive #8 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        (void *)ui_toggle_resource, (void *)"Drive0CPU_TRACE",
-        0, 0 },
-    { "Drive #9 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        (void *)ui_toggle_resource, (void *)"Drive1CPU_TRACE",
-        0, 0 },
-    { "Drive #10 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        (void *)ui_toggle_resource, (void *)"Drive2CPU_TRACE",
-        0, 0 },
-    { "Drive #11 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
-        (void *)ui_toggle_resource, (void *)"Drive3CPU_TRACE",
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
-        uidebug_playback_frames_callback, NULL,
-        0, 0 },
-    { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
-        (void *)ui_toggle_resource, (void *)"DoCoreDump",
-        0, 0 },
-
-    UI_MENU_TERMINATOR
-};
-#endif
-
 
 
 /** \brief  Flag indicating pause mode
@@ -788,7 +360,7 @@ void ui_trigger_resize(void)
 }
 
 /** \brief Callback for the "fullscreen" action */
-static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
+void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWindow *window;
 
@@ -808,7 +380,7 @@ static void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
     ui_update_fullscreen_decorations();
 }
 
-static void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
+void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
     ui_update_fullscreen_decorations();
@@ -1041,52 +613,12 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas) {
      * should go somewhere else: call ui_menu_bar_create() once and attach the
      * result menu to each GtkWindow instance
      */
-    /* DANGER: This could make the VDC screen unfullscreenable */
-    menu_bar = ui_menu_bar_create();
-
-    /* generate File menu */
-    ui_menu_file_add(file_menu);
-    /* generate Edit menu */
-    ui_menu_edit_add(edit_menu);
-    /* generate Snapshot menu */
-    ui_menu_snapshot_add(snapshot_menu);
-
-    /* settings menu */
-    ui_menu_settings_add(settings_menu_head);
-
-    /* determine which joystick swap menu items should be added */
-    switch (machine_class) {
-        case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
-        case VICE_MACHINE_C128:     /* fall through */
-        case VICE_MACHINE_PLUS4:
-            /* add both swap-joy and swap-userport-joy */
-            ui_menu_settings_add(settings_menu_swap_joy);
-            ui_menu_settings_add(settings_menu_swap_userport_joy);
-            break;
-        case VICE_MACHINE_C64DTV:   /* fall through */
-        case VICE_MACHINE_CBM5x0:
-            /* only add swap-joy */
-            ui_menu_settings_add(settings_menu_swap_joy);
-            break;
-        case VICE_MACHINE_PET:      /* fall through */
-        case VICE_MACHINE_VIC20:    /* fall through */
-        case VICE_MACHINE_CBM6x0:
-            ui_menu_settings_add(settings_menu_swap_userport_joy);
-            break;
-        case VICE_MACHINE_VSID:
-            break;
-        default:
-            break;
-    }
-    ui_menu_settings_add(settings_menu_tail);
-
-    /* generate Help menu */
-    ui_menu_help_add(help_menu);
-#ifdef DEBUG
-    ui_menu_debug_add(debug_menu);
-#endif
+    /* TODO: This can't stay here because this file gets linked into vsid,
+     * which gets a diferent set of menus. Of course, the main vsid window
+     * won't have a canvas either, so this whole function should probably
+     * be moved to another file.
+     */
+    menu_bar = ui_machine_menu_bar_create();
 
     canvas->drawing_area = new_drawing_area;
 
