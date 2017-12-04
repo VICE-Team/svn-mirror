@@ -147,7 +147,7 @@ char *kbd_get_menu_keyname(void);
 
 /* Handy Basic (VIC20) -- Tokens 0xCC - 0xE1 */
 
-const char *handykwcc[] = { 
+static const char *handykwcc[] = {
     "move",  "pop",   "else", "volume", "pause", "base", "reset",  "copychr",
     "color", "sound", "fill", "beep",   "put",   "take", "accept", "kill",
     "rtime", "cls",   "old",  "rkey",   "joy",   "grab"
@@ -155,7 +155,7 @@ const char *handykwcc[] = {
 
 /* Super Expander (VIC20) -- Tokens 0xCC - 0xDD */
 
-const char *superexpkwcc[] = { 
+static const char *superexpkwcc[] = {
     "key",   "graphic", "scnclr", "circle", "draw", "region", "color", "point",
     "sound", "char",    "paint",  "rpot",   "rpen", "rsnd",   "rcolr", "rgr",
     "rjoy",  "rdot"
@@ -163,7 +163,7 @@ const char *superexpkwcc[] = {
 
 /* Turtle Basic v1.0 (VIC20) by Craig Bruce -- Tokens 0xCC - 0xED */
 
-const char *turtlekwcc[] = {
+static const char *turtlekwcc[] = {
     "graphic", "old",    "turn",   "pen",    "draw",  "move", "point", "kill",
     "write",   "repeat", "screen", "doke",   "reloc", "fill", "rtime", "base",
     "pause",   "pop",    "color",  "merge",  "char",  "take", "sound", "vol",
@@ -173,7 +173,7 @@ const char *turtlekwcc[] = {
 
 /* Simons' Basic (C64) -- Tokens 0x6400 - 0x647F */
 
-const char *simonskw[] = {
+static const char *simonskw[] = {
     "",         "hires",    "plot",     "line",    "block",    "fchr",
     "fcol",     "fill",     "rec",      "rot",     "draw",     "char",
     "hi col",   "inv",      "frac",     "move",    "place",    "upb",
@@ -200,7 +200,7 @@ const char *simonskw[] = {
 
 /* Speech Basic v2.7 (C64) - Tokens 0xCC - 0xE6 */
 
-const char *speechkwcc[] = {
+static const char *speechkwcc[] = {
     "reset",  "basic",  "help", "key",   "himem",  "disk", "dir",    "bload",
     "bsave",  "map",    "mem",  "pause", "block",  "hear", "record", "play",
     "voldef", "coldef", "hex",  "dez",   "screen", "exec", "mon",    "<-",
@@ -209,7 +209,7 @@ const char *speechkwcc[] = {
 
 /* @Basic (C64) by Andre Fachat -- Tokens 0xCC - 0xF6 */
 
-const char *atbasickwcc[] = {
+static const char *atbasickwcc[] = {
     "trace",    "delete",  "auto",   "old",     "dump",      "find",
     "renumber", "dload",   "dsave",  "dverify", "directory", "catalog",
     "scratch",  "collect", "rename", "copy",    "backup",    "disk",
@@ -221,7 +221,7 @@ const char *atbasickwcc[] = {
 };
 
 /* Basic v4.0 (PET) -- TOKENS 0xCC - 0xDA / Basic v4.0 extension (C64) -- Tokens 0xCC - 0xE3 */
-const char *petkwcc[] = {
+static const char *petkwcc[] = {
     "concat",    "dopen",  "dclose", "record", "header",  "collect", "backup",
     "copy",      "append", "dsave",  "dload",  "catalog", "rename",  "scratch",
     "directory",
@@ -233,7 +233,7 @@ const char *petkwcc[] = {
 
 /* Final Cartridge III (C64) by Matti 'ccr' Hamalainen -- Tokens 0xCC - 0xE8 */
 
-const char *fc3kw[] = {
+static const char *fc3kw[] = {
     "off",   "auto",    "del",     "renum",  "?ERROR?", "find",   "old",
     "dload", "dverify", "dsave",   "append", "dappend", "dos",    "kill",
     "mon",   "pdir",    "plist",   "bar",    "desktop", "dump",   "array",
@@ -243,7 +243,7 @@ const char *fc3kw[] = {
 
 /* Ultrabasic-64 (C64) by Marco van den Heuvel - Tokens 0xCC - 0xFE */
 
-const char *ultrabasic64kwcc[] = {
+static const char *ultrabasic64kwcc[] = {
     "dot",    "draw",  "box",    "tic",    "copy", "sprite", "off",   "mode",
     "norm",   "graph", "dump",   "gread",  "char", "place",  "multi", "hires",
     "hex",    "bit",   "colors", "pixel",  "fill", "circle", "block", "sdata",
@@ -255,7 +255,7 @@ const char *ultrabasic64kwcc[] = {
 
 /* Graphics basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
-const char *graphicsbasickwcc[] = {
+static const char *graphicsbasickwcc[] = {
     "background", "border", "dir",   "disk",   "fill",      "key",     "circle",
     "procedure",  "dot",    "find",  "change", "ren",       "else",    "copy",
     "scroll",     "roll",   "box",   "scale",  "do",        "line",    "sprite",
@@ -268,7 +268,7 @@ const char *graphicsbasickwcc[] = {
 
 /* WS (WohnzimmerSoft) basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
-const char *wsbasickwcc[] = {
+static const char *wsbasickwcc[] = {
     "copy",   "old",    "port",  "doke",  "vpoke",  "fill",   "error",
     "send",   "call",   "bit",   "dir",   "bload",  "bsave",  "find",
     "speed",  "pitch",  "say",   "fast",  "slow",   "talk",   "shutup",
@@ -281,7 +281,7 @@ const char *wsbasickwcc[] = {
 
 /* Mighty Basic (VIC20) -- Tokens 0xCC - 0xFE */
 
-const char *mightykwcc[] = {
+static const char *mightykwcc[] = {
     "delete",  "old",     "renumber",  "help",   "header", "move",
     "trace",   "kill",    "dump",      "dsave",  "dload",  "dverify",
     "dresave", "scratch", "directory", "key",    "send",   "pop",
@@ -295,7 +295,7 @@ const char *mightykwcc[] = {
 
 /* Pegasus basic v4.0 (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xEC */
 
-const char *pegbasickwcc[] = {
+static const char *pegbasickwcc[] = {
     "off",      "asc(",     "sin(",    "cos(",  "tan(",     "atn(",
     "deg(",     "rad(",     "frac(",   "mod(",  "round(",   "dec(",
     "bin(",     "deek(",    "instr(",  "joy(",  "pot(",     "screen(",
@@ -306,7 +306,7 @@ const char *pegbasickwcc[] = {
 
 /* Xbasic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xEC */
 
-const char *xbasickwcc[] = {
+static const char *xbasickwcc[] = {
     "sprat",   "brdr",    "screen", "quit",     "sprmult", "move",  "sprite",
     "asprite", "dsprite", "sid",    "envelope", "gate",    "frq",   "wave",
     "vol",     "fcut",    "fmode",  "filter",   "frsn",    "cset",  "multi",
@@ -316,21 +316,21 @@ const char *xbasickwcc[] = {
 
 /* Drago basic v2.2 (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xD8 */
 
-const char *dragobasickwcc[] = {
+static const char *dragobasickwcc[] = {
     "punkt",   "linia",  "rysuj", "param",  "kuntur", "anim", "kolor", "puwid",
     "ryselip", "koguma", "fiut",  "figura", "figuma"
 };
 
 /* REU-basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xDA */
 
-const char *reubasickwcc[] = {
+static const char *reubasickwcc[] = {
     "push", "pull", "flip", "rec", "stash", "fetch", "swap", "reu", "size",
     "dir",  "@",    "kill", "rom", "ram",   "move"
 };
 
 /* Basic Lightning (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
-const char *baslkwcc[] = {
+static const char *baslkwcc[] = {
     "else",  "hex$",  "deek",     "true",    "import",  "cfn",   "size",
     "false", "ver$",  "lpx",      "lpy",     "common%", "crow",  "ccol",
     "atr",   "inc",   "num",      "row2",    "col2",    "spn2",  "hgt",
@@ -343,7 +343,7 @@ const char *baslkwcc[] = {
 
 /* Magic Basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFD */
 
-const char *magickwcc[] = {
+static const char *magickwcc[] = {
     "assembler", "auto",   "cdrive", "cat",     "dappend", "delete",  "dez",
     "dir",       "dload",  "dsave",  "dverify", "config",  "find",    " ",
     " ",         "help",   "hex",    "jump",    "llist",   "lprint",  "off",
@@ -356,7 +356,7 @@ const char *magickwcc[] = {
 
 /* Easy Basic (VIC20) -- Tokens 0xCC - 0xFE */
 
-const char *easykwcc[] = {
+static const char *easykwcc[] = {
     "delete", "old",     "renumber",  "dump",   "merge", "plot",
     "trace",  "kill",    "help",      "dload",  "dsave", "dverify",
     "append", "screen",  "directory", "key",    "send",  "pop",
@@ -370,14 +370,14 @@ const char *easykwcc[] = {
 
 /* Blarg (C64) by Marco van den Heuvel -- Tokens 0xE0 - 0xEA */
 
-const char *blargkwe0[] = {
+static const char *blargkwe0[] = {
     "plot",   "line", "circle", "gron", "groff", "mode", "origin", "clear",
     "buffer", "swap", "color"
 };
 
 /* Basic 4.0 extension (VIC20) -- Tokens 0xCC - 0xDF */
 
-const char *vic4kwcc[] = {
+static const char *vic4kwcc[] = {
     "concat",  "dopen",   "dclose",    "record", "header", "collect",
     "backup",  "copy",    "append",    "dsave",  "dload",  "catalog",
     "rename",  "scratch", "directory", "ieee",   "serial", "parallel",
@@ -386,7 +386,7 @@ const char *vic4kwcc[] = {
 
 /* Basic 5.0 extension (VIC20) -- Tokens 0xCC - 0xF1 */
 
-const char *vic5kwcc[] = {
+static const char *vic5kwcc[] = {
     "concat", "dopen",    "dclose",    "record",  "header",  "collect",
     "backup", "copy",     "append",    "dsave",   "dload",   "catalog",
     "rename", "scratch",  "directory", "dverify", "monitor", "repeat",
@@ -398,7 +398,7 @@ const char *vic5kwcc[] = {
 
 /* WS (WohnzimmerSoft) Basic final (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xFE */
 
-const char *wsfbasickwcc[] = {
+static const char *wsfbasickwcc[] = {
     "copy",   "bank",   "old",   "doke",  "display", "fill",   "error",
     "send",   "call",   "bit",   "dir",   "bload",   "bsave",  "find",
     "speed",  "pitch",  "say",   "fast",  "slow",    "talk",   "shutup",
@@ -411,7 +411,7 @@ const char *wsfbasickwcc[] = {
 
 /* Game Basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xE8 */
 
-const char *gbkwcc[] = {
+static const char *gbkwcc[] = {
     "window", "bfile",   "upper",   "lower",   "cls",    "screen", "parse",
     "proc",   "else",    "scratch", "replace", "device", "dir",    "repeat",
     "until",  "disk",    "fetch#",  "put#",    "prompt", "pop",    "help",
@@ -421,7 +421,7 @@ const char *gbkwcc[] = {
 
 /* Basex (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xEA */
 
-const char *bsxkwcc[] = {
+static const char *bsxkwcc[] = {
     "append",   "auto",   "bar",    "circle", "clg",      "cls",   "csr",
     "delete",   "disk",   "draw",   "edge",   "envelope", "fill",  "key",
     "mob",      "mode",   "move",   "old",    "pic",      "dump",  "plot",
@@ -431,7 +431,7 @@ const char *bsxkwcc[] = {
 
 /* Super Basic (C64) by Marco van den Heuvel -- Tokens 0xDB - 0xFE */
 
-const char *superbaskwdb[] = {
+static const char *superbaskwdb[] = {
     "volume",   "reset",     "mem",    "trace",   "basic",   "resume", "letter",
     "help",     "coke",      "ground", "matrix",  "dispose", "print@", "himem",
     "hardcopy", "inputform", "lock",   "swap",    "using",   "sec",    "else",
@@ -442,7 +442,7 @@ const char *superbaskwdb[] = {
 
 /* Expanded Basic (C64) by Marco van den Heuvel - Tokens 0xCC - 0xF5 */
 
-const char *expbas64kwcc[] = {
+static const char *expbas64kwcc[] = {
     "hires",    "norm",     "graph",    "set",    "line",     "circle",
     "fill",     "mode",     "cls",      "text",   "color",    "gsave",
     "gload",    "inverse",  "frame",    "move",   "using",    "renumber",
@@ -454,7 +454,7 @@ const char *expbas64kwcc[] = {
 
 /* Super Expander Chip (C64) -- Tokens 0xFE00 - 0xFE1F */
 
-const char *sxckwfe[] = {
+static const char *sxckwfe[] = {
     "key",    "color",  "graphic", "scnclr", "locate", "scale",  "box",
     "circle", "char",   "draw",    "gshape", "paint",  "sshape", "tune",
     "filter", "sprdef", "tempo",   "movspr", "sprcol", "sprite", "colint",
@@ -464,7 +464,7 @@ const char *sxckwfe[] = {
 
 /* Warsaw Basic Keywords (C64) by Marco van den Heuvel -- Tokens 0xDB - 0xFE */
 
-const char *warsawkwdb[] = {
+static const char *warsawkwdb[] = {
     "hisave", "sline", "mem",    "trace",   "beep",    "resume", "letter",
     "help",   "*****", "ground", "revers",  "dispose", "print@", "himem",
     "*****",  "line",  "proc",   "axis",    "using",   "sec",    "else",
@@ -475,7 +475,7 @@ const char *warsawkwdb[] = {
 
 /* Expanded Basic (VIC20) by Marco van den Heuvel -- Tokens 0xCC - 0xE3 */
 
-const char *expbas20kwcc[] = {
+static const char *expbas20kwcc[] = {
     "reset", "sound", "slow(", "com",   "mem",    "stat(", "key",   "off",
     "col(",  "plot(", "pop(",  "chol(", "curol(", "beep(", "paus(", "msav",
     "reg(",  "dpek(", "pdl",   "joy",   "dpok",   "do",    "until", "old"
@@ -483,7 +483,7 @@ const char *expbas20kwcc[] = {
 
 /* Data Becker Supergrafik 64 (C64) by Sven Droll -- Tokens 0xD7 - 0xFD */
 
-const char *supergrakw[] = {
+static const char *supergrakw[] = {
     "directory", "spower", "gcomb",  "dtaset", "merge",   "renum",  "key",
     "trans",     "",       "tune",   "sound",  "volume=", "filter", "sread",
     "define",    "set",    "swait",  "smode",  "gmode",   "gclear", "gmove",
@@ -494,7 +494,7 @@ const char *supergrakw[] = {
 
 /* Kipper Basic (C64) by Marco van den Heuvel -- Tokens 0xE1 - 0xF2 */
 
-const char *kipperkwe1[] = {
+static const char *kipperkwe1[] = {
     "ipcfg", "dhcp",      "ping",    "myip",     "netmask", "gateway",
     "dns",   "tftp",      "tfget",   "tfput",    "netcat",  "tcpconnect",
     "poll",  "tcplisten", "tcpsend", "tcpclose", "tcpblat", "mac"
@@ -502,14 +502,14 @@ const char *kipperkwe1[] = {
 
 /* Basic on Bails (C64) by Marco van den Heuvel -- Tokens 0xE1 - 0xF0 */
 
-const char *bobkwe1[] = {
+static const char *bobkwe1[] = {
     "ipcfg", "dhcp",  "ping", "myip",  "netmask", "gateway", "dns",   "hook",
     "yield", "xsend", "!",    "httpd", "type",    "status",  "flush", "mac"
 };
 
 /* Eve Basic (C64) by Marco van den Heuvel -- Tokens 0xCC - 0xF9 */
 
-const char *evekwcc[] = {
+static const char *evekwcc[] = {
     "else",     "page",    "paper",  "ink",    "locate", "erase",    "graphic",
     "scale",    "pen",     "point",  "line",   "paint",  "write",    "draw",
     "image",    "sprite",  "sprpic", "sprcol", "sprloc", "sprmulti", "tone",
@@ -521,7 +521,7 @@ const char *evekwcc[] = {
 
 /* The Tool 64 (C64) by Marco van den Heuvel -- Tokens 0xDB - 0xF4 */
 
-const char *tt64kwdb[] = {
+static const char *tt64kwdb[] = {
     " ",       "sort",  "extract", "carget", " ",    " ",     "screen",
     "graphic", "text",  "auto",    "find",   "dump", "error", "renu",
     "delete",  "plot",  "point",   "draw",   "move", "color", "else",
@@ -708,7 +708,7 @@ static const char *ctrl1[0x20] = {
 };
 
 /* 0x00 - 0x1f (FIXME: MikroBITTI) */
-const char *a_ctrl1[0x20] = {
+static const char *a_ctrl1[0x20] = {
     "",              "",               "",           "",       "",       "WHT",    "",           "",
     "up/lo lock on", "up/lo lock off", "",           "",       "",       "return", "lower case", "",
     "",              "DOWN",           "RVS ON",     "HOME",   "delete", "",       "",           "",
@@ -716,7 +716,7 @@ const char *a_ctrl1[0x20] = {
 };
 
 /* 0x00 - 0x1f */
-const char *b_ctrl1[0x20] = {
+static const char *b_ctrl1[0x20] = {
     "",              "",               "",           "",       "",       "",       "",           "",
     "",              "",               "",           "",       "",       "",       "",           "",
     "",              "",               "REVERSE ON", "",       "",       "",       "",           "",
@@ -724,7 +724,7 @@ const char *b_ctrl1[0x20] = {
 };
 
 /* 0x00 - 0x1f (tok64) */
-const char *c_ctrl1[0x20] = {
+static const char *c_ctrl1[0x20] = {
     "",              "",               "",           "",       "",       "white",  "",           "",
     "",              "",               "",           "",       "",       "",       "",           "",
     "",              "down",           "reverse on", "home",   "",       "",       "",           "",
@@ -732,7 +732,7 @@ const char *c_ctrl1[0x20] = {
 };
 
 /* 0x00 - 0x1f (64er/checksummer v3) */
-const char *d_ctrl1[0x20] = {
+static const char *d_ctrl1[0x20] = {
     "",              "",               "",           "",       "",       "WHITE",  "",           "",
     "",              "",               "",           "",       "",       "RETURN", "",           "",
     "",              "DOWN",           "RVSON",      "HOME",   "DEL",    "",       "",           "",
@@ -749,7 +749,7 @@ static const char *e_ctrl1[0x20] = {
 /* ------------------------------------------------------------------------- */
 
 /* 0x20 - 0x3f (petcat, tok64) */
-const char *cbmchars[0x20] = {
+static const char *cbmchars[0x20] = {
     "space", "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
@@ -757,7 +757,7 @@ const char *cbmchars[0x20] = {
 };
 
 /* 0x20 - 0x3f (64er/Checksummer v3) */
-const char *a_cbmchars[0x20] = {
+static const char *a_cbmchars[0x20] = {
     "SPACE", "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
@@ -775,7 +775,7 @@ static const char *ctrl2[0x20] = {
 };
 
 /* 0x80 - 0x9f (FIXME: MikroBITTI) */
-const char *a_ctrl2[0x20] = {
+static const char *a_ctrl2[0x20] = {
     "",      "orange",      "",            "",           "",       "F1",           "F3",         "F5",
     "F7",    "F2",          "F4",          "F6",         "F8",     "shift return", "upper case", "",
     "BLK",   "UP",          "RVS OFF",     "CLR",        "insert", "BROWN",        "LT.RED",     "GREY1",
@@ -783,14 +783,14 @@ const char *a_ctrl2[0x20] = {
 };
 
 /* 0x80 - 0x9f (tok64) */
-const char *b_ctrl2[0x20] = {
+static const char *b_ctrl2[0x20] = {
     "",      "orange",      "",            "",           "",        "f1",          "f3",         "r5",
     "f7",    "f2",          "f4",          "f6",         "f8",      "",            "",           "",
     "black", "up",          "reverse off", "clear",      "",        "brown",       "pink",       "dark gray",
     "gray",  "light green", "light blue",  "light gray", "purple",  "left",        "yellow",     "cyan",
 };
 /* 0x80 - 0x9f (64er/Checksummer v3) */
-const char *c_ctrl2[0x20] = {
+static const char *c_ctrl2[0x20] = {
     "",      "ORANGE",      "",            "",           "",        "F1",          "F3",         "F5",
     "F7",    "F2",          "F4",          "F6",         "F8",      "",            "",           "",
     "BLACK", "UP",          "RVSOFF",      "CLR",        "INST",    "BROWN",       "LIG.RED",    "GREY 1",
@@ -817,7 +817,7 @@ static const char *d_ctrl2[0x20] = {
  * CBM Basic Keywords
  */
 
-const char *keyword[] = {
+static const char *keyword[] = {
     /* Common Keywords, 80 - cb */
     "end",    "for",    "next", "data", "input#",  "input",  "dim",    "read",
     "let",    "goto",   "run",  "if",   "restore", "gosub",  "return", "rem",
@@ -851,17 +851,17 @@ const char *keyword[] = {
  * On 10.0 stash, fetch, and swap are replaced with dma.
  */
 
-const char *kwce[] = {
+static const char *kwce[] = {
     "",    "",        "pot",     "bump", "pen", "rsppos", "rsprite", "rspcolor",
     "xor", "rwindow", "pointer"
 };
 
-const char *kwce10[] = {
+static const char *kwce10[] = {
     "",    "",        "pot",     "bump", "lpen", "rsppos", "rsprite", "rspcolor",
     "xor", "rwindow", "pointer"
 };
 
-const char *kwfe[] = {
+static const char *kwfe[] = {
     "",         "",      "bank",     "filter", "play",    "tempo",  "movspr", "sprite",
     "sprcolor", "rreg",  "envelope", "sleep",  "catalog", "dopen",  "append", "dclose",
     "bsave",    "bload", "record",   "concat", "dverify", "dclear", "sprsav", "collision",
@@ -877,7 +877,7 @@ const char *kwfe[] = {
 
 /* Basic 7.1 extension */
 
-const char *kwfe71[] = {
+static const char *kwfe71[] = {
     "",         "",      "bank",     "filter", "play",    "tempo",  "movspr", "sprite",
     "sprcolor", "rreg",  "envelope", "sleep",  "catalog", "dopen",  "append", "dclose",
     "bsave",    "bload", "record",   "concat", "dverify", "dclear", "sprsav", "collision",
@@ -1188,16 +1188,6 @@ int main(int argc, char **argv)
 
 /* ------------------------------------------------------------------------- */
 
-static unsigned int count_valid_option_elements(void)
-{
-    unsigned int i = 0;
-
-    while (basic_list[i].name) {
-        ++i;
-    }
-    return i;
-}
-
 static int compare_elements(const void *op1, const void *op2)
 {
     const sorted_basic_t *p1 = (const sorted_basic_t *)op1;
@@ -1213,13 +1203,9 @@ static int compare_elements(const void *op1, const void *op2)
 void usage(char *progname)
 {
     unsigned int i = 0;
-    unsigned int amount;
     sorted_basic_t *sorted_option_elements;
 
-    /* get the amount of valid options */
-    amount = count_valid_option_elements();
-
-    sorted_option_elements = malloc(amount * sizeof(sorted_basic_t));
+    sorted_option_elements = malloc(NUM_VERSIONS * sizeof *sorted_option_elements);
 
     /* fill in the array with the information needed */
     while (basic_list[i].name) {
@@ -1228,7 +1214,8 @@ void usage(char *progname)
         ++i;
     }
 
-    qsort(sorted_option_elements, amount, sizeof(sorted_basic_t), compare_elements);
+    qsort(sorted_option_elements, NUM_VERSIONS, sizeof *sorted_option_elements,
+            compare_elements);
 
     fprintf(stdout,
             "\n\t%s V%4.2f PL %d -- Basic list/crunch utility.\n\tPart of "PACKAGE " "VERSION "\n",
@@ -1264,7 +1251,7 @@ void usage(char *progname)
             "   \t\tThe default depends on the BASIC version.\n");
 
     fprintf(stdout, "\n\tVersions:\n");
-    for (i = 0; i < amount; ++i) {
+    for (i = 0; i < NUM_VERSIONS; ++i) {
         fprintf(stdout, "\t%s\t%s\n", sorted_option_elements[i].version_select, sorted_option_elements[i].name);
     }
     free(sorted_option_elements);
