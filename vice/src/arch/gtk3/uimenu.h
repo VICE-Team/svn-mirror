@@ -84,12 +84,12 @@ typedef struct ui_menu_item_s {
 
 /** \brief  Terminator of a menu items list
  */
-#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL, 0, 0 }
+#define UI_MENU_TERMINATOR { NULL, UI_MENU_TYPE_GUARD, NULL, NULL, NULL, 0, 0 }
 
 
 /** \brief  Menu items separator
  */
-#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL, 0, 0 }
+#define UI_MENU_SEPARATOR { "---", UI_MENU_TYPE_SEPARATOR, NULL, NULL, NULL, 0, 0 }
 
 
 /** \brief  Platform-dependent accelerator key defines
