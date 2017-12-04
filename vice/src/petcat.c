@@ -1205,7 +1205,7 @@ void usage(char *progname)
     unsigned int i = 0;
     sorted_basic_t *sorted_option_elements;
 
-    sorted_option_elements = malloc(NUM_VERSIONS * sizeof *sorted_option_elements);
+    sorted_option_elements = malloc(NUM_VERSIONS * sizeof(*sorted_option_elements));
 
     /* fill in the array with the information needed */
     while (basic_list[i].name) {
@@ -1214,7 +1214,7 @@ void usage(char *progname)
         ++i;
     }
 
-    qsort(sorted_option_elements, NUM_VERSIONS, sizeof *sorted_option_elements,
+    qsort(sorted_option_elements, NUM_VERSIONS, sizeof(*sorted_option_elements),
             compare_elements);
 
     fprintf(stdout,
