@@ -166,9 +166,9 @@ static ui_menu_item_t reset_submenu[] = {
 };
 
 
-/** \brief  'File' menu
+/** \brief  'File' menu - head section
  */
-static ui_menu_item_t file_menu[] = {
+static ui_menu_item_t file_menu_head[] = {
     { "Smart attach disk/tape ...", UI_MENU_TYPE_ITEM_ACTION,
         "smart-attach", ui_smart_attach_callback, NULL,
         GDK_KEY_A, VICE_MOD_MASK },
@@ -191,6 +191,20 @@ static ui_menu_item_t file_menu[] = {
 
     UI_MENU_SEPARATOR,
 
+    UI_MENU_TERMINATOR
+};
+
+
+/** \brief  'File' menu - tape section pointer
+ *
+ * Set by ...
+ */
+static ui_menu_item_t *file_menu_tape_section = NULL;
+
+
+/** \brief  'File' menu - tape section
+ */
+static ui_menu_item_t file_menu_tape[] = {
     /* tape (funny how create & attach are flipped here) */
     { "Create a new tape image ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL, NULL,
@@ -207,6 +221,13 @@ static ui_menu_item_t file_menu[] = {
 
     UI_MENU_SEPARATOR,
 
+    UI_MENU_TERMINATOR
+};
+
+
+/** \brief  'File' menu - tail section
+ */
+static ui_menu_item_t file_menu_tail[] = {
     /* cart */
     { "Attach cartridge image", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, cart_attach_submenu,
@@ -248,7 +269,7 @@ static ui_menu_item_t file_menu[] = {
     { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION,
         "exit", ui_close_callback, NULL,
         GDK_KEY_Q, VICE_MOD_MASK },
-    
+
     UI_MENU_TERMINATOR
 };
 
@@ -340,7 +361,7 @@ static ui_menu_item_t snapshot_menu[] = {
 };
 
 
-/** \brief  'Settings' menu items - head section
+/** \brief  'Settings' menu - head section
  */
 static ui_menu_item_t settings_menu_head[] = {
     { "Toggle fullscreen", UI_MENU_TYPE_ITEM_ACTION,
@@ -524,20 +545,29 @@ GtkWidget *ui_machine_menu_bar_create(void)
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_PLUS4:
+            /* add tape section */
+            file_menu_tape_section = file_menu_tape;
+            /* fall through */
+        case VICE_MACHINE_SCPU64:
             /* add both swap-joy and swap-userport-joy */
             settings_menu_joy_section = settings_menu_all_joy;
             break;
-        case VICE_MACHINE_C64DTV:   /* fall through */
         case VICE_MACHINE_CBM5x0:
+            /* add tape section */
+            file_menu_tape_section = file_menu_tape;
+            /* fall through */
+        case VICE_MACHINE_C64DTV:
             /* only add swap-joy */
             settings_menu_joy_section = settings_menu_cbm5x0_joy;
             break;
         case VICE_MACHINE_PET:      /* fall through */
         case VICE_MACHINE_VIC20:    /* fall through */
         case VICE_MACHINE_CBM6x0:
+            /* add tape section */
+            file_menu_tape_section = file_menu_tape;
+            /* only add swap-userport-joy */
             settings_menu_joy_section = settings_menu_userport_joy;
             break;
         case VICE_MACHINE_VSID:
@@ -550,7 +580,12 @@ GtkWidget *ui_machine_menu_bar_create(void)
     menu_bar = ui_menu_bar_create();
 
     /* generate File menu */
-    ui_menu_file_add(file_menu);
+    ui_menu_file_add(file_menu_head);
+    if (file_menu_tape_section != NULL) {
+        ui_menu_file_add(file_menu_tape_section);
+    }
+    ui_menu_file_add(file_menu_tail);
+
     /* generate Edit menu */
     ui_menu_edit_add(edit_menu);
     /* generate Snapshot menu */
@@ -558,7 +593,9 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
     /* generate Settings menu */
     ui_menu_settings_add(settings_menu_head);
-    ui_menu_settings_add(settings_menu_joy_section);
+    if (settings_menu_joy_section != NULL) {
+        ui_menu_settings_add(settings_menu_joy_section);
+    }
     ui_menu_settings_add(settings_menu_tail);
 
 #ifdef DEBUG
