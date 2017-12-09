@@ -594,7 +594,8 @@ static int set_window_ypos(int val, void *param)
  *          replace or leak the "monitor" window, but the nature of
  *          monitor windows is such that this should never happen.
  */
-void ui_create_toplevel_window(struct video_canvas_s *canvas) {
+void ui_create_toplevel_window(struct video_canvas_s *canvas)
+{
     GtkWidget *new_window, *grid, *new_drawing_area, *status_bar;
     GtkWidget *menu_bar;
     int target_window;
@@ -815,7 +816,8 @@ void ui_update_menus(void)
  * FIXME:   According to the Gtk3/GLib devs, this will at some point bite us
  *          in the arse.
  */
-void ui_dispatch_next_event(void) {
+void ui_dispatch_next_event(void)
+{
     g_main_context_iteration(g_main_context_default(), FALSE);
 }
 
@@ -844,7 +846,7 @@ int ui_extend_image_dialog(void)
  */
 void ui_error(const char *format, ...)
 {
-    GtkWidget *window;
+    GtkWindow *window;
     char *buffer;
     va_list ap;
 
@@ -852,31 +854,32 @@ void ui_error(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    /* use primary window as blocking toplevel */
-    window = ui_resources.window_widget[PRIMARY_WINDOW];
-    if (window == NULL) {
-        window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    }
-    ui_message_error(window, "VICE Error", buffer);
+    /* use active window as blocking toplevel */
+    /* FIXME: this isn't actually used by ui_message_error() */
+    window = ui_get_active_window();
+
+    ui_message_error(GTK_WIDGET(window), "VICE Error", buffer);
+    lib_free(buffer);
 }
 
 
-/** XXX: Look at src/arch/gtk3/widgets/basedialogs.c for proper implemention
+/** \brief  Display a message through the UI
  */
 void ui_message(const char *format, ...)
 {
-    GtkWidget *dialog;
-    char buffer[1024];
+    GtkWindow *window;
+    char *buffer;
     va_list ap;
 
     va_start(ap, format);
-    g_vsnprintf(buffer, 1024, format, ap);
+    buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO,
-            GTK_BUTTONS_OK, "%s", buffer);
-    gtk_dialog_run(GTK_DIALOG(dialog));
+    /* FIXME: this isn't actually used by ui_message_info() */
+    window = ui_get_active_window();
 
+    ui_message_info(GTK_WIDGET(window), "VICE Message", buffer);
+    lib_free(buffer);
 }
 
 /* display FPS (and some other stuff) in the title bar of the window(s) */
