@@ -72,8 +72,6 @@ struct vice_renderer_backend_s {
     void (*update_context)(video_canvas_t *canvas,
                            unsigned int width, unsigned int height);
     void (*destroy_context)(video_canvas_t *canvas);
-    int (*get_backbuffer_info)(video_canvas_t *canvas, unsigned int *width,
-                                unsigned int *height, unsigned int *stride);
     void (*refresh_rect)(video_canvas_t *canvas,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,

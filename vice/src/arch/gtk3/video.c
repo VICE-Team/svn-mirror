@@ -239,7 +239,6 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)
 {
-    unsigned int backing_surface_w, backing_surface_h;
     if (console_mode || video_disabled_mode || !canvas) {
         return;
     }
@@ -249,19 +248,6 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
 
     yi *= canvas->videoconfig->scaley;
     h *= canvas->videoconfig->scaley;
-
-    if (vice_renderer_backend->get_backbuffer_info(canvas, &backing_surface_w, &backing_surface_h, NULL)) {
-        /* Backbuffer isn't actually ready yet, nothing to refresh */
-        return;
-    }
-
-    if (((xi + w) > backing_surface_w) || ((yi+h) > backing_surface_h)) {
-        /* Trying to draw outside canvas? */
-        fprintf(stderr, "Attempt to draw outside canvas!\nXI%u YI%u W%u H%u CW%u CH%u\n", xi, yi, w, h, backing_surface_w, backing_surface_h);
-        return;
-    }
-
-    /* fprintf(stderr, "Xsc%d Ysc%d XS%u YS%u XI%u YI%u W%u H%u CW%u CH%u\n", canvas->videoconfig->scalex, canvas->videoconfig->scaley, xs, ys, xi, yi, w, h, backing_surface_w, backing_surface_h); */
 
     vice_renderer_backend->refresh_rect(canvas, xs, ys, xi, yi, w, h);
 }

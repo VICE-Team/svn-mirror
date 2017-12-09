@@ -101,7 +101,7 @@ static GLuint create_shader(GLenum shader_type, const char *text)
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &info_log_length);
         info_log = lib_malloc(sizeof(GLchar) * (info_log_length + 1));
         glGetShaderInfoLog(shader, info_log_length, NULL, info_log);
-        
+
         switch(shader_type)
         {
         case GL_VERTEX_SHADER: shader_type_name = "vertex"; break;
@@ -112,9 +112,9 @@ static GLuint create_shader(GLenum shader_type, const char *text)
         fprintf(stderr, "Compile failure in %s shader:\n%s\n", shader_type_name, info_log);
         lib_free(info_log);
     }
-    
+
     return shader;
-}    
+}
 
 static void create_shader_program(context_t *ctx)
 {
@@ -138,7 +138,7 @@ static void create_shader_program(context_t *ctx)
         fprintf(stderr, "Linker failure: %s\n", info_log);
         lib_free(info_log);
     }
-    
+
     glDeleteShader(vert);
     glDeleteShader(frag);
     ctx->position_index = glGetAttribLocation(program, "position");
@@ -152,7 +152,7 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     context_t *ctx = NULL;
     GError *err = NULL;
     GLenum glErr;
-    
+
     gtk_gl_area_make_current(area);
     err = gtk_gl_area_get_error(area);
     if (err != NULL) {
@@ -175,7 +175,7 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
         fprintf(stderr, "GTKGL: OpenGL version 3.2 not supported in this context\n");
     }
 #endif
-    
+
     create_shader_program(ctx);
     glGenBuffers(1, &ctx->vbo);
     glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
@@ -241,11 +241,11 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
         glUniform4f(scale_uniform, ctx->scale_x, ctx->scale_y, 1.0f, 1.0f);
         sampler_uniform = glGetUniformLocation(ctx->program, "sampler");
         glUniform1i(sampler_uniform, 0);
-        
+
         glBindTexture(GL_TEXTURE_2D, ctx->texture);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
         glBindTexture(GL_TEXTURE_2D, 0);
-        
+
         glDisableVertexAttribArray(ctx->position_index);
         glDisableVertexAttribArray(ctx->tex_coord_index);
         glUseProgram(0);
@@ -263,7 +263,7 @@ resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
     if (!ctx || ctx->width == 0 || ctx->height == 0) {
         return;
     }
-        
+
     if (width <= 0) {
         width = 1;
     }
@@ -273,7 +273,7 @@ resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
 
     resources_get_int("KeepAspectRatio", &keepaspect);
     resources_get_int("TrueAspectRatio", &trueaspect);
-    
+
     if (keepaspect) {
         float canvas_aspect, viewport_aspect;
 
@@ -301,7 +301,7 @@ static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
     canvas->renderer_context = NULL;
     g_signal_connect (widget, "realize", G_CALLBACK (realize_opengl_cb), canvas);
     g_signal_connect (widget, "render", G_CALLBACK (render_opengl_cb), canvas);
-    g_signal_connect (widget, "resize", G_CALLBACK (resize_opengl_cb), canvas);   
+    g_signal_connect (widget, "resize", G_CALLBACK (resize_opengl_cb), canvas);
     return widget;
 }
 
@@ -319,24 +319,6 @@ static void vice_opengl_destroy_context(video_canvas_t *canvas)
         canvas->renderer_context = NULL;
         lib_free(ctx);
     }
-}
-
-static int vice_opengl_get_backbuffer_info(video_canvas_t *canvas, unsigned int *width, unsigned int *height, unsigned int *stride)
-{
-    context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
-    if (!ctx || ctx->width == 0 || ctx->height == 0) {
-        return 1;
-    }
-    if (width) {
-        *width = ctx->width;
-    }
-    if (height) {
-        *height = ctx->height;
-    }
-    if (stride) {
-        *stride = ctx->width * 4;
-    }
-    return 0;
 }
 
 static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int width, unsigned int height)
@@ -382,6 +364,13 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     if (!ctx || !ctx->backbuffer) {
         return;
     }
+
+    if (((xi + w) > ctx->width) || ((yi + h) > ctx->height)) {
+        /* Trying to draw outside canvas? */
+        fprintf(stderr, "Attempt to draw outside canvas!\nXI%u YI%u W%u H%u CW%u CH%u\n", xi, yi, w, h, ctx->width, ctx->height);
+        return;
+    }
+
     video_canvas_render(canvas, ctx->backbuffer, w, h, xs, ys, xi, yi, ctx->width * 4, 32);
 
     if (ctx->render_mode == RENDER_MODE_STATIC) {
@@ -415,7 +404,7 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     }
     /* Render mode NEW_TEXTURE has no effect; it stays just as new */
 
-    gtk_widget_queue_draw(canvas->drawing_area);    
+    gtk_widget_queue_draw(canvas->drawing_area);
 }
 
 static void vice_opengl_set_palette(video_canvas_t *canvas)
@@ -426,7 +415,7 @@ static void vice_opengl_set_palette(video_canvas_t *canvas)
         return;
     }
     /* If we get this far we know canvas is also non-NULL */
-    
+
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
         uint32_t color_code = color.red | (color.green << 8) | (color.blue << 16) | (0xff << 24);
@@ -444,7 +433,6 @@ vice_renderer_backend_t vice_opengl_backend = {
     vice_opengl_create_widget,
     vice_opengl_update_context,
     vice_opengl_destroy_context,
-    vice_opengl_get_backbuffer_info,
     vice_opengl_refresh_rect,
     vice_opengl_set_palette
 };

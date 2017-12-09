@@ -47,7 +47,7 @@ draw_canvas_cairo_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
     context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
 
     /* Half-grey background for those parts of the window that aren't
-     * video, or black if it's fullscreen. 
+     * video, or black if it's fullscreen.
      * TODO: configurable? */
     if (ui_is_fullscreen()) {
         cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
@@ -145,35 +145,27 @@ static void vice_cairo_destroy_context(video_canvas_t *canvas)
     }
 }
 
-static int vice_cairo_get_backbuffer_info(video_canvas_t *canvas, unsigned int *width, unsigned int *height, unsigned int *stride)
-{
-    context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
-    if (!ctx || !ctx->backing_surface) {
-        return 1;
-    }
-    if (width) {
-        *width = cairo_image_surface_get_width(ctx->backing_surface);
-    }
-    if (height) {
-        *height = cairo_image_surface_get_height(ctx->backing_surface);
-    }
-    if (stride) {
-        *stride = cairo_image_surface_get_stride(ctx->backing_surface);
-    }
-    return 0;
-}
-
 static void vice_cairo_update_context(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
     if (canvas) {
-        unsigned int source_width = 0, source_height = 0;
-        context_t *ctx;
-        /* If this fails, then source_width and source_height remain 0, which is what we want */
-        vice_cairo_get_backbuffer_info(canvas, &source_width, &source_height, NULL);
-        if (source_width == width && source_height == height) {
-            /* No updates needed */
-            return;
+        context_t *ctx = (context_t *)canvas->renderer_context;
+
+        if (ctx && ctx->backing_surface) {
+            unsigned int source_width, source_height;
+            source_width = cairo_image_surface_get_width(ctx->backing_surface);
+            source_height = cairo_image_surface_get_height(ctx->backing_surface);
+            if (source_width == width && source_height == height) {
+                /* Canvas already exists and is the proper size */
+                return;
+            }
+        } else {
+            if (width == 0 || height == 0) {
+                /* We have no surface and were asked to create a
+                 * surface of area zero, so we're done */
+                return;
+            }
         }
+        /* If we get this far, we have new dimensions for our canvas */
         vice_cairo_destroy_context(canvas);
         ctx = lib_malloc(sizeof(context_t));
         if (ctx) {
@@ -212,6 +204,14 @@ static void vice_cairo_refresh_rect(video_canvas_t *canvas,
     if (!ctx || !ctx->backing_surface) {
         return;
     }
+
+    if (((xi + w) > cairo_image_surface_get_width(ctx->backing_surface)) ||
+        ((yi+h) > cairo_image_surface_get_height(ctx->backing_surface))) {
+        /* Trying to draw outside canvas? */
+        fprintf(stderr, "Attempt to draw outside canvas!\nXI%u YI%u W%u H%u CW%u CH%u\n", xi, yi, w, h, cairo_image_surface_get_width(ctx->backing_surface), cairo_image_surface_get_height(ctx->backing_surface));
+        return;
+    }
+
     cairo_surface_flush(ctx->backing_surface);
     backbuffer = cairo_image_surface_get_data(ctx->backing_surface);
     if (!backbuffer) {
@@ -219,7 +219,7 @@ static void vice_cairo_refresh_rect(video_canvas_t *canvas,
     }
     video_canvas_render(canvas, backbuffer, w, h, xs, ys, xi, yi, cairo_image_surface_get_stride(ctx->backing_surface), 32);
     cairo_surface_mark_dirty_rectangle(ctx->backing_surface, xi, yi, w, h);
-    gtk_widget_queue_draw(canvas->drawing_area);    
+    gtk_widget_queue_draw(canvas->drawing_area);
 }
 
 static void vice_cairo_set_palette(video_canvas_t *canvas)
@@ -230,7 +230,7 @@ static void vice_cairo_set_palette(video_canvas_t *canvas)
         return;
     }
     /* If we get this far we know canvas is also non-NULL */
-    
+
     /* We use CAIRO_FORMAT_RGB24, which is defined as follows: "Each
      * pixel is a 32-bit quantity, with the upper 8 bits unused. Red,
      * Green, and Blue are stored in the remaining 24 bits in that
@@ -251,7 +251,6 @@ vice_renderer_backend_t vice_cairo_backend = {
     vice_cairo_create_widget,
     vice_cairo_update_context,
     vice_cairo_destroy_context,
-    vice_cairo_get_backbuffer_info,
     vice_cairo_refresh_rect,
     vice_cairo_set_palette
 };
