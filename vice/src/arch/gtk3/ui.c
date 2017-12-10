@@ -205,7 +205,7 @@ static int active_win_index = -1;
  */
 static int is_fullscreen = 0;
 
-/** \brief  Flag inidicating whether fullscreen mode shows the decorations. 
+/** \brief  Flag inidicating whether fullscreen mode shows the decorations.
  */
 static int fullscreen_has_decorations = 0;
 
@@ -622,13 +622,15 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas)
     menu_bar = ui_machine_menu_bar_create();
 
     canvas->drawing_area = new_drawing_area;
+    canvas->event_box = gtk_event_box_new();
+    gtk_container_add(GTK_CONTAINER(canvas->event_box), new_drawing_area);
 
     gtk_container_add(GTK_CONTAINER(new_window), grid);
     /* When we have a menu bar, we'll add it at the top here */
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
 
     gtk_container_add(GTK_CONTAINER(grid), menu_bar);
-    gtk_container_add(GTK_CONTAINER(grid), new_drawing_area);
+    gtk_container_add(GTK_CONTAINER(grid), canvas->event_box);
     gtk_container_add(GTK_CONTAINER(grid), status_bar);
 
     gtk_widget_set_hexpand(new_drawing_area, TRUE);

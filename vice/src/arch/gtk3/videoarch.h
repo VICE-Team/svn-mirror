@@ -43,9 +43,18 @@ struct video_canvas_s {
      * depending on which renderer has been selected. Each is
      * ultimately represented as a GtkWidget object. */
     GtkWidget *drawing_area;
+    /* The video canvas is surrounded by an GtkEventBox which can
+     * capture events like mouse motion or clicks. */
+    GtkWidget *event_box;
     /* Renderers have data unique to themselves, too. They'll know
      * what this is. */
     void *renderer_context;
+    /* Cursors are unique to windows, so if we want to hide the mouse
+     * cursor, this will hold the "blank" cursor for this canvas. */
+    GdkCursor *blank_ptr;
+    /* Number of frames the mouse hasn't moved while still on the canvas. */
+    unsigned int still_frames;
+    guint still_frame_callback_id;
 
     /* The remainder are fields the core needs to communicate with the
      * renderers. */
