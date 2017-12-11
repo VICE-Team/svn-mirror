@@ -125,6 +125,7 @@
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
+#include "snapshotwidget.h"
 #include "ui.h"
 
 #include "uisettings.h"
@@ -425,6 +426,8 @@ static ui_settings_tree_node_t main_nodes[] = {
      * until I refactor the tree model code into something more flexible
      * -- compyx*/
     { "I/O extensions", ioextensions_widget_create, c64_io_extensions },
+
+    { "Snaphot/event recording, media file stuff", snapshot_widget_create, NULL },
     { NULL, NULL, NULL }
 };
 

@@ -1,7 +1,5 @@
-/** \file   src/arch/gtk3/widgets/basedialogs.h
- * \brief   Basic dialogs (Info, Yes/No, etc)
- *
- * GTK3 basic dialogs
+/** \file   src/arch/gtk3/widgets/snapshotwidget.h
+ * \brief   Snapshot/recording settings widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -23,28 +21,15 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_BASEDIALOGS_H
-#define VICE_BASEDIALOGS_H
+#ifndef VICE_SNAPSHOTWIDGET_H
+#define VICE_SNAPSHOTWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "openfiledialog.h"
-#include "savefiledialog.h"
-#include "selectdirectorydialog.h"
+GtkWidget *snapshot_widget_create(GtkWidget *parent);
 
-gboolean ui_message_info(GtkWidget *widget,
-                         const char *title,
-                         const char *text, ...);
-
-
-gboolean ui_message_confirm(GtkWidget *widget,
-                            const char *title,
-                            const char *fmt, ...);
-
-gboolean ui_message_error(GtkWidget *widget,
-                          const char *title,
-                          const char *fmt, ...);
 #endif
