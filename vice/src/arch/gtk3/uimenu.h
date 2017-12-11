@@ -94,11 +94,11 @@ typedef struct ui_menu_item_s {
 
 /** \brief  Platform-dependent accelerator key defines
  */
-#if 0
+#ifdef MACOSX_SUPPORT
   /* Mac Command key (Windows key on PC keyboards) */
-  #define VICE_MOD_MASK GDK_MOD2_MASK
+  #define VICE_MOD_MASK GDK_META_MASK
 #else
-  /* Alt/Option key */
+  /* Alt key (Option key on Mac keyboards) */
   #define VICE_MOD_MASK GDK_MOD1_MASK
 #endif
 
