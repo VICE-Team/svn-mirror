@@ -37,4 +37,12 @@ void uisnapshot_save_file(GtkWidget *parent, gpointer user_data);
 void uisnapshot_quickload_snapshot(GtkWidget *parent, gpointer user_data);
 void uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data);
 
+void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data);
+void uisnapshot_history_record_start(GtkWidget *parent, gpointer user_data);
+void uisnapshot_history_record_stop(GtkWidget *parent, gpointer user_data);
+void uisnapshot_history_playback_start(GtkWidget *parent, gpointer user_data);
+void uisnapshot_history_playback_stop(GtkWidget *parent, gpointer user_data);
+void uisnapshot_history_milestone_set(GtkWidget *parent, gpointer user_data);
+void uisnapshot_history_milestone_reset(GtkWidget *parent, gpointer user_data);
+
 #endif

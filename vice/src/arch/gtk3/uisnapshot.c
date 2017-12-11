@@ -41,10 +41,12 @@
 #include "filechooserhelpers.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
+#include "selectdirectorydialog.h"
 #include "basedialogs.h"
 #include "interrupt.h"
 #include "vsync.h"
 #include "snapshot.h"
+#include "vice-event.h"
 #include "uistatusbar.h"
 #include "ui.h"
 
@@ -297,4 +299,100 @@ void uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
     char *fname = quicksnap_filename();
 
     interrupt_maincpu_trigger_trap(quicksave_snapshot_trap, (void *)fname);
+}
+
+
+/** \brief  Gtk event handler for the "Select history directory" menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
+void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
+{
+    char *filename;
+    const char *current;
+
+    if (resources_get_string("EventSnapshotDir", &current) < 0) {
+        debug_gtk3("failed to get currnt history directory, using NULL\n");
+        current = NULL;
+    }
+
+    filename = ui_select_directory_dialog(parent,   /* gets replaced with
+                                                       ui_get_active_window() */
+            "Select history directory", NULL, TRUE, current);
+    if (filename != NULL) {
+        debug_gtk3("Setting EventSnapshotDir to '%s'\n", filename);
+        if (resources_set_string("EventSnapshotDir", filename) < 0) {
+            /* FIXME: perhaps use ui_error() or log_error()? */
+            debug_gtk3("failed to set EventSnapshotDir");
+        }
+        g_free(filename);
+    }
+}
+
+
+/** \brief  Gtk event handler for the "Start recording events" menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
+void uisnapshot_history_record_start(GtkWidget *parent, gpointer user_data)
+{
+    event_record_start();
+}
+
+
+/** \brief  Gtk event handler for the "Stop recording events" menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
+void uisnapshot_history_record_stop(GtkWidget *parent, gpointer user_data)
+{
+    event_record_stop();
+}
+
+
+/** \brief  Gtk event handler for the "Start playing back events" menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
+void uisnapshot_history_playback_start(GtkWidget *parent, gpointer user_data)
+{
+    event_playback_start();
+}
+
+
+
+/** \brief  Gtk event handler for the "Stop playing back events" menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
+void uisnapshot_history_playback_stop(GtkWidget *parent, gpointer user_data)
+{
+    event_playback_stop();
+}
+
+
+/** \brief  Gtk event handler for the "Set recording milestone" menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
+void uisnapshot_history_milestone_set(GtkWidget *parent, gpointer user_data)
+{
+    event_record_set_milestone();
+}
+
+
+/** \brief  Gtk event handler for the "Return to milestone" menu item
+ *
+ * \param[in]   parent      parent widget
+ * \param[in]   user_data   unused
+ */
+void uisnapshot_history_milestone_reset(GtkWidget *parent, gpointer user_data)
+{
+    event_record_reset_milestone();
 }

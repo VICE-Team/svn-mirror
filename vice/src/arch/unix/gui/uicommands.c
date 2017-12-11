@@ -181,7 +181,7 @@ static UI_CALLBACK(browse_manual)
 #else
         static const char manual_path[] = DOCDIR "/vice_toc.html";
 #endif
-        
+
         char *res_ptr;
         int manual_path_len, cmd_len;
 
@@ -239,7 +239,7 @@ static UI_CALLBACK(browse_manual)
         if (system(buf) != 0) {
             ui_error(_("Cannot run HTML browser."));
         }
-            
+
 #ifdef MACOSX_BUNDLE
         lib_free(manual_path);
 #endif
