@@ -236,6 +236,7 @@ static int attach_image(int type, const char *filename)
         case 2: /* load address */
             addr = fgetc(fd);
             addr = (addr & 0xff) | ((fgetc(fd) << 8) & 0xff00);
+            len -= 2; /* remove load address from length */
             break;
         default: /* not a valid file */
             zfile_fclose(fd);
@@ -245,20 +246,23 @@ static int attach_image(int type, const char *filename)
     }
 
     if (type == CARTRIDGE_VIC20_DETECT) {
-        if (addr == 0x6000 || addr == 0x7000) {
+        if ((addr == 0x6000 || addr == 0x7000) && (len <= 0x4000)) {
             type = CARTRIDGE_VIC20_16KB_6000;
-        } else if (addr == 0xA000) {
+        } else if ((addr == 0xA000) && (len <= 0x2000)) {
             type = CARTRIDGE_VIC20_8KB_A000;
-        } else if (addr == 0x2000 || addr == 0x3000) {
+        } else if ((addr == 0x2000 || addr == 0x3000) && (len <= 0x4000)) {
             type = CARTRIDGE_VIC20_16KB_2000;
-        } else if (addr == 0xB000) {
+        } else if ((addr == 0xB000) && (len <= 0x1000)) {
             type = CARTRIDGE_VIC20_4KB_B000;
-        } else if (addr == 0x4000 || addr == 0x5000) {
+        } else if ((addr == 0x4000 || addr == 0x5000) && (len <= 0x4000)) {
             type = CARTRIDGE_VIC20_16KB_4000;
-        } else {
+        } else if (len <= 0x2000) {
             /* raw 8KB binary images default to $a000-$bfff */
             type = CARTRIDGE_VIC20_8KB_A000;
             log_message(LOG_DEFAULT, "could not determine type of cartridge, defaulting to 8k $a000-$bfff");
+        } else {
+            DBG(("attach_image error, len=`%d'.\n", len));
+            return -1;
         }
     }
 
