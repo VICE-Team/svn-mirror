@@ -48,12 +48,14 @@
 #include "uiedit.h"
 #include "uifliplist.h"
 #include "uimachinemenu.h"
+#include "uimedia.h"
 #include "uimenu.h"
 #include "uimonarch.h"
 #include "uisettings.h"
 #include "uismartattach.h"
 #include "uisnapshot.h"
 #include "uitapeattach.h"
+
 
 
 /** \brief  File->Detach submenu
@@ -345,18 +347,7 @@ static ui_menu_item_t snapshot_menu[] = {
 #endif
 
     { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
-        0, 0 },
-
-    UI_MENU_SEPARATOR,
-
-    /* XXX: this item should be removed and its functionality added to the
-     *      'Save media file' item like I did in the SDL UI: Saving a media
-     *      file should handle image, sound and/or video
-     *      -- Compyx
-     */
-    { "Sound recording ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
+        "media-save", uimedia_dialog_show, NULL,
         0, 0 },
 
     UI_MENU_TERMINATOR
