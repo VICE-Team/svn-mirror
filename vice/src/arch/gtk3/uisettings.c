@@ -50,6 +50,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "lib.h"
 #include "machine.h"
@@ -451,6 +452,9 @@ static GtkWidget *settings_window = NULL;
 static GtkWidget *settings_grid = NULL;
 
 
+static GtkWidget *settings_tree;
+
+
 /** \brief  Handler for the "changed" event of the tree view
  *
  * \param[in]   selection   GtkTreeSelection associated with the tree model
@@ -661,7 +665,6 @@ static void ui_settings_set_central_widget(GtkWidget *widget)
  */
 static GtkWidget *create_content_widget(GtkWidget *widget)
 {
-    GtkWidget *tree;
     GtkTreeSelection *selection;
     GtkWidget *scroll;
     GtkWidget *extra;
@@ -669,14 +672,14 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     debug_gtk3("called\n");
 
     settings_grid = gtk_grid_new();
-    tree = create_treeview();
+    settings_tree = create_treeview();
     g_print("tree created\n");
 
     /* pack the tree in a scrolled window to allow scrolling of the tree when
      * it gets too large for the dialog
      */
     scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_container_add(GTK_CONTAINER(scroll), tree);
+    gtk_container_add(GTK_CONTAINER(scroll), settings_tree);
 
     gtk_grid_attach(GTK_GRID(settings_grid), scroll, 0, 0, 1, 1);
 
@@ -698,12 +701,12 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(settings_grid), extra, 0, 2, 2, 1);
 
     gtk_widget_show(settings_grid);
-    gtk_widget_show(tree);
+    gtk_widget_show(settings_tree);
 
     gtk_widget_set_size_request(scroll, 300, 500);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
-    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(tree));
+    selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
     gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
     g_signal_connect(G_OBJECT(selection), "changed",
             G_CALLBACK(on_tree_selection_changed), NULL);
@@ -815,6 +818,19 @@ static gboolean on_dialog_configure_event(GtkWidget *widget, GdkEvent *event,
 }
 
 
+static bool select_item_xpath(const char *xpath)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    model = gtk_tree_view_get_model(GTK_TREE_VIEW(settings_tree));
+    gtk_tree_model_get_iter_from_string(model, &iter, xpath);
+
+
+    return true;
+}
+
+
 /** \brief  Callback to create the main settings dialog from the menu
  *
  * \param[in]   widget      (direct) parent widget, the menu item
@@ -853,5 +869,13 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "response", G_CALLBACK(response_callback), NULL);
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
+
+    if (user_data != NULL) {
+        const char *s = (const char *)user_data;
+        debug_gtk3("XPath expression = '%s'\n",s );
+        select_item_xpath(s);
+    }
+
+
     gtk_widget_show_all(dialog);
 }

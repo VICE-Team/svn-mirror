@@ -311,10 +311,11 @@ static ui_menu_item_t snapshot_menu[] = {
         GDK_KEY_F11, VICE_MOD_MASK },
 
     UI_MENU_SEPARATOR,
-
+#if 0
     { "Select history directory ...", UI_MENU_TYPE_ITEM_ACTION,
-        "history-select-dir", uisnapshot_history_select_dir, NULL,
+        "history-select-dir", uisnapshot_history_select_dir, "0:3",
         0, 0 },
+#endif
     { "Start recording events", UI_MENU_TYPE_ITEM_ACTION,
         "history-record-start", uisnapshot_history_record_start, NULL,
         0, 0 },
@@ -335,12 +336,13 @@ static ui_menu_item_t snapshot_menu[] = {
         GDK_KEY_U, VICE_MOD_MASK },
 
     UI_MENU_SEPARATOR,
-
+#if 0
     { "Recording start mode ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
+        "history-recording-start-mode", ui_settings_dialog_create, "20,0",
         0, 0 },
 
     UI_MENU_SEPARATOR,
+#endif
 
     { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, NULL, NULL,
@@ -606,6 +608,5 @@ GtkWidget *ui_machine_menu_bar_create(void)
     /* generate Help menu */
     ui_menu_help_add(help_menu);
 
-    
     return menu_bar;
 }

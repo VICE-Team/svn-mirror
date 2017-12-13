@@ -4,6 +4,10 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  EventSnapshotDir - all emus
+ *  EventStartMode - all emus
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
