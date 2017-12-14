@@ -71,6 +71,11 @@ static ui_radiogroup_entry_t c128_vicii_models[] = {
 };
 
 
+int c128ui_init_early(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
 
 int c128ui_init(void)
 {

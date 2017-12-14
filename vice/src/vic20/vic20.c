@@ -933,10 +933,10 @@ int machine_specific_init(void)
                    (delay * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH),
                    1, 0xcc, 0xd1, 0xd3, 0xd5);
 
-#ifdef USE_BEOS_UI
+#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init VIC20-specific parts of the menus before vic_init()
        creates a canvas window with a menubar at the top. This could
-       also be used by other ports, e.g. GTK+...  */
+       also be used by other ports.  */
     vic20ui_init_early();
 #endif
 

@@ -53,6 +53,12 @@ static ui_radiogroup_entry_t vic20_vic_models[] = {
 };
 
 
+int vic20ui_init_early(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
+
 int vic20ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to

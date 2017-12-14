@@ -82,6 +82,11 @@ static ui_radiogroup_entry_t c64_vicii_models[] = {
 };
 
 
+int c64ui_init_early(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
 
 int c64ui_init(void)
 {

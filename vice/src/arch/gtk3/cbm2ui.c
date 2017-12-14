@@ -45,6 +45,12 @@ static const char *cbm2_model_list[] = {
 };
 
 
+int cbm2ui_init_early(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
+
 int cbm2ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to

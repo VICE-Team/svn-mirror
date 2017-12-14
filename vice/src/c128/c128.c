@@ -1068,10 +1068,10 @@ int machine_specific_init(void)
     }
     autostart_init((CLOCK)(delay * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1, 0xa27, 0xe0, 0xec, 0xee);
 
-#ifdef USE_BEOS_UI
+#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init C128-specific parts of the menus before vdc_init() and
        vicii_init() create canvas windows with menubars at the top. This
-       could also be used by other ports, e.g. GTK+...  */
+       could also be used by other ports.  */
     c128ui_init_early();
 #endif
 

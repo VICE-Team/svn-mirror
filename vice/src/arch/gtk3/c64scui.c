@@ -82,6 +82,12 @@ static ui_radiogroup_entry_t c64sc_vicii_models[] = {
 };
 
 
+int c64scui_init_early(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
+
 int c64scui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to

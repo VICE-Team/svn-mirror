@@ -1186,7 +1186,7 @@ void mem_color_ram_from_snapshot(uint8_t *color_ram)
 /* ------------------------------------------------------------------------- */
 
 /* UI functions (used to distinguish between x64 and x64sc) */
-#ifdef USE_BEOS_UI
+#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
 int c64_mem_ui_init_early(void)
 {
     return c64ui_init_early();

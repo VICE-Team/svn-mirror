@@ -79,7 +79,11 @@ static ui_radiogroup_entry_t c64scpu_vicii_models[] = {
 };
 
 
-
+int scpu64ui_init_early(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
 
 int scpu64ui_init(void)
 {

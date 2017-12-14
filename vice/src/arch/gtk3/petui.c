@@ -46,6 +46,12 @@ static const char *pet_model_list[] = {
 };
 
 
+int petui_init_early(void)
+{
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}
+
 int petui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
