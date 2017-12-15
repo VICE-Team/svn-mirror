@@ -195,12 +195,9 @@ static void update_format_combo_box(const char * fmt)
     gtk_tree_model_get_iter_first(model, &iter);
 
     do {
-        GValue value = G_VALUE_INIT;
         const gchar *s;
 
-        gtk_tree_model_get_value(model, &iter, 0, &value);
-        s = g_value_get_string(&value);
-        g_value_unset(&value);
+        gtk_tree_model_get(model, &iter, 0, &s, -1);
 
         if (strcmp(s, fmt) == 0) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(format_widget), index);
@@ -218,6 +215,7 @@ static void update_format_combo_box(const char * fmt)
 /** \brief  Create combo box with supported video codecs for \a fmt
  *
  * \return  GtkComboBox
+ * ne
  */
 static GtkWidget *create_video_combo_box(int fmt)
 {
