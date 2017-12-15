@@ -43,6 +43,10 @@
 #include "ui.h"
 #include "gfxoutput.h"
 
+#ifdef HAVE_FFMPEG
+#include "ffmpegwidget.h"
+#endif
+
 #include "uimedia.h"
 
 
@@ -151,7 +155,6 @@ static ui_combo_entry_int_t crtc_colors[] = {
 
 static int audio_driver_index = 0;
 
-
 static GtkWidget *screenshot_options_grid = NULL;
 static GtkWidget *oversize_widget = NULL;
 static GtkWidget *undersize_widget = NULL;
@@ -159,6 +162,7 @@ static GtkWidget *multicolor_widget = NULL;
 static GtkWidget *ted_luma_widget = NULL;
 static GtkWidget *crtc_textcolor_widget = NULL;
 
+static GtkWidget *video_driver_options_grid = NULL;
 
 static GtkWidget *create_screenshot_param_widget(const char *prefix);
 
@@ -242,6 +246,8 @@ static void on_audio_driver_toggled(GtkWidget *widget, gpointer data)
         audio_driver_index = index;
     }
 }
+
+
 /** \brief  Create heap-allocated list of available video drivers
  *
  * Queries the gfxoutputdrv subsystem and builds a list of currently available
@@ -398,6 +404,8 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
 }
 
 
+
+
 /** \brief  Create the main 'screenshot' widget
  *
  * \return  GtkGrid
@@ -503,10 +511,57 @@ static GtkWidget *create_sound_widget(void)
 static GtkWidget *create_video_widget(void)
 {
     GtkWidget *grid;
+    GtkWidget *label;
+    GtkWidget *combo;
+    int index;
+
+    GtkWidget *selection_grid;
+    GtkWidget *options_grid;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = gtk_label_new("Video driver");
+    g_object_set(label, "margin-left", 16, NULL);
+
+    combo = gtk_combo_box_text_new();
+    for (index = 0; video_driver_list[index].name != NULL; index++) {
+        const char *display = video_driver_list[index].display;
+        const char *name = video_driver_list[index].name;
+
+        if (driver_is_video(name)) {
+            gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo), name, display);
+        }
+    }
+    gtk_widget_set_hexpand(combo, TRUE);
+
+    selection_grid = uihelpers_create_grid_with_label("Driver selection", 2);
+    gtk_grid_set_column_spacing(GTK_GRID(selection_grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(selection_grid), 8);
+    gtk_grid_attach(GTK_GRID(selection_grid), label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(selection_grid), combo, 1, 1, 1, 1);
+    gtk_widget_show_all(selection_grid);
+
+    gtk_grid_attach(GTK_GRID(grid), selection_grid, 0, 0, 1, 1);
+
+    /* grid around ffmpeg/quicktime options */
+    options_grid = uihelpers_create_grid_with_label("Driver options", 1);
+    gtk_grid_set_column_spacing(GTK_GRID(options_grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(options_grid), 8);
+
+/* XXX: this obviously needs a cleaner solution which also handles QuickTime
+ *      on MacOS
+ */
+#ifdef HAVE_FFMPEG
+    gtk_grid_attach(GTK_GRID(options_grid), ffmpeg_widget_create(), 0, 1, 1,1);
+#endif
+    video_driver_options_grid = options_grid;
+
+
+
+    gtk_grid_attach(GTK_GRID(grid), options_grid, 0, 1, 1, 1);
+
 
     gtk_widget_show_all(grid);
     return grid;
