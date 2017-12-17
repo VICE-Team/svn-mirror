@@ -137,7 +137,7 @@ static void on_video_codec_changed(GtkComboBox *combo, gpointer data)
     if (gtk_combo_box_get_active_iter(combo, &iter)) {
         int codec;
 
-        gtk_tree_model_get(model, &iter, 0, &codec, -1);
+        gtk_tree_model_get(model, &iter, 1, &codec, -1);
         debug_gtk3("setting FFMPEGVideoCodec to %d\n", codec);
         resources_set_int("FFMPEGVideoCodec", codec);
     }
@@ -162,7 +162,7 @@ static void on_audio_codec_changed(GtkComboBox *combo, gpointer data)
     if (gtk_combo_box_get_active_iter(combo, &iter)) {
         int codec;
 
-        gtk_tree_model_get(model, &iter, 0, &codec, -1);
+        gtk_tree_model_get(model, &iter, 1, &codec, -1);
         debug_gtk3("setting FFMPEGAudioCodec to %d\n", codec);
         resources_set_int("FFMPEGAudioCodec", codec);
     }
@@ -549,6 +549,8 @@ GtkWidget *ffmpeg_widget_create(void)
     gtk_widget_set_halign(fps, GTK_ALIGN_START);
     g_object_set(fps, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), fps, 0, 3, 4, 1);
+
+    update_format_combo_box(current_format);
 
     /* connect event handlers */
     g_signal_connect(format_widget, "changed",

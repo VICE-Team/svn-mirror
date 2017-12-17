@@ -209,9 +209,7 @@ static GtkWidget *video_driver_options_grid = NULL;
 static GtkWidget *create_screenshot_param_widget(const char *prefix);
 static void save_screenshot_handler(void);
 static void save_audio_recording_handler(void);
-#if 0
 static void save_video_recording_handler(void);
-#endif
 
 
 /*****************************************************************************
@@ -279,6 +277,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 debug_gtk3("Audio recording requested, driver %d\n",
                         audio_driver_index);
                 save_audio_recording_handler();
+            } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
+                debug_gtk3("Video recording requested, driver %d\n",
+                        video_driver_index);
+                save_video_recording_handler();
             }
             break;
 
@@ -355,10 +357,30 @@ static char *create_proposed_screenshot_name(const char *ext)
     char *filename;
 
     date = create_datetime_string();
-    filename = lib_msprintf("screenshot-%s.%s", date, ext);
+    filename = lib_msprintf("vice-screen-%s.%s", date, ext);
     g_free(date);
     return filename;
 }
+
+
+
+/** \brief  Create a filename based on the current datetime and \a ext
+ *
+ * \param[in]   ext file extension (without the dot)
+ *
+ * \return  heap-allocated string, owned by VICE, free with lib_free()
+ */
+static char *create_proposed_video_recording_name(const char *ext)
+{
+    gchar *date;
+    char *filename;
+
+    date = create_datetime_string();
+    filename = lib_msprintf("vice-video-%s.%s", date, ext);
+    g_free(date);
+    return filename;
+}
+
 
 
 /** \brief  Create a filename based on the current datetime and \a ext
@@ -373,7 +395,7 @@ static char *create_proposed_audio_recording_name(const char *ext)
     char *filename;
 
     date = create_datetime_string();
-    filename = lib_msprintf("audio-recording-%s.%s", date, ext);
+    filename = lib_msprintf("vice-audio-%s.%s", date, ext);
     g_free(date);
     return filename;
 }
@@ -446,6 +468,68 @@ static void save_audio_recording_handler(void)
         resources_set_string("SoundRecordDeviceName", name);
         g_free(filename);
     }
+}
+
+
+/** \brief  Start recording a video
+ *
+ * Pops up a save-file dialog with a proposed filename (ie
+ * 'video-recording-197411151210.png'.
+ */
+static void save_video_recording_handler(void)
+{
+    /* these may be useful once QuickTime is supported */
+#if 0
+    const char *display;
+    const char *name;
+#endif
+    const char *ext;
+    gchar *filename;
+    char *title;
+    char *proposed;
+
+    debug_gtk3("video driver index = %d\n", video_driver_index);
+
+#if 0
+    display = video_driver_list[video_driver_index].display;
+    name = video_driver_list[video_driver_index].name;
+#endif
+    ext = video_driver_list[video_driver_index].ext;
+
+    title = lib_msprintf("Save %s file", "FFMPEG");
+    proposed = create_proposed_video_recording_name(ext);
+
+    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
+    if (filename != NULL) {
+
+        const char *driver;
+        int ac;
+        int vc;
+        int ab;
+        int vb;
+
+        resources_get_string("FFMPEGFormat", &driver);
+        resources_get_int("FFMPEGVideoCodec", &vc);
+        resources_get_int("FFMPEGVideoBitrate", &vb);
+        resources_get_int("FFMPEGAudioCodec", &ac);
+        resources_get_int("FFMPEGAudioBitrate", &ab);
+
+        debug_gtk3("Format = '%s'\n", driver);
+        debug_gtk3("Video = %d, bitrate %d\n", vc, vb);
+        debug_gtk3("Audio = %d, bitrate %d\n", ac, ab);
+
+
+        ui_pause_emulation(FALSE);
+
+        /* TODO: add extension if not present? */
+        if (screenshot_save("FFMPEG", filename, ui_get_active_canvas()) < 0) {
+            ui_message_error(NULL, "VICE Error",
+                    "Failed to write video file '%s'", filename);
+        }
+        g_free(filename);
+    }
+    lib_free(proposed);
+    lib_free(title);
 }
 
 
@@ -736,6 +820,7 @@ static GtkWidget *create_video_widget(void)
         }
     }
     gtk_widget_set_hexpand(combo, TRUE);
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
 
     selection_grid = uihelpers_create_grid_with_label("Driver selection", 2);
     gtk_grid_set_column_spacing(GTK_GRID(selection_grid), 16);
@@ -863,6 +948,10 @@ gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data)
     /* stop sound recording, if active */
     if (sound_is_recording()) {
         sound_stop_recording();
+    }
+    /* stop video recording */
+    if (screenshot_is_recording()) {
+        screenshot_stop_recording();
     }
     return TRUE;
 }
