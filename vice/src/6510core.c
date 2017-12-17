@@ -2166,6 +2166,7 @@ trap_skipped:
                 break;
 
             case 0x0b:          /* ANC #$nn */
+            case 0x2b:          /* ANC #$nn */
                 ANC(p1, 2);
                 break;
 
@@ -2298,10 +2299,6 @@ trap_skipped:
 
             case 0x2a:          /* ROL A */
                 ROL_A();
-                break;
-
-            case 0x2b:          /* ANC #$nn */
-                ANC(p1, 2);
                 break;
 
             case 0x2c:          /* BIT $nnnn */
