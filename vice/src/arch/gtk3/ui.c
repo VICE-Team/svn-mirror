@@ -228,6 +228,21 @@ GtkWindow *ui_get_active_window(void)
     return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
 }
 
+
+/** \brief  Get video canvas of active window
+ *
+ * \return  current active video canvas
+ */
+struct video_canvas_s *ui_get_active_canvas(void)
+{
+    if (active_win_index < 0) {
+        /* Probably should never end up here. */
+        return ui_resources.canvas[PRIMARY_WINDOW];
+    }
+    return ui_resources.canvas[active_win_index];
+}
+
+
 /** \brief  Get a window's index
  *
  * \param[in]   widget      window to get the index of

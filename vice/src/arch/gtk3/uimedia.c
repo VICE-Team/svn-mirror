@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "machine.h"
+#include "screenshot.h"
 #include "widgethelpers.h"
 #include "basewidgets.h"
 #include "basedialogs.h"
@@ -55,6 +56,11 @@
 enum {
     RESPONSE_SAVE = 1   /**< Save button clicked */
 };
+
+
+#define CHILD_SCREENSHOT    "Screenshot"
+#define CHILD_SOUND         "Sound"
+#define CHILD_VIDEO         "Video"
 
 
 /** \brief  Struct to hold information on available video drivers
@@ -155,6 +161,8 @@ static ui_combo_entry_int_t crtc_colors[] = {
 
 static int audio_driver_index = 0;
 
+static GtkWidget *stack;
+
 static GtkWidget *screenshot_options_grid = NULL;
 static GtkWidget *oversize_widget = NULL;
 static GtkWidget *undersize_widget = NULL;
@@ -171,6 +179,70 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix);
  *                              Event handlers                               *
  ****************************************************************************/
 
+
+/** \brief  Create a filename based on the current datetime and \a ext
+ *
+ * \param[in]   ext file extension (without the dot)
+ *
+ * \return  heap-allocated string, owned by VICE, free with lib_free()
+ */
+static char *create_proposed_screenshot_name(const char *ext)
+{
+    GDateTime *dt;
+    gchar *dt_str;
+    char *filename;
+
+    dt = g_date_time_new_now_local();
+    dt_str = g_date_time_format(dt, "%Y%m%d%H%M");
+
+    filename = lib_msprintf("screenshot-%s.%s", dt_str, ext);
+    g_free(dt_str);
+    g_date_time_unref(dt);
+    return filename;
+}
+
+
+/** \brief  Save a screenshot
+ */
+static void save_screenshot_handler(void)
+{
+    const char *display;
+    const char *name;
+    const char *ext;
+    gchar *filename;
+    char *title;
+    char *proposed;
+
+    display = video_driver_list[video_driver_index].display;
+    name = video_driver_list[video_driver_index].name;
+    ext = video_driver_list[video_driver_index].ext;
+
+    title = lib_msprintf("Save %s file", display);
+    proposed = create_proposed_screenshot_name(ext);
+
+    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
+    if (filename != NULL) {
+        /* TODO: add extension if not present? */
+        if (screenshot_save(name, filename, ui_get_active_canvas()) < 0) {
+            ui_message_error(NULL, "VICE Error",
+                    "Failed to write screenshot file '%s'", filename);
+        } else {
+            ui_message_info(NULL, "VICE Info",
+                    "Saved screenshot as '%s'", filename);
+        }
+        g_free(filename);
+    }
+    lib_free(proposed);
+    lib_free(title);
+}
+
+
+
+/** \brief  Handler for the "destroy" event of the dialog
+ *
+ * \param[in]   widget  dialog
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_dialog_destroy(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("called: cleaning up driver list\n");
@@ -203,12 +275,29 @@ static void update_screenshot_options_grid(GtkWidget *new)
  */
 static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
 {
+    const gchar *child_name;
+
     debug_gtk3("got response ID %d\n", response_id);
 
     switch (response_id) {
         case GTK_RESPONSE_DELETE_EVENT:
             debug_gtk3("destroying dialog\n");
             gtk_widget_destroy(GTK_WIDGET(dialog));
+            break;
+
+        case RESPONSE_SAVE:
+            /* stack child name determines what to do next */
+            child_name = gtk_stack_get_visible_child_name(GTK_STACK(stack));
+            debug_gtk3("Saving media, tab '%s' selected\n", child_name);
+
+            if (strcmp(child_name, CHILD_SCREENSHOT) == 0) {
+                debug_gtk3("Screenshot requested, driver %d\n",
+                        video_driver_index);
+                save_screenshot_handler();
+            }
+            break;
+
+        default:
             break;
     }
 }
@@ -578,7 +667,6 @@ static GtkWidget *create_video_widget(void)
 static GtkWidget *create_content_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *stack;
     GtkWidget *switcher;
 
     grid = gtk_grid_new();
@@ -587,11 +675,11 @@ static GtkWidget *create_content_widget(void)
 
     stack = gtk_stack_new();
     gtk_stack_add_titled(GTK_STACK(stack), create_screenshot_widget(),
-            "Screenshot", "Screenshot");
+            CHILD_SCREENSHOT, "Screenshot");
     gtk_stack_add_titled(GTK_STACK(stack), create_sound_widget(),
-            "Sound", "Sound recording");
+            CHILD_SOUND, "Sound recording");
     gtk_stack_add_titled(GTK_STACK(stack), create_video_widget(),
-            "Video", "Video recording");
+            CHILD_VIDEO, "Video recording");
     gtk_stack_set_transition_type(GTK_STACK(stack),
             GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
     gtk_stack_set_transition_duration(GTK_STACK(stack), 1000);

@@ -107,5 +107,6 @@ void ui_common_init(void);
 void ui_common_shutdown(void);
 
 GtkWindow *ui_get_active_window(void);
+struct video_canvas_s *ui_get_active_canvas(void);
 
 #endif
