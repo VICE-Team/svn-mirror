@@ -52,23 +52,6 @@
 extern ui_resource_t ui_resources;
 
 
-/** \brief  Switch warp mode
- *
- * \param[in]   widget      widget triggering the event (invalid)
- * \param[in]   user_data   extra data for event (unused)
- *
- * \return  TRUE
- */
-gboolean ui_warp_callback(GtkWidget *widget, gpointer user_data)
-{
-    int state;
-
-    resources_get_int("WarpMode", &state);
-    resources_set_int("WarpMode", state ? 0 : 1);
-    return TRUE;
-}
-
-
 /** \brief  Swap joysticks
  *
  * \param[in]   widget      widget triggering the event (invalid)
@@ -112,49 +95,12 @@ gboolean ui_swap_userport_joysticks_callback(GtkWidget *widget,
 }
 
 
-/** \brief  Toggle keyset joystick support
- *
- * \param[in]   widget      widget triggering the event (the menu item)
- * \param[in]   user_data   extra data for event (unused)
- *
- * \return  TRUE
- */
-gboolean ui_allow_keyset_joystick_callback(GtkWidget *widget,
-                                           gpointer user_data)
-{
-    int state;
-
-    resources_get_int("KeySetEnable", &state);
-    resources_set_int("KeySetEnable", state ? 0 : 1);
-
-    return TRUE;
-}
-
-
-/** \brief  Toggle mouse grab
- *
- * \param[in]   widget      widget triggering the event (the menu item)
- * \param[in]   user_data   extra data for event (unused)
- *
- * \return  TRUE
- */
-gboolean ui_mouse_grab_callback(GtkWidget *widget, gpointer user_data)
-{
-    int state;
-
-    resources_get_int("Mouse", &state);
-    resources_set_int("Mouse", state ? 0 : 1);
-
-    return TRUE;
-}
-
-
 /** \brief  Callback for the soft/hard reset items
  *
  * \param[in]   widget      menu item triggering the event (unused)
  * \param[in]   user_data   MACHINE_RESET_MODE_SOFT/MACHINE_RESET_MODE_HARD
  */
-void machine_reset_callback(GtkWidget *widget, gpointer user_data)
+void ui_machine_reset_callback(GtkWidget *widget, gpointer user_data)
 {
     vsync_suspend_speed_eval();
     machine_trigger_reset(GPOINTER_TO_INT(user_data));
@@ -166,7 +112,7 @@ void machine_reset_callback(GtkWidget *widget, gpointer user_data)
  * \param[in]   widget      menu item triggering the event (unused)
  * \param[in]   user_data   drive unit number (8-11) (int)
  */
-void drive_reset_callback(GtkWidget *widget, gpointer user_data)
+void ui_drive_reset_callback(GtkWidget *widget, gpointer user_data)
 {
     vsync_suspend_speed_eval();
     drive_cpu_trigger_reset(GPOINTER_TO_INT(user_data) - 8);

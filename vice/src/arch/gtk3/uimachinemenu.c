@@ -143,25 +143,25 @@ static ui_menu_item_t cart_attach_submenu[] = {
  */
 static ui_menu_item_t reset_submenu[] = {
     { "Soft reset", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-soft", machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
+        "reset-soft", ui_machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_SOFT),
         GDK_KEY_F9, VICE_MOD_MASK },
     { "Hard reset", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-hard", machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
+        "reset-hard", ui_machine_reset_callback, GINT_TO_POINTER(MACHINE_RESET_MODE_HARD),
         GDK_KEY_F12, VICE_MOD_MASK },
 
     UI_MENU_SEPARATOR,
 
     { "Reset drive #8", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-drive8", drive_reset_callback, GINT_TO_POINTER(8),
+        "reset-drive8", ui_drive_reset_callback, GINT_TO_POINTER(8),
         0, 0 },
     { "Reset drive #9", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-drive9", drive_reset_callback, GINT_TO_POINTER(9),
+        "reset-drive9", ui_drive_reset_callback, GINT_TO_POINTER(9),
         0, 0 },
     { "Reset drive #10", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-drive10", drive_reset_callback, GINT_TO_POINTER(10),
+        "reset-drive10", ui_drive_reset_callback, GINT_TO_POINTER(10),
         0, 0 },
     { "Reset drive #11", UI_MENU_TYPE_ITEM_ACTION,
-        "reset-drive11", drive_reset_callback, GINT_TO_POINTER(11),
+        "reset-drive11", ui_drive_reset_callback, GINT_TO_POINTER(11),
         0, 0 },
 
     UI_MENU_TERMINATOR
