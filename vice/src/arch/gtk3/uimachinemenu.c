@@ -348,7 +348,11 @@ static ui_menu_item_t snapshot_menu[] = {
 
     { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION,
         "media-save", uimedia_dialog_show, NULL,
-        0, 0 },
+        GDK_KEY_R, VICE_MOD_MASK|GDK_SHIFT_MASK },
+
+    { "Stop media recording", UI_MENU_TYPE_ITEM_ACTION,
+        "media-stop", (void *)uimedia_stop_recording, NULL,
+        GDK_KEY_S, VICE_MOD_MASK|GDK_SHIFT_MASK },
 
     UI_MENU_TERMINATOR
 };

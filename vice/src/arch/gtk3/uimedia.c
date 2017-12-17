@@ -247,6 +247,7 @@ static void on_dialog_destroy(GtkWidget *widget, gpointer data)
 {
     debug_gtk3("called: cleaning up driver list\n");
     lib_free(video_driver_list);
+    ui_pause_emulation(FALSE);
 }
 
 
@@ -715,6 +716,8 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
     GtkWidget *dialog;
     GtkWidget *content;
 
+    ui_pause_emulation(TRUE);
+
     /* create driver list */
     create_video_driver_list();
 
@@ -735,4 +738,15 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
     g_signal_connect(dialog, "destroy", G_CALLBACK(on_dialog_destroy), NULL);
 
     gtk_widget_show_all(dialog);
+}
+
+
+/** \brief  Stop audio or video recording, if active
+ *
+ * \return  TRUE, so the emulated machine doesn't get the shortcut key
+ */
+gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data)
+{
+    debug_gtk3("TODO: stop active recording session, if any\n");
+    return TRUE;
 }
