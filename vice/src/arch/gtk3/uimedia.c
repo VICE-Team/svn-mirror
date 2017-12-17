@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "machine.h"
+#include "sound.h"
 #include "screenshot.h"
 #include "widgethelpers.h"
 #include "basewidgets.h"
@@ -58,12 +59,20 @@ enum {
 };
 
 
+/** \brief  Name of the stack child for screenshots
+ */
 #define CHILD_SCREENSHOT    "Screenshot"
+
+/** \brief  Name of the stack child for sound recording
+ */
 #define CHILD_SOUND         "Sound"
+
+/** \brief  Name of the stack child for video recording
+*/
 #define CHILD_VIDEO         "Video"
 
 
-/** \brief  Struct to hold information on available video drivers
+/** \brief  Struct to hold information on available video recording drivers
  */
 typedef struct video_driver_info_s {
     const char *display;    /**< display string (used in the UI) */
@@ -72,10 +81,12 @@ typedef struct video_driver_info_s {
 } video_driver_info_t;
 
 
+/** \brief  Struct to hold information on available audio recording drivers
+ */
 typedef struct audio_driver_info_s {
-    const char *display;
-    const char *name;
-    const char *ext;
+    const char *display;    /**< display name (used in the UI) */
+    const char *name;       /**< driver name */
+    const char *ext;        /**< default file extension */
 } audio_driver_info_t;
 
 
@@ -94,6 +105,15 @@ static int video_driver_count = 0;
 static int video_driver_index = 0;
 
 
+/** \brief  Index of currently selected audio driver
+ */
+static int audio_driver_index = 0;
+
+
+/** \brief  List of available audio recording drivers
+ *
+ * This list is dependent on compile-time options
+ */
 static audio_driver_info_t audio_driver_list[] = {
     { "WAV", "wav", "wav" },
     { "AIFF", "aiff", "aif" },
@@ -112,6 +132,8 @@ static audio_driver_info_t audio_driver_list[] = {
 };
 
 
+/** \brief  List of 'oversize modes' for some screenshot output drivers
+ */
 static ui_combo_entry_int_t oversize_modes[] = {
     { "scale down", 0 },
     { "crop left top", 1, },
@@ -127,6 +149,8 @@ static ui_combo_entry_int_t oversize_modes[] = {
 };
 
 
+/** \brief  List of 'undersize modes' for some screenshot output drivers
+ */
 static ui_combo_entry_int_t undersize_modes[] = {
     { "scale up", 0 },
     { "border size", 1 },
@@ -134,6 +158,8 @@ static ui_combo_entry_int_t undersize_modes[] = {
 };
 
 
+/** \brief  List of multi color modes for some screenshot output drivers
+ */
 static ui_combo_entry_int_t multicolor_modes[] = {
     { "B&W", 0 },
     { "2 colors", 1 },
@@ -144,6 +170,8 @@ static ui_combo_entry_int_t multicolor_modes[] = {
 };
 
 
+/** \brief  TED output driver Luma modes
+ */
 static ui_combo_entry_int_t ted_luma_modes[] = {
     { "ignore", 0 },
     { "dither", 1 },
@@ -151,6 +179,8 @@ static ui_combo_entry_int_t ted_luma_modes[] = {
 };
 
 
+/** \brief  List of available colors to use for CRTC screenshots
+ */
 static ui_combo_entry_int_t crtc_colors[] = {
     { "White", 0 },
     { "Amber", 1 },
@@ -159,84 +189,34 @@ static ui_combo_entry_int_t crtc_colors[] = {
 };
 
 
-static int audio_driver_index = 0;
-
+/** \brief  Reference to the GtkStack containing the media types
+ *
+ * Used in the dialog response callback to determine recording mode and params
+ */
 static GtkWidget *stack;
 
+/* references to widgets, used from various event handlers */
 static GtkWidget *screenshot_options_grid = NULL;
 static GtkWidget *oversize_widget = NULL;
 static GtkWidget *undersize_widget = NULL;
 static GtkWidget *multicolor_widget = NULL;
 static GtkWidget *ted_luma_widget = NULL;
 static GtkWidget *crtc_textcolor_widget = NULL;
-
 static GtkWidget *video_driver_options_grid = NULL;
 
+
+/* forward declarations of helper functions */
 static GtkWidget *create_screenshot_param_widget(const char *prefix);
+static void save_screenshot_handler(void);
+static void save_audio_recording_handler(void);
+#if 0
+static void save_video_recording_handler(void);
+#endif
 
 
 /*****************************************************************************
  *                              Event handlers                               *
  ****************************************************************************/
-
-
-/** \brief  Create a filename based on the current datetime and \a ext
- *
- * \param[in]   ext file extension (without the dot)
- *
- * \return  heap-allocated string, owned by VICE, free with lib_free()
- */
-static char *create_proposed_screenshot_name(const char *ext)
-{
-    GDateTime *dt;
-    gchar *dt_str;
-    char *filename;
-
-    dt = g_date_time_new_now_local();
-    dt_str = g_date_time_format(dt, "%Y%m%d%H%M");
-
-    filename = lib_msprintf("screenshot-%s.%s", dt_str, ext);
-    g_free(dt_str);
-    g_date_time_unref(dt);
-    return filename;
-}
-
-
-/** \brief  Save a screenshot
- */
-static void save_screenshot_handler(void)
-{
-    const char *display;
-    const char *name;
-    const char *ext;
-    gchar *filename;
-    char *title;
-    char *proposed;
-
-    display = video_driver_list[video_driver_index].display;
-    name = video_driver_list[video_driver_index].name;
-    ext = video_driver_list[video_driver_index].ext;
-
-    title = lib_msprintf("Save %s file", display);
-    proposed = create_proposed_screenshot_name(ext);
-
-    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
-    if (filename != NULL) {
-        /* TODO: add extension if not present? */
-        if (screenshot_save(name, filename, ui_get_active_canvas()) < 0) {
-            ui_message_error(NULL, "VICE Error",
-                    "Failed to write screenshot file '%s'", filename);
-        } else {
-            ui_message_info(NULL, "VICE Info",
-                    "Saved screenshot as '%s'", filename);
-        }
-        g_free(filename);
-    }
-    lib_free(proposed);
-    lib_free(title);
-}
-
-
 
 /** \brief  Handler for the "destroy" event of the dialog
  *
@@ -295,6 +275,10 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
                 debug_gtk3("Screenshot requested, driver %d\n",
                         video_driver_index);
                 save_screenshot_handler();
+            } else if (strcmp(child_name, CHILD_SOUND) == 0) {
+                debug_gtk3("Audio recording requested, driver %d\n",
+                        audio_driver_index);
+                save_audio_recording_handler();
             }
             break;
 
@@ -334,6 +318,133 @@ static void on_audio_driver_toggled(GtkWidget *widget, gpointer data)
         debug_gtk3("audio driver %d (%s) selected\n",
                 index, audio_driver_list[index].name);
         audio_driver_index = index;
+    }
+}
+
+
+
+/*****************************************************************************
+ *                              Helpers functions                            *
+ ****************************************************************************/
+
+/** \brief  Create a string in the format 'yyyymmddHHMM' of the current time
+ *
+ * \return  string owned by GLib, free with g_free()
+ */
+static gchar *create_datetime_string(void)
+{
+    GDateTime *d;
+    gchar *s;
+
+    d = g_date_time_new_now_local();
+    s = g_date_time_format(d, "%Y%m%d%H%M");
+    g_date_time_unref(d);
+    return s;
+}
+
+
+/** \brief  Create a filename based on the current datetime and \a ext
+ *
+ * \param[in]   ext file extension (without the dot)
+ *
+ * \return  heap-allocated string, owned by VICE, free with lib_free()
+ */
+static char *create_proposed_screenshot_name(const char *ext)
+{
+    char *date;
+    char *filename;
+
+    date = create_datetime_string();
+    filename = lib_msprintf("screenshot-%s.%s", date, ext);
+    g_free(date);
+    return filename;
+}
+
+
+/** \brief  Create a filename based on the current datetime and \a ext
+ *
+ * \param[in]   ext file extension (without the dot)
+ *
+ * \return  heap-allocated string, owned by VICE, free with lib_free()
+ */
+static char *create_proposed_audio_recording_name(const char *ext)
+{
+    gchar *date;
+    char *filename;
+
+    date = create_datetime_string();
+    filename = lib_msprintf("audio-recording-%s.%s", date, ext);
+    g_free(date);
+    return filename;
+}
+
+
+
+/** \brief  Save a screenshot
+ *
+ * Pops up a save-file dialog with a proposed filename (ie
+ * 'screenshot-197411151210.png'.
+ */
+static void save_screenshot_handler(void)
+{
+    const char *display;
+    const char *name;
+    const char *ext;
+    gchar *filename;
+    char *title;
+    char *proposed;
+
+    display = video_driver_list[video_driver_index].display;
+    name = video_driver_list[video_driver_index].name;
+    ext = video_driver_list[video_driver_index].ext;
+
+    title = lib_msprintf("Save %s file", display);
+    proposed = create_proposed_screenshot_name(ext);
+
+    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
+    if (filename != NULL) {
+        /* TODO: add extension if not present? */
+        if (screenshot_save(name, filename, ui_get_active_canvas()) < 0) {
+            ui_message_error(NULL, "VICE Error",
+                    "Failed to write screenshot file '%s'", filename);
+        } else {
+            ui_message_info(NULL, "VICE Info",
+                    "Saved screenshot as '%s'", filename);
+        }
+        g_free(filename);
+    }
+    lib_free(proposed);
+    lib_free(title);
+}
+
+
+/** \brief  Start an audio recording
+ *
+ * Pops up a save-file dialog with a proposed filename (ie
+ * 'audio-recording-197411151210.png'.
+ */
+static void save_audio_recording_handler(void)
+{
+    const char *display;
+    const char *name;
+    const char *ext;
+    gchar *filename;
+    char *title;
+    char *proposed;
+
+    display = audio_driver_list[audio_driver_index].display;
+    name = audio_driver_list[audio_driver_index].name;
+    ext = audio_driver_list[audio_driver_index].ext;
+
+    title = lib_msprintf("Save %s file", display);
+    proposed = create_proposed_audio_recording_name(ext);
+
+    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
+    if (filename != NULL) {
+        /* XXX: setting resources doesn't exactly help with catching errors */
+        resources_set_string("SoundRecordDeviceArg", filename);
+        resources_set_string("SoundRecordDeviceName", name);
+        g_free(filename);
     }
 }
 
@@ -747,6 +858,11 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
  */
 gboolean uimedia_stop_recording(GtkWidget *parent, gpointer data)
 {
-    debug_gtk3("TODO: stop active recording session, if any\n");
+    debug_gtk3("Stopping media recording\n");
+
+    /* stop sound recording, if active */
+    if (sound_is_recording()) {
+        sound_stop_recording();
+    }
     return TRUE;
 }
