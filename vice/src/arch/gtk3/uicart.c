@@ -112,6 +112,7 @@ static GtkWidget *cart_preview_widget = NULL;
 /* forward declarations of functions */
 static GtkListStore *create_cart_id_model(unsigned int flags);
 static int get_cart_type(void);
+static int get_cart_id(void);
 static bool attach_cart_image(int type, int id, const char *path);
 
 
@@ -135,7 +136,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             if (filename != NULL) {
                 debug_gtk3("attaching '%s'\n", filename);
                 /* just do smart-attach for now */
-                if (!attach_cart_image(get_cart_type(), 0, filename)) {
+                if (!attach_cart_image(get_cart_type(), get_cart_id(), filename)) {
                     ui_message_error(dialog, "VICE Error",
                             "Failed to smart-attach '%s'\n", filename);
                 }
@@ -217,6 +218,29 @@ static int get_cart_type(void)
 }
 
 
+/** \brief  Get the ID of the model for the 'cart ID' combo box
+ *
+ * \return  ID or -1 on error
+ */
+static int get_cart_id(void)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkComboBox *combo;
+    int crt_id = -1;
+
+    combo = GTK_COMBO_BOX(cart_id_widget);
+
+    if (gtk_combo_box_get_active(combo) >= 0) {
+        model = gtk_combo_box_get_model(combo);
+        if (gtk_combo_box_get_active_iter(combo, &iter)) {
+            gtk_tree_model_get(model, &iter, 1, &crt_id, -1);
+        }
+    }
+    return crt_id;
+}
+
+
 /** \brief  Cart attach handler
  *
  * \param[in]   type    cartridge type
@@ -227,9 +251,18 @@ static int get_cart_type(void)
  */
 static bool attach_cart_image(int type, int id, const char *path)
 {
-    if (type == UICART_C64_SMART) {
-        return (crt_attach_func(CARTRIDGE_CRT, path) == 0);
+    debug_gtk3("attaching cart type %d, cart ID %d\n", type, id);
+    switch (type) {
+        case UICART_C64_SMART:
+            return (crt_attach_func(CARTRIDGE_CRT, path) == 0);
+        case UICART_C64_FREEZER:    /* fall through */
+        case UICART_C64_GAME:       /* fall through */
+        case UICART_C64_UTIL:
+            return (crt_attach_func(id, path) == 0);
+        default:
+            break;
     }
+
     return false;
 }
 
