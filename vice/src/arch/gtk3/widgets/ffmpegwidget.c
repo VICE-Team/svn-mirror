@@ -96,7 +96,7 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
     }
 
     debug_gtk3("called, index %d: '%s'\n", fmt_id, fmt_name);
-    if (fmt_name != NULL && fmt_name != '\0') {
+    if (fmt_name != NULL && *fmt_name != '\0') {
         resources_set_string("FFMPEGFormat", fmt_name);
     }
 
