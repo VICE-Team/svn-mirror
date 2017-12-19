@@ -130,6 +130,7 @@ static ui_menu_item_t datasette_control_submenu[] = {
     UI_MENU_TERMINATOR
 };
 
+#if 0
 /** \brief  'File->Cartridge attach' submenu
  */
 static ui_menu_item_t cart_attach_submenu[] = {
@@ -138,6 +139,8 @@ static ui_menu_item_t cart_attach_submenu[] = {
         GDK_KEY_C, VICE_MOD_MASK },
     UI_MENU_TERMINATOR
 };
+#endif
+
 
 /** \brief  File->Reset submenu
  */
@@ -231,14 +234,14 @@ static ui_menu_item_t file_menu_tape[] = {
  */
 static ui_menu_item_t file_menu_tail[] = {
     /* cart */
-    { "Attach cartridge image", UI_MENU_TYPE_SUBMENU,
-        NULL, NULL, cart_attach_submenu,
+    { "Attach cartridge image", UI_MENU_TYPE_ITEM_ACTION,
+        "cart-attach", uicart_show_dialog, NULL,
         0, 0 },
     { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
-        "detach-cart", (void *)uicart_detach, NULL,
+        "cart-detach", (void *)uicart_detach, NULL,
         0, 0 },
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
-        "freeze-cart", (void *)uicart_trigger_freeze, NULL,
+        "cart-free", (void *)uicart_trigger_freeze, NULL,
         GDK_KEY_Z, VICE_MOD_MASK },
 
     UI_MENU_SEPARATOR,

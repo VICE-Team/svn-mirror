@@ -113,6 +113,7 @@ int c64ui_init(void)
             cartridge_type_enabled);
 
     /* uicart_set_detect_func(cartridge_detect); only cbm2/plus4 */
+    uicart_set_list_func(cartridge_get_info_list);
     uicart_set_attach_func(cartridge_attach_image);
     uicart_set_freeze_func(cartridge_trigger_freeze);
     uicart_set_detach_func(cartridge_detach_image);

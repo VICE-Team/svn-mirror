@@ -32,6 +32,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "cartridge.h"
+
+void uicart_set_list_func(cartridge_info_t *(*func)(void));
 void uicart_set_detect_func(int (*func)(const char *));
 void uicart_set_attach_func(int (*func)(int, const char *));
 void uicart_set_freeze_func(void (*func)(void));
@@ -40,5 +43,7 @@ void uicart_set_detach_func(void (*func)(int));
 gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data);
 gboolean uicart_trigger_freeze(void);
 gboolean uicart_detach(void);
+
+void uicart_show_dialog(GtkWidget *widget, gpointer data);
 
 #endif
