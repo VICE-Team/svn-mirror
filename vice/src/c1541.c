@@ -681,7 +681,7 @@ static int split_args(const char *line, int *nargs, char **args)
                 }
                 if (!(*s == ' ' && in_quote)) {
                     break;
-                }
+                }       /* fallthrough */
             default:
                 begin_of_arg = 0;
                 *(d++) = *s;
