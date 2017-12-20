@@ -166,7 +166,7 @@ int uimon_out(const char *buffer)
 #if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
 char *readline(const char *prompt)
 {
-    char *p = lib_malloc(1024);
+    char *p = malloc(1024);
 
     console_out(NULL, "%s", prompt);
 
