@@ -63,6 +63,15 @@ typedef enum uicart_type_e {
 } uicart_type_t;
 
 
+/** \brief  Indici of filename patterns
+ */
+enum {
+    UICART_PATTERN_CRT = 0, /* '*.crt' */
+    UICART_PATTERN_BIN,     /* '*.bin' */
+    UICART_PATTERN_ALL      /* '*' */
+};
+
+
 /** \brief  Simple (text,id) data structure for the cart type model
  */
 typedef struct cart_type_list_s {
@@ -88,10 +97,19 @@ static const cart_type_list_t c64_cart_types[] = {
 };
 
 
+/** \brief  File filter pattern for CRT images */
+static const char *pattern_crt[] = { "*.crt", NULL };
+
+
+/** \brief  File filter pattern for raw images */
+static const char *pattern_bin[] = { "*.bin", NULL };
+
+
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
-    { "Cartridge images", file_chooser_pattern_cart },
+    { "CRT images", pattern_crt },
+    { "Raw images", pattern_bin },
     { "All files", file_chooser_pattern_all },
     { NULL, NULL }
 };
@@ -105,9 +123,14 @@ static void (*crt_detach_func)(int type) = NULL;
 static cartridge_info_t *(*crt_list_func)(void) = NULL;
 
 /* references to widgets used in various event handlers */
+static GtkWidget *cart_dialog = NULL;
 static GtkWidget *cart_type_widget = NULL;
 static GtkWidget *cart_id_widget = NULL;
 static GtkWidget *cart_preview_widget = NULL;
+
+static GtkFileFilter *flt_crt = NULL;
+static GtkFileFilter *flt_bin = NULL;
+static GtkFileFilter *flt_all = NULL;
 
 /* forward declarations of functions */
 static GtkListStore *create_cart_id_model(unsigned int flags);
@@ -148,6 +171,31 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 }
 
 
+/** \brief  Set the file filter pattern for the dialog
+ *
+ * \param[in]   pattern UICART_PATTERN_\* enum value
+ */
+static void set_pattern(int pattern)
+{
+    GtkFileFilter *filter = NULL;
+
+    switch (pattern) {
+        case UICART_PATTERN_CRT:
+            filter = flt_crt;
+            break;
+        case UICART_PATTERN_BIN:
+            filter = flt_bin;
+            break;
+        default:
+            filter = flt_all;
+            break;
+    }
+    gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(cart_dialog), filter);
+}
+
+
+
+
 /** \brief  Handler for the "changed" event of the cart type combo box
  *
  * \param[in]   combo   cart type combo
@@ -156,7 +204,8 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
 static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
 {
     GtkListStore *id_model;     /* cart 'ID' model */
-    int mask;
+    unsigned int mask = ~0;
+    int pattern = UICART_PATTERN_BIN;
     int crt_type;
 
     crt_type = get_cart_type();
@@ -170,6 +219,9 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_SCPU64:
             switch (crt_type) {
+                case UICART_C64_SMART:
+                    pattern = UICART_PATTERN_CRT;
+                    break;
                 case UICART_C64_FREEZER:
                     mask = CARTRIDGE_GROUP_FREEZER;
                     break;
@@ -183,11 +235,16 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
                     mask = 0x0;
                     break;
             }
+
             /* update cart ID model and set it */
             id_model = create_cart_id_model(mask);
             gtk_combo_box_set_model(GTK_COMBO_BOX(cart_id_widget),
                     GTK_TREE_MODEL(id_model));
             gtk_combo_box_set_active(GTK_COMBO_BOX(cart_id_widget), 0);
+
+            /* update filename pattern */
+            set_pattern(pattern);
+
             break;
         default:
             break;
@@ -590,7 +647,6 @@ gboolean uicart_detach(void)
 void uicart_show_dialog(GtkWidget *widget, gpointer data)
 {
     GtkWidget *dialog;
-    int i;
 
     dialog = gtk_file_chooser_dialog_new(
             "Attach a cartridge image",
@@ -611,12 +667,18 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
             cart_preview_widget);
 
     /* add filters */
-    for (i = 0; filters[i].name != NULL; i++) {
-        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
-                create_file_chooser_filter(filters[i], TRUE));
-    }
+    flt_crt = create_file_chooser_filter(filters[UICART_PATTERN_CRT], TRUE);
+    flt_bin = create_file_chooser_filter(filters[UICART_PATTERN_BIN], TRUE);
+    flt_all = create_file_chooser_filter(filters[UICART_PATTERN_ALL], TRUE);
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_crt);
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_bin);
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_all);
+
+
+    cart_dialog = dialog;
 
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+
 
     gtk_widget_show(dialog);
 }
