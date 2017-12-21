@@ -51,15 +51,29 @@
  * have to do.
  */
 typedef enum uicart_type_e {
+
+    /* C64 cart types */
     UICART_C64_SMART = 0,
     UICART_C64_8KB,
     UICART_C64_16KB,
     UICART_C64_ULTIMAX,
     UICART_C64_FREEZER,
     UICART_C64_GAME,
-    UICART_C64_UTIL
+    UICART_C64_UTIL,
 
-    /* TODO: VIC20, Plus4, CBM2 etc enums*/
+    /* VIC20 cart types */
+
+    UICART_VIC20_SMART,
+    UICART_VIC20_GENERIC,
+    UICART_VIC20_BEHRBONZ,
+    UICART_VIC20_MEGACART,
+    UICART_VIC20_FINALEXP,
+    UICART_VIC20_ULTIMEM,
+    UICART_VIC20_FLASHPLUGIN
+
+    /* TODO: Plus4, CBM2 etc enums*/
+
+
 } uicart_type_t;
 
 
@@ -68,6 +82,7 @@ typedef enum uicart_type_e {
 enum {
     UICART_PATTERN_CRT = 0, /* '*.crt' */
     UICART_PATTERN_BIN,     /* '*.bin' */
+    UICART_PATTERN_BIN_PRG, /* '*.bin;*.prg' */
     UICART_PATTERN_ALL      /* '*' */
 };
 
@@ -97,6 +112,18 @@ static const cart_type_list_t c64_cart_types[] = {
 };
 
 
+static const cart_type_list_t vic20_cart_types[] = {
+    { "Generic",            UICART_VIC20_GENERIC },
+    { "Behr Bonz",          UICART_VIC20_BEHRBONZ },
+    { "Mega Cart",          UICART_VIC20_MEGACART },
+    { "Final Expansion",    UICART_VIC20_FINALEXP },
+    { "UltiMem",            UICART_VIC20_ULTIMEM },
+    { "Vic Flash Plugin",   UICART_VIC20_FLASHPLUGIN },
+    { NULL, -1 }
+};
+
+
+
 /** \brief  File filter pattern for CRT images */
 static const char *pattern_crt[] = { "*.crt", NULL };
 
@@ -104,12 +131,17 @@ static const char *pattern_crt[] = { "*.crt", NULL };
 /** \brief  File filter pattern for raw images */
 static const char *pattern_bin[] = { "*.bin", NULL };
 
+/** \brief  File filter pattern for raw images */
+static const char *pattern_bin_prg[] = { "*.bin", "*.prg", NULL };
+
+
 
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
     { "CRT images", pattern_crt },
     { "Raw images", pattern_bin },
+    { "Raw images", pattern_bin_prg },  /* VIC20 */
     { "All files", file_chooser_pattern_all },
     { NULL, NULL }
 };
@@ -130,6 +162,7 @@ static GtkWidget *cart_preview_widget = NULL;
 
 static GtkFileFilter *flt_crt = NULL;
 static GtkFileFilter *flt_bin = NULL;
+static GtkFileFilter *flt_bin_prg = NULL;
 static GtkFileFilter *flt_all = NULL;
 
 /* forward declarations of functions */
@@ -286,8 +319,11 @@ static int get_cart_id(void)
     GtkComboBox *combo;
     int crt_id = -1;
 
-    combo = GTK_COMBO_BOX(cart_id_widget);
+    if (cart_id_widget == NULL) {
+        return crt_id;
+    }
 
+    combo = GTK_COMBO_BOX(cart_id_widget);
     if (gtk_combo_box_get_active(combo) >= 0) {
         model = gtk_combo_box_get_model(combo);
         if (gtk_combo_box_get_active_iter(combo, &iter)) {
@@ -308,15 +344,53 @@ static int get_cart_id(void)
  */
 static bool attach_cart_image(int type, int id, const char *path)
 {
-    debug_gtk3("attaching cart type %d, cart ID %d\n", type, id);
-    switch (type) {
-        case UICART_C64_SMART:
-            return (crt_attach_func(CARTRIDGE_CRT, path) == 0);
-        case UICART_C64_FREEZER:    /* fall through */
-        case UICART_C64_GAME:       /* fall through */
-        case UICART_C64_UTIL:
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_SCPU64:
+            debug_gtk3("attaching cart type %d, cart ID %d\n", type, id);
+            switch (type) {
+                case UICART_C64_SMART:
+                    return (crt_attach_func(CARTRIDGE_CRT, path) == 0);
+                case UICART_C64_FREEZER:    /* fall through */
+                case UICART_C64_GAME:       /* fall through */
+                case UICART_C64_UTIL:
+                    return (crt_attach_func(id, path) == 0);
+                default:
+                    break;
+            }
+            break;
+
+        case VICE_MACHINE_VIC20:
+            switch (type) {
+                case UICART_VIC20_GENERIC:
+                    id = CARTRIDGE_VIC20_GENERIC;
+                    break;
+                case UICART_VIC20_BEHRBONZ:
+                    id = CARTRIDGE_VIC20_BEHRBONZ;
+                    break;
+               case UICART_VIC20_MEGACART:
+                    id = CARTRIDGE_VIC20_MEGACART;
+                    break;
+               case UICART_VIC20_FINALEXP:
+                    id = CARTRIDGE_VIC20_FINAL_EXPANSION;
+                    break;
+               case UICART_VIC20_ULTIMEM:
+                    id = CARTRIDGE_VIC20_UM;
+                    break;
+               case UICART_VIC20_FLASHPLUGIN:
+                    id = CARTRIDGE_VIC20_FP;
+                    break;
+
+                default:
+                    id = CARTRIDGE_VIC20_GENERIC;
+                    break;
+            }
+
+
+            debug_gtk3("attaching cart type %d, cart ID %d\n", type, id);
             return (crt_attach_func(id, path) == 0);
-        default:
             break;
     }
 
@@ -346,6 +420,9 @@ static GtkListStore *create_cart_type_model(void)
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_SCPU64:
             types = c64_cart_types;
+            break;
+        case VICE_MACHINE_VIC20:
+            types = vic20_cart_types;
             break;
         default:
             return model;
@@ -476,11 +553,21 @@ static GtkWidget *create_extra_widget(void)
     gtk_grid_attach(GTK_GRID(grid), cart_type_widget, 1, 0, 1, 1);
 
     /* TODO: only for c64/c128 */
-    label = gtk_label_new("cartridge ID");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    cart_id_widget = create_cart_id_combo_box(0x0);
-    gtk_grid_attach(GTK_GRID(grid), label, 2, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), cart_id_widget, 3, 0, 1, 1);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_SCPU64:
+
+            label = gtk_label_new("cartridge ID");
+            gtk_widget_set_halign(label, GTK_ALIGN_START);
+            cart_id_widget = create_cart_id_combo_box(0x0);
+            gtk_grid_attach(GTK_GRID(grid), label, 2, 0, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), cart_id_widget, 3, 0, 1, 1);
+            break;
+        default:
+            break;
+    }
 
 
     gtk_widget_show_all(grid);
@@ -669,11 +756,25 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
     /* add filters */
     flt_crt = create_file_chooser_filter(filters[UICART_PATTERN_CRT], TRUE);
     flt_bin = create_file_chooser_filter(filters[UICART_PATTERN_BIN], TRUE);
+    flt_bin_prg = create_file_chooser_filter(filters[UICART_PATTERN_BIN_PRG], TRUE);
     flt_all = create_file_chooser_filter(filters[UICART_PATTERN_ALL], TRUE);
-    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_crt);
-    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_bin);
-    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_all);
 
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_SCPU64:
+            gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_crt);
+            gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_bin);
+            gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_all);
+            break;
+        case VICE_MACHINE_VIC20:
+            gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_bin_prg);
+            gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), flt_all);
+            break;
+        default:
+            break;
+    }
 
     cart_dialog = dialog;
 

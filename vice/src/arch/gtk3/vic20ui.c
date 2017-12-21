@@ -39,6 +39,8 @@
 #include "cartridge.h"
 #include "carthelpers.h"
 #include "georamwidget.h"
+#include "cartridge.h"
+#include "uicart.h"
 
 #include "vic20ui.h"
 
@@ -78,6 +80,13 @@ int vic20ui_init(void)
     /* I/O extension function pointers */
     carthelpers_set_functions(cartridge_save_image, cartridge_flush_image,
             cartridge_type_enabled);
+
+    /* uicart_set_detect_func(cartridge_detect); only cbm2/plus4 */
+/*    uicart_set_list_func(cartridge_get_info_list); */
+    uicart_set_attach_func(cartridge_attach_image);
+/*    uicart_set_freeze_func(cartridge_trigger_freeze); */
+    uicart_set_detach_func(cartridge_detach_image);
+
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
