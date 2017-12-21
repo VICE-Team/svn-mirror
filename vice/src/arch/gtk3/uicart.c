@@ -69,7 +69,8 @@ typedef enum uicart_type_e {
     UICART_VIC20_MEGACART,
     UICART_VIC20_FINALEXP,
     UICART_VIC20_ULTIMEM,
-    UICART_VIC20_FLASHPLUGIN
+    UICART_VIC20_FLASHPLUGIN,
+    UICART_VIC20_ADD_GENERIC
 
     /* TODO: Plus4, CBM2 etc enums*/
 
@@ -119,8 +120,22 @@ static const cart_type_list_t vic20_cart_types[] = {
     { "Final Expansion",    UICART_VIC20_FINALEXP },
     { "UltiMem",            UICART_VIC20_ULTIMEM },
     { "Vic Flash Plugin",   UICART_VIC20_FLASHPLUGIN },
+    { "Add to generic image", UICART_VIC20_ADD_GENERIC },
     { NULL, -1 }
 };
+
+
+static const cart_type_list_t vic20_cart_types_generic[] = {
+    { "Attach generic cartridge image",     0 },
+    { "Add smart-attach cartridge image",   CARTRIDGE_VIC20_DETECT },
+    { "Add 4/8/16KB cartridge at $2000",    CARTRIDGE_VIC20_16KB_2000 },
+    { "Add 4/8/16KB cartridge at $4000",    CARTRIDGE_VIC20_16KB_4000 },
+    { "Add 4/8/16KB cartridge at $6000",    CARTRIDGE_VIC20_16KB_6000 },
+    { "Add 4/8KB cartridge at $A000",       CARTRIDGE_VIC20_8KB_A000 },
+    { "Add 4KB cartridge at $B000",         CARTRIDGE_VIC20_4KB_B000 },
+    { NULL, -1 }
+};
+
 
 
 
@@ -170,7 +185,7 @@ static GtkListStore *create_cart_id_model(unsigned int flags);
 static int get_cart_type(void);
 static int get_cart_id(void);
 static bool attach_cart_image(int type, int id, const char *path);
-
+static GtkListStore *create_cart_id_model_vic20(void);
 
 /** \brief  Handler for the "response" event of the dialog
  *
@@ -279,6 +294,18 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
             set_pattern(pattern);
 
             break;
+        case VICE_MACHINE_VIC20:
+            if (crt_type == UICART_VIC20_GENERIC) {
+                id_model = create_cart_id_model_vic20();
+            } else {
+                id_model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+            }
+            gtk_combo_box_set_model(GTK_COMBO_BOX(cart_id_widget),
+                    GTK_TREE_MODEL(id_model));
+            gtk_combo_box_set_active(GTK_COMBO_BOX(cart_id_widget), 0);
+
+            break;
+
         default:
             break;
     }
@@ -437,7 +464,7 @@ static GtkListStore *create_cart_type_model(void)
 
 
 
-/** \brief  Create a list of cartidges, filtered with \a flags
+/** \brief  Create a list of cartridges, filtered with \a flags
  *
  * Only valid for c64/c128/scpu
  *
@@ -471,6 +498,32 @@ static GtkListStore *create_cart_id_model(unsigned int flags)
     }
     return model;
 }
+
+
+/** \brief  Create a list of cartridges for VIC-20
+ *
+ * Only valid for VIC-20
+ *
+ * \return  Two-column list store (name, id)
+ */
+static GtkListStore *create_cart_id_model_vic20(void)
+{
+    GtkListStore *model;
+    GtkTreeIter iter;
+    int i;
+
+    model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+    for (i = 0; vic20_cart_types_generic[i].name != NULL; i++) {
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model, &iter,
+                0, vic20_cart_types_generic[i].name,    /* cart name */
+                1, vic20_cart_types_generic[i].id,      /* cart ID */
+                -1);
+    }
+    return model;
+}
+
 
 
 /** \brief  Create combo box with main cartridge types
@@ -533,6 +586,34 @@ static GtkWidget *create_cart_id_combo_box(unsigned int mask)
 }
 
 
+/** \brief  Create combo box with generic VIC-20 cartridges
+ *
+ * \return  GtkComboBox
+ */
+static GtkWidget *create_cart_id_combo_box_vic20(void)
+{
+    GtkWidget *combo;
+    GtkListStore *model;
+    GtkCellRenderer *renderer;
+
+    model = create_cart_id_model_vic20();
+    if (model == NULL) {
+        return gtk_combo_box_new();
+    }
+    combo = gtk_combo_box_new_with_model(GTK_TREE_MODEL(model));
+    g_object_unref(model);
+
+    renderer = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(combo), renderer, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(combo), renderer,
+            "text", 0, NULL);
+
+    gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+    return combo;
+}
+
+
+
 /** \brief  Create the 'extra' widget for the dialog
  *
  * \return  GtkGrid
@@ -565,6 +646,14 @@ static GtkWidget *create_extra_widget(void)
             gtk_grid_attach(GTK_GRID(grid), label, 2, 0, 1, 1);
             gtk_grid_attach(GTK_GRID(grid), cart_id_widget, 3, 0, 1, 1);
             break;
+        case VICE_MACHINE_VIC20:
+            label = gtk_label_new("cartridge class");
+            gtk_widget_set_halign(label, GTK_ALIGN_START);
+            cart_id_widget = create_cart_id_combo_box_vic20();
+            gtk_grid_attach(GTK_GRID(grid), label, 2, 0, 1, 1);
+            gtk_grid_attach(GTK_GRID(grid), cart_id_widget, 3, 0, 1, 1);
+            break;
+
         default:
             break;
     }
