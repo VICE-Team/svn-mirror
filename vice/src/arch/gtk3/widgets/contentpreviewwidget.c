@@ -1,5 +1,6 @@
-/*
- * contentpreviewwidget.c - GTK3 disk/tape/archive preview widget
+/**
+ * \file    src/arch/gtk3/widgets/contentpreviewwidget.c
+ * \brief   GTK3 disk/tape/archive preview widget
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>

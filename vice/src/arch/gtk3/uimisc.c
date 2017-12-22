@@ -39,6 +39,7 @@
 
 #include "htmlbrowserwidget.h"
 #include "cwdwidget.h"
+#include "jamactionwidget.h"
 
 #include "uimisc.h"
 
@@ -59,12 +60,14 @@ GtkWidget *uimisc_create_central_widget(GtkWidget *widget)
     GtkWidget *cwd_widget = cwd_widget_create();
     GtkWidget *vdev_widget = resource_check_button_create("VirtualDevices",
             "Enable virtual devices");
+    GtkWidget *jam_widget = jam_action_widget_create();
 
     grid = gtk_grid_new();
     gtk_grid_attach(GTK_GRID(grid), browser, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, 1, 1, 1);
     g_object_set(vdev_widget, "margin-left",8, NULL);
     gtk_grid_attach(GTK_GRID(grid), vdev_widget, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), jam_widget, 0, 3, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
