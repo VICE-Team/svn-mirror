@@ -32,6 +32,8 @@
 #include "tape.h"
 #include "debug_gtk3.h"
 #include "contentpreviewwidget.h"
+#include "imagecontents.h"
+#include "diskcontents.h"
 #include "filechooserhelpers.h"
 #include "driveunitwidget.h"
 #include "ui.h"
@@ -130,8 +132,11 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
+    int index;
 
-    debug_gtk3("got response ID %d\n", response_id);
+    index = GPOINTER_TO_INT(user_data);
+
+    debug_gtk3("got response ID %d, index %d\n", response_id, index);
 
     switch (response_id) {
 
@@ -161,7 +166,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             if (autostart_disk(
                         filename,
                         NULL,   /* program name */
-                        0,      /* Program number? Probably used when clicking
+                        index,  /* Program number? Probably used when clicking
                                    in the preview widget to load the proper
                                    file in an image */
                         AUTOSTART_MODE_RUN) < 0) {
@@ -250,7 +255,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog, unit));
 
-    preview_widget = content_preview_widget_create(NULL);
+    preview_widget = content_preview_widget_create(
+            dialog, diskcontents_filesystem_read, on_response);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview_widget);
 
     /* add filters */
@@ -261,7 +267,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "response", G_CALLBACK(on_response),
+            GINT_TO_POINTER(0));
     g_signal_connect(dialog, "update-preview", G_CALLBACK(on_update_preview), NULL);
 
     return dialog;

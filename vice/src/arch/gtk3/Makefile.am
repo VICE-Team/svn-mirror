@@ -24,7 +24,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/scpu64 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/samplerdrv \
-	-I$(top_srcdir)/src/c64/cart
+	-I$(top_srcdir)/src/c64/cart \
+	-I$(top_srcdir)/src/imagecontents
 
 
 noinst_LIBRARIES = libarch.a

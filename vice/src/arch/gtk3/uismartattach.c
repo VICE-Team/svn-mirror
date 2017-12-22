@@ -222,7 +222,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
             create_extra_widget(dialog));
 
-    preview = content_preview_widget_create(NULL);
+    preview = content_preview_widget_create(dialog, NULL, NULL);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview);
 
     /* add filters */
