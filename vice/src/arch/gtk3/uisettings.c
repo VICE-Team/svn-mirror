@@ -129,6 +129,8 @@
 #include "snapshotwidget.h"
 #include "ui.h"
 
+#include "monitorsettingswidget.h"
+
 #include "uisettings.h"
 
 
@@ -429,6 +431,7 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "I/O extensions", ioextensions_widget_create, c64_io_extensions },
 
     { "Snaphot/event recording, media file stuff", snapshot_widget_create, NULL },
+    { "Monitor settings", monitor_settings_widget_create, NULL },
     { NULL, NULL, NULL }
 };
 

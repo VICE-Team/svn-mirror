@@ -134,7 +134,8 @@ libwidgets_a_SOURCES = \
 	pethrewidget.c \
 	snapshotwidget.c \
 	ffmpegwidget.c \
-	jamactionwidget.c
+	jamactionwidget.c \
+	monitorsettingswidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -246,4 +247,5 @@ EXTRA_DIST = \
 	pethrewidget.h \
 	snapshotwidget.h \
 	ffmpegwidget.h \
-	jamactionwidget.h
+	jamactionwidget.h \
+	monitorsettingswidget.h
