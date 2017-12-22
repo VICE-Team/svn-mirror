@@ -120,7 +120,6 @@ static const cart_type_list_t vic20_cart_types[] = {
     { "Final Expansion",    UICART_VIC20_FINALEXP },
     { "UltiMem",            UICART_VIC20_ULTIMEM },
     { "Vic Flash Plugin",   UICART_VIC20_FLASHPLUGIN },
-    { "Add to generic image", UICART_VIC20_ADD_GENERIC },
     { NULL, -1 }
 };
 

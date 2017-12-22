@@ -30,5 +30,6 @@
 #include <gtk/gtk.h>
 
 GtkWidget *content_preview_widget_create(void (*selected)(GtkWidget *, void *));
+void content_preview_widget_set_image(GtkWidget *widget, const char *path);
 
 #endif

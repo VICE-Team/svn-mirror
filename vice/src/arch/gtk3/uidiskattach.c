@@ -57,6 +57,7 @@ static ui_file_filter_t filters[] = {
     { NULL, NULL }
 };
 
+static GtkWidget *preview_widget = NULL;
 
 
 /** \brief  Unit number to attach disk to
@@ -94,6 +95,24 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     debug_gtk3("preview %s\n", state ? "enabled" : "disabled");
 }
+
+
+static void on_update_preview(GtkFileChooser *chooser, gpointer data)
+{
+    GFile *file;
+    gchar *path;
+
+    file = gtk_file_chooser_get_preview_file(chooser);
+    path = g_file_get_path(file);
+    debug_gtk3("called with '%s'\n", path);
+
+    content_preview_widget_set_image(preview_widget, path);
+
+    g_free(path);
+    g_object_unref(file);
+}
+
+
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -211,7 +230,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
 static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 {
     GtkWidget *dialog;
-    GtkWidget *preview;
     size_t i;
 
     /* create new dialog */
@@ -232,8 +250,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog, unit));
 
-    preview = content_preview_widget_create(NULL);
-    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview);
+    preview_widget = content_preview_widget_create(NULL);
+    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview_widget);
 
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
@@ -244,6 +262,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "update-preview", G_CALLBACK(on_update_preview), NULL);
 
     return dialog;
 
