@@ -35,6 +35,13 @@
 #include "savefiledialog.h"
 #include "selectdirectorydialog.h"
 
+/** \brief  Custom response IDs for dialogs
+ */
+enum {
+    VICE_RESPONSE_AUTOSTART = 1     /**< trigger autostart */
+};
+
+
 gboolean ui_message_info(GtkWidget *widget,
                          const char *title,
                          const char *text, ...);

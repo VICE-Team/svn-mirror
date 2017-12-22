@@ -31,20 +31,12 @@
 #include "autostart.h"
 #include "tape.h"
 #include "debug_gtk3.h"
+#include "basedialogs.h"
 #include "contentpreviewwidget.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
 
 #include "uismartattach.h"
-
-
-/** \brief  Custom response ID's for the dialog
- *
- * Negative values are reserved by Gtk to handle stock responses
- */
-enum {
-    RESPONSE_AUTOSTART = 1  /**< Autostart button clicked */
-};
 
 
 /** \brief  File type filters for the dialog
@@ -134,7 +126,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             break;
 
         /* 'Autostart' button clicked */
-        case RESPONSE_AUTOSTART:
+        case VICE_RESPONSE_AUTOSTART:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'\n", filename);
             /* if this function exists, why is there no attach_autodetect()
@@ -214,7 +206,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
             "Open", GTK_RESPONSE_ACCEPT,
-            "Autostart", RESPONSE_AUTOSTART,
+            "Autostart", VICE_RESPONSE_AUTOSTART,
             "Close", GTK_RESPONSE_REJECT,
             NULL, NULL);
 

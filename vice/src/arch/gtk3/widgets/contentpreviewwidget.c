@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "debug_gtk3.h"
+#include "basedialogs.h"
 #include "lib.h"
 #include "imagecontents.h"
 
@@ -79,7 +80,8 @@ static void on_row_activated(
          * RESPONSE_AUTOSTART response ID and the file index passed in as the
          * user_data argument */
         if (parent_dialog != NULL) {
-            response_func(parent_dialog, 1 /* RESPONSE_AUTOSTART */,
+            response_func(parent_dialog,
+                    VICE_RESPONSE_AUTOSTART,
                     GINT_TO_POINTER(row + 1));  /* for some reason the first
                                                    file has index 1 */
         }

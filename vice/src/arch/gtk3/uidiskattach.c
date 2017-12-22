@@ -31,6 +31,7 @@
 #include "autostart.h"
 #include "tape.h"
 #include "debug_gtk3.h"
+#include "basedialogs.h"
 #include "contentpreviewwidget.h"
 #include "imagecontents.h"
 #include "diskcontents.h"
@@ -41,21 +42,12 @@
 #include "uidiskattach.h"
 
 
-/** \brief  Custom response ID's for the dialog
- *
- * Negative values are reserved by Gtk to handle stock responses
- */
-enum {
-    RESPONSE_AUTOSTART = 1  /**< Autostart button clicked */
-};
-
-
 /** \brief  File type filters for the dialog
  */
 static ui_file_filter_t filters[] = {
-    { "All files", file_chooser_pattern_all },
     { "Disk images", file_chooser_pattern_disk },
     { "Compressed files", file_chooser_pattern_compressed },
+    { "All files", file_chooser_pattern_all },
     { NULL, NULL }
 };
 
@@ -84,7 +76,7 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-
+#if 0
 /** \brief  Handler for the 'toggled' event of the 'show preview' checkbox
  *
  * \param[in]   widget      checkbox triggering the event
@@ -97,21 +89,31 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     debug_gtk3("preview %s\n", state ? "enabled" : "disabled");
 }
+#endif
 
 
+
+/** \brief  Handler for the "update-preview" event
+ *
+ * \param[in]   chooser file chooser dialog
+ * \param[in]   data    extra event data (unused)
+ */
 static void on_update_preview(GtkFileChooser *chooser, gpointer data)
 {
     GFile *file;
     gchar *path;
 
     file = gtk_file_chooser_get_preview_file(chooser);
-    path = g_file_get_path(file);
-    debug_gtk3("called with '%s'\n", path);
+    if (file != NULL) {
+        path = g_file_get_path(file);
+        if (path != NULL) {
+            debug_gtk3("called with '%s'\n", path);
 
-    content_preview_widget_set_image(preview_widget, path);
-
-    g_free(path);
-    g_object_unref(file);
+            content_preview_widget_set_image(preview_widget, path);
+           g_free(path);
+        }
+        g_object_unref(file);
+    }
 }
 
 
@@ -158,7 +160,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             break;
 
         /* 'Autostart' button clicked */
-        case RESPONSE_AUTOSTART:
+        case VICE_RESPONSE_AUTOSTART:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'\n", filename);
             /* if this function exists, why is there no attach_autodetect()
@@ -198,7 +200,9 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     GtkWidget *grid;
     GtkWidget *hidden_check;
     GtkWidget *readonly_check;
+#if 0
     GtkWidget *preview_check;
+#endif
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -211,11 +215,12 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     readonly_check = gtk_check_button_new_with_label("Attach read-only");
     gtk_grid_attach(GTK_GRID(grid), readonly_check, 1, 0, 1, 1);
 
+#if 0
     preview_check = gtk_check_button_new_with_label("Show image contents");
     g_signal_connect(preview_check, "toggled", G_CALLBACK(on_preview_toggled),
             NULL);
     gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
-
+#endif
     /* second row, three cols wide */
     gtk_grid_attach(GTK_GRID(grid), drive_unit_widget_create(unit, &unit_number,
                 NULL),
@@ -244,7 +249,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             GTK_FILE_CHOOSER_ACTION_OPEN,
             /* buttons */
             "Open", GTK_RESPONSE_ACCEPT,
-            "Autostart", RESPONSE_AUTOSTART,
+            "Autostart", VICE_RESPONSE_AUTOSTART,
             "Close", GTK_RESPONSE_REJECT,
             NULL, NULL);
 
