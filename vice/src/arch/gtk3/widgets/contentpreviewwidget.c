@@ -138,6 +138,7 @@ static GtkListStore *create_model(const char *path)
     char *tmp;
     char *utf8;
     int row;
+    int blocks;
 
     model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
     if (path == NULL) {
@@ -185,16 +186,18 @@ static GtkListStore *create_model(const char *path)
     }
 
     /* blocks free */
-    tmp = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
-    utf8 = (char *)convert_utf8((unsigned char *)tmp);
-    gtk_list_store_append(model, &iter);
-    gtk_list_store_set(model, &iter,
-            0, utf8,
-            1, -1,  /* -1 means invalid file again */
-            -1);
-    lib_free(tmp);
-    lib_free(utf8);
-
+    blocks = contents->blocks_free;
+    if (blocks > 0) {
+        tmp = lib_msprintf("%d BLOCKS FREE.", contents->blocks_free);
+        utf8 = (char *)convert_utf8((unsigned char *)tmp);
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model, &iter,
+                0, utf8,
+                1, -1,  /* -1 means invalid file again */
+                -1);
+        lib_free(tmp);
+        lib_free(utf8);
+    }
     image_contents_destroy(contents);
     return model;
 }
