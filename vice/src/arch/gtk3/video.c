@@ -152,14 +152,8 @@ static const resource_int_t resources_int[] = {
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    /* copy/paste from gnomevideo.c */
+    VICE_GTK3_FUNC_ENTERED();
     canvas->video_draw_buffer_callback = NULL;
-#ifdef HAVE_FULLSCREEN
-    if (machine_class != VICE_MACHINE_VSID) {
-        canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
-        fullscreen_init_alloc_hooks(canvas);
-    }
-#endif
 }
 
 
@@ -169,6 +163,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
  */
 int video_arch_cmdline_options_init(void)
 {
+    VICE_GTK3_FUNC_ENTERED();
     if (machine_class != VICE_MACHINE_VSID) {
         return cmdline_register_options(cmdline_options);
     }
@@ -182,6 +177,7 @@ int video_arch_cmdline_options_init(void)
  */
 int video_arch_resources_init(void)
 {
+    VICE_GTK3_FUNC_ENTERED();
     if (machine_class != VICE_MACHINE_VSID) {
         return resources_register_int(resources_int);
     }
@@ -198,9 +194,6 @@ char video_canvas_can_resize(video_canvas_t *canvas)
 {
     return 1;
 }
-
-/* FIXME: temporary hack */
-extern void ui_set_toplevel_widget(GtkWidget *win, GtkWidget *status);
 
 static void video_canvas_no_cleanup_needed(gpointer ignored)
 {
@@ -284,7 +277,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     g_signal_connect(canvas->event_box, "leave-notify-event", G_CALLBACK(video_canvas_cross_cb), canvas);
     g_signal_connect(canvas->event_box, "motion-notify-event", G_CALLBACK(video_canvas_motion_cb), canvas);
 
-    ui_display_toplevel_window(canvas);
+    ui_display_toplevel_window(canvas->window_index);
 
     canvas->created = 1;
     canvas->initialized = 1;

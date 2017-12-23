@@ -66,10 +66,9 @@ struct video_canvas_s {
     float refreshrate; /* currently displayed refresh rate */
 
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
-    struct fullscreenconfig_s *fullscreenconfig;
 
     int offx; /* for lightpen */
-    int app_shell; /* app shell that belongs to this canvas */
+    int window_index; /* index of window that belongs to this canvas */
 };
 typedef struct video_canvas_s video_canvas_t;
 

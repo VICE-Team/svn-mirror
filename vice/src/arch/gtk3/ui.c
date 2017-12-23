@@ -679,6 +679,8 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas)
     ui_resources.canvas[target_window] = canvas;
     ui_resources.window_widget[target_window] = new_window;
 
+    canvas->window_index = target_window;
+
     /* gtk_window_set_title(GTK_WINDOW(new_window), canvas->viewport->title); */
     ui_display_speed(100.0f, 0.0f, 0); /* initial update of the window status bar */
 
@@ -686,20 +688,16 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas)
     kbd_connect_handlers(new_window, NULL);
 }
 
-/** \brief  Finds the window associated with this canvas and makes it visible. */
+/** \brief  Makes the specified window visible. */
 
-void ui_display_toplevel_window(struct video_canvas_s *canvas)
+void ui_display_toplevel_window(int index)
 {
-    int i;
-    for (i = 0; i < NUM_WINDOWS; ++i) {
-        if (ui_resources.canvas[i] == canvas) {
-            /* Normally this would show everything in the window,
-             * including hidden status bar displays, but we've
-             * disabled secondary displays in the status bar code with
-             * gtk_widget_set_no_show_all(). */
-            gtk_widget_show_all(ui_resources.window_widget[i]);
-            break;
-        }
+    if (ui_resources.window_widget[index]) {
+        /* Normally this would show everything in the window,
+         * including hidden status bar displays, but we've
+         * disabled secondary displays in the status bar code with
+         * gtk_widget_set_no_show_all(). */
+        gtk_widget_show_all(ui_resources.window_widget[index]);
     }
 }
 

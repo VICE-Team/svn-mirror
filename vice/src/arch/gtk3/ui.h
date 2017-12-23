@@ -78,7 +78,7 @@ typedef struct ui_resources_s {
 /* Prototypes */
 
 void ui_create_toplevel_window(struct video_canvas_s *canvas);
-void ui_display_toplevel_window(struct video_canvas_s *canvas);
+void ui_display_toplevel_window(int index);
 
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);
