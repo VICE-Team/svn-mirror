@@ -234,7 +234,7 @@ static ui_menu_item_t file_menu_tape[] = {
  */
 static ui_menu_item_t file_menu_tail[] = {
     /* cart */
-    { "Attach cartridge image", UI_MENU_TYPE_ITEM_ACTION,
+    { "Attach cartridge image ...", UI_MENU_TYPE_ITEM_ACTION,
         "cart-attach", uicart_show_dialog, NULL,
         0, 0 },
     { "Detach cartridge image(s)", UI_MENU_TYPE_ITEM_ACTION,
@@ -250,9 +250,6 @@ static ui_menu_item_t file_menu_tail[] = {
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         "monitor", ui_monitor_activate_callback, NULL,
         GDK_KEY_H, VICE_MOD_MASK | GDK_SHIFT_MASK },
-    { "Monitor settings ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
-        0, 0 },
 
     UI_MENU_SEPARATOR,
 
@@ -264,9 +261,6 @@ static ui_menu_item_t file_menu_tail[] = {
 
     { "Reset", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, reset_submenu,
-        0, 0 },
-    { "Action on CPU JAM ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
         0, 0 },
 
     UI_MENU_SEPARATOR,
