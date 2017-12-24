@@ -53,7 +53,7 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
-#include "selectdirectorydialog.h"
+#include "uivsidmenu.h"
 #include "jamdialog.h"
 
 #include "ui.h"
@@ -629,12 +629,19 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas)
      * should go somewhere else: call ui_menu_bar_create() once and attach the
      * result menu to each GtkWindow instance
      */
-    /* TODO: This can't stay here because this file gets linked into vsid,
-     * which gets a diferent set of menus. Of course, the main vsid window
-     * won't have a canvas either, so this whole function should probably
-     * be moved to another file.
-     */
-    menu_bar = ui_machine_menu_bar_create();
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* TODO: This can't stay here because this file gets linked into vsid,
+         * which gets a diferent set of menus. Of course, the main vsid window
+         * won't have a canvas either, so this whole function should probably
+         * be moved to another file.
+         */
+        menu_bar = ui_machine_menu_bar_create();
+    } else {
+        /* TODO: This can't stay here for the exact opposite reason
+         * of the above.
+         */
+        menu_bar = ui_vsid_menu_bar_create();
+    }
 
     canvas->drawing_area = new_drawing_area;
     canvas->event_box = gtk_event_box_new();
