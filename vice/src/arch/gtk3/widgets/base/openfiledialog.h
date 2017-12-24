@@ -36,4 +36,11 @@ gchar *ui_open_file_dialog(
         const char **filter_list,
         const char *path);
 
+gchar *ui_open_create_file_dialog(
+        GtkWidget *widget,
+        const char *title,
+        const char *proposed,
+        gboolean confirm,
+        const char *path);
+
 #endif

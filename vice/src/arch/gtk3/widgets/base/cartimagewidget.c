@@ -60,9 +60,9 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
     gchar *filename;
     char buffer[256];
 
-    g_snprintf(buffer, 256, "Open %s image file", crt_name);
+    g_snprintf(buffer, 256, "Open or create %s image file", crt_name);
 
-    filename = ui_open_file_dialog(button, buffer, NULL, NULL, NULL);
+    filename = ui_open_create_file_dialog(button, buffer, NULL, FALSE, NULL);
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
@@ -70,6 +70,8 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
         g_free(filename);
     }
 }
+
+
 /** \brief  Handler for the "clicked" event of the "save" button
  *
  * Save cart image file. Uses dirname()/basename() on the GEORAMfilename
@@ -188,6 +190,7 @@ GtkWidget *cart_image_widget_create(
     g_object_set(label, "margin-left", 16, NULL);
     entry = resource_entry_create(resource_fname);
     gtk_widget_set_hexpand(entry, TRUE);
+    gtk_widget_set_sensitive(entry, FALSE);
     browse = gtk_button_new_with_label("Browse ...");
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);

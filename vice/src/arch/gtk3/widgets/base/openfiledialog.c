@@ -100,3 +100,65 @@ gchar *ui_open_file_dialog(
     gtk_widget_destroy(dialog);
     return filename;
 }
+
+
+
+/** \brief  Create a 'open or create file' dialog
+ *
+ * \param[in]   widget      parent widget
+ * \param[in]   title       dialog title
+ * \param[in]   proposed    proposed file name (optional)
+ * \param[in]   confirm     confirm overwriting an existing file
+ * \param[in]   path        set starting directory (optional)
+ *
+ * \return  filename or `NULL` on cancel
+ *
+ * \note    the filename returned is allocated by GLib and needs to be freed
+ *          after use with g_free()
+ */
+gchar *ui_open_create_file_dialog(
+        GtkWidget *widget,
+        const char *title,
+        const char *proposed,
+        gboolean confirm,
+        const char *path)
+{
+    GtkWidget *dialog;
+    GtkWindow *parent;
+    gint result;
+    gchar *filename;
+
+    parent = ui_get_active_window();
+
+    dialog = gtk_file_chooser_dialog_new(
+            title,
+            parent,
+            GTK_FILE_CHOOSER_ACTION_SAVE,
+            "Open/Create", GTK_RESPONSE_ACCEPT,
+            "Cancel", GTK_RESPONSE_REJECT,
+            NULL, NULL);
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+
+    /* set overwrite confirmation */
+    gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
+            confirm);
+
+    /* set proposed file name, if any */
+    if (proposed != NULL && *proposed != '\0') {
+        gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dialog), proposed);
+    }
+
+    /* change directory if specified */
+    if (path != NULL && *path != '\0') {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), path);
+    }
+
+    result = gtk_dialog_run(GTK_DIALOG(dialog));
+    if (result == GTK_RESPONSE_ACCEPT) {
+        filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    } else {
+        filename = NULL;
+    }
+    gtk_widget_destroy(dialog);
+    return filename;
+}
