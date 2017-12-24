@@ -120,12 +120,12 @@ static const cart_type_list_t vic20_cart_types[] = {
     { "Final Expansion",    UICART_VIC20_FINALEXP },
     { "UltiMem",            UICART_VIC20_ULTIMEM },
     { "Vic Flash Plugin",   UICART_VIC20_FLASHPLUGIN },
+    { "Add to generic cartridge", UICART_VIC20_ADD_GENERIC },
     { NULL, -1 }
 };
 
 
 static const cart_type_list_t vic20_cart_types_generic[] = {
-    { "Attach generic cartridge image",     0 },
     { "Add smart-attach cartridge image",   CARTRIDGE_VIC20_DETECT },
     { "Add 4/8/16KB cartridge at $2000",    CARTRIDGE_VIC20_16KB_2000 },
     { "Add 4/8/16KB cartridge at $4000",    CARTRIDGE_VIC20_16KB_4000 },
@@ -294,10 +294,13 @@ static void on_cart_type_changed(GtkComboBox *combo, gpointer data)
 
             break;
         case VICE_MACHINE_VIC20:
-            if (crt_type == UICART_VIC20_GENERIC) {
+            if (crt_type == UICART_VIC20_ADD_GENERIC) {
                 id_model = create_cart_id_model_vic20();
+                gtk_widget_set_sensitive(cart_id_widget, TRUE);
             } else {
+                /* empty model */
                 id_model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+                gtk_widget_set_sensitive(cart_id_widget, FALSE);
             }
             gtk_combo_box_set_model(GTK_COMBO_BOX(cart_id_widget),
                     GTK_TREE_MODEL(id_model));
