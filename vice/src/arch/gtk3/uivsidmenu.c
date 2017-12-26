@@ -42,6 +42,7 @@
 #include "uimenu.h"
 #include "uimonarch.h"
 #include "uisettings.h"
+#include "uisidattach.h"
 #include "uismartattach.h"
 #include "uivsidmenu.h"
 
@@ -106,7 +107,7 @@ static ui_menu_item_t reset_submenu[] = {
  */
 static ui_menu_item_t file_menu[] = {
     { "Load PSID file ...", UI_MENU_TYPE_ITEM_ACTION,
-        "load-psid", NULL, NULL,
+        "load-psid", uisidattach_show_dialog, NULL,
         GDK_KEY_L, VICE_MOD_MASK },
 
     UI_MENU_SEPARATOR,

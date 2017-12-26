@@ -83,6 +83,12 @@ const char *file_chooser_pattern_program[] = {
 };
 
 
+/** \brief  Patterns for PSID/SID files
+ */
+const char *file_chooser_pattern_sid[] = {
+    "*.psid", "*.sid", NULL
+};
+
 /** \brief  C64 native archives
  *
  * Not all of these are supported, Lynx and ZipCoded disks are supported through
@@ -135,6 +141,11 @@ const ui_file_filter_t file_chooser_filter_disk = {
 const ui_file_filter_t file_chooser_filter_tape = {
     "Tape images",
     file_chooser_pattern_tape
+};
+
+const ui_file_filter_t file_chooser_filter_sid = {
+    "PSID/SID files",
+    file_chooser_pattern_sid
 };
 
 const ui_file_filter_t file_chooser_filter_fliplist = {
