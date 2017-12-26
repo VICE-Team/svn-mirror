@@ -157,6 +157,7 @@ void ui_menu_shutdown(void)
         }
     }
     numhotkeys = 0;
+
     /* free checkmarks */
     list = checkmark_list;
     while (list != NULL) {
@@ -184,6 +185,16 @@ void ui_menu_shutdown(void)
 static void delete_checkmark_cb(GtkWidget *w, gpointer data)
 {
     checkmark_t *cm;
+
+    /* For some obscure reason `lib_free(cm->name)` causes a segfault when
+     * trying to load a PSID file via 'Load' in the VSID UI. When disabling the
+     * checkmark free code in ui_shutdown(), we get hundreds of leaks, so for now
+     * ui_shutdown() will have to handle the freeing of the checkmarks.
+     * Ugly and weird, but since we're moving to Gtk3, this will have to do.
+     *
+     * -- compyx, 2017-12-26
+     */
+    return;
 
     /* printf("delete_checkmark_cb() called\n"); */
     cm = (checkmark_t *)data;
