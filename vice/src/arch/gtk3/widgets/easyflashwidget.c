@@ -55,11 +55,13 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     gchar *filename;
 
-    filename = ui_save_file_dialog(widget, "Save image as", NULL, TRUE, NULL);
+    filename = ui_save_file_dialog(widget, "Save EasyFlasg image as ...",
+            NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("writing EF image file as '%s'\n", filename);
         if (carthelpers_save_func(CARTRIDGE_EASYFLASH, filename) < 0) {
-            /* ui_error("Failed to save EF image '%s'", filename); */
+            ui_message_error(widget, "VICE core",
+                    "Failed to save '%s'", filename);
         }
         g_free(filename);
     }
@@ -75,7 +77,8 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("flushing EF image\n");
     if (carthelpers_flush_func(CARTRIDGE_EASYFLASH) < 0) {
-        /* TODO: report error */
+        ui_message_error(widget, "VICE core",
+                "Failed to flush the EasyFlash image");
     }
 }
 

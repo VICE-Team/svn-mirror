@@ -47,25 +47,6 @@
 
 #include "isepicwidget.h"
 
-/* list of widgets, used to enable/disable depending on ISEPIC resource */
-static GtkWidget *isepic_enable_widget = NULL;
-static GtkWidget *isepic_image = NULL;
-static GtkWidget *isepic_switch = NULL;
-
-
-/** \brief  Handler for the "toggled" event of the isepic_enable widget
- *
- * \param[in]   widget      check button
- * \param[in]   user_data   unused
- */
-static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gboolean state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    gtk_widget_set_sensitive(isepic_image, state);
-    gtk_widget_set_sensitive(isepic_switch, state);
-}
-
 
 /** \brief  Create ISEPIC enable check button
  *
@@ -73,11 +54,8 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_isepic_enable_widget(void)
 {
-    GtkWidget *check;
-
-    check = resource_check_button_create("IsepicCartridgeEnabled",
+    return resource_check_button_create("IsepicCartridgeEnabled",
             "Enable ISEPIC");
-    return check;
 }
 
 
@@ -150,6 +128,10 @@ static GtkWidget *create_isepic_image_widget(GtkWidget *parent)
 GtkWidget *isepic_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *isepic_enable_widget;
+    GtkWidget *isepic_image;
+    GtkWidget *isepic_switch;
+
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
@@ -163,12 +145,6 @@ GtkWidget *isepic_widget_create(GtkWidget *parent)
 
     isepic_image = create_isepic_image_widget(parent);
     gtk_grid_attach(GTK_GRID(grid), isepic_image, 0, 2, 1, 1);
-
-    g_signal_connect(isepic_enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
-            NULL);
-
-    /* enable/disable widget based on isepic-enable (dirty trick, I know) */
-    on_enable_toggled(isepic_enable_widget, NULL);
 
     gtk_widget_show_all(grid);
     return grid;

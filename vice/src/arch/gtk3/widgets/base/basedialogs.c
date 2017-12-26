@@ -38,7 +38,7 @@
 
 /** \brief  Create a GtkMessageDialog
  *
- * \param[in]   widget      parent widget
+ * \param[in]   widget      parent widget (not used anymore!)
  * \param[in]   type        message type
  * \param[in]   buttons     buttons to use
  * \param[in]   title       dialog title
