@@ -155,7 +155,6 @@ gboolean ui_message_error(GtkWidget *widget,
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-
     dialog = create_dialog(widget, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
             title, buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));

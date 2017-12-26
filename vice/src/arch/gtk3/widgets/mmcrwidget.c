@@ -6,7 +6,7 @@
  *
  * Controls the following resource(s):
  *  MMCRCardImage (x64/x64sc/xscpu64/x128)
- *  MMCREEPROMIMage (x64/x64sc/xscpu64/x128)
+ *  MMCREEPROMImage (x64/x64sc/xscpu64/x128)
  *  MMCREEPROMRW (x64/x64sc/xscpu64/x128)
  *  MMCRRescueMode (x64/x64sc/xscpu64/x128)
  *  MMCRImageWrite (x64/x64sc/xscpu64/x128)
@@ -108,6 +108,17 @@ static GtkWidget *create_clockport_widget(void)
 }
 
 
+/** \brief  Create widget for the MMCREEPROMRW resource
+ *
+ * \return  GtkComboBoxText
+ */
+static GtkWidget *create_eeprom_rw_widget(void)
+{
+    return resource_check_button_create("MMCREEPROMRW",
+            "Enable writes to EEPROM image");
+}
+
+
 /** \brief  Create widget to control EEPROM resources
  *
  * \param[in]   parent  parent widget (used for dialogs)
@@ -116,11 +127,25 @@ static GtkWidget *create_clockport_widget(void)
  */
 static GtkWidget *create_eeprom_image_widget(GtkWidget *parent)
 {
-    return cart_image_widget_create(parent, "MMC Replay EEPROM image",
+    GtkWidget *widget;
+    GtkWidget *readwrite;
+
+    widget = cart_image_widget_create(parent, "MMC Replay EEPROM image",
             "MMCREEPROMImage", "MMCRImageWrite",
             carthelpers_save_func, carthelpers_flush_func,
             CARTRIDGE_NAME_MMC_REPLAY, CARTRIDGE_MMC_REPLAY);
+
+    /* add RW widget */
+    readwrite = create_eeprom_rw_widget();
+    g_object_set(readwrite, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(widget), readwrite, 0, 3, 2, 1);
+
+    gtk_widget_show_all(widget);
+    return widget;
+
 }
+
+
 
 
 /** \brief  Create widget to control memory card image
