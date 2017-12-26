@@ -52,32 +52,11 @@
 /** \brief  List of supported RAM sizes
  */
 static ui_radiogroup_entry_t ram_sizes[] = {
+    { "64KB", 64 },
     { "128KB", 128 },
-    { "256KB", 256 },
     { NULL, -1 }
 };
 
-
-/* list of widgets, used to enable/disable depending on RAMCART resource */
-static GtkWidget *ramcart_enable_widget = NULL;
-static GtkWidget *ramcart_size = NULL;
-static GtkWidget *ramcart_readonly = NULL;
-static GtkWidget *ramcart_image = NULL;
-
-
-/** \brief  Handler for the "toggled" event of the ramcart_enable widget
- *
- * \param[in]   widget      check button
- * \param[in]   user_data   unused
- */
-static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
-{
-    gboolean state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    gtk_widget_set_sensitive(ramcart_size, state);
-    gtk_widget_set_sensitive(ramcart_image, state);
-    gtk_widget_set_sensitive(ramcart_readonly,state);
-}
 
 
 /** \brief  Create RAMCART enable check button
@@ -90,6 +69,10 @@ static GtkWidget *create_ramcart_enable_widget(void)
 }
 
 
+/** \brief  Create check button to toggle read-only mode
+ *
+ * \return  GtkCheckButton
+ */
 static GtkWidget *create_ramcart_readonly_widget(void)
 {
     return resource_check_button_create("RAMCART_RO",
@@ -139,13 +122,17 @@ static GtkWidget *create_ramcart_image_widget(GtkWidget *parent)
 GtkWidget *ramcart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
+    GtkWidget *ramcart_enable;
+    GtkWidget *ramcart_size;
+    GtkWidget *ramcart_readonly;
+    GtkWidget *ramcart_image;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    ramcart_enable_widget = create_ramcart_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), ramcart_enable_widget, 0, 0, 1, 1);
+    ramcart_enable = create_ramcart_enable_widget();
+    gtk_grid_attach(GTK_GRID(grid), ramcart_enable, 0, 0, 1, 1);
 
     ramcart_size = create_ramcart_size_widget();
     gtk_grid_attach(GTK_GRID(grid), ramcart_size, 0, 1, 1, 1);
@@ -153,14 +140,8 @@ GtkWidget *ramcart_widget_create(GtkWidget *parent)
     ramcart_image = create_ramcart_image_widget(parent);
     gtk_grid_attach(GTK_GRID(grid), ramcart_image, 1, 1, 1, 1);
 
-    g_signal_connect(ramcart_enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
-            NULL);
-
     ramcart_readonly = create_ramcart_readonly_widget();
     gtk_grid_attach(GTK_GRID(grid), ramcart_readonly, 0, 2, 2,1);
-
-    /* enable/disable widget based on ramcart-enable (dirty trick, I know) */
-    on_enable_toggled(ramcart_enable_widget, NULL);
 
     gtk_widget_show_all(grid);
     return grid;
