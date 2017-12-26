@@ -54,24 +54,6 @@ static ui_radiogroup_entry_t modes[] = {
 };
 
 
-static GtkWidget *mode_widget = NULL;
-static GtkWidget *base_widget = NULL;
-
-/** \brief  Handler for the "toggled" event of the Ethernet Enable check button
- *
- * \param[in]   widget      check button
- * \param[in]   user_data   extra event data (unused)
- */
-static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-
-    if (mode_widget != NULL) {
-        /* xvic guard */
-        gtk_widget_set_sensitive(mode_widget, state);
-    }
-    gtk_widget_set_sensitive(base_widget, state);
-}
 
 
 /** \brief  Handler for the "changed" event of the I/O base combo box
@@ -187,7 +169,9 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *enable_widget;
-    GtkWidget *mode_label = NULL;
+    GtkWidget *mode_widget;
+    GtkWidget *mode_label;
+    GtkWidget *base_widget;
     GtkWidget *base_label;
     int row;
 
@@ -228,12 +212,6 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), base_label, 0, row, 1,1);
     base_widget = create_cartridge_base_widget();
     gtk_grid_attach(GTK_GRID(grid), base_widget, 1, row, 1, 1);
-
-    g_signal_connect(enable_widget, "toggled", G_CALLBACK(on_enable_toggled),
-            NULL);
-
-    /* hack: enable/disable widgets */
-    on_enable_toggled(enable_widget, NULL);
 
     gtk_widget_show_all(grid);
     return grid;
