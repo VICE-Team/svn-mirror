@@ -46,6 +46,48 @@
 #include "uivsidmenu.h"
 
 
+/*
+ * The following are translation unit local so we can create functions that
+ * modify menu contents or even functions that alter the top bar itself.
+ */
+
+
+/** \brief  Main menu bar widget
+ *
+ * Contains the submenus on the menu main bar
+ *
+ * This one lives until ui_exit() or thereabouts
+ */
+static GtkWidget *main_menu_bar = NULL;
+
+
+/** \brief  File submenu
+ */
+static GtkWidget *file_submenu = NULL;
+
+
+/** \brief  Tune submenu
+ */
+static GtkWidget *tune_submenu = NULL;
+
+
+/** \brief  Settings submenu
+ */
+static GtkWidget *settings_submenu = NULL;
+
+
+#ifdef DEBUG
+/** \brief  Debug submenu, only available when --enable-debug was specified
+ */
+static GtkWidget *debug_submenu = NULL;
+#endif
+
+
+/** \brief  Help submenu
+ */
+static GtkWidget *help_submenu = NULL;
+
+
 /** \brief  File->Reset submenu
  */
 static ui_menu_item_t reset_submenu[] = {
@@ -95,7 +137,7 @@ static ui_menu_item_t file_menu[] = {
 
     UI_MENU_SEPARATOR,
 
-    { "Exit emulator", UI_MENU_TYPE_ITEM_ACTION,
+    { "Exit player", UI_MENU_TYPE_ITEM_ACTION,
         "exit", ui_close_callback, NULL,
         GDK_KEY_Q, VICE_MOD_MASK },
 
@@ -103,7 +145,7 @@ static ui_menu_item_t file_menu[] = {
 };
 
 
-/** \brief  'Tunes' menu
+/** \brief  'Tune' menu
  */
 #if 0
 static ui_menu_item_t tune_menu[] = {
@@ -126,7 +168,7 @@ static ui_menu_item_t settings_menu[] = {
     UI_MENU_SEPARATOR,
 
     /* the settings dialog */
-    { "Settings", UI_MENU_TYPE_ITEM_ACTION,
+    { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
         "settings", ui_settings_dialog_create, NULL,
         0, 0 },
 
@@ -191,21 +233,47 @@ GtkWidget *ui_vsid_menu_bar_create(void)
 {
     GtkWidget *menu_bar;
 
-    menu_bar = ui_menu_bar_create();
+    /* create the top menu bar */
+    menu_bar = gtk_menu_bar_new();
 
-    /* generate File menu */
-    ui_menu_file_add(file_menu);
+    /* create the top-level 'File' menu */
+    file_submenu = ui_menu_submenu_create(menu_bar, "File");
 
-    /* generate Settings menu */
-    ui_menu_settings_add(settings_menu);
+    /* create the top-level 'Tune' menu */
+    tune_submenu = ui_menu_submenu_create(menu_bar, "Tune");
+
+    /* create the top-level 'Settings' menu */
+    settings_submenu = ui_menu_submenu_create(menu_bar, "Settings");
 
 #ifdef DEBUG
-    /* generate Debug menu */
-    ui_menu_debug_add(debug_menu);
+    /* create the top-level 'Debug' menu (when --enable-debug is used) */
+    debug_submenu = ui_menu_submenu_create(menu_bar, "Debug");
 #endif
 
-    /* generate Help menu */
-    ui_menu_help_add(help_menu);
+    /* create the top-level 'Help' menu */
+    help_submenu = ui_menu_submenu_create(menu_bar, "Help");
 
+
+    /* add items to the File menu */
+    ui_menu_add(file_submenu, file_menu);
+
+#if 0
+    /* TODO: add items to the Tune menu */
+    ui_menu_add(tune_submenu, tune_menu);
+#endif
+
+    /* add items to the Settings menu */
+    ui_menu_add(settings_submenu, settings_menu);
+
+#ifdef DEBUG
+    /* add items to the Debug menu */
+    ui_menu_add(debug_submenu, debug_menu);
+#endif
+
+    /* add items to the Help menu */
+    ui_menu_add(help_submenu, help_menu);
+
+    main_menu_bar = menu_bar;    /* XXX: do I need g_object_ref()/g_object_unref()
+                                         for this */
     return menu_bar;
 }

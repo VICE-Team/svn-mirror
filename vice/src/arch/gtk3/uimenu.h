@@ -3,6 +3,7 @@
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -107,17 +108,9 @@ typedef struct ui_menu_item_s {
  * Public functions
  */
 
-GtkWidget *ui_menu_bar_create(void);
+GtkWidget *ui_menu_submenu_create(GtkWidget *bar, const char *label);
 
 GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items);
-GtkWidget *ui_menu_file_add(ui_menu_item_t *items);
-GtkWidget *ui_menu_edit_add(ui_menu_item_t *items);
-GtkWidget *ui_menu_snapshot_add(ui_menu_item_t *items);
-GtkWidget *ui_menu_settings_add(ui_menu_item_t *items);
-GtkWidget *ui_menu_help_add(ui_menu_item_t *items);
-#ifdef DEBUG
-GtkWidget *ui_menu_debug_add(ui_menu_item_t *items);
-#endif
 
 /* FIXME: is this still even used? */
 void ui_menu_init_accelerators(GtkWidget *window);

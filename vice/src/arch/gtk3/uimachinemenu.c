@@ -57,6 +57,52 @@
 #include "uitapeattach.h"
 
 
+/*
+ * The following are translation unit local so we can create functions that
+ * modify menu contents or even functions that alter the top bar itself.
+ */
+
+
+/** \brief  Main menu bar widget
+ *
+ * Contains the submenus on the menu main bar
+ *
+ * This one lives until ui_exit() or thereabouts
+ */
+static GtkWidget *main_menu_bar = NULL;
+
+
+/** \brief  File submenu
+ */
+static GtkWidget *file_submenu = NULL;
+
+
+/** \brief  Edit submenu
+ */
+static GtkWidget *edit_submenu = NULL;
+
+
+/** \brief  Snapshot submenu
+ */
+static GtkWidget *snapshot_submenu = NULL;
+
+
+/** \brief  Settings submenu
+ */
+static GtkWidget *settings_submenu = NULL;
+
+
+#ifdef DEBUG
+/** \brief  Debug submenu, only available when --enable-debug was specified
+ */
+static GtkWidget *debug_submenu = NULL;
+#endif
+
+
+/** \brief  Help submenu
+ */
+static GtkWidget *help_submenu = NULL;
+
 
 /** \brief  File->Detach submenu
  */
@@ -457,7 +503,7 @@ static ui_menu_item_t settings_menu_tail[] = {
     UI_MENU_SEPARATOR,
 
     /* the settings dialog */
-    { "Settings", UI_MENU_TYPE_ITEM_ACTION,
+    { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
         "settings", ui_settings_dialog_create, NULL,
         0, 0 },
     UI_MENU_TERMINATOR
@@ -535,6 +581,29 @@ GtkWidget *ui_machine_menu_bar_create(void)
 {
     GtkWidget *menu_bar;
 
+    /* create the top menu bar */
+    menu_bar = gtk_menu_bar_new();
+
+    /* create the top-level 'File' menu */
+    file_submenu = ui_menu_submenu_create(menu_bar, "File");
+
+    /* create the top-level 'Edit' menu */
+    edit_submenu = ui_menu_submenu_create(menu_bar, "Edit");
+
+    /* create the top-level 'Snapshot' menu */
+    snapshot_submenu = ui_menu_submenu_create(menu_bar, "Snapshot");
+
+    /* create the top-level 'Settings' menu */
+    settings_submenu = ui_menu_submenu_create(menu_bar, "Settings");
+
+#ifdef DEBUG
+    /* create the top-level 'Debug' menu (when --enable-debug is used) */
+    debug_submenu = ui_menu_submenu_create(menu_bar, "Debug");
+#endif
+
+    /* create the top-level 'Help' menu */
+    help_submenu = ui_menu_submenu_create(menu_bar, "Help");
+
     /* determine which joystick swap menu items should be added */
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
@@ -571,34 +640,34 @@ GtkWidget *ui_machine_menu_bar_create(void)
             break;
     }
 
-    menu_bar = ui_menu_bar_create();
-
-    /* generate File menu */
-    ui_menu_file_add(file_menu_head);
+    /* add items to the File menu */
+    ui_menu_add(file_submenu, file_menu_head);
     if (file_menu_tape_section != NULL) {
-        ui_menu_file_add(file_menu_tape_section);
+        ui_menu_add(file_submenu, file_menu_tape_section);
     }
-    ui_menu_file_add(file_menu_tail);
+    ui_menu_add(file_submenu, file_menu_tail);
 
-    /* generate Edit menu */
-    ui_menu_edit_add(edit_menu);
-    /* generate Snapshot menu */
-    ui_menu_snapshot_add(snapshot_menu);
+    /* add items to the Edit menu */
+    ui_menu_add(edit_submenu, edit_menu);
+    /* add items to the Snapshot menu */
+    ui_menu_add(snapshot_submenu, snapshot_menu);
 
-    /* generate Settings menu */
-    ui_menu_settings_add(settings_menu_head);
+    /* add items to the Settings menu */
+    ui_menu_add(settings_submenu, settings_menu_head);
     if (settings_menu_joy_section != NULL) {
-        ui_menu_settings_add(settings_menu_joy_section);
+        ui_menu_add(settings_submenu, settings_menu_joy_section);
     }
-    ui_menu_settings_add(settings_menu_tail);
+    ui_menu_add(settings_submenu, settings_menu_tail);
 
 #ifdef DEBUG
-    /* generate Debug menu */
-    ui_menu_debug_add(debug_menu);
+    /* add items to the Debug menu */
+    ui_menu_add(debug_submenu, debug_menu);
 #endif
 
-    /* generate Help menu */
-    ui_menu_help_add(help_menu);
+    /* add items to the Help menu */
+    ui_menu_add(help_submenu, help_menu);
 
+    main_menu_bar = menu_bar;    /* XXX: do I need g_object_ref()/g_object_unref()
+                                         for this */
     return menu_bar;
 }
