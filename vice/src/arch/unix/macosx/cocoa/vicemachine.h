@@ -24,6 +24,11 @@
  *
  */
 
+//some Cocoa headers give compile errors if DEBUG is defined without a value
+#ifdef DEBUG
+#undef DEBUG
+#define DEBUG 1
+#endif
 #import <Cocoa/Cocoa.h>
 #import "vicemachineprotocol.h"
 #import "viceapplicationprotocol.h"
