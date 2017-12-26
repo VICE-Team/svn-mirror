@@ -258,21 +258,26 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
     uint16_t display_number;
     uint8_t v;
     size_t plen;
+    static int last_known_xres = 80, last_known_yres = 25;
 
     prefix = (format == DF_PETSCII) ? '>' : '*';
 
     if (radix_type) {
+        if (console_log) {
+            last_known_xres = console_log->console_xres;
+            last_known_yres = console_log->console_yres;
+        }
         if (radix_type != e_hexadecimal && radix_type != e_decimal && radix_type != e_octal) {
-            max_width = (console_log->console_xres - 12)
+            max_width = (last_known_xres - 12)
                         / (radix_chars_per_byte[radix_type] + 2);
         } else {
-            max_width = (4 * (console_log->console_xres - 12))
+            max_width = (4 * (last_known_xres - 12))
                         / (4 * (radix_chars_per_byte[radix_type] + 2) + 1);
         }
 
         max_width &= ~3;
 
-        display_number = max_width * ((console_log->console_yres - 6) / 2);
+        display_number = max_width * ((last_known_yres - 6) / 2);
     } else {
         max_width = 40;
         display_number = 128;
