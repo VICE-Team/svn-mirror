@@ -3097,6 +3097,12 @@ translate_t string_table[] = {
 /* tr */ {IDGS_MON_TAPECTRL_DESCRIPTION_TR, "Teybi kontrol et. Geçerli komutlar:\n0 = durdur, 1 = baþlat, 2 = ileri, 3 = geri, 4 = kayýt,\n5 = reset, 6 = reset sayacý."},
 #endif
 
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION,    N_("Turn tracing of every instruction executed by the main CPU on or off. If the argument is 'toggle' then the current mode is switched.")},
+#ifdef HAS_TRANSLATION
+/* it */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION_IT, "Accendi (on) o spegni (off) il tracciamento di ogni istruzione eseguita. Se l'argomento è 'toggle', lo stato attuale viene invertito."},
+#endif
+
 /* joyport.c */
 /* en */ {IDGS_CONTROL_PORT,    N_("Control port")},
 #ifdef HAS_TRANSLATION

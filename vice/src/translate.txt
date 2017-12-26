@@ -536,6 +536,9 @@ IDGS_MON_SCREENSHOT_DESCRIPTION
 IDGS_MON_TAPECTRL_DESCRIPTION
 
 /* monitor/mon_command.c */
+IDGS_MON_MAINCPU_TRACE_DESCRIPTION
+
+/* monitor/mon_command.c */
 IDGS_TYPE
 
 /* joyport.c */

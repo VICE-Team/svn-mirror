@@ -2431,3 +2431,18 @@ void monitor_startup_trap(void)
         interrupt_maincpu_trigger_trap(monitor_trap, 0);
     }
 }
+
+void mon_maincpu_toggle_trace(int state)
+{
+#ifdef DEBUG
+    if (state == e_TOGGLE) {
+        int old_state;
+        if (!resources_get_int("MainCPU_TRACE", &old_state))
+            return;
+        state = old_state ? e_OFF : e_ON;
+    }
+    resources_set_int("MainCPU_TRACE", state);
+#else
+    mon_out("Not compiled with CPU tracing.\n");
+#endif
+}

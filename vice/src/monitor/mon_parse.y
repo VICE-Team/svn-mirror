@@ -165,7 +165,7 @@ extern int cur_len, last_len;
 %token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
-%token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD
+%token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD CMD_MAINCPU_TRACE
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> L_BRACKET R_BRACKET LESS_THAN REG_U REG_S REG_PC REG_PCR
@@ -478,6 +478,8 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                      { mon_quit(); YYACCEPT; }
                    | CMD_EXIT end_cmd
                      { mon_exit(); YYACCEPT; }
+                   | CMD_MAINCPU_TRACE TOGGLE end_cmd
+                     { mon_maincpu_toggle_trace($2); }
                    ;
 
 monitor_misc_rules: CMD_DISK rest_of_line end_cmd
@@ -1201,5 +1203,3 @@ static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
     range[0] = new_addr(memspace, sa);
     return 0;
 }
-
-

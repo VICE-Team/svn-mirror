@@ -240,6 +240,7 @@ HDIGIT  [0-9a-f]
         undump          { BEGIN(FNAME);         return CMD_UNDUMP; }
         watch|w         { BEGIN(INITIAL);       return CMD_WATCH; }
         yydebug         { BEGIN(INITIAL);       return CMD_YYDEBUG; }
+        maincpu_trace   { BEGIN(INITIAL);       return CMD_MAINCPU_TRACE; }
 }
  /* this is not a real command, but could be a label name for a label assignment */
 <CMD>[_a-zA-Z][_a-zA-Z0-9]* { BEGIN(LABEL_ASGN); yylval.str = lib_stralloc(yytext); return CMD_LABEL_ASGN; }

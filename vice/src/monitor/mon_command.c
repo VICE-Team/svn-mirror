@@ -694,6 +694,13 @@ static const mon_cmds_t mon_cmd_array[] = {
       IDGS_MON_TAPECTRL_DESCRIPTION,
       NULL, NULL },
 
+    { "maincpu_trace", "",
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      "[on|off|toggle]", 1,
+      { IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
+      IDGS_MON_MAINCPU_TRACE_DESCRIPTION,
+      "[on|off|toggle]", NULL },
+
     { NULL, NULL, 0, 0, NULL, 0, { 0, 0, 0, 0 }, 0, NULL, NULL }
 };
 
