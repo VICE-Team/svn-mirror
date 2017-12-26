@@ -1,8 +1,9 @@
-/*
- * plus4ui.c - Native GTK3 PLUS4 UI.
+/** \file   src/arch/gtk3/plus4ui.c
+ * \brief   Native GTK3 PLUS4 UI
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -40,14 +41,29 @@
 #include "plus4ui.h"
 
 
+/** \brief  List of Plus/4 models
+ *
+ * Used in the machine-model widget
+ */
 static const char *plus4_model_list[] = {
-    "C16 PAL", "C16 NTSC", "Plus4 PAL", "Plus4 NTSC", "V364 NTSC", "232 NTSC",
+    "C16 PAL",
+    "C16 NTSC",
+    "Plus4 PAL",
+    "Plus4 NTSC",
+    "V364 NTSC",
+    "232 NTSC",
     NULL
 };
 
 
+/** \brief  List of TED models
+ *
+ * Used in the TED model widget
+ */
 static ui_radiogroup_entry_t plus4_ted_models[] = {
-    { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
+    { "PAL", MACHINE_SYNC_PAL },
+    { "NTSC", MACHINE_SYNC_NTSC },
+    { NULL, -1 }
 };
 
 
@@ -57,6 +73,11 @@ int plus4ui_init_early(void)
     return 0;
 }
 
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int plus4ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -76,8 +97,10 @@ int plus4ui_init(void)
     return 0;
 }
 
+
+/** \brief  Shut down the UI
+ */
 void plus4ui_shutdown(void)
 {
     INCOMPLETE_IMPLEMENTATION();
 }
-

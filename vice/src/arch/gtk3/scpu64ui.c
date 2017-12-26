@@ -1,8 +1,9 @@
-/*
- * scpu64ui.c - Native GTK3 SCPU64 UI.
+/** \file   src/arch/gtk3/scpu64ui.c
+ * \brief   Native GTK3 SCPU64 UI
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,13 +62,24 @@
 #include "scpu64ui.h"
 
 
+/** \brief  List of C64 models
+ *
+ * Used in the machine-model widget
+ */
 static const char *c64scpu_model_list[] = {
-    "C64 PAL", "C64C PAL", "C64 old PAL", "C64 NTSC", "C64C NTSC",
-    "C64 old NTSC", "Drean" "C64 SX PAL", "C64 SX NTSC", "Japanese", "C64 GS",
+    "C64 PAL", "C64C PAL", "C64 old PAL",
+    "C64 NTSC", "C64C NTSC" "C64 old NTSC",
+    "Drean",
+    "C64 SX PAL", "C64 SX NTSC",
+    "Japanese", "C64 GS",
     NULL
 };
 
 
+/** \brief  List of VIC-II models
+ *
+ * Used in the VIC-II model widget
+ */
 static ui_radiogroup_entry_t c64scpu_vicii_models[] = {
     { "6569 (PAL)",             VICII_MODEL_6569 },
     { "8565 (PAL)",             VICII_MODEL_8565 },
@@ -86,6 +98,11 @@ int scpu64ui_init_early(void)
     return 0;
 }
 
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int scpu64ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -117,8 +134,10 @@ int scpu64ui_init(void)
     return 0;
 }
 
+
+/** \brief  Shut down the UI
+ */
 void scpu64ui_shutdown(void)
 {
     INCOMPLETE_IMPLEMENTATION();
 }
-

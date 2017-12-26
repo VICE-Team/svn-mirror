@@ -1,5 +1,5 @@
-/*
- * vsidui.c - Native GTK3 VSID UI.
+/** \file   src/arch/gtk3/vsidui.c
+ * \brief   Native GTK3 VSID UI
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

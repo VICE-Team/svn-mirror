@@ -1,8 +1,9 @@
-/*
- * vic20ui.c - Native GTK3 VIC20 UI.
+/** \file   src/arch/gtk3/vic20ui.c
+ * \brief   Native GTK3 VIC20 UI
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -45,13 +46,26 @@
 #include "vic20ui.h"
 
 
+/** \brief  List of VIC-20 models
+ *
+ * Used in the machine-model widget
+ */
 static const char *vic20_model_list[] = {
-    "VIC20 PAL", "VIC20 NTSC", "VIC21", NULL
+    "VIC20 PAL",
+    "VIC20 NTSC",
+    "VIC21",
+    NULL
 };
 
 
+/** \brief  List of VIC models
+ *
+ * Used in the VIC model widget
+ */
 static ui_radiogroup_entry_t vic20_vic_models[] = {
-    { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
+    { "PAL", MACHINE_SYNC_PAL },
+    { "NTSC", MACHINE_SYNC_NTSC },
+    { NULL, -1 }
 };
 
 
@@ -61,6 +75,11 @@ int vic20ui_init_early(void)
     return 0;
 }
 
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int vic20ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -92,8 +111,10 @@ int vic20ui_init(void)
     return 0;
 }
 
+
+/** \brief  Shut down the UI
+ */
 void vic20ui_shutdown(void)
 {
     INCOMPLETE_IMPLEMENTATION();
 }
-

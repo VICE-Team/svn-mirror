@@ -1,5 +1,10 @@
-/*
- * archdep.c - Miscellaneous system-specific stuff.
+/** \file   src/arch/gtk3/archdep.c
+ * \brief   Wrappers for architecture/OS-specific code
+ *
+ * I've decided to use GLib's use of the XDG specification and the standard
+ * way of using paths on Windows. So some files may not be where the older
+ * ports expect them to be. For example, vicerc will be in $HOME/.config/vice
+ * now, not $HOME/.vice. -- compyx
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -23,16 +28,6 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
- */
-
-
-/** \file   src/arch/gtk3/archdep.c
- * \brief   Wrappers for architecture/OS-specific code
- *
- * I've decided to use GLib's use of the XDG specification and the standard
- * way of using paths on Windows. So some files may not be where the older
- * ports expect them to be. For example, vicerc will be in $HOME/.config/vice
- * now, not $HOME/.vice.
  */
 
 #include "vice.h"

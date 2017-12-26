@@ -1,8 +1,9 @@
-/*
- * c128ui.c - Native GTK3 C128 UI.
+/** \file   src/arch/gtk3/c128ui.c
+ * \brief   Native GTK3 C128 UI
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,13 +62,27 @@
 #include "c128ui.h"
 
 
+/** \brief  List of C128 models
+ *
+ * Used in the machine-model widget
+ */
 static const char *c128_model_list[] = {
-    "C128 PAL", "C128D PAL", "C128 NTSC", "C128D NTSC", NULL
+    "C128 PAL",
+    "C128D PAL",
+    "C128 NTSC",
+    "C128D NTSC",
+    NULL
 };
 
 
+/** \brief  List of VIC-II models
+ *
+ * Used in the VIC-II model widget
+ */
 static ui_radiogroup_entry_t c128_vicii_models[] = {
-    { "PAL", MACHINE_SYNC_PAL }, { "NTSC", MACHINE_SYNC_NTSC }, { NULL, -1 }
+    { "PAL", MACHINE_SYNC_PAL },
+    { "NTSC", MACHINE_SYNC_NTSC },
+    { NULL, -1 }
 };
 
 
@@ -77,6 +92,11 @@ int c128ui_init_early(void)
     return 0;
 }
 
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int c128ui_init(void)
 {
     /* Some of the work here is done by video.c now, and would need to
@@ -108,8 +128,10 @@ int c128ui_init(void)
     return 0;
 }
 
+
+/** \brief  Shut down the UI
+ */
 void c128ui_shutdown(void)
 {
     INCOMPLETE_IMPLEMENTATION();
 }
-

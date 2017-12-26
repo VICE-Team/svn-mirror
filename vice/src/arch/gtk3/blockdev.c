@@ -1,5 +1,5 @@
-/*
- * blockdev.c - Native GTK3 UI block device stuff.
+/** \file   src/arch/gtk3/blockdev.c
+ * \brief   Native GTK3 UI block device stuff.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -49,13 +49,13 @@ int blockdev_close(void)
 
 int blockdev_cmdline_options_init(void)
 {
-    /* NOP, just like arc/unix */
+    /* NOP, just like arch/unix */
     return 0;
 }
 
 void blockdev_init(void)
 {
-    /* NOP, just like arc/unix */
+    /* NOP, just like arch/unix */
 }
 
 int blockdev_open(const char *name, unsigned int *read_only)

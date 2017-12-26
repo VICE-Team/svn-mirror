@@ -1,5 +1,5 @@
-/*
- * archdep_win32.c - Miscellaneous system-specific stuff.
+/** \file   src/arch/gtk3/archdep_win32.c
+ * \brief   Miscellaneous Windows-specific stuff.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
