@@ -188,9 +188,9 @@ GtkWidget *cart_image_widget_create(
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = resource_entry_create(resource_fname);
+    entry = resource_entry_full_create(resource_fname);
     gtk_widget_set_hexpand(entry, TRUE);
-    gtk_widget_set_sensitive(entry, FALSE);
+    /* gtk_widget_set_sensitive(entry, FALSE); */
     browse = gtk_button_new_with_label("Browse ...");
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
