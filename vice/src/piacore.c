@@ -95,6 +95,7 @@ void mypia_signal(int line, int edge)
                     mypia.ca_state = 1;
                 }
             }
+            break;
         case PIA_SIG_CB1:
             if (((mypia.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
                 mypia.ctrl_b |= 0x80;
@@ -104,6 +105,9 @@ void mypia_signal(int line, int edge)
                     mypia.cb_state = 1;
                 }
             }
+            break;
+        case PIA_SIG_CA2:
+        case PIA_SIG_CB2:
             break;
     }
 }
