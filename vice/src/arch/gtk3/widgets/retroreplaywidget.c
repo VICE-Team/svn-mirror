@@ -73,7 +73,8 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     if (filename != NULL) {
         debug_gtk3("writing RR image file as '%s'\n", filename);
         if (carthelpers_save_func(CARTRIDGE_RETRO_REPLAY, filename) < 0) {
-            /* ui_error("Failed to save RR image '%s'", filename); */
+            ui_message_error(widget, "VICE core",
+                    "Failed to save Retro Replay image '%s'.", filename);
         }
         g_free(filename);
     }
@@ -89,7 +90,8 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     debug_gtk3("flushing RR image\n");
     if (carthelpers_flush_func(CARTRIDGE_RETRO_REPLAY) < 0) {
-        /* TODO: report error */
+        ui_message_error(widget, "VICE core",
+                "Failed to flush current Retro Replay image.");
     }
 }
 
