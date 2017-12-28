@@ -980,6 +980,24 @@ int ui_emulation_is_paused(void)
 }
 
 
+/** \brief  Pause toggle handler
+ *
+ * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
+ *          passed to the emu)
+ *
+ * FIXME:   Using the UI the tickmark is properly set/unset, but when using this
+ *          from a keyboard shortcut, the tickmark isn't updated at all.
+ */
+gboolean ui_toggle_pause(void)
+{
+    ui_pause_emulation(!is_paused);
+    /* TODO: somehow update the checkmark in the menu without reverting to
+     *       weird code like Gtk
+     */
+    return TRUE;    /* has to be TRUE to avoid passing Alt+H into the emu */
+}
+
+
 /** \brief  Shutdown the UI, clean up resources
  */
 void ui_exit(void)
