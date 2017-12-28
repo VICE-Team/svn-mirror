@@ -51,6 +51,7 @@
 #include "uimedia.h"
 #include "uimenu.h"
 #include "uimonarch.h"
+#include "uinetplay.h"
 #include "uisettings.h"
 #include "uismartattach.h"
 #include "uisnapshot.h"
@@ -305,7 +306,7 @@ static ui_menu_item_t file_menu_tail[] = {
     UI_MENU_SEPARATOR,
 
     { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
+        NULL, ui_netplay_dialog, NULL,
         0, 0 },
 
     UI_MENU_SEPARATOR,

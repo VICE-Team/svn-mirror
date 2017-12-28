@@ -103,6 +103,7 @@ libarch_a_SOURCES = \
 	uidebug.c \
 	uicart.c \
 	uimedia.c \
+	uinetplay.c \
 	uisidattach.c
 
 EXTRA_DIST = \
@@ -168,4 +169,5 @@ EXTRA_DIST = \
 	uidebug.h \
 	uicart.h \
 	uimedia.h \
+	uinetplay.h \
 	uisidattach.h
