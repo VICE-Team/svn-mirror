@@ -295,7 +295,12 @@ static ui_menu_item_t file_menu_tail[] = {
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         "monitor", ui_monitor_activate_callback, NULL,
-        GDK_KEY_H, VICE_MOD_MASK | GDK_SHIFT_MASK },
+#ifdef MACOSX_SUPPORT
+        GDK_KEY_H, VICE_MOD_MASK | GDK_SHIFT_MASK
+#else
+        GDK_KEY_H, VICE_MOD_MASK
+#endif
+    },
 
     UI_MENU_SEPARATOR,
 
