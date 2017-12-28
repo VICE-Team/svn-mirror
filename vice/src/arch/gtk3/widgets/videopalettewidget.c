@@ -39,6 +39,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdbool.h>
 #include <string.h>
 
 #include "debug_gtk3.h"
@@ -123,6 +124,10 @@ static void on_browse_clicked(GtkButton *button, gpointer user_data)
 
 /** \brief  Create combo box with available palettes for the current chip
  *
+ * If the file in the resource "${chip}PaletteFile" doesn't match any of the
+ * palette files provided by VICE, it is assumed to be a user-defined custom
+ * palette and inserted at the top of the combo box.
+ *
  * \return  GtkComboBoxText
  */
 static GtkWidget *create_combo_box(void)
@@ -132,8 +137,12 @@ static GtkWidget *create_combo_box(void)
     palette_info_t *list;
     int row;
     const char *current;
+    bool found = false;
 
-    resources_get_string_sprintf("%sPaletteFile", &current, chip_prefix);
+    if (resources_get_string_sprintf("%sPaletteFile",
+                &current, chip_prefix) < 0) {
+        current = NULL;
+    }
 
     row = 0;
     list = palette_get_info_list();
@@ -143,12 +152,21 @@ static GtkWidget *create_combo_box(void)
             /* got a valid entry */
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
                     list[index].file, list[index].name);
-            if (strcmp(list[index].file, current) == 0) {
+            if (current != NULL && strcmp(list[index].file, current) == 0) {
                 gtk_combo_box_set_active(GTK_COMBO_BOX(combo), row);
+                found = true;
             }
             row++;
         }
     }
+
+    /* if we didn't find `current` in the list of VICE palette files, add it as
+     * a custom user-defined file */
+    if ((!found) && current != NULL) {
+        gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(combo), 0, current, current);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+    }
+
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_changed), NULL);
     return combo;
 }
