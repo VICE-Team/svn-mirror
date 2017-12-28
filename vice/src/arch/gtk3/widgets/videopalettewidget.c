@@ -61,6 +61,20 @@ static GtkWidget *combo_external = NULL;
 static GtkWidget *button_custom = NULL;
 
 
+/** \brief  Handler for the "toggled" events of the internal/external radios
+ *
+ * \param[in]   radio   Internal/External radio button
+ * \param[in]   data    setting (bool)
+ */
+static void on_internal_toggled(GtkWidget *radio, gpointer data)
+{
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))) {
+        resources_set_int_sprintf("%sExternalPalette", GPOINTER_TO_INT(data),
+                chip_prefix);
+    }
+}
+
+
 /** \brief  Handler for the "changed" event of the palettes combo box
  *
  * \param[in]   combo       combo box
@@ -74,6 +88,8 @@ static void on_combo_changed(GtkComboBox *combo, gpointer user_data)
     debug_gtk3("got combo index %d, id '%s'\n", index, id);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_external), TRUE);
     resources_set_string_sprintf("%sPaletteFile", id, chip_prefix);
+    resources_set_int_sprintf("%sExternalPalette", 1, chip_prefix);
+
 }
 
 
@@ -193,6 +209,12 @@ GtkWidget *video_palette_widget_create(const char *chip)
     } else {
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio_internal), TRUE);
     }
+
+    g_signal_connect(radio_internal, "toggled",
+            G_CALLBACK(on_internal_toggled), GINT_TO_POINTER(0));
+     g_signal_connect(radio_external, "toggled",
+            G_CALLBACK(on_internal_toggled), GINT_TO_POINTER(1));
+
     gtk_widget_show_all(grid);
     return grid;
 }
