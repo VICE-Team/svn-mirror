@@ -314,8 +314,11 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 
     /* row 4, column 0-2 */
     wrapper = uihelpers_create_grid_with_label("Scaling and fullscreen", 3);
+    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(wrapper), 8);
 
     hw_scale_widget = create_hw_scale_widget(index);
+    g_object_set(hw_scale_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(wrapper), hw_scale_widget, 0, 1, 1, 1);
 
     keep_aspect_widget[index] = create_keep_aspect_widget(index);
