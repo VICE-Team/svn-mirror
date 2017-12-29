@@ -412,11 +412,21 @@ static const resource_int_t resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
+static const resource_string_t resources_string[] = {
+    { "TapecartTCRTFilename", "", RES_EVENT_NO, NULL,
+      &tcrt_filename, tapecart_attach_tcrt, NULL },
+    RESOURCE_STRING_LIST_END
+};
+
 int tapecart_resources_init(void)
 {
     tapeport_snapshot_register(&tapecart_snapshot);
 
-    return resources_register_int(resources_int);
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
+
+    return resources_register_string(resources_string);
 }
 
 static const cmdline_option_t cmdline_options[] = {
@@ -430,8 +440,8 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_TAPECART,
       NULL, NULL },
-    { "-tcrt", CALL_FUNCTION, 1,
-      tapecart_attach_tcrt, NULL, NULL, NULL,
+    { "-tcrt", SET_RESOURCE, 1,
+      NULL, NULL, "TapecartTCRTFilename", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_TCRT_TAPECART,
       NULL, NULL },
@@ -1763,7 +1773,8 @@ static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem) {
 
 int tapecart_attach_tcrt(const char *filename, void *unused) {
     if (!tapecart_enabled) {
-        return -1;
+        /* ignore attempts to set a TCRT while disabled */
+        return 0;
     }
 
     if (tcrt_filename && tapecart_memory->changed && tapecart_update_tcrt) {
@@ -1774,7 +1785,7 @@ int tapecart_attach_tcrt(const char *filename, void *unused) {
         lib_free(tcrt_filename);
     }
 
-    if (filename == NULL) {
+    if (filename == NULL || *filename == 0) {
         clear_memory(tapecart_memory);
     } else {
         if (!load_tcrt(filename, tapecart_memory)) {
