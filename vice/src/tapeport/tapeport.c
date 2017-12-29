@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "sense-dongle.h"
 #include "snapshot.h"
+#include "tapecart.h"
 #include "tapelog.h"
 #include "tapeport.h"
 #include "uiapi.h"
@@ -516,6 +517,9 @@ int tapeport_resources_init(void)
     if (dtlbasic_dongle_resources_init() < 0) {
         return -1;
     }
+    if (tapecart_resources_init() < 0) {
+        return -1;
+    }
 
     return 0;
 }
@@ -555,6 +559,10 @@ int tapeport_cmdline_options_init(void)
     }
 
     if (dtlbasic_dongle_cmdline_options_init() < 0) {
+        return -1;
+    }
+
+    if (tapecart_cmdline_options_init() < 0) {
         return -1;
     }
 

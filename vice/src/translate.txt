@@ -709,6 +709,9 @@ IDGS_TAPE_RTC
 /* tapeport/sense-dongle.c */
 IDGS_SENSE_DONGLE
 
+/* tapeport/tapecart.c */
+IDGS_TAPECART
+
 /* userport/userport_dac.c */
 IDGS_USERPORT_DAC
 
@@ -837,6 +840,30 @@ IDCLS_ENABLE_TAPE_SENSE_DONGLE
 
 /* tapeport/sense-dongle.c */
 IDCLS_DISABLE_TAPE_SENSE_DONGLE
+
+/* tapeport/tapecart.c */
+IDCLS_ENABLE_TAPECART
+
+/* tapeport/tapecart.c */
+IDCLS_DISABLE_TAPECART
+
+/* tapeport/tapecart.c */
+IDCLS_ATTACH_TCRT_TAPECART
+
+/* tapeport/tapecart.c */
+IDCLS_ENABLE_TAPECART_TCRT_UPDATE
+
+/* tapeport/tapecart.c */
+IDCLS_DISABLE_TAPECART_TCRT_UPDATE
+
+/* tapeport/tapecart.c */
+IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE
+
+/* tapeport/tapecart.c */
+IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE
+
+/* tapeport/tapecart.c */
+IDCLS_SET_TAPECART_LOGLEVEL
 
 /* tapeport/dtl-basic-dongle.c */
 IDCLS_ENABLE_DTL_BASIC_DONGLE
