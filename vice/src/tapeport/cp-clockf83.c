@@ -70,6 +70,7 @@ static tapeport_device_t tapertc_device = {
     IDGS_TAPE_RTC,
     0,
     "CPClockF83",
+    tapertc_resources_shutdown,
     NULL,
     tapertc_store_sda,
     tapertc_store_scl,

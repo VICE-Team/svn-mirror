@@ -53,6 +53,9 @@ typedef struct tapeport_device_s {
     /* resource of the device, used for detaching when reading snapshots */
     char *resource;
 
+    /* shutdown device */
+    void (*shutdown)(void);
+
     /* reset device */
     void (*reset)(void);
 

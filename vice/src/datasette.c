@@ -141,6 +141,7 @@ static tapeport_device_t datasette_device = {
     IDGS_DATASETTE,
     0,
     "Datasette",
+    NULL, /* no shutdown */
     NULL, /* no device specific reset */
     datasette_set_motor,
     datasette_toggle_write_bit,

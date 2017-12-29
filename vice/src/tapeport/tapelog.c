@@ -97,6 +97,7 @@ static tapeport_device_t tapelog_device = {
     0,
     "TapeLog",
     NULL,
+    NULL, /* no shutdown */
     tapelog_set_motor,
     tapelog_toggle_write_bit,
     tapelog_set_sense_out,

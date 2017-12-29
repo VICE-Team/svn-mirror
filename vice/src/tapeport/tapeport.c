@@ -526,6 +526,9 @@ void tapeport_resources_shutdown(void)
     tapeport_snapshot_list_t *c = tapeport_snapshot_head.next;
 
     while (current) {
+        if (current->device && current->device->shutdown) {
+            current->device->shutdown();
+        }
         tapeport_device_unregister(current);
         current = tapeport_head.next;
     }

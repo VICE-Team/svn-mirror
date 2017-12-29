@@ -72,6 +72,7 @@ static tapeport_device_t tape_diag_586220_harness_device = {
     IDGS_TAPE_DIAG_586220_HARNESS,
     0,
     "TapeDiag586220Harness",
+    NULL, /* no shutdown */
     NULL,
     tape_diag_586220_harness_set_motor,
     tape_diag_586220_harness_toggle_write_bit,

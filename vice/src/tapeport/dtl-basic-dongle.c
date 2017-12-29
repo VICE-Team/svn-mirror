@@ -98,6 +98,7 @@ static tapeport_device_t dtlbasic_dongle_device = {
     IDGS_SENSE_DONGLE,
     0,
     "DTLBasicDongle",
+    NULL, /* no shutdown */
     dtlbasic_dongle_reset,
     NULL, /* no set motor */
     dtlbasic_write,
