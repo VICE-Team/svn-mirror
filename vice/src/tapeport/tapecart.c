@@ -100,6 +100,8 @@ static void    tapecart_set_mode(tapecart_mode_t mode);
 static clock_t fasttx_byte_advance(void);
 static clock_t cmdmode_receive_command(void);
 
+static bool    load_tcrt(const char *filename, tapecart_memory_t *tcmem);
+static void    update_tcrt(void);
 
 static tapeport_device_t tapecart_device = {
     TAPEPORT_DEVICE_TAPECART,
@@ -125,7 +127,7 @@ static tapeport_snapshot_t tapecart_snapshot = {
     tapecart_read_snapshot
 };
 
-static tapeport_device_list_t *tapecart_list_item = NULL;
+static tapeport_device_list_t *tapecart_list_item;
 
 static alarm_t *tapecart_logic_alarm;
 static alarm_t *tapecart_pulse_alarm;
@@ -357,17 +359,21 @@ static int set_tapecart_enabled(int value, void *unused_param) {
         flash_erase_page_time = machine_get_cycles_per_second() *  60 / 1000;
 
         /* allocate alarms */
-        tapecart_logic_alarm = alarm_new(maincpu_alarm_context,
-                                         "tapecart_logic",
-                                         tapecart_logic_alarm_handler, NULL);
-        tapecart_pulse_alarm = alarm_new(maincpu_alarm_context,
-                                         "tapecart_pulse",
-                                         tapecart_pulse_alarm_handler, NULL);
+        if (tapecart_logic_alarm == NULL) {
+          tapecart_logic_alarm = alarm_new(maincpu_alarm_context,
+                                           "tapecart_logic",
+                                           tapecart_logic_alarm_handler, NULL);
+          tapecart_pulse_alarm = alarm_new(maincpu_alarm_context,
+                                           "tapecart_pulse",
+                                           tapecart_pulse_alarm_handler, NULL);
+        }
+
+        /* if a TCRT name is already available, load it */
+        if (tcrt_filename != NULL && *tcrt_filename != 0) {
+            load_tcrt(tcrt_filename, tapecart_memory);
+        }
 
     } else {
-        alarm_destroy(tapecart_logic_alarm);
-        alarm_destroy(tapecart_pulse_alarm);
-
         tapeport_device_unregister(tapecart_list_item);
         tapecart_list_item = NULL;
 
@@ -1537,8 +1543,7 @@ static void tapecart_logic_alarm_handler(CLOCK offset, void *data) {
 /* ---------------------------------------------------------------------*/
 
 static void tapecart_shutdown(void) {
-    tapecart_attach_tcrt(NULL, NULL);
-    /* set_tapecart_enabled(0, NULL); */
+    update_tcrt();
 }
 
 static void tapecart_store_motor(int state) {
@@ -1772,18 +1777,33 @@ static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem) {
     return retval;
 }
 
-int tapecart_attach_tcrt(const char *filename, void *unused) {
-    if (!tapecart_enabled) {
-        /* ignore attempts to set a TCRT while disabled */
-        return 0;
-    }
-
+/* update TCRT if updates enabled and changes pending */
+static void update_tcrt(void) {
     if (tcrt_filename && tapecart_memory->changed && tapecart_update_tcrt) {
         save_tcrt(tcrt_filename, tapecart_memory);
     }
+}
+
+int tapecart_attach_tcrt(const char *filename, void *unused) {
+    if (!tapecart_enabled) {
+        /* remember the name in case the tapecart is enabled later */
+        if (tcrt_filename != NULL) {
+            lib_free(tcrt_filename);
+            tcrt_filename = NULL;
+        }
+
+        if (filename != NULL && *filename != 0) {
+            tcrt_filename = lib_stralloc(filename);
+        }
+
+        return 0;
+    }
+
+    update_tcrt();
 
     if (tcrt_filename != NULL) {
         lib_free(tcrt_filename);
+        tcrt_filename = NULL;
     }
 
     if (filename == NULL || *filename == 0) {
