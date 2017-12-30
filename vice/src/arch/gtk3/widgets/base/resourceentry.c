@@ -172,10 +172,11 @@ static void resource_entry_full_update_resource(GtkEntry *entry)
     if (resources_get_string(res_name, &res_val) < 0) {
         return;
     }
-
     entry_text = gtk_entry_get_text(entry);
-    if (strcmp(entry_text, res_val) != 0) {
+    debug_gtk3("res_name: %s res_val: %s entry_text: %s\n", res_name, res_val, entry_text);
+    if ((res_val == NULL) || (strcmp(entry_text, res_val) != 0)) {
         resources_set_string(res_name, entry_text);
+        debug_gtk3("set res_name: %s entry_text: %s\n", res_name, entry_text);
     }
 }
 
