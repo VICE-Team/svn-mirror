@@ -12,6 +12,7 @@
  *  CPClockF83Save (all except vsid)
  *  TapeSenseDongle (all except vsid)
  *  DTLBasicDongle (all except vsid)
+ *  Tapecart (all except vsid)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -60,6 +61,11 @@ static GtkWidget *tape_log_browse = NULL;
 static GtkWidget *f83_enable = NULL;
 static GtkWidget *f83_rtc = NULL;
 
+static GtkWidget *tapecart_enable = NULL;
+static GtkWidget *tapecart_update = NULL;
+static GtkWidget *tapecart_optimize = NULL;
+static GtkWidget *tapecart_filename = NULL;
+static GtkWidget *tapecart_browse = NULL;
 
 /** \brief  Handler for the "toggled" event of the tape_log check button
  *
@@ -123,6 +129,41 @@ static void on_f83_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
     gtk_widget_set_sensitive(f83_rtc,
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
+}
+
+
+/** \brief  Handler for the "toggled" event of the tapecart check button
+ *
+ * \param[in]   widget      tapecart enable check button
+ * \param[in]   user_data   unused
+ */
+static void on_tapecart_enable_toggled(GtkWidget *widget, gpointer user_data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    gtk_widget_set_sensitive(tapecart_update, state);
+    gtk_widget_set_sensitive(tapecart_optimize, state);
+    gtk_widget_set_sensitive(tapecart_filename, state);
+    gtk_widget_set_sensitive(tapecart_browse, state);
+}
+
+
+/** \brief  Handler for the "clicked" event of the tapecart browse button
+ *
+ * \param[in]   widget      tapecart browse button
+ * \param[in]   user_data   unused
+ */
+static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
+{
+    gchar *filename;
+
+    /* TODO: use existing filename, if any */
+    filename = ui_save_file_dialog(widget, "Select/Create tapecart file", NULL,
+            TRUE, NULL);
+    if (filename != NULL) {
+        /* TODO: check if file is writable */
+        gtk_entry_set_text(GTK_ENTRY(tapecart_filename), filename);
+        g_free(filename);
+    }
 }
 
 
@@ -234,6 +275,58 @@ static GtkWidget *create_f83_widget(void)
 }
 
 
+/** \brief  Create widget to handle the tapecart resources
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_tapecart_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *label;
+
+    grid = gtk_grid_new();
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
+
+    tapecart_enable = resource_check_button_create("TapecartEnabled",
+            "Enable Tapecart");
+    gtk_grid_attach(GTK_GRID(grid), tapecart_enable, 0, 0, 1, 1);
+
+    tapecart_update = resource_check_button_create("TapecartUpdateTCRT",
+            "Save TCRT data when changed");
+    g_object_set(tapecart_update, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_update, 0, 1, 1, 1);
+
+    tapecart_optimize = resource_check_button_create("TapecartOptimizeTCRT",
+            "Optimize TCRT data when changed");
+    g_object_set(tapecart_optimize, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_optimize, 0, 2, 1, 1);
+
+    label = gtk_label_new("TCRT Filename:");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+
+    tapecart_filename = resource_entry_create("TapecartTCRTFilename");
+    g_object_set(tapecart_filename, "margin-left", 16, NULL);
+    gtk_widget_set_hexpand(tapecart_filename, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 0, 4, 1, 1);
+
+    tapecart_browse = gtk_button_new_with_label("Browse ...");
+    gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 1, 4, 1, 1);
+
+    g_signal_connect(tapecart_enable, "toggled", 
+            G_CALLBACK(on_tapecart_enable_toggled), NULL);
+    g_signal_connect(tapecart_browse, "clicked",
+            G_CALLBACK(on_tapecart_browse_clicked), NULL);
+
+    on_tapecart_enable_toggled(tapecart_enable, NULL);
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
 /** \brief  Create widget to select/control tape port devices
  *
  * \param[in]   parent  parent widget
@@ -254,6 +347,7 @@ GtkWidget *tapeport_devices_widget_create(GtkWidget *parent)
 
     gtk_grid_attach(GTK_GRID(grid), create_tape_log_widget(), 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_f83_widget(), 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_tapecart_widget(), 0, 5, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }
