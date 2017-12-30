@@ -7995,6 +7995,31 @@ Integer that specifies the video standard of the emulated machine
 @item CPMCart
 Boolean that specifies if a CP/M cartridge is attached.
 
+@vindex TapecartEnabled
+@item TapecartEnabled
+Boolean that specifies if a tapecart is attached.
+
+@vindex TapecartUpdateTCRT
+@item TapecartUpdateTCRT
+Boolean, if true write back the tapecart memory contents back to the
+.tcrt file when detaching the image or quitting the emulator.
+
+@vindex TapecartOptimizeTCRT
+@item TapecartOptimizeTCRT
+Boolean, when set to true the .tcrt image will be optimized by leaving
+out blank space at the end when saving.
+
+@vindex TapecartLogLevel
+@item TapecartLogLevel
+Integer that specifies the tapecart emulation log level. At the default
+level of 0, only errors are logged. Level 1 additionally logs mode
+changes and command bytes and level 2 adds details of command
+parameters.
+
+@vindex TapecartTCRTFilename
+@item TapecartTCRTFilename
+String specifying the file name of the current tapecart image.
+
 @end table
 
 @c @node FIXME
@@ -8082,6 +8107,36 @@ Set the C64 model
 Enable/disable the CP/M cartridge
 (@code{CPMCart=1}. @code{CPMCart=0})
 
+@findex -tapecart
+@item -tapecart
+@itemx +tapecart
+Enable/disable tapecart emulation
+(@code{TapecartEnabled=1}. @code{TapecartEnabled=0})
+
+@findex -tcrt
+@item -tcrt <name>
+Specify tapecart .tcrt image filename
+(@code{TapecartTCRTFilename})
+
+@findex -tapecartupdatetcrt
+@item -tapecartupdatetcrt
+@itemx +tapecartupdatetcrt
+Specify if the attached .tcrt image should be updated when the emulated
+tapecart is written to.
+(@code{TapecartUpdateTCRT=1}. @code{TapecartUpdateTCRT=0})
+
+@findex -tapecartoptimizetcrt
+@item -tapecartoptimizetcrt
+@itemx +tapecartoptimizetcrt
+Specify if writing to a .tcrt file should optimize its size by leaving
+out blank space at the end.
+(@code{TapecartOptimizeTCRT=1}. @code{TapecartOptimizeTCRT=0})
+
+@findex -tapecartloglevel
+@item -tapecartloglevel <number>
+Specify the tapecart log level. The default level of 0 only logs
+errors. Level 1 additionally logs mode changes and command bytes and
+level 2 adds details of command parameters.
 
 @end table
 
