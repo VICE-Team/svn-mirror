@@ -73,7 +73,16 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
      * sync for some reason */
     if (state != current) {
         debug_gtk3("setting %s to %s\n", resource, state ? "True": "False");
-        resources_set_int(resource, state ? 1 : 0);
+        if (resources_set_int(resource, state ? 1 : 0) < 0) {
+            debug_gtk3("setting %s to %s failed\n", resource, state ? "True": "False");
+            /* get current resource value */
+            if (resources_get_int(resource, &current) < 0) {
+                /* invalid resource, set state to off */
+                debug_gtk3("warning: invalid resource '%s'\n", resource);
+                current = 0;
+            }
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), current ? TRUE : FALSE);
+        }
     }
 }
 
