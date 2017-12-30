@@ -32,12 +32,15 @@
 
 int (*carthelpers_save_func)(int type, const char *filename);
 int (*carthelpers_flush_func)(int type);
-int (*carthelpers_enabled_func)(int type);
+int (*carthelpers_is_enabled_func)(int type);
+int (*carthelpers_enable_func)(int type);
+int (*carthelpers_disable_func)(int type);
 
 
 void carthelpers_set_functions(
         int (*save_func)(int, const char *),
         int (*flush_func)(int),
-        int (*enabled_func)(int));
-
+        int (*is_enabled_func)(int),
+        int (*enable_func)(int),
+        int (*disable_func)(int));
 #endif

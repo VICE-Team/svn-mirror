@@ -157,7 +157,7 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
         }
         /* doesn't work, attaching for example a KCS Power Cart will still
          * return 37 (MMC64) */
-        if (!carthelpers_enabled_func(CARTRIDGE_MMC64)) {
+        if (!carthelpers_is_enabled_func(CARTRIDGE_MMC64)) {
             debug_gtk3("failed to attach MMC64\n");
         }
     }

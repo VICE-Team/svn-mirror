@@ -1393,6 +1393,23 @@ int cartridge_enable(int type)
     return -1;
 }
 
+
+/** \brief  Disable cartridge by \a type
+ *
+ * \return  0 on success, -1 on failure
+ *
+ * \todo    More or less copy cartridge_enable() while replacing
+ *          ${cart}_enable() with ${cart_disable(). The various disable
+ *          functions still need to be written at the moment.
+ */
+int cartridge_disable(int type)
+{
+    fprintf(stderr, "%s:%d: %s() isn't implemented yet, continuing\n",
+            __FILE__, __LINE__, __func__);
+    return 0;
+}
+
+
 /*
     detach all cartridges
 

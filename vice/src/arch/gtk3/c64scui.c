@@ -123,7 +123,9 @@ int c64scui_init(void)
     carthelpers_set_functions(
             cartridge_save_image,
             cartridge_flush_image,
-            cartridge_type_enabled);
+            cartridge_type_enabled,
+            cartridge_enable,
+            cartridge_disable);
 
     /* uicart_set_detect_func(cartridge_detect); only cbm2/plus4 */
     uicart_set_list_func(cartridge_get_info_list);

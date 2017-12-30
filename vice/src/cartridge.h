@@ -53,6 +53,10 @@ extern int cartridge_attach_image(int type, const char *filename);
 /* enable cartridge by type. loads default image if any.
    should be used by the UI instead of using the resources directly */
 extern int cartridge_enable(int type);
+
+/* disable cartridge by type */
+extern int cartridge_disable(int type);
+
 /* detaches/disables the cartridge with the associated id. pass -1 to detach all */
 extern void cartridge_detach_image(int type);
 
