@@ -38,6 +38,7 @@
 #include "widgethelpers.h"
 #include "basedialogs.h"
 #include "openfiledialog.h"
+#include "cartridge.h"
 
 #include "ieee488widget.h"
 
@@ -72,10 +73,15 @@ static void on_enable_toggled(GtkWidget *widget, gpointer data)
         }
     }
 
-    if (resources_set_int("IEEE488", state) < 0) {
-        debug_gtk3("failed to set 'IEEE488' to '%s'", state ? "True" : "False");
+    if (state) {
+        if (carthelpers_enable_func(CARTRIDGE_IEEE488) < 0) {
+            debug_gtk3("failed to enable IEEE488 cartridge\n");
+        }
+    } else {
+        if (carthelpers_disable_func(CARTRIDGE_IEEE488) < 0) {
+            debug_gtk3("failed to disable IEEE488 cartridge\n");
+        }
     }
-
 }
 
 
@@ -130,9 +136,7 @@ GtkWidget *ieee488_widget_create(GtkWidget *parent)
     if (resources_get_string("IEEE488Image", &image) < 0) {
         image = NULL;
     }
-    if (resources_get_int("IEEE488", &enable_state) < 0) {
-        enable_state = 0;
-    }
+    enable_state = carthelpers_is_enabled_func(CARTRIDGE_IEEE488);
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);

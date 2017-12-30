@@ -652,6 +652,12 @@ int tpi_enable(void)
     return set_ieee488_enabled(1, (void*)1);
 }
 
+int tpi_disable(void)
+{
+    return set_ieee488_enabled(0, (void*)1);
+}
+
+
 /* ---------------------------------------------------------------------*/
 
 int tpi_snapshot_read_module(struct snapshot_s *s)

@@ -44,6 +44,7 @@ extern void tpi_config_init(export_t *export);
 extern void tpi_config_setup(uint8_t *rawcart);
 extern void tpi_detach(void);
 extern int tpi_enable(void);
+int tpi_disable(void);
 
 extern int tpi_cmdline_options_init(void);
 extern int tpi_resources_init(void);

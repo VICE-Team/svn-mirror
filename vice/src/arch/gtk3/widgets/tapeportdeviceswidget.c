@@ -315,7 +315,7 @@ static GtkWidget *create_tapecart_widget(void)
     tapecart_browse = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 1, 4, 1, 1);
 
-    g_signal_connect(tapecart_enable, "toggled", 
+    g_signal_connect(tapecart_enable, "toggled",
             G_CALLBACK(on_tapecart_enable_toggled), NULL);
     g_signal_connect(tapecart_browse, "clicked",
             G_CALLBACK(on_tapecart_browse_clicked), NULL);

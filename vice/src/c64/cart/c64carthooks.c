@@ -1412,7 +1412,7 @@ int cartridge_disable(int type)
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_IEEE488:
-            /* tpi_enable(); */
+            tpi_disable();
             break;
         case CARTRIDGE_MAGIC_VOICE:
             magicvoice_disable();
