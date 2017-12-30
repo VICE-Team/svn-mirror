@@ -246,7 +246,7 @@ GtkWidget *resource_entry_full_create(const char *resource)
     resource_widget_set_resource_name(entry, resource);
 
     /* set current value */
-    if (resources_get_string(resource, &current)) {
+    if (resources_get_string(resource, &current) < 0) {
         current = NULL;
     }
 
