@@ -203,6 +203,41 @@ const ui_menu_entry_t cpclockf83_device_menu[] = {
     SDL_MENU_LIST_END
 };
 
+
+/*
+ * TapeCart support (see https://github.com/ikorb/tapecart/)
+ */
+UI_MENU_DEFINE_TOGGLE(TapecartEnabled)
+UI_MENU_DEFINE_TOGGLE(TapecartUpdateTCRT)
+UI_MENU_DEFINE_TOGGLE(TapecartOptimizeTCRT)
+UI_MENU_DEFINE_INT(TapecartLoglevel)
+UI_MENU_DEFINE_FILE_STRING(TapecartTCRTFilename)
+
+const ui_menu_entry_t tapecart_submenu[] = {
+    { "Enable Tapecart",
+        MENU_ENTRY_RESOURCE_TOGGLE,
+        toggle_TapecartEnabled_callback,
+        NULL },
+    { "Save Tapecart data when changed",
+        MENU_ENTRY_RESOURCE_TOGGLE,
+        toggle_TapecartUpdateTCRT_callback,
+        NULL },
+    { "Optimize Tapecart data when changed",
+        MENU_ENTRY_RESOURCE_TOGGLE,
+        toggle_TapecartOptimizeTCRT_callback,
+        NULL },
+    { "Tapecart Log level",
+        MENU_ENTRY_RESOURCE_INT,
+        int_TapecartLoglevel_callback,
+        (ui_callback_data_t)"Set Tapecart log level" },
+    { "TCRT filename",
+        MENU_ENTRY_DIALOG,
+        file_string_TapecartTCRTFilename_callback,
+        (ui_callback_data_t)"Select TCRT file" },
+    SDL_MENU_LIST_END
+};
+
+
 UI_MENU_DEFINE_TOGGLE(Datasette)
 UI_MENU_DEFINE_TOGGLE(TapeSenseDongle)
 UI_MENU_DEFINE_TOGGLE(DTLBasicDongle)
@@ -228,5 +263,9 @@ const ui_menu_entry_t tapeport_devices_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)cpclockf83_device_menu },
+    { "Tapecart device settings",
+        MENU_ENTRY_SUBMENU,
+        submenu_callback,
+        (ui_callback_data_t)tapecart_submenu },
     SDL_MENU_LIST_END
 };
