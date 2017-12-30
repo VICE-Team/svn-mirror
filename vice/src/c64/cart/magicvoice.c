@@ -1433,6 +1433,13 @@ int magicvoice_enable(void)
     return set_magicvoice_enabled(1, (void*)1);
 }
 
+int magicvoice_disable(void)
+{
+    DBG(("MV: disable\n"));
+    return set_magicvoice_enabled(0, (void*)1);
+}
+
+
 void magicvoice_init(void)
 {
     DBG(("MV: init\n"));

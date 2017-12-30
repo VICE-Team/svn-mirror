@@ -1400,6 +1400,11 @@ int mmc64_enable(void)
     return set_mmc64_enabled(1, (void*)1);
 }
 
+int mmc64_disable(void)
+{
+    return set_mmc64_enabled(0, (void*)1);
+}
+
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 

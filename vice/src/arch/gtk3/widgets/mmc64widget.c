@@ -150,7 +150,7 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
     }
 
     if (state && bios != NULL && *bios != '\0') {
-        if (resources_set_int("MMC64", state) < 0) {
+        if (carthelpers_enable_func(CARTRIDGE_MMC64) < 0) {
             /* failed to set resource */
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
             debug_gtk3("failed to activate MMC64, please set BIOS file\n");
@@ -159,6 +159,10 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
          * return 37 (MMC64) */
         if (!carthelpers_is_enabled_func(CARTRIDGE_MMC64)) {
             debug_gtk3("failed to attach MMC64\n");
+        }
+    } else if (!state) {
+        if (carthelpers_disable_func(CARTRIDGE_MMC64) < 0) {
+            debug_gtk3("failed to disable cartridge\n");
         }
     }
 }
@@ -210,6 +214,10 @@ static GtkWidget *create_mmc64_enable_widget(void)
     GtkWidget *check;
 
     check = gtk_check_button_new_with_label("Enable MMC64");
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+            carthelpers_is_enabled_func(CARTRIDGE_MMC64));
+
     g_signal_connect(check, "toggled", G_CALLBACK(on_enable_toggled), NULL);
     return check;
 }

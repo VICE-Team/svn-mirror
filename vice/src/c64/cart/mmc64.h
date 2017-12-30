@@ -72,6 +72,7 @@ extern void mmc64_init(void);
 extern void mmc64_detach(void);
 extern void mmc64_reset(void);
 extern int mmc64_enable(void);
+int mmc64_disable(void);
 extern const char *mmc64_get_file_name(void);
 extern int mmc64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
 

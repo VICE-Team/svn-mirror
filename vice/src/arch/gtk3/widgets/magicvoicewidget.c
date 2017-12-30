@@ -38,6 +38,7 @@
 #include "widgethelpers.h"
 #include "basedialogs.h"
 #include "openfiledialog.h"
+#include "cartridge.h"
 
 #include "magicvoicewidget.h"
 
@@ -51,8 +52,20 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 {
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 
+    if (state) {
+        if (carthelpers_enable_func(CARTRIDGE_MAGIC_VOICE) < 0) {
+            debug_gtk3("failed to enable Magic Voice cartridge\n");
+        }
+    } else {
+        if (carthelpers_disable_func(CARTRIDGE_MAGIC_VOICE) < 0) {
+            debug_gtk3("failed to disable Magic Voice cartridge\n");
+        }
+    }
+
+    /*
     gtk_widget_set_sensitive(entry, state);
     gtk_widget_set_sensitive(browse, state);
+    */
 }
 
 
@@ -79,6 +92,18 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
+static GtkWidget *create_enable_check_button(void)
+{
+    GtkWidget *check = gtk_check_button_new_with_label(
+            "Enable Magic Voice cartridge");
+
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+            carthelpers_is_enabled_func(CARTRIDGE_MAGIC_VOICE));
+    g_signal_connect(check, "toggled", G_CALLBACK(on_enable_toggled), NULL);
+    return check;
+}
+
+
 /** \brief  Create widget to control MagicVoice cartridge
  *
  * \param[in]   parent  parent widget
@@ -95,8 +120,7 @@ GtkWidget *magic_voice_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable = resource_check_button_create("MagicVoiceCartridgeEnabled",
-            "Enable Magic Voice cartridge");
+    enable = create_enable_check_button();
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);
 
     label = gtk_label_new("Magic Voice ROM");
@@ -110,11 +134,6 @@ GtkWidget *magic_voice_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
-
-    g_signal_connect(enable, "toggled", G_CALLBACK(on_enable_toggled), NULL);
-
-    /*hack*/
-    on_enable_toggled(enable, NULL);
 
     gtk_widget_show_all(grid);
     return grid;

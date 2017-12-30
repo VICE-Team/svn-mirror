@@ -1404,9 +1404,85 @@ int cartridge_enable(int type)
  */
 int cartridge_disable(int type)
 {
+    /*
     fprintf(stderr, "%s:%d: %s() isn't implemented yet, continuing\n",
             __FILE__, __LINE__, __func__);
-    return 0;
+    */
+    DBG(("CART: enable type: %d\n", type));
+    switch (type) {
+        /* "Slot 0" */
+        case CARTRIDGE_IEEE488:
+            /* tpi_enable(); */
+            break;
+        case CARTRIDGE_MAGIC_VOICE:
+            magicvoice_disable();
+            break;
+        case CARTRIDGE_MMC64:
+            mmc64_disable();
+            break;
+        /* "Slot 1" */
+        case CARTRIDGE_DQBB:
+            /* dqbb_enable(); */
+            break;
+        case CARTRIDGE_EXPERT:
+            /* expert_enable(); */
+            break;
+        case CARTRIDGE_ISEPIC:
+            /* isepic_enable(); */
+            break;
+        case CARTRIDGE_RAMCART:
+            /* ramcart_enable(); */
+            break;
+        /* "I/O Slot" */
+        case CARTRIDGE_DIGIMAX:
+            /* digimax_enable(); */
+            break;
+        case CARTRIDGE_DS12C887RTC:
+            /* ds12c887rtc_enable(); */
+            break;
+        case CARTRIDGE_GEORAM:
+            /* georam_enable(); */
+            break;
+#ifdef HAVE_MIDI
+        case CARTRIDGE_MIDI_PASSPORT:
+        case CARTRIDGE_MIDI_DATEL:
+        case CARTRIDGE_MIDI_SEQUENTIAL:
+        case CARTRIDGE_MIDI_NAMESOFT:
+        case CARTRIDGE_MIDI_MAPLIN:
+            /* c64_midi_enable(); */
+            break;
+#endif
+        case CARTRIDGE_REU:
+            /* reu_enable(); */
+            break;
+        case CARTRIDGE_SFX_SOUND_EXPANDER:
+            /* sfx_soundexpander_enable(); */
+            break;
+        case CARTRIDGE_SFX_SOUND_SAMPLER:
+            /* sfx_soundsampler_enable(); */
+            break;
+#ifdef HAVE_RAWNET
+        case CARTRIDGE_TFE:
+            /* ethernetcart_enable(); */
+            break;
+#endif
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+        case CARTRIDGE_TURBO232:
+            /* aciacart_enable(); */
+            break;
+#endif
+        /* "Main Slot" */
+        default:
+            DBG(("CART: no disable hook %d\n", type));
+            break;
+    }
+#if 0
+    cart_detach_conflicting(type);
+#endif
+    if (!cart_type_enabled(type)) {
+        return 0;
+    }
+    return -1;
 }
 
 
