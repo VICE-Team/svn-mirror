@@ -161,7 +161,7 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
             TRUE, NULL);
     if (filename != NULL) {
         /* TODO: check if file is writable */
-        gtk_entry_set_text(GTK_ENTRY(tapecart_filename), filename);
+        resource_entry_full_update(tapecart_filename, filename);
         g_free(filename);
     }
 }
