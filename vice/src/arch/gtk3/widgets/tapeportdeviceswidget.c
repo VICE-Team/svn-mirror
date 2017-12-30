@@ -307,7 +307,7 @@ static GtkWidget *create_tapecart_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
 
-    tapecart_filename = resource_entry_create("TapecartTCRTFilename");
+    tapecart_filename = resource_entry_full_create("TapecartTCRTFilename");
     g_object_set(tapecart_filename, "margin-left", 16, NULL);
     gtk_widget_set_hexpand(tapecart_filename, TRUE);
     gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 0, 4, 1, 1);
