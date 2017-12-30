@@ -91,7 +91,9 @@ GtkWidget *resource_entry_create(const char *resource)
     }
 
     entry = gtk_entry_new();
-    gtk_entry_set_text(GTK_ENTRY(entry), current);
+    if (current != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(entry), current);
+    }
 
     /* make a copy of the resource name and store the pointer in the propery
      * "ResourceName" */
@@ -255,6 +257,10 @@ GtkWidget *resource_entry_full_create(const char *resource)
         orig = lib_stralloc("");
     }
     g_object_set_data(G_OBJECT(entry), "ResourceOrig", orig);
+
+    if (current != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(entry), current);
+    }
 
     g_signal_connect(entry, "destroy",
             G_CALLBACK(on_resource_entry_full_destroy), NULL);
