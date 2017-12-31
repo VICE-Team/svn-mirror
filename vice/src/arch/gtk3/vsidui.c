@@ -94,8 +94,7 @@ int vsid_ui_init(void)
 {
     video_canvas_t *canvas = vicii_get_canvas();
 
-    /* Some of the work here is done by video.c now, and would need to
-     * be shifted over */
+    ui_vsid_window_init();
 
     ui_create_toplevel_window(canvas);
     ui_display_toplevel_window(canvas->window_index);

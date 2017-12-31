@@ -70,6 +70,10 @@ static ui_radiogroup_entry_t vic20_vic_models[] = {
 };
 
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
 int vic20ui_init_early(void)
 {
     ui_machine_window_init();
