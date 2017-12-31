@@ -34,6 +34,7 @@
 #include "psid.h"
 #include "ui.h"
 #include "uisidattach.h"
+#include "uivsidwindow.h"
 #include "vicii.h"
 #include "vsidui.h"
 

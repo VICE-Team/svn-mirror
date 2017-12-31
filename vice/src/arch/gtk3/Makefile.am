@@ -82,6 +82,7 @@ libarch_a_SOURCES = \
 	uistatusbar.c \
 	uitapeattach.c \
 	uivsidmenu.c \
+	uivsidwindow.c \
 	vic20ui.c \
 	video.c \
 	vsidui.c \
@@ -152,6 +153,7 @@ EXTRA_DIST = \
 	uistatusbar.h \
 	uitapeattach.h \
 	uivsidmenu.h \
+	uivsidwindow.h \
 	videoarch.h \
 	uimodel.h \
 	uimisc.h \
