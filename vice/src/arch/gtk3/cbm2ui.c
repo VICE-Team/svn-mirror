@@ -33,6 +33,7 @@
 #include "cbm2model.h"
 #include "machinemodelwidget.h"
 #include "sampler.h"
+#include "uimachinewindow.h"
 #include "uisamplersettings.h"
 
 #include "cbm2ui.h"
@@ -51,8 +52,14 @@ static const char *cbm2_model_list[] = {
 };
 
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
 int cbm2ui_init_early(void)
 {
+    ui_machine_window_init();
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

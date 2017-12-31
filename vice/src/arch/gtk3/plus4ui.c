@@ -36,6 +36,7 @@
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
 #include "sampler.h"
+#include "uimachinewindow.h"
 #include "uisamplersettings.h"
 
 #include "plus4ui.h"
@@ -67,8 +68,14 @@ static ui_radiogroup_entry_t plus4_ted_models[] = {
 };
 
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
 int plus4ui_init_early(void)
 {
+    ui_machine_window_init();
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

@@ -36,6 +36,7 @@
 #include "widgethelpers.h"
 #include "videomodelwidget.h"
 #include "sampler.h"
+#include "uimachinewindow.h"
 #include "uisamplersettings.h"
 #include "cartridge.h"
 #include "carthelpers.h"
@@ -71,6 +72,8 @@ static ui_radiogroup_entry_t vic20_vic_models[] = {
 
 int vic20ui_init_early(void)
 {
+    ui_machine_window_init();
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

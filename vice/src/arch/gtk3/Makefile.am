@@ -70,6 +70,7 @@ libarch_a_SOURCES = \
 	uiedit.c \
 	uifliplist.c \
 	uimachinemenu.c \
+	uimachinewindow.c \
 	uimenu.c \
 	uimon.c \
 	uimon-fallback.c \
@@ -142,6 +143,7 @@ EXTRA_DIST = \
 	uikeyboard.h \
 	uiedit.h \
 	uimachinemenu.h \
+	uimachinewindow.h \
 	uimenu.h \
 	uisettings.h \
 	uismartattach.h \

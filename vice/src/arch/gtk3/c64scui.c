@@ -34,6 +34,7 @@
 #include "c64model.h"
 #include "vicii.h"
 #include "sampler.h"
+#include "uimachinewindow.h"
 #include "uisamplersettings.h"
 #include "machinemodelwidget.h"
 #include "videomodelwidget.h"
@@ -91,8 +92,14 @@ static ui_radiogroup_entry_t c64sc_vicii_models[] = {
 };
 
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
 int c64scui_init_early(void)
 {
+    ui_machine_window_init();
+
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
