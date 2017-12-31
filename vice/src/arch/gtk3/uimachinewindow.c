@@ -38,15 +38,25 @@
 
 #include "videoarch.h"
 
+#include "ui.h"
 #include "uimachinewindow.h"
 
 static void machine_window_create(struct video_canvas_s *canvas)
 {
+    GtkWidget *new_drawing_area;
+
+    new_drawing_area = vice_renderer_backend->create_widget(canvas);
+
+    canvas->drawing_area = new_drawing_area;
+    canvas->event_box = gtk_event_box_new();
+    gtk_container_add(GTK_CONTAINER(canvas->event_box), new_drawing_area);
+
     return;
 }
 
 void ui_machine_window_init(void)
 {
+    ui_set_create_window_func(machine_window_create);
     return;
 }
 

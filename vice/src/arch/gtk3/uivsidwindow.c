@@ -35,15 +35,20 @@
 
 #include "videoarch.h"
 
+#include "ui.h"
 #include "uivsidwindow.h"
 
 static void vsid_window_create(struct video_canvas_s *canvas)
 {
+    canvas->drawing_area = NULL;
+    canvas->event_box = NULL;
+
     return;
 }
 
 void ui_vsid_window_init(void)
 {
+    ui_set_create_window_func(vsid_window_create);
     return;
 }
 

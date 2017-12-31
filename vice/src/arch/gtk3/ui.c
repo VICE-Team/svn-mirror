@@ -192,7 +192,6 @@ static const cmdline_option_t cmdline_options_common[] = {
  */
 static int is_paused = 0;
 
-
 /** \brief  Signals the html_browser_command field of the resource got allocated
  */
 static int html_browser_command_set = 0;
@@ -209,6 +208,9 @@ static int is_fullscreen = 0;
  */
 static int fullscreen_has_decorations = 0;
 
+/** \brief  Function to help create a main window.
+ */
+static void (*create_window_func)(struct video_canvas_s *) = NULL;
 
 /******************************************************************************
  *                              Event handlers                                *
@@ -579,6 +581,15 @@ static int set_window_ypos(int val, void *param)
 }
 
 
+/** \brief  Set function to help create the main window(s)
+ *
+ * \param[in]   func    create window function
+ */
+void ui_set_create_window_func(void (*func)(struct video_canvas_s *))
+{
+    create_window_func = func;
+}
+
 
 /* FIXME: the code that calls this apparently creates the VDC window for x128
           before the VIC window (primary) - this is probably done so the VIC
@@ -611,7 +622,7 @@ static int set_window_ypos(int val, void *param)
  */
 void ui_create_toplevel_window(struct video_canvas_s *canvas)
 {
-    GtkWidget *new_window, *grid, *new_drawing_area, *status_bar;
+    GtkWidget *new_window, *grid, *status_bar;
     GtkWidget *menu_bar;
     int target_window;
 
@@ -619,8 +630,10 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas)
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
 
+    if (create_window_func != NULL) {
+        create_window_func(canvas);
+    }
     grid = gtk_grid_new();
-    new_drawing_area = vice_renderer_backend->create_widget(canvas);
     status_bar = ui_statusbar_create();
     gtk_widget_show_all(status_bar);
     gtk_widget_set_no_show_all(status_bar, TRUE);
@@ -643,20 +656,20 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas)
         menu_bar = ui_vsid_menu_bar_create();
     }
 
-    canvas->drawing_area = new_drawing_area;
-    canvas->event_box = gtk_event_box_new();
-    gtk_container_add(GTK_CONTAINER(canvas->event_box), new_drawing_area);
-
     gtk_container_add(GTK_CONTAINER(new_window), grid);
     /* When we have a menu bar, we'll add it at the top here */
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
 
     gtk_container_add(GTK_CONTAINER(grid), menu_bar);
-    gtk_container_add(GTK_CONTAINER(grid), canvas->event_box);
+    if (canvas->event_box != NULL) {
+        gtk_container_add(GTK_CONTAINER(grid), canvas->event_box);
+    }
     gtk_container_add(GTK_CONTAINER(grid), status_bar);
 
+    /*
     gtk_widget_set_hexpand(new_drawing_area, TRUE);
     gtk_widget_set_vexpand(new_drawing_area, TRUE);
+     */
 
     g_signal_connect(new_window, "focus-in-event",
                      G_CALLBACK(on_focus_in_event), NULL);

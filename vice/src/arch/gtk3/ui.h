@@ -77,6 +77,8 @@ typedef struct ui_resources_s {
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 
+void ui_set_create_window_func(void (*func)(struct video_canvas_s *));
+
 void ui_create_toplevel_window(struct video_canvas_s *canvas);
 void ui_display_toplevel_window(int index);
 
