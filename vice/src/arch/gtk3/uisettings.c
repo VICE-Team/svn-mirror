@@ -798,24 +798,33 @@ static void response_callback(GtkWidget *widget, gint response_id,
 }
 
 
-static gboolean on_dialog_configure_event(GtkWidget *widget, GdkEvent *event,
-        gpointer user_data)
+/** \brief  Respond to window size changes
+ *
+ * This allows for quickly seeing if specific dialog is getting too large. The
+ * DIALOG_WIDTH_MAX and DIALOG_HEIGHT_MAX I sucked out of my thumb, since due
+ * to window managers using different themes, we can't use 'proper' values, so
+ * I had to use approximate values.
+ *
+ * \param[in]   widget  a GtkWindow
+ * \param[in]   event   the GDK event
+ * \param[in]   data    extra event data (unused)
+ *
+ * \return  boolean
+ */
+static gboolean on_dialog_configure_event(
+        GtkWidget *widget,
+        GdkEvent *event,
+        gpointer data)
 {
     if (event->type == GDK_CONFIGURE) {
-        /*
-        GdkRGBA color = { 1.0, 0.0, 0.0, 1.0 };
-         */
         int width = ((GdkEventConfigure*)event)->width;
         int height = ((GdkEventConfigure*)event)->height;
-        debug_gtk3("width %d, height %d\n", width, height);
+
+        /* debug_gtk3("width %d, height %d\n", width, height); */
         if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
-            /*
-            gtk_widget_override_background_color(widget, 0, &color);
-            */
             gtk_window_set_title(GTK_WINDOW(widget),
                     "HELP! --- DIALOG IS TOO BLOODY LARGE -- ERROR!");
         }
-
     }
     return FALSE;
 }
