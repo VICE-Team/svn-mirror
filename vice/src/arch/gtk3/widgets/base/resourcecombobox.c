@@ -175,18 +175,10 @@ static GtkWidget *resource_combo_box_int_create_helper(
         GtkWidget *combo,
         const ui_combo_entry_int_t *entries)
 {
-    int current;
-    const char *resource;
     GtkListStore *model;
     GtkCellRenderer *renderer;
-
-    resource = resource_widget_get_resource_name(combo);
-
-    /* get current value of resource */
-    if (resources_get_int(resource, &current) < 0) {
-        debug_gtk3("failed to get value for resource %s\n", resource);
-        current = -1;
-    }
+    const char *resource;
+    int current;
 
     /* setup combo box with model and renderers */
     model = create_combo_int_model(entries);
@@ -197,8 +189,16 @@ static GtkWidget *resource_combo_box_int_create_helper(
             "text", 0, NULL);
 
     /* set current ID */
-    if (!set_combo_int_id(GTK_COMBO_BOX(combo), current)) {
+    resource = resource_widget_get_resource_name(combo);
+    if (resources_get_int(resource, &current) < 0) {
+        /* couldn't read resource */
+        debug_gtk3("failed to get value for resource %s, "
+                "reverting to the first entry\n", resource);
+        gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+    } else if (!set_combo_int_id(GTK_COMBO_BOX(combo), current)) {
         /* failed to set ID, revert to first entry */
+        debug_gtk3("failed to set ID to %d, reverting to the first entry\n",
+                current);
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
     }
 
