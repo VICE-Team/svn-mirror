@@ -593,6 +593,16 @@ int ramcart_enable(void)
     return 0;
 }
 
+
+int ramcart_disable(void)
+{
+    if (resources_set_int("RAMCART", 0) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+
 int ramcart_bin_attach(const char *filename, uint8_t *rawcart)
 {
     int size = 128;

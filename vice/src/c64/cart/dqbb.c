@@ -409,6 +409,22 @@ int dqbb_enable(void)
     return 0;
 }
 
+
+/** \brief  Disable the cart
+ *
+ * Does the same as dqbb_detach(), but required for symmetry I suppose.
+ *
+ * \return  0 on success, -1 on failure
+ */
+int dqbb_disable(void)
+{
+    if (resources_set_int("DBQQ", 0) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+
 int dqbb_bin_attach(const char *filename, uint8_t *rawcart)
 {
     if (util_file_load(filename, rawcart, DQBB_RAM_SIZE, UTIL_FILE_LOAD_RAW) < 0) {

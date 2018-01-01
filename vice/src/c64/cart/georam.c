@@ -549,6 +549,13 @@ int georam_enable(void)
     return 0;
 }
 
+
+int georam_disable(void)
+{
+    return resources_set_int("GEORAM", 0);
+}
+
+
 void georam_config_setup(uint8_t *rawcart)
 {
     if (georam_size > 0) {

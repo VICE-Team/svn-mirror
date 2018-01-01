@@ -300,6 +300,18 @@ int isepic_enable(void)
     return 0;
 }
 
+
+int isepic_disable(void)
+{
+    DBG(("ISEPIC: disable\n"));
+    if (resources_set_int("IsepicCartridgeEnabled", 0) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+
+
 static int set_isepic_switch(int value, void *param)
 {
     int val = value ? 1 : 0;

@@ -53,6 +53,7 @@ extern void reu_dma(int immed);
 extern void reu_dma_start(void);
 extern void reu_detach(void);
 extern int reu_enable(void);
+int reu_disable(void);
 extern int reu_read_snapshot_module(struct snapshot_s *s);
 extern int reu_write_snapshot_module(struct snapshot_s *s);
 

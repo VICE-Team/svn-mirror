@@ -45,6 +45,7 @@ extern void ramcart_config_setup(uint8_t *rawcart);
 extern void ramcart_reset(void);
 extern void ramcart_detach(void);
 extern int ramcart_enable(void);
+int ramcart_disable(void);
 
 extern uint8_t ramcart_roml_read(uint16_t addr);
 extern void ramcart_roml_store(uint16_t addr, uint8_t byte);

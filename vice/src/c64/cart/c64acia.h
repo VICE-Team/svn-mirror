@@ -41,6 +41,7 @@ extern void aciacart_resources_shutdown(void);
 
 extern void aciacart_detach(void);
 extern int aciacart_enable(void);
+int aciacart_disable(void);
 
 struct snapshot_s;
 extern int aciacart_snapshot_write_module(struct snapshot_s *p);

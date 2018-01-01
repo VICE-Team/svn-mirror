@@ -361,6 +361,13 @@ int ethernetcart_enable(void)
     return resources_set_int("ETHERNETCART_ACTIVE", 1);
 }
 
+
+int ethernetcart_disable(void)
+{
+    return resources_set_int("ETHERNETCART_ACTIVE", 0);
+}
+
+
 static const resource_int_t resources_int[] = {
     { "ETHERNETCART_ACTIVE", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &ethernetcart_enabled, set_ethernetcart_enabled, NULL },

@@ -798,6 +798,18 @@ int expert_enable(void)
     return 0;
 }
 
+
+int expert_disable(void)
+{
+    DBG(("EXPERT: disable\n"));
+    if (resources_set_int("ExpertCartridgeEnabled", 0) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
+
+
 /* ---------------------------------------------------------------------*/
 
 /* CARTEXPERT snapshot module format:

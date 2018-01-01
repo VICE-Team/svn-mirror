@@ -55,5 +55,6 @@ extern int ethernetcart_cmdline_options_init(void);
 extern void ethernetcart_reset(void);
 extern void ethernetcart_detach(void);
 extern int ethernetcart_enable(void);
+int ethernetcart_disable(void);
 
 #endif

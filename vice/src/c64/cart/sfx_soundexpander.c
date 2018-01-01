@@ -271,6 +271,13 @@ int sfx_soundexpander_enable(void)
     return resources_set_int("SFXSoundExpander", 1);
 }
 
+
+int sfx_soundexpander_disable(void)
+{
+    return resources_set_int("SFXSoundExpander", 0);
+}
+
+
 void sfx_soundexpander_detach(void)
 {
     resources_set_int("SFXSoundExpander", 0);

@@ -44,6 +44,7 @@ extern void dqbb_reset(void);
 extern void dqbb_detach(void);
 extern void dqbb_init_config(void);
 extern int dqbb_enable(void);
+int dqbb_disable(void);
 extern void dqbb_config_setup(uint8_t *rawcart);
 
 extern uint8_t dqbb_roml_read(uint16_t addr);

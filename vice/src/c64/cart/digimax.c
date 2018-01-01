@@ -239,6 +239,11 @@ int digimax_enable(void)
     return resources_set_int("DIGIMAX", 1);
 }
 
+int digimax_disable(void)
+{
+    return resources_set_int("DIGIMAX", 0);
+}
+
 void digimax_detach(void)
 {
     resources_set_int("DIGIMAX", 0);

@@ -274,6 +274,11 @@ int ds12c887rtc_enable(void)
     return resources_set_int("DS12C887RTC", 1);
 }
 
+int ds12c887rtc_disable(void)
+{
+    return resources_set_int("DS12C887RTC", 0);
+}
+
 void ds12c887rtc_detach(void)
 {
     resources_set_int("DS12C887RTC", 0);

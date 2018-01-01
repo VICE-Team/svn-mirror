@@ -1422,26 +1422,26 @@ int cartridge_disable(int type)
             break;
         /* "Slot 1" */
         case CARTRIDGE_DQBB:
-            /* dqbb_enable(); */
+            dqbb_disable();
             break;
         case CARTRIDGE_EXPERT:
-            /* expert_enable(); */
+            expert_disable();
             break;
         case CARTRIDGE_ISEPIC:
-            /* isepic_enable(); */
+            isepic_disable();
             break;
         case CARTRIDGE_RAMCART:
-            /* ramcart_enable(); */
+            ramcart_disable();
             break;
         /* "I/O Slot" */
         case CARTRIDGE_DIGIMAX:
-            /* digimax_enable(); */
+            digimax_disable();
             break;
         case CARTRIDGE_DS12C887RTC:
-            /* ds12c887rtc_enable(); */
+            ds12c887rtc_disable();
             break;
         case CARTRIDGE_GEORAM:
-            /* georam_enable(); */
+            georam_disable();
             break;
 #ifdef HAVE_MIDI
         case CARTRIDGE_MIDI_PASSPORT:
@@ -1449,26 +1449,26 @@ int cartridge_disable(int type)
         case CARTRIDGE_MIDI_SEQUENTIAL:
         case CARTRIDGE_MIDI_NAMESOFT:
         case CARTRIDGE_MIDI_MAPLIN:
-            /* c64_midi_enable(); */
+            c64_midi_disable();
             break;
 #endif
         case CARTRIDGE_REU:
-            /* reu_enable(); */
+            reu_enable();
             break;
         case CARTRIDGE_SFX_SOUND_EXPANDER:
-            /* sfx_soundexpander_enable(); */
+            sfx_soundexpander_enable();
             break;
         case CARTRIDGE_SFX_SOUND_SAMPLER:
-            /* sfx_soundsampler_enable(); */
+            sfx_soundsampler_enable();
             break;
 #ifdef HAVE_RAWNET
         case CARTRIDGE_TFE:
-            /* ethernetcart_enable(); */
+            ethernetcart_enable();
             break;
 #endif
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
         case CARTRIDGE_TURBO232:
-            /* aciacart_enable(); */
+            aciacart_enable();
             break;
 #endif
         /* "Main Slot" */
@@ -1479,6 +1479,7 @@ int cartridge_disable(int type)
 #if 0
     cart_detach_conflicting(type);
 #endif
+    /* make sure the cart has been disabled */
     if (!cart_type_enabled(type)) {
         return 0;
     }

@@ -425,6 +425,17 @@ int aciacart_enable(void)
 #endif
 }
 
+
+int aciacart_disable(void)
+{
+#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
+    return set_acia_enabled(0, NULL);
+#else
+    return 0;
+#endif
+}
+
+
 /* ------------------------------------------------------------------------- */
 
 int aciacart_snapshot_write_module(struct snapshot_s *p)

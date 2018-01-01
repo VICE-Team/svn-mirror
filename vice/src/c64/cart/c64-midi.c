@@ -192,6 +192,13 @@ int c64_midi_enable(void)
     return resources_set_int("MIDIEnable", 1);
 }
 
+
+int c64_midi_disable(void)
+{
+    return resources_set_int("MIDIEnable", 0);
+}
+
+
 void c64_midi_detach(void)
 {
     resources_set_int("MIDIEnable", 0);

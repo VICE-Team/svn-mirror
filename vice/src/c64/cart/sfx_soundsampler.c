@@ -212,6 +212,13 @@ int sfx_soundsampler_enable(void)
     return resources_set_int("SFXSoundSampler", 1);
 }
 
+
+int sfx_soundsampler_disable(void)
+{
+    return resources_set_int("SFXSoundSampler", 0);
+}
+
+
 void sfx_soundsampler_detach(void)
 {
     resources_set_int("SFXSoundSampler", 0);
