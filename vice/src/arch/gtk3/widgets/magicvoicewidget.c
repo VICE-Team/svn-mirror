@@ -47,25 +47,29 @@ static GtkWidget *entry = NULL;
 static GtkWidget *browse = NULL;
 
 
-
-static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
+/** \brief  Try to toggle 'Enabled' state of cart
+ *
+ * If this function fails to alter the cart-enabled state, it'll revert to the
+ * previous state.
+ *
+ * \param[in,out]   check   check button
+ * \param[in]       data    unused
+ */
+static void on_enable_toggled(GtkCheckButton *check, gpointer user_data)
 {
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
 
     if (state) {
         if (carthelpers_enable_func(CARTRIDGE_MAGIC_VOICE) < 0) {
             debug_gtk3("failed to enable Magic Voice cartridge\n");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
         }
     } else {
         if (carthelpers_disable_func(CARTRIDGE_MAGIC_VOICE) < 0) {
             debug_gtk3("failed to disable Magic Voice cartridge\n");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
         }
     }
-
-    /*
-    gtk_widget_set_sensitive(entry, state);
-    gtk_widget_set_sensitive(browse, state);
-    */
 }
 
 

@@ -62,6 +62,31 @@ static ui_radiogroup_entry_t ram_sizes[] = {
 };
 
 
+/** \brief  Try to toggle 'Enabled' state of cart
+ *
+ * If this function fails to alter the cart-enabled state, it'll revert to the
+ * previous state.
+ *
+ * \param[in,out]   check   check button
+ * \param[in]       data    unused
+ */
+static void on_georam_enable_toggled(GtkCheckButton *check, gpointer data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+
+    if (state) {
+        if (carthelpers_enable_func(CARTRIDGE_GEORAM) < 0) {
+            debug_gtk3("failed to enable GEO-RAM cartridge\n");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
+        }
+    } else {
+        if (carthelpers_disable_func(CARTRIDGE_GEORAM) < 0) {
+            debug_gtk3("failed to disable GEO-RAM cartridge\n");
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
+        }
+    }
+}
+
 
 /** \brief  Create GEORAM enable check button
  *
@@ -71,7 +96,12 @@ static GtkWidget *create_georam_enable_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("GEORAM", "Enable GEO-RAM");
+    check = gtk_check_button_new_with_label("Enable GEO-RAM");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+            carthelpers_is_enabled_func(CARTRIDGE_GEORAM));
+
+    g_signal_connect(check, "toggled", G_CALLBACK(on_georam_enable_toggled),
+            NULL);
     return check;
 }
 
