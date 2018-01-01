@@ -27,15 +27,16 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 
+#include "basewidget_types.h"
 #include "debug_gtk3.h"
 #include "lib.h"
-#include "resources.h"
-#include "basewidget_types.h"
 #include "resourcehelpers.h"
+#include "resources.h"
 
 #include "resourcecombobox.h"
 
@@ -74,22 +75,26 @@ static GtkListStore *create_combo_int_model(const ui_combo_entry_int_t *list)
 /** \brief  Get current ID of \a combo
  *
  * \param[in]   combo   combo box
+ * \param[out]  id      target of ID value
  *
- * \return  ID or -1 on error
+ * \return  boolean
+ *
+ * \note    When this function returns `false`, the value in \a id is unchanged
  */
-static int get_combo_int_id(GtkComboBox *combo)
+static bool get_combo_int_id(GtkComboBox *combo, int *id)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
-    int id = -1;
+
 
     if (gtk_combo_box_get_active(combo) >= 0) {
         model = gtk_combo_box_get_model(combo);
         if (gtk_combo_box_get_active_iter(combo, &iter)) {
-            gtk_tree_model_get(model, &iter, 1, &id, -1);
+            gtk_tree_model_get(model, &iter, 1, id, -1);
+            return true;
         }
     }
-    return id;
+    return false;
 }
 
 
@@ -97,8 +102,10 @@ static int get_combo_int_id(GtkComboBox *combo)
  *
  * \param[in,out]   combo   combo box
  * \param[in]       id      ID for \a combo
+ *
+ * \return  boolean
  */
-static void set_combo_int_id(GtkComboBox *combo, int id)
+static bool set_combo_int_id(GtkComboBox *combo, int id)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -111,11 +118,12 @@ static void set_combo_int_id(GtkComboBox *combo, int id)
             gtk_tree_model_get(model, &iter, 1, &current, -1);
             if (id == current) {
                 gtk_combo_box_set_active_iter(combo, &iter);
-                return;
+                return true;
             }
         } while (gtk_tree_model_iter_next(model, &iter));
     }
     debug_gtk3("ID %d not found\n", id);
+    return false;
 }
 
 
@@ -145,12 +153,13 @@ static void on_combo_int_changed(GtkComboBox *combo, gpointer user_data)
     const char *resource;
 
     resource = resource_widget_get_resource_name(GTK_WIDGET(combo));
-    id = get_combo_int_id(combo);
-    if (id >= 0) {
+    if (get_combo_int_id(combo, &id)) {
         debug_gtk3("setting %s to %d\n", resource, id);
         if (resources_set_int(resource, id) < 0) {
             debug_gtk3("failed to set resource\n");
         }
+    } else {
+        debug_gtk3("failed to get ID for resource %s\n", resource);
     }
 }
 
@@ -188,7 +197,10 @@ static GtkWidget *resource_combo_box_int_create_helper(
             "text", 0, NULL);
 
     /* set current ID */
-    set_combo_int_id(GTK_COMBO_BOX(combo), current);
+    if (!set_combo_int_id(GTK_COMBO_BOX(combo), current)) {
+        /* failed to set ID, revert to first entry */
+        gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+    }
 
     /* connect signal handlers */
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_int_changed), NULL);
@@ -292,9 +304,6 @@ GtkWidget *resource_combo_box_int_create_with_label(
 void resource_combo_box_int_update(GtkWidget *widget, int id)
 {
     GtkWidget *combo;
-    char id_str[80];
-
-    g_snprintf(id_str, 80, "%d", id);
 
     if (GTK_IS_GRID(widget)) {
         /* widget is a grid with label & combo */
@@ -302,7 +311,9 @@ void resource_combo_box_int_update(GtkWidget *widget, int id)
     } else {
         combo = widget;
     }
-    gtk_combo_box_set_active_id(GTK_COMBO_BOX(combo), id_str);
+    if (GTK_IS_COMBO_BOX(combo)) {
+        set_combo_int_id(GTK_COMBO_BOX(combo), id);
+    }
 }
 
 
