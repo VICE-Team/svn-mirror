@@ -1045,10 +1045,11 @@ static clock_t cmd_read_flash_fast(void) {
 
 static clock_t cmdmode_write_flash_page(void) {
     bool non_erased_write = false;
+    unsigned int i = 0;
 
     /* accept writes only to bytes that are erased */
     /* (flash datasheets no not specify what happens with non-erased bytes) */
-    for (unsigned int i = 0; i < block_length; i++) {
+    for (i = 0; i < block_length; i++) {
         if (tapecart_memory->flash[flash_address + i] == 0xff) {
             tapecart_memory->flash[flash_address + i] = transfer_buffer[i];
             tapecart_memory->changed = true;
