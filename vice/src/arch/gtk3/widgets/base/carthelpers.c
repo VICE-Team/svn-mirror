@@ -29,6 +29,7 @@
 
 #include "machine.h"
 #include "resources.h"
+#include "lib.h"
 #include "debug_gtk3.h"
 #include "cartridge.h"
 
@@ -63,7 +64,6 @@ static int null_handler(int type)
  *
  * \return  -1
  */
-
 static int null_handler_save(int type, const char *filename)
 {
     debug_gtk3("warning: not implemented (NULL)\n");
@@ -103,4 +103,102 @@ void carthelpers_set_functions(
     carthelpers_is_enabled_func = is_enabled_func ? is_enabled_func : null_handler;
     carthelpers_enable_func = enable_func ? enable_func : null_handler;
     carthelpers_disable_func = disable_func ? disable_func : null_handler;
+}
+
+
+/** \brief  Handler for the "destroy" event of a cart enable check button
+ *
+ * Frees the cartridge name stored as a property in the check button.
+ *
+ * \param[in]   check   check button
+ * \param[in]   data    unused
+ */
+static void on_cart_enable_check_button_destroy(GtkCheckButton *check,
+                                                gpointer data)
+{
+    char *name = g_object_get_data(G_OBJECT(check), "CartridgeName");
+    if (name != NULL) {
+        g_free(name);
+    }
+}
+
+
+/** \brief  Handler for the "toggled" event of the cart enable check button
+ *
+ * When this function fails to set a resource, it'll revert to the old state,
+ * unfortunately this also triggers a new event (calling this very function).
+ * I still have to figure out how to temporarily block signals (it's not like
+ * Qt)
+ *
+ * \param[in,out]   check   check button
+ * \param[in]       data    unused
+ */
+static void on_cart_enable_check_button_toggled(GtkCheckButton *check,
+                                                gpointer data)
+{
+    const char *name;
+    int id;
+    int state;
+
+    name = (const char *)g_object_get_data(G_OBJECT(check), "CartridgeName");
+    id = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(check), "CartridgeId"));
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+
+    debug_gtk3("setting to %s '%s' (%d)\n", state ? "enable" : "disable",
+            name, id);
+
+    if (state) {
+        if (carthelpers_enable_func(id) < 0) {
+            debug_gtk3("failed to enable %s cartridge\n", name);
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
+        }
+    } else {
+        if (carthelpers_disable_func(id) < 0) {
+            debug_gtk3("failed to disable %s cartridge\n", name);
+            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
+        }
+    }
+}
+
+/** \brief  Create a check button to enable/disable a cartridge
+ *
+ * Creates a check button that enables/disables a cartridge. The \a cart_name
+ * argument is copied to allow for debug/error messages to mention the cart
+ * by name, rather than by ID. The name is freed when the check button is
+ * destroyed.
+ *
+ * What the widget basically does is call cartridge_enable(\a cart_id) or
+ * cartridge_disable(\a cart_id), using cartridge_type_enabled(\a cart_id) to
+ * set the initial state of the widget. But since all Gtk3 widgets are
+ * currently linked into a big lib and vsid doesn't like that, we use some
+ * function pointer magic is used.
+ *
+ * \param[in]   cart_name   cartridge name (see cartridge.h)
+ * \param[in]   cart_id     cartridge ID (see cartridge.h)
+ *
+ * \return  GtkCheckButton
+ */
+GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
+                                                  int cart_id)
+{
+    GtkWidget *check;
+    char *title;
+    gchar *name;
+
+    title = lib_msprintf("Enable %s cartridge", cart_name);
+    check = gtk_check_button_new_with_label(title);
+    lib_free(title);    /* Gtk3 makes a copy of the title */
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
+            carthelpers_is_enabled_func(cart_id));
+
+    name = g_strdup(cart_name);
+    g_object_set_data(G_OBJECT(check), "CartridgeName", (gpointer)name);
+    g_object_set_data(G_OBJECT(check), "CartridgeId", GINT_TO_POINTER(cart_id));
+
+    g_signal_connect(check, "destroy",
+            G_CALLBACK(on_cart_enable_check_button_destroy), NULL);
+    g_signal_connect(check, "toggled",
+            G_CALLBACK(on_cart_enable_check_button_toggled), NULL);
+
+    return check;
 }

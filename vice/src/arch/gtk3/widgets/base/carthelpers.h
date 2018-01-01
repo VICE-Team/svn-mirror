@@ -43,4 +43,7 @@ void carthelpers_set_functions(
         int (*is_enabled_func)(int),
         int (*enable_func)(int),
         int (*disable_func)(int));
+
+GtkWidget *carthelpers_create_enable_check_button(const char *cart_name,
+                                                  int cart_id);
 #endif

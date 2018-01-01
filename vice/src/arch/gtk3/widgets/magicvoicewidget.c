@@ -47,32 +47,6 @@ static GtkWidget *entry = NULL;
 static GtkWidget *browse = NULL;
 
 
-/** \brief  Try to toggle 'Enabled' state of cart
- *
- * If this function fails to alter the cart-enabled state, it'll revert to the
- * previous state.
- *
- * \param[in,out]   check   check button
- * \param[in]       data    unused
- */
-static void on_enable_toggled(GtkCheckButton *check, gpointer user_data)
-{
-    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
-
-    if (state) {
-        if (carthelpers_enable_func(CARTRIDGE_MAGIC_VOICE) < 0) {
-            debug_gtk3("failed to enable Magic Voice cartridge\n");
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-        }
-    } else {
-        if (carthelpers_disable_func(CARTRIDGE_MAGIC_VOICE) < 0) {
-            debug_gtk3("failed to disable Magic Voice cartridge\n");
-            gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), TRUE);
-        }
-    }
-}
-
-
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * Activates a file-open dialog and stores the file name in the GtkEntry passed
@@ -96,18 +70,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 }
 
 
-static GtkWidget *create_enable_check_button(void)
-{
-    GtkWidget *check = gtk_check_button_new_with_label(
-            "Enable Magic Voice cartridge");
-
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
-            carthelpers_is_enabled_func(CARTRIDGE_MAGIC_VOICE));
-    g_signal_connect(check, "toggled", G_CALLBACK(on_enable_toggled), NULL);
-    return check;
-}
-
-
 /** \brief  Create widget to control MagicVoice cartridge
  *
  * \param[in]   parent  parent widget
@@ -124,7 +86,9 @@ GtkWidget *magic_voice_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable = create_enable_check_button();
+    /*    enable = create_enable_check_button(); */
+    enable = carthelpers_create_enable_check_button(CARTRIDGE_NAME_MAGIC_VOICE,
+            CARTRIDGE_MAGIC_VOICE);
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);
 
     label = gtk_label_new("Magic Voice ROM");

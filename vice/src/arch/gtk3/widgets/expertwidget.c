@@ -58,12 +58,6 @@ static ui_radiogroup_entry_t mode_list[] = {
 };
 
 
-static on_enable_toggled(GtkCheckButton *check, gpointer data)
-{
-}
-
-
-
 /** \brief  Create Expert Cartridge enable check button
  *
  * \return  GtkCheckButton
