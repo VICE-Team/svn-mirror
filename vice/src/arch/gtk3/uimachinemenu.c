@@ -51,7 +51,11 @@
 #include "uimedia.h"
 #include "uimenu.h"
 #include "uimonarch.h"
-#include "uinetplay.h"
+
+#ifdef HAVE_NETWORK
+# include "uinetplay.h"
+#endif
+
 #include "uisettings.h"
 #include "uismartattach.h"
 #include "uisnapshot.h"
@@ -305,11 +309,13 @@ static ui_menu_item_t file_menu_tail[] = {
 
     UI_MENU_SEPARATOR,
 
+#ifdef HAVE_NETWORK
     { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION,
         NULL, ui_netplay_dialog, NULL,
         0, 0 },
 
     UI_MENU_SEPARATOR,
+#endif
 
     { "Reset", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, reset_submenu,
