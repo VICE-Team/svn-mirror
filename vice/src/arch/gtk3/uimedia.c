@@ -223,8 +223,10 @@ static void save_video_recording_handler(void);
  */
 static void on_dialog_destroy(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("called: cleaning up driver list\n");
-    lib_free(video_driver_list);
+    if (machine_class != VICE_MACHINE_VSID) {
+        debug_gtk3("called: cleaning up driver list\n");
+        lib_free(video_driver_list);
+    }
     ui_pause_emulation(FALSE);
 }
 
@@ -265,24 +267,32 @@ static void on_response(GtkDialog *dialog, gint response_id, gpointer data)
             break;
 
         case RESPONSE_SAVE:
-            /* stack child name determines what to do next */
-            child_name = gtk_stack_get_visible_child_name(GTK_STACK(stack));
-            debug_gtk3("Saving media, tab '%s' selected\n", child_name);
 
-            if (strcmp(child_name, CHILD_SCREENSHOT) == 0) {
-                debug_gtk3("Screenshot requested, driver %d\n",
-                        video_driver_index);
-                save_screenshot_handler();
-            } else if (strcmp(child_name, CHILD_SOUND) == 0) {
+            if (machine_class != VICE_MACHINE_VSID) {
+                /* stack child name determines what to do next */
+                child_name = gtk_stack_get_visible_child_name(GTK_STACK(stack));
+                debug_gtk3("Saving media, tab '%s' selected\n", child_name);
+
+                if (strcmp(child_name, CHILD_SCREENSHOT) == 0) {
+                    debug_gtk3("Screenshot requested, driver %d\n",
+                            video_driver_index);
+                    save_screenshot_handler();
+                } else if (strcmp(child_name, CHILD_SOUND) == 0) {
+                    debug_gtk3("Audio recording requested, driver %d\n",
+                            audio_driver_index);
+                    save_audio_recording_handler();
+                } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
+                    debug_gtk3("Video recording requested, driver %d\n",
+                            video_driver_index);
+                    save_video_recording_handler();
+                }
+            } else {
                 debug_gtk3("Audio recording requested, driver %d\n",
                         audio_driver_index);
                 save_audio_recording_handler();
-            } else if (strcmp(child_name, CHILD_VIDEO) == 0) {
-                debug_gtk3("Video recording requested, driver %d\n",
-                        video_driver_index);
-                save_video_recording_handler();
             }
             break;
+
 
         default:
             break;
@@ -551,15 +561,19 @@ static void create_video_driver_list(void)
             sizeof *video_driver_list);
 
     index = 0;
-    driver = gfxoutput_drivers_iter_init();
-    while (driver != NULL) {
-        debug_gtk3(".. adding driver '%s'\n", driver->name);
-        video_driver_list[index].display = driver->displayname;
-        video_driver_list[index].name = driver->name;
-        video_driver_list[index].ext = driver->default_extension;
-        index++;
-        driver = gfxoutput_drivers_iter_next();
+
+    if (video_driver_count > 0) {
+        driver = gfxoutput_drivers_iter_init();
+        while (driver != NULL) {
+            debug_gtk3(".. adding driver '%s'\n", driver->name);
+            video_driver_list[index].display = driver->displayname;
+            video_driver_list[index].name = driver->name;
+            video_driver_list[index].ext = driver->default_extension;
+            index++;
+            driver = gfxoutput_drivers_iter_next();
+        }
     }
+    video_driver_list[index].display = NULL;
     video_driver_list[index].name = NULL;
     video_driver_list[index].ext = NULL;
 }
@@ -915,7 +929,9 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
     ui_pause_emulation(TRUE);
 
     /* create driver list */
-    create_video_driver_list();
+    if (machine_class != VICE_MACHINE_VSID) {
+        create_video_driver_list();
+    }
 
     dialog = gtk_dialog_new_with_buttons(
             "Record media file",
@@ -927,7 +943,11 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
 
     /* add content widget */
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    gtk_container_add(GTK_CONTAINER(content), create_content_widget());
+    if (machine_class != VICE_MACHINE_VSID) {
+        gtk_container_add(GTK_CONTAINER(content), create_content_widget());
+    } else {
+        gtk_container_add(GTK_CONTAINER(content), create_sound_widget());
+    }
 
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
