@@ -58,20 +58,6 @@ static ui_radiogroup_entry_t mode_list[] = {
 };
 
 
-/** \brief  Create Expert Cartridge enable check button
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_expert_enable_widget(void)
-{
-    GtkWidget *check;
-
-    check = gtk_check_button_new_with_label("Enable Expert Cartridge");
-
-    return check;
-}
-
-
 /** \brief  Create Expert Cartridge mode widget
  *
  * \return  GtkCheckButton
@@ -124,7 +110,8 @@ GtkWidget *expert_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    expert_enable_widget = create_expert_enable_widget();
+    expert_enable_widget = carthelpers_create_enable_check_button(
+            CARTRIDGE_NAME_EXPERT, CARTRIDGE_EXPERT);
     gtk_grid_attach(GTK_GRID(grid), expert_enable_widget, 0, 0, 1, 1);
 
     expert_mode = create_expert_mode_widget();

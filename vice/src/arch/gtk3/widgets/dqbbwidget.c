@@ -47,21 +47,6 @@
 #include "dqbbwidget.h"
 
 
-
-/** \brief  Create Double Quick Brown Box enable check button
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_dqbb_enable_widget(void)
-{
-    GtkWidget *check;
-
-    check = resource_check_button_create("DQBB",
-            "Enable Double Quick Brown Box");
-    return check;
-}
-
-
 /** \brief  Create widget to load/save Double Quick Brown Box image file
  *
  * \return  GtkGrid
@@ -84,15 +69,16 @@ static GtkWidget *create_dqbb_image_widget(GtkWidget *parent)
 GtkWidget *dqbb_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *dqbb_enable;
+    GtkWidget *dqbb_enable_widget; /* dqbb_enable shadows */
     GtkWidget *dqbb_image;
 
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    dqbb_enable = create_dqbb_enable_widget();
-    gtk_grid_attach(GTK_GRID(grid), dqbb_enable, 0, 0, 1, 1);
+    dqbb_enable_widget = carthelpers_create_enable_check_button(
+            CARTRIDGE_NAME_DQBB, CARTRIDGE_DQBB);
+    gtk_grid_attach(GTK_GRID(grid), dqbb_enable_widget, 0, 0, 1, 1);
 
     dqbb_image = create_dqbb_image_widget(parent);
     gtk_grid_attach(GTK_GRID(grid), dqbb_image, 0, 1, 1, 1);

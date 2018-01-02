@@ -48,17 +48,6 @@
 #include "isepicwidget.h"
 
 
-/** \brief  Create ISEPIC enable check button
- *
- * \return  GtkCheckButton
- */
-static GtkWidget *create_isepic_enable_widget(void)
-{
-    return resource_check_button_create("IsepicCartridgeEnabled",
-            "Enable ISEPIC");
-}
-
-
 /** \brief  Handler for the "state-set" event of the "IsepicSwitch" resource
  *
  * \param[in]   widget      switch widget
@@ -137,7 +126,8 @@ GtkWidget *isepic_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    isepic_enable_widget = create_isepic_enable_widget();
+    isepic_enable_widget = carthelpers_create_enable_check_button(
+            CARTRIDGE_NAME_ISEPIC, CARTRIDGE_ISEPIC);
     gtk_grid_attach(GTK_GRID(grid), isepic_enable_widget, 0, 0, 1, 1);
 
     isepic_switch = create_isepic_switch_widget();

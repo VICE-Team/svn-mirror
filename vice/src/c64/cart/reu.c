@@ -694,7 +694,9 @@ int reu_enable(void)
 
 int reu_disable(void)
 {
-    return set_reu_enabled(0, NULL);
+    set_reu_enabled(0, NULL);
+    reu_deactivate();
+    return 0;
 }
 
 
