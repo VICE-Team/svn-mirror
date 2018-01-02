@@ -28,6 +28,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "lib.h"
 #include "debug_gtk3.h"
@@ -36,9 +37,17 @@
 #include "basedialogs.h"
 
 
+static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
+{
+    GtkWidget *window = GTK_WIDGET(data);
+    gtk_widget_destroy(window);
+}
+
+
 /** \brief  Create a GtkMessageDialog
  *
- * \param[in]   widget      parent widget (not used anymore!)
+ * \param[in]   widget      parent widget or `NULL` (when used before the UI
+ *                          is properly set up)
  * \param[in]   type        message type
  * \param[in]   buttons     buttons to use
  * \param[in]   title       dialog title
@@ -51,13 +60,29 @@ static GtkWidget *create_dialog(GtkWidget *widget,
                                 const char *title, const char *text)
 {
     GtkWidget *dialog;
+    GtkWindow *parent;
+    bool no_parent = false;
+
+    if (widget == NULL) {
+        /* set up a temporary parent to avoid Gtk warnings */
+        no_parent = true;
+        parent = GTK_WINDOW(gtk_window_new(GTK_WINDOW_TOPLEVEL));
+   } else {
+        parent = ui_get_active_window();
+    }
 
     dialog = gtk_message_dialog_new(
-            ui_get_active_window(),
+            parent,
             GTK_DIALOG_DESTROY_WITH_PARENT,
             type, buttons, NULL);
     gtk_window_set_title(GTK_WINDOW(dialog), title);
     gtk_message_dialog_set_markup(GTK_MESSAGE_DIALOG(dialog), text);
+
+    /* set up signal handler to destroy the temporary parent window */
+    if (no_parent) {
+        g_signal_connect(dialog, "destroy", G_CALLBACK(on_dialog_destroy),
+                (gpointer)parent);
+    }
 
     return dialog;
 }

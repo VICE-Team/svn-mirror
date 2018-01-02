@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "debug_gtk3.h"
 #include "not_implemented.h"
@@ -881,7 +882,6 @@ int ui_extend_image_dialog(void)
  */
 void ui_error(const char *format, ...)
 {
-    GtkWindow *window;
     char *buffer;
     va_list ap;
 
@@ -889,11 +889,7 @@ void ui_error(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    /* use active window as blocking toplevel */
-    /* FIXME: this isn't actually used by ui_message_error() */
-    window = ui_get_active_window();
-
-    ui_message_error(GTK_WIDGET(window), "VICE Error", buffer);
+    ui_message_error(NULL, "VICE Error", buffer);
     lib_free(buffer);
 }
 
@@ -902,7 +898,6 @@ void ui_error(const char *format, ...)
  */
 void ui_message(const char *format, ...)
 {
-    GtkWindow *window;
     char *buffer;
     va_list ap;
 
@@ -910,10 +905,7 @@ void ui_message(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    /* FIXME: this isn't actually used by ui_message_info() */
-    window = ui_get_active_window();
-
-    ui_message_info(GTK_WIDGET(window), "VICE Message", buffer);
+    ui_message_info(NULL, "VICE Message", buffer);
     lib_free(buffer);
 }
 
