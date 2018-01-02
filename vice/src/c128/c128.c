@@ -713,16 +713,16 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
+    if (datasette_resources_init() < 0) {
+        init_resource_fail("datasette");
+        return -1;
+    }
     if (tapeport_resources_init() < 0) {
         init_resource_fail("tapeport");
         return -1;
     }
     if (tape_diag_586220_harness_resources_init() < 0) {
         init_resource_fail("tape diag 586220 harness");
-        return -1;
-    }
-    if (datasette_resources_init() < 0) {
-        init_resource_fail("datasette");
         return -1;
     }
     if (cartridge_resources_init() < 0) {
