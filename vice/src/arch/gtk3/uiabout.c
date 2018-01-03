@@ -1,5 +1,8 @@
-/*
- * uiabout.c - GTK3 about dialog
+/** \file   src/arch/gtk3/uiabout.c
+ * \brief   GTK3 about dialog
+ *
+ * TODO:    Needs a proper logo, not the old, ugly, blue one. The logo from the
+ *          pokefinder website will do nicely, I think.
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -106,7 +109,7 @@ static void destroy_current_team_list(char **list)
     lib_free(list);
 }
 
-
+#if 0
 /** \brief  Create VICE logo
  *
  * \return  GdkPixbuf instance
@@ -128,7 +131,7 @@ static GdkPixbuf *get_vice_logo(void)
     }
     return logo;
 }
-
+#endif
 
 /** \brief  Handler for the "destroy" event
  *
@@ -141,7 +144,7 @@ static void about_destroy_callback(GtkWidget *widget, gpointer user_data)
     /* GdkPixbuf mentions setting refcount to 1, but it appears the about
      * dialog parent cleans it up somehow -- compyx */
 #if 0
-    g_object_unref(widget);
+    g_object_unref(user_data);
 #endif
 }
 
@@ -181,7 +184,9 @@ static void about_response_callback(GtkWidget *widget, gint response_id,
 void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *about = gtk_about_dialog_new();
+#if 0
     GdkPixbuf *logo = get_vice_logo();
+#endif
     GtkWindow *window;
 
 #ifdef HAVE_DEBUG_GTK3UI
@@ -223,17 +228,23 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about),
             "Copyright 1996-2018 VICE TEAM");
 
+#if 0
     /* set logo. XXX: find proper logo */
     gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
-
+#endif
     /*
      * hook up event handlers
      */
 
     /* destroy callback, called when the dialog is closed through the 'X',
      * but NOT when clicking 'Close' */
+#if 0
     g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback),
             (gpointer)logo);
+#else
+    g_signal_connect(about, "destroy", G_CALLBACK(about_destroy_callback),
+            NULL);
+#endif
 
     /* set up a generic handler for various buttons, this makes sure the
      * 'Close' button is handled properly */
