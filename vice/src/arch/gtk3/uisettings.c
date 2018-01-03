@@ -158,12 +158,12 @@ enum {
 };
 
 
-/** \brief  List of C64 I/O extensions (x64, x64sc, xscpu64)
+/** \brief  List of C64 I/O extensions (x64, x64sc)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
-    { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
+    { "Memory Expansion Hacks",     c64_memory_expansion_hacks_widget_create, NULL },
 
     { "GEO-RAM",                    georam_widget_create, NULL },
     { "RAM Expansion Module",       reu_widget_create, NULL },
@@ -204,13 +204,11 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 };
 
 
-/** \brief  List of SCPU64 extensions
+/** \brief  List of SuperCPU64 extensions (xscpu64)
  *
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t scpu64_io_extensions[] = {
-    { "Memory Expansions Hack",     c64_memory_expansion_hacks_widget_create, NULL },
-
     { "GEO-RAM",                    georam_widget_create, NULL },
     { "RAM Expansion Module",       reu_widget_create, NULL },
     { "RamCart",                    ramcart_widget_create, NULL },
