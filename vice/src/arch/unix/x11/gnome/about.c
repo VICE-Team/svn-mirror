@@ -241,7 +241,7 @@ void ui_about(gpointer data)
 #else
                              "version", VERSION " (GTK+)",
 #endif
-                             "copyright", _("(c) 1998 - 2017 The VICE Team"),
+                             "copyright", _("(c) 1998 - 2018 The VICE Team"),
                              "comments", "Versatile Commodore Emulator",
                              "authors", authors,
                              "documenters", doc_team,

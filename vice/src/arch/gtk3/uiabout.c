@@ -221,7 +221,7 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     gtk_about_dialog_set_authors(GTK_ABOUT_DIALOG(about), (const gchar **)authors);
     /* set copyright string */
     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about),
-            "Copyright 1996-2017 VICE TEAM");
+            "Copyright 1996-2018 VICE TEAM");
 
     /* set logo. XXX: find proper logo */
     gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about), logo);
