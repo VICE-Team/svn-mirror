@@ -243,7 +243,6 @@ static ui_settings_tree_node_t scpu64_io_extensions[] = {
 
     { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
     { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          tapeport_devices_widget_create, NULL },
 
     { NULL, NULL, NULL }
 };
