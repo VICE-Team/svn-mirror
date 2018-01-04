@@ -211,7 +211,11 @@ static int fullscreen_has_decorations = 0;
 
 /** \brief  Function to help create a main window.
  */
-static void (*create_window_func)(struct video_canvas_s *) = NULL;
+static void (*create_window_func)(video_canvas_t *) = NULL;
+
+/** \brief  Function to identify a canvas from its video chip.
+ */
+static int (*identify_canvas_func)(video_canvas_t *) = NULL;
 
 /******************************************************************************
  *                              Event handlers                                *
@@ -586,9 +590,19 @@ static int set_window_ypos(int val, void *param)
  *
  * \param[in]   func    create window function
  */
-void ui_set_create_window_func(void (*func)(struct video_canvas_s *))
+void ui_set_create_window_func(void (*func)(video_canvas_t *))
 {
     create_window_func = func;
+}
+
+
+/** \brief  Set function to identify a canvas from its video chip.
+ *
+ * \param[in]   func    identify canvas function
+ */
+void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
+{
+    identify_canvas_func = func;
 }
 
 
@@ -597,10 +611,6 @@ void ui_set_create_window_func(void (*func)(struct video_canvas_s *))
           window ends up being on top of the VDC window. however, we better call
           some "move window to front" function instead, and create the windows
           starting with the primary one. */
-/* FIXME: the code below deals with the above mentioned fact and sets up the
-          window_widget pointers correctly. this hackish magic can be eliminated
-          when the code that creates the windows was moved over here AND the
-          calling code is fixed to create the windows in different order. */
 /** \brief Create a toplevel window to represent a video canvas.
  *
  * This function takes a video canvas structure and builds the widgets
@@ -612,16 +622,8 @@ void ui_set_create_window_func(void (*func)(struct video_canvas_s *))
  * video canvas routines are expected to do any last-minute processing
  * or preparation, and then call ui_display_toplevel_window() when
  * ready.
- *
- * \warning The "meaning" of the window depends on how many times the
- *          function has been called. On a C128, the first call
- *          produces the VDC window and the second produces the
- *          primary window. On all other machines, the first call
- *          produces the primary window. All subsequent calls will
- *          replace or leak the "monitor" window, but the nature of
- *          monitor windows is such that this should never happen.
  */
-void ui_create_toplevel_window(struct video_canvas_s *canvas)
+void ui_create_toplevel_window(video_canvas_t *canvas)
 {
     GtkWidget *new_window, *grid, *status_bar;
     GtkWidget *menu_bar;
@@ -681,20 +683,18 @@ void ui_create_toplevel_window(struct video_canvas_s *canvas)
     g_signal_connect(new_window, "destroy",
                      G_CALLBACK(ui_window_destroy_callback), NULL);
 
-    /* We've defaulted to PRIMARY_WINDOW. C128, however, gets its VDC
-     * window created first, so shunt this window to secondary status
-     * if that is what it is. */
-    target_window = PRIMARY_WINDOW;
-    if (machine_class == VICE_MACHINE_C128 && ui_resources.window_widget[SECONDARY_WINDOW] == NULL) {
-        target_window = SECONDARY_WINDOW;
+    target_window = -1;
+    if (identify_canvas_func != NULL) {
+        /* Identify the window as the PRIMARY_WINDOW or SECONDARY_WINDOW. */
+        target_window = identify_canvas_func(canvas);
     }
-    /* Recreated canvases go to MONITOR_WINDOW. */
+    if (target_window < 0) {
+        fprintf(stderr, "ui_create_toplevel_window: canvas not identified!\n");
+        exit(1);
+    }
     if (ui_resources.window_widget[target_window] != NULL) {
-        /* TODO: This doesn't make even a little bit of sense. The monitor
-         * window doesn't have a Commodore-screen canvas associated with
-         * it! Monitors should be tracked completely seperately. */
-        /* TODO: Ending up here should be a fatal error */
-        target_window = MONITOR_WINDOW;
+        fprintf(stderr, "ui_create_toplevel_window: existing window recreated??\n");
+        exit(1);
     }
 
     ui_resources.canvas[target_window] = canvas;

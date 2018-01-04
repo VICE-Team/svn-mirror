@@ -29,12 +29,14 @@
 
 #include <stdio.h>
 
-#include "not_implemented.h"
+#include "crtc.h"
 #include "machine.h"
-#include "petmodel.h"
 #include "machinemodelwidget.h"
+#include "not_implemented.h"
 #include "petkeyboardtypewidget.h"
+#include "petmodel.h"
 #include "sampler.h"
+#include "ui.h"
 #include "uimachinewindow.h"
 #include "uisamplersettings.h"
 
@@ -62,6 +64,19 @@ static const char *pet_model_list[] = {
 };
 
 
+/** \brief  Identify the canvas used to create a window
+ *
+ * \return  window index on success, -1 on failure
+ */
+static int identify_canvas(video_canvas_t *canvas)
+{
+    if (canvas != crtc_get_canvas()) {
+        return -1;
+    }
+
+    return PRIMARY_WINDOW;
+}
+
 /** \brief  Pre-initialize the UI before the canvas window gets created
  *
  * \return  0 on success, -1 on failure
@@ -69,6 +84,7 @@ static const char *pet_model_list[] = {
 int petui_init_early(void)
 {
     ui_machine_window_init();
+    ui_set_identify_canvas_func(identify_canvas);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
@@ -81,9 +97,6 @@ int petui_init_early(void)
  */
 int petui_init(void)
 {
-    /* Some of the work here is done by video.c now, and would need to
-     * be shifted over */
-
     machine_model_widget_getter(petmodel_get);
     machine_model_widget_setter(petmodel_set);
     machine_model_widget_set_models(pet_model_list);

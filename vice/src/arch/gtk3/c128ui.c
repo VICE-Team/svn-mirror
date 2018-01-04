@@ -29,15 +29,18 @@
 
 #include <stdio.h>
 
-#include "not_implemented.h"
-#include "widgethelpers.h"
-#include "machine.h"
 #include "c128model.h"
-#include "sampler.h"
+#include "machine.h"
 #include "machinemodelwidget.h"
-#include "videomodelwidget.h"
+#include "not_implemented.h"
+#include "sampler.h"
+#include "ui.h"
 #include "uimachinewindow.h"
 #include "uisamplersettings.h"
+#include "vdc.h"
+#include "vicii.h"
+#include "videomodelwidget.h"
+#include "widgethelpers.h"
 
 #include "clockportdevicewidget.h"
 #include "clockport.h"
@@ -87,6 +90,25 @@ static ui_radiogroup_entry_t c128_vicii_models[] = {
 };
 
 
+/** \brief  Identify the canvas used to create a window
+ *
+ * \return  window index on success, -1 on failure
+ */
+static int identify_canvas(video_canvas_t *canvas)
+{
+    /* XXX: Functions in the common code number the
+     *      windows in the opposite order.
+     */
+    if (canvas == vicii_get_canvas()) {
+        return PRIMARY_WINDOW;
+    }
+    if (canvas == vdc_get_canvas()) {
+        return SECONDARY_WINDOW;
+    }
+
+    return -1;
+}
+
 /** \brief  Pre-initialize the UI before the canvas windows get created
  *
  * \return  0 on success, -1 on failure
@@ -94,6 +116,7 @@ static ui_radiogroup_entry_t c128_vicii_models[] = {
 int c128ui_init_early(void)
 {
     ui_machine_window_init();
+    ui_set_identify_canvas_func(identify_canvas);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
@@ -106,9 +129,6 @@ int c128ui_init_early(void)
  */
 int c128ui_init(void)
 {
-    /* Some of the work here is done by video.c now, and would need to
-     * be shifted over */
-
     machine_model_widget_getter(c128model_get);
     machine_model_widget_setter(c128model_set);
     machine_model_widget_set_models(c128_model_list);

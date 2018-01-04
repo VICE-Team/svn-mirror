@@ -91,11 +91,25 @@ void vsid_ui_display_tune_nr(int nr)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+/** \brief  Identify the canvas used to create a window
+ *
+ * \return  window index on success, -1 on failure
+ */
+static int identify_canvas(video_canvas_t *canvas)
+{
+    if (canvas != vicii_get_canvas()) {
+        return -1;
+    }
+
+    return PRIMARY_WINDOW;
+}
+
 int vsid_ui_init(void)
 {
     video_canvas_t *canvas = vicii_get_canvas();
 
     ui_vsid_window_init();
+    ui_set_identify_canvas_func(identify_canvas);
 
     ui_create_toplevel_window(canvas);
     ui_display_toplevel_window(canvas->window_index);
