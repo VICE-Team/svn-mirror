@@ -374,6 +374,13 @@ static int set_tapecart_enabled(int value, void *unused_param) {
         }
 
     } else {
+        if (tapecart_logic_alarm != NULL) {
+            alarm_unset(tapecart_logic_alarm);
+            alarm_unset(tapecart_pulse_alarm);
+        }
+
+        set_sense(1);
+
         tapeport_device_unregister(tapecart_list_item);
         tapecart_list_item = NULL;
 
