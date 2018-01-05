@@ -618,6 +618,11 @@ int machine_resources_init(void)
         init_resource_fail("drive");
         return -1;
     }
+    /*
+     * This needs to be called before tapeport_resources_init(), otherwise
+     * the tapecart will fail to initialize due to the Datasette resource
+     * appearing after the Tapecart resources
+     */
     if (datasette_resources_init() < 0) {
         init_resource_fail("datasette");
         return -1;
