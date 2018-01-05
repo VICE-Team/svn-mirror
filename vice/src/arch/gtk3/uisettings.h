@@ -31,14 +31,23 @@
 
 
 /** \brief  Settings tree node object
+ *
+ * Contains name to display in the settings tree widget, an ID to allow for
+ * xpath-like access to tree nodes, a callback to render a widget next to the
+ * tree, and optionally a list of child nodes.
  */
 typedef struct ui_settings_tree_node_s {
     char *name;                                 /**< setting name */
+    const char *id;                             /**< tree node ID */
     GtkWidget *(*callback)(GtkWidget *);        /**< callback to select
                                                      associated widget */
     struct ui_settings_tree_node_s *children;   /**< child nodes */
 } ui_settings_tree_node_t;
 
+
+/** \brief  tree nodes list terminator
+ */
+#define UI_SETTINGS_TERMINATOR  { NULL, NULL, NULL, NULL }
 
 void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data);
 

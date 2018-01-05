@@ -163,44 +163,98 @@ enum {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
-    { "Memory Expansion Hacks",     c64_memory_expansion_hacks_widget_create, NULL },
+    { "Memory Expansion Hacks",
+        "mem-hacks",
+        c64_memory_expansion_hacks_widget_create, NULL },
 
-    { "GEO-RAM",                    georam_widget_create, NULL },
-    { "RAM Expansion Module",       reu_widget_create, NULL },
-    { "RamCart",                    ramcart_widget_create, NULL },
+    { "GEO-RAM",
+        "geo-ram",
+        georam_widget_create, NULL },
+    { "RAM Expansion Module",
+        "reu",
+        reu_widget_create, NULL },
+    { "RamCart",
+        "ramcart",
+        ramcart_widget_create, NULL },
 
-    { "Double Quick Brown Box",     dqbb_widget_create, NULL },
-    { "Expert Cartridge",           expert_widget_create, NULL },
-    { "ISEPIC",                     isepic_widget_create, NULL },
+    { "Double Quick Brown Box",
+        "dqbb",
+        dqbb_widget_create, NULL },
+    { "Expert Cartridge",
+        "expert-cart",
+        expert_widget_create, NULL },
+    { "ISEPIC",
+        "isepic",
+        isepic_widget_create, NULL },
 
-    { "EasyFlash",                  easyflash_widget_create, NULL },
-    { "GMod2",                      gmod2_widget_create, NULL },
-    { "IDE64",                      ide64_widget_create, NULL },
-    { "MMC64",                      mmc64_widget_create, NULL },
-    { "MMC Replay",                 mmcr_widget_create, NULL },
-    { "Retro Replay",               retroreplay_widget_create, NULL },
-    { "Super Snapshot V5",          super_snapshot_widget_create, NULL },
+    { "EasyFlash",
+        "easyflash",
+        easyflash_widget_create, NULL },
+    { "GMod2",
+        "gmod2",
+        gmod2_widget_create, NULL },
+    { "IDE64",
+        "ide64",
+        ide64_widget_create, NULL },
+    { "MMC64",
+        "mmc64",
+        mmc64_widget_create, NULL },
+    { "MMC Replay",
+        "mmcr",
+        mmcr_widget_create, NULL },
+    { "Retro Replay",
+        "retroreplay",
+        retroreplay_widget_create, NULL },
+    { "Super Snapshot V5",
+        "super-snapshot",
+        super_snapshot_widget_create, NULL },
 
 #ifdef HAVE_RAWNET
-    { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
-    { "RR-Net Mk3",                 rrnetmk3_widget_create, NULL },
+    { "Ethernet Cartridge",
+        "ethernet-cart",
+        ethernet_cart_widget_create, NULL },
+    { "RR-Net Mk3",
+        "rrnetmk3",
+        rrnetmk3_widget_create, NULL },
 #endif
 
-    { "IEEE-448 Interface",         ieee488_widget_create, NULL },
-    { "Burst Mode Modification",    burst_mode_widget_create, NULL },
+    { "IEEE-448 Interface",
+        "ieee-488",
+        ieee488_widget_create, NULL },
+    { "Burst Mode Modification",
+        "burstmode-mode",
+        burst_mode_widget_create, NULL },
 
-    { "DigiMAX",                    digimax_widget_create, NULL },
-    { "Magic Voice",                magic_voice_widget_create, NULL },
-    { "MIDI emulation",             midi_widget_create, NULL },
-    { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
-    { "SFX Sound Sampler",          sfx_sound_sampler_widget_create, NULL },
-    { "CP/M Cartridge",             cpm_widget_create, NULL },
+    { "DigiMAX",
+        "digimax",
+        digimax_widget_create, NULL },
+    { "Magic Voice",
+        "magic-voice",
+        magic_voice_widget_create, NULL },
+    { "MIDI emulation",
+        "midi",
+        midi_widget_create, NULL },
+    { "SFX Sound Expander",
+        "sfx-expander",
+        sfx_sound_expander_widget_create, NULL },
+    { "SFX Sound Sampler",
+        "sfx-sampler",
+        sfx_sound_sampler_widget_create, NULL },
+    { "CP/M Cartridge",
+        "cpm-cart",
+        cpm_widget_create, NULL },
 
-    { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
-    { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          tapeport_devices_widget_create, NULL },
+    { "DS12C887 Real Time Clock",
+        "ds12c887-rtc",
+        ds12c887_widget_create, NULL },
+    { "Userport devices",
+        "userport-devices",
+        userport_devices_widget_create, NULL },
+    { "Tape port devices",
+        "tapeport-devices",
+        tapeport_devices_widget_create, NULL },
 
-    { NULL, NULL, NULL }
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -209,84 +263,192 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t scpu64_io_extensions[] = {
-    { "GEO-RAM",                    georam_widget_create, NULL },
-    { "RAM Expansion Module",       reu_widget_create, NULL },
-    { "RamCart",                    ramcart_widget_create, NULL },
+    { "GEO-RAM",
+        "geo-ram",
+        georam_widget_create, NULL },
+    { "RAM Expansion Module",
+        "reu",
+        reu_widget_create, NULL },
+    { "RamCart",
+        "ramcart",
+        ramcart_widget_create, NULL },
 
-    { "Double Quick Brown Box",     dqbb_widget_create, NULL },
-    { "Expert Cartridge",           expert_widget_create, NULL },
-    { "ISEPIC",                     isepic_widget_create, NULL },
+    { "Double Quick Brown Box",
+        "dqbb",
+        dqbb_widget_create, NULL },
+    { "Expert Cartridge",
+        "expert-cart",
+        expert_widget_create, NULL },
+    { "ISEPIC",
+        "isepic",
+        isepic_widget_create, NULL },
 
-    { "EasyFlash",                  easyflash_widget_create, NULL },
-    { "GMod2",                      gmod2_widget_create, NULL },
-    { "IDE64",                      ide64_widget_create, NULL },
-    { "MMC64",                      mmc64_widget_create, NULL },
-    { "MMC Replay",                 mmcr_widget_create, NULL },
-    { "Retro Replay",               retroreplay_widget_create, NULL },
-    { "Super Snapshot V5",          super_snapshot_widget_create, NULL },
+    { "EasyFlash",
+        "easyflash",
+        easyflash_widget_create, NULL },
+    { "GMod2",
+        "gmod2",
+        gmod2_widget_create, NULL },
+    { "IDE64",
+        "ide64",
+        ide64_widget_create, NULL },
+    { "MMC64",
+        "mmc64",
+        mmc64_widget_create, NULL },
+    { "MMC Replay",
+        "mmcr",
+        mmcr_widget_create, NULL },
+    { "Retro Replay",
+        "retroreplay",
+        retroreplay_widget_create, NULL },
+    { "Super Snapshot V5",
+        "super-snapshot",
+        super_snapshot_widget_create, NULL },
 
 #ifdef HAVE_RAWNET
-    { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
-    { "RR-Net Mk3",                 rrnetmk3_widget_create, NULL },
+    { "Ethernet Cartridge",
+        "ethernet-cart",
+        ethernet_cart_widget_create, NULL },
+    { "RR-Net Mk3",
+        "rrnetmk3",
+        rrnetmk3_widget_create, NULL },
 #endif
 
-    { "IEEE-448 Interface",         ieee488_widget_create, NULL },
-    { "Burst Mode Modification",    burst_mode_widget_create, NULL },
+    { "IEEE-448 Interface",
+        "ieee-488",
+        ieee488_widget_create, NULL },
+    { "Burst Mode Modification",
+        "burstmode-mode",
+        burst_mode_widget_create, NULL },
 
-    { "DigiMAX",                    digimax_widget_create, NULL },
-    { "Magic Voice",                magic_voice_widget_create, NULL },
-    { "MIDI emulation",             midi_widget_create, NULL },
-    { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
-    { "SFX Sound Sampler",          sfx_sound_sampler_widget_create, NULL },
+    { "DigiMAX",
+        "digimax",
+        digimax_widget_create, NULL },
+    { "Magic Voice",
+        "magic-voice",
+        magic_voice_widget_create, NULL },
+    { "MIDI emulation",
+        "midi",
+        midi_widget_create, NULL },
+    { "SFX Sound Expander",
+        "sfx-expander",
+        sfx_sound_expander_widget_create, NULL },
+    { "SFX Sound Sampler",
+        "sfx-sampler",
+        sfx_sound_sampler_widget_create, NULL },
+    { "CP/M Cartridge",
+        "cpm-cart",
+        cpm_widget_create, NULL },
 
-    { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
-    { "Userport devices",           userport_devices_widget_create, NULL },
+    { "DS12C887 Real Time Clock",
+        "ds12c887-rtc",
+        ds12c887_widget_create, NULL },
+    { "Userport devices",
+        "userport-devices",
+        userport_devices_widget_create, NULL },
 
-    { NULL, NULL, NULL }
+    UI_SETTINGS_TERMINATOR
 };
-
 
 
 /** \brief  I/O extensions for C128
  */
 static ui_settings_tree_node_t c128_io_extensions[] = {
-    { "Function ROM",               c128_function_rom_widget_create, NULL },
-    { "Banks 2 & 3",                c128_full_banks_widget_create, NULL },
+    { "Function ROM",
+        "function-rom",
+        c128_function_rom_widget_create, NULL },
+    { "Banks 2 & 3",
+        "banks-23",
+        c128_full_banks_widget_create, NULL },
 
-    { "GEO-RAM",                    georam_widget_create, NULL },
-    { "RAM Expansion Module",       reu_widget_create, NULL },
-    { "RamCart",                    ramcart_widget_create, NULL },
+    { "GEO-RAM",
+        "geo-ram",
+        georam_widget_create, NULL },
+    { "RAM Expansion Module",
+        "reu",
+        reu_widget_create, NULL },
+    { "RamCart",
+        "ramcart",
+        ramcart_widget_create, NULL },
 
-    { "Double Quick Brown Box",     dqbb_widget_create, NULL },
-    { "Expert Cartridge",           expert_widget_create, NULL },
-    { "ISEPIC",                     isepic_widget_create, NULL },
+    { "Double Quick Brown Box",
+        "dqbb",
+        dqbb_widget_create, NULL },
+    { "Expert Cartridge",
+        "expert-cart",
+        expert_widget_create, NULL },
+    { "ISEPIC",
+        "isepic",
+        isepic_widget_create, NULL },
 
-    { "EasyFlash",                  easyflash_widget_create, NULL },
-    { "GMod2",                      gmod2_widget_create, NULL },
-    { "IDE64",                      ide64_widget_create, NULL },
-    { "MMC64",                      mmc64_widget_create, NULL },
-    { "MMC Replay",                 mmcr_widget_create, NULL },
-    { "Retro Replay",               retroreplay_widget_create, NULL },
-    { "Super Snapshot V5",          super_snapshot_widget_create, NULL },
+    { "EasyFlash",
+        "easyflash",
+        easyflash_widget_create, NULL },
+    { "GMod2",
+        "gmod2",
+        gmod2_widget_create, NULL },
+    { "IDE64",
+        "ide64",
+        ide64_widget_create, NULL },
+    { "MMC64",
+        "mmc64",
+        mmc64_widget_create, NULL },
+    { "MMC Replay",
+        "mmcr",
+        mmcr_widget_create, NULL },
+    { "Retro Replay",
+        "retroreplay",
+        retroreplay_widget_create, NULL },
+    { "Super Snapshot V5",
+        "super-snapshot",
+        super_snapshot_widget_create, NULL },
 
 #ifdef HAVE_RAWNET
-    { "Ethernet Cartridge",         ethernet_cart_widget_create, NULL },
-    { "RR-Net Mk3",                 rrnetmk3_widget_create, NULL },
+    { "Ethernet Cartridge",
+        "ethernet-cart",
+        ethernet_cart_widget_create, NULL },
+    { "RR-Net Mk3",
+        "rrnetmk3",
+        rrnetmk3_widget_create, NULL },
 #endif
 
-    { "IEEE-448 Interface",         ieee488_widget_create, NULL },
+    { "IEEE-448 Interface",
+        "ieee-488",
+        ieee488_widget_create, NULL },
+    { "Burst Mode Modification",
+        "burstmode-mode",
+        burst_mode_widget_create, NULL },
 
-    { "DigiMAX",                    digimax_widget_create, NULL },
-    { "Magic Voice",                magic_voice_widget_create, NULL },
-    { "MIDI emulation",             midi_widget_create, NULL },
-    { "SFX Sound Expander",         sfx_sound_expander_widget_create, NULL },
-    { "SFX Sound Sampler",          sfx_sound_sampler_widget_create, NULL },
+    { "DigiMAX",
+        "digimax",
+        digimax_widget_create, NULL },
+    { "Magic Voice",
+        "magic-voice",
+        magic_voice_widget_create, NULL },
+    { "MIDI emulation",
+        "midi",
+        midi_widget_create, NULL },
+    { "SFX Sound Expander",
+        "sfx-expander",
+        sfx_sound_expander_widget_create, NULL },
+    { "SFX Sound Sampler",
+        "sfx-sampler",
+        sfx_sound_sampler_widget_create, NULL },
+    { "CP/M Cartridge",
+        "cpm-cart",
+        cpm_widget_create, NULL },
 
-    { "DS12C887 Real Time Clock",   ds12c887_widget_create, NULL },
-    { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          tapeport_devices_widget_create, NULL },
+    { "DS12C887 Real Time Clock",
+        "ds12c887-rtc",
+        ds12c887_widget_create, NULL },
+    { "Userport devices",
+        "userport-devices",
+        userport_devices_widget_create, NULL },
+    { "Tape port devices",
+        "tapeport-devices",
+        tapeport_devices_widget_create, NULL },
 
-    { NULL, NULL, NULL }
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -295,30 +457,64 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t vic20_io_extensions[] = {
-    { "Mega Cart",                  mega_cart_widget_create, NULL },
-    { "Final Expansion",            final_expansion_widget_create, NULL },
-    { "Vic Flash Plugin",           vic_flash_widget_create, NULL },
-    { "UltiMem",                    ultimem_widget_create, NULL },
-    { "SID Cartridge",              sidcart_widget_create, NULL },
-    { "VIC-1112 IEEE-488 interface", vic_ieee488_widget_create, NULL },
-    { "I/O RAM",                    vic_ioram_widget_create, NULL },
-    { "VFLI modification",          vfli_widget_create, NULL },
+    { "Mega Cart",
+        "mega-cart",
+        mega_cart_widget_create, NULL },
+    { "Final Expansion",
+        "final-expansion",
+        final_expansion_widget_create, NULL },
+    { "Vic Flash Plugin",
+        "vic-flash-plugin",
+        vic_flash_widget_create, NULL },
+    { "UltiMem",
+        "ultimem",
+        ultimem_widget_create, NULL },
+    { "SID Cartridge",
+        "sid-cart",
+        sidcart_widget_create, NULL },
+    { "VIC-1112 IEEE-488 interface",
+        "ieee-488",
+        vic_ieee488_widget_create, NULL },
+    { "I/O RAM",
+        "io-ram",
+        vic_ioram_widget_create, NULL },
+    { "VFLI modification",
+        "vfli",
+        vfli_widget_create, NULL },
 
-    { "DigiMAX (MasC=uerade",       digimax_widget_create, NULL },
-    { "DS12C887 RTC (MasC=uerade)", ds12c887_widget_create, NULL },
-    { "GEO-RAM (MasC=uerade)",      georam_widget_create, NULL },
-    { "SFX Sound Expander (MasC=uerade)", sfx_sound_expander_widget_create, NULL },
-    { "SFX Sound Sampler (MasC=uerade)", sfx_sound_sampler_widget_create, NULL },
+    { "DigiMAX (MasC=uerade",
+        "digimax",
+        digimax_widget_create, NULL },
+    { "DS12C887 RTC (MasC=uerade)",
+        "ds12c887-rtc",
+        ds12c887_widget_create, NULL },
+    { "GEO-RAM (MasC=uerade)",
+        "geo-ram",
+        georam_widget_create, NULL },
+    { "SFX Sound Expander (MasC=uerade)",
+        "sfx-expander",
+        sfx_sound_expander_widget_create, NULL },
+    { "SFX Sound Sampler (MasC=uerade)",
+        "sfx-sampler",
+        sfx_sound_sampler_widget_create, NULL },
 
 #ifdef HAVE_RAWNET
-    { "Ethernet Cartridge (MasC=uerade)", ethernet_cart_widget_create, NULL },
+    { "Ethernet Cartridge (MasC=uerade)",
+        "ethernet-cart",
+        ethernet_cart_widget_create, NULL },
 #endif
 
-    { "MIDI emulation",             midi_widget_create, NULL },
-    { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tapeport devices",           tapeport_devices_widget_create, NULL },
+    { "MIDI emulation",
+        "midi",
+        midi_widget_create, NULL },
+    { "Userport devices",
+        "userport-devices",
+        userport_devices_widget_create, NULL },
+    { "Tapeport devices",
+        "tapeport-devices",
+        tapeport_devices_widget_create, NULL },
 
-    { NULL, NULL, NULL }
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -327,15 +523,27 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t plus4_io_extensions[] = {
-    { "ACIA",                       plus4_acia_widget_create, NULL },
-    { "Digiblaster add-on",         plus4_digiblaster_widget_create, NULL },
-    { "SID Cartridge",              sidcart_widget_create, NULL },
-    { "V364 Speech",                v364_speech_widget_create, NULL },
+    { "ACIA",
+        "acia",
+        plus4_acia_widget_create, NULL },
+    { "Digiblaster add-on",
+        "digiblaster",
+        plus4_digiblaster_widget_create, NULL },
+    { "SID Cartridge",
+        "sid-cart",
+        sidcart_widget_create, NULL },
+    { "V364 Speech",
+        "v364",
+        v364_speech_widget_create, NULL },
 
-    { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          tapeport_devices_widget_create, NULL },
+    { "Userport devices",
+        "userport-devices",
+        userport_devices_widget_create, NULL },
+    { "Tape port devices",
+        "tapeport-devices",
+        tapeport_devices_widget_create, NULL },
 
-    { NULL, NULL, NULL }
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -344,15 +552,31 @@ static ui_settings_tree_node_t plus4_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t pet_io_extensions[] = {
-    { "PET RAM Expansion Unit",     pet_reu_widget_create, NULL },
-    { "PET Colour graphics",        pet_colour_graphics_widget_create, NULL },
-    { "PET DWW hi-res graphics",    pet_dww_widget_create, NULL },
-    { "PET HRE hi-res graphics",    pet_hre_widget_create, NULL },
-    { "SID Cartridge",              sidcart_widget_create, NULL },
-    { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          tapeport_devices_widget_create, NULL },
-    { "PET userport diagnostic pin", pet_diagpin_widget_create, NULL },
-    { NULL, NULL, NULL }
+    { "PET RAM Expansion Unit",
+        "pet-reu",
+        pet_reu_widget_create, NULL },
+    { "PET Colour graphics",
+        "pet-colour",
+        pet_colour_graphics_widget_create, NULL },
+    { "PET DWW hi-res graphics",
+        "pet-dww",
+        pet_dww_widget_create, NULL },
+    { "PET HRE hi-res graphics",
+        "pet-hre",
+        pet_hre_widget_create, NULL },
+    { "SID Cartridge",
+        "sid-cart",
+        sidcart_widget_create, NULL },
+    { "Userport devices",
+        "userport-devices",
+        userport_devices_widget_create, NULL },
+    { "Tape port devices",
+        "tapeport-devices",
+        tapeport_devices_widget_create, NULL },
+    { "PET userport diagnostic pin",
+        "pet-diagpin",
+        pet_diagpin_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -361,8 +585,10 @@ static ui_settings_tree_node_t pet_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
-    { "Tape port devices",          tapeport_devices_widget_create, NULL },
-    { NULL, NULL, NULL }
+    { "Tape port devices",
+        "tapeport-devices",
+        tapeport_devices_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -371,17 +597,24 @@ static ui_settings_tree_node_t cbm5x0_io_extensions[] = {
  * Every empty line indicates a separator in the Gtk2 UI's menu
  */
 static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
-    { "Userport devices",           userport_devices_widget_create, NULL },
-    { "Tape port devices",          tapeport_devices_widget_create, NULL },
-    { NULL, NULL, NULL }
+    { "Userport devices",
+        "userport-devices",
+        userport_devices_widget_create, NULL },
+    { "Tape port devices",
+        "tapeport_devices",
+        tapeport_devices_widget_create, NULL },
+    UI_SETTINGS_TERMINATOR
 };
 
 
 /** \brief  No I/O extensions (temporary)
  */
 static ui_settings_tree_node_t no_io_extensions[] = {
-    { "NOT IMPLEMENTED", NULL, NULL },
-    { NULL, NULL, NULL }
+    { "NOT IMPLEMENTED",
+       "not-implented",
+       NULL, NULL },
+
+    UI_SETTINGS_TERMINATOR
 };
 
 
@@ -405,31 +638,68 @@ static ui_settings_tree_node_t no_io_extensions[] = {
  * -- compyx 2017-09-24
  */
 static ui_settings_tree_node_t main_nodes[] = {
-    { "Speed settings", uispeed_create_central_widget, NULL },
-    { "Keyboard settings", uikeyboard_create_central_widget, NULL },
-    { "Sound settings", uisound_create_central_widget, NULL },
-    { "Sampler settings", uisamplersettings_widget_create, NULL },
-    { "Autostart settings", uiautostart_create_central_widget, NULL },
-    { "Drive settings", uidrivesettings_widget_create, NULL },
-    { "Printer settings", uiprintersettings_widget_create, NULL },
-    { "Control port settings", uicontrolport_widget_create, NULL },
-    { "Joystick settings", uijoystick_widget_create, NULL },
-    { "Mouse settings", uimousesettings_widget_create, NULL },
-    { "Model settings", uimodel_create_central_widget, NULL },
-    { "RAM reset pattern", create_ram_reset_central_widget, NULL },
-    { "Miscellaneous", uimisc_create_central_widget, NULL },
-    { "Video settings", uivideosettings_widget_create, NULL },
-    { "SID settings", uisoundchipsettings_widget_create, NULL },
+    { "Speed settings",
+       "speed",
+       uispeed_create_central_widget, NULL },
+    { "Keyboard settings",
+       "keyboard",
+       uikeyboard_create_central_widget, NULL },
+    { "Sound settings",
+       "sound",
+       uisound_create_central_widget, NULL },
+    { "Sampler settings",
+       "sampler",
+       uisamplersettings_widget_create, NULL },
+    { "Autostart settings",
+       "autostart",
+       uiautostart_create_central_widget, NULL },
+    { "Drive settings",
+       "drive",
+       uidrivesettings_widget_create, NULL },
+    { "Printer settings",
+        "printer",
+        uiprintersettings_widget_create, NULL },
+    { "Control port settings",
+        "control-port",
+        uicontrolport_widget_create, NULL },
+    { "Joystick settings",
+        "joystick",
+        uijoystick_widget_create, NULL },
+    { "Mouse settings",
+        "mouse",
+        uimousesettings_widget_create, NULL },
+    { "Model settings",
+        "model",
+        uimodel_create_central_widget, NULL },
+    { "RAM reset pattern",
+        "ram-reset",
+        create_ram_reset_central_widget, NULL },
+    { "Miscellaneous",
+        "misc",
+        uimisc_create_central_widget, NULL },
+    { "Video settings",
+        "video",
+        uivideosettings_widget_create, NULL },
+    { "SID settings",
+        "sid",
+        uisoundchipsettings_widget_create, NULL },
 
     /* the `c64_io_extensions` is a placeholder: it will get replaced by the
      * proper per-machine list. Unfortunately with a fixed index into this list
      * until I refactor the tree model code into something more flexible
      * -- compyx*/
-    { "I/O extensions", ioextensions_widget_create, c64_io_extensions },
+    { "I/O extensions",
+        "io-extensions",
+        ioextensions_widget_create, c64_io_extensions },
 
-    { "Snaphot/event recording, media file stuff", snapshot_widget_create, NULL },
-    { "Monitor settings", monitor_settings_widget_create, NULL },
-    { NULL, NULL, NULL }
+    { "Snaphot/event/media recording",
+        "snapshot",
+        snapshot_widget_create, NULL },
+    { "Monitor settings",
+        "monitor",
+        monitor_settings_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
 };
 
 
