@@ -134,7 +134,18 @@
 #include "uisettings.h"
 
 
-#define NUM_COLUMNS 2
+/** \brief  Number of columns in the tree model
+ */
+#define NUM_COLUMNS 3
+
+
+/** \brief  Column indici for the tree model
+ */
+enum {
+    COLUMN_NAME = 0,    /**< name */
+    COLUMN_ID,          /**< id */
+    COLUMN_CALLBACK     /**< callback function */
+};
 
 
 #define DIALOG_WIDTH 800
@@ -627,6 +638,7 @@ static ui_settings_tree_node_t no_io_extensions[] = {
  */
 #define IO_EXTENSIONS_INDEX 15
 
+
 /** \brief  Main tree nodes
  *
  *
@@ -722,7 +734,15 @@ static GtkWidget *settings_window = NULL;
 static GtkWidget *settings_grid = NULL;
 
 
-static GtkWidget *settings_tree;
+/** \brief  Reference to the tree model for the settings tree
+ */
+static GtkTreeStore *settings_model = NULL;
+
+
+/** \brief  Reference to the tree view for the settings tree
+ */
+static GtkWidget *settings_tree = NULL;
+
 
 
 /** \brief  Handler for the "changed" event of the tree view
@@ -742,9 +762,10 @@ static void on_tree_selection_changed(
     {
         gchar *name;
         GtkWidget *(*callback)(void *) = NULL;
-        gtk_tree_model_get(model, &iter, 0 /* col 0 */, &name, -1);
+
+        gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
         debug_gtk3("item '%s' clicked\n", name);
-        gtk_tree_model_get(model, &iter, 1, &callback, -1);
+        gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
         if (callback != NULL) {
             ui_settings_set_central_widget(callback(NULL));
         }
@@ -778,24 +799,84 @@ static GtkWidget *create_confirm_on_exit_checkbox(void)
 }
 
 
+/** \brief  Create empty tree model for the settings tree
+ */
+static void create_tree_model(void)
+{
+    settings_model = gtk_tree_store_new(NUM_COLUMNS,
+            G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER);
+}
+
+
+/** \brief  Get iterator into the tree model by \a path, setting \a iter
+ *
+ * Sets \a iter to the position in the settings tree model as requested by
+ * \a path. If \a path is `NULL` or "" an iter to the very first element in
+ * the tree model will be set (no idea if this useful).
+ *
+ * \param[in]   path    xpath-like expression ("foo/bar/huppel" for now)
+ * \param[out]  iter    tree model iterator target
+ *
+ * \return  boolean (probably best not to touch \a iter when `false`)
+ */
+static bool get_tree_iter_by_xpath(const char *path, GtkTreeIter *iter)
+{
+    GtkTreeModel *model = GTK_TREE_MODEL(settings_model);
+    gchar **elements;
+    gchar **curr;
+
+    gtk_tree_model_get_iter_first(GTK_TREE_MODEL(settings_model), iter);
+    if (path == NULL || *path == '\0') {
+        return true;
+    }
+
+    /* split the path into elements */
+    debug_gtk3("splitting '%s' into elements ...\n", path);
+    elements = g_strsplit(path, "/", 0);
+    for (curr = elements; *curr != NULL; curr++) {
+        debug_gtk3("element '%s'\n", *curr);
+        do {
+            const char *id;
+
+            gtk_tree_model_get(model, iter, COLUMN_ID, &id, -1);
+            debug_gtk3("checking ID string '%s'=='%s'\n", id, *curr);
+            if (strcmp(id, *curr) == 0) {
+                const char *name;
+                gtk_tree_model_get(model, iter, COLUMN_NAME, &name, -1);
+                debug_gtk3("got the bastard! '%s'\n", name);
+                /* clean up */
+                g_strfreev(elements);
+                return true;
+            }
+
+        } while (gtk_tree_model_iter_next(model, iter));
+    }
+    /* TODO: figure out if Gtk supports setting an iter to an invalid state
+     *       that avoids weird behaviour */
+    g_strfreev(elements);
+    return false;
+}
+
+
 /** \brief  Create tree store containing settings items and children
  *
  * \return  GtkTreeStore
  */
-static GtkTreeStore *create_tree_store(void)
+static GtkTreeStore *populate_tree_model(void)
 {
-    GtkTreeStore *store;
+    GtkTreeStore *model;
     GtkTreeIter iter;
     GtkTreeIter child;
     int i;
 
-    store = gtk_tree_store_new(NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER);
+    model = settings_model;
 
     for (i = 0; main_nodes[i].name != NULL; i++) {
-        gtk_tree_store_append(store, &iter, NULL);
-        gtk_tree_store_set(store, &iter,
-                0, main_nodes[i].name,
-                1, main_nodes[i].callback,
+        gtk_tree_store_append(model, &iter, NULL);
+        gtk_tree_store_set(model, &iter,
+                COLUMN_NAME, main_nodes[i].name,
+                COLUMN_ID, main_nodes[i].id,
+                COLUMN_CALLBACK, main_nodes[i].callback,
                 -1);
         /* this bit will need proper recursion if we need more than two
          * levels of subitems */
@@ -813,15 +894,16 @@ static GtkTreeStore *create_tree_store(void)
                     g_snprintf(buffer, 256, "TODO: %s", list[c].name);
                 }
 
-                gtk_tree_store_append(store, &child, &iter);
-                gtk_tree_store_set(store, &child,
-                        0, buffer,
-                        1, list[c].callback,
+                gtk_tree_store_append(model, &child, &iter);
+                gtk_tree_store_set(model, &child,
+                        COLUMN_NAME, buffer,
+                        COLUMN_ID, list[c].id,
+                        COLUMN_CALLBACK, list[c].callback,
                         -1);
             }
         }
     }
-    return store;
+    return model;
 }
 
 
@@ -831,13 +913,14 @@ static GtkTreeStore *create_tree_store(void)
  *
  * \return  GtkTreeView
  *
- * TODO:    handle nested items, and write up somewhere how the hell I finally
- *          got the callbacks working
+ * TODO:    Handle nested items, and write up somewhere how the hell I finally
+ *          got the callbacks working.
+ *          Split into a function creating the tree view and functions adding,
+ *          altering or removing nodes.
  */
 static GtkWidget *create_treeview(void)
 {
     GtkWidget *tree;
-    GtkTreeStore *store;
     GtkCellRenderer *text_renderer;
     GtkTreeViewColumn *text_column;
 
@@ -888,13 +971,12 @@ static GtkWidget *create_treeview(void)
     }
     main_nodes[IO_EXTENSIONS_INDEX].children = io_nodes;
 
-
-    store = create_tree_store();
-    tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+    create_tree_model();
+    tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(populate_tree_model()));
 
     text_renderer = gtk_cell_renderer_text_new();
     text_column = gtk_tree_view_column_new_with_attributes(
-            NULL,
+            "item-name",
             text_renderer,
             "text", 0,
             NULL);
@@ -1097,18 +1179,6 @@ static gboolean on_dialog_configure_event(
 }
 
 
-static bool select_item_xpath(const char *xpath)
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-
-    model = gtk_tree_view_get_model(GTK_TREE_VIEW(settings_tree));
-    gtk_tree_model_get_iter_from_string(model, &iter, xpath);
-
-
-    return true;
-}
-
 
 /** \brief  Callback to create the main settings dialog from the menu
  *
@@ -1127,6 +1197,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     GtkWidget *content;
     char title[256];
+    GtkTreeIter iter;
 
     g_snprintf(title, 256, "%s Settings", machine_name);
 
@@ -1149,12 +1220,17 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
 
-    if (user_data != NULL) {
-        const char *s = (const char *)user_data;
-        debug_gtk3("XPath expression = '%s'\n",s );
-        select_item_xpath(s);
+    /* XXX: used to test some tree manipulation functions, remove when stuff
+     *      works
+     */
+    if (get_tree_iter_by_xpath("io-extensions/expert-cart", &iter)) {
+        debug_gtk3("yay, got iterator\n");
+    } else {
+        debug_gtk3("oops, no iterator found\n");
     }
 
 
+
+    /* XXX: this is normal code again */
     gtk_widget_show_all(dialog);
 }
