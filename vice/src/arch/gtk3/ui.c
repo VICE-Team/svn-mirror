@@ -223,13 +223,14 @@ static int (*identify_canvas_func)(video_canvas_t *) = NULL;
 
 /** \brief  Get the most recently focused main window
  *
- * \return  pointer to a main window
+ * \return  pointer to a main window, or NULL
  */
 GtkWindow *ui_get_active_window(void)
 {
     if (active_win_index < 0) {
-        /* Probably should never end up here. */
-        return GTK_WINDOW(ui_resources.window_widget[PRIMARY_WINDOW]);
+        /* If we end up here it probably means no main window has
+         * been created yet. */
+        return NULL;
     }
 
     return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
@@ -238,13 +239,14 @@ GtkWindow *ui_get_active_window(void)
 
 /** \brief  Get video canvas of active window
  *
- * \return  current active video canvas
+ * \return  current active video canvas, or NULL
  */
-struct video_canvas_s *ui_get_active_canvas(void)
+video_canvas_t *ui_get_active_canvas(void)
 {
     if (active_win_index < 0) {
-        /* Probably should never end up here. */
-        return ui_resources.canvas[PRIMARY_WINDOW];
+        /* If we end up here it probably means no main window has
+         * been created yet. */
+        return NULL;
     }
     return ui_resources.canvas[active_win_index];
 }

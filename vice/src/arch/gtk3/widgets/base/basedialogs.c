@@ -46,8 +46,9 @@ static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 
 /** \brief  Create a GtkMessageDialog
  *
- * \param[in]   widget      parent widget or `NULL` (when used before the UI
- *                          is properly set up)
+ * FIXME: remove widget parameter
+ *
+ * \param[in]   widget      parent widget (not used anymore!)
  * \param[in]   type        message type
  * \param[in]   buttons     buttons to use
  * \param[in]   title       dialog title
@@ -60,15 +61,13 @@ static GtkWidget *create_dialog(GtkWidget *widget,
                                 const char *title, const char *text)
 {
     GtkWidget *dialog;
-    GtkWindow *parent;
+    GtkWindow *parent = ui_get_active_window();
     bool no_parent = false;
 
-    if (widget == NULL) {
+    if (parent == NULL) {
         /* set up a temporary parent to avoid Gtk warnings */
         no_parent = true;
         parent = GTK_WINDOW(gtk_window_new(GTK_WINDOW_TOPLEVEL));
-   } else {
-        parent = ui_get_active_window();
     }
 
     dialog = gtk_message_dialog_new(
