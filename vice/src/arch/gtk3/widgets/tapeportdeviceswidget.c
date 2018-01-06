@@ -289,7 +289,7 @@ static GtkWidget *create_tapecart_widget(void)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
 
     tapecart_enable = resource_check_button_create("TapecartEnabled",
-            "Enable Tapecart");
+            "Enable tapecart");
     gtk_grid_attach(GTK_GRID(grid), tapecart_enable, 0, 0, 1, 1);
 
     tapecart_update = resource_check_button_create("TapecartUpdateTCRT",

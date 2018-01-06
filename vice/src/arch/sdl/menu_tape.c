@@ -205,7 +205,7 @@ const ui_menu_entry_t cpclockf83_device_menu[] = {
 
 
 /*
- * TapeCart support (see https://github.com/ikorb/tapecart/)
+ * tapecart support (see https://github.com/ikorb/tapecart/)
  */
 UI_MENU_DEFINE_TOGGLE(TapecartEnabled)
 UI_MENU_DEFINE_TOGGLE(TapecartUpdateTCRT)
@@ -214,22 +214,22 @@ UI_MENU_DEFINE_INT(TapecartLoglevel)
 UI_MENU_DEFINE_FILE_STRING(TapecartTCRTFilename)
 
 const ui_menu_entry_t tapecart_submenu[] = {
-    { "Enable Tapecart",
+    { "Enable tapecart",
         MENU_ENTRY_RESOURCE_TOGGLE,
         toggle_TapecartEnabled_callback,
         NULL },
-    { "Save Tapecart data when changed",
+    { "Save tapecart data when changed",
         MENU_ENTRY_RESOURCE_TOGGLE,
         toggle_TapecartUpdateTCRT_callback,
         NULL },
-    { "Optimize Tapecart data when changed",
+    { "Optimize tapecart data when changed",
         MENU_ENTRY_RESOURCE_TOGGLE,
         toggle_TapecartOptimizeTCRT_callback,
         NULL },
-    { "Tapecart Log level",
+    { "tapecart Log level",
         MENU_ENTRY_RESOURCE_INT,
         int_TapecartLoglevel_callback,
-        (ui_callback_data_t)"Set Tapecart log level" },
+        (ui_callback_data_t)"Set tapecart log level" },
     { "TCRT filename",
         MENU_ENTRY_DIALOG,
         file_string_TapecartTCRTFilename_callback,
@@ -263,7 +263,7 @@ const ui_menu_entry_t tapeport_devices_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)cpclockf83_device_menu },
-    { "Tapecart device settings",
+    { "tapecart device settings",
         MENU_ENTRY_SUBMENU,
         submenu_callback,
         (ui_callback_data_t)tapecart_submenu },
