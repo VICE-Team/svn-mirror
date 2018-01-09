@@ -28,6 +28,7 @@
 
 #include "vice.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 
 /** \brief  Settings tree node object
@@ -53,5 +54,9 @@ void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data);
 
 void ui_settings_dialog_create(GtkWidget *, gpointer user_data);
 void ui_settings_dialog_shutdown(void);
+
+bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter);
+bool ui_settings_append_by_xpath(const char *path,
+                                 ui_settings_tree_node_t *nodes);
 
 #endif

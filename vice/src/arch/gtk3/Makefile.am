@@ -107,7 +107,8 @@ libarch_a_SOURCES = \
 	uicart.c \
 	uimedia.c \
 	uinetplay.c \
-	uisidattach.c
+	uisidattach.c \
+	uinetplay_new.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -175,4 +176,5 @@ EXTRA_DIST = \
 	uicart.h \
 	uimedia.h \
 	uinetplay.h \
-	uisidattach.h
+	uisidattach.h \
+	uinetplay_new.h

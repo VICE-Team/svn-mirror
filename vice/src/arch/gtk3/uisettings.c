@@ -819,7 +819,7 @@ static void create_tree_model(void)
  *
  * \return  boolean (probably best not to touch \a iter when `false`)
  */
-static bool get_tree_iter_by_xpath(const char *path, GtkTreeIter *iter)
+bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter)
 {
     GtkTreeModel *model = GTK_TREE_MODEL(settings_model);
     gchar **elements;
@@ -854,6 +854,19 @@ static bool get_tree_iter_by_xpath(const char *path, GtkTreeIter *iter)
     /* TODO: figure out if Gtk supports setting an iter to an invalid state
      *       that avoids weird behaviour */
     g_strfreev(elements);
+    return false;
+}
+
+
+bool ui_settings_append_by_xpath(const char *path, ui_settings_tree_node_t *nodes)
+{
+    GtkTreeModel *model = GTK_TREE_MODEL(settings_model);
+    GtkTreeIter iter;
+
+    if (ui_settings_iter_by_xpath(path, &iter)) {
+        /* found the proper node, add node */
+        return true;
+    }
     return false;
 }
 
@@ -1223,7 +1236,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     /* XXX: used to test some tree manipulation functions, remove when stuff
      *      works
      */
-    if (get_tree_iter_by_xpath("io-extensions/expert-cart", &iter)) {
+    if (ui_settings_iter_by_xpath("io-extensions/expert-cart", &iter)) {
         debug_gtk3("yay, got iterator\n");
     } else {
         debug_gtk3("oops, no iterator found\n");

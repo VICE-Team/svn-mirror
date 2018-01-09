@@ -54,6 +54,7 @@
 
 #ifdef HAVE_NETWORK
 # include "uinetplay.h"
+# include "uinetplay_new.h"
 #endif
 
 #include "uisettings.h"
@@ -311,7 +312,11 @@ static ui_menu_item_t file_menu_tail[] = {
 
 #ifdef HAVE_NETWORK
     { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION,
+#if 0
+        NULL, ui_netplay_dialog_new, NULL,
+#else
         NULL, ui_netplay_dialog, NULL,
+#endif
         0, 0 },
 
     UI_MENU_SEPARATOR,
