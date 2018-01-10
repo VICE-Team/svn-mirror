@@ -35,6 +35,8 @@
 
 #include <gtk/gtk.h>
 
+struct vice_renderer_backend_s;
+
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
@@ -46,6 +48,8 @@ struct video_canvas_s {
     /* The video canvas is surrounded by an GtkEventBox which can
      * capture events like mouse motion or clicks. */
     GtkWidget *event_box;
+    /* The renderer backend selected for use this run. */
+    struct vice_renderer_backend_s *renderer_backend;
     /* Renderers have data unique to themselves, too. They'll know
      * what this is. */
     void *renderer_context;
@@ -87,7 +91,5 @@ struct vice_renderer_backend_s {
     void (*set_palette)(video_canvas_t *canvas);
 };
 typedef struct vice_renderer_backend_s vice_renderer_backend_t;
-
-extern vice_renderer_backend_t *vice_renderer_backend;
 
 #endif

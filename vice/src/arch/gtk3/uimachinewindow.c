@@ -5,7 +5,7 @@
  *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * based on code by
- *  TODO: move code by other people into this file
+ *  Michael C. Martin <mcmartin@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,21 +36,109 @@
 
 #include <gtk/gtk.h>
 
+#include "cairo_renderer.h"
+#include "opengl_renderer.h"
 #include "videoarch.h"
 
 #include "ui.h"
 #include "uimachinewindow.h"
 
-static void machine_window_create(struct video_canvas_s *canvas)
+#if 0
+static void event_box_no_cleanup_needed(gpointer ignored)
 {
-    GtkWidget *new_drawing_area;
+    /* Yep, ignored */
+}
+#endif
 
-    new_drawing_area = vice_renderer_backend->create_widget(canvas);
+static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+    video_canvas_t *canvas = (video_canvas_t *)user_data;
+
+    canvas->still_frames = 0;
+    return FALSE;
+}
+
+static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *clock, gpointer user_data)
+{
+    video_canvas_t *canvas = (video_canvas_t *)user_data;
+
+    ++canvas->still_frames;
+    if (canvas->still_frames > 60) {
+        GdkDisplay *display = gtk_widget_get_display(widget);
+
+        if (display != NULL && canvas->blank_ptr == NULL) {
+            canvas->blank_ptr = gdk_cursor_new_from_name(display, "none");
+            if (canvas->blank_ptr != NULL) {
+                g_object_ref_sink(G_OBJECT(canvas->blank_ptr));
+            } else {
+                /* FIXME: This can fill a terminal with repeated text */
+                fprintf(stderr, "GTK3 CURSOR: Could not allocate blank pointer for canvas\n");
+            }
+        }
+        if (canvas->blank_ptr != NULL) {
+            GdkWindow *window = gtk_widget_get_window(widget);
+
+            if (window) {
+                gdk_window_set_cursor(window, canvas->blank_ptr);
+            }
+        }
+    } else {
+        GdkWindow *window = gtk_widget_get_window(widget);
+        if (window) {
+            gdk_window_set_cursor(window, NULL);
+        }
+    }
+    return G_SOURCE_CONTINUE;
+}
+
+static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+    video_canvas_t *canvas = (video_canvas_t *)user_data;
+
+    if (event && event->type == GDK_ENTER_NOTIFY) {
+        canvas->still_frames = 0;
+        if (canvas->still_frame_callback_id == 0) {
+            canvas->still_frame_callback_id = gtk_widget_add_tick_callback(canvas->drawing_area,
+                                                                           event_box_stillness_tick_cb,
+                                                                           canvas, NULL);
+        }
+    } else {
+        GdkWindow *window = gtk_widget_get_window(canvas->drawing_area);
+
+        if (window) {
+            gdk_window_set_cursor(window, NULL);
+        }
+        if (canvas->still_frame_callback_id != 0) {
+            gtk_widget_remove_tick_callback(canvas->drawing_area, canvas->still_frame_callback_id);
+            canvas->still_frame_callback_id = 0;
+        }
+    }
+    return FALSE;
+}
+
+static void machine_window_create(video_canvas_t *canvas)
+{
+    GtkWidget *new_drawing_area, *new_event_box;
+
+    /* TODO: Make the rendering process transparent enough that this can be selected and altered as-needed */
+#ifdef HAVE_GTK3_OPENGL
+    canvas->renderer_backend = &vice_opengl_backend;
+#else
+    canvas->renderer_backend = &vice_cairo_backend;
+#endif
+
+    new_drawing_area = canvas->renderer_backend->create_widget(canvas);
+
+    new_event_box = gtk_event_box_new();
+    gtk_container_add(GTK_CONTAINER(new_event_box), new_drawing_area);
+
+    gtk_widget_add_events(new_event_box, GDK_POINTER_MOTION_MASK);
+    g_signal_connect(new_event_box, "enter-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
+    g_signal_connect(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
+    g_signal_connect(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
 
     canvas->drawing_area = new_drawing_area;
-    canvas->event_box = gtk_event_box_new();
-    gtk_container_add(GTK_CONTAINER(canvas->event_box), new_drawing_area);
-
+    canvas->event_box = new_event_box;
     return;
 }
 

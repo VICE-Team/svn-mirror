@@ -44,15 +44,6 @@
 #include "translate.h"
 #include "ui.h"
 #include "videoarch.h"
-#include "cairo_renderer.h"
-#include "opengl_renderer.h"
-
-/* TODO: Make the rendering process transparent enough that this can be selected and altered as-needed */
-#ifdef HAVE_GTK3_OPENGL
-vice_renderer_backend_t *vice_renderer_backend = &vice_opengl_backend;
-#else
-vice_renderer_backend_t *vice_renderer_backend = &vice_cairo_backend;
-#endif
 
 #define VICE_DEBUG_NATIVE_GTK3
 
@@ -195,69 +186,6 @@ char video_canvas_can_resize(video_canvas_t *canvas)
     return 1;
 }
 
-static void video_canvas_no_cleanup_needed(gpointer ignored)
-{
-    /* Yep, ignored */
-}
-
-static gboolean video_canvas_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
-{
-    video_canvas_t *canvas = (video_canvas_t *)user_data;
-    canvas->still_frames = 0;
-    return FALSE;
-}
-
-static gboolean video_canvas_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *clock, gpointer user_data)
-{
-    video_canvas_t *canvas = (video_canvas_t *)user_data;
-    ++canvas->still_frames;
-    if (canvas->still_frames > 60) {
-        GdkDisplay *display;
-        display = gtk_widget_get_display(widget);
-        if (display != NULL && canvas->blank_ptr == NULL) {
-            canvas->blank_ptr = gdk_cursor_new_from_name(display, "none");
-            if (canvas->blank_ptr != NULL) {
-                g_object_ref_sink(G_OBJECT(canvas->blank_ptr));
-            } else {
-                fprintf(stderr, "GTK3 CURSOR: Could not allocate blank pointer for canvas\n");
-            }
-        }
-        if (canvas->blank_ptr != NULL) {
-            GdkWindow *window = gtk_widget_get_window(widget);
-            if (window) {
-                gdk_window_set_cursor(window, canvas->blank_ptr);
-            }
-        }
-    } else {
-        GdkWindow *window = gtk_widget_get_window(widget);
-        if (window) {
-            gdk_window_set_cursor(window, NULL);
-        }
-    }
-    return G_SOURCE_CONTINUE;
-}
-
-static gboolean video_canvas_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
-{
-    video_canvas_t *canvas = (video_canvas_t *)user_data;
-    if (event && event->type == GDK_ENTER_NOTIFY) {
-        canvas->still_frames = 0;
-        if (canvas->still_frame_callback_id == 0) {
-            canvas->still_frame_callback_id = gtk_widget_add_tick_callback(canvas->drawing_area, video_canvas_stillness_tick_cb, canvas, video_canvas_no_cleanup_needed);
-        }
-    } else {
-        GdkWindow *window = gtk_widget_get_window(canvas->drawing_area);
-        if (window) {
-            gdk_window_set_cursor(window, NULL);
-        }
-        if (canvas->still_frame_callback_id != 0) {
-            gtk_widget_remove_tick_callback(canvas->drawing_area, canvas->still_frame_callback_id);
-            canvas->still_frame_callback_id = 0;
-        }
-    }
-    return FALSE;
-}
-
 video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
@@ -269,13 +197,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->blank_ptr = NULL;
     canvas->still_frame_callback_id = 0;
     ui_create_toplevel_window(canvas);
-    if (width && height) {
-        vice_renderer_backend->update_context(canvas, *width, *height);
+    if (width && height && canvas->renderer_backend) {
+        canvas->renderer_backend->update_context(canvas, *width, *height);
     }
-    gtk_widget_add_events(canvas->event_box, GDK_POINTER_MOTION_MASK);
-    g_signal_connect(canvas->event_box, "enter-notify-event", G_CALLBACK(video_canvas_cross_cb), canvas);
-    g_signal_connect(canvas->event_box, "leave-notify-event", G_CALLBACK(video_canvas_cross_cb), canvas);
-    g_signal_connect(canvas->event_box, "motion-notify-event", G_CALLBACK(video_canvas_motion_cb), canvas);
 
     ui_display_toplevel_window(canvas->window_index);
 
@@ -287,13 +211,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
 void video_canvas_destroy(struct video_canvas_s *canvas)
 {
     if (canvas != NULL) {
-#ifdef HAVE_FULLSCREEN
-        fullscreen_shutdown_alloc_hooks(canvas);
-        if (canvas->fullscreenconfig != NULL) {
-            lib_free(canvas->fullscreenconfig);
+        if (canvas->renderer_backend) {
+            canvas->renderer_backend->destroy_context(canvas);
         }
-#endif
-        vice_renderer_backend->destroy_context(canvas);
         if (canvas->blank_ptr) {
             g_object_unref(G_OBJECT(canvas->blank_ptr));
         }
@@ -315,7 +235,9 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
     yi *= canvas->videoconfig->scaley;
     h *= canvas->videoconfig->scaley;
 
-    vice_renderer_backend->refresh_rect(canvas, xs, ys, xi, yi, w, h);
+    if (canvas->renderer_backend) {
+        canvas->renderer_backend->refresh_rect(canvas, xs, ys, xi, yi, w, h);
+    }
 }
 
 void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
@@ -332,7 +254,9 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
             return;
         }
 
-        vice_renderer_backend->update_context(canvas, new_width, new_height);
+        if (canvas->renderer_backend) {
+            canvas->renderer_backend->update_context(canvas, new_width, new_height);
+        }
 
         /* Set the palette */
         if (video_canvas_set_palette(canvas, canvas->palette) < 0) {
@@ -361,7 +285,9 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
         return 0; /* No palette, nothing to do */
     }
     canvas->palette = palette;
-    vice_renderer_backend->set_palette(canvas);
+    if (canvas->renderer_backend) {
+        canvas->renderer_backend->set_palette(canvas);
+    }
     return 0;
 }
 
