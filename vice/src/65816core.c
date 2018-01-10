@@ -2653,7 +2653,7 @@ trap_skipped:
             break;
 
           case 0x0c:            /* TSB $nnnn */
-            TSB(LOAD_ABS2_FUNC_RRW, STORE_ABS2_RRW);
+            TSB(LOAD_ABS_FUNC_RRW, STORE_ABS_RRW);
             break;
 
           case 0x0d:            /* ORA $nnnn */
@@ -2717,7 +2717,7 @@ trap_skipped:
             break;
 
           case 0x1c:            /* TRB $nnnn */
-            TRB(LOAD_ABS2_FUNC_RRW, STORE_ABS2_RRW);
+            TRB(LOAD_ABS_FUNC_RRW, STORE_ABS_RRW);
             break;
 
           case 0x1d:            /* ORA $nnnn,X */
@@ -3165,7 +3165,7 @@ trap_skipped:
             break;
 
           case 0x8c:            /* STY $nnnn */
-            STY(STORE_ABS2);
+            STY(STORE_ABS);
             break;
 
           case 0x8d:            /* STA $nnnn */
@@ -3173,7 +3173,7 @@ trap_skipped:
             break;
 
           case 0x8e:            /* STX $nnnn */
-            STX(STORE_ABS2);
+            STX(STORE_ABS);
             break;
 
           case 0x8f:            /* STA $nnnnnn */
@@ -3293,7 +3293,7 @@ trap_skipped:
             break;
 
           case 0xac:            /* LDY $nnnn */
-            LDY(LOAD_ABS2_FUNC);
+            LDY(LOAD_ABS_FUNC);
             break;
 
           case 0xad:            /* LDA $nnnn */
@@ -3301,7 +3301,7 @@ trap_skipped:
             break;
 
           case 0xae:            /* LDX $nnnn */
-            LDX(LOAD_ABS2_FUNC);
+            LDX(LOAD_ABS_FUNC);
             break;
 
           case 0xaf:            /* LDA $nnnnnn */
@@ -3357,7 +3357,7 @@ trap_skipped:
             break;
 
           case 0xbc:            /* LDY $nnnn,X */
-            LDY(LOAD_ABS2_X_FUNC);
+            LDY(LOAD_ABS_X_FUNC);
             break;
 
           case 0xbd:            /* LDA $nnnn,X */
@@ -3365,7 +3365,7 @@ trap_skipped:
             break;
 
           case 0xbe:            /* LDX $nnnn,Y */
-            LDX(LOAD_ABS2_Y_FUNC);
+            LDX(LOAD_ABS_Y_FUNC);
             break;
 
           case 0xbf:            /* LDA $nnnnnn,X */
