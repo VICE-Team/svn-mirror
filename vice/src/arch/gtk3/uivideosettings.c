@@ -115,81 +115,93 @@ static void on_destroy(GtkWidget *widget)
 }
 
 
+/* TODO: these functions might need documentation, though what they do is
+ *       pretty clear (to me).
+ */
 
 
 static GtkWidget *create_double_size_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sDoubleSize", "Double size",
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sDoubleSize", "Double size",
             chip_name[index]);
 }
 
 
 static GtkWidget *create_double_scan_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sDoubleScan", "Double scan",
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sDoubleScan", "Double scan",
             chip_name[index]);
 }
 
 
 static GtkWidget *create_video_cache_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sVideoCache", "Video cache",
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sVideoCache", "Video cache",
             chip_name[index]);
 }
 
 
 static GtkWidget *create_vert_stretch_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sStretchVertical",
-            "Stretch vertically", chip_name[index]);
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sStretchVertical","Stretch vertically",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_audio_leak_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sAudioLeak",
-            "Audio leak emulation", chip_name[index]);
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sAudioLeak", "Audio leak emulation",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_sprite_sprite_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sCheckSsColl",
-            "Sprite-sprite collisions", chip_name[index]);
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sCheckSsColl", "Sprite-sprite collisions",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_sprite_background_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sCheckSbColl",
-            "Sprite-background collisions", chip_name[index]);
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sCheckSbColl", "Sprite-background collisions",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_vsp_bug_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sVSPBug",
-            "VSP bug emulation", chip_name[index]);
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sVSPBug", "VSP bug emulation",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_hw_scale_widget(int index)
 {
-    return resource_check_button_create_sprintf("%sHwScale",
-            "Hardware scaling", chip_name[index]);
+    return vice_gtk3_resource_check_button_create_sprintf(
+            "%sHwScale", "Hardware scaling",
+            chip_name[index]);
 }
 
 
 static GtkWidget *create_keep_aspect_widget(int index)
 {
-    return resource_check_button_create("KeepAspectRatio",
-            "Keep aspect ratio");
+    return vice_gtk3_resource_check_button_create(
+            "KeepAspectRatio", "Keep aspect ratio");
 }
 
 static GtkWidget *create_true_aspect_widget(int index)
 {
-    return resource_check_button_create("TrueAspectRatio",
-            "True aspect ratio");
+    return vice_gtk3_resource_check_button_create(
+            "TrueAspectRatio", "True aspect ratio");
 }
 
 
@@ -303,7 +315,8 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
     gtk_grid_attach(GTK_GRID(wrapper), audio_leak_widget, 0, 1, 1, 1);
     if (uivideo_chip_has_sprites(chip)) {
         gtk_grid_attach(GTK_GRID(wrapper), sprite_sprite_widget, 0, 2, 1, 1);
-        gtk_grid_attach(GTK_GRID(wrapper), sprite_background_widget, 0, 3, 1, 1);
+        gtk_grid_attach(GTK_GRID(wrapper), sprite_background_widget,
+                0, 3, 1, 1);
     }
     if (uivideo_chip_has_vsp_bug(chip)) {
         gtk_grid_attach(GTK_GRID(wrapper), vsp_bug_widget, 0, 4, 1, 1);

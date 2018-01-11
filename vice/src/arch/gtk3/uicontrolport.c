@@ -142,7 +142,7 @@ static void *create_bbrtc_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("BBRTCSave",
+    check = vice_gtk3_resource_check_button_create("BBRTCSave",
             "Save battery-backed real time clock data when changed");
     g_object_set(check, "margin-left", 16, NULL);
     return check;
@@ -192,16 +192,24 @@ static void joyport_devices_list_shutdown(void)
 static int create_c64_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_1, "Control port 1"),
+            create_joyport_widget(
+                JOYPORT_1,
+                "Control port 1"),
             0, 0, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_2, "Control port 2"),
+            create_joyport_widget(
+                JOYPORT_2,
+                "Control port 2"),
             1, 0, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
+            create_joyport_widget(
+                JOYPORT_3,
+                "Userport joystick adapter port 1"),
             0, 1, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
+            create_joyport_widget(
+                JOYPORT_4,
+                "Userport joystick adapter port 2"),
             1, 1, 1, 1);
     return 2;
 }
@@ -218,13 +226,16 @@ static int create_c64_layout(GtkGrid *grid)
 static int create_c64dtv_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_1, "Control port 1"),
+            create_joyport_widget(
+                JOYPORT_1,
+                "Control port 1"),
             0, 0, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_2, "Control port 2"),
             1, 0, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
+            create_joyport_widget(JOYPORT_3,
+                "Userport joystick adapter port 1"),
             0, 1, 1, 1);
     return 2;
 }
@@ -244,10 +255,12 @@ static int create_vic20_layout(GtkGrid *grid)
             create_joyport_widget(JOYPORT_1, "Control port"),
             0, 0, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
+            create_joyport_widget(JOYPORT_3,
+                "Userport joystick adapter port 1"),
             0, 1, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
+            create_joyport_widget(JOYPORT_4,
+                "Userport joystick adapter port 2"),
             1, 1, 1, 1);
     return 2;
 }
@@ -270,10 +283,12 @@ static int create_plus4_layout(GtkGrid *grid)
             create_joyport_widget(JOYPORT_2, "Control port 2"),
             1, 0, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
+            create_joyport_widget(JOYPORT_3,
+                "Userport joystick adapter port 1"),
             0, 1, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
+            create_joyport_widget(JOYPORT_4,
+                "Userport joystick adapter port 2"),
             1, 1, 1, 1);
     gtk_grid_attach(grid,
             create_joyport_widget(JOYPORT_5, "SIDCard control port"),
@@ -313,10 +328,12 @@ static int create_cbm5x0_layout(GtkGrid *grid)
 static int create_cbm6x0_layout(GtkGrid *grid)
 {
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_3, "Userport joystick adapter port 1"),
+            create_joyport_widget(JOYPORT_3,
+                "Userport joystick adapter port 1"),
             0, 0, 1, 1);
     gtk_grid_attach(grid,
-            create_joyport_widget(JOYPORT_4, "Userport joystick adapter port 2"),
+            create_joyport_widget(JOYPORT_4,
+                "Userport joystick adapter port 2"),
             1, 0, 1, 1);
     return 1;
 }

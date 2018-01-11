@@ -93,7 +93,7 @@ GtkWidget *v364_speech_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable = resource_check_button_create("SpeechEnabled",
+    enable = vice_gtk3_resource_check_button_create("SpeechEnabled",
             "Enable V364 Speech");
 
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);

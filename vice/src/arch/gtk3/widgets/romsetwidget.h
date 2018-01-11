@@ -1,11 +1,8 @@
-/** \file   src/arch/gtk3/widgets/finalexpansionwidget.c
- * \brief   VIC-20 Final Expansion widget
+/** \file   src/arch/gtk3/widget/romsetwidget.h
+ * \brief   GTK3 ROM set widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  FinalExpansionWriteBack (xvic)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,37 +21,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- *
  */
+
+#ifndef VICE_ROMSETWIDGET_H
+#define VICE_ROMSETWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "machine.h"
-#include "resources.h"
-#include "debug_gtk3.h"
-#include "widgethelpers.h"
-#include "basewidgets.h"
+GtkWidget *romset_widget_create(GtkWidget *parent);
 
-#include "finalexpansionwidget.h"
-
-
-/** \brief  Create widget to control Final Expansion resources
- *
- * \param[in]   parent  parent widget, used for dialogs
- *
- * \return  GtkGrid
- */
-GtkWidget *final_expansion_widget_create(GtkWidget *parent)
-{
-    GtkWidget *grid;
-
-    grid = gtk_grid_new();
-
-    gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_create("FinalExpansionWriteBack",
-                "Enable Final Expansion image write back"),
-            0, 0, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif

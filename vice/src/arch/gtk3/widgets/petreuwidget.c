@@ -118,7 +118,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* REU enable */
-    enable = resource_check_button_create("PETREU",
+    enable = vice_gtk3_resource_check_button_create("PETREU",
             "Enable PET RAM Expansion Unit");
     g_signal_connect(enable, "toggled", G_CALLBACK(on_reu_toggled), NULL);
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);

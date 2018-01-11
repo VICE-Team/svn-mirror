@@ -214,7 +214,8 @@ static GtkWidget *create_ide64_usb_widget(void)
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
-    enable = resource_check_button_create("IDE64USBServer", "Enable USB server");
+    enable = vice_gtk3_resource_check_button_create("IDE64USBServer",
+            "Enable USB server");
     label = gtk_label_new("USB server address");
     address = resource_entry_create("IDE64USBServerAddress");
     gtk_widget_set_hexpand(address, TRUE);
@@ -265,7 +266,8 @@ static GtkWidget *create_ide64_clockport_widget(void)
  */
 static GtkWidget *create_ide64_rtc_widget(void)
 {
-    return resource_check_button_create("IDE64RTCSave", "Enable RTC saving");
+    return vice_gtk3_resource_check_button_create("IDE64RTCSave",
+            "Enable RTC saving");
 }
 
 
@@ -312,7 +314,7 @@ static GtkWidget *create_ide64_device_widget(int device)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    autosize = resource_check_button_create_sprintf(
+    autosize = vice_gtk3_resource_check_button_create_sprintf(
             "IDE64AutodetectSize%d", "Autodetect image size", device);
     g_object_set(autosize, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), autosize, 0, 2, 3, 1);
@@ -387,7 +389,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
     grid = uihelpers_create_grid_with_label("ShortBus settings", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
-    digimax_enable = resource_check_button_create("SBDIGIMAX",
+    digimax_enable = vice_gtk3_resource_check_button_create("SBDIGIMAX",
             "Enable DigiMAX");
     g_object_set(digimax_enable, "margin-left", 16, NULL);
     digimax_label = gtk_label_new("DigMAX base address");
@@ -405,7 +407,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
     on_digimax_toggled(digimax_enable, (gpointer)digimax_address);
 
 #ifdef HAVE_RAWNET
-    etfe_enable = resource_check_button_create("SBETFE",
+    etfe_enable = vice_gtk3_resource_check_button_create("SBETFE",
             "Enable ETFE");
     g_object_set(etfe_enable, "margin-left", 16, NULL);
     etfe_label = gtk_label_new("ETFE base address");
@@ -447,13 +449,15 @@ GtkWidget *ide64_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    gtk_grid_attach(GTK_GRID(grid), create_ide64_revision_widget(), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_ide64_revision_widget(),
+            0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_ide64_usb_widget(), 0, 1, 1, 1);
 
     wrapper = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
     gtk_grid_attach(GTK_GRID(wrapper), create_ide64_rtc_widget(), 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), create_ide64_clockport_widget(), 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), create_ide64_clockport_widget(),
+            1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, 2, 1, 1);
 
     /* create stack and stack switcher (tab-like interface) for the HD image
@@ -483,7 +487,8 @@ GtkWidget *ide64_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), stack_switcher, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stack, 0, 4, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_ide64_shortbus_widget(), 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_ide64_shortbus_widget(),
+            0, 5, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -96,8 +96,8 @@ static void on_ds1307_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_4bit_sampler_widget(void)
 {
-    return resource_check_button_create("Userport4bitSampler",
-            "Enable 4 bit sampler");
+    return vice_gtk3_resource_check_button_create(
+            "Userport4bitSampler", "Enable 4 bit sampler");
 }
 
 
@@ -107,8 +107,8 @@ static GtkWidget *create_4bit_sampler_widget(void)
  */
 static GtkWidget *create_8bit_stereo_sampler_widget(void)
 {
-    return resource_check_button_create("Userport8BSS",
-            "Enable 8 bit stereo sampler");
+    return vice_gtk3_resource_check_button_create(
+            "Userport8BSS", "Enable 8 bit stereo sampler");
 }
 
 
@@ -118,7 +118,8 @@ static GtkWidget *create_8bit_stereo_sampler_widget(void)
  */
 static GtkWidget *create_dac_widget(void)
 {
-    return resource_check_button_create("UserportDAC", "Enable 8 bit DAC");
+    return vice_gtk3_resource_check_button_create(
+            "UserportDAC", "Enable 8 bit DAC");
 }
 
 
@@ -128,7 +129,8 @@ static GtkWidget *create_dac_widget(void)
  */
 static GtkWidget *create_digimax_widget(void)
 {
-    return resource_check_button_create("UserportDIGIMAX", "Enable DIGIMAX");
+    return vice_gtk3_resource_check_button_create(
+            "UserportDIGIMAX", "Enable DIGIMAX");
 }
 
 
@@ -138,8 +140,8 @@ static GtkWidget *create_digimax_widget(void)
  */
 static GtkWidget *create_rtc_58321a_widget(void)
 {
-    return resource_check_button_create("UserportRTC58321a",
-            "Enable RTC (58321a)");
+    return vice_gtk3_resource_check_button_create(
+            "UserportRTC58321a", "Enable RTC (58321a)");
 }
 
 
@@ -149,8 +151,8 @@ static GtkWidget *create_rtc_58321a_widget(void)
  */
 static GtkWidget *create_rtc_58321a_save_widget(void)
 {
-    return resource_check_button_create("UserportRTC58321aSave",
-            "Enable RTC (58321a) saving");
+    return vice_gtk3_resource_check_button_create(
+            "UserportRTC58321aSave", "Enable RTC (58321a) saving");
 }
 
 
@@ -160,8 +162,8 @@ static GtkWidget *create_rtc_58321a_save_widget(void)
  */
 static GtkWidget *create_rtc_ds1307_widget(void)
 {
-    return resource_check_button_create("UserportRTCDS1307",
-            "Enable RTC (DS1307)");
+    return vice_gtk3_resource_check_button_create(
+            "UserportRTCDS1307", "Enable RTC (DS1307)");
 }
 
 
@@ -171,8 +173,8 @@ static GtkWidget *create_rtc_ds1307_widget(void)
  */
 static GtkWidget *create_rtc_ds1307_save_widget(void)
 {
-    return resource_check_button_create("UserportRTCDS1307Save",
-            "Enable RTC (DS1307) saving");
+    return vice_gtk3_resource_check_button_create(
+            "UserportRTCDS1307Save", "Enable RTC (DS1307) saving");
 }
 
 

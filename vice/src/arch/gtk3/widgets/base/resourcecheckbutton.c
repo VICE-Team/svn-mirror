@@ -137,7 +137,7 @@ static GtkWidget *resource_check_button_create_helper(GtkWidget *check)
  *
  * \return  new check button
  */
-GtkWidget *resource_check_button_create(const char *resource,
+GtkWidget *vice_gtk3_resource_check_button_create(const char *resource,
                                         const char *label)
 {
     GtkWidget *check;
@@ -166,9 +166,9 @@ GtkWidget *resource_check_button_create(const char *resource,
  *
  * \return  new check button
  */
-GtkWidget *resource_check_button_create_sprintf(const char *fmt,
-                                                const char *label,
-                                                ...)
+GtkWidget *vice_gtk3_resource_check_button_create_sprintf(const char *fmt,
+                                                          const char *label,
+                                                         ...)
 {
     GtkWidget *check;
     va_list args;
@@ -190,7 +190,7 @@ GtkWidget *resource_check_button_create_sprintf(const char *fmt,
  * \param[in,out]   check   check button
  * \param[in]       value   new value
  */
-void resource_check_button_update(GtkWidget *check, gboolean value)
+void vice_gtk3_resource_check_button_update(GtkWidget *check, gboolean value)
 {
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
 }
@@ -200,7 +200,7 @@ void resource_check_button_update(GtkWidget *check, gboolean value)
  *
  * \param[in,out]   check   check button
  */
-void resource_check_button_reset(GtkWidget *check)
+void vice_gtk3_resource_check_button_reset(GtkWidget *check)
 {
     const char *resource;
     int value;
@@ -209,5 +209,5 @@ void resource_check_button_reset(GtkWidget *check)
     resources_get_default_value(resource, &value);
     debug_gtk3("resetting %s to factory value %s\n",
             resource, value ? "True" : "False");
-    resource_check_button_update(check, (gboolean)value);
+    vice_gtk3_resource_check_button_update(check, (gboolean)value);
 }

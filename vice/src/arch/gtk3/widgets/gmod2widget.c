@@ -128,7 +128,7 @@ static GtkWidget *create_cart_image_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    write_back = resource_check_button_create("GMod2FlashWrite",
+    write_back = vice_gtk3_resource_check_button_create("GMod2FlashWrite",
                 "Save image when changed");
     g_object_set(write_back, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
@@ -179,7 +179,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    write_enable = resource_check_button_create("GMOD2EEPROMRW",
+    write_enable = vice_gtk3_resource_check_button_create("GMOD2EEPROMRW",
             "Enable writes to GMod2 EEPROM image");
     g_object_set(write_enable, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), write_enable, 0, 2, 3, 1);

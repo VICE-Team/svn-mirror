@@ -179,8 +179,8 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable_widget = resource_check_button_create("ETHERNETCART_ACTIVE",
-            "Enable ethernet cartridge");
+    enable_widget = vice_gtk3_resource_check_button_create(
+            "ETHERNETCART_ACTIVE", "Enable ethernet cartridge");
     gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 1, 1);
 
     row = 1;    /* next row in grid */

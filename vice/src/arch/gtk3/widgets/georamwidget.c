@@ -70,7 +70,8 @@ static GtkWidget *create_georam_ioswap_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("GEORAMIOSwap", "MasC=uarade I/O swap");
+    check = vice_gtk3_resource_check_button_create("GEORAMIOSwap",
+            "MasC=uarade I/O swap");
     return check;
 }
 

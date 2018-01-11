@@ -72,7 +72,7 @@ static void pause_callback(GtkWidget *widget, gpointer data)
  */
 static GtkWidget *create_warp_checkbox(void)
 {
-    return resource_check_button_create("WarpMode", "Warp mode");
+    return vice_gtk3_resource_check_button_create("WarpMode", "Warp mode");
 }
 
 
@@ -117,8 +117,10 @@ GtkWidget *uispeed_create_central_widget(GtkWidget *widget)
     /* TODO: get speed and refresh rate */
     resources_get_int("WarpMode", &warp_state);
     pause_state = ui_emulation_is_paused();
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_pause), pause_state);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_warp), warp_state);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_pause),
+            pause_state);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_warp),
+            warp_state);
 
     /* create layout */
     gtk_grid_attach(GTK_GRID(layout), refreshrate_widget_create(), 0, 0, 1, 3);

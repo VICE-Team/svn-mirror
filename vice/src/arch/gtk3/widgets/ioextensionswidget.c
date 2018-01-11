@@ -107,7 +107,7 @@ static GtkWidget *create_cart_reset_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("CartridgeReset",
+    check = vice_gtk3_resource_check_button_create("CartridgeReset",
             "Reset machine on cartridge change");
     g_object_set(check, "margin-left", 16, NULL);
     return check;
@@ -165,7 +165,8 @@ static void create_c64dtv_layout(GtkWidget *grid)
 {
     GtkWidget *hummer;
 
-    hummer = resource_check_button_create("HummerADC", "Enable Hummer ADC");
+    hummer = vice_gtk3_resource_check_button_create("HummerADC",
+            "Enable Hummer ADC");
     g_object_set(hummer, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), hummer, 0, 1, 3, 1);
 }
@@ -241,7 +242,8 @@ GtkWidget *ioextensions_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 
-    grid = uihelpers_create_grid_with_label("Generic I/O extension settings", 3);
+    grid = uihelpers_create_grid_with_label(
+            "Generic I/O extension settings", 3);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
 
     switch (machine_class) {

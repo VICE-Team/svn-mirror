@@ -119,12 +119,12 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* RRFlashJumper */
-    flash = resource_check_button_create("RRFlashJumper",
+    flash = vice_gtk3_resource_check_button_create("RRFlashJumper",
             "Enable flash jumper");
     gtk_grid_attach(GTK_GRID(grid), flash, 0, 0, 1, 1);
 
     /* RRBankJumper */
-    bank = resource_check_button_create("RRBankJumper",
+    bank = vice_gtk3_resource_check_button_create("RRBankJumper",
             "Enable bank jumper");
     gtk_grid_attach(GTK_GRID(grid), bank, 0, 1, 1, 1);
 
@@ -145,7 +145,7 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), cp_combo, 2, 1, 1, 1);
 
     /* RRBiosWrite */
-    bios_write = resource_check_button_create("RRBiosWrite",
+    bios_write = vice_gtk3_resource_check_button_create("RRBiosWrite",
             "Write back RR Flash ROM image automatically");
     gtk_grid_attach(GTK_GRID(grid), bios_write, 0, 2, 2, 1);
 

@@ -77,7 +77,7 @@ GtkWidget *cbm2_ram_mapping_widget_create(void)
     for (i = 0; mappings[i].text != NULL; i++) {
         GtkWidget *check;
 
-        check = resource_check_button_create(mappings[i].resource,
+        check = vice_gtk3_resource_check_button_create(mappings[i].resource,
                 mappings[i].text);
         g_object_set(check, "margin-left", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), check, 0, i + 1, 1, 1);

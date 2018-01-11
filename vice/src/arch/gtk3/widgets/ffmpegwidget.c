@@ -103,7 +103,8 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
 
     video = create_video_model(fmt_id);
     gtk_combo_box_set_active(GTK_COMBO_BOX(video_widget), 0);
-    gtk_combo_box_set_model(GTK_COMBO_BOX(video_widget), GTK_TREE_MODEL(video));
+    gtk_combo_box_set_model(GTK_COMBO_BOX(video_widget),
+            GTK_TREE_MODEL(video));
     if (resources_get_int("FFMPEGVideoCodec", &vc) < 0) {
         vc = 0;
     }
@@ -111,7 +112,8 @@ static void on_format_changed(GtkWidget *widget, gpointer data)
 
     audio = create_audio_model(fmt_id);
     gtk_combo_box_set_active(GTK_COMBO_BOX(audio_widget), 0);
-    gtk_combo_box_set_model(GTK_COMBO_BOX(audio_widget), GTK_TREE_MODEL(audio));
+    gtk_combo_box_set_model(GTK_COMBO_BOX(audio_widget),
+            GTK_TREE_MODEL(audio));
     if (resources_get_int("FFMPEGAudioCodec", &ac) < 0) {
         ac = 0;
     }
@@ -544,7 +546,7 @@ GtkWidget *ffmpeg_widget_create(void)
             3, 2, 1, 1);
 
     /* half-FPS widget */
-    fps = resource_check_button_create("FFMPEGVideoHalveFramerate",
+    fps = vice_gtk3_resource_check_button_create("FFMPEGVideoHalveFramerate",
             "Half framerate (25/30 FPS)"),
     gtk_widget_set_halign(fps, GTK_ALIGN_START);
     g_object_set(fps, "margin-left", 16, NULL);

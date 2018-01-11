@@ -59,9 +59,9 @@ GtkWidget *monitor_settings_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
 
-    keep_open = resource_check_button_create("KeepMonitorOpen",
+    keep_open = vice_gtk3_resource_check_button_create("KeepMonitorOpen",
             "Keep monitor open");
-    server_enable = resource_check_button_create("MonitorServer",
+    server_enable = vice_gtk3_resource_check_button_create("MonitorServer",
             "Enable remote monitor");
     label = gtk_label_new("Server address");
     /* align with the rest, more or less */

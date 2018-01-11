@@ -149,7 +149,7 @@ static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data
  */
 static GtkWidget *create_superpet_enable_widget(void)
 {
-    return resource_check_button_create("SuperPET",
+    return vice_gtk3_resource_check_button_create("SuperPET",
             "I/O Enable (disables x96)");
 }
 
@@ -234,7 +234,7 @@ static GtkWidget *create_superpet_rom_widget(void)
  */
 static GtkWidget *create_superpet_9xxx_ram_widget(void)
 {
-    return resource_check_button_create("Ram9", "$9XXX as RAM");
+    return vice_gtk3_resource_check_button_create("Ram9", "$9XXX as RAM");
 }
 
 
@@ -244,7 +244,7 @@ static GtkWidget *create_superpet_9xxx_ram_widget(void)
  */
 static GtkWidget *create_superpet_axxx_ram_widget(void)
 {
-    return resource_check_button_create("RamA", "$AXXX as RAM");
+    return vice_gtk3_resource_check_button_create("RamA", "$AXXX as RAM");
 }
 
 

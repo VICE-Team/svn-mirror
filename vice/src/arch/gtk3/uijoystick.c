@@ -203,7 +203,7 @@ static GtkWidget *create_swap_userport_joysticks_button(void)
  */
 static GtkWidget *create_keyset_enable_checkbox(void)
 {
-    return resource_check_button_create("KeySetEnable",
+    return vice_gtk3_resource_check_button_create("KeySetEnable",
             "Enable user-defined keysets");
 }
 
@@ -214,7 +214,7 @@ static GtkWidget *create_keyset_enable_checkbox(void)
  */
 static GtkWidget *create_opposite_enable_checkbox(void)
 {
-    return resource_check_button_create("JoyOpposite",
+    return vice_gtk3_resource_check_button_create("JoyOpposite",
             "Allow opposite directions");
 }
 
@@ -227,7 +227,7 @@ static GtkWidget *create_userportjoy_enable_checkbox(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("UserportJoy",
+    check = vice_gtk3_resource_check_button_create("UserportJoy",
             "Enable userport joysticks");
     /* extra handler to enable/disable the userport adapter widget */
     g_signal_connect(check, "toggled",

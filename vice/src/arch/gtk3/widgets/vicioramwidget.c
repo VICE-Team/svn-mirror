@@ -54,11 +54,11 @@ GtkWidget *vic_ioram_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     gtk_grid_attach(GTK_GRID(grid),
-            resource_check_button_create("IO2RAM",
+            vice_gtk3_resource_check_button_create("IO2RAM",
                 "Enable IO-2 RAM Cartridge ($9800-$9BFF)"),
             0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid),
-            resource_check_button_create("IO3RAM",
+            vice_gtk3_resource_check_button_create("IO3RAM",
                 "Enable IO-3 RAM Cartridge ($9C00-$FBFF)"),
             0, 1, 1, 1);
 

@@ -444,10 +444,10 @@ GtkWidget *uidrivesettings_widget_create(GtkWidget *parent)
     wrapper = gtk_grid_new();
     g_object_set(wrapper, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
-    tde = resource_check_button_create("DriveTrueEmulation",
+    tde = vice_gtk3_resource_check_button_create("DriveTrueEmulation",
             "True drive emulation");
     gtk_grid_attach(GTK_GRID(wrapper), tde, 0, 0, 1, 1);
-    sound = resource_check_button_create("DriveSoundEmulation",
+    sound = vice_gtk3_resource_check_button_create("DriveSoundEmulation",
             "Drive sound emulation");
     gtk_grid_attach(GTK_GRID(wrapper), sound, 1, 0, 1, 1);
 

@@ -173,7 +173,7 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_datasette_widget(void)
 {
-    return resource_check_button_create("Datasette", "Enable Datasette");
+    return vice_gtk3_resource_check_button_create("Datasette", "Enable Datasette");
 }
 
 
@@ -183,7 +183,7 @@ static GtkWidget *create_datasette_widget(void)
  */
 static GtkWidget *create_tape_sense_widget(void)
 {
-    return resource_check_button_create("TapeSenseDongle",
+    return vice_gtk3_resource_check_button_create("TapeSenseDongle",
             "Enable tape sense dongle");
 }
 
@@ -194,7 +194,7 @@ static GtkWidget *create_tape_sense_widget(void)
  */
 static GtkWidget *create_dtl_basic_widget(void)
 {
-    return resource_check_button_create("DTLBasicDongle",
+    return vice_gtk3_resource_check_button_create("DTLBasicDongle",
             "Enable DTL Basic dongle");
 }
 
@@ -211,10 +211,10 @@ static GtkWidget *create_tape_log_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
 
-    tape_log = resource_check_button_create("TapeLog", "Enable tape log device");
+    tape_log = vice_gtk3_resource_check_button_create("TapeLog", "Enable tape log device");
     gtk_grid_attach(GTK_GRID(grid), tape_log, 0, 0, 3, 1);
 
-    tape_log_dest = resource_check_button_create("TapeLogDestination",
+    tape_log_dest = vice_gtk3_resource_check_button_create("TapeLogDestination",
             "Save to user file");
     g_object_set(tape_log_dest, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), tape_log_dest, 0, 1, 1, 1);
@@ -256,11 +256,11 @@ static GtkWidget *create_f83_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
 
-    f83_enable = resource_check_button_create("CPCLockF83",
+    f83_enable = vice_gtk3_resource_check_button_create("CPCLockF83",
             "Enable CP Clock F83");
     gtk_grid_attach(GTK_GRID(grid), f83_enable, 0, 0, 1, 1);
 
-    f83_rtc = resource_check_button_create("CPClockF83Save",
+    f83_rtc = vice_gtk3_resource_check_button_create("CPClockF83Save",
             "Save RTC data when changed");
     g_object_set(f83_rtc, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), f83_rtc, 0, 1, 1, 1);
@@ -288,17 +288,17 @@ static GtkWidget *create_tapecart_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
 
-    tapecart_enable = resource_check_button_create("TapecartEnabled",
+    tapecart_enable = vice_gtk3_resource_check_button_create("TapecartEnabled",
             "Enable tapecart");
     gtk_grid_attach(GTK_GRID(grid), tapecart_enable, 0, 0, 1, 1);
 
-    tapecart_update = resource_check_button_create("TapecartUpdateTCRT",
-            "Save TCRT data when changed");
+    tapecart_update = vice_gtk3_resource_check_button_create(
+            "TapecartUpdateTCRT", "Save TCRT data when changed");
     g_object_set(tapecart_update, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), tapecart_update, 0, 1, 1, 1);
 
-    tapecart_optimize = resource_check_button_create("TapecartOptimizeTCRT",
-            "Optimize TCRT data when changed");
+    tapecart_optimize = vice_gtk3_resource_check_button_create(
+            "TapecartOptimizeTCRT", "Optimize TCRT data when changed");
     g_object_set(tapecart_optimize, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), tapecart_optimize, 0, 2, 1, 1);
 

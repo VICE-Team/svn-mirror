@@ -115,7 +115,7 @@ static GtkWidget *create_userport_emulation_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("PrinterUserPort",
+    check = vice_gtk3_resource_check_button_create("PrinterUserPort",
             "Enable userport printer emulation");
     g_object_set(check, "margin-left", 16, NULL);
     return check;

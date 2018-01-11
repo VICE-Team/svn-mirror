@@ -63,6 +63,7 @@
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 
+#include "ui.h"
 #include "uispeed.h"
 #include "uikeyboard.h"
 #include "uisound.h"
@@ -126,10 +127,10 @@
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
-#include "snapshotwidget.h"
-#include "ui.h"
 
+#include "snapshotwidget.h"
 #include "monitorsettingswidget.h"
+#include "romsetwidget.h"
 
 #include "uisettings.h"
 
@@ -636,7 +637,7 @@ static ui_settings_tree_node_t no_io_extensions[] = {
  *          menus. The proper way is to implement functions to build the
  *          tree model, which is a TODO at the moment.
  */
-#define IO_EXTENSIONS_INDEX 15
+#define IO_EXTENSIONS_INDEX 16
 
 
 /** \brief  Main tree nodes
@@ -686,6 +687,9 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "RAM reset pattern",
         "ram-reset",
         create_ram_reset_central_widget, NULL },
+    { "ROM settings",
+        "rom-settings",
+        romset_widget_create, NULL },
     { "Miscellaneous",
         "misc",
         uimisc_create_central_widget, NULL },
@@ -782,7 +786,7 @@ static void on_tree_selection_changed(
  */
 static GtkWidget *create_save_on_exit_checkbox(void)
 {
-    return resource_check_button_create("SaveResourcesOnExit",
+    return vice_gtk3_resource_check_button_create("SaveResourcesOnExit",
             "Save settings on exit");
 }
 
@@ -795,7 +799,8 @@ static GtkWidget *create_save_on_exit_checkbox(void)
  */
 static GtkWidget *create_confirm_on_exit_checkbox(void)
 {
-    return resource_check_button_create("ConfirmOnExit", "Confirm on exit");
+    return vice_gtk3_resource_check_button_create("ConfirmOnExit",
+            "Confirm on exit");
 }
 
 
@@ -858,8 +863,10 @@ bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter)
 }
 
 
-bool ui_settings_append_by_xpath(const char *path, ui_settings_tree_node_t *nodes)
+bool ui_settings_append_by_xpath(const char *path,
+                                 ui_settings_tree_node_t *nodes)
 {
+#if 0
     GtkTreeModel *model = GTK_TREE_MODEL(settings_model);
     GtkTreeIter iter;
 
@@ -867,6 +874,7 @@ bool ui_settings_append_by_xpath(const char *path, ui_settings_tree_node_t *node
         /* found the proper node, add node */
         return true;
     }
+#endif
     return false;
 }
 
@@ -1146,7 +1154,8 @@ static void response_callback(GtkWidget *widget, gint response_id,
             filename = ui_save_file_dialog(widget, "Save settings as ...",
                     NULL, TRUE, NULL);
             if (filename != NULL) {
-                debug_gtk3("saving setting as '%s'\n", filename ? filename : "NULL");
+                debug_gtk3("saving setting as '%s'\n",
+                        filename ? filename : "NULL");
                 if (resources_save(filename) != 0) {
                     debug_gtk3("failed!\n");
                 }
@@ -1198,8 +1207,8 @@ static gboolean on_dialog_configure_event(
  * \param[in]   widget      (direct) parent widget, the menu item
  * \param[in]   user_data   data for the event (unused)
  *
- * \note    The appearance of minimize/maximize buttons seems to depend on which
- *          Window Manager is active:
+ * \note    The appearance of minimize/maximize buttons seems to depend on
+ *          which Window Manager is active:
  *
  *          On MATE (marco, a Metacity fork) both buttons are hidden.
  *          On KDE (KWin) the maximize button is still visible but inactive
@@ -1210,7 +1219,9 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     GtkWidget *content;
     char title[256];
+#if 0
     GtkTreeIter iter;
+#endif
 
     g_snprintf(title, 256, "%s Settings", machine_name);
 
@@ -1233,6 +1244,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
 
+#if 0
     /* XXX: used to test some tree manipulation functions, remove when stuff
      *      works
      */
@@ -1241,7 +1253,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     } else {
         debug_gtk3("oops, no iterator found\n");
     }
-
+#endif
 
 
     /* XXX: this is normal code again */

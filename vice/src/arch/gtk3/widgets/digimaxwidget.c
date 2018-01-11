@@ -101,7 +101,7 @@ GtkWidget *digimax_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    digimax = resource_check_button_create("DIGIMAX", "Enable DIGIMAX");
+    digimax = vice_gtk3_resource_check_button_create("DIGIMAX", "Enable DIGIMAX");
     gtk_grid_attach(GTK_GRID(grid), digimax, 0, 0, 1, 1);
 
     resources_get_int("DIGIMAXbase", &current);

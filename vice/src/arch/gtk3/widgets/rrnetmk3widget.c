@@ -97,13 +97,14 @@ GtkWidget *rrnetmk3_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    flash_jumper = resource_check_button_create("RRNETMK3_flashjumper",
-            "Enable flash jumper");
+    flash_jumper = vice_gtk3_resource_check_button_create(
+            "RRNETMK3_flashjumper", "Enable flash jumper");
     gtk_grid_attach(GTK_GRID(grid), flash_jumper, 0, 0, 1, 1);
 
     /* RRBiosWrite */
-    bios_write = resource_check_button_create("RRNETMK3_bios_write",
+    bios_write = vice_gtk3_resource_check_button_create("RRNETMK3_bios_write",
             "Write back RRNetMk3 Flash ROM image automatically");
+    /* That's a very long sentence, I18N will enjoy this*/
     gtk_grid_attach(GTK_GRID(grid), bios_write, 0, 1, 1, 1);
 
     /* Save image as... */

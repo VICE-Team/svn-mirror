@@ -134,15 +134,15 @@ static GtkWidget *create_p00_widget(int unit)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     g_snprintf(resource, 256, "FSDevice%dConvertP00", unit);
-    p00_convert = resource_check_button_create(resource, "Convert P00");
+    p00_convert = vice_gtk3_resource_check_button_create(resource, "Convert P00");
     gtk_grid_attach(GTK_GRID(grid), p00_convert, 0, 0, 1, 1);
 
     g_snprintf(resource, 256, "FSDevice%dSaveP00", unit);
-    p00_save = resource_check_button_create(resource, "Save P00");
+    p00_save = vice_gtk3_resource_check_button_create(resource, "Save P00");
     gtk_grid_attach(GTK_GRID(grid), p00_save, 1, 0, 1, 1);
 
     g_snprintf(resource, 256, "FSDevice%dHideCBMFiles", unit);
-    p00_only = resource_check_button_create(resource, "Hide non-P00");
+    p00_only = vice_gtk3_resource_check_button_create(resource, "Hide non-P00");
     gtk_grid_attach(GTK_GRID(grid), p00_only, 2, 0, 1, 1);
 
     gtk_widget_show_all(grid);

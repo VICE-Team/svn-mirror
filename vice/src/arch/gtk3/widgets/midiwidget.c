@@ -144,7 +144,8 @@ static GtkWidget *create_midi_enable_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("MIDIEnable", "Enable MIDI emulation");
+    check = vice_gtk3_resource_check_button_create("MIDIEnable",
+            "Enable MIDI emulation");
     g_signal_connect(check, "toggled", G_CALLBACK(on_midi_enable_toggled),
             NULL);
     return check;
@@ -237,8 +238,8 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_out_entry, 1, row, 1, 1);
     midi_out_browse = gtk_button_new_with_label("Browse ...");
-    g_signal_connect(midi_out_browse, "clicked", G_CALLBACK(on_midi_out_browse),
-            (gpointer)midi_out_entry);
+    g_signal_connect(midi_out_browse, "clicked",
+            G_CALLBACK(on_midi_out_browse), (gpointer)midi_out_entry);
     gtk_grid_attach(GTK_GRID(grid), midi_out_browse, 2, row, 1, 1);
     row++;
 

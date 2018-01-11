@@ -182,7 +182,7 @@ static GtkWidget *create_delay_widget(void)
     grid = uihelpers_create_grid_with_label("Delay settings", 3);
     g_object_set(grid, "margin-top", 8, NULL);
 
-    rnd_delay = resource_check_button_create( "AutostartDelayRandom",
+    rnd_delay = vice_gtk3_resource_check_button_create( "AutostartDelayRandom",
             "Add random delay");
     g_object_set(rnd_delay, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rnd_delay, 0, 2, 1, 1);
@@ -249,12 +249,12 @@ static GtkWidget *create_prg_widget(void)
     grid = uihelpers_create_grid_with_label("PRG settings", 3);
     g_object_set(grid, "margin-top", 8, NULL);
 
-    colon = resource_check_button_create("AutostartRunWithColon",
+    colon = vice_gtk3_resource_check_button_create("AutostartRunWithColon",
             "Use ':' with RUN");
     g_object_set(colon, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), colon, 0, 1, 1, 1);
 
-    basic = resource_check_button_create("AutostartBasicLoad",
+    basic = vice_gtk3_resource_check_button_create("AutostartBasicLoad",
             "Load to BASIC start");
     g_object_set(basic, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), basic, 0, 2, 1, 1);
@@ -292,11 +292,13 @@ GtkWidget *uiautostart_create_central_widget(GtkWidget *parent)
     g_object_set(grid, "margin", 8, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
-    tde = resource_check_button_create("AutostartHandleTrueDriveEmulation",
-                "Handle True Drive Emulation on autostart");
+    tde = vice_gtk3_resource_check_button_create(
+            "AutostartHandleTrueDriveEmulation",
+            "Handle True Drive Emulation on autostart");
     gtk_grid_attach(GTK_GRID(grid), tde, 0, 0, 1, 1);
 
-    warp = resource_check_button_create("AutostartWarp", "Warp on autostart");
+    warp = vice_gtk3_resource_check_button_create("AutostartWarp",
+            "Warp on autostart");
     gtk_grid_attach(GTK_GRID(grid), warp, 0, 1, 1, 1);
 
     gtk_grid_attach(GTK_GRID(grid), create_delay_widget(),

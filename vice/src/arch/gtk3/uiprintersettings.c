@@ -126,7 +126,7 @@ static GtkWidget *create_iec_widget(int device)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create_sprintf("IECDevice%d",
+    check = vice_gtk3_resource_check_button_create_sprintf("IECDevice%d",
             "Enable IEC device", device);
     g_object_set(check, "margin-left", 16, NULL);
     return check;

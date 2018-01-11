@@ -51,7 +51,7 @@ GtkWidget *cpm_widget_create(GtkWidget *parent)
     grid = gtk_grid_new();
 
     gtk_grid_attach(GTK_GRID(grid),
-            resource_check_button_create("CPMCart", "Enable CP/M Cartridge"),
+            vice_gtk3_resource_check_button_create("CPMCart", "Enable CP/M Cartridge"),
             0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

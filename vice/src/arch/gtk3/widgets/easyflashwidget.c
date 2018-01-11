@@ -102,12 +102,12 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    jumper = resource_check_button_create("EasyFlashJumper",
-            "Set Easy Flash jumper");
-    write_crt = resource_check_button_create("EasyFlashWriteCRT",
-            "Save image when changed");
-    optimize_crt = resource_check_button_create("EasyFlashOptimizeCRT",
-            "Optimize image when saving");
+    jumper = vice_gtk3_resource_check_button_create(
+            "EasyFlashJumper", "Set Easy Flash jumper");
+    write_crt = vice_gtk3_resource_check_button_create(
+            "EasyFlashWriteCRT", "Save image when changed");
+    optimize_crt = vice_gtk3_resource_check_button_create(
+            "EasyFlashOptimizeCRT", "Optimize image when saving");
 
     gtk_grid_attach(GTK_GRID(grid), jumper, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), write_crt, 0, 1, 1, 1);

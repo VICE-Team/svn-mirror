@@ -154,7 +154,7 @@ static GtkWidget *create_rom_widget(GtkWidget *parent, const char *prefix)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_rom_file_widget(prefix), 1, 2, 1, 1);
 
-    rtc = resource_check_button_create_sprintf("%sFunctionROMRTCSave",
+    rtc = vice_gtk3_resource_check_button_create_sprintf("%sFunctionROMRTCSave",
             "Save RTC data", prefix);
     g_object_set(rtc, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rtc, 0, 3, 3, 1);

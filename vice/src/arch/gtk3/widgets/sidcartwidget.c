@@ -132,7 +132,8 @@ static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_sidcart_enable_widget(void)
 {
-    return resource_check_button_create("SidCart", "Enable SID cartridge");
+    return vice_gtk3_resource_check_button_create(
+            "SidCart", "Enable SID cartridge");
 }
 
 

@@ -65,7 +65,8 @@ static ui_radiogroup_entry_t ram_sizes[] = {
  */
 static GtkWidget *create_ramcart_enable_widget(void)
 {
-    return resource_check_button_create("RAMCART", "Enable RAMCART expansion");
+    return vice_gtk3_resource_check_button_create(
+            "RAMCART", "Enable RAMCART expansion");
 }
 
 
@@ -75,7 +76,7 @@ static GtkWidget *create_ramcart_enable_widget(void)
  */
 static GtkWidget *create_ramcart_readonly_widget(void)
 {
-    return resource_check_button_create("RAMCART_RO",
+    return vice_gtk3_resource_check_button_create("RAMCART_RO",
             "RAMCART contents are read only");
 }
 

@@ -72,13 +72,13 @@ GtkWidget *sfx_sound_sampler_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable = resource_check_button_create("SFXSoundSampler",
+    enable = vice_gtk3_resource_check_button_create("SFXSoundSampler",
             "Enable SFX Sound Sampler");
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
 
     if (machine_class == VICE_MACHINE_VIC20) {
-        io_swap = resource_check_button_create("SFXSoundSamplerIOSwap",
-                "Enable MasC=uerade I/O swap");
+        io_swap = vice_gtk3_resource_check_button_create(
+                "SFXSoundSamplerIOSwap", "Enable MasC=uerade I/O swap");
         g_object_set(io_swap, "margin-left", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), io_swap, 0, 1, 1, 1);
 

@@ -109,7 +109,8 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_reset_to_iec_widget(void)
 {
-    return resource_check_button_create("IECReset", "Reset goes to IEC");
+    return vice_gtk3_resource_check_button_create("IECReset",
+            "Reset goes to IEC");
 }
 
 
@@ -119,7 +120,7 @@ static GtkWidget *create_reset_to_iec_widget(void)
  */
 static GtkWidget *create_go64_widget(void)
 {
-    return resource_check_button_create("Go64Mode",
+    return vice_gtk3_resource_check_button_create("Go64Mode",
             "Always switch to C64 mode on reset");
 }
 

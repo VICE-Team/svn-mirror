@@ -94,7 +94,8 @@ static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
  */
 static GtkWidget *create_rescue_mode_widget(void)
 {
-    return resource_check_button_create("MMCRRescueMode", "Enable rescue mode");
+    return vice_gtk3_resource_check_button_create(
+            "MMCRRescueMode", "Enable rescue mode");
 }
 
 
@@ -114,7 +115,7 @@ static GtkWidget *create_clockport_widget(void)
  */
 static GtkWidget *create_eeprom_rw_widget(void)
 {
-    return resource_check_button_create("MMCREEPROMRW",
+    return vice_gtk3_resource_check_button_create("MMCREEPROMRW",
             "Enable writes to EEPROM image");
 }
 
@@ -177,7 +178,7 @@ static GtkWidget *create_card_image_widget(GtkWidget *parent)
     browse = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    card_writes = resource_check_button_create("MMCRCardRW",
+    card_writes = vice_gtk3_resource_check_button_create("MMCRCardRW",
             "Enable SD/MMC card writes");
     g_object_set(card_writes, "margin-left", 16, "margin-top", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), card_writes, 0, 2, 3, 1);
@@ -241,9 +242,11 @@ GtkWidget *mmcr_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_clockport_widget(), 2, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_eeprom_image_widget(parent), 0, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_eeprom_image_widget(parent),
+            0, 1, 3, 1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_card_image_widget(parent), 0, 2, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), create_card_image_widget(parent),
+            0, 2, 3, 1);
 
     gtk_grid_attach(GTK_GRID(grid), create_card_type_widget(), 0, 3, 3, 1);
 

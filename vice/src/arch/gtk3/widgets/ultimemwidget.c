@@ -52,7 +52,7 @@ GtkWidget *ultimem_widget_create(GtkWidget *parent)
     grid = gtk_grid_new();
 
     gtk_grid_attach(GTK_GRID(grid),
-            resource_check_button_create("UltiMemWriteBack",
+            vice_gtk3_resource_check_button_create("UltiMemWriteBack",
                 "Enable UltiMem image write back"),
             0, 0, 1, 1);
     gtk_widget_show_all(grid);

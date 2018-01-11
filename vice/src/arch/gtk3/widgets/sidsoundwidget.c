@@ -300,7 +300,8 @@ static GtkWidget *create_sid_engine_widget(void)
     }
 
 #ifdef HAVE_RESID
-    gtk_widget_set_sensitive(gtk_grid_get_child_at(GTK_GRID(radio_group), 0, 1),
+    gtk_widget_set_sensitive(
+            gtk_grid_get_child_at(GTK_GRID(radio_group), 0, 1),
             TRUE);
 #endif
 
@@ -562,7 +563,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
         row = 2;
     }
 
-    filters = resource_check_button_create("SidFilters",
+    filters = vice_gtk3_resource_check_button_create("SidFilters",
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
 

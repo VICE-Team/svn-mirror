@@ -121,7 +121,8 @@ static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
  *          ui_message() and moving them into gtk3/widgets to avoid circular
  *          references
  */
-static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
+static void on_response(GtkWidget *widget, gint response_id,
+                        gpointer user_data)
 {
     gchar *filename;
     int index;
@@ -251,7 +252,8 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect(dialog, "update-preview", G_CALLBACK(on_update_preview), NULL);
+    g_signal_connect(dialog, "update-preview", G_CALLBACK(on_update_preview),
+            NULL);
 
     return dialog;
 

@@ -58,7 +58,7 @@ GtkWidget *uimisc_create_central_widget(GtkWidget *widget)
     GtkWidget *grid;
     GtkWidget *browser = html_browser_widget_create();
     GtkWidget *cwd_widget = cwd_widget_create();
-    GtkWidget *vdev_widget = resource_check_button_create("VirtualDevices",
+    GtkWidget *vdev_widget = vice_gtk3_resource_check_button_create("VirtualDevices",
             "Enable virtual devices");
     GtkWidget *jam_widget = jam_action_widget_create();
 

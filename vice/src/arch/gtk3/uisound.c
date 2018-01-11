@@ -60,23 +60,39 @@ static GtkWidget *create_inner_grid(void)
     grid = gtk_grid_new();
 
     /* row 0, columns 0 & 1 */
-    gtk_grid_attach(GTK_GRID(grid), sound_driver_widget_create(), 0, 0, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid),
+            sound_driver_widget_create(),
+            0, 0, 2, 1);
 
     /* row 1, column 0 */
-    gtk_grid_attach(GTK_GRID(grid), sound_output_mode_widget_create(), 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid),
+            sound_output_mode_widget_create(),
+            0, 1, 1, 1);
     /* row 1, column 1 */
-    gtk_grid_attach(GTK_GRID(grid), sound_sync_mode_widget_create(), 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid),
+            sound_sync_mode_widget_create(),
+            1, 1, 1, 1);
     /* row 1, columm 2 */
-    gtk_grid_attach(GTK_GRID(grid), sound_fragment_size_widget_create(), 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid),
+            sound_fragment_size_widget_create(),
+            2, 1, 1, 1);
 
     /* row 2, column 0 */
-    gtk_grid_attach(GTK_GRID(grid), sound_sample_rate_widget_create(), 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid),
+            sound_sample_rate_widget_create(),
+            0, 2, 1, 1);
 
     /* row 2, column 1 */
     wrapper = gtk_grid_new();
-    gtk_grid_attach(GTK_GRID(wrapper), sound_buffer_size_widget_create(), 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), sound_suspend_time_widget_create(), 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper),
+            sound_buffer_size_widget_create(),
+            0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper),
+            sound_suspend_time_widget_create(),
+            0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid),
+            wrapper,
+            1, 2, 1, 1);
 
     return grid;
 }
@@ -102,7 +118,7 @@ GtkWidget *uisound_create_central_widget(GtkWidget *widget)
     gtk_grid_set_column_spacing(GTK_GRID(outer), 8);
 
     /* add checkbox for 'sound enabled' */
-    enabled_check = resource_check_button_create("Sound",
+    enabled_check = vice_gtk3_resource_check_button_create("Sound",
             "Enable sound playback");
     gtk_grid_attach(GTK_GRID(outer), enabled_check, 0, 0, 1, 1);
 

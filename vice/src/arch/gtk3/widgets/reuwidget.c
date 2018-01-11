@@ -72,7 +72,8 @@ static GtkWidget *create_reu_ioswap_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("REUIOSwap", "MasC=uarade I/O swap");
+    check = vice_gtk3_resource_check_button_create(
+            "REUIOSwap", "MasC=uarade I/O swap");
     return check;
 }
 
@@ -118,8 +119,7 @@ static GtkWidget *create_reu_image_widget(GtkWidget *parent)
 GtkWidget *reu_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *reu_enable_widget;   /* reu_enable is taken by reu.c, why doesn't
-                                       GCC warn about shadowing? */
+    GtkWidget *reu_enable_widget;
     GtkWidget *reu_size;
     GtkWidget *reu_ioswap;
     GtkWidget *reu_image;

@@ -96,7 +96,8 @@ GtkWidget *uimousesettings_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
     g_object_set(layout, "margin", 16, NULL);
 
-    mouse_grab = resource_check_button_create("Mouse", "Enable mouse grab");
+    mouse_grab = vice_gtk3_resource_check_button_create(
+            "Mouse", "Enable mouse grab");
     gtk_grid_attach(GTK_GRID(layout), mouse_grab, 0, 0, 1, 1);
 
     switch (machine_class) {
@@ -107,8 +108,8 @@ GtkWidget *uimousesettings_widget_create(GtkWidget *parent)
         case VICE_MACHINE_VIC20:    /* fall through */
         case VICE_MACHINE_PLUS4:    /* fall through */
         case VICE_MACHINE_CBM5x0:
-            mouse_save = resource_check_button_create("SmartMouseRTCSave",
-                    "Enable SmartMouse RTC Saving");
+            mouse_save = vice_gtk3_resource_check_button_create(
+                    "SmartMouseRTCSave", "Enable SmartMouse RTC Saving");
             gtk_grid_attach(GTK_GRID(layout), mouse_save, 1, 0, 1, 1);
             break;
         default:

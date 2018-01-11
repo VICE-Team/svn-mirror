@@ -96,8 +96,8 @@ GtkWidget *mega_cart_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 0, 1, 1);
 
-    write_back = resource_check_button_create("MegaCartNvRAMWriteBack",
-            "Enable Mega Cart NvRAM write back");
+    write_back = vice_gtk3_resource_check_button_create(
+            "MegaCartNvRAMWriteBack", "Enable Mega Cart NvRAM write back");
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 3, 1);
 
     gtk_widget_show_all(grid);

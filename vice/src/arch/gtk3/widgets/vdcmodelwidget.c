@@ -87,7 +87,8 @@ static GtkWidget *create_64kb_widget(void)
 {
     GtkWidget *check;
 
-    check = resource_check_button_create("VDC64KB", "Enable 64KB video ram");
+    check = vice_gtk3_resource_check_button_create(
+            "VDC64KB", "Enable 64KB video ram");
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }
@@ -144,10 +145,12 @@ void vdc_model_widget_update(GtkWidget *widget)
         GtkWidget *radio;
 
         /* +2: skip title & 64KB checkbox */
-        while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 2)) != NULL) {
+        while ((radio = gtk_grid_get_child_at(
+                        GTK_GRID(widget), 0, i + 2)) != NULL) {
             if (GTK_IS_RADIO_BUTTON(radio)) {
                 if (i == index) {
-                    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
+                    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio),
+                            TRUE);
                     break;
                 }
             }
@@ -166,7 +169,8 @@ void vdc_model_widget_connect_signals(GtkWidget *widget)
     GtkWidget *radio;
     int i = 0;
 
-    while ((radio = gtk_grid_get_child_at(GTK_GRID(widget), 0, i + 2)) != NULL) {
+    while ((radio = gtk_grid_get_child_at(
+                    GTK_GRID(widget), 0, i + 2)) != NULL) {
         if (GTK_IS_RADIO_BUTTON(radio)) {
             g_signal_connect(radio, "toggled", G_CALLBACK(on_revision_toggled),
                     GINT_TO_POINTER(vdc_revs[i].id));

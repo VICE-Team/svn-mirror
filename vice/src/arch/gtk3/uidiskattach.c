@@ -131,7 +131,8 @@ static void on_update_preview(GtkFileChooser *chooser, gpointer data)
  *          ui_message() and moving them into gtk3/widgets to avoid circular
  *          references
  */
-static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
+static void on_response(GtkWidget *widget, gint response_id,
+                        gpointer user_data)
 {
     gchar *filename;
     int index;
@@ -222,8 +223,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_grid_attach(GTK_GRID(grid), preview_check, 2, 0, 1, 1);
 #endif
     /* second row, three cols wide */
-    gtk_grid_attach(GTK_GRID(grid), drive_unit_widget_create(unit, &unit_number,
-                NULL),
+    gtk_grid_attach(GTK_GRID(grid),
+            drive_unit_widget_create(unit, &unit_number, NULL),
             0, 1, 3, 1);
 
     gtk_widget_show_all(grid);
@@ -262,7 +263,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 
     preview_widget = content_preview_widget_create(
             dialog, diskcontents_filesystem_read, on_response);
-    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview_widget);
+    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
+            preview_widget);
 
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
@@ -272,9 +274,10 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
 
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
-    g_signal_connect(dialog, "response", G_CALLBACK(on_response),
-            GINT_TO_POINTER(0));
-    g_signal_connect(dialog, "update-preview", G_CALLBACK(on_update_preview), NULL);
+    g_signal_connect(dialog, "response",
+            G_CALLBACK(on_response), GINT_TO_POINTER(0));
+    g_signal_connect(dialog, "update-preview",
+            G_CALLBACK(on_update_preview), NULL);
 
     return dialog;
 
@@ -286,7 +289,8 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
  * Creates the smart-dialog and runs it.
  *
  * \param[in]   widget      menu item triggering the callback
- * \param[in]   user_data   integer from 8-11 for the default drive to attach to
+ * \param[in]   user_data   integer from 8-11 for the default drive to attach
+ *                          (for some reason auto-attach always ultra uses #8)
  */
 void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
 {
