@@ -36,12 +36,19 @@
 #include "videoarch.h"
 
 #include "ui.h"
+#include "uivsidmenu.h"
 #include "uivsidwindow.h"
 
-static void vsid_window_create(struct video_canvas_s *canvas)
+static void vsid_window_create(video_canvas_t *canvas)
 {
+    GtkWidget *menu_bar;
+
+    canvas->renderer_backend = NULL;
     canvas->drawing_area = NULL;
-    canvas->event_box = NULL;
+
+    menu_bar = ui_vsid_menu_bar_create();
+
+    gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
 
     return;
 }

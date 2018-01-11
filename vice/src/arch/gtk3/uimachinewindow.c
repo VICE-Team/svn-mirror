@@ -1,5 +1,5 @@
-/*
- * uimachinewindow.c - Native GTK3 main emulator window code.
+/** \file   src/arch/gtk3/uimachinewindow.c
+ * \brief   Native GTK3 main emulator window code.
  *
  * Written by
  *  Marcus Sutton <loggedoubt@gmail.com>
@@ -41,6 +41,7 @@
 #include "videoarch.h"
 
 #include "ui.h"
+#include "uimachinemenu.h"
 #include "uimachinewindow.h"
 
 #if 0
@@ -119,6 +120,7 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
 static void machine_window_create(video_canvas_t *canvas)
 {
     GtkWidget *new_drawing_area, *new_event_box;
+    GtkWidget *menu_bar;
 
     /* TODO: Make the rendering process transparent enough that this can be selected and altered as-needed */
 #ifdef HAVE_GTK3_OPENGL
@@ -128,6 +130,7 @@ static void machine_window_create(video_canvas_t *canvas)
 #endif
 
     new_drawing_area = canvas->renderer_backend->create_widget(canvas);
+    canvas->drawing_area = new_drawing_area;
 
     new_event_box = gtk_event_box_new();
     gtk_container_add(GTK_CONTAINER(new_event_box), new_drawing_area);
@@ -137,8 +140,15 @@ static void machine_window_create(video_canvas_t *canvas)
     g_signal_connect(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
 
-    canvas->drawing_area = new_drawing_area;
-    canvas->event_box = new_event_box;
+    /* I'm pretty sure when running x128 we get two menu instances, so this
+     * should go somewhere else: call ui_menu_bar_create() once and attach the
+     * result menu to each GtkWindow instance
+     */
+    menu_bar = ui_machine_menu_bar_create();
+
+    gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
+    gtk_container_add(GTK_CONTAINER(canvas->grid), new_event_box);
+
     return;
 }
 

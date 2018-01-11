@@ -1,9 +1,10 @@
-/*
- * ui.c - Native GTK3 UI stuff.
+/** \file   src/arch/gtk3/ui.c
+ * \brief   Native GTK3 UI stuff.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *  Bas Wassink <b.wassink@ziggo.nl>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -50,11 +51,9 @@
 #include "basedialogs.h"
 #include "uiapi.h"
 #include "uicommands.h"
-#include "uimachinemenu.h"
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uistatusbar.h"
-#include "uivsidmenu.h"
 #include "jamdialog.h"
 
 #include "ui.h"
@@ -628,53 +627,26 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
 void ui_create_toplevel_window(video_canvas_t *canvas)
 {
     GtkWidget *new_window, *grid, *status_bar;
-    GtkWidget *menu_bar;
     int target_window;
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
 
+    grid = gtk_grid_new();
+    gtk_container_add(GTK_CONTAINER(new_window), grid);
+    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
+    canvas->grid = grid;
+
     if (create_window_func != NULL) {
         create_window_func(canvas);
     }
-    grid = gtk_grid_new();
+
     status_bar = ui_statusbar_create();
     gtk_widget_show_all(status_bar);
     gtk_widget_set_no_show_all(status_bar, TRUE);
 
-    /* I'm pretty sure when running x128 we get two menu instances, so this
-     * should go somewhere else: call ui_menu_bar_create() once and attach the
-     * result menu to each GtkWindow instance
-     */
-    if (machine_class != VICE_MACHINE_VSID) {
-        /* TODO: This can't stay here because this file gets linked into vsid,
-         * which gets a diferent set of menus. Of course, the main vsid window
-         * won't have a canvas either, so this whole function should probably
-         * be moved to another file.
-         */
-        menu_bar = ui_machine_menu_bar_create();
-    } else {
-        /* TODO: This can't stay here for the exact opposite reason
-         * of the above.
-         */
-        menu_bar = ui_vsid_menu_bar_create();
-    }
-
-    gtk_container_add(GTK_CONTAINER(new_window), grid);
-    /* When we have a menu bar, we'll add it at the top here */
-    gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
-
-    gtk_container_add(GTK_CONTAINER(grid), menu_bar);
-    if (canvas->event_box != NULL) {
-        gtk_container_add(GTK_CONTAINER(grid), canvas->event_box);
-    }
     gtk_container_add(GTK_CONTAINER(grid), status_bar);
-
-    /*
-    gtk_widget_set_hexpand(new_drawing_area, TRUE);
-    gtk_widget_set_vexpand(new_drawing_area, TRUE);
-     */
 
     g_signal_connect(new_window, "focus-in-event",
                      G_CALLBACK(on_focus_in_event), NULL);

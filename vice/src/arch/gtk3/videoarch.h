@@ -41,13 +41,17 @@ struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
 
+    /* All the UI elements in a canvas window are contained within a GtkGrid. */
+    GtkWidget *grid;
     /* GTK3's video canvas is either a GtkDrawingArea or a GtkGLArea,
      * depending on which renderer has been selected. Each is
      * ultimately represented as a GtkWidget object. */
     GtkWidget *drawing_area;
+#if 0
     /* The video canvas is surrounded by an GtkEventBox which can
      * capture events like mouse motion or clicks. */
     GtkWidget *event_box;
+#endif
     /* The renderer backend selected for use this run. */
     struct vice_renderer_backend_s *renderer_backend;
     /* Renderers have data unique to themselves, too. They'll know
@@ -67,7 +71,9 @@ struct video_canvas_s {
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
+#if 0
     float refreshrate; /* currently displayed refresh rate */
+#endif
 
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 
