@@ -89,7 +89,7 @@ static GtkWidget *create_base_widget(void)
         list = c64_base;
     }
 
-    return resource_combo_box_int_create("DS12C887RTCbase", list);
+    return vice_gtk3_resource_combo_box_int_create("DS12C887RTCbase", list);
 }
 
 

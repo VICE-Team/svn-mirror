@@ -420,8 +420,8 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
     entries = machine_class == VICE_MACHINE_C128
         ? sid_address_c128 : sid_address_c64;
 
-    widget = resource_combo_box_int_create_with_label(resource[sid - 1],
-            entries, label);
+    widget = vice_gtk3_resource_combo_box_int_create_with_label(
+            resource[sid - 1], entries, label);
     gtk_widget_show_all(widget);
     return widget;
 }

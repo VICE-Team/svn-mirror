@@ -85,8 +85,8 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
     debug_gtk3("setting UnitNumber property to %d\n", unit);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    combo = resource_combo_box_int_create_sprintf("Drive%dParallelCable",
-            list, unit);
+    combo = vice_gtk3_resource_combo_box_int_create_sprintf(
+            "Drive%dParallelCable", list, unit);
     gtk_widget_set_hexpand(combo, TRUE);
     g_object_set(combo, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);

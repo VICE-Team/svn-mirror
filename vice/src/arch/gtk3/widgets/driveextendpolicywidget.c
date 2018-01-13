@@ -67,8 +67,8 @@ GtkWidget *drive_extend_policy_widget_create(int unit)
     /* store unit number in "UnitNumber" property for later use */
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    combo = resource_combo_box_int_create_sprintf("Drive%dExtendImagePolicy",
-            policies, unit);
+    combo = vice_gtk3_resource_combo_box_int_create_sprintf(
+            "Drive%dExtendImagePolicy", policies, unit);
     gtk_widget_set_hexpand(combo, TRUE);
     g_object_set(combo, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), combo, 0, 1, 1, 1);
