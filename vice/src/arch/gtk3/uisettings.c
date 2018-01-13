@@ -66,7 +66,7 @@
 #include "ui.h"
 #include "uispeed.h"
 #include "uikeyboard.h"
-#include "uisound.h"
+#include "settings_sound.h"
 #include "uiautostart.h"
 #include "uidrivesettings.h"
 #include "uimodel.h"

@@ -1,5 +1,5 @@
-/*
- * soundfragmentizewidget.c - GTK3 sound fragment size widget
+/** \file   src/arch/gtk3/widgets/soundfragmentizewidget.c
+ * \brief   GTK3 sound fragment size widget
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "ui.h"
 #include "resources.h"
@@ -54,19 +55,6 @@ static ui_radiogroup_entry_t fragment_sizes[] = {
 };
 
 
-/** \brief  Callback to set the new value of the "SoundFragmentSize" resource
- *
- * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   index in the radio button grid (`int`)
- */
-static void on_fragment_size_changed(GtkWidget *widget, gpointer user_data)
-{
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        resources_set_int("SoundFragmentSize", GPOINTER_TO_INT(user_data));
-    }
-}
-
-
 /** \brief  Create widget to set the "SoundFragmentSize" resource
  *
  * \return  GtkGrid
@@ -74,14 +62,16 @@ static void on_fragment_size_changed(GtkWidget *widget, gpointer user_data)
 GtkWidget *sound_fragment_size_widget_create(void)
 {
     GtkWidget *grid;
-    int size;
+    GtkWidget *group;
 
-    resources_get_int("SoundFragmentSize", &size);
-
-    grid = uihelpers_radiogroup_create(
-            "Fragment size", fragment_sizes,
-            on_fragment_size_changed, size);
-
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
+            "Fragment size", 1);
+    group = vice_gtk3_resource_radiogroup_create(
+            "SoundFragmentSize", fragment_sizes, GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
     gtk_widget_show_all(grid);
     return grid;
 }

@@ -32,6 +32,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "ui.h"
 #include "resources.h"
@@ -66,43 +67,9 @@ static void on_device_changed(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Handler for the "changed" event of the driver argument entry
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   data for the event (unused)
- *
- * FIXME:   responds on every character added or removed and thus calls
- *          resources_set_string() every time. Better to use some state machine
- *          that gets activated when the widget gets focus and then checks if
- *          the entry value changed when the widget looses focus and only then
- *          sets the resource.
- */
-static void on_argument_changed(GtkWidget *widget, gpointer user_data)
-{
-    GtkEntryBuffer *buffer;
-    const char *text;
-
-    buffer = gtk_entry_get_buffer(GTK_ENTRY(widget));
-    text = gtk_entry_buffer_get_text(buffer);
-
-    debug_gtk3("driver argument: '%s'\n", text);
-    resources_set_string("SoundDeviceArg", text);
-}
-
-
 /*
  * Helper functions
  */
-
-
-/** \brief  Create the bold title label
- *
- * \return  label
- */
-static GtkWidget *create_title_label(void)
-{
-    return uihelpers_create_grid_label("Driver");
-}
 
 
 /** \brief  Create combobox with sound devices
@@ -144,19 +111,7 @@ static GtkWidget *create_device_combobox(void)
  */
 static GtkWidget *create_argument_entry(void)
 {
-    GtkWidget *entry;
-    GtkEntryBuffer *buffer;
-    const char *argument;
-
-    buffer = gtk_entry_buffer_new(NULL, -1);
-    resources_get_string("SoundDeviceArg", &argument);
-    gtk_entry_buffer_set_text(buffer, argument, -1);
-
-    entry = gtk_entry_new_with_buffer(buffer);
-
-    /* TODO: get resource value */
-    g_signal_connect(entry, "changed", G_CALLBACK(on_argument_changed), NULL);
-    return entry;
+    return vice_gtk3_resource_entry_full_create("SoundDeviceArg");
 }
 
 
@@ -167,21 +122,25 @@ static GtkWidget *create_argument_entry(void)
 GtkWidget *sound_driver_widget_create(void)
 {
     GtkWidget *grid;
+    GtkWidget *device;
+    GtkWidget *args;
 
     debug_gtk3("called\n");
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-
-    gtk_grid_attach(GTK_GRID(grid), create_title_label(), 0, 0, 2, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Driver", 2);
 
     gtk_grid_attach(GTK_GRID(grid),
             uihelpers_create_indented_label("Device name"), 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_device_combobox(), 1, 1, 1, 1);
+    device = create_device_combobox();
+    gtk_widget_set_hexpand(device, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), device, 1, 1, 1, 1);
 
+    args = create_argument_entry();
+    gtk_widget_set_hexpand(args, TRUE);
     gtk_grid_attach(GTK_GRID(grid),
             uihelpers_create_indented_label("Driver argument"), 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), create_argument_entry(), 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), args, 1, 2, 1, 1);
 
     g_object_set(grid, "margin", 8, NULL);
 

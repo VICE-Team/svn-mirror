@@ -78,13 +78,9 @@ GtkWidget *sound_suspend_time_widget_create(void)
     GtkWidget *grid;
     GtkWidget *spin;
 
-    grid = gtk_grid_new();
-    g_object_set(grid, "margin", 8, NULL);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
-
-    gtk_grid_attach(GTK_GRID(grid),
-            uihelpers_create_grid_label("Suspend time"),
-            0, 0, 2, 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
+            "Suspend time", 1);
     spin = create_spinbutton();
     g_object_set(spin, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), spin, 0, 1, 1, 1);

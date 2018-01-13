@@ -32,6 +32,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "ui.h"
 #include "resources.h"
@@ -55,23 +56,6 @@ static ui_radiogroup_entry_t sample_rates[] = {
 };
 
 
-/** \brief  Event handler to alter the "SoundSampleRate" resource
- *
- * \param[in]   widget      widget triggering the callback
- * \param[in]   user_data   the SoundSampleRate setting (`int`)
- *
- */
-static void on_sample_rate_changed(GtkWidget *widget, gpointer user_data)
-{
-    int rate = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("got sound sample rate %d Hz\n", rate);
-        resources_set_int("SoundSampleRate", rate);
-    }
-}
-
-
 /** \brief  Create widget for "Sound sample rate"
  *
  * A simple list of radio buttons for sound sample rates (8000-48000Hz)
@@ -80,27 +64,16 @@ static void on_sample_rate_changed(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *sound_sample_rate_widget_create(void)
 {
-    GtkWidget *layout;
-    int rate;
-    int i;
+    GtkWidget *grid;
+    GtkWidget *group;
 
-    /* turn rate into radio button index */
-    resources_get_int("SoundSampleRate", &rate);
-    for (i = 0; sample_rates[i].name != NULL; i++) {
-        if (sample_rates[i].id == rate) {
-            break;
-        }
-    }
-    /* guard against invalid index */
-    if (sample_rates[i].name == NULL) {
-        i = 0;
-    }
-
-    layout = uihelpers_radiogroup_create(
-            "Sample rate",
-            sample_rates,
-            on_sample_rate_changed,
-            i);
-
-    return layout;
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
+            "Sample rate", 1);
+    group = vice_gtk3_resource_radiogroup_create(
+            "SoundSampleRate", sample_rates, GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
 }

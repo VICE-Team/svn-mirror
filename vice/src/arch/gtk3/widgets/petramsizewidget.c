@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
@@ -51,41 +52,6 @@ static ui_radiogroup_entry_t ram_sizes[] = {
 };
 
 
-/** \brief  Look up the index of \a size int the RAM sizes array
- *
- * \param[in]   size    RAM size in KB
- *
- * \return  index in the array or -1 when \a size is not found
- */
-static int get_ram_size_index(int size)
-{
-    return uihelpers_radiogroup_get_index(ram_sizes, size);
-}
-
-
-/** \brief  Handler for the "toggled" event of the radio buttons
- *
- * Sets the RamSize resource when it has been changed.
- *
- * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   value for the resource (`int`)
- */
-static void on_ram_size_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_val;
-    int new_val;
-
-    resources_get_int("RamSize", &old_val);
-    new_val = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))
-            && (new_val != old_val)) {
-        debug_gtk3("setting RamSize to %d\n", new_val);
-        resources_set_int("RamSize", new_val);
-    }
-}
-
-
 /** \brief  Create PET RAM size widget
  *
  * Creates a widget to control the PET's RAM size
@@ -95,17 +61,16 @@ static void on_ram_size_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *pet_ram_size_widget_create(void)
 {
     GtkWidget *grid;
-    int size;
-    int index;
+    GtkWidget *group;
 
-    resources_get_int("RamSize", &size);
-    index = get_ram_size_index(size);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
+            "Memory size", 1);
+    group = vice_gtk3_resource_radiogroup_create("RamSize", ram_sizes,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
-    grid = uihelpers_radiogroup_create(
-            "Memory size",
-            ram_sizes,
-            on_ram_size_toggled,
-            index);
     gtk_widget_show_all(grid);
     return grid;
 }

@@ -28,6 +28,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "ui.h"
 #include "resources.h"
@@ -44,7 +45,7 @@
 #include "soundfragmentsizewidget.h"
 #include "soundsuspendtimewidget.h"
 
-#include "uisound.h"
+#include "settings_sound.h"
 
 
 
@@ -57,12 +58,12 @@ static GtkWidget *create_inner_grid(void)
     GtkWidget *grid;
     GtkWidget *wrapper;
 
-    grid = gtk_grid_new();
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 16);
 
     /* row 0, columns 0 & 1 */
     gtk_grid_attach(GTK_GRID(grid),
             sound_driver_widget_create(),
-            0, 0, 2, 1);
+            0, 0, 3, 1);
 
     /* row 1, column 0 */
     gtk_grid_attach(GTK_GRID(grid),
@@ -114,8 +115,7 @@ GtkWidget *uisound_create_central_widget(GtkWidget *widget)
 
 
     /* outer grid: contains the checkbox and an 'inner' grid for the widgets */
-    outer = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(outer), 8);
+    outer = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* add checkbox for 'sound enabled' */
     enabled_check = vice_gtk3_resource_check_button_create("Sound",
