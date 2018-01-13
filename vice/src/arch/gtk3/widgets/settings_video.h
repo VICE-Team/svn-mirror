@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uivideosettings.h
+/** \file   src/arch/gtk3/widgets/settings_video.h
  * \brief   Widget to control video settings - header
  *
  * Written by
@@ -24,12 +24,12 @@
  *
  */
 
-#ifndef VICE_UIVIDEOSETTINGS_H
-#define VICE_UIVIDEOSETTINGS_H
+#ifndef VICE_SETTINGS_VIDEO_H
+#define VICE_SETTINGS_VIDEO_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uivideosettings_widget_create(GtkWidget *parent);
+GtkWidget *settings_video_create(GtkWidget *parent);
 
 #endif

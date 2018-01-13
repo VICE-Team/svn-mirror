@@ -72,7 +72,7 @@
 #include "uimodel.h"
 #include "uimisc.h"
 #include "ramresetwidget.h"
-#include "uivideosettings.h"
+#include "settings_video.h"
 #include "uisamplersettings.h"
 #include "uiprintersettings.h"
 #include "uicontrolport.h"
@@ -659,7 +659,7 @@ static ui_settings_tree_node_t main_nodes[] = {
        uikeyboard_create_central_widget, NULL },
     { "Sound settings",
        "sound",
-       uisound_create_central_widget, NULL },
+       settings_sound_create, NULL },
     { "Sampler settings",
        "sampler",
        uisamplersettings_widget_create, NULL },
@@ -695,7 +695,7 @@ static ui_settings_tree_node_t main_nodes[] = {
         uimisc_create_central_widget, NULL },
     { "Video settings",
         "video",
-        uivideosettings_widget_create, NULL },
+        settings_video_create, NULL },
     { "SID settings",
         "sid",
         uisoundchipsettings_widget_create, NULL },

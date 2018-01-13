@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uivideosettings.c
+/** \file   src/arch/gtk3/widgets/settings_video.c
  * \brief   Widget to control video settings
  *
  * Written by
@@ -77,7 +77,7 @@
 #include "videorenderfilterwidget.h"
 #include "videobordermodewidget.h"
 
-#include "uivideosettings.h"
+#include "settings_video.h"
 
 
 /** \brief  Heap allocated titles for the sub-widgets
@@ -423,12 +423,13 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
  *
  * \return  GtkGrid
  */
-GtkWidget *uivideosettings_widget_create(GtkWidget *parent)
+GtkWidget *settings_video_create(GtkWidget *parent)
 {
-    GtkWidget *grid = gtk_grid_new();
-    const char *chip = uivideo_chip_name();
+    GtkWidget *grid;
+    const char *chip;
 
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 16);
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    chip = uivideo_chip_name();
 
     if (machine_class != VICE_MACHINE_C128) {
         gtk_grid_attach(GTK_GRID(grid),

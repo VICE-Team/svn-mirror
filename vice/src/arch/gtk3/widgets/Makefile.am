@@ -137,7 +137,8 @@ libwidgets_a_SOURCES = \
 	jamactionwidget.c \
 	monitorsettingswidget.c \
 	romsetwidget.c \
-	settings_sound.c
+	settings_sound.c \
+	settings_video.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -252,4 +253,5 @@ EXTRA_DIST = \
 	jamactionwidget.h \
 	monitorsettingswidget.h \
 	romsetwidget.h \
-	settings_sound.h
+	settings_sound.h \
+	settings_video.h

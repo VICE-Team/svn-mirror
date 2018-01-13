@@ -1,4 +1,4 @@
-/** \file   uisound.c
+/** \file   src/arch/gtk3/widgets/settings_sound.c
  * \brief   Sound settings main widget for the settings dialog
  *
  * Written by
@@ -84,7 +84,7 @@ static GtkWidget *create_inner_grid(void)
             0, 2, 1, 1);
 
     /* row 2, column 1 */
-    wrapper = gtk_grid_new();
+    wrapper = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     gtk_grid_attach(GTK_GRID(wrapper),
             sound_buffer_size_widget_create(),
             0, 0, 1, 1);
@@ -106,7 +106,7 @@ static GtkWidget *create_inner_grid(void)
  *
  * \return  grid with sound settings widgets
  */
-GtkWidget *uisound_create_central_widget(GtkWidget *widget)
+GtkWidget *settings_sound_create(GtkWidget *widget)
 {
     GtkWidget * outer;
     GtkWidget * inner;
