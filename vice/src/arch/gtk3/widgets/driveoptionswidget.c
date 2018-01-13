@@ -134,6 +134,9 @@ GtkWidget *drive_options_widget_create(int unit)
  */
 void drive_options_widget_update(GtkWidget *widget, int unit)
 {
+
+    /* XXX: what was this suppposed to do? Probably deprecated */
+
 #if 0
     unit_number = unit;
 

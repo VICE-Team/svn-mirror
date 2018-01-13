@@ -5,9 +5,9 @@
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  RAMInitStartValue       - value for the first RAM address
- *  RamInitValueInvert      - ???
- *  RAMInitPatternInvert    - ???
+ *  RAMInitStartValue
+ *  RamInitValueInvert
+ *  RAMInitPatternInvert
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,73 +36,22 @@
 #include <string.h>
 #include <math.h>
 
+#include "basewidgets.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
 
 #include "ramresetwidget.h"
 
-
 /** \brief  List of powers of two used for the widgets
- */
-static const int powers_of_two[] = {
-    0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, -1
-};
-
-
-/* for some reason GtkSpinButton refuses displaying/parsing hex values, I even
- * followed the demo code at GitHub, still no dice
- */
-#if 0
-
-static gint on_start_value_input(GtkSpinButton *spin, gdouble *new_value)
-{
-    const gchar *text;
-    char *endptr;
-    gdouble res;
-
-    text = gtk_entry_get_text(GTK_ENTRY(spin));
-    res = strtol(text, &endptr, 16);
-    *new_value = res;
-    if (*endptr != '\0') {
-        return GTK_INPUT_ERROR;
-    }
-    return TRUE;
-}
-
-
-
-static gboolean on_start_value_output(GtkSpinButton *spin)
-{
-    GtkAdjustment *adjustment;
-    gchar *text;
-    gint value;
-
-    adjustment = gtk_spin_button_get_adjustment(spin);
-    value = (gint)gtk_adjustment_get_value(adjustment);
-
-    printf("SPIN VALUE = %d\n", value);
-    text = g_strdup_printf("0x%.02X", value);
-    if (strcmp(text, gtk_entry_get_text(GTK_ENTRY(spin))) == 0) {
-        gtk_entry_set_text(GTK_ENTRY(spin), text);
-    }
-    g_free(text);
-
-    return TRUE;
-}
-#endif
-
-
-/** \brief  Handler for the "changed" event of the start value widget
  *
- * \param[in]   spin_button spin button triggering the event
+ * Yes, this looks silly, but allows me to use vice-gtk3 widgets.
  */
-static void on_start_value_changed(GtkSpinButton *spin_button)
-{
-    int value = (int)gtk_spin_button_get_value(spin_button);
-    debug_gtk3("setting RAMInitStartValue to %d\n", value);
-    resources_set_int("RAMInitStartValue", value);
-}
+static ui_combo_entry_int_t powers_of_two[] = {
+    { "0", 0 }, { "1", 1 }, { "2", 2 }, { "4", 4 }, { "8", 8 }, { "16", 16 },
+    { "32", 32 }, { "64", 64 }, { "128", 128 }, { "256", 256 }, { "512", 512 },
+    { "1024", 1024 }, { NULL, -1 }
+};
 
 
 /** \brief  Create a spin button controlling the "RAMInitStartValue" resource
@@ -111,26 +60,8 @@ static void on_start_value_changed(GtkSpinButton *spin_button)
  */
 static GtkWidget *create_start_value_widget(void)
 {
-    GtkWidget *spin;
-    int value;
-#if 0
-    GtkAdjustment *adjustment;
-
-    adjustment = gtk_adjustment_new(0.0, 0.0, 255.0, 1.0, 16.0, 0.0);
-    spin = gtk_spin_button_new(adjustment, 1.0, 0);
-#endif
-    spin = gtk_spin_button_new_with_range(0.0, 255.0, 1.0);
-    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-    resources_get_int("RAMInitStartValue", &value);
-    gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)value);
-#if 0
-    g_signal_connect(spin, "input", G_CALLBACK(on_start_value_input), NULL);
-    g_signal_connect(spin, "output", G_CALLBACK(on_start_value_output), NULL);
-#endif
-
-    g_signal_connect(spin, "changed", G_CALLBACK(on_start_value_changed), NULL);
-
-    return spin;
+    return vice_gtk3_resource_spin_button_int_create("RAMInitStartValue",
+            0, 255, 1);
 }
 
 
@@ -159,19 +90,18 @@ GtkWidget *ram_reset_widget_create(void)
     label = gtk_label_new("Length of constant values");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    value_invert_widget = uihelpers_create_int_combo_box(powers_of_two,
-            "RAMInitValueInvert");
+    value_invert_widget = vice_gtk3_resource_combo_box_int_create(
+            "RAMInitValueInvert", powers_of_two);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), value_invert_widget, 1, 2, 1, 1);
 
-    label = gtk_label_new("Length of constant patterns");
+    label = gtk_label_new("Length of constant pattern");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    pattern_invert_widget = uihelpers_create_int_combo_box(powers_of_two,
-            "RAMInitPatternInvert");
+    pattern_invert_widget = vice_gtk3_resource_combo_box_int_create(
+            "RAMInitPatternInvert", powers_of_two);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), pattern_invert_widget, 1, 3, 1, 1);
-
 
     gtk_widget_show_all(grid);
     return grid;

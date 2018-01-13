@@ -33,6 +33,9 @@
 
 #include "basewidget_types.h"
 
+
+/* XXX: either deprecated or needs renaming */
+
 typedef struct ui_button_s {
     char *text;
     void (*callback)(GtkWidget *, void *);
@@ -60,19 +63,10 @@ GtkWidget *uihelpers_create_grid_label(const char *text);
 GtkWidget *uihelpers_create_indented_label(const char *text);
 
 
-GtkWidget *uihelpers_create_resource_checkbox(
-        const char *label, const char *resource);
+/* new stuff */
 
-void uihelpers_set_drive_resource_from_check_button(
-        GtkWidget *widget,
-        const char *fmt,
-        int unit);
-int uihelpers_get_drive_resource_from_check_button(
-        GtkWidget *widget,
-        const char *fmt,
-        int unit);
+GtkWidget *vice_gtk3_grid_new_spaced(int column_spacing, int row_spacing);
 
 
-GtkWidget *uihelpers_create_int_combo_box(const int *list, const char *resource);
 
 #endif

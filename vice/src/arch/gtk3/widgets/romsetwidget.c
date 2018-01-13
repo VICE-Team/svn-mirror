@@ -69,6 +69,8 @@ static GtkWidget *child_c64_sets = NULL;
 static GtkWidget *rom_basic = NULL;
 static GtkWidget *rom_kernal = NULL;
 static GtkWidget *rom_chargen = NULL;
+static GtkWidget *rom_drive = NULL;
+
 
 
 static void on_default_romset_load_clicked(void)
@@ -99,7 +101,7 @@ static int add_stack_switcher(void)
     /* switcher goes first, otherwise it ends up a the bottom of the widget,
      * which we don't want, although maybe in a few years having the 'tabs'
      * at the bottom suddenly becomes popular, in which case we simply swap
-     * the row number of the stack and the switcher */
+     * the row number of the stack and the switcher :) */
     gtk_grid_attach(GTK_GRID(layout), switcher, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), stack, 0, 1, 1, 1);
 
@@ -141,7 +143,10 @@ static GtkWidget *button_default_romset_load_create(void)
 
 static void create_standard_roms_widgets(int row)
 {
+    GtkWidget *grid;
     GtkWidget *label;
+    GtkWidget *button;
+
 
 }
 
@@ -171,7 +176,8 @@ static GtkWidget *create_c64_sets_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    gtk_grid_attach(GTK_GRID(grid), gtk_label_new("Here go the ROM archive handling widgets"),
+    gtk_grid_attach(GTK_GRID(grid),
+            gtk_label_new("Here go the ROM archive handling widgets"),
             0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
@@ -217,6 +223,7 @@ GtkWidget *romset_widget_create(GtkWidget *parent)
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:
             create_c64_layout();
+            break;
         default:
             debug_gtk3("ROMset stuff not supported (yet) for %s\n", machine_name);
             break;
