@@ -176,7 +176,7 @@ static GtkWidget *create_content_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server_addr, 1, row, 1, 1);
 
-    server_port = resource_spin_button_int_create("NetworkServerPort",
+    server_port = vice_gtk3_resource_spin_button_int_create("NetworkServerPort",
             1, 65535, 1);
     gtk_grid_attach(GTK_GRID(grid), server_port, 2, row, 1, 1);
     server_enable = create_server_enable_widget();

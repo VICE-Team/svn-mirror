@@ -329,7 +329,7 @@ static GtkWidget *create_ide64_device_widget(int device)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(geometry), label, 0, 0, 1, 1);
 
-    cylinders = resource_spin_button_int_create_sprintf("IDE64cylinders%d",
+    cylinders = vice_gtk3_resource_spin_button_int_create_sprintf("IDE64cylinders%d",
             0, 65536, 256, device);
     gtk_widget_set_hexpand(cylinders, FALSE);
     gtk_grid_attach(GTK_GRID(geometry), cylinders, 1, 0, 1, 1);
@@ -339,8 +339,8 @@ static GtkWidget *create_ide64_device_widget(int device)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(geometry), label, 0, 1, 1, 1);
 
-    heads = resource_spin_button_int_create_sprintf("IDE64heads%d",
-            0, 16, 1, device);
+    heads = vice_gtk3_resource_spin_button_int_create_sprintf(
+            "IDE64heads%d", 0, 16, 1, device);
     gtk_widget_set_hexpand(heads, FALSE);
     gtk_grid_attach(GTK_GRID(geometry), heads, 1, 1, 1, 1);
 
@@ -349,8 +349,8 @@ static GtkWidget *create_ide64_device_widget(int device)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(geometry), label, 0, 2, 1, 1);
 
-    sectors = resource_spin_button_int_create_sprintf("IDE64sectors%d",
-            0, 63, 1, device);
+    sectors = vice_gtk3_resource_spin_button_int_create_sprintf(
+            "IDE64sectors%d", 0, 63, 1, device);
     gtk_widget_set_hexpand(heads, FALSE);
     gtk_grid_attach(GTK_GRID(geometry), sectors, 1, 2, 1, 1);
 

@@ -204,8 +204,9 @@ static GtkWidget *resource_spin_button_int_create_helper(GtkWidget *spin)
  *
  * \return  GtkSpinButton
  */
-GtkWidget *resource_spin_button_int_create(const char *resource,
-                                           int lower, int upper, int step)
+GtkWidget *vice_gtk3_resource_spin_button_int_create(
+        const char *resource,
+        int lower, int upper, int step)
 {
     GtkWidget *spin;
 
@@ -230,7 +231,7 @@ GtkWidget *resource_spin_button_int_create(const char *resource,
  *
  * \return  GtkSpinButton
  */
-GtkWidget *resource_spin_button_int_create_sprintf(
+GtkWidget *vice_gtk3_resource_spin_button_int_create_sprintf(
         const char *fmt,
         int lower, int upper, int step,
         ...)
@@ -257,7 +258,9 @@ GtkWidget *resource_spin_button_int_create_sprintf(
  * \param[in]       digits  number of fake digits to display
  *
  */
-void resource_spin_button_int_set_fake_digits(GtkWidget *spin, int digits)
+void vice_gtk3_resource_spin_button_int_set_fake_digits(
+        GtkWidget *spin,
+        int digits)
 {
     if (digits <= 0 || digits > 5) {
         return;
@@ -287,7 +290,7 @@ int resource_spin_button_int_get_fake_digits(GtkSpinButton *spin)
  * \param[in,out]   widget  integer spin button
  * \param[in]       value   new value for the spin button
  */
-void resource_spin_button_int_update(GtkWidget *widget, int value)
+void vice_gtk3_resource_spin_button_int_update(GtkWidget *widget, int value)
 {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget), (gdouble)value);
 }

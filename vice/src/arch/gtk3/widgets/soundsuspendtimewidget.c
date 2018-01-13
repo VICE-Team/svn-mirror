@@ -64,7 +64,7 @@
  */
 static GtkWidget *create_spinbutton(void)
 {
-    return resource_spin_button_int_create("SoundSuspendTime",
+    return vice_gtk3_resource_spin_button_int_create("SoundSuspendTime",
             SPIN_MIN, SPIN_MAX, SPIN_STEP);
 }
 

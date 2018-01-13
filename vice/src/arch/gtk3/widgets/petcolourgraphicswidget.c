@@ -81,7 +81,7 @@ GtkWidget *pet_colour_graphics_widget_create(GtkWidget *parent)
     /* PET Colour background */
     label = gtk_label_new("PET Colour background");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    spin = resource_spin_button_int_create("PETColourBG", 0, 255, 1);
+    spin = vice_gtk3_resource_spin_button_int_create("PETColourBG", 0, 255, 1);
     gtk_widget_set_hexpand(spin, FALSE);    /* still too wide */
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), spin, 1, 1, 1, 1);

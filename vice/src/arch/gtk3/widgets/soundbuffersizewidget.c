@@ -63,7 +63,7 @@
  */
 static GtkWidget *create_spinbutton(void)
 {
-    return resource_spin_button_int_create("SoundBufferSize",
+    return vice_gtk3_resource_spin_button_int_create("SoundBufferSize",
             SPIN_MIN, SPIN_MAX, SPIN_STEP);
 }
 
