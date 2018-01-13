@@ -28,6 +28,11 @@
 #ifndef VICE_VICE_GTK3_SETTINGS_H
 #define VICE_VICE_GTK3_SETTINGS_H
 
+#include <limits.h>
+
+/** \brief  The value to signal to VICE Gtk3 code a default should be used
+ */
+#define VICE_GTK3_DEFAULT   INT_MIN
 
 /** \brief  Default column spacing for `GtkGrid`'s
  */

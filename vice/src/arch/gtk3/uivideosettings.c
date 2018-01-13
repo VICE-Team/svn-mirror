@@ -65,6 +65,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "resourcecheckbutton.h"
 #include "widgethelpers.h"
@@ -231,6 +232,135 @@ static void on_true_aspect_toggled(GtkWidget *check, gpointer user_data)
 }
 
 
+/** \brief  Create widget for double size/scan, video cache and vert stretch
+ *
+ * \param[in]   index   chip index (using in x128)
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_render_widget(int index, const char *chip)
+{
+    GtkWidget *grid;
+    GtkWidget *double_size_widget = NULL;
+    GtkWidget *double_scan_widget = NULL;
+    GtkWidget *video_cache_widget = NULL;
+    GtkWidget *vert_stretch_widget = NULL;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    double_size_widget = create_double_size_widget(index);
+    g_object_set(double_size_widget, "margin-left", 16, NULL);
+    double_scan_widget = create_double_scan_widget(index);
+    video_cache_widget = create_video_cache_widget(index);
+    if (uivideo_chip_has_vert_stretch(chip)) {
+        vert_stretch_widget = create_vert_stretch_widget(index);
+    }
+
+    gtk_grid_attach(GTK_GRID(grid), double_size_widget, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), double_scan_widget, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), video_cache_widget, 2, 0, 1, 1);
+    if (uivideo_chip_has_vert_stretch(chip)) {
+        gtk_grid_attach(GTK_GRID(grid), vert_stretch_widget, 3, 0, 1, 1);
+    }
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
+/** \brief  Create widget for audio leak, sprite collisions and VSP bug
+ *
+ * \param[in]   index   chip index (using in x128)
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_misc_widget(int index, const char *chip)
+{
+    GtkWidget *grid;
+    GtkWidget *audio_leak_widget;
+    GtkWidget *sprite_sprite_widget = NULL;
+    GtkWidget *sprite_background_widget = NULL;
+    GtkWidget *vsp_bug_widget = NULL;
+    int row = 2;
+
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Miscellaneous", 1);
+
+    audio_leak_widget = create_audio_leak_widget(index);
+    g_object_set(audio_leak_widget, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), audio_leak_widget, 0, 1, 1, 1);
+
+    if (uivideo_chip_has_sprites(chip)) {
+        sprite_sprite_widget = create_sprite_sprite_widget(index);
+        sprite_background_widget = create_sprite_background_widget(index);
+        g_object_set(sprite_sprite_widget, "margin-left", 16, NULL);
+        g_object_set(sprite_background_widget, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), sprite_sprite_widget, 0, 2, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), sprite_background_widget, 0, 3, 1, 1);
+        row = 4;
+    }
+    if (uivideo_chip_has_vsp_bug(chip)) {
+        vsp_bug_widget = create_vsp_bug_widget(index);
+        g_object_set(vsp_bug_widget, "margin-left", 16, NULL);
+        gtk_grid_attach(GTK_GRID(grid), vsp_bug_widget, 0, row, 1, 1);
+
+    }
+    gtk_widget_show(grid);
+    return grid;
+}
+
+
+/** \brief  Create widget for HW scaling and keep/true aspect ratio
+ *
+ * \param[in]   index   chip index (using in x128)
+ * \param[in]   chip    chip name
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_scaling_widget(int index, const char *chip)
+{
+    GtkWidget *grid;
+    GtkWidget *hw_scale_widget = NULL;
+
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Scaling and fullscreen", 3);
+
+    hw_scale_widget = create_hw_scale_widget(index);
+    g_object_set(hw_scale_widget, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), hw_scale_widget, 0, 1, 1, 1);
+
+    keep_aspect_widget[index] = create_keep_aspect_widget(index);
+    /* until per-chip KeepAspectRatio is implemented, connect the VICII and
+     * VDC KeepAspectRatio checkboxes, so toggling the VICII checkbox also
+     * updates the VDC checkbox, and vice-versa */
+    if (machine_class == VICE_MACHINE_C128) {
+        g_signal_connect(keep_aspect_widget[index], "toggled",
+                G_CALLBACK(on_keep_aspect_toggled),
+                GINT_TO_POINTER(index == 0 ? 1: 0));
+    }
+    gtk_grid_attach(GTK_GRID(grid), keep_aspect_widget[index], 1 ,1 ,1, 1);
+
+    true_aspect_widget[index] = create_true_aspect_widget(index);
+    /* until per-chip TrueAspectRatio is implemented, connect the VICII and
+     * VDC TrueAspectRatio checkboxes, so toggling the VICII checkbox also
+     * updates the VDC checkbox, and vice-versa */
+    if (machine_class == VICE_MACHINE_C128) {
+        g_signal_connect(true_aspect_widget[index], "toggled",
+                G_CALLBACK(on_true_aspect_toggled),
+                GINT_TO_POINTER(index == 0 ? 1: 0));
+    }
+    gtk_grid_attach(GTK_GRID(grid), true_aspect_widget[index], 2 ,1 ,1, 1);
+
+    g_signal_connect(hw_scale_widget, "toggled",
+            G_CALLBACK(on_hw_scale_toggled), GINT_TO_POINTER(index));
+
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+
 /** \brief  Create a per-chip video settings layout
  *
  * \param[in]   parent  parent widget, required for dialogs
@@ -243,123 +373,43 @@ static GtkWidget *create_layout(GtkWidget *parent, const char *chip, int index)
 {
     GtkWidget *layout;
     GtkWidget *wrapper;
-    GtkWidget *double_size_widget = NULL;
-    GtkWidget *double_scan_widget = NULL;
-    GtkWidget *video_cache_widget = NULL;
-    GtkWidget *vert_stretch_widget = NULL;
-    GtkWidget *audio_leak_widget = NULL;
-    GtkWidget *sprite_sprite_widget = NULL;
-    GtkWidget *sprite_background_widget = NULL;
-    GtkWidget *vsp_bug_widget = NULL;
-    GtkWidget *hw_scale_widget = NULL;
 
     widget_title[index] = lib_msprintf("%s Settings", chip);
     chip_name[index] = chip;
 
-    /* row 0, columns 0-2 */
-    layout = uihelpers_create_grid_with_label(widget_title[index], 3);
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
-    g_object_set(layout, "margin-left", 16, NULL);
+    /* row 0, col 0-2: title */
+    layout = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, widget_title[index], 3);
+    /* spread out the rows a bit more */
+    gtk_grid_set_row_spacing(GTK_GRID(layout),
+            VICE_GTK3_GRID_ROW_SPACING * 2);
 
-    wrapper = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
-
-    double_size_widget = create_double_size_widget(index);
-    g_object_set(double_size_widget, "margin-left", 16, NULL);
-    double_scan_widget = create_double_scan_widget(index);
-    video_cache_widget = create_video_cache_widget(index);
-    if (uivideo_chip_has_vert_stretch(chip)) {
-        vert_stretch_widget = create_vert_stretch_widget(index);
-    }
-    audio_leak_widget = create_audio_leak_widget(index);
-    if (uivideo_chip_has_sprites(chip)) {
-        sprite_sprite_widget = create_sprite_sprite_widget(index);
-        sprite_background_widget = create_sprite_background_widget(index);
-    }
-    if (uivideo_chip_has_vsp_bug(chip)) {
-        vsp_bug_widget = create_vsp_bug_widget(index);
-    }
-
-    gtk_widget_set_vexpand(audio_leak_widget, FALSE);
-
-    gtk_grid_attach(GTK_GRID(wrapper), double_size_widget, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), double_scan_widget, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(wrapper), video_cache_widget, 2, 0, 1, 1);
-    if (uivideo_chip_has_vert_stretch(chip)) {
-        gtk_grid_attach(GTK_GRID(wrapper), vert_stretch_widget, 3, 0, 1, 1);
-    }
-
-    /* row 1, columns 0-2 */
+    /* row 1, col 0-2: video output options */
+    wrapper = create_render_widget(index, chip);
     gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 1, 3, 1);
 
-    /* row 2, columns 0-2 */
+    /* row 2, col 0-2: palette selection */
     gtk_grid_attach(GTK_GRID(layout),
             video_palette_widget_create(chip),
             0, 2, 3, 1);
 
-    /* row 3, column 0 */
+    /* row 3, col 0: rendering filter */
     gtk_grid_attach(GTK_GRID(layout),
             video_render_filter_widget_create(chip),
             0, 3, 1, 1);
-    /* row 3, column 1 */
+    /* row 3, col 1: border-mode  */
     if (uivideo_chip_has_border_mode(chip)) {
         /* add border mode widget */
         gtk_grid_attach(GTK_GRID(layout),
                 video_border_mode_widget_create(chip),
                 1, 3, 1, 1);
     }
-    /* row 3, column2 */
-    wrapper = uihelpers_create_grid_with_label("Miscellaneous", 1);
-    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 8);
-
-    gtk_grid_attach(GTK_GRID(wrapper), audio_leak_widget, 0, 1, 1, 1);
-    if (uivideo_chip_has_sprites(chip)) {
-        gtk_grid_attach(GTK_GRID(wrapper), sprite_sprite_widget, 0, 2, 1, 1);
-        gtk_grid_attach(GTK_GRID(wrapper), sprite_background_widget,
-                0, 3, 1, 1);
-    }
-    if (uivideo_chip_has_vsp_bug(chip)) {
-        gtk_grid_attach(GTK_GRID(wrapper), vsp_bug_widget, 0, 4, 1, 1);
-    }
-
+    /* row 3, col 2: misc options */
+    wrapper = create_misc_widget(index, chip);
     gtk_grid_attach(GTK_GRID(layout), wrapper, 2, 3, 1, 1);
 
-
-    /* row 4, column 0-2 */
-    wrapper = uihelpers_create_grid_with_label("Scaling and fullscreen", 3);
-    gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(wrapper), 8);
-
-    hw_scale_widget = create_hw_scale_widget(index);
-    g_object_set(hw_scale_widget, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(wrapper), hw_scale_widget, 0, 1, 1, 1);
-
-    keep_aspect_widget[index] = create_keep_aspect_widget(index);
-    /* until per-chip KeepAspectRatio is implemented, connect the VICII and
-     * VDC KeepAspectRatio checkboxes, so toggling the VICII checkbox also
-     * updates the VDC checkbox, and vice-versa */
-    if (machine_class == VICE_MACHINE_C128) {
-        g_signal_connect(keep_aspect_widget[index], "toggled",
-                G_CALLBACK(on_keep_aspect_toggled),
-                GINT_TO_POINTER(index == 0 ? 1: 0));
-    }
-    gtk_grid_attach(GTK_GRID(wrapper), keep_aspect_widget[index], 1 ,1 ,1, 1);
-
-    true_aspect_widget[index] = create_true_aspect_widget(index);
-    /* until per-chip TrueAspectRatio is implemented, connect the VICII and
-     * VDC TrueAspectRatio checkboxes, so toggling the VICII checkbox also
-     * updates the VDC checkbox, and vice-versa */
-    if (machine_class == VICE_MACHINE_C128) {
-        g_signal_connect(true_aspect_widget[index], "toggled",
-                G_CALLBACK(on_true_aspect_toggled),
-                GINT_TO_POINTER(index == 0 ? 1: 0));
-    }
-
-    gtk_grid_attach(GTK_GRID(wrapper), true_aspect_widget[index], 2 ,1 ,1, 1);
-
-    g_signal_connect(hw_scale_widget, "toggled",
-            G_CALLBACK(on_hw_scale_toggled), GINT_TO_POINTER(index));
-
+    /* row 4, col 0-2: scaling and aspect ratio resources */
+    wrapper = create_scaling_widget(index, chip);
     gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 4, 3, 1);
 
     gtk_widget_show_all(layout);

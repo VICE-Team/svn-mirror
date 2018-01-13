@@ -30,6 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3_settings.h"
 #include "basewidget_types.h"
 
 #include "cartimagewidget.h"

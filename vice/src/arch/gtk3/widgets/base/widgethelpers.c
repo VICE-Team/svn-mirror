@@ -90,7 +90,6 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
     return grid;
 }
 
-
 /** \brief  Create a GtkGrid with a label radio buttons with text/id pairs
  *
  * \param[in]   label       label text
@@ -161,7 +160,6 @@ int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value)
     return -1;
 }
 
-
 /** \brief  Create a GtkButtonBox
  *
  * \param[in]   buttons     list of (title, callback) tuples, NULL-terminated
@@ -190,7 +188,6 @@ GtkWidget *uihelpers_create_button_box(
     gtk_widget_show(box);
     return box;
 }
-
 
 /** \brief  Set a radio button to active in a GktGrid
  *
@@ -229,7 +226,6 @@ void uihelpers_radiogroup_set_index(GtkWidget *grid, int index)
         row++;
     } while (radio != NULL);
 }
-
 
 
 /** \brief  Create the bold title label of a settings widget's grid
@@ -284,3 +280,42 @@ GtkWidget *vice_gtk3_grid_new_spaced(int column_spacing, int row_spacing)
             row_spacing < 0 ? VICE_GTK3_GRID_ROW_SPACING : row_spacing);
     return grid;
 }
+
+
+/** \brief  Create a new `GtkGrid` with label, setting column and row spacing
+ *
+ * \param[in]   column_spacing  column spacing (< 0 to use default)
+ * \param[in]   row_spacing     row spacing (< 0 to use default)
+ * \param[in]   label           label text
+ * \param[in]   span            number of columns for the \a label to span
+ *
+ * \return  new `GtkGrid` instance
+ */
+GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
+                                                int row_spacing,
+                                                const char *label,
+                                                int span)
+{
+    GtkWidget *grid = vice_gtk3_grid_new_spaced(column_spacing, row_spacing);
+    GtkWidget *lbl = gtk_label_new(NULL);
+    char *temp;
+
+    if (span <= 0) {
+        span = 1;
+    }
+
+    /* create left-indented bold label */
+    temp = lib_msprintf("<b>%s</b>", label);
+    gtk_label_set_markup(GTK_LABEL(lbl), temp);
+    gtk_widget_set_halign(lbl, GTK_ALIGN_START);
+    /* g_object_set(lbl, "margin-bottom", 8, NULL); */
+    lib_free(temp);
+
+    /* attach label */
+    gtk_grid_attach(GTK_GRID(grid), lbl, 0, 0, span, 1);
+    gtk_widget_show(grid);
+    return grid;
+}
+
+
+

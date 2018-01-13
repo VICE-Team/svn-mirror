@@ -35,6 +35,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "debug_gtk3.h"
 #include "widgethelpers.h"
 #include "resources.h"
@@ -58,6 +59,7 @@ static ui_radiogroup_entry_t filters[] = {
 };
 
 
+#if 0
 /** \brief  Handler for the "toggled" event of the radio buttons
  *
  * \param[in]   widget      radio button
@@ -72,6 +74,7 @@ static void on_render_filter_toggled(GtkWidget *widget, gpointer user_data)
         resources_set_int_sprintf("%sFilter", value, chip_prefix);
     }
 }
+#endif
 
 
 /** \brief  Create widget to control render filter resources
@@ -83,13 +86,15 @@ static void on_render_filter_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *video_render_filter_widget_create(const char *chip)
 {
     GtkWidget *grid;
-    int current;
+    GtkWidget *render_widget;
 
     chip_prefix = chip;
-    resources_get_int_sprintf("%sFilter", &current, chip);
 
-    grid = uihelpers_radiogroup_create("Render filter", filters,
-            on_render_filter_toggled, current);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Render filter", 1);
+    render_widget = vice_gtk3_resource_radiogroup_create_sprintf(
+            "%sFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
+    g_object_set(render_widget, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);
     gtk_widget_show_all(grid);
     return grid;
 }

@@ -203,8 +203,7 @@ GtkWidget *video_palette_widget_create(const char *chip)
     resources_get_int_sprintf("%sExternalPalette", &external, chip);
     debug_gtk3("%sExternalPalette is %s\n", chip, external ? "ON" : "OFF");
 
-    grid = uihelpers_create_grid_with_label("Palette settings", 4);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Palette settings", 4);
 
     radio_internal = gtk_radio_button_new_with_label(group, "Internal");
     g_object_set(radio_internal, "margin-left", 16, NULL);

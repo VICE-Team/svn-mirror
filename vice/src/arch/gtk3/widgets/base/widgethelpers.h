@@ -67,6 +67,9 @@ GtkWidget *uihelpers_create_indented_label(const char *text);
 
 GtkWidget *vice_gtk3_grid_new_spaced(int column_spacing, int row_spacing);
 
-
+GtkWidget *vice_gtk3_grid_new_spaced_with_label(int column_spacing,
+                                                int row_spacing,
+                                                const char *label,
+                                                int span);
 
 #endif
