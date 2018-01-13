@@ -236,7 +236,7 @@ static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
 static void on_resid_passband_default_clicked(GtkWidget *widget,
                                               gpointer user_data)
 {
-    resource_scale_int_reset(resid_passband);
+    vice_gtk3_resource_scale_int_reset(resid_passband);
 }
 
 
@@ -250,7 +250,7 @@ static void on_resid_passband_default_clicked(GtkWidget *widget,
 static void on_resid_gain_default_clicked(GtkWidget *widget,
                                           gpointer user_data)
 {
-    resource_scale_int_reset(resid_gain);
+    vice_gtk3_resource_scale_int_reset(resid_gain);
 }
 
 
@@ -264,7 +264,7 @@ static void on_resid_gain_default_clicked(GtkWidget *widget,
 static void on_resid_bias_default_clicked(GtkWidget *widget,
                                           gpointer user_data)
 {
-    resource_scale_int_reset(resid_bias);
+    vice_gtk3_resource_scale_int_reset(resid_bias);
 
 }
 
@@ -436,9 +436,9 @@ static GtkWidget *create_resid_passband_widget(void)
 {
     GtkWidget *scale;
 
-    scale = resource_scale_int_create("SidResidPassband",
+    scale = vice_gtk3_resource_scale_int_create("SidResidPassband",
             GTK_ORIENTATION_HORIZONTAL, 0, 90, 5);
-    resource_scale_int_set_marks(scale, 10);
+    vice_gtk3_resource_scale_int_set_marks(scale, 10);
     return scale;
 }
 
@@ -451,9 +451,9 @@ static GtkWidget *create_resid_gain_widget(void)
 {
     GtkWidget *scale;
 
-    scale = resource_scale_int_create("SidResidGain",
+    scale = vice_gtk3_resource_scale_int_create("SidResidGain",
             GTK_ORIENTATION_HORIZONTAL, 90, 100, 1);
-    resource_scale_int_set_marks(scale, 1);
+    vice_gtk3_resource_scale_int_set_marks(scale, 1);
     return scale;
 }
 
@@ -466,9 +466,9 @@ static GtkWidget *create_resid_bias_widget(void)
 {
     GtkWidget *scale;
 
-    scale = resource_scale_int_create("SidResidFilterBias",
+    scale = vice_gtk3_resource_scale_int_create("SidResidFilterBias",
             GTK_ORIENTATION_HORIZONTAL, -5000, 5000, 500);
-    resource_scale_int_set_marks(scale, 500);
+    vice_gtk3_resource_scale_int_set_marks(scale, 500);
     return scale;
 }
 

@@ -31,19 +31,21 @@
 #include <gtk/gtk.h>
 #include "basewidget_types.h"
 
-GtkWidget * resource_scale_int_create(const char *resource,
-                                      GtkOrientation orientation,
-                                      int low, int high, int step);
+GtkWidget *vice_gtk3_resource_scale_int_create(
+        const char *resource,
+        GtkOrientation orientation,
+        int low, int high, int step);
 
-GtkWidget * resource_scale_int_create_sprintf(const char *fmt,
-                                              GtkOrientation orientation,
-                                              int low, int high, int step,
-                                              ...);
+GtkWidget *vice_gtk3_resource_scale_int_create_sprintf(
+        const char *fmt,
+        GtkOrientation orientation,
+        int low, int high, int step,
+        ...);
 
-void        resource_scale_int_update(GtkWidget *scale, int value);
+void vice_gtk3_resource_scale_int_update(GtkWidget *scale, int value);
 
-void        resource_scale_int_set_marks(GtkWidget *scale, int step);
+void vice_gtk3_resource_scale_int_set_marks(GtkWidget *scale, int step);
 
-void        resource_scale_int_reset(GtkWidget *scale);
+void vice_gtk3_resource_scale_int_reset(GtkWidget *scale);
 
 #endif
