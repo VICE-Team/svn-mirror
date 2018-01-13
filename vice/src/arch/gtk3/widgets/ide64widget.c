@@ -129,8 +129,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = ui_open_file_dialog(widget, "Select disk image file",
             "HD image files", filter_list, NULL);
     if (filename != NULL) {
-        GtkEntry *entry = GTK_ENTRY(user_data);
-        gtk_entry_set_text(entry, filename);
+        vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }
 }
@@ -217,7 +216,7 @@ static GtkWidget *create_ide64_usb_widget(void)
     enable = vice_gtk3_resource_check_button_create("IDE64USBServer",
             "Enable USB server");
     label = gtk_label_new("USB server address");
-    address = resource_entry_create("IDE64USBServerAddress");
+    address = vice_gtk3_resource_entry_full_create("IDE64USBServerAddress");
     gtk_widget_set_hexpand(address, TRUE);
 
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 1, 1);
@@ -303,7 +302,7 @@ static GtkWidget *create_ide64_device_widget(int device)
     g_object_set(label, "margin-left", 16, NULL);
 
     g_snprintf(resource, 256, "IDE64image%d", device);
-    entry = resource_entry_create(resource);
+    entry = vice_gtk3_resource_entry_full_create(resource);
     gtk_widget_set_hexpand(entry, TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");

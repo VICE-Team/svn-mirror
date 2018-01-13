@@ -109,7 +109,7 @@ static void on_midi_in_browse(GtkWidget *widget, gpointer user_data)
             "MIDI devices", filters, "/dev");
     if (filename != NULL) {
         debug_gtk3("Setting MIDIInDev to '%s'", filename);
-        gtk_entry_set_text(GTK_ENTRY(user_data), filename);
+        vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }
 }
@@ -129,7 +129,7 @@ static void on_midi_out_browse(GtkWidget *widget, gpointer user_data)
             "MIDI devices", filters, "/dev");
     if (filename != NULL) {
         debug_gtk3("Setting MIDIOutDev to '%s'", filename);
-        gtk_entry_set_text(GTK_ENTRY(user_data), filename);
+        vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }
 
@@ -221,7 +221,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_in_entry = resource_entry_create("MIDIInDev");
+    midi_in_entry = vice_gtk3_resource_entry_full_create("MIDIInDev");
     gtk_widget_set_hexpand(midi_in_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_in_entry, 1, row, 1, 1);
     midi_in_browse = gtk_button_new_with_label("Browse ...");
@@ -234,7 +234,7 @@ GtkWidget *midi_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
-    midi_out_entry = resource_entry_create("MIDIOutDev");
+    midi_out_entry = vice_gtk3_resource_entry_full_create("MIDIOutDev");
     gtk_widget_set_hexpand(midi_out_entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), midi_out_entry, 1, row, 1, 1);
     midi_out_browse = gtk_button_new_with_label("Browse ...");

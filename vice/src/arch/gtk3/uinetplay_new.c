@@ -171,7 +171,7 @@ static GtkWidget *create_content_widget(void)
     row++;
 
     label = create_indented_label("Server IP address");
-    server_addr = resource_entry_full_create("NetworkServerName");
+    server_addr = vice_gtk3_resource_entry_full_create("NetworkServerName");
     gtk_widget_set_hexpand(server_addr, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server_addr, 1, row, 1, 1);
@@ -191,7 +191,8 @@ static GtkWidget *create_content_widget(void)
     row++;
 
     label = create_indented_label("Bind IP address");
-    bind_addr = resource_entry_full_create("NetworkServerBindAddress");
+    bind_addr = vice_gtk3_resource_entry_full_create(
+            "NetworkServerBindAddress");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bind_addr, 1, row, 1, 1);
 

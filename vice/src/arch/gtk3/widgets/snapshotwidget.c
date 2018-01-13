@@ -68,7 +68,7 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
     const char *current;
 
     if (resources_get_string("EventSnapshotDir", &current) < 0) {
-        debug_gtk3("failed to get currnt history directory, using NULL\n");
+        debug_gtk3("failed to get current history directory, using NULL\n");
         current = NULL;
     }
 
@@ -77,7 +77,7 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
             "Select history directory", NULL, TRUE, current);
     if (filename != NULL) {
         debug_gtk3("Setting EventSnapshotDir to '%s'\n", filename);
-        gtk_entry_set_text(GTK_ENTRY(histdir_entry), filename);
+        vice_gtk3_resource_entry_full_update(histdir_entry, filename);
         g_free(filename);
     }
 }
@@ -105,7 +105,7 @@ GtkWidget *snapshot_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
 
-    histdir_entry = resource_entry_create("EventSnapshotDir");
+    histdir_entry = vice_gtk3_resource_entry_full_create("EventSnapshotDir");
     gtk_widget_set_hexpand(histdir_entry, TRUE);
 
     histdir_browse = gtk_button_new_with_label("Browse ...");

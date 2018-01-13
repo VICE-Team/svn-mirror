@@ -67,7 +67,8 @@ GtkWidget *monitor_settings_widget_create(GtkWidget *parent)
     /* align with the rest, more or less */
     g_object_set(label, "margin-left", 8, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    server_address = resource_entry_create("MonitorServerAddress");
+    server_address = vice_gtk3_resource_entry_full_create(
+            "MonitorServerAddress");
     gtk_widget_set_hexpand(server_address, TRUE);
     gtk_grid_attach(GTK_GRID(grid), keep_open, 0, 0, 2, 1);
     gtk_grid_attach(GTK_GRID(grid), server_enable, 0, 1, 2, 1);

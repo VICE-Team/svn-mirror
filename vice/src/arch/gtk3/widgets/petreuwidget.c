@@ -93,9 +93,8 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = ui_open_file_dialog(widget, "Open REU image file", NULL,
             NULL, NULL);
     if (filename != NULL) {
-        GtkEntry *entry = GTK_ENTRY(user_data);
         debug_gtk3("setting PETREUfilename to '%s'\n", filename);
-        gtk_entry_set_text(entry, filename);
+        vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }
 }
@@ -137,7 +136,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     label = gtk_label_new("REU image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = resource_entry_create("PETREUfilename");
+    entry = vice_gtk3_resource_entry_full_create("PETREUfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),

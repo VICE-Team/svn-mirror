@@ -54,17 +54,17 @@ static ui_radiogroup_entry_t rom_types[] = {
 
 /** \brief  Handler for the "clicked" event of a "browse" button
  *
- * \param[in]   widget      button
- * \param[in]   user_data   entry to store filename
+ * \param[in]   widget  browse button
+ * \param[in]   data    entry to store filename
  */
-static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
+static void on_browse_clicked(GtkWidget *widget, gpointer data)
 {
     gchar *filename;
 
     filename = ui_open_file_dialog(widget, "Open ROM file", NULL, NULL, NULL);
     if (filename != NULL) {
         debug_gtk3("got filename '%s'\n", filename);
-        gtk_entry_set_text(GTK_ENTRY(user_data), filename);
+        vice_gtk3_resource_entry_full_update(GTK_WIDGET(data), filename);
         g_free(filename);
     }
 }
@@ -104,10 +104,10 @@ static GtkWidget *create_rom_file_widget(const char *prefix)
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
-    /* TODO: create resource_entry_create_sprintf() */
+    /* TODO: create vice_gtk3_resource_entry_create_sprintf() */
     g_snprintf(buffer, 256, "%sFunctionName", prefix);
 
-    entry = resource_entry_create(buffer);
+    entry = vice_gtk3_resource_entry_full_create(buffer);
     gtk_widget_set_hexpand(entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 1, 1);
 

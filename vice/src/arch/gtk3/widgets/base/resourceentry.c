@@ -78,7 +78,7 @@ static void on_entry_changed(GtkWidget *entry, gpointer user_data)
  *
  * \return  new entry
  */
-GtkWidget *resource_entry_create(const char *resource)
+GtkWidget *vice_gtk3_resource_entry_create(const char *resource)
 {
     GtkWidget *entry;
     const char *current;
@@ -110,11 +110,11 @@ GtkWidget *resource_entry_create(const char *resource)
 /** \brief  Set new \a value for \a entry
  *
  * \param[in]   entry   entry
- * \param[in]   value   new text for \a entry
+ * \param[in]   new     new text for \a entry
  */
-void resource_entry_update(GtkWidget *entry, const char *value)
+void vice_gtk3_resource_entry_update(GtkWidget *entry, const char *new)
 {
-    gtk_entry_set_text(GTK_ENTRY(entry), value);
+    gtk_entry_set_text(GTK_ENTRY(entry), new);
 }
 
 
@@ -122,7 +122,7 @@ void resource_entry_update(GtkWidget *entry, const char *value)
  *
  * \param[in]   entry   entry
  */
-void resource_entry_reset(GtkWidget *entry)
+void vice_gtk3_resource_entry_reset(GtkWidget *entry)
 {
     const char *resource;
     const char *factory;
@@ -130,7 +130,7 @@ void resource_entry_reset(GtkWidget *entry)
     resource = resource_widget_get_resource_name(entry);
     resources_get_default_value(resource, &factory);
     debug_gtk3("resetting %s to factory value %s\n", resource, factory);
-    resource_entry_update(entry, factory);
+    vice_gtk3_resource_entry_update(entry, factory);
 }
 
 
@@ -173,7 +173,8 @@ static void resource_entry_full_update_resource(GtkEntry *entry)
         return;
     }
     entry_text = gtk_entry_get_text(entry);
-    debug_gtk3("res_name: %s res_val: %s entry_text: %s\n", res_name, res_val, entry_text);
+    debug_gtk3("res_name: %s res_val: %s entry_text: %s\n",
+            res_name, res_val, entry_text);
     if ((res_val == NULL) || (strcmp(entry_text, res_val) != 0)) {
         resources_set_string(res_name, entry_text);
         debug_gtk3("set res_name: %s entry_text: %s\n", res_name, entry_text);
@@ -234,7 +235,7 @@ static gboolean on_key_press_event(
  *
  * \return  GtkEntry
  */
-GtkWidget *resource_entry_full_create(const char *resource)
+GtkWidget *vice_gtk3_resource_entry_full_create(const char *resource)
 {
     GtkWidget *entry;
     const char *current;
@@ -281,7 +282,7 @@ GtkWidget *resource_entry_full_create(const char *resource)
  *
  * \param[in,out]   entry   resource entry box
  */
-void resource_entry_full_reset(GtkWidget *entry)
+void vice_gtk3_resource_entry_full_reset(GtkWidget *entry)
 {
     const char *res_name;
     const char *orig;
@@ -301,7 +302,7 @@ void resource_entry_full_reset(GtkWidget *entry)
  * \param[in,out]   entry   entry box
  * \param[in]       new     new string for \a entry
  */
-void resource_entry_full_update(GtkWidget *entry, const char *new)
+void vice_gtk3_resource_entry_full_update(GtkWidget *entry, const char *new)
 {
     const char *res_name;
 
@@ -316,4 +317,3 @@ void resource_entry_full_update(GtkWidget *entry, const char *new)
         gtk_entry_set_text(GTK_ENTRY(entry), new);
     }
 }
-

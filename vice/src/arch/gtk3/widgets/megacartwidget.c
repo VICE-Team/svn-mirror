@@ -58,9 +58,8 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = ui_open_file_dialog(widget, "Open NvRAM image file", NULL, NULL,
             NULL);
     if (filename != NULL) {
-        GtkEntry *entry = GTK_ENTRY(user_data);
         debug_gtk3("setting MegaCartNvRAMfilename to '%s'\n", filename);
-        gtk_entry_set_text(entry, filename);
+        vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }
 }
@@ -86,7 +85,7 @@ GtkWidget *mega_cart_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("NvRAM image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    entry = resource_entry_create("MegaCartNvRAMfilename");
+    entry = vice_gtk3_resource_entry_full_create("MegaCartNvRAMfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),

@@ -62,9 +62,9 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = ui_open_file_dialog(widget, "Open Magic Voice image", NULL,
             NULL, NULL);
     if (filename != NULL) {
-        GtkEntry *entry = GTK_ENTRY(user_data);
+        GtkWidget *entry = GTK_WIDGET(user_data);
         debug_gtk3("setting MagicVoiceImage to '%s'\n", filename);
-        gtk_entry_set_text(entry, filename);
+        vice_gtk3_resource_entry_full_update(entry, filename);
         g_free(filename);
     }
 }
@@ -93,7 +93,7 @@ GtkWidget *magic_voice_widget_create(GtkWidget *parent)
 
     label = gtk_label_new("Magic Voice ROM");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    entry = resource_entry_create("MagicVoiceImage");
+    entry = vice_gtk3_resource_entry_full_create("MagicVoiceImage");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),

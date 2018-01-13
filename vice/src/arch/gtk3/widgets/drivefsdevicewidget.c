@@ -72,14 +72,14 @@ static ui_combo_entry_int_t device_types[] = {
  */
 static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    GtkEntry *entry = GTK_ENTRY(user_data);
+    GtkWidget *entry = GTK_WIDGET(user_data);
     gchar *filename;
 
     filename = ui_select_directory_dialog(widget,
             "Select file system directory",
             NULL, TRUE, NULL);
     if (filename != NULL) {
-        gtk_entry_set_text(entry, filename);
+        vice_gtk3_resource_entry_full_update(entry, filename);
         g_free(filename);
     }
 }
@@ -111,7 +111,7 @@ static GtkWidget *create_fsdir_entry_widget(int unit)
     char resource[256];
 
     g_snprintf(resource, 256, "FSDevice%dDir", unit);
-    entry = resource_entry_create(resource);
+    entry = vice_gtk3_resource_entry_full_create(resource);
     return entry;
 }
 

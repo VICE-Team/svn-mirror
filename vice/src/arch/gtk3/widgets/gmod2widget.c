@@ -103,7 +103,7 @@ static void on_eeprom_browse_clicked(GtkWidget *widget, gpointer user_data)
         debug_gtk3("Loading GMod2 EEPROM image '%s'\n", filename);
         if (resources_set_string("GMOD2EEPROMImage", filename) < 0) {
             ui_message_error(widget, "Failed to load EEPROM file",
-                    "Failed load EEPROM image file '%s'",
+                    "Failed to load EEPROM image file '%s'",
                     filename);
         } else {
             gtk_entry_set_text(GTK_ENTRY(user_data), filename);
@@ -168,7 +168,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
 
-    entry = resource_entry_full_create("GMOD2EEPROMImage");
+    entry = vice_gtk3_resource_entry_full_create("GMOD2EEPROMImage");
     gtk_widget_set_hexpand(entry, TRUE);
 
     browse = gtk_button_new_with_label("Browse ...");

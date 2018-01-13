@@ -66,7 +66,8 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
-        gtk_entry_set_text(GTK_ENTRY(entry), filename);
+
+        vice_gtk3_resource_entry_full_update(entry, filename);
         g_free(filename);
     }
 }
@@ -188,7 +189,7 @@ GtkWidget *cart_image_widget_create(
     label = gtk_label_new("file name");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = resource_entry_full_create(resource_fname);
+    entry = vice_gtk3_resource_entry_full_create(resource_fname);
     gtk_widget_set_hexpand(entry, TRUE);
     /* gtk_widget_set_sensitive(entry, FALSE); */
     browse = gtk_button_new_with_label("Browse ...");

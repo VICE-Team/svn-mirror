@@ -64,15 +64,14 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 /** \brief  Handler for the "clicked" event of the browse button
  *
  * \param[in]   widget      browse button
- * \param[in]   user_data   unused
+ * \param[in]   user_data   text entry to update
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     gchar *filename = ui_open_file_dialog(widget, "Open V364 ROM file",
             NULL, NULL, NULL);
     if (filename != NULL) {
-        GtkEntry *entry = GTK_ENTRY(user_data);
-        gtk_entry_set_text(entry, filename);
+        vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }
 }
@@ -101,7 +100,7 @@ GtkWidget *v364_speech_widget_create(GtkWidget *parent)
     label = gtk_label_new("ROM image");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = resource_entry_create("SpeechImage");
+    entry = vice_gtk3_resource_entry_full_create("SpeechImage");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
