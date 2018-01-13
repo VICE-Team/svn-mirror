@@ -71,7 +71,7 @@ GtkWidget *pet_colour_graphics_widget_create(GtkWidget *parent)
     /* PET Colour type */
     label = gtk_label_new("PET Colour type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    group = resource_radiogroup_create("PETColour", colour_types,
+    group = vice_gtk3_resource_radiogroup_create("PETColour", colour_types,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);

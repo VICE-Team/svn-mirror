@@ -59,7 +59,7 @@ GtkWidget *pet_io_size_widget_create(void)
 
     grid = uihelpers_create_grid_with_label("I/O area size", 1);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    group = resource_radiogroup_create("IOSize", io_sizes,
+    group = vice_gtk3_resource_radiogroup_create("IOSize", io_sizes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);

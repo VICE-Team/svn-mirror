@@ -121,7 +121,7 @@ GtkWidget *snapshot_widget_create(GtkWidget *parent)
     gtk_widget_set_valign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
 
-    recmode_widget = resource_radiogroup_create("EventStartMode",
+    recmode_widget = vice_gtk3_resource_radiogroup_create("EventStartMode",
             recstart_modes, GTK_ORIENTATION_VERTICAL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);

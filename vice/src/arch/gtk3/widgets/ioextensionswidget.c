@@ -80,7 +80,7 @@ static GtkWidget *create_collision_widget(const char *desc)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    group = resource_radiogroup_create("IOCollisionHandling",
+    group = vice_gtk3_resource_radiogroup_create("IOCollisionHandling",
             io_collision_methods, GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);

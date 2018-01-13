@@ -275,7 +275,7 @@ static GtkWidget *create_mmc64_revision_widget(void)
     label = gtk_label_new("Revision");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = resource_radiogroup_create("MMC64_revision", revisions,
+    radio_group = vice_gtk3_resource_radiogroup_create("MMC64_revision", revisions,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 1, 0, 1, 1);
 
@@ -382,8 +382,8 @@ static GtkWidget *create_card_type_widget(void)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = resource_radiogroup_create("MMC64_sd_type", card_types,
-            GTK_ORIENTATION_HORIZONTAL);
+    radio_group = vice_gtk3_resource_radiogroup_create("MMC64_sd_type",
+            card_types, GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(radio_group), 16);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 1, 0, 1, 1);
 

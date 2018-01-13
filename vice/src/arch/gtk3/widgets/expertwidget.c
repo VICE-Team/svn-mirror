@@ -69,7 +69,7 @@ static GtkWidget *create_expert_mode_widget(void)
 
     grid = uihelpers_create_grid_with_label("Cartridge mode", 3);
 
-    radio_group = resource_radiogroup_create("ExpertCartridgeMode",
+    radio_group = vice_gtk3_resource_radiogroup_create("ExpertCartridgeMode",
             mode_list, GTK_ORIENTATION_HORIZONTAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(radio_group), 16);

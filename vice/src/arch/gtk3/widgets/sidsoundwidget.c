@@ -289,7 +289,7 @@ static GtkWidget *create_sid_engine_widget(void)
     g_object_set(label, "margin-bottom", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = resource_radiogroup_create("SidEngine", sid_engines,
+    radio_group = vice_gtk3_resource_radiogroup_create("SidEngine", sid_engines,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
@@ -328,7 +328,7 @@ static GtkWidget *create_sid_engine_widget(void)
         }
     }
 #endif
-    resource_radiogroup_add_callback(radio_group, on_sid_engine_changed);
+    vice_gtk3_resource_radiogroup_add_callback(radio_group, on_sid_engine_changed);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -354,7 +354,7 @@ static GtkWidget *create_resid_sampling_widget(void)
     g_object_set(label, "margin-bottom", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = resource_radiogroup_create("SidResidSampling",
+    radio_group = vice_gtk3_resource_radiogroup_create("SidResidSampling",
             resid_sampling_modes, GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
@@ -387,12 +387,13 @@ static GtkWidget *create_num_sids_widget(void)
     g_object_set(label, "margin-bottom", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = resource_radiogroup_create("SidStereo",
+    radio_group = vice_gtk3_resource_radiogroup_create("SidStereo",
             num_sids, GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
-    resource_radiogroup_add_callback(radio_group, on_sid_count_changed);
+    vice_gtk3_resource_radiogroup_add_callback(radio_group,
+            on_sid_count_changed);
 
     gtk_widget_show_all(grid);
     return grid;

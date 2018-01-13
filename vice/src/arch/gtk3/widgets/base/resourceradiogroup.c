@@ -162,9 +162,10 @@ static GtkWidget *resource_radiogroup_create_helper(
  *
  * \return  GtkGrid
  */
-GtkWidget *resource_radiogroup_create(const char *resource,
-                                      const ui_radiogroup_entry_t *entries,
-                                      GtkOrientation orientation)
+GtkWidget *vice_gtk3_resource_radiogroup_create(
+        const char *resource,
+        const ui_radiogroup_entry_t *entries,
+        GtkOrientation orientation)
 {
     GtkWidget *grid;
 
@@ -194,7 +195,7 @@ GtkWidget *resource_radiogroup_create(const char *resource,
  *
  * \return  GtkGrid
  */
-GtkWidget *resource_radiogroup_create_sprintf(
+GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
         const char *fmt,
         const ui_radiogroup_entry_t *entries,
         GtkOrientation orientation,
@@ -220,7 +221,7 @@ GtkWidget *resource_radiogroup_create_sprintf(
  * \param[in,out]   widget  radiogroup widget
  * \param[in]       id      new value for widget
  */
-void resource_radiogroup_update(GtkWidget *widget, int id)
+void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id)
 {
     int orientation;
     int index;
@@ -250,7 +251,7 @@ void resource_radiogroup_update(GtkWidget *widget, int id)
  *
  * \param[in,out]   widget  radio group
  */
-void resource_radiogroup_reset(GtkWidget *widget)
+void vice_gtk3_resource_radiogroup_reset(GtkWidget *widget)
 {
     const char *resource;
     int value;
@@ -258,14 +259,14 @@ void resource_radiogroup_reset(GtkWidget *widget)
     resource = resource_widget_get_resource_name(widget);
     resources_get_default_value(resource, &value);
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
-    resource_radiogroup_update(widget, value);
+    vice_gtk3_resource_radiogroup_update(widget, value);
 }
 
 
 /** \brief  Add an extra callback to \a widget
  *
  * This callback should allow widgets interacting with other widgets without
- * usingany global references.
+ * using any global references.
  *
  * The widget returned is the actual radio group GtkGrid, the integer value is
  * the curent ID of the radiogroup's currently selected radio button.
@@ -274,8 +275,9 @@ void resource_radiogroup_reset(GtkWidget *widget)
  * \param[in]       callback    function to call when the radiogroup selection
  *                              changes
  */
-void resource_radiogroup_add_callback(GtkWidget *widget,
-                                      void (*callback)(GtkWidget *, int))
+void vice_gtk3_resource_radiogroup_add_callback(
+        GtkWidget *widget,
+        void (*callback)(GtkWidget *, int))
 {
     g_object_set_data(G_OBJECT(widget), "ExtraCallback", (gpointer)callback);
 }

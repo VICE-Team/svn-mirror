@@ -65,8 +65,8 @@ GtkWidget * c128_machine_type_widget_create(void)
     GtkWidget *radio_group;
 
     grid = uihelpers_create_grid_with_label("Machine type", 1);
-    radio_group = resource_radiogroup_create("MachineType", machine_types,
-            GTK_ORIENTATION_VERTICAL);
+    radio_group = vice_gtk3_resource_radiogroup_create(
+            "MachineType", machine_types, GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
     gtk_widget_show_all(grid);

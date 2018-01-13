@@ -66,8 +66,9 @@ GtkWidget *printer_output_device_widget_create(int device)
     GtkWidget *radio_group;
 
     grid = uihelpers_create_grid_with_label("Output device", 1);
-    radio_group = resource_radiogroup_create_sprintf("Printer%dTextDevice",
-            device_list, GTK_ORIENTATION_VERTICAL, device);
+    radio_group = vice_gtk3_resource_radiogroup_create_sprintf(
+            "Printer%dTextDevice", device_list, GTK_ORIENTATION_VERTICAL,
+            device);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
     gtk_widget_show_all(grid);

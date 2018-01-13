@@ -209,7 +209,7 @@ static GtkWidget *memory_hacks_device_widget_create(void)
 
     grid = uihelpers_create_grid_with_label(
             "C64 memory expansion hack device", 1);
-    group = resource_radiogroup_create("MemoryHack", mem_hack_devices,
+    group = vice_gtk3_resource_radiogroup_create("MemoryHack", mem_hack_devices,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     g_object_set(group, "margin-left", 16, NULL);
@@ -242,7 +242,7 @@ static GtkWidget *c64_256k_base_address_widget_create(void)
 
     grid = uihelpers_create_grid_with_label(
             "C64 256K base addresss", 1);
-    group = resource_radiogroup_create("C64_256Kbase", c64_256k_base_addresses,
+    group = vice_gtk3_resource_radiogroup_create("C64_256Kbase", c64_256k_base_addresses,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     g_object_set(group, "margin-left", 16, NULL);
@@ -263,7 +263,8 @@ static GtkWidget *plus_60k_base_address_widget_create(void)
 
     grid = uihelpers_create_grid_with_label(
             "+60K base addresss", 1);
-    group = resource_radiogroup_create("PLUS60Kbase", plus_60k_base_addresses,
+    group = vice_gtk3_resource_radiogroup_create(
+            "PLUS60Kbase", plus_60k_base_addresses,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     g_object_set(group, "margin-left", 16, NULL);

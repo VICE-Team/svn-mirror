@@ -31,21 +31,23 @@
 #include <gtk/gtk.h>
 #include "basewidget_types.h"
 
-GtkWidget * resource_radiogroup_create(const char *resource,
-                                       const ui_radiogroup_entry_t *entries,
-                                       GtkOrientation orientation);
+GtkWidget *vice_gtk3_resource_radiogroup_create(
+        const char *resource,
+        const ui_radiogroup_entry_t *entries,
+        GtkOrientation orientation);
 
-GtkWidget *resource_radiogroup_create_sprintf(
+GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
         const char *fmt,
         const ui_radiogroup_entry_t *entries,
         GtkOrientation orientation,
         ...);
 
-void        resource_radiogroup_update(GtkWidget *widget, int id);
+void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id);
 
-void        resource_radiogroup_reset(GtkWidget *widget);
+void vice_gtk3_resource_radiogroup_reset(GtkWidget *widget);
 
-void        resource_radiogroup_add_callback(GtkWidget *widget,
-                                             void (*callback)(GtkWidget*, int));
+void vice_gtk3_resource_radiogroup_add_callback(
+        GtkWidget *widget,
+        void (*callback)(GtkWidget*, int));
 
 #endif

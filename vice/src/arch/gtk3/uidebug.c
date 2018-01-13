@@ -85,7 +85,7 @@ static GtkWidget *create_trace_widget(void)
     GtkWidget *group;
 
     grid = uihelpers_create_grid_with_label("Select CPU/Drive trace mode", 1);
-    group = resource_radiogroup_create("TraceMode", trace_modes,
+    group = vice_gtk3_resource_radiogroup_create("TraceMode", trace_modes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
