@@ -36,12 +36,14 @@
 #include "drive.h"
 #include "joyport.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "types.h"
 #include "uiapi.h"
 #include "uidatasette.h"
 #include "uidiskattach.h"
 #include "uifliplist.h"
+#include "userport/userport_joystick.h"
 
 #include "uistatusbar.h"
 
@@ -403,6 +405,86 @@ static GtkWidget *ui_tape_widget_create(void)
     return grid;
 }
 
+static void vice_gtk3_update_joyport_layout(GtkWidget *joyports_grid)
+{
+    int i, ok[JOYPORT_MAX_PORTS];
+    int userport_joysticks = 0;
+    /* Start with all ports enabled */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        ok[i] = 1;
+    }
+    /* Check for userport joystick counts */
+    if (machine_class != VICE_MACHINE_CBM5x0) {
+        int upjoy = 0;
+        resources_get_int("UserportJoy", &upjoy);
+        if (upjoy) {
+            ++userport_joysticks;
+        }
+        if (machine_class != VICE_MACHINE_C64DTV) {
+            int uptype = USERPORT_JOYSTICK_HUMMER;
+            resources_get_int("UserportJoyType", &uptype);
+            if ((uptype != USERPORT_JOYSTICK_HUMMER) &&
+                (uptype != USERPORT_JOYSTICK_OEM) &&
+                (upjoy != 0)) {
+                ++userport_joysticks;
+            }
+        }
+        
+    }    
+    /* Port 1 disabled for machines that have no internal joystick
+     * ports */
+    if ((machine_class == VICE_MACHINE_CBM6x0) ||
+        (machine_class == VICE_MACHINE_PET)) {
+        ok[0] = 0;
+    }
+    /* Port 2 disabled for machines that have at most one internal
+     * joystick ports */
+    if ((machine_class == VICE_MACHINE_VIC20) ||
+        (machine_class == VICE_MACHINE_CBM6x0) ||
+        (machine_class == VICE_MACHINE_PET)) {
+        ok[1] = 0;
+    }
+    /* Port 3 disabled for machines with no user port and no other
+     * joystick adapter type, or where no userport joystick is
+     * configured */
+    if ((machine_class == VICE_MACHINE_CBM5x0) || (userport_joysticks < 1)) {
+        ok[2] = 0;
+    }
+    /* Port 4 disabled for machines with no user port, or not enough
+     * userport lines for 2 port userport adapters, or where at most
+     * one userport joystick is configured */
+    if ((machine_class == VICE_MACHINE_CBM5x0) ||
+        (machine_class == VICE_MACHINE_C64DTV) ||
+        (userport_joysticks < 2)) {
+        ok[3] = 0;
+    }
+    /* Port 5 disabled for machines with no 5th control port,  */
+    if (machine_class != VICE_MACHINE_PLUS4) {
+        ok[4] = 0;
+    } else {
+        /* Port 5 also disabled if there's no SID joystick configured */
+        int sidjoy = 0;
+        resources_get_int("SIDCartJoy", &sidjoy);
+        if (!sidjoy) {
+            ok[4] = 0;
+        }
+    }
+    /* Now that we have a list of disabled/enabled ports, let's hide
+     * and show the joystick ports as required */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+        GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(joyports_grid), 1+i, 0);
+        if (child) {
+            if (ok[i]) {
+                gtk_widget_set_no_show_all(child, FALSE);
+                gtk_widget_show_all(child);
+            } else {
+                gtk_widget_set_no_show_all(child, TRUE);
+                gtk_widget_hide(child);
+            }
+        }
+    }
+}
+
 static GtkWidget *ui_joystick_widget_create(void)
 {
     GtkWidget *grid, *label;
@@ -414,16 +496,16 @@ static GtkWidget *ui_joystick_widget_create(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, TRUE);
     gtk_container_add(GTK_CONTAINER(grid), label);
-    /* TODO: At some point, it should be possible for the core to
-     *       indicate how many joyports are going to actually be valid
-     *       and worth displaying. At the moment, however, we merely
-     *       assume "just ports 1 and 2". */
-    for (i = 0; i < 2; ++i) {
+    /* Create all possible joystick displays */
+    for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         GtkWidget *joyport = gtk_drawing_area_new();
         gtk_widget_set_size_request(joyport,20,20);
         gtk_container_add(GTK_CONTAINER(grid), joyport);
         g_signal_connect(joyport, "draw", G_CALLBACK(draw_joyport_cb), GINT_TO_POINTER(i));
     }
+    /* Restrict visible joystick display to just the ones the
+     * configuration supports */
+    vice_gtk3_update_joyport_layout(grid);
     return grid;
 }
 
