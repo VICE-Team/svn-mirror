@@ -54,7 +54,7 @@ GtkWidget *uihelpers_radiogroup_create(
         void (*callback)(GtkWidget *, gpointer),
         int active);
 
-int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value);
+int vice_gtk3_radiogroup_get_list_index(ui_radiogroup_entry_t *list, int value);
 
 void uihelpers_radiogroup_set_index(GtkWidget *grid, int index);
 

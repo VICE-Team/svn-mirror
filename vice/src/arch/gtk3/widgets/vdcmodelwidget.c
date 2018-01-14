@@ -30,6 +30,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
@@ -48,6 +49,8 @@ static ui_radiogroup_entry_t vdc_revs[] = {
 };
 
 
+#if 0
+
 /** \brief  Get index in revisions table of \a revision
  *
  * \param[in]   revision    revision number
@@ -61,7 +64,7 @@ static int get_revision_index(int revision)
 {
     return uihelpers_radiogroup_get_index(vdc_revs, revision);
 }
-
+#endif
 
 /** \brief  Handler for the "toggled" event of the revision radio buttons
  *
@@ -101,26 +104,20 @@ static GtkWidget *create_64kb_widget(void)
 GtkWidget *vdc_model_widget_create(void)
 {
     GtkWidget *grid;
-    GtkWidget *radio;
-    GtkRadioButton *last = NULL;
-    GSList *group = NULL;
-    int i;
+    GtkWidget *group;
+    GtkWidget *extra_ram;
 
-    grid = uihelpers_create_grid_with_label("VDC settings", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
+            "VDC settings", 1);
 
-    gtk_grid_attach(GTK_GRID(grid), create_64kb_widget(), 0, 1, 1, 1);
-
-    /* add VDC revisions */
-    for (i = 0; vdc_revs[i].name != NULL; i++) {
-        radio = gtk_radio_button_new_with_label(group, vdc_revs[i].name);
-        gtk_radio_button_join_group(GTK_RADIO_BUTTON(radio), last);
-        g_object_set(radio, "margin-left", 16, NULL);
-        gtk_grid_attach(GTK_GRID(grid), radio, 0, i + 2, 1, 1);
-        last = GTK_RADIO_BUTTON(radio);
-    }
-
-    /* set values */
-    vdc_model_widget_update(grid);
+    extra_ram = create_64kb_widget();
+    group = vice_gtk3_resource_radiogroup_create("VDCRevision",
+            vdc_revs, GTK_ORIENTATION_VERTICAL);
+    g_object_set(extra_ram, "margin-left", 16, NULL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), extra_ram, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
@@ -137,7 +134,7 @@ void vdc_model_widget_update(GtkWidget *widget)
     int index;
 
     resources_get_int("VDCRevision", &rev);
-    index = get_revision_index(rev);
+    index = vice_gtk3_radiogroup_get_list_index(vdc_revs, rev);
     debug_gtk3("got VDCRevision %d\n", rev);
 
     if (index >= 0) {

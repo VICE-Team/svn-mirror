@@ -90,7 +90,8 @@ GtkWidget *video_render_filter_widget_create(const char *chip)
 
     chip_prefix = chip;
 
-    grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Render filter", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Render filter", 1);
     render_widget = vice_gtk3_resource_radiogroup_create_sprintf(
             "%sFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
     g_object_set(render_widget, "margin-left", 16, NULL);

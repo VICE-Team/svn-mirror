@@ -91,7 +91,7 @@ GtkWidget *refreshrate_widget_create(void)
     int value = 0;
 
     resources_get_int("RefreshRate", &value);
-    index = uihelpers_radiogroup_get_index(refresh_rates, value);
+    index = vice_gtk3_radiogroup_get_list_index(refresh_rates, value);
     layout = uihelpers_radiogroup_create("Refresh rate",
             refresh_rates, refreshrate_callback, index);
 

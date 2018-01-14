@@ -143,12 +143,15 @@ GtkWidget *uihelpers_radiogroup_create(
 
 /** \brief  Get index of \a value in \a list
  *
+ * Get the index in \a list for \a value. This function is required for custom
+ * radiogroups that add 'unknown' options or something similar.
+ *
  * \param[in]   list    radio button group array
  * \param[in]   value   value to find in \a list
  *
  * \return  index of \a value or -1 when not found
  */
-int uihelpers_radiogroup_get_index(ui_radiogroup_entry_t *list, int value)
+int vice_gtk3_radiogroup_get_list_index(ui_radiogroup_entry_t *list, int value)
 {
     int i;
 

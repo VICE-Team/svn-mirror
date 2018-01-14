@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
@@ -55,23 +56,6 @@ static ui_radiogroup_entry_t speed_rates[] = {
 };
 
 
-/** \brief  Event handler to alter the "Speed" resource
- *
- * \param[in]   widget      widget triggering the callback
- * \param[in]   user_data   the speed setting (`int`)
- */
-static void speed_callback(GtkWidget *widget, gpointer user_data)
-{
-    gint speed = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("got speed %d%%\n", speed);
-        vsync_suspend_speed_eval();
-        resources_set_int("Speed", speed);
-    }
-}
-
-
 /** \brief  Create 'speed' widget
  *
  * \todo    Get current speed from resources and set proper radio button
@@ -80,18 +64,15 @@ static void speed_callback(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *speed_widget_create(void)
 {
-    GtkWidget *layout;
-    int index;
-    int value;
+    GtkWidget *grid;
+    GtkWidget *group;
 
-    /* now set the proper value */
-    value = resources_get_int("Speed", &value);
-    debug_gtk3("speed = %d\n", value);
-    index = uihelpers_radiogroup_get_index(speed_rates, value);
-
-    layout = uihelpers_radiogroup_create("Speed",
-            speed_rates, speed_callback, index);
-
-    gtk_widget_show(layout);
-    return layout;
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Speed", 1);
+    group = vice_gtk3_resource_radiogroup_create(
+            "Speed", speed_rates, GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
 }

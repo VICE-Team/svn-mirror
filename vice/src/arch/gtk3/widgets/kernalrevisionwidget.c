@@ -63,7 +63,7 @@ static ui_radiogroup_entry_t revisions[] = {
  */
 static int get_revision_index(int rev)
 {
-    return uihelpers_radiogroup_get_index(revisions, rev);
+    return vice_gtk3_radiogroup_get_list_index(revisions, rev);
 }
 
 

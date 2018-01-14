@@ -56,7 +56,7 @@ static ui_radiogroup_entry_t video_sizes[] = {
  */
 static int get_video_size_index(int size)
 {
-    return uihelpers_radiogroup_get_index(video_sizes, size);
+    return vice_gtk3_radiogroup_get_list_index(video_sizes, size);
 }
 
 

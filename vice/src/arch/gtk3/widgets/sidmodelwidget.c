@@ -32,6 +32,7 @@
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
@@ -127,12 +128,12 @@ static void on_sid_model_toggled(GtkWidget *widget, gpointer user_data)
 GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
 {
     GtkWidget *grid;
+    GtkWidget *group;
     int current_model;
     ui_radiogroup_entry_t *models;
 
     machine_widget = machine_model_widget;
 
-    resources_get_int("SidModel", &current_model);
 
     switch (machine_class) {
 
@@ -164,11 +165,12 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             models = sid_models_none;
     }
 
-
-    grid = uihelpers_radiogroup_create("SID model",
-            models,
-            on_sid_model_toggled,
-            current_model);
+    grid = vice_gtk3_grid_new_spaced_with_label(VICE_GTK3_DEFAULT,
+            VICE_GTK3_DEFAULT, "SID model", 1);
+    group = vice_gtk3_resource_radiogroup_create(
+            "SidModel", models, GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
     /* SID cards for the Plus4, PET or VIC20:
      *
@@ -201,4 +203,3 @@ void sid_model_widget_update(GtkWidget *widget, int model)
 {
     uihelpers_radiogroup_set_index(widget, model);
 }
-

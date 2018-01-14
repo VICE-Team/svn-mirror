@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "ui.h"
 #include "resources.h"
@@ -57,21 +58,6 @@ static ui_radiogroup_entry_t kbd_layouts[] = {
 };
 
 
-/** \brief  Callback for a change in the radio buttons selection
- *
- * \param[in]   widget      widget triggering the event
- * \param[in]   user_data   radio button group index
- */
-static void on_layout_changed(GtkWidget *widget, gpointer user_data)
-{
-    int index = GPOINTER_TO_INT(user_data);
-
-    debug_gtk3("setting layout to %d\n", index);
-    resources_set_int("KeyboardMapping", index);
-}
-
-
-
 /** \brief  Create a keyboard layout selection widget
  *
  * \return  GtkGrid
@@ -81,17 +67,17 @@ static void on_layout_changed(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *kbdlayout_widget_create(void)
 {
-    GtkWidget *layout;
-    int index = 0;
+    GtkWidget *grid;
+    GtkWidget *group;
 
-    resources_get_int("KeyboardMapping", &index);
-
-    /* create grid with label and six radio buttons */
-    layout = uihelpers_radiogroup_create(
-            "Keyboard layout", kbd_layouts, on_layout_changed, index);
-
-    gtk_widget_show_all(layout);
-    return layout;
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Render filter", 1);
+    group = vice_gtk3_resource_radiogroup_create(
+            "KeyboardMapping", kbd_layouts, GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
+    gtk_widget_show_all(grid);
+    return grid;
 }
 
 

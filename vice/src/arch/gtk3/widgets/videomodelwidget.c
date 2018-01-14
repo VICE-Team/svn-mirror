@@ -50,7 +50,7 @@ static GtkWidget *machine_widget = NULL;
  */
 static int get_model_index(int model)
 {
-    return uihelpers_radiogroup_get_index(model_list, model);
+    return vice_gtk3_radiogroup_get_list_index(model_list, model);
 }
 
 
