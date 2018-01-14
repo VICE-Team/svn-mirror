@@ -60,6 +60,7 @@ static struct ui_sb_state_s {
     int drive_led_types[DRIVE_NUM];
     unsigned int current_drive_leds[DRIVE_NUM][2];
     int current_joyports[JOYPORT_MAX_PORTS];
+    int joyports_enabled;
 } sb_state;
 
 typedef struct ui_statusbar_s {
@@ -105,6 +106,7 @@ void ui_statusbar_init(void)
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         sb_state.current_joyports[i] = 0;
     }
+    sb_state.joyports_enabled = 0;
 }
 
 void ui_statusbar_shutdown(void)
@@ -405,10 +407,11 @@ static GtkWidget *ui_tape_widget_create(void)
     return grid;
 }
 
-static void vice_gtk3_update_joyport_layout(GtkWidget *joyports_grid)
+static void vice_gtk3_update_joyport_layout(void)
 {
     int i, ok[JOYPORT_MAX_PORTS];
     int userport_joysticks = 0;
+    int new_joyport_mask = 0;
     /* Start with all ports enabled */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         ok[i] = 1;
@@ -429,8 +432,8 @@ static void vice_gtk3_update_joyport_layout(GtkWidget *joyports_grid)
                 ++userport_joysticks;
             }
         }
-        
-    }    
+
+    }
     /* Port 1 disabled for machines that have no internal joystick
      * ports */
     if ((machine_class == VICE_MACHINE_CBM6x0) ||
@@ -469,17 +472,34 @@ static void vice_gtk3_update_joyport_layout(GtkWidget *joyports_grid)
             ok[4] = 0;
         }
     }
-    /* Now that we have a list of disabled/enabled ports, let's hide
-     * and show the joystick ports as required */
+    /* Now that we have a list of disabled/enabled ports, let's check
+     * to see if anything has changed */
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
-        GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(joyports_grid), 1+i, 0);
-        if (child) {
-            if (ok[i]) {
-                gtk_widget_set_no_show_all(child, FALSE);
-                gtk_widget_show_all(child);
-            } else {
-                gtk_widget_set_no_show_all(child, TRUE);
-                gtk_widget_hide(child);
+        new_joyport_mask <<= 1;
+        if (ok[i]) {
+            new_joyport_mask |= 1;
+        }
+    }
+    if (new_joyport_mask != sb_state.joyports_enabled) {
+        int j;
+        sb_state.joyports_enabled = new_joyport_mask;
+        for (j = 0; j < MAX_STATUS_BARS; ++j) {
+            GtkWidget *joyports_grid = allocated_bars[j].joysticks;
+            if (!joyports_grid) {
+                continue;
+            }
+            /* Hide and show the joystick ports as required */
+            for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
+                GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(joyports_grid), 1+i, 0);
+                if (child) {
+                    if (ok[i]) {
+                        gtk_widget_set_no_show_all(child, FALSE);
+                        gtk_widget_show_all(child);
+                    } else {
+                        gtk_widget_set_no_show_all(child, TRUE);
+                        gtk_widget_hide(child);
+                    }
+                }
             }
         }
     }
@@ -502,10 +522,9 @@ static GtkWidget *ui_joystick_widget_create(void)
         gtk_widget_set_size_request(joyport,20,20);
         gtk_container_add(GTK_CONTAINER(grid), joyport);
         g_signal_connect(joyport, "draw", G_CALLBACK(draw_joyport_cb), GINT_TO_POINTER(i));
+        gtk_widget_set_no_show_all(joyport, TRUE);
+        gtk_widget_hide(joyport);
     }
-    /* Restrict visible joystick display to just the ones the
-     * configuration supports */
-    vice_gtk3_update_joyport_layout(grid);
     return grid;
 }
 
@@ -742,7 +761,7 @@ GtkWidget *ui_statusbar_create(void)
      * statusbar display. If more widgets are added past this point,
      * that function will need to change as well. */
     layout_statusbar_drives(i);
-
+    vice_gtk3_update_joyport_layout();
     return sb;
 }
 
@@ -816,6 +835,9 @@ void ui_display_joyport(uint8_t *joyport)
             }
         }
     }
+    /* Restrict visible joystick display to just the ones the
+     * configuration supports */
+    vice_gtk3_update_joyport_layout();
 }
 
 /* TODO: status display for TAPE emulation
