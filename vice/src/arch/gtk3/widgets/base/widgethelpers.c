@@ -231,32 +231,16 @@ void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index)
 }
 
 
-/** \brief  Create the bold title label of a settings widget's grid
- *
- * \return  label
- */
-GtkWidget *uihelpers_create_grid_label(const char *text)
-{
-    GtkWidget *label;
-    gchar buffer[LABEL_BUFFER_SIZE];
-
-    label = gtk_label_new(NULL);
-    g_snprintf(buffer, LABEL_BUFFER_SIZE, "<b>%s</b>", text);
-    gtk_label_set_markup(GTK_LABEL(label), buffer);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    g_object_set(label, "margin-bottom", 8, NULL);
-    return label;
-}
-
-
-
 /** \brief  Create a left-aligned, 16 units indented label
+ *
+ * XXX: This function is of little use an should probably be removed in favour
+ *      of something a little more flexible.
  *
  * \param[in]   text    label text
  *
  * \return  label
   */
-GtkWidget *uihelpers_create_indented_label(const char *text)
+GtkWidget *vice_gtk3_create_indented_label(const char *text)
 {
     GtkWidget *label = gtk_label_new(text);
 

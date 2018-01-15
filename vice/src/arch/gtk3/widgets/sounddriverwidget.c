@@ -131,7 +131,7 @@ GtkWidget *sound_driver_widget_create(void)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Driver", 2);
 
     gtk_grid_attach(GTK_GRID(grid),
-            uihelpers_create_indented_label("Device name"), 0, 1, 1, 1);
+            vice_gtk3_create_indented_label("Device name"), 0, 1, 1, 1);
     device = create_device_combobox();
     gtk_widget_set_hexpand(device, TRUE);
     gtk_grid_attach(GTK_GRID(grid), device, 1, 1, 1, 1);
@@ -139,7 +139,7 @@ GtkWidget *sound_driver_widget_create(void)
     args = create_argument_entry();
     gtk_widget_set_hexpand(args, TRUE);
     gtk_grid_attach(GTK_GRID(grid),
-            uihelpers_create_indented_label("Driver argument"), 0, 2, 1, 1);
+            vice_gtk3_create_indented_label("Driver argument"), 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), args, 1, 2, 1, 1);
 
     g_object_set(grid, "margin", 8, NULL);

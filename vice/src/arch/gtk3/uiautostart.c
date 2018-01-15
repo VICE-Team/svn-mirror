@@ -153,7 +153,7 @@ static GtkWidget *create_fixed_delay_widget(void)
     gtk_grid_attach(GTK_GRID(layout), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), spin, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(layout),
-            uihelpers_create_indented_label("seconds"), 2, 0, 1, 1);
+            vice_gtk3_create_indented_label("seconds"), 2, 0, 1, 1);
 
     resources_get_int("AutostartDelay", &delay);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)(delay));

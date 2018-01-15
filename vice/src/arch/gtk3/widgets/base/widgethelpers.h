@@ -58,9 +58,7 @@ int vice_gtk3_radiogroup_get_list_index(ui_radiogroup_entry_t *list, int value);
 
 void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index);
 
-GtkWidget *uihelpers_create_grid_label(const char *text);
-
-GtkWidget *uihelpers_create_indented_label(const char *text);
+GtkWidget *vice_gtk3_create_indented_label(const char *text);
 
 
 /* new stuff */
