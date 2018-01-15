@@ -42,5 +42,6 @@
 #include "resourceradiogroup.h"
 #include "resourcescale.h"
 #include "resourcespinbutton.h"
+#include "resourcebrowser.h"
 
 #endif

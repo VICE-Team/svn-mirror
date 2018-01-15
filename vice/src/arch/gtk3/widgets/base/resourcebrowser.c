@@ -263,3 +263,45 @@ GtkWidget *vice_gtk3_resource_browser_new(
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+/** \brief  Set \a widget value to \a new
+ *
+ * \param[in,out]   widget  resource browser widget
+ * \param[in]       new     new value for \a widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_browser_update(GtkWidget *widget, const char *new)
+{
+    resource_browser_state_t *state;
+
+    state = g_object_get_data(G_OBJECT(widget), "ViceState");
+
+    if (resources_set_string(state->res_name, new) < 0) {
+        /* restore to default */
+        resources_set_string(state->res_name, state->res_orig);
+        gtk_entry_set_text(GTK_ENTRY(state->entry), state->res_orig);
+        return FALSE;
+    } else {
+        gtk_entry_set_text(GTK_ENTRY(state->entry), new);
+        return TRUE;
+    }
+}
+
+
+/** \brief  Restore resource in \a widget to its original value
+ *
+ * \param[in,out]   widget  resource browser widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget)
+{
+    resource_browser_state_t *state;
+
+    state = g_object_get_data(G_OBJECT(widget), "ViceState");
+
+    return resources_set_string(state->res_name,
+            state->res_orig) < 0 ? FALSE : TRUE;
+}

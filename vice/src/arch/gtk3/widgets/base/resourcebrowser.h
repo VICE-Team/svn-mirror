@@ -38,4 +38,8 @@ GtkWidget *vice_gtk3_resource_browser_new(
         const char *label,
         void (*callback)(GtkWidget *, gpointer));
 
+gboolean vice_gtk3_resource_browser_update(GtkWidget *widget, const char *new);
+
+gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget);
+
 #endif
