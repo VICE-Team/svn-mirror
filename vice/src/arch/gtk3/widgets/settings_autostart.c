@@ -51,6 +51,7 @@
 #include "autostart-prg.h"
 #include "openfiledialog.h"
 #include "widgethelpers.h"
+#include "resourcebrowser.h"
 
 #include "settings_autostart.h"
 
@@ -169,9 +170,12 @@ static GtkWidget *create_prg_diskimage_widget(void)
     GtkWidget *entry;
     GtkWidget *button;
 
+    GtkWidget *test;
+
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Autostart disk image", 1);
 
+#if 0
     inner = gtk_grid_new();
 
     entry = vice_gtk3_resource_entry_full_create("AutostartPrgDiskImage");
@@ -182,8 +186,17 @@ static GtkWidget *create_prg_diskimage_widget(void)
     g_signal_connect(button, "clicked", G_CALLBACK(on_diskimage_browse_clicked),
             (gpointer)(entry));
     gtk_grid_attach(GTK_GRID(inner), button, 1, 0, 1, 1);
-
     gtk_grid_attach(GTK_GRID(grid), inner, 0, 1, 1, 1);
+#endif
+
+    const char *patterns[] = { "*.d64", NULL };
+
+    test = vice_gtk3_resource_browser_new("AutostartPrgDiskImage",
+            patterns, "D64 disk images", "Select D64 image",
+            "autostart disk image", NULL);
+
+    gtk_grid_attach(GTK_GRID(grid), test, 0, 1, 1, 1);
+
     gtk_widget_show_all(grid);
     return grid;
 }
