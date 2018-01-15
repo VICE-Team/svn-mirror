@@ -203,7 +203,7 @@ GtkWidget *uihelpers_create_button_box(
  * \param[in[   index   index of the radio button (the actual index of the
  *                      radio button, other widgets are skipped)
  */
-void uihelpers_radiogroup_set_index(GtkWidget *grid, int index)
+void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index)
 {
     GtkWidget *radio;
     int row = 0;

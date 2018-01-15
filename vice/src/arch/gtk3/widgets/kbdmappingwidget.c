@@ -82,7 +82,7 @@ static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
         g_free(filename);
         resources_set_int("KeymapIndex", 2);
         /* set proper radio button */
-        uihelpers_radiogroup_set_index(layout, 2);
+        vice_gtk3_radiogroup_set_index(layout, 2);
 
     }
 }
@@ -107,7 +107,7 @@ static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
         g_free(filename);
         resources_set_int("KeymapIndex", 3);
         /* set proper radio button */
-        uihelpers_radiogroup_set_index(layout, 3);
+        vice_gtk3_radiogroup_set_index(layout, 3);
     }
 }
 

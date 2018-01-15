@@ -87,35 +87,6 @@ static ui_radiogroup_entry_t sid_models_cbm5x0[] = {
 static GtkWidget *machine_widget = NULL;
 
 
-/** \brief  Handler for the "toggled" event of a radio button
- *
- * \param[in]   widget      toggle button triggering the event
- * \param[in]   user_data   SID model ID (int)
- */
-static void on_sid_model_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int old_model = 0;
-    int new_model = 0;
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        resources_get_int("SidModel", &old_model);
-        new_model = GPOINTER_TO_INT(user_data);
-        if (old_model != new_model) {
-            resources_set_int("SidModel", new_model);
-
-            /* now trigger `model` update */
-            if (machine_widget != NULL) {
-                /* this causes the 'machine model' widget to be updated: it
-                 * will inspect various resources to determine a valid model.
-                 * if invalid the 'unknown' radio button will be activated
-                 */
-                machine_model_widget_update(machine_widget);
-            }
-        }
-    }
-}
-
-
 /** \brief  Create SID model widget
  *
  * Creates a SID model widget, depending on `machine_class`. Also sets a
@@ -129,11 +100,9 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
 {
     GtkWidget *grid;
     GtkWidget *group;
-    int current_model;
     ui_radiogroup_entry_t *models;
 
     machine_widget = machine_model_widget;
-
 
     switch (machine_class) {
 
@@ -201,5 +170,5 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
  */
 void sid_model_widget_update(GtkWidget *widget, int model)
 {
-    uihelpers_radiogroup_set_index(widget, model);
+    vice_gtk3_radiogroup_set_index(widget, model);
 }
