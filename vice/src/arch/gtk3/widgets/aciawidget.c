@@ -172,7 +172,8 @@ static GtkWidget *create_acia_device_widget(void)
     GtkWidget *grid;
     GtkWidget *radio_group;
 
-    grid = uihelpers_create_grid_with_label("ACIA device", 1);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Acia device", 1);
     radio_group = vice_gtk3_resource_radiogroup_create(
             "Acia1Dev", acia_device_list, GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
@@ -199,7 +200,8 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     char buffer[256];
 
     title = lib_msprintf("Serial %d device", num);
-    grid = uihelpers_create_grid_with_label(title, 2);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, title, 2);
     g_object_set_data(G_OBJECT(grid), "SerialDevice", GINT_TO_POINTER(num));
     lib_free(title);
 
@@ -263,7 +265,8 @@ GtkWidget *acia_widget_create(int *baud)
     acia_baud_rates = baud;
     generate_baud_rate_list();
 
-    grid = uihelpers_create_grid_with_label("ACIA settings", 3);
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "ACIA settings", 3);
 
     device_widget = create_acia_device_widget();
     g_object_set(device_widget, "margin-left", 16, NULL);

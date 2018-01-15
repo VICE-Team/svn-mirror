@@ -55,8 +55,10 @@
 /** \brief  Create a GtkGrid with a bold GtkLabel as its first widget
  *
  * This creates a GtkGrid with a left-aligned, bold label, optionally spread
- * over multiple columns. If you don't what pass as the \a columns argument,
- * just pass 1.
+ * over multiple columns. If you don't know what pass as the \a columns
+ * argument, just pass 1.
+ *
+ * \note    Deprecated in favour of vice_gtk3_grid_new_spaced_with_label()
  *
  * \param[in]   text    label text
  * \param[in]   columns number of columns in the grid the label should span
@@ -163,34 +165,6 @@ int vice_gtk3_radiogroup_get_list_index(ui_radiogroup_entry_t *list, int value)
     return -1;
 }
 
-/** \brief  Create a GtkButtonBox
- *
- * \param[in]   buttons     list of (title, callback) tuples, NULL-terminated
- * \param[in]   orientation orientation of the box (\see GtkOrientation)
- *
- * \return  GtkButtonBox
- */
-GtkWidget *uihelpers_create_button_box(
-        ui_button_t *buttons,
-        GtkOrientation orientation)
-{
-    GtkWidget *box = gtk_button_box_new(orientation);
-    size_t i;
-
-    for (i = 0; buttons[i].text != NULL; i++) {
-        GtkWidget *button = gtk_button_new_with_label(buttons[i].text);
-        if (buttons[i].callback != NULL) {
-            g_signal_connect(button,
-                    "clicked",
-                    G_CALLBACK(buttons[i].callback),
-                    NULL);
-        }
-        gtk_widget_show(button);
-        gtk_container_add(GTK_CONTAINER(box), button);
-    }
-    gtk_widget_show(box);
-    return box;
-}
 
 /** \brief  Set a radio button to active in a GktGrid
  *

@@ -36,15 +36,6 @@
 
 /* XXX: either deprecated or needs renaming */
 
-typedef struct ui_button_s {
-    char *text;
-    void (*callback)(GtkWidget *, void *);
-    /* XXX: maybe add keyboard shortcut stuff ? */
-} ui_button_t;
-
-GtkWidget *uihelpers_create_button_box(
-        ui_button_t *buttons,
-        GtkOrientation orientation);
 
 GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns);
 

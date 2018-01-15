@@ -67,7 +67,7 @@
 #include "uispeed.h"
 #include "uikeyboard.h"
 #include "settings_sound.h"
-#include "uiautostart.h"
+#include "settings_autostart.h"
 #include "uidrivesettings.h"
 #include "uimodel.h"
 #include "uimisc.h"
@@ -665,7 +665,7 @@ static ui_settings_tree_node_t main_nodes[] = {
        uisamplersettings_widget_create, NULL },
     { "Autostart settings",
        "autostart",
-       uiautostart_create_central_widget, NULL },
+       settings_autostart_widget_create, NULL },
     { "Drive settings",
        "drive",
        uidrivesettings_widget_create, NULL },

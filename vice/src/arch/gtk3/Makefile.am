@@ -65,7 +65,6 @@ libarch_a_SOURCES = \
 	signals.c \
 	ui.c \
 	uiabout.c \
-	uiautostart.c \
 	uidatasette.c \
 	uidiskattach.c \
 	uiedit.c \
@@ -137,7 +136,6 @@ EXTRA_DIST = \
 	rs232-win32-dev.c \
 	ui.h \
 	uiabout.h \
-	uiautostart.h \
 	uidatasette.h \
 	uidiskattach.h \
 	uifliplist.h \
