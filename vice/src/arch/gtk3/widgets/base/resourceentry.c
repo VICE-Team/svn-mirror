@@ -297,12 +297,17 @@ void vice_gtk3_resource_entry_full_reset(GtkWidget *entry)
 /** \brief  Update \a entry with text \a new
  *
  * Sets \a new as the new text for \a entry and also updates the connected
- * resource.
+ * resource. Returns TRUE on success, FALSE on failure. It is assumed that a
+ * failure to set a resource in only due to some registered resource handler
+ * failing, not due to an invalid resource name.
  *
  * \param[in,out]   entry   entry box
  * \param[in]       new     new string for \a entry
+ *
+ * \return  bool
  */
-void vice_gtk3_resource_entry_full_update(GtkWidget *entry, const char *new)
+gboolean vice_gtk3_resource_entry_full_update(GtkWidget *entry,
+                                              const char *new)
 {
     const char *res_name;
 
@@ -313,7 +318,9 @@ void vice_gtk3_resource_entry_full_update(GtkWidget *entry, const char *new)
     res_name = resource_widget_get_resource_name(entry);
     if (resources_set_string(res_name, new) < 0) {
         debug_gtk3("failed to set resource %s to '%s'\n", res_name, new);
+        return FALSE;
     } else {
         gtk_entry_set_text(GTK_ENTRY(entry), new);
+        return TRUE;
     }
 }

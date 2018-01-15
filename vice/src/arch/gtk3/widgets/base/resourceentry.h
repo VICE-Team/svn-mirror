@@ -36,7 +36,7 @@ void        vice_gtk3_resource_entry_update(GtkWidget *entry,
 void        vice_gtk3_resource_entry_reset(GtkWidget *entry);
 
 GtkWidget * vice_gtk3_resource_entry_full_create(const char *resource);
-void        vice_gtk3_resource_entry_full_update(GtkWidget *entry,
+gboolean    vice_gtk3_resource_entry_full_update(GtkWidget *entry,
                                                  const char *new);
 void        vice_gtk3_resource_entry_full_reset(GtkWidget *entry);
 #endif
