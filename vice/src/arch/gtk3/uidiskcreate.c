@@ -40,6 +40,7 @@
 #include "attach.h"
 #include "vdrive/vdrive-internal.h"
 #include "imagecontents.h"
+#include "resources.h"
 #include "ui.h"
 
 #include "uidiskcreate.h"
@@ -93,6 +94,8 @@ static GtkWidget *disk_name;
 static GtkWidget *disk_id;
 /** \brief  GtkCheckButton determining if an extension should be added */
 static GtkWidget *add_ext;
+/** \brief  Set drive type when attaching */
+static GtkWidget *set_drive_type;
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -150,6 +153,16 @@ static void on_disk_image_type_changed(GtkComboBox *combo, gpointer data)
             debug_gtk3("got disk image type %d\n", image_type);
         }
     }
+}
+
+
+static gboolean attempt_to_set_drive_type(void)
+{
+    if (resources_set_int_sprintf("Drive%dType", image_type, unit_number) < 0) {
+        debug_gtk3("failed to set Drive%dType to %d\n", unit_number, image_type);
+        return FALSE;
+    }
+    return TRUE;
 }
 
 
@@ -257,7 +270,17 @@ static gboolean create_disk_image(const char *filename)
                 fname_copy);
         status = FALSE;
     } else {
-        /* now attach it */
+        /* do we need to attempt to set the proper drive type? */
+        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(set_drive_type))) {
+            /* try to set the proper drive type, but keep going if it fails */
+            if (!attempt_to_set_drive_type()) {
+                ui_message_error(NULL, "Core error",
+                        "Failed to set drive type to %d\nContinuing.",
+                        image_type);
+            }
+        }
+
+        /* finally attach the disk image */
         if (file_system_attach_disk(unit_number, fname_copy) < 0) {
             ui_message_error(NULL, "fail", "Could not attach image '%s'",
                     fname_copy);
@@ -366,10 +389,16 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_grid_attach(GTK_GRID(grid), label, 5, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), type_widget, 6, 0, 1, 1);
 
-    /* add 'add proper extension when missing' checkbox */
+    /* add 'add extension when missing' checkbox */
     add_ext = gtk_check_button_new_with_label("Add extension when missing");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(add_ext), TRUE);
     gtk_grid_attach(GTK_GRID(grid), add_ext, 0, 1, 3, 1);
+
+    /* add 'set drive type for attached image' checkbox */
+    set_drive_type = gtk_check_button_new_with_label(
+            "Set proper drive type when attaching image");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(set_drive_type), TRUE);
+    gtk_grid_attach(GTK_GRID(grid), set_drive_type, 3, 1, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
