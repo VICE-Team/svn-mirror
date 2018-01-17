@@ -1,5 +1,5 @@
-/*
- * kbdmappingwidget.c - GTK3 keyboard mapping widget for the settings dialog
+/** \file   src/arch/gtk3/widgets/kbdmappingwidget.c
+ * \brief   GTK3 keyboard mapping widget for the settings dialog
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>

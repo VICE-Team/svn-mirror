@@ -140,7 +140,8 @@ libwidgets_a_SOURCES = \
 	settings_sound.c \
 	settings_video.c \
 	settings_autostart.c \
-	settings_speed.c
+	settings_speed.c \
+	settings_keyboard.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -258,4 +259,5 @@ EXTRA_DIST = \
 	settings_sound.h \
 	settings_video.h \
 	settings_autostart.h \
-	settings_speed.h
+	settings_speed.h \
+	settings_keyboard.h

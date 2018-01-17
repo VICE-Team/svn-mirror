@@ -1,5 +1,5 @@
-/*
- * kbdlayoutwidget.c - GTK3 keyboard layout widget for the settings dialog
+/** \file   src/arch/gtk3/widgets/kbdlayoutwidget.c
+ * \brief   GTK3 keyboard layout widget for the settings dialog
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -71,7 +71,7 @@ GtkWidget *kbdlayout_widget_create(void)
     GtkWidget *group;
 
     grid = vice_gtk3_grid_new_spaced_with_label(
-            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Render filter", 1);
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Keyboard layout", 1);
     group = vice_gtk3_resource_radiogroup_create(
             "KeyboardMapping", kbd_layouts, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
@@ -79,5 +79,3 @@ GtkWidget *kbdlayout_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-

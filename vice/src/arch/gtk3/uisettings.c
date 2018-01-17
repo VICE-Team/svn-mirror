@@ -65,7 +65,7 @@
 
 #include "ui.h"
 #include "settings_speed.h"
-#include "uikeyboard.h"
+#include "settings_keyboard.h"
 #include "settings_sound.h"
 #include "settings_autostart.h"
 #include "uidrivesettings.h"
@@ -656,7 +656,7 @@ static ui_settings_tree_node_t main_nodes[] = {
        settings_speed_widget_create, NULL },
     { "Keyboard settings",
        "keyboard",
-       uikeyboard_create_central_widget, NULL },
+       settings_keyboard_widget_create, NULL },
     { "Sound settings",
        "sound",
        settings_sound_create, NULL },

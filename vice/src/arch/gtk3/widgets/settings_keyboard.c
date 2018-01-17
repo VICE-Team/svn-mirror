@@ -1,5 +1,5 @@
-/*
- * uikeyboard.c - GTK3 keyboard settings central widget for the settings dialog
+/** \file   src/arch/gtk3/widgets/settings_keyboard.c
+ * \brief   GTK3 keyboard settings main widget
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -32,12 +32,13 @@
 #include "ui.h"
 #include "resources.h"
 #include "vsync.h"
+#include "basewidgets.h"
 #include "widgethelpers.h"
 
 #include "kbdmappingwidget.h"
 #include "kbdlayoutwidget.h"
 
-#include "uikeyboard.h"
+#include "settings_keyboard.h"
 
 
 
@@ -47,13 +48,13 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *uikeyboard_create_central_widget(GtkWidget *widget)
+GtkWidget *settings_keyboard_widget_create(GtkWidget *widget)
 {
     GtkWidget *layout;
     GtkWidget *mapping_widget;
     GtkWidget *layout_widget;
 
-    layout = gtk_grid_new();
+    layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     mapping_widget = kbdmapping_widget_create(widget);
     gtk_grid_attach(GTK_GRID(layout), mapping_widget, 0, 0, 1, 1);
