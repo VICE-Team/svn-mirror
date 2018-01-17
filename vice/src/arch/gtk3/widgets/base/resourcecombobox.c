@@ -35,6 +35,7 @@
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "resourcehelpers.h"
 #include "resources.h"
 
@@ -156,10 +157,11 @@ static void on_combo_int_changed(GtkComboBox *combo, gpointer user_data)
     if (get_combo_int_id(combo, &id)) {
         debug_gtk3("setting %s to %d\n", resource, id);
         if (resources_set_int(resource, id) < 0) {
-            debug_gtk3("failed to set resource\n");
+            log_error(LOG_ERR, "failed to set resource '%s' to %d\n",
+                    resource, id);
         }
     } else {
-        debug_gtk3("failed to get ID for resource %s\n", resource);
+        log_error(LOG_ERR, "failed to get ID for resource '%s'\n", resource);
     }
 }
 
@@ -192,12 +194,15 @@ static GtkWidget *resource_combo_box_int_create_helper(
     resource = resource_widget_get_resource_name(combo);
     if (resources_get_int(resource, &current) < 0) {
         /* couldn't read resource */
-        debug_gtk3("failed to get value for resource %s, "
-                "reverting to the first entry\n", resource);
+        log_error(LOG_ERR,
+                "failed to get value for resource %s, "
+                "reverting to the first entry\n",
+                resource);
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
     } else if (!set_combo_int_id(GTK_COMBO_BOX(combo), current)) {
         /* failed to set ID, revert to first entry */
-        debug_gtk3("failed to set ID to %d, reverting to the first entry\n",
+        log_error(LOG_ERR,
+                "failed to set ID to %d, reverting to the first entry\n",
                 current);
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
     }

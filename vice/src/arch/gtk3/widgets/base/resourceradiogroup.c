@@ -31,6 +31,7 @@
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "resourcehelpers.h"
 
@@ -66,24 +67,29 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
     /* parent widget (grid) contains the "ResourceName" property */
     parent = gtk_widget_get_parent(radio);
     resource = resource_widget_get_resource_name(parent);
+
     /* get new and old values */
-    resources_get_int(resource, &old_val);
+    if (resources_get_int(resource, &old_val) < 0) {
+        log_error(LOG_ERR, "failed to get value for resource '%s'\n",
+                resource);
+        return;
+    }
     new_val = GPOINTER_TO_INT(user_data);
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))
             && (old_val != new_val)) {
         debug_gtk3("setting %s to %d\n", resource, new_val);
 
-        /* FIXME: something is not right here, looks like setting this resource
-         *        to invalid values (ie HardSID), fails to actually set the
-         *        resource, keeping SidEngine at either 0 or 1, making the
-         *        callback to enable/disable the ReSID sampling fail.
-         */
-        resources_set_int(resource, new_val);
+        if (resources_set_int(resource, new_val) < 0) {
+            log_error(LOG_ERR, "failed to set resource '%s' to %d\n",
+                    resource, new_val);
+        } else {
+            /* only trigger callback on succesfully setting the resource */
 
-        callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
-        if (callback != NULL) {
-            callback(radio, new_val);
+            callback = g_object_get_data(G_OBJECT(parent), "ExtraCallback");
+            if (callback != NULL) {
+                callback(radio, new_val);
+            }
         }
     }
 }

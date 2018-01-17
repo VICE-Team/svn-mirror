@@ -31,6 +31,7 @@
 
 #include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "openfiledialog.h"
 #include "widgethelpers.h"
@@ -99,15 +100,13 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
     parent = gtk_widget_get_parent(widget);
     state = g_object_get_data(G_OBJECT(parent), "ViceState");
 
-    debug_gtk3("called!, state is %p\n", (void*)state);
-
     filename = ui_open_file_dialog(widget, state->browser_title,
             state->pattern_name, (const char **)(state->patterns), NULL);
     if (filename != NULL) {
         debug_gtk3("got image name '%s'\n", filename);
         if (!vice_gtk3_resource_entry_full_update(state->entry, filename)){
-            /* TODO: change into log_error/ui_error */
-            debug_gtk3("failed to set resource %s to '%s', reverting\n",
+            log_error(LOG_ERR,
+                    "failed to set resource %s to '%s', reverting\n",
                     state->res_name, filename);
             /* restore resource to original state */
             resources_set_string(state->res_name, state->res_orig);

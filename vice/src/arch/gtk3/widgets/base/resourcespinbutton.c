@@ -54,6 +54,7 @@
 #include "basewidget_types.h"
 #include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "resourcehelpers.h"
 
@@ -158,7 +159,9 @@ static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
     res = resource_widget_get_resource_name(spin);
     value = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin));
     debug_gtk3("setting %s to %d\n", res, value);
-    resources_set_int(res, value);
+    if (resources_set_int(res, value) < 0) {
+        log_error(LOG_ERR, "failed to set resource '%s' to %d\n", res, value);
+    }
 }
 
 
@@ -181,7 +184,12 @@ static GtkWidget *resource_spin_button_int_create_helper(GtkWidget *spin)
     /* set real digits to 0 */
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
 
-    resources_get_int(resource, &current);
+    if (resources_get_int(resource, &current) < 0) {
+        log_error(LOG_ERR, "failed to get value for resource '%s'\n",
+                resource);
+        current = 0;
+    }
+
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (gdouble)current);
 
     g_signal_connect(spin, "value-changed",

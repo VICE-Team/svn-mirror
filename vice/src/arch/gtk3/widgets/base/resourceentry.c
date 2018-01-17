@@ -31,6 +31,7 @@
 
 #include "debug_gtk3.h"
 #include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "resourcehelpers.h"
 
@@ -58,11 +59,15 @@ static void on_entry_destroy(GtkWidget *entry, gpointer user_data)
 static void on_entry_changed(GtkWidget *entry, gpointer user_data)
 {
     const char *resource;
+    const char *text;
 
     resource = resource_widget_get_resource_name(entry);
-    debug_gtk3("setting %s to '%s'\n", resource,
-            gtk_entry_get_text(GTK_ENTRY(entry)));
-    resources_set_string(resource, gtk_entry_get_text(GTK_ENTRY(entry)));
+    text = gtk_entry_get_text(GTK_ENTRY(entry));
+    debug_gtk3("setting %s to '%s'\n", resource, text);
+    if (resources_set_string(resource, text) < 0) {
+        log_error(LOG_ERR, "failed to set resource '%s' to '%s'\n",
+                resource, text);
+    }
 }
 
 
@@ -86,7 +91,7 @@ GtkWidget *vice_gtk3_resource_entry_create(const char *resource)
     /* get current resource value */
     if (resources_get_string(resource, &current) < 0) {
         /* invalid resource, set text to NULL */
-        debug_gtk3("warning: failed to get resource '%s'\n", resource);
+        log_error(LOG_ERR, "failed to get resource '%s'\n", resource);
         current = NULL;
     }
 
@@ -162,7 +167,7 @@ static void on_resource_entry_full_destroy(GtkEntry *entry, gpointer data)
  *
  * \param[in,out]   entry   full resource entry box
  */
-static void resource_entry_full_update_resource(GtkEntry *entry)
+static gboolean resource_entry_full_update_resource(GtkEntry *entry)
 {
     const char *res_name;
     const char *res_val;
@@ -170,15 +175,21 @@ static void resource_entry_full_update_resource(GtkEntry *entry)
 
     res_name = resource_widget_get_resource_name(GTK_WIDGET(entry));
     if (resources_get_string(res_name, &res_val) < 0) {
-        return;
+        log_error(LOG_ERR, "failed to retrieve value for resource '%s'\n",
+                res_name);
+        return FALSE;
     }
     entry_text = gtk_entry_get_text(entry);
     debug_gtk3("res_name: %s res_val: %s entry_text: %s\n",
             res_name, res_val, entry_text);
     if ((res_val == NULL) || (strcmp(entry_text, res_val) != 0)) {
-        resources_set_string(res_name, entry_text);
-        debug_gtk3("set res_name: %s entry_text: %s\n", res_name, entry_text);
+        if (resources_set_string(res_name, entry_text) < 0) {
+            log_error(LOG_ERR, "failed to set resource '%s' to '%s'\n",
+                    res_name, entry_text);
+            return FALSE;
+        }
     }
+    return TRUE;
 }
 
 
@@ -217,8 +228,7 @@ static gboolean on_key_press_event(
     GdkEventKey *keyev = (GdkEventKey *)event;
 
     if (keyev->type == GDK_KEY_PRESS && keyev->keyval == GDK_KEY_Return) {
-        resource_entry_full_update_resource(entry);
-        return TRUE;
+        return resource_entry_full_update_resource(entry);
     }
     return FALSE;
 }
@@ -317,7 +327,7 @@ gboolean vice_gtk3_resource_entry_full_update(GtkWidget *entry,
 
     res_name = resource_widget_get_resource_name(entry);
     if (resources_set_string(res_name, new) < 0) {
-        debug_gtk3("failed to set resource %s to '%s'\n", res_name, new);
+        log_error(LOG_ERR, "failed to set resource %s to '%s'\n", res_name, new);
         return FALSE;
     } else {
         gtk_entry_set_text(GTK_ENTRY(entry), new);
