@@ -31,6 +31,7 @@
 
 #include <gtk/gtk.h>
 
+#include "basewidgets.h"
 #include "lib.h"
 #include "resources.h"
 #include "vsync.h"
@@ -85,18 +86,16 @@ static void refreshrate_callback(GtkWidget *widget, gpointer user_data)
  */
 GtkWidget *refreshrate_widget_create(void)
 {
-    GtkWidget *layout;
+    GtkWidget *grid;
+    GtkWidget *group;
 
-    int index;
-    int value = 0;
+    grid = vice_gtk3_grid_new_spaced_with_label(
+            VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Refresh rate", 1);
+    group = vice_gtk3_resource_radiogroup_create("RefreshRate", refresh_rates,
+            GTK_ORIENTATION_VERTICAL);
+    g_object_set(group, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
-    resources_get_int("RefreshRate", &value);
-    index = vice_gtk3_radiogroup_get_list_index(refresh_rates, value);
-    layout = uihelpers_radiogroup_create("Refresh rate",
-            refresh_rates, refreshrate_callback, index);
-
-    gtk_widget_show(layout);
-    return layout;
+    gtk_widget_show_all(grid);
+    return grid;
 }
-
-

@@ -1,5 +1,5 @@
-/*
- * uispeed.c - GTK3 speed control central widget for the settings dialog
+/** \file   src/arch/gtk3/widgets/settings_speed.c
+ * \brief   GTK3 speed control central widget for the settings dialog
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
@@ -33,13 +33,14 @@
 #include "resources.h"
 #include "vsync.h"
 
+#include "basewidgets.h"
 #include "debug_gtk3.h"
 #include "resourcecheckbutton.h"
 #include "widgethelpers.h"
 #include "refreshratewidget.h"
 #include "speedwidget.h"
 
-#include "uispeed.h"
+#include "settings_speed.h"
 
 
 /** \brief  Checkbox indicating 'Pause'
@@ -102,19 +103,18 @@ static GtkWidget *create_pause_checkbox(void)
  *
  * \todo    Add 'advance frame' button
  */
-GtkWidget *uispeed_create_central_widget(GtkWidget *widget)
+GtkWidget *settings_speed_widget_create(GtkWidget *widget)
 {
     GtkWidget *layout;
     int warp_state;
     int pause_state;
 
-    layout = gtk_grid_new();
+    layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     checkbox_pause = create_pause_checkbox();
     checkbox_warp = create_warp_checkbox();
 
     /* get warp and pause settings */
-    /* TODO: get speed and refresh rate */
     resources_get_int("WarpMode", &warp_state);
     pause_state = ui_emulation_is_paused();
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_pause),

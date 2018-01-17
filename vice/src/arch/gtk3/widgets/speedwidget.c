@@ -1,8 +1,8 @@
-/*
- * speedwidget.c - GTK3 speed control widget
+/** \file   src/arch/gtk3/speedwidget.c
+ * \brief   GTK3 emulation speed widget
  *
  * Controls the following resource(s):
- *  Speed - relative emulator speed in % (integer)
+ *  Speed
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>

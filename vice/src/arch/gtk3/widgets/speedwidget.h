@@ -1,5 +1,5 @@
 /** \file   src/arch/gtk3/widgets/speedwidget.h
- * \brief   Emulation speed widget - header
+ * \brief   Gtk3 emulation speed widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>

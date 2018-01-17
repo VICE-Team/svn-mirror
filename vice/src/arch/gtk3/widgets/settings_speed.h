@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uispeed.h
+/** \file   src/arch/gtk3/widgets/settings_speed.h
  * \brief   Speed control central widget for the settings dialog - header
  *
  * Written by
@@ -23,12 +23,12 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_UISPEED_H
-#define VICE_UISPEED_H
+#ifndef VICE_SETTINGS_SPEED_H
+#define VICE_SETTINGS_SPEED_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uispeed_create_central_widget(GtkWidget *widget);
+GtkWidget *settings_speed_widget_create(GtkWidget *widget);
 
 #endif

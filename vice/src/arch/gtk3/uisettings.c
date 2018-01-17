@@ -64,7 +64,7 @@
 #include "savefiledialog.h"
 
 #include "ui.h"
-#include "uispeed.h"
+#include "settings_speed.h"
 #include "uikeyboard.h"
 #include "settings_sound.h"
 #include "settings_autostart.h"
@@ -653,7 +653,7 @@ static ui_settings_tree_node_t no_io_extensions[] = {
 static ui_settings_tree_node_t main_nodes[] = {
     { "Speed settings",
        "speed",
-       uispeed_create_central_widget, NULL },
+       settings_speed_widget_create, NULL },
     { "Keyboard settings",
        "keyboard",
        uikeyboard_create_central_widget, NULL },
@@ -1057,7 +1057,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_grid_attach(GTK_GRID(settings_grid), scroll, 0, 0, 1, 1);
 
     /* TODO: remember the previously selected setting/widget and set it here */
-    ui_settings_set_central_widget(uispeed_create_central_widget(widget));
+    ui_settings_set_central_widget(settings_speed_widget_create(widget));
 
     /* create container for generic settings */
     extra = gtk_grid_new();
