@@ -51,6 +51,7 @@
 #include "uimedia.h"
 #include "uimenu.h"
 #include "uimonarch.h"
+#include "uidiskcreate.h"
 
 #ifdef HAVE_NETWORK
 # include "uinetplay.h"
@@ -237,7 +238,7 @@ static ui_menu_item_t file_menu_head[] = {
         "attach-disk", ui_disk_attach_callback, GINT_TO_POINTER(8),
         GDK_KEY_8, VICE_MOD_MASK },
     { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
+        "create-disk", uidiskcreate_dialog_show, GINT_TO_POINTER(8),
         0, 0 },
     { "Detach disk image", UI_MENU_TYPE_SUBMENU,
         NULL, NULL, detach_submenu,
