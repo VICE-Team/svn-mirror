@@ -39,6 +39,7 @@
 #include "charset.h"
 #include "attach.h"
 #include "vdrive/vdrive-internal.h"
+#include "imagecontents.h"
 #include "ui.h"
 
 #include "uidiskcreate.h"
@@ -81,11 +82,17 @@ static disk_image_type_t disk_image_types[] = {
 };
 
 
+/** \brief  Drive unit to attach image to */
 static int unit_number = 8;
+/** \brief  Disk image type to create */
 static int image_type = 1541;
 
+/** \brief  GtkEntry containing the disk name */
 static GtkWidget *disk_name;
+/** \brief  GtkEntry containing the disk ID */
 static GtkWidget *disk_id;
+/** \brief  GtkCheckButton determining if an extension should be added */
+static GtkWidget *add_ext;
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -110,6 +117,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
             }
             g_free(filename);
             if (status) {
+                /* image creation and attaching was succesful, exit dialog */
                 gtk_widget_destroy(widget);
             }
             break;
@@ -145,6 +153,54 @@ static void on_disk_image_type_changed(GtkComboBox *combo, gpointer data)
 }
 
 
+/** \brief  Get the extension for image \a type
+ *
+ * \param[in]   type    image type
+ *
+ * \return  extension or `NULL` when not found
+ */
+static const char *get_ext_by_image_type(int type)
+{
+    int i = 0;
+
+    for (i = 0; disk_image_types[i].name != NULL; i++) {
+        if (disk_image_types[i].id == type) {
+            return disk_image_types[i].name;
+        }
+    }
+    return NULL;
+}
+
+
+/** \brief  Check \a filename for \a ext, and add it when missing
+ *
+ * \param[in]   filename    filename
+ * \param[in]   ext         required extension
+ *
+ * \return  heap allocated copy of \a filename or \a filename + \a ext
+ */
+static char *fix_extension(const char *filename, const char *ext)
+{
+    char *new_name;
+    size_t flen = strlen(filename);
+    size_t elen = strlen(ext);
+    gboolean fix = FALSE;
+
+    if ((ext != NULL && *ext != '\0') &&
+            (flen <= elen || strcmp(filename + flen - elen, ext) != 0)) {
+        fix = TRUE;
+    }
+
+    if (fix) {
+        new_name = util_concat(filename, ".", ext, NULL);
+    } else {
+        new_name = lib_stralloc(filename);
+    }
+
+    return new_name;
+}
+
+
 /** \brief  Actually create the disk image and attach it
  *
  * \param[in]   filename    filename of the new image
@@ -153,26 +209,33 @@ static void on_disk_image_type_changed(GtkComboBox *combo, gpointer data)
  */
 static gboolean create_disk_image(const char *filename)
 {
-    /* TODO: remove integer literals with constants */
-    char name_vice[16 + 1];
-    char id_vice[2 + 1];
+    char *fname_copy;
+    char name_vice[IMAGE_CONTENTS_NAME_LEN + 1];
+    char id_vice[IMAGE_CONTENTS_ID_LEN + 1];
     const char *name_gtk3;
     const char *id_gtk3;
     char *vdr_text;
     int status = TRUE;
 
-    memset(name_vice, 0, 16 + 1);
-    memset(id_vice, 0, 2 + 1);
+    memset(name_vice, 0, IMAGE_CONTENTS_NAME_LEN + 1);
+    memset(id_vice, 0, IMAGE_CONTENTS_ID_LEN + 1);
     name_gtk3 = gtk_entry_get_text(GTK_ENTRY(disk_name));
     id_gtk3 = gtk_entry_get_text(GTK_ENTRY(disk_id));
 
+    /* fix extension of filename, if requested */
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(add_ext))) {
+        fname_copy = fix_extension(filename, get_ext_by_image_type(image_type));
+    } else {
+        fname_copy = lib_stralloc(filename);
+    }
+
     /* convert name & ID to PETSCII */
     if (name_gtk3 != NULL && *name_gtk3 != '\0') {
-        strncpy(name_vice, name_gtk3, 16);
+        strncpy(name_vice, name_gtk3, IMAGE_CONTENTS_NAME_LEN);
         charset_petconvstring((unsigned char *)name_vice, 0);
     }
     if (id_gtk3 != NULL && *id_gtk3 != '\0') {
-        strncpy(id_vice, id_gtk3, 2);
+        strncpy(id_vice, id_gtk3, IMAGE_CONTENTS_ID_LEN);
         charset_petconvstring((unsigned char *)id_vice, 0);
     } else {
         strcpy(id_vice, "00");
@@ -186,19 +249,23 @@ static gboolean create_disk_image(const char *filename)
             filename, unit_number, image_type, name_gtk3, id_gtk3,
             vdr_text);
 #endif
+
     /* create image */
-    if (vdrive_internal_create_format_disk_image(filename, vdr_text,
+    if (vdrive_internal_create_format_disk_image(fname_copy, vdr_text,
                 image_type) < 0) {
-        ui_message_error(NULL, "Fail", "Could not create image '%s'", filename);
+        ui_message_error(NULL, "Fail", "Could not create image '%s'",
+                fname_copy);
         status = FALSE;
     } else {
         /* now attach it */
-        if (file_system_attach_disk(unit_number, filename)< 0) {
-            ui_message_error(NULL, "fail", "Could not attach image '%s'", filename);
+        if (file_system_attach_disk(unit_number, fname_copy) < 0) {
+            ui_message_error(NULL, "fail", "Could not attach image '%s'",
+                    fname_copy);
             status = FALSE;
         }
     }
 
+    lib_free(fname_copy);
     lib_free(vdr_text);
     return status;
 }
@@ -279,8 +346,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     label = gtk_label_new("Name:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     disk_name = gtk_entry_new();
-    gtk_entry_set_width_chars(GTK_ENTRY(disk_name), 16);
-    gtk_entry_set_max_length(GTK_ENTRY(disk_name), 16);
+    gtk_entry_set_width_chars(GTK_ENTRY(disk_name), IMAGE_CONTENTS_NAME_LEN);
+    gtk_entry_set_max_length(GTK_ENTRY(disk_name), IMAGE_CONTENTS_NAME_LEN);
     gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), disk_name, 2, 0, 1, 1);
 
@@ -288,8 +355,8 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     label = gtk_label_new("ID:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     disk_id = gtk_entry_new();
-    gtk_entry_set_width_chars(GTK_ENTRY(disk_id), 2);
-    gtk_entry_set_max_length(GTK_ENTRY(disk_id), 2);
+    gtk_entry_set_width_chars(GTK_ENTRY(disk_id), IMAGE_CONTENTS_ID_LEN);
+    gtk_entry_set_max_length(GTK_ENTRY(disk_id), IMAGE_CONTENTS_ID_LEN);
     gtk_grid_attach(GTK_GRID(grid), label, 3, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), disk_id, 4, 0, 1, 1);
 
@@ -298,6 +365,11 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     type_widget = create_disk_image_type_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 5, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), type_widget, 6, 0, 1, 1);
+
+    /* add 'add proper extension when missing' checkbox */
+    add_ext = gtk_check_button_new_with_label("Add extension when missing");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(add_ext), TRUE);
+    gtk_grid_attach(GTK_GRID(grid), add_ext, 0, 1, 3, 1);
 
     gtk_widget_show_all(grid);
     return grid;
