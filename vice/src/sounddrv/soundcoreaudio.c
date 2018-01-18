@@ -380,6 +380,8 @@ static int determine_output_device_id()
 
     log_message(LOG_DEFAULT, "sound (coreaudio_init): Using output audio device: %s", device_name);
 
+    lib_free(device_name);
+
     return 0;
 }
 #endif
