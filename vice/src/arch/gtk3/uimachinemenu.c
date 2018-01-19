@@ -52,6 +52,7 @@
 #include "uimenu.h"
 #include "uimonarch.h"
 #include "uidiskcreate.h"
+#include "uitapecreate.h"
 
 #ifdef HAVE_NETWORK
 # include "uinetplay.h"
@@ -264,8 +265,8 @@ static ui_menu_item_t *file_menu_tape_section = NULL;
  */
 static ui_menu_item_t file_menu_tape[] = {
     /* tape (funny how create & attach are flipped here) */
-    { "Create a new tape image ...", UI_MENU_TYPE_ITEM_ACTION,
-        NULL, NULL, NULL,
+    { "Create and attach an empty tape image ...", UI_MENU_TYPE_ITEM_ACTION,
+        "create-tape", uitapecreate_dialog_show, NULL,
         0, 0 },
     { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION,
         "attach-tape", ui_tape_attach_callback, NULL,

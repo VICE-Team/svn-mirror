@@ -104,7 +104,8 @@ libarch_a_SOURCES = \
 	uinetplay.c \
 	uisidattach.c \
 	uinetplay_new.c \
-	uidiskcreate.c
+	uidiskcreate.c \
+	uitapecreate.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -169,4 +170,5 @@ EXTRA_DIST = \
 	uinetplay.h \
 	uisidattach.h \
 	uinetplay_new.h \
-	uidiskcreate.h
+	uidiskcreate.h \
+	uitapecreate.h
