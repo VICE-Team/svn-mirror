@@ -59,25 +59,6 @@ static ui_radiogroup_entry_t refresh_rates[] = {
 };
 
 
-/** \brief  Event handler for the radio buttons in the widget
- *
- * Updates the 'RefreshRate' resource
- *
- * \param[in]   widget      radio button triggering the event
- * \param[in]   user_data   new refresh rate
- */
-static void refreshrate_callback(GtkWidget *widget, gpointer user_data)
-{
-    gint rate = GPOINTER_TO_INT(user_data);
-
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
-        debug_gtk3("got refresh rate %d\n", rate);
-        vsync_suspend_speed_eval();
-        resources_set_int("RefreshRate", rate);
-    }
-}
-
-
 /** \brief  Create 'fresh rate' widget
  *
  * \todo    Get current refresh rate from resources and set proper radio button

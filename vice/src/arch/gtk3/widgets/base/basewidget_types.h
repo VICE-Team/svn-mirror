@@ -43,12 +43,12 @@ typedef struct vice_gtk3_combo_entry_int_s {
 
 /** \brief  Entry for a combo box using a string as ID
  */
-typedef struct ui_combo_entry_str_s {
+typedef struct vice_gtk3_combo_entry_str_s {
     char *name;     /**< displayed in the combo box */
     char *id;       /**< ID for the entry in the combo box */
-} ui_combo_entry_str_t;
+} vice_gtk3_combo_entry_str_t;
 
-#define UI_COMBO_ENTRY_STR_LIST_END { NULL, NULL }
+#define VICE_GTK3_COMBO_ENTRY_STR_LIST_END { NULL, NULL }
 
 
 /** \brief  Entry for a radio button group using an integer as ID
