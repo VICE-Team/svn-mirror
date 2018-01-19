@@ -52,6 +52,11 @@ static gboolean create_tape_image(const char *filename);
  */
 static GtkWidget *auto_attach = NULL;
 
+/** \brief  Reference to the 'add extension when missing' check button
+ */
+static GtkWidget *fix_ext = NULL;
+
+
 
 /** \brief  Handler for 'response' event of the dialog
  *
@@ -91,7 +96,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
 }
 
 
-#if 0
 /** \brief  Check \a filename for \a ext, and add it when missing
  *
  * \param[in]   filename    filename
@@ -119,7 +123,6 @@ static char *fix_extension(const char *filename, const char *ext)
 
     return new_name;
 }
-#endif
 
 
 /** \brief  Actually create the tape image and attach it
@@ -131,23 +134,30 @@ static char *fix_extension(const char *filename, const char *ext)
 static gboolean create_tape_image(const char *filename)
 {
     gboolean status = TRUE;
+    char *fixed_name;
 
-    /* TODO: fix extension? */
+    /* fix extension? */
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fix_ext))) {
+        fixed_name = fix_extension(filename, "tap");
+    } else {
+        fixed_name = lib_stralloc(filename);
+    }
 
     /* try to create the image */
-    if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP) < 0) {
+    if (cbmimage_create_image(fixed_name, DISK_IMAGE_TYPE_TAP) < 0) {
         ui_message_error(NULL, "VICE error",
-                "Failed to create tape image '%s'", filename);
+                "Failed to create tape image '%s'", fixed_name);
         status = FALSE;
     } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(auto_attach))) {
         /* try to attach the image */
-        if (tape_image_attach(1, filename) < 0) {
+        if (tape_image_attach(1, fixed_name) < 0) {
             ui_message_error(NULL, "VICE error",
-                    "Failed to attach tape image '%s'", filename);
+                    "Failed to attach tape image '%s'", fixed_name);
             status = FALSE;
         }
     }
 
+    lib_free(fixed_name);
     return status;
 }
 
@@ -167,6 +177,11 @@ static GtkWidget *create_extra_widget(void)
     auto_attach = gtk_check_button_new_with_label("Auto-attach tape image");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(auto_attach), TRUE);
     gtk_grid_attach(GTK_GRID(grid), auto_attach, 0, 0, 1, 1);
+
+    fix_ext = gtk_check_button_new_with_label("Add .tap extension when missing");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fix_ext), TRUE);
+    gtk_grid_attach(GTK_GRID(grid), fix_ext, 0, 1, 1, 1);
+
 
     gtk_widget_show_all(grid);
     return grid;

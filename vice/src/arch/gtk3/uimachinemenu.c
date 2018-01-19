@@ -238,7 +238,7 @@ static ui_menu_item_t file_menu_head[] = {
     { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION,
         "attach-disk", ui_disk_attach_callback, GINT_TO_POINTER(8),
         GDK_KEY_8, VICE_MOD_MASK },
-    { "Create and attach an empty disk ...", UI_MENU_TYPE_ITEM_ACTION,
+    { "Create and attach an empty disk image ...", UI_MENU_TYPE_ITEM_ACTION,
         "create-disk", uidiskcreate_dialog_show, GINT_TO_POINTER(8),
         0, 0 },
     { "Detach disk image", UI_MENU_TYPE_SUBMENU,
@@ -264,13 +264,12 @@ static ui_menu_item_t *file_menu_tape_section = NULL;
 /** \brief  'File' menu - tape section
  */
 static ui_menu_item_t file_menu_tape[] = {
-    /* tape (funny how create & attach are flipped here) */
-    { "Create and attach an empty tape image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "create-tape", uitapecreate_dialog_show, NULL,
-        0, 0 },
     { "Attach tape image ...", UI_MENU_TYPE_ITEM_ACTION,
         "attach-tape", ui_tape_attach_callback, NULL,
         GDK_KEY_T, VICE_MOD_MASK },
+    { "Create and attach an empty tape image ...", UI_MENU_TYPE_ITEM_ACTION,
+        "create-tape", uitapecreate_dialog_show, NULL,
+        0, 0 },
     { "Detach tape image", UI_MENU_TYPE_ITEM_ACTION,
         "detach-tape", ui_tape_detach_callback, NULL,
         0, 0 },
