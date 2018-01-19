@@ -32,6 +32,7 @@
 #include "basewidgets.h"
 #include "filechooserhelpers.h"
 #include "machine.h"
+#include "diskimage.h"
 #include "widgethelpers.h"
 #include "ui.h"
 
@@ -39,28 +40,111 @@
 
 #define ROMSET_DEFAULT  "default.vrs"
 
+
+/** \brief  Machine ROM types
+ *
+ * This probably needs a lot of updating once I get to the PET. CBM-II etc.
+ */
 typedef enum rom_type_e {
-    ROM_BASIC,
-    ROM_KERNAL,
-    ROM_CHARGEN
+    ROM_BASIC,      /**< Basic ROM */
+    ROM_KERNAL,     /**< Kernal ROM */
+    ROM_CHARGEN     /**< Character set ROM */
 } rom_type_t;
 
 
+/** \brief  ROM info object
+ */
 typedef struct romset_entry_s {
-    const char *resource;   /**< resource name */
-    const char *label;      /**< label */
-    void (*callback)(GtkWidget *, gpointer);    /**< optional extra callback
-                                                     (currently unused) */
+    const char  *resource;  /**< resource name */
+    const char  *label;     /**< label */
+    void        (*callback)(GtkWidget *, gpointer); /**< optional extra callback
+                                                         (currently unused) */
 } romset_entry_t;
 
 
 /** \brief  List of C64 machine ROMs
  */
 static const romset_entry_t c64_machine_roms[] = {
-    { "KernalName", "Kernal", NULL },
-    { "BasicName", "Basic", NULL },
-    { "ChargenName", "Chargen", NULL },
+    { "KernalName",     "Kernal",   NULL },
+    { "BasicName",      "Basic",    NULL },
+    { "ChargenName",    "Chargen",  NULL },
     { NULL, NULL, NULL }
+};
+
+
+/** \brief  List of drive ROMs for unsupported machines
+ */
+static const romset_entry_t unsupported_drive_roms[] = {
+    { NULL, NULL, NULL }
+};
+
+
+/** \brief  List of drive ROMs supported by C64/VIC20
+ */
+static const romset_entry_t c64_vic20_drive_roms[] = {
+    { "DosName1540",    "1540",     NULL },
+    { "DosName1541",    "1541",     NULL },
+    { "DosName1541ii",  "1541-II",  NULL },
+    { "DosName1570",    "1570",     NULL },
+    { "DosName1571",    "1571",     NULL },
+    { "DosName1581",    "1581",     NULL },
+    { "DosName2000",    "2000",     NULL },
+    { "DosName4000",    "4000",     NULL },
+    { "DosName2031",    "2031",     NULL },
+    { "DosName2040",    "2040",     NULL },
+    { "DosName3040",    "3040",     NULL },
+    { "DosName4040",    "4040",     NULL },
+    { "DosName1001",    "1001",     NULL },
+    { NULL,         NULL,           NULL }
+};
+
+
+/** \brief  List of drive ROMs supported by C128
+ */
+static const romset_entry_t c128_drive_roms[] = {
+    { "DosName1540",    "1540",     NULL },
+    { "DosName1541",    "1541",     NULL },
+    { "DosName1541ii",  "1541-II",  NULL },
+    { "DosName1570",    "1570",     NULL },
+    { "DosName1571",    "1571",     NULL },
+    { "DosName1571cr",  "1571CR",   NULL },
+    { "DosName1581",    "1581",     NULL },
+    { "DosName2000",    "2000",     NULL },
+    { "DosName4000",    "4000",     NULL },
+    { "DosName2031",    "2031",     NULL },
+    { "DosName2040",    "2040",     NULL },
+    { "DosName3040",    "3040",     NULL },
+    { "DosName4040",    "4040",     NULL },
+    { "DosName1001",    "1001",     NULL },
+    { NULL,         NULL,           NULL }
+};
+
+
+/** \brief  List of drive ROMs supported by PET/CBM-II (5x0 + 6x0/7x0)
+ */
+static const romset_entry_t pet_cbm2_drive_roms[] = {
+    { "DosName2031",    "2031",     NULL },
+    { "DosName2040",    "2040",     NULL },
+    { "DosName3040",    "3040",     NULL },
+    { "DosName4040",    "4040",     NULL },
+    { "DosName1001",    "1001",     NULL },
+    { NULL,         NULL,           NULL }
+};
+
+
+/** \brief  List of drive ROMs supported by Plus/4
+ */
+static const romset_entry_t plus4_drive_roms[] = {
+    { "DosName1540",    "1540",     NULL },
+    { "DosName1541",    "1541",     NULL },
+    { "DosName1541ii",  "1541-II",  NULL },
+    { "DosName1551",    "1551",     NULL },
+    { "DosName1570",    "1570",     NULL },
+    { "DosName1571",    "1571",     NULL },
+    { "DosName1581",    "1581",     NULL },
+    { "DosName2000",    "2000",     NULL },
+    { "DosName4000",    "4000",     NULL },
+    { NULL,         NULL,           NULL }
 };
 
 
@@ -74,8 +158,9 @@ static GtkWidget *layout = NULL;
 static GtkWidget *stack = NULL;
 static GtkWidget *switcher = NULL;
 
-static GtkWidget *child_c64_roms = NULL;
-static GtkWidget *child_c64_sets = NULL;
+static GtkWidget *child_machine_roms = NULL;
+static GtkWidget *child_drive_roms = NULL;
+static GtkWidget *child_rom_archives = NULL;
 
 
 
@@ -146,7 +231,13 @@ static GtkWidget *button_default_romset_load_create(void)
 }
 
 
-static GtkWidget* create_machine_roms_widget(const romset_entry_t *roms)
+/** \brief  Create a list of ROM selection widgets from \a roms
+ *
+ * \param[in]   list of ROMs
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget* create_roms_widget(const romset_entry_t *roms)
 {
     GtkWidget *grid;
     int row;
@@ -189,9 +280,44 @@ static GtkWidget *create_c64_roms_widget(void)
     gtk_widget_show_all(grid);
 #endif
 
-    grid = create_machine_roms_widget(c64_machine_roms);
+    grid = create_roms_widget(c64_machine_roms);
 
     return grid;
+}
+
+
+/** \brief  Create a stack widget with widgets for each supported drive ROM
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_drive_roms_widget(void)
+{
+    const romset_entry_t *entries;
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_VIC20:
+            entries = c64_vic20_drive_roms;
+            break;
+        case VICE_MACHINE_C128:
+            entries = c128_drive_roms;
+            break;
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM5x0:  /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            entries = pet_cbm2_drive_roms;
+            break;
+        case VICE_MACHINE_PLUS4:
+            entries = plus4_drive_roms;
+            break;
+        default:
+            entries = unsupported_drive_roms;
+            break;
+    }
+    return create_roms_widget(entries);
 }
 
 
@@ -223,10 +349,12 @@ static void create_c64_layout(void)
     int row;    /* no idea where I was going with this */
 
     row = add_stack_switcher();
-    child_c64_roms = create_c64_roms_widget();
-    child_c64_sets = create_c64_sets_widget();
-    add_stack_child(child_c64_roms, "ROM settings", "rom-settings");
-    add_stack_child(child_c64_sets, "ROM archives", "rom-archives");
+    child_machine_roms = create_c64_roms_widget();
+    child_drive_roms = create_drive_roms_widget();
+    child_rom_archives = create_c64_sets_widget();
+    add_stack_child(child_machine_roms, "Machine ROMs", "machine");
+    add_stack_child(child_drive_roms, "Drive ROMs", "drive");
+    add_stack_child(child_rom_archives, "ROM archives", "archive");
 }
 
 
@@ -239,10 +367,11 @@ static void create_c64_layout(void)
  */
 GtkWidget *romset_widget_create(GtkWidget *parent)
 {
-    layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
+    layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
+/* For now, pretend anything is a C64. This allows checking the drive ROM
+ * widgets */
+#if 0
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
         case VICE_MACHINE_C64SC:    /* fall through */
@@ -254,6 +383,8 @@ GtkWidget *romset_widget_create(GtkWidget *parent)
             debug_gtk3("ROMset stuff not supported (yet) for %s\n", machine_name);
             break;
     }
+#endif
+    create_c64_layout();
 
     gtk_widget_show_all(layout);
     return layout;
