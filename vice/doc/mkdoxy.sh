@@ -186,6 +186,8 @@ ARCH_UNIX_XAW_INPUT+=" ../src/arch/unix/x11/xaw/widgets"
 
 ARCH_GTK3_INPUT=" ../src/arch/gtk3"
 ARCH_GTK3_INPUT+=" ../src/arch/gtk3/widgets"
+ARCH_GTK3_INPUT+=" ../src/arch/gtk3/widgets/base"
+
 
 INPUT+=" ../src/core"
 INPUT+=" ../src/diag"
