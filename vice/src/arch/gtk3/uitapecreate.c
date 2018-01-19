@@ -44,7 +44,13 @@
 #include "uitapecreate.h"
 
 
+/* forward declarations of functions */
 static gboolean create_tape_image(const char *filename);
+
+
+/** \brief  Reference to the 'auto-attach' check button
+ */
+static GtkWidget *auto_attach = NULL;
 
 
 /** \brief  Handler for 'response' event of the dialog
@@ -128,12 +134,13 @@ static gboolean create_tape_image(const char *filename)
 
     /* TODO: fix extension? */
 
+    /* try to create the image */
     if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP) < 0) {
         ui_message_error(NULL, "VICE error",
                 "Failed to create tape image '%s'", filename);
         status = FALSE;
-    } else {
-        /* attach */
+    } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(auto_attach))) {
+        /* try to attach the image */
         if (tape_image_attach(1, filename) < 0) {
             ui_message_error(NULL, "VICE error",
                     "Failed to attach tape image '%s'", filename);
@@ -142,6 +149,27 @@ static gboolean create_tape_image(const char *filename)
     }
 
     return status;
+}
+
+
+/** \brief  Create the 'extra' widget for the dialog
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_extra_widget(void)
+{
+    GtkWidget *grid;
+
+    /* create a grid with some spacing and margins */
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    g_object_set(grid, "margin-left", 16, "margin-right", 16, NULL);
+
+    auto_attach = gtk_check_button_new_with_label("Auto-attach tape image");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(auto_attach), TRUE);
+    gtk_grid_attach(GTK_GRID(grid), auto_attach, 0, 0, 1, 1);
+
+    gtk_widget_show_all(grid);
+    return grid;
 }
 
 
@@ -167,6 +195,9 @@ void uitapecreate_dialog_show(GtkWidget *parent, gpointer data)
 
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
             TRUE);
+
+    gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
+            create_extra_widget());
 
     filter = gtk_file_filter_new();
     gtk_file_filter_set_name(filter, "Tape images (*.tap)");
