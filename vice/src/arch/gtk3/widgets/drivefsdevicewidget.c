@@ -49,7 +49,7 @@
 
 /** \brief  List of file system types
  */
-static ui_combo_entry_int_t device_types[] = {
+static const vice_gtk3_combo_entry_int_t device_types[] = {
     { "None", ATTACH_DEVICE_NONE },
     { "File system", ATTACH_DEVICE_FS },
 #ifdef HAVE_REALDEVICE

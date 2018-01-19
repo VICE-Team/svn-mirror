@@ -134,7 +134,7 @@ static audio_driver_info_t audio_driver_list[] = {
 
 /** \brief  List of 'oversize modes' for some screenshot output drivers
  */
-static ui_combo_entry_int_t oversize_modes[] = {
+static vice_gtk3_combo_entry_int_t oversize_modes[] = {
     { "scale down", 0 },
     { "crop left top", 1, },
     { "crop center top", 2 },
@@ -151,7 +151,7 @@ static ui_combo_entry_int_t oversize_modes[] = {
 
 /** \brief  List of 'undersize modes' for some screenshot output drivers
  */
-static ui_combo_entry_int_t undersize_modes[] = {
+static vice_gtk3_combo_entry_int_t undersize_modes[] = {
     { "scale up", 0 },
     { "border size", 1 },
     { NULL, -1 }
@@ -160,7 +160,7 @@ static ui_combo_entry_int_t undersize_modes[] = {
 
 /** \brief  List of multi color modes for some screenshot output drivers
  */
-static ui_combo_entry_int_t multicolor_modes[] = {
+static const vice_gtk3_combo_entry_int_t multicolor_modes[] = {
     { "B&W", 0 },
     { "2 colors", 1 },
     { "4 colors", 2 },
@@ -172,7 +172,7 @@ static ui_combo_entry_int_t multicolor_modes[] = {
 
 /** \brief  TED output driver Luma modes
  */
-static ui_combo_entry_int_t ted_luma_modes[] = {
+static const vice_gtk3_combo_entry_int_t ted_luma_modes[] = {
     { "ignore", 0 },
     { "dither", 1 },
     { NULL, -1 },
@@ -181,7 +181,7 @@ static ui_combo_entry_int_t ted_luma_modes[] = {
 
 /** \brief  List of available colors to use for CRTC screenshots
  */
-static ui_combo_entry_int_t crtc_colors[] = {
+static const vice_gtk3_combo_entry_int_t crtc_colors[] = {
     { "White", 0 },
     { "Amber", 1 },
     { "Green", 2 },

@@ -52,7 +52,7 @@
  *
  * \return  model
  */
-static GtkListStore *create_combo_int_model(const ui_combo_entry_int_t *list)
+static GtkListStore *create_combo_int_model(const vice_gtk3_combo_entry_int_t *list)
 {
     GtkListStore *model;
     GtkTreeIter iter;
@@ -175,7 +175,7 @@ static void on_combo_int_changed(GtkComboBox *combo, gpointer user_data)
  */
 static GtkWidget *resource_combo_box_int_create_helper(
         GtkWidget *combo,
-        const ui_combo_entry_int_t *entries)
+        const vice_gtk3_combo_entry_int_t *entries)
 {
     GtkListStore *model;
     GtkCellRenderer *renderer;
@@ -224,7 +224,7 @@ static GtkWidget *resource_combo_box_int_create_helper(
  * \return  GtkComboBoxText
  */
 GtkWidget *vice_gtk3_resource_combo_box_int_create(const char *resource,
-                                         const ui_combo_entry_int_t *entries)
+                                         const vice_gtk3_combo_entry_int_t *entries)
 {
     GtkWidget * combo = gtk_combo_box_new();
 
@@ -246,7 +246,7 @@ GtkWidget *vice_gtk3_resource_combo_box_int_create(const char *resource,
  */
 GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
         const char *fmt,
-        const ui_combo_entry_int_t *entries,
+        const vice_gtk3_combo_entry_int_t *entries,
         ...)
 {
     GtkWidget *combo;
@@ -275,7 +275,7 @@ GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
  */
 GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
         const char *resource,
-        const ui_combo_entry_int_t *entries,
+        const vice_gtk3_combo_entry_int_t *entries,
         const char *label)
 {
     GtkWidget *grid;

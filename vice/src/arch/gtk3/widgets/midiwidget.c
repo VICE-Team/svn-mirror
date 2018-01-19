@@ -63,7 +63,7 @@ static GtkWidget *midi_out_browse;
 #endif
 
 
-static ui_combo_entry_int_t midi_modes[] = {
+static const vice_gtk3_combo_entry_int_t midi_modes[] = {
     { "Sequential", 0 },
     { "Passport/Syntech", 1 },
     { "DATEL/Siel/JMS", 2 },
@@ -73,7 +73,7 @@ static ui_combo_entry_int_t midi_modes[] = {
 };
 
 #if defined(UNIX_COMPILE) && !defined(MACOSX_SUPPORT)
-static ui_combo_entry_int_t midi_drivers[]= {
+static const vice_gtk3_combo_entry_int_t midi_drivers[]= {
     { "OSS", 0 },
     { "ALSA", 1 },
     { NULL, -1 }

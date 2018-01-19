@@ -44,7 +44,7 @@
 #include "ds12c887widget.h"
 
 
-static ui_combo_entry_int_t c64_base[] = {
+static vice_gtk3_combo_entry_int_t c64_base[] = {
      { "$D500", 0xd500 },
      { "$D600", 0xd600 },
      { "$D700", 0xd700 },
@@ -54,7 +54,7 @@ static ui_combo_entry_int_t c64_base[] = {
 };
 
 
-static ui_combo_entry_int_t vic20_base[] = {
+static vice_gtk3_combo_entry_int_t vic20_base[] = {
      { "$9800", 0x9800 },
      { "$9C00", 0x9c00 },
      { NULL, - 1 }
@@ -81,7 +81,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
 
 static GtkWidget *create_base_widget(void)
 {
-    ui_combo_entry_int_t *list;
+    vice_gtk3_combo_entry_int_t *list;
 
     if (machine_class == VICE_MACHINE_VIC20) {
         list = vic20_base;

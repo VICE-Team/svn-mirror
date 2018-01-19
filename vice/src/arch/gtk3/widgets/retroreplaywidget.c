@@ -52,7 +52,7 @@
 
 /** \brief  List of Retro Replay revisions
  */
-static ui_combo_entry_int_t rr_revisions[] = {
+static const vice_gtk3_combo_entry_int_t rr_revisions[] = {
     { CARTRIDGE_NAME_RETRO_REPLAY, 0 },
     { CARTRIDGE_NAME_NORDIC_REPLAY, 1 },
     { NULL, -1 }

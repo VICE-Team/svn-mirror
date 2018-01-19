@@ -45,7 +45,7 @@
 static int *acia_baud_rates;
 
 
-static ui_combo_entry_int_t *baud_rate_list = NULL;
+static vice_gtk3_combo_entry_int_t *baud_rate_list = NULL;
 
 
 /** \brief  List of ACIA devices

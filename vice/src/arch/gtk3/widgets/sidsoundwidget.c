@@ -76,7 +76,7 @@ static ui_radiogroup_entry_t sid_engines[] = {
 
 /** \brief  Values for the "SidResidSampling" resource
  */
-static ui_radiogroup_entry_t resid_sampling_modes[] = {
+static const ui_radiogroup_entry_t resid_sampling_modes[] = {
     { "Fast", 0 },
     { "Interpolation", 1 },
     { "Resampling", 2 },
@@ -87,7 +87,7 @@ static ui_radiogroup_entry_t resid_sampling_modes[] = {
 
 /** \brief  Values for the "number of sids" widget
  */
-static ui_radiogroup_entry_t num_sids[] = {
+static const ui_radiogroup_entry_t num_sids[] = {
     { "One", 0 },
     { "Two", 1 },
     { "Three", 2 },
@@ -100,7 +100,7 @@ static ui_radiogroup_entry_t num_sids[] = {
  *
  * \note    Yes, I know I can generate this table
  */
-static ui_combo_entry_int_t sid_address_c64[] = {
+static const vice_gtk3_combo_entry_int_t sid_address_c64[] = {
     { "$d420", 0xd420 }, { "$d440", 0xd440 }, { "$d460", 0xd460 },
     { "$d480", 0xd480 }, { "$d4a0", 0xd4a0 }, { "$d4c0", 0xd4c0 },
     { "$d4e0", 0xd4e0 },
@@ -124,13 +124,13 @@ static ui_combo_entry_int_t sid_address_c64[] = {
     { "$df00", 0xdf00 }, { "$df20", 0xdf20 }, { "$df40", 0xdf40 },
     { "$df60", 0xdf60 }, { "$df80", 0xdf80 }, { "$dfa0", 0xdfa0 },
     { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 },
-    UI_COMBO_ENTRY_INT_LIST_END
+    VICE_GTK3_COMBO_ENTRY_INT_LIST_END
 };
 
 
 /** \brief  I/O addresses for extra SID's for the C128
  */
-static ui_combo_entry_int_t sid_address_c128[] = {
+static const vice_gtk3_combo_entry_int_t sid_address_c128[] = {
     { "$d420", 0xd420 }, { "$d440", 0xd440 }, { "$d460", 0xd460 },
     { "$d480", 0xd480 }, { "$d4a0", 0xd4a0 }, { "$d4c0", 0xd4c0 },
     { "$d4e0", 0xd4e0 },
@@ -146,7 +146,7 @@ static ui_combo_entry_int_t sid_address_c128[] = {
     { "$df00", 0xdf00 }, { "$df20", 0xdf20 }, { "$df40", 0xdf40 },
     { "$df60", 0xdf60 }, { "$df80", 0xdf80 }, { "$dfa0", 0xdfa0 },
     { "$dfc0", 0xdfc0 }, { "$dfe0", 0xdfe0 },
-    UI_COMBO_ENTRY_INT_LIST_END
+    VICE_GTK3_COMBO_ENTRY_INT_LIST_END
 };
 
 
@@ -409,7 +409,7 @@ static GtkWidget *create_num_sids_widget(void)
 static GtkWidget *create_extra_sid_address_widget(int sid)
 {
     GtkWidget *widget;
-    ui_combo_entry_int_t *entries;
+    const vice_gtk3_combo_entry_int_t *entries;
     char label[256];
     const char *resource[3] = {
         "SidStereoAddressStart",

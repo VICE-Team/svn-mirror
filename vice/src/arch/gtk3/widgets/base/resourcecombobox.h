@@ -33,16 +33,16 @@
 
 GtkWidget *vice_gtk3_resource_combo_box_int_create(
         const char *resource,
-        const ui_combo_entry_int_t *entries);
+        const vice_gtk3_combo_entry_int_t *entries);
 
 GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
         const char *fmt,
-        const ui_combo_entry_int_t *entries,
+        const vice_gtk3_combo_entry_int_t *entries,
         ...);
 
 GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
         const char *resource,
-        const ui_combo_entry_int_t *entries,
+        const vice_gtk3_combo_entry_int_t *entries,
         const char *label);
 
 void vice_gtk3_resource_combo_box_int_update(GtkWidget *widget, int id);

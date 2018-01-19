@@ -47,7 +47,7 @@
  *
  * Yes, this looks silly, but allows me to use vice-gtk3 widgets.
  */
-static ui_combo_entry_int_t powers_of_two[] = {
+static const vice_gtk3_combo_entry_int_t powers_of_two[] = {
     { "0", 0 }, { "1", 1 }, { "2", 2 }, { "4", 4 }, { "8", 8 }, { "16", 16 },
     { "32", 32 }, { "64", 64 }, { "128", 128 }, { "256", 256 }, { "512", 512 },
     { "1024", 1024 }, { NULL, -1 }

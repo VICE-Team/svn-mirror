@@ -72,7 +72,7 @@
 
 /** \brief  List of IDE64 revisions
  */
-static ui_radiogroup_entry_t revisions[] = {
+static const ui_radiogroup_entry_t revisions[] = {
     { "Version 3", IDE64_VERSION_3 },
     { "Version 4.1", IDE64_VERSION_4_1 },
     { "Version 4.2", IDE64_VERSION_4_2 },
@@ -82,7 +82,7 @@ static ui_radiogroup_entry_t revisions[] = {
 
 /** \brief  List of ShortBus DIGIMAX I/O bases
  */
-static ui_combo_entry_int_t digimax_addresses[] = {
+static const vice_gtk3_combo_entry_int_t digimax_addresses[] = {
     { "$DE40", 0xde40 },
     { "$DE48", 0xde48 },
     { NULL, -1 }
@@ -91,7 +91,7 @@ static ui_combo_entry_int_t digimax_addresses[] = {
 #ifdef HAVE_RAWNET
 /** \brief  List of ShortBus ETFE I/O bases
  */
-static ui_combo_entry_int_t etfe_addresses[] = {
+static const vice_gtk3_combo_entry_int_t etfe_addresses[] = {
     { "$DE00", 0xde00 },
     { "$DE10", 0xde10 },
     { "$DF00", 0xdf00 },

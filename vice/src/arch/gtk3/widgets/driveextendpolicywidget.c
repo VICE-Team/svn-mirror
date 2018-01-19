@@ -44,7 +44,7 @@
 
 /** \brief  List of (name,id) tuples for the radio buttons
  */
-static ui_combo_entry_int_t policies[] = {
+static vice_gtk3_combo_entry_int_t policies[] = {
     { "Never extend", 0 },
     { "Ask on extend", 1 },
     { "Extend on access", 2 },

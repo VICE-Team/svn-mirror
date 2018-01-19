@@ -45,7 +45,7 @@
 
 /** \brief  Idle method (name,id) tuples
  */
-static ui_combo_entry_int_t idle_methods[] = {
+static const vice_gtk3_combo_entry_int_t idle_methods[] = {
     { "None", 0 },
     { "Skip cycles", 1 },
     { "Trap idle", 2 },

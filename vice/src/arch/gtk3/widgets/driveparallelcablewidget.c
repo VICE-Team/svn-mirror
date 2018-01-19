@@ -46,7 +46,7 @@
 
 /** \brief  List of possible parallel cables for c64
  */
-static ui_combo_entry_int_t parallel_cables_c64[] = {
+static const vice_gtk3_combo_entry_int_t parallel_cables_c64[] = {
     { "None", 0 },
     { "Standard", 1 },
     { "Professional DOS", 2 },
@@ -57,7 +57,7 @@ static ui_combo_entry_int_t parallel_cables_c64[] = {
 
 /** \brief  List of possible parallel cables for Plus4
  */
-static ui_combo_entry_int_t parallel_cables_plus4[] = {
+static const vice_gtk3_combo_entry_int_t parallel_cables_plus4[] = {
     { "None", 0 },
     { "Standard", 1 },
     { NULL, -1 }
@@ -73,7 +73,7 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
 {
     GtkWidget *grid;
     GtkWidget *combo;
-    ui_combo_entry_int_t *list;
+    const vice_gtk3_combo_entry_int_t *list;
 
     if (machine_class == VICE_MACHINE_PLUS4) {
         list = parallel_cables_plus4;
