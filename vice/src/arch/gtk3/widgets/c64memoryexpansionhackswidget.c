@@ -48,7 +48,7 @@
 
 /** \brief  List of C64 memory hack devices
  */
-static ui_radiogroup_entry_t mem_hack_devices[] = {
+static const vice_gtk3_radiogroup_entry_t mem_hack_devices[] = {
     { "None",       MEMORY_HACK_NONE },
     { "C64 256K",   MEMORY_HACK_C64_256K },
     { "+60K",       MEMORY_HACK_PLUS60K },
@@ -58,7 +58,7 @@ static ui_radiogroup_entry_t mem_hack_devices[] = {
 
 /**\brief   List of I/O base addresses for the C64_256K memory hack
  */
-static ui_radiogroup_entry_t c64_256k_base_addresses[] = {
+static const vice_gtk3_radiogroup_entry_t c64_256k_base_addresses[] = {
     { "$DE00-$DE7F", 0xde00 },
     { "$DE80-$DEFF", 0xde80 },
     { "$DF00-$DF7F", 0xdf00 },
@@ -68,7 +68,7 @@ static ui_radiogroup_entry_t c64_256k_base_addresses[] = {
 
 /**\brief   List of I/O base addresses for the +60K memory hack
  */
-static ui_radiogroup_entry_t plus_60k_base_addresses[] = {
+static const vice_gtk3_radiogroup_entry_t plus_60k_base_addresses[] = {
     { "$D040", 0xd040 },
     { "$D100", 0xd100 },
     { NULL, -1 }

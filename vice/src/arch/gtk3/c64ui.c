@@ -83,7 +83,7 @@ static const char *c64_model_list[] = {
  *
  * Used in the VIC-II model widget
  */
-static ui_radiogroup_entry_t c64_vicii_models[] = {
+static const vice_gtk3_radiogroup_entry_t c64_vicii_models[] = {
     { "PAL",        VICII_MODEL_PALG },
     { "Old PAL",    VICII_MODEL_PALG_OLD },
     { "NTSC",       VICII_MODEL_NTSCM },

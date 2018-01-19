@@ -43,10 +43,10 @@
 
 /** \brief  List of Event start modes
  */
-static ui_radiogroup_entry_t recstart_modes[] = {
-    { "Save new snapshot", EVENT_START_MODE_FILE_SAVE },
-    { "Load existing snapshot", EVENT_START_MODE_FILE_LOAD },
-    { "Start with reset", EVENT_START_MODE_RESET },
+static const vice_gtk3_radiogroup_entry_t recstart_modes[] = {
+    { "Save new snapshot",          EVENT_START_MODE_FILE_SAVE },
+    { "Load existing snapshot",     EVENT_START_MODE_FILE_LOAD },
+    { "Start with reset",           EVENT_START_MODE_RESET },
     { "Overwrite running playback", EVENT_START_MODE_PLAYBACK },
     { NULL, -1 }
 };

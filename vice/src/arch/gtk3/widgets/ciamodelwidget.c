@@ -44,7 +44,7 @@
 #include "ciamodelwidget.h"
 
 
-static ui_radiogroup_entry_t cia_models[] = {
+static const vice_gtk3_radiogroup_entry_t cia_models[] = {
     { "6526 (old)", CIA_MODEL_6526 },
     { "8521 (new)", CIA_MODEL_6526A },
     { NULL, -1 }

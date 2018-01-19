@@ -72,7 +72,7 @@
 
 /** \brief  List of IDE64 revisions
  */
-static const ui_radiogroup_entry_t revisions[] = {
+static const vice_gtk3_radiogroup_entry_t revisions[] = {
     { "Version 3", IDE64_VERSION_3 },
     { "Version 4.1", IDE64_VERSION_4_1 },
     { "Version 4.2", IDE64_VERSION_4_2 },

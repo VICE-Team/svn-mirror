@@ -51,7 +51,7 @@ static const char *chip_prefix;
 
 /** \brief  List of radio buttons
  */
-static ui_radiogroup_entry_t filters[] = {
+static const vice_gtk3_radiogroup_entry_t filters[] = {
     { "Unfiltered",     VIDEO_FILTER_NONE },
     { "CRT emulation",  VIDEO_FILTER_CRT },
     { "Scale2x",        VIDEO_FILTER_SCALE2X },

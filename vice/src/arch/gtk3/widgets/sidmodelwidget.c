@@ -45,13 +45,13 @@
 
 /** \brief  Empty list of SID models
  */
-static ui_radiogroup_entry_t sid_models_none[] = {
+static const vice_gtk3_radiogroup_entry_t sid_models_none[] = {
     { NULL, -1 }
 };
 
 /** \brief  All SID models
  */
-static ui_radiogroup_entry_t sid_models_all[] = {
+static const vice_gtk3_radiogroup_entry_t sid_models_all[] = {
     { "6581", 0 },
     { "8580", 1 },
     { "8580D", 2 },
@@ -63,7 +63,7 @@ static ui_radiogroup_entry_t sid_models_all[] = {
 /** \brief  SID models used in the C64/C64SCPU, C128 and expanders for PET,
  *          VIC-20 and Plus/4
  */
-static ui_radiogroup_entry_t sid_models_c64[] = {
+static const vice_gtk3_radiogroup_entry_t sid_models_c64[] = {
     { "6581", 0 },
     { "8580", 1 },
     { "8580D", 2 },
@@ -72,7 +72,7 @@ static ui_radiogroup_entry_t sid_models_c64[] = {
 
 /** \brief  SID models used in the CBM-II 510/520 models
  */
-static ui_radiogroup_entry_t sid_models_cbm5x0[] = {
+static const vice_gtk3_radiogroup_entry_t sid_models_cbm5x0[] = {
     { "6581", 0 },
     { "8580", 1 },
     { "8580D", 2 },
@@ -100,7 +100,7 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
 {
     GtkWidget *grid;
     GtkWidget *group;
-    ui_radiogroup_entry_t *models;
+    const vice_gtk3_radiogroup_entry_t *models;
 
     machine_widget = machine_model_widget;
 

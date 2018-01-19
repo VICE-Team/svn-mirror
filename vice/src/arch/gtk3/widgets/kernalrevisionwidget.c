@@ -45,7 +45,7 @@
  *
  * Taken from scr/c64/c64-resources.h
  */
-static ui_radiogroup_entry_t revisions[] = {
+static const vice_gtk3_radiogroup_entry_t revisions[] = {
     { "Revision 1", C64_KERNAL_REV1 },
     { "Revision 2", C64_KERNAL_REV2 },
     { "Revision 3", C64_KERNAL_REV3 },

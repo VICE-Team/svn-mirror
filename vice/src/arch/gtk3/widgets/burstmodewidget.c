@@ -44,7 +44,7 @@
 
 /** \brief  List of burst modes
  */
-static ui_radiogroup_entry_t burst_modes[] = {
+static const vice_gtk3_radiogroup_entry_t burst_modes[] = {
     { "None", 0 },
     { "CIA1", 1 },
     { "CIA2", 2 },

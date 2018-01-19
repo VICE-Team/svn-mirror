@@ -46,7 +46,7 @@
 
 /** \brief  Keyboard layout types
  */
-static ui_radiogroup_entry_t kbd_layouts[] = {
+static const vice_gtk3_radiogroup_entry_t kbd_layouts[] = {
     { "American", 0 },
     { "British", 1 },
     { "German", 2 },

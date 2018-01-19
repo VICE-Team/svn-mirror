@@ -63,7 +63,7 @@
 
 /** \brief  Values for the "SidEngine" resource
  */
-static ui_radiogroup_entry_t sid_engines[] = {
+static vice_gtk3_radiogroup_entry_t sid_engines[] = {
     { "FastSID", 0 },
     { "ReSID", 1 },
     { "Catweasel MKIII", 2 },
@@ -76,7 +76,7 @@ static ui_radiogroup_entry_t sid_engines[] = {
 
 /** \brief  Values for the "SidResidSampling" resource
  */
-static const ui_radiogroup_entry_t resid_sampling_modes[] = {
+static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
     { "Fast", 0 },
     { "Interpolation", 1 },
     { "Resampling", 2 },
@@ -87,7 +87,7 @@ static const ui_radiogroup_entry_t resid_sampling_modes[] = {
 
 /** \brief  Values for the "number of sids" widget
  */
-static const ui_radiogroup_entry_t num_sids[] = {
+static const vice_gtk3_radiogroup_entry_t num_sids[] = {
     { "One", 0 },
     { "Two", 1 },
     { "Three", 2 },

@@ -41,11 +41,13 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns);
 
 GtkWidget *uihelpers_radiogroup_create(
         const gchar *label,
-        ui_radiogroup_entry_t *data,
+        const vice_gtk3_radiogroup_entry_t *data,
         void (*callback)(GtkWidget *, gpointer),
         int active);
 
-int vice_gtk3_radiogroup_get_list_index(ui_radiogroup_entry_t *list, int value);
+int vice_gtk3_radiogroup_get_list_index(
+        const vice_gtk3_radiogroup_entry_t *list,
+        int value);
 
 void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index);
 

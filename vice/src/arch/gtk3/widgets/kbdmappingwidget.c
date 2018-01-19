@@ -54,7 +54,7 @@ static GtkWidget *layout = NULL;
 
 /** \brief  Keyboard mapping types
  */
-static ui_radiogroup_entry_t mappings[] = {
+static const vice_gtk3_radiogroup_entry_t mappings[] = {
     { "Symbolic mapping", 0 },
     { "Positional mapping", 1 },
     { "Symbolic mapping (User)", 2 },

@@ -44,7 +44,7 @@
 
 /** \brief  Hardwired switches for 5x0 models
  */
-static ui_radiogroup_entry_t models_cbm5x0[] = {
+static const vice_gtk3_radiogroup_entry_t models_cbm5x0[] = {
     { "50Hz 5x0", 2 },
     { "60Hz 5x0", 1 },
     { NULL, -1 }
@@ -53,7 +53,7 @@ static ui_radiogroup_entry_t models_cbm5x0[] = {
 
 /** \brief  Hardwired switches for 6x0 models
  */
-static ui_radiogroup_entry_t models_cbm6x0[] = {
+static const vice_gtk3_radiogroup_entry_t models_cbm6x0[] = {
     { "50Hz 6x0", 2 },
     { "60Hz 6x0", 1 },
     { "50Hz 7x0", 0 },

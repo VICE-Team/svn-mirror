@@ -46,7 +46,7 @@
 
 /** \brief  List of sound sampling rates
  */
-static ui_radiogroup_entry_t sample_rates[] = {
+static const vice_gtk3_radiogroup_entry_t sample_rates[] = {
     { "8000 Hz", 8000 },
     { "11025 Hz", 11025 },
     { "22050 Hz", 22050 },

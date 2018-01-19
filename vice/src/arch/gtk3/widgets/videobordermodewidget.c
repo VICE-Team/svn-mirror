@@ -54,7 +54,7 @@ static const char *chip_prefix;
  * I've decided to use simple numeric constants to avoid having multiple lists
  * for each $CHIP with the same values.
  */
-static ui_radiogroup_entry_t modes[] = {
+static const vice_gtk3_radiogroup_entry_t modes[] = {
     { "Normal", 0 },
     { "Full", 1 },
     { "Debug", 2 },

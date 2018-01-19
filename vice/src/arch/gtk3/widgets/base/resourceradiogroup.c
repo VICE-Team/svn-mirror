@@ -105,7 +105,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
  */
 static GtkWidget *resource_radiogroup_create_helper(
         GtkWidget *grid,
-        const ui_radiogroup_entry_t *entries,
+        const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation)
 {
     GtkRadioButton *last = NULL;
@@ -170,7 +170,7 @@ static GtkWidget *resource_radiogroup_create_helper(
  */
 GtkWidget *vice_gtk3_resource_radiogroup_create(
         const char *resource,
-        const ui_radiogroup_entry_t *entries,
+        const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation)
 {
     GtkWidget *grid;
@@ -203,7 +203,7 @@ GtkWidget *vice_gtk3_resource_radiogroup_create(
  */
 GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
         const char *fmt,
-        const ui_radiogroup_entry_t *entries,
+        const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation,
         ...)
 {
@@ -231,12 +231,12 @@ void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id)
 {
     int orientation;
     int index;
-    ui_radiogroup_entry_t *entries;
+    vice_gtk3_radiogroup_entry_t *entries;
     GtkWidget *radio;
 
     orientation = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(widget),
                 "Orientation"));
-    entries = (ui_radiogroup_entry_t *)(g_object_get_data(G_OBJECT(widget),
+    entries = (vice_gtk3_radiogroup_entry_t *)(g_object_get_data(G_OBJECT(widget),
                 "Entries"));
 
     for (index = 0; entries[index].name != NULL; index++) {

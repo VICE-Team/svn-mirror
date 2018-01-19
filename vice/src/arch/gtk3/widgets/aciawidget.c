@@ -50,7 +50,7 @@ static vice_gtk3_combo_entry_int_t *baud_rate_list = NULL;
 
 /** \brief  List of ACIA devices
  */
-static ui_radiogroup_entry_t acia_device_list[] = {
+static const vice_gtk3_radiogroup_entry_t acia_device_list[] = {
     { "Serial 1", 0 },
     { "Serial 2", 1 },
     { "Dump to file", 2 },

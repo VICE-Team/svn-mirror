@@ -45,7 +45,7 @@
 
 /** \brief  Sound buffer fragment sizes table
  */
-static ui_radiogroup_entry_t fragment_sizes[] = {
+static const vice_gtk3_radiogroup_entry_t fragment_sizes[] = {
     { "Very small", 0 },
     { "Small", 1 },
     { "Medium", 2 },

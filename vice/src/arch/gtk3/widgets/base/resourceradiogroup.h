@@ -33,12 +33,12 @@
 
 GtkWidget *vice_gtk3_resource_radiogroup_create(
         const char *resource,
-        const ui_radiogroup_entry_t *entries,
+        const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation);
 
 GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
         const char *fmt,
-        const ui_radiogroup_entry_t *entries,
+        const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation,
         ...);
 

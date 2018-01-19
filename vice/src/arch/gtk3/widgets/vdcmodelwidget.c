@@ -41,7 +41,7 @@
 
 /** \brief  List of VDC revisions
  */
-static ui_radiogroup_entry_t vdc_revs[] = {
+static const vice_gtk3_radiogroup_entry_t vdc_revs[] = {
     { "Revision 0", 0 },
     { "Revision 1", 1 },
     { "Revision 2", 2 },

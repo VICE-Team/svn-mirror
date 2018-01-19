@@ -47,7 +47,7 @@
 
 /** \brief  List of YM chip models
  */
-static ui_radiogroup_entry_t chip_models[] = {
+static const vice_gtk3_radiogroup_entry_t chip_models[] = {
     { "3526", 3526 },
     { "3812", 3812 },
     { NULL, -1 }

@@ -48,7 +48,7 @@
 #include "uidebug.h"
 
 
-static ui_radiogroup_entry_t trace_modes[] = {
+static const vice_gtk3_radiogroup_entry_t trace_modes[] = {
     { "Normal", DEBUG_NORMAL },
     { "Small", DEBUG_SMALL },
     { "History", DEBUG_HISTORY },

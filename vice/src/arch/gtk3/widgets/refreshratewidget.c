@@ -43,7 +43,7 @@
 
 /** \brief  List of text/id pairs for the refresh rates
  */
-static ui_radiogroup_entry_t refresh_rates[] = {
+static const vice_gtk3_radiogroup_entry_t refresh_rates[] = {
     { "Automatic", 0 },
     { "1/1", 1 },
     { "1/2", 2 },

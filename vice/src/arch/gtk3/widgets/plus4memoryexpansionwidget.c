@@ -57,7 +57,7 @@ enum {
  *
  * This list is used to build the radio button group
  */
-static ui_radiogroup_entry_t expansions[] = {
+static const vice_gtk3_radiogroup_entry_t expansions[] = {
     { "16KB",           RAM_16KB },
     { "32KB",           RAM_32KB},
     { "64KB",           RAM_64KB },

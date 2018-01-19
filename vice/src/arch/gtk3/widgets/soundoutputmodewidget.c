@@ -45,9 +45,9 @@
 
 /** \brief  List of sound output modes
  */
-static ui_radiogroup_entry_t output_modes[] = {
+static const vice_gtk3_radiogroup_entry_t output_modes[] = {
     { "System", SOUND_OUTPUT_SYSTEM },
-    { "Mono", SOUND_OUTPUT_MONO },
+    { "Mono",   SOUND_OUTPUT_MONO },
     { "Stereo", SOUND_OUTPUT_STEREO },
     { NULL, -1 }
 };

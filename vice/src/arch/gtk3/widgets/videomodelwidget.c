@@ -40,7 +40,7 @@
 
 static const char *widget_title = NULL;
 static const char *resource_name = NULL;
-static ui_radiogroup_entry_t *model_list = NULL;
+static const vice_gtk3_radiogroup_entry_t *model_list = NULL;
 static GtkWidget *machine_widget = NULL;
 
 
@@ -94,7 +94,7 @@ void video_model_widget_set_resource(const char *resource)
  *
  * \param[in]   models  list of video models
  */
-void video_model_widget_set_models(ui_radiogroup_entry_t *models)
+void video_model_widget_set_models(const vice_gtk3_radiogroup_entry_t *models)
 {
     model_list = models;
 }

@@ -41,7 +41,7 @@
 
 /** \brief  Available I/O sizes
  */
-static ui_radiogroup_entry_t io_sizes[] = {
+static const vice_gtk3_radiogroup_entry_t io_sizes[] = {
     { "256 bytes", 256 },
     { "2048 bytes", 2048 },
     { NULL, -1 }

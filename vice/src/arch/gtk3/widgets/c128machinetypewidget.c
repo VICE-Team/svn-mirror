@@ -41,7 +41,7 @@
 
 /** \brief  List of C128 machine types
  */
-static ui_radiogroup_entry_t machine_types[] = {
+static const vice_gtk3_radiogroup_entry_t machine_types[] = {
     { "International",  C128_MACHINE_INT },
     /* any of these cause a KERNAL corrupted message from c128mem */
     { "Finish",         C128_MACHINE_FINNISH },

@@ -44,7 +44,7 @@
 
 /** \brief  List of text/id pairs for the speed rates
  */
-static ui_radiogroup_entry_t speed_rates[] = {
+static const vice_gtk3_radiogroup_entry_t speed_rates[] = {
     { "Unlimited", 0 }, /* this one works a little weird, probably wrong value */
     { "200%", 200 },
     { "150%", 150 },

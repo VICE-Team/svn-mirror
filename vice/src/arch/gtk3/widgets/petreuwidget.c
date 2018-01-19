@@ -44,7 +44,7 @@
 
 /** \brief  List of REU sizes
  */
-static ui_radiogroup_entry_t reu_sizes[] = {
+static const vice_gtk3_radiogroup_entry_t reu_sizes[] = {
     { "128KB", 128 },
     { "512KB", 512 },
     { "1024KB", 1024 },

@@ -40,7 +40,7 @@
 
 /** \brief  Data for the radio buttons group
  */
-static ui_radiogroup_entry_t video_sizes[] = {
+static const vice_gtk3_radiogroup_entry_t video_sizes[] = {
     { "Auto (from ROM)", 0 },
     { "40 Columns", 40 },
     { "80 Columns", 80 },

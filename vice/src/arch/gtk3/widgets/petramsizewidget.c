@@ -41,7 +41,7 @@
 
 /** \brief  Data for the radio buttons group
  */
-static ui_radiogroup_entry_t ram_sizes[] = {
+static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
     { "4KB", 4 },
     { "8KB", 8 },
     { "16KB", 16 },

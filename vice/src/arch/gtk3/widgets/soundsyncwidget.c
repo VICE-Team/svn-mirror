@@ -47,7 +47,7 @@
 
 /** \brief  List of sound synchronization modes
  */
-static ui_radiogroup_entry_t sync_modes[] = {
+static const vice_gtk3_radiogroup_entry_t sync_modes[] = {
     { "Flexible", SOUND_ADJUST_FLEXIBLE },
     { "Adjusting", SOUND_ADJUST_ADJUSTING },
     { "Exact", SOUND_ADJUST_EXACT },

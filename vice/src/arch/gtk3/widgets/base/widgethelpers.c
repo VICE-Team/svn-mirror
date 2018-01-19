@@ -107,7 +107,7 @@ GtkWidget *uihelpers_create_grid_with_label(const gchar *text, gint columns)
  */
 GtkWidget *uihelpers_radiogroup_create(
         const gchar *label,
-        ui_radiogroup_entry_t *data,
+        const vice_gtk3_radiogroup_entry_t *data,
         void (*callback)(GtkWidget *, gpointer),
         int active)
 {
@@ -153,7 +153,9 @@ GtkWidget *uihelpers_radiogroup_create(
  *
  * \return  index of \a value or -1 when not found
  */
-int vice_gtk3_radiogroup_get_list_index(ui_radiogroup_entry_t *list, int value)
+int vice_gtk3_radiogroup_get_list_index(
+        const vice_gtk3_radiogroup_entry_t *list,
+        int value)
 {
     int i;
 

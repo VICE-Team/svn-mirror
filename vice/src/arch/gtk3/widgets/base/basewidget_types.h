@@ -53,12 +53,12 @@ typedef struct vice_gtk3_combo_entry_str_s {
 
 /** \brief  Entry for a radio button group using an integer as ID
  */
-typedef struct ui_radiogroup_entry_s {
+typedef struct vice_gtk3_radiogroup_entry_s {
     char *name;     /**< label for the radio button */
     int   id;       /**< ID for the radio button */
-} ui_radiogroup_entry_t;
+} vice_gtk3_radiogroup_entry_t;
 
-#define UI_RADIOGROUP_ENTRY_LIST_END { NULL, -1 }
+#define VICE_GTK3_RADIOGROUP_ENTRY_LIST_END { NULL, -1 }
 
 
 #endif

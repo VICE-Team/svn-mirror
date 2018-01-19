@@ -41,7 +41,7 @@
  *
  * Seems to be the same for ext ROMS
  */
-static ui_radiogroup_entry_t rom_types[] = {
+static const vice_gtk3_radiogroup_entry_t rom_types[] = {
     { "None",   INT_FUNCTION_NONE },    /* this one probably requires the
                                            text entry/browse button to be
                                            disabled */

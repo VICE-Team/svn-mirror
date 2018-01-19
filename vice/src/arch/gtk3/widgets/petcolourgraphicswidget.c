@@ -43,7 +43,7 @@
 
 /** \brief  List of PET Colour types
  */
-static ui_radiogroup_entry_t colour_types[] = {
+static const vice_gtk3_radiogroup_entry_t colour_types[] = {
     { "Off", PET_COLOUR_TYPE_OFF },
     { "RGBI", PET_COLOUR_TYPE_RGBI },
     { "Analog", PET_COLOUR_TYPE_ANALOG },

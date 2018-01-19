@@ -42,7 +42,7 @@
 
 /** \brief  List of RAM sizes
  */
-static ui_radiogroup_entry_t ram_sizes[] = {
+static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
     { "64KB",   64 },
     { "128KB",  128 },
     { "256KB",  256 },

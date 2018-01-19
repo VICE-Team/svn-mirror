@@ -60,7 +60,7 @@ static const char *c64dtv_model_list[] = {
  *
  * Used in the VIC-II models widget
  */
-static ui_radiogroup_entry_t c64dtv_vicii_models[] = {
+static const vice_gtk3_radiogroup_entry_t c64dtv_vicii_models[] = {
      { "PAL-G", MACHINE_SYNC_PAL },
      { "NTSC-M", MACHINE_SYNC_NTSC },
      { NULL, -1 }

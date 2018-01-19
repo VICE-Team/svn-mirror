@@ -50,7 +50,7 @@
 
 /** \brief  List of 'modes' for the Expert Cartridge
  */
-static ui_radiogroup_entry_t mode_list[] = {
+static const vice_gtk3_radiogroup_entry_t mode_list[] = {
     { "Off", 0 },
     { "Programmable", 1 },
     { "On", 2 },

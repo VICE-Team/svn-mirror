@@ -47,7 +47,7 @@
 
 /** \brief  List of Ethernet Cartridge emulation modes
  */
-static ui_radiogroup_entry_t modes[] = {
+static const vice_gtk3_radiogroup_entry_t modes[] = {
     { "ETFE", 0 },
     { "RRNet", 1 },
     { NULL, -1 }

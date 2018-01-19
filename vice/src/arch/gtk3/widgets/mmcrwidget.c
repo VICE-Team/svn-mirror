@@ -54,7 +54,7 @@
 
 /** \brief  List of memory card types
  */
-static const ui_radiogroup_entry_t card_types[] = {
+static const vice_gtk3_radiogroup_entry_t card_types[] = {
     { "Auto", 0 },
     { "MMC", 1 },
     { "SD", 2 },

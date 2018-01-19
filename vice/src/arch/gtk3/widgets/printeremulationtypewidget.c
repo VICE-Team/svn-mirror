@@ -46,7 +46,7 @@
 
 /** \brief  List of printer emulation types
  */
-static ui_radiogroup_entry_t emu_types[] = {
+static const vice_gtk3_radiogroup_entry_t emu_types[] = {
     { "None", PRINTER_DEVICE_NONE },
     { "File system access", PRINTER_DEVICE_FS },
     { "Real device access", PRINTER_DEVICE_REAL },

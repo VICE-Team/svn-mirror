@@ -40,7 +40,7 @@
 
 /** \brief  List of possible actions on a CPU JAM
  */
-static ui_radiogroup_entry_t actions[] = {
+static const vice_gtk3_radiogroup_entry_t actions[] = {
     { "Show dialog", 0 },
     { "Continue emulation", 1 },
     { "Start monitor", 2 },

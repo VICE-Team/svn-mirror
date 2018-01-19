@@ -33,9 +33,9 @@
 #include <gtk/gtk.h>
 #include "widgethelpers.h"
 
-void        video_model_widget_set_title(const char *title);
-void        video_model_widget_set_resource(const char *resource);
-void        video_model_widget_set_models(ui_radiogroup_entry_t *models);
+void video_model_widget_set_title(const char *title);
+void video_model_widget_set_resource(const char *resource);
+void video_model_widget_set_models(const vice_gtk3_radiogroup_entry_t *models);
 
 GtkWidget * video_model_widget_create(GtkWidget *machine);
 void        video_model_widget_update(GtkWidget *widget);

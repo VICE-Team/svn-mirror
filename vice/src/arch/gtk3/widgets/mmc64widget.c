@@ -55,7 +55,7 @@
 
 /** \brief  List of revisions
  */
-static ui_radiogroup_entry_t revisions[] = {
+static const vice_gtk3_radiogroup_entry_t revisions[] = {
     { "Rev. A", 0 },
     { "Rev. B", 1 },
     { NULL, -1 }
@@ -64,7 +64,7 @@ static ui_radiogroup_entry_t revisions[] = {
 
 /** \brief  List of memory card types
  */
-static const ui_radiogroup_entry_t card_types[] = {
+static const vice_gtk3_radiogroup_entry_t card_types[] = {
     { "Auto", 0 },
     { "MMC", 1 },
     { "SD", 2 },

@@ -47,7 +47,7 @@
 
 /** \brief  Methods of handling I/O collisions
  */
-static ui_radiogroup_entry_t io_collision_methods[] = {
+static const vice_gtk3_radiogroup_entry_t io_collision_methods[] = {
     { "Detach all", IO_COLLISION_METHOD_DETACH_ALL },
     { "Detach last", IO_COLLISION_METHOD_DETACH_LAST },
     { "AND values", IO_COLLISION_METHOD_AND_WIRES },

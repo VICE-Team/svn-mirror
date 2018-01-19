@@ -63,7 +63,7 @@ static const char *plus4_model_list[] = {
  *
  * Used in the TED model widget
  */
-static ui_radiogroup_entry_t plus4_ted_models[] = {
+static const vice_gtk3_radiogroup_entry_t plus4_ted_models[] = {
     { "PAL", MACHINE_SYNC_PAL },
     { "NTSC", MACHINE_SYNC_NTSC },
     { NULL, -1 }
