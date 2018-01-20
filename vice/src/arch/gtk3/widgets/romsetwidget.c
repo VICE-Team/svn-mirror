@@ -4,6 +4,8 @@
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following rescource(s):
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -62,14 +64,64 @@ typedef struct romset_entry_s {
 } romset_entry_t;
 
 
-/** \brief  List of C64 machine ROMs
+/** \brief  List of C64/VIC20 machine ROMs
  */
-static const romset_entry_t c64_machine_roms[] = {
+static const romset_entry_t c64_vic20_machine_roms[] = {
     { "KernalName",     "Kernal",   NULL },
     { "BasicName",      "Basic",    NULL },
     { "ChargenName",    "Chargen",  NULL },
-    { NULL, NULL, NULL }
+    { NULL,             NULL,       NULL }
 };
+
+
+/** \brief  List of SCPU64 machine ROMs
+ */
+static const romset_entry_t scpu64_machine_roms[] = {
+    { "SCPU64Name",     "Kernal",   NULL },
+    { "ChargenName",    "Chargen",  NULL },
+    { NULL,             NULL,       NULL }
+};
+
+
+/** \brief  List of C128 machine ROMs
+ *
+ * TODO:    This list is too large to fit in the UI. so it needs to be split
+ *          somehow, perhaps per country?
+ */
+static const romset_entry_t c128_machine_roms[] = {
+    { "KernalIntName",  "International Kernal",     NULL },
+    { "KernalDEName",   "German Kernal",            NULL },
+    { "KernalFIName",   "Finnish Kernal",           NULL },
+    { "KernalFRName",   "French Kernal",            NULL },
+    { "KernalITName",   "Italian Kernal",           NULL },
+    { "KernalNOName",   "Norwegian Kernal",         NULL },
+    { "KernalSEName",   "Swedish Kernal",           NULL },
+    { "KernalCHName",   "Swiss Kernal",             NULL },
+    { "BasicLoName",    "Basic Lo ROM",             NULL },
+    { "BasicHiName",    "Basic Hi ROM",             NULL },
+    { "ChargenIntName", "International Chargen",    NULL },
+    { "ChargenDEName",  "German Chargen",           NULL },
+    { "ChargenFRName",  "French Chargen",           NULL },
+    { "ChargenSEName",  "Swedish Chargen",          NULL },
+    { "ChargenCHName",  "Swiss Chargen",            NULL },
+    { "Kernal64Name",   "C64 Kernal ROM",           NULL },
+    { "Basic64Name",    "C64 Basic ROM",            NULL },
+    { NULL,             NULL,                       NULL }
+};
+
+
+static const romset_entry_t plus4_machine_roms[] = {
+    { "KernalName",         "Kernal",           NULL },
+    { "BasicName",          "Basic",            NULL },
+    { "FunctionLowName",    "3 Plus 1 LO ROM",  NULL },
+    { "FunctionHighName",   "3 Plus 1 HI ROM",  NULL },
+    { "c1loName",           "c1 LO ROM",        NULL },
+    { "c1hiName",           "c1 HI ROM",        NULL },
+    { "c2loName",           "c2 LO ROM",        NULL },
+    { "c2hiName",           "c2 HI ROM",        NULL },
+    { NULL,                 NULL,               NULL }
+};
+
 
 
 /** \brief  List of drive ROMs for unsupported machines
@@ -175,7 +227,7 @@ static void on_default_romset_load_clicked(void)
 }
 
 
-static int add_stack_switcher(void)
+static void create_stack_switcher(GtkWidget *grid)
 {
     stack = gtk_stack_new();
     switcher = gtk_stack_switcher_new();
@@ -193,13 +245,11 @@ static int add_stack_switcher(void)
      * which we don't want, although maybe in a few years having the 'tabs'
      * at the bottom suddenly becomes popular, in which case we simply swap
      * the row number of the stack and the switcher :) */
-    gtk_grid_attach(GTK_GRID(layout), switcher, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(layout), stack, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), switcher, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
 
     gtk_widget_show(switcher);
     gtk_widget_show(stack);
-
-    return 2;
 }
 
 
@@ -266,24 +316,70 @@ static GtkWidget* create_roms_widget(const romset_entry_t *roms)
 
 
 
-static GtkWidget *create_c64_roms_widget(void)
+static GtkWidget *create_c64_vic20_roms_widget(void)
 {
     GtkWidget *grid;
-#if 0
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-
-    gtk_grid_attach(GTK_GRID(grid), button_default_romset_load_create(),
-            0, 2, 1, 1);
-
-    gtk_widget_show_all(grid);
-#endif
-
-    grid = create_roms_widget(c64_machine_roms);
-
+    grid = create_roms_widget(c64_vic20_machine_roms);
     return grid;
 }
+
+
+static GtkWidget *create_scpu64_roms_widget(void)
+{
+    GtkWidget *grid;
+    grid = create_roms_widget(scpu64_machine_roms);
+    return grid;
+}
+
+
+static GtkWidget *create_c128_roms_widget(void)
+{
+    GtkWidget *grid;
+    grid = create_roms_widget(c128_machine_roms);
+    return grid;
+}
+
+
+static GtkWidget *create_plus4_roms_widget(void)
+{
+    GtkWidget *grid;
+    grid = create_roms_widget(plus4_machine_roms);
+    return grid;
+}
+
+
+static GtkWidget *create_machine_roms_widget(void)
+{
+    GtkWidget *grid;
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_VIC20:
+            grid = create_c64_vic20_roms_widget();
+            break;
+        case VICE_MACHINE_SCPU64:
+            grid = create_scpu64_roms_widget();
+            break;
+        case VICE_MACHINE_C128:
+            grid = create_c128_roms_widget();
+            break;
+        case VICE_MACHINE_PLUS4:
+            grid = create_plus4_roms_widget();
+            break;
+        default:
+            grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+            gtk_grid_attach(GTK_GRID(grid),
+                    gtk_label_new("Not supported yet, sorry!"),
+                    0, 0, 1, 1);
+            break;
+    }
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
 
 
 /** \brief  Create a stack widget with widgets for each supported drive ROM
@@ -321,7 +417,7 @@ static GtkWidget *create_drive_roms_widget(void)
 }
 
 
-static GtkWidget *create_c64_sets_widget(void)
+static GtkWidget *create_rom_archives_widget(void)
 {
     GtkWidget *grid;
 
@@ -339,26 +435,6 @@ static GtkWidget *create_c64_sets_widget(void)
 
 
 
-/** \brief  Create layout for C64, C64DTV, C128, SCPU64
- *
- * The C64DTV does not have the 'Drive Expansion ROM' widget.
- *
- */
-static void create_c64_layout(void)
-{
-    int row;    /* no idea where I was going with this */
-
-    row = add_stack_switcher();
-    child_machine_roms = create_c64_roms_widget();
-    child_drive_roms = create_drive_roms_widget();
-    child_rom_archives = create_c64_sets_widget();
-    add_stack_child(child_machine_roms, "Machine ROMs", "machine");
-    add_stack_child(child_drive_roms, "Drive ROMs", "drive");
-    add_stack_child(child_rom_archives, "ROM archives", "archive");
-}
-
-
-
 /** \brief  Create the main ROM settings widget
  *
  * \param[in]   parent  parent widget (ignored)
@@ -369,23 +445,13 @@ GtkWidget *romset_widget_create(GtkWidget *parent)
 {
     layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-/* For now, pretend anything is a C64. This allows checking the drive ROM
- * widgets */
-#if 0
-    switch (machine_class) {
-        case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:    /* fall through */
-        case VICE_MACHINE_SCPU64:   /* fall through */
-        case VICE_MACHINE_C128:
-            create_c64_layout();
-            break;
-        default:
-            debug_gtk3("ROMset stuff not supported (yet) for %s\n", machine_name);
-            break;
-    }
-#endif
-    create_c64_layout();
-
+    create_stack_switcher(layout);
+    child_machine_roms = create_machine_roms_widget();
+    child_drive_roms = create_drive_roms_widget();
+    child_rom_archives = create_rom_archives_widget();
+    add_stack_child(child_machine_roms, "Machine ROMs", "machine");
+    add_stack_child(child_drive_roms, "Drive ROMs", "drive");
+    add_stack_child(child_rom_archives, "ROM archives", "archive");
     gtk_widget_show_all(layout);
     return layout;
 }
