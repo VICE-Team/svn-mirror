@@ -85,8 +85,8 @@ static const romset_entry_t scpu64_machine_roms[] = {
 
 /** \brief  List of C128 machine ROMs
  *
- * TODO:    This list is too large to fit in the UI. so it needs to be split
- *          somehow, perhaps per country?
+ * Kernals and Basic only to avoid the dialog getting too large
+ *
  */
 static const romset_entry_t c128_machine_roms[] = {
     { "KernalIntName",  "International Kernal",     NULL },
@@ -99,13 +99,22 @@ static const romset_entry_t c128_machine_roms[] = {
     { "KernalCHName",   "Swiss Kernal",             NULL },
     { "BasicLoName",    "Basic Lo ROM",             NULL },
     { "BasicHiName",    "Basic Hi ROM",             NULL },
+    { "Kernal64Name",   "C64 Kernal ROM",           NULL },
+    { "Basic64Name",    "C64 Basic ROM",            NULL },
+    { NULL,             NULL,                       NULL }
+};
+
+
+/** \brief  List of C128 chargen ROMs
+ *
+ * Chargen's only to avoid the dialog getting too large
+ */
+static const romset_entry_t c128_chargen_roms[] = {
     { "ChargenIntName", "International Chargen",    NULL },
     { "ChargenDEName",  "German Chargen",           NULL },
     { "ChargenFRName",  "French Chargen",           NULL },
     { "ChargenSEName",  "Swedish Chargen",          NULL },
     { "ChargenCHName",  "Swiss Chargen",            NULL },
-    { "Kernal64Name",   "C64 Kernal ROM",           NULL },
-    { "Basic64Name",    "C64 Basic ROM",            NULL },
     { NULL,             NULL,                       NULL }
 };
 
@@ -211,6 +220,8 @@ static GtkWidget *stack = NULL;
 static GtkWidget *switcher = NULL;
 
 static GtkWidget *child_machine_roms = NULL;
+static GtkWidget *child_chargen_roms = NULL;    /* used for C128 to avoid making
+                                                   the dialog too large */
 static GtkWidget *child_drive_roms = NULL;
 static GtkWidget *child_rom_archives = NULL;
 
@@ -264,7 +275,7 @@ static void add_stack_child(GtkWidget *child,
                             const gchar *title,
                             const gchar *name)
 {
-    gtk_stack_add_titled(GTK_STACK(stack), child, title, name);
+    gtk_stack_add_titled(GTK_STACK(stack), child, name, title);
 }
 
 
@@ -292,7 +303,8 @@ static GtkWidget* create_roms_widget(const romset_entry_t *roms)
     GtkWidget *grid;
     int row;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    /* needs 0 row spacing to avoid having the dialog get too large */
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
 
     for (row = 0; roms[row].resource != NULL; row++) {
         GtkWidget *label;
@@ -335,7 +347,29 @@ static GtkWidget *create_scpu64_roms_widget(void)
 static GtkWidget *create_c128_roms_widget(void)
 {
     GtkWidget *grid;
+#if 0
+    GtkWidget *label;
+    GtkWidget *browser;
+#endif
     grid = create_roms_widget(c128_machine_roms);
+
+/* two rows of browers - sucks */
+#if 0
+    label = gtk_label_new("Some resource");
+    browser = vice_gtk3_resource_browser_new("InvalidResourceName",
+            rom_file_patterns, "ROM files", "Select ROM file",
+            NULL /* no label, so the labels get aligned properly */,
+            NULL);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), browser, 3, 1, 1, 1);
+#endif
+    return grid;
+}
+
+static GtkWidget *create_c128_chargen_widget(void)
+{
+    GtkWidget *grid;
+    grid = create_roms_widget(c128_chargen_roms);
     return grid;
 }
 
@@ -447,9 +481,17 @@ GtkWidget *romset_widget_create(GtkWidget *parent)
 
     create_stack_switcher(layout);
     child_machine_roms = create_machine_roms_widget();
+    if (machine_class == VICE_MACHINE_C128) {
+        child_chargen_roms = create_c128_chargen_widget();
+    }
     child_drive_roms = create_drive_roms_widget();
     child_rom_archives = create_rom_archives_widget();
-    add_stack_child(child_machine_roms, "Machine ROMs", "machine");
+    if (machine_class == VICE_MACHINE_C128) {
+        add_stack_child(child_machine_roms, "Kernal/Basic", "machine");
+        add_stack_child(child_chargen_roms, "Chargen ROMS", "chargen");
+    } else {
+        add_stack_child(child_machine_roms, "Machine ROMs", "machine");
+    }
     add_stack_child(child_drive_roms, "Drive ROMs", "drive");
     add_stack_child(child_rom_archives, "ROM archives", "archive");
     gtk_widget_show_all(layout);

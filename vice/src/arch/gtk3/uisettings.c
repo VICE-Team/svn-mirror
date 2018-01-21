@@ -1195,6 +1195,8 @@ static gboolean on_dialog_configure_event(
         if (width > DIALOG_WIDTH_MAX || height > DIALOG_HEIGHT_MAX) {
             gtk_window_set_title(GTK_WINDOW(widget),
                     "HELP! --- DIALOG IS TOO BLOODY LARGE -- ERROR!");
+            debug_gtk3("Dialog is too large: %dx%d (max: %dx%d)\n",
+                    width, height, DIALOG_WIDTH_MAX, DIALOG_HEIGHT_MAX);
         }
     }
     return FALSE;
