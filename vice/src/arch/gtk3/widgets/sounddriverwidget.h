@@ -1,5 +1,5 @@
 /** \file   src/arch/gtk3/widgets/sounddriverwidget.h
- * \brtief  Sound driver widget - header
+ * \brief   Sound driver widget - header
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
