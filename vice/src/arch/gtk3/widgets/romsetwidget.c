@@ -40,7 +40,27 @@
 
 #include "romsetwidget.h"
 
-#define ROMSET_DEFAULT  "default.vrs"
+
+/** \brief  Default ROM set name for C64/C64DTV/SCUP64/C128/VIC20/PLUS4 */
+#define ROMSET_DEFAULT_C64      "default.vrs"
+
+/** \brief  Default ROM set name for CBM-II 5x0 models */
+#define ROMSET_DEFAULT_CBM5x0   "rom500.vrs"
+
+/* CBM_II 6x0/7x0 appears to have four different 'default' ROM sets:
+ * - rom128l.vrs (128KB Basic, 8px charset)
+ * - rom128h.vrs (128KB Basic, 16px charset)
+ * - rom256l.vrs (128KB Basic, 8px charset)
+ * - rom256h.vrs (128KB Basic, 16px charset)
+ */
+
+#define ROMSET_DEFAULT_CBM6x0_128L  "rom128l.vrs"
+#define ROMSET_DEFAULT_CBM6x0_256L  "rom256l.vrs"
+#define ROMSET_DEFAULT_CBM6x0_128H  "rom128h.vrs"
+#define ROMSET_DEFAULT_CBM6x0_256H  "rom128h.vrs"
+
+/* PET is even a bigger mess (TODO) */
+
 
 
 /** \brief  Machine ROM types
@@ -131,6 +151,17 @@ static const romset_entry_t plus4_machine_roms[] = {
     { NULL,                 NULL,               NULL }
 };
 
+
+static const romset_entry_t cbm5x0_machine_roms[] = {
+    { "KernalName",         "Kernal",           NULL },
+    { "BasicName",          "Basic",            NULL },
+    { "ChargenName",        "Chargen",          NULL },
+    { "Cart1Name",          "$1000-$1FFF ROM",  NULL },
+    { "Cart2Name",          "$2000-$3FFF ROM",  NULL },
+    { "Cart4Name",          "$4000-$5FFF ROM",  NULL },
+    { "Cart6Name",          "$6000-$7FFF ROM",  NULL },
+    { NULL,                 NULL,               NULL }
+};
 
 
 /** \brief  List of drive ROMs for unsupported machines
@@ -226,7 +257,7 @@ static GtkWidget *child_drive_roms = NULL;
 static GtkWidget *child_rom_archives = NULL;
 
 
-
+#if 0
 static void on_default_romset_load_clicked(void)
 {
     debug_gtk3("trying to load '%s' ..", ROMSET_DEFAULT);
@@ -236,6 +267,7 @@ static void on_default_romset_load_clicked(void)
         debug_gtk3("OK\n");
     }
 }
+#endif
 
 
 static void create_stack_switcher(GtkWidget *grid)
@@ -279,6 +311,7 @@ static void add_stack_child(GtkWidget *child,
 }
 
 
+#if 0
 /** \brief  Create push button to load the default ROMs for the current machine
  *
  * \return  GtkButton
@@ -290,6 +323,7 @@ static GtkWidget *button_default_romset_load_create(void)
             G_CALLBACK(on_default_romset_load_clicked), NULL);
     return button;
 }
+#endif
 
 
 /** \brief  Create a list of ROM selection widgets from \a roms
@@ -382,6 +416,15 @@ static GtkWidget *create_plus4_roms_widget(void)
 }
 
 
+static GtkWidget *create_cbmx50_roms_widget(void)
+{
+    GtkWidget *grid;
+    grid = create_roms_widget(cbm5x0_machine_roms);
+    return grid;
+}
+
+
+
 static GtkWidget *create_machine_roms_widget(void)
 {
     GtkWidget *grid;
@@ -401,6 +444,9 @@ static GtkWidget *create_machine_roms_widget(void)
             break;
         case VICE_MACHINE_PLUS4:
             grid = create_plus4_roms_widget();
+            break;
+        case VICE_MACHINE_CBM5x0:
+            grid = create_cbmx50_roms_widget();
             break;
         default:
             grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);

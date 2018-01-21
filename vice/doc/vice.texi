@@ -11490,7 +11490,7 @@ Boolean specifying whether the machine should be reset when a cartridge is chang
 
 @vindex Cart1Name
 @item Cart1Name
-String specifying the filename for the $1000-$1FFF expansion ROM file. This file contains an 8k ROM dump.
+String specifying the filename for the $1000-$1FFF expansion ROM file. This file contains a 4k ROM dump.
 
 @vindex Cart2Name
 @item Cart2Name
@@ -11502,7 +11502,7 @@ String specifying the filename for the $4000-$5FFF expansion ROM file. This file
 
 @vindex Cart6Name
 @item Cart6Name
-String specifying the filename for the $6000-$6FFF expansion ROM file. This file contains an 8k ROM dump.
+String specifying the filename for the $6000-$7FFF expansion ROM file. This file contains an 8k ROM dump.
 
 @vindex ModelLine
 @item ModelLine
