@@ -51,9 +51,6 @@ static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 
 /** \brief  Create a GtkMessageDialog
  *
- * FIXME: remove widget parameter
- *
- * \param[in]   widget      parent widget (not used anymore!)
  * \param[in]   type        message type
  * \param[in]   buttons     buttons to use
  * \param[in]   title       dialog title
@@ -61,8 +58,7 @@ static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
  *
  * \return  GtkMessageDialog
  */
-static GtkWidget *create_dialog(GtkWidget *widget,
-                                GtkMessageType type, GtkButtonsType buttons,
+static GtkWidget *create_dialog(GtkMessageType type, GtkButtonsType buttons,
                                 const char *title, const char *text)
 {
     GtkWidget *dialog;
@@ -100,15 +96,12 @@ static GtkWidget *create_dialog(GtkWidget *widget,
 
 /** \brief  Create 'info' dialog
  *
- * \param[in]   widget      parent widget
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
  * \return  `TRUE`
  */
-gboolean ui_message_info(GtkWidget *widget,
-                         const char *title,
-                         const char *fmt, ...)
+gboolean vice_gtk3_message_info(const char *title, const char *fmt, ...)
 {
     GtkWidget *dialog;
     va_list args;
@@ -118,9 +111,7 @@ gboolean ui_message_info(GtkWidget *widget,
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-
-    dialog = create_dialog(widget, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-            title, buffer);
+    dialog = create_dialog(GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, title, buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
     gtk_widget_destroy(dialog);
@@ -130,15 +121,12 @@ gboolean ui_message_info(GtkWidget *widget,
 
 /** \brief  Create 'confirm' dialog
  *
- * \param[in]   widget      parent widget
  * \param[in[   title       dialog title
  * \param[in]   fmt         message format string and arguments
  *
  * \return  `TRUE` on OK/Yes, `FALSE` otherwise
  */
-gboolean ui_message_confirm(GtkWidget *widget,
-                            const char *title,
-                            const char *fmt, ...)
+gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...)
 {
     GtkWidget *dialog;
     va_list args;
@@ -149,8 +137,7 @@ gboolean ui_message_confirm(GtkWidget *widget,
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-
-    dialog = create_dialog(widget, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
+    dialog = create_dialog(GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL,
             title, buffer);
     result = gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
@@ -172,9 +159,7 @@ gboolean ui_message_confirm(GtkWidget *widget,
  *
  * \return  `TRUE`
  */
-gboolean ui_message_error(GtkWidget *widget,
-                          const char *title,
-                          const char *fmt, ...)
+gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...)
 {
     GtkWidget *dialog;
     va_list args;
@@ -184,11 +169,9 @@ gboolean ui_message_error(GtkWidget *widget,
     buffer = lib_mvsprintf(fmt, args);
     va_end(args);
 
-    dialog = create_dialog(widget, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-            title, buffer);
+    dialog = create_dialog(GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, title, buffer);
     gtk_dialog_run(GTK_DIALOG(dialog));
     lib_free(buffer);
     gtk_widget_destroy(dialog);
     return TRUE;
 }
-

@@ -145,13 +145,13 @@ static gboolean create_tape_image(const char *filename)
 
     /* try to create the image */
     if (cbmimage_create_image(fixed_name, DISK_IMAGE_TYPE_TAP) < 0) {
-        ui_message_error(NULL, "VICE error",
+        vice_gtk3_message_error("VICE error",
                 "Failed to create tape image '%s'", fixed_name);
         status = FALSE;
     } else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(auto_attach))) {
         /* try to attach the image */
         if (tape_image_attach(1, fixed_name) < 0) {
-            ui_message_error(NULL, "VICE error",
+            vice_gtk3_message_error("VICE error",
                     "Failed to attach tape image '%s'", fixed_name);
             status = FALSE;
         }

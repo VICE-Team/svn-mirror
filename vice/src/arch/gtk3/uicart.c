@@ -207,7 +207,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
                 debug_gtk3("attaching '%s'\n", filename);
                 /* just do smart-attach for now */
                 if (!attach_cart_image(get_cart_type(), get_cart_id(), filename)) {
-                    ui_message_error(dialog, "VICE Error",
+                    vice_gtk3_message_error("VICE Error",
                             "Failed to smart-attach '%s'\n", filename);
                 }
                 g_free(filename);
@@ -772,7 +772,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
         debug_gtk3("Got filename '%s'\n", filename);
         if (crt_attach_func != NULL) {
             if (crt_attach_func(CARTRIDGE_CRT, filename) < 0) {
-                ui_message_error(widget, "VICE error",
+                vice_gtk3_message_error("VICE error",
                         "Failed to attach '%s' as a cartridge image",
                         filename);
             } else {

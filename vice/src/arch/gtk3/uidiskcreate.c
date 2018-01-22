@@ -256,7 +256,7 @@ static gboolean create_disk_image(const char *filename)
 
     vdr_text = util_concat(name_vice, ",", id_vice, NULL);
 #if 0
-    ui_message_info(NULL, "Creating disk image",
+    vice_gtk3_message_info("Creating disk image",
             "Attaching '%s' at unit #%d, type %d, name '%s', ID '%s'\n"
             "Passing \"%s\" to vdrive",
             filename, unit_number, image_type, name_gtk3, id_gtk3,
@@ -266,7 +266,7 @@ static gboolean create_disk_image(const char *filename)
     /* create image */
     if (vdrive_internal_create_format_disk_image(fname_copy, vdr_text,
                 image_type) < 0) {
-        ui_message_error(NULL, "Fail", "Could not create image '%s'",
+        vice_gtk3_message_error("Fail", "Could not create image '%s'",
                 fname_copy);
         status = FALSE;
     } else {
@@ -274,7 +274,7 @@ static gboolean create_disk_image(const char *filename)
         if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(set_drive_type))) {
             /* try to set the proper drive type, but keep going if it fails */
             if (!attempt_to_set_drive_type()) {
-                ui_message_error(NULL, "Core error",
+                vice_gtk3_message_error("Core error",
                         "Failed to set drive type to %d\nContinuing.",
                         image_type);
             }
@@ -282,7 +282,7 @@ static gboolean create_disk_image(const char *filename)
 
         /* finally attach the disk image */
         if (file_system_attach_disk(unit_number, fname_copy) < 0) {
-            ui_message_error(NULL, "fail", "Could not attach image '%s'",
+            vice_gtk3_message_error("fail", "Could not attach image '%s'",
                     fname_copy);
             status = FALSE;
         }

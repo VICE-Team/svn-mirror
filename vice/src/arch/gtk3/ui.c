@@ -863,7 +863,7 @@ void ui_error(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    ui_message_error(NULL, "VICE Error", buffer);
+    vice_gtk3_message_error("VICE Error", buffer);
     lib_free(buffer);
 }
 
@@ -879,7 +879,7 @@ void ui_message(const char *format, ...)
     buffer = lib_mvsprintf(format, ap);
     va_end(ap);
 
-    ui_message_info(NULL, "VICE Message", buffer);
+    vice_gtk3_message_info("VICE Message", buffer);
     lib_free(buffer);
 }
 

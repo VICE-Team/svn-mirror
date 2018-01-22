@@ -141,7 +141,7 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
     if (state && (bios == NULL || *bios == '\0')) {
         debug_gtk3("can't enable MMC64, missing BIOS file\n");
         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), FALSE);
-        ui_message_error(check, "VICE core error",
+        vice_gtk3_message_error("VICE core error",
                 "Cannot enable cartridge due to missing BIOS file");
         return;
     }
@@ -178,7 +178,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     if (filename != NULL) {
         debug_gtk3("saving MMC64 cart image as '%s'\n", filename);
         if (carthelpers_save_func(CARTRIDGE_MMC64, filename) < 0) {
-            ui_message_error(widget, "Saving failed",
+            vice_gtk3_message_error("Saving failed",
                     "Failed to save cartridge image '%s'",
                     filename);
         }
@@ -196,7 +196,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (carthelpers_flush_func(CARTRIDGE_MMC64) < 0) {
         debug_gtk3("Flusing MMC64 cart image\n");
-        ui_message_error(widget, "Flushing failed",
+        vice_gtk3_message_error("Flushing failed",
                     "Failed to fush cartridge image");
     }
 }

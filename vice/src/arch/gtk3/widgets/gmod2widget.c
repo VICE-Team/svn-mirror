@@ -65,7 +65,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
     if (filename != NULL) {
         debug_gtk3("saving GMod2 cart image as '%s'\n", filename);
         if (carthelpers_save_func(CARTRIDGE_GMOD2, filename) < 0) {
-            ui_message_error(widget, "Saving failed",
+            vice_gtk3_message_error("Saving failed",
                     "Failed to save cartridge image '%s'",
                     filename);
         }
@@ -83,7 +83,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (carthelpers_flush_func(CARTRIDGE_GMOD2) < 0) {
         debug_gtk3("Flusing GMod2 cart image\n");
-        ui_message_error(widget, "Flushing failed",
+        vice_gtk3_message_error("Flushing failed",
                     "Failed to fush cartridge image");
     }
 }
@@ -102,7 +102,7 @@ static void on_eeprom_browse_clicked(GtkWidget *widget, gpointer user_data)
     if (filename != NULL) {
         debug_gtk3("Loading GMod2 EEPROM image '%s'\n", filename);
         if (resources_set_string("GMOD2EEPROMImage", filename) < 0) {
-            ui_message_error(widget, "Failed to load EEPROM file",
+            vice_gtk3_message_error("Failed to load EEPROM file",
                     "Failed to load EEPROM image file '%s'",
                     filename);
         } else {

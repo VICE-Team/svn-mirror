@@ -437,10 +437,10 @@ static void save_screenshot_handler(void)
     if (filename != NULL) {
         /* TODO: add extension if not present? */
         if (screenshot_save(name, filename, ui_get_active_canvas()) < 0) {
-            ui_message_error(NULL, "VICE Error",
+            vice_gtk3_message_error("VICE Error",
                     "Failed to write screenshot file '%s'", filename);
         } else {
-            ui_message_info(NULL, "VICE Info",
+            vice_gtk3_message_info("VICE Info",
                     "Saved screenshot as '%s'", filename);
         }
         g_free(filename);
@@ -533,7 +533,7 @@ static void save_video_recording_handler(void)
 
         /* TODO: add extension if not present? */
         if (screenshot_save("FFMPEG", filename, ui_get_active_canvas()) < 0) {
-            ui_message_error(NULL, "VICE Error",
+            vice_gtk3_message_error("VICE Error",
                     "Failed to write video file '%s'", filename);
         }
         g_free(filename);

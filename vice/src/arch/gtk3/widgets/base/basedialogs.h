@@ -41,16 +41,8 @@ enum {
 };
 
 
-gboolean ui_message_info(GtkWidget *widget,
-                         const char *title,
-                         const char *text, ...);
+gboolean vice_gtk3_message_info(const char *title, const char *fmt, ...);
+gboolean vice_gtk3_message_confirm(const char *title, const char *fmt, ...);
+gboolean vice_gtk3_message_error(const char *title, const char *fmt, ...);
 
-
-gboolean ui_message_confirm(GtkWidget *widget,
-                            const char *title,
-                            const char *fmt, ...);
-
-gboolean ui_message_error(GtkWidget *widget,
-                          const char *title,
-                          const char *fmt, ...);
 #endif

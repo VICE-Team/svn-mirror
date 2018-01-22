@@ -111,11 +111,11 @@ static void on_save_clicked(GtkWidget *button, gpointer user_data)
         if (save_func != NULL) {
             if (save_func(crt_id, new_filename) < 0) {
                 /* oops */
-                ui_message_error(button, "I/O error",
+                vice_gtk3_message_error("I/O error",
                         "Failed to save '%s'", new_filename);
             }
         } else {
-            ui_message_error(button, "Core error",
+            vice_gtk3_message_error("Core error",
                     "%s save handler not specified", crt_name);
         }
         g_free(new_filename);
@@ -139,10 +139,10 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
 {
     if (flush_func != NULL) {
         if (flush_func(crt_id) < 0) {
-            ui_message_error(widget, "I/O error", "Failed to flush image");
+            vice_gtk3_message_error("I/O error", "Failed to flush image");
         }
     } else {
-        ui_message_error(widget, "Core error",
+        vice_gtk3_message_error("Core error",
                 "%s flush handler not specified", crt_name);
     }
 }
