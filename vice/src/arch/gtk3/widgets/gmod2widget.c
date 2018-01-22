@@ -60,7 +60,7 @@ static int (*gmod2_flush_func)(int) = NULL;
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     /* TODO: retrieve filename of cart image */
-    gchar *filename = ui_save_file_dialog(widget, "Save Cartridge image",
+    gchar *filename = vice_gtk3_save_file_dialog("Save Cartridge image",
             NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("saving GMod2 cart image as '%s'\n", filename);

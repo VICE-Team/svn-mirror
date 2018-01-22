@@ -433,7 +433,7 @@ static void save_screenshot_handler(void)
     title = lib_msprintf("Save %s file", display);
     proposed = create_proposed_screenshot_name(ext);
 
-    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
+    filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
     if (filename != NULL) {
         /* TODO: add extension if not present? */
         if (screenshot_save(name, filename, ui_get_active_canvas()) < 0) {
@@ -471,7 +471,7 @@ static void save_audio_recording_handler(void)
     title = lib_msprintf("Save %s file", display);
     proposed = create_proposed_audio_recording_name(ext);
 
-    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
+    filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
     if (filename != NULL) {
         /* XXX: setting resources doesn't exactly help with catching errors */
         resources_set_string("SoundRecordDeviceArg", filename);
@@ -509,7 +509,7 @@ static void save_video_recording_handler(void)
     title = lib_msprintf("Save %s file", "FFMPEG");
     proposed = create_proposed_video_recording_name(ext);
 
-    filename = ui_save_file_dialog(NULL, title, proposed, TRUE, NULL);
+    filename = vice_gtk3_save_file_dialog(title, proposed, TRUE, NULL);
     if (filename != NULL) {
 
         const char *driver;

@@ -30,8 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gchar *ui_save_file_dialog(
-        GtkWidget *widget,
+gchar *vice_gtk3_save_file_dialog(
         const char *title,
         const char *proposed,
         gboolean confirm,

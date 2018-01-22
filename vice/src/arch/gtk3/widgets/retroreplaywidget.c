@@ -69,7 +69,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     gchar *filename;
 
-    filename = ui_save_file_dialog(widget, "Save image as", NULL, TRUE, NULL);
+    filename = vice_gtk3_save_file_dialog("Save image as", NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("writing RR image file as '%s'\n", filename);
         if (carthelpers_save_func(CARTRIDGE_RETRO_REPLAY, filename) < 0) {

@@ -55,7 +55,7 @@ static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     gchar *filename;
 
-    filename = ui_save_file_dialog(widget, "Save EasyFlasg image as ...",
+    filename = vice_gtk3_save_file_dialog("Save EasyFlasg image as ...",
             NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("writing EF image file as '%s'\n", filename);

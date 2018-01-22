@@ -173,7 +173,7 @@ static void on_enable_toggled(GtkWidget *check, gpointer user_data)
 static void on_save_clicked(GtkWidget *widget, gpointer user_data)
 {
     /* TODO: retrieve filename of cart image */
-    gchar *filename = ui_save_file_dialog(widget, "Save Cartridge image",
+    gchar *filename = vice_gtk3_save_file_dialog("Save Cartridge image",
             NULL, TRUE, NULL);
     if (filename != NULL) {
         debug_gtk3("saving MMC64 cart image as '%s'\n", filename);

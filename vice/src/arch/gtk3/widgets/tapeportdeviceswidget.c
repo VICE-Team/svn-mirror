@@ -110,7 +110,7 @@ static void on_tape_log_browse_clicked(GtkWidget *widget, gpointer user_data)
     gchar *filename;
 
     /* TODO: use existing filename, if any */
-    filename = ui_save_file_dialog(widget, "Select/Create tape log file", NULL,
+    filename = vice_gtk3_save_file_dialog("Select/Create tape log file", NULL,
             TRUE, NULL);
     if (filename != NULL) {
         /* TODO: check if file is writable */
@@ -157,7 +157,7 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
     gchar *filename;
 
     /* TODO: use existing filename, if any */
-    filename = ui_save_file_dialog(widget, "Select/Create tapecart file", NULL,
+    filename = vice_gtk3_save_file_dialog("Select/Create tapecart file", NULL,
             TRUE, NULL);
     if (filename != NULL) {
         /* TODO: check if file is writable */

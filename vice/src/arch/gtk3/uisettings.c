@@ -1143,19 +1143,21 @@ static void response_callback(GtkWidget *widget, gint response_id,
         case RESPONSE_SAVE:
             debug_gtk3("saving vicerc to default location\n");
             if (resources_save(NULL) != 0) {
-                debug_gtk3("failed!\n");
+                vice_gtk3_message_error("VICE core error",
+                        "Failed to save settings to default file");
             }
             break;
 
         /* save settings to a user-specified location */
         case RESPONSE_SAVE_FILE:
-            filename = ui_save_file_dialog(widget, "Save settings as ...",
+            filename = vice_gtk3_save_file_dialog("Save settings as ...",
                     NULL, TRUE, NULL);
             if (filename != NULL) {
                 debug_gtk3("saving setting as '%s'\n",
                         filename ? filename : "NULL");
                 if (resources_save(filename) != 0) {
-                    debug_gtk3("failed!\n");
+                    vice_gtk3_message_error("VICE core error",
+                            "Failed to save setting as '%s'.", filename);
                 }
                 g_free(filename);
             }
