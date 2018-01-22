@@ -57,11 +57,7 @@
 #include "resources.h"
 #include "vsync.h"
 
-#include "debug_gtk3.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
-#include "openfiledialog.h"
-#include "savefiledialog.h"
+#include "widgets/base/vice_gtk3.h"
 
 #include "ui.h"
 #include "settings_speed.h"
@@ -1125,18 +1121,20 @@ static void response_callback(GtkWidget *widget, gint response_id,
         case RESPONSE_LOAD:
             debug_gtk3("loading resources from default file\n");
             if(resources_load(NULL) != 0) {
-                debug_gtk3("failed\n");
+                vice_gtk3_message_error("VICE core error",
+                        "Failed to load default settings file");
             }
             break;
 
         /* load vicerc from a user-specified location */
         case RESPONSE_LOAD_FILE:
-            filename = ui_open_file_dialog(widget, "Load settings file",
+            filename = vice_gtk3_open_file_dialog("Load settings file",
                     NULL, NULL, NULL);
             if (filename!= NULL) {
                 debug_gtk3("loading settings from '%s'\n", filename);
                 if (resources_load(filename) != 0) {
-                    debug_gtk3("failed\n");
+                    vice_gtk3_message_error("VICE core error",
+                            "Failed to load settings from '%s'", filename);
                 }
             }
             break;

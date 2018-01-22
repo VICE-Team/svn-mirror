@@ -72,7 +72,7 @@ static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
 {
     char *filename;
 
-    filename = ui_open_file_dialog(button, "Open memory card file",
+    filename = vice_gtk3_open_file_dialog("Open memory card file",
             NULL, NULL, NULL);
     if (filename != NULL) {
         GtkWidget *parent;

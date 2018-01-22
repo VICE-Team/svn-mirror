@@ -1,9 +1,10 @@
 /** \file   src/arch/gtk3/widgets/uicart.c
  * \brief   Widget to attach carts
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -761,8 +762,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
 
     gchar *filename;
 
-    filename = ui_open_file_dialog(
-            widget,
+    filename = vice_gtk3_open_file_dialog(
             "Smart-attach cartridge image",
             "Cartridge images",
             file_chooser_pattern_cart,

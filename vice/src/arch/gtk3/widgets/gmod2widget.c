@@ -96,7 +96,7 @@ static void on_flush_clicked(GtkWidget *widget, gpointer user_data)
  */
 static void on_eeprom_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename = ui_open_file_dialog(widget, "Open EEMPROM image",
+    gchar *filename = vice_gtk3_open_file_dialog("Open EEMPROM image",
                 NULL, NULL, NULL);
 
     if (filename != NULL) {

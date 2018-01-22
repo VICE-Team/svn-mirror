@@ -95,7 +95,7 @@ static void on_256k_image_browse_clicked(GtkWidget *button, gpointer user_data)
 {
     gchar *filename;
 
-    filename = ui_open_file_dialog(button, "Select 256K image file", NULL,
+    filename = vice_gtk3_open_file_dialog("Select 256K image file", NULL,
             NULL, NULL);
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
@@ -115,7 +115,7 @@ static void on_plus60k_image_browse_clicked(GtkWidget *button, gpointer user_dat
 {
     gchar *filename;
 
-    filename = ui_open_file_dialog(button, "Select +60K image file", NULL,
+    filename = vice_gtk3_open_file_dialog("Select +60K image file", NULL,
             NULL, NULL);
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
@@ -135,7 +135,7 @@ static void on_plus256k_image_browse_clicked(GtkWidget *button, gpointer user_da
 {
     gchar *filename;
 
-    filename = ui_open_file_dialog(button, "Select +256K image file", NULL,
+    filename = vice_gtk3_open_file_dialog("Select +256K image file", NULL,
             NULL, NULL);
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);

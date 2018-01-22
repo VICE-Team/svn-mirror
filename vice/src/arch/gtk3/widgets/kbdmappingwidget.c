@@ -1,8 +1,7 @@
 /** \file   src/arch/gtk3/widgets/kbdmappingwidget.c
  * \brief   GTK3 keyboard mapping widget for the settings dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  KeymapIndex   - determines keymapping: symbolic (0), positional (1),
@@ -10,7 +9,9 @@
  *                  (integer)
  *  KeymapPosFile - user-defined positional mapping file (string)
  *  KeymapSymFike - user-defined symbolic mapping file (string)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -73,7 +74,7 @@ static void open_sym_file_callback(GtkWidget *widget, gpointer user_data)
     gchar *filename;
     const char *filters[] = { "*.vkm", NULL };
 
-    filename = ui_open_file_dialog(widget, "Open symbolic keymap file",
+    filename = vice_gtk3_open_file_dialog("Open symbolic keymap file",
             "Keymaps", filters, NULL);
 
     debug_gtk3("got file \"%s\"\n", filename);
@@ -98,7 +99,7 @@ static void open_pos_file_callback(GtkWidget *widget, gpointer user_data)
     gchar *filename;
     const char *filters[] = { "*.vkm", NULL };
 
-    filename = ui_open_file_dialog(widget, "Open positional keymap file",
+    filename = vice_gtk3_open_file_dialog("Open positional keymap file",
             "Keymaps", filters, NULL);
 
     debug_gtk3("got file \"%s\"\n", filename);

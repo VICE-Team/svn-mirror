@@ -118,7 +118,7 @@ static void on_midi_in_browse(GtkWidget *widget, gpointer user_data)
     char *filename;
     const char *filters[] = { "mi*", NULL };
 
-    filename = ui_open_file_dialog(widget, "Select MIDI In device",
+    filename = vice_gtk3_open_file_dialog("Select MIDI In device",
             "MIDI devices", filters, "/dev");
     if (filename != NULL) {
         debug_gtk3("Setting MIDIInDev to '%s'", filename);
@@ -138,7 +138,7 @@ static void on_midi_out_browse(GtkWidget *widget, gpointer user_data)
     char *filename;
     const char *filters[] = { "mi*", NULL };
 
-    filename = ui_open_file_dialog(widget, "Select MIDI Out device",
+    filename = vice_gtk3_open_file_dialog("Select MIDI Out device",
             "MIDI devices", filters, "/dev");
     if (filename != NULL) {
         debug_gtk3("Setting MIDIOutDev to '%s'", filename);

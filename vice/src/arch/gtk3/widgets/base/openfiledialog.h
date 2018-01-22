@@ -1,5 +1,5 @@
 /** \file   src/arch/gtk3/widgets/base/openfiledialog.h
- * \brief   GtkFileChooser wrapper to open a file
+ * \brief   GtkFileChooser wrapper to open or create a file
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -30,15 +30,13 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gchar *ui_open_file_dialog(
-        GtkWidget *widget,
+gchar *vice_gtk3_open_file_dialog(
         const char *title,
         const char *filter_desc,
         const char **filter_list,
         const char *path);
 
-gchar *ui_open_create_file_dialog(
-        GtkWidget *widget,
+gchar *vice_gtk3_open_create_file_dialog(
         const char *title,
         const char *proposed,
         gboolean confirm,

@@ -124,7 +124,7 @@ static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data
 
     g_snprintf(title, 256, "Select $%cXXX ROM", rom);
 
-    filename = ui_open_file_dialog(widget, title, NULL, NULL, NULL);
+    filename = vice_gtk3_open_file_dialog(title, NULL, NULL, NULL);
     if (filename != NULL) {
         GtkWidget *grid;
         GtkWidget *entry;

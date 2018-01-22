@@ -101,7 +101,7 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
     parent = gtk_widget_get_parent(widget);
     state = g_object_get_data(G_OBJECT(parent), "ViceState");
 
-    filename = ui_open_file_dialog(widget, state->browser_title,
+    filename = vice_gtk3_open_file_dialog(state->browser_title,
             state->pattern_name, (const char **)(state->patterns), NULL);
     if (filename != NULL) {
         debug_gtk3("got image name '%s'\n", filename);

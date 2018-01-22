@@ -74,7 +74,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     gchar *filename;
     const char *filter_list[] = { "*", NULL };
 
-    filename = ui_open_file_dialog(widget, "Select executable",
+    filename = vice_gtk3_open_file_dialog("Select executable",
             "All files", filter_list, "/usr/bin");
     if (filename != NULL) {
         char *cmd = lib_msprintf("%s %%s", filename);

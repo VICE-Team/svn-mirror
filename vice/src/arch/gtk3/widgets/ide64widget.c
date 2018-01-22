@@ -126,7 +126,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
         "*.hdd", "*.iso", "*.fdd", "*.cfa", NULL
     };
 
-    filename = ui_open_file_dialog(widget, "Select disk image file",
+    filename = vice_gtk3_open_file_dialog("Select disk image file",
             "HD image files", filter_list, NULL);
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);

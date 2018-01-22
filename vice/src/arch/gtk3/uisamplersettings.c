@@ -1,6 +1,8 @@
 /** \file   src/arch/gtk3/uisamplersettings.c
  * \brief   Widget to control sampler settings
  *
+ * TODO:    move/rename to widgets/settings_sampler.c
+ *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
@@ -116,7 +118,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     gchar *filename;
 
-    filename = ui_open_file_dialog(widget, "Select input file", NULL, NULL, NULL);
+    filename = vice_gtk3_open_file_dialog("Select input file", NULL, NULL, NULL);
     if (filename != NULL) {
         gtk_entry_set_text(GTK_ENTRY(entry_widget), filename);
         g_free(filename);

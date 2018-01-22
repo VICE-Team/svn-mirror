@@ -142,7 +142,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
     device = GPOINTER_TO_INT(user_data);
     g_snprintf(title, 256, "Select serial device #%d", device);
 
-    filename = ui_open_file_dialog(widget, title, fdesc, flist, "/dev");
+    filename = vice_gtk3_open_file_dialog(title, fdesc, flist, "/dev");
     if (filename != NULL) {
 
         GtkWidget *grid;

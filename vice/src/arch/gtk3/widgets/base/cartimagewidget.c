@@ -63,7 +63,7 @@ static void on_browse_clicked(GtkWidget *button, gpointer user_data)
 
     g_snprintf(buffer, 256, "Open or create %s image file", crt_name);
 
-    filename = ui_open_create_file_dialog(button, buffer, NULL, FALSE, NULL);
+    filename = vice_gtk3_open_create_file_dialog(buffer, NULL, FALSE, NULL);
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);

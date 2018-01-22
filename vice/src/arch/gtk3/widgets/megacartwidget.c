@@ -55,7 +55,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
     gchar *filename;
 
-    filename = ui_open_file_dialog(widget, "Open NvRAM image file", NULL, NULL,
+    filename = vice_gtk3_open_file_dialog("Open NvRAM image file", NULL, NULL,
             NULL);
     if (filename != NULL) {
         debug_gtk3("setting MegaCartNvRAMfilename to '%s'\n", filename);

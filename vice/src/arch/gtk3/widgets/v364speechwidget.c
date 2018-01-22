@@ -68,7 +68,7 @@ static void on_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
 {
-    gchar *filename = ui_open_file_dialog(widget, "Open V364 ROM file",
+    gchar *filename = vice_gtk3_open_file_dialog("Open V364 ROM file",
             NULL, NULL, NULL);
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);

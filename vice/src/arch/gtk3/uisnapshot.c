@@ -169,7 +169,7 @@ static void load_snapshot_trap(uint16_t addr, void *data)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_open_file_dialog(GTK_WIDGET(data), "Open snapshot file",
+    filename = vice_gtk3_open_file_dialog("Open snapshot file",
             "Snapshot files", filters, NULL);
     if (filename != NULL) {
         /* load snapshot */

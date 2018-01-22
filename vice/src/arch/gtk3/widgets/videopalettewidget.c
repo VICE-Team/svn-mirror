@@ -106,7 +106,7 @@ static void on_browse_clicked(GtkButton *button, gpointer user_data)
     gchar *filename;
     const char *flist[] = { "*.vpl", NULL };
 
-    filename = ui_open_file_dialog(GTK_WIDGET(button), "Open palette file",
+    filename = vice_gtk3_open_file_dialog("Open palette file",
             "Palette files", flist, NULL);
     if (filename != NULL) {
         debug_gtk3("got palette file '%s'\n", filename);
