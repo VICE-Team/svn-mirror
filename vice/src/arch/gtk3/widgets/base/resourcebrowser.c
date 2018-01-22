@@ -205,6 +205,8 @@ GtkWidget *vice_gtk3_resource_browser_new(
         debug_gtk3("failed to retrieve current value for resource '%s'\n",
                 resource);
         orig = "";
+    } else if (orig == NULL) {
+        orig = "";
     }
     state->res_orig = lib_stralloc(orig);
 

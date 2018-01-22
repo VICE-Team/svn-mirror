@@ -152,7 +152,7 @@ static const romset_entry_t plus4_machine_roms[] = {
 };
 
 
-static const romset_entry_t cbm5x0_machine_roms[] = {
+static const romset_entry_t cbm2_machine_roms[] = {
     { "KernalName",         "Kernal",           NULL },
     { "BasicName",          "Basic",            NULL },
     { "ChargenName",        "Chargen",          NULL },
@@ -162,6 +162,20 @@ static const romset_entry_t cbm5x0_machine_roms[] = {
     { "Cart6Name",          "$6000-$7FFF ROM",  NULL },
     { NULL,                 NULL,               NULL }
 };
+
+
+/** \brief  Machine ROMs for 'normal' PETs
+ */
+static const romset_entry_t pet_machine_roms[] = {
+    { "KernalName",         "Kernal",           NULL },
+    { "BasicName",          "Basic",            NULL },
+    { "EditorName",         "Editor",           NULL },
+    /* this one must come last for the 'load original/German charset' buttons
+     * to make sense: */
+    { "ChargenName",        "Chargen",          NULL },
+    { NULL,                 NULL,               NULL }
+};
+
 
 
 /** \brief  List of drive ROMs for unsupported machines
@@ -257,6 +271,8 @@ static GtkWidget *child_drive_roms = NULL;
 static GtkWidget *child_rom_archives = NULL;
 
 
+/* Loading default ROM sets is a little more involved than this for some
+ * machines such as CBM-II/PET */
 #if 0
 static void on_default_romset_load_clicked(void)
 {
@@ -268,6 +284,20 @@ static void on_default_romset_load_clicked(void)
     }
 }
 #endif
+
+
+static void on_pet_select_chargen(GtkWidget *widget, gpointer data)
+{
+    const char *chargen = (const char*)data;
+    GtkWidget *browser;
+
+    debug_gtk3("Setting chargen to '%s'\n", chargen);
+
+    browser = gtk_grid_get_child_at(GTK_GRID(child_machine_roms), 1, 3);
+    if (GTK_IS_GRID(browser)) {
+        vice_gtk3_resource_browser_update(browser, chargen);
+    }
+}
 
 
 static void create_stack_switcher(GtkWidget *grid)
@@ -416,10 +446,37 @@ static GtkWidget *create_plus4_roms_widget(void)
 }
 
 
-static GtkWidget *create_cbmx50_roms_widget(void)
+static GtkWidget *create_cbm2_roms_widget(void)
 {
     GtkWidget *grid;
-    grid = create_roms_widget(cbm5x0_machine_roms);
+    grid = create_roms_widget(cbm2_machine_roms);
+    return grid;
+}
+
+/** \brief  Create machine ROMs widget for PET/SuperPET
+ */
+static GtkWidget *create_pet_roms_widget(void)
+{
+    GtkWidget *grid;
+    GtkWidget *button;
+    GtkWidget *wrapper;
+
+    grid = create_roms_widget(pet_machine_roms);
+
+    /* add original/German charset buttons */
+    wrapper = gtk_grid_new();
+    gtk_widget_set_hexpand(wrapper, TRUE);
+    button = gtk_button_new_with_label("Load original charset");
+    gtk_widget_set_hexpand(button, TRUE);
+    g_signal_connect(button, "clicked", G_CALLBACK(on_pet_select_chargen),
+            (gpointer)("chargen"));
+    gtk_grid_attach(GTK_GRID(wrapper), button, 0, 0, 1, 1);
+    button = gtk_button_new_with_label("Load German charset");
+    gtk_widget_set_hexpand(button, TRUE);
+    g_signal_connect(button, "clicked", G_CALLBACK(on_pet_select_chargen),
+            (gpointer)("chargen.de"));
+    gtk_grid_attach(GTK_GRID(wrapper), button, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 4, 1, 1);
     return grid;
 }
 
@@ -446,7 +503,11 @@ static GtkWidget *create_machine_roms_widget(void)
             grid = create_plus4_roms_widget();
             break;
         case VICE_MACHINE_CBM5x0:
-            grid = create_cbmx50_roms_widget();
+        case VICE_MACHINE_CBM6x0:
+            grid = create_cbm2_roms_widget();
+            break;
+        case VICE_MACHINE_PET:
+            grid = create_pet_roms_widget();
             break;
         default:
             grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
