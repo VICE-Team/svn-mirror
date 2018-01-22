@@ -1,7 +1,7 @@
 # VICE keyboard mapping file
 
 # use business (uk) as base
-!INCLUDE x11_buuk_sym.vkm
+!INCLUDE gtk3_buuk_sym.vkm
 
 # this is a PET business (de) keyboard mapping (symbolic)
 

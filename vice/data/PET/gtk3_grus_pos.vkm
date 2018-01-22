@@ -3,7 +3,7 @@
 # FIXME: this is incomplete
 
 # use PET graphics mapping as base
-!INCLUDE x11_grus_sym.vkm
+!INCLUDE gtk3_grus_sym.vkm
 
 #
 # Graphics keyboard matrix:

@@ -1,7 +1,7 @@
 # this is a PET business (de) keyboard mapping (positional)
 
 # use business (uk) as base
-!INCLUDE x11_buuk_pos.vkm
+!INCLUDE gtk3_buuk_pos.vkm
 
 # Business (DE) matrix (differences to UK)
 #   +--------+--------+--------+--------+--------+--------+--------+--------+
