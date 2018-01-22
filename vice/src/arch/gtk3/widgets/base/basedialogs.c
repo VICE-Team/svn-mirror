@@ -1,11 +1,10 @@
 /** \file   src/arch/gtk3/widgets/basedialogs.c
- * \brief   Basic dialogs (Info, Yes/No, etc)
+ * \brief   Gtk3 basic dialogs (Info, Yes/No, etc)
  *
- * GTK3 basic dialogs
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -25,7 +24,6 @@
  *  02111-1307  USA.
  */
 
-
 #include "vice.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -37,6 +35,13 @@
 #include "basedialogs.h"
 
 
+/** \brief  Handler for the 'destroy' event of a dialog
+ *
+ * Destroys the temporary parent widget \a data
+ *
+ * \param[in]   dialog  unused
+ * \param[in]   data    temporary parent widget
+ */
 static void on_dialog_destroy(GtkWidget *dialog, gpointer data)
 {
     GtkWidget *window = GTK_WIDGET(data);

@@ -1,9 +1,10 @@
 /** \file   src/arch/gtk3/widgets/base/resourceentry.c
  * \brief   Text entry connected to a resource
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

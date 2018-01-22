@@ -1,9 +1,10 @@
 /** \file   src/arch/gtk3/widgets/base/resourcehelpers.c
  * \brief   Helper functions for resource widgets
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -73,7 +74,8 @@ void resource_widget_set_string(GtkWidget *widget,
                                 const char *key,
                                 const char *value)
 {
-    g_object_set_data(G_OBJECT(widget), key, (gpointer)lib_stralloc(value));
+    g_object_set_data(G_OBJECT(widget), key,
+            (gpointer)lib_stralloc(value != NULL ? value : ""));
 }
 
 
@@ -136,4 +138,3 @@ void resource_widget_free_resource_name(GtkWidget *widget)
 {
     resource_widget_free_string(widget, "ResourceName");
 }
-

@@ -1,9 +1,10 @@
 /** \file   src/arch/gtk3/widgets/base/resourcescale.h
  * \brief   Scale to control an integer resource - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

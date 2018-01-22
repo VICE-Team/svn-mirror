@@ -1,9 +1,10 @@
 /** \file   src/arch/gtk3/widgets/base/resourceradiogroup.h
  * \brief   Group of radio buttons controlling a resource - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

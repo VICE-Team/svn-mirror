@@ -1,11 +1,10 @@
 /** \file   src/arch/gtk3/widgets/widgethelpers.h
  * \brief   GTK3 helper functions for widgets - header
  *
- * TODO:    Remove once the 'base widgets' are implemented properly
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

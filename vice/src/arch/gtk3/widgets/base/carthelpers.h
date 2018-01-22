@@ -1,9 +1,10 @@
 /** \file   src/arch/gtk3/widgets/base/carthelpers.h
- * \brief   Cartridge helpers functions - header
+ * \brief   Cartridge helper functions - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

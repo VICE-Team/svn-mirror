@@ -1,11 +1,10 @@
 /** \file   src/arch/gtk3/widgets/savefiledialog.c
- * \brief   Wrapper around the GtkFileChooser dialog for simple cases
+ * \brief   GtkFileChooser wrapper to save/create a file
  *
- * savefiledialog.c - GTK3 save file dialog
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

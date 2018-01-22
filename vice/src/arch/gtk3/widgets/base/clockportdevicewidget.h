@@ -1,9 +1,10 @@
 /** \file   src/arch/gtk3/widgets/clockportdevicewidget.h
  * \brief   Widget to select ClockPort device - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -30,7 +31,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *clockport_device_widget_create(const char *resource);
-void clockport_device_widget_set_devices(void *devices);
+GtkWidget * clockport_device_widget_create(const char *resource);
+void        clockport_device_widget_set_devices(void *devices);
 
 #endif

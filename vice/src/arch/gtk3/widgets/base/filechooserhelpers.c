@@ -1,9 +1,10 @@
+/** \file   src/arch/gtk3/widgets/base/filechooserhelpers.c
+ * \brief   GtkFileChooser helper functions
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * filechooserhelpers.c - GtkFileChooser helper functions
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

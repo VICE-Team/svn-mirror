@@ -1,11 +1,10 @@
 /** \file   src/arch/gtk3/widgets/basedialogs.h
- * \brief   Basic dialogs (Info, Yes/No, etc)
+ * \brief   Gtk3 basic dialogs (Info, Yes/No, etc)
  *
- * GTK3 basic dialogs
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -1,13 +1,14 @@
 /** \file   src/arch/gtk3/widgets/widgethelpers.c
  * \brief   Helpers for creating Gtk3 widgets
  *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
  * This file is supposed to contain some helper functions for boiler plate
  * code, such as creating layout widgets, creating lists of radio or check
  * boxes, etc.
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -1,6 +1,8 @@
 /** \file   src/arch/gtk3/widgets/base/resourcespinbutton.c
  * \brief   Spin buttons to control resources
  *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
  * This file contains spin buttons to control resources. The integer resource
  * spin button in its default state should be clear: alter integers. But the
  * "fake digits" might require some explanation:
@@ -22,10 +24,9 @@
  *
  * That behaviour can be changed by calling gtk_spin_button_set_digits() on
  * the widget.
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
