@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/savefiledialog.c
+/** \file   src/arch/gtk3/widgets/base/savefiledialog.c
  * \brief   GtkFileChooser wrapper to save/create a file
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

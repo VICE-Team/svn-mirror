@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/widgethelpers.h
+/** \file   src/arch/gtk3/widgets/base/widgethelpers.h
  * \brief   GTK3 helper functions for widgets - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -44,12 +44,18 @@ GtkWidget *uihelpers_radiogroup_create(
         void (*callback)(GtkWidget *, gpointer),
         int active);
 
+
+/* only useful for custom built radio groups, don't use on resourceradiogroup.c
+ * generated stuff */
+
 int vice_gtk3_radiogroup_get_list_index(
         const vice_gtk3_radiogroup_entry_t *list,
         int value);
 
 void vice_gtk3_radiogroup_set_index(GtkWidget *grid, int index);
 
+
+/* pretty useless, should be removed */
 GtkWidget *vice_gtk3_create_indented_label(const char *text);
 
 

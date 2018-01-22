@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/selectdirectorydialog.h
+/** \file   src/arch/gtk3/widgets/base/selectdirectorydialog.h
  * \brief   GtkFileChooser wrapper to select/create a directory
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -24,8 +24,8 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_SELECTDIRECTORYDIALOG
-#define VICE_SELECTDIRECTORYDIALOG
+#ifndef VICE_SELECTDIRECTORYDIALOG_H
+#define VICE_SELECTDIRECTORYDIALOG_H
 
 #include "vice.h"
 #include <gtk/gtk.h>

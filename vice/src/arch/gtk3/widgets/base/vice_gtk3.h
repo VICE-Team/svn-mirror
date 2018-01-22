@@ -1,5 +1,8 @@
-/** \file   src/arch/gtk3/widgets/base/openfiledialog.h
- * \brief   GtkFileChooser wrapper to open a file
+/** \file   src/arch/gtk3/widgets/base/vice_gtk3.h
+ * \brief   GTK3 base widgets/dialogs/settings generic header
+ *
+ * By including this file, all the base widgets/dialogs and any helper
+ * functions and default settings should be included.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -24,24 +27,16 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_OPENFILEDIALOG_H
-#define VICE_OPENFILEDIALOG_H
+#ifndef VICE_VICE_GTK3_H
+#define VICE_VICE_GTK3_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gchar *ui_open_file_dialog(
-        GtkWidget *widget,
-        const char *title,
-        const char *filter_desc,
-        const char **filter_list,
-        const char *path);
-
-gchar *ui_open_create_file_dialog(
-        GtkWidget *widget,
-        const char *title,
-        const char *proposed,
-        gboolean confirm,
-        const char *path);
+#include "debug_gtk3.h"
+#include "basewidgets.h"
+#include "basedialogs.h"
+#include "filechooserhelpers.h"
+#include "widgethelpers.h"
 
 #endif

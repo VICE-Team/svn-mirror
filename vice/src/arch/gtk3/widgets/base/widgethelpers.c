@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/widgethelpers.c
+/** \file   src/arch/gtk3/widgets/base/widgethelpers.c
  * \brief   Helpers for creating Gtk3 widgets
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -6,6 +6,11 @@
  * This file is supposed to contain some helper functions for boiler plate
  * code, such as creating layout widgets, creating lists of radio or check
  * boxes, etc.
+ *
+ * \todo    turn the margin/padding values into defines and move into a file
+ *          like uidefs.h (partially done, \a see vice_gtk3_settings.h)
+ *
+ * \todo    rename/replace functions (partially done)
  */
 
 /*
@@ -27,11 +32,7 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
- *  TODO:   turn the margin/padding values into defines and move into a file
- *          like uidefs.h
- *
- *  TODO:   rename functions
- */
+*/
 
 
 #include "vice.h"

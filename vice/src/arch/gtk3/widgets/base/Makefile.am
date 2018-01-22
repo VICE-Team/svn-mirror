@@ -63,4 +63,5 @@ EXTRA_DIST = \
 	filechooserhelpers.h \
 	clockportdevicewidget.h \
 	carthelpers.h \
-	resourcebrowser.h
+	resourcebrowser.h \
+	vice_gtk3.h

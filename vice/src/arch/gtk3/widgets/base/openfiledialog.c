@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/openfiledialog.c
+/** \file   src/arch/gtk3/widgets/base/openfiledialog.c
  * \brief   GtkFileChooser wrapper to open a file
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
