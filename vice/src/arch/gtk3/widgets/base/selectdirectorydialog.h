@@ -30,8 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-gchar *ui_select_directory_dialog(
-        GtkWidget *widget,
+gchar *vice_gtk3_select_directory_dialog(
         const char *title,
         const char *proposed,
         gboolean allow_create,

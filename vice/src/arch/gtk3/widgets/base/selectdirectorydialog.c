@@ -37,7 +37,6 @@
 
 /** \brief  Create a 'save file' dialog
  *
- * \param[in]   widget          parent widget
  * \param[in]   title           dialog title
  * \param[in]   proposed        proposed directory name (optional)
  * \param[in]   allow_create    allow creating a new directory
@@ -48,8 +47,7 @@
  * \note    the directory name returned is allocated by GLib and needs to be
  *          freed after use with g_free()
  */
-gchar *ui_select_directory_dialog(
-        GtkWidget *widget,
+gchar *vice_gtk3_select_directory_dialog(
         const char *title,
         const char *proposed,
         gboolean allow_create,

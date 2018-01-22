@@ -75,8 +75,7 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
     GtkWidget *entry = GTK_WIDGET(user_data);
     gchar *filename;
 
-    filename = ui_select_directory_dialog(widget,
-            "Select file system directory",
+    filename = vice_gtk3_select_directory_dialog("Select file system directory",
             NULL, TRUE, NULL);
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_update(entry, filename);

@@ -72,8 +72,7 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
         current = NULL;
     }
 
-    filename = ui_select_directory_dialog(NULL,   /* gets replaced with
-                                                       ui_get_active_window() */
+    filename = vice_gtk3_select_directory_dialog(
             "Select history directory", NULL, TRUE, current);
     if (filename != NULL) {
         debug_gtk3("Setting EventSnapshotDir to '%s'\n", filename);

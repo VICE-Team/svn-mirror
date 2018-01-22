@@ -317,14 +317,13 @@ void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
         current = NULL;
     }
 
-    filename = ui_select_directory_dialog(parent,   /* gets replaced with
-                                                       ui_get_active_window() */
-            "Select history directory", NULL, TRUE, current);
+    filename = vice_gtk3_select_directory_dialog("Select history directory",
+            NULL, TRUE, current);
     if (filename != NULL) {
         debug_gtk3("Setting EventSnapshotDir to '%s'\n", filename);
         if (resources_set_string("EventSnapshotDir", filename) < 0) {
-            /* FIXME: perhaps use ui_error() or log_error()? */
-            debug_gtk3("failed to set EventSnapshotDir");
+            vice_gtk3_message_error("VICE core error",
+                    "Failed to set history directory.");
         }
         g_free(filename);
     }
