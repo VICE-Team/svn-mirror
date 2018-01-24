@@ -141,7 +141,8 @@ libwidgets_a_SOURCES = \
 	settings_video.c \
 	settings_autostart.c \
 	settings_speed.c \
-	settings_keyboard.c
+	settings_keyboard.c \
+	romsetmanagerwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -260,4 +261,5 @@ EXTRA_DIST = \
 	settings_video.h \
 	settings_autostart.h \
 	settings_speed.h \
-	settings_keyboard.h
+	settings_keyboard.h \
+	romsetmanagerwidget.h

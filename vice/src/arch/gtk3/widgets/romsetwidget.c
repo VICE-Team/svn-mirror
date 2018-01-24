@@ -39,6 +39,7 @@
 #include "romset.h"
 #include "lib.h"
 #include "ui.h"
+#include "romsetmanagerwidget.h"
 
 #include "romsetwidget.h"
 
@@ -590,21 +591,7 @@ static GtkWidget *create_current_romset_widget(void)
 }
 
 
-static GtkWidget *create_romset_manager(void)
-{
-    GtkWidget *grid;
-    GtkWidget *label;
 
-    grid = gtk_grid_new();
-
-    label = gtk_label_new(NULL);
-    gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set management</b>");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-
-    gtk_widget_show_all(grid);
-    return grid;
-}
 
 
 
@@ -623,6 +610,7 @@ static GtkWidget *create_rom_archives_widget(void)
     gtk_label_set_markup(GTK_LABEL(label), "<b>Current ROM set</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
+    /* XXX: this will be taken over by the romset manager widget */
     current = create_current_romset_widget();
     gtk_widget_set_size_request(current, -1, 120);
     gtk_widget_set_hexpand(current, TRUE);
@@ -630,7 +618,7 @@ static GtkWidget *create_rom_archives_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), current, 0, 1, 1, 1);
 
-    manager = create_romset_manager();
+    manager = romset_manager_widget_create();
     gtk_grid_attach(GTK_GRID(grid), manager, 0, 2, 1, 1);
     gtk_widget_show_all(grid);
 
