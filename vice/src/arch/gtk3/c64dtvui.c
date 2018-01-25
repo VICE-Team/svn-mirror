@@ -35,7 +35,7 @@
 #include "not_implemented.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "uisamplersettings.h"
+#include "settings_sampler.h"
 #include "vicii.h"
 #include "videomodelwidget.h"
 
@@ -108,7 +108,7 @@ int c64dtvui_init(void)
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(c64dtv_vicii_models);
 
-    uisamplersettings_set_devices_getter(sampler_get_devices);
+    settings_sampler_set_devices_getter(sampler_get_devices);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

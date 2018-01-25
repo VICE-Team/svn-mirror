@@ -69,7 +69,7 @@
 #include "uimisc.h"
 #include "ramresetwidget.h"
 #include "settings_video.h"
-#include "uisamplersettings.h"
+#include "settings_sampler.h"
 #include "uiprintersettings.h"
 #include "uicontrolport.h"
 #include "uijoystick.h"
@@ -658,7 +658,7 @@ static ui_settings_tree_node_t main_nodes[] = {
        settings_sound_create, NULL },
     { "Sampler settings",
        "sampler",
-       uisamplersettings_widget_create, NULL },
+       settings_sampler_widget_create, NULL },
     { "Autostart settings",
        "autostart",
        settings_autostart_widget_create, NULL },

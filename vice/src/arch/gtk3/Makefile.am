@@ -87,7 +87,6 @@ libarch_a_SOURCES = \
 	uimodel.c \
 	uimisc.c \
 	uivideo.c \
-	uisamplersettings.c \
 	uiprintersettings.c \
 	uicmdline.c \
 	uicompiletimefeatures.c \
@@ -152,7 +151,6 @@ EXTRA_DIST = \
 	uimodel.h \
 	uimisc.h \
 	uivideo.h \
-	uisamplersettings.h \
 	uiprintersettings.h \
 	uicmdline.h \
 	uicompiletimefeatures.h \

@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/uisamplersettings.h
+/** \file   src/arch/gtk3/widgets/settings_sampler.h
  * \brief   Widget to control sampler settings - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,14 +25,14 @@
  *
  */
 
-#ifndef VICE_UISAMPLERSETTINGS_H
-#define VICE_UISAMPLERSETTINGS_H
+#ifndef VICE_SETTINGS_SAMPLER_H
+#define VICE_SETTINGS_SAMPLER_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 #include "sampler.h"
 
-void        uisamplersettings_set_devices_getter(sampler_device_t *(func)(void));
-GtkWidget * uisamplersettings_widget_create(GtkWidget *parent);
+void        settings_sampler_set_devices_getter(sampler_device_t *(func)(void));
+GtkWidget * settings_sampler_widget_create(GtkWidget *parent);
 
 #endif

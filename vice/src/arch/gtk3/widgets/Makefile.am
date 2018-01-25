@@ -24,7 +24,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
-	-I$(top_srcdir)/src/arch/gtk3/widgets/base
+	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
+	-I$(top_srcdir)/src/samplerdrv
 
 noinst_LIBRARIES = libwidgets.a
 
@@ -143,7 +144,8 @@ libwidgets_a_SOURCES = \
 	settings_speed.c \
 	settings_keyboard.c \
 	romsetmanagerwidget.c \
-	settings_drive.c
+	settings_drive.c \
+	settings_sampler.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -264,4 +266,5 @@ EXTRA_DIST = \
 	settings_speed.h \
 	settings_keyboard.h \
 	romsetmanagerwidget.h \
-	settings_drive.h
+	settings_drive.h \
+	settings_sampler.h

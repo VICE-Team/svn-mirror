@@ -37,7 +37,7 @@
 #include "ted.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "uisamplersettings.h"
+#include "settings_sampler.h"
 #include "videomodelwidget.h"
 #include "widgethelpers.h"
 
@@ -111,7 +111,7 @@ int plus4ui_init(void)
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(plus4_ted_models);
 
-    uisamplersettings_set_devices_getter(sampler_get_devices);
+    settings_sampler_set_devices_getter(sampler_get_devices);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

@@ -1,16 +1,15 @@
-/** \file   src/arch/gtk3/uisamplersettings.c
+/** \file   src/arch/gtk3/widgets/settings_sampler.c
  * \brief   Widget to control sampler settings
  *
- * TODO:    move/rename to widgets/settings_sampler.c
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  SamplerDevice       - sampler device ID (`int`)
  *  SamplerGain         - gain (0-200) (`int`)
  *  SampleName          - file name of sampler input file (`string`)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -41,7 +40,7 @@
 #include "sampler.h"
 #include "openfiledialog.h"
 
-#include "uisamplersettings.h"
+#include "settings_sampler.h"
 
 
 /** \brief  Function to retrieve the list of sampler input devices
@@ -234,7 +233,7 @@ static GtkWidget *create_input_button(void)
  *
  * \param[in]   func    pointer to function to retrieve devices list
  */
-void uisamplersettings_set_devices_getter(sampler_device_t *(func)(void))
+void settings_sampler_set_devices_getter(sampler_device_t *(func)(void))
 {
     devices_getter = func;
 }
@@ -246,7 +245,7 @@ void uisamplersettings_set_devices_getter(sampler_device_t *(func)(void))
  *
  * \return  GtkGrid
  */
-GtkWidget *uisamplersettings_widget_create(GtkWidget *parent)
+GtkWidget *settings_sampler_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;

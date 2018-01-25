@@ -36,7 +36,7 @@
 #include "sampler.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "uisamplersettings.h"
+#include "settings_sampler.h"
 
 #include "cbm2ui.h"
 
@@ -91,7 +91,7 @@ int cbm2ui_init(void)
     machine_model_widget_setter(cbm2model_set);
     machine_model_widget_set_models(cbm2_model_list);
 
-    uisamplersettings_set_devices_getter(sampler_get_devices);
+    settings_sampler_set_devices_getter(sampler_get_devices);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;

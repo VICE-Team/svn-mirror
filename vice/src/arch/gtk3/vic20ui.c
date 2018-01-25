@@ -35,7 +35,7 @@
 #include "sampler.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "uisamplersettings.h"
+#include "settings_sampler.h"
 #include "vic.h"
 #include "vic20model.h"
 #include "videomodelwidget.h"
@@ -113,7 +113,7 @@ int vic20ui_init(void)
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(vic20_vic_models);
 
-    uisamplersettings_set_devices_getter(sampler_get_devices);
+    settings_sampler_set_devices_getter(sampler_get_devices);
 
     /* I/O extension function pointers */
     carthelpers_set_functions(cartridge_save_image, cartridge_flush_image,

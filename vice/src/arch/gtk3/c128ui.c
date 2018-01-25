@@ -36,7 +36,7 @@
 #include "sampler.h"
 #include "ui.h"
 #include "uimachinewindow.h"
-#include "uisamplersettings.h"
+#include "settings_sampler.h"
 #include "vdc.h"
 #include "vicii.h"
 #include "videomodelwidget.h"
@@ -137,7 +137,7 @@ int c128ui_init(void)
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(c128_vicii_models);
 
-    uisamplersettings_set_devices_getter(sampler_get_devices);
+    settings_sampler_set_devices_getter(sampler_get_devices);
     clockport_device_widget_set_devices((void *)clockport_supported_devices);
 
     /* I/O extension function pointers */
