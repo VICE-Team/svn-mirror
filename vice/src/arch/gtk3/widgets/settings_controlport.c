@@ -1,8 +1,7 @@
-/** \file   src/arch/gtk3/uicontrolport.c
+/** \file   src/arch/gtk3/widgets/settings_controlport.c
  * \brief   Widget to control settings for control ports
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  JoyPort1Device
@@ -11,7 +10,9 @@
  *  JoyPort4Device
  *  JoyPort5Device
  *  BBRTCSave
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -46,7 +47,7 @@
 #include "resources.h"
 #include "joyport.h"
 
-#include "uicontrolport.h"
+#include "settings_controlport.h"
 
 
 static void joyport_devices_list_shutdown(void);
@@ -350,7 +351,7 @@ static int create_cbm6x0_layout(GtkGrid *grid)
  *
  * \return  GtkGrid
  */
-GtkWidget *uicontrolport_widget_create(GtkWidget *parent)
+GtkWidget *settings_controlport_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     int rows = 0;

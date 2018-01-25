@@ -146,7 +146,8 @@ libwidgets_a_SOURCES = \
 	romsetmanagerwidget.c \
 	settings_drive.c \
 	settings_sampler.c \
-	settings_printer.c
+	settings_printer.c \
+	settings_controlport.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -269,4 +270,5 @@ EXTRA_DIST = \
 	romsetmanagerwidget.h \
 	settings_drive.h \
 	settings_sampler.h \
-	settings_printer.h
+	settings_printer.h \
+	settings_controlport.h

@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/uicontrolport.h
+/** \file   src/arch/gtk3/widgets/settings_controlport.h
  * \brief   Wigdet to control settings for control ports - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,12 +25,12 @@
  *
  */
 
-#ifndef VICE_UICONTROLPORT_H
-#define VICE_UICONTROLPORT_H
+#ifndef VICE_SETTINGS_CONTROLPORT_H
+#define VICE_SETTINGS_CONTROLPORT_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uicontrolport_widget_create(GtkWidget *parent);
+GtkWidget *settings_controlport_widget_create(GtkWidget *parent);
 
 #endif
