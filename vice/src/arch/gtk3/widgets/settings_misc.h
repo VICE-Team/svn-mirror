@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/uimisc.h
+/** \file   src/arch/gtk3/widgets/settings_misc.h
  * \brief   Widget to control resources that are hard to place properly - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,12 +25,12 @@
  *
  */
 
-#ifndef VICE_UIMISC_H
-#define VICE_UIMISC_H
+#ifndef VICE_SETTINGS_MISC_H
+#define VICE_SETTINGS_MISC_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uimisc_create_central_widget(GtkWidget *widget);
+GtkWidget *settings_misc_widget_create(GtkWidget *widget);
 
 #endif

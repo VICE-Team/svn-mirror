@@ -66,7 +66,7 @@
 #include "settings_autostart.h"
 #include "settings_drive.h"
 #include "settings_model.h"
-#include "uimisc.h"
+#include "settings_misc.h"
 #include "settings_ramreset.h"
 #include "settings_video.h"
 #include "settings_sampler.h"
@@ -688,7 +688,7 @@ static ui_settings_tree_node_t main_nodes[] = {
       settings_romset_widget_create, NULL },
     { "Miscellaneous",
       "misc",
-      uimisc_create_central_widget, NULL },
+      settings_misc_widget_create, NULL },
     { "Video settings",
       "video",
       settings_video_create, NULL },

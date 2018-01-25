@@ -151,7 +151,8 @@ libwidgets_a_SOURCES = \
 	settings_joystick.c \
 	settings_mouse.c \
 	settings_model.c \
-	settings_soundchip.c
+	settings_soundchip.c \
+	settings_misc.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -279,4 +280,5 @@ EXTRA_DIST = \
 	settings_joystick.h \
 	settings_mouse.h \
 	settings_model.h \
-	settings_soundchip.h
+	settings_soundchip.h \
+	settings_misc.h

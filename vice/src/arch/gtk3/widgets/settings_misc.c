@@ -1,13 +1,14 @@
-/** \file   src/arch/gtk3/uimisc.c
+/** \file   src/arch/gtk3/widgets/settings_misc.c
  * \brief   Widget to control resources that are hard to place properly
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  VirtualDevices
  *  HTMLBrowserCommand
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -32,16 +33,14 @@
 
 #include <gtk/gtk.h>
 
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 
 #include "htmlbrowserwidget.h"
 #include "cwdwidget.h"
 #include "jamactionwidget.h"
 
-#include "uimisc.h"
+#include "settings_misc.h"
 
 
 /** \brief  Create miscellaneous settings widget
@@ -53,7 +52,7 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *uimisc_create_central_widget(GtkWidget *widget)
+GtkWidget *settings_misc_widget_create(GtkWidget *widget)
 {
     GtkWidget *grid;
     GtkWidget *browser = html_browser_widget_create();
