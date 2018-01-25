@@ -84,7 +84,6 @@ libarch_a_SOURCES = \
 	video.c \
 	vsidui.c \
 	vsyncarch.c \
-	uimodel.c \
 	uimisc.c \
 	uivideo.c \
 	uicmdline.c \
@@ -144,7 +143,6 @@ EXTRA_DIST = \
 	uivsidmenu.h \
 	uivsidwindow.h \
 	videoarch.h \
-	uimodel.h \
 	uimisc.h \
 	uivideo.h \
 	uicmdline.h \

@@ -1,14 +1,10 @@
-/** \file   src/arch/gtk3/uimodel.h
+/** \file   src/arch/gtk3/widgets/settings_model.h
  * \brief   Model settings dialog - header
  *
- * Controls the following resource(s):
- *
- *  (for more, see used widgets)
- *
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -29,12 +25,12 @@
  *
  */
 
-#ifndef VICE_UIMODEL_H
-#define VICE_UIMODEL_H
+#ifndef VICE_SETTINGS_MODEL_H
+#define VICE_SETTINGS_MODEL_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uimodel_create_central_widget(GtkWidget *parent);
+GtkWidget *settings_model_widget_create(GtkWidget *parent);
 
 #endif

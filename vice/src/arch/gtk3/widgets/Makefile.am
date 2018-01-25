@@ -149,7 +149,8 @@ libwidgets_a_SOURCES = \
 	settings_printer.c \
 	settings_controlport.c \
 	settings_joystick.c \
-	settings_mouse.c
+	settings_mouse.c \
+	settings_model.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -275,4 +276,5 @@ EXTRA_DIST = \
 	settings_printer.h \
 	settings_controlport.h \
 	settings_joystick.h \
-	settings_mouse.h
+	settings_mouse.h \
+	settings_model.h

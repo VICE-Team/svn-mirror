@@ -1,5 +1,7 @@
-/** \file   src/arch/gtk3/uimodel.c
+/** \file   src/arch/gtk3/widgets_settings_model.c
  * \brief   Model settings dialog
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  IECReset    (c64, c64sc, scpu64)
@@ -7,11 +9,9 @@
  *  Go64Mode    (c128)
  *
  *  (for more, see used widgets)
- *
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -62,7 +62,7 @@
 #include "cbm2hardwiredswitcheswidget.h"
 #include "cbm2rammappingwidget.h"
 
-#include "uimodel.h"
+#include "settings_model.h"
 
 
 /** \brief  Machine model widget
@@ -579,7 +579,7 @@ static GtkWidget *create_layout(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *uimodel_create_central_widget(GtkWidget *parent)
+GtkWidget *settings_model_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
 

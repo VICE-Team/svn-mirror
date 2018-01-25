@@ -65,7 +65,7 @@
 #include "settings_sound.h"
 #include "settings_autostart.h"
 #include "settings_drive.h"
-#include "uimodel.h"
+#include "settings_model.h"
 #include "uimisc.h"
 #include "ramresetwidget.h"
 #include "settings_video.h"
@@ -679,7 +679,7 @@ static ui_settings_tree_node_t main_nodes[] = {
       settings_mouse_widget_create, NULL },
     { "Model settings",
       "model",
-      uimodel_create_central_widget, NULL },
+      settings_model_widget_create, NULL },
     { "RAM reset pattern",
       "ram-reset",
       create_ram_reset_central_widget, NULL },
