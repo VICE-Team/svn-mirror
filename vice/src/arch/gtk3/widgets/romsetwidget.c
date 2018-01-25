@@ -274,8 +274,6 @@ static GtkWidget *child_drive_roms = NULL;
 static GtkWidget *child_rom_archives = NULL;
 
 
-static GtkWidget *current_romset_view = NULL;
-
 
 /* Loading default ROM sets is a little more involved than this for some
  * machines such as CBM-II/PET */
@@ -564,48 +562,14 @@ static GtkWidget *create_drive_roms_widget(void)
 }
 
 
-static GtkWidget *create_current_romset_widget(void)
-{
-    GtkWidget *scroll;
-    char *list;
-    GtkTextBuffer *buffer;
-
-    current_romset_view = gtk_text_view_new();
-
-    scroll = gtk_scrolled_window_new(NULL, NULL);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
-            GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_container_add(GTK_CONTAINER(scroll), current_romset_view);
-    gtk_widget_show_all(scroll);
-
-    list = romset_archive_list();
-    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(current_romset_view));
-    if (*list == '\0') {
-        gtk_text_buffer_set_text(buffer, "<No current ROM set defined>", -1);
-    } else {
-        gtk_text_buffer_set_text(buffer, list, -1);
-    }
-    lib_free(list);
-
-    return scroll;
-}
-
-
-
-
-
-
-
 
 static GtkWidget *create_rom_archives_widget(void)
 {
     GtkWidget *grid;
-    GtkWidget *label;
-    GtkWidget *current;
     GtkWidget *manager;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
-
+#if 0
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>Current ROM set</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -617,9 +581,9 @@ static GtkWidget *create_rom_archives_widget(void)
     g_object_set(current, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), current, 0, 1, 1, 1);
-
+#endif
     manager = romset_manager_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), manager, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), manager, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
 
     return grid;

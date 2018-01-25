@@ -62,9 +62,11 @@ static GtkTreeStore *create_tree_model(void);
 /** \brief  List of buttons to manipulate the ROM sets
  */
 static const romset_button_t romset_buttons[] = {
-    { "Load set", on_load_archive },
-    { "Save set", not_implemented },
-    { "Add item", not_implemented },
+    { "Load set",       on_load_archive },
+    { "Save set",       not_implemented },
+    { "Select item",    not_implemented },
+    { "Add item",       not_implemented },
+    { "Delete item",    not_implemented },
     { NULL, NULL }
 };
 
@@ -72,6 +74,7 @@ static const romset_button_t romset_buttons[] = {
 /*
  * References to widgets
  */
+static GtkWidget *romset_listing = NULL;
 static GtkTreeStore *romset_model = NULL;
 static GtkWidget *romset_view = NULL;
 
@@ -83,6 +86,27 @@ static void not_implemented(GtkWidget *widget, gpointer data)
     vice_gtk3_message_info("Whoops!", "Sorry, not implemented yet.");
 }
 
+
+/** \brief  Handler for the 'show current' button
+ *
+ * \param[in]   widget  button
+ * \param[in]   data    unused
+ */
+static void on_show_current_clicked(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *view;
+    GtkTextBuffer *buffer;
+    char *list;
+
+    view = gtk_bin_get_child(GTK_BIN(romset_listing));
+    buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(view));
+    list = machine_romset_file_list();
+
+    gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buffer), list, -1);
+
+    lib_free(list);
+
+}
 
 /** \brief  Handler for the 'load' button
  *
@@ -108,6 +132,31 @@ static void on_load_archive(GtkWidget *widget, gpointer data)
         }
         g_free(filename);
     }
+}
+
+
+/** \brief  Create widget to show a ROM set listing
+ *
+ * \todo    Maybe later turn into a list view, so the resource names and their
+ *          values can be displayed a little nicer.
+ *
+ * \return  GtkScrolledWindow with a GtkTextView inside
+ */
+static GtkWidget *create_listing_widget(void)
+{
+    GtkWidget *scroll;
+    GtkWidget *view;
+
+    view = gtk_text_view_new();
+    gtk_text_view_set_monospace(GTK_TEXT_VIEW(view), TRUE);
+
+    scroll = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scroll),
+            GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    gtk_container_add(GTK_CONTAINER(scroll), view);
+    gtk_widget_show_all(scroll);
+
+    return scroll;
 }
 
 
@@ -214,8 +263,29 @@ GtkWidget *romset_manager_widget_create(void)
     GtkWidget *label;
     GtkWidget *scroll;
     GtkWidget *buttons;
+    GtkWidget *current_button;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set listing</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+
+    romset_listing = create_listing_widget();
+    gtk_widget_set_size_request(romset_listing, -1, 150);
+    gtk_widget_set_hexpand(romset_listing, TRUE);
+    g_object_set(romset_listing, "margin-left", 16, NULL);
+
+    gtk_grid_attach(GTK_GRID(grid), romset_listing, 0, 1, 1, 1);
+
+    current_button = gtk_button_new_with_label("Show current");
+    gtk_widget_set_valign(current_button, GTK_ALIGN_START);
+    gtk_widget_set_hexpand(current_button, FALSE);
+    g_signal_connect(current_button, "clicked",
+            G_CALLBACK(on_show_current_clicked), NULL);
+    gtk_grid_attach(GTK_GRID(grid), current_button, 1, 1, 1, 1);
+
 
     romset_model = create_tree_model();
     romset_view = create_tree_view(romset_model);
@@ -223,7 +293,7 @@ GtkWidget *romset_manager_widget_create(void)
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set management</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 2, 1);
 
     /* pack the tree view into a GtkScrolledWindow */
     scroll = gtk_scrolled_window_new(NULL, NULL);
@@ -236,10 +306,10 @@ GtkWidget *romset_manager_widget_create(void)
     gtk_container_add(GTK_CONTAINER(scroll), romset_view);
     gtk_widget_show_all(scroll);
 
-    gtk_grid_attach(GTK_GRID(grid), scroll, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), scroll, 0, 3, 1, 1);
 
     buttons = create_buttons();
-    gtk_grid_attach(GTK_GRID(grid), buttons, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), buttons, 1, 3, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
