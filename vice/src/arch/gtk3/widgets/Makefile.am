@@ -136,7 +136,7 @@ libwidgets_a_SOURCES = \
 	settings_snapshot.c \
 	ffmpegwidget.c \
 	jamactionwidget.c \
-	monitorsettingswidget.c \
+	settings_monitor.c \
 	settings_romset.c \
 	settings_sound.c \
 	settings_video.c \
@@ -265,7 +265,7 @@ EXTRA_DIST = \
 	settings_snapshot.h \
 	ffmpegwidget.h \
 	jamactionwidget.h \
-	monitorsettingswidget.h \
+	settings_monitor.h \
 	settigs_romset.h \
 	settings_sound.h \
 	settings_video.h \

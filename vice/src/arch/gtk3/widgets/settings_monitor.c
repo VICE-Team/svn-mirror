@@ -1,15 +1,15 @@
-/**
- * \file    src/arch/gtk3/widgets/monitorsettingswidget.c
+/** \file   src/arch/gtk3/widgets/settings_monitor.c
  * \brief   GTK3 monitor setting dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  KeepMonitorOpen
  *  MonitorServer
  *  MonitorServerAddress
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -31,13 +31,11 @@
 
 
 #include "vice.h"
-
 #include <gtk/gtk.h>
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
 
-#include "monitorsettingswidget.h"
+#include "vice_gtk3.h"
+
+#include "settings_monitor.h"
 
 
 /** \brief  Create widget to control monitor resources
@@ -46,7 +44,7 @@
  *
  * \return  GtkGrid
  */
-GtkWidget *monitor_settings_widget_create(GtkWidget *parent)
+GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *keep_open;

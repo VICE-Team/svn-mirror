@@ -36,15 +36,12 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "basewidgets.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "not_implemented.h"
 #include "drive.h"
 #include "drive-check.h"
 #include "machine.h"
 #include "resources.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
 #include "drivewidgethelpers.h"
 #include "driveunitwidget.h"
 #include "drivemodelwidget.h"
@@ -59,6 +56,7 @@
 
 #include "settings_drive.h"
 
+/* this needs documentation and the literal 4 sucks */
 static GtkWidget *drive_model[4];
 static GtkWidget *drive_options[4];
 static GtkWidget *drive_extend[4];

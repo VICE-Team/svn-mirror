@@ -44,14 +44,10 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
-#include "basewidgets.h"
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
 #include "autostart-prg.h"
-#include "openfiledialog.h"
-#include "widgethelpers.h"
-#include "resourcebrowser.h"
 
 #include "settings_autostart.h"
 

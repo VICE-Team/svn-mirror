@@ -8,7 +8,7 @@
  *  JoyDevice2
  *  JoyDevice3
  *  JoyDevice4
- *  JoyDevice5
+ *  JoyDevice5 (xplus4)
  *  UserportJoy
  *  JoyOpposite
  *  KeySetEnable
@@ -43,10 +43,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include "vice_gtk3.h"
 #include "lib.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
 #include "joyport.h"
@@ -58,9 +56,9 @@
 #include "settings_joystick.h"
 
 
-/*****************************************************************************
- *                                Static data                                *
- ****************************************************************************/
+/*
+ * Static data
+ */
 
 /** \brief  References to the joystick device widgets
  *
@@ -238,9 +236,9 @@ static GtkWidget *create_userportjoy_enable_checkbox(void)
 
 
 
-/*****************************************************************************
- *                Functions to create machine-specific layouts               *
- ****************************************************************************/
+/*
+ * Functions to create machine-specific layouts
+ */
 
 /** \brief  Create layout for x64/x64sc/xscpu64/x128
  *
@@ -435,9 +433,9 @@ static int create_cbm6x0_layout(GtkGrid *grid)
 
 
 
-/*****************************************************************************
- *                              Public functions                             *
- ****************************************************************************/
+/*
+ * Public functions
+ */
 
 /** \brief  Create joystick settings main widget
  *

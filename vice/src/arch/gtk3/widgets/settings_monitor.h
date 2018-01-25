@@ -1,10 +1,10 @@
-/**
- * \file    src/arch/gtk3/widgets/monitorsettingswidget.h
+/** \file   src/arch/gtk3/widgets/settings_monitor.h
  * \brief   GTK3 monitor setting dialog - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,12 +24,12 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_MONITORSETTINGSWIDGET_H
-#define VICE_MONITORSETTINGSWIDGET_H
+#ifndef VICE_SETTINGS_MONITOR_H
+#define VICE_SETTINGS_MONITOR_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *monitor_settings_widget_create(GtkWidget *parent);
+GtkWidget *settings_monitor_widget_create(GtkWidget *parent);
 
 #endif

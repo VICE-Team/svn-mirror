@@ -39,10 +39,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include "vice_gtk3.h"
 #include "lib.h"
-#include "resourcecheckbutton.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
 #include "machine.h"
 #include "resources.h"
 #include "joyport.h"
