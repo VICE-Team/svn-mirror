@@ -1,11 +1,10 @@
-/** \file   src/arch/gtk3/uijoystick.h
+/** \file   src/arch/gtk3/widgets/settings_joystick.h
  * \brief   Widget to control settings for joysticks - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -26,12 +25,12 @@
  *
  */
 
-#ifndef VICE_UIJOYSTICK_H
-#define VICE_UIJOYSTICK_H
+#ifndef VICE_SETTINGS_JOYSTICK_H
+#define VICE_SETTINGS_JOYSTICK_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uijoystick_widget_create(GtkWidget *parent);
+GtkWidget *settings_joystick_widget_create(GtkWidget *parent);
 
 #endif

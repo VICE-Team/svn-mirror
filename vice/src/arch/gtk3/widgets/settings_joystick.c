@@ -1,8 +1,7 @@
-/** \file   src/arch/gtk3/uijoystick.c
+/** \file   src/arch/gtk3/widgets/settings_joystick.c
  * \brief   Widget to control settings for joysticks
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  JoyDevice1
@@ -15,7 +14,9 @@
  *  KeySetEnable
  *
  *  (see used external widgets for more)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -54,7 +55,7 @@
 #include "joystickdevicewidget.h"
 #include "joystickuserportadapterwidget.h"
 
-#include "uijoystick.h"
+#include "settings_joystick.h"
 
 
 /*****************************************************************************
@@ -444,7 +445,7 @@ static int create_cbm6x0_layout(GtkGrid *grid)
  *
  * \return  GtkGrid
  */
-GtkWidget *uijoystick_widget_create(GtkWidget *parent)
+GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *keyset_widget;

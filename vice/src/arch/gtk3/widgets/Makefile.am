@@ -147,7 +147,8 @@ libwidgets_a_SOURCES = \
 	settings_drive.c \
 	settings_sampler.c \
 	settings_printer.c \
-	settings_controlport.c
+	settings_controlport.c \
+	settings_joystick.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -271,4 +272,5 @@ EXTRA_DIST = \
 	settings_drive.h \
 	settings_sampler.h \
 	settings_printer.h \
-	settings_controlport.h
+	settings_controlport.h \
+	settings_joystick.h

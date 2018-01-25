@@ -72,7 +72,7 @@
 #include "settings_sampler.h"
 #include "settings_printer.h"
 #include "settings_controlport.h"
-#include "uijoystick.h"
+#include "settings_joystick.h"
 #include "uimousesettings.h"
 #include "uisoundchipsettings.h"
 
@@ -673,7 +673,7 @@ static ui_settings_tree_node_t main_nodes[] = {
         settings_controlport_widget_create, NULL },
     { "Joystick settings",
         "joystick",
-        uijoystick_widget_create, NULL },
+        settings_joystick_widget_create, NULL },
     { "Mouse settings",
         "mouse",
         uimousesettings_widget_create, NULL },

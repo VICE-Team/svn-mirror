@@ -89,7 +89,6 @@ libarch_a_SOURCES = \
 	uivideo.c \
 	uicmdline.c \
 	uicompiletimefeatures.c \
-	uijoystick.c \
 	uicommands.c \
 	uimousesettings.c \
 	uisoundchipsettings.c \
@@ -151,7 +150,6 @@ EXTRA_DIST = \
 	uivideo.h \
 	uicmdline.h \
 	uicompiletimefeatures.h \
-	uijoystick.h \
 	uicommands.h \
 	uimousesettings.h \
 	uisoundchipsettings.h \
