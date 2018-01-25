@@ -1,14 +1,15 @@
-/** \file   src/arch/gtk3/widgets/ramresetwidgetc.c
- * \brief   Control the RAM reset pattern settings
+/** \file   src/arch/gtk3/widgets/settings_ramreset.c
+ * \brief   Widget to control the RAM reset pattern settings
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  RAMInitStartValue
  *  RamInitValueInvert
  *  RAMInitPatternInvert
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -36,12 +37,11 @@
 #include <string.h>
 #include <math.h>
 
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "debug_gtk3.h"
+#include "vice_gtk3.h"
 #include "resources.h"
 
-#include "ramresetwidget.h"
+#include "settings_ramreset.h"
+
 
 /** \brief  List of powers of two used for the widgets
  *
@@ -67,9 +67,11 @@ static GtkWidget *create_start_value_widget(void)
 
 /** \brief  Create widget to control RAM init settings
  *
+ * \param[in]   parent  parent widget (unused)
+ *
  * \return  GtkGrid
  */
-GtkWidget *ram_reset_widget_create(void)
+GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -105,19 +107,4 @@ GtkWidget *ram_reset_widget_create(void)
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-
-/** \brief  Create central widget for ui_settings.c for the RAM init settings
- *
- * Placeholder, seems to me the RAM init widget can be combined with other
- * widgets into a more complete uisettings sub-widget
- *
- * \param[in]   parent  parent widget
- *
- * \return  GtkGrid
- */
-GtkWidget *create_ram_reset_central_widget(GtkWidget *parent)
-{
-    return ram_reset_widget_create();
 }

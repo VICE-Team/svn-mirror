@@ -70,7 +70,7 @@ libwidgets_a_SOURCES = \
 	cbm2memorysizewidget.c \
 	cbm2hardwiredswitcheswidget.c \
 	cbm2rammappingwidget.c \
-	ramresetwidget.c \
+	settings_ramreset.c \
 	videopalettewidget.c \
 	videorenderfilterwidget.c \
 	videobordermodewidget.c \
@@ -197,7 +197,7 @@ EXTRA_DIST = \
 	cbm2memorysizewidget.h \
 	cbm2hardwiredswitcheswidget.h \
 	cbm2rammappingwidget.h \
-	ramresetwidget.h \
+	settings_ramreset.h \
 	videopalettewidget.h \
 	videorenderfilterwidget.h \
 	videobordermodewidget.h \

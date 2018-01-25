@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/widgets/ramresetwidgetc.h
- * \brief   Control the RAM reset pattern settings - header
+/** \file   src/arch/gtk3/widgets/widgets/settings_ramreset.h
+ * \brief   Widget to control the RAM reset pattern settings - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,13 +25,12 @@
  *
  */
 
-#ifndef VICE_RAMRESETWIDGET_H
-#define VICE_RAMRESETWIDGET_H
+#ifndef VICE_SETTINGS_RAMRESET_H
+#define VICE_SETTINGS_RAMRESET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ram_reset_widget_create(void);
-GtkWidget *create_ram_reset_central_widget(GtkWidget *parent);
+GtkWidget *settings_ramreset_widget_create(GtkWidget *parent);
 
 #endif

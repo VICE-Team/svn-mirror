@@ -67,7 +67,7 @@
 #include "settings_drive.h"
 #include "settings_model.h"
 #include "uimisc.h"
-#include "ramresetwidget.h"
+#include "settings_ramreset.h"
 #include "settings_video.h"
 #include "settings_sampler.h"
 #include "settings_printer.h"
@@ -682,7 +682,7 @@ static ui_settings_tree_node_t main_nodes[] = {
       settings_model_widget_create, NULL },
     { "RAM reset pattern",
       "ram-reset",
-      create_ram_reset_central_widget, NULL },
+      settings_ramreset_widget_create, NULL },
     { "ROM settings",
       "rom-settings",
       romset_widget_create, NULL },
