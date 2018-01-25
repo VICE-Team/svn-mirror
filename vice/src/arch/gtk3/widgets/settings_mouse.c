@@ -1,14 +1,15 @@
-/** \file   src/arch/gtk3/uimousesettings.c
+/** \file   src/arch/gtk3/widgets/settings_mouse.c
  * \brief   Mouse settings widget
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  Mouse
  *  SmartMouseRTCSave (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0)
  *  MouseSensitivity (Appears to be Windows-only)
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -33,12 +34,11 @@
 
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
 #include "resources.h"
 #include "machine.h"
-#include "resourcecheckbutton.h"
+#include "vice_gtk3.h"
 
-#include "uimousesettings.h"
+#include "settings_mouse.h"
 
 
 #ifdef WIN32_COMPILE
@@ -85,7 +85,7 @@ static GtkWidget *create_sensitivity_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *uimousesettings_widget_create(GtkWidget *parent)
+GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *mouse_grab;

@@ -90,7 +90,6 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uicompiletimefeatures.c \
 	uicommands.c \
-	uimousesettings.c \
 	uisoundchipsettings.c \
 	uisnapshot.c \
 	uidebug.c \
@@ -151,7 +150,6 @@ EXTRA_DIST = \
 	uicmdline.h \
 	uicompiletimefeatures.h \
 	uicommands.h \
-	uimousesettings.h \
 	uisoundchipsettings.h \
 	uisnapshot.h \
 	uidebug.h \
