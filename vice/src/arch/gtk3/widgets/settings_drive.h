@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uidrivesettings.h
+/** \file   src/arch/gtk3/widgets/settings_drive.h
  * \brief   Drive settings dialog - header
  *
  * Written by
@@ -24,12 +24,12 @@
  *
  */
 
-#ifndef VICE_UIDRIVESETTINGS_H
-#define VICE_UIDRIVESETTINGS_H
+#ifndef VICE_SETTINGS_DRIVE_H
+#define VICE_SETTINGS_DRIVE_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uidrivesettings_widget_create(GtkWidget *parent);
+GtkWidget *settings_drive_widget_create(GtkWidget *parent);
 
 #endif

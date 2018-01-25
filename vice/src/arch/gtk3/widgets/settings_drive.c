@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uidrivesettings.c
+/** \file   src/arch/gtk3/widgets/settings_drive.c
  * \brief   Drive settings dialog
  *
  * Written by
@@ -57,7 +57,7 @@
 #include "drivefsdevicewidget.h"
 #include "driveoptionswidget.h"
 
-#include "uidrivesettings.h"
+#include "settings_drive.h"
 
 static GtkWidget *drive_model[4];
 static GtkWidget *drive_options[4];
@@ -426,7 +426,7 @@ static GtkWidget *create_stack_child_widget(int unit)
  *
  * \return  GtkGrid
  */
-GtkWidget *uidrivesettings_widget_create(GtkWidget *parent)
+GtkWidget *settings_drive_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *wrapper;
