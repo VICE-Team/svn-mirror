@@ -133,7 +133,7 @@ libwidgets_a_SOURCES = \
 	vfliwidget.c \
 	petdiagpinwidget.c \
 	pethrewidget.c \
-	snapshotwidget.c \
+	settings_snapshot.c \
 	ffmpegwidget.c \
 	jamactionwidget.c \
 	monitorsettingswidget.c \
@@ -262,7 +262,7 @@ EXTRA_DIST = \
 	vfliwidget.h \
 	petdiagpinwidget.h \
 	pethrewidget.h \
-	snapshotwidget.h \
+	settings_snapshot.h \
 	ffmpegwidget.h \
 	jamactionwidget.h \
 	monitorsettingswidget.h \

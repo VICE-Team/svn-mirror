@@ -1,13 +1,14 @@
-/** \file   src/arch/gtk3/widgets/snapshotwidget.c
+/** \file   src/arch/gtk3/widgets/settings_snapshot.c
  * \brief   Snapshot/recording settings widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  EventSnapshotDir - all emus
  *  EventStartMode - all emus
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -33,12 +34,9 @@
 
 #include "resources.h"
 #include "vice-event.h"
+#include "vice_gtk3.h"
 
-#include "debug_gtk3.h"
-#include "basedialogs.h"
-#include "basewidgets.h"
-
-#include "snapshotwidget.h"
+#include "settings_snapshot.h"
 
 
 /** \brief  List of Event start modes
@@ -88,7 +86,7 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
  *
  * \return  GtkGrid
  */
-GtkWidget *snapshot_widget_create(GtkWidget *parent)
+GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 

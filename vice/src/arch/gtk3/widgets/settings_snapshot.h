@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/widgets/snapshotwidget.h
+/** \file   src/arch/gtk3/widgets/settings_snapshot.h
  * \brief   Snapshot/recording settings widget - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,12 +25,12 @@
  *
  */
 
-#ifndef VICE_SNAPSHOTWIDGET_H
-#define VICE_SNAPSHOTWIDGET_H
+#ifndef VICE_SETTINGS_SNAPSHOT_H
+#define VICE_SETTINGS_SNAPSHOT_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *snapshot_widget_create(GtkWidget *parent);
+GtkWidget *settings_snapshot_widget_create(GtkWidget *parent);
 
 #endif

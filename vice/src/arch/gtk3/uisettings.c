@@ -75,6 +75,7 @@
 #include "settings_joystick.h"
 #include "settings_mouse.h"
 #include "settings_soundchip.h"
+#include "settings_snapshot.h"
 
 /* I/O extension widgets */
 #include "ioextensionswidget.h"
@@ -124,7 +125,6 @@
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
 
-#include "snapshotwidget.h"
 #include "monitorsettingswidget.h"
 #include "settings_romset.h"
 
@@ -705,8 +705,8 @@ static ui_settings_tree_node_t main_nodes[] = {
         ioextensions_widget_create, c64_io_extensions },
 
     { "Snaphot/event/media recording",
-        "snapshot",
-        snapshot_widget_create, NULL },
+       "snapshot",
+       settings_snapshot_widget_create, NULL },
     { "Monitor settings",
         "monitor",
         monitor_settings_widget_create, NULL },
