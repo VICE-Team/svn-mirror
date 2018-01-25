@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/uisoundchipsettings.c
+/** \file   src/arch/gtk3/widgets/settings_soundchip.c
  * \brief   Sound chip settings main widget for the settings UI
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -28,17 +29,21 @@
 
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "lib.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-
 #include "sidsoundwidget.h"
 
+#include "settings_soundchip.h"
 
-#include "uisoundchipsettings.h"
 
-
-GtkWidget *uisoundchipsettings_widget_create(GtkWidget *parent)
+/** \brief  Create sound chip settings widget
+ *
+ * \param[in]   parent  parent widget (unused)
+ *
+ * \return  GtkGrid
+ */
+GtkWidget *settings_soundchip_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *sid_widget = NULL;

@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/uisoundchipsettings.h
+/** \file   src/arch/gtk3/widgets/settings_soundchip.h
  * \brief   Sound chip settings main widget for the settings UI - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -23,12 +24,12 @@
  *  02111-1307  USA.
  */
 
-#ifndef VICE_UISOUNDCHIPSETTINGS_H
-#define VICE_UISOUNDCHIPSETTINGS_H
+#ifndef VICE_SETTINGS_SOUNDCHIP_H
+#define VICE_SETTINGS_SOUNDCHIP_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uisoundchipsettings_widget_create(GtkWidget *parent);
+GtkWidget *settings_soundchip_widget_create(GtkWidget *parent);
 
 #endif

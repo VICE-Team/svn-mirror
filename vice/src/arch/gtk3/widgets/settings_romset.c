@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widget/romsetwidget.c
+/** \file   src/arch/gtk3/widget/settings_romset.c
  * \brief   GTK3 ROM set widget
  *
  * Written by
@@ -6,6 +6,9 @@
  *
  * Controls the following rescource(s):
  *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -29,19 +32,15 @@
 
 #include <gtk/gtk.h>
 
-#include "debug_gtk3.h"
-#include "basedialogs.h"
-#include "basewidgets.h"
-#include "filechooserhelpers.h"
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "diskimage.h"
-#include "widgethelpers.h"
 #include "romset.h"
 #include "lib.h"
 #include "ui.h"
 #include "romsetmanagerwidget.h"
 
-#include "romsetwidget.h"
+#include "settings_romset.h"
 
 
 /** \brief  Default ROM set name for C64/C64DTV/SCUP64/C128/VIC20/PLUS4 */
@@ -597,7 +596,7 @@ static GtkWidget *create_rom_archives_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *romset_widget_create(GtkWidget *parent)
+GtkWidget *settings_romset_widget_create(GtkWidget *parent)
 {
     layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 

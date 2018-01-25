@@ -74,7 +74,7 @@
 #include "settings_controlport.h"
 #include "settings_joystick.h"
 #include "settings_mouse.h"
-#include "uisoundchipsettings.h"
+#include "settings_soundchip.h"
 
 /* I/O extension widgets */
 #include "ioextensionswidget.h"
@@ -126,7 +126,7 @@
 
 #include "snapshotwidget.h"
 #include "monitorsettingswidget.h"
-#include "romsetwidget.h"
+#include "settings_romset.h"
 
 #include "uisettings.h"
 
@@ -685,7 +685,7 @@ static ui_settings_tree_node_t main_nodes[] = {
       settings_ramreset_widget_create, NULL },
     { "ROM settings",
       "rom-settings",
-      romset_widget_create, NULL },
+      settings_romset_widget_create, NULL },
     { "Miscellaneous",
       "misc",
       uimisc_create_central_widget, NULL },
@@ -694,7 +694,7 @@ static ui_settings_tree_node_t main_nodes[] = {
       settings_video_create, NULL },
     { "SID settings",
       "sid",
-      uisoundchipsettings_widget_create, NULL },
+      settings_soundchip_widget_create, NULL },
 
     /* the `c64_io_extensions` is a placeholder: it will get replaced by the
      * proper per-machine list. Unfortunately with a fixed index into this list
