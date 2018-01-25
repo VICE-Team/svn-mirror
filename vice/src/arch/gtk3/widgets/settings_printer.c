@@ -1,8 +1,7 @@
-/** \file   src/arch/gtk3/uiprintersettings.c
+/** \file   src/arch/gtk3/widgets/settings_printer.c
  * \brief   Widget to control printer settings
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  IECDevice4
@@ -30,7 +29,9 @@
  *  PrinterUserportTextDevice
  *  PrinterUserportDriver
  *  PrinterUserportOutput
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -65,14 +66,11 @@
 /* widgets */
 #include "printeremulationtypewidget.h"
 #include "printerdriverwidget.h"
-#if 0
-#include "printeroutputwidget.h"
-#endif
 #include "printeroutputmodewidget.h"
 #include "printeroutputdevicewidget.h"
 #include "userportprinterwidget.h"
 
-#include "uiprintersettings.h"
+#include "settings_printer.h"
 
 
 #define PRINTER_NUM 4   /**< number of printer devices supported */
@@ -288,7 +286,7 @@ static GtkWidget *create_printer_text_devices_widget(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *uiprintersettings_widget_create(GtkWidget *parent)
+GtkWidget *settings_printer_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *stack;

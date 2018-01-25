@@ -70,7 +70,7 @@
 #include "ramresetwidget.h"
 #include "settings_video.h"
 #include "settings_sampler.h"
-#include "uiprintersettings.h"
+#include "settings_printer.h"
 #include "uicontrolport.h"
 #include "uijoystick.h"
 #include "uimousesettings.h"
@@ -667,7 +667,7 @@ static ui_settings_tree_node_t main_nodes[] = {
        settings_drive_widget_create, NULL },
     { "Printer settings",
         "printer",
-        uiprintersettings_widget_create, NULL },
+        settings_printer_widget_create, NULL },
     { "Control port settings",
         "control-port",
         uicontrolport_widget_create, NULL },

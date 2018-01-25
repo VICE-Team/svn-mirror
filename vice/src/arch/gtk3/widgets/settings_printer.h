@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/uiprintersettings.h
+/** \file   src/arch/gtk3/widgets/settings_printer.h
  * \brief   Widget to control printer settings - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,12 +25,12 @@
  *
  */
 
-#ifndef VICE_UIPRINTERSETTINGS_H
-#define VICE_UIPRINTERSETTINGS_H
+#ifndef VICE_SETTINGS_PRINTER_H
+#define VICE_SETTINGS_PRINTER_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *uiprintersettings_widget_create(GtkWidget *parent);
+GtkWidget *settings_printer_widget_create(GtkWidget *parent);
 
 #endif
