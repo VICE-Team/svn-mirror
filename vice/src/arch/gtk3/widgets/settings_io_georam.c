@@ -1,8 +1,7 @@
-/** \file   src/arch/gtk3/widgets/georamwidget.c
+/** \file   src/arch/gtk3/widgets/settings_io_georamw.c
  * \brief   Widget to control GEO-RAM resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  GEORAM
@@ -10,7 +9,9 @@
  *  GEORAMfilename
  *  GEORAMImageWrite
  *  GOERAMIOSwap (xvic)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -46,7 +47,7 @@
 #include "carthelpers.h"
 #include "cartridge.h"
 
-#include "georamwidget.h"
+#include "settings_io_georam.h"
 
 /** \brief  List of supported RAM sizes
  */
@@ -114,7 +115,7 @@ static GtkWidget *create_georam_image_widget(GtkWidget *parent)
  *
  * \return  GtkGrid
  */
-GtkWidget *georam_widget_create(GtkWidget *parent)
+GtkWidget *settings_io_georam_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *georam_enable;

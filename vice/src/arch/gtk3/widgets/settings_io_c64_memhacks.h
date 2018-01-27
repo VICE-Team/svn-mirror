@@ -1,11 +1,10 @@
-/** \file   src/arch/gtk3/widgets/ioextensionswidget.h
- * \brief   I/O extension settings that don't go/fit into subwidgets - header
+/** \file   src/arch/gtk3/widgets/c64memoryexpansionhackswidget.
+ * \brief   Widget to control C64 memory expansion hacks - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *
+ * \author  BasWassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -26,12 +25,12 @@
  *
  */
 
-#ifndef VICE_IOEXTENSIONSWIDGET_H
-#define VICE_IOEXTENSIONSWIDGET_H
+#ifndef VICE_SETTINGS_IO_C64_MEMHACKS_H
+#define VICE_SETTINGS_IO_C64_MEMHACKS_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *ioextensions_widget_create(GtkWidget *parent);
+GtkWidget *settings_io_c64_memhacks_widget_create(GtkWidget *parent);
 
 #endif

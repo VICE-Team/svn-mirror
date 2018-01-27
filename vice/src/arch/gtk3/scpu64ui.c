@@ -44,8 +44,6 @@
 #include "clockport.h"
 
 #include "cartridge.h"
-#include "georam.h"
-#include "georamwidget.h"
 #include "reu.h"
 #include "reuwidget.h"
 #include "ramcartwidget.h"

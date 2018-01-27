@@ -1,9 +1,10 @@
-/** \file   src/arch/gtk3/widgets/c64memoryexpansionhackswidget.h
- * \brief   Widget to control C64 memory expansion hacks - header
+/** \file   src/arch/gtk3/widgets/settings_io_georam.h
+ * \brief   Widget to control GEO-RAM resources - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,12 +25,12 @@
  *
  */
 
-#ifndef VICE_C64MEMORYEXPANSIONHACKSWIDGET_H
-#define VICE_C64MEMORYEXPANSIONHACKSWIDGET_H
+#ifndef VICE_SETTINGS_IO_GEORAM_H
+#define VICE_SETTINGS_IO_GEORAM_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *c64_memory_expansion_hacks_widget_create(GtkWidget *parent);
+GtkWidget *settings_io_georam_widget_create(GtkWidget *parent);
 
 #endif

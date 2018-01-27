@@ -81,9 +81,9 @@
 #include "settings_ethernet.h"
 
 /* I/O extension widgets */
-#include "ioextensionswidget.h"
-#include "c64memoryexpansionhackswidget.h"
-#include "georamwidget.h"
+#include "settings_io.h"
+#include "settings_io_c64_memhacks.h"
+#include "settings_io_georam.h"
 #include "reuwidget.h"
 #include "ramcartwidget.h"
 #include "dqbbwidget.h"
@@ -172,12 +172,12 @@ enum {
  */
 static ui_settings_tree_node_t c64_io_extensions[] = {
     { "Memory Expansion Hacks",
-        "mem-hacks",
-        c64_memory_expansion_hacks_widget_create, NULL },
+       "mem-hacks",
+       settings_io_c64_memhacks_widget_create, NULL },
 
     { "GEO-RAM",
         "geo-ram",
-        georam_widget_create, NULL },
+        settings_io_georam_widget_create, NULL },
     { "RAM Expansion Module",
         "reu",
         reu_widget_create, NULL },
@@ -273,7 +273,7 @@ static ui_settings_tree_node_t c64_io_extensions[] = {
 static ui_settings_tree_node_t scpu64_io_extensions[] = {
     { "GEO-RAM",
         "geo-ram",
-        georam_widget_create, NULL },
+        settings_io_georam_widget_create, NULL },
     { "RAM Expansion Module",
         "reu",
         reu_widget_create, NULL },
@@ -371,7 +371,7 @@ static ui_settings_tree_node_t c128_io_extensions[] = {
 
     { "GEO-RAM",
         "geo-ram",
-        georam_widget_create, NULL },
+        settings_io_georam_widget_create, NULL },
     { "RAM Expansion Module",
         "reu",
         reu_widget_create, NULL },
@@ -497,8 +497,8 @@ static ui_settings_tree_node_t vic20_io_extensions[] = {
         "ds12c887-rtc",
         ds12c887_widget_create, NULL },
     { "GEO-RAM (MasC=uerade)",
-        "geo-ram",
-        georam_widget_create, NULL },
+       "geo-ram",
+       settings_io_georam_widget_create, NULL },
     { "SFX Sound Expander (MasC=uerade)",
         "sfx-expander",
         sfx_sound_expander_widget_create, NULL },
@@ -701,19 +701,19 @@ static ui_settings_tree_node_t main_nodes[] = {
      * until I refactor the tree model code into something more flexible
      * -- compyx*/
     { "I/O extensions",
-        "io-extensions",
-        ioextensions_widget_create, c64_io_extensions },
+      "io-extensions",
+      settings_io_widget_create, c64_io_extensions },
 
     { "Ethernet settings",
       "ethernet",
       settings_ethernet_widget_create, NULL },
 
     { "Snaphot/event/media recording",
-       "snapshot",
-       settings_snapshot_widget_create, NULL },
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
     { "Monitor settings",
-        "monitor",
-        settings_monitor_widget_create, NULL },
+      "monitor",
+      settings_monitor_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };

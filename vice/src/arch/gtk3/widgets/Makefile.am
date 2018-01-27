@@ -87,8 +87,8 @@ libwidgets_a_SOURCES = \
 	drivefsdevicewidget.c \
 	printeroutputmodewidget.c \
 	printeroutputdevicewidget.c \
-	c64memoryexpansionhackswidget.c \
-	georamwidget.c \
+	settings_io_c64_memhacks.c \
+	settings_io_georam.c \
 	reuwidget.c \
 	ramcartwidget.c \
 	dqbbwidget.c \
@@ -100,7 +100,7 @@ libwidgets_a_SOURCES = \
 	mmc64widget.c \
 	ide64widget.c \
 	retroreplaywidget.c \
-	ioextensionswidget.c \
+	settings_io.c \
 	ethernetcartwidget.c \
 	rrnetmk3widget.c \
 	c128functionromwidget.c \
@@ -217,8 +217,8 @@ EXTRA_DIST = \
 	drivefsdevicewidget.h \
 	printeroutputmodewidget.h \
 	printeroutputdevicewidget.h \
-	c64memoryexpansionhackswidget.h \
-	georamwidget.h \
+	settings_io_c64_memhacks.h \
+	settings_io_georam.h \
 	reuwidget.h \
 	ramcartwidget.h \
 	dqbbwidget.h \
@@ -230,7 +230,7 @@ EXTRA_DIST = \
 	mmc64widget.h \
 	ide64widget.h \
 	retroreplaywidget.h \
-	ioextensionswidget.h \
+	settings_io.h \
 	ethernetcartwidget.h \
 	rrnetmk3widget.h \
 	c128functionromwidget.h \

@@ -1,15 +1,16 @@
-/** \file   src/arch/gtk3/widgets/ioextensionswidget.c
+/** \file   src/arch/gtk3/widgets/settings_io.c
  * \brief   I/O extension settings that don't go/fit into subwidgets
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  IOCollisionHandling (all except vsid)
  *  CartridgeReset (all except vsid)
  *  PETHRE (xpet)
  *  DiagPin (xpet)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -42,7 +43,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 
-#include "ioextensionswidget.h"
+#include "settings_io.h"
 
 
 /** \brief  Methods of handling I/O collisions
@@ -238,7 +239,7 @@ static void create_cbm5x0_layout(GtkWidget *grid)
  *
  * \return GtkGrid
  */
-GtkWidget *ioextensions_widget_create(GtkWidget *parent)
+GtkWidget *settings_io_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
 

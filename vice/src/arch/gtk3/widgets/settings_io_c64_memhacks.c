@@ -43,7 +43,7 @@
 #include "openfiledialog.h"
 #include "c64-memory-hacks.h"
 
-#include "c64memoryexpansionhackswidget.h"
+#include "settings_io_c64_memhacks.h"
 
 
 /** \brief  List of C64 memory hack devices
@@ -377,7 +377,7 @@ static GtkWidget *plus_256k_image_widget_create(void)
  *
  * \return  GtkGrid
  */
-GtkWidget *c64_memory_expansion_hacks_widget_create(GtkWidget *parent)
+GtkWidget *settings_io_c64_memhacks_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *hack;

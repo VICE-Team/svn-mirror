@@ -43,8 +43,6 @@
 #include "clockportdevicewidget.h"
 #include "clockport.h"
 
-#include "georam.h"
-#include "georamwidget.h"
 #include "reu.h"
 #include "reuwidget.h"
 #include "cartridge.h"

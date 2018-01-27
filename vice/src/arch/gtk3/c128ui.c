@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/c128ui.c
+/** file   src/arch/gtk3/c128ui.c
  * \brief   Native GTK3 C128 UI
  *
  * Written by
@@ -46,8 +46,6 @@
 #include "clockport.h"
 
 #include "cartridge.h"
-#include "georam.h"
-#include "georamwidget.h"
 #include "reu.h"
 #include "reuwidget.h"
 #include "ramcartwidget.h"
