@@ -398,19 +398,22 @@ char *archdep_extra_title_text(void)
 
 /** \brief  Get a list of active network devices
  *
- * The \a getter argument is unfortunately required to pass in the pcap function
- * since c1541 links against archdep, but doesn't linke against libpcap. The
- * same is most likely true for vsid.
+ * The \a getter and \a cleaner arguments are unfortunately required to pass in
+ * the pcap functions since c1541 links against archdep, but doesn't link
+ * against libpcap. The same is most likely true for vsid.
  *
  * \param[in]   getter  pointer to pcap_findalldevs()
+ * \param[in]   cleaner pointer to pcap_freealldevs()
  *
  * \return  `NULL`-terminated list of strings, or `NULL` on failure. Free with
  *          archdep_free_net_devices()
  */
-char **archdep_get_net_devices(int (*getter)(pcap_if_t **, char *))
+vice_netdev_t **archdep_get_net_devices(
+        int (*getter)(pcap_if_t **, char *),
+        void (*cleaner)(pcap_if_t *))
 {
     char errbuf[PCAP_ERRBUF_SIZE];
-    char **result;
+    vice_netdev_t **result;
     pcap_if_t *devices;
     pcap_if_t *dev;
     size_t num = 0;
@@ -436,18 +439,23 @@ char **archdep_get_net_devices(int (*getter)(pcap_if_t **, char *))
 
     result = lib_malloc((num + 1) * sizeof(*result));
     for (dev = devices; dev != NULL; dev = dev->next) {
-        char *name;
+        vice_netdev_t *info;
+
         if (dev->flags & PCAP_IF_UP) {
+            info = lib_malloc(sizeof(*info));
+            info->name = lib_stralloc(dev->name);
             if (dev->description != NULL) {
-                name = lib_msprintf("%s (%s)", dev->name, dev->description);
+                info->desc = lib_stralloc(dev->description);
             } else {
-                name = lib_stralloc(dev->name);
+                info->desc = NULL;
             }
-            result[i++] = name;
+
+            result[i++] = info;
         }
     }
     result[i] = NULL;
 
+    cleaner(devices);
     return result;
 }
 
@@ -456,12 +464,15 @@ char **archdep_get_net_devices(int (*getter)(pcap_if_t **, char *))
  *
  * \param[in,out]   devices list of devices
  */
-void archdep_free_net_devices(char **devices)
+void archdep_free_net_devices(vice_netdev_t **devices)
 {
     if (devices != NULL) {
         size_t i;
         for (i = 0; devices[i] != NULL; i++) {
-            lib_free(devices[i]);
+            lib_free(devices[i]->name);
+            if (devices[i]->desc != NULL) {
+                lib_free(devices[i]->desc);
+            }
         }
         lib_free(devices);
     }
