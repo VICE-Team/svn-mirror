@@ -107,4 +107,10 @@ extern int archdep_rtc_get_centisecond(void);
 /* archdep extra title text */
 extern char *archdep_extra_title_text(void);
 
+# ifdef HAVE_NETWORK
+#  include <pcap/pcap.h>
+char **archdep_get_net_devices(int (*getter)(pcap_if_t **, char *));
+void archdep_free_net_devices(char **devices);
+# endif
+
 #endif
