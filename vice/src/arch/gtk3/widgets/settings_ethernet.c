@@ -49,20 +49,6 @@
 
 #ifdef HAVE_NETWORK
 
-/** \brief  Handler for the 'destroy' event of the combo box
- *
- * \param[in]       widget  combo box (unused)
- * \param[in,out]   data    devices list from archdep_get_net_devices()
- */
-static void on_device_combo_destroy(GtkWidget *widget, gpointer data)
-{
-    vice_netdev_t **devices = (vice_netdev_t **)data;
-    if (devices != NULL) {
-        archdep_free_net_devices(devices);
-    }
-}
-
-
 /** \brief  Handler for the 'changed' event of the combo box
  *
  * This function attempts to set the ETHERNET_INTERFACE resource.
@@ -129,9 +115,6 @@ static GtkWidget *create_device_combo(void)
         archdep_free_net_devices(devices);
     }
 
-    /* hook up signals to alter the resource and clean up properly */
-    g_signal_connect(combo, "destroy", G_CALLBACK(on_device_combo_destroy),
-            (gpointer)devices);
     g_signal_connect(combo, "changed", G_CALLBACK(on_device_combo_changed),
             NULL);
 
