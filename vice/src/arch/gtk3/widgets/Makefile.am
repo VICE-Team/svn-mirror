@@ -152,7 +152,8 @@ libwidgets_a_SOURCES = \
 	settings_mouse.c \
 	settings_model.c \
 	settings_soundchip.c \
-	settings_misc.c
+	settings_misc.c \
+	settings_ethernet.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -281,4 +282,5 @@ EXTRA_DIST = \
 	settings_mouse.h \
 	settings_model.h \
 	settings_soundchip.h \
-	settings_misc.h
+	settings_misc.h \
+	settings_ethernet.h

@@ -78,6 +78,7 @@
 #include "settings_monitor.h"
 #include "settings_romset.h"
 #include "settings_snapshot.h"
+#include "settings_ethernet.h"
 
 /* I/O extension widgets */
 #include "ioextensionswidget.h"
@@ -702,6 +703,10 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "I/O extensions",
         "io-extensions",
         ioextensions_widget_create, c64_io_extensions },
+
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
 
     { "Snaphot/event/media recording",
        "snapshot",
