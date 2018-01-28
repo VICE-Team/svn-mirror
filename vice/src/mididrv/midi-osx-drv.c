@@ -42,6 +42,7 @@
 #endif
 
 #include "cmdline.h"
+#include "lib.h"
 #include "log.h"
 #include "mididrv.h"
 #include "resources.h"
@@ -111,6 +112,9 @@ int mididrv_resources_init(void)
 
 void mididrv_resources_shutdown(void)
 {
+    lib_free(midi_name);
+    lib_free(midi_in_name);
+    lib_free(midi_out_name);
 }
 
 static const cmdline_option_t cmdline_options[] = {
@@ -418,10 +422,6 @@ void mididrv_out(uint8_t b)
     /* flush when enough bytes have been queued */
     if (out_index >= thres) {
         out_index = 0;
-
-#ifdef DEBUG
-        log_message(mididrv_log, "flushing out %06x", data);
-#endif
 
 #ifdef USE_COREAUDIO
         UInt64 timestamp = AudioGetCurrentHostTime();
