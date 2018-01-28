@@ -33,6 +33,7 @@
 #include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "translate.h"
@@ -110,6 +111,7 @@ static int set_joy_a_auto_button_mapping(const char *val,void *param)
     }
     return 0;
 }
+
 /* a threshold */
 
 static int set_joy_a_x_threshold(int val, void *param)
@@ -656,7 +658,7 @@ static void setup_axis_mapping(joystick_descriptor_t *joy)
 
     for (i = 0; i < 2; i++) {
         joy_axis_t *axis = &joy->axis[i];
-        
+
         /* map axis name to HID usage */
         int usage = joy_hid_get_axis_usage(axis->name);
         if (usage == -1) {
@@ -672,7 +674,7 @@ static void setup_axis_mapping(joystick_descriptor_t *joy)
                                 desc[i], axis->name);
                 }
             }
-            
+
             /* try to map axis with given HID usage */
             int err = joy_hid_assign_axis(joy, i, usage, axis->logical);
             if (err == 0) {
@@ -693,7 +695,7 @@ void joy_reset_axis_range(joystick_descriptor_t *joy, int id)
     joy_axis_t *axis = &joy->axis[id];
     int old_min = axis->min;
     int old_max = axis->max;
- 
+
     int new_min, new_max;
     joy_hid_info_axis(joy, id, &new_min, &new_max, axis->logical);
 
@@ -717,7 +719,7 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
 {
     int i;
     int ids[HID_NUM_BUTTONS];
-    
+
     /* preset button id */
     for (i = 0; i < HID_NUM_BUTTONS; i++) {
         ids[i] = (i<2) ? i+1 : HID_INVALID_BUTTON;
@@ -729,7 +731,7 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
             log_message(LOG_DEFAULT, "mac_joy: invalid button mapping!");
         }
     }
- 
+
     /* try to map buttons in HID device */
     for (i = 0; i < HID_NUM_BUTTONS; i++) {
         joy->buttons[i].id = ids[i];
@@ -739,9 +741,9 @@ static void setup_button_mapping(joystick_descriptor_t *joy)
             if (joy_hid_assign_button(joy, i, ids[i]) != 0) {
                 log_message(LOG_DEFAULT, "mac_joy:   NO button %d on HID device!", ids[i]);
             }
-        } 
+        }
     }
-    
+
     /* show button mapping */
     log_message(LOG_DEFAULT, "mac_joy:   buttons: fire_a=%d fire_b=%d left=%d right=%d up=%d down=%d",
         ids[HID_FIRE], ids[HID_ALT_FIRE], ids[HID_LEFT], ids[HID_RIGHT], ids[HID_UP], ids[HID_DOWN]);
@@ -751,7 +753,7 @@ static void setup_auto_button_mapping(joystick_descriptor_t *joy)
 {
     int i;
     int ids[HID_NUM_AUTO_BUTTONS * 3];
-    
+
     /* preset button id */
     int offset = HID_NUM_AUTO_BUTTONS;
     for (i = 0; i < HID_NUM_AUTO_BUTTONS; i++) {
@@ -766,7 +768,7 @@ static void setup_auto_button_mapping(joystick_descriptor_t *joy)
             log_message(LOG_DEFAULT, "mac_joy: invalid auto button mapping!");
         }
     }
- 
+
     /* try to map auto buttons in HID device */
     offset = HID_NUM_AUTO_BUTTONS;
     for (i = 0; i < HID_NUM_AUTO_BUTTONS; i++) {
@@ -778,12 +780,12 @@ static void setup_auto_button_mapping(joystick_descriptor_t *joy)
             if (joy_hid_assign_button(joy, b, ids[i]) != 0) {
                 log_message(LOG_DEFAULT, "mac_joy:   NO auto button %d on HID device!", ids[i]);
             }
-        } 
+        }
     }
-    
+
     /* show button mapping */
     log_message(LOG_DEFAULT, "mac_joy:   autofire buttons: autofire_a=%d [press=%d release=%d] autofire_b=%d [press=%d release=%d]",
-        ids[0], ids[2], ids[3], ids[1], ids[4], ids[5]);    
+        ids[0], ids[2], ids[3], ids[1], ids[4], ids[5]);
 }
 
 static void setup_hat_switch_mapping(joystick_descriptor_t *joy)
@@ -800,7 +802,6 @@ static void setup_hat_switch_mapping(joystick_descriptor_t *joy)
         joy->hat_switch.mapped = 0;
         log_message(LOG_DEFAULT, "mac_joy:   hat switch not mapped");
     }
-    
 }
 
 /* determine if the given device matches the joystick descriptor */
@@ -849,7 +850,7 @@ static void setup_auto(void)
     /* unmap both joysticks */
     joy_a.mapped = 0;
     joy_b.mapped = 0;
-    
+
     /* query device list */
     devices = joy_hid_get_devices();
     if (devices == NULL) {
@@ -857,16 +858,16 @@ static void setup_auto(void)
         return;
     }
     num_devices = devices->num_devices;
-    
+
     /* walk through all enumerated devices */
     log_message(LOG_DEFAULT, "mac_joy: (auto) found %d HID devices. HID A='%s' B='%s'", 
                 num_devices, joy_a.device_name, joy_b.device_name);
     for (i = 0; i < num_devices; i++) {
         joy_hid_device_t *dev = &devices->devices[i];
-        
+
         log_message(LOG_DEFAULT, "mac_joy: found #%d joystick/gamepad: %04x:%04x:%d %s",
                     i, dev->vendor_id, dev->product_id, dev->serial, dev->product_name);
-        
+
         /* query joy A */
         int assigned = 0;
         if (!auto_assign_a && match_joystick(&joy_a, dev)) {
@@ -878,7 +879,7 @@ static void setup_auto(void)
             setup_joystick(&joy_b, dev, "matched B");
             assigned = 1;
         }
-        
+
         if (!assigned) {
             /* auto assign a */
             if (auto_assign_a && (joy_a.mapped == 0)) {
@@ -890,14 +891,14 @@ static void setup_auto(void)
             }
         }
     }
-    
+
     /* check if matched */
     if (!auto_assign_a && (joy_a.mapped == 0)) {
         log_message(LOG_DEFAULT, "mac_joy: joystick A not matched!");
     }
     if (!auto_assign_b && (joy_b.mapped == 0)) {
         log_message(LOG_DEFAULT, "mac_joy: joystick B not matched!");
-    }   
+    }
     log_message(LOG_DEFAULT, "mac_joy: (auto) done");
 }
 
@@ -938,7 +939,7 @@ void joy_reload_device_list(void)
 /* query for available joysticks and set them up */
 int joy_arch_init(void)
 {
-    if (joy_hid_init()<0) {
+    if (joy_hid_init() < 0) {
         return 0;
     }
 
@@ -961,6 +962,17 @@ void joystick_close(void)
     joy_hid_unmap_device(&joy_a);
     joy_hid_unmap_device(&joy_b);
     joy_hid_exit();
+
+    lib_free(joy_a.device_name);
+    lib_free(joy_a.axis[HID_X_AXIS].name);
+    lib_free(joy_a.axis[HID_Y_AXIS].name);
+    lib_free(joy_a.button_mapping);
+    lib_free(joy_a.auto_button_mapping);
+    lib_free(joy_b.device_name);
+    lib_free(joy_b.axis[HID_X_AXIS].name);
+    lib_free(joy_b.axis[HID_Y_AXIS].name);
+    lib_free(joy_b.button_mapping);
+    lib_free(joy_b.auto_button_mapping);
 }
 
 /* ----- Read Joystick ----- */
@@ -968,14 +980,15 @@ void joystick_close(void)
 static uint8_t read_button(joystick_descriptor_t *joy, int id, uint8_t resValue)
 {
     /* button not mapped? */
-    if (joy->buttons[id].mapped == 0)
+    if (joy->buttons[id].mapped == 0) {
         return 0;
-    
+    }
+
     int value;
     if (joy_hid_read_button(joy, id, &value) != 0) {
         return 0;
     }
-        
+
     return value ? resValue : 0;
 }
 
@@ -987,7 +1000,7 @@ static uint8_t read_auto_button(joystick_descriptor_t *joy, int id, uint8_t resV
     if (button->mapped == 0) {
         return 0;
     }
-    
+
     int value;
     if (joy_hid_read_button(joy, id, &value) != 0) {
         return 0;
@@ -1020,7 +1033,7 @@ static uint8_t read_axis(joystick_descriptor_t *joy, int id, uint8_t min, uint8_
     if (joy_hid_read_axis(joy, id, &value, axis->logical) != 0) {
         return 0;
     }
-    
+
     if (value < axis->min_threshold) {
         return min;
     } else if (value > axis->max_threshold) {
@@ -1046,7 +1059,7 @@ static uint8_t read_hat_switch(joystick_descriptor_t *joy)
     if (joy->hat_switch.mapped == 0) {
         return 0;
     }
-    
+
     int value;
     if (joy_hid_read_hat_switch(joy, &value) != 0) {
         return 0;
@@ -1056,7 +1069,7 @@ static uint8_t read_hat_switch(joystick_descriptor_t *joy)
     if ((value < 0) || (value > 7)) {
         return 0;
     }
-    
+
     return map_hid_to_joy[value];
 }
 
@@ -1091,7 +1104,7 @@ void joystick(void)
     for (i = 0; i < 5; i++) {
         /* what kind of device is connected to the virtual port? */ 
         int joy_port = joystick_port_map[i];
-    
+
         /* is HID joystick A mapped? */
         if (joy_port == JOYDEV_HID_0) {
             if (joy_a.mapped) {

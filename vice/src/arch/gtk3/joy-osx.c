@@ -35,6 +35,7 @@
 #include "joyport.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "log.h"
 #include "resources.h"
 #include "translate.h"
@@ -112,6 +113,7 @@ static int set_joy_a_auto_button_mapping(const char *val,void *param)
     }
     return 0;
 }
+
 /* a threshold */
 
 static int set_joy_a_x_threshold(int val, void *param)
@@ -802,7 +804,6 @@ static void setup_hat_switch_mapping(joystick_descriptor_t *joy)
         joy->hat_switch.mapped = 0;
         log_message(LOG_DEFAULT, "mac_joy:   hat switch not mapped");
     }
-
 }
 
 /* determine if the given device matches the joystick descriptor */
@@ -940,7 +941,7 @@ void joy_reload_device_list(void)
 /* query for available joysticks and set them up */
 int joy_arch_init(void)
 {
-    if (joy_hid_init()<0) {
+    if (joy_hid_init() < 0) {
         return 0;
     }
 
@@ -963,6 +964,17 @@ void joystick_close(void)
     joy_hid_unmap_device(&joy_a);
     joy_hid_unmap_device(&joy_b);
     joy_hid_exit();
+
+    lib_free(joy_a.device_name);
+    lib_free(joy_a.axis[HID_X_AXIS].name);
+    lib_free(joy_a.axis[HID_Y_AXIS].name);
+    lib_free(joy_a.button_mapping);
+    lib_free(joy_a.auto_button_mapping);
+    lib_free(joy_b.device_name);
+    lib_free(joy_b.axis[HID_X_AXIS].name);
+    lib_free(joy_b.axis[HID_Y_AXIS].name);
+    lib_free(joy_b.button_mapping);
+    lib_free(joy_b.auto_button_mapping);
 }
 
 /* ----- Read Joystick ----- */
@@ -970,8 +982,9 @@ void joystick_close(void)
 static uint8_t read_button(joystick_descriptor_t *joy, int id, uint8_t resValue)
 {
     /* button not mapped? */
-    if (joy->buttons[id].mapped == 0)
+    if (joy->buttons[id].mapped == 0) {
         return 0;
+    }
 
     int value;
     if (joy_hid_read_button(joy, id, &value) != 0) {
@@ -1112,5 +1125,5 @@ void joystick(void)
 }
 
 #endif /* HAS_JOYSTICK */
-#endif
 
+#endif /* MACOSX_SUPPORT */
