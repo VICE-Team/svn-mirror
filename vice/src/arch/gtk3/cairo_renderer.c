@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/cairo_renderer.c
+/**
  * \brief   Cairo-based renderer for the GTK3 backend.
  *
  *  Michael C. Martin <mcmartin@gmail.com>

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/plus4aciawidget.c
+/**
  * \brief   Widget to control Plus 4 ACIA
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/widgethelpers.c
+/**
  * \brief   Helpers for creating Gtk3 widgets
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

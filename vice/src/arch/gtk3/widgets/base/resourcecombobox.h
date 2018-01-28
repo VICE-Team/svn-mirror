@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourcecombobox.h
+/**
  * \brief   Combo box connected to a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

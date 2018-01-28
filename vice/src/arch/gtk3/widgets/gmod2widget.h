@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/gmod2widget.h
+/**
  * \brief   Widget to control GMod2 resources - header
  *
  * Written by

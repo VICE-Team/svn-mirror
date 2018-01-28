@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/mmc64widget.h
+/**
  * \brief   Widget to control MMC64 resources - header
  *
  * Written by

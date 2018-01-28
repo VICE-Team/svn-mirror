@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uisidattach.h
+/**
  * \brief   Gtk3 SID-attach dialog - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petreuwidget.h
+/**
  * \brief   PET RAM expansion module widget - header
  *
  * Written by

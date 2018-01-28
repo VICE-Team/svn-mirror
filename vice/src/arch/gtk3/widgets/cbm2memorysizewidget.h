@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/cbm2memorysizewidget.h
+/**
  * \brief   CBM-II memory size widget - header
  *
  * Written by

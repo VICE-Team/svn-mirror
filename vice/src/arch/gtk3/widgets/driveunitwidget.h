@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driveunitwidget.h
+/**
  * \brief   Drive unit selection widget - header
  *
  * Written by

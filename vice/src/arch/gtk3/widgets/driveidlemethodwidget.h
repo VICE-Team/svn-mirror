@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driveidlemethodwidget.h
+/**
  * \brief   Drive idle method widget - header
  *
  * Written by

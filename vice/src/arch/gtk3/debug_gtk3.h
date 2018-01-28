@@ -24,7 +24,7 @@
  *
  */
 
-/** \file   src/arch/gtk3/debug_gtk3.h
+/**
  * \brief   Debugging code for the Gtk3 native port - header
  */
 

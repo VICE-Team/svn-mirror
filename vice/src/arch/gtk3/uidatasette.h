@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uidatasette.h
+/**
  * \brief   Independent datasette control widgets - header
  *
  * Written by

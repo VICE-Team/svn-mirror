@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_soundchip.c
+/**
  * \brief   Sound chip settings main widget for the settings UI
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

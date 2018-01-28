@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/userportdeviceswidget.h
+/**
  * \brief   Widget to select userport devices - header
  *
  * Written by

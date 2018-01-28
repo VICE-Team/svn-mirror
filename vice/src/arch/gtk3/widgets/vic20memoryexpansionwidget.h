@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/vic20memoryexpansionwidget.c
+/**
  * \brief   VIC20 memory expansion widget
  *
  * Written by

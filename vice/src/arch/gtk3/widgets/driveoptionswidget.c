@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driveoptionswidget.c
+/**
  * \brief   Drive options widget
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gt3k/uimonarch.h
+/**
  * \brief   GTK3 Monitor - header
  *
  * Written by

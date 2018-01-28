@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/archdep_win32.c
+/**
  * \brief   Miscellaneous Windows-specific stuff.
  *
  * Written by

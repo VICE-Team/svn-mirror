@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/superpetwidget.c
+/**
  * \brief   Widget to control various SuperPET related resources - header
  *
  * Written by

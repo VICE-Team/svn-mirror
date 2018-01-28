@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/htmlbrowserwidget.h
+/**
  * \brief   Widget to set the HTML browser - header
  *
  * Written by

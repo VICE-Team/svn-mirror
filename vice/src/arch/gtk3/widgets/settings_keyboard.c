@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_keyboard.c
+/**
  * \brief   GTK3 keyboard settings main widget
  *
  * Written by

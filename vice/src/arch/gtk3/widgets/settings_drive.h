@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_drive.h
+/**
  * \brief   Drive settings dialog - header
  *
  * Written by

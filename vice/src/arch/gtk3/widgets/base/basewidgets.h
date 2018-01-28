@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/basewidgets.h
+/**
  * \brief   Header file for the base widgets
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

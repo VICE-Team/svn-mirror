@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/magicvoicewidget.c
+/**
  * \brief   Magic Voice widget
  *
  * Written by

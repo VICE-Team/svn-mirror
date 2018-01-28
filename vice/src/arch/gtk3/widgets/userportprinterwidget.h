@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/userportprinter.h
+/**
  * \brief   Widget to control userport printer - header
  *
  * Written by

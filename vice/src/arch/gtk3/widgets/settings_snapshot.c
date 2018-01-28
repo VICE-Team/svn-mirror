@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_snapshot.c
+/**
  * \brief   Snapshot/recording settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

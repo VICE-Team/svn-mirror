@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_printer.c
+/**
  * \brief   Widget to control printer settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

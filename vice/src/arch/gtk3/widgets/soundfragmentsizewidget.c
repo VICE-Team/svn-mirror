@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundfragmentizewidget.c
+/**
  * \brief   GTK3 sound fragment size widget
  *
  * Written by

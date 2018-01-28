@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/plus4ui.c
+/**
  * \brief   Native GTK3 PLUS4 UI
  *
  * Written by

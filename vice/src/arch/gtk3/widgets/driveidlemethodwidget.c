@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driveidlemethodwidget.c
+/**
  * \brief   Drive expansions widget
  *
  * Written by

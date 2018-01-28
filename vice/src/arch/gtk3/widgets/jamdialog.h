@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/jamdialog.h
+/**
  * \brief   Gtk3 CPU jam dialog - header
  *
  * GTK3 CPU Jam dialog

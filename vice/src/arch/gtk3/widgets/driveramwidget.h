@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driveramwidget.h
+/**
  * \brief   Drive RAM expansions widget - header
  *
  * Written by

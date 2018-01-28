@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petiosizewidget.h
+/**
  * \brief   Widget to set the PET I/O area size - header
  *
  * Written by

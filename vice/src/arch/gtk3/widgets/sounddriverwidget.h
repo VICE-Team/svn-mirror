@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sounddriverwidget.h
+/**
  * \brief   Sound driver widget - header
  *
  * Written by

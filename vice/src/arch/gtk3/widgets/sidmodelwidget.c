@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sidmodelwidget.c
+/**
  * \brief   Widget to select SID model
  *
  * Written by

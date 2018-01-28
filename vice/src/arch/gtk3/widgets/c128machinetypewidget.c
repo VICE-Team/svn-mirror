@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/c128machinettypewidget.c
+/**
  * \brief   C128 machine type widget
  *
  * Written by

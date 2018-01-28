@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/finalexpansionwidget.c
+/**
  * \brief   VIC-20 Final Expansion widget
  *
  * Written by

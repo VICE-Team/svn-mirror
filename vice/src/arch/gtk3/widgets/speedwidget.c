@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/speedwidget.c
+/**
  * \brief   GTK3 emulation speed widget
  *
  * Controls the following resource(s):

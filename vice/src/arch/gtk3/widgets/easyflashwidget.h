@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/easyflashwidget.h
+/**
  * \brief   Widget to control Easy Flash resources - header
  *
  * Written by

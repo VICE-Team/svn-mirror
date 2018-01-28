@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/blockdev.c
+/**
  * \brief   Native GTK3 UI block device stuff.
  *
  * Written by

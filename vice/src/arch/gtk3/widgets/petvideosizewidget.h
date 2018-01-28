@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petvideosizewidget.h
+/**
  * \brief   Widget to set the PET video size - header
  *
  * Written by

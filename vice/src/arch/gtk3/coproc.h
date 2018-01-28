@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/coproc.h
+/**
  * \brief   co-process fork - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/vic20ui.c
+/**
  * \brief   Native GTK3 VIC20 UI
  *
  * Written by

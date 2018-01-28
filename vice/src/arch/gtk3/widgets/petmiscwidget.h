@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petmiscwidget.h
+/**
  * \brief   Widget to set the PET Crtc and EoiBlank resources - header
  *
  * Written by

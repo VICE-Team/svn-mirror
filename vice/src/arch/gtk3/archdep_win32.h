@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/archdep_win32.h
+/**
  * \brief   Windows-specific stuff - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/supersnapshotwidget.h
+/**
  * \brief   Widget to control Super Snapshot V5 resources - header
  *
  * Written by

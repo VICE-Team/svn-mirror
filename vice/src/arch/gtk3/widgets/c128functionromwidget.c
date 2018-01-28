@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/c128functionromwidget.c
+/**
  * \brief   Widget to control C128 function roms
  *
  * Written by

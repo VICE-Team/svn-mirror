@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/c64memoryexpansionhackswidget.c
+/**
  * \brief   Widget to control C64 memory expansion hacks
  *
  * Written by

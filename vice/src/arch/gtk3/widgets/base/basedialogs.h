@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/basedialogs.h
+/**
  * \brief   Gtk3 basic dialogs (Info, Yes/No, etc)
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

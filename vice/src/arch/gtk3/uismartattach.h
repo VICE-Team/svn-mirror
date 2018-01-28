@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uismartattach.h
+/**
  * \brief   GTK3 smart-attach dialog - header
  *
  * Written by

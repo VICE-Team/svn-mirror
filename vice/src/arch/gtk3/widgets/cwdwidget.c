@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/cwdwidget.c
+/**
  * \brief   Widget to set the current working directory
  *
  * Written by

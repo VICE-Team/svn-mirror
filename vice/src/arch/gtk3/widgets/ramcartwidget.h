@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ramcartwidget.h
+/**
  * \brief   Widget to control RAMCART resources - header
  *
  * Written by

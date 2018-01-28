@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/printeremulationtypewidget.h
+/**
  * \brief   Widget to control printer emulation type - header
  *
  * Written by

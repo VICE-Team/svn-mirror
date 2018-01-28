@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_autostart.h
+/**
  * \brief   GTK3 autostart settings central widget - header
  *
  * Written by

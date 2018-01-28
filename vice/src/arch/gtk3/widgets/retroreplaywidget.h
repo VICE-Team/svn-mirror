@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/retroreplaywidget.h
+/**
  * \brief   Widget to control Retro Replay resources - header
  *
  * Written by

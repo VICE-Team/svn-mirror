@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundfragmentizewidget.h
+/**
  * \brief   Sound fragment size widget - header
  *
  * Written by

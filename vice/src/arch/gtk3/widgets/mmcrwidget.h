@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/mmcrwidget.h
+/**
  * \brief   Widget to control MMC Replay resources - header
  *
  * Written by

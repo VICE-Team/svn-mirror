@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/vicflashwidget.c
+/**
  * \brief   VicFlash widget
  *
  * Written by

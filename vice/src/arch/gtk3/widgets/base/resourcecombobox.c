@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourcecombobox.c
+/**
  * \brief   Combo boxes connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

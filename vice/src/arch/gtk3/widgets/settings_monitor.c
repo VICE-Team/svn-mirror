@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_monitor.c
+/**
  * \brief   GTK3 monitor setting dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

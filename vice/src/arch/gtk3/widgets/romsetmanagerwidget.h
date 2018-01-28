@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widget/romsetmanagerwidget.h
+/**
  * \brief   GTK3 ROM set manager widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

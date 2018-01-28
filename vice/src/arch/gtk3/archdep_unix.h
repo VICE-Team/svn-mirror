@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/archdep_unix.h
+/**
  * \brief   Miscellaneous UNIX-specific stuff - header
  *
  * Written by

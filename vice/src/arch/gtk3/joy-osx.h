@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/joy-osx.h
+/**
  * \brief   Joystick support for Mac OS X - header
  *
  * Written by

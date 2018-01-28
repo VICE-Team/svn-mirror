@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourceentry.h
+/**
  * \brief   Text entry connected to a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

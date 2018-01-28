@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/tapeportdeviceswidget.c
+/**
  * \brief   Tape port devices widget
  *
  * Written by

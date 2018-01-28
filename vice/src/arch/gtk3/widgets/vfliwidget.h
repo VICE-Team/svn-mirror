@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/vfliwidget.h
+/**
  * \brief   VIC-20 VFLI widget - header
  *
  * Written by

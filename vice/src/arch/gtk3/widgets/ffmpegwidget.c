@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ffmpegwidget.c
+/**
  * \brief   FFMPEG media recording options dialog
  *
  * Written by

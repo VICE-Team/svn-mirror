@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundbuffersizewidget.h
+/**
  * \brief   Sound buffer size widget - header
  *
  * Written by

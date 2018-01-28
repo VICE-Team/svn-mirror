@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/htmlbrowserwidget.c
+/**
  * \brief   Widget to set the HTML browser
  *
  * Written by

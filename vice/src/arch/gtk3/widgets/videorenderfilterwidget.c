@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/videorenderfilterwidget.c
+/**
  * \brief   Widget to select renderer filter
  *
  * Written by

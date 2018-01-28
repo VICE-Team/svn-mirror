@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/cbm5x0ui.c
+/**
  * \brief   Native GTK3 CBM5x0 UI.
  *
  * Written by

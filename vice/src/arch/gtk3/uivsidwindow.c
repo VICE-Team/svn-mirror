@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uivsidwindow.c
+/**
  * \brief   Native GTK3 main vsid window code.
  *
  * Written by

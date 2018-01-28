@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petdiagpinwidget.c
+/**
  * \brief   Widget to PET diagnostic pin settings
  *
  * Written by

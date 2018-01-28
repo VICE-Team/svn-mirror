@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sidcartwidget.h
+/**
  * \brief   SID Cartridge widget - header
  *
  * Written by

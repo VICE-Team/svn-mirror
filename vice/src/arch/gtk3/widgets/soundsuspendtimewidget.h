@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundsuspendtimewidget.h
+/**
  * \brief   Sound suspend time widget - header
  *
  * Written by

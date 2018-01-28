@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petcolourgraphicswidget.h
+/**
  * \brief   PET Colour Graphics widget - header
  *
  * Written by

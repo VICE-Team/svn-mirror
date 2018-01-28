@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uisnapshot.c
+/**
  * \brief   Snapshot dialogs and menu item handlers
  *
  * Written by

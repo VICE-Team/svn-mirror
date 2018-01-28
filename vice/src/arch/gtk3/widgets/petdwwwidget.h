@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petdwwwidget.h
+/**
  * \brief   PET DWW widget - header
  *
  * Written by

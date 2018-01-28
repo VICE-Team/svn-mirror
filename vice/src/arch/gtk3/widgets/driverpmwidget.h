@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driverpmwidget.h
+/**
  * \brief   Drive RPM settings widget - header
  *
  * Written by

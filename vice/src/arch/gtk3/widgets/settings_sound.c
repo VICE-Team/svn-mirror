@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_sound.c
+/**
  * \brief   Sound settings main widget for the settings dialog
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/printerdriverwidget.h
+/**
  * \brief   Widget to control printer drive - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/cpmwidget.c
+/**
  * \brief   Widget to control CP/M resources
  *
  * Written by

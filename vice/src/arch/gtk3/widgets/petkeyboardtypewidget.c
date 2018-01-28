@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petkeyboardtypewidget.c
+/**
  * \brief   PET keyboard type widget
  *
  * Written by

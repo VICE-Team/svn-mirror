@@ -1,4 +1,4 @@
-/** \file   uimedia.c
+/**
  * \brief   Media recording dialog
  *
  * Written by

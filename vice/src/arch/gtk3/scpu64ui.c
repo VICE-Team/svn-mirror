@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/scpu64ui.c
+/**
  * \brief   Native GTK3 SCPU64 UI
  *
  * Written by

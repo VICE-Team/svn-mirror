@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/filechooserhelpers.c
+/**
  * \brief   GtkFileChooser helper functions
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

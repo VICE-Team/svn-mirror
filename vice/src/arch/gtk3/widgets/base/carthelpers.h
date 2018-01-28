@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/carthelpers.h
+/**
  * \brief   Cartridge helper functions - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widget/settings_romset.c
+/**
  * \brief   GTK3 ROM set widget
  *
  * Written by

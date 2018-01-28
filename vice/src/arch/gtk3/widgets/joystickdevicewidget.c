@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/joystickdevicewidget.c
+/**
  * \brief   Widget to select a joystick device
  *
  * Written by

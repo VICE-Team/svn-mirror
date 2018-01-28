@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/drivedoswidget.h
+/**
  * \brief   Drive DOS expansions widget - header
  *
  * Written by

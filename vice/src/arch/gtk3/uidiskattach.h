@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uidiskattach.h
+/**
  * \brief   GTK3 disk image attach dialog - header
  *
  * Written by

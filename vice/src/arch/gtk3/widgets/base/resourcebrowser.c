@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourcebrowser.c
+/**
  * \brief   Text entry with label and browse button connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundsyncwidget.h
+/**
  * \brief   Sound synchronization mode widget - header
  *
  * Written by

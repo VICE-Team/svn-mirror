@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/easyflashwidget.c
+/**
  * \brief   Widget to control Easy Flash resources
  *
  * Written by

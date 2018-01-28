@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/kbd.h
+/**
  * \brief   Native GTK3 specfic keyboard driver - header
  *
  * Written by

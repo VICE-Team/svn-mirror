@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sidcartwidget.c
+/**
  * \brief   SID Cartidge widget
  *
  * Written by

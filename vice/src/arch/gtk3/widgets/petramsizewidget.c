@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petramsizewidget.c
+/**
  * \brief   Widget to set the PET RAM size
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/not_implemented.h
+/**
  * \brief   Temporary file to signal implemetation state of functions
  */
 

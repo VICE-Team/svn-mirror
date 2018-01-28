@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/midiwidget.c
+/**
  * \brief   MIDI emulation settings widget
  *
  * Written by

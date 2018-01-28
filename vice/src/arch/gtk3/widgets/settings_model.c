@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets_settings_model.c
+/**
  * \brief   Model settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

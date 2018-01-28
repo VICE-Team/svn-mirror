@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uimenu.h
+/**
  * \brief   Native GTK3 menu handling - header
  *
  * Written by

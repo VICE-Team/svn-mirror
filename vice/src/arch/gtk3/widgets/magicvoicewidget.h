@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/magicvoicewidget.h
+/**
  * \brief   Magic Voice cartridge widget - header
  *
  * Written by

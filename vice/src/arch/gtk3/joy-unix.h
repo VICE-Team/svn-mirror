@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/joy-unix.h
+/**
  * \brief   Joystick support for Linux.
  *
  * Written by

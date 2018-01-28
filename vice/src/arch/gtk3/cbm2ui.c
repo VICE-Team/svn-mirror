@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/cbm2ui.c
+/**
  * \brief   Native GTK3 CBM2 UI.
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/c64ui.c
+/**
  * \brief   Native GTK3 C64 UI
  *
  * Written by

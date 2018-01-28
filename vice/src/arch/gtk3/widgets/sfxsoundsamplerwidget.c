@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sfxsoundsamplerwidget.c
+/**
  * \brief   SFX Sound Sampler widget - header
  *
  * Written by

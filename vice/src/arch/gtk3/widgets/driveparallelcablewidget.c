@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driveparallelcablewidget.c
+/**
  * \brief   Drive parallel cable widget
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/cartimagewidget.c
+/**
  * \brief   Widget to control load/save/flush for cart images
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

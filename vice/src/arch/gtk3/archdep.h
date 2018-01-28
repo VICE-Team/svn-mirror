@@ -1,4 +1,4 @@
-/** \file   srcr/arch/gtk3/archdep.h
+/**
  * \brief   Miscellaneous system-specific stuff - header
  *
  * Written by

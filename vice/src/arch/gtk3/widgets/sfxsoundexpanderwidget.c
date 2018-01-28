@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sfxsoundexpanderwidget.c
+/**
  * \brief   SFX Sound Expander widget
  *
  * Written by

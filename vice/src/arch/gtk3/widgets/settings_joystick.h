@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_joystick.h
+/**
  * \brief   Widget to control settings for joysticks - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

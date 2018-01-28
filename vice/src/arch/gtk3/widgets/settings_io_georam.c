@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_io_georamw.c
+/**
  * \brief   Widget to control GEO-RAM resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/plus4digiblasterwidget.h
+/**
  * \brief   Widget to control Plus 4 DigiBlaster - header
  *
  * Written by

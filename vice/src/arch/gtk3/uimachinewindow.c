@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uimachinewindow.c
+/**
  * \brief   Native GTK3 main emulator window code.
  *
  * Written by

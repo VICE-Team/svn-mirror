@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uisettings.h
+/**
  * \brief   GTK3 settings dialog - header
  *
  * Written by

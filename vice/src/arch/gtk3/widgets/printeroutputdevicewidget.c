@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/printeroutputdevicewidget.c
+/**
  * \brief   Widget to control printer output device settings
  *
  * Written by

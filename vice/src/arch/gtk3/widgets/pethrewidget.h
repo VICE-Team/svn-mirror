@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/pethrewidget.h
+/**
  * \brief   PET HRE settings widhget - header
  *
  * Written by

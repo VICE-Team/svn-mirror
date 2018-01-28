@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_misc.h
+/**
  * \brief   Widget to control resources that are hard to place properly - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/videomodelwidget.c
+/**
  * \brief   Video chip model selection widget
  *
  * Written by

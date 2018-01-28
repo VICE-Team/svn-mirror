@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uicmdline.h
+/**
  * \brief   Dialog to display command line options - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/vicieee488widget.h
+/**
  * \brief   VIC-20 IEEE-488 interface widget - header
  *
  * Written by

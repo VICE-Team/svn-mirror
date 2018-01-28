@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/vsidui.c
+/**
  * \brief   Native GTK3 VSID UI
  *
  * Written by

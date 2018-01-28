@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/c128fullbankswidget.h
+/**
  * \brief   Widget to control C128 full banks - header
  *
  * Written by

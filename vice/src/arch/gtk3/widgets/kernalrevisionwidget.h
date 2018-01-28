@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/kernalrevisionwidget.h
+/**
  * \brief   KERNAL revision widget - header
  *
  * Written by

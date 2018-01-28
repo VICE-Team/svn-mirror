@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/uicart.h
+/**
  * \brief   Widget to attach carts - header
  *
  * Written by

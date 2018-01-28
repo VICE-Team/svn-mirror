@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uifliplist.h
+/**
  * \brief   Fliplist menu management - header
  *
  * Written by

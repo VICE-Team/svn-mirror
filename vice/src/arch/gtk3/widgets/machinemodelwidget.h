@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/machinemodelwidget.h
+/**
  * \brief   Machine model selection widget- header
  *
  * Written by

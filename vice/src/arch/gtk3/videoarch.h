@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/videoarch.h
+/**
  * \broef   Native GTK3 graphics routines.
  *
  * based on the X11 version written by

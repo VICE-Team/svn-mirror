@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uidiskattach.c
+/**
  * \brief   GTK3 disk-attach dialog
  *
  * Written by

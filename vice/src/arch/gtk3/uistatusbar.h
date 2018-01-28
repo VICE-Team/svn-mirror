@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uistatusbar.h
+/**
  * \brief   Gtk3 status bar - header
  *
  * Written by

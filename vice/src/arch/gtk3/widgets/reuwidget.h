@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/reuwidget.h
+/**
  * \brief   Widget to control REU resources - header
  *
  * Written by

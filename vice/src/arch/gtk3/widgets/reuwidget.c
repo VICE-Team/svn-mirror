@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/reuwidget.c
+/**
  * \brief   Widget to control RAM Expansion Module resources
  *
  * Written by

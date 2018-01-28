@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/archdep.c
+/**
  * \brief   Wrappers for architecture/OS-specific code
  *
  * I've decided to use GLib's use of the XDG specification and the standard

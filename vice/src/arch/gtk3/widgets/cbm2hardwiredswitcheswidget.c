@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/cbm2hardwareswitchesmodel.c
+/**
  * \brief   Widget to select ....
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/vdcmodelwidget.h
+/**
  * \brief   VDC settings widget - header
  *
  * Written by

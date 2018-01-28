@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ieee488widget.h
+/**
  * \brief   IEEE-488 adapter widget - header
  *
  * Written by

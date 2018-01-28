@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uicompiletimefeatures.h
+/**
  * \brief   Dialog to display compile time features - header
  *
  * Written by

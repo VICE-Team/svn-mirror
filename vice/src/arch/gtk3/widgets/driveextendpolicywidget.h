@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/driveextendpolicywidget.h
+/**
  * \brief   Drive 40-track extend policy widget - header
  *
  * Written by

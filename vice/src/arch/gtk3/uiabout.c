@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uiabout.c
+/**
  * \brief   GTK3 about dialog
  *
  * TODO:    Needs a proper logo, not the old, ugly, blue one. The logo from the

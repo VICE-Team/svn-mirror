@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uivideo.c
+/**
  * \brief   Video chip/config helpers
  *
  * Written by

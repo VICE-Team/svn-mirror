@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sidsoundwidget.h
+/**
  * \brief   Settings for SID emulation - header
  *
  * Written by

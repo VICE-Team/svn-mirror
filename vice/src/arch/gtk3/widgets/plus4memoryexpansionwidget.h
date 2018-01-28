@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/plus4memoryexpansionwidget.h
+/**
  * \brief   Plus4 memory expansion widget - header
  *
  * Written by

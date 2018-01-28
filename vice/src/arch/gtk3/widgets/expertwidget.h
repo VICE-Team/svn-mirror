@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/expertwidget.h
+/**
  * \brief   Widget to control Expert Cartridge resources - header
  *
  * Written by

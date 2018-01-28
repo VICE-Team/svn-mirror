@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uidebug.c
+/**
  * \brief   Debug menu dialogs
  *
  * Written by

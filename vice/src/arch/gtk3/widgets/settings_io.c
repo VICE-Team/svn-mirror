@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_io.c
+/**
  * \brief   I/O extension settings that don't go/fit into subwidgets
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

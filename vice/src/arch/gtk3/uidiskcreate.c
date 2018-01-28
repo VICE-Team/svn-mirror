@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uidiskcreate.c
+/**
  * \brief   Gtk3 dialog to create and attach a new disk image
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/digimaxwidget.c
+/**
  * \brief   DigiMAX widget
  *
  * Written by

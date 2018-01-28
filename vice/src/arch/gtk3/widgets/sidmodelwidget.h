@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/sidmodelwidget.h
+/**
  * \brief   Widget to set the SID model - header
  *
  * Written by

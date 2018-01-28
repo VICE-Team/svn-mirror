@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundsyncwidget.c
+/**
  * \brief   GTK3 sound synchronization mode widget
  *
  * Written by

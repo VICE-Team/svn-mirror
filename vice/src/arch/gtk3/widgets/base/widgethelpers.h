@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/widgethelpers.h
+/**
  * \brief   GTK3 helper functions for widgets - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

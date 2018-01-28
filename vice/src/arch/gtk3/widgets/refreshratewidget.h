@@ -1,4 +1,4 @@
-/** \file   src/arch/gk3/widgets/refreshratewidget.h
+/**
  * \brief   Refresh rate widget - header
  *
  * Written by

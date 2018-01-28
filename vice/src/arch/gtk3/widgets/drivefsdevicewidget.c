@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/drivefsdevicewidget.c
+/**
  * \brief   Drive file system device widget
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/drivewidgethelpers.c
+/**
  * \brief   Helpers functions for the drive widgets
  *
  * Written by

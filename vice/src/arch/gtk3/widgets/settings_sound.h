@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_sound.h
+/**
  * \brief   Sound settings main widget - header
  *
  * Written by

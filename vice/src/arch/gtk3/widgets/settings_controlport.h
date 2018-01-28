@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_controlport.h
+/**
  * \brief   Wigdet to control settings for control ports - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

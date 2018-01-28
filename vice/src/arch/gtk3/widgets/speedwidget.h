@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/speedwidget.h
+/**
  * \brief   Gtk3 emulation speed widget - header
  *
  * Written by

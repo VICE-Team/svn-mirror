@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/aciawidget.c
+/**
  * \brief   Widget to control various ACIA related resources - header
  *
  * Written by

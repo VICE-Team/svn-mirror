@@ -1,4 +1,4 @@
-/** \file   uimedia.h
+/**
  * \brief   Media recording dialog - header
  *
  * Written by

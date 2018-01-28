@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/ui.h
+/**
  * \brief   Main Gtk3 UI code - header
  *
  * Written by

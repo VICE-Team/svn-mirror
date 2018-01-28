@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_ethernet.h
+/**
  * \brief   GTK3 ethernet settings widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

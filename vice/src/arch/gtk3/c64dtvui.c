@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/c64dtvui.c
+/**
  * \brief   Native GTK3 C64DTV UI
  *
  * Written by

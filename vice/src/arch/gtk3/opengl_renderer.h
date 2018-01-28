@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/opengl_renderer.h
+/**
  * \brief   OpenGL-based renderer for the GTK3 backend.
  *
  *  Michael C. Martin <mcmartin@gmail.com>

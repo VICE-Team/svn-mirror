@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/drivemodelwidget.h
+/**
  * \brief   Drive model selection widget - header
  *
  * Written by

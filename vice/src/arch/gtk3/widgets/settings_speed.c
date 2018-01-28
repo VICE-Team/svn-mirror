@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_speed.c
+/**
  * \brief   GTK3 speed control central widget for the settings dialog
  *
  * Written by

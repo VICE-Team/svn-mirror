@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ds12c887widget.h
+/**
  * \brief   DS12C887 RTC widget - header
  *
  * Written by

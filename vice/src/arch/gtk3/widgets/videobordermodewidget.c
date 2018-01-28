@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/videobordermodewidget.c
+/**
  * \brief   Widget to select border mode
  *
  * Written by

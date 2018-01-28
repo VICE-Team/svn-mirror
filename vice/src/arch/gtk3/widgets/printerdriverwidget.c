@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/printerdriverwidget.c
+/**
  * \brief   Widget to control printer driver
  *
  * Written by

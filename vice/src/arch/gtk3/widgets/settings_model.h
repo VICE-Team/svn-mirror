@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_model.h
+/**
  * \brief   Model settings dialog - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

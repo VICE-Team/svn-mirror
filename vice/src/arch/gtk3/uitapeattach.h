@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uitapeattach.h
+/**
  * \brief   Tape image attach dialog - header
  *
  * Written by

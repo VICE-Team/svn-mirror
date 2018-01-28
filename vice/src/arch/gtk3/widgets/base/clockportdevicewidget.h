@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/clockportdevicewidget.h
+/**
  * \brief   Widget to select ClockPort device - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

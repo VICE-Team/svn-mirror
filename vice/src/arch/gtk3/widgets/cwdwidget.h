@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/cwdwidget.h
+/**
  * \brief   Widget to set working directory - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/v364speechwidget.c
+/**
  * \brief   V364 Speech widget
  *
  * Written by

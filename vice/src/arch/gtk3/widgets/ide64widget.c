@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ide64widget.c
+/**
  * \brief   Widget to control IDE64 resources
  *
  * Written by

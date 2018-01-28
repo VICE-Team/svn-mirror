@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/megacartwidget.h
+/**
  * \brief   Mega Cart widget - header
  *
  * Written by

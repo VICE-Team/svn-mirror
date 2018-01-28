@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_sampler.c
+/**
  * \brief   Widget to control sampler settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

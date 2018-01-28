@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uinetplay_new.c
+/**
  * \brief   GTK3 Netplay UI
  *
  * Written by

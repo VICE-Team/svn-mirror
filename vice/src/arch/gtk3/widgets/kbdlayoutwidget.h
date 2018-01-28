@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/kbdlayoutwidget.h
+/**
  * \brief   Gtk3 keyboard layout widget for the settings dialog - header
  *
  * Written by

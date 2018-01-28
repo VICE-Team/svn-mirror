@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/megacartwidget.c
+/**
  * \brief   VIC-20 Mega Cart widget
  *
  * Written by

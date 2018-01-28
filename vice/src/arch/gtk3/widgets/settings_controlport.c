@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_controlport.c
+/**
  * \brief   Widget to control settings for control ports
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

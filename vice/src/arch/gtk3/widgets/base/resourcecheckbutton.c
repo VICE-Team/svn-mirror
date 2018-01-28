@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourcecheckbutton.c
+/**
  * \brief   Check button connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

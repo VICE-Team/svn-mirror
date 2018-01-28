@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uicommands.h
+/**
  * \brief   Simple commands triggered from the menu - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/cbm2rammappingwidget.c
+/**
  * \brief   Widget to map RAM into bank 15
  *
  * Written by

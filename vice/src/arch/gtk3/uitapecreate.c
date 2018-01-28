@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uitapecreate.c
+/**
  * \brief   Gtk3 dialog to create and attach a new tape image
  *
  * Written by

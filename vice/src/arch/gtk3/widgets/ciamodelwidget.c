@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ciamodelwidget.c
+/**
  * \brief   Widget to set the CIA model
  *
  * Written by

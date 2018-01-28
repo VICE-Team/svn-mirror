@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/vicioramwidget.h
+/**
  * \brief   VIC-20 I/O RAM widget - header
  *
  * Written by

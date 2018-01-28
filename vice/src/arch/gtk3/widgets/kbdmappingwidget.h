@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/kbdmappingwidget.h
+/**
  * \brief   Gtk3 keyboard mapping widget for the settings dialog - header
  *
  * Written by

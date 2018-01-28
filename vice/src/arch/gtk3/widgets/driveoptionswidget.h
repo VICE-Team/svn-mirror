@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/driveoptionswidget.h
+/**
  * \brief   Drive options widget - header
  *
  * Controls the following resource(s):

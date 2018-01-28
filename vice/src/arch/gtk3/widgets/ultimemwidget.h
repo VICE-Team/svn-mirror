@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ultimemwidget.h
+/**
  * \brief   VIC-20 UltiMem widget - header
  *
  * Written by

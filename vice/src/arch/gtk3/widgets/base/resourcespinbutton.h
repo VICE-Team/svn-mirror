@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourcespinbutton.h
+/**
  * \brief   Spin buttons to control resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

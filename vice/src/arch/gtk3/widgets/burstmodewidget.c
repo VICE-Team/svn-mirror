@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/burstmodewidget.c
+/**
  * \brief   Burst Mode Modification widget
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourceradiogroup.h
+/**
  * \brief   Group of radio buttons controlling a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

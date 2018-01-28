@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundoutputmodewidget.c
+/**
  * \brief   GTK3 sound output mode widget
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/ethernetcartwidget.c
+/**
  * \brief   Widget to control ethernet cartridge settings
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_video.h
+/**
  * \brief   Widget to control video settings - header
  *
  * Written by

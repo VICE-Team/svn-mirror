@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/base/resourcescale.c
+/**
  * \brief   Scale to control an integer resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

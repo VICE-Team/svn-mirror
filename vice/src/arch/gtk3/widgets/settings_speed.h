@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_speed.h
+/**
  * \brief   Speed control central widget for the settings dialog - header
  *
  * Written by

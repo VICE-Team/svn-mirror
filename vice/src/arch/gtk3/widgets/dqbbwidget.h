@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/dqbbwidget.h
+/**
  * \brief   Widget to control Double Quick Brown Box resources - header
  *
  * Written by

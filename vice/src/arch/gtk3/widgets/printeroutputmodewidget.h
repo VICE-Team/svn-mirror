@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/printeroutputmodewidget.h
+/**
  * \brief   Widget to control printer output mode settings - header
  *
  * Written by

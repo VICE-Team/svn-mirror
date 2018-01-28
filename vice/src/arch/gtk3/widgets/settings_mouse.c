@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_mouse.c
+/**
  * \brief   Mouse settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

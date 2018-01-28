@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/joystickuserportadapterwidget.c
+/**
  * \brief   Widget to select a userport joystick adapter
  *
  * Written by

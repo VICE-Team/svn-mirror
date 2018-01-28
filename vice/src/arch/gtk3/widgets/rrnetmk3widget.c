@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/rrnetmk3widget.c
+/**
  * \brief   Widget to control RRNet MK3 resourcs
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/cbm2memorysizewidget.c
+/**
  * \brief   CBM-II memory size widget
  *
  * Controls the following resource(s):

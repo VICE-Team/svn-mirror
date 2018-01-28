@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uipalettewidget.h
+/**
  * \brief   Widget to select palette - header
  *
  * Written by

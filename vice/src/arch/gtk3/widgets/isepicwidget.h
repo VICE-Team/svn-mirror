@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/isepicwidget.h
+/**
  * \brief   Widget to control ISEPIC resources - header
  *
  * Written by

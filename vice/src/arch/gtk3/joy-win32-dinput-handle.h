@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/joy-win32-dinput-handle.h 
+/**
  * \brief   Functionality shared by DirectInput joystick and mouse drivers - header
  *
  * Written by

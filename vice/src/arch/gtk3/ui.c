@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/ui.c
+/**
  * \brief   Native GTK3 UI stuff.
  *
  * Written by

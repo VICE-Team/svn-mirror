@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/petdwwwidget.c
+/**
  * \brief   PET RAM expansion module widget
  *
  * Written by

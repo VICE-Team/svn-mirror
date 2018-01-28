@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/mousedrv.h
+/**
  * \brief   Mouse handling for native GTK3 UI - header
  *
  * Written by

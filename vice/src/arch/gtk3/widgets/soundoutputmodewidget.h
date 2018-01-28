@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/oundoutputmodewidget.h
+/**
  * \brief   Sound output mode widget - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uiedit.h
+/**
  * \brief   Edit menu handlers - header
  *
  * Written by

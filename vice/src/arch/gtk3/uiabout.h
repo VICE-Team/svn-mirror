@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/uiabout.h
+/**
  * \brief   GTK3 about dialog - header
  *
  * Written by

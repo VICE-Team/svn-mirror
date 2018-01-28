@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/soundsampleratewidget.h
+/**
  * \brief   Sund sample rate widget - header
  *
  * Written by

@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/settings_autostart.c
+/**
  * \brief   GTK3 autostart settings central widget
  *
  * Controls the following resource(s):

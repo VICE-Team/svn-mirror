@@ -1,4 +1,4 @@
-/** \file   src/arch/gtk3/widgets/vicflashwidget.h
+/**
  * \brief   VIC-20 Final Expansion widget - header
  *
  * Written by
