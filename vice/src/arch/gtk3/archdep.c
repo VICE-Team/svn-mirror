@@ -1,4 +1,4 @@
-/**
+/** \file
  * \brief   Wrappers for architecture/OS-specific code
  *
  * I've decided to use GLib's use of the XDG specification and the standard
@@ -6,10 +6,11 @@
  * ports expect them to be. For example, vicerc will be in $HOME/.config/vice
  * now, not $HOME/.vice. -- compyx
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -393,7 +394,7 @@ char *archdep_extra_title_text(void)
     return NULL;
 }
 
-
+#if 0
 #ifdef HAVE_NETWORK
 
 /** \brief  Get a list of active network devices
@@ -479,3 +480,4 @@ void archdep_free_net_devices(vice_netdev_t **devices)
 }
 
 #endif  /* ifdef HAVE_NETWORK */
+#endif

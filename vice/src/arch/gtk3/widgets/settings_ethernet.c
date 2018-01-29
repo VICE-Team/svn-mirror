@@ -68,7 +68,7 @@ static void on_device_combo_changed(GtkWidget *widget, gpointer data)
     }
 }
 
-
+#if 0
 /** \brief  Create combo box to select the ethernet interface
  *
  * \return  GtkComboBoxText
@@ -76,7 +76,7 @@ static void on_device_combo_changed(GtkWidget *widget, gpointer data)
 static GtkWidget *create_device_combo(void)
 {
     GtkWidget *combo;
-    vice_netdev_t **devices;
+    vice_netdev_t **devices = NULL;
     const char *iface = NULL;
 
     /* get current interface */
@@ -121,7 +121,7 @@ static GtkWidget *create_device_combo(void)
     return combo;
 }
 #endif
-
+#endif
 
 /** \brief  Create Ethernet settings widget for the settings UI
  *
@@ -136,6 +136,7 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
+#if 0
 #ifdef HAVE_NETWORK
     label = gtk_label_new("Ethernet device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -143,6 +144,7 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_device_combo(), 1, 0, 1, 1);
 #else
+#endif
     label = gtk_label_new("Ethernet not supported, please compile with "
             "--enable-ethernet.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
