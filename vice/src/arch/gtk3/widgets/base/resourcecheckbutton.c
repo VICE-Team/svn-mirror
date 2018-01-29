@@ -1,7 +1,24 @@
-/**
+/** \file
  * \brief   Check button connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * This widget presents a check button that controls a boolean resource. During
+ * construction the current resource value is stored in the widget to allow
+ * resetting to default.
+ *
+ * \code{.c}
+ *
+ *  GtkWidget *check;
+ *
+ *  // create a widget
+ *  check = vice_gtk3_resource_check_button_create("SomeResource");
+ *  // any state change of the widget will now update the resource
+ *
+ *  // restore widget & resource to their initial state
+ *  vice_gtk3_resource_check_button_reset(check);
+ *
+ * \endcode
  */
 
 /*
