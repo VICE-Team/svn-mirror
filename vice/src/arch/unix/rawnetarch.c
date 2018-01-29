@@ -645,6 +645,38 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed, int *phash_i
     return 0;
 }
 
+
+/** \brief  Find default device on which to capture
+ *
+ * \return  name of standard interface
+ *
+ * \note    pcap_lookupdev() has been deprecated, so the correct way to get
+ *          the default device is to use the first entry returned by
+ *          pcap_findalldevs().
+ *          See http://www.tcpdump.org/manpages/pcap_lookupdev.3pcap.html
+ *
+ * \return  default interface name or `NULL` when not found
+ *
+ * \note    free the returned value with lib_free() if not `NULL`
+ */
+char *rawnet_arch_get_standard_interface(void)
+{
+    char *dev = NULL;
+    char errbuf[PCAP_ERRBUF_SIZE];
+    pcap_if_t *list;
+
+    if (pcap_findalldevs(&list, errbuf) == 0) {
+        dev = lib_stralloc(list[0].name);
+        pcap_freealldevs(list);
+#ifdef HAVE_TUNTAP
+    } else {
+        dev = lib_stralloc("tap0");
+#endif
+    }
+    return dev;
+}
+
+#if 0
 char *rawnet_arch_get_standard_interface(void)
 {
     char *dev = NULL;
@@ -659,4 +691,6 @@ char *rawnet_arch_get_standard_interface(void)
 
     return dev;
 }
+#endif
+
 #endif /* #ifdef HAVE_RAWNET */

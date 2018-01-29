@@ -534,7 +534,7 @@ char *rawnet_arch_get_standard_interface(void)
         return NULL;
     }
 
-    dev = (*p_pcap_lookupdev)(errbuf);
+    dev = lib_stralloc((*p_pcap_lookupdev)(errbuf));
 
     return dev;
 }

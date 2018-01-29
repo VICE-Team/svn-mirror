@@ -110,6 +110,7 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
 
 #endif /* HAVE_LIBNET */
 
+
 static char rawnet_pcap_errbuf[PCAP_ERRBUF_SIZE];
 
 #ifdef RAWNET_DEBUG_PKTDUMP
@@ -600,15 +601,29 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int  *phashed,
  *
  * \return  name of standard interface
  *
- * FIXME:   uses deprecated code (pointer to static buffer, see
- *          http://www.tcpdump.org/manpages/pcap_lookupdev.3pcap.html)
+ * \note    pcap_lookupdev() has been deprecated, so the correct way to get
+ *          the default device is to use the first entry returned by
+ *          pcap_findalldevs().
+ *          See http://www.tcpdump.org/manpages/pcap_lookupdev.3pcap.html
+ *
+ * \return  default interface name or `NULL` when not found
+ *
+ * \note    free the returned value with lib_free() if not `NULL`
  */
 char *rawnet_arch_get_standard_interface(void)
 {
-    char *dev, errbuf[PCAP_ERRBUF_SIZE];
+    char *dev = NULL;
+    char errbuf[PCAP_ERRBUF_SIZE];
+    pcap_if_t *list;
 
-    dev = pcap_lookupdev(errbuf);
-
+    if (pcap_findalldevs(&list, errbuf) == 0) {
+        dev = lib_stralloc(list[0].name);
+        pcap_freealldevs(list);
+#ifdef HAVE_TUNTAP
+    } else {
+        dev = lib_stralloc("tap0");
+#endif
+    }
     return dev;
 }
 

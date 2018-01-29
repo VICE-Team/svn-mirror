@@ -535,16 +535,20 @@ int rawnet_arch_receive(uint8_t *pbuffer, int *plen, int *phashed, int *phash_in
     return 0;
 }
 
+/** \brief  Get default interface name
+ *
+ * XXX: this probably needs to dump pcap_lookupdev() as well in favour of
+ *      pcap_findalldevs()[0].name, or whatever the Windows version is of
+ *      pcap_findalldevs().
+ *
+ * \return  interface name, free with lib_free() if not `NULL`
+ */
 char *rawnet_arch_get_standard_interface(void)
 {
-    char *dev;
-
     if (!EthernetPcapLoadLibrary()) {
         return NULL;
     }
 
-    dev = (*p_pcap_lookupdev)(EthernetPcapErrbuf);
-
-    return dev;
+    return lib_stralloc((*p_pcap_lookupdev)(EthernetPcapErrbuf));
 }
 #endif /* #ifdef HAVE_RAWNET */
