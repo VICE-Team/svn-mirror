@@ -33,14 +33,6 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#if 0
-#ifdef HAVE_NETWORK
-typedef struct vice_netdev_s {
-    char *name;
-    char *desc;
-} vice_netdev_t;
-#endif
-#endif
 
 /* Program start.  */
 extern int archdep_init(int *argc, char **argv);
@@ -114,15 +106,5 @@ extern int archdep_rtc_get_centisecond(void);
 
 /* archdep extra title text */
 extern char *archdep_extra_title_text(void);
-
-#if 0
-# ifdef HAVE_PCAP
-#  include <pcap/pcap.h>
-vice_netdev_t **archdep_get_net_devices(
-        int (*getter)(pcap_if_t **, char *),
-        void (*cleaner)(pcap_if_t *));
-void archdep_free_net_devices(vice_netdev_t **devices);
-# endif
-#endif
 
 #endif

@@ -150,7 +150,12 @@ int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
     }
 
     *ppname = lib_stralloc(TfePcapNextDev->name);
-    *ppdescription = lib_stralloc(TfePcapNextDev->description);
+    /* carefull: pcap_if_t.desc can be NULL and lib_stralloc() fails on NULL */
+    if (TfePcapNextDev->description != NULL) {
+        *ppdescription = lib_stralloc(TfePcapNextDev->description);
+    } else {
+        *ppdescription = NULL;
+    }
 
     TfePcapNextDev = TfePcapNextDev->next;
 

@@ -58,6 +58,8 @@ extern void rawnet_set_should_accept_func(int (*func)(unsigned char *, int, int 
 
    For each of these parameters, new memory is allocated, so it has to be
    freed with lib_free().
+   Note: The description can be NULL, since pcap_if_t.desc can be NULL, so
+   check the description before calling lib_free() on it.
 
  rawnet_enumadapter_close() must be used to stop processing.
 

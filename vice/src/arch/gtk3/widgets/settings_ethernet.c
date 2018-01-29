@@ -33,15 +33,11 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
-#ifdef HAVE_NETWORK
-# include <pcap/pcap.h>
-# include "archapi.h"
-#endif
-
 #include "vice_gtk3.h"
 #include "resources.h"
 #include "lib.h"
 #include "log.h"
+#include "rawnet.h"
 
 #include "settings_ethernet.h"
 
@@ -68,7 +64,7 @@ static void on_device_combo_changed(GtkWidget *widget, gpointer data)
     }
 }
 
-#if 0
+
 /** \brief  Create combo box to select the ethernet interface
  *
  * \return  GtkComboBoxText
@@ -76,7 +72,6 @@ static void on_device_combo_changed(GtkWidget *widget, gpointer data)
 static GtkWidget *create_device_combo(void)
 {
     GtkWidget *combo;
-    vice_netdev_t **devices = NULL;
     const char *iface = NULL;
 
     /* get current interface */
@@ -88,31 +83,37 @@ static GtkWidget *create_device_combo(void)
 
     /* build combo box with a list of interfaces */
     combo = gtk_combo_box_text_new();
-    devices = archdep_get_net_devices(pcap_findalldevs, pcap_freealldevs);
-    if (devices != NULL) {
-        size_t i = 0;
+    if (rawnet_enumadapter_open()) {
+        int i = 0;
 
-        while (devices[i] != NULL) {
+        char *if_name;
+        char *if_desc;
+
+        while (rawnet_enumadapter(&if_name, &if_desc)) {
             char *display;
 
-            if (devices[i]->desc != NULL) {
-                display = lib_msprintf("%s (%s)",
-                        devices[i]->name, devices[i]->desc);
+            if (if_desc != NULL) {
+                display = lib_msprintf("%s (%s)", if_name, if_desc);
             } else {
-                display = lib_stralloc(devices[i]->name);
+                display = lib_stralloc(if_name);
             }
 
             gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
-                    devices[i]->name,   /* ID */
-                    display);           /* text */
+                    if_name /* ID */, display /* text*/);
 
-            if (strcmp(devices[i]->name, iface) == 0) {
+            if (strcmp(if_name, iface) == 0) {
                 gtk_combo_box_set_active(GTK_COMBO_BOX(combo), i);
             }
 
             i++;
+
+            lib_free(display);
+            lib_free(if_name);
+            if (if_desc != NULL) {
+                lib_free(if_desc);
+            }
         }
-        archdep_free_net_devices(devices);
+        rawnet_enumadapter_close();
     }
 
     g_signal_connect(combo, "changed", G_CALLBACK(on_device_combo_changed),
@@ -121,7 +122,7 @@ static GtkWidget *create_device_combo(void)
     return combo;
 }
 #endif
-#endif
+
 
 /** \brief  Create Ethernet settings widget for the settings UI
  *
@@ -136,7 +137,6 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-#if 0
 #ifdef HAVE_NETWORK
     label = gtk_label_new("Ethernet device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
@@ -144,7 +144,6 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_device_combo(), 1, 0, 1, 1);
 #else
-#endif
     label = gtk_label_new("Ethernet not supported, please compile with "
             "--enable-ethernet.");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
