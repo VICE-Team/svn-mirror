@@ -86,6 +86,17 @@
                              * here at all? --compyx
                              */
 
+
+/** \brief  Only select devices that are PCAP_IF_UP
+ *
+ * Since on Linux pcap_findalldevs() returns all interfaces, including special
+ * kernal devices such as nfqueue, filtering the list returned by pcap makes
+ * sense. Should this filtering cause trouble on other Unices, this define can
+ * be guarded with #ifdef SOME_UNIX_VERSION to disable the filtering.
+ */
+#define RAWNET_ONLY_IF_UP
+
+
 /** #define RAWNET_DEBUG_ARCH 1 **/
 /** #define RAWNET_DEBUG_PKTDUMP 1 **/
 
@@ -94,8 +105,19 @@
 
 static log_t rawnet_arch_log = LOG_ERR;
 
+
+/** \brief  Iterator for the list returned by pcap_findalldevs()
+ */
 static pcap_if_t *rawnet_pcap_dev_iter = NULL;
+
+
+/** \brief  Device list returned by pcap_findalldevs()
+ *
+ * Can be `NULL` since pcap_findalldevs() considers not finding any devices a
+ * succesful outcome.
+ */
 static pcap_if_t *rawnet_pcap_dev_list = NULL;
+
 
 static pcap_t *rawnet_pcap_fp = NULL;
 
@@ -111,7 +133,10 @@ static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
 #endif /* HAVE_LIBNET */
 
 
+/** \brief  Buffer for pcap error messages
+ */
 static char rawnet_pcap_errbuf[PCAP_ERRBUF_SIZE];
+
 
 #ifdef RAWNET_DEBUG_PKTDUMP
 
@@ -158,14 +183,37 @@ int rawnet_arch_enumadapter_open(void)
     return 1;
 }
 
+
+/** \brief  Get current pcap device iterator values
+ *
+ * The \a ppname and \a ppdescription are heap-allocated via lib_stralloc()
+ * and should thus be freed after use with lib_free(). Please not that
+ * \a ppdescription can be `NULL` due to pcap_if_t->description being `NULL`,
+ * so check against `NULL` before using it. Calling lib_free() on it is safe
+ * though, free(`NULL`) is guaranteed to just do nothing.
+ *
+ * \param[out]  ppname          device name
+ * \param[out]  ppdescription   device description
+ *
+ * \return  bool (1 on success, 0 on failure)
+ */
 int rawnet_arch_enumadapter(char **ppname, char **ppdescription)
 {
-    if (!rawnet_pcap_dev_iter) {
+#ifdef RAWNET_ONLY_IF_UP
+    /* only select devices that are up */
+    while (rawnet_pcap_dev_iter != NULL
+            && !(rawnet_pcap_dev_iter->flags & PCAP_IF_UP)) {
+        rawnet_pcap_dev_iter = rawnet_pcap_dev_iter->next;
+    }
+#endif
+
+    if (rawnet_pcap_dev_iter == NULL) {
         return 0;
     }
 
     *ppname = lib_stralloc(rawnet_pcap_dev_iter->name);
-    /* carefull: pcap_if_t.desc can be NULL and lib_stralloc() fails on NULL */
+    /* carefull: pcap_if_t->description can be NULL and lib_stralloc() fails on
+     * passing `NULL` */
     if (rawnet_pcap_dev_iter->description != NULL) {
         *ppdescription = lib_stralloc(rawnet_pcap_dev_iter->description);
     } else {
