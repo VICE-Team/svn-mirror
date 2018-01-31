@@ -45,7 +45,7 @@
 
 
 
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RAWNET
 
 /** \brief  Handler for the 'changed' event of the combo box
  *
@@ -163,7 +163,7 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
             break;
     }
 
-#ifdef HAVE_NETWORK
+#ifdef HAVE_RAWNET
     label = gtk_label_new("Ethernet device");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
