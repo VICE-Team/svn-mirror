@@ -455,7 +455,8 @@ static GtkWidget *create_rs232_devices_widget(void)
     GtkWidget *ser2_baud_widget;
     GtkWidget *dump_widget;
     GtkWidget *command_widget;
-    const char *patterns_ttys[] = { "ttyS*", NULL };
+    /* ttyu[0-3] are supposedly set up on FreeBSD */
+    const char *patterns_ttys[] = { "ttyS*", "ttyu*", NULL };
     const char *patterns_dump[] = { "*", NULL };
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
@@ -466,7 +467,7 @@ static GtkWidget *create_rs232_devices_widget(void)
 
     label = create_indented_label("Serial 1");
     ser1_file_widget = vice_gtk3_resource_browser_new(
-            "RsDevice1", patterns_ttys, "Serial ports (ttyS*)",
+            "RsDevice1", patterns_ttys, "Serial ports",
             "Select serial port", NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser1_file_widget, 1, 1, 1, 1);
@@ -477,7 +478,7 @@ static GtkWidget *create_rs232_devices_widget(void)
 
     label = create_indented_label("Serial 2");
     ser2_file_widget = vice_gtk3_resource_browser_new(
-            "RsDevice1", patterns_ttys, "Serial ports (ttyS*)",
+            "RsDevice1", patterns_ttys, "Serial ports",
             "Select serial port", NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser2_file_widget, 1, 2, 1, 1);
