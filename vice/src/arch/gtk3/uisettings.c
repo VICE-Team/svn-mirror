@@ -706,6 +706,7 @@ static ui_settings_tree_node_t main_nodes[] = {
       "io-extensions",
       settings_io_widget_create, c64_io_extensions },
 
+    /* XXX: this should not be here for C64DTV, PET and VSID */
     { "RS232 settings",
       "rs232",
       settings_rs232_widget_create, NULL },

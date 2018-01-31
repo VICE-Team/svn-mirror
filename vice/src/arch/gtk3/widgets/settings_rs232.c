@@ -126,7 +126,10 @@ static const vice_gtk3_combo_entry_int_t rsuser_baud_rates[] = {
     { NULL, -1 }
 };
 
-static const vice_gtk3_combo_entry_int_t serial_baud_rates[] = {
+
+/** \brief  List of baud rates for C64/C128/VIC-20 serial devices
+ */
+static const vice_gtk3_combo_entry_int_t serial_baud_rates_c64[] = {
     { "300",    300 },
     { "1200",   1200 },
     { "2400",   2400 },
@@ -137,6 +140,19 @@ static const vice_gtk3_combo_entry_int_t serial_baud_rates[] = {
     { "115200 (Turbo232)", 115200 },
     { NULL, -1 }
 };
+
+
+/** \brief  List of baud rates for Plus4/CBM-II
+ */
+static const vice_gtk3_combo_entry_int_t serial_baud_rates_plus4[] = {
+    { "300",    300 },
+    { "1200",   1200 },
+    { "2400",   2400 },
+    { "9600",   9600 },
+    { "19200",  19200 },
+    { NULL, -1 }
+};
+
 
 
 /** \brief  Helper: create left-aligned, 16 px indented label
@@ -282,8 +298,27 @@ static GtkWidget *create_acia_mode_widget(void)
 
 static GtkWidget *create_serial_baud_widget(const char *resource)
 {
-    return vice_gtk3_resource_combo_box_int_create(resource,
-            serial_baud_rates);
+    const vice_gtk3_combo_entry_int_t *entries = NULL;
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_C128:     /* fall through */
+        case VICE_MACHINE_VIC20:
+            entries = serial_baud_rates_c64;
+            break;
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            entries = serial_baud_rates_plus4;
+            break;
+        default:
+            return NULL;
+            break;
+    }
+
+    return vice_gtk3_resource_combo_box_int_create(resource, entries);
 }
 
 
