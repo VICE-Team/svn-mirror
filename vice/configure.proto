@@ -2530,7 +2530,11 @@ TFE_LIBS=""
 DOS_TFE_PCAP_LIB=""
 if test x"$enable_ethernet" = "xyes"; then
   have_tuntap="no"
-  if test x"$is_dos" = "xyes" ; then
+  if test x"$is_win32_gtk3" = "xyes"; then
+    AC_DEFINE(HAVE_PCAP,,[Support for PCAP library.])
+    AC_DEFINE(HAVE_RAWNET,,[Support for CS8900A ethernet controller.])
+    HAVE_RAWNET_SUPPORT="yes"
+  elif test x"$is_dos" = "xyes" ; then
     old_LIBS="$LIBS"
     AC_CHECK_LIB(watt, gethostbyname,[ AC_DEFINE(DOS_TCP,,[Can we use the dos WATTCP library?])
                                        TFE_LIBS="-lwatt $TFE_LIBS";
@@ -2610,7 +2614,7 @@ if test x"$enable_ethernet" = "xyes"; then
                       HAVE_RAWNET_SUPPORT="yes"])
     fi
   fi
-  if test x"$TFE_LIBS" = "x" -a x"$is_win32" = "xno" -a x"$have_tuntap" = "xno"; then
+  if test x"$TFE_LIBS" = "x" -a x"$is_win32" = "xno" -a x"$is_win32_gtk3" = "xno" -a x"$have_tuntap" = "xno"; then
     AC_MSG_ERROR([Needed pcap library not found, please install libpcap-dev or equivalent])
   fi
 fi

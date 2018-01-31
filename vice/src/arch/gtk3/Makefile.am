@@ -2,8 +2,15 @@
 
 SUBDIRS = widgets
 
+if WIN32_COMPILE
+extra_includes = -I$(top_srcdir)/src/arch/win32/msvc/wpcap
+else
+extra_includes =
+endif
+
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
+	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/crtc \
