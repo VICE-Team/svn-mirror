@@ -1,9 +1,10 @@
-/**
+/** \file   settings_ethernet.c
  * \brief   GTK3 ethernet settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
+ *  ETHERNET_INTERFACE  (x64/x64sc/xscpu64/x128/xvic)
  */
 
 /*
@@ -37,6 +38,7 @@
 #include "resources.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "rawnet.h"
 
 #include "settings_ethernet.h"
@@ -134,8 +136,32 @@ GtkWidget *settings_ethernet_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    char *text;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_PLUS4:    /* fall through */
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM5x0:   /* fall through */
+        case VICE_MACHINE_CBM6x0:   /* fall through */
+        case VICE_MACHINE_VSID:
+
+            text = lib_msprintf(
+                    "<b>Error</b>: Ethernet not supported for <b>%s</b>, "
+                    "please fix the code that calls this code!",
+                    machine_name);
+            label = gtk_label_new(NULL);
+            gtk_label_set_markup(GTK_LABEL(label), text);
+            gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+            gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+            lib_free(text);
+            gtk_widget_show_all(grid);
+            return grid;
+        default:
+            break;
+    }
 
 #ifdef HAVE_NETWORK
     label = gtk_label_new("Ethernet device");
