@@ -716,21 +716,9 @@ static ui_settings_tree_node_t main_nodes[] = {
       "sid",
       settings_soundchip_widget_create, NULL },
 
-    /* the `c64_io_extensions` is a placeholder: it will get replaced by the
-     * proper per-machine list. Unfortunately with a fixed index into this list
-     * until I refactor the tree model code into something more flexible
-     * -- compyx*/
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, c64_io_extensions },
-
-    /* XXX: this should not be here for C64DTV, PET and VSID */
-    { "RS232 settings",
-      "rs232",
-      settings_rs232_widget_create, NULL },
-    { "Ethernet settings",
-      "ethernet",
-      settings_ethernet_widget_create, NULL },
 
     { "Snaphot/event/media recording",
       "snapshot",
