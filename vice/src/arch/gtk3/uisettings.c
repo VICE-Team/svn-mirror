@@ -870,7 +870,9 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
     { "SID settings",
       "sid",
       settings_soundchip_widget_create, NULL },
-
+    { "Flash settings",
+      "flash",
+      NULL, NULL },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, NULL },
