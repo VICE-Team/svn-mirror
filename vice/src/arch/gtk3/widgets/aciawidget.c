@@ -1,11 +1,16 @@
-/**
+/** \file   aciawidget.c
  * \brief   Widget to control various ACIA related resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *
+ *  Acia1Dev
+ *  Acia1Base
+ *  RsDevice1
+ *  RsDevice2
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

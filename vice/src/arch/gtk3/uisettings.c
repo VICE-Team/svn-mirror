@@ -1,9 +1,10 @@
+/** \file   uisettings.c
+ * \brief   GTK3 settings dialog
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * uisettings.c - GTK3 settings dialog
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -79,6 +80,7 @@
 #include "settings_romset.h"
 #include "settings_snapshot.h"
 #include "settings_ethernet.h"
+#include "settings_rs232.h"
 
 /* I/O extension widgets */
 #include "settings_io.h"
@@ -704,6 +706,9 @@ static ui_settings_tree_node_t main_nodes[] = {
       "io-extensions",
       settings_io_widget_create, c64_io_extensions },
 
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
     { "Ethernet settings",
       "ethernet",
       settings_ethernet_widget_create, NULL },
