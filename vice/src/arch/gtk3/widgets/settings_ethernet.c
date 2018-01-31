@@ -39,7 +39,10 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "rawnet.h"
+
+#ifdef HAVE_RAWNET
+# include "rawnet.h"
+#endif
 
 #include "settings_ethernet.h"
 

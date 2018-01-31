@@ -79,7 +79,9 @@
 #include "settings_monitor.h"
 #include "settings_romset.h"
 #include "settings_snapshot.h"
-#include "settings_ethernet.h"
+#ifdef HAVE_RAWNET
+# include "settings_ethernet.h"
+#endif
 #include "settings_rs232.h"
 
 /* I/O extension widgets */
@@ -97,8 +99,12 @@
 #include "mmc64widget.h"
 #include "ide64widget.h"
 #include "retroreplaywidget.h"
-#include "ethernetcartwidget.h"
-#include "rrnetmk3widget.h"
+
+#ifdef HAVE_RAWNET
+# include "ethernetcartwidget.h"
+# include "rrnetmk3widget.h"
+#endif
+
 #include "c128functionromwidget.h"
 #include "ieee488widget.h"
 #include "digimaxwidget.h"
@@ -147,11 +153,37 @@ enum {
 };
 
 
+/** \brief  Initial dialog width
+ *
+ * This is not how wide the dialog will actually become, that is determined by
+ * the Gtk theme applied. But it's a rough estimate.
+ */
 #define DIALOG_WIDTH 800
+
+
+/** \brief  Initial dialog height
+ *
+ * This is not how tall the dialog will actually become, that is determined by
+ * the Gtk theme applied. But it's a rough estimate.
+ */
 #define DIALOG_HEIGHT 560
 
 
+/** \brief  Maximum width the UI can be
+ *
+ * This again is not a really a fixed value, but more of an indicator when the
+ * UI might get too large after any decorations are applied. The idea is to
+ * have a UI that works on a 1280x768 resolution without requiring scrollbars.
+ */
 #define DIALOG_WIDTH_MAX 1024
+
+
+/** \brief  Maximum height the UI can be
+ *
+ * This again is not a really a fixed value, but more of an indicator when the
+ * UI might get too large after any decorations are applied. The idea is to
+ * have a UI that works on a 1280x768 resolution without requiring scrollbars.
+ */
 #define DIALOG_HEIGHT_MAX 640
 
 
@@ -617,6 +649,7 @@ static ui_settings_tree_node_t cbm6x0_io_extensions[] = {
 };
 
 
+#if 0
 /** \brief  No I/O extensions (temporary)
  */
 static ui_settings_tree_node_t no_io_extensions[] = {
@@ -626,27 +659,12 @@ static ui_settings_tree_node_t no_io_extensions[] = {
 
     UI_SETTINGS_TERMINATOR
 };
-
-
-
-/** \brief  Index in the main nodes of the I/O extension sub nodes
- *
- * FIXME:   This is a hack, similar to how the gtk2 UI handled dynamic
- *          menus. The proper way is to implement functions to build the
- *          tree model, which is a TODO at the moment.
- */
-#define IO_EXTENSIONS_INDEX 16
+#endif
 
 
 /** \brief  Main tree nodes
  *
- *
- * TODO: When creating the SID model/SID settings widget: The fastSiD/ReSID
- *       selection ("SidEngine" resource) should be moved to 'SID Settings',
- *       while the SID model (6581/8580(D), "SidModel" resource should be in
- *       the SID Model widget, with the reSID/fastSID options removed.
- *
- * -- compyx 2017-09-24
+ * XXX: remove once VSID settings are implemented
  */
 static ui_settings_tree_node_t main_nodes[] = {
     { "Speed settings",
@@ -713,6 +731,672 @@ static ui_settings_tree_node_t main_nodes[] = {
     { "Ethernet settings",
       "ethernet",
       settings_ethernet_widget_create, NULL },
+
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for x64/x64sc
+ */
+static ui_settings_tree_node_t main_nodes_c64[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "VIC-II settings",
+      "vicii",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, c64_io_extensions },
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+#ifdef HAVE_RAWNET
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
+#endif
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for x64dtv
+ */
+static ui_settings_tree_node_t main_nodes_c64dtv[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "VIC-II settings",
+      "vicii",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, NULL },
+
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for x128
+ */
+static ui_settings_tree_node_t main_nodes_c128[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "VIC-II/VDC settings",
+      "vicii-vdc",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, scpu64_io_extensions },
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+#ifdef HAVE_RAWNET
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
+#endif
+
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for xscpu64
+ */
+static ui_settings_tree_node_t main_nodes_scpu64[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "SCPU64 settings",
+      "scpu64",
+      NULL, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "VIC-II settings",
+      "vicii",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, c128_io_extensions },
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+#ifdef HAVE_RAWNET
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
+#endif
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for xvic
+ */
+static ui_settings_tree_node_t main_nodes_vic20[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "VIC settings",
+      "vic",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, vic20_io_extensions },
+
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+#ifdef HAVE_RAWNET
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
+#endif
+
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for xplus4
+ */
+static ui_settings_tree_node_t main_nodes_plus4[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "TED settings",
+      "ted",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, plus4_io_extensions },
+
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+#ifdef HAVE_RAWNET
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
+#endif
+
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for xpet
+ */
+static ui_settings_tree_node_t main_nodes_pet[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "CRTC settings",
+      "crtc",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, pet_io_extensions },
+#ifdef HAVE_RS232
+    { "RS232 settings",
+      "rs232",
+      settings_rs232_widget_create, NULL },
+#endif
+#ifdef HAVE_RAWNET
+    { "Ethernet settings",
+      "ethernet",
+      settings_ethernet_widget_create, NULL },
+#endif
+
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for xcbm5x0
+ */
+static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "VIC-II settings",
+      "vicii",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, cbm5x0_io_extensions },
+
+    { "Snaphot/event/media recording",
+      "snapshot",
+      settings_snapshot_widget_create, NULL },
+    { "Monitor settings",
+      "monitor",
+      settings_monitor_widget_create, NULL },
+
+    UI_SETTINGS_TERMINATOR
+};
+
+
+/** \brief  Main tree nodes for xcbm6x0
+ */
+static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    { "Keyboard settings",
+      "keyboard",
+      settings_keyboard_widget_create, NULL },
+    { "Sound settings",
+      "sound",
+      settings_sound_create, NULL },
+    { "Sampler settings",
+      "sampler",
+      settings_sampler_widget_create, NULL },
+    { "Autostart settings",
+      "autostart",
+      settings_autostart_widget_create, NULL },
+    { "Drive settings",
+      "drive",
+      settings_drive_widget_create, NULL },
+    { "Printer settings",
+      "printer",
+      settings_printer_widget_create, NULL },
+    { "Control port settings",
+      "control-port",
+      settings_controlport_widget_create, NULL },
+    { "Joystick settings",
+      "joystick",
+      settings_joystick_widget_create, NULL },
+    { "Mouse settings",
+      "mouse",
+      settings_mouse_widget_create, NULL },
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    { "RAM reset pattern",
+      "ram-reset",
+      settings_ramreset_widget_create, NULL },
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
+    { "CRTC settings",
+      "crtc",
+      settings_video_create, NULL },
+    { "SID settings",
+      "sid",
+      settings_soundchip_widget_create, NULL },
+
+    { "I/O extensions",
+      "io-extensions",
+      settings_io_widget_create, cbm6x0_io_extensions },
 
     { "Snaphot/event/media recording",
       "snapshot",
@@ -894,22 +1578,67 @@ static GtkTreeStore *populate_tree_model(void)
     GtkTreeStore *model;
     GtkTreeIter iter;
     GtkTreeIter child;
+    ui_settings_tree_node_t *nodes = main_nodes;
     int i;
 
     model = settings_model;
 
-    for (i = 0; main_nodes[i].name != NULL; i++) {
+    switch (machine_class) {
+        case VICE_MACHINE_C64:  /* fall through */
+        case VICE_MACHINE_C64SC:
+            nodes = main_nodes_c64;
+            break;
+        case VICE_MACHINE_C64DTV:
+            nodes = main_nodes_c64dtv;
+            break;
+        case VICE_MACHINE_C128:
+            nodes = main_nodes_c128;
+            break;
+        case VICE_MACHINE_SCPU64:
+            nodes = main_nodes_scpu64;
+            break;
+        case VICE_MACHINE_VIC20:
+            nodes = main_nodes_vic20;
+            break;
+        case VICE_MACHINE_PLUS4:
+            nodes = main_nodes_plus4;
+            break;
+        case VICE_MACHINE_PET:
+            nodes = main_nodes_pet;
+            break;
+        case VICE_MACHINE_CBM5x0:
+            nodes = main_nodes_cbm5x0;
+            break;
+        case VICE_MACHINE_CBM6x0:
+            nodes = main_nodes_cbm6x0;
+            break;
+        default:
+            /* VSID is completely different, and doesn't even have a UI yet */
+            break;
+    }
+
+    for (i = 0; nodes[i].name != NULL; i++) {
+        char *name;
+
+        if (nodes[i].callback == NULL) {
+            name = lib_msprintf("[TODO] %s", nodes[i].name);
+        } else {
+            name = lib_stralloc(nodes[i].name);
+        }
+
         gtk_tree_store_append(model, &iter, NULL);
         gtk_tree_store_set(model, &iter,
-                COLUMN_NAME, main_nodes[i].name,
-                COLUMN_ID, main_nodes[i].id,
-                COLUMN_CALLBACK, main_nodes[i].callback,
+                COLUMN_NAME, name,
+                COLUMN_ID, nodes[i].id,
+                COLUMN_CALLBACK, nodes[i].callback,
                 -1);
+        lib_free(name);
+
         /* this bit will need proper recursion if we need more than two
          * levels of subitems */
-        if (main_nodes[i].children != NULL) {
+        if (nodes[i].children != NULL) {
             int c;
-            ui_settings_tree_node_t *list = main_nodes[i].children;
+            ui_settings_tree_node_t *list = nodes[i].children;
 
             for (c = 0; list[c].name != NULL; c++) {
                 char buffer[256];
@@ -950,53 +1679,6 @@ static GtkWidget *create_treeview(void)
     GtkWidget *tree;
     GtkCellRenderer *text_renderer;
     GtkTreeViewColumn *text_column;
-
-    ui_settings_tree_node_t *io_nodes = NULL;
-
-    /* hack: set I/O extension sub-nodes */
-    switch (machine_class) {
-        case VICE_MACHINE_C64:      /* fall through */
-        case VICE_MACHINE_C64SC:
-            io_nodes = c64_io_extensions;
-            break;
-
-        case VICE_MACHINE_SCPU64:
-            io_nodes = scpu64_io_extensions;
-            break;
-
-        case VICE_MACHINE_C128:
-            io_nodes = c128_io_extensions;
-            break;
-
-        case VICE_MACHINE_VIC20:
-            io_nodes = vic20_io_extensions;
-            break;
-
-        case VICE_MACHINE_C64DTV:
-            io_nodes = NULL;
-            break;
-
-        case VICE_MACHINE_PLUS4:
-            io_nodes = plus4_io_extensions;
-            break;
-
-        case VICE_MACHINE_PET:
-            io_nodes = pet_io_extensions;
-            break;
-
-        case VICE_MACHINE_CBM5x0:
-            io_nodes = cbm5x0_io_extensions;
-            break;
-
-        case VICE_MACHINE_CBM6x0:
-            io_nodes = cbm6x0_io_extensions;
-            break;
-
-        default:
-            io_nodes = no_io_extensions;
-            break;
-    }
-    main_nodes[IO_EXTENSIONS_INDEX].children = io_nodes;
 
     create_tree_model();
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(populate_tree_model()));
