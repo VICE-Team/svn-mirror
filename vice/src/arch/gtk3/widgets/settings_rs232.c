@@ -296,6 +296,12 @@ static GtkWidget *create_acia_mode_widget(void)
 }
 
 
+/** \brief  Create combo box with baud rates for serial devices
+ *
+ * \param[in]   resource    resource that contains the baud rate
+ *
+ * \return  GtkComboBox
+ */
 static GtkWidget *create_serial_baud_widget(const char *resource)
 {
     const vice_gtk3_combo_entry_int_t *entries = NULL;
@@ -320,8 +326,6 @@ static GtkWidget *create_serial_baud_widget(const char *resource)
 
     return vice_gtk3_resource_combo_box_int_create(resource, entries);
 }
-
-
 
 
 /** \brief  Create RS232 ACIA settings widget
@@ -517,6 +521,27 @@ GtkWidget *settings_rs232_widget_create(GtkWidget *parent)
     int row = 1;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 32);
+
+    /* guard against accidental use on unsupported machines */
+    if (machine_class == VICE_MACHINE_C64DTV
+            || machine_class == VICE_MACHINE_PET
+            || machine_class == VICE_MACHINE_VSID) {
+        char *text;
+        GtkWidget *label;
+
+        text = lib_msprintf(
+                "<b>Error</b>: RS232 not supported for <b>%s</b>, please fix "
+                "the code that calls this code!",
+                machine_name);
+        label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(label), text);
+        gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
+        lib_free(text);
+        gtk_widget_show_all(grid);
+        return grid;
+    }
+
     gtk_grid_attach(GTK_GRID(grid), create_acia_widget(), 0, 0, 1, 1);
     gtk_widget_show_all(grid);
 
