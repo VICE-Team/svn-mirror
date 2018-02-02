@@ -761,6 +761,10 @@ GtkWidget *ui_statusbar_create(void)
      * statusbar display. If more widgets are added past this point,
      * that function will need to change as well. */
     layout_statusbar_drives(i);
+
+    /* Set an impossible number of joyports to enabled so that the status
+     * is guarenteed to be updated. */
+    sb_state.joyports_enabled = ~0;
     vice_gtk3_update_joyport_layout();
     return sb;
 }
