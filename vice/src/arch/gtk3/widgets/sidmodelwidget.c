@@ -1,12 +1,13 @@
-/**
+/** \file   sidmodelwidget.c
  * \brief   Widget to select SID model
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  SidModel
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -49,16 +50,19 @@ static const vice_gtk3_radiogroup_entry_t sid_models_none[] = {
     { NULL, -1 }
 };
 
+
+#if 0
 /** \brief  All SID models
  */
 static const vice_gtk3_radiogroup_entry_t sid_models_all[] = {
     { "6581", 0 },
     { "8580", 1 },
     { "8580D", 2 },
-    { "65181R4", 3 },
+    { "6581R4", 3 },
     { "DTVSID", 4 },
     { NULL, -1 }
 };
+#endif
 
 /** \brief  SID models used in the C64/C64SCPU, C128 and expanders for PET,
  *          VIC-20 and Plus/4
@@ -69,6 +73,18 @@ static const vice_gtk3_radiogroup_entry_t sid_models_c64[] = {
     { "8580D", 2 },
     { NULL, -1 }
 };
+
+
+/** \brief  SID models used in the C64DTV
+ */
+static const vice_gtk3_radiogroup_entry_t sid_models_c64dtv[] = {
+    { "DTVSID (ReSID-DTV)", 4 },
+    { "6581", 0 },
+    { "8580", 1 },
+    { "8580D", 2 },
+    { NULL, -1 }
+};
+
 
 /** \brief  SID models used in the CBM-II 510/520 models
  */
@@ -126,7 +142,7 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
             break;
 
         case VICE_MACHINE_C64DTV:
-            models = sid_models_all;
+            models = sid_models_c64dtv;
             break;
 
         default:

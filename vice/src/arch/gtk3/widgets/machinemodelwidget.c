@@ -1,4 +1,4 @@
-/**
+/** \file   machinemodelwidget.c
  * \brief   Machine model selection widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -208,7 +208,3 @@ void machine_model_widget_connect_signals(GtkWidget *widget)
         i++;
     }
 }
-
-
-
-
