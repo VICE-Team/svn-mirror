@@ -88,17 +88,25 @@ static GtkWidget *create_sensitivity_widget(void)
 GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
+    GtkWidget *ps2_enable;
     GtkWidget *mouse_grab;
     GtkWidget *mouse_save = NULL;
+    int row = 0;
 
-    layout = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(layout), 8);
-    gtk_grid_set_row_spacing(GTK_GRID(layout), 8);
+    layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     g_object_set(layout, "margin", 16, NULL);
+
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        ps2_enable = vice_gtk3_resource_check_button_create("ps2mouse",
+                "Enable PS/2 mouse on Userport");
+        gtk_grid_attach(GTK_GRID(layout), ps2_enable, 0, row, 1, 1);
+        row++;
+    }
 
     mouse_grab = vice_gtk3_resource_check_button_create(
             "Mouse", "Enable mouse grab");
-    gtk_grid_attach(GTK_GRID(layout), mouse_grab, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(layout), mouse_grab, 0, row, 1, 1);
+    row++;
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
@@ -110,7 +118,8 @@ GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
         case VICE_MACHINE_CBM5x0:
             mouse_save = vice_gtk3_resource_check_button_create(
                     "SmartMouseRTCSave", "Enable SmartMouse RTC Saving");
-            gtk_grid_attach(GTK_GRID(layout), mouse_save, 1, 0, 1, 1);
+            gtk_grid_attach(GTK_GRID(layout), mouse_save, 0, row, 1, 1);
+            row++;
             break;
         default:
             /* No SmartMouse support */
@@ -118,7 +127,7 @@ GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
     }
 
 #ifdef WIN32_COMPILE
-    gtk_grid_attach(GTK_GRID(layout), create_sensitivity_widget(), 0, 1, 2, 1);
+    gtk_grid_attach(GTK_GRID(layout), create_sensitivity_widget(), 0, row, 1, 1);
 #endif
 
     gtk_widget_show_all(layout);
