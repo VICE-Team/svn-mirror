@@ -1,8 +1,9 @@
-/**
+/** \file   ide64widget.c
  * \brief   Widget to control IDE64 resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * IDE64 settings widget
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  IDE64AutodetectSize1
@@ -34,7 +35,9 @@
  *  SBDIGIMAXbase
  *  SBETFE
  *  SBETFEbase
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -58,13 +61,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "basedialogs.h"
-#include "openfiledialog.h"
 #include "ide64.h"
 
 #include "ide64widget.h"
@@ -73,9 +72,9 @@
 /** \brief  List of IDE64 revisions
  */
 static const vice_gtk3_radiogroup_entry_t revisions[] = {
-    { "Version 3", IDE64_VERSION_3 },
-    { "Version 4.1", IDE64_VERSION_4_1 },
-    { "Version 4.2", IDE64_VERSION_4_2 },
+    { "Version 3",      IDE64_VERSION_3 },
+    { "Version 4.1",    IDE64_VERSION_4_1 },
+    { "Version 4.2",    IDE64_VERSION_4_2 },
     { NULL, -1 }
 };
 
@@ -159,6 +158,7 @@ static void on_digimax_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
+#ifdef HAVE_RAWNET
 /** \brief  Handler for the "toggled" event of the "Enable ETFE" widget
  *
  * \param[in]       widget      check button triggering the event
@@ -169,6 +169,7 @@ static void on_etfe_toggled(GtkWidget *widget, gpointer user_data)
     gtk_widget_set_sensitive(GTK_WIDGET(user_data),
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)));
 }
+#endif
 
 
 /** \brief  Create widget to set the IDE64 revision
