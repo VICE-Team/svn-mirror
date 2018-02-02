@@ -78,7 +78,6 @@ static void vsid_window_create(video_canvas_t *canvas)
     menu_bar = ui_vsid_menu_bar_create();
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
     gtk_container_add(GTK_CONTAINER(canvas->grid), main_widget);
-    return;
 }
 
 
@@ -87,7 +86,6 @@ static void vsid_window_create(video_canvas_t *canvas)
 void ui_vsid_window_init(void)
 {
     ui_set_create_window_func(vsid_window_create);
-    return;
 }
 
 #endif
