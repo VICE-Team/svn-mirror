@@ -1,5 +1,5 @@
-/** \file   basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   resourceswitch.h
+ * \brief   Gtk switch connected to a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,25 +25,16 @@
  *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_RESOURCESWITCH_H
+#define VICE_RESOURCESWITCH_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3_settings.h"
-#include "basewidget_types.h"
+GtkWidget * vice_gtk3_resource_switch_create(const char *resource);
+GtkWidget * vice_gtk3_resource_switch_create_sprintf(const char *fmt, ...);
 
-#include "cartimagewidget.h"
-#include "carthelpers.h"
-#include "clockportdevicewidget.h"
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceentry.h"
-#include "resourceradiogroup.h"
-#include "resourcescale.h"
-#include "resourcespinbutton.h"
-#include "resourcebrowser.h"
-#include "resourceswitch.h"
+void        vice_gtk3_resource_switch_update(GtkWidget *widget, gboolean value);
+void        vice_gtk3_resource_switch_reset(GtkWidget *widget);
 
 #endif

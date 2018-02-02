@@ -42,7 +42,8 @@ libbasewidgets_a_SOURCES = \
 	filechooserhelpers.c \
 	clockportdevicewidget.c \
 	carthelpers.c \
-	resourcebrowser.c
+	resourcebrowser.c \
+	resourceswitch.c
 
 EXTRA_DIST = \
 	basedialogs.h \
@@ -64,4 +65,5 @@ EXTRA_DIST = \
 	clockportdevicewidget.h \
 	carthelpers.h \
 	resourcebrowser.h \
-	vice_gtk3.h
+	vice_gtk3.h \
+	resourceswitch.h

@@ -1,5 +1,5 @@
-/** \file   basewidgets.h
- * \brief   Header file for the base widgets
+/** \file   scpu64settingswidget.h
+ * \brief   Widget controlling SCPU6-specific settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,25 +25,13 @@
  *
  */
 
-#ifndef VICE_BASEWIDGETS_H
-#define VICE_BASEWIDGETS_H
+#ifndef VICE_SCPU64SETTINGSWIDGET_H
+#define VICE_SCPU64SETTINGSWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-#include "vice_gtk3_settings.h"
-#include "basewidget_types.h"
 
-#include "cartimagewidget.h"
-#include "carthelpers.h"
-#include "clockportdevicewidget.h"
-#include "resourcecheckbutton.h"
-#include "resourcecombobox.h"
-#include "resourceentry.h"
-#include "resourceradiogroup.h"
-#include "resourcescale.h"
-#include "resourcespinbutton.h"
-#include "resourcebrowser.h"
-#include "resourceswitch.h"
+GtkWidget *scpu64_settings_widget_create(GtkWidget *parent);
 
 #endif

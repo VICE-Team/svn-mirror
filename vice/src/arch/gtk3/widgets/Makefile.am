@@ -154,7 +154,8 @@ libwidgets_a_SOURCES = \
 	settings_soundchip.c \
 	settings_misc.c \
 	settings_ethernet.c \
-	settings_rs232.c
+	settings_rs232.c \
+	scpu64settingswidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -285,4 +286,5 @@ EXTRA_DIST = \
 	settings_soundchip.h \
 	settings_misc.h \
 	settings_ethernet.h \
-	settings_rs232.h
+	settings_rs232.h \
+	scpu64settingswidget.h

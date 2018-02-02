@@ -83,6 +83,7 @@
 # include "settings_ethernet.h"
 #endif
 #include "settings_rs232.h"
+#include "scpu64settingswidget.h"
 
 /* I/O extension widgets */
 #include "settings_io.h"
@@ -991,7 +992,7 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
       settings_model_widget_create, NULL },
     { "SCPU64 settings",
       "scpu64",
-      NULL, NULL },
+      scpu64_settings_widget_create, NULL },
     { "RAM reset pattern",
       "ram-reset",
       settings_ramreset_widget_create, NULL },
