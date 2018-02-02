@@ -1,13 +1,16 @@
-/**
+/** \file   uidebug.c
  * \brief   Debug menu dialogs
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  AutoPlaybackFrames
  *  TraceMode
  *
+ * TODO:    add doxygen docblocks for the functions
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -48,11 +51,13 @@
 #include "uidebug.h"
 
 
+/** \brief  List of debug trace modes
+ */
 static const vice_gtk3_radiogroup_entry_t trace_modes[] = {
-    { "Normal", DEBUG_NORMAL },
-    { "Small", DEBUG_SMALL },
-    { "History", DEBUG_HISTORY },
-    { "Autoplay", DEBUG_AUTOPLAY },
+    { "Normal",     DEBUG_NORMAL },
+    { "Small",      DEBUG_SMALL },
+    { "History",    DEBUG_HISTORY },
+    { "Autoplay",   DEBUG_AUTOPLAY },
     { NULL, -1 }
 };
 

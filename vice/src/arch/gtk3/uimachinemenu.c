@@ -1,12 +1,11 @@
+/** \file   uimachinemenu.c
+ * \brief   Native GTK3 menus for machine emulators, (not vsid.)
+ *
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * uimachinemenu.c - Native GTK3 menus for machine emulators, (not vsid.)
- *
- * Written by
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
- * based on code by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -531,9 +530,10 @@ static ui_menu_item_t settings_menu_tail[] = {
 };
 
 
-/** \brief  'Debug' menu items
- */
 #ifdef DEBUG
+
+/** \brief  'Debug' menu items for emu's except xd64dtv
+ */
 static ui_menu_item_t debug_menu[] = {
     { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
         "tracemode", uidebug_trace_mode_callback, NULL,
@@ -571,6 +571,60 @@ static ui_menu_item_t debug_menu[] = {
 
     UI_MENU_TERMINATOR
 };
+
+
+/** \brief  'Debug' menu items for xd64dtv
+ */
+static ui_menu_item_t debug_menu_c64dtv[] = {
+    { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
+        "tracemode", uidebug_trace_mode_callback, NULL,
+        0, 0 },
+
+    UI_MENU_SEPARATOR,
+
+    { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-maincpu", (void *)(ui_toggle_resource), (void *)"MainCPU_TRACE",
+        0, 0 },
+
+    UI_MENU_SEPARATOR,
+
+    { "Drive #8 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-drive8", (void *)(ui_toggle_resource), (void *)"Drive0CPU_TRACE",
+        0, 0 },
+    { "Drive #9 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-drive9", (void *)(ui_toggle_resource), (void *)"Drive1CPU_TRACE",
+        0, 0 },
+    { "Drive #10 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-drive10", (void *)(ui_toggle_resource), (void *)"Drive2CPU_TRACE",
+        0, 0 },
+    { "Drive #11 CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-drive11", (void *)(ui_toggle_resource), (void *)"Drive3CPU_TRACE",
+        0, 0 },
+
+    UI_MENU_SEPARATOR,
+
+    { "Blitter log", UI_MENU_TYPE_ITEM_CHECK,
+      "blitter-log", (void *)ui_toggle_resource, (void *)"DtvBlitterLog",
+      0, 0 },
+    { "DMA log", UI_MENU_TYPE_ITEM_CHECK,
+      "dma-log", (void *)ui_toggle_resource, (void *)"DtvDMALog",
+      0, 0 },
+    { "Flash log", UI_MENU_TYPE_ITEM_CHECK,
+      "flash-log", (void *)ui_toggle_resource, (void*)"DtvFlashLog",
+      0, 0 },
+
+    UI_MENU_SEPARATOR,
+
+    { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
+        "playframes", uidebug_playback_frames_callback, NULL,
+        0, 0 },
+    { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
+        "coredump", (void *)(ui_toggle_resource), (void *)"DoCoreDump",
+        0, 0 },
+
+    UI_MENU_TERMINATOR
+};
+
 #endif
 
 
@@ -682,7 +736,11 @@ GtkWidget *ui_machine_menu_bar_create(void)
 
 #ifdef DEBUG
     /* add items to the Debug menu */
-    ui_menu_add(debug_submenu, debug_menu);
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        ui_menu_add(debug_submenu, debug_menu_c64dtv);
+    } else {
+        ui_menu_add(debug_submenu, debug_menu);
+    }
 #endif
 
     /* add items to the Help menu */
