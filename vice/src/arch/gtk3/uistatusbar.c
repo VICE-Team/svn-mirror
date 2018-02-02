@@ -32,6 +32,7 @@
 
 #include "not_implemented.h"
 
+#include "vice_gtk3.h"
 #include "datasette.h"
 #include "drive.h"
 #include "joyport.h"
@@ -713,7 +714,7 @@ GtkWidget *ui_statusbar_create(void)
      * demands, while ensuring they remain alive. They receive an
      * extra dereference in ui_statusbar_destroy() so nothing should
      * leak. */
-    sb = gtk_grid_new();
+    sb = vice_gtk3_grid_new_spaced(8, 0);
     /* First column: messages */
     msg = gtk_label_new(NULL);
     g_object_ref_sink(G_OBJECT(msg));
@@ -727,24 +728,32 @@ GtkWidget *ui_statusbar_create(void)
     gtk_grid_attach(GTK_GRID(sb), msg, 0, 0, 1, 2);
     /* Second column: Tape and joysticks */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), 1, 0, 1, 2);
-    tape = ui_tape_widget_create();
-    g_object_ref_sink(G_OBJECT(tape));
-    /* Clicking the tape status is supposed to pop up a window. This
-     * requires a way to make sure events are captured by random
-     * internal widgets; the GtkEventBox manages that task for us. */
-    tape_events = gtk_event_box_new();
-    gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape_events), FALSE);
-    gtk_container_add(GTK_CONTAINER(tape_events), tape);
-    gtk_grid_attach(GTK_GRID(sb), tape_events, 2, 0, 1, 1);
-    allocated_bars[i].tape = tape;
-    allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
-    g_object_ref_sink(G_OBJECT(allocated_bars[i].tape_menu));
-    g_signal_connect(tape_events, "button-press-event", G_CALLBACK(ui_do_datasette_popup), GINT_TO_POINTER(i));
-    g_signal_connect(tape_events, "enter-notify-event", G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
-    g_signal_connect(tape_events, "leave-notify-event", G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+
+    if ((machine_class != VICE_MACHINE_C64DTV)
+            && (machine_class != VICE_MACHINE_VSID)) {
+        tape = ui_tape_widget_create();
+        g_object_ref_sink(G_OBJECT(tape));
+        /* Clicking the tape status is supposed to pop up a window. This
+         * requires a way to make sure events are captured by random
+         * internal widgets; the GtkEventBox manages that task for us. */
+        tape_events = gtk_event_box_new();
+        gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape_events), FALSE);
+        gtk_container_add(GTK_CONTAINER(tape_events), tape);
+        gtk_grid_attach(GTK_GRID(sb), tape_events, 2, 0, 1, 1);
+        allocated_bars[i].tape = tape;
+        allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
+        g_object_ref_sink(G_OBJECT(allocated_bars[i].tape_menu));
+        g_signal_connect(tape_events, "button-press-event",
+                G_CALLBACK(ui_do_datasette_popup), GINT_TO_POINTER(i));
+        g_signal_connect(tape_events, "enter-notify-event",
+                G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+        g_signal_connect(tape_events, "leave-notify-event",
+                G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
+    }
 
     joysticks = ui_joystick_widget_create();
     g_object_ref(joysticks);
+    gtk_widget_set_halign(joysticks, GTK_ALIGN_END);
     gtk_grid_attach(GTK_GRID(sb), joysticks, 2, 1, 1, 1);
     allocated_bars[i].joysticks = joysticks;
     /* Third column on: Drives. */
