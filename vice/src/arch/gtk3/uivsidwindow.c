@@ -35,24 +35,55 @@
 
 #include "videoarch.h"
 
+#include "vice_gtk3.h"
 #include "ui.h"
 #include "uivsidmenu.h"
 #include "uivsidwindow.h"
 
+
+/** \brief  Main widget of VSID
+ *
+ * This should contain play/stop/rewind etc controls, and data on the currently
+ * loaded SID. A proper playlist and Songlength.[txt|md5] support wouldn't
+ * hurt either.
+ */
+static GtkWidget *main_widget = NULL;
+
+
+/** \brief  Create  VSID window
+ *
+ * \param[in]   canvas  something
+ */
 static void vsid_window_create(video_canvas_t *canvas)
 {
     GtkWidget *menu_bar;
+    GtkWidget *label;
 
     canvas->renderer_backend = NULL;
     canvas->drawing_area = NULL;
 
+    main_widget = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+    gtk_widget_set_size_request(main_widget, 800, 600);
+    gtk_widget_set_hexpand(main_widget, TRUE);
+    gtk_widget_set_vexpand(main_widget, TRUE);
+
+    label = gtk_label_new("This needs a lot of work.");
+    gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+    gtk_widget_set_hexpand(label, TRUE);
+    gtk_widget_set_vexpand(label, TRUE);
+    gtk_grid_attach(GTK_GRID(main_widget), label, 0, 0, 1, 1);
+
+    gtk_widget_show(main_widget);
     menu_bar = ui_vsid_menu_bar_create();
-
     gtk_container_add(GTK_CONTAINER(canvas->grid), menu_bar);
-
+    gtk_container_add(GTK_CONTAINER(canvas->grid), main_widget);
     return;
 }
 
+
+/** \brief  Initialize VSID window
+ */
 void ui_vsid_window_init(void)
 {
     ui_set_create_window_func(vsid_window_create);
