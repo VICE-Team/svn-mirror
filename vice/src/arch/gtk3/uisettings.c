@@ -84,6 +84,7 @@
 #endif
 #include "settings_rs232.h"
 #include "scpu64settingswidget.h"
+#include "c64dtvflashsettingswidget.h"
 
 /* I/O extension widgets */
 #include "settings_io.h"
@@ -861,7 +862,7 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
       settings_soundchip_widget_create, NULL },
     { "Flash settings",
       "flash",
-      NULL, NULL },
+      c64dtv_flash_settings_widget_create, NULL },
     { "I/O extensions",
       "io-extensions",
       settings_io_widget_create, NULL },
