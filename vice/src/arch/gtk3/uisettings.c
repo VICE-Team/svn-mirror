@@ -1452,6 +1452,10 @@ static void on_tree_selection_changed(
         debug_gtk3("item '%s' clicked\n", name);
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
         if (callback != NULL) {
+            char *title = lib_msprintf("%s settings :: %s", machine_name, name);
+            gtk_window_set_title(GTK_WINDOW(settings_window), title);
+            lib_free(title);
+
             ui_settings_set_central_widget(callback(NULL));
         }
         g_free(name);
@@ -1929,18 +1933,6 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     g_signal_connect(dialog, "configure-event",
             G_CALLBACK(on_dialog_configure_event), NULL);
 
-#if 0
-    /* XXX: used to test some tree manipulation functions, remove when stuff
-     *      works
-     */
-    if (ui_settings_iter_by_xpath("io-extensions/expert-cart", &iter)) {
-        debug_gtk3("yay, got iterator\n");
-    } else {
-        debug_gtk3("oops, no iterator found\n");
-    }
-#endif
-
-
-    /* XXX: this is normal code again */
+    settings_window = dialog;
     gtk_widget_show_all(dialog);
 }
