@@ -1,5 +1,5 @@
-/** \file   vsidmainwidget.c
- * \brief   GTK3 main widget for VSD
+/** \file   vsidcontrolwidget.h
+ * \brief   GTK3 control widget for VSID - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,43 +25,12 @@
  *
  */
 
+#ifndef VICE_VSIDCONTROLWIDGET_H
+#define VICE_VSIDCONTROLWIDGET_H
 
 #include "vice.h"
-
-#include <stdlib.h>
 #include <gtk/gtk.h>
 
-#include "vice_gtk3.h"
-#include "debug.h"
-#include "machine.h"
-#include "lib.h"
-#include "log.h"
-#include "vsidtuneinfowidget.h"
-#include "vsidcontrolwidget.h"
+GtkWidget *vsid_control_widget_create(void);
 
-#include "vsidmainwidget.h"
-
-
-static GtkWidget *tune_info_widget;
-static GtkWidget *control_widget;
-
-
-/** \brief  Create VSID main widget
- *
- * \return  GtkGrid
- */
-GtkWidget *vsid_main_widget_create(void)
-{
-    GtkWidget *grid;
-
-    grid = vice_gtk3_grid_new_spaced(32, 32);
-    g_object_set(G_OBJECT(grid), "margin-left", 16, NULL, "margin-top", 16, NULL);
-
-    tune_info_widget = vsid_tune_info_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), tune_info_widget, 0, 0, 1, 1);
-
-    control_widget = vsid_control_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), control_widget, 0, 1, 1, 1);
-    gtk_widget_show_all(grid);
-    return grid;
-}
+#endif

@@ -158,7 +158,8 @@ libwidgets_a_SOURCES = \
 	scpu64settingswidget.c \
 	c64dtvflashsettingswidget.c \
 	vsidmainwidget.c \
-	vsidtuneinfowidget.c
+	vsidtuneinfowidget.c \
+	vsidcontrolwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -293,4 +294,5 @@ EXTRA_DIST = \
 	scpu64settingswidget.h \
 	c64dtvflashsettingswidget.h \
 	vsidmainwidget.h \
-	vsidtuneinfowidget.h
+	vsidtuneinfowidget.h \
+	vsidcontrolwidget.h
