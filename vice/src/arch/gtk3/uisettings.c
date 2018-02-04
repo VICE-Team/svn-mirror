@@ -693,8 +693,8 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
       "monitor",
       settings_monitor_widget_create, NULL },
 
-    { "HSVC settings",
-      "hsvc",
+    { "HVSC settings",
+      "hvsc",
       NULL, NULL },
 
     UI_SETTINGS_TERMINATOR

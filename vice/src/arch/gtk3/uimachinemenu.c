@@ -532,7 +532,7 @@ static ui_menu_item_t settings_menu_tail[] = {
 
 #ifdef DEBUG
 
-/** \brief  'Debug' menu items for emu's except xd64dtv
+/** \brief  'Debug' menu items for emu's except xd64dtv and vsid
  */
 static ui_menu_item_t debug_menu[] = {
     { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
@@ -624,6 +624,33 @@ static ui_menu_item_t debug_menu_c64dtv[] = {
 
     UI_MENU_TERMINATOR
 };
+
+
+/** \brief  'Debug' menu items for vsid
+ */
+static ui_menu_item_t debug_menu_vsid[] = {
+    { "Trace mode ...", UI_MENU_TYPE_ITEM_ACTION,
+        "tracemode", uidebug_trace_mode_callback, NULL,
+        0, 0 },
+
+    UI_MENU_SEPARATOR,
+
+    { "Main CPU trace", UI_MENU_TYPE_ITEM_CHECK,
+        "trace-maincpu", (void *)(ui_toggle_resource), (void *)"MainCPU_TRACE",
+        0, 0 },
+
+    UI_MENU_SEPARATOR,
+
+    { "Autoplay playback frames ...", UI_MENU_TYPE_ITEM_ACTION,
+        "playframes", uidebug_playback_frames_callback, NULL,
+        0, 0 },
+    { "Save core dump", UI_MENU_TYPE_ITEM_CHECK,
+        "coredump", (void *)(ui_toggle_resource), (void *)"DoCoreDump",
+        0, 0 },
+
+    UI_MENU_TERMINATOR
+};
+
 
 #endif
 
@@ -738,6 +765,8 @@ GtkWidget *ui_machine_menu_bar_create(void)
     /* add items to the Debug menu */
     if (machine_class == VICE_MACHINE_C64DTV) {
         ui_menu_add(debug_submenu, debug_menu_c64dtv);
+    } else if (machine_class == VICE_MACHINE_VSID) {
+        ui_menu_add(debug_submenu, debug_menu_vsid);
     } else {
         ui_menu_add(debug_submenu, debug_menu);
     }

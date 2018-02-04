@@ -1,9 +1,11 @@
-/**
+/** \file   vsidui.c
  * \brief   Native GTK3 VSID UI
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -36,6 +38,9 @@
 #include "uisidattach.h"
 #include "uivsidwindow.h"
 #include "vicii.h"
+
+#include "vsidtuneinfowidget.h"
+
 #include "vsidui.h"
 
 
@@ -44,51 +49,94 @@ void vsid_ui_close(void)
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+
+/** \brief  Display tune author in the UI
+ *
+ * \param[in]   author  author name
+ */
 void vsid_ui_display_author(const char *author)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_author(author);
 }
 
+
+/** \brief  Display tune copyright info in the UI
+ *
+ * \param[in]   copright    copyright info
+ */
 void vsid_ui_display_copyright(const char *copyright)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_copyright(copyright);
 }
 
+
+/** \brief  Set IRQ type for the UI
+ *
+ * \param[in]   irq IRQ type
+ */
 void vsid_ui_display_irqtype(const char *irq)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_irq(irq);
 }
 
+
+/** \brief  Display tune name in the UI
+ *
+ * \param[in]   name    tune name
+ */
 void vsid_ui_display_name(const char *name)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_name(name);
 }
 
+
+/** \brief  Set number of tunes for the UI
+ *
+ * \param[in]   count   number of tunes
+ */
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_tune_count(count);
 }
 
+
+/** \brief  Set SID model for the UI
+ *
+ * \param[in]   model   SID model
+ */
 void vsid_ui_display_sid_model(int model)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_model(model);
 }
 
+
+/** \brief  Set sync factor for the UI
+ *
+ * \param[in]   sync    sync factor
+ */
 void vsid_ui_display_sync(int sync)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_sync(sync);
 }
 
-static int count = 0;
 
+/** \brief  Set run time of tune in the UI
+ *
+ * \param[in]   sec seconds of play time
+ */
 void vsid_ui_display_time(unsigned int sec)
 {
-    NOT_IMPLEMENTED_WARN_X_TIMES(count, 3);
+    vsid_tune_info_widget_set_time(sec);
 }
 
+
+/** \brief  Set current tune number in the UI
+ *
+ * \param[in]   nr  tune number
+ */
 void vsid_ui_display_tune_nr(int nr)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_tune_current(nr);
 }
 
 /** \brief  Identify the canvas used to create a window
@@ -103,6 +151,7 @@ static int identify_canvas(video_canvas_t *canvas)
 
     return PRIMARY_WINDOW;
 }
+
 
 int vsid_ui_init(void)
 {
@@ -121,13 +170,23 @@ int vsid_ui_init(void)
     return 0;
 }
 
+
+/** \brief  Set driver info text for the UI
+ *
+ * \param[in]   driver_info_text    text with driver info (duh)
+ */
 void vsid_ui_setdrv(char *driver_info_text)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_driver(driver_info_text);
 }
 
+
+/** \brief  Set default tune number in the UI
+ *
+ * \param[in]   nr  tune number
+ */
 void vsid_ui_set_default_tune(int nr)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    vsid_tune_info_widget_set_tune_default(nr);
 }
 
