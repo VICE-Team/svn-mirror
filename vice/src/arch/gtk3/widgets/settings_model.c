@@ -343,27 +343,6 @@ static GtkWidget *create_c128_layout(GtkWidget *grid)
     /* Misc widget */
     gtk_grid_attach(GTK_GRID(grid), create_c128_misc_widget(), 0, 1, 3, 1);
     return grid;
-#if 0
-
-    if (machine_class != VICE_MACHINE_CBM6x0 &&
-            machine_class != VICE_MACHINE_PET) {
-
-        video_wrapper = gtk_grid_new();
-
-        video_widget = video_model_widget_create();
-        gtk_grid_attach(GTK_GRID(video_wrapper), video_widget, 0, 0, 1, 1);
-
-        if (machine_class == VICE_MACHINE_C128) {
-            vdc_widget = vdc_model_widget_create();
-            gtk_grid_attach(GTK_GRID(video_wrapper), vdc_widget, 0, 1, 1, 1);
-        }
-        gtk_widget_show_all(video_wrapper);
-
-        gtk_grid_attach(GTK_GRID(layout), video_wrapper, 1, 0, 1, 1);
-    }
-#endif
-
-    return grid;
 }
 
 
@@ -419,10 +398,6 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
     /* VIC model widget */
     video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
-#if 0
-    /* SID widget */
-    sid_widget = sid_model_widget_create(machine_widget);
-#endif
 
     ram_widget = vic20_memory_expansion_widget_create();
     gtk_grid_attach(GTK_GRID(grid), ram_widget, 0, 1, 2, 1);
@@ -445,7 +420,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 1);
 
-    /* VIC model widget */
+    /* PET model widget */
     video_widget = video_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
@@ -453,7 +428,7 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
     ram_widget = plus4_memory_expansion_widget_create();
     gtk_grid_attach(GTK_GRID(grid), ram_widget, 2, 0, 1, 1);
 
-    INCOMPLETE_IMPLEMENTATION();
+    gtk_widget_show_all(grid);
     return grid;
 }
 
@@ -523,8 +498,6 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), switcher, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), stack, 0, 1, 1, 1);
 
-
-
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -569,7 +542,7 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
     bank15_widget = cbm2_ram_mapping_widget_create();
     gtk_grid_attach(GTK_GRID(grid), bank15_widget, 0, 2, 1, 1);
 
-    INCOMPLETE_IMPLEMENTATION();
+    gtk_widget_show_all(grid);
     return grid;
 }
 
@@ -588,11 +561,7 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 
     /* add machine widget */
     gtk_grid_attach(GTK_GRID(grid), machine_widget, 0, 0, 1, 2);
-#if 0
-    /* add video widget */
-    video_widget = video_model_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
-#endif
+
     /* SID widget */
     sid_widget = sid_model_widget_create(machine_widget);
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 1, 0, 1, 1);
@@ -613,8 +582,7 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
     bank15_widget = cbm2_ram_mapping_widget_create();
     gtk_grid_attach(GTK_GRID(grid), bank15_widget, 1, 2, 2, 1);
 
-
-    INCOMPLETE_IMPLEMENTATION();
+    gtk_widget_show_all(grid);
     return grid;
 }
 
