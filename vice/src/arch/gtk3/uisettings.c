@@ -664,70 +664,38 @@ static ui_settings_tree_node_t no_io_extensions[] = {
 #endif
 
 
-/** \brief  Main tree nodes
- *
- * XXX: remove once VSID settings are implemented
+/** \brief  Main tree nodes for VSID
  */
-static ui_settings_tree_node_t main_nodes[] = {
-    { "Speed settings",
-      "speed",
-       settings_speed_widget_create, NULL },
-    { "Keyboard settings",
-      "keyboard",
-      settings_keyboard_widget_create, NULL },
-    { "Sound settings",
+static ui_settings_tree_node_t main_nodes_vsid[] = {
+   { "Sound settings",
       "sound",
       settings_sound_create, NULL },
-    { "Sampler settings",
-      "sampler",
-      settings_sampler_widget_create, NULL },
-    { "Autostart settings",
-      "autostart",
-      settings_autostart_widget_create, NULL },
-    { "Drive settings",
-      "drive",
-      settings_drive_widget_create, NULL },
-    { "Printer settings",
-      "printer",
-      settings_printer_widget_create, NULL },
-    { "Control port settings",
-      "control-port",
-      settings_controlport_widget_create, NULL },
-    { "Joystick settings",
-      "joystick",
-      settings_joystick_widget_create, NULL },
-    { "Mouse settings",
-      "mouse",
-      settings_mouse_widget_create, NULL },
-    { "Model settings",
-      "model",
-      settings_model_widget_create, NULL },
-    { "RAM reset pattern",
-      "ram-reset",
-      settings_ramreset_widget_create, NULL },
-    { "ROM settings",
-      "rom-settings",
-      settings_romset_widget_create, NULL },
-    { "Miscellaneous",
-      "misc",
-      settings_misc_widget_create, NULL },
-    { "Video settings",
-      "video",
-      settings_video_create, NULL },
     { "SID settings",
       "sid",
       settings_soundchip_widget_create, NULL },
-
-    { "I/O extensions",
-      "io-extensions",
-      settings_io_widget_create, c64_io_extensions },
-
-    { "Snaphot/event/media recording",
-      "snapshot",
-      settings_snapshot_widget_create, NULL },
+    { "Speed settings",
+      "speed",
+       settings_speed_widget_create, NULL },
+    /* XXX: basically a selection between 'PAL'/'NTSC' (50/60Hz) */
+    { "Model settings",
+      "model",
+      settings_model_widget_create, NULL },
+    /* XXX: do we need this? Sidplay allows ROM selection for Basic, Kernal and
+     *      Chargen, perhaps move into model settings, plenty of space there */
+    { "ROM settings",
+      "rom-settings",
+      settings_romset_widget_create, NULL },
+    /* XXX: perhaps required for VSID-specific things */
+    { "Miscellaneous",
+      "misc",
+      settings_misc_widget_create, NULL },
     { "Monitor settings",
       "monitor",
       settings_monitor_widget_create, NULL },
+
+    { "HSVC settings",
+      "hsvc",
+      NULL, NULL },
 
     UI_SETTINGS_TERMINATOR
 };
@@ -1574,7 +1542,7 @@ static GtkTreeStore *populate_tree_model(void)
     GtkTreeStore *model;
     GtkTreeIter iter;
     GtkTreeIter child;
-    ui_settings_tree_node_t *nodes = main_nodes;
+    ui_settings_tree_node_t *nodes = NULL;
     int i;
 
     model = settings_model;
@@ -1608,8 +1576,14 @@ static GtkTreeStore *populate_tree_model(void)
         case VICE_MACHINE_CBM6x0:
             nodes = main_nodes_cbm6x0;
             break;
+        case VICE_MACHINE_VSID:
+            nodes = main_nodes_vsid;
+            break;
         default:
-            /* VSID is completely different, and doesn't even have a UI yet */
+            fprintf(stderr,
+                    "Error: %s:%d:%s(): unsupported machine_class %d\n",
+                    __FILE__, __LINE__, __func__, machine_class);
+            exit(1);
             break;
     }
 
