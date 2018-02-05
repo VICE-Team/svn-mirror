@@ -38,6 +38,7 @@
 
 #include "cairo_renderer.h"
 #include "opengl_renderer.h"
+#include "quartz_renderer.h"
 #include "videoarch.h"
 
 #include "ui.h"

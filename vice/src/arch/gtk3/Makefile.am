@@ -64,6 +64,7 @@ libarch_a_SOURCES = \
 	kbd.c \
 	mousedrv.c \
 	opengl_renderer.c \
+	quartz_renderer.c \
 	petui.c \
 	plus4ui.c \
 	rawnetarch.c \
@@ -128,6 +129,7 @@ EXTRA_DIST = \
 	mousedrv.h \
 	not_implemented.h \
 	opengl_renderer.h \
+	quartz_renderer.h \
 	rawnetarch_unix.c \
 	rawnetarch_win32.c \
 	rs232-unix-dev.c \
