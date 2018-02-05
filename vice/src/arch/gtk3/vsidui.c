@@ -39,6 +39,7 @@
 #include "uivsidwindow.h"
 #include "vicii.h"
 
+#include "vsidcontrolwidget.h"
 #include "vsidtuneinfowidget.h"
 
 #include "vsidui.h"
@@ -96,7 +97,13 @@ void vsid_ui_display_name(const char *name)
  */
 void vsid_ui_display_nr_of_tunes(int count)
 {
+    /*
+     * FIXME: this is obviously not what we want, a single function to set
+     *        the number of tunes should be all. This goes for the other
+     *        tune number setters as well.
+     */
     vsid_tune_info_widget_set_tune_count(count);
+    vsid_control_widget_set_tune_count(count);
 }
 
 
@@ -137,6 +144,7 @@ void vsid_ui_display_time(unsigned int sec)
 void vsid_ui_display_tune_nr(int nr)
 {
     vsid_tune_info_widget_set_tune_current(nr);
+    vsid_control_widget_set_tune_current(nr);
 }
 
 /** \brief  Identify the canvas used to create a window
@@ -188,5 +196,6 @@ void vsid_ui_setdrv(char *driver_info_text)
 void vsid_ui_set_default_tune(int nr)
 {
     vsid_tune_info_widget_set_tune_default(nr);
+    vsid_control_widget_set_tune_default(nr);
 }
 
