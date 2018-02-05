@@ -28,7 +28,7 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
+#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -36,7 +36,9 @@
 #include "machine.h"
 #include "lib.h"
 #include "log.h"
+#include "resources.h"
 #include "psid.h"
+#include "uicommands.h"
 
 #include "uisidattach.h"
 
@@ -95,17 +97,22 @@ static void prev_tune_callback(GtkWidget *widget, gpointer data)
 
 
 
+static void ffwd_callback(GtkWidget *widget, gpointer data)
+{
+    ui_toggle_resource(NULL, "WarpMode");
+}
+
+
+
 
 /** \brief  List of media control buttons
  */
 static const vsid_ctrl_button_t buttons[] = {
     { "media-skip-backward", prev_tune_callback },  /* select prev tune */
-    { "media-seek-backward", fake_callback },  /* fast rewind */
     { "media-playback-start", fake_callback },  /* probably switch play/stop,
                                                    not two separate functions */
-    { "media-playback-pause", fake_callback },
     { "media-playback-stop", fake_callback },
-    { "media-seek-forward", fake_callback },
+    { "media-seek-forward", ffwd_callback },
     { "media-skip-forward", next_tune_callback },   /* select next tune */
     { "media-eject", uisidattach_show_dialog },   /* active file-open dialog */
     { "media-record", fake_callback },  /* start recording with current settings*/
@@ -125,7 +132,7 @@ GtkWidget *vsid_control_widget_create(void)
         GtkWidget *button;
 
         button = gtk_button_new_from_icon_name(buttons[i].icon_name,
-                GTK_ICON_SIZE_BUTTON);
+                GTK_ICON_SIZE_DIALOG);
         gtk_grid_attach(GTK_GRID(grid), button, i, 0, 1,1);
         if (buttons[i].callback != NULL) {
             g_signal_connect(button, "clicked",
