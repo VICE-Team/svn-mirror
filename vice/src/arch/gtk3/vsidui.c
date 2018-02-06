@@ -41,6 +41,7 @@
 
 #include "vsidcontrolwidget.h"
 #include "vsidtuneinfowidget.h"
+#include "vsidmainwidget.h"
 
 #include "vsidui.h"
 
@@ -97,13 +98,7 @@ void vsid_ui_display_name(const char *name)
  */
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    /*
-     * FIXME: this is obviously not what we want, a single function to set
-     *        the number of tunes should be all. This goes for the other
-     *        tune number setters as well.
-     */
-    vsid_tune_info_widget_set_tune_count(count);
-    vsid_control_widget_set_tune_count(count);
+    vsid_main_widget_set_tune_count(count);
 }
 
 
@@ -143,39 +138,7 @@ void vsid_ui_display_time(unsigned int sec)
  */
 void vsid_ui_display_tune_nr(int nr)
 {
-    vsid_tune_info_widget_set_tune_current(nr);
-    vsid_control_widget_set_tune_current(nr);
-}
-
-/** \brief  Identify the canvas used to create a window
- *
- * \return  window index on success, -1 on failure
- */
-static int identify_canvas(video_canvas_t *canvas)
-{
-    if (canvas != vicii_get_canvas()) {
-        return -1;
-    }
-
-    return PRIMARY_WINDOW;
-}
-
-
-int vsid_ui_init(void)
-{
-    video_canvas_t *canvas = vicii_get_canvas();
-
-    ui_vsid_window_init();
-    ui_set_identify_canvas_func(identify_canvas);
-
-    ui_create_toplevel_window(canvas);
-    ui_display_toplevel_window(canvas->window_index);
-
-    uisidattach_set_psid_init_func(psid_init_driver);
-    uisidattach_set_psid_play_func(machine_play_psid);
-
-    INCOMPLETE_IMPLEMENTATION();
-    return 0;
+    vsid_main_widget_set_tune_current(nr);
 }
 
 
@@ -195,7 +158,40 @@ void vsid_ui_setdrv(char *driver_info_text)
  */
 void vsid_ui_set_default_tune(int nr)
 {
-    vsid_tune_info_widget_set_tune_default(nr);
-    vsid_control_widget_set_tune_default(nr);
+    vsid_main_widget_set_tune_default(nr);
 }
 
+
+/** \brief  Identify the canvas used to create a window
+ *
+ * \return  window index on success, -1 on failure
+ */
+static int identify_canvas(video_canvas_t *canvas)
+{
+    if (canvas != vicii_get_canvas()) {
+        return -1;
+    }
+    return PRIMARY_WINDOW;
+}
+
+
+/** \brief  Initialize the VSID UI
+ *
+ * \return  0 on success, -1 on failure
+ */
+int vsid_ui_init(void)
+{
+    video_canvas_t *canvas = vicii_get_canvas();
+
+    ui_vsid_window_init();
+    ui_set_identify_canvas_func(identify_canvas);
+
+    ui_create_toplevel_window(canvas);
+    ui_display_toplevel_window(canvas->window_index);
+
+    uisidattach_set_psid_init_func(psid_init_driver);
+    uisidattach_set_psid_play_func(machine_play_psid);
+
+    INCOMPLETE_IMPLEMENTATION();
+    return 0;
+}

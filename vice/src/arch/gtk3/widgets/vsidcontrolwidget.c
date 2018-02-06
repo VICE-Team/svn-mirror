@@ -39,7 +39,7 @@
 #include "resources.h"
 #include "psid.h"
 #include "uicommands.h"
-
+#include "ui.h"
 #include "uisidattach.h"
 
 #include "vsidcontrolwidget.h"
@@ -50,11 +50,17 @@
 typedef struct vsid_ctrl_button_s {
     const char *icon_name;                      /**< icon name */
     void (*callback)(GtkWidget *, gpointer);    /**< callback */
+    const char *tooltip;                        /**< tool tip */
 } vsid_ctrl_button_t;
 
 
+/** \brief  Number of subtunes in the SID */
 static int tune_count;
+
+/** \brief  Current subtune number */
 static int tune_current;
+
+/** \brief  Default subtune number */
 static int tune_default;
 
 
@@ -69,7 +75,13 @@ static void fake_callback(GtkWidget *widget, gpointer data)
 }
 
 
-
+/** \brief  Callback for 'next subtune'
+ *
+ * Select next subtune, or wrap around to the first subtune
+ *
+ * \param[in]   widget  widget
+ * \param[in]   data    icon name
+ */
 static void next_tune_callback(GtkWidget *widget, gpointer data)
 {
     if (tune_current >= tune_count) {
@@ -83,6 +95,13 @@ static void next_tune_callback(GtkWidget *widget, gpointer data)
 }
 
 
+/** \brief  Callback for 'previous subtune'
+ *
+ * Select previous subtune, or wrap aroun to the last subtune
+ *
+ * \param[in]   widget  widget
+ * \param[in]   data    icon name
+ */
 static void prev_tune_callback(GtkWidget *widget, gpointer data)
 {
     if (tune_current == 1) {
@@ -96,10 +115,48 @@ static void prev_tune_callback(GtkWidget *widget, gpointer data)
 }
 
 
-
+/** \brief  Callback for 'fast forward'
+ *
+ * Fast forward using warp mode.
+ *
+ * \param[in]   widget  widget
+ * \param[in]   data    icon name
+ */
 static void ffwd_callback(GtkWidget *widget, gpointer data)
 {
     ui_toggle_resource(NULL, "WarpMode");
+}
+
+
+/** \brief  Callback for 'play'
+ *
+ * Continue playback by using the emulator's pause feature.
+ *
+ * \note    ui_pause_emulation() appears to toggle pause mode when passed 1 and
+ *          disable pause mode when passed 0.
+ *
+ * \param[in]   widget  widget
+ * \param[in]   data    icon name
+ */
+static void play_callback(GtkWidget *widget, gpointer data)
+{
+    ui_pause_emulation(0);
+}
+
+
+/** \brief  Callback for 'pause'
+ *
+ * Pause playback by using the emulator's pause feature.
+ *
+ * \note    ui_pause_emulation() appears to toggle pause mode when passed 1 and
+ *          disable pause mode when passed 0.
+ *
+ * \param[in]   widget  widget
+ * \param[in]   data    icon name
+ */
+static void pause_callback(GtkWidget *widget, gpointer data)
+{
+    ui_pause_emulation(1);
 }
 
 
@@ -108,19 +165,29 @@ static void ffwd_callback(GtkWidget *widget, gpointer data)
 /** \brief  List of media control buttons
  */
 static const vsid_ctrl_button_t buttons[] = {
-    { "media-skip-backward", prev_tune_callback },  /* select prev tune */
-    { "media-playback-start", fake_callback },  /* probably switch play/stop,
-                                                   not two separate functions */
-    { "media-playback-stop", fake_callback },
-    { "media-seek-forward", ffwd_callback },
-    { "media-skip-forward", next_tune_callback },   /* select next tune */
-    { "media-eject", uisidattach_show_dialog },   /* active file-open dialog */
-    { "media-record", fake_callback },  /* start recording with current settings*/
-    { NULL, NULL }
+    { "media-skip-backward", prev_tune_callback,
+        "Go to previous subtune" },
+    { "media-playback-start", play_callback,
+        "Play tune" },
+    { "media-playback-pause", pause_callback,
+        "Pause playback" },
+    { "media-seek-forward", ffwd_callback,
+        "Fast forward" },
+    { "media-skip-forward", next_tune_callback,
+        "Go to next subtune" },   /* select next tune */
+    { "media-eject", uisidattach_show_dialog,
+        "Load PSID file" },   /* active file-open dialog */
+    { "media-record", fake_callback,
+        "Record media" },  /* start recording with current settings*/
+    { NULL, NULL, NULL }
 };
 
 
 
+/** \brief  Create widget with media buttons to control VSID playback
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *vsid_control_widget_create(void)
 {
     GtkWidget *grid;
@@ -132,12 +199,15 @@ GtkWidget *vsid_control_widget_create(void)
         GtkWidget *button;
 
         button = gtk_button_new_from_icon_name(buttons[i].icon_name,
-                GTK_ICON_SIZE_DIALOG);
+                GTK_ICON_SIZE_LARGE_TOOLBAR);
         gtk_grid_attach(GTK_GRID(grid), button, i, 0, 1,1);
         if (buttons[i].callback != NULL) {
             g_signal_connect(button, "clicked",
                     G_CALLBACK(buttons[i].callback),
                     (gpointer)(buttons[i].icon_name));
+        }
+        if (buttons[i].tooltip != NULL) {
+            gtk_widget_set_tooltip_text(button, buttons[i].tooltip);
         }
     }
 
@@ -146,18 +216,30 @@ GtkWidget *vsid_control_widget_create(void)
 }
 
 
+/** \brief  Set number of tunes
+ *
+ * \param[in]   n   tune count
+ */
 void vsid_control_widget_set_tune_count(int n)
 {
     tune_count = n;
 }
 
 
+/** \brief  Set current tune
+ *
+ * \param[in]   n   tune number
+ */
 void vsid_control_widget_set_tune_current(int n)
 {
     tune_current = n;
 }
 
 
+/** \brief  Set default tune
+ *
+ * \param[in]   n   tune number
+ */
 void vsid_control_widget_set_tune_default(int n)
 {
     tune_default = n;

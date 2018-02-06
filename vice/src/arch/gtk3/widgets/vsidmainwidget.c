@@ -65,3 +65,35 @@ GtkWidget *vsid_main_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+/** \brief  Set number of tunes
+ *
+ * \param[in]   n   tune count
+ */
+void vsid_main_widget_set_tune_count(int n)
+{
+    vsid_control_widget_set_tune_count(n);
+    vsid_tune_info_widget_set_tune_count(n);
+}
+
+/** \brief  Set current tune
+ *
+ * \param[in]   n   tune number
+ */
+void vsid_main_widget_set_tune_current(int n)
+{
+    vsid_control_widget_set_tune_current(n);
+    vsid_tune_info_widget_set_tune_current(n);
+}
+
+
+/** \brief  Set default tune
+ *
+ * \param[in]   n   tune number
+ */
+void vsid_main_widget_set_tune_default(int n)
+{
+    vsid_control_widget_set_tune_default(n);
+    vsid_tune_info_widget_set_tune_default(n);
+}

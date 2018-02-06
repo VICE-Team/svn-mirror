@@ -934,7 +934,7 @@ void ui_display_paused(int flag)
 
 /** \brief  Pause emulation
  *
- * \param[in]   flag    pause state
+ * \param[in]   flag    toggle pause state if true
  */
 void ui_pause_emulation(int flag)
 {

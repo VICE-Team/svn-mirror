@@ -36,6 +36,7 @@
 #include "machine.h"
 #include "lib.h"
 #include "log.h"
+#include "util.h"
 
 #include "vsidtuneinfowidget.h"
 
@@ -100,6 +101,10 @@ static GtkWidget *create_tune_num_widget(void)
 }
 
 
+/** \brief  Update tune number widget
+ *
+ * Updates the 'X of Y (default: Z)' widget
+ */
 static void update_tune_num_widget(void)
 {
     char *text;
@@ -111,6 +116,8 @@ static void update_tune_num_widget(void)
 }
 
 
+/** \brief  Create IRQ widget
+ */
 static GtkWidget *create_irq_widget(void)
 {
     GtkWidget *label;
@@ -121,12 +128,16 @@ static GtkWidget *create_irq_widget(void)
 }
 
 
+/** \brief  Update IRQ widget
+ */
 static void update_irq_widget(void)
 {
     gtk_label_set_text(GTK_LABEL(irq_widget), irq_source);
 }
 
 
+/** \brief  Create SID model widget
+ */
 static GtkWidget *create_model_widget(void)
 {
     GtkWidget *label;
@@ -141,6 +152,8 @@ static GtkWidget *create_model_widget(void)
 }
 
 
+/** \brief  Update SID model widget
+ */
 static void update_model_widget(void)
 {
     if (model_id == 0) {
@@ -151,6 +164,10 @@ static void update_model_widget(void)
 }
 
 
+/** \brief  Create run time widget
+ *
+ * Creates a widget which displays hours, minutes and seconds
+ */
 static GtkWidget *create_runtime_widget(void)
 {
     GtkWidget *label = gtk_label_new("0:00:00");
@@ -159,6 +176,8 @@ static GtkWidget *create_runtime_widget(void)
 }
 
 
+/** \brief  Update the run time widget
+ */
 static void update_runtime_widget(void)
 {
     char buffer[256];
@@ -177,6 +196,8 @@ static void update_runtime_widget(void)
 }
 
 
+/** \brief  Create sync widget
+ */
 static GtkWidget *create_sync_widget(void)
 {
     GtkWidget *label;
@@ -191,6 +212,8 @@ static GtkWidget *create_sync_widget(void)
 }
 
 
+/** \brief  Update sync widget
+ */
 static void update_sync_widget(void)
 {
     if (sync_id == 1) {
@@ -201,7 +224,8 @@ static void update_sync_widget(void)
 }
 
 
-
+/** \brief  Create driver information widget
+ */
 static GtkWidget *create_driver_info_widget(void)
 {
     GtkWidget *label = gtk_label_new(NULL);
@@ -213,11 +237,21 @@ static GtkWidget *create_driver_info_widget(void)
 
 /** \brief  Set new driver info
  *
- * XXX: this need some sort of parser to display the data a little nicer
+ * The info gotten from vsid is a string with parameters separated by commas.
+ * This function replaces the commas (and the following space) with new lines
+ * so the information is displayed slighly better looking.
+ *
+ * XXX: Still looks ugly though, perhaps parse the string to retrieve the
+ *      various parameters and use separate widgets to display them to get a
+ *      proper layout.
  */
 static void update_driver_info_widget(void)
 {
-    gtk_label_set_text(GTK_LABEL(driver_info_widget), driver_info);
+    char *drv;
+
+    drv = util_subst(driver_info, ", ", "\n");
+    gtk_label_set_text(GTK_LABEL(driver_info_widget), drv);
+    lib_free(drv);
 }
 
 
@@ -282,6 +316,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
 
     /* driver info */
     label = create_left_aligned_label("Driver info:");
+    gtk_widget_set_valign(label, GTK_ALIGN_START);
     driver_info_widget = create_driver_info_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 8, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), driver_info_widget, 1,8, 1, 1);
@@ -292,25 +327,40 @@ GtkWidget *vsid_tune_info_widget_create(void)
 }
 
 
-
+/** \brief  Set tune \a name
+ *
+ * \param[in]   name    tune name
+ */
 void vsid_tune_info_widget_set_name(const char *name)
 {
     gtk_label_set_text(GTK_LABEL(name_widget), name);
 }
 
 
+/** \brief  Set author
+ *
+ * \param[in]   name    author name
+ */
 void vsid_tune_info_widget_set_author(const char *name)
 {
     gtk_label_set_text(GTK_LABEL(author_widget), name);
 }
 
 
+/** \brief  Set copyright info string
+ *
+ * \param[in]   name    copyright string
+ */
 void vsid_tune_info_widget_set_copyright(const char *name)
 {
     gtk_label_set_text(GTK_LABEL(copyright_widget), name);
 }
 
 
+/** \brief  Set number of tunes
+ *
+ * \param[in]   n   tune count
+ */
 void vsid_tune_info_widget_set_tune_count(int num)
 {
     tune_count = num;
@@ -318,6 +368,10 @@ void vsid_tune_info_widget_set_tune_count(int num)
 }
 
 
+/** \brief  Set default tune
+ *
+ * \param[in]   n   tune number
+ */
 void vsid_tune_info_widget_set_tune_default(int num)
 {
     tune_default = num;
@@ -325,6 +379,10 @@ void vsid_tune_info_widget_set_tune_default(int num)
 }
 
 
+/** \brief  Set current tune
+ *
+ * \param[in]   n   tune number
+ */
 void vsid_tune_info_widget_set_tune_current(int num)
 {
     tune_current = num;
@@ -332,6 +390,10 @@ void vsid_tune_info_widget_set_tune_current(int num)
 }
 
 
+/** \brief  Set SID model
+ *
+ * \param[in]   model   model ID (0 = 6581, 1 = 8580)
+ */
 void vsid_tune_info_widget_set_model(int model)
 {
     model_id = model;
@@ -339,12 +401,21 @@ void vsid_tune_info_widget_set_model(int model)
 }
 
 
+/** \brief  Set sync factor
+ *
+ * \param[in]   sync    sync factor (0 = 60Hz/NTSC, 1 = 50Hz/PAL)
+ */
 void vsid_tune_info_widget_set_sync(int sync)
 {
     sync_id = sync;
     update_sync_widget();
 }
 
+
+/** \brief  Set IRQ source
+ *
+ * \param[in]   irq irq source string
+ */
 void vsid_tune_info_widget_set_irq(const char *irq)
 {
     irq_source = irq;
@@ -352,6 +423,10 @@ void vsid_tune_info_widget_set_irq(const char *irq)
 }
 
 
+/** \brief  Set current run time
+ *
+ * \param[in]   sec run time in seconds
+ */
 void vsid_tune_info_widget_set_time(unsigned int sec)
 {
     runtime_sec = sec;
@@ -359,6 +434,10 @@ void vsid_tune_info_widget_set_time(unsigned int sec)
 }
 
 
+/** \brief  Set driver information
+ *
+ * \param[in]   text    driver information
+ */
 void vsid_tune_info_widget_set_driver(const char *text)
 {
     driver_info = text;
