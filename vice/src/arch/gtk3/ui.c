@@ -1,11 +1,12 @@
-/**
+/** \file   ui.c
  * \brief   Native GTK3 UI stuff.
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Bas Wassink <b.wassink@ziggo.nl>
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -896,10 +897,16 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
         if (ui_resources.canvas[i] && GTK_WINDOW(ui_resources.window_widget[i])) {
             warp = (warp_flag ? _("(warp)") : "");
             str[0] = 0;
-            snprintf(str, 128, "%s%s - %3d%%, %2d fps %s%s",
-                     ui_resources.canvas[i]->viewport->title, mode[i],
-                     percent_int, framerate_int, warp,
-                     is_paused ? " (Paused)" : "");
+            if (machine_class != VICE_MACHINE_VSID) {
+                snprintf(str, 128, "%s%s - %3d%%, %2d fps %s%s",
+                         ui_resources.canvas[i]->viewport->title, mode[i],
+                         percent_int, framerate_int, warp,
+                         is_paused ? " (Paused)" : "");
+            } else {
+                snprintf(str, 128, "VSID - %3d%% %s%s",
+                         percent_int, warp,
+                         is_paused ? " (Paused)" : "");
+            }
             str[127] = 0;
             gtk_window_set_title(GTK_WINDOW(ui_resources.window_widget[i]), str);
         }

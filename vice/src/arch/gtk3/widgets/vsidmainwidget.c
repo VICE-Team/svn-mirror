@@ -55,7 +55,9 @@ GtkWidget *vsid_main_widget_create(void)
     GtkWidget *grid;
 
     grid = vice_gtk3_grid_new_spaced(32, 32);
-    g_object_set(G_OBJECT(grid), "margin-left", 16, NULL, "margin-top", 16, NULL);
+    g_object_set(G_OBJECT(grid),
+            "margin-left", 16,
+            "margin-top", 16, NULL);
 
     tune_info_widget = vsid_tune_info_widget_create();
     gtk_grid_attach(GTK_GRID(grid), tune_info_widget, 0, 0, 1, 1);

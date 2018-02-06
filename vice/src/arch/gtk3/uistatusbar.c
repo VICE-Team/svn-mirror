@@ -418,7 +418,8 @@ static void vice_gtk3_update_joyport_layout(void)
         ok[i] = 1;
     }
     /* Check for userport joystick counts */
-    if (machine_class != VICE_MACHINE_CBM5x0) {
+    if ((machine_class != VICE_MACHINE_CBM5x0) &&
+            (machine_class != VICE_MACHINE_VSID)) {
         int upjoy = 0;
         resources_get_int("UserportJoy", &upjoy);
         if (upjoy) {
@@ -438,14 +439,16 @@ static void vice_gtk3_update_joyport_layout(void)
     /* Port 1 disabled for machines that have no internal joystick
      * ports */
     if ((machine_class == VICE_MACHINE_CBM6x0) ||
-        (machine_class == VICE_MACHINE_PET)) {
+        (machine_class == VICE_MACHINE_PET) ||
+        (machine_class == VICE_MACHINE_VSID)) {
         ok[0] = 0;
     }
     /* Port 2 disabled for machines that have at most one internal
      * joystick ports */
     if ((machine_class == VICE_MACHINE_VIC20) ||
         (machine_class == VICE_MACHINE_CBM6x0) ||
-        (machine_class == VICE_MACHINE_PET)) {
+        (machine_class == VICE_MACHINE_PET) ||
+        (machine_class == VICE_MACHINE_VSID)) {
         ok[1] = 0;
     }
     /* Port 3 disabled for machines with no user port and no other
@@ -751,11 +754,14 @@ GtkWidget *ui_statusbar_create(void)
                 G_CALLBACK(ui_statusbar_cross_cb), &allocated_bars[i]);
     }
 
-    joysticks = ui_joystick_widget_create();
-    g_object_ref(joysticks);
-    gtk_widget_set_halign(joysticks, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(sb), joysticks, 2, 1, 1, 1);
-    allocated_bars[i].joysticks = joysticks;
+    if (machine_class != VICE_MACHINE_VSID) {
+        joysticks = ui_joystick_widget_create();
+        g_object_ref(joysticks);
+        gtk_widget_set_halign(joysticks, GTK_ALIGN_END);
+        gtk_grid_attach(GTK_GRID(sb), joysticks, 2, 1, 1, 1);
+        allocated_bars[i].joysticks = joysticks;
+    }
+
     /* Third column on: Drives. */
     for (j = 0; j < DRIVE_NUM; ++j) {
         GtkWidget *drive = ui_drive_widget_create(j);

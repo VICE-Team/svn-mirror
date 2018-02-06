@@ -1,9 +1,10 @@
-/**
+/** \file   uisidattach.c
  * \brief   Gtk3 SID-attach dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -32,8 +33,10 @@
 #include "basedialogs.h"
 #include "filechooserhelpers.h"
 #include "machine.h"
+#include "lib.h"
 #include "psid.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "vsync.h"
 
 #include "uisidattach.h"
@@ -115,6 +118,7 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 {
     gchar *filename;
+    char *text;
     int index;
 
     index = GPOINTER_TO_INT(user_data);
@@ -126,10 +130,12 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
-            /* ui_message("Opening file '%s' ...", filename); */
+            text = lib_msprintf("Opening '%s'", filename);
+            ui_display_statustext(text, TRUE);
             debug_gtk3("Loading SID file '%s'\n", filename);
             load_psid_handler(filename);
             g_free(filename);
+            lib_free(text);
             gtk_widget_destroy(widget);
             break;
 
