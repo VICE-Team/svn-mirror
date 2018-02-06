@@ -159,7 +159,8 @@ libwidgets_a_SOURCES = \
 	c64dtvflashsettingswidget.c \
 	vsidmainwidget.c \
 	vsidtuneinfowidget.c \
-	vsidcontrolwidget.c
+	vsidcontrolwidget.c \
+	vsidmixerwidget.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -295,4 +296,5 @@ EXTRA_DIST = \
 	c64dtvflashsettingswidget.h \
 	vsidmainwidget.h \
 	vsidtuneinfowidget.h \
-	vsidcontrolwidget.h
+	vsidcontrolwidget.h \
+	vsidmixerwidget.h
