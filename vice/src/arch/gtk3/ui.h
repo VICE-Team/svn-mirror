@@ -113,4 +113,6 @@ GtkWindow *ui_get_active_window(void);
 video_canvas_t *ui_get_active_canvas(void);
 
 gboolean ui_toggle_pause(void);
+gboolean ui_advance_frame(void);
+
 #endif

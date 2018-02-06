@@ -48,6 +48,7 @@
 #include "util.h"
 #include "videoarch.h"
 #include "vsync.h"
+#include "vsyncapi.h"
 
 #include "basedialogs.h"
 #include "uiapi.h"
@@ -980,9 +981,27 @@ gboolean ui_toggle_pause(void)
     /* TODO: somehow update the checkmark in the menu without reverting to
      *       weird code like Gtk
      */
-    return TRUE;    /* has to be TRUE to avoid passing Alt+H into the emu */
+    return TRUE;    /* has to be TRUE to avoid passing Alt+P into the emu */
 }
 
+/** \brief  Advance frame handler
+ *
+ * \return  TRUE (indicates the Alt+SHIFT+P got consumed by Gtk, so it won't be
+ *          passed to the emu)
+ *
+ * FIXME:   Using the UI the pause tickmark is properly set/unset, but when using
+ *          this from a keyboard shortcut, the tickmark isn't updated at all.
+ */
+gboolean ui_advance_frame(void)
+{
+    if (ui_emulation_is_paused()) {
+        vsyncarch_advance_frame();
+    } else {
+        ui_pause_emulation(1);
+    }
+
+    return TRUE;    /* has to be TRUE to avoid passing Alt+SHIFT+P into the emu */
+}
 
 /** \brief  Shutdown the UI, clean up resources
  */

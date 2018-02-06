@@ -63,7 +63,6 @@
 #include "uisnapshot.h"
 #include "uitapeattach.h"
 
-
 /*
  * The following are translation unit local so we can create functions that
  * modify menu contents or even functions that alter the top bar itself.
@@ -443,6 +442,9 @@ static ui_menu_item_t settings_menu_head[] = {
     { "Pause emulation", UI_MENU_TYPE_ITEM_CHECK,
         "Pause emulation", (void *)(ui_toggle_pause), NULL,
         GDK_KEY_P, VICE_MOD_MASK },
+    { "Advance frame", UI_MENU_TYPE_ITEM_ACTION,
+        "Advance frame", (void *)(ui_advance_frame), NULL,
+        GDK_KEY_P, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     UI_MENU_SEPARATOR,
 
