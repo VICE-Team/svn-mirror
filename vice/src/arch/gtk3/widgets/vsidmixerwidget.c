@@ -49,6 +49,8 @@
 /** \brief  Main volume slider */
 static GtkWidget *volume;
 
+#ifdef HAVE_RESID
+
 /** \brief  ReSID passband slider */
 static GtkWidget *passband;
 
@@ -58,6 +60,7 @@ static GtkWidget *gain;
 /** \brief  ReSID filter bias slider */
 static GtkWidget *bias;
 
+#endif
 
 
 /** \brief  Handler for the 'clicked' event of the reset button
@@ -71,12 +74,14 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 
     resources_get_default_value("SoundVolume", &value);
     gtk_range_set_value(GTK_RANGE(volume), (gdouble)value);
+#ifdef HAVE_RESID
     resources_get_default_value("SidResidPassband", &value);
     gtk_range_set_value(GTK_RANGE(passband), (gdouble)value);
     resources_get_default_value("SidResidGain", &value);
     gtk_range_set_value(GTK_RANGE(gain), (gdouble)value);
     resources_get_default_value("SidResidFilterBias", &value);
     gtk_range_set_value(GTK_RANGE(bias), (gdouble)value);
+#endif
 }
 
 
@@ -93,6 +98,8 @@ static GtkWidget *create_volume_widget(void)
     return scale;
 }
 
+
+#ifdef HAVE_RESID
 
 /** \brief  Create slider for ReSID passband
  *
@@ -135,7 +142,7 @@ static GtkWidget *create_bias_widget(void)
             GTK_ORIENTATION_HORIZONTAL, -5000, 5000, 100);
     return scale;
 }
-
+#endif  /* ifdef HAVE_RESID */
 
 
 /** \brief  Create VSID mixer widget
@@ -161,6 +168,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), volume, 1, 0, 1, 1);
 
+#ifdef HAVE_RESID
     label = gtk_label_new("ReSID Passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     passband = create_passband_widget();
@@ -181,6 +189,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
+#endif
 
     button = gtk_button_new_with_label("Reset to defaults");
     gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 1, 1);

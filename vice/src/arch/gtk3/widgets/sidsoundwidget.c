@@ -1,12 +1,13 @@
-/**
+/** \file   sidsoundwidget.c
  * \brief   Settings for SID emulation
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * Controls the following resource(s):
  *  SidEngine
- *  SidStereo (int (0-3), enabled extra SIDs)
+ *  SidStereo
  *  SidResidSampling
  *  SidResidPassband
  *  SidResidGain
@@ -74,6 +75,8 @@ static vice_gtk3_radiogroup_entry_t sid_engines[] = {
     { NULL, -1 }
 };
 
+
+#ifdef HAVE_RESID
 /** \brief  Values for the "SidResidSampling" resource
  */
 static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
@@ -83,6 +86,7 @@ static const vice_gtk3_radiogroup_entry_t resid_sampling_modes[] = {
     { "Fast resampling", 3 },
     { NULL, -1 }
 };
+#endif
 
 
 /** \brief  Values for the "number of sids" widget
@@ -91,7 +95,8 @@ static const vice_gtk3_radiogroup_entry_t num_sids[] = {
     { "One", 0 },
     { "Two", 1 },
     { "Three", 2 },
-    { "Four" , 3 },
+    { "Four" , 3 }, /* selecting this with FastSID causes a memory corruption
+                       warning in sid.c:364 */
     { NULL, -1 }
 };
 
@@ -150,17 +155,12 @@ static const vice_gtk3_combo_entry_int_t sid_address_c128[] = {
 };
 
 
+#ifdef HAVE_RESID
 /** \brief  Reference to resid sampling widget
  *
  * Used to enable/disable when the SID engine changes
  */
 static GtkWidget *resid_sampling;
-
-/** \brief  Reference to the extra SID address widgets
- *
- * Used to enable/disable depending on the number of SIDs active
- */
-static GtkWidget *address_widgets[3];
 
 /** \brief  Reference to the SidResidPassband widget
  *
@@ -179,6 +179,13 @@ static GtkWidget *resid_gain;
  * Used to enable/disable the widget based on the SidFilters setting
  */
 static GtkWidget *resid_bias;
+#endif
+
+/** \brief  Reference to the extra SID address widgets
+ *
+ * Used to enable/disable depending on the number of SIDs active
+ */
+static GtkWidget *address_widgets[3];
 
 
 
@@ -190,7 +197,9 @@ static GtkWidget *resid_bias;
 static void on_sid_engine_changed(GtkWidget *widget, int engine)
 {
     debug_gtk3("SID engine changed to %d\n", engine);
+#ifdef HAVE_RESID
     gtk_widget_set_sensitive(resid_sampling, engine == 1);
+#endif
 }
 
 
@@ -219,13 +228,16 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
  */
 static void on_sid_filters_toggled(GtkWidget *widget, gpointer user_data)
 {
+#ifdef HAVE_RESID
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     gtk_widget_set_sensitive(resid_passband, state);
     gtk_widget_set_sensitive(resid_gain, state);
     gtk_widget_set_sensitive(resid_bias, state);
+#endif
 }
 
 
+#ifdef HAVE_RESID
 /** \brief  Handler for "clicked" event of reset-to-default for passband
  *
  * Restores the ReSID passband slider back to default
@@ -267,6 +279,7 @@ static void on_resid_bias_default_clicked(GtkWidget *widget,
     vice_gtk3_resource_scale_int_reset(resid_bias);
 
 }
+#endif
 
 
 /** \brief  Create widget to control the SID engine
@@ -335,6 +348,7 @@ static GtkWidget *create_sid_engine_widget(void)
 }
 
 
+#ifdef HAVE_RESID
 /** \brief  Create widget to control ReSID sampling method
  *
  * \return  GtkGrid
@@ -359,13 +373,10 @@ static GtkWidget *create_resid_sampling_widget(void)
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
-#ifndef HAVE_RESID
-    gtk_widget_set_sensitive(grid, FALSE);
-#endif
-
     gtk_widget_show_all(grid);
     return grid;
 }
+#endif
 
 
 /** \brief  Create widget to set the number of emulated SID's
@@ -428,6 +439,7 @@ static GtkWidget *create_extra_sid_address_widget(int sid)
 }
 
 
+#ifdef HAVE_RESID
 /** \brief  Create scale to control the "SidResidPassband" resource
  *
  * \return  GtkScale
@@ -471,8 +483,10 @@ static GtkWidget *create_resid_bias_widget(void)
     vice_gtk3_resource_scale_int_set_marks(scale, 500);
     return scale;
 }
+#endif
 
 
+#ifdef HAVE_RESID
 /** \brief  Create "Reset to default" button
  *
  * \param[in]   callback    callback for the button
@@ -494,6 +508,7 @@ static GtkWidget *create_resource_reset_button(
     gtk_widget_show(button);
     return button;
 }
+#endif
 
 
 /** \brief  Create widget to control SID settings
@@ -506,7 +521,9 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *label;
+#ifdef HAVE_RESID
     GtkWidget *button;
+#endif
     GtkWidget *engine;
     GtkWidget *num_sids = NULL;
     GtkWidget *filters;
@@ -527,10 +544,14 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     engine = create_sid_engine_widget();
     gtk_grid_attach(GTK_GRID(layout), engine, 0, 1, 1,1);
 
+#ifdef HAVE_RESID
     resid_sampling = create_resid_sampling_widget();
     gtk_grid_attach(GTK_GRID(layout), resid_sampling, 1, 1, 1, 1);
+#endif
     resources_get_int("SidEngine", &current_engine);
+#ifdef HAVE_RESID
     gtk_widget_set_sensitive(resid_sampling, current_engine == 1);
+#endif
 
 
     num_sids = create_num_sids_widget();
@@ -568,6 +589,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
 
+#ifdef HAVE_RESID
     label = gtk_label_new("ReSID passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
@@ -594,13 +616,6 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), label, 0, row + 3, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), resid_bias, 1, row + 3, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), button, 2, row + 3, 1, 1);
-
-#ifndef HAVE_RESID
-    gtk_widget_set_sensitive(filters, FALSE);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(filters), FALSE);
-    gtk_widget_set_sensitive(resid_passband, FALSE);
-    gtk_widget_set_sensitive(resid_gain, FALSE);
-    gtk_widget_set_sensitive(resid_bais, FALSE);
 #endif
 
     if (machine_class != VICE_MACHINE_PLUS4
