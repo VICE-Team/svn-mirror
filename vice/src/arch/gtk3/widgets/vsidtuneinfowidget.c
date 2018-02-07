@@ -70,6 +70,29 @@ static GtkWidget *create_left_aligned_label(const char *text)
 }
 
 
+/** \brief  Convert a string from a SID header field to UTF-8
+ *
+ * \param[in]   s   string from SID header, nul-terminated
+ *
+ * \return  UTF-8 encoded string, or the original when conversion failed
+ *
+ * \note    the string returned needs to be freed with g_free()
+ */
+static gchar *convert_to_utf8(const char *s)
+{
+    GError *err = NULL;
+    gchar *utf8;
+
+    utf8 = g_convert(s, -1, "UTF-8", "ISO-8859-1", NULL, NULL, &err);
+    if (err != NULL) {
+        debug_gtk3("GError: %d: %s\n", err->code, err->message);
+        g_free(utf8);
+        utf8 = g_strdup(s);
+    }
+    return utf8;
+}
+
+
 static GtkWidget *create_readonly_entry(void)
 {
 #if 0
@@ -333,7 +356,11 @@ GtkWidget *vsid_tune_info_widget_create(void)
  */
 void vsid_tune_info_widget_set_name(const char *name)
 {
-    gtk_label_set_text(GTK_LABEL(name_widget), name);
+    char *utf8;
+
+    utf8 = convert_to_utf8(name);
+    gtk_label_set_text(GTK_LABEL(name_widget), utf8);
+    g_free(utf8);
 }
 
 
@@ -343,7 +370,11 @@ void vsid_tune_info_widget_set_name(const char *name)
  */
 void vsid_tune_info_widget_set_author(const char *name)
 {
-    gtk_label_set_text(GTK_LABEL(author_widget), name);
+    char *utf8;
+
+    utf8 = convert_to_utf8(name);
+    gtk_label_set_text(GTK_LABEL(author_widget), utf8);
+    g_free(utf8);
 }
 
 
@@ -353,7 +384,11 @@ void vsid_tune_info_widget_set_author(const char *name)
  */
 void vsid_tune_info_widget_set_copyright(const char *name)
 {
-    gtk_label_set_text(GTK_LABEL(copyright_widget), name);
+    char *utf8;
+
+    utf8 = convert_to_utf8(name);
+    gtk_label_set_text(GTK_LABEL(copyright_widget), utf8);
+    g_free(utf8);
 }
 
 
