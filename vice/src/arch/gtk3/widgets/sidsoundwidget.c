@@ -101,6 +101,17 @@ static const vice_gtk3_radiogroup_entry_t num_sids[] = {
 };
 
 
+/** \brief  Values for the "number of sids" widget in vsid
+ */
+static const vice_gtk3_radiogroup_entry_t num_sids_vsid[] = {
+    { "One", 0 },
+    { "Two", 1 },
+    { "Three", 2 },
+    { NULL, -1 }
+};
+
+
+
 /** \brief  I/O addresses for extra SID's for the C64
  *
  * \note    Yes, I know I can generate this table
@@ -215,7 +226,9 @@ static void on_sid_count_changed(GtkWidget *widget, int count)
 
     gtk_widget_set_sensitive(address_widgets[0], count > 0);
     gtk_widget_set_sensitive(address_widgets[1], count > 1);
-    gtk_widget_set_sensitive(address_widgets[2], count > 2);
+    if (machine_class != VICE_MACHINE_VSID) {
+        gtk_widget_set_sensitive(address_widgets[2], count > 2);
+    }
 }
 
 
@@ -398,8 +411,13 @@ static GtkWidget *create_num_sids_widget(void)
     g_object_set(label, "margin-bottom", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = vice_gtk3_resource_radiogroup_create("SidStereo",
-            num_sids, GTK_ORIENTATION_VERTICAL);
+    if (machine_class != VICE_MACHINE_VSID) {
+        radio_group = vice_gtk3_resource_radiogroup_create("SidStereo",
+                num_sids, GTK_ORIENTATION_VERTICAL);
+    } else {
+        radio_group = vice_gtk3_resource_radiogroup_create("SidStereo",
+                num_sids_vsid, GTK_ORIENTATION_VERTICAL);
+    }
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
 
@@ -575,7 +593,11 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
             && machine_class != VICE_MACHINE_PET
             && machine_class != VICE_MACHINE_VIC20)
     {
-        for (i = 1; i < 4; i++) {
+        int max = 4;
+        if (machine_class == VICE_MACHINE_VSID) {
+            max = 3;
+        }
+        for (i = 1; i < max; i++) {
             address_widgets[i - 1] = create_extra_sid_address_widget(i);
             gtk_grid_attach(GTK_GRID(layout), address_widgets[i - 1],
                     i - 1, 2, 1, 1);
