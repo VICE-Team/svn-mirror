@@ -1,6 +1,8 @@
 /** \file   vsidmainwidget.c
  * \brief   GTK3 tune info widget for VSID
  *
+ * Displays (sub)tune information of a PSID file
+ *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
@@ -40,15 +42,13 @@
 
 #include "vsidtuneinfowidget.h"
 
+
+/* (sub)tune variables */
 static int tune_count;
 static int tune_current;
 static int tune_default;
-static const char *irq_source = "";
-static int model_id;
-static int sync_id;
-static unsigned int runtime_sec;
-static const char *driver_info;
 
+/* widget references */
 static GtkWidget *tune_info_grid;
 static GtkWidget *name_widget;
 static GtkWidget *author_widget;
@@ -61,6 +61,12 @@ static GtkWidget *runtime_widget;
 static GtkWidget *driver_info_widget;
 
 
+/** \brief  Create left aligned label, \a text can use HTML markup
+ *
+ * \param[in]   text    label text
+ *
+ * \return  GtkLabel
+ */
 static GtkWidget *create_left_aligned_label(const char *text)
 {
     GtkWidget *label = gtk_label_new(NULL);
@@ -93,23 +99,28 @@ static gchar *convert_to_utf8(const char *s)
 }
 
 
+/** \brief  Create a label to display text and allow users to copy that text
+ *
+ * \return  GtkLabel
+ */
 static GtkWidget *create_readonly_entry(void)
 {
-#if 0
-    GtkWidget *entry = gtk_entry_new();
-    gtk_editable_set_editable(GTK_EDITABLE(entry), FALSE);
-    gtk_widget_set_can_focus(entry, FALSE);
-    /* TODO: use CSS to make the entry appear 'flat' and perhaps remove the
-     *       frame */
-
-    return entry;
-#endif
     GtkWidget *label = gtk_label_new(NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
+    /* allow users to copy the label text */
+    gtk_label_set_selectable(GTK_LABEL(label), TRUE);
+    /* avoid the label getting focus */
+    gtk_widget_set_can_focus(label, FALSE);
     return label;
 }
 
 
+/** \brief  Create widget to display tune number information
+ *
+ * Creates label with text 'tune X of Y (Default: Z)'
+ *
+ * \return  GtkLabel
+ */
 static GtkWidget *create_tune_num_widget(void)
 {
     GtkWidget *label;
@@ -145,17 +156,19 @@ static GtkWidget *create_irq_widget(void)
 {
     GtkWidget *label;
 
-    label = gtk_label_new(irq_source);
+    label = gtk_label_new("-");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
 }
 
 
 /** \brief  Update IRQ widget
+ *
+ * \param[in]   irq irq source
  */
-static void update_irq_widget(void)
+static void update_irq_widget(const char *irq)
 {
-    gtk_label_set_text(GTK_LABEL(irq_widget), irq_source);
+    gtk_label_set_text(GTK_LABEL(irq_widget), irq);
 }
 
 
@@ -165,21 +178,19 @@ static GtkWidget *create_model_widget(void)
 {
     GtkWidget *label;
 
-    if (model_id == 0) {
-        label = gtk_label_new("6581");
-    } else {
-        label = gtk_label_new("8580");
-    }
+    label = gtk_label_new("-");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
 }
 
 
 /** \brief  Update SID model widget
+ *
+ * \param[in]   model   SID chip model
  */
-static void update_model_widget(void)
+static void update_model_widget(int model)
 {
-    if (model_id == 0) {
+    if (model == 0) {
         gtk_label_set_text(GTK_LABEL(model_widget), "MOS 6581");
     } else {
         gtk_label_set_text(GTK_LABEL(model_widget), "MOS 8580");
@@ -200,17 +211,21 @@ static GtkWidget *create_runtime_widget(void)
 
 
 /** \brief  Update the run time widget
+ *
+ * Displays the run time of the current (sub)tune in hours, minutes and seconds
+ *
+ * \param[in]   sec current run time in seconds
  */
-static void update_runtime_widget(void)
+static void update_runtime_widget(unsigned int sec)
 {
     char buffer[256];
     unsigned int s;
     unsigned int m;
     unsigned int h;
 
-    s = runtime_sec % 60;
-    m = runtime_sec / 60;
-    h = runtime_sec / 60 / 60;
+    s = sec % 60;
+    m = sec / 60;
+    h = sec / 60 / 60;
 
     /* don't use lib_msprintf() here, this function gets called a lot and
      * malloc() isn't fast */
@@ -225,21 +240,19 @@ static GtkWidget *create_sync_widget(void)
 {
     GtkWidget *label;
 
-    if (sync_id == 1) {
-        label = gtk_label_new("PAL (50Hz)");
-    } else {
-        label = gtk_label_new("NTSC (60Hz)");
-    }
+    label = gtk_label_new("-");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     return label;
 }
 
 
 /** \brief  Update sync widget
+ *
+ * \param[in]   sync    sync factor ID
  */
-static void update_sync_widget(void)
+static void update_sync_widget(int sync)
 {
-    if (sync_id == 1) {
+    if (sync == 1) {
         gtk_label_set_text(GTK_LABEL(sync_widget), "PAL (50Hz)");
     } else {
         gtk_label_set_text(GTK_LABEL(sync_widget), "NTSC (60Hz)");
@@ -251,7 +264,7 @@ static void update_sync_widget(void)
  */
 static GtkWidget *create_driver_info_widget(void)
 {
-    GtkWidget *label = gtk_label_new(NULL);
+    GtkWidget *label = gtk_label_new("-");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
     return label;
@@ -267,12 +280,14 @@ static GtkWidget *create_driver_info_widget(void)
  * XXX: Still looks ugly though, perhaps parse the string to retrieve the
  *      various parameters and use separate widgets to display them to get a
  *      proper layout.
+ *
+ * \param[in]   text    driver info
  */
-static void update_driver_info_widget(void)
+static void update_driver_info_widget(const char *text)
 {
     char *drv;
 
-    drv = util_subst(driver_info, ", ", "\n");
+    drv = util_subst(text, ", ", "\n");
     gtk_label_set_text(GTK_LABEL(driver_info_widget), drv);
     lib_free(drv);
 }
@@ -394,7 +409,7 @@ void vsid_tune_info_widget_set_copyright(const char *name)
 
 /** \brief  Set number of tunes
  *
- * \param[in]   n   tune count
+ * \param[in]   num tune count
  */
 void vsid_tune_info_widget_set_tune_count(int num)
 {
@@ -405,7 +420,7 @@ void vsid_tune_info_widget_set_tune_count(int num)
 
 /** \brief  Set default tune
  *
- * \param[in]   n   tune number
+ * \param[in]   num tune number
  */
 void vsid_tune_info_widget_set_tune_default(int num)
 {
@@ -416,7 +431,7 @@ void vsid_tune_info_widget_set_tune_default(int num)
 
 /** \brief  Set current tune
  *
- * \param[in]   n   tune number
+ * \param[in]   num tune number
  */
 void vsid_tune_info_widget_set_tune_current(int num)
 {
@@ -431,8 +446,7 @@ void vsid_tune_info_widget_set_tune_current(int num)
  */
 void vsid_tune_info_widget_set_model(int model)
 {
-    model_id = model;
-    update_model_widget();
+    update_model_widget(model);
 }
 
 
@@ -442,8 +456,7 @@ void vsid_tune_info_widget_set_model(int model)
  */
 void vsid_tune_info_widget_set_sync(int sync)
 {
-    sync_id = sync;
-    update_sync_widget();
+    update_sync_widget(sync);
 }
 
 
@@ -453,8 +466,7 @@ void vsid_tune_info_widget_set_sync(int sync)
  */
 void vsid_tune_info_widget_set_irq(const char *irq)
 {
-    irq_source = irq;
-    update_irq_widget();
+    update_irq_widget(irq);
 }
 
 
@@ -464,8 +476,7 @@ void vsid_tune_info_widget_set_irq(const char *irq)
  */
 void vsid_tune_info_widget_set_time(unsigned int sec)
 {
-    runtime_sec = sec;
-    update_runtime_widget();
+    update_runtime_widget(sec);
 }
 
 
@@ -475,6 +486,5 @@ void vsid_tune_info_widget_set_time(unsigned int sec)
  */
 void vsid_tune_info_widget_set_driver(const char *text)
 {
-    driver_info = text;
-    update_driver_info_widget();
+    update_driver_info_widget(text);
 }
