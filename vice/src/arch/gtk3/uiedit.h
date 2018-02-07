@@ -1,9 +1,10 @@
-/**
+/** \file   uiedit.h
  * \brief   Edit menu handlers - header
  *
- * Written by
- *  groepaz <groepaz@gmx.net>
- *
+ * \author  groepaz <groepaz@gmx.net>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -29,7 +30,7 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-void ui_copy_callback(GtkWidget *widget, gpointer user_data);
-void ui_paste_callback(GtkWidget *widget, gpointer user_data);
+gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data);
+gboolean ui_paste_callback(GtkWidget *widget, gpointer user_data);
 
 #endif

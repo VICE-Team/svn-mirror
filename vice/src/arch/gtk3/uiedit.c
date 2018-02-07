@@ -1,9 +1,10 @@
+/** \file   uiedit
+ * \brief   "Edit" submenu (copy / paste) for GTK3
+ *
+ * \author  groepaz <groepaz@gmx.net>
+ */
+
 /*
- * uiedit.c - "Edit" submenu (copy / paste) for GTK3
- *
- * Written by
- *  groepaz <groepaz@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -26,6 +27,7 @@
 
 #include "vice.h"
 
+#include <gtk/gtk.h>
 #include <string.h>
 
 #include "charset.h"
@@ -47,15 +49,38 @@ static void paste_callback(GtkClipboard *clipboard, const gchar *text, gpointer 
     lib_free(text_in_petscii);
 }
 
-void ui_copy_callback(GtkWidget *widget, gpointer user_data)
+
+/** \brief  Callback for the edit->copy menu item
+ *
+ * Copies the screen of the emulated machine into the host clipboard
+ *
+ * \param[in]   widget  widget (unused)
+ * \param[in]   data    extra data (unused)
+ *
+ * \return  TRUE so the key pressed doesn't go to the emulated machine
+ */
+gboolean ui_copy_callback(GtkWidget *widget, gpointer user_data)
 {
     char * text = clipboard_read_screen_output("\n");
     if (text != NULL) {
-        gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD), text, strlen(text));
+        gtk_clipboard_set_text(gtk_clipboard_get(GDK_SELECTION_CLIPBOARD),
+                text, strlen(text));
     }
+    return TRUE;
 }
 
-void ui_paste_callback(GtkWidget *widget, gpointer user_data)
+
+/** \brief  Callback for the edit->paste menu item
+ *
+ * Copies the host clipboard into the emulated machine's screen
+ *
+ * \param[in]   widget  widget (unused)
+ * \param[in]   data    extra data (unused)
+ *
+ * \return  TRUE so the key pressed doesn't go to the emulated machine
+ */
+gboolean ui_paste_callback(GtkWidget *widget, gpointer user_data)
 {
     gtk_clipboard_request_text(gtk_clipboard_get(GDK_NONE), paste_callback, NULL);
+    return TRUE;
 }

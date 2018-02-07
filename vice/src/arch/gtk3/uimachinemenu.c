@@ -339,11 +339,11 @@ static ui_menu_item_t file_menu_tail[] = {
  */
 static ui_menu_item_t edit_menu[] = {
     { "Copy", UI_MENU_TYPE_ITEM_ACTION,
-        "copy", ui_copy_callback, NULL,
-        0, 0 },
+        "copy", (void *)ui_copy_callback, NULL,
+        GDK_KEY_Delete, VICE_MOD_MASK },
     { "Paste", UI_MENU_TYPE_ITEM_ACTION,
-        "paste", ui_paste_callback, NULL,
-        0, 0 },
+        "paste", (void *)ui_paste_callback, NULL,
+        GDK_KEY_Insert, VICE_MOD_MASK },
 
     UI_MENU_TERMINATOR
 };
