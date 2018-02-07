@@ -110,7 +110,7 @@ static GtkWidget *debug_submenu = NULL;
 static GtkWidget *help_submenu = NULL;
 
 
-/** \brief  File->Detach submenu
+/** \brief  File->Detach disk submenu
  */
 static ui_menu_item_t detach_submenu[] = {
     { "Drive #8", UI_MENU_TYPE_ITEM_ACTION,
@@ -128,6 +128,28 @@ static ui_menu_item_t detach_submenu[] = {
 
     UI_MENU_TERMINATOR
 };
+
+
+/** \brief  File->Attach disk submenu
+ */
+static ui_menu_item_t attach_submenu[] = {
+    { "Drive #8", UI_MENU_TYPE_ITEM_ACTION,
+        "attach-drive8", ui_disk_attach_callback, GINT_TO_POINTER(8),
+        GDK_KEY_8, VICE_MOD_MASK },
+    { "Drive #9", UI_MENU_TYPE_ITEM_ACTION,
+        "attach-drive9", ui_disk_attach_callback, GINT_TO_POINTER(9),
+        GDK_KEY_9, VICE_MOD_MASK },
+    { "Drive #10", UI_MENU_TYPE_ITEM_ACTION,
+        "attach-drive10", ui_disk_attach_callback, GINT_TO_POINTER(10),
+        GDK_KEY_0, VICE_MOD_MASK },
+    { "Drive #11", UI_MENU_TYPE_ITEM_ACTION,
+        "attach-drive11", ui_disk_attach_callback, GINT_TO_POINTER(11),
+        GDK_KEY_1, VICE_MOD_MASK },
+
+    UI_MENU_TERMINATOR
+};
+
+
 
 /** \brief  File->Flip list submenu
  */
@@ -233,8 +255,8 @@ static ui_menu_item_t file_menu_head[] = {
     UI_MENU_SEPARATOR,
 
     /* disk */
-    { "Attach disk image ...", UI_MENU_TYPE_ITEM_ACTION,
-        "attach-disk", ui_disk_attach_callback, GINT_TO_POINTER(8),
+    { "Attach disk image", UI_MENU_TYPE_SUBMENU,
+        NULL, NULL, attach_submenu,
         GDK_KEY_8, VICE_MOD_MASK },
     { "Create and attach an empty disk image ...", UI_MENU_TYPE_ITEM_ACTION,
         "create-disk", uidiskcreate_dialog_show, GINT_TO_POINTER(8),
