@@ -294,8 +294,10 @@ static GtkWidget *create_c64_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), cia_widget, 0, 2, 2, 1);
 
     /* Kernal revision widget */
-    kernal_widget = kernal_revision_widget_create();
-    gtk_grid_attach(GTK_GRID(grid), kernal_widget, 2, 0, 1, 1);
+    if (machine_class != VICE_MACHINE_SCPU64) {
+        kernal_widget = kernal_revision_widget_create();
+        gtk_grid_attach(GTK_GRID(grid), kernal_widget, 2, 0, 1, 1);
+    }
 
     /* C64 misc. model settings */
     gtk_grid_attach(GTK_GRID(grid), create_c64_misc_widget(),
