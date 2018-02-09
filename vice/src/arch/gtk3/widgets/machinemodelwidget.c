@@ -46,6 +46,12 @@ static void (*model_set)(int) = NULL;
 /** \brief  Machine-specific List of supported models */
 static const char **model_list = NULL;
 
+/** \brief  Extra callback
+ *
+ * This callback is called with the new model ID when the model changes
+ */
+static void (*user_callback)(int) = NULL;
+
 
 /** \brief  Handler for 'toggled' events of the radio buttons in the widget
  *
@@ -60,6 +66,10 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
             gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         debug_gtk3("setting model to %d\n", model);
         model_set(model);
+        if (user_callback != NULL) {
+            debug_gtk3("calling user-callback with model %d\n", model);
+            user_callback(model);
+        }
     }
 }
 
@@ -207,4 +217,14 @@ void machine_model_widget_connect_signals(GtkWidget *widget)
 
         i++;
     }
+}
+
+
+/** \brief  Set function to call when the model ID changes
+ *
+ * \param[in]   callback    function to call on model change
+ */
+void machine_model_widget_set_callback(void (*callback)(int))
+{
+    user_callback = callback;
 }

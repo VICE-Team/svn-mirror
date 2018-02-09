@@ -100,6 +100,12 @@ static GtkWidget *kernal_widget = NULL;
 static GtkWidget *c64dtv_rev_widget = NULL;
 
 
+static void machine_model_callback(int model)
+{
+    debug_gtk3("got model %d\n", model);
+}
+
+
 /** \brief  Handler for the "toggled" event of the C64SC Glue Logic radio buttons
  *
  * \param[in]   widget      radio button triggering the event
@@ -677,6 +683,9 @@ GtkWidget *settings_model_widget_create(GtkWidget *parent)
         /* CBM6x0 ony has a simple CRTC, so no video widget used */
         video_model_widget_connect_signals(video_widget);
     }
+
+    /* add callback */
+    machine_model_widget_set_callback(machine_model_callback);
 
 #if 0
 

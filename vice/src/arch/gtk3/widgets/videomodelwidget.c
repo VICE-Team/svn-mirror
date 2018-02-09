@@ -1,9 +1,10 @@
-/**
+/** \file   videomodelwidget.c
  * \brief   Video chip model selection widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * Controls the following resource(s):
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -34,6 +35,7 @@
 #include "debug_gtk3.h"
 #include "resources.h"
 #include "machine.h"
+#include "log.h"
 
 #include "videomodelwidget.h"
 
@@ -65,7 +67,10 @@ static void on_model_toggled(GtkWidget *widget, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) {
         debug_gtk3("setting %s to %d\n", resource_name, model_id);
-        resources_set_int(resource_name, model_id);
+        if (resources_set_int(resource_name, model_id) < 0) {
+            log_error(LOG_ERR, "failed to set %s to %d\n",
+                    resource_name, model_id);
+        }
     }
 }
 

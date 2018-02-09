@@ -58,6 +58,7 @@
 #include "rrnetmk3widget.h"
 #include "uicart.h"
 #include "carthelpers.h"
+#include "machine.h"
 
 #include "c64ui.h"
 
@@ -82,11 +83,10 @@ static const char *c64_model_list[] = {
  * Used in the VIC-II model widget
  */
 static const vice_gtk3_radiogroup_entry_t c64_vicii_models[] = {
-    { "PAL",        VICII_MODEL_PALG },
-    { "Old PAL",    VICII_MODEL_PALG_OLD },
-    { "NTSC",       VICII_MODEL_NTSCM },
-    { "Old NTSC",   VICII_MODEL_NTSCM_OLD },
-    { "PAL-N",      VICII_MODEL_PALN },
+    { "PAL",        MACHINE_SYNC_PAL },
+    { "NTSC",       MACHINE_SYNC_NTSC },
+    { "Old NTSC",   MACHINE_SYNC_NTSCOLD },
+    { "PAL-N",      MACHINE_SYNC_PALN },
     { NULL, -1 }
 };
 

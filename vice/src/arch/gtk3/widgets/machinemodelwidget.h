@@ -40,4 +40,7 @@ GtkWidget * machine_model_widget_create(void);
 void        machine_model_widget_update(GtkWidget *widget);
 void        machine_model_widget_connect_signals(GtkWidget *widget);
 
+
+void        machine_model_widget_set_callback(void (*callback)(int));
+
 #endif
