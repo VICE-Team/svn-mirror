@@ -1,11 +1,13 @@
-/**
+/** \file   videomodelwidget.h
  * \brief   Video chip model selection widget - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *
+ *  TODO (depends on the machine used and for x128 it will handle two resources)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -39,6 +41,10 @@ void video_model_widget_set_models(const vice_gtk3_radiogroup_entry_t *models);
 
 GtkWidget * video_model_widget_create(GtkWidget *machine);
 void        video_model_widget_update(GtkWidget *widget);
+
 void        video_model_widget_connect_signals(GtkWidget *widget);
+
+void        video_model_widget_set_callback(GtkWidget *widget,
+                                            void (*callback)(int));
 
 #endif

@@ -1735,7 +1735,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scroll, 240, 500);
+    gtk_widget_set_size_request(scroll, 250, 500);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));

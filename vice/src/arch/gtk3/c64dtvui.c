@@ -1,4 +1,4 @@
-/**
+/** \file   c64dtvui.c
  * \brief   Native GTK3 C64DTV UI
  *
  * Written by
@@ -104,7 +104,7 @@ int c64dtvui_init(void)
     machine_model_widget_setter(dtvmodel_set);
     machine_model_widget_set_models(c64dtv_model_list);
 
-    video_model_widget_set_title("VIC_II model");
+    video_model_widget_set_title("VIC-II model");
     video_model_widget_set_resource("MachineVideoStandard");
     video_model_widget_set_models(c64dtv_vicii_models);
 

@@ -82,6 +82,7 @@ static const vice_gtk3_radiogroup_entry_t c64dtv_revisions[] = {
  */
 static GtkWidget *machine_widget = NULL;
 
+
 /** \brief  CIA model widget
  *
  * Used by C64, C64SC, SCPU64, C64DTV, C128, CBM5x0, CBM-II, VSID
@@ -100,9 +101,98 @@ static GtkWidget *kernal_widget = NULL;
 static GtkWidget *c64dtv_rev_widget = NULL;
 
 
+/*
+ * C64DTV widget glue logic
+ */
+
+/** \brief  Callback for the DTV revision
+ *
+ * Calls model widget update
+ *
+ * \param[in]   widget      radio button triggering the callback (unused)
+ * \param[in]   revision    new DTV revision
+ */
+static void dtv_revision_callback(GtkWidget *widget, int revision)
+{
+    debug_gtk3("got revision %d\n", revision);
+    machine_model_widget_update(machine_widget);
+}
+
+
+/** \brief  Callback for the DTV VIC-II model (sync factor)
+ *
+ * Calls model widget update
+ *
+ * \param[in]   model   new VIC-II model
+ */
+static void dtv_video_callback(int model)
+{
+    debug_gtk3("got video model %d\n", model);
+    machine_model_widget_update(machine_widget);
+}
+
+
+/** \brief  Callback for DTV machine model changes
+ *
+ * Updates the DTV revision and VIC-II model widgets
+ *
+ * \param[in]   model   DTV model
+ */
+static void machine_model_handler_c64dtv(int model)
+{
+    int rev = 3;
+    int sync = MACHINE_SYNC_PAL;
+    GtkWidget *group;
+
+    switch (model) {
+        case 0: /* V2 PAL */
+            rev = 2;
+            break;
+        case 1: /* V2 NTSC */
+            rev = 2;
+            sync = MACHINE_SYNC_NTSC;
+            break;
+        case 3: /* V3 NTSC */
+            sync = MACHINE_SYNC_NTSC;
+            break;
+        case 4: /* Hummer */
+            sync = MACHINE_SYNC_NTSC;
+            break;
+        default:
+            /* 3: V3 PAL */
+            break;
+    }
+    debug_gtk3("setting revision to %d and sync to %d\n", rev, sync);
+
+    /* update revision widget */
+    group = gtk_grid_get_child_at(GTK_GRID(c64dtv_rev_widget), 0, 1);
+    if (group != NULL && GTK_IS_GRID(group)) {
+        vice_gtk3_resource_radiogroup_update(group, rev);
+    }
+
+    /* update VIC-II model widget */
+    group = gtk_grid_get_child_at(GTK_GRID(video_widget), 0, 1);
+    video_model_widget_update(video_widget);
+}
+
+
+/** \brief  Generic callback for machine model changes
+ *
+ * \param[in]   model
+ *
+ * XXX: only C64DTV is supported at the moments
+ */
 static void machine_model_callback(int model)
 {
     debug_gtk3("got model %d\n", model);
+
+    switch (machine_class) {
+        case VICE_MACHINE_C64DTV:
+            machine_model_handler_c64dtv(model);
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -260,6 +350,7 @@ static GtkWidget *create_c64dtv_revision_widget(void)
 
     group = vice_gtk3_resource_radiogroup_create("DtvRevision",
             c64dtv_revisions, GTK_ORIENTATION_VERTICAL);
+    vice_gtk3_resource_radiogroup_add_callback(group, dtv_revision_callback);
     g_object_set(group, "margin-left", 16, NULL);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
@@ -370,6 +461,7 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
 
     /* add video widget */
     video_widget = video_model_widget_create(machine_widget);
+    video_model_widget_set_callback(video_widget, dtv_video_callback);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     /* create revision widget */
