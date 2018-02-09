@@ -162,12 +162,23 @@ void vsid_ui_set_default_tune(int nr)
 }
 
 
+/** \brief  Set driver address
+ *
+ * \param[in]   addr    driver address
+ */
+void vsid_ui_set_driver_addr(uint16_t addr)
+{
+    vsid_tune_info_widget_set_driver_addr(addr);
+}
+
+
 /** \brief  Set load address
  *
  * \param[in]   addr    load address
  */
 void vsid_ui_set_load_addr(uint16_t addr)
 {
+    vsid_tune_info_widget_set_load_addr(addr);
 }
 
 
@@ -177,6 +188,7 @@ void vsid_ui_set_load_addr(uint16_t addr)
  */
 void vsid_ui_set_init_addr(uint16_t addr)
 {
+    vsid_tune_info_widget_set_init_addr(addr);
 }
 
 
@@ -186,6 +198,7 @@ void vsid_ui_set_init_addr(uint16_t addr)
  */
 void vsid_ui_set_play_addr(uint16_t addr)
 {
+    vsid_tune_info_widget_set_play_addr(addr);
 }
 
 
@@ -195,16 +208,9 @@ void vsid_ui_set_play_addr(uint16_t addr)
  */
 void vsid_ui_set_data_size(uint16_t size)
 {
+    vsid_tune_info_widget_set_data_size(size);
 }
 
-
-/** \brief  Set driver address
- *
- * \param[in]   addr    driver address
- */
-void vsid_ui_set_driver_addr(uint16_t addr)
-{
-}
 
 
 

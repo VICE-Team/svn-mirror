@@ -30,20 +30,52 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
-#include "debug.h"
 #include "machine.h"
 #include "lib.h"
-#include "log.h"
 #include "util.h"
 
 #include "vsidtuneinfowidget.h"
 
 
-/* (sub)tune variables */
+/** \brief  Rows in the driver info grid
+ */
+enum {
+    DRV_INFO_SID_IMAGE = 0,
+    DRV_INFO_DRIVER_ADDR,
+    DRV_INFO_LOAD_ADDR,
+    DRV_INFO_INIT_ADDR,
+    DRV_INFO_PLAY_ADDR
+};
+
+
+/** \brief  Labels for the driver info grid
+ */
+static const char *driver_info_labels[] = {
+    "SID image:",
+    "Driver address:",
+    "Load address:",
+    "Init address:",
+    "Play address:"
+};
+
+
+/*
+ * SID address/size variables
+ *
+ * These need to be kept track of, so the SID image calculation works
+ */
+static uint16_t load_addr;
+static uint16_t data_size;
+
+/*
+ * sub)tune variables
+ *
+ * These need to be kept track of, so the "X of Y (default: Z)" tune info
+ * widget gets rendered properly
+ */
 static int tune_count;
 static int tune_current;
 static int tune_default;
@@ -264,32 +296,59 @@ static void update_sync_widget(int sync)
  */
 static GtkWidget *create_driver_info_widget(void)
 {
-    GtkWidget *label = gtk_label_new("-");
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-    return label;
+    GtkWidget *grid;
+    GtkWidget *label;
+    size_t i = 0;
+
+    grid = vice_gtk3_grid_new_spaced(16, 0);
+
+    while (i < sizeof driver_info_labels / sizeof driver_info_labels[1]) {
+        /* parameter label */
+        label = gtk_label_new(driver_info_labels[i]);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        gtk_grid_attach(GTK_GRID(grid), label, 0, (int)i, 1, 1);
+        /* parameter value */
+        label = gtk_label_new("-");
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+        gtk_grid_attach(GTK_GRID(grid), label, 1, (int)i, 1, 1);
+        i++;
+    }
+    return grid;
 }
 
 
-/** \brief  Set new driver info
+/** \brief  Set a label in the driver info grid at \a row to \addr
  *
- * The info gotten from vsid is a string with parameters separated by commas.
- * This function replaces the commas (and the following space) with new lines
- * so the information is displayed slighly better looking.
- *
- * XXX: Still looks ugly though, perhaps parse the string to retrieve the
- *      various parameters and use separate widgets to display them to get a
- *      proper layout.
- *
- * \param[in]   text    driver info
+ * \param[in]   row     row in the grid
+ * \param[in]   addr    16-bit address
  */
-static void update_driver_info_widget(const char *text)
+static void driver_info_set_addr(int row, uint16_t addr)
 {
-    char *drv;
+    GtkWidget *label;
+    char text[6];   /* "$1234" + '\0' */
 
-    drv = util_subst(text, ", ", "\n");
-    gtk_label_set_text(GTK_LABEL(driver_info_widget), drv);
-    lib_free(drv);
+    label = gtk_grid_get_child_at(GTK_GRID(driver_info_widget), 1, row);
+    if (label != NULL && GTK_IS_LABEL(label)) {
+        g_snprintf(text, 6, "$%04X", addr);
+        gtk_label_set_text(GTK_LABEL(label), text);
+    }
+}
+
+
+/** \brief  Set memory range of the SID image
+ */
+static void driver_info_set_image(void)
+{
+    GtkWidget *label;
+    char text[12];  /* "$1234-$5678" + '\0' */
+
+    label = gtk_grid_get_child_at(GTK_GRID(driver_info_widget), 1,
+            DRV_INFO_SID_IMAGE);
+    if (label != NULL && GTK_IS_LABEL(label)) {
+        g_snprintf(text, 12, "$%04X-$%04X",
+                load_addr, load_addr + data_size - 1U);
+        gtk_label_set_text(GTK_LABEL(label), text);
+    }
 }
 
 
@@ -486,5 +545,66 @@ void vsid_tune_info_widget_set_time(unsigned int sec)
  */
 void vsid_tune_info_widget_set_driver(const char *text)
 {
-    update_driver_info_widget(text);
+    /* NOP: replaced with separate driver parameter funcions */
 }
+
+
+/** \brief  Set driver address
+ *
+ * \param[in]   addr    driver address
+ */
+void vsid_tune_info_widget_set_driver_addr(uint16_t addr)
+{
+    driver_info_set_addr(DRV_INFO_DRIVER_ADDR, addr);
+}
+
+
+/** \brief  Set load address
+ *
+ * \param[in]   addr    load address
+ */
+void vsid_tune_info_widget_set_load_addr(uint16_t addr)
+{
+    load_addr = addr;   /* keep for calculating SID memory range */
+    driver_info_set_addr(DRV_INFO_LOAD_ADDR, addr);
+
+    /*
+     * This is not strictly required, the size of the SID is set *after* the
+     * load address is set, so calling this function only in the
+     * vsid_tune_info_widget_set_data_size() call should suffice. But if
+     * someone ever changes the call order, we'll get weird results.
+     */
+    driver_info_set_image();
+}
+
+
+/** \brief  Set init routine address
+ *
+ * \param[in]   addr    init routine address
+ */
+void vsid_tune_info_widget_set_init_addr(uint16_t addr)
+{
+    driver_info_set_addr(DRV_INFO_INIT_ADDR, addr);
+}
+
+
+/** \brief  Set play routine address
+ *
+ * \param[in]   addr    play routine address
+ */
+void vsid_tune_info_widget_set_play_addr(uint16_t addr)
+{
+    driver_info_set_addr(DRV_INFO_PLAY_ADDR, addr);
+}
+
+
+/** \brief  Set size of SID on actual machine
+ *
+ * \param[in]   size    size of SID
+ */
+void vsid_tune_info_widget_set_data_size(uint16_t size)
+{
+    data_size = size;   /* keep for calculating SID memory range */
+    driver_info_set_image();
+}
+
