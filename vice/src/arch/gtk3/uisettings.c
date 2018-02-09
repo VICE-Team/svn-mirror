@@ -1,5 +1,5 @@
 /** \file   uisettings.c
- * \brief   GTK3 settings dialog
+ * \brief   GTK3 main settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -1652,6 +1652,7 @@ static GtkWidget *create_treeview(void)
 
     create_tree_model();
     tree = gtk_tree_view_new_with_model(GTK_TREE_MODEL(populate_tree_model()));
+    gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(tree), FALSE);
 
     text_renderer = gtk_cell_renderer_text_new();
     text_column = gtk_tree_view_column_new_with_attributes(
@@ -1734,7 +1735,7 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     gtk_widget_show(settings_grid);
     gtk_widget_show(settings_tree);
 
-    gtk_widget_set_size_request(scroll, 300, 500);
+    gtk_widget_set_size_request(scroll, 240, 500);
     gtk_widget_set_size_request(settings_grid, DIALOG_WIDTH, DIALOG_HEIGHT);
 
     selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(settings_tree));
