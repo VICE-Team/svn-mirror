@@ -544,6 +544,11 @@ void psid_init_tune(int install_driver_hook)
             driver_info_text = lib_msprintf("Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X", reloc_addr, psid->load_addr,
                                             psid->load_addr + psid->data_size - 1, psid->init_addr, psid->play_addr);
             vsid_ui_setdrv(driver_info_text);
+            vsid_ui_set_driver_addr(reloc_addr);
+            vsid_ui_set_load_addr(psid->load_addr);
+            vsid_ui_set_init_addr(psid->init_addr);
+            vsid_ui_set_play_addr(psid->play_addr);
+            vsid_ui_set_data_size(psid->data_size);
             lib_free(driver_info_text);
         }
         vsid_ui_display_name((char *)(psid->name));
