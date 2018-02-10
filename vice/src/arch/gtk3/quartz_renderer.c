@@ -38,6 +38,7 @@
 
 typedef struct vice_quartz_renderer_context_s {
     CGContextRef bitmap_context;
+    CGLayerRef layer;
     double scale_x, scale_y;
 } context_t;
 
@@ -60,6 +61,7 @@ draw_canvas_quartz_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
         return FALSE;
     }
 
+    CGContextSaveGState(display);
     CGContextScaleCTM(display, 1.0, -1.0);
     clip_rect = CGContextGetClipBoundingBox(display);
 
@@ -72,15 +74,41 @@ draw_canvas_quartz_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
 
     if (ctx && ctx->bitmap_context) {
         CGImageRef frame = CGBitmapContextCreateImage(ctx->bitmap_context);
-        CGRect img_rect = clip_rect;
-        img_rect.size.width *= ctx->scale_x;
-        img_rect.size.height *= ctx->scale_y;
-        img_rect.origin.x += (clip_rect.size.width - img_rect.size.width) / 2;
-        img_rect.origin.y += (clip_rect.size.height - img_rect.size.height) / 2;
-        CGContextDrawImage(display, img_rect, frame);
+        if (!ctx->layer) {
+            CGSize targetSize = { CGBitmapContextGetWidth(ctx->bitmap_context),
+                                  CGBitmapContextGetHeight(ctx->bitmap_context) };
+            ctx->layer = CGLayerCreateWithContext(ctx->bitmap_context, targetSize, NULL);
+        }
+        if (ctx->layer) {
+            CGRect layer_rect = { { 0, 0 }, CGLayerGetSize(ctx->layer) };
+            CGRect img_rect = clip_rect;
+            img_rect.size.width *= ctx->scale_x;
+            img_rect.size.height *= ctx->scale_y;
+
+            CGContextDrawImage(CGLayerGetContext(ctx->layer), layer_rect, frame);
+            CGContextScaleCTM(display,
+                              img_rect.size.width / layer_rect.size.width,
+                              img_rect.size.height / layer_rect.size.height);
+            clip_rect = CGContextGetClipBoundingBox(display);
+            img_rect = clip_rect;
+            img_rect.size.width *= ctx->scale_x;
+            img_rect.size.height *= ctx->scale_y;
+            img_rect.origin.x += (clip_rect.size.width - img_rect.size.width) / 2;
+            img_rect.origin.y += (clip_rect.size.height - img_rect.size.height) / 2;
+            CGContextSetInterpolationQuality(display, kCGInterpolationNone);
+            CGContextDrawLayerAtPoint(display, img_rect.origin, ctx->layer);
+        } else {
+            CGRect img_rect = clip_rect;
+            img_rect.size.width *= ctx->scale_x;
+            img_rect.size.height *= ctx->scale_y;
+            img_rect.origin.x += (clip_rect.size.width - img_rect.size.width) / 2;
+            img_rect.origin.y += (clip_rect.size.height - img_rect.size.height) / 2;
+            CGContextDrawImage(display, img_rect, frame);
+        }
         CGImageRelease(frame);
     }
-    CGContextScaleCTM(display, 1.0, -1.0);
+    CGContextRestoreGState(display);
+    CGContextSynchronize(display);
     cairo_surface_mark_dirty(target);
 
     return FALSE;
@@ -158,6 +186,9 @@ static void vice_quartz_destroy_context(video_canvas_t *canvas)
         if (ctx->bitmap_context) {
             CGContextRelease(ctx->bitmap_context);
         }
+        if (ctx->layer) {
+            CGLayerRelease(ctx->layer);
+        }
         lib_free(ctx);
         canvas->renderer_context = NULL;
     }
@@ -188,7 +219,9 @@ static void vice_quartz_update_context(video_canvas_t *canvas, unsigned int widt
         ctx = lib_malloc(sizeof(context_t));
         if (ctx) {
             ctx->bitmap_context = NULL;
-            /* TODO: Set up transform */
+            ctx->layer = NULL;
+            ctx->scale_x = 1.0;
+            ctx->scale_y = 1.0;
         }
         canvas->renderer_context = ctx;
         if (width != 0 && height != 0 && ctx) {
@@ -209,8 +242,6 @@ static void vice_quartz_update_context(video_canvas_t *canvas, unsigned int widt
              * VICE itself, though. */
             colorspace = CGColorSpaceCreateDeviceRGB();
             ctx->bitmap_context = CGBitmapContextCreate(NULL, width, height, 8, 0, colorspace, kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Little);
-            ctx->scale_x = 1.0;
-            ctx->scale_y = 1.0;
             CGColorSpaceRelease(colorspace);
 
             /* Configure the matrix to fit it in the widget as it exists */
