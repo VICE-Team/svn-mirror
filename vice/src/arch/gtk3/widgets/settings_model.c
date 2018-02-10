@@ -730,7 +730,9 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
  */
 static GtkWidget *create_vsid_layout(GtkWidget *grid)
 {
-    INCOMPLETE_IMPLEMENTATION();
+    /* VIC-II model widget */
+    video_widget = video_model_widget_create(machine_widget);
+    gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
     return grid;
 }
 

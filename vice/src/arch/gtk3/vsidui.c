@@ -32,6 +32,7 @@
 
 #include "not_implemented.h"
 
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "psid.h"
 #include "ui.h"
@@ -39,11 +40,21 @@
 #include "uivsidwindow.h"
 #include "vicii.h"
 
+#include "videomodelwidget.h"
 #include "vsidcontrolwidget.h"
 #include "vsidtuneinfowidget.h"
 #include "vsidmainwidget.h"
 
 #include "vsidui.h"
+
+
+static const vice_gtk3_radiogroup_entry_t vsid_vicii_models[] = {
+    { "PAL",            MACHINE_SYNC_PAL },
+    { "NTSC",           MACHINE_SYNC_NTSC },
+    { "NTSC (old)",     MACHINE_SYNC_NTSCOLD },
+    { "PAL-N/Drean",    MACHINE_SYNC_PALN },
+    { NULL,             -1 }
+};
 
 
 void vsid_ui_close(void)
@@ -235,6 +246,11 @@ static int identify_canvas(video_canvas_t *canvas)
 int vsid_ui_init(void)
 {
     video_canvas_t *canvas = vicii_get_canvas();
+
+    video_model_widget_set_title("VIC-II model");
+    video_model_widget_set_resource("MachineVideoStandard");
+    video_model_widget_set_models(vsid_vicii_models);
+
 
     ui_vsid_window_init();
     ui_set_identify_canvas_func(identify_canvas);
