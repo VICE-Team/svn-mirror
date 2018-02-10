@@ -59,6 +59,7 @@ draw_canvas_cairo_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
     if (ctx && ctx->backing_surface) {
         cairo_pattern_t *pattern = cairo_pattern_create_for_surface(ctx->backing_surface);
         cairo_pattern_set_matrix(pattern, &ctx->transform);
+        cairo_pattern_set_filter(pattern, CAIRO_FILTER_FAST);
         cairo_set_source(cr, pattern);
         cairo_paint(cr);
         cairo_pattern_destroy(pattern);
