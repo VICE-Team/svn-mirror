@@ -171,9 +171,40 @@ static void machine_model_handler_c64dtv(int model)
     }
 
     /* update VIC-II model widget */
-    group = gtk_grid_get_child_at(GTK_GRID(video_widget), 0, 1);
     video_model_widget_update(video_widget);
 }
+
+
+/*
+ * VIC-20 glue logic
+ */
+
+
+/** \brief  Callback for the VIC-2- VIC model (sync factor)
+ *
+ * Calls model widget update
+ *
+ * \param[in]   model   new VIC model
+ */
+static void vic20_video_callback(int model)
+{
+    debug_gtk3("got video model %d\n", model);
+    machine_model_widget_update(machine_widget);
+}
+
+
+/** \brief  Callback for VIC-20 machine model changes
+ *
+ * \param[in]   model   VIC-29 model
+ */
+static void machine_model_handler_vic20(int model)
+{
+    /* update VIC-II model widget */
+    video_model_widget_update(video_widget);
+
+}
+
+
 
 
 /** \brief  Generic callback for machine model changes
@@ -189,6 +220,9 @@ static void machine_model_callback(int model)
     switch (machine_class) {
         case VICE_MACHINE_C64DTV:
             machine_model_handler_c64dtv(model);
+            break;
+        case VICE_MACHINE_VIC20:
+            machine_model_handler_vic20(model);
             break;
         default:
             break;
@@ -497,6 +531,7 @@ static GtkWidget *create_vic20_layout(GtkWidget *grid)
 
     /* VIC model widget */
     video_widget = video_model_widget_create(machine_widget);
+    video_model_widget_set_callback(video_widget, vic20_video_callback);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     ram_widget = vic20_memory_expansion_widget_create();
