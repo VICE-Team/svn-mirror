@@ -110,8 +110,16 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
 static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
+    GdkEventCrossing *crossing = (GdkEventCrossing *)event;
 
-    if (event && event->type == GDK_ENTER_NOTIFY) {
+    if (!canvas || !event ||
+        (event->type != GDK_ENTER_NOTIFY && event->type != GDK_LEAVE_NOTIFY) ||
+        crossing->mode != GDK_CROSSING_NORMAL) {
+        /* Spurious event */
+        return FALSE;
+    }
+    
+    if (crossing->type == GDK_ENTER_NOTIFY) {
         canvas->still_frames = 0;
         if (canvas->still_frame_callback_id == 0) {
             canvas->still_frame_callback_id = gtk_widget_add_tick_callback(canvas->drawing_area,
