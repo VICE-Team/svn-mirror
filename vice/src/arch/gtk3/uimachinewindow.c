@@ -61,22 +61,28 @@ static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer
     return FALSE;
 }
 
+static GdkCursor *make_cursor(GtkWidget *widget, const char *name)
+{
+    GdkDisplay *display = gtk_widget_get_display(widget);
+    GdkCursor *result = NULL;
+
+    if (display) {
+        result = gdk_cursor_new_from_name(display, name);
+        if (result != NULL) {
+            g_object_ref_sink(G_OBJECT(result));
+        }
+    }
+    return result;
+}
+
 static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *clock, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
     ++canvas->still_frames;
     if (!lightpen_enabled && canvas->still_frames > 60) {
-        GdkDisplay *display = gtk_widget_get_display(widget);
-
-        if (display != NULL && canvas->blank_ptr == NULL) {
-            canvas->blank_ptr = gdk_cursor_new_from_name(display, "none");
-            if (canvas->blank_ptr != NULL) {
-                g_object_ref_sink(G_OBJECT(canvas->blank_ptr));
-            } else {
-                /* FIXME: This can fill a terminal with repeated text */
-                fprintf(stderr, "GTK3 CURSOR: Could not allocate blank pointer for canvas\n");
-            }
+        if (canvas->blank_ptr == NULL) {
+            canvas->blank_ptr = make_cursor(widget, "none");
         }
         if (canvas->blank_ptr != NULL) {
             GdkWindow *window = gtk_widget_get_window(widget);
@@ -87,18 +93,8 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
         }
     } else {
         GdkWindow *window = gtk_widget_get_window(widget);
-        GdkDisplay *display = gtk_widget_get_display(widget);
-        if (display != NULL && canvas->pen_ptr == NULL) {
-            /* X11 has a cool little pencil cursor, but we restrict
-             * ourselves to the cursor types that GTK3 guarantees it
-             * will make present on all platforms */
-            canvas->pen_ptr = gdk_cursor_new_from_name(display, "crosshair");
-            if (canvas->pen_ptr != NULL) {
-                g_object_ref_sink(G_OBJECT(canvas->pen_ptr));
-            } else {
-                /* FIXME: This can fill a terminal with repeated text */
-                fprintf(stderr, "GTK3 CURSOR: Could not allocate pen pointer for canvas\n");
-            }
+        if (canvas->pen_ptr == NULL) {
+            canvas->pen_ptr = make_cursor(widget, "crosshair");
         }
         if (window) {
             if (lightpen_enabled && canvas->pen_ptr) {
