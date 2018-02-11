@@ -1888,6 +1888,8 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     GtkTreeIter iter;
 #endif
 
+    vsync_suspend_speed_eval();
+
     g_snprintf(title, 256, "%s Settings", machine_name);
 
     dialog = gtk_dialog_new_with_buttons(

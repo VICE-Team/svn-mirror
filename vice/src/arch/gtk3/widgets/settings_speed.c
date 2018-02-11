@@ -1,4 +1,4 @@
-/**
+/** \file   settings_speed.c
  * \brief   GTK3 speed control central widget for the settings dialog
  *
  * Written by
@@ -84,8 +84,13 @@ static GtkWidget *create_warp_checkbox(void)
 static GtkWidget *create_pause_checkbox(void)
 {
     GtkWidget *check;
+    int paused;
 
     check = gtk_check_button_new_with_label("Pause emulation");
+    paused = ui_emulation_is_paused() ? TRUE : FALSE;
+    /* set widget state before connecting the event handler, otherwise the
+     * event handler triggers an un-pause */
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), paused);
     g_signal_connect(check, "toggled", G_CALLBACK(pause_callback), NULL);
     gtk_widget_show(check);
     return check;
@@ -106,21 +111,11 @@ static GtkWidget *create_pause_checkbox(void)
 GtkWidget *settings_speed_widget_create(GtkWidget *widget)
 {
     GtkWidget *layout;
-    int warp_state;
-    int pause_state;
 
     layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     checkbox_pause = create_pause_checkbox();
     checkbox_warp = create_warp_checkbox();
-
-    /* get warp and pause settings */
-    resources_get_int("WarpMode", &warp_state);
-    pause_state = ui_emulation_is_paused();
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_pause),
-            pause_state);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(checkbox_warp),
-            warp_state);
 
     /* create layout */
     gtk_grid_attach(GTK_GRID(layout), refreshrate_widget_create(), 0, 0, 1, 3);
