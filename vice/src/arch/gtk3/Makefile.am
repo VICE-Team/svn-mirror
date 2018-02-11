@@ -1,9 +1,16 @@
 ## Makefile.am for the native GTK3 version of `libarch.a'.
 
+if WIN32_COMPILE
+extra_includes = -I$(top_srcdir)/src/arch/win32/mingw32/wpcap
+else
+extra_includes =
+endif
+
 SUBDIRS = widgets
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
+	$(extra_includes) \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/crtc \
