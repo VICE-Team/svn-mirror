@@ -195,6 +195,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->created = 0;
     canvas->renderer_context = NULL;
     canvas->blank_ptr = NULL;
+    canvas->pen_ptr = NULL;
     canvas->still_frame_callback_id = 0;
     ui_create_toplevel_window(canvas);
     if (width && height && canvas->renderer_backend) {
@@ -216,6 +217,11 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
         }
         if (canvas->blank_ptr) {
             g_object_unref(G_OBJECT(canvas->blank_ptr));
+            canvas->blank_ptr = NULL;
+        }
+        if (canvas->pen_ptr) {
+            g_object_unref(G_OBJECT(canvas->pen_ptr));
+            canvas->pen_ptr = NULL;
         }
     }
 }

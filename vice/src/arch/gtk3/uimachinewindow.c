@@ -39,6 +39,7 @@
 #include "cairo_renderer.h"
 #include "opengl_renderer.h"
 #include "quartz_renderer.h"
+#include "lightpen.h"
 #include "videoarch.h"
 
 #include "ui.h"
@@ -65,7 +66,7 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
     ++canvas->still_frames;
-    if (canvas->still_frames > 60) {
+    if (!lightpen_enabled && canvas->still_frames > 60) {
         GdkDisplay *display = gtk_widget_get_display(widget);
 
         if (display != NULL && canvas->blank_ptr == NULL) {
@@ -86,8 +87,25 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
         }
     } else {
         GdkWindow *window = gtk_widget_get_window(widget);
+        GdkDisplay *display = gtk_widget_get_display(widget);
+        if (display != NULL && canvas->pen_ptr == NULL) {
+            /* X11 has a cool little pencil cursor, but we restrict
+             * ourselves to the cursor types that GTK3 guarantees it
+             * will make present on all platforms */
+            canvas->pen_ptr = gdk_cursor_new_from_name(display, "crosshair");
+            if (canvas->pen_ptr != NULL) {
+                g_object_ref_sink(G_OBJECT(canvas->pen_ptr));
+            } else {
+                /* FIXME: This can fill a terminal with repeated text */
+                fprintf(stderr, "GTK3 CURSOR: Could not allocate pen pointer for canvas\n");
+            }
+        }
         if (window) {
-            gdk_window_set_cursor(window, NULL);
+            if (lightpen_enabled && canvas->pen_ptr) {
+                gdk_window_set_cursor(window, canvas->pen_ptr);
+            } else {
+                gdk_window_set_cursor(window, NULL);
+            }
         }
     }
     return G_SOURCE_CONTINUE;

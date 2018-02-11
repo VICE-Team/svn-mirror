@@ -60,6 +60,9 @@ struct video_canvas_s {
     /* Cursors are unique to windows, so if we want to hide the mouse
      * cursor, this will hold the "blank" cursor for this canvas. */
     GdkCursor *blank_ptr;
+    /* And if the light pen is enabled, this will hold the special
+     * light pen cursor for this canvas. */
+    GdkCursor *pen_ptr;
     /* Number of frames the mouse hasn't moved while still on the canvas. */
     unsigned int still_frames;
     guint still_frame_callback_id;
