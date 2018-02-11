@@ -205,6 +205,49 @@ static void machine_model_handler_vic20(int model)
 }
 
 
+/*
+ * Plus4 glue logic
+ *
+ * This logic won't appear to work very well due to the Plus4 model depending
+ * on other resources that aren't presented in the model setting widgets, but
+ * in separate widgets/dialogs such as KernalName, ACIA1Enable, Speech, etc.
+ *
+ * For example having the model 'Plus4 PAL' enabled and selecting NTSC won't
+ * select the model 'Plus 4 NTSC', but 'Unknown' due to the NSTC Plus4 using
+ * a different Kernal.
+ */
+
+/** \brief  Callback for the Plus4 TED model (sync factor)
+ *
+ * Calls model widget update
+ *
+ * \param[in]   model   new TED model
+ */
+static void plus4_video_callback(int model)
+{
+    debug_gtk3("got video model %d\n", model);
+    machine_model_widget_update(machine_widget);
+}
+
+
+/** \brief  Callback for the Plus4 memory size/hack
+ *
+ * Calls model widget update
+ *
+ * \param[in]   ram     ram size in KB
+ * \param[in]   hack    memory hack type
+ */
+static void plus4_memory_callback(int ram, int hack)
+{
+    machine_model_widget_update(machine_widget);
+}
+
+
+static void machine_model_handler_plus4(int model)
+{
+    debug_gtk3("called with model %d\n", model);
+    video_model_widget_update(video_widget);
+}
 
 
 /** \brief  Generic callback for machine model changes
@@ -224,6 +267,8 @@ static void machine_model_callback(int model)
         case VICE_MACHINE_VIC20:
             machine_model_handler_vic20(model);
             break;
+        case VICE_MACHINE_PLUS4:
+            machine_model_handler_plus4(model);
         default:
             break;
     }
@@ -557,10 +602,12 @@ static GtkWidget *create_plus4_layout(GtkWidget *grid)
 
     /* PET model widget */
     video_widget = video_model_widget_create(machine_widget);
+    video_model_widget_set_callback(video_widget, plus4_video_callback);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     /* RAM size/expansion hacks */
     ram_widget = plus4_memory_expansion_widget_create();
+    plus4_memory_expansion_widget_set_callback(plus4_memory_callback);
     gtk_grid_attach(GTK_GRID(grid), ram_widget, 2, 0, 1, 1);
 
     gtk_widget_show_all(grid);

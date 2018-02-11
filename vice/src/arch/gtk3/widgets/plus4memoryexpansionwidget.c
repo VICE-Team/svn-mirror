@@ -1,12 +1,11 @@
-/**
+/** \file   plus4memoryexpansionwidget.c
  * \brief   Plus4 memory expansion widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  RamSize     - RAM size in KB
- *  MemoryHack  - installed memory expansion hack, if any
+ *  RamSize     (xplus4)
+ *  MemoryHack  (xplus4)
  *
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -69,6 +68,12 @@ static const vice_gtk3_radiogroup_entry_t expansions[] = {
 };
 
 
+/** \brief  User-defined callback
+ *
+ * Takes two arguments: ram-size in KB and memory hack type
+ */
+static void (*extra_callback)(int, int) = NULL;
+
 
 /** \brief  Handler for the "toggled" event of the radio buttons
  *
@@ -121,6 +126,10 @@ static void on_radio_toggled(GtkWidget *widget, gpointer user_data)
 
         resources_set_int("RamSize", ram);
         resources_set_int("MemoryHack", hack);
+
+        if (extra_callback != NULL) {
+            extra_callback(ram, hack);
+        }
     }
 
 }
@@ -142,4 +151,13 @@ GtkWidget *plus4_memory_expansion_widget_create(void)
 }
 
 
-
+/** \brief  Set user-defined callback
+ *
+ * This callback will be called with RAM-size and hack-type arguments
+ *
+ * \param[in]   callback    user-defined callback
+ */
+void plus4_memory_expansion_widget_set_callback(void (*callback)(int, int))
+{
+    extra_callback = callback;
+}

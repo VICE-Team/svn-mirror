@@ -1,11 +1,10 @@
-/**
+/** \file   plus4memoryexpansionwidget.h
  * \brief   Plus4 memory expansion widget - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
-*
- * Controls the following resource(s):
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -33,5 +32,7 @@
 #include <gtk/gtk.h>
 
 GtkWidget *plus4_memory_expansion_widget_create(void);
+
+void plus4_memory_expansion_widget_set_callback(void (*callback)(int, int));
 
 #endif
