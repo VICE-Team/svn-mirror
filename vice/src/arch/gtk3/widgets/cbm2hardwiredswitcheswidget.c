@@ -1,12 +1,13 @@
-/**
- * \brief   Widget to select ....
+/** \file   cbm2hardwiredswitcheswidget.c
+ * \brief   Widget to select ModelLine
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  ModelLine - some weird resource
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -79,3 +80,23 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+/** \brief  Set user-defined callback
+ *
+ * The \a callback is called with the ModelLine as its argument
+ *
+ * \param[in]   callback    user-defined callback
+ */
+void cbm2_hardwired_switches_widget_set_callback(
+        GtkWidget *widget,
+        void (*callback)(GtkWidget *, int))
+{
+    GtkWidget *group;
+
+    group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    if (group != NULL) {
+        vice_gtk3_resource_radiogroup_add_callback(group, callback);
+    }
+}
+

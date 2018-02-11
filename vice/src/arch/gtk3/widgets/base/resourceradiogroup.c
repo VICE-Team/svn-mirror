@@ -254,6 +254,24 @@ void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id)
 }
 
 
+/** \brief  Update \a widget using its current resource value
+ *
+ * \param[in,out]   widget  radiogroup widget
+ *
+ * XXX: _sync() would probably be a better name
+ */
+void vice_gtk3_resource_radiogroup_update_from_resource(GtkWidget *widget)
+{
+    const char *resource;
+    int value;
+
+    resource = resource_widget_get_resource_name(widget);
+    if (resources_get_int(resource, &value) == 0) {
+        vice_gtk3_resource_radiogroup_update(widget, value);
+    }
+}
+
+
 /** \brief  Reset radio group to its factory default
  *
  * \param[in,out]   widget  radio group

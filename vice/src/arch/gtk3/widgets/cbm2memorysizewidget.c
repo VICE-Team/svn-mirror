@@ -1,10 +1,13 @@
-/**
+/**\file    cbm2memorysizewidget.c
  * \brief   CBM-II memory size widget
  *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
  * Controls the following resource(s):
- *  RamSize     - installed RAM in KB
- *
- *
+ *  RamSize (xcbm5x0/xcbm2)
+ */
+
+/*
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
  *
@@ -69,3 +72,33 @@ GtkWidget *cbm2_memory_size_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
+
+
+/** \brief  Set used-defined callback to trigger when the RAM size changes
+ *
+ * \param[in,out]   widget  cbm2 memory size widget
+ * \param[in]       user-defined callback
+ */
+void cbm2_memory_size_widget_set_callback(
+        GtkWidget *widget,
+        void (*callback)(GtkWidget *, int))
+{
+    GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    if (group != NULL) {
+        vice_gtk3_resource_radiogroup_add_callback(group, callback);
+    }
+}
+
+
+/** \brief  Update/sync widget via its resource
+ *
+ * \param[in]   widget  cbm2 memory size widget
+ */
+void cbm2_memory_size_widget_update(GtkWidget *widget)
+{
+    GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
+    if (group != NULL) {
+        vice_gtk3_resource_radiogroup_update_from_resource(widget);
+    }
+}
+

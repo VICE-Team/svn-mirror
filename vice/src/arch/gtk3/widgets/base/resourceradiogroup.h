@@ -45,6 +45,8 @@ GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
 
 void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id);
 
+void vice_gtk3_resource_radiogroup_update_from_resource(GtkWidget *widget);
+
 void vice_gtk3_resource_radiogroup_reset(GtkWidget *widget);
 
 void vice_gtk3_resource_radiogroup_add_callback(

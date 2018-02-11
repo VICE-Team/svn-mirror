@@ -1,9 +1,10 @@
-/**
+/** \file   cbm2memorysizewidget.h
  * \brief   CBM-II memory size widget - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -31,5 +32,10 @@
 #include <gtk/gtk.h>
 
 GtkWidget *cbm2_memory_size_widget_create(void);
+void cbm2_memory_size_widget_set_callback(
+        GtkWidget *widget,
+        void (*callback)(GtkWidget *, int));
+
+void cbm2_memory_size_widget_update(GtkWidget *widget);
 
 #endif

@@ -94,6 +94,7 @@ static GtkWidget *cia_widget = NULL;
  */
 static GtkWidget *video_widget = NULL;
 
+static GtkWidget *ram_widget = NULL;
 static GtkWidget *vdc_widget = NULL;
 static GtkWidget *sid_widget = NULL;
 static GtkWidget *kernal_widget = NULL;
@@ -250,11 +251,56 @@ static void machine_model_handler_plus4(int model)
 }
 
 
+
+/*
+ * CBM-II glue logic
+ */
+
+
+/** \brief  Callback for the CBM-II 5x0 VIC-II model (sync factor)
+ *
+ * Calls model widget update
+ *
+ * \param[in]   model   new VIC-II model
+ */
+static void cbm5x0_video_callback(int model)
+{
+    debug_gtk3("got video model %d\n", model);
+    machine_model_widget_update(machine_widget);
+}
+
+
+static void cbm2_switches_callback(GtkWidget *widget, int model_line)
+{
+    debug_gtk3("called with model_line %d\n", model_line);
+    machine_model_widget_update(machine_widget);
+}
+
+
+static void cbm2_memory_size_callback(GtkWidget *widget, int size)
+{
+    debug_gtk3("called with memory size %d\n", size);
+    machine_model_widget_update(machine_widget);
+}
+
+
+static void machine_model_handler_cbm5x0(int model)
+{
+    video_model_widget_update(video_widget);
+    cbm2_memory_size_widget_update(ram_widget);
+}
+
+
+static void machine_model_handler_cbm6x0(int model)
+{
+    cbm2_memory_size_widget_update(ram_widget);
+}
+
+
+
 /** \brief  Generic callback for machine model changes
  *
  * \param[in]   model
- *
- * XXX: only C64DTV is supported at the moments
  */
 static void machine_model_callback(int model)
 {
@@ -269,7 +315,15 @@ static void machine_model_callback(int model)
             break;
         case VICE_MACHINE_PLUS4:
             machine_model_handler_plus4(model);
+            break;
+        case VICE_MACHINE_CBM5x0:
+            machine_model_handler_cbm5x0(model);
+            break;
+        case VICE_MACHINE_CBM6x0:
+            machine_model_handler_cbm6x0(model);
+            break;
         default:
+            debug_gtk3("unsupported machine_class %d\n", machine_class);
             break;
     }
 }
@@ -693,7 +747,6 @@ static GtkWidget *create_pet_layout(GtkWidget *grid)
  */
 static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
 {
-    GtkWidget *ram_widget;
     GtkWidget *switches_widget;
     GtkWidget *bank15_widget;
 
@@ -702,6 +755,7 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
 
     /* add video widget */
     video_widget = video_model_widget_create(machine_widget);
+    video_model_widget_set_callback(video_widget, cbm5x0_video_callback);
     gtk_grid_attach(GTK_GRID(grid), video_widget, 1, 0, 1, 1);
 
     /* SID widget */
@@ -714,10 +768,13 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
 
     /* RAM size widget */
     ram_widget = cbm2_memory_size_widget_create();
+    cbm2_memory_size_widget_set_callback(ram_widget, cbm2_memory_size_callback);
     gtk_grid_attach(GTK_GRID(grid), ram_widget, 0, 1, 1, 1);
 
     /* Hardwired I/O port model switches */
     switches_widget = cbm2_hardwired_switches_widget_create();
+    cbm2_hardwired_switches_widget_set_callback(switches_widget,
+            cbm2_switches_callback);
     gtk_grid_attach(GTK_GRID(grid), switches_widget, 2, 1, 1, 1);
 
     /* Mapping RAM into bank 15 */
@@ -737,7 +794,6 @@ static GtkWidget *create_cbm5x0_layout(GtkWidget *grid)
  */
 static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 {
-    GtkWidget *ram_widget;
     GtkWidget *switches_widget;
     GtkWidget *bank15_widget;
 
@@ -750,6 +806,8 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 
     /* Hardwired I/O port model switches */
     switches_widget = cbm2_hardwired_switches_widget_create();
+    cbm2_hardwired_switches_widget_set_callback(switches_widget,
+            cbm2_switches_callback);
     gtk_grid_attach(GTK_GRID(grid), switches_widget, 2, 0, 1, 1);
 
     /* CIA1 widget */
@@ -758,6 +816,7 @@ static GtkWidget *create_cbm6x0_layout(GtkWidget *grid)
 
     /* RAM size widget */
     ram_widget = cbm2_memory_size_widget_create();
+    cbm2_memory_size_widget_set_callback(ram_widget, cbm2_memory_size_callback);
     gtk_grid_attach(GTK_GRID(grid), ram_widget, 0, 2, 1, 1);
 
     /* Mapping RAM into bank 15 */

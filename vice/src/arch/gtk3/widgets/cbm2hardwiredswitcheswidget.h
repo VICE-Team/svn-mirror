@@ -1,9 +1,10 @@
-/**
- * \brief   Widget to select .... - header
+/** \file   cbm2hardwiredswitcheswidget.h
+ * \brief   Widget to select ModelLine - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -31,5 +32,7 @@
 #include <gtk/gtk.h>
 
 GtkWidget *cbm2_hardwired_switches_widget_create(void);
+void cbm2_hardwired_switches_widget_set_callback(
+        GtkWidget *, void (*callback)(GtkWidget *, int));
 
 #endif
