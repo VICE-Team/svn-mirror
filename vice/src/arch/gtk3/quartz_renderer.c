@@ -108,7 +108,6 @@ draw_canvas_quartz_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
         CGImageRelease(frame);
     }
     CGContextRestoreGState(display);
-    CGContextSynchronize(display);
     cairo_surface_mark_dirty(target);
 
     return FALSE;
@@ -160,6 +159,10 @@ resize_canvas_container_quartz_cb (GtkWidget *widget, GdkEventConfigure *event, 
         }
         ctx->scale_x = scale_x;
         ctx->scale_y = scale_y;
+        canvas->screen_display_w = (double)width * ctx->scale_x;
+        canvas->screen_display_h = (double)height * ctx->scale_y;
+        canvas->screen_origin_x = ((double)width - canvas->screen_display_w) / 2.0;
+        canvas->screen_origin_y = ((double)height - canvas->screen_display_h) / 2.0;
     }
     /* No further processing should be needed */
     return FALSE;
