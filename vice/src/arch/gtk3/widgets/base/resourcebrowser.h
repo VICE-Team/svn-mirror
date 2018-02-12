@@ -1,4 +1,4 @@
-/**
+/** \file   resourcebrowser.h
  * \brief   Text entry with label and browse button connected to a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -39,8 +39,11 @@ GtkWidget *vice_gtk3_resource_browser_new(
         const char *label,
         void (*callback)(GtkWidget *, gpointer));
 
+gboolean vice_gtk3_resource_browser_set(GtkWidget *widget, const char *new);
+gboolean vice_gtk3_resource_browser_get(GtkWidget *widget, const char **dest);
 gboolean vice_gtk3_resource_browser_update(GtkWidget *widget, const char *new);
-
 gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget);
+gboolean vice_gtk3_resource_browser_sync(GtkWidget *widget);
+gboolean vice_gtk3_resource_browser_factory(GtkWidget *widget);
 
 #endif

@@ -1,4 +1,4 @@
-/**
+/** \file   resourcebrowser.c
  * \brief   Text entry with label and browse button connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -274,10 +274,9 @@ GtkWidget *vice_gtk3_resource_browser_new(
  *
  * \return  bool
  */
-gboolean vice_gtk3_resource_browser_update(GtkWidget *widget, const char *new)
+gboolean vice_gtk3_resource_browser_set(GtkWidget *widget, const char *new)
 {
     resource_browser_state_t *state;
-
     state = g_object_get_data(G_OBJECT(widget), "ViceState");
 
     if (resources_set_string(state->res_name, new) < 0) {
@@ -289,6 +288,46 @@ gboolean vice_gtk3_resource_browser_update(GtkWidget *widget, const char *new)
         gtk_entry_set_text(GTK_ENTRY(state->entry), new);
         return TRUE;
     }
+}
+
+
+/** \brief  Get the current value of \a widget
+ *
+ * Get the current resource value of \a widget and store it in \a dest. If
+ * getting the resource value fails for some reason, `FALSE` is returned and
+ * \a dest is set to `NULL`.
+ *
+ * \param[in]   widget  resource browser widget
+ * \param[out]  dest    destination of value
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_browser_get(GtkWidget *widget, const char **dest)
+{
+    resource_browser_state_t *state;
+    state = g_object_get_data(G_OBJECT(widget), "ViceState");
+
+    if (resources_get_string(state->res_name, dest) < 0) {
+        *dest = NULL;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
+/** \brief  Set \a widget value to \a new
+ *
+ * \deprecated  Use vice_gtk3_resource_browser_set() instead
+ *
+ * \param[in,out]   widget  resource browser widget
+ * \param[in]       new     new value for \a widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_browser_update(GtkWidget *widget, const char *new)
+{
+    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_browser_set()\n");
+    return vice_gtk3_resource_browser_set(widget, new);
 }
 
 
@@ -304,6 +343,56 @@ gboolean vice_gtk3_resource_browser_reset(GtkWidget *widget)
 
     state = g_object_get_data(G_OBJECT(widget), "ViceState");
 
-    return resources_set_string(state->res_name,
-            state->res_orig) < 0 ? FALSE : TRUE;
+    /* restore resource value */
+    if (resources_set_string(state->res_name, state->res_orig) < 0) {
+        return FALSE;
+    }
+    /* update text entry */
+    gtk_entry_set_text(GTK_ENTRY(state->entry), state->res_orig);
+    return TRUE;
+}
+
+
+/** \brief  Synchronize widget with current resource value
+ *
+ * Only needed to call if the resource's value is changed from code other than
+ * this widget's code.
+ *
+ * \param[in,out]   widget  resource browser widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_browser_sync(GtkWidget *widget)
+{
+    resource_browser_state_t *state;
+    const char *value;
+
+    /* get current resource value */
+    state = g_object_get_data(G_OBJECT(widget), "ViceState");
+    if (resources_get_string(state->res_name, &value) < 0) {
+        return FALSE;
+    }
+
+    gtk_entry_set_text(GTK_ENTRY(state->entry), value);
+    return TRUE;
+}
+
+
+/** \brief  Reset widget to the resource's factory value
+ *
+ * \param[in,out]   widget  resource browser widget
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_browser_factory(GtkWidget *widget)
+{
+    resource_browser_state_t *state;
+    const char *value;
+
+    /* get resource factory value */
+    state = g_object_get_data(G_OBJECT(widget), "ViceState");
+    if (resources_get_default_value(state->res_name, &value) < 0) {
+        return FALSE;
+    }
+    return vice_gtk3_resource_browser_set(widget, value);
 }
