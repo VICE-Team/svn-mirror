@@ -1,4 +1,4 @@
-/**
+/** \file   resourcecombobox.h
  * \brief   Combo box connected to a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -32,6 +32,10 @@
 #include <gtk/gtk.h>
 #include "basewidget_types.h"
 
+/*
+ * Deprecated API
+ */
+
 GtkWidget *vice_gtk3_resource_combo_box_int_create(
         const char *resource,
         const vice_gtk3_combo_entry_int_t *entries);
@@ -46,10 +50,38 @@ GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
         const vice_gtk3_combo_entry_int_t *entries,
         const char *label);
 
-void vice_gtk3_resource_combo_box_int_update(GtkWidget *widget, int id);
+/*
+ * New API
+ */
 
-void vice_gtk3_resource_combo_box_int_reset(GtkWidget *widget);
+GtkWidget *vice_gtk3_resource_combo_box_int_new(
+        const char *resource,
+        const vice_gtk3_combo_entry_int_t *entries);
 
+GtkWidget *vice_gtk3_resource_combo_box_int_new_sprintf(
+        const char *fmt,
+        const vice_gtk3_combo_entry_int_t *entries,
+        ...);
+
+GtkWidget *vice_gtk3_resource_combo_box_int_new_with_label(
+        const char *resource,
+        const vice_gtk3_combo_entry_int_t *entries,
+        const char *label);
+
+gboolean vice_gtk3_resource_combo_box_int_set(GtkWidget *widget, int id);
+
+gboolean vice_gtk3_resource_combo_box_int_get(GtkWidget *widget, int *dest);
+
+gboolean vice_gtk3_resource_combo_box_int_factory(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_combo_box_int_reset(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget);
+
+
+/*
+ * String combo
+ */
 
 
 GtkWidget *vice_gtk3_resource_combo_box_str_create(

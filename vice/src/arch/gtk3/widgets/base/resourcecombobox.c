@@ -1,4 +1,4 @@
-/**
+/** \file   resourcecombobox.c
  * \brief   Combo boxes connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -43,9 +43,12 @@
 #include "resourcecombobox.h"
 
 
-/*****************************************************************************
- *                      Combo box for integer resources                      *
- ****************************************************************************/
+/*
+ * Combo box for integer resources
+ *
+ * Presents a combo box with strings and uses integer keys to control a resource
+ */
+
 
 /** \brief  Create a model for a combo box with int's as ID's
  *
@@ -83,20 +86,19 @@ static GtkListStore *create_combo_int_model(const vice_gtk3_combo_entry_int_t *l
  *
  * \note    When this function returns `false`, the value in \a id is unchanged
  */
-static bool get_combo_int_id(GtkComboBox *combo, int *id)
+static gboolean get_combo_int_id(GtkComboBox *combo, int *id)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
-
 
     if (gtk_combo_box_get_active(combo) >= 0) {
         model = gtk_combo_box_get_model(combo);
         if (gtk_combo_box_get_active_iter(combo, &iter)) {
             gtk_tree_model_get(model, &iter, 1, id, -1);
-            return true;
+            return TRUE;
         }
     }
-    return false;
+    return FALSE;
 }
 
 
@@ -107,7 +109,7 @@ static bool get_combo_int_id(GtkComboBox *combo, int *id)
  *
  * \return  boolean
  */
-static bool set_combo_int_id(GtkComboBox *combo, int id)
+static gboolean set_combo_int_id(GtkComboBox *combo, int id)
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -120,12 +122,12 @@ static bool set_combo_int_id(GtkComboBox *combo, int id)
             gtk_tree_model_get(model, &iter, 1, &current, -1);
             if (id == current) {
                 gtk_combo_box_set_active_iter(combo, &iter);
-                return true;
+                return TRUE;
             }
         } while (gtk_tree_model_iter_next(model, &iter));
     }
     debug_gtk3("ID %d not found\n", id);
-    return false;
+    return FALSE;
 }
 
 
@@ -174,7 +176,7 @@ static void on_combo_int_changed(GtkComboBox *combo, gpointer user_data)
  *
  * \return  GtkComboBox
  */
-static GtkWidget *resource_combo_box_int_create_helper(
+static GtkWidget *resource_combo_box_int_new_helper(
         GtkWidget *combo,
         const vice_gtk3_combo_entry_int_t *entries)
 {
@@ -199,6 +201,7 @@ static GtkWidget *resource_combo_box_int_create_helper(
                 "failed to get value for resource %s, "
                 "reverting to the first entry\n",
                 resource);
+        current = 0;
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
     } else if (!set_combo_int_id(GTK_COMBO_BOX(combo), current)) {
         /* failed to set ID, revert to first entry */
@@ -207,6 +210,9 @@ static GtkWidget *resource_combo_box_int_create_helper(
                 current);
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
     }
+
+    /* remember original value for reset() */
+    resource_widget_set_int(combo, "ResourceOrig", current);
 
     /* connect signal handlers */
     g_signal_connect(combo, "changed", G_CALLBACK(on_combo_int_changed), NULL);
@@ -224,15 +230,56 @@ static GtkWidget *resource_combo_box_int_create_helper(
  *
  * \return  GtkComboBoxText
  */
-GtkWidget *vice_gtk3_resource_combo_box_int_create(const char *resource,
-                                         const vice_gtk3_combo_entry_int_t *entries)
+GtkWidget *vice_gtk3_resource_combo_box_int_new(
+        const char *resource,
+        const vice_gtk3_combo_entry_int_t *entries)
 {
     GtkWidget * combo = gtk_combo_box_new();
 
     /* store a heap-allocated copy of the resource name in the object */
     resource_widget_set_resource_name(combo, resource);
 
-    return resource_combo_box_int_create_helper(combo, entries);
+    return resource_combo_box_int_new_helper(combo, entries);
+}
+
+
+/** \deprecated */
+GtkWidget *vice_gtk3_resource_combo_box_int_create(
+        const char *resource,
+        const vice_gtk3_combo_entry_int_t *entries)
+{
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_int_new()\n");
+    return vice_gtk3_resource_combo_box_int_new(resource, entries);
+}
+
+
+
+/** \brief  Create a combo box to control an integer resource
+ *
+ * Allows setting the resource name via sprintf()-syntax
+ *
+ * \param[in]   fmt     format string for the resource name
+ * \param[in]   entries list of entries for the combo box
+ *
+ * \return  GtkComboBoxText
+ */
+GtkWidget *vice_gtk3_resource_combo_box_int_new_sprintf(
+        const char *fmt,
+        const vice_gtk3_combo_entry_int_t *entries,
+        ...)
+{
+    GtkWidget *combo;
+    char *resource;
+    va_list args;
+
+    combo = gtk_combo_box_new();
+
+    va_start(args, entries);
+    resource = lib_mvsprintf(fmt, args);
+    g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
+    va_end(args);
+
+    return resource_combo_box_int_new_helper(combo, entries);
 }
 
 
@@ -254,6 +301,8 @@ GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
     char *resource;
     va_list args;
 
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_int_new_sprintf()\n");
+
     combo = gtk_combo_box_new();
 
     va_start(args, entries);
@@ -261,7 +310,7 @@ GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
     g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
     va_end(args);
 
-    return resource_combo_box_int_create_helper(combo, entries);
+    return resource_combo_box_int_new_helper(combo, entries);
 }
 
 
@@ -274,7 +323,7 @@ GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
  *
  * \return  GtkGrid
  */
-GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
+GtkWidget *vice_gtk3_resource_combo_box_int_new_with_label(
         const char *resource,
         const vice_gtk3_combo_entry_int_t *entries,
         const char *label)
@@ -290,24 +339,33 @@ GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
     gtk_widget_set_halign(lbl, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), lbl, 0, 0, 1, 1);
 
-    combo = vice_gtk3_resource_combo_box_int_create(resource, entries);
+    combo = vice_gtk3_resource_combo_box_int_new(resource, entries);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
 }
 
+/** \deprecated */
+GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
+        const char *resource,
+        const vice_gtk3_combo_entry_int_t *entries,
+        const char *label)
+{
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_int_new_with_label()\n");
+    return vice_gtk3_resource_combo_box_int_new_with_label(resource, entries,
+            label);
+}
 
 
-
-/** \brief  Update integer combo box by ID
+/** \brief  Set new ID for integer combo box
  *
  * Set new ID of the combo box
  *
- * \param[in,out]   combo   combo box
- * \param[in]       id      new ID of the combo box
+ * \param[in,out]   widget  integer resource combo box
+ * \param[in]       id      new ID for the combo box resource
  */
-void vice_gtk3_resource_combo_box_int_update(GtkWidget *widget, int id)
+gboolean vice_gtk3_resource_combo_box_int_set(GtkWidget *widget, int id)
 {
     GtkWidget *combo;
 
@@ -318,25 +376,98 @@ void vice_gtk3_resource_combo_box_int_update(GtkWidget *widget, int id)
         combo = widget;
     }
     if (GTK_IS_COMBO_BOX(combo)) {
-        set_combo_int_id(GTK_COMBO_BOX(combo), id);
+        return set_combo_int_id(GTK_COMBO_BOX(combo), id);
     }
+    return FALSE;   /* should not get here */
 }
 
 
-/** \brief  Reset integer combo box to its factory default
+/** \brief  Get current ID for integer combo box
  *
- * \param[in,out]   widget  integer combo box
+ * \param[in]   widget  integer resource combo box
+ * \param[out]  dest    object to store ID
  */
-void vice_gtk3_resource_combo_box_int_reset(GtkWidget *widget)
+gboolean vice_gtk3_resource_combo_box_int_get(GtkWidget *widget, int *dest)
+{
+    GtkWidget *combo;
+
+    if (GTK_IS_GRID(widget)) {
+        /* widget is a grid with label & combo */
+        combo = gtk_grid_get_child_at(GTK_GRID(widget), 1, 0);
+    } else {
+        combo = widget;
+    }
+    if (GTK_IS_COMBO_BOX(combo)) {
+        return get_combo_int_id(GTK_COMBO_BOX(combo), dest);
+    }
+    return FALSE;   /* should not get here */
+}
+
+
+#if 0
+/** \deprecated     calls set() */
+gboolean vice_gtk3_resource_combo_box_int_update(GtkWidget *widget, int id)
+{
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_int_set()\n");
+    return vice_gtk3_resource_combo_box_int_set(widget, id);
+}
+#endif
+
+
+/** \brief  Reset \a widget to its factory default
+ *
+ * \param[in,out]   widget  integer resource combo box
+ */
+gboolean vice_gtk3_resource_combo_box_int_factory(GtkWidget *widget)
 {
     const char *resource;
     int value;
 
     resource = resource_widget_get_resource_name(widget);
-    resources_get_default_value(resource, &value);
+    if (resources_get_default_value(resource, &value) < 0) {
+        return FALSE;
+    }
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
-    vice_gtk3_resource_combo_box_int_update(widget, value);
+    return vice_gtk3_resource_combo_box_int_set(widget, value);
 }
+
+
+/** \brief  Reset \a widget to its state when it was instanciated
+ *
+ * \param[in,out]   widget  integer resource combo box
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_combo_box_int_reset(GtkWidget *widget)
+{
+    int orig;
+
+    orig = resource_widget_get_int(widget, "ResourceOrig");
+    return vice_gtk3_resource_combo_box_int_set(widget, orig);
+}
+
+
+/** \brief  Synchronize \a widget with its resource value
+ *
+ * \param[in,out]   widget  integer resource combo box
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget)
+{
+    const char *resource_name;
+    int resource_value;
+
+    resource_name = resource_widget_get_resource_name(widget);
+    if (resources_get_int(resource_name, &resource_value) < 0) {
+        debug_gtk3("failed to get value of resource '%s'\n", resource_name);
+        return FALSE;
+    }
+
+    return set_combo_int_id(GTK_COMBO_BOX(widget), resource_value);
+}
+
+
 
 
 /*****************************************************************************
