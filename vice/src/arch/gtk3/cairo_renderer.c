@@ -114,6 +114,11 @@ resize_canvas_container_cairo_cb (GtkWidget *widget, GdkEventConfigure *event, g
         cairo_matrix_init_scale(&ctx->transform, scale_x, scale_y);
         /* Center the result in the widget */
         cairo_matrix_translate(&ctx->transform, offset_x, offset_y);
+        /* Record the window coordinates of where the result will be */
+        canvas->screen_display_w = (double)source_width / scale_x;
+        canvas->screen_display_h = (double)source_height / scale_y;
+        canvas->screen_origin_x = ((double)width - canvas->screen_display_w) / 2.0;
+        canvas->screen_origin_y = ((double)height - canvas->screen_display_h) / 2.0;
     }
     /* No further processing should be needed */
     return FALSE;

@@ -197,6 +197,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->blank_ptr = NULL;
     canvas->pen_ptr = NULL;
     canvas->still_frame_callback_id = 0;
+    canvas->pen_x = -1;
+    canvas->pen_y = -1;
+    canvas->pen_buttons = 0;
     ui_create_toplevel_window(canvas);
     if (width && height && canvas->renderer_backend) {
         canvas->renderer_backend->update_context(canvas, *width, *height);

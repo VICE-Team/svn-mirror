@@ -289,7 +289,14 @@ resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
             ctx->scale_x = 1.0f;
             ctx->scale_y = viewport_aspect / canvas_aspect;
         }
+    } else {
+        ctx->scale_x = 1.0f;
+        ctx->scale_y = 1.0f;
     }
+    canvas->screen_display_w = (double)width * ctx->scale_x;
+    canvas->screen_display_h = (double)height * ctx->scale_y;
+    canvas->screen_origin_x = ((double)width - canvas->screen_display_w) / 2.0;
+    canvas->screen_origin_y = ((double)height - canvas->screen_display_h) / 2.0;
 }
 
 static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)

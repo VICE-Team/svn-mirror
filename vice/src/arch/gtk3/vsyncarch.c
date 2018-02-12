@@ -154,7 +154,7 @@ void vsyncarch_sleep(unsigned long delay)
 
 void vsyncarch_presync(void)
 {
-    /* TODO: Lightpen */
+    vice_gtk3_lightpen_update();
     kbdbuf_flush();
 #ifdef HAS_JOYSTICK
     joystick();

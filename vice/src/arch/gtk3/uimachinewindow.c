@@ -58,6 +58,50 @@ static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
     canvas->still_frames = 0;
+
+    if (event->type == GDK_MOTION_NOTIFY) {
+        GdkEventMotion *motion = (GdkEventMotion *)event;
+        double render_w = canvas->geometry->screen_size.width;
+        double render_h = canvas->geometry->last_displayed_line - canvas->geometry->first_displayed_line + 1;
+        int pen_x = (motion->x - canvas->screen_origin_x) * render_w / canvas->screen_display_w;
+        int pen_y = (motion->y - canvas->screen_origin_y) * render_h / canvas->screen_display_h;
+        if (pen_x < 0 || pen_y < 0 || pen_x >= render_w || pen_y >= render_h) {
+            /* Mouse pointer is offscreen, so the light pen is disabled. */
+            canvas->pen_x = -1;
+            canvas->pen_y = -1;
+            canvas->pen_buttons = 0;
+        } else {
+            canvas->pen_x = pen_x;
+            canvas->pen_y = pen_y;
+        }
+    }
+    return FALSE;
+}
+
+static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+    video_canvas_t *canvas = (video_canvas_t *)user_data;
+
+    if (event->type == GDK_BUTTON_PRESS) {
+        int button = ((GdkEventButton *)event)->button;
+        if (button == 1) {
+            /* Left mouse button */
+            canvas->pen_buttons |= LP_HOST_BUTTON_1;
+        } else if (button == 3) {
+            /* Right mouse button */
+            canvas->pen_buttons |= LP_HOST_BUTTON_2;
+        }
+    } else if (event->type == GDK_BUTTON_RELEASE) {
+        int button = ((GdkEventButton *)event)->button;
+        if (button == 1) {
+            /* Left mouse button */
+            canvas->pen_buttons &= ~LP_HOST_BUTTON_1;
+        } else if (button == 3) {
+            /* Right mouse button */
+            canvas->pen_buttons &= ~LP_HOST_BUTTON_2;
+        }        
+    }
+    /* Ignore all other mouse button events, though we'll be sent things like double- and triple-click. */
     return FALSE;
 }
 
@@ -136,6 +180,9 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
             gtk_widget_remove_tick_callback(canvas->drawing_area, canvas->still_frame_callback_id);
             canvas->still_frame_callback_id = 0;
         }
+        canvas->pen_x = -1;
+        canvas->pen_y = -1;
+        canvas->pen_buttons = 0;
     }
     return FALSE;
 }
@@ -159,9 +206,13 @@ static void machine_window_create(video_canvas_t *canvas)
     gtk_container_add(GTK_CONTAINER(new_event_box), new_drawing_area);
 
     gtk_widget_add_events(new_event_box, GDK_POINTER_MOTION_MASK);
+    gtk_widget_add_events(new_event_box, GDK_BUTTON_PRESS_MASK);
+    gtk_widget_add_events(new_event_box, GDK_BUTTON_RELEASE_MASK);
     g_signal_connect(new_event_box, "enter-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
+    g_signal_connect(new_event_box, "button-press-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
+    g_signal_connect(new_event_box, "button-release-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
 
     /* I'm pretty sure when running x128 we get two menu instances, so this
      * should go somewhere else: call ui_menu_bar_create() once and attach the

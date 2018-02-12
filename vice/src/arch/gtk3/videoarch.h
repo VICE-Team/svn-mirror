@@ -66,6 +66,13 @@ struct video_canvas_s {
     /* Number of frames the mouse hasn't moved while still on the canvas. */
     unsigned int still_frames;
     guint still_frame_callback_id;
+    /* Light pen location and button status. */
+    int pen_x, pen_y, pen_buttons;
+    /* Origin and scale factor for the actual screen within the
+     * window. In keeping with GTK3 coordinate events, these are
+     * doubles. */
+    double screen_origin_x, screen_origin_y;
+    double screen_display_w, screen_display_h;
 
     /* The remainder are fields the core needs to communicate with the
      * renderers. */

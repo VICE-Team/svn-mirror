@@ -38,11 +38,12 @@
 #include "not_implemented.h"
 
 #include "cmdline.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
-#include "drive.h"
+#include "lightpen.h"
 #include "resources.h"
 #include "translate.h"
 #include "util.h"
@@ -1019,4 +1020,23 @@ void ui_exit(void)
     atexit_functions_execute();
 #endif
     exit(0);
+}
+
+/** \brief Send current light pen state to the emulator core for all windows.
+ */
+void vice_gtk3_lightpen_update(void)
+{
+    video_canvas_t *canvas;
+    canvas = ui_resources.canvas[PRIMARY_WINDOW];
+    if (machine_class == VICE_MACHINE_C128) {
+        /* According to lightpen.c, x128 flips primary and secondary
+         * windows compared to what the GTK3 backend expects. */
+        if (canvas) {
+            lightpen_update(1, canvas->pen_x, canvas->pen_y, canvas->pen_buttons);
+        }
+        canvas = ui_resources.canvas[SECONDARY_WINDOW];
+    }
+    if (canvas) {
+        lightpen_update(0, canvas->pen_x, canvas->pen_y, canvas->pen_buttons);
+    }
 }
