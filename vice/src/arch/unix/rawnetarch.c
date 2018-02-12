@@ -665,7 +665,7 @@ char *rawnet_arch_get_standard_interface(void)
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_if_t *list;
 
-    if (pcap_findalldevs(&list, errbuf) == 0) {
+    if (pcap_findalldevs(&list, errbuf) == 0 && list != NULL) {
         dev = lib_stralloc(list[0].name);
         pcap_freealldevs(list);
 #ifdef HAVE_TUNTAP

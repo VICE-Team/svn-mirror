@@ -289,8 +289,7 @@ static int set_cs8900io_interface(const char *name, void *param)
 }
 
 static resource_string_t resources_string[] = {
-    { "ETHERNET_INTERFACE",
-      ARCHDEP_ETHERNET_DEFAULT_DEVICE, RES_EVENT_NO, NULL,
+    { "ETHERNET_INTERFACE", NULL, RES_EVENT_NO, NULL,
       &cs8900io_interface, set_cs8900io_interface, NULL },
     RESOURCE_STRING_LIST_END
 };
@@ -309,10 +308,11 @@ int cs8900io_resources_init(void)
 
         default_if = rawnet_get_standard_interface();
 
-        if (default_if != NULL) {
-            resources_string[0].factory_value = default_if;
-            lib_free(default_if);
+        if (default_if == NULL) {
+            default_if = lib_stralloc(ARCHDEP_ETHERNET_DEFAULT_DEVICE);
         }
+
+        resources_string[0].factory_value = default_if;
 
         if (resources_register_string(resources_string) < 0 ||
             resources_register_int(resources_int) < 0) {
@@ -329,6 +329,10 @@ void cs8900io_resources_shutdown(void)
     if (cs8900io_interface != NULL) {
         lib_free(cs8900io_interface);
         cs8900io_interface = NULL;
+    }
+    if (resources_string[0].factory_value != NULL) {
+        lib_free(resources_string[0].factory_value);
+        resources_string[0].factory_value = NULL;
     }
 }
 

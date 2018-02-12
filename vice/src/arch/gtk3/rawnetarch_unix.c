@@ -94,7 +94,9 @@
  * sense. Should this filtering cause trouble on other Unices, this define can
  * be guarded with #ifdef SOME_UNIX_VERSION to disable the filtering.
  */
+#ifdef PCAP_IF_UP
 #define RAWNET_ONLY_IF_UP
+#endif
 
 
 /** #define RAWNET_DEBUG_ARCH 1 **/
@@ -664,7 +666,7 @@ char *rawnet_arch_get_standard_interface(void)
     char errbuf[PCAP_ERRBUF_SIZE];
     pcap_if_t *list;
 
-    if (pcap_findalldevs(&list, errbuf) == 0) {
+    if (pcap_findalldevs(&list, errbuf) == 0 && list != NULL) {
         dev = lib_stralloc(list[0].name);
         pcap_freealldevs(list);
 #ifdef HAVE_TUNTAP
