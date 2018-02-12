@@ -33,7 +33,7 @@
 #include "basewidget_types.h"
 
 /*
- * Integer resource combo box functions
+ * Integer resource combo box API
  */
 
 GtkWidget *vice_gtk3_resource_combo_box_int_new(
@@ -62,9 +62,13 @@ gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget);
 
 
 /*
- * String combo
+ * String resource combo box API
  */
 
+
+/*
+ * Deprecated API
+ */
 
 GtkWidget *vice_gtk3_resource_combo_box_str_create(
         const char *resource,
@@ -81,8 +85,34 @@ GtkWidget *vice_gtk3_resource_combo_box_str_create_with_label(
         const vice_gtk3_combo_entry_str_t *entries,
         const char *label);
 
+/* deprecated */
 void vice_gtk3_resource_combo_box_str_update(GtkWidget *widget, const char *id);
 
-void vice_gtk3_resource_combo_box_str_reset(GtkWidget *widget);
+
+/* new API */
+
+GtkWidget *vice_gtk3_resource_combo_box_str_new(
+        const char *resource,
+        const vice_gtk3_combo_entry_str_t *entries);
+
+GtkWidget *vice_gtk3_resource_combo_box_str_new_sprintf(
+        const char *fmt,
+        const vice_gtk3_combo_entry_str_t *entries,
+        ...);
+
+GtkWidget *vice_gtk3_resource_combo_box_str_new_with_label(
+        const char *resource,
+        const vice_gtk3_combo_entry_str_t *entries,
+        const char *label);
+
+gboolean vice_gtk3_resource_combo_box_str_set(GtkWidget *widget, const char *id);
+
+gboolean vice_gtk3_resource_combo_box_str_get(GtkWidget *widget, const char **dest);
+
+gboolean vice_gtk3_resource_combo_box_str_factory(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_combo_box_str_reset(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_combo_box_str_sync(GtkWidget *widget);
 
 #endif

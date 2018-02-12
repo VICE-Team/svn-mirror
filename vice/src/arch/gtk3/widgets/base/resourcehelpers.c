@@ -101,6 +101,7 @@ const char *resource_widget_get_string(GtkWidget *widget, const char *key)
  */
 void resource_widget_free_string(GtkWidget *widget, const char *key)
 {
+    /* free(NULL) is valid, so this is safe */
     lib_free(g_object_get_data(G_OBJECT(widget), key));
 }
 
