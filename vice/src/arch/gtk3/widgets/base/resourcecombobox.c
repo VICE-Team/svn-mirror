@@ -520,18 +520,6 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new(
 }
 
 
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_combo_box_str_create(
-        const char *resource,
-        const vice_gtk3_combo_entry_str_t *entries)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_str_new()\n");
-    return vice_gtk3_resource_combo_box_str_new(resource, entries);
-}
-
-
-
-
 /** \brief  Create a combo box to control a string resource
  *
  * \param[in]   resource    resource name
@@ -559,36 +547,6 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new_sprintf(
 }
 
 
-/** \brief  Create a combo box to control a string resource
- *
- * \deprecated
- *
- * \param[in]   resource    resource name
- * \param[in]   entries     list of entries for the combo box
- *
- * \return  GtkComboBoxText
- */
-GtkWidget *vice_gtk3_resource_combo_box_str_create_sprintf(
-        const char *fmt,
-        const vice_gtk3_combo_entry_str_t *entries,
-        ...)
-{
-    GtkWidget *combo;
-    char *resource;
-    va_list args;
-
-    combo = gtk_combo_box_text_new();
-
-    va_start(args, entries);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
-    va_end(args);
-
-    return resource_combo_box_str_new_helper(combo, entries);
-}
-
-
-
 /** \brief  Create combo box for string \a resource with a \a label
  *
  * \param[in]   resource    resource name
@@ -613,21 +571,11 @@ GtkWidget *vice_gtk3_resource_combo_box_str_new_with_label(
     gtk_widget_set_halign(lbl, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), lbl, 0, 0, 1, 1);
 
-    combo = vice_gtk3_resource_combo_box_str_create(resource, entries);
+    combo = vice_gtk3_resource_combo_box_str_new(resource, entries);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 0, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_combo_box_str_create_with_label(
-        const char *resource,
-        const vice_gtk3_combo_entry_str_t *entries,
-        const char *label)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_str_new_with_label()\n");
-    return vice_gtk3_resource_combo_box_str_new_with_label(resource, entries, label);
 }
 
 

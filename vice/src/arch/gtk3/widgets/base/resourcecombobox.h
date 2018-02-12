@@ -65,32 +65,6 @@ gboolean vice_gtk3_resource_combo_box_int_sync(GtkWidget *widget);
  * String resource combo box API
  */
 
-
-/*
- * Deprecated API
- */
-
-GtkWidget *vice_gtk3_resource_combo_box_str_create(
-        const char *resource,
-        const vice_gtk3_combo_entry_str_t *entries);
-
-GtkWidget *vice_gtk3_resource_combo_box_str_create_sprintf(
-        const char *fmt,
-        const vice_gtk3_combo_entry_str_t *entries,
-        ...);
-
-
-GtkWidget *vice_gtk3_resource_combo_box_str_create_with_label(
-        const char *resource,
-        const vice_gtk3_combo_entry_str_t *entries,
-        const char *label);
-
-/* deprecated */
-void vice_gtk3_resource_combo_box_str_update(GtkWidget *widget, const char *id);
-
-
-/* new API */
-
 GtkWidget *vice_gtk3_resource_combo_box_str_new(
         const char *resource,
         const vice_gtk3_combo_entry_str_t *entries);
