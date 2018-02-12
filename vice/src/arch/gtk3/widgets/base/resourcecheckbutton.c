@@ -1,4 +1,4 @@
-/** \file
+/** \file   resourcecheckbutton.c
  * \brief   Check button connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -116,7 +116,7 @@ static void on_check_button_toggled(GtkWidget *check, gpointer user_data)
  *
  * \return  new check button
  */
-static GtkWidget *resource_check_button_create_helper(GtkWidget *check)
+static GtkWidget *resource_check_button_new_helper(GtkWidget *check)
 {
     int state;
     const char *resource;
@@ -128,6 +128,8 @@ static GtkWidget *resource_check_button_create_helper(GtkWidget *check)
         log_error(LOG_ERR, "invalid resource name '%s'\n", resource);
         state = 0;
     }
+    /* remember original state for the reset() method */
+    resource_widget_set_int(check, "ResourceOrig", state);
 
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check),
             state ? TRUE : FALSE);
@@ -150,24 +152,41 @@ static GtkWidget *resource_check_button_create_helper(GtkWidget *check)
  * resource name works as well.
  *
  * \param[in]   resource    resource name
- * \param[in]   label       label of the check button
+ * \param[in]   label       label of the check button (optional)
  *
  * \note    The resource name is stored in the "ResourceName" property.
  *
  * \return  new check button
  */
-GtkWidget *vice_gtk3_resource_check_button_create(const char *resource,
-                                        const char *label)
+GtkWidget *vice_gtk3_resource_check_button_new(const char *resource,
+                                               const char *label)
 {
     GtkWidget *check;
 
-    check = gtk_check_button_new_with_label(label);
+    /* make label optional */
+    if (label != NULL) {
+        check = gtk_check_button_new_with_label(label);
+    } else {
+        check = gtk_check_button_new();
+    }
 
     /* make a copy of the resource name and store the pointer in the propery
      * "ResourceName" */
     resource_widget_set_resource_name(check, resource);
 
-    return resource_check_button_create_helper(check);
+    return resource_check_button_new_helper(check);
+}
+
+
+/** \brief  Create check button to toggle \a resource
+ *
+ * \deprecated  Use vice_gtk3_resource_button_new()
+ */
+GtkWidget *vice_gtk3_resource_check_button_create(const char *resource,
+                                                  const char *label)
+{
+    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_check_button_new()\n");
+    return vice_gtk3_resource_check_button_new(resource, label);
 }
 
 
@@ -185,9 +204,9 @@ GtkWidget *vice_gtk3_resource_check_button_create(const char *resource,
  *
  * \return  new check button
  */
-GtkWidget *vice_gtk3_resource_check_button_create_sprintf(const char *fmt,
-                                                          const char *label,
-                                                         ...)
+GtkWidget *vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
+                                                       const char *label,
+                                                       ...)
 {
     GtkWidget *check;
     va_list args;
@@ -200,33 +219,129 @@ GtkWidget *vice_gtk3_resource_check_button_create_sprintf(const char *fmt,
     g_object_set_data(G_OBJECT(check), "ResourceName", (gpointer)resource);
     va_end(args);
 
-    return resource_check_button_create_helper(check);
+    return resource_check_button_new_helper(check);
+}
+
+/** \deprecated Use vice_gtk3_resource_check_button_new_sprintf()
+ */
+GtkWidget *vice_gtk3_resource_check_button_create_sprintf(const char *fmt,
+                                                       const char *label,
+                                                       ...)
+{
+    GtkWidget *check;
+    va_list args;
+    char *resource;
+
+    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_check_button_new_sprintf()\n");
+    check = gtk_check_button_new_with_label(label);
+
+    va_start(args, label);
+    resource = lib_mvsprintf(fmt, args);
+    g_object_set_data(G_OBJECT(check), "ResourceName", (gpointer)resource);
+    va_end(args);
+
+    return resource_check_button_new_helper(check);
 }
 
 
-/** \brief  Set new \a value for \a check button
+/** \brief  Set new \a value for \a widget
  *
- * \param[in,out]   check   check button
+ * \param[in,out]   widget  resource check button widget
  * \param[in]       value   new value
  */
-void vice_gtk3_resource_check_button_update(GtkWidget *check, gboolean value)
+gboolean vice_gtk3_resource_check_button_set(GtkWidget *widget, gboolean value)
 {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), value);
+    /* the 'toggled' event handler will update the resouce if required */
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget), value);
+    return TRUE;
+}
+
+
+/** \brief  Get the current value of the resource
+ *
+ * \param[in]   widget  resource check button widget
+ * \param[out]  dest    object to store value
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
+{
+    const char *resource;
+    int value;
+
+    resource = resource_widget_get_resource_name(widget);
+    if (resources_get_int(resource, &value) < 0) {
+        debug_gtk3("failed to get resource value for %s\n", resource);
+        *dest = FALSE;
+        return FALSE;
+    }
+    *dest = (gboolean)value;
+    return TRUE;
+}
+
+
+/** \deprecated */
+gboolean vice_gtk3_resource_check_button_update(GtkWidget *widget, gboolean value)
+{
+    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_check_button_set()\n");
+    return vice_gtk3_resource_check_button_set(widget, value);
 }
 
 
 /** \brief  Reset check button to factory state
  *
- * \param[in,out]   check   check button
+ * \param[in,out]   widget  resource check button widget
  */
-void vice_gtk3_resource_check_button_reset(GtkWidget *check)
+gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget)
 {
     const char *resource;
     int value;
 
-    resource = resource_widget_get_resource_name(check);
-    resources_get_default_value(resource, &value);
+    resource = resource_widget_get_resource_name(widget);
+    if (resources_get_default_value(resource, &value) < 0) {
+        return FALSE;
+    }
     debug_gtk3("resetting %s to factory value %s\n",
             resource, value ? "True" : "False");
-    vice_gtk3_resource_check_button_update(check, (gboolean)value);
+    return vice_gtk3_resource_check_button_set(widget, (gboolean)value);
+}
+
+
+gboolean vice_gtk3_resource_check_button_reset(GtkWidget *widget)
+{
+    int orig;
+
+    orig = resource_widget_get_int(widget, "ResourceOrig");
+    return vice_gtk3_resource_check_button_set(widget, (gboolean)orig);
+}
+
+
+/** \brief  Synchronize the \a widget state with its resource
+ *
+ * \param[in,out]   widget  resource check button
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget)
+{
+    int widget_val;
+    const char *resource_name;
+    int resource_val;
+
+    /* get widget state */
+    widget_val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+    /* get resource state */
+    resource_name = resource_widget_get_resource_name(widget);
+    if (resources_get_int(resource_name, &resource_val) < 0) {
+        debug_gtk3("failed to get value for resource %s\n", resource_name);
+        return FALSE;
+    }
+
+    /* do we need to update the widget? */
+    if ((gboolean)resource_val != (gboolean)widget_val) {
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),
+                (gboolean)resource_val);
+    }
+    return TRUE;
 }

@@ -1,4 +1,4 @@
-/**
+/** \file   resourcecheckbutton.h
  * \brief   Check button connected to a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -31,16 +31,31 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+/* deprecated API */
 GtkWidget * vice_gtk3_resource_check_button_create(const char *resource,
                                                    const char *label);
-
 GtkWidget * vice_gtk3_resource_check_button_create_sprintf(const char *fmt,
                                                           const char *label,
                                                           ...);
+gboolean vice_gtk3_resource_check_button_update(GtkWidget *check, gboolean value);
 
-void        vice_gtk3_resource_check_button_update(GtkWidget *check,
-                                                   gboolean value);
 
-void        vice_gtk3_resource_check_button_reset(GtkWidget *check);
+/* proper API */
+
+GtkWidget * vice_gtk3_resource_check_button_new(const char *resource,
+                                                const char *label);
+
+GtkWidget * vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
+                                                        const char *label,
+                                                        ...);
+gboolean vice_gtk3_resource_check_button_set(GtkWidget *check, gboolean value);
+
+gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest);
+
+gboolean vice_gtk3_resource_check_button_reset(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_check_button_sync(GtkWidget *widget);
 
 #endif
