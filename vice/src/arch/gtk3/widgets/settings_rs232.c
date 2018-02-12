@@ -324,7 +324,7 @@ static GtkWidget *create_serial_baud_widget(const char *resource)
             break;
     }
 
-    return vice_gtk3_resource_combo_box_int_create(resource, entries);
+    return vice_gtk3_resource_combo_box_int_new(resource, entries);
 }
 
 
@@ -359,7 +359,7 @@ static GtkWidget *create_acia_widget(void)
 
     /* Acia1Dev */
     label = create_indented_label("Device");
-    acia_device_widget = vice_gtk3_resource_combo_box_int_create(
+    acia_device_widget = vice_gtk3_resource_combo_box_int_new(
             "Acia1Dev", acia_devices);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), acia_device_widget, 1, row, 1, 1);
@@ -425,12 +425,12 @@ static GtkWidget *create_userport_widget(void)
     gtk_grid_attach(GTK_GRID(grid), rsuser_enable_widget, 0, 1, 4, 1);
 
     label = create_indented_label("Device");
-    rsuser_device_widget = vice_gtk3_resource_combo_box_int_create(
+    rsuser_device_widget = vice_gtk3_resource_combo_box_int_new(
             "RsUserDev", acia_devices);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rsuser_device_widget, 1, 2, 1, 1);
     label = create_indented_label("Baud");
-    rsuser_baud_widget = vice_gtk3_resource_combo_box_int_create(
+    rsuser_baud_widget = vice_gtk3_resource_combo_box_int_new(
             "RsUserBaud", rsuser_baud_rates);
     gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rsuser_baud_widget, 3, 2, 1, 1);

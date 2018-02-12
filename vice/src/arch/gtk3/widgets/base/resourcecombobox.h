@@ -33,25 +33,7 @@
 #include "basewidget_types.h"
 
 /*
- * Deprecated API
- */
-
-GtkWidget *vice_gtk3_resource_combo_box_int_create(
-        const char *resource,
-        const vice_gtk3_combo_entry_int_t *entries);
-
-GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
-        const char *fmt,
-        const vice_gtk3_combo_entry_int_t *entries,
-        ...);
-
-GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
-        const char *resource,
-        const vice_gtk3_combo_entry_int_t *entries,
-        const char *label);
-
-/*
- * New API
+ * Integer resource combo box functions
  */
 
 GtkWidget *vice_gtk3_resource_combo_box_int_new(

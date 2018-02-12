@@ -1,13 +1,10 @@
-/**
+/** \file   driveparallelcablewidget.h
  * \brief   Drive parallel cable widget - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Drive[8-11]ParallelCable
- *
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -1,4 +1,4 @@
-/**
+/** \file   settings_ramreset.h
  * \brief   Widget to control the RAM reset pattern settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -94,7 +94,7 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_device_type_widget(int unit)
 {
-    return vice_gtk3_resource_combo_box_int_create_sprintf(
+    return vice_gtk3_resource_combo_box_int_new_sprintf(
             "FileSystemDevice%d", device_types, unit);
 }
 

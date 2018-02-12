@@ -134,7 +134,7 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
     g_object_set(label, "margin-left", 8, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 1, 0, 1, 1);
-    rev_combo = vice_gtk3_resource_combo_box_int_create("RRrevision",
+    rev_combo = vice_gtk3_resource_combo_box_int_new("RRrevision",
             rr_revisions);
     gtk_grid_attach(GTK_GRID(grid), rev_combo, 2, 0, 1, 1);
 

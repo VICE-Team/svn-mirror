@@ -230,7 +230,7 @@ static GtkWidget *create_acia_serial_device_widget(int num)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
     g_snprintf(buffer, 256, "RsDevice%dBaud", num);
-    combo = vice_gtk3_resource_combo_box_int_create(buffer, baud_rate_list);
+    combo = vice_gtk3_resource_combo_box_int_new(buffer, baud_rate_list);
 
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), combo, 1, 2, 1, 1);

@@ -169,7 +169,7 @@ static GtkWidget *create_midi_enable_widget(void)
  */
 static GtkWidget *create_midi_mode_widget(void)
 {
-    return vice_gtk3_resource_combo_box_int_create("MIDIMode", midi_modes);
+    return vice_gtk3_resource_combo_box_int_new("MIDIMode", midi_modes);
 }
 
 
@@ -180,7 +180,7 @@ static GtkWidget *create_midi_mode_widget(void)
  */
 static GtkWidget *create_midi_driver_widget(void)
 {
-    return vice_gtk3_resource_combo_box_int_create("MIDIDriver", midi_drivers);
+    return vice_gtk3_resource_combo_box_int_new("MIDIDriver", midi_drivers);
 }
 #endif
 

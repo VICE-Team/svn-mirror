@@ -1,13 +1,13 @@
-/**
+/** \file   driveparallelcablewidget.c
  * \brief   Drive parallel cable widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  Drive[8-11]ParallelCable
- *
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -85,7 +85,7 @@ GtkWidget *drive_parallel_cable_widget_create(int unit)
     debug_gtk3("setting UnitNumber property to %d\n", unit);
     g_object_set_data(G_OBJECT(grid), "UnitNumber", GINT_TO_POINTER(unit));
 
-    combo = vice_gtk3_resource_combo_box_int_create_sprintf(
+    combo = vice_gtk3_resource_combo_box_int_new_sprintf(
             "Drive%dParallelCable", list, unit);
     gtk_widget_set_hexpand(combo, TRUE);
     g_object_set(combo, "margin-left", 16, NULL);

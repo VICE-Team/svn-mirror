@@ -1,9 +1,10 @@
-/**
+/** \file   uimedia.c
  * \brief   Media recording dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -643,7 +644,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     label = gtk_label_new("Oversize handling");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    oversize_widget = vice_gtk3_resource_combo_box_int_create_sprintf(
+    oversize_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
             "%sOversizeHandling", oversize_modes, prefix);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), oversize_widget, 1, 0, 1, 1);
@@ -652,7 +653,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
     label = gtk_label_new("Undersize handling");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    undersize_widget = vice_gtk3_resource_combo_box_int_create_sprintf(
+    undersize_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
             "%sUndersizeHandling", undersize_modes, prefix);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), undersize_widget, 1, 1, 1, 1);
@@ -666,7 +667,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
         label = gtk_label_new("Multi color handling");
         g_object_set(label, "margin-left", 16, NULL);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        multicolor_widget = vice_gtk3_resource_combo_box_int_create_sprintf(
+        multicolor_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
                 "%sMultiColorHandling", multicolor_modes, prefix);
         gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), multicolor_widget, 1, row, 1, 1);
@@ -678,7 +679,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
         label = gtk_label_new("TED luma handling");
         g_object_set(label, "margin-left", 16, NULL);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        ted_luma_widget = vice_gtk3_resource_combo_box_int_create_sprintf(
+        ted_luma_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
                 "%sTEDLumHandling", ted_luma_modes, prefix);
         gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), ted_luma_widget, 1, row, 1, 1);
@@ -691,7 +692,7 @@ static GtkWidget *create_screenshot_param_widget(const char *prefix)
         label = gtk_label_new("CRTC text color");
         g_object_set(label, "margin-left", 16, NULL);
         gtk_widget_set_halign(label, GTK_ALIGN_START);
-        crtc_textcolor_widget = vice_gtk3_resource_combo_box_int_create_sprintf(
+        crtc_textcolor_widget = vice_gtk3_resource_combo_box_int_new_sprintf(
                 "%sCRTCTextColor", crtc_colors, prefix);
         gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
         gtk_grid_attach(GTK_GRID(grid), crtc_textcolor_widget, 1, row, 1, 1);

@@ -243,17 +243,6 @@ GtkWidget *vice_gtk3_resource_combo_box_int_new(
 }
 
 
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_combo_box_int_create(
-        const char *resource,
-        const vice_gtk3_combo_entry_int_t *entries)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_int_new()\n");
-    return vice_gtk3_resource_combo_box_int_new(resource, entries);
-}
-
-
-
 /** \brief  Create a combo box to control an integer resource
  *
  * Allows setting the resource name via sprintf()-syntax
@@ -281,38 +270,6 @@ GtkWidget *vice_gtk3_resource_combo_box_int_new_sprintf(
 
     return resource_combo_box_int_new_helper(combo, entries);
 }
-
-
-/** \brief  Create a combo box to control an integer resource
- *
- * Allows setting the resource name via sprintf()-syntax
- *
- * \param[in]   fmt     format string for the resource name
- * \param[in]   entries list of entries for the combo box
- *
- * \return  GtkComboBoxText
- */
-GtkWidget *vice_gtk3_resource_combo_box_int_create_sprintf(
-        const char *fmt,
-        const vice_gtk3_combo_entry_int_t *entries,
-        ...)
-{
-    GtkWidget *combo;
-    char *resource;
-    va_list args;
-
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_int_new_sprintf()\n");
-
-    combo = gtk_combo_box_new();
-
-    va_start(args, entries);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(combo), "ResourceName", (gpointer)resource);
-    va_end(args);
-
-    return resource_combo_box_int_new_helper(combo, entries);
-}
-
 
 
 /** \brief  Create combo box for integer \a resource with a \a label
@@ -344,17 +301,6 @@ GtkWidget *vice_gtk3_resource_combo_box_int_new_with_label(
 
     gtk_widget_show_all(grid);
     return grid;
-}
-
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_combo_box_int_create_with_label(
-        const char *resource,
-        const vice_gtk3_combo_entry_int_t *entries,
-        const char *label)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_combo_box_int_new_with_label()\n");
-    return vice_gtk3_resource_combo_box_int_new_with_label(resource, entries,
-            label);
 }
 
 

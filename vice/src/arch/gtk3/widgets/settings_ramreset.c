@@ -1,4 +1,4 @@
-/**
+/** \file   settings_ramreset.c
  * \brief   Widget to control the RAM reset pattern settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -92,7 +92,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     label = gtk_label_new("Length of constant values");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    value_invert_widget = vice_gtk3_resource_combo_box_int_create(
+    value_invert_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitValueInvert", powers_of_two);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), value_invert_widget, 1, 2, 1, 1);
@@ -100,7 +100,7 @@ GtkWidget *settings_ramreset_widget_create(GtkWidget *parent)
     label = gtk_label_new("Length of constant pattern");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    pattern_invert_widget = vice_gtk3_resource_combo_box_int_create(
+    pattern_invert_widget = vice_gtk3_resource_combo_box_int_new(
             "RAMInitPatternInvert", powers_of_two);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), pattern_invert_widget, 1, 3, 1, 1);
