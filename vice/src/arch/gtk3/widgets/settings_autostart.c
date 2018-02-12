@@ -1,5 +1,7 @@
-/**
+/** \file   settings_autostart.c
  * \brief   GTK3 autostart settings central widget
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  AutostartDelay                    - delay in seconds (0-1000) (integer)
@@ -14,10 +16,9 @@
  *  AutostartWarp                     - use warp during autostart (boolean)
  *  AutostartHandleTrueDriveEmulation - use True Drive Emulation during
  *                                      autostart (boolean)
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -121,7 +122,7 @@ static GtkWidget *create_delay_widget(void)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Delay settings", 3);
     g_object_set(grid, "margin-top", 8, NULL);
 
-    rnd_delay = vice_gtk3_resource_check_button_create( "AutostartDelayRandom",
+    rnd_delay = vice_gtk3_resource_check_button_new( "AutostartDelayRandom",
             "Add random delay");
     g_object_set(rnd_delay, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rnd_delay, 0, 2, 1, 1);
@@ -176,12 +177,12 @@ static GtkWidget *create_prg_widget(void)
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "PRG settings", 3);
     g_object_set(grid, "margin-top", 8, NULL);
 
-    colon = vice_gtk3_resource_check_button_create("AutostartRunWithColon",
+    colon = vice_gtk3_resource_check_button_new("AutostartRunWithColon",
             "Use ':' with RUN");
     g_object_set(colon, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), colon, 0, 1, 1, 1);
 
-    basic = vice_gtk3_resource_check_button_create("AutostartBasicLoad",
+    basic = vice_gtk3_resource_check_button_new("AutostartBasicLoad",
             "Load to BASIC start");
     g_object_set(basic, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), basic, 0, 2, 1, 1);
@@ -226,12 +227,12 @@ GtkWidget *settings_autostart_widget_create(GtkWidget *parent)
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
     g_object_set(grid, "margin", 8, NULL);
 
-    tde = vice_gtk3_resource_check_button_create(
+    tde = vice_gtk3_resource_check_button_new(
             "AutostartHandleTrueDriveEmulation",
             "Handle True Drive Emulation on autostart");
     gtk_grid_attach(GTK_GRID(grid), tde, 0, 0, 1, 1);
 
-    warp = vice_gtk3_resource_check_button_create("AutostartWarp",
+    warp = vice_gtk3_resource_check_button_new("AutostartWarp",
             "Warp on autostart");
     gtk_grid_attach(GTK_GRID(grid), warp, 0, 1, 1, 1);
 

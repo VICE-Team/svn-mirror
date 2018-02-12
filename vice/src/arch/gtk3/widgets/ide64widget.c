@@ -214,7 +214,7 @@ static GtkWidget *create_ide64_usb_widget(void)
     grid = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
-    enable = vice_gtk3_resource_check_button_create("IDE64USBServer",
+    enable = vice_gtk3_resource_check_button_new("IDE64USBServer",
             "Enable USB server");
     label = gtk_label_new("USB server address");
     address = vice_gtk3_resource_entry_full_create("IDE64USBServerAddress");
@@ -266,7 +266,7 @@ static GtkWidget *create_ide64_clockport_widget(void)
  */
 static GtkWidget *create_ide64_rtc_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("IDE64RTCSave",
+    return vice_gtk3_resource_check_button_new("IDE64RTCSave",
             "Enable RTC saving");
 }
 
@@ -314,7 +314,7 @@ static GtkWidget *create_ide64_device_widget(int device)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    autosize = vice_gtk3_resource_check_button_create_sprintf(
+    autosize = vice_gtk3_resource_check_button_new_sprintf(
             "IDE64AutodetectSize%d", "Autodetect image size", device);
     g_object_set(autosize, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), autosize, 0, 2, 3, 1);
@@ -389,7 +389,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
     grid = uihelpers_create_grid_with_label("ShortBus settings", 3);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
 
-    digimax_enable = vice_gtk3_resource_check_button_create("SBDIGIMAX",
+    digimax_enable = vice_gtk3_resource_check_button_new("SBDIGIMAX",
             "Enable DigiMAX");
     g_object_set(digimax_enable, "margin-left", 16, NULL);
     digimax_label = gtk_label_new("DigMAX base address");
@@ -407,7 +407,7 @@ static GtkWidget *create_ide64_shortbus_widget(void)
     on_digimax_toggled(digimax_enable, (gpointer)digimax_address);
 
 #ifdef HAVE_RAWNET
-    etfe_enable = vice_gtk3_resource_check_button_create("SBETFE",
+    etfe_enable = vice_gtk3_resource_check_button_new("SBETFE",
             "Enable ETFE");
     g_object_set(etfe_enable, "margin-left", 16, NULL);
     etfe_label = gtk_label_new("ETFE base address");

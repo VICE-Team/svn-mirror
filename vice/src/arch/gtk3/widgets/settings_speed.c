@@ -1,9 +1,10 @@
 /** \file   settings_speed.c
  * \brief   GTK3 speed control central widget for the settings dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -73,7 +74,7 @@ static void pause_callback(GtkWidget *widget, gpointer data)
  */
 static GtkWidget *create_warp_checkbox(void)
 {
-    return vice_gtk3_resource_check_button_create("WarpMode", "Warp mode");
+    return vice_gtk3_resource_check_button_new("WarpMode", "Warp mode");
 }
 
 

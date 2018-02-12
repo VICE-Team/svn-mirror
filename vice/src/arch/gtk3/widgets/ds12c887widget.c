@@ -1,15 +1,16 @@
-/**
+/** \file   ds12c887widget.c
  * \brief   DS12C887 RTC widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  DS12C887RTC (x64/x64sc/xscpu64/x128/xvic)
  *  DS12C887RTCbase (x64/x64sc/xscpu64/x128/xvic)
  *  DS12C887RTCSave (x64/x64sc/xscpu64/x128/xvic)
  *  DS12C887RTCRunMode (x64/x64sc/xscpu64/x128/xvic)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -109,15 +110,15 @@ GtkWidget *ds12c887_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable_widget = vice_gtk3_resource_check_button_create("DS12C887RTC",
+    enable_widget = vice_gtk3_resource_check_button_new("DS12C887RTC",
             "Enable DS12C877 Real Time Clock");
     /* TODO: add event to enable/disable widgets */
     gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 2, 1);
 
-    oscil_widget = vice_gtk3_resource_check_button_create("DS12C887RunMode",
+    oscil_widget = vice_gtk3_resource_check_button_new("DS12C887RunMode",
             "Start with running oscillerator");
     g_object_set(oscil_widget, "margin-left", 16, NULL);
-    rtc_widget = vice_gtk3_resource_check_button_create("DS12C887RTCSave",
+    rtc_widget = vice_gtk3_resource_check_button_new("DS12C887RTCSave",
             "Enable RTC Saving");
     g_object_set(rtc_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), oscil_widget, 0, 1, 2, 1);

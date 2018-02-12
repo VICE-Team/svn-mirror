@@ -353,7 +353,7 @@ static void on_c64_glue_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_reset_to_iec_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("IECReset",
+    return vice_gtk3_resource_check_button_new("IECReset",
             "Reset goes to IEC");
 }
 
@@ -364,7 +364,7 @@ static GtkWidget *create_reset_to_iec_widget(void)
  */
 static GtkWidget *create_go64_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("Go64Mode",
+    return vice_gtk3_resource_check_button_new("Go64Mode",
             "Always switch to C64 mode on reset");
 }
 
@@ -607,7 +607,7 @@ static GtkWidget *create_c64dtv_layout(GtkWidget *grid)
     gtk_grid_attach(GTK_GRID(grid), sid_widget, 0, 2, 1, 1);
 
     /* Luma fix widget */
-    luma_widget = vice_gtk3_resource_check_button_create("VICIINewLuminances",
+    luma_widget = vice_gtk3_resource_check_button_new("VICIINewLuminances",
             "Enable LumaFix (use new VICII luminances)");
     g_object_set(G_OBJECT(luma_widget), "margin-left", 8, "margin-top", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), luma_widget, 0, 3, 2, 1);

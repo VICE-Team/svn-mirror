@@ -1,19 +1,20 @@
-/**
+/** \file   mmcrwidget.c
  * \brief   Widget to control MMC Replay resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  MMCRCardImage (x64/x64sc/xscpu64/x128)
+ *  MMCRCardImage   (x64/x64sc/xscpu64/x128)
  *  MMCREEPROMImage (x64/x64sc/xscpu64/x128)
- *  MMCREEPROMRW (x64/x64sc/xscpu64/x128)
- *  MMCRRescueMode (x64/x64sc/xscpu64/x128)
- *  MMCRImageWrite (x64/x64sc/xscpu64/x128)
- *  MMCRCardRW (x64/x64sc/xscpu64/x128)
- *  MMCRSDType (x64/x64sc/xscpu64/x128)
- *  MMCRClockPort (x64/x64sc/xscpu64/x128)
- *
+ *  MMCREEPROMRW    (x64/x64sc/xscpu64/x128)
+ *  MMCRRescueMode  (x64/x64sc/xscpu64/x128)
+ *  MMCRImageWrite  (x64/x64sc/xscpu64/x128)
+ *  MMCRCardRW      (x64/x64sc/xscpu64/x128)
+ *  MMCRSDType      (x64/x64sc/xscpu64/x128)
+ *  MMCRClockPort   (x64/x64sc/xscpu64/x128)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -94,7 +95,7 @@ static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
  */
 static GtkWidget *create_rescue_mode_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "MMCRRescueMode", "Enable rescue mode");
 }
 
@@ -115,7 +116,7 @@ static GtkWidget *create_clockport_widget(void)
  */
 static GtkWidget *create_eeprom_rw_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("MMCREEPROMRW",
+    return vice_gtk3_resource_check_button_new("MMCREEPROMRW",
             "Enable writes to EEPROM image");
 }
 
@@ -178,7 +179,7 @@ static GtkWidget *create_card_image_widget(GtkWidget *parent)
     browse = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    card_writes = vice_gtk3_resource_check_button_create("MMCRCardRW",
+    card_writes = vice_gtk3_resource_check_button_new("MMCRCardRW",
             "Enable SD/MMC card writes");
     g_object_set(card_writes, "margin-left", 16, "margin-top", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), card_writes, 0, 2, 3, 1);

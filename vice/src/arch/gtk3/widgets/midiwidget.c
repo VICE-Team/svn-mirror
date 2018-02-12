@@ -1,19 +1,20 @@
-/**
+/** \file   midiwidget.c
  * \brief   MIDI emulation settings widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  MIDIEnable (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIMode (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIDriver (x64/x64sc/xscpu64/x128/xvic) - Unix only
- *  MIDIInDev (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIOutDev (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIName (x64/x64sc/xscpu64/x128/xvic) - OSX only
- *  MIDIInName (x64/x64sc/xscpu64/x128/xvic) - OSX only
+ *  MIDIEnable  (x64/x64sc/xscpu64/x128/xvic)
+ *  MIDIMode    (x64/x64sc/xscpu64/x128/xvic)
+ *  MIDIDriver  (x64/x64sc/xscpu64/x128/xvic) - Unix only
+ *  MIDIInDev   (x64/x64sc/xscpu64/x128/xvic)
+ *  MIDIOutDev  (x64/x64sc/xscpu64/x128/xvic)
+ *  MIDIName (  x64/x64sc/xscpu64/x128/xvic) - OSX only
+ *  MIDIInName  (x64/x64sc/xscpu64/x128/xvic) - OSX only
  *  MIDIOutName (x64/x64sc/xscpu64/x128/xvic) - OSX only
+ */
 
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -37,13 +38,9 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "basedialogs.h"
-#include "openfiledialog.h"
 
 #include "midiwidget.h"
 
@@ -158,7 +155,7 @@ static GtkWidget *create_midi_enable_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create("MIDIEnable",
+    check = vice_gtk3_resource_check_button_new("MIDIEnable",
             "Enable MIDI emulation");
     g_signal_connect(check, "toggled", G_CALLBACK(on_midi_enable_toggled),
             NULL);

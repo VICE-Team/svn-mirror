@@ -1,20 +1,21 @@
-/**
+/** \file   mmc64widget.c
  * \brief   Widget to control MMC64 resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  MMC64 (x64/x64sc/xscpu64/x128)
- *  MMC64BIOSfilename (x64/x64sc/xscpu64/x128)
- *  MMC64_bios_write (x64/x64sc/xscpu64/x128)
- *  MMC64_flashjumper (x64/x64sc/xscpu64/x128)
- *  MMC64_revision (x64/x64sc/xscpu64/x128)
- *  MMC64imagefilename (x64/x64sc/xscpu64/x128)
- *  MMC64_RO (x64/x64sc/xscpu64/x128)
- *  MMC64_sd_type (x64/x64sc/xscpu64/x128)
- *  MMC64ClockPort (x64/x64sc/xscpu64/x128)
- *
+ *  MMC64               (x64/x64sc/xscpu64/x128)
+ *  MMC64BIOSfilename   (x64/x64sc/xscpu64/x128)
+ *  MMC64_bios_write    (x64/x64sc/xscpu64/x128)
+ *  MMC64_flashjumper   (x64/x64sc/xscpu64/x128)
+ *  MMC64_revision      (x64/x64sc/xscpu64/x128)
+ *  MMC64imagefilename  (x64/x64sc/xscpu64/x128)
+ *  MMC64_RO            (x64/x64sc/xscpu64/x128)
+ *  MMC64_sd_type       (x64/x64sc/xscpu64/x128)
+ *  MMC64ClockPort      (x64/x64sc/xscpu64/x128)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -228,7 +229,7 @@ static GtkWidget *create_mmc64_jumper_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create("MMC64_flashjumper",
+    check = vice_gtk3_resource_check_button_new("MMC64_flashjumper",
             "Enable flash jumper");
     return check;
 }
@@ -304,7 +305,7 @@ static GtkWidget *create_bios_image_widget(GtkWidget *parent)
     gtk_widget_set_hexpand(bios_filename_widget, TRUE);
     g_object_set(label, "margin-left", 16, NULL);
     bios_browse_widget = gtk_button_new_with_label("Browse ...");
-    bios_write_widget = vice_gtk3_resource_check_button_create(
+    bios_write_widget = vice_gtk3_resource_check_button_new(
             "MMC64_bios_write", "Enable BIOS image writes");
     g_object_set(bios_write_widget, "margin-left", 16, NULL);
 
@@ -351,7 +352,7 @@ static GtkWidget *create_card_image_widget(GtkWidget *parent)
     browse = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    card_writes = vice_gtk3_resource_check_button_create("MMC64_RO",
+    card_writes = vice_gtk3_resource_check_button_new("MMC64_RO",
             "Enable SD/MMC card read-only");
     g_object_set(card_writes, "margin-left", 16, "margin-top", 8, NULL);
     gtk_grid_attach(GTK_GRID(grid), card_writes, 0, 2, 3, 1);

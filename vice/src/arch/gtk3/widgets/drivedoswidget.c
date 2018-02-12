@@ -1,14 +1,15 @@
-/**
+/** \file   drivedoswidget.c
  * \brief   Drive DOS expansions widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  Drive[8-11]ProfDos
  *  Drive[8-11]StarDOS
  *  Drive[8-11]SuperCard
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -56,7 +57,8 @@ static GtkWidget *create_dos_check_button(int unit, const char *dos,
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create_sprintf("Drive%d%s", label, unit, dos);
+    check = vice_gtk3_resource_check_button_new_sprintf(
+            "Drive%d%s", label, unit, dos);
     g_object_set(check, "margin-left", 16, NULL);
     return check;
 }

@@ -1,4 +1,4 @@
-/**
+/** \file   settings_monitor.c
  * \brief   GTK3 monitor setting dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -57,9 +57,9 @@ GtkWidget *settings_monitor_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
 
-    keep_open = vice_gtk3_resource_check_button_create("KeepMonitorOpen",
+    keep_open = vice_gtk3_resource_check_button_new("KeepMonitorOpen",
             "Keep monitor open");
-    server_enable = vice_gtk3_resource_check_button_create("MonitorServer",
+    server_enable = vice_gtk3_resource_check_button_new("MonitorServer",
             "Enable remote monitor");
     label = gtk_label_new("Server address");
     /* align with the rest, more or less */

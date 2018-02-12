@@ -1,8 +1,9 @@
-/**
+/** \file   settings_video.c
  * \brief   Widget to control video settings
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * TODO:    Add emu-support to the following list (ie x64, xvic, etc)
  *
  * Controls the following resource(s):
  *  CrtcDoubleSize
@@ -39,7 +40,9 @@
  *  TrueAspectRatio
  *
  *  (see included widgets for more resources)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -123,7 +126,7 @@ static void on_destroy(GtkWidget *widget)
 
 static GtkWidget *create_double_size_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sDoubleSize", "Double size",
             chip_name[index]);
 }
@@ -131,7 +134,7 @@ static GtkWidget *create_double_size_widget(int index)
 
 static GtkWidget *create_double_scan_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sDoubleScan", "Double scan",
             chip_name[index]);
 }
@@ -139,7 +142,7 @@ static GtkWidget *create_double_scan_widget(int index)
 
 static GtkWidget *create_video_cache_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sVideoCache", "Video cache",
             chip_name[index]);
 }
@@ -147,7 +150,7 @@ static GtkWidget *create_video_cache_widget(int index)
 
 static GtkWidget *create_vert_stretch_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sStretchVertical","Stretch vertically",
             chip_name[index]);
 }
@@ -155,7 +158,7 @@ static GtkWidget *create_vert_stretch_widget(int index)
 
 static GtkWidget *create_audio_leak_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sAudioLeak", "Audio leak emulation",
             chip_name[index]);
 }
@@ -163,7 +166,7 @@ static GtkWidget *create_audio_leak_widget(int index)
 
 static GtkWidget *create_sprite_sprite_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sCheckSsColl", "Sprite-sprite collisions",
             chip_name[index]);
 }
@@ -171,7 +174,7 @@ static GtkWidget *create_sprite_sprite_widget(int index)
 
 static GtkWidget *create_sprite_background_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sCheckSbColl", "Sprite-background collisions",
             chip_name[index]);
 }
@@ -179,7 +182,7 @@ static GtkWidget *create_sprite_background_widget(int index)
 
 static GtkWidget *create_vsp_bug_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sVSPBug", "VSP bug emulation",
             chip_name[index]);
 }
@@ -187,7 +190,7 @@ static GtkWidget *create_vsp_bug_widget(int index)
 
 static GtkWidget *create_hw_scale_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create_sprintf(
+    return vice_gtk3_resource_check_button_new_sprintf(
             "%sHwScale", "Hardware scaling",
             chip_name[index]);
 }
@@ -195,13 +198,13 @@ static GtkWidget *create_hw_scale_widget(int index)
 
 static GtkWidget *create_keep_aspect_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "KeepAspectRatio", "Keep aspect ratio");
 }
 
 static GtkWidget *create_true_aspect_widget(int index)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "TrueAspectRatio", "True aspect ratio");
 }
 

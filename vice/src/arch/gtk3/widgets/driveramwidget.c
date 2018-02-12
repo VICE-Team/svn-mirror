@@ -1,8 +1,7 @@
-/**
+/** \file   driveramwidget.c
  * \brief   Drive RAM expansions widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  Drive[8-11]RAM2000 (1540, 1541 and 1541-II)
@@ -10,7 +9,9 @@
  *  Drive[8-11]RAM6000 (1540, 1541, 1541-II, 1570, 1571 and 1751CR)
  *  Drive[8-11]RAM8000 (1540, 1541 and 1541-II)
  *  Drive[8-11]RAMA000 (1540, 1541 and 1541-II)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -67,7 +68,7 @@ static GtkWidget *create_ram_check_button(int unit, unsigned int base)
     char label[256];
 
     g_snprintf(label, 256, "$%04X-$%04X RAM", base, base + 0x1fff);
-    check = vice_gtk3_resource_check_button_create_sprintf("Drive%dRAM%04X", label,
+    check = vice_gtk3_resource_check_button_new_sprintf("Drive%dRAM%04X", label,
             unit, base);
     g_object_set(check, "margin-left", 16, NULL);
     return check;

@@ -1,15 +1,15 @@
-/**
+/** \file   driveoptionswidget.c
  * \brief   Drive options widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  IECDevice[8-11]     (only x64/x64sc/xscpu64/x64dtv/x128/xplus/xvic)
+ *  IECDevice[8-11]             (only x64/x64sc/xscpu64/x64dtv/x128/xplus/xvic)
  *  AttachDevice[8-11]Readonly
  *  Drive[8-11]RTCSave
- *
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -54,7 +54,7 @@ static GtkWidget *create_iec_check_button(int unit)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create_sprintf(
+    check = vice_gtk3_resource_check_button_new_sprintf(
             "IECDevice%d", "IEC Device", unit);
     return check;
 }
@@ -62,7 +62,7 @@ static GtkWidget *create_iec_check_button(int unit)
 
 static GtkWidget *create_readonly_check_button(int unit)
 {
-    return vice_gtk3_resource_check_button_create_sprintf("AttachDevice%dReadonly",
+    return vice_gtk3_resource_check_button_new_sprintf("AttachDevice%dReadonly",
             "Read Only", unit);
 }
 
@@ -73,7 +73,7 @@ static GtkWidget *create_rtc_check_button(int unit)
     GtkWidget *check;
     int drive_type;
 
-    check = vice_gtk3_resource_check_button_create_sprintf("Drive%dRTCSave",
+    check = vice_gtk3_resource_check_button_new_sprintf("Drive%dRTCSave",
             "RTC Save", unit);
 
     drive_type = ui_get_drive_type(unit);

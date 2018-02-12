@@ -1,4 +1,4 @@
-/**
+/** \file   settings_mouse.c
  * \brief   Mouse settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -97,13 +97,13 @@ GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
     g_object_set(layout, "margin", 16, NULL);
 
     if (machine_class == VICE_MACHINE_C64DTV) {
-        ps2_enable = vice_gtk3_resource_check_button_create("ps2mouse",
+        ps2_enable = vice_gtk3_resource_check_button_new("ps2mouse",
                 "Enable PS/2 mouse on Userport");
         gtk_grid_attach(GTK_GRID(layout), ps2_enable, 0, row, 1, 1);
         row++;
     }
 
-    mouse_grab = vice_gtk3_resource_check_button_create(
+    mouse_grab = vice_gtk3_resource_check_button_new(
             "Mouse", "Enable mouse grab");
     gtk_grid_attach(GTK_GRID(layout), mouse_grab, 0, row, 1, 1);
     row++;
@@ -116,7 +116,7 @@ GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
         case VICE_MACHINE_VIC20:    /* fall through */
         case VICE_MACHINE_PLUS4:    /* fall through */
         case VICE_MACHINE_CBM5x0:
-            mouse_save = vice_gtk3_resource_check_button_create(
+            mouse_save = vice_gtk3_resource_check_button_new(
                     "SmartMouseRTCSave", "Enable SmartMouse RTC Saving");
             gtk_grid_attach(GTK_GRID(layout), mouse_save, 0, row, 1, 1);
             row++;

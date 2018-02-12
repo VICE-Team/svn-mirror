@@ -31,23 +31,13 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-/* deprecated API */
-GtkWidget * vice_gtk3_resource_check_button_create(const char *resource,
-                                                   const char *label);
-GtkWidget * vice_gtk3_resource_check_button_create_sprintf(const char *fmt,
-                                                          const char *label,
-                                                          ...);
-gboolean vice_gtk3_resource_check_button_update(GtkWidget *check, gboolean value);
-
-
-/* proper API */
-
 GtkWidget * vice_gtk3_resource_check_button_new(const char *resource,
                                                 const char *label);
 
 GtkWidget * vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
                                                         const char *label,
                                                         ...);
+
 gboolean vice_gtk3_resource_check_button_set(GtkWidget *check, gboolean value);
 
 gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest);

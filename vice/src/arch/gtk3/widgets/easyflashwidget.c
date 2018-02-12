@@ -1,14 +1,15 @@
-/**
+/** \file   easyflashwidget.c
  * \brief   Widget to control Easy Flash resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  EasyFlashJumper
  *  EasyFlashWriteCRT
  *  EasyFlashOptimizeCRT
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -102,11 +103,11 @@ GtkWidget *easyflash_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    jumper = vice_gtk3_resource_check_button_create(
+    jumper = vice_gtk3_resource_check_button_new(
             "EasyFlashJumper", "Set Easy Flash jumper");
-    write_crt = vice_gtk3_resource_check_button_create(
+    write_crt = vice_gtk3_resource_check_button_new(
             "EasyFlashWriteCRT", "Save image when changed");
-    optimize_crt = vice_gtk3_resource_check_button_create(
+    optimize_crt = vice_gtk3_resource_check_button_new(
             "EasyFlashOptimizeCRT", "Optimize image when saving");
 
     gtk_grid_attach(GTK_GRID(grid), jumper, 0, 0, 1, 1);

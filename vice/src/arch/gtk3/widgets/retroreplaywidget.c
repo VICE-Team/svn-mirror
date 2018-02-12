@@ -1,16 +1,17 @@
-/**
+/** \file   retroreplaywidget.c
  * \brief   Widget to control Retro Replay resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  RRFlashJumper (x64/x64sc/xscpu64/x128)
- *  RRBankJumper (x64/x64sc/xscpu64/x128)
- *  RRBiosWrite (x64/x64sc/xscpu64/x128)
- *  RRrevision (x64/x64sc/xscpu64/x128)
- *  RRClockPort (x64/x64sc/xscpu64/x128)
- *
+ *  RRFlashJumper   (x64/x64sc/xscpu64/x128)
+ *  RRBankJumper    (x64/x64sc/xscpu64/x128)
+ *  RRBiosWrite     (x64/x64sc/xscpu64/x128)
+ *  RRrevision      (x64/x64sc/xscpu64/x128)
+ *  RRClockPort     (x64/x64sc/xscpu64/x128)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -119,12 +120,12 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* RRFlashJumper */
-    flash = vice_gtk3_resource_check_button_create("RRFlashJumper",
+    flash = vice_gtk3_resource_check_button_new("RRFlashJumper",
             "Enable flash jumper");
     gtk_grid_attach(GTK_GRID(grid), flash, 0, 0, 1, 1);
 
     /* RRBankJumper */
-    bank = vice_gtk3_resource_check_button_create("RRBankJumper",
+    bank = vice_gtk3_resource_check_button_new("RRBankJumper",
             "Enable bank jumper");
     gtk_grid_attach(GTK_GRID(grid), bank, 0, 1, 1, 1);
 
@@ -146,7 +147,7 @@ GtkWidget *retroreplay_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), cp_combo, 2, 1, 1, 1);
 
     /* RRBiosWrite */
-    bios_write = vice_gtk3_resource_check_button_create("RRBiosWrite",
+    bios_write = vice_gtk3_resource_check_button_new("RRBiosWrite",
             "Write back RR Flash ROM image automatically");
     gtk_grid_attach(GTK_GRID(grid), bios_write, 0, 2, 2, 1);
 

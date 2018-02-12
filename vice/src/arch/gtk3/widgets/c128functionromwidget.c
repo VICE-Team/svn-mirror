@@ -1,11 +1,18 @@
-/**
+/** \file   c128functionromwidget.c
  * \brief   Widget to control C128 function roms
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *
+ *  InternalFunctionROM         (x128)
+ *  InternalFunctionName        (x128)
+ *  InternalFunctionROMRTCSave  (x128)
+ *  ExternalFunctionROM         (x128)
+ *  ExternalFunctionName        (x128)
+ *  ExternalFunctionROMRTCSave  (x128)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -154,7 +161,7 @@ static GtkWidget *create_rom_widget(GtkWidget *parent, const char *prefix)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), create_rom_file_widget(prefix), 1, 2, 1, 1);
 
-    rtc = vice_gtk3_resource_check_button_create_sprintf("%sFunctionROMRTCSave",
+    rtc = vice_gtk3_resource_check_button_new_sprintf("%sFunctionROMRTCSave",
             "Save RTC data", prefix);
     g_object_set(rtc, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), rtc, 0, 3, 3, 1);

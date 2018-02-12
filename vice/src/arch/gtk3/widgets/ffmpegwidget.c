@@ -1,8 +1,7 @@
-/**
+/** \file   ffmpegwidget.c
  * \brief   FFMPEG media recording options dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  FFMPEGFormat
@@ -11,7 +10,9 @@
  *  FFMPEGAudioCodec
  *  FFMPEGVideoCodec
  *  FFMPEGVideoHalveFramerate
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -546,7 +547,7 @@ GtkWidget *ffmpeg_widget_create(void)
             3, 2, 1, 1);
 
     /* half-FPS widget */
-    fps = vice_gtk3_resource_check_button_create("FFMPEGVideoHalveFramerate",
+    fps = vice_gtk3_resource_check_button_new("FFMPEGVideoHalveFramerate",
             "Half framerate (25/30 FPS)"),
     gtk_widget_set_halign(fps, GTK_ALIGN_START);
     g_object_set(fps, "margin-left", 16, NULL);

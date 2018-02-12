@@ -18,6 +18,9 @@
  *  // restore widget & resource to their initial state
  *  vice_gtk3_resource_check_button_reset(check);
  *
+ *  // restore widget & resource to the resource's factory value
+ *  vice_gtk3_resource_check_button_factory(check);
+ *
  * \endcode
  */
 
@@ -178,18 +181,6 @@ GtkWidget *vice_gtk3_resource_check_button_new(const char *resource,
 }
 
 
-/** \brief  Create check button to toggle \a resource
- *
- * \deprecated  Use vice_gtk3_resource_button_new()
- */
-GtkWidget *vice_gtk3_resource_check_button_create(const char *resource,
-                                                  const char *label)
-{
-    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_check_button_new()\n");
-    return vice_gtk3_resource_check_button_new(resource, label);
-}
-
-
 /** \brief  Create check button to toggle a resource
  *
  * Creates a check button to toggle a resource. Makes a heap-allocated copy
@@ -212,27 +203,6 @@ GtkWidget *vice_gtk3_resource_check_button_new_sprintf(const char *fmt,
     va_list args;
     char *resource;
 
-    check = gtk_check_button_new_with_label(label);
-
-    va_start(args, label);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(check), "ResourceName", (gpointer)resource);
-    va_end(args);
-
-    return resource_check_button_new_helper(check);
-}
-
-/** \deprecated Use vice_gtk3_resource_check_button_new_sprintf()
- */
-GtkWidget *vice_gtk3_resource_check_button_create_sprintf(const char *fmt,
-                                                       const char *label,
-                                                       ...)
-{
-    GtkWidget *check;
-    va_list args;
-    char *resource;
-
-    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_check_button_new_sprintf()\n");
     check = gtk_check_button_new_with_label(label);
 
     va_start(args, label);
@@ -280,14 +250,6 @@ gboolean vice_gtk3_resource_check_button_get(GtkWidget *widget, gboolean *dest)
 }
 
 
-/** \deprecated */
-gboolean vice_gtk3_resource_check_button_update(GtkWidget *widget, gboolean value)
-{
-    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_check_button_set()\n");
-    return vice_gtk3_resource_check_button_set(widget, value);
-}
-
-
 /** \brief  Reset check button to factory state
  *
  * \param[in,out]   widget  resource check button widget
@@ -307,6 +269,13 @@ gboolean vice_gtk3_resource_check_button_factory(GtkWidget *widget)
 }
 
 
+
+/** \brief  Reset \a widget to the state it was when it was created
+ *
+ * \param[in,out]   widget  resource check button widget
+ *
+ * \return  bool
+ */
 gboolean vice_gtk3_resource_check_button_reset(GtkWidget *widget)
 {
     int orig;

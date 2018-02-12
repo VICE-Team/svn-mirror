@@ -1,13 +1,13 @@
-/**
+/** \file   settings_io.c
  * \brief   I/O extension settings that don't go/fit into subwidgets
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  IOCollisionHandling (all except vsid)
- *  CartridgeReset (all except vsid)
- *  PETHRE (xpet)
- *  DiagPin (xpet)
+ *  CartridgeReset      (all except vsid)
+ *  PETHRE              (xpet)
+ *  DiagPin             (xpet)
  */
 
 /*
@@ -108,7 +108,7 @@ static GtkWidget *create_cart_reset_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create("CartridgeReset",
+    check = vice_gtk3_resource_check_button_new("CartridgeReset",
             "Reset machine on cartridge change");
     g_object_set(check, "margin-left", 16, NULL);
     return check;
@@ -166,7 +166,7 @@ static void create_c64dtv_layout(GtkWidget *grid)
 {
     GtkWidget *hummer;
 
-    hummer = vice_gtk3_resource_check_button_create("HummerADC",
+    hummer = vice_gtk3_resource_check_button_new("HummerADC",
             "Enable Hummer ADC");
     g_object_set(hummer, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), hummer, 0, 1, 3, 1);

@@ -1,14 +1,15 @@
-/**
+/** \file   gmod2widget.c
  * \brief   Widget to control GMod2 resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  GMOD2EEPROMImage (x64/x64sc/xscpu64/x128)
- *  GMOD2EEPROMRW (x64/x64sc/xscpu64/x128)
- *  GMod2FlashWrite (x64/x64sc/xscpu64/x128)
- *
+ *  GMOD2EEPROMImage    (x64/x64sc/xscpu64/x128)
+ *  GMOD2EEPROMRW       (x64/x64sc/xscpu64/x128)
+ *  GMod2FlashWrite     (x64/x64sc/xscpu64/x128)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -32,24 +33,14 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+#include "vice_gtk3.h"
 #include "machine.h"
 #include "resources.h"
-#include "debug_gtk3.h"
-#include "basewidgets.h"
-#include "widgethelpers.h"
-#include "basedialogs.h"
-#include "openfiledialog.h"
-#include "savefiledialog.h"
 #include "cartridge.h"
 #include "cartimagewidget.h"
 #include "carthelpers.h"
 
 #include "gmod2widget.h"
-
-#if 0
-static int (*gmod2_save_func)(int, const char *) = NULL;
-static int (*gmod2_flush_func)(int) = NULL;
-#endif
 
 
 /** \brief  Handler for the "clicked" event of the Save Image button
@@ -128,7 +119,7 @@ static GtkWidget *create_cart_image_widget(void)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    write_back = vice_gtk3_resource_check_button_create("GMod2FlashWrite",
+    write_back = vice_gtk3_resource_check_button_new("GMod2FlashWrite",
                 "Save image when changed");
     g_object_set(write_back, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 1, 1);
@@ -179,7 +170,7 @@ static GtkWidget *create_eeprom_image_widget(void)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    write_enable = vice_gtk3_resource_check_button_create("GMOD2EEPROMRW",
+    write_enable = vice_gtk3_resource_check_button_new("GMOD2EEPROMRW",
             "Enable writes to GMod2 EEPROM image");
     g_object_set(write_enable, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), write_enable, 0, 2, 3, 1);

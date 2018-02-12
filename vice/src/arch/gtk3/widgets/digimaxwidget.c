@@ -1,13 +1,14 @@
-/**
+/** \file   digimaxwidget.c
  * \brief   DigiMAX widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  DIGIMAX (x64/x64sc/xscpu64/x128/xpet)
+ *  DIGIMAX     (x64/x64sc/xscpu64/x128/xpet)
  *  DIGIMAXbase (x64/x64sc/xscpu64/x128/xpet)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -101,7 +102,7 @@ GtkWidget *digimax_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    digimax = vice_gtk3_resource_check_button_create("DIGIMAX", "Enable DIGIMAX");
+    digimax = vice_gtk3_resource_check_button_new("DIGIMAX", "Enable DIGIMAX");
     gtk_grid_attach(GTK_GRID(grid), digimax, 0, 0, 1, 1);
 
     resources_get_int("DIGIMAXbase", &current);

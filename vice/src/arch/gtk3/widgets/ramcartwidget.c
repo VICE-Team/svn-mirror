@@ -1,8 +1,7 @@
-/**
+/** \file   ramcartwidget.c
  * \brief   Widget to control RamCart resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  RAMCART
@@ -10,7 +9,9 @@
  *  RAMCARTfilename
  *  RAMCARTImageWrite
  *  RAMCART_RO
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -65,7 +66,7 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
  */
 static GtkWidget *create_ramcart_enable_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "RAMCART", "Enable RAMCART expansion");
 }
 
@@ -76,7 +77,7 @@ static GtkWidget *create_ramcart_enable_widget(void)
  */
 static GtkWidget *create_ramcart_readonly_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("RAMCART_RO",
+    return vice_gtk3_resource_check_button_new("RAMCART_RO",
             "RAMCART contents are read only");
 }
 

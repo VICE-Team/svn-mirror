@@ -1,4 +1,4 @@
-/**
+/** \file   settings_mouse.h
  * \brief   Mouse settings widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

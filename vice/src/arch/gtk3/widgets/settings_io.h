@@ -1,4 +1,4 @@
-/**
+/** \file   settings_io.h
  * \brief   I/O extension settings that don't go/fit into subwidgets - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

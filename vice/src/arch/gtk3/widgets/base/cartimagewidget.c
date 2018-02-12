@@ -1,4 +1,4 @@
-/**
+/** \file   cartimagewidget.c
  * \brief   Widget to control load/save/flush for cart images
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -197,7 +197,7 @@ GtkWidget *cart_image_widget_create(
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 1, 1, 1);
 
-    auto_save = vice_gtk3_resource_check_button_create(resource_write,
+    auto_save = vice_gtk3_resource_check_button_new(resource_write,
             "Write image on image detach/emulator quit");
     g_object_set(auto_save, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), auto_save, 0, 2, 2, 1);

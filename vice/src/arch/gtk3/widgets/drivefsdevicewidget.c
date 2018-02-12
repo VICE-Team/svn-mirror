@@ -1,8 +1,7 @@
-/**
+/** \file   drivefsdevicewidget.c
  * \brief   Drive file system device widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  FileSystemDevice[8-11]
@@ -10,7 +9,9 @@
  *  FSDevice[8-11]SaveP00
  *  FSDevice[8-11]HideCBMFiles
  *  FSDevice[8-11]Dir
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -133,15 +134,15 @@ static GtkWidget *create_p00_widget(int unit)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
 
     g_snprintf(resource, 256, "FSDevice%dConvertP00", unit);
-    p00_convert = vice_gtk3_resource_check_button_create(resource, "Convert P00");
+    p00_convert = vice_gtk3_resource_check_button_new(resource, "Convert P00");
     gtk_grid_attach(GTK_GRID(grid), p00_convert, 0, 0, 1, 1);
 
     g_snprintf(resource, 256, "FSDevice%dSaveP00", unit);
-    p00_save = vice_gtk3_resource_check_button_create(resource, "Save P00");
+    p00_save = vice_gtk3_resource_check_button_new(resource, "Save P00");
     gtk_grid_attach(GTK_GRID(grid), p00_save, 1, 0, 1, 1);
 
     g_snprintf(resource, 256, "FSDevice%dHideCBMFiles", unit);
-    p00_only = vice_gtk3_resource_check_button_create(resource, "Hide non-P00");
+    p00_only = vice_gtk3_resource_check_button_new(resource, "Hide non-P00");
     gtk_grid_attach(GTK_GRID(grid), p00_only, 2, 0, 1, 1);
 
     gtk_widget_show_all(grid);

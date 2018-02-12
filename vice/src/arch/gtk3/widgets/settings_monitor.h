@@ -1,4 +1,4 @@
-/**
+/** \file   settings_monitor.h
  * \brief   GTK3 monitor setting dialog - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

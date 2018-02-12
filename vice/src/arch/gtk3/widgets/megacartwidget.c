@@ -1,13 +1,14 @@
-/**
+/** \file   megacartwidget.c
  * \brief   VIC-20 Mega Cart widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  MegaCartNvRAMfilename (xvic)
- *  MegaCartNvRAMWriteBack (xvic)
- *
+ *  MegaCartNvRAMfilename   (xvic)
+ *  MegaCartNvRAMWriteBack  (xvic)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -95,7 +96,7 @@ GtkWidget *mega_cart_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), browse, 2, 0, 1, 1);
 
-    write_back = vice_gtk3_resource_check_button_create(
+    write_back = vice_gtk3_resource_check_button_new(
             "MegaCartNvRAMWriteBack", "Enable Mega Cart NvRAM write back");
     gtk_grid_attach(GTK_GRID(grid), write_back, 0, 1, 3, 1);
 

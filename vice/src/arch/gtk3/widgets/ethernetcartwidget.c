@@ -1,14 +1,15 @@
-/**
+/** \file   ethernetcartwidget.c
  * \brief   Widget to control ethernet cartridge settings
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  ETHERNETCART_ACTIVE (x64/x64s/xscpu64/x128/xvic)
- *  ETHERNETCARTMode (x64/x64s/xscpu64/x128)
- *  ETHERNETCARTBase (x64/x64s/xscpu64/x128/xvic)
- *
+ *  ETHERNETCARTMode    (x64/x64s/xscpu64/x128)
+ *  ETHERNETCARTBase    (x64/x64s/xscpu64/x128/xvic)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -179,7 +180,7 @@ GtkWidget *ethernet_cart_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable_widget = vice_gtk3_resource_check_button_create(
+    enable_widget = vice_gtk3_resource_check_button_new(
             "ETHERNETCART_ACTIVE", "Enable ethernet cartridge");
     gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 1, 1);
 

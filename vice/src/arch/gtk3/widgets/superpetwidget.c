@@ -1,8 +1,9 @@
-/**
+/** \file   superpetwidget.c
  * \brief   Widget to control various SuperPET related resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * TODO: clean up this table, remove resource descriptions, add emus:
  *
  * Controls the following resource(s):
  *  SuperPET        - Enable/disable SuperPET I/O and 6809 CPU
@@ -17,7 +18,9 @@
  *  H6809RomFName   - ROM file for $F000-$FFFF
  *
  * See the widgets/aciawidget.c file for additional resources.
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -149,7 +152,7 @@ static void on_superpet_rom_browse_clicked(GtkWidget *widget, gpointer user_data
  */
 static GtkWidget *create_superpet_enable_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("SuperPET",
+    return vice_gtk3_resource_check_button_new("SuperPET",
             "I/O Enable (disables x96)");
 }
 
@@ -234,7 +237,7 @@ static GtkWidget *create_superpet_rom_widget(void)
  */
 static GtkWidget *create_superpet_9xxx_ram_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("Ram9", "$9XXX as RAM");
+    return vice_gtk3_resource_check_button_new("Ram9", "$9XXX as RAM");
 }
 
 
@@ -244,7 +247,7 @@ static GtkWidget *create_superpet_9xxx_ram_widget(void)
  */
 static GtkWidget *create_superpet_axxx_ram_widget(void)
 {
-    return vice_gtk3_resource_check_button_create("RamA", "$AXXX as RAM");
+    return vice_gtk3_resource_check_button_new("RamA", "$AXXX as RAM");
 }
 
 

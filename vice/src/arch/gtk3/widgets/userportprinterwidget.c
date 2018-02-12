@@ -1,15 +1,16 @@
-/**
+/** \file   userportprinterwidget.c
  * \brief   Widget to control userport printer
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  PrinterUserPort
  *  PrinterUserportDriver
  *  PrinterUserportOutput
  *  PrinterUserportTextDevice
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -115,7 +116,7 @@ static GtkWidget *create_userport_emulation_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create("PrinterUserPort",
+    check = vice_gtk3_resource_check_button_new("PrinterUserPort",
             "Enable userport printer emulation");
     g_object_set(check, "margin-left", 16, NULL);
     return check;

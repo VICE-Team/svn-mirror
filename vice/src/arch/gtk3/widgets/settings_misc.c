@@ -1,4 +1,4 @@
-/**
+/** \file   settings_misc.c
  * \brief   Widget to control resources that are hard to place properly
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -57,7 +57,7 @@ GtkWidget *settings_misc_widget_create(GtkWidget *widget)
     GtkWidget *grid;
     GtkWidget *browser = html_browser_widget_create();
     GtkWidget *cwd_widget = cwd_widget_create();
-    GtkWidget *vdev_widget = vice_gtk3_resource_check_button_create("VirtualDevices",
+    GtkWidget *vdev_widget = vice_gtk3_resource_check_button_new("VirtualDevices",
             "Enable virtual devices");
     GtkWidget *jam_widget = jam_action_widget_create();
 

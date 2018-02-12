@@ -1,14 +1,15 @@
-/**
+/** \file   petreuwidget.c
  * \brief   PET RAM expansion module widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  PETREU (xpet)
- *  PETREUsize (xpet)
- *  PETREUfilename (xpet)
- *
+ *  PETREU          (xpet)
+ *  PETREUsize      (xpet)
+ *  PETREUfilename  (xpet)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -117,7 +118,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     /* REU enable */
-    enable = vice_gtk3_resource_check_button_create("PETREU",
+    enable = vice_gtk3_resource_check_button_new("PETREU",
             "Enable PET RAM Expansion Unit");
     g_signal_connect(enable, "toggled", G_CALLBACK(on_reu_toggled), NULL);
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);

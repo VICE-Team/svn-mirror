@@ -1,4 +1,4 @@
-/** \file   settings_rs232t.c
+/** \file   settings_rs232.c
  * \brief   Widget to control various RS232 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -182,7 +182,7 @@ static GtkWidget *create_acia_enable_widget(void)
         case VICE_MACHINE_SCPU64:   /* fall through */
         case VICE_MACHINE_C128:     /* fall through */
         case VICE_MACHINE_VIC20:
-            return vice_gtk3_resource_check_button_create("Acia1Enable",
+            return vice_gtk3_resource_check_button_new("Acia1Enable",
                     "Enable ACIA RS232 interface emulation");
         default:
             return NULL;
@@ -418,7 +418,7 @@ static GtkWidget *create_userport_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 4, 1);
 
-    rsuser_enable_widget = vice_gtk3_resource_check_button_create(
+    rsuser_enable_widget = vice_gtk3_resource_check_button_new(
             "RsUserEnable", "Enable Userport RS232 emulation");
     gtk_widget_set_halign(rsuser_enable_widget, GTK_ALIGN_START);
     g_object_set(rsuser_enable_widget, "margin-left", 16, NULL);

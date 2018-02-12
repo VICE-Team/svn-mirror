@@ -2,9 +2,7 @@
  * \brief   Settings for SID emulation
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- */
-
-/*
+ *
  * Controls the following resource(s):
  *  SidEngine
  *  SidStereo
@@ -15,8 +13,10 @@
  *  SidFilters
  *  SidStereoAddressStart
  *  SidTripleAddressStart
- *  SidQuadAddressStart
- *
+ *  SidQuadAddressStart     (all except vsid)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -607,7 +607,7 @@ GtkWidget *sid_sound_widget_create(GtkWidget *parent)
         row = 2;
     }
 
-    filters = vice_gtk3_resource_check_button_create("SidFilters",
+    filters = vice_gtk3_resource_check_button_new("SidFilters",
             "Enable SID filter emulation");
     gtk_grid_attach(GTK_GRID(layout), filters, 0, row, 3, 1);
 

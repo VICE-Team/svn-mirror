@@ -1,4 +1,4 @@
-/**
+/** \file   settings_controlport.c
  * \brief   Widget to control settings for control ports
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -141,7 +141,7 @@ static void *create_bbrtc_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create("BBRTCSave",
+    check = vice_gtk3_resource_check_button_new("BBRTCSave",
             "Save battery-backed real time clock data when changed");
     g_object_set(check, "margin-left", 16, NULL);
     return check;

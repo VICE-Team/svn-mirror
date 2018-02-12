@@ -1,13 +1,14 @@
-/**
+/** \file   vicioramwidget.c
  * \brief   VIC-20 I/O RAM widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  IO2RAM (xvic)
- *  IO3RAM (xvic)
- *
+ *  IO2RAM  (xvic)
+ *  IO3RAM  (xvic)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -54,11 +55,11 @@ GtkWidget *vic_ioram_widget_create(GtkWidget *parent)
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_create("IO2RAM",
+            vice_gtk3_resource_check_button_new("IO2RAM",
                 "Enable IO-2 RAM Cartridge ($9800-$9BFF)"),
             0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_create("IO3RAM",
+            vice_gtk3_resource_check_button_new("IO3RAM",
                 "Enable IO-3 RAM Cartridge ($9C00-$FBFF)"),
             0, 1, 1, 1);
 

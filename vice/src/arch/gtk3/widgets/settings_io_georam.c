@@ -1,4 +1,4 @@
-/**
+/** \file   settings_io_georam.c
  * \brief   Widget to control GEO-RAM resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -71,7 +71,7 @@ static GtkWidget *create_georam_ioswap_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create("GEORAMIOSwap",
+    check = vice_gtk3_resource_check_button_new("GEORAMIOSwap",
             "MasC=uarade I/O swap");
     return check;
 }

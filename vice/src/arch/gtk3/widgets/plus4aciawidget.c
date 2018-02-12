@@ -1,12 +1,13 @@
-/**
+/** \file   plus4aciawidget.c
  * \brief   Widget to control Plus 4 ACIA
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  Acia1Enable (xplus4)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -51,7 +52,7 @@ GtkWidget *plus4_acia_widget_create(GtkWidget *parent)
     grid = gtk_grid_new();
 
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_create("Acia1Enable",
+            vice_gtk3_resource_check_button_new("Acia1Enable",
                 "Enable ACIA"),
             0, 0, 1, 1);
     gtk_widget_show_all(grid);

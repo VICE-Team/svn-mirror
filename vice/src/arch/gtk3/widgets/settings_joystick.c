@@ -1,4 +1,4 @@
-/**
+/** \fil    settings_joystick.c
  * \brief   Widget to control settings for joysticks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -202,7 +202,7 @@ static GtkWidget *create_swap_userport_joysticks_button(void)
  */
 static GtkWidget *create_keyset_enable_checkbox(void)
 {
-    return vice_gtk3_resource_check_button_create("KeySetEnable",
+    return vice_gtk3_resource_check_button_new("KeySetEnable",
             "Enable user-defined keysets");
 }
 
@@ -213,7 +213,7 @@ static GtkWidget *create_keyset_enable_checkbox(void)
  */
 static GtkWidget *create_opposite_enable_checkbox(void)
 {
-    return vice_gtk3_resource_check_button_create("JoyOpposite",
+    return vice_gtk3_resource_check_button_new("JoyOpposite",
             "Allow opposite directions");
 }
 
@@ -226,7 +226,7 @@ static GtkWidget *create_userportjoy_enable_checkbox(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create("UserportJoy",
+    check = vice_gtk3_resource_check_button_new("UserportJoy",
             "Enable userport joysticks");
     /* extra handler to enable/disable the userport adapter widget */
     g_signal_connect(check, "toggled",

@@ -1,5 +1,5 @@
-/** \file   settings_rs232t.h
- * \brief   Widget to control various RS-232 resources -header
+/** \file   settings_rs232.h
+ * \brief   Widget to control various RS232 resources -header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */

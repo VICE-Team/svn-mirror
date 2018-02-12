@@ -1,13 +1,10 @@
-/**
+/** \file   driveoptionswidget.h
  * \brief   Drive options widget - header
  *
- * Controls the following resource(s):
- *  IECDevice[8-11]
- *  AttachDevice[8-11]Readonly
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

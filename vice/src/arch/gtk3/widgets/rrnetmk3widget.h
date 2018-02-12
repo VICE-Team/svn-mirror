@@ -1,11 +1,10 @@
-/**
+/** \file   rrnetmk3widget.h
  * \brief   Widget to control RRNet MK3 resources - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * See README for copyright notice.
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or

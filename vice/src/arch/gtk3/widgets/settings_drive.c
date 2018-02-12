@@ -1,15 +1,16 @@
-/**
+/** \file   settings_drive.c
  * \brief   Drive settings dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  DriveTrueEmulation
  *  DriveSoundEmulation
  *
  *  (for more, see used widgets)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -442,10 +443,10 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     wrapper = gtk_grid_new();
     g_object_set(wrapper, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(wrapper), 16);
-    tde = vice_gtk3_resource_check_button_create("DriveTrueEmulation",
+    tde = vice_gtk3_resource_check_button_new("DriveTrueEmulation",
             "True drive emulation");
     gtk_grid_attach(GTK_GRID(wrapper), tde, 0, 0, 1, 1);
-    sound = vice_gtk3_resource_check_button_create("DriveSoundEmulation",
+    sound = vice_gtk3_resource_check_button_new("DriveSoundEmulation",
             "Drive sound emulation");
     gtk_grid_attach(GTK_GRID(wrapper), sound, 1, 0, 1, 1);
 

@@ -1,17 +1,18 @@
-/**
- * \brief   Widget to map RAM into bank 15
+/** \file   cbm2rammappingwidget.c
+ * \brief   Widget to map RAM into bank 15 for CBM-II
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Ram08
- *  Ram1
- *  Ram2
- *  Ram4
- *  Ram6
- *  RamC
- *
+ *  Ram08   (xcbm5x0/xcbm2)
+ *  Ram1    (xcbm5x0/xcbm2)
+ *  Ram2    (xcbm5x0/xcbm2)
+ *  Ram4    (xcbm5x0/xcbm2)
+ *  Ram6    (xcbm5x0/xcbm2)
+ *  RamC    (xcbm5x0/xcbm2)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -77,7 +78,7 @@ GtkWidget *cbm2_ram_mapping_widget_create(void)
     for (i = 0; mappings[i].text != NULL; i++) {
         GtkWidget *check;
 
-        check = vice_gtk3_resource_check_button_create(mappings[i].resource,
+        check = vice_gtk3_resource_check_button_new(mappings[i].resource,
                 mappings[i].text);
         g_object_set(check, "margin-left", 16, NULL);
         gtk_grid_attach(GTK_GRID(grid), check, 0, i + 1, 1, 1);

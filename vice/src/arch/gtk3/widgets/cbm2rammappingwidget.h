@@ -1,9 +1,10 @@
-/**
- * \brief   Widget to map RAM into bank 15 - header
+/** \file   cbm2rammappingwidget.h
+ * \brief   Widget to map RAM into bank 15 for CBM-II - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

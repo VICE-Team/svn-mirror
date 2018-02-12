@@ -1,12 +1,13 @@
-/**
+/** \file   plus4digiblasterwidget.c
  * \brief   Widget to control Plus4 DigiBlaster
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  DIGIBLASTER (xplus4)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -52,7 +53,7 @@ GtkWidget *plus4_digiblaster_widget_create(GtkWidget *parent)
     grid = gtk_grid_new();
 
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_create("DIGIBLASTER",
+            vice_gtk3_resource_check_button_new("DIGIBLASTER",
                 "Enable Digiblaster add-on"),
             0, 0, 1, 1);
     gtk_widget_show_all(grid);

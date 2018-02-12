@@ -1,14 +1,15 @@
-/**
+/** \file   sidcartwidget.c
  * \brief   SID Cartidge widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  SidCart (xvic/xplus4/xpet)
  *  SidAddress (xvic/xplus4/xpet)
  *  SidClock (xvic/xplus4/xpet)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -132,7 +133,7 @@ static void on_sidcart_enable_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_sidcart_enable_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "SidCart", "Enable SID cartridge");
 }
 

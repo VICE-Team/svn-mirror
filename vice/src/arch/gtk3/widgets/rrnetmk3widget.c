@@ -1,15 +1,15 @@
-/**
+/** \file   rrnetmk3widget.c
  * \brief   Widget to control RRNet MK3 resourcs
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  RRNETMK3_flashjumper
  *  RRNETMK3_bios_write
- *
- * See README for copyright notice.
- *
+ */
+
+
+/*
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -97,12 +97,12 @@ GtkWidget *rrnetmk3_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    flash_jumper = vice_gtk3_resource_check_button_create(
+    flash_jumper = vice_gtk3_resource_check_button_new(
             "RRNETMK3_flashjumper", "Enable flash jumper");
     gtk_grid_attach(GTK_GRID(grid), flash_jumper, 0, 0, 1, 1);
 
     /* RRBiosWrite */
-    bios_write = vice_gtk3_resource_check_button_create("RRNETMK3_bios_write",
+    bios_write = vice_gtk3_resource_check_button_new("RRNETMK3_bios_write",
             "Write back RRNetMk3 Flash ROM image automatically");
     /* That's a very long sentence, I18N will enjoy this*/
     gtk_grid_attach(GTK_GRID(grid), bios_write, 0, 1, 1, 1);

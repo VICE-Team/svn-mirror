@@ -1,13 +1,14 @@
-/**
+/** \file   v364speechwidget.c
  * \brief   V364 Speech widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  SpeechEnabled (xplus4)
- *  SpeechImage (xplus4)
- *
+ *  SpeechEnabled   (xplus4)
+ *  SpeechImage     (xplus4)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -92,7 +93,7 @@ GtkWidget *v364_speech_widget_create(GtkWidget *parent)
     gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
 
-    enable = vice_gtk3_resource_check_button_create("SpeechEnabled",
+    enable = vice_gtk3_resource_check_button_new("SpeechEnabled",
             "Enable V364 Speech");
 
     gtk_grid_attach(GTK_GRID(grid), enable, 0, 0, 3, 1);

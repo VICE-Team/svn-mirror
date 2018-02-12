@@ -132,7 +132,7 @@ GtkWidget *c64dtv_flash_settings_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), rom_file_widget, 1, 0, 1, 1);
 
     /* DTV ROM R/W widget */
-    rom_write_widget = vice_gtk3_resource_check_button_create("c64dtvromrw",
+    rom_write_widget = vice_gtk3_resource_check_button_new("c64dtvromrw",
             "Enable writes to C64DTV ROM image");
     gtk_grid_attach(GTK_GRID(grid), rom_write_widget, 1, 1, 1,1);
 
@@ -144,7 +144,7 @@ GtkWidget *c64dtv_flash_settings_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), flash_dir_widget, 1, 2, 1, 1);
 
     /* Flash true hardware flash file system widget */
-    flash_hw_widget = vice_gtk3_resource_check_button_create("FlashTrueFS",
+    flash_hw_widget = vice_gtk3_resource_check_button_new("FlashTrueFS",
             "Enable true hardware flash file system");
     gtk_grid_attach(GTK_GRID(grid), flash_hw_widget, 1, 3, 1, 1);
 

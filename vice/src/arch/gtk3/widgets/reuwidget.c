@@ -1,8 +1,7 @@
-/**
+/** \file   reuwidget.c
  * \brief   Widget to control RAM Expansion Module resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  REU
@@ -10,7 +9,9 @@
  *  REUfilename
  *  REUImageWrite
  *  REUIOSwap (xvic)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -72,7 +73,7 @@ static GtkWidget *create_reu_ioswap_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create(
+    check = vice_gtk3_resource_check_button_new(
             "REUIOSwap", "MasC=uarade I/O swap");
     return check;
 }

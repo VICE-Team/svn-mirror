@@ -1,12 +1,13 @@
-/**
+/** \file   cpmwidget.c
  * \brief   Widget to control CP/M resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  CPMCart (x64/x64sc)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -51,7 +52,8 @@ GtkWidget *cpm_widget_create(GtkWidget *parent)
     grid = gtk_grid_new();
 
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_check_button_create("CPMCart", "Enable CP/M Cartridge"),
+            vice_gtk3_resource_check_button_new("CPMCart",
+                "Enable CP/M Cartridge"),
             0, 0, 1, 1);
     gtk_widget_show_all(grid);
     return grid;

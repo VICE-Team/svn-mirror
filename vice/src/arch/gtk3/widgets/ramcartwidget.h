@@ -1,9 +1,10 @@
-/**
+/** \file   ramcartwidget.h
  * \brief   Widget to control RAMCART resources - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

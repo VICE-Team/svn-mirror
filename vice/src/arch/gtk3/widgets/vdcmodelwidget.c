@@ -1,11 +1,14 @@
-/**
+/** \file   vdcmodelwidget.c
  * \brief   VDC settings widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *
+ *  VDCRevision (x128)
+ *  VDC64KB     (x128)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -90,7 +93,7 @@ static GtkWidget *create_64kb_widget(void)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create(
+    check = vice_gtk3_resource_check_button_new(
             "VDC64KB", "Enable 64KB video ram");
     g_object_set(check, "margin-left", 16, NULL);
     return check;

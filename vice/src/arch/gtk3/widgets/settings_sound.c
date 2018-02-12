@@ -1,9 +1,13 @@
-/**
+/** \file   settings_sound
  * \brief   Sound settings main widget for the settings dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Controls the following resource(s):
+ *  TODO
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -118,7 +122,7 @@ GtkWidget *settings_sound_create(GtkWidget *widget)
     outer = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     /* add checkbox for 'sound enabled' */
-    enabled_check = vice_gtk3_resource_check_button_create("Sound",
+    enabled_check = vice_gtk3_resource_check_button_new("Sound",
             "Enable sound playback");
     gtk_grid_attach(GTK_GRID(outer), enabled_check, 0, 0, 1, 1);
 

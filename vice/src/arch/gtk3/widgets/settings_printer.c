@@ -1,4 +1,4 @@
-/**
+/** \file   settings_printer.c
  * \brief   Widget to control printer settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -122,7 +122,7 @@ static GtkWidget *create_iec_widget(int device)
 {
     GtkWidget *check;
 
-    check = vice_gtk3_resource_check_button_create_sprintf("IECDevice%d",
+    check = vice_gtk3_resource_check_button_new_sprintf("IECDevice%d",
             "Enable IEC device", device);
     g_object_set(check, "margin-left", 16, NULL);
     return check;

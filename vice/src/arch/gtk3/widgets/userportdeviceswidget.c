@@ -1,19 +1,20 @@
-/**
+/** \file   userportdeviceswidget.c
  * \brief   Widget to select userport devices
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  Userport4bitSampler (x64/x64sc/xscpu64/x128/xcbm2)
- *  Userport8BSS (x64/x64sc/xscpu64/x128/xcbm2)
- *  UserportDAC (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet/plus4)
- *  UserportDIGIMAX (x64/x64sc/xscpu64/x128/xcbm2)
- *  Userport58321a (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
- *  Userport58321aSave (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
- *  UserportDS1307 (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
- *  UserportDS1307Save (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
- *
+ *  Userport8BSS        (x64/x64sc/xscpu64/x128/xcbm2)
+ *  UserportDAC         (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet/plus4)
+ *  UserportDIGIMAX     (x64/x64sc/xscpu64/x128/xcbm2)
+ *  Userport58321a      (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ *  Userport58321aSave  (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ *  UserportDS1307      (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ *  UserportDS1307Save  (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -96,7 +97,7 @@ static void on_ds1307_toggled(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_4bit_sampler_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "Userport4bitSampler", "Enable 4 bit sampler");
 }
 
@@ -107,7 +108,7 @@ static GtkWidget *create_4bit_sampler_widget(void)
  */
 static GtkWidget *create_8bit_stereo_sampler_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "Userport8BSS", "Enable 8 bit stereo sampler");
 }
 
@@ -118,7 +119,7 @@ static GtkWidget *create_8bit_stereo_sampler_widget(void)
  */
 static GtkWidget *create_dac_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "UserportDAC", "Enable 8 bit DAC");
 }
 
@@ -129,7 +130,7 @@ static GtkWidget *create_dac_widget(void)
  */
 static GtkWidget *create_digimax_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "UserportDIGIMAX", "Enable DIGIMAX");
 }
 
@@ -140,7 +141,7 @@ static GtkWidget *create_digimax_widget(void)
  */
 static GtkWidget *create_rtc_58321a_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "UserportRTC58321a", "Enable RTC (58321a)");
 }
 
@@ -151,7 +152,7 @@ static GtkWidget *create_rtc_58321a_widget(void)
  */
 static GtkWidget *create_rtc_58321a_save_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "UserportRTC58321aSave", "Enable RTC (58321a) saving");
 }
 
@@ -162,7 +163,7 @@ static GtkWidget *create_rtc_58321a_save_widget(void)
  */
 static GtkWidget *create_rtc_ds1307_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "UserportRTCDS1307", "Enable RTC (DS1307)");
 }
 
@@ -173,7 +174,7 @@ static GtkWidget *create_rtc_ds1307_widget(void)
  */
 static GtkWidget *create_rtc_ds1307_save_widget(void)
 {
-    return vice_gtk3_resource_check_button_create(
+    return vice_gtk3_resource_check_button_new(
             "UserportRTCDS1307Save", "Enable RTC (DS1307) saving");
 }
 

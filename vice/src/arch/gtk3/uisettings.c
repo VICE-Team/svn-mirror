@@ -1440,7 +1440,7 @@ static void on_tree_selection_changed(
  */
 static GtkWidget *create_save_on_exit_checkbox(void)
 {
-    return vice_gtk3_resource_check_button_create("SaveResourcesOnExit",
+    return vice_gtk3_resource_check_button_new("SaveResourcesOnExit",
             "Save settings on exit");
 }
 
@@ -1453,7 +1453,7 @@ static GtkWidget *create_save_on_exit_checkbox(void)
  */
 static GtkWidget *create_confirm_on_exit_checkbox(void)
 {
-    return vice_gtk3_resource_check_button_create("ConfirmOnExit",
+    return vice_gtk3_resource_check_button_new("ConfirmOnExit",
             "Confirm on exit");
 }
 
