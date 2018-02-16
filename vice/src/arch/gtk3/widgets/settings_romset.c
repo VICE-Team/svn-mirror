@@ -1,10 +1,10 @@
-/**
+/** \file   settings_romset.c
  * \brief   GTK3 ROM set widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following rescource(s):
+ *  (TODO)
  *
  */
 
@@ -298,7 +298,7 @@ static void on_pet_select_chargen(GtkWidget *widget, gpointer data)
 
     browser = gtk_grid_get_child_at(GTK_GRID(child_machine_roms), 1, 3);
     if (GTK_IS_GRID(browser)) {
-        vice_gtk3_resource_browser_update(browser, chargen);
+        vice_gtk3_resource_browser_set(browser, chargen);
     }
 }
 

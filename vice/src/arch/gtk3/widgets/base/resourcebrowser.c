@@ -315,22 +315,6 @@ gboolean vice_gtk3_resource_browser_get(GtkWidget *widget, const char **dest)
 }
 
 
-/** \brief  Set \a widget value to \a new
- *
- * \deprecated  Use vice_gtk3_resource_browser_set() instead
- *
- * \param[in,out]   widget  resource browser widget
- * \param[in]       new     new value for \a widget
- *
- * \return  bool
- */
-gboolean vice_gtk3_resource_browser_update(GtkWidget *widget, const char *new)
-{
-    debug_gtk3("DEPRECATED in favour of vice_gtk3_resource_browser_set()\n");
-    return vice_gtk3_resource_browser_set(widget, new);
-}
-
-
 /** \brief  Restore resource in \a widget to its original value
  *
  * \param[in,out]   widget  resource browser widget
