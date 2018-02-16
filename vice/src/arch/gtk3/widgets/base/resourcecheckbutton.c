@@ -7,6 +7,7 @@
  * construction the current resource value is stored in the widget to allow
  * resetting to default.
  *
+ * \section resource_check_button_example
  * \code{.c}
  *
  *  GtkWidget *check;
