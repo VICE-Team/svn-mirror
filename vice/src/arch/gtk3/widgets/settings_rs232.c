@@ -496,7 +496,7 @@ static GtkWidget *create_rs232_devices_widget(void)
     gtk_grid_attach(GTK_GRID(grid), dump_widget, 1, 3, 3, 1);
 
     label = create_indented_label("Command");
-    command_widget = vice_gtk3_resource_entry_full_create("RsDevice4");
+    command_widget = vice_gtk3_resource_entry_full_new("RsDevice4");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 4, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), command_widget, 1, 4, 3, 1);
 

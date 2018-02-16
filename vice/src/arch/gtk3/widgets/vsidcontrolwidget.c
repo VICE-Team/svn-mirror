@@ -204,8 +204,10 @@ GtkWidget *vsid_control_widget_create(void)
         gtk_button_set_always_show_image(GTK_BUTTON(button), TRUE);
         /* don't initialy focus on a button */
         gtk_widget_set_can_focus(button, FALSE);
+#if 0
         /* don't grab focus when clicked */
         gtk_widget_set_focus_on_click(button, FALSE);
+#endif
         gtk_grid_attach(GTK_GRID(grid), button, i, 0, 1,1);
         if (buttons[i].callback != NULL) {
             g_signal_connect(button, "clicked",

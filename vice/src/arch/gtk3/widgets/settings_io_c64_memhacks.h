@@ -1,4 +1,4 @@
-/**
+/** \file   settings_io_c64_memhacks.h
  * \brief   Widget to control C64 memory expansion hacks - header
  *
  * \author  BasWassink <b.wassink@ziggo.nl>

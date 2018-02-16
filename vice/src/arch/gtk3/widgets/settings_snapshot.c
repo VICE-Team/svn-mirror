@@ -1,4 +1,4 @@
-/**
+/** \file   settings_snapshot.c
  * \brief   Snapshot/recording settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -74,7 +74,7 @@ static void on_histdir_browse_clicked(GtkWidget *widget, gpointer user_data)
             "Select history directory", NULL, TRUE, current);
     if (filename != NULL) {
         debug_gtk3("Setting EventSnapshotDir to '%s'\n", filename);
-        vice_gtk3_resource_entry_full_update(histdir_entry, filename);
+        vice_gtk3_resource_entry_full_set(histdir_entry, filename);
         g_free(filename);
     }
 }
@@ -102,7 +102,7 @@ GtkWidget *settings_snapshot_widget_create(GtkWidget *parent)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
 
-    histdir_entry = vice_gtk3_resource_entry_full_create("EventSnapshotDir");
+    histdir_entry = vice_gtk3_resource_entry_full_new("EventSnapshotDir");
     gtk_widget_set_hexpand(histdir_entry, TRUE);
 
     histdir_browse = gtk_button_new_with_label("Browse ...");

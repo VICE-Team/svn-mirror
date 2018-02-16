@@ -71,7 +71,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
     filename = vice_gtk3_open_file_dialog("Open ROM file", NULL, NULL, NULL);
     if (filename != NULL) {
         debug_gtk3("got filename '%s'\n", filename);
-        vice_gtk3_resource_entry_full_update(GTK_WIDGET(data), filename);
+        vice_gtk3_resource_entry_full_set(GTK_WIDGET(data), filename);
         g_free(filename);
     }
 }
@@ -114,7 +114,7 @@ static GtkWidget *create_rom_file_widget(const char *prefix)
     /* TODO: create vice_gtk3_resource_entry_create_sprintf() */
     g_snprintf(buffer, 256, "%sFunctionName", prefix);
 
-    entry = vice_gtk3_resource_entry_full_create(buffer);
+    entry = vice_gtk3_resource_entry_full_new(buffer);
     gtk_widget_set_hexpand(entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 1, 1);
 

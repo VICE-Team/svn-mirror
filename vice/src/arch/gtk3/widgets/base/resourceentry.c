@@ -1,4 +1,4 @@
-/**
+/** \file   resourceentry.c
  * \brief   Text entry connected to a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -41,7 +41,8 @@
 
 /** \brief  Handler for the "destroy" event of the entry
  *
- * Frees the heap-allocated copy of the resource name.
+ * Frees the heap-allocated copy of the resource name and the value of the
+ * resource on instanciation of the widget.
  *
  * \param[in]   entry       entry
  * \param[in]   user_data   extra event data (unused)
@@ -49,6 +50,7 @@
 static void on_entry_destroy(GtkWidget *entry, gpointer user_data)
 {
     resource_widget_free_resource_name(entry);
+    resource_widget_free_string(entry, "ResourceOrig");
 }
 
 
@@ -84,7 +86,7 @@ static void on_entry_changed(GtkWidget *entry, gpointer user_data)
  *
  * \return  new entry
  */
-GtkWidget *vice_gtk3_resource_entry_create(const char *resource)
+GtkWidget *vice_gtk3_resource_entry_new(const char *resource)
 {
     GtkWidget *entry;
     const char *current;
@@ -105,6 +107,9 @@ GtkWidget *vice_gtk3_resource_entry_create(const char *resource)
      * "ResourceName" */
     resource_widget_set_resource_name(entry, resource);
 
+    /* make a deep copy of the current resource value */
+    resource_widget_set_string(entry, "ResourceOrig", current);
+
     g_signal_connect(entry, "changed", G_CALLBACK(on_entry_changed), NULL);
     g_signal_connect(entry, "destroy", G_CALLBACK(on_entry_destroy), NULL);
 
@@ -118,31 +123,134 @@ GtkWidget *vice_gtk3_resource_entry_create(const char *resource)
  * \param[in]   entry   entry
  * \param[in]   new     new text for \a entry
  */
-void vice_gtk3_resource_entry_update(GtkWidget *entry, const char *new)
+gboolean vice_gtk3_resource_entry_set(GtkWidget *entry, const char *new)
 {
-    gtk_entry_set_text(GTK_ENTRY(entry), new);
+    if (new != NULL) {
+        gtk_entry_set_text(GTK_ENTRY(entry), new);
+    } else {
+        gtk_entry_set_text(GTK_ENTRY(entry), "");
+    }
+    return TRUE;
 }
+
+
+/** \brief  Get current resource value of \a widget
+ *
+ * Retrieves the current resource value and stores it in \a *dest, if retrieving
+ * the resource value fails, `FALSE` is returned and \a *dest is set to `NULL`.
+ *
+ * \param[in]   widget  resource entry
+ * \param[out]  dest    object to store value
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_entry_get(GtkWidget *widget, const char **dest)
+{
+    const char *resource = resource_widget_get_resource_name(widget);
+
+    if (resources_get_string(resource, dest) < 0) {
+        debug_gtk3("failed to retrieve value for resource '%s'\n", resource);
+        *dest = NULL;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
 
 
 /** \brief  Reset \a entry to its resource factory value
  *
  * \param[in]   entry   entry
  */
-void vice_gtk3_resource_entry_reset(GtkWidget *entry)
+gboolean vice_gtk3_resource_entry_factory(GtkWidget *entry)
 {
     const char *resource;
     const char *factory;
 
     resource = resource_widget_get_resource_name(entry);
-    resources_get_default_value(resource, &factory);
+    if (resources_get_default_value(resource, &factory) < 0) {
+        debug_gtk3("failed to retrieve factory value for resource '%s'\n",
+                resource);
+        return FALSE;
+    }
     debug_gtk3("resetting %s to factory value %s\n", resource, factory);
-    vice_gtk3_resource_entry_update(entry, factory);
+    return vice_gtk3_resource_entry_set(entry, factory);
 }
 
 
-/*****************************************************************************
- *          Resource entry box that only responds to 'full' changes          *
- ****************************************************************************/
+/** \brief  Reset \a entry to the resource value during instanciation.
+ *
+ * \param[in]   widget  resource entry widget
+ */
+gboolean vice_gtk3_resource_entry_reset(GtkWidget *widget)
+{
+    const char *resource;
+    const char *orig;
+    const char *current;
+
+    resource = resource_widget_get_resource_name(widget);
+    orig = resource_widget_get_string(widget, "ResourceOrig");
+    if (resources_get_string(resource, &current) < 0) {
+        debug_gtk3("failed to get value of resource '%s'\n", resource);
+        return FALSE;
+    }
+
+    /* avoid setting the resource when not required */
+    if (orig == NULL || current == NULL) {
+        /* can't compare them */
+        return FALSE;
+    }
+    if (strcmp(current, orig) != 0) {
+        gtk_entry_set_text(GTK_ENTRY(widget), orig);
+    }
+    return TRUE;
+}
+
+
+/** \brief  Synchronize \a widget with its resource
+ *
+ * \param[in,out]   widget  resource entry
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_entry_sync(GtkWidget *widget)
+{
+    const char *resource_name;
+    const char *resource_val;
+    const char *widget_val;
+
+    widget_val = gtk_entry_get_text(GTK_ENTRY(widget));
+    resource_name = resource_widget_get_resource_name(widget);
+    if (resources_get_string(resource_name, &resource_val) < 0) {
+        debug_gtk3("failed to get retrieve value for '%s'\n", resource_name);
+        return FALSE;
+    }
+
+    if (widget_val == NULL || resource_val == NULL) {
+        /* fuck it */
+        return FALSE;
+    }
+
+    if (strcmp(resource_val, widget_val) != 0) {
+        /* differs, setting new widget value triggers resource update through
+         * event handler */
+        gtk_entry_set_text(GTK_ENTRY(widget), resource_val);
+    }
+    return TRUE;
+}
+
+
+
+
+/*
+ * Resource entry box that only responds to 'full' changes
+ *
+ * This entry box only updates its resource when either Enter is pressed or
+ * the widget looses focus (user pressing tab, clicking somewhere else). This
+ * avoids setting the connected resource with every key pressed, resulting, for
+ * example, in rom files 'a', 'ab', 'abc' and 'abcd' while entering 'abcd'.
+ */
 
 /** \brief  Handler for the "destroy" event of the full entry box
  *
@@ -246,7 +354,7 @@ static gboolean on_key_press_event(
  *
  * \return  GtkEntry
  */
-GtkWidget *vice_gtk3_resource_entry_full_create(const char *resource)
+GtkWidget *vice_gtk3_resource_entry_full_new(const char *resource)
 {
     GtkWidget *entry;
     const char *current;
@@ -293,15 +401,12 @@ GtkWidget *vice_gtk3_resource_entry_full_create(const char *resource)
  *
  * \param[in,out]   entry   resource entry box
  */
-void vice_gtk3_resource_entry_full_reset(GtkWidget *entry)
+gboolean vice_gtk3_resource_entry_full_reset(GtkWidget *entry)
 {
-    const char *res_name;
     const char *orig;
 
     orig = resource_widget_get_string(entry, "ResourceOrig");
-    res_name = resource_widget_get_resource_name(entry);
-    resources_set_string(res_name, orig);
-    gtk_entry_set_text(GTK_ENTRY(entry), orig);
+    return vice_gtk3_resource_entry_full_set(entry, orig);
 }
 
 
@@ -317,8 +422,7 @@ void vice_gtk3_resource_entry_full_reset(GtkWidget *entry)
  *
  * \return  bool
  */
-gboolean vice_gtk3_resource_entry_full_update(GtkWidget *entry,
-                                              const char *new)
+gboolean vice_gtk3_resource_entry_full_set(GtkWidget *entry, const char *new)
 {
     const char *res_name;
 
@@ -334,4 +438,52 @@ gboolean vice_gtk3_resource_entry_full_update(GtkWidget *entry,
         gtk_entry_set_text(GTK_ENTRY(entry), new);
         return TRUE;
     }
+}
+
+
+/** \brief  Get current resource value of \a widget
+ *
+ * Retrieves the current resource value and stores it in \a *dest, if retrieving
+ * the resource value fails, `FALSE` is returned and \a *dest is set to `NULL`.
+ *
+ * \param[in]   widget  resource entry
+ * \param[out]  dest    object to store value
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_entry_full_get(GtkWidget *widget, const char **dest)
+{
+    return vice_gtk3_resource_entry_get(widget, dest);
+}
+
+
+/** \brief  Synchronize \a widget with its resource
+ *
+ * \param[in,out]   widget  resource entry
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_entry_full_sync(GtkWidget *widget)
+{
+    return vice_gtk3_resource_entry_sync(widget);
+}
+
+
+/** \brief  Reset \a entry to its resource factory value
+ *
+ * \param[in]   entry   entry
+ */
+gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *entry)
+{
+    const char *resource;
+    const char *factory;
+
+    resource = resource_widget_get_resource_name(entry);
+    if (resources_get_default_value(resource, &factory) < 0) {
+        debug_gtk3("failed to retrieve factory value for resource '%s'\n",
+                resource);
+        return FALSE;
+    }
+    debug_gtk3("resetting %s to factory value %s\n", resource, factory);
+    return vice_gtk3_resource_entry_full_set(entry, factory);
 }

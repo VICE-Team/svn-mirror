@@ -1,13 +1,14 @@
-/**
+/** \file   petdwwwidget.c
  * \brief   PET RAM expansion module widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  PETDWW (xpet)
- *  PETDWWfilename (xpet)
- *
+ *  PETDWW          (xpet)
+ *  PETDWWfilename  (xpet)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -129,7 +130,7 @@ static void on_browse_clicked(GtkWidget *widget, gpointer user_data)
             NULL, NULL);
     if (filename != NULL) {
         debug_gtk3("setting PETDWWfilename to '%s'\n", filename);
-        vice_gtk3_resource_entry_full_update(GTK_WIDGET(user_data), filename);
+        vice_gtk3_resource_entry_full_set(GTK_WIDGET(user_data), filename);
         g_free(filename);
     }
 }
@@ -161,7 +162,7 @@ GtkWidget *pet_dww_widget_create(GtkWidget *parent)
     label = gtk_label_new("DWW image file");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    entry = vice_gtk3_resource_entry_full_create("PETDWWfilename");
+    entry = vice_gtk3_resource_entry_full_new("PETDWWfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
     g_signal_connect(browse, "clicked", G_CALLBACK(on_browse_clicked),

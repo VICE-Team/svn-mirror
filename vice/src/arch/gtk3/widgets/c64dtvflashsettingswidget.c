@@ -59,7 +59,7 @@ static void on_flash_dir_browse_clicked(GtkWidget *widget, gpointer data)
     filename = vice_gtk3_select_directory_dialog(
             "Select Flash filesystem directory", NULL, TRUE, NULL);
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_update(entry, filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
 }
@@ -92,7 +92,7 @@ static GtkWidget *create_flash_dir_widget(void)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    entry = vice_gtk3_resource_entry_full_create("FSFlashDir");
+    entry = vice_gtk3_resource_entry_full_new("FSFlashDir");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 

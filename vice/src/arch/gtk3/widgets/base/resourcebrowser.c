@@ -105,7 +105,7 @@ static void on_resource_browser_browse_clicked(GtkWidget *widget, gpointer data)
             state->pattern_name, (const char **)(state->patterns), NULL);
     if (filename != NULL) {
         debug_gtk3("got image name '%s'\n", filename);
-        if (!vice_gtk3_resource_entry_full_update(state->entry, filename)){
+        if (!vice_gtk3_resource_entry_full_set(state->entry, filename)){
             log_error(LOG_ERR,
                     "failed to set resource %s to '%s', reverting\n",
                     state->res_name, filename);
@@ -244,7 +244,7 @@ GtkWidget *vice_gtk3_resource_browser_new(
     }
 
     /* text entry */
-    state->entry = vice_gtk3_resource_entry_full_create(resource);
+    state->entry = vice_gtk3_resource_entry_full_new(resource);
     gtk_widget_set_hexpand(state->entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), state->entry, column, 0, 1, 1);
     column++;

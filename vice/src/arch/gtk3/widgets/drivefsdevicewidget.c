@@ -79,7 +79,7 @@ static void on_fsdir_browse_clicked(GtkWidget *widget, gpointer user_data)
     filename = vice_gtk3_select_directory_dialog("Select file system directory",
             NULL, TRUE, NULL);
     if (filename != NULL) {
-        vice_gtk3_resource_entry_full_update(entry, filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
 }
@@ -111,7 +111,7 @@ static GtkWidget *create_fsdir_entry_widget(int unit)
     char resource[256];
 
     g_snprintf(resource, 256, "FSDevice%dDir", unit);
-    entry = vice_gtk3_resource_entry_full_create(resource);
+    entry = vice_gtk3_resource_entry_full_new(resource);
     return entry;
 }
 

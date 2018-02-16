@@ -162,7 +162,7 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
             TRUE, NULL);
     if (filename != NULL) {
         /* TODO: check if file is writable */
-        vice_gtk3_resource_entry_full_update(tapecart_filename, filename);
+        vice_gtk3_resource_entry_full_set(tapecart_filename, filename);
         g_free(filename);
     }
 }
@@ -220,7 +220,7 @@ static GtkWidget *create_tape_log_widget(void)
     g_object_set(tape_log_dest, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), tape_log_dest, 0, 1, 1, 1);
 
-    tape_log_filename = vice_gtk3_resource_entry_create("TapeLogFilename");
+    tape_log_filename = vice_gtk3_resource_entry_full_new("TapeLogFilename");
     gtk_widget_set_hexpand(tape_log_filename, TRUE);
     gtk_grid_attach(GTK_GRID(grid), tape_log_filename, 1, 1, 1, 1);
 
@@ -308,7 +308,7 @@ static GtkWidget *create_tapecart_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
 
-    tapecart_filename = vice_gtk3_resource_entry_full_create(
+    tapecart_filename = vice_gtk3_resource_entry_full_new(
             "TapecartTCRTFilename");
     g_object_set(tapecart_filename, "margin-left", 16, NULL);
     gtk_widget_set_hexpand(tapecart_filename, TRUE);

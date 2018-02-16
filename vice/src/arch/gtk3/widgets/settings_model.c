@@ -4,8 +4,8 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  IECReset            (x64/x64sc/xcpu64)
- *  GlueLogic           (x64sc/xscpu64
+ *  IECReset            (x64/x64sc/xscpu64)
+ *  GlueLogic           (x64/x64sc/xscpu64
  *  Go64Mode            (x128)
  *  DtvRevision         (x64dtv)
  *  VICIINewLuminances  (x64dtv)
@@ -329,7 +329,7 @@ static void machine_model_callback(int model)
 }
 
 
-/** \brief  Handler for the "toggled" event of the C64SC Glue Logic radio buttons
+/** \brief  Handler for the "toggled" event of the C64 Glue Logic radio buttons
  *
  * \param[in]   widget      radio button triggering the event
  * \param[in]   user_data   glue value (int)
@@ -380,7 +380,7 @@ static GtkWidget *create_c64_glue_widget(void)
     GtkWidget *label;
     GtkWidget *discrete_radio;
     GtkWidget *custom_radio;
-    GtkWidget *active;
+    GtkWidget *radio;
     GSList *group = NULL;
 
     int glue;
@@ -399,8 +399,8 @@ static GtkWidget *create_c64_glue_widget(void)
     gtk_radio_button_join_group(GTK_RADIO_BUTTON(custom_radio),
             GTK_RADIO_BUTTON(discrete_radio));
 
-    active = glue == 0 ? discrete_radio : custom_radio;
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(active), TRUE);
+    radio = glue == 0 ? discrete_radio : custom_radio;
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
 
     g_signal_connect(discrete_radio, "toggled",
             G_CALLBACK(on_c64_glue_toggled), GINT_TO_POINTER(0));
@@ -431,11 +431,8 @@ static GtkWidget *create_c64_misc_widget(void)
     iec_widget = create_reset_to_iec_widget();
     g_object_set(iec_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), iec_widget, 0, 1, 1, 1);
-    if (machine_class == VICE_MACHINE_C64SC
-            || machine_class == VICE_MACHINE_SCPU64) {
-        glue_widget = create_c64_glue_widget();
-        gtk_grid_attach(GTK_GRID(grid), glue_widget, 0, 2, 1, 1);
-    }
+    glue_widget = create_c64_glue_widget();
+    gtk_grid_attach(GTK_GRID(grid), glue_widget, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

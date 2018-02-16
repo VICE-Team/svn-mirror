@@ -1,17 +1,18 @@
-/**
+/** \file   settings_io_c64_memhacks.c
  * \brief   Widget to control C64 memory expansion hacks
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  MemoryHack (x64, x6sc)
- *  C64_256Kbase (x64, x64sc)
- *  C64_256Kfilename (x64, x64sc)
- *  PLUS60Kbase (x64, x64sc)
- *  PLUS60Kfilename (x64, x64sc)
- *  PLUS256Kfilename (x64, x64sc)
- *
+ *  MemoryHack          (x64/x6sc)
+ *  C64_256Kbase        (x64/x64sc)
+ *  C64_256Kfilename    (x64/x64sc)
+ *  PLUS60Kbase         (x64/x64sc)
+ *  PLUS60Kfilename     (x64/x64sc)
+ *  PLUS256Kfilename    (x64/x64sc)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -100,7 +101,7 @@ static void on_256k_image_browse_clicked(GtkWidget *button, gpointer user_data)
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
-        vice_gtk3_resource_entry_full_update(entry, filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
 }
@@ -120,7 +121,7 @@ static void on_plus60k_image_browse_clicked(GtkWidget *button, gpointer user_dat
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
-        vice_gtk3_resource_entry_full_update(entry, filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
 }
@@ -140,7 +141,7 @@ static void on_plus256k_image_browse_clicked(GtkWidget *button, gpointer user_da
     if (filename != NULL) {
         GtkWidget *grid = gtk_widget_get_parent(button);
         GtkWidget *entry = gtk_grid_get_child_at(GTK_GRID(grid), 1, 1);
-        vice_gtk3_resource_entry_full_update(entry, filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
 }
@@ -291,7 +292,7 @@ static GtkWidget *c64_256k_image_widget_create(void)
 
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
-    entry = vice_gtk3_resource_entry_full_create("C64_256Kfilename");
+    entry = vice_gtk3_resource_entry_full_new("C64_256Kfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
@@ -323,7 +324,7 @@ static GtkWidget *plus_60k_image_widget_create(void)
 
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
-    entry = vice_gtk3_resource_entry_full_create("PLUS60Kfilename");
+    entry = vice_gtk3_resource_entry_full_new("PLUS60Kfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 
@@ -355,7 +356,7 @@ static GtkWidget *plus_256k_image_widget_create(void)
 
     label = gtk_label_new("filename");
     g_object_set(label, "margin-left", 16, NULL);
-    entry = vice_gtk3_resource_entry_full_create("PLUS256Kfilename");
+    entry = vice_gtk3_resource_entry_full_new("PLUS256Kfilename");
     gtk_widget_set_hexpand(entry, TRUE);
     browse = gtk_button_new_with_label("Browse ...");
 

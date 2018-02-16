@@ -82,7 +82,7 @@ static void on_card_browse_clicked(GtkWidget *button, gpointer user_data)
         parent = gtk_widget_get_parent(button);
         entry= gtk_grid_get_child_at(GTK_GRID(parent), 1, 1);
         /* trigger resource update */
-        vice_gtk3_resource_entry_full_update(entry, filename);
+        vice_gtk3_resource_entry_full_set(entry, filename);
         g_free(filename);
     }
 }
@@ -172,7 +172,7 @@ static GtkWidget *create_card_image_widget(GtkWidget *parent)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
 
-    entry = vice_gtk3_resource_entry_full_create("MMCRCardImage");
+    entry = vice_gtk3_resource_entry_full_new("MMCRCardImage");
     gtk_widget_set_hexpand(entry, TRUE);
     gtk_grid_attach(GTK_GRID(grid), entry, 1, 1, 1, 1);
 

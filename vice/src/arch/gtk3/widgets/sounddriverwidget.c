@@ -1,13 +1,14 @@
-/*
- * sounddriverwidget.c - GTK3 sound driver widget
+/** \file   sounddriverwidget.c
+ * \brief   GTK3 sound driver widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  SoundDeviceName - sound device/driver to use (string)
- *  SoundDeviceArg  - optional argument to the driver (string)
- *
+ *  SoundDeviceName
+ *  SoundDeviceArg
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -111,7 +112,7 @@ static GtkWidget *create_device_combobox(void)
  */
 static GtkWidget *create_argument_entry(void)
 {
-    return vice_gtk3_resource_entry_full_create("SoundDeviceArg");
+    return vice_gtk3_resource_entry_full_new("SoundDeviceArg");
 }
 
 
