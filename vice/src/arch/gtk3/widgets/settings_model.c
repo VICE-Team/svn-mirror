@@ -434,6 +434,14 @@ static GtkWidget *create_c64_misc_widget(void)
     glue_widget = create_c64_glue_widget();
     gtk_grid_attach(GTK_GRID(grid), glue_widget, 0, 2, 1, 1);
 
+    /*
+     * GlueLogic seems to cause timing issues when set to 'custom' on x64, so
+     * disable the widget for x64 until it is fixed (if ever)
+     */
+    if (machine_class == VICE_MACHINE_C64) {
+        gtk_widget_set_sensitive(glue_widget, FALSE);
+    }
+
     gtk_widget_show_all(grid);
     return grid;
 }
