@@ -1,12 +1,13 @@
-/**
+/** \file   petramsizewidget.c
  * \brief   Widget to set the PET RAM size
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  RamSize - RAM in KB (4, 8, 16, 32, 96, 128)
- *
+ *  RamSize (xpet)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -66,7 +67,7 @@ GtkWidget *pet_ram_size_widget_create(void)
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
             "Memory size", 1);
-    group = vice_gtk3_resource_radiogroup_create("RamSize", ram_sizes,
+    group = vice_gtk3_resource_radiogroup_new("RamSize", ram_sizes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);

@@ -1,9 +1,10 @@
-/**
- * \brief   Sund sample rate widget - header
+/** \file   soundsampleratewidget.h
+ * \brief   Sound sample rate widget - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

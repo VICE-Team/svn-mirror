@@ -85,7 +85,7 @@ static GtkWidget *create_cartridge_mode_widget(void)
 {
     GtkWidget *group;
 
-    group = vice_gtk3_resource_radiogroup_create("ETHERNETCARTMode", modes,
+    group = vice_gtk3_resource_radiogroup_new("ETHERNETCARTMode", modes,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     return group;

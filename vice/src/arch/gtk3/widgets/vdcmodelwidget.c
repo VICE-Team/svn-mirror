@@ -115,7 +115,7 @@ GtkWidget *vdc_model_widget_create(void)
             "VDC settings", 1);
 
     extra_ram = create_64kb_widget();
-    group = vice_gtk3_resource_radiogroup_create("VDCRevision",
+    group = vice_gtk3_resource_radiogroup_new("VDCRevision",
             vdc_revs, GTK_ORIENTATION_VERTICAL);
     g_object_set(extra_ram, "margin-left", 16, NULL);
     g_object_set(group, "margin-left", 16, NULL);

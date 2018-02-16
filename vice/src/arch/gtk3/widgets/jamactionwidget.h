@@ -1,10 +1,10 @@
-/**
- * \file    src/arch/gtk3/widgets/jamactionwidget.h
+/** \file   src/arch/gtk3/widgets/jamactionwidget.h
  * \brief   GTK3 default JAM action setting dialog - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

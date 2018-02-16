@@ -168,7 +168,7 @@ static void machine_model_handler_c64dtv(int model)
     /* update revision widget */
     group = gtk_grid_get_child_at(GTK_GRID(c64dtv_rev_widget), 0, 1);
     if (group != NULL && GTK_IS_GRID(group)) {
-        vice_gtk3_resource_radiogroup_update(group, rev);
+        vice_gtk3_resource_radiogroup_set(group, rev);
     }
 
     /* update VIC-II model widget */
@@ -486,7 +486,7 @@ static GtkWidget *create_c64dtv_revision_widget(void)
     gtk_label_set_markup(GTK_LABEL(label), "<b>DTV Revision</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
 
-    group = vice_gtk3_resource_radiogroup_create("DtvRevision",
+    group = vice_gtk3_resource_radiogroup_new("DtvRevision",
             c64dtv_revisions, GTK_ORIENTATION_VERTICAL);
     vice_gtk3_resource_radiogroup_add_callback(group, dtv_revision_callback);
     g_object_set(group, "margin-left", 16, NULL);

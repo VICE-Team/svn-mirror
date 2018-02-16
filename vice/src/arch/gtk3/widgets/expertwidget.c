@@ -1,15 +1,16 @@
-/**
+/** \file   expertwidget.c
  * \brief   Widget to control Expert Cartridge resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  ExpertCartridgeEnabled (x64/x64sc/xscpu64/x128)
- *  ExpertCartridgeMode (x64/x64sc/xscpu64/x128)
- *  Expertfilename (x64/x64sc/xscpu64/x128)
- *  ExpertImageWrite (x64/x64sc/xscpu64/x128)
- *
+ *  ExpertCartridgeEnabled  (x64/x64sc/xscpu64/x128)
+ *  ExpertCartridgeMode     (x64/x64sc/xscpu64/x128)
+ *  Expertfilename          (x64/x64sc/xscpu64/x128)
+ *  ExpertImageWrite        (x64/x64sc/xscpu64/x128)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -69,7 +70,7 @@ static GtkWidget *create_expert_mode_widget(void)
 
     grid = uihelpers_create_grid_with_label("Cartridge mode", 3);
 
-    radio_group = vice_gtk3_resource_radiogroup_create("ExpertCartridgeMode",
+    radio_group = vice_gtk3_resource_radiogroup_new("ExpertCartridgeMode",
             mode_list, GTK_ORIENTATION_HORIZONTAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_set_column_spacing(GTK_GRID(radio_group), 16);

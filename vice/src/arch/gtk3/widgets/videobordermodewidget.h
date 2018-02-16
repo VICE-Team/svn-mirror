@@ -1,9 +1,10 @@
-/**
- * \brief   Widget to select border mode - header
+/** \file   videobordermodewidget.c
+ * \brief   GTK3 widget to select border mode
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>**
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

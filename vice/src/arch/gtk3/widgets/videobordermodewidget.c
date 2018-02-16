@@ -1,15 +1,16 @@
-/**
- * \brief   Widget to select border mode
+/** \file   videobordermodewidget.c
+ * \brief   GTK3 widget to select border mode
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  TEDBorderMode
- *  VDCBorderMode
- *  VICBorderMode
- *  VICIIBorderMode
- *
+ *  TEDBorderMode   (xplus4)
+ *  VDCBorderMode   (x128)
+ *  VICBorderMode   (xvic)
+ *  VICIIBorderMode (x64/x64sc/xscpu64/x64dtv/x128/cbm5x0)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -77,7 +78,7 @@ GtkWidget *video_border_mode_widget_create(const char *chip)
     chip_prefix = chip;
 
     grid = vice_gtk3_grid_new_spaced_with_label(-1, -1, "Border mode", 1);
-    mode_widget = vice_gtk3_resource_radiogroup_create_sprintf(
+    mode_widget = vice_gtk3_resource_radiogroup_new_sprintf(
             "%sBorderMode", modes, GTK_ORIENTATION_VERTICAL, chip);
     g_object_set(mode_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), mode_widget, 0, 1, 1, 1);

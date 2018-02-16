@@ -1,16 +1,17 @@
-/**
- * \brief   Widget to select renderer filter
+/** \file   videorenderfilterwidget.c
+ * \brief   GTK3 widget to select renderer filter
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  CrtcFilter
- *  TEDFilter
- *  VDCFilter
- *  VICFilter
- *  VICIIFilter
- *
+ *  CrtcFilter      (xpet/xcbm2)
+ *  TEDFilter       (xplus4)
+ *  VDCFilter       (x128)
+ *  VICFilter       (xvic)
+ *  VICIIFilter     (x64/x64sc/xscpu64/xdtv64/x128/xcbm5x0)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -92,7 +93,7 @@ GtkWidget *video_render_filter_widget_create(const char *chip)
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Render filter", 1);
-    render_widget = vice_gtk3_resource_radiogroup_create_sprintf(
+    render_widget = vice_gtk3_resource_radiogroup_new_sprintf(
             "%sFilter", filters, GTK_ORIENTATION_VERTICAL, chip);
     g_object_set(render_widget, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), render_widget, 0, 1, 1, 1);

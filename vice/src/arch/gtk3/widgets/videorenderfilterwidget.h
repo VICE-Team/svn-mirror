@@ -1,9 +1,10 @@
-/**
- * \brief   Widget to select renderer filter - header
+/** \file   videorenderfilterwidget.c
+ * \brief   GTK3 widget to select renderer filter
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>**
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

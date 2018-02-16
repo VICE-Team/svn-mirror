@@ -201,16 +201,6 @@ GtkWidget *vice_gtk3_resource_radiogroup_new(
     return resource_radiogroup_new_helper(grid, entries, orientation);
 }
 
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_radiogroup_create(
-        const char *resource,
-        const vice_gtk3_radiogroup_entry_t *entries,
-        GtkOrientation orientation)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_new()\n");
-    return vice_gtk3_resource_radiogroup_new(resource, entries, orientation);
-}
-
 
 /** \brief  Create a radiogroup widget, using sprintf()-style formatting of
  *          the resource name
@@ -242,29 +232,6 @@ GtkWidget *vice_gtk3_resource_radiogroup_new_sprintf(
     GtkWidget *grid;
     char *resource;
     va_list args;
-
-    grid = gtk_grid_new();
-
-    va_start(args, orientation);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(grid), "ResourceName", (gpointer)resource);
-    va_end(args);
-
-    return resource_radiogroup_new_helper(grid, entries, orientation);
-}
-
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
-        const char *fmt,
-        const vice_gtk3_radiogroup_entry_t *entries,
-        GtkOrientation orientation,
-        ...)
-{
-    GtkWidget *grid;
-    char *resource;
-    va_list args;
-
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_new_sprintf()\n");
 
     grid = gtk_grid_new();
 
@@ -331,15 +298,6 @@ gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id)
 }
 
 
-
-/** \deprecated */
-gboolean vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_set()\n");
-    return vice_gtk3_resource_radiogroup_set(widget, id);
-}
-
-
 /** \brief  Synchronize \a widget with its current resource value
  *
  * \param[in,out]   widget  radiogroup widget
@@ -357,13 +315,6 @@ gboolean vice_gtk3_resource_radiogroup_sync(GtkWidget *widget)
         return FALSE;
     }
     return vice_gtk3_resource_radiogroup_set(widget, value);
-}
-
-/** \deprecated */
-gboolean vice_gtk3_resource_radiogroup_update_from_resource(GtkWidget *widget)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_sync()\n");
-    return vice_gtk3_resource_radiogroup_sync(widget);
 }
 
 

@@ -65,7 +65,7 @@ GtkWidget *cbm2_memory_size_widget_create(void)
     GtkWidget *radio_group;
 
     grid = uihelpers_create_grid_with_label("RAM size", 1);
-    radio_group = vice_gtk3_resource_radiogroup_create("RamSize", ram_sizes,
+    radio_group = vice_gtk3_resource_radiogroup_new("RamSize", ram_sizes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);
@@ -98,7 +98,7 @@ void cbm2_memory_size_widget_update(GtkWidget *widget)
 {
     GtkWidget *group = gtk_grid_get_child_at(GTK_GRID(widget), 0, 1);
     if (group != NULL) {
-        vice_gtk3_resource_radiogroup_update_from_resource(widget);
+        vice_gtk3_resource_radiogroup_sync(widget);
     }
 }
 

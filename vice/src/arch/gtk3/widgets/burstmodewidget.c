@@ -1,12 +1,13 @@
-/**
+/** \file   burstmodewidget.c
  * \brief   Burst Mode Modification widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  BurstMod (x64/x64sc/xscpu64)
- *
+ *  BurstMod    (x64/x64sc/xscpu64)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -64,7 +65,7 @@ GtkWidget *burst_mode_widget_create(GtkWidget *parent)
     GtkWidget *group;
 
     grid = uihelpers_create_grid_with_label("Burst Mode Modification", 1);
-    group = vice_gtk3_resource_radiogroup_create("BurstMod", burst_modes,
+    group = vice_gtk3_resource_radiogroup_new("BurstMod", burst_modes,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);

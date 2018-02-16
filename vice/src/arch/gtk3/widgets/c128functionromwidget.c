@@ -88,7 +88,7 @@ static GtkWidget *create_rom_type_widget(const char *prefix)
     GtkWidget *widget;
 
 
-    widget = vice_gtk3_resource_radiogroup_create_sprintf("%sFunctionROM",
+    widget = vice_gtk3_resource_radiogroup_new_sprintf("%sFunctionROM",
             rom_types, GTK_ORIENTATION_HORIZONTAL, prefix);
     gtk_grid_set_column_spacing(GTK_GRID(widget), 16);
     return widget;

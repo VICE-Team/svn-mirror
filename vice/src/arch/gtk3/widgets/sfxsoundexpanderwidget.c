@@ -97,7 +97,7 @@ static GtkWidget *create_sfx_chip_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    chip_group = vice_gtk3_resource_radiogroup_create("SFXSoundExpanderChip",
+    chip_group = vice_gtk3_resource_radiogroup_new("SFXSoundExpanderChip",
             chip_models, GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_attach(GTK_GRID(grid), chip_group, 1, 0, 1, 1);
 

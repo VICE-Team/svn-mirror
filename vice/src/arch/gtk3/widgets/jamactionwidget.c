@@ -1,13 +1,13 @@
-/**
- * \file    src/arch/gtk3/widgets/jamactionwidget.c
+/** \file   src/arch/gtk3/widgets/jamactionwidget.c
  * \brief   GTK3 default JAM action setting dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  JAMAction
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -62,7 +62,7 @@ GtkWidget *jam_action_widget_create(void)
 
     grid = uihelpers_create_grid_with_label("Default action on CPU JAM", 1);
 
-    selection = vice_gtk3_resource_radiogroup_create("JAMAction", actions,
+    selection = vice_gtk3_resource_radiogroup_new("JAMAction", actions,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(selection, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), selection, 0, 1, 1,1);

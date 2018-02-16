@@ -152,7 +152,7 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
 
     grid = vice_gtk3_grid_new_spaced_with_label(VICE_GTK3_DEFAULT,
             VICE_GTK3_DEFAULT, "SID model", 1);
-    group = vice_gtk3_resource_radiogroup_create(
+    group = vice_gtk3_resource_radiogroup_new(
             "SidModel", models, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);

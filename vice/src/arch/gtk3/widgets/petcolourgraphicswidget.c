@@ -1,13 +1,14 @@
-/**
+/** \file   petcolourgraphicswidget.c
  * \brief   PET Colour Graphics widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  PETColour (xpet)
+ *  PETColour   (xpet)
  *  PETColourBG (xpet)
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -71,7 +72,7 @@ GtkWidget *pet_colour_graphics_widget_create(GtkWidget *parent)
     /* PET Colour type */
     label = gtk_label_new("PET Colour type");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    group = vice_gtk3_resource_radiogroup_create("PETColour", colour_types,
+    group = vice_gtk3_resource_radiogroup_new("PETColour", colour_types,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);

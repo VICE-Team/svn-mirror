@@ -189,7 +189,7 @@ static GtkWidget *create_ide64_revision_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    group = vice_gtk3_resource_radiogroup_create("IDE64version", revisions,
+    group = vice_gtk3_resource_radiogroup_new("IDE64version", revisions,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     gtk_grid_attach(GTK_GRID(grid), group, 1, 0, 1, 1);

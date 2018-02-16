@@ -4,7 +4,7 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  ModelLine - some weird resource
+ *  ModelLine   (xcbm5x0/xcbm2)
  */
 
 /*
@@ -72,7 +72,7 @@ GtkWidget *cbm2_hardwired_switches_widget_create(void)
     GtkWidget *radio_group;
 
     grid = uihelpers_create_grid_with_label("Hardwired switches", 1);
-    radio_group = vice_gtk3_resource_radiogroup_create("ModelLine",
+    radio_group = vice_gtk3_resource_radiogroup_new("ModelLine",
             machine_class == VICE_MACHINE_CBM5x0 ? models_cbm5x0 : models_cbm6x0,
             GTK_ORIENTATION_VERTICAL);
     g_object_set(radio_group, "margin-left", 16, NULL);

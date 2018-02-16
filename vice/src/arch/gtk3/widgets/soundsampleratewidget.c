@@ -1,13 +1,13 @@
-/*
- * soundsampleratewidget.c - GTK3 sound sample rate widget
+/** \file   soundsampleratewidget.c
+ * \brief   GTK3 sound sample rate widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  SoundSampleRate - sample rate in Hertz (8000-48000) (int)
- *
- *
+ *  SoundSampleRate
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -70,7 +70,7 @@ GtkWidget *sound_sample_rate_widget_create(void)
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT,
             "Sample rate", 1);
-    group = vice_gtk3_resource_radiogroup_create(
+    group = vice_gtk3_resource_radiogroup_new(
             "SoundSampleRate", sample_rates, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);

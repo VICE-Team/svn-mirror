@@ -1,12 +1,13 @@
-/**
+/** \file   kbdlayoutwidget.c
  * \brief   GTK3 keyboard layout widget for the settings dialog
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  KeyboardMapping - keyboard layout for various regions
- *
+ *  KeyboardMapping
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -72,7 +73,7 @@ GtkWidget *kbdlayout_widget_create(void)
 
     grid = vice_gtk3_grid_new_spaced_with_label(
             VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT, "Keyboard layout", 1);
-    group = vice_gtk3_resource_radiogroup_create(
+    group = vice_gtk3_resource_radiogroup_new(
             "KeyboardMapping", kbd_layouts, GTK_ORIENTATION_VERTICAL);
     g_object_set(group, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);

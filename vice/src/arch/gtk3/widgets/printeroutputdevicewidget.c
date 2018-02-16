@@ -1,12 +1,15 @@
-/**
+/** \file   printeroutputdevicewidget.c
  * \brief   Widget to control printer output device settings
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Printer[4-6]TextDevice
- *
+ *  Printer4TextDevice
+ *  Printer5TextDevice
+ *  Printer6TextDevice
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -66,7 +69,7 @@ GtkWidget *printer_output_device_widget_create(int device)
     GtkWidget *radio_group;
 
     grid = uihelpers_create_grid_with_label("Output device", 1);
-    radio_group = vice_gtk3_resource_radiogroup_create_sprintf(
+    radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
             "Printer%dTextDevice", device_list, GTK_ORIENTATION_VERTICAL,
             device);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 0, 1, 1, 1);

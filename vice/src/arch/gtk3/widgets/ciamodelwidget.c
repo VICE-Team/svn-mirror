@@ -1,13 +1,14 @@
-/**
+/** \file   ciamodewidget.c
  * \brief   Widget to set the CIA model
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  CIA1Model   (c64, c64sc, scpu64, c64dtv, c128, cbm5x0, cbm-ii, vsid)
- *  CIA2Model   (c64, c64sc, scpu64, c64dtv, c128, vsid)
- *
+ *  CIA1Model   (x64/x64sc/xscpu64/x64dtv/x128/xcbm5xo/xcbm2/vsid)
+ *  CIA2Model   (x64/x64sc/xscpu64/x64dtv/x128/vsid)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -88,7 +89,7 @@ static GtkWidget *create_cia_widget(int num)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    radio_group = vice_gtk3_resource_radiogroup_create_sprintf(
+    radio_group = vice_gtk3_resource_radiogroup_new_sprintf(
             "CIA%dModel", cia_models, GTK_ORIENTATION_HORIZONTAL, num);
     gtk_grid_attach(GTK_GRID(grid), radio_group, 1, 0, 1, 1);
 

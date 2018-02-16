@@ -165,7 +165,7 @@ static GtkWidget *create_sidcart_address_widget(void)
 
     grid = uihelpers_create_grid_with_label("SID address", 1);
 
-    group = vice_gtk3_resource_radiogroup_create("SidAddress", list,
+    group = vice_gtk3_resource_radiogroup_new("SidAddress", list,
             GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 
@@ -201,7 +201,7 @@ static GtkWidget *create_sidcart_clock_widget(void)
 
     grid = uihelpers_create_grid_with_label("SID clock", 1);
 
-    group = vice_gtk3_resource_radiogroup_create("SidClock", list,
+    group = vice_gtk3_resource_radiogroup_new("SidClock", list,
             GTK_ORIENTATION_VERTICAL);
     gtk_grid_attach(GTK_GRID(grid), group, 0, 1, 1, 1);
 

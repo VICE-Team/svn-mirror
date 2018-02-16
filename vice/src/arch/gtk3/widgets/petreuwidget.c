@@ -127,7 +127,7 @@ GtkWidget *pet_reu_widget_create(GtkWidget *parent)
     label = gtk_label_new("REU size");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin-left", 16, NULL);
-    group = vice_gtk3_resource_radiogroup_create("PETREUsize", reu_sizes,
+    group = vice_gtk3_resource_radiogroup_new("PETREUsize", reu_sizes,
             GTK_ORIENTATION_HORIZONTAL);
     gtk_grid_set_column_spacing(GTK_GRID(group), 16);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);

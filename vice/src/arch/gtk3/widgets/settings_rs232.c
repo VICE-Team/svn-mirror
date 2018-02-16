@@ -218,7 +218,7 @@ static GtkWidget *create_acia_base_widget(void)
     }
 
     if (entries != NULL) {
-        widget = vice_gtk3_resource_radiogroup_create("Acia1Base", entries,
+        widget = vice_gtk3_resource_radiogroup_new("Acia1Base", entries,
                 GTK_ORIENTATION_HORIZONTAL);
         gtk_grid_set_column_spacing(GTK_GRID(widget), 16);
         return widget;
@@ -252,7 +252,7 @@ static GtkWidget *create_acia_irq_widget(void)
     }
 
     if (entries != NULL) {
-        widget = vice_gtk3_resource_radiogroup_create("Acia1Irq", entries,
+        widget = vice_gtk3_resource_radiogroup_new("Acia1Irq", entries,
                 GTK_ORIENTATION_HORIZONTAL);
         gtk_grid_set_column_spacing(GTK_GRID(widget), 16);
         return widget;
@@ -286,7 +286,7 @@ static GtkWidget *create_acia_mode_widget(void)
     }
 
     if (entries != NULL) {
-        widget = vice_gtk3_resource_radiogroup_create("Acia1Mode", entries,
+        widget = vice_gtk3_resource_radiogroup_new("Acia1Mode", entries,
                 GTK_ORIENTATION_HORIZONTAL);
         gtk_grid_set_column_spacing(GTK_GRID(widget), 16);
         return widget;
