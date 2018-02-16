@@ -4526,6 +4526,7 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$is_win32_gtk3" = "xyes"; then
     AC_DEFINE(WIN32_COMPILE,,[Are we compiling for windows?])
+    LIBS="$LIBS -lntdll"
   else
     AC_DEFINE(UNIX_COMPILE,,[Are we compiling for unix?])
   fi
