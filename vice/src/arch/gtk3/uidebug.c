@@ -6,8 +6,6 @@
  * Controls the following resource(s):
  *  AutoPlaybackFrames
  *  TraceMode
- *
- * TODO:    add doxygen docblocks for the functions
  */
 
 /*
@@ -62,6 +60,10 @@ static const vice_gtk3_radiogroup_entry_t trace_modes[] = {
 };
 
 
+/** \brief  Create widget to control number of autoplayback frames
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_playback_widget(void)
 {
     GtkWidget *grid;
@@ -84,6 +86,10 @@ static GtkWidget *create_playback_widget(void)
 }
 
 
+/** \brief  Create widget to control trace mode
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_trace_widget(void)
 {
     GtkWidget *grid;
@@ -100,7 +106,12 @@ static GtkWidget *create_trace_widget(void)
 }
 
 
-
+/** \brief  Create dialog to control trace mode
+ *
+ * \param[in]   parent  parent widget
+ *
+ * \return  GtkDialog
+ */
 static GtkWidget *create_trace_mode_dialog(GtkWindow *parent)
 {
     GtkWidget *dialog;
@@ -119,6 +130,12 @@ static GtkWidget *create_trace_mode_dialog(GtkWindow *parent)
 }
 
 
+/** \brief  Create dialog to control playback frames
+ *
+ * \param[in]   parent  parent widget
+ *
+ * \return  GtkDialog
+ */
 static GtkWidget *create_playback_frames_dialog(GtkWindow *parent)
 {
     GtkWidget *dialog;
@@ -138,6 +155,12 @@ static GtkWidget *create_playback_frames_dialog(GtkWindow *parent)
 }
 
 
+
+/** \brief  Callback for the 'Debug' -> 'Trace mode' menu item
+ *
+ * \param[in]   widget      parent widget (ignored)
+ * \param[in]   user_data   extra data for the callback
+ */
 void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
@@ -150,6 +173,11 @@ void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
 }
 
 
+/** \brief  Callback for the 'Debug' -> 'Autoplay playback frames' menu item
+*
+* \param[in]   widget      parent widget (ignored)
+* \param[in]   user_data   extra data for the callback
+*/
 void uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
