@@ -1,12 +1,13 @@
-/*
- * soundbuffersizewidget.c - GTK3 sound buffer size widget
+/** \file   soundbuffersizewidget.c
+ * \brief   GTK3 sound buffer size widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  SoundBufferSize - sound buffer size in milliseconds (int)
- *
+ *  SoundBufferSize
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -63,7 +64,7 @@
  */
 static GtkWidget *create_spinbutton(void)
 {
-    return vice_gtk3_resource_spin_button_int_create("SoundBufferSize",
+    return vice_gtk3_resource_spin_int_new("SoundBufferSize",
             SPIN_MIN, SPIN_MAX, SPIN_STEP);
 }
 
@@ -88,5 +89,3 @@ GtkWidget *sound_buffer_size_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-
-

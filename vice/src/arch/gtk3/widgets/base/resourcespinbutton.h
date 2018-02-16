@@ -1,4 +1,4 @@
-/**
+/** \file   resourcespinbutton.h
  * \brief   Spin buttons to control resources - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -31,20 +31,30 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+/*
+ * New API
+ */
 
-GtkWidget *vice_gtk3_resource_spin_button_int_create(
+GtkWidget *vice_gtk3_resource_spin_int_new(
         const char *resource,
         int lower, int upper, int step);
 
-GtkWidget *vice_gtk3_resource_spin_button_int_create_sprintf(
+GtkWidget *vice_gtk3_resource_spin_int_new_sprintf(
         const char *fmt,
         int lower, int upper, int step,
         ...);
 
-void vice_gtk3_resource_spin_button_int_update(GtkWidget *widget, int value);
+gboolean vice_gtk3_resource_spin_int_set(GtkWidget *widget, int value);
 
-void vice_gtk3_resource_spin_button_int_set_fake_digits(
-        GtkWidget *spin,
-        int digits);
+gboolean vice_gtk3_resource_spin_int_get(GtkWidget *widget, int *value);
+
+gboolean vice_gtk3_resource_spin_int_reset(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_spin_int_sync(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_spin_int_factory(GtkWidget *widget);
+
+void     vice_gtk3_resource_spin_int_set_fake_digits(GtkWidget *spin,
+                                                     int digits);
 
 #endif

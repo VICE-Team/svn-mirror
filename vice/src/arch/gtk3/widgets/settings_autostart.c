@@ -90,7 +90,7 @@ static GtkWidget *create_fixed_delay_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     g_object_set(label, "margin", 8, NULL);
 
-    spin = vice_gtk3_resource_spin_button_int_create("AutostartDelay",
+    spin = vice_gtk3_resource_spin_int_new("AutostartDelay",
             0, 1000, 1);
 
     gtk_grid_attach(GTK_GRID(layout), label, 0, 0, 1, 1);

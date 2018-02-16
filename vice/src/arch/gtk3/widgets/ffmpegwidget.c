@@ -532,7 +532,7 @@ GtkWidget *ffmpeg_widget_create(void)
     label = create_indented_label("video bitrate");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_spin_button_int_create("FFMPEGVideoBitrate",
+            vice_gtk3_resource_spin_int_new("FFMPEGVideoBitrate",
                 VICE_FFMPEG_VIDEO_RATE_MIN, VICE_FFMPEG_VIDEO_RATE_MAX,
                 10000),
             1, 2, 1, 1);
@@ -541,7 +541,7 @@ GtkWidget *ffmpeg_widget_create(void)
     label = create_indented_label("audio bitrate");
     gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid),
-            vice_gtk3_resource_spin_button_int_create("FFMPEGAudioBitrate",
+            vice_gtk3_resource_spin_int_new("FFMPEGAudioBitrate",
                 VICE_FFMPEG_AUDIO_RATE_MIN, VICE_FFMPEG_AUDIO_RATE_MAX,
                 1000),
             3, 2, 1, 1);

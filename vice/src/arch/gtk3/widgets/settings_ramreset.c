@@ -60,7 +60,7 @@ static const vice_gtk3_combo_entry_int_t powers_of_two[] = {
  */
 static GtkWidget *create_start_value_widget(void)
 {
-    return vice_gtk3_resource_spin_button_int_create("RAMInitStartValue",
+    return vice_gtk3_resource_spin_int_new("RAMInitStartValue",
             0, 255, 1);
 }
 

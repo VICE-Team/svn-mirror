@@ -1,13 +1,13 @@
-/**
+/** \file   soundsuspendwidget.c
  * \brief   Sound suspend time widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  SoundSuspendTime - time (seconds) to suspend sound playback to allow the
- *                     emulation to catch up
- *
+ *  SoundSuspendTime
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -64,7 +64,7 @@
  */
 static GtkWidget *create_spinbutton(void)
 {
-    return vice_gtk3_resource_spin_button_int_create("SoundSuspendTime",
+    return vice_gtk3_resource_spin_int_new("SoundSuspendTime",
             SPIN_MIN, SPIN_MAX, SPIN_STEP);
 }
 

@@ -1,13 +1,20 @@
-/**
+/** \file   driverpmwidget.c
  * \brief   Drive RPM settings widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Drive[8-11]RPM
- *  Drive[8-11]Wobble
- *
+ *  Drive8RPM
+ *  Drive9RPM
+ *  Drive10RPM
+ *  Drive11RPM
+ *  Drive8Wobble
+ *  Drive9Wobble
+ *  Drive10Wobble
+ *  Drive11Wobble
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -79,9 +86,9 @@ GtkWidget *drive_rpm_widget_create(int unit)
     label = gtk_label_new("RPM");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    rpm = vice_gtk3_resource_spin_button_int_create_sprintf("Drive%dRPM",
+    rpm = vice_gtk3_resource_spin_int_new_sprintf("Drive%dRPM",
             RPM_MIN, RPM_MAX, RPM_STEP, unit);
-    vice_gtk3_resource_spin_button_int_set_fake_digits(rpm, 2);
+    vice_gtk3_resource_spin_int_set_fake_digits(rpm, 2);
     g_object_set(rpm, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), rpm, 1, 1, 1, 1);
@@ -90,9 +97,9 @@ GtkWidget *drive_rpm_widget_create(int unit)
     label = gtk_label_new("Wobble");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    wobble = vice_gtk3_resource_spin_button_int_create_sprintf("Drive%dWobble",
+    wobble = vice_gtk3_resource_spin_int_new_sprintf("Drive%dWobble",
             WOBBLE_MIN, WOBBLE_MAX, WOBBLE_STEP, unit);
-    vice_gtk3_resource_spin_button_int_set_fake_digits(wobble, 2);
+    vice_gtk3_resource_spin_int_set_fake_digits(wobble, 2);
     g_object_set(wobble, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wobble, 1, 2, 1, 1);

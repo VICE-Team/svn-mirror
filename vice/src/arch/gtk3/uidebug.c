@@ -77,7 +77,7 @@ static GtkWidget *create_playback_widget(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    spin = vice_gtk3_resource_spin_button_int_create("AutoPlaybackFrames",
+    spin = vice_gtk3_resource_spin_int_new("AutoPlaybackFrames",
             0, 65536, 10);
     gtk_grid_attach(GTK_GRID(grid), spin, 1, 0, 1,1);
 
