@@ -1,0 +1,58 @@
+/* vim: set et ts=4 sw=4 sts=4 syntax=c.doxygen: */
+
+/** \mainpage   Gtk3 Main Page
+
+  \section  intro_sec   Introduction
+
+  Welcome to the Gtk3 API documentation of VICE. These pages will provide some
+  information and code examples on how to write VICE Gtk3 UI code. Writing Gtk3
+  UI code will require some knowledge of Gtk3, but normally using some widgets
+  from the `src/gtk3/widgets/base` directory will go a long way. Just
+  \code{.c}
+    #include "vice_gtk3.h"
+  \endcode
+  And you should be good to go. This will include the gtk3 headers and the
+  headers of VICE base widgets/dialogs.
+
+  \section  base_widgets    VICE Gtk3 base widgets
+
+  The VICE Gtk3 UI has a few widgets and dialogs that make working with
+  resources or files much easier.
+
+  For example, instead of writing custom code to connect a GtkCheckButton to
+  a boolean resources, there is a widget that connects a resource to a
+  GtkCheckButton: \ref resourcecheckbutton.c. It handles retrieving the resource
+  value, updating it, reverting to the orignal value, etc.
+
+  \subsection   base_widgets_list   Available base widgets
+
+  At the time of writing (2018-02-16), the following 'resource' widgets are availabe:
+
+  Widget                     | Description
+  ---------------------------|---------------
+  \ref resourcebrowser.c     | Allows selection of a file, setting a resource
+  \ref resourcecheckbutton.c | A GtkCheckButton handling a boolean resource
+  \ref resourceentry.c       | Text entry, either updating the resource each key press, or only updating the resource when loosing focus or when Enter is pressed
+  \ref resourceradiogroup.c  | A set of radio buttons grouped in a GtkGrid, using a key-value approach
+  \ref resourcescale.c       | A GtkScale handling a resource
+  \ref resourcespinbutton.c  | A GtkSpinButton handling an integer resource, allows using 'fake digits' to pretend a resource is a fixed-point value
+  \ref resourceswitch.c      | A GtkSwitch handling a resource, preferably used when a resource indicates an actual switch
+
+  \note The resourceswitch hasn't been updated to the new API yet (2018-02-16)
+
+  \subsection   base_widgets_api    Base widgets API
+
+  The API for the various resource widgets is fairly simple. Each widget has a
+  few 'methods':
+
+  Method    | Description
+  ----------|------------
+  new()     | Instanciate widget, store current value of resource for later use
+  set()     | Set new value for widget, updates resource as well
+  get()     | Get resource value of widget (ignores whether the widget is synchronized with its resource, it simply retrieves the current resource value)
+  reset()   | Reset widget to the state it was when instanciated
+  sync()    | Synchronize widget with its resource value, only usufull when the resource value is altered outside the widget's code
+  factory() | Reset widget and resource value to its factory value
+
+ */
+

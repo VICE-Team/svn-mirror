@@ -1,4 +1,4 @@
-/**
+/** \file   vice_gtk3.h
  * \brief   GTK3 base widgets/dialogs/settings generic header
  *
  * By including this file, all the base widgets/dialogs and any helper
