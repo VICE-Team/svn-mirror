@@ -466,7 +466,7 @@ static GtkWidget *create_resid_passband_widget(void)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_create("SidResidPassband",
+    scale = vice_gtk3_resource_scale_int_new("SidResidPassband",
             GTK_ORIENTATION_HORIZONTAL, 0, 90, 5);
     vice_gtk3_resource_scale_int_set_marks(scale, 10);
     return scale;
@@ -481,7 +481,7 @@ static GtkWidget *create_resid_gain_widget(void)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_create("SidResidGain",
+    scale = vice_gtk3_resource_scale_int_new("SidResidGain",
             GTK_ORIENTATION_HORIZONTAL, 90, 100, 1);
     vice_gtk3_resource_scale_int_set_marks(scale, 1);
     return scale;
@@ -496,7 +496,7 @@ static GtkWidget *create_resid_bias_widget(void)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_create("SidResidFilterBias",
+    scale = vice_gtk3_resource_scale_int_new("SidResidFilterBias",
             GTK_ORIENTATION_HORIZONTAL, -5000, 5000, 500);
     vice_gtk3_resource_scale_int_set_marks(scale, 500);
     return scale;

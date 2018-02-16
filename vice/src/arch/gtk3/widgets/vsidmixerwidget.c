@@ -65,6 +65,8 @@ static GtkWidget *bias;
 
 /** \brief  Handler for the 'clicked' event of the reset button
  *
+ * Resets the slider to when the widget was created.
+ *
  * \param[in]   widget  button (unused)
  * \param[in]   data    extra event data (unused)
  */
@@ -93,7 +95,7 @@ static GtkWidget *create_volume_widget(void)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_create("SoundVolume",
+    scale = vice_gtk3_resource_scale_int_new("SoundVolume",
             GTK_ORIENTATION_HORIZONTAL, 0, 100, 5);
     return scale;
 }
@@ -109,7 +111,7 @@ static GtkWidget *create_passband_widget(void)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_create("SidResidPassband",
+    scale = vice_gtk3_resource_scale_int_new("SidResidPassband",
             GTK_ORIENTATION_HORIZONTAL, 0, 90, 5);
     return scale;
 }
@@ -123,7 +125,7 @@ static GtkWidget *create_gain_widget(void)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_create("SidResidGain",
+    scale = vice_gtk3_resource_scale_int_new("SidResidGain",
             GTK_ORIENTATION_HORIZONTAL, 90, 100, 1);
     /* gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT); */
     return scale;
@@ -138,7 +140,7 @@ static GtkWidget *create_bias_widget(void)
 {
     GtkWidget *scale;
 
-    scale = vice_gtk3_resource_scale_int_create("SidResidFilterBias",
+    scale = vice_gtk3_resource_scale_int_new("SidResidFilterBias",
             GTK_ORIENTATION_HORIZONTAL, -5000, 5000, 100);
     return scale;
 }
@@ -198,4 +200,3 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_widget_show_all(grid);
     return grid;
 }
-

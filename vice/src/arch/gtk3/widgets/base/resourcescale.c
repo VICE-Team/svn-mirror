@@ -1,5 +1,5 @@
 /** \file   resourcescale.c
- * \brief   GktScale widhet to control resources
+ * \brief   GktScale widget to control resources
  *
  * \note    Only integer resources are supported, which should be fine since
  *          VICE resources are either int or string (or strings abused to store
@@ -48,12 +48,12 @@
  *
  * Frees memory used by the copy of the resource name
  *
- * \param[in]   scale       integer scale widget
+ * \param[in]   widget      integer scale widget
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_scale_int_destroy(GtkWidget *scale, gpointer user_data)
+static void on_scale_int_destroy(GtkWidget *widget, gpointer user_data)
 {
-    resource_widget_free_resource_name(scale);
+    resource_widget_free_resource_name(widget);
 }
 
 
@@ -61,22 +61,22 @@ static void on_scale_int_destroy(GtkWidget *scale, gpointer user_data)
  *
  * Updates resource value
  *
- * \param[in]   scale       integer scale widget
+ * \param[in]   widget      integer scale widget
  * \param[in]   user_data   extra event data (unused)
  */
-static void on_scale_int_changed(GtkWidget *scale, gpointer user_data)
+static void on_scale_int_changed(GtkWidget *widget, gpointer user_data)
 {
     const char *resource;
     int old_val;
     int new_val;
 
-    resource = resource_widget_get_resource_name(scale);
+    resource = resource_widget_get_resource_name(widget);
     if (resources_get_int(resource, &old_val) < 0) {
         log_error(LOG_ERR, "failed to get value for resource '%s'\n",
                 resource);
         return;
     }
-    new_val = (int)gtk_range_get_value(GTK_RANGE(scale));
+    new_val = (int)gtk_range_get_value(GTK_RANGE(widget));
     /* only update resource when required */
     if (old_val != new_val) {
             debug_gtk3("setting %s to %d\n", resource, new_val);
@@ -87,7 +87,7 @@ static void on_scale_int_changed(GtkWidget *scale, gpointer user_data)
 
 /** \brief  Create a scale for an integer resource - helper
  *
- * \param[in]   scale       scale widget
+ * \param[in]   widget      interger scale widget
  * \param[in]   orientation scale orientation (\see GtkOrientation)
  * \param[in]   low         lowest value for scale
  * \param[in]   high        highest value for scale
@@ -95,14 +95,14 @@ static void on_scale_int_changed(GtkWidget *scale, gpointer user_data)
  *
  * \return  GtkScale
  */
-static GtkWidget *resource_scale_int_new_helper(GtkWidget *scale)
+static GtkWidget *resource_scale_int_new_helper(GtkWidget *widget)
 {
     int value;
     const char *resource;
 
-    resource = resource_widget_get_resource_name(scale);
+    resource = resource_widget_get_resource_name(widget);
 
-    gtk_scale_set_digits(GTK_SCALE(scale), 0);
+    gtk_scale_set_digits(GTK_SCALE(widget), 0);
 
     /* set current value */
     if (resources_get_int(resource, &value) < 0) {
@@ -112,16 +112,16 @@ static GtkWidget *resource_scale_int_new_helper(GtkWidget *scale)
     }
 
     /* remember original value for reset() */
-    resource_widget_set_int(scale, "ResourceOrig", value);
+    resource_widget_set_int(widget, "ResourceOrig", value);
 
-    gtk_range_set_value(GTK_RANGE(scale), (gdouble)value);
+    gtk_range_set_value(GTK_RANGE(widget), (gdouble)value);
 
-    g_signal_connect(scale, "value-changed", G_CALLBACK(on_scale_int_changed),
+    g_signal_connect(widget, "value-changed", G_CALLBACK(on_scale_int_changed),
             NULL);
-    g_signal_connect(scale, "destroy", G_CALLBACK(on_scale_int_destroy), NULL);
+    g_signal_connect(widget, "destroy", G_CALLBACK(on_scale_int_destroy), NULL);
 
-    gtk_widget_show(scale);
-    return scale;
+    gtk_widget_show(widget);
+    return widget;
 }
 
 /** \brief  Create a scale for an integer resource
@@ -147,16 +147,6 @@ GtkWidget *vice_gtk3_resource_scale_int_new(
     resource_widget_set_resource_name(scale, resource);
 
     return resource_scale_int_new_helper(scale);
-}
-
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_scale_int_create(
-        const char *resource,
-        GtkOrientation orientation,
-        int low, int high, int step)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_scale_int_new()\n");
-    return vice_gtk3_resource_scale_int_new(resource, orientation, low, high, step);
 }
 
 
@@ -191,48 +181,25 @@ GtkWidget *vice_gtk3_resource_scale_int_new_sprintf(
     return resource_scale_int_new_helper(scale);
 }
 
-/** \deprecated */
-GtkWidget *vice_gtk3_resource_scale_int_create_sprintf(
-        const char *fmt,
-        GtkOrientation orientation,
-        int low, int high, int step,
-        ...)
-{
-    GtkWidget *scale;
-    char *resource;
-    va_list args;
-
-    scale = gtk_scale_new_with_range(orientation,
-            (gdouble)low, (gdouble)high, (gdouble)step);
-
-    va_start(args, step);
-    resource = lib_mvsprintf(fmt, args);
-    g_object_set_data(G_OBJECT(scale), "ResourceName", (gpointer)resource);
-    va_end(args);
-
-    return resource_scale_int_new_helper(scale);
-}
-
-
 
 /** \brief  Add marks to integer \a scale widget at each \a step increment
  *
  * \param[in,out]   scale   integer scale widget
  * \param[in]       step    distance between marks
  */
-void vice_gtk3_resource_scale_int_set_marks(GtkWidget *scale, int step)
+void vice_gtk3_resource_scale_int_set_marks(GtkWidget *widget, int step)
 {
     GtkAdjustment *adj;
     int lower;
     int upper;
     int i;
 
-    adj = gtk_range_get_adjustment(GTK_RANGE(scale));
+    adj = gtk_range_get_adjustment(GTK_RANGE(widget));
     lower = (int)gtk_adjustment_get_lower(adj);
     upper = (int)gtk_adjustment_get_upper(adj);
 
     for (i = lower; i <= upper; i += step) {
-        gtk_scale_add_mark(GTK_SCALE(scale), (gdouble)i, GTK_POS_BOTTOM, NULL);
+        gtk_scale_add_mark(GTK_SCALE(widget), (gdouble)i, GTK_POS_BOTTOM, NULL);
     }
 }
 
@@ -246,13 +213,6 @@ gboolean vice_gtk3_resource_scale_int_set(GtkWidget *widget, int value)
 {
     gtk_range_set_value(GTK_RANGE(widget), (gdouble)value);
     return TRUE;
-}
-
-/** \deprecated */
-gboolean vice_gtk3_resource_scale_int_update(GtkWidget *scale, int value)
-{
-    debug_gtk3("DEPRECATED: use vice_gtk3_resource_scale_int_set()\n");
-    return vice_gtk3_resource_scale_int_set(scale, value);
 }
 
 
@@ -272,7 +232,7 @@ gboolean vice_gtk3_resource_scale_int_reset(GtkWidget *widget)
 
 /** \brief  Reset \a widget to the resource factory value
  *
- * \param[in,out]   widget  resource-scale-int widget
+ * \param[in,out]   widget  integer scale widget
  *
  * \return  bool
  */
@@ -290,6 +250,12 @@ gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget)
 }
 
 
+/** \brief  Synchronize \a widget with its resource
+ *
+ * \param[in,out]   integer scale widget
+ *
+ * \return  bool
+ */
 gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget)
 {
     const char *resource;

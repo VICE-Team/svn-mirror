@@ -33,24 +33,6 @@
 #include "basewidget_types.h"
 
 /*
- * Deprecated
- */
-
-GtkWidget *vice_gtk3_resource_scale_int_create(
-        const char *resource,
-        GtkOrientation orientation,
-        int low, int high, int step);
-
-GtkWidget *vice_gtk3_resource_scale_int_create_sprintf(
-        const char *fmt,
-        GtkOrientation orientation,
-        int low, int high, int step,
-        ...);
-
-gboolean vice_gtk3_resource_scale_int_update(GtkWidget *scale, int value);
-
-
-/*
  * New API
  */
 
