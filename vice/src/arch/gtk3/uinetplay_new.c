@@ -1,9 +1,10 @@
-/**
+/** \file   uinetplay_new.c
  * \brief   GTK3 Netplay UI
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -171,7 +172,7 @@ static GtkWidget *create_content_widget(void)
     row++;
 
     label = create_indented_label("Server IP address");
-    server_addr = vice_gtk3_resource_entry_full_create("NetworkServerName");
+    server_addr = vice_gtk3_resource_entry_full_new("NetworkServerName");
     gtk_widget_set_hexpand(server_addr, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), server_addr, 1, row, 1, 1);
@@ -191,7 +192,7 @@ static GtkWidget *create_content_widget(void)
     row++;
 
     label = create_indented_label("Bind IP address");
-    bind_addr = vice_gtk3_resource_entry_full_create(
+    bind_addr = vice_gtk3_resource_entry_full_new(
             "NetworkServerBindAddress");
     gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bind_addr, 1, row, 1, 1);
