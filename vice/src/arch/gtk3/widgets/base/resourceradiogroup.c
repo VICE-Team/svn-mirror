@@ -2,6 +2,10 @@
  * \brief   Group of radio buttons controlling a resource
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \todo    Make a copy of the \a entries argument to the new() functions, that
+ *          way the \a entries don't have to be kept in memory during the
+ *          lifetime of the widgets.
  */
 
 /*
@@ -96,7 +100,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 }
 
 
-/** \brief  Helper function for the create() functions
+/** \brief  Helper function for the new() functions
  *
  * \param[in]   grid        containing grid
  * \param[in]   entries     list of entries for the group
@@ -104,7 +108,7 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
  *
  * \return  GtkGrid
  */
-static GtkWidget *resource_radiogroup_create_helper(
+static GtkWidget *resource_radiogroup_new_helper(
         GtkWidget *grid,
         const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation)
@@ -116,7 +120,16 @@ static GtkWidget *resource_radiogroup_create_helper(
     const char *resource;
 
     resource = resource_widget_get_resource_name(grid);
-    resources_get_int(resource, &current);
+    if (resources_get_int(resource, &current) < 0) {
+        debug_gtk3("failed to get value for resource '%s', defaulting to 0\n",
+                resource);
+        current = 0;
+    }
+    /* store current resource value in object, for use with reset() */
+    resource_widget_set_int(grid, "ResourceOrig", current);
+
+    /* set ExtraCallback to NULL */
+    g_object_set_data(G_OBJECT(grid), "ExtraCallback", NULL);
 
     /* store a reference to the entries in the object */
     g_object_set_data(G_OBJECT(grid), "Entries", (gpointer)entries);
@@ -163,13 +176,17 @@ static GtkWidget *resource_radiogroup_create_helper(
  * "Orientation", the \a orientation argument. These are all required to make
  * the event handlers and resource_radiogroup_update() work properly.
  *
+ * The \a entries passed to this function need to be available during the
+ * widget's lifetime, since only a pointer to them is stored, no copies are
+ * made.
+ *
  * \param[in]   resource    resource name
  * \param[in]   entries     list of entries for the group
  * \param[in]   orientation layout direction of the radio buttons
  *
  * \return  GtkGrid
  */
-GtkWidget *vice_gtk3_resource_radiogroup_create(
+GtkWidget *vice_gtk3_resource_radiogroup_new(
         const char *resource,
         const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation)
@@ -181,7 +198,17 @@ GtkWidget *vice_gtk3_resource_radiogroup_create(
     /* store a copy of the resource name in the object */
     resource_widget_set_resource_name(grid, resource);
 
-    return resource_radiogroup_create_helper(grid, entries, orientation);
+    return resource_radiogroup_new_helper(grid, entries, orientation);
+}
+
+/** \deprecated */
+GtkWidget *vice_gtk3_resource_radiogroup_create(
+        const char *resource,
+        const vice_gtk3_radiogroup_entry_t *entries,
+        GtkOrientation orientation)
+{
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_new()\n");
+    return vice_gtk3_resource_radiogroup_new(resource, entries, orientation);
 }
 
 
@@ -196,13 +223,17 @@ GtkWidget *vice_gtk3_resource_radiogroup_create(
  * "Orientation", the \a orientation argument. These are all required to make
  * the event handlers and resource_radiogroup_update() work properly.
  *
+ * The \a entries passed to this function need to be available during the
+ * widget's lifetime, since only a pointer to them is stored, no copies are
+ * made.
+ *
  * \param[in]   fmt         resource name format string
  * \param[in]   entries     list of entries for the group
  * \param[in]   orientation layout direction of the radio buttons
  *
  * \return  GtkGrid
  */
-GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
+GtkWidget *vice_gtk3_resource_radiogroup_new_sprintf(
         const char *fmt,
         const vice_gtk3_radiogroup_entry_t *entries,
         GtkOrientation orientation,
@@ -219,16 +250,41 @@ GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
     g_object_set_data(G_OBJECT(grid), "ResourceName", (gpointer)resource);
     va_end(args);
 
-    return resource_radiogroup_create_helper(grid, entries, orientation);
+    return resource_radiogroup_new_helper(grid, entries, orientation);
+}
+
+/** \deprecated */
+GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
+        const char *fmt,
+        const vice_gtk3_radiogroup_entry_t *entries,
+        GtkOrientation orientation,
+        ...)
+{
+    GtkWidget *grid;
+    char *resource;
+    va_list args;
+
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_new_sprintf()\n");
+
+    grid = gtk_grid_new();
+
+    va_start(args, orientation);
+    resource = lib_mvsprintf(fmt, args);
+    g_object_set_data(G_OBJECT(grid), "ResourceName", (gpointer)resource);
+    va_end(args);
+
+    return resource_radiogroup_new_helper(grid, entries, orientation);
 }
 
 
-/** \brief  Update \a widget with \a id
+/** \brief  Set \a widget to \a id
  *
  * \param[in,out]   widget  radiogroup widget
  * \param[in]       id      new value for widget
+ *
+ * \return  bool
  */
-void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id)
+gboolean vice_gtk3_resource_radiogroup_set(GtkWidget *widget, int id)
 {
     int orientation;
     int index;
@@ -248,43 +304,100 @@ void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id)
                 radio = gtk_grid_get_child_at(GTK_GRID(widget), index, 0);
             }
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(radio), TRUE);
-            break;
+            return TRUE;
         }
     }
+    return FALSE;
 }
 
 
-/** \brief  Update \a widget using its current resource value
+/** \brief  Get resource value of \a widget
+ *
+ * \param[in]   widget  resource radio group
+ * \param[out]  id      object to store resource value
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id)
+{
+    const char *resource = resource_widget_get_resource_name(widget);
+
+    if (resources_get_int(resource, id) < 0) {
+        debug_gtk3("failed to get value for resource '%s'\n", resource);
+        *id = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
+
+/** \deprecated */
+gboolean vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id)
+{
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_set()\n");
+    return vice_gtk3_resource_radiogroup_set(widget, id);
+}
+
+
+/** \brief  Synchronize \a widget with its current resource value
  *
  * \param[in,out]   widget  radiogroup widget
  *
- * XXX: _sync() would probably be a better name
+ * \return  bool
  */
-void vice_gtk3_resource_radiogroup_update_from_resource(GtkWidget *widget)
+gboolean vice_gtk3_resource_radiogroup_sync(GtkWidget *widget)
 {
     const char *resource;
     int value;
 
     resource = resource_widget_get_resource_name(widget);
-    if (resources_get_int(resource, &value) == 0) {
-        vice_gtk3_resource_radiogroup_update(widget, value);
+    if (resources_get_int(resource, &value) < 0) {
+        debug_gtk3("failed to get value for resource '%s'\n", resource);
+        return FALSE;
     }
+    return vice_gtk3_resource_radiogroup_set(widget, value);
+}
+
+/** \deprecated */
+gboolean vice_gtk3_resource_radiogroup_update_from_resource(GtkWidget *widget)
+{
+    debug_gtk3("DEPRECATED: use vice_gtk3_resource_radiogroup_sync()\n");
+    return vice_gtk3_resource_radiogroup_sync(widget);
 }
 
 
 /** \brief  Reset radio group to its factory default
  *
- * \param[in,out]   widget  radio group
+ * \param[in,out]   widget  resource radio group
+ *
+ * \return  bool
  */
-void vice_gtk3_resource_radiogroup_reset(GtkWidget *widget)
+gboolean vice_gtk3_resource_radiogroup_factory(GtkWidget *widget)
 {
     const char *resource;
     int value;
 
     resource = resource_widget_get_resource_name(widget);
-    resources_get_default_value(resource, &value);
+    if (resources_get_default_value(resource, &value) < 0) {
+        debug_gtk3("failed to get factory value for resource '%s'\n", resource);
+        return FALSE;
+    }
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
-    vice_gtk3_resource_radiogroup_update(widget, value);
+    return vice_gtk3_resource_radiogroup_set(widget, value);
+}
+
+
+/** \brief  Reset radio group to its value on instanciation
+ *
+ * \param[in,out]   widget  resource radio group
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_radiogroup_reset(GtkWidget *widget)
+{
+    int orig = resource_widget_get_int(widget, "ResourceOrig");
+    return vice_gtk3_resource_radiogroup_set(widget, orig);
 }
 
 

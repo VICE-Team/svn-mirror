@@ -1,4 +1,4 @@
-/**
+/** \file   resourceradiogroup.h
  * \brief   Group of radio buttons controlling a resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -32,6 +32,10 @@
 #include <gtk/gtk.h>
 #include "basewidget_types.h"
 
+/*
+ * Deprecated
+ */
+
 GtkWidget *vice_gtk3_resource_radiogroup_create(
         const char *resource,
         const vice_gtk3_radiogroup_entry_t *entries,
@@ -43,11 +47,35 @@ GtkWidget *vice_gtk3_resource_radiogroup_create_sprintf(
         GtkOrientation orientation,
         ...);
 
-void vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id);
+gboolean vice_gtk3_resource_radiogroup_update(GtkWidget *widget, int id);
 
-void vice_gtk3_resource_radiogroup_update_from_resource(GtkWidget *widget);
+gboolean vice_gtk3_resource_radiogroup_update_from_resource(GtkWidget *widget);
 
-void vice_gtk3_resource_radiogroup_reset(GtkWidget *widget);
+
+/*
+ * New API
+ */
+
+GtkWidget *vice_gtk3_resource_radiogroup_new(
+        const char *resource,
+        const vice_gtk3_radiogroup_entry_t *entries,
+        GtkOrientation orientation);
+
+GtkWidget *vice_gtk3_resource_radiogroup_new_sprintf(
+        const char *fmt,
+        const vice_gtk3_radiogroup_entry_t *entries,
+        GtkOrientation orientation,
+        ...);
+
+gboolean vice_gtk3_resource_radiogroup_set(GtkWidget *widget, int id);
+
+gboolean vice_gtk3_resource_radiogroup_get(GtkWidget *widget, int *id);
+
+gboolean vice_gtk3_resource_radiogroup_sync(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_radiogroup_factory(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_radiogroup_reset(GtkWidget *widget);
 
 void vice_gtk3_resource_radiogroup_add_callback(
         GtkWidget *widget,
