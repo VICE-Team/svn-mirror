@@ -133,7 +133,7 @@ static int set_glue_type(int val, void *param)
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
     { "GlueLogic", GLUE_LOGIC_CUSTOM_IC, RES_EVENT_NO, NULL,
       &glue_logic_type, set_glue_type, NULL },
     RESOURCE_INT_LIST_END
@@ -141,6 +141,9 @@ static const resource_int_t resources_int[] = {
 
 int c64_glue_resources_init(void)
 {
+    if (machine_class == VICE_MACHINE_C64) {
+        resources_int[0].factory_value = GLUE_LOGIC_DISCRETE;
+    }
     return resources_register_int(resources_int);
 }
 
