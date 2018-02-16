@@ -1,4 +1,4 @@
-/**
+/** \file   resourcescale.h
  * \brief   Scale to control an integer resource - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -32,6 +32,10 @@
 #include <gtk/gtk.h>
 #include "basewidget_types.h"
 
+/*
+ * Deprecated
+ */
+
 GtkWidget *vice_gtk3_resource_scale_int_create(
         const char *resource,
         GtkOrientation orientation,
@@ -43,10 +47,34 @@ GtkWidget *vice_gtk3_resource_scale_int_create_sprintf(
         int low, int high, int step,
         ...);
 
-void vice_gtk3_resource_scale_int_update(GtkWidget *scale, int value);
+gboolean vice_gtk3_resource_scale_int_update(GtkWidget *scale, int value);
 
-void vice_gtk3_resource_scale_int_set_marks(GtkWidget *scale, int step);
 
-void vice_gtk3_resource_scale_int_reset(GtkWidget *scale);
+/*
+ * New API
+ */
+
+GtkWidget *vice_gtk3_resource_scale_int_new(
+        const char *resource,
+        GtkOrientation orientation,
+        int low, int high, int step);
+
+GtkWidget *vice_gtk3_resource_scale_int_new_sprintf(
+        const char *fmt,
+        GtkOrientation orientation,
+        int low, int high, int step,
+        ...);
+
+gboolean vice_gtk3_resource_scale_int_set(GtkWidget *widget, int value);
+
+void vice_gtk3_resource_scale_int_set_marks(GtkWidget *widget, int step);
+
+gboolean vice_gtk3_resource_scale_int_get(GtkWidget *widget, int value);
+
+gboolean vice_gtk3_resource_scale_int_reset(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_scale_int_factory(GtkWidget *widget);
+
+gboolean vice_gtk3_resource_scale_int_sync(GtkWidget *widget);
 
 #endif
