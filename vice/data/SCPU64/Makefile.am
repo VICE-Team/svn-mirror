@@ -40,6 +40,8 @@ x11_keymaps = \
 sdl_keymaps = \
 	sdl_keyrah.vkm \
 	sdl_keyrah_de.vkm \
+	sdl_keyrah_retropie.vkm \
+	sdl_keyrah_retropie_de.vkm \
 	sdl_pos.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \

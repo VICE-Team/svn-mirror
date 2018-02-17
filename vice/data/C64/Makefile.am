@@ -54,6 +54,8 @@ sdl_keymaps = \
 	sdl_pos_no.vkm \
 	sdl_keyrah.vkm \
 	sdl_keyrah_de.vkm \
+	sdl_keyrah_retropie.vkm \
+	sdl_keyrah_retropie_de.vkm \
 	sdl_sym.vkm
 
 extra_keymaps = \
