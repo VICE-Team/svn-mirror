@@ -61,17 +61,6 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Positional Mapping for Individual Computer's "Keyrah", German Layout, C64, SDL
-
-# this keyboard map applies for the "vice" setting of keyrah (switch down) and
-# maps all 64 keys, plus restore, to the respective emulated keys in the 
-# emulation. this however leaves no key free to enter the menu - one way to work
-# around this is to configure the "enter menu" key to the code which is produced
-# by the restore key when the switch is in "normal" (middle) position, like:
-#
-# -menukey 60                      restore for menu (with switch in middle pos.)
-#
-
 !CLEAR
 !LSHIFT 1 7
 !RSHIFT 6 4
