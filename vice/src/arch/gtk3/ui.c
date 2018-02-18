@@ -136,7 +136,8 @@ static const resource_int_t resources_int_primary_window[] = {
     RESOURCE_INT_LIST_END
 };
 
-
+/** \brief  Integer/Boolean type resources list for VDC window
+ */
 static const resource_int_t resources_int_secondary_window[] = {
     /* secondary window (C128's VDC display) */
     { "Window1Height", 0, RES_EVENT_NO, NULL,
@@ -366,12 +367,17 @@ static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *ev
 }
 
 
-/** \brief Returns if we're in fullscreen mode. */
+/** \brief Checks if we're in fullscreen mode. 
+ *  \return Nonzero if we're in fullscreen mode. */
 int ui_is_fullscreen(void)
 {
     return is_fullscreen;
 }
 
+/**
+ * \brief Updates UI in response to the simulated machine screen
+ *        changing its dimensions or aspect ratio.
+ */
 void ui_trigger_resize(void)
 {
     int i;
@@ -385,7 +391,10 @@ void ui_trigger_resize(void)
     }
 }
 
-/** \brief Callback for the "fullscreen" action */
+/** \brief Toggles fullscreen mode in reaction to user request.
+ *  \param widget The widget that sent the callback. Ignored.
+ *  \param user_data Extra data for the callback. Ignored.
+ */
 void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWindow *window;
@@ -406,6 +415,10 @@ void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
     ui_update_fullscreen_decorations();
 }
 
+/** \brief Toggles fullscreen window decorations in response to user request.
+ *  \param widget The widget that sent the callback. Ignored.
+ *  \param user_data Extra data for the callback. Ignored.
+ */
 void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
 {
     fullscreen_has_decorations = !fullscreen_has_decorations;
@@ -610,11 +623,6 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
 }
 
 
-/* FIXME: the code that calls this apparently creates the VDC window for x128
-          before the VIC window (primary) - this is probably done so the VIC
-          window ends up being on top of the VDC window. however, we better call
-          some "move window to front" function instead, and create the windows
-          starting with the primary one. */
 /** \brief Create a toplevel window to represent a video canvas.
  *
  * This function takes a video canvas structure and builds the widgets
@@ -626,6 +634,15 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
  * video canvas routines are expected to do any last-minute processing
  * or preparation, and then call ui_display_toplevel_window() when
  * ready.
+ *
+ * \param canvas The video_canvas_s to initialize.
+ *
+ * \warning The code that calls this apparently creates the VDC window
+ *          for x128 before the VIC window (primary) - this is
+ *          probably done so the VIC window ends up being on top of
+ *          the VDC window. however, we better call some "move window
+ *          to front" function instead, and create the windows
+ *          starting with the primary one.
  */
 void ui_create_toplevel_window(video_canvas_t *canvas)
 {
@@ -686,8 +703,10 @@ void ui_create_toplevel_window(video_canvas_t *canvas)
     kbd_connect_handlers(new_window, NULL);
 }
 
-/** \brief  Makes the specified window visible. */
-
+/** \brief Makes the a window visible once it's been initialized. 
+ *  \param index Which window to display.
+ *  \sa ui_resources_s::window_widget
+ */
 void ui_display_toplevel_window(int index)
 {
     if (ui_resources.window_widget[index]) {
@@ -712,7 +731,11 @@ int ui_cmdline_options_init(void)
 }
 
 
-/* FIXME: what is this supposed to do? */
+/** \brief Unknown API call, apparently unused.
+ *  \param format Some kind of format string I guess.
+ *  \return Maybe the contents of the file named?
+ *  \warning This function intentionally crashes VICE if it is ever
+ *           called. */
 char *ui_get_file(const char *format, ...)
 {
     NOT_IMPLEMENTED();
@@ -736,21 +759,33 @@ int ui_init(int *argc, char **argv)
 }
 
 
-/* FIXME: do we need this? Doesn't seem like it -- compyx */
+/** \brief Finalize initialization.
+ *  \return Nonzero on failure.
+ *  \todo This function seems to have no reason to exist.
+ *  \sa ui_init_finish
+ */
 int ui_init_finalize(void)
 {
     return 0;
 }
 
 
-/* FIXME: do we need this? Doesn't seem like it -- compyx */
+/** \brief Finish initialization.
+ *  \return Nonzero on failure.
+ *  \todo This function seems to have no reason to exist.
+ *  \sa ui_init_finalize
+ */
 int ui_init_finish(void)
 {
     return 0;
 }
 
 
-
+/** \brief Display the dialog box in response to a CPU jam.
+ *
+ *  \param format Format string for the message to display.
+ *  \return What action the user selected in response to the jam.
+ */
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
     va_list args;
@@ -811,12 +846,17 @@ void ui_resources_shutdown(void)
     INCOMPLETE_IMPLEMENTATION();
 }
 
+/** \brief Clean up memory used by the UI system itself */
 void ui_shutdown(void)
 {
     ui_settings_dialog_shutdown();
     ui_statusbar_shutdown();
 }
 
+/** \brief Update menus on active windows.
+ *  \todo This is unimplemented and the API requirements are not
+ *        understood.
+ */
 void ui_update_menus(void)
 {
     /* allows autostart to work */
@@ -826,8 +866,8 @@ void ui_update_menus(void)
 
 /** \brief  Dispatch next GLib main context event
  *
- * FIXME:   According to the Gtk3/GLib devs, this will at some point bite us
- *          in the arse.
+ *  \warning According to the Gtk3/GLib devs, this will at some point
+ *           bite us in the arse.
  */
 void ui_dispatch_next_event(void)
 {
@@ -837,8 +877,8 @@ void ui_dispatch_next_event(void)
 
 /** \brief  Dispatch events pending in the GLib main context loop
  *
- * FIXME:   According to the Gtk3/GLib devs, this will at some point bite us
- *          in the arse.
+ * \warning According to the Gtk3/GLib devs, this will at some point
+ *          bite us in the arse.
  */
 void ui_dispatch_events(void)
 {
@@ -847,6 +887,11 @@ void ui_dispatch_events(void)
     }
 }
 
+/** \brief Execute the "extend image" dialog.
+ *  \return The user's choice.
+ *  \todo This function is not implemented and its intended API is not
+ *        understood. It will intentionally crash VICE if called.
+ */
 int ui_extend_image_dialog(void)
 {
     NOT_IMPLEMENTED();
@@ -855,7 +900,7 @@ int ui_extend_image_dialog(void)
 
 
 /** \brief  Display error message through the UI
- *
+ *  \param  format format string
  */
 void ui_error(const char *format, ...)
 {
@@ -872,6 +917,7 @@ void ui_error(const char *format, ...)
 
 
 /** \brief  Display a message through the UI
+ *  \param  format format string for message
  */
 void ui_message(const char *format, ...)
 {
@@ -886,7 +932,12 @@ void ui_message(const char *format, ...)
     lib_free(buffer);
 }
 
-/* display FPS (and some other stuff) in the title bar of the window(s) */
+/** \brief display FPS (and some other stuff) in the title bar of each
+ *         window.
+ *  \param percent   CPU speed ratio.
+ *  \param framerate Frame rate.
+ *  \param warp_flag Nonzero if warp mode is active.
+ */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
     int i;
@@ -973,8 +1024,7 @@ int ui_emulation_is_paused(void)
  * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
  *          passed to the emu)
  *
- * FIXME:   Using the UI the tickmark is properly set/unset, but when using this
- *          from a keyboard shortcut, the tickmark isn't updated at all.
+ * \todo Update UI tickmarks properly if triggered by a keyboard accelerator.
  */
 gboolean ui_toggle_pause(void)
 {
@@ -989,9 +1039,7 @@ gboolean ui_toggle_pause(void)
  *
  * \return  TRUE (indicates the Alt+SHIFT+P got consumed by Gtk, so it won't be
  *          passed to the emu)
- *
- * FIXME:   Using the UI the pause tickmark is properly set/unset, but when using
- *          this from a keyboard shortcut, the tickmark isn't updated at all.
+ * \todo Update UI tickmarks properly if triggered by a keyboard accelerator.
  */
 gboolean ui_advance_frame(void)
 {
