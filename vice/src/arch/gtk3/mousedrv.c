@@ -37,13 +37,42 @@
 
 #ifndef MACOSX_COCOA
 
+/** \brief The callbacks registered for mouse buttons being pressed or
+ *         released. 
+ *  \sa mousedrv_resources_init which sets these values properly
+ *  \sa mouse_button which uses them
+ */
+static mouse_func_t mouse_funcs = {
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+};
 
-static mouse_func_t mouse_funcs;
-
+/** \brief Current mouse X value.
+ *
+ *  This is a dead-reckoning sum of left and right motions and does
+ *  not necessarily bear any connection to any actual X coordinates.
+ *
+ *  \sa mousedrv_get_x
+ */
 static float mouse_x = 0.0;
-static float mouse_y = 0.0;
-static unsigned long mouse_timestamp = 0;
 
+/** \brief Current mouse Y value.
+ *
+ *  This is a dead-reckoning sum of left and right motions and does
+ *  not necessarily bear any connection to any actual X coordinates.
+ *
+ *  \sa mousedrv_get_y
+ */
+static float mouse_y = 0.0;
+
+/** \brief Last time the mouse was moved.
+ *
+ *  \sa mousedrv_get_timestamp
+ */
+static unsigned long mouse_timestamp = 0;
 
 int mousedrv_cmdline_options_init(void)
 {
@@ -88,16 +117,50 @@ void mouse_move(float dx, float dy)
     mouse_timestamp = vsyncarch_gettime();
 }
 
+void mouse_button(int bnumber, int state)
+{
+    fprintf (stderr, "GTK3MOUSE: Mouse button %d %s\n", bnumber, state ? "pressed" : "released");
+    switch(bnumber) {
+    case 0:
+        if (mouse_funcs.mbl) {
+            mouse_funcs.mbl(state);
+        }
+        break;
+    case 1:
+        if (mouse_funcs.mbm) {
+            mouse_funcs.mbm(state);
+        }
+        break;
+    case 2:
+        if (mouse_funcs.mbr) {
+            mouse_funcs.mbr(state);
+        }
+        break;
+    case 3:
+        if (mouse_funcs.mbu) {
+            mouse_funcs.mbu(state);
+        }
+        break;
+    case 4:
+        if (mouse_funcs.mbd) {
+            mouse_funcs.mbd(state);
+        }
+        break;
+    default:
+        fprintf(stderr, "GTK3MOUSE: Warning: Strange mouse button %d\n", bnumber);
+    }
+}
 
 void mousedrv_init(void)
 {
-    NOT_IMPLEMENTED_WARN_ONLY();
+    /* This does not require anything special to be done */
 }
 
 void mousedrv_mouse_changed(void)
 {
-    /* ui_check_mouse_cursor(); */
-    NOT_IMPLEMENTED_WARN_ONLY();
+    /** \todo Tell UI level to capture mouse cursor if necessary and
+     *        permitted */
+    fprintf(stderr, "GTK3MOUSE: Status changed\n");
 }
 
 int mousedrv_resources_init(mouse_func_t *funcs)
