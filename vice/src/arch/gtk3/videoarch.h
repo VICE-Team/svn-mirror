@@ -1,11 +1,14 @@
 /**
- * \broef   Native GTK3 graphics routines.
+ * \file   videoarch.h
+ * \brief  Native GTK3 graphics routines.
  *
- * based on the X11 version written by
- *  Ettore Perazzoli
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Andreas Boose <viceteam@t-online.de>
- *
+ * \author Ettore Perazzoli
+ * \author Teemu Rantanen <tvr@cs.hut.fi>
+ * \author Andreas Boose <viceteam@t-online.de>
+ * \author Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -37,75 +40,147 @@
 
 struct vice_renderer_backend_s;
 
-struct video_canvas_s {
+/**
+ * \brief Master data structure for a machine window's primary display.
+ */
+typedef struct video_canvas_s {
+    /** \brief Nonzero if it is safe to access other members of the
+     *         structure. */
     unsigned int initialized;
+    /** \brief Nonzero if the structure has been fully realized. */
     unsigned int created;
 
-    /* All the UI elements in a canvas window are contained within a GtkGrid. */
+    /** \brief Top-level widget that contains the full contents of the
+     *         machine window. */
     GtkWidget *grid;
-    /* GTK3's video canvas is either a GtkDrawingArea or a GtkGLArea,
-     * depending on which renderer has been selected. Each is
-     * ultimately represented as a GtkWidget object. */
+    /** \brief Child widget to which the emulated screen is drawn. 
+     *
+     *  Depending on what renderer backend is in use this will be
+     *  either a GtkDrawingArea or a GtkGLArea. */
     GtkWidget *drawing_area;
-#if 0
-    /* The video canvas is surrounded by an GtkEventBox which can
-     * capture events like mouse motion or clicks. */
-    GtkWidget *event_box;
-#endif
-    /* The renderer backend selected for use this run. */
+    /** \brief The renderer backend selected for use this run. */
     struct vice_renderer_backend_s *renderer_backend;
-    /* Renderers have data unique to themselves, too. They'll know
-     * what this is. */
+    /** \brief Data unique to the renderer backend. This value is
+     *         passed to all renderer methods. and is managed by
+     *         them. */
     void *renderer_context;
-    /* Cursors are unique to windows, so if we want to hide the mouse
-     * cursor, this will hold the "blank" cursor for this canvas. */
+    /** \brief Special "blank" cursor for cases where the mouse
+     *         pointer should disappear. */
     GdkCursor *blank_ptr;
-    /* And if the light pen is enabled, this will hold the special
-     * light pen cursor for this canvas. */
+    /** \brief Special "target" cursor for active light pens. */
     GdkCursor *pen_ptr;
-    /* Number of frames the mouse hasn't moved while still on the canvas. */
+    /** \brief Number of frames the mouse hasn't moved while still on
+     *         the canvas. */
     unsigned int still_frames;
+    /** \brief Handle to the timer callback that will make the mouse
+     *         disappear if it's hovered for too long over the screen
+     *         display. */
     guint still_frame_callback_id;
-    /* Light pen location and button status. */
-    int pen_x, pen_y, pen_buttons;
-    /* Origin and scale factor for the actual screen within the
-     * window. In keeping with GTK3 coordinate events, these are
-     * doubles. */
-    double screen_origin_x, screen_origin_y;
-    double screen_display_w, screen_display_h;
+    /** \brief Light pen X coordinate, in window coordinates. */
+    int pen_x;
+    /** \brief Light pen Y coordinate, in window coordinates. */
+    int pen_y;
+    /** \brief Light pen button status. */
+    int pen_buttons;
+    /** \brief Leftmost X coordinate of the actual machine's screen,
+     *         in window coordinates. */
+    double screen_origin_x;
+    /** \brief Topmost Y coordinate of the actual machine's screen, in
+     *         window coordinates. */
+    double screen_origin_y;
+    /** \brief Width of the actual machine's screen, in window
+     *         coordinates. */
+    double screen_display_w;
+    /** \brief Height of the actual machine's screen, in window
+     *         coordinates. */
+    double screen_display_h;
 
-    /* The remainder are fields the core needs to communicate with the
-     * renderers. */
+    /** \brief Rendering configuration as seen by the emulator
+     *         core. */
     struct video_render_config_s *videoconfig;
+    /** \brief Drawing buffer as seen by the emulator core. */
     struct draw_buffer_s *draw_buffer;
+    /** \brief Display window as seen by the emulator core. */
     struct viewport_s *viewport;
+    /** \brief Machine screen geometry as seen by the emulator
+     *         core. */
     struct geometry_s *geometry;
+    /** \brief Color palette for translating display results into
+     *         window colors. */
     struct palette_s *palette;
-#if 0
-    float refreshrate; /* currently displayed refresh rate */
-#endif
-
+    /** \brief Methods for managing the draw buffer when the core
+     *         rasterizer handles it. */
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 
-    int offx; /* for lightpen */
-    int window_index; /* index of window that belongs to this canvas */
-};
-typedef struct video_canvas_s video_canvas_t;
+    /** \brief Which window contains this canvas.
+     *  \sa ui_resources_s::canvas The array this value indexes */
+    int window_index;
+} video_canvas_t;
 
+/** \brief Rescale and reposition the screen inside the canvas if the
+ *         screen's size has been programatically changed. 
+ *  \param canvas The canvas to adjust.
+ */
 void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas);
 
-/* The renderer backend selected for use this run. */
-struct vice_renderer_backend_s {
+/** \brief A collection of methods that abstract away the underlying
+ *         display API.
+ *
+ *  GTK3's default software rendering (Cairo) and its accelerated one
+ *  (OpenGL) use very different mechanisms for displaying (possibly
+ *  scaled) pixel content or incrementally updating it. These routines
+ *  let us keep those differences contained. */
+typedef struct vice_renderer_backend_s {
+    /** \brief Creates a widget suitable for this renderer to target.
+     *
+     *  Also initializes the opaque video_canvas_s::renderer_context
+     *  field if needed, and sets other necessary fields.
+     *
+     *  \param canvas The canvas to create the widget for.
+     *  \return The newly created canvas.
+     */
     GtkWidget *(*create_widget)(video_canvas_t *canvas);
+    /** \brief Creates or resizes the pixel buffer that this renderer
+     *         backend is using for the screen.
+     *
+     * This is an expensive operation if the width and height have
+     * changed since the last call.
+     *
+     * \param canvas The canvas being resized or initially created.
+     * \param width The new width for the machine's screen.
+     * \param height The new height for the machine's screen.
+     */
     void (*update_context)(video_canvas_t *canvas,
                            unsigned int width, unsigned int height);
+    /** \brief Clean up any resources used by this renderer backend,
+     *         in preparation for destruction or recreation.
+     * 
+     *  \param canvas The canvas whose renderer_context is to be
+     *                deleted
+     */
     void (*destroy_context)(video_canvas_t *canvas);
+    /** \brief Render pixels in the specified rectangle.
+     *
+     * This both asks the emulator core to update the renderer context
+     * and asks the UI to display the changed results.
+     *
+     * \param canvas The canvas being rendered to
+     * \param xs     A parameter to forward to video_canvas_render()
+     * \param ys     A parameter to forward to video_canvas_render()
+     * \param xi     X coordinate of the leftmost pixel to update
+     * \param yi     Y coordinate of the topmost pixel to update
+     * \param w      Width of the rectangle to update
+     * \param h      Height of the rectangle to update
+     */
     void (*refresh_rect)(video_canvas_t *canvas,
                          unsigned int xs, unsigned int ys,
                          unsigned int xi, unsigned int yi,
                          unsigned int w, unsigned int h);
+    /** \brief Initialize the palette for this renderer.
+     *
+     * \param canvas The canvas being initialized
+     */
     void (*set_palette)(video_canvas_t *canvas);
-};
-typedef struct vice_renderer_backend_s vice_renderer_backend_t;
+} vice_renderer_backend_t;
 
 #endif

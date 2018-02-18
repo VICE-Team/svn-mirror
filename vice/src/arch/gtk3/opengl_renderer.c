@@ -1,9 +1,11 @@
 /**
+ * \file opengl_renderer.c
  * \brief   OpenGL-based renderer for the GTK3 backend.
  *
- *  Michael C. Martin <mcmartin@gmail.com>
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
+ * \author Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/* This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -45,20 +47,73 @@
 #include "ui.h"
 #include "video.h"
 
+/** \brief The screen has not changed, so the texture may be used
+ *         unchanged */
 #define RENDER_MODE_STATIC      0
+/** \brief The texture must be completely recreated from scratch */
 #define RENDER_MODE_NEW_TEXTURE 1
+/** \brief The texture needs some or all of its pixels updated */
 #define RENDER_MODE_DIRTY_RECT  2
 
+/** \brief Rendering context for the OpenGL backend.
+ *  \sa video_canvas_s::renderer_context */
 typedef struct vice_opengl_renderer_context_s {
-    GLuint program, position_index, tex_coord_index;
-    GLuint vbo, vao, texture;
-    unsigned int width, height;
+    /** \brief The OpenGL program that comprises our vertex and
+     *         fragment shaders. */
+    GLuint program;
+    /** \brief The index of the "position" parameter in the shader
+     *         program. */
+    GLuint position_index;
+    /** \brief The index of the "texCoord" parameter in the shader
+     *         program. */
+    GLuint tex_coord_index;
+    /** \brief The vertex buffer object that holds our vertex data. */
+    GLuint vbo;
+    /** \brief The vertex array object that gives structure to our
+     *         vertex data. */
+    GLuint vao;
+    /** \brief The texture identifier for the GPU's copy of our
+     *         machine display. */
+    GLuint texture;
+    /** \brief Width of the texture, in pixels. */
+    unsigned int width;
+    /** \brief Height of the texture, in pixels. */
+    unsigned int height;
+    /** \brief The raw pixel data that is the CPU's copy of our
+     * machine display. */
     unsigned char *backbuffer;
-    float scale_x, scale_y;
-    unsigned int dirty_x, dirty_y, dirty_w, dirty_h;
+    /** \brief Fraction of the window width the scaled machine display
+     *         takes up (1.0f=entire width). */
+    float scale_x;
+    /** \brief Fraction of the window height the scaled machine display
+     *         takes up (1.0f=entire height). */
+    float scale_y;
+    /** \brief X coordinate of leftmost pixel that needs to be updated
+     * in the texture. */
+    unsigned int dirty_x;
+    /** \brief Y coordinate of topmost pixel that needs to be updated
+     * in the texture. */
+    unsigned int dirty_y;
+    /** \brief Width of the rectangle that needs to be updated in the
+     * texture. */
+    unsigned int dirty_w;
+    /** \brief Height of the rectangle that needs to be updated in the
+     * texture. */
+    unsigned int dirty_h;
+    /** \brief What preprocessing the texture will need pre-rendering.
+     *
+     * Must be one of RENDER_MODE_STATIC, RENDER_MODE_NEW_TEXTURE, or
+     * RENDER_MODE_DIRTY_RECT.
+     */
     unsigned int render_mode;
 } context_t;
 
+/** \brief Raw geometry for the machine screen.
+ *
+ * The first sixteen elements describe a rectangle the size of the
+ * entire display area, and the last eight assign texture coordinates
+ * to each corner.
+ */
 static float vertexData[] = {
         -1.0f,    -1.0f, 0.0f, 1.0f,
          1.0f,    -1.0f, 0.0f, 1.0f,
@@ -70,6 +125,11 @@ static float vertexData[] = {
          1.0f,     0.0f
 };
 
+/** \brief Our renderer's vertex shader. 
+ *
+ * This simply scales the geometry it is provided and provides
+ * smoothly interpolated texture coordinates between each vertex. The
+ * world coordinates remain [-1, 1] in all dimensions. */
 static const char *vertexShader = "#version 150\n"
     "uniform vec4 scale;\n"
     "in vec4 position;\n"
@@ -80,13 +140,26 @@ static const char *vertexShader = "#version 150\n"
     "  texCoord = tex;\n"
     "}\n";
 
+/** \brief Our renderer's fragment shader.
+ *
+ * This does nothing but texture lookups based on the values fed to it
+ * by the vertex shader. */
 static const char *fragmentShader = "#version 150\n"
     "uniform sampler2D sampler;\n"
     "smooth in vec2 texCoord;\n"
     "out vec4 outputColor;\n"
     "void main() { outputColor = texture2D(sampler, texCoord); }\n";
 
-
+/** \brief Compile a shader.
+ *
+ *  If the shader cannot be compiled, error messages from OpenGL will
+ *  be dumped to stdout.
+ *
+ *  \param shader_type The kind of shader being compiled. Must be
+ *                     either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER.
+ *  \param text        The shader source.
+ *  \return The identifier of the shader.
+ */
 static GLuint create_shader(GLenum shader_type, const char *text)
 {
     GLuint shader = glCreateShader(shader_type);
@@ -116,6 +189,15 @@ static GLuint create_shader(GLenum shader_type, const char *text)
     return shader;
 }
 
+/** \brief Compile and link the renderer's shaders.
+ *
+ *  If successful, the vice_opengl_renderer_context_s::program,
+ *  vice_opengl_renderer_context_s::position_index, and
+ *  vice_opengl_renderer_context_s::tex_coord_index fields will be
+ *  filled in with values for future use.
+ *
+ *  \param ctx The renderer context that will receive the results.
+ */
 static void create_shader_program(context_t *ctx)
 {
     GLuint program = glCreateProgram();
@@ -146,6 +228,22 @@ static void create_shader_program(context_t *ctx)
     ctx->program = program;
 }
 
+/** \brief GTK3 callback when setting up the OpenGL context.
+ *
+ * This is also where OpenGL compatibility is checked. If the system
+ * is not OpenGL 3.2-compatible, or if the area otherwise fails to
+ * initialize, errors will be logged to stderr.
+ *
+ * \param area      The widget being initialized.
+ * \param user_data The video_canvas_s associated with this widget.
+ *
+ * \warning If initialization fails, the display will completely fail
+ *          to render. However, some experimentation has shown that
+ *          some displays will successfully render as a 3.2 context
+ *          even when the driver only purports to support up to
+ *          2.1. It is not clear exactly what the requirements truly
+ *          are. 
+ */
 static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
@@ -185,6 +283,14 @@ static void realize_opengl_cb (GtkGLArea *area, gpointer user_data)
     glGenTextures(1, &ctx->texture);
 }
 
+/** \brief OpenGL render callback.
+ *  \param area   The widget being rendered.
+ *  \param unused The GDK context that wraps OpenGL.
+ *  \param data   The video_canvas_s associated with this widget.
+ *  \return TRUE if no further processing is needed on this event.
+ *  \todo It should be possible to select GL_NEAREST or GL_LINEAR when
+ *        deciding how to scale textures.
+ */
 static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointer data)
 {
     video_canvas_t *canvas = data;
@@ -254,6 +360,14 @@ static gboolean render_opengl_cb (GtkGLArea *area, GdkGLContext *unused, gpointe
     return TRUE;
 }
 
+/** \brief OpenGL viewport resize callback, called when the user or OS
+ *         has resized the window but the machine screen remains
+ *         intact.
+ *  \param area      The widget being resized.
+ *  \param width     The new viewport width.
+ *  \param height    The new viewport height.
+ *  \param user_data The video_canvas_s associated with this widget.
+ */
 static void
 resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
 {
@@ -299,6 +413,12 @@ resize_opengl_cb (GtkGLArea *area, gint width, gint height, gpointer user_data)
     canvas->screen_origin_y = ((double)height - canvas->screen_display_h) / 2.0;
 }
 
+/** \brief OpenGL implementation of create_widget.
+ *
+ *  \param canvas The canvas to create the widget for.
+ *  \return The newly created canvas.
+ *  \sa vice_renderer_backend_s::create_widget
+ */
 static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
 {
     GtkWidget *widget = gtk_gl_area_new();
@@ -312,6 +432,12 @@ static GtkWidget *vice_opengl_create_widget(video_canvas_t *canvas)
     return widget;
 }
 
+/** \brief OpenGL implementation of destroy_context.
+ * 
+ *  \param canvas The canvas whose renderer_context is to be
+ *                deleted
+ *  \sa vice_renderer_backend_s::destroy_context
+ */
 static void vice_opengl_destroy_context(video_canvas_t *canvas)
 {
     if (canvas) {
@@ -328,6 +454,12 @@ static void vice_opengl_destroy_context(video_canvas_t *canvas)
     }
 }
 
+/** \brief OpenGL implementation of update_context.
+ * \param canvas The canvas being resized or initially created.
+ * \param width The new width for the machine's screen.
+ * \param height The new height for the machine's screen.
+ * \sa vice_renderer_backend_s::update_context
+ */
 static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
     context_t *ctx = canvas ? (context_t *)canvas->renderer_context : NULL;
@@ -362,6 +494,15 @@ static void vice_opengl_update_context(video_canvas_t *canvas, unsigned int widt
     }
 }
 
+/** \brief OpenGL implementation of refresh_rect.
+ * \param canvas The canvas being rendered to
+ * \param xs     A parameter to forward to video_canvas_render()
+ * \param ys     A parameter to forward to video_canvas_render()
+ * \param xi     X coordinate of the leftmost pixel to update
+ * \param yi     Y coordinate of the topmost pixel to update
+ * \param w      Width of the rectangle to update
+ * \param h      Height of the rectangle to update
+ * \sa vice_renderer_backend_s::refresh_rect */
 static void vice_opengl_refresh_rect(video_canvas_t *canvas,
                                      unsigned int xs, unsigned int ys,
                                      unsigned int xi, unsigned int yi,
@@ -414,6 +555,9 @@ static void vice_opengl_refresh_rect(video_canvas_t *canvas,
     gtk_widget_queue_draw(canvas->drawing_area);
 }
 
+/** \brief OpenGL implementation of set_palette.
+ * \param canvas The canvas being initialized
+ * \sa vice_renderer_backend_s::set_palette */
 static void vice_opengl_set_palette(video_canvas_t *canvas)
 {
     int i;

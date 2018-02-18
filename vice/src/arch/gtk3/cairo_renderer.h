@@ -1,8 +1,11 @@
 /**
+ * \file cairo_renderer.h
  * \brief   Cairo-based renderer for the GTK3 backend.
  *
- *  Michael C. Martin <mcmartin@gmail.com>
- *
+ * \author Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -27,6 +30,13 @@
 
 #include "videoarch.h"
 
+/** \brief A renderer backend that uses the Cairo library to render to
+ *         a standard GtkDrawingArea.
+ *
+ * This is a software renderer, so you are likely to experience
+ * significant performance penalties if you attempt to scale your
+ * window. However, it is maximally compatible with any system GTK3
+ * itself will run on. */
 extern vice_renderer_backend_t vice_cairo_backend;
 
 #endif

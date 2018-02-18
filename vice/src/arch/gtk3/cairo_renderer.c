@@ -1,9 +1,11 @@
 /**
+ * \file    cairo_renderer.c
  * \brief   Cairo-based renderer for the GTK3 backend.
  *
- *  Michael C. Martin <mcmartin@gmail.com>
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
+ * \author Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/* This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -32,14 +34,24 @@
 #include "ui.h"
 #include "video.h"
 
+/** \brief Rendering context for the Cairo backend.
+ *  \sa video_canvas_s::renderer_context */
 typedef struct vice_cairo_renderer_context_s {
+    /** \brief The cairo image surface that holds the pixels of the
+     *         machine's screen. */
     cairo_surface_t *backing_surface;
+    /** \brief The affine transform to scale and translate the backing
+     *         surface when it is displayed on the canvas. */
     cairo_matrix_t transform;
 } context_t;
 
-/* Note that the ::draw signal receives a ready-to-be-used cairo_t
- * that is already clipped to only draw the exposed areas of the
- * widget */
+/** \brief Rendering callback to display the screen as we understand
+ *         it.
+ *  \param widget The GtkDrawingArea we are rendering to.
+ *  \param cr     The Cairo context that we draw through.
+ *  \param data   The video_canvas_t we're rendering from.
+ *  \return TRUE if no further processing is needed on this event.
+ */
 static gboolean
 draw_canvas_cairo_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
 {
@@ -68,8 +80,12 @@ draw_canvas_cairo_cb (GtkWidget *widget, cairo_t *cr, gpointer data)
     return FALSE;
 }
 
-/** \brief  Callback to handle cases where the window is resized but
- *          the canvas is not
+/** \brief  Callback to adjust scaling and offset when the window is
+ *          resized but the underlying machine screen is not.
+ *  \param widget The GtkDrawingArea being resized.
+ *  \param event  The GdkEventConfigure that is triggered this callback.
+ *  \param data   The video_canvas_t that controls this drawing area.
+ *  \return TRUE if no further processing is needed on this event.
  */
 static gboolean
 resize_canvas_container_cairo_cb (GtkWidget *widget, GdkEventConfigure *event, gpointer data)
@@ -124,6 +140,12 @@ resize_canvas_container_cairo_cb (GtkWidget *widget, GdkEventConfigure *event, g
     return FALSE;
 }
 
+/** \brief Cairo implementation of create_widget.
+ *
+ *  \param canvas The canvas to create the widget for.
+ *  \return The newly created canvas.
+ *  \sa vice_renderer_backend_s::create_widget
+ */
 static GtkWidget *vice_cairo_create_widget(video_canvas_t *canvas)
 {
     GtkWidget *widget = gtk_drawing_area_new();
@@ -135,6 +157,12 @@ static GtkWidget *vice_cairo_create_widget(video_canvas_t *canvas)
     return widget;
 }
 
+/** \brief Cairo implementation of destroy_context.
+ * 
+ *  \param canvas The canvas whose renderer_context is to be
+ *                deleted
+ *  \sa vice_renderer_backend_s::destroy_context
+ */
 static void vice_cairo_destroy_context(video_canvas_t *canvas)
 {
     if (canvas) {
@@ -151,6 +179,12 @@ static void vice_cairo_destroy_context(video_canvas_t *canvas)
     }
 }
 
+/** \brief Cairo implementation of update_context.
+ * \param canvas The canvas being resized or initially created.
+ * \param width The new width for the machine's screen.
+ * \param height The new height for the machine's screen.
+ * \sa vice_renderer_backend_s::update_context
+ */
 static void vice_cairo_update_context(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
     if (canvas) {
@@ -200,6 +234,15 @@ static void vice_cairo_update_context(video_canvas_t *canvas, unsigned int width
     }
 }
 
+/** \brief Cairo implementation of refresh_rect.
+ * \param canvas The canvas being rendered to
+ * \param xs     A parameter to forward to video_canvas_render()
+ * \param ys     A parameter to forward to video_canvas_render()
+ * \param xi     X coordinate of the leftmost pixel to update
+ * \param yi     Y coordinate of the topmost pixel to update
+ * \param w      Width of the rectangle to update
+ * \param h      Height of the rectangle to update
+ * \sa vice_renderer_backend_s::refresh_rect */
 static void vice_cairo_refresh_rect(video_canvas_t *canvas,
                                     unsigned int xs, unsigned int ys,
                                     unsigned int xi, unsigned int yi,
@@ -228,6 +271,9 @@ static void vice_cairo_refresh_rect(video_canvas_t *canvas,
     gtk_widget_queue_draw(canvas->drawing_area);
 }
 
+/** \brief Cairo implementation of set_palette.
+ * \param canvas The canvas being initialized
+ * \sa vice_renderer_backend_s::set_palette */
 static void vice_cairo_set_palette(video_canvas_t *canvas)
 {
     int i;
