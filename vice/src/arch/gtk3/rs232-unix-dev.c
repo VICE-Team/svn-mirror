@@ -1,9 +1,17 @@
+/** \file   rs232-unix-dev.c
+ * \brief   RS232 Device emulation.
+ *
+ * \author  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ *
+ * The RS232 emulation captures the bytes sent to the RS232 interfaces
+ * available (currently ACIA 6551, std C64 and Daniel Dallmanns fast RS232
+ * with 9600 Baud).
+ * The characters captured are sent to a file or an attached process.
+ * Characters sent from a process are sent back to the
+ * chip emulations.
+ */
+
 /*
- * rs232-unix-dev.c - RS232 Device emulation.
- *
- * Written by
- *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -24,18 +32,7 @@
  *
  */
 
-/*
- * The RS232 emulation captures the bytes sent to the RS232 interfaces
- * available (currently ACIA 6551, std C64 and Daniel Dallmanns fast RS232
- * with 9600 Baud).
- * The characters captured are sent to a file or an attached process.
- * Characters sent from a process are sent back to the
- * chip emulations.
- *
- */
 
-
-/* XXX: Why? - compyx */
 #undef DEBUG
 
 

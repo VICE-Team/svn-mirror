@@ -1,9 +1,16 @@
+/** \file   rs232-win32-dev.c
+ * \brief   RS232 Device emulation.
+ *
+ * \author  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+ *
+ * The RS232 emulation captures the bytes sent to the RS232 interfaces
+ * available (currently, ACIA 6551, std. C64, and Daniel Dallmann's fast RS232
+ * with 9600 BPS).
+ *
+ * I/O is done to a physical COM port.
+ */
+
 /*
- * rs232-win32-dev.c - RS232 Device emulation.
- *
- * Written by
- *  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -22,14 +29,6 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
- */
-
-/*
- * The RS232 emulation captures the bytes sent to the RS232 interfaces
- * available (currently, ACIA 6551, std. C64, and Daniel Dallmann's fast RS232
- * with 9600 BPS).
- *
- * I/O is done to a physical COM port.
  */
 
 #undef        DEBUG
