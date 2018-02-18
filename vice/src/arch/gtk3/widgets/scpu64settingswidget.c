@@ -93,12 +93,12 @@ GtkWidget *scpu64_settings_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(grid), simm_widget, 1, 0, 1, 1);
 
     label = create_indented_label("JiffyDOS switch");
-    jiffy_widget = vice_gtk3_resource_switch_create("JiffySwitch");
+    jiffy_widget = vice_gtk3_resource_switch_new("JiffySwitch");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), jiffy_widget, 1, 1, 1, 1);
 
     label = create_indented_label("Speed switch");
-    speed_widget = vice_gtk3_resource_switch_create("SpeedSwitch");
+    speed_widget = vice_gtk3_resource_switch_new("SpeedSwitch");
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), speed_widget, 1, 2, 1, 1);
 

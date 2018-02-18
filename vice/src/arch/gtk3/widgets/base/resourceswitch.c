@@ -115,7 +115,7 @@ static void on_switch_state_set(GtkWidget *widget, gpointer user_data)
  *
  * \return  new check button
  */
-static GtkWidget *resource_switch_create_helper(GtkWidget *widget)
+static GtkWidget *resource_switch_new_helper(GtkWidget *widget)
 {
     int state;
     const char *resource;
@@ -127,6 +127,9 @@ static GtkWidget *resource_switch_create_helper(GtkWidget *widget)
         log_error(LOG_ERR, "invalid resource name '%s'\n", resource);
         state = 0;
     }
+
+    /* remember original state for reset() */
+    resource_widget_set_int(widget, "ResourceOrig", state);
 
     gtk_switch_set_active(GTK_SWITCH(widget),
             state ? TRUE : FALSE);
@@ -154,7 +157,7 @@ static GtkWidget *resource_switch_create_helper(GtkWidget *widget)
  *
  * \return  new switch
  */
-GtkWidget *vice_gtk3_resource_switch_create(const char *resource)
+GtkWidget *vice_gtk3_resource_switch_new(const char *resource)
 {
     GtkWidget *widget;
 
@@ -164,7 +167,7 @@ GtkWidget *vice_gtk3_resource_switch_create(const char *resource)
      * "ResourceName" */
     resource_widget_set_resource_name(widget, resource);
 
-    return resource_switch_create_helper(widget);
+    return resource_switch_new_helper(widget);
 }
 
 
@@ -181,7 +184,7 @@ GtkWidget *vice_gtk3_resource_switch_create(const char *resource)
  *
  * \return  new switch
  */
-GtkWidget *vice_gtk3_resource_switch_create_sprintf(const char *fmt, ...)
+GtkWidget *vice_gtk3_resource_switch_new_sprintf(const char *fmt, ...)
 {
     GtkWidget *widget;
     va_list args;
@@ -194,7 +197,7 @@ GtkWidget *vice_gtk3_resource_switch_create_sprintf(const char *fmt, ...)
     g_object_set_data(G_OBJECT(widget), "ResourceName", (gpointer)resource);
     va_end(args);
 
-    return resource_switch_create_helper(widget);
+    return resource_switch_new_helper(widget);
 }
 
 
@@ -202,10 +205,47 @@ GtkWidget *vice_gtk3_resource_switch_create_sprintf(const char *fmt, ...)
  *
  * \param[in,out]   widget  switch
  * \param[in]       value   new value
+ *
+ * \return  bool
  */
-void vice_gtk3_resource_switch_update(GtkWidget *widget, gboolean value)
+gboolean vice_gtk3_resource_switch_set(GtkWidget *widget, gboolean value)
 {
     gtk_switch_set_active(GTK_SWITCH(widget), value);
+    return TRUE;
+}
+
+
+/** \brief  Get value for \a widget
+ *
+ * \param[in,out]   widget  switch
+ * \param[out       value   object to store value
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_switch_get(GtkWidget *widget, gboolean *value)
+{
+    const char *resource = resource_widget_get_resource_name(widget);
+    int state;
+
+    if (resources_get_int(resource, &state) < 0) {
+        *value = FALSE;
+        return FALSE;
+    }
+    *value = (gboolean)state;
+    return TRUE;
+}
+
+
+/** \brief  Reset state to the value during instanciation
+ *
+ * \param[in,out]   widget  resource switch
+ *
+ * \return  bool
+ */
+gboolean vice_gtk3_resource_switch_reset(GtkWidget *widget)
+{
+    int value = resource_widget_get_int(widget, "ResourceOrig");
+    return vice_gtk3_resource_switch_set(widget, value);
 }
 
 
@@ -213,14 +253,17 @@ void vice_gtk3_resource_switch_update(GtkWidget *widget, gboolean value)
  *
  * \param[in,out]   check   check button
  */
-void vice_gtk3_resource_switch_reset(GtkWidget *widget)
+gboolean vice_gtk3_resource_switch_factory(GtkWidget *widget)
 {
     const char *resource;
     int value;
 
     resource = resource_widget_get_resource_name(widget);
-    resources_get_default_value(resource, &value);
+    if (resources_get_default_value(resource, &value) < 0) {
+        debug_gtk3("failed to get factory value for resource '%s'\n", resource);
+        return FALSE;
+    }
     debug_gtk3("resetting %s to factory value %s\n",
             resource, value ? "True" : "False");
-    vice_gtk3_resource_switch_update(widget, (gboolean)value);
+    return vice_gtk3_resource_switch_set(widget, (gboolean)value);
 }
