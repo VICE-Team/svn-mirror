@@ -1,11 +1,12 @@
-/*
- * video.c - Native GTK3 UI video stuff.
+/**
+ * \file video.c 
+ * \brief Native GTK3 UI video stuff.
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Michael C. Martin <mcmartin@gmail.com>
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
+ * \author Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/* This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -45,6 +46,7 @@
 #include "ui.h"
 #include "videoarch.h"
 
+/** \brief Enable extra debugging info */
 #define VICE_DEBUG_NATIVE_GTK3
 
 /** \brief  Log for Gtk3-native video messages
@@ -63,6 +65,8 @@ static int display_depth = 24;
 
 /** \brief  Set KeepAspectRatio resource (bool)
  *
+ * The display will be updated to reflect any changes this makes.
+ *
  * \param[in]   val     new value
  * \param[in]   param   extra parameter (unused)
  *
@@ -78,6 +82,8 @@ static int set_keepaspect(int val, void *param)
 
 /** \brief  Set TrueAspectRatio resource (bool)
  *
+ * The display will be updated to reflect any changes this makes.
+ *
  * \param[in]   val     new value
  * \param[in]   param   extra parameter (unused)
  *
@@ -90,7 +96,13 @@ static int set_trueaspect(int val, void *param)
     return 0;
 }
 
-
+/** \brief Set the display color depth.
+ *  \param     val   new color depth
+ *  \param[in] param extra parameter (unused).
+ *  \return  Zero on success, nonzero on illegal argument
+ *  \warning Neither Cairo nor GTK3's OpenGL system actually respect
+ *           this value.
+ */
 static int set_display_depth(int val, void *param)
 {
     if (val != 0 && val != 8 && val != 15 && val != 16 && val != 24 && val != 32) {
@@ -139,7 +151,9 @@ static const resource_int_t resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
-/** \brief  Initialize video canvas
+/** \brief  Arch-specific initialization for a video canvas
+ *  \param[inout] canvas The canvas being initialized
+ *  \sa video_canvas_create
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
@@ -175,17 +189,30 @@ int video_arch_resources_init(void)
     return 0;
 }
 
-
+/** \brief Clean up any memory held by arch-specific video resources. */
 void video_arch_resources_shutdown(void)
 {
 }
 
-
+/** \brief Query whether a canvas is resizable.
+ *  \param canvas The canvas to query
+ *  \return TRUE if the canvas can be resized.
+ */
 char video_canvas_can_resize(video_canvas_t *canvas)
 {
     return 1;
 }
 
+/** \brief Create a new video_canvas_s.
+ *  \param[inout] canvas A freshly allocated canvas object.
+ *  \param[in]    width  Pointer to a width value. May be NULL if canvas
+ *                       size is not yet known.
+ *  \param[in]    height Pointer to a height value. May be NULL if canvas
+ *                       size is not yet known.
+ *  \param        mapped Unused.
+ *  \return The completely initialized canvas. The window that holds
+ *          it will be visible in the UI at time of return.
+ */
 video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
@@ -212,6 +239,10 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     return canvas;
 }
 
+/** \brief Free a previously created video canvas and all its
+ *         components.
+ *  \param[in] canvas The canvas to destroy.
+ */
 void video_canvas_destroy(struct video_canvas_s *canvas)
 {
     if (canvas != NULL) {
@@ -229,6 +260,16 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     }
 }
 
+/** \brief Update the display on a video canvas to reflect the machine
+ *         state. 
+ * \param canvas The canvas to update.
+ * \param xs     A parameter to forward to video_canvas_render()
+ * \param ys     A parameter to forward to video_canvas_render()
+ * \param xi     X coordinate of the leftmost pixel to update
+ * \param yi     Y coordinate of the topmost pixel to update
+ * \param w      Width of the rectangle to update
+ * \param h      Height of the rectangle to update
+ */
 void video_canvas_refresh(struct video_canvas_s *canvas,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
@@ -248,6 +289,12 @@ void video_canvas_refresh(struct video_canvas_s *canvas,
         canvas->renderer_backend->refresh_rect(canvas, xs, ys, xi, yi, w, h);
     }
 }
+
+/** \brief Update canvas size to match the draw buffer size requested
+ *         by the emulation core.
+ * \param canvas The video canvas to update.
+ * \param resize_canvas Ignored - the canvas will always resize.
+ */
 
 void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
@@ -275,6 +322,13 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     }
 }
 
+/** \brief React to changes of aspect ratio in the physical system.
+ *
+ *  For GTK3 this means we need to compute a new minimum size for our
+ *  display windows.
+ *
+ *  \param canvas The canvas whose widgets need their sizes updated.
+ */
 void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas)
 {
     int width = canvas->draw_buffer->canvas_physical_width;
@@ -287,6 +341,11 @@ void video_canvas_adjust_aspect_ratio(struct video_canvas_s *canvas)
     gtk_widget_set_size_request(canvas->drawing_area, width, height);
 }
 
+/** \brief Assign a palette to the canvas.
+ * \param canvas The canvas to update the palette
+ * \param palette The new palette to assign
+ * \return Zero on success, nonzero on failure
+ */
 int video_canvas_set_palette(struct video_canvas_s *canvas,
                              struct palette_s *palette)
 {
@@ -300,6 +359,9 @@ int video_canvas_set_palette(struct video_canvas_s *canvas,
     return 0;
 }
 
+/** \brief Perform any frontend-specific initialization.
+ *  \return 0 on success, nonzero on failure
+ */
 int video_init(void)
 {
     if (gtk3video_log == LOG_ERR) {
@@ -308,7 +370,7 @@ int video_init(void)
     return 0;
 }
 
-
+/** \brief Perform any frontend-specific uninitialization. */
 void video_shutdown(void)
 {
     /* It's a no-op */
