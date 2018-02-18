@@ -146,7 +146,7 @@ typedef struct ui_statusbar_s {
     /** \brief The drive status widgets. */
     GtkWidget *drives[DRIVE_NUM];
     /** \brief The popup menus associated with each drive. */
-    GtkWidget **drive_popups[DRIVE_NUM];
+    GtkWidget *drive_popups[DRIVE_NUM];
     /** \brief The hand-shaped cursor to change to when popup menus
      *         are available. */
     GdkCursor *hand_ptr;
