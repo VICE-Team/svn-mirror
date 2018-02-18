@@ -1,10 +1,22 @@
+/** \file   uistatusbar.c
+ *  \brief  Native GTK3 UI statusbar stuff.
+ *
+ *  The status bar widget is part of every machine window. This widget
+ *  reacts to UI notifications from the emulation core and otherwise
+ *  does not interact with the rest of the main menu.
+ *
+ *  Functions described as "Statusbar API functions" are called by the
+ *  rest of the UI or the emulation system itself to report that the
+ *  status displays must be updated to reflect possibly new
+ *  information. It is not necessary for the data to be truly new; the
+ *  statusbar implementation will treat repeated reports of the same
+ *  state as no-ops when necessary for performance.
+ *
+ *  \author Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  \author Michael C. Martin <mcmartin@gmail.com>
+ */
+
 /*
- * uistatusbar.c - Native GTK3 UI statusbar stuff.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Michael C. Martin <mcmartin@gmail.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -48,33 +60,109 @@
 
 #include "uistatusbar.h"
 
+/** \brief The maximum number of status bars we will permit to exist
+ *         at once. */
 #define MAX_STATUS_BARS 3
 
-/* Global data that custom status bar widgets base their rendering
- * on. */
-static struct ui_sb_state_s {
+/** \brief Global data that custom status bar widgets base their rendering
+ *         on.
+ *
+ *  This data is usually set by calls from the emulation core or from
+ *  other parts of the UI in response to user commands or I/O events.
+ *
+ *  \todo The PET can have two tape drives.
+ *
+ *  \todo Two-unit drive units are not covered by this structure.
+ */
+typedef struct ui_sb_state_s {
+    /** \brief Identifier for the currently displayed status bar
+     * message.
+     *
+     * Used to correlate timeout events so that a new message
+     * isn't erased by some older message timing out. */
     intptr_t statustext_msgid;
-    /* TODO: The PET can have 2 tape drives */
-    int tape_control, tape_motor_status, tape_counter;
-    /* TODO: does not cover two-unit drives */
-    int drives_enabled, drives_tde_enabled;
+    /** \brief Current tape state (play, rewind, etc) */
+    int tape_control;
+    /** \brief Nonzero if the tape motor is powered. */
+    int tape_motor_status;
+    /** \brief Location on the tape */
+    int tape_counter;
+    /** \brief Which drives are to be displayed in the status bar.
+     *
+     *  This is a bitmask, with bits 0-3 representing drives 8-11,
+     *  respectively.
+     */
+    int drives_enabled;
+    /** \brief Nonzero if True Drive Emulation is active and drive
+     *         LEDs should be drawn. */
+    int drives_tde_enabled;
+    /** \brief Color descriptors for the drive LED colors.
+     *
+     *  This value is a bitmask, with bit 0 and 1 set if the
+     *  corresponding LED is green. Otherwise it is red. Drives that
+     *  only have one LED will have their 'second' LED permanently at
+     *  intensity zero so the value is irrelevant in that case. */
     int drive_led_types[DRIVE_NUM];
+    /** \brief Current intensity of each drive LED, 0=off,
+     *         1000=max. */
     unsigned int current_drive_leds[DRIVE_NUM][2];
+    /** \brief Current state for each of the joyports.
+     *
+     *  This is an 7-bit bitmask, representing, from least to most
+     *  significant bits: up, down, left, right, fire button,
+     *  secondary fire button, tertiary fire button. */
     int current_joyports[JOYPORT_MAX_PORTS];
+    /** \brief Which joystick ports are actually available.
+     *
+     *  This is a bitmask representing notional ports 0-4, which are
+     *  themselves defined in joyport/joyport.h. Cases like a SIDcart
+     *  control port on a Plus/4 without other userport control ports
+     *  mean that the set of active joyports may be discontinuous. */
     int joyports_enabled;
-} sb_state;
+} ui_sb_state_t;
 
+/** \brief The current state of the status bars across the UI. */
+static ui_sb_state_t sb_state;
+
+/** \brief The full structure representing a status bar widget.
+ *
+ *  This includes the top-level widget and then every subwidget that
+ *  needs to be individually addressed or manipulated by the
+ *  status-report API. */
 typedef struct ui_statusbar_s {
+    /** \brief The status bar widget proper. 
+     *
+     *  This is the widget the rest of the UI code will store and pack
+     *  into windows. */
     GtkWidget *bar;
+    /** \brief The status message widget. */
     GtkLabel *msg;
-    GtkWidget *tape, *tape_menu;
+    /** \brief The Tape Status widget. */
+    GtkWidget *tape;
+    /** \brief The Tape Status widget's popup menu. */
+    GtkWidget *tape_menu;
+    /** \brief The joyport status widget. */
     GtkWidget *joysticks;
-    GtkWidget *drives[DRIVE_NUM], *drive_popups[DRIVE_NUM];
+    /** \brief The drive status widgets. */
+    GtkWidget *drives[DRIVE_NUM];
+    /** \brief The popup menus associated with each drive. */
+    GtkWidget **drive_popups[DRIVE_NUM];
+    /** \brief The hand-shaped cursor to change to when popup menus
+     *         are available. */
     GdkCursor *hand_ptr;
 } ui_statusbar_t;
 
+/** \brief The collection of status bars currently active. 
+ *
+ *  Inactive status bars have a NULL pointer for their "bar" field. */
 static ui_statusbar_t allocated_bars[MAX_STATUS_BARS];
 
+/** \brief Initialize the status bar subsystem.
+ *
+ *  \warning This function _must_ be called before any call to
+ *           ui_statusbar_create() and _must not_ be called after any
+ *           call to it.
+ */
 void ui_statusbar_init(void)
 {
     int i, j;
@@ -110,11 +198,19 @@ void ui_statusbar_init(void)
     sb_state.joyports_enabled = 0;
 }
 
+/** \brief Clean up any resources the statusbar system uses that
+ *         weren't cleaned up when the status bars themselves were
+ *         destroyed. */
 void ui_statusbar_shutdown(void)
 {
-    /* Any universal resources we allocate get cleaned up here */
+    /* There are no such resources, so this is a no-op */
 }
 
+/** \brief Extracts the list of enabled drives from the DriveType
+ *         resources.
+ *
+ *  \return A bitmask value suitable for ui_sb_state_s::drives_enabled.
+ */
 static int compute_drives_enabled_mask(void)
 {
     int unit, mask;
@@ -129,6 +225,18 @@ static int compute_drives_enabled_mask(void)
     return result;
 }
 
+/** \brief Draws the tape icon based on the current control and motor status. 
+ *
+ *  \param widget  The tape icon GtkDrawingArea being drawn to.
+ *  \param cr      The cairo context that handles the drawing.
+ *  \param data    Ignored, but mandated by the function signature
+ *
+ *  \return FALSE, telling GTK to continue event processing
+ *
+ *  \todo Once multiple tape drives are supported, the data parameter
+ *        will be the integer index of which tape drive this widget
+ *        represents.
+ */
 static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     int width, height;
@@ -213,6 +321,14 @@ static gboolean draw_tape_icon_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     return FALSE;
 }
 
+/** \brief Draw the LED associated with some drive's LED state.
+ *
+ *  \param widget  The drive LED GtkDrawingArea being drawn to.
+ *  \param cr      The cairo context that handles the drawing.
+ *  \param data    The index (0-3) of which drive this represents.
+ *
+ *  \return FALSE, telling GTK to continue event processing
+ */
 static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     int width, height, drive, i;
@@ -241,6 +357,24 @@ static gboolean draw_drive_led_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     return FALSE;
 }
 
+/** \brief Draw the current input status from a joyport.
+ *
+ *  This produces five squares arranged in a + shape, with directions
+ *  represented as green squares when active and black when not. The
+ *  fire buttons are represented by the central square, with red,
+ *  green, and blue components representing the three possible
+ *  buttons.
+ *
+ *  For traditional Commodore joysticks, there is only one fire button
+ *  and this will be diplayed as a red square when the button is
+ *  pressed.
+ *
+ *  \param widget  The joyport GtkDrawingArea being drawn to.
+ *  \param cr      The cairo context that handles the drawing.
+ *  \param data    The index (0-4) of which joyport this represents.
+ *
+ *  \return FALSE, telling GTK to continue event processing
+ */
 static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
 {
     int width, height, val;
@@ -298,6 +432,14 @@ static gboolean draw_joyport_cb(GtkWidget *widget, cairo_t *cr, gpointer data)
     return FALSE;
 }
 
+/** \brief Create a new drive widget for inclusion in the status bar.
+ *
+ *  \param unit The drive unit to create (0-3, indicating devices
+ *              8-11)
+ *
+ *  \return The constructed widget. This widget will be a floating
+ *          reference.
+ */
 static GtkWidget *ui_drive_widget_create(int unit)
 {
     GtkWidget *grid, *number, *track, *led;
@@ -329,6 +471,25 @@ static GtkWidget *ui_drive_widget_create(int unit)
     return grid;
 }
 
+/** \brief Respond to mouse clicks on the tape status widget.
+ *
+ *  This displays the tape control popup menu.
+ *
+ *  \param widget  The GtkWidget that received the click. Ignored.
+ *  \param event   The event representing the bottom operation.
+ *  \param data    An integer representing which window's status bar was
+ *                 clicked and thus where the popup window should go.
+ *
+ *  \return TRUE if further event processing should be skipped.
+ *
+ *  \todo This callback and the way it is configured both will need to
+ *        be significantly reworked to manage multiple tape drives.
+ *
+ *  \todo This function uses GTK3 version checking to avoid deprecated
+ *        functions on version 3.22 and to avoid nonexistent functions
+ *        on version 3.16 through 3.20. Once 3.22 becomes a
+ *        requirement, this version checking should be eliminated.
+ */
 static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     int i = GPOINTER_TO_INT(data);
@@ -354,6 +515,22 @@ static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpoint
     return TRUE;
 }
 
+/** \brief Respond to mouse clicks on a disk drive status widget.
+ *
+ *  This displays the drive control popup menu.
+ *
+ *  \param widget  The GtkWidget that received the click. Ignored.
+ *  \param event   The event representing the bottom operation.
+ *  \param data    An integer representing which window's status bar was
+ *                 clicked and thus where the popup window should go.
+ *
+ *  \return TRUE if further event processing should be skipped.
+ *
+ *  \todo This function uses GTK3 version checking to avoid deprecated
+ *        functions on version 3.22 and to avoid nonexistent functions
+ *        on version 3.16 through 3.20. Once 3.22 becomes a
+ *        requirement, this version checking should be eliminated.
+ */
 static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     int i = GPOINTER_TO_INT(data);
@@ -384,6 +561,11 @@ static gboolean ui_do_drive_popup(GtkWidget *widget, GdkEvent *event, gpointer d
     return TRUE;
 }
 
+/** \brief Create a new tape widget for inclusion in the status bar.
+ *
+ *  \return The constructed widget. This widget will be a floating
+ *          reference.
+ */
 static GtkWidget *ui_tape_widget_create(void)
 {
     GtkWidget *grid, *header, *counter, *state;
@@ -408,6 +590,12 @@ static GtkWidget *ui_tape_widget_create(void)
     return grid;
 }
 
+/** \brief Alter widget visibility within the joyport widget so that
+ *         only currently existing joystick ports are displayed. 
+ *
+ *  It is safe to call this routine regularly, as it will only trigger
+ *  UI refresh operations if the configuration has changed to no
+ *  longer match the current layout. */
 static void vice_gtk3_update_joyport_layout(void)
 {
     int i, ok[JOYPORT_MAX_PORTS];
@@ -509,6 +697,16 @@ static void vice_gtk3_update_joyport_layout(void)
     }
 }
 
+/** \brief Create a master joyport widget for inclusion in the status
+ *         bar.
+ *
+ *  Individual joyport representations are part of this widget and
+ *  update functions will index the GtkGrid in the master widget to
+ *  reach them.
+ *
+ *  \return The constructed widget. This widget will be a floating
+ *          reference.
+ */
 static GtkWidget *ui_joystick_widget_create(void)
 {
     GtkWidget *grid, *label;
@@ -532,6 +730,17 @@ static GtkWidget *ui_joystick_widget_create(void)
     return grid;
 }
 
+/** Event handler for hovering over a clickable part of the status bar.
+ *
+ *  This will switch to or from the "hand" cursor as needed, creating
+ *  it if necessary.
+ *
+ *  \param widget    The widget firing the event
+ *  \param event     The GdkEventCross that caused the callback
+ *  \param user_data The ui_statusbar_t object containing widget
+ *
+ *  \return TRUE if further event processing should be blocked.
+ */
 static gboolean ui_statusbar_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     ui_statusbar_t *sb = (ui_statusbar_t *)user_data;
@@ -570,6 +779,14 @@ static gboolean ui_statusbar_cross_cb(GtkWidget *widget, GdkEvent *event, gpoint
     return FALSE;
 }
 
+/** \brief Lay out the disk drive widgets inside a status bar.
+ *
+ *  Depending on which drives are enabled, any given drive may appear
+ *  on different columns or even rows. This routine handles that flow
+ *  as the configuration changes.
+ *
+ *  \param bar_index Which status bar to lay out.
+ */
 static void layout_statusbar_drives(int bar_index)
 {
     int i, j, state, tde = 0;
@@ -633,6 +850,13 @@ static void layout_statusbar_drives(int bar_index)
     gtk_widget_show_all(bar);
 }
 
+/** Widget destruction callback for status bars.
+ *
+ * \param sb      The status bar being destroyed. This should be
+ *                registered in some ui_statusbar_t structure as the
+ *                bar field.
+ * \param ignored User data pointer mandated by GTK. Unused.
+ */
 static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 {
     int i, j;
@@ -672,6 +896,12 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
     }
 }
 
+/** \brief Create a popup menu to attach to a disk drive widget.
+ *
+ *  \param unit The index of the drive, 0-3 for drives 8-11.
+ *
+ *  \return The GtkMenu for use as a popup, as a floating reference.
+ */
 static GtkWidget *ui_drive_menu_create(int unit)
 {
     char buf[128];
@@ -695,6 +925,14 @@ static GtkWidget *ui_drive_menu_create(int unit)
     return drive_menu;
 }
 
+/** \brief Create a new status bar.
+ *
+ *  This function should be called once as part of creating a new
+ *  machine window.
+ *
+ *  \return A new status bar, as a floating reference, or NULL if all
+ *          possible status bars have been allocated already.
+ */
 GtkWidget *ui_statusbar_create(void)
 {
     GtkWidget *sb, *msg, *tape, *tape_events, *joysticks;
@@ -784,21 +1022,48 @@ GtkWidget *ui_statusbar_create(void)
     return sb;
 }
 
+/** \brief Statusbar API function to register an elapsed time.
+ *
+ *  \param current The current time value.
+ *  \param total   The maximum time value
+ *
+ *  \todo This function is not implemented and its API is not
+ *        understood.
+ */
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+/** \brief Statusbar API function to display playback status.
+ *
+ *  \param playback_status Unknown.
+ *  \param version         Unknown.
+ *
+ *  \todo This function is not implemented and its API is not
+ *        understood.
+ */
 void ui_display_playback(int playback_status, char *version)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+/** \brief Statusbar API function to display recording status.
+ *
+ *  \param recording_status Unknown.
+ *
+ *  \todo This function is not implemented and its API is not
+ *        understood.
+ */
 void ui_display_recording(int recording_status)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+/** \brief Directly and unconditionally set the status bar message text.
+ *
+ *  \param text The text to display in the status bar.
+ */
 static void
 display_statustext_internal(const char *text)
 {
@@ -810,6 +1075,16 @@ display_statustext_internal(const char *text)
     }
 }
 
+/** \brief Timeout callback for messages in the status bar.
+ *
+ *  If the message ID associated with this callback matches the
+ *  currently displayed message, erases the current message.
+ *
+ *  \param data The message ID for this callback.
+ *  \return TRUE if processing of the timeout callback should not
+ *          propagate.
+ *  \sa ui_sb_state_s::statustext_msgid
+ */
 static gboolean ui_statustext_fadeout(gpointer data)
 {
     intptr_t my_id = GPOINTER_TO_INT(data);
@@ -819,6 +1094,12 @@ static gboolean ui_statustext_fadeout(gpointer data)
     return FALSE;
 }
 
+/** \brief Statusbar API function to display a message in the status bar.
+ *
+ *  \param text     The text to display.
+ *  \param fade_out If nonzero, erase the text after five seconds
+ *                  unless it has already been replaced.
+ */
 void ui_display_statustext(const char *text, int fade_out)
 {
     ++sb_state.statustext_msgid;
@@ -828,11 +1109,24 @@ void ui_display_statustext(const char *text, int fade_out)
     }
 }
 
+/** \brief Statusbar API function to display current volume.
+ *  \param vol The new volumen level.
+ *  \todo This function is not implemented. */
 void ui_display_volume(int vol)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
+/** \brief Statusbar API function to display current joyport inputs.
+ *  \param joyport An array of bytes of size at least
+ *                 JOYPORT_MAX_PORTS+1, with data regarding each
+ *                 active joyport.
+ *  \warning The joyport array is, for all practical purposes,
+ *           _1-indexed_. joyport[0] is unused.
+ *  \sa ui_sb_state_s::current_joyports Describes the format of the
+ *      data encoded in the joyport array. Note that current_joyports
+ *      is 0-indexed as is typical for C arrays.
+ */
 void ui_display_joyport(uint8_t *joyport)
 {
     int i;
@@ -859,12 +1153,13 @@ void ui_display_joyport(uint8_t *joyport)
     vice_gtk3_update_joyport_layout();
 }
 
-/* TODO: status display for TAPE emulation
+/** \brief Statusbar API function to report changes in tape control
+ *         status.
  *
- * NOTE: newly written GUI code should be able to handle TWO independent tape
- *       drives. the PET emulation may make use of it some day.
+ *  \param control The new tape control. See the DATASETTE_CONTROL_*
+ *                 constants in datasette.h for legal values of this
+ *                 parameter.
  */
-
 void ui_display_tape_control_status(int control)
 {
     if (control != sb_state.tape_control) {
@@ -881,6 +1176,12 @@ void ui_display_tape_control_status(int control)
     }
 }
 
+/** \brief Statusbar API function to report changes in tape position.
+ *
+ *  \param counter The new value of the position counter. 
+ *
+ *  \note Only the last three digits of the counter will be displayed.
+ */
 void ui_display_tape_counter(int counter)
 {
     if (counter != sb_state.tape_counter) {
@@ -900,6 +1201,10 @@ void ui_display_tape_counter(int counter)
     }
 }
 
+/** \brief Statusbar API function to report changes in the tape motor.
+ *
+ *  \param motor Nonzero if the tape motor is now on.
+ */
 void ui_display_tape_motor_status(int motor)
 {
     if (motor != sb_state.tape_motor_status) {
@@ -916,12 +1221,23 @@ void ui_display_tape_motor_status(int motor)
     }
 }
 
+/** \brief Statusbar API function to report changes in tape status.
+ *  \param tape_status The new tape status.
+ *  \note This function does nothing and its API is not
+ *        understood. Furthermore, no other extant UIs appear to react
+ *        to this call.
+ */
 void ui_set_tape_status(int tape_status)
 {
-    /* TODO: What does this even mean? The other GUIs don't represent it */
     /* printf("TAPE DRIVE STATUS: %d\n", tape_status); */
 }
 
+/** \brief Statusbar API function to report mounting or unmounting of
+ *         a tape image.
+ *
+ *  \param image The filename of the tape image (if mounted), or the
+ *               empty string or NULL (if unmounting).
+ */
 void ui_display_tape_current_image(const char *image)
 {
     char buf[256];
@@ -935,11 +1251,15 @@ void ui_display_tape_current_image(const char *image)
     ui_display_statustext(buf, 1);
 }
 
-/* TODO: status display for DRIVE emulation
- *
- * NOTE: newly written GUI code should be able to use 4 drives, of which each
- *       can be a dual disk drive. (so it must handle 8 images total). currently
- *       the code does not make use of it yet, but it will in the future.
+/** \brief Statusbar API function to report changes in drive LED
+ *         intensity.
+ *  \param drive_number The unit to update (0-3 for drives 8-11)
+ *  \param pwm1         The intensity of the first LED (0=off,
+ *                      1000=maximum intensity)
+ *  \param led_pwm2     The intensity of the second LED (0=off,
+ *                      1000=maximum intensity)
+ *  \todo The statusbar API does not yet support dual-unit disk
+ *        drives.
  */
 void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2)
 {
@@ -962,6 +1282,17 @@ void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_
     }
 }
 
+/** \brief Statusbar API function to report changes in drive head
+ *         location.
+ *  \param drive_number      The unit to update (0-3 for drives 8-11)
+ *  \param drive_base        Currently unused.
+ *  \param half_track_number Twice the value of the head
+ *                           location. 18.0 is 36, while 18.5 would be
+ *                           37.
+ *  \todo The statusbar API does not yet support dual-unit disk
+ *        drives. The drive_base argument will likely come into play
+ *        once it does.
+ */
 void ui_display_drive_track(unsigned int drive_number,
                             unsigned int drive_base,
                             unsigned int half_track_number)
@@ -986,14 +1317,34 @@ void ui_display_drive_track(unsigned int drive_number,
     }
 }
 
+/** \brief Update information about each drive.
+ *
+ *  \param state           A bitmask int, where bits 0-3 indicate
+ *                         whether or not drives 8-11 respectively are
+ *                         being emulated carefully enough to provide
+ *                         LED information.
+ *  \param drive_led_color An array of size at least DRIVE_NUM that
+ *                         provides information about the LEDs on this
+ *                         drive. An element of this array will only
+ *                         be checked if the corresponding bit in
+ *                         state is 1.
+ *  \note Before calling this function, the drive configuration
+ *        resources (Drive8Type, Drive9Type, etc) should all be set to
+ *        the values you wish to display.
+ *  \warning If a drive's LEDs are active when its LED values change,
+ *           the UI will not reflect the LED type change until the
+ *           next time the led's values are updated. This should not
+ *           happen under normal circumstances.
+ *  \sa compute_drives_enabled_mask() for how this function determines
+ *      which drives are truly active
+ *  \sa ui_sb_state_s::drive_led_types for the data in each element of
+ *      drive_led_color
+ */
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     int i, enabled;
 
-    /* Update the drive LEDs first, unconditionally. If the drive is
-     * *actually on* while this is called, the UI will not reflect the
-     * LED type change until the next time the led's values are
-     * updated. This should not happen under normal circumstances. */
+    /* Update the drive LEDs first, unconditionally. */
     enabled = state;
     for (i = 0; i < DRIVE_NUM; ++i) {
         if (enabled & 1) {
@@ -1020,6 +1371,14 @@ void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
     }
 }
 
+/** \brief Statusbar API function to report mounting or unmounting of
+ *         a disk image.
+ *
+ *  \param drive_number 0-3 to represent drives at device 8-11.
+ *  \param image        The filename of the disk image (if mounted),
+ *                      or the empty string or NULL (if unmounting).
+ *  \todo This API is insufficient to describe drives with two disk units.
+ */
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
     char buf[256];

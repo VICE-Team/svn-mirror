@@ -1,9 +1,16 @@
 /**
+ * \file    uistatusbar.h
  * \brief   Gtk3 status bar - header
  *
- * Written by
- *  Michael C. Martin <mcmartin@gmail.com>
+ * This header file only provides functionality that is exposed by the
+ * GTK3 statusbar API and that is not declared as part of some other,
+ * more general interface. Since the statusbar implementation is very
+ * self-contained that means this header file is extremely sparse.
  *
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
