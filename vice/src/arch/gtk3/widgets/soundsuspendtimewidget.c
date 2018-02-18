@@ -1,4 +1,4 @@
-/** \file   soundsuspendwidget.c
+/** \file   soundsuspendtimewidget.c
  * \brief   Sound suspend time widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

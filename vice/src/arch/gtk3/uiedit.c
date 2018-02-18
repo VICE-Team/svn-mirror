@@ -1,4 +1,4 @@
-/** \file   uiedit
+/** \file   uiedit.c
  * \brief   "Edit" submenu (copy / paste) for GTK3
  *
  * \author  groepaz <groepaz@gmx.net>

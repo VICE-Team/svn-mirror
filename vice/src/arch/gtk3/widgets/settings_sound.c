@@ -1,4 +1,4 @@
-/** \file   settings_sound
+/** \file   settings_sound.c
  * \brief   Sound settings main widget for the settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

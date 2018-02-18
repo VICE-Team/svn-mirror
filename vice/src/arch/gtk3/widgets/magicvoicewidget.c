@@ -1,4 +1,4 @@
-/** \file   magicvoicewidget
+/** \file   magicvoicewidget.c
  * \brief   Magic Voice widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

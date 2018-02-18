@@ -1,4 +1,4 @@
-/** \file   ethernetcartiwidget.h
+/** \file   ethernetcartwidget.h
  * \brief   Widget to control ethernet cartridge settings - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

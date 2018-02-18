@@ -1,4 +1,4 @@
-/** \file   megacartiwidget.h
+/** \file   megacartwidget.h
  * \brief   Mega Cart widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
