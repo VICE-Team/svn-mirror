@@ -119,7 +119,6 @@ void mouse_move(float dx, float dy)
 
 void mouse_button(int bnumber, int state)
 {
-    fprintf (stderr, "GTK3MOUSE: Mouse button %d %s\n", bnumber, state ? "pressed" : "released");
     switch(bnumber) {
     case 0:
         if (mouse_funcs.mbl) {

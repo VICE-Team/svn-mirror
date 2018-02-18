@@ -40,6 +40,7 @@
 #include "opengl_renderer.h"
 #include "quartz_renderer.h"
 #include "lightpen.h"
+#include "mousedrv.h"
 #include "videoarch.h"
 
 #include "ui.h"
@@ -91,6 +92,7 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
             /* Right mouse button */
             canvas->pen_buttons |= LP_HOST_BUTTON_2;
         }
+        mouse_button(button-1, 1);
     } else if (event->type == GDK_BUTTON_RELEASE) {
         int button = ((GdkEventButton *)event)->button;
         if (button == 1) {
@@ -100,10 +102,39 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
             /* Right mouse button */
             canvas->pen_buttons &= ~LP_HOST_BUTTON_2;
         }        
+        mouse_button(button-1, 0);
     }
     /* Ignore all other mouse button events, though we'll be sent things like double- and triple-click. */
     return FALSE;
 }
+
+static gboolean event_box_scroll_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
+{
+    GdkScrollDirection dir = ((GdkEventScroll *)event)->direction;
+    gdouble smooth_x = 0.0, smooth_y = 0.0;
+    switch (dir) {
+    case GDK_SCROLL_UP:
+        mouse_button(3, 1);
+        break;
+    case GDK_SCROLL_DOWN:
+        mouse_button(4, 1);
+        break;
+    case GDK_SCROLL_SMOOTH:
+        /* Isolate the Y component of a smooth scroll */
+        if (gdk_event_get_scroll_deltas(event, &smooth_x, &smooth_y)) {
+            if (smooth_y < 0) {
+                mouse_button(3, 1);
+            } else if (smooth_y > 0) {
+                mouse_button(4, 1);
+            }
+        }
+        break;
+    default:
+        /* Ignore left and right scroll */
+        break;
+    }
+    return FALSE;
+}    
 
 static GdkCursor *make_cursor(GtkWidget *widget, const char *name)
 {
@@ -208,11 +239,13 @@ static void machine_window_create(video_canvas_t *canvas)
     gtk_widget_add_events(new_event_box, GDK_POINTER_MOTION_MASK);
     gtk_widget_add_events(new_event_box, GDK_BUTTON_PRESS_MASK);
     gtk_widget_add_events(new_event_box, GDK_BUTTON_RELEASE_MASK);
+    gtk_widget_add_events(new_event_box, GDK_SCROLL_MASK);
     g_signal_connect(new_event_box, "enter-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect(new_event_box, "leave-notify-event", G_CALLBACK(event_box_cross_cb), canvas);
     g_signal_connect(new_event_box, "motion-notify-event", G_CALLBACK(event_box_motion_cb), canvas);
     g_signal_connect(new_event_box, "button-press-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
     g_signal_connect(new_event_box, "button-release-event", G_CALLBACK(event_box_mouse_button_cb), canvas);
+    g_signal_connect(new_event_box, "scroll-event", G_CALLBACK(event_box_scroll_cb), canvas);
 
     /* I'm pretty sure when running x128 we get two menu instances, so this
      * should go somewhere else: call ui_menu_bar_create() once and attach the
