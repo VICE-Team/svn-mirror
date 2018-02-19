@@ -49,6 +49,7 @@
 
 /** \todo This caching method is awful, be less awful */
 static gdouble last_mouse_x = -1, last_mouse_y = -1;
+static int warping = 0;
 
 static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
@@ -71,9 +72,26 @@ static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer
             canvas->pen_x = pen_x;
             canvas->pen_y = pen_y;
         }
-        if (last_mouse_x > 0 && last_mouse_y > 0) {
-            mouse_move((pen_x-last_mouse_x) * canvas->videoconfig->scalex,
-                       (pen_y-last_mouse_y) * canvas->videoconfig->scaley);
+        if (warping) {
+            warping = 0;
+        } else {
+            if (last_mouse_x > 0 && last_mouse_y > 0) {
+                mouse_move((pen_x-last_mouse_x) * canvas->videoconfig->scalex,
+                           (pen_y-last_mouse_y) * canvas->videoconfig->scaley);
+            }
+            if (_mouse_enabled) {
+                /** \todo Our current implementation of mouse capture
+                 *        does not work on Wayland, because GDK
+                 *        doesn't implement gdk_device_warp there. */
+                GdkWindow *window = gtk_widget_get_window(gtk_widget_get_toplevel(widget));
+                GdkScreen *screen = gdk_window_get_screen(window);
+                int window_w = gdk_window_get_width(window);
+                int window_h = gdk_window_get_height(window);
+                gdk_device_warp(motion->device, screen,
+                                (window_w / 2) + motion->x_root - motion->x,
+                                (window_h / 2) + motion->y_root - motion->y);
+                warping = 1;
+            }
         }
         last_mouse_x = pen_x;
         last_mouse_y = pen_y;
@@ -157,7 +175,7 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
     ++canvas->still_frames;
-    if (!lightpen_enabled && canvas->still_frames > 60) {
+    if (_mouse_enabled || (!lightpen_enabled && canvas->still_frames > 60)) {
         if (canvas->blank_ptr == NULL) {
             canvas->blank_ptr = make_cursor(widget, "none");
         }
