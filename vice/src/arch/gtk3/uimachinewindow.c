@@ -47,12 +47,8 @@
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
 
-#if 0
-static void event_box_no_cleanup_needed(gpointer ignored)
-{
-    /* Yep, ignored */
-}
-#endif
+/** \todo This caching method is awful, be less awful */
+static gdouble last_mouse_x = -1, last_mouse_y = -1;
 
 static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
@@ -75,6 +71,12 @@ static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer
             canvas->pen_x = pen_x;
             canvas->pen_y = pen_y;
         }
+        if (last_mouse_x > 0 && last_mouse_y > 0) {
+            mouse_move((pen_x-last_mouse_x) * canvas->videoconfig->scalex,
+                       (pen_y-last_mouse_y) * canvas->videoconfig->scaley);
+        }
+        last_mouse_x = pen_x;
+        last_mouse_y = pen_y;
     }
     return FALSE;
 }
