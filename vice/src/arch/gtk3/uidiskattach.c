@@ -317,3 +317,19 @@ void ui_disk_detach_callback(GtkWidget *widget, gpointer user_data)
      * so we can simply forward the call directly. */
     file_system_detach_disk(GPOINTER_TO_INT(user_data));
 }
+
+
+/** \brief  Detach all disks
+ *
+ * \param[in]   widget  widget (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+void ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
+{
+    int unit;
+
+    /* TODO: figure out where these integer literals are defined */
+    for (unit = 8; unit < 12; unit++) {
+        file_system_detach_disk(unit);
+    }
+}

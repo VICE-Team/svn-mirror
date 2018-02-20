@@ -126,6 +126,10 @@ static ui_menu_item_t detach_submenu[] = {
         "detach-drive11", ui_disk_detach_callback, GINT_TO_POINTER(11),
         0, 0 },
 
+    { "Detach all", UI_MENU_TYPE_ITEM_ACTION,
+        "detach-all", ui_disk_detach_all_callback, NULL,
+        0, 0 },
+
     UI_MENU_TERMINATOR
 };
 
