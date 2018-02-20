@@ -1,13 +1,12 @@
 /**
+ * \file    uimachinewindow.c
  * \brief   Native GTK3 main emulator window code.
  *
- * Written by
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
- * based on code by
- *  Michael C. Martin <mcmartin@gmail.com>
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
+ * \author Marcus Sutton <loggedoubt@gmail.com>
+ * \author Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/* This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -27,8 +26,9 @@
  *
  */
 
-/* XXX: It should be possible to compile, link and run vsid while this
- *      entire file (amongst others) is contained inside an #if 0 wrapper.
+/* \note It should be possible to compile, link and run vsid while
+ *       this entire file (amongst others) is contained inside an #if
+ *       0 wrapper.
  */
 #if 1
 
@@ -47,10 +47,76 @@
 #include "uimachinemenu.h"
 #include "uimachinewindow.h"
 
-/** \todo This caching method is awful, be less awful */
-static gdouble last_mouse_x = -1, last_mouse_y = -1;
+/** \brief Last recoreded X position of the mouse, for computing
+ *         relative movement.
+ *  \todo  This caching method should be less awful.
+ *  \sa    event_box_motion_cb */
+static gdouble last_mouse_x = -1;
+
+/** \brief Last recoreded Y position of the mouse, for computing
+ *         relative movement.
+ *  \todo  This caching method should be less awful.
+ *  \sa    event_box_motion_cb */
+static gdouble last_mouse_y = -1;
+
+/** \brief If nonzero, the next mouse motion event will ignored by the
+ *         mouse driver.
+ *  \sa    event_box_motion_cb */
 static int warping = 0;
 
+/** \brief Callback for handling mouse motion events over the emulated
+ *         screen.
+ *
+ *  Mouse motion events influence three different subsystems: the
+ *  light-pen (if any), the emulated mouse (if any), and the UI-level
+ *  routines that hide the mouse pointer if it comes to rest over the
+ *  machine's screen.
+ *
+ *  Moving the mouse pointer resets the number of frames the mouse was
+ *  held still.
+ *
+ *  Light pen position information is computed based on the new mouse
+ *  position and what part of the machine window is actually in use
+ *  based on current scaling and aspect ratio settings.
+ *
+ *  Mouse information is computed based on the difference between the
+ *  current mouse location and the last recorded mouse location. If
+ *  the mouse has been captured by the emulator, this also then warps
+ *  the mouse pointer back to the middle of the emulated
+ *  screen. (These warps will trigger an additional call to this
+ *  function, but an additional flag will prevent them from being
+ *  processed as true input.)
+ *
+ *  Information relevant to these processes is cached in the
+ *  video_canvas_s structure for use as needed.
+ *
+ *  \param widget    The widget that sent the event.
+ *  \param event     The GdkEventMotion event itself.
+ *  \param user_data The video canvas data structure associated with
+ *                   this machine window.
+ *  \return TRUE if no further event processing is necessary.
+ *
+ *  \todo Information involving mouse-warping is not cached with the
+ *        canvas yet, and should be for cleaner C128 support.
+ *
+ *  \todo Pointer warping does not work on Wayland. GTK3 and its GDK
+ *        substrate simply do not provide an implementation for
+ *        gdk_device_warp(), and Wayland's window model doesn't really
+ *        support pointer warping the way GDK envisions. Wayland's
+ *        window model envisions using pointer constraints to confine
+ *        the mouse pointer within a target window, and then using
+ *        relative mouse motion events to capture additional attempts
+ *        at motion outside of it. SDL2 implements this and it may
+ *        provide a useful starting point for this alternative
+ *        implementation.
+ *
+ * \sa event_box_mouse_button_cb Further light pen and mouse button
+ *     handling.
+ * \sa event_box_scroll_cb Further mouse button handling.
+ * \sa event_box_stillness_tick_cb More of the hide-idle-mouse-pointer
+ *     logic.
+ * \sa event_box_cross_cb More of the hide-idle-mouse-pointer logic.
+ */
 static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
@@ -80,9 +146,6 @@ static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer
                            (pen_y-last_mouse_y) * canvas->videoconfig->scaley);
             }
             if (_mouse_enabled) {
-                /** \todo Our current implementation of mouse capture
-                 *        does not work on Wayland, because GDK
-                 *        doesn't implement gdk_device_warp there. */
                 GdkWindow *window = gtk_widget_get_window(gtk_widget_get_toplevel(widget));
                 GdkScreen *screen = gdk_window_get_screen(window);
                 int window_w = gdk_window_get_width(window);
@@ -99,6 +162,22 @@ static gboolean event_box_motion_cb(GtkWidget *widget, GdkEvent *event, gpointer
     return FALSE;
 }
 
+/** \brief Callback for handling mouse button events over the emulated
+ *         screen.
+ *
+ *  This forwards any button press or release events on to the light
+ *  pen and mouse subsystems.
+ *
+ *  \param widget    The widget that sent the event.
+ *  \param event     The GdkEventButton event itself.
+ *  \param user_data The video canvas data structure associated with
+ *                   this machine window.
+ *  \return TRUE if no further event processing is necessary.
+ *
+ *  \sa event_box_mouse_motion_cb Further handling of light pen and
+ *      mouse events.
+ *  \sa event_box_scroll_cb Further handling of mouse button events.
+ */
 static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
@@ -124,10 +203,30 @@ static gboolean event_box_mouse_button_cb(GtkWidget *widget, GdkEvent *event, gp
         }        
         mouse_button(button-1, 0);
     }
-    /* Ignore all other mouse button events, though we'll be sent things like double- and triple-click. */
+    /* Ignore all other mouse button events, though we'll be sent
+     * things like double- and triple-click. */
     return FALSE;
 }
 
+/** \brief Callback for handling mouse scroll wheel events over the
+ *         emulated screen.
+ *
+ *  GTK generates these by translating button presses on buttons 4 and
+ *  5 into scroll events; we convert them back and forward them on to
+ *  the mouse subsystem.
+ *
+ *  "Smooth scroll" events are also processed, interpreted as "up
+ *  scroll" or "down scroll" based on the vertical component of the
+ *  smooth-scroll event.
+ *
+ *  \param widget    The widget that sent the event.
+ *  \param event     The GdkEventScroll event itself.
+ *  \param user_data The video canvas data structure associated with
+ *                   this machine window.
+ *  \return TRUE if no further event processing is necessary.
+ *
+ *  \sa event_box_scroll_cb Further handling of mouse button events.
+ */
 static gboolean event_box_scroll_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     GdkScrollDirection dir = ((GdkEventScroll *)event)->direction;
@@ -156,6 +255,23 @@ static gboolean event_box_scroll_cb(GtkWidget *widget, GdkEvent *event, gpointer
     return FALSE;
 }    
 
+/** \brief Create a reusable cursor that may be used as part of this
+ *         widget.
+ *
+ *  GDK cursors are tied to specific displays, so they need to be
+ *  created for each machine window individually.
+ *
+ *  \param widget The widget that will be using this cursor.
+ *  \param name   The name of the cursor to create.
+ *  \return A new, non-floating, GdkCursor reference, or NULL on
+ *          failure.
+ *
+ *  \note Users coming to this code from the more X11-centric GTK2
+ *        will notice that the array of guaranteed-available cursors
+ *        is much smaller. Please continue to only use the cursors
+ *        listed in the documentation for gdk_cursor_new_from_name()
+ *        here.
+ */
 static GdkCursor *make_cursor(GtkWidget *widget, const char *name)
 {
     GdkDisplay *display = gtk_widget_get_display(widget);
@@ -170,6 +286,30 @@ static GdkCursor *make_cursor(GtkWidget *widget, const char *name)
     return result;
 }
 
+/** \brief Frame-advance callback for the hide-mouse-when-idle logic.
+ *
+ *  This function is called as the "tick callback" whenever the mouse
+ *  is hovering over the machine's screen. Its job is primarily to
+ *  manage the mouse cursor:
+ *
+ *  - If the light pen is active, the cursor is always visible and is
+ *    shaped like a crosshair.
+ *  - If the mouse is grabbed, the cursor is never visible.
+ *  - Otherwise, the cursor is visible as a normal mouse pointer as
+ *    long as it's been 60 or fewer ticks since the last time the
+ *    mouse moved.
+ *
+ *  \param widget    The widget that sent the event.
+ *  \param clock     The GdkFrameClock that's managing our ticks.
+ *  \param user_data The video canvas data structure associated with
+ *                   this machine window.
+ *  \return TRUE if no further event processing is necessary.
+ *
+ *  \sa event_box_cross_cb  Manages the lifecycle of this tick
+ *      callback.
+ *  \sa event_box_motion_cb Manages the "ticks since the last time the
+ *      mouse moved" counter.
+ */
 static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *clock, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
@@ -202,6 +342,24 @@ static gboolean event_box_stillness_tick_cb(GtkWidget *widget, GdkFrameClock *cl
     return G_SOURCE_CONTINUE;
 }
 
+/** \brief Callback for managing the hide-pointer-on-idle timings.
+ *
+ *  This callback fires whenever the machine window's canvas gains or
+ *  loses focus over the mouse pointer. It manages the logic that
+ *  hides the mouse pointer after inactivity. Entering the window will
+ *  start the timer, and leaving it will stop it.
+ *
+ *  Leaving the window entirely will also be interpreted as removing
+ *  the light pen from the screen.
+ *
+ *  \param widget    The widget that sent the event.
+ *  \param event     The GdkEventCrossing event itself.
+ *  \param user_data The video canvas data structure associated with
+ *                   this machine window.
+ *  \return TRUE if no further event processing is necessary.
+ *
+ *  \sa event_box_stillness_tick_cb The timer managed by this function.
+ */
 static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)user_data;
@@ -210,7 +368,8 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
     if (!canvas || !event ||
         (event->type != GDK_ENTER_NOTIFY && event->type != GDK_LEAVE_NOTIFY) ||
         crossing->mode != GDK_CROSSING_NORMAL) {
-        /* Spurious event */
+        /* Spurious event. Most likely, this is an event fired because
+         * clicking the canvas altered grab status. */
         return FALSE;
     }
     
@@ -238,6 +397,22 @@ static gboolean event_box_cross_cb(GtkWidget *widget, GdkEvent *event, gpointer 
     return FALSE;
 }
 
+/** \brief Create a new machine window.
+ *
+ *  A machine window is a GtkGrid that has a menu bar on top, a status
+ *  bar on the bottom, and a renderer-backend specific drawing area in
+ *  the middle. The canvas argument has its relevant fields populated
+ *  by this process.
+ *
+ *  \param canvas The video canvas to populate.
+ *
+ *  \todo At the moment, the renderer backend is selected at compile
+ *        time and cannot be changed. It would be nice to be able to
+ *        fall back to simpler backends if more specialized ones
+ *        fail. This is difficult at present because we cannot know if
+ *        OpenGL is available until long after the window is created
+ *        and realized.
+ */
 static void machine_window_create(video_canvas_t *canvas)
 {
     GtkWidget *new_drawing_area, *new_event_box;

@@ -1,10 +1,14 @@
-/*
- * uimachinewindow.h - Native GTK3 main emulator window code.
+/**
+ * \file uimachinewindow.h 
+ * \brief Native GTK3 main emulator window code.
+ * \author Marcus Sutton <loggedoubt@gmail.com>
  *
- * Written by
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
+ * A "machine window" is any window whose primary purpose is to
+ * display an emulated screen. It usually also includes a menu bar and
+ * a status bar.
+ */
+
+/* This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -30,8 +34,8 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
+/** \brief Set up any resources needed to create new machine
+ *         windows. */
 void ui_machine_window_init(void);
-/* void machine_window_create(struct video_canvas_s *canvas); */
-
 
 #endif /* VICE_UIMACHINEWINDOW_H */
