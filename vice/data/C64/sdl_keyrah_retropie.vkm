@@ -75,7 +75,8 @@
 # -menukey 281                    arrow up for menu (with switch in middle pos.)
 #
 # in retropie you could add this to the vice.sh script that is located in
-# /opt/retropie/emulators/vice/bin/
+# /opt/retropie/emulators/vice/bin/ or the vice config file which is
+# /home/pi/.vice/sdl-vicerc
 
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
 #       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
