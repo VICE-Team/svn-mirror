@@ -398,8 +398,10 @@ ui_menu_action_t ui_dispatch_events(void)
                             }
                             shift_down++;
                         }
+                        ui_display_kbd_status(event);
                         retval = sdlkbd_press(kcode, 0);
                     } else {
+                        ui_display_kbd_status(event);
                         retval = sdlkbd_release(kcode, 0);
 
                         if (ctrl || (kcode == SDLK_TAB)) {
@@ -445,9 +447,11 @@ ui_menu_action_t ui_dispatch_events(void)
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
+                ui_display_kbd_status(&e);
                 retval = sdlkbd_press(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
                 break;
             case SDL_KEYUP:
+                ui_display_kbd_status(&e);
                 retval = sdlkbd_release(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
                 break;
 #ifdef HAVE_SDL_NUMJOYSTICKS
@@ -699,6 +703,12 @@ static const cmdline_option_t statusbar_cmdline_options[] = {
     { "+statusbar", SET_RESOURCE, 0, NULL, NULL, "SDLStatusbar", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, "Disable statusbar" },
+    { "-kbdstatusbar", SET_RESOURCE, 0, NULL, NULL, "SDLKbdStatusbar", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Enable keyboard-status bar" },
+    { "+kbdstatusbar", SET_RESOURCE, 0, NULL, NULL, "SDLKbdStatusbar", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, "Disable keyboard-status bar" },
     CMDLINE_LIST_END
 };
 

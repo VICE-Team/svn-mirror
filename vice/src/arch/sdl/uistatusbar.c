@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#include "kbd.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -57,6 +58,7 @@
 #define STATUSBAR_TAPE_POS          37
 
 static char statusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
+static char kbdstatusbar_text[MAX_STATUSBAR_LEN] = "                                       ";
 
 static menufont_t *menufont = NULL;
 static int pitch;
@@ -371,7 +373,7 @@ void ui_display_volume(int vol)
 /* ----------------------------------------------------------------- */
 /* resources */
 
-static int statusbar_enabled;
+static int statusbar_enabled, kbdstatusbar_enabled;
 
 static int set_statusbar(int val, void *param)
 {
@@ -386,9 +388,18 @@ static int set_statusbar(int val, void *param)
     return 0;
 }
 
+static int set_kbdstatusbar(int val, void *param)
+{
+    kbdstatusbar_enabled = val ? 1 : 0;
+
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
     { "SDLStatusbar", 0, RES_EVENT_NO, NULL,
       &statusbar_enabled, set_statusbar, NULL },
+    { "SDLKbdStatusbar", 0, RES_EVENT_NO, NULL,
+      &kbdstatusbar_enabled, set_kbdstatusbar, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -416,6 +427,8 @@ void uistatusbar_close(void)
     uistatusbar_state = UISTATUSBAR_REPAINT;
 }
 
+#define KBDSTATUSENTRYLEN   15
+
 void uistatusbar_draw(void)
 {
     int i;
@@ -437,6 +450,21 @@ void uistatusbar_draw(void)
                   + sdl_active_canvas->geometry->extra_offscreen_border_left
                   + sdl_active_canvas->viewport->first_x;
 
+    if (kbdstatusbar_enabled) {
+        for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {
+            c = kbdstatusbar_text[i];
+
+            if (c == 0) {
+                break;
+            }
+
+            if (((i / KBDSTATUSENTRYLEN) & 1) == 1) {
+                uistatusbar_putchar(c, i, -1, color_b, color_f);
+            } else {
+                uistatusbar_putchar(c, i, -1, color_f, color_b);
+            }
+        }
+    }
 
     for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {
         c = statusbar_text[i];
@@ -452,6 +480,22 @@ void uistatusbar_draw(void)
         }
     }
 }
+
+void ui_display_kbd_status(SDL_Event *e)
+{
+    char *p = &kbdstatusbar_text[KBDSTATUSENTRYLEN * 2];
+
+    if (kbdstatusbar_enabled) {
+        memcpy(kbdstatusbar_text, &kbdstatusbar_text[KBDSTATUSENTRYLEN], 40);
+        sprintf(p, "%c%03d>%03d %c%04x    ", 
+                (e->type == SDL_KEYUP) ? 'U' : 'D',
+                e->key.keysym.sym & 0xffff, 
+                SDL2x_to_SDL1x_Keys(e->key.keysym.sym),
+                ((e->key.keysym.sym & 0xffff0000) == 0x40000000) ? 'M' : ((e->key.keysym.sym & 0xffff0000) != 0x00000000) ? 'E' : ' ',
+                e->key.keysym.mod);
+    }
+}
+
 
 #ifdef ANDROID_COMPILE
 void loader_set_statusbar(int val)

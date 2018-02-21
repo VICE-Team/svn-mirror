@@ -735,7 +735,7 @@ static char *archdep_get_runtime_cpu(void)
 
 
 /* returns host keyboard mapping. used to initialize the keyboard map when
-   starting with a black (default) config, so an educated guess works good
+   starting with a blank (default) config, so an educated guess works good
    enough most of the time :)
 
    FIXME: add more languages

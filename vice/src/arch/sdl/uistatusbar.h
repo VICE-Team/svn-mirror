@@ -40,4 +40,6 @@ extern void uistatusbar_draw(void);
 
 extern int uistatusbar_init_resources(void);
 
+void ui_display_kbd_status(SDL_Event *event);
+
 #endif
