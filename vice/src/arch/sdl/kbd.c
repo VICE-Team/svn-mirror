@@ -529,7 +529,11 @@ void kbd_arch_init(void)
 
 signed long kbd_arch_keyname_to_keynum(char *keyname)
 {
-    return (signed long)atoi(keyname);
+    signed long keynum = (signed long)atoi(keyname);
+    if (keynum == 0) {
+        log_warning(sdlkbd_log, "Keycode 0 is reserved for unknown keys.");
+    }
+    return keynum;
 }
 
 const char *kbd_arch_keynum_to_keyname(signed long keynum)
