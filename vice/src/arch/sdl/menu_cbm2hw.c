@@ -80,12 +80,20 @@ CIA_MODEL_MENU(1)
 
 static UI_MENU_CALLBACK(select_cbm2_model_callback)
 {
-    int model;
+    int model, selected;
 
-    model = vice_ptr_to_int(param);
+    selected = vice_ptr_to_int(param);
+
     if (activated) {
-        cbm2model_set(model);
+        cbm2model_set(selected);
+    } else {
+        model = cbm2model_get();
+
+        if (selected == model) {
+            return sdl_menu_text_tick;
+        }
     }
+
     return NULL;
 }
 
@@ -209,7 +217,7 @@ static const ui_menu_entry_t cbm5x0_memory_menu[] = {
 const ui_menu_entry_t cbm5x0_hardware_menu[] = {
     { "Select CBM2 model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      submenu_radio_callback,
       (ui_callback_data_t)cbm5x0_model_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Tape port devices",
@@ -308,7 +316,7 @@ static const ui_menu_entry_t userport_menu[] = {
 const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
     { "Select CBM2 model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      submenu_radio_callback,
       (ui_callback_data_t)cbm2_model_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Joyport settings",

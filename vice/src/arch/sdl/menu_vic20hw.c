@@ -211,7 +211,7 @@ UI_MENU_DEFINE_TOGGLE(VFLImod)
 const ui_menu_entry_t vic20_hardware_menu[] = {
     { "Select VIC20 model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      submenu_radio_callback,
       (ui_callback_data_t)vic20_model_submenu },
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,

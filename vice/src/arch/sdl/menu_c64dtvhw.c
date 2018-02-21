@@ -104,7 +104,7 @@ UI_MENU_DEFINE_RADIO(DtvRevision)
 const ui_menu_entry_t c64dtv_hardware_menu[] = {
     { "Select DTV model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      submenu_radio_callback,
       (ui_callback_data_t)dtv_model_submenu },
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,

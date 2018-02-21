@@ -84,12 +84,20 @@ CIA_MODEL_MENU(2)
 
 static UI_MENU_CALLBACK(select_c128_model_callback)
 {
-    int model;
+    int model, selected;
 
-    model = vice_ptr_to_int(param);
+    selected = vice_ptr_to_int(param);
+
     if (activated) {
-        c128model_set(model);
+        c128model_set(selected);
+    } else {
+        model = c128model_get();
+
+        if (selected == model) {
+            return sdl_menu_text_tick;
+        }
     }
+
     return NULL;
 }
 
@@ -183,7 +191,7 @@ UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 const ui_menu_entry_t c128_hardware_menu[] = {
     { "Select C128 model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      submenu_radio_callback,
       (ui_callback_data_t)c128_model_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "Joyport settings",

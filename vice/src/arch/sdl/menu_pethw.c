@@ -299,7 +299,7 @@ UI_MENU_DEFINE_TOGGLE(PETHRE)
 const ui_menu_entry_t pet_hardware_menu[] = {
     { "Select PET model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      submenu_radio_callback,
       (ui_callback_data_t)pet_model_menu },
     { "Keyboard",
       MENU_ENTRY_SUBMENU,

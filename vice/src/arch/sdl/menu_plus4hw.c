@@ -132,7 +132,7 @@ UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 const ui_menu_entry_t plus4_hardware_menu[] = {
     { "Select Plus4 model",
       MENU_ENTRY_SUBMENU,
-      submenu_callback,
+      submenu_radio_callback,
       (ui_callback_data_t)plus4_model_submenu },
     { "Joyport settings",
       MENU_ENTRY_SUBMENU,
