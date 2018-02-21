@@ -57,7 +57,8 @@ sdl_keymaps = \
 	sdl_keyrah_retropie.vkm \
 	sdl_keyrah_retropie_de.vkm \
 	sdl_keyrah_combian.vkm \
-	sdl_sym.vkm
+	sdl_sym.vkm \
+	sdl_sym_de.vkm
 
 extra_keymaps = \
 	amiga_sym.vkm \

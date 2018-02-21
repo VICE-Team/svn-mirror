@@ -61,7 +61,7 @@
 # When a bigger spaced key is used,
 # it uses the upper left most key value.
 
-# Positional Mapping, German Layout, C64, SDL, pc(105)-de keyboard
+# Symbolic Mapping, German Layout, C64, SDL, pc(105)-de keyboard
 
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
 #       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
@@ -102,22 +102,23 @@
 # arrow up (-> end)
 # arrow up+shift (-> end+shift)
 
-94 7 1 8               /*            ^ -> Left Arrow   */
+94 6 6 8               /*            ^ -> Up Arrow     */
+# 94 6 6 17              /*            ° -> Pi           */
 49 7 0 8               /*            1 -> 1            */
 50 7 3 8               /*            2 -> 2            */
 51 1 0 8               /*            3 -> 3            */
 52 1 3 8               /*            4 -> 4            */
 53 2 0 8               /*            5 -> 5            */
 54 2 3 8               /*            6 -> 6            */
-55 3 0 8               /*            7 -> 7            */
+55 3 0 32              /*            7 -> 7            */
+55 6 7 16              /*            / -> /            */
 56 3 3 8               /*            8 -> 8            */
 57 4 0 8               /*            9 -> 9            */
-48 4 3 8               /*            0 -> 0            */
-223 5 0 8              /* (de)      sz -> +            */
-180 5 3 8              /* (de)       ? -> -            */
-60 6 0 8               /* (de)     < > -> Pound        */
-278 6 3 8              /*         Home -> CLR/HOME     */
-8 0 0 8                /*          Ins -> Ins          */
+48 4 3 32              /*            0 -> 0            */
+48 6 5 17              /*            = -> =            */
+223 6 0 32             /* (de)      sz -> Pound        */
+223 6 7 1              /* (de) shft+sz -> ?            */
+8 0 0 8                /*    Backspace -> Ins          */
 
 9 7 2 8                /*          TAB -> Ctrl         */
 113 7 6 8              /*            Q -> Q            */
@@ -125,16 +126,15 @@
 101 1 6 8              /*            E -> E            */
 114 2 1 8              /*            R -> R            */
 116 2 6 8              /*            T -> T            */
-122 3 1 8              /*            Z -> Y            */
+122 1 4 8              /*            Z -> Z            */
 117 3 6 8              /*            U -> U            */
 105 4 1 8              /*            I -> I            */
 111 4 6 8              /*            O -> O            */
 112 5 1 8              /*            P -> P            */
 252 5 6 8              /* (de)      ue -> @            */
-43 6 1 8               /*            * -> *            */
-279 6 6 8              /*          End -> Up Arrow     */
+43 5 0 32              /*            + -> +            */
+43 6 1 16              /*            * -> *            */
 
-27 7 7 8               /*          ESC -> Run/Stop     */
 301 1 7 64             /*    Caps Lock -> Shift Lock   */
 97 1 2 8               /*            A -> A            */
 115 1 5 8              /*            S -> S            */
@@ -145,30 +145,34 @@
 106 4 2 8              /*            J -> J            */
 107 4 5 8              /*            K -> K            */
 108 5 2 8              /*            L -> L            */
-246 5 5 8              /* (de)      oe -> :            */
-228 6 2 8              /* (de)      ae -> ;            */
-35 6 5 8               /*            # -> =            */
+246 5 5 8              /* (de)      oe -> [            */
+228 6 2 8              /* (de)      ae -> ]            */
+35 1 0 33              /*            # -> #            */
+35 3 0 1               /*            ' -> '            */
 13 0 1 8               /*       Return -> Return       */
 
-306 7 5 8              /*    Left Ctrl -> CBM          */
-304 1 7 2              /*   Left Shift -> Left Shift   */
-121 1 4 8              /*            Y -> Z            */
+303 6 4 4              /*  Right Shift -> Right Shift  */
+60 5 7 33              /*            < -> <            */
+60 5 4 1               /*            > -> >            */
+121 3 1 8              /*            Y -> Y            */
 120 2 7 8              /*            X -> X            */
 99 2 4 8               /*            C -> C            */
 118 3 7 8              /*            V -> V            */
 98 3 4 8               /*            B -> B            */
 110 4 7 8              /*            N -> N            */
 109 4 4 8              /*            M -> M            */
-44 5 7 8               /*            , -> ,            */
-46 5 4 8               /*            . -> .            */
-45 6 7 8               /*            - -> /            */
-303 6 4 4              /*  Right Shift -> Right Shift  */
-273 0 7 1              /*           Up -> CRSR UP      */
-274 0 7 8              /*         Down -> CRSR DOWN    */
-275 0 2 8              /*        Right -> CRSR RIGHT   */
-276 0 2 1              /*         Left -> CRSR LEFT    */
+44 5 7 32              /*            , -> ,            */
+44 6 2 0               /*            ; -> ;            */
+46 5 4 32              /*            . -> .            */
+46 5 5 0               /*            : -> :            */
+45 5 3 32              /*            - -> -            */
+45 6 6 17              /*            _ -> Pi           */
+304 1 7 2              /*   Left Shift -> Left Shift   */
 
+306 7 5 8              /*    Left Ctrl -> CBM          */
 32 7 4 8               /*        Space -> Space        */
+
+27 7 7 8               /*          ESC -> Run/Stop     */
 
 282 0 4 8              /*           F1 -> F1           */
 283 0 4 1              /*           F2 -> F2           */
@@ -184,6 +188,11 @@
 278 6 3 8              /*         Home -> CLR/HOME     */
 # 280 -3 0               /*      Page Up -> RESTORE      */
 # 0 -3 1                 /*      Unknown -> RESTORE      */
+
+273 0 7 1              /*           Up -> CRSR UP      */
+274 0 7 8              /*         Down -> CRSR DOWN    */
+275 0 2 8              /*        Right -> CRSR RIGHT   */
+276 0 2 1              /*         Left -> CRSR LEFT    */
 
 267 6 7 8              /*     NumPad / -> /            */
 268 6 1 8              /*     NumPad * -> *            */

@@ -48,7 +48,8 @@ sdl_keymaps = \
 	sdl_pos_de.vkm \
 	sdl_pos_fi.vkm \
 	sdl_pos_no.vkm \
-	sdl_sym.vkm
+	sdl_sym.vkm \
+	sdl_sym_de.vkm
 
 extra_keymaps = \
 	amiga_sym.vkm \
