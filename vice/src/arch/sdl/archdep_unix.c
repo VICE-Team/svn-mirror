@@ -752,9 +752,10 @@ int kbd_arch_get_host_mapping(void)
     /* setup the locale */
     setlocale(LC_ALL, "");
     l = setlocale(LC_ALL, NULL);
+    printf("locale: %s\n", l);
     if (l && (strlen(l) > 1)) {
         for (n = 1; n < KBD_MAPPING_NUM; n++) {
-            if (strcmp(l, str[n]) == 0) {
+            if (strncmp(l, str[n], strlen(str[n])) == 0) {
                 return maps[n];
             }
         }
