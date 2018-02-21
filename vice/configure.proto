@@ -3261,9 +3261,11 @@ if test x"$enable_lame" != "xno" ; then
         USE_LAMEMP3_SUPPORT="yes"
         AC_DEFINE(HAVE_STATIC_LAME,,[Static linking for lame libs])
       fi
+      if test x"$USE_LAMEMP3_SUPPORT" != "xyes" -a x"$enable_lame" = "xyes"; then
+        AC_MSG_ERROR([lame mp3 support is missing])
+      fi
     fi
   fi
-
 fi
 
 AC_PATH_PROGS(FCCACHE, fc-cache, false)
