@@ -175,7 +175,6 @@
 
 # Restore key mappings
 280 -3 0
-0 -3 1
 
 # Joyport attached keypad key mappings
 300 -5 0              /*      NumLock -> keypad x0    */

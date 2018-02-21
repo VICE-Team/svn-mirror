@@ -79,6 +79,8 @@
 # in combian you could add this to the sdl-vicerc file, which is located in
 # /root/.vice/sdl-vicerc
 
+# C64 keyboard matrix:
+#
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
 #       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+

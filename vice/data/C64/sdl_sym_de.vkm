@@ -63,6 +63,8 @@
 
 # Symbolic Mapping, German Layout, C64, SDL, pc(105)-de keyboard
 
+# C64 keyboard matrix:
+#
 #       +-----+-----+-----+-----+-----+-----+-----+-----+
 #       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
 # +-----+-----+-----+-----+-----+-----+-----+-----+-----+
@@ -187,7 +189,6 @@
 277 0 0 1              /*          Del -> Del          */
 278 6 3 8              /*         Home -> CLR/HOME     */
 # 280 -3 0               /*      Page Up -> RESTORE      */
-# 0 -3 1                 /*      Unknown -> RESTORE      */
 
 273 0 7 1              /*           Up -> CRSR UP      */
 274 0 7 8              /*         Down -> CRSR DOWN    */
@@ -202,7 +203,6 @@
 
 # Restore key mappings
 280 -3 0               /*      Page Up -> RESTORE      */
-0 -3 1                 /*      Unknown -> RESTORE      */
 
 # Joyport attached keypad key mappings
 300 -5 0              /*      NumLock -> keypad x0    */
