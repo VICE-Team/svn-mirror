@@ -523,6 +523,8 @@ void kbd_arch_init(void)
     sdlkbd_log = log_open("SDLKeyboard");
 
     sdlkbd_keyword_clear();
+    /* first load the defaults, then patch them with the user defined hotkeys */
+    sdlkbd_hotkeys_load("sdl_hotkeys.vkm");
     sdlkbd_hotkeys_load(hotkey_file);
 }
 
