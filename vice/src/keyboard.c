@@ -1136,6 +1136,9 @@ int keyboard_keymap_dump(const char *filename)
             "# When a bigger spaced key is used,\n"
             "# it uses the upper left most key value.\n"
            );
+    
+    /* FIXME: output the keyboard matrix for the respective target */
+    
     fprintf(fp, "!CLEAR\n");
     fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
     fprintf(fp, "!RSHIFT %d %d\n", kbd_rshiftrow, kbd_rshiftcol);
