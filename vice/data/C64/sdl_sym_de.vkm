@@ -104,6 +104,28 @@
 # arrow up (-> end)
 # arrow up+shift (-> end+shift)
 
+
+# keys that can't be mapped symbolically are:
+# (row0) arrow left (-> end), pound (-> ß), clr/home (-> home)
+# (row1) restore (-> page up)
+# (row2) run/stop (-> escape)
+# (row3) commodore (-> control)
+
+# extra keys are:
+# ins/del (-> delete)
+# ins/del+shift (-> insert)
+# arrow left (-> underscore, ssharp, altgr+~)
+# arrow up+shift (-> altgr+m)
+# f1 (-> page up)
+# f7 (-> page down)
+# : (-> oe)
+# :+shift (-> OE, altgr+[)
+# ; (-> ae)
+# ;+shift (-> AE, altgr+])
+# @ (-> ue, altgr+Q)
+# @+shift (-> UE)
+
+
 94 6 6 8               /*            ^ -> Up Arrow     */
 # 94 6 6 17              /*            ° -> Pi           */
 49 7 0 8               /*            1 -> 1            */
@@ -120,6 +142,7 @@
 48 6 5 17              /*            = -> =            */
 223 6 0 32             /* (de)      sz -> Pound        */
 223 6 7 1              /* (de) shft+sz -> ?            */
+180 7 1 8              /* (de)     ? ` -> Left Arrow   */
 8 0 0 8                /*    Backspace -> Ins          */
 
 9 7 2 8                /*          TAB -> Ctrl         */
@@ -187,7 +210,8 @@
 
 127 0 0 8              /*          Ins -> Ins          */
 277 0 0 1              /*          Del -> Del          */
-278 6 3 8              /*         Home -> CLR/HOME     */
+278 6 3 8              /*         Pos1 -> CLR/HOME     */
+279 7 1 8               /*         End -> Left Arrow   */
 # 280 -3 0               /*      Page Up -> RESTORE      */
 
 273 0 7 1              /*           Up -> CRSR UP      */
