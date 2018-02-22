@@ -70,6 +70,7 @@ x11_keymaps = \
 	gtk3_buuk_sym_de.vkm
 
 sdl_keymaps = \
+	sdl_hotkeys.vkm \
 	sdl_sym.vkm \
 	sdl_buuk_sym.vkm \
 	sdl_grus_sym.vkm

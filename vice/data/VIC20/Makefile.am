@@ -22,6 +22,7 @@ x11_keymaps = \
 	gtk3_sym.vkm
 
 sdl_keymaps = \
+	sdl_hotkeys.vkm \
 	sdl_pos.vkm \
 	sdl_pos_fi.vkm
 

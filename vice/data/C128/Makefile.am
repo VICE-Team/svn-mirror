@@ -50,6 +50,7 @@ x11_keymaps = \
 	gtk3_pos.vkm
 
 sdl_keymaps = \
+	sdl_hotkeys.vkm \
 	sdl_pos.vkm
 
 extra_keymaps = \

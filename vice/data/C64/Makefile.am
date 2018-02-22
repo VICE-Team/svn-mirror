@@ -47,6 +47,7 @@ x11_keymaps = \
 	gtk3_keyrah_de.vkm
 
 sdl_keymaps = \
+	sdl_hotkeys.vkm \
 	sdl_pos.vkm \
 	sdl_pos_da.vkm \
 	sdl_pos_de.vkm \
