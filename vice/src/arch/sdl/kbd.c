@@ -375,7 +375,6 @@ int sdlkbd_hotkeys_load(const char *filename)
     do {
         buffer[0] = 0;
         if (fgets(buffer, 999, fp)) {
-            char *p;
 
             if (strlen(buffer) == 0) {
                 break;
@@ -383,8 +382,8 @@ int sdlkbd_hotkeys_load(const char *filename)
             buffer[strlen(buffer) - 1] = 0; /* remove newline */
 
             /* remove comments */
-            if ((p = strchr(buffer, '#'))) {
-                *p = 0;
+            if (buffer[0] == '#') {
+                buffer[0] = 0;
             }
 
             switch (*buffer) {
