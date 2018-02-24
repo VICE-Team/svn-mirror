@@ -494,22 +494,50 @@ ui_menu_action_t ui_dispatch_events(void)
     return retval;
 }
 
+/* note: we need to be a bit more "radical" about disabling the (mouse) pointer.
+ * in practise, we really only need it for the lightpen emulation.
+ *
+ * TODO: and perhaps in windowed mode enable it when the mouse is moved.
+ */
+
 void ui_check_mouse_cursor(void)
 {
     if (_mouse_enabled && !lightpen_enabled && !sdl_menu_state) {
+        /* mouse grabbed, not in menu. grab input but do not show a pointer */
 #ifndef USE_SDLUI2
         SDL_ShowCursor(SDL_DISABLE);
         SDL_WM_GrabInput(SDL_GRAB_ON);
 #else
         SDL_SetRelativeMouseMode(SDL_TRUE);
 #endif
-    } else {
+    } else if (lightpen_enabled && !sdl_menu_state) {
+        /* lightpen active, not in menu. show a pointer for the lightpen emulation */
 #ifndef USE_SDLUI2
-        SDL_ShowCursor((sdl_active_canvas->fullscreenconfig->enable && !lightpen_enabled) ? SDL_DISABLE : SDL_ENABLE);
+        SDL_ShowCursor(SDL_ENABLE);
         SDL_WM_GrabInput(SDL_GRAB_OFF);
 #else
         SDL_SetRelativeMouseMode(SDL_FALSE);
 #endif
+    } else {
+        if (sdl_active_canvas->fullscreenconfig->enable) {
+            /* fullscreen, never show pointer (we really never need it) */
+#ifndef USE_SDLUI2
+            SDL_ShowCursor(SDL_DISABLE);
+            SDL_WM_GrabInput(SDL_GRAB_OFF);
+#else
+            SDL_ShowCursor(SDL_DISABLE);
+            SDL_SetRelativeMouseMode(SDL_FALSE);
+#endif
+        } else {
+            /* windowed, TODO: disable pointer after time-out */
+#ifndef USE_SDLUI2
+            SDL_ShowCursor(SDL_DISABLE);
+            SDL_WM_GrabInput(SDL_GRAB_OFF);
+#else
+            SDL_ShowCursor(SDL_DISABLE);
+            SDL_SetRelativeMouseMode(SDL_FALSE);
+#endif
+        }
     }
 }
 
