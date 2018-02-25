@@ -744,7 +744,7 @@ int ui_cmdline_options_init(void)
  *
  * \param[in]   format  format string for the dialog's title
  *
- * \return  a copy of the chosen file named; free it with lib_free()
+ * \return  a copy of the chosen file's name; free it with lib_free()
  *
  * \note    This is currently only called by event_playback_attach_image()
  *
