@@ -42,6 +42,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "lightpen.h"
 #include "resources.h"
@@ -208,15 +209,15 @@ static int active_win_index = -1;
  */
 static int is_fullscreen = 0;
 
-/** \brief  Flag inidicating whether fullscreen mode shows the decorations.
+/** \brief  Flag inidicating whether fullscreen mode shows the decorations
  */
 static int fullscreen_has_decorations = 0;
 
-/** \brief  Function to help create a main window.
+/** \brief  Function to help create a main window
  */
 static void (*create_window_func)(video_canvas_t *) = NULL;
 
-/** \brief  Function to identify a canvas from its video chip.
+/** \brief  Function to identify a canvas from its video chip
  */
 static int (*identify_canvas_func)(video_canvas_t *) = NULL;
 
@@ -274,16 +275,19 @@ static int ui_get_window_index(GtkWidget *widget)
     }
 }
 
-/* XXX: GtkApplication tracks the currently-active window using a similar
-        method to this handler, so we should probably remove this if we start
-        using GtkApplication. */
 /** \brief  Handler for the "focus-in-event" of a GtkWindow
  *
  * \param[in]   widget      window triggering the event
  * \param[in]   event       window focus details
- * \param[in]   user_data   extra data for the event (unused)
+ * \param[in]   user_data   extra data for the event (ignored)
  *
- * \return  `FALSE` to continue processing
+ * \return  FALSE to continue processing
+ *
+ * \todo    GtkApplication tracks the currently-active window using a similar
+ *          method to this handler, so if we start using GtkApplication we
+ *          should only use this for canvas-window-specific stuff like
+ *          fullscreen mode, and use gtk_application_get_active_window() to
+ *          provide parent windows for dialogs.
  */
 static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
                                   gpointer user_data)
@@ -291,9 +295,9 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
     int index = ui_get_window_index(widget);
 
     if (index < 0) {
-        /* XXX: We should never end up here. */
-        fprintf(stderr, "focus-in-event: window not found\n");
-        return FALSE;
+        /* We should never end up here. */
+        log_error(LOG_ERR, "focus-in-event: window not found\n");
+        exit(1);
     }
 
     if (event->in == TRUE) {
@@ -335,9 +339,9 @@ static void ui_update_fullscreen_decorations(void)
  *
  * \param[in]   widget      window triggering the event
  * \param[in]   event       window state details
- * \param[in]   user_data   extra data for the event (unused)
+ * \param[in]   user_data   extra data for the event (ignored)
  *
- * \return  `FALSE` to continue processing
+ * \return  FALSE to continue processing
  */
 static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *event,
                                       gpointer user_data)
@@ -346,9 +350,9 @@ static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *ev
     int index = ui_get_window_index(widget);
 
     if (index < 0) {
-        /* XXX: We should never end up here. */
-        fprintf(stderr, "window-state-event: window not found\n");
-        return FALSE;
+        /* We should never end up here. */
+        log_error(LOG_ERR, "window-state-event: window not found\n");
+        exit(1);
     }
 
     if (win_state & GDK_WINDOW_STATE_FULLSCREEN) {
@@ -367,16 +371,17 @@ static gboolean on_window_state_event(GtkWidget *widget, GdkEventWindowState *ev
 }
 
 
-/** \brief Checks if we're in fullscreen mode. 
- *  \return Nonzero if we're in fullscreen mode. */
+/** \brief  Checks if we're in fullscreen mode
+ *
+ * \return  nonzero if we're in fullscreen mode
+ */
 int ui_is_fullscreen(void)
 {
     return is_fullscreen;
 }
 
-/**
- * \brief Updates UI in response to the simulated machine screen
- *        changing its dimensions or aspect ratio.
+/** \brief  Updates UI in response to the simulated machine screen
+ *          changing its dimensions or aspect ratio
  */
 void ui_trigger_resize(void)
 {
@@ -391,9 +396,10 @@ void ui_trigger_resize(void)
     }
 }
 
-/** \brief Toggles fullscreen mode in reaction to user request.
- *  \param widget The widget that sent the callback. Ignored.
- *  \param user_data Extra data for the callback. Ignored.
+/** \brief  Toggles fullscreen mode in reaction to user request
+ *
+ * \param[in]   widget      the widget that sent the callback (ignored)
+ * \param[in]   user_data   extra data for the callback (ignored)
  */
 void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -415,9 +421,10 @@ void ui_fullscreen_callback(GtkWidget *widget, gpointer user_data)
     ui_update_fullscreen_decorations();
 }
 
-/** \brief Toggles fullscreen window decorations in response to user request.
- *  \param widget The widget that sent the callback. Ignored.
- *  \param user_data Extra data for the callback. Ignored.
+/** \brief Toggles fullscreen window decorations in response to user request
+ *
+ * \param[in]   widget      the widget that sent the callback (ignored)
+ * \param[in]   user_data   extra data for the callback (ignored)
  */
 void ui_fullscreen_decorations_callback(GtkWidget *widget, gpointer user_data)
 {
@@ -613,7 +620,7 @@ void ui_set_create_window_func(void (*func)(video_canvas_t *))
 }
 
 
-/** \brief  Set function to identify a canvas from its video chip.
+/** \brief  Set function to identify a canvas from its video chip
  *
  * \param[in]   func    identify canvas function
  */
@@ -623,7 +630,7 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
 }
 
 
-/** \brief Create a toplevel window to represent a video canvas.
+/** \brief  Create a toplevel window to represent a video canvas
  *
  * This function takes a video canvas structure and builds the widgets
  * that will represent that canvas in the UI as a whole. The
@@ -635,7 +642,7 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
  * or preparation, and then call ui_display_toplevel_window() when
  * ready.
  *
- * \param canvas The video_canvas_s to initialize.
+ * \param[in]   canvas  the video_canvas_s to initialize
  *
  * \warning The code that calls this apparently creates the VDC window
  *          for x128 before the VIC window (primary) - this is
@@ -683,11 +690,11 @@ void ui_create_toplevel_window(video_canvas_t *canvas)
         target_window = identify_canvas_func(canvas);
     }
     if (target_window < 0) {
-        fprintf(stderr, "ui_create_toplevel_window: canvas not identified!\n");
+        log_error(LOG_ERR, "ui_create_toplevel_window: canvas not identified!\n");
         exit(1);
     }
     if (ui_resources.window_widget[target_window] != NULL) {
-        fprintf(stderr, "ui_create_toplevel_window: existing window recreated??\n");
+        log_error(LOG_ERR, "ui_create_toplevel_window: existing window recreated??\n");
         exit(1);
     }
 
@@ -703,9 +710,11 @@ void ui_create_toplevel_window(video_canvas_t *canvas)
     kbd_connect_handlers(new_window, NULL);
 }
 
-/** \brief Makes the a window visible once it's been initialized. 
- *  \param index Which window to display.
- *  \sa ui_resources_s::window_widget
+/** \brief  Makes the a window visible once it's been initialized
+ *
+ * \param[in]   index   which window to display
+ *
+ * \sa      ui_resources_s::window_widget
  */
 void ui_display_toplevel_window(int index)
 {
@@ -731,11 +740,17 @@ int ui_cmdline_options_init(void)
 }
 
 
-/** \brief Unknown API call, apparently unused.
- *  \param format Some kind of format string I guess.
- *  \return Maybe the contents of the file named?
- *  \warning This function intentionally crashes VICE if it is ever
- *           called. */
+/** \brief  Display a generic file chooser dialog
+ *
+ * \param[in]   format  format string for the dialog's title
+ *
+ * \return  a copy of the chosen file named; free it with lib_free()
+ *
+ * \note    This is currently only called by event_playback_attach_image()
+ *
+ * \warning This function is unimplemented and will intentionally crash
+ *          VICE if it is called.
+ */
 char *ui_get_file(const char *format, ...)
 {
     NOT_IMPLEMENTED();
@@ -748,7 +763,7 @@ char *ui_get_file(const char *format, ...)
  * \param[in]   argc    pointer to main()'s argc
  * \param[in]   argv    main()'s argv
  *
- * \return 0;
+ * \return  0 on success, -1 on failure
  */
 int ui_init(int *argc, char **argv)
 {
@@ -759,21 +774,13 @@ int ui_init(int *argc, char **argv)
 }
 
 
-/** \brief Finalize initialization.
- *  \return Nonzero on failure.
- *  \todo This function seems to have no reason to exist.
- *  \sa ui_init_finish
- */
-int ui_init_finalize(void)
-{
-    return 0;
-}
-
-
-/** \brief Finish initialization.
- *  \return Nonzero on failure.
- *  \todo This function seems to have no reason to exist.
- *  \sa ui_init_finalize
+/** \brief  Finish initialization after loading the resources
+ *
+ * \note    This function exists for compatibility with other UIs.
+ *
+ * \return  0 on success, -1 on failure
+ *
+ * \sa      ui_init_finalize()
  */
 int ui_init_finish(void)
 {
@@ -781,10 +788,27 @@ int ui_init_finish(void)
 }
 
 
-/** \brief Display the dialog box in response to a CPU jam.
+/** \brief  Finalize initialization after creating the main window(s)
  *
- *  \param format Format string for the message to display.
- *  \return What action the user selected in response to the jam.
+ * \note    This function exists for compatibility with other UIs,
+ *          but could perhaps be used to activate fullscreen from the
+ *          command-line or saved settings file (as it is in WinVICE.)
+ *
+ * \return  0 on success, -1 on failure
+ *
+ * \sa      ui_init_finish()
+ */
+int ui_init_finalize(void)
+{
+    return 0;
+}
+
+
+/** \brief  Display a dialog box in response to a CPU jam
+ *
+ * \param[in]   format  format string for the message to display
+ *
+ * \return  the action the user selected in response to the jam
  */
 ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
@@ -806,7 +830,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
 /** \brief  Initialize resources related to the UI in general
  *
- * \return  0 on success, < 0 on failure
+ * \return  0 on success, -1 on failure
  */
 int ui_resources_init(void)
 {
@@ -846,16 +870,21 @@ void ui_resources_shutdown(void)
     INCOMPLETE_IMPLEMENTATION();
 }
 
-/** \brief Clean up memory used by the UI system itself */
+/** \brief Clean up memory used by the UI system itself
+ */
 void ui_shutdown(void)
 {
     ui_settings_dialog_shutdown();
     ui_statusbar_shutdown();
 }
 
-/** \brief Update menus on active windows.
- *  \todo This is unimplemented and the API requirements are not
- *        understood.
+/** \brief  Update all menu item checkmarks on all windows
+ *
+ * \note    This is called by autostart.c (and probably other files)
+ *          when they change the value of resources.
+ *
+ * \todo    This is unimplemented, but will be much easier to implement if we
+ *          switch to using a GtkApplication/GMenu based UI.
  */
 void ui_update_menus(void)
 {
@@ -866,8 +895,8 @@ void ui_update_menus(void)
 
 /** \brief  Dispatch next GLib main context event
  *
- *  \warning According to the Gtk3/GLib devs, this will at some point
- *           bite us in the arse.
+ * \warning According to the Gtk3/GLib devs, this will at some point
+ *          bite us in the arse.
  */
 void ui_dispatch_next_event(void)
 {
@@ -887,10 +916,13 @@ void ui_dispatch_events(void)
     }
 }
 
-/** \brief Execute the "extend image" dialog.
- *  \return The user's choice.
- *  \todo This function is not implemented and its intended API is not
- *        understood. It will intentionally crash VICE if called.
+/** \brief  Display the "Do you want to extend the disk image to
+ *          40-track format?" dialog
+ *
+ * \return  nonzero to extend the image, 0 otherwise
+ *
+ * \warning This function is not implemented and it will intentionally
+ *          crash VICE if called.
  */
 int ui_extend_image_dialog(void)
 {
@@ -900,7 +932,8 @@ int ui_extend_image_dialog(void)
 
 
 /** \brief  Display error message through the UI
- *  \param  format format string
+ *
+ * \param[in]   format  format string for the error
  */
 void ui_error(const char *format, ...)
 {
@@ -917,7 +950,8 @@ void ui_error(const char *format, ...)
 
 
 /** \brief  Display a message through the UI
- *  \param  format format string for message
+ *
+ * \param[in]   format  format string for message
  */
 void ui_message(const char *format, ...)
 {
@@ -932,11 +966,12 @@ void ui_message(const char *format, ...)
     lib_free(buffer);
 }
 
-/** \brief display FPS (and some other stuff) in the title bar of each
- *         window.
- *  \param percent   CPU speed ratio.
- *  \param framerate Frame rate.
- *  \param warp_flag Nonzero if warp mode is active.
+/** \brief  Display FPS (and some other stuff) in the title bar of each
+ *          window
+ *
+ * \param[in]   percent    CPU speed ratio
+ * \param[in]   framerate  frame rate
+ * \param[in]   warp_flag  nonzero if warp mode is active
  */
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
@@ -1011,7 +1046,7 @@ void ui_pause_emulation(int flag)
 
 /** \brief  Check if emulation is paused
  *
- * \return  bool
+ * \return  nonzero if emulation is paused
  */
 int ui_emulation_is_paused(void)
 {
@@ -1024,7 +1059,8 @@ int ui_emulation_is_paused(void)
  * \return  TRUE (indicates the Alt+P got consumed by Gtk, so it won't be
  *          passed to the emu)
  *
- * \todo Update UI tickmarks properly if triggered by a keyboard accelerator.
+ * \todo    Update UI tickmarks properly if triggered by a keyboard
+ *          accelerator, or the settings dialog.
  */
 gboolean ui_toggle_pause(void)
 {
@@ -1039,7 +1075,8 @@ gboolean ui_toggle_pause(void)
  *
  * \return  TRUE (indicates the Alt+SHIFT+P got consumed by Gtk, so it won't be
  *          passed to the emu)
- * \todo Update UI tickmarks properly if triggered by a keyboard accelerator.
+ *
+ * \todo    Update UI tickmarks properly if triggered by a keyboard accelerator.
  */
 gboolean ui_advance_frame(void)
 {
@@ -1070,7 +1107,7 @@ void ui_exit(void)
     exit(0);
 }
 
-/** \brief Send current light pen state to the emulator core for all windows.
+/** \brief  Send current light pen state to the emulator core for all windows
  */
 void vice_gtk3_lightpen_update(void)
 {
