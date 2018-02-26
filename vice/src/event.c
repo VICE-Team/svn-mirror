@@ -1,10 +1,11 @@
+/** \file   event.c
+ * \brief   Event handling
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Andreas Matthies <aDOTmatthiesATgmxDOTnet>
+ */
+
 /*
- * event.c - Event handling.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Andreas Matthies <aDOTmatthiesATgmxDOTnet>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -30,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 
 #include "alarm.h"
 #include "archdep.h"
@@ -159,7 +161,7 @@ void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
     if (event_image_include) {
         size = (unsigned int)strlen(filename) + 3;
     } else {
-        size = (unsigned int)strlen(strfile) + sizeof(long) + 4;
+        size = (unsigned int)strlen(strfile) + sizeof(uint32_t) + 4;
     }
 
     event_data = lib_malloc(size);
@@ -190,8 +192,8 @@ void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
         }
     } else {
         strcpy(&event_data[2], "");
-        *(unsigned long *)(event_data + 3) = crc32_file(filename);
-        strcpy(&event_data[3 + sizeof(long)], strfile);
+        *(uint32_t *)(event_data + 3) = crc32_file(filename);
+        strcpy(&event_data[3 + sizeof(uint32_t)], strfile);
     }
 
     lib_free(strdir);
@@ -218,7 +220,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
     unsigned int unit, read_only;
     char *orig_filename, *filename = NULL;
     size_t file_len;
-    unsigned long crc_to_attach;
+    uint32_t crc_to_attach;
 
     unit = (unsigned int)((char*)data)[0];
     read_only = (unsigned int)((char*)data)[1];
@@ -229,10 +231,11 @@ static void event_playback_attach_image(void *data, unsigned int size)
         orig_filename = (char *) data + 3 + sizeof(long);
 
         if (event_image_append(orig_filename, &filename, 0) != 0) {
-            crc_to_attach = *(unsigned long *)(((char *)data) + 3);
+            crc_to_attach = *(uint32_t *)(((char *)data) + 3);
             do {
-                filename = ui_get_file("Please attach image %s (CRC32 checksum 0x%x)",
-                                       (char *) data + 3 + sizeof(long), crc_to_attach);
+                filename = ui_get_file(
+                        "Please attach image %s (CRC32 checksum 0x" PRIu32 ")",
+                        (char *) data + 3 + sizeof(uint32_t), crc_to_attach);
             } while (filename != NULL && crc_to_attach != crc32_file(filename));
             if (filename == NULL) {
                 ui_error("Image wasn't attached. Playback will probably get out of sync.");

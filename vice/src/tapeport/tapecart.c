@@ -45,6 +45,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <inttypes.h>
 
 #include "alarm.h"
 #include "archdep.h"
@@ -1162,7 +1163,7 @@ static clock_t cmd_erase_flash_block(void) {
 static clock_t cmd_crc32_flash(void) {
     unsigned int address = get_u24_le(transfer_buffer);
     unsigned int length  = get_u24_le(transfer_buffer + 3);
-    unsigned long crc;
+    uint32_t crc;
 
     if (!validate_flashaddress(address, length)) {
         log_message(tapecart_log,

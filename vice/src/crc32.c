@@ -1,10 +1,11 @@
+/** \file   crc32.c
+ *  \brief  CRC32 checksum implementation
+ *
+ * \author  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ */
+
 /*
- * crc32.c
- *
- * Written by
- *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -28,6 +29,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <inttypes.h>
 
 #include "archdep.h"
 #include "crc32.h"
@@ -35,19 +37,38 @@
 #include "util.h"
 
 
+/** \brief  CRC32 polynomial
+ */
 #define CRC32_POLY  0xedb88320
-static unsigned long crc32_table[256];
+
+/** \brief  Table of constants
+ */
+static uint32_t crc32_table[256];
+
+
+/** \brief  Flag indicating if crc32_table has been initialized
+ */
 static int crc32_is_initialized = 0;
 
-unsigned long crc32_buf(const char *buffer, unsigned int len)
+
+/** \brief  Calculate CRC32 checksum of \a len bytes of \a buffer
+ *
+ * \param[in]   buffer  buffer
+ * \param[in]   len     length of \a buffer
+ *
+ * \return  CRC32 checksum
+ *
+ * \todo    Perhaps change \a buffer into uint8_t and \a len into size_t?
+ */
+uint32_t crc32_buf(const char *buffer, unsigned int len)
 {
     int i, j;
-    unsigned long crc, c;
+    uint32_t crc, c;
     const char *p;
 
     if (!crc32_is_initialized) {
         for (i = 0; i < 256; i++) {
-            c = (unsigned long) i;
+            c = (uint32_t)i;
             for (j = 0; j < 8; j++) {
                 c = c & 1 ? CRC32_POLY ^ (c >> 1) : c >> 1;
             }
@@ -64,12 +85,19 @@ unsigned long crc32_buf(const char *buffer, unsigned int len)
     return ~crc;
 }
 
-unsigned long crc32_file(const char *filename)
+
+/** \brief  Calculate CRC32 checksum of file \a filename
+ *
+ * \param[in]   filename    path to file
+ *
+ * \return  CRC32 checksum
+ */
+uint32_t crc32_file(const char *filename)
 {
     FILE *fd;
     char *buffer;
     unsigned int len;
-    unsigned long crc = 0;
+    uint32_t crc = 0;
 
     if (util_check_null_string(filename) < 0) {
         return 0;

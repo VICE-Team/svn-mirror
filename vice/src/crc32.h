@@ -1,10 +1,11 @@
+/** \file   crc32.h
+ * \brief  CRC32 checksum implementation
+ *
+ * \author  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ */
+
 /*
- * crc32.h
- *
- * Written by
- *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -28,7 +29,9 @@
 #ifndef VICE_CRC32_H
 #define VICE_CRC32_H
 
-extern unsigned long crc32_buf(const char *buffer, unsigned int len);
-extern unsigned long crc32_file(const char *filename);
+#include <inttypes.h>
+
+extern uint32_t crc32_buf(const char *buffer, unsigned int len);
+extern uint32_t crc32_file(const char *filename);
 
 #endif
