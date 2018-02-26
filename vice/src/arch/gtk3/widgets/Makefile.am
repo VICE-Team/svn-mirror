@@ -160,7 +160,8 @@ libwidgets_a_SOURCES = \
 	vsidmainwidget.c \
 	vsidtuneinfowidget.c \
 	vsidcontrolwidget.c \
-	vsidmixerwidget.c
+	vsidmixerwidget.c \
+	keysetdialog.c
 
 EXTRA_DIST = \
 	jamdialog.h \
@@ -297,4 +298,5 @@ EXTRA_DIST = \
 	vsidmainwidget.h \
 	vsidtuneinfowidget.h \
 	vsidcontrolwidget.h \
-	vsidmixerwidget.h
+	vsidmixerwidget.h \
+	keysetdialog.h

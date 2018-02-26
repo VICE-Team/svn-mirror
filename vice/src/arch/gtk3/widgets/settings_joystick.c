@@ -45,6 +45,7 @@
 
 #include "vice_gtk3.h"
 #include "lib.h"
+#include "ui.h"
 #include "machine.h"
 #include "resources.h"
 #include "joyport.h"
@@ -52,6 +53,7 @@
 
 #include "joystickdevicewidget.h"
 #include "joystickuserportadapterwidget.h"
+#include "keysetdialog.h"
 
 #include "settings_joystick.h"
 
@@ -154,6 +156,16 @@ static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
     gtk_widget_set_sensitive(adapter_widget, state ? TRUE: FALSE);
 }
 
+
+/** \brief  Handler for the "clicked" event of the "Configure keysets" button
+ *
+ * \param[in]   widget  button
+ * \param[in]   data    keyset number (`int`)
+ */
+static void on_keyset_dialog_button_clicked(GtkWidget *widget, gpointer data)
+{
+    keyset_dialog_show(ui_get_active_window(), GPOINTER_TO_INT(data));
+}
 
 
 /*****************************************************************************
@@ -449,6 +461,8 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     GtkWidget *keyset_widget;
     GtkWidget *opposite_widget;
     GtkWidget *userportjoy_widget;
+    GtkWidget *keyset_1_button;
+    GtkWidget *keyset_2_button;
     int rows = 0;
     int adapter_state;
 
@@ -502,6 +516,19 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     gtk_grid_attach(GTK_GRID(layout), keyset_widget, 0, rows, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), opposite_widget, 1, rows, 1, 1);
     gtk_grid_attach(GTK_GRID(layout), userportjoy_widget, 2, rows, 1, 1);
+    rows++;
+
+    /* add buttons to active keyset dialog */
+    keyset_1_button = gtk_button_new_with_label("Configure keyset 1");
+    gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, rows, 1, 1);
+    g_signal_connect(keyset_1_button, "clicked",
+            G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(1));
+    keyset_2_button = gtk_button_new_with_label("Configure keyset 2");
+    gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 1, rows, 1, 1);
+    g_signal_connect(keyset_2_button, "clicked",
+            G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(2));
+
+
 
     gtk_widget_show_all(layout);
     return layout;
