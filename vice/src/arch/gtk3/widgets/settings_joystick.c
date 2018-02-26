@@ -519,12 +519,16 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     rows++;
 
     /* add buttons to active keyset dialog */
-    keyset_1_button = gtk_button_new_with_label("Configure keyset 1");
+    keyset_1_button = gtk_button_new_with_label("Configure keyset A");
+    g_object_set(keyset_1_button, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(layout), keyset_1_button, 0, rows, 1, 1);
     g_signal_connect(keyset_1_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(1));
-    keyset_2_button = gtk_button_new_with_label("Configure keyset 2");
-    gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 1, rows, 1, 1);
+    rows++;
+
+    keyset_2_button = gtk_button_new_with_label("Configure keyset B");
+    g_object_set(keyset_2_button, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(layout), keyset_2_button, 0, rows, 1, 1);
     g_signal_connect(keyset_2_button, "clicked",
             G_CALLBACK(on_keyset_dialog_button_clicked), GINT_TO_POINTER(2));
 

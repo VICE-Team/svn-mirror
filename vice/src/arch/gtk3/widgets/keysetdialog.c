@@ -78,6 +78,10 @@ static guint keyset_codes[3][3];
 
 
 /** \brief  Names of the directions of the keyset keys
+ *
+ * Do NOT change these, as they are used to construct resource names.
+ * Capitalization can be changed if required, since resources are not
+ * case-sensitive.
  */
 static const char *keyset_labels[3][3] = {
     { "NorthWest", "North", "NorthEast" },
@@ -135,8 +139,14 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
     int col;
     guint key = event->keyval;
 
+    /* don't accept Alt keys */
+    if (key == GDK_KEY_Alt_L || key == GDK_KEY_Alt_R) {
+        return FALSE;
+    }
+
+    /* unmap key when Escape is pressed */
     if (key == GDK_KEY_Escape) {
-        key = 0;    /* reset key to 'None' */
+        key = 0;
     }
 
     for (row = 0; row < 3; row++) {
@@ -144,6 +154,7 @@ static gboolean on_key_pressed(GtkWidget *widget, GdkEventKey *event,
             GtkWidget *button = keyset_buttons[row][col];
             if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button))) {
                 keyset_codes[row][col] = key;
+                /* update button text and deacivate it */
                 set_button_text(button, row, col);
                 gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), FALSE);
                 return TRUE;
@@ -221,7 +232,7 @@ static void set_button_text(GtkWidget *button, int row, int col)
 
     name = gdk_keyval_name(keyset_codes[row][col]);
     label = gtk_bin_get_child(GTK_BIN(button));
-    g_snprintf(text, 256, "%s\n<b>%s</b>",
+    g_snprintf(text, 256, "%s\n\n<b>%s</b>",
             keyset_labels[row][col], name != NULL ? name : "None");
     gtk_label_set_markup(GTK_LABEL(label), text);
 }
@@ -258,11 +269,18 @@ static GtkWidget *create_button(int row, int col)
 static GtkWidget *create_content_widget(void)
 {
     GtkWidget *grid;
+#if 0
+    GtkWidget *label;
+#endif
     int row;
     int col;
 
     /* setup grid with all buttons the same size */
     grid = vice_gtk3_grid_new_spaced(16, 16);
+    g_object_set(G_OBJECT(grid),
+            "margin-left", 16, "margin-right", 16,
+            "margin-top", 16, "margin-bottom", 16,
+            NULL);
     gtk_grid_set_column_homogeneous(GTK_GRID(grid), TRUE);
     gtk_grid_set_row_homogeneous(GTK_GRID(grid), TRUE);
 
@@ -271,11 +289,22 @@ static GtkWidget *create_content_widget(void)
         for (col = 0; col < 3; col++) {
             GtkWidget *button = create_button(row, col);
             keyset_buttons[row][col] = button;
-            gtk_widget_set_hexpand(button, TRUE);
             gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
         }
     }
 
+    /* this doesn't wrap but makes the dialog super wide */
+#if 0
+    /* add some help text */
+    label = gtk_label_new(NULL);
+    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+    gtk_label_set_markup(GTK_LABEL(label),
+            "Click a direction button and press a key to use that key for that"
+            " direction. Use <b>Escape</b> to remove a key from a direction."
+            " To cancel inputting a key, simple press the same direction button"
+            " again without pressing a key.");
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 3, 1);
+#endif
     gtk_widget_show_all(grid);
     return grid;
 }
@@ -303,10 +332,12 @@ void keyset_dialog_show(GtkWindow *parent, int keyset)
         return;
     }
 
-    g_snprintf(title, 256, "Configure keyset %d", keyset);
+    /* create title (the joystick/userport joystick widgets in
+     * settings_joystick.c use 'keyset A/B', so let's be consistent) */
+    g_snprintf(title, 256, "Configure keyset %c", keyset == 1 ? 'A' : 'B');
 
     dialog = gtk_dialog_new_with_buttons(
-            title, parent, GTK_DIALOG_MODAL,
+            title, parent, GTK_DIALOG_MODAL,    /* not quite proper */
             _("OK"), GTK_RESPONSE_ACCEPT,
             _("Cancel"), GTK_RESPONSE_REJECT,
             NULL);
