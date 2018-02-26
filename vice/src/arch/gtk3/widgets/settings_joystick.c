@@ -79,6 +79,8 @@ static GtkWidget *device_widgets[JOYPORT_MAX_PORTS] = {
 static GtkWidget *adapter_widget = NULL;
 
 
+static GtkWidget *parent_widget = NULL;
+
 
 /*****************************************************************************
  *                                Event handlers                             *
@@ -164,7 +166,7 @@ static void on_userportjoy_enable_toggled(GtkWidget *check, gpointer user_data)
  */
 static void on_keyset_dialog_button_clicked(GtkWidget *widget, gpointer data)
 {
-    keyset_dialog_show(ui_get_active_window(), GPOINTER_TO_INT(data));
+    keyset_dialog_show(GTK_WINDOW(parent_widget), GPOINTER_TO_INT(data));
 }
 
 
@@ -465,6 +467,8 @@ GtkWidget *settings_joystick_widget_create(GtkWidget *parent)
     GtkWidget *keyset_2_button;
     int rows = 0;
     int adapter_state;
+
+    parent_widget = parent;
 
     layout = gtk_grid_new();
     gtk_grid_set_column_spacing(GTK_GRID(layout), 8);

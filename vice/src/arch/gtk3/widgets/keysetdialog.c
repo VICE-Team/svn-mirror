@@ -312,7 +312,7 @@ static GtkWidget *create_content_widget(void)
 
 /** \brief  Show dialog to configure keysets
  *
- * \param[in]   parent  parent window
+ * \param[in]   parent  parent window (the settings UI dialog)
  * \param[in]   keyset  keyset number (1 or 2)
  */
 void keyset_dialog_show(GtkWindow *parent, int keyset)
@@ -336,8 +336,13 @@ void keyset_dialog_show(GtkWindow *parent, int keyset)
      * settings_joystick.c use 'keyset A/B', so let's be consistent) */
     g_snprintf(title, 256, "Configure keyset %c", keyset == 1 ? 'A' : 'B');
 
+    /*
+     * don't use ui_get_active_window() for the parent, that will break
+     * the blocking of this dialog of other dialogs and allows the main settings
+     * dialog to move in front of this one (which should not happen)
+     */
     dialog = gtk_dialog_new_with_buttons(
-            title, parent, GTK_DIALOG_MODAL,    /* not quite proper */
+            title, parent, GTK_DIALOG_MODAL,
             _("OK"), GTK_RESPONSE_ACCEPT,
             _("Cancel"), GTK_RESPONSE_REJECT,
             NULL);

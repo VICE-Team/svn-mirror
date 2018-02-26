@@ -1424,8 +1424,10 @@ static void on_tree_selection_changed(
             char *title = lib_msprintf("%s settings :: %s", machine_name, name);
             gtk_window_set_title(GTK_WINDOW(settings_window), title);
             lib_free(title);
-
-            ui_settings_set_central_widget(callback(NULL));
+            /* create new central widget, using settings_window (this dialog)
+             * as its parent, this will allow for proper blocking in modal
+             * dialogs, while ui_get_active_window() breaks that. */
+            ui_settings_set_central_widget(callback(settings_window));
         }
         g_free(name);
     }
