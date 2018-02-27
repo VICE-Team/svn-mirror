@@ -42,7 +42,7 @@
 
 static menu_draw_t *menu_draw;
 static char *last_selected_file = NULL;
-static int last_selected_pos = 0;
+/* static int last_selected_pos = 0; */ /* ? */
 
 #define SDL_FILEREQ_META_FILE 0
 #define SDL_FILEREQ_META_PATH 1
@@ -210,11 +210,12 @@ static void sdl_ui_display_path(const char *current_dir)
     lib_free(text);
 }
 
-static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *title, const char *current_dir, int offset, int num_items, int more, ui_menu_filereq_mode_t mode)
+static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *title, const char *current_dir, int offset, int num_items, int more, ui_menu_filereq_mode_t mode, int cur_offset)
 {
     int i, j, isdir = 0;
     char* title_string;
     char* name;
+    uint8_t oldbg;
 
     title_string = lib_msprintf("%s %s", title, (offset) ? ((more) ? "(<- ->)" : "(<-)") : ((more) ? "(->)" : ""));
 
@@ -224,12 +225,48 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
     sdl_ui_display_path(current_dir);
 
     for (i = 0; i < num_items; ++i) {
+        
+        if (i == cur_offset) {
+            oldbg = sdl_ui_set_cursor_colors();
+        }
+        
         j = MENU_FIRST_X;
         name = sdl_ui_get_file_selector_entry(directory, offset + i, &isdir, mode);
         if (isdir) {
-            j += 1 + sdl_ui_print("(D)", MENU_FIRST_X, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+            j += sdl_ui_print("(D) ", MENU_FIRST_X, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
         }
-        sdl_ui_print(name, j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+        j += sdl_ui_print(name, j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+
+        if (i == cur_offset) {
+            sdl_ui_print_eol(j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+            sdl_ui_reset_cursor_colors(oldbg);
+        }
+    }
+}
+
+static void sdl_ui_file_selector_redraw_cursor(ioutil_dir_t *directory, int offset, int num_items, ui_menu_filereq_mode_t mode, int cur_offset, int old_offset)
+{
+    int i, j, isdir = 0;
+    char* name;
+    uint8_t oldbg = 0;
+
+    for (i = 0; i < num_items; ++i) {
+        if ((i == cur_offset) || (i == old_offset)){
+            if (i == cur_offset) {
+                oldbg = sdl_ui_set_cursor_colors();
+            }
+            j = MENU_FIRST_X;
+            name = sdl_ui_get_file_selector_entry(directory, offset + i, &isdir, mode);
+            if (isdir) {
+                j += sdl_ui_print("(D) ", MENU_FIRST_X, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+            }
+            j += sdl_ui_print(name, j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+
+            sdl_ui_print_eol(j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+            if (i == cur_offset) {
+                sdl_ui_reset_cursor_colors(oldbg);
+            }
+        }
     }
 }
 
@@ -364,10 +401,15 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
 
     while (active) {
         if (redraw) {
-            sdl_ui_file_selector_redraw(directory, title, current_dir, offset, (total - offset > menu_max) ? menu_max : total - offset, (total - offset > menu_max) ? 1 : 0, mode);
+            sdl_ui_file_selector_redraw(directory, title, current_dir, offset, 
+                (total - offset > menu_max) ? menu_max : total - offset, 
+                (total - offset > menu_max) ? 1 : 0, mode, cur);
             redraw = 0;
+        } else {
+            sdl_ui_file_selector_redraw_cursor(directory, offset, 
+                    (total - offset > menu_max) ? menu_max : total - offset, 
+                    mode, cur, cur_old);
         }
-        sdl_ui_display_cursor((cur + SDL_FILEREQ_META_NUM), (cur_old == -1) ? -1 : (cur_old + SDL_FILEREQ_META_NUM));
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {
@@ -530,6 +572,8 @@ void sdl_ui_file_selection_dialog_shutdown(void)
 }
 
 
+/* FIXME: dead code? */
+#if 0
 static char* sdl_ui_get_slot_selector_entry(ui_menu_slots *slots, int offset, ui_menu_slot_mode_t mode)
 {
     if (offset >= slots->number_of_elements) {
@@ -541,7 +585,6 @@ static char* sdl_ui_get_slot_selector_entry(ui_menu_slots *slots, int offset, ui
         return "< empty slot >";
     }
 }
-
 
 static void sdl_ui_slot_selector_redraw(ui_menu_slots *slots, const char *title, const char *current_dir, int offset, int num_items, int more, ui_menu_slot_mode_t mode)
 {
@@ -560,6 +603,21 @@ static void sdl_ui_slot_selector_redraw(ui_menu_slots *slots, const char *title,
         j = MENU_FIRST_X;
         name = sdl_ui_get_slot_selector_entry(slots, offset + i, mode);
         sdl_ui_print(name, j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+    }
+}
+
+static void sdl_ui_slot_selector_redraw_cursor(ui_menu_slots *slots, int offset, int num_items, ui_menu_slot_mode_t mode, int cur_offset, int old_offset)
+{
+    int i, j;
+    char* name;
+
+    for (i = 0; i < num_items; ++i) {
+        if ((i == cur_offset) || (i == old_offset)) {
+            j = MENU_FIRST_X;
+            name = sdl_ui_get_slot_selector_entry(slots, offset + i, mode);
+            j += sdl_ui_print(name, j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
+            sdl_ui_print_eol(MENU_FIRST_X + j, MENU_FIRST_Y + i);
+        }
     }
 }
 
@@ -635,8 +693,9 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
         if (redraw) {
             sdl_ui_slot_selector_redraw(slots, title, current_dir, offset, total, 0, mode);
             redraw = 0;
+        } else {
+            sdl_ui_slot_selector_redraw_cursor(slots, offset, total, mode, cur, cur_old);
         }
-        sdl_ui_display_cursor((cur + SDL_FILEREQ_META_NUM), (cur_old == -1) ? -1 : (cur_old + SDL_FILEREQ_META_NUM));
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {
@@ -680,3 +739,4 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
     lib_free(current_dir);
     return retval;
 }
+#endif

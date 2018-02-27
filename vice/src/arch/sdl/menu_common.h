@@ -36,6 +36,16 @@
 #include "types.h"
 #include "uimenu.h"
 
+/* #define MENU_SUBMENU_STRING "->" */
+#define MENU_SUBMENU_STRING "\xa7>"
+
+/* #define MENU_CHECKMARK_CHECKED_STRING   "*" */
+#define MENU_CHECKMARK_CHECKED_STRING   "\xba"
+#define MENU_CHECKMARK_UNCHECKED_STRING "."
+
+#define MENU_UNKNOWN_STRING "?"
+#define MENU_EXIT_UI_STRING "\1"
+
 extern const char *sdl_menu_text_tick;
 extern const char *sdl_menu_text_unknown;
 extern const char *sdl_menu_text_exit_ui;

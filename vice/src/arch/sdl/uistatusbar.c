@@ -440,8 +440,8 @@ void uistatusbar_draw(void)
     sdl_ui_init_draw_params();
     limits = sdl_ui_get_menu_param();
 
-    color_f = limits->color_front;
-    color_b = limits->color_back;
+    color_f = limits->color_default_front;
+    color_b = limits->color_default_back;
     pitch = limits->pitch;
 
     line = MIN(sdl_active_canvas->viewport->last_line, sdl_active_canvas->geometry->last_displayed_line);

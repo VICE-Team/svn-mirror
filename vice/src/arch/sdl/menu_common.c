@@ -49,21 +49,21 @@
 /* ------------------------------------------------------------------ */
 /* Common strings */
 
-const char* sdl_menu_text_tick = "*";
-const char* sdl_menu_text_unknown = "?";
-const char* sdl_menu_text_exit_ui = "\1";
+const char* sdl_menu_text_tick = MENU_CHECKMARK_CHECKED_STRING;
+const char* sdl_menu_text_unknown = MENU_UNKNOWN_STRING;
+const char* sdl_menu_text_exit_ui = MENU_EXIT_UI_STRING;
 
 /* ------------------------------------------------------------------ */
 /* Common callbacks */
 
 UI_MENU_CALLBACK(submenu_callback)
 {
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 UI_MENU_CALLBACK(submenu_radio_callback)
 {
-    static char buf[100] = "-> ";
+    static char buf[100] = MENU_SUBMENU_STRING " ";
     char *dest = &(buf[3]);
     const char *src = NULL;
     ui_menu_entry_t *item = (ui_menu_entry_t *)param;
@@ -77,7 +77,7 @@ UI_MENU_CALLBACK(submenu_radio_callback)
     }
 
     if (src == NULL) {
-        return "-> ???";
+        return MENU_SUBMENU_STRING " ???";
     }
 
     while ((*dest++ = *src++)) {

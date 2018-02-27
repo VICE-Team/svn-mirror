@@ -66,7 +66,10 @@ typedef enum {
     MENU_ENTRY_DIALOG,
 
     /* Other: no UI needed */
-    MENU_ENTRY_OTHER
+    MENU_ENTRY_OTHER,
+
+    /* Other: no UI needed */
+    MENU_ENTRY_OTHER_TOGGLE
 } ui_menu_entry_type_t;
 
 typedef struct ui_menu_entry_s {
@@ -98,13 +101,26 @@ struct menu_draw_s {
     int max_text_y;
     int extra_x;
     int extra_y;
-    uint8_t color_front;
-    uint8_t color_back;
+
+    uint8_t color_back;     /* current background color index */
+    uint8_t color_front;    /* current foreground color index */
+
+    uint8_t color_default_back;
+    uint8_t color_default_front;
+
+    uint8_t color_cursor_back;
+    uint8_t color_cursor_revers;
+    
+    uint8_t color_active_green;
+    uint8_t color_inactive_red;
+
+    uint8_t color_active_grey;
+    uint8_t color_inactive_grey;
 };
 typedef struct menu_draw_s menu_draw_t;
 
 #define MENU_FIRST_Y 2
-#define MENU_FIRST_X 1
+#define MENU_FIRST_X 0
 
 typedef enum {
     MENU_ACTION_NONE = 0,
@@ -145,6 +161,7 @@ extern ui_menu_action_t sdl_ui_menu_poll_input(void);
 extern void sdl_ui_display_cursor(int pos, int old_pos);
 extern int sdl_ui_print(const char *text, int pos_x, int pos_y);
 extern int sdl_ui_print_center(const char *text, int pos_y);
+extern int sdl_ui_print_eol(int pos_x, int pos_y);
 extern int sdl_ui_display_title(const char *title);
 extern void sdl_ui_clear(void);
 extern void sdl_ui_activate(void);
@@ -154,5 +171,13 @@ extern char* sdl_ui_text_input_dialog(const char* title, const char* previous);
 extern int sdl_ui_slider_input_dialog(const char* title, const int cur, const int min, const int max);
 extern void sdl_ui_invert_char(int pos_x, int pos_y);
 extern void sdl_ui_scroll_screen_up(void);
+
+extern int sdl_ui_set_cursor_colors(void);
+extern int sdl_ui_reset_cursor_colors(uint8_t color);
+
+extern int sdl_ui_set_tickmark_colors(int state);
+extern int sdl_ui_reset_tickmark_colors(uint8_t color);
+extern int sdl_ui_set_toggle_colors(int state);
+extern int sdl_ui_set_default_colors(void);
 
 #endif

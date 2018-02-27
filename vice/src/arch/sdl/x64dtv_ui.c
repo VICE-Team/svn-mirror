@@ -114,7 +114,7 @@ static const ui_menu_entry_t x64dtv_main_menu[] = {
       (ui_callback_data_t)network_menu },
 #endif
     { "Pause",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       pause_callback,
       NULL },
     { "Monitor",
@@ -126,7 +126,7 @@ static const ui_menu_entry_t x64dtv_main_menu[] = {
       vkbd_callback,
       NULL },
     { "Statusbar",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       statusbar_callback,
       NULL },
 #ifdef DEBUG
@@ -152,7 +152,16 @@ static const ui_menu_entry_t x64dtv_main_menu[] = {
 
 static void c64dtvui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
-    menu_draw->color_front = 15;
+    /* VICII-DTV */
+    menu_draw->max_text_x = 40;
+    menu_draw->color_front = menu_draw->color_default_front = 15;
+    menu_draw->color_back = menu_draw->color_default_back = 0;
+    menu_draw->color_cursor_back = (9*16)+6;
+    menu_draw->color_cursor_revers = 0;
+    menu_draw->color_active_green = (14*16)+13;
+    menu_draw->color_inactive_red = (4*16)+6;
+    menu_draw->color_active_grey = 10;
+    menu_draw->color_inactive_grey = 5;
 
     sdl_ui_set_menu_params = NULL;
 }

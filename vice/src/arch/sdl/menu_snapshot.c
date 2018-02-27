@@ -90,6 +90,7 @@ static UI_MENU_CALLBACK(save_snapshot_callback)
 }
 
 #if 0
+/* FIXME */
 static UI_MENU_CALLBACK(save_snapshot_slot_callback)
 {
     char *name;
@@ -185,6 +186,7 @@ static UI_MENU_CALLBACK(load_snapshot_callback)
 }
 
 #if 0
+/* FIXME */
 static UI_MENU_CALLBACK(load_snapshot_slot_callback)
 {
     char *name;

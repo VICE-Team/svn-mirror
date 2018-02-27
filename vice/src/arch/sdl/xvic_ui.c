@@ -132,7 +132,7 @@ static const ui_menu_entry_t xvic_main_menu[] = {
       (ui_callback_data_t)network_menu },
 #endif
     { "Pause",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       pause_callback,
       NULL },
     { "Monitor",
@@ -144,7 +144,7 @@ static const ui_menu_entry_t xvic_main_menu[] = {
       vkbd_callback,
       NULL },
     { "Statusbar",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       statusbar_callback,
       NULL },
 #ifdef DEBUG
@@ -176,6 +176,7 @@ static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
 
     resources_get_int("MachineVideoStandard", &videostandard);
 
+    /* VIC */
 #ifdef VIC_DUPLICATES_PIXELS
     menu_draw->max_text_x = 48;
 #else
@@ -191,6 +192,15 @@ static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
     menu_draw->extra_x += (videostandard == MACHINE_SYNC_PAL) ? 36 : 8;
 #endif
     menu_draw->extra_y += (videostandard == MACHINE_SYNC_PAL) ? 40 : 24;
+    
+    menu_draw->color_front = menu_draw->color_default_front = 1;
+    menu_draw->color_back = menu_draw->color_default_back = 0;
+    menu_draw->color_cursor_back = 6;
+    menu_draw->color_cursor_revers = 0;
+    menu_draw->color_active_green = 13;
+    menu_draw->color_inactive_red = 2;
+    menu_draw->color_active_grey = 15;
+    menu_draw->color_inactive_grey = 11;
 }
 
 int vic20ui_init(void)

@@ -290,7 +290,7 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       submenu_callback,
       (ui_callback_data_t)speed_menu_vsid },
     { "Pause",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       pause_callback,
       NULL },
     { "Monitor",
@@ -336,13 +336,28 @@ static void draw_func(void)
 
 /* ---------------------------------------------------------------------*/
 /* vsidui.h */
+static void vsid_set_menu_params(int index, menu_draw_t *menu_draw)
+{
+    /* VICII */
+    menu_draw->max_text_x = 40;
+    menu_draw->color_front = menu_draw->color_default_front = 1;
+    menu_draw->color_back = menu_draw->color_default_back = 0;
+    menu_draw->color_cursor_back = 6;
+    menu_draw->color_cursor_revers = 0;
+    menu_draw->color_active_green = 13;
+    menu_draw->color_inactive_red = 2;
+    menu_draw->color_active_grey = 15;
+    menu_draw->color_inactive_grey = 11;
+
+    sdl_ui_set_menu_params = NULL;
+}
 
 int vsid_ui_init(void)
 {
     unsigned int width;
     unsigned int height;
     
-    sdl_ui_set_menu_params = NULL;
+    sdl_ui_set_menu_params = vsid_set_menu_params;
     uikeyboard_menu_create();
     uisid_menu_create();
 
