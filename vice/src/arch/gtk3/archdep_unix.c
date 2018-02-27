@@ -436,7 +436,7 @@ char *archdep_default_rtc_file_name(void)
 
 int archdep_file_is_chardev(const char *name)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
