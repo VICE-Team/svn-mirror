@@ -1,10 +1,10 @@
-/*
- * rawnetarch.c - raw ethernet interface,
- *                 architecture-dependant stuff
+/** \file   rawnetarch_win32.c
+ * \brief   Raw ethernet interface, Win32 stuff
  *
- * Written by
- *  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
- * 
+ * \author  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_RAWNET 
+#ifdef HAVE_RAWNET
 
 /* #define WPCAP */
 

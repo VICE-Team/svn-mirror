@@ -1,5 +1,4 @@
-/** \file
- *
+/** \file   rawnetarch_unix.c
  * \brief   Raw ethernet interface, architecture-dependent stuff
  *
  * \author  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>

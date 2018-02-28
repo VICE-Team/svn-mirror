@@ -1,9 +1,10 @@
+/** \file   dynlib-unix.c
+ * \brief   Unix support for dynamic library loading
+ *
+ * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ */
+
 /*
- * dynlib-unix.c - Unix support for dynamic library loading.
- *
- * Written by
- *  Christian Vogelgsang <chris@vogelgsang.org>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

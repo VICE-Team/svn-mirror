@@ -1,9 +1,10 @@
+/** \file   joy-win32-dinput-handle.c
+ * \brief   Functionality shared by DirectInput joystick and mouse drivers
+ *
+ * \author  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+ */
+
 /*
- * joy-win32-dinput-handle.c - Functionality shared by DirectInput joystick and mouse drivers.
- *
- * Written by
- *  Fabrizio Gennari <fabrizio.ge@tiscali.it>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

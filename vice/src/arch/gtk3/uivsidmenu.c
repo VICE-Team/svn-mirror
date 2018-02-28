@@ -1,9 +1,11 @@
+/** \file   uivsidmenu.c
+ * \brief   Native GTK3 menus for the SID player, vsid
+ *
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * uivsidmenu.c - Native GTK3 menus for the SID player, vsid.
- *
- * Written by
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

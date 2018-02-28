@@ -1,10 +1,11 @@
+/** \file   uitapeattach.c
+ * \brief   GTK3 tape-attach dialog
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
 /*
- * uitapeattach.c - GTK3 tape-attach dialog
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *  Michael C. Martin <mcmartin@gmail.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

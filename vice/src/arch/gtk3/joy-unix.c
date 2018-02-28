@@ -1,20 +1,15 @@
+/** \file   joy-unix.c
+ * \brief   Linux/BSD joystick support
+ *
+ * \author  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
+ * \author  Ulmer Lionel <ulmer@poly.polytechnique.fr>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Daniel Sladic <sladic@eecg.toronto.edu>
+ * \author  Krister Walfridsson <cato@df.lth.se>
+ * \author  Luca Montecchiani  <m.luca@usa.net> (http://i.am/m.luca)
+ */
+
 /*
- * joy-unix.c - Linux/BSD joystick support.
- *
- * Written by
- *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
- *  Ulmer Lionel <ulmer@poly.polytechnique.fr>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
- * Patches by
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *
- * NetBSD support by
- *  Krister Walfridsson <cato@df.lth.se>
- *
- * 1.1.xxx Linux API by
- *   Luca Montecchiani  <m.luca@usa.net> (http://i.am/m.luca)
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

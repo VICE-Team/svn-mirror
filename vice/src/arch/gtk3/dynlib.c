@@ -1,9 +1,10 @@
+/** \file   dynlib.c
+ * \brief   Dynamic library loading wrapper for the native GTK3 UI
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * dynlib.c - Dynamic library loading wrapper for the native GTK3 UI.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

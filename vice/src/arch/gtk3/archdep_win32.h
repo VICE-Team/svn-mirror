@@ -1,9 +1,10 @@
-/**
+/** \file   archdep_win32.h
  * \brief   Windows-specific stuff - header
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

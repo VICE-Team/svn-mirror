@@ -1,5 +1,5 @@
 /** \file   rs232-unix-dev.c
- * \brief   RS232 Device emulation.
+ * \brief   RS232 Device emulation
  *
  * \author  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
  *

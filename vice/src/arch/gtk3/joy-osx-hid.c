@@ -1,9 +1,10 @@
+/** \file   joy-osx-hid.c
+ * \brief   Mac OS X joystick support using USB HID devices
+ *
+ * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ */
+
 /*
- * joy-osx-hid.c - Mac OS X joystick support using USB HID devices.
- *
- * Written by
- *   Christian Vogelgsang <chris@vogelgsang.org>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

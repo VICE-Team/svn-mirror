@@ -1,9 +1,10 @@
+/** \file   console.c
+ * \brief   console access interface for native GTK3 UI
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * console.c - console access interface for native GTK3 UI
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -33,15 +34,23 @@
 #include "console.h"
 
 
+/** \brief  NOP
+ *
+ * \return  0
+ */
 int console_close_all(void)
 {
     /* This is a no-op on GNOME, should be fine here too */
     return 0;
 }
 
+
+/** \brief  NOP
+ *
+ * \return  0
+ */
 int console_init(void)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
     return 0;
 }
-

@@ -1,10 +1,11 @@
+/** \file   joy-win32.c
+ * \bruef   Joystick support for Windows
+ *
+ * \author  Tibor Biczo <crown@mail.matav.hu>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ */
+
 /*
- * joy-win32.c - Joystick support for Windows.
- *
- * Written by
- *  Tibor Biczo <crown@mail.matav.hu>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

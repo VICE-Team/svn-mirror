@@ -1,9 +1,10 @@
-/**
+/** \file   uitapecreate.c
  * \brief   Gtk3 dialog to create and attach a new tape image
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

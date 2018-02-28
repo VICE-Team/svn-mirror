@@ -1,10 +1,11 @@
-/**
- * \brief   Native GTK3 UI block device stuff.
+/** \file   blockdev.c
+ * \brief   Native GTK3 UI block device stuff
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -93,4 +94,3 @@ int blockdev_write_sector(const uint8_t *buf, unsigned int track, unsigned int s
     return -1;
 #endif
 }
-

@@ -1,16 +1,13 @@
-/**
- * \brief   Joystick support for Linux.
+/** \file   joy-unix.h
+ * \brief   Joystick support for Linux - header
  *
- * Written by
- *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
- *  Ulmer Lionel <ulmer@poly.polytechnique.fr>
- *
- * Patches by
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *
- * 1.1.xxx Linux API by
- *  Luca Montecchiani <m.luca@usa.net> (http://i.am/m.luca)
- *
+ * \author  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
+ * \author  Ulmer Lionel <ulmer@poly.polytechnique.fr>
+ * \author  Daniel Sladic <sladic@eecg.toronto.edu>
+ * \author  Luca Montecchiani <m.luca@usa.net> (http://i.am/m.luca)
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -1,9 +1,10 @@
-/**
+/** \file   uifliplist.h
  * \brief   Fliplist menu management - header
  *
- * Written by
- *  Michael C. Martin <mcmartin@gmail.com>
- *
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

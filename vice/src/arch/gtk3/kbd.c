@@ -1,13 +1,12 @@
+/** \file   kbd.c
+ * \broef   Native GTK3 UI keyboard stuff
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ * \author  Oliver Schaertel (pottendo) <pottendo@gmx.net>
+ */
+
 /*
- * kbd.c - Native GTK3 UI keyboard stuff.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Michael C. Martin <mcmartin@gmail.com>
- * Adapted from the GNOME/X11 version by
- *  Oliver Schaertel
- *  pottendo <pottendo@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

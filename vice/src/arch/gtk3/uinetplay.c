@@ -1,9 +1,13 @@
+/** \file   uinetplay.c
+ * \brief   UI controls for netplay
+ *
+ * \todo    This is a copy of the old Gtk2 code and should die in a fire. I'm
+ *          working on a new implementation in proper Gtk3 -- compyx
+ *
+ * \author  pottendo <pottendo@gmx.net>
+ */
+
 /*
- * uinetplay.c - UI controls for netplay
- *
- * Written by
- *  pottendo <pottendo@gmx.net>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

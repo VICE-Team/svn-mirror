@@ -1,5 +1,5 @@
 /** \file   ui.c
- * \brief   Native GTK3 UI stuff.
+ * \brief   Native GTK3 UI stuff
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  * \author  Bas Wassink <b.wassink@ziggo.nl>

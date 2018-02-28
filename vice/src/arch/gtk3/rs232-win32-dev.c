@@ -1,5 +1,5 @@
 /** \file   rs232-win32-dev.c
- * \brief   RS232 Device emulation.
+ * \brief   RS232 Device emulation
  *
  * \author  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
  *

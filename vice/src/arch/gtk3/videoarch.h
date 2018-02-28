@@ -1,6 +1,6 @@
 /**
  * \file   videoarch.h
- * \brief  Native GTK3 graphics routines.
+ * \brief  Native GTK3 graphics routines
  *
  * \author Ettore Perazzoli
  * \author Teemu Rantanen <tvr@cs.hut.fi>

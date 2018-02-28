@@ -1,10 +1,11 @@
-/**
- * \brief   Native GTK3 CBM5x0 UI.
+/** \file   cbm5x0ui.c
+ * \brief   Native GTK3 CBM5x0 UI
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

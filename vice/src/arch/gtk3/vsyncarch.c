@@ -1,9 +1,10 @@
+/** \file   vsyncarch
+ * \brief   End-of-frame handling for Unix
+ *
+ * \author  Dag Lem <resid@nimrod.no>
+ */
+
 /*
- * vsyncarch.c - End-of-frame handling for Unix
- *
- * Written by
- *  Dag Lem <resid@nimrod.no>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -1,7 +1,8 @@
 /**
- * \file uimachinewindow.h 
- * \brief Native GTK3 main emulator window code.
- * \author Marcus Sutton <loggedoubt@gmail.com>
+ * \file    uimachinewindow.h
+ * \brief   Native GTK3 main emulator window code
+ *
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
  *
  * A "machine window" is any window whose primary purpose is to
  * display an emulated screen. It usually also includes a menu bar and

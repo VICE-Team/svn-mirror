@@ -1,9 +1,10 @@
+/** \file   debug_gtk3.h
+ * \brief   Gtk3 port debugging code - header
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * debug_gtk3.h - Gtk3 port debugging code - header
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

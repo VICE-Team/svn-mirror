@@ -1,12 +1,13 @@
-/**
+/** \file   uiabout.c
  * \brief   GTK3 about dialog
  *
- * TODO:    Needs a proper logo, not the old, ugly, blue one. The logo from the
+ * \todo    Needs a proper logo, not the old, ugly, blue one. The logo from the
  *          pokefinder website will do nicely, I think.
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

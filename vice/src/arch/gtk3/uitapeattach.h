@@ -1,10 +1,11 @@
-/**
+/** \file   uitapeattach.h
  * \brief   Tape image attach dialog - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *  Michael C. Martin <mcmartin@gmail.com>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

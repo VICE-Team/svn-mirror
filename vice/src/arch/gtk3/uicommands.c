@@ -1,8 +1,7 @@
-/**
+/** \file   uicommands.c
  * \brief   Simple commands triggered from the menu
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
  *  WarpMode
@@ -12,7 +11,9 @@
  *  JoyDevice3
  *  JoyDevice4
  *  Mouse
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

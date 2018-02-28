@@ -1,10 +1,11 @@
-/**
+/** \file   uimenu.h
  * \brief   Native GTK3 menu handling - header
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

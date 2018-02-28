@@ -1,9 +1,10 @@
+/** \file   joy-osx-hidmgr.c
+ * \brief   Mac OS X joystick support using IOHIDManager
+ *
+ * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ */
+
 /*
- * joy-osx-hidmgr.c - Mac OS X joystick support using IOHIDManager.
- *
- * Written by
- *   Christian Vogelgsang <chris@vogelgsang.org>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

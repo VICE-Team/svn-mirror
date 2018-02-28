@@ -1,4 +1,4 @@
-/** \file
+/** \file   archdep.c
  * \brief   Wrappers for architecture/OS-specific code
  *
  * I've decided to use GLib's use of the XDG specification and the standard
@@ -386,6 +386,13 @@ int archdep_init(int *argc, char **argv)
     return 0;
 }
 
+
+/** \brief  Provide extra text for the application title
+ *
+ * Unused in Gtk3, used in SDL to generate a "Press F[10|12] for menu" message
+ *
+ * \return  NULL
+ */
 char *archdep_extra_title_text(void)
 {
     return NULL;

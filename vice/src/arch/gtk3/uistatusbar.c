@@ -1,5 +1,5 @@
 /** \file   uistatusbar.c
- *  \brief  Native GTK3 UI statusbar stuff.
+ *  \brief  Native GTK3 UI statusbar stuff
  *
  *  The status bar widget is part of every machine window. This widget
  *  reacts to UI notifications from the emulation core and otherwise

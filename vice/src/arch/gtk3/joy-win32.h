@@ -1,9 +1,10 @@
-/**
+/** \file   joy-win32.h
  * \brief   Joystick support for Windows - header
  *
- * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

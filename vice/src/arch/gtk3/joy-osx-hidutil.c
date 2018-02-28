@@ -1,9 +1,10 @@
+/** \file   joy-osx-hidutil.c
+ * \brief   Mac OS X joystick support using HID Utility Library
+ *
+ * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ */
+
 /*
- * joy-osx-hidutil.c - Mac OS X joystick support using HID Utility Library.
- *
- * Written by
- *   Christian Vogelgsang <chris@vogelgsang.org>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

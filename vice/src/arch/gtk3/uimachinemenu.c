@@ -1,5 +1,5 @@
 /** \file   uimachinemenu.c
- * \brief   Native GTK3 menus for machine emulators, (not vsid.)
+ * \brief   Native GTK3 menus for machine emulators (not vsid)
  *
  * \author  Marcus Sutton <loggedoubt@gmail.com>
  * \author  Bas Wassink <b.wassink@ziggo.nl>

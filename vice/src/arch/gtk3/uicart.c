@@ -1,4 +1,4 @@
-/**
+/** \file   uicart.c
  * \brief   Widget to attach carts
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>

@@ -1,9 +1,10 @@
-/**
+/** \file   uidatasette.h
  * \brief   Independent datasette control widgets - header
  *
- * Written by
- *  Michael C. Martin <mcmartin@gmail.com>
- *
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

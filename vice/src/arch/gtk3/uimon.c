@@ -1,9 +1,10 @@
+/** \file   uimon.c
+ * \brief   Native GTK3 UI monitor stuff
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * uimon.c - Native GTK3 UI monitor stuff.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

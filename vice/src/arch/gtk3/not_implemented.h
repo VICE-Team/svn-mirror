@@ -1,5 +1,7 @@
-/**
- * \brief   Temporary file to signal implemetation state of functions
+/** \file   not_implemented.h
+ * \brief   Temporary file to signal implementation state of functions
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 #ifndef VICE_NOT_IMPLEMENTED_H

@@ -1,9 +1,10 @@
+/** \file   gtk3main.c
+ * \brief   Native GTK3 UI startup
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * gtk3main.c - Native GTK3 UI startup.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

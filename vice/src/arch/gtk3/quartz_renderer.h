@@ -1,8 +1,10 @@
-/**
- * \brief   OpenGL-based renderer for the GTK3 backend.
+/** \file   quartz-renderer.h
+ * \brief   OpenGL-based renderer for the GTK3 backend - header
  *
- *  Michael C. Martin <mcmartin@gmail.com>
- *
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

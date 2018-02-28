@@ -1,9 +1,10 @@
-/**
+/** \file   joy-osx-hidlib.h
  * \brief   Common interface for the HID implementations - header
  *
- * Written by
- *  Christian Vogelgsang <chris@vogelgsang.org>
- *
+ * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -1,10 +1,11 @@
+/** \file   uimon-fallback.c
+ * \brief   Fallback implementation for the ML-Monitor for when the VTE library
+ *          is not available
+ *
+ * \author  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+ */
+
 /*
- * uimon-fallback.c - Fallback implementation for the ML-Monitor for when the 
- *                    VTE library is not available
- *
- * Written by
- *  Fabrizio Gennari <fabrizio.ge@tiscali.it>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

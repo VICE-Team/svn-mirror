@@ -1,9 +1,10 @@
-/**
+/** \file   uisnapshot.c
  * \brief   Snapshot dialogs and menu item handlers
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

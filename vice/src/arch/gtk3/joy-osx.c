@@ -1,9 +1,10 @@
+/** \file   joy-osx.c
+ * \brief   Mac OS X joystick support
+ *
+ * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ */
+
 /*
- * joy-osx.c - Mac OS X joystick support.
- *
- * Written by
- *   Christian Vogelgsang <chris@vogelgsang.org>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

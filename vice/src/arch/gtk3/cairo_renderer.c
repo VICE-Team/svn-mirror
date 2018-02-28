@@ -1,8 +1,8 @@
 /**
  * \file    cairo_renderer.c
- * \brief   Cairo-based renderer for the GTK3 backend.
+ * \brief   Cairo-based renderer for the GTK3 backend
  *
- * \author Michael C. Martin <mcmartin@gmail.com>
+ * \author  Michael C. Martin <mcmartin@gmail.com>
  */
 
 /* This file is part of VICE, the Versatile Commodore Emulator.

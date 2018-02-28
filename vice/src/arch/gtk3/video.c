@@ -1,6 +1,6 @@
 /**
- * \file video.c 
- * \brief Native GTK3 UI video stuff.
+ * \file video.c
+ * \brief Native GTK3 UI video stuff
  *
  * \author Marco van den Heuvel <blackystardust68@yahoo.com>
  * \author Michael C. Martin <mcmartin@gmail.com>

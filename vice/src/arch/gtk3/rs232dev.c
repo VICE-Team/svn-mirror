@@ -1,9 +1,10 @@
+/** \file   rs232dev.c
+ * \brief   rs232dev.c wrapper for the native GTK3 port.
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * rs232dev.c - rs232dev.c wrapper for the native GTK3 port.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

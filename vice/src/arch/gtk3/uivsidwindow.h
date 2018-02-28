@@ -1,9 +1,10 @@
-/**
+/** \file   uivsidwindow.h
  * \brief   Native GTK3 main vsid window code - header
  *
- * Written by
- *  Marcus Sutton <loggedoubt@gmail.com>
- *
+ * \author  Marcus Sutton <loggedoubt@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

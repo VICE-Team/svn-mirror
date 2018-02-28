@@ -1,9 +1,10 @@
-/**
+/** \file   uimonarch.h
  * \brief   GTK3 Monitor - header
  *
- * Written by
- *  groepaz <groepaz@gmx.net>
- *
+ * \author  groepaz <groepaz@gmx.net>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

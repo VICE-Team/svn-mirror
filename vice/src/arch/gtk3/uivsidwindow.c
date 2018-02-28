@@ -1,5 +1,5 @@
 /** \file   uivsidwindow.c
- * \brief   Native GTK3 main vsid window code.
+ * \brief   Native GTK3 main vsid window code
  *
  * \author  Marcus Sutton <loggedoubt@gmail.com>
  */

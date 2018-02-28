@@ -1,9 +1,10 @@
+/** \file   uidatasette.c
+ * \brief   Create independent datasette control widgets
+ *
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
 /*
- * uidatasette.c - Create independent datasette control widgets.
- *
- * Written by
- *  Michael C. Martin <mcmartin@gmail.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

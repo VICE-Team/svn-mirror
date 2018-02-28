@@ -1,10 +1,11 @@
-/**
+/** \file   archdep_unix.c
  * \brief   Miscellaneous UNIX-specific stuff
  *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -72,8 +73,9 @@ static const char *illegal_name_tokens = "/";
 static char *default_path = NULL;
 
 
-
-static char *boot_path_dinges = NULL;
+/** \brief  Path to the binary
+ */
+static char *boot_path_bin = NULL;
 
 
 /** \brief  Write log message to stdout
@@ -241,17 +243,17 @@ const char *archdep_boot_path(void)
 {
     char *sep;
 
-    if (boot_path_dinges == NULL) {
-        boot_path_dinges = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
+    if (boot_path_bin == NULL) {
+        boot_path_bin = findpath(argv0, getenv("PATH"), IOUTIL_ACCESS_X_OK);
 
         /* Remove the program name.  */
-        sep = strrchr(boot_path_dinges, '/');
+        sep = strrchr(boot_path_bin, '/');
         if (sep != NULL) {
            *sep = '\0';
         }
     }
 
-    return boot_path_dinges;
+    return boot_path_bin;
 }
 
 char *archdep_make_backup_filename(const char *fname)
@@ -270,9 +272,9 @@ void archdep_shutdown(void)
         argv0 = NULL;
     }
 
-    if (boot_path_dinges != NULL) {
-        lib_free(boot_path_dinges);
-        boot_path_dinges = NULL;
+    if (boot_path_bin != NULL) {
+        lib_free(boot_path_bin);
+        boot_path_bin = NULL;
     }
     if (program_name != NULL) {
         lib_free(program_name);

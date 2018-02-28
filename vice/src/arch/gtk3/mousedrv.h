@@ -1,7 +1,7 @@
-/**
- * \file mousedrv.h
+/** \file   mousedrv.h
  * \brief   Mouse handling for native GTK3 UI - header
- * \author Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  */
 
 /* This file is part of VICE, the Versatile Commodore Emulator.

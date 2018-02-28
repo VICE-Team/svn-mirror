@@ -1,8 +1,10 @@
-/**
- * \brief   Quartz-based renderer for the GTK3 backend.
+/** \file   quartz-renderer.c
+ * \brief   Quartz-based renderer for the GTK3 backend
  *
- *  Michael C. Martin <mcmartin@gmail.com>
- *
+ * \author  Michael C. Martin <mcmartin@gmail.com>
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

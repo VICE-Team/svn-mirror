@@ -1,11 +1,10 @@
+/** \file   coproc.c
+ * \brief   co-process fork
+ *
+ * \author  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ */
+
 /*
- * coproc.c - co-process fork
- *
- * Written by
- *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
- *
- * Patches by
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
