@@ -44,6 +44,7 @@
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "vkbd.h"
+#include "vsyncapi.h"
 
 
 /* ------------------------------------------------------------------ */
@@ -114,6 +115,21 @@ UI_MENU_CALLBACK(pause_callback)
 
     if (activated) {
         ui_pause_emulation(!paused);
+        return sdl_menu_text_exit_ui;
+    }
+    return NULL;
+}
+
+UI_MENU_CALLBACK(advance_frame_callback)
+{
+    int paused = ui_emulation_is_paused();
+
+    if (activated) {
+        if (paused) {
+            vsyncarch_advance_frame();
+        } else {
+            ui_pause_emulation(1);
+        }
         return sdl_menu_text_exit_ui;
     }
     return NULL;
