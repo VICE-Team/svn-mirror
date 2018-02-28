@@ -225,12 +225,13 @@ static int (*identify_canvas_func)(video_canvas_t *) = NULL;
  *                              Event handlers                                *
  *****************************************************************************/
 
-/** \brief  Get the most recently focused main window
+/** \brief  Get the most recently focused toplevel window
  *
- * \return  pointer to a main window, or NULL
+ * \return  pointer to a toplevel window, or NULL
  */
 GtkWindow *ui_get_active_window(void)
 {
+#if 0
     if (active_win_index < 0) {
         /* If we end up here it probably means no main window has
          * been created yet. */
@@ -238,6 +239,22 @@ GtkWindow *ui_get_active_window(void)
     }
 
     return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
+#endif
+
+    GList *list = gtk_window_list_toplevels();
+
+    while (list != NULL)
+    {
+        if (gtk_window_has_toplevel_focus(list->data))
+        {
+            return list->data;
+        }
+        list = list->next;
+    }
+
+    /* If we end up here it probably means no windows have
+     * been created yet. */
+    return NULL;
 }
 
 
