@@ -1,9 +1,10 @@
+/** \file   mousedrv.c
+ * \brief   Native GTK3 UI mouse driver stuff.
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * mousedrv.c - Native GTK3 UI mouse driver stuff.
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -34,8 +35,6 @@
 #include "mouse.h"
 #include "mousedrv.h"
 
-
-#ifndef MACOSX_COCOA
 
 /** \brief The callbacks registered for mouse buttons being pressed or
  *         released. 
@@ -171,9 +170,5 @@ int mousedrv_resources_init(mouse_func_t *funcs)
     mouse_funcs.mbd = funcs->mbd;
     return 0;
 }
-
-
-
-#endif  /* ifndef MACOSX_COCOA */
 
 
