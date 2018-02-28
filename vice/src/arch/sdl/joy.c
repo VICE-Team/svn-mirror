@@ -1142,6 +1142,9 @@ void sdljoy_unset(SDL_Event e)
 
 /* ------------------------------------------------------------------------- */
 
+static int _sdljoy_swap_ports = 0;
+static int _sdljoy_swap_userport_ports = 0;
+
 void sdljoy_swap_ports(void)
 {
     int i, k;
@@ -1151,6 +1154,7 @@ void sdljoy_swap_ports(void)
     resources_get_int("JoyDevice2", &k);
     resources_set_int("JoyDevice1", k);
     resources_set_int("JoyDevice2", i);
+    _sdljoy_swap_ports ^= 1;
 
     for (i = 0; i < num_joysticks; ++i) {
         for (j = AXIS; j < NUM_INPUT_TYPES; ++j) {
@@ -1162,6 +1166,28 @@ void sdljoy_swap_ports(void)
         }
     }
 }
+
+int sdljoy_get_swap_ports(void) 
+{
+    return _sdljoy_swap_ports;
+}
+
+void sdljoy_swap_userport_ports(void)
+{
+    int i, k;
+ 
+    resources_get_int("JoyDevice3", &i);
+    resources_get_int("JoyDevice4", &k);
+    resources_set_int("JoyDevice3", k);
+    resources_set_int("JoyDevice4", i);
+    _sdljoy_swap_userport_ports ^= 1;
+}
+
+int sdljoy_get_swap_userport_ports(void) 
+{
+    return _sdljoy_swap_userport_ports;
+}
+
 
 /* ------------------------------------------------------------------------- */
 

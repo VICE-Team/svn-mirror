@@ -86,7 +86,15 @@ static UI_MENU_CALLBACK(custom_swap_ports_callback)
     if (activated) {
         sdljoy_swap_ports();
     }
-    return NULL;
+    return sdljoy_get_swap_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
+}
+
+static UI_MENU_CALLBACK(custom_swap_userport_joystick_ports)
+{
+    if (activated) {
+        sdljoy_swap_userport_ports();
+    }
+    return sdljoy_get_swap_userport_ports() ? MENU_CHECKMARK_CHECKED_STRING : NULL;
 }
 
 static UI_MENU_CALLBACK(custom_keyset_callback)
@@ -281,7 +289,7 @@ const ui_menu_entry_t joystick_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port2_device_menu },
     { "Swap joystick ports",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
@@ -400,7 +408,7 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port4_device_menu },
     { "Swap joystick ports",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
@@ -425,6 +433,10 @@ const ui_menu_entry_t joystick_c64_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)joystick_extra_joy_type_menu },
+    { "Swap userport joystick ports",
+      MENU_ENTRY_OTHER_TOGGLE,
+      custom_swap_userport_joystick_ports,
+      NULL },
 #ifdef HAVE_SDL_NUMJOYSTICKS
     SDL_MENU_ITEM_SEPARATOR,
     { "Joystick 1 mapping", /* TODO better name */
@@ -465,7 +477,7 @@ const ui_menu_entry_t joystick_c64dtv_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port3_device_menu },
     { "Swap joystick ports",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
@@ -532,7 +544,7 @@ const ui_menu_entry_t joystick_plus4_menu[] = {
       submenu_radio_callback,
       (ui_callback_data_t)joystick_port5_device_menu },
     { "Swap joystick ports",
-      MENU_ENTRY_OTHER,
+      MENU_ENTRY_OTHER_TOGGLE,
       custom_swap_ports_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
