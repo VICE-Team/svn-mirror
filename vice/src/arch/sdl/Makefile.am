@@ -84,6 +84,8 @@ libarch_a_SOURCES = \
 	menu_drive.h \
 	menu_drive_rom.c \
 	menu_drive_rom.h \
+	menu_edit.c \
+	menu_edit.h \
 	menu_ethernet.c \
 	menu_ethernet.h \
 	menu_ethernetcart.c \

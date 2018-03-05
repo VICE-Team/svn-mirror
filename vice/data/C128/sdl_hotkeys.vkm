@@ -93,3 +93,8 @@
 1316 Snapshot&Quicksave snapshot.vsf
 # ALT+F12
 1317 Reset&Hard
+
+# ALT+Delete
+1151 Edit&Copy to Clipboard
+# ALT+Insert
+1301 Edit&Paste from Clipboard

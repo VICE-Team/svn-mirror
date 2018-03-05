@@ -39,6 +39,7 @@
 #include "menu_common.h"
 #include "menu_debug.h"
 #include "menu_drive.h"
+#include "menu_edit.h"
 #include "menu_ethernet.h"
 #include "menu_ethernetcart.h"
 #include "menu_ffmpeg.h"
@@ -163,6 +164,10 @@ static const ui_menu_entry_t x64sc_main_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)settings_manager_menu },
+    { "Edit",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)edit_menu },
     { "Quit emulator",
       MENU_ENTRY_OTHER,
       quit_callback,
