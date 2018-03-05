@@ -111,9 +111,10 @@ static UI_MENU_CALLBACK(load_psid_callback)
     return NULL;
 }
 
-#define SDLUI_VSID_CMD_MASK 0x8000
-#define SDLUI_VSID_CMD_NEXT 0x8001
-#define SDLUI_VSID_CMD_PREV 0x8002
+#define SDLUI_VSID_CMD_MASK     0x8000
+#define SDLUI_VSID_CMD_NEXT     0x8001
+#define SDLUI_VSID_CMD_PREV     0x8002
+#define SDLUI_VSID_CMD_DEFAULT  0x8003
 
 static UI_MENU_CALLBACK(vsidui_tune_callback)
 {
@@ -126,6 +127,8 @@ static UI_MENU_CALLBACK(vsidui_tune_callback)
             ++tune;
         } else if (command_or_tune == SDLUI_VSID_CMD_PREV) {
             --tune;
+        } else if (command_or_tune == SDLUI_VSID_CMD_DEFAULT) {
+            tune = sdl_vsid_default_tune;
         } else {
             tune = command_or_tune;
         }
@@ -150,6 +153,8 @@ static UI_MENU_CALLBACK(vsidui_tune_callback)
 
 /* This menu is static so hotkeys can be assigned.
    Only 23 tunes are listed, which is hopefully enough for most cases. */
+
+/* FIXME: still generate this menu at runtime, there ARE .sid files with 256 tunes! */
 static const ui_menu_entry_t vsid_tune_menu[] = {
     { "Tune 1",
       MENU_ENTRY_OTHER,
@@ -265,6 +270,10 @@ static const ui_menu_entry_t vsid_main_menu[] = {
       MENU_ENTRY_OTHER,
       vsidui_tune_callback,
       (ui_callback_data_t)SDLUI_VSID_CMD_PREV },
+    { "Default tune",
+      MENU_ENTRY_OTHER,
+      vsidui_tune_callback,
+      (ui_callback_data_t)SDLUI_VSID_CMD_DEFAULT },
     { "Override PSID settings",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_PSIDKeepEnv_callback,
