@@ -1,5 +1,5 @@
 /** \file   joy-win32.c
- * \bruef   Joystick support for Windows
+ * \brief   Joystick support for Windows
  *
  * \author  Tibor Biczo <crown@mail.matav.hu>
  * \author  Ettore Perazzoli <ettore@comm2000.it>

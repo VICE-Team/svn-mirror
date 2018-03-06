@@ -1,5 +1,8 @@
 /** \file   vsyncarch
- * \brief   End-of-frame handling for Unix
+ * \brief   End-of-frame handling for native GTK3 UI
+ *
+/* \note    This is altered and trimmed down to fit into the GTK3-native
+ *          world, but it's still heavily reliant on UNIX internals.
  *
  * \author  Dag Lem <resid@nimrod.no>
  */
@@ -24,9 +27,6 @@
  *  02111-1307  USA.
  *
  */
-
-/* This is altered and trimmed down to fit into the GTK3-native world,
- * but it's still heavily reliant on UNIX internals. */
 
 #include "vice.h"
 

@@ -1,9 +1,10 @@
 /** \file   kbd.c
- * \broef   Native GTK3 UI keyboard stuff
+ * \brief   Native GTK3 UI keyboard stuff
  *
  * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
  * \author  Michael C. Martin <mcmartin@gmail.com>
- * \author  Oliver Schaertel (pottendo) <pottendo@gmx.net>
+ * \author  Oliver Schaertel
+ * \author  pottendo <pottendo@gmx.net>
  */
 
 /*
