@@ -227,12 +227,12 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
     canvas->pen_x = -1;
     canvas->pen_y = -1;
     canvas->pen_buttons = 0;
-    ui_create_toplevel_window(canvas);
+    ui_create_main_window(canvas);
     if (width && height && canvas->renderer_backend) {
         canvas->renderer_backend->update_context(canvas, *width, *height);
     }
 
-    ui_display_toplevel_window(canvas->window_index);
+    ui_display_main_window(canvas->window_index);
 
     canvas->created = 1;
     canvas->initialized = 1;

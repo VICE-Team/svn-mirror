@@ -255,8 +255,8 @@ int vsid_ui_init(void)
     ui_vsid_window_init();
     ui_set_identify_canvas_func(identify_canvas);
 
-    ui_create_toplevel_window(canvas);
-    ui_display_toplevel_window(canvas->window_index);
+    ui_create_main_window(canvas);
+    ui_display_main_window(canvas->window_index);
 
     uisidattach_set_psid_init_func(psid_init_driver);
     uisidattach_set_psid_play_func(machine_play_psid);

@@ -81,8 +81,8 @@ typedef struct ui_resources_s {
 void ui_set_create_window_func(void (*func)(video_canvas_t *));
 void ui_set_identify_canvas_func(int (*func)(video_canvas_t *));
 
-void ui_create_toplevel_window(video_canvas_t *canvas);
-void ui_display_toplevel_window(int index);
+void ui_create_main_window(video_canvas_t *canvas);
+void ui_display_main_window(int index);
 
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);

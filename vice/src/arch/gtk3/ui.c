@@ -231,16 +231,6 @@ static int (*identify_canvas_func)(video_canvas_t *) = NULL;
  */
 GtkWindow *ui_get_active_window(void)
 {
-#if 0
-    if (active_win_index < 0) {
-        /* If we end up here it probably means no main window has
-         * been created yet. */
-        return NULL;
-    }
-
-    return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
-#endif
-
     GList *list = gtk_window_list_toplevels();
 
     while (list != NULL)
@@ -292,7 +282,7 @@ static int ui_get_window_index(GtkWidget *widget)
     }
 }
 
-/** \brief  Handler for the "focus-in-event" of a GtkWindow
+/** \brief  Handler for the "focus-in-event" of a main window
  *
  * \param[in]   widget      window triggering the event
  * \param[in]   event       window focus details
@@ -300,11 +290,8 @@ static int ui_get_window_index(GtkWidget *widget)
  *
  * \return  FALSE to continue processing
  *
- * \todo    GtkApplication tracks the currently-active window using a similar
- *          method to this handler, so if we start using GtkApplication we
- *          should only use this for canvas-window-specific stuff like
- *          fullscreen mode, and use gtk_application_get_active_window() to
- *          provide parent windows for dialogs.
+ * \note    We only use this for canvas-window-specific stuff like
+ *          fullscreen mode.
  */
 static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
                                   gpointer user_data)
@@ -352,7 +339,7 @@ static void ui_update_fullscreen_decorations(void)
     }
 }
 
-/** \brief  Handler for the "window-state-event" of a GtkWindow
+/** \brief  Handler for the "window-state-event" of a main window
  *
  * \param[in]   widget      window triggering the event
  * \param[in]   event       window state details
@@ -650,14 +637,13 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
 /** \brief  Create a toplevel window to represent a video canvas
  *
  * This function takes a video canvas structure and builds the widgets
- * that will represent that canvas in the UI as a whole. The
- * GtkDrawingArea that represents the actual screen backed by the
- * canvas will be entered into canvas->drawing_area.
+ * that will represent that canvas in the UI as a whole. In the machine
+ * emulators, the GtkDrawingArea that represents the actual screen backed
+ * by the canvas will be entered into canvas->drawing_area.
  *
  * While it creates the widgets, it does not make them visible. The
  * video canvas routines are expected to do any last-minute processing
- * or preparation, and then call ui_display_toplevel_window() when
- * ready.
+ * or preparation, and then call ui_display_main_window() when ready.
  *
  * \param[in]   canvas  the video_canvas_s to initialize
  *
@@ -668,7 +654,7 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
  *          to front" function instead, and create the windows
  *          starting with the primary one.
  */
-void ui_create_toplevel_window(video_canvas_t *canvas)
+void ui_create_main_window(video_canvas_t *canvas)
 {
     GtkWidget *new_window, *grid, *status_bar;
     int target_window;
@@ -707,11 +693,11 @@ void ui_create_toplevel_window(video_canvas_t *canvas)
         target_window = identify_canvas_func(canvas);
     }
     if (target_window < 0) {
-        log_error(LOG_ERR, "ui_create_toplevel_window: canvas not identified!\n");
+        log_error(LOG_ERR, "ui_create_main_window: canvas not identified!\n");
         exit(1);
     }
     if (ui_resources.window_widget[target_window] != NULL) {
-        log_error(LOG_ERR, "ui_create_toplevel_window: existing window recreated??\n");
+        log_error(LOG_ERR, "ui_create_main_window: existing window recreated??\n");
         exit(1);
     }
 
@@ -727,13 +713,13 @@ void ui_create_toplevel_window(video_canvas_t *canvas)
     kbd_connect_handlers(new_window, NULL);
 }
 
-/** \brief  Makes the a window visible once it's been initialized
+/** \brief  Makes a main window visible once it's been initialized
  *
  * \param[in]   index   which window to display
  *
  * \sa      ui_resources_s::window_widget
  */
-void ui_display_toplevel_window(int index)
+void ui_display_main_window(int index)
 {
     if (ui_resources.window_widget[index]) {
         /* Normally this would show everything in the window,
