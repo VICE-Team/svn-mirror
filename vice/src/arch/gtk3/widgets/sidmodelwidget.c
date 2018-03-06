@@ -175,6 +175,17 @@ GtkWidget *sid_model_widget_create(GtkWidget *machine_model_widget)
         gtk_widget_set_sensitive(grid, sidcart);
     }
 
+    /*
+     * Fix layout issues
+     *
+     * Not the proper place: since uihelpers_create_grid_with_label() should
+     * be deprecated and replaced with something more robust, this is a
+     * temporary fix.
+     *
+     * -- compyx, 2018-03-07
+     */
+    g_object_set(G_OBJECT(grid), "margin", 8, NULL);
+
     return grid;
 }
 

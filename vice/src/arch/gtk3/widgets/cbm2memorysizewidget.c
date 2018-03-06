@@ -39,13 +39,14 @@
 #include "widgethelpers.h"
 #include "debug_gtk3.h"
 #include "resources.h"
+#include "machine.h"
 
 #include "cbm2memorysizewidget.h"
 
 
-/** \brief  List of RAM sizes
+/** \brief  List of RAM sizes for 5x0
  */
-static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
+static const vice_gtk3_radiogroup_entry_t ram_sizes_cbm5x0[] = {
     { "64KB",   64 },
     { "128KB",  128 },
     { "256KB",  256 },
@@ -53,6 +54,18 @@ static const vice_gtk3_radiogroup_entry_t ram_sizes[] = {
     { "1024KB", 1024 },
     { NULL, -1 }
 };
+
+
+/** \brief  List of RAM sizes for 6x0/7x0
+ */
+static const vice_gtk3_radiogroup_entry_t ram_sizes_cbm6x0[] = {
+    { "128KB",  128 },
+    { "256KB",  256 },
+    { "512KB",  512 },
+    { "1024KB", 1024 },
+    { NULL, -1 }
+};
+
 
 
 /** \brief  Create CBM-II memory size widget
@@ -63,6 +76,13 @@ GtkWidget *cbm2_memory_size_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *radio_group;
+    const vice_gtk3_radiogroup_entry_t *ram_sizes;
+
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        ram_sizes = ram_sizes_cbm5x0;
+    } else {
+        ram_sizes = ram_sizes_cbm6x0;
+    }
 
     grid = uihelpers_create_grid_with_label("RAM size", 1);
     radio_group = vice_gtk3_resource_radiogroup_new("RamSize", ram_sizes,
