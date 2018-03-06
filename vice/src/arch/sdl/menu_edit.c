@@ -28,6 +28,7 @@
 
 #include "machine.h"
 #include "menu_common.h"
+#include "menu_edit.h"
 #include "charset.h"
 #include "clipboard.h"
 #include "lib.h"
