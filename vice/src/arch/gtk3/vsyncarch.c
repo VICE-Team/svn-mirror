@@ -1,7 +1,7 @@
 /** \file   vsyncarch
  * \brief   End-of-frame handling for native GTK3 UI
  *
-/* \note    This is altered and trimmed down to fit into the GTK3-native
+ * \note    This is altered and trimmed down to fit into the GTK3-native
  *          world, but it's still heavily reliant on UNIX internals.
  *
  * \author  Dag Lem <resid@nimrod.no>
