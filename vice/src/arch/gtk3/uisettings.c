@@ -1664,6 +1664,14 @@ static GtkWidget *create_treeview(void)
             NULL);
     /*    gtk_tree_view_append_column(GTK_TREE_VIEW(tree), obj_column); */
     gtk_tree_view_append_column(GTK_TREE_VIEW(tree), text_column);
+
+    /*
+     * XXX: temporary fix until Windows make bindist works properly
+     *      right now the expand/collapse png's aren't show in Win32
+     */
+#ifdef WIN32_COMPILE
+    gtk_tree_view_expand_all(GTK_TREE_VIEW(tree));
+#endif
     return tree;
 }
 
