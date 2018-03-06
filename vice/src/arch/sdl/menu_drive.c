@@ -240,7 +240,7 @@ static UI_MENU_CALLBACK(set_directory_callback)
         }
     } else {
         if (!check_current_drive_type(ATTACH_DEVICE_FS, drive)) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         }
     }
     return NULL;
@@ -333,7 +333,7 @@ static UI_MENU_CALLBACK(fliplist_callback)
         if (drive_check_idle_method(type)) {                \
             return MENU_SUBMENU_STRING;                     \
         }                                                   \
-        return "(N/A)";                                     \
+        return MENU_NOT_AVAILABLE_STRING;                   \
     }
 
 DRIVE_SHOW_IDLE_CALLBACK(8)
@@ -351,7 +351,7 @@ DRIVE_SHOW_IDLE_CALLBACK(11)
         if (drive_check_extend_policy(type)) {                \
             return MENU_SUBMENU_STRING;                       \
         }                                                     \
-        return "(N/A)";                                       \
+        return MENU_NOT_AVAILABLE_STRING;                     \
     }
 
 DRIVE_SHOW_EXTEND_CALLBACK(8)
@@ -369,7 +369,7 @@ DRIVE_SHOW_EXTEND_CALLBACK(11)
         if (drive_check_expansion(type)) {                    \
             return MENU_SUBMENU_STRING;                       \
         }                                                     \
-        return "(N/A)";                                       \
+        return MENU_NOT_AVAILABLE_STRING;                     \
     }
 
 DRIVE_SHOW_EXPAND_CALLBACK(8)
@@ -387,7 +387,7 @@ DRIVE_SHOW_EXPAND_CALLBACK(11)
         if (drive_check_profdos(type) || drive_check_supercard(type)) { \
             return MENU_SUBMENU_STRING;                                 \
         }                                                               \
-        return "(N/A)";                                                 \
+        return MENU_NOT_AVAILABLE_STRING;                               \
     }
 
 DRIVE_SHOW_EXBOARD_CALLBACK(8)
@@ -423,7 +423,7 @@ static UI_MENU_CALLBACK(set_idle_callback)
         }
     } else {
         if (!drive_check_idle_method(current)) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         } else {
             resources_get_int_sprintf("Drive%iIdleMethod", &idle, drive);
             if (idle == parameter) {
@@ -451,7 +451,7 @@ static UI_MENU_CALLBACK(set_extend_callback)
         }
     } else {
         if (!drive_check_extend_policy(current)) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         } else {
             resources_get_int_sprintf("Drive%iExtendImagePolicy", &extend, drive);
             if (extend == parameter) {
@@ -472,7 +472,7 @@ static UI_MENU_CALLBACK(set_extend_callback)
         if (drive_check_parallel_cable(type)) {                 \
             return MENU_SUBMENU_STRING;                         \
         }                                                       \
-        return "(N/A)";                                         \
+        return MENU_NOT_AVAILABLE_STRING;                       \
     }
 
 DRIVE_SHOW_PARALLEL_CALLBACK(8)
@@ -496,7 +496,7 @@ static UI_MENU_CALLBACK(set_par_callback)
         }
     } else {
         if (machine_class == VICE_MACHINE_VIC20 || !drive_check_parallel_cable(current)) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         } else {
             resources_get_int_sprintf("Drive%iParallelCable", &par, drive);
             if (par == type) {
@@ -579,7 +579,7 @@ static UI_MENU_CALLBACK(set_expand_callback)
         }
     } else {
         if (!drive_check_extend_policy(current) || !check_memory_expansion(parameter, current)) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         } else {
             resources_get_int_sprintf("Drive%iRAM%X", &memory, drive, parameter);
             if (memory) {
@@ -627,7 +627,7 @@ static UI_MENU_CALLBACK(set_exboard_callback)
         }
     } else {
         if (!available) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         } else {
             if (memory) {
                 return sdl_menu_text_tick;
@@ -677,7 +677,7 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
         }
     } else {
         if (!support) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         } else {
             if (current) {
                 return sdl_menu_text_tick;
@@ -820,7 +820,7 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
 
 #define DRIVE_TYPE_ITEM(text, data) \
     { text,                         \
-      MENU_ENTRY_OTHER,             \
+      MENU_ENTRY_OTHER_TOGGLE,      \
       set_drive_type_callback,      \
       (ui_callback_data_t)(data) },
 
