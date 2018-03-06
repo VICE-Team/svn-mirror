@@ -30,6 +30,6 @@
 extern UI_MENU_CALLBACK(edit_menu_paste_callback);
 extern UI_MENU_CALLBACK(edit_menu_copy_callback);
 
-const ui_menu_entry_t edit_menu[3];
+extern const ui_menu_entry_t edit_menu[];
 
 #endif
