@@ -4,7 +4,7 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Mouse
+ *  ps2mouse (x64dtv)
  *  SmartMouseRTCSave (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0)
  *  MouseSensitivity (Appears to be Windows-only)
  */
@@ -89,7 +89,6 @@ GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
 {
     GtkWidget *layout;
     GtkWidget *ps2_enable;
-    GtkWidget *mouse_grab;
     GtkWidget *mouse_save = NULL;
     int row = 0;
 
@@ -102,11 +101,6 @@ GtkWidget *settings_mouse_widget_create(GtkWidget *parent)
         gtk_grid_attach(GTK_GRID(layout), ps2_enable, 0, row, 1, 1);
         row++;
     }
-
-    mouse_grab = vice_gtk3_resource_check_button_new(
-            "Mouse", "Enable mouse grab");
-    gtk_grid_attach(GTK_GRID(layout), mouse_grab, 0, row, 1, 1);
-    row++;
 
     switch (machine_class) {
         case VICE_MACHINE_C64:      /* fall through */
