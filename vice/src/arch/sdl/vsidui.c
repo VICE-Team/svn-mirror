@@ -145,7 +145,7 @@ static UI_MENU_CALLBACK(vsidui_tune_callback)
         if (command_or_tune == sdl_vsid_current_tune) {
             return sdl_menu_text_tick;
         } else if (command_or_tune > sdl_vsid_tunes && !(command_or_tune & SDLUI_VSID_CMD_MASK)) {
-            return "(N/A)";
+            return MENU_NOT_AVAILABLE_STRING;
         }
     }
     return NULL;
