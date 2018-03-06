@@ -900,7 +900,7 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
 
     { "I/O extensions",
       "io-extensions",
-      settings_io_widget_create, scpu64_io_extensions },
+      settings_io_widget_create, c128_io_extensions },
 #ifdef HAVE_RS232DEV
     { "RS232 settings",
       "rs232",
@@ -980,7 +980,7 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
 
     { "I/O extensions",
       "io-extensions",
-      settings_io_widget_create, c128_io_extensions },
+      settings_io_widget_create, scpu64_io_extensions },
 #ifdef HAVE_RS232DEV
     { "RS232 settings",
       "rs232",
