@@ -158,10 +158,9 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
     gchar *filename;
 
     /* TODO: use existing filename, if any */
-    filename = vice_gtk3_save_file_dialog("Select/Create tapecart file", NULL,
-            TRUE, NULL);
+    filename = vice_gtk3_open_file_dialog("Select tapecart file", NULL,
+            NULL, NULL);
     if (filename != NULL) {
-        /* TODO: check if file is writable */
         vice_gtk3_resource_entry_full_set(tapecart_filename, filename);
         g_free(filename);
     }
