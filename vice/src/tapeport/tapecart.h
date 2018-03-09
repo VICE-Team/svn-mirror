@@ -52,5 +52,6 @@ typedef struct tapecart_memory_s {
 extern int tapecart_resources_init(void);
 extern int tapecart_cmdline_options_init(void);
 extern int tapecart_attach_tcrt(const char *filename, void *unused);
+extern int tapecart_flush_tcrt(void);
 
 #endif

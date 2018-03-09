@@ -67,6 +67,10 @@ static GtkWidget *tapecart_update = NULL;
 static GtkWidget *tapecart_optimize = NULL;
 static GtkWidget *tapecart_filename = NULL;
 static GtkWidget *tapecart_browse = NULL;
+static GtkWidget *tapecart_flush = NULL;
+
+static int (*tapecart_flush_func)(void) = NULL;
+
 
 /** \brief  Handler for the "toggled" event of the tape_log check button
  *
@@ -145,6 +149,7 @@ static void on_tapecart_enable_toggled(GtkWidget *widget, gpointer user_data)
     gtk_widget_set_sensitive(tapecart_optimize, state);
     gtk_widget_set_sensitive(tapecart_filename, state);
     gtk_widget_set_sensitive(tapecart_browse, state);
+    gtk_widget_set_sensitive(tapecart_flush, state);
 }
 
 
@@ -163,6 +168,27 @@ static void on_tapecart_browse_clicked(GtkWidget *widget, gpointer user_data)
     if (filename != NULL) {
         vice_gtk3_resource_entry_full_set(tapecart_filename, filename);
         g_free(filename);
+    }
+}
+
+
+/** \brief  Handler for the 'clicked' event of the tapecart flush button
+ *
+ * \param[in]   widget  button (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_tapecart_flush_clicked(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("Attempting to flush current tapecart image\n");
+    if (tapecart_flush_func == NULL) {
+        debug_gtk3("Failed: please set the tapecart flush function with "
+                "tapeport_devices_widget_set_tapecart_flush_func()\n");
+        return;
+    }
+    if (tapecart_flush_func() == 0) {
+        debug_gtk3("OK\n");
+    } else {
+        debug_gtk3("Failed\n");
     }
 }
 
@@ -316,10 +342,15 @@ static GtkWidget *create_tapecart_widget(void)
     tapecart_browse = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 1, 4, 1, 1);
 
+    tapecart_flush = gtk_button_new_with_label("Flush image");
+    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 1, 5, 1, 1);
+
     g_signal_connect(tapecart_enable, "toggled",
             G_CALLBACK(on_tapecart_enable_toggled), NULL);
     g_signal_connect(tapecart_browse, "clicked",
             G_CALLBACK(on_tapecart_browse_clicked), NULL);
+    g_signal_connect(tapecart_flush, "clicked",
+            G_CALLBACK(on_tapecart_flush_clicked), NULL);
 
     on_tapecart_enable_toggled(tapecart_enable, NULL);
 
@@ -356,4 +387,16 @@ GtkWidget *tapeport_devices_widget_create(GtkWidget *parent)
         gtk_widget_show_all(grid);
     }
     return grid;
+}
+
+
+/** \brief  Set the tapecart flush function
+ *
+ * This is required to work around vsid not linking against tapecart.
+ *
+ * \param[in]   func    tapecart flush function
+ */
+void tapeport_devices_widget_set_tapecart_flush_func(int (*func)(void))
+{
+    tapecart_flush_func = func;
 }

@@ -1830,6 +1830,21 @@ int tapecart_attach_tcrt(const char *filename, void *unused) {
 }
 
 
+/** \brief  Flush current tapecart data to image file
+ *
+ * \return  0 on success, < 0 on failure
+ */
+int tapecart_flush_tcrt(void)
+{
+    if (tcrt_filename == NULL || tapecart_memory == NULL) {
+        return -1;
+    }
+    if (!save_tcrt(tcrt_filename, tapecart_memory)) {
+        return -1;
+    }
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 /*  snapshots                                                           */
 /* ---------------------------------------------------------------------*/

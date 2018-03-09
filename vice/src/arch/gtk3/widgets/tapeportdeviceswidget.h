@@ -33,4 +33,6 @@
 
 GtkWidget *tapeport_devices_widget_create(GtkWidget *parent);
 
+void tapeport_devices_widget_set_tapecart_flush_func(int (*func)(void));
+
 #endif

@@ -60,6 +60,8 @@
 #include "uicart.h"
 #include "carthelpers.h"
 #include "machine.h"
+#include "tapecart.h"
+#include "tapeportdeviceswidget.h"
 
 #include "c64ui.h"
 
@@ -151,6 +153,9 @@ int c64ui_init(void)
     uicart_set_attach_func(cartridge_attach_image);
     uicart_set_freeze_func(cartridge_trigger_freeze);
     uicart_set_detach_func(cartridge_detach_image);
+
+    /* set tapecart flush function */
+    tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
