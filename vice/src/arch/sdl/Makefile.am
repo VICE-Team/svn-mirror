@@ -37,6 +37,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/gfxoutputdrv \
+	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a
