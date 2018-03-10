@@ -32,6 +32,7 @@
 
 #include "tapecart.h"
 
+#include "uiapi.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uitapeport.h"
@@ -94,10 +95,13 @@ static ui_menu_entry_t tapecart_loglevel_submenu[] = {
     { N_("Level 2: adds details of command parameters"), UI_MENU_TYPE_TICK,
         (ui_callback_t)radio_TapecartLogLevel, (ui_callback_data_t)2, NULL,
         (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
     UI_MENU_ENTRY_LIST_END
 };
 
 
+/** \brief  Tape port devices submenu (for non-C64 emus)
+ */
 ui_menu_entry_t tapeport_submenu[] = {
     { N_("Enable datasette"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Datasette, NULL, NULL,
@@ -108,7 +112,9 @@ ui_menu_entry_t tapeport_submenu[] = {
     { N_("Enable DTL basic dongle"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DTLBasicDongle, NULL, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
     UI_MENU_ENTRY_SEPERATOR,
+
     { N_("Enable tape log device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TapeLog, NULL, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
@@ -118,7 +124,50 @@ ui_menu_entry_t tapeport_submenu[] = {
     { N_("User specified tape log filename"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_tapelog_filename, (ui_callback_data_t)"TapeLogfilename", NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
     UI_MENU_ENTRY_SEPERATOR,
+
+    { N_("Enable CP CLock F83"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CPClockF83, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Save RTC data when changed"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CPClockF83Save, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
+    UI_MENU_ENTRY_LIST_END
+};
+
+
+/** \brief  Tape port devices submenu (x64, x64sc and x128)
+ *
+ * Contains tapecart submenu, the tapecart device doesn't yet support anything
+ * other than the C128/C128.
+ */
+ui_menu_entry_t tapeport_submenu_c64[] = {
+    { N_("Enable datasette"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Datasette, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Enable tape sense dongle"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_TapeSenseDongle, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Enable DTL basic dongle"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DTLBasicDongle, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
+    UI_MENU_ENTRY_SEPERATOR,
+
+    { N_("Enable tape log device"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_TapeLog, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Enable tape log save to user specified file"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_TapeLogDestination, NULL, NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("User specified tape log filename"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_tapelog_filename, (ui_callback_data_t)"TapeLogfilename", NULL,
+      (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
+    UI_MENU_ENTRY_SEPERATOR,
+
     { N_("Enable CP CLock F83"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CPClockF83, NULL, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },

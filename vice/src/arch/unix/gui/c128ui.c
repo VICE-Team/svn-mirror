@@ -418,7 +418,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, userport_c64_cbm2_submenu,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     { "Tape port devices", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, tapeport_submenu,
+      NULL, NULL, tapeport_submenu_c64,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
     UI_MENU_ENTRY_SEPERATOR,
     { N_("I/O collision handling ($D000-$DFFF)"), UI_MENU_TYPE_NORMAL,
