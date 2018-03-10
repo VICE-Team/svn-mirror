@@ -4,14 +4,18 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Datasette           (all except vsid)
- *  TapeLog             (all except vsid)
- *  TapeLogDestination  (all except vsid)
- *  CPClockF83          (all except vsid)
- *  CPClockF83Save      (all except vsid)
- *  TapeSenseDongle     (all except vsid)
- *  DTLBasicDongle      (all except vsid)
- *  Tapecart            (all except vsid)
+ *  Datasette               (all except vsid/xscpu64)
+ *  TapeLog                 (all except vsid/xscpu64)
+ *  TapeLogDestination      (all except vsid/xscpu64)
+ *  CPClockF83              (all except vsid/xscpu64)
+ *  CPClockF83Save          (all except vsid/xscpu64)
+ *  TapeSenseDongle         (all except vsid/xscpu64)
+ *  DTLBasicDongle          (all except vsid/xscpu64)
+ *  TapecartEnabled         (x64/x64sc/x128)
+ *  TapecartUpdateTCRT      (x64/x64sc/x128)
+ *  TapecartOptimizeTCRT    (x64/x64sc/x128)
+ *  TapecartLogLevel        (x64/x64sc/x128)
+ *  TapecartTCRTFilename    (x64/x64sc/x128)
  */
 
 /*
@@ -50,6 +54,16 @@
 #include "tapeportdeviceswidget.h"
 
 
+/** \brief  List of log levels and their descriptions for the Tapecart
+ */
+static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
+    { "0: error only", 0 },
+    { "1: errors, mode changes and command bytes", 1 },
+    { "2: errors, mode changes, command bytes and command parameter details",2  },
+    { NULL, -1 }
+};
+
+
 /*
  * Reference to widgets to be able to enable/disabled them through event
  * handlers
@@ -65,6 +79,7 @@ static GtkWidget *f83_rtc = NULL;
 static GtkWidget *tapecart_enable = NULL;
 static GtkWidget *tapecart_update = NULL;
 static GtkWidget *tapecart_optimize = NULL;
+static GtkWidget *tapecart_loglevel = NULL;
 static GtkWidget *tapecart_filename = NULL;
 static GtkWidget *tapecart_browse = NULL;
 static GtkWidget *tapecart_flush = NULL;
@@ -147,6 +162,7 @@ static void on_tapecart_enable_toggled(GtkWidget *widget, gpointer user_data)
     int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     gtk_widget_set_sensitive(tapecart_update, state);
     gtk_widget_set_sensitive(tapecart_optimize, state);
+    gtk_widget_set_sensitive(tapecart_loglevel, state);
     gtk_widget_set_sensitive(tapecart_filename, state);
     gtk_widget_set_sensitive(tapecart_browse, state);
     gtk_widget_set_sensitive(tapecart_flush, state);
@@ -328,22 +344,32 @@ static GtkWidget *create_tapecart_widget(void)
     g_object_set(tapecart_optimize, "margin-left", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), tapecart_optimize, 0, 2, 1, 1);
 
-    label = gtk_label_new("TCRT Filename:");
+    label = gtk_label_new("Log level:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    tapecart_loglevel = vice_gtk3_resource_combo_box_int_new(
+            "TapecartLogLevel", tcrt_loglevels);
+    g_object_set(tapecart_loglevel, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 0, 4, 2, 1);
+
+
+    label = gtk_label_new("TCRT Filename:");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
 
     tapecart_filename = vice_gtk3_resource_entry_full_new(
             "TapecartTCRTFilename");
     g_object_set(tapecart_filename, "margin-left", 16, NULL);
     gtk_widget_set_hexpand(tapecart_filename, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 0, 6, 1, 1);
 
     tapecart_browse = gtk_button_new_with_label("Browse ...");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 1, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 1, 6, 1, 1);
 
     tapecart_flush = gtk_button_new_with_label("Flush image");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 1, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 1, 7, 1, 1);
 
     g_signal_connect(tapecart_enable, "toggled",
             G_CALLBACK(on_tapecart_enable_toggled), NULL);
