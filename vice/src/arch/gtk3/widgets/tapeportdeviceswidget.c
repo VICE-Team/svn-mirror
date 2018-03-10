@@ -249,11 +249,11 @@ static GtkWidget *create_tape_log_widget(void)
 {
     GtkWidget *grid;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
+    grid = vice_gtk3_grid_new_spaced(16, 8);
+    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
-    tape_log = vice_gtk3_resource_check_button_new("TapeLog", "Enable tape log device");
+    tape_log = vice_gtk3_resource_check_button_new("TapeLog",
+            "Enable tape log device");
     gtk_grid_attach(GTK_GRID(grid), tape_log, 0, 0, 3, 1);
 
     tape_log_dest = vice_gtk3_resource_check_button_new("TapeLogDestination",
@@ -294,9 +294,8 @@ static GtkWidget *create_f83_widget(void)
 {
     GtkWidget *grid;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
+    grid = vice_gtk3_grid_new_spaced(16, 8);
+    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
     f83_enable = vice_gtk3_resource_check_button_new("CPCLockF83",
             "Enable CP Clock F83");
@@ -325,51 +324,60 @@ static GtkWidget *create_tapecart_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    int row = 0;
 
-    grid = gtk_grid_new();
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 2);
+    grid = vice_gtk3_grid_new_spaced(16, 8);
+    /* add some extra vertical spacing */
+    g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
+    /* TapecartEnable */
     tapecart_enable = vice_gtk3_resource_check_button_new("TapecartEnabled",
             "Enable tapecart");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_enable, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_enable, 0, row, 3, 1);
+    row++;
 
+    /* TapecartUpdateTCRT */
     tapecart_update = vice_gtk3_resource_check_button_new(
             "TapecartUpdateTCRT", "Save TCRT data when changed");
     g_object_set(tapecart_update, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_update, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_update, 0, row, 3, 1);
+    row++;
 
+    /* TapecartOptimizeTCRT */
     tapecart_optimize = vice_gtk3_resource_check_button_new(
             "TapecartOptimizeTCRT", "Optimize TCRT data when changed");
     g_object_set(tapecart_optimize, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_optimize, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_optimize, 0, row, 3, 1);
+    row++;
 
     label = gtk_label_new("Log level:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     tapecart_loglevel = vice_gtk3_resource_combo_box_int_new(
             "TapecartLogLevel", tcrt_loglevels);
     g_object_set(tapecart_loglevel, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 0, 4, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 1, row, 2, 1);
+    row++;
 
-
+    /* TapecartTCRTFilename */
     label = gtk_label_new("TCRT Filename:");
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 5, 1, 1);
-
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
     tapecart_filename = vice_gtk3_resource_entry_full_new(
             "TapecartTCRTFilename");
     g_object_set(tapecart_filename, "margin-left", 16, NULL);
     gtk_widget_set_hexpand(tapecart_filename, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 0, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_filename, 1, row, 1, 1);
 
     tapecart_browse = gtk_button_new_with_label("Browse ...");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 1, 6, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 2, row, 1, 1);
+    row++;
 
+    /* Flush button */
     tapecart_flush = gtk_button_new_with_label("Flush image");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 1, 7, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 2, row, 1, 1);
 
     g_signal_connect(tapecart_enable, "toggled",
             G_CALLBACK(on_tapecart_enable_toggled), NULL);
