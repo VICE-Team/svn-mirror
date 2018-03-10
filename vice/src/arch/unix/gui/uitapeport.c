@@ -1,9 +1,11 @@
+/** \file   uitapeport.c
+ * \brief   GTk2/Xaw tapeport submenu
+ *
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * uitapeport.c
- *
- * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -28,9 +30,12 @@
 
 #include <stdio.h>
 
+#include "tapecart.h"
+
 #include "uilib.h"
 #include "uimenu.h"
 #include "uitapeport.h"
+
 
 UI_MENU_DEFINE_TOGGLE(Datasette)
 UI_MENU_DEFINE_TOGGLE(TapeLog)
@@ -44,6 +49,54 @@ static UI_CALLBACK(set_tapelog_filename)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("Tape log file"), UILIB_FILTER_ALL);
 }
+
+
+/*
+ * Tapecart menu handlers
+ */
+UI_MENU_DEFINE_TOGGLE(TapecartEnabled)
+UI_MENU_DEFINE_TOGGLE(TapecartUpdateTCRT)
+UI_MENU_DEFINE_TOGGLE(TapecartOptimizeTCRT)
+UI_MENU_DEFINE_RADIO(TapecartLogLevel)
+
+
+/** \brief  Select a tapecart image file
+ */
+static UI_CALLBACK(set_tapecart_filename)
+{
+    uilib_select_file((char *)UI_MENU_CB_PARAM,
+            _("Tapecart image file"),
+            UILIB_FILTER_ALL);
+}
+
+
+/** \brief  Force a flush of the tapecart image to disk
+ */
+static UI_CALLBACK(flush_tapecart_image)
+{
+    if (tapecart_flush_tcrt() == 0) {
+        ui_message("Succesfully flushed tapecart image to disk");
+    } else {
+        ui_error("Failed to flush tapecart image to disk");
+    }
+}
+
+
+/** \brief  Tapecart log level submenu
+ */
+static ui_menu_entry_t tapecart_loglevel_submenu[] = {
+    { N_("Level 0: errors only"), UI_MENU_TYPE_TICK,
+        (ui_callback_t)radio_TapecartLogLevel, (ui_callback_data_t)0, NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Level 1: adds mode changes and command bytes"), UI_MENU_TYPE_TICK,
+        (ui_callback_t)radio_TapecartLogLevel, (ui_callback_data_t)1, NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Level 2: adds details of command parameters"), UI_MENU_TYPE_TICK,
+        (ui_callback_t)radio_TapecartLogLevel, (ui_callback_data_t)2, NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    UI_MENU_ENTRY_LIST_END
+};
+
 
 ui_menu_entry_t tapeport_submenu[] = {
     { N_("Enable datasette"), UI_MENU_TYPE_TICK,
@@ -72,5 +125,28 @@ ui_menu_entry_t tapeport_submenu[] = {
     { N_("Save RTC data when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CPClockF83Save, NULL, NULL,
       (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
+    UI_MENU_ENTRY_SEPERATOR,
+
+    { N_("Enable tapecart"), UI_MENU_TYPE_TICK,
+        (ui_callback_t)toggle_TapecartEnabled, NULL, NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Save tapecart data when changed"), UI_MENU_TYPE_TICK,
+        (ui_callback_t)toggle_TapecartUpdateTCRT, NULL, NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Optimize tapecart data when changed"), UI_MENU_TYPE_TICK,
+        (ui_callback_t)toggle_TapecartOptimizeTCRT, NULL, NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Select tapecart TCRT image"), UI_MENU_TYPE_DOTS,
+        (ui_callback_t)set_tapecart_filename,
+        (ui_callback_data_t)"TapecartTCRTFilename", NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Tapecart log level"), UI_MENU_TYPE_NORMAL,
+        NULL, NULL, tapecart_loglevel_submenu,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+    { N_("Flush tapecart image to disk"), UI_MENU_TYPE_NORMAL,
+        (ui_callback_t)flush_tapecart_image, NULL, NULL,
+        (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
+
     UI_MENU_ENTRY_LIST_END
 };
