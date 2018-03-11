@@ -40,6 +40,7 @@
 #include "lib.h"
 #include "res.h"
 #include "sid.h"
+#include "tapecart.h"
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
@@ -82,6 +83,7 @@
 #include "uisampler.h"
 #include "uisid.h"
 #include "uisoundexpander.h"
+#include "uitapecart.h"
 #include "uitapelog.h"
 #include "uiuserportrtc58321a.h"
 #include "uiuserportrtcds1307.h"
@@ -346,6 +348,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_TOGGLE_USERPORT_8BSS, IDS_MI_TOGGLE_USERPORT_8BSS },
     { IDM_TAPELOG_SETTINGS, IDS_MI_TAPELOG_SETTINGS },
     { IDM_CP_CLOCK_F83_SETTINGS, IDS_MI_CP_CLOCK_F83_SETTINGS },
+    { IDM_TAPECART_SETTINGS, IDS_MI_TAPECART_SETTINGS },
     { IDM_TOGGLE_DATASETTE, IDS_MI_TOGGLE_DATASETTE },
     { IDM_TOGGLE_TAPE_SENSE_DONGLE, IDS_MI_TOGGLE_TAPE_SENSE_DONGLE },
     { IDM_TOGGLE_DTL_BASIC_DONGLE, IDS_MI_TOGGLE_DTL_BASIC_DONGLE },
@@ -678,6 +681,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_TAPELOG_SETTINGS:
             ui_tapelog_settings_dialog(hwnd);
             break;
+        case IDM_TAPECART_SETTINGS:
+            ui_tapecart_settings_dialog(hwnd);
+            break;
         case IDM_CP_CLOCK_F83_SETTINGS:
             ui_cp_clock_f83_settings_dialog(hwnd);
             break;
@@ -773,6 +779,7 @@ int c64ui_init(void)
     ui_register_machine_specific(c64_ui_specific);
     ui_register_menu_toggles(c64_ui_menu_toggles);
     ui_register_translation_tables(c64ui_menu_translation_table, c64ui_popup_translation_table);
+    tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
 
     return 0;
 }

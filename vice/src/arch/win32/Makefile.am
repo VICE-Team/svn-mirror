@@ -30,6 +30,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/joyport \
+	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/sid
 
@@ -120,6 +121,7 @@ libarch_a_SOURCES = \
 	ressiddtv.rc \
 	ressoundexpander.rc \
 	ressoundsampler.rc \
+	restapecart.rc \
 	restapelog.rc \
 	rested.rc \
 	resuserportrtc58321a.rc \
@@ -304,6 +306,8 @@ libarch_a_SOURCES = \
 	uisoundsampler.h \
 	uispeed.c \
 	uispeed.h \
+	uitapecart.c \
+	uitapecart.h \
 	uitapelog.c \
 	uitapelog.h \
 	uited.c \
@@ -400,6 +404,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resds12c887rtc.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
+	$(srcdir)/restapecart.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
 	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc \
@@ -418,6 +423,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resuserportrtc58321a.rc $(srcdir)/resuserportrtcds1307.rc \
 	$(srcdir)/ressampler.rc $(srcdir)/resrrnetmk3.rc \
 	$(srcdir)/rescpclockf83.rc $(srcdir)/restapelog.rc \
+	$(srcdir)/restapecart.rc \
 	$(srcdir)/resiocollisions.rc $(srcdir)/resgmod2.rc \
 	$(srcdir)/resethernet.rc $(srcdir)/resethernetcart.rc \
 	$(srcdir)/reskeymap.rc
@@ -436,6 +442,7 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resds12c887rtc.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
+	$(srcdir)/restapecart.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
 	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc \
@@ -455,6 +462,7 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resjoyport.rc $(srcdir)/resuserportrtc58321a.rc \
 	$(srcdir)/resuserportrtcds1307.rc $(srcdir)/ressampler.rc \
 	$(srcdir)/resrrnetmk3.rc $(srcdir)/rescpclockf83.rc \
+	$(srcdir)/restapecart.rc \
 	$(srcdir)/restapelog.rc $(srcdir)/resiocollisions.rc \
 	$(srcdir)/resgmod2.rc $(srcdir)/resethernet.rc \
 	$(srcdir)/resethernetcart.rc $(srcdir)/reskeymap.rc
