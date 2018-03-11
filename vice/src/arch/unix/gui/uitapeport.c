@@ -86,13 +86,13 @@ static UI_CALLBACK(flush_tapecart_image)
 /** \brief  Tapecart log level submenu
  */
 static ui_menu_entry_t tapecart_loglevel_submenu[] = {
-    { N_("Level 0: errors only"), UI_MENU_TYPE_TICK,
+    { N_("0 (errors only)"), UI_MENU_TYPE_TICK,
         (ui_callback_t)radio_TapecartLogLevel, (ui_callback_data_t)0, NULL,
         (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    { N_("Level 1: adds mode changes and command bytes"), UI_MENU_TYPE_TICK,
+    { N_("1 (0 plus mode changes and command bytes)"), UI_MENU_TYPE_TICK,
         (ui_callback_t)radio_TapecartLogLevel, (ui_callback_data_t)1, NULL,
         (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
-    { N_("Level 2: adds details of command parameters"), UI_MENU_TYPE_TICK,
+    { N_("2 (1 plus command parameter details)"), UI_MENU_TYPE_TICK,
         (ui_callback_t)radio_TapecartLogLevel, (ui_callback_data_t)2, NULL,
         (ui_keysym_t)0, (ui_hotkey_modifier_t)0 },
 

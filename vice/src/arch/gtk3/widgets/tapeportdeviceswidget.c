@@ -57,9 +57,9 @@
 /** \brief  List of log levels and their descriptions for the Tapecart
  */
 static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
-    { "0: error only", 0 },
-    { "1: errors, mode changes and command bytes", 1 },
-    { "2: errors, mode changes, command bytes and command parameter details",2  },
+    { "0 (errors only)", 0 },
+    { "1 (0 plus mode changes and command bytes)", 1 },
+    { "2 (1 plus command parameter details)", 2 },
     { NULL, -1 }
 };
 
