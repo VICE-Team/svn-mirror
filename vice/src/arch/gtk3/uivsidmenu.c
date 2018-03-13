@@ -119,18 +119,24 @@ static ui_menu_item_t file_menu[] = {
      */
     { "Record sound file ...", UI_MENU_TYPE_ITEM_ACTION,
         "sound-save", uimedia_dialog_show, NULL,
-        GDK_KEY_R, VICE_MOD_MASK|GDK_SHIFT_MASK },
+        GDK_KEY_R, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     { "Stop sound recording", UI_MENU_TYPE_ITEM_ACTION,
         "sound-stop", (void *)uimedia_stop_recording, NULL,
-        GDK_KEY_S, VICE_MOD_MASK|GDK_SHIFT_MASK },
+        GDK_KEY_S, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     UI_MENU_SEPARATOR,
 
     /* monitor */
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         "monitor", ui_monitor_activate_callback, NULL,
-        GDK_KEY_H, VICE_MOD_MASK | GDK_SHIFT_MASK },
+#ifdef MACOSX_SUPPORT
+        /* use Command-Option-M on Mac */
+        GDK_KEY_M, VICE_MOD_MASK | GDK_MOD1_MASK
+#else
+        GDK_KEY_H, VICE_MOD_MASK
+#endif
+    },
 
     UI_MENU_SEPARATOR,
 

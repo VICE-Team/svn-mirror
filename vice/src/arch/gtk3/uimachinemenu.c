@@ -318,7 +318,7 @@ static ui_menu_item_t file_menu_tail[] = {
         "cart-detach", (void *)uicart_detach, NULL,
         0, 0 },
     { "Cartridge freeze", UI_MENU_TYPE_ITEM_ACTION,
-        "cart-free", (void *)uicart_trigger_freeze, NULL,
+        "cart-freeze", (void *)uicart_trigger_freeze, NULL,
         GDK_KEY_Z, VICE_MOD_MASK },
 
     UI_MENU_SEPARATOR,
@@ -327,7 +327,8 @@ static ui_menu_item_t file_menu_tail[] = {
     { "Activate monitor", UI_MENU_TYPE_ITEM_ACTION,
         "monitor", ui_monitor_activate_callback, NULL,
 #ifdef MACOSX_SUPPORT
-        GDK_KEY_H, VICE_MOD_MASK | GDK_SHIFT_MASK
+        /* use Command-Option-M on Mac */
+        GDK_KEY_M, VICE_MOD_MASK | GDK_MOD1_MASK
 #else
         GDK_KEY_H, VICE_MOD_MASK
 #endif
@@ -338,9 +339,9 @@ static ui_menu_item_t file_menu_tail[] = {
 #ifdef HAVE_NETWORK
     { "Netplay ...", UI_MENU_TYPE_ITEM_ACTION,
 #if 0
-        NULL, ui_netplay_dialog_new, NULL,
+        "netplay", ui_netplay_dialog_new, NULL,
 #else
-        NULL, ui_netplay_dialog, NULL,
+        "netplay", ui_netplay_dialog, NULL,
 #endif
         0, 0 },
 
@@ -433,11 +434,11 @@ static ui_menu_item_t snapshot_menu[] = {
 
     { "Save media file ...", UI_MENU_TYPE_ITEM_ACTION,
         "media-save", uimedia_dialog_show, NULL,
-        GDK_KEY_R, VICE_MOD_MASK|GDK_SHIFT_MASK },
+        GDK_KEY_R, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     { "Stop media recording", UI_MENU_TYPE_ITEM_ACTION,
         "media-stop", (void *)uimedia_stop_recording, NULL,
-        GDK_KEY_S, VICE_MOD_MASK|GDK_SHIFT_MASK },
+        GDK_KEY_S, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     UI_MENU_TERMINATOR
 };
@@ -466,10 +467,10 @@ static ui_menu_item_t settings_menu_head[] = {
         "warp", (void *)(ui_toggle_resource), (void *)"WarpMode",
         GDK_KEY_W, VICE_MOD_MASK },
     { "Pause emulation", UI_MENU_TYPE_ITEM_CHECK,
-        "Pause emulation", (void *)(ui_toggle_pause), NULL,
+        "pause", (void *)(ui_toggle_pause), NULL,
         GDK_KEY_P, VICE_MOD_MASK },
     { "Advance frame", UI_MENU_TYPE_ITEM_ACTION,
-        "Advance frame", (void *)(ui_advance_frame), NULL,
+        "frame-advance", (void *)(ui_advance_frame), NULL,
         GDK_KEY_P, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     UI_MENU_SEPARATOR,
