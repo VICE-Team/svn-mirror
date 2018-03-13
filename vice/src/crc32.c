@@ -3,6 +3,7 @@
  *
  * \author  Spiro Trikaliotis <Spiro.Trikaliotis@gmx.de>
  * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
@@ -121,4 +122,36 @@ uint32_t crc32_file(const char *filename)
     lib_free(buffer);
 
     return crc;
+}
+
+
+/*
+ * These functions are designed to handle event data in an
+ * architecture-independent way, always reading/storing a crc32 value in little
+ * endian format and then translating it to the architectures endianness.
+ */
+
+/** \brief  Turn \a crc into a little endian value
+ *
+ * \param[in]   crc     32-bit architecture-independent unsigned int
+ * \param[out]  dest    destination of little endian value (4 bytes)
+ */
+void crc32_to_le(uint8_t *dest, uint32_t crc)
+{
+    dest[0] = crc & 0xff;
+    dest[1] = (crc >> 8) & 0xff;
+    dest[2] = (crc >> 16) & 0xff;
+    dest[3] = (crc >> 24) & 0xff;
+}
+
+
+/** \brief  Read 32-bit unsigned from little endian data
+ *
+ * \param[in]   src data (4 bytes representing a 32-bit little endian value)
+ *
+ * \return  32-bit architecture-dependent unsigned int
+ */
+uint32_t crc32_from_le(const uint8_t *src)
+{
+    return src[0] + (src[1] << 8) + (src[2] << 16) + (src[3] << 24);
 }

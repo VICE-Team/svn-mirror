@@ -34,4 +34,8 @@
 extern uint32_t crc32_buf(const char *buffer, unsigned int len);
 extern uint32_t crc32_file(const char *filename);
 
+
+void     crc32_to_le(uint8_t *dest, uint32_t crc);
+uint32_t crc32_from_le(const uint8_t *src);
+
 #endif

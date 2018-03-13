@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <inttypes.h>
 
 #include "alarm.h"
@@ -64,6 +65,13 @@
 #define EVENT_START_SNAPSHOT "start" FSDEV_EXT_SEP_STR "vsf"
 #define EVENT_END_SNAPSHOT "end" FSDEV_EXT_SEP_STR "vsf"
 #define EVENT_MILESTONE_SNAPSHOT "milestone" FSDEV_EXT_SEP_STR "vsf"
+
+
+/** \brief  Size of the CRC32 entries
+ *
+ * CRC32 entries are stored as little endian values
+ */
+#define CRC32_SIZE  (sizeof(uint32_t))
 
 
 struct event_image_list_s {
@@ -161,7 +169,7 @@ void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
     if (event_image_include) {
         size = (unsigned int)strlen(filename) + 3;
     } else {
-        size = (unsigned int)strlen(strfile) + sizeof(uint32_t) + 4;
+        size = (unsigned int)strlen(strfile) + CRC32_SIZE + 4;
     }
 
     event_data = lib_malloc(size);
@@ -191,9 +199,14 @@ void event_record_attach_in_list(event_list_state_t *list, unsigned int unit,
             size += (unsigned int)file_len;
         }
     } else {
+        uint32_t crc = crc32_file(filename);
+
         strcpy(&event_data[2], "");
-        *(uint32_t *)(event_data + 3) = crc32_file(filename);
-        strcpy(&event_data[3 + sizeof(uint32_t)], strfile);
+
+        /* store crc32 in little-endian format */
+        crc32_to_le(((uint8_t *)event_data + 3), crc);
+
+        strcpy(&event_data[3 + CRC32_SIZE], strfile);
     }
 
     lib_free(strdir);
@@ -222,21 +235,44 @@ static void event_playback_attach_image(void *data, unsigned int size)
     size_t file_len;
     uint32_t crc_to_attach;
 
+    uint8_t crc_file[CRC32_SIZE];   /* CRC32 little endian value of file */
+    uint8_t crc_snap[CRC32_SIZE];   /* CRC32 of file in the snapshot */
+
     unit = (unsigned int)((char*)data)[0];
     read_only = (unsigned int)((char*)data)[1];
     orig_filename = &((char*)data)[2];
 
     if (*orig_filename == 0) {
         /* no image attached */
-        orig_filename = (char *) data + 3 + sizeof(long);
+        orig_filename = (char *) data + 3 + CRC32_SIZE;
 
         if (event_image_append(orig_filename, &filename, 0) != 0) {
+#if 0
             crc_to_attach = *(uint32_t *)(((char *)data) + 3);
-            do {
+#endif
+            /* looks weird, but crc_to_attach is used in messages */
+            crc_to_attach = crc32_from_le(data + 3);
+            crc32_to_le(crc_file, crc_to_attach);
+
+            while (true) {
+                uint32_t file_crc;
+
                 filename = ui_get_file(
                         "Please attach image %s (CRC32 checksum 0x" PRIu32 ")",
                         (char *) data + 3 + sizeof(uint32_t), crc_to_attach);
-            } while (filename != NULL && crc_to_attach != crc32_file(filename));
+                if (filename == NULL) {
+                    break;
+                }
+
+                /* get CRC32 of current file */
+                file_crc = crc32_file(filename);
+                /* translate crc32 to little endian */
+                crc32_to_le(crc_snap, file_crc);
+                /* check CRC32 */
+                if (memcmp(crc_snap, crc_file, CRC32_SIZE) != 0) {
+                    break;
+                }
+            }
             if (filename == NULL) {
                 ui_error("Image wasn't attached. Playback will probably get out of sync.");
                 return;
