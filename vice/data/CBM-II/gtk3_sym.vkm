@@ -95,7 +95,7 @@ Delete 3 3 0
 Tab 8 2 8
 KP_Tab 8 2 8
 ISO_Left_Tab 8 2 1
-Escape 8 1 0
+Escape 8 1 8
 Control_L 7 0 0	# run/stop
 Control_R 8 5 8	# Ctrl key
 # Control_R 4 1 8 # question mark
