@@ -1,0 +1,220 @@
+# VICE keyboard mapping file
+#
+# A Keyboard map is read in as patch to the current map.
+#
+# File format:
+# - comment lines start with '#'
+# - keyword lines start with '!keyword'
+# - normal line has 'keysym/scancode row column shiftflag'
+# Scancode = the order the key appears in the physical PC keyboard
+# Row and column = row and column of the desired symbol in the Commodore keyboard MATRIX (which does not match the order the key appears in the Commodore physical keyboard)
+# Shitflag = see below. Note that shiftflags are cumulative (eg. 8=the key can be shifted + 32=another definition for the same key follows => shiftflag 40)
+
+# Keywords and their lines are:
+# '!CLEAR'               clear whole table
+# '!INCLUDE filename'    read file as mapping file
+# '!LSHIFT row col'      left shift keyboard row/column
+# '!RSHIFT row col'      right shift keyboard row/column
+# '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
+# '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
+# '!UNDEF keysym'        remove keysym from table
+#
+# Shiftflag can have the values:
+# 0      key is not shifted (on a Commodore keyboard) for this keysym/scancode
+# 1      key is shifted (on a Commodore keyboard) for this keysym/scancode
+# 2      left shift
+# 4      right shift
+# 8      key can be shifted or not with this keysym/scancode
+# 16     deshift key for this keysym/scancode
+# 32     another definition for this keysym/scancode follows
+# 64     shift lock
+# 256    key is used for an alternative keyboard mapping
+#
+# Negative row values:
+# 'keysym -1 n' joystick keymap A, direction n
+# 'keysym -2 n' joystick keymap B, direction n
+# 'keysym -3 0' first RESTORE key
+# 'keysym -3 1' second RESTORE key
+# 'keysym -4 0' 40/80 column key
+# 'keysym -4 1' CAPS (ASCII/DIN) key
+# 'keysym -5 n' joyport keypad, key n
+#
+# Joystick direction values:
+# 0      Fire
+# 1      South/West
+# 2      South
+# 3      South/East
+# 4      West
+# 5      East
+# 6      North/West
+# 7      North
+# 8      North/East
+#
+# Joyport keypad key layout:
+# --------------------------
+# |  0 |  1 |  2 |  3 |  4 |
+# --------------------------
+# |  5 |  6 |  7 |  8 |  9 |
+# --------------------------
+# | 10 | 11 | 12 | 13 | 14 |
+# --------------------------
+# | 15 | 16 | 17 | 18 | 19 |
+# --------------------------
+#
+# When a bigger spaced key is used,
+# it uses the upper left most key value.
+
+#
+# Commodore VIC-20 Symbolic Italian 105-key keyboard map by Francesco Gasparini - 23/2/2018
+#
+
+!CLEAR
+!LSHIFT 1 3
+!RSHIFT 6 4
+!VSHIFT RSHIFT
+
+1 0 3 0		/* esc => run/stop
+2 0 0 8		/* 1 => 1
+3 0 7 8		/* 2 => 2
+4 1 0 40	/* 3 => 3
+4 6 0 0		/* shift 3 => £
+5 1 7 8		/* 4 => 4
+6 2 0 8		/* 5 => 5
+7 2 7 8		/* 6 => 6
+8 3 0 40	/* 7 => 7
+8 6 3 0		/* shift 7 => /
+9 3 7 8		/* 8 => 8
+10 4 0 8	/* 9 => 9
+11 4 7 40	/* 0 => 0
+11 6 5 0	/* shift 0 => =
+12 3 0 33	/* ' => '
+12 6 3 1	/* shift ' => ?
+13 6 6 8	/* ì => up arrow
+14 7 0 8	/* backspace => del
+15 0 2 8	/* tab => ctrl
+16 0 6 8	/* q => q
+17 1 1 8	/* w => w
+18 1 6 8	/* e => e               
+19 2 1 8  	/* r => r             
+20 2 6 8	/* t => t              
+21 3 1 8	/* y => y              
+22 3 6 8	/* u => u               
+23 4 1 8 	/* i => i             
+24 4 6 8	/* o => o               
+25 5 1 8	/* p => p               
+26 5 5 33	/* è => [               
+26 6 2 1	/* shift è => ]
+27 5 0 32	/* + = +              
+27 6 1 0	/* shift + => *
+28 7 1 8	return => return               
+29 0 5 8	/* left ctrl => cbm         
+30 1 2 8	/* a => a            
+31 1 5 8	/* s => s              
+32 2 2 8  	/* d => d             
+33 2 5 8 	/* f => f             
+34 3 2 8	/* g => g               
+35 3 5 8	/* h => h               
+36 4 2 8	/* j => j               
+37 4 5 8 	/* k => k              
+38 5 2 8 	/* l => l              
+39 5 6 8	/* ò => @
+40 1 0 1	/* à => #
+41 0 1 0	/* \ => left arrow
+42 1 3 2	/* left shift => left shift
+44 1 4 8	/* z => z             
+45 2 3 8	/* x => x               
+46 2 4 8	/* c => c               
+47 3 3 8 	/* v => v              
+48 3 4 8	/* b => b               
+49 4 3 8	/* n => n               
+50 4 4 8	/* m => m               
+51 5 3 32	/* , => ,
+51 6 2 0	/*  shift , => ;
+52 5 4 32	/* . => .
+52 5 5 0	/* shift . => :
+53 5 7 8	/* - => -
+54 6 4 2	/* right shift => right shift
+#56 -1 -1 0 /* left alt
+57 0 4 8	/* space => space  
+#58 -1 -1 0 /* caps lock             
+59 7 4 8  	/* f1 => f1             
+60 7 4 1	/* f2 => f2               
+61 7 5 8	/* f3 => f3               
+62 7 5 1	/* f4 => f4              
+63 7 6 8	/* f5 => f5               
+64 7 6 1 	/* f6 => f6              
+65 7 7 8	/* f7 => f7               
+66 7 7 1 	/* f8 => f8 
+67 5 0 8	/* f9 => + (to regain access to lost PETSCII symbols)
+68 6 0 8 	/* f10 => £ (to regain access to lost PETSCII symbols)
+86 5 3 33	/* < => <	
+86 5 4 1	/* shift < => >
+87 6 1 8	/* f11 => * (to regain access to lost PETSCII symbols)
+#88 -1 -1 0 /* F12
+89 6 7 8	/* home => clr/home              
+90 7 3 1	/* cursor up => cursor up               
+92 7 2 1	/* cursor left => cursor left               
+93 7 2 8	/* cursor right => cursor right  
+#94 -1 -1 0 /* end             
+95 7 3 8	/* cursor down => cursor down
+#96 -1 -1 0 /* pgdown
+#97 -1 -1 0 /* ins
+#100 -1 -1 0/* right ctrl
+#101 -1 -1 0/* pause
+#104 -1 -1 0/* right alt
+#105 -1 -1 0/* break
+#106 -1 -1 0/* left win
+#107 -1 -1 0/* right win     
+
+#
+# Joystick 1
+#
+#KP_0 -1 0
+#KP_1 -1 1
+#KP_2 -1 2
+#KP_3 -1 3
+#KP_4 -1 4
+#KP_5 -1 5
+#KP_6 -1 6
+#KP_7 -1 7
+#KP_8 -1 8
+#KP_9 -1 9
+
+#
+# Joystick 2
+#
+#w -2 7
+#e -2 8
+#r -2 9
+#s -2 4
+#d -2 5
+#f -2 6
+#x -2 1
+#c -2 2
+#v -2 3
+#space -2 0
+
+# Restore key mappings
+91 -3 0         /*         PgUp -> RESTORE      */
+
+# Joyport attached keypad key mappings
+69 -5 0         /*     Num Lock -> keypad x0    */
+71 -5 1         /*     Numpad 7 -> keypad 7     */
+72 -5 2         /*     Numpad 8 -> keypad 8     */
+73 -5 3         /*     Numpad 9 -> keypad 9     */
+103 -5 4        /*     Numpad / -> keypad /     */
+70 -5 5         /*     Scroll Lock -> keypad x1 */
+75 -5 6         /*     Numpad 4 -> keypad 4     */
+76 -5 7         /*     Numpad 5 -> keypad 5     */
+77 -5 8         /*     Numpad 6 -> keypad 6     */
+55 -5 9         /*     Numpad * -> keypad *     */
+84 -5 10        /*       SysReq -> keypad x2    */
+79 -5 11        /*     Numpad 1 -> keypad 1     */
+80 -5 12        /*     Numpad 2 -> keypad 2     */
+81 -5 13        /*     Numpad 3 -> keypad 3     */
+74 -5 14        /*     Numpad - -> keypad -     */
+102 -5 15       /*     PrtScr -> keypad x3      */
+82 -5 16        /*     Numpad 0 -> keypad 0     */
+83 -5 17        /*     Numpad . -> keypad .     */
+99 -5 18        /*     Numpad Enter -> keypad enter */
+78 -5 19        /*     Numpad + -> keypad +     */
