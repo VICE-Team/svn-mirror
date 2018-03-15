@@ -159,8 +159,8 @@ void crtc_store(uint16_t addr, uint8_t value)
              * Bit 1: 1=add 512 to screen start address (1024 for 80-columns)
              * Bit 2: no connection
              * Bit 3: no connection
-             * Bit 4: invert video signal
-             * Bit 5: use top half of 4K character generator
+             * Bit 4: use top half of 4K character generator
+             * Bit 5: invert video signal
              * Bit 6: (no pin on the CRTC, video address is 14 bit only)
              * Bit 7: (no pin on the CRTC, video address is 14 bit only)
              */
