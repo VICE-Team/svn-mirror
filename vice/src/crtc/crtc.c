@@ -411,7 +411,7 @@ void crtc_set_screen_addr(uint8_t *screen)
 
 void crtc_set_chargen_offset(int offset)
 {
-/* printf("crtc_set_chargen_offset(%d)\n",offset); */
+    /* printf("crtc_set_chargen_offset(offset:%d)\n",offset); */
     crtc.chargen_offset = offset << 4; /* times the number of bytes/char */
 
     crtc_update_chargen_rel();
@@ -419,6 +419,7 @@ void crtc_set_chargen_offset(int offset)
 
 void crtc_set_chargen_addr(uint8_t *chargen, int cmask)
 {
+    /* printf("crtc_set_chargen_addr(mask:0x%02x)\n",cmask); */
     crtc.chargen_base = chargen;
     crtc.chargen_mask = (cmask << 4) - 1;
 
@@ -444,6 +445,8 @@ void crtc_set_screen_options(int num_cols, int rasterlines)
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
                          int vrevmask)
 {
+    /* printf("crtc_set_hw_options(hwflag:%02x vmask:%02x vchar:%02x vcoffset:%02x vrevmask:%02x)\n",
+           hwflag, vmask, vchar, vcoffset, vrevmask); */
     crtc.hw_cursor = hwflag & 1;
     crtc.hw_cols = (hwflag & 2) ? 2 : 1;
     crtc.vaddr_mask = vmask;
