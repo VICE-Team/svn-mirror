@@ -76,10 +76,8 @@ int cbm2rom_load_chargen(const char *rom_name)
     if (!rom_loaded) {
         return 0;  /* init not far enough */
     }
-    /* Load chargen ROM
-     * we load 4k of 16-byte-per-char Charrom.
-     * Then we generate the inverted chars */
 
+    /* Load chargen ROM */
     if (!util_check_null_string(rom_name)) {
         memset(mem_chargen_rom, 0, CBM2_CHARGEN_ROM_SIZE);
 
@@ -87,16 +85,6 @@ int cbm2rom_load_chargen(const char *rom_name)
             log_error(cbm2rom_log, "Couldn't load character ROM '%s'.",
                       rom_name);
             return -1;
-        }
-
-        if (machine_class != VICE_MACHINE_CBM5x0) {
-            memmove(mem_chargen_rom + 4096, mem_chargen_rom + 2048, 2048);
-
-            /* Inverted chargen into second half. This is a hardware feature.*/
-            for (i = 0; i < 2048; i++) {
-                mem_chargen_rom[i + 2048] = mem_chargen_rom[i] ^ 0xff;
-                mem_chargen_rom[i + 6144] = mem_chargen_rom[i + 4096] ^ 0xff;
-            }
         }
     }
 
