@@ -3,13 +3,12 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  InternalFunctionROM         (x128)
- *  InternalFunctionName        (x128)
- *  InternalFunctionROMRTCSave  (x128)
- *  ExternalFunctionROM         (x128)
- *  ExternalFunctionName        (x128)
- *  ExternalFunctionROMRTCSave  (x128)
+ * $VICERES InternalFunctionROM         x128
+ * $VICERES InternalFunctionName        x128
+ * $VICERES InternalFunctionROMRTCSave  x128
+ * $VICERES ExternalFunctionROM         x128
+ * $VICERES ExternalFunctionName        x128
+ * $VICERES ExternalFunctionROMRTCSave  x128
  */
 
 /*

@@ -3,8 +3,7 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  C128FullBanks (x128)
+ * $VICERES C128FullBanks x128
  */
 
 /*
