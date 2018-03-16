@@ -71,8 +71,6 @@ static tape_init_t tapeinit = {
 
 int cbm2rom_load_chargen(const char *rom_name)
 {
-    int i;
-
     if (!rom_loaded) {
         return 0;  /* init not far enough */
     }
