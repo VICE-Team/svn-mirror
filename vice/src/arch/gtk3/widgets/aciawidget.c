@@ -8,7 +8,7 @@
  * $VICERES Acia1Dev    -x64dtv -vsid
  * $VICERES Acia1Base   x64 x64sc xscpu64 xvic x128
  * $VICERES RsDevice1   all
- * $VICERES RsDevice2
+ * $VICERES RsDevice2   all
  */
 
 /*
@@ -51,6 +51,10 @@
 static int *acia_baud_rates;
 
 
+/** \brief  List of baud rates
+ *
+ * Set in acia_widget_create()
+ */
 static vice_gtk3_combo_entry_int_t *baud_rate_list = NULL;
 
 
