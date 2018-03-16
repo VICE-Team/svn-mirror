@@ -4,10 +4,11 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
  * Controls the following resource(s):
- *  Acia1Dev
- *  Acia1Base
- *  RsDevice1
- *  RsDevice2
+ *
+ * $VICERES Acia1Dev    -x64dtv -vsid
+ * $VICERES Acia1Base   x64 x64sc xscpu64 xvic x128
+ * $VICERES RsDevice1   all
+ * $VICERES RsDevice2
  */
 
 /*

@@ -3,8 +3,7 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  BurstMod    (x64/x64sc/xscpu64)
+ * $VICERES BurstMod    x64 x64sc xscpu64
  */
 
 /*
