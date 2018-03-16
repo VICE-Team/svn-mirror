@@ -29,7 +29,7 @@ GTK3_EXTENSIONS = ('.c')
 
 # List of emus
 ALL_EMUS = [ "x64", "x64sc", "xscpu64", "x64dtv", "x128", "xvic", "xpet",
-        "xcbm5x0", "xcbm2", "vsid" ]
+        "xplus4", "xcbm5x0", "xcbm2", "vsid" ]
 
 
 # Precompile regex to make stuff run a bit faster
@@ -48,6 +48,30 @@ def iterate_sources():
                 yield os.path.join(root, name)
 
 
+def get_emulators(line):
+    """
+    Parse the emulator list, returning only the supported emulators
+
+    :param line: string with a whitespace separated list of emulators
+
+    :returns: list of supported emulators
+    """
+
+    emus = line.split()
+    unsupported = []
+
+    for emu in emus:
+        if emu.startswith('-'):
+            unsupported.append(emu[1:])
+
+    if unsupported:
+        return list(set(ALL_EMUS) - set(unsupported))
+    else:
+        return emus
+
+
+
+
 def parse_source(path):
     """
     Parse a gtk3 source file for resource declarations
@@ -64,7 +88,8 @@ def parse_source(path):
             if result:
                 if result.group(2):
                     # TODO: handle the -emu things
-                    resources.append((result.group(1), result.group(2).split()))
+                    resources.append((result.group(1),
+                        get_emulators(result.group(2))))
                 else:
                     resources.append((result.group(1), ['all']))
     return resources
@@ -83,7 +108,7 @@ def main():
             print("")
 
 
-# include guard: on;y run the code when called as a program, allowing including
+# include guard: only run the code when called as a program, allowing including
 # this file in another file as a module
 if __name__ == "__main__":
     main()
