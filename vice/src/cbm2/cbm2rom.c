@@ -37,6 +37,7 @@
 #include "cbm2rom.h"
 #include "crtc.h"
 #include "kbdbuf.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "resources.h"
@@ -87,7 +88,7 @@ int cbm2rom_load_chargen(const char *rom_name)
        here at load time, so we dont have to bother with this in the rest of the
        emulation */
     if (!util_check_null_string(rom_name)) {
-        if ((temp = malloc(0x2000)) == NULL) {
+        if ((temp = lib_malloc(0x2000)) == NULL) {
             return -1;
         }
 
@@ -98,7 +99,7 @@ int cbm2rom_load_chargen(const char *rom_name)
         if (sysfile_load(rom_name, temp, 0x2000, 0x2000) < 0) {
             if (sysfile_load(rom_name, temp, 0x1000, 0x1000) < 0) {
                 log_error(cbm2rom_log, "Couldn't load character ROM '%s'.", rom_name);
-                free(temp);
+                lib_free(temp);
                 return -1;
             }
         }
@@ -117,7 +118,7 @@ int cbm2rom_load_chargen(const char *rom_name)
 
     crtc_set_chargen_addr(mem_chargen_rom, CBM2_CHARGEN_ROM_SIZE >> 4);
 
-    free(temp);
+    lib_free(temp);
     return 0;
 }
 
