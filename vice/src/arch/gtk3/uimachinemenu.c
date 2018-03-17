@@ -6,6 +6,12 @@
  */
 
 /*
+ * $VICERES WarpMode        all
+ * $VICERES KeySetEnable    -vsid
+ * $VICERES Mouse           -vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

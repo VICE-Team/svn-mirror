@@ -5,6 +5,10 @@
  */
 
 /*
+ * $VICERES EventSnapshotDir    -vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -314,7 +318,7 @@ void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
     const char *current;
 
     if (resources_get_string("EventSnapshotDir", &current) < 0) {
-        debug_gtk3("failed to get currnt history directory, using NULL\n");
+        debug_gtk3("failed to get current history directory, using NULL\n");
         current = NULL;
     }
 

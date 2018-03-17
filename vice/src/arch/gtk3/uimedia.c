@@ -5,6 +5,20 @@
  */
 
 /*
+ * $VICERES SoundRecordDeviceArg        all
+ * $VICERES SoundRecordDeviceName       all
+ * $VICERES DoodleOversizeHandling      -vsid
+ * $VICERES DoodleUndersizeHandling     -vsid
+ * $VICERES DoodleMultiColorHandling    -vsid
+ * $VICERES DoodleTEDLumHandling        -vsid
+ * $VICERES DoodleCRTCTextColor         -vsid
+ * $VICERES KoalaOversizeHandling       -vsid
+ * $VICERES KoalaUndersizeHandling      -vsid
+ * $VICERES KoalaTEDLumHanlding         -vsid
+ * $VICERES KoalaCRTCTextColor          -vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

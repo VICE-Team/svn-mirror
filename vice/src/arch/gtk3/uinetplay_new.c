@@ -5,6 +5,15 @@
  */
 
 /*
+ * $VICERES NetworkServerName           -vsid
+ * $VICERES NetworkServerPort           -vsid
+ * $VICERES NetworkServerBindAddress    -vsid
+ *
+ * Not sure about this one (TODO):
+ * $VICERES NetworkControl              -vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

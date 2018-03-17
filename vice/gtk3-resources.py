@@ -69,8 +69,12 @@ def get_emulators(line):
     """
 
     emus = line.split()
-    unsupported = []
+    if 'all' in emus:
+        # all, return full list of emulators
+        return ALL_EMUS
 
+    # handle -emu
+    unsupported = []
     for emu in emus:
         if emu.startswith('-'):
             unsupported.append(emu[1:])
@@ -79,8 +83,6 @@ def get_emulators(line):
         return list(set(ALL_EMUS) - set(unsupported))
     else:
         return emus
-
-
 
 
 def parse_source(path):
@@ -111,7 +113,8 @@ def print_emu_header():
     Print emulator types on stdout
     """
     for line in EMU_HEADERS.split('\n'):
-        print("                                {}".format(line));
+        print(" " * 32, end="")
+        print(line)
 
 
 def list_resources(resources):
@@ -123,30 +126,37 @@ def list_resources(resources):
 
     print_emu_header()
     for res in sorted(resources.keys()):
-        print("{:32}".format(res), end="")
         # print("len of resources[{}] = {}".format(res, len(resources[res])))
-        filename = resources[res][0]
-        emus = resources[res][1];
-        for e in ALL_EMUS:
-            if e in emus:
-                print("* ", end="")
-            else:
-                print("- ", end="")
-        print(" {}".format(filename[len(GTK3_SOURCES) + 1:]))
+        for entry in resources[res]:
+            print("{:32}".format(res), end="")
+            filename = entry[0]
+            emus = entry[1];
+            for e in ALL_EMUS:
+                if e in emus:
+                    print("* ", end="")
+                else:
+                    print("- ", end="")
+            print(" {}".format(filename[len(GTK3_SOURCES) + 1:]))
 
 
 def main():
     """
     Main driver, just for testing the code, for now
+
+    :todo:   add command line parser to allow selecting different reports
     """
 
+    # dictionary with the resource name as key, and a list of (filename, emus)
+    # as each value
     reslist = dict()
 
     for source in iterate_sources():
         resources = parse_source(source)
         if resources:
-            for name, emus in resources:
-                reslist[name] = (source, emus)
+            for name,emus in resources:
+                if name not in reslist:
+                    reslist[name] = []
+                reslist[name].append((source, emus))
 
     # pprint.pprint(reslist)
 

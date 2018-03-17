@@ -3,14 +3,14 @@
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  WarpMode
- *  KeySetEnable
- *  JoyDevice1
- *  JoyDevice2
- *  JoyDevice3
- *  JoyDevice4
- *  Mouse
+ */
+
+/*
+ * $VICERES WarpMode        all
+ * $VICERES JoyDevice1      -vsid
+ * $VICERES JoyDevice2      -vsid
+ * $VICERES JoyDevice3      -vsid
+ * $VICERES JoyDevice4      -vsid
  */
 
 /*

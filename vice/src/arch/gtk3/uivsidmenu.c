@@ -6,6 +6,12 @@
  */
 
 /*
+ * $VICERES PSIDKeepEnv     vsid
+ * $VICERES MainCPU_TRACE   vsid
+ * $VICERES DoCoreDump      vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

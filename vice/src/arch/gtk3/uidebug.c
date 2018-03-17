@@ -2,10 +2,11 @@
  * \brief   Debug menu dialogs
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  AutoPlaybackFrames
- *  TraceMode
+ */
+
+/*
+ * $VICERES AutoPlaybackFrames  all
+ * $VICERES TraceMode           all
  */
 
 /*
