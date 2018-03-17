@@ -1623,14 +1623,15 @@ static void tapecart_store_write(int state) {
     }
 }
 
-static void tapecart_store_sense(int state) {
+static void tapecart_store_sense(int inv_state) {
     /* called by VICE with the INVERTED state of the processor port bit */
+    int state = !inv_state;
     clock_t delta_ticks;
 
-    sense_state = !state;
+    sense_state = state;
 
-    if ((!state == 0 && wait_for_signal == WAIT_SENSE_LOW) ||
-        (!state != 0 && wait_for_signal == WAIT_SENSE_HIGH)) {
+    if ((state == 0 && wait_for_signal == WAIT_SENSE_LOW) ||
+        (state != 0 && wait_for_signal == WAIT_SENSE_HIGH)) {
         wait_for_signal = WAIT_NONE;
         delta_ticks = wait_handler();
 
