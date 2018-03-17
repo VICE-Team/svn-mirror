@@ -74,8 +74,7 @@ void debugcart_store(uint16_t addr, uint8_t value)
 {
     int n = (int)value;
     if ((debugcart_enabled) && (addr == 0xd7ff)) {
-        /* FIXME: perhaps print a timestamp too */
-        fprintf(stdout, "DBGCART: exit(%d)\n", n);
+        fprintf(stdout, "DBGCART: exit(%d) cycles elapsed: %d\n", n, maincpu_clk);
         exit(n);
     }
 }
