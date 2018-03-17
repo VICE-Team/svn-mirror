@@ -5,40 +5,38 @@
  */
 
 /*
- * TODO:    Add emu-support to the following list (ie x64, xvic, etc)
- * Controls the following resource(s):
- *  CrtcDoubleSize
- *  CrtcDoubleScan
- *  CrtcVideoCache
- *  CrtcStretchVertical
- *  CrtcAudioLeak
- *  CrtcHwScale
- *  TEDDoubleSize
- *  TEDDoubleScan
- *  TEDVideoCache
- *  TEDAudioLeak
- *  TEDHwScale
- *  VDCDoubleSize
- *  VDCDoubleScan
- *  VDCVideoCache
- *  VDCStretchVertical
- *  VDCAudioLeak
- *  VDCHwScale
- *  VICDoubleSize
- *  VICDoubleScan
- *  VICVideoCache
- *  VICAudioLeak
- *  VICHwScale
- *  VICIIDoubleSize
- *  VICIIDoubleScan
- *  VICIIVideoCache
- *  VICIIAudioLeak
- *  VICIICheckSbColl        - check sprite-background collisions
- *  VICIICheckSsColl        - check sprite-sprite collisions
- *  VICIIVSPBug             - emulate VSP bug
- *  VICIIHwScale
- *  KeepAspectRatio
- *  TrueAspectRatio
+ * $VICERES CrtcDoubleSize      xcbm2 xpet
+ * $VICERES CrtcDoubleScan      xcbm2 xpet
+ * $VICERES CrtcVideoCache      xcbm2 xpet
+ * $VICERES CrtcStretchVertical xcbm2 xpet
+ * $VICERES CrtcAudioLeak       xcbm2 xpet
+ * $VICERES CrtcHwScale         xcbm2 xpet
+ * $VICERES TEDDoubleSize       xplus4
+ * $VICERES TEDDoubleScan       xplus4
+ * $VICERES TEDVideoCache       xplus4
+ * $VICERES TEDAudioLeak        xplus4
+ * $VICERES TEDHwScale          xplus4
+ * $VICERES VDCDoubleSize       x128
+ * $VICERES VDCDoubleScan       x128
+ * $VICERES VDCVideoCache       x128
+ * $VICERES VDCStretchVertical  x128
+ * $VICERES VDCAudioLeak        x128
+ * $VICERES VDCHwScale          x128
+ * $VICERES VICDoubleSize       xvic
+ * $VICERES VICDoubleScan       xvic
+ * $VICERES VICVideoCache       xvic
+ * $VICERES VICAudioLeak        xvic
+ * $VICERES VICHwScale          xvic
+ * $VICERES VICIIDoubleSize     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIDoubleScan     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIVideoCache     x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIAudioLeak      x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIICheckSbColl    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIICheckSsColl    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES VICIIVSPBug         x64sc xscpu64
+ * $VICERES VICIIHwScale        x64 x64sc x64dtv xscpu64 x128 xcbm5x0
+ * $VICERES KeepAspectRatio     -vsid
+ * $VICERES TrueAspectRatio     -vsid
  *
  *  (see included widgets for more resources)
  */
