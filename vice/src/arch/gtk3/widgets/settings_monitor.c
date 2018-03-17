@@ -2,11 +2,12 @@
  * \brief   GTK3 monitor setting dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  KeepMonitorOpen
- *  MonitorServer
- *  MonitorServerAddress
+ */
+
+/*
+ * $VICERES KeepMonitorOpen         all
+ * $VICERES MonitorServer           all
+ * $VICERES MonitorServerAddress    all
  */
 
 /*

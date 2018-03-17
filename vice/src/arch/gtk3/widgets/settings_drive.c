@@ -2,10 +2,11 @@
  * \brief   Drive settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  DriveTrueEmulation
- *  DriveSoundEmulation
+ */
+
+/*
+ * $VICERES DriveTrueEmulation  -vsid
+ * $VICERES DriveSoundEmulation -vsid
  *
  *  (for more, see used widgets)
  */

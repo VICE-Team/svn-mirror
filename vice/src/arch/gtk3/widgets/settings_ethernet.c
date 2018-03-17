@@ -2,9 +2,10 @@
  * \brief   GTK3 ethernet settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  ETHERNET_INTERFACE  (x64/x64sc/xscpu64/x128/xvic)
+ */
+
+/*
+ * $VICERES ETHERNET_INTERFACE  x64 x64sc xscpu64 x128 xvic
  */
 
 /*

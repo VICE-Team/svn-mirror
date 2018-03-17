@@ -2,22 +2,23 @@
  * \brief   Widget to control various RS232 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Acia1Enable     (x64/x64sc/xscpu64/x128/xvic)
- *  Acia1Dev        (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0/xcbm2)
- *  Acia1Base       (x64/x64sc/xscpu64/x128/xvic)
- *  Acia1Irq        (x64/x64sc/xscpu64/x128/xvic)
- *  Acia1Mode       (x64/x64sc/xscpu64/x128/xvic)
- *  RsUserEnable    (x64/x64sc/xscpu64/x128/xvic)
- *  RsUserBaud      (x64/x64sc/xscpu64/x128/xvic)
- *  RsUserDev       (x64/x64sc/xscpu64/x128/xvic)
- *  RsDevice1       (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0/xcbm2)
- *  RsDevice2       (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0/xcbm2)
- *  RsDevice3       (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0/xcbm2)
- *  RsDevice4       (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0/xcbm2)
- *  RsDevice1Baud   (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0/xcbm2)
- *  RsDevice2Baud   (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0/xcbm2)
+ */
+
+/**
+ * $VICERES Acia1Enable     x64 x64sc xscpu64 x128 xvic
+ * $VICERES Acia1Dev        x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES Acia1Base       x64 x64sc xscpu64 x128 xvic
+ * $VICERES Acia1Irq        x64 x64sc xscpu64 x128 xvic
+ * $VICERES Acia1Mode       x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserEnable    x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserBaud      x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsUserDev       x64 x64sc xscpu64 x128 xvic
+ * $VICERES RsDevice1       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice2       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice3       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice4       x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice1Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
+ * $VICERES RsDevice2Baud   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0 xcbm2
  */
 
 /*

@@ -2,11 +2,13 @@
  * \brief   Mouse settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  ps2mouse (x64dtv)
- *  SmartMouseRTCSave (x64/x64sc/xscpu64/x128/xvic/xplus4/xcbm5x0)
- *  MouseSensitivity (Appears to be Windows-only)
+ */
+
+/*
+ * $VICERES ps2mouse            x64dtv
+ * $VICERES SmartMouseRTCSave   x64 x64sc xscpu64 x128 xvic xplus4 xcbm5x0
+ * $VICERES MouseSensitivity
+ *          (appears to be Windows-specific)
  */
 
 /*

@@ -2,16 +2,17 @@
  * \brief   Widget to control settings for joysticks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  JoyDevice1
- *  JoyDevice2
- *  JoyDevice3
- *  JoyDevice4
- *  JoyDevice5 (xplus4)
- *  UserportJoy
- *  JoyOpposite
- *  KeySetEnable
+ */
+
+/*
+ * $VICERES JoyDevice1      -xcbm2 -xpet -vsid
+ * $VICERES JoyDevice2      -xcbm2 -xpet -xvic -vsid
+ * $VICERES JoyDevice3      -xcbm5x0 -vsid
+ * $VICERES JoyDevice4      -xcbm5x0 -xplus4 -vsid
+ * $VICERES JoyDevice5      xplus4
+ * $VICERES UserportJoy     -xcbm5x0 -vsid
+ * $VICERES JoyOpposite     -vsid
+ * $VICERES KeySetEnable    -vsid
  *
  *  (see used external widgets for more)
  */

@@ -2,10 +2,11 @@
  * \brief   Widget to control resources that are hard to place properly
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  VirtualDevices
- *  HTMLBrowserCommand
+ */
+
+/*
+ * $VICERES VirtualDevices      -vsid
+ * $VICERES HTMLBrowserCommand  all
  */
 
 /*

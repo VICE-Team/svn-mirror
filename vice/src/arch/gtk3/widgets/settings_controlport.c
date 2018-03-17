@@ -2,14 +2,15 @@
  * \brief   Widget to control settings for control ports
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  JoyPort1Device
- *  JoyPort2Device
- *  JoyPort3Device
- *  JoyPort4Device
- *  JoyPort5Device
- *  BBRTCSave
+ */
+
+/*
+ * $VICERES JoyPort1Device  x64 x64sc x64dtv xscpu64 x128 xcbm5x0 xplus4 xvic
+ * $VICERES JoyPort2Device  x64 x64sc x64dtv xscpu64 x128 xcbm5x0 xplus4
+ * $VICERES JoyPort3Device  x64 x64sc x64dtv xscpu64 x128 xcbm2 xvic
+ * $VICERES JoyPort4Device  x64 x64sc xscpu64 x128 xcbm2 xpet xvice
+ * $VICERES JoyPort5Device  xplus4
+ * $VICERES BBRTCSave
  */
 
 /*

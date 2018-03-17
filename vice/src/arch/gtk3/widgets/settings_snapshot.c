@@ -2,10 +2,11 @@
  * \brief   Snapshot/recording settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  EventSnapshotDir - all emus
- *  EventStartMode - all emus
+ */
+
+/*
+ * $VICERES EventSnapshotDir    all
+ * $VICERES EventStartMode      all
  */
 
 /*

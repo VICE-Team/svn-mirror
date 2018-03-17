@@ -2,11 +2,21 @@
  * \brief   Drive options widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IECDevice[8-11]             (only x64/x64sc/xscpu64/x64dtv/x128/xplus/xvic)
- *  AttachDevice[8-11]Readonly
- *  Drive[8-11]RTCSave
+ */
+
+/*
+ * $VICERES IECDevice8              -vsid
+ * $VICERES IECDevice9              -vsid
+ * $VICERES IECDevice10             -vsid
+ * $VICERES IECDevice11             -vsid
+ * $VICERES AttachDevice8Readonly   -vsid
+ * $VICERES AttachDevice9Readonly   -vsid
+ * $VICERES AttachDevice10Readonly  -vsid
+ * $VICERES AttachDevice11Readonly  -vsid
+ * $VICERES Drive8RTCSave           -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES Drive9RTCSave           -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES Drive10RTCSave          -vsid -xcbm5x0 -xcbm2 -xpet
+ * $VICERES Drive11RTCSave          -vsid -xcbm5x0 -xcbm2 -xpet
  */
 
 /*

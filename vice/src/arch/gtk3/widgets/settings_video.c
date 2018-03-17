@@ -2,9 +2,10 @@
  * \brief   Widget to control video settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * TODO:    Add emu-support to the following list (ie x64, xvic, etc)
- *
  * Controls the following resource(s):
  *  CrtcDoubleSize
  *  CrtcDoubleScan

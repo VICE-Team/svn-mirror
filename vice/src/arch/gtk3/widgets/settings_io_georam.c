@@ -2,13 +2,14 @@
  * \brief   Widget to control GEO-RAM resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  GEORAM
- *  GEORAMsize
- *  GEORAMfilename
- *  GEORAMImageWrite
- *  GOERAMIOSwap (xvic)
+ */
+
+/*
+ * $VICERES GEORAM              x64 x64sc xscpu64 x128
+ * $VICERES GEORAMsize          x64 x64sc xscpu64 x128
+ * $VICERES GEORAMfilename      x64 x64sc xscpu64 x128
+ * $VICERES GEORAMImageWrite    x64 x64sc xscpu64 x128
+ * $VICERES GEORAMIOSwap        xvic
  */
 
 /*

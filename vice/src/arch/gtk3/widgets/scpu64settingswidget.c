@@ -2,11 +2,12 @@
  * \brief   Widget controlling SCPU6-specific settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SIMMSize    (xscpu64)
- *  JiffySwitch (xscpu64)
- *  SpeedSwitch (xscpu64)
+ */
+
+/*
+ * $VICERES SIMMSize    xscpu64
+ * $VICERES JiffySwitch xscpu64
+ * $VICERES SpeedSwitch xscpu64
  */
 
 /*

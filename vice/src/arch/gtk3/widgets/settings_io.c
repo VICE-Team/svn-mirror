@@ -2,12 +2,14 @@
  * \brief   I/O extension settings that don't go/fit into subwidgets
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IOCollisionHandling (all except vsid)
- *  CartridgeReset      (all except vsid)
- *  PETHRE              (xpet)
- *  DiagPin             (xpet)
+ */
+
+/*
+ * $VICRES  IOCollisionHandling -vsid
+ * $VICERES CartridgeReset      -vsid
+ * $VICERES PETHRE              xpet
+ * $VICERES DiagPin             xpet
+ * $VICERES HummerADC           x64dtv
  */
 
 /*

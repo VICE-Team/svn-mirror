@@ -2,9 +2,12 @@
  * \brief   Sound settings main widget for the settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES Sound                   all
  *
- * Controls the following resource(s):
- *  TODO
+ * See included widgets for more.
  */
 
 /*

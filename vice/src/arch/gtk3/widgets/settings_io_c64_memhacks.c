@@ -2,14 +2,15 @@
  * \brief   Widget to control C64 memory expansion hacks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  MemoryHack          (x64/x6sc)
- *  C64_256Kbase        (x64/x64sc)
- *  C64_256Kfilename    (x64/x64sc)
- *  PLUS60Kbase         (x64/x64sc)
- *  PLUS60Kfilename     (x64/x64sc)
- *  PLUS256Kfilename    (x64/x64sc)
+ */
+
+/*
+ * $VICERES MemoryHack          x64 x64sc
+ * $VICERES C64_256Kbase        x64 x64sc
+ * $VICERES C64_256Kfilename    x64 x64sc
+ * $VICERES PLUS60Kbase         x64 x64sc
+ * $VICERES PLUS60Kfilename     x64 x64sc
+ * $VICERES PLUS256Kfilename    x64 x64sc
  */
 
 /*

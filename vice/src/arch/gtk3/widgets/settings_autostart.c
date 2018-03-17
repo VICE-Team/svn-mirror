@@ -2,20 +2,17 @@
  * \brief   GTK3 autostart settings central widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  AutostartDelay                    - delay in seconds (0-1000) (integer)
- *  AutostartDelayRandom              - add random delay to autostart (boolean)
- *  AutostartPrgMode                  - autostart mode for PRG/P00 files:
- *                                      VirtualFS (0), InjectIntoRam (1),
- *                                      Disk (2) (integer)
- *  AutostartPrgDiskImage             - disk image to use in case of
- *                                      AutostartPrgMode disk (string)
- *  AutostartRunWithColon             - add ':' after RUN (boolean)
- *  AutostartBasicLoad                - load PRG into BASIC (LOAD"*",8) (boolean)
- *  AutostartWarp                     - use warp during autostart (boolean)
- *  AutostartHandleTrueDriveEmulation - use True Drive Emulation during
- *                                      autostart (boolean)
+ */
+
+/*
+ * $VICERES AutostartDelay                      -vsid
+ * $VICERES AutostartDelayRandom                -visd
+ * $VICERES AutostartPrgMode                    -vsid
+ * $VICERES AutostartPrgDiskImage               -vsid
+ * $VICERES AutostartRunWithColon               -vsid
+ * $VICEREs AutostartBasicLoad                  -vsid
+ * $VICERES AutostartWarp                       -vsid
+ * $VICERES AutostartHandleTrueDriveEmulation   -vsid
  */
 
 /*

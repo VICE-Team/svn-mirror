@@ -1,12 +1,13 @@
-/**
+/** \file   settings_sampler.c
  * \brief   Widget to control sampler settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SamplerDevice       - sampler device ID (`int`)
- *  SamplerGain         - gain (0-200) (`int`)
- *  SampleName          - file name of sampler input file (`string`)
+ */
+
+/*
+ * $VICERES SamplerDevice
+ * $VICERES SamplerGain
+ * $VICERES SampleName
  */
 
 /*

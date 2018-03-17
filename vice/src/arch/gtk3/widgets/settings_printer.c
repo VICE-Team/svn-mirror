@@ -2,33 +2,34 @@
  * \brief   Widget to control printer settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IECDevice4
- *  IECDevice5
- *  IECDevice6
- *  IECDevice7
- *  Printer4
- *  Printer5
- *  Printer6
- *  Printer7
- *  Printer4Driver
- *  Printer5Driver
- *  Printer6Driver
- *  Printer4Output
- *  Printer5Output
- *  Printer6Output
- *  PrinterTextDevice1
- *  PrinterTextDevice2
- *  PrinterTextDevice3
- *  Printer4TextDevice
- *  Printer5TextDevice
- *  Printer6TextDevice
- *  Printer7TextDevice
- *  PrinterUserport
- *  PrinterUserportTextDevice
- *  PrinterUserportDriver
- *  PrinterUserportOutput
+ */
+
+/*
+ * $VICERES IECDevice4                  -vsid
+ * $VICERES IECDevice5                  -vsid
+ * $VICERES IECDevice6                  -vsid
+ * $VICERES IECDevice7                  -vsid
+ * $VICERES Printer4                    -vsid
+ * $VICERES Printer5                    -vsid
+ * $VICERES Printer6                    -vsid
+ * $VICERES Printer7                    -vsid
+ * $VICERES Printer4Driver              -vsid
+ * $VICERES Printer5Driver              -vsid
+ * $VICERES Printer6Driver              -vsid
+ * $VICERES Printer4Output              -vsid
+ * $VICERES Printer5Output              -vsid
+ * $VICERES Printer6Output              -vsid
+ * $VICERES PrinterTextDevice1          -vsid
+ * $VICERES PrinterTextDevice2          -vsid
+ * $VICERES PrinterTextDevice3          -vsid
+ * $VICERES Printer4TextDevice          -vsid
+ * $VICERES Printer5TextDevice          -vsid
+ * $VICERES Printer6TextDevice          -vsid
+ * $VICERES Printer7TextDevice          -vsid
+ * $VICERES PrinterUserport             -vsid
+ * $VICERES PrinterUserportTextDevice   -vsid
+ * $VICERES PrinterUserportDriver       -vsid
+ * $VICERES PrinterUserportOutput       -vsid
  */
 
 /*

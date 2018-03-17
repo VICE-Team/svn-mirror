@@ -2910,7 +2910,7 @@ port device is connected to a control port.
 @vindex JoyPort1Device
 @item JoyPort1Device
 Set the device attached to:
-control port 1 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+control port 1 (x64/x64sc/x64dtv/xscpu64/x128/xcbm5x0/xplus4)
 control port (xvic).
 (x64/x64sc/xscpu/x128/xcbm5x0/xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
 (x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
@@ -2918,14 +2918,14 @@ control port (xvic).
 @vindex JoyPort2Device
 @item JoyPort2Device
 Set the device attached to:
-control port 2 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+control port 2 (x64/x64sc/x64dtv/xscpu64/x128/xcbm5x0/xplus4)
 (x64/x64sc/xscpu/x128/xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
 (x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort3Device
 @item JoyPort3Device
 Set the device attached to:
-userport joystick adapter port 1 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+userport joystick adapter port 1 (x64/x64sc/xscpu64/x128/xcbm2/xpet/xvic)
 userport joystick adapter port (x64dtv)
 sidcart control port (xplus4).
 (x64/x64sc/x64dtv/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
@@ -2934,8 +2934,13 @@ sidcart control port (xplus4).
 @vindex JoyPort4Device
 @item JoyPort4Device
 Set the device attached to:
-userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+userport joystick adapter port 2 (x64/x64sc/xscpu64/x128/xcbm2/xpet/xvic)
 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+
+@vindex JoyPort5Device
+@item JoyPort5Device
+Set the device attached to:
+SidCart on the Plus4 (xplus4)
 
 @vindex BBRTCSave
 @item BBRTCSave
@@ -7638,20 +7643,24 @@ Boolean that specifies whether RR-Net compatible mapping is enabled.
 @vindex GEORAM
 @item GEORAM
 Boolean specifying whether the GEO-RAM cartridge should be emulated or not.
+(x64/x64sc/x128).
 
 @vindex GEORAMfilename
 @item GEORAMfilename
 String specifying the filename of the GEORAM image.
+(x64/x64sc/x128).
 
 @vindex GEORAMImageWrite
 @item GEORAMImageWrite
 Boolean, if true write back the GEO-RAM image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
+(x64/x64sc/x128).
 
 @vindex GEORAMsize
 @item GEORAMsize
 Integer specifying the size of the emulated GEO-RAM in KB.
 (64, 128, 256, 512, 1024, 2048, 4096).
+(x64/x64sc/x128).
 
 @vindex MIDIEnable
 @item MIDIEnable
@@ -12086,6 +12095,12 @@ Integer specifying which joystick device the emulator should use for the emulati
 @item JoyDevice4
 Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
 (all emulators except xcbm5x0, xplus4 and vsid).
+(0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
+
+@vindex JoyDevice5
+@item JoyDevice5
+Integer specifying which joystick device the emulator should use for the emulation of extra joystick 3
+(xplus4).
 (0: None, 1: Numpad, 2: Joy0, 3: Joy1, 4: Joy2, 5: Joy3)
 
 @end table

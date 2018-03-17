@@ -2,13 +2,14 @@
  * \brief   Model settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IECReset            (x64/x64sc/xscpu64)
- *  GlueLogic           (x64/x64sc/xscpu64
- *  Go64Mode            (x128)
- *  DtvRevision         (x64dtv)
- *  VICIINewLuminances  (x64dtv)
+ */
+
+/*
+ * $VICERES IECReset            x64 x64sc xscpu64
+ * $VICERES GlueLogic           x64 x64sc xscpu64
+ * $VICERES Go64Mode            x128
+ * $VICERES DtvRevision         x64dtv
+ * $VICERES VICIINewLuminances  x64dtv
  *
  *  (for more, see used widgets)
  */
