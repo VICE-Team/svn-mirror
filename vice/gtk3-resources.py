@@ -113,7 +113,7 @@ def print_emu_header():
     Print emulator types on stdout
     """
     for line in EMU_HEADERS.split('\n'):
-        print(" " * 32, end="")
+        print(" " * 40, end="")
         print(line)
 
 
@@ -128,7 +128,7 @@ def list_resources(resources):
     for res in sorted(resources.keys()):
         # print("len of resources[{}] = {}".format(res, len(resources[res])))
         for entry in resources[res]:
-            print("{:32}".format(res), end="")
+            print("{:40}".format(res), end="")
             filename = entry[0]
             emus = entry[1];
             for e in ALL_EMUS:
