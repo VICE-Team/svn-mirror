@@ -420,11 +420,11 @@ static uint8_t vic_um_io3_read(uint16_t addr)
         switch (addr) {
             case 0x355: /* Access 0x9f55 */
                 /* Advance the state if this is the 1st access, else reset. */
-                ultimem[16] = ultimem[16] == 0 ? 1 : 0;
+                ultimem[16] = ((ultimem[16] == 0) ? 1 : 0);
                 break;
             case 0x3aa: /* Access 0x9faa */
                 /* Advance the state if this is the 2nd access, else reset. */
-                ultimem[16] = ultimem[16] == 1 ? 2 : 0;
+                ultimem[16] = ((ultimem[16] == 1) ? 2 : 0);
                 break;
             case 0x301: /* Access 0x9f01 */
                 /* Advance the state if this is the 3rd access, else reset. */
@@ -497,11 +497,11 @@ static void vic_um_io3_store(uint16_t addr, uint8_t value)
         switch (addr) {
             case 0x355: /* Access 0x9f55 */
                 /* Advance the state if this is the 1st access, else reset. */
-                ultimem[16] = ultimem[16] == 0 ? 1 : 0;
+                ultimem[16] = ((ultimem[16] == 0) ? 1 : 0);
                 break;
             case 0x3aa: /* Access 0x9faa */
                 /* Advance the state if this is the 2nd access, else reset. */
-                ultimem[16] = ultimem[16] == 1 ? 2 : 0;
+                ultimem[16] = ((ultimem[16] == 1) ? 2 : 0);
                 break;
             case 0x301: /* Access 0x9f01 */
                 /* Advance the state if this is the 3rd access, else reset. */
@@ -632,9 +632,7 @@ int vic_um_bin_attach(const char *filename)
     zfile_fclose(fd);
 
     flash040core_init(&flash_state, maincpu_alarm_context,
-                      cart_rom_size == CART_ROM_SIZE_512K
-                      ? FLASH040_TYPE_B
-                      : FLASH040_TYPE_064,
+                      (cart_rom_size == CART_ROM_SIZE_512K) ? FLASH040_TYPE_B : FLASH040_TYPE_064,
                       cart_rom);
 
     mem_cart_blocks = VIC_CART_RAM123 |
@@ -827,9 +825,7 @@ int vic_um_snapshot_read_module(snapshot_t *s)
     }
 
     flash040core_init(&flash_state, maincpu_alarm_context,
-                      cart_rom_size == CART_ROM_SIZE_512K
-                      ? FLASH040_TYPE_B
-                      : FLASH040_TYPE_064,
+                      (cart_rom_size == CART_ROM_SIZE_512K) ? FLASH040_TYPE_B : FLASH040_TYPE_064,
                       cart_rom);
 
     snapshot_module_close(m);
