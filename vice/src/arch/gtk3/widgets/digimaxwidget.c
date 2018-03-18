@@ -2,10 +2,11 @@
  * \brief   DigiMAX widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  DIGIMAX     (x64/x64sc/xscpu64/x128/xpet)
- *  DIGIMAXbase (x64/x64sc/xscpu64/x128/xpet)
+ */
+
+/*
+ * $VICERES DIGIMAX         x64 x64sc xscpu64 x128 xpet
+ * $VICERESS DIGIMAXbase    x64 x64sc xscpu64 x128 xpet
  */
 
 /*

@@ -2,9 +2,13 @@
  * \brief   Drive 40-track extend policy widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Drive[8-11]ExtendPolicy
+ */
+
+/*
+ * $VICERES Drive8ExtendImagePolicy     -vsid
+ * $VICERES Drive9ExtendImagePolicy     -vsid
+ * $VICERES Drive10ExtendImagePolicy    -vsid
+ * $VICERES Drive11ExtendImagePolicy    -vsid
  */
 
 /*

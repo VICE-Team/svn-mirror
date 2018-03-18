@@ -2,12 +2,13 @@
  * \brief   Widget controlling C64DTV Flash settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  c64dtvromfilename   (x64dtv)
- *  c64dtvromrw         (x64dtv)
- *  FSFlashDir          (x64dtv)
- *  FlashTrueFS         (x64dtv)
+ */
+
+/*
+ * $VICERES c64dtvromfilename   x64dtv
+ * $VICERES c64dtvromrw         x64dtv
+ * $VICERES FSFlashDir          x64dtv
+ * $VICERES FlashTrueFS         x64dtv
  */
 
 /*

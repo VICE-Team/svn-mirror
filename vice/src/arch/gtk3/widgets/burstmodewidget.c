@@ -2,7 +2,9 @@
  * \brief   Burst Mode Modification widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * $VICERES BurstMod    x64 x64sc xscpu64
  */
 

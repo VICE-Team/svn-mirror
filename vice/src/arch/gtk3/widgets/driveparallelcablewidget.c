@@ -2,9 +2,13 @@
  * \brief   Drive parallel cable widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Drive[8-11]ParallelCable
+ */
+
+/*
+ * $VICERES Drive8ParallelCable     x64 x64sc xscpu64 x128 xplus4
+ * $VICERES Drive9ParallelCable     x64 x64sc xscpu64 x128 xplus4
+ * $VICERES Drive10ParallelCable    x64 x64sc xscpu64 x128 xplus4
+ * $VICERES Drive11ParallelCable    x64 x64sc xscpu64 x128 xplus4
  */
 
 /*

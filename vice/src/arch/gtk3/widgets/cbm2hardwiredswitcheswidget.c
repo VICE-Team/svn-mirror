@@ -2,9 +2,10 @@
  * \brief   Widget to select ModelLine
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  ModelLine   (xcbm5x0/xcbm2)
+ */
+
+/*
+ * $VICERES ModelLine   xcbm5x0 xcbm2
  */
 
 /*

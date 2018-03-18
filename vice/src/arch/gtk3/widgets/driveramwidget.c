@@ -2,8 +2,9 @@
  * \brief   Drive RAM expansions widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
+ */
+
+/* TODO: check drives against emus to turn this into a proper table:
  *  Drive[8-11]RAM2000 (1540, 1541 and 1541-II)
  *  Drive[8-11]RAM4000 (1540, 1541, 1541-II, 1570, 1571 and 1751CR)
  *  Drive[8-11]RAM6000 (1540, 1541, 1541-II, 1570, 1571 and 1751CR)

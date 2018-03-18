@@ -2,11 +2,21 @@
  * \brief   Drive DOS expansions widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Drive[8-11]ProfDos
- *  Drive[8-11]StarDOS
- *  Drive[8-11]SuperCard
+ */
+
+/*
+ * $VICERES Drive8ProfDOS       x64 x64sc xscpu64 x128
+ * $VICERES Drive9ProfDOS       x64 x64sc xscpu64 x128
+ * $VICERES Drive10ProfDOS      x64 x64sc xscpu64 x128
+ * $VICERES Drive11ProfDOS      x64 x64sc xscpu64 x128
+ * $VICERES Drive8StarDOS       x64 x64sc xscpu64 x128
+ * $VICERES Drive9StarDOS       x64 x64sc xscpu64 x128
+ * $VICERES Drive10StarDOS      x64 x64sc xscpu64 x128
+ * $VICERES Drive11StarDOS      x64 x64sc xscpu64 x128
+ * $VICERES Drive8SuperCard     x64 x64sc xscpu64 x128
+ * $VICERES Drive9SuperCard     x64 x64sc xscpu64 x128
+ * $VICERES Drive10SuperCard    x64 x64sc xscpu64 x128
+ * $VICERES Drive11SuperCard    x64 x64sc xscpu64 x128
  */
 
 /*

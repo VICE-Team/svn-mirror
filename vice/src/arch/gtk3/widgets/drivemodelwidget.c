@@ -1,12 +1,17 @@
-/**
+/** \file   drivemodelwidget.c
  * \brief   Drive model selection widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Drive[8-11]Type
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES Drive8Type      -vsid
+ * $VICERES Drive9Type      -vsid
+ * $VICERES Drive10Type     -vsid
+ * $VICERES Drive11Type     -vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -2,13 +2,29 @@
  * \brief   Drive file system device widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  FileSystemDevice[8-11]
- *  FSDevice[8-11]ConvertP00
- *  FSDevice[8-11]SaveP00
- *  FSDevice[8-11]HideCBMFiles
- *  FSDevice[8-11]Dir
+ */
+
+/*
+ * $VICERES FileSystemDevice8       -vsid
+ * $VICERES FileSystemDevice9       -vsid
+ * $VICERES FileSystemDevice10      -vsid
+ * $VICERES FileSystemDevice11      -vsid
+ * $VICERES FSDevice8ConvertP00     -vsid
+ * $VICERES FSDevice9ConvertP00     -vsid
+ * $VICERES FSDevice10ConvertP00    -vsid
+ * $VICERES FSDevice11ConvertP00    -vsid
+ * $VICERES FSDevice8SaveP00        -vsid
+ * $VICERES FSDevice9SaveP00        -vsid
+ * $VICERES FSDevice10SaveP00       -vsid
+ * $VICERES FSDevice11SaveP00       -vsid
+ * $VICERES FSDevice8HideCBMFiles   -vsid
+ * $VICERES FSDevice9HideCBMFiles   -vsid
+ * $VICERES FSDevice10HideCBMFiles  -vsid
+ * $VICERES FSDevice11HideCBMFiles  -vsid
+ * $VICERES FSDevice8Dir            -vsid
+ * $VICERES FSDevice9Dir            -vsid
+ * $VICERES FSDevice10Dir           -vsid
+ * $VICERES FSDevice11Dir           -vsid
  */
 
 /*

@@ -1,12 +1,11 @@
-/**
+/** \file   cwdwidget.c
  * \brief   Widget to set the current working directory
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  (none) - calls g_chdir()
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

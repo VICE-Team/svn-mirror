@@ -2,14 +2,15 @@
  * \brief   Widget to map RAM into bank 15 for CBM-II
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Ram08   (xcbm5x0/xcbm2)
- *  Ram1    (xcbm5x0/xcbm2)
- *  Ram2    (xcbm5x0/xcbm2)
- *  Ram4    (xcbm5x0/xcbm2)
- *  Ram6    (xcbm5x0/xcbm2)
- *  RamC    (xcbm5x0/xcbm2)
+ */
+
+/*
+ * $VICERES Ram08   xcbm5x0 xcbm2
+ * $VICERES Ram1    xcbm5x0 xcbm2
+ * $VICERES Ram2    xcbm5x0/xcbm2
+ * $VICERES Ram4    xcbm5x0 xcbm2
+ * $VICERES Ram6    xcbm5x0 xcbm2
+ * $VICERES RamC    xcbm5x0 xcbm2
  */
 
 /*

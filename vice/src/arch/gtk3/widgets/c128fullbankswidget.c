@@ -2,7 +2,9 @@
  * \brief   Widget to control C128 full banks
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * $VICERES C128FullBanks x128
  */
 

@@ -2,9 +2,10 @@
  * \brief   C128 machine type widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  MachineType     (x128 only)
+ */
+
+/*
+ * $VICERES MachineType x128
  */
 
 /*

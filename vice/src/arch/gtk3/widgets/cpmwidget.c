@@ -2,9 +2,10 @@
  * \brief   Widget to control CP/M resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  CPMCart (x64/x64sc)
+ */
+
+/*
+ * $VICERES CPMCart     x64 x64sc
  */
 
 /*

@@ -2,7 +2,9 @@
  * \brief   Widget to control C128 function roms
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
+ */
+
+/*
  * $VICERES InternalFunctionROM         x128
  * $VICERES InternalFunctionName        x128
  * $VICERES InternalFunctionROMRTCSave  x128

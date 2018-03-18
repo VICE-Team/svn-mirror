@@ -1,14 +1,17 @@
-/**
+/** \file   dqbbwidget.c
  * \brief   Widget to control Double Quick Brown Box resources
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  DQBB (x64/x64sc/xscpu64/x128)
- *  DQBBfilename (x64/x64sc/xscpu64/x128)
- *  DQBBImageWrite (x64/x64sc/xscpu64/x128)
- *
+ */
+
+/*
+ * $VICERES DQBB            x64 x64sc xscpu64 x128
+ * $VICERES DQBBfilename    x64 x64sc xscpu64 x128
+ * $VICERES DQBBImageWrite  x64 x64sc xscpu64 x128
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

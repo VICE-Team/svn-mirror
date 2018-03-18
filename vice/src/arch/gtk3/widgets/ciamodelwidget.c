@@ -2,10 +2,11 @@
  * \brief   Widget to set the CIA model
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  CIA1Model   (x64/x64sc/xscpu64/x64dtv/x128/xcbm5xo/xcbm2/vsid)
- *  CIA2Model   (x64/x64sc/xscpu64/x64dtv/x128/vsid)
+ */
+
+/*
+ * $VICERES CIA1Model   x64 x64sc xscpu64 x64dtv x128 xcbm5x0 xcbm2 vsid
+ * $VICERES CIA2Model   x64 x64sc xscpu64 x64dtv x128 vsid
  */
 
 /*

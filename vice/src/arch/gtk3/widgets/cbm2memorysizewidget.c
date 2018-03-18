@@ -2,9 +2,10 @@
  * \brief   CBM-II memory size widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  RamSize (xcbm5x0/xcbm2)
+ */
+
+/*
+ * $VICERES RamSize     xcbm5x0 xcbm2
  */
 
 /*

@@ -1,10 +1,14 @@
 /** \file   driveidlemethodwidget.c
- * \brief   Drive expansions widget
+ * \brief   Drive Idle method widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Drive[8-11]IdleMethod
+ */
+
+/*
+ * $VICERES Drive8IdleMethod    -vsid
+ * $VICERES Drive9IdleMethod    -vsid
+ * $VICERES Drive10IdleMethod   -vsid
+ * $VICERES Drive11IdleMethod   -vsid
  */
 
 /*
