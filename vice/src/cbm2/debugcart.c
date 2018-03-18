@@ -71,8 +71,7 @@ static io_source_list_t *debugcart_list_item = NULL;
 static void debugcart_store(uint16_t addr, uint8_t value)
 {
     int n = (int)value;
-    /* FIXME: perhaps print a timestamp too */
-    fprintf(stdout, "DBGCART: exit(%d)\n", n);
+    fprintf(stdout, "DBGCART: exit(%d) cycles elapsed: %d\n", n, maincpu_clk);
     exit(n);
 }
 
