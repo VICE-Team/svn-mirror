@@ -15443,10 +15443,10 @@ translate_t string_table[] = {
 #endif
 
 /* vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_BORDER_MODE,    N_("Set border display mode (0: normal, 1: full, 2: debug)")},
+/* en */ {IDCLS_SET_BORDER_MODE,    N_("Set border display mode (0: normal, 1: full, 2: debug, 3: none)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BORDER_MODE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_BORDER_MODE_DE, "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug)"},
+/* de */ {IDCLS_SET_BORDER_MODE_DE, "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug, 3: kein)"},
 /* es */ {IDCLS_SET_BORDER_MODE_ES, "Seleccionar tipo de borde (0: normal, 1: completo, 2: depuración)"},
 /* fr */ {IDCLS_SET_BORDER_MODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BORDER_MODE_HU, ""},  /* fuzzy */
