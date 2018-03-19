@@ -10,6 +10,29 @@
  *  Drive[8-11]RAM6000 (1540, 1541, 1541-II, 1570, 1571 and 1751CR)
  *  Drive[8-11]RAM8000 (1540, 1541 and 1541-II)
  *  Drive[8-11]RAMA000 (1540, 1541 and 1541-II)
+ *
+ * This probably not quite correct:
+ *
+ * $VICERES Drive8RAM2000       -vsid
+ * $VICERES Drive9RAM2000       -vsid
+ * $VICERES Drive10RAM2000      -vsid
+ * $VICERES Drive11RAM2000      -vsid
+ * $VICERES Drive8RAM4000       -vsid
+ * $VICERES Drive9RAM4000       -vsid
+ * $VICERES Drive10RAM4000      -vsid
+ * $VICERES Drive11RAM4000      -vsid
+ * $VICERES Drive8RAM6000       -vsid
+ * $VICERES Drive9RAM6000       -vsid
+ * $VICERES Drive10RAM6000      -vsid
+ * $VICERES Drive11RAM6000      -vsid
+ * $VICERES Drive8RAM8000       -vsid
+ * $VICERES Drive9RAM8000       -vsid
+ * $VICERES Drive10RAM8000      -vsid
+ * $VICERES Drive11RAM8000      -vsid
+ * $VICERES Drive8RAMA000       -vsid
+ * $VICERES Drive9RAMA000       -vsid
+ * $VICERES Drive10RAMA000      -vsid
+ * $VICERES Drive11RAMA000      -vsid
  */
 
 /*

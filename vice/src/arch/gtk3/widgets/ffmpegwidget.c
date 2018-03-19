@@ -2,14 +2,15 @@
  * \brief   FFMPEG media recording options dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  FFMPEGFormat
- *  FFMPEGAudioBitrate
- *  FFMPEGVideoBitrate
- *  FFMPEGAudioCodec
- *  FFMPEGVideoCodec
- *  FFMPEGVideoHalveFramerate
+ */
+
+/*
+ * $VICERES FFMPEGFormat                -vsid
+ * $VICERES FFMPEGAudioBitrate          -vsid
+ * $VICERES FFMPEGVideoBitrate          -vsid
+ * $VICERES FFMPEGAudioCodec            -vsid
+ * $VICERES FFMPEGVideoCodec            -vsid
+ * $VICERES FFMPEGVideoHalveFramerate   -vsid
  */
 
 /*

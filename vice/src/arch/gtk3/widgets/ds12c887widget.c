@@ -2,12 +2,13 @@
  * \brief   DS12C887 RTC widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  DS12C887RTC (x64/x64sc/xscpu64/x128/xvic)
- *  DS12C887RTCbase (x64/x64sc/xscpu64/x128/xvic)
- *  DS12C887RTCSave (x64/x64sc/xscpu64/x128/xvic)
- *  DS12C887RTCRunMode (x64/x64sc/xscpu64/x128/xvic)
+ */
+
+/*
+ * $VICERES DS12C887RTC         x64 x64sc xscpu64 x128 xvic
+ * $VICERES DS12C887RTCbase     x64 x64sc xscpu64 x128 xvic
+ * $VICERES DS12C887RTCSave     x64 x64sc xscpu64 x128 xvic
+ * $VICERES DS12C887RTCRunMode  x64 x64sc xscpu64 x128 xvic
  */
 
 /*

@@ -1,9 +1,10 @@
+/** \file   driveunitwidget.c
+ * \brief   GTK3 drive unit selection widget
+ *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
 /*
- * driveunitwidget.c - GTK3 drive unit selection widget
- *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

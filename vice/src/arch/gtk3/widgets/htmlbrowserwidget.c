@@ -1,13 +1,18 @@
-/**
+/** \file   htmlbrowserwidget.c
  * \brief   Widget to set the HTML browser
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  HTMLBrowserCommand
- *
- *
+ * Useless widget, the resource HTMLBrowserCommand should not be required,
+ * there's xdg-open() on Unix, and I'm sure there's some equivalent on
+ * Windows.
+ */
+
+/*
+ * $VICERES HTMLBrowserCommand  all
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

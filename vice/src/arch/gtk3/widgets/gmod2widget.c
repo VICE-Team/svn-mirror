@@ -2,11 +2,12 @@
  * \brief   Widget to control GMod2 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  GMOD2EEPROMImage    (x64/x64sc/xscpu64/x128)
- *  GMOD2EEPROMRW       (x64/x64sc/xscpu64/x128)
- *  GMod2FlashWrite     (x64/x64sc/xscpu64/x128)
+ */
+
+/*
+ * $VICERES GMOD2EEPROMImage    x64 x64sc xscpu64 x128
+ * $VICERES GMOD2EEPROMRW       x64 x64sc xscpu64 x128
+ * $VICERES GMod2FlashWrite     x64 x64sc xscpu64 x128
  */
 
 /*

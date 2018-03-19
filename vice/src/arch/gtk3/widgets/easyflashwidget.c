@@ -2,11 +2,12 @@
  * \brief   Widget to control Easy Flash resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  EasyFlashJumper
- *  EasyFlashWriteCRT
- *  EasyFlashOptimizeCRT
+ */
+
+/*
+ * $VICERES EasyFlashJumper         x64 x64sc
+ * $VICERES EasyFlashWriteCRT       x64 x64sc
+ * $VICERES EasyFlashOptimizeCRT    x64 x64sc
  */
 
 /*

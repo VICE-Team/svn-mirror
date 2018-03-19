@@ -2,16 +2,17 @@
  * \brief   Drive RPM settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Drive8RPM
- *  Drive9RPM
- *  Drive10RPM
- *  Drive11RPM
- *  Drive8Wobble
- *  Drive9Wobble
- *  Drive10Wobble
- *  Drive11Wobble
+ */
+
+/*
+ * $VICERES Drive8RPM       -vsid
+ * $VICERES Drive9RPM       -vsid
+ * $VICERES Drive10RPM      -vsid
+ * $VICERES Drive11RPM      -vsid
+ * $VICERES Drive8Wobble    -vsid
+ * $VICERES Drive9Wobble    -vsid
+ * $VICERES Drive10Wobble   -vsid
+ * $VICERES Drive11Wobble   -vsid
  */
 
 /*

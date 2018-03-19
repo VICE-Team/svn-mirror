@@ -2,11 +2,12 @@
  * \brief   Widget to control ethernet cartridge settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  ETHERNETCART_ACTIVE (x64/x64s/xscpu64/x128/xvic)
- *  ETHERNETCARTMode    (x64/x64s/xscpu64/x128)
- *  ETHERNETCARTBase    (x64/x64s/xscpu64/x128/xvic)
+ */
+
+/*
+ * $VICERES ETHERNETCART_ACTIVE     x64 x64s xscpu64 x128 xvic
+ * $VICERES ETHERNETCARTMode        x64 x64s xscpu64 x128
+ * $VICERES ETHERNETCARTBase        x64 x64s xscpu64 x128 xvic
  */
 
 /*
