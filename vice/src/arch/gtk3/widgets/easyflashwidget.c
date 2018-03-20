@@ -5,9 +5,9 @@
  */
 
 /*
- * $VICERES EasyFlashJumper         x64 x64sc
- * $VICERES EasyFlashWriteCRT       x64 x64sc
- * $VICERES EasyFlashOptimizeCRT    x64 x64sc
+ * $VICERES EasyFlashJumper         x64 x64sc xscpu64 x128
+ * $VICERES EasyFlashWriteCRT       x64 x64sc xscpu64 x128
+ * $VICERES EasyFlashOptimizeCRT    x64 x64sc xscpu64 x128
  */
 
 /*
