@@ -2,10 +2,61 @@
  * \brief   GTK3 ROM set widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * FIXME:   Most resources seem to be correct, but need further checking
  *
- * Controls the following rescource(s):
- *  (TODO)
+ * $VICERES KernalName          x64 x64sc xvic xplus4 xcbm5x0 xcbm2 xpet
+ * $VICERES BasicName           x64 x64sc xscpu64 xvic xplus4 xcbm5x0 xcbm2 xpet
+ * $VICERES ChargenName         x64 x64sc xscpu64 xvic xcbm5x0 xcbm2 xpet
+ * $VICERES SCPU64Name          xscpu64
+ * $VICERES KernalIntName       x128
+ * $VICERES KernalDEName        x128
+ * $VICERES KernalFIName        x128
+ * $VICERES KernalFRName        x128
+ * $VICERES KernalITName        x128
+ * $VICERES KernalNOName        x128
+ * $VICERES KernalSEName        x128
+ * $VICERES KernalCHName        x128
+ * $VICERES BasicLoName         x128
+ * $VICERES BasicHiName         x128
+ * $VICERES Kernal64Name        x128
+ * $VICERES Basic64Name         x128
+ * $VICERES ChargenIntName      x128
+ * $VICERES ChargenDEName       x128
+ * $VICERES ChargenFRName       x128
+ * $VICERES ChargenSEName       x128
+ * $VICERES ChargenCHName       x128
+ * $VICERES FunctionLowName     xplus4
+ * $VICERES FunctionHighName    xplus4
+ * $VICERES c1loName            xplus4
+ * $VICERES c1hiName            xplus4
+ * $VICERES c2loName            xplus4
+ * $VICERES c2hiName            xplus4
+ * $VICERES Cart1Name           xcbm5x0 xcbm2
+ * $VICERES Cart2Name           xcbm5x0 xcbm2
+ * $VICERES Cart4Name           xcbm5x0 xcbm2
+ * $VICERES Cart6Name           xcbm5x0 xcbm2
+ * $VICERES EditorName          xpet
  *
+ * Drive ROMS:
+ *
+ * $VICERES DosName1540         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName1541         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName1541ii       x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName1551         xplus4
+ * $VICERES DosName1570         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName1571         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName1571cr       x128
+ * $VICERES DosName1581         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName2000         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName4000         x64 x64sc xscpu64 xvic x128 xplus4
+ * $VICERES DosName2031         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
+ * $VICERES DosName2040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
+ * $VICERES DosName3040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
+ * $VICERES DosName4040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
+ * $VICERES DosName1001         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  */
 
 /*
