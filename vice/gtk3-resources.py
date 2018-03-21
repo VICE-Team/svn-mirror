@@ -156,6 +156,22 @@ def parse_source(path):
     return resources
 
 
+def get_gtk3_resources():
+    # dictionary with the resource name as key, and a list of (filename, emus)
+    # as each value
+    reslist = dict()
+
+    for source in iterate_sources():
+        resources = parse_source(source)
+        if resources:
+            for name,emus in resources:
+                if name not in reslist:
+                    reslist[name] = []
+                reslist[name].append((source, emus))
+    return reslist
+
+
+
 def print_emu_header():
     """
     Print emulator types on stdout
@@ -213,6 +229,26 @@ def list_emu_resources(resources, emu):
     return num
 
 
+def list_missing_resources():
+    gtk3_resources = get_gtk3_resources()
+    texi_resources = get_texi_resources()
+
+    not_in_texi = set(gtk3_resources.keys()) - set(texi_resources.keys())
+    not_in_gtk3 = set(texi_resources.keys()) - set(gtk3_resources.keys())
+
+    print("Resources missing in Gtk3, but present in vice.texi:\n")
+    for res in sorted(not_in_gtk3):
+        print(res)
+    print("{} missing resources in Gtk3 UI".format(len(not_in_gtk3)))
+
+    print("\nResources missing in vice.texi, but present in src/arch/gtk3:\n")
+    for res in sorted(not_in_texi):
+        print(res)
+    print("{} missing resources in vice.texi".format(len(not_in_texi)))
+
+    return 0
+
+
 def usage():
     """
     Dump usage info on stdoud
@@ -225,11 +261,18 @@ Commands:
     list-all            list all resources for all emus
     list-per-emu <emu>  list all resources for <emu>
     list-texi           list all resources documented in vice.texi
-    """)
+    list-missing        list resources missing in Gtk3 which are in vice.texi
+
+Please note that unfortunately neither the Gtk3 sources nor vice.texi are
+authorative when it comes to resources, in other words: neither can be trusted
+to provide a full list of supported resources. But at least this script should
+give some idea about the resources missing/not-implemented, so it's a good
+start to get the resources right.""")
+
 
 
 # List of available commands
-commands = [ 'list-all', 'list-per-emu', 'list-texi' ]
+commands = [ 'list-all', 'list-per-emu', 'list-texi', 'list-missing' ]
 
 
 def main():
@@ -251,32 +294,23 @@ def main():
                 file=sys.stdout)
         exit(1)
 
-    # dictionary with the resource name as key, and a list of (filename, emus)
-    # as each value
-    reslist = dict()
-
-    for source in iterate_sources():
-        resources = parse_source(source)
-        if resources:
-            for name,emus in resources:
-                if name not in reslist:
-                    reslist[name] = []
-                reslist[name].append((source, emus))
-
-    # pprint.pprint(reslist)
 
     # check commands
     if sys.argv[1] == "list-all":
+        reslist = get_gtk3_resources()
         num = list_resources(reslist)
     elif sys.argv[1] == "list-per-emu":
         if len(sys.argv) < 3:
             printf("list-per-emu needs a emulator name as its argument",
                     file=sys.stderr)
             exit(1)
+        reslist = get_gtk3_resources()
         num = list_emu_resources(reslist, sys.argv[2])
     elif sys.argv[1] == "list-texi":
         resources = get_texi_resources()
         num = list_texi_resources(resources)
+    elif sys.argv[1] == "list-missing":
+        num = list_missing_resources()
 
     print("\n{} documented resources found in the Gtk3 UI".format(num))
 
