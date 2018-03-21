@@ -2,9 +2,10 @@
  * \brief   GTK3 keyboard layout widget for the settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  KeyboardMapping
+ */
+
+/*
+ * $VICERES KeyboardMapping     -vsid
  */
 
 /*

@@ -3,13 +3,16 @@
  *
  * Written by
  *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IsepicCartridgeEnabled
- *  Isepicfilename
- *  IsepicSwitch
- *  IsepicImageWrite
- *
+ */
+
+/*
+ * $VICERES IsepicCartridgeEnabled  x64 x64sc xscpu64 x128
+ * $VICERES Isepicfilename          x64 x64sc xscpu64 x128
+ * $VICERES IsepicSwitch            x64 x64sc xscpu64 x128
+ * $VICERES IsepicImageWrite        x64 x64sc xscpu64 x128
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

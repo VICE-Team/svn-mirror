@@ -122,7 +122,11 @@ def list_resources(resources):
     List resources alphabetically, with emu-support and source file
 
     :param resources: dictionary of resources parsed from the sources
+
+    :returns: number of resources
     """
+
+    num = 0
 
     print_emu_header()
     for res in sorted(resources.keys()):
@@ -137,6 +141,28 @@ def list_resources(resources):
                 else:
                     print("- ", end="")
             print(" {}".format(filename[len(GTK3_SOURCES) + 1:]))
+
+    return len(resources)
+
+
+def list_emu_resources(resources, emu):
+    """
+    List resources for emu
+
+    :param resources: dict with reource info
+    :param emu: emulator name
+    """
+
+    num = 0
+
+    for res in sorted(resources.keys()):
+        for entry in resources[res]:
+            if emu in entry[1]:
+                print("{:40}  {}".format(res, entry[0]))
+                # num++ (still not?)
+                num += 1
+
+    return num
 
 
 def main():
@@ -160,7 +186,10 @@ def main():
 
     # pprint.pprint(reslist)
 
-    list_resources(reslist)
+    num = list_resources(reslist)
+    # num = list_emu_resources(reslist, "vsid")
+
+    print("\n{} documented resources found in the Gtk3 UI".format(num))
 
 
 # include guard: only run the code when called as a program, allowing including

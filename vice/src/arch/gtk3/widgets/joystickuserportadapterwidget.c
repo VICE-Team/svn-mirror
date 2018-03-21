@@ -1,12 +1,14 @@
-/**
+/** \file   joystickuserportadapterwidget.c
  * \brief   Widget to select a userport joystick adapter
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  UserportJoyType
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES UserportJoyType     -xcbm5x0 -vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

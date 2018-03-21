@@ -1,14 +1,13 @@
-/**
+/** \file   kbdmappingwidget.c
  * \brief   GTK3 keyboard mapping widget for the settings dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  KeymapIndex   - determines keymapping: symbolic (0), positional (1),
- *                  user-defined symbolic (2) and user-defined positional (3)
- *                  (integer)
- *  KeymapPosFile - user-defined positional mapping file (string)
- *  KeymapSymFike - user-defined symbolic mapping file (string)
+ */
+
+/*
+ * $VICERES KeymapIndex     -vsid
+ * $VICERES KeymapPosFile   -vsid
+ * $VICERES KeymapSymFile   -vsid
  */
 
 /*

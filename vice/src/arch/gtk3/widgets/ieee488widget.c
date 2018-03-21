@@ -2,10 +2,11 @@
  * \brief   IEEE-488 adapter widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IEEE488
- *  IEEE488Image
+ */
+
+/*
+ * $VICERES IEEE488         x64 x64sc xscpu64 x128 xvic
+ * $VICERES IEEE488Image    x64 x64sc xscpu64 x128
  */
 
 /*

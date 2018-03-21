@@ -1,27 +1,28 @@
 /** \file   keysetdialog.c
- * \brief   Widget to set joystick keyboard mappings
+ * \brief   Widget to set joystick keyset mappings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  KeySet1NorthWest
- *  KeySet1North
- *  KeySet1NorthEast
- *  KeySet1West
- *  KeySet1Fire
- *  KeySet1East
- *  KeySet1SouthWest
- *  KeySet1South
- *  KeySet1SouthEast
- *  KeySet2NorthWest
- *  KeySet2North
- *  KeySet2NorthEast
- *  KeySet2West
- *  KeySet2Fire
- *  KeySet2East
- *  KeySet2SouthWest
- *  KeySet2South
- *  KeySet2SouthEast
+ */
+
+/*
+ * $VICERES KeySet1NorthWest    -vsid
+ * $VICERES KeySet1North        -vsid
+ * $VICERES KeySet1NorthEast    -vsid
+ * $VICERES KeySet1West         -vsid
+ * $VICERES KeySet1Fire         -vsid
+ * $VICERES KeySet1East         -vsid
+ * $VICERES KeySet1SouthWest    -vsid
+ * $VICERES KeySet1South        -vsid
+ * $VICERES KeySet1SouthEast    -vsid
+ * $VICERES KeySet2NorthWest    -vsid
+ * $VICERES KeySet2North        -vsid
+ * $VICERES KeySet2NorthEast    -vsid
+ * $VICERES KeySet2West         -vsid
+ * $VICERES KeySet2Fire         -vsid
+ * $VICERES KeySet2East         -vsid
+ * $VICERES KeySet2SouthWest    -vsid
+ * $VICERES KeySet2South        -vsid
+ * $VICERES KeySet2SouthEast    -vsid
  */
 
 /*

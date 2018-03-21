@@ -4,37 +4,38 @@
  * IDE64 settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IDE64AutodetectSize1
- *  IDE64AutodetectSize2
- *  IDE64AutodetectSize3
- *  IDE64AutodetectSize4
- *  IDE64version
- *  IDE64Image1
- *  IDE64Image2
- *  IDE64Image3
- *  IDE64Image4
- *  IDE64ClockPort
- *  IDE64Cylinders1
- *  IDE64Cylinders2
- *  IDE64Cylinders3
- *  IDE64Cylinders4
- *  IDE64Heads1
- *  IDE64Heads2
- *  IDE64Heads3
- *  IDE64Heads4
- *  IDE64Sectors1
- *  IDE64Sectors2
- *  IDE64Sectors3
- *  IDE64Sectors4
- *  IDE64USBServer
- *  IDE64USBServerAddress
- *  IDE64RTCSave
- *  SBDIGIMAX
- *  SBDIGIMAXbase
- *  SBETFE
- *  SBETFEbase
+ */
+
+/*
+ * $VICERES IDE64AutodetectSize1    x64 x64sc xscpu64 x128
+ * $VICERES IDE64AutodetectSize2    x64 x64sc xscpu64 x128
+ * $VICERES IDE64AutodetectSize3    x64 x64sc xscpu64 x128
+ * $VICERES IDE64AutodetectSize4    x64 x64sc xscpu64 x128
+ * $VICERES IDE64version            x64 x64sc xscpu64 x128
+ * $VICERES IDE64Image1             x64 x64sc xscpu64 x128
+ * $VICERES IDE64Image2             x64 x64sc xscpu64 x128
+ * $VICERES IDE64Image3             x64 x64sc xscpu64 x128
+ * $VICERES IDE64Image4             x64 x64sc xscpu64 x128
+ * $VICERES IDE64ClockPort          x64 x64sc xscpu64 x128
+ * $VICERES IDE64Cylinders1         x64 x64sc xscpu64 x128
+ * $VICERES IDE64Cylinders2         x64 x64sc xscpu64 x128
+ * $VICERES IDE64Cylinders3         x64 x64sc xscpu64 x128
+ * $VICEReS IDE64Cylinders4         x64 x64sc xscpu64 x128
+ * $VICERES IDE64Heads1             x64 x64sc xscpu64 x128
+ * $VICERES IDE64Heads2             x64 x64sc xscpu64 x128
+ * $VICERES IDE64Heads3             x64 x64sc xscpu64 x128
+ * $VICERES IDE64Heads4             x64 x64sc xscpu64 x128
+ * $VICERES IDE64Sectors1           x64 x64sc xscpu64 x128
+ * $VICERES IDE64Sectors2           x64 x64sc xscpu64 x128
+ * $VICERES IDE64Sectors3           x64 x64sc xscpu64 x128
+ * $VICERES IDE64Sectors4           x64 x64sc xscpu64 x128
+ * $VICERES IDE64USBServer          x64 x64sc xscpu64 x128
+ * $VICERES IDE64USBServerAddress   x64 x64sc xscpu64 x128
+ * $VICERES IDE64RTCSave            x64 x64sc xscpu64 x128
+ * $VICERES SBDIGIMAX               x64 x64sc xscpu64 x128
+ * $VICERES SBDIGIMAXbase           x64 x64sc xscpu64 x128
+ * $ViCERES SBETFE                  x64 x64sc xscpu64 x128
+ * $VICERES SBETFEbase              x64 x64sc xscpu64 x128
  */
 
 /*

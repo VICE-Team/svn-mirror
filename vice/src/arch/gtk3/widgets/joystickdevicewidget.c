@@ -1,16 +1,18 @@
-/**
+/** \file   joystickdevicewidget.c
  * \brief   Widget to select a joystick device
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  JoyDevice1
- *  JoyDevice2
- *  JoyDevice3
- *  JoyDevice4
- *  JoyDevice5
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES JoyDevice1      -xcbm2 -xpet -vsid
+ * $VICERES JoyDevice2      -xcbm2 -xpet -vsid
+ * $VICERES JoyDevice3      -xcbm5x0 -vsid
+ * $VICERES JoyDevice4      -xcbm5x0 -xplus4 -vsid
+ * $VICERES JoyDevice5      xplus4
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

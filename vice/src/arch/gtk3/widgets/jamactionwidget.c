@@ -2,9 +2,10 @@
  * \brief   GTK3 default JAM action setting dialog
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  JAMAction
+ */
+
+/*
+ * $VICERES JAMAction   all
  */
 
 /*
