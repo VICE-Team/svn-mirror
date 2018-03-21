@@ -5,7 +5,7 @@
  */
 
 /*
- * $VICE    IOSize  xpet
+ * $VICERES IOSize  xpet
  */
 
 /*

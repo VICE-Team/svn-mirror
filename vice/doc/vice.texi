@@ -8612,8 +8612,9 @@ Enable/disable the saving of the External Function RTC data when changed
 
 @table @code
 
-@vindex 40/80ColumnKey
-@item 40/80ColumnKey
+@c Rename to C128ColumnSwitch or so
+@vindex C128ColumnKey
+@item C128ColumnKey
 Boolean specifying the status of the 40/80 columns key.
 (0: Not pressed, 1: Pressed)
 

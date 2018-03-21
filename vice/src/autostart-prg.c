@@ -1,9 +1,10 @@
+/** \file   autostart-prg.c
+ * \brief   Handle autostart of program files
+ *
+ * \author  Christian Vogelgsang <chris@vogelgsang.org>
+ */
+
 /*
- * autostart-prg.c - Handle autostart of program files
- *
- * Written by
- *  Christian Vogelgsang <chris@vogelgsang.org>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

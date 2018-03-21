@@ -1,14 +1,13 @@
+/** \file   c128.c
+ * \brief   C128 basic stuff
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * \author  Jouko Valta <jopi@stekt.oulu.fi>
+ */
+
 /*
- * c128.c
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
- * Based on the original work in VICE 0.11.0 by
- *  Jouko Valta <jopi@stekt.oulu.fi>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -1166,7 +1165,7 @@ int machine_specific_init(void)
 
         resources_get_int("UseFullscreen", &fs);
         if (fs) {
-            resources_get_int("40/80ColumnKey", &fs);
+            resources_get_int("C128ColumnKey", &fs);
             if (fs == 1) {
                 resources_set_int("VICIIFullscreen", 1);
             } else {

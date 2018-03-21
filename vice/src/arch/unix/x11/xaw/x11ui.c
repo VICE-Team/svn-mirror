@@ -1,13 +1,15 @@
+/** \file   x11ui.c
+ * \brief   Simple Xaw(3d)-based graphical user interface
+ *
+ * It uses widgets from the Free Widget Foundation and Robert W. McMullen.
+ *
+ * \author  Olaf Seibert <rhialto@falu.nl>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Andre Fachat <fachat@physik.tu-chemnitz.de>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ */
+
 /*
- * x11ui.c - Simple Xaw(3d)-based graphical user interface.  It uses widgets
- * from the Free Widget Foundation and Robert W. McMullen.
- *
- * Written by
- *  Olaf Seibert <rhialto@falu.nl>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andre Fachat <fachat@physik.tu-chemnitz.de>
- *  Andreas Boose <viceteam@t-online.de>
- *
  * Support for multiple visuals and depths by
  *  Teemu Rantanen <tvr@cs.hut.fi>
  *
@@ -1315,7 +1317,7 @@ int x11ui_fullscreen(int enable)
 
     if (strcmp(machine_name, "C128") == 0) {
         /* mode == 1 -> VICII, mode == 0 VDC */
-        resources_get_int("40/80ColumnKey", &mode); 
+        resources_get_int("C128ColumnKey", &mode); 
     } else {
         mode = 0;
     }

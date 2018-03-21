@@ -1,10 +1,11 @@
+/** \file   c128mmu.c
+ * \brief   C128 memory management uint
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Marco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * c128mmu.c
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -90,7 +91,7 @@ static int set_force_c64_mode(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
-    { "40/80ColumnKey", 1, RES_EVENT_SAME, NULL,
+    { "C128ColumnKey", 1, RES_EVENT_SAME, NULL,
       &mmu_column4080_key, set_column4080_key, NULL },
     { "Go64Mode", 0, RES_EVENT_SAME, NULL,
       &force_c64_mode_res, set_force_c64_mode, NULL },
@@ -104,12 +105,12 @@ int mmu_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] = {
     { "-40col", SET_RESOURCE, 0,
-      NULL, NULL, "40/80ColumnKey", (resource_value_t) 1,
+      NULL, NULL, "C128ColumnKey", (resource_value_t) 1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ACTIVATE_40_COL_MODE,
       NULL, NULL },
     { "-80col", SET_RESOURCE, 0,
-      NULL, NULL, "40/80ColumnKey", (resource_value_t) 0,
+      NULL, NULL, "C128ColumnKey", (resource_value_t) 0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_ACTIVATE_80_COL_MODE,
       NULL, NULL },
@@ -136,7 +137,7 @@ int mmu_cmdline_options_init(void)
 static void mmu_toggle_column4080_key(void)
 {
     mmu_column4080_key = !mmu_column4080_key;
-    resources_set_int("40/80ColumnKey", mmu_column4080_key);
+    resources_set_int("C128ColumnKey", mmu_column4080_key);
     log_message(mmu_log, "40/80 column key %s.", (mmu_column4080_key) ? "released" : "pressed");
 }
 

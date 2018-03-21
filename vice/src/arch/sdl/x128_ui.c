@@ -1,10 +1,11 @@
+/** \file   x128_ui.c
+ * \brief   Implementation of the C128-specific part of the UI.
+ *
+ * \author  Hannu Nuotio <hannu.nuotio@tut.fi>
+ * \author  arco van den Heuvel <blackystardust68@yahoo.com>
+ */
+
 /*
- * x128_ui.c - Implementation of the C128-specific part of the UI.
- *
- * Written by
- *  Hannu Nuotio <hannu.nuotio@tut.fi>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -179,7 +180,7 @@ static const ui_menu_entry_t x128_main_menu[] = {
 
 static void c128ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
-    if (index == 0) { 
+    if (index == 0) {
         /* VICII */
         menu_draw->max_text_x = 40;
         menu_draw->color_front = menu_draw->color_default_front = 1;
@@ -190,7 +191,7 @@ static void c128ui_set_menu_params(int index, menu_draw_t *menu_draw)
         menu_draw->color_inactive_red = 2;
         menu_draw->color_active_grey = 15;
         menu_draw->color_inactive_grey = 11;
-    } else {         
+    } else {
         /* VDC */
         menu_draw->max_text_x = 80;
         menu_draw->color_front = menu_draw->color_default_front = 15;
@@ -211,7 +212,7 @@ int c128ui_init(void)
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
-    resources_get_int("40/80ColumnKey", &columns_key);
+    resources_get_int("C128ColumnKey", &columns_key);
     sdl_video_canvas_switch(columns_key ^ 1);
 
     sdl_ui_set_menu_params = c128ui_set_menu_params;

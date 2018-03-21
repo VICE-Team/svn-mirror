@@ -1,13 +1,14 @@
+/** \file   autostart.
+ * \brief   Automatic image loading and starting.
+ *
+ * \author  Teemu Rantanen <tvr@cs.hut.fi>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Thomas Bretz <tbretz@ph.tum.de>
+ */
+
 /*
- * autostart.c - Automatic image loading and starting.
- *
- * Written by
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
- *  Andreas Boose <viceteam@t-online.de>
- *  Thomas Bretz <tbretz@ph.tum.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -663,7 +664,7 @@ static void autostart_done(void)
 
     if (machine_class == VICE_MACHINE_C128) {
         /* restore original state of key */
-        resources_set_int("40/80ColumnKey", c128_column4080_key);
+        resources_set_int("C128ColumnKey", c128_column4080_key);
     }
 
     /* Enter monitor after done */
@@ -1050,8 +1051,8 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
        easily for VDC mode). We work around that by switching to 40 columns and
        back if needed */
     if (machine_class == VICE_MACHINE_C128) {
-        resources_get_int("40/80ColumnKey", &c128_column4080_key);
-        resources_set_int("40/80ColumnKey", 1);
+        resources_get_int("C128ColumnKey", &c128_column4080_key);
+        resources_set_int("C128ColumnKey", 1);
     }
 
     mem_powerup();

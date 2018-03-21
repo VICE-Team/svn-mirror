@@ -1,15 +1,14 @@
+/** \file   keyboard.c
+ * \brief   Common keyboard emulation.
+ *
+ * \author  Andreas Boose <viceteam@t-online.de>
+ * \author  Ettore Perazzoli <ettore@comm2000.it>
+ * \author  Jouko Valta <jopi@stekt.oulu.fi>
+ * \author  Andre Fachat <fachat@physik.tu-chemnitz.de>
+ * \author  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
+ */
+
 /*
- * keyboard.c - Common keyboard emulation.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *
- * Based on old code by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Jouko Valta <jopi@stekt.oulu.fi>
- *  Andre Fachat <fachat@physik.tu-chemnitz.de>
- *  Bernhard Kuhn <kuhn@eikon.e-technik.tu-muenchen.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
