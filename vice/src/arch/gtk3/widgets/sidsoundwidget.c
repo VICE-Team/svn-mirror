@@ -2,18 +2,21 @@
  * \brief   Settings for SID emulation
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/* Note: These only make sense with a SidCart attached for certain machines
  *
- * Controls the following resource(s):
- *  SidEngine
- *  SidStereo
- *  SidResidSampling
- *  SidResidPassband
- *  SidResidGain
- *  SidResidFilterBias
- *  SidFilters
- *  SidStereoAddressStart
- *  SidTripleAddressStart
- *  SidQuadAddressStart     (all except vsid)
+ * $VICERES SidEngine                   all
+ * $VICERES SidStereo                   all
+ * $VICERES SidResidSampling            all
+ * $VICERES SidResidPassband            all
+ * $VICERES SidResidGain                all
+ * $VICERES SidResidFilterBias          all
+ * $VICERES SidFilters                  all
+ * $VICERES SidStereoAddressStart       all
+ * $VICERES SidTripleAddressStart       all
+ * $VICERES SidQuadAddressStart         -vsid
+ *  (Until PSID files support a fourth SID, this will be -vsid)
  */
 
 /*

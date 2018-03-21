@@ -2,10 +2,11 @@
  * \brief   GTK3 sound driver widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SoundDeviceName
- *  SoundDeviceArg
+ */
+
+/*
+ * $VICERES SoundDeviceName     all
+ * $VICERES SoundDeviceArg      all
  */
 
 /*

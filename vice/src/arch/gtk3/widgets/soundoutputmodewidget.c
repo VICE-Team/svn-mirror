@@ -2,9 +2,10 @@
  * \brief   GTK3 sound output mode widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SoundOutput
+ */
+
+/*
+ * $VICERES SoundOutput     all
  */
 
 /*

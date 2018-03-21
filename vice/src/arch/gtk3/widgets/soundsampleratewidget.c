@@ -2,9 +2,10 @@
  * \brief   GTK3 sound sample rate widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SoundSampleRate
+ */
+
+/*
+ * $VICERES SoundSampleRate     all
  */
 
 /*

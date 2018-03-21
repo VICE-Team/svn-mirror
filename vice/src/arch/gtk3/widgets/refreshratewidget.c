@@ -2,9 +2,10 @@
  * \brief   GTK3 refresh rate widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following rescource(s):
- *  RefreshRate
+ */
+
+/*
+ * $VICERES RefreshRate     all
  */
 
 /*

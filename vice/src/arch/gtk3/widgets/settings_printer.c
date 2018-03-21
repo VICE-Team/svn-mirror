@@ -4,7 +4,9 @@
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
-/*
+/* FIXME:   Some of the resources mentioned here are actually controlled by
+ *          widgets in other files:
+ *
  * $VICERES IECDevice4                  -vsid
  * $VICERES IECDevice5                  -vsid
  * $VICERES IECDevice6                  -vsid

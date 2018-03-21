@@ -2,11 +2,12 @@
  * \brief   SID Cartidge widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SidCart (xvic/xplus4/xpet)
- *  SidAddress (xvic/xplus4/xpet)
- *  SidClock (xvic/xplus4/xpet)
+ */
+
+/*
+ * $VICERES SidCart     xvic xplus4 xpet
+ * $VICERES SidAddress  xvic xplus4 xpet
+ * $VICERES SidClock    xvic xplus4 xpet
  */
 
 /*

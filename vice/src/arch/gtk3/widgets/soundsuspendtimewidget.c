@@ -2,9 +2,10 @@
  * \brief   Sound suspend time widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SoundSuspendTime
+ */
+
+/*
+ * $VICERES SoundSuspendTime    all
  */
 
 /*

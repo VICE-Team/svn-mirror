@@ -2,13 +2,15 @@
  * \brief   Widget to control RAM Expansion Module resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  REU
- *  REUsize
- *  REUfilename
- *  REUImageWrite
- *  REUIOSwap (xvic)
+ */
+
+/*
+ * $VICERES REU             x64 x64sc xscpu64 x128
+ * $VICERES REUsize         x64 x64sc xscpu64 x128
+ * $VICERES REUfilename     x64 x64sc xscpu64 x128
+ * $VICERES REUImageWrite   x64 x64sc xscpu64 x128
+ * $VICERES REUIOSwap       xvic
+ *  (FIXME: check this one, seems odd, no mention in vice.texi)
  */
 
 /*

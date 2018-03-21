@@ -2,10 +2,11 @@
  * \brief   SFX Sound Sampler widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SFXSoundSampler         (x64/x64sc/xscpu64/x128/xvic)
- *  SFXSoundSamplerIOSwap   (xvic)
+ */
+
+/*
+ * $VICERES SFXSoundSampler         x64 x64sc xscpu64 x128 xvic
+ * $VICERES SFXSoundSamplerIOSwap   xvic
  */
 
 /*

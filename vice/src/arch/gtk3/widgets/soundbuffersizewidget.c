@@ -2,9 +2,10 @@
  * \brief   GTK3 sound buffer size widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SoundBufferSize
+ */
+
+/*
+ * $VICERES SoundBufferSize     all
  */
 
 /*

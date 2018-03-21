@@ -2,9 +2,10 @@
  * \brief   Widget to control Super Snapshot V5 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SSRamExpansion (x64/x64sc/xscpu/x128)
+ */
+
+/*
+ * $VICE    SSRamExpansion  x64 x64sc xscpu x128
  */
 
 /*

@@ -2,9 +2,11 @@
  * \brief   Widget to select SID model
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SidModel
+ */
+
+/*
+ * $VICERES SidModel    all
+ *  (all = if a SidCart is installed)
  */
 
 /*

@@ -2,9 +2,10 @@
  * \brief   GTK3 sound synchronization mode widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SoundSpeedAdjustment
+ */
+
+/*
+ * $VICERES SoundSpeedAdjustment    all
  */
 
 /*

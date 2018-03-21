@@ -2,10 +2,11 @@
  * \brief   Widget to control RRNet MK3 resourcs
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  RRNETMK3_flashjumper
- *  RRNETMK3_bios_write
+ */
+
+/*
+ * $VICERES RRNETMK3_flashjumper    x64 x64sc xscpu64 x128
+ * $VICERES RRNETMK3_bios_write     x64 x64sc xscpu64 x128
  */
 
 

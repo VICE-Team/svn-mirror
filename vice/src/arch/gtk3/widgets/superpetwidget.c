@@ -2,20 +2,19 @@
  * \brief   Widget to control various SuperPET related resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * TODO: clean up this table, remove resource descriptions, add emus:
- *
- * Controls the following resource(s):
- *  SuperPET        - Enable/disable SuperPET I/O and 6809 CPU
- *  Ram9            - Enable RAM at $9000-$9FFF
- *  RamA            - Enable RAM at $A000-$BFFF
- *  CPUswitch       - CPU type (0 = 6502, 1 = 6809, 2 = programmable)
- *  H6809RomAName   - ROM file for $A000-$AFFF
- *  H6809RomBName   - ROM file for $B000-$BFFF
- *  H6809RomCName   - ROM file for $C000-$CFFF
- *  H6809RomDName   - ROM file for $D000-$DFFF
- *  H6809RomEName   - ROM file for $E000-$EFFF
- *  H6809RomFName   - ROM file for $F000-$FFFF
+ */
+
+/*
+ * $VICERES SuperPET        xpet
+ * $VICERES Ram9            xpet
+ * $VICERES RamA            xpet
+ * $VICERES CPUswitch       xpet
+ * $VICERES H6809RomAName   xpet
+ * $VICERES H6809RomBName   xpet
+ * $VICERES H6809RomCName   xpet
+ * $VICERES H6809RomDName   xpet
+ * $VICERES H6809RomEName   xpet
+ * $VICERES H6809RomFName   xpet
  *
  * See the widgets/aciawidget.c file for additional resources.
  */

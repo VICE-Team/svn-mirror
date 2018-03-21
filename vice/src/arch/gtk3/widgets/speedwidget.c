@@ -2,9 +2,10 @@
  * \brief   GTK3 emulation speed widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Speed
+ */
+
+/*
+ * $VICERES Speed   all
  */
 
 /*

@@ -2,13 +2,14 @@
  * \brief   Widget to control Retro Replay resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  RRFlashJumper   (x64/x64sc/xscpu64/x128)
- *  RRBankJumper    (x64/x64sc/xscpu64/x128)
- *  RRBiosWrite     (x64/x64sc/xscpu64/x128)
- *  RRrevision      (x64/x64sc/xscpu64/x128)
- *  RRClockPort     (x64/x64sc/xscpu64/x128)
+ */
+
+/*
+ * $VICERES RRFlashJumper   x64 x64sc xscpu64 x128
+ * $VICERES RRBankJumper    x64 x64sc xscpu64/x128
+ * $VICERES RRBiosWrite     x64 x64sc xscpu64/x128
+ * $VICERES RRrevision      x64 x64sc xscpu64/x128
+ * $VICERES RRClockPort     x64 x64sc xscpu64/x128
  */
 
 /*

@@ -2,13 +2,14 @@
  * \brief   Widget to control RamCart resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  RAMCART
- *  RAMCARTsize
- *  RAMCARTfilename
- *  RAMCARTImageWrite
- *  RAMCART_RO
+ */
+
+/*
+ * $VICERES RAMCART             x64 x64sc xscpu64 x128
+ * $VICERES RAMCARTsize         x64 x64sc xscpu64 x128
+ * $VICERES RAMCARTfilename     x64 x64sc xscpu64 x128
+ * $VICERES RAMCARTImageWrite   x64 x64sc xscpu64 x128
+ * $VICERES RAMCART_RO          x64 x64sc xscpu64 x128
  */
 
 /*

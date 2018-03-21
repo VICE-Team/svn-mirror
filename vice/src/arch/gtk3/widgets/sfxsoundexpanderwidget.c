@@ -2,11 +2,12 @@
  * \brief   SFX Sound Expander widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SFXSoundExpander
- *  SFXSoundExpanderChip
- *  SFXSoundExpanderIOSwap (xvic)
+ */
+
+/*
+ * $VICERES SFXSoundExpander            x64 x64sc xscpu64 x128 xvic
+ * $VICERES SFXSoundExpanderChip        x64 x64sc xscpu64 x128 xvic
+ * $VICERES SFXSoundExpanderIOSwap      xvic
  */
 
 /*

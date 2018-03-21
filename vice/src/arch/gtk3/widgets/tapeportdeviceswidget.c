@@ -2,20 +2,21 @@
  * \brief   Tape port devices widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Datasette               (all except vsid/xscpu64)
- *  TapeLog                 (all except vsid/xscpu64)
- *  TapeLogDestination      (all except vsid/xscpu64)
- *  CPClockF83              (all except vsid/xscpu64)
- *  CPClockF83Save          (all except vsid/xscpu64)
- *  TapeSenseDongle         (all except vsid/xscpu64)
- *  DTLBasicDongle          (all except vsid/xscpu64)
- *  TapecartEnabled         (x64/x64sc/x128)
- *  TapecartUpdateTCRT      (x64/x64sc/x128)
- *  TapecartOptimizeTCRT    (x64/x64sc/x128)
- *  TapecartLogLevel        (x64/x64sc/x128)
- *  TapecartTCRTFilename    (x64/x64sc/x128)
+ */
+
+/*
+ * $VICERES Datasette               -xscpu64 -vsid
+ * $VICERES TapeLog                 -xscpu64 -vsid
+ * $VICERES TapeLogDestination      -xscpu64 -vsid
+ * $VICERES CPClockF83              -xscpu64 -vsid
+ * $VICERES CPClockF83Save          -xscpu64 -vsid
+ * $VICERES TapeSenseDongle         -xscpu64 -vsid
+ * $VICERES DTLBasicDongle          -xscpu64 -vsid
+ * $VICERES TapecartEnabled         x64 x64sc x128
+ * $VICERES TapecartUpdateTCRT      x64 x64sc x128
+ * $VICERES TapecartOptimizeTCRT    x64 x64sc x128
+ * $VICERES TapecartLogLevel        x64 x64sc x128
+ * $VICERES TapecartTCRTFilename    x64 x64sc x128
  */
 
 /*
