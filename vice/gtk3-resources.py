@@ -12,6 +12,8 @@ Where <supported-emus> can be:
 * A whitespace separated list of emu names (ie 'x64 x64sc x128')
 * A whitespace separated list of emu names prefixed with '-', meaning all emus
   except the ones prefixed with '-' (ie '-vsid -scpu64)
+
+:author: Bas Wassink <b.wassink@ziggo.nl>
 """
 
 
@@ -19,6 +21,7 @@ import os
 import os.path
 import pprint
 import re
+import sys
 
 
 # Directory with gtk3 sources to parse
@@ -27,11 +30,15 @@ GTK3_SOURCES = "src/arch/gtk3"
 # Extensions of gtk3 sources to parse
 GTK3_EXTENSIONS = ('.c')
 
+# vice.text location
+VICE_TEXI = "doc/vice.texi"
+
 # List of emus
 ALL_EMUS = [ "x64", "x64sc", "xscpu64", "x64dtv", "x128", "xvic", "xpet",
         "xplus4", "xcbm5x0", "xcbm2", "vsid" ]
 
 
+# vice headers for dumping all resources
 EMU_HEADERS = """
     x           x
     s x       x c
@@ -42,9 +49,50 @@ x 4 u v 1 v p u 5 b s
 4 c 4 4 8 c t 4 0 2 d
 """
 
-# Precompile regex to make stuff run a bit faster
-regex = re.compile(r"\$VICERES\s+(\w+)\s+(.*)")
+# Precompile regex to get Gtk3 resource declarations
+gtk3_regex = re.compile(r"\$VICERES\s+(\w+)\s+(.*)")
 
+# Precompile regex to get resource from vice.texi
+texi_regex = re.compile(r"\@vindex\s+(\w+)")
+
+
+def get_texi_resources():
+    """
+    Parse vice.texi for resources
+
+    ;returns:   dict with resourc-name as key and a list of line number is
+                vice.texi as the value
+    """
+    lnum = 1
+    rnum = 0
+    resources = dict()
+
+    with open(VICE_TEXI, "rb") as infile:
+        for line in infile:
+            line = line.decode("latin-1")
+            result = texi_regex.search(line)
+            if result:
+                resname = result.group(1)
+                if resname not in resources:
+                    resources[resname] = []
+                resources[resname].append(lnum)
+            lnum += 1
+
+    return resources
+
+
+def list_texi_resources(resources):
+    """
+    Dump resources from vice.texi on stdout
+
+    First column is the resource name, second column contains a list of line
+    numbers if vice.texi where the resource is mentioned,
+
+    :returns;   number of resources listed
+    """
+    for key in sorted(resources.keys()):
+        print("{:40} {}".format(key, resources[key]))
+    return len(resources)
 
 
 def iterate_sources():
@@ -97,7 +145,7 @@ def parse_source(path):
 
     with open(path, "r") as infile:
         for line in infile:
-            result = regex.search(line)
+            result = gtk3_regex.search(line)
             if result:
                 if result.group(2):
                     # TODO: handle the -emu things
@@ -165,12 +213,43 @@ def list_emu_resources(resources, emu):
     return num
 
 
+def usage():
+    """
+    Dump usage info on stdoud
+    """
+
+    print(
+"""Usage: {} <command> [<args>]".format(sys.argv[0]))
+Commands:
+    help                display this text
+    list-all            list all resources for all emus
+    list-per-emu <emu>  list all resources for <emu>
+    list-texi           list all resources documented in vice.texi
+    """)
+
+
+# List of available commands
+commands = [ 'list-all', 'list-per-emu', 'list-texi' ]
+
+
 def main():
     """
     Main driver, just for testing the code, for now
 
     :todo:   add command line parser to allow selecting different reports
     """
+
+    # check for help/--help or no commands
+    if (len(sys.argv) < 2) or (sys.argv[1] == "help") or (sys.argv[1] == "--help"):
+        usage()
+        sys.exit(0)
+
+    # make sure command exists before parsing the entire Gtk3 source tree
+    if sys.argv[1] not in commands:
+        print("{}: unknown command {}, use --help for info.".format(
+            sys.argv[0], sys.argv[1]),
+                file=sys.stdout)
+        exit(1)
 
     # dictionary with the resource name as key, and a list of (filename, emus)
     # as each value
@@ -186,8 +265,18 @@ def main():
 
     # pprint.pprint(reslist)
 
-    num = list_resources(reslist)
-    # num = list_emu_resources(reslist, "vsid")
+    # check commands
+    if sys.argv[1] == "list-all":
+        num = list_resources(reslist)
+    elif sys.argv[1] == "list-per-emu":
+        if len(sys.argv) < 3:
+            printf("list-per-emu needs a emulator name as its argument",
+                    file=sys.stderr)
+            exit(1)
+        num = list_emu_resources(reslist, sys.argv[2])
+    elif sys.argv[1] == "list-texi":
+        resources = get_texi_resources()
+        num = list_texi_resources(resources)
 
     print("\n{} documented resources found in the Gtk3 UI".format(num))
 
