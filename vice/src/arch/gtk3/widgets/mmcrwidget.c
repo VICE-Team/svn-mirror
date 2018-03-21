@@ -2,16 +2,17 @@
  * \brief   Widget to control MMC Replay resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  MMCRCardImage   (x64/x64sc/xscpu64/x128)
- *  MMCREEPROMImage (x64/x64sc/xscpu64/x128)
- *  MMCREEPROMRW    (x64/x64sc/xscpu64/x128)
- *  MMCRRescueMode  (x64/x64sc/xscpu64/x128)
- *  MMCRImageWrite  (x64/x64sc/xscpu64/x128)
- *  MMCRCardRW      (x64/x64sc/xscpu64/x128)
- *  MMCRSDType      (x64/x64sc/xscpu64/x128)
- *  MMCRClockPort   (x64/x64sc/xscpu64/x128)
+ */
+
+/*
+ * $VICERES MMCRCardImage   x64 x64sc xscpu64 x128
+ * $VICERES MMCREEPROMImage x64 x64sc xscpu64 x128
+ * $VICERES MMCREEPROMRW    x64 x64sc xscpu64 x128
+ * $VICERES MMCRRescueMode  x64 x64sc xscpu64 x128
+ * $VICERES MMCRImageWrite  x64 x64sc xscpu64 x128
+ * $VICERES MMCRCardRW      x64 x64sc xscpu64 x128
+ * $VICERES MMCRSDType      x64 x64sc xscpu64 x128
+ * $VICERES MMCRClockPort   x64 x64sc xscpu64 x128
  */
 
 /*

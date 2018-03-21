@@ -1,12 +1,14 @@
-/**
+/** \file   petvideosizewidget.c
  * \brief   Widget to set the PET video size
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  VideoSize   - display with in columns: 0 (auto), 40 or 80
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES VideoSize   xpet
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

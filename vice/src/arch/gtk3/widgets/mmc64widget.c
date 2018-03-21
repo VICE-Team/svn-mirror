@@ -2,17 +2,18 @@
  * \brief   Widget to control MMC64 resources
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  MMC64               (x64/x64sc/xscpu64/x128)
- *  MMC64BIOSfilename   (x64/x64sc/xscpu64/x128)
- *  MMC64_bios_write    (x64/x64sc/xscpu64/x128)
- *  MMC64_flashjumper   (x64/x64sc/xscpu64/x128)
- *  MMC64_revision      (x64/x64sc/xscpu64/x128)
- *  MMC64imagefilename  (x64/x64sc/xscpu64/x128)
- *  MMC64_RO            (x64/x64sc/xscpu64/x128)
- *  MMC64_sd_type       (x64/x64sc/xscpu64/x128)
- *  MMC64ClockPort      (x64/x64sc/xscpu64/x128)
+ */
+
+/*
+ * $VICERES MMC64               x64 x64sc xscpu64 x128
+ * $VICERES MMC64BIOSfilename   x64 x64sc xscpu64 x128
+ * $VICERES MMC64_bios_write    x64 x64sc xscpu64 x128
+ * $VICERES MMC64_flashjumper   x64 x64sc xscpu64 x128
+ * $VICERES MMC64_revision      x64 x64sc xscpu64 x128
+ * $VICERES MMC64imagefilename  x64 x64sc xscpu64 x128
+ * $VICERES MMC64_RO            x64 x64sc xscpu64 x128
+ * $VICERES MMC64_sd_type       x64 x64sc xscpu64 x128
+ * $VICERES MMC64ClockPort      x64 x64sc xscpu64 x128
  */
 
 /*

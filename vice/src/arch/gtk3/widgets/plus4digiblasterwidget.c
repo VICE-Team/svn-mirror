@@ -2,9 +2,10 @@
  * \brief   Widget to control Plus4 DigiBlaster
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  DIGIBLASTER (xplus4)
+ */
+
+/*
+ * $VICERES DIGIBLASTER     xplus4
  */
 
 /*

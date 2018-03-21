@@ -2,9 +2,10 @@
  * \brief   Widget to set the PET I/O area size (PET 8296 only)
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IOSize  (xpet)
+ */
+
+/*
+ * $VICE    IOSize  xpet
  */
 
 /*

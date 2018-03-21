@@ -2,10 +2,11 @@
  * \brief   PET RAM expansion module widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  PETDWW          (xpet)
- *  PETDWWfilename  (xpet)
+ */
+
+/*
+ * $VICERES PETDWW          xpet
+ * $VICERES PETDWWfilename  xpet
  */
 
 /*

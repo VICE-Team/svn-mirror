@@ -1,12 +1,14 @@
-/**
+/** \file   peykeyboardtypewidget.c
  * \brief   PET keyboard type widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *   MachineType
- *
- * Controls the following resource(s):
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES KeyboardType
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

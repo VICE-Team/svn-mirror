@@ -2,11 +2,12 @@
  * \brief   PET RAM expansion module widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  PETREU          (xpet)
- *  PETREUsize      (xpet)
- *  PETREUfilename  (xpet)
+ */
+
+/*
+ * $VICERES PETREU          xpet
+ * $VICERES PETREUsize      xpet
+ * $VICERES PETREUfilename  xpet
  */
 
 /*

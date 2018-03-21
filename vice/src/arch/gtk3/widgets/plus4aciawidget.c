@@ -2,9 +2,10 @@
  * \brief   Widget to control Plus 4 ACIA
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Acia1Enable (xplus4)
+ */
+
+/*
+ * $VICERES Acia1Enable     xplus4
  */
 
 /*

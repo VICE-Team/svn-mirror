@@ -2,9 +2,10 @@
  * \brief   PET HRE settings widhget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  PETHRE (xpet)
+ */
+
+/*
+ * $VICERES PETHRE  xpet
  */
 
 /*

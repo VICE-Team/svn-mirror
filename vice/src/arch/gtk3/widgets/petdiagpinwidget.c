@@ -2,9 +2,10 @@
  * \brief   Widget to PET diagnostic pin settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  DiagPin (xpet)
+ */
+
+/*
+ * $VICERES DiagPin     xpet
  */
 
 /*

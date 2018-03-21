@@ -1,13 +1,17 @@
-/**
+/** \file   petmiscwidget.c
  * \brief   Widget to set the PET Crtc and EoiBlank resources
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Crtc     - enable/disable CRTC 6546 emulation (models 40xx and above)
- *  EoiBlank - enable/disable "blank screen on EOI" (oldest PET 2001)
- *
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * $VICERES Crtc        xpet
+ *  (enable/disable CRTC 6546 emulation for models 40xx and above)
+ * $VICERES EoiBlank    xpet
+ *  (enable/disable "blank screen on EOI" (oldest PET 2001))
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

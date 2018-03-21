@@ -2,12 +2,14 @@
  * \brief   Plus4 memory expansion widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  RamSize     (xplus4)
- *  MemoryHack  (xplus4)
- *
- *
+ */
+
+/*
+ * $VICERES RamSize     xplus4
+ * $VICERES MemoryHack  xplus4
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

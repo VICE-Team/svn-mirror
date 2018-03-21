@@ -2,16 +2,21 @@
  * \brief   MIDI emulation settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  MIDIEnable  (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIMode    (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIDriver  (x64/x64sc/xscpu64/x128/xvic) - Unix only
- *  MIDIInDev   (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIOutDev  (x64/x64sc/xscpu64/x128/xvic)
- *  MIDIName (  x64/x64sc/xscpu64/x128/xvic) - OSX only
- *  MIDIInName  (x64/x64sc/xscpu64/x128/xvic) - OSX only
- *  MIDIOutName (x64/x64sc/xscpu64/x128/xvic) - OSX only
+ */
+
+/*
+ * $VICERES MIDIEnable      x64 x64sc xscpu64 x128 xvic
+ * $VICERES MIDIMode        x64 x64sc xscpu64 x128 xvic
+ * $VICERE$S MIDIDriver     x64 x64sc xscpu64 x128 xvic
+ *  (Unix only)
+ * $VICERES MIDIInDev       x64 x64sc xscpu64 x128 xvic
+ * $VICERES MIDIOutDev      x64 x64sc xscpu64 x128 xvic
+ * $VICERES MIDIName        x64 x64sc xscpu64 x128 xvic
+ *  (MacOS only)
+ * $VICEREs MIDIInName      x64 x64sc xscpu64 x128 xvic
+ *  (MacOS only)
+ * $VICERES MIDIOutName     x64 x64sc xscpu64 x128 xvic
+ *  (MacOS only)
  */
 
 /*

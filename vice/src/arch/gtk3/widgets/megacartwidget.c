@@ -2,10 +2,11 @@
  * \brief   VIC-20 Mega Cart widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  MegaCartNvRAMfilename   (xvic)
- *  MegaCartNvRAMWriteBack  (xvic)
+ */
+
+/*
+ * $VICERES MegaCartNvRAMfilename   xvic
+ * $VICERES MegaCartNvRAMWriteBack  xvic
  */
 
 /*

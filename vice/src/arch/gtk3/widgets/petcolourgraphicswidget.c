@@ -2,10 +2,11 @@
  * \brief   PET Colour Graphics widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  PETColour   (xpet)
- *  PETColourBG (xpet)
+ */
+
+/*
+ * $VICERES PETColour       xpet
+ * $VICERES PETColourBG     xpet
  */
 
 /*

@@ -2,11 +2,12 @@
  * \brief   Widget to control printer output device settings
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Printer4TextDevice
- *  Printer5TextDevice
- *  Printer6TextDevice
+ */
+
+/*
+ * $VICERES Printer4TextDevice  -vsid
+ * $VICERES Printer5TextDevice  -vsid
+ * $VICERES Printer6TextDevice  -vsid
  */
 
 /*

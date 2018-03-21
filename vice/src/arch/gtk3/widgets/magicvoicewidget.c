@@ -2,10 +2,11 @@
  * \brief   Magic Voice widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  MagicVoiceCartridgeEnabled
- *  MagicVoiceImage
+ */
+
+/*
+ * $VICERES MagicVoiceCartridgeEnabled  x64 x64sc xscpu64 x128
+ * $VICERES MagicVoiceImage             x64 x64sc xscpu64 x128
  */
 
 /*

@@ -2,9 +2,10 @@
  * \brief   Widget to set the PET RAM size
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  RamSize (xpet)
+ */
+
+/*
+ * $VICERES RamSize     xpet
  */
 
 /*

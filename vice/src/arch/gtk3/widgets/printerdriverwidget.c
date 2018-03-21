@@ -1,12 +1,18 @@
-/**
- * \brief   Widget to control printer driver
+/** \file   printerdriverwidget.c
+ * \brief   Widget to control printer drivers
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
- * Controls the following resource(s):
- *  Printer
- *
+ * Allows selecting drives for printers #4, #5 and #6.
+ */
+
+/*
+ * $VICERES Printer4Driver  -vsid
+ * $VICERES Printer5Driver  -vsid
+ * $VICERES Printer6Driver  -vsid
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

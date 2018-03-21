@@ -2,13 +2,13 @@
  * \brief   Widget to control printer emulation type
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Printer4
- *  Printer5
- *  Printer6
- *
- * \see src/printer.h for the constants.
+ * \see     src/printer.h for the constants.
+ */
+
+/*
+ * $VICERES Printer4    -vsid
+ * $VICERES Printer5    -vsid
+ * $VICERES Printer6    -vsid
  */
 
 /*
