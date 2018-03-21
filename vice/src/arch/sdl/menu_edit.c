@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "kbdbuf.h"
 
+#ifdef USE_SDLUI2
 /** \brief  Callback for the edit->paste menu item
  *
  * Copies the host clipboard into the emulated machine's screen
@@ -85,4 +86,4 @@ const ui_menu_entry_t edit_menu[3] = {
     { "Paste from Clipboard", MENU_ENTRY_DIALOG, edit_menu_paste_callback, NULL},
     SDL_MENU_LIST_END
 };
-
+#endif
