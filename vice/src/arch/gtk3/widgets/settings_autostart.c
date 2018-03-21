@@ -10,7 +10,7 @@
  * $VICERES AutostartPrgMode                    -vsid
  * $VICERES AutostartPrgDiskImage               -vsid
  * $VICERES AutostartRunWithColon               -vsid
- * $VICEREs AutostartBasicLoad                  -vsid
+ * $VICERES AutostartBasicLoad                  -vsid
  * $VICERES AutostartWarp                       -vsid
  * $VICERES AutostartHandleTrueDriveEmulation   -vsid
  */
