@@ -2,10 +2,11 @@
  * \brief   VIC-20 I/O RAM widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IO2RAM  (xvic)
- *  IO3RAM  (xvic)
+ */
+
+/*
+ * $VICERES IO2RAM  xvic
+ * $VICERES IO3RAM  xvic
  */
 
 /*

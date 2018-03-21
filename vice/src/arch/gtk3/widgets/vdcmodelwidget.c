@@ -2,10 +2,11 @@
  * \brief   VDC settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  VDCRevision (x128)
- *  VDC64KB     (x128)
+ */
+
+/*
+ * $VICERES VDCRevision     x128
+ * $VICERES VDC64KB         x128
  */
 
 /*

@@ -2,12 +2,13 @@
  * \brief   GTK3 widget to select border mode
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  TEDBorderMode   (xplus4)
- *  VDCBorderMode   (x128)
- *  VICBorderMode   (xvic)
- *  VICIIBorderMode (x64/x64sc/xscpu64/x64dtv/x128/cbm5x0)
+ */
+
+/*
+ * $VICERES TEDBorderMode       xplus4
+ * $VICERES VDCBorderMode       x128
+ * $VICERES VICBorderMode       xvic
+ * $VICERES VICIIBorderMode     x64 x64sc xscpu64 x64dtv x128 cbm5x0
  */
 
 /*

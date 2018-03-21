@@ -2,16 +2,17 @@
  * \brief   Widget to select userport devices
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  Userport4bitSampler (x64/x64sc/xscpu64/x128/xcbm2)
- *  Userport8BSS        (x64/x64sc/xscpu64/x128/xcbm2)
- *  UserportDAC         (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet/plus4)
- *  UserportDIGIMAX     (x64/x64sc/xscpu64/x128/xcbm2)
- *  Userport58321a      (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
- *  Userport58321aSave  (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
- *  UserportDS1307      (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
- *  UserportDS1307Save  (x64/x64sc/xscpu64/x128/xcbm2/xvic/xpet)
+ */
+
+/*
+ * $VICERES Userport4bitSampler x64 x64sc xscpu64 x128 xcbm2
+ * $VICERES Userport8BSS        x64 x64sc xscpu64 x128 xcbm2
+ * $VICERES UserportDAC         x64 x64sc xscpu64 x128 xcbm2 xvic xpet xplus4
+ * $VICERES UserportDIGIMAX     x64 x64sc xscpu64 x128 xcbm2
+ * $VICERES Userport58321a      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES Userport58321aSave  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportDS1307      x64 x64sc xscpu64 x128 xcbm2 xvic xpet
+ * $VICERES UserportDS1307Save  x64 x64sc xscpu64 x128 xcbm2 xvic xpet
  */
 
 /*

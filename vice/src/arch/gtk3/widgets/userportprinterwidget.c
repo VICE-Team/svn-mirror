@@ -2,12 +2,14 @@
  * \brief   Widget to control userport printer
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/* FIXME:   Not sure the following is correct:
  *
- * Controls the following resource(s):
- *  PrinterUserPort
- *  PrinterUserportDriver
- *  PrinterUserportOutput
- *  PrinterUserportTextDevice
+ * $VICERES PrinterUserPort             -vsid
+ * $VICERES PrinterUserportDriver       -vsid
+ * $VICERES PrinterUserportOutput       -vsid
+ * $VICERES PrinterUserportTextDevice   -vsid
  */
 
 /*

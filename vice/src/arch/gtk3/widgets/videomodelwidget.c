@@ -5,8 +5,13 @@
  */
 
 /*
+ * FIXME:   This widget get's its resource name from another widget, so its
+ *          a little more involved to figure out exacly what resources are
+ *          set for which video chip.
  * Controls the following resource(s):
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -2,12 +2,13 @@
  * \brief   GTK3 mixer widget for VSID
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SoundVolume         (vsid)
- *  SidResidPassband    (vsid)
- *  SidResidGain        (vsid)
- *  SidResidFilterBias  (vsid)
+ */
+
+/*
+ * $VICERES SoundVolume         vsid
+ * $VICERES SidResidPassband    vsid
+ * $VICERES SidResidGain        vsid
+ * $VICERES SidResidFilterBias  vsid
  */
 
 /*

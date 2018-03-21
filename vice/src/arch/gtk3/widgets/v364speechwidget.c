@@ -2,10 +2,11 @@
  * \brief   V364 Speech widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  SpeechEnabled   (xplus4)
- *  SpeechImage     (xplus4)
+ */
+
+/*
+ * $VICERES SpeechEnabled   xplus4
+ * $VICERES SpeechImage     xplus4
  */
 
 /*

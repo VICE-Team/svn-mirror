@@ -2,9 +2,10 @@
  * \brief   VIC-20 UltiMem widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  UltiMemWriteBack    (xvic)
+ */
+
+/*
+ * $VICERES UltiMemWriteBack    xvic
  */
 
 /*

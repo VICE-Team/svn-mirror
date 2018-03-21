@@ -2,9 +2,10 @@
  * \brief   VicFlash widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  VicFlashPluginWriteBack (xvic)
+ */
+
+/*
+ * $VICERES VicFlashPluginWriteBack     xvic
  */
 
 /*

@@ -2,9 +2,10 @@
  * \brief   VIC-20 VFLI widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  VFLImod (xvic)
+ */
+
+/*
+ * $VICERES VFLImod     xvic
  */
 
 /*

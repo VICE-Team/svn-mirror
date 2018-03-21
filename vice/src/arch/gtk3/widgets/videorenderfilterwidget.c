@@ -2,13 +2,14 @@
  * \brief   GTK3 widget to select renderer filter
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  CrtcFilter      (xpet/xcbm2)
- *  TEDFilter       (xplus4)
- *  VDCFilter       (x128)
- *  VICFilter       (xvic)
- *  VICIIFilter     (x64/x64sc/xscpu64/xdtv64/x128/xcbm5x0)
+ */
+
+/*
+ * $VICERES CrtcFilter      xpet xcbm2
+ * $VICERES TEDFilter       xplus4
+ * $VICERES VDCFilter       x128
+ * $VICERES VICFilter       xvic
+ * $VICERES VICIIFilter     x64 x64sc xscpu64 xdtv64 x128 xcbm5x0
  */
 
 /*

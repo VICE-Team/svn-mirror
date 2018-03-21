@@ -2,9 +2,10 @@
  * \brief   VIC-20 IEEE-488 interface widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
- *
- * Controls the following resource(s):
- *  IEEE488 (xvic)
+ */
+
+/*
+ * $VICERES IEEE488     xvic
  */
 
 /*

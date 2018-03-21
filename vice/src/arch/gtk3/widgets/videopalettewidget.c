@@ -1,21 +1,25 @@
-/**
+/** \file   videopalettewidget.c
  * \brief   Widget to select palette
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
+ */
+
+/*
+ * FIXME:   Note sure x64dtv here:
  *
- * Controls the following resource(s):
- *  CrtcPaletteFile
- *  CrtcExternalPaelette
- *  TEDPaletteFile
- *  TEDExternalPalette
- *  VDCPaletteFile
- *  VDCExternalPalette
- *  VICPaletteFile
- *  VICExternalPalette
- *  VICIIPaletteFile
- *  VICIIExternalPalette
- *
+ * $VICERES CrtcPaletteFile         xpet xcbm2
+ * $VICERES CrtcExternalPaelette    xpet xcbm2
+ * $VICEREs TEDPaletteFile          xplus4
+ * $VICERES TEDExternalPalette      xplu4
+ * $VICERES VDCPaletteFile          x128
+ * $VICERES VDCExternalPalette      x128
+ * $VICERES VICPaletteFile          xvic
+ * $VICERES VICExternalPalette      xvic
+ * $VICERES  VICIIPaletteFile       x64 x64sc xscpu64 xd64tv xcbm5x0
+ * $VICERES VICIIExternalPalette    x64 x64sc xscpu64 xd64tv xcbm5x0
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

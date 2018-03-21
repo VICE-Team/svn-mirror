@@ -1,16 +1,21 @@
-/**
+/** \file   vic20memoryexpansionwidget.c
  * \brief   VIC20 memory expansion widget
  *
- * Written by
- *  Bas Wassink <b.wassink@ziggo.nl>
-*
- * Controls the following resource(s):
- *   RamBlock0 - 3KB extra RAM at $0400-$0fff
- *   RamBlock1 - 8KB extra RAM at $2000-$3fff
- *   RamBlock2 - 8KB extra RAM at $4000-$5fff
- *   RamBlock3 - 8KB extra RAM at $6000-$7fff
- *   RamBlock5 - 8KB extra RAM at $a000-$bfff
+ * \author  Bas Wassink <b.wassink@ziggo.nl>
  *
+ * Allow enabling/disabling VIC-20 RAM expansions, and also provides a list of
+ * common memory expansion configurations.
+ */
+
+/*
+ * $VICERES RamBlock0   xvic
+ * $VICERES RamBlock1   xvic
+ * $VICERES RamBlock2   xvic
+ * $VICERES RamBlock3   xvic
+ * $VICERES RamBlock5   xvic
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
