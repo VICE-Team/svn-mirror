@@ -66,7 +66,7 @@ int sdl_ui_menukeys[MENU_ACTION_NUM];
 
 /* UI hotkeys: index is the key(combo), value is a pointer to the menu item.
    4 is the number of the supported modifiers: shift, alt, control, meta. */
-#define SDLKBD_UI_HOTKEYS_MAX (SDLK_LAST * (1 << 4))
+#define SDLKBD_UI_HOTKEYS_MAX (SDL_NUM_SCANCODES * (1 << 4))
 ui_menu_entry_t *sdlkbd_ui_hotkeys[SDLKBD_UI_HOTKEYS_MAX];
 
 /* ------------------------------------------------------------------------ */
@@ -283,7 +283,7 @@ static inline int sdlkbd_key_mod_to_index(SDLKey key, SDLMod mod)
             i |= (1 << 3);
         }
     }
-    return i * SDLK_LAST + key;
+    return (i * SDL_NUM_SCANCODES) + key;
 }
 
 static ui_menu_entry_t *sdlkbd_get_hotkey(SDLKey key, SDLMod mod)
