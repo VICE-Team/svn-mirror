@@ -304,11 +304,13 @@ static wait_handler_t      alarm_trigger_callback;
 /* ------------------------------------------------------------------------- */
 
 /* workaround for inverted tapeport functions to keep my sanity */
-static void set_sense(int value) {
+static void set_sense(int value)
+{
     tapeport_set_tape_sense(!value, tapecart_device.id);
 }
 
-static void set_write(int value) {
+static void set_write(int value)
+{
     tapeport_set_write_in(!value, tapecart_device.id);
 }
 
@@ -316,12 +318,14 @@ static void set_write(int value) {
 /*  command line and resource stuff                                     */
 /* ---------------------------------------------------------------------*/
 
-static void clear_memory(tapecart_memory_t *memory) {
+static void clear_memory(tapecart_memory_t *memory)
+{
     memset(memory, 0xff, sizeof(tapecart_memory_t));
     memory->changed = false;
 }
 
-static int set_tapecart_enabled(int value, void *unused_param) {
+static int set_tapecart_enabled(int value, void *unused_param)
+{
     int val = !!value;
 
     /* don't do anything if the state stays the same */
@@ -400,17 +404,20 @@ static int set_tapecart_enabled(int value, void *unused_param) {
     return 0;
 }
 
-static int set_tapecart_update_tcrt(int value, void *unused_param) {
+static int set_tapecart_update_tcrt(int value, void *unused_param)
+{
     tapecart_update_tcrt = !!value;
     return 0;
 }
 
-static int set_tapecart_optimize_tcrt(int value, void *unused_param) {
+static int set_tapecart_optimize_tcrt(int value, void *unused_param)
+{
     tapecart_optimize_tcrt = !!value;
     return 0;
 }
 
-static int set_tapecart_loglevel(int value, void *unused_param) {
+static int set_tapecart_loglevel(int value, void *unused_param)
+{
     tapecart_loglevel = value;
     return 0;
 }
@@ -488,7 +495,8 @@ static const cmdline_option_t cmdline_options[] = {
     CMDLINE_LIST_END
 };
 
-int tapecart_cmdline_options_init(void) {
+int tapecart_cmdline_options_init(void)
+{
     return cmdline_register_options(cmdline_options);
 }
 
@@ -497,7 +505,8 @@ int tapecart_cmdline_options_init(void) {
 /*  endian-independent buffer access functions                          */
 /* ---------------------------------------------------------------------*/
 
-static uint32_t get_u32_le(const uint8_t *buf) {
+static uint32_t get_u32_le(const uint8_t *buf)
+{
     uint32_t val = *buf++;
 
     val |= (uint32_t)(*buf++) << 8;
@@ -506,15 +515,18 @@ static uint32_t get_u32_le(const uint8_t *buf) {
     return val;
 }
 
-static uint32_t get_u24_le(const uint8_t *buffer) {
+static uint32_t get_u24_le(const uint8_t *buffer)
+{
     return buffer[0] | (buffer[1] << 8) | (buffer[2] << 16);
 }
 
-static uint16_t get_u16_le(const uint8_t *buffer) {
+static uint16_t get_u16_le(const uint8_t *buffer)
+{
     return buffer[0] | (buffer[1] << 8);
 }
 
-static uint8_t *put_u32_le(uint8_t *buf, uint32_t value) {
+static uint8_t *put_u32_le(uint8_t *buf, uint32_t value)
+{
     *buf++ =  value        & 0xff;
     *buf++ = (value >>  8) & 0xff;
     *buf++ = (value >> 16) & 0xff;
@@ -522,14 +534,16 @@ static uint8_t *put_u32_le(uint8_t *buf, uint32_t value) {
     return buf;
 }
 
-static uint8_t *put_u24_le(uint8_t *buf, uint32_t value) {
+static uint8_t *put_u24_le(uint8_t *buf, uint32_t value)
+{
     *buf++ =  value        & 0xff;
     *buf++ = (value >>  8) & 0xff;
     *buf++ = (value >> 16) & 0xff;
     return buf;
 }
 
-static uint8_t *put_u16_le(uint8_t *buf, uint16_t value) {
+static uint8_t *put_u16_le(uint8_t *buf, uint16_t value)
+{
     *buf++ =  value        & 0xff;
     *buf++ = (value >>  8) & 0xff;
     return buf;
@@ -542,7 +556,8 @@ static uint8_t *put_u16_le(uint8_t *buf, uint16_t value) {
 
 static unsigned int needed_space = 0;
 
-static int check_pulsebuffer_size(void) {
+static int check_pulsebuffer_size(void)
+{
     if (pulse_count >= sizeof(tapecart_buffers->pulse_buffer)/
         sizeof(tapecart_buffers->pulse_buffer[0])) {
         log_message(tapecart_log, "Pulse buffer overflow, need %d more",
@@ -553,7 +568,8 @@ static int check_pulsebuffer_size(void) {
     return 0;
 }
 
-static void pulse_store(const unsigned char pulselen) {
+static void pulse_store(const unsigned char pulselen)
+{
     if (check_pulsebuffer_size()) {
         return;
     }
@@ -563,7 +579,8 @@ static void pulse_store(const unsigned char pulselen) {
     pulse_count++;
 }
 
-static void pulse_store_sync(unsigned int length) {
+static void pulse_store_sync(unsigned int length)
+{
     while (length > 0) {
         if (check_pulsebuffer_size()) {
             return;
@@ -582,7 +599,8 @@ static void pulse_store_sync(unsigned int length) {
     }
 }
 
-static void pulse_store_bit(const unsigned int index, const unsigned char bit) {
+static void pulse_store_bit(const unsigned int index, const unsigned char bit)
+{
     if (bit) {
         pulse_store(CBMPULSE_MEDIUM);
         pulse_store(CBMPULSE_SHORT);
@@ -592,7 +610,8 @@ static void pulse_store_bit(const unsigned int index, const unsigned char bit) {
     }
 }
 
-static void pulse_store_byte(unsigned char byte) {
+static void pulse_store_byte(unsigned char byte)
+{
     int parity = 1;
     int i;
 
@@ -612,7 +631,8 @@ static void pulse_store_byte(unsigned char byte) {
     pulse_store_bit(8, parity);
 }
 
-static void construct_header(void) {
+static void construct_header(void)
+{
     unsigned int i;
     unsigned char checksum = 0;
 
@@ -634,7 +654,8 @@ static void construct_header(void) {
     pulse_store_byte(checksum);
 }
 
-static void construct_startvector(void) {
+static void construct_startvector(void)
+{
     unsigned int i;
 
     for (i = 0; i < sizeof(tape_startvector)/sizeof(tape_startvector[0]); i++) {
@@ -642,7 +663,8 @@ static void construct_startvector(void) {
     }
 }
 
-static void construct_countdown(int repeat) {
+static void construct_countdown(int repeat)
+{
     unsigned int i;
 
     for (i = 9; i > 0; i--) {
@@ -654,7 +676,8 @@ static void construct_countdown(int repeat) {
     }
 }
 
-static void construct_datablock(void (*datafunc)(void)) {
+static void construct_datablock(void (*datafunc)(void))
+{
     unsigned int repeat;
 
     for (repeat = 0; repeat < 2; repeat++) {
@@ -671,7 +694,8 @@ static void construct_datablock(void (*datafunc)(void)) {
     }
 }
 
-static void construct_pulsestream(void) {
+static void construct_pulsestream(void)
+{
     pulse_count               = 0;
     pulse_read_index          = 0;
     current_pulse.length      = 0;
@@ -686,7 +710,8 @@ static void construct_pulsestream(void) {
     pulse_store_sync(100);
 }
 
-static int get_next_pulse(void) {
+static int get_next_pulse(void)
+{
     /* check for end of stream, force immediate end in non-stream mode */
     if (requested_mode != MODE_STREAM ||
         (current_pulse.repetitions == 0 && pulse_read_index >= pulse_count)) {
@@ -708,7 +733,8 @@ static int get_next_pulse(void) {
 /* ---------------------------------------------------------------------*/
 
 /* common fasttx for fastload mode and READ_FLASH_FAST */
-static clock_t fasttx_nibble_advance(void) {
+static clock_t fasttx_nibble_advance(void)
+{
     /* FIXME: This assumes that 1 cycle == 1 microsecond */
 
     fasttx_state++; /* advance state */
@@ -777,7 +803,8 @@ static clock_t fasttx_nibble_advance(void) {
     }
 }
 
-static clock_t fasttx_byte_advance(void) {
+static clock_t fasttx_byte_advance(void)
+{
     if (transfer_remaining) {
         fasttx_state = FASTTX_INIT;
         return fasttx_nibble_advance();
@@ -787,12 +814,14 @@ static clock_t fasttx_byte_advance(void) {
     }
 }
 
-static clock_t fastload_complete(void) {
+static clock_t fastload_complete(void)
+{
     tapecart_set_mode(MODE_STREAM);
     return 0;
 }
 
-static clock_t fastload_postdelay(void) {
+static clock_t fastload_postdelay(void)
+{
     /* 200ms delay after fastload */
     alarm_trigger_callback = fastload_complete;
     return machine_get_cycles_per_second() / 5;
@@ -800,7 +829,8 @@ static clock_t fastload_postdelay(void) {
 
 static clock_t transmit_fast(clock_t delay,
                              uint8_t *buffer, unsigned int length,
-                             wait_handler_t complete_callback) {
+                             wait_handler_t complete_callback)
+{
     transfer_remaining     = length;
     transfer_ptr           = buffer;
     fasttx_state           = FASTTX_INIT;
@@ -809,7 +839,8 @@ static clock_t transmit_fast(clock_t delay,
     return delay;
 }
 
-static clock_t fastload_mode_init(void) {
+static clock_t fastload_mode_init(void)
+{
     unsigned char *ptr = tapecart_buffers->data;
     unsigned short loadaddr, endaddr;
 
@@ -839,67 +870,70 @@ static clock_t fastload_mode_init(void) {
 /*  command mode functions                                              */
 /* ---------------------------------------------------------------------*/
 
-static bool validate_flashaddress(unsigned int address, unsigned int length) {
+static bool validate_flashaddress(unsigned int address, unsigned int length)
+{
     return (address < TAPECART_FLASH_SIZE) &&
         (address + length <= TAPECART_FLASH_SIZE);
 }
 
-static clock_t receive_1bit_callback(void) {
+static clock_t receive_1bit_callback(void)
+{
     switch (rx1bit_state) {
-    case RX1BIT_RECEIVE:
-        *transfer_ptr = (*transfer_ptr << 1) | !!sense_state;
+        case RX1BIT_RECEIVE:
+            *transfer_ptr = (*transfer_ptr << 1) | !!sense_state;
 
-        if (++transfer_bit == 8) {
-            transfer_ptr++;
-            transfer_remaining--;
-            transfer_bit = 0;
-            wait_for_signal = WAIT_WRITE_LOW;
-            rx1bit_state = RX1BIT_WAIT_WRITE_LOW;
-        } else {
-            wait_for_signal = WAIT_WRITE_HIGH;
-        }
-        break;
-
-    case RX1BIT_WAIT_WRITE_LOW:
-        /* waiting only triggers on changes, so check that sense is low */
-        if (!sense_state) {
-            wait_for_signal = WAIT_SENSE_HIGH;
-            rx1bit_state = RX1BIT_WAIT_SENSE_HIGH;
+            if (++transfer_bit == 8) {
+                transfer_ptr++;
+                transfer_remaining--;
+                transfer_bit = 0;
+                wait_for_signal = WAIT_WRITE_LOW;
+                rx1bit_state = RX1BIT_WAIT_WRITE_LOW;
+            } else {
+                wait_for_signal = WAIT_WRITE_HIGH;
+            }
             break;
-        }
 
-        /* sense is already high: */
-        /* fall through */
-    case RX1BIT_WAIT_SENSE_HIGH:
-        wait_for_signal = WAIT_SENSE_LOW;
-        rx1bit_state = RX1BIT_WAIT_SENSE_LOW;
-        break;
+        case RX1BIT_WAIT_WRITE_LOW:
+            /* waiting only triggers on changes, so check that sense is low */
+            if (!sense_state) {
+                wait_for_signal = WAIT_SENSE_HIGH;
+                rx1bit_state = RX1BIT_WAIT_SENSE_HIGH;
+                break;
+            }
 
-    case RX1BIT_WAIT_SENSE_LOW:
-        rx1bit_state = RX1BIT_DELAY;
-        alarm_trigger_callback = receive_1bit_callback;
-        return machine_get_cycles_per_second() / 100000; /* 10 microseconds */
+            /* sense is already high: */
+            /* fall through */
+        case RX1BIT_WAIT_SENSE_HIGH:
+            wait_for_signal = WAIT_SENSE_LOW;
+            rx1bit_state = RX1BIT_WAIT_SENSE_LOW;
+            break;
 
-    case RX1BIT_DELAY:
-        set_sense(0);
-        rx1bit_state = RX1BIT_PROCESSING;
-        return 5; /* simulate a bit of processing delay */
+        case RX1BIT_WAIT_SENSE_LOW:
+            rx1bit_state = RX1BIT_DELAY;
+            alarm_trigger_callback = receive_1bit_callback;
+            return machine_get_cycles_per_second() / 100000; /* 10 microseconds */
 
-    case RX1BIT_PROCESSING:
-        if (transfer_remaining > 0) {
-            wait_for_signal = WAIT_WRITE_HIGH;
-            rx1bit_state    = RX1BIT_RECEIVE;
-            set_sense(1);
-        } else {
-            return transfer_complete();
-        }
-        break;
+        case RX1BIT_DELAY:
+            set_sense(0);
+            rx1bit_state = RX1BIT_PROCESSING;
+            return 5; /* simulate a bit of processing delay */
+
+        case RX1BIT_PROCESSING:
+            if (transfer_remaining > 0) {
+                wait_for_signal = WAIT_WRITE_HIGH;
+                rx1bit_state    = RX1BIT_RECEIVE;
+                set_sense(1);
+            } else {
+                return transfer_complete();
+            }
+            break;
     }
 
     return 0;
 }
 
-static clock_t receive_1bit_delayed(void) {
+static clock_t receive_1bit_delayed(void)
+{
     set_sense(1);
     wait_for_signal = WAIT_WRITE_HIGH;
     return 0;
@@ -907,7 +941,8 @@ static clock_t receive_1bit_delayed(void) {
 
 static clock_t receive_1bit(clock_t delay,
                             uint8_t *buffer, unsigned int length,
-                            wait_handler_t complete_callback) {
+                            wait_handler_t complete_callback)
+{
     if (length == 0) {
         log_warning(tapecart_log,
                     "WARNING: attempted to do 1-bit-receive with length 0");
@@ -932,55 +967,57 @@ static clock_t receive_1bit(clock_t delay,
     }
 }
 
-static clock_t transmit_1bit_callback(void) {
+static clock_t transmit_1bit_callback(void)
+{
     switch (tx1bit_state) {
-    case TX1BIT_PREPARE_SEND:
-        wait_for_signal = WAIT_WRITE_LOW;
-        tx1bit_state = TX1BIT_SEND;
-        transfer_byte = *transfer_ptr;
-        break;
-
-    case TX1BIT_SEND:
-        set_sense(transfer_byte & 0x80);
-        transfer_byte <<= 1;
-
-        if (++transfer_bit == 8) {
-            transfer_ptr++;
-            transfer_remaining--;
-            transfer_bit = 0;
-            wait_for_signal = WAIT_WRITE_HIGH;
-            tx1bit_state = TX1BIT_WAIT_WRITE_HIGH;
-        } else {
+        case TX1BIT_PREPARE_SEND:
             wait_for_signal = WAIT_WRITE_LOW;
-        }
-        break;
+            tx1bit_state = TX1BIT_SEND;
+            transfer_byte = *transfer_ptr;
+            break;
 
-    case TX1BIT_WAIT_WRITE_HIGH:
-        tx1bit_state = TX1BIT_WAIT_WRITE_LOW;
-        wait_for_signal = WAIT_WRITE_LOW;
-        break;
+        case TX1BIT_SEND:
+            set_sense(transfer_byte & 0x80);
+            transfer_byte <<= 1;
 
-    case TX1BIT_WAIT_WRITE_LOW:
-        set_sense(0);
-        tx1bit_state = TX1BIT_PROCESSING;
-        alarm_trigger_callback = transmit_1bit_callback;
-        return 5; /* simulate a bit of processing delay */
+            if (++transfer_bit == 8) {
+                transfer_ptr++;
+                transfer_remaining--;
+                transfer_bit = 0;
+                wait_for_signal = WAIT_WRITE_HIGH;
+                tx1bit_state = TX1BIT_WAIT_WRITE_HIGH;
+            } else {
+                wait_for_signal = WAIT_WRITE_LOW;
+            }
+            break;
 
-    case TX1BIT_PROCESSING:
-        if (transfer_remaining > 0) {
-            wait_for_signal = WAIT_WRITE_HIGH;
-            tx1bit_state    = TX1BIT_PREPARE_SEND;
-            set_sense(1);
-        } else {
-            return transfer_complete();
-        }
-        break;
+        case TX1BIT_WAIT_WRITE_HIGH:
+            tx1bit_state = TX1BIT_WAIT_WRITE_LOW;
+            wait_for_signal = WAIT_WRITE_LOW;
+            break;
+
+        case TX1BIT_WAIT_WRITE_LOW:
+            set_sense(0);
+            tx1bit_state = TX1BIT_PROCESSING;
+            alarm_trigger_callback = transmit_1bit_callback;
+            return 5; /* simulate a bit of processing delay */
+
+        case TX1BIT_PROCESSING:
+            if (transfer_remaining > 0) {
+                wait_for_signal = WAIT_WRITE_HIGH;
+                tx1bit_state    = TX1BIT_PREPARE_SEND;
+                set_sense(1);
+            } else {
+                return transfer_complete();
+            }
+            break;
     }
 
     return 0;
 }
 
-static clock_t transmit_1bit_delayed(void) {
+static clock_t transmit_1bit_delayed(void)
+{
     set_sense(1);
     wait_for_signal = WAIT_WRITE_HIGH;
     return 0;
@@ -988,7 +1025,8 @@ static clock_t transmit_1bit_delayed(void) {
 
 static clock_t transmit_1bit(clock_t delay,
                              uint8_t *buffer, unsigned int length,
-                             wait_handler_t complete_callback) {
+                             wait_handler_t complete_callback)
+{
     transfer_ptr       = buffer;
     transfer_remaining = length;
     transfer_bit       = 0;
@@ -1011,7 +1049,8 @@ static clock_t transmit_1bit(clock_t delay,
  * Callbacks for command implementations
  */
 
-static clock_t cmd_read_flash(void) {
+static clock_t cmd_read_flash(void)
+{
     unsigned int address = get_u24_le(transfer_buffer);
     unsigned int length  = get_u16_le(transfer_buffer + 3);
 
@@ -1030,7 +1069,8 @@ static clock_t cmd_read_flash(void) {
     return transmit_1bit(4, tapecart_memory->flash + address, length, cmdmode_receive_command);
 }
 
-static clock_t cmd_read_flash_fast(void) {
+static clock_t cmd_read_flash_fast(void)
+{
     unsigned int address = get_u24_le(transfer_buffer);
     unsigned int length  = get_u16_le(transfer_buffer + 3);
 
@@ -1051,7 +1091,8 @@ static clock_t cmd_read_flash_fast(void) {
                          cmdmode_receive_command);
 }
 
-static clock_t cmdmode_write_flash_page(void) {
+static clock_t cmdmode_write_flash_page(void)
+{
     bool non_erased_write = false;
     unsigned int i = 0;
 
@@ -1083,7 +1124,8 @@ static clock_t cmdmode_write_flash_page(void) {
     }
 }
 
-static clock_t cmd_write_flash(void) {
+static clock_t cmd_write_flash(void)
+{
     flash_address = get_u24_le(transfer_buffer);
     total_length  = get_u16_le(transfer_buffer + 3);
 
@@ -1111,7 +1153,8 @@ static clock_t cmd_write_flash(void) {
                         cmdmode_write_flash_page);
 }
 
-static clock_t cmd_erase_flash_64k(void) {
+static clock_t cmd_erase_flash_64k(void)
+{
     unsigned int address = get_u24_le(transfer_buffer);
 
     if (!validate_flashaddress(address, 0)) {
@@ -1135,7 +1178,8 @@ static clock_t cmd_erase_flash_64k(void) {
     return flash_erase_64k_time;
 }
 
-static clock_t cmd_erase_flash_block(void) {
+static clock_t cmd_erase_flash_block(void)
+{
     unsigned int address = get_u24_le(transfer_buffer);
 
     if (!validate_flashaddress(address, 0)) {
@@ -1160,7 +1204,8 @@ static clock_t cmd_erase_flash_block(void) {
     return flash_erase_page_time;
 }
 
-static clock_t cmd_crc32_flash(void) {
+static clock_t cmd_crc32_flash(void)
+{
     unsigned int address = get_u24_le(transfer_buffer);
     unsigned int length  = get_u24_le(transfer_buffer + 3);
     uint32_t crc;
@@ -1187,7 +1232,8 @@ static clock_t cmd_crc32_flash(void) {
                          cmdmode_receive_command);
 }
 
-static clock_t cmd_write_loadinfo(void) {
+static clock_t cmd_write_loadinfo(void)
+{
     tapecart_memory->data_offset  = get_u16_le(transfer_buffer);
     tapecart_memory->data_length  = get_u16_le(transfer_buffer + 2);
     tapecart_memory->call_address = get_u16_le(transfer_buffer + 4);
@@ -1206,7 +1252,8 @@ static clock_t cmd_write_loadinfo(void) {
     return cmdmode_receive_command();
 }
 
-static clock_t cmd_dir_setparams(void) {
+static clock_t cmd_dir_setparams(void)
+{
     dir_base     = get_u24_le(transfer_buffer);
     dir_entries  = get_u16_le(transfer_buffer + 3);
     dir_name_len = transfer_buffer[5];
@@ -1233,7 +1280,8 @@ static clock_t cmd_dir_setparams(void) {
     return cmdmode_receive_command();
 }
 
-static clock_t cmd_dir_lookup(void) {
+static clock_t cmd_dir_lookup(void)
+{
     unsigned int i;
     uint8_t *ptr;
     clock_t processing_delay; /* note: very rough guess */
@@ -1272,7 +1320,8 @@ static clock_t cmd_dir_lookup(void) {
 /*
  * main command dispatcher and implementation of "simple" commands
  */
-static clock_t cmdmode_dispatch_command(void) {
+static clock_t cmdmode_dispatch_command(void)
+{
     uint8_t *ptr;
 
     if (tapecart_loglevel > 0) {
@@ -1281,123 +1330,125 @@ static clock_t cmdmode_dispatch_command(void) {
     }
 
     switch (transfer_buffer[0]) {
-    case CMD_EXIT:
-        tapecart_set_mode(MODE_STREAM);
-        break;
+        case CMD_EXIT:
+            tapecart_set_mode(MODE_STREAM);
+            break;
 
-    case CMD_READ_DEVICEINFO:
-        transmit_1bit(0, (uint8_t *)idstring, strlen(idstring) + 1,
-                      cmdmode_receive_command);
-        break;
+        case CMD_READ_DEVICEINFO:
+            transmit_1bit(0, (uint8_t *)idstring, strlen(idstring) + 1,
+                          cmdmode_receive_command);
+            break;
 
-    case CMD_READ_DEVICESIZES:
-        ptr = put_u24_le(transfer_buffer, TAPECART_FLASH_SIZE);
-        ptr = put_u16_le(ptr, FLASH_PAGE_SIZE);
-        ptr = put_u16_le(ptr, FLASH_ERASE_SIZE / FLASH_PAGE_SIZE);
-        transmit_1bit(0, transfer_buffer, 7, cmdmode_receive_command);
-        break;
+        case CMD_READ_DEVICESIZES:
+            ptr = put_u24_le(transfer_buffer, TAPECART_FLASH_SIZE);
+            ptr = put_u16_le(ptr, FLASH_PAGE_SIZE);
+            ptr = put_u16_le(ptr, FLASH_ERASE_SIZE / FLASH_PAGE_SIZE);
+            transmit_1bit(0, transfer_buffer, 7, cmdmode_receive_command);
+            break;
 
-    case CMD_READ_CAPABILITIES:
-        /* no extended capabilities currently exist, so none are supported */
-        memset(transfer_buffer, 0, 4);
-        transmit_1bit(0, transfer_buffer, 4, cmdmode_receive_command);
-        break;
+        case CMD_READ_CAPABILITIES:
+            /* no extended capabilities currently exist, so none are supported */
+            memset(transfer_buffer, 0, 4);
+            transmit_1bit(0, transfer_buffer, 4, cmdmode_receive_command);
+            break;
 
-    case CMD_READ_FLASH:
-        receive_1bit(0, transfer_buffer, 5, cmd_read_flash);
-        break;
+        case CMD_READ_FLASH:
+            receive_1bit(0, transfer_buffer, 5, cmd_read_flash);
+            break;
 
-    case CMD_READ_FLASH_FAST:
-        receive_1bit(0, transfer_buffer, 5, cmd_read_flash_fast);
-        break;
+        case CMD_READ_FLASH_FAST:
+            receive_1bit(0, transfer_buffer, 5, cmd_read_flash_fast);
+            break;
 
-    case CMD_WRITE_FLASH:
-        receive_1bit(0, transfer_buffer, 5, cmd_write_flash);
-        break;
+        case CMD_WRITE_FLASH:
+            receive_1bit(0, transfer_buffer, 5, cmd_write_flash);
+            break;
 
-    case CMD_ERASE_FLASH_64K:
-        receive_1bit(0, transfer_buffer, 3, cmd_erase_flash_64k);
-        break;
+        case CMD_ERASE_FLASH_64K:
+            receive_1bit(0, transfer_buffer, 3, cmd_erase_flash_64k);
+            break;
 
-    case CMD_ERASE_FLASH_BLOCK:
-        receive_1bit(0, transfer_buffer, 3, cmd_erase_flash_block);
-        break;
+        case CMD_ERASE_FLASH_BLOCK:
+            receive_1bit(0, transfer_buffer, 3, cmd_erase_flash_block);
+            break;
 
-    case CMD_CRC32_FLASH:
-        receive_1bit(0, transfer_buffer, 6, cmd_crc32_flash);
-        break;
+        case CMD_CRC32_FLASH:
+            receive_1bit(0, transfer_buffer, 6, cmd_crc32_flash);
+            break;
 
-    case CMD_READ_LOADER:
-        transmit_1bit(0, tapecart_memory->loader, TAPECART_LOADER_SIZE,
-                      cmdmode_receive_command);
-        break;
+        case CMD_READ_LOADER:
+            transmit_1bit(0, tapecart_memory->loader, TAPECART_LOADER_SIZE,
+                          cmdmode_receive_command);
+            break;
 
-    case CMD_READ_LOADINFO:
-        ptr = put_u16_le(transfer_buffer, tapecart_memory->data_offset);
-        ptr = put_u16_le(ptr, tapecart_memory->data_length);
-        ptr = put_u16_le(ptr, tapecart_memory->call_address);
-        memcpy(ptr, tapecart_memory->filename, TAPECART_FILENAME_SIZE);
-        transmit_1bit(0, transfer_buffer, 6 + TAPECART_FILENAME_SIZE,
-                      cmdmode_receive_command);
-        break;
+        case CMD_READ_LOADINFO:
+            ptr = put_u16_le(transfer_buffer, tapecart_memory->data_offset);
+            ptr = put_u16_le(ptr, tapecart_memory->data_length);
+            ptr = put_u16_le(ptr, tapecart_memory->call_address);
+            memcpy(ptr, tapecart_memory->filename, TAPECART_FILENAME_SIZE);
+            transmit_1bit(0, transfer_buffer, 6 + TAPECART_FILENAME_SIZE,
+                          cmdmode_receive_command);
+            break;
 
-    case CMD_WRITE_LOADER:
-        receive_1bit(0, tapecart_memory->loader, TAPECART_LOADER_SIZE,
-                     cmdmode_receive_command);
-        tapecart_memory->changed = true;
-        break;
+        case CMD_WRITE_LOADER:
+            receive_1bit(0, tapecart_memory->loader, TAPECART_LOADER_SIZE,
+                         cmdmode_receive_command);
+            tapecart_memory->changed = true;
+            break;
 
-    case CMD_WRITE_LOADINFO:
-        receive_1bit(0, transfer_buffer, 6 + TAPECART_FILENAME_SIZE,
-                     cmd_write_loadinfo);
-        break;
+        case CMD_WRITE_LOADINFO:
+            receive_1bit(0, transfer_buffer, 6 + TAPECART_FILENAME_SIZE,
+                         cmd_write_loadinfo);
+            break;
 
-    case CMD_LED_OFF:
-    case CMD_LED_ON:
-        /* no parameters, ignore */
-        break;
+        case CMD_LED_OFF:
+        case CMD_LED_ON:
+            /* no parameters, ignore */
+            break;
 
-    case CMD_READ_DEBUGFLAGS:
-        /* debugflags are stored, but ignored */
-        /* technically this is incorrect for bit 0, */
-        /* but I suspect nobody will ever use that over the tapeport */
-        transmit_1bit(0, tapecart_debugflags, 2, cmdmode_receive_command);
-        break;
+        case CMD_READ_DEBUGFLAGS:
+            /* debugflags are stored, but ignored */
+            /* technically this is incorrect for bit 0, */
+            /* but I suspect nobody will ever use that over the tapeport */
+            transmit_1bit(0, tapecart_debugflags, 2, cmdmode_receive_command);
+            break;
 
-    case CMD_WRITE_DEBUGFLAGS:
-        receive_1bit(0, tapecart_debugflags, 2, cmdmode_receive_command);
-        break;
+        case CMD_WRITE_DEBUGFLAGS:
+            receive_1bit(0, tapecart_debugflags, 2, cmdmode_receive_command);
+            break;
 
-    case CMD_DIR_SETPARAMS:
-        receive_1bit(0, transfer_buffer, 7, cmd_dir_setparams);
-        break;
+        case CMD_DIR_SETPARAMS:
+            receive_1bit(0, transfer_buffer, 7, cmd_dir_setparams);
+            break;
 
-    case CMD_DIR_LOOKUP:
-        if (dir_name_len > 0) {
-            receive_1bit(0, transfer_buffer, dir_name_len, cmd_dir_lookup);
-        } else {
-            cmd_dir_lookup();
-        }
-        break;
+        case CMD_DIR_LOOKUP:
+            if (dir_name_len > 0) {
+                receive_1bit(0, transfer_buffer, dir_name_len, cmd_dir_lookup);
+            } else {
+                cmd_dir_lookup();
+            }
+            break;
 
-    default:
-        if (tapecart_loglevel > 0) {
-            log_message(tapecart_log,
-                        "switching to streaming mode due to unknown command");
-        }
-        tapecart_set_mode(MODE_STREAM);
-        break;
+        default:
+            if (tapecart_loglevel > 0) {
+                log_message(tapecart_log,
+                            "switching to streaming mode due to unknown command");
+            }
+            tapecart_set_mode(MODE_STREAM);
+            break;
     }
 
     return 0;
 }
 
-static clock_t cmdmode_receive_command(void) {
+static clock_t cmdmode_receive_command(void)
+{
     alarm_unset(tapecart_logic_alarm);
     return receive_1bit(0, transfer_buffer, 1, cmdmode_dispatch_command);
 }
 
-static clock_t cmdmode_send_pulses(void) {
+static clock_t cmdmode_send_pulses(void)
+{
     wait_handler    = cmdmode_receive_command;
     wait_for_signal = WAIT_WRITE_LOW;
 
@@ -1407,7 +1458,8 @@ static clock_t cmdmode_send_pulses(void) {
     return CBMPULSE_SHORT * PULSE_CYCLES;
 }
 
-static clock_t command_mode_init(void) {
+static clock_t command_mode_init(void)
+{
     set_sense(1);
     wait_handler    = cmdmode_send_pulses;
     wait_for_signal = WAIT_WRITE_HIGH;
@@ -1419,7 +1471,8 @@ static clock_t command_mode_init(void) {
 /*  common fastload/command mode functions                              */
 /* ---------------------------------------------------------------------*/
 
-static void tapecart_set_mode(tapecart_mode_t mode) {
+static void tapecart_set_mode(tapecart_mode_t mode)
+{
     clock_t delay = 0;
 
     if (tapecart_mode == mode) {
@@ -1433,29 +1486,29 @@ static void tapecart_set_mode(tapecart_mode_t mode) {
     tapecart_mode = mode;
 
     switch (mode) {
-    case MODE_REINIT:
-    case MODE_STREAM:
-        /* reset stream */
-        tapecart_mode = MODE_STREAM;
-        requested_mode = MODE_STREAM;
-        construct_pulsestream();
-        set_sense(0);
-        sense_pause_ticks = 0;
-        alarm_set(tapecart_pulse_alarm, maincpu_clk + get_next_pulse());
-        return;
+        case MODE_REINIT:
+        case MODE_STREAM:
+            /* reset stream */
+            tapecart_mode = MODE_STREAM;
+            requested_mode = MODE_STREAM;
+            construct_pulsestream();
+            set_sense(0);
+            sense_pause_ticks = 0;
+            alarm_set(tapecart_pulse_alarm, maincpu_clk + get_next_pulse());
+            return;
 
-    case MODE_FASTLOAD:
-        delay = fastload_mode_init();
-        break;
+        case MODE_FASTLOAD:
+            delay = fastload_mode_init();
+            break;
 
-    case MODE_COMMAND:
-        /* just one ms delay here */
-        alarm_trigger_callback = command_mode_init;
-        delay = machine_get_cycles_per_second() / 1000;
-        break;
+        case MODE_COMMAND:
+            /* just one ms delay here */
+            alarm_trigger_callback = command_mode_init;
+            delay = machine_get_cycles_per_second() / 1000;
+            break;
 
-    default:
-        break;
+        default:
+            break;
     }
 
     if (delay) {
@@ -1463,7 +1516,8 @@ static void tapecart_set_mode(tapecart_mode_t mode) {
     }
 }
 
-static void tapecart_pulse_alarm_handler(CLOCK offset, void *data) {
+static void tapecart_pulse_alarm_handler(CLOCK offset, void *data)
+{
     alarm_unset(tapecart_pulse_alarm);
 
     /* pulses are only sent when the motor is active */
@@ -1483,79 +1537,81 @@ static void tapecart_pulse_alarm_handler(CLOCK offset, void *data) {
     } /* no alarm needed if motor was turned off */
 }
 
-static void tapecart_logic_alarm_handler(CLOCK offset, void *data) {
+static void tapecart_logic_alarm_handler(CLOCK offset, void *data)
+{
     clock_t next_alarm;
 
     alarm_unset(tapecart_logic_alarm);
 
     switch (tapecart_mode) {
-    case MODE_STREAM:
-        /* pulse completed, advance stream state */
+        case MODE_STREAM:
+            /* pulse completed, advance stream state */
 
-        if (sense_pause_ticks > 0) {
-            sense_pause_ticks--;
-            if (sense_pause_ticks == 0) {
-                /* end of pause, activate sense again */
-                set_sense(0);
-                if (motor_state) {
-                    alarm_set(tapecart_pulse_alarm, maincpu_clk + 10);
-                }
-            } else {
-                /* check for mode change */
-                switch (requested_mode) {
-                case MODE_FASTLOAD:
-                    if (tapecart_loglevel > 0) {
-                        log_message(tapecart_log, "entering fastload mode");
+            if (sense_pause_ticks > 0) {
+                sense_pause_ticks--;
+                if (sense_pause_ticks == 0) {
+                    /* end of pause, activate sense again */
+                    set_sense(0);
+                    if (motor_state) {
+                        alarm_set(tapecart_pulse_alarm, maincpu_clk + 10);
                     }
-                    tapecart_set_mode(MODE_FASTLOAD);
-                    break;
+                } else {
+                    /* check for mode change */
+                    switch (requested_mode) {
+                        case MODE_FASTLOAD:
+                            if (tapecart_loglevel > 0) {
+                                log_message(tapecart_log, "entering fastload mode");
+                            }
+                            tapecart_set_mode(MODE_FASTLOAD);
+                            break;
 
-                case MODE_COMMAND:
-                    if (tapecart_loglevel > 0) {
-                        log_message(tapecart_log, "entering command mode");
+                        case MODE_COMMAND:
+                            if (tapecart_loglevel > 0) {
+                                log_message(tapecart_log, "entering command mode");
+                            }
+                            tapecart_set_mode(MODE_COMMAND);
+                            break;
+
+                        default:
+                            /* nothing, check again in one ms */
+                            alarm_set(tapecart_logic_alarm,
+                                      maincpu_clk + machine_get_cycles_per_second() / 1000);
+                            break;
                     }
-                    tapecart_set_mode(MODE_COMMAND);
-                    break;
-
-                default:
-                    /* nothing, check again in one ms */
-                    alarm_set(tapecart_logic_alarm,
-                              maincpu_clk + machine_get_cycles_per_second() / 1000);
-                    break;
                 }
             }
-        }
+            break;
 
-        break;
+        case MODE_FASTLOAD:
+        case MODE_COMMAND:
+            if (alarm_trigger_callback == NULL) {
+                log_error(tapecart_log,
+                          "ERROR: alarm_trigger_callback is NULL, will segfault now");
+            }
+            next_alarm = alarm_trigger_callback();
 
-    case MODE_FASTLOAD:
-    case MODE_COMMAND:
-        if (alarm_trigger_callback == NULL) {
-            log_error(tapecart_log,
-                      "ERROR: alarm_trigger_callback is NULL, will segfault now");
-        }
-        next_alarm = alarm_trigger_callback();
+            if (next_alarm != 0) {
+                alarm_set(tapecart_logic_alarm, maincpu_clk + next_alarm - offset);
+            }
+            break;
 
-        if (next_alarm != 0) {
-            alarm_set(tapecart_logic_alarm, maincpu_clk + next_alarm - offset);
-        }
-        break;
-
-    default:
-        log_message(tapecart_log, "alarm while in unhandled mode %d",
-                    tapecart_mode);
-        break;
+        default:
+            log_message(tapecart_log, "alarm while in unhandled mode %d",
+                        tapecart_mode);
+            break;
     }
 }
 
 
 /* ---------------------------------------------------------------------*/
 
-static void tapecart_shutdown(void) {
+static void tapecart_shutdown(void)
+{
     update_tcrt();
 }
 
-static void tapecart_store_motor(int state) {
+static void tapecart_store_motor(int state)
+{
     /* called by VICE with the inverted state of the processor port bit, */
     /* which is the physical state of the line */
     motor_state = state;
@@ -1574,24 +1630,24 @@ static void tapecart_store_motor(int state) {
             alarm_set(tapecart_pulse_alarm, maincpu_clk + 10);
 
             switch (tapecart_shiftreg) {
-            case SREG_MAGIC_VALUE_FASTLOAD:
-                if (tapecart_loglevel > 1) {
-                    log_message(tapecart_log,
-                                "found fastload mode magic value in shift register");
-                }
-                requested_mode = MODE_FASTLOAD;
-                break;
+                case SREG_MAGIC_VALUE_FASTLOAD:
+                    if (tapecart_loglevel > 1) {
+                        log_message(tapecart_log,
+                                    "found fastload mode magic value in shift register");
+                    }
+                    requested_mode = MODE_FASTLOAD;
+                    break;
 
-            case SREG_MAGIC_VALUE_COMMAND:
-                if (tapecart_loglevel > 1) {
-                    log_message(tapecart_log,
-                                "found command mode magic value in shift register");
-                }
-                requested_mode = MODE_COMMAND;
-                break;
+                case SREG_MAGIC_VALUE_COMMAND:
+                    if (tapecart_loglevel > 1) {
+                        log_message(tapecart_log,
+                                    "found command mode magic value in shift register");
+                    }
+                    requested_mode = MODE_COMMAND;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         }
     } else {
@@ -1606,7 +1662,8 @@ static void tapecart_store_motor(int state) {
     }
 }
 
-static void tapecart_store_write(int state) {
+static void tapecart_store_write(int state)
+{
     /* called by VICE with the actual state of the processor port bit */
     clock_t delta_ticks;
 
@@ -1623,7 +1680,8 @@ static void tapecart_store_write(int state) {
     }
 }
 
-static void tapecart_store_sense(int inv_state) {
+static void tapecart_store_sense(int inv_state)
+{
     /* called by VICE with the INVERTED state of the processor port bit */
     int state = !inv_state;
     clock_t delta_ticks;
@@ -1673,7 +1731,8 @@ static const unsigned char default_loader[TAPECART_LOADER_SIZE] = {
 #  include "tapecart-loader.h"
 };
 
-static bool load_tcrt(const char *filename, tapecart_memory_t *tcmem) {
+static bool load_tcrt(const char *filename, tapecart_memory_t *tcmem)
+{
     bool retval = false;
     FILE *fd;
     uint8_t tcrt_header[TCRT_HEADER_SIZE];
@@ -1737,7 +1796,8 @@ static bool load_tcrt(const char *filename, tapecart_memory_t *tcmem) {
     return retval;
 }
 
-static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem) {
+static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem)
+{
     FILE *fd;
     uint8_t *ptr;
     uint8_t tcrt_header[TCRT_HEADER_SIZE];
@@ -1788,13 +1848,15 @@ static bool save_tcrt(const char *filename, tapecart_memory_t *tcmem) {
 }
 
 /* update TCRT if updates enabled and changes pending */
-static void update_tcrt(void) {
+static void update_tcrt(void)
+{
     if (tcrt_filename && tapecart_memory->changed && tapecart_update_tcrt) {
         save_tcrt(tcrt_filename, tapecart_memory);
     }
 }
 
-int tapecart_attach_tcrt(const char *filename, void *unused) {
+int tapecart_attach_tcrt(const char *filename, void *unused)
+{
     if (!tapecart_enabled) {
         /* remember the name in case the tapecart is enabled later */
         if (tcrt_filename != NULL) {
@@ -1850,7 +1912,8 @@ int tapecart_flush_tcrt(void)
 /*  snapshots                                                           */
 /* ---------------------------------------------------------------------*/
 
-static int tapecart_write_snapshot(struct snapshot_s *s, int write_image) {
+static int tapecart_write_snapshot(struct snapshot_s *s, int write_image)
+{
     /* FIXME: Implement */
     log_error(tapecart_log,
               "ERROR: taking tapecart snapshot not implemented yet");
@@ -1858,7 +1921,8 @@ static int tapecart_write_snapshot(struct snapshot_s *s, int write_image) {
     return 0;
 }
 
-static int tapecart_read_snapshot(struct snapshot_s *s) {
+static int tapecart_read_snapshot(struct snapshot_s *s)
+{
     /* FIXME: Implement */
     log_error(tapecart_log,
               "ERROR: restoring tapecart from snapshot not implemented yet");
