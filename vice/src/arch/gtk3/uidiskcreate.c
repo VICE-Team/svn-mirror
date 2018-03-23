@@ -186,6 +186,7 @@ static const char *get_ext_by_image_type(int type)
 }
 
 
+#if 0
 /** \brief  Check \a filename for \a ext, and add it when missing
  *
  * \param[in]   filename    filename
@@ -213,6 +214,7 @@ static char *fix_extension(const char *filename, const char *ext)
 
     return new_name;
 }
+#endif
 
 
 /** \brief  Actually create the disk image and attach it
@@ -236,11 +238,11 @@ static gboolean create_disk_image(const char *filename)
     name_gtk3 = gtk_entry_get_text(GTK_ENTRY(disk_name));
     id_gtk3 = gtk_entry_get_text(GTK_ENTRY(disk_id));
 
+    fname_copy = lib_stralloc(filename);
+
     /* fix extension of filename, if requested */
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(add_ext))) {
-        fname_copy = fix_extension(filename, get_ext_by_image_type(image_type));
-    } else {
-        fname_copy = lib_stralloc(filename);
+        util_add_extension(&fname_copy, get_ext_by_image_type(image_type));
     }
 
     /* convert name & ID to PETSCII */
