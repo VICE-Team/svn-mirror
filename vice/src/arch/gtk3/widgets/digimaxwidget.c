@@ -6,7 +6,7 @@
 
 /*
  * $VICERES DIGIMAX         x64 x64sc xscpu64 x128 xpet
- * $VICERESS DIGIMAXbase    x64 x64sc xscpu64 x128 xpet
+ * $VICERES DIGIMAXbase     x64 x64sc xscpu64 x128 xpet
  */
 
 /*
