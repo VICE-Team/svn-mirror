@@ -9,10 +9,10 @@
  * $VICERES Drive9ProfDOS       x64 x64sc xscpu64 x128
  * $VICERES Drive10ProfDOS      x64 x64sc xscpu64 x128
  * $VICERES Drive11ProfDOS      x64 x64sc xscpu64 x128
- * $VICERES Drive8StarDOS       x64 x64sc xscpu64 x128
- * $VICERES Drive9StarDOS       x64 x64sc xscpu64 x128
- * $VICERES Drive10StarDOS      x64 x64sc xscpu64 x128
- * $VICERES Drive11StarDOS      x64 x64sc xscpu64 x128
+ * $VICERES Drive8StarDos       x64 x64sc xscpu64 x128
+ * $VICERES Drive9StarDos       x64 x64sc xscpu64 x128
+ * $VICERES Drive10StarDos      x64 x64sc xscpu64 x128
+ * $VICERES Drive11StarDos      x64 x64sc xscpu64 x128
  * $VICERES Drive8SuperCard     x64 x64sc xscpu64 x128
  * $VICERES Drive9SuperCard     x64 x64sc xscpu64 x128
  * $VICERES Drive10SuperCard    x64 x64sc xscpu64 x128
