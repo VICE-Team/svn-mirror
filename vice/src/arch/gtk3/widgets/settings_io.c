@@ -5,11 +5,8 @@
  */
 
 /*
- * $VICRES  IOCollisionHandling -vsid
+ * $VICERES IOCollisionHandling -vsid
  * $VICERES CartridgeReset      -vsid
- * $VICERES PETHRE              xpet
- * $VICERES DiagPin             xpet
- * $VICERES HummerADC           x64dtv
  */
 
 /*
