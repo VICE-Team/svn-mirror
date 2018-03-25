@@ -6,6 +6,10 @@
 
 /*
  * $VICERES Datasette               -xscpu64 -vsid
+ * $VICERES DatasetteResetWithCPU   -xscpu64 -vsid
+ * $VICERES DatasetteZeroGapDelay   -xscpu64 -vsid
+ * $VICERES DatasetteSpeedTuning    -xscpu64 -vsid
+ * $VICERES DatasetteTapeWobble     -xscpu64 -vsid
  * $VICERES TapeLog                 -xscpu64 -vsid
  * $VICERES TapeLogDestination      -xscpu64 -vsid
  * $VICERES CPClockF83              -xscpu64 -vsid
@@ -69,6 +73,12 @@ static vice_gtk3_combo_entry_int_t tcrt_loglevels[] = {
  * Reference to widgets to be able to enable/disabled them through event
  * handlers
  */
+
+static GtkWidget *ds_reset = NULL;
+static GtkWidget *ds_zerogap = NULL;
+static GtkWidget *ds_speed = NULL;
+static GtkWidget *ds_wobble = NULL;
+
 static GtkWidget *tape_log = NULL;
 static GtkWidget *tape_log_dest = NULL;
 static GtkWidget *tape_log_filename = NULL;
@@ -86,6 +96,22 @@ static GtkWidget *tapecart_browse = NULL;
 static GtkWidget *tapecart_flush = NULL;
 
 static int (*tapecart_flush_func)(void) = NULL;
+
+
+/** \brief  Handler for the "toggled" event of the datasette check button
+ *
+ * \param[in]   widget  datasette enable check button
+ * \param[in]   data    unused
+ */
+static void on_datasette_toggled(GtkWidget *widget, gpointer data)
+{
+    int state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+
+    gtk_widget_set_sensitive(ds_reset, state);
+    gtk_widget_set_sensitive(ds_zerogap, state);
+    gtk_widget_set_sensitive(ds_speed, state);
+    gtk_widget_set_sensitive(ds_wobble, state);
+}
 
 
 /** \brief  Handler for the "toggled" event of the tape_log check button
@@ -210,13 +236,60 @@ static void on_tapecart_flush_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Create check button for the "Datasette" resource
+/** \brief  Create widgets for the datasette
  *
- * \return  GtkCheckButton
+ * \TODO    Someone needs to check the spin button bounds and steps for sane
+ *          values.
+ *
+ * \return  GtkGrid
  */
 static GtkWidget *create_datasette_widget(void)
 {
-    return vice_gtk3_resource_check_button_new("Datasette", "Enable Datasette");
+    GtkWidget *grid;
+    GtkWidget *ds_enable;
+    GtkWidget *label;
+
+    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
+
+    ds_enable = vice_gtk3_resource_check_button_new("Datasette",
+            "Enable Datasette");
+    gtk_grid_attach(GTK_GRID(grid), ds_enable, 0, 0, 4, 1);
+
+    ds_reset = vice_gtk3_resource_check_button_new("DatasetteResetWithCPU",
+            "Reset datasette with CPU");
+    g_object_set(ds_reset, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), ds_reset, 0, 1, 4, 1);
+
+    label = gtk_label_new("Zero gap delay:");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    ds_zerogap = vice_gtk3_resource_spin_int_new("DatasetteZeroGapDelay",
+            0, 50000, 1000);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_zerogap, 1, 2, 1, 1);
+
+    label = gtk_label_new("Speed tuning:");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    ds_speed = vice_gtk3_resource_spin_int_new("DatasetteSpeedTuning",
+            0, 50000, 1000);
+    gtk_grid_attach(GTK_GRID(grid), label, 2, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_speed, 3, 2, 1, 1);
+
+    label = gtk_label_new("Tape wobble:");
+    g_object_set(label, "margin-left", 16, NULL);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    ds_wobble = vice_gtk3_resource_spin_int_new("DatasetteTapeWobble",
+            0, 50000, 1000);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), ds_wobble, 1, 3, 1, 1);
+
+    /* enble/disable sub widgets */
+    on_datasette_toggled(ds_enable, NULL);
+
+    g_signal_connect(ds_enable, "toggled", G_CALLBACK(on_datasette_toggled),
+            NULL);
+    return grid;
 }
 
 
@@ -298,7 +371,7 @@ static GtkWidget *create_f83_widget(void)
     grid = vice_gtk3_grid_new_spaced(16, 8);
     g_object_set(G_OBJECT(grid), "margin-top", 16, NULL);
 
-    f83_enable = vice_gtk3_resource_check_button_new("CPCLockF83",
+    f83_enable = vice_gtk3_resource_check_button_new("CPClockF83",
             "Enable CP Clock F83");
     gtk_grid_attach(GTK_GRID(grid), f83_enable, 0, 0, 1, 1);
 
@@ -325,6 +398,7 @@ static GtkWidget *create_tapecart_widget(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
+    GtkWidget *wrapper;
     int row = 0;
 
     grid = vice_gtk3_grid_new_spaced(16, 8);
@@ -334,21 +408,25 @@ static GtkWidget *create_tapecart_widget(void)
     /* TapecartEnable */
     tapecart_enable = vice_gtk3_resource_check_button_new("TapecartEnabled",
             "Enable tapecart");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_enable, 0, row, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_enable, 0, row, 4, 1);
     row++;
+
+    /* wrapper for update/optimize check buttons */
+    wrapper = gtk_grid_new();
 
     /* TapecartUpdateTCRT */
     tapecart_update = vice_gtk3_resource_check_button_new(
-            "TapecartUpdateTCRT", "Save TCRT data when changed");
+            "TapecartUpdateTCRT", "Save data when changed");
     g_object_set(tapecart_update, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_update, 0, row, 3, 1);
-    row++;
+    gtk_grid_attach(GTK_GRID(wrapper), tapecart_update, 0, 0, 1, 1);
 
     /* TapecartOptimizeTCRT */
     tapecart_optimize = vice_gtk3_resource_check_button_new(
-            "TapecartOptimizeTCRT", "Optimize TCRT data when changed");
+            "TapecartOptimizeTCRT", "Optimize data when changed");
     g_object_set(tapecart_optimize, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_optimize, 0, row, 3, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), tapecart_optimize, 1, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(grid), wrapper, 0, row, 4, 1);
     row++;
 
     label = gtk_label_new("Log level:");
@@ -358,7 +436,7 @@ static GtkWidget *create_tapecart_widget(void)
     tapecart_loglevel = vice_gtk3_resource_combo_box_int_new(
             "TapecartLogLevel", tcrt_loglevels);
     g_object_set(tapecart_loglevel, "margin-left", 16, NULL);
-    gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 1, row, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), tapecart_loglevel, 1, row, 3, 1);
     row++;
 
     /* TapecartTCRTFilename */
@@ -374,11 +452,10 @@ static GtkWidget *create_tapecart_widget(void)
 
     tapecart_browse = gtk_button_new_with_label("Browse ...");
     gtk_grid_attach(GTK_GRID(grid), tapecart_browse, 2, row, 1, 1);
-    row++;
 
     /* Flush button */
-    tapecart_flush = gtk_button_new_with_label("Flush image");
-    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 2, row, 1, 1);
+    tapecart_flush = gtk_button_new_with_label("Flush");
+    gtk_grid_attach(GTK_GRID(grid), tapecart_flush, 3, row, 1, 1);
 
     g_signal_connect(tapecart_enable, "toggled",
             G_CALLBACK(on_tapecart_enable_toggled), NULL);
