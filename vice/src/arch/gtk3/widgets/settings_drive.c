@@ -5,8 +5,9 @@
  */
 
 /*
- * $VICERES DriveTrueEmulation  -vsid
- * $VICERES DriveSoundEmulation -vsid
+ * $VICERES DriveTrueEmulation          -vsid
+ * $VICERES DriveSoundEmulation         -vsid
+ * $VICERES DriveSoundEmulationVolume   -vsid
  *
  *  (for more, see used widgets)
  */
@@ -193,6 +194,42 @@ static void on_model_changed(GtkWidget *widget, gpointer user_data)
             gtk_widget_set_sensitive(rtc, drive_check_rtc(model));
         }
     }
+}
+
+
+/** \brief  Format the drive emulation volume value
+ *
+ * Turns the volume scale into 0-100
+ *
+ * \param[in]   scale   drive volume widget
+ * \param[in]   value   value of widget to format
+ *
+ * \return  heap-allocated string representing the current value
+ *
+ * \note    the string returned here appears to be deallocated by Gtk3. if
+ *          I assume the code example of Gtk3 is correct (compyx)
+ */
+static gchar *on_drive_volume_format(GtkScale *scale, gdouble value)
+{
+    return g_strdup_printf("%d", (int)(value / 40));
+}
+
+
+/** \brief  Create slider to control drive sound emulation volume
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_drive_volume_widget(void)
+{
+    GtkWidget *scale;
+
+    scale = vice_gtk3_resource_scale_int_new("DriveSoundEmulationVolume",
+            GTK_ORIENTATION_HORIZONTAL, 0, 4000, 100);
+    gtk_widget_set_hexpand(scale, TRUE);
+    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+    g_signal_connect(scale, "format-value", G_CALLBACK(on_drive_volume_format),
+            NULL);
+    return scale;
 }
 
 
@@ -434,6 +471,9 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
     GtkWidget *sound;
     GtkWidget *stack;
     GtkWidget *switcher;
+    GtkWidget *volume;
+    GtkWidget *label;
+    GtkWidget *volume_wrapper;
     int unit;
 
     /* three column wide grid */
@@ -451,8 +491,15 @@ GtkWidget *settings_drive_widget_create(GtkWidget *parent)
             "Drive sound emulation");
     gtk_grid_attach(GTK_GRID(wrapper), sound, 1, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 0, 2, 1);
+    volume_wrapper = gtk_grid_new();
+    label = gtk_label_new("Drive volume:");
+    volume = create_drive_volume_widget();
+    g_object_set(volume, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(volume_wrapper), label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(volume_wrapper), volume, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(wrapper), volume_wrapper, 2, 0, 1, 1);
 
+    gtk_grid_attach(GTK_GRID(layout), wrapper, 0, 0, 1, 1);
 
     stack = gtk_stack_new();
     for (unit = 8; unit < 12; unit++) {
