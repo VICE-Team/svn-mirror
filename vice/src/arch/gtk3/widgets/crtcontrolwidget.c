@@ -11,9 +11,6 @@
  * $VICERES CrtcColorSaturation     xpet xcbm2
  * $VICERES CrtcColorTint           xpet xcbm2
  * $VICERES CrtcPALBlur             xpet xcbm2
- * $VICERES CrtcPALOddLineOffset    xpet xcbm2
- * $VICERES CrtcPALOddLinePhase     xpet xcbm2
- * $VICERES CrtcPALScanLineShade    xpet xcbm2
  *
  * $VICERES TEDColorBrightness      xplus4
  * $VICERES TEDColorContrast        xplus4
@@ -40,9 +37,6 @@
  * $VICERES VICColorGamma           xvic
  * $VICERES VICColorSaturation      xvic
  * $VICERES VICColorTint            xvic
- * $VICERES VICPALBlur              xvic
- * $VICERES VICPALOddLineOffset     xvic
- * $VICERES VICPALOddLinePhase      xvic
  * $VICERES VICPALScanLineShade     xvic
  *
  * $VICERES VICIIColorBrightness    x64 x64sc x64dtv xscpu64 x128 xcbm5x0
@@ -79,6 +73,7 @@
 
 #include "vice.h"
 
+#include <string.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -213,9 +208,15 @@ static int add_sliders(GtkGrid *grid, crt_control_data_t *data)
 {
     GtkWidget *label;
     const char *chip;
+    int video_standard;
     int row = 1;
 
     chip = data->chip;
+
+    if (resources_get_int("MachineVideoStandard", &video_standard) < 0) {
+        debug_gtk3("failed to get MachineVideoStandard resource value\n");
+        return -1;
+    }
 
     /* Standard controls: brightness, gamma etc */
 
@@ -255,33 +256,35 @@ static int add_sliders(GtkGrid *grid, crt_control_data_t *data)
     row++;
 
     /* PAL controls */
-    label = create_label("Blur:");
-    data->pal_blur = create_slider("PALBlur", chip,
-            0, 1000, 50);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
-    row++;
+    if (video_standard == 1) {
+        label = create_label("Blur:");
+        data->pal_blur = create_slider("PALBlur", chip,
+                0, 1000, 50);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
+        row++;
 
-    label = create_label("Scanline shade:");
-    data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
-            0, 1000, 50);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
-    row++;
+        label = create_label("Scanline shade:");
+        data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
+                0, 1000, 50);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
+        row++;
 
-    label = create_label("Odd lines phase:");
-    data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
-            0, 2000, 100);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
-    row++;
+        label = create_label("Odd lines phase:");
+        data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
+                0, 2000, 100);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
+        row++;
 
-    label = create_label("Odd lines offset:");
-    data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
-            0, 2000, 100);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
-    row++;
+        label = create_label("Odd lines offset:");
+        data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
+                0, 2000, 100);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
+        row++;
+    }
 
     return row;
 }
