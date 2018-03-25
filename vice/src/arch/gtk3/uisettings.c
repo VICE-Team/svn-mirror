@@ -142,6 +142,7 @@
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
+#include "settings_crt.h"
 
 #include "uisettings.h"
 
@@ -709,6 +710,9 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 /** \brief  Main tree nodes for x64/x64sc
  */
 static ui_settings_tree_node_t main_nodes_c64[] = {
+    { "CRT settings",
+        "crt",
+        settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
