@@ -255,7 +255,7 @@ def usage():
     """
 
     print(
-"""Usage: {} <command> [<args>]".format(sys.argv[0]))
+"""Usage: {} <command> [<args>]
 Commands:
     help                display this text
     list-all            list all resources for all emus
@@ -267,7 +267,7 @@ Please note that unfortunately neither the Gtk3 sources nor vice.texi are
 authorative when it comes to resources, in other words: neither can be trusted
 to provide a full list of supported resources. But at least this script should
 give some idea about the resources missing/not-implemented, so it's a good
-start to get the resources right.""")
+start to get the resources right.""".format(os.path.basename(sys.argv[0])))
 
 
 
