@@ -280,7 +280,7 @@ static GtkWidget *create_datasette_widget(void)
     g_object_set(label, "margin-left", 16, NULL);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     ds_wobble = vice_gtk3_resource_spin_int_new("DatasetteTapeWobble",
-            0, 50000, 1000);
+            0, 100, 10);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ds_wobble, 1, 3, 1, 1);
 
