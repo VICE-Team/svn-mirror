@@ -8220,30 +8220,10 @@ Integer specifying brightness of internal calculated palette.
 Integer specifying gamma of internal calculated palette.
 (0..4000)
 
-@vindex VDCColorTint
-@item VDCColorTint
-Integer specifying tint of internal calculated palette.
-(0..2000)
-
 @vindex VDCPALScanLineShade
 @item VDCPALScanLineShade
 Integer specifying amount of scan line shading for the CRT emulation.
 (0..1000)
-
-@vindex VDCPALBlur
-@item VDCPALBlur
-Integer specifying amount of horizontal blur for the CRT emulation.
-(0..1000)
-
-@vindex VDCPALOddLinePhase
-@item VDCPALOddLinePhase
-Integer specifying phase for color carrier in odd lines.
-(0..2000)
-
-@vindex VDCPALOddLineOffset
-@item VDCPALOddLineOffset
-Integer specifying phase offset for color carrier in odd lines.
-(0..2000)
 
 @vindex VDCAudioLeak
 @item VDCAudioLeak
@@ -10740,30 +10720,10 @@ Integer specifying brightness of internal calculated palette.
 Integer specifying gamma of internal calculated palette.
 (0..4000)
 
-@vindex CrtcColorTint
-@item CrtcColorTint
-Integer specifying tint of internal calculated palette.
-(0..2000)
-
-@vindex CrtcPALScanLineShade
-@item CrtcPALScanLineShade
-Integer specifying amount of scan line shading for the CRT emulation.
-(0..1000)
-
 @vindex CrtcPALBlur
 @item CrtcPALBlur
 Integer specifying amount of horizontal blur for the CRT emulation.
 (0..1000)
-
-@vindex CrtcPALOddLinePhase
-@item CrtcPALOddLinePhase
-Integer specifying phase for color carrier in odd lines
-(0..2000)
-
-@vindex CrtcPALOddLineOffset
-@item CrtcPALOddLineOffset
-Integer specifying phase offset for color carrier in odd lines.
-(0..2000)
 
 @vindex CrtcAudioLeak
 @item CrtcAudioLeak
