@@ -14,7 +14,7 @@
  * $VICERES DoodleCRTCTextColor         -vsid
  * $VICERES KoalaOversizeHandling       -vsid
  * $VICERES KoalaUndersizeHandling      -vsid
- * $VICERES KoalaTEDLumHanlding         -vsid
+ * $VICERES KoalaTEDLumHandling         -vsid
  * $VICERES KoalaCRTCTextColor          -vsid
  */
 
