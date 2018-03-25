@@ -9,6 +9,9 @@
  * $VICERES WarpMode        all
  * $VICERES KeySetEnable    -vsid
  * $VICERES Mouse           -vsid
+ * $VICERES DtvBlitterLog   x64dtv
+ * $VICERES DtvDMALog       x64dtv
+ * $VICERES DtvFlashLog     x64dtv
  */
 
 /*

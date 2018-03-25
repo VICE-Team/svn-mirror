@@ -7626,8 +7626,8 @@ Boolean specifying whether the DS12C887 RTC cartridge starts out running or halt
 @item DS12C887RTCSave
 Boolean specifying whether the DS12C887 RTC data should be saved when changed or not.
 
-@vindex ETHERNET_ACTIVE
-@item ETHERNET_ACTIVE
+@vindex ETHERNETCART_ACTIVE
+@item ETHERNETCART_ACTIVE
 Boolean that specifies whether the CS8900 ethernet interface emulation is active.
 @vindex ETHERNET_INTERFACE
 @item ETHERNET_INTERFACE
@@ -7636,9 +7636,13 @@ String specifying the device name of the ethernet device to use for the emulatio
 @item ETHERNET_DISABLED
 Boolean that specified whether ethernet emulation has been disabled because it is
 not available in the current configuration.
-@vindex ETHERNET_AS_RR
-@item ETHERNET_AS_RR
+@vindex ETHERNETCARTMode
+@item ETHERNETCARTMode
 Boolean that specifies whether RR-Net compatible mapping is enabled.
+@vindex ETHERNETCARTBase
+@item ETHERNETCARTBase
+Integer specifying the I/O base address of the emulated ethernet cartridge,
+
 
 @vindex GEORAM
 @item GEORAM
