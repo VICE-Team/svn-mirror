@@ -1,12 +1,10 @@
-/**
+/** \file   romsetmanagerwidget.h
  * \brief   GTK3 ROM set manager widget - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
- * Controls the following rescource(s):
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -29,7 +27,10 @@
 #ifndef VICE_ROMSETMANAGERWIDGET_H
 #define VICE_ROMSETMANAGERWIDGET_H
 
-GtkWidget *romset_manager_widget_create(void);
+#include "vice_gtk3.h"
+
+GtkWidget *romset_manager_widget_create(
+        const vice_gtk3_combo_entry_str_t *predefs);
 
 
 #endif

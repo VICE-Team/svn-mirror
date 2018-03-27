@@ -112,19 +112,29 @@
 /** \brief  Default ROM set name for CBM-II 5x0 models */
 #define ROMSET_DEFAULT_CBM5x0   "rom500.vrs"
 
-/* CBM_II 6x0/7x0 appears to have four different 'default' ROM sets:
- * - rom128l.vrs (128KB Basic, 8px charset)
- * - rom128h.vrs (128KB Basic, 16px charset)
- * - rom256l.vrs (128KB Basic, 8px charset)
- * - rom256h.vrs (128KB Basic, 16px charset)
+
+/** \brief  Predefined ROM sets for CBM-II 6x0
  */
+static const vice_gtk3_combo_entry_str_t predefs_cbm6x0[] = {
+    { "Basic 128K, low chars",      "rom128l.vrs" },
+    { "Basic 256K, low chars",      "rom256l.vrs" },
+    { "Basic 128K, high chars",     "rom128h.vrs" },
+    { "Basic 256K, high chars",     "rom256h.vrs" },
+    { NULL,                         NULL }
+};
 
-#define ROMSET_DEFAULT_CBM6x0_128L  "rom128l.vrs"
-#define ROMSET_DEFAULT_CBM6x0_256L  "rom256l.vrs"
-#define ROMSET_DEFAULT_CBM6x0_128H  "rom128h.vrs"
-#define ROMSET_DEFAULT_CBM6x0_256H  "rom128h.vrs"
 
-/* PET is even a bigger mess (TODO) */
+/** \brief  Predefined ROM sets for PET
+ */
+static const vice_gtk3_combo_entry_str_t predefs_pet[] = {
+    { "Basic 1",                        "rom1g.vrs" },
+    { "Basic 2, graphics",              "rom2g.vrs" },
+    { "Basic 2, business",              "rom2b.vrs" },
+    { "Basic 4, 40 cols, graphics",     "rom4g40.vrs" },
+    { "Basic 4, 40 cols, business",     "rom4b40.vrs" },
+    { "Basic 4, 80 cols, business",     "rom4b80.vrs" },
+    { NULL,                             NULL }
+};
 
 
 
@@ -715,7 +725,8 @@ static GtkWidget *create_drive_exp_roms_widget(void)
 
 
 
-static GtkWidget *create_rom_archives_widget(void)
+static GtkWidget *create_rom_archives_widget(
+        const vice_gtk3_combo_entry_str_t *predefs)
 {
     GtkWidget *grid;
     GtkWidget *manager;
@@ -734,7 +745,7 @@ static GtkWidget *create_rom_archives_widget(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), current, 0, 1, 1, 1);
 #endif
-    manager = romset_manager_widget_create();
+    manager = romset_manager_widget_create(predefs);
     gtk_grid_attach(GTK_GRID(grid), manager, 0, 0, 1, 1);
     gtk_widget_show_all(grid);
 
@@ -751,6 +762,8 @@ static GtkWidget *create_rom_archives_widget(void)
  */
 GtkWidget *settings_romset_widget_create(GtkWidget *parent)
 {
+    const vice_gtk3_combo_entry_str_t *predefs;
+
     layout = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     create_stack_switcher(layout);
@@ -767,7 +780,20 @@ GtkWidget *settings_romset_widget_create(GtkWidget *parent)
         child_drive_exp_roms = create_drive_exp_roms_widget();
     }
 
-    child_rom_archives = create_rom_archives_widget();
+    /* determine predefined ROM sets, if any */
+    switch (machine_class) {
+        case VICE_MACHINE_CBM6x0:
+            predefs = predefs_cbm6x0;
+            break;
+        case VICE_MACHINE_PET:
+            predefs = predefs_pet;
+            break;
+
+        default:
+            predefs = NULL;
+    }
+    child_rom_archives = create_rom_archives_widget(predefs);
+
     if (machine_class == VICE_MACHINE_C128) {
         add_stack_child(child_machine_roms, "Kernal/Basic", "machine");
         add_stack_child(child_chargen_roms, "Chargen ROMS", "chargen");

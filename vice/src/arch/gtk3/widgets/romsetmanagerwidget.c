@@ -1,4 +1,4 @@
-/**
+/** \file   romsetmanagerwidget.c
  * \brief   GTK3 ROM set manager widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -7,8 +7,6 @@
  */
 
 /*
- * Controls the following rescource(s):
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -74,6 +72,7 @@ static const romset_button_t romset_buttons[] = {
 /*
  * References to widgets
  */
+static GtkWidget *romset_predefs = NULL;
 static GtkWidget *romset_listing = NULL;
 static GtkTreeStore *romset_model = NULL;
 static GtkWidget *romset_view = NULL;
@@ -132,6 +131,56 @@ static void on_load_archive(GtkWidget *widget, gpointer data)
         }
         g_free(filename);
     }
+}
+
+
+/** \brief  Handler for the 'changed' event of the predefined ROM sets combo
+ *
+ * \param[in]   widget  combo box
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_predef_changed(GtkWidget *widget, gpointer data)
+{
+    const gchar *id;
+
+    id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget));
+    if (id != NULL) {
+        debug_gtk3("Setting ROM set to '%s'\n", id);
+        machine_romset_file_load(id);
+
+        /* TODO: use a callback to update the ROM widgets when loading has
+         *       succeeded
+         */
+    }
+}
+
+
+/** \brief  Create combo box with predefined ROM sets
+ *
+ * \param[in]   sets    list of predefined ROM sets
+ *
+ * \return  GtkComboBoxText
+ */
+static GtkWidget *create_predef_romsets_widget(
+        const vice_gtk3_combo_entry_str_t *sets)
+{
+    GtkWidget *combo;
+
+    combo = gtk_combo_box_text_new();
+    if (sets == NULL) {
+        gtk_widget_set_sensitive(combo, FALSE);
+    } else {
+        /* add predefined sets */
+        int i;
+
+        for (i = 0; sets[i].name != NULL; i++) {
+            gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(combo),
+                    sets[i].id, sets[i].name);
+        }
+
+        g_signal_connect(combo, "changed", G_CALLBACK(on_predef_changed), NULL);
+    }
+    return combo;
 }
 
 
@@ -255,37 +304,53 @@ static GtkWidget *create_buttons(void)
 
 /** \brief  Create the romset manager widget
  *
+ * \param[in]   predefs list of predefined ROM sets (optional)
+ *
  * \return  GtkGrid
  */
-GtkWidget *romset_manager_widget_create(void)
+GtkWidget *romset_manager_widget_create(
+        const vice_gtk3_combo_entry_str_t *predefs)
 {
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *scroll;
     GtkWidget *buttons;
     GtkWidget *current_button;
+    int row = 0;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
     label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(label), "<b>Predefined ROM sets</b>");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+       gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
+    row++;
+
+    romset_predefs = create_predef_romsets_widget(predefs);
+    g_object_set(romset_predefs, "margin-left", 16, NULL);
+    gtk_grid_attach(GTK_GRID(grid), romset_predefs, 0, row, 2, 1);
+    row++;
+
+    label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set listing</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
+    row++;
 
     romset_listing = create_listing_widget();
     gtk_widget_set_size_request(romset_listing, -1, 150);
     gtk_widget_set_hexpand(romset_listing, TRUE);
     g_object_set(romset_listing, "margin-left", 16, NULL);
 
-    gtk_grid_attach(GTK_GRID(grid), romset_listing, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), romset_listing, 0, row, 1, 1);
 
     current_button = gtk_button_new_with_label("Show current");
     gtk_widget_set_valign(current_button, GTK_ALIGN_START);
     gtk_widget_set_hexpand(current_button, FALSE);
     g_signal_connect(current_button, "clicked",
             G_CALLBACK(on_show_current_clicked), NULL);
-    gtk_grid_attach(GTK_GRID(grid), current_button, 1, 1, 1, 1);
-
+    gtk_grid_attach(GTK_GRID(grid), current_button, 1, row, 1, 1);
+    row++;
 
     romset_model = create_tree_model();
     romset_view = create_tree_view(romset_model);
@@ -293,7 +358,8 @@ GtkWidget *romset_manager_widget_create(void)
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), "<b>ROM set management</b>");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 2, 1);
+    row++;
 
     /* pack the tree view into a GtkScrolledWindow */
     scroll = gtk_scrolled_window_new(NULL, NULL);
@@ -306,10 +372,10 @@ GtkWidget *romset_manager_widget_create(void)
     gtk_container_add(GTK_CONTAINER(scroll), romset_view);
     gtk_widget_show_all(scroll);
 
-    gtk_grid_attach(GTK_GRID(grid), scroll, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), scroll, 0, row, 1, 1);
 
     buttons = create_buttons();
-    gtk_grid_attach(GTK_GRID(grid), buttons, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), buttons, 1, row, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;
