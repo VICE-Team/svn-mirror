@@ -20,7 +20,7 @@
  * $VICERES IDE64Cylinders1         x64 x64sc xscpu64 x128
  * $VICERES IDE64Cylinders2         x64 x64sc xscpu64 x128
  * $VICERES IDE64Cylinders3         x64 x64sc xscpu64 x128
- * $VICEReS IDE64Cylinders4         x64 x64sc xscpu64 x128
+ * $VICERES IDE64Cylinders4         x64 x64sc xscpu64 x128
  * $VICERES IDE64Heads1             x64 x64sc xscpu64 x128
  * $VICERES IDE64Heads2             x64 x64sc xscpu64 x128
  * $VICERES IDE64Heads3             x64 x64sc xscpu64 x128
