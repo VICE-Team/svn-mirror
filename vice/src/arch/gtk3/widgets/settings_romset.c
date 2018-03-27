@@ -39,6 +39,8 @@
  * $VICERES Cart4Name           xcbm5x0 xcbm2
  * $VICERES Cart6Name           xcbm5x0 xcbm2
  * $VICERES EditorName          xpet
+ * $VICERES Basic1              xpet
+ * $VICERES Basic1Chars         xpet
  *
  * Drive ROMS:
  *
@@ -514,6 +516,8 @@ static GtkWidget *create_pet_roms_widget(void)
     GtkWidget *grid;
     GtkWidget *button;
     GtkWidget *wrapper;
+    GtkWidget *basic1;
+    GtkWidget *basic1_chars;
 
     grid = create_roms_widget(pet_machine_roms);
 
@@ -531,6 +535,16 @@ static GtkWidget *create_pet_roms_widget(void)
             (gpointer)("chargen.de"));
     gtk_grid_attach(GTK_GRID(wrapper), button, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 4, 1, 1);
+
+    basic1 = vice_gtk3_resource_check_button_new("Basic1",
+            "Patch Kernal v1 to make the IEEE488 interface work");
+    g_object_set(basic1, "margin-top", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), basic1, 0, 5, 2, 1);
+    basic1_chars = vice_gtk3_resource_check_button_new("Basic1Chars",
+            "Patch Chargen v1 to match newer PET models");
+    g_object_set(basic1_chars, "margin-top", 8, NULL);
+    gtk_grid_attach(GTK_GRID(grid), basic1_chars, 0, 6, 2, 1);
+
     return grid;
 }
 
