@@ -28,8 +28,6 @@
  * $VICERES VDCColorSaturation      x128
  * $VICERES VDCColorTint            x128
  * $VICERES VDCPALBlur              x128
- * $VICERES VDCPALOddLineOffset     x128
- * $VICERES VDCPALOddLinePhase      x128
  * $VICERES VDCPALScanLineShade     x128
  *
  * $VICERES VICColorBrightness      xvic
@@ -37,6 +35,9 @@
  * $VICERES VICColorGamma           xvic
  * $VICERES VICColorSaturation      xvic
  * $VICERES VICColorTint            xvic
+ * $VICERES VICPALBlur              xvic
+ * $VICERES VICPALOddLineOffset     xvic
+ * $VICERES VICPALOddLinePhase      xvic
  * $VICERES VICPALScanLineShade     xvic
  *
  * $VICERES VICIIColorBrightness    x64 x64sc x64dtv xscpu64 x128 xcbm5x0

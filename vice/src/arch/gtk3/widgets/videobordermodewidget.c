@@ -6,7 +6,6 @@
 
 /*
  * $VICERES TEDBorderMode       xplus4
- * $VICERES VDCBorderMode       x128
  * $VICERES VICBorderMode       xvic
  * $VICERES VICIIBorderMode     x64 x64sc xscpu64 x64dtv x128 cbm5x0
  */
