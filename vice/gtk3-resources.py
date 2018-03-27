@@ -186,8 +186,8 @@ def print_markdown_header():
     Print emu list in markdown format
     """
     print("resource name", end="")
-    print("|{}|".format("|".join(ALL_EMUS)))
-    print("file");
+    print("!{}|".format("|".join(ALL_EMUS)))
+    print("filename");
 
     print("|------------", end="")
     print("|{}|".format("|".join("-" * len(e) for e in ALL_EMUS)))
@@ -196,13 +196,17 @@ def print_markdown_header():
 
 def print_wiki_header():
     """
-    Print emu list in markdown format
+    Print emu list in stupid SF wiki format
     """
-    print("{|")
-    print("| resource name ", end="")
-    print("||{}||".format("||".join(ALL_EMUS)))
-    print(" file ");
+    print("{| class=\"wikitable\"\n")
+    print("!resource name ", end="")
+    print("||{}||".format("||".join(ALL_EMUS)), end="")
+    print("filename");
     print("|-")
+
+
+def print_wiki_footer():
+    printf("|}")
 
 
 def list_resources(resources):
@@ -289,6 +293,7 @@ def list_resources_wiki(resources):
             print("||{}".format(filename[len(GTK3_SOURCES) + 1:]))
             print("|-")
 
+    print_wiki_footer()
     return len(resources)
 
 
