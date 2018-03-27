@@ -3510,6 +3510,10 @@ drive.
 
 @table @code
 
+@vindex Datasette
+@item Datasette
+Boolean specifying whether to emulate the datasette.
+
 @vindex DatasetteResetWithCPU
 @item DatasetteResetWithCPU
 Boolean specifying whether to reset (rewind) the tape when resetting the CPU.
@@ -3530,6 +3534,12 @@ Integer specifying the maximum random number of cycles added to each gap in the 
 @subsection Tape command-line options
 
 @table @code
+
+@findex -datasette, +datasette
+@item -datasette
+@itemx +datasette
+Enable/disable datasette emulation
+(@code{Datasette=1}, @code{Datasette=0}).
 
 @findex -dsresetwithcpu, +dsresetwithcpu
 @item -dsresetwithcpu
@@ -9273,10 +9283,6 @@ Boolean specifying whether the I/O-3 ($9C00-$9FFF) RAM cartridge should be emula
 @vindex VFLImod
 @item VFLImod
 Boolean specifying whether the VFLI modification should be enabled.
-
-@vindex TFEIOSwap
-@item TFEIOSwap
-Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
 
 @vindex SFXSoundExpander
 @item SFXSoundExpander
