@@ -181,6 +181,30 @@ def print_emu_header():
         print(line)
 
 
+def print_markdown_header():
+    """
+    Print emu list in markdown format
+    """
+    print("resource name", end="")
+    print("|{}|".format("|".join(ALL_EMUS)))
+    print("file");
+
+    print("|------------", end="")
+    print("|{}|".format("|".join("-" * len(e) for e in ALL_EMUS)))
+    print("----")
+
+
+def print_wiki_header():
+    """
+    Print emu list in markdown format
+    """
+    print("{|")
+    print("| resource name ", end="")
+    print("||{}||".format("||".join(ALL_EMUS)))
+    print(" file ");
+    print("|-")
+
+
 def list_resources(resources):
     """
     List resources alphabetically, with emu-support and source file
@@ -207,6 +231,67 @@ def list_resources(resources):
             print(" {}".format(filename[len(GTK3_SOURCES) + 1:]))
 
     return len(resources)
+
+
+def list_resources_markdown(resources):
+    """
+    List resources in markdown format, alphabetically, with emu-support and
+    source file(s)
+
+    :param resources: dictionary of resources parsed from the sources
+
+    :returns: number of resources
+    """
+
+    num = 0
+
+    print_markdown_header()
+    for res in sorted(resources.keys()):
+        # print("len of resources[{}] = {}".format(res, len(resources[res])))
+        for entry in resources[res]:
+            print("|{:40}".format(res), end="")
+            filename = entry[0]
+            emus = entry[1];
+            for e in ALL_EMUS:
+                if e in emus:
+                    print("|yes", end="")
+                else:
+                    print("|no", end="")
+            print("|{}|".format(filename[len(GTK3_SOURCES) + 1:]))
+
+    return len(resources)
+
+
+def list_resources_wiki(resources):
+    """
+    List resources in SF wiki format, alphabetically, with emu-support and
+    source file(s)
+
+    :param resources: dictionary of resources parsed from the sources
+
+    :returns: number of resources
+    """
+
+    num = 0
+
+    print_wiki_header()
+    for res in sorted(resources.keys()):
+        # print("len of resources[{}] = {}".format(res, len(resources[res])))
+        for entry in resources[res]:
+            print("|{:40}".format(res), end="")
+            filename = entry[0]
+            emus = entry[1];
+            for e in ALL_EMUS:
+                if e in emus:
+                    print("||yes", end="")
+                else:
+                    print("||no", end="")
+            print("||{}".format(filename[len(GTK3_SOURCES) + 1:]))
+            print("|-")
+
+    return len(resources)
+
+
 
 
 def list_emu_resources(resources, emu):
@@ -259,6 +344,7 @@ def usage():
 Commands:
     help                display this text
     list-all            list all resources for all emus
+    list-all-markdown   list all resources in markdown format
     list-per-emu <emu>  list all resources for <emu>
     list-texi           list all resources documented in vice.texi
     list-missing        list resources missing in Gtk3 which are in vice.texi
@@ -272,7 +358,8 @@ start to get the resources right.""".format(os.path.basename(sys.argv[0])))
 
 
 # List of available commands
-commands = [ 'list-all', 'list-per-emu', 'list-texi', 'list-missing' ]
+commands = [ 'list-all', 'list-per-emu', 'list-texi', 'list-missing',
+        'list-all-markdown', 'list-all-wiki']
 
 
 def main():
@@ -299,6 +386,12 @@ def main():
     if sys.argv[1] == "list-all":
         reslist = get_gtk3_resources()
         num = list_resources(reslist)
+    elif sys.argv[1] == "list-all-markdown":
+        reslist = get_gtk3_resources()
+        num = list_resources_markdown(reslist)
+    elif sys.argv[1] == "list-all-wiki":
+        reslist = get_gtk3_resources()
+        num = list_resources_wiki(reslist)
     elif sys.argv[1] == "list-per-emu":
         if len(sys.argv) < 3:
             printf("list-per-emu needs a emulator name as its argument",
