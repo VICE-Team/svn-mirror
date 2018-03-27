@@ -74,8 +74,12 @@ static void on_resource_browser_destroy(GtkWidget *widget, gpointer data)
     state = (resource_browser_state_t *)(g_object_get_data(G_OBJECT(widget),
                 "ViceState"));
     lib_free(state->res_name);
-    lib_free(state->res_orig);
-    free_patterns(state->patterns);
+    if (state->res_orig != NULL) {
+        lib_free(state->res_orig);
+    }
+    if (state->patterns != NULL) {
+        free_patterns(state->patterns);
+    }
     if (state->pattern_name != NULL) {
         lib_free(state->pattern_name);
     }
@@ -285,7 +289,7 @@ gboolean vice_gtk3_resource_browser_set(GtkWidget *widget, const char *new)
         gtk_entry_set_text(GTK_ENTRY(state->entry), state->res_orig);
         return FALSE;
     } else {
-        gtk_entry_set_text(GTK_ENTRY(state->entry), new);
+        gtk_entry_set_text(GTK_ENTRY(state->entry), new != NULL ? new : "");
         return TRUE;
     }
 }

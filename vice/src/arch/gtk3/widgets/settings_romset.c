@@ -62,6 +62,12 @@
  * $VICERES DriveProfDOS1571Name    x64 x64sc xscpu64 x128
  * $VICERES DriveSuperCardName      x64 x64sc xscpu64 x128
  * $VICERES DriveStarDosName        x64 x64sc xscpu64 x128
+ *
+ * User-defined ROMs:
+ *
+ * $VICERES RomModule9Name      xpet
+ * $VICERES RomModuleAName      xpet
+ * $VICERES RomModuleBName      xpet
  */
 
 /*
@@ -89,6 +95,7 @@
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
+#include "resourcehelpers.h"
 #include "machine.h"
 #include "diskimage.h"
 #include "romset.h"
@@ -339,6 +346,7 @@ static GtkWidget *child_rom_archives = NULL;
 
 
 
+
 /* Loading default ROM sets is a little more involved than this for some
  * machines such as CBM-II/PET */
 #if 0
@@ -521,7 +529,30 @@ static GtkWidget *create_cbm2_roms_widget(void)
     return grid;
 }
 
+
+/** \brief  Unload a PET ROM
+ *
+ * \param[in]       widget  'unload' button
+ * \param[in,out]   data    resource browser widget
+ */
+static void unload_pet_rom(GtkWidget *widget, gpointer data)
+{
+    GtkWidget *browser = data;
+    const char *resource;
+
+    resource = resource_widget_get_resource_name(browser);
+
+    debug_gtk3("unloading ROM '%s'\n", resource);
+    vice_gtk3_resource_browser_set(browser, NULL);
+
+}
+
+
 /** \brief  Create machine ROMs widget for PET/SuperPET
+ *
+ * \return  GtkGrid
+ *
+ * \TODO    Refactor code, too convoluted
  */
 static GtkWidget *create_pet_roms_widget(void)
 {
@@ -530,6 +561,19 @@ static GtkWidget *create_pet_roms_widget(void)
     GtkWidget *wrapper;
     GtkWidget *basic1;
     GtkWidget *basic1_chars;
+
+    GtkWidget *unload;
+    GtkWidget *label;
+    GtkWidget *browser;
+
+    int i;
+
+    const char *modules[3] = {
+        "RomModule9Name",
+        "RomModuleAName",
+        "RomModuleBName"
+    };
+
 
     grid = create_roms_widget(pet_machine_roms);
 
@@ -554,8 +598,28 @@ static GtkWidget *create_pet_roms_widget(void)
     gtk_grid_attach(GTK_GRID(grid), basic1, 0, 5, 2, 1);
     basic1_chars = vice_gtk3_resource_check_button_new("Basic1Chars",
             "Patch Chargen v1 to match newer PET models");
-    g_object_set(basic1_chars, "margin-top", 8, NULL);
+    g_object_set(basic1_chars, "margin-top", 8, "margin-bottom", 16, NULL);
     gtk_grid_attach(GTK_GRID(grid), basic1_chars, 0, 6, 2, 1);
+
+
+    for (i = 0; i < 3; i++) {
+        const char *mod = modules[i];
+        gchar text[256];
+
+        g_snprintf(text, 256, "$%c000-$%cFFF ROM:", mod[9], mod[9]);
+        label = gtk_label_new(text);
+        browser = vice_gtk3_resource_browser_new(mod,
+                rom_file_patterns, "ROM files", "Attach new ROM", NULL, NULL);
+        unload = gtk_button_new_with_label("Unload");
+        g_signal_connect(unload, "clicked", G_CALLBACK(unload_pet_rom),
+                (gpointer)browser);
+
+        gtk_grid_attach(GTK_GRID(grid), label, 0, 7 + i, 1, 1);
+        wrapper = gtk_grid_new();
+        gtk_grid_attach(GTK_GRID(wrapper), browser, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(wrapper), unload, 1, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), wrapper, 1, 7 + i, 1, 1);
+    }
 
     return grid;
 }
