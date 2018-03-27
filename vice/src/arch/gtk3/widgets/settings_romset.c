@@ -59,6 +59,9 @@
  * $VICERES DosName3040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  * $VICERES DosName4040         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
  * $VICERES DosName1001         x64 x64sc xscpu64 xvic x128 xcbm5x0 xcbm2 xpet
+ * $VICERES DriveProfDOS1571Name    x64 x64sc xscpu64 x128
+ * $VICERES DriveSuperCardName      x64 x64sc xscpu64 x128
+ * $VICERES DriveStarDosName        x64 x64sc xscpu64 x128
  */
 
 /*
@@ -281,6 +284,13 @@ static const romset_entry_t c128_drive_roms[] = {
 };
 
 
+static const romset_entry_t c64_c128_drive_exp_roms[] = {
+    { "DriveProfDOS1571Name",   "ProfDOS 1571", NULL },
+    { "DriveSuperCardName",     "SuperCard", NULL },
+    { "DriveStarDosName",       "StarDOS", NULL }
+};
+
+
 /** \brief  List of drive ROMs supported by PET/CBM-II (5x0 + 6x0/7x0)
  */
 static const romset_entry_t pet_cbm2_drive_roms[] = {
@@ -323,6 +333,8 @@ static GtkWidget *child_machine_roms = NULL;
 static GtkWidget *child_chargen_roms = NULL;    /* used for C128 to avoid making
                                                    the dialog too large */
 static GtkWidget *child_drive_roms = NULL;
+/* Drive expansion ROMS: x64 x64sc xscpu64 x128 */
+static GtkWidget *child_drive_exp_roms = NULL;
 static GtkWidget *child_rom_archives = NULL;
 
 
@@ -626,6 +638,18 @@ static GtkWidget *create_drive_roms_widget(void)
 }
 
 
+/** \brief  Create a stack widget with widgets for drive expansion ROMS
+ *
+ * Only valid on C64/C128.
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_drive_exp_roms_widget(void)
+{
+    return create_roms_widget(c64_c128_drive_exp_roms);
+}
+
+
 
 static GtkWidget *create_rom_archives_widget(void)
 {
@@ -671,6 +695,14 @@ GtkWidget *settings_romset_widget_create(GtkWidget *parent)
         child_chargen_roms = create_c128_chargen_widget();
     }
     child_drive_roms = create_drive_roms_widget();
+
+    if (machine_class == VICE_MACHINE_C64
+            || machine_class == VICE_MACHINE_C64SC
+            || machine_class == VICE_MACHINE_SCPU64
+            || machine_class == VICE_MACHINE_C128) {
+        child_drive_exp_roms = create_drive_exp_roms_widget();
+    }
+
     child_rom_archives = create_rom_archives_widget();
     if (machine_class == VICE_MACHINE_C128) {
         add_stack_child(child_machine_roms, "Kernal/Basic", "machine");
@@ -679,6 +711,14 @@ GtkWidget *settings_romset_widget_create(GtkWidget *parent)
         add_stack_child(child_machine_roms, "Machine ROMs", "machine");
     }
     add_stack_child(child_drive_roms, "Drive ROMs", "drive");
+
+    if (machine_class == VICE_MACHINE_C64
+            || machine_class == VICE_MACHINE_C64SC
+            || machine_class == VICE_MACHINE_SCPU64
+            || machine_class == VICE_MACHINE_C128) {
+        add_stack_child(child_drive_exp_roms, "Drive exp. ROMs", "drive-exp");
+    }
+
     add_stack_child(child_rom_archives, "ROM archives", "archive");
     gtk_widget_show_all(layout);
     return layout;
