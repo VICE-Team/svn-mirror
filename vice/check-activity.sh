@@ -53,7 +53,7 @@ function checkrev
     if [ ! -f .svnlog ]; then
         updatelog
     fi
-    CREV=`svnversion . | sed 's:M::' | sed 's/.*://'`
+    CREV=`svnversion . | sed 's:M::g' | sed 's:S::g' | sed 's:P::g' | sed 's/.*://'`
     LREV=`catlog | sed 's:^r::g' | sort -nr | head -n1 | awk '{print $1}'`
     echo "CREV = $CREV"
     echo "LREV = $LREV"
