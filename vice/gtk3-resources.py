@@ -206,7 +206,7 @@ def print_wiki_header():
 
 
 def print_wiki_footer():
-    printf("|}")
+    print("|}")
 
 
 def list_resources(resources):
@@ -399,7 +399,7 @@ def main():
         num = list_resources_wiki(reslist)
     elif sys.argv[1] == "list-per-emu":
         if len(sys.argv) < 3:
-            printf("list-per-emu needs a emulator name as its argument",
+            print("list-per-emu needs a emulator name as its argument",
                     file=sys.stderr)
             exit(1)
         reslist = get_gtk3_resources()
