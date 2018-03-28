@@ -38,7 +38,7 @@
 #include "debug.h"
 #include "lib.h"
 #include "res.h"
-#include "tapecart.h"
+/* #include "tapecart.h" */
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
@@ -866,7 +866,9 @@ int c128ui_init(void)
     ui_register_menu_toggles(c128_ui_menu_toggles);
     ui_register_translation_tables(c128ui_menu_translation_table, c128ui_popup_translation_table);
     ui_register_res_values(c128_ui_res_values);
+#if 0
     tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
+#endif
 
     return 0;
 }

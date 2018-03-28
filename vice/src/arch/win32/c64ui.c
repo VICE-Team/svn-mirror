@@ -40,7 +40,7 @@
 #include "lib.h"
 #include "res.h"
 #include "sid.h"
-#include "tapecart.h"
+/* #include "tapecart.h" */
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
@@ -779,7 +779,9 @@ int c64ui_init(void)
     ui_register_machine_specific(c64_ui_specific);
     ui_register_menu_toggles(c64_ui_menu_toggles);
     ui_register_translation_tables(c64ui_menu_translation_table, c64ui_popup_translation_table);
+#if 0
     tapeport_devices_widget_set_tapecart_flush_func(tapecart_flush_tcrt);
+#endif
 
     return 0;
 }

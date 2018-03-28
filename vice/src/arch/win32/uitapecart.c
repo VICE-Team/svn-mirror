@@ -36,13 +36,16 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
+#include "tapecart.h"
 #include "translate.h"
 #include "types.h"
 #include "uilib.h"
 #include "uitapecart.h"
 #include "winmain.h"
 
+#if 0
 static int (*tapecart_flush_func)(void) = NULL;
+#endif
 
 static void enable_tapecart_controls(HWND hwnd)
 {
@@ -113,9 +116,9 @@ static void init_tapecart_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_TAPECART_OPTIMIZE_ON_CHANGE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_TAPECART_LOG_LEVEL);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_TAPECART_LOG_LEVEL_0));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_TAPECART_LOG_LEVEL_1));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_TAPECART_LOG_LEVEL_2));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_TAPECART_LOG_LEVEL_0));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_TAPECART_LOG_LEVEL_1));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_tcs(IDS_TAPECART_LOG_LEVEL_2));
     resources_get_int("TapecartLogLevel", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -131,10 +134,14 @@ static void end_tapecart_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_int("TapecartEnabled", (IsDlgButtonChecked(hwnd, IDC_TAPECART_ENABLE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("TapecartUpdateTCRT", (IsDlgButtonChecked(hwnd, IDC_TAPECART_SAVE_ON_CHANGE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("TapecartOptimizeTCRT", (IsDlgButtonChecked(hwnd, IDC_TAPECART_OPTIMIZE_ON_CHANGE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("TapecartLogLevel", (int)SendMessage(GetDlgItem(hwnd, IDC_TAPECART_LOG_LEVEL), CB_GETCURSEL, 0, 0));
+    resources_set_int("TapecartEnabled",
+                      (IsDlgButtonChecked(hwnd, IDC_TAPECART_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("TapecartUpdateTCRT",
+                      (IsDlgButtonChecked(hwnd, IDC_TAPECART_SAVE_ON_CHANGE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("TapecartOptimizeTCRT",
+                      (IsDlgButtonChecked(hwnd, IDC_TAPECART_OPTIMIZE_ON_CHANGE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("TapecartLogLevel",
+                      (int)SendMessage(GetDlgItem(hwnd, IDC_TAPECART_LOG_LEVEL), CB_GETCURSEL, 0, 0));
 
     GetDlgItemText(hwnd, IDC_TAPECART_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
@@ -143,7 +150,8 @@ static void end_tapecart_dialog(HWND hwnd)
 
 static void browse_tapecart_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_TAPECART_SELECT_FILE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_TAPECART_FILE);
+    uilib_select_browse(hwnd, intl_translate_tcs(IDS_TAPECART_SELECT_FILE),
+                        UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_TAPECART_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -161,11 +169,15 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                     enable_tapecart_controls(hwnd);
                     break;
                 case IDC_TAPECART_FLUSH:
+#if 1
+                    tapecart_flush_tcrt();
+#else
                     if (tapecart_flush_func) {
                         tapecart_flush_func();
                     } else {
                         MessageBox(NULL, _T("Tapecart cannot be flushed on this platform"), _T("Tapecart Error"), MB_ICONERROR | MB_OK);
                     }
+#endif
                     break;
                 case IDOK:
                     end_tapecart_dialog(hwnd);
@@ -189,9 +201,11 @@ void ui_tapecart_settings_dialog(HWND hwnd)
     DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_TAPECART_SETTINGS_DIALOG, hwnd, dialog_proc);
 }
 
+#if 0
 /** \brief  Set the tapecart flush function
  *
- * This is required to work around vsid not linking against tapecart.
+ * This is probably not required to work around vsid not linking against
+ * tapecart, because this file should only get linked into x64, x64sc, and x128.
  *
  * \param[in]   func    tapecart flush function
  */
@@ -199,3 +213,4 @@ void tapeport_devices_widget_set_tapecart_flush_func(int (*func)(void))
 {
     tapecart_flush_func = func;
 }
+#endif

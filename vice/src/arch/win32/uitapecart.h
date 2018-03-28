@@ -29,6 +29,6 @@
 #define VICE_UITAPECART_H
 
 extern void ui_tapecart_settings_dialog(HWND hwnd);
-extern void tapeport_devices_widget_set_tapecart_flush_func(int (*func)(void));
+/* extern void tapeport_devices_widget_set_tapecart_flush_func(int (*func)(void)); */
 
 #endif
