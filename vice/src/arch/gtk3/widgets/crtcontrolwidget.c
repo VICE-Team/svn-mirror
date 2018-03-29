@@ -322,6 +322,7 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
 
     grid = vice_gtk3_grid_new_spaced(16, 0);
     /* g_object_set(grid, "font-size", 9, NULL); */
+    g_object_set(grid, "margin-left", 8, "margin-right", 8, NULL);
 
     g_snprintf(buffer, 256, "<b>CRT settings (%s)</b>", chip);
     label = gtk_label_new(NULL);
@@ -339,5 +340,6 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
     g_signal_connect(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
 
+    gtk_widget_show_all(grid);
     return grid;
 }

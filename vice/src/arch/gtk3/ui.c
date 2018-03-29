@@ -1176,13 +1176,14 @@ void ui_enable_crt_controls(bool enabled)
         gtk_widget_show(crt);
     } else {
         gtk_widget_hide(crt);
+        /*
+         * This is completely counter-intuitive, but it works, unlike all other
+         * size_request()/set_size_hint() stuff.
+         * Appearently setting a size of 1x1 pixels forces Gtk3 to render the
+         * window to the appropriate (minimum) size,
+         */
+        gtk_window_resize(window, 1, 1);
+
     }
-    /*
-     * This is completely counter-intuitive, but it works, unlike all other
-     * size_request()/set_size_hint() stuff.
-     * Appearently setting a size of 1x1 pixels forces Gtk3 to render the
-     * window to the appropriate (minimum) size,
-     */
-    gtk_window_resize(window, 1, 1);
 }
 
