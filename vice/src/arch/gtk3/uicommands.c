@@ -39,6 +39,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "resources.h"
 #include "debug_gtk3.h"
@@ -51,6 +52,8 @@
 #include "uicommands.h"
 
 extern ui_resource_t ui_resources;
+
+static bool crt_controls_enable = false;
 
 
 /** \brief  Swap joysticks
@@ -223,3 +226,13 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
     }
     return FALSE;
 }
+
+
+gboolean ui_toggle_crt_controls(void)
+{
+    crt_controls_enable = !crt_controls_enable;
+
+    ui_enable_crt_controls(crt_controls_enable);
+    return TRUE;
+}
+

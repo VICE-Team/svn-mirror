@@ -31,6 +31,7 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "videoarch.h"
 #include "palette.h"
@@ -117,5 +118,7 @@ gboolean ui_toggle_pause(void);
 gboolean ui_advance_frame(void);
 
 void vice_gtk3_lightpen_update(void);
+
+void ui_enable_crt_controls(bool enabled);
 
 #endif

@@ -320,24 +320,24 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
     data->pal_oddline_phase = NULL;
     data->pal_scanline_shade = NULL;
 
-    grid = vice_gtk3_grid_new_spaced(16, 8);
+    grid = vice_gtk3_grid_new_spaced(16, 0);
+    /* g_object_set(grid, "font-size", 9, NULL); */
 
     g_snprintf(buffer, 256, "<b>CRT settings (%s)</b>", chip);
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), buffer);
     gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 2, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
     row = add_sliders(GTK_GRID(grid), data);
 
     button = gtk_button_new_with_label("Reset");
     gtk_widget_set_halign(button, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(grid), button, 1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button, 1, 0, 1, 1);
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
 
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
     g_signal_connect(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
 
-    gtk_widget_show_all(grid);
     return grid;
 }

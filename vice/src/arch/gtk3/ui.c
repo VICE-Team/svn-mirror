@@ -60,6 +60,8 @@
 #include "uistatusbar.h"
 #include "jamdialog.h"
 
+#include "crtcontrolwidget.h"
+
 #include "ui.h"
 
 
@@ -614,6 +616,33 @@ static int set_window_ypos(int val, void *param)
 }
 
 
+static GtkWidget *create_crt_widget(GtkWidget *parent)
+{
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_SCPU64:
+        case VICE_MACHINE_CBM5x0:
+            return crt_control_widget_create(parent, "VICII");
+        case VICE_MACHINE_VIC20:
+            return crt_control_widget_create(parent, "VIC");
+        case VICE_MACHINE_PLUS4:
+            return crt_control_widget_create(parent, "PET");
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+            return crt_control_widget_create(parent, "CRTC");
+        default:
+            fprintf(stderr,
+                    "machine class %d not handled, exiting\n",
+                    machine_class);
+            return NULL;
+    }
+}
+
+
+
 /** \brief  Set function to help create the main window(s)
  *
  * \param[in]   func    create window function
@@ -659,6 +688,8 @@ void ui_create_main_window(video_canvas_t *canvas)
     GtkWidget *new_window, *grid, *status_bar;
     int target_window;
 
+    GtkWidget *crt_controls;
+
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
@@ -671,6 +702,11 @@ void ui_create_main_window(video_canvas_t *canvas)
     if (create_window_func != NULL) {
         create_window_func(canvas);
     }
+
+    crt_controls = create_crt_widget(new_window);
+    gtk_widget_hide(crt_controls);
+    gtk_container_add(GTK_CONTAINER(grid), crt_controls);
+    gtk_widget_set_no_show_all(crt_controls, TRUE);
 
     status_bar = ui_statusbar_create();
     gtk_widget_show_all(status_bar);
@@ -1128,3 +1164,19 @@ void vice_gtk3_lightpen_update(void)
         lightpen_update(0, canvas->pen_x, canvas->pen_y, canvas->pen_buttons);
     }
 }
+
+
+void ui_enable_crt_controls(bool enabled)
+{
+    GtkWindow *window = ui_get_active_window();
+    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(window));
+    GtkWidget *crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+
+    if (enabled) {
+        gtk_widget_show(crt);
+    } else {
+        gtk_widget_hide(crt);
+    }
+    gtk_window_set_default_size(GTK_WINDOW(window), -1 , 1);
+}
+
