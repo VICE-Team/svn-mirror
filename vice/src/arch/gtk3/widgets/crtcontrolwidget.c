@@ -94,7 +94,16 @@
  * Probably will require some testing/tweaking to get this to look acceptable
  * with various themes (and OSes).
  */
-#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; }"
+#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -4px; margin-bottom: -4px; }"
+
+
+/** \brief  CSS for the labels
+ *
+ * Make font smaller and reduce the vertical size the labels use
+ *
+ * Here Be Dragons!
+ */
+#define LABEL_CSS "label { font-size: 80%; margin-top: -2px; margin-bottom: -2px; }"
 
 
 /** \brief  Object holding internal state of a CRT control widget
@@ -168,7 +177,7 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 }
 
 
-/** \brief  Create right-aligned label
+/** \brief  Create right-aligned label with a smaller font
  *
  * \param[in]   text    label text
  *
@@ -176,11 +185,29 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
  */
 static GtkWidget *create_label(const char *text)
 {
-    GtkWidget *w;
+    GtkWidget *label;
+    GtkCssProvider *provider;
+    GtkStyleContext *context;
+    GError *err = NULL;
 
-    w = gtk_label_new(text);
-    gtk_widget_set_halign(w, GTK_ALIGN_END);
-    return w;
+    label = gtk_label_new(text);
+    gtk_widget_set_halign(label, GTK_ALIGN_END);
+
+    provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(provider, LABEL_CSS, -1, &err);
+    if (err != NULL) {
+        fprintf(stderr, "CSS error: %s\n", err->message);
+        g_error_free(err);
+    }
+
+    context = gtk_widget_get_style_context(label);
+    if (context != NULL) {
+        gtk_style_context_add_provider(context,
+                GTK_STYLE_PROVIDER(provider),
+                GTK_STYLE_PROVIDER_PRIORITY_USER);
+    }
+
+    return label;
 }
 
 
@@ -222,6 +249,10 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
                 GTK_STYLE_PROVIDER(css_provider),
                 GTK_STYLE_PROVIDER_PRIORITY_USER);
     }
+
+    /* don't draw the value next to the scale */
+    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE);
+
     return scale;
 }
 
@@ -234,7 +265,7 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
  *
  * \return  row number of last widget added
  */
-static int add_sliders(GtkGrid *grid, crt_control_data_t *data)
+static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
 {
     GtkWidget *label;
     const char *chip;
@@ -245,7 +276,7 @@ static int add_sliders(GtkGrid *grid, crt_control_data_t *data)
 
     if (resources_get_int("MachineVideoStandard", &video_standard) < 0) {
         debug_gtk3("failed to get MachineVideoStandard resource value\n");
-        return -1;
+        return;
     }
 
     /* Standard controls: brightness, gamma etc */
@@ -315,8 +346,6 @@ static int add_sliders(GtkGrid *grid, crt_control_data_t *data)
         gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
         row++;
     }
-
-    return row;
 }
 
 
@@ -333,7 +362,6 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
     GtkWidget *label;
     GtkWidget *button;
     gchar buffer[256];
-    int row;
 
     crt_control_data_t *data;
 
@@ -353,13 +381,13 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
     /* g_object_set(grid, "font-size", 9, NULL); */
     g_object_set(grid, "margin-left", 8, "margin-right", 8, NULL);
 
-    g_snprintf(buffer, 256, "<b>CRT settings (%s)</b>", chip);
+    g_snprintf(buffer, 256, "<small><b>CRT settings (%s)</b></small>", chip);
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), buffer);
     gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    row = add_sliders(GTK_GRID(grid), data);
+    add_sliders(GTK_GRID(grid), data);
 
     button = gtk_button_new_with_label("Reset");
     gtk_widget_set_halign(button, GTK_ALIGN_END);
