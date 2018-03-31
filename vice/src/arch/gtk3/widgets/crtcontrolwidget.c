@@ -85,6 +85,17 @@
 
 #include "crtcontrolwidget.h"
 
+/** \brief  CSS for the scales
+ *
+ * This makes the sliders take up less vertical space. The margin can be set
+ * to a negative value (in px) to allow the slider to be larger than the scale
+ * itself.
+ *
+ * Probably will require some testing/tweaking to get this to look acceptable
+ * with various themes (and OSes).
+ */
+#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; }"
+
 
 /** \brief  Object holding internal state of a CRT control widget
  *
@@ -187,12 +198,30 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
         int low, int high, int step)
 {
     GtkWidget *scale;
+    GtkCssProvider *css_provider;
+    GtkStyleContext *style_context;
+    GError *err = NULL;
 
     scale = vice_gtk3_resource_scale_int_new_sprintf("%s%s",
             GTK_ORIENTATION_HORIZONTAL, low, high, step,
             chip, resource);
     gtk_widget_set_hexpand(scale, TRUE);
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+
+    /* set up custom CSS to make the scale take up less space */
+    css_provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(css_provider, SLIDER_CSS, -1, &err);
+    if (err != NULL) {
+        fprintf(stderr, "CSS error: %s\n", err->message);
+        g_error_free(err);
+    }
+
+    style_context = gtk_widget_get_style_context(scale);
+    if (style_context != NULL) {
+        gtk_style_context_add_provider(style_context,
+                GTK_STYLE_PROVIDER(css_provider),
+                GTK_STYLE_PROVIDER_PRIORITY_USER);
+    }
     return scale;
 }
 
