@@ -319,7 +319,7 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
  */
 static void ui_update_fullscreen_decorations(void)
 {
-    GtkWidget *window, *grid, *menu_bar, *status_bar;
+    GtkWidget *window, *grid, *menu_bar, *crt_grid, *status_bar;
     int has_decorations;
 
     if (active_win_index < 0) {
@@ -330,13 +330,18 @@ static void ui_update_fullscreen_decorations(void)
     window = ui_resources.window_widget[active_win_index];
     grid = gtk_bin_get_child(GTK_BIN(window));
     menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+    crt_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
 
     if (has_decorations) {
         gtk_widget_show(menu_bar);
+        if (ui_crt_controls_enabled()) {
+            gtk_widget_show(crt_grid);
+        }
         gtk_widget_show(status_bar);
     } else {
         gtk_widget_hide(menu_bar);
+        gtk_widget_hide(crt_grid);
         gtk_widget_hide(status_bar);
     }
 }

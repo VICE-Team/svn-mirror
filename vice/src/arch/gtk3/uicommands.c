@@ -236,3 +236,8 @@ gboolean ui_toggle_crt_controls(void)
     return TRUE;
 }
 
+
+gboolean ui_crt_controls_enabled(void)
+{
+    return crt_controls_enable;
+}
