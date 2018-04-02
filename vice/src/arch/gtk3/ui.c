@@ -621,23 +621,30 @@ static int set_window_ypos(int val, void *param)
 }
 
 
-static GtkWidget *create_crt_widget(GtkWidget *parent)
+static GtkWidget *create_crt_widget(int target_window)
 {
     switch (machine_class) {
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
         case VICE_MACHINE_C64DTV:
-        case VICE_MACHINE_C128:
         case VICE_MACHINE_SCPU64:
         case VICE_MACHINE_CBM5x0:
-            return crt_control_widget_create(parent, "VICII");
+            return crt_control_widget_create(NULL, "VICII");
         case VICE_MACHINE_VIC20:
-            return crt_control_widget_create(parent, "VIC");
+            return crt_control_widget_create(NULL, "VIC");
         case VICE_MACHINE_PLUS4:
-            return crt_control_widget_create(parent, "PET");
+            return crt_control_widget_create(NULL, "PET");
         case VICE_MACHINE_PET:
         case VICE_MACHINE_CBM6x0:
-            return crt_control_widget_create(parent, "CRTC");
+            return crt_control_widget_create(NULL, "CRTC");
+
+        case VICE_MACHINE_C128:
+            if (target_window == PRIMARY_WINDOW) {
+                return crt_control_widget_create(NULL, "VICII");
+            } else {
+                return crt_control_widget_create(NULL, "VDC");
+            }
+
         default:
             fprintf(stderr,
                     "machine class %d not handled, exiting\n",
@@ -708,7 +715,21 @@ void ui_create_main_window(video_canvas_t *canvas)
         create_window_func(canvas);
     }
 
-    crt_controls = create_crt_widget(new_window);
+    target_window = -1;
+    if (identify_canvas_func != NULL) {
+        /* Identify the window as the PRIMARY_WINDOW or SECONDARY_WINDOW. */
+        target_window = identify_canvas_func(canvas);
+    }
+    if (target_window < 0) {
+        log_error(LOG_ERR, "ui_create_main_window: canvas not identified!\n");
+        exit(1);
+    }
+    if (ui_resources.window_widget[target_window] != NULL) {
+        log_error(LOG_ERR, "ui_create_main_window: existing window recreated??\n");
+        exit(1);
+    }
+
+    crt_controls = create_crt_widget(target_window);
     gtk_widget_hide(crt_controls);
     gtk_container_add(GTK_CONTAINER(grid), crt_controls);
     gtk_widget_set_no_show_all(crt_controls, TRUE);
@@ -728,19 +749,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     g_signal_connect(new_window, "destroy",
                      G_CALLBACK(ui_window_destroy_callback), NULL);
 
-    target_window = -1;
-    if (identify_canvas_func != NULL) {
-        /* Identify the window as the PRIMARY_WINDOW or SECONDARY_WINDOW. */
-        target_window = identify_canvas_func(canvas);
-    }
-    if (target_window < 0) {
-        log_error(LOG_ERR, "ui_create_main_window: canvas not identified!\n");
-        exit(1);
-    }
-    if (ui_resources.window_widget[target_window] != NULL) {
-        log_error(LOG_ERR, "ui_create_main_window: existing window recreated??\n");
-        exit(1);
-    }
+
 
     ui_resources.canvas[target_window] = canvas;
     ui_resources.window_widget[target_window] = new_window;
