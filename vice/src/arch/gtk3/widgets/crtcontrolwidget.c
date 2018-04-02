@@ -2,6 +2,24 @@
  * \brief   GTK3 CRT settings widget
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * Provides a list of GtkScale widgets to alter CRT settings.
+ *
+ * Supported settings per chip/video mode:
+ *
+ * |Setting             |VICIIP|VICIIN|VDC|VICP|VICN|TEDP|TEDN|CRTC|
+ * |--------------------|------|------|---|----|----|----|----|----|
+ * |Brightness          | yes  | yes  |yes|yes |yes |yes |yes |yes |
+ * |Contrast            | yes  | yes  |yes|yes |yes |yes |yes |yes |
+ * |Saturation          | yes  | yes  |yes|yes |yes |yes |yes |yes |
+ * |Tint                | yes  | yes  |yes|yes |yes |yes |yes |yes |
+ * |Gamma               | yes  | yes  |yes|yes |yes |yes |yes |yes |
+ * |Blur                | yes  | yes  |yes|yes |yes |yes |yes |yes |
+ * |Scanline shade      | yes  | yes  |yes|yes |yes |yes |yes |yes |
+ * |Odd lines phase     | yes  |  no  | no|yes | no |yes | no | no |
+ * |Odd lines offset    | yes  |  no  | no|yes | no |yes | no | no |
+ *
+ * TODO:    Fix display of sliders when switching between PAL and NTSC
  */
 
 /*
@@ -11,6 +29,7 @@
  * $VICERES CrtcColorSaturation     xpet xcbm2
  * $VICERES CrtcColorTint           xpet xcbm2
  * $VICERES CrtcPALBlur             xpet xcbm2
+ * $VICERES CrtcPALScanLineShade    xpet xcbm2
  *
  * $VICERES TEDColorBrightness      xplus4
  * $VICERES TEDColorContrast        xplus4
@@ -171,9 +190,9 @@ typedef struct crt_control_data_s {
     GtkWidget *color_saturation;
     GtkWidget *color_tint;
     GtkWidget *pal_blur;
+    GtkWidget *pal_scanline_shade;
     GtkWidget *pal_oddline_offset;
     GtkWidget *pal_oddline_phase;
-    GtkWidget *pal_scanline_shade;
 } crt_control_data_t;
 
 
@@ -205,6 +224,18 @@ static void on_reset_clicked(GtkWidget *widget, gpointer user_data)
     }
     if (data->color_tint != NULL) {
         vice_gtk3_resource_scale_int_reset(data->color_tint);
+    }
+    if (data->pal_blur != NULL) {
+        vice_gtk3_resource_scale_int_reset(data->pal_blur);
+    }
+    if (data->pal_scanline_shade != NULL) {
+        vice_gtk3_resource_scale_int_reset(data->pal_scanline_shade);
+    }
+    if (data->pal_oddline_offset != NULL) {
+        vice_gtk3_resource_scale_int_reset(data->pal_oddline_offset);
+    }
+    if (data->pal_oddline_phase != NULL) {
+        vice_gtk3_resource_scale_int_reset(data->pal_oddline_phase);
     }
 }
 
@@ -333,7 +364,7 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
         return;
     }
 
-
+    /* get PAL/NTSC mode */
     if (resources_get_int("MachineVideoStandard", &video_standard) < 0) {
         debug_gtk3("failed to get MachineVideoStandard resource value\n");
         return;
@@ -362,14 +393,12 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
     gtk_grid_attach(grid, data->color_saturation, 1, row, 1, 1);
     row++;
 
-    if (chip_id != CHIP_VDC) {
-        label = create_label("Tint:");
-        data->color_tint = create_slider("ColorTint", chip,
-                0, 2000, 100);
-        gtk_grid_attach(grid, label, 0, row, 1, 1);
-        gtk_grid_attach(grid, data->color_tint, 1, row, 1, 1);
-        row++;
-    }
+    label = create_label("Tint:");
+    data->color_tint = create_slider("ColorTint", chip,
+            0, 2000, 100);
+    gtk_grid_attach(grid, label, 0, row, 1, 1);
+    gtk_grid_attach(grid, data->color_tint, 1, row, 1, 1);
+    row++;
 
     label = create_label("Gamma:");
     data->color_gamma = create_slider("ColorGamma", chip,
@@ -378,22 +407,21 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
     gtk_grid_attach(grid, data->color_gamma, 1, row, 1, 1);
     row++;
 
-    /* PAL controls */
-    if (video_standard == 1) {
-        label = create_label("Blur:");
-        data->pal_blur = create_slider("PALBlur", chip,
-                0, 1000, 50);
-        gtk_grid_attach(grid, label, 0, row, 1, 1);
-        gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
-        row++;
+    label = create_label("Blur:");
+    data->pal_blur = create_slider("PALBlur", chip,
+            0, 1000, 50);
+    gtk_grid_attach(grid, label, 0, row, 1, 1);
+    gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
+    row++;
 
-        label = create_label("Scanline shade:");
-        data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
-                0, 1000, 50);
-        gtk_grid_attach(grid, label, 0, row, 1, 1);
-        gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
-        row++;
+    label = create_label("Scanline shade:");
+    data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
+            0, 1000, 50);
+    gtk_grid_attach(grid, label, 0, row, 1, 1);
+    gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
+    row++;
 
+    if (video_standard == 1 && chip_id != CHIP_CRTC && chip_id != CHIP_VDC) {
         label = create_label("Odd lines phase:");
         data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
                 0, 2000, 100);
