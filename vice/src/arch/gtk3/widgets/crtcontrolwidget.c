@@ -106,6 +106,57 @@
 #define LABEL_CSS "label { font-size: 80%; margin-top: -2px; margin-bottom: -2px; }"
 
 
+/** \brief  Video chip identifiers
+ *
+ * Allows for easier/faster switching than using strcmp()
+ */
+enum {
+    CHIP_CRTC,
+    CHIP_TED,
+    CHIP_VDC,
+    CHIP_VIC,
+    CHIP_VICII,
+
+    CHIP_ID_COUNT
+};
+
+
+/** \brief  Struct mapping chip names to chip IDs
+ */
+typedef struct chip_id_s {
+    const char *name;   /**< chip name (ie VDC, VICII, etc) */
+    int id;             /**< chip ID */
+} chip_id_t;
+
+
+static const chip_id_t chips[CHIP_ID_COUNT] = {
+    { "CRTC",   CHIP_CRTC },
+    { "TED",    CHIP_TED },
+    { "VDC",    CHIP_VDC },
+    { "VIC",    CHIP_VIC },
+    { "VICII",  CHIP_VICII }
+};
+
+
+/** \brief  Find chip ID by \a name
+ *
+ * \param[in]   name    chip name
+ *
+ * \return  chip ID or -1 on error
+ */
+static int get_chip_id(const char *name)
+{
+    int i;
+
+    for (i = 0; i < CHIP_ID_COUNT; i++) {
+        if (strcmp(name, chips[i].name) == 0) {
+            return chips[i].id;
+        }
+    }
+    return -1;
+}
+
+
 /** \brief  Object holding internal state of a CRT control widget
  *
  * Since we can have two video chips (C128's VICII+VDC), we cannot use static
@@ -175,6 +226,8 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
     lib_free(data->chip);
     lib_free(data);
 }
+
+
 
 
 /** \brief  Create right-aligned label with a smaller font
@@ -271,8 +324,15 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
     const char *chip;
     int video_standard;
     int row = 1;
+    int chip_id;
 
     chip = data->chip;
+    chip_id = get_chip_id(chip);
+    if (chip_id < 0) {
+        debug_gtk3("failed to get chip ID for '%s'\n", chip);
+        return;
+    }
+
 
     if (resources_get_int("MachineVideoStandard", &video_standard) < 0) {
         debug_gtk3("failed to get MachineVideoStandard resource value\n");
@@ -302,12 +362,14 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
     gtk_grid_attach(grid, data->color_saturation, 1, row, 1, 1);
     row++;
 
-    label = create_label("Tint:");
-    data->color_tint = create_slider("ColorTint", chip,
-            0, 2000, 100);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->color_tint, 1, row, 1, 1);
-    row++;
+    if (chip_id != CHIP_VDC) {
+        label = create_label("Tint:");
+        data->color_tint = create_slider("ColorTint", chip,
+                0, 2000, 100);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->color_tint, 1, row, 1, 1);
+        row++;
+    }
 
     label = create_label("Gamma:");
     data->color_gamma = create_slider("ColorGamma", chip,
