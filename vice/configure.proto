@@ -3063,40 +3063,23 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
   AC_MSG_CHECKING(whether we can use the GL library)
   old_LIBS="$LIBS"
-  LIBS="$LIBS -lGL"
-  AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
-#include <GL/gl.h>],
-              [glUniform4f(0,1,2,3,4);],
+  LIBS="$LIBS -lGL -lGLEW"
+  AC_TRY_LINK([#include <GL/glew.h>],
+              [glewInit()],
               [AC_MSG_RESULT(yes);
-               AC_MSG_CHECKING(whether we can use the GLEW library);
-               LIBS="$LIBS -lGLEW";
-               AC_TRY_LINK([#include <GL/glew.h>],
-                           [glewInit()],
-                           [AC_MSG_RESULT(yes);
-                            have_opengl_lib=yes;
-                            have_glew=yes],
-                           [AC_MSG_RESULT(no);
-                            LIBS="$old_LIBS"])],
+               have_opengl_lib=yes;
+               have_glew=yes],
               [AC_MSG_RESULT(no);
                LIBS="$old_LIBS"])
-
   if test x"$have_opengl_lib" != "xyes"; then
     AC_MSG_CHECKING(whether we can use the opengl32 library...)
     old_LIBS="$LIBS"
-    LIBS="$LIBS -lopengl32"
-    AC_TRY_LINK([#define GL_GLEXT_PROTOTYPES
-#include <GL/gl.h>],
-                [glUniform4f(0,1,2,3,4);],
+    LIBS="$LIBS -lopengl32 -lglew32"
+    AC_TRY_LINK([#include <GL/glew.h>],
+                [glewInit()],
                 [AC_MSG_RESULT(yes);
-                 AC_MSG_CHECKING(whether we can use the glew32 library);
-                 LIBS="$LIBS -lglew32";
-                 AC_TRY_LINK([#include <GL/glew.h>],
-                             [glewInit()],
-                             [AC_MSG_RESULT(yes);
-                              have_opengl_lib=yes;
-                              have_glew=yes],
-                             [AC_MSG_RESULT(no);
-                              LIBS="$old_LIBS"])],
+                 have_opengl_lib=yes;
+                 have_glew=yes],
                 [AC_MSG_RESULT(no);
                  LIBS="$old_LIBS"])
   fi
