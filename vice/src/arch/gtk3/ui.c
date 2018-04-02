@@ -633,7 +633,7 @@ static GtkWidget *create_crt_widget(int target_window)
         case VICE_MACHINE_VIC20:
             return crt_control_widget_create(NULL, "VIC");
         case VICE_MACHINE_PLUS4:
-            return crt_control_widget_create(NULL, "PET");
+            return crt_control_widget_create(NULL, "TED");
         case VICE_MACHINE_PET:
         case VICE_MACHINE_CBM6x0:
             return crt_control_widget_create(NULL, "CRTC");
