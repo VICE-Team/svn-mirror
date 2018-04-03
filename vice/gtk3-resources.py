@@ -350,6 +350,7 @@ Commands:
     help                display this text
     list-all            list all resources for all emus
     list-all-markdown   list all resources in markdown format
+    list-all-wiki       list all resources in SourceForge Wiki format
     list-per-emu <emu>  list all resources for <emu>
     list-texi           list all resources documented in vice.texi
     list-missing        list resources missing in Gtk3 which are in vice.texi
