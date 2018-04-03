@@ -1,12 +1,13 @@
-/*
- * tapecart.c - tapecart emulation.
+/** \file   tapecart.c
+ * \brief   tapecart emulation
  *
- * Written by
- *  Ingo Korb <ingo@akana.de>
+ * \author  Ingo Korb <ingo@akana.de>
  *
  * based on sense-dongle.c by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- *
+ */
+
+/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -1907,6 +1908,33 @@ int tapecart_flush_tcrt(void)
     }
     return 0;
 }
+
+
+/** \brief  Clean up memory used by the tapecart emulation
+ *
+ * `trct_filename` is allocated even when the tapecart is disabled, but never
+ * freed. This will clean up the memory used by the filename.
+ * Also, #tapecart_memory and #tapecart_buffers weren't properly freed.
+ *
+ * And yes, I know we use ${module}_shutdown() as the name for a cleanup
+ * function, but #tapecart_shutdown is already taken.
+ */
+void tapecart_exit(void)
+{
+    if (tcrt_filename != NULL) {
+        lib_free(tcrt_filename);
+        tcrt_filename = NULL;
+    }
+    if (tapecart_memory != NULL) {
+        lib_free(tapecart_memory);
+        tapecart_memory = NULL;
+    }
+    if (tapecart_buffers != NULL) {
+        lib_free(tapecart_buffers);
+        tapecart_buffers = NULL;
+    }
+}
+
 
 /* ---------------------------------------------------------------------*/
 /*  snapshots                                                           */

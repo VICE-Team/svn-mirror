@@ -113,6 +113,7 @@
 #include "tape.h"
 #include "tape_diag_586220_harness.h"
 #include "tapeport.h"
+#include "tapecart.h"
 #include "translate.h"
 #include "traps.h"
 #include "types.h"
@@ -740,6 +741,7 @@ void machine_resources_shutdown(void)
     userport_resources_shutdown();
     joyport_bbrtc_resources_shutdown();
     tapeport_resources_shutdown();
+    tapecart_exit();
 }
 
 /* C64-specific command-line option initialization.  */
