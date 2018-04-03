@@ -233,19 +233,10 @@ static int (*identify_canvas_func)(video_canvas_t *) = NULL;
  */
 GtkWindow *ui_get_active_window(void)
 {
-    GList *list = gtk_window_list_toplevels();
-
-    while (list != NULL)
-    {
-        if (gtk_window_has_toplevel_focus(list->data))
-        {
-            return list->data;
-        }
-        list = list->next;
+    video_canvas_t *canvas = ui_get_active_canvas();
+    if (canvas) {
+        return GTK_WINDOW(ui_resources.window_widget[canvas->window_index]);
     }
-
-    /* If we end up here it probably means no windows have
-     * been created yet. */
     return NULL;
 }
 
