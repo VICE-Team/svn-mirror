@@ -626,6 +626,10 @@ static int set_window_ypos(int val, void *param)
 }
 
 
+/** \brief  Create CRT controls widget for \a target window
+ *
+ * \return  GtkGrid
+ */
 static GtkWidget *create_crt_widget(int target_window)
 {
     switch (machine_class) {
@@ -680,6 +684,14 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
 }
 
 
+
+static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
+{
+    debug_gtk3("destroy triggered on %p\n", (void *)widget);
+}
+
+
+
 /** \brief  Create a toplevel window to represent a video canvas
  *
  * This function takes a video canvas structure and builds the widgets
@@ -712,6 +724,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     ui_menu_init_accelerators(new_window);
 
     grid = gtk_grid_new();
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_window_grid_destroy), NULL);
     gtk_container_add(GTK_CONTAINER(new_window), grid);
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_VERTICAL);
     canvas->grid = grid;

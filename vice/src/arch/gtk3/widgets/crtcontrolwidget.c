@@ -249,7 +249,7 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 {
     crt_control_data_t *data;
 
-    debug_gtk3("cleaning up\n");
+    debug_gtk3("CRTCONTROLSWIDGET: cleaning up\n");
 
     data = (crt_control_data_t *)(g_object_get_data(
                 G_OBJECT(widget), "InternalState"));

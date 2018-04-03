@@ -190,8 +190,24 @@ gboolean on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
  */
 void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
-    debug_gtk3("called\n");
-    vsync_suspend_speed_eval();
+    GtkWidget *grid;
+
+    debug_gtk3("WINDOW DESTROY called\n");
+
+    /*
+     * This should not be needed, destroying a GtkWindow should trigger
+     * destruction of all widgets it contains.
+     */
+    debug_gtk3("Manually calling destroy() on the CRT widgets. This should not"
+            " be necesarry, but right now it is\n");
+    grid = gtk_bin_get_child(GTK_BIN(widget));
+    if (grid != NULL) {
+        GtkWidget *crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+        if (crt != NULL) {
+            gtk_widget_destroy(crt);
+        }
+    }
+
     ui_exit();
 }
 
