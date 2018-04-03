@@ -83,8 +83,9 @@ static void on_radio_toggled(GtkWidget *radio, gpointer user_data)
 
     if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(radio))
             && (old_val != new_val)) {
+#if 0
         debug_gtk3("setting %s to %d\n", resource, new_val);
-
+#endif
         if (resources_set_int(resource, new_val) < 0) {
             log_error(LOG_ERR, "failed to set resource '%s' to %d\n",
                     resource, new_val);
@@ -334,7 +335,9 @@ gboolean vice_gtk3_resource_radiogroup_factory(GtkWidget *widget)
         debug_gtk3("failed to get factory value for resource '%s'\n", resource);
         return FALSE;
     }
+#if 0
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
+#endif
     return vice_gtk3_resource_radiogroup_set(widget, value);
 }
 

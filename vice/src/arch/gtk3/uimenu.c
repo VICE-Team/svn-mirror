@@ -87,7 +87,6 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
 /** \brief  Destructor for accelerator data. */
 static void ui_accel_data_delete(gpointer data, GClosure *closure)
 {
-    debug_gtk3("called, freeing data\n");
     lib_free(data);
 }
 
@@ -174,8 +173,10 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
 
             if (items[i].keysym != 0 && items[i].callback != NULL) {
                 GClosure *accel_closure;
+#if 0
                 debug_gtk3("adding accelerator %d to item %s'\n",
                         items[i].keysym, items[i].label);
+#endif
                 /* Normally you would use gtk_widget_add_accelerator
                  * here, but that will disable the accelerators if the
                  * menu is hidden, which can be configured to happen
@@ -188,8 +189,6 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                 gtk_accel_group_connect(accel_group, items[i].keysym, items[i].modifier, GTK_ACCEL_MASK, accel_closure);
                 gtk_accel_label_set_accel(GTK_ACCEL_LABEL(gtk_bin_get_child(GTK_BIN(item))), items[i].keysym, items[i].modifier);
             }
-
-
 
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         }
@@ -208,4 +207,3 @@ void ui_menu_init_accelerators(GtkWidget *window)
     accel_group = gtk_accel_group_new();
     gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
 }
-

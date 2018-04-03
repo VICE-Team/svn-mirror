@@ -79,7 +79,9 @@ static void on_scale_int_changed(GtkWidget *widget, gpointer user_data)
     new_val = (int)gtk_range_get_value(GTK_RANGE(widget));
     /* only update resource when required */
     if (old_val != new_val) {
-            debug_gtk3("setting %s to %d\n", resource, new_val);
+#if 0
+        debug_gtk3("setting %s to %d\n", resource, new_val);
+#endif
         resources_set_int(resource, new_val);
     }
 }

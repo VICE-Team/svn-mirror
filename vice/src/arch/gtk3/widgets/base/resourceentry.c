@@ -66,7 +66,9 @@ static void on_entry_changed(GtkWidget *entry, gpointer user_data)
 
     resource = resource_widget_get_resource_name(entry);
     text = gtk_entry_get_text(GTK_ENTRY(entry));
+#if 0
     debug_gtk3("setting %s to '%s'\n", resource, text);
+#endif
     if (resources_set_string(resource, text) < 0) {
         log_error(LOG_ERR, "failed to set resource '%s' to '%s'\n",
                 resource, text);
@@ -174,7 +176,9 @@ gboolean vice_gtk3_resource_entry_factory(GtkWidget *entry)
                 resource);
         return FALSE;
     }
+#if 0
     debug_gtk3("resetting %s to factory value %s\n", resource, factory);
+#endif
     return vice_gtk3_resource_entry_set(entry, factory);
 }
 
@@ -484,6 +488,8 @@ gboolean vice_gtk3_resource_entry_full_factory(GtkWidget *entry)
                 resource);
         return FALSE;
     }
+#if 0
     debug_gtk3("resetting %s to factory value %s\n", resource, factory);
+#endif
     return vice_gtk3_resource_entry_full_set(entry, factory);
 }

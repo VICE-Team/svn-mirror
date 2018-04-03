@@ -91,7 +91,9 @@ static void on_switch_state_set(GtkWidget *widget, gpointer user_data)
     /* make sure we don't update a resource when the UI happens to be out of
      * sync for some reason */
     if (state != current) {
+#if 0
         debug_gtk3("setting %s to %s\n", resource, state ? "True": "False");
+#endif
         if (resources_set_int(resource, state ? 1 : 0) < 0) {
             log_error(LOG_ERR,
                     "setting %s to %s failed\n",
@@ -263,7 +265,9 @@ gboolean vice_gtk3_resource_switch_factory(GtkWidget *widget)
         debug_gtk3("failed to get factory value for resource '%s'\n", resource);
         return FALSE;
     }
+#if 0
     debug_gtk3("resetting %s to factory value %s\n",
             resource, value ? "True" : "False");
+#endif
     return vice_gtk3_resource_switch_set(widget, (gboolean)value);
 }

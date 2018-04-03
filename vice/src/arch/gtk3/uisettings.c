@@ -1423,7 +1423,9 @@ static void on_tree_selection_changed(
         GtkWidget *(*callback)(void *) = NULL;
 
         gtk_tree_model_get(model, &iter, COLUMN_NAME, &name, -1);
+#if 0
         debug_gtk3("item '%s' clicked\n", name);
+#endif
         gtk_tree_model_get(model, &iter, COLUMN_CALLBACK, &callback, -1);
         if (callback != NULL) {
             char *title = lib_msprintf("%s settings :: %s", machine_name, name);
@@ -1716,11 +1718,8 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
     GtkWidget *scroll;
     GtkWidget *extra;
 
-    debug_gtk3("called\n");
-
     settings_grid = gtk_grid_new();
     settings_tree = create_treeview();
-    g_print("tree created\n");
 
     /* pack the tree in a scrolled window to allow scrolling of the tree when
      * it gets too large for the dialog
@@ -1791,13 +1790,14 @@ static void response_callback(GtkWidget *widget, gint response_id,
 
         /* close dialog */
         case GTK_RESPONSE_DELETE_EVENT:
-            debug_gtk3("destroying settings widget\n");
             gtk_widget_destroy(widget);
             break;
 
         /* load vicerc from default location */
         case RESPONSE_LOAD:
+#if 0
             debug_gtk3("loading resources from default file\n");
+#endif
             if(resources_load(NULL) != 0) {
                 vice_gtk3_message_error("VICE core error",
                         "Failed to load default settings file");
@@ -1809,7 +1809,9 @@ static void response_callback(GtkWidget *widget, gint response_id,
             filename = vice_gtk3_open_file_dialog("Load settings file",
                     NULL, NULL, NULL);
             if (filename!= NULL) {
+#if 0
                 debug_gtk3("loading settings from '%s'\n", filename);
+#endif
                 if (resources_load(filename) != 0) {
                     vice_gtk3_message_error("VICE core error",
                             "Failed to load settings from '%s'", filename);
@@ -1819,7 +1821,9 @@ static void response_callback(GtkWidget *widget, gint response_id,
 
         /* save settings to default location */
         case RESPONSE_SAVE:
+#if 0
             debug_gtk3("saving vicerc to default location\n");
+#endif
             if (resources_save(NULL) != 0) {
                 vice_gtk3_message_error("VICE core error",
                         "Failed to save settings to default file");
@@ -1831,8 +1835,10 @@ static void response_callback(GtkWidget *widget, gint response_id,
             filename = vice_gtk3_save_file_dialog("Save settings as ...",
                     NULL, TRUE, NULL);
             if (filename != NULL) {
+#if 0
                 debug_gtk3("saving setting as '%s'\n",
                         filename ? filename : "NULL");
+#endif
                 if (resources_save(filename) != 0) {
                     vice_gtk3_message_error("VICE core error",
                             "Failed to save setting as '%s'.", filename);

@@ -159,7 +159,9 @@ static void on_spin_button_value_changed(GtkWidget *spin, gpointer user_data)
 
     res = resource_widget_get_resource_name(spin);
     value = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(spin));
+#if 0
     debug_gtk3("setting %s to %d\n", res, value);
+#endif
     if (resources_set_int(res, value) < 0) {
         log_error(LOG_ERR, "failed to set resource '%s' to %d\n", res, value);
     }

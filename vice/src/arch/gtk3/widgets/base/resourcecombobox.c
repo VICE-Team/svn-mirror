@@ -158,7 +158,9 @@ static void on_combo_int_changed(GtkComboBox *combo, gpointer user_data)
 
     resource = resource_widget_get_resource_name(GTK_WIDGET(combo));
     if (get_combo_int_id(combo, &id)) {
+#if 0
         debug_gtk3("setting %s to %d\n", resource, id);
+#endif
         if (resources_set_int(resource, id) < 0) {
             log_error(LOG_ERR, "failed to set resource '%s' to %d\n",
                     resource, id);
@@ -363,7 +365,9 @@ gboolean vice_gtk3_resource_combo_box_int_factory(GtkWidget *widget)
     if (resources_get_default_value(resource, &value) < 0) {
         return FALSE;
     }
+#if 0
     debug_gtk3("resetting %s to factory value %d\n", resource, value);
+#endif
     return vice_gtk3_resource_combo_box_int_set(widget, value);
 }
 
@@ -639,7 +643,9 @@ gboolean vice_gtk3_resource_combo_box_str_factory(GtkWidget *widget)
         debug_gtk3("failed to get factory value for resource '%s'\n", resource);
         return FALSE;
     }
+#if 0
     debug_gtk3("resetting %s to factory value '%s'\n", resource, value);
+#endif
     return vice_gtk3_resource_combo_box_str_set(widget, value);
 }
 
@@ -675,6 +681,5 @@ gboolean vice_gtk3_resource_combo_box_str_sync(GtkWidget *widget)
         debug_gtk3("failed to get value for resource '%s'\n", resource);
         return FALSE;
     }
-
     return vice_gtk3_resource_combo_box_str_set(widget, current);
 }
