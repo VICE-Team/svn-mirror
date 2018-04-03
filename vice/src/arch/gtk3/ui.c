@@ -170,12 +170,12 @@ static const cmdline_option_t cmdline_options_common[] = {
         N_("<Command>"), N_("Specify and HTML browser for the on-line help") },
 
     { "-confirmexit", SET_RESOURCE, 0,
-        NULL, NULL, "SaveResourcesOnExit", (void*)1,
+        NULL, NULL, "ConfirmOnExit", (void *)1,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
         NULL, N_("Never confirm quitting VICE") },
     { "+confirmexit", SET_RESOURCE, 0,
-        NULL, NULL, "SaveResourcesOnExit", (void*)0,
+        NULL, NULL, "ConfirmOnExit", (void *)0,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
         NULL, N_("Don't confirm quitting VICE") },
@@ -233,10 +233,24 @@ static int (*identify_canvas_func)(video_canvas_t *) = NULL;
  */
 GtkWindow *ui_get_active_window(void)
 {
-    video_canvas_t *canvas = ui_get_active_canvas();
-    if (canvas) {
-        return GTK_WINDOW(ui_resources.window_widget[canvas->window_index]);
+    GList *list = gtk_window_list_toplevels();
+
+    /* Find the window that has the toplevel focus. */
+    while (list != NULL) {
+        if (gtk_window_has_toplevel_focus(list->data)) {
+            return list->data;
+        }
+        list = list->next;
     }
+
+    /* If no window has toplevel focus then fallback to the most recently
+     * focused main window. */
+    if (active_win_index >= 0 && active_win_index < NUM_WINDOWS) {
+        return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
+    }
+
+    /* If we end up here it probably means no windows have
+     * been created yet. */
     return NULL;
 }
 
@@ -488,7 +502,7 @@ static void atexit_functions_execute(void)
 static int window_index_from_param(void *param)
 {
     int index = vice_ptr_to_int(param);
-    return (index >= 0 || index < NUM_WINDOWS) ? index : -1;
+    return (index >= 0 && index < NUM_WINDOWS) ? index : -1;
 }
 
 
