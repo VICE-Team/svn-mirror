@@ -369,6 +369,7 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
         debug_gtk3("failed to get MachineVideoStandard resource value\n");
         return;
     }
+    debug_gtk3("MachineVideoStandard = %d\n", video_standard);
 
     /* Standard controls: brightness, gamma etc */
 
@@ -421,7 +422,12 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
     gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
     row++;
 
-    if (video_standard == 1 && chip_id != CHIP_CRTC && chip_id != CHIP_VDC) {
+    /* TODO: look up constants for the integer literals used here */
+    if ((video_standard == 0 /* PAL */
+                || video_standard == 1 /* Old PAL */
+                || video_standard == 4 /* PAL-N/Drean */
+                ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC) {
+
         label = create_label("Odd lines phase:");
         data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
                 0, 2000, 100);
