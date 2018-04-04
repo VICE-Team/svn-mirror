@@ -243,12 +243,6 @@ GtkWindow *ui_get_active_window(void)
         list = list->next;
     }
 
-    /* If no window has toplevel focus then fallback to the most recently
-     * focused main window. */
-    if (active_win_index >= 0 && active_win_index < NUM_WINDOWS) {
-        return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
-    }
-
     /* If we end up here it probably means no windows have
      * been created yet. */
     return NULL;
@@ -1200,7 +1194,12 @@ void vice_gtk3_lightpen_update(void)
 
 void ui_enable_crt_controls(bool enabled)
 {
-    GtkWindow *window = ui_get_active_window();
+    if (active_win_index < 0 || active_win_index >= NUM_WINDOWS) {
+        /* No window created yet, most likely. */
+        return;
+    }
+
+    GtkWidget *window = ui_resources.window_widget[active_win_index];
     GtkWidget *grid = gtk_bin_get_child(GTK_BIN(window));
     GtkWidget *crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
 
@@ -1215,7 +1214,6 @@ void ui_enable_crt_controls(bool enabled)
          * window to the appropriate (minimum) size,
          */
         gtk_window_resize(window, 1, 1);
-
     }
 }
 
