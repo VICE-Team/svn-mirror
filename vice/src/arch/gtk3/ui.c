@@ -1213,7 +1213,7 @@ void ui_enable_crt_controls(bool enabled)
          * Appearently setting a size of 1x1 pixels forces Gtk3 to render the
          * window to the appropriate (minimum) size,
          */
-        gtk_window_resize(window, 1, 1);
+        gtk_window_resize(GTK_WINDOW(window), 1, 1);
     }
 }
 
