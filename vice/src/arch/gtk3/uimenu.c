@@ -84,9 +84,13 @@ static ui_accel_data_t *ui_accel_data_new(GtkWidget *widget, ui_menu_item_t *ite
     return accel_data;
 }
 
-/** \brief  Destructor for accelerator data. */
+/** \brief  Destructor for accelerator data
+ *
+ * FIXME:   this doesn't get triggered
+ */
 static void ui_accel_data_delete(gpointer data, GClosure *closure)
 {
+    debug_gtk3("Freeing accelerator data\n");
     lib_free(data);
 }
 
