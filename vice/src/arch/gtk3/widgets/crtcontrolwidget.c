@@ -94,6 +94,7 @@
 #include "vice.h"
 
 #include <string.h>
+#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -356,6 +357,7 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
     int video_standard;
     int row = 1;
     int chip_id;
+    bool enabled;
 
     chip = data->chip;
     chip_id = get_chip_id(chip);
@@ -422,26 +424,63 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
     gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
     row++;
 
-    /* TODO: look up constants for the integer literals used here */
-    if ((video_standard == 0 /* PAL */
+    label = create_label("Odd lines phase:");
+    data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
+            0, 2000, 100);
+    gtk_grid_attach(grid, label, 0, row, 1, 1);
+    gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
+    row++;
+
+    label = create_label("Odd lines offset:");
+    data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
+            0, 2000, 100);
+    gtk_grid_attach(grid, label, 0, row, 1, 1);
+    gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
+    row++;
+
+    enabled = ((video_standard == 0 /* PAL */
                 || video_standard == 1 /* Old PAL */
                 || video_standard == 4 /* PAL-N/Drean */
-                ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC) {
+                ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
 
-        label = create_label("Odd lines phase:");
-        data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
-                0, 2000, 100);
-        gtk_grid_attach(grid, label, 0, row, 1, 1);
-        gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
-        row++;
+    gtk_widget_set_sensitive(data->pal_oddline_phase, enabled);
+    gtk_widget_set_sensitive(data->pal_oddline_offset, enabled);
 
-        label = create_label("Odd lines offset:");
-        data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
-                0, 2000, 100);
-        gtk_grid_attach(grid, label, 0, row, 1, 1);
-        gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
-        row++;
+}
+
+
+/** \brief  Callback for the timeout used to check PAL/NTSC
+ *
+ * \param who cares
+ */
+static gint timeout_callback(gpointer data)
+{
+    GtkWidget *widget = (GtkWidget *)data;
+    crt_control_data_t *state;
+    int video_standard;
+    int chip_id;
+    bool enabled;
+
+    state = g_object_get_data(G_OBJECT(widget), "InternalState");
+    if (state == NULL) {
+        debug_gtk3("oeps\n");
+        return 0;
     }
+
+    chip_id = get_chip_id(state->chip);
+
+    resources_get_int("MachineVideoStandard", &video_standard);
+    printf("videostandard = %d\n", video_standard);
+
+    enabled = ((video_standard == 0 /* PAL */
+                || video_standard == 1 /* Old PAL */
+                || video_standard == 4 /* PAL-N/Drean */
+                ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
+
+    gtk_widget_set_sensitive(state->pal_oddline_phase, enabled);
+    gtk_widget_set_sensitive(state->pal_oddline_offset, enabled);
+
+    return TRUE;    /* keep going */
 }
 
 
@@ -492,6 +531,17 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
 
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
     g_signal_connect(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
+
+    /*
+     * When in doubt, do weird shit:
+     *
+     * Set up a timeout that checks the MachineVideoStandard resource and
+     * enables/disables the PAL related sliders.
+     *
+     * This happens every second, and every time the resource is read and
+     * the widgets' sensitivity set, even when the resource hasn't changed.
+     */
+    g_timeout_add(1000, timeout_callback, (gpointer)grid);
 
     gtk_widget_show_all(grid);
     return grid;
