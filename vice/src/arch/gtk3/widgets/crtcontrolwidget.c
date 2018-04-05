@@ -448,7 +448,7 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
 
 }
 
-
+#if 0
 /** \brief  Callback for the timeout used to check PAL/NTSC
  *
  * \param who cares
@@ -470,8 +470,6 @@ static gint timeout_callback(gpointer data)
     chip_id = get_chip_id(state->chip);
 
     resources_get_int("MachineVideoStandard", &video_standard);
-    printf("videostandard = %d\n", video_standard);
-
     enabled = ((video_standard == 0 /* PAL */
                 || video_standard == 1 /* Old PAL */
                 || video_standard == 4 /* PAL-N/Drean */
@@ -482,6 +480,7 @@ static gint timeout_callback(gpointer data)
 
     return TRUE;    /* keep going */
 }
+#endif
 
 
 /** \brief  Create CRT control widget for \a chip
@@ -541,8 +540,9 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
      * This happens every second, and every time the resource is read and
      * the widgets' sensitivity set, even when the resource hasn't changed.
      */
+#if 0
     g_timeout_add(1000, timeout_callback, (gpointer)grid);
-
+#endif
     gtk_widget_show_all(grid);
     return grid;
 }
