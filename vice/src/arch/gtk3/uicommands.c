@@ -149,7 +149,6 @@ void ui_close_callback(GtkWidget *widget, gpointer user_data)
 
     if (vice_gtk3_message_confirm("Exit VICE",
                 "Do you really wish to exit VICE?")) {
-        debug_gtk3("Exit confirmed\n");
         gtk_widget_destroy(ui_resources.window_widget[index]);
     }
 }
@@ -167,8 +166,6 @@ gboolean on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 {
     int confirm;
 
-    debug_gtk3("got 'delete-event'\n'");
-
     resources_get_int("ConfirmOnExit", &confirm);
     if (!confirm) {
         return FALSE;
@@ -176,7 +173,6 @@ gboolean on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 
     if (vice_gtk3_message_confirm("Exit VICE",
                 "Do you really wish to exit VICE?")) {
-        debug_gtk3("Exit confirmed\n");
         return FALSE;
     }
     return TRUE;
@@ -191,8 +187,6 @@ gboolean on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data)
 void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *grid;
-
-    debug_gtk3("WINDOW DESTROY called\n");
 
     /*
      * This should not be needed, destroying a GtkWindow should trigger

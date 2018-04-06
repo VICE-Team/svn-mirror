@@ -800,7 +800,10 @@ void ui_display_main_window(int index)
  */
 int ui_cmdline_options_init(void)
 {
+    /* seems complete to me -- compyx */
+#if 0
     INCOMPLETE_IMPLEMENTATION();
+#endif
     return cmdline_register_options(cmdline_options_common);
 }
 
@@ -818,6 +821,10 @@ int ui_cmdline_options_init(void)
  */
 char *ui_get_file(const char *format, ...)
 {
+    /*
+     * Also not called when trying to play back events, at least, I've never
+     * seen this called.
+     */
     NOT_IMPLEMENTED();
     return NULL;
 }
@@ -832,7 +839,9 @@ char *ui_get_file(const char *format, ...)
  */
 int ui_init(int *argc, char **argv)
 {
+#if 0
     INCOMPLETE_IMPLEMENTATION();
+#endif
     gtk_init(argc, &argv);
     ui_statusbar_init();
     return 0;
@@ -920,7 +929,10 @@ int ui_resources_init(void)
         ui_resources.window_widget[i] = NULL;
     }
 
+    /* seems complete to me -- compyx */
+#if 0
     INCOMPLETE_IMPLEMENTATION();
+#endif
     return 0;
 }
 
@@ -932,7 +944,11 @@ void ui_resources_shutdown(void)
     if (html_browser_command_set) {
         lib_free(ui_resources.html_browser_command);
     }
+
+    /* seems complete to me -- compyx */
+#if 0
     INCOMPLETE_IMPLEMENTATION();
+#endif
 }
 
 /** \brief Clean up memory used by the UI system itself
@@ -954,7 +970,10 @@ void ui_shutdown(void)
 void ui_update_menus(void)
 {
     /* allows autostart to work */
-    NOT_IMPLEMENTED_WARN_ONLY();
+
+    /*
+     * This never gets called for some reason
+     */
 }
 
 
@@ -991,7 +1010,9 @@ void ui_dispatch_events(void)
  */
 int ui_extend_image_dialog(void)
 {
-    NOT_IMPLEMENTED();
+    /*
+     * Why is this here if it crashed vice?
+     */
     return 0;
 }
 
@@ -1165,7 +1186,11 @@ void ui_exit(void)
         resources_save(NULL);
     }
 
+    /* seems complete to me -- compyx */
+#if 0
     INCOMPLETE_IMPLEMENTATION();
+#endif
+    /* but this has to go */
 #ifdef WIN32_COMPILE
     atexit_functions_execute();
 #endif

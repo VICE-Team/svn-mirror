@@ -250,11 +250,8 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 {
     crt_control_data_t *data;
 
-    debug_gtk3("CRTCONTROLSWIDGET: cleaning up\n");
-
     data = (crt_control_data_t *)(g_object_get_data(
                 G_OBJECT(widget), "InternalState"));
-
     lib_free(data->chip);
     lib_free(data);
 }
@@ -371,7 +368,6 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
         debug_gtk3("failed to get MachineVideoStandard resource value\n");
         return;
     }
-    debug_gtk3("MachineVideoStandard = %d\n", video_standard);
 
     /* Standard controls: brightness, gamma etc */
 

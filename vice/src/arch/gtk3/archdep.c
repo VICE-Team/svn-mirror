@@ -250,13 +250,21 @@ char *archdep_default_autostart_disk_image_file_name(void)
 
 /** \brief  Open the default log file
  *
- * XXX: For now, this returns stdout, until I figure out why MacOSX duplicates
- *      fd 0 (stdin)
+ * \return  file pointer to log file ("vice.log on Windows, stdout otherwise)
  */
 FILE *archdep_open_default_log_file(void)
 {
-    INCOMPLETE_IMPLEMENTATION();
+#ifdef WIN32_COMPILE
+    /* stolen from SDL */
+    char *fname;
+    FILE *fp;
+
+    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
+    fp = fopen(fname, "wt");
+    fclose(fp);
+#else
     return stdout;
+#endif
 }
 
 void archdep_signals_init(int do_core_dumps)
@@ -354,15 +362,17 @@ void archdep_startup_log_error(const char *format, ...)
  */
 int archdep_init(int *argc, char **argv)
 {
+#if 0
     char *prg_name;
     char *cfg_path;
     char *searchpath;
     char *vice_ini;
-
+#endif
     argv0 = lib_stralloc(argv[0]);
 
     archdep_create_user_config_dir();
 
+#if 0
     /* sanity checks, to remove later: */
     prg_name = archdep_program_name();
     searchpath = archdep_default_sysfile_pathlist(machine_name);
@@ -379,7 +389,7 @@ int archdep_init(int *argc, char **argv)
     lib_free(searchpath);
     lib_free(vice_ini);
     lib_free(cfg_path);
-
+#endif
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
 
