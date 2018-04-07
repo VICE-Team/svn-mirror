@@ -177,7 +177,10 @@ static int set_confirm_on_exit(int val, void *param)
     return 0;
 }
 
-#ifdef MACOSX_SUPPORT    
+/*
+ * This shouldn't be necesarry, xdg_open() should care of this.
+ */
+#ifdef MACOSX_SUPPORT
 #define HTML_BROWSER_COMMAND_DEFAULT "/usr/bin/open %s"
 #else
 #define HTML_BROWSER_COMMAND_DEFAULT "firefox %s"
@@ -200,6 +203,9 @@ static int fullscreen_set_fs(int val, void *param)
 
 /* FIXME: these are used to workaround the initial size problem in GTK and
           should be removed once the X11 ui is completely fixed.
+
+          Do we really care where the window shows up? Perhaps it's better to
+          let the window manager handle it? --compyx
  */
 #ifdef USE_GNOMEUI
 static int tophint, bothint;
@@ -254,6 +260,11 @@ static const resource_int_t resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
+
+/** \brief  Integer resources for the Gtk3UI
+ *
+ * Not one of these if used at the moment -- compyx
+ */
 static const resource_int_t extra_resources_int[] = {
     { "Window1Width", 0, RES_EVENT_NO, NULL,
       &ui_resources.window1_width, set_width1, NULL },
