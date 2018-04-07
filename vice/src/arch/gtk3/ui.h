@@ -46,34 +46,13 @@
 #define NUM_WINDOWS 3
 
 
-/** \brief  Windows indici
+/** \brief  Window indices
  */
 enum {
     PRIMARY_WINDOW,     /**< primary window, all emulators */
     SECONDARY_WINDOW,   /**< secondary window, C128's VDC */
     MONITOR_WINDOW      /**< optional monitor window/terminal */
 };
-
-
-
-/** \brief  Struct holding basic UI rescources
- */
-typedef struct ui_resources_s {
-
-    char *html_browser_command; /**< HTMLBrowserCommand (str) */
-    int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
-    int confirm_on_exit;        /**< ConfirmOnExit (bool) */
-
-    int depth;
-
-    video_canvas_t *canvas[NUM_WINDOWS];
-    GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
-    int window_width[NUM_WINDOWS];
-    int window_height[NUM_WINDOWS];
-    int window_xpos[NUM_WINDOWS];
-    int window_ypos[NUM_WINDOWS];
-
-} ui_resource_t;
 
 
 /* ------------------------------------------------------------------------- */
@@ -84,6 +63,7 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *));
 
 void ui_create_main_window(video_canvas_t *canvas);
 void ui_display_main_window(int index);
+void ui_destroy_main_window(int index);
 
 void ui_display_speed(float percent, float framerate, int warp_flag);
 void ui_display_paused(int flag);

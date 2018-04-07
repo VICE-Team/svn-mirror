@@ -78,12 +78,32 @@
 
 
 
+/** \brief  Struct holding basic UI rescources
+ */
+typedef struct ui_resources_s {
+
+    char *html_browser_command; /**< HTMLBrowserCommand (str) */
+    int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
+    int confirm_on_exit;        /**< ConfirmOnExit (bool) */
+
+    int depth;
+
+    video_canvas_t *canvas[NUM_WINDOWS];
+    GtkWidget *window_widget[NUM_WINDOWS]; /**< the toplevel GtkWidget (Window) */
+    int window_width[NUM_WINDOWS];
+    int window_height[NUM_WINDOWS];
+    int window_xpos[NUM_WINDOWS];
+    int window_ypos[NUM_WINDOWS];
+
+} ui_resource_t;
+
+
 /** \brief  Collection of UI resources
  *
  * This needs to stay here, to allow the command line and resources initializers
- * to references the ui resources
+ * to reference the UI resources.
  */
-ui_resource_t ui_resources; /* public for use in uicommands.c, not ideal */
+static ui_resource_t ui_resources;
 
 
 
@@ -757,9 +777,9 @@ void ui_create_main_window(video_canvas_t *canvas)
     g_signal_connect(new_window, "window-state-event",
                      G_CALLBACK(on_window_state_event), NULL);
     g_signal_connect(new_window, "delete-event",
-                     G_CALLBACK(on_delete_event), NULL);
+                     G_CALLBACK(ui_main_window_delete_event), NULL);
     g_signal_connect(new_window, "destroy",
-                     G_CALLBACK(ui_window_destroy_callback), NULL);
+                     G_CALLBACK(ui_main_window_destroy_callback), NULL);
 
 
 
@@ -792,6 +812,18 @@ void ui_display_main_window(int index)
     }
 }
 
+/** \brief  Destroy a main window
+ *
+ * \param[in]   index   which window to destroy
+ *
+ * \sa      ui_resources_s::window_widget
+ */
+void ui_destroy_main_window(int index)
+{
+    if (ui_resources.window_widget[index]) {
+        gtk_widget_destroy(ui_resources.window_widget[index]);
+    }
+}
 
 
 /** \brief  Initialize command line options (generic)
@@ -929,10 +961,6 @@ int ui_resources_init(void)
         ui_resources.window_widget[i] = NULL;
     }
 
-    /* seems complete to me -- compyx */
-#if 0
-    INCOMPLETE_IMPLEMENTATION();
-#endif
     return 0;
 }
 
@@ -944,11 +972,6 @@ void ui_resources_shutdown(void)
     if (html_browser_command_set) {
         lib_free(ui_resources.html_browser_command);
     }
-
-    /* seems complete to me -- compyx */
-#if 0
-    INCOMPLETE_IMPLEMENTATION();
-#endif
 }
 
 /** \brief Clean up memory used by the UI system itself
@@ -970,9 +993,10 @@ void ui_shutdown(void)
 void ui_update_menus(void)
 {
     /* allows autostart to work */
-
+    NOT_IMPLEMENTED_WARN_ONLY();
     /*
-     * This never gets called for some reason
+     * This gets called from multiple functions in autostart.c and
+     * also mon_resource_set() in monitor/monitor.c.
      */
 }
 
@@ -1010,9 +1034,8 @@ void ui_dispatch_events(void)
  */
 int ui_extend_image_dialog(void)
 {
-    /*
-     * Why is this here if it crashed vice?
-     */
+    /* FIXME: this dialog needs to be implemented. */
+    NOT_IMPLEMENTED();
     return 0;
 }
 
@@ -1181,16 +1204,16 @@ void ui_exit(void)
 {
     int soe;    /* save on exit */
 
+    /* Destroy the main window(s) */
+    ui_destroy_main_window(PRIMARY_WINDOW);
+    ui_destroy_main_window(SECONDARY_WINDOW);
+
     resources_get_int("SaveResourcesOnExit", &soe);
     if (soe) {
         resources_save(NULL);
     }
 
-    /* seems complete to me -- compyx */
-#if 0
-    INCOMPLETE_IMPLEMENTATION();
-#endif
-    /* but this has to go */
+    /* FIXME: this has to go */
 #ifdef WIN32_COMPILE
     atexit_functions_execute();
 #endif

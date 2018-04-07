@@ -41,8 +41,9 @@ void ui_machine_reset_callback(GtkWidget *widget, gpointer user_data);
 void ui_drive_reset_callback(GtkWidget *widget, gpointer user_data);
 void ui_close_callback(GtkWidget *widget, gpointer user_data);
 
-gboolean on_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-void ui_window_destroy_callback(GtkWidget *widget, gpointer user_data);
+gboolean ui_main_window_delete_event(GtkWidget *widget, GdkEvent *event,
+                                     gpointer user_data);
+void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 
 gboolean ui_toggle_crt_controls(void);
 gboolean ui_crt_controls_enabled(void);
