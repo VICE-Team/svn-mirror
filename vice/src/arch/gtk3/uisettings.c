@@ -203,7 +203,8 @@ enum {
     RESPONSE_LOAD = 1,  /**< "Load" -> load settings from default file */
     RESPONSE_SAVE,      /**< "Save" -> save settings from default file */
     RESPONSE_LOAD_FILE, /**< "Load ..." -> load settings via dialog */
-    RESPONSE_SAVE_FILE  /**< "Save ..." -> save settings via dialog */
+    RESPONSE_SAVE_FILE, /**< "Save ..." -> save settings via dialog */
+    RESPONSE_DEFAULT    /**< Restore default settings */
 };
 
 
@@ -1847,6 +1848,19 @@ static void response_callback(GtkWidget *widget, gint response_id,
             }
             break;
 
+        case RESPONSE_DEFAULT:
+            if (vice_gtk3_message_confirm("Reset to default setting",
+                        "Do you wish to reset to default settings?")) {
+                resources_set_defaults();
+                gtk_widget_destroy(widget);
+                /* this one really behaves a little odd: */
+#if 0
+                machine_reset();
+#endif
+            }
+            break;
+
+
         default:
             break;
     }
@@ -1921,6 +1935,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
             title,
             ui_get_active_window(),
             GTK_DIALOG_MODAL,
+            "Restore defaults", RESPONSE_DEFAULT,
             "Load", RESPONSE_LOAD,
             "Save", RESPONSE_SAVE,
             "Load file ...", RESPONSE_LOAD_FILE,
