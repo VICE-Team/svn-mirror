@@ -255,13 +255,14 @@ char *archdep_default_autostart_disk_image_file_name(void)
 FILE *archdep_open_default_log_file(void)
 {
 #ifdef WIN32_COMPILE
-    /* stolen from SDL */
-    char *fname;
-    FILE *fp;
+    /* inspired by the SDL port */
+    char *cfg = archdep_user_config_path();
+    gchar *fname = g_build_filename(cfg, "vice.log", NULL);
+    FILE *fp = fopen(fname, "wt");
 
-    fname = util_concat(archdep_boot_path(), "\\vice.log", NULL);
-    fp = fopen(fname, "wt");
-    fclose(fp);
+    g_free(fname);
+    lib_free(cfg);
+    return fp;
 #else
     return stdout;
 #endif
