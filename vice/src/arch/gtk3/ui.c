@@ -95,6 +95,8 @@ typedef struct ui_resources_s {
     int window_xpos[NUM_WINDOWS];
     int window_ypos[NUM_WINDOWS];
 
+    int start_minimized;        /**< StartMinimized (bool) */
+
 } ui_resource_t;
 
 
@@ -116,6 +118,7 @@ static int set_window_height(int val, void *param);
 static int set_window_width(int val, void *param);
 static int set_window_xpos(int val, void *param);
 static int set_window_ypos(int val, void *param);
+static int set_start_minimized(int val, void *param);
 
 
 /*****************************************************************************
@@ -155,6 +158,9 @@ static const resource_int_t resources_int_primary_window[] = {
     { "Window0Ypos", 0, RES_EVENT_NO, NULL,
         &(ui_resources.window_ypos[PRIMARY_WINDOW]), set_window_ypos,
         (void*)PRIMARY_WINDOW },
+
+    { "StartMinimized", 0, RES_EVENT_NO, NULL,
+        &(ui_resources.start_minimized), set_start_minimized, NULL },
 
     RESOURCE_INT_LIST_END
 };
@@ -210,6 +216,17 @@ static const cmdline_option_t cmdline_options_common[] = {
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
         NULL, N_("Never save settings on exit") },
+
+    { "-minimized", SET_RESOURCE, 0,
+        NULL, NULL, "StartMinimized", (void *)1,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Do start minimized") },
+    { "+minimized", SET_RESOURCE, 0,
+        NULL, NULL, "StartMinimized", (void *)0,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Do not start minimized") },
 
     CMDLINE_LIST_END
 };
@@ -640,6 +657,24 @@ static int set_window_ypos(int val, void *param)
 }
 
 
+/** \brief  Set StartMinimized resource (bool)
+ *
+ * \param[in]   val     0: start normal 1: start minimized
+ * \param[in]   param   window index
+ *
+ * \return 0
+ */
+static int set_start_minimized(int val, void *param)
+{
+    int index = window_index_from_param(param);
+    if (index < 0 || val < 0) {
+        return -1;
+    }
+    ui_resources.start_minimized = val;
+    return 0;
+}
+
+
 /** \brief  Create CRT controls widget for \a target window
  *
  * \return  GtkGrid
@@ -781,7 +816,9 @@ void ui_create_main_window(video_canvas_t *canvas)
     g_signal_connect(new_window, "destroy",
                      G_CALLBACK(ui_main_window_destroy_callback), NULL);
 
-
+    if (ui_resources.start_minimized) {
+        gtk_window_iconify(GTK_WINDOW(new_window));
+    }
 
     ui_resources.canvas[target_window] = canvas;
     ui_resources.window_widget[target_window] = new_window;
