@@ -431,6 +431,7 @@ int machine_common_resources_init(void)
 void machine_common_resources_shutdown(void)
 {
     lib_free(ExitScreenshotName);
+    lib_free(ExitScreenshotName1);
 }
 
 static const cmdline_option_t cmdline_options_c128[] = {
