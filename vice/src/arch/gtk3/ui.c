@@ -280,6 +280,12 @@ GtkWindow *ui_get_active_window(void)
         list = list->next;
     }
 
+    /* If no window has toplevel focus then fallback to the most recently
+     * focused main window. */
+    if (active_win_index >= 0 && active_win_index < NUM_WINDOWS) {
+        return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
+    }
+
     /* If we end up here it probably means no windows have
      * been created yet. */
     return NULL;
@@ -846,6 +852,7 @@ void ui_display_main_window(int index)
          * disabled secondary displays in the status bar code with
          * gtk_widget_set_no_show_all(). */
         gtk_widget_show_all(ui_resources.window_widget[index]);
+        active_win_index = index;
     }
 }
 
