@@ -136,12 +136,7 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                 /* check mark item */
                 item = gtk_check_menu_item_new_with_mnemonic(items[i].label);
                 if (items[i].callback != NULL) {
-                    g_signal_connect(
-                            item,
-                            "activate",
-                            G_CALLBACK(items[i].callback),
-                            items[i].data);
-                    /* use `data` as the resource to determine the state of
+                   /* use `data` as the resource to determine the state of
                      * the checkmark
                      */
                     if (items[i].data != NULL) {
@@ -150,6 +145,13 @@ GtkWidget *ui_menu_add(GtkWidget *menu, ui_menu_item_t *items)
                         gtk_check_menu_item_set_active(
                                 GTK_CHECK_MENU_ITEM(item), (gboolean)state);
                     }
+                    /* connect signal handler AFTER setting the state, otherwise
+                     * the callback gets triggered, leading to odd results */
+                    g_signal_connect(
+                            item,
+                            "activate",
+                            G_CALLBACK(items[i].callback),
+                            items[i].data);
                 } else {
                     /* grey out */
                     gtk_widget_set_sensitive(item, FALSE);
