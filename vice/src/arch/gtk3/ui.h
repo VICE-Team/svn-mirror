@@ -97,7 +97,7 @@ video_canvas_t *ui_get_active_canvas(void);
 gboolean ui_toggle_pause(void);
 gboolean ui_advance_frame(void);
 
-void vice_gtk3_lightpen_update(void);
+void ui_update_lightpen(void);
 
 void ui_enable_crt_controls(bool enabled);
 

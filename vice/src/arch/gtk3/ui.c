@@ -1028,8 +1028,9 @@ void ui_shutdown(void)
 
 /** \brief  Update all menu item checkmarks on all windows
  *
- * \note    This is called by autostart.c (and probably other files)
- *          when they change the value of resources.
+ * \note    This is called from multiple functions in autostart.c and also
+ *          mon_resource_set() in monitor/monitor.c when they change the
+ *          value of resources.
  *
  * \todo    This is unimplemented, but will be much easier to implement if we
  *          switch to using a GtkApplication/GMenu based UI.
@@ -1038,10 +1039,6 @@ void ui_update_menus(void)
 {
     /* allows autostart to work */
     NOT_IMPLEMENTED_WARN_ONLY();
-    /*
-     * This gets called from multiple functions in autostart.c and
-     * also mon_resource_set() in monitor/monitor.c.
-     */
 }
 
 
@@ -1266,7 +1263,7 @@ void ui_exit(void)
 
 /** \brief  Send current light pen state to the emulator core for all windows
  */
-void vice_gtk3_lightpen_update(void)
+void ui_update_lightpen(void)
 {
     video_canvas_t *canvas;
     canvas = ui_resources.canvas[PRIMARY_WINDOW];
