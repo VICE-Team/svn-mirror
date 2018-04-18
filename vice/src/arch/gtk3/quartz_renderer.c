@@ -1,4 +1,4 @@
-/** \file   quartz-renderer.c
+/** \file   quartz_renderer.c
  * \brief   Quartz-based renderer for the GTK3 backend
  *
  * \author  Michael C. Martin <mcmartin@gmail.com>

@@ -1,4 +1,4 @@
-/** \file   vsyncarch
+/** \file   vsyncarch.c
  * \brief   End-of-frame handling for native GTK3 UI
  *
  * \note    This is altered and trimmed down to fit into the GTK3-native

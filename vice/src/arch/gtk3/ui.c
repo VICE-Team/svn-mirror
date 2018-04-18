@@ -742,7 +742,10 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
 
 static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 {
+#if 0
     debug_gtk3("destroy triggered on %p\n", (void *)widget);
+#endif
+    debug_gtk3("destroy triggered on %p\n");
 }
 
 

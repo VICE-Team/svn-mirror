@@ -34,6 +34,7 @@
 #include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "contentpreviewwidget.h"
+#include "diskcontents.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
 
@@ -54,6 +55,31 @@ static ui_file_filter_t filters[] = {
 
 
 
+static GtkWidget *preview_widget = NULL;
+
+
+/** \brief  Handler for the "update-preview" event
+ *
+ * \param[in]   chooser file chooser dialog
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_update_preview(GtkFileChooser *chooser, gpointer data)
+{
+    GFile *file;
+    gchar *path;
+
+    file = gtk_file_chooser_get_preview_file(chooser);
+    if (file != NULL) {
+        path = g_file_get_path(file);
+        if (path != NULL) {
+            debug_gtk3("called with '%s'\n", path);
+
+            content_preview_widget_set_image(preview_widget, path);
+           g_free(path);
+        }
+        g_object_unref(file);
+    }
+}
 
 /** \brief  Handler for the 'toggled' event of the 'show hidden files' checkbox
  *
@@ -197,7 +223,6 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
 {
     GtkWidget *dialog;
-    GtkWidget *preview;
     size_t i;
 
     /* create new dialog */
@@ -215,8 +240,10 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
             create_extra_widget(dialog));
 
-    preview = content_preview_widget_create(dialog, NULL, NULL);
-    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog), preview);
+    preview_widget = content_preview_widget_create(dialog,
+            diskcontents_filesystem_read, on_response);
+    gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
+            preview_widget);
 
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
@@ -227,6 +254,8 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
+    g_signal_connect(dialog, "update-preview",
+            G_CALLBACK(on_update_preview), NULL);
 
     return dialog;
 
