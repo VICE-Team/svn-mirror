@@ -35,6 +35,7 @@
 #include "basedialogs.h"
 #include "contentpreviewwidget.h"
 #include "diskcontents.h"
+#include "tapecontents.h"
 #include "filechooserhelpers.h"
 #include "ui.h"
 
@@ -54,7 +55,8 @@ static ui_file_filter_t filters[] = {
 };
 
 
-
+/** \brief  Preview widget reference
+ */
 static GtkWidget *preview_widget = NULL;
 
 
@@ -214,6 +216,29 @@ static GtkWidget *create_extra_widget(GtkWidget *parent)
 }
 
 
+/** \brief  Wrapper around disk/tape contents readers
+ *
+ * First treats \a path as disk image file and when that fails it falls back
+ * to treating \a path as a tape image, when that fails as well, it gives up.
+ *
+ * \param[in]   path    path to image file
+ *
+ * \return  image contents or `NULL` on failure
+ */
+static image_contents_t *read_contents_wrapper(const char *path)
+{
+    image_contents_t *content;
+
+    /* try disk contents first */
+    content = diskcontents_filesystem_read(path);
+    if (content == NULL) {
+        /* fall back to tape */
+        content = tapecontents_read(path);
+    }
+    return content;
+}
+
+
 /** \brief  Create the smart-attach dialog
  *
  * \param[in]   parent  parent widget, used to get the top level window
@@ -241,7 +266,7 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             create_extra_widget(dialog));
 
     preview_widget = content_preview_widget_create(dialog,
-            diskcontents_filesystem_read, on_response);
+            read_contents_wrapper, on_response);
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 
