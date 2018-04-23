@@ -55,22 +55,25 @@
     "Magic Desk" Cartridge
 
     - this cart comes in 3 sizes, 32Kb (4 banks), 64Kb (8 banks) and 128Kb (16 banks).
+      - also supports "DDI Magic Cart" (32 banks)
+
     - ROM is always mapped in at $8000-$9FFF (8k game).
 
     - 1 register at io1 / de00:
 
-    bit 0-3   bank number
+    bit 0-4   bank number
     bit 7     exrom (1 = cart disabled)
 */
 
-#define MAXBANKS 16
+#define MAXBANKS 32
 
 static uint8_t regval = 0;
+static uint8_t bankmask = 0x1f;
 
 static void magicdesk_io1_store(uint16_t addr, uint8_t value)
 {
-    regval = value & 0x8f;
-    cart_romlbank_set_slotmain(value & 0x0f);
+    regval = value & (0x80 | bankmask);
+    cart_romlbank_set_slotmain(value & bankmask);
     cart_set_port_game_slotmain(0);
     if (value & 0x80) {
         /* turn off cart ROM */
@@ -79,7 +82,7 @@ static void magicdesk_io1_store(uint16_t addr, uint8_t value)
         cart_set_port_exrom_slotmain(1);
     }
     cart_port_config_changed_slotmain();
-    DBG(("MAGICDESK: Reg: %02x (Bank: %d, %s)\n", regval, (regval & 0x0f), (regval & 0x80) ? "disabled" : "enabled"));
+    DBG(("MAGICDESK: Reg: %02x (Bank: %d, %s)\n", regval, (regval & bankmask), (regval & 0x80) ? "disabled" : "enabled"));
 }
 
 static uint8_t magicdesk_io1_peek(uint16_t addr)
@@ -89,7 +92,7 @@ static uint8_t magicdesk_io1_peek(uint16_t addr)
 
 static int magicdesk_dump(void)
 {
-    mon_out("Reg: %02x (Bank: %d, %s)\n", regval, (regval & 0x0f), (regval & 0x80) ? "disabled" : "enabled");
+    mon_out("Reg: %02x (Bank: %d, %s)\n", regval, (regval & bankmask), (regval & 0x80) ? "disabled" : "enabled");
     return 0;
 }
 
@@ -143,10 +146,16 @@ static int magicdesk_common_attach(void)
 
 int magicdesk_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-            if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                return -1;
+    bankmask = 0x1f;
+    if (util_file_load(filename, rawcart, 0x40000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        bankmask = 0x0f;
+        if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            bankmask = 0x07;
+            if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                bankmask = 0x03;
+                if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                    return -1;
+                }
             }
         }
     }
@@ -156,6 +165,7 @@ int magicdesk_bin_attach(const char *filename, uint8_t *rawcart)
 int magicdesk_crt_attach(FILE *fd, uint8_t *rawcart)
 {
     crt_chip_header_t chip;
+    int lastbank = 0;
 
     while (1) {
         if (crt_read_chip_header(&chip, fd)) {
@@ -167,6 +177,18 @@ int magicdesk_crt_attach(FILE *fd, uint8_t *rawcart)
         if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
+        if (chip.bank > lastbank) {
+            lastbank = chip.bank;
+        }
+    }
+    if (lastbank >= 31) {
+        bankmask = 0x1f;
+    } else if (lastbank >= 15) {
+        bankmask = 0x0f;
+    } else if (lastbank >= 7) {
+        bankmask = 0x07;
+    } else {
+        bankmask = 0x03;
     }
     return magicdesk_common_attach();
 }
