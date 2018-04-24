@@ -720,10 +720,7 @@ void ui_set_create_controls_widget_func(GtkWidget *(*func)(int))
 
 static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
 {
-#if 0
     debug_gtk3("destroy triggered on %p\n", (void *)widget);
-#endif
-    debug_gtk3("destroy triggered on %p\n");
 }
 
 
