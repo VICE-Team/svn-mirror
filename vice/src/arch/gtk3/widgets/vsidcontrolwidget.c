@@ -124,7 +124,7 @@ static void prev_tune_callback(GtkWidget *widget, gpointer data)
  */
 static void ffwd_callback(GtkWidget *widget, gpointer data)
 {
-    ui_toggle_resource(NULL, "WarpMode");
+    resources_toggle("WarpMode", NULL);
 }
 
 

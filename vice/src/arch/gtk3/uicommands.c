@@ -216,18 +216,15 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
     const char *res = (const char *)resource;
 
     if (res != NULL) {
-        int state;
+        int new_state;
 
-        /* attempt to get resource */
-        if (resources_get_int(res, &state) < 0) {
-            debug_gtk3("reading resource %s failed\n", res);
+        /* attempt to toggle resource */
+        if (resources_toggle(res, &new_state) < 0) {
+            debug_gtk3("toggling resource %s failed\n", res);
             return FALSE;
         }
-        debug_gtk3("toggling %s to %s\n", res, state ? "False" : "True");
-        if (resources_set_int(res, state ? 0 : 1) < 0) {
-            debug_gtk3("setting resource %s failed\n", res);
-            return FALSE;
-        }
+        debug_gtk3("resource %s toggled to %s\n",
+                   res, new_state ? "True" : "False");
         return TRUE;
     }
     return FALSE;
