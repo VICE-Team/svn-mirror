@@ -60,6 +60,7 @@ enum {
 
 void ui_set_create_window_func(void (*func)(video_canvas_t *));
 void ui_set_identify_canvas_func(int (*func)(video_canvas_t *));
+void ui_set_create_controls_widget_func(GtkWidget *(*func)(int));
 
 void ui_create_main_window(video_canvas_t *canvas);
 void ui_display_main_window(int index);

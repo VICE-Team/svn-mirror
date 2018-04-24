@@ -60,8 +60,6 @@
 #include "uistatusbar.h"
 #include "jamdialog.h"
 
-#include "crtcontrolwidget.h"
-
 #include "ui.h"
 
 
@@ -260,6 +258,10 @@ static void (*create_window_func)(video_canvas_t *) = NULL;
  */
 static int (*identify_canvas_func)(video_canvas_t *) = NULL;
 
+/** \brief  Function to help create a CRT controls widget
+ */
+static GtkWidget *(*create_controls_widget_func)(int) = NULL;
+
 /******************************************************************************
  *                              Event handlers                                *
  *****************************************************************************/
@@ -357,14 +359,18 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
 }
 
 
-/** \brief Show or hide the window decorations as needed
+/** \brief Show or hide the decorations of the active main window as needed
  */
 static void ui_update_fullscreen_decorations(void)
 {
     GtkWidget *window, *grid, *menu_bar, *crt_grid, *status_bar;
     int has_decorations;
 
-    if (active_win_index < 0) {
+    /* FIXME: this function does not work properly for vsid and should never
+     * get called by it, but at least on Macs it can get called if the user
+     * clicks the fullscreen button in the main vsid window.
+     */
+    if (active_win_index < 0 || machine_class == VICE_MACHINE_VSID) {
         return;
     }
 
@@ -681,43 +687,6 @@ static int set_start_minimized(int val, void *param)
 }
 
 
-/** \brief  Create CRT controls widget for \a target window
- *
- * \return  GtkGrid
- */
-static GtkWidget *create_crt_widget(int target_window)
-{
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64SC:
-        case VICE_MACHINE_C64DTV:
-        case VICE_MACHINE_SCPU64:
-        case VICE_MACHINE_CBM5x0:
-            return crt_control_widget_create(NULL, "VICII");
-        case VICE_MACHINE_VIC20:
-            return crt_control_widget_create(NULL, "VIC");
-        case VICE_MACHINE_PLUS4:
-            return crt_control_widget_create(NULL, "TED");
-        case VICE_MACHINE_PET:
-        case VICE_MACHINE_CBM6x0:
-            return crt_control_widget_create(NULL, "CRTC");
-
-        case VICE_MACHINE_C128:
-            if (target_window == PRIMARY_WINDOW) {
-                return crt_control_widget_create(NULL, "VICII");
-            } else {
-                return crt_control_widget_create(NULL, "VDC");
-            }
-
-        default:
-            fprintf(stderr,
-                    "machine class %d not handled, exiting\n",
-                    machine_class);
-            return NULL;
-    }
-}
-
-
 
 /** \brief  Set function to help create the main window(s)
  *
@@ -738,6 +707,15 @@ void ui_set_identify_canvas_func(int (*func)(video_canvas_t *))
     identify_canvas_func = func;
 }
 
+
+/** \brief  Set function to help create the CRT controls widget(s)
+ *
+ * \param[in]   func    create CRT controls widget function
+ */
+void ui_set_create_controls_widget_func(GtkWidget *(*func)(int))
+{
+    create_controls_widget_func = func;
+}
 
 
 static void on_window_grid_destroy(GtkWidget *widget, gpointer data)
@@ -805,10 +783,15 @@ void ui_create_main_window(video_canvas_t *canvas)
         exit(1);
     }
 
-    crt_controls = create_crt_widget(target_window);
-    gtk_widget_hide(crt_controls);
-    gtk_container_add(GTK_CONTAINER(grid), crt_controls);
-    gtk_widget_set_no_show_all(crt_controls, TRUE);
+    crt_controls = NULL;
+    if (create_controls_widget_func != NULL) {
+        crt_controls = create_controls_widget_func(target_window);
+    }
+    if (crt_controls != NULL) {
+        gtk_widget_hide(crt_controls);
+        gtk_container_add(GTK_CONTAINER(grid), crt_controls);
+        gtk_widget_set_no_show_all(crt_controls, TRUE);
+    }
 
     status_bar = ui_statusbar_create();
     gtk_widget_show_all(status_bar);

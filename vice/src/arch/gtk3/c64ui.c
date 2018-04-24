@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "c64model.h"
+#include "crtcontrolwidget.h"
 #include "machinemodelwidget.h"
 #include "not_implemented.h"
 #include "sampler.h"
@@ -107,6 +108,15 @@ static int identify_canvas(video_canvas_t *canvas)
     return PRIMARY_WINDOW;
 }
 
+/** \brief  Create CRT controls widget for \a target window
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_crt_widget(int target_window)
+{
+    return crt_control_widget_create(NULL, "VICII");
+}
+
 /** \brief  Pre-initialize the UI before the canvas window gets created
  *
  * \return  0 on success, -1 on failure
@@ -115,6 +125,7 @@ int c64ui_init_early(void)
 {
     ui_machine_window_init();
     ui_set_identify_canvas_func(identify_canvas);
+    ui_set_create_controls_widget_func(create_crt_widget);
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
