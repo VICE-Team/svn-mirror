@@ -962,6 +962,7 @@ GtkWidget *ui_statusbar_create(void)
     gtk_widget_set_halign(msg, GTK_ALIGN_START);
     gtk_widget_set_hexpand(msg, TRUE);
     gtk_label_set_ellipsize(GTK_LABEL(msg), PANGO_ELLIPSIZE_END);
+    g_object_set(msg, "margin-left", 8, NULL);
 
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
