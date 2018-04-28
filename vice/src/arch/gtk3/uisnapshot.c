@@ -57,12 +57,6 @@
 
 #include "uisnapshot.h"
 
-/* this function lives in ui.c, but I'd rather not #include "ui.c", causing a
- * circular reference. There's a few more ui_*() functions used by files
- * included through ui.c, so we're having a little design flaw here. -- compyx
- */
-extern int ui_emulation_is_paused(void);
-
 
 /*****************************************************************************
  *                              Helper functions                             *
@@ -90,26 +84,29 @@ static char *quicksnap_filename(void)
 
 
 /** \brief  Show dialog to save a snapshot
- *
- * \param[in]   parent  parent widget
  */
-static void save_snapshot_dialog(GtkWidget *parent)
+static void save_snapshot_dialog(void)
 {
+    GtkWindow *parent;
     GtkWidget *dialog;
     GtkWidget *extra;
     GtkWidget *roms_widget;
     GtkWidget *disks_widget;
+    GtkWidget *ext_widget;
     gint response_id;
     int save_roms;
     int save_disks;
+    int add_ext;
+
+    parent = ui_get_active_window();
 
     dialog = gtk_file_chooser_dialog_new("Save snapshot file",
-            ui_get_active_window(),
+            parent,
             GTK_FILE_CHOOSER_ACTION_SAVE,
             "Save", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_CANCEL,
             NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), ui_get_active_window());
+    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
 
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_snapshot, TRUE));
@@ -120,8 +117,11 @@ static void save_snapshot_dialog(GtkWidget *parent)
 
     disks_widget = gtk_check_button_new_with_label("Save attached disks");
     roms_widget = gtk_check_button_new_with_label("Save attached ROMs");
+    ext_widget = gtk_check_button_new_with_label("Add .vsf extension when missing");
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ext_widget), TRUE);
     gtk_grid_attach(GTK_GRID(extra), disks_widget, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(extra), roms_widget, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(extra), ext_widget, 0, 1, 1, 1);
     gtk_widget_show_all(extra);
 
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog), extra);
@@ -129,26 +129,35 @@ static void save_snapshot_dialog(GtkWidget *parent)
     response_id = gtk_dialog_run(GTK_DIALOG(dialog));
     save_roms = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(roms_widget));
     save_disks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(disks_widget));
+    add_ext = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ext_widget));
 
     debug_gtk3("response_id = %d\n", response_id);
     debug_gtk3("save disks = %s\n", save_disks ? "YES" : "NO");
     debug_gtk3("save ROMs = %s\n", save_roms ? "YES" : "NO");
+    debug_gtk3("add ext = %s\n", add_ext ? "YES" : "NO");
 
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gchar *filename;
-        char buffer[1024];
 
         filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
         if (filename != NULL) {
-            if (machine_write_snapshot(filename, save_roms, save_disks, 0) < 0) {
+            char *fname_copy;
+            char buffer[1024];
+
+            fname_copy = lib_stralloc(filename);
+            if (add_ext) {
+                util_add_extension(&fname_copy, "vsf");
+            }
+            if (machine_write_snapshot(fname_copy, save_roms, save_disks, 0) < 0) {
                 snapshot_display_error();
                 g_snprintf(buffer, 1024, "Failed to save snapshot '%s'",
-                        filename);
+                        fname_copy);
             } else {
-                debug_gtk3("Wrote snapshot file '%s'\n", filename);
-                g_snprintf(buffer, 1024, "Saved snapshot '%s'", filename);
+                debug_gtk3("Wrote snapshot file '%s'\n", fname_copy);
+                g_snprintf(buffer, 1024, "Saved snapshot '%s'", fname_copy);
             }
             ui_display_statustext(buffer, TRUE);
+            lib_free(fname_copy);
             g_free(filename);
         }
     }
@@ -164,7 +173,7 @@ static void save_snapshot_dialog(GtkWidget *parent)
 /** \brief  CPU trap handler for the load snapshot dialog
  *
  * \param[in]   addr    memory address (unused)
- * \param[in]   data    parent widget for the dialog
+ * \param[in]   data    unused
  */
 static void load_snapshot_trap(uint16_t addr, void *data)
 {
@@ -193,12 +202,12 @@ static void load_snapshot_trap(uint16_t addr, void *data)
 /** \brief  CPU trap handler to trigger the Save dialog
  *
  * \param[in]   addr    memory address (unused)
- * \param[in]   data    patent widget for the dialog
+ * \param[in]   data    unused
  */
 static void save_snapshot_trap(uint16_t addr, void *data)
 {
     vsync_suspend_speed_eval();
-    save_snapshot_dialog(data);
+    save_snapshot_dialog();
 }
 
 
@@ -259,9 +268,9 @@ static void quicksave_snapshot_trap(uint16_t addr, void *data)
 void uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
 {
     if (!ui_emulation_is_paused()) {
-        interrupt_maincpu_trigger_trap(load_snapshot_trap, (void *)parent);
+        interrupt_maincpu_trigger_trap(load_snapshot_trap, NULL);
     } else {
-        load_snapshot_trap(0, (void *)parent);
+        load_snapshot_trap(0, NULL);
     }
 }
 
@@ -274,9 +283,9 @@ void uisnapshot_open_file(GtkWidget *parent, gpointer user_data)
 void uisnapshot_save_file(GtkWidget *parent, gpointer user_data)
 {
     if (!ui_emulation_is_paused()) {
-        interrupt_maincpu_trigger_trap(save_snapshot_trap, (void *)parent);
+        interrupt_maincpu_trigger_trap(save_snapshot_trap, NULL);
     } else {
-        save_snapshot_trap(0, (void *)parent);
+        save_snapshot_trap(0, NULL);
     }
 }
 
@@ -307,6 +316,7 @@ void uisnapshot_quicksave_snapshot(GtkWidget *parent, gpointer user_data)
 }
 
 
+#if 0
 /** \brief  Gtk event handler for the "Select history directory" menu item
  *
  * \param[in]   parent      parent widget
@@ -333,6 +343,7 @@ void uisnapshot_history_select_dir(GtkWidget *parent, gpointer user_data)
         g_free(filename);
     }
 }
+#endif
 
 
 /** \brief  Gtk event handler for the "Start recording events" menu item
