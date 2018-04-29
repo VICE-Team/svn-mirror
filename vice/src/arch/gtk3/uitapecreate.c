@@ -53,11 +53,6 @@ static gboolean create_tape_image(const char *filename);
  */
 static GtkWidget *auto_attach = NULL;
 
-/** \brief  Reference to the 'add extension when missing' check button
- */
-static GtkWidget *fix_ext = NULL;
-
-
 
 /** \brief  Handler for 'response' event of the dialog
  *
@@ -141,10 +136,8 @@ static gboolean create_tape_image(const char *filename)
 
     fname_copy = lib_stralloc(filename);
 
-    /* fix extension? */
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(fix_ext))) {
-        util_add_extension(&fname_copy, "tap");
-    }
+    /* fix extension */
+    util_add_extension(&fname_copy, "tap");
 
     /* try to create the image */
     if (cbmimage_create_image(fname_copy, DISK_IMAGE_TYPE_TAP) < 0) {
@@ -180,11 +173,6 @@ static GtkWidget *create_extra_widget(void)
     auto_attach = gtk_check_button_new_with_label("Auto-attach tape image");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(auto_attach), TRUE);
     gtk_grid_attach(GTK_GRID(grid), auto_attach, 0, 0, 1, 1);
-
-    fix_ext = gtk_check_button_new_with_label("Add .tap extension when missing");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(fix_ext), TRUE);
-    gtk_grid_attach(GTK_GRID(grid), fix_ext, 0, 1, 1, 1);
-
 
     gtk_widget_show_all(grid);
     return grid;
