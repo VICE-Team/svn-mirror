@@ -93,8 +93,6 @@ static int image_type = 1541;
 static GtkWidget *disk_name;
 /** \brief  GtkEntry containing the disk ID */
 static GtkWidget *disk_id;
-/** \brief  GtkCheckButton determining if an extension should be added */
-static GtkWidget *add_ext;
 /** \brief  Set drive type when attaching */
 static GtkWidget *set_drive_type;
 
@@ -240,10 +238,8 @@ static gboolean create_disk_image(const char *filename)
 
     fname_copy = lib_stralloc(filename);
 
-    /* fix extension of filename, if requested */
-    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(add_ext))) {
-        util_add_extension(&fname_copy, get_ext_by_image_type(image_type));
-    }
+    /* fix extension of filename */
+    util_add_extension(&fname_copy, get_ext_by_image_type(image_type));
 
     /* convert name & ID to PETSCII */
     if (name_gtk3 != NULL && *name_gtk3 != '\0') {
@@ -392,16 +388,11 @@ static GtkWidget *create_extra_widget(GtkWidget *parent, int unit)
     gtk_grid_attach(GTK_GRID(grid), label, 5, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), type_widget, 6, 0, 1, 1);
 
-    /* add 'add extension when missing' checkbox */
-    add_ext = gtk_check_button_new_with_label("Add extension when missing");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(add_ext), TRUE);
-    gtk_grid_attach(GTK_GRID(grid), add_ext, 0, 1, 3, 1);
-
     /* add 'set drive type for attached image' checkbox */
     set_drive_type = gtk_check_button_new_with_label(
             "Set proper drive type when attaching image");
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(set_drive_type), TRUE);
-    gtk_grid_attach(GTK_GRID(grid), set_drive_type, 3, 1, 3, 1);
+    gtk_grid_attach(GTK_GRID(grid), set_drive_type, 0, 1, 4, 1);
 
     gtk_widget_show_all(grid);
     return grid;
