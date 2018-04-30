@@ -54,22 +54,18 @@ gchar *vice_gtk3_select_directory_dialog(
         const char *path)
 {
     GtkWidget *dialog;
-    GtkWindow *parent;
     gint result;
     gchar *filename;
 
-    parent = ui_get_active_window();
-
     dialog = gtk_file_chooser_dialog_new(
             title,
-            parent,
+            ui_get_active_window(),
             allow_create
                 ? GTK_FILE_CHOOSER_ACTION_CREATE_FOLDER
                 : GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
             "Select", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
-            NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+            NULL);
 
     /* set proposed file name, if any */
     if (proposed != NULL && *proposed != '\0') {

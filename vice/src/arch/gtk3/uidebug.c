@@ -113,20 +113,19 @@ static GtkWidget *create_trace_widget(void)
  *
  * \return  GtkDialog
  */
-static GtkWidget *create_trace_mode_dialog(GtkWindow *parent)
+static GtkWidget *create_trace_mode_dialog(void)
 {
     GtkWidget *dialog;
     GtkWidget *content;
 
     dialog = gtk_dialog_new_with_buttons("Select trace mode",
-            parent, GTK_DIALOG_MODAL,
+            ui_get_active_window(), GTK_DIALOG_MODAL,
             "Close", GTK_RESPONSE_CLOSE,
-            NULL, NULL);
+            NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_container_add(GTK_CONTAINER(content), create_trace_widget());
 
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
     return dialog;
 }
 
@@ -137,21 +136,19 @@ static GtkWidget *create_trace_mode_dialog(GtkWindow *parent)
  *
  * \return  GtkDialog
  */
-static GtkWidget *create_playback_frames_dialog(GtkWindow *parent)
+static GtkWidget *create_playback_frames_dialog(void)
 {
     GtkWidget *dialog;
     GtkWidget *content;
 
     dialog = gtk_dialog_new_with_buttons("Set auto playback frames",
-            parent, GTK_DIALOG_MODAL,
+            ui_get_active_window(), GTK_DIALOG_MODAL,
             "Close", GTK_RESPONSE_CLOSE,
-            NULL, NULL);
+            NULL);
 
     content = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_container_add(GTK_CONTAINER(content), create_playback_widget());
 
-
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
     return dialog;
 }
 
@@ -167,7 +164,7 @@ void uidebug_trace_mode_callback(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     int response;
 
-    dialog = create_trace_mode_dialog(ui_get_active_window());
+    dialog = create_trace_mode_dialog();
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     debug_gtk3("Got response ID %d\n", response);
     gtk_widget_destroy(dialog);
@@ -184,7 +181,7 @@ void uidebug_playback_frames_callback(GtkWidget *widget, gpointer user_data)
     GtkWidget *dialog;
     int response;
 
-    dialog = create_playback_frames_dialog(ui_get_active_window());
+    dialog = create_playback_frames_dialog();
     response = gtk_dialog_run(GTK_DIALOG(dialog));
     debug_gtk3("Got response ID %d\n", response);
     gtk_widget_destroy(dialog);

@@ -1,4 +1,4 @@
-/**
+/** \file   openfiledialog.c
  * \brief   GtkFileChooser wrapper to open a file
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -55,20 +55,16 @@ gchar *vice_gtk3_open_file_dialog(
 {
     GtkWidget *dialog;
     GtkFileFilter *filter;
-    GtkWindow *parent;
     gint result;
     gchar *filename;
 
-    parent = ui_get_active_window();
-
     dialog = gtk_file_chooser_dialog_new(
             title,
-            parent,
+            ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_OPEN,
             "Open", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
-            NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+            NULL);
 
     /* create * filter */
     filter = create_file_chooser_filter(file_chooser_filter_all, TRUE);
@@ -119,20 +115,16 @@ gchar *vice_gtk3_open_create_file_dialog(
         const char *path)
 {
     GtkWidget *dialog;
-    GtkWindow *parent;
     gint result;
     gchar *filename;
 
-    parent = ui_get_active_window();
-
     dialog = gtk_file_chooser_dialog_new(
             title,
-            parent,
+            ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_SAVE,
             "Open/Create", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
-            NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+            NULL);
 
     /* set overwrite confirmation */
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),

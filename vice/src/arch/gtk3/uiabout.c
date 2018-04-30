@@ -188,18 +188,13 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
 #if 0
     GdkPixbuf *logo = get_vice_logo();
 #endif
-    GtkWindow *window;
 
 #ifdef HAVE_DEBUG_GTK3UI
     g_print("[debug-gtk3ui] %s() called\n", __func__);
 #endif
 
-    /* get toplevel window, Gtk doesn't like dialogs without parents */
-    window = ui_get_active_window();
-
-    if (gtk_widget_is_toplevel(GTK_WIDGET(window))) {
-        gtk_window_set_transient_for(GTK_WINDOW(about), window);
-    }
+    /* set toplevel window, Gtk doesn't like dialogs without parents */
+    gtk_window_set_transient_for(GTK_WINDOW(about), ui_get_active_window());
 
     /* generate team members list */
     authors = create_current_team_list();

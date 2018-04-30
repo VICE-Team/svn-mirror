@@ -87,7 +87,6 @@ static char *quicksnap_filename(void)
  */
 static void save_snapshot_dialog(void)
 {
-    GtkWindow *parent;
     GtkWidget *dialog;
     GtkWidget *extra;
     GtkWidget *roms_widget;
@@ -98,15 +97,13 @@ static void save_snapshot_dialog(void)
     int save_disks;
     int add_ext;
 
-    parent = ui_get_active_window();
 
     dialog = gtk_file_chooser_dialog_new("Save snapshot file",
-            parent,
+            ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_SAVE,
             "Save", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_CANCEL,
-            NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+            NULL);
 
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_snapshot, TRUE));

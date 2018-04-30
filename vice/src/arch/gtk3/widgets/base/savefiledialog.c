@@ -1,4 +1,4 @@
-/**
+/** \file   savefiledialog.c
  * \brief   GtkFileChooser wrapper to save/create a file
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
@@ -54,20 +54,16 @@ gchar *vice_gtk3_save_file_dialog(
         const char *path)
 {
     GtkWidget *dialog;
-    GtkWindow *parent;
     gint result;
     gchar *filename;
 
-    parent = ui_get_active_window();
-
     dialog = gtk_file_chooser_dialog_new(
             title,
-            parent,
+            ui_get_active_window(),
             GTK_FILE_CHOOSER_ACTION_SAVE,
             "Save", GTK_RESPONSE_ACCEPT,
             "Cancel", GTK_RESPONSE_REJECT,
-            NULL, NULL);
-    gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
+            NULL);
 
     /* set overwrite confirmation */
     gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog),
