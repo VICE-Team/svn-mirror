@@ -92,37 +92,6 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer data)
 }
 
 
-#if 0
-/** \brief  Check \a filename for \a ext, and add it when missing
- *
- * \param[in]   filename    filename
- * \param[in]   ext         required extension
- *
- * \return  heap allocated copy of \a filename or \a filename + \a ext
- */
-static char *fix_extension(const char *filename, const char *ext)
-{
-    char *new_name;
-    size_t flen = strlen(filename);
-    size_t elen = strlen(ext);
-    gboolean fix = FALSE;
-
-    if ((ext != NULL && *ext != '\0') &&
-            (flen <= elen || strcmp(filename + flen - elen, ext) != 0)) {
-        fix = TRUE;
-    }
-
-    if (fix) {
-        new_name = util_concat(filename, ".", ext, NULL);
-    } else {
-        new_name = lib_stralloc(filename);
-    }
-
-    return new_name;
-}
-#endif
-
-
 /** \brief  Actually create the tape image and attach it
  *
  * \param[in]   filename    filename of the new image
@@ -134,10 +103,8 @@ static gboolean create_tape_image(const char *filename)
     gboolean status = TRUE;
     char *fname_copy;
 
-    fname_copy = lib_stralloc(filename);
-
     /* fix extension */
-    util_add_extension(&fname_copy, "tap");
+    fname_copy = util_add_extension_const(filename, "tap");
 
     /* try to create the image */
     if (cbmimage_create_image(fname_copy, DISK_IMAGE_TYPE_TAP) < 0) {
