@@ -941,7 +941,14 @@ void uimedia_dialog_show(GtkWidget *parent, gpointer data)
     GtkWidget *dialog;
     GtkWidget *content;
 
-    ui_pause_emulation(TRUE);
+    /*
+     * Pause emulation, the ui_emulation_is_paused() check is required since
+     * the ui_pause_emulation() function is a little weird: when passed FALSE
+     * it unpauses, when passed TRUE it toggles the paused state.
+     */
+    if (!ui_emulation_is_paused()) {
+        ui_pause_emulation(TRUE);
+    }
 
     /* create driver list */
     if (machine_class != VICE_MACHINE_VSID) {
