@@ -5,10 +5,6 @@
  */
 
 /*
- * $VICERES EventSnapshotDir    -vsid
- */
-
-/*
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -91,12 +87,9 @@ static void save_snapshot_dialog(void)
     GtkWidget *extra;
     GtkWidget *roms_widget;
     GtkWidget *disks_widget;
-    GtkWidget *ext_widget;
     gint response_id;
     int save_roms;
     int save_disks;
-    int add_ext;
-
 
     dialog = gtk_file_chooser_dialog_new("Save snapshot file",
             ui_get_active_window(),
@@ -114,11 +107,8 @@ static void save_snapshot_dialog(void)
 
     disks_widget = gtk_check_button_new_with_label("Save attached disks");
     roms_widget = gtk_check_button_new_with_label("Save attached ROMs");
-    ext_widget = gtk_check_button_new_with_label("Add .vsf extension when missing");
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ext_widget), TRUE);
     gtk_grid_attach(GTK_GRID(extra), disks_widget, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(extra), roms_widget, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(extra), ext_widget, 0, 1, 1, 1);
     gtk_widget_show_all(extra);
 
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog), extra);
@@ -126,12 +116,10 @@ static void save_snapshot_dialog(void)
     response_id = gtk_dialog_run(GTK_DIALOG(dialog));
     save_roms = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(roms_widget));
     save_disks = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(disks_widget));
-    add_ext = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ext_widget));
 
     debug_gtk3("response_id = %d\n", response_id);
     debug_gtk3("save disks = %s\n", save_disks ? "YES" : "NO");
     debug_gtk3("save ROMs = %s\n", save_roms ? "YES" : "NO");
-    debug_gtk3("add ext = %s\n", add_ext ? "YES" : "NO");
 
     if (response_id == GTK_RESPONSE_ACCEPT) {
         gchar *filename;
@@ -141,10 +129,8 @@ static void save_snapshot_dialog(void)
             char *fname_copy;
             char buffer[1024];
 
-            fname_copy = lib_stralloc(filename);
-            if (add_ext) {
-                util_add_extension(&fname_copy, "vsf");
-            }
+            fname_copy = util_add_extension_const(filename, "vsf");
+
             if (machine_write_snapshot(fname_copy, save_roms, save_disks, 0) < 0) {
                 snapshot_display_error();
                 g_snprintf(buffer, 1024, "Failed to save snapshot '%s'",
