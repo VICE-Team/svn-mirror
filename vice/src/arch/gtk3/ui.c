@@ -37,6 +37,7 @@
 #include "debug_gtk3.h"
 #include "not_implemented.h"
 
+#include "autostart.h"
 #include "cmdline.h"
 #include "drive.h"
 #include "interrupt.h"
@@ -230,6 +231,17 @@ static const cmdline_option_t cmdline_options_common[] = {
 };
 
 
+/** \brief  List of drag targets for the drag-n-drop event handler
+ *
+ * Doesn't appear to do much. Needs research
+ */
+static GtkTargetEntry drag_targets[] = {
+    { "STRING", 0, 0 },
+    { "text/plain", 0, 0 },
+    { "text/uri", 0, 1 }
+};
+
+
 /** \brief  Flag indicating pause mode
  */
 static int is_paused = 0;
@@ -266,9 +278,66 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  *                              Event handlers                                *
  *****************************************************************************/
 
+
+/** \brief  Handler for the 'drag-data-received' event
+ *
+ * Autostarts an image/prg when valid
+ *
+ * \param[in]   widget      widget triggering the event (unused)
+ * \param[in]   context     drag context (unused)
+ * \param[in]   x           probably X-coordinate in the drop target?
+ * \param[in]   y           probablt Y-coordinate in the drop target?
+ * \param[in]   data        dragged data
+ * \param[in]   info        int declared in the targets array (unclear)
+ * \param[in]   time        no idea
+ */
+static void on_drag_data_received(GtkWidget *widget, GdkDragContext *context,
+        int x, int y, GtkSelectionData *data, guint info, guint time)
+{
+    guchar *s;
+    char *non_uri;
+    char *pathname;
+    size_t len;
+
+    debug_gtk3("got drag-data, info = %u\n", info);
+    s = gtk_selection_data_get_text(data);
+    debug_gtk3("selection-data = '%s'\n", (char *)s);
+    if (strlen((const char *)s) > 8
+            && strncmp((const char *)s, "file:///", 7) == 0) {
+        /* possible file */
+        debug_gtk3("got possible file: '%s'\n", (const char *)(s + 7));
+
+        /* un-espace URI */
+        non_uri = g_uri_unescape_string((const char *)(s + 7), NULL);
+        debug_gtk3("de-URI'd = '%s'\n", non_uri);
+
+        /* strip newline chars */
+        pathname = lib_stralloc(non_uri);
+        lib_free(non_uri);
+        len = strlen(pathname);
+        while (--len > 0) {
+            if (pathname[len] == '\r' || pathname[len] == '\n') {
+                pathname[len] = '\0';
+            }
+        }
+
+        /* try autostarting */
+        if (autostart_autodetect(pathname, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
+            debug_gtk3("autostart failed\n");
+        }
+        lib_free(pathname);
+    }
+
+    g_free(s);
+
+}
+
+
 /** \brief  Get the most recently focused toplevel window
  *
  * \return  pointer to a toplevel window, or NULL
+ *
+ * \note    Not an event handler, needs to be moved
  */
 GtkWindow *ui_get_active_window(void)
 {
@@ -804,6 +873,16 @@ void ui_create_main_window(video_canvas_t *canvas)
                      G_CALLBACK(ui_main_window_delete_event), NULL);
     g_signal_connect(new_window, "destroy",
                      G_CALLBACK(ui_main_window_destroy_callback), NULL);
+
+
+    /*
+     * Set up drag-n-drop handling for files
+     */
+    gtk_drag_dest_set(new_window, GTK_DEST_DEFAULT_ALL,
+            drag_targets, 3,
+            GDK_ACTION_COPY|GDK_ACTION_MOVE|GDK_ACTION_LINK);
+    g_signal_connect(new_window, "drag-data-received",
+                     G_CALLBACK(on_drag_data_received), NULL);
 
     if (ui_resources.start_minimized) {
         gtk_window_iconify(GTK_WINDOW(new_window));
