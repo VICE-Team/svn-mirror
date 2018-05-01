@@ -95,12 +95,28 @@ static int fsdevice_flush_cdup(vdrive_t* vdrive)
     return fsdevice_flush_cd(vdrive, "..");
 }
 
-static int fsdevice_flush_mkdir(char *arg)
+
+/** \brief  Create directory \a arg
+ *
+ * \param[in]   vdrive  vdrive reference
+ * \param[in]   arg     directory name
+ *
+ * \return  CBMDOS error code
+ */
+static int fsdevice_flush_mkdir(vdrive_t *vdrive, char *arg)
 {
     int er;
+    char *prefix;
+    char *path;
+
+    /* get proper FS device path */
+    prefix = fsdevice_get_path(vdrive->unit);
+
+    /* construct absolute path */
+    path = util_concat(prefix, FSDEV_DIR_SEP_STR, arg, NULL);
 
     er = CBMDOS_IPE_OK;
-    if (ioutil_mkdir(arg, IOUTIL_MKDIR_RWXUG)) {
+    if (ioutil_mkdir(path, IOUTIL_MKDIR_RWXUG)) {
         er = CBMDOS_IPE_INVAL;
         if (ioutil_errno(IOUTIL_ERRNO_EEXIST)) {
             er = CBMDOS_IPE_FILE_EXISTS;
@@ -113,10 +129,12 @@ static int fsdevice_flush_mkdir(char *arg)
         }
     }
 
+    lib_free(path);
+
     return er;
 }
 
-static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
+static int fsdevice_flush_partition(vdrive_t *vdrive, char* arg)
 {
     char* comma;
     int er;
@@ -131,30 +149,13 @@ static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
         for (i = 0; i < 4 && *comma++; i++) {
         }
         if (i == 4 && *comma++ == ',' && *comma++ == 'c' && !*comma) {
-            er = fsdevice_flush_mkdir(arg);
+            er = fsdevice_flush_mkdir(vdrive, arg);
         } else {
             er = CBMDOS_IPE_SYNTAX;
         }
     }
     return er;
 }
-
-#if 0
-static int fsdevice_flush_remove(char *arg)
-{
-    int er;
-
-    er = CBMDOS_IPE_OK;
-    if (ioutil_remove(arg)) {
-        er = CBMDOS_IPE_NOT_EMPTY;
-        if (ioutil_errno(IOUTIL_ERRNO_EPERM)) {
-            er = CBMDOS_IPE_PERMISSION;
-        }
-    }
-
-    return er;
-}
-#endif
 
 
 /** \brief  Remove directory \a arg
@@ -174,7 +175,7 @@ static int fsdevice_flush_rmdir(vdrive_t *vdrive, char *arg)
     /* since the cwd can differ from the FSDeviceDir, we need to obtain the
      * absolute path to the directory to remove.
      */
-    char *path = util_concat(prefix, "/", arg, NULL);
+    char *path = util_concat(prefix, FSDEV_DIR_SEP_STR, arg, NULL);
 #if 0
     fprintf(stderr, "%s(): removing dir '%s'\n", __func__, path);
 #endif
@@ -659,7 +660,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     } else if (*cmd == '/') {
         er = fsdevice_flush_partition(vdrive, arg);
     } else if (!strcmp(cmd, "md")) {
-        er = fsdevice_flush_mkdir(arg);
+        er = fsdevice_flush_mkdir(vdrive, arg);
     } else if (!strcmp(cmd, "rd")) {
         er = fsdevice_flush_rmdir(vdrive, arg);
     } else if ((!strcmp(cmd, "ui")) || (!strcmp(cmd, "u9"))) {

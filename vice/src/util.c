@@ -125,7 +125,7 @@ char *util_concat(const char *s, ...)
  * Example:
  * \code{.c}
  *
- *  const char **list[] = { "foo", "bar", "meloen" };
+ *  const char **list[] = { "foo", "bar", "meloen", NULL };
  *  char *s = util_strjoin(list, ";");
  *  // returns: foo;bar;meloen
  * \endcode
