@@ -38,6 +38,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "archdep.h"
 #include "cbmdos.h"
@@ -51,6 +52,7 @@
 #include "lib.h"
 #include "log.h"
 #include "types.h"
+#include "util.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 
@@ -132,6 +134,7 @@ static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
     return er;
 }
 
+#if 0
 static int fsdevice_flush_remove(char *arg)
 {
     int er;
@@ -144,6 +147,35 @@ static int fsdevice_flush_remove(char *arg)
         }
     }
 
+    return er;
+}
+#endif
+
+static int fsdevice_flush_rmdir(vdrive_t *vdrive, char *arg)
+{
+    int er = CBMDOS_IPE_OK;
+
+
+    /* since the cwd can differ from the FSDeviceDir, we need to obtain the
+     * absolute path to the directory to remove.
+     */
+    char *path = util_concat(fsdevice_get_path(vdrive->unit), "/", arg, NULL);
+#if 0
+    fprintf(stderr, "%s(): removing dir '%s'\n", __func__, path);
+#endif
+    /* FIXME: rmdir() can set a lot of different errors codes, so this probably
+     *        is a little naive
+     */
+    if (ioutil_rmdir(path) != 0) {
+        er = CBMDOS_IPE_NOT_EMPTY;
+        if (ioutil_errno(IOUTIL_ERRNO_EPERM)) {
+            er = CBMDOS_IPE_PERMISSION;
+        }
+    }
+#if 0
+    fprintf(stderr, "%s(): %d: %s\n", __func__, errno, strerror(errno));
+#endif
+    lib_free(path);
     return er;
 }
 
@@ -614,7 +646,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     } else if (!strcmp(cmd, "md")) {
         er = fsdevice_flush_mkdir(arg);
     } else if (!strcmp(cmd, "rd")) {
-        er = fsdevice_flush_remove(arg);
+        er = fsdevice_flush_rmdir(vdrive, arg);
     } else if ((!strcmp(cmd, "ui")) || (!strcmp(cmd, "u9"))) {
         er = fsdevice_flush_reset();
     } else if ((!strcmp(cmd, "uj")) || (!strcmp(cmd, "u:"))) {

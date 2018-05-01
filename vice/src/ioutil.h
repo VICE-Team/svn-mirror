@@ -51,6 +51,7 @@ extern int ioutil_isatty(int desc);
 extern unsigned int ioutil_maxpathlen(void);
 extern int ioutil_mkdir(const char *pathname, int mode);
 extern int ioutil_remove(const char *name);
+extern int ioutil_rmdir(const char *pathname);
 extern int ioutil_rename(const char *oldpath, const char *newpath);
 extern int ioutil_stat(const char *file_name, unsigned int *len, unsigned int *isdir);
 

@@ -570,6 +570,11 @@ int archdep_mkdir(const char *pathname, int mode)
     return _mkdir(pathname);
 }
 
+int archdep_rmdir(const char *pathname)
+{
+    return rmdir(pathname);
+}
+
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;

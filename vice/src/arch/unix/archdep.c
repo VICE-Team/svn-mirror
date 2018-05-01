@@ -582,6 +582,15 @@ int archdep_mkdir(const char *pathname, int mode)
 #endif
 }
 
+/** \brief  Remove directory \a pathname
+ *
+ * \return  0 on success, -1 on failure
+ */
+int archdep_rmdir(const char *pathname)
+{
+    return rmdir(pathname);
+}
+
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
     struct stat statbuf;

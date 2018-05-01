@@ -183,6 +183,11 @@ int ioutil_remove(const char *name)
     return unlink(name);
 }
 
+int ioutil_rmdir(const char *pathname)
+{
+    return archdep_rmdir(pathname);
+}
+
 int ioutil_rename(const char *oldpath, const char *newpath)
 {
     return archdep_rename(oldpath, newpath);
