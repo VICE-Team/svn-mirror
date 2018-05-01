@@ -40,7 +40,6 @@ enum {
     RESPONSE_RESET_SOFT,
     RESPONSE_RESET_HARD,
     RESPONSE_MONITOR,
-    RESPONSE_QUIT
 };
 
 
@@ -56,7 +55,6 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
             "Soft reset", RESPONSE_RESET_SOFT,
             "Hard reset", RESPONSE_RESET_HARD,
             "Active monitor", RESPONSE_MONITOR,
-            "Quit emulator", RESPONSE_QUIT,
             NULL);
 
     switch (gtk_dialog_run(GTK_DIALOG(dialog))) {
@@ -73,10 +71,6 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
         case RESPONSE_MONITOR:
             result = UI_JAM_MONITOR;
             break;
-        case RESPONSE_QUIT:
-            /* TODO: what number is QUIT? */
-            gtk_widget_destroy(parent);
-            break;
         default:
             /* shouldn't get here */
             break;
@@ -85,8 +79,3 @@ ui_jam_action_t jam_dialog(GtkWidget *parent, const char *msg)
     gtk_widget_destroy(dialog);
     return result;
 }
-
-
-
-
-
