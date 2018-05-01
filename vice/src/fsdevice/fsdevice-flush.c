@@ -65,8 +65,13 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
 {
     int er;
 
+    /* guard against NULL */
+    if (arg == NULL) {
+        return CBMDOS_IPE_SYNTAX;
+    }
+
     /* arrow left also works for dir up */
-    if (!strcmp("_", arg)) {
+    if (strcmp("_", arg) == 0) {
         arg = "..";
     }
 
@@ -151,15 +156,25 @@ static int fsdevice_flush_remove(char *arg)
 }
 #endif
 
+
+/** \brief  Remove directory \a arg
+ *
+ * \param[in]   vdrive  vdrive reference
+ * \param[in]   arg     directory to remove
+ *
+ * \return  CBMDOS error code
+ */
 static int fsdevice_flush_rmdir(vdrive_t *vdrive, char *arg)
 {
     int er = CBMDOS_IPE_OK;
 
+    /* if no dir is set via 'FSDevice[8=11]Dir' this returns '.' */
+    char *prefix = fsdevice_get_path(vdrive->unit);
 
     /* since the cwd can differ from the FSDeviceDir, we need to obtain the
      * absolute path to the directory to remove.
      */
-    char *path = util_concat(fsdevice_get_path(vdrive->unit), "/", arg, NULL);
+    char *path = util_concat(prefix, "/", arg, NULL);
 #if 0
     fprintf(stderr, "%s(): removing dir '%s'\n", __func__, path);
 #endif
