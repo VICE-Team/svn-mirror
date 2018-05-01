@@ -279,6 +279,19 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  *****************************************************************************/
 
 
+static gboolean on_drag_drop(
+        GtkWidget *widget,
+        GdkDragContext *context,
+        gint x,
+        gint y,
+        guint time,
+        gpointer user_data)
+{
+    debug_gtk3("called\n");
+    return TRUE;
+}
+
+
 /** \brief  Handler for the 'drag-data-received' event
  *
  * Autostarts an image/prg when valid
@@ -291,8 +304,14 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  * \param[in]   info        int declared in the targets array (unclear)
  * \param[in]   time        no idea
  */
-static void on_drag_data_received(GtkWidget *widget, GdkDragContext *context,
-        int x, int y, GtkSelectionData *data, guint info, guint time)
+static void on_drag_data_received(
+        GtkWidget *widget,
+        GdkDragContext *context,
+        int x,
+        int y,
+        GtkSelectionData *data,
+        guint info,
+        guint time)
 {
     guchar *s;
     char *non_uri;
@@ -883,6 +902,8 @@ void ui_create_main_window(video_canvas_t *canvas)
             GDK_ACTION_COPY|GDK_ACTION_MOVE|GDK_ACTION_LINK);
     g_signal_connect(new_window, "drag-data-received",
                      G_CALLBACK(on_drag_data_received), NULL);
+    g_signal_connect(new_window, "drag-drop",
+                     G_CALLBACK(on_drag_drop), NULL);
 
     if (ui_resources.start_minimized) {
         gtk_window_iconify(GTK_WINDOW(new_window));
