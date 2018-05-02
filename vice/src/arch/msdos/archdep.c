@@ -389,7 +389,7 @@ int archdep_mkdir(const char *pathname, int mode)
     return mkdir(pathname, (mode_t)mode);
 }
 
-int archdep_mkdir(const char *pathname)
+int archdep_rmdir(const char *pathname)
 {
     return rmdir(pathname);
 }
