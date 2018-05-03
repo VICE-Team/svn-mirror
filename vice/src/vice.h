@@ -1,4 +1,3 @@
-
 /*! \file vice.h
  *
  *  \brief Main header file for VICE.
@@ -191,10 +190,6 @@ static int noop;
 #undef HAVE_RS232DEV
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-
-int vice_atexit(void (*function)(void));
 
 #if defined(USE_NATIVE_GTK3) && defined(WIN32_COMPILE) && !defined(__cplusplus)
 #define atexit vice_atexit

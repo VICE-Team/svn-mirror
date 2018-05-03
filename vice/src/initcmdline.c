@@ -61,8 +61,6 @@ static char *startup_disk_images[4];
 static char *startup_tape_image;
 static unsigned int autostart_mode = AUTOSTART_MODE_NONE;
 
-extern int vice_atexit(void (*callback)(void));
-
 int cmdline_get_autostart_mode(void)
 {
     return autostart_mode;

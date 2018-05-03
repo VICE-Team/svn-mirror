@@ -153,7 +153,7 @@ static int snapshot_write_padded_string(FILE *f, const char *s, uint8_t pad_char
 static int snapshot_write_byte_array(FILE *f, const uint8_t *data, unsigned int num)
 {
     if (num > 0 && fwrite(data, (size_t)num, 1, f) < 1) {
-        snapshot_error = SNAPSHOT_WRITE_uint8_t_ARRAY_ERROR;
+        snapshot_error = SNAPSHOT_WRITE_BYTE_ARRAY_ERROR;
         return -1;
     }
 
@@ -265,7 +265,7 @@ static int snapshot_read_double(FILE *f, double *d_return)
 static int snapshot_read_byte_array(FILE *f, uint8_t *b_return, unsigned int num)
 {
     if (num > 0 && fread(b_return, (size_t)num, 1, f) < 1) {
-        snapshot_error = SNAPSHOT_READ_uint8_t_ARRAY_ERROR;
+        snapshot_error = SNAPSHOT_READ_BYTE_ARRAY_ERROR;
         return -1;
     }
 
@@ -877,7 +877,7 @@ void snapshot_display_error(void)
                 ui_error(translate_text(IDGS_EOF_WRITING_SNAPSHOT_S), current_filename);
             }
             break;
-        case SNAPSHOT_WRITE_uint8_t_ARRAY_ERROR:
+        case SNAPSHOT_WRITE_BYTE_ARRAY_ERROR:
             if (current_module) {
                 ui_error(translate_text(IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S), current_module, current_filename);
             } else {
@@ -891,7 +891,7 @@ void snapshot_display_error(void)
                 ui_error(translate_text(IDGS_EOF_READING_SNAPSHOT_S), current_filename);
             }
             break;
-        case SNAPSHOT_READ_uint8_t_ARRAY_ERROR:
+        case SNAPSHOT_READ_BYTE_ARRAY_ERROR:
             if (current_module) {
                 ui_error(translate_text(IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S), current_module, current_filename);
             } else {

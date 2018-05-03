@@ -35,9 +35,9 @@
 
 #define SNAPSHOT_NO_ERROR                         0
 #define SNAPSHOT_WRITE_EOF_ERROR                  1
-#define SNAPSHOT_WRITE_uint8_t_ARRAY_ERROR           2
+#define SNAPSHOT_WRITE_BYTE_ARRAY_ERROR           2
 #define SNAPSHOT_READ_EOF_ERROR                   3
-#define SNAPSHOT_READ_uint8_t_ARRAY_ERROR            4
+#define SNAPSHOT_READ_BYTE_ARRAY_ERROR            4
 #define SNAPSHOT_ILLEGAL_STRING_LENGTH_ERROR      5
 #define SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR         6
 #define SNAPSHOT_ILLEGAL_OFFSET_ERROR             7
