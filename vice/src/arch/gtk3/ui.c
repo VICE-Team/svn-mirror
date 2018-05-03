@@ -320,6 +320,9 @@ static gboolean on_drag_drop(
  * \param[in]   data        dragged data
  * \param[in]   info        int declared in the targets array (unclear)
  * \param[in]   time        no idea
+ *
+ * \todo    Once this works properly, remove a lot of debugging calls, perhaps
+ *          changing a few into log calls.
  */
 static void on_drag_data_received(
         GtkWidget *widget,
@@ -341,6 +344,10 @@ static void on_drag_data_received(
     switch (info) {
 
         case DT_URI_LIST:
+            /*
+             * This branch appears to be only taken on Windows, according to
+             * my limited testing of this code.
+             */
 
             /* got possible list of URI's */
             uris = gtk_selection_data_get_uris(data);
@@ -373,12 +380,19 @@ static void on_drag_data_received(
             break;
 
         case DT_TEXT:
-#if 0
-            filename = g_filename_from_uri((const gchar *)data, NULL, NULL);
-#endif
-            /* text will contain a newline separated list of 'file://' URIs */
-            text = gtk_selection_data_get_text(data);
+            /*
+             * this branch appears to be taken on both Gtk and Qt based WM's
+             * on Linux
+             */
 
+
+            /* text will contain a newline separated list of 'file://' URIs,
+             * and a trailing newline */
+            text = gtk_selection_data_get_text(data);
+            /* remove trailing whitespace */
+            g_strchomp((gchar *)text);
+
+            debug_gtk3("Got data as text: '%s'\n", text);
             files = g_strsplit((const gchar *)text, "\n", -1);
             g_free(text);
 
@@ -400,43 +414,16 @@ static void on_drag_data_received(
             break;
     }
 
+    /* can we attempt autostart? */
     if (filename != NULL) {
         debug_gtk3("Attempting to autostart ' %s'\n", filename);
-        autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN);
+        if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
+            debug_gtk3("failed\n");
+        } else {
+            debug_gtk3("OK!\n");
+        }
         g_free(filename);
     }
-    return;
-#if 0
-    /* old code used in Linux, probably not required anymore */
-    if (strlen((const char *)s) > 8
-            && strncmp((const char *)s, "file:///", 7) == 0) {
-        /* possible file */
-        debug_gtk3("got possible file: '%s'\n", (const char *)(s + 7));
-
-        /* un-espace URI */
-        non_uri = g_uri_unescape_string((const char *)(s + 7), NULL);
-        debug_gtk3("de-URI'd = '%s'\n", non_uri);
-
-        /* strip newline chars */
-        pathname = lib_stralloc(non_uri);
-        lib_free(non_uri);
-        len = strlen(pathname);
-        while (--len > 0) {
-            if (pathname[len] == '\r' || pathname[len] == '\n') {
-                pathname[len] = '\0';
-            }
-        }
-
-        /* try autostarting */
-        if (autostart_autodetect(pathname, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
-            debug_gtk3("autostart failed\n");
-        }
-        lib_free(pathname);
-    }
-
-    g_free(s);
-#endif
-
 }
 
 
