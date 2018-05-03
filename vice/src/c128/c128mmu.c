@@ -270,7 +270,7 @@ void mmu_store(uint16_t address, uint8_t value)
 {
     vicii_handle_pending_alarms_external_write();
 
-    address &= 0xf;
+    address &= 0xff;
 
 #ifdef MMU_DEBUG
     log_message(mmu_log, "MMU STORE $%x <- #$%x.", address, value);
