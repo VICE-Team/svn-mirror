@@ -230,19 +230,27 @@ static const cmdline_option_t cmdline_options_common[] = {
     CMDLINE_LIST_END
 };
 
+
+/** \brief  Drag-n-drop 'target' types
+ */
 enum {
-    DT_TEXT,
-    DT_URI_LIST
+    DT_TEXT,        /**< simple text (text/plain) */
+    DT_URI,         /**< haven't seen this one get triggered (yet) */
+    DT_URI_LIST     /**< used by Windows Explorer */
 };
+
 
 /** \brief  List of drag targets for the drag-n-drop event handler
  *
- * Doesn't appear to do much. Needs research
+ * It would appear different OS'es/WM's pass dropped files using various
+ * mime-types.
  */
 static GtkTargetEntry drag_targets[] = {
-    { "STRING",         0, DT_TEXT },
-    { "text/plain",     0, DT_TEXT },
-    { "text/uri-list",  0, DT_URI_LIST }
+    { "text/plain",     0, DT_TEXT },   /* we get this on at least my Linux
+                                           box with Mate */
+    { "text/uri",       0, DT_URI },
+    { "text/uri-list",  0, DT_URI_LIST }    /* we get this using Winblows
+                                               explorer */
 };
 
 
@@ -323,23 +331,30 @@ static void on_drag_data_received(
         guint time)
 {
     gchar **uris;
+    gchar *filename = NULL;
+    gchar **files = NULL;
+    guchar *text = NULL;
     int i;
 
-    debug_gtk3("got drag-data, info = %u\n", info);
-    if (info == DT_URI_LIST) {
-        /* got possible list of URI's */
-        uris = gtk_selection_data_get_uris(data);
-        if (uris != NULL) {
-            /* dump URI's on stdout */
-            debug_gtk3("got URI's:\n");
-            for (i = 0; uris[i] != NULL; i++) {
-                gchar *filename;
+    debug_gtk3("got drag-data, info = %u:\n", info);
 
-                debug_gtk3("URI: '%s'\n", uris[i]);
-                filename = g_filename_from_uri(uris[i], NULL, NULL);
-                debug_gtk3("filename: '%s'\n", filename);
-                if (filename != NULL) {
-                    g_free(filename);
+    switch (info) {
+
+        case DT_URI_LIST:
+
+            /* got possible list of URI's */
+            uris = gtk_selection_data_get_uris(data);
+            if (uris != NULL) {
+                /* dump URI's on stdout */
+                debug_gtk3("got URI's:\n");
+                for (i = 0; uris[i] != NULL; i++) {
+
+                    debug_gtk3("URI: '%s'\n", uris[i]);
+                    filename = g_filename_from_uri(uris[i], NULL, NULL);
+                    debug_gtk3("filename: '%s'\n", filename);
+                    if (filename != NULL) {
+                        g_free(filename);
+                    }
                 }
 
                 /* use the first/only entry as the autostart file
@@ -349,19 +364,46 @@ static void on_drag_data_received(
                  */
                 if (uris[0] != NULL) {
                     filename = g_filename_from_uri(uris[0], NULL, NULL);
-                    if (filename != NULL) {
-                        debug_gtk3("Attempting to autostart ' %s'\n",
-                                filename);
-                        autostart_autodetect(filename, NULL, 0,
-                                AUTOSTART_MODE_RUN);
-                        g_free(filename);
-                    }
+                } else {
+                    filename = NULL;
                 }
+
+                g_strfreev(uris);
             }
+            break;
 
+        case DT_TEXT:
+#if 0
+            filename = g_filename_from_uri((const gchar *)data, NULL, NULL);
+#endif
+            /* text will contain a newline separated list of 'file://' URIs */
+            text = gtk_selection_data_get_text(data);
 
-            g_strfreev(uris);
-        }
+            files = g_strsplit((const gchar *)text, "\n", -1);
+            g_free(text);
+
+            for (i = 0; files[i] != NULL; i++) {
+                gchar *tmp = g_filename_from_uri(files[i], NULL, NULL);
+                debug_gtk3("URI: '%s', filename: '%s'\n",
+                        files[i], tmp);
+            }
+            /* now grab the first file */
+            filename = g_filename_from_uri(files[0], NULL, NULL);
+            g_strfreev(files);
+
+            debug_gtk3("got filename '%s'\n", filename);
+            break;
+
+        default:
+            debug_gtk3("Warning: unhandled dnd target %u\n", info);
+            filename = NULL;
+            break;
+    }
+
+    if (filename != NULL) {
+        debug_gtk3("Attempting to autostart ' %s'\n", filename);
+        autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN);
+        g_free(filename);
     }
     return;
 #if 0
@@ -886,6 +928,8 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     GtkWidget *crt_controls;
 
+    int dnd_action = 0;
+
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
@@ -943,12 +987,19 @@ void ui_create_main_window(video_canvas_t *canvas)
     /*
      * Set up drag-n-drop handling for files
      */
-    gtk_drag_dest_set(new_window, GTK_DEST_DEFAULT_ALL,
-            drag_targets, 3,
-#if 0
-            GDK_ACTION_COPY|GDK_ACTION_MOVE|GDK_ACTION_LINK);
+
+#if 1
+    dnd_action = GDK_ACTION_COPY;
+#else
+    dnd_action = 0;
 #endif
-    	0);
+
+    gtk_drag_dest_set(
+            new_window,
+            GTK_DEST_DEFAULT_ALL,
+            drag_targets,
+            (int)(sizeof drag_targets / sizeof drag_targets[0]),
+            dnd_action);
     g_signal_connect(new_window, "drag-data-received",
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(new_window, "drag-drop",
