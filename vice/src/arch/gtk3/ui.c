@@ -230,15 +230,19 @@ static const cmdline_option_t cmdline_options_common[] = {
     CMDLINE_LIST_END
 };
 
+enum {
+    DT_TEXT,
+    DT_URI_LIST
+};
 
 /** \brief  List of drag targets for the drag-n-drop event handler
  *
  * Doesn't appear to do much. Needs research
  */
 static GtkTargetEntry drag_targets[] = {
-    { "STRING", 0, 0 },
-    { "text/plain", 0, 0 },
-    { "text/uri", 0, 1 }
+    { "STRING",         0, DT_TEXT },
+    { "text/plain",     0, DT_TEXT },
+    { "text/uri-list",  0, DT_URI_LIST }
 };
 
 
@@ -279,6 +283,11 @@ static GtkWidget *(*create_controls_widget_func)(int) = NULL;
  *****************************************************************************/
 
 
+/** \brief  Handler for the 'drag-drop' event of the GtkWindow(s)
+ *
+ * Can be used to filter certain drop targets or altering the data before
+ * triggering the 'drag-drop-received' event. Currently just returns TRUE
+ */ 
 static gboolean on_drag_drop(
         GtkWidget *widget,
         GdkDragContext *context,
@@ -313,14 +322,50 @@ static void on_drag_data_received(
         guint info,
         guint time)
 {
-    guchar *s;
-    char *non_uri;
-    char *pathname;
-    size_t len;
+    gchar **uris;
+    int i;
 
     debug_gtk3("got drag-data, info = %u\n", info);
-    s = gtk_selection_data_get_text(data);
-    debug_gtk3("selection-data = '%s'\n", (char *)s);
+    if (info == DT_URI_LIST) {
+        /* got possible list of URI's */
+        uris = gtk_selection_data_get_uris(data);
+        if (uris != NULL) {
+            /* dump URI's on stdout */
+            debug_gtk3("got URI's:\n");
+            for (i = 0; uris[i] != NULL; i++) {
+                gchar *filename;
+
+                debug_gtk3("URI: '%s'\n", uris[i]);
+                filename = g_filename_from_uri(uris[i], NULL, NULL);
+                debug_gtk3("filename: '%s'\n", filename);
+                if (filename != NULL) {
+                    g_free(filename);
+                }
+
+                /* use the first/only entry as the autostart file
+                 *
+                 * XXX: perhaps add any additional files to the fliplist
+                 *      if Dxx?
+                 */
+                if (uris[0] != NULL) {
+                    filename = g_filename_from_uri(uris[0], NULL, NULL);
+                    if (filename != NULL) {
+                        debug_gtk3("Attempting to autostart ' %s'\n",
+                                filename);
+                        autostart_autodetect(filename, NULL, 0,
+                                AUTOSTART_MODE_RUN);
+                        g_free(filename);
+                    }
+                }
+            }
+
+
+            g_strfreev(uris);
+        }
+    }
+    return;
+#if 0
+    /* old code used in Linux, probably not required anymore */
     if (strlen((const char *)s) > 8
             && strncmp((const char *)s, "file:///", 7) == 0) {
         /* possible file */
@@ -348,6 +393,7 @@ static void on_drag_data_received(
     }
 
     g_free(s);
+#endif
 
 }
 
@@ -899,12 +945,14 @@ void ui_create_main_window(video_canvas_t *canvas)
      */
     gtk_drag_dest_set(new_window, GTK_DEST_DEFAULT_ALL,
             drag_targets, 3,
+#if 0
             GDK_ACTION_COPY|GDK_ACTION_MOVE|GDK_ACTION_LINK);
+#endif
+    	0);
     g_signal_connect(new_window, "drag-data-received",
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(new_window, "drag-drop",
                      G_CALLBACK(on_drag_drop), NULL);
-
     if (ui_resources.start_minimized) {
         gtk_window_iconify(GTK_WINDOW(new_window));
     }
