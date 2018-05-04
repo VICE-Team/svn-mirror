@@ -107,6 +107,8 @@ typedef struct ui_resources_s {
 static ui_resource_t ui_resources;
 
 
+static int native_monitor_enabled = 0;
+
 
 /* Forward declarations of static functions */
 
@@ -118,6 +120,7 @@ static int set_window_width(int val, void *param);
 static int set_window_xpos(int val, void *param);
 static int set_window_ypos(int val, void *param);
 static int set_start_minimized(int val, void *param);
+static int set_native_monitor(int val, void *param);
 
 
 /*****************************************************************************
@@ -131,6 +134,13 @@ static const resource_string_t resources_string[] = {
     { "HTMLBrowserCommand", HTML_BROWSER_COMMAND_DEFAULT, RES_EVENT_NO, NULL,
         &ui_resources.html_browser_command, set_html_browser_command, NULL },
     RESOURCE_STRING_LIST_END
+};
+
+
+static const resource_int_t resources_int_shared[] = {
+    { "NativeMonitor", 1, RES_EVENT_NO, NULL,
+        &native_monitor_enabled, set_native_monitor, NULL },
+    RESOURCE_INT_LIST_END
 };
 
 
@@ -226,6 +236,18 @@ static const cmdline_option_t cmdline_options_common[] = {
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
         NULL, N_("Do not start minimized") },
+
+    { "-native-monitor", SET_RESOURCE, 0,
+        NULL, NULL, "NativeMonitor", (void *)1,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Use native Gtk3 monitor") },
+    { "+native-monitor", SET_RESOURCE, 0,
+        NULL, NULL, "NativeMonitor", (void *)0,
+        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+        IDCLS_UNUSED, IDCLS_UNUSED,
+        NULL, N_("Do not use Gtk3 native monitor") },
+
 
     CMDLINE_LIST_END
 };
@@ -760,6 +782,20 @@ static int set_confirm_on_exit(int val, void *param)
 }
 
 
+/** \brief  Set NativeMonitor resource (bool)
+ *
+ * \param[in]   val     new value
+ * \param[in]   param   extra param (ignored)
+ *
+ * \return 0
+ */
+static int set_native_monitor(int val, void *param)
+{
+    native_monitor_enabled = val ? 1 : 0;
+    return 0;
+}
+
+
 /** \brief  Set Window[X]Width resource (int)
  *
  * \param[in]   val     width in pixels
@@ -1154,6 +1190,12 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 int ui_resources_init(void)
 {
     int i;
+
+    /* initialize command int/bool resources */
+    if (resources_register_int(resources_int_shared) != 0) {
+        return -1;
+    }
+
     /* initialize string resources */
     if (resources_register_string(resources_string) < 0) {
         return -1;

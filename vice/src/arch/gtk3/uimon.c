@@ -32,6 +32,7 @@
 #include "not_implemented.h"
 
 #include "console.h"
+#include "debug_gtk3.h"
 #include "monitor.h"
 #include "kbd.h"
 #include "resources.h"
@@ -97,9 +98,18 @@ console_t *uimon_window_resume(void)
 void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
 {
     int v;
-#ifdef HAVE_DEBUG_GTK3UI
-    g_print("[debug-gtk3ui] %s(): called\n", __func__);
-#endif
+    int native = 0;
+
+    /*
+     * Determine if we use the spawing terminal or the (yet to write) Gtk3
+     * base monitor
+     */
+    if (resources_get_int("NativeMonitor", &native) < 0) {
+        debug_gtk3("failed to get value of resource 'NativeMonitor'\n");
+    }
+    debug_gtk3("called, native monitor = %s (completely ignored for now)\n",
+            native ? "true" : "false");
+
     resources_get_int("MonitorServer", &v);
 
     if (v == 0) {
