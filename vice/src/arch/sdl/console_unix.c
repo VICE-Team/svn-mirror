@@ -39,6 +39,7 @@
 #include <string.h>
 
 #include "lib.h"
+#include "charset.h"
 
 static FILE *mon_input, *mon_output;
 
@@ -73,11 +74,26 @@ int console_close(console_t *log)
 int console_out(console_t *log, const char *format, ...)
 {
     va_list ap;
+    char *buf;
+    unsigned char c;
+    int i;
 
     va_start(ap, format);
-    vfprintf(stdout, format, ap);
+    buf = lib_mvsprintf(format, ap);
     va_end(ap);
 
+    if (buf) {
+        for (i = 0; (c = buf[i]) != 0; i++) {
+            if (c == '\t') {
+                buf[i] = ' ';
+            } else if (((c < 32) || (c > 126)) && (c != '\n')) {
+                    buf[i] = charset_p_toascii(c, 1);
+            }
+        }
+
+        fprintf(stdout, "%s", buf);
+        lib_free(buf);
+    }
     return 0;
 }
 
