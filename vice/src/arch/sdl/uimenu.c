@@ -73,11 +73,22 @@ static ui_menu_entry_t *main_menu = NULL;
 
 static uint16_t sdl_default_translation[256];
 
+/** \brief  Reference to draw buffer backup
+ *
+ * Used to properly clean up when 'Quit emu' is triggered
+ */
 static uint8_t *draw_buffer_backup = NULL;
+
+/** \brief  Reference to menu offsets allocated in sdl_ui_menu_get_offsets()
+ *
+ * Used to properly clean up when 'Quit emu' is triggered
+ */
+static int *menu_offsets = NULL;
+
 
 static menufont_t menufont = { NULL, sdl_default_translation, 0, 0 };
 
-static menu_draw_t menu_draw = { 
+static menu_draw_t menu_draw = {
     0, 0,   /* pitch, offset */
     40, 25, /* max_text_x, max_text_y */
     0, 0,   /* extra_x, extra_y */
@@ -177,9 +188,8 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
 {
     int i, j, len, max_len;
     ui_menu_entry_type_t block_type;
-    int *offsets = NULL;
 
-    offsets = lib_malloc(num_items * sizeof(int));
+    menu_offsets = lib_malloc(num_items * sizeof(int));
 
     for (i = 0; i < num_items; ++i) {
         block_type = menu[i].type;
@@ -188,7 +198,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
             case MENU_ENTRY_SUBMENU:
             case MENU_ENTRY_DYNAMIC_SUBMENU:
             case MENU_ENTRY_TEXT:
-                offsets[i] = 1;
+                menu_offsets[i] = 1;
                 break;
             default:
                 max_len = 0;
@@ -196,7 +206,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
 
                 while ((j < num_items) && (menu[j].type == block_type)) {
                     len = strlen(menu[j].string);
-                    offsets[j] = len;
+                    menu_offsets[j] = len;
                     if (len > max_len) {
                         max_len = len;
                     }
@@ -204,7 +214,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
                 }
 
                 while (i < j) {
-                    offsets[i] = max_len + 2;
+                    menu_offsets[i] = max_len + 2;
                     ++i;
                 }
                 --i;
@@ -212,7 +222,7 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
         }
     }
 
-    return offsets;
+    return menu_offsets;
 }
 
 int sdl_ui_set_cursor_colors(void)
@@ -337,7 +347,7 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
     if (!iscursor && istoggle) {
         sdl_ui_set_default_colors();
     }
-    
+
     /* print a space after the item if first char in itemdata is NOT the "arrow" */
     if ((itemdata != NULL) && (itemdata[0] != 0) && ((itemdata[0] & 0xff) != 0xa7)) {
         if ((n = sdl_ui_print(" ", MENU_FIRST_X + i, y_pos + MENU_FIRST_Y)) < 0) {
@@ -353,7 +363,7 @@ static int sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offse
         }
         i += n;
     }
-    
+
 dispitemexit:
     if (iscursor) {
         sdl_ui_print_eol(MENU_FIRST_X + i, y_pos + MENU_FIRST_Y);
@@ -505,6 +515,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
     }
 
     lib_free(value_offsets);
+    menu_offsets = NULL;
     return menu_retval;
 }
 
@@ -572,6 +583,7 @@ static void sdl_ui_trap(uint16_t addr, void *data)
     sdl_ui_activate_post_action();
 
     lib_free(draw_buffer_backup);
+    draw_buffer_backup = NULL;
 }
 
 /* ------------------------------------------------------------------ */
@@ -1508,5 +1520,18 @@ void sdl_ui_set_menu_font(uint8_t *font, int w, int h)
 
     for (i = 0; i < 256; ++i) {
         menufont.translate[i] = h * sdl_char_to_screen[i];
+    }
+}
+
+
+/** \brief  Free resources
+ */
+void sdl_ui_menu_shutdown(void)
+{
+    if (draw_buffer_backup != NULL) {
+        lib_free(draw_buffer_backup);
+    }
+    if (menu_offsets != NULL) {
+        lib_free(menu_offsets);
     }
 }

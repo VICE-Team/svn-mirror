@@ -179,5 +179,6 @@ extern int sdl_ui_set_tickmark_colors(int state);
 extern int sdl_ui_reset_tickmark_colors(uint8_t color);
 extern int sdl_ui_set_toggle_colors(int state);
 extern int sdl_ui_set_default_colors(void);
+extern void sdl_ui_menu_shutdown(void);
 
 #endif

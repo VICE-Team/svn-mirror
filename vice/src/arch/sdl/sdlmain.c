@@ -32,6 +32,7 @@
 #include "log.h"
 #include "machine.h"
 #include "main.h"
+#include "uimenu.h"
 
 #include "vice_sdl.h"
 
@@ -43,6 +44,12 @@ int main(int argc, char **argv)
 void main_exit(void)
 {
     log_message(LOG_DEFAULT, "\nExiting...");
+
+    /*
+     * Clean up dangling resources due to the 'Quit emu' callback not returning
+     * to the calling menu code.
+     */
+    sdl_ui_menu_shutdown();
 
     machine_shutdown();
 
