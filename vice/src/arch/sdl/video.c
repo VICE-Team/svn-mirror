@@ -481,6 +481,11 @@ void video_arch_resources_shutdown(void)
 #if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
     lib_free(aspect_ratio_s);
 #endif
+
+
+#ifdef USE_SDLUI2
+    lib_free(sdl2_renderer_name);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
