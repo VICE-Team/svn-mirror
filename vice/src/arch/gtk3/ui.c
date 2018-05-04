@@ -416,7 +416,7 @@ static void on_drag_data_received(
 
     /* can we attempt autostart? */
     if (filename != NULL) {
-        debug_gtk3("Attempting to autostart ' %s'\n", filename);
+        debug_gtk3("Attempting to autostart '%s'\n", filename);
         if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
             debug_gtk3("failed\n");
         } else {
