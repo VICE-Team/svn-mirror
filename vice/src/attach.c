@@ -555,6 +555,9 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     image = *imgptr;
 
     memcpy(image, &new_image, sizeof(disk_image_t));
+    /* free the P64 stuff, fixes the leak in src/attach.c, reported when
+     * using --enable-debug */
+    lib_free(new_image.p64);
 
     switch (unit) {
         case 8:

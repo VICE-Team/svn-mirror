@@ -465,7 +465,9 @@ const char *disk_image_name_get(const disk_image_t *image)
 
 disk_image_t *disk_image_create(void)
 {
-    return (disk_image_t *)lib_malloc(sizeof(disk_image_t));
+    disk_image_t *image = lib_malloc(sizeof *image);
+    image->p64 = NULL;
+    return image;
 }
 
 void disk_image_destroy(disk_image_t *image)
