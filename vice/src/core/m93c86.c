@@ -257,6 +257,20 @@ void m93c86_write_clock(uint8_t value)
                             command = 0;
                             LOG(("CMD: write enable"));
                             break;
+                        case CMDERASE:
+                            if (write_enable_status == 0) {
+                                log_error(LOG_DEFAULT, "EEPROM: write not permitted for CMD 'erase all'");
+                                reset_input_shiftreg();
+                                command = 0;
+                            } else {
+                                addr = ((input_shiftreg >> 0) & 0x3ff);
+                                ready_busy_status = STATUSBUSY;
+                                reset_input_shiftreg();
+                                m93c86_data[(addr << 1)] = 0xff;
+                                m93c86_data[(addr << 1) + 1] = 0xff;
+                                LOG(("CMD: erase addr %04x", addr));
+                            }
+                            break;
                         case CMDERAL:
                             if (write_enable_status == 0) {
                                 log_error(LOG_DEFAULT, "EEPROM: write not permitted for CMD 'erase all'");
