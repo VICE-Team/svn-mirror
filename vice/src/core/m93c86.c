@@ -259,7 +259,7 @@ void m93c86_write_clock(uint8_t value)
                             break;
                         case CMDERASE:
                             if (write_enable_status == 0) {
-                                log_error(LOG_DEFAULT, "EEPROM: write not permitted for CMD 'erase all'");
+                                log_error(LOG_DEFAULT, "EEPROM: write not permitted for CMD 'erase'");
                                 reset_input_shiftreg();
                                 command = 0;
                             } else {
