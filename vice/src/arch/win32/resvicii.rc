@@ -276,7 +276,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VICII_CAPTION       "VIC-II instellingen"
+    IDS_VICII_CAPTION       "VIC-II-instellingen"
     IDS_VICII_BORDERSGROUP  "Bordermodus"
     IDS_VICII_NORMALBORDERS "Normale borders"
     IDS_VICII_FULLBORDERS   "Volledige borders"
@@ -285,7 +285,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Botsingen"
     IDS_VICII_SPRITECOLL    "Sprite-sprite botsingen"
     IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
-    IDS_VICII_MODEL         "VIC-II model"
+    IDS_VICII_MODEL         "VIC-II-model"
     IDS_VICII_VSP_BUG       "VSP bug"
     IDS_GLUE_LOGIC          "Glue logic"
     IDS_DISCRETE            "Discreet"

@@ -239,12 +239,12 @@ BEGIN
     IDS_AUTOSTART_LOAD_TO_BASIC                 "Laad naar BASIC start"
     IDS_AUTOSTART_RANDOM_DELAY                  "Willekeurige vertraging"
     IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION   "Afhandelen van de hardwarematige driveemulatie"
-    IDS_AUTOSTART_PRG_MODE                      "PRG autostart modus"
-    IDS_AUTOSTART_PRG_DISK_IMAGE                "PRG autostart disk bestand"
+    IDS_AUTOSTART_PRG_MODE                      "PRG-autostartmodus"
+    IDS_AUTOSTART_PRG_DISK_IMAGE                "PRG-autostartdiskbestand"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE    "Selecteer bestand voor PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                    "Virtueel Bestandssysteem"
+    IDS_AUTOSTART_VIRTUAL_FS                    "Virtueel bestandssysteem"
     IDS_AUTOSTART_INJECT                        "Injecteer in RAM"
-    IDS_AUTOSTART_DISK                          "Disk bestand"
+    IDS_AUTOSTART_DISK                          "Diskbestand"
     IDS_AUTOSTART_DELAY                         "Vertraging van de autostart"
 END
 

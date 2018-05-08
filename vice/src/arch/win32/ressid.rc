@@ -326,7 +326,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_GENERAL                 "Algemeen"
-  IDS_SID_SETTINGS            "SID instellingen"
+  IDS_SID_SETTINGS            "SID-instellingen"
   IDS_FAST                    "Snel"
   IDS_INTERPOLATING           "Interpoleren"
   IDS_RESAMPLING              "Resampling"
