@@ -32,7 +32,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <inttypes.h>
 
 #include "alarm.h"
 #include "archdep.h"

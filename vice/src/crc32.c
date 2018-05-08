@@ -30,7 +30,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <inttypes.h>
 
 #include "archdep.h"
 #include "crc32.h"
