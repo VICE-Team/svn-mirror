@@ -1,15 +1,16 @@
 # Dutch Translation File for VICE
-# Copyright (C) 2005-2016
+# Copyright (C) 2005-2018
 # This file is distributed under the same license as the PACKAGE package.
-# Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2016.
+# Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2018.
+# Bas Wassink <b.wassink@ziggo.nl>, 2016-2018.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.3\n"
+"Project-Id-Version: VICE 3.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-08 11:36-0700\n"
 "PO-Revision-Date: 2017-01-03 00:08+0100\n"
-"Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
+"Last-Translator: Bas Wassink <b.wassink@ziggo.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -442,71 +443,71 @@ msgstr "Reset bij cart-wisseling"
 
 #: src/arch/unix/gui/c128ui.c:436
 msgid "Load new International Kernal ROM"
-msgstr "Laad nieuw internationaal Kernal ROM"
+msgstr "Laad nieuwe internationale Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:439
 msgid "Load new German Kernal ROM"
-msgstr "Laad nieuw Duits Kernal ROM"
+msgstr "Laad nieuwe Duitse Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:442
 msgid "Load new Finnish Kernal ROM"
-msgstr "Laad nieuw Fins Kernal ROM"
+msgstr "Laad nieuwe Finse Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:445
 msgid "Load new French Kernal ROM"
-msgstr "Laad nieuw Frans Kernal ROM"
+msgstr "Laad nieuwe Franse Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:448
 msgid "Load new Italian Kernal ROM"
-msgstr "Laad nieuw Italiaans Kernal ROM"
+msgstr "Laad nieuwe Italiaanse Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:451
 msgid "Load new Norwegian Kernal ROM"
-msgstr "Laad nieuw Noors Kernal ROM"
+msgstr "Laad nieuwe Noorse Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:454
 msgid "Load new Swedish Kernal ROM"
-msgstr "Laad nieuw Zweeds Kernal ROM"
+msgstr "Laad nieuwe Zweedse Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:457
 msgid "Load new Swiss Kernal ROM"
-msgstr "Laad nieuw Zwitsers Kernal ROM"
+msgstr "Laad nieuwe Zwitserse Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:461
 msgid "Load new Basic Lo ROM"
-msgstr "Laad nieuw Basic Lo ROM"
+msgstr "Laad nieuwe Basic Lo ROM"
 
 #: src/arch/unix/gui/c128ui.c:464
 msgid "Load new Basic Hi ROM"
-msgstr "Laad nieuw Basic Hi ROM"
+msgstr "Laad nieuwe Basic Hi ROM"
 
 #: src/arch/unix/gui/c128ui.c:468
 msgid "Load new International character ROM"
-msgstr "Laad nieuw internationaal karakter ROM"
+msgstr "Laad nieuwe internationale karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:471
 msgid "Load new German character ROM"
-msgstr "Laad nieuw Duits karakter ROM"
+msgstr "Laad nieuwe Duitse karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:474
 msgid "Load new French character ROM"
-msgstr "Laad nieuw Frans karakter ROM"
+msgstr "Laad nieuwe Franse karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:477
 msgid "Load new Swedish character ROM"
-msgstr "Laad nieuw Zweeds karakter ROM"
+msgstr "Laad nieuwe Zweedse karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:480
 msgid "Load new Swiss character ROM"
-msgstr "Laad nieuw Zwitsers karakter ROM"
+msgstr "Laad nieuwe Zwitserse karakter ROM"
 
 #: src/arch/unix/gui/c128ui.c:484
 msgid "Load new C64 Kernal ROM"
-msgstr "Laad nieuw C64 Kernal ROM"
+msgstr "Laad nieuwe C64 Kernal ROM"
 
 #: src/arch/unix/gui/c128ui.c:487
 msgid "Load new C64 Basic ROM"
-msgstr "Laad nieuw C64 Basic ROM"
+msgstr "Laad nieuwe C64 Basic ROM"
 
 #: src/arch/unix/gui/c128ui.c:494 src/arch/unix/gui/c64dtvui.c:119
 #: src/arch/unix/gui/c64scui.c:592 src/arch/unix/gui/c64ui.c:643
@@ -521,7 +522,7 @@ msgstr "Laad standaard ROM's"
 #: src/arch/unix/gui/petui.c:345 src/arch/unix/gui/plus4ui.c:226
 #: src/arch/unix/gui/vic20ui.c:225
 msgid "Load new computer ROM"
-msgstr "Laad nieuw computer ROM"
+msgstr "Laad nieuwe computer-ROM"
 
 #: src/arch/unix/gui/c128ui.c:501 src/arch/unix/gui/c64dtvui.c:126
 #: src/arch/unix/gui/c64scui.c:599 src/arch/unix/gui/c64ui.c:650
@@ -529,12 +530,12 @@ msgstr "Laad nieuw computer ROM"
 #: src/arch/unix/gui/petui.c:348 src/arch/unix/gui/plus4ui.c:229
 #: src/arch/unix/gui/vic20ui.c:228
 msgid "Load new drive ROM"
-msgstr "Laad nieuw drive ROM"
+msgstr "Laad nieuwe drive-ROM"
 
 #: src/arch/unix/gui/c128ui.c:504 src/arch/unix/gui/c64scui.c:602
 #: src/arch/unix/gui/c64ui.c:653
 msgid "Load new drive expansion ROM"
-msgstr "Laad nieuw drive uitbreidings ROM"
+msgstr "Laad nieuwe driveuitbreidings-ROM"
 
 #: src/arch/unix/gui/c128ui.c:508 src/arch/unix/gui/c64dtvui.c:130
 #: src/arch/unix/gui/c64scui.c:606 src/arch/unix/gui/c64ui.c:657
@@ -542,7 +543,7 @@ msgstr "Laad nieuw drive uitbreidings ROM"
 #: src/arch/unix/gui/petui.c:383 src/arch/unix/gui/plus4ui.c:233
 #: src/arch/unix/gui/uiromset.c:114 src/arch/unix/gui/vic20ui.c:232
 msgid "ROM set archive"
-msgstr "ROM set archief"
+msgstr "ROM-collectie archief"
 
 #: src/arch/unix/gui/c128ui.c:511 src/arch/unix/gui/c64dtvui.c:133
 #: src/arch/unix/gui/c64scui.c:609 src/arch/unix/gui/c64ui.c:660
@@ -550,15 +551,15 @@ msgstr "ROM set archief"
 #: src/arch/unix/gui/petui.c:386 src/arch/unix/gui/plus4ui.c:236
 #: src/arch/unix/gui/uiromset.c:253 src/arch/unix/gui/vic20ui.c:235
 msgid "ROM set file"
-msgstr "ROM set bestand"
+msgstr "RO-collectie bestand"
 
 #: src/arch/unix/gui/c128ui.c:536
 msgid "VIC II Save media file"
-msgstr "Opslaan VIC II mediabestand"
+msgstr "Sla VIC II-mediabestand op"
 
 #: src/arch/unix/gui/c128ui.c:539
 msgid "VDC Save media file"
-msgstr "Opslaan VDC mediabestand"
+msgstr "Sla VDC-mediabestand op"
 
 #: src/arch/unix/gui/c128ui.c:546
 msgid "Screenshots"
@@ -612,13 +613,12 @@ msgstr "6526 (oud)"
 
 #: src/arch/unix/gui/c128ui.c:630 src/arch/unix/gui/c64scui.c:221
 #: src/arch/unix/gui/c64ui.c:287 src/arch/unix/gui/cbm2ui.c:351
-#, fuzzy
 msgid "8521 (new)"
-msgstr "6526 (nieuw)"
+msgstr "8521 (nieuw)"
 
 #: src/arch/unix/gui/c128ui.c:640 src/arch/win32/resc128.rc.po.c:718
 msgid "C128 model"
-msgstr "C128 model"
+msgstr "C128-model"
 
 #: src/arch/unix/gui/c128ui.c:644 src/arch/win32/resc128.rc.po.c:681
 #: src/arch/amigaos/intl_text.c.po.c:11964
@@ -630,23 +630,23 @@ msgstr "Machinesoort"
 #: src/arch/unix/gui/cbm2ui.c:369 src/arch/win32/resvicii.rc.po.c:90
 #: src/arch/amigaos/intl_text.c.po.c:13266
 msgid "VIC-II model"
-msgstr "VIC-II model"
+msgstr "VIC-II-model"
 
 #: src/arch/unix/gui/c128ui.c:653
 msgid "VDC model"
-msgstr "VDC model"
+msgstr "VDC-model"
 
 #: src/arch/unix/gui/c128ui.c:656 src/arch/unix/gui/c64scui.c:290
 #: src/arch/unix/gui/c64ui.c:344 src/arch/unix/gui/cbm2ui.c:420
 #: src/arch/win32/rescia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:13280
 msgid "CIA 1 model"
-msgstr "CIA 1 model"
+msgstr "CIA 1-model"
 
 #: src/arch/unix/gui/c128ui.c:659 src/arch/unix/gui/c64scui.c:293
 #: src/arch/unix/gui/c64ui.c:347 src/arch/win32/rescia.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:13294
 msgid "CIA 2 model"
-msgstr "CIA 2 model"
+msgstr "CIA 2-model"
 
 #: src/arch/unix/gui/c128ui.c:663 src/translate_text.c.po.c:5893
 msgid "Always switch to C64 mode on reset"
@@ -658,14 +658,14 @@ msgstr "Start altijd op in C64 modus na reset"
 #: src/arch/unix/gui/petui.c:482 src/arch/unix/gui/plus4ui.c:378
 #: src/arch/unix/gui/vic20ui.c:624
 msgid "Model settings"
-msgstr "Model instellingen"
+msgstr "Model-instellingen"
 
 #: src/arch/unix/gui/c128ui.c:675 src/arch/unix/gui/c64dtvui.c:192
 #: src/arch/unix/gui/c64scui.c:646 src/arch/unix/gui/c64ui.c:697
 #: src/arch/unix/gui/cbm2ui.c:488 src/arch/unix/gui/petui.c:485
 #: src/arch/unix/gui/plus4ui.c:381 src/arch/unix/gui/vic20ui.c:627
 msgid "RAM reset pattern"
-msgstr "RAM reset patroon"
+msgstr "RAM-resetpatroon"
 
 #: src/arch/unix/gui/c128ui.c:678 src/arch/unix/gui/c64dtvui.c:195
 #: src/arch/unix/gui/c64scui.c:649 src/arch/unix/gui/c64ui.c:700
@@ -674,7 +674,7 @@ msgstr "RAM reset patroon"
 #: src/arch/unix/gui/vic20ui.c:630 src/arch/win32/res.rc.po.c:1124
 #: src/arch/win32/res.rc.po.c:1658
 msgid "ROM settings"
-msgstr "ROM instellingen"
+msgstr "ROM-instellingen"
 
 #: src/arch/unix/gui/c128ui.c:681 src/arch/unix/gui/c64dtvui.c:198
 #: src/arch/unix/gui/c64scui.c:652 src/arch/unix/gui/c64ui.c:703
@@ -682,12 +682,12 @@ msgstr "ROM instellingen"
 #: src/arch/win32/resvicii.rc.po.c:81 src/arch/amigaos/intl_text.c.po.c:3365
 #: src/arch/amigaos/intl_text.c.po.c:10228
 msgid "VIC-II settings"
-msgstr "VIC-II instellingen"
+msgstr "VIC-II-instellingen"
 
 #: src/arch/unix/gui/c128ui.c:684 src/arch/win32/resc128.rc.po.c:248
 #: src/arch/win32/resc128.rc.po.c:719 src/arch/amigaos/intl_text.c.po.c:1713
 msgid "VDC settings"
-msgstr "VDC instellingen"
+msgstr "VDC-instellingen"
 
 #: src/arch/unix/gui/c128ui.c:687 src/arch/unix/gui/c64dtvui.c:201
 #: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:706
@@ -697,11 +697,11 @@ msgstr "VDC instellingen"
 #: src/arch/amigaos/intl_text.c.po.c:3533
 #: src/arch/amigaos/intl_text.c.po.c:10032
 msgid "SID settings"
-msgstr "SID instellingen"
+msgstr "SID-instellingen"
 
 #: src/arch/unix/gui/c128ui.c:690
 msgid "Memory and I/O extensions"
-msgstr "Geheugen en I/O extenties"
+msgstr "Geheugen- en I/O-uitbreidingen"
 
 #: src/arch/unix/gui/c128ui.c:694 src/arch/unix/gui/c64scui.c:662
 #: src/arch/unix/gui/c64ui.c:713 src/arch/unix/gui/cbm2ui.c:504
@@ -745,7 +745,7 @@ msgstr "Activeer Virtuele Apparaten"
 #: src/arch/unix/gui/cbm2ui.c:766 src/arch/unix/gui/petui.c:674
 #: src/arch/unix/gui/plus4ui.c:553 src/arch/unix/gui/vic20ui.c:807
 msgid "Mouse emulation"
-msgstr "Muis emulatie"
+msgstr "Muisemulatie"
 
 #: src/arch/unix/gui/c128ui.c:870 src/arch/unix/gui/c64dtvui.c:359
 #: src/arch/unix/gui/c64scui.c:838 src/arch/unix/gui/c64ui.c:889
@@ -835,20 +835,20 @@ msgstr "RJHelp"
 #: src/arch/unix/gui/petui.c:274 src/arch/unix/gui/plus4ui.c:194
 #: src/arch/unix/gui/vic20ui.c:208
 msgid "Load new kernal ROM"
-msgstr "Laad nieuw kernal ROM"
+msgstr "Laad nieuwe kernal ROM"
 
 #: src/arch/unix/gui/c64dtvui.c:109 src/arch/unix/gui/c64scui.c:582
 #: src/arch/unix/gui/c64ui.c:633 src/arch/unix/gui/cbm2ui.c:147
 #: src/arch/unix/gui/petui.c:280 src/arch/unix/gui/plus4ui.c:197
 #: src/arch/unix/gui/vic20ui.c:211
 msgid "Load new BASIC ROM"
-msgstr "Laad nieuw BASIC ROM"
+msgstr "Laad nieuwe BASIC ROM"
 
 #: src/arch/unix/gui/c64dtvui.c:112 src/arch/unix/gui/c64scui.c:585
 #: src/arch/unix/gui/c64ui.c:636 src/arch/unix/gui/cbm2ui.c:144
 #: src/arch/unix/gui/petui.c:352 src/arch/unix/gui/vic20ui.c:214
 msgid "Load new character ROM"
-msgstr "Laad nieuw karakter ROM"
+msgstr "Laad nieuwe karakter ROM"
 
 #. pop up and run the dialog
 #: src/arch/unix/gui/c64dtvui.c:158 src/arch/unix/gui/c64scui.c:634
@@ -861,62 +861,62 @@ msgstr "Opslaan mediabestand"
 
 #: src/arch/unix/gui/c64dtvui.c:167
 msgid "DTV model"
-msgstr "DTV model"
+msgstr "DTV-model"
 
 #: src/arch/unix/gui/c64dtvui.c:171 src/arch/amigaos/intl_text.c.po.c:6655
 msgid "DTV revision"
-msgstr "DTV revisie"
+msgstr "DTV-revisie"
 
 #: src/arch/unix/gui/c64dtvui.c:180
 msgid "Luma fix"
-msgstr "Luma correctie"
+msgstr "Lumacorrectie"
 
 #: src/arch/unix/gui/c64dtvui.c:204
 msgid "Flash settings"
-msgstr "Flash instellingen"
+msgstr "Flash-instellingen"
 
 #: src/arch/unix/gui/c64dtvui.c:207 src/arch/unix/gui/c64scui.c:658
 #: src/arch/unix/gui/c64ui.c:709 src/arch/unix/gui/cbm2ui.c:500
 #: src/arch/unix/gui/cbm2ui.c:527 src/arch/unix/gui/petui.c:494
 #: src/arch/unix/gui/plus4ui.c:390 src/arch/unix/gui/vic20ui.c:636
 msgid "I/O extensions"
-msgstr "I/O extensies"
+msgstr "I/O-uitbreidingen"
 
 #: src/arch/unix/gui/c64dtvui.c:403
 msgid "Blitter Log"
-msgstr "Blitter Logboek"
+msgstr "Blitter-logboek"
 
 #: src/arch/unix/gui/c64dtvui.c:406
 msgid "DMA Log"
-msgstr "DMA Logboek"
+msgstr "DMA-logboek"
 
 #: src/arch/unix/gui/c64dtvui.c:409
 msgid "Flash Log"
-msgstr "Flash Logboek"
+msgstr "Flash-logboek"
 
 #: src/arch/unix/gui/c64scui.c:147 src/arch/unix/gui/c64ui.c:201
 #: src/arch/win32/resc64.rc.po.c:539 src/arch/win32/resscpu64.rc.po.c:516
 #: src/arch/amigaos/intl_text.c.po.c:2231
 msgid "C64 old PAL"
-msgstr "C64 oud PAL"
+msgstr "C64 oude PAL"
 
 #: src/arch/unix/gui/c64scui.c:156 src/arch/unix/gui/c64ui.c:210
 #: src/arch/win32/resc64.rc.po.c:542 src/arch/win32/resscpu64.rc.po.c:519
 #: src/arch/amigaos/intl_text.c.po.c:2273
 msgid "C64 old NTSC"
-msgstr "C64 oud NTSC"
+msgstr "C64 oude NTSC"
 
 #: src/arch/unix/gui/c64scui.c:195 src/arch/win32/resc64.rc.po.c:528
 #: src/arch/win32/resscpu64.rc.po.c:530
 #: src/arch/amigaos/intl_text.c.po.c:13140
 msgid "6569R1 (old PAL)"
-msgstr "6569R1 (oud PAL)"
+msgstr "6569R1 (oude PAL)"
 
 #: src/arch/unix/gui/c64scui.c:204 src/arch/win32/resc64.rc.po.c:531
 #: src/arch/win32/resscpu64.rc.po.c:533
 #: src/arch/amigaos/intl_text.c.po.c:13182
 msgid "6567R56A (old NTSC)"
-msgstr "6567R56A (oud NTSC)"
+msgstr "6567R56A (oude NTSC)"
 
 #: src/arch/unix/gui/c64scui.c:233 src/arch/win32/resvicii.rc.po.c:93
 #: src/arch/amigaos/intl_text.c.po.c:13238
@@ -967,7 +967,7 @@ msgstr "anderen"
 #: src/arch/unix/gui/c64scui.c:280 src/arch/unix/gui/c64ui.c:334
 #: src/arch/win32/resc64.rc.po.c:525 src/arch/win32/resscpu64.rc.po.c:513
 msgid "C64 model"
-msgstr "C64 model"
+msgstr "C64-model"
 
 #: src/arch/unix/gui/c64scui.c:296 src/arch/win32/resvicii.rc.po.c:92
 #: src/arch/amigaos/intl_text.c.po.c:13308
@@ -980,7 +980,7 @@ msgstr "Reset gaat naar IEC"
 
 #: src/arch/unix/gui/c64scui.c:302 src/arch/unix/gui/c64ui.c:353
 msgid "Kernal Revision"
-msgstr "Kernal Revisie"
+msgstr "Kernalrevisie"
 
 #: src/arch/unix/gui/c64scui.c:445 src/arch/unix/gui/c64ui.c:496
 msgid "CIA1"
@@ -992,11 +992,11 @@ msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:474
 msgid "C64 Memory Expansions Hack"
-msgstr "C64 Geheugenuitbreidingen hack"
+msgstr "C64 Geheugenuitbreidingenhack"
 
 #: src/arch/unix/gui/c64scui.c:532 src/arch/unix/gui/c64ui.c:583
 msgid "Burst Mode Modification"
-msgstr "Burst Modus Modificatie"
+msgstr "Burst Modus-modificatie"
 
 #: src/arch/unix/gui/c64ui.c:222 src/arch/win32/resc64.rc.po.c:546
 #: src/arch/win32/resscpu64.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:2329
@@ -1010,20 +1010,20 @@ msgstr "MAX Machine"
 
 #: src/arch/unix/gui/c64ui.c:264
 msgid "Old PAL-G"
-msgstr "Oud PAL-G"
+msgstr "Oude PAL-G"
 
 #: src/arch/unix/gui/c64ui.c:270 src/arch/unix/gui/vsidui.c:271
 #: src/arch/amigaos/intl_text.c.po.c:2105
 msgid "Old NTSC-M"
-msgstr "Oud NTSC-M"
+msgstr "Oude NTSC-M"
 
 #: src/arch/unix/gui/c64ui.c:525
 msgid "Memory Expansions Hack"
-msgstr "Geheugenuitbreidingen hack"
+msgstr "Geheugenuitbreidingenhack"
 
 #: src/arch/unix/gui/cbm2ui.c:115 src/arch/unix/gui/cbm2ui.c:129
 msgid "I/O collision handling ($D800-$DFFF)"
-msgstr "I/O conflict afhandeling ($D800-$DFFF)"
+msgstr "I/O-conflictafhandeling ($D800-$DFFF)"
 
 #: src/arch/unix/gui/cbm2ui.c:175
 msgid "Basic 128k, low chars"
@@ -1035,11 +1035,11 @@ msgstr "Basic 256k, kleine letters"
 
 #: src/arch/unix/gui/cbm2ui.c:181
 msgid "Basic 128k, high chars"
-msgstr "Basic 128k, hoofdletters"
+msgstr "Basic 128k, grote letters"
 
 #: src/arch/unix/gui/cbm2ui.c:184
 msgid "Basic 256k, high chars"
-msgstr "Basic 256k, hoofdletters"
+msgstr "Basic 256k, grote letters"
 
 #: src/arch/unix/gui/cbm2ui.c:334 src/arch/amigaos/intl_text.c.po.c:11726
 msgid "Graphics"
@@ -1051,7 +1051,7 @@ msgstr "Zakelijk (UK)"
 
 #: src/arch/unix/gui/cbm2ui.c:365 src/arch/unix/gui/cbm2ui.c:413
 msgid "Model defaults"
-msgstr "Model standaard instellingen"
+msgstr "Modelstandaardinstellingen"
 
 #: src/arch/unix/gui/cbm2ui.c:375
 msgid "CIA model"
@@ -1100,18 +1100,18 @@ msgstr "Bank 15 $C000-$CFFF RAM"
 #: src/arch/unix/gui/cbm2ui.c:405 src/arch/unix/gui/cbm2ui.c:450
 #: src/arch/unix/gui/petui.c:436
 msgid "Keyboard type"
-msgstr "Toetsenbord type"
+msgstr "Toetsenbordtype"
 
 #: src/arch/unix/gui/cbm2ui.c:494 src/arch/unix/gui/petui.c:491
 msgid "CRTC settings"
-msgstr "CRTC instellingen"
+msgstr "CRTC-instellingen"
 
 #: src/arch/unix/gui/cbm2ui.c:515 src/arch/unix/gui/plus4ui.c:369
 #: src/arch/win32/res.rc.po.c:1407 src/arch/win32/res.rc.po.c:1659
 #: src/arch/win32/respet.rc.po.c:493 src/arch/amigaos/intl_text.c.po.c:3589
 #: src/arch/amigaos/intl_text.c.po.c:8954
 msgid "RAM settings"
-msgstr "RAM instellingen"
+msgstr "RAM-instellingen"
 
 #: src/arch/unix/gui/petui.c:141 src/arch/unix/gui/plus4ui.c:152
 #: src/arch/unix/gui/plus4ui.c:161 src/arch/unix/gui/plus4ui.c:168
@@ -1135,19 +1135,19 @@ msgstr "Activeer"
 #: src/arch/unix/gui/vic20ui.c:192 src/arch/win32/ressidcart.rc.po.c:139
 #: src/arch/amigaos/intl_text.c.po.c:11026
 msgid "SID address"
-msgstr "SID adres"
+msgstr "SID-adres"
 
 #. Translators: "SID clock" as in "CPU Frequency"
 #: src/arch/unix/gui/petui.c:155 src/arch/unix/gui/plus4ui.c:182
 #: src/arch/unix/gui/vic20ui.c:196 src/arch/win32/ressidcart.rc.po.c:140
 #: src/arch/amigaos/intl_text.c.po.c:11040
 msgid "SID clock"
-msgstr "SID klok"
+msgstr "SID clock"
 
 #: src/arch/unix/gui/petui.c:159 src/arch/unix/gui/plus4ui.c:186
 #: src/arch/unix/gui/vic20ui.c:200
 msgid "ReSID sampling method"
-msgstr "ReSID samplingmethode"
+msgstr "ReSID-samplingmethode"
 
 #: src/arch/unix/gui/petui.c:199 src/arch/win32/respet.rc.po.c:483
 #: src/arch/amigaos/intl_text.c.po.c:11656
@@ -1166,7 +1166,7 @@ msgstr "80 Kolommen"
 
 #: src/arch/unix/gui/petui.c:277
 msgid "Load new editor ROM"
-msgstr "Laad nieuw editor ROM"
+msgstr "Laad nieuwe editor-ROM"
 
 #: src/arch/unix/gui/petui.c:287
 msgid "PET RAM and Expansion Unit"
@@ -1187,7 +1187,7 @@ msgstr "PET HRE hi-res graphics"
 #: src/arch/unix/gui/petui.c:299 src/arch/unix/gui/plus4ui.c:325
 #: src/arch/unix/gui/vic20ui.c:565 src/arch/amigaos/intl_text.c.po.c:10970
 msgid "SID cartridge"
-msgstr "SID cartridge"
+msgstr "SID-cartridge"
 
 #: src/arch/unix/gui/petui.c:308
 msgid "PET userport diagnostic pin"
@@ -1195,7 +1195,7 @@ msgstr "PET userport diagnostic pin"
 
 #: src/arch/unix/gui/petui.c:312
 msgid "I/O collision handling ($8800-$8FFF / $E900-$EEFF)"
-msgstr "I/O conflict afhandeling ($8800-$8FFF / $E900-$EEFF)"
+msgstr "I/O-conflictafhandeling ($8800-$8FFF / $E900-$EEFF)"
 
 #: src/arch/unix/gui/petui.c:319
 msgid "Basic 1"
@@ -1239,47 +1239,47 @@ msgstr "Duitse karakterset"
 
 #: src/arch/unix/gui/petui.c:362
 msgid "Load new $9*** ROM"
-msgstr "Laad nieuw $9*** ROM"
+msgstr "Laad nieuwe $9***-ROM"
 
 #: src/arch/unix/gui/petui.c:365
 msgid "Unload $9*** ROM"
-msgstr "Verwijder $9*** ROM"
+msgstr "Verwijder $9***-ROM"
 
 #: src/arch/unix/gui/petui.c:369 src/arch/unix/gui/petui.c:409
 msgid "Load new $A*** ROM"
-msgstr "Laad nieuw $A*** ROM"
+msgstr "Laad nieuwe $A***-ROM"
 
 #: src/arch/unix/gui/petui.c:372
 msgid "Unload $A*** ROM"
-msgstr "Verwijder $A*** ROM"
+msgstr "Verwijder $A***-ROM"
 
 #: src/arch/unix/gui/petui.c:376 src/arch/unix/gui/petui.c:412
 msgid "Load new $B*** ROM"
-msgstr "Laad nieuw $B*** ROM"
+msgstr "Laad nieuwe $B***-ROM"
 
 #: src/arch/unix/gui/petui.c:379
 msgid "Unload $B*** ROM"
-msgstr "Verwijder $B*** ROM"
+msgstr "Verwijder $B***-ROM"
 
 #: src/arch/unix/gui/petui.c:415
 msgid "Load new $C*** ROM"
-msgstr "Laad nieuw $C*** ROM"
+msgstr "Laad nieuwe $C***-ROM"
 
 #: src/arch/unix/gui/petui.c:418
 msgid "Load new $D*** ROM"
-msgstr "Laad nieuw $D*** ROM"
+msgstr "Laad nieuwe $D***-ROM"
 
 #: src/arch/unix/gui/petui.c:421
 msgid "Load new $E*** ROM"
-msgstr "Laad nieuw $E*** ROM"
+msgstr "Laad nieuwe $E***-ROM"
 
 #: src/arch/unix/gui/petui.c:424
 msgid "Load new $F*** ROM"
-msgstr "Laad nieuw $F*** ROM"
+msgstr "Laad nieuwe $F***-ROM"
 
 #: src/arch/unix/gui/petui.c:431 src/arch/win32/respet.rc.po.c:496
 msgid "PET model"
-msgstr "PET model"
+msgstr "PET-model"
 
 #: src/arch/unix/gui/petui.c:439 src/arch/amigaos/intl_text.c.po.c:11782
 msgid "Video size"
@@ -1287,11 +1287,11 @@ msgstr "Videogrootte"
 
 #: src/arch/unix/gui/petui.c:445 src/arch/amigaos/intl_text.c.po.c:11796
 msgid "I/O size"
-msgstr "I/O grootte"
+msgstr "I/O-grootte"
 
 #: src/arch/unix/gui/petui.c:448 src/arch/win32/respet.rc.po.c:489
 msgid "CRTC chip enable"
-msgstr "CRTC chip aan"
+msgstr "CRTC-chip aan"
 
 #: src/arch/unix/gui/petui.c:451 src/translate_text.c.po.c:12814
 msgid "EOI blanks screen"
@@ -1300,15 +1300,15 @@ msgstr "EOI maakt het scherm leeg"
 #: src/arch/unix/gui/petui.c:455 src/arch/win32/respet.rc.po.c:492
 #: src/arch/amigaos/intl_text.c.po.c:11838
 msgid "SuperPET I/O enable (disables 8x96)"
-msgstr "SuperPET I/O inschakelen (zet 8x96 uit)"
+msgstr "SuperPET-I/O inschakelen (zet 8x96 uit)"
 
 #: src/arch/unix/gui/petui.c:459
 msgid "SuperPET ACIA"
-msgstr "SuperPET ACIA"
+msgstr "SuperPET-ACIA"
 
 #: src/arch/unix/gui/petui.c:463
 msgid "SuperPET CPU Switch"
-msgstr "SuperPET CPU Schakelaar"
+msgstr "SuperPET CPU-schakelaar"
 
 #: src/arch/unix/gui/petui.c:466
 msgid "SuperPET 6809 ROMs"
@@ -1324,27 +1324,27 @@ msgstr "$A*** als RAM (alleen 8296)"
 
 #: src/arch/unix/gui/plus4ui.c:200
 msgid "Load new 3 plus 1 LO ROM"
-msgstr "Laad nieuw 3 plus 1 LO ROM"
+msgstr "Laad nieuwe 3 plus 1 LO ROM"
 
 #: src/arch/unix/gui/plus4ui.c:203
 msgid "Load new 3 plus 1 HI ROM"
-msgstr "Laad nieuw 3 plus 1 HI ROM"
+msgstr "Laad nieuwe 3 plus 1 HI ROM"
 
 #: src/arch/unix/gui/plus4ui.c:206
 msgid "Load new c1 LO ROM"
-msgstr "Laad nieuw c1 LO ROM"
+msgstr "Laad nieuwe c1 LO ROM"
 
 #: src/arch/unix/gui/plus4ui.c:209
 msgid "Load new c1 HI ROM"
-msgstr "Laad nieuw c1 HI ROM"
+msgstr "Laad nieuwe c1 HI ROM"
 
 #: src/arch/unix/gui/plus4ui.c:212
 msgid "Load new c2 LO ROM"
-msgstr "Laad nieuw c2 LO ROM"
+msgstr "Laad nieuwe c2 LO ROM"
 
 #: src/arch/unix/gui/plus4ui.c:215
 msgid "Load new c2 HI ROM"
-msgstr "Laad nieuw c2 HI ROM"
+msgstr "Laad nieuwe c2 HI ROM"
 
 #: src/arch/unix/gui/plus4ui.c:319
 msgid "ACIA"
@@ -1357,11 +1357,11 @@ msgstr "Digiblaster add-on"
 #. Translators: "V364 Speech" is the speech extension present in the V364 prototype
 #: src/arch/unix/gui/plus4ui.c:329
 msgid "V364 Speech"
-msgstr "V364 Spraak"
+msgstr "V364 Speech"
 
 #: src/arch/unix/gui/plus4ui.c:339
 msgid "I/O collision handling ($FD00-$FEFF)"
-msgstr "I/O conflict afhandeling ($FD00-$FEFF)"
+msgstr "I/O-conflictafhandeling ($FD00-$FEFF)"
 
 #: src/arch/unix/gui/plus4ui.c:362 src/arch/unix/gui/vic20ui.c:521
 #: src/arch/win32/res.rc.po.c:1157 src/translate_text.c.po.c:6080
@@ -1370,13 +1370,13 @@ msgstr "Model"
 
 #: src/arch/unix/gui/plus4ui.c:366
 msgid "TED model"
-msgstr "TED model"
+msgstr "TED-model"
 
 #: src/arch/unix/gui/plus4ui.c:387 src/arch/win32/resplus4.rc.po.c:467
 #: src/arch/win32/rested.rc.po.c:33 src/arch/amigaos/intl_text.c.po.c:3407
 #: src/arch/amigaos/intl_text.c.po.c:10256
 msgid "TED settings"
-msgstr "TED instellingen"
+msgstr "TED-instellingen"
 
 #: src/arch/unix/gui/uiacia1.c:38 src/arch/unix/gui/uirs232user.c:40
 msgid "Serial 1"
@@ -1392,20 +1392,20 @@ msgstr "Uitvoer naar bestand"
 
 #: src/arch/unix/gui/uiacia1.c:47 src/arch/unix/gui/uirs232user.c:49
 msgid "Exec process"
-msgstr "Uitvoer taak"
+msgstr "Proces starten"
 
 #: src/arch/unix/gui/uiattach.c:84
 #, c-format
 msgid "Attach Disk Image as unit #%d"
-msgstr "Koppel Schijfbestand aan drive #%d"
+msgstr "Koppel schijfbestand aan drive #%d"
 
 #: src/arch/unix/gui/uiattach.c:98 src/arch/unix/gui/uiattach.c:153
 msgid "Invalid Disk Image"
-msgstr "Ongeldig Schijfbestand"
+msgstr "Ongeldig schijfbestand"
 
 #: src/arch/unix/gui/uiattach.c:106
 msgid "Invalid Disk Image or Filename"
-msgstr "Ongeldig Schijfbestand of Bestandsnaam"
+msgstr "Ongeldig schijfbestand of ongeldige bestandsnaam"
 
 #: src/arch/unix/gui/uiattach.c:121 src/arch/unix/gui/uiattach.c:158
 #: src/arch/unix/gui/uiattach.c:182 src/arch/unix/gui/uicommands.c:503
@@ -1462,7 +1462,7 @@ msgstr "Ontkoppel schijfbestand"
 #: src/arch/win32/resplus4.rc.po.c:38 src/arch/win32/resscpu64.rc.po.c:38
 #: src/arch/win32/resvic20.rc.po.c:38 src/arch/amigaos/intl_text.c.po.c:145
 msgid "Flip list"
-msgstr "Flip lijst"
+msgstr "Wissellijst"
 
 #: src/arch/unix/gui/uiattach.c:228 src/arch/unix/gui/uiattach.c:292
 msgid "Create a new tape image"
@@ -1503,7 +1503,7 @@ msgstr "Onbekend bestandstype"
 
 #: src/arch/unix/gui/uiattach.c:367
 msgid "Smart-attach disk/tape"
-msgstr "Slim-koppel disk/tape"
+msgstr "Autokoppel disk/tape"
 
 #: src/arch/unix/gui/uiattach.c:370 src/arch/win32/res.rc.po.c:1648
 #: src/arch/win32/resautostart.rc.po.c:48
@@ -1537,7 +1537,7 @@ msgstr "Vertraging van de autostart"
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:57
 #: src/arch/amigaos/intl_text.c.po.c:12874
 msgid "Virtual FS"
-msgstr "Virtueel Bestandssysteem"
+msgstr "Virtueel bestandssysteem"
 
 #: src/arch/unix/gui/uiautostart.c:89 src/arch/win32/resautostart.rc.po.c:58
 #: src/arch/amigaos/intl_text.c.po.c:12888
@@ -1548,7 +1548,11 @@ msgstr "Injecteer in RAM"
 #: src/arch/win32/resautostart.rc.po.c:59
 #: src/arch/amigaos/intl_text.c.po.c:12902
 msgid "Disk image"
-msgstr "Disk bestand"
+msgstr "Diskbestand"
+
+#
+# Compyx got to here (2018-05-08T23:06)
+#
 
 #: src/arch/unix/gui/uiautostart.c:99 src/arch/win32/res.rc.po.c:1579
 #: src/arch/amigaos/intl_text.c.po.c:1993 src/translate_text.c.po.c:4902
@@ -1581,12 +1585,12 @@ msgstr "Laad naar BASIC start"
 #: src/arch/unix/gui/uiautostart.c:117 src/arch/win32/resautostart.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:12986
 msgid "PRG autostart mode"
-msgstr "PRG autostart modus"
+msgstr "PRG-autostartmodus"
 
 #: src/arch/unix/gui/uiautostart.c:120 src/arch/win32/resautostart.rc.po.c:55
 #: src/arch/amigaos/intl_text.c.po.c:13014
 msgid "PRG autostart disk image"
-msgstr "PRG autostart disk bestand"
+msgstr "PRG-autostartdiskbestand"
 
 #: src/arch/unix/gui/uic64cart.c:58 src/arch/unix/gui/uic64cart.c:128
 #: src/arch/unix/gui/uic64cart.c:141 src/arch/unix/gui/vic20ui.c:306
@@ -4340,12 +4344,12 @@ msgstr "Geen garantie!"
 
 #: src/arch/unix/x11/gnome/about.c:58 src/arch/unix/x11/xaw/about.c:114
 msgid "Contributors to the VICE project"
-msgstr "Medewerkers aan het VICE project"
+msgstr "Medewerkers van het VICE project"
 
 #: src/arch/unix/x11/gnome/about.c:106 src/arch/unix/x11/xaw/about.c:122
 #: src/arch/win32/res.rc.po.c:1726 src/arch/amigaos/intl_text.c.po.c:4611
 msgid "Compile time features"
-msgstr "Speciale opties aanwezig bij het compileren"
+msgstr "Speciale compile-time opties"
 
 #: src/arch/unix/x11/gnome/about.c:135
 msgid "Text cannot be displayed."
@@ -4360,9 +4364,8 @@ msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:244
-#, fuzzy
 msgid "(c) 1998 - 2018 The VICE Team"
-msgstr "(c) 1998 - 2017 Het VICE Team"
+msgstr "(c) 1998 - 2018 Het VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:252 src/arch/win32/res.rc.po.c:1172
 #: src/arch/win32/res.rc.po.c:1728 src/arch/amigaos/intl_text.c.po.c:4639
