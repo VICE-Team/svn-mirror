@@ -46,7 +46,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <inttypes.h>
 
 #include "alarm.h"
 #include "archdep.h"

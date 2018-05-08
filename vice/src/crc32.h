@@ -29,7 +29,7 @@
 #ifndef VICE_CRC32_H
 #define VICE_CRC32_H
 
-#include <inttypes.h>
+#include "types.h"
 
 extern uint32_t crc32_buf(const char *buffer, unsigned int len);
 extern uint32_t crc32_file(const char *filename);
