@@ -70,7 +70,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_SAMPLER  "Mediendatei für Inputtreiber auswählen"
+  IDS_SELECT_FILE_SAMPLER  "Mediendatei für Eingabetreiber auswählen"
   IDS_SAMPLER_CAPTION      "Sampler Einstellungen"
   IDS_SAMPLER_DEVICE_LABEL "Sampler Gerät"
   IDS_SAMPLER_FILE_LABEL   "Sample Input Datei"

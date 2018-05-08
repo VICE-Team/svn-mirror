@@ -308,7 +308,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_STOP,    "Stop" },
 /* da */ { IDMS_STOP_DA, "Stop" },
-/* de */ { IDMS_STOP_DE, "Stop" },
+/* de */ { IDMS_STOP_DE, "Stopp" },
 /* es */ { IDMS_STOP_ES, "Detener" },
 /* fr */ { IDMS_STOP_FR, "Arrêt" },
 /* hu */ { IDMS_STOP_HU, "Leállítás" },
@@ -336,7 +336,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_FORWARD,    "Forward" },
 /* da */ { IDMS_FORWARD_DA, "Spol frem" },
-/* de */ { IDMS_FORWARD_DE, "Forward" },
+/* de */ { IDMS_FORWARD_DE, "Vorspulen" },
 /* es */ { IDMS_FORWARD_ES, "Avance rápido" },
 /* fr */ { IDMS_FORWARD_FR, "En avant" },
 /* hu */ { IDMS_FORWARD_HU, "Elõrecsévélés" },
@@ -350,7 +350,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_REWIND,    "Rewind" },
 /* da */ { IDMS_REWIND_DA, "Spol tilbage" },
-/* de */ { IDMS_REWIND_DE, "Rewind" },
+/* de */ { IDMS_REWIND_DE, "Rückspulen" },
 /* es */ { IDMS_REWIND_ES, "Rebobinar" },
 /* fr */ { IDMS_REWIND_FR, "En arrière" },
 /* hu */ { IDMS_REWIND_HU, "Visszacsévélés" },
@@ -364,7 +364,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_RECORD,    "Record" },
 /* da */ { IDMS_RECORD_DA, "Optag" },
-/* de */ { IDMS_RECORD_DE, "Record" },
+/* de */ { IDMS_RECORD_DE, "Aufnahme" },
 /* es */ { IDMS_RECORD_ES, "Grabar" },
 /* fr */ { IDMS_RECORD_FR, "Enregistrer" },
 /* hu */ { IDMS_RECORD_HU, "Felvétel" },
@@ -1176,7 +1176,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_START_STOP_RECORDING,    "Start/Stop Recording History" },
 /* da */ { IDMS_START_STOP_RECORDING_DA, "Start/stop optagelse af historik" },
-/* de */ { IDMS_START_STOP_RECORDING_DE, "Start/Stop Aufnahme History" },
+/* de */ { IDMS_START_STOP_RECORDING_DE, "Start/Stopp Aufnahme History" },
 /* es */ { IDMS_START_STOP_RECORDING_ES, "Iniciar/finalizar grabación historial" },
 /* fr */ { IDMS_START_STOP_RECORDING_FR, "Démarrer/Arrêter l'historique de l'enregistrement" },
 /* hu */ { IDMS_START_STOP_RECORDING_HU, "Esemény felvétel indítása/megállítása" },
@@ -1190,7 +1190,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_START_STOP_PLAYBACK,    "Start/Stop Playback History" },
 /* da */ { IDMS_START_STOP_PLAYBACK_DA, "Start/stop afspilning af historik" },
-/* de */ { IDMS_START_STOP_PLAYBACK_DE, "Start/Stop Wiedergabe History" },
+/* de */ { IDMS_START_STOP_PLAYBACK_DE, "Start/Stopp Wiedergabe History" },
 /* es */ { IDMS_START_STOP_PLAYBACK_ES, "Iniciar/finalizar reproducción historial" },
 /* fr */ { IDMS_START_STOP_PLAYBACK_FR, "Démarrer/Arrêter l'historique de la lecture" },
 /* hu */ { IDMS_START_STOP_PLAYBACK_HU, "Esemény visszajátszás indítása/megállítása" },
@@ -1708,7 +1708,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_DOUBLE_SCAN,    "Double scan" },
 /* da */ { IDMS_DOUBLE_SCAN_DA, "Dobbelt-skan" },
-/* de */ { IDMS_DOUBLE_SCAN_DE, "Doppelt Scan" },
+/* de */ { IDMS_DOUBLE_SCAN_DE, "Doppelscan" },
 /* es */ { IDMS_DOUBLE_SCAN_ES, "Doble escaneo" },
 /* fr */ { IDMS_DOUBLE_SCAN_FR, "Double scan" },
 /* hu */ { IDMS_DOUBLE_SCAN_HU, "Dupla pásztázás" },
@@ -3122,7 +3122,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_VICII_VIDEO_SETTINGS,    "VICII video settings..." },
 /* da */ { IDMS_VICII_VIDEO_SETTINGS_DA, "VICII grafikindstillinger..." },
-/* de */ { IDMS_VICII_VIDEO_SETTINGS_DE, "VICII Video Einstellungen..." },
+/* de */ { IDMS_VICII_VIDEO_SETTINGS_DE, "VIC-II Video Einstellungen..." },
 /* es */ { IDMS_VICII_VIDEO_SETTINGS_ES, "Ajustes de vídeo VIC II..." },
 /* fr */ { IDMS_VICII_VIDEO_SETTINGS_FR, "Paramètres vidéo VICII..." },
 /* hu */ { IDMS_VICII_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
@@ -3220,7 +3220,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_COLOR_SETTINGS,    "Color settings..." },
 /* da */ { IDMS_COLOR_SETTINGS_DA, "Farveindstillinger..." },
-/* de */ { IDMS_COLOR_SETTINGS_DE, "Farb Einstellungen..." },
+/* de */ { IDMS_COLOR_SETTINGS_DE, "Farbeinstellungen..." },
 /* es */ { IDMS_COLOR_SETTINGS_ES, "Ajustes color..." },
 /* fr */ { IDMS_COLOR_SETTINGS_FR, "Paramètres de couleurs..." },
 /* hu */ { IDMS_COLOR_SETTINGS_HU, "" },  /* fuzzy */
@@ -7196,7 +7196,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DRIVE_TYPE,    "Drive type" },
 /* da */ { IDS_DRIVE_TYPE_DA, "Drevtype" },
-/* de */ { IDS_DRIVE_TYPE_DE, "Geräte Typ" },
+/* de */ { IDS_DRIVE_TYPE_DE, "Gerätetyp" },
 /* es */ { IDS_DRIVE_TYPE_ES, "Tipo unidad disco" },
 /* fr */ { IDS_DRIVE_TYPE_FR, "Type de lecteur" },
 /* hu */ { IDS_DRIVE_TYPE_HU, "Lemezegység típus" },
@@ -7252,7 +7252,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PARALLEL_CABLE,    "Parallel cable" },
 /* da */ { IDS_PARALLEL_CABLE_DA, "Parallelkabel" },
-/* de */ { IDS_PARALLEL_CABLE_DE, "Parallel Kabel" },
+/* de */ { IDS_PARALLEL_CABLE_DE, "Parallelkabel" },
 /* es */ { IDS_PARALLEL_CABLE_ES, "Cable paralelo" },
 /* fr */ { IDS_PARALLEL_CABLE_FR, "Câble parallèle" },
 /* hu */ { IDS_PARALLEL_CABLE_HU, "Párhuzamos kábel" },
@@ -8051,7 +8051,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_STOP_BLUE,    "Stop/Blue" },
 /* da */ { IDS_STOP_BLUE_DA, "Stop/Blå" },
-/* de */ { IDS_STOP_BLUE_DE, "Stop/Blau" },
+/* de */ { IDS_STOP_BLUE_DE, "Stopp/Blau" },
 /* es */ { IDS_STOP_BLUE_ES, "Parar/Azul" },
 /* fr */ { IDS_STOP_BLUE_FR, "Arrêt/Bleu" },
 /* hu */ { IDS_STOP_BLUE_HU, "Leállít/Kék" },
@@ -8651,7 +8651,6 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DISABLE_VIDEOOVERLAY_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DISABLE_VIDEOOVERLAY_SV, "" },  /* fuzzy */
 /* tr */ { IDS_DISABLE_VIDEOOVERLAY_TR, "" },  /* fuzzy */
-#endif
 
 /* en */ { IDS_PET_REU_SIZE,    "PET REU size" },
 /* da */ { IDS_PET_REU_SIZE_DA, "PET REU størrelse" },
@@ -8767,7 +8766,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PET_COLOUR_SETTINGS,    "PET Colour settings" },
 /* da */ { IDS_PET_COLOUR_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_PET_COLOUR_SETTINGS_DE, "PET Farb Einstellungen" },
+/* de */ { IDS_PET_COLOUR_SETTINGS_DE, "PET Farbeinstellungen" },
 /* es */ { IDS_PET_COLOUR_SETTINGS_ES, "Ajustes color PET" },
 /* fr */ { IDS_PET_COLOUR_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PET_COLOUR_SETTINGS_HU, "" },  /* fuzzy */
@@ -9201,7 +9200,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_COLOR_SETTINGS,    "Color settings" },
 /* da */ { IDS_COLOR_SETTINGS_DA, "Farveindstillinger" },
-/* de */ { IDS_COLOR_SETTINGS_DE, "Farb Einstellungen" },
+/* de */ { IDS_COLOR_SETTINGS_DE, "Farbeinstellungen" },
 /* es */ { IDS_COLOR_SETTINGS_ES, "Ajustes color" },
 /* fr */ { IDS_COLOR_SETTINGS_FR, "Paramètres de couleurs" },
 /* hu */ { IDS_COLOR_SETTINGS_HU, "" },  /* fuzzy */
@@ -9243,7 +9242,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VICII_PALETTE_FILENAME,    "VICII palette file" },
 /* da */ { IDS_VICII_PALETTE_FILENAME_DA, "VICII-palettefil" },
-/* de */ { IDS_VICII_PALETTE_FILENAME_DE, "VICII Paletten Datei" },
+/* de */ { IDS_VICII_PALETTE_FILENAME_DE, "VIC-II Palettendatei" },
 /* es */ { IDS_VICII_PALETTE_FILENAME_ES, "Fichero paleta VICII" },
 /* fr */ { IDS_VICII_PALETTE_FILENAME_FR, "Fichier de palette VICII" },
 /* hu */ { IDS_VICII_PALETTE_FILENAME_HU, "" },  /* fuzzy */
@@ -9257,7 +9256,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VIC_PALETTE_FILENAME,    "VIC palette file" },
 /* da */ { IDS_VIC_PALETTE_FILENAME_DA, "VIC-palettefil" },
-/* de */ { IDS_VIC_PALETTE_FILENAME_DE, "VIC Paletten Datei" },
+/* de */ { IDS_VIC_PALETTE_FILENAME_DE, "VIC Palettendatei" },
 /* es */ { IDS_VIC_PALETTE_FILENAME_ES, "Fichero paleta VIC" },
 /* fr */ { IDS_VIC_PALETTE_FILENAME_FR, "Fichier de palette VIC" },
 /* hu */ { IDS_VIC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
@@ -9271,7 +9270,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VDC_PALETTE_FILENAME,    "VDC palette file" },
 /* da */ { IDS_VDC_PALETTE_FILENAME_DA, "VDC-palettefil" },
-/* de */ { IDS_VDC_PALETTE_FILENAME_DE, "VDC Paletten Datei" },
+/* de */ { IDS_VDC_PALETTE_FILENAME_DE, "VDC Palettendatei" },
 /* es */ { IDS_VDC_PALETTE_FILENAME_ES, "Fichero paleta VDC" },
 /* fr */ { IDS_VDC_PALETTE_FILENAME_FR, "Fichier de palette VDC" },
 /* hu */ { IDS_VDC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
@@ -9285,7 +9284,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CRTC_PALETTE_FILENAME,    "CRTC palette file" },
 /* da */ { IDS_CRTC_PALETTE_FILENAME_DA, "CRTC-palettefil" },
-/* de */ { IDS_CRTC_PALETTE_FILENAME_DE, "CRTC Paletten Datei" },
+/* de */ { IDS_CRTC_PALETTE_FILENAME_DE, "CRTC Palettendatei" },
 /* es */ { IDS_CRTC_PALETTE_FILENAME_ES, "Fichero paleta CRT" },
 /* fr */ { IDS_CRTC_PALETTE_FILENAME_FR, "Fichier de palette CTRC" },
 /* hu */ { IDS_CRTC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
@@ -9299,7 +9298,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_TED_PALETTE_FILENAME,    "TED palette file" },
 /* da */ { IDS_TED_PALETTE_FILENAME_DA, "TED-palettefil" },
-/* de */ { IDS_TED_PALETTE_FILENAME_DE, "TED Paletten Datei" },
+/* de */ { IDS_TED_PALETTE_FILENAME_DE, "TED Palettendatei" },
 /* es */ { IDS_TED_PALETTE_FILENAME_ES, "Fichero paleta TED" },
 /* fr */ { IDS_TED_PALETTE_FILENAME_FR, "Fichier de palette TED" },
 /* hu */ { IDS_TED_PALETTE_FILENAME_HU, "" },  /* fuzzy */
@@ -9551,7 +9550,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_4_SEND_FORMFEED,    "Send formfeed to printer #4" },
 /* da */ { IDS_PRINTER_4_SEND_FORMFEED_DA, "Send sideskift til printer #4" },
-/* de */ { IDS_PRINTER_4_SEND_FORMFEED_DE, "Seitenvorschub zu Drucker #4 senden" },
+/* de */ { IDS_PRINTER_4_SEND_FORMFEED_DE, "Seitenvorschub zum Drucker #4 senden" },
 /* es */ { IDS_PRINTER_4_SEND_FORMFEED_ES, "Enviar alimentación formulario a impresora #4" },
 /* fr */ { IDS_PRINTER_4_SEND_FORMFEED_FR, "Envoyer saut-de-page à l'imprimante 4" },
 /* hu */ { IDS_PRINTER_4_SEND_FORMFEED_HU, "" },  /* fuzzy */
@@ -9565,7 +9564,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_5_SEND_FORMFEED,    "Send formfeed to printer #5" },
 /* da */ { IDS_PRINTER_5_SEND_FORMFEED_DA, "Send sideskift til printer #5" },
-/* de */ { IDS_PRINTER_5_SEND_FORMFEED_DE, "Seitenvorschub zu Drucker #5 senden" },
+/* de */ { IDS_PRINTER_5_SEND_FORMFEED_DE, "Seitenvorschub zum Drucker #5 senden" },
 /* es */ { IDS_PRINTER_5_SEND_FORMFEED_ES, "Enviar alimentación formulario a impresora #5" },
 /* fr */ { IDS_PRINTER_5_SEND_FORMFEED_FR, "Envoyer saut-de-page à l'imprimante 5" },
 /* hu */ { IDS_PRINTER_5_SEND_FORMFEED_HU, "" },  /* fuzzy */
@@ -9579,7 +9578,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PRINTER_6_SEND_FORMFEED,    "Send formfeed to printer #6" },
 /* da */ { IDS_PRINTER_6_SEND_FORMFEED_DA, "" },  /* fuzzy */
-/* de */ { IDS_PRINTER_6_SEND_FORMFEED_DE, "Seitenvorschub zu Drucker #6 senden" },
+/* de */ { IDS_PRINTER_6_SEND_FORMFEED_DE, "Seitenvorschub zum Drucker #6 senden" },
 /* es */ { IDS_PRINTER_6_SEND_FORMFEED_ES, "Enviar alimentación formulario a impresora #6" },
 /* fr */ { IDS_PRINTER_6_SEND_FORMFEED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PRINTER_6_SEND_FORMFEED_HU, "" },  /* fuzzy */
@@ -9593,7 +9592,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_USERPORT_PRINTER_SEND_FORMFEED,    "Send formfeed to userport printer" },
 /* da */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_DA, "Send sideskift til brugerports-printer" },
-/* de */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_DE, "Seitenvorschub zui Userport Drucker senden" },
+/* de */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_DE, "Seitenvorschub zum Userport-Drucker senden" },
 /* es */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_ES, "Enviar alimentación formulario a puerto impresora" },
 /* fr */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_FR, "Envoyer saut-de-page à l'imprimante sur port utilisateur" },
 /* hu */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_HU, "" },  /* fuzzy */
@@ -9719,7 +9718,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VICII_MODEL_SELECTION,    "VICII model selection" },
 /* da */ { IDS_VICII_MODEL_SELECTION_DA, "" },  /* fuzzy */
-/* de */ { IDS_VICII_MODEL_SELECTION_DE, "VICII Modell Auswahl" },
+/* de */ { IDS_VICII_MODEL_SELECTION_DE, "VIC-II Modell Auswahl" },
 /* es */ { IDS_VICII_MODEL_SELECTION_ES, "" },  /* fuzzy */
 /* fr */ { IDS_VICII_MODEL_SELECTION_FR, "" },  /* fuzzy */
 /* hu */ { IDS_VICII_MODEL_SELECTION_HU, "" },  /* fuzzy */
@@ -10349,7 +10348,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_HD_1_SETTINGS,    "IDE64 primary master device settings" },
 /* da */ { IDS_IDE64_HD_1_SETTINGS_DA, "IDE64 primær master enhedsindstillinger" },
-/* de */ { IDS_IDE64_HD_1_SETTINGS_DE, "IDE64 Primär Master Geräte Einstellungen" },
+/* de */ { IDS_IDE64_HD_1_SETTINGS_DE, "IDE64 Primär Master Geräteeinstellungen" },
 /* es */ { IDS_IDE64_HD_1_SETTINGS_ES, "Ajustes periférico maestro primario IDE64" },
 /* fr */ { IDS_IDE64_HD_1_SETTINGS_FR, "Paramètres périphérique maître primaire IDE64" },
 /* hu */ { IDS_IDE64_HD_1_SETTINGS_HU, "" },  /* fuzzy */
@@ -10363,7 +10362,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_HD_2_SETTINGS,    "IDE64 primary slave device settings" },
 /* da */ { IDS_IDE64_HD_2_SETTINGS_DA, "IDE64 primær slave enhedsindstillinger" },
-/* de */ { IDS_IDE64_HD_2_SETTINGS_DE, "IDE64 Primär Slave Geräte Einstellungen" },
+/* de */ { IDS_IDE64_HD_2_SETTINGS_DE, "IDE64 Primär Slave Geräteeinstellungen" },
 /* es */ { IDS_IDE64_HD_2_SETTINGS_ES, "Ajustes periférico esclavo primario IDE64" },
 /* fr */ { IDS_IDE64_HD_2_SETTINGS_FR, "Paramètres périphérique esclave primaire IDE64" },
 /* hu */ { IDS_IDE64_HD_2_SETTINGS_HU, "" },  /* fuzzy */
@@ -10377,7 +10376,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_HD_3_SETTINGS,    "IDE64 secondary master device settings" },
 /* da */ { IDS_IDE64_HD_3_SETTINGS_DA, "IDE64 sekundær master enhedsindstillinger" },
-/* de */ { IDS_IDE64_HD_3_SETTINGS_DE, "IDE64 Sekundär Master Geräte Einstellungen" },
+/* de */ { IDS_IDE64_HD_3_SETTINGS_DE, "IDE64 Sekundär Master Geräteeinstellungen" },
 /* es */ { IDS_IDE64_HD_3_SETTINGS_ES, "Ajustes periférico maestro secundario IDE64" },
 /* fr */ { IDS_IDE64_HD_3_SETTINGS_FR, "Paramètres périphérique maître secondaire IDE64" },
 /* hu */ { IDS_IDE64_HD_3_SETTINGS_HU, "" },  /* fuzzy */
@@ -10391,7 +10390,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_HD_4_SETTINGS,    "IDE64 secondary slave device settings" },
 /* da */ { IDS_IDE64_HD_4_SETTINGS_DA, "IDE64 sekundær slave enhedsindstillinger" },
-/* de */ { IDS_IDE64_HD_4_SETTINGS_DE, "IDE64 Sekundär Slave Geräte Einstellungen" },
+/* de */ { IDS_IDE64_HD_4_SETTINGS_DE, "IDE64 Sekundär Slave Geräteeinstellungen" },
 /* es */ { IDS_IDE64_HD_4_SETTINGS_ES, "Ajustes periférico esclavo secundario IDE64" },
 /* fr */ { IDS_IDE64_HD_4_SETTINGS_FR, "Paramètres esclave secondaire IDE64" },
 /* hu */ { IDS_IDE64_HD_4_SETTINGS_HU, "" },  /* fuzzy */
@@ -11357,7 +11356,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SCALE2X,    "Scale2x" },
 /* da */ { IDS_SCALE2X_DA, "Scale2x" },
-/* de */ { IDS_SCALE2X_DE, "Scale2x" },
+/* de */ { IDS_SCALE2X_DE, "Scale2×" },
 /* es */ { IDS_SCALE2X_ES, "Scale2x" },
 /* fr */ { IDS_SCALE2X_FR, "Scale2x" },
 /* hu */ { IDS_SCALE2X_HU, "Élsimítás" },
@@ -11483,7 +11482,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VICII_EXTERNAL_PALETTE,    "External VICII palette" },
 /* da */ { IDS_VICII_EXTERNAL_PALETTE_DA, "Ekstern VICII palette" },
-/* de */ { IDS_VICII_EXTERNAL_PALETTE_DE, "Externe VICII Palette" },
+/* de */ { IDS_VICII_EXTERNAL_PALETTE_DE, "Externe VIC-II Palette" },
 /* es */ { IDS_VICII_EXTERNAL_PALETTE_ES, "Paleta VICII externa" },
 /* fr */ { IDS_VICII_EXTERNAL_PALETTE_FR, "Palette externe VICII" },
 /* hu */ { IDS_VICII_EXTERNAL_PALETTE_HU, "" },  /* fuzzy */
@@ -11553,7 +11552,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VICII_PALETTE_NAME,    "VICII palette file" },
 /* da */ { IDS_VICII_PALETTE_NAME_DA, "VICII-palettefil" },
-/* de */ { IDS_VICII_PALETTE_NAME_DE, "VICII Paletten Datei" },
+/* de */ { IDS_VICII_PALETTE_NAME_DE, "VIC-II Palettendatei" },
 /* es */ { IDS_VICII_PALETTE_NAME_ES, "Fichero paleta VICII" },
 /* fr */ { IDS_VICII_PALETTE_NAME_FR, "Fichier de palette VICII" },
 /* hu */ { IDS_VICII_PALETTE_NAME_HU, "" },  /* fuzzy */
@@ -11567,7 +11566,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VIC_PALETTE_NAME,    "VIC palette file" },
 /* da */ { IDS_VIC_PALETTE_NAME_DA, "VIC-palettefil" },
-/* de */ { IDS_VIC_PALETTE_NAME_DE, "VIC Paletten Datei" },
+/* de */ { IDS_VIC_PALETTE_NAME_DE, "VIC Palettendatei" },
 /* es */ { IDS_VIC_PALETTE_NAME_ES, "Fichero paleta VIC" },
 /* fr */ { IDS_VIC_PALETTE_NAME_FR, "Fichier de palette VIC" },
 /* hu */ { IDS_VIC_PALETTE_NAME_HU, "" },  /* fuzzy */
@@ -11581,7 +11580,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_TED_PALETTE_NAME,    "TED palette file" },
 /* da */ { IDS_TED_PALETTE_NAME_DA, "TED-palettefil" },
-/* de */ { IDS_TED_PALETTE_NAME_DE, "TED Paletten Datei" },
+/* de */ { IDS_TED_PALETTE_NAME_DE, "TED Palettendatei" },
 /* es */ { IDS_TED_PALETTE_NAME_ES, "Fichero paleta TED" },
 /* fr */ { IDS_TED_PALETTE_NAME_FR, "Fichier de palette TED" },
 /* hu */ { IDS_TED_PALETTE_NAME_HU, "" },  /* fuzzy */
@@ -11595,7 +11594,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VDC_PALETTE_NAME,    "VDC palette file" },
 /* da */ { IDS_VDC_PALETTE_NAME_DA, "VDC-palettefil" },
-/* de */ { IDS_VDC_PALETTE_NAME_DE, "VDC Paletten Datei" },
+/* de */ { IDS_VDC_PALETTE_NAME_DE, "VDC Palettendatei" },
 /* es */ { IDS_VDC_PALETTE_NAME_ES, "Fichero paleta VDC" },
 /* fr */ { IDS_VDC_PALETTE_NAME_FR, "Fichier de palette VDC" },
 /* hu */ { IDS_VDC_PALETTE_NAME_HU, "" },  /* fuzzy */
@@ -11609,7 +11608,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CRTC_PALETTE_NAME,    "CRTC palette file" },
 /* da */ { IDS_CRTC_PALETTE_NAME_DA, "CRTC-palettefil" },
-/* de */ { IDS_CRTC_PALETTE_NAME_DE, "CRTC Paletten Datei" },
+/* de */ { IDS_CRTC_PALETTE_NAME_DE, "CRTC Palettendatei" },
 /* es */ { IDS_CRTC_PALETTE_NAME_ES, "Fichero paleta CRT" },
 /* fr */ { IDS_CRTC_PALETTE_NAME_FR, "Fichier de palette CTRC" },
 /* hu */ { IDS_CRTC_PALETTE_NAME_HU, "" },  /* fuzzy */
