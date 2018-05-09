@@ -57,6 +57,7 @@ static console_t *console_log_local = NULL;
 #include <readline/readline.h>
 #include <readline/history.h>
 #else
+extern void add_history(const char *p);
 static FILE *mon_input, *mon_output;
 #endif
 
