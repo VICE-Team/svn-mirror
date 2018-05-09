@@ -58,6 +58,7 @@
 #include "util.h"
 #include "vsync.h"
 #include "math.h"
+#include "ui.h"
 
 
 static log_t sound_log = LOG_ERR;
