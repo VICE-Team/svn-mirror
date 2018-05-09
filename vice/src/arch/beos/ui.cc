@@ -42,6 +42,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <sys/utsname.h>
+
 #include "statusbar.h"
 #include "ui_file.h"
 #include "vicewindow.h"
@@ -109,6 +111,19 @@ extern "C" {
 #define MAX_WINDOWS 2
 ViceWindow *windowlist[MAX_WINDOWS];
 int window_count = 0;
+
+/* This check is needed for haiku, since it always returns 1 on
+   SupportsWindowMode() */
+int CheckForHaiku(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    if (!strncasecmp(name.sysname, "Haiku", 5)) {
+        return -1;
+    }
+    return 0;
+}
 
 /* List of resources that can be switched on and off from the menus.  */
 ui_menu_toggle  toggle_list[] = {

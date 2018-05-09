@@ -87,4 +87,6 @@ extern void ui_statusbar_update(void);
 extern int ui_set_window_mode(int use_direct_window);
 extern void ui_pause_emulation(int flag);
 
+extern int CheckForHaiku(void);
+
 #endif
