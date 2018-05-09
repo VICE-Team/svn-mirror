@@ -58,17 +58,6 @@ static int machine_drive_expansion_count;
 
 static int machine_parallel_cable_type_count;
 
-static int drive_check_rtc(int type)
-{
-    switch (type) {
-        case DRIVE_TYPE_2000:
-        case DRIVE_TYPE_4000:
-            return 1;
-    }
-
-    return 0;
-}
-
 static struct _extend_image_policy {
     const char *name;
     int id;
