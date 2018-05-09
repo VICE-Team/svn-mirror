@@ -32,6 +32,8 @@
 #include <ctype.h>
 #include <string.h>
 
+#include <sys/utsname.h>
+
 #include "ui.h"
 
 #ifdef HAVE_DIR_H
@@ -436,4 +438,19 @@ char *archdep_sdl2_default_renderers[] = {
     "software", "opengl", NULL
 };
 #endif
+
+
+/* This check is needed for haiku, since it always returns 1 on
+   SupportsWindowMode() */
+int CheckForHaiku(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    if (!strncasecmp(name.sysname, "Haiku", 5)) {
+        return -1;
+    }
+    return 0;
+}
+
 
