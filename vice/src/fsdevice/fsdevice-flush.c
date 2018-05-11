@@ -242,7 +242,7 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
 {
     unsigned int format = 0, rc;
 
-    if (realarg[0] == '\0') {
+    if (realarg == NULL || *realarg == '\0') {
         return CBMDOS_IPE_SYNTAX;
     }
 
