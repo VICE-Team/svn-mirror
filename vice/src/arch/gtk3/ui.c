@@ -61,6 +61,7 @@
 #include "uistatusbar.h"
 #include "jamdialog.h"
 #include "uidiskattach.h"
+#include "uitapeattach.h"
 
 #include "ui.h"
 
@@ -1459,6 +1460,7 @@ void ui_exit(void)
 
     /* clean up UI resources */
     ui_disk_attach_shutdown();
+    ui_tape_attach_shutdown();
 
     /* Destroy the main window(s) */
     ui_destroy_main_window(PRIMARY_WINDOW);

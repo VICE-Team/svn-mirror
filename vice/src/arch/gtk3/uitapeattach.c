@@ -54,6 +54,35 @@ static ui_file_filter_t filters[] = {
 static GtkWidget *preview_widget = NULL;
 
 
+/** \brief  Last directory used
+ *
+ * When a taoe is attached, this is set to the directory of that file. Since
+ * it's heap-allocated by Gtk3, it must be freed with a call to
+ * ui_tape_attach_shutdown() on emulator shutdown.
+ */
+static gchar *last_dir = NULL;
+
+
+/** \brief  Update the last directory reference
+ *
+ * \param[in]   widget  dialog
+ */
+static void update_last_dir(GtkWidget *widget)
+{
+    gchar *new_dir;
+
+    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
+    debug_gtk3("new dir = '%s'\n", new_dir);
+    if (new_dir != NULL) {
+        /* clean up previous value */
+        if (last_dir != NULL) {
+            g_free(last_dir);
+        }
+        last_dir = new_dir;
+    }
+}
+
+
 /** \brief  Handler for the "update-preview" event
  *
  * \param[in]   chooser file chooser dialog
@@ -136,6 +165,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
+            update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Attaching file '%s' to tape unit\n", filename);
@@ -152,6 +182,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
+            update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'\n", filename);
             if (autostart_tape(
@@ -235,6 +266,11 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
             "Close", GTK_RESPONSE_REJECT,
             NULL, NULL);
 
+    /* set last directory */
+    if (last_dir != NULL) {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
+    }
+
     /* add 'extra' widget: 'readonly' and 'show preview' checkboxes */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
                                       create_extra_widget(dialog));
@@ -278,6 +314,7 @@ void ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
 
 }
 
+
 /** \brief  Callback for "detach tape image" menu items
  *
  * Removes any tape from the specified drive. No additional UI is
@@ -289,4 +326,14 @@ void ui_tape_attach_callback(GtkWidget *widget, gpointer user_data)
 void ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
 {
     tape_image_detach(1);
+}
+
+
+/** \brief  Clean up the last directory string
+ */
+void ui_tape_attach_shutdown(void)
+{
+    if (last_dir != NULL) {
+        g_free(last_dir);
+    }
 }
