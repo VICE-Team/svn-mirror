@@ -59,6 +59,28 @@ static ui_file_filter_t filters[] = {
  */
 static GtkWidget *preview_widget = NULL;
 
+static gchar *last_dir = NULL;
+
+
+/** \brief  Update the last directory reference
+ *
+ * \param[in]   widget  dialog
+ */
+static void update_last_dir(GtkWidget *widget)
+{
+    gchar *new_dir;
+
+    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
+    debug_gtk3("new dir = '%s'\n", new_dir);
+    if (new_dir != NULL) {
+        /* clean up previous value */
+        if (last_dir != NULL) {
+            g_free(last_dir);
+        }
+        last_dir = new_dir;
+    }
+}
+
 
 /** \brief  Handler for the "update-preview" event
  *
@@ -136,6 +158,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
+            update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Opening file '%s'\n", filename);
@@ -156,6 +179,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
+            update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'\n", filename);
             /* if this function exists, why is there no attach_autodetect()
@@ -261,6 +285,11 @@ static GtkWidget *create_smart_attach_dialog(GtkWidget *parent)
             "Close", GTK_RESPONSE_REJECT,
             NULL, NULL);
 
+    /* set last used directory */
+    if (last_dir != NULL) {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
+    }
+
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
             create_extra_widget(dialog));
@@ -304,4 +333,14 @@ void ui_smart_attach_callback(GtkWidget *widget, gpointer user_data)
 
     gtk_widget_show(dialog);
 
+}
+
+
+/** \brief  Clean up last used directory string
+ */
+void ui_smart_attach_shutdown(void)
+{
+    if (last_dir != NULL) {
+        g_free(last_dir);
+    }
 }

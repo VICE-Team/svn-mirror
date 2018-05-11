@@ -62,6 +62,7 @@
 #include "jamdialog.h"
 #include "uicart.h"
 #include "uidiskattach.h"
+#include "uismartattach.h"
 #include "uitapeattach.h"
 
 #include "ui.h"
@@ -1463,6 +1464,7 @@ void ui_exit(void)
     uicart_shutdown();
     ui_disk_attach_shutdown();
     ui_tape_attach_shutdown();
+    ui_smart_attach_shutdown();
 
     /* Destroy the main window(s) */
     ui_destroy_main_window(PRIMARY_WINDOW);

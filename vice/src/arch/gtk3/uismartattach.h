@@ -31,5 +31,6 @@
 #include <gtk/gtk.h>
 
 void ui_smart_attach_callback(GtkWidget *widget, gpointer user_data);
+void ui_smart_attach_shutdown(void);
 
 #endif
