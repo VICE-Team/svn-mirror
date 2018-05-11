@@ -45,4 +45,6 @@ gboolean uicart_detach(void);
 
 void uicart_show_dialog(GtkWidget *widget, gpointer data);
 
+void uicart_shutdown(void);
+
 #endif

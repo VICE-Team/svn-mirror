@@ -60,6 +60,7 @@
 #include "uisettings.h"
 #include "uistatusbar.h"
 #include "jamdialog.h"
+#include "uicart.h"
 #include "uidiskattach.h"
 #include "uitapeattach.h"
 
@@ -1459,6 +1460,7 @@ void ui_exit(void)
     int soe;    /* save on exit */
 
     /* clean up UI resources */
+    uicart_shutdown();
     ui_disk_attach_shutdown();
     ui_tape_attach_shutdown();
 
@@ -1522,4 +1524,3 @@ void ui_enable_crt_controls(bool enabled)
         gtk_window_resize(GTK_WINDOW(window), 1, 1);
     }
 }
-
