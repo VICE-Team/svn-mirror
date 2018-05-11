@@ -60,6 +60,7 @@
 #include "uisettings.h"
 #include "uistatusbar.h"
 #include "jamdialog.h"
+#include "uidiskattach.h"
 
 #include "ui.h"
 
@@ -1455,6 +1456,9 @@ gboolean ui_advance_frame(void)
 void ui_exit(void)
 {
     int soe;    /* save on exit */
+
+    /* clean up UI resources */
+    ui_disk_attach_shutdown();
 
     /* Destroy the main window(s) */
     ui_destroy_main_window(PRIMARY_WINDOW);

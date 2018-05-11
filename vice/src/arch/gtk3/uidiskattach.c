@@ -52,13 +52,45 @@ static ui_file_filter_t filters[] = {
     { NULL, NULL }
 };
 
+
+/** \brief  Preview widget reference
+ */
 static GtkWidget *preview_widget = NULL;
+
+
+/** \brief  Last directory used
+ *
+ * When a disk is attached, this is set to the directory of that file. Since
+ * it's heap-allocated by Gtk3, it must be freed with a call to
+ * ui_disk_attach_shutdown() on emulator shutdown.
+ */
+static gchar *last_dir = NULL;
+
 
 
 /** \brief  Unit number to attach disk to
  */
 static int unit_number = 8;
 
+
+/** \brief  Update the last directory reference
+ *
+ * \param[in]   widget  dialog
+ */
+static void update_last_dir(GtkWidget *widget)
+{
+    gchar *new_dir;
+
+    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
+    debug_gtk3("new dir = '%s'\n", new_dir);
+    if (new_dir != NULL) {
+        /* clean up previous value */
+        if (last_dir != NULL) {
+            g_free(last_dir);
+        }
+        last_dir = new_dir;
+    }
+}
 
 
 /** \brief  Handler for the 'toggled' event of the 'show hidden files' checkbox
@@ -146,6 +178,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
+            update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Attaching file '%s' to unit #%d\n",
@@ -163,6 +196,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
+            update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'\n", filename);
             /* if this function exists, why is there no attach_autodetect()
@@ -255,6 +289,11 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             "Close", GTK_RESPONSE_REJECT,
             NULL, NULL);
 
+    /* set last directory */
+    if (last_dir != NULL) {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
+    }
+
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
     if (unit < 8 || unit > 11) {
         unit = 8;
@@ -297,7 +336,6 @@ void ui_disk_attach_callback(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
 
-    debug_gtk3("called\n");
     dialog = create_disk_attach_dialog(widget, GPOINTER_TO_INT(user_data));
     gtk_widget_show(dialog);
 
@@ -332,5 +370,15 @@ void ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
     /* TODO: figure out where these integer literals are defined */
     for (unit = 8; unit < 12; unit++) {
         file_system_detach_disk(unit);
+    }
+}
+
+
+/** \brief  Clean up the last directory string
+ */
+void ui_disk_attach_shutdown(void)
+{
+    if (last_dir != NULL) {
+        g_free(last_dir);
     }
 }
