@@ -257,16 +257,27 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     gboolean res;
     char *uri;
     const char *path;
+#if defined(WIN32_COMPILE)
+    const char *tpath;
+#endif
 
 #ifdef MACOSX_BUNDLE
     /* On Macs the manual path is relative to the bundle. */
     path = util_concat(archdep_boot_path(), "/../doc/", NULL);
+#elif defined(WIN32_COMPILE)
+    /* On Windows the manual path is relative to the .exe */
+    tpath = util_concat(archdep_boot_path(), "/doc/", NULL);
+    /* we need forward slashes in the uri */
+    path = util_subst(tpath, "\\", "/");
+    lib_free(tpath);
+    debug_gtk3("doc path: %s\n", path);
 #else
     path = util_concat(DOCDIR, "/", NULL);
 #endif
 
     /* first try opening the pdf */
     uri = util_concat("file://", path, "vice.pdf", NULL);
+    debug_gtk3("pdf uri: %s\n", uri);
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
     lib_free(uri);
     g_clear_error(&error);
@@ -275,14 +286,20 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
         return;
     }
     /* try opening the html doc */
+#if defined(WIN32_COMPILE)
+    /* HACK: on windows the html files are in a seperate directory */
+    uri = util_concat("file://", path, "../html/vice_toc.html", NULL);
+#else
     uri = util_concat("file://", path, "vice_toc.html", NULL);
+#endif
+    debug_gtk3("html uri: %s\n", uri);
     res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
     lib_free(uri);
     g_clear_error(&error);
-    if (res) {
+    /* if (res) {
         lib_free(path);
         return;
-    }
+    } */
     lib_free(path);
     return;
 }
