@@ -266,7 +266,7 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     path = util_concat(archdep_boot_path(), "/../doc/", NULL);
 #elif defined(WIN32_COMPILE)
     /* On Windows the manual path is relative to the .exe */
-    tpath = util_concat(archdep_boot_path(), "/doc/", NULL);
+    tpath = util_concat("/", archdep_boot_path(), "/doc/", NULL);
     /* we need forward slashes in the uri */
     path = util_subst(tpath, "\\", "/");
     lib_free(tpath);
