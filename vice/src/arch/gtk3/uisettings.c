@@ -1403,11 +1403,11 @@ static GtkTreeStore *settings_model = NULL;
  */
 static GtkWidget *settings_tree = NULL;
 
-
+#if 0
 /** \brief  Paused state when popping up the UI
  */
 static int old_pause_state;
-
+#endif
 
 /** \brief  Handler for the "changed" event of the tree view
  *
@@ -1796,10 +1796,12 @@ static void response_callback(GtkWidget *widget, gint response_id,
         /* close dialog */
         case GTK_RESPONSE_DELETE_EVENT:
             gtk_widget_destroy(widget);
+#if 0
             /* restore old pause state */
             if (!old_pause_state) {
                 ui_pause_emulation(0);
             }
+#endif
             break;
 
         /* load vicerc from default location */
@@ -1935,6 +1937,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     GtkTreeIter iter;
 #endif
 
+#if 0
     /* remember pause setting */
     old_pause_state = ui_emulation_is_paused();
 
@@ -1942,6 +1945,7 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
     if (!old_pause_state) {
         ui_pause_emulation(1);
     }
+#endif
 
     vsync_suspend_speed_eval();
 

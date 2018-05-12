@@ -40,13 +40,36 @@
 #include "snapshot.h"
 #include "translate.h"
 #include "types.h"
+#include "ui.h"
 
 static int memory_hack = 0;
 
+
+/** \brief  Pause state before switching memory hack
+ */
+static int old_pause_state;
+
+
+/** \brief  Set memory hack
+ *
+ * Pauses emulation when switching to another memory expansion hack to avoid
+ * having a running CPU access invalid memory. Unpauses emulation if the
+ * emulation wasn't already paused before switching memory expansion.
+ *
+ * \param[in]   value   memory hack ID
+ * \param[in]   param   extra data (unused)
+ *
+ * \return  0 on succes, -1 on failure
+ */
 static int set_memory_hack(int value, void *param)
 {
     if (value == memory_hack) {
         return 0;
+    }
+
+    old_pause_state = ui_emulation_is_paused();
+    if (!old_pause_state) {
+        ui_pause_emulation(1);
     }
 
     switch (value) {
@@ -56,6 +79,9 @@ static int set_memory_hack(int value, void *param)
         case MEMORY_HACK_PLUS256K:
             break;
         default:
+            if (!old_pause_state) {
+                ui_pause_emulation(1);
+            }
             return -1;
     }
 
@@ -87,12 +113,18 @@ static int set_memory_hack(int value, void *param)
         case MEMORY_HACK_NONE:
             break;
         default:
+            if (!old_pause_state) {
+                ui_pause_emulation(1);
+            }
             return -1;
             break;
     }
 
     memory_hack = value;
 
+    if (!old_pause_state) {
+        ui_pause_emulation(1);
+    }
     return 0;
 }
 
