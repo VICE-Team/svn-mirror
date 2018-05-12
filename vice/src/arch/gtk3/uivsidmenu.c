@@ -224,7 +224,7 @@ static ui_menu_item_t debug_menu[] = {
  */
 static ui_menu_item_t help_menu[] = {
     { "Browse manual", UI_MENU_TYPE_ITEM_ACTION,
-        "manual", NULL, NULL,
+        "manual", ui_open_manual_callback, NULL,
         0, 0 },
     { "Command line options ...", UI_MENU_TYPE_ITEM_ACTION,
         "cmdline", uicmdline_dialog_show, NULL,
