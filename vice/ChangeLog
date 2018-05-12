@@ -1,5 +1,4862 @@
 ------------------------------------------------------------------------------
 
+2018-05-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_os2.c: Comment fix.
+
+2018-05-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/uivsidmenu.c: add browse documentation also to vsid
+	menu
+
+2018-05-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/uicommands.c, src/arch/gtk3/uicommands.h,
+	src/arch/gtk3/uimachinemenu.c: added 'browse documentation'. needs
+	testing on windows and osx. perhaps the htmlbrowser resource can be
+	removed now, its useless.
+
+2018-05-11  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/resid/extfilt.h, src/resid/filter.h, src/resid/sid.cc,
+	src/resid-dtv/sid.cc: Rephrase some logic in reSID to avoid signed
+	integer overflows. These are technically undefined behavior, and if
+	the integers worked on ever didn't fit in 16 bits, they still would be
+	- but as it is this should work on everything and no conceivable
+	failure mode should ever hit any two's-complement chip anyway.
+
+2018-05-11  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/resid/filter.h: Fix possible divide-by-zero in reSID (causes
+	crash on startup under gcc8)
+
+2018-05-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uismartattach.c,
+	src/arch/gtk3/uismartattach.h: Remember last used directory in
+	smart-attach dialog
+
+2018-05-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uicart.c, src/arch/gtk3/uicart.h:
+	Gtk3: Remember last used directory in cart-attach dialog
+
+2018-05-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uitapeattach.c,
+	src/arch/gtk3/uitapeattach.h: Gtk3: Remember last used directory in
+	tape-attach dialog
+
+2018-05-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uidiskattach.c,
+	src/arch/gtk3/uidiskattach.h: Gtk3: Remember last used directory in
+	disk-attach dialog
+
+2018-05-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/fsdevice/fsdevice-flush.c: Guard against NULL dereferencing
+
+2018-05-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/archdep_beos.c, src/arch/sdl/ui.h: Fix BeOS SDL1.2
+	compile
+
+2018-05-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/sound.c: Fix missing CheckForHaiku() prototype
+
+2018-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_drive.cc, src/arch/beos/vsidui.cc: Final beos
+	fixes.
+
+2018-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui.cc, src/arch/beos/ui.h: Added missing check for
+	haiku function.
+
+2018-05-08  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/arch/unix/x11/xaw/console.c: Missing prototype for Xaw &
+	--without-readline.
+
+2018-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/rescia.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/ressid.rc,
+	src/arch/win32/ressidcart.rc, src/arch/win32/ressiddtv.rc,
+	src/arch/win32/rested.rc, src/arch/win32/resvicii.rc: Did another
+	'make trans-update' for the updated dutch translations.
+
+2018-05-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* po/nl.po: Update NL translation, about %10 right now
+
+2018-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/ressampler.rc,
+	src/arch/win32/ressid.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2018-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po: Did a
+	'make update-po'.
+
+2018-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/crc32.c, src/event.c: Don't include inttypes.h directly, let the
+	types.h file handle it.
+
+2018-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/crc32.h, src/tapeport/tapecart.c: Don't include inttypes.h
+	directly, let the types.h file handle it.
+
+2018-05-07  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/m93c86.c: Debug text...
+
+2018-05-07  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/m93c86.c: Add missing CMDERASE handling
+
+2018-05-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/attach.c, src/diskimage/diskimage.c: Fix memory leak in
+	diskimage.c regarding P64
+
+2018-05-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_monitor.c: Gtk3: Add check button to
+	control the 'NativeMonitor' resource
+
+2018-05-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uimon.c: Gtk3: Add NativeMonitor
+	resource. The NativeMonitor resource controls whether to use the
+	spawning terminal for the monitor (+native-monitor command line), or a
+	proper Gtk3-based interface (-native-monitor). which hasn't been
+	implemented yet.
+
+2018-05-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/console_unix.c: Implement Moiree's patch #156. Tested
+	and working. Sorry it took so long for any of us to get off our arses.
+
+2018-05-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/video.c: SDL2: fix memory leak.
+
+2018-05-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/sdlmain.c, src/arch/sdl/uimenu.c,
+	src/arch/sdl/uimenu.h: SDL UI: fix memory leaks. The menu code leaked
+	memory due to the 'Quit emu' callback not returning to the calling
+	code.
+
+2018-05-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Remove leading space
+
+2018-05-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: Slightly update the dnd code
+
+2018-05-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: Fix drag-n-dropping files in Linux, should
+	not break Windows. Refactor d'n'd code, using various 'targets', this
+	works on my Linux box and hopefully will not break d'n'd on Windows.
+
+2018-05-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/initcmdline.c, src/snapshot.c, src/snapshot.h, src/vice.h:
+	Remove some changes introduced by r34742 by accident. Seems I had some
+	uncommited changes left in my VICE code on my Win7/MSYS2 VM, this
+	reverts them to their state in r34741.
+
+2018-05-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/initcmdline.c, src/snapshot.c,
+	src/snapshot.h, src/vice.h: Gtk3: make drag-n-drop on Windows work
+
+2018-05-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/archdep_win32.c, src/arch/win32/archdep.c,
+	src/ioutil.c: Fix missing win32/archdep_rmdir()
+
+2018-05-02  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128mmu.c: fix mmu mirrors, patch by hunkpapa
+
+2018-05-01  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/msdos/archdep.c: Fixed typo.
+
+2018-05-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: add drag-drop event handler. Maybe this
+	will trigger on Windows?
+
+2018-05-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: Implement drag-n-dropping files onto the
+	emu window. Dragging an emulator file/image (dxx, tap, prg, etc) onto
+	the emulator window now autostarts said file/image. The code can
+	definitely be improved a bit, but at least we now have a basic
+	implementation.
+
+2018-05-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/fsdevice/fsdevice-flush.c, src/util.c: vdrive: Fix @MD command.
+	Properly construct the path to the directory to create. Same bug as
+	the @RD command: the cwd can differ from the FSDevice[8-11]Dir
+	resource.
+
+2018-05-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/fsdevice/fsdevice-flush.c: vdrive: @CD command: guard against
+	segfault. When passed a NULL argument, fsdevice_flush_cd() would
+	happily use strcmp() on it, causing a segfault. Now a NULL argument
+	causes a syntax error.
+
+2018-05-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/archdep.c,
+	src/arch/gtk3/archdep.c, src/arch/msdos/archdep.c,
+	src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_beos.c,
+	src/arch/sdl/archdep_os2.c, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_win32.c, src/arch/unix/archdep.c, src/archapi.h,
+	src/fsdevice/fsdevice-flush.c, src/ioutil.c, src/ioutil.h: Fix vdrive
+	@RD (rmdir) command (bug #978). The 'rd' vdrive command now uses
+	rmdir(2) instead of unlink(2), and also properly constructs the
+	argument to the rmdir(2) call, a lot of code in vdrive-flush.c seems
+	to assume a drive's FSDeviceDir is the same as the cwd, which is not
+	always the case.
+
+2018-05-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/jamdialog.c: Gtk3: Remove 'Quit emulator' from
+	the JAM dialog. It appears 'Quit emulator' is only handled via the
+	JAMAction resource and via the JAM dialog.
+
+2018-04-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c: Gtk3: uimedia: fix unpausing emulation when
+	triggering the UI. Triggering the media UI causes the emulation to
+	become unpaused due to the strange nature of the ui_pause_emulation()
+	function. Now the emulation is paused when entering the UI and
+	unpaused when exiting the UI. When the emulation is already paused, it
+	stays that way until exiting the UI.
+
+2018-04-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uidiskcreate.c, src/arch/gtk3/uitapecreate.c: Use
+	util_add_extension_const().
+
+2018-04-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uisnapshot.c: Removed the "Add .vsf extension when
+	missing" check button from the GTK3 Save snapshot dialog. I only added
+	it for consistency with the disk/tape image creation dialogs; the
+	actual adding of the extension is what matters.
+
+2018-04-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uiabout.c, src/arch/gtk3/uidebug.c,
+	src/arch/gtk3/uisnapshot.c,
+	src/arch/gtk3/widgets/base/openfiledialog.c,
+	src/arch/gtk3/widgets/base/savefiledialog.c,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.c: Cleaned up some
+	GTK3 UI dialog creation code. gtk_file_chooser_dialog_new() and
+	gtk_dialog_new_with_buttons() call gtk_window_set_transient_for()
+	internally, so we don't need to.
+
+2018-04-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uitapecreate.c: Gtk3: create-tape dialog: auto-add
+	extension. No longer make the extension optional, always make sure the
+	filename ends in .tap.
+
+2018-04-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uidiskcreate.c: Gtk3: Create disk image dialog:
+	auto-add extension
+
+2018-04-27  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uisnapshot.c: Added a "Add .vsf extension when
+	missing" check button to the GTK3 Save snapshot dialog, and slightly
+	cleaned up the code.
+
+2018-04-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uistatusbar.c: Gtk3: Add a small margin to the
+	statusbar message widget. Adding an 8 pixels margin makes the messages
+	in the status bar a little easier to read (not stuck to the left
+	side).
+
+2018-04-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/tapeport/tapeport.c: Fixed a memory leak.
+
+2018-04-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Fix missing argument to debug_gtk3() call
+
+2018-04-24  groepaz <groepaz@gmx.net>
+
+	* src/resid/envelope.h: fix envelope bugs shown by
+	testprogs/SID/env_test/. patch by leandro nini
+
+2018-04-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/widgets/vsidcontrolwidget.c: Refactored toggling of
+	resources from the GTK3 UI.
+
+2018-04-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/c64dtvui.c,
+	src/arch/gtk3/c64scui.c, src/arch/gtk3/c64ui.c,
+	src/arch/gtk3/cbm2ui.c, src/arch/gtk3/cbm5x0ui.c,
+	src/arch/gtk3/petui.c, src/arch/gtk3/plus4ui.c,
+	src/arch/gtk3/scpu64ui.c, src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/vic20ui.c: Moved the GTK3 code to create the CRT
+	controls widget(s) from ui.c into the machine-specific UI files and
+	fixed a bunch of controls-widget-related Gtk-CRITICAL messages in
+	vsid. Moving the controls widget creation code out of ui.c kills a
+	machine_class switch, (usually a good thing,) and stops the code in
+	widgets/crtcontrolwidget.c from getting linked into vsid.
+
+2018-04-23  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: also support 256k magic desk images in cartconv
+
+2018-04-23  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/magicdesk.c: added support for 256k magic desk images,
+	ie DDI Magic Cart
+
+2018-04-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uismartattach.c: Gtk3: Update smart-attach dialog
+	preview widget. Also show preview of tapes images.
+
+2018-04-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/quartz_renderer.c, src/arch/gtk3/ui.c,
+	src/arch/gtk3/uismartattach.c, src/arch/gtk3/vsyncarch.c: Enable disk
+	image (Dxx) preview in the smart-attach dialog. Also commit some small
+	fixes I seemed to not have committed yet.
+
+2018-04-18  groepaz <groepaz@gmx.net>
+
+	* data/PET/win_sym.vkm: better windows keymap for xpet, provided by
+	John Grillot
+
+2018-04-14  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/vsyncarch.c:
+	Renamed vice_gtk3_lightpen_update() to ui_update_lightpen() for
+	consistency with other functions in gtk3/ui.c.
+
+2018-04-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimenu.c: Fix resource toggling triggering during menu
+	build. Connect signal handler for the 'toggled' event of check mark
+	menu items AFTER setting its initial value, avoiding a call to the
+	signal handler, inverting the resource's state. This fixes the odd
+	Numpad joystick issue, and probably a few other issues we haven't even
+	noticed yet.
+
+2018-04-12  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/machine.c: Fixed a memory leak.
+
+2018-04-12  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c: Reinstated the fallback code in the GTK3
+	ui_get_active_window() function. This fallback is needed to ensure
+	that a "Confirm Exit" dialog gets the correct parent window when
+	clicking the close button of a main window while no VICE window is
+	active on macOS.
+
+2018-04-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/ui.c: added cmdline option to start with minimized
+	window. very handy for testbench :)
+
+2018-04-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: UI settings: add 'reset to defaults'
+
+2018-04-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c: Apply patch by Greg King, should fix bug
+	#1000
+
+2018-04-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/ui-resources.c: Add (constructive) commens
+
+2018-04-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/uicommands.h: Fixed multiple issues in GTK3 UI code.
+	Refactored the functions that close a main window/exit the emulator.
+	Moved the destruction of the main window(s) into ui_exit() so that
+	both windows (and their CRT controls) get properly destroyed in x128.
+	Made the definition of  ui_resources in ui.c static again. Cleaned up
+	some comments.
+
+2018-04-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/ui.c,
+	src/arch/gtk3/uicommands.c, src/arch/gtk3/widgets/crtcontrolwidget.c:
+	Gtk3: Update default_log_file() for Windows (hopefully), remove some
+	debugging messages.
+
+2018-04-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: Remove timeout
+
+2018-04-04  groepaz <groepaz@gmx.net>
+
+	* src/machine.c: add option to save exitscreenshot from vicii in x128
+
+2018-04-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: CRT sliders: respond;	to PAL/NTSC switching (LOL)
+
+2018-04-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Add cast
+
+2018-04-03  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/ui.c: GTK3: Take 3 on CRT control toggle from the menu
+
+2018-04-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimenu.c: Add debug call to ui_accel_data_delete()
+
+2018-04-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c128/c128.c, src/c64/c64.c, src/tapeport/tapecart.c,
+	src/tapeport/tapecart.h: Fix memory leaks in tapecart
+
+2018-04-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: Manually clean up the
+	CRT widgets. For some reason the destruction of a GtkWindow does not
+	trigger the destruction of its child widgets. So for now this little
+	hack will have to do.
+
+2018-04-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Add 'list-all-wiki' to the --help output
+
+2018-04-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* Modified : /trunk/vice/src/arch/gtk3/ui.c: Reverted r34653 and
+	hopefully fixed the GTK3 ui_get_active_window() function in a way that
+	doesn't cause any regressions. Also fixed the -confirmexit cmdline
+	option.
+
+2018-04-02  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/ui.c: More robust (Wayland-friendly?) implementation
+	of ui_get_active_window
+
+2018-04-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* Modified : /trunk/vice/src/arch/gtk3/uimenu.c,
+	src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourcescale.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.c,
+	src/arch/gtk3/widgets/base/resourceswitch.c: Gtk3: reduce debugging
+	noise on the terminal somewhat. Remove debugging output in functions
+	that have been proven to work correctly. Perhaps replace some
+	debug_gtk3() calls in error handling branches with log_error().
+
+2018-04-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: CRT controls: fix
+	video standard check
+
+2018-04-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: Fix CRT sliders. The
+	various CRT sliders should now only be displayed when they control a
+	resource/CRT setting valid for the video chip and the video mode
+	(PAL/NTSC).  Still to do: update sliders displayed when switching
+	between PAL/NTSC.
+
+2018-04-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Fix typo
+
+2018-04-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: CRT controls: add
+	chip ID function for more finegrained control over which sliders
+	should be displayed and which not. Doesn't quite work yet, the
+	switching on PAL/NTSC is unreliable.
+
+2018-04-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: Make the VDC CRT controls work for x128. A
+	bit of a hack, and the static crt_enabled flag needs to be fixed to
+	support toggling these CTR widgets independently.
+
+2018-04-01  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/uicommands.h: Preserve CRT controls visibility over
+	fullscreen transitions
+
+2018-04-01  Michael C. Martin <mcmartin@gmail.com>
+
+	* configure.proto: Fix OpenGL/GLEW detection on platforms that need
+	GLEW
+
+2018-03-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: Further reduce CRT
+	controls size. Some more CSS magic to reduce the CTR controls. Also
+	remove the CRT controls from the Settings UI.
+
+2018-03-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: reduce CRT controls
+	slider sizes. Using a bit of CSS magic, I've reduced the size of the
+	GtkScale widgets. Next up is also reducing font size and perhaps some
+	margins.
+
+2018-03-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3:
+	Make CRT controls labels visible
+
+
+2018-03-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: Resize window to proper size when
+	disabling CRT controls
+
+2018-03-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/uicommands.h, src/arch/gtk3/uimachinemenu.c,
+	src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: Add preliminary CRT
+	control toggling. Needs works, probably borks on x128, doesn't clean
+	up memory properly (it does when used from ui_settings), and the
+	GtkWindow doesn't resize properly when switching off the CRT widget.
+
+2018-03-28  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/uitapecart.c, src/arch/win32/uitapecart.h: Made some
+	untested improvements to the WinVICE tapecart settings dialog.
+	Directly using tapecart_flush_tcrt() in the dialog is unlikely to
+	cause problems, so I if 0'ed all code related to workarounds. I also
+	changed some translate_text() calls to intl_translate_tcs() in code
+	requiring TCHAR pointers. This prevents ugly char width mismatches in
+	Unicode builds, but only works with strings in stringtable resources.
+	(.rc files)
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ide64widget.c: Fix ID64Cylinders4
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Fix gtk3-resources script
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Gtk3: Update resources script to generate Wiki
+	tables
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* check-activity.sh: Remove debugging echos'
+
+2018-03-27  groepaz <groepaz@gmx.net>
+
+	* check-activity.sh: better filtering
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* check-activity.sh, gtk3-resources.py: Update gtk3-resources script
+	to outut Wiki & markdown table data. Also add echo's to
+	checkactivity.sh script
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/romsetmanagerwidget.c,
+	src/arch/gtk3/widgets/romsetmanagerwidget.h,
+	src/arch/gtk3/widgets/settings_romset.c: Gtk3: Add predefined ROM sets
+	to the ROM settings UI. Some machines have lists of predefined ROM
+	sets, these are now available from the ROM sets management widget in
+	the ROM settings UI. Probably needs a callback to update the various
+	ROM widgets in the UI. Also needs a machine reset & video settings
+	update since switching ROM sets really screws up the emulators right
+	now.
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/settings_romset.c: Gtk3: xpet: add Rom9/A/B
+	widgets, fix resource-browser widget. Add widgets to load/unload ROMs
+	at $9000/$A000/$B000. Fix resource-browser widget, guarding against
+	possible free() calls on `NULL`.
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi: Update documentation
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c,
+	src/arch/gtk3/widgets/settings_io.c,
+	src/arch/gtk3/widgets/videobordermodewidget.c: Gtk3: fix a few
+	resource declarations
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_romset.c: Gtk3: Add drive expansion
+	ROMs to the ROMs UI. Add extra stack child with widgets for the
+	'DriveProfDOS1571Name', 'DriveSuperCardName', and 'DriveStarDosName'
+	resources.
+
+2018-03-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_romset.c: Gtk3: ROM settings: add
+	checkboxes for Basic1 and Basic1Chars resources
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c: Fix resource name
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/crtcontrolwidget.c: Gtk3: CRT controls:
+	determine suckyness of video signal
+
+2018-03-25  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: remove non existing CRT emulation resources from VDC
+	and CRTC
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: Gtk3: use more
+	sensible values for tape wobble
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_drive.c: Gtk3: Add widget for
+	DriveSoundEmulationVolume
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/crtcontrolwidget.c,
+	src/arch/gtk3/widgets/crtcontrolwidget.h,
+	src/arch/gtk3/widgets/settings_crt.c,
+	src/arch/gtk3/widgets/settings_crt.h: Gtk3: Implement CRT controls.
+	Add CRT settings widget, right now added in x64/x64sc settings for
+	testing. Should be accessible via the status bar as in Gtk2/Xaw.
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, src/arch/gtk3/uimachinemenu.c: Fix some resource
+	documentation. Add Dtv*Log resources in Gtk3, update ETHERNET_*
+	resources in vice.texi
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_io.c: Fix resource declarations
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: Gtk3: Add datasette
+	resources to the tapeport devices widget. Add widgets for the
+	DatasetteResetWithCPU, DatasetteZeroGapDelay, DatasetteSpeedTuning and
+	DatasetteTapeWobble resource. Someone needs to check the spin buttons
+	for sane values (bounds and steps).
+
+2018-03-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Fix small bug in the usage() function
+
+2018-03-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Remove the 'dialog too bloody large'
+	warning in the UI. The warning on the console remains (when compiling
+	with --enable-debug-gtk3ui).
+
+2018-03-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* data/VIC20/win_sym_it.vkm, src/arch/win32/restapecart.rc,
+	src/arch/win32/uitapecart.c, src/arch/win32/uitapecart.h: Fixed svn
+	properties.
+
+2018-03-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/drivedoswidget.c: Fix StarDos
+
+2018-03-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/digimaxwidget.c: Update DIGIMAX resources
+	delcarations
+
+2018-03-23  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/digimaxwidget.c: Fix DIGIMAXbase resource docs
+
+2018-03-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/tapeport/tapecart.c, src/tapeport/tapecart.h: Fixed svn
+	properties.
+
+2018-03-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uidiskcreate.c, src/arch/gtk3/uitapecreate.c: Made the
+	GTK3 disk/tape image creation code use util_add_extension() instead of
+	functions which duplicate its functionality.
+
+2018-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/tapeport/tapecart.c: Some coding style fixes.
+
+2018-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_amiga.sh: Updated and fixed amiga sdl make
+	bindist script.
+
+2018-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* man/vice.1: Fixed?
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_autostart.c,
+	src/c128/c128-cmdline-options.c: Fix AutostartBasicLoad
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, src/arch/gtk3/widgets/petiosizewidget.c,
+	src/arch/sdl/x128_ui.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/autostart-prg.c, src/autostart.c, src/c128/c128.c,
+	src/c128/c128mmu.c, src/keyboard.c: Turn 40/80ColumKey resource into
+	c128ColumnKey
+
+2018-03-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/kbd.c, src/arch/sdl/kbd.h: make combined keycodes
+	produce the same value with SDL1 and SDL2. this makes the predefined
+	hotkeys work on both with same values
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Make gtk3-resources.py somewhat usefull. The
+	scripts can now be used to produce various reports, the 'list-missing'
+	command probably being the most usefull, comparing resources
+	registered in the Gtk3 sources with resources documented in
+	doc/vice.texi.
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Update gtk3-resources script, use --help for more
+	info
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ultimemwidget.c,
+	src/arch/gtk3/widgets/userportdeviceswidget.c,
+	src/arch/gtk3/widgets/userportprinterwidget.c,
+	src/arch/gtk3/widgets/v364speechwidget.c,
+	src/arch/gtk3/widgets/vdcmodelwidget.c,
+	src/arch/gtk3/widgets/vfliwidget.c,
+	src/arch/gtk3/widgets/vic20memoryexpansionwidget.c,
+	src/arch/gtk3/widgets/vicflashwidget.c,
+	src/arch/gtk3/widgets/vicieee488widget.c,
+	src/arch/gtk3/widgets/vicioramwidget.c,
+	src/arch/gtk3/widgets/videobordermodewidget.c,
+	src/arch/gtk3/widgets/videomodelwidget.c,
+	src/arch/gtk3/widgets/videopalettewidget.c,
+	src/arch/gtk3/widgets/videorenderfilterwidget.c,
+	src/arch/gtk3/widgets/vsidmixerwidget.c: Document more Gtk3 UI
+	resources
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_romset.c: Document ROM resources
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/refreshratewidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/reuwidget.c,
+	src/arch/gtk3/widgets/rrnetmk3widget.c,
+	src/arch/gtk3/widgets/settings_printer.c,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.c,
+	src/arch/gtk3/widgets/sfxsoundsamplerwidget.c,
+	src/arch/gtk3/widgets/sidcartwidget.c,
+	src/arch/gtk3/widgets/sidmodelwidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/soundbuffersizewidget.c,
+	src/arch/gtk3/widgets/sounddriverwidget.c,
+	src/arch/gtk3/widgets/soundfragmentsizewidget.c,
+	src/arch/gtk3/widgets/soundoutputmodewidget.c,
+	src/arch/gtk3/widgets/soundsampleratewidget.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.c,
+	src/arch/gtk3/widgets/soundsyncwidget.c,
+	src/arch/gtk3/widgets/speedwidget.c,
+	src/arch/gtk3/widgets/superpetwidget.c,
+	src/arch/gtk3/widgets/supersnapshotwidget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c: Add even more Gtk3 UI
+	resources
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/magicvoicewidget.c,
+	src/arch/gtk3/widgets/megacartwidget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.c,
+	src/arch/gtk3/widgets/petdiagpinwidget.c,
+	src/arch/gtk3/widgets/petdwwwidget.c,
+	src/arch/gtk3/widgets/pethrewidget.c,
+	src/arch/gtk3/widgets/petiosizewidget.c,
+	src/arch/gtk3/widgets/petkeyboardtypewidget.c,
+	src/arch/gtk3/widgets/petmiscwidget.c,
+	src/arch/gtk3/widgets/petramsizewidget.c,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/petvideosizewidget.c,
+	src/arch/gtk3/widgets/plus4aciawidget.c,
+	src/arch/gtk3/widgets/plus4digiblasterwidget.c,
+	src/arch/gtk3/widgets/plus4memoryexpansionwidget.c,
+	src/arch/gtk3/widgets/printerdriverwidget.c,
+	src/arch/gtk3/widgets/printeremulationtypewidget.c,
+	src/arch/gtk3/widgets/printeroutputdevicewidget.c,
+	src/arch/gtk3/widgets/printeroutputmodewidget.c: Document some more
+	Gtk3 UI resources
+
+2018-03-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py, src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ieee488widget.c,
+	src/arch/gtk3/widgets/isepicwidget.c,
+	src/arch/gtk3/widgets/jamactionwidget.c,
+	src/arch/gtk3/widgets/joystickdevicewidget.c,
+	src/arch/gtk3/widgets/joystickuserportadapterwidget.c,
+	src/arch/gtk3/widgets/kbdlayoutwidget.c,
+	src/arch/gtk3/widgets/kbdmappingwidget.c,
+	src/arch/gtk3/widgets/kernalrevisionwidget.c,
+	src/arch/gtk3/widgets/keysetdialog.c: Document some more Gtk3 UI
+	resources
+
+2018-03-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_edit.c, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c: fix building on
+	SDL1
+
+2018-03-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/easyflashwidget.c: Add xscpu64 and x128 to
+	resource docs
+
+2018-03-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/driveramwidget.c,
+	src/arch/gtk3/widgets/driverpmwidget.c,
+	src/arch/gtk3/widgets/driveunitwidget.c,
+	src/arch/gtk3/widgets/drivewidgethelpers.c,
+	src/arch/gtk3/widgets/ds12c887widget.c,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/ethernetcartwidget.c,
+	src/arch/gtk3/widgets/ffmpegwidget.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/htmlbrowserwidget.c: gtk3: Update resource
+	documentation
+
+2018-03-19  groepaz <groepaz@gmx.net>
+
+	* src/translate_text.c: fix cmdline help for bordermode
+
+2018-03-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/debugcart.c, src/pet/debugcart.c, src/plus4/debugcart.c,
+	src/vic20/cart/debugcart.c: Print elapsed cycles for xcbm2, xcbm5x0,
+	xpet, xplus4 and xvic when using the debug cart.
+
+2018-03-17  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/ultimem.c: fix codestyle issues
+
+2018-03-17  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/ultimem.c: fix codestyle issues
+
+2018-03-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/burstmodewidget.c,
+	src/arch/gtk3/widgets/c128fullbankswidget.c,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c128machinetypewidget.c,
+	src/arch/gtk3/widgets/c64dtvflashsettingswidget.c,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.c,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.c,
+	src/arch/gtk3/widgets/cbm2rammappingwidget.c,
+	src/arch/gtk3/widgets/ciamodelwidget.c,
+	src/arch/gtk3/widgets/cpmwidget.c, src/arch/gtk3/widgets/cwdwidget.c,
+	src/arch/gtk3/widgets/digimaxwidget.c,
+	src/arch/gtk3/widgets/dqbbwidget.c,
+	src/arch/gtk3/widgets/drivedoswidget.c,
+	src/arch/gtk3/widgets/driveextendpolicywidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/driveidlemethodwidget.c,
+	src/arch/gtk3/widgets/drivemodelwidget.c,
+	src/arch/gtk3/widgets/driveparallelcablewidget.c,
+	src/arch/gtk3/widgets/driveramwidget.c: Update more resource docs
+
+2018-03-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_video.c: Document resources in
+	widgets/settings_video.c
+
+2018-03-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Increase space for resource names. The
+	'AutostartHandleTrueDriveEmulation' resource name broke the layout.
+
+2018-03-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, src/arch/gtk3/widgets/driveoptionswidget.c,
+	src/arch/gtk3/widgets/scpu64settingswidget.c,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/settings_controlport.c,
+	src/arch/gtk3/widgets/settings_drive.c,
+	src/arch/gtk3/widgets/settings_ethernet.c,
+	src/arch/gtk3/widgets/settings_io.c,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.c,
+	src/arch/gtk3/widgets/settings_io_georam.c,
+	src/arch/gtk3/widgets/settings_joystick.c,
+	src/arch/gtk3/widgets/settings_keyboard.c,
+	src/arch/gtk3/widgets/settings_misc.c,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/settings_monitor.c,
+	src/arch/gtk3/widgets/settings_mouse.c,
+	src/arch/gtk3/widgets/settings_printer.c,
+	src/arch/gtk3/widgets/settings_ramreset.c,
+	src/arch/gtk3/widgets/settings_rs232.c,
+	src/arch/gtk3/widgets/settings_sampler.c,
+	src/arch/gtk3/widgets/settings_snapshot.c,
+	src/arch/gtk3/widgets/settings_sound.c,
+	src/arch/gtk3/widgets/settings_soundchip.c,
+	src/arch/gtk3/widgets/settings_speed.c,
+	src/arch/gtk3/widgets/settings_video.c: Update more files to use the
+	new resource declarations
+
+2018-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64dtv/debugcart.c: Print elapsed cycles for x64dtv when using
+	the debug cart.
+
+2018-03-17  Ingo Korb <ingo@akana.de>
+
+	* src/tapeport/tapecart.c: Fix spurious clang warning
+
+2018-03-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py, src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/uidebug.c, src/arch/gtk3/uimachinemenu.c,
+	src/arch/gtk3/uimedia.c, src/arch/gtk3/uinetplay_new.c,
+	src/arch/gtk3/uisettings.c, src/arch/gtk3/uisnapshot.c,
+	src/arch/gtk3/uivsidmenu.c: Update Gtk3 resources script. Every
+	resource can now have multiple source files and multiple emus per
+	source file. Updated the files in the src/arch/gtk3/ root to use the
+	new resource declaration format.
+
+2018-03-16  groepaz <groepaz@gmx.net>
+
+	* data/C128/win_sym.vkm: patch symbolic keymap for c128, fixes bug
+	#577, patch by greg king
+
+2018-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/aciawidget.c: Update doxygen docs
+
+2018-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py, src/arch/gtk3/widgets/c128fullbankswidget.c,
+	src/arch/gtk3/widgets/c128functionromwidget.c: Update Gtk3 resource
+	coverage script.
+
+2018-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py: Gtk3 resource parser: support -emu
+
+2018-03-16  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2rom.c: use lib_malloc/free
+
+2018-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* gtk3-resources.py, src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/burstmodewidget.c: Start work on documenting
+	resource coverage in the Gtk3 UI. I've added a script that parses all
+	Gtk3 UI source files for 'resource declarations', simple lines of text
+	in a specific format that indicate which resource is covered for which
+	emu. Right now the script is a work in progress, it should in the end
+	be able to generate some reports on resources covered per emu and
+	source file. Perhaps checking against vice.texi.
+
+2018-03-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/cbm2/cbm2rom.c, src/cbm2/cbm5x0rom.c: Fix missing #include,
+	remove unused variable
+
+2018-03-14  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc.c: debug info
+
+2018-03-14  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-mem.c: fix comment
+
+2018-03-14  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2mem.h, src/cbm2/cbm2rom.c: allow+fix loading of 8k
+	chargen. fixed ESC-Z/ESC-Y
+
+2018-03-14  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm5x0rom.c: no hardware inverting going on with the VICII
+	chargen
+
+2018-03-14  groepaz <groepaz@gmx.net>
+
+	* data/CBM-II/gtk3_sym.vkm, data/CBM-II/sdl_sym.vkm,
+	data/CBM-II/win_pos_uk.vkm, data/CBM-II/win_sym.vkm,
+	data/CBM-II/win_sym_uk.vkm, data/CBM-II/x11_sym.vkm: make escape work
+	in the cbm2 keymaps. these keymaps are still totally broken and need
+	fixing however
+
+2018-03-13  groepaz <groepaz@gmx.net>
+
+	* data/C64/win_sym_it.vkm, data/C64DTV/win_sym_it.vkm,
+	data/SCPU64/win_sym_it.vkm, data/VIC20/win_sym_it.vkm: updated windows
+	symbolic keymaps for italian keyboard, provided by LoadError
+
+2018-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2mem.c: Fix 6509 cpu port issues (fixes bug #994).
+
+2018-03-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/crc32.c, src/crc32.h, src/event.c: Fix CRC32 endiannness issues
+	in event.c. CRC32 values are now stored and retrieved as little-endian
+	and transformed to/from the architecture's endianness.
+
+2018-03-13  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uivsidmenu.c: Fixed
+	GTK3 menu issues. We don't currently use the action_name member in the
+	menu structures, but if we did then any whitespace in those names
+	would cause VICE to crash with a GLib-GIO-ERROR in
+	g_menu_item_set_detailed_action(). I should have tested that
+	sooner. :-( I also made the shortcut keys used to activate the monitor
+	consistent between vsid and the emulators. On Mac, it now uses
+	Command-Option-M, (just like the Cocoa port,) but everywhere else it
+	uses Alt-H, (like the old GTK port.)
+
+2018-03-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/unix/gui/uitapeport.c: Update tapecart log level strings. Use
+	the strings from the Win32 port, might make things a little easier for
+	translators.
+
+2018-03-10  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/restapecart.rc,
+	src/arch/win32/uitapecart.c, src/arch/win32/uitapecart.h: Backport
+	TCRT settings to Win32 Native.
+
+2018-03-10  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: Gtk3: Update tapeport
+	devices UI. Add a bit more spacing between widgets and put labels on
+	the same line as the widgets they're attached to.
+
+2018-03-10  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: Gtk3: Add Tapecart
+	log level widget. Add a resource-combo-box to allow selection of the
+	Tapecart log level.
+
+2018-03-10  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uitapeport.c,
+	src/arch/unix/gui/uitapeport.h: Gtk2/Xaw: fix tapeport devices
+	submenu. Now only x64, x64sc and x128 present the Tapecart submenu.
+	Also fixed a compile error on Xaw regarding ui_message().
+
+2018-03-10  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uitapeport.c, Gtk2:
+	Implement Tapecart UI items. Add tapecart menu items to the I/O
+	extensions->Tape port devices menu. Should also work on Xaw, but I
+	haven't tested that yet.
+
+2018-03-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/menu_tape.c: SDL UI: Add
+	'flush image' to tapecart menu
+
+2018-03-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/c128ui.c,
+	src/arch/gtk3/c64scui.c, src/arch/gtk3/c64ui.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.h,
+	src/tapeport/tapecart.c, src/tapeport/tapecart.h: Gtk3: Add tapecart
+	flush button to tapeport devices widget. Implement
+	tapecart_flush_tcrt() in tapecart.c. Untested, since I have no idea
+	how to alter data on a tapecart or how to read it back. So some proper
+	testing is required.
+
+2018-03-08  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: Gtk3: Change Tapecart
+	browser to an open-file dialog
+
+2018-03-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/cbm2memorysizewidget.c,
+	src/arch/gtk3/widgets/sidmodelwidget.c: Gtk3: Fix memory size
+	selection of CBM-II. The 6x0/7x0 models now have a minium of 128KB.
+	Also 'fix' the SID model widget to properly align with other widgets.
+
+2018-03-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: Expand the setting tree by default
+	on Windows. Since Windows appears to not show the tree expand/collapse
+	indicators, we'll just expand the entire tree by default. Makes
+	testing/checking a bit easier.
+
+2018-03-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c: Gtk3: fix C128/SCPU64
+	I/O settings. Also make tapecart settings only appear in x64, x64sc
+	and x128.
+
+2018-03-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/widgets/settings_mouse.c: Removed the "Enable mouse
+	grab" checkbox from the GTK3 mouse settings widget. Having a checkbox
+	in the settings dialog which determines whether the mouse controls the
+	emulator or the UI makes no sense at all.
+
+2018-03-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/video.c,
+	src/arch/gtk3/vsidui.c: Cleaned up some GTK3 UI code related to
+	ui_get_active_window(). The code from the old version of the function
+	has been removed, several comments have been updated, and the
+	ui_create/display_toplevel_window() functions have been renamed to
+	ui_create/display_main_window() because they are not used for all
+	toplevel windows in the UI.
+
+2018-03-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/vsyncarch.c: Properly fixed docblock. (Oops)
+
+2018-03-05  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/joy-win32.c, src/arch/gtk3/kbd.c,
+	src/arch/gtk3/vsyncarch.c: Fixed some GTK3 docblocks.
+
+2018-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_edit.c, src/arch/sdl/menu_edit.h: Fix svn props.
+
+2018-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_edit.h: Fixed unselectable edit menu issue.
+
+2018-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c, src/arch/sdl/archdep_win32.h: Added
+	missing 'is_windows_nt()' function to the windows sdl ui archdep
+	files.
+
+2018-03-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_drive.c: fix checkmarks in drive menu
+
+2018-03-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_common.h, src/arch/sdl/uimenu.c,
+	src/arch/sdl/vsidui.c: fix (N/A) behind some items.
+
+2018-03-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_edit.c: added missing include
+
+2018-03-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/vsidui.c: make checkmark in tune list appear in first
+	column
+
+2018-03-04  groepaz <groepaz@gmx.net>
+
+	* data/C64/sdl_hotkeys_vsid.vkm, src/arch/sdl/vsidui.c: add default
+	tune menu item to VSID
+
+2018-03-04  groepaz <groepaz@gmx.net>
+
+	* data/C128/sdl_hotkeys.vkm, data/C64/sdl_hotkeys.vkm,
+	data/C64DTV/sdl_hotkeys.vkm, data/CBM-II/sdl_hotkeys.vkm,
+	data/PET/sdl_hotkeys.vkm, data/PLUS4/sdl_hotkeys.vkm,
+	data/SCPU64/sdl_hotkeys.vkm, data/VIC20/sdl_hotkeys.vkm,
+	src/arch/sdl/Makefile.am, src/arch/sdl/menu_edit.c,
+	src/arch/sdl/menu_edit.h, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c: added copy/paste to
+	SDL port
+
+2018-02-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep.h,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_unix.h,
+	src/arch/gtk3/archdep_win32.c, src/arch/gtk3/archdep_win32.h,
+	src/arch/gtk3/blockdev.c, src/arch/gtk3/c128ui.c,
+	src/arch/gtk3/c64dtvui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/cairo_renderer.c,
+	src/arch/gtk3/cbm2ui.c, src/arch/gtk3/cbm5x0ui.c,
+	src/arch/gtk3/console.c, src/arch/gtk3/coproc.c,
+	src/arch/gtk3/coproc.h, src/arch/gtk3/debug_gtk3.h,
+	src/arch/gtk3/dynlib-unix.c, src/arch/gtk3/dynlib-win32.c,
+	src/arch/gtk3/dynlib.c, src/arch/gtk3/fullscreen.c,
+	src/arch/gtk3/gtk3main.c, src/arch/gtk3/joy-osx-hid.c,
+	src/arch/gtk3/joy-osx-hid.h, src/arch/gtk3/joy-osx-hidlib.h,
+	src/arch/gtk3/joy-osx-hidmgr.c, src/arch/gtk3/joy-osx-hidutil.c,
+	src/arch/gtk3/joy-osx.c, src/arch/gtk3/joy-osx.h,
+	src/arch/gtk3/joy-unix-usb.c, src/arch/gtk3/joy-unix.c,
+	src/arch/gtk3/joy-unix.h, src/arch/gtk3/joy-win32-dinput-handle.c,
+	src/arch/gtk3/joy-win32-dinput-handle.h, src/arch/gtk3/joy-win32.c,
+	src/arch/gtk3/joy-win32.h, src/arch/gtk3/joy.h, src/arch/gtk3/kbd.c,
+	src/arch/gtk3/kbd.h, src/arch/gtk3/mousedrv.h,
+	src/arch/gtk3/not_implemented.h, src/arch/gtk3/petui.c,
+	src/arch/gtk3/plus4ui.c, src/arch/gtk3/quartz_renderer.c,
+	src/arch/gtk3/quartz_renderer.h, src/arch/gtk3/rawnetarch.c,
+	src/arch/gtk3/rawnetarch_unix.c, src/arch/gtk3/rawnetarch_win32.c,
+	src/arch/gtk3/rs232-unix-dev.c, src/arch/gtk3/rs232-win32-dev.c,
+	src/arch/gtk3/rs232dev.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/signals.c, src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/uiabout.c, src/arch/gtk3/uiabout.h,
+	src/arch/gtk3/uicart.c, src/arch/gtk3/uicart.h,
+	src/arch/gtk3/uicmdline.c, src/arch/gtk3/uicmdline.h,
+	src/arch/gtk3/uicommands.c, src/arch/gtk3/uicommands.h,
+	src/arch/gtk3/uicompiletimefeatures.c,
+	src/arch/gtk3/uicompiletimefeatures.h, src/arch/gtk3/uidatasette.c,
+	src/arch/gtk3/uidatasette.h, src/arch/gtk3/uidebug.h,
+	src/arch/gtk3/uidiskattach.c, src/arch/gtk3/uidiskattach.h,
+	src/arch/gtk3/uidiskcreate.c, src/arch/gtk3/uidiskcreate.h,
+	src/arch/gtk3/uifliplist.c, src/arch/gtk3/uifliplist.h,
+	src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uimachinemenu.h,
+	src/arch/gtk3/uimachinewindow.h, src/arch/gtk3/uimenu.c,
+	src/arch/gtk3/uimenu.h, src/arch/gtk3/uimon-fallback.c,
+	src/arch/gtk3/uimon.c, src/arch/gtk3/uimonarch.h,
+	src/arch/gtk3/uinetplay.c, src/arch/gtk3/uinetplay.h,
+	src/arch/gtk3/uismartattach.c, src/arch/gtk3/uismartattach.h,
+	src/arch/gtk3/uisnapshot.c, src/arch/gtk3/uisnapshot.h,
+	src/arch/gtk3/uistatusbar.c, src/arch/gtk3/uitapeattach.c,
+	src/arch/gtk3/uitapeattach.h, src/arch/gtk3/uitapecreate.c,
+	src/arch/gtk3/uitapecreate.h, src/arch/gtk3/uivideo.c,
+	src/arch/gtk3/uivideo.h, src/arch/gtk3/uivsidmenu.c,
+	src/arch/gtk3/uivsidmenu.h, src/arch/gtk3/uivsidwindow.c,
+	src/arch/gtk3/uivsidwindow.h, src/arch/gtk3/vic20ui.c,
+	src/arch/gtk3/video.c, src/arch/gtk3/videoarch.h,
+	src/arch/gtk3/vsyncarch.c: Gtk3: Update Doxygen docblocks in
+	src/arch/gtk3. Add \file, \brief, \author tags, split off the GPL
+	license from the doxygen stuff.
+
+2018-02-27  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/mousedrv.c: It seems unlikely that code from
+	gtk3/mousedrv.c will end up in a Cocoa build. :-)
+
+2018-02-27  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c: Changed the GTK3 ui_get_active_window() function
+	to return any toplevel window that is focused, not just a main window;
+	hopefully fixing dialog parenting problems.
+
+2018-02-27  groepaz <groepaz@gmx.net>
+
+	* data/C128/sdl_hotkeys.vkm, data/C64/sdl_hotkeys.vkm,
+	data/C64DTV/sdl_hotkeys.vkm, data/CBM-II/sdl_hotkeys.vkm,
+	data/PET/sdl_hotkeys.vkm, data/PLUS4/sdl_hotkeys.vkm,
+	data/SCPU64/sdl_hotkeys.vkm, data/VIC20/sdl_hotkeys.vkm,
+	src/arch/sdl/joy.c, src/arch/sdl/joy.h, src/arch/sdl/menu_joystick.c:
+	fix hotkeys for swapping joystick mappings
+
+2018-02-27  groepaz <groepaz@gmx.net>
+
+	* data/C128/sdl_hotkeys.vkm, data/C64/sdl_hotkeys.vkm,
+	data/C64DTV/sdl_hotkeys.vkm, data/CBM-II/sdl_hotkeys.vkm,
+	data/PET/sdl_hotkeys.vkm, data/PLUS4/sdl_hotkeys.vkm,
+	data/SCPU64/sdl_hotkeys.vkm, data/VIC20/sdl_hotkeys.vkm,
+	src/arch/sdl/menu_common.c, src/arch/sdl/menu_common.h,
+	src/arch/sdl/vsyncarch.c, src/arch/sdl/x128_ui.c,
+	src/arch/sdl/x64_ui.c, src/arch/sdl/x64dtv_ui.c,
+	src/arch/sdl/x64sc_ui.c, src/arch/sdl/xcbm2_ui.c,
+	src/arch/sdl/xpet_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/arch/sdl/xscpu64_ui.c, src/arch/sdl/xvic_ui.c: added advance-frame
+	to SDL UI
+
+2018-02-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_common.c, src/arch/sdl/menu_common.h,
+	src/arch/sdl/menu_drive.c, src/arch/sdl/menu_network.c,
+	src/arch/sdl/menu_snapshot.c, src/arch/sdl/menu_video.c,
+	src/arch/sdl/uifilereq.c, src/arch/sdl/uimenu.c,
+	src/arch/sdl/uimenu.h, src/arch/sdl/uistatusbar.c,
+	src/arch/sdl/vsidui.c, src/arch/sdl/x128_ui.c, src/arch/sdl/x64_ui.c,
+	src/arch/sdl/x64dtv_ui.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xscpu64_ui.c,
+	src/arch/sdl/xvic_ui.c: first wave of sdl ui cosmetics
+
+2018-02-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep_unix.c: Make c1541 not bork. For some reason,
+	archdep_is_chardev() is called now. I'll figure out why later. For now
+	I need c1541 to work.
+
+2018-02-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/keysetdialog.c,
+	src/arch/gtk3/widgets/settings_joystick.c: Gtk3: Fix ancestory of the
+	keyset dialog. The use of ui_get_active_window() breaks the parentage
+	of the keyset dialog (and many others), allowing the main settings
+	dialog to move in front of the dialogs spawned from a uisettings
+	widget. So now uisettings.c instanciates all its 'content widgets'
+	passing itself as the 'parent' argument to the widget constructors.
+	This way the last spawned (top) dialog will block all others, which is
+	what we want in case of a modal dialog (which are exclusively used so
+	far). This also means a lot of other dialogs need to be investigated
+	and perhaps altered (yay).
+
+2018-02-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/keysetdialog.c,
+	src/arch/gtk3/widgets/settings_joystick.c: Gtk3: joystick
+	settings/keyset dialog - cosmetic changes. Also refuse to accept
+	left/right Alt in the keyset dialog.
+
+2018-02-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/crc32.c, src/crc32.h, src/event.c, src/tapeport/tapecart.c: Fix
+	crc32 to use uint32_t in stead of unsigned long. As loggedoubt mention
+	on the ML, crc32 used unsigned long for its result, which resulted in
+	incorrect values on 64-bit machines. I've tested code that uses
+	crc32.c (snapshots, tapecart) and everything appears to work fine. May
+	need more rigorous testing.
+
+2018-02-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/keysetdialog.c,
+	src/arch/gtk3/widgets/keysetdialog.h,
+	src/arch/gtk3/widgets/settings_joystick.c: Gtk3: Implement joystick
+	keyset dialog. Add a dialog to edit keysets. Click a button and press
+	a key to set a key, or press Escape to reset the key to 'None'.
+
+2018-02-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c: Fixed a very bad typo. :-)
+
+2018-02-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c: Improved the documentation in gtk3/ui.c even
+	more, fully describing all functions with docblocks previously marked
+	"not understood.". Also changed some fprintf() calls to log_error()
+	calls; none of which should ever be reached.
+
+2018-02-23  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am: also add the joymap to the makefile :)
+
+2018-02-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/ui.c: disable the mouse pointer unless we really need
+	it
+
+2018-02-22  groepaz <groepaz@gmx.net>
+
+	* data/C64/sdl_joymap_ps3.vjm: added default mapping for ps3 pad
+
+2018-02-22  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64/sdl_hotkeys_vsid.vkm,
+	src/arch/sdl/kbd.c: use seperate hotkey map for vsid
+
+2018-02-22  groepaz <groepaz@gmx.net>
+
+	* data/C128/Makefile.am, data/C128/sdl_hotkeys.vkm,
+	data/C64/Makefile.am, data/C64/sdl_hotkeys.vkm,
+	data/C64DTV/Makefile.am, data/C64DTV/sdl_hotkeys.vkm,
+	data/CBM-II/Makefile.am, data/CBM-II/sdl_hotkeys.vkm,
+	data/PET/Makefile.am, data/PET/sdl_hotkeys.vkm,
+	data/PLUS4/Makefile.am, data/PLUS4/sdl_hotkeys.vkm,
+	data/SCPU64/Makefile.am, data/SCPU64/sdl_hotkeys.vkm,
+	data/VIC20/Makefile.am, data/VIC20/sdl_hotkeys.vkm: added default
+	hotkey maps
+
+2018-02-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/kbd.c: load a default hotkey map first, then the user
+	map
+
+2018-02-22  groepaz <groepaz@gmx.net>
+
+	* data/C64/sdl_sym_de.vkm: tweaked mapping, added comments
+
+2018-02-22  groepaz <groepaz@gmx.net>
+
+	* src/keyboard.c: add comment
+
+2018-02-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/kbd.c: comments in hotkey maps must start at the
+	beginning of the line
+
+2018-02-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/kbd.c: log a warning when keycode 0 is used in a SDL
+	keymap
+
+2018-02-21  groepaz <groepaz@gmx.net>
+
+	* data/C128/gtk3_pos.vkm, data/C128/gtk3_sym.vkm,
+	data/C128/sdl_pos.vkm, data/C64/gtk3_keyrah.vkm,
+	data/C64/gtk3_keyrah_de.vkm, data/C64/gtk3_pos.vkm,
+	data/C64/gtk3_pos_de.vkm, data/C64/gtk3_sym.vkm,
+	data/C64/gtk3_sym_de.vkm, data/C64/sdl_keyrah.vkm,
+	data/C64/sdl_keyrah_combian.vkm, data/C64/sdl_keyrah_de.vkm,
+	data/C64/sdl_keyrah_retropie.vkm, data/C64/sdl_keyrah_retropie_de.vkm,
+	data/C64/sdl_pos.vkm, data/C64/sdl_pos_da.vkm,
+	data/C64/sdl_pos_de.vkm, data/C64/sdl_pos_fi.vkm,
+	data/C64/sdl_pos_no.vkm, data/C64/sdl_sym.vkm,
+	data/C64/sdl_sym_de.vkm, data/C64DTV/gtk3_keyrah.vkm,
+	data/C64DTV/gtk3_keyrah_de.vkm, data/C64DTV/gtk3_pos.vkm,
+	data/C64DTV/gtk3_pos_de.vkm, data/C64DTV/gtk3_sym.vkm,
+	data/C64DTV/gtk3_sym_de.vkm, data/C64DTV/sdl_keyrah.vkm,
+	data/C64DTV/sdl_keyrah_combian.vkm, data/C64DTV/sdl_keyrah_de.vkm,
+	data/C64DTV/sdl_keyrah_retropie.vkm,
+	data/C64DTV/sdl_keyrah_retropie_de.vkm, data/C64DTV/sdl_pos.vkm,
+	data/C64DTV/sdl_pos_da.vkm, data/C64DTV/sdl_pos_de.vkm,
+	data/C64DTV/sdl_pos_fi.vkm, data/C64DTV/sdl_pos_no.vkm,
+	data/C64DTV/sdl_sym.vkm, data/C64DTV/sdl_sym_de.vkm,
+	data/CBM-II/sdl_sym.vkm, data/PET/gtk3_buuk_sym.vkm,
+	data/PET/sdl_buuk_sym.vkm, data/PET/sdl_grus_sym.vkm,
+	data/PLUS4/gtk3_pos.vkm, data/PLUS4/sdl_pos.vkm,
+	data/SCPU64/gtk3_keyrah.vkm, data/SCPU64/gtk3_keyrah_de.vkm,
+	data/SCPU64/gtk3_pos.vkm, data/SCPU64/gtk3_pos_de.vkm,
+	data/SCPU64/gtk3_sym.vkm, data/SCPU64/gtk3_sym_de.vkm,
+	data/SCPU64/sdl_keyrah.vkm, data/SCPU64/sdl_keyrah_combian.vkm,
+	data/SCPU64/sdl_keyrah_de.vkm, data/SCPU64/sdl_keyrah_retropie.vkm,
+	data/SCPU64/sdl_keyrah_retropie_de.vkm, data/SCPU64/sdl_pos.vkm,
+	data/SCPU64/sdl_pos_da.vkm, data/SCPU64/sdl_pos_de.vkm,
+	data/SCPU64/sdl_pos_fi.vkm, data/SCPU64/sdl_pos_no.vkm,
+	data/SCPU64/sdl_sym.vkm, data/SCPU64/sdl_sym_de.vkm,
+	data/VIC20/gtk3_pos.vkm, data/VIC20/gtk3_sym.vkm,
+	data/VIC20/sdl_pos.vkm, data/VIC20/sdl_pos_fi.vkm: removed mapping of
+	keycode 0 from all SDL keymaps, fixed keyrah keymaps, added comments
+
+2018-02-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/archdep_unix.c: oops
+
+2018-02-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/kbd.c, src/arch/sdl/archdep_unix.c: compare only the
+	beginning of the locale string so stuff like .UTF8 locales will also
+	work
+
+2018-02-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64dtvhw.c,
+	src/arch/sdl/menu_cbm2hw.c, src/arch/sdl/menu_pethw.c,
+	src/arch/sdl/menu_plus4hw.c, src/arch/sdl/menu_vic20hw.c: fix model
+	selection, should fix bug #981 perhaps?
+
+2018-02-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/sdl/menu_settings.c,
+	src/arch/sdl/ui.c, src/arch/sdl/uistatusbar.c,
+	src/arch/sdl/uistatusbar.h: added optional keyboard status display
+	line that can be used to make keymaps
+
+2018-02-20  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64/sdl_pos_de.vkm,
+	data/C64/sdl_sym_de.vkm, data/C64DTV/Makefile.am,
+	data/C64DTV/sdl_pos_de.vkm, data/C64DTV/sdl_sym_de.vkm,
+	data/SCPU64/Makefile.am, data/SCPU64/sdl_pos_de.vkm,
+	data/SCPU64/sdl_sym_de.vkm: created/updated sdl keymaps for german
+	keyboard layout
+
+2018-02-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fix --enable-lame behavior.
+
+2018-02-20  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidiskattach.c, src/arch/gtk3/uidiskattach.h,
+	src/arch/gtk3/uimachinemenu.c: Gtk3: Add 'detach all floppies'
+
+2018-02-20  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64/sdl_keyrah_combian.vkm,
+	data/C64DTV/Makefile.am, data/C64DTV/sdl_keyrah_combian.vkm,
+	data/SCPU64/Makefile.am, data/SCPU64/sdl_keyrah_combian.vkm: added
+	keyrah keymaps for use in combian
+
+2018-02-20  groepaz <groepaz@gmx.net>
+
+	* data/C64/sdl_keyrah_retropie.vkm,
+	data/C64/sdl_keyrah_retropie_de.vkm,
+	data/C64DTV/sdl_keyrah_retropie.vkm,
+	data/C64DTV/sdl_keyrah_retropie_de.vkm,
+	data/SCPU64/sdl_keyrah_retropie.vkm,
+	data/SCPU64/sdl_keyrah_retropie_de.vkm: updated comment
+
+2018-02-19  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uimachinewindow.c, src/arch/gtk3/uimachinewindow.h:
+	GTK3: Document the machine window files.
+
+2018-02-18  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uimachinewindow.c: GTK3: Implement mouse capture. This
+	implementation does not work on Wayland. GDK does not support pointer
+	confinement or manipulation on Wayland.
+
+2018-02-18  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uimachinewindow.c: Send mouse motion events from the
+	UI level to the VICE core. This only does anything if the mouse is
+	'grabbed', but at the moment no grabbing is actually happening.
+
+2018-02-18  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/mousedrv.c, src/arch/gtk3/uimachinewindow.c: GTK3:
+	Capture and forward mouse button/scroll events to VICE core
+
+2018-02-18  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/mousedrv.c, src/arch/gtk3/mousedrv.h: GTK3: Document
+	and complete draft implementation of mousedrv layer
+
+2018-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/rs232-unix-dev.c, src/arch/gtk3/rs232-win32-dev.c:
+	Doxygen updates
+
+2018-02-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourceswitch.c,
+	src/arch/gtk3/widgets/base/resourceswitch.h,
+	src/arch/gtk3/widgets/scpu64settingswidget.c: Gtk3: resource-switch:
+	implement new resource-widget API
+
+2018-02-17  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/video.c: Document video canvas routines for GTK3
+
+2018-02-17  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/ui.c: Clean up documentation in gtk3/ui.c
+
+2018-02-17  Michael C. Martin <mcmartin@gmail.com>
+
+	* doc/Doxyfile.gtk3, src/arch/gtk3/cairo_renderer.c,
+	src/arch/gtk3/cairo_renderer.h, src/arch/gtk3/opengl_renderer.c,
+	src/arch/gtk3/opengl_renderer.h, src/arch/gtk3/videoarch.h: Full
+	doxygen for the GTK3 renderers and videoarch
+
+2018-02-17  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uiedit.c, src/arch/gtk3/widgets/ciamodelwidget.c,
+	src/arch/gtk3/widgets/ethernetcartwidget.h,
+	src/arch/gtk3/widgets/magicvoicewidget.c,
+	src/arch/gtk3/widgets/megacartwidget.h,
+	src/arch/gtk3/widgets/settings_sound.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.h: Fix the \file
+	directives in GTK3 Doxygen headers
+
+2018-02-17  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uistatusbar.c: GTK3: Fix bug introduced by splitting
+	up structures for documentation
+
+2018-02-17  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uistatusbar.c, src/arch/gtk3/uistatusbar.h: First pass
+	at documenting the GTK3 statusbar API
+
+2018-02-16  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64DTV/Makefile.am,
+	data/SCPU64/Makefile.am: updated Makefile too :)
+
+2018-02-16  groepaz <groepaz@gmx.net>
+
+	* data/C64/sdl_keyrah_retropie.vkm,
+	data/C64/sdl_keyrah_retropie_de.vkm,
+	data/C64DTV/sdl_keyrah_retropie.vkm,
+	data/C64DTV/sdl_keyrah_retropie_de.vkm,
+	data/SCPU64/sdl_keyrah_retropie.vkm,
+	data/SCPU64/sdl_keyrah_retropie_de.vkm: added some keymaps for use
+	with RetroPie
+
+2018-02-16  groepaz <groepaz@gmx.net>
+
+	* data/C64/sdl_pos.vkm, data/C64DTV/sdl_pos.vkm,
+	data/SCPU64/sdl_pos.vkm: remove comment about keyrah from regular
+	keymaps
+
+2018-02-16  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimon-fallback.c: Fixed svn properties.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/main.dox,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.c: Update Gtk3 Doxygen
+	stuff a bit
+
+2018-02-16  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive-overflow.c: fix drive clock overflow. patch by krill
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/Doxyfile.gtk3, src/arch/gtk3/main.dox,
+	src/arch/gtk3/widgets/base/vice_gtk3.h: Gtk3: Add main Doxygen page
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidebug.c, src/arch/gtk3/uinetplay_new.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.h,
+	src/arch/gtk3/widgets/driverpmwidget.c,
+	src/arch/gtk3/widgets/driverpmwidget.h,
+	src/arch/gtk3/widgets/ffmpegwidget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.c,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/settings_ramreset.c,
+	src/arch/gtk3/widgets/soundbuffersizewidget.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.h: Gtk3: Update
+	resource-spin widget to use the new resource widget API. Also update
+	the function/method names from *spin_button_int* to *spin_int*,
+	function names are pretty long.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcescale.c,
+	src/arch/gtk3/widgets/base/resourcescale.h,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/vsidmixerwidget.c: Gtk3: Make widgets use the
+	new resource-scale API. Change widgets to use the new API, remove
+	deprecated code from the resource-scale widget.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcescale.c,
+	src/arch/gtk3/widgets/base/resourcescale.h: Gtk3: resource-scale-int
+	widget: implement new resource-widget API
+
+2018-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/gtk3/uimon-fallback.c: Make (windows) msys
+	console monitor mode work for gtk3.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_model.c: Gtk3: model settings UI:
+	only show GlueLogic widget for x64sc/xscpu64
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourcebrowser.h,
+	src/arch/gtk3/widgets/settings_romset.c: Gtk3: Remove deprecated use
+	of vice_gtk3_resource_browser_update()
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidebug.c: Gtk3: uidebug: add proper Doxygen docblocks
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidebug.c, src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.h,
+	src/arch/gtk3/widgets/burstmodewidget.c,
+	src/arch/gtk3/widgets/burstmodewidget.h,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c128machinetypewidget.c,
+	src/arch/gtk3/widgets/c128machinetypewidget.h,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.c,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.c,
+	src/arch/gtk3/widgets/ciamodelwidget.c,
+	src/arch/gtk3/widgets/ciamodelwidget.h,
+	src/arch/gtk3/widgets/ethernetcartwidget.c,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/expertwidget.h,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/jamactionwidget.c,
+	src/arch/gtk3/widgets/jamactionwidget.h,
+	src/arch/gtk3/widgets/kbdlayoutwidget.c,
+	src/arch/gtk3/widgets/kbdlayoutwidget.h,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.h,
+	src/arch/gtk3/widgets/petiosizewidget.c,
+	src/arch/gtk3/widgets/petiosizewidget.h,
+	src/arch/gtk3/widgets/petramsizewidget.c,
+	src/arch/gtk3/widgets/petramsizewidget.h,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/printeremulationtypewidget.c,
+	src/arch/gtk3/widgets/printeremulationtypewidget.h,
+	src/arch/gtk3/widgets/printeroutputdevicewidget.c,
+	src/arch/gtk3/widgets/printeroutputdevicewidget.h,
+	src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/refreshratewidget.c,
+	src/arch/gtk3/widgets/refreshratewidget.h,
+	src/arch/gtk3/widgets/reuwidget.c,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/settings_io.c,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.c,
+	src/arch/gtk3/widgets/settings_io_georam.c,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/settings_rs232.c,
+	src/arch/gtk3/widgets/settings_snapshot.c,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.c,
+	src/arch/gtk3/widgets/sidcartwidget.c,
+	src/arch/gtk3/widgets/sidmodelwidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/soundfragmentsizewidget.c,
+	src/arch/gtk3/widgets/soundfragmentsizewidget.h,
+	src/arch/gtk3/widgets/soundoutputmodewidget.c,
+	src/arch/gtk3/widgets/soundoutputmodewidget.h,
+	src/arch/gtk3/widgets/soundsampleratewidget.c,
+	src/arch/gtk3/widgets/soundsampleratewidget.h,
+	src/arch/gtk3/widgets/soundsyncwidget.c,
+	src/arch/gtk3/widgets/soundsyncwidget.h,
+	src/arch/gtk3/widgets/speedwidget.c,
+	src/arch/gtk3/widgets/speedwidget.h,
+	src/arch/gtk3/widgets/vdcmodelwidget.c,
+	src/arch/gtk3/widgets/videobordermodewidget.c,
+	src/arch/gtk3/widgets/videobordermodewidget.h,
+	src/arch/gtk3/widgets/videorenderfilterwidget.c,
+	src/arch/gtk3/widgets/videorenderfilterwidget.h: Gtk3: Update widgets
+	to use the new resource-radiogroup-widget API. Also remove deprecated
+	functions from the resource-radiogroup-widget code.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.h: Gtk3:
+	resource-radiogroup-widget: implement new API. Implement the new
+	resource widgets API, marking old functions as deprecated. The rest of
+	the Gtk3 widgets still need to be updated to make use of the new API.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_model.c: Gtk3: Model settings UI:
+	disable 'glue logic' widget on x64. I had added the glue logic widget
+	for x64 since it was missing, but since it appears 'custom' glue logic
+	screws with the timing of x64, I've disabled the widget for x64.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uinetplay_new.c: Gtk3: Change resource-entry widgets
+	to use the new resource widget API. The previous commit went wrong, so
+	here's the final file of the resource-entry changes.
+
+2018-02-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceentry.h,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c64dtvflashsettingswidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ieee488widget.c,
+	src/arch/gtk3/widgets/ieee488widget.h,
+	src/arch/gtk3/widgets/magicvoicewidget.c,
+	src/arch/gtk3/widgets/magicvoicewidget.h,
+	src/arch/gtk3/widgets/megacartwidget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/petdwwwidget.c,
+	src/arch/gtk3/widgets/petdwwwidget.h,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.c,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.h,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/settings_monitor.c,
+	src/arch/gtk3/widgets/settings_rs232.c,
+	src/arch/gtk3/widgets/settings_snapshot.c,
+	src/arch/gtk3/widgets/sounddriverwidget.c,
+	src/arch/gtk3/widgets/sounddriverwidget.h,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/gtk3/widgets/v364speechwidget.c,
+	src/arch/gtk3/widgets/vsidcontrolwidget.c: Gtk3: VSID UI: remove
+	gtk_widget_set_focus_on_click(). Doesn't appear to do anything.
+
+2018-02-15  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64gluelogic.c: in x64 GlueLogic must always be 0, else the
+	timing is broken
+
+2018-02-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h: Gtk3: Remove deprecated
+	resource-combo-box-str methods. None of the current UI code actually
+	uses a combo-box-str, but we might need it eventually.
+
+2018-02-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h,
+	src/arch/gtk3/widgets/base/resourcehelpers.c: Gtk3: Implement new base
+	widgets API for resource-combo-box-str
+
+2018-02-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c, src/arch/gtk3/uimedia.h,
+	src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h,
+	src/arch/gtk3/widgets/driveextendpolicywidget.c,
+	src/arch/gtk3/widgets/driveextendpolicywidget.h,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/driveidlemethodwidget.c,
+	src/arch/gtk3/widgets/driveidlemethodwidget.h,
+	src/arch/gtk3/widgets/driveparallelcablewidget.c,
+	src/arch/gtk3/widgets/driveparallelcablewidget.h,
+	src/arch/gtk3/widgets/ds12c887widget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/scpu64settingswidget.c,
+	src/arch/gtk3/widgets/settings_ramreset.c,
+	src/arch/gtk3/widgets/settings_ramreset.h,
+	src/arch/gtk3/widgets/settings_rs232.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c: Gtk3: Update widgets/dialogs
+	to use the new resource-combo-box-int API
+
+2018-02-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h: Gtk3: Implement new
+	resource widgets API for integer combo boxes
+
+2018-02-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.h,
+	src/arch/gtk3/widgets/c128fullbankswidget.c,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c64dtvflashsettingswidget.c,
+	src/arch/gtk3/widgets/cbm2rammappingwidget.c,
+	src/arch/gtk3/widgets/cbm2rammappingwidget.h,
+	src/arch/gtk3/widgets/cpmwidget.c, src/arch/gtk3/widgets/cpmwidget.h,
+	src/arch/gtk3/widgets/digimaxwidget.c,
+	src/arch/gtk3/widgets/digimaxwidget.h,
+	src/arch/gtk3/widgets/drivedoswidget.c,
+	src/arch/gtk3/widgets/drivedoswidget.h,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.h,
+	src/arch/gtk3/widgets/driveoptionswidget.c,
+	src/arch/gtk3/widgets/driveoptionswidget.h,
+	src/arch/gtk3/widgets/driveramwidget.c,
+	src/arch/gtk3/widgets/driveramwidget.h,
+	src/arch/gtk3/widgets/ds12c887widget.c,
+	src/arch/gtk3/widgets/ds12c887widget.h,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/easyflashwidget.h,
+	src/arch/gtk3/widgets/ethernetcartwidget.c,
+	src/arch/gtk3/widgets/ethernetcartwidget.h,
+	src/arch/gtk3/widgets/ffmpegwidget.c,
+	src/arch/gtk3/widgets/ffmpegwidget.h,
+	src/arch/gtk3/widgets/finalexpansionwidget.c,
+	src/arch/gtk3/widgets/finalexpansionwidget.h,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/gmod2widget.h,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/megacartwidget.c,
+	src/arch/gtk3/widgets/megacartwidget.h,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/midiwidget.h,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmc64widget.h,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/mmcrwidget.h,
+	src/arch/gtk3/widgets/petdiagpinwidget.c,
+	src/arch/gtk3/widgets/petdiagpinwidget.h,
+	src/arch/gtk3/widgets/pethrewidget.c,
+	src/arch/gtk3/widgets/pethrewidget.h,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/petreuwidget.h,
+	src/arch/gtk3/widgets/plus4aciawidget.c,
+	src/arch/gtk3/widgets/plus4aciawidget.h,
+	src/arch/gtk3/widgets/plus4digiblasterwidget.c,
+	src/arch/gtk3/widgets/plus4digiblasterwidget.h,
+	src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/ramcartwidget.h,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.h,
+	src/arch/gtk3/widgets/reuwidget.c, src/arch/gtk3/widgets/reuwidget.h,
+	src/arch/gtk3/widgets/rrnetmk3widget.c,
+	src/arch/gtk3/widgets/rrnetmk3widget.h,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/settings_autostart.h,
+	src/arch/gtk3/widgets/settings_controlport.c,
+	src/arch/gtk3/widgets/settings_controlport.h,
+	src/arch/gtk3/widgets/settings_drive.c,
+	src/arch/gtk3/widgets/settings_drive.h,
+	src/arch/gtk3/widgets/settings_io.c,
+	src/arch/gtk3/widgets/settings_io.h,
+	src/arch/gtk3/widgets/settings_io_georam.c,
+	src/arch/gtk3/widgets/settings_io_georam.h,
+	src/arch/gtk3/widgets/settings_joystick.c,
+	src/arch/gtk3/widgets/settings_joystick.h,
+	src/arch/gtk3/widgets/settings_misc.c,
+	src/arch/gtk3/widgets/settings_misc.h,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/settings_monitor.c,
+	src/arch/gtk3/widgets/settings_monitor.h,
+	src/arch/gtk3/widgets/settings_mouse.c,
+	src/arch/gtk3/widgets/settings_mouse.h,
+	src/arch/gtk3/widgets/settings_printer.c,
+	src/arch/gtk3/widgets/settings_printer.h,
+	src/arch/gtk3/widgets/settings_rs232.c,
+	src/arch/gtk3/widgets/settings_rs232.h,
+	src/arch/gtk3/widgets/settings_sound.c,
+	src/arch/gtk3/widgets/settings_sound.h,
+	src/arch/gtk3/widgets/settings_speed.c,
+	src/arch/gtk3/widgets/settings_speed.h,
+	src/arch/gtk3/widgets/settings_video.c,
+	src/arch/gtk3/widgets/settings_video.h,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.c,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.h,
+	src/arch/gtk3/widgets/sfxsoundsamplerwidget.c,
+	src/arch/gtk3/widgets/sfxsoundsamplerwidget.h,
+	src/arch/gtk3/widgets/sidcartwidget.c,
+	src/arch/gtk3/widgets/sidcartwidget.h,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/superpetwidget.c,
+	src/arch/gtk3/widgets/superpetwidget.h,
+	src/arch/gtk3/widgets/supersnapshotwidget.c,
+	src/arch/gtk3/widgets/supersnapshotwidget.h,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.h,
+	src/arch/gtk3/widgets/ultimemwidget.c,
+	src/arch/gtk3/widgets/ultimemwidget.h,
+	src/arch/gtk3/widgets/userportdeviceswidget.c,
+	src/arch/gtk3/widgets/userportdeviceswidget.h,
+	src/arch/gtk3/widgets/userportprinterwidget.c,
+	src/arch/gtk3/widgets/userportprinterwidget.h,
+	src/arch/gtk3/widgets/v364speechwidget.c,
+	src/arch/gtk3/widgets/v364speechwidget.h,
+	src/arch/gtk3/widgets/vdcmodelwidget.c,
+	src/arch/gtk3/widgets/vdcmodelwidget.h,
+	src/arch/gtk3/widgets/vfliwidget.c,
+	src/arch/gtk3/widgets/vfliwidget.h,
+	src/arch/gtk3/widgets/vicflashwidget.c,
+	src/arch/gtk3/widgets/vicflashwidget.h,
+	src/arch/gtk3/widgets/vicieee488widget.c,
+	src/arch/gtk3/widgets/vicieee488widget.h,
+	src/arch/gtk3/widgets/vicioramwidget.c,
+	src/arch/gtk3/widgets/vicioramwidget.h: Gtk3: Update widgets/dialog to
+	use the new resource-check-button API. Also update a few doxygen
+	file-level docblocks and some resource info.
+
+2018-02-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecheckbutton.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.h: Gtk3: Implement new
+	API for resource check buttons
+
+2018-02-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourcebrowser.h: Gtk3: Start work a on
+	sensible API for base widgets. Since not all base widgets use the same
+	function names for the same functionality, I've decided to do
+	implement a 'shared' API for the widgets. The idea is to use the
+	following names: new() to create a new instance. set() to set a new
+	value for the widget and its resource. get() to retrieve the
+	resource's current value. reset() to revert a resource to the value it
+	had when the widget instance was created. sync() to synchronize the
+	widget with its resource value (useful when code other than the
+	widget's code modifies the resource). factory() to reset widget and
+	resource to the resource's factory value
+
+2018-02-12  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/rawnetarch_unix.c, src/arch/msdos/rawnetarch.c,
+	src/arch/unix/rawnetarch.c, src/c64/cart/cs8900io.c: Fixed some rawnet
+	related issues. 1. Stopped rawnet_arch_get_standard_interface()
+	causing a crash when pcap_findalldevs() returns a NULL list. 2.
+	Stopped the allocated factory value of resource "ETHERNET_INTERFACE"
+	getting freed before shutdown. 3. Made gtk3/rawnetarch_unix.c define
+	RAWNET_ONLY_IF_UP only if PCAP_IF_UP is defined in a header.
+
+2018-02-11  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/quartz_renderer.c: Add lightpen support to Quartz
+	renderer
+
+2018-02-11  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/cairo_renderer.c, src/arch/gtk3/opengl_renderer.c,
+	src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/uimachinewindow.c, src/arch/gtk3/video.c,
+	src/arch/gtk3/videoarch.h, src/arch/gtk3/vsyncarch.c: GTK3: Light pen
+	support for OpenGL and Cairo renderers
+
+2018-02-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/sdl/Makefile.am: Fix windows
+	gtk/sdl pcap include dir.
+
+2018-02-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.h,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.c,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.h,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.c,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.h,
+	src/arch/gtk3/widgets/settings_model.c: Gtk3: model settings UI:
+	implement CBM-II glue logic
+
+2018-02-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/plus4memoryexpansionwidget.c,
+	src/arch/gtk3/widgets/plus4memoryexpansionwidget.h,
+	src/arch/gtk3/widgets/settings_model.c: Gtk3: Implement model settings
+	widget glue logic for Plus4. Won't appear to work well, due to the
+	large number of factors a valid C16/C116/Plus4 model depends on, many
+	of these factors being changed in different dialogs.
+
+2018-02-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/settings_speed.c:
+	Gtk3: Fix the settings UI unpausing the emulator
+
+2018-02-10  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uimachinewindow.c: GTK3: Restrict main window
+	'crossing' events to true pointer movement events
+
+2018-02-10  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uimachinewindow.c: GTK3: Refactor custom cursor
+	graphic creation
+
+2018-02-09  Michael C. Martin <mcmartin@gmail.com>
+
+	* man/vice.1, src/arch/gtk3/uimachinewindow.c, src/arch/gtk3/video.c,
+	src/arch/gtk3/videoarch.h: GTK3: Switch to the light pen cursor when
+	it is enabled
+
+2018-02-09  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/cairo_renderer.c: Speed up software rendering in
+	GTK3-Cairo
+
+2018-02-09  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/quartz_renderer.c: Experiment with using CGLayerRef
+	for scaling operations
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/vsidui.c, src/arch/gtk3/widgets/settings_model.c:
+	Gtk3: Implement VSID VIC-II settings. Yes, I'm aware of how this
+	sounds.
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_model.c: Gtk3: Implement VIC-20 model
+	setting widgets glue logic
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am: Remove useless extra MVSC include
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c64dtvui.c, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/videomodelwidget.c,
+	src/arch/gtk3/widgets/videomodelwidget.h: Gtk3: model settings:
+	implement glue logic for C64DTV widgets. The DTV model widgets now
+	interact: setting the DTV-model will update the VIC-II and Revision
+	widgets, while setting either the VIC-II or Revision widget will
+	update the DTV model widget, or invalidate it in case the model is
+	Hummmer and PAL is selected. This involves quite some callbacks/event
+	handlers, so the widgets should only trigger resource updates when
+	necessary, to avoid widget A triggering events on widget B and widget
+	A then triggering events on widget B again, and so. Hence to copious
+	use of debug_gtk3() calls for now.
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_model.c: Gtk3: model settings UI:
+	don't create KernalRev widget for xscpu64
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: settings UI: make tree slightly
+	less wide and remove column headers
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c64ui.c, src/arch/gtk3/widgets/machinemodelwidget.c,
+	src/arch/gtk3/widgets/machinemodelwidget.h,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/videomodelwidget.c: Gtk3: Fix the VIC-II model
+	widget for x64
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/vsidui.c, src/arch/gtk3/widgets/vsidtuneinfowidget.c,
+	src/arch/gtk3/widgets/vsidtuneinfowidget.h: Gtk3: Improve VSID driver
+	info widget. Present the driver info data properly aligned in a grid.
+
+2018-02-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/amigaos/vsidui.c, src/arch/gtk3/vsidui.c,
+	src/arch/msdos/vsidui.c, src/arch/sdl/vsidui.c,
+	src/arch/unix/gui/vsidui.c, src/arch/win32/vsidui.c, src/c64/psid.c,
+	src/vsidui.h: Update VSID API: add functions to pass
+	driver/load/play/init address and size. Using separate functions to
+	pass the SID load address/play address etcetera to the UI allows the
+	various UIs to avoid parsing the 'driver info' string to get the
+	various parameters.
+
+2018-02-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/vsidtuneinfowidget.c: Gtk3: VSID UI: small
+	improvements. Make title, author and copyright able to be copied by
+	the user. Remove unneeded static variables. Update doxygen docs.
+
+2018-02-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/vsidtuneinfowidget.c: Gtk3: VSID UI: properly
+	translate title, author and copyright strings to UTF-8
+
+2018-02-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c: Gtk3: Implement attach disk submenu,
+	allowing Alt+8,9,0,1 hotkeys
+
+2018-02-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/sidsoundwidget.c: Gtk3: SID settings: only
+	allow three SIDs for VSID. Once VSID supports four SIDs the extra VSID
+	checks can be removed.
+
+2018-02-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.h,
+	src/arch/gtk3/widgets/vsidmixerwidget.c: Gtk3: Update SID widgets to
+	handle --without-resid. Widgets handling ReSID resources are now only
+	created when HAVE_RESID is defined.
+
+2018-02-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uiedit.c, src/arch/gtk3/uiedit.h,
+	src/arch/gtk3/uimachinemenu.c: Gtk3: Add hotkeys Alt+Delete/Alt+Insert
+	to copy/paste menu items.
+
+2018-02-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c: Gtk3: Connect ALT+C to Attach
+	Cartridge
+
+2018-02-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/uimachinemenu.c: added single frame advance to menu
+
+2018-02-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/vsidmainwidget.c,
+	src/arch/gtk3/widgets/vsidmixerwidget.c,
+	src/arch/gtk3/widgets/vsidmixerwidget.h: Gtk3: implement mixer widget
+	for VSID. Simple widget to control volume, passband, gain and filter
+	bias. Currently takes up too much vertical space. Also may need to be
+	able to be hidden/shown as in the Gtk2 UI.
+
+2018-02-06  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uisidattach.c,
+	src/arch/gtk3/uistatusbar.c,
+	src/arch/gtk3/widgets/vsidcontrolwidget.c,
+	src/arch/gtk3/widgets/vsidmainwidget.c: Gtk3: VSID updates. Fix
+	statusbar for VSID (may require a separate statusbar though), display
+	'VSID' in window title and remove fps display (always 0). Make sure
+	the media button images are always displayed and make sure they cannot
+	grab focus (otherwise the last clicked button gets an ugly, colored
+	frame around it).
+
+2018-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uivsidwindow.c,
+	src/arch/gtk3/vsidui.c, src/arch/gtk3/widgets/vsidcontrolwidget.c,
+	src/arch/gtk3/widgets/vsidmainwidget.c,
+	src/arch/gtk3/widgets/vsidmainwidget.h,
+	src/arch/gtk3/widgets/vsidtuneinfowidget.c: Gtk3: Clean up the VSID UI
+	code a bit. Add some doxygen documentation, remove some duplication.
+	Make the media buttons smaller and split the 'driver info' string into
+	multiple lines.
+
+2018-02-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimachinemenu.c: Removed unused GTK3 debug menu code.
+	The vsid debug menu is still in uivsidmenu.c.
+
+2018-02-04  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/quartz_renderer.c,
+	src/arch/gtk3/quartz_renderer.h, src/arch/gtk3/uimachinewindow.c:
+	GTK3: First cut at a Quartz/Cairo bridge. Disabled because it's slower
+	than stock Cairo.
+
+2018-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/vsidcontrolwidget.c: Gtk3: VSID: hook ffwd
+	button up to Warp mode. Also remove rewind button, actually playing
+	SIDs in reverse takes quite a bit code.
+
+2018-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/vsidui.c, src/arch/gtk3/widgets/vsidcontrolwidget.c,
+	src/arch/gtk3/widgets/vsidcontrolwidget.h: Gtk3: VSID make next/prev
+	tune buttons work
+
+2018-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/vsidcontrolwidget.c,
+	src/arch/gtk3/widgets/vsidcontrolwidget.h,
+	src/arch/gtk3/widgets/vsidmainwidget.c: Gtk3: Add VSID media control
+	buttons. None of these actually work, except the Eject button which
+	triggers a PSID-open dialog.
+
+2018-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/uivsidwindow.c, src/arch/gtk3/vsidui.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/vsidmainwidget.c,
+	src/arch/gtk3/widgets/vsidmainwidget.h,
+	src/arch/gtk3/widgets/vsidtuneinfowidget.c,
+	src/arch/gtk3/widgets/vsidtuneinfowidget.h: Gtk3: Start work on VSID
+	UI. Add tune info widgets, pretty ugly right now, but at least VSID
+	now displays the tune it is playing.
+
+2018-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: Create preliminary settings tree
+	for VSID. VSID has a much simpler settings scheme than the other UI's
+	and some nodes can probably be folded into a fewer nodes.
+
+2018-02-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_model.c: Gtk3: Update model settings
+	layouts. Remove NOT_IMPLEMENTED(), all layouts except VSID are ready.
+	VSID is going to need its own separate settings UI I think. Some glue
+	logic is needed for the various layouts to update widgets depending on
+	other widgets (ie selecting C64C may need updating the CIA model, and
+	having C64C selected and selecting old CIA will need to 'invalidate'
+	the model).
+
+2018-02-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* data/PET/gtk3_buuk_pos.vkm, data/PET/gtk3_buuk_sym.vkm,
+	data/PET/gtk3_grus_sym.vkm, data/PET/x11_buuk_pos.vkm,
+	data/PET/x11_buuk_sym.vkm, data/PET/x11_grus_sym.vkm: Fixed the
+	archaic joykeys mappings in the PET X11 and GTK3 keymap files. The
+	"Joystick #2" mappings should now work as "Keyset B," but fixing
+	"Joystick #1" would have made it a duplicate of the "Numpad" mapping,
+	so I removed it.
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uivsidwindow.c: Remove `return` statements from void
+	functions
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uivsidwindow.c: Gtk3: Add VSID main widget
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uistatusbar.c: Gtk3: Disable tape status for C64DTV
+	and VSID, improve widget spacing in the status bar a bit. Perhaps
+	'greying out' disabled drives' track/sector displays would be better?
+	Makes the status bar layout a bit more consistent (ie no weird empty
+	space where widgets might show up)
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ide64widget.c: Gtk3: add HAVE_RAWNET guard to
+	etfe event handler
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidebug.c, src/arch/gtk3/uimachinemenu.c: Gtk3: Add
+	C64DTV-specific debugging items to the debug menu. xc64dtv uses three
+	debugging options not found in other emu's: logging for Blitter, DMA
+	and Flash, this adds those options.
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.c,
+	src/arch/gtk3/widgets/c64dtvflashsettingswidget.c,
+	src/arch/gtk3/widgets/c64dtvflashsettingswidget.h: Gtk3: Implement
+	C64DTV Flash settings
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/machinemodelwidget.c,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/sidmodelwidget.c: Gtk3: Implement C64DTV model
+	settings
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: settings UI: display tree item
+	name in the title bar
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_mouse.c: Gtk3: Mouse settings:
+	implement PS/2 on Userport setting for C64DTV
+
+2018-02-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/base/Makefile.am,
+	src/arch/gtk3/widgets/base/basewidgets.h,
+	src/arch/gtk3/widgets/base/resourceswitch.c,
+	src/arch/gtk3/widgets/base/resourceswitch.h,
+	src/arch/gtk3/widgets/scpu64settingswidget.c,
+	src/arch/gtk3/widgets/scpu64settingswidget.h: Gtk3: Add SCPU64
+	settings widget, add resource_switch widget. Add SCPU64-specific
+	settings widgets. Add resource-connected GtkSwitch widget. The switch
+	widget is a big On/Off button, which can be used to visually indicate
+	to the user an actual switch on the hardware is controlled.
+
+2018-02-02  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uistatusbar.c: Fixed a GTK3 statusbar regression.
+	Joyports were only being displayed properly when the first window was
+	created or the configuration was changed, making the x128 VIC-II
+	window statusbar show no joyports at startup.
+	vice_gtk3_update_joyport_layout() needs to be split into multiple
+	functions so this can be fixed in a less hackish way.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: replace HAVE_RS232 with
+	HAVE_RS232DEV. This enables RS232 settings widgets, got the #define
+	wrong.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Remove ethernet and RS232 from standard
+	settings nodes. Probably turn these into vsid nodes, once I remove a
+	lot of 'em.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: Add stub for C64DTV Flash settings
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/settings_ethernet.c: Gtk3: Split settings UI
+	tree into per-emu nodes. Each machine now has its own settings tree
+	nodes. Should avoid activating widgets/dialogs that aren't meant for
+	the machine. Any non-implemented settings node is now marked with
+	"[TODO]".
+
+2018-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/gtk3/Makefile.am: Make pcap work for
+	windows gtk3.
+
+2018-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/gtk3/widgets/settings_ethernet.c: Use HAVE_RAWNET instead
+	of HAVE_NETWORK.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Apply patch #160 by IanC
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/rawnetarch_unix.c: Make the devices iterator filter on
+	PCAP_IF_UP to only show devices that are up. Also provide a macro
+	`RAWNET_ONLY_IF_UP` that controls this behavour in case on some Unix
+	variants this may not be desirable.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_rs232.c: Gtk3: RS232 settings: update
+	serial devices browsers to support 'ttyu*'. Supposedly ttyu[0-3] are
+	set up on FreeBSD as serial devices, though I can't actually find them
+	on my FreeBSD 11.1 VM.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_ethernet.c,
+	src/arch/gtk3/widgets/settings_ethernet.h: Gtk3: Ethernet settings:
+	guard against use on C64DTV, Plus4, PET, CBM-II and VSID. Display an
+	error message when used on machines that don't support the CS8900A
+	chip. Needs to be fixed in uisettings.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_rs232.c: Gtk3: RS232 settings: guard
+	against use in xpet, x64dtv and vsid. Temporary solution: the list of
+	tree nodes in uisettings.c should be split into nodes per machine, or
+	something equivalent.
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/settings_rs232.c:
+	Gtk3: Update baud rates for non-C64/C128/VIC-20
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_rs232.c: Gtk3: RS232 settings UI: add
+	serial1/serial2/dump-file/command-to-exec widgets
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_rs232.c: Gtk3: RS232 settings: add
+	Userport RS232 emulation widgets
+
+2018-01-31  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/settings_rs232.c,
+	src/arch/gtk3/widgets/settings_rs232.h: Gtk3: Start work on RS232
+	settings, implement RS232 ACIA settings. Start work on RS232 settings
+	UI for all emu's except C64DTV, PET and VSID. Implement ACIA settings
+	widgets.
+
+2018-01-29  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* man/petcat.1: Typos
+
+2018-01-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/rawnetarch_unix.c, src/arch/gtk3/rawnetarch_win32.c,
+	src/arch/msdos/rawnetarch.c, src/arch/unix/rawnetarch.c,
+	src/arch/win32/rawnetarch.c, src/c64/cart/cs8900io.c: Update rawnet.c:
+	make rawnet_get_standard_inferface() return a heap-allocated interface
+	name. Since pcap_lookupdev() is deprecated (it returns a pointer to a
+	static buffer), I'v altered the rawnet modules to return a
+	heap-allocated copy of the default interface name, in the non-Windows
+	code. The Windows code needs updating by someone who is actually
+	comfortable with WinPCap. It also needs a bit of testing, works on
+	*nix, no idea about DOS/Windows.
+
+2018-01-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/rawnetarch_unix.c: Gtk3: clean up
+	gtk3/rawnetarch_unix.c. Get rid of most of the BumpCase stuff,
+	rename Tfe/TFE to rawnet, add doxygen documentation. Still needs work.
+
+2018-01-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/rawnetarch_unix.c,
+	src/arch/gtk3/widgets/settings_ethernet.c, src/archapi.h,
+	src/rawnet.h: Gtk3: refactor Ethernet settings UI to use the rawnetv
+	API. Use rawnet.h to get a list of adapters. Remove the pcap code from
+	archdep.
+
+2018-01-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecheckbutton.c: Gtk3: Update
+	doxygen comments
+
+2018-01-29  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/widgets/settings_ethernet.c,
+	src/archapi.h: Remove/disable the new ethernet device list code. The
+	pcap-based code doesn't work on Windows and makes Windows builds fail.
+
+2018-01-27  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/mididrv/midi-osx-drv.c: More memory leak fixes, and a debug
+	build fix.
+
+2018-01-27  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/joy-osx.c, src/arch/unix/macosx/joy.c: Fixed some more
+	memory leaks.
+
+2018-01-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/Doxyfile.gtk3, src/arch/gtk3/archdep.c, src/arch/gtk3/archdep.h,
+	src/arch/gtk3/archdep_unix.c, src/arch/gtk3/archdep_unix.h,
+	src/arch/gtk3/archdep_win32.c, src/arch/gtk3/archdep_win32.h,
+	src/arch/gtk3/blockdev.c, src/arch/gtk3/c64dtvui.c,
+	src/arch/gtk3/c64scui.c, src/arch/gtk3/c64ui.c,
+	src/arch/gtk3/cairo_renderer.c, src/arch/gtk3/cairo_renderer.h,
+	src/arch/gtk3/cbm2ui.c, src/arch/gtk3/cbm5x0ui.c,
+	src/arch/gtk3/coproc.h, src/arch/gtk3/debug_gtk3.h,
+	src/arch/gtk3/joy-osx-hidlib.h, src/arch/gtk3/joy-osx.h,
+	src/arch/gtk3/joy-unix.h, src/arch/gtk3/joy-win32-dinput-handle.h,
+	src/arch/gtk3/joy-win32.h, src/arch/gtk3/joy.h, src/arch/gtk3/kbd.h,
+	src/arch/gtk3/mousedrv.h, src/arch/gtk3/not_implemented.h,
+	src/arch/gtk3/opengl_renderer.c, src/arch/gtk3/opengl_renderer.h,
+	src/arch/gtk3/plus4ui.c, src/arch/gtk3/scpu64ui.c, src/arch/gtk3/ui.c,
+	src/arch/gtk3/ui.h, src/arch/gtk3/uiabout.c, src/arch/gtk3/uiabout.h,
+	src/arch/gtk3/uicart.c, src/arch/gtk3/uicart.h,
+	src/arch/gtk3/uicmdline.c, src/arch/gtk3/uicmdline.h,
+	src/arch/gtk3/uicommands.c, src/arch/gtk3/uicommands.h,
+	src/arch/gtk3/uicompiletimefeatures.c,
+	src/arch/gtk3/uicompiletimefeatures.h, src/arch/gtk3/uidatasette.h,
+	src/arch/gtk3/uidebug.c, src/arch/gtk3/uidebug.h,
+	src/arch/gtk3/uidiskattach.c, src/arch/gtk3/uidiskattach.h,
+	src/arch/gtk3/uidiskcreate.c, src/arch/gtk3/uidiskcreate.h,
+	src/arch/gtk3/uiedit.h, src/arch/gtk3/uifliplist.h,
+	src/arch/gtk3/uimachinewindow.c, src/arch/gtk3/uimedia.c,
+	src/arch/gtk3/uimedia.h, src/arch/gtk3/uimenu.h,
+	src/arch/gtk3/uimonarch.h, src/arch/gtk3/uinetplay_new.c,
+	src/arch/gtk3/uinetplay_new.h, src/arch/gtk3/uisettings.h,
+	src/arch/gtk3/uisidattach.c, src/arch/gtk3/uisidattach.h,
+	src/arch/gtk3/uismartattach.h, src/arch/gtk3/uisnapshot.c,
+	src/arch/gtk3/uisnapshot.h, src/arch/gtk3/uistatusbar.h,
+	src/arch/gtk3/uitapeattach.h, src/arch/gtk3/uitapecreate.c,
+	src/arch/gtk3/uitapecreate.h, src/arch/gtk3/uivideo.c,
+	src/arch/gtk3/uivideo.h, src/arch/gtk3/uivsidwindow.c,
+	src/arch/gtk3/uivsidwindow.h, src/arch/gtk3/vic20ui.c,
+	src/arch/gtk3/videoarch.h, src/arch/gtk3/vsidui.c,
+	src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/aciawidget.h,
+	src/arch/gtk3/widgets/base/basedialogs.c,
+	src/arch/gtk3/widgets/base/basedialogs.h,
+	src/arch/gtk3/widgets/base/basewidget_types.h,
+	src/arch/gtk3/widgets/base/basewidgets.h,
+	src/arch/gtk3/widgets/base/carthelpers.c,
+	src/arch/gtk3/widgets/base/carthelpers.h,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/cartimagewidget.h,
+	src/arch/gtk3/widgets/base/clockportdevicewidget.c,
+	src/arch/gtk3/widgets/base/clockportdevicewidget.h,
+	src/arch/gtk3/widgets/base/filechooserhelpers.c,
+	src/arch/gtk3/widgets/base/filechooserhelpers.h,
+	src/arch/gtk3/widgets/base/openfiledialog.c,
+	src/arch/gtk3/widgets/base/openfiledialog.h,
+	src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourcebrowser.h,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.h,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h,
+	src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceentry.h,
+	src/arch/gtk3/widgets/base/resourcehelpers.c,
+	src/arch/gtk3/widgets/base/resourcehelpers.h,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.h,
+	src/arch/gtk3/widgets/base/resourcescale.c,
+	src/arch/gtk3/widgets/base/resourcescale.h,
+	src/arch/gtk3/widgets/base/resourcespinbutton.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.h,
+	src/arch/gtk3/widgets/base/savefiledialog.c,
+	src/arch/gtk3/widgets/base/savefiledialog.h,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.c,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.h,
+	src/arch/gtk3/widgets/base/vice_gtk3.h,
+	src/arch/gtk3/widgets/base/vice_gtk3_settings.h,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/burstmodewidget.c,
+	src/arch/gtk3/widgets/burstmodewidget.h,
+	src/arch/gtk3/widgets/c128fullbankswidget.c,
+	src/arch/gtk3/widgets/c128fullbankswidget.h,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c128functionromwidget.h,
+	src/arch/gtk3/widgets/c128machinetypewidget.c,
+	src/arch/gtk3/widgets/c128machinetypewidget.h,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.c,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.h,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.c,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.h,
+	src/arch/gtk3/widgets/cbm2rammappingwidget.c,
+	src/arch/gtk3/widgets/cbm2rammappingwidget.h,
+	src/arch/gtk3/widgets/ciamodelwidget.c,
+	src/arch/gtk3/widgets/ciamodelwidget.h,
+	src/arch/gtk3/widgets/cpmwidget.c, src/arch/gtk3/widgets/cpmwidget.h,
+	src/arch/gtk3/widgets/cwdwidget.c, src/arch/gtk3/widgets/cwdwidget.h,
+	src/arch/gtk3/widgets/digimaxwidget.c,
+	src/arch/gtk3/widgets/digimaxwidget.h,
+	src/arch/gtk3/widgets/dqbbwidget.c,
+	src/arch/gtk3/widgets/dqbbwidget.h,
+	src/arch/gtk3/widgets/drivedoswidget.c,
+	src/arch/gtk3/widgets/drivedoswidget.h,
+	src/arch/gtk3/widgets/driveextendpolicywidget.c,
+	src/arch/gtk3/widgets/driveextendpolicywidget.h,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.h,
+	src/arch/gtk3/widgets/driveidlemethodwidget.c,
+	src/arch/gtk3/widgets/driveidlemethodwidget.h,
+	src/arch/gtk3/widgets/drivemodelwidget.c,
+	src/arch/gtk3/widgets/drivemodelwidget.h,
+	src/arch/gtk3/widgets/driveoptionswidget.c,
+	src/arch/gtk3/widgets/driveoptionswidget.h,
+	src/arch/gtk3/widgets/driveparallelcablewidget.c,
+	src/arch/gtk3/widgets/driveparallelcablewidget.h,
+	src/arch/gtk3/widgets/driveramwidget.c,
+	src/arch/gtk3/widgets/driveramwidget.h,
+	src/arch/gtk3/widgets/driverpmwidget.c,
+	src/arch/gtk3/widgets/driverpmwidget.h,
+	src/arch/gtk3/widgets/driveunitwidget.h,
+	src/arch/gtk3/widgets/drivewidgethelpers.c,
+	src/arch/gtk3/widgets/drivewidgethelpers.h,
+	src/arch/gtk3/widgets/ds12c887widget.c,
+	src/arch/gtk3/widgets/ds12c887widget.h,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/easyflashwidget.h,
+	src/arch/gtk3/widgets/ethernetcartwidget.c,
+	src/arch/gtk3/widgets/ethernetcartwidget.h,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/expertwidget.h,
+	src/arch/gtk3/widgets/ffmpegwidget.c,
+	src/arch/gtk3/widgets/ffmpegwidget.h,
+	src/arch/gtk3/widgets/finalexpansionwidget.c,
+	src/arch/gtk3/widgets/finalexpansionwidget.h,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/gmod2widget.h,
+	src/arch/gtk3/widgets/htmlbrowserwidget.c,
+	src/arch/gtk3/widgets/htmlbrowserwidget.h,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ide64widget.h,
+	src/arch/gtk3/widgets/ieee488widget.c,
+	src/arch/gtk3/widgets/ieee488widget.h,
+	src/arch/gtk3/widgets/isepicwidget.c,
+	src/arch/gtk3/widgets/isepicwidget.h,
+	src/arch/gtk3/widgets/jamdialog.c, src/arch/gtk3/widgets/jamdialog.h,
+	src/arch/gtk3/widgets/joystickdevicewidget.c,
+	src/arch/gtk3/widgets/joystickdevicewidget.h,
+	src/arch/gtk3/widgets/joystickuserportadapterwidget.c,
+	src/arch/gtk3/widgets/joystickuserportadapterwidget.h,
+	src/arch/gtk3/widgets/kbdlayoutwidget.c,
+	src/arch/gtk3/widgets/kbdlayoutwidget.h,
+	src/arch/gtk3/widgets/kbdmappingwidget.c,
+	src/arch/gtk3/widgets/kbdmappingwidget.h,
+	src/arch/gtk3/widgets/kernalrevisionwidget.h,
+	src/arch/gtk3/widgets/machinemodelwidget.c,
+	src/arch/gtk3/widgets/machinemodelwidget.h,
+	src/arch/gtk3/widgets/magicvoicewidget.c,
+	src/arch/gtk3/widgets/magicvoicewidget.h,
+	src/arch/gtk3/widgets/megacartwidget.c,
+	src/arch/gtk3/widgets/megacartwidget.h,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/midiwidget.h,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmc64widget.h,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/mmcrwidget.h,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.h,
+	src/arch/gtk3/widgets/petdiagpinwidget.c,
+	src/arch/gtk3/widgets/petdiagpinwidget.h,
+	src/arch/gtk3/widgets/petdwwwidget.c,
+	src/arch/gtk3/widgets/petdwwwidget.h,
+	src/arch/gtk3/widgets/pethrewidget.c,
+	src/arch/gtk3/widgets/pethrewidget.h,
+	src/arch/gtk3/widgets/petiosizewidget.c,
+	src/arch/gtk3/widgets/petiosizewidget.h,
+	src/arch/gtk3/widgets/petkeyboardtypewidget.c,
+	src/arch/gtk3/widgets/petkeyboardtypewidget.h,
+	src/arch/gtk3/widgets/petmiscwidget.c,
+	src/arch/gtk3/widgets/petmiscwidget.h,
+	src/arch/gtk3/widgets/petramsizewidget.c,
+	src/arch/gtk3/widgets/petramsizewidget.h,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/petreuwidget.h,
+	src/arch/gtk3/widgets/petvideosizewidget.c,
+	src/arch/gtk3/widgets/petvideosizewidget.h,
+	src/arch/gtk3/widgets/plus4aciawidget.c,
+	src/arch/gtk3/widgets/plus4aciawidget.h,
+	src/arch/gtk3/widgets/plus4digiblasterwidget.c,
+	src/arch/gtk3/widgets/plus4digiblasterwidget.h,
+	src/arch/gtk3/widgets/plus4memoryexpansionwidget.c,
+	src/arch/gtk3/widgets/plus4memoryexpansionwidget.h,
+	src/arch/gtk3/widgets/printerdriverwidget.c,
+	src/arch/gtk3/widgets/printerdriverwidget.h,
+	src/arch/gtk3/widgets/printeremulationtypewidget.c,
+	src/arch/gtk3/widgets/printeremulationtypewidget.h,
+	src/arch/gtk3/widgets/printeroutputdevicewidget.c,
+	src/arch/gtk3/widgets/printeroutputdevicewidget.h,
+	src/arch/gtk3/widgets/printeroutputmodewidget.c,
+	src/arch/gtk3/widgets/printeroutputmodewidget.h,
+	src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/ramcartwidget.h,
+	src/arch/gtk3/widgets/refreshratewidget.h,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.h,
+	src/arch/gtk3/widgets/reuwidget.c, src/arch/gtk3/widgets/reuwidget.h,
+	src/arch/gtk3/widgets/romsetmanagerwidget.c,
+	src/arch/gtk3/widgets/romsetmanagerwidget.h,
+	src/arch/gtk3/widgets/rrnetmk3widget.c,
+	src/arch/gtk3/widgets/rrnetmk3widget.h,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/settings_autostart.h,
+	src/arch/gtk3/widgets/settings_controlport.c,
+	src/arch/gtk3/widgets/settings_controlport.h,
+	src/arch/gtk3/widgets/settings_drive.c,
+	src/arch/gtk3/widgets/settings_drive.h,
+	src/arch/gtk3/widgets/settings_ethernet.c,
+	src/arch/gtk3/widgets/settings_ethernet.h,
+	src/arch/gtk3/widgets/settings_io.c,
+	src/arch/gtk3/widgets/settings_io.h,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.c,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.h,
+	src/arch/gtk3/widgets/settings_io_georam.c,
+	src/arch/gtk3/widgets/settings_io_georam.h,
+	src/arch/gtk3/widgets/settings_joystick.c,
+	src/arch/gtk3/widgets/settings_joystick.h,
+	src/arch/gtk3/widgets/settings_keyboard.c,
+	src/arch/gtk3/widgets/settings_keyboard.h,
+	src/arch/gtk3/widgets/settings_misc.c,
+	src/arch/gtk3/widgets/settings_misc.h,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/settings_model.h,
+	src/arch/gtk3/widgets/settings_monitor.c,
+	src/arch/gtk3/widgets/settings_monitor.h,
+	src/arch/gtk3/widgets/settings_mouse.c,
+	src/arch/gtk3/widgets/settings_mouse.h,
+	src/arch/gtk3/widgets/settings_printer.c,
+	src/arch/gtk3/widgets/settings_printer.h,
+	src/arch/gtk3/widgets/settings_ramreset.c,
+	src/arch/gtk3/widgets/settings_ramreset.h,
+	src/arch/gtk3/widgets/settings_romset.c,
+	src/arch/gtk3/widgets/settings_romset.h,
+	src/arch/gtk3/widgets/settings_sampler.c,
+	src/arch/gtk3/widgets/settings_sampler.h,
+	src/arch/gtk3/widgets/settings_snapshot.c,
+	src/arch/gtk3/widgets/settings_snapshot.h,
+	src/arch/gtk3/widgets/settings_sound.c,
+	src/arch/gtk3/widgets/settings_sound.h,
+	src/arch/gtk3/widgets/settings_soundchip.c,
+	src/arch/gtk3/widgets/settings_soundchip.h,
+	src/arch/gtk3/widgets/settings_speed.c,
+	src/arch/gtk3/widgets/settings_speed.h,
+	src/arch/gtk3/widgets/settings_video.c,
+	src/arch/gtk3/widgets/settings_video.h,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.c,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.h,
+	src/arch/gtk3/widgets/sfxsoundsamplerwidget.c,
+	src/arch/gtk3/widgets/sfxsoundsamplerwidget.h,
+	src/arch/gtk3/widgets/sidcartwidget.c,
+	src/arch/gtk3/widgets/sidcartwidget.h,
+	src/arch/gtk3/widgets/sidmodelwidget.c,
+	src/arch/gtk3/widgets/sidmodelwidget.h,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.h,
+	src/arch/gtk3/widgets/soundbuffersizewidget.h,
+	src/arch/gtk3/widgets/sounddriverwidget.h,
+	src/arch/gtk3/widgets/soundfragmentsizewidget.c,
+	src/arch/gtk3/widgets/soundfragmentsizewidget.h,
+	src/arch/gtk3/widgets/soundoutputmodewidget.c,
+	src/arch/gtk3/widgets/soundoutputmodewidget.h,
+	src/arch/gtk3/widgets/soundsampleratewidget.h,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.h,
+	src/arch/gtk3/widgets/soundsyncwidget.c,
+	src/arch/gtk3/widgets/soundsyncwidget.h,
+	src/arch/gtk3/widgets/speedwidget.c,
+	src/arch/gtk3/widgets/speedwidget.h,
+	src/arch/gtk3/widgets/superpetwidget.c,
+	src/arch/gtk3/widgets/superpetwidget.h,
+	src/arch/gtk3/widgets/supersnapshotwidget.c,
+	src/arch/gtk3/widgets/supersnapshotwidget.h,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.h,
+	src/arch/gtk3/widgets/ultimemwidget.c,
+	src/arch/gtk3/widgets/ultimemwidget.h,
+	src/arch/gtk3/widgets/userportdeviceswidget.c,
+	src/arch/gtk3/widgets/userportdeviceswidget.h,
+	src/arch/gtk3/widgets/userportprinterwidget.c,
+	src/arch/gtk3/widgets/userportprinterwidget.h,
+	src/arch/gtk3/widgets/v364speechwidget.c,
+	src/arch/gtk3/widgets/v364speechwidget.h,
+	src/arch/gtk3/widgets/vdcmodelwidget.c,
+	src/arch/gtk3/widgets/vdcmodelwidget.h,
+	src/arch/gtk3/widgets/vfliwidget.c,
+	src/arch/gtk3/widgets/vfliwidget.h,
+	src/arch/gtk3/widgets/vic20memoryexpansionwidget.c,
+	src/arch/gtk3/widgets/vic20memoryexpansionwidget.h,
+	src/arch/gtk3/widgets/vicflashwidget.c,
+	src/arch/gtk3/widgets/vicflashwidget.h,
+	src/arch/gtk3/widgets/vicieee488widget.c,
+	src/arch/gtk3/widgets/vicieee488widget.h,
+	src/arch/gtk3/widgets/vicioramwidget.c,
+	src/arch/gtk3/widgets/vicioramwidget.h,
+	src/arch/gtk3/widgets/videobordermodewidget.c,
+	src/arch/gtk3/widgets/videobordermodewidget.h,
+	src/arch/gtk3/widgets/videomodelwidget.c,
+	src/arch/gtk3/widgets/videomodelwidget.h,
+	src/arch/gtk3/widgets/videopalettewidget.c,
+	src/arch/gtk3/widgets/videopalettewidget.h,
+	src/arch/gtk3/widgets/videorenderfilterwidget.c,
+	src/arch/gtk3/widgets/videorenderfilterwidget.h: Gtk3: Remove \file
+	... from the doxygen file-level docblocks. For some reason the doxygen
+	\file commnd failed to work properly, so I've removed them from the
+	Gtk3 code.
+
+2018-01-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/Doxyfile.gtk3, doc/mkgtk3doxyy.sh: Gtk3: Add doxygen wrapper for
+	Gtk3 code only. Add Doxyfile and driver script to quickly generate
+	Gtk3 doxygen HTML output.
+
+2018-01-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/uisettings.c, src/arch/gtk3/vic20ui.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/c64memoryexpansionhackswidget.c,
+	src/arch/gtk3/widgets/c64memoryexpansionhackswidget.h,
+	src/arch/gtk3/widgets/georamwidget.c,
+	src/arch/gtk3/widgets/georamwidget.h,
+	src/arch/gtk3/widgets/ioextensionswidget.c,
+	src/arch/gtk3/widgets/ioextensionswidget.h,
+	src/arch/gtk3/widgets/settings_io.c,
+	src/arch/gtk3/widgets/settings_io.h,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.c,
+	src/arch/gtk3/widgets/settings_io_c64_memhacks.h,
+	src/arch/gtk3/widgets/settings_io_georam.c,
+	src/arch/gtk3/widgets/settings_io_georam.h: Gtk3: rename/move I/O sub
+	items to settings_io_${what-it-handles}. Perhaps a little pedantic,
+	but it seemed like a good idea at the time.
+
+2018-01-27  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/archapi.h: Fixed wrong condition for pcap
+
+2018-01-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/settings_ethernet.c: Gtk3: Fix tiny segfault
+	in the ethernet settings widget. The list of devices retrieved through
+	archdep already gets freed in the combo box constructor, so no need to
+	free it again in a 'destroy' handler.
+
+2018-01-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_ethernet.c,
+	src/arch/gtk3/widgets/settings_ethernet.h: Gtk3: Add Ethernet device
+	selection widget. Presents a combo box with ethernet devices retrieved
+	via libpcap. Works like a charm on my Linux box, and should work on
+	OSX/BSD/Windows (needs testing!)
+
+2018-01-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/archapi.h: Gtk3: update
+	archdep_get_net_devices() to use a simple struct. The archdep wrappers
+	around libpcap now use a simple (name, description) struct to present
+	interface names/descriptions.
+
+2018-01-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/archapi.h: Gtk3: Add
+	archdep_get_net_devices()/archdep_free_net_devices(). These functions
+	wrap around libpcap and return/free a list of net devices that libpcap
+	can listen on. Only the devices that pcap reports as 'UP' are
+	included.
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/monitorsettingswidget.c,
+	src/arch/gtk3/widgets/monitorsettingswidget.h,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/settings_controlport.c,
+	src/arch/gtk3/widgets/settings_drive.c,
+	src/arch/gtk3/widgets/settings_joystick.c,
+	src/arch/gtk3/widgets/settings_monitor.c,
+	src/arch/gtk3/widgets/settings_monitor.h,
+	src/arch/gtk3/widgets/settings_printer.c: Gtk3: more updates, I
+	forgot.
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_snapshot.c,
+	src/arch/gtk3/widgets/settings_snapshot.h,
+	src/arch/gtk3/widgets/snapshotwidget.c,
+	src/arch/gtk3/widgets/snapshotwidget.h: Gtk3: rename
+	widgets/snapshotwidget.* to widgets/settings_snapshot.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uimisc.c,
+	src/arch/gtk3/uimisc.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_misc.c,
+	src/arch/gtk3/widgets/settings_misc.h: Gtk3: move uimisc.* to
+	widgets/settings_misc.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/uisoundchipsettings.c,
+	src/arch/gtk3/uisoundchipsettings.h,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/romsetwidget.c,
+	src/arch/gtk3/widgets/romsetwidget.h,
+	src/arch/gtk3/widgets/settings_romset.c,
+	src/arch/gtk3/widgets/settings_romset.h,
+	src/arch/gtk3/widgets/settings_soundchip.c,
+	src/arch/gtk3/widgets/settings_soundchip.h: Gtk3: move/rename
+	romsettings/soundchip widgets to widgets/settings_*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/ramresetwidget.c,
+	src/arch/gtk3/widgets/ramresetwidget.h,
+	src/arch/gtk3/widgets/settings_ramreset.c,
+	src/arch/gtk3/widgets/settings_ramreset.h: Gtk3: move
+	widgets/ramresetwidget.* to widgets/settings_ramreset.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uimodel.c,
+	src/arch/gtk3/uimodel.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_model.c,
+	src/arch/gtk3/widgets/settings_model.h: Gtk3: move uimodel.* to
+	widgets/settings_model.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uimousesettings.c,
+	src/arch/gtk3/uimousesettings.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_mouse.c,
+	src/arch/gtk3/widgets/settings_mouse.h: Gtk3: move uimousesettings.*
+	to widgets/settings_mouse.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uijoystick.c,
+	src/arch/gtk3/uijoystick.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_joystick.c,
+	src/arch/gtk3/widgets/settings_joystick.h: Gtk3: move uijoystick.* to
+	widgets/settings_joystick.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uicontrolport.c,
+	src/arch/gtk3/uicontrolport.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_controlport.c,
+	src/arch/gtk3/widgets/settings_controlport.h: Gtk3: move
+	uicontrolport.* to widgets/settings_controlport.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uiprintersettings.c,
+	src/arch/gtk3/uiprintersettings.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_printer.c,
+	src/arch/gtk3/widgets/settings_printer.h: Gtk3: move
+	uiprintersettings.* to widgets/settings_printer.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/c128ui.c,
+	src/arch/gtk3/c64dtvui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/cbm2ui.c,
+	src/arch/gtk3/cbm5x0ui.c, src/arch/gtk3/petui.c,
+	src/arch/gtk3/plus4ui.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/uisamplersettings.c, src/arch/gtk3/uisamplersettings.h,
+	src/arch/gtk3/uisettings.c, src/arch/gtk3/vic20ui.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_sampler.c,
+	src/arch/gtk3/widgets/settings_sampler.h: Gtk3: move
+	uisamplersettings.* to widgets/settings_sampler.*
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uidrivesettings.c,
+	src/arch/gtk3/uidrivesettings.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_drive.c,
+	src/arch/gtk3/widgets/settings_drive.h: Gtk3: rename/move
+	uidrivesettings to widgets/settings_drive
+
+2018-01-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/romsetmanagerwidget.c,
+	src/arch/gtk3/widgets/romsetwidget.c: Gtk3: move the ROM set listing
+	widget to the romset manager widget
+
+2018-01-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/romsetmanagerwidget.c,
+	src/arch/gtk3/widgets/romsetmanagerwidget.h,
+	src/arch/gtk3/widgets/romsetwidget.c: Gtk3: Add romsetmanager widget.
+	Add widget to manage rom sets, unfortunately the current romset code
+	doesn't appear to have function to get a simple resource/value list
+	for the ROMs, so some more work is needed.
+
+2018-01-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/romsetwidget.c: Gtk3: start work on ROM set
+	management. I'll probably have to split off the management widget from
+	the rest of the code into a separate file, since it'll involve
+	manipulating a GtkTreeView and a lot of extra functionality/callbacks.
+
+2018-01-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/c64/Makefile.am: Fixed out-of-tree builds of psiddrv.h. This has
+	not been tested with in-tree builds, and probably should be further
+	fixed to generate psiddrv.o65 and psiddrv.h in $(builddir).
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* data/PET/gtk3_bude_pos.vkm, data/PET/gtk3_bude_pos_de.vkm,
+	data/PET/gtk3_bude_sym.vkm, data/PET/gtk3_bude_sym_de.vkm,
+	data/PET/gtk3_buuk_pos_de.vkm, data/PET/gtk3_buuk_sym_de.vkm,
+	data/PET/gtk3_grus_pos.vkm, data/PET/gtk3_grus_pos_de.vkm,
+	data/PET/gtk3_grus_sym_de.vkm, data/PET/gtk3_sym.vkm: Gtk3: update PET
+	keymaps files to include gtk3_*. This might solve bug #974.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisnapshot.c,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.c,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.h,
+	src/arch/gtk3/widgets/cwdwidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/snapshotwidget.c: Gtk3: rename
+	ui_select_directory_dialog() to
+	vice_gtk3_select_directory_dialog(). Also remove the unused first
+	argument.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/savefiledialog.c,
+	src/arch/gtk3/widgets/base/savefiledialog.h,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/rrnetmk3widget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c: Gtk3: rename
+	ui_save_file_dialog() to vice_gtk3_save_file_dialog(). Rename function
+	and remove first (unused) argument.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicart.c, src/arch/gtk3/uisamplersettings.c,
+	src/arch/gtk3/uisettings.c, src/arch/gtk3/uisnapshot.c,
+	src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/openfiledialog.c,
+	src/arch/gtk3/widgets/base/openfiledialog.h,
+	src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c64memoryexpansionhackswidget.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/htmlbrowserwidget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ieee488widget.c,
+	src/arch/gtk3/widgets/kbdmappingwidget.c,
+	src/arch/gtk3/widgets/magicvoicewidget.c,
+	src/arch/gtk3/widgets/megacartwidget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/petdwwwidget.c,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/superpetwidget.c,
+	src/arch/gtk3/widgets/v364speechwidget.c,
+	src/arch/gtk3/widgets/videopalettewidget.c: Gtk3: Rename
+	ui_open_file_dialog/ui_open_create_file_dialog to
+	vice_gtk3_open_file_dialog/vice_gtk3_open_create_file_dialog. Rename
+	functions and remove the unused first argument (the parent of these
+	dialog is always the active GtkWindow, or a temporary one in case the
+	UI hasn't been properly set up yet).
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uicart.c,
+	src/arch/gtk3/uicommands.c, src/arch/gtk3/uidiskcreate.c,
+	src/arch/gtk3/uimedia.c, src/arch/gtk3/uitapecreate.c,
+	src/arch/gtk3/widgets/base/basedialogs.c,
+	src/arch/gtk3/widgets/base/basedialogs.h,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/ieee488widget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/petdwwwidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/rrnetmk3widget.c: Gtk3: rename base dialogs to
+	vice_gtk3_message_*
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/Makefile.am,
+	src/arch/gtk3/widgets/base/basedialogs.c,
+	src/arch/gtk3/widgets/base/basedialogs.h,
+	src/arch/gtk3/widgets/base/basewidgets.h,
+	src/arch/gtk3/widgets/base/clockportdevicewidget.c,
+	src/arch/gtk3/widgets/base/clockportdevicewidget.h,
+	src/arch/gtk3/widgets/base/filechooserhelpers.h,
+	src/arch/gtk3/widgets/base/openfiledialog.c,
+	src/arch/gtk3/widgets/base/openfiledialog.h,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.h,
+	src/arch/gtk3/widgets/base/resourceentry.h,
+	src/arch/gtk3/widgets/base/savefiledialog.c,
+	src/arch/gtk3/widgets/base/savefiledialog.h,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.c,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.h,
+	src/arch/gtk3/widgets/base/vice_gtk3.h,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h: Gtk3: Add
+	widgets/base/vice_gtk3.h, fix some doxygen errors. The header
+	widgets/base/vice_gtk3.h should pull in all other headers in
+	widgets/base. Some files had a invalid doxygen \file argument.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/basedialogs.c,
+	src/arch/gtk3/widgets/base/basedialogs.h,
+	src/arch/gtk3/widgets/base/basewidget_types.h,
+	src/arch/gtk3/widgets/base/carthelpers.c,
+	src/arch/gtk3/widgets/base/carthelpers.h,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/cartimagewidget.h,
+	src/arch/gtk3/widgets/base/clockportdevicewidget.c,
+	src/arch/gtk3/widgets/base/clockportdevicewidget.h,
+	src/arch/gtk3/widgets/base/filechooserhelpers.c,
+	src/arch/gtk3/widgets/base/filechooserhelpers.h,
+	src/arch/gtk3/widgets/base/openfiledialog.c,
+	src/arch/gtk3/widgets/base/openfiledialog.h,
+	src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourcebrowser.h,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.h,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h,
+	src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceentry.h,
+	src/arch/gtk3/widgets/base/resourcehelpers.c,
+	src/arch/gtk3/widgets/base/resourcehelpers.h,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.h,
+	src/arch/gtk3/widgets/base/resourcescale.c,
+	src/arch/gtk3/widgets/base/resourcescale.h,
+	src/arch/gtk3/widgets/base/resourcespinbutton.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.h,
+	src/arch/gtk3/widgets/base/savefiledialog.c,
+	src/arch/gtk3/widgets/base/savefiledialog.h,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.c,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.h,
+	src/arch/gtk3/widgets/base/vice_gtk3_settings.h,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h: Gtk3: base widgets:
+	check/fix uses of lib_stralloc(NULL), update Doxygen docblocks. Make
+	sure there are no lib_stralloc(NULL) calls, update file-level Doxygen
+	docblocks: split the GPL2 license notice from the docblocks so they
+	don't polute the Doxygen output.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/romsetwidget.c: Gtk3: ROM settings: add
+	cbm6x0/7x0 machine ROMs, add partial PET ROMs. The PET ROM settings
+	still need the $9000, $A000 and $B000 ROMs, but the related resources
+	made lib_stralloc() barf due to them being `NULL`. (Should be fixed in
+	widgets/base/resourcebrowser.c, but better check the other widgets for
+	`NULL` arguments to lib_stralloc() as well first.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, src/arch/gtk3/widgets/romsetwidget.c: Gtk3: ROM
+	settings: add CBM-II 5x0 machine roms. Add xcbm5x0 machine roms,
+	correct errors in vice.texi regarding the Cart1Name and Cart6Name
+	resources.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/romsetwidget.c:
+	Gtk3: ROM settings UI: split C128 machine ROMs into Kernal/Basic and
+	Chargen. Since the C128 rom settings list got too large, I've split
+	the C128 machine ROMs into Kernal/Basic and Chargen, not ideal, but
+	keeps the dialog to a resonable size.
+
+2018-01-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/sounddriverwidget.h: Gtk3: fix typo
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/romsetwidget.c: Gtk3: Update ROM settings UI.
+	Add c64dtv, c128, scpu64, vic20 and machine ROMs. The C128 ROMs
+	listing is too large, needs be folded somehow.
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/romsetwidget.c: Gtk3: Implement the Drive ROM
+	tab of the ROM settings
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/mkdoxy.sh: Gtk3: Hopefully fix the Doxygen parsing of
+	gtk/widgets/base
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/c64dtvui.c,
+	src/arch/gtk3/c64scui.c, src/arch/gtk3/c64ui.c,
+	src/arch/gtk3/cbm5x0ui.c, src/arch/gtk3/plus4ui.c,
+	src/arch/gtk3/scpu64ui.c, src/arch/gtk3/uidebug.c,
+	src/arch/gtk3/vic20ui.c, src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/basewidget_types.h,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.h,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/burstmodewidget.c,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c128machinetypewidget.c,
+	src/arch/gtk3/widgets/c64memoryexpansionhackswidget.c,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.c,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.c,
+	src/arch/gtk3/widgets/ciamodelwidget.c,
+	src/arch/gtk3/widgets/ethernetcartwidget.c,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/georamwidget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ioextensionswidget.c,
+	src/arch/gtk3/widgets/jamactionwidget.c,
+	src/arch/gtk3/widgets/kbdlayoutwidget.c,
+	src/arch/gtk3/widgets/kbdmappingwidget.c,
+	src/arch/gtk3/widgets/kernalrevisionwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.c,
+	src/arch/gtk3/widgets/petiosizewidget.c,
+	src/arch/gtk3/widgets/petramsizewidget.c,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/petvideosizewidget.c,
+	src/arch/gtk3/widgets/plus4memoryexpansionwidget.c,
+	src/arch/gtk3/widgets/printeremulationtypewidget.c,
+	src/arch/gtk3/widgets/printeroutputdevicewidget.c,
+	src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/refreshratewidget.c,
+	src/arch/gtk3/widgets/reuwidget.c,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.c,
+	src/arch/gtk3/widgets/sidcartwidget.c,
+	src/arch/gtk3/widgets/sidmodelwidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/snapshotwidget.c,
+	src/arch/gtk3/widgets/soundfragmentsizewidget.c,
+	src/arch/gtk3/widgets/soundoutputmodewidget.c,
+	src/arch/gtk3/widgets/soundsampleratewidget.c,
+	src/arch/gtk3/widgets/soundsyncwidget.c,
+	src/arch/gtk3/widgets/speedwidget.c,
+	src/arch/gtk3/widgets/superpetwidget.c,
+	src/arch/gtk3/widgets/userportprinterwidget.c,
+	src/arch/gtk3/widgets/vdcmodelwidget.c,
+	src/arch/gtk3/widgets/vic20memoryexpansionwidget.c,
+	src/arch/gtk3/widgets/videobordermodewidget.c,
+	src/arch/gtk3/widgets/videomodelwidget.c,
+	src/arch/gtk3/widgets/videomodelwidget.h,
+	src/arch/gtk3/widgets/videorenderfilterwidget.c: Gtk3: rename
+	ui_radiogroup_entry_t to vice_gtk3_radiogroup_entry_t
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/basewidget_types.h,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h,
+	src/arch/gtk3/widgets/refreshratewidget.c: Gtk3: rename
+	ui_combo_entry_str_t to vice_gtk3_combo_entry_str_t
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c, src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/basewidget_types.h,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h,
+	src/arch/gtk3/widgets/driveextendpolicywidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/driveidlemethodwidget.c,
+	src/arch/gtk3/widgets/driveparallelcablewidget.c,
+	src/arch/gtk3/widgets/ds12c887widget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/ramresetwidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c: Gtk3: rename
+	ui_combo_entry_int_t to vice_gtk3_combo_entry_int_t
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uitapecreate.c: Gtk3:
+	new tape dialog: add 'add extension when missing' check button. Also
+	move 'create tape' below 'attach tape' just like the disk
+	attach/create items in the menu.
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uitapecreate.c: Gtk3: new tape image dialog: make
+	auto-attach optional
+
+2018-01-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uimachinemenu.c,
+	src/arch/gtk3/uitapecreate.c, src/arch/gtk3/uitapecreate.h: Gtk3:
+	Implement 'create and attach new tape image'
+
+2018-01-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/sounddrv/soundcoreaudio.c: Fixed a memory leak.
+
+2018-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidiskcreate.c: Gtk3: create image dialog: add
+	'auto-set proper drive type'. Add a check button to allow
+	automatically enabling the proper drive type for the image created.
+
+2018-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidiskcreate.c: Gtk3: Update disk-image creation
+	dialog. Replace some integer literals with proper constants. Add an
+	option to automatically add the proper file extension if it is missing
+	in the filename (so entering 'foo' and having the option active will
+	create 'foo.d64').
+
+2018-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uidiskcreate.c,
+	src/arch/gtk3/uidiskcreate.h, src/arch/gtk3/uimachinemenu.c: Gtk3: Add
+	create & attach disk image dialog. Works, but may require some fine
+	tuning in the layout.
+
+2018-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uikeyboard.c,
+	src/arch/gtk3/uikeyboard.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/kbdlayoutwidget.c,
+	src/arch/gtk3/widgets/kbdlayoutwidget.h,
+	src/arch/gtk3/widgets/kbdmappingwidget.c,
+	src/arch/gtk3/widgets/kbdmappingwidget.h,
+	src/arch/gtk3/widgets/settings_keyboard.c,
+	src/arch/gtk3/widgets/settings_keyboard.h: Gtk3: Refactor and rename
+	keyboard settings UI
+
+2018-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/uispeed.c, src/arch/gtk3/uispeed.h,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/refreshratewidget.c,
+	src/arch/gtk3/widgets/settings_speed.c,
+	src/arch/gtk3/widgets/settings_speed.h,
+	src/arch/gtk3/widgets/speedwidget.c,
+	src/arch/gtk3/widgets/speedwidget.h: Gtk3: Refactor the speed settings
+	UI. Update sub widgets and rename/move uispeed.c to
+	widgets/settings_speed.c
+
+2018-01-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourcescale.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.c: Gtk3: update resource
+	error handling in resource widgets. Turn some debug_gtk3() calls into
+	log_error(LOG_ERR, ...), add some error checking and reporting.
+
+2018-01-15  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/widgets/midiwidget.c: Added Mac-specific GTK3 MIDI UI
+	handling code. On Macs, the UI gets an extra text entry field, uses
+	different resource names, and doesn't need any browse buttons. This
+	works properly, as far as I have tested it; (not very far.)
+
+2018-01-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/basewidgets.h,
+	src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourcebrowser.h,
+	src/arch/gtk3/widgets/romsetwidget.c,
+	src/arch/gtk3/widgets/settings_autostart.c: Gtk3: add update() and
+	reset() methods to the resource_browser widget
+
+2018-01-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	src/arch/gtk3/widgets/base/Makefile.am,
+	src/arch/gtk3/widgets/base/resourcebrowser.c,
+	src/arch/gtk3/widgets/base/resourcebrowser.h,
+	src/arch/gtk3/widgets/romsetwidget.c,
+	src/arch/gtk3/widgets/settings_autostart.c: Gtk3: Add a
+	resource-browser widget. This widget is basically a combination of a
+	resource_entry_full widget and a browse button and an optional label.
+	A combination I've had to implement a lot, so it makes sense to
+	implement a widget that handles this with a lot fewer calls. Currently
+	it isn't complete, but at least it will revert a resource when setting
+	that resource fails. Functions like reset() and update() are required
+	but not yet implemented.
+
+2018-01-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceentry.h: Gtk3: Make
+	resource_entry_update() return boolean. Now a call to update() can be
+	checked for failure. This assumes that a call to
+	resources_set_string() doesn't return an error code due to an invalid
+	resource name: creating a resource entry will already report an
+	invalid resource name.
+
+2018-01-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uiautostart.c,
+	src/arch/gtk3/uiautostart.h, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/Makefile.am, src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/settings_autostart.c,
+	src/arch/gtk3/widgets/settings_autostart.h: Gtk3: Refactor autostart
+	settings UI. Make the autostart settings UI use the various functions
+	in widgets/base/, rename to settings_autostart.c and move into
+	widgets.
+
+2018-01-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uiautostart.c,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/sounddriverwidget.c: Gtk3: rename
+	uihelpers_create_indented_label() to
+	vice_gtk3_create_indented_label(). This function is actually of little
+	use, so it should either be removed or turned into something a little
+	more flexible.
+
+2018-01-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/kbdmappingwidget.c,
+	src/arch/gtk3/widgets/sidmodelwidget.c: Gtk3: rename
+	uihelpers_radiogroup_set_index() to vice_gtk3_radiogroup_set_index()
+
+2018-01-14  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* man/c1541.1, man/cartconv.1, man/petcat.1, man/vice.1: common
+	notation
+
+2018-01-13  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uistatusbar.c: GTK3: Update joystick layout in
+	realtime
+
+2018-01-13  Michael C. Martin <mcmartin@gmail.com>
+
+	* README, doc/html/index.html, man/vice.1,
+	src/arch/unix/macosx/Resources/Credits.html: Update prebuilt
+	documentation
+
+2018-01-13  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uistatusbar.c: GTK3: Arrange joystick layout based on
+	initial configuration. Reacting to realtime configuration changes will
+	land in a future commit.
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/kbdlayoutwidget.c,
+	src/arch/gtk3/widgets/kernalrevisionwidget.c,
+	src/arch/gtk3/widgets/petvideosizewidget.c,
+	src/arch/gtk3/widgets/refreshratewidget.c,
+	src/arch/gtk3/widgets/sidmodelwidget.c,
+	src/arch/gtk3/widgets/speedwidget.c,
+	src/arch/gtk3/widgets/vdcmodelwidget.c,
+	src/arch/gtk3/widgets/videomodelwidget.c,
+	src/arch/gtk3/widgets/videorenderfilterwidget.c: Gtk3: some more
+	refactoring
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/uivideosettings.c, src/arch/gtk3/uivideosettings.h,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/settings_sound.c,
+	src/arch/gtk3/widgets/settings_sound.h,
+	src/arch/gtk3/widgets/settings_video.c,
+	src/arch/gtk3/widgets/settings_video.h: Gtk3: some light refactoring
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/uisound.c, src/arch/gtk3/uisound.h,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/petramsizewidget.c,
+	src/arch/gtk3/widgets/settings_sound.c,
+	src/arch/gtk3/widgets/settings_sound.h,
+	src/arch/gtk3/widgets/soundbuffersizewidget.c,
+	src/arch/gtk3/widgets/sounddriverwidget.c,
+	src/arch/gtk3/widgets/soundfragmentsizewidget.c,
+	src/arch/gtk3/widgets/soundoutputmodewidget.c,
+	src/arch/gtk3/widgets/soundsampleratewidget.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.c,
+	src/arch/gtk3/widgets/soundsyncwidget.c: Gtk3: Refactor the main sound
+	settings UI. Make the various widgets related to main sound settings
+	use the current widgets. Move uisound.* to widgets since it's a child
+	of uisettings.c and not called from the menu and therefor I think it
+	doesn't belong in the root of src/arch/gtk3 but rather in the
+	widgets/ subdir.
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uivideosettings.c,
+	src/arch/gtk3/widgets/base/basewidgets.h,
+	src/arch/gtk3/widgets/base/vice_gtk3_settings.h,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/videobordermodewidget.c,
+	src/arch/gtk3/widgets/videopalettewidget.c,
+	src/arch/gtk3/widgets/videorenderfilterwidget.c: Gtk3: Some
+	refactoring. Add new grid creation functions:
+	vice_gtk3_grid_new_spaced() and
+	vice_gtk3_grid_new_spaced_with_label(). Refactor uivideosettings.c to
+	use these new functions. uivideosettings.{c,h} should probably be
+	renamed and moved into widgets/ since it isn't directly called from
+	the menu but embedded in the settings UI.
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/vice_gtk3_settings.h,
+	src/arch/gtk3/widgets/base/widgethelpers.c,
+	src/arch/gtk3/widgets/base/widgethelpers.h,
+	src/arch/gtk3/widgets/driveoptionswidget.c,
+	src/arch/gtk3/widgets/ramresetwidget.c,
+	src/arch/gtk3/widgets/romsetwidget.c: Gtk3: remove some
+	deprecated/dead code. Clean up the widgets/base/widgethelpers.c code,
+	removing some deprecated/unused code. Add deprecation warning to
+	uihelpers_radiogroup_create(), this function needs to be replaced with
+	vice_gtk3_resource_radiogroup_create().
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidebug.c, src/arch/gtk3/uinetplay_new.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.c,
+	src/arch/gtk3/widgets/base/resourcespinbutton.h,
+	src/arch/gtk3/widgets/driverpmwidget.c,
+	src/arch/gtk3/widgets/ffmpegwidget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.c,
+	src/arch/gtk3/widgets/soundbuffersizewidget.c,
+	src/arch/gtk3/widgets/soundsuspendtimewidget.c: Gtk3: rename
+	resource_spin* to vice_gtk3_resource_spin*
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcescale.c,
+	src/arch/gtk3/widgets/base/resourcescale.h,
+	src/arch/gtk3/widgets/sidsoundwidget.c: Gtk3: rename resource_scale*
+	to vice_gtk3_resource_scale*
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidebug.c, src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.c,
+	src/arch/gtk3/widgets/base/resourceradiogroup.h,
+	src/arch/gtk3/widgets/burstmodewidget.c,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c128machinetypewidget.c,
+	src/arch/gtk3/widgets/c64memoryexpansionhackswidget.c,
+	src/arch/gtk3/widgets/cbm2hardwiredswitcheswidget.c,
+	src/arch/gtk3/widgets/cbm2memorysizewidget.c,
+	src/arch/gtk3/widgets/ciamodelwidget.c,
+	src/arch/gtk3/widgets/ethernetcartwidget.c,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/georamwidget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ioextensionswidget.c,
+	src/arch/gtk3/widgets/jamactionwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/petcolourgraphicswidget.c,
+	src/arch/gtk3/widgets/petiosizewidget.c,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/printeremulationtypewidget.c,
+	src/arch/gtk3/widgets/printeroutputdevicewidget.c,
+	src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/reuwidget.c,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.c,
+	src/arch/gtk3/widgets/sidcartwidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/snapshotwidget.c: Gtk3: rename
+	resource_radiogroup* to vice_gtk3_resource_radiogroup
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uinetplay_new.c,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceentry.h,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/c64memoryexpansionhackswidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ieee488widget.c,
+	src/arch/gtk3/widgets/magicvoicewidget.c,
+	src/arch/gtk3/widgets/megacartwidget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/monitorsettingswidget.c,
+	src/arch/gtk3/widgets/petdwwwidget.c,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/snapshotwidget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/gtk3/widgets/v364speechwidget.c: Gtk3: rename resource_entry*
+	to vice_gtk3_resource_entry*. Also replace usage of 'plain'
+	resource_entry with resource_entry_full, so a resource gets updated
+	only once in stead of with each key press.
+
+2018-01-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c, src/arch/gtk3/widgets/aciawidget.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.c,
+	src/arch/gtk3/widgets/base/resourcecombobox.h,
+	src/arch/gtk3/widgets/driveextendpolicywidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/driveidlemethodwidget.c,
+	src/arch/gtk3/widgets/driveparallelcablewidget.c,
+	src/arch/gtk3/widgets/ds12c887widget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c: Gtk3: rename
+	resource_combo_box* to vice_gtk3_resource_combo_box*
+
+2018-01-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uiautostart.c, src/arch/gtk3/uicontrolport.c,
+	src/arch/gtk3/uidiskattach.c, src/arch/gtk3/uidrivesettings.c,
+	src/arch/gtk3/uijoystick.c, src/arch/gtk3/uimisc.c,
+	src/arch/gtk3/uimodel.c, src/arch/gtk3/uimousesettings.c,
+	src/arch/gtk3/uiprintersettings.c, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/uisound.c, src/arch/gtk3/uispeed.c,
+	src/arch/gtk3/uitapeattach.c, src/arch/gtk3/uivideosettings.c,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.c,
+	src/arch/gtk3/widgets/base/resourcecheckbutton.h,
+	src/arch/gtk3/widgets/c128fullbankswidget.c,
+	src/arch/gtk3/widgets/c128functionromwidget.c,
+	src/arch/gtk3/widgets/cbm2rammappingwidget.c,
+	src/arch/gtk3/widgets/cpmwidget.c,
+	src/arch/gtk3/widgets/digimaxwidget.c,
+	src/arch/gtk3/widgets/drivedoswidget.c,
+	src/arch/gtk3/widgets/drivefsdevicewidget.c,
+	src/arch/gtk3/widgets/driveoptionswidget.c,
+	src/arch/gtk3/widgets/driveramwidget.c,
+	src/arch/gtk3/widgets/ds12c887widget.c,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/ethernetcartwidget.c,
+	src/arch/gtk3/widgets/ffmpegwidget.c,
+	src/arch/gtk3/widgets/finalexpansionwidget.c,
+	src/arch/gtk3/widgets/georamwidget.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/ide64widget.c,
+	src/arch/gtk3/widgets/ioextensionswidget.c,
+	src/arch/gtk3/widgets/megacartwidget.c,
+	src/arch/gtk3/widgets/midiwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/monitorsettingswidget.c,
+	src/arch/gtk3/widgets/petdiagpinwidget.c,
+	src/arch/gtk3/widgets/pethrewidget.c,
+	src/arch/gtk3/widgets/petreuwidget.c,
+	src/arch/gtk3/widgets/plus4aciawidget.c,
+	src/arch/gtk3/widgets/plus4digiblasterwidget.c,
+	src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/reuwidget.c,
+	src/arch/gtk3/widgets/romsetwidget.c,
+	src/arch/gtk3/widgets/romsetwidget.h,
+	src/arch/gtk3/widgets/rrnetmk3widget.c,
+	src/arch/gtk3/widgets/sfxsoundexpanderwidget.c,
+	src/arch/gtk3/widgets/sfxsoundsamplerwidget.c,
+	src/arch/gtk3/widgets/sidcartwidget.c,
+	src/arch/gtk3/widgets/sidsoundwidget.c,
+	src/arch/gtk3/widgets/superpetwidget.c,
+	src/arch/gtk3/widgets/supersnapshotwidget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/gtk3/widgets/ultimemwidget.c,
+	src/arch/gtk3/widgets/userportdeviceswidget.c,
+	src/arch/gtk3/widgets/userportprinterwidget.c,
+	src/arch/gtk3/widgets/v364speechwidget.c,
+	src/arch/gtk3/widgets/vdcmodelwidget.c,
+	src/arch/gtk3/widgets/vfliwidget.c,
+	src/arch/gtk3/widgets/vicflashwidget.c,
+	src/arch/gtk3/widgets/vicieee488widget.c,
+	src/arch/gtk3/widgets/vicioramwidget.c: Gtk3: rename
+	resource_check_button_* to vice_gtk3_resource_check_button_*. As a
+	first attempt to refactor VICE-speficic Gtk3 code, I'll be renaming
+	functions, using a vice_gtk3_ prefix, making it more obvious to other
+	devs and newcomers we have a small Gtk3-based library specificaly
+	designed to control VICE resources and also custom-built dialogs.
+
+2018-01-11  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uimachinewindow.c,
+	src/arch/gtk3/uivsidwindow.c, src/arch/gtk3/videoarch.h: Moved more
+	GTK3 main window creation code from ui.c into uimachinewindow.c and
+	uivsidwindow.c. The menu creation code is now fully separated,
+	reducing bloat in the binaries.
+
+2018-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/scpu64/scpu64-resources.c: Added missing SidQuadAddressStart
+	resource to xscpu64.
+
+2018-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65816core.c: Applied patch #161, Wrap-around for addressing
+	modes "absolute" and "absolute indexed" for opcodes TSB, TRB, STX,
+	STY, LDX, LDY fix by J.E. Klasek.
+
+2018-01-10  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimachinewindow.c, src/arch/gtk3/video.c,
+	src/arch/gtk3/videoarch.h: Moved GTK3 event box and renderer backend
+	code from video.c to uimachinewindow.c, preventing it from being
+	linked into vsid. Renderer backend code must now be accessed through
+	the canvas.
+
+2018-01-09  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uimachinemenu.c,
+	src/arch/gtk3/uinetplay_new.c, src/arch/gtk3/uinetplay_new.h,
+	src/arch/gtk3/uisettings.c, src/arch/gtk3/uisettings.h: Gtk3: Park new
+	Netplay UI
+
+2018-01-07  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: Remove old debug statements wrt time_t
+
+2018-01-06  Ingo Korb <ingo@akana.de>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/arch/sdl/menu_tape.c: spelling fixes
+
+2018-01-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/widgets/base/basedialogs.c: Made
+	sure GTK3 ui_message() and ui_error() boxes get a proper parent window
+	if one has already been created. This fixes a regression on Mac.
+
+2018-01-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: settings UI: implement xpath-like
+	function to get at a node in the tree. Create a function that uses an
+	xpath-like expression to get at a certain node in the settings tree.
+	This way we can use named items, avoiding indexed items that'll fail
+	the moment you add or remove an unrelated item.
+
+2018-01-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/uisettings.h: Gtk3: Add ID
+	fields to the settings tree nodes. Prepare the settings UI tree for a
+	much more flexible approach, using xpath-like expressions to
+	manipulate nodes.
+
+2018-01-05  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/vic20/vic20.c: Add notes to
+	indicate datasette_resources_init() needs to be called before
+	tapeport_resources_init(). See bug #967 for details.
+
+2018-01-04  Ingo Korb <ingo@akana.de>
+
+	* src/tapeport/tapecart.c: Fix crash when disabling tapecart emulation
+	due to dangling alarm
+
+2018-01-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/c128ui.c,
+	src/arch/gtk3/c64dtvui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/cbm2ui.c,
+	src/arch/gtk3/cbm5x0ui.c, src/arch/gtk3/petui.c,
+	src/arch/gtk3/plus4ui.c, src/arch/gtk3/scpu64ui.c, src/arch/gtk3/ui.c,
+	src/arch/gtk3/ui.h, src/arch/gtk3/vic20ui.c, src/arch/gtk3/vsidui.c:
+	Added machine-specific GTK3 UI functions to identify a canvas from its
+	video chip and used them in ui_create_toplevel_window(). Also removed
+	some obsolete comments and alphabetized some includes.
+
+2018-01-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uiabout.c: Gtk3: Remove butt ugly logo from About
+	dialog. The about dialog needs a proper logo and the current code used
+	a hardwired path to /usr/local/lib64/vice/doc/, which worked on my box
+	(used for testing).
+
+2018-01-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* doc/vice.texi, src/arch/gtk3/uiabout.c,
+	src/arch/unix/x11/gnome/about.c, src/c1541.c: Update a few dates to
+	2018
+
+2018-01-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: Also remove 'Memory expansion
+	hacks' from SCPU64 I/O extensions
+
+2018-01-03  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: Remove 'tape port devices' from
+	the SCPU64 I/O extensions
+
+2018-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/vic20/vic20.c: Init datasette
+	resources before tapeport resources, this way datasette can be
+	disabled before enabling any tapeport devices.
+
+2018-01-02  groepaz <groepaz@gmx.net>
+
+	* configure.proto: revert r34263, it breaks the nightly build.
+	told ya :)
+
+2018-01-02  pottendo  <pottendo@aon.at>
+
+	* AUTHORS: Moved myself to the Inactive/Ex Team sections
+
+2018-01-02  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/carthelpers.c: Gtk3: use lib.c to
+	alloc/free cart name. Although Glib might seem like a better choice to
+	allocate memory in Gtk code, lib.c traces allocations in VICE only,
+	unlike debug builds of Gtk/GLib which will (probably) slow down my
+	entire system.
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/widgets/base/basedialogs.c: Gtk3:
+	Give ui_message() and ui_error() a parent widget. Since both
+	ui_error() and ui_message() can be called before the GtkWindow's are
+	set up, passing `NULL` as a parent will now create a temporary
+	GtkWindow to avoid Gtk warnings about not having a parent. Yes, this
+	is weird, but so is ui_get_active_window().
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/dqbbwidget.c,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/isepicwidget.c,
+	src/arch/gtk3/widgets/reuwidget.c, src/c64/cart/reu.c: Gtk3: Use cart
+	enable/disable code, not resources. Update a few cart widgets. For
+	some reason REU and DQBB refuse to turn off/disable.
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/carthelpers.c,
+	src/arch/gtk3/widgets/base/carthelpers.h,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/georamwidget.c,
+	src/arch/gtk3/widgets/magicvoicewidget.c: Gtk3: Refactor cart
+	enable/disable. Add carthelpers_create_enable_check_button(name, id),
+	which creates a check button that calls cart code using the cart_id.
+	Only works for carts that actually are supported by c64carthooks.c
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/georamwidget.c,
+	src/arch/gtk3/widgets/magicvoicewidget.c: Gtk3: Update magic voice and
+	geo-ram to use cart functions
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c64/cart/c64-midi.c, src/c64/cart/c64-midi.h,
+	src/c64/cart/c64acia.h, src/c64/cart/c64acia1.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/digimax.c,
+	src/c64/cart/digimax.h, src/c64/cart/dqbb.c, src/c64/cart/dqbb.h,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/ds12c887rtc.h,
+	src/c64/cart/ethernetcart.c, src/c64/cart/ethernetcart.h,
+	src/c64/cart/expert.c, src/c64/cart/expert.h, src/c64/cart/georam.c,
+	src/c64/cart/georam.h, src/c64/cart/isepic.c, src/c64/cart/isepic.h,
+	src/c64/cart/ramcart.c, src/c64/cart/ramcart.h, src/c64/cart/reu.c,
+	src/c64/cart/reu.h, src/c64/cart/sfx_soundexpander.c,
+	src/c64/cart/sfx_soundexpander.h, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/sfx_soundsampler.h: Add more ${cart}_disable() functions.
+	Add missing ${cart}_disable() functions so carts can be disabled via
+	cartridge_disable() in stead of directly using resources.
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c: Gtk3: Guard against including netplay
+	without network support
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecombobox.c: Gtk3: clean up the
+	resource_combo_box_int 'constructor' a bit
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: settings UI: remove annoying debug
+	message. Removed a debug_gtk3() call from the
+	on_dialog_configure_event() event handler, got in the way of more
+	important messages. Also documented the function to make clear what
+	it's actually for.
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecombobox.c: Gtk3: update
+	resource_combo_box_int. Change the ID get/set functions to return a
+	boolean, this way the entire range of int can be used while also being
+	able to detect errors.
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourcecombobox.c: Gtk3: Update
+	resource_combo_box_int to use a proper model. The combo box for
+	integer resources now uses a proper GtkListStore in stead of
+	converting ID's between strings and integers.
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c: Gtk3: Update media recording dialog to
+	handle VSID. When used in vsid, the dialog only shows the audio
+	recording options and doesn't attempt to build a video driver list
+	(which caused a segfault on vsid). It would probably be better to
+	build a separate audio-recording widget/dialog for vsid later.
+
+2018-01-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* configure.proto: configure: Add C99 compiler check. Check for a
+	C99-compliant compiler and switch to C99 mode if found. Fail if not
+	found.
+
+2018-01-01  groepaz <groepaz@gmx.net>
+
+	* src/tapeport/tapecart.c: declare variables at start of function,
+	please
+
+2017-12-31  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/uimachinewindow.c, src/arch/gtk3/uivsidwindow.c: Moved
+	some GTK3 code to create a canvas into uimachinewindow.c.
+
+2017-12-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/vsidui.c: Fixed GTK3 build.
+	Sorry.
+
+2017-12-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uivsidwindow.c, src/arch/gtk3/uivsidwindow.h,
+	src/arch/gtk3/vic20ui.c, src/arch/gtk3/vsidui.c: Added vsid equivalent
+	of the previous commit.
+
+2017-12-30  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/c128ui.c,
+	src/arch/gtk3/c64dtvui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/cbm2ui.c,
+	src/arch/gtk3/cbm5x0ui.c, src/arch/gtk3/petui.c,
+	src/arch/gtk3/plus4ui.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/uimachinewindow.c, src/arch/gtk3/uimachinewindow.h,
+	src/arch/gtk3/vic20ui.c: Added files to contain GTK3 emulator main
+	window code not shared with vsid; exact usage to be determined.
+
+2017-12-30  Ingo Korb <ingo@akana.de>
+
+	* doc/vice.texi: Add not very helpful description of tapecart
+	resources and command line options to vice.texi
+
+2017-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/widgets/base/resourcecheckbutton.c: check error and
+	set checkbox to the real value of the resource
+
+2017-12-30  Ingo Korb <ingo@akana.de>
+
+	* src/tapeport/tapecart.c: Make TCRT loading independent of resource
+	initialisation order
+
+2017-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: use
+	resource_entry_full_update
+
+2017-12-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceentry.h,
+	src/arch/gtk3/widgets/ieee488widget.c,
+	src/arch/gtk3/widgets/tapeportdeviceswidget.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/c64tpi.h: Add resource_entry_full_update()
+
+2017-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/widgets/base/resourceentry.c: added missing <0
+
+2017-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/widgets/base/resourceentry.c: fix crash when res_val
+	is NULL
+
+2017-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: use
+	resource_entry_full_create instead of resource_entry_create
+
+2017-12-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/magicvoicewidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c, src/c64/cart/c64carthooks.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/magicvoice.h,
+	src/c64/cart/mmc64.c, src/c64/cart/mmc64.h: Gtk3: Use cartridge.h
+	functions for magic voice and mmc64. In stead of using resources, use
+	cartridge_enable(), cartridge_disable() and cartidge_type_enabled() to
+	control the cartridges and the check buttons.
+
+2017-12-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/vic20ui.c, src/arch/gtk3/widgets/base/carthelpers.c,
+	src/arch/gtk3/widgets/base/carthelpers.h,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c, src/c64/cart/c64carthooks.c,
+	src/cartridge.h: Prepare for implementing cart_disable(). Since
+	directly using the resources of the cartridges is discouraged and
+	functions from cartridge.h should be used, we need a function
+	cartridge_disable(int type) to be able to actually disable cartridges.
+
+2017-12-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/sdl/menu_tape.c: SDL: Add Tapecart submenu. Add Tapecart
+	settings submenu to Machine settings->Tape port devices.
+
+2017-12-30  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/resourceentry.c: Gtk3: Fix some
+	Gtk-Critical warnings. The resource entry boxes would use `NULL` as an
+	emptry string for gtk_entry_set_text(), which apparently Gtk3 doesn't
+	like.
+
+2017-12-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/tapeport/tapecart.c: Added missing include.
+
+2017-12-29  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/widgets/tapeportdeviceswidget.c: added widget for the
+	tapecart emulation
+
+2017-12-29  Ingo Korb <ingo@akana.de>
+
+	* src/tapeport/tapecart.c: add string resource for the TCRT file name
+
+2017-12-29  Ingo Korb <ingo@akana.de>
+
+	* src/tapeport/Makefile.am, src/tapeport/tapecart-loader.h,
+	src/tapeport/tapecart.c, src/tapeport/tapecart.h,
+	src/tapeport/tapeport.c, src/tapeport/tapeport.h, src/translate.txt,
+	src/translate_text.c, src/vice-version.sh: Implement tapecart
+	emulation
+
+2017-12-29  Ingo Korb <ingo@akana.de>
+
+	* src/datasette.c, src/tapeport/cp-clockf83.c,
+	src/tapeport/dtl-basic-dongle.c, src/tapeport/sense-dongle.c,
+	src/tapeport/tape_diag_586220_harness.c, src/tapeport/tapelog.c,
+	src/tapeport/tapeport.c, src/tapeport/tapeport.h: Add shutdown field
+	to tapeport_device struct
+
+2017-12-28  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uimachinemenu.c,
+	src/arch/gtk3/uinetplay.c, src/arch/gtk3/uinetplay.h: ported the
+	netplay dialog from gtk2 ui. needs some testing and perhaps
+	refactoring. could perhaps be moved into the settings dialog?
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/uimachinemenu.c: Gtk3: Add Pause (Alt+P). Works from
+	both the UI and using the shortcut key. But those two don't work
+	together nicely.
+
+2017-12-28  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/piacore.c: Fixed PIA register
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c: Gtk3: Revert Monitor activation to
+	Alt+H on Unix
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ieee488widget.c: Gtk3: Fix IEEE-488 adapter
+	widget. The widget now refuses to enable the adapter unless an EEPROM
+	image is provided.
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/rrnetmk3widget.c: Gtk3: Add proper error
+	messages to RR-Net Mk3 widget
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/retroreplaywidget.c: Gtk3: RR widget: add
+	proper error messages. Use ui_message_error() to display error
+	messages when save-as/flush fails.
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uivideosettings.c: Gtk3: video settings UI: improve
+	layout of scale/ratio checkboxes
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/videopalettewidget.c: Gtk3: Video palette
+	widget: update to handle custom palette files. If the
+	"${chip_prefix}PaletteFile" resource doesn't match any of the files
+	provided by VICE, it is assumed to be a custom user-defined palette
+	file and inserted at the top of the palette file combo box.
+
+2017-12-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/videopalettewidget.c: Gtk3: Improve video
+	palette widget. Switching between internal/external and selecting an
+	external palette file now properly updates the related resources.
+
+2017-12-26  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii-resources.c, src/viciisc/vicii-resources.c: change
+	default external palette to pepto-pal
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ethernetcartwidget.c: Gtk3: Fix ethernet cart
+	widget
+
+2017-12-26  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/mon_command.c, src/monitor/mon_lex.l,
+	src/monitor/mon_parse.y, src/monitor/monitor.c,
+	src/monitor/montypes.h, src/translate.txt, src/translate_text.c: Since
+	not all GUIs have a switch to toggle the tracing of the main CPU, add
+	a monitor command that does that
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/basedialogs.c,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/mmcrwidget.c: Gtk3: Add EEPROM-RW checkbox to
+	MMC Replay widget
+
+2017-12-26  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/macosx/cocoa/dialog/drivesettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/vicemachine.h,
+	src/arch/unix/macosx/cocoa/vicemachinenotifier.h,
+	src/arch/unix/macosx/cocoa/view/consolewindow.h,
+	src/arch/unix/macosx/cocoa/view/vicewindow.h: Some Cocoa headers give
+	compile errors if DEBUG is defined without a value. But VICE's
+	--enable-debug configure-time switch does a #define DEBUG, so the
+	Cocoa build was breaking
+
+2017-12-26  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/mon_memory.c: The assumption that console_log is not
+	NULL does not hold. If a breakpoint has an associated command, when
+	the breakpoint triggers the command is executed before the monitor
+	window is restored, so console_log is null. So, if a breakpoint has an
+	associated command, it was dereferencing a NULL pointer and crashing
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/basedialogs.c,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/isepicwidget.c: Gtk3: Update ISEPIC and
+	EasyFlash widgets
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/expertwidget.c: Gtk3: Fix Expert Cartridge
+	widget. Disconnect 'enable' checkbox from the other widgets
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/dqbbwidget.c: Gtk3: Fix Double Quick Brown Box
+	widget. Disconnect 'enable' widget from the other widgets.
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ramcartwidget.c: Gtk3: Fix RAMCart widget.
+	Disconnect the 'enable' widget from the other widgets. Fix RAM sizes.
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/archdep.c, src/arch/gtk3/archdep_unix.c,
+	src/arch/gtk3/archdep_unix.h, src/arch/gtk3/archdep_win32.c,
+	src/arch/gtk3/blockdev.c, src/arch/gtk3/c128ui.c,
+	src/arch/gtk3/c64dtvui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/cbm2ui.c,
+	src/arch/gtk3/cbm5x0ui.c, src/arch/gtk3/petui.c,
+	src/arch/gtk3/plus4ui.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/uidiskattach.c, src/arch/gtk3/vic20ui.c,
+	src/arch/gtk3/vsidui.c: Gtk3: Some Doxygen updates. Start
+	adding/updating Doxygen doc blocks before we start lagging too far
+	behind to ever get it right.
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/resourceentry.c,
+	src/arch/gtk3/widgets/base/resourceentry.h: Gtk3: Add
+	resource_entry_full widget. This adds a GtkEntry (text box) that
+	updates a resource only when the user presses enter or selects another
+	widget. This is different from the other widget, the resource_entry,
+	which will update its resource on every char added to/removed from the
+	entry.
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uisidattach.c,
+	src/arch/gtk3/uisidattach.h, src/arch/gtk3/uivsidmenu.c,
+	src/arch/gtk3/vsidui.c,
+	src/arch/gtk3/widgets/base/filechooserhelpers.c,
+	src/arch/gtk3/widgets/base/filechooserhelpers.h: Gtk3: Add Load File
+	dialog for VSID. Add a dialog to load a sid file. Currently doesn't
+	actually play the sid, since more functions in vsidui.c need to be
+	implemented properly.
+
+2017-12-26  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/unix/x11/gnome/uimenu.c: Gtk2: 'fix' segfault when trying
+	to load a SID file in VSID. See note in delete_checkmark_cb()
+	function.
+
+2017-12-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uimenu.c,
+	src/arch/gtk3/uimenu.h, src/arch/gtk3/uivsidmenu.c: Moved non-generic
+	GTK3 menu code out of uimenu.[ch] and added a vsid-specific main menu
+	bar.
+
+2017-12-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/cartimagewidget.c,
+	src/arch/gtk3/widgets/base/openfiledialog.c,
+	src/arch/gtk3/widgets/base/openfiledialog.h,
+	src/arch/gtk3/widgets/reuwidget.c: Gtk3: Update REU widget, add
+	'open/create' file dialog. REU widet should work properly now. Added
+	function ui_open_create_file_dialog() which allows one to select a
+	file or create a new one. Made the filename entry box in the cart
+	image helpers widget read-only, the resource-text-entry widget needs
+	to be rewritten to only respond after entering is done
+	(ie leave-focus).
+
+2017-12-24  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicart.c, src/arch/gtk3/widgets/georamwidget.c: Gtk3:
+	Update GEO-RAM settings widget. Remove event handler from the 'enable'
+	widget, all widgets are always active now, as they should.
+
+2017-12-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/vsidui.c: Added GTK3 vsid main
+	window creation code. For now, it gets the same window and menubar as
+	the emulators, but the pull-down menus are vsid-specific.
+
+2017-12-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uivsidmenu.c: Updated
+	GTK3 menus.
+
+2017-12-23  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/video.c,
+	src/arch/gtk3/videoarch.h: Slightly refactored GTK3 video/window
+	startup code, removing some cruft.
+
+2017-12-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/monitorsettingswidget.c,
+	src/arch/gtk3/widgets/monitorsettingswidget.h: Gtk3: Add monitor
+	settings widget to settings UI
+
+2017-12-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimisc.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/contentpreviewwidget.c,
+	src/arch/gtk3/widgets/jamactionwidget.c,
+	src/arch/gtk3/widgets/jamactionwidget.h: Gtk3: Add default JAM action
+	widget to 'misc' settings
+
+2017-12-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uitapeattach.c,
+	src/arch/gtk3/widgets/contentpreviewwidget.c: Gtk3: Add content
+	preview and file-auto start to tape attach dialog. The tape-attach
+	dialog now sports a content preview widget and the possibility to
+	autostart a specific file in a tape image. Also removed the
+	'show preview' check box.
+
+2017-12-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uidiskattach.c, src/arch/gtk3/uismartattach.c,
+	src/arch/gtk3/uitapeattach.c,
+	src/arch/gtk3/widgets/base/basedialogs.h,
+	src/arch/gtk3/widgets/contentpreviewwidget.c: Gtk3: Disable
+	'show preview' widget in disk attach dialog, move custom dialog
+	response IDs. Disable the 'show image contents preview' button in the
+	disk-attach dialog. Move custom GtkDialog response IDs to
+	widgets/base/basedialogs.h.
+
+2017-12-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uidiskattach.c,
+	src/arch/gtk3/uismartattach.c, src/arch/gtk3/uitapeattach.c,
+	src/arch/gtk3/widgets/contentpreviewwidget.c,
+	src/arch/gtk3/widgets/contentpreviewwidget.h: Gtk3: Implement
+	auto-starting a file inside a disk image. By double-clicking a file in
+	the preview widget of the disk-attach dialog that file will be
+	autostarted.
+
+2017-12-22  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicart.c, src/arch/gtk3/uidiskattach.c,
+	src/arch/gtk3/widgets/contentpreviewwidget.c,
+	src/arch/gtk3/widgets/contentpreviewwidget.h: Gtk3: Add disk contents
+	preview to disk attach dialog. Show disk contents when selecting a
+	disk image in the disk attach dialog. Needs refactoring for use with
+	tapes etc. Needs callback to autostart a file in the content preview.
+	Assumes the 'CBM' font is always available, which may not always be
+	the case (though it should of course).
+
+2017-12-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicart.c: Gtk3: cart-attach dialog: add some more
+	VIC-20 support. Please check if this approach makes any sense.
+	Translating the Gtk2 menu-approach to the new dialog setup is a bit
+	flaky.
+
+2017-12-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicart.c, src/arch/gtk3/vic20ui.c: Gtk3: cart-attach
+	dialog: add some support for VIC20 carts. Should support Generic,
+	BehrBonz, MegaCart, FinalExp, VicFlashPlugin. Could only test Mega
+	Cart and Final Expansion, need more ROMs to test.
+
+2017-12-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicart.c: Gtk3: Update cart attach dialog to update
+	file filter depending on selected cart-type. When 'smart-attach' is
+	chosen as the 'type', the filter is set to '*.crt', if any other
+	'type' is chosen, the filter is set to '*.bin'.
+
+2017-12-20  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/c1541.c: Fixed gcc 7 warning
+
+2017-12-20  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/gtk3/uimon-fallback.c: Be compatible with the "real"
+	readline, in which the return value must be free'd with free()
+
+2017-12-19  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uivsidmenu.c,
+	src/arch/gtk3/uivsidmenu.h: Started work on the GTK3 vsid menus; not
+	actually hooked up to anything yet (except Automake.)
+
+2017-12-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicart.c: Gtk3: Try to add freezer/game/util cart
+	attach
+
+2017-12-19  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/gtk3/uimon-fallback.c: src/console.h declares readline
+	non-static, so it must be non-static here too otherwise it won't
+	compile
+
+2017-12-19  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/gtk3/widgets/ffmpegwidget.c: Correctly check for emptiness
+	of string
+
+2017-12-19  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/macosx/make-bindist.sh: Also copy the dependencies of
+	libraries to the bundle
+
+2017-12-19  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/uicart.c, src/arch/gtk3/uicart.h,
+	src/arch/gtk3/uimachinemenu.c: Gtk3: Update cart-attach dialog. Start
+	work on a generic framework to handle attaching cartridges for all
+	machines that support them. Right now this only works for c64/c128,
+	and only smart-attach is supported, just like the old dialog.
+
+2017-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c, src/arch/gtk3/widgets/ffmpegwidget.c: Gtk3:
+	Add video recording suppport
+
+2017-12-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510core.c: Slight fix.
+
+2017-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c, src/arch/gtk3/uimedia.h: Gtk3: Add audio
+	recording
+
+2017-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uimedia.c,
+	src/arch/gtk3/uimedia.h: Gtk3: Pause emulation when activating the
+	media recording dialog, add menu item to stop recording, add shortcut
+	keys to these items. 'Save media ...' can now be accessed via
+	Alt+Shift+R, The 'stop recording' menu item can be accessed via
+	Alt+Shift+S. The 'stop recording' item isn't functional yet, just
+	outputs some text on stdout to indicate it got triggered. What we
+	really need is a 'stop recording' button in the statusbar as well.
+
+2017-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/uimedia.c:
+	Gtk3: Implement screenshot saving. The save dialog will propose a
+	filename of "screenshot-yyyymmddHHMM.ext" as a convenience for the
+	user. The user is of course free to alter that.
+
+2017-12-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ffmpegwidget.c: Gtk3: Update ffmpeg settings
+	widget. Update video/audio codec lists based on selected format, add
+	resource getters/setters.
+
+2017-12-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uicommands.c, src/arch/gtk3/uicommands.h,
+	src/arch/gtk3/uimachinemenu.c: Removed some obsolete functions and
+	renamed some no-longer-static functions.
+
+2017-12-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/ffmpegwidget.c: Gtk3: Fix bug in ffmpeg widget
+	code. After asking around on #gtk+, it seemed my code was both
+	incorrect and convoluted.
+
+2017-12-15  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimedia.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/ffmpegwidget.c,
+	src/arch/gtk3/widgets/ffmpegwidget.h: Gtk3: Implement partial FFMPEG
+	settings widget
+
+2017-12-14  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/c64dtvui.c,
+	src/arch/gtk3/c64scui.c, src/arch/gtk3/c64ui.c,
+	src/arch/gtk3/cbm2ui.c, src/arch/gtk3/cbm5x0ui.c,
+	src/arch/gtk3/petui.c, src/arch/gtk3/plus4ui.c,
+	src/arch/gtk3/scpu64ui.c, src/arch/gtk3/vic20ui.c, src/c128/c128.c,
+	src/c64/c64.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c,
+	src/pet/pet.c, src/plus4/plus4.c, src/scpu64/scpu64.c,
+	src/vic20/vic20.c: Added GTK3 ...ui_init_early() functions, which will
+	allow for more machine-specific menu code to be added.
+
+2017-12-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/uimachinemenu.c,
+	src/arch/gtk3/uimedia.c, src/arch/gtk3/uimedia.h: Gtk3: Add
+	mockup/skeleton of the media dialog
+
+2017-12-13  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uisettings.c,
+	src/arch/gtk3/widgets/snapshotwidget.c: Gtk3: Remove snapshot menu
+	items 'Select history dir' and 'Recording start mode'. Functionality
+	of these items has been moved to the main settings UI.
+
+2017-12-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/base/basedialogs.h,
+	src/arch/gtk3/widgets/snapshotwidget.c,
+	src/arch/gtk3/widgets/snapshotwidget.h: Gtk3: Add snapshot/event
+	recording settings widget to main settings UI
+
+2017-12-11  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uisnapshot.c,
+	src/arch/gtk3/uisnapshot.h, src/arch/unix/gui/uicommands.c: Gtk3:
+	Implement event recording/playback menu items. The select-dir,
+	start/stop recording, start/stop playback and set/reset milestone menu
+	items are implemented. These still need visual cues from the UI. And a
+	widget to control the "Recording start mode".
+
+2017-12-11  groepaz <groepaz@gmx.net>
+
+	* src/vic20/cart/vic20-generic.c: fail on invalid cartridge size,
+	fixes bug #965
+
+2017-12-11  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uimenu.h: Made Mac GTK3
+	builds use the Command key instead of Alt/Option key in accelerators
+	and added Shift to the Monitor key combo to fix the only resulting
+	conflict.
+
+2017-12-09  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/video.c,
+	src/arch/gtk3/videoarch.h: GTK3: Mouse pointer now vanishes if it's
+	held still over the screen for a second or so
+
+2017-12-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/uimachinemenu.c: Stopped the GTK3 port File menu
+	getting tape items in x64dtv and xscpu64.
+
+2017-12-09  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/cairo_renderer.c, src/arch/gtk3/opengl_renderer.c,
+	src/arch/gtk3/video.c, src/arch/gtk3/videoarch.h: GTK3: Remove the
+	backbuffer_info method, as it exposes too much, and for non-Cairo
+	backends, incorrectly
+
+2017-12-05  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c: Cleaned up GTK3 ui_error() and ui_message()
+	functions, fixing a memory leak.
+
+2017-12-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: PETCAT: add braces to avoid ambiguity
+
+2017-12-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: PETCAT: some code sanitation
+
+2017-12-04  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uimenu.h: Gtk3: Fix missing initializer warnings
+
+2017-12-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/ui.c, src/arch/gtk3/ui.h,
+	src/arch/gtk3/uimachinemenu.c, src/arch/gtk3/uimachinemenu.h,
+	src/arch/gtk3/uimenu.h: Split the GTK3 emulator menus out into a
+	separate file in preparation for more machine-specific menus. The menu
+	item structures now have an extra (unused) action name member as well.
+
+2017-12-03  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/core/ciacore.c: Also display the "latched" value of the timer
+	(the value where the countdown started)
+
+2017-12-03  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/c64/cart/simonsbasic.c, src/petcat.c: Fixed silly typo
+
+201 -12-03  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/cairo_renderer.c: GTK3: Let Cairo manage its own
+	backbuffers
+
+2017-12-01  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/sounddrv/soundcoreaudio.c: Fixed a warning and a debug build
+	breakage.
+
+2017-12-01  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/petcat.c: petcat: add myself to copyright list. I've
+	added/altered small bits of petcat, so now I can steal some of the
+	code.
+
+2017-11-30  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* po/de.po: Fixed more typos
+
+2017-11-30  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* po/de.po: Fixed many typos
+
+2017-11-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/scpu64ui.c,
+	src/arch/gtk3/vic20ui.c, src/arch/gtk3/widgets/base/Makefile.am,
+	src/arch/gtk3/widgets/base/basewidgets.h,
+	src/arch/gtk3/widgets/base/carthelpers.c,
+	src/arch/gtk3/widgets/base/carthelpers.h,
+	src/arch/gtk3/widgets/dqbbwidget.c,
+	src/arch/gtk3/widgets/dqbbwidget.h,
+	src/arch/gtk3/widgets/easyflashwidget.c,
+	src/arch/gtk3/widgets/expertwidget.c,
+	src/arch/gtk3/widgets/expertwidget.h,
+	src/arch/gtk3/widgets/georamwidget.c,
+	src/arch/gtk3/widgets/georamwidget.h,
+	src/arch/gtk3/widgets/gmod2widget.c,
+	src/arch/gtk3/widgets/gmod2widget.h,
+	src/arch/gtk3/widgets/isepicwidget.c,
+	src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmc64widget.h,
+	src/arch/gtk3/widgets/mmcrwidget.c,
+	src/arch/gtk3/widgets/mmcrwidget.h,
+	src/arch/gtk3/widgets/ramcartwidget.c,
+	src/arch/gtk3/widgets/retroreplaywidget.c,
+	src/arch/gtk3/widgets/reuwidget.c, src/arch/gtk3/widgets/reuwidget.h,
+	src/arch/gtk3/widgets/rrnetmk3widget.c: Gtk3: Simplify passing cart
+	functions to widgets. Since (nearly) all cartridges use the
+	cartridge_save_image() and cartridge_flush_image() functions, I've
+	added a separate carthelpers module which allows each machine UI to
+	set these functions once, in stead of per widget. Should there be cart
+	widgets that need additional/alternate functions, those will require
+	some extra set_bla_func() code. I've only refactored the function
+	pointer code, so probably quite a few cart widgets don't act quite the
+	way the ought to. I'll get on that.
+
+2017-11-28  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c64ui.c, src/arch/gtk3/widgets/mmc64widget.c,
+	src/arch/gtk3/widgets/mmc64widget.h: Gtk3: Update MMC64 settings
+	widget. Update layout a bit (still not quite up to my standards),
+	refuse to Enable MMC64 when no BIOS file has been set. Actually
+	checking if a correct file has been provided doesn't work yet.
+
+2017-11-27  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/c128ui.c, src/arch/gtk3/widgets/mmc64widget.c: Gtk3:
+	Rewrite the MMC64 widget. This should handle the resources properly.
+	Can someone check the functionality of this widget? Once it works as
+	it should I will fix the horrible layout.
+
+2017-11-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/c64scui.c,
+	src/arch/gtk3/c64ui.c, src/arch/gtk3/ui.c, src/arch/gtk3/uicart.c,
+	src/arch/gtk3/uicart.h,
+	src/arch/gtk3/widgets/base/filechooserhelpers.c,
+	src/arch/gtk3/widgets/base/filechooserhelpers.h: Gtk3: Add Cartridge
+	smart-attach/freeze/detach. Only implemented in x64/x64sc for now. The
+	other attach functions need a separate widget, depending on machine
+	type.
+
+2017-11-25  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uicmdline.c, src/arch/gtk3/uicompiletimefeatures.c,
+	src/arch/gtk3/uidiskattach.c, src/arch/gtk3/uifliplist.c,
+	src/arch/gtk3/uisettings.c, src/arch/gtk3/uismartattach.c,
+	src/arch/gtk3/uisnapshot.c, src/arch/gtk3/uitapeattach.c,
+	src/arch/gtk3/widgets/base/basedialogs.c,
+	src/arch/gtk3/widgets/base/openfiledialog.c,
+	src/arch/gtk3/widgets/base/savefiledialog.c,
+	src/arch/gtk3/widgets/base/selectdirectorydialog.c: Gtk3: Replace
+	gtk_widget_get_toplevel() with ui_get_active_window(). This keeps
+	dialogs centered on the spawning GtkWindow instance and hopefully
+	solves some OSX issues.
+
+2017-11-24  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/uistatusbar.c: GTK3: hand pointer when hovering over
+	statusbar popup menus
+
+2017-11-24  groepaz <groepaz@gmx.net>
+
+	* src/c64/Makefile.am: change regexp to something the osx sed
+	understands, hopefully
+
+2017-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/opengl_renderer.c, src/arch/gtk3/uimenu.c: Gtk3: Fix
+	memory leak. Fix one leak, but not the closure destructors.
+
+2017-11-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/uiabout.c,
+	src/arch/gtk3/uidebug.c: Used the GTK3 UI's focused window tracking
+	code to provide the parent window for some dialogs, fixing multiple
+	problems, including the zombie menus on Mac.
+
+2017-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am, src/arch/gtk3/ui.c,
+	src/arch/gtk3/uidebug.c, src/arch/gtk3/uidebug.h: Gtk3: Add dialogs
+	for Debug menu 'trace mode' and 'auto playback frames'. Somehow these
+	dialogs don't center on the GtkWindow that spawns them, but rather
+	center on the display. Normally gtk_widget_get_toplevel() should
+	return the containing GtkWindow, but it doesn't for some reason.
+
+2017-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/uicommands.h: Gtk3: Add generic ui_toggle_resource() to
+	menu code. Since a MENU_ITEM_TYPE_CHECK item already gets its resource
+	passed, simple toggle items can be refactored into using a simple
+	generic function.
+
+2017-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/uimenu.c: Gtk3: Debug menu: add
+	toggle buttons. Add toggle buttons for the trace/coredump items. The
+	remaining items need some specialized dialogs.
+
+2017-11-21  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c, src/arch/gtk3/ui.h, src/arch/gtk3/uicommands.c,
+	src/arch/gtk3/uicommands.h: Gtk3: Start moving code/data out of ui.c.
+	In preparation of refactoring the menu UI code, some ui functions/data
+	needs to be moved out of ui.c. The idea is to have separate menus in
+	each ${emu}ui.c file, since the current implementation has hit its
+	limits.
+
+2017-11-20  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/opengl_renderer.c: GTK3 OPENGL: Move all OpenGL work
+	into Realize and Render callbacks
+
+2017-11-19  Michael C. Martin <mcmartin@gmail.com>
+
+	* configure.proto, src/arch/gtk3/opengl_renderer.c: GTK3: Use GLEW to
+	bind OpenGL functions on Windows and Linux
+
+2017-11-19  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/opengl_renderer.c: GTK3: Restore GdkGLContext when
+	updating GL state outside of rendering
+
+2017-11-19  Michael C. Martin <mcmartin@gmail.com>
+
+	* src/arch/gtk3/cairo_renderer.c, src/arch/gtk3/opengl_renderer.c,
+	src/arch/gtk3/videoarch.h: Remove backend renderer stubs that weren't
+	called and wouldn't work
+
+2017-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/Makefile.am: Removed '-w8' option, it's a cosmetic thing
+	anaways, functionality remains the same.
+
+2017-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog: Updated.
+
 2017-11-18  Marcus Sutton <loggedoubt@gmail.com>
 
 	* src/arch/gtk3/ui.c: Fixed the GTK3 UI's focused window tracking. VDC
@@ -18074,4 +22931,4 @@
 	src/arch/win32/vs_tmpl/arch_sdl.tmpl, src/arch/win32/watcom/arch.tgt,
 
 
-See `ChangeLog.1
+See `ChangeLog.111
