@@ -41,11 +41,13 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
+#include "archdep.h"
 #include "resources.h"
 #include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "drive.h"
 #include "machine.h"
+#include "util.h"
 #include "vsync.h"
 
 #include "ui.h"
@@ -243,4 +245,44 @@ gboolean ui_toggle_crt_controls(void)
 gboolean ui_crt_controls_enabled(void)
 {
     return crt_controls_enable;
+}
+
+/** \brief  Open the Manual
+ *
+ * \return  TRUE if succesful, FALSE otherwise
+ */
+void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
+{
+    GError *error = NULL;
+    gboolean res;
+    char *uri;
+    const char *path;
+
+#ifdef MACOSX_BUNDLE
+    /* On Macs the manual path is relative to the bundle. */
+    path = util_concat(archdep_boot_path(), "/../doc/", NULL);
+#else
+    path = util_concat(DOCDIR, "/", NULL);
+#endif
+
+    /* first try opening the pdf */
+    uri = util_concat("file://", path, "vice.pdf", NULL);
+    res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
+    lib_free(uri);
+    g_clear_error(&error);
+    if (res) {
+        lib_free(path);
+        return;
+    }
+    /* try opening the html doc */
+    uri = util_concat("file://", path, "vice_toc.html", NULL);
+    res = gtk_show_uri_on_window(NULL, uri, GDK_CURRENT_TIME, &error);
+    lib_free(uri);
+    g_clear_error(&error);
+    if (res) {
+        lib_free(path);
+        return;
+    }
+    lib_free(path);
+    return;
 }

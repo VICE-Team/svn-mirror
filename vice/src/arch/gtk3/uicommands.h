@@ -47,4 +47,6 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 
 gboolean ui_toggle_crt_controls(void);
 gboolean ui_crt_controls_enabled(void);
+
+void ui_open_manual_callback(GtkWidget *widget, gpointer user_data);
 #endif
