@@ -29,7 +29,7 @@
 #define INCL_DOSQUEUES     /* Queue commands     */
 #define INCL_DOSSESMGR     /* DosStartSession    */
 #define INCL_DOSMEMMGR     /* DosFreeMem         */
-#define INCL_DOSPROFILE     // DosTmrQueryTime
+#define INCL_DOSPROFILE    /* DosTmrQueryTime    */
 #define INCL_DOSPROCESS    /* DosGetInfoBlock    */
 #define INCL_DOSMODULEMGR  /* DosQueryModuleName */
 #define INCL_DOSSEMAPHORES /* Dos-*-MutexSem     */
