@@ -205,7 +205,7 @@ void ui_about_dialog_callback(GtkWidget *widget, gpointer user_data)
     /* set version string */
     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about),
 #ifdef USE_SVN_REVISION
-            VERSION " r" VICE_SVN_REV_STRING " (Gkt3)"
+            VERSION " r" VICE_SVN_REV_STRING " (Gtk3)"
 #else
             VERSION " (Gtk3)"
 #endif
