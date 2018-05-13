@@ -480,7 +480,7 @@ int gmod2_crt_save(const char *filename)
     chip.size = 0x2000;
     chip.start = 0x8000;
 
-    data = &roml_banks[0x10000];
+    data = roml_banks;
 
     for (i = 0; i < 64; i++) {
         chip.bank = i; /* bank */
