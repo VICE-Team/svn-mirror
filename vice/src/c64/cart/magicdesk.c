@@ -55,7 +55,8 @@
     "Magic Desk" Cartridge
 
     - this cart comes in 3 sizes, 32Kb (4 banks), 64Kb (8 banks) and 128Kb (16 banks).
-      - also supports "DDI Magic Cart" (32 banks)
+      - supports "DDI Magic Cart" (32 banks, 256kb)
+      - supports "Magic Desk Clone" homebrew cart (64 banks, 512kb and 128banks, 1MB)
 
     - ROM is always mapped in at $8000-$9FFF (8k game).
 
@@ -65,10 +66,10 @@
     bit 7     exrom (1 = cart disabled)
 */
 
-#define MAXBANKS 32
+#define MAXBANKS 128
 
 static uint8_t regval = 0;
-static uint8_t bankmask = 0x1f;
+static uint8_t bankmask = 0x7f;
 
 static void magicdesk_io1_store(uint16_t addr, uint8_t value)
 {
@@ -82,7 +83,7 @@ static void magicdesk_io1_store(uint16_t addr, uint8_t value)
         cart_set_port_exrom_slotmain(1);
     }
     cart_port_config_changed_slotmain();
-    DBG(("MAGICDESK: Reg: %02x (Bank: %d, %s)\n", regval, (regval & bankmask), (regval & 0x80) ? "disabled" : "enabled"));
+    DBG(("MAGICDESK: Reg: %02x (Bank: %d of %d, %s)\n", regval, (regval & bankmask), bankmask + 1, (regval & 0x80) ? "disabled" : "enabled"));
 }
 
 static uint8_t magicdesk_io1_peek(uint16_t addr)
@@ -92,7 +93,7 @@ static uint8_t magicdesk_io1_peek(uint16_t addr)
 
 static int magicdesk_dump(void)
 {
-    mon_out("Reg: %02x (Bank: %d, %s)\n", regval, (regval & bankmask), (regval & 0x80) ? "disabled" : "enabled");
+    mon_out("Reg: %02x (Bank: %d of %d, %s)\n", regval, (regval & bankmask), bankmask + 1, (regval & 0x80) ? "disabled" : "enabled");
     return 0;
 }
 
@@ -146,15 +147,21 @@ static int magicdesk_common_attach(void)
 
 int magicdesk_bin_attach(const char *filename, uint8_t *rawcart)
 {
-    bankmask = 0x1f;
-    if (util_file_load(filename, rawcart, 0x40000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        bankmask = 0x0f;
-        if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-            bankmask = 0x07;
-            if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                bankmask = 0x03;
-                if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                    return -1;
+    bankmask = 0x7f;
+    if (util_file_load(filename, rawcart, 0x100000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        bankmask = 0x3f;
+        if (util_file_load(filename, rawcart, 0x80000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            bankmask = 0x1f;
+            if (util_file_load(filename, rawcart, 0x40000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                bankmask = 0x0f;
+                if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                    bankmask = 0x07;
+                    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                        bankmask = 0x03;
+                        if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                            return -1;
+                        }
+                    }
                 }
             }
         }
@@ -181,13 +188,26 @@ int magicdesk_crt_attach(FILE *fd, uint8_t *rawcart)
             lastbank = chip.bank;
         }
     }
-    if (lastbank >= 31) {
+    if (lastbank >= 128) {
+        /* more than 128 banks does not work */
+        return -1;
+    } else if (lastbank >= 64) {
+        /* min 65, max 128 banks */
+        bankmask = 0x7f;
+    } else if (lastbank >= 32) {
+        /* min 33, max 64 banks */
+        bankmask = 0x3f;
+    } else if (lastbank >= 16) {
+        /* min 17, max 32 banks */
         bankmask = 0x1f;
-    } else if (lastbank >= 15) {
+    } else if (lastbank >= 8) {
+        /* min 9, max 16 banks */
         bankmask = 0x0f;
-    } else if (lastbank >= 7) {
+    } else if (lastbank >= 4) {
+        /* min 5, max 8 banks */
         bankmask = 0x07;
     } else {
+        /* max 4 banks */
         bankmask = 0x03;
     }
     return magicdesk_common_attach();
@@ -203,7 +223,7 @@ void magicdesk_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   1
+#define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTMAGICD"
 
 int magicdesk_snapshot_write_module(snapshot_t *s)
@@ -218,6 +238,7 @@ int magicdesk_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_B(m, (uint8_t)regval) < 0)
+        || (SMW_B(m, (uint8_t)bankmask) < 0)
         || (SMW_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0)) {
         snapshot_module_close(m);
         return -1;
@@ -244,6 +265,7 @@ int magicdesk_snapshot_read_module(snapshot_t *s)
 
     if (0
         || (SMR_B(m, &regval) < 0)
+        || (SMR_B(m, &bankmask) < 0)
         || (SMR_BA(m, roml_banks, 0x2000 * MAXBANKS) < 0)) {
         snapshot_module_close(m);
         return -1;
