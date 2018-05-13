@@ -48,12 +48,6 @@
 #define FLASH_DEBUG(x)
 #endif
 
-/* Timeout after sector erase command (datasheet states 50us) */
-#define ERASE_SECTOR_TIMEOUT_CYCLES 50
-/* Time taken by sector & chip erase (FIXME: numbers pulled from a hat) */
-#define ERASE_SECTOR_CYCLES 1012
-#define ERASE_CHIP_CYCLES 8192
-
 struct flash_types_s {
     uint8_t manufacturer_ID;
     uint8_t device_ID;
@@ -67,41 +61,49 @@ struct flash_types_s {
     unsigned int magic_1_mask;
     unsigned int magic_2_mask;
     uint8_t status_toggle_bits;
+    unsigned int erase_sector_timeout_cycles;
+    unsigned int erase_sector_cycles;
+    unsigned int erase_chip_cycles;
 };
 typedef struct flash_types_s flash_types_t;
 
 static const flash_types_t flash_types[FLASH040_TYPE_NUM] = {
-    /* 29F040 */
+    /* AM29F040 */
     { 0x01, 0xa4, 1,
       0x80000,
       0x70000, 0x10000, 16,
       0x5555, 0x2aaa, 0x7fff, 0x7fff,
-      0x40 },
-    /* 29F040B */
+      0x40, 
+      80, 2000000, 14000000}, /* may take up to 30s and 120s */
+    /* AM29F040B */
     { 0x01, 0xa4, 1,
       0x80000,
       0x70000, 0x10000, 16,
       0x555, 0x2aa, 0x7ff, 0x7ff,
-      0x40 },
+      0x40,
+      50, 1000000, 8000000}, /* may take up to 8s and 64s */
     /* 29F010 */
     { 0x01, 0x20, 1,
       0x20000,
       0x1c000, 0x04000, 14,
       0x5555, 0x2aaa, 0x7fff, 0x7fff,
-      0x40 },
+      0x40,
+      80, 1000000, 1000000 }, /* may take up to 15s */
     /* 29F032B with A0/1 swap */
     { 0x01, 0x41, 1,
       0x400000,
       0x3f0000, 0x10000, 16,
       0x556, 0x2a9, 0x7ff, 0x7ff,
-      0x44 },
+      0x44,
+      50, 1000000, 64000000 }, /* may take up to 8s */
     /* Spansion S29GL064N */
     { 0x01, 0x7e, 2,
       0x800000,
       /* FIXME: some models support non-uniform sector layout */
       0x7f0000, 0x10000, 16,
       0xaaa, 0x555, 0xfff, 0xfff,
-      0x40 },
+      0x40,
+      50, 500000, 64000000}, /* may take up to 3.5s and 128s */
 };
 
 /* -------------------------------------------------------------------------- */
@@ -236,7 +238,7 @@ static void erase_alarm_handler(CLOCK offset, void *data)
             }
 
             if (m != 0) {
-                alarm_set(flash040_context->erase_alarm, maincpu_clk + ERASE_SECTOR_CYCLES);
+                alarm_set(flash040_context->erase_alarm, maincpu_clk + flash_types[flash040_context->flash_type].erase_sector_cycles);
             } else {
                 flash040_context->flash_state = flash040_context->flash_base_state;
             }
@@ -333,12 +335,12 @@ static void flash040core_store_internal(flash040_context_t *flash040_context,
             if (flash_magic_1(flash040_context, addr) && (byte == 0x10)) {
                 flash040_context->flash_state = FLASH040_STATE_CHIP_ERASE;
                 flash040_context->program_byte = 0;
-                alarm_set(flash040_context->erase_alarm, maincpu_clk + ERASE_CHIP_CYCLES);
+                alarm_set(flash040_context->erase_alarm, maincpu_clk + flash_types[flash040_context->flash_type].erase_chip_cycles);
             } else if (byte == 0x30) {
                 flash_add_sector_to_erase_mask(flash040_context, addr);
                 flash040_context->program_byte = 0;
                 flash040_context->flash_state = FLASH040_STATE_SECTOR_ERASE_TIMEOUT;
-                alarm_set(flash040_context->erase_alarm, maincpu_clk + ERASE_SECTOR_TIMEOUT_CYCLES);
+                alarm_set(flash040_context->erase_alarm, maincpu_clk + flash_types[flash040_context->flash_type].erase_sector_timeout_cycles);
             } else {
                 flash040_context->flash_state = flash040_context->flash_base_state;
             }
@@ -365,7 +367,7 @@ static void flash040core_store_internal(flash040_context_t *flash040_context,
         case FLASH040_STATE_SECTOR_ERASE_SUSPEND:
             if (byte == 0x30) {
                 flash040_context->flash_state = FLASH040_STATE_SECTOR_ERASE;
-                alarm_set(flash040_context->erase_alarm, maincpu_clk + ERASE_SECTOR_CYCLES);
+                alarm_set(flash040_context->erase_alarm, maincpu_clk + flash_types[flash040_context->flash_type].erase_sector_cycles);
             }
             break;
 
@@ -559,7 +561,7 @@ int flash040core_snapshot_read_module(snapshot_t *s, flash040_context_t *flash04
         case FLASH040_STATE_SECTOR_ERASE:
         case FLASH040_STATE_CHIP_ERASE:
             /* the alarm timing is not saved, just use some value for now */
-            alarm_set(flash040_context->erase_alarm, maincpu_clk + ERASE_SECTOR_CYCLES);
+            alarm_set(flash040_context->erase_alarm, maincpu_clk + flash_types[flash040_context->flash_type].erase_sector_cycles);
             break;
 
         default:
