@@ -207,17 +207,8 @@ int gmod2_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
 
 void gmod2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
-#if 0
     if (flashrom_state && flashrom_state->flash_data) {
         switch (addr & 0xe000) {
-            case 0xe000:
-                if (flashrom_state->flash_state == FLASH040_STATE_READ) {
-                    *base = flashrom_state->flash_data + (roml_bank << 13) - 0xe000;
-                    *start = 0xe000;
-                    *limit = 0xfffd;
-                    return;
-                }
-                break;
             case 0x8000:
                 if (flashrom_state->flash_state == FLASH040_STATE_READ) {
                     *base = flashrom_state->flash_data + (roml_bank << 13) - 0x8000;
@@ -230,7 +221,6 @@ void gmod2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *lim
                 break;
         }
     }
-#endif
     *base = NULL;
     *start = 0;
     *limit = 0;
