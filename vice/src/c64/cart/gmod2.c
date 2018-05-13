@@ -207,7 +207,7 @@ int gmod2_peek_mem(export_t *export, uint16_t addr, uint8_t *value)
 
 void gmod2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
-    if (flashrom_state && flashrom_state->flash_data) {
+    if (flashrom_state && flashrom_state->flash_data && gmod2_cmode == CMODE_8KGAME) {
         switch (addr & 0xe000) {
             case 0x8000:
                 if (flashrom_state->flash_state == FLASH040_STATE_READ) {
