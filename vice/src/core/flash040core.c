@@ -222,6 +222,9 @@ static void erase_alarm_handler(CLOCK offset, void *data)
 
     switch (flash040_context->flash_state) {
         case FLASH040_STATE_SECTOR_ERASE_TIMEOUT:
+            alarm_set(flash040_context->erase_alarm, maincpu_clk + flash_types[flash040_context->flash_type].erase_sector_cycles);
+            flash040_context->flash_state = FLASH040_STATE_SECTOR_ERASE;
+            break;
         case FLASH040_STATE_SECTOR_ERASE:
             for (i = 0; i < (8 * FLASH040_ERASE_MASK_SIZE); ++i) {
                 j = i >> 3;
