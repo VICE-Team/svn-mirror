@@ -182,7 +182,10 @@ void gmod2_io1_store(uint16_t addr, uint8_t value)
 
 uint8_t gmod2_roml_read(uint16_t addr)
 {
-    return flash040core_read(flashrom_state, (addr & 0x1fff) + (roml_bank << 13));
+    if (gmod2_cmode == CMODE_8KGAME) {
+        return flash040core_read(flashrom_state, (addr & 0x1fff) + (roml_bank << 13));
+    }
+    return ram_read(addr);
 }
 
 void gmod2_romh_store(uint16_t addr, uint8_t value)
