@@ -3,10 +3,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.5\n"
+"Project-Id-Version: VICE 3.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-08 14:27-0700\n"
-"PO-Revision-Date: 2017-04-01 12:55+0200\n"
+"PO-Revision-Date: 2018-05-14 19:18+0200\n"
 "Last-Translator: Stefan Haubenthal (polluks@sdf.lonestar.org)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -298,9 +298,8 @@ msgstr "Dritter SID Chip Basisadresse"
 
 #: src/arch/unix/gui/c128ui.c:212 src/arch/unix/gui/c64scui.c:416
 #: src/arch/unix/gui/c64ui.c:467
-#, fuzzy
 msgid "Fourth SID base address"
-msgstr "Dritter SID Chip Basisadresse"
+msgstr "Vierter SID Chip Basisadresse"
 
 #: src/arch/unix/gui/c128ui.c:216 src/arch/unix/gui/c64dtvui.c:86
 #: src/arch/unix/gui/c64scui.c:420 src/arch/unix/gui/c64ui.c:471
@@ -601,9 +600,8 @@ msgstr "6526 (alt)"
 
 #: src/arch/unix/gui/c128ui.c:630 src/arch/unix/gui/c64scui.c:221
 #: src/arch/unix/gui/c64ui.c:287 src/arch/unix/gui/cbm2ui.c:351
-#, fuzzy
 msgid "8521 (new)"
-msgstr "6526 (neu)"
+msgstr "8521 (neu)"
 
 #: src/arch/unix/gui/c128ui.c:640 src/arch/win32/resc128.rc.po.c:718
 msgid "C128 model"
@@ -3916,7 +3914,7 @@ msgstr "Zwei"
 
 #: src/arch/unix/gui/uisid.c:130
 msgid "Three"
-msgstr ""
+msgstr "Drei"
 
 #: src/arch/unix/gui/uisound.c:50 src/arch/unix/gui/uisound.c:179
 msgid "Sound driver argument"
@@ -4341,9 +4339,8 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:244
-#, fuzzy
 msgid "(c) 1998 - 2018 The VICE Team"
-msgstr "(c) 1998 - 2017 Das Vice Team"
+msgstr "(c) 1998 - 2018 Das Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:252 src/arch/win32/res.rc.po.c:1172
 #: src/arch/win32/res.rc.po.c:1728 src/arch/amigaos/intl_text.c.po.c:4639
@@ -6919,9 +6916,8 @@ msgid "Tape log device settings"
 msgstr "Bandlog Geräteeinstellungen"
 
 #: src/arch/win32/res.rc.po.c:1700
-#, fuzzy
 msgid "Tape cartridge settings"
-msgstr "Expert Cartridge Einstellungen"
+msgstr "Band Cartridge Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1701
 msgid "CP CLock F83 device settings"
@@ -8211,9 +8207,8 @@ msgid "Third SID at"
 msgstr "Dritter SID auf"
 
 #: src/arch/win32/ressid.rc.po.c:94
-#, fuzzy
 msgid "Fourth SID at"
-msgstr "Dritter SID auf"
+msgstr "Vierter SID auf"
 
 #: src/arch/win32/ressid.rc.po.c:95 src/arch/win32/ressiddtv.rc.po.c:60
 msgid "reSID options"
@@ -9554,9 +9549,8 @@ msgid "Triple SID at"
 msgstr "Dritter SID auf"
 
 #: src/arch/amigaos/intl_text.c.po.c:9919
-#, fuzzy
 msgid "Quad SID at"
-msgstr "Dritter SID auf"
+msgstr "Vierter SID auf"
 
 #: src/arch/amigaos/intl_text.c.po.c:10017
 msgid "Not implemented yet!"
@@ -10281,13 +10275,10 @@ msgstr ""
 "Laufwerk."
 
 #: src/translate_text.c.po.c:1385
-#, fuzzy
 msgid ""
 "Continues execution and returns to the monitor just after the next\n"
 "RTS or RTI is executed."
-msgstr ""
-"Setzt Ausführung fort und retourniert bevor der nächsten RTS oder RTI "
-"instruction."
+msgstr "Setzt Ausführung fort und retourniert zum Monitor unmittelbar nach der nächsten RTS oder RTI instruction."
 
 #: src/translate_text.c.po.c:1402
 msgid "Displays the contents of the screen."
@@ -10612,7 +10603,6 @@ msgstr ""
 "unterstützt."
 
 #: src/translate_text.c.po.c:2118
-#, fuzzy
 msgid ""
 "Each time the specified checkpoint is examined, the condition is\n"
 "evaluated. If it evalutes to true, the checkpoint is activated.\n"
@@ -10638,10 +10628,15 @@ msgstr ""
 "Die Bedingung kann Register benutzen (A, X, Y, PC, SP, FL und andere\n"
 "CPU spezifische Register (siehe Handbuch)) und gegen andere Register oder\n"
 "Konstanten vergleichen (==, !=, <, >, <=, >=).\n"
-"Register können auch Geräteregister sein; dazu wird die memspace Prefix-"
-"syntax \n"
+"Register können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \n"
 "verwendet: c:, 8:, 9:, 10:, 11:\n"
 "Beispiel: A == 0, X == Y, 8:X == X\n"
+"Man kann auch gegen den Wert einer Speicherstelle in einer\n"
+"spezifischen Speicherbank vergleichen. Z.B. stop nur wenn im VIC\n"
+"Register $d020 ein $f0 steht.\n"
+"Benutze die Form @[bankname]:[$<address>] | [.label].\n"
+"Funktioniert aber nur im C: Speicherbereich\n"
+"Z.B.: if @io:$d020 == $f0, if @io:.vicBorder == $f0\n"
 
 #: src/translate_text.c.po.c:2135
 msgid ""
@@ -10994,6 +10989,8 @@ msgid ""
 "Turn tracing of every instruction executed by the main CPU on or off. If the "
 "argument is 'toggle' then the current mode is switched."
 msgstr ""
+"Aktiviere/Deaktiviere Tracing jeder CPU Instruktion. Mit Argument\n"
+"'toggle' wird der aktuelle Modus umgeschalten."
 
 #: src/translate_text.c.po.c:3074
 msgid "Control port"
@@ -11124,9 +11121,8 @@ msgid "VizaWrite 64 dongle"
 msgstr "VizaWrite 64 Dongle"
 
 #: src/translate_text.c.po.c:3602
-#, fuzzy
 msgid "WaaSoft dongle"
-msgstr "Sense Dongle"
+msgstr "WaaSoft Dongle"
 
 #: src/translate_text.c.po.c:3619
 msgid "Atari CX21 keypad"
@@ -11208,7 +11204,7 @@ msgstr "Sense Dongle"
 
 #: src/translate_text.c.po.c:4027
 msgid "tapecart"
-msgstr ""
+msgstr "Tapecart"
 
 #: src/translate_text.c.po.c:4044
 msgid "Userport DAC"
@@ -11711,19 +11707,16 @@ msgid "Use old NTSC sync factor"
 msgstr "Alten NTSC Sync Faktor verwenden"
 
 #: src/translate_text.c.po.c:6108
-#, fuzzy
 msgid "Set both CIA models (0 = old 6526, 1 = new 8521)"
-msgstr "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A)"
+msgstr "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 8521)"
 
 #: src/translate_text.c.po.c:6125
-#, fuzzy
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 8521)"
-msgstr "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A)"
+msgstr "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 8521)"
 
 #: src/translate_text.c.po.c:6142
-#, fuzzy
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 8521)"
-msgstr "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A)\""
+msgstr "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 8521)\""
 
 #: src/translate_text.c.po.c:6159
 msgid ""
@@ -12009,43 +12002,36 @@ msgid "Disable tape sense dongle"
 msgstr "Band Sense Dongle deaktivieren"
 
 #: src/translate_text.c.po.c:7366
-#, fuzzy
 msgid "Enable tapecart"
-msgstr "Echtes Seitenverhältnis aktivieren"
+msgstr "Tapecart aktivieren"
 
 #: src/translate_text.c.po.c:7383
-#, fuzzy
 msgid "Disable tapecart"
-msgstr "Echtes Seitenverhältnis deaktivieren"
+msgstr "Tapecart deaktivieren"
 
 #: src/translate_text.c.po.c:7400
-#, fuzzy
 msgid "Attach TCRT tapecart image"
-msgstr "CRT Erweiterungsmodul Image einlegen"
+msgstr "TCRT Tapecart Image einlegen"
 
 #: src/translate_text.c.po.c:7417
-#, fuzzy
 msgid "Enable updating tapecart .tcrt image"
-msgstr "Schreibzugriff auf EasyFlash CRT Image erlauben"
+msgstr "Schreibzugriff auf TCRT Tapecart Image erlauben"
 
 #: src/translate_text.c.po.c:7434
-#, fuzzy
 msgid "Disable updating tapecart .tcrt image"
-msgstr "Schreibzugriff auf EasyFlash ROM Image verhindern"
+msgstr "Schreibzugriff auf TCRT Tapecart Image verhindern"
 
 #: src/translate_text.c.po.c:7451
-#, fuzzy
 msgid "Enable tapecart .tcrt image optimization on write"
-msgstr "EasyFlash .crt Image beim Speichern optimieren"
+msgstr "TCRT Tapecart Image beim Speichern optimieren"
 
 #: src/translate_text.c.po.c:7468
-#, fuzzy
 msgid "Disable tapecart .tcrt image optimization on write"
-msgstr "EasyFlash .crt Image beim Speichern optimieren"
+msgstr "TCRT Tapecart Image beim Speichern optimieren"
 
 #: src/translate_text.c.po.c:7485
 msgid "Set tapecart log verbosity"
-msgstr ""
+msgstr "Setze Tapecart Loglevel"
 
 #: src/translate_text.c.po.c:7536
 msgid "Enable CP Clock F83 (PCF8583 RTC)"
@@ -13599,9 +13585,8 @@ msgid "Specify base address for 3rd SID"
 msgstr "Basis Adresse für dritten SID definieren"
 
 #: src/translate_text.c.po.c:14639
-#, fuzzy
 msgid "Specify base address for 4th SID"
-msgstr "Basis Adresse für zweiten SID definieren"
+msgstr "Basis Adresse für vierten SID definieren"
 
 #: src/translate_text.c.po.c:14656
 msgid "Emulate SID filters"
@@ -13762,9 +13747,8 @@ msgid "Disable I/O-3 RAM"
 msgstr "I/O-3 RAM deaktivieren"
 
 #: src/translate_text.c.po.c:15374
-#, fuzzy
 msgid "Set border display mode (0: normal, 1: full, 2: debug, 3: none)"
-msgstr "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug)"
+msgstr "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug, 3: kein)"
 
 #: src/translate_text.c.po.c:15391
 msgid "Enable sprite-background collision registers"
