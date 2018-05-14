@@ -81,3 +81,22 @@ void vsid_ui_setdrv(char* driver_info_text)
 {
 }
 
+void vsid_ui_set_driver_addr(uint16_t addr)
+{
+}
+
+void vsid_ui_set_load_addr(uint16_t addr)
+{
+}
+
+void vsid_ui_set_init_addr(uint16_t addr)
+{
+}
+
+void vsid_ui_set_play_addr(uint16_t addr)
+{
+}
+
+void vsid_ui_set_data_size(uint16_t size)
+{
+}
