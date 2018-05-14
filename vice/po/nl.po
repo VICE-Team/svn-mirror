@@ -1550,9 +1550,6 @@ msgstr "Injecteer in RAM"
 msgid "Disk image"
 msgstr "Diskbestand"
 
-#
-# Compyx got to here (2018-05-08T23:06)
-#
 #: src/arch/unix/gui/uiautostart.c:99 src/arch/win32/res.rc.po.c:1579
 #: src/arch/amigaos/intl_text.c.po.c:1993 src/translate_text.c.po.c:4913
 msgid "Handle True Drive Emulation on autostart"
@@ -1574,7 +1571,7 @@ msgstr "Vertraging van de autostart"
 #: src/arch/unix/gui/uiautostart.c:111 src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:12971
 msgid "Use ':' with RUN"
-msgstr "Gebruik ':' met RUN"
+msgstr "Plak ':' achter RUN"
 
 #: src/arch/unix/gui/uiautostart.c:114 src/arch/win32/resautostart.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:12999
@@ -1608,7 +1605,7 @@ msgstr "Kan cartridge niet koppelen"
 
 #: src/arch/unix/gui/uic64cart.c:97
 msgid "Smart attach CRT image"
-msgstr "Slim koppel CRT bestand"
+msgstr "Autokoppel CRT bestand"
 
 #: src/arch/unix/gui/uic64cart.c:101 src/arch/win32/res.rc.po.c:1141
 #: src/arch/amigaos/intl_text.c.po.c:5871 src/translate_text.c.po.c:9102
@@ -1655,12 +1652,12 @@ msgstr "Cartridge freeze"
 #: src/arch/unix/gui/uic64dtv.c:97 src/arch/unix/gui/uic64dtv.c:123
 #: src/arch/amigaos/intl_text.c.po.c:6641
 msgid "C64DTV ROM file"
-msgstr "C64DTV ROM bestand"
+msgstr "C64DTV ROM-bestand"
 
 #: src/arch/unix/gui/uic64dtv.c:126 src/arch/win32/resc64dtv.rc.po.c:417
 #: src/translate_text.c.po.c:18152
 msgid "Enable writes to C64DTV ROM image"
-msgstr "Activeer schrijven naar C64DTV ROM bestand"
+msgstr "Activeer schrijven naar C64DTV ROM-bestand"
 
 #: src/arch/unix/gui/uic64dtv.c:150 src/arch/amigaos/intl_text.c.po.c:6683
 msgid "Hummer ADC"
@@ -1669,51 +1666,51 @@ msgstr "Hummer ADC"
 #: src/arch/unix/gui/uic64memoryhacks.c:42
 #: src/arch/win32/resc64memoryhacks.rc.po.c:52
 msgid "C64 256K file"
-msgstr "C64 256K bestand"
+msgstr "C64 256K-bestand"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:47
 #: src/arch/win32/resc64memoryhacks.rc.po.c:55
 msgid "+60K file"
-msgstr "+60K bestand"
+msgstr "+60K-bestand"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:52
 #: src/arch/win32/resc64memoryhacks.rc.po.c:57
 msgid "+256K file"
-msgstr "+256K bestand"
+msgstr "+256K-bestand"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:98
 msgid "C64 memory expansions hack device"
-msgstr "C64 geheugenuitbreidingen hack apparaat"
+msgstr "C64 geheugenuitbreidingshackapparaat"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:102
 #: src/arch/win32/resc64memoryhacks.rc.po.c:51
 msgid "C64 256K base address"
-msgstr "C64 256K basisadres"
+msgstr "C64 256K-basisadres"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:105
 msgid "C64 256K image name"
-msgstr "C64 256K bestandsnaam"
+msgstr "C64 256K-bestandsnaam"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:109
 msgid "+60K Base address"
-msgstr "+60K basisadres"
+msgstr "+60K-basisadres"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:112
 msgid "+60K Image name"
-msgstr "+60K bestandsnaam"
+msgstr "+60K-bestandsnaam"
 
 #: src/arch/unix/gui/uic64memoryhacks.c:116
 msgid "+256K image name"
-msgstr "+256K bestandsnaam"
+msgstr "+256K-bestandsnaam"
 
 #: src/arch/unix/gui/uicommands.c:77 src/arch/unix/gui/uicommands.c:658
 #: src/arch/unix/gui/uikeyboard.c:137
 msgid "VICE setting"
-msgstr "VICE instelling"
+msgstr "VICE-instelling"
 
 #: src/arch/unix/gui/uicommands.c:77 src/arch/unix/gui/uicommands.c:541
 msgid "Change current working directory"
-msgstr "Verander de huidige werkdirectory"
+msgstr "Verander de huidige directory"
 
 #: src/arch/unix/gui/uicommands.c:79
 msgid "Directory not found"
@@ -1726,7 +1723,7 @@ msgstr "Commando"
 
 #: src/arch/unix/gui/uicommands.c:135
 msgid "Command to execute for browsing html files"
-msgstr "Uit te voeren commando voor het lezen van html bestanden"
+msgstr "HTML browser-commando"
 
 #: src/arch/unix/gui/uicommands.c:169
 msgid "No HTML browser is defined."
@@ -1754,7 +1751,7 @@ msgstr "Selecteer geschiedenis directory"
 
 #: src/arch/unix/gui/uicommands.c:379 src/arch/unix/gui/uidrive.c:178
 msgid "Path:"
-msgstr "Pad:"
+msgstr "Pad:" 
 
 #: src/arch/unix/gui/uicommands.c:419
 msgid "Media Recording stopped"
@@ -1762,7 +1759,7 @@ msgstr "Opname gestopt"
 
 #: src/arch/unix/gui/uicommands.c:436 src/arch/win32/res.rc.po.c:1631
 msgid "Record sound to file"
-msgstr "Opname van geluid naar bestand"
+msgstr "Geluidsopname starten"
 
 #: src/arch/unix/gui/uicommands.c:445 src/arch/win32/res.rc.po.c:1285
 #: src/arch/amigaos/intl_text.c.po.c:12537
@@ -2232,7 +2229,7 @@ msgstr "Sla bestand nu op"
 #: src/arch/unix/gui/uimmcreplay.c:84 src/arch/unix/gui/uiramcart.c:77
 #: src/arch/unix/gui/uiretroreplay.c:78 src/arch/unix/gui/uireu.c:91
 msgid "Save image as"
-msgstr "Sla bestand op als"
+msgstr "Bestand opslaan als"
 
 #: src/arch/unix/gui/uidqbb.c:67 src/arch/win32/resdqbb.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:7663
@@ -2265,7 +2262,7 @@ msgstr "Uitbreiden bij toegang"
 #: src/arch/unix/gui/uidrive.c:117 src/arch/unix/gui/uiperipheraliec.c:88
 #: src/arch/unix/gui/uiperipheralieee.c:77 src/arch/win32/res.rc.po.c:1515
 msgid "Drive RPM"
-msgstr "Drive RPM"
+msgstr "Drive-toerental"
 
 #: src/arch/unix/gui/uidrive.c:146 src/arch/unix/gui/uiperipheraliec.c:91
 #: src/arch/unix/gui/uiperipheralieee.c:80 src/arch/win32/res.rc.po.c:1516
@@ -2278,26 +2275,26 @@ msgstr "Drive wiebel"
 #: src/arch/unix/gui/uidrivevic20.c:57 src/arch/win32/res.rc.po.c:1577
 #: src/arch/amigaos/intl_text.c.po.c:1965
 msgid "True drive emulation"
-msgstr "Hardwarematige Drive Emulatie"
+msgstr "Exacte driveemulatie"
 
 #: src/arch/unix/gui/uidrive.c:170 src/arch/unix/gui/uidrivec128.c:153
 #: src/arch/unix/gui/uidrivec64.c:48 src/arch/unix/gui/uidrivec64dtv.c:48
 #: src/arch/unix/gui/uidrivepetcbm2.c:96 src/arch/unix/gui/uidriveplus4.c:145
 #: src/arch/unix/gui/uidrivevic20.c:60 src/arch/win32/res.rc.po.c:1578
 msgid "Drive sound emulation"
-msgstr "Drive geluiden emulatie"
+msgstr "Drivegeluidemulatie"
 
 #: src/arch/unix/gui/uidrive.c:178
 msgid "Select Flash filesystem directory"
-msgstr "Selecteer flash bestandssysteem directory"
+msgstr "Selecteer flash-bestandssysteem directory"
 
 #: src/arch/unix/gui/uidrive.c:182 src/translate_text.c.po.c:18237
 msgid "Enable true hardware flash file system"
-msgstr "Activeer hardwarmatige flash bestandssysteem"
+msgstr "Activeer hardwarmatige flash-bestandssysteem"
 
 #: src/arch/unix/gui/uidrive.c:185
 msgid "Set Flash filesystem directory"
-msgstr "Selecteer flash bestandssysteem directory"
+msgstr "Selecteer flash-bestandssysteem directory"
 
 #: src/arch/unix/gui/uidrivec128.c:157 src/arch/unix/gui/uidrivec64.c:52
 #: src/arch/unix/gui/uidrivec64dtv.c:52 src/arch/unix/gui/uidrivepetcbm2.c:100
@@ -2315,13 +2312,13 @@ msgstr "Drive #8 uitbreiding"
 #: src/arch/unix/gui/uidrivec64dtv.c:61 src/arch/unix/gui/uidrivepetcbm2.c:106
 #: src/arch/unix/gui/uidriveplus4.c:158 src/arch/unix/gui/uidrivevic20.c:73
 msgid "Drive #8 40-track image support"
-msgstr "Drive #8 40-sporen bestand ondersteuning"
+msgstr "Drive #8 40-sporenondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:169 src/arch/unix/gui/uidrivec64.c:64
 #: src/arch/unix/gui/uidrivec64dtv.c:64 src/arch/unix/gui/uidrivepetcbm2.c:109
 #: src/arch/unix/gui/uidriveplus4.c:161 src/arch/unix/gui/uidrivevic20.c:76
 msgid "Drive #8 idle method"
-msgstr "Drive #8 idle methode"
+msgstr "Drive #8 idle-methode"
 
 #: src/arch/unix/gui/uidrivec128.c:173 src/arch/unix/gui/uidrivec64.c:68
 #: src/arch/unix/gui/uidrivec64dtv.c:68 src/arch/unix/gui/uidrivepetcbm2.c:113
@@ -2339,7 +2336,7 @@ msgstr "Drive #9 uitbreiding"
 #: src/arch/unix/gui/uidrivec64dtv.c:77 src/arch/unix/gui/uidrivepetcbm2.c:119
 #: src/arch/unix/gui/uidriveplus4.c:174 src/arch/unix/gui/uidrivevic20.c:89
 msgid "Drive #9 40-track image support"
-msgstr "Drive #9 40-sporen bestand ondersteuning"
+msgstr "Drive #9 40-sporenondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:185 src/arch/unix/gui/uidrivec64.c:80
 #: src/arch/unix/gui/uidrivec64dtv.c:80 src/arch/unix/gui/uidrivepetcbm2.c:122
@@ -2363,13 +2360,13 @@ msgstr "Drive #10 uitbreiding"
 #: src/arch/unix/gui/uidrivec64dtv.c:93 src/arch/unix/gui/uidrivepetcbm2.c:132
 #: src/arch/unix/gui/uidriveplus4.c:190 src/arch/unix/gui/uidrivevic20.c:105
 msgid "Drive #10 40-track image support"
-msgstr "Drive #10 40-sporen bestand ondersteuning"
+msgstr "Drive #10 40-sporenondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:201 src/arch/unix/gui/uidrivec64.c:96
 #: src/arch/unix/gui/uidrivec64dtv.c:96 src/arch/unix/gui/uidrivepetcbm2.c:135
 #: src/arch/unix/gui/uidriveplus4.c:193 src/arch/unix/gui/uidrivevic20.c:108
 msgid "Drive #10 idle method"
-msgstr "Drive #10 idle methode"
+msgstr "Drive #10-idle-methode"
 
 #: src/arch/unix/gui/uidrivec128.c:205 src/arch/unix/gui/uidrivec64.c:100
 #: src/arch/unix/gui/uidrivec64dtv.c:100
@@ -2382,21 +2379,21 @@ msgstr "Drive #11 model"
 #: src/arch/unix/gui/uidrivec64dtv.c:106 src/arch/unix/gui/uidriveplus4.c:203
 #: src/arch/unix/gui/uidrivevic20.c:118
 msgid "Drive #11 expansion"
-msgstr "Drive #11 uitbreiding"
+msgstr "Drive #11-uitbreiding"
 
 #: src/arch/unix/gui/uidrivec128.c:214 src/arch/unix/gui/uidrivec64.c:109
 #: src/arch/unix/gui/uidrivec64dtv.c:109
 #: src/arch/unix/gui/uidrivepetcbm2.c:145 src/arch/unix/gui/uidriveplus4.c:206
 #: src/arch/unix/gui/uidrivevic20.c:121
 msgid "Drive #11 40-track image support"
-msgstr "Drive #11 40-sporen bestand ondersteuning"
+msgstr "Drive #11 40-sporenondersteuning"
 
 #: src/arch/unix/gui/uidrivec128.c:217 src/arch/unix/gui/uidrivec64.c:112
 #: src/arch/unix/gui/uidrivec64dtv.c:112
 #: src/arch/unix/gui/uidrivepetcbm2.c:148 src/arch/unix/gui/uidriveplus4.c:209
 #: src/arch/unix/gui/uidrivevic20.c:124
 msgid "Drive #11 idle method"
-msgstr "Drive #11 idle methode"
+msgstr "Drive #11 idle-methode"
 
 #: src/arch/unix/gui/uidrivec128.c:222 src/arch/unix/gui/uidrivec64.c:117
 #: src/arch/unix/gui/uidrivec64dtv.c:117
@@ -2422,36 +2419,36 @@ msgstr "Drive instellingen"
 #: src/arch/unix/gui/uidrivec128.c:239 src/arch/unix/gui/uidrivec64vic20.c:137
 #: src/arch/unix/gui/uidriveplus4.c:231
 msgid "Load new 1540 ROM"
-msgstr "Laad nieuw 1540 ROM"
+msgstr "Laad nieuwe 1540-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:242 src/arch/unix/gui/uidrivec64vic20.c:140
 #: src/arch/unix/gui/uidriveplus4.c:234
 msgid "Load new 1541 ROM"
-msgstr "Laad nieuw 1541 ROM"
+msgstr "Laad nieuwe 1541-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:245 src/arch/unix/gui/uidrivec64vic20.c:143
 #: src/arch/unix/gui/uidriveplus4.c:237
 msgid "Load new 1541-II ROM"
-msgstr "Laad nieuw 1541-II ROM"
+msgstr "Laad nieuwe 1541-II-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:248 src/arch/unix/gui/uidrivec64vic20.c:146
 #: src/arch/unix/gui/uidriveplus4.c:243
 msgid "Load new 1570 ROM"
-msgstr "Laad nieuw 1570 ROM"
+msgstr "Laad nieuwe 1570-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:251 src/arch/unix/gui/uidrivec64vic20.c:149
 #: src/arch/unix/gui/uidriveplus4.c:246
 msgid "Load new 1571 ROM"
-msgstr "Laad nieuw 1571 ROM"
+msgstr "Laad nieuwe 1571-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:254
 msgid "Load new 1571CR ROM"
-msgstr "Laad nieuw 1571CR ROM"
+msgstr "Laad nieuwe 1571CR-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:257 src/arch/unix/gui/uidrivec64vic20.c:152
 #: src/arch/unix/gui/uidriveplus4.c:249
 msgid "Load new 1581 ROM"
-msgstr "Laad nieuw 1581 ROM"
+msgstr "Laad nieuwe 1581-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:260 src/arch/unix/gui/uidrivec64vic20.c:155
 #: src/arch/unix/gui/uidriveplus4.c:252
@@ -2461,32 +2458,36 @@ msgstr "Laad nieuw 2000 ROM"
 #: src/arch/unix/gui/uidrivec128.c:263 src/arch/unix/gui/uidrivec64vic20.c:158
 #: src/arch/unix/gui/uidriveplus4.c:255
 msgid "Load new 4000 ROM"
-msgstr "Laad nieuw 4000 ROM"
+msgstr "Laad nieuwe 4000-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:266 src/arch/unix/gui/uidrivec64vic20.c:161
 #: src/arch/unix/gui/uidrivepetcbm2.c:170
 msgid "Load new 2031 ROM"
-msgstr "Laad nieuw 2031 ROM"
+msgstr "Laad nieuwe 2031-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:269 src/arch/unix/gui/uidrivec64vic20.c:164
 #: src/arch/unix/gui/uidrivepetcbm2.c:173
 msgid "Load new 2040 ROM"
-msgstr "Laad nieuw 2040 ROM"
+msgstr "Laad nieuwe 2040-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:272 src/arch/unix/gui/uidrivec64vic20.c:167
 #: src/arch/unix/gui/uidrivepetcbm2.c:176
 msgid "Load new 3040 ROM"
-msgstr "Laad nieuw 3040 ROM"
+msgstr "Laad nieuwe 3040-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:275 src/arch/unix/gui/uidrivec64vic20.c:170
 #: src/arch/unix/gui/uidrivepetcbm2.c:179
 msgid "Load new 4040 ROM"
-msgstr "Laad nieuw 4040 ROM"
+msgstr "Laad nieuwe 4040-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:278 src/arch/unix/gui/uidrivec64vic20.c:173
 #: src/arch/unix/gui/uidrivepetcbm2.c:182
 msgid "Load new 1001 ROM"
-msgstr "Laad nieuw 1001 ROM"
+msgstr "Laad nieuwe 1001-ROM"
+
+#
+# Compyx got to here, 2018-05-14. But may have skipped a few lines
+#
 
 #: src/arch/unix/gui/uidrivec64c128.c:78 src/arch/unix/gui/uidriveplus4.c:71
 msgid "Standard Userport"
