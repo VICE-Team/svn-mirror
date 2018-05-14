@@ -197,7 +197,7 @@ fi
 
 # clang workarounds for now 
 if [ "$COMPILER" = "clang" ]; then
-  CONFIGURE_FLAGS="--disable-sse $CONFIGURE_FLAGS"
+  CONFIGURE_FLAGS="$CONFIGURE_FLAGS"
 fi
 
 # ----- setup build dir -----
