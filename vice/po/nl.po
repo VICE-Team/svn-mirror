@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-08 14:27-0700\n"
+"POT-Creation-Date: 2018-05-14 13:44-0700\n"
 "PO-Revision-Date: 2017-01-03 00:08+0100\n"
 "Last-Translator: Bas Wassink <b.wassink@ziggo.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1751,7 +1751,7 @@ msgstr "Selecteer geschiedenis directory"
 
 #: src/arch/unix/gui/uicommands.c:379 src/arch/unix/gui/uidrive.c:178
 msgid "Path:"
-msgstr "Pad:" 
+msgstr "Pad:"
 
 #: src/arch/unix/gui/uicommands.c:419
 msgid "Media Recording stopped"
@@ -2488,7 +2488,6 @@ msgstr "Laad nieuwe 1001-ROM"
 #
 # Compyx got to here, 2018-05-14. But may have skipped a few lines
 #
-
 #: src/arch/unix/gui/uidrivec64c128.c:78 src/arch/unix/gui/uidriveplus4.c:71
 msgid "Standard Userport"
 msgstr "Standaard Userport"

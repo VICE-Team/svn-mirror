@@ -1409,7 +1409,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_RETURN_DESCRIPTION,    N_("Continues execution and returns to the monitor just after the next\nRTS or RTI is executed.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_RETURN_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_RETURN_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_RETURN_DESCRIPTION_DE, "Setzt Ausführung fort und retourniert zum Monitor unmittelbar nach der nächsten RTS oder RTI instruction."},
 /* es */ {IDGS_MON_RETURN_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_RETURN_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_RETURN_DESCRIPTION_HU, ""},  /* fuzzy */
@@ -2148,7 +2148,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_CONDITION_DESCRIPTION,    N_("Each time the specified checkpoint is examined, the condition is\nevaluated. If it evalutes to true, the checkpoint is activated.\nOtherwise, it is ignored. If registers are specified in the expression,\nthe values used are those at the time the checkpoint is examined, not\nwhen the condition is set.\nThe condition can use registers (A, X, Y, PC, SP, FL and other cpu\nspecific registers (see manual)) and compare them (==, !=, <, >, <=, >=)\nagainst other registers or constants.\nRegisters can be the registers of other devices; this is denoted by\na memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\nExamples: A == $0, X == Y, 8:X == X)\nYou can also compare against the value of a memory location in a specific\nbank, i.e you can break only if the vic register $d020 is $f0.\nuse the form @[bankname]:[$<address>] | [.label].\nNote this is for the C : memspace only.\nExamples : if @io:$d020 == $f0, if @io:.vicBorder == $f0\n")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_CONDITION_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_CONDITION_DESCRIPTION_DE, "Bei jeder Überprüfung des Checkpoints, wird die Bedingung evaluiert.\nIst das Ergebnis `Wahr', wird der Checkpoint aktiviert, sonst ingnoriert.\nWenn Register benutzt werden, werden deren Werte zum Zeitpunkt der \nÜberprüfung herangezogen, nicht zum Zeitpunkt des Setzens der Bedingung.\nDie Bedingung kann Register benutzen (A, X, Y, PC, SP, FL und andere\nCPU spezifische Register (siehe Handbuch)) und gegen andere Register oder\nKonstanten vergleichen (==, !=, <, >, <=, >=).\nRegister können auch Geräteregister sein; dazu wird die memspace Prefix-syntax \nverwendet: c:, 8:, 9:, 10:, 11:\nBeispiel: A == 0, X == Y, 8:X == X\nMan kann auch gegen den Wert einer Speicherstelle in einer\nspezifischen Speicherbank vergleichen. Z.B. stop nur wenn im VIC\nRegister $d020 ein $f0 steht.\nBenutze die Form @[bankname]:[$<address>] | [.label].\nFunktioniert aber nur im C: Speicherbereich\nZ.B.: if @io:$d020 == $f0, if @io:.vicBorder == $f0\n"},
 /* es */ {IDGS_MON_CONDITION_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_CONDITION_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CONDITION_DESCRIPTION_HU, ""},  /* fuzzy */
@@ -3101,7 +3101,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION,    N_("Turn tracing of every instruction executed by the main CPU on or off. If the argument is 'toggle' then the current mode is switched.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION_DE, "Aktiviere/Deaktiviere Tracing jeder CPU Instruktion. Mit Argument\n'toggle' wird der aktuelle Modus umgeschalten."},
 /* es */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_MAINCPU_TRACE_DESCRIPTION_HU, ""},  /* fuzzy */
@@ -3646,7 +3646,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_WAASOFT_DONGLE,    N_("WaaSoft dongle")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_WAASOFT_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_WAASOFT_DONGLE_DE, ""},  /* fuzzy */
+/* de */ {IDGS_WAASOFT_DONGLE_DE, "WaaSoft Dongle"},
 /* es */ {IDGS_WAASOFT_DONGLE_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_WAASOFT_DONGLE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_WAASOFT_DONGLE_HU, ""},  /* fuzzy */
@@ -4071,7 +4071,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_TAPECART,    N_("tapecart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_TAPECART_DA, ""},  /* fuzzy */
-/* de */ {IDGS_TAPECART_DE, ""},  /* fuzzy */
+/* de */ {IDGS_TAPECART_DE, "Tapecart"},
 /* es */ {IDGS_TAPECART_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_TAPECART_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_TAPECART_HU, ""},  /* fuzzy */
@@ -6179,7 +6179,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 8521)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 8521)"},
 /* es */ {IDCLS_SET_BOTH_CIA_MODELS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_BOTH_CIA_MODELS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BOTH_CIA_MODELS_HU, ""},  /* fuzzy */
@@ -6196,7 +6196,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 8521)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CIA1_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_CIA1_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CIA1_MODEL_DE, "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 8521)"},
 /* es */ {IDCLS_SET_CIA1_MODEL_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_CIA1_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CIA1_MODEL_HU, ""},  /* fuzzy */
@@ -6213,7 +6213,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 8521)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CIA2_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_CIA2_MODEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CIA2_MODEL_DE, "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 8521)\""},
 /* es */ {IDCLS_SET_CIA2_MODEL_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_CIA2_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CIA2_MODEL_HU, ""},  /* fuzzy */
@@ -7443,7 +7443,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPECART,    N_("Enable tapecart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPECART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPECART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPECART_DE, "Tapecart aktivieren"},
 /* es */ {IDCLS_ENABLE_TAPECART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPECART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPECART_HU, ""},  /* fuzzy */
@@ -7460,7 +7460,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TAPECART,    N_("Disable tapecart")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPECART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPECART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPECART_DE, "Tapecart deaktivieren"},
 /* es */ {IDCLS_DISABLE_TAPECART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TAPECART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TAPECART_HU, ""},  /* fuzzy */
@@ -7477,7 +7477,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_TCRT_TAPECART,    N_("Attach TCRT tapecart image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_TCRT_TAPECART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_TCRT_TAPECART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_TCRT_TAPECART_DE, "TCRT Tapecart Image einlegen"},
 /* es */ {IDCLS_ATTACH_TCRT_TAPECART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_TCRT_TAPECART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_TCRT_TAPECART_HU, ""},  /* fuzzy */
@@ -7494,7 +7494,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPECART_TCRT_UPDATE,    N_("Enable updating tapecart .tcrt image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPECART_TCRT_UPDATE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPECART_TCRT_UPDATE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPECART_TCRT_UPDATE_DE, "Schreibzugriff auf TCRT Tapecart Image erlauben"},
 /* es */ {IDCLS_ENABLE_TAPECART_TCRT_UPDATE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPECART_TCRT_UPDATE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPECART_TCRT_UPDATE_HU, ""},  /* fuzzy */
@@ -7511,7 +7511,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TAPECART_TCRT_UPDATE,    N_("Disable updating tapecart .tcrt image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPECART_TCRT_UPDATE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPECART_TCRT_UPDATE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPECART_TCRT_UPDATE_DE, "Schreibzugriff auf TCRT Tapecart Image verhindern"},
 /* es */ {IDCLS_DISABLE_TAPECART_TCRT_UPDATE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TAPECART_TCRT_UPDATE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TAPECART_TCRT_UPDATE_HU, ""},  /* fuzzy */
@@ -7528,7 +7528,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE,    N_("Enable tapecart .tcrt image optimization on write")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE_DE, "TCRT Tapecart Image beim Speichern optimieren"},
 /* es */ {IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_TAPECART_TCRT_OPTIMIZE_HU, ""},  /* fuzzy */
@@ -7545,7 +7545,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE,    N_("Disable tapecart .tcrt image optimization on write")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE_DE, "TCRT Tapecart Image beim Speichern optimieren"},
 /* es */ {IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_TAPECART_TCRT_OPTIMIZE_HU, ""},  /* fuzzy */
@@ -7562,7 +7562,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_TAPECART_LOGLEVEL,    N_("Set tapecart log verbosity")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_TAPECART_LOGLEVEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_TAPECART_LOGLEVEL_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_TAPECART_LOGLEVEL_DE, "Setze Tapecart Loglevel"},
 /* es */ {IDCLS_SET_TAPECART_LOGLEVEL_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_TAPECART_LOGLEVEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_TAPECART_LOGLEVEL_HU, ""},  /* fuzzy */
@@ -14722,7 +14722,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_4_ADDRESS,    N_("Specify base address for 4th SID")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_4_ADDRESS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_4_ADDRESS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_4_ADDRESS_DE, "Basis Adresse für vierten SID definieren"},
 /* es */ {IDCLS_SPECIFY_SID_4_ADDRESS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_SID_4_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_4_ADDRESS_HU, ""},  /* fuzzy */
@@ -15457,7 +15457,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_BORDER_MODE,    N_("Set border display mode (0: normal, 1: full, 2: debug, 3: none)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BORDER_MODE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_BORDER_MODE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BORDER_MODE_DE, "Rahmen Darstellung Modus (0: Normal, 1: Voll, 2: Debug, 3: kein)"},
 /* es */ {IDCLS_SET_BORDER_MODE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_BORDER_MODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BORDER_MODE_HU, ""},  /* fuzzy */
@@ -18241,7 +18241,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_C64DTVROM_RW_IT, "Attiva scrittura su immagini ROM C64DTV"},
 /* ko */ {IDCLS_ENABLE_C64DTVROM_RW_KO, "C64DTV ROM ÀÌ¹ÌÁö¿¡ ¾²±â °¡´ÉÇÏ°Ô ÇÏ±â"},
-/* nl */ {IDCLS_ENABLE_C64DTVROM_RW_NL, "Activeer schrijven naar C64DTV ROM bestand"},
+/* nl */ {IDCLS_ENABLE_C64DTVROM_RW_NL, "Activeer schrijven naar C64DTV ROM-bestand"},
 /* pl */ {IDCLS_ENABLE_C64DTVROM_RW_PL, "W³±cz zapis do obrazu ROM C64DTV"},
 /* ru */ {IDCLS_ENABLE_C64DTVROM_RW_RU, "Enable writes to C64DTV ROM image"},
 /* sv */ {IDCLS_ENABLE_C64DTVROM_RW_SV, "Aktivera skrivning till C64DTV-ROM-avbildning"},
@@ -18326,7 +18326,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_TRUE_FLASH_FS_HU, "Igazi hardver flash fájlrendszer engedélyezése"},
 /* it */ {IDCLS_ENABLE_TRUE_FLASH_FS_IT, "Attiva emulazione hardware del file system flash"},
 /* ko */ {IDCLS_ENABLE_TRUE_FLASH_FS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TRUE_FLASH_FS_NL, "Activeer hardwarmatige flash bestandssysteem"},
+/* nl */ {IDCLS_ENABLE_TRUE_FLASH_FS_NL, "Activeer hardwarmatige flash-bestandssysteem"},
 /* pl */ {IDCLS_ENABLE_TRUE_FLASH_FS_PL, "W³±cz prawdziwy sprzêtowy system plików flash"},
 /* ru */ {IDCLS_ENABLE_TRUE_FLASH_FS_RU, "Enable true hardware flash file system"},
 /* sv */ {IDCLS_ENABLE_TRUE_FLASH_FS_SV, "Aktivera äkta maskinvaru-flashfilsystem"},

@@ -212,13 +212,13 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MEMORY_HACKS_CAPTION "Geheugen uitbreiding hacks instellingen"
   IDS_C64_MEMORY_HACKS_DEVICE  "Geheugen uitbreidingen hack apparaat"
-  IDS_C64_256K_BASE            "C64 256K basisadres"
-  IDS_C64_256K_FILE            "C64 256K bestand"
+  IDS_C64_256K_BASE            "C64 256K-basisadres"
+  IDS_C64_256K_FILE            "C64 256K-bestand"
   IDS_C64_256K_SELECT_FILE     "Selecteer bestand voor C64 256K"
   IDS_PLUS60K_BASE             "+60K basisadres"
-  IDS_PLUS60K_FILE             "+60K bestand"
+  IDS_PLUS60K_FILE             "+60K-bestand"
   IDS_PLUS60K_SELECT_FILE      "Selecteer bestand voor +60K"
-  IDS_PLUS256K_FILE            "+256K bestand"
+  IDS_PLUS256K_FILE            "+256K-bestand"
   IDS_PLUS256K_SELECT_FILE     "Selecteer bestand voor +256K"
 END
 

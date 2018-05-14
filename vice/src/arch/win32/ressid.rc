@@ -161,7 +161,7 @@ BEGIN
   IDS_SID_EXTRA_AMOUNT_LABEL  "Anzahl der extra SID Chips"
   IDS_SID_STEREOADDRESS_LABEL "Zweiter SID auf"
   IDS_SID_TRIPLEADDRESS_LABEL "Dritter SID auf"
-  IDS_SID_QUADADDRESS_LABEL   "Fourth SID at"
+  IDS_SID_QUADADDRESS_LABEL   "Vierter SID auf"
   IDS_SID_RESID_GROUP         "reSID Optionen"
   IDS_SID_RESID_SAMPLE        "Sample Methode"
   IDS_SID_RESID_PASSBAND      "Passband (0..90%)"

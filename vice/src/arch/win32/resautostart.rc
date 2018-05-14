@@ -235,7 +235,7 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                       "Autostart instellingen"
     IDS_AUTOSTART_WARP                          "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                     "Gebruik ':' met RUN"
+    IDS_AUTOSTART_COLON_RUN                     "Plak ':' achter RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC                 "Laad naar BASIC start"
     IDS_AUTOSTART_RANDOM_DELAY                  "Willekeurige vertraging"
     IDS_AUTOSTART_HANDLE_TRUE_DRIVE_EMULATION   "Afhandelen van de hardwarematige driveemulatie"

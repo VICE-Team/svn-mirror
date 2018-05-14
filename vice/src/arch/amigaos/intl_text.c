@@ -1994,7 +1994,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_TRUE_DRIVE_EMU_HU, "Valós lemezegység emuláció" },
 /* it */ { IDMS_TRUE_DRIVE_EMU_IT, "Attiva emulazione hardware dei drive" },
 /* ko */ { IDMS_TRUE_DRIVE_EMU_KO, "Æ®·ç µå¶óÀÌºê ¿¡¹Ä·¹ÀÌÅÍ" },
-/* nl */ { IDMS_TRUE_DRIVE_EMU_NL, "Hardwarematige Drive Emulatie" },
+/* nl */ { IDMS_TRUE_DRIVE_EMU_NL, "Exacte driveemulatie" },
 /* pl */ { IDMS_TRUE_DRIVE_EMU_PL, "Rzeczywista emulacja napêdu" },
 /* ru */ { IDMS_TRUE_DRIVE_EMU_RU, "True drive emulation" },
 /* sv */ { IDMS_TRUE_DRIVE_EMU_SV, "Äkta diskettenhetsemulering" },
@@ -6670,7 +6670,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_C64DTV_ROM_FILENAME_HU, "C64DTV ROM fájl" },
 /* it */ { IDS_C64DTV_ROM_FILENAME_IT, "File ROM C64DTV" },
 /* ko */ { IDS_C64DTV_ROM_FILENAME_KO, "C64DTV ROM ÆÄÀÏ" },
-/* nl */ { IDS_C64DTV_ROM_FILENAME_NL, "C64DTV ROM bestand" },
+/* nl */ { IDS_C64DTV_ROM_FILENAME_NL, "C64DTV ROM-bestand" },
 /* pl */ { IDS_C64DTV_ROM_FILENAME_PL, "Plik ROM C64DTV" },
 /* ru */ { IDS_C64DTV_ROM_FILENAME_RU, "C64DTV ROM file" },
 /* sv */ { IDS_C64DTV_ROM_FILENAME_SV, "C64DTV-ROM-fil" },
@@ -9942,7 +9942,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_QUAD_SID_AT,    "Quad SID at" },
 /* da */ { IDS_QUAD_SID_AT_DA, "" },  /* fuzzy */
-/* de */ { IDS_QUAD_SID_AT_DE, "" },  /* fuzzy */
+/* de */ { IDS_QUAD_SID_AT_DE, "Vierter SID auf" },
 /* es */ { IDS_QUAD_SID_AT_ES, "" },  /* fuzzy */
 /* fr */ { IDS_QUAD_SID_AT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_QUAD_SID_AT_HU, "" },  /* fuzzy */
@@ -13000,7 +13000,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_RUN_WITH_COLON_HU, "" },  /* fuzzy */
 /* it */ { IDS_RUN_WITH_COLON_IT, "Usa ':' con RUN" },
 /* ko */ { IDS_RUN_WITH_COLON_KO, "':' ¸¦ RUN °ú »ç¿ëÇÏ±â" },
-/* nl */ { IDS_RUN_WITH_COLON_NL, "Gebruik ':' met RUN" },
+/* nl */ { IDS_RUN_WITH_COLON_NL, "Plak ':' achter RUN" },
 /* pl */ { IDS_RUN_WITH_COLON_PL, "U¿ywaj ':' z RUN" },
 /* ru */ { IDS_RUN_WITH_COLON_RU, "Use ':' with RUN" },
 /* sv */ { IDS_RUN_WITH_COLON_SV, "Använd \":\" med RUN" },
