@@ -21,13 +21,26 @@ left from previous installs.
 - Handling of the `-keybuf` command now works properly for all emulators and
   RAM sizes.
 
+- Fixed handling of LOAD"$$" with virtual devices
+
+- Fixed @CD, @MD and @RD commands for virtual filesystem devices
+
 
 ** SDL changes
------------
+--------------
 
 - New drag'n'drop support for the SDL2 port(s).
 
 - Fixed monitor display of printables with the 'M' (memdump) command.
+
+- Fixed drive status display in statusbar
+
+
+** c1541 changes
+----------------
+
+- Fixed illegal characters in filenames for the read and extract commands.
+
 
 
 * Changes in VICE 3.1
