@@ -42,6 +42,11 @@ left from previous installs.
 - Fixed illegal characters in filenames for the read and extract commands.
 
 
+** C64(SC) changes
+------------------
+
+- Fixed enabling/disabling memory expansion hacks
+
 
 * Changes in VICE 3.1
 ======================
