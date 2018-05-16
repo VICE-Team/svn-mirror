@@ -17177,6 +17177,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_TR, "Verbose log çýktýsýný aktif et."},
 #endif
 
+/* log.c */
+/* en */ {IDCLS_DISABLE_LOG_OUTPUT, N_("Disable verbose log output.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_LOG_OUTPUT_DA, "" },
+/* de */ {IDCLS_DISABLE_LOG_OUTPUT_DE, "" },
+/* es */ {IDCLS_DISABLE_LOG_OUTPUT_ES, "" },
+/* fr */ {IDCLS_DISABLE_LOG_OUTPUT_FR, "" },
+/* hu */ {IDCLS_DISABLE_LOG_OUTPUT_HU, "" },
+/* it */ {IDCLS_DISABLE_LOG_OUTPUT_IT, "" },
+/* ko */ {IDCLS_DISABLE_LOG_OUTPUT_KO, "" },
+/* nl */ {IDCLS_DISABLE_LOG_OUTPUT_NL, "Uitgebreide log uitvoer uitschakelen." },
+/* pl */ {IDCLS_DISABLE_LOG_OUTPUT_PL, "" },
+/* ru */ {IDCLS_DISABLE_LOG_OUTPUT_RU, "" },
+/* sv */ {IDCLS_DISABLE_LOG_OUTPUT_SV, "" },
+/* tr */ {IDCLS_DISABLE_LOG_OUTPUT_TR, "" },
+#endif
+
 /* mouse.c */
 /* en */ {IDCLS_ENABLE_MOUSE_GRAB,    N_("Enable mouse grab")},
 #ifdef HAS_TRANSLATION
