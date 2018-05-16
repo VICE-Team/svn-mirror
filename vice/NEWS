@@ -18,8 +18,8 @@ left from previous installs.
 ** General
 ----------
 
-- New GTK3 native port, this and the SDL(2) port will take the place of the
-  unmaintained ports in VICE 3.3 and onward.
+- New (experimental) GTK3 native port, this and the SDL(2) port will take the
+  place of the unmaintained ports in VICE 3.3 and onward.
 
 - Handling of the `-keybuf` command now works properly for all emulators and
   RAM sizes.
