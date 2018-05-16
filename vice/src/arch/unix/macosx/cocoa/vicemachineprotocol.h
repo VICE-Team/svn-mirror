@@ -42,6 +42,7 @@
 -(BOOL)isPaused;
 // toggle pause
 -(BOOL)togglePause;
+-(void)setPaused:(int)paused;
 
 // ----- Monitor Input -----
 // does the machine wait for a monitor input?

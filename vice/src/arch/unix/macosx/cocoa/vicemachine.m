@@ -159,6 +159,11 @@ VICEMachine *theVICEMachine = nil;
     return isPaused;
 }
 
+-(void)setPaused:(int)pause
+{
+    isPaused = !!pause;
+}
+
 -(void)activateMonitorInPause
 {
     doMonitorInPause = YES;
