@@ -5,12 +5,17 @@ This file lists the most important user-visible changes for each official
 release of VICE.  See `ChangeLog' in the root dir of the source tree for a
 more detailed list of all the changes in the code.
 
+
 * Upgrading
 ===========
 
 If you run into trouble please try removing any VICE configuration files
 left from previous installs.
 (vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
+
+Before reporting bugs, always try with a clean config (run emulator with
+--default or use "restore default config" in the UI).
+
 
 * Changes in VICE 3.2
 ======================
@@ -28,15 +33,73 @@ left from previous installs.
 
 - Fixed @CD, @MD and @RD commands for virtual filesystem devices
 
+- Fixed NEOS Mouse emulation
+
+- Call the new CIA "8521" instead of "6526A" (which is wrong) in the UIs.
+
+- Added 4sid support
+
+- Fixed tape wobble
+
+- Erase timing fixes in flash core
+
+- Don't allocate sectors on tracks > 70 in the BAM of 1571 images
+
+- Ethernet emulation: fix register mapping in rr-net mode
+
+- reSID: fix envelope bugs shown by testprogs/SID/env_test/
+
+- Fixed 6509 cpu port issues
+
+- Added support for TAP virtual network interface.
+
+
+** Monitor
+----------
+
+- Fix monitor 'm' command buffer overflow
+
+- Added conditional on values in memory to breakpoint handling.
+
 
 ** SDL changes
 --------------
+
+- Cosmetic overhaul of the SDL UI
 
 - New drag'n'drop support for the SDL2 port(s).
 
 - Fixed monitor display of printables with the 'M' (memdump) command.
 
 - Fixed drive status display in statusbar
+
+- Added "advance frame"
+
+- Disable the mouse pointer unless we really need it
+
+- Change MacOSX SDL menu key to F10 to accommodate old MacBooks etc
+
+- Change default menu key for sdl amiga based platforms to 'F10'.
+
+- Added default hotkey files (with hotkeys similar to existing GUIs)
+
+- Added various keymaps for use with keyrah in combian/retropie
+
+- Added controller mapping file for PS3 controller
+
+
+** Android changes
+------------------
+
+- Do not enable mouse emulation by default
+
+
+** OS/2 changes
+---------------
+
+- Removed native os/2 port. The native os/2 port has been lagging behind 
+  severely, and the recently added sdl os/2 port is up2date, making the 
+  unmaintained native os/2 port obsolete.
 
 
 ** c1541 changes
@@ -52,11 +115,36 @@ left from previous installs.
 
 - New tapecart emulation.
 
+- Added waasoft dongle emulation
 
+- Fixed initial cpuport data
+
+- Added support for 256k magic desk images, ie DDI Magic Cart. Also allow 512k 
+  and 1M magic desk carts (some homebrew variant).
+
+- plus60k memory write fix.
+
+- Fix plus256k emulation.
+
+- Added fmopl (sfx sound expander) timer support.
+
+- Fixed saving of GMOD2 cartridge image
+
+  
 ** C128 changes
 ---------------
 
 - New tapecart emulation.
+
+- Fixed MMU mirrors
+
+
+** CBM2 changes
+---------------
+
+- Allow+fix loading of 8k chargen.
+
+- Fixed ESC-Z/ESC-Y
 
 
 * Changes in VICE 3.1
