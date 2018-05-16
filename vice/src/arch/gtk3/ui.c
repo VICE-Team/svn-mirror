@@ -461,25 +461,32 @@ static void on_drag_data_received(
  */
 GtkWindow *ui_get_active_window(void)
 {
-    GList *list = gtk_window_list_toplevels();
+    GtkWindow *window = NULL;
+    GList *tlist = gtk_window_list_toplevels();
+    GList *list = tlist;
 
     /* Find the window that has the toplevel focus. */
     while (list != NULL) {
         if (gtk_window_has_toplevel_focus(list->data)) {
-            return list->data;
+            window = list->data;
+            break;
         }
         list = list->next;
     }
+    g_list_free(tlist);
 
-    /* If no window has toplevel focus then fallback to the most recently
-     * focused main window. */
-    if (active_win_index >= 0 && active_win_index < NUM_WINDOWS) {
-        return GTK_WINDOW(ui_resources.window_widget[active_win_index]);
+    /* If no window has the toplevel focus, then fall back
+     * to the most recently focused main window.
+     */
+    if (window == NULL
+            && active_win_index >= 0 && active_win_index < NUM_WINDOWS) {
+        window = GTK_WINDOW(ui_resources.window_widget[active_win_index]);
     }
 
-    /* If we end up here it probably means no windows have
-     * been created yet. */
-    return NULL;
+    /* If "window" still is NULL, it probably means
+     * that no windows have been created yet.
+     */
+    return window;
 }
 
 
