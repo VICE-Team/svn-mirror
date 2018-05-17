@@ -199,6 +199,7 @@ void cbm2mem_set_bank_exec(int val)
     int i;
 
     val &= 0x0f;
+
     if (val != cbm2mem_bank_exec) {
         cbm2mem_bank_exec = val;
 
@@ -271,8 +272,7 @@ void zero_store(uint16_t addr, uint8_t value)
 {
     if (addr == 0) {
         cbm2mem_set_bank_exec(value);
-    } else
-    if (addr == 1) {
+    } else if (addr == 1) {
         cbm2mem_set_bank_ind(value);
     }
 
@@ -288,9 +288,9 @@ void zero_store(uint16_t addr, uint8_t value)
             cbm2mem_set_bank_exec(value);                \
         } else if (addr == 1) {                          \
             cbm2mem_set_bank_ind(value);                 \
+        } else {                                         \
+            mem_ram[(0x##bank << 16) | addr] = value;    \
         }                                                \
-                                                         \
-        mem_ram[(0x##bank << 16) | addr] = value;        \
     }
 
 #define READ_ZERO(bank)                                   \
@@ -308,7 +308,13 @@ void zero_store(uint16_t addr, uint8_t value)
 #define STORE_RAM(bank)                                \
     static void store_ram_##bank(uint16_t addr, uint8_t byte) \
     {                                                  \
-        mem_ram[(0x##bank << 16) | addr] = byte;       \
+        if (addr == 0) {                               \
+            cbm2mem_set_bank_exec(byte);               \
+        } else if (addr == 1) {                        \
+            cbm2mem_set_bank_ind(byte);                \
+        } else {                                       \
+            mem_ram[(0x##bank << 16) | addr] = byte;   \
+        }                                              \
     }
 
 STORE_ZERO(0)
@@ -434,6 +440,11 @@ void rom_store(uint16_t addr, uint8_t value)
 
 uint8_t read_unused(uint16_t addr)
 {
+    if (addr == 0) {
+        return cbm2mem_bank_exec;
+    } else if (addr == 1) {
+        return cbm2mem_bank_ind;
+    }
     return vicii_read_phi1();
 }
 
