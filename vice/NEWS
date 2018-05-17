@@ -29,39 +29,39 @@ Before reporting bugs, always try with a clean config (run emulator with
 - Handling of the `-keybuf` command now works properly for all emulators and
   RAM sizes.
 
-- Fixed handling of LOAD"$$" with virtual devices
+- Fixed handling of LOAD"$$" with virtual devices.
 
-- Fixed @CD, @MD and @RD commands for virtual filesystem devices
+- Fixed @CD, @MD and @RD commands for virtual filesystem devices.
 
-- Fixed NEOS Mouse emulation
+- Fixed NEOS Mouse emulation.
 
 - Call the new CIA "8521" instead of "6526A" (which is wrong) in the UIs.
 
-- Added 4sid support
+- Added 4sid support.
 
-- Fixed tape wobble
+- Fixed tape wobble.
 
-- Erase timing fixes in flash core
+- Erase timing fixes in flash core.
 
-- Don't allocate sectors on tracks > 70 in the BAM of 1571 images
+- Don't allocate sectors on tracks > 70 in the BAM of 1571 images.
 
-- Ethernet emulation: fix register mapping in rr-net mode
+- Ethernet emulation: fix register mapping in rr-net mode.
 
-- reSID: fix envelope bugs shown by testprogs/SID/env_test/
+- reSID: fixed envelope bugs shown by testprogs/SID/env_test/.
 
-- Fixed 6509 cpu port issues
+- Fixed 6509 CPU port issues.
 
 - Added support for TAP virtual network interface.
 
-- Fixed drive clock overflow. Drive and host went out of sync on clock overflow 
-  (every ~4G cycles), which would break loading or custom drive code in the case 
-  loader/stuff is not idle during overflow window. Also drive would execute 
+- Fixed drive clock overflow. Drive and host went out of sync on clock overflow
+  (every ~4G cycles), which would break loading or custom drive code in the case
+  loader/stuff is not idle during overflow window. Also drive would execute
   ~4G cycles out of sync, which made the emulator freeze for a while.
 
 ** Monitor
 ----------
 
-- Fix monitor 'm' command buffer overflow
+- Fix monitor 'm' command buffer overflow,
 
 - Added conditional on values in memory to breakpoint handling.
 
@@ -69,44 +69,56 @@ Before reporting bugs, always try with a clean config (run emulator with
 ** SDL changes
 --------------
 
-- Cosmetic overhaul of the SDL UI
+- Cosmetic overhaul of the SDL UI.
 
 - New drag'n'drop support for the SDL2 port(s).
 
 - Fixed monitor display of printables with the 'M' (memdump) command.
 
-- Fixed drive status display in statusbar
+- Fixed drive status display in statusbar.
 
-- Added "advance frame"
+- Added "advance frame".
 
-- Disable the mouse pointer unless we really need it
+- Disable the mouse pointer unless we really need it.
 
-- Change MacOSX SDL menu key to F10 to accommodate old MacBooks etc
+- Change MacOSX SDL menu key to F10 to accommodate old MacBooks etc.
 
 - Change default menu key for sdl amiga based platforms to 'F10'.
 
-- Added default hotkey files (with hotkeys similar to existing GUIs)
+- Added default hotkey files (with hotkeys similar to existing GUIs).
 
-- Added various keymaps for use with keyrah in combian/retropie
+- Added various keymaps for use with keyrah in combian/retropie.
 
-- Added controller mapping file for PS3 controller
+- Added controller mapping file for PS3 controller.
 
 
 ** Android changes
 ------------------
 
-- Do not enable mouse emulation by default
+- Do not enable mouse emulation by default.
+
+
+** Mac OS X changes
+-------------------
+
+- Reinstated the Cocoa UI's Video Settings dialog. Some of the controls
+  don’t work properly, but it’s better than nothing.
+
+- Added a PET model selection menu to the Cocoa UI.
+
+- Fixed Cocoa UI's CPU memory window display. It still requires the monitor
+  to be activated before it will show anything, however.
 
 
 ** OS/2 changes
 ---------------
 
-- Removed native os/2 port. The native os/2 port has been lagging behind
-  severely, and the recently added sdl os/2 port is up2date, making the
-  unmaintained native os/2 port obsolete.
+- Removed native OS/2 port. The native OS/2 port has been lagging behind
+  severely, and the recently added SDL OS/2 port is up-to-date, making the
+  unmaintained native OS/2 port obsolete.
 
 
-** c1541 changes
+** C1541 changes
 ----------------
 
 - Fixed illegal characters in filenames for the read and extract commands.
@@ -115,15 +127,15 @@ Before reporting bugs, always try with a clean config (run emulator with
 ** C64(SC) changes
 ------------------
 
-- Fixed enabling/disabling memory expansion hacks
+- Fixed enabling/disabling memory expansion hacks.
 
 - New tapecart emulation.
 
-- Added waasoft dongle emulation
+- Added waasoft dongle emulation.
 
-- Fixed initial cpuport data
+- Fixed initial cpuport data.
 
-- Added support for 256k magic desk images, ie DDI Magic Cart. Also allow 512k 
+- Added support for 256k magic desk images, ie DDI Magic Cart. Also allow 512k
   and 1M magic desk carts (some homebrew variant).
 
 - plus60k memory write fix.
@@ -132,7 +144,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 
 - Added fmopl (sfx sound expander) timer support.
 
-- Fixed saving of GMOD2 cartridge image
+- Fixed saving of GMOD2 cartridge image.
 
   
 ** C128 changes
@@ -140,7 +152,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 
 - New tapecart emulation.
 
-- Fixed MMU mirrors
+- Fixed MMU mirrors.
 
 
 ** CBM2 changes
@@ -148,7 +160,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 
 - Allow+fix loading of 8k chargen.
 
-- Fixed ESC-Z/ESC-Y
+- Fixed ESC-Z/ESC-Y.
 
 
 * Changes in VICE 3.1
