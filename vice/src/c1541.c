@@ -142,7 +142,7 @@
 #define UNIT_MAX        (UNIT_MIN + DRIVE_COUNT - 1)
 
 #define C1541_VERSION_MAJOR     4   /**< c1541 major version number */
-#define C1541_VERSION_MINOR     1   /**< c1541 minor version number */
+#define C1541_VERSION_MINOR     2   /**< c1541 minor version number */
 
 
 /* mostly useless crap, show go into c1541.h */
