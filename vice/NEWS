@@ -53,6 +53,10 @@ Before reporting bugs, always try with a clean config (run emulator with
 
 - Added support for TAP virtual network interface.
 
+- Fixed drive clock overflow. Drive and host went out of sync on clock overflow 
+  (every ~4G cycles), which would break loading or custom drive code in the case 
+  loader/stuff is not idle during overflow window. Also drive would execute 
+  ~4G cycles out of sync, which made the emulator freeze for a while.
 
 ** Monitor
 ----------
