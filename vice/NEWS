@@ -14,7 +14,7 @@ left from previous installs.
 (vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
 
 Before reporting bugs, always try with a clean config (run emulator with
---default or use "restore default config" in the UI).
+-default or use "restore default config" in the UI).
 
 
 * Changes in VICE 3.2
