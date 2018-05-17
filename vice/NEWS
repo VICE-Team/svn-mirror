@@ -61,7 +61,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 ** Monitor
 ----------
 
-- Fix monitor 'm' command buffer overflow,
+- Fix monitor 'm' command buffer overflow.
 
 - Added conditional on values in memory to breakpoint handling.
 
@@ -102,7 +102,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 -------------------
 
 - Reinstated the Cocoa UI's Video Settings dialog. Some of the controls
-  don’t work properly, but it’s better than nothing.
+  don't work properly, but it's better than nothing.
 
 - Added a PET model selection menu to the Cocoa UI.
 
