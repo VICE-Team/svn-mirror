@@ -399,10 +399,6 @@
 			</dict>
 			<key>Mouse</key>
 			<dict>
-				<key>Mouse Port</key>
-				<string>Mouseport,m,Joy1=1,Joy2=2</string>
-				<key>Mouse Type</key>
-				<string>Mousetype,e,1351,NEOS,AMIGA,Paddles,CX-22,ST,Smart,Micromys,Koalapad</string>
 				<key>Smart Mouse RTC save</key>
 				<string>SmartMouseRTCSave,b</string>
 			</dict>
