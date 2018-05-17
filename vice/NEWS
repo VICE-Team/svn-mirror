@@ -23,7 +23,7 @@ Before reporting bugs, always try with a clean config (run emulator with
 ** General
 ----------
 
-- New (experimental) GTK3 native port, this and the SDL(2) port will replace 
+- New (experimental) GTK3 native port, this and the SDL(2) port will replace
   all other ports (which will get removed) in VICE 3.3 and onward.
 
 - Handling of the `-keybuf` command now works properly for all emulators and
@@ -97,8 +97,8 @@ Before reporting bugs, always try with a clean config (run emulator with
 ** OS/2 changes
 ---------------
 
-- Removed native os/2 port. The native os/2 port has been lagging behind 
-  severely, and the recently added sdl os/2 port is up2date, making the 
+- Removed native os/2 port. The native os/2 port has been lagging behind
+  severely, and the recently added sdl os/2 port is up2date, making the
   unmaintained native os/2 port obsolete.
 
 
