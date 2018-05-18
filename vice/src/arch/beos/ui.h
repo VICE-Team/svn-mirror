@@ -86,6 +86,7 @@ extern void ui_enable_joyport(void);
 extern void ui_statusbar_update(void);
 extern int ui_set_window_mode(int use_direct_window);
 extern void ui_pause_emulation(int flag);
+extern int ui_emulation_is_paused(void);
 
 extern int CheckForHaiku(void);
 
