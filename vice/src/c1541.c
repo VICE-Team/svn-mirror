@@ -3281,10 +3281,22 @@ int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii)
  * Date:        2000-07-28
  * Reads a geos file from the diskimage and writes it to a convert file
  * This code was copied from the write_cmd function.
+ *
+ *
+ * This function was completely broken and assumed GEOS files are PRG files
+ * with PETSCII filenames. So when people complain this command doesnt work
+ * anymore, they have incorrect GEOS files.
+ *
+ * Also note that the directory display routine of c1541 assumes PETSCII file
+ * names and as such the GEOS file names are display with their case inverted,
+ * so to extract a file called 'rEADmE' in the directory, use 'ReadMe' to
+ * extract it.
+ *
+ * -- compyx, 2018-05-18
  */
 static int read_geos_cmd(int nargs, char **args)
 {
-    char *src_name_petscii, *src_name_ascii;
+    char *src_name_ascii;
     char *dest_name_ascii;
     char *actual_name;
     char *p;
@@ -3292,6 +3304,9 @@ static int read_geos_cmd(int nargs, char **args)
     int err_code;
     int dev;
     int unit;
+    cbmdos_cmd_parse_t *parse_cmd;
+    size_t namelen;
+
 
     unit = extract_unit_from_file_name(args[1], &p);
     if (unit > 0) {
@@ -3324,17 +3339,35 @@ static int read_geos_cmd(int nargs, char **args)
         return FD_BADNAME;
     }
 
-    src_name_petscii = lib_stralloc(src_name_ascii);
-    charset_petconvstring((uint8_t *)src_name_petscii, 0);
 
-    if (vdrive_iec_open(drives[dev], (uint8_t *)src_name_petscii,
-                        (unsigned int)strlen(src_name_petscii), 0, NULL)) {
+    /*
+     * We use this to pass to vdrive_iec_open() as its `cmd_parse_ext` argument
+     * to tell the function to look for USR files. Without this the function
+     * defaults to looking for PRG files and will fail to locate the GEOS file
+     * requested.
+     */
+    namelen = strlen(src_name_ascii);
+    parse_cmd = lib_calloc(1, sizeof *parse_cmd);
+    parse_cmd->cmd = (const uint8_t *)src_name_ascii;
+    parse_cmd->cmdlength = namelen;
+    parse_cmd->parsecmd = lib_stralloc(src_name_ascii); /* freed in
+                                                           vdrive_iec_open() */
+    parse_cmd->parselength = namelen;
+    parse_cmd->secondary = 0;
+    parse_cmd->filetype = CBMDOS_FT_USR;
+    parse_cmd->readmode = CBMDOS_FAM_READ;
+
+    if (vdrive_iec_open(drives[dev], (uint8_t *)src_name_ascii,
+                        (unsigned int)strlen(src_name_ascii), 0,
+                        parse_cmd)) {
         fprintf(stderr,
                 "cannot read `%s' on unit %d\n", src_name_ascii, unit);
         lib_free(src_name_ascii);
-        lib_free(src_name_petscii);
+        lib_free(parse_cmd);
         return FD_BADNAME;
     }
+
+    lib_free(parse_cmd);
 
     /* Get real filename from the disk file.
        Slot must be defined by vdrive_iec_open().  */
@@ -3365,7 +3398,6 @@ static int read_geos_cmd(int nargs, char **args)
                 "cannot create output file `%s': %s\n",
                 dest_name_ascii, strerror(errno));
         vdrive_iec_close(drives[dev], 0);
-        lib_free(src_name_petscii);
         lib_free(src_name_ascii);
         lib_free(actual_name);
         return FD_NOTWRT;
@@ -3378,7 +3410,6 @@ static int read_geos_cmd(int nargs, char **args)
     fclose(outf);
     vdrive_iec_close(drives[dev], 0);
 
-    lib_free(src_name_petscii);
     lib_free(src_name_ascii);
     lib_free(actual_name);
 
