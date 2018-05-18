@@ -1,5 +1,298 @@
 ------------------------------------------------------------------------------
 
+2018-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/ui.c, src/arch/msdos/ui.h: Added dummy pause
+	functions.
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/Makefile.am: Add missing file
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/base/Makefile.am: Add missing file
+
+2018-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c: Fixed missing #endif.
+
+2018-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/ui.c, src/arch/amigaos/ui.h: Fix
+	ui_emulation_is_paused() for amiga.
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/beos/ui.h: Add missing prototype
+
+2018-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/android/AnVICE/AndroidManifest.xml, src/version.h,
+	src/vice-version.sh: Change the release nr, in preparation for the
+	VICE 3.2 release of this weekend.
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/tapeport/Makefile.am: Fix missing file
+
+2018-05-18  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/drv-mps803.c: fix codestyle
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/Makefile.am: Fix typo
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/Makefile.am: More fixes
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/widgets/Makefile.am: remove filechooserhelpers.h from
+	Makefile.am
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* po/nl.po, src/arch/gtk3/Makefile.am,
+	src/arch/gtk3/widgets/Makefile.am,
+	src/arch/gtk3/widgets/base/Makefile.am: Gtk3: sort/fix the source
+	files in the Makefile.am's
+
+2018-05-18  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/drv-mps803.c: fix some mps803 emulation issues, patch
+	#158 by Raymond Martineau
+
+2018-05-18  groepaz <groepaz@gmx.net>
+
+	* src/printerdrv/output-graphics.c, src/printerdrv/output-graphics.h,
+	src/printerdrv/printer.c: free filename and line only at shutdown,
+	else segfault may occur when reopening the driver and then printing a
+	second page
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* Makefile.am, src/arch/gtk3/make-bindist_win32.sh: Gtk3: apply the
+	Windows make bindist[zip] patch by Greg King. I had to change some
+	rm's in rm -f and remove -e from the $(SHELL) -e in the Makefile.am to
+	make it work on my Windows VM (building docs fails on that one, will
+	fix it)
+
+2018-05-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/Makefile.am: Make auto generation of mon_parse.h depend
+	on mon_parse.c, fixes 'make dist' issues.
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/c1541.c: Fix the 'geosread' command. The geosread command
+	assumed GEOS files have their file names stored as PETSCII and have a
+	PRG file type. This is incorrect, GEOS files use ASCII (padded with
+	$A0) for their file names and have a USR file type.
+
+2018-05-18  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: fix funplay game/exrom settings when creating crt
+	file. fixes bug #962
+
+2018-05-18  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/win32/lightpendrv.c, src/arch/win32/ui.c: Apply Windows
+	lightpen patch by Greg King, fixes bug #419
+
+2018-05-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/widgets/settings_rs232.c: fix copypaste error, fixed
+	bug #1007
+
+2018-05-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm5x0mem.c: Fix cbm5x0 CPU as well.
+
+2018-05-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* NEWS: Fixed punctuation typos.
+
+2018-05-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* NEWS: Added a NEWS section for the Cocoa port. Also fixed some
+	capitalization, removed trailing whitespace, and added missing full
+	stops.
+
+2018-05-17  groepaz <groepaz@gmx.net>
+
+	* NEWS: added krills drive patch
+
+2018-05-17  groepaz <groepaz@gmx.net>
+
+	* NEWS: typo
+
+2018-05-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* NEWS: Remove trailing whitespace
+
+2018-05-17  Bas Wassink <b.wassink@ziggo.nl>
+
+	* man/c1541.1, src/c1541.c: Update C1541 and its manpage. Update C1541
+	internal version to 4.2, the VICE version will auto adjust to 3.2.
+	once version.h is updated. Changes the manpage date to 'may 2018'.
+
+2018-05-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/macosx/Info.plist: 2017->2018.
+
+2018-05-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	Removed obsolete "Mouse Port" and "Mouse Type" options from the Cocoa
+	port's Resource Inspector. Sadly, it doesn't look like the Cocoa UI
+	will ever have a way to configure the joyport system which replaced
+	them.
+
+2018-05-17  Marcus Sutton <loggedoubt@gmail.com>
+
+	* configure.proto: Fixed Mac application bundles so that Cocoa builds
+	can find their ROMs.
+
+2018-05-16  groepaz <groepaz@gmx.net>
+
+	* NEWS: added (hopefully) all relevant stuff. needs some proofreading
+	perhaps :)
+
+2018-05-16  groepaz <groepaz@gmx.net>
+
+	* NEWS: made it more clear
+
+2018-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS: 'experimental'.
+
+2018-03-16  Ingo Korb <ingo@akana.de>
+
+	* src/arch/unix/macosx/cocoa/ui.m,
+	src/arch/unix/macosx/cocoa/vicemachine.m,
+	src/arch/unix/macosx/cocoa/vicemachineprotocol.h: macosx cocoa build
+	fixes
+
+2018-05-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* NEWS: Updated.
+
+2018-05-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* NEWS: NEWS: Also add tapecart to c128 changes
+
+2018-03-16  Ingo Korb <ingo@akana.de>
+
+	* NEWS: add tapecart to NEWS
+
+2018-05-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/translate_text.c: Add -silent description
+
+2018-05-16  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/ui.c: Gtk3: Apply ui_get_active_window() patch by Greg
+	King, fixes bug #1005
+
+2018-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/resc64memoryhacks.rc, src/arch/win32/ressid.rc,
+	src/translate_text.c: Did another 'make trans-update' because of the
+	recent translation updates.
+
+2018-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/cocoa/vsidui.m: Add missing functions.
+
+2018-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/macosx/build-vice-dist.sh: Removed --disable-sse.
+
+2018-05-14  pottendo  <pottendo@aon.at>
+
+	* po/de.po: updated for Vice 3.2
+
+2018-05-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* po/nl.po: Update nl.po a bit
+
+2018-05-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* NEWS: Update NEWS file
+
+2018-05-14  Bas Wassink <b.wassink@ziggo.nl>
+
+	* NEWS: Update NEWS file
+
+2018-05-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/magicdesk.c, src/cartconv.c: also allow 512k and 1M
+	magic desk carts (some homebrew variant). fix snapshots and crt
+	loading.
+
+2018-05-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/gmod2.c: Not for ultimax readthrough
+
+2018-05-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/gmod2.c: Fix mmu mapping
+
+2018-05-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/gmod2.c: Read through while write enable
+
+2018-05-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* Modified : /trunk/vice/src/c64/cart/gmod2.c: Should save from the
+	beginning
+
+2018-05-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/flash040core.c: First page takes time too
+
+2018-05-13  pottendo  <pottendo@aon.at>
+
+	* src/arch/gtk3/uiabout.c: Gkt3 -> Gtk3
+
+2018-05-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/flash040core.c: Proper chip specific erase times from
+	datasheet
+
+2018-05-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c, src/c64/c64-memory-hacks.c: Move pausing
+	before switching memory expansion hacks into c64-memory-hacks.c
+
+2018-05-12  Bas Wassink <b.wassink@ziggo.nl>
+
+	* src/arch/gtk3/uisettings.c: Gtk3: Force pause when enabling settings
+	UI. Should fix bugs related to memory expansions and other machine
+	settings.
+
+2018-05-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/uicommands.c: there must be file:///c:/etc
+
+2018-05-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/gtk3/uicommands.c: this SHOULD fix the open uri stuff in
+	windows, but does not work for some reason :/
+
+2018-05-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog: Updated.
+
 2018-05-12  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/arch/sdl/archdep_os2.c: Comment fix.
