@@ -54,58 +54,58 @@ libarch_a_SOURCES = \
 	dynlib.c \
 	fullscreen.c \
 	gtk3main.c \
-	joy-osx.c \
 	joy-osx-hid.c \
 	joy-osx-hidmgr.c \
 	joy-osx-hidutil.c \
-	joy-unix.c \
+	joy-osx.c \
 	joy-unix-usb.c \
-	joy-win32.c \
+	joy-unix.c \
 	joy-win32-dinput-handle.c \
+	joy-win32.c \
 	kbd.c \
 	mousedrv.c \
 	opengl_renderer.c \
-	quartz_renderer.c \
 	petui.c \
 	plus4ui.c \
+	quartz_renderer.c \
 	rawnetarch.c \
 	rs232dev.c \
 	scpu64ui.c \
 	signals.c \
 	ui.c \
 	uiabout.c \
+	uicart.c \
+	uicmdline.c \
+	uicommands.c \
+	uicompiletimefeatures.c \
 	uidatasette.c \
+	uidebug.c \
 	uidiskattach.c \
+	uidiskcreate.c \
 	uiedit.c \
 	uifliplist.c \
 	uimachinemenu.c \
 	uimachinewindow.c \
+	uimedia.c \
 	uimenu.c \
-	uimon.c \
 	uimon-fallback.c \
+	uimon.c \
+	uinetplay.c \
+	uinetplay_new.c \
 	uisettings.c \
+	uisidattach.c \
 	uismartattach.c \
+	uisnapshot.c \
 	uistatusbar.c \
 	uitapeattach.c \
+	uitapecreate.c \
+	uivideo.c \
 	uivsidmenu.c \
 	uivsidwindow.c \
 	vic20ui.c \
 	video.c \
 	vsidui.c \
-	vsyncarch.c \
-	uivideo.c \
-	uicmdline.c \
-	uicompiletimefeatures.c \
-	uicommands.c \
-	uisnapshot.c \
-	uidebug.c \
-	uicart.c \
-	uimedia.c \
-	uinetplay.c \
-	uisidattach.c \
-	uinetplay_new.c \
-	uidiskcreate.c \
-	uitapecreate.c
+	vsyncarch.c
 
 EXTRA_DIST = \
 	archdep.h \
@@ -118,13 +118,13 @@ EXTRA_DIST = \
 	debug_gtk3.h \
 	dynlib-unix.c \
 	dynlib-win32.c \
-	joy.h \
-	joy-osx.h \
 	joy-osx-hid.h \
 	joy-osx-hidlib.h \
+	joy-osx.h \
 	joy-unix.h \
-	joy-win32.h \
 	joy-win32-dinput-handle.h \
+	joy-win32.h \
+	joy.h \
 	kbd.h \
 	make-bindist_win32.sh \
 	mousedrv.h \
@@ -137,30 +137,30 @@ EXTRA_DIST = \
 	rs232-win32-dev.c \
 	ui.h \
 	uiabout.h \
+	uicart.h \
+	uicmdline.h \
+	uicommands.h \
+	uicompiletimefeatures.h \
 	uidatasette.h \
+	uidebug.h \
 	uidiskattach.h \
-	uifliplist.h \
+	uidiskcreate.h \
 	uiedit.h \
+	uifliplist.h \
 	uimachinemenu.h \
 	uimachinewindow.h \
+	uimedia.h \
 	uimenu.h \
+	uinetplay.h \
+	uinetplay_new.h \
 	uisettings.h \
+	uisidattach.h \
 	uismartattach.h \
+	uisnapshot.h \
 	uistatusbar.h \
 	uitapeattach.h \
+	uitapecreate.h \
+	uivideo.h \
 	uivsidmenu.h \
 	uivsidwindow.h \
-	videoarch.h \
-	uivideo.h \
-	uicmdline.h \
-	uicompiletimefeatures.h \
-	uicommands.h \
-	uisnapshot.h \
-	uidebug.h \
-	uicart.h \
-	uimedia.h \
-	uinetplay.h \
-	uisidattach.h \
-	uinetplay_new.h \
-	uidiskcreate.h \
-	uitapecreate.h
+	videoarch.h

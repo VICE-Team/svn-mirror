@@ -1627,11 +1627,11 @@ msgstr "Freezer"
 
 #: src/arch/unix/gui/uic64cart.c:114
 msgid "Games"
-msgstr "Spelletjes"
+msgstr "Games"
 
 #: src/arch/unix/gui/uic64cart.c:117
 msgid "Utilities"
-msgstr "Gebruiksprogramma's"
+msgstr "Utilities"
 
 #: src/arch/unix/gui/uic64cart.c:121 src/arch/unix/gui/vic20ui.c:379
 #: src/arch/win32/res.rc.po.c:1596 src/arch/amigaos/intl_text.c.po.c:929
@@ -2400,7 +2400,7 @@ msgstr "Drive #11 idle-methode"
 #: src/arch/unix/gui/uidrivepetcbm2.c:153 src/arch/unix/gui/uidriveplus4.c:214
 #: src/arch/unix/gui/uidrivevic20.c:129
 msgid "RAW Block Device Name"
-msgstr "Werkelijk Blok Apparaat Naam"
+msgstr "RAW Block Device-naam"
 
 #: src/arch/unix/gui/uidrivec128.c:230 src/arch/unix/gui/uidrivec64.c:125
 #: src/arch/unix/gui/uidrivec64dtv.c:125
@@ -2414,7 +2414,7 @@ msgstr "Werkelijk Blok Apparaat Naam"
 #: src/arch/win32/resvic20.rc.po.c:199 src/arch/amigaos/intl_text.c.po.c:3309
 #: src/arch/amigaos/intl_text.c.po.c:7313
 msgid "Drive settings"
-msgstr "Drive instellingen"
+msgstr "Driveinstellingen"
 
 #: src/arch/unix/gui/uidrivec128.c:239 src/arch/unix/gui/uidrivec64vic20.c:137
 #: src/arch/unix/gui/uidriveplus4.c:231
@@ -2453,7 +2453,7 @@ msgstr "Laad nieuwe 1581-ROM"
 #: src/arch/unix/gui/uidrivec128.c:260 src/arch/unix/gui/uidrivec64vic20.c:155
 #: src/arch/unix/gui/uidriveplus4.c:252
 msgid "Load new 2000 ROM"
-msgstr "Laad nieuw 2000 ROM"
+msgstr "Laad nieuwe 2000-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:263 src/arch/unix/gui/uidrivec64vic20.c:158
 #: src/arch/unix/gui/uidriveplus4.c:255
@@ -2519,15 +2519,15 @@ msgstr "Activeer StarDOS"
 
 #: src/arch/unix/gui/uidrivec64c128.c:123
 msgid "Load new Professional DOS 1571 ROM"
-msgstr "Laad nieuw Professional DOS 1571 ROM"
+msgstr "Laad nieuwe Professional DOS 1571-ROM"
 
 #: src/arch/unix/gui/uidrivec64c128.c:126
 msgid "Load new SuperCard+ ROM"
-msgstr "Laad nieuw SuperCard+ ROM"
+msgstr "Laad nieuwe SuperCard+-ROM"
 
 #: src/arch/unix/gui/uidrivec64c128.c:129
 msgid "Load new StarDOS ROM"
-msgstr "Laad nieuw StarDOS ROM"
+msgstr "Laad nieuwe StarDOS-ROM"
 
 #: src/arch/unix/gui/uidriveiec.c:123 src/arch/amigaos/intl_text.c.po.c:7131
 msgid "No traps"
@@ -2545,7 +2545,7 @@ msgstr "Trap idle"
 
 #: src/arch/unix/gui/uidriveplus4.c:240
 msgid "Load new 1551 ROM"
-msgstr "Laad nieuw 1551 ROM"
+msgstr "Laad nieuwe 1551-ROM"
 
 #: src/arch/unix/gui/uieasyflash.c:47
 msgid "Enable jumper"
@@ -2570,12 +2570,12 @@ msgstr "Cartridge actief"
 #: src/arch/unix/gui/uiethernetcart.c:108
 #: src/arch/unix/gui/uiethernetcart.c:121
 msgid "Cartridge mode"
-msgstr "Cartridge modus"
+msgstr "Cartridgemodus"
 
 #: src/arch/unix/gui/uiethernetcart.c:111
 #: src/arch/unix/gui/uiethernetcart.c:124
 msgid "Cartridge I/O area"
-msgstr "Cartridge I/O gebied"
+msgstr "Cartridge I/O-gebied"
 
 #: src/arch/unix/gui/uiexpert.c:54 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7579
@@ -2598,7 +2598,7 @@ msgstr "Aan"
 #: src/arch/unix/gui/uiexpert.c:81 src/arch/win32/resexpert.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:7607
 msgid "Expert Cartridge file"
-msgstr "Expert Cartridge bestand"
+msgstr "Expert Cartridge-bestand"
 
 #: src/arch/unix/gui/uifliplist.c:89
 msgid "Load "
@@ -2614,12 +2614,12 @@ msgstr "Opslaan"
 
 #: src/arch/unix/gui/uifliplist.c:89
 msgid "Flip list file"
-msgstr "Flip lijst bestand"
+msgstr "Fliplijstbestand"
 
 #: src/arch/unix/gui/uifliplist.c:96
 #, c-format
 msgid "Successfully read `%s'."
-msgstr "Succesvol gelezen bestand `%s'."
+msgstr "Bestand `%s' succesvol geladen."
 
 #: src/arch/unix/gui/uifliplist.c:98
 #, c-format

@@ -27,43 +27,43 @@ noinst_LIBRARIES = libbasewidgets.a
 
 libbasewidgets_a_SOURCES = \
 	basedialogs.c \
-	widgethelpers.c \
-	resourcehelpers.c \
+	carthelpers.c \
+	cartimagewidget.c \
+	clockportdevicewidget.c \
+	filechooserhelpers.c \
+	openfiledialog.c \
+	resourcebrowser.c \
 	resourcecheckbutton.c \
 	resourcecombobox.c \
 	resourceentry.c \
+	resourcehelpers.c \
 	resourceradiogroup.c \
 	resourcescale.c \
 	resourcespinbutton.c \
-	cartimagewidget.c \
-	openfiledialog.c \
+	resourceswitch.c \
 	savefiledialog.c \
 	selectdirectorydialog.c \
-	filechooserhelpers.c \
-	clockportdevicewidget.c \
-	carthelpers.c \
-	resourcebrowser.c \
-	resourceswitch.c
+	widgethelpers.c
 
 EXTRA_DIST = \
 	basedialogs.h \
-	widgethelpers.h \
-	basewidgets.h \
 	basewidget_types.h \
-	resourcehelpers.h \
+	basewidgets.h \
+	carthelpers.h \
+	cartimagewidget.h \
+	clockportdevicewidget.h \
+	filechooserhelpers.h \
+	openfiledialog.h \
+	resourcebrowser.h \
 	resourcecheckbutton.h \
 	resourcecombobox.h \
 	resourceentry.h \
+	resourcehelpers.h \
 	resourceradiogroup.h \
 	resourcescale.h \
 	resourcespinbutton.h \
-	cartimagewidget.h \
-	openfiledialog.h \
+	resourceswitch.h \
 	savefiledialog.h \
 	selectdirectorydialog.h \
-	filechooserhelpers.h \
-	clockportdevicewidget.h \
-	carthelpers.h \
-	resourcebrowser.h \
 	vice_gtk3.h \
-	resourceswitch.h
+	widgethelpers.h
