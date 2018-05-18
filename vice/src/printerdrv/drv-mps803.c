@@ -65,7 +65,6 @@
 
 struct mps_s {
     uint8_t line[MAX_COL][7];
-    int bitcnt;
     int repeatn;
     int pos;
     int tab;
@@ -198,55 +197,32 @@ static void clear_buffer(mps_t *mps)
 
 static void bitmode_off(mps_t *mps)
 {
-    unsigned int i, x;
-    int y;
-    unsigned int err = 0;
-
-    for (i = 0; i < (unsigned int)mps->repeatn; i++) {
-        for (x = 0; x < (unsigned int)mps->bitcnt; x++) {
-            if ((mps->pos + x) >= MAX_COL) {
-                err = 1;
-                break;
-            }
-            if ((mps->pos - mps->bitcnt + x) >= MAX_COL) {
-                err = 1;
-                break;
-            }
-            if ((mps->pos + x) < (unsigned int)mps->bitcnt) {
-                err = 1;
-                break;
-            }
-            for (y = 0; y < 7; y++) {
-                mps->line[mps->pos + x][y]
-                    = mps->line[mps->pos - mps->bitcnt + x][y];
-            }
-        }
-        mps->pos += mps->bitcnt;
-    }
     del_mode(mps, MPS_BITMODE);
-    if (err) {
-        log_error(drv803_log, "Printing beyond limit of %d dots.", MAX_COL);
-    }
 }
 
-static void print_bitmask(mps_t *mps, const char c)
+static void print_bitmask(mps_t *mps, unsigned int prnr, const char c)
 {
     unsigned int y;
+	unsigned int i;
 
+	if (!mps->repeatn) mps->repeatn=1;
+
+	for (i = 0; i < (unsigned int)(mps->repeatn); i++) {
+	    if (mps->pos >= MAX_COL) {  /* flush buffer*/
+			write_line(mps, prnr);
+			clear_buffer(mps);
+		}
     for (y = 0; y < 7; y++) {
-        mps->line[mps->pos][y] = c & (1 << (6 - y)) ? 1 : 0;
+			mps->line[mps->pos][y] = c & (1 << (y)) ? 1 : 0;
     }
 
-    mps->bitcnt++;
     mps->pos++;
+	}
+	mps->repeatn=0;
 }
 
 static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
 {
-    if (mps->pos >= MAX_COL) {  /* flush buffer*/
-        write_line(mps, prnr);
-        clear_buffer(mps);
-    }
     if (mps->tab) {     /* decode tab-number*/
         mps->tabc[2 - mps->tab] = c;
 
@@ -274,7 +250,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
     }
 
     if (is_mode(mps, MPS_BITMODE) && (c & 128)) {
-        print_bitmask(mps, c);
+        print_bitmask(mps, prnr, c);
         return;
     }
 
@@ -301,7 +277,6 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
         switch (c) {
             case 8:
                 set_mode(mps, MPS_BITMODE);
-                mps->bitcnt = 0;
                 return;
 
             case 10: /* LF*/
@@ -369,8 +344,7 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
 
             case 26: /* repeat last chr$(8) c times.*/
                 set_mode(mps, MPS_REPEAT);
-                mps->repeatn = 0;
-                mps->bitcnt = 0;
+                mps->repeatn = 1;
                 return;
 
             case 27:
@@ -393,6 +367,11 @@ static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
     */
     if (c == 34) {
         mps->mode ^= MPS_QUOTED;
+    }
+
+    if (mps->pos >= MAX_COL) {  /* flush buffer*/
+        write_line(mps, prnr);
+        clear_buffer(mps);
     }
 
     if (is_mode(mps, MPS_QUOTED)) {
