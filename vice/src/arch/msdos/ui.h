@@ -38,4 +38,7 @@ extern void ui_dispatch_events(void);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
 extern void ui_message(const char *format,...);
 
+extern void ui_pause_emulation(int flag);
+extern int ui_emulation_is_paused(void);
+
 #endif

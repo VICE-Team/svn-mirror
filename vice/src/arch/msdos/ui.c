@@ -620,3 +620,12 @@ char* ui_get_file(const char *format,...)
 {
     return NULL;
 }
+
+void ui_pause_emulation(int flag)
+{
+}
+
+int ui_emulation_is_paused(void)
+{
+    return 0;
+}
