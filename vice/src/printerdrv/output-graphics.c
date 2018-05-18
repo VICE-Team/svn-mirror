@@ -187,10 +187,6 @@ static void output_graphics_close(unsigned int prnr)
         o->gfxoutputdrv->close(&o->screenshot);
         o->isopen = 0;
     }
-
-    /* free filename */
-    lib_free(o->filename);
-    o->filename = NULL;
 }
 
 static int output_graphics_putc(unsigned int prnr, uint8_t b)
@@ -262,6 +258,16 @@ void output_graphics_init(void)
         output_gfx[i].filename = NULL;
         output_gfx[i].line = NULL;
         output_gfx[i].line_pos = 0;
+    }
+}
+
+void output_graphics_shutdown(void)
+{
+    unsigned int i;
+
+    for (i = 0; i < 3; i++) {
+        lib_free(output_gfx[i].filename);
+        lib_free(output_gfx[i].line);
     }
 }
 
