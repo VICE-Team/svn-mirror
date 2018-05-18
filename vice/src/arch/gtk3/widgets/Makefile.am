@@ -266,7 +266,7 @@ EXTRA_DIST = \
 	settings_soundchip.h \
 	settings_speed.h \
 	settings_video.h \
-	sfxsoundexpanderwigdet.h \
+	sfxsoundexpanderwidget.h \
 	sfxsoundsamplerwidget.h \
 	sidcartwidget.h \
 	sidmodelwidget.h \
