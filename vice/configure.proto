@@ -11,7 +11,7 @@ dnl Command-line options
 VICE_ARG_INIT()
 
 VICE_VERSION_MAJOR=3
-VICE_VERSION_MINOR=1
+VICE_VERSION_MINOR=2
 VICE_VERSION_BUILD=0
 
 dnl Miminum required version of yasm to build static/shared ffmpeg

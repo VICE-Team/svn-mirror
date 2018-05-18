@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-14 13:44-0700\n"
+"POT-Creation-Date: 2018-05-18 09:16-0700\n"
 "PO-Revision-Date: 2013-01-02 02:17-0500\n"
 "Last-Translator: Paul Dubé <: DubePaul @t 0utl0ok d0t.com :>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -766,7 +766,7 @@ msgstr "Émulation de souris"
 #: src/arch/win32/rescbm5x0.rc.po.c:18 src/arch/win32/respet.rc.po.c:18
 #: src/arch/win32/resplus4.rc.po.c:18 src/arch/win32/resscpu64.rc.po.c:18
 #: src/arch/win32/resvic20.rc.po.c:18 src/arch/win32/resvsid.rc.po.c:18
-#: src/arch/amigaos/intl_text.c.po.c:5 src/translate_text.c.po.c:17268
+#: src/arch/amigaos/intl_text.c.po.c:5 src/translate_text.c.po.c:17285
 msgid "File"
 msgstr "Fichier"
 
@@ -1680,7 +1680,7 @@ msgid "C64DTV ROM file"
 msgstr "Fichier ROM C64DTV"
 
 #: src/arch/unix/gui/uic64dtv.c:126 src/arch/win32/resc64dtv.rc.po.c:417
-#: src/translate_text.c.po.c:18152
+#: src/translate_text.c.po.c:18169
 msgid "Enable writes to C64DTV ROM image"
 msgstr "Permetre l'écriture à l'image ROM C64DTV"
 
@@ -2028,7 +2028,7 @@ msgstr "Pause"
 msgid "Advance frame"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:769 src/translate_text.c.po.c:17778
+#: src/arch/unix/gui/uicommands.c:769 src/translate_text.c.po.c:17795
 msgid "Enable warp mode"
 msgstr "Activer le Mode Turbo"
 
@@ -2334,7 +2334,7 @@ msgstr "Émulation de son de lecteur disque"
 msgid "Select Flash filesystem directory"
 msgstr "Sélectionner le répertoire du système de fichier flash"
 
-#: src/arch/unix/gui/uidrive.c:182 src/translate_text.c.po.c:18237
+#: src/arch/unix/gui/uidrive.c:182 src/translate_text.c.po.c:18254
 msgid "Enable true hardware flash file system"
 msgstr "Activer le système de fichier flash matériel réel"
 
@@ -2911,7 +2911,7 @@ msgstr "Activer le \"scaling\" matériel"
 #. the dynamically generated clockport menu goes here
 #: src/arch/unix/gui/uiide64.c:341 src/arch/unix/gui/uimmc64.c:90
 #: src/arch/unix/gui/uimmcreplay.c:74 src/arch/unix/gui/uiretroreplay.c:68
-#: src/arch/amigaos/intl_text.c.po.c:10647 src/translate_text.c.po.c:19140
+#: src/arch/amigaos/intl_text.c.po.c:10647 src/translate_text.c.po.c:19157
 #, fuzzy
 msgid "Clockport device"
 msgstr "Périphérique joystick 1"
@@ -3297,7 +3297,7 @@ msgid "MMC Replay EEPROM image filename"
 msgstr "Nom du fichier de l'image EEPROM MMC Replay"
 
 #: src/arch/unix/gui/uimouse.c:41 src/arch/unix/gui/uimouse.c:51
-#: src/translate_text.c.po.c:17098
+#: src/translate_text.c.po.c:17115
 msgid "Enable mouse grab"
 msgstr "Saisir la souris"
 
@@ -3376,7 +3376,7 @@ msgstr ""
 "Impossible de charger le fichier de palette\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiperipheral.c:53 src/translate_text.c.po.c:17676
+#: src/arch/unix/gui/uiperipheral.c:53 src/translate_text.c.po.c:17693
 msgid "Path"
 msgstr "Emplacement"
 
@@ -4102,7 +4102,7 @@ msgstr "Mono"
 msgid "Stereo"
 msgstr "Stéréo"
 
-#: src/arch/unix/gui/uisound.c:171 src/translate_text.c.po.c:17353
+#: src/arch/unix/gui/uisound.c:171 src/translate_text.c.po.c:17370
 msgid "Enable sound playback"
 msgstr "Activer le son"
 
@@ -5679,7 +5679,7 @@ msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
 msgstr "Attacher une image de cartouche 64 ko Super Snapshot V5"
 
 #: src/arch/win32/res.rc.po.c:1155 src/arch/amigaos/intl_text.c.po.c:6053
-#: src/translate_text.c.po.c:17965
+#: src/translate_text.c.po.c:17982
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Insérer une cartouche Raw Structured Basic"
 
@@ -5777,11 +5777,11 @@ msgstr "Appuyer sur la touche pour Bouton de tir"
 msgid "No userport joy adapter"
 msgstr "Aucun adaptateur joystick port utilisateur "
 
-#: src/arch/win32/res.rc.po.c:1192 src/translate_text.c.po.c:18426
+#: src/arch/win32/res.rc.po.c:1192 src/translate_text.c.po.c:18443
 msgid "Disable SID cartridge joystick"
 msgstr "Désactiver Joystick cartouche SID"
 
-#: src/arch/win32/res.rc.po.c:1193 src/translate_text.c.po.c:18409
+#: src/arch/win32/res.rc.po.c:1193 src/translate_text.c.po.c:18426
 msgid "Enable SID cartridge joystick"
 msgstr "Activer Joystick cartouche SID"
 
@@ -7083,7 +7083,7 @@ msgid "SFX Sound Expander settings"
 msgstr "Paramètres du SFX Sound Expander"
 
 #: src/arch/win32/res.rc.po.c:1691 src/arch/win32/ressoundsampler.rc.po.c:21
-#: src/arch/amigaos/intl_text.c.po.c:4065 src/translate_text.c.po.c:18494
+#: src/arch/amigaos/intl_text.c.po.c:4065 src/translate_text.c.po.c:18511
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Activer la cartouche SFX Sound Sampler"
 
@@ -7802,7 +7802,7 @@ msgstr "Activer l'expansion MMC64"
 msgid "Save CP Clock F83 RTC data when changed"
 msgstr "Enregistrer le RR flash lorsque modifié"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18936
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18953
 msgid "Enable the DigiMAX cartridge"
 msgstr "Activer la cartouche DigiMAX"
 
@@ -8060,7 +8060,7 @@ msgstr "Activer Magic Voice"
 msgid "Select file for Magic Voice"
 msgstr "Sélectionner fichier pour Magic Voice"
 
-#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:18272
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:18289
 msgid "Enable MIDI emulation"
 msgstr "Activer l'émulation MIDI"
 
@@ -8434,7 +8434,7 @@ msgstr "Sélectionner le périphérique plein écran"
 msgid "Sampler input file"
 msgstr "Enregistrer le groupement de disques actuel"
 
-#: src/arch/win32/ressampler.rc.po.c:43 src/translate_text.c.po.c:17472
+#: src/arch/win32/ressampler.rc.po.c:43 src/translate_text.c.po.c:17489
 #, fuzzy
 msgid "Sampler gain"
 msgstr "Taux d'échantillonage"
@@ -8532,11 +8532,11 @@ msgstr "Sélection des périphériques HardSID"
 msgid "Main device"
 msgstr "Périphérique principal"
 
-#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:18324
+#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:18341
 msgid "Enable the digiblaster add-on"
 msgstr "Activer le add-on digiblaster"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:18443
+#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:18460
 msgid "Enable the SFX Sound Expander cartridge"
 msgstr "Activer la cartouche SFX Sound Expander"
 
@@ -8624,7 +8624,7 @@ msgstr "Activer port utilisateur RTC"
 msgid "Save RTC (DS1307) data when changed"
 msgstr "Enregistrer le RR flash lorsque modifié"
 
-#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:18358
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:18375
 msgid "Enable the v364 speech add-on"
 msgstr "Activer le add-on V364 Speech"
 
@@ -9207,7 +9207,7 @@ msgstr "Sélectionner fichier pour PLUS256K"
 msgid "Enable the Super Snapshot 5 32KB addon"
 msgstr "Activer l'expansion RAM 256K CSORY"
 
-#: src/arch/amigaos/intl_text.c.po.c:4093 src/translate_text.c.po.c:18528
+#: src/arch/amigaos/intl_text.c.po.c:4093 src/translate_text.c.po.c:18545
 #, fuzzy
 msgid "Enable the CP/M cartridge"
 msgstr "Activer la cartouche SID"
@@ -14732,128 +14732,133 @@ msgstr "Spécifier le nom du fichier log"
 msgid "Enable verbose log output."
 msgstr "Activer la journalisation verbeuse"
 
-#: src/translate_text.c.po.c:17115
+#: src/translate_text.c.po.c:17098
+#, fuzzy
+msgid "Disable verbose log output."
+msgstr "Activer la journalisation verbeuse"
+
+#: src/translate_text.c.po.c:17132
 msgid "Disable mouse grab"
 msgstr "Ne pas saisir la souris"
 
-#: src/translate_text.c.po.c:17132
+#: src/translate_text.c.po.c:17149
 #, fuzzy
 msgid "Enable saving of smart mouse RTC data when changed."
 msgstr "Activer la sauvegarde du ROM RR à la fin du programme"
 
-#: src/translate_text.c.po.c:17149
+#: src/translate_text.c.po.c:17166
 #, fuzzy
 msgid "Disable saving of smart mouse RTC data when changed."
 msgstr "Désactiver la sauvegarde du ROM RR à la fin du programme"
 
-#: src/translate_text.c.po.c:17166
+#: src/translate_text.c.po.c:17183
 msgid "Enable PS/2 mouse on userport"
 msgstr "Activer souris PS/2 sur port utilisateur"
 
-#: src/translate_text.c.po.c:17183
+#: src/translate_text.c.po.c:17200
 msgid "Disable PS/2 mouse on userport"
 msgstr "Désactiver la souris PS/2 sur port utilisateur"
 
-#: src/translate_text.c.po.c:17200
+#: src/translate_text.c.po.c:17217
 msgid "Set the value for the very first RAM address after powerup"
 msgstr ""
 "Spécifier la valeur de la première adresse RAM après la mise sous tension"
 
-#: src/translate_text.c.po.c:17217
+#: src/translate_text.c.po.c:17234
 msgid "num of bytes"
 msgstr "nb. d'octets"
 
-#: src/translate_text.c.po.c:17234
+#: src/translate_text.c.po.c:17251
 msgid "Length of memory block initialized with the same value"
 msgstr "Longeur du premier bloc mémoire initialisé avec la même valeur"
 
-#: src/translate_text.c.po.c:17251
+#: src/translate_text.c.po.c:17268
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Longeur du premier bloc mémoire initialisé avec le même pattern"
 
-#: src/translate_text.c.po.c:17285
+#: src/translate_text.c.po.c:17302
 #, fuzzy
 msgid "load the given romset file"
 msgstr "Impossible d'enregistrer le fichier Romset!"
 
-#: src/translate_text.c.po.c:17302
+#: src/translate_text.c.po.c:17319
 #, fuzzy
 msgid "load the given romset archive"
 msgstr "Impossible d'enregistrer l'archive Romset!"
 
-#: src/translate_text.c.po.c:17319
+#: src/translate_text.c.po.c:17336
 #, fuzzy
 msgid "Item number"
 msgstr "Numéro de clip"
 
-#: src/translate_text.c.po.c:17336
+#: src/translate_text.c.po.c:17353
 msgid "select the given item from the current romset archive"
 msgstr ""
 
-#: src/translate_text.c.po.c:17370
+#: src/translate_text.c.po.c:17387
 msgid "Disable sound playback"
 msgstr "Désactiver le son"
 
-#: src/translate_text.c.po.c:17387
+#: src/translate_text.c.po.c:17404
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Régler le taux d'échantillonage à <valeur> Hz"
 
-#: src/translate_text.c.po.c:17404
+#: src/translate_text.c.po.c:17421
 msgid "Set sound buffer size to <value> msec"
 msgstr "Régler la taille du tampon son à <valeur> ms"
 
-#: src/translate_text.c.po.c:17421
+#: src/translate_text.c.po.c:17438
 #, fuzzy
 msgid ""
 "Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: "
 "very large)"
 msgstr "Régler la taille du fragment de son (0:petite, 1:moyenne, 2:large)"
 
-#: src/translate_text.c.po.c:17438
+#: src/translate_text.c.po.c:17455
 msgid "Specify sound driver"
 msgstr "Spécifier le pilote de son"
 
-#: src/translate_text.c.po.c:17455
+#: src/translate_text.c.po.c:17472
 #, fuzzy
 msgid "Specify sampler device"
 msgstr "Sélectionner le périphérique plein écran"
 
-#: src/translate_text.c.po.c:17489
+#: src/translate_text.c.po.c:17506
 #, fuzzy
 msgid "Specify sampler gain in percent (1%-200%)"
 msgstr "Gain reSID en pourcent (90 - 100)"
 
-#: src/translate_text.c.po.c:17506
+#: src/translate_text.c.po.c:17523
 msgid "args"
 msgstr "args"
 
-#: src/translate_text.c.po.c:17523
+#: src/translate_text.c.po.c:17540
 msgid "Specify initialization parameters for sound driver"
 msgstr "Spécifier les paramètres d'initialisation pour le pilote son"
 
-#: src/translate_text.c.po.c:17540
+#: src/translate_text.c.po.c:17557
 msgid "Specify recording sound driver"
 msgstr "Spécifier le pilote d'enregistrement"
 
-#: src/translate_text.c.po.c:17557
+#: src/translate_text.c.po.c:17574
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 "Spécifier les paramètres d'initialisation pour le pilote d'enregistrement"
 
-#: src/translate_text.c.po.c:17574
+#: src/translate_text.c.po.c:17591
 msgid "sync"
 msgstr "sync"
 
-#: src/translate_text.c.po.c:17591
+#: src/translate_text.c.po.c:17608
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Choisir la méthode d'ajustement du son (0: flexible, 1: ajusté 2: exact)"
 
-#: src/translate_text.c.po.c:17608
+#: src/translate_text.c.po.c:17625
 msgid "output mode"
 msgstr "mode de sortie"
 
-#: src/translate_text.c.po.c:17625
+#: src/translate_text.c.po.c:17642
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
@@ -14861,150 +14866,150 @@ msgstr ""
 "Mode de sortie de son (0:Le système décide, 1:Toujours MONO, 2: Toujours "
 "STEREO)"
 
-#: src/translate_text.c.po.c:17642
+#: src/translate_text.c.po.c:17659
 msgid ""
 "Specify the pause interval when audio underflows (clicks) happen. 0 means no "
 "pause is done."
 msgstr ""
 
-#: src/translate_text.c.po.c:17659
+#: src/translate_text.c.po.c:17676
 #, fuzzy
 msgid "Specify the sound volume"
 msgstr "Spécifier le pilote de son"
 
-#: src/translate_text.c.po.c:17693
+#: src/translate_text.c.po.c:17710
 msgid "Define search path to locate system files"
 msgstr "Définir le chemin de recherche pour trouver les fichiers systèmes"
 
-#: src/translate_text.c.po.c:17710
+#: src/translate_text.c.po.c:17727
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr ""
 "Activer les méchanismes généraux pour l'émulation disque/datassette rapide"
 
-#: src/translate_text.c.po.c:17727
+#: src/translate_text.c.po.c:17744
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
 "Désactiver les méchanismes généraux pour l'émulation disque/datassette rapide"
 
-#: src/translate_text.c.po.c:17744
+#: src/translate_text.c.po.c:17761
 msgid "Limit emulation speed to specified value"
 msgstr "Limiter la vitesse d'émulation à une valeur specifiée"
 
-#: src/translate_text.c.po.c:17761
+#: src/translate_text.c.po.c:17778
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Mise à jour toutes les <valeur> images (`0' pour auto.)"
 
-#: src/translate_text.c.po.c:17795
+#: src/translate_text.c.po.c:17812
 msgid "Disable warp mode"
 msgstr "Désactiver le Mode Turbo"
 
-#: src/translate_text.c.po.c:17812
+#: src/translate_text.c.po.c:17829
 msgid "iso language code"
 msgstr "code language ISO"
 
-#: src/translate_text.c.po.c:17829
+#: src/translate_text.c.po.c:17846
 msgid "Specify the iso code of the language"
 msgstr "Spécifier le code iso du langage"
 
-#: src/translate_text.c.po.c:17846
+#: src/translate_text.c.po.c:17863
 msgid "Specify name of PLUS256K image"
 msgstr "Spécifier le nom de l'image PLUS256K RAM"
 
-#: src/translate_text.c.po.c:17863
+#: src/translate_text.c.po.c:17880
 msgid "Specify name of PLUS60K image"
 msgstr "Spécifier le nom de l'image PLUS60K RAM"
 
-#: src/translate_text.c.po.c:17880
+#: src/translate_text.c.po.c:17897
 #, fuzzy
 msgid "Base address of the PLUS60K expansion. (0xD040/0xD100)"
 msgstr "Adresse de base de l'expansion PLUS60K"
 
-#: src/translate_text.c.po.c:17897
+#: src/translate_text.c.po.c:17914
 msgid "Specify name of 256K image"
 msgstr "Spécifier le nom de l'image 256K"
 
-#: src/translate_text.c.po.c:17914
+#: src/translate_text.c.po.c:17931
 #, fuzzy
 msgid "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)"
 msgstr "Adresse de base de l'expansion 256K"
 
-#: src/translate_text.c.po.c:17931
+#: src/translate_text.c.po.c:17948
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: "
 "+256K)"
 msgstr ""
 
-#: src/translate_text.c.po.c:17948
+#: src/translate_text.c.po.c:17965
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES "
 "256K, 3: HANNES 1024K, 4: HANNES 4096K)"
 msgstr ""
 
-#: src/translate_text.c.po.c:17982
+#: src/translate_text.c.po.c:17999
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
 msgstr "Attacher une image de cartouche 16 ko Super Explode V5"
 
-#: src/translate_text.c.po.c:17999
+#: src/translate_text.c.po.c:18016
 msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "Attacher une image de cartouche 64 ko Super Games"
 
-#: src/translate_text.c.po.c:18016
+#: src/translate_text.c.po.c:18033
 msgid "Attach raw Silverrock 128 cartridge image"
 msgstr "Attacher une image de cartouche RAW Silverrock 128"
 
-#: src/translate_text.c.po.c:18033
+#: src/translate_text.c.po.c:18050
 msgid "Attach raw 16kB Simons Basic cartridge image"
 msgstr "Attacher une image de cartouche 16 ko Simons Basic"
 
-#: src/translate_text.c.po.c:18050
+#: src/translate_text.c.po.c:18067
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "Spécifier la révision DTV (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:18067
+#: src/translate_text.c.po.c:18084
 msgid "Enable DTV blitter logs."
 msgstr "Activer la journalisation pour DTV blitter"
 
-#: src/translate_text.c.po.c:18084
+#: src/translate_text.c.po.c:18101
 msgid "Disable DTV blitter logs."
 msgstr "Désactiver la journalisation pour DTV blitter"
 
-#: src/translate_text.c.po.c:18101
+#: src/translate_text.c.po.c:18118
 msgid "Enable DTV DMA logs."
 msgstr "Activer la journalisation DMA DTV."
 
-#: src/translate_text.c.po.c:18118
+#: src/translate_text.c.po.c:18135
 msgid "Disable DTV DMA logs."
 msgstr "Désactiver la journalisation DTV DMA."
 
-#: src/translate_text.c.po.c:18135
+#: src/translate_text.c.po.c:18152
 msgid "Specify name of C64DTV ROM image"
 msgstr "Spécifier le nom de l'image ROM C64DTV"
 
-#: src/translate_text.c.po.c:18169
+#: src/translate_text.c.po.c:18186
 msgid "Disable writes to C64DTV ROM image"
 msgstr "Désactiver l'écriture à l'image ROM C64DTV"
 
-#: src/translate_text.c.po.c:18186
+#: src/translate_text.c.po.c:18203
 msgid "Enable DTV flash chip logs."
 msgstr "Activer la journalisation pour DTV Flash Chip"
 
-#: src/translate_text.c.po.c:18203
+#: src/translate_text.c.po.c:18220
 msgid "Disable DTV flash chip logs."
 msgstr "Désactiver la journalisation pour DTV Flash Chip"
 
-#: src/translate_text.c.po.c:18220
+#: src/translate_text.c.po.c:18237
 msgid "Use <name> as directory for flash file system device"
 msgstr "Utiliser le répertoire <nom> comme système de fichiers flash"
 
-#: src/translate_text.c.po.c:18254
+#: src/translate_text.c.po.c:18271
 msgid "Disable true hardware flash file system"
 msgstr "Désactiver le système de fichiers matériel réel"
 
-#: src/translate_text.c.po.c:18289
+#: src/translate_text.c.po.c:18306
 msgid "Disable MIDI emulation"
 msgstr "Désactiver l'émulation MIDI"
 
-#: src/translate_text.c.po.c:18306
+#: src/translate_text.c.po.c:18323
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -15012,241 +15017,241 @@ msgstr ""
 "Type d'interface MIDI (0:Séquentielle, 1:Passport, 2:DATEL, 3:Namesoft, 4:"
 "Maplin)"
 
-#: src/translate_text.c.po.c:18341
+#: src/translate_text.c.po.c:18358
 msgid "Disable the digiblaster add-on"
 msgstr "Désactiver le add-on digiblaster"
 
-#: src/translate_text.c.po.c:18375
+#: src/translate_text.c.po.c:18392
 msgid "Disable the v364 speech add-on"
 msgstr "Désactiver le add-on V364 Speech"
 
-#: src/translate_text.c.po.c:18392
+#: src/translate_text.c.po.c:18409
 msgid "Attach Speech ROM image"
 msgstr "Attacher une image Speech RO"
 
-#: src/translate_text.c.po.c:18460
+#: src/translate_text.c.po.c:18477
 msgid "Disable the SFX Sound Expander cartridge"
 msgstr "Désactiver la cartouche SFX Sound Expander"
 
-#: src/translate_text.c.po.c:18477
+#: src/translate_text.c.po.c:18494
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "Régler le type de puce YM (3526  3812)"
 
-#: src/translate_text.c.po.c:18511
+#: src/translate_text.c.po.c:18528
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "Désactiver la cartouche SFX Sound Sampler"
 
-#: src/translate_text.c.po.c:18545
+#: src/translate_text.c.po.c:18562
 #, fuzzy
 msgid "Disable the CP/M cartridge"
 msgstr "Désactiver la cartouche SID"
 
-#: src/translate_text.c.po.c:18562
+#: src/translate_text.c.po.c:18579
 #, fuzzy
 msgid "Enable the TurboMaster cartridge"
 msgstr "Activer la cartouche SID"
 
-#: src/translate_text.c.po.c:18579
+#: src/translate_text.c.po.c:18596
 #, fuzzy
 msgid "Disable the TurboMaster cartridge"
 msgstr "Désactiver la cartouche SID"
 
-#: src/translate_text.c.po.c:18596
+#: src/translate_text.c.po.c:18613
 msgid "Set TurboMaster ROM switch to ROM 1"
 msgstr ""
 
-#: src/translate_text.c.po.c:18613
+#: src/translate_text.c.po.c:18630
 msgid "Set TurboMaster ROM switch to ROM 2"
 msgstr ""
 
-#: src/translate_text.c.po.c:18630
+#: src/translate_text.c.po.c:18647
 msgid "Set TurboMaster speed control switch to software"
 msgstr ""
 
-#: src/translate_text.c.po.c:18647
+#: src/translate_text.c.po.c:18664
 msgid "Set TurboMaster speed control switch to manual"
 msgstr ""
 
-#: src/translate_text.c.po.c:18664
+#: src/translate_text.c.po.c:18681
 msgid "Set TurboMaster clock speed switch to 4 Mhz"
 msgstr ""
 
-#: src/translate_text.c.po.c:18681
+#: src/translate_text.c.po.c:18698
 msgid "Set TurboMaster clock speed switch to 1 Mhz"
 msgstr ""
 
-#: src/translate_text.c.po.c:18698
+#: src/translate_text.c.po.c:18715
 #, fuzzy
 msgid "Specify TurboMaster ROM 1 filename"
 msgstr "Spécifier le nom du fichier log"
 
-#: src/translate_text.c.po.c:18715
+#: src/translate_text.c.po.c:18732
 #, fuzzy
 msgid "Specify TurboMaster ROM 2 filename"
 msgstr "Spécifier le nom du fichier log"
 
-#: src/translate_text.c.po.c:18732
+#: src/translate_text.c.po.c:18749
 msgid "Enable EasyFlash jumper"
 msgstr "Activer le jumper EasyFlash"
 
-#: src/translate_text.c.po.c:18749
+#: src/translate_text.c.po.c:18766
 msgid "Disable EasyFlash jumper"
 msgstr "Désactiver le jumper EasyFlash"
 
-#: src/translate_text.c.po.c:18766
+#: src/translate_text.c.po.c:18783
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Activer l'écriture pour les images EasyFlash .crt"
 
-#: src/translate_text.c.po.c:18783 src/translate_text.c.po.c:18817
+#: src/translate_text.c.po.c:18800 src/translate_text.c.po.c:18834
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Désactiver l'écriture pour les images EasyFlash .crt"
 
-#: src/translate_text.c.po.c:18800
+#: src/translate_text.c.po.c:18817
 #, fuzzy
 msgid "Enable EasyFlash .crt image optimize on write"
 msgstr "Activer l'écriture pour les images EasyFlash .crt"
 
-#: src/translate_text.c.po.c:18834
+#: src/translate_text.c.po.c:18851
 #, fuzzy
 msgid "Enable the userport DigiMAX device"
 msgstr "Activer la cartouche DigiMAX"
 
-#: src/translate_text.c.po.c:18851
+#: src/translate_text.c.po.c:18868
 #, fuzzy
 msgid "Disable the userport DigiMAX device"
 msgstr "Désactiver la cartouche DigiMAX"
 
-#: src/translate_text.c.po.c:18868
+#: src/translate_text.c.po.c:18885
 #, fuzzy
 msgid "Enable the Short Bus DigiMAX expansion"
 msgstr "Activer l'expansion RAMCART"
 
-#: src/translate_text.c.po.c:18885
+#: src/translate_text.c.po.c:18902
 #, fuzzy
 msgid "Disable the Short Bus DigiMAX expansion"
 msgstr "Désactiver l'expansion RAMCART"
 
-#: src/translate_text.c.po.c:18902
+#: src/translate_text.c.po.c:18919
 #, fuzzy
 msgid "Enable the Short Bus ETFE expansion"
 msgstr "Activer l'expansion RAMCART"
 
-#: src/translate_text.c.po.c:18919
+#: src/translate_text.c.po.c:18936
 #, fuzzy
 msgid "Disable the Short Bus ETFE expansion"
 msgstr "Désactiver l'expansion RAMCART"
 
-#: src/translate_text.c.po.c:18953
+#: src/translate_text.c.po.c:18970
 msgid "Disable the DigiMAX cartridge"
 msgstr "Désactiver la cartouche DigiMAX"
 
-#: src/translate_text.c.po.c:18970
-msgid "Base address of the DigiMAX cartridge"
-msgstr "Adresse de base de la cartouche DigiMAX"
-
 #: src/translate_text.c.po.c:18987
-#, fuzzy
-msgid "Base address of the Short Bus DigiMAX expansion"
+msgid "Base address of the DigiMAX cartridge"
 msgstr "Adresse de base de la cartouche DigiMAX"
 
 #: src/translate_text.c.po.c:19004
 #, fuzzy
-msgid "Base address of the Short Bus ETFE expansion"
+msgid "Base address of the Short Bus DigiMAX expansion"
 msgstr "Adresse de base de la cartouche DigiMAX"
 
 #: src/translate_text.c.po.c:19021
+#, fuzzy
+msgid "Base address of the Short Bus ETFE expansion"
+msgstr "Adresse de base de la cartouche DigiMAX"
+
+#: src/translate_text.c.po.c:19038
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "Activer la cartouche RTC DS12C887"
 
-#: src/translate_text.c.po.c:19038
+#: src/translate_text.c.po.c:19055
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Désactiver la cartouche DS12C887 RTC"
 
-#: src/translate_text.c.po.c:19055
+#: src/translate_text.c.po.c:19072
 #, fuzzy
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "Définir la carte MMC64 en lecture/écriture"
 
-#: src/translate_text.c.po.c:19072
+#: src/translate_text.c.po.c:19089
 msgid "Set the RTC oscillator to 'running'"
 msgstr ""
 
-#: src/translate_text.c.po.c:19089
+#: src/translate_text.c.po.c:19106
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "Adresse de base de la cartouche RTC DS12C887"
 
-#: src/translate_text.c.po.c:19106
+#: src/translate_text.c.po.c:19123
 #, fuzzy
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "Activer la cartouche RTC DS12C887"
 
-#: src/translate_text.c.po.c:19123
+#: src/translate_text.c.po.c:19140
 #, fuzzy
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Désactiver la cartouche DS12C887 RTC"
 
-#: src/translate_text.c.po.c:19158
+#: src/translate_text.c.po.c:19175
 #, fuzzy
 msgid "hostname"
 msgstr "Nom d’hôte :"
 
-#: src/translate_text.c.po.c:19175
+#: src/translate_text.c.po.c:19192
 #, fuzzy
 msgid "port"
 msgstr "<pourcent>"
 
-#: src/translate_text.c.po.c:19192
+#: src/translate_text.c.po.c:19209
 #, fuzzy
 msgid "Set the netplay server hostname"
 msgstr "Nom du serveur de jeu en réseau"
 
-#: src/translate_text.c.po.c:19209
+#: src/translate_text.c.po.c:19226
 msgid "Set the netplay binding address"
 msgstr ""
 
-#: src/translate_text.c.po.c:19226
+#: src/translate_text.c.po.c:19243
 #, fuzzy
 msgid "Set the netplay port"
 msgstr "Port TCP pour le jeu en réseau"
 
-#: src/translate_text.c.po.c:19243
+#: src/translate_text.c.po.c:19260
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
 
-#: src/translate_text.c.po.c:19261
+#: src/translate_text.c.po.c:19278
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr "Grandeur de la RAM SIMM (0/1/4/8/16 mo)"
 
-#: src/translate_text.c.po.c:19278
+#: src/translate_text.c.po.c:19295
 msgid "Turn on Jiffy switch"
 msgstr "Activer la jiffy Switch"
 
-#: src/translate_text.c.po.c:19295
+#: src/translate_text.c.po.c:19312
 msgid "Turn off Jiffy switch"
 msgstr "Désactiver Jiffy Switch"
 
-#: src/translate_text.c.po.c:19312
+#: src/translate_text.c.po.c:19329
 msgid "Turn on Speed switch"
 msgstr "Activer Speed Switch"
 
-#: src/translate_text.c.po.c:19329
+#: src/translate_text.c.po.c:19346
 msgid "Turn off Speed switch"
 msgstr "Désactiver la Speed Switch"
 
-#: src/translate_text.c.po.c:19346
+#: src/translate_text.c.po.c:19363
 #, fuzzy
 msgid "Enable HiRes Emulation Board"
 msgstr "Activer la carte d'émulation PET Haute Résolution"
 
-#: src/translate_text.c.po.c:19363
+#: src/translate_text.c.po.c:19380
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Activer la carte d'émulation PET Haute Résolution"
 
-#: src/translate_text.c.po.c:19381
+#: src/translate_text.c.po.c:19398
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Nom du périphérique son"

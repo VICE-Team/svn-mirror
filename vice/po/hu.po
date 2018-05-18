@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-14 13:44-0700\n"
+"POT-Creation-Date: 2018-05-18 09:16-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -781,7 +781,7 @@ msgstr "*Egér emuláció"
 #: src/arch/win32/rescbm5x0.rc.po.c:18 src/arch/win32/respet.rc.po.c:18
 #: src/arch/win32/resplus4.rc.po.c:18 src/arch/win32/resscpu64.rc.po.c:18
 #: src/arch/win32/resvic20.rc.po.c:18 src/arch/win32/resvsid.rc.po.c:18
-#: src/arch/amigaos/intl_text.c.po.c:5 src/translate_text.c.po.c:17268
+#: src/arch/amigaos/intl_text.c.po.c:5 src/translate_text.c.po.c:17285
 msgid "File"
 msgstr "Fájl"
 
@@ -1740,7 +1740,7 @@ msgid "C64DTV ROM file"
 msgstr "C64DTV ROM fájl"
 
 #: src/arch/unix/gui/uic64dtv.c:126 src/arch/win32/resc64dtv.rc.po.c:417
-#: src/translate_text.c.po.c:18152
+#: src/translate_text.c.po.c:18169
 #, fuzzy
 msgid "Enable writes to C64DTV ROM image"
 msgstr "C64DTV ROM képmásba írás *engedélyezése"
@@ -2106,7 +2106,7 @@ msgstr "Szünet"
 msgid "Advance frame"
 msgstr ""
 
-#: src/arch/unix/gui/uicommands.c:769 src/translate_text.c.po.c:17778
+#: src/arch/unix/gui/uicommands.c:769 src/translate_text.c.po.c:17795
 msgid "Enable warp mode"
 msgstr "Hipergyors mód engedélyezése"
 
@@ -2432,7 +2432,7 @@ msgstr "Nyomtató emuláció"
 msgid "Select Flash filesystem directory"
 msgstr "Válasszon könyvtárat"
 
-#: src/arch/unix/gui/uidrive.c:182 src/translate_text.c.po.c:18237
+#: src/arch/unix/gui/uidrive.c:182 src/translate_text.c.po.c:18254
 msgid "Enable true hardware flash file system"
 msgstr "Igazi hardver flash fájlrendszer engedélyezése"
 
@@ -3034,7 +3034,7 @@ msgstr "Hardver átméretezés engedélyezése"
 #. the dynamically generated clockport menu goes here
 #: src/arch/unix/gui/uiide64.c:341 src/arch/unix/gui/uimmc64.c:90
 #: src/arch/unix/gui/uimmcreplay.c:74 src/arch/unix/gui/uiretroreplay.c:68
-#: src/arch/amigaos/intl_text.c.po.c:10647 src/translate_text.c.po.c:19140
+#: src/arch/amigaos/intl_text.c.po.c:10647 src/translate_text.c.po.c:19157
 #, fuzzy
 msgid "Clockport device"
 msgstr "1-es botkormány eszköz"
@@ -3461,7 +3461,7 @@ msgid "MMC Replay EEPROM image filename"
 msgstr "Adja meg a naplófájl nevét"
 
 #: src/arch/unix/gui/uimouse.c:41 src/arch/unix/gui/uimouse.c:51
-#: src/translate_text.c.po.c:17098
+#: src/translate_text.c.po.c:17115
 msgid "Enable mouse grab"
 msgstr "Egér elkapás engedélyezése"
 
@@ -3541,7 +3541,7 @@ msgstr ""
 "Nem sikerült a palettát betölteni:\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiperipheral.c:53 src/translate_text.c.po.c:17676
+#: src/arch/unix/gui/uiperipheral.c:53 src/translate_text.c.po.c:17693
 #, fuzzy
 msgid "Path"
 msgstr "Elérési út:"
@@ -4322,7 +4322,7 @@ msgstr ""
 msgid "Stereo"
 msgstr "SID sztereó"
 
-#: src/arch/unix/gui/uisound.c:171 src/translate_text.c.po.c:17353
+#: src/arch/unix/gui/uisound.c:171 src/translate_text.c.po.c:17370
 msgid "Enable sound playback"
 msgstr "Hangok engedélyezése"
 
@@ -5948,7 +5948,7 @@ msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
 msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 
 #: src/arch/win32/res.rc.po.c:1155 src/arch/amigaos/intl_text.c.po.c:6053
-#: src/translate_text.c.po.c:17965
+#: src/translate_text.c.po.c:17982
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Structured Basic cartridge képmás csatolása"
 
@@ -6046,11 +6046,11 @@ msgstr "Nyomjon egy billentyût a tûzgombhoz"
 msgid "No userport joy adapter"
 msgstr "Nincs userport botkormány adapter"
 
-#: src/arch/win32/res.rc.po.c:1192 src/translate_text.c.po.c:18426
+#: src/arch/win32/res.rc.po.c:1192 src/translate_text.c.po.c:18443
 msgid "Disable SID cartridge joystick"
 msgstr "SID cartridge botkormány tiltása"
 
-#: src/arch/win32/res.rc.po.c:1193 src/translate_text.c.po.c:18409
+#: src/arch/win32/res.rc.po.c:1193 src/translate_text.c.po.c:18426
 msgid "Enable SID cartridge joystick"
 msgstr "SID cartridge botkormány engedélyezése"
 
@@ -7435,7 +7435,7 @@ msgid "SFX Sound Expander settings"
 msgstr "SFX Sounder Expander beállítások"
 
 #: src/arch/win32/res.rc.po.c:1691 src/arch/win32/ressoundsampler.rc.po.c:21
-#: src/arch/amigaos/intl_text.c.po.c:4065 src/translate_text.c.po.c:18494
+#: src/arch/amigaos/intl_text.c.po.c:4065 src/translate_text.c.po.c:18511
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler engedélyezése"
 
@@ -8209,7 +8209,7 @@ msgstr "MMC64 bõvítés engedélyezése"
 msgid "Save CP Clock F83 RTC data when changed"
 msgstr "BIOS &mentése változás után"
 
-#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18936
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:18953
 #, fuzzy
 msgid "Enable the DigiMAX cartridge"
 msgstr "Digimax cartridge engedélyezése"
@@ -8497,7 +8497,7 @@ msgstr "SID cartridge engedélyezése"
 msgid "Select file for Magic Voice"
 msgstr "Válasszon fájlt a REU-hoz"
 
-#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:18272
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:18289
 msgid "Enable MIDI emulation"
 msgstr "MIDI emuláció engedélyezése"
 
@@ -8906,7 +8906,7 @@ msgstr "Teljesképernyõs eszköz kiválasztása"
 msgid "Sampler input file"
 msgstr "Lemezlista mentése fájlba"
 
-#: src/arch/win32/ressampler.rc.po.c:43 src/translate_text.c.po.c:17472
+#: src/arch/win32/ressampler.rc.po.c:43 src/translate_text.c.po.c:17489
 #, fuzzy
 msgid "Sampler gain"
 msgstr "Mintavételezési ráta"
@@ -9013,11 +9013,11 @@ msgstr "HardSID eszköz kiválasztása"
 msgid "Main device"
 msgstr "Fõ eszköz"
 
-#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:18324
+#: src/arch/win32/ressidcart.rc.po.c:143 src/translate_text.c.po.c:18341
 msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster engedélyezése"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:18443
+#: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:18460
 #, fuzzy
 msgid "Enable the SFX Sound Expander cartridge"
 msgstr "SFX soundexpander engedélyezése"
@@ -9111,7 +9111,7 @@ msgstr "RS232 userport &engedélyezése"
 msgid "Save RTC (DS1307) data when changed"
 msgstr "BIOS &mentése változás után"
 
-#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:18358
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:18375
 #, fuzzy
 msgid "Enable the v364 speech add-on"
 msgstr "Digiblaster engedélyezése"
@@ -9748,7 +9748,7 @@ msgstr "Válasszon fájlt a PLUS256K-hoz"
 msgid "Enable the Super Snapshot 5 32KB addon"
 msgstr "CSORY 256K RAM kiterjesztés engedélyezése"
 
-#: src/arch/amigaos/intl_text.c.po.c:4093 src/translate_text.c.po.c:18528
+#: src/arch/amigaos/intl_text.c.po.c:4093 src/translate_text.c.po.c:18545
 #, fuzzy
 msgid "Enable the CP/M cartridge"
 msgstr "SID kártya *engedélyezése"
@@ -15407,280 +15407,285 @@ msgstr "Adja meg a naplófájl nevét"
 msgid "Enable verbose log output."
 msgstr ""
 
-#: src/translate_text.c.po.c:17115
+#: src/translate_text.c.po.c:17098
+#, fuzzy
+msgid "Disable verbose log output."
+msgstr "RS232 userport &engedélyezése"
+
+#: src/translate_text.c.po.c:17132
 msgid "Disable mouse grab"
 msgstr "Egér elkapás tiltása"
 
-#: src/translate_text.c.po.c:17132
+#: src/translate_text.c.po.c:17149
 msgid "Enable saving of smart mouse RTC data when changed."
 msgstr ""
 
-#: src/translate_text.c.po.c:17149
+#: src/translate_text.c.po.c:17166
 msgid "Disable saving of smart mouse RTC data when changed."
 msgstr ""
 
-#: src/translate_text.c.po.c:17166
+#: src/translate_text.c.po.c:17183
 msgid "Enable PS/2 mouse on userport"
 msgstr "PS/2 egér engedélyezése a userporton"
 
-#: src/translate_text.c.po.c:17183
+#: src/translate_text.c.po.c:17200
 msgid "Disable PS/2 mouse on userport"
 msgstr "PS/2 egér tiltása a userporton"
 
-#: src/translate_text.c.po.c:17200
+#: src/translate_text.c.po.c:17217
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Adja meg a legelsõ RAM cím értékét bekapcsolás után"
 
-#: src/translate_text.c.po.c:17217
+#: src/translate_text.c.po.c:17234
 #, fuzzy
 msgid "num of bytes"
 msgstr "<bájtok száma>"
 
-#: src/translate_text.c.po.c:17234
+#: src/translate_text.c.po.c:17251
 msgid "Length of memory block initialized with the same value"
 msgstr "Azonos értékkel feltöltött memória blokkoknak a hossza"
 
-#: src/translate_text.c.po.c:17251
+#: src/translate_text.c.po.c:17268
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Azonos mintával feltöltött memória blokkoknak a hossza"
 
-#: src/translate_text.c.po.c:17285
+#: src/translate_text.c.po.c:17302
 #, fuzzy
 msgid "load the given romset file"
 msgstr "Nem sikerült menteni a ROM készlet fájlt."
 
-#: src/translate_text.c.po.c:17302
+#: src/translate_text.c.po.c:17319
 #, fuzzy
 msgid "load the given romset archive"
 msgstr "Nem sikerült menteni a ROM készlet archívumot!"
 
-#: src/translate_text.c.po.c:17319
+#: src/translate_text.c.po.c:17336
 #, fuzzy
 msgid "Item number"
 msgstr "<sorszám>"
 
-#: src/translate_text.c.po.c:17336
+#: src/translate_text.c.po.c:17353
 msgid "select the given item from the current romset archive"
 msgstr ""
 
-#: src/translate_text.c.po.c:17370
+#: src/translate_text.c.po.c:17387
 msgid "Disable sound playback"
 msgstr "Hangok tiltása"
 
-#: src/translate_text.c.po.c:17387
+#: src/translate_text.c.po.c:17404
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Hang mintavételezési ráta beállítása <érték> Hz-re"
 
-#: src/translate_text.c.po.c:17404
+#: src/translate_text.c.po.c:17421
 msgid "Set sound buffer size to <value> msec"
 msgstr "A hangpuffer méretét <érték> mp-re állítja"
 
-#: src/translate_text.c.po.c:17421
+#: src/translate_text.c.po.c:17438
 msgid ""
 "Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: "
 "very large)"
 msgstr ""
 
-#: src/translate_text.c.po.c:17438
+#: src/translate_text.c.po.c:17455
 msgid "Specify sound driver"
 msgstr "Adja meg a hangmodul nevét"
 
-#: src/translate_text.c.po.c:17455
+#: src/translate_text.c.po.c:17472
 #, fuzzy
 msgid "Specify sampler device"
 msgstr "Teljesképernyõs eszköz kiválasztása"
 
-#: src/translate_text.c.po.c:17489
+#: src/translate_text.c.po.c:17506
 #, fuzzy
 msgid "Specify sampler gain in percent (1%-200%)"
 msgstr "reSID százalékos erõsítés (90 - 100)"
 
-#: src/translate_text.c.po.c:17506
+#: src/translate_text.c.po.c:17523
 #, fuzzy
 msgid "args"
 msgstr "<argumentumok>"
 
-#: src/translate_text.c.po.c:17523
+#: src/translate_text.c.po.c:17540
 msgid "Specify initialization parameters for sound driver"
 msgstr "Adja meg a hangmodul indulási paramétereit"
 
-#: src/translate_text.c.po.c:17540
+#: src/translate_text.c.po.c:17557
 msgid "Specify recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodult"
 
-#: src/translate_text.c.po.c:17557
+#: src/translate_text.c.po.c:17574
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodul indulási paramétereit"
 
-#: src/translate_text.c.po.c:17574
+#: src/translate_text.c.po.c:17591
 #, fuzzy
 msgid "sync"
 msgstr "<sync>"
 
-#: src/translate_text.c.po.c:17591
+#: src/translate_text.c.po.c:17608
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"
 
-#: src/translate_text.c.po.c:17608
+#: src/translate_text.c.po.c:17625
 #, fuzzy
 msgid "output mode"
 msgstr "Kimenet"
 
-#: src/translate_text.c.po.c:17625
+#: src/translate_text.c.po.c:17642
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
 msgstr ""
 
-#: src/translate_text.c.po.c:17642
+#: src/translate_text.c.po.c:17659
 msgid ""
 "Specify the pause interval when audio underflows (clicks) happen. 0 means no "
 "pause is done."
 msgstr ""
 
-#: src/translate_text.c.po.c:17659
+#: src/translate_text.c.po.c:17676
 #, fuzzy
 msgid "Specify the sound volume"
 msgstr "Adja meg a hangmodul nevét"
 
-#: src/translate_text.c.po.c:17693
+#: src/translate_text.c.po.c:17710
 msgid "Define search path to locate system files"
 msgstr "Keresési útvonal megadása a rendszerfájlok megtalálására"
 
-#: src/translate_text.c.po.c:17710
+#: src/translate_text.c.po.c:17727
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "A lemez/szalag emulációt gyorsító mechanizmusok engedélyezése"
 
-#: src/translate_text.c.po.c:17727
+#: src/translate_text.c.po.c:17744
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "A lemez/szalag emulációt gyorsító mechanizmusok tiltása"
 
-#: src/translate_text.c.po.c:17744
+#: src/translate_text.c.po.c:17761
 msgid "Limit emulation speed to specified value"
 msgstr "Emulációs sebesség lehatárolása adott értékre"
 
-#: src/translate_text.c.po.c:17761
+#: src/translate_text.c.po.c:17778
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Frissítsen minden <érték> képkocka elteltével (0 automatikust jelent)"
 
-#: src/translate_text.c.po.c:17795
+#: src/translate_text.c.po.c:17812
 msgid "Disable warp mode"
 msgstr "Hipergyors mód tiltása"
 
-#: src/translate_text.c.po.c:17812
+#: src/translate_text.c.po.c:17829
 #, fuzzy
 msgid "iso language code"
 msgstr "<iso nyelv kód>"
 
-#: src/translate_text.c.po.c:17829
+#: src/translate_text.c.po.c:17846
 msgid "Specify the iso code of the language"
 msgstr "Adja meg a nyelv iso kódját"
 
-#: src/translate_text.c.po.c:17846
+#: src/translate_text.c.po.c:17863
 msgid "Specify name of PLUS256K image"
 msgstr "Adja meg a PLUS256K-s képmás nevét"
 
-#: src/translate_text.c.po.c:17863
+#: src/translate_text.c.po.c:17880
 msgid "Specify name of PLUS60K image"
 msgstr "Adja meg a nevét a PLUS60K képmásnak"
 
-#: src/translate_text.c.po.c:17880
+#: src/translate_text.c.po.c:17897
 #, fuzzy
 msgid "Base address of the PLUS60K expansion. (0xD040/0xD100)"
 msgstr "A PLUS60K bõvítés báziscíme"
 
-#: src/translate_text.c.po.c:17897
+#: src/translate_text.c.po.c:17914
 msgid "Specify name of 256K image"
 msgstr "Adja meg a 256K-s képmás nevét"
 
-#: src/translate_text.c.po.c:17914
+#: src/translate_text.c.po.c:17931
 #, fuzzy
 msgid "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)"
 msgstr "A 256K-s RAM kiterjesztés báziscíme"
 
-#: src/translate_text.c.po.c:17931
+#: src/translate_text.c.po.c:17948
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: "
 "+256K)"
 msgstr ""
 
-#: src/translate_text.c.po.c:17948
+#: src/translate_text.c.po.c:17965
 msgid ""
 "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES "
 "256K, 3: HANNES 1024K, 4: HANNES 4096K)"
 msgstr ""
 
-#: src/translate_text.c.po.c:17982
+#: src/translate_text.c.po.c:17999
 #, fuzzy
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
 msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:17999
+#: src/translate_text.c.po.c:18016
 #, fuzzy
 msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:18016
+#: src/translate_text.c.po.c:18033
 #, fuzzy
 msgid "Attach raw Silverrock 128 cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:18033
+#: src/translate_text.c.po.c:18050
 #, fuzzy
 msgid "Attach raw 16kB Simons Basic cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:18050
+#: src/translate_text.c.po.c:18067
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "Adja meg a DTV verzióját (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:18067
+#: src/translate_text.c.po.c:18084
 msgid "Enable DTV blitter logs."
 msgstr "DTV blit naplók engedélyezése."
 
-#: src/translate_text.c.po.c:18084
+#: src/translate_text.c.po.c:18101
 msgid "Disable DTV blitter logs."
 msgstr "DTV blit naplók tiltása."
 
-#: src/translate_text.c.po.c:18101
+#: src/translate_text.c.po.c:18118
 msgid "Enable DTV DMA logs."
 msgstr "DTV DMA naplók engedélyezése."
 
-#: src/translate_text.c.po.c:18118
+#: src/translate_text.c.po.c:18135
 msgid "Disable DTV DMA logs."
 msgstr "DTV DMA naplók tiltása."
 
-#: src/translate_text.c.po.c:18135
+#: src/translate_text.c.po.c:18152
 msgid "Specify name of C64DTV ROM image"
 msgstr "Adja meg a C64DTV ROM képmás nevét"
 
-#: src/translate_text.c.po.c:18169
+#: src/translate_text.c.po.c:18186
 #, fuzzy
 msgid "Disable writes to C64DTV ROM image"
 msgstr "C64DTV ROM képmásba írás tiltása"
 
-#: src/translate_text.c.po.c:18186
+#: src/translate_text.c.po.c:18203
 msgid "Enable DTV flash chip logs."
 msgstr "DTV flash chip naplók engedélyezése."
 
-#: src/translate_text.c.po.c:18203
+#: src/translate_text.c.po.c:18220
 msgid "Disable DTV flash chip logs."
 msgstr "DTV flash chip naplók tiltása."
 
-#: src/translate_text.c.po.c:18220
+#: src/translate_text.c.po.c:18237
 msgid "Use <name> as directory for flash file system device"
 msgstr "<név> könyvtár használata a flash fájlrendszer eszközhöz"
 
-#: src/translate_text.c.po.c:18254
+#: src/translate_text.c.po.c:18271
 msgid "Disable true hardware flash file system"
 msgstr "Igazi hardver flash fájlrendszer tiltása"
 
-#: src/translate_text.c.po.c:18289
+#: src/translate_text.c.po.c:18306
 msgid "Disable MIDI emulation"
 msgstr "MIDI emuláció tiltása"
 
-#: src/translate_text.c.po.c:18306
+#: src/translate_text.c.po.c:18323
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -15688,249 +15693,249 @@ msgstr ""
 "MIDI interfész típus (0: soros, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate_text.c.po.c:18341
+#: src/translate_text.c.po.c:18358
 msgid "Disable the digiblaster add-on"
-msgstr "Digiblaster tiltása"
-
-#: src/translate_text.c.po.c:18375
-#, fuzzy
-msgid "Disable the v364 speech add-on"
 msgstr "Digiblaster tiltása"
 
 #: src/translate_text.c.po.c:18392
 #, fuzzy
+msgid "Disable the v364 speech add-on"
+msgstr "Digiblaster tiltása"
+
+#: src/translate_text.c.po.c:18409
+#, fuzzy
 msgid "Attach Speech ROM image"
 msgstr "Szalag képmás csatolása"
 
-#: src/translate_text.c.po.c:18460
+#: src/translate_text.c.po.c:18477
 #, fuzzy
 msgid "Disable the SFX Sound Expander cartridge"
 msgstr "SFX soundexpander tiltása"
 
-#: src/translate_text.c.po.c:18477
+#: src/translate_text.c.po.c:18494
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "YM csip típus megadása (3526 / 3812)"
 
-#: src/translate_text.c.po.c:18511
+#: src/translate_text.c.po.c:18528
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler tiltása"
 
-#: src/translate_text.c.po.c:18545
+#: src/translate_text.c.po.c:18562
 #, fuzzy
 msgid "Disable the CP/M cartridge"
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:18562
+#: src/translate_text.c.po.c:18579
 #, fuzzy
 msgid "Enable the TurboMaster cartridge"
 msgstr "SID kártya *engedélyezése"
 
-#: src/translate_text.c.po.c:18579
+#: src/translate_text.c.po.c:18596
 #, fuzzy
 msgid "Disable the TurboMaster cartridge"
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:18596
+#: src/translate_text.c.po.c:18613
 msgid "Set TurboMaster ROM switch to ROM 1"
 msgstr ""
 
-#: src/translate_text.c.po.c:18613
+#: src/translate_text.c.po.c:18630
 msgid "Set TurboMaster ROM switch to ROM 2"
 msgstr ""
 
-#: src/translate_text.c.po.c:18630
+#: src/translate_text.c.po.c:18647
 msgid "Set TurboMaster speed control switch to software"
 msgstr ""
 
-#: src/translate_text.c.po.c:18647
+#: src/translate_text.c.po.c:18664
 msgid "Set TurboMaster speed control switch to manual"
 msgstr ""
 
-#: src/translate_text.c.po.c:18664
+#: src/translate_text.c.po.c:18681
 msgid "Set TurboMaster clock speed switch to 4 Mhz"
 msgstr ""
 
-#: src/translate_text.c.po.c:18681
+#: src/translate_text.c.po.c:18698
 msgid "Set TurboMaster clock speed switch to 1 Mhz"
 msgstr ""
 
-#: src/translate_text.c.po.c:18698
+#: src/translate_text.c.po.c:18715
 #, fuzzy
 msgid "Specify TurboMaster ROM 1 filename"
 msgstr "Adja meg a naplófájl nevét"
 
-#: src/translate_text.c.po.c:18715
+#: src/translate_text.c.po.c:18732
 #, fuzzy
 msgid "Specify TurboMaster ROM 2 filename"
 msgstr "Adja meg a naplófájl nevét"
 
-#: src/translate_text.c.po.c:18732
+#: src/translate_text.c.po.c:18749
 msgid "Enable EasyFlash jumper"
 msgstr "EasyFlash Jumper engedélyezése"
 
-#: src/translate_text.c.po.c:18749
+#: src/translate_text.c.po.c:18766
 msgid "Disable EasyFlash jumper"
 msgstr "EasyFlash Jumper tiltása"
 
-#: src/translate_text.c.po.c:18766
+#: src/translate_text.c.po.c:18783
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "EasyFlash .crt képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:18783 src/translate_text.c.po.c:18817
+#: src/translate_text.c.po.c:18800 src/translate_text.c.po.c:18834
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "EasyFlash .crt képmásba írás tiltása"
 
-#: src/translate_text.c.po.c:18800
+#: src/translate_text.c.po.c:18817
 #, fuzzy
 msgid "Enable EasyFlash .crt image optimize on write"
 msgstr "EasyFlash .crt képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:18834
+#: src/translate_text.c.po.c:18851
 #, fuzzy
 msgid "Enable the userport DigiMAX device"
 msgstr "Digimax cartridge engedélyezése"
 
-#: src/translate_text.c.po.c:18851
+#: src/translate_text.c.po.c:18868
 #, fuzzy
 msgid "Disable the userport DigiMAX device"
 msgstr "Digimax cartridge tiltása"
 
-#: src/translate_text.c.po.c:18868
+#: src/translate_text.c.po.c:18885
 #, fuzzy
 msgid "Enable the Short Bus DigiMAX expansion"
 msgstr "RAMCART bõvítés engedélyezése"
 
-#: src/translate_text.c.po.c:18885
+#: src/translate_text.c.po.c:18902
 #, fuzzy
 msgid "Disable the Short Bus DigiMAX expansion"
 msgstr "RAMCART bõvítés tiltása"
 
-#: src/translate_text.c.po.c:18902
+#: src/translate_text.c.po.c:18919
 #, fuzzy
 msgid "Enable the Short Bus ETFE expansion"
 msgstr "RAMCART bõvítés engedélyezése"
 
-#: src/translate_text.c.po.c:18919
+#: src/translate_text.c.po.c:18936
 #, fuzzy
 msgid "Disable the Short Bus ETFE expansion"
 msgstr "RAMCART bõvítés tiltása"
 
-#: src/translate_text.c.po.c:18953
+#: src/translate_text.c.po.c:18970
 #, fuzzy
 msgid "Disable the DigiMAX cartridge"
 msgstr "Digimax cartridge tiltása"
 
-#: src/translate_text.c.po.c:18970
+#: src/translate_text.c.po.c:18987
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
 
-#: src/translate_text.c.po.c:18987
+#: src/translate_text.c.po.c:19004
 #, fuzzy
 msgid "Base address of the Short Bus DigiMAX expansion"
 msgstr "A digimax cartridge báziscíme"
 
-#: src/translate_text.c.po.c:19004
+#: src/translate_text.c.po.c:19021
 #, fuzzy
 msgid "Base address of the Short Bus ETFE expansion"
 msgstr "A digimax cartridge báziscíme"
 
-#: src/translate_text.c.po.c:19021
+#: src/translate_text.c.po.c:19038
 #, fuzzy
 msgid "Enable the DS12C887 RTC cartridge"
 msgstr "SID kártya *engedélyezése"
 
-#: src/translate_text.c.po.c:19038
+#: src/translate_text.c.po.c:19055
 #, fuzzy
 msgid "Disable the DS12C887 RTC cartridge"
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:19055
+#: src/translate_text.c.po.c:19072
 #, fuzzy
 msgid "Set the RTC oscillator to 'halted'"
 msgstr "MMC64 kártya írható/olvasható"
 
-#: src/translate_text.c.po.c:19072
+#: src/translate_text.c.po.c:19089
 msgid "Set the RTC oscillator to 'running'"
 msgstr ""
 
-#: src/translate_text.c.po.c:19089
+#: src/translate_text.c.po.c:19106
 #, fuzzy
 msgid "Base address of the DS12C887 RTC cartridge"
 msgstr "A digimax cartridge báziscíme"
 
-#: src/translate_text.c.po.c:19106
+#: src/translate_text.c.po.c:19123
 #, fuzzy
 msgid "Enable saving of the DS12C887 RTC data when changed."
 msgstr "SID kártya *engedélyezése"
 
-#: src/translate_text.c.po.c:19123
+#: src/translate_text.c.po.c:19140
 #, fuzzy
 msgid "Disable saving of the DS12C887 RTC data when changed."
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:19158
+#: src/translate_text.c.po.c:19175
 #, fuzzy
 msgid "hostname"
 msgstr "A gazdagép neve:"
 
-#: src/translate_text.c.po.c:19175
+#: src/translate_text.c.po.c:19192
 #, fuzzy
 msgid "port"
 msgstr "<port>"
 
-#: src/translate_text.c.po.c:19192
+#: src/translate_text.c.po.c:19209
 #, fuzzy
 msgid "Set the netplay server hostname"
 msgstr "Netplay kiszolgáló név"
 
-#: src/translate_text.c.po.c:19209
+#: src/translate_text.c.po.c:19226
 msgid "Set the netplay binding address"
 msgstr ""
 
-#: src/translate_text.c.po.c:19226
+#: src/translate_text.c.po.c:19243
 #, fuzzy
 msgid "Set the netplay port"
 msgstr "Netplay TCP port"
 
-#: src/translate_text.c.po.c:19243
+#: src/translate_text.c.po.c:19260
 msgid ""
 "Set the netplay control elements (keyboard, joystick1, joystick2, devices "
 "and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: "
 "Both)"
 msgstr ""
 
-#: src/translate_text.c.po.c:19261
+#: src/translate_text.c.po.c:19278
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
 msgstr ""
 
-#: src/translate_text.c.po.c:19278
+#: src/translate_text.c.po.c:19295
 msgid "Turn on Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:19295
+#: src/translate_text.c.po.c:19312
 msgid "Turn off Jiffy switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:19312
+#: src/translate_text.c.po.c:19329
 msgid "Turn on Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:19329
+#: src/translate_text.c.po.c:19346
 msgid "Turn off Speed switch"
 msgstr ""
 
-#: src/translate_text.c.po.c:19346
+#: src/translate_text.c.po.c:19363
 #, fuzzy
 msgid "Enable HiRes Emulation Board"
 msgstr "Fényceruza emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:19363
+#: src/translate_text.c.po.c:19380
 #, fuzzy
 msgid "Disable HiRes Emulation Board"
 msgstr "Fényceruza emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:19381
+#: src/translate_text.c.po.c:19398
 #, fuzzy
 msgid "Set raw drive device name"
 msgstr "Hangeszköz neve"
