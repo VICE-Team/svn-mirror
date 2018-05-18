@@ -151,6 +151,7 @@ EXTRA_DIST = \
 	uimachinewindow.h \
 	uimedia.h \
 	uimenu.h \
+	uimonarch.h \
 	uinetplay.h \
 	uinetplay_new.h \
 	uisettings.h \
