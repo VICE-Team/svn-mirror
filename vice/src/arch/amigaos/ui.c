@@ -511,7 +511,7 @@ void ui_pause_emulation(int flag)
     }
 }
 
-static int ui_emulation_is_paused(void)
+int ui_emulation_is_paused(void)
 {
     return is_paused;
 }

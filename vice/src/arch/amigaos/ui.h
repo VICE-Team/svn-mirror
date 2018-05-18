@@ -51,4 +51,6 @@ extern void ui_pause_emulation(int flag);
 
 extern void (*ui_event_handling)(void);
 
+extern int ui_emulation_is_paused(void);
+
 #endif
