@@ -198,7 +198,6 @@ EXTRA_DIST = \
 	ethernetcartwidget.h \
 	expertwidget.h \
 	ffmpegwidget.h \
-	filechooserhelpers.h \
 	finalexpansionwidget.h \
 	gmod2widget.h \
 	htmlbrowserwidget.h \
