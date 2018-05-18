@@ -66,4 +66,5 @@ EXTRA_DIST = \
 	savefiledialog.h \
 	selectdirectorydialog.h \
 	vice_gtk3.h \
+	vice_gtk3_settings.h \
 	widgethelpers.h
