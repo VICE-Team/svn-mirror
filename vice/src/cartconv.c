@@ -994,7 +994,7 @@ static void save_funplay_crt(unsigned int p1, unsigned int p2, unsigned int p3, 
 {
     unsigned int i = 0;
 
-    if (write_crt_header(0, 0) < 0) {
+    if (write_crt_header(1, 0) < 0) {
         cleanup();
         exit(1);
     }
