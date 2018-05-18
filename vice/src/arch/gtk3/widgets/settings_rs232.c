@@ -479,7 +479,7 @@ static GtkWidget *create_rs232_devices_widget(void)
 
     label = create_indented_label("Serial 2");
     ser2_file_widget = vice_gtk3_resource_browser_new(
-            "RsDevice1", patterns_ttys, "Serial ports",
+            "RsDevice2", patterns_ttys, "Serial ports",
             "Select serial port", NULL, NULL);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), ser2_file_widget, 1, 2, 1, 1);
