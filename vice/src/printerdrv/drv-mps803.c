@@ -203,22 +203,24 @@ static void bitmode_off(mps_t *mps)
 static void print_bitmask(mps_t *mps, unsigned int prnr, const char c)
 {
     unsigned int y;
-	unsigned int i;
+    unsigned int i;
 
-	if (!mps->repeatn) mps->repeatn=1;
+    if (!mps->repeatn) {
+        mps->repeatn=1;
+    }
 
-	for (i = 0; i < (unsigned int)(mps->repeatn); i++) {
-	    if (mps->pos >= MAX_COL) {  /* flush buffer*/
-			write_line(mps, prnr);
-			clear_buffer(mps);
-		}
+    for (i = 0; i < (unsigned int)(mps->repeatn); i++) {
+        if (mps->pos >= MAX_COL) {  /* flush buffer*/
+            write_line(mps, prnr);
+            clear_buffer(mps);
+        }
     for (y = 0; y < 7; y++) {
-			mps->line[mps->pos][y] = c & (1 << (y)) ? 1 : 0;
+        mps->line[mps->pos][y] = c & (1 << (y)) ? 1 : 0;
     }
 
     mps->pos++;
-	}
-	mps->repeatn=0;
+    }
+    mps->repeatn=0;
 }
 
 static void print_char(mps_t *mps, unsigned int prnr, const uint8_t c)
