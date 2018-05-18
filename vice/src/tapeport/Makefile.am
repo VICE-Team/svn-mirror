@@ -18,6 +18,7 @@ libtapeport_a_SOURCES = \
 	tape_diag_586220_harness.h \
 	tapecart.c \
 	tapecart.h \
+	tapecart-loader.h \
 	tapelog.c \
 	tapelog.h \
 	tapeport.c \
