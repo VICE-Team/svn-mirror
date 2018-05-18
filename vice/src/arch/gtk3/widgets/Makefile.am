@@ -231,7 +231,7 @@ EXTRA_DIST = \
 	plus4aciawidget.h \
 	plus4digiblasterwidget.h \
 	plus4memoryexpansionwidget.h \
-	printerdrivewidget.h \
+	printerdriverwidget.h \
 	printeremulationtypewidget.h \
 	printeroutputdevicewidget.h \
 	printeroutputmodewidget.h \
@@ -241,10 +241,7 @@ EXTRA_DIST = \
 	reuwidget.h \
 	romsetmanagerwidget.h \
 	rrnetmk3widget.h \
-	savefiledialog.h \
 	scpu64settingswidget.h \
-	selectdirectorydialog.h \
-	settigs_romset.h \
 	settings_autostart.h \
 	settings_controlport.h \
 	settings_crt.h \
@@ -261,6 +258,7 @@ EXTRA_DIST = \
 	settings_mouse.h \
 	settings_printer.h \
 	settings_ramreset.h \
+	settings_romset.h \
 	settings_rs232.h \
 	settings_sampler.h \
 	settings_snapshot.h \
