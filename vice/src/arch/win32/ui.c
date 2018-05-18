@@ -55,6 +55,7 @@
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "lib.h"
+#include "lightpen.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -2193,7 +2194,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_RBUTTONDOWN:
             if (_mouse_enabled) {
                 mousedrv_button_right(1);
-            } else {
+            } else if (!lightpen_enabled) {
                 ui_paste_clipboard_text(window);
             }
             break;
@@ -2214,7 +2215,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             break;
 #else
         case WM_RBUTTONDOWN:
-            if (!_mouse_enabled) {
+            if (!_mouse_enabled && !lightpen_enabled) {
                 ui_paste_clipboard_text(window);
             }
             break;

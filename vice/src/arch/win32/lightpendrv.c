@@ -83,14 +83,12 @@ void win32_lightpen_update(void)
 #endif
 
     if (on_screen) {
-        /* no dx9 */
         if (!dx9) {
+            /* no dx9 */
             x -= (int)((cx - dx) / 2);
             y -= (int)((cy - (dy + statusbar_get_status_height())) / 2);
-        }
-
-        /* dx9 */
-        if (dx9) {
+        } else {
+            /* dx9 */
             x = (int)(x * dx / cx);
             y = (int)(y * dy / (cy - statusbar_get_status_height()));
         }
@@ -100,9 +98,7 @@ void win32_lightpen_update(void)
 
         /* scale y size */
         y /= lp_canvas->videoconfig->scaley;
-    }
-
-    if (!on_screen) {
+    } else {
         x = y = -1;
     }
 
