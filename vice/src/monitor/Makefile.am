@@ -12,8 +12,7 @@ AM_YFLAGS = -dt
 
 noinst_LIBRARIES = libmonitor.a
 
-noinst_HEADERS = \
-	mon_parse.h
+noinst_HEADERS = mon_parse.h
 
 libmonitor_a_SOURCES = \
 	asm6502.c \
@@ -62,4 +61,6 @@ libmonitor_a_SOURCES = \
 	monitor_network.h \
 	montypes.h
 
-BUILT_SOURCES = mon_parse.c
+BUILT_SOURCES = mon_parse.c mon_parse.h
+
+mon_parse.h:	mon_parse.c
