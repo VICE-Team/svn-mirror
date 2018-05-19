@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 3.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-18 09:16-0700\n"
-"PO-Revision-Date: 2018-05-14 19:18+0200\n"
+"PO-Revision-Date: 2018-05-19 08:49+0200\n"
 "Last-Translator: Stefan Haubenthal (polluks@sdf.lonestar.org)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: de\n"
@@ -14148,9 +14148,8 @@ msgid "Enable verbose log output."
 msgstr "Ausführliche Diagnose aktivieren."
 
 #: src/translate_text.c.po.c:17098
-#, fuzzy
 msgid "Disable verbose log output."
-msgstr "Ausführliche Diagnose aktivieren."
+msgstr "Ausführliche Diagnose deaktivieren."
 
 #: src/translate_text.c.po.c:17132
 msgid "Disable mouse grab"
