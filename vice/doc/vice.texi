@@ -241,7 +241,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 3.1 of VICE, the Versatile
+This is the documentation for version 3.2 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
