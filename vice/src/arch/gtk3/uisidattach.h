@@ -33,4 +33,6 @@ void uisidattach_show_dialog(GtkWidget *widget, gpointer data);
 void uisidattach_set_psid_init_func(void (*func)(void));
 void uisidattach_set_psid_play_func(void (*func)(int));
 
+bool load_psid_handler(const char *filename);
+
 #endif

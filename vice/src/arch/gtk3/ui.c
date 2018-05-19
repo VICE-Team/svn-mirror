@@ -64,6 +64,7 @@
 #include "uidiskattach.h"
 #include "uismartattach.h"
 #include "uitapeattach.h"
+#include "uisidattach.h"
 
 #include "ui.h"
 
@@ -442,11 +443,17 @@ static void on_drag_data_received(
 
     /* can we attempt autostart? */
     if (filename != NULL) {
-        debug_gtk3("Attempting to autostart '%s'\n", filename);
-        if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
-            debug_gtk3("failed\n");
+        if (machine_class != VICE_MACHINE_VSID) {
+
+            debug_gtk3("Attempting to autostart '%s'\n", filename);
+            if (autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN) != 0) {
+                debug_gtk3("failed\n");
+            } else {
+                debug_gtk3("OK!\n");
+            }
         } else {
-            debug_gtk3("OK!\n");
+            /* try to open SID file, reports error itself */
+            load_psid_handler(filename);
         }
         g_free(filename);
     }

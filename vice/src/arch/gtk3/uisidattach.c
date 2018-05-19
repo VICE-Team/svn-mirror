@@ -43,7 +43,7 @@
 
 
 /* forward declarations */
-static bool load_psid_handler(const char *filename);
+/* static bool load_psid_handler(const char *filename); */
 
 
 /** \brief  File type filters for the dialog
@@ -153,12 +153,13 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
  *
  * \param[in]   filename    file to play
  */
-static bool load_psid_handler(const char *filename)
+bool load_psid_handler(const char *filename)
 {
     vsync_suspend_speed_eval();
 
     if (machine_autodetect_psid(filename) < 0) {
         debug_gtk3("'%s' is not a valid PSID file", filename);
+        ui_error("'%s' is not a valid PSID file", filename);
         return false;
     }
 
