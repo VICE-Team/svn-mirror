@@ -1556,7 +1556,13 @@ void sound_suspend(void)
     if (snddata.playdev->write && !snddata.issuspended
         && snddata.playdev->need_attenuation) {
         fill_buffer(snddata.fragsize, -1);
+
+        /* fill_buffer() can call sound_close() */
+        if (!snddata.playdev) {
+            return;
+        }
     }
+
     if (snddata.playdev->suspend && !snddata.issuspended) {
         if (snddata.playdev->suspend()) {
             return;
