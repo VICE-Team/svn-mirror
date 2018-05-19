@@ -62,6 +62,35 @@ static void (*psid_init_func)(void) = NULL;
 static void (*psid_play_func)(int) = NULL;
 
 
+/** \brief  Last used directory in dialog
+ */
+static gchar *last_dir = NULL;
+
+
+/** \brief  Update the last directory reference
+ *
+ * \param[in]   widget  dialog
+ */
+static void update_last_dir(GtkWidget *widget)
+{
+    gchar *new_dir;
+
+    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
+    debug_gtk3("new dir = '%s'\n", new_dir);
+    if (new_dir != NULL) {
+        /* clean up previous value */
+        if (last_dir != NULL) {
+            g_free(last_dir);
+        }
+        last_dir = new_dir;
+    }
+}
+
+
+/*
+ * Once I've merged my hvsclib, the preview widget can be used to show info
+ * on a SID -- compyx
+ */
 #if 0
 static GtkWidget *preview_widget = NULL;
 #endif
@@ -129,6 +158,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
+            update_last_dir(widget);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             text = lib_msprintf("Opening '%s'", filename);
             ui_display_statustext(text, TRUE);
@@ -224,6 +254,11 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
     gtk_file_chooser_set_preview_widget(GTK_FILE_CHOOSER(dialog),
             preview_widget);
 */
+    /* set last used directory, if present */
+    if (last_dir != NULL) {
+        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
+    }
+
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
         gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
@@ -275,4 +310,14 @@ void uisidattach_set_psid_init_func(void (*func)(void))
 void uisidattach_set_psid_play_func(void (*func)(int))
 {
     psid_play_func = func;
+}
+
+
+/** \brief  Clean up the last directory string
+ */
+void uisidattach_shutdown(void)
+{
+    if (last_dir != NULL) {
+        g_free(last_dir);
+    }
 }

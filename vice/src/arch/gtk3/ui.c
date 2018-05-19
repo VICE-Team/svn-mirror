@@ -1475,10 +1475,14 @@ void ui_exit(void)
     int soe;    /* save on exit */
 
     /* clean up UI resources */
-    uicart_shutdown();
-    ui_disk_attach_shutdown();
-    ui_tape_attach_shutdown();
-    ui_smart_attach_shutdown();
+    if (machine_class != VICE_MACHINE_VSID) {
+        uicart_shutdown();
+        ui_disk_attach_shutdown();
+        ui_tape_attach_shutdown();
+        ui_smart_attach_shutdown();
+    } else {
+        uisidattach_shutdown();
+    }
 
     /* Destroy the main window(s) */
     ui_destroy_main_window(PRIMARY_WINDOW);

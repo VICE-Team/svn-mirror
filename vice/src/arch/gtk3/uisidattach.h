@@ -35,4 +35,6 @@ void uisidattach_set_psid_play_func(void (*func)(int));
 
 bool load_psid_handler(const char *filename);
 
+void uisidattach_shutdown(void);
+
 #endif
