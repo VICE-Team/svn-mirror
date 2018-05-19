@@ -17178,20 +17178,20 @@ translate_t string_table[] = {
 #endif
 
 /* log.c */
-/* en */ {IDCLS_DISABLE_LOG_OUTPUT, N_("Disable verbose log output.")},
+/* en */ {IDCLS_DISABLE_LOG_OUTPUT,    N_("Disable verbose log output.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_LOG_OUTPUT_DA, "" },
-/* de */ {IDCLS_DISABLE_LOG_OUTPUT_DE, "" },
-/* es */ {IDCLS_DISABLE_LOG_OUTPUT_ES, "" },
-/* fr */ {IDCLS_DISABLE_LOG_OUTPUT_FR, "" },
-/* hu */ {IDCLS_DISABLE_LOG_OUTPUT_HU, "" },
-/* it */ {IDCLS_DISABLE_LOG_OUTPUT_IT, "" },
-/* ko */ {IDCLS_DISABLE_LOG_OUTPUT_KO, "" },
-/* nl */ {IDCLS_DISABLE_LOG_OUTPUT_NL, "Uitgebreide log uitvoer uitschakelen." },
-/* pl */ {IDCLS_DISABLE_LOG_OUTPUT_PL, "" },
-/* ru */ {IDCLS_DISABLE_LOG_OUTPUT_RU, "" },
-/* sv */ {IDCLS_DISABLE_LOG_OUTPUT_SV, "" },
-/* tr */ {IDCLS_DISABLE_LOG_OUTPUT_TR, "" },
+/* da */ {IDCLS_DISABLE_LOG_OUTPUT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_LOG_OUTPUT_DE, "Ausführliche Diagnose deaktivieren."},
+/* es */ {IDCLS_DISABLE_LOG_OUTPUT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_LOG_OUTPUT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_LOG_OUTPUT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_LOG_OUTPUT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_LOG_OUTPUT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_LOG_OUTPUT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_LOG_OUTPUT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_LOG_OUTPUT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_LOG_OUTPUT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_LOG_OUTPUT_TR, ""},  /* fuzzy */
 #endif
 
 /* mouse.c */

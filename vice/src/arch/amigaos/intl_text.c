@@ -3338,7 +3338,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_DRIVE_SETTINGS_HU, "Lemezegység beállításai..." },
 /* it */ { IDMS_DRIVE_SETTINGS_IT, "Impostazioni drive..." },
 /* ko */ { IDMS_DRIVE_SETTINGS_KO, "µå¶óÀÌºê ¼ÂÆÃ..." },
-/* nl */ { IDMS_DRIVE_SETTINGS_NL, "Drive instellingen..." },
+/* nl */ { IDMS_DRIVE_SETTINGS_NL, "Driveinstellingen..." },
 /* pl */ { IDMS_DRIVE_SETTINGS_PL, "Ustawienia napêdu..." },
 /* ru */ { IDMS_DRIVE_SETTINGS_RU, "Drive settings..." },
 /* sv */ { IDMS_DRIVE_SETTINGS_SV, "Diskettenhetsinställningar..." },
@@ -7342,7 +7342,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DRIVE_SETTINGS_HU, "Lemezegység beállításai" },
 /* it */ { IDS_DRIVE_SETTINGS_IT, "Impostazioni drive" },
 /* ko */ { IDS_DRIVE_SETTINGS_KO, "µå¶óÀÌºê ¼ÂÆÃ" },
-/* nl */ { IDS_DRIVE_SETTINGS_NL, "Drive instellingen" },
+/* nl */ { IDS_DRIVE_SETTINGS_NL, "Driveinstellingen" },
 /* pl */ { IDS_DRIVE_SETTINGS_PL, "Ustawienia napêdu" },
 /* ru */ { IDS_DRIVE_SETTINGS_RU, "Drive settings" },
 /* sv */ { IDS_DRIVE_SETTINGS_SV, "Diskettenhetsinställningar" },
@@ -7636,7 +7636,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_EXPERT_FILENAME_HU, "" },  /* fuzzy */
 /* it */ { IDS_EXPERT_FILENAME_IT, "File Expert Cartridge" },
 /* ko */ { IDS_EXPERT_FILENAME_KO, "Expert Ä«Æ®¸®Áö ÆÄÀÏ" },
-/* nl */ { IDS_EXPERT_FILENAME_NL, "Expert Cartridge bestand" },
+/* nl */ { IDS_EXPERT_FILENAME_NL, "Expert Cartridge-bestand" },
 /* pl */ { IDS_EXPERT_FILENAME_PL, "Plik Expert Cartridge" },
 /* ru */ { IDS_EXPERT_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_EXPERT_FILENAME_SV, "Expert Cartridge-fil" },

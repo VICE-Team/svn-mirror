@@ -197,7 +197,7 @@ BEGIN
   IDS_EXPERT_ENABLE       "Expert Cartridge inschakelen"
   IDS_EXPERT_MODE_LABEL   "Modus"
   IDS_EXPERT_WRITE_ENABLE "Expert Cartridge bestand opslaan bij wijziging"
-  IDS_EXPERT_FILE_LABEL   "Expert Cartridge bestand"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge-bestand"
   IDS_OFF                 "Uit"
   IDS_PRG                 "Prg"
   IDS_ON                  "Aan"
