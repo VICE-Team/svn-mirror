@@ -2025,8 +2025,6 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
                                       LIBS="-lnet $LIBS"],,)
     AC_CHECK_LIB(inet, gethostbyname,[ NETPLAY_LIBS="-linet $NETPLAY_LIBS";
                                        LIBS="-linet $LIBS"],,)
-    AC_CHECK_LIB(watt, gethostbyname,[ NETPLAY_LIBS="-lwatt $NETPLAY_LIBS";
-                                       LIBS="-lwatt $LIBS"],,)
 
     dnl Check for needed functions
     UNIX_NETWORK_FUNCS_PRESENT=yes
