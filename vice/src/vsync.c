@@ -43,7 +43,6 @@ int vsync_frame_counter;
 #include "vice.h"
 
 /* Port me... */
-#if defined(USE_SDLUI) || defined(USE_SDLUI2)
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -645,5 +644,3 @@ void vsyncarch_prepare_vbl(void)
 }
 
 #endif /* defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI) && !defined(USE_SDLUI2) */
-
-#endif
