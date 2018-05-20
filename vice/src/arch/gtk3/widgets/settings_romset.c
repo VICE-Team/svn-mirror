@@ -303,8 +303,9 @@ static const romset_entry_t c128_drive_roms[] = {
 
 static const romset_entry_t c64_c128_drive_exp_roms[] = {
     { "DriveProfDOS1571Name",   "ProfDOS 1571", NULL },
-    { "DriveSuperCardName",     "SuperCard", NULL },
-    { "DriveStarDosName",       "StarDOS", NULL }
+    { "DriveSuperCardName",     "SuperCard",    NULL },
+    { "DriveStarDosName",       "StarDOS",      NULL },
+    { NULL,                     NULL,           NULL }
 };
 
 
