@@ -12539,7 +12539,7 @@ Enable/Disable video overlay mode
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node BeOS-specific features, DOS-specific features, AmigaOS-specific features, Platform-specific features
+@node BeOS-specific features, OS2-specific features, AmigaOS-specific features, Platform-specific features
 @section BeOS-specific features
 @end ifset
 
@@ -12669,14 +12669,7 @@ Set device for extra joystick port 2
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node DOS-specific features, OS2-specific features, BeOS-specific features, Platform-specific features
-@section DOS-specific features
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node OS2-specific features, SDL-specific features, DOS-specific features, Platform-specific features
+@node OS2-specific features, SDL-specific features, BeOS-specific features, Platform-specific features
 @section OS2-specific features
 @end ifset
 
