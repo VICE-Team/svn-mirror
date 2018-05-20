@@ -11,8 +11,6 @@ BUILDING_DOX = \
 	MacOSX-Cocoa-Howto.txt \
 	MacOSX-Howto.txt \
 	Minix-Howto.txt \
-	MSDOS-Howto.txt \
-	MSDOS-Ethernet-Howto.txt \
 	OpenVMS-Howto.txt \
 	SDL-Howto.txt \
 	Win32-Cygwin-Howto.txt \
