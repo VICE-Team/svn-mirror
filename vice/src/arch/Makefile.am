@@ -28,12 +28,6 @@ SUBDIRS = win32
 
 endif
 
-if MSDOS_COMPILE
-
-SUBDIRS = msdos
-
-endif
-
 if BEOS_COMPILE
 
 SUBDIRS = beos
@@ -47,4 +41,3 @@ SUBDIRS = amigaos
 endif
 endif
 endif
-

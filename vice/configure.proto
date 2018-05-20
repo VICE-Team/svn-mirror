@@ -5119,7 +5119,6 @@ AC_OUTPUT([Makefile
            src/arch/gtk3/Makefile
            src/arch/gtk3/widgets/Makefile
            src/arch/gtk3/widgets/base/Makefile
-           src/arch/msdos/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/qnx4/Makefile
            src/arch/sdl/sortix-files/Makefile
