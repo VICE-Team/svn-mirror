@@ -13,7 +13,5 @@ libiodrv_a_SOURCES = \
 	io-unix-access.c \
 	pci-beos-drv.c \
 	pci-beos-drv.h \
-	pci-dos-drv.c \
-	pci-dos-drv.h \
 	pci-unix-drv.c \
 	pci-unix-drv.h
