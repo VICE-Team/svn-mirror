@@ -13,7 +13,6 @@ noinst_LIBRARIES = libhwsiddrv.a
 libhwsiddrv_a_SOURCES = \
 	catweaselmkiii-amiga-drv.c \
 	catweaselmkiii-beos-drv.c \
-	catweaselmkiii-dos-drv.c \
 	catweaselmkiii-unix-drv.c \
 	catweaselmkiii-win32-drv.c \
 	cw-amiga.h \
@@ -30,7 +29,6 @@ libhwsiddrv_a_SOURCES = \
 	cw-win32-pci.c \
 	hardsid-amiga-drv.c \
 	hardsid-beos-drv.c \
-	hardsid-dos-drv.c \
 	hardsid-unix-drv.c \
 	hardsid-win32-drv.c \
 	hs-amiga.h \
@@ -40,9 +38,6 @@ libhwsiddrv_a_SOURCES = \
 	hs-beos.h \
 	hs-beos-isa.c \
 	hs-beos-pci.c \
-	hs-dos.h \
-	hs-dos-isa.c \
-	hs-dos-pci.c \
 	hs-unix.h \
 	hs-unix-isa.c \
 	hs-unix-linux.c \
@@ -52,7 +47,6 @@ libhwsiddrv_a_SOURCES = \
 	hs-win32-isa.c \
 	hs-win32-pci.c \
 	parsid-beos-drv.c \
-	parsid-dos-drv.c \
 	parsid-unix-drv.c \
 	parsid-win32-drv.c \
 	ps-ieee1284.c \
@@ -64,7 +58,6 @@ libhwsiddrv_a_SOURCES = \
 	ps-win32-io.c \
 	ssi2001-amiga-drv.c \
 	ssi2001-beos-drv.c \
-	ssi2001-dos-drv.c \
 	ssi2001-unix-drv.c \
 	ssi2001-win32-drv.c \
 	wininpoutp.h
