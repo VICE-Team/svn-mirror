@@ -14,7 +14,6 @@ EXTRA_DIST = \
 	socket-amiga-drv.c \
 	socket-amiga-impl.h \
 	socket-beos-impl.h \
-	socket-dos-impl.h \
 	socket-unix-impl.h \
 	socket-win32-drv.c \
 	socket-win32-impl.h \
