@@ -42,7 +42,7 @@
 
 #define VIC_NUM_COLORS 16
 
-/* This is the only machine that needs those defines.  (MSDOS?, OS2?) */
+/* This is the only machine that needs those defines.  (OS2?) */
 #define RASTER_PIXEL(c) (vic.pixel_table.sing[(c)])
 
 /* FIXME: MSDOS does not need double pixel.

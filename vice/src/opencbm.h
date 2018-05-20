@@ -54,24 +54,6 @@ extern "C" {
 # define CBM_FILE HANDLE /*!< The "file descriptor" for an opened driver */
 # define CBM_FILE_INVALID INVALID_HANDLE_VALUE /*!< An invalid "file descriptor" (CBM_FILE) */
 
-#elif defined(__MSDOS__)
-
-  /* we have MS-DOS */
-
-#include <stdlib.h>
-
-# define EXTERN extern /*!< EXTERN is not defined on MS-DOS */
-# define CBMAPIDECL /*!< CBMAPIDECL is a dummy on MS-DOS */
-# define WINAPI /*!< WINAPI is a dummy on MS-DOS */
-# define CBM_FILE int /*!< The "file descriptor" for an opened driver */
-# define CBM_FILE_INVALID ((CBM_FILE)-1)
-# define __u_char unsigned char /*!< __u_char as unsigned char */
-
-extern int vdd_init(void);
-extern void vdd_uninit(void);
-extern int vdd_install_iohook(CBM_FILE f, int IoBaseAddress, int CableType);
-extern int vdd_uninstall_iohook(CBM_FILE f);
-extern void vdd_usleep(CBM_FILE f, unsigned int howlong);
 #elif defined(WATCOM_COMPILE)
 
 #include <stdlib.h>

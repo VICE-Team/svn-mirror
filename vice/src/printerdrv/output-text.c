@@ -45,7 +45,7 @@
 
 /* TODO: configure check that matches what arch/unix/coproc.c does... */
 #if defined(HAVE_FORK)
-#  if !defined(MINIX_SUPPORT) && !defined(OPENSTEP_COMPILE) && !defined(RHAPSODY_COMPILE) && !defined(NEXTSTEP_COMPILE) && !defined(BEOS_COMPILE) && !defined(__MSDOS__) && !defined(__ANDROID__)
+#  if !defined(MINIX_SUPPORT) && !defined(OPENSTEP_COMPILE) && !defined(RHAPSODY_COMPILE) && !defined(NEXTSTEP_COMPILE) && !defined(BEOS_COMPILE) && !defined(__ANDROID__)
 #    include <unistd.h>
 #    define COPROC_SUPPORT        1
 #    include "coproc.h"

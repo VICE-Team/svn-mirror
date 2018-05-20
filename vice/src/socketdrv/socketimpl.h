@@ -37,10 +37,6 @@
 #include "socket-beos-impl.h"
 #endif
 
-#ifdef __MSDOS__
-#include "socket-dos-impl.h"
-#endif
-
 #ifdef UNIX_COMPILE
 #include "socket-unix-impl.h"
 #endif

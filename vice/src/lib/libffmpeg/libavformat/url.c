@@ -22,10 +22,6 @@
 
 #include "avformat.h"
 
-#ifdef __MSDOS__
-#define HAVE_INT32_T
-#endif
-
 #ifdef IDE_COMPILE
 #include "ffmpeg-config.h"
 #include "ide-config.h"
