@@ -58,8 +58,6 @@ extra_keymaps = \
 	amiga_pos.vkm \
 	beos_sym.vkm \
 	beos_pos.vkm \
-	dos_sym.vkm \
-	dos_pos.vkm \
 	osx_pos.vkm \
 	osx_sym.vkm \
 	win_sym.vkm \

@@ -19,7 +19,6 @@ x11_keymaps = \
 	x11_pos_de.vkm \
 	x11_sym.vkm \
 	x11_sym_de.vkm \
-	\
 	gtk3_keyrah.vkm \
 	gtk3_keyrah_de.vkm \
 	gtk3_pos.vkm \
@@ -47,8 +46,6 @@ extra_keymaps = \
 	amiga_pos.vkm \
 	beos_sym.vkm \
 	beos_pos.vkm \
-	dos_sym.vkm \
-	dos_pos.vkm \
 	osx_pos.vkm \
 	osx_sym_de.vkm \
 	osx_sym.vkm \
@@ -58,7 +55,6 @@ extra_keymaps = \
 	win_sym_de.vkm \
 	win_sym_it.vkm \
 	win_sym_us.vkm
-
 
 win32_files = \
 	win_hotkeys.vhk \

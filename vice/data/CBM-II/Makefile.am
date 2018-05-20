@@ -41,7 +41,6 @@ palettes = \
 x11_keymaps = \
 	x11_sym.vkm \
 	x11_sym_de.vkm \
-	\
 	gtk3_sym.vkm \
 	gtk3_sym_de.vkm
 
@@ -54,8 +53,6 @@ extra_keymaps = \
 	amiga_sym.vkm \
 	beos_bukp.vkm \
 	beos_buks.vkm \
-	dos_bukp.vkm \
-	dos_buks.vkm \
 	osx_pos_uk.vkm \
 	osx_sym_uk.vkm \
 	win_sym.vkm \

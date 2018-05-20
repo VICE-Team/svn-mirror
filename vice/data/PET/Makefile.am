@@ -54,7 +54,6 @@ x11_keymaps = \
 	x11_buuk_pos_de.vkm \
 	x11_buuk_sym.vkm \
 	x11_buuk_sym_de.vkm \
-	\
 	gtk3_sym.vkm \
 	gtk3_bude_pos.vkm \
 	gtk3_bude_pos_de.vkm \
@@ -80,8 +79,6 @@ extra_keymaps = \
 	amiga_buuk_sym.vkm \
 	beos_bgrs.vkm \
 	beos_buks.vkm \
-	dos_bgrs.vkm \
-	dos_buks.vkm \
 	osx_grus_sym.vkm \
 	osx_sym_uk.vkm \
 	win_grus_sym.vkm \

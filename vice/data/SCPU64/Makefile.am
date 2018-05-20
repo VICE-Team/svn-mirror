@@ -31,7 +31,6 @@ x11_keymaps = \
 	x11_pos.vkm \
 	x11_pos_de.vkm \
 	x11_sym_de.vkm \
-	\
 	gtk3_sym.vkm \
 	gtk3_pos.vkm \
 	gtk3_pos_de.vkm \
@@ -57,8 +56,6 @@ extra_keymaps = \
 	amiga_pos.vkm \
 	beos_sym.vkm \
 	beos_pos.vkm \
-	dos_sym.vkm \
-	dos_pos.vkm \
 	osx_pos.vkm \
 	osx_sym_de.vkm \
 	osx_sym.vkm \
