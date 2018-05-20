@@ -74,10 +74,15 @@
 
 #ifdef ANDROID_COMPILE 
 extern void keyboard_key_pressed(signed long key);
-#endif  
+#endif
 
 
 static int sdl_ui_ready = 0;
+
+
+static void (*psid_init_func)(void) = NULL;
+static void (*psid_play_func)(int) = NULL;
+
 
 /* ----------------------------------------------------------------- */
 /* ui.h */
@@ -127,8 +132,22 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             break;
 #else
         case SDL_DROPFILE:
-            if (autostart_autodetect(e.drop.file, NULL, 0, AUTOSTART_MODE_RUN) < 0) {
-                ui_error("Cannot autostart specified file.");
+            if (machine_class != VICE_MACHINE_VSID) {
+                if (autostart_autodetect(e.drop.file, NULL, 0,
+                            AUTOSTART_MODE_RUN) < 0) {
+                    ui_error("Cannot autostart specified file.");
+                }
+            } else {
+                /* try to load PSID file */
+
+                if (machine_autodetect_psid(e.drop.file) < 0) {
+                    ui_error("%s is not a valid SID file.", e.drop.file);
+                }
+                if (psid_init_func != NULL && psid_play_func != NULL) {
+                    psid_init_func();
+                    psid_play_func(0);
+                    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+                }
             }
             break;
 #endif
@@ -894,3 +913,26 @@ void sdl_vsid_draw(void)
     }
 }
 
+
+/*
+ * Work around linking differences between VSID and other emu's
+ */
+
+/** \brief  Set PSID init function pointer
+ *
+ * \param[in]   func    function pointer
+ */
+void sdl_vsid_set_init_func(void (*func)(void))
+{
+    psid_init_func = func;
+}
+
+
+/** \brief  Set PSID play function pointer
+ *
+ * \param[in]   func    function pointer
+ */
+void sdl_vsid_set_play_func(void (*func)(int))
+{
+    psid_play_func = func;
+}

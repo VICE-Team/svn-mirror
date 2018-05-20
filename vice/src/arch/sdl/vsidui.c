@@ -365,7 +365,11 @@ int vsid_ui_init(void)
 {
     unsigned int width;
     unsigned int height;
-    
+
+    /* set function pointers to handle drag-n-drop of SID files */
+    sdl_vsid_set_init_func(psid_init_driver);
+    sdl_vsid_set_play_func(machine_play_psid);
+
     sdl_ui_set_menu_params = vsid_set_menu_params;
     uikeyboard_menu_create();
     uisid_menu_create();
