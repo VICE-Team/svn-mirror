@@ -3389,7 +3389,12 @@ static int read_geos_cmd(int nargs, char **args)
             dest_name_ascii[l] = 0;
             l--;
         }
+        /*
+         * Don't convert, GEOS uses ASCII
+         */
+#if 0
         charset_petconvstring((uint8_t *)dest_name_ascii, 1);
+#endif
     }
 
     outf = fopen(dest_name_ascii, MODE_WRITE);
