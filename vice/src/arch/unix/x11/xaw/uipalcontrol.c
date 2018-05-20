@@ -69,23 +69,23 @@ typedef struct pal_res_s {
 } pal_res_t;
 
 static pal_res_t ctrls[] = {
-    { N_("Blur"),             "+PALBlur",              0,  1000, },
-    { N_("Scanline shade"),   "+PALScanLineShade",     0,  1000, },
-    { N_("Saturation"),       "+ColorSaturation",      0,  2000, },
-    { N_("Contrast"),         "+ColorContrast",        0,  2000, },
-    { N_("Brightness"),       "+ColorBrightness",      0,  2000, },
-    { N_("Gamma"),            "+ColorGamma",           0,  4000, },
-    { N_("Tint"),             "+ColorTint",            0,  2000, },
-    { N_("Odd lines phase"),  "+PALOddLinePhase",      0,  2000, },
-    { N_("Odd lines offset"), "+PALOddLineOffset",     0,  2000, },
+    { N_("Blur"),             "+PALBlur",              0,  1000, NULL, NULL },
+    { N_("Scanline shade"),   "+PALScanLineShade",     0,  1000, NULL, NULL },
+    { N_("Saturation"),       "+ColorSaturation",      0,  2000, NULL, NULL },
+    { N_("Contrast"),         "+ColorContrast",        0,  2000, NULL, NULL },
+    { N_("Brightness"),       "+ColorBrightness",      0,  2000, NULL, NULL },
+    { N_("Gamma"),            "+ColorGamma",           0,  4000, NULL, NULL },
+    { N_("Tint"),             "+ColorTint",            0,  2000, NULL, NULL },
+    { N_("Odd lines phase"),  "+PALOddLinePhase",      0,  2000, NULL, NULL },
+    { N_("Odd lines offset"), "+PALOddLineOffset",     0,  2000, NULL, NULL },
     /* volume settings */
-    { N_("Volume"),           "SoundVolume",           0,   100, },
-    { N_("Drives Volume"), "DriveSoundEmulationVolume",0,  4000, },
+    { N_("Volume"),           "SoundVolume",           0,   100, NULL, NULL },
+    { N_("Drives Volume"), "DriveSoundEmulationVolume",0,  4000, NULL, NULL },
 #if defined(HAVE_RESID) || defined(HAVE_RESID_DTV)
     /* SID settings */
-    { N_("ReSID Passband"),   "SidResidPassband",      0,    90, },
-    { N_("ReSID Gain"),       "SidResidGain",         90,    10, },
-    { N_("ReSID Filter Bias"),"SidResidFilterBias",-5000, 10000, },
+    { N_("ReSID Passband"),   "SidResidPassband",      0,    90, NULL, NULL },
+    { N_("ReSID Gain"),       "SidResidGain",         90,    10, NULL, NULL },
+    { N_("ReSID Filter Bias"),"SidResidFilterBias",-5000, 10000, NULL, NULL },
 #endif
 };
 
