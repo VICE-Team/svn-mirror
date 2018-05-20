@@ -28,10 +28,6 @@
  *  [2]http://msdn.microsoft.com/en-us/library/bb643323.aspx
  */
 
-#ifdef __MSDOS__
-#define HAVE_INT32_T
-#endif
-
 #include "avformat.h"
 #include "mms.h"
 #include "internal.h"

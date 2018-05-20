@@ -193,10 +193,6 @@ static void vicii_set_geometry(void)
                         0, /* extra offscreen border left */
                         0) /* extra offscreen border right */;
 
-#ifdef __MSDOS__
-    video_ack_vga_mode();
-#endif
-
     vicii.raster.display_ystart = 0;
     vicii.raster.display_ystop = vicii.screen_height;
     vicii.raster.display_xstart = 0;
@@ -460,18 +456,6 @@ void vicii_raster_draw_handler(void)
                                              vicii.raster.skip_frame));
         }
 
-#ifdef __MSDOS__
-        if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {
-            if (vicii.raster.canvas->draw_buffer->canvas_width
-                <= VICII_SCREEN_XPIX
-                && vicii.raster.canvas->draw_buffer->canvas_height
-                <= VICII_SCREEN_YPIX
-                && vicii.raster.canvas->viewport->update_canvas) {
-                canvas_set_border_color(vicii.raster.canvas,
-                                        vicii.raster.border_color);
-            }
-        }
-#endif
     }
 
     /* vsync for NTSC */
@@ -480,16 +464,6 @@ void vicii_raster_draw_handler(void)
         raster_skip_frame(&vicii.raster,
                           vsync_do_vsync(vicii.raster.canvas,
                                          vicii.raster.skip_frame));
-#ifdef __MSDOS__
-        if (vicii.raster.canvas->draw_buffer->canvas_width
-            <= VICII_SCREEN_XPIX
-            && vicii.raster.canvas->draw_buffer->canvas_height
-            <= VICII_SCREEN_YPIX
-            && vicii.raster.canvas->viewport->update_canvas) {
-            canvas_set_border_color(vicii.raster.canvas,
-                                    vicii.raster.border_color);
-        }
-#endif
     }
 }
 

@@ -27,10 +27,6 @@
 #define _BSD_SOURCE     /* Needed for using struct ip_mreq with recent glibc */
 #define _DEFAULT_SOURCE
 
-#ifdef __MSDOS__
-#define HAVE_INT32_T
-#endif
-
 #include "avformat.h"
 #include "avio_internal.h"
 #include "libavutil/parseutils.h"

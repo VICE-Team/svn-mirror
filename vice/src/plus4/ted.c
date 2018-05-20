@@ -310,9 +310,6 @@ static void ted_set_geometry(void)
                         -TED_RASTER_X(0),  /* extra offscreen border left */
                         0 + TED_SCREEN_XPIX -
                         ted.screen_leftborderwidth - ted.screen_rightborderwidth + TED_RASTER_X(0)) /* extra offscreen border right */;
-#ifdef __MSDOS__
-    video_ack_vga_mode();
-#endif
     ted.raster.geometry->pixel_aspect_ratio = ted_get_pixel_aspect();
     ted.raster.viewport->crt_type = ted_get_crt_type();
 }
@@ -789,15 +786,6 @@ void ted_raster_draw_alarm_handler(CLOCK offset, void *data)
         ted.cursor_phase = (ted.cursor_phase + 1) & 0x1f;
         ted.cursor_visible = ted.cursor_phase & 0x10;
 
-#ifdef __MSDOS__
-        if (ted.raster.canvas->draw_buffer->canvas_width
-            <= TED_SCREEN_XPIX
-            && ted.raster.canvas->draw_buffer->canvas_height
-            <= TED_SCREEN_YPIX) {
-            canvas_set_border_color(ted.raster.canvas,
-                                    ted.raster.border_color);
-        }
-#endif
     }
 
     if (in_visible_area) {

@@ -54,10 +54,6 @@
 #include "video.h"
 #include "viewport.h"
 
-#if defined(__MSDOS__)
-#include "videoarch.h"
-#endif
-
 vdc_t vdc;
 
 static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data);
@@ -525,12 +521,6 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     /* actually draw the current raster line */
     raster_line_emulate(&vdc.raster);
-
-#ifdef __MSDOS__
-    if (vdc.raster.canvas->viewport->update_canvas) {
-        canvas_set_border_color(vdc.raster.canvas, vdc.raster.border_color);
-    }
-#endif
 
     /* see if we still should be drawing things - if we haven't drawn more than regs[6] rows since the top border */
     if (!in_idle_state) {

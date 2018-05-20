@@ -744,7 +744,6 @@ struct valid_archives_s {
 typedef struct valid_archives_s valid_archives_t;
 
 static const valid_archives_t valid_archives[] = {
-#ifndef __MSDOS__
     { "unzip",   "-l",   "-p",    ".zip",    "Name" },
     { "lha",     "lv",   "pq",    ".lzh",    NULL },
     { "lha",     "lv",   "pq",    ".lha",    NULL },
@@ -757,10 +756,6 @@ static const valid_archives_t valid_archives[] = {
     { "tar",     "-ztf", "-zxOf", ".tgz",    NULL },
     /* this might be overkill, but adding this was sooo easy...  */
     { "zoo",     "lf1q", "xpq",   ".zoo",    NULL },
-#else
-    { "unzip",   "-l",   "-p",    ".zip",    "Name" },
-    { "lha",     "l",    "p",     ".lzh",    "Name" },
-#endif
     { NULL, NULL, NULL, NULL, NULL }
 };
 

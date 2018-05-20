@@ -20,10 +20,6 @@
  */
 
 
-#ifdef __MSDOS__
-#define HAVE_INT32_T
-#endif
-
 #include "libavutil/avassert.h"
 #include "libavutil/base64.h"
 #include "libavutil/avstring.h"

@@ -305,9 +305,6 @@ static void vicii_set_geometry(void)
                         -VICII_RASTER_X(0),  /* extra offscreen border left */
                         vicii.sprite_wrap_x - VICII_SCREEN_XPIX -
                         vicii.screen_leftborderwidth - vicii.screen_rightborderwidth + VICII_RASTER_X(0)) /* extra offscreen border right */;
-#ifdef __MSDOS__
-    video_ack_vga_mode();
-#endif
 
     vicii.raster.geometry->pixel_aspect_ratio = vicii_get_pixel_aspect();
     vicii.raster.viewport->crt_type = vicii_get_crt_type();
@@ -1094,18 +1091,6 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
 
         vicii.raster.blank_off = 0;
 
-#ifdef __MSDOS__
-        if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {
-            if (vicii.raster.canvas->draw_buffer->canvas_width
-                <= VICII_SCREEN_XPIX
-                && vicii.raster.canvas->draw_buffer->canvas_height
-                <= VICII_SCREEN_YPIX
-                && vicii.raster.canvas->viewport->update_canvas) {
-                canvas_set_border_color(vicii.raster.canvas,
-                                        vicii.raster.border_color);
-            }
-        }
-#endif
     }
 
     /* vsync for NTSC */
@@ -1114,16 +1099,6 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
         raster_skip_frame(&vicii.raster,
                           vsync_do_vsync(vicii.raster.canvas,
                                          vicii.raster.skip_frame));
-#ifdef __MSDOS__
-        if (vicii.raster.canvas->draw_buffer->canvas_width
-            <= VICII_SCREEN_XPIX
-            && vicii.raster.canvas->draw_buffer->canvas_height
-            <= VICII_SCREEN_YPIX
-            && vicii.raster.canvas->viewport->update_canvas) {
-            canvas_set_border_color(vicii.raster.canvas,
-                                    vicii.raster.border_color);
-        }
-#endif
     }
 
     if (in_visible_area) {

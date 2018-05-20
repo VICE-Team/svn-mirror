@@ -43,7 +43,7 @@ int vsync_frame_counter;
 #include "vice.h"
 
 /* Port me... */
-#if !defined(__MSDOS__) || defined(USE_SDLUI) || defined(USE_SDLUI2)
+#if defined(USE_SDLUI) || defined(USE_SDLUI2)
 
 #include <stdio.h>
 #include <stdlib.h>

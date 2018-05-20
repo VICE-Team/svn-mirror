@@ -126,14 +126,6 @@ static sound_register_devices_t sound_register_devices[] = {
     { "aix", sound_init_aix_device, SOUND_PLAYBACK_DEVICE },
 #endif
 
-#ifdef __MSDOS__
-#ifdef USE_MIDAS_SOUND
-    { "midas", sound_init_midas_device, SOUND_PLAYBACK_DEVICE },
-#else
-    { "allegro", sound_init_allegro_device, SOUND_PLAYBACK_DEVICE },
-#endif
-#endif
-
 #ifdef WIN32_COMPILE
 #ifdef USE_DXSOUND
     { "dx", sound_init_dx_device, SOUND_PLAYBACK_DEVICE },
@@ -1326,11 +1318,7 @@ static void prevent_clk_overflow_callback(CLOCK sub, void *data)
 
 /* flush all generated samples from buffer to sounddevice. adjust sid runspeed
    to match real running speed of program */
-#ifdef __MSDOS__
-int sound_flush()
-#else
 double sound_flush()
-#endif
 {
     int c, i, nr, space = 0, used;
     int j;
@@ -1511,26 +1499,6 @@ double sound_flush()
 
     if (snddata.playdev->bufferspace
         && (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT))
-#ifdef __MSDOS__
-    {
-        /* finetune VICE timer */
-        static int lasttime = 0;
-        int t = time(0);
-        if (t != lasttime) {
-            /* Aim for utilization of bufsize - fragsize. */
-            int dir = 0;
-            int remspace = space - snddata.bufptr;
-            if (remspace <= 0) {
-                dir = -1;
-            }
-            if (remspace > snddata.fragsize) {
-                dir = 1;
-            }
-            lasttime = t;
-            return dir;
-        }
-    }
-#else
     {
         /* finetune VICE timer */
         /* Read bufferspace() just before returning to minimize the possibility
@@ -1541,7 +1509,6 @@ double sound_flush()
         /* Return delay in seconds. */
         return (double)remspace / sample_rate;
     }
-#endif
 
     return 0;
 }

@@ -141,9 +141,6 @@ static void vic_set_geometry(void)
                         vic.last_displayed_line,
                         vic.screen_width + vic.max_text_cols * 8,
                         vic.screen_width + vic.max_text_cols * 8);
-#ifdef __MSDOS__
-    video_ack_vga_mode();
-#endif
 
     vic.raster.geometry->pixel_aspect_ratio = vic_get_pixel_aspect();
     vic.raster.viewport->crt_type = vic_get_crt_type();

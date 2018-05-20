@@ -32,7 +32,7 @@
 
 #include <errno.h>
 
-#if !defined(VICE_FFMPEGLIB_H) && !defined(__MSDOS__)
+#if !defined(VICE_FFMPEGLIB_H)
 #include <inttypes.h>
 #endif
 
@@ -48,12 +48,6 @@
 
 #ifndef _MSC_VER
 #include "libavutil/avconfig.h"
-#endif
-
-#ifdef __MSDOS__
-extern int snprintf(char *buf, size_t count, const char *format, ...);
-extern int vsnprintf(char *text, size_t maxlen, const char *fmt, va_list ap);
-typedef int ptrdiff_t;
 #endif
 
 #if AV_HAVE_BIGENDIAN
