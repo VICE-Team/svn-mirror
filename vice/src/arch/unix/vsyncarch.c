@@ -44,6 +44,7 @@
 #include <time.h>
 #else
 #include <unistd.h>
+#include <errno.h>
 #endif
 #include <sys/time.h>
 
@@ -102,13 +103,16 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     ui_display_speed((float)speed, (float)frame_rate, warp_enabled);
 }
 
+/* for error measurement */
+static unsigned long delay_error;
+
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(unsigned long delay)
 {
 #ifdef HAVE_NANOSLEEP
     struct timespec ts;
 #endif
-    unsigned long thistime, targettime, timewait;
+    unsigned long thistime, timewait, targetdelay;
 #if 0
     /* HACK: to prevent any multitasking stuff getting in the way, we return
              immediately on delays up to 0.1ms */
@@ -116,28 +120,36 @@ void vsyncarch_sleep(unsigned long delay)
         return;
     }
 #endif
-    targettime = vsyncarch_gettime() + delay;
+    thistime = vsyncarch_gettime();
+
+    /* compensate for delay inaccuracy */
+    targetdelay = (delay <= delay_error) ? delay : (delay - delay_error);
 
     /* repeatedly sleep until the requested delay is over. we do this so we get
        a somewhat accurate delay even if the sleep function itself uses the
        wall clock, which under certain circumstance may wait less than the
        requested time */
-    while ((thistime = vsyncarch_gettime()) < targettime) {
-        /* we use increasingly smaller delays, and for the last 100 steps just
-           poll the current time */
-        timewait = (targettime - thistime) / 10;
-        if (timewait > 100) {
-            /* FIXME: this should use a sleep function with monotonous clock
-                      source, eg clock_nanosleep */
+    for (;;) {
+        timewait = vsyncarch_gettime() - thistime;
+
+        if (timewait >= targetdelay) {
+            delay_error = (delay_error * 3 + timewait - targetdelay + 1) / 4;
+            break;
+        }
+        timewait = targetdelay - timewait;
+
 #ifdef HAVE_NANOSLEEP
+        if (timewait < TICKSPERSECOND) {
+            ts.tv_sec = 0;
+            ts.tv_nsec = timewait;
+        } else {
             ts.tv_sec = timewait / TICKSPERSECOND;
             ts.tv_nsec = (timewait % TICKSPERSECOND);
-            /* wait until whole interval has elapsed */
-            while (nanosleep(&ts, &ts));
-#else
-            usleep(timewait);
-#endif
         }
+        nanosleep(&ts, NULL);
+#else
+        if (usleep(timewait) == -EINVAL) usleep(999999);
+#endif
     }
 }
 
