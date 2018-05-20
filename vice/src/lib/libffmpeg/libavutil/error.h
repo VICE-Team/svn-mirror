@@ -27,10 +27,6 @@
 #include <errno.h>
 #include <stddef.h>
 
-#ifdef __MSDOS__
-#include <sys/types.h>
-#endif
-
 /**
  * @addtogroup lavu_error
  *

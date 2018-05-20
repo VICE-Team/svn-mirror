@@ -35,11 +35,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
-#ifndef __MSDOS__
 #include <inttypes.h>
-#else
-#include <stdint.h>
-#endif
 
 #include <stdarg.h>
 
@@ -68,10 +64,6 @@
 
 #if !defined(isfinite) && (SYS_OPENBSD || SYS_SunOS || SYS_DOS)
 #define isfinite finite
-#endif
-
-#ifdef __MSDOS__
-#define strtok_r(a, b, c) strtok(a, b)
 #endif
 
 #if defined(__AROS__) && (defined(__amd64__) || defined(__powerpc__))

@@ -25,10 +25,6 @@
  * @author Ronald S. Bultje <rbultje@ronald.bitfreak.net>
  */
 
-#ifdef __MSDOS__
-#define HAVE_INT32_T
-#endif
-
 #include "libavutil/base64.h"
 #include "libavutil/avstring.h"
 #include "libavutil/intreadwrite.h"

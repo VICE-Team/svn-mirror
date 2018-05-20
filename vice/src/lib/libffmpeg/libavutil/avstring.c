@@ -32,7 +32,7 @@
 #include "avstring.h"
 #include "bprint.h"
 
-#if defined(__MSDOS__) && !defined(EILSEQ)
+#if !defined(EILSEQ)
 #define EILSEQ 138
 #endif
 

@@ -66,12 +66,10 @@ static const AVOption psnr_options[] = {
 
 AVFILTER_DEFINE_CLASS(psnr);
 
-#ifndef __MSDOS__
 static inline unsigned pow2(unsigned base)
 {
     return base*base;
 }
-#endif
 
 static inline double get_psnr(double mse, uint64_t nb_frames, int max)
 {

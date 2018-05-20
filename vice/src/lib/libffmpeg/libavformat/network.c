@@ -18,10 +18,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-#ifdef __MSDOS__
-#define HAVE_INT32_T
-#endif
-
 #include <fcntl.h>
 #include "network.h"
 #include "url.h"

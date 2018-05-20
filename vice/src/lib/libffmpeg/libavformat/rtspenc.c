@@ -21,10 +21,6 @@
 
 #include "avformat.h"
 
-#ifdef __MSDOS__
-#define HAVE_INT32_T
-#endif
-
 #if HAVE_POLL_H
 #include <poll.h>
 #endif

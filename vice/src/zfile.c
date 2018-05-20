@@ -285,7 +285,7 @@ static char *try_uncompress_with_bzip(const char *name)
     char *argv[4];
 
     /* Check whether the name sounds like a bzipped file by checking the
-       extension.  MSDOS and UNIX variants of bzip v2 use the extension
+       extension.  UNIX variants of bzip v2 use the extension
        '.bz2'.  bzip v1 is obsolete.  */
     if (l < 5 || strcasecmp(name + l - 4, ".bz2") != 0) {
         return NULL;

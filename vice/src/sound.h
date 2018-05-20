@@ -72,9 +72,6 @@
 #define SOUND_BUFSIZE 32768
 #define SOUND_SIDS_MAX 4
 
-#ifdef __MSDOS__
-# define SOUND_SAMPLE_BUFFER_SIZE       100     /* ms */
-#endif
 #ifdef __OS2__
 # define SOUND_SAMPLE_BUFFER_SIZE       400
 #endif
@@ -163,11 +160,7 @@ static inline int16_t sound_audio_mix(int ch1, int ch2)
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
 extern void sound_reset(void);
-#ifdef __MSDOS__
-extern int sound_flush(void);
-#else
 extern double sound_flush(void);
-#endif
 extern void sound_suspend(void);
 extern void sound_resume(void);
 extern int sound_open(void);
