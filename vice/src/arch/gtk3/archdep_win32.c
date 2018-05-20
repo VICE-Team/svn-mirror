@@ -181,8 +181,7 @@ const char *archdep_boot_path(void)
 
 char *archdep_make_backup_filename(const char *fname)
 {
-    NOT_IMPLEMENTED();
-    return 0;
+    return util_concat(fname, ".bak", NULL);
 }
 
 
@@ -204,11 +203,12 @@ void archdep_shutdown(void)
     /* archdep_network_shutdown(); */
 
     /* partially implemented */
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
 }
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
 {
+    /* Only zfile uses this */
     NOT_IMPLEMENTED();
     return 0;
 }
@@ -266,7 +266,7 @@ char *archdep_default_rtc_file_name(void)
 
 int archdep_file_is_chardev(const char *name)
 {
-    NOT_IMPLEMENTED();
+    INCOMPLETE_IMPLEMENTATION();
     return 0;
 }
 
