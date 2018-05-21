@@ -1407,7 +1407,6 @@ EXTRA_PROGRAMS =
 
 # vsid
 vsid_libs =  \
-	@VSID_WINRES@ \
 	$(vsid_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
@@ -1455,7 +1454,6 @@ vsid-all: \
 
 # x64
 x64_libs =  \
-	@X64_WINRES@ \
 	$(tapeport_lib) \
 	$(c64_lib) \
 	$(tapeport_lib) \
@@ -1541,7 +1539,6 @@ x64-all: \
 
 # x64sc
 x64sc_libs =  \
-	@X64_WINRES@ \
 	$(tapeport_lib) \
 	$(c64sc_lib) \
 	$(tapeport_lib) \
@@ -1627,7 +1624,6 @@ x64sc-all: \
 
 # x64dtv
 x64dtv_libs =  \
-	@X64DTV_WINRES@ \
 	$(c64dtv_lib) \
 	$(c64c64dtv_lib) \
 	$(driveiec_lib) \
@@ -1709,7 +1705,6 @@ x64dtv-all: \
 
 # xscpu64
 xscpu64_libs =  \
-	@XSCPU64_WINRES@ \
 	$(scpu64_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
@@ -1794,7 +1789,6 @@ xscpu64-all: \
 
 # x128
 x128_libs =  \
-	@X128_WINRES@ \
 	$(tapeport_lib) \
 	$(c128_lib) \
 	$(tapeport_lib) \
@@ -1886,7 +1880,6 @@ x128-all: \
 
 # xvic
 xvic_libs =  \
-	@XVIC_WINRES@ \
 	$(tapeport_lib) \
 	$(vic20cart_lib) \
 	$(vic20_lib) \
@@ -1967,7 +1960,6 @@ xvic-all: \
 
 # xpet
 xpet_libs =  \
-	@XPET_WINRES@ \
 	$(tapeport_lib) \
 	$(pet_lib) \
 	$(diag_lib) \
@@ -2042,7 +2034,6 @@ xpet-all: \
 
 # xplus4
 xplus4_libs =  \
-	@XPLUS4_WINRES@ \
 	$(tapeport_lib) \
 	$(plus4_lib) \
 	$(diag_lib) \
@@ -2121,7 +2112,6 @@ xplus4-all: \
 
 # xcbm2
 xcbm2_libs = \
-	@XCBM2_WINRES@ \
 	$(tapeport_lib) \
 	$(xcbm2_lib) \
 	$(diag_lib) \
@@ -2196,7 +2186,6 @@ xcbm2-all: \
 
 # xcbm5x0
 xcbm5x0_libs = \
-	@XCBM5X0_WINRES@ \
 	$(tapeport_lib) \
 	$(xcbm5x0_lib) \
 	$(diag_lib) \

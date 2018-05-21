@@ -1,8 +1,8 @@
 /*
- * rs232dev.c - rs232dev.c wrapper for the sdl port.
+ * dynlib.c - Win32 support for dynamic library loading.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Christian Vogelgsang <chris@vogelgsang.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,12 +24,31 @@
  *
  */
 
-#include "vice.h"
+#include <windows.h>
 
-#ifdef UNIX_COMPILE
-#include "rs232dev-unix.c"
-#endif
+#include "dynlib.h"
 
-#ifdef WIN32_COMPILE
-#include "rs232dev-win32.c"
-#endif
+void *vice_dynlib_open(const char *name)
+{
+    return LoadLibrary(name);
+}
+
+void *vice_dynlib_symbol(void *handle,const char *name)
+{
+    return GetProcAddress((HMODULE)handle, name);
+}
+
+char *vice_dynlib_error(void)
+{
+    return "unknown";
+}
+
+int vice_dynlib_close(void *handle)
+{
+    if (FreeLibrary(handle)) {
+        return 0;
+    } else {
+        return -1;
+    }
+}
+

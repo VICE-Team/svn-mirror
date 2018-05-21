@@ -29,11 +29,11 @@
 #ifdef HAVE_DYNLIB_SUPPORT
 
 #ifdef UNIX_COMPILE
-#include "../unix/dynlib.c"
+#include "dynlib-unix.c"
 #endif
 
 #ifdef WIN32_COMPILE
-#include "../win32/dynlib.c"
+#include "dynlib-win32.c"
 #endif
 
 #endif
