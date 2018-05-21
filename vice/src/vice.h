@@ -135,12 +135,6 @@ typedef int ssize_t;
    to be added to the translate.* translation tables. */
 #define T_(String) (String)
 
-/* enable Unicode support in tchar.h. */
-#ifndef _UNICODE
-#define _UNICODE
-#endif
-#endif
-
 #ifdef __OS2__
 int yyparse (void);
 #undef __GNUC__
