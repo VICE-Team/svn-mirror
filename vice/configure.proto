@@ -166,8 +166,6 @@ else
 fi
 AC_SUBST(VERSION_RC)
 
-AC_DEFINE(VERSION_RC,"$VERSION_RC",[Win32 Version string.])
-
 VERSION_COMBINED=`expr $VICE_VERSION_MAJOR \* 65536 + $VICE_VERSION_MINOR \* 256 + $VICE_VERSION_BUILD`
 AC_SUBST(VERSION_COMBINED)
 
@@ -181,7 +179,6 @@ is_os2=no
 is_beos=no
 is_amiga=no
 
-HAVE_FULLSCREEN_SUPPORT="no "
 HAVE_OPENGL_SYNC_SUPPORT="no "
 HAVE_CAIRO_SUPPORT="no "
 HAVE_PANGO_SUPPORT="no "
@@ -194,8 +191,6 @@ HAVE_XRANDR_SUPPORT="no "
 USE_UI_THREADS_SUPPORT="no "
 HAVE_LIBXPM_SUPPORT="no "
 HAVE_VTE_SUPPORT="no "
-HAVE_D3D9_H_SUPPORT="no "
-ENABLE_UNICODE_API_SUPPORT="no "
 
 HAVE_CATWEASELMKIII_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
@@ -842,15 +837,6 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
 
   AC_CHECK_HEADERS([commctrl.h shlobj.h winioctl.h], [], [], [#include <windows.h>])
 
-  dnl SDL and native GTK3 UIs have their own joystick, mouse and lightpen checks
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
-    AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
-    HAS_JOYSTICK_SUPPORT="yes"
-    AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-    HAVE_MOUSE_SUPPORT="yes"
-    AC_DEFINE(HAVE_LIGHTPEN,,[Enable lightpen support])
-    HAVE_LIGHTPEN_SUPPORT="yes"
-  fi
   AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
   AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
@@ -903,16 +889,6 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
     HAVE_RS232DEV_SUPPORT="yes"
-  fi
-
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
-    AC_TRY_LINK([#include <windows.h>],
-                [LARGE_INTEGER li; return (int) li.QuadPart],
-                AC_DEFINE(HAS_LONGLONG_INTEGER,,
-                  [Support 64bit integer for Win32 performance counter]),)
-    AC_TRY_LINK([#include <windows.h>],
-                [HGLOBAL hGlobal; UnlockResource(hGlobal); return 0],
-                AC_DEFINE(HAS_UNLOCKRESOURCE,,[Do we have UnlockResource()?]),)
   fi
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
@@ -2426,11 +2402,6 @@ if test x"$enable_quicktime" = "xyes" -o x"$is_unix_macosx" = "xyes"; then
       fi
     fi
   fi
-  dnl ----- Windows -----
-  if test x"$is_win32" = x"yes" ; then
-    echo "TODO"
-  fi
-
 fi
 AC_SUBST(QUICKTIME_INCLUDES)
 AC_SUBST(QUICKTIME_LIBS)
@@ -3224,43 +3195,6 @@ if test x"$is_win32" = "xyes"; then
                                [ AC_MSG_RESULT(yes) ],
                                [ AC_MSG_ERROR(no) ]
                               )
-        fi
-
-        AC_PATH_TOOL(WINDRES, windres, windres)
-        AC_PATH_PROGS(WRC, wrc , windres)
-        if test x"$WRC" != "xwindres"; then
-            WRC_VERSION=`($WRC --version) 2>/dev/null`
-            case "$WRC_VERSION" in
-                Wine*)
-                    winerc=yes
-                    ;;
-                *)
-                    winerc=no
-                    AC_MSG_WARN([WRC found, but is not the Wine Resource Compiler])
-                    WRC="$WINDRES"
-                    ;;
-            esac
-        else
-            AC_MSG_WARN([WRC not found, WRC is required for proper internationalization support])
-            WRC="$WINDRES"
-        fi
-        dnl if windres is used, test for proper ISO codepage support
-        if test x"$WRC" = x"$WINDRES"; then
-          AC_MSG_CHECKING(if windres supports iso codepages)
-          rm -f test.rc test.res
-          echo >test.rc "#pragma code_page(29852)"
-          echo >>test.rc "STRINGTABLE"
-          echo >>test.rc "BEGIN"
-          echo >>test.rc "1, \"test\""
-          echo >>test.rc "END"
-          $WINDRES test.rc -o test.res 2>/dev/null
-          if test -e "test.res"; then
-            AC_MSG_RESULT(yes)
-          else
-            AC_DEFINE(WINDRES_CP_IGNORE,,[Have windres ignore code page pragmas])
-            AC_MSG_RESULT(no)
-          fi
-          rm -f test.rc test.res
         fi
     else
         SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
@@ -4176,78 +4110,6 @@ elif test x"$is_beos" = "xyes"; then
 
   LIBS="$LIBS -lbe -ltracker -ldevice -lmedia -lgame"
   AC_SUBST(LDFLAGS)
-
-elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
-
-  dnl On Windows, we already know what we want.
-
-  if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-    LIBS="$LIBS -lkernel32 -lshfolder -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lws2_32 -lversion"
-  else
-    LIBS="$LIBS -lkernel32 -lshfolder -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lwsock32 -lversion"
-  fi
-
-  AC_CHECK_HEADER(d3d9.h,
-      [ AC_DEFINE(HAVE_D3D9_H,,[Support for DirectX9.])
-        HAVE_D3D9_H_SUPPORT="yes" ],)
-  AC_CHECK_LIB(dxguid, GUID_SysMouse,[LIBS="$LIBS -ldxguid";
-               AC_DEFINE(HAVE_GUIDLIB,,
-                         [Is the GUID lib of DX SDK present?])],,$LIBS)
-
-  if test x"$enable_unicode" = "xyes"; then
-    AC_DEFINE(WIN32_UNICODE_SUPPORT,,[Use WinNT Unicode API calls.])
-    ENABLE_UNICODE_API_SUPPORT="yes"
-  fi
-
-  AC_MSG_CHECKING([if we have an ISO C99 compliant vswprintf function])
-  AC_TRY_COMPILE([#include <stdarg.h>
-                  #include <wchar.h>],
-                 [va_list args;
-                  wchar_t buf[10];
-                  vswprintf(buf, 10, L"%d", args)],
-                 [AC_DEFINE(HAVE_STDC_VSWPRINTF,,[Do we have an ISO C99 compliant vswprintf function?])
-                  AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
-
-  AC_MSG_CHECKING([whether DWORD is defined as unsigned long or unsigned int in the Mingw32 headers])
-  AC_TRY_COMPILE([#include <windows.h>
-                  extern DWORD test;
-                  unsigned long test; ],
-                 ,
-                 [ AC_DEFINE(DWORD_IS_LONG,,
-                   [Is DWORD defined as long or int in the Windows header files?])
-                   AC_MSG_RESULT(unsigned long) ], AC_MSG_RESULT(unsigned int))
-
-  vsid_LDFLAGS="-mwindows"
-  x64_LDFLAGS="-mwindows"
-  x128_LDFLAGS="-mwindows"
-  xscpu64_LDFLAGS="-mwindows"
-  xvic_LDFLAGS="-mwindows"
-  xpet_LDFLAGS="-mwindows"
-  xplus4_LDFLAGS="-mwindows"
-  xcbm2_LDFLAGS="-mwindows"
-
-  if test x"$CC" != "xowcc"; then
-    VSID_WINRES="\$(top_builddir)/src/arch/win32/resvsid.o"
-    X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
-    X64DTV_WINRES="\$(top_builddir)/src/arch/win32/resc64dtv.o"
-    XSCPU64_WINRES="\$(top_builddir)/src/arch/win32/resscpu64.o"
-    X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
-    XVIC_WINRES="\$(top_builddir)/src/arch/win32/resvic20.o"
-    XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
-    XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
-    XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
-    XCBM5X0_WINRES="\$(top_builddir)/src/arch/win32/rescbm5x0.o"
-  fi
-
-  AC_SUBST(LDFLAGS)
-
-  if test -z "$WINDRES" ; then
-    WINDRES="windres"
-  fi
-
-  AC_SUBST(WINDRES)
-
-  AC_DEFINE(HAS_TRANSLATION,,[Enable internationalization support])
 fi
 
 dnl CBM4Linux/OpenCBM
@@ -4288,17 +4150,6 @@ AC_SUBST(xpet_LDFLAGS)
 AC_SUBST(xplus4_LDFLAGS)
 AC_SUBST(xcbm2_LDFLAGS)
 
-AC_SUBST(VSID_WINRES)
-AC_SUBST(X64_WINRES)
-AC_SUBST(X64DTV_WINRES)
-AC_SUBST(XSCPU64_WINRES)
-AC_SUBST(X128_WINRES)
-AC_SUBST(XVIC_WINRES)
-AC_SUBST(XPET_WINRES)
-AC_SUBST(XPLUS4_WINRES)
-AC_SUBST(XCBM2_WINRES)
-AC_SUBST(XCBM5X0_WINRES)
-
 AM_CONDITIONAL(SUPPORT_X64DTV, true)
 AM_CONDITIONAL(SUPPORT_X64SC, true)
 
@@ -4311,7 +4162,7 @@ if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/sdl"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/mingw32/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
   fi
@@ -4344,7 +4195,7 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/gtk3"
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/widgets/libwidgets.a $ARCH_DIR/widgets/base/libbasewidgets.a"
   if test x"$is_win32" = "xyes"; then
-    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/win32/mingw32/wpcap"
+    ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch/mingw32-pcap/wpcap"
     AM_CONDITIONAL(MAKE_BINDIST, true)
   else
     ARCH_INCLUDES="-I$ARCH_SRC_DIR -I\$(top_srcdir)/src/arch"
@@ -4586,12 +4437,6 @@ if test x"$is_unix" = "xyes"; then
 
 
 elif test x"$is_win32" = "xyes"; then
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes" -a x"$enable_native_gtk3ui" != "xyes"; then
-    ARCH_DIR="\$(top_builddir)/src/arch/win32"
-    ARCH_SRC_DIR="\$(top_srcdir)/src/arch/win32"
-    ARCH_LIBS="$ARCH_DIR/libarch.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
-  fi
   AC_DEFINE(WIN32_COMPILE,,[Are we compiling for win32?])
 
   if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
@@ -5128,11 +4973,6 @@ fi
 if test x"$is_os2" = "xyes"; then
     show_gui="DIVE (PM)"
 fi
-if test x"$is_win32" = "xyes"; then
-    if test x"$is_win32_x11" != "xyes" -a x"$enable_native_gtk3ui" = "xyes"; then
-        show_gui="Win32"
-    fi
-fi
 if test "x$ac_cv_lib_Xaw3d_XawFormDoLayout" = xyes; then
     show_gui="XAW3D"
 fi
@@ -5178,24 +5018,12 @@ echo ""
 echo "SCREEN/UI"
 echo "---------"
 
-if test x"$real_arch" != "xAmiga" -a x"$real_arch" != "xWin32"; then
-    echo "Fullscreen support             : $HAVE_FULLSCREEN_SUPPORT (--enable/disable-fullscreen)"
-fi
-
 if test x"$real_arch" != "xWin32" -a x"$real_arch" != "xBeOS"; then
     echo "Hardware scaling support       : $HAVE_HWSCALE_SUPPORT"
 fi
 
 if test x"$real_arch" = "xUnix" -o x"$show_gui" = "xSDL" -o x"$show_gui" = "xSDL2"; then
     echo "OpenGL sync support            : $HAVE_OPENGL_SYNC_SUPPORT"
-fi
-
-if test x"$real_arch" = "xWin32" -a x"$show_gui" = "xWin32"; then
-    echo "Direct3D support               : $HAVE_D3D9_H_SUPPORT"
-fi
-
-if test x"$real_arch" = "xWin32"; then
-    echo "Unicode support                : $ENABLE_UNICODE_API_SUPPORT (--enable/disable-unicode)"
 fi
 
 if test x"$real_arch" = "xUnix"; then
