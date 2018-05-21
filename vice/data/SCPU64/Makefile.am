@@ -59,17 +59,8 @@ extra_keymaps = \
 	osx_pos.vkm \
 	osx_sym_de.vkm \
 	osx_sym.vkm \
-	win_pos.vkm \
-	win_pos_de.vkm \
-	win_sym.vkm \
-	win_sym_de.vkm \
-	win_sym_it.vkm \
 	x11_keyrah.vkm \
 	x11_keyrah_de.vkm
-
-win32_files = \
-	win_hotkeys.vhk \
-	win_shortcuts.vsc
 
 sym_file = \
 	scpu64mem.sym
@@ -77,9 +68,9 @@ sym_file = \
 if SDL_COMPILE
 scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
 
-EXTRA_DIST = $(scpu64_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
+EXTRA_DIST = $(scpu64_DATA) $(extra_keymaps) $(x11_keymaps)
 else
 scpu64_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps) $(sym_file)
 
-EXTRA_DIST = $(scpu64_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
+EXTRA_DIST = $(scpu64_DATA) $(extra_keymaps) $(sdl_keymaps)
 endif

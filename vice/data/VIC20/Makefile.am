@@ -31,21 +31,14 @@ extra_keymaps = \
 	beos_sym.vkm \
 	beos_pos.vkm \
 	osx_pos.vkm \
-	osx_sym.vkm \
-	win_sym.vkm \
-	win_sym_US.vkm \
-	win_pos.vkm
-
-win32_files = \
-	win_hotkeys.vhk \
-	win_shortcuts.vsc
+	osx_sym.vkm
 
 if SDL_COMPILE
 vic20_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(vic20_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
+EXTRA_DIST = $(vic20_DATA) $(extra_keymaps) $(x11_keymaps)
 else
 vic20_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
 
-EXTRA_DIST = $(vic20_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
+EXTRA_DIST = $(vic20_DATA) $(extra_keymaps) $(sdl_keymaps)
 endif

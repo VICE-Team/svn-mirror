@@ -45,7 +45,6 @@ palettes = \
 x11_keymaps = \
 	x11_sym.vkm \
 	x11_pos.vkm \
-	\
 	gtk3_sym.vkm \
 	gtk3_pos.vkm
 
@@ -59,20 +58,14 @@ extra_keymaps = \
 	beos_sym.vkm \
 	beos_pos.vkm \
 	osx_pos.vkm \
-	osx_sym.vkm \
-	win_sym.vkm \
-	win_pos.vkm
-
-win32_files = \
-	win_hotkeys.vhk \
-	win_shortcuts.vsc
+	osx_sym.vkm
 
 if SDL_COMPILE
 c128_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
+EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(x11_keymaps)
 else
 c128_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
 
-EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
+EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(sdl_keymaps)
 endif

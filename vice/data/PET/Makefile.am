@@ -80,21 +80,14 @@ extra_keymaps = \
 	beos_bgrs.vkm \
 	beos_buks.vkm \
 	osx_grus_sym.vkm \
-	osx_sym_uk.vkm \
-	win_grus_sym.vkm \
-	win_sym_uk.vkm \
-	win_sym.vkm
-
-win32_files = \
-	win_hotkeys.vhk \
-	win_shortcuts.vsc
+	osx_sym_uk.vkm
 
 if SDL_COMPILE
 pet_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(pet_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
+EXTRA_DIST = $(pet_DATA) $(extra_keymaps) $(x11_keymaps)
 else
 pet_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
 
-EXTRA_DIST = $(pet_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
+EXTRA_DIST = $(pet_DATA) $(extra_keymaps) $(sdl_keymaps)
 endif

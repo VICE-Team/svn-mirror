@@ -48,17 +48,7 @@ extra_keymaps = \
 	beos_pos.vkm \
 	osx_pos.vkm \
 	osx_sym_de.vkm \
-	osx_sym.vkm \
-	win_pos.vkm \
-	win_pos_de.vkm \
-	win_sym.vkm \
-	win_sym_de.vkm \
-	win_sym_it.vkm \
-	win_sym_us.vkm
-
-win32_files = \
-	win_hotkeys.vhk \
-	win_shortcuts.vsc
+	osx_sym.vkm
 
 sym_file = \
 	c64mem.sym
@@ -66,9 +56,9 @@ sym_file = \
 if SDL_COMPILE
 c64dtv_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
 
-EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
+EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(x11_keymaps)
 else
 c64dtv_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps) $(sym_file)
 
-EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
+EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(sdl_keymaps)
 endif

@@ -54,21 +54,14 @@ extra_keymaps = \
 	beos_bukp.vkm \
 	beos_buks.vkm \
 	osx_pos_uk.vkm \
-	osx_sym_uk.vkm \
-	win_sym.vkm \
-	win_pos_uk.vkm \
-	win_sym_uk.vkm
-
-win32_files = \
-	win_hotkeys.vhk \
-	win_shortcuts.vsc
+	osx_sym_uk.vkm
 
 if SDL_COMPILE
 cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
+EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(x11_keymaps)
 else
 cbm2_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
 
-EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
+EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(sdl_keymaps)
 endif
