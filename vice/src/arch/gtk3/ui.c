@@ -74,19 +74,10 @@
  *                  Defines, enums, type declarations                        *
  ****************************************************************************/
 
-/** \brief  Default HTML browser
- *
- * \todo    Needs ifdef's for different archs
- */
-#define HTML_BROWSER_COMMAND_DEFAULT    "firefox %s"
-
-
-
 /** \brief  Struct holding basic UI rescources
  */
 typedef struct ui_resources_s {
 
-    char *html_browser_command; /**< HTMLBrowserCommand (str) */
     int save_resources_on_exit; /**< SaveResourcesOnExit (bool) */
     int confirm_on_exit;        /**< ConfirmOnExit (bool) */
 
@@ -117,7 +108,6 @@ static int native_monitor_enabled = 0;
 
 /* Forward declarations of static functions */
 
-static int set_html_browser_command(const char *val, void *param);
 static int set_save_resources_on_exit(int val, void *param);
 static int set_confirm_on_exit(int val, void *param);
 static int set_window_height(int val, void *param);
@@ -135,12 +125,14 @@ static int set_native_monitor(int val, void *param);
 
 /** \brief  String type resources list
  */
+#if 0
 static const resource_string_t resources_string[] = {
-    { "HTMLBrowserCommand", HTML_BROWSER_COMMAND_DEFAULT, RES_EVENT_NO, NULL,
-        &ui_resources.html_browser_command, set_html_browser_command, NULL },
     RESOURCE_STRING_LIST_END
 };
+#endif
 
+/** \brief  Integer/Boolean type resources list
+ */
 
 static const resource_int_t resources_int_shared[] = {
     { "NativeMonitor", 1, RES_EVENT_NO, NULL,
@@ -148,9 +140,6 @@ static const resource_int_t resources_int_shared[] = {
     RESOURCE_INT_LIST_END
 };
 
-
-/** \brief  Integer/Boolean type resources list
- */
 static const resource_int_t resources_int_primary_window[] = {
     { "SaveResourcesOnExit", 0, RES_EVENT_NO, NULL,
         &ui_resources.save_resources_on_exit, set_save_resources_on_exit, NULL },
@@ -203,12 +192,6 @@ static const resource_int_t resources_int_secondary_window[] = {
 /** \brief  Command line options shared between emu's, include VSID
  */
 static const cmdline_option_t cmdline_options_common[] = {
-    { "-htmlbrowser", SET_RESOURCE, 1,
-        NULL, NULL, "HTMLBrowserCommand", NULL,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDCLS_UNUSED, IDCLS_UNUSED,
-        N_("<Command>"), N_("Specify and HTML browser for the on-line help") },
-
     { "-confirmexit", SET_RESOURCE, 0,
         NULL, NULL, "ConfirmOnExit", (void *)1,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -284,10 +267,6 @@ static GtkTargetEntry drag_targets[] = {
 /** \brief  Flag indicating pause mode
  */
 static int is_paused = 0;
-
-/** \brief  Signals the html_browser_command field of the resource got allocated
- */
-static int html_browser_command_set = 0;
 
 /** \brief  Index of the most recently focused main window
  */
@@ -757,21 +736,6 @@ static int window_index_from_param(void *param)
  */
 
 
-/** \brief  Set new HTML browser command string
- *
- * \param[in]   val     browser command string
- * \param[in]   param   extra parameter (ignored)
- *
- * \return  0
- */
-static int set_html_browser_command(const char *val, void *param)
-{
-    util_string_set(&ui_resources.html_browser_command, val);
-    html_browser_command_set = 1;
-    return 0;
-}
-
-
 /** \brief  Set SaveResourcesOnExit resource
  *
  * \param[in]   val     new value
@@ -1213,11 +1177,12 @@ int ui_resources_init(void)
     if (resources_register_int(resources_int_shared) != 0) {
         return -1;
     }
-
+#if 0
     /* initialize string resources */
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
+#endif
     /* initialize int/bool resources */
     if (resources_register_int(resources_int_primary_window) < 0) {
         return -1;
@@ -1242,9 +1207,6 @@ int ui_resources_init(void)
  */
 void ui_resources_shutdown(void)
 {
-    if (html_browser_command_set) {
-        lib_free(ui_resources.html_browser_command);
-    }
 }
 
 /** \brief Clean up memory used by the UI system itself

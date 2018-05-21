@@ -64,7 +64,6 @@ libwidgets_a_SOURCES = \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
 	gmod2widget.c \
-	htmlbrowserwidget.c \
 	ide64widget.c \
 	ieee488widget.c \
 	isepicwidget.c \

@@ -6,7 +6,6 @@
 
 /*
  * $VICERES VirtualDevices      -vsid
- * $VICERES HTMLBrowserCommand  all
  */
 
 /*
@@ -37,7 +36,6 @@
 #include "vice_gtk3.h"
 #include "resources.h"
 
-#include "htmlbrowserwidget.h"
 #include "cwdwidget.h"
 #include "jamactionwidget.h"
 
@@ -56,14 +54,12 @@
 GtkWidget *settings_misc_widget_create(GtkWidget *widget)
 {
     GtkWidget *grid;
-    GtkWidget *browser = html_browser_widget_create();
     GtkWidget *cwd_widget = cwd_widget_create();
     GtkWidget *vdev_widget = vice_gtk3_resource_check_button_new("VirtualDevices",
             "Enable virtual devices");
     GtkWidget *jam_widget = jam_action_widget_create();
 
     grid = gtk_grid_new();
-    gtk_grid_attach(GTK_GRID(grid), browser, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), cwd_widget, 0, 1, 1, 1);
     g_object_set(vdev_widget, "margin-left",8, NULL);
     gtk_grid_attach(GTK_GRID(grid), vdev_widget, 0, 2, 1, 1);
