@@ -1,7 +1,7 @@
 ## Makefile.am for the native GTK3 version of `libarch.a'.
 
 if WIN32_COMPILE
-extra_includes = -I$(top_srcdir)/src/arch/win32/mingw32/wpcap
+extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
 else
 extra_includes =
 endif
