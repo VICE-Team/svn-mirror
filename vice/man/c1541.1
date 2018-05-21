@@ -75,6 +75,8 @@ extract all the files to the file system and GEOS Convert them.
 read GEOS \fIsource\fR from the disk image and copy it as a Convert file into
 \fIdestination\fR in the file system. If \fIdestination\fR is not specified,
 copy it into a file with the same name as \fIsource\fR.
+Please note that since GEOS files are stored in ASCII, violating CBMDOS
+conventions, the filename should be given in inverted case.
 .TP
 .B \-geoswrite \fIsource\fR (geoswrite \fIsource\fR)
 write GEOS Convert file \fIsource\fR from the file system on a disk image.
