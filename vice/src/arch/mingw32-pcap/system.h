@@ -37,13 +37,6 @@
 #include <prsht.h>
 #include <tchar.h>
 
-#if defined(WIN32_UNICODE_SUPPORT) && defined(HAVE_STDC_VSWPRINTF)
-/* This is a hack to work around compilers with a version of
-   _stprintf() that is broken in Unicode mode. */
-#undef _stprintf
-#define _stprintf  wsprintfW
-#endif
-
 extern void system_init_dialog(HWND hwnd);
 extern void system_psh_settings(PROPSHEETHEADER *ppsh);
 

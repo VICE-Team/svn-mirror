@@ -52,21 +52,11 @@ extern void lib_debug_check(void);
 
 #if defined(__CYGWIN32__) || defined(__CYGWIN__) || defined(WIN32_COMPILE)
 
-#ifdef WIN32_UNICODE_SUPPORT
-#include <wchar.h>
-
-extern size_t lib_tcstostr(char *str, const wchar_t *tcs, size_t len);
-extern size_t lib_strtotcs(wchar_t *tcs, const char *str, size_t len);
-
-extern int lib_swprintf(wchar_t *wcs, size_t len, const wchar_t *fmt, ...);
-#define lib_sntprintf lib_swprintf
-#else
 extern size_t lib_tcstostr(char *str, const char *tcs, size_t len);
 extern size_t lib_strtotcs(char *tcs, const char *str, size_t len);
 
 extern int lib_snprintf(char *str, size_t len, const char *fmt, ...);
 #define lib_sntprintf lib_snprintf
-#endif
 
 #endif /* CYGWIN or WIN32_COMPILE */
 

@@ -135,19 +135,6 @@ typedef int ssize_t;
    to be added to the translate.* translation tables. */
 #define T_(String) (String)
 
-#if defined(WIN32_COMPILE) && (defined(UNICODE) || defined(_UNICODE))
-/* enable WinNT Unicode support in VICE. */
-#ifndef WIN32_UNICODE_SUPPORT
-#define WIN32_UNICODE_SUPPORT
-#endif
-#endif
-
-#ifdef WIN32_UNICODE_SUPPORT
-/* enable WinNT Unicode API calls. */
-#ifndef UNICODE
-#define UNICODE
-#endif
-
 /* enable Unicode support in tchar.h. */
 #ifndef _UNICODE
 #define _UNICODE
