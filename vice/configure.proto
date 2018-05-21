@@ -5002,12 +5002,6 @@ AC_OUTPUT([Makefile
            src/arch/unix/macosx/cocoa/dialog/Makefile
            src/arch/unix/macosx/Resources/Makefile
            src/arch/unix/macosx/Resources/English.lproj/Makefile
-           src/arch/win32/Makefile
-           src/arch/win32/evc/Makefile
-           src/arch/win32/mingw32/Makefile
-           src/arch/win32/mingw32/wpcap/Makefile
-           src/arch/win32/mingw32/wpcap/net/Makefile
-           src/arch/win32/utils/Makefile
            src/buildtools/Makefile
            src/c128/Makefile
            src/c64/Makefile
