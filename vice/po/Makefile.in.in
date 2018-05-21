@@ -50,8 +50,8 @@ POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog ChangeLog.1 Makefile.in.in POTFILES.in $(PACKAGE).pot \
 stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed intl2po.c \
-gen_amiga_intl_c.c gen_translate_c.c gen_win32_rc.c po2table.c \
-gen_win32_files.sh check_obsolete.sh translations-status.txt
+gen_amiga_intl_c.c gen_translate_c.c po2table.c \
+check_obsolete.sh translations-status.txt
 
 POTFILES = \
 
@@ -62,7 +62,7 @@ INSTOBJEXT = @INSTOBJEXT@
 .NOTPARALLEL:
 
 .SUFFIXES:
-.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat .rc .rc.po.c .c.po.c
+.SUFFIXES: .c .o .po .pox .gmo .mo .msg .cat .c.po.c
 
 .c.o:
 	$(COMPILE) $<
@@ -81,9 +81,6 @@ INSTOBJEXT = @INSTOBJEXT@
 .po.cat:
 	sed -f $(srcdir)/po2msg.sed < $< > $*.msg \
 	  && rm -f $@ && $(GENCAT) $@ $*.msg
-
-.rc.rc.po.c:
-	./intl2po win32 $< $@ $(top_srcdir) $(top_builddir)
 
 .c.c.po.c:
 	./intl2po intl $< $@ $(top_srcdir) $(top_builddir)
@@ -195,7 +192,7 @@ dvi info tags TAGS ID:
 
 mostlyclean:
 	rm -f core core.* *.pox $(PACKAGE).po *.old.po cat-id-tbl.tmp intl2po
-	rm -fr *.o $(top_srcdir)/src/arch/win32/*.po.c $(top_srcdir)/src/arch/amiga/*.po.c
+	rm -fr *.o $(top_srcdir)/src/arch/amiga/*.po.c
 
 clean: mostlyclean
 
@@ -250,10 +247,6 @@ gen_translate_c: po2table po2table.c gen_translate_c.c
 @CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_translate_c.c -o gen_translate_c
 @CROSS_TRUE@	gcc $(srcdir)/gen_translate_c.c -o gen_translate_c
 
-gen_win32_rc: po2table po2table.c gen_win32_rc.c
-@CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_win32_rc.c -o gen_win32_rc
-@CROSS_TRUE@	gcc $(srcdir)/gen_win32_rc.c -o gen_win32_rc
-
 po_table.h: da.po de.po es.po fr.po hu.po it.po ko.po nl.po pl.po ru.po sv.po tr.po po2table
 	./po2table
 
@@ -276,8 +269,6 @@ trans-update:
 	./gen_amiga_intl_c
 	rm -f ../src/arch/amigaos/intl_text.c
 	mv ../src/arch/amigaos/temp_intl.h ../src/arch/amigaos/intl_text.c
-	$(MAKE) gen_win32_rc
-	./gen_win32_files.sh $(POTFILES)
 	( if test 'x@DEBUGBUILD@' = 'x1'; then cat >tmp_trans.txt ../src/translate.txt ../src/arch/amigaos/intl.txt; ./check_obsolete.sh $(POTFILES) <tmp_trans.txt; rm -f tmp_trans.txt; fi )
 
 POTFILES: POTFILES.in intl2po

@@ -46,8 +46,6 @@ do
       ;;
     *unix*)
       ;;
-    *res*.rc*)
-      ;;
     *intl_text.c)
       ;;
     *translate_text.c)
