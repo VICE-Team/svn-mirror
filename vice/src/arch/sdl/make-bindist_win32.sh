@@ -88,13 +88,9 @@ cp $TOPSRCDIR/COPYING $TOPSRCDIR/NEWS $SDLNAME-$VICEVERSION-$WINXX
 cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt $SDLNAME-$VICEVERSION-$WINXX
 rm `find $SDLNAME-$VICEVERSION-$WINXX -name "Makefile*"`
 rm `find $SDLNAME-$VICEVERSION-$WINXX -name "amiga_*.vkm"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "dos_*.vkm"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "os2*.vkm"`
 rm `find $SDLNAME-$VICEVERSION-$WINXX -name "osx*.vkm"`
 rm `find $SDLNAME-$VICEVERSION-$WINXX -name "beos_*.vkm"`
 rm `find $SDLNAME-$VICEVERSION-$WINXX -name "x11_*.vkm"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "win*.v*"`
-rm `find $SDLNAME-$VICEVERSION-$WINXX -name "*.vsc"`
 rm $SDLNAME-$VICEVERSION-$WINXX/html/texi2html
 mkdir $SDLNAME-$VICEVERSION-$WINXX/doc
 cp $TOPSRCDIR/doc/vice.chm $SDLNAME-$VICEVERSION-$WINXX/doc
