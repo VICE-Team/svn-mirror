@@ -4875,7 +4875,6 @@ AC_OUTPUT([Makefile
            build/android/Makefile
            build/beos/Makefile
            build/macosx/Makefile
-           build/mingw32/Makefile
            build/minix3/Makefile
            build/nextstep/Makefile
            build/openstep/Makefile
