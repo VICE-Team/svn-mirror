@@ -24,7 +24,7 @@ endif
 
 if WIN32_COMPILE
 
-SUBDIRS = win32 mingw32-pcap
+SUBDIRS = mingw32-pcap
 
 endif
 
