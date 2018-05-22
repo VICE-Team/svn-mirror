@@ -1,8 +1,7 @@
 /** \file   settings_crt.c
  * \brief   GTK3 CRT settings UI
  *
- * Settings UI widget to control CRT settings. For testing, the CRT settings
- * widget should be available from the status bar.
+ * Settings UI widget to control CRT settings.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -41,15 +40,59 @@
 #include "settings_crt.h"
 
 
+
+/** \brief  Create a CRT settings widget for the settings UI
+ *
+ * Creates sliders to control CRT settings. In the case of the C128 two widgets
+ * are created, one for the VICII and for the VDC.
+ *
+ * \param[in]   parent  parent widget (ignored)
+ *
+ * \return  GtkGrid
+ */
 GtkWidget *settings_crt_widget_create(GtkWidget *parent)
 {
     GtkWidget *grid;
-    GtkWidget *chip1;
+    GtkWidget *chip1 = NULL;
+    GtkWidget *chip2 = NULL;
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    chip1 = crt_control_widget_create(grid, "VICII", FALSE);
-    gtk_grid_attach(GTK_GRID(grid), chip1, 0, 0, 1, 1);
+    switch (machine_class) {
+        case VICE_MACHINE_C64:      /* fall through */
+        case VICE_MACHINE_C64SC:    /* fall through */
+        case VICE_MACHINE_C64DTV:   /* fall through */
+        case VICE_MACHINE_SCPU64:   /* fall through */
+        case VICE_MACHINE_CBM5x0:
+            chip1 = crt_control_widget_create(NULL, "VICII", FALSE);
+            break;
+        case VICE_MACHINE_VIC20:
+            chip1 = crt_control_widget_create(NULL, "VIC", FALSE);
+            break;
+        case VICE_MACHINE_PLUS4:
+            chip1 = crt_control_widget_create(NULL, "TED", FALSE);
+            break;
+        case VICE_MACHINE_PET:      /* fall through */
+        case VICE_MACHINE_CBM6x0:
+            chip1 = crt_control_widget_create(NULL, "CRTC", FALSE);
+            break;
+        case VICE_MACHINE_C128:
+            chip1 = crt_control_widget_create(NULL, "VICII", FALSE);
+            chip2 = crt_control_widget_create(NULL, "VDC", FALSE);
+            break;
+        default:
+            debug_gtk3("shouldn't get here, VSID doesn't support CRTs\n");
+            break;
+    }
+
+    /* add VIC/VICII/TED/CRTC */
+    if (chip1 != NULL) {
+        gtk_grid_attach(GTK_GRID(grid), chip1, 0, 0, 1, 1);
+    }
+    /* add VDC in case of c128 */
+    if (chip2 != NULL) {
+        gtk_grid_attach(GTK_GRID(grid), chip2, 0, 1, 1, 1);
+    }
 
     gtk_widget_show_all(grid);
     return grid;

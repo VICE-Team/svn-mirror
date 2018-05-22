@@ -142,6 +142,7 @@
 #include "vfliwidget.h"
 #include "petdiagpinwidget.h"
 #include "pethrewidget.h"
+#include "settings_crt.h"
 
 #include "uisettings.h"
 
@@ -710,6 +711,9 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 /** \brief  Main tree nodes for x64/x64sc
  */
 static ui_settings_tree_node_t main_nodes_c64[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -786,6 +790,9 @@ static ui_settings_tree_node_t main_nodes_c64[] = {
 /** \brief  Main tree nodes for x64dtv
  */
 static ui_settings_tree_node_t main_nodes_c64dtv[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -855,6 +862,9 @@ static ui_settings_tree_node_t main_nodes_c64dtv[] = {
 /** \brief  Main tree nodes for x128
  */
 static ui_settings_tree_node_t main_nodes_c128[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -932,6 +942,9 @@ static ui_settings_tree_node_t main_nodes_c128[] = {
 /** \brief  Main tree nodes for xscpu64
  */
 static ui_settings_tree_node_t main_nodes_scpu64[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -1011,6 +1024,9 @@ static ui_settings_tree_node_t main_nodes_scpu64[] = {
 /** \brief  Main tree nodes for xvic
  */
 static ui_settings_tree_node_t main_nodes_vic20[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -1089,6 +1105,9 @@ static ui_settings_tree_node_t main_nodes_vic20[] = {
 /** \brief  Main tree nodes for xplus4
  */
 static ui_settings_tree_node_t main_nodes_plus4[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -1167,6 +1186,9 @@ static ui_settings_tree_node_t main_nodes_plus4[] = {
 /** \brief  Main tree nodes for xpet
  */
 static ui_settings_tree_node_t main_nodes_pet[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -1244,6 +1266,9 @@ static ui_settings_tree_node_t main_nodes_pet[] = {
 /** \brief  Main tree nodes for xcbm5x0
  */
 static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
@@ -1311,6 +1336,9 @@ static ui_settings_tree_node_t main_nodes_cbm5x0[] = {
 /** \brief  Main tree nodes for xcbm6x0
  */
 static ui_settings_tree_node_t main_nodes_cbm6x0[] = {
+    { "CRT settings",
+      "CRT",
+      settings_crt_widget_create, NULL },
     { "Speed settings",
       "speed",
        settings_speed_widget_create, NULL },
