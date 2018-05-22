@@ -334,32 +334,8 @@ static feature_list_t featurelist[] = {
         1 },
 #endif
 #ifdef AMIGA_SUPPORT /* (amiga) */
-    { "HAVE_PROTO_CYBERGRAPHICS_H", "Define to 1 if you have the <proto/cybergraphics.h> header file.",
-#ifndef HAVE_PROTO_CYBERGRAPHICS_H
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef AMIGA_SUPPORT /* (amiga) */
     { "HAVE_PROTO_OPENPCI_H", "Define to 1 if you have the <proto/openpci.h> header file.",
 #ifndef HAVE_PROTO_OPENPCI_H
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef AMIGA_SUPPORT /* (amiga) */
-    { "HAVE_PROTO_PICASSO96API_H", "Define to 1 if you have the <proto/Picasso96API.h> header file.",
-#ifndef HAVE_PROTO_PICASSO96API_H
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef AMIGA_SUPPORT /* (amiga) */
-    { "HAVE_PROTO_PICASSO96_H", "Define to 1 if you have the <proto/Picasso96.h> header file.",
-#ifndef HAVE_PROTO_PICASSO96_H
         0 },
 #else
         1 },
