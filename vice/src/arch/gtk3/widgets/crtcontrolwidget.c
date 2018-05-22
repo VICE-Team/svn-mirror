@@ -262,10 +262,11 @@ static void on_widget_destroy(GtkWidget *widget, gpointer user_data)
 /** \brief  Create right-aligned label with a smaller font
  *
  * \param[in]   text    label text
+ * \param[in]   minimal reduce label to minimum size
  *
  * \return  GtkLabel
  */
-static GtkWidget *create_label(const char *text)
+static GtkWidget *create_label(const char *text, gboolean minimal)
 {
     GtkWidget *label;
     GtkCssProvider *provider;
@@ -275,18 +276,20 @@ static GtkWidget *create_label(const char *text)
     label = gtk_label_new(text);
     gtk_widget_set_halign(label, GTK_ALIGN_END);
 
-    provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(provider, LABEL_CSS, -1, &err);
-    if (err != NULL) {
-        fprintf(stderr, "CSS error: %s\n", err->message);
-        g_error_free(err);
-    }
+    if (minimal) {
+        provider = gtk_css_provider_new();
+        gtk_css_provider_load_from_data(provider, LABEL_CSS, -1, &err);
+        if (err != NULL) {
+            fprintf(stderr, "CSS error: %s\n", err->message);
+            g_error_free(err);
+        }
 
-    context = gtk_widget_get_style_context(label);
-    if (context != NULL) {
-        gtk_style_context_add_provider(context,
-                GTK_STYLE_PROVIDER(provider),
-                GTK_STYLE_PROVIDER_PRIORITY_USER);
+        context = gtk_widget_get_style_context(label);
+        if (context != NULL) {
+            gtk_style_context_add_provider(context,
+                    GTK_STYLE_PROVIDER(provider),
+                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
     }
 
     return label;
@@ -304,7 +307,7 @@ static GtkWidget *create_label(const char *text)
  * \return  GtkScale
  */
 static GtkWidget *create_slider(const char *resource, const char *chip,
-        int low, int high, int step)
+        int low, int high, int step, gboolean minimal)
 {
     GtkWidget *scale;
     GtkCssProvider *css_provider;
@@ -318,18 +321,20 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
     gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
 
     /* set up custom CSS to make the scale take up less space */
-    css_provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(css_provider, SLIDER_CSS, -1, &err);
-    if (err != NULL) {
-        fprintf(stderr, "CSS error: %s\n", err->message);
-        g_error_free(err);
-    }
+    if (minimal) {
+        css_provider = gtk_css_provider_new();
+        gtk_css_provider_load_from_data(css_provider, SLIDER_CSS, -1, &err);
+        if (err != NULL) {
+            fprintf(stderr, "CSS error: %s\n", err->message);
+            g_error_free(err);
+        }
 
-    style_context = gtk_widget_get_style_context(scale);
-    if (style_context != NULL) {
-        gtk_style_context_add_provider(style_context,
-                GTK_STYLE_PROVIDER(css_provider),
-                GTK_STYLE_PROVIDER_PRIORITY_USER);
+        style_context = gtk_widget_get_style_context(scale);
+        if (style_context != NULL) {
+            gtk_style_context_add_provider(style_context,
+                    GTK_STYLE_PROVIDER(css_provider),
+                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
     }
 
     /* don't draw the value next to the scale */
@@ -344,10 +349,13 @@ static GtkWidget *create_slider(const char *resource, const char *chip,
  *
  * \param[in,out]   grid    grid to add widgets to
  * \param[in,out]   data    internal data of the main widget
+ * \param[in]       minimal minimize size of the slider
  *
  * \return  row number of last widget added
  */
-static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
+static void add_sliders(GtkGrid *grid,
+                        crt_control_data_t *data,
+                        gboolean minimal)
 {
     GtkWidget *label;
     const char *chip;
@@ -371,65 +379,65 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
 
     /* Standard controls: brightness, gamma etc */
 
-    label = create_label("Brightness:");
+    label = create_label("Brightness:", minimal);
     data->color_brightness = create_slider("ColorBrightness", chip,
-            0, 2000, 100);
+            0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_brightness, 1, row, 1, 1);
     row++;
 
-    label = create_label("Contrast:");
+    label = create_label("Contrast:", minimal);
     data->color_contrast = create_slider("ColorContrast", chip,
-            0, 2000, 100);
+            0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_contrast, 1, row, 1, 1);
     row++;
 
-    label = create_label("Saturation:");
+    label = create_label("Saturation:", minimal);
     data->color_saturation = create_slider("ColorSaturation", chip,
-            0, 2000, 100);
+            0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_saturation, 1, row, 1, 1);
     row++;
 
-    label = create_label("Tint:");
+    label = create_label("Tint:", minimal);
     data->color_tint = create_slider("ColorTint", chip,
-            0, 2000, 100);
+            0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_tint, 1, row, 1, 1);
     row++;
 
-    label = create_label("Gamma:");
+    label = create_label("Gamma:", minimal);
     data->color_gamma = create_slider("ColorGamma", chip,
-            0, 4000, 200);
+            0, 4000, 200, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_gamma, 1, row, 1, 1);
     row++;
 
-    label = create_label("Blur:");
+    label = create_label("Blur:", minimal);
     data->pal_blur = create_slider("PALBlur", chip,
-            0, 1000, 50);
+            0, 1000, 50, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
     row++;
 
-    label = create_label("Scanline shade:");
+    label = create_label("Scanline shade:", minimal);
     data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
-            0, 1000, 50);
+            0, 1000, 50, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
     row++;
 
-    label = create_label("Odd lines phase:");
+    label = create_label("Odd lines phase:", minimal);
     data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
-            0, 2000, 100);
+            0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
     row++;
 
-    label = create_label("Odd lines offset:");
+    label = create_label("Odd lines offset:", minimal);
     data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
-            0, 2000, 100);
+            0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
     row++;
@@ -444,49 +452,19 @@ static void add_sliders(GtkGrid *grid, crt_control_data_t *data)
 
 }
 
-#if 0
-/** \brief  Callback for the timeout used to check PAL/NTSC
- *
- * \param who cares
- */
-static gint timeout_callback(gpointer data)
-{
-    GtkWidget *widget = (GtkWidget *)data;
-    crt_control_data_t *state;
-    int video_standard;
-    int chip_id;
-    bool enabled;
-
-    state = g_object_get_data(G_OBJECT(widget), "InternalState");
-    if (state == NULL) {
-        debug_gtk3("oeps\n");
-        return 0;
-    }
-
-    chip_id = get_chip_id(state->chip);
-
-    resources_get_int("MachineVideoStandard", &video_standard);
-    enabled = ((video_standard == 0 /* PAL */
-                || video_standard == 1 /* Old PAL */
-                || video_standard == 4 /* PAL-N/Drean */
-                ) && chip_id != CHIP_CRTC && chip_id != CHIP_VDC);
-
-    gtk_widget_set_sensitive(state->pal_oddline_phase, enabled);
-    gtk_widget_set_sensitive(state->pal_oddline_offset, enabled);
-
-    return TRUE;    /* keep going */
-}
-#endif
-
 
 /** \brief  Create CRT control widget for \a chip
  *
  * \param[in]   parent  parent widget
  * \param[in]   chip    video chip name
+ * \param[in]   minimal reduce slider sizes to be used attached to the status
+ *              bar
  *
  * \return  GtkGrid
  */
-GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
+GtkWidget *crt_control_widget_create(GtkWidget *parent,
+                                     const char *chip,
+                                     gboolean minimal)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -511,13 +489,17 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
     /* g_object_set(grid, "font-size", 9, NULL); */
     g_object_set(grid, "margin-left", 8, "margin-right", 8, NULL);
 
-    g_snprintf(buffer, 256, "<small><b>CRT settings (%s)</b></small>", chip);
+    if (minimal) {
+        g_snprintf(buffer, 256, "<small><b>CRT settings (%s)</b></small>", chip);
+    } else {
+        g_snprintf(buffer, 256, "<b>CRT settings (%s)</b>", chip);
+    }
     label = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(label), buffer);
     gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
 
-    add_sliders(GTK_GRID(grid), data);
+    add_sliders(GTK_GRID(grid), data, minimal);
 
     button = gtk_button_new_with_label("Reset");
     gtk_widget_set_halign(button, GTK_ALIGN_END);
@@ -527,18 +509,6 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent, const char *chip)
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
     g_signal_connect(grid, "destroy", G_CALLBACK(on_widget_destroy), NULL);
 
-    /*
-     * When in doubt, do weird shit:
-     *
-     * Set up a timeout that checks the MachineVideoStandard resource and
-     * enables/disables the PAL related sliders.
-     *
-     * This happens every second, and every time the resource is read and
-     * the widgets' sensitivity set, even when the resource hasn't changed.
-     */
-#if 0
-    g_timeout_add(1000, timeout_callback, (gpointer)grid);
-#endif
     gtk_widget_show_all(grid);
     return grid;
 }

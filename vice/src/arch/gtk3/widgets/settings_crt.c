@@ -48,7 +48,7 @@ GtkWidget *settings_crt_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    chip1 = crt_control_widget_create(grid, "VICII");
+    chip1 = crt_control_widget_create(grid, "VICII", FALSE);
     gtk_grid_attach(GTK_GRID(grid), chip1, 0, 0, 1, 1);
 
     gtk_widget_show_all(grid);

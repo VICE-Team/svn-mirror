@@ -118,9 +118,9 @@ static int identify_canvas(video_canvas_t *canvas)
 static GtkWidget *create_crt_widget(int target_window)
 {
     if (target_window == PRIMARY_WINDOW) {
-        return crt_control_widget_create(NULL, "VICII");
+        return crt_control_widget_create(NULL, "VICII", TRUE);
     } else {
-        return crt_control_widget_create(NULL, "VDC");
+        return crt_control_widget_create(NULL, "VDC", TRUE);
     }
 }
 

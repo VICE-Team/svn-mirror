@@ -93,7 +93,7 @@ static int identify_canvas(video_canvas_t *canvas)
  */
 static GtkWidget *create_crt_widget(int target_window)
 {
-    return crt_control_widget_create(NULL, "VIC");
+    return crt_control_widget_create(NULL, "VIC", TRUE);
 }
 
 /** \brief  Pre-initialize the UI before the canvas window gets created
