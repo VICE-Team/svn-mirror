@@ -152,14 +152,10 @@ else
   fi
 fi
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "Makefile*"`
-rm `find $SDLVNAME-$AMIGAFLAVOR -name "dos_*.vkm"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "osx*.vkm"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "beos_*.vkm"`
-rm `find $SDLVNAME-$AMIGAFLAVOR -name "win_*.v*"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "x11_*.vkm"`
-rm `find $SDLVNAME-$AMIGAFLAVOR -name "amiga*.vkm"`
 rm `find $SDLVNAME-$AMIGAFLAVOR -name "gtk3*.vkm"`
-rm `find $SDLVNAME-$AMIGAFLAVOR -name "*.vsc"`
 rm $SDLVNAME-$AMIGAFLAVOR/html/texi2html
 mkdir $SDLVNAME-$AMIGAFLAVOR/doc
 cp $TOPSCRDIR/doc/vice.guide $SDLVNAME-$AMIGAFLAVOR/doc
