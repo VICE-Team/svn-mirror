@@ -1,5 +1,4 @@
 SUBDIRS = \
-	amigaos \
 	android \
 	beos \
 	macosx \
