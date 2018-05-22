@@ -4746,10 +4746,6 @@ AC_OUTPUT([Makefile
            src/Makefile
            src/debug.h
            src/arch/Makefile
-           src/arch/amigaos/Makefile
-           src/arch/amigaos/info-files/Makefile
-           src/arch/amigaos/info-files/morphos/Makefile
-           src/arch/amigaos/mui/Makefile
            src/arch/android/Makefile
            src/arch/android/AnVICE/AndroidManifest.xml
            src/arch/android/AnVICE/Makefile
