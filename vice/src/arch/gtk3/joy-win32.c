@@ -47,14 +47,10 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "maincpu.h"
-/* #include "res.h" */
 #include "translate.h"
 #include "types.h"
 #include "ui.h"
-/* XXX: this probably needs a buildsystem fix */
-#include "../win32/winjoy.h"
-/* #include "winmain.h" */
-
+#include "winjoy.h"
 
 static enum {
     WIN_JOY_UNINIT,

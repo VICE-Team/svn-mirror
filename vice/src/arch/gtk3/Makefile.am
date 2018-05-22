@@ -164,4 +164,5 @@ EXTRA_DIST = \
 	uivideo.h \
 	uivsidmenu.h \
 	uivsidwindow.h \
-	videoarch.h
+	videoarch.h \
+	winjoy.h
