@@ -4,7 +4,6 @@ and progress concerning devlog information.
 
 gui   | open devlog items | notes
 ---------------------------------
-mui   | 16                |
 beos  | 26                |
 os/2  | 41                |
 cocoa | 40                |
@@ -13,15 +12,6 @@ sdl   | 6                 |
 
 
 port            | gui   | latest build | latest release | notes
----------------------------------------------------------------
-m68k-amigaos    | mui   | 2010-02-19   | 2.4            | 2010-02-19 build just crashes at startup
-ppc-amigaos     | mui   |              | 2.4            |
-ppc-morphos     | mui   |              | 2.4            |
-intel-aros      | mui   |              | 2.4            |
-ppc-aros        | mui   |              | 2.4            |
-arm-aros        | mui   |              | 2.4            |
-m68k-aros       | mui   |              |                |
-amd64-aros      | mui   |              | 2.4            |
 ---------------------------------------------------------------
 intel-beos      | beos  |              | 2.4            |
 ppc-beos        | beos  |              | 2.4            |
