@@ -121,8 +121,5 @@ src/arch/unix/macosx/cocoa/ui-cmdline-options.c
 src/arch/unix/macosx/cocoa/viceapplication.m
 src/arch/unix/macosx/cocoa/video.m
 
-#amiga files
-src/arch/amigaos/intl_text.c.po.c
-
 #translate file
 src/translate_text.c.po.c

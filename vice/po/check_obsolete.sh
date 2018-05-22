@@ -46,8 +46,6 @@ do
       ;;
     *unix*)
       ;;
-    *intl_text.c)
-      ;;
     *translate_text.c)
       ;;
     *)

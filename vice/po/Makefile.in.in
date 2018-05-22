@@ -50,7 +50,7 @@ POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog ChangeLog.1 Makefile.in.in POTFILES.in $(PACKAGE).pot \
 stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed intl2po.c \
-gen_amiga_intl_c.c gen_translate_c.c po2table.c \
+gen_translate_c.c po2table.c \
 check_obsolete.sh translations-status.txt
 
 POTFILES = \
@@ -192,7 +192,6 @@ dvi info tags TAGS ID:
 
 mostlyclean:
 	rm -f core core.* *.pox $(PACKAGE).po *.old.po cat-id-tbl.tmp intl2po
-	rm -fr *.o $(top_srcdir)/src/arch/amiga/*.po.c
 
 clean: mostlyclean
 
@@ -239,10 +238,6 @@ po2table: po2table.c
 @CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/po2table.c -o po2table
 @CROSS_TRUE@	gcc $(srcdir)/po2table.c -o po2table
 
-gen_amiga_intl_c: po2table po2table.c gen_amiga_intl_c.c
-@CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_amiga_intl_c.c -o gen_amiga_intl_c
-@CROSS_TRUE@	gcc $(srcdir)/gen_amiga_intl_c.c -o gen_amiga_intl_c
-
 gen_translate_c: po2table po2table.c gen_translate_c.c
 @CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_translate_c.c -o gen_translate_c
 @CROSS_TRUE@	gcc $(srcdir)/gen_translate_c.c -o gen_translate_c
@@ -265,11 +260,7 @@ trans-update:
 	./gen_translate_c 
 	rm -f ../src/translate_text.c
 	mv ../src/temp_translate.h ../src/translate_text.c
-	$(MAKE) gen_amiga_intl_c
-	./gen_amiga_intl_c
-	rm -f ../src/arch/amigaos/intl_text.c
-	mv ../src/arch/amigaos/temp_intl.h ../src/arch/amigaos/intl_text.c
-	( if test 'x@DEBUGBUILD@' = 'x1'; then cat >tmp_trans.txt ../src/translate.txt ../src/arch/amigaos/intl.txt; ./check_obsolete.sh $(POTFILES) <tmp_trans.txt; rm -f tmp_trans.txt; fi )
+	( if test 'x@DEBUGBUILD@' = 'x1'; then cat >tmp_trans.txt ../src/translate.txt; ./check_obsolete.sh $(POTFILES) <tmp_trans.txt; rm -f tmp_trans.txt; fi )
 
 POTFILES: POTFILES.in intl2po
 	( if test 'x$(srcdir)' != 'x.'; then \
