@@ -116,6 +116,7 @@ libwidgets_a_SOURCES = \
 	settings_joystick.c \
 	settings_keyboard.c \
 	settings_misc.c \
+	settings_mixer.c \
 	settings_model.c \
 	settings_monitor.c \
 	settings_mouse.c \
@@ -252,6 +253,7 @@ EXTRA_DIST = \
 	settings_joystick.h \
 	settings_keyboard.h \
 	settings_misc.h \
+	settings_mixer.h \
 	settings_model.h \
 	settings_monitor.h \
 	settings_mouse.h \

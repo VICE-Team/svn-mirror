@@ -153,6 +153,9 @@ static GtkWidget *create_bias_widget(void)
  * XXX: takes up a little too much vertical space
  *
  * \return  GtkGrid
+ *
+ * \todo    Handle cases where a SID isn't available by default, such as the
+ *          Plus4 with its SidCard.
  */
 GtkWidget *vsid_mixer_widget_create(void)
 {
