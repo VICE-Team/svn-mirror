@@ -51,10 +51,7 @@ PO_EXTRA_DIST = \
 	po/de.po \
 	po/es.po \
 	po/fr.po \
-	po/gen_amiga_intl_c.c \
 	po/gen_translate_c.c \
-	po/gen_win32_files.sh \
-	po/gen_win32_rc.c \
 	po/hu.po \
 	po/intl2po.c \
 	po/it.po \
@@ -167,12 +164,6 @@ bindist:
 
 bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_amiga.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir) $(SDL_VERSION) $(EXEEXT)
-else
-bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir) $(EXEEXT)
-
-bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir) $(EXEEXT)
 endif
 endif
 
