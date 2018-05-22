@@ -75,8 +75,6 @@ sdl_keymaps = \
 	sdl_grus_sym.vkm
 
 extra_keymaps = \
-	amiga_grus_sym.vkm \
-	amiga_buuk_sym.vkm \
 	beos_bgrs.vkm \
 	beos_buks.vkm \
 	osx_grus_sym.vkm \
