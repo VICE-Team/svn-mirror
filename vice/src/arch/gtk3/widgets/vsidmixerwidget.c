@@ -36,6 +36,7 @@
 #include "vice.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include <gtk/gtk.h>
 
 #include "vice_gtk3.h"
@@ -150,18 +151,32 @@ static GtkWidget *create_bias_widget(void)
 
 /** \brief  Create VSID mixer widget
  *
- * XXX: takes up a little too much vertical space
- *
  * \return  GtkGrid
  *
- * \todo    Handle cases where a SID isn't available by default, such as the
- *          Plus4 with its SidCard.
  */
 GtkWidget *vsid_mixer_widget_create(void)
 {
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *button;
+#ifdef HAVE_RESID
+    bool sid_present = true;
+    int tmp;
+
+    if (machine_class == VICE_MACHINE_PET
+            || machine_class == VICE_MACHINE_VIC20
+            || machine_class == VICE_MACHINE_PLUS4) {
+        /* check for presence of SidCart */
+        if (resources_get_int("SidCart", &tmp) < 0) {
+            debug_gtk3("failed to get value for resource SidCart, disabling\n");
+            sid_present = false;
+        } else {
+            sid_present = (bool)tmp;
+        }
+    }
+#else
+    bool sid_present = false;
+#endif
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
     g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
@@ -178,6 +193,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     label = gtk_label_new("ReSID Passband");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     passband = create_passband_widget();
+    gtk_widget_set_sensitive(passband, sid_present);
     gtk_widget_set_hexpand(passband, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), passband, 1, 1, 1, 1);
@@ -185,6 +201,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     label = gtk_label_new("ReSID Gain");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gain = create_gain_widget();
+    gtk_widget_set_sensitive(gain, sid_present);
     gtk_widget_set_hexpand(gain, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), gain, 1, 2, 1, 1);
@@ -193,6 +210,7 @@ GtkWidget *vsid_mixer_widget_create(void)
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     bias = create_bias_widget();
     gtk_widget_set_hexpand(bias, TRUE);
+    gtk_widget_set_sensitive(bias, sid_present);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
 #endif
