@@ -688,19 +688,6 @@ dnl Setup crosscompiling.
 if test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-      if test x"$enable_rs232" != "xno"; then
-        AC_DEFINE(HAVE_RS232DEV,,[Enable RS232 device emulation.])
-        HAVE_RS232DEV_SUPPORT="yes"
-      fi
-      AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
-      HAVE_RAWDRIVE_SUPPORT="yes"
-      AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
-      HAS_JOYSTICK_SUPPORT="yes"
-      AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-      HAVE_MOUSE_SUPPORT="yes"
-  fi
-
   AC_DEFINE(AMIGA_SUPPORT,,[Should we enable Amigaos support.])
 
   is_amigaos4=yes
@@ -719,10 +706,6 @@ if test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "
     AC_DEFINE(HAVE_RS232NET,,[Enable RS232 network support])
     HAVE_RS232NET_SUPPORT="yes"
     AC_CHECK_HEADERS(proto/openpci.h, openpci_present=yes,,)
-    if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-        AC_DEFINE(HAVE_XVIDEO,,[Enable XVideo (overlay) support.])
-        HAVE_XVIDEO_SUPPORT="yes"
-    fi
     if test x"$openpci_present" = "xyes"; then
       if test x"$enable_catweasel" != "xno"; then
         AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
@@ -813,7 +796,6 @@ if test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "
       AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
       HAVE_HARDSID_SUPPORT="yes"
     fi
-    with_picasso96=yes
     LIBS="$LIBS -lsupc++ -lgcc_eh"
   fi
 
@@ -3076,7 +3058,7 @@ if test x"$is_unix" = "xyes"; then
                      AC_DEFINE(USE_AIX_AUDIO,,[Enable aix sound support.])],,$SOUND_LIBS)])])
 fi
 
-if test x"$is_amiga" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+if test x"$is_amiga" = "xyes"; then
   if test x"$enable_ahi" != "xno"; then
     AC_CHECK_HEADERS(devices/ahi.h,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundahi.o"; break])
@@ -3612,30 +3594,9 @@ AC_SUBST(READLINE)
 AC_SUBST(READLINE_LIBS)
 AC_SUBST(EDITLINE_LIBS)
 
-dnl check Amiga graphics support
-if test x"$is_amiga" = "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-  cgx_present=no
-  p96_present=no
-  if test x"$with_picasso96" != "xyes"; then
-    AC_CHECK_HEADERS(proto/cybergraphics.h,[cgx_present=yes],,)
-  fi
-
-  if test x"$cgx_present" = "xno"; then
-    AC_CHECK_HEADERS(proto/Picasso96.h,[p96_present=yes],,)
-    if test x"$p96_present" = "xno"; then
-      AC_CHECK_HEADERS(proto/Picasso96API.h,[p96_present=yes],,)
-      if test x"$p96_present" = "xno"; then
-        AC_MSG_ERROR([No CGX or P96 headers found])
-      fi
-    fi
-  fi
-fi
-
-
 dnl Configure graphics output drivers
 old_LIBS="$LIBS"
 GFXOUTPUT_LIBS=
-
 
 dnl check for png support
 if test x"$with_png" != "xno" ; then
@@ -4093,16 +4054,8 @@ elif test x"$is_amiga" = "xyes"; then
     if test x"$host_os" != "xmorphos" -a x"$host_os" != "xwarpos" -a x"$host_os" != "xpowerup"; then
       LIBS="$LIBS -lauto"
     fi
-  else
-    if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-      LIBS="$LIBS -lmui"
-    fi
   fi
   AC_SUBST(LDFLAGS)
-
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-    AC_DEFINE(HAS_TRANSLATION,,[Enable internationalization support])
-  fi
 
 elif test x"$is_beos" = "xyes"; then
 
@@ -4470,12 +4423,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(HAVE_TRANSLATION, true)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_amiga" = "xyes"; then
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-    ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
-    ARCH_SRC_DIR="\$(top_srcdir)/src/arch/amigaos"
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/mui/libarchmui.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos -I\$(top_builddir)/src/arch/amigaos"
-  fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -4954,13 +4901,6 @@ if test x"$enable_gnomeui3" = "xyes"; then
 fi
 if test x"$with_cocoa" = "xyes"; then
     show_gui="COCOA"
-fi
-if test x"$show_arch" = "xAmiga"; then
-    if test "x$ac_cv_header_proto_cybergraphics_h" = xyes; then
-        show_gui="CyberGFX (MUI)"
-    else
-        show_gui="P96 (MUI)"
-    fi
 fi
 if test x"$is_beos" = "xyes"; then
     show_gui="BeOS"
