@@ -4,7 +4,6 @@
 docdir = $(realdocdir)
 
 READMES = \
-	Readme-Amiga.txt \
 	Readme-BeOS.txt \
 	Readme-GTK3.txt \
 	Readme-MacOSX.txt \
