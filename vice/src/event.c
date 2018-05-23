@@ -928,8 +928,7 @@ int event_playback_stop(void)
 static void event_record_set_milestone_trap(uint16_t addr, void *data)
 {
     if (machine_write_snapshot(event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
-        ui_error(translate_text(IDGS_CANT_CREATE_END_SNAP_S),
-                 event_snapshot_path(event_end_snapshot));
+        ui_error("Could not create end snapshot file %s.", event_snapshot_path(event_end_snapshot));
     } else {
         milestone_timestamp_alarm = next_timestamp_clk;
         milestone_timestamp = current_timestamp;
@@ -958,8 +957,7 @@ static void event_record_reset_milestone_trap(uint16_t addr, void *data)
 
     if (machine_read_snapshot(
             event_snapshot_path(event_end_snapshot), 1) < 0) {
-        ui_error(translate_text(IDGS_ERROR_READING_END_SNAP_S),
-                 event_snapshot_path(event_end_snapshot));
+        ui_error("Error reading end snapshot file %s.", event_snapshot_path(event_end_snapshot));
         return;
     }
     warp_end_list();
