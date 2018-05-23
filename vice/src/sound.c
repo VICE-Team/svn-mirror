@@ -1470,13 +1470,13 @@ double sound_flush()
     if (nr) {
         /* Flush buffer, all channels are already mixed into it. */
         if (snddata.playdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
-            sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
+            sound_error("write to sound device failed.");
             return 0;
         }
 
         if (snddata.recdev) {
             if (snddata.recdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
-                sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
+                sound_error("write to sound device failed.");
                 return 0;
             }
         }
