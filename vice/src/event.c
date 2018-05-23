@@ -287,12 +287,12 @@ static void event_playback_attach_image(void *data, unsigned int size)
             fd = archdep_mkstemp_fd(&filename, MODE_WRITE);
 
             if (fd == NULL) {
-                ui_error(translate_text(IDGS_CANNOT_CREATE_IMAGE), filename);
+                ui_error("Cannot create image file!", filename);
                 goto error;
             }
 
             if (fwrite((char*)data + strlen(orig_filename) + 3, file_len, 1, fd) != 1) {
-                ui_error(translate_text(IDGS_CANNOT_WRITE_IMAGE_FILE_S), filename);
+                ui_error("Cannot write image file %s", filename);
                 goto error;
             }
 
@@ -300,7 +300,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
             event_image_append(orig_filename, &filename, 1);
         } else {
             if (event_image_append(orig_filename, &filename, 0) != 0) {
-                ui_error(translate_text(IDGS_CANNOT_FIND_MAPPED_NAME_S), orig_filename);
+                ui_error("Cannot find mapped name for %s", orig_filename);
                 return;
             }
         }
@@ -681,8 +681,7 @@ static void event_record_start_trap(uint16_t addr, void *data)
         case EVENT_START_MODE_FILE_SAVE:
             if (machine_write_snapshot(event_snapshot_path(event_start_snapshot),
                                        1, 1, 0) < 0) {
-                ui_error(translate_text(IDGS_CANT_CREATE_START_SNAP_S),
-                         event_snapshot_path(event_start_snapshot));
+                ui_error("Could not create start snapshot file %s.", event_snapshot_path(event_start_snapshot));
                 ui_display_recording(0);
                 return;
             }
@@ -694,10 +693,8 @@ static void event_record_start_trap(uint16_t addr, void *data)
             current_timestamp = 0;
             break;
         case EVENT_START_MODE_FILE_LOAD:
-            if (machine_read_snapshot(
-                    event_snapshot_path(event_end_snapshot), 1) < 0) {
-                ui_error(translate_text(IDGS_ERROR_READING_END_SNAP_S),
-                         event_snapshot_path(event_end_snapshot));
+            if (machine_read_snapshot(event_snapshot_path(event_end_snapshot), 1) < 0) {
+                ui_error("Error reading end snapshot file %s.", event_snapshot_path(event_end_snapshot));
                 return;
             }
             warp_end_list();
@@ -760,10 +757,8 @@ int event_record_start(void)
 
 static void event_record_stop_trap(uint16_t addr, void *data)
 {
-    if (machine_write_snapshot(
-            event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
-        ui_error(translate_text(IDGS_CANT_CREATE_END_SNAP_S),
-                 event_snapshot_path(event_end_snapshot));
+    if (machine_write_snapshot(event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
+        ui_error("Could not create end snapshot file %s.", event_snapshot_path(event_end_snapshot));
         return;
     }
     record_active = 0;
@@ -827,8 +822,7 @@ static void event_playback_start_trap(uint16_t addr, void *data)
         event_snapshot_path(event_end_snapshot), &major, &minor, machine_get_name());
 
     if (s == NULL) {
-        ui_error(translate_text(IDGS_CANT_OPEN_END_SNAP_S),
-                 event_snapshot_path(event_end_snapshot));
+        ui_error("Could not open end snapshot file %s.", event_snapshot_path(event_end_snapshot));
         ui_display_playback(0, NULL);
         return;
     }
@@ -838,7 +832,7 @@ static void event_playback_start_trap(uint16_t addr, void *data)
 
     if (event_snapshot_read_module(s, 1) < 0) {
         snapshot_close(s);
-        ui_error(translate_text(IDGS_CANT_FIND_SECTION_END_SNAP));
+        ui_error("Could not find event section in end snapshot file.");
         ui_display_playback(0, NULL);
         return;
     }
@@ -857,8 +851,7 @@ static void event_playback_start_trap(uint16_t addr, void *data)
                     && machine_read_snapshot(
                         event_snapshot_path(event_start_snapshot), 0) < 0) {
                     char *st = lib_stralloc(event_snapshot_path((char *)(&data[1])));
-                    ui_error(translate_text(IDGS_ERROR_READING_START_SNAP_TRIED),
-                             st, event_snapshot_path(event_start_snapshot));
+                    ui_error("Error reading start snapshot file. Tried %s and %s", st, event_snapshot_path(event_start_snapshot));
                     lib_free(st);
                     ui_display_playback(0, NULL);
                     return;
@@ -883,9 +876,8 @@ static void event_playback_start_trap(uint16_t addr, void *data)
                 break;
         }
     } else {
-        if (machine_read_snapshot(
-                event_snapshot_path(event_start_snapshot), 0) < 0) {
-            ui_error(translate_text(IDGS_ERROR_READING_START_SNAP));
+        if (machine_read_snapshot(event_snapshot_path(event_start_snapshot), 0) < 0) {
+            ui_error("Error reading start snapshot file.");
             ui_display_playback(0, NULL);
             return;
         }

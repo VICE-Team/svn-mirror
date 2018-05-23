@@ -804,12 +804,12 @@ static int ffmpegdrv_init_file(void)
     VICE_P_AV_DUMP_FORMAT(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
 
     if (video_st.st && (ffmpegdrv_open_video(ffmpegdrv_oc, video_st.st) < 0)) {
-        ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_VSTREAM));
+        ui_error("ffmpegdrv: Cannot open video stream");
         screenshot_stop_recording();
         return -1;
     }
     if (audio_st.st && (ffmpegdrv_open_audio(ffmpegdrv_oc, audio_st.st) < 0)) {
-        ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_ASTREAM));
+        ui_error("ffmpegdrv: Cannot open audio stream");
         screenshot_stop_recording();
         return -1;
     }
@@ -818,7 +818,7 @@ static int ffmpegdrv_init_file(void)
         if (VICE_P_AVIO_OPEN(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename,
                             AVIO_FLAG_WRITE) < 0) {
 
-            ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_S), ffmpegdrv_oc->filename);
+            ui_error("ffmpegdrv: Cannot open %s", ffmpegdrv_oc->filename);
             screenshot_stop_recording();
             return -1;
         }

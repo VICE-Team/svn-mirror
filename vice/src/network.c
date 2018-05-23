@@ -404,7 +404,7 @@ static void network_test_delay(void)
 
     vsyncarch_init();
 
-    ui_display_statustext(translate_text(IDGS_TESTING_BEST_FRAME_DELAY), 0);
+    ui_display_statustext("Testing best frame delay...", 0);
 
     buf = (unsigned char*)&pkt;
 
@@ -454,7 +454,7 @@ static void network_test_delay(void)
     network_free_frame_event_list();
     frame_delta = new_frame_delta;
     network_init_frame_event_list();
-    sprintf(st, translate_text(IDGS_USING_D_FRAMES_DELAY), frame_delta);
+    sprintf(st, "Using %d frames delay.", frame_delta);
     log_debug("netplay connected with %d frames delta.", frame_delta);
     ui_display_statustext(st, 1);
 }
@@ -475,7 +475,7 @@ static void network_server_connect_trap(uint16_t addr, void *data)
     if (machine_write_snapshot(snapshotfilename, 1, 1, 0) == 0) {
         f = fopen(snapshotfilename, MODE_READ);
         if (f == NULL) {
-            ui_error(translate_text(IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER));
+            ui_error("Cannot load snapshot file for transfer");
             lib_free(snapshotfilename);
             return;
         }
@@ -486,13 +486,13 @@ static void network_server_connect_trap(uint16_t addr, void *data)
         }
         fclose(f);
 
-        ui_display_statustext(translate_text(IDGS_SENDING_SNAPSHOT_TO_CLIENT), 0);
+        ui_display_statustext("Sending snapshot to client...", 0);
         util_int_to_le_buf4(send_size4, (int)buf_size);
         network_send_buffer(network_socket, send_size4, 4);
         i = network_send_buffer(network_socket, buf, (int)buf_size);
         lib_free(buf);
         if (i < 0) {
-            ui_error(translate_text(IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT));
+            ui_error("Cannot send snapshot to client");
             ui_display_statustext("", 0);
             lib_free(snapshotfilename);
             return;
@@ -518,7 +518,7 @@ static void network_server_connect_trap(uint16_t addr, void *data)
 
         network_test_delay();
     } else {
-        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S), snapshotfilename);
+        ui_error("Cannot create snapshot file %s", snapshotfilename);
     }
     lib_free(snapshotfilename);
 }
@@ -557,7 +557,7 @@ static void network_client_connect_trap(uint16_t addr, void *data)
 
     /* read the snapshot */
     if (machine_read_snapshot(snapshotfilename, 0) != 0) {
-        ui_error(translate_text(IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S), snapshotfilename);
+        ui_error("Cannot open snapshot file %s", snapshotfilename);
         lib_free(snapshotfilename);
         return;
     }
@@ -676,7 +676,7 @@ int network_start_server(void)
         network_mode = NETWORK_SERVER;
 
         vsync_suspend_speed_eval();
-        ui_display_statustext(translate_text(IDGS_SERVER_IS_WAITING_FOR_CLIENT), 1);
+        ui_display_statustext("Server is waiting for a client...", 1);
 
         ret = 0;
     } while (0);
@@ -707,13 +707,13 @@ int network_connect_client(void)
 
     f = archdep_mkstemp_fd(&snapshotfilename, MODE_WRITE);
     if (f == NULL) {
-        ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT));
+        ui_error("Cannot create snapshot file. Select different history directory!");
         return -1;
     }
 
     server_addr = vice_network_address_generate(server_name, server_port);
     if (server_addr == NULL) {
-        ui_error(translate_text(IDGS_CANNOT_RESOLVE_S), server_name);
+        ui_error("Cannot resolve %s", server_name);
         return -1;
     }
     network_socket = vice_network_client(server_addr);
@@ -722,12 +722,12 @@ int network_connect_client(void)
     server_addr = NULL;
 
     if (!network_socket) {
-        ui_error(translate_text(IDGS_CANNOT_CONNECT_TO_S), server_name, server_port);
+        ui_error("Cannot connect to %s (no server running on port %d).", server_name, server_port);
         lib_free(snapshotfilename);
         return -1;
     }
 
-    ui_display_statustext(translate_text(IDGS_RECEIVING_SNAPSHOT_SERVER), 0);
+    ui_display_statustext("Receiving snapshot from server...", 0);
     if (network_recv_buffer(network_socket, recv_buf4, 4) < 0) {
         lib_free(snapshotfilename);
         vice_network_socket_close(network_socket);
@@ -800,7 +800,7 @@ static void network_hook_connected_send(void)
     util_int_to_le_buf4(send_len4, (int)send_len);
     if (network_send_buffer(network_socket, send_len4, 4) < 0
         || network_send_buffer(network_socket, local_event_buf, send_len) < 0) {
-        ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
+        ui_display_statustext("Remote host disconnected.", 1);
         network_disconnect();
     }
 #ifdef NETWORK_DEBUG
@@ -827,7 +827,7 @@ static void network_hook_connected_receive(void)
     if (frame_buffer_full) {
         do {
             if (network_recv_buffer(network_socket, recv_len4, 4) < 0) {
-                ui_display_statustext(translate_text(IDGS_REMOTE_HOST_DISCONNECTED), 1);
+                ui_display_statustext("Remote host disconnected.", 1);
                 network_disconnect();
                 return;
             }
@@ -835,7 +835,7 @@ static void network_hook_connected_receive(void)
             recv_len = util_le_buf4_to_int(recv_len4);
             if (recv_len == 0 && suspended == 0) {
                 /* remote host suspended emulation */
-                ui_display_statustext(translate_text(IDGS_REMOTE_HOST_SUSPENDING), 0);
+                ui_display_statustext("Remote host suspending...", 0);
                 suspended = 1;
                 vsync_suspend_speed_eval();
             }
@@ -876,7 +876,7 @@ static void network_hook_connected_receive(void)
             for (i = 0; i < 5; i++) {
                 if (((uint32_t *)client_event_list->base->data)[i]
                     != ((uint32_t *)server_event_list->base->data)[i]) {
-                    ui_error(translate_text(IDGS_NETWORK_OUT_OF_SYNC));
+                    ui_error("Network out of sync - disconnecting.");
                     network_disconnect();
                     /* shouldn't happen but resyncing would be nicer */
                     break;

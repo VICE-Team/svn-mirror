@@ -484,8 +484,7 @@ inline static void debug_history_step(const char *st)
 
         if (strncmp(st, debug_buffer + debug_buffer_ptr, strlen(st)) != 0) {
             event_playback_stop();
-            ui_error(translate_text(IDGS_PLAYBACK_ERROR_DIFFERENT)
-                     , st, debug_file_line, debug_file_current - 1);
+            ui_error("Playback error: %s different from line %d of file debug%06d", st, debug_file_line, debug_file_current - 1);
         }
 
         debug_buffer_ptr += line_len;

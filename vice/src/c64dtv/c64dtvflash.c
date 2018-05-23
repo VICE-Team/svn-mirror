@@ -369,7 +369,7 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
 #ifdef DEBUG
         log_message(c64dtvflash_log, "No file name given for create_blank_image.");
 #endif
-        ui_error(translate_text(IDGS_NO_FILENAME));
+        ui_error("No filename!");
         return;
     }
 
@@ -377,7 +377,7 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
 #ifdef DEBUG
         log_message(c64dtvflash_log, "Illegal filename in create_blank_image.");
 #endif
-        ui_error(translate_text(IDGS_ILLEGAL_FILENAME));
+        ui_error("Illegal filename!");
         return;
     }
 
@@ -397,7 +397,7 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
 #ifdef DEBUG
         log_message(c64dtvflash_log, "Error creating file %s in create_blank_image.", filename);
 #endif
-        ui_error(translate_text(IDGS_ERROR_CREATING_FILE_S), filename);
+        ui_error("Error creating file %s!", filename);
         return;
     }
 
@@ -407,7 +407,7 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
 #ifdef DEBUG
             log_message(c64dtvflash_log, "Error while writing to file %s in create_blank_image.", filename);
 #endif
-            ui_error(translate_text(IDGS_ERROR_WRITING_TO_FILE_S), filename);
+            ui_error("Error writing to file %s!", filename);
             fclose(fd);
             return;
         }
@@ -416,7 +416,7 @@ void c64dtvflash_create_blank_image(char *filename, int copyroms)
         }
     }
 
-    ui_message(translate_text(IDGS_DTV_ROM_CREATED));
+    ui_message("DTV ROM image created successfully");
 
     fclose(fd);
 
