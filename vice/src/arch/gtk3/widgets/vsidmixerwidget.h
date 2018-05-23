@@ -31,6 +31,6 @@
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *vsid_mixer_widget_create(void);
+GtkWidget *vsid_mixer_widget_create(gboolean minimal);
 
 #endif

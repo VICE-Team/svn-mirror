@@ -48,6 +48,28 @@
 
 #include "vsidmixerwidget.h"
 
+
+/** \brief  CSS for the scales
+ *
+ * This makes the sliders take up less vertical space. The margin can be set
+ * to a negative value (in px) to allow the slider to be larger than the scale
+ * itself.
+ *
+ * Probably will require some testing/tweaking to get this to look acceptable
+ * with various themes (and OSes).
+ */
+#define SLIDER_CSS "scale slider { min-width: 10px; min-height: 10px; margin: -3px; } scale { margin-top: -4px; margin-bottom: -4px; }"
+
+
+/** \brief  CSS for the labels
+ *
+ * Make font smaller and reduce the vertical size the labels use
+ *
+ * Here Be Dragons!
+ */
+#define LABEL_CSS "label { font-size: 80%; margin-top: -2px; margin-bottom: -2px; }"
+
+
 /** \brief  Main volume slider */
 static GtkWidget *volume;
 
@@ -89,17 +111,100 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
 }
 
 
-/** \brief  Create slider for main volumne
+/** \brief  Create a right-align label
+ *
+ * \param[in]   text    text for the label
+ * \param[in]   minimal use CSS to reduce size of use as statusbar widget
+ *
+ * \return  GtkLabel
+ */
+static GtkWidget *create_label(const char *text, gboolean minimal)
+{
+    GtkWidget *label;
+    GtkCssProvider *provider;
+    GtkStyleContext *context;
+    GError *err = NULL;
+
+    label = gtk_label_new(text);
+    gtk_widget_set_halign(label, GTK_ALIGN_END);
+
+    if (minimal) {
+        provider = gtk_css_provider_new();
+        gtk_css_provider_load_from_data(provider, LABEL_CSS, -1, &err);
+        if (err != NULL) {
+            fprintf(stderr, "CSS error: %s\n", err->message);
+            g_error_free(err);
+        }
+
+        context = gtk_widget_get_style_context(label);
+        if (context != NULL) {
+            gtk_style_context_add_provider(context,
+                    GTK_STYLE_PROVIDER(provider),
+                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+    }
+
+    return label;
+}
+
+
+/** \brief  Create a customized GtkScale for \a resource
+ *
+ * \param[in]   resource    resource name without the video \a chip name prefix
+ * \param[in]   low         lower bound
+ * \param[in]   high        upper bound
+ * \param[in]   step        step used to increase/decrease slider value
+ * \param[in]   minimal     reduce slider size to be used in the statusbar
  *
  * \return  GtkScale
  */
-static GtkWidget *create_volume_widget(void)
+static GtkWidget *create_slider(
+        const char *resource,
+        int low, int high, int step,
+        gboolean minimal)
 {
     GtkWidget *scale;
+    GtkCssProvider *provider;
+    GtkStyleContext *context;
+    GError *err = NULL;
 
-    scale = vice_gtk3_resource_scale_int_new("SoundVolume",
-            GTK_ORIENTATION_HORIZONTAL, 0, 100, 5);
+    scale = vice_gtk3_resource_scale_int_new(resource,
+            GTK_ORIENTATION_HORIZONTAL, low, high, step);
+    gtk_widget_set_hexpand(scale, TRUE);
+    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
+
+    if (minimal) {
+        provider = gtk_css_provider_new();
+        gtk_css_provider_load_from_data(provider, SLIDER_CSS, -1, &err);
+        if (err != NULL) {
+            fprintf(stderr, "CSS error: %s\n", err->message);
+            g_error_free(err);
+        }
+
+        context = gtk_widget_get_style_context(scale);
+        if (context != NULL) {
+            gtk_style_context_add_provider(context,
+                    GTK_STYLE_PROVIDER(provider),
+                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+    }
+
+    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE);
+
     return scale;
+}
+
+
+
+/** \brief  Create slider for main volume
+ *
+ * \param[in]   minimal resize slider to minimal size
+ *
+ * \return  GtkScale
+ */
+static GtkWidget *create_volume_widget(gboolean minimal)
+{
+    return create_slider("SoundVolume", 0, 100, 5, minimal);
 }
 
 
@@ -107,44 +212,37 @@ static GtkWidget *create_volume_widget(void)
 
 /** \brief  Create slider for ReSID passband
  *
+ * \param[in]   minimal resize slider to minimal size
+ *
  * \return  GtkScale
  */
-static GtkWidget *create_passband_widget(void)
+static GtkWidget *create_passband_widget(gboolean minimal)
 {
-    GtkWidget *scale;
-
-    scale = vice_gtk3_resource_scale_int_new("SidResidPassband",
-            GTK_ORIENTATION_HORIZONTAL, 0, 90, 5);
-    return scale;
+    return create_slider("SidResidPassBand", 0, 90, 5, minimal);
 }
 
 
 /** \brief  Create slider for ReSID gain
  *
+ * \param[in]   minimal resize slider to minimal size
+ *
  * \return  GtkScale
  */
-static GtkWidget *create_gain_widget(void)
+static GtkWidget *create_gain_widget(gboolean minimal)
 {
-    GtkWidget *scale;
-
-    scale = vice_gtk3_resource_scale_int_new("SidResidGain",
-            GTK_ORIENTATION_HORIZONTAL, 90, 100, 1);
-    /* gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT); */
-    return scale;
+    return create_slider("SidResidGain", 90, 100, 1, minimal);
 }
 
 
 /** \brief  Create slider for ReSID filter bias
  *
+ * \param[in]   minimal resize slider to minimal size
+ *
  * \return  GtkScale
  */
-static GtkWidget *create_bias_widget(void)
+static GtkWidget *create_bias_widget(gboolean minimal)
 {
-    GtkWidget *scale;
-
-    scale = vice_gtk3_resource_scale_int_new("SidResidFilterBias",
-            GTK_ORIENTATION_HORIZONTAL, -5000, 5000, 100);
-    return scale;
+    return create_slider("SidResidFilterBias", -5000, 5000, 1000, minimal);
 }
 #endif  /* ifdef HAVE_RESID */
 
@@ -154,7 +252,7 @@ static GtkWidget *create_bias_widget(void)
  * \return  GtkGrid
  *
  */
-GtkWidget *vsid_mixer_widget_create(void)
+GtkWidget *vsid_mixer_widget_create(gboolean minimal)
 {
     GtkWidget *grid;
     GtkWidget *label;
@@ -182,39 +280,40 @@ GtkWidget *vsid_mixer_widget_create(void)
     g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
     gtk_widget_set_hexpand(grid, TRUE);
 
-    label = gtk_label_new("Volume");
+    label = create_label("Volume", minimal);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    volume = create_volume_widget();
+    volume = create_volume_widget(minimal);
     gtk_widget_set_hexpand(volume, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), volume, 1, 0, 1, 1);
 
 #ifdef HAVE_RESID
-    label = gtk_label_new("ReSID Passband");
+    label = create_label("ReSID Passband", minimal);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    passband = create_passband_widget();
+    passband = create_passband_widget(minimal);
     gtk_widget_set_sensitive(passband, sid_present);
     gtk_widget_set_hexpand(passband, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), passband, 1, 1, 1, 1);
 
-    label = gtk_label_new("ReSID Gain");
+    label = create_label("ReSID Gain", minimal);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    gain = create_gain_widget();
+    gain = create_gain_widget(minimal);
     gtk_widget_set_sensitive(gain, sid_present);
     gtk_widget_set_hexpand(gain, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), gain, 1, 2, 1, 1);
 
-    label = gtk_label_new("ReSID Filter Bias");
+    label = create_label("ReSID Filter Bias", minimal);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
-    bias = create_bias_widget();
+    bias = create_bias_widget(minimal);
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_widget_set_sensitive(bias, sid_present);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
 #endif
 
+    /* TODO: handle the 'minimal' argument, resizing the button */
     button = gtk_button_new_with_label("Reset to defaults");
     gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 1, 1);
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
