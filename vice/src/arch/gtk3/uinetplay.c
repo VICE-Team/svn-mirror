@@ -56,19 +56,19 @@ typedef struct np_control_s {
 
 #define NR_NPCONROLS 5
 static np_control_t np_controls[] = {
-    { N_("Keyboard"), NULL, NULL,
+    { "Keyboard", NULL, NULL,
       NETWORK_CONTROL_KEYB,
       NETWORK_CONTROL_KEYB << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Joystick 1"), NULL, NULL,
+    { "Joystick 1", NULL, NULL,
       NETWORK_CONTROL_JOY1,
       NETWORK_CONTROL_JOY1 << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Joystick 2"), NULL, NULL,
+    { "Joystick 2", NULL, NULL,
       NETWORK_CONTROL_JOY2,
       NETWORK_CONTROL_JOY2 << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Devices"), NULL, NULL,
+    { "Devices", NULL, NULL,
       NETWORK_CONTROL_DEVC,
       NETWORK_CONTROL_DEVC << NETWORK_CONTROL_CLIENTOFFSET },
-    { N_("Settings"), NULL, NULL,
+    { "Settings", NULL, NULL,
       NETWORK_CONTROL_RSRC,
       NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET },
     { NULL, NULL, NULL, 0, 0 }
@@ -121,7 +121,7 @@ static void netplay_update_resources(void)
     server_bind_address = gtk_entry_get_text(GTK_ENTRY(np_server_bind));
     util_string_to_long(p, NULL, 10, &port);
     if (port < 1 || port > 0xFFFF) {
-        ui_error(_("Invalid port number"));
+        ui_error("Invalid port number");
         return;
     }
     resources_set_int("NetworkServerPort", (int)port);
@@ -141,22 +141,22 @@ static void netplay_update_status(void)
         case NETWORK_IDLE:
             gtk_widget_set_sensitive(GTK_WIDGET(dcb), FALSE);
             gtk_widget_set_sensitive(GTK_WIDGET(ctrls), TRUE);
-            text = _("Idle");
+            text = "Idle";
             break;
         case NETWORK_SERVER:
             gtk_widget_set_sensitive(GTK_WIDGET(dcb), TRUE);
             gtk_widget_set_sensitive(GTK_WIDGET(ctrls), FALSE);
-            text = _("Server listening");
+            text = "Server listening";
             break;
         case NETWORK_SERVER_CONNECTED:
             gtk_widget_set_sensitive(GTK_WIDGET(dcb), TRUE);
             gtk_widget_set_sensitive(GTK_WIDGET(ctrls), FALSE);
-            text = _("Connected server");
+            text = "Connected server";
             break;
         case NETWORK_CLIENT:
             gtk_widget_set_sensitive(GTK_WIDGET(dcb), TRUE);
             gtk_widget_set_sensitive(GTK_WIDGET(ctrls), FALSE);
-            text = _("Connected client");
+            text = "Connected client";
             break;
         default:
             break;
@@ -186,7 +186,7 @@ static void netplay_start_server(GtkWidget *w, gpointer data)
 {
     netplay_update_resources();
     if (network_start_server() < 0) {
-        ui_error(_("Couldn't start netplay server."));
+        ui_error("Couldn't start netplay server.");
     }
     netplay_update_status();
     gtk_dialog_response(GTK_DIALOG(netplay_dialog), GTK_RESPONSE_CANCEL);
@@ -196,7 +196,7 @@ static void netplay_connect(GtkWidget *w, gpointer data)
 {
     netplay_update_resources();
     if (network_connect_client() < 0) {
-        ui_error(_("Couldn't connect client."));
+        ui_error("Couldn't connect client.");
     }
     netplay_update_status();
     gtk_dialog_response(GTK_DIALOG(netplay_dialog), GTK_RESPONSE_CANCEL);
@@ -213,17 +213,17 @@ static void netplay_disconnect(GtkWidget *w, gpointer data)
 static GtkWidget *build_netplay_dialog(void)
 {
     GtkWidget *d, *f, *b, *hb, *rb, *l, *entry, *h, *v;
-    char *unknown = util_concat("<", _("Unknown"), ">", NULL);
-    char *connect_to = util_concat(_("Connect to"), " ", NULL);
-    char *current_mode_text = util_concat(_("Current mode"), ": ", NULL);
-    char *ip = util_concat(_("IP"), ": ", NULL);
-    char *port = util_concat(_("Port"), ": ", NULL);
+    char *unknown = util_concat("<", "Unknown", ">", NULL);
+    char *connect_to = util_concat("Connect to", " ", NULL);
+    char *current_mode_text = util_concat("Current mode", ": ", NULL);
+    char *ip = util_concat("IP", ": ", NULL);
+    char *port = util_concat("Port", ": ", NULL);
     char *padding = util_concat("      ", NULL);
 
-    d = gtk_dialog_new_with_buttons(_("Netplay"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, NULL, GTK_RESPONSE_CANCEL, NULL);
+    d = gtk_dialog_new_with_buttons("Netplay", NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, NULL, GTK_RESPONSE_CANCEL, NULL);
     gtk_window_set_resizable(GTK_WINDOW(d), FALSE);
 
-    f = gtk_frame_new(_("Netplay"));
+    f = gtk_frame_new("Netplay");
 
     h = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 5);
     ctrls = b = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
@@ -236,7 +236,7 @@ static GtkWidget *build_netplay_dialog(void)
     hb = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     /* button "start server" */
-    rb = gtk_button_new_with_label(_("Start server"));
+    rb = gtk_button_new_with_label("Start server");
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 10);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_start_server), rb);
     gtk_widget_set_can_focus(rb, 0);
@@ -323,7 +323,7 @@ static GtkWidget *build_netplay_dialog(void)
         GtkWidget *cf, *tmp, *table;
         int i;
 
-        cf = gtk_frame_new(_("Control"));
+        cf = gtk_frame_new("Control");
         h = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
         v = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
         gtk_container_add(GTK_CONTAINER(h), v);
@@ -337,17 +337,17 @@ static GtkWidget *build_netplay_dialog(void)
         table = gtk_grid_new();
         gtk_grid_set_row_spacing(GTK_GRID(table), 5);
         gtk_grid_set_column_spacing(GTK_GRID(table), 5);
-        tmp = gtk_label_new(_("Server"));
+        tmp = gtk_label_new("Server");
         gtk_grid_attach(GTK_GRID(table), tmp, 1, 0, 1, 1);
         gtk_widget_show(tmp);
-        tmp = gtk_label_new(_("Client"));
+        tmp = gtk_label_new("Client");
         gtk_grid_attach(GTK_GRID(table), tmp, 2, 0, 1, 1);
         gtk_widget_show(tmp);
 
         /*gtk_table_set_homogeneous(table, TRUE);*/
 
         for (i = 0; i < NR_NPCONROLS; i++) {
-            tmp = gtk_label_new(_(np_controls[i].name));
+            tmp = gtk_label_new(np_controls[i].name);
             gtk_grid_attach(GTK_GRID(table), tmp, 0, 1 + i, 1, 1);
             gtk_widget_show(tmp);
             np_controls[i].s_cb = gtk_check_button_new();
@@ -364,7 +364,7 @@ static GtkWidget *build_netplay_dialog(void)
     }
 
     /* disconnect button */
-    dcb = rb = gtk_button_new_with_label(_("Disconnect"));
+    dcb = rb = gtk_button_new_with_label("Disconnect");
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), rb, FALSE, FALSE, 10);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_disconnect), rb);
     gtk_widget_set_can_focus(rb, 0);

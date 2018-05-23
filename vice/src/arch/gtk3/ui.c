@@ -196,45 +196,45 @@ static const cmdline_option_t cmdline_options_common[] = {
         NULL, NULL, "ConfirmOnExit", (void *)1,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Never confirm quitting VICE") },
+        NULL, "Never confirm quitting VICE" },
     { "+confirmexit", SET_RESOURCE, 0,
         NULL, NULL, "ConfirmOnExit", (void *)0,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Don't confirm quitting VICE") },
+        NULL, "Don't confirm quitting VICE" },
 
     { "-saveres", SET_RESOURCE, 0,
         NULL, NULL, "SaveResourcesOnExit", (void *)1,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Save settings on exit") },
+        NULL, "Save settings on exit" },
     { "+saveres", SET_RESOURCE, 0,
         NULL, NULL, "SaveResourcesOnExit", (void *)0,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Never save settings on exit") },
+        NULL, "Never save settings on exit" },
 
     { "-minimized", SET_RESOURCE, 0,
         NULL, NULL, "StartMinimized", (void *)1,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Do start minimized") },
+        NULL, "Do start minimized" },
     { "+minimized", SET_RESOURCE, 0,
         NULL, NULL, "StartMinimized", (void *)0,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Do not start minimized") },
+        NULL, "Do not start minimized" },
 
     { "-native-monitor", SET_RESOURCE, 0,
         NULL, NULL, "NativeMonitor", (void *)1,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Use native Gtk3 monitor") },
+        NULL, "Use native Gtk3 monitor" },
     { "+native-monitor", SET_RESOURCE, 0,
         NULL, NULL, "NativeMonitor", (void *)0,
         USE_PARAM_STRING, USE_DESCRIPTION_STRING,
         IDCLS_UNUSED, IDCLS_UNUSED,
-        NULL, N_("Do not use Gtk3 native monitor") },
+        NULL, "Do not use Gtk3 native monitor" },
 
 
     CMDLINE_LIST_END
@@ -1320,11 +1320,11 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     char str[128];
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
-    char *warp, *mode[3] = {"", _(" (VDC)"), _(" (Monitor)")};
+    char *warp, *mode[3] = {"", " (VDC)", " (Monitor)"};
 
     for (i = 0; i < NUM_WINDOWS; i++) {
         if (ui_resources.canvas[i] && GTK_WINDOW(ui_resources.window_widget[i])) {
-            warp = (warp_flag ? _("(warp)") : "");
+            warp = (warp_flag ? "(warp)" : "");
             str[0] = 0;
             if (machine_class != VICE_MACHINE_VSID) {
                 snprintf(str, 128, "%s%s - %3d%%, %2d fps %s%s",

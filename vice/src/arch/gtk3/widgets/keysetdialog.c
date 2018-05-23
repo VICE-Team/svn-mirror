@@ -344,8 +344,8 @@ void keyset_dialog_show(GtkWindow *parent, int keyset)
      */
     dialog = gtk_dialog_new_with_buttons(
             title, parent, GTK_DIALOG_MODAL,
-            _("OK"), GTK_RESPONSE_ACCEPT,
-            _("Cancel"), GTK_RESPONSE_REJECT,
+            "OK", GTK_RESPONSE_ACCEPT,
+            "Cancel", GTK_RESPONSE_REJECT,
             NULL);
 
     /* add the keyset buttons */

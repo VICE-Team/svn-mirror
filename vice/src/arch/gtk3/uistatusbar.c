@@ -573,7 +573,7 @@ static GtkWidget *ui_tape_widget_create(void)
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
-    header = gtk_label_new(_("Tape:"));
+    header = gtk_label_new("Tape:");
     gtk_widget_set_hexpand(header, TRUE);
     gtk_widget_set_halign(header, GTK_ALIGN_START);
 
@@ -714,7 +714,7 @@ static GtkWidget *ui_joystick_widget_create(void)
     grid = gtk_grid_new();
     gtk_orientable_set_orientation(GTK_ORIENTABLE(grid), GTK_ORIENTATION_HORIZONTAL);
     gtk_widget_set_hexpand(grid, FALSE);
-    label = gtk_label_new(_("Joysticks:"));
+    label = gtk_label_new("Joysticks:");
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     gtk_widget_set_hexpand(label, TRUE);
     gtk_container_add(GTK_CONTAINER(grid), label);
@@ -907,12 +907,12 @@ static GtkWidget *ui_drive_menu_create(int unit)
     char buf[128];
     GtkWidget *drive_menu = gtk_menu_new();
     GtkWidget *drive_menu_item;
-    snprintf(buf, 128, _("Attach to drive #%d..."), unit + 8);
+    snprintf(buf, 128, "Attach to drive #%d...", unit + 8);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_attach_callback), GINT_TO_POINTER(unit+8));
     gtk_container_add(GTK_CONTAINER(drive_menu), drive_menu_item);
-    snprintf(buf, 128, _("Detach disk from drive #%d"), unit + 8);
+    snprintf(buf, 128, "Detach disk from drive #%d", unit + 8);
     buf[127] = 0;
     drive_menu_item = gtk_menu_item_new_with_label(buf);
     g_signal_connect(drive_menu_item, "activate", G_CALLBACK(ui_disk_detach_callback), GINT_TO_POINTER(unit+8));
@@ -1243,9 +1243,9 @@ void ui_display_tape_current_image(const char *image)
 {
     char buf[256];
     if (image && *image) {
-        snprintf(buf, 256, _("Attached %s to tape unit"), image);
+        snprintf(buf, 256, "Attached %s to tape unit", image);
     } else {
-        snprintf(buf, 256, _("Tape unit is empty"));
+        snprintf(buf, 256, "Tape unit is empty");
     }
 
     buf[255]=0;
@@ -1384,9 +1384,9 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
 {
     char buf[256];
     if (image && *image) {
-        snprintf(buf, 256, _("Attached %s to unit %d"), image, drive_number+8);
+        snprintf(buf, 256, "Attached %s to unit %d", image, drive_number+8);
     } else {
-        snprintf(buf, 256, _("Unit %d is empty"), drive_number+8);
+        snprintf(buf, 256, "Unit %d is empty", drive_number+8);
     }
     buf[255]=0;
     ui_display_statustext(buf, 1);

@@ -120,7 +120,7 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
         int index;
         gtk_container_add(GTK_CONTAINER(menu), gtk_separator_menu_item_new());
         util_fname_split(fliplist_string, NULL, &basename);
-        snprintf(buf, 128, _("Next: %s"), basename ? basename : fliplist_string);
+        snprintf(buf, 128, "Next: %s", basename ? basename : fliplist_string);
         lib_free(basename);
         basename = NULL;
         buf[127] = 0;
@@ -130,7 +130,7 @@ void ui_populate_fliplist_menu(GtkWidget *menu, int unit, int separator_count)
         fliplist_string = fliplist_get_prev(unit);
         if (fliplist_string) {
             util_fname_split(fliplist_string, NULL, &basename);
-            snprintf(buf, 128, _("Previous: %s"), basename ? basename : fliplist_string);
+            snprintf(buf, 128, "Previous: %s", basename ? basename : fliplist_string);
             lib_free(basename);
             basename = NULL;
             buf[127] = 0;
@@ -181,12 +181,12 @@ void ui_fliplist_load_callback(GtkWidget *parent, gpointer data)
         return;
     }
     dialog = gtk_file_chooser_dialog_new(
-        _("Select flip list file"),
+        "Select flip list file",
         ui_get_active_window(),
         GTK_FILE_CHOOSER_ACTION_OPEN,
         /* buttons */
-        _("Open"), GTK_RESPONSE_ACCEPT,
-        _("Cancel"), GTK_RESPONSE_REJECT,
+        "Open", GTK_RESPONSE_ACCEPT,
+        "Cancel", GTK_RESPONSE_REJECT,
         NULL, NULL);
     /* TODO: add a separate "extra widget" that will let the user
      * select autoattach */
@@ -220,12 +220,12 @@ void ui_fliplist_save_callback(GtkWidget *parent, gpointer data)
         return;
     }
     dialog = gtk_file_chooser_dialog_new(
-        _("Select flip list file"),
+        "Select flip list file",
         ui_get_active_window(),
         GTK_FILE_CHOOSER_ACTION_SAVE,
         /* buttons */
-        _("Save"), GTK_RESPONSE_ACCEPT,
-        _("Cancel"), GTK_RESPONSE_REJECT,
+        "Save", GTK_RESPONSE_ACCEPT,
+        "Cancel", GTK_RESPONSE_REJECT,
         NULL, NULL);
     gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog),
             create_file_chooser_filter(file_chooser_filter_fliplist, TRUE));
