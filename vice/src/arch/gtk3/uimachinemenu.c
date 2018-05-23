@@ -483,8 +483,11 @@ static ui_menu_item_t settings_menu_head[] = {
         GDK_KEY_P, VICE_MOD_MASK | GDK_SHIFT_MASK },
 
     { "Toggle CRT controls", UI_MENU_TYPE_ITEM_ACTION,
-        "crt-controes", (void *)ui_toggle_crt_controls, NULL,
+        "crt-controls", (void *)ui_toggle_crt_controls, NULL,
         0, 0, },
+    { "Toggle mixer controls", UI_MENU_TYPE_ITEM_ACTION,
+        "mixer-controls", (void *)ui_toggle_mixer_controls, NULL,
+        0, 0 },
 
     UI_MENU_SEPARATOR,
 

@@ -65,6 +65,7 @@
 #include "uismartattach.h"
 #include "uitapeattach.h"
 #include "uisidattach.h"
+#include "vsidmixerwidget.h"
 
 #include "ui.h"
 
@@ -291,6 +292,7 @@ static int (*identify_canvas_func)(video_canvas_t *) = NULL;
 /** \brief  Function to help create a CRT controls widget
  */
 static GtkWidget *(*create_controls_widget_func)(int) = NULL;
+
 
 /******************************************************************************
  *                              Event handlers                                *
@@ -932,6 +934,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     int target_window;
 
     GtkWidget *crt_controls;
+    GtkWidget *mixer_controls;
 
     int dnd_action = 0;
 
@@ -972,6 +975,12 @@ void ui_create_main_window(video_canvas_t *canvas)
         gtk_container_add(GTK_CONTAINER(grid), crt_controls);
         gtk_widget_set_no_show_all(crt_controls, TRUE);
     }
+
+    /* add sound mixer controls */
+    mixer_controls = vsid_mixer_widget_create(TRUE);
+    gtk_widget_hide(mixer_controls);
+    gtk_container_add(GTK_CONTAINER(grid), mixer_controls);
+    gtk_widget_set_no_show_all(mixer_controls, TRUE);
 
     status_bar = ui_statusbar_create();
     gtk_widget_show_all(status_bar);
@@ -1497,6 +1506,32 @@ void ui_enable_crt_controls(bool enabled)
         gtk_widget_show(crt);
     } else {
         gtk_widget_hide(crt);
+        /*
+         * This is completely counter-intuitive, but it works, unlike all other
+         * size_request()/set_size_hint() stuff.
+         * Appearently setting a size of 1x1 pixels forces Gtk3 to render the
+         * window to the appropriate (minimum) size,
+         */
+        gtk_window_resize(GTK_WINDOW(window), 1, 1);
+    }
+}
+
+
+void ui_enable_mixer_controls(bool enabled)
+{
+    if (active_win_index < 0 || active_win_index >= NUM_WINDOWS) {
+        /* No window created yet, most likely. */
+        return;
+    }
+
+    GtkWidget *window = ui_resources.window_widget[active_win_index];
+    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(window));
+    GtkWidget *mixer = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
+
+    if (enabled) {
+        gtk_widget_show(mixer);
+    } else {
+        gtk_widget_hide(mixer);
         /*
          * This is completely counter-intuitive, but it works, unlike all other
          * size_request()/set_size_hint() stuff.

@@ -55,6 +55,7 @@
 
 
 static bool crt_controls_enable = false;
+static bool mixer_controls_enable = false;
 
 
 /** \brief  Swap joysticks
@@ -246,6 +247,15 @@ gboolean ui_crt_controls_enabled(void)
 {
     return crt_controls_enable;
 }
+
+
+gboolean ui_toggle_mixer_controls(void)
+{
+    mixer_controls_enable = !mixer_controls_enable;
+    ui_enable_mixer_controls(mixer_controls_enable);
+    return TRUE;
+}
+
 
 /** \brief  Open the Manual
  *
