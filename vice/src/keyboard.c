@@ -1475,7 +1475,7 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
         tstr = machine_get_keyboard_type_name(type);
     }
     mapname = keyboard_get_mapping_name(mapping);
-#if 1
+
     /* <port>_<type>_<idx>_<mapping>.vkm */
     if ((mapping == 0) && (tstr == NULL)) {
         name = util_concat(KBD_PORT_PREFIX, "_", sympos[idx], ".vkm", NULL);
@@ -1486,9 +1486,7 @@ static int try_set_keymap_file(int atidx, int idx, int mapping, int type)
     } else if ((mapping != 0) && (tstr != NULL)) {
         name = util_concat(KBD_PORT_PREFIX, "_", tstr, "_", sympos[idx], "_", mapname, ".vkm", NULL);
     }
-#else
-    /* FIXME: alternative solution for targets with 8.3 filenames */
-#endif
+
     DBG(("try_set_keymap_file: (port:%s type:%s idx:%d mapping:%d) '%s' = '%s'\n",
                 KBD_PORT_PREFIX, tstr ? tstr : "-", idx, mapping,
                 idx ? "KeymapPosFile" : "KeymapSymFile", name));
