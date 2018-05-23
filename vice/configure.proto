@@ -2911,13 +2911,13 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
 
   if test x"$is_unix_macosx" = "xyes"; then
     dnl GTK3-FIXME: put OSX specific checks here
-    echo "GTK3 on OSX (Experimental)"
+    :
   elif test x"$is_win32" = "xyes"; then
     dnl GTK3-FIXME: put windows specific checks here
-    echo "GTK3 on Windows (Experimental)"
+    :
   else
     dnl GTK3-FIXME: put *nix specific checks here
-    echo "GTK3 on *nix (Experimental)"
+    :
   fi
 
   dnl Check for OpenGL 3.x and (on platforms that need it) GLEW.
