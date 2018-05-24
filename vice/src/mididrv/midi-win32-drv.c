@@ -249,6 +249,9 @@ int mididrv_in_open(void)
     /* can theoretically return MMSYSERR_INVALHANDLE */
     ret = midiInStart(handle_in);
 
+    /* FIXME: causes a 'cast from pointer to integer of different size' warning
+     *        when compiling on Win64
+     */
     return (DWORD)handle_in;
 }
 
@@ -277,6 +280,9 @@ int mididrv_out_open(void)
     /* reset buffer */
     out_index = 0;
 
+    /* FIXME: causes a 'cast from pointer to integer of different size' warning
+     *        when compiling on Win64
+     */
     return (DWORD)handle_out;
 }
 
