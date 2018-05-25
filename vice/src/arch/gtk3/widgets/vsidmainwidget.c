@@ -67,7 +67,7 @@ GtkWidget *vsid_main_widget_create(void)
     control_widget = vsid_control_widget_create();
     gtk_grid_attach(GTK_GRID(grid), control_widget, 0, 1, 1, 1);
 
-    mixer_widget = vsid_mixer_widget_create(FALSE);
+    mixer_widget = vsid_mixer_widget_create();
     gtk_grid_attach(GTK_GRID(grid), mixer_widget, 0, 2, 1, 1);
 
     gtk_widget_show_all(grid);

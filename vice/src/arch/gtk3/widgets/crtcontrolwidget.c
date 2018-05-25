@@ -379,63 +379,63 @@ static void add_sliders(GtkGrid *grid,
 
     /* Standard controls: brightness, gamma etc */
 
-    label = create_label("Brightness:", minimal);
+    label = create_label("Brightness", minimal);
     data->color_brightness = create_slider("ColorBrightness", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_brightness, 1, row, 1, 1);
     row++;
 
-    label = create_label("Contrast:", minimal);
+    label = create_label("Contrast", minimal);
     data->color_contrast = create_slider("ColorContrast", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_contrast, 1, row, 1, 1);
     row++;
 
-    label = create_label("Saturation:", minimal);
+    label = create_label("Saturation", minimal);
     data->color_saturation = create_slider("ColorSaturation", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_saturation, 1, row, 1, 1);
     row++;
 
-    label = create_label("Tint:", minimal);
+    label = create_label("Tint", minimal);
     data->color_tint = create_slider("ColorTint", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_tint, 1, row, 1, 1);
     row++;
 
-    label = create_label("Gamma:", minimal);
+    label = create_label("Gamma", minimal);
     data->color_gamma = create_slider("ColorGamma", chip,
             0, 4000, 200, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->color_gamma, 1, row, 1, 1);
     row++;
 
-    label = create_label("Blur:", minimal);
+    label = create_label("Blur", minimal);
     data->pal_blur = create_slider("PALBlur", chip,
             0, 1000, 50, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
     row++;
 
-    label = create_label("Scanline shade:", minimal);
+    label = create_label("Scanline shade", minimal);
     data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
             0, 1000, 50, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
     row++;
 
-    label = create_label("Odd lines phase:", minimal);
+    label = create_label("Odd lines phase", minimal);
     data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);
     gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
     row++;
 
-    label = create_label("Odd lines offset:", minimal);
+    label = create_label("Odd lines offset", minimal);
     data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
             0, 2000, 100, minimal);
     gtk_grid_attach(grid, label, 0, row, 1, 1);

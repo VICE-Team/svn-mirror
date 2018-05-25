@@ -65,7 +65,7 @@
 #include "uismartattach.h"
 #include "uitapeattach.h"
 #include "uisidattach.h"
-#include "vsidmixerwidget.h"
+#include "mixerwidget.h"
 
 #include "ui.h"
 
@@ -977,7 +977,7 @@ void ui_create_main_window(video_canvas_t *canvas)
     }
 
     /* add sound mixer controls */
-    mixer_controls = vsid_mixer_widget_create(TRUE);
+    mixer_controls = mixer_widget_create(TRUE, GTK_ALIGN_END);
     gtk_widget_hide(mixer_controls);
     gtk_container_add(GTK_CONTAINER(grid), mixer_controls);
     gtk_widget_set_no_show_all(mixer_controls, TRUE);

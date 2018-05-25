@@ -1,14 +1,14 @@
-/** \file   vsidmixerwidget.c
- * \brief   GTK3 mixer widget for VSID
+/** \file   mixerwidget.c
+ * \brief   GTK3 mixer widget for emus other than VSID
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
 
 /*
- * $VICERES SoundVolume         vsid
- * $VICERES SidResidPassband    vsid
- * $VICERES SidResidGain        vsid
- * $VICERES SidResidFilterBias  vsid
+ * $VICERES SoundVolume         -vsid
+ * $VICERES SidResidPassband    -vsid
+ * $VICERES SidResidGain        -vsid
+ * $VICERES SidResidFilterBias  -vsid
  */
 
 /*
@@ -46,7 +46,7 @@
 #include "log.h"
 #include "resources.h"
 
-#include "vsidmixerwidget.h"
+#include "mixerwidget.h"
 
 
 /** \brief  CSS for the scales
@@ -118,12 +118,33 @@ static void on_reset_clicked(GtkWidget *widget, gpointer data)
  *
  * \return  GtkLabel
  */
-static GtkWidget *create_label(const char *text)
+static GtkWidget *create_label(const char *text, gboolean minimal,
+                               GtkAlign alignment)
 {
     GtkWidget *label;
+    GtkCssProvider *provider;
+    GtkStyleContext *context;
+    GError *err = NULL;
 
     label = gtk_label_new(text);
-    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_widget_set_halign(label, alignment);
+
+    if (minimal) {
+        provider = gtk_css_provider_new();
+        gtk_css_provider_load_from_data(provider, LABEL_CSS, -1, &err);
+        if (err != NULL) {
+            fprintf(stderr, "CSS error: %s\n", err->message);
+            g_error_free(err);
+        }
+
+        context = gtk_widget_get_style_context(label);
+        if (context != NULL) {
+            gtk_style_context_add_provider(context,
+                    GTK_STYLE_PROVIDER(provider),
+                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+    }
+
     return label;
 }
 
@@ -140,16 +161,37 @@ static GtkWidget *create_label(const char *text)
  */
 static GtkWidget *create_slider(
         const char *resource,
-        int low, int high, int step)
+        int low, int high, int step,
+        gboolean minimal)
 {
     GtkWidget *scale;
+    GtkCssProvider *provider;
+    GtkStyleContext *context;
+    GError *err = NULL;
 
     scale = vice_gtk3_resource_scale_int_new(resource,
             GTK_ORIENTATION_HORIZONTAL, low, high, step);
     gtk_widget_set_hexpand(scale, TRUE);
-    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_TOP);
+    gtk_scale_set_value_pos(GTK_SCALE(scale), GTK_POS_RIGHT);
 
-    gtk_scale_set_draw_value(GTK_SCALE(scale), TRUE);
+    if (minimal) {
+        provider = gtk_css_provider_new();
+        gtk_css_provider_load_from_data(provider, SLIDER_CSS, -1, &err);
+        if (err != NULL) {
+            fprintf(stderr, "CSS error: %s\n", err->message);
+            g_error_free(err);
+        }
+
+        context = gtk_widget_get_style_context(scale);
+        if (context != NULL) {
+            gtk_style_context_add_provider(context,
+                    GTK_STYLE_PROVIDER(provider),
+                    GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+    }
+
+    gtk_scale_set_draw_value(GTK_SCALE(scale), FALSE);
+
     return scale;
 }
 
@@ -161,9 +203,9 @@ static GtkWidget *create_slider(
  *
  * \return  GtkScale
  */
-static GtkWidget *create_volume_widget(void)
+static GtkWidget *create_volume_widget(gboolean minimal)
 {
-    return create_slider("SoundVolume", 0, 100, 5);
+    return create_slider("SoundVolume", 0, 100, 5, minimal);
 }
 
 
@@ -171,72 +213,102 @@ static GtkWidget *create_volume_widget(void)
 
 /** \brief  Create slider for ReSID passband
  *
+ * \param[in]   minimal resize slider to minimal size
+ *
  * \return  GtkScale
  */
-static GtkWidget *create_passband_widget(void)
+static GtkWidget *create_passband_widget(gboolean minimal)
 {
-    return create_slider("SidResidPassBand", 0, 90, 5);
+    return create_slider("SidResidPassBand", 0, 90, 5, minimal);
 }
 
 
 /** \brief  Create slider for ReSID gain
  *
+ * \param[in]   minimal resize slider to minimal size
+ *
  * \return  GtkScale
  */
-static GtkWidget *create_gain_widget(void)
+static GtkWidget *create_gain_widget(gboolean minimal)
 {
-    return create_slider("SidResidGain", 90, 100, 1);
+    return create_slider("SidResidGain", 90, 100, 1, minimal);
 }
 
 
 /** \brief  Create slider for ReSID filter bias
  *
+ * \param[in]   minimal resize slider to minimal size
+ *
  * \return  GtkScale
  */
-static GtkWidget *create_bias_widget(void)
+static GtkWidget *create_bias_widget(gboolean minimal)
 {
-    return create_slider("SidResidFilterBias", -5000, 5000, 1000);
+    return create_slider("SidResidFilterBias", -5000, 5000, 1000, minimal);
 }
 #endif  /* ifdef HAVE_RESID */
 
 
-/** \brief  Create VSID mixer widget
+/** \brief  Create mixer widget
+ *
+ * \param[in]   minimal     minimize side of sliders and labels
+ * \param[in]   alignment   alignment of labels
  *
  * \return  GtkGrid
  *
  */
-GtkWidget *vsid_mixer_widget_create(void)
+GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
 {
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *button;
+#ifdef HAVE_RESID
+    bool sid_present = true;
+    int tmp;
 
-    grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, 0);
-    g_object_set(G_OBJECT(grid), "margin-right", 16, NULL);
+    if (machine_class == VICE_MACHINE_PET
+            || machine_class == VICE_MACHINE_VIC20
+            || machine_class == VICE_MACHINE_PLUS4) {
+        /* check for presence of SidCart */
+        if (resources_get_int("SidCart", &tmp) < 0) {
+            debug_gtk3("failed to get value for resource SidCart, disabling\n");
+            sid_present = false;
+        } else {
+            sid_present = (bool)tmp;
+        }
+    }
+#else
+    bool sid_present = false;
+#endif
+
+    grid = vice_gtk3_grid_new_spaced(16, 0);
+    g_object_set(G_OBJECT(grid), "margin-left", 8, "margin-right", 8, NULL);
     gtk_widget_set_hexpand(grid, TRUE);
 
-    label = create_label("Volume");
-    volume = create_volume_widget();
+    label = create_label("Volume", minimal, alignment);
+    volume = create_volume_widget(minimal);
     gtk_widget_set_hexpand(volume, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), volume, 1, 0, 1, 1);
 
 #ifdef HAVE_RESID
-    label = create_label("ReSID Passband");
-    passband = create_passband_widget();
+    label = create_label("ReSID Passband", minimal, alignment);
+    passband = create_passband_widget(minimal);
+    gtk_widget_set_sensitive(passband, sid_present);
     gtk_widget_set_hexpand(passband, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), passband, 1, 1, 1, 1);
 
-    label = create_label("ReSID Gain");
-    gain = create_gain_widget();
+    label = create_label("ReSID Gain", minimal, alignment);
+    gain = create_gain_widget(minimal);
+    gtk_widget_set_sensitive(gain, sid_present);
     gtk_widget_set_hexpand(gain, TRUE);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), gain, 1, 2, 1, 1);
 
-    label = create_label("ReSID Filter Bias");
-    bias = create_bias_widget();
+    label = create_label("ReSID Filter Bias", minimal, alignment);
+    bias = create_bias_widget(minimal);
     gtk_widget_set_hexpand(bias, TRUE);
+    gtk_widget_set_sensitive(bias, sid_present);
     gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
 #endif

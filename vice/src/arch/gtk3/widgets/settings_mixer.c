@@ -35,7 +35,7 @@
 #include "resources.h"
 #include "lib.h"
 #include "machine.h"
-#include "vsidmixerwidget.h"
+#include "mixerwidget.h"
 
 #include "settings_mixer.h"
 
@@ -53,7 +53,9 @@ GtkWidget *settings_mixer_widget_create(GtkWidget *parent)
 
     grid = vice_gtk3_grid_new_spaced(VICE_GTK3_DEFAULT, VICE_GTK3_DEFAULT);
 
-    gtk_grid_attach(GTK_GRID(grid), vsid_mixer_widget_create(FALSE), 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid),
+            mixer_widget_create(FALSE, GTK_ALIGN_START),
+            0, 0, 1, 1);
 
     gtk_widget_show_all(grid);
     return grid;

@@ -1,5 +1,5 @@
-/** \file   vsidmixerwidget.h
- * \brief   GTK3 mixer widget for VSID - header
+/** \file   mixerwidget.h
+ * \brief   GTK3 mixer widget for emus other than vsid - header
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
  */
@@ -25,12 +25,12 @@
  *
  */
 
-#ifndef VICE_VSIDMIXERWIDGET_H
-#define VICE_VSIDMIXERWIDGET_H
+#ifndef VICE_MIXERWIDGET_H
+#define VICE_MIXERWIDGET_H
 
 #include "vice.h"
 #include <gtk/gtk.h>
 
-GtkWidget *vsid_mixer_widget_create(void);
+GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment);
 
 #endif
