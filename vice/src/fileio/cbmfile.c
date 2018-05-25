@@ -51,7 +51,7 @@ static char *cbmfile_find_file(const char *fsname, const char *path)
         open_path = "";
     }
 
-    ioutil_dir = ioutil_opendir(open_path);
+    ioutil_dir = ioutil_opendir(open_path, IOUTIL_OPENDIR_ALL_FILES);
 
     if (ioutil_dir == NULL) {
         return NULL;

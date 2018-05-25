@@ -37,6 +37,9 @@
 #define IOUTIL_MKDIR_RWXUG  0770
 #define IOUTIL_MKDIR_RWXUGO 0777
 
+#define IOUTIL_OPENDIR_NO_DOTFILES  1
+#define IOUTIL_OPENDIR_ALL_FILES    0
+
 #define IOUTIL_ERRNO_EPERM  0
 #define IOUTIL_ERRNO_EEXIST 1
 #define IOUTIL_ERRNO_EACCES 2
@@ -71,7 +74,7 @@ struct ioutil_dir_s {
 };
 typedef struct ioutil_dir_s ioutil_dir_t;
 
-extern ioutil_dir_t *ioutil_opendir(const char *path);
+extern ioutil_dir_t *ioutil_opendir(const char *path, int mode);
 extern char *ioutil_readdir(ioutil_dir_t *ioutil_dir);
 extern void ioutil_closedir(ioutil_dir_t *ioutil_dir);
 

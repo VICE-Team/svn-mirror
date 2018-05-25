@@ -167,7 +167,7 @@ static char *p00_file_find(const char *file_name, const char *path)
     char *name, *alloc_name = NULL;
     int rc;
 
-    ioutil_dir = ioutil_opendir(path);
+    ioutil_dir = ioutil_opendir(path, IOUTIL_OPENDIR_ALL_FILES);
 
     if (ioutil_dir == NULL) {
         return NULL;

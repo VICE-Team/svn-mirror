@@ -887,7 +887,7 @@ void mon_show_dir(const char *path)
     }
     mon_out("Displaying directory: `%s'\n", mpath);
 
-    dir = ioutil_opendir(mpath);
+    dir = ioutil_opendir(mpath, IOUTIL_OPENDIR_ALL_FILES);
     if (!dir) {
         mon_out("Couldn't open directory.\n");
         return;

@@ -96,14 +96,14 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
     }
 
     /* trying to open */
-    ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd));
+    ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd), IOUTIL_OPENDIR_ALL_FILES);
     if (ioutil_dir == NULL) {
         for (p = (uint8_t *)(cmd_parse->parsecmd); *p; p++) {
             if (isupper((int)*p)) {
                 *p = tolower((int)*p);
             }
         }
-        ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd));
+        ioutil_dir = ioutil_opendir((char *)(cmd_parse->parsecmd), IOUTIL_OPENDIR_ALL_FILES);
         if (ioutil_dir == NULL) {
             fsdevice_error(vdrive, CBMDOS_IPE_NOT_FOUND);
             return FLOPPY_ERROR;
