@@ -739,7 +739,7 @@ static const mon_cmds_t mon_cmd_array[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       NULL, 0,
       { IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
-      IDGS_MON_SIDEFX_DESCRIPTION,
+      IDGS_UNUSED,
       "[on|off|toggle]",
       "Control how monitor generated reads affect memory locations that have\n"
       "read side-effects.  If the argument is 'on' then reads may cause\n"

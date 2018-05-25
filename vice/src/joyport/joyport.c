@@ -687,9 +687,9 @@ static cmdline_option_t cmdline_options_port1[] =
 {
     { "-controlport1device", CALL_FUNCTION, 1,
       set_joyport_cmdline_device, (void *)JOYPORT_1, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_DYN,
-      IDGS_DEVICE, JOYPORT_1,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_DYN,
+      IDGS_UNUSED, JOYPORT_1,
+      "Device", NULL },
     CMDLINE_LIST_END
 };
 
