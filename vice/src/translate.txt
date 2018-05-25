@@ -13,66 +13,6 @@ IDGS_SYNTAX_S_S
 IDGS_ABBREVIATION_S
 
 /* monitor/mon_command.c */
-IDGS_MON_DEVICE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_EXIT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_QUIT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_RADIX_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SIDEFX_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_DISK_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_DISK_COMMAND
-
-/* monitor/mon_command.c */
-IDGS_MON_AT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_DEVICE
-
-/* monitor/mon_command.c */
-IDGS_FILE_INDEX
-
-/* monitor/mon_command.c */
-IDGS_MON_AUTOSTART_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_AUTOLOAD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_ATTACH_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_BLOAD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_TRACK
-
-/* monitor/mon_command.c */
-IDGS_SECTOR
-
-/* monitor/mon_command.c */
-IDGS_MON_BLOCK_READ_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_BSAVE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_BLOCK_WRITE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_DIRECTORY
-
-/* monitor/mon_command.c */
 IDGS_P_DIRECTORY
 
 /* monitor/mon_command.c */
