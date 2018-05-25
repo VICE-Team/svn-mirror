@@ -54,8 +54,14 @@
 #include "uicommands.h"
 
 
-static bool crt_controls_enable = false;
-static bool mixer_controls_enable = false;
+/** \brief  Indicates if the CRT controls are enabled in the UI
+ */
+static gboolean crt_controls_enable = FALSE;
+
+
+/** \brief  Indicates if the mixer controls are enabled in the UI
+ */
+static gboolean mixer_controls_enable = FALSE;
 
 
 /** \brief  Swap joysticks
@@ -234,7 +240,14 @@ gboolean ui_toggle_resource(GtkWidget *widget, gpointer resource)
 }
 
 
-gboolean ui_toggle_crt_controls(void)
+/** \brief  Event handler for the UI to toggle CRT controls display
+ *
+ * \param[in]   widget  parent widget (menu item, ignored)
+ * \param[in]   data    extra event data (ignored)
+ *
+ * \return  TRUE (avoids the key press getting passed to the emulated machine)
+ */
+gboolean ui_toggle_crt_controls(GtkWidget *widget, gpointer data)
 {
     crt_controls_enable = !crt_controls_enable;
 
@@ -243,13 +256,25 @@ gboolean ui_toggle_crt_controls(void)
 }
 
 
+/** \brief  Determine if the CRT controls are enabled
+ *
+ * \return  bool
+ */
 gboolean ui_crt_controls_enabled(void)
 {
     return crt_controls_enable;
 }
 
 
-gboolean ui_toggle_mixer_controls(void)
+/** \brief  Event handler for the UI to toggle mixer controls display
+ *
+ * \param[in]   widget  parent widget (menu item, ignored)
+ * \param[in]   data    extra event data (ignored)
+ *
+ * \return  TRUE (avoids the key press getting passed to the emulated machine)
+ */
+
+gboolean ui_toggle_mixer_controls(GtkWidget *widget, gpointer data)
 {
     mixer_controls_enable = !mixer_controls_enable;
     ui_enable_mixer_controls(mixer_controls_enable);
@@ -257,6 +282,10 @@ gboolean ui_toggle_mixer_controls(void)
 }
 
 
+/** \brief  Determine if the mixer controls are enabled
+ *
+ * \return  bool
+ */
 gboolean ui_mixer_controls_enabled(void)
 {
     return mixer_controls_enable;

@@ -1976,6 +1976,8 @@ static gboolean on_dialog_configure_event(
  *          On MATE (marco, a Metacity fork) both buttons are hidden.
  *          On KDE (KWin) the maximize button is still visible but inactive
  *          On OpenBox both min/max are visible with only minimize working
+ *
+ * \return  TRUE (avoids the key press getting passed to the emulated machine)
  */
 gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {

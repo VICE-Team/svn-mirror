@@ -941,8 +941,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     GtkWidget *crt_controls;
     GtkWidget *mixer_controls;
 
-    int dnd_action = 0;
-
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
@@ -1006,19 +1004,12 @@ void ui_create_main_window(video_canvas_t *canvas)
     /*
      * Set up drag-n-drop handling for files
      */
-
-#if 1
-    dnd_action = GDK_ACTION_COPY;
-#else
-    dnd_action = 0;
-#endif
-
     gtk_drag_dest_set(
             new_window,
             GTK_DEST_DEFAULT_ALL,
             drag_targets,
             (int)(sizeof drag_targets / sizeof drag_targets[0]),
-            dnd_action);
+            GDK_ACTION_COPY);
     g_signal_connect(new_window, "drag-data-received",
                      G_CALLBACK(on_drag_data_received), NULL);
     g_signal_connect(new_window, "drag-drop",
