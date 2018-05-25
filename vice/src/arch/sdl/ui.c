@@ -266,14 +266,14 @@ ui_menu_action_t ui_dispatch_events(void)
         switch (event->eventType) {
             case SDL_MOUSEMOTION:
                 {
-                    /* locnet, 2011-06-16, detect auto calibrate */
+                    /* detect auto calibrate */
                     if ((event->x == -2048) && (event->y == -2048)) {
                         down_x = -1;
                         down_y = -1;
                         oldx = 0;
                         oldy = 0;
                         stopPoll = 1;
-                    /* locnet, 2011-07-01, detect pure relative move */
+                    /* detect pure relative move */
                     } else if ((event->down_x == -1024) && (event->down_y == -1024)) {
                         down_x = 0;
                         down_y = 0;
@@ -357,7 +357,7 @@ ui_menu_action_t ui_dispatch_events(void)
                 {
                     retval = sdljoy_button_event(0, event->keycode, 1);
 
-                    /* 2011-09-20, buffer overflow when autofire if stopPoll */
+                    /* buffer overflow when autofire if stopPoll */
                     if (!Android_HasRepeatEvent(SDL_JOYBUTTONDOWN, event->keycode)) {
                         stopPoll = 1;
                     }
@@ -367,7 +367,7 @@ ui_menu_action_t ui_dispatch_events(void)
                 {
                     retval = sdljoy_button_event(0, event->keycode, 0);
 
-                    /* 2011-09-20, buffer overflow when autofire if stopPoll */
+                    /* buffer overflow when autofire if stopPoll */
                     if (!Android_HasRepeatEvent(SDL_JOYBUTTONUP, event->keycode)) {
                         stopPoll = 1;
                     }
