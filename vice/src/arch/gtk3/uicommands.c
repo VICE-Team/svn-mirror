@@ -257,6 +257,12 @@ gboolean ui_toggle_mixer_controls(void)
 }
 
 
+gboolean ui_mixer_controls_enabled(void)
+{
+    return mixer_controls_enable;
+}
+
+
 /** \brief  Open the Manual
  *
  * \return  TRUE if succesful, FALSE otherwise

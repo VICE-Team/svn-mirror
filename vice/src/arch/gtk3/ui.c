@@ -547,7 +547,7 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
  */
 static void ui_update_fullscreen_decorations(void)
 {
-    GtkWidget *window, *grid, *menu_bar, *crt_grid, *status_bar;
+    GtkWidget *window, *grid, *menu_bar, *crt_grid, *mixer_grid, *status_bar;
     int has_decorations;
 
     /* FIXME: this function does not work properly for vsid and should never
@@ -563,17 +563,22 @@ static void ui_update_fullscreen_decorations(void)
     grid = gtk_bin_get_child(GTK_BIN(window));
     menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
     crt_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
-    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
+    mixer_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
+    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 4);
 
     if (has_decorations) {
         gtk_widget_show(menu_bar);
         if (ui_crt_controls_enabled()) {
             gtk_widget_show(crt_grid);
         }
+        if (ui_mixer_controls_enabled()) {
+            gtk_widget_show(mixer_grid);
+        }
         gtk_widget_show(status_bar);
     } else {
         gtk_widget_hide(menu_bar);
         gtk_widget_hide(crt_grid);
+        gtk_widget_hide(mixer_grid);
         gtk_widget_hide(status_bar);
     }
 }
@@ -1491,16 +1496,24 @@ void ui_update_lightpen(void)
 }
 
 
+/** \brief  Enable/disable CRT controls
+ *
+ * \param[in]   enabled enabled state for the CRT controls
+ */
 void ui_enable_crt_controls(bool enabled)
 {
+    GtkWidget *window;
+    GtkWidget *grid;
+    GtkWidget *crt;
+
     if (active_win_index < 0 || active_win_index >= NUM_WINDOWS) {
         /* No window created yet, most likely. */
         return;
     }
 
-    GtkWidget *window = ui_resources.window_widget[active_win_index];
-    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(window));
-    GtkWidget *crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+    window = ui_resources.window_widget[active_win_index];
+    grid = gtk_bin_get_child(GTK_BIN(window));
+    crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
 
     if (enabled) {
         gtk_widget_show(crt);
@@ -1517,16 +1530,24 @@ void ui_enable_crt_controls(bool enabled)
 }
 
 
+/** \brief  Enable/disable mixer controls
+ *
+ * \param[in]   enabled enabled state for the mixer controls
+ */
 void ui_enable_mixer_controls(bool enabled)
 {
+    GtkWidget *window;
+    GtkWidget *grid;
+    GtkWidget *mixer;
+
     if (active_win_index < 0 || active_win_index >= NUM_WINDOWS) {
         /* No window created yet, most likely. */
         return;
     }
 
-    GtkWidget *window = ui_resources.window_widget[active_win_index];
-    GtkWidget *grid = gtk_bin_get_child(GTK_BIN(window));
-    GtkWidget *mixer = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
+    window = ui_resources.window_widget[active_win_index];
+    grid = gtk_bin_get_child(GTK_BIN(window));
+    mixer = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
 
     if (enabled) {
         gtk_widget_show(mixer);
