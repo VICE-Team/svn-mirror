@@ -247,9 +247,9 @@ static cmdline_option_t cmdline_options[] =
 {
     { "-samplerdev", SET_RESOURCE, 1,
       NULL, NULL, "SamplerDevice", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
-      IDGS_DEVICE, IDCLS_SPECIFY_SAMPLER_DEVICE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
+      IDGS_UNUSED, IDCLS_SPECIFY_SAMPLER_DEVICE,
+      "Device", NULL },
     { "-samplergain", SET_RESOURCE, 1,
       NULL, NULL, "SamplerGain", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
