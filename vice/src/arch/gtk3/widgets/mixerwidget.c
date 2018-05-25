@@ -261,6 +261,7 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     GtkWidget *grid;
     GtkWidget *label;
     GtkWidget *button;
+    int row = 0;
 #ifdef HAVE_RESID
     bool sid_present = true;
     int tmp;
@@ -284,39 +285,60 @@ GtkWidget *mixer_widget_create(gboolean minimal, GtkAlign alignment)
     g_object_set(G_OBJECT(grid), "margin-left", 8, "margin-right", 8, NULL);
     gtk_widget_set_hexpand(grid, TRUE);
 
+    if (minimal) {
+        /*
+         * 'minimal' is used when this widget is used under the statusbar,
+         * in which case we add a label to make the difference between the
+         * CRT and the mixer controls more clear
+         */
+        label = gtk_label_new(NULL);
+        gtk_label_set_markup(GTK_LABEL(label),
+                "<b><small>Mixer settings</small></b>");
+        gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+        gtk_widget_set_halign(label, GTK_ALIGN_START);
+    }
+
+
+    button = gtk_button_new_with_label("Reset");
+    gtk_grid_attach(GTK_GRID(grid), button, 1, 0, 1, 1);
+    gtk_widget_set_halign(button, GTK_ALIGN_END);
+    gtk_widget_set_hexpand(button, FALSE);
+    g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
+    row++;
+
     label = create_label("Volume", minimal, alignment);
     volume = create_volume_widget(minimal);
     gtk_widget_set_hexpand(volume, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), volume, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), volume, 1,row, 1, 1);
+    row++;
 
 #ifdef HAVE_RESID
     label = create_label("ReSID Passband", minimal, alignment);
     passband = create_passband_widget(minimal);
     gtk_widget_set_sensitive(passband, sid_present);
     gtk_widget_set_hexpand(passband, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), passband, 1, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), passband, 1, row, 1, 1);
+    row++;
 
     label = create_label("ReSID Gain", minimal, alignment);
     gain = create_gain_widget(minimal);
     gtk_widget_set_sensitive(gain, sid_present);
     gtk_widget_set_hexpand(gain, TRUE);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), gain, 1, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain, 1, row, 1, 1);
+    row++;
 
     label = create_label("ReSID Filter Bias", minimal, alignment);
     bias = create_bias_widget(minimal);
     gtk_widget_set_hexpand(bias, TRUE);
     gtk_widget_set_sensitive(bias, sid_present);
-    gtk_grid_attach(GTK_GRID(grid), label, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(grid), bias, 1, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), bias, 1, row, 1, 1);
+    row++;
 #endif
 
-    button = gtk_button_new_with_label("Reset to defaults");
-    gtk_grid_attach(GTK_GRID(grid), button, 0, 4, 1, 1);
-    g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
-
-    gtk_widget_show_all(grid);
+   gtk_widget_show_all(grid);
     return grid;
 }
