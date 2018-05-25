@@ -1977,7 +1977,7 @@ static gboolean on_dialog_configure_event(
  *          On KDE (KWin) the maximize button is still visible but inactive
  *          On OpenBox both min/max are visible with only minimize working
  */
-void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
+gboolean ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 {
     GtkWidget *dialog;
     GtkWidget *content;
@@ -2022,4 +2022,6 @@ void ui_settings_dialog_create(GtkWidget *widget, gpointer user_data)
 
     settings_window = dialog;
     gtk_widget_show_all(dialog);
+
+    return TRUE;
 }

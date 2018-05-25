@@ -184,8 +184,8 @@ static ui_menu_item_t settings_menu[] = {
 
     /* the settings dialog */
     { "Settings ...", UI_MENU_TYPE_ITEM_ACTION,
-        "settings", ui_settings_dialog_create, NULL,
-        0, 0 },
+        "settings", (void *)ui_settings_dialog_create, NULL,
+        GDK_KEY_O, VICE_MOD_MASK },
 
     UI_MENU_TERMINATOR
 };
