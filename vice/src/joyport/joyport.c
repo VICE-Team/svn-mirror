@@ -45,25 +45,25 @@ static int pot_port_mask = 1;
 
 static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
-typedef struct resid2transid_s {
+typedef struct resid2text_s {
     int resid;
-    int transid;
-} resid2transid_t;
+    char *text;
+} resid2text_t;
 
-static resid2transid_t ids[] = {
-    { JOYPORT_RES_ID_MOUSE, IDGS_HOST_MOUSE },
-    { JOYPORT_RES_ID_SAMPLER, IDGS_HOST_SAMPLER },
-    { -1, -1 }
+static resid2text_t ids[] = {
+    { JOYPORT_RES_ID_MOUSE, "host mouse" },
+    { JOYPORT_RES_ID_SAMPLER, "host sampler (audio input device)" },
+    { -1, NULL }
 };
 
-static char *res2text(int id)
+static char *res2text(int joyport_id)
 {
     int i;
     char *retval = "Unknown joyport resource";
 
     for (i = 0; ids[i].resid != -1; ++i) {
-        if (ids[i].resid == id) {
-            retval = translate_text(ids[i].transid);
+        if (ids[i].resid == joyport_id) {
+            retval = ids[i].text;
         }
     }
     return retval;
@@ -93,13 +93,13 @@ static int joyport_set_device(int port, int id)
 
     /* check if port is present */
     if (!port_props[port].name) {
-        ui_error(translate_text(IDGS_SELECTED_PORT_NOT_PRESENT), port);
+        ui_error("Selected port (%d) is not present on this emulator", port);
         return -1;
     }
 
     /* check if id is registered */
     if (id != JOYPORT_ID_NONE && !joyport_device[id].name) {
-        ui_error(translate_text(IDGS_SELECTED_JOYPORT_DEV_NOT_REG), id);
+        ui_error("Selected control port device %d is not registered", id);
         return -1;
     }
 
@@ -107,7 +107,7 @@ static int joyport_set_device(int port, int id)
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joy_port[i] == id) {
-                ui_error(translate_text(IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED), joyport_device[id].name, translate_text(port_props[port].trans_name), translate_text(port_props[i].trans_name));
+                ui_error("Selected control port device %s on %s is already attached to %s", joyport_device[id].name, translate_text(port_props[port].trans_name), translate_text(port_props[i].trans_name));
                 return -1;
             }
         }

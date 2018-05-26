@@ -1,101 +1,5 @@
 /* GLOBAL STRING ID DEFINITIONS */
 
-/* monitor/mon_command.c */
-IDGS_COMMAND_S_UNKNOWN
-
-/* monitor/mon_command.c */
-IDGS_NO_HELP_AVAILABLE_FOR_S
-
-/* monitor/mon_command.c */
-IDGS_SYNTAX_S_S
-
-/* monitor/mon_command.c */
-IDGS_ABBREVIATION_S
-
-/* monitor/mon_command.c */
-IDGS_P_DIRECTORY
-
-/* monitor/mon_command.c */
-IDGS_MON_CD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_DETACH_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_DIR_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_LIST_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_LOAD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_PWD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SAVE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_OTHER_COMMANDS
-
-/* monitor/mon_command.c */
-IDGS_MON_DISPLAY_NUMBER_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_CARTFREEZE_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_HELP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_STRING
-
-/* monitor/mon_command.c */
-IDGS_MON_KEYBUF_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_PLAYBACK_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_EXPRESSION
-
-/* monitor/mon_command.c */
-IDGS_MON_PRINT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_RECORD_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_RESOURCE
-
-/* monitor/mon_command.c */
-IDGS_MON_RESOURCEGET_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_VALUE
-
-/* monitor/mon_command.c */
-IDGS_MON_RESOURCESET_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_LOAD_RESOURCES_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SAVE_RESOURCES_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_STOP_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_SCREENSHOT_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_TAPECTRL_DESCRIPTION
-
-/* monitor/mon_command.c */
-IDGS_MON_MAINCPU_TRACE_DESCRIPTION
-
 /* joyport.c */
 IDGS_CONTROL_PORT
 
@@ -115,25 +19,10 @@ IDGS_USERPORT_JOY_ADAPTER_PORT_1
 IDGS_USERPORT_JOY_ADAPTER_PORT_2
 
 /* joyport.c */
-IDGS_SELECTED_PORT_NOT_PRESENT
-
-/* joyport.c */
-IDGS_SELECTED_JOYPORT_DEV_NOT_REG
-
-/* joyport.c */
-IDGS_SELECTED_JOYPORT_DEV_ALREADY_ATTACHED
-
-/* joyport.c */
 IDGS_SELECTED_JOYPORT_SAME_INPUT_RES
 
 /* joyport.c */
 IDGS_SELECTED_DEVICE_NOT_THIS_PORT
-
-/* joyport.c */
-IDGS_HOST_MOUSE
-
-/* joyport.c */
-IDGS_HOST_SAMPLER
 
 /* joyport.c */
 IDGS_NONE
