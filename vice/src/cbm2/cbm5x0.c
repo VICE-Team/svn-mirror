@@ -161,7 +161,6 @@ kbdtype_info_t *machine_get_keyboard_info_list(void)
 static joyport_port_props_t control_port_1 =
 {
     "Control port 1",
-    IDGS_CONTROL_PORT_1,
     1,                      /* has a potentiometer connected to this port */
     0,                      /* officially has lightpen support on this port,
                                but no lightpen support is in the cbm5x0 code */
@@ -171,7 +170,6 @@ static joyport_port_props_t control_port_1 =
 static joyport_port_props_t control_port_2 =
 {
     "Control port 2",
-    IDGS_CONTROL_PORT_2,
     1,                      /* has a potentiometer connected to this port */
     0,                      /* has NO lightpen support on this port */
     1                       /* port is always active */

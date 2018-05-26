@@ -97,7 +97,6 @@
 
 typedef struct joyport_s {
     char *name;
-    int trans_name;
     int resource_id;
     int is_lp;
     int pot_optional;
@@ -112,13 +111,11 @@ typedef struct joyport_s {
 
 typedef struct joyport_desc_s {
     char *name;
-    int trans_name;
     int id;
 } joyport_desc_t;
 
 typedef struct joyport_port_props_s {
     char *name;
-    int trans_name;
     int has_pot;
     int has_lp_support;
     int active;
@@ -142,7 +139,6 @@ extern joyport_desc_t *joyport_get_valid_devices(int port);
 
 extern void joyport_display_joyport(int id, uint8_t status);
 
-extern int joyport_get_port_trans_name(int port);
 extern char *joyport_get_port_name(int port);
 
 extern void joyport_clear_devices(void);

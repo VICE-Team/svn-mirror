@@ -243,7 +243,6 @@ static uint8_t cx85_read_pot(void)
 
 static joyport_t joyport_cx85_device = {
     "Atari CX85 keypad",
-    IDGS_CX85,
     JOYPORT_RES_ID_KEYPAD,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,

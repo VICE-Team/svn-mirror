@@ -1,24 +1,6 @@
 /* GLOBAL STRING ID DEFINITIONS */
 
 /* joyport.c */
-IDGS_CONTROL_PORT
-
-/* joyport.c */
-IDGS_CONTROL_PORT_1
-
-/* joyport.c */
-IDGS_CONTROL_PORT_2
-
-/* joyport.c */
-IDGS_SIDCARD_CONTROL_PORT
-
-/* joyport.c */
-IDGS_USERPORT_JOY_ADAPTER_PORT_1
-
-/* joyport.c */
-IDGS_USERPORT_JOY_ADAPTER_PORT_2
-
-/* joyport.c */
 IDGS_SELECTED_JOYPORT_SAME_INPUT_RES
 
 /* joyport.c */
@@ -26,90 +8,6 @@ IDGS_SELECTED_DEVICE_NOT_THIS_PORT
 
 /* joyport.c */
 IDGS_NONE
-
-/* joystick.c */
-IDGS_JOYSTICK
-
-/* mouse.c */
-IDGS_PADDLES
-
-/* mouse.c */
-IDGS_MOUSE_1351
-
-/* mouse.c */
-IDGS_MOUSE_NEOS
-
-/* mouse.c */
-IDGS_MOUSE_AMIGA
-
-/* mouse.c */
-IDGS_MOUSE_CX22
-
-/* mouse.c */
-IDGS_MOUSE_ATARI_ST
-
-/* mouse.c */
-IDGS_MOUSE_SMART
-
-/* mouse.c */
-IDGS_MOUSE_MICROMYS
-
-/* mouse.c */
-IDGS_KOALAPAD
-
-/* joyport/sampler2bit.c */
-IDGS_SAMPLER_2BIT
-
-/* joyport/sampler4bit.c */
-IDGS_SAMPLER_4BIT
-
-/* joyport/bbrtc.c */
-IDGS_BBRTC
-
-/* joyport/paperclip64.c */
-IDGS_PAPERCLIP64_DONGLE
-
-/* joyport/coplin_keypad.c */
-IDGS_COPLIN_KEYPAD
-
-/* joyport/script64_dongle.c */
-IDGS_SCRIPT64_DONGLE
-
-/* joyport/vizawrite64_dongle.c */
-IDGS_VIZAWRITE64_DONGLE
-
-/* joyport/waasoft_dongle.c */
-IDGS_WAASOFT_DONGLE
-
-/* joyport/cx21.c */
-IDGS_CX21
-
-/* joyport/cx85.c */
-IDGS_CX85
-
-/* joyport/rushware_keypad.c */
-IDGS_RUSHWARE_KEYPAD
-
-/* joyport/cardkey.c */
-IDGS_CARDKEY
-
-/* lightpen.c */
-IDGS_LIGHTPEN_UP
-
-/* lightpen.c */
-IDGS_LIGHTPEN_LEFT
-
-/* lightpen.c */
-IDGS_DATEL_LIGHTPEN
-
-/* lightpen.c */
-IDGS_MAGNUM_LIGHT_PHASER
-
-/* lightpen.c */
-IDGS_STACK_LIGHT_RIFLE
-
-/* lightpen.c */
-IDGS_INKWELL_LIGHTPEN
 
 /* joyport.c */
 IDGS_SET_JOYPORT_S_DEVICE

@@ -528,7 +528,6 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port);
 
 static joyport_t joystick_device = {
     "Joystick",
-    IDGS_JOYSTICK,
     JOYPORT_RES_ID_NONE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,

@@ -428,7 +428,6 @@ static void vic20io0_init(void)
 
 static joyport_port_props_t control_port = {
     "Control port",
-    IDGS_CONTROL_PORT,
     1,  /* has a potentiometer connected to this port */
     1,  /* has lightpen support on this port */
     1   /* port is always active */
@@ -436,7 +435,6 @@ static joyport_port_props_t control_port = {
 
 static joyport_port_props_t userport_joy_control_port_1 = {
     "Userport joystick adapter port 1",
-    IDGS_USERPORT_JOY_ADAPTER_PORT_1,
     0,  /* has NO potentiometer connected to this port */
     0,  /* has NO lightpen support on this port */
     0   /* port can be switched on/off */
@@ -444,7 +442,6 @@ static joyport_port_props_t userport_joy_control_port_1 = {
 
 static joyport_port_props_t userport_joy_control_port_2 = {
     "Userport joystick adapter port 2",
-    IDGS_USERPORT_JOY_ADAPTER_PORT_2,
     0,  /* has NO potentiometer connected to this port */
     0,  /* has NO lightpen support on this port */
     0   /* port can be switched on/off */

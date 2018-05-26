@@ -107,7 +107,7 @@ static int joyport_set_device(int port, int id)
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joy_port[i] == id) {
-                ui_error("Selected control port device %s on %s is already attached to %s", joyport_device[id].name, translate_text(port_props[port].trans_name), translate_text(port_props[i].trans_name));
+                ui_error("Selected control port device %s on %s is already attached to %s", joyport_device[id].name, port_props[port].name, port_props[i].name);
                 return -1;
             }
         }
@@ -117,7 +117,7 @@ static int joyport_set_device(int port, int id)
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joyport_device[id].resource_id == joyport_device[joy_port[i]].resource_id) {
-                ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, translate_text(port_props[port].trans_name), res2text(joyport_device[id].resource_id), translate_text(port_props[i].trans_name));
+                ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, port_props[port].name, res2text(joyport_device[id].resource_id), port_props[i].name);
                 return -1;
             }
         }
@@ -125,7 +125,7 @@ static int joyport_set_device(int port, int id)
 
     /* check if device can be connected to this port */
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].is_lp && !port_props[port].has_lp_support) {
-        ui_error(translate_text(IDGS_SELECTED_DEVICE_NOT_THIS_PORT), joyport_device[id].name, translate_text(port_props[port].trans_name));
+        ui_error(translate_text(IDGS_SELECTED_DEVICE_NOT_THIS_PORT), joyport_device[id].name, port_props[port].name);
         return -1;
     }
 
@@ -337,7 +337,6 @@ int joyport_device_register(int id, joyport_t *device)
     }
 
     joyport_device[id].name = device->name;
-    joyport_device[id].trans_name = device->trans_name;
     joyport_device[id].resource_id = device->resource_id;
     joyport_device[id].is_lp = device->is_lp;
     joyport_device[id].pot_optional = device->pot_optional;
@@ -362,7 +361,6 @@ int joyport_port_register(int port, joyport_port_props_t *props)
     }
 
     port_props[port].name = props->name;
-    port_props[port].trans_name = props->trans_name;
     port_props[port].has_pot = props->has_pot;
     port_props[port].has_lp_support = props->has_lp_support;
     port_props[port].active = props->active;
@@ -412,7 +410,6 @@ joyport_desc_t *joyport_get_valid_devices(int port)
         if (joyport_device[i].name) {
             if (check_valid_lightpen(port, i) && check_valid_pot(port, i)) {
                 retval[j].name = joyport_device[i].name;
-                retval[j].trans_name = joyport_device[i].trans_name;
                 retval[j].id = i;
                 ++j;
             }
@@ -469,11 +466,6 @@ void joyport_display_joyport(int id, uint8_t status)
     ui_display_joyport(joyport_display);
 }
 
-int joyport_get_port_trans_name(int port)
-{
-    return port_props[port].trans_name;
-}
-
 char *joyport_get_port_name(int port)
 {
     return port_props[port].name;
@@ -524,7 +516,6 @@ int joyport_resources_init(void)
 
     memset(joyport_device, 0, sizeof(joyport_device));
     joyport_device[0].name = "None";
-    joyport_device[0].trans_name = IDGS_NONE;
     joyport_device[0].is_lp = JOYPORT_IS_NOT_LIGHTPEN;
     for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
         joy_port[i] = JOYPORT_ID_NONE;
@@ -669,11 +660,11 @@ static char *build_joyport_string(int port)
     char number[4];
     joyport_desc_t *devices = joyport_get_valid_devices(port);
 
-    tmp1 = lib_msprintf(translate_text(IDGS_SET_JOYPORT_S_DEVICE), translate_text(port_props[port].trans_name));
+    tmp1 = lib_msprintf(translate_text(IDGS_SET_JOYPORT_S_DEVICE), port_props[port].name);
 
     for (i = 1; devices[i].name; ++i) {
         sprintf(number, "%d", devices[i].id);
-        tmp2 = util_concat(tmp1, ", ", number, ": ", translate_text(devices[i].trans_name), NULL);
+        tmp2 = util_concat(tmp1, ", ", number, ": ", devices[i].name, NULL);
         lib_free(tmp1);
         tmp1 = tmp2;
     }

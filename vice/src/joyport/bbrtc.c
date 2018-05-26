@@ -121,7 +121,6 @@ static int bbrtc_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t joyport_bbrtc_device = {
     "BBRTC",
-    IDGS_BBRTC,
     JOYPORT_RES_ID_RTC,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,

@@ -686,7 +686,6 @@ static int paddles_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t paddles_joyport_device = {
     "Paddles",
-    IDGS_PADDLES,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,
@@ -705,7 +704,6 @@ static int mouse_1351_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_1351_joyport_device = {
     "Mouse (1351)",
-    IDGS_MOUSE_1351,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,
@@ -749,7 +747,6 @@ static int mouse_neos_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_neos_joyport_device = {
     "Mouse (NEOS)",
-    IDGS_MOUSE_NEOS,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,
@@ -786,7 +783,6 @@ static int mouse_amiga_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_amiga_joyport_device = {
     "Mouse (Amiga)",
-    IDGS_MOUSE_AMIGA,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,
@@ -805,7 +801,6 @@ static int mouse_cx22_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_cx22_joyport_device = {
     "Trackball (Atari CX-22)",
-    IDGS_MOUSE_CX22,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,
@@ -824,7 +819,6 @@ static int mouse_st_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_st_joyport_device = {
     "Mouse (Atari ST)",
-    IDGS_MOUSE_ATARI_ST,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,
@@ -856,7 +850,6 @@ static int mouse_smart_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_smart_joyport_device = {
     "Mouse (SmartMouse)",
-    IDGS_MOUSE_SMART,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,
@@ -888,7 +881,6 @@ static int mouse_micromys_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t mouse_micromys_joyport_device = {
     "Mouse (Micromys)",
-    IDGS_MOUSE_MICROMYS,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,
@@ -912,7 +904,6 @@ static int koalapad_read_snapshot(struct snapshot_s *s, int port);
 
 static joyport_t koalapad_joyport_device = {
     "KoalaPad",
-    IDGS_KOALAPAD,
     JOYPORT_RES_ID_MOUSE,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,

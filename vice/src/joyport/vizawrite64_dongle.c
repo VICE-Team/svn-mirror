@@ -82,7 +82,6 @@ static uint8_t vizawrite64_dongle_read_poty(void)
 
 static joyport_t joyport_vizawrite64_dongle_device = {
     "VizaWrite 64 dongle",
-    IDGS_VIZAWRITE64_DONGLE,
     JOYPORT_RES_ID_VIZAWRITE64,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,

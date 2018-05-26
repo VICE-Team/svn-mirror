@@ -207,7 +207,6 @@ static uint8_t rushware_keypad_read(int port)
 
 static joyport_t joyport_rushware_keypad_device = {
     "RushWare Keypad",
-    IDGS_RUSHWARE_KEYPAD,
     JOYPORT_RES_ID_KEYPAD,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,

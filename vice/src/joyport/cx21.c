@@ -237,7 +237,6 @@ static uint8_t cx21_read_poty(void)
 
 static joyport_t joyport_cx21_device = {
     "Atari CX21 keypad",
-    IDGS_CX21,
     JOYPORT_RES_ID_KEYPAD,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_REQUIRED,

@@ -80,7 +80,6 @@ static uint8_t joyport_sampler_read(int port)
 
 static joyport_t joyport_sampler_device = {
     "Sampler (2bit)",
-    IDGS_SAMPLER_2BIT,
     JOYPORT_RES_ID_SAMPLER,
     JOYPORT_IS_NOT_LIGHTPEN,
     JOYPORT_POT_OPTIONAL,
