@@ -364,6 +364,12 @@ static char * display_drive_menu(void)
 /* ------------------------------------------------------------------ */
 /* External UI interface */
 
+#ifdef UNIX_COMPILE
+#define SDL_FILESELECTOR_DIRMODE    IOUTIL_OPENDIR_NO_DOTFILES
+#else
+#define SDL_FILESELECTOR_DIRMODE    IOUTIL_OPENDIR_ALL_FILES
+#endif
+
 char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mode)
 {
     int total, dirs, files, menu_max;
@@ -385,7 +391,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     ioutil_getcwd(current_dir, maxpathlen);
     backup_dir = lib_stralloc(current_dir);
 
-    directory = ioutil_opendir(current_dir);
+    directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
     if (directory == NULL) {
         return NULL;
     }
@@ -490,7 +496,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             lib_free(inputstring);
                             ioutil_closedir(directory);
                             ioutil_getcwd(current_dir, maxpathlen);
-                            directory = ioutil_opendir(current_dir);
+                            directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
@@ -509,7 +515,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             lib_free(inputstring);
                             ioutil_closedir(directory);
                             ioutil_getcwd(current_dir, maxpathlen);
-                            directory = ioutil_opendir(current_dir);
+                            directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
@@ -525,7 +531,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             ioutil_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
                             ioutil_closedir(directory);
                             ioutil_getcwd(current_dir, maxpathlen);
-                            directory = ioutil_opendir(current_dir);
+                            directory = ioutil_opendir(current_dir, SDL_FILESELECTOR_DIRMODE);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
