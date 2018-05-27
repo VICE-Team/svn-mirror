@@ -2901,7 +2901,7 @@ fi
 dnl Check and setup native GTK3 compilation.
 if test x"$enable_native_gtk3ui" = "xyes"; then
 
-  PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.16])
+  PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.22])
   AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
   HAVE_CAIRO_SUPPORT="yes"
   PKG_CHECK_MODULES(GLIB, [glib-2.0])
