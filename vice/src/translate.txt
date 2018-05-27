@@ -1,170 +1,5 @@
 /* GLOBAL STRING ID DEFINITIONS */
 
-/* joyport.c */
-IDGS_SELECTED_JOYPORT_SAME_INPUT_RES
-
-/* joyport.c */
-IDGS_SELECTED_DEVICE_NOT_THIS_PORT
-
-/* joyport.c */
-IDGS_NONE
-
-/* joyport.c */
-IDGS_SET_JOYPORT_S_DEVICE
-
-/* samplerdrv/sampler.c */
-IDGS_SAMPLER_USED_BY
-
-/* userport/userport_joystick.c */
-IDGS_CGA_JOY_ADAPTER
-
-/* userport/userport_joystick.c */
-IDGS_PET_JOY_ADAPTER
-
-/* userport/userport_joystick.c */
-IDGS_HUMMER_JOY_ADAPTER
-
-/* userport/userport_joystick.c */
-IDGS_OEM_JOY_ADAPTER
-
-/* userport/userport_joystick.c */
-IDGS_HIT_JOY_ADAPTER
-
-/* userport/userport_joystick.c */
-IDGS_KINGSOFT_JOY_ADAPTER
-
-/* userport/userport_joystick.c */
-IDGS_STARBYTE_JOY_ADAPTER
-
-/* userport/userport_rtc_58321a.c */
-IDGS_USERPORT_RTC58321A
-
-/* userport/userport_rtc_ds1307.c */
-IDGS_USERPORT_DS1307
-
-/* userport/userport_diag_586220_harness.c */
-IDGS_USERPORT_DIAG_586220_HARNESS
-
-/* tapeport/tapertc.c */
-IDGS_TAPE_RTC
-
-/* tapeport/sense-dongle.c */
-IDGS_SENSE_DONGLE
-
-/* tapeport/tapecart.c */
-IDGS_TAPECART
-
-/* userport/userport_dac.c */
-IDGS_USERPORT_DAC
-
-/* userport/userport_digimax.c */
-IDGS_USERPORT_DIGIMAX
-
-/* snapshot.c */
-IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_EOF_WRITING_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_EOF_READING_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_EOF_READING_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_READING_ARRAY_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_WRITING_STRING_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_CREATE_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_OPEN_SNAPSHOT_S_READING
-
-/* snapshot.c */
-IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_READ_VERSION_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_EOF_CLOSING_SNAPSHOT_S
-
-/* snapshot.c */
-IDGS_SNAPSHOT_HIGHER_VERSION
-
-/* snapshot.c */
-IDGS_INCOMPATIBLE_SNAPSHOT
-
-/* snapshot.c */
-IDGS_SNAPSHOT_VICE_VERSION
-
-/* snapshot.c */
-IDGS_SNAPSHOT_OLD_VICE_VERSION
-
-/* c64/cart/clockport-rrnet.c */
-IDGS_CLOCKPORT_RRNET_IN_USE_BY_S
-
-/* c64/cart/clockport-mp3at64.c */
-IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S
-
-/* c64/cart/cs8900io.c */
-IDGS_CS8900_IN_USE_BY_S
-
 /* tapeport/tapertc.c */
 IDCLS_ENABLE_TAPERTC
 
@@ -212,24 +47,6 @@ IDCLS_ENABLE_DTL_BASIC_DONGLE
 
 /* tapeport/dtl-basic-dongle.c */
 IDCLS_DISABLE_DTL_BASIC_DONGLE
-
-/* userport/userport_4bit_sampler.c */
-IDGS_USERPORT_4BIT_SAMPLER
-
-/* userport/userport_8bss.c */
-IDGS_USERPORT_8BSS
-
-/* printerdrv/interface_userport.c */
-IDGS_USERPORT_PRINTER
-
-/* datasette.c */
-IDGS_DATASETTE
-
-/* tapeport/tapelog.c */
-IDGS_TAPE_LOG
-
-/* tapeport/tape_diag_586220_harness.c */
-IDGS_TAPE_DIAG_586220_HARNESS
 
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
@@ -311,22 +128,6 @@ IDCLS_USE_PAL_SYNC_FACTOR
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_NTSC_SYNC_FACTOR
-
-/* c128/c128-cmdline-options.c, c128/functionrom.c,
-   c64/c64-cmdline-options.c, c64/cart/georam.c,
-   c64/cart/ramcart.c, c64/cart/reu.c, c64/cart/c64cart.c,
-   c64/cart/ide64.c, cbm2/cbm2-cmdline-options.c,
-   drive/iec/iec-cmdline-options.c, drive/iec128dcr/iec128dcr-cmdline-options.c,
-   drive/ieee/ieee-cmdline-options.c, drive/tcbm/tcbm-cmdline-options.c,
-   fsdevice/fsdevice-cmdline-options.c, pet/pet-cmdline-options.c,
-   plus4/plus4-cmdline-options.c, printerdrv/driver-select.c,
-   printerdrv/output-select.c, printerdrv/output-text.c,
-   rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
-   vic20/vic20cartridge.c, video/video-cmdline-options.c,
-   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c,
-   c64/cart/mmc64.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_P_NAME
 
 /* c128/c128-cmdline-options.c */
 IDCLS_SPECIFY_INT_KERNEL_NAME
@@ -1113,10 +914,6 @@ IDCLS_SMART_ATTACH_CART
 /* c64/cart/ide64.c */
 IDCLS_SPECIFY_IDE64_NAME
 
-/* c64/cart/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
-   debug.c, mouse.c, ram.c, sound.c, vsync.c */
-IDCLS_P_VALUE
-
 /* c64/cart/ide64.c */
 IDCLS_SET_AMOUNT_CYLINDERS_IDE64
 
@@ -1263,9 +1060,6 @@ IDCLS_DISABLE_DRIVE_SOUND
 
 /* drive/drive-cmdline-options.c */
 IDCLS_SET_DRIVE_SOUND_VOLUME
-
-/* drive/drive-cmdline-options.c, sound.c */
-IDCLS_P_VOLUME
 
 /* drive/drive-cmdline-options.c */
 IDCLS_P_RPM
@@ -2102,9 +1896,6 @@ IDCLS_SELECT_FULLSCREEN_DEVICE
 /* video/video-cmdline-options.c, autostart.c */
 IDCLS_P_MODE
 
-/* autostart.c */
-IDCLS_P_SECONDS
-
 /* video/video-cmdline-options.c */
 IDCLS_SELECT_FULLSCREEN_MODE
 
@@ -2146,27 +1937,6 @@ IDCLS_ATTACH_READ_ONLY_11
 
 /* attach.c */
 IDCLS_ATTACH_READ_WRITE_11
-
-/* datasette.c */
-IDCLS_ENABLE_DATASETTE
-
-/* datasette.c */
-IDCLS_DISABLE_DATASETTE
-
-/* datasette.c */
-IDCLS_ENABLE_AUTO_DATASETTE_RESET
-
-/* datasette.c */
-IDCLS_DISABLE_AUTO_DATASETTE_RESET
-
-/* datasette.c */
-IDCLS_SET_ZERO_TAP_DELAY
-
-/* datasette.c */
-IDCLS_SET_CYCLES_ADDED_GAP_TAP
-
-/* datasette.c */
-IDCLS_SET_TAPE_WOBBLE
 
 #ifdef DEBUG
 /* debug.c */
@@ -2380,21 +2150,6 @@ IDCLS_P_ITEM_NUMBER
 IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE
 
 /* sound.c */
-IDCLS_ENABLE_SOUND_PLAYBACK
-
-/* sound.c */
-IDCLS_DISABLE_SOUND_PLAYBACK
-
-/* sound.c */
-IDCLS_SET_SAMPLE_RATE_VALUE_HZ
-
-/* sound.c */
-IDCLS_SET_SOUND_BUFFER_SIZE_MSEC
-
-/* sound.c */
-IDCLS_SET_SOUND_FRAGMENT_SIZE
-
-/* sound.c */
 IDCLS_SPECIFY_SOUND_DRIVER
 
 /* sampler/sampler.c */
@@ -2407,34 +2162,10 @@ IDCLS_P_GAIN
 IDCLS_SAMPLER_GAIN_IN_PERCENT
 
 /* sound.c */
-IDCLS_P_ARGS
-
-/* sound.c */
-IDCLS_SPECIFY_SOUND_DRIVER_PARAM
-
-/* sound.c */
 IDCLS_SPECIFY_RECORDING_SOUND_DRIVER
 
 /* sound.c */
 IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM
-
-/* sound.c */
-IDCLS_P_SYNC
-
-/* sound.c */
-IDCLS_SET_SOUND_SPEED_ADJUST
-
-/* sound.c */
-IDCLS_P_OUTPUT_MODE
-
-/* sound.c */
-IDCLS_SOUND_OUTPUT_MODE
-
-/* sound.c */
-IDCLS_SOUND_SUSPEND_TIME
-
-/* sound.c */
-IDCLS_SOUND_VOLUME
 
 /* sysfile.c */
 IDCLS_P_PATH

@@ -82,9 +82,9 @@ static const cmdline_option_t cmdline_options[] =
     /* smart attach */
     { "-cart", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_DETECT, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SMART_ATTACH_CART,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SMART_ATTACH_CART,
+      "<Name>", NULL },
     /* no cartridge */
     { "+cart", CALL_FUNCTION, 0,
       cart_attach_cmdline, NULL, NULL, NULL,

@@ -108,7 +108,6 @@ static int userport_dac_read_snapshot_module(snapshot_t *s);
 static userport_device_t dac_device = {
     USERPORT_DEVICE_DAC,
     "Userport DAC",
-    IDGS_USERPORT_DAC,
     NULL, /* NO pbx read */
     userport_dac_store_pbx,
     NULL, /* NO pa2 read */

@@ -234,7 +234,7 @@ int cs8900io_enable(char *owner)
             }
             cs8900io_enabled = 1;
         } else {
-            ui_error(translate_text(IDGS_CS8900_IN_USE_BY_S), cs8900io_owner);
+            ui_error("CS8900 already in use by %s.", cs8900io_owner);
             return -1;
         }
         cs8900io_reset();
@@ -343,9 +343,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-cs8900ioif", SET_RESOURCE, 1,
       NULL, NULL, "ETHERNET_INTERFACE", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ETHERNET_INTERFACE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_ETHERNET_INTERFACE,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 

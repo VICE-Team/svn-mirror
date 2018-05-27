@@ -117,7 +117,7 @@ static int joyport_set_device(int port, int id)
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].resource_id != JOYPORT_RES_ID_NONE) {
         for (i = 0; i < JOYPORT_MAX_PORTS; ++i) {
             if (port != i && joyport_device[id].resource_id == joyport_device[joy_port[i]].resource_id) {
-                ui_error(translate_text(IDGS_SELECTED_JOYPORT_SAME_INPUT_RES), joyport_device[id].name, port_props[port].name, res2text(joyport_device[id].resource_id), port_props[i].name);
+                ui_error("Selected control port device %s on %s uses same host input resource (%s) as the device attached to %s", joyport_device[id].name, port_props[port].name, res2text(joyport_device[id].resource_id), port_props[i].name);
                 return -1;
             }
         }
@@ -125,7 +125,7 @@ static int joyport_set_device(int port, int id)
 
     /* check if device can be connected to this port */
     if (id != JOYPORT_ID_NONE && id != JOYPORT_ID_JOYSTICK && joyport_device[id].is_lp && !port_props[port].has_lp_support) {
-        ui_error(translate_text(IDGS_SELECTED_DEVICE_NOT_THIS_PORT), joyport_device[id].name, port_props[port].name);
+        ui_error("Selected control port device %s cannot be attached to %s", joyport_device[id].name, port_props[port].name);
         return -1;
     }
 
@@ -660,7 +660,7 @@ static char *build_joyport_string(int port)
     char number[4];
     joyport_desc_t *devices = joyport_get_valid_devices(port);
 
-    tmp1 = lib_msprintf(translate_text(IDGS_SET_JOYPORT_S_DEVICE), port_props[port].name);
+    tmp1 = lib_msprintf("Set %s device (0: None", port_props[port].name);
 
     for (i = 1; devices[i].name; ++i) {
         sprintf(number, "%d", devices[i].id);

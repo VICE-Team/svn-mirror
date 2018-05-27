@@ -174,9 +174,9 @@ void log_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-logfile", CALL_FUNCTION, 1,
       log_logfile_opt, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_LOG_FILE_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_LOG_FILE_NAME,
+      "<Name>", NULL },
     { "-verbose", CALL_FUNCTION, 0,
       log_verbose_opt, (void*)1, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

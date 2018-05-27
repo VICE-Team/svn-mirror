@@ -323,9 +323,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-fsflash", SET_RESOURCE, 1,
       NULL, NULL, "FSFlashDir", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_USE_AS_DIRECTORY_FLASH_FS,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_USE_AS_DIRECTORY_FLASH_FS,
+      "<Name>", NULL },
     { "-trueflashfs", SET_RESOURCE, 0,
       NULL, NULL, "FlashTrueFS", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

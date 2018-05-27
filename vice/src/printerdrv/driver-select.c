@@ -166,19 +166,19 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, 1,
       NULL, NULL, "Printer4Driver", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_4_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_PRT_DRIVER_4_NAME,
+      "<Name>", NULL },
     { "-pr5drv", SET_RESOURCE, 1,
       NULL, NULL, "Printer5Driver", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_5_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_PRT_DRIVER_5_NAME,
+      "<Name>", NULL },
     { "-pr6drv", SET_RESOURCE, 1,
       NULL, NULL, "Printer6Driver", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_6_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_PRT_DRIVER_6_NAME,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -186,9 +186,9 @@ static const cmdline_option_t cmdline_options_userport[] =
 {
     { "-pruserdrv", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportDriver", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 

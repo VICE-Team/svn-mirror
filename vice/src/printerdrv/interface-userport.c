@@ -67,7 +67,6 @@ static int userport_printer_read_snapshot_module(snapshot_t *s);
 static userport_device_t printer_device = {
     USERPORT_DEVICE_PRINTER,
     "Userport printer",
-    IDGS_USERPORT_PRINTER,
     NULL, /* NO pbx read */
     userport_printer_store_pbx,
     NULL, /* NO pa2 read */

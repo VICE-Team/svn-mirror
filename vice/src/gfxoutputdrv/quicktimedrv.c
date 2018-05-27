@@ -190,14 +190,14 @@ static int quicktimedrv_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-quicktimeaudiobitrate", SET_RESOURCE, 1,
       NULL, NULL, "QuickTimeAudioBitrate", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_VALUE, IDCLS_SET_AUDIO_STREAM_BITRATE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SET_AUDIO_STREAM_BITRATE,
+      "<value>", NULL },
     { "-quicktimevideobitrate", SET_RESOURCE, 1,
       NULL, NULL, "QuickTimeVideoBitrate", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_VALUE, IDCLS_SET_VIDEO_STREAM_BITRATE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SET_VIDEO_STREAM_BITRATE,
+      "<value>", NULL },
     CMDLINE_LIST_END
 };
 

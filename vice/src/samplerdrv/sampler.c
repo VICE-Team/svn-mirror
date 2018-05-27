@@ -108,7 +108,7 @@ void sampler_reset(void)
 void sampler_start(int channels, char *devname)
 {
     if (current_sampler_device) {
-        ui_error(translate_text(IDGS_SAMPLER_USED_BY), current_sampler_device);
+        ui_error("Sampler system already in use by %s.", current_sampler_device);
     } else {
         if (devices[current_sampler].open) {
             devices[current_sampler].open(channels);

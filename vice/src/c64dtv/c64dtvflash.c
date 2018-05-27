@@ -630,9 +630,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-c64dtvromimage", SET_RESOURCE, 1,
       NULL, NULL, "c64dtvromfilename", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_C64DTVROM_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_C64DTVROM_NAME,
+      "<Name>", NULL },
     { "-c64dtvromrw", SET_RESOURCE, 0,
       NULL, NULL, "c64dtvromrw", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

@@ -76,7 +76,6 @@ static int userport_digimax_read_snapshot_module(snapshot_t *s);
 static userport_device_t digimax_device = {
     USERPORT_DEVICE_DIGIMAX,
     "Userport DigiMAX",
-    IDGS_USERPORT_DIGIMAX,
     NULL, /* NO pbx read */
     userport_digimax_store_pbx,
     NULL, /* NO pa2 read */

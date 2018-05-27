@@ -88,9 +88,9 @@ int ram_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-raminitstartvalue", SET_RESOURCE, 1,
       NULL, NULL, "RAMInitStartValue", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_VALUE, IDCLS_SET_FIRST_RAM_ADDRESS_VALUE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SET_FIRST_RAM_ADDRESS_VALUE,
+      "<value>", NULL },
     { "-raminitvalueinvert", SET_RESOURCE, 1,
       NULL, NULL, "RAMInitValueInvert", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

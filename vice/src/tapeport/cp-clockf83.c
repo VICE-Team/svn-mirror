@@ -67,7 +67,6 @@ static int tapertc_read_snapshot(struct snapshot_s *s);
 static tapeport_device_t tapertc_device = {
     TAPEPORT_DEVICE_CP_CLOCK_F83,
     "Tape RTC (PCF8583)",
-    IDGS_TAPE_RTC,
     0,
     "CPClockF83",
     tapertc_resources_shutdown,

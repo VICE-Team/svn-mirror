@@ -64,7 +64,6 @@ static int userport_4bit_sampler_read_snapshot_module(snapshot_t *s);
 static userport_device_t sampler_device = {
     USERPORT_DEVICE_4BIT_SAMPLER,
     "Userport 4bit sampler",
-    IDGS_USERPORT_4BIT_SAMPLER,
     userport_4bit_sampler_read_pbx,
     NULL, /* NO pbx store */
     NULL, /* NO pa2 read */

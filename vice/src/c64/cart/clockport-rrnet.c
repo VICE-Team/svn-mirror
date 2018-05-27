@@ -125,7 +125,7 @@ clockport_device_t *clockport_rrnet_open_device(char *owner)
 {
     clockport_device_t *retval = NULL;
     if (clockport_rrnet_enabled) {
-        ui_error(translate_text(IDGS_CLOCKPORT_RRNET_IN_USE_BY_S), clockport_rrnet_owner);
+        ui_error("ClockPort RRNET already in use by %s.", clockport_rrnet_owner);
         return NULL;
     }
     if (cs8900io_enable(owner) < 0) {

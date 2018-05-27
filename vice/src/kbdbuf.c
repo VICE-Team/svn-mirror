@@ -191,9 +191,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-keybuf-delay", SET_RESOURCE, 1,
       NULL, NULL, "KbdbufDelay", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_VALUE, IDCLS_SET_KEYBUF_DELAY,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_KEYBUF_DELAY,
+      "<value>", NULL },
     CMDLINE_LIST_END
 };
 

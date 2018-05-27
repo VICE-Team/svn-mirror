@@ -201,9 +201,9 @@ static cmdline_option_t cmdline_options_chip_palette[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 

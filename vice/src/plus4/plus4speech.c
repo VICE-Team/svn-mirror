@@ -655,9 +655,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-speechrom", CALL_FUNCTION, 1,
       set_speech_rom, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_SPEECH_ROM_IMAGE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_ATTACH_SPEECH_ROM_IMAGE,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 

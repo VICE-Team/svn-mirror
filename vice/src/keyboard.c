@@ -1721,14 +1721,14 @@ static cmdline_option_t const cmdline_options[] =
       NULL, NULL },
     { "-symkeymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapUserSymFile", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,
+      "<Name>", NULL },
     { "-poskeymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapUserPosFile", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 

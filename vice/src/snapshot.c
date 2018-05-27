@@ -849,10 +849,9 @@ static void display_error_with_vice_version(char *text, char *filename)
     char *message = lib_malloc(0x100 + strlen(text));
     if ((snapshot_viceversion[0] == 0) && (snapshot_viceversion[1] == 0)) {
         /* generic message for the case when no version is present in the snapshot */
-        strcpy(vmessage, translate_text(IDGS_SNAPSHOT_OLD_VICE_VERSION));
+        strcpy(vmessage, "Snapshot was created by VICE Version 2.4.30 or older");
     } else {
-        sprintf(vmessage, translate_text(IDGS_SNAPSHOT_VICE_VERSION),
-                snapshot_viceversion[0], snapshot_viceversion[1], snapshot_viceversion[2]);
+        sprintf(vmessage, "Snapshot was created by VICE Version %d.%d.%d", snapshot_viceversion[0], snapshot_viceversion[1], snapshot_viceversion[2]);
         if (snapshot_vicerevision != 0) {
             sprintf(message, " (r%d)", (int)snapshot_vicerevision);
             strcat(vmessage, message);
@@ -872,100 +871,100 @@ void snapshot_display_error(void)
             break;
         case SNAPSHOT_WRITE_EOF_ERROR:
             if (current_module) {
-                ui_error(translate_text(IDGS_EOF_WRITING_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+                ui_error("EOF while writing to module %s in snapshot %s", current_module, current_filename);
             } else {
-                ui_error(translate_text(IDGS_EOF_WRITING_SNAPSHOT_S), current_filename);
+                ui_error("EOF while writing to snapshot %s", current_filename);
             }
             break;
         case SNAPSHOT_WRITE_BYTE_ARRAY_ERROR:
             if (current_module) {
-                ui_error(translate_text(IDGS_ERROR_WRITING_ARRAY_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+                ui_error("Error writing array to module %s in snapshot %s", current_module, current_filename);
             } else {
-                ui_error(translate_text(IDGS_ERROR_WRITING_ARRAY_SNAPSHOT_S), current_filename);
+                ui_error("Error writing array to snapshot %s", current_filename);
             }
             break;
         case SNAPSHOT_READ_EOF_ERROR:
             if (current_module) {
-                ui_error(translate_text(IDGS_EOF_READING_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+                ui_error("EOF while reading from module %s in snapshot %s", current_module, current_filename);
             } else {
-                ui_error(translate_text(IDGS_EOF_READING_SNAPSHOT_S), current_filename);
+                ui_error("EOF while reading from snapshot %s", current_filename);
             }
             break;
         case SNAPSHOT_READ_BYTE_ARRAY_ERROR:
             if (current_module) {
-                ui_error(translate_text(IDGS_ERROR_READING_ARRAY_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+                ui_error("Error reading array from module %s in snapshot %s", current_module, current_filename);
             } else {
-                ui_error(translate_text(IDGS_ERROR_READING_ARRAY_SNAPSHOT_S), current_filename);
+                ui_error("Error reading array from snapshot %s", current_filename);
             }
             break;
         case SNAPSHOT_ILLEGAL_STRING_LENGTH_ERROR:
             if (current_module) {
-                ui_error(translate_text(IDGS_ERROR_WRITING_STRING_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+                ui_error("Error writing string to module %s in snapshot %s", current_module, current_filename);
             } else {
-                ui_error(translate_text(IDGS_ERROR_WRITING_STRING_SNAPSHOT_S), current_filename);
+                ui_error("Error writing string to snapshot %s", current_filename);
             }
             break;
         case SNAPSHOT_READ_OUT_OF_BOUNDS_ERROR:
             if (current_module) {
-                ui_error(translate_text(IDGS_OUT_OF_BOUNDS_READING_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+                ui_error("Out of bounds reading error in module %s in snapshot %s", current_module, current_filename);
             } else {
-                ui_error(translate_text(IDGS_OUT_OF_BOUNDS_READING_SNAPSHOT_S), current_filename);
+                ui_error("Out of bounds reading error in snapshot %s", current_filename);
             }
             break;
         case SNAPSHOT_ILLEGAL_OFFSET_ERROR:
-            ui_error(translate_text(IDGS_ILLEGAL_OFFSET_CREATE_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+            ui_error("Illegal offset while attempting to create module %s in snapshot %s", current_module, current_filename);
             break;
         case SNAPSHOT_FIRST_MODULE_NOT_FOUND_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_FIND_1ST_MODULE_SNAPSHOT_S), current_filename);
+            ui_error("Cannot find first module in snapshot %s", current_filename);
             break;
         case SNAPSHOT_MODULE_HEADER_READ_ERROR:
-            ui_error(translate_text(IDGS_ERROR_MODULE_HEADER_SNAPSHOT_S), current_filename);
+            ui_error("Error while reading module header in snapshot %s", current_filename);
             break;
         case SNAPSHOT_MODULE_NOT_FOUND_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_FIND_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+            ui_error("Cannot find module %s in snapshot %s", current_module, current_filename);
             break;
         case SNAPSHOT_MODULE_CLOSE_ERROR:
-            ui_error(translate_text(IDGS_ERROR_CLOSING_MODULE_S_SNAPSHOT_S), current_module, current_filename);
+            ui_error("Error closing module %s in snapshot %s", current_module, current_filename);
             break;
         case SNAPSHOT_MODULE_SKIP_ERROR:
-            ui_error(translate_text(IDGS_ERROR_SKIPPING_MODULE_SNAPSHOT_S), current_filename);
+            ui_error("Error skipping module in snapshot %s", current_filename);
             break;
         case SNAPSHOT_CANNOT_CREATE_SNAPSHOT_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_CREATE_SNAPSHOT_S), current_filename);
+            ui_error("Cannot create snapshot %s", current_filename);
             break;
         case SNAPSHOT_CANNOT_WRITE_MAGIC_STRING_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_WRITE_MAGIC_STRING_SNAPSHOT_S), current_filename);
+            ui_error("Cannot write magic string to snapshot %s", current_filename);
             break;
         case SNAPSHOT_CANNOT_WRITE_VERSION_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_WRITE_VERSION_SNAPSHOT_S), current_filename);
+            ui_error("Cannot write version to snapshot %s", current_filename);
             break;
         case SNAPSHOT_CANNOT_WRITE_MACHINE_NAME_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_WRITE_MACHINE_NAME_SNAPSHOT_S), current_filename);
+            ui_error("Cannot write machine name to snapshot %s", current_filename);
             break;
         case SNAPSHOT_CANNOT_OPEN_FOR_READ_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_OPEN_SNAPSHOT_S_READING), current_filename);
+            ui_error("Cannot open snapshot %s for reading", current_filename);
             break;
         case SNAPSHOT_MAGIC_STRING_MISMATCH_ERROR:
-            ui_error(translate_text(IDGS_MAGIC_STRING_MISMATCH_SNAPSHOT_S), current_filename);
+            ui_error("Magic string mismatch in snapshot %s", current_filename);
             break;
         case SNAPSHOT_CANNOT_READ_VERSION_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_READ_VERSION_SNAPSHOT_S), current_filename);
+            ui_error("Cannot read version from snapshot %s", current_filename);
             break;
         case SNAPSHOT_CANNOT_READ_MACHINE_NAME_ERROR:
-            ui_error(translate_text(IDGS_CANNOT_READ_MACHINE_NAME_SNAPSHOT_S), current_filename);
+            ui_error("Cannot read machine name from snapshot %s", current_filename);
             break;
         case SNAPSHOT_MACHINE_MISMATCH_ERROR:
-            ui_error(translate_text(IDGS_WRONG_MACHINE_TYPE_SNAPSHOT_S), current_filename, read_name, current_machine_name);
+            ui_error("Wrong machine type in snapshot %s, snapshot type: %s, current machine: %s", current_filename, read_name, current_machine_name);
             break;
         case SNAPSHOT_READ_CLOSE_EOF_ERROR:
         case SNAPSHOT_WRITE_CLOSE_EOF_ERROR:
-            ui_error(translate_text(IDGS_EOF_CLOSING_SNAPSHOT_S), current_filename);
+            ui_error("EOF while closing snapshot %s", current_filename);
             break;
         case SNAPSHOT_MODULE_HIGHER_VERSION:
-            display_error_with_vice_version(translate_text(IDGS_SNAPSHOT_HIGHER_VERSION), current_filename);
+            display_error_with_vice_version("Snapshot %s has a higher version than what your current emulator supports, please upgrade VICE", current_filename);
             break;
         case SNAPSHOT_MODULE_INCOMPATIBLE:
-            display_error_with_vice_version(translate_text(IDGS_INCOMPATIBLE_SNAPSHOT), current_filename);
+            display_error_with_vice_version("Snapshot %s is incompatible (too old)", current_filename);
             break;
     }
 }

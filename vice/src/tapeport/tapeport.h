@@ -45,9 +45,6 @@ typedef struct tapeport_device_s {
     /* Name of the device */
     char *name;
 
-    /* Translated name of the device */
-    int trans_name;
-
     /* id number of attached device, used for the order of the devices */
     int id;
 

@@ -69,7 +69,6 @@ static void tape_diag_586220_harness_set_read_out(int val);
 static tapeport_device_t tape_diag_586220_harness_device = {
     TAPEPORT_DEVICE_TAPE_DIAG_586220_HARNESS,
     "Tape 586220 diagnostics harness module",
-    IDGS_TAPE_DIAG_586220_HARNESS,
     0,
     "TapeDiag586220Harness",
     NULL, /* no shutdown */

@@ -75,7 +75,6 @@ static int userport_rtc_read_snapshot_module(snapshot_t *s);
 static userport_device_t rtc_device = {
     USERPORT_DEVICE_RTC_58321A,
     "Userport RTC (RTC58321A)",
-    IDGS_USERPORT_RTC58321A,
     userport_rtc_read_pbx,
     userport_rtc_store_pbx,
     NULL, /* NO pa2 read */

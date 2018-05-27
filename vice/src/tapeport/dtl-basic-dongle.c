@@ -94,8 +94,7 @@ static int dtlbasic_read_snapshot(struct snapshot_s *s);
 
 static tapeport_device_t dtlbasic_dongle_device = {
     TAPEPORT_DEVICE_DTL_BASIC_DONGLE,
-    "Sense dongle",
-    IDGS_SENSE_DONGLE,
+    "DTL BASIC dongle",
     0,
     "DTLBasicDongle",
     NULL, /* no shutdown */

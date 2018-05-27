@@ -51,7 +51,6 @@ static int sense_dongle_read_snapshot(struct snapshot_s *s);
 static tapeport_device_t sense_dongle_device = {
     TAPEPORT_DEVICE_SENSE_DONGLE,
     "Sense dongle",
-    IDGS_SENSE_DONGLE,
     0,
     "TapeSenseDongle",
     NULL, /* no shutdown */

@@ -78,7 +78,6 @@ static void userport_diag_586220_harness_store_sp2(uint8_t value);
 static userport_device_t diag_586220_harness_device = {
     USERPORT_DEVICE_RTC_58321A,
     "Userport diag 586220 harness",
-    IDGS_USERPORT_DIAG_586220_HARNESS,
     userport_diag_586220_harness_read_pbx,
     userport_diag_586220_harness_store_pbx,
     userport_diag_586220_harness_read_pa2,

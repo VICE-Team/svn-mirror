@@ -107,7 +107,6 @@ static void    update_tcrt(void);
 static tapeport_device_t tapecart_device = {
     TAPEPORT_DEVICE_TAPECART,
     "tapecart",
-    IDGS_TAPECART,
     0,
     "TapecartEnabled",
     tapecart_shutdown,
@@ -465,8 +464,8 @@ static const cmdline_option_t cmdline_options[] = {
     { "-tcrt", SET_RESOURCE, 1,
       NULL, NULL, "TapecartTCRTFilename", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_ATTACH_TCRT_TAPECART,
-      NULL, NULL },
+      IDGS_UNUSED, IDCLS_ATTACH_TCRT_TAPECART,
+      "<Name>", NULL },
     { "-tapecartupdatetcrt", SET_RESOURCE, 1,
       NULL, NULL, "TapecartUpdateTCRT", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

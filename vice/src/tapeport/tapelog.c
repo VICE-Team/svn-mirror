@@ -93,7 +93,6 @@ static int tapelog_read_snapshot(struct snapshot_s *s);
 static tapeport_device_t tapelog_device = {
     TAPEPORT_DEVICE_TAPE_LOG,
     "Tape Log",
-    IDGS_TAPE_LOG,
     0,
     "TapeLog",
     NULL,
@@ -315,9 +314,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-tapelogimage", SET_RESOURCE, 1,
       NULL, NULL, "TapeLogfilename", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_TAPELOG_NAME,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_TAPELOG_NAME,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 

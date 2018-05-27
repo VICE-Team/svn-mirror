@@ -537,9 +537,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-remotemonitoraddress", SET_RESOURCE, 1,
       NULL, NULL, "MonitorServerAddress", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_REMOTE_MONITOR_ADDRESS,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_REMOTE_MONITOR_ADDRESS,
+      "<Name>", NULL },
     CMDLINE_LIST_END
 };
 

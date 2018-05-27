@@ -57,9 +57,6 @@ typedef struct userport_device_s {
     /* Name of the device */
     char *name;
 
-    /* Translated name of the device */
-    int trans_name;
-
     /* Read pb0-7 pins */
     void (*read_pbx)(void);
 

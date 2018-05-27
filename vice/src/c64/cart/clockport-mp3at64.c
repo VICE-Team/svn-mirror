@@ -726,7 +726,7 @@ clockport_device_t *clockport_mp3at64_open_device(char *owner)
 {
     clockport_device_t *retval = NULL;
     if (clockport_mp3at64_sound_chip.chip_enabled) {
-        ui_error(translate_text(IDGS_CLOCKPORT_MP3AT64_IN_USE_BY_S), clockport_mp3at64_owner);
+        ui_error("ClockPort MP3@64 already in use by %s.", clockport_mp3at64_owner);
         return NULL;
     }
     retval = lib_malloc(sizeof(clockport_device_t));

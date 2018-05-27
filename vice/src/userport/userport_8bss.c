@@ -69,7 +69,6 @@ static int userport_8bss_read_snapshot_module(snapshot_t *s);
 static userport_device_t sampler_device = {
     USERPORT_DEVICE_8BSS,
     "Userport 8bit stereo sampler",
-    IDGS_USERPORT_8BSS,
     userport_8bss_read_pbx,
     NULL, /* NO pbx store */
     NULL, /* NO pa2 read */
