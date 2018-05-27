@@ -132,12 +132,6 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
     screencode_ptr->length = len;
     screencode_ptr->next = NULL;
 
-    /*
-     I removed this for OS/2 because I want to have an output
-     which looks like a directory listing which you can load in
-     the emulator.
-     */
-#ifndef __OS2__
     if (contents->file_list == NULL) {
         charset_petcii_to_screencode_line((uint8_t *)"(eMPTY IMAGE.)", &buf, &len);
         screencode_ptr->next = lib_malloc(sizeof(image_contents_screencode_t));
@@ -147,7 +141,6 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
         screencode_ptr->length = len;
         screencode_ptr->next = NULL;
     }
-#endif
 
     for (p = contents->file_list; p != NULL; p = p->next) {
         sprintf((char *)rawline, "%-5d \"                  ", p->size);
