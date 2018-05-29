@@ -300,7 +300,7 @@ static const cmdline_option_t sidcart_cmdline_options[] = {
 
 int sidcart_cmdline_options_init(void)
 {
-    if (sid_cmdline_options_init() < 0) {
+    if (sid_cmdline_options_init(SIDTYPE_SIDCART) < 0) {
         return -1;
     }
     return cmdline_register_options(sidcart_cmdline_options);

@@ -329,9 +329,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-sfxsetype", SET_RESOURCE, 1,
       NULL, NULL, "SFXSoundExpanderChip", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_TYPE, IDCLS_SET_YM_CHIP_TYPE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SET_YM_CHIP_TYPE,
+      "<Type>", NULL },
     CMDLINE_LIST_END
 };
 

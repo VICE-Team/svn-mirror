@@ -813,9 +813,9 @@ int cartio_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-iocollision", SET_RESOURCE, 1,
       NULL, NULL, "IOCollisionHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_SELECT_CONFLICT_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SELECT_CONFLICT_HANDLING,
+      "<method>", NULL },
     CMDLINE_LIST_END
 };
 

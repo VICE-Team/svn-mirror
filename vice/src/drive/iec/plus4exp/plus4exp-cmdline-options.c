@@ -37,9 +37,9 @@
 static cmdline_option_t cmd_drive[] = {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_TYPE, IDCLS_PAR_CABLE_PLUS4EXP_TYPE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_PAR_CABLE_PLUS4EXP_TYPE,
+      "<Type>", NULL },
     CMDLINE_LIST_END
 };
 

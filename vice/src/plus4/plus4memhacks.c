@@ -121,8 +121,8 @@ static const cmdline_option_t cmdline_options[] =
     { "-memoryexphack", SET_RESOURCE, 1,
       NULL, NULL, "MemoryHack", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_DEVICE, IDCLS_SET_PLUS4_MEMORY_HACK,
-      NULL, NULL },
+      IDGS_UNUSED, IDCLS_SET_PLUS4_MEMORY_HACK,
+      "<device>", NULL },
     CMDLINE_LIST_END
 };
 

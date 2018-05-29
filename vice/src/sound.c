@@ -624,8 +624,8 @@ static const cmdline_option_t cmdline_options[] = {
 static cmdline_option_t devs_cmdline_options[] = {
     { "-sounddev", SET_RESOURCE, 1,
       NULL, NULL, "SoundDeviceName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
-      IDGS_UNUSED, IDCLS_SPECIFY_SOUND_DRIVER,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     { "-soundarg", SET_RESOURCE, 1,
       NULL, NULL, "SoundDeviceArg", NULL,
@@ -634,14 +634,14 @@ static cmdline_option_t devs_cmdline_options[] = {
       "<args>", "Specify initialization parameters for sound driver" },
     { "-soundrecdev", SET_RESOURCE, 1,
       NULL, NULL, "SoundRecordDeviceName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
-      IDGS_UNUSED, IDCLS_SPECIFY_RECORDING_SOUND_DRIVER,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     { "-soundrecarg", SET_RESOURCE, 1,
       NULL, NULL, "SoundRecordDeviceArg", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SPECIFY_REC_SOUND_DRIVER_PARAM,
-      "<args>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<args>", "Specify initialization parameters for recording sound driver" },
     CMDLINE_LIST_END
 };
 
@@ -656,8 +656,8 @@ int sound_cmdline_options_init(void)
         return -1;
     }
 
-    playback_devices_cmdline = lib_stralloc(". (");
-    record_devices_cmdline = lib_stralloc(". (");
+    playback_devices_cmdline = lib_stralloc("Specify sound driver. (");
+    record_devices_cmdline = lib_stralloc("Specify recording sound driver. (");
 
     for (i = 0; sound_register_devices[i].name; i++) {
         if (sound_register_devices[i].is_playback_device) {

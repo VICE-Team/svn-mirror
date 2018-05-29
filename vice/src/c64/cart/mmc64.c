@@ -1223,9 +1223,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-mmc64sdtype", SET_RESOURCE, 1,
       NULL, NULL, "MMC64_sd_type", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_TYPE, IDCLS_SPECIFY_MMC64_SD_TYPE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_MMC64_SD_TYPE,
+      "<Type>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -1233,9 +1233,9 @@ static cmdline_option_t clockport_cmdline_options[] =
 {
     { "-mmc64clockportdevice", SET_RESOURCE, 1,
       NULL, NULL, "MMC64ClockPort", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
-      IDCLS_P_DEVICE, IDCLS_CLOCKPORT_DEVICE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<device>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -1251,7 +1251,7 @@ int mmc64_cmdline_options_init(void)
 
     sprintf(number, "%d", clockport_supported_devices[0].id);
 
-    clockport_device_names = util_concat(". (", number, ": ", clockport_supported_devices[0].name, NULL);
+    clockport_device_names = util_concat("Clockport device. (", number, ": ", clockport_supported_devices[0].name, NULL);
 
     for (i = 1; clockport_supported_devices[i].name; ++i) {
         tmp = clockport_device_names;

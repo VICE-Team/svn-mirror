@@ -197,23 +197,23 @@ static int koaladrv_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-koalaoversize", SET_RESOURCE, 1,
       NULL, NULL, "KoalaOversizeHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_OVERSIZED_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_OVERSIZED_HANDLING,
+      "<method>", NULL },
     { "-koalaundersize", SET_RESOURCE, 1,
       NULL, NULL, "KoalaUndersizeHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_UNDERSIZED_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_UNDERSIZED_HANDLING,
+      "<method>", NULL },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_plus4[] = {
     { "-koalatedlum", SET_RESOURCE, 1,
       NULL, NULL, "KoalaTEDLumHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_TED_LUM_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_TED_LUM_HANDLING,
+      "<method>", NULL },
     CMDLINE_LIST_END
 };
 

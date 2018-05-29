@@ -317,9 +317,9 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", NULL },
     { "-plus60kbase", SET_RESOURCE, 1,
       NULL, NULL, "PLUS60Kbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_BASE_ADDRESS, IDCLS_PLUS60K_BASE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_PLUS60K_BASE,
+      "<Base address>", NULL },
     CMDLINE_LIST_END
 };
 

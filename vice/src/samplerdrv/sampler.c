@@ -247,8 +247,8 @@ static cmdline_option_t cmdline_options[] =
 {
     { "-samplerdev", SET_RESOURCE, 1,
       NULL, NULL, "SamplerDevice", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
-      IDGS_UNUSED, IDCLS_SPECIFY_SAMPLER_DEVICE,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "Device", NULL },
     { "-samplergain", SET_RESOURCE, 1,
       NULL, NULL, "SamplerGain", NULL,
@@ -265,7 +265,7 @@ int sampler_cmdline_options_init(void)
     char *temp = NULL;
     char number[4];
 
-    cmdline_devices = lib_stralloc(". (");
+    cmdline_devices = lib_stralloc("Specify sampler device. (");
 
     for (i = 0; i < SAMPLER_MAX_DEVICES; ++i) {
         if (devices[i].name) {

@@ -104,18 +104,18 @@ static cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1,
       NULL, NULL, "Printer4Output", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
-      IDGS_UNUSED, IDCLS_SPECIFY_OUTPUT_DEVICE_4_NAME,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     { "-pr5output", SET_RESOURCE, 1,
       NULL, NULL, "Printer5Output", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
-      IDGS_UNUSED, IDCLS_SPECIFY_OUTPUT_DEVICE_5_NAME,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     { "-pr6output", SET_RESOURCE, 1,
       NULL, NULL, "Printer6Output", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
-      IDGS_UNUSED, IDCLS_SPECIFY_OUTPUT_DEVICE_6_NAME,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     CMDLINE_LIST_END
 };
@@ -124,13 +124,16 @@ static cmdline_option_t cmdline_options_userport[] =
 {
     { "-pruseroutput", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportOutput", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_COMBO,
-      IDGS_UNUSED, IDCLS_SPECIFY_OUTPUT_DEVICE_USR_NAME,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     CMDLINE_LIST_END
 };
 
-static char *printer_output_names = NULL;
+static char *printer4_output_names = NULL;
+static char *printer5_output_names = NULL;
+static char *printer6_output_names = NULL;
+static char *printeruserport_output_names = NULL;
 
 static void build_printer_output_names(void)
 {
@@ -148,37 +151,38 @@ static void build_printer_output_names(void)
             tmp1 = tmp2;
             list = list->next;
         }
-        printer_output_names = util_concat(tmp1, ")", NULL);
+        printer4_output_names = util_concat("Specify name of output device for device #4", tmp1, ")", NULL);
+        printer5_output_names = util_concat("Specify name of output device for device #5", tmp1, ")", NULL);
+        printer6_output_names = util_concat("Specify name of output device for device #6", tmp1, ")", NULL);
+        printeruserport_output_names = util_concat("Specify name of output device for the userport printer", tmp1, ")", NULL);
         lib_free(tmp1);
     }
 }
 
 int output_select_init_cmdline_options(void)
 {
-    int i;
-
-    if (!printer_output_names) {
+    if (!printer4_output_names) {
         build_printer_output_names();
     }
-    if (!printer_output_names) {
+    if (!printer4_output_names) {
         return -1;
     }
-    for (i = 0; i < 3; i++) {
-        cmdline_options[i].description = printer_output_names;
-    }
+    cmdline_options[0].description = printer4_output_names;
+    cmdline_options[0].description = printer5_output_names;
+    cmdline_options[0].description = printer6_output_names;
 
     return cmdline_register_options(cmdline_options);
 }
 
 int output_select_userport_init_cmdline_options(void)
 {
-    if (!printer_output_names) {
+    if (!printeruserport_output_names) {
         build_printer_output_names();
     }
-    if (!printer_output_names) {
+    if (!printeruserport_output_names) {
         return -1;
     }
-    cmdline_options_userport[0].description = printer_output_names;
+    cmdline_options_userport[0].description = printeruserport_output_names;
 
     return cmdline_register_options(cmdline_options_userport);
 }
@@ -194,9 +198,21 @@ void output_select_shutdown(void)
         lib_free(list);
         list = next;
     }
-    if (printer_output_names) {
-        lib_free(printer_output_names);
-        printer_output_names = NULL;
+    if (printeruserport_output_names) {
+        lib_free(printeruserport_output_names);
+        printeruserport_output_names = NULL;
+    }
+    if (printer4_output_names) {
+        lib_free(printer4_output_names);
+        printer4_output_names = NULL;
+    }
+    if (printer5_output_names) {
+        lib_free(printer5_output_names);
+        printer5_output_names = NULL;
+    }
+    if (printer6_output_names) {
+        lib_free(printer6_output_names);
+        printer6_output_names = NULL;
     }
 }
 

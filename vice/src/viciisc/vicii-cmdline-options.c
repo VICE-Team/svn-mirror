@@ -131,9 +131,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-VICIIborders", CALL_FUNCTION, 1,
       border_set_func, NULL, "VICIIBorderMode", (void *)0,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODE, IDCLS_SET_BORDER_MODE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SET_BORDER_MODE,
+      "<Mode>", NULL },
     { "-VICIIchecksb", SET_RESOURCE, 0,
       NULL, NULL, "VICIICheckSbColl", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,

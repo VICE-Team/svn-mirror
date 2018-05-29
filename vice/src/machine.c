@@ -436,31 +436,31 @@ void machine_common_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options_c128[] = {
     { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID, IDCLS_P_TYPE, IDCLS_SET_MACHINE_JAM_ACTION,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
     { "-exitscreenshot", SET_RESOURCE, 1, NULL, NULL, "ExitScreenshotName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID, IDGS_UNUSED, IDCLS_SET_EXIT_SCREENSHOT,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Set name of screenshot to save when emulator exits." },
     { "-exitscreenshotvicii", SET_RESOURCE, 1, NULL, NULL, "ExitScreenshotName1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID, IDGS_UNUSED, IDCLS_SET_EXIT_SCREENSHOT,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Set name of screenshot to save when emulator exits." },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options[] = {
     { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID, IDCLS_P_TYPE, IDCLS_SET_MACHINE_JAM_ACTION,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
     { "-exitscreenshot", SET_RESOURCE, 1, NULL, NULL, "ExitScreenshotName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID, IDGS_UNUSED, IDCLS_SET_EXIT_SCREENSHOT,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Set name of screenshot to save when emulator exits." },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_vsid[] = {
     { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID, IDCLS_P_TYPE, IDCLS_SET_MACHINE_JAM_ACTION,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
     CMDLINE_LIST_END
 };
 
@@ -474,4 +474,3 @@ int machine_common_cmdline_options_init(void)
         return cmdline_register_options(cmdline_options);
     }
 }
-

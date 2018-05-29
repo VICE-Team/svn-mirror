@@ -471,7 +471,7 @@ int machine_cmdline_options_init(void)
         init_cmdline_options_fail("vicii");
         return -1;
     }
-    if (sid_cmdline_options_init() < 0) {
+    if (sid_cmdline_options_init(SIDTYPE_SIDDTV) < 0) {
         init_cmdline_options_fail("sid");
         return -1;
     }

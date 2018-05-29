@@ -216,28 +216,28 @@ static int doodledrv_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-doodleoversize", SET_RESOURCE, 1,
       NULL, NULL, "DoodleOversizeHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_OVERSIZED_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_OVERSIZED_HANDLING,
+      "<method>", NULL },
     { "-doodleundersize", SET_RESOURCE, 1,
       NULL, NULL, "DoodleUndersizeHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_UNDERSIZED_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_UNDERSIZED_HANDLING,
+      "<method>", NULL },
     { "-doodlemc", SET_RESOURCE, 1,
       NULL, NULL, "DoodleMultiColorHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_MULTICOLOR_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_MULTICOLOR_HANDLING,
+      "<method>", NULL },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_plus4[] = {
     { "-doodletedlum", SET_RESOURCE, 1,
       NULL, NULL, "DoodleTEDLumHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_TED_LUM_HANDLING,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_TED_LUM_HANDLING,
+      "<method>", NULL },
     CMDLINE_LIST_END
 };
 

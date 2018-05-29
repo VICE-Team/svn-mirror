@@ -117,84 +117,6 @@ static char *get_string_by_id(int id)
     return NULL;
 }
 
-static char *sid_return = NULL;
-
-/* special case translation, this command-line option normally
-   produces alot of lines (which only differ slightly) for the
-   translators to translate, this function builds up the total
-   command-line options from smaller translation pieces.
- */
-static char *translate_and_build_sid_cmdline_option(int en_resource)
-{
-    char *old, *new;
-
-    /* check if sid_return is already built */
-    if (sid_return != NULL) {
-        lib_free(sid_return);
-    }
-
-    /* start building up the command-line */
-    old = lib_stralloc("Specify SID engine and model (");
-
-    /* add fast sid options */
-    new = util_concat(old, translate_text(IDCLS_FASTSID_ENGINE_MODEL), NULL);
-    lib_free(old);
-    old = new;
-
-
-#ifdef HAVE_RESID
-    /* add resid options if available */
-    if (en_resource != IDCLS_SPECIFY_SIDCART_ENGINE_MODEL) {
-        new = util_concat(old, ", ", translate_text(IDCLS_RESID_ENGINE_MODEL), NULL);
-        lib_free(old);
-        old = new;
-    }
-
-    /* add residdtv options if available */
-    if (en_resource == IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL) {
-        new = util_concat(old, ", ", translate_text(IDCLS_RESIDDTV_ENGINE_MODEL), NULL);
-        lib_free(old);
-        old = new;
-    }
-#endif
-
-#ifdef HAVE_CATWEASELMKIII
-    /* add catweasel options if available */
-    new = util_concat(old, ", ", translate_text(IDCLS_CATWEASELMKIII_ENGINE_MODEL), NULL);
-    lib_free(old);
-    old = new;
-#endif
-
-#ifdef HAVE_HARDSID
-    /* add hardsid options if available */
-    new = util_concat(old, ", ", translate_text(IDCLS_HARDSID_ENGINE_MODEL), NULL);
-    lib_free(old);
-    old = new;
-#endif
-
-#ifdef HAVE_PARSID
-    /* add parsid options if available */
-    new = util_concat(old, ", ", translate_text(IDCLS_PARSID_ENGINE_MODEL), NULL);
-    lib_free(old);
-    old = new;
-#endif
-
-#ifdef HAVE_SSI2001
-    /* add ssi2001 options if available */
-    new = util_concat(old, ", ", translate_text(IDCLS_SSI2001_ENGINE_MODEL), NULL);
-    lib_free(old);
-    old = new;
-#endif
-
-    /* add ending bracket */
-    new = util_concat(old, ")", NULL);
-    lib_free(old);
-
-    sid_return = new;
-
-    return sid_return;
-}
-
 #ifdef HAS_TRANSLATION
 #include "translate_table.h"
 
@@ -231,13 +153,6 @@ char *translate_text(int en_resource)
     if (en_resource == 0) {
         log_error(LOG_DEFAULT, "TRANSLATE ERROR: ID 0 was requested.");
         return "ID 0 translate error";
-    }
-
-    /* handle sid cmdline special case translations */
-    if (en_resource == IDCLS_SPECIFY_SIDCART_ENGINE_MODEL ||
-        en_resource == IDCLS_SPECIFY_SID_ENGINE_MODEL ||
-        en_resource == IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL) {
-        return translate_and_build_sid_cmdline_option(en_resource);
     }
 
     if (en_resource < 0x10000) {
@@ -335,8 +250,8 @@ static cmdline_option_t cmdline_options[] =
 {
     { "-lang", SET_RESOURCE, 1,
       NULL, NULL, "Language", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
-      IDCLS_P_ISO_LANGUAGE_CODE, IDCLS_SPECIFY_ISO_LANG_CODE,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_ISO_LANGUAGE_CODE, IDGS_UNUSED,
       NULL, NULL },
     CMDLINE_LIST_END
 };
@@ -346,7 +261,7 @@ int translate_cmdline_options_init(void)
     char *temp_list = NULL;
     int i;
 
-    lang_list = util_concat(". (", language_table[0], NULL);
+    lang_list = util_concat("Specify the iso code of the language. (", language_table[0], NULL);
     for (i = 1; i < countof(language_table); i++) {
         if (countof(language_table) == i + 1) {
             temp_list = util_concat(lang_list, "/", language_table[i], ")", NULL);
@@ -380,13 +295,6 @@ char *translate_text(int en_resource)
     if (en_resource == 0) {
         log_error(LOG_DEFAULT, "TRANSLATE ERROR: ID 0 was requested.");
         return "ID 0 translate error";
-    }
-
-    /* handle sid cmdline special case translations */
-    if (en_resource == IDCLS_SPECIFY_SIDCART_ENGINE_MODEL ||
-        en_resource == IDCLS_SPECIFY_SID_ENGINE_MODEL ||
-        en_resource == IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL) {
-        return translate_and_build_sid_cmdline_option(en_resource);
     }
 
     return _(get_string_by_id(en_resource));

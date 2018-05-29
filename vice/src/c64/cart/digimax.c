@@ -292,9 +292,9 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-digimaxbase", SET_RESOURCE, 1,
       NULL, NULL, "DIGIMAXbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
-      IDCLS_P_BASE_ADDRESS, IDCLS_DIGIMAX_BASE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Base address>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -309,11 +309,11 @@ int digimax_cmdline_options_init(void)
     if (machine_class == VICE_MACHINE_VIC20) {
         temp1 = util_gen_hex_address_list(0x9800, 0x9900, 0x20);
         temp2 = util_gen_hex_address_list(0x9c00, 0x9d00, 0x20);
-        digimax_address_list = util_concat(". (", temp1, "/", temp2, ")", NULL);        
+        digimax_address_list = util_concat("Base address of the DigiMAX cartridge. (", temp1, "/", temp2, ")", NULL);        
         lib_free(temp2);
     } else {
         temp1 = util_gen_hex_address_list(0xde00, 0xe000, 0x20);
-        digimax_address_list = util_concat(". (", temp1, ")", NULL);
+        digimax_address_list = util_concat("Base address of the DigiMAX cartridge. (", temp1, ")", NULL);
     }
     lib_free(temp1);
 

@@ -500,9 +500,9 @@ int myacia_init_resources(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-myaciadev", SET_RESOURCE, 1,
       NULL, NULL, MYACIA "Dev", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SPECIFY_ACIA_RS232_DEVICE,
-      "<0-3>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<0-3>", "Specify RS232 device this ACIA should work on" },
     CMDLINE_LIST_END
 };
 

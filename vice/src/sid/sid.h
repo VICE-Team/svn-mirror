@@ -34,9 +34,7 @@
 #include "types.h"
 #include "sound.h"
 
-#ifndef __OS2__
 #define SID_SETTINGS_DIALOG
-#endif
 
 struct sound_s;
 struct sid_snapshot_state_s;
@@ -69,6 +67,10 @@ struct sid_snapshot_state_s;
 #define SID_HARDSID               (SID_ENGINE_HARDSID << 8)
 #define SID_PARSID                (SID_ENGINE_PARSID << 8)
 #define SID_SSI2001               (SID_ENGINE_SSI2001 << 8)
+
+#define SIDTYPE_SID       0
+#define SIDTYPE_SIDDTV    1
+#define SIDTYPE_SIDCART   2
 
 extern void machine_sid2_enable(int val);
 

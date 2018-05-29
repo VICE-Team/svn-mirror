@@ -93,8 +93,6 @@ static int shortbus_etfe_expansion_active = 0;
 /* ETFE address */
 static int shortbus_etfe_address;
 
-static char *shortbus_etfe_address_list = NULL;
-
 /* ---------------------------------------------------------------------*/
 
 void shortbus_etfe_unregister(void)
@@ -220,10 +218,6 @@ int shortbus_etfe_resources_init(void)
 void shortbus_etfe_resources_shutdown(void)
 {
     cs8900io_resources_shutdown();
-
-    if (shortbus_etfe_address_list) {
-        lib_free(shortbus_etfe_address_list);
-    }
 }
 
 /* ---------------------------------------------------------------------*/
@@ -247,9 +241,9 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-sbtfebase", SET_RESOURCE, 1,
       NULL, NULL, "SBTFEbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
-      IDCLS_P_BASE_ADDRESS, IDCLS_SHORTBUS_ETFE_BASE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Base address>", "Base address of the Short Bus ETFE expansion. (56832: $de00, 56848: $de10, 57088: $df00)" },
     CMDLINE_LIST_END
 };
 
@@ -258,10 +252,6 @@ int shortbus_etfe_cmdline_options_init(void)
     if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
     }
-
-    shortbus_etfe_address_list = lib_stralloc(". (56832: $de00, 56848: $de10, 57088: $df00)");
-
-    base_cmdline_options[0].description = shortbus_etfe_address_list;
 
     if (cs8900io_cmdline_options_init() < 0) {
         return -1;

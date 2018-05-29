@@ -382,9 +382,9 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-ds12c887rtcbase", SET_RESOURCE, 1,
       NULL, NULL, "DS12C887RTCbase", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_COMBO,
-      IDCLS_P_BASE_ADDRESS, IDCLS_DS12C887RTC_BASE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Base address>", NULL },
     CMDLINE_LIST_END
 };
 
@@ -395,11 +395,11 @@ int ds12c887rtc_cmdline_options_init(void)
     }
 
     if (machine_class == VICE_MACHINE_VIC20) {
-        base_cmdline_options[0].description = ". (0x9800/0x9C00)";
+        base_cmdline_options[0].description = "Base address of the DS12C887 RTC cartridge. (0x9800/0x9C00)";
     } else if (machine_class == VICE_MACHINE_C128) {
-        base_cmdline_options[0].description = ". (0xD700/0xDE00/0xDF00)";
+        base_cmdline_options[0].description = "Base address of the DS12C887 RTC cartridge. (0xD700/0xDE00/0xDF00)";
     } else {
-        base_cmdline_options[0].description = ". (0xD500/0xD600/0xD700/0xDE00/0xDF00)";
+        base_cmdline_options[0].description = "Base address of the DS12C887 RTC cartridge. (0xD500/0xD600/0xD700/0xDE00/0xDF00)";
     }
 
     return cmdline_register_options(base_cmdline_options);
