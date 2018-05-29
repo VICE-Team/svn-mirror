@@ -11990,6 +11990,22 @@ Integer specifying the keycode for 'left' in the SDL menu.
 @item MenuKeyRight
 Integer specifying the keycode for 'right' in the SDL menu.
 
+@vindex MenuKeyPageUp
+@item MenuKeyPageUp
+Integer specifying the keycode for 'page up' in the SDL menu.
+
+@vindex MenuKeyPageDown
+@item MenuKeyPageDown
+Integer specifying the keycode for 'page down' in the SDL menu.
+
+@vindex MenuKeyHome
+@item MenuKeyHome
+Integer specifying the keycode for 'home' in the SDL menu.
+
+@vindex MenuKeyEnd
+@item MenuKeyEnd
+Integer specifying the keycode for 'end' in the SDL menu.
+
 @vindex MenuKeySelect
 @item MenuKeySelect
 Integer specifying the keycode for 'select' in the SDL menu.
@@ -12265,42 +12281,62 @@ Set the keycode of the SDL menu activation key
 
 @findex -menukeyup
 @item -menukeyup <key>
-Set the keycode of the 'up' in the SDL menu
+Set the keycode of the 'up' key in the SDL menu
 (@code{MenuKeyUp}).
 
 @findex -menukeydown
 @item -menukeydown <key>
-Set the keycode of the 'down' in the SDL menu
+Set the keycode of the 'down' key in the SDL menu
 (@code{MenuKeyDown}).
 
 @findex -menukeyleft
 @item -menukeyleft <key>
-Set the keycode of the 'left' in the SDL menu
+Set the keycode of the 'left' key in the SDL menu
 (@code{MenuKeyLeft}).
 
 @findex -menukeyright
 @item -menukeyright <key>
-Set the keycode of the 'right' in the SDL menu
+Set the keycode of the 'right' key in the SDL menu
 (@code{MenuKeyRight}).
+
+@findex -menukeypageup
+@item -menukeypageup <key>
+Set the keycode of the 'page up' key in the SDL menu
+(@code{MenuKeyPageUp}).
+
+@findex -menukeypagedown
+@item -menukeypagedown <key>
+Set the keycode of the 'page down' key in the SDL menu
+(@code{MenuKeyPageDown}).
+
+@findex -menukeyhome
+@item -menukeyhome <key>
+Set the keycode of the 'home' key in the SDL menu
+(@code{MenuKeyHome}).
+
+@findex -menukeyend
+@item -menukeyend <key>
+Set the keycode of the 'end' key in the SDL menu
+(@code{MenuKeyEnd}).
 
 @findex -menukeyselect
 @item -menukeyselect <key>
-Set the keycode of the 'select' in the SDL menu
+Set the keycode of the 'select' key in the SDL menu
 (@code{MenuKeySelect}).
 
 @findex -menukeycancel
 @item -menukeycancel <key>
-Set the keycode of the 'cancel' in the SDL menu
+Set the keycode of the 'cancel' key in the SDL menu
 (@code{MenuKeyCancel}).
 
 @findex -menukeyexit
 @item -menukeyexit <key>
-Set the keycode of the 'exit' in the SDL menu
+Set the keycode of the 'exit' key in the SDL menu
 (@code{MenuKeyExit}).
 
 @findex -menukeymap
 @item -menukeymap <key>
-Set the keycode of the 'map' in the SDL menu
+Set the keycode of the 'map' key in the SDL menu
 (@code{MenuKeyMap}).
 
 @findex -saveres, +saveres

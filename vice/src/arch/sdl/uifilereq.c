@@ -419,6 +419,25 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {
+            case MENU_ACTION_HOME:
+                cur_old = cur;
+                cur = 0;
+                offset = 0;
+                redraw = 1;
+                break;
+
+            case MENU_ACTION_END:
+                cur_old = cur;
+                if (total < (menu_max - 1)) {
+                    cur = total - 1;
+                    offset = 0;
+                } else {
+                    cur = menu_max - 1;
+                    offset = total - menu_max;
+                }
+                redraw = 1;
+                break;
+
             case MENU_ACTION_UP:
                 if (cur > 0) {
                     cur_old = cur;
@@ -431,6 +450,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                 }
                 break;
 
+            case MENU_ACTION_PAGEUP:
             case MENU_ACTION_LEFT:
                 offset -= menu_max;
                 if (offset < 0) {
@@ -455,6 +475,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                 }
                 break;
 
+            case MENU_ACTION_PAGEDOWN:
             case MENU_ACTION_RIGHT:
                 offset += menu_max;
                 if (offset >= total) {

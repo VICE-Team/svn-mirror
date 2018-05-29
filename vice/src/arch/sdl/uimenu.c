@@ -408,6 +408,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
     int num_items = 0, cur = 0, cur_old = -1, cur_offset = 0, in_menu = 1, redraw = 1;
     int *value_offsets = NULL;
     ui_menu_retval_t menu_retval = MENU_RETVAL_DEFAULT;
+    int i;
 
     /* SDL mode: prevent core dump - pressing menu key in -console mode causes menu to be NULL */
     if (menu == NULL) {
@@ -440,6 +441,26 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {
+            case MENU_ACTION_HOME:
+                cur_old = cur;
+                /* If a subtitle is at the top of the menu, then start at the next line. */
+                if (menu[0].type == MENU_ENTRY_TEXT) {
+                    cur = 1;
+                } else {
+                    cur = 0;
+                }
+                cur_offset = 0;
+                redraw = 1;
+                break;
+            case MENU_ACTION_END:
+                redraw = 1;
+                cur_offset = num_items - (menu_draw.max_text_y - MENU_FIRST_Y);
+                cur = (menu_draw.max_text_y - MENU_FIRST_Y) - 1;
+                if (cur_offset < 0) {
+                    cur += cur_offset;
+                    cur_offset = 0;
+                }
+                break;
             case MENU_ACTION_UP:
                 cur_old = cur;
                 do {
@@ -458,13 +479,24 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                         }
                         redraw = 1;
                     }
-#if 0
-        /* what kind of weird reason was it to not skip blank lines here? what bug does it try to hack around? */
-                /* Skip subtitles. */
-                } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT && vice_ptr_to_int(menu[cur + cur_offset].data) != 0);
-#endif
                 /* Skip subtitles and blank lines. */
                 } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                break;
+            case MENU_ACTION_PAGEUP:
+                cur_old = cur;
+                for (i = 0; i < (menu_draw.max_text_y - MENU_FIRST_Y - 1); i++) {
+                    do {
+                        if (cur > 0) {
+                            --cur;
+                        } else {
+                            if (cur_offset > 0) {
+                                --cur_offset;
+                            }
+                        }
+                    /* Skip subtitles and blank lines. */
+                    } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                }
+                redraw = 1;
                 break;
             case MENU_ACTION_DOWN:
                 cur_old = cur;
@@ -482,6 +514,21 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
 
                 /* Skip subtitles and blank lines. */
                 } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                break;
+            case MENU_ACTION_PAGEDOWN:
+                cur_old = cur;
+                for (i = 0; i < (menu_draw.max_text_y - MENU_FIRST_Y - 1); i++) {
+                    do {
+                        if ((cur + cur_offset) < (num_items - 1)) {
+                            if (++cur == (menu_draw.max_text_y - MENU_FIRST_Y)) {
+                                --cur;
+                                ++cur_offset;
+                            }
+                        }
+                    /* Skip subtitles and blank lines. */
+                    } while (menu[cur + cur_offset].type == MENU_ENTRY_TEXT);
+                }
+                redraw = 1;
                 break;
             case MENU_ACTION_RIGHT:
                 if ((menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU) && (menu[cur + cur_offset].type != MENU_ENTRY_DYNAMIC_SUBMENU)) {

@@ -414,7 +414,7 @@ static UI_MENU_CALLBACK(custom_ui_keyset_callback)
             resources_set_int((const char *)param, (int)SDL2x_to_SDL1x_Keys(e.key.keysym.sym));
         }
     } else {
-        return SDL_GetKeyName(previous);
+        return SDL_GetKeyName(SDL1x_to_SDL2x_Keys(previous));
     }
     return NULL;
 }
@@ -440,6 +440,22 @@ static const ui_menu_entry_t define_ui_keyset_menu[] = {
       MENU_ENTRY_DIALOG,
       custom_ui_keyset_callback,
       (ui_callback_data_t)"MenuKeyRight" },
+    { "Menu page up",
+      MENU_ENTRY_DIALOG,
+      custom_ui_keyset_callback,
+      (ui_callback_data_t)"MenuKeyPageUp" },
+    { "Menu page down",
+      MENU_ENTRY_DIALOG,
+      custom_ui_keyset_callback,
+      (ui_callback_data_t)"MenuKeyPageDown" },
+    { "Menu home",
+      MENU_ENTRY_DIALOG,
+      custom_ui_keyset_callback,
+      (ui_callback_data_t)"MenuKeyHome" },
+    { "Menu end",
+      MENU_ENTRY_DIALOG,
+      custom_ui_keyset_callback,
+      (ui_callback_data_t)"MenuKeyEnd" },
     { "Menu select",
       MENU_ENTRY_DIALOG,
       custom_ui_keyset_callback,
