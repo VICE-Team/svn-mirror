@@ -168,8 +168,8 @@ int output_select_init_cmdline_options(void)
         return -1;
     }
     cmdline_options[0].description = printer4_output_names;
-    cmdline_options[0].description = printer5_output_names;
-    cmdline_options[0].description = printer6_output_names;
+    cmdline_options[1].description = printer5_output_names;
+    cmdline_options[2].description = printer6_output_names;
 
     return cmdline_register_options(cmdline_options);
 }
