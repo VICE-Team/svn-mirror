@@ -32,6 +32,7 @@
 #include "debug_gtk3.h"
 #include "basedialogs.h"
 #include "filechooserhelpers.h"
+#include "lastdir.h"
 #include "machine.h"
 #include "lib.h"
 #include "psid.h"
@@ -65,26 +66,6 @@ static void (*psid_play_func)(int) = NULL;
 /** \brief  Last used directory in dialog
  */
 static gchar *last_dir = NULL;
-
-
-/** \brief  Update the last directory reference
- *
- * \param[in]   widget  dialog
- */
-static void update_last_dir(GtkWidget *widget)
-{
-    gchar *new_dir;
-
-    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("new dir = '%s'\n", new_dir);
-    if (new_dir != NULL) {
-        /* clean up previous value */
-        if (last_dir != NULL) {
-            g_free(last_dir);
-        }
-        last_dir = new_dir;
-    }
-}
 
 
 /*
@@ -158,7 +139,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
-            update_last_dir(widget);
+            lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             text = lib_msprintf("Opening '%s'", filename);
             ui_display_statustext(text, TRUE);
@@ -255,9 +236,7 @@ static GtkWidget *create_sid_attach_dialog(GtkWidget *parent)
             preview_widget);
 */
     /* set last used directory, if present */
-    if (last_dir != NULL) {
-        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
-    }
+    lastdir_set(dialog, &last_dir);
 
     /* add filters */
     for (i = 0; filters[i].name != NULL; i++) {
@@ -317,7 +296,5 @@ void uisidattach_set_psid_play_func(void (*func)(int))
  */
 void uisidattach_shutdown(void)
 {
-    if (last_dir != NULL) {
-        g_free(last_dir);
-    }
+    lastdir_shutdown(&last_dir);
 }

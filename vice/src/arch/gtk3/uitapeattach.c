@@ -37,6 +37,7 @@
 #include "contentpreviewwidget.h"
 #include "filechooserhelpers.h"
 #include "imagecontents.h"
+#include "lastdir.h"
 #include "tapecontents.h"
 #include "ui.h"
 
@@ -61,26 +62,6 @@ static GtkWidget *preview_widget = NULL;
  * ui_tape_attach_shutdown() on emulator shutdown.
  */
 static gchar *last_dir = NULL;
-
-
-/** \brief  Update the last directory reference
- *
- * \param[in]   widget  dialog
- */
-static void update_last_dir(GtkWidget *widget)
-{
-    gchar *new_dir;
-
-    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("new dir = '%s'\n", new_dir);
-    if (new_dir != NULL) {
-        /* clean up previous value */
-        if (last_dir != NULL) {
-            g_free(last_dir);
-        }
-        last_dir = new_dir;
-    }
-}
 
 
 /** \brief  Handler for the "update-preview" event
@@ -123,22 +104,6 @@ static void on_hidden_toggled(GtkWidget *widget, gpointer user_data)
 }
 
 
-#if 0
-/** \brief  Handler for the 'toggled' event of the 'show preview' checkbox
- *
- * \param[in]   widget      checkbox triggering the event
- * \param[in]   user_data   data for the event (unused)
- */
-static void on_preview_toggled(GtkWidget *widget, gpointer user_data)
-{
-    int state;
-
-    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    debug_gtk3("preview %s\n", state ? "enabled" : "disabled");
-}
-#endif
-
-
 /** \brief  Handler for 'response' event of the dialog
  *
  * This handler is called when the user clicks a button in the dialog.
@@ -165,7 +130,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
-            update_last_dir(widget);
+            lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Attaching file '%s' to tape unit\n", filename);
@@ -182,7 +147,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
-            update_last_dir(widget);
+            lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'\n", filename);
             if (autostart_tape(
@@ -267,9 +232,7 @@ static GtkWidget *create_tape_attach_dialog(GtkWidget *parent)
             NULL, NULL);
 
     /* set last directory */
-    if (last_dir != NULL) {
-        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
-    }
+    lastdir_set(dialog, &last_dir);
 
     /* add 'extra' widget: 'readonly' and 'show preview' checkboxes */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
@@ -333,7 +296,5 @@ void ui_tape_detach_callback(GtkWidget *widget, gpointer user_data)
  */
 void ui_tape_attach_shutdown(void)
 {
-    if (last_dir != NULL) {
-        g_free(last_dir);
-    }
+    lastdir_shutdown(&last_dir);
 }

@@ -37,6 +37,7 @@
 #include "basedialogs.h"
 #include "cartimagewidget.h"
 #include "filechooserhelpers.h"
+#include "lastdir.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
 #include "cartridge.h"
@@ -162,7 +163,10 @@ static ui_file_filter_t filters[] = {
 };
 
 
+/** \brief  Last used directory
+ */
 static gchar *last_dir = NULL;
+
 
 /* list of cartridge handling functions (to avoid vsid link errors) */
 static int  (*crt_detect_func)(const char *filename) = NULL;
@@ -188,7 +192,6 @@ static int get_cart_type(void);
 static int get_cart_id(void);
 static bool attach_cart_image(int type, int id, const char *path);
 static GtkListStore *create_cart_id_model_vic20(void);
-static void update_last_dir(GtkWidget *widget);
 
 
 /** \brief  Handler for the "response" event of the dialog
@@ -207,7 +210,7 @@ static void on_response(GtkWidget *dialog, gint response_id, gpointer data)
             gtk_widget_destroy(dialog);
             break;
         case GTK_RESPONSE_ACCEPT:
-            update_last_dir(dialog);
+            lastdir_update(dialog, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
             if (filename != NULL) {
                 debug_gtk3("attaching '%s'\n", filename);
@@ -366,26 +369,6 @@ static int get_cart_id(void)
         }
     }
     return crt_id;
-}
-
-
-/** \brief  Update the last directory reference
- *
- * \param[in]   widget  dialog
- */
-static void update_last_dir(GtkWidget *widget)
-{
-    gchar *new_dir;
-
-    new_dir = gtk_file_chooser_get_current_folder(GTK_FILE_CHOOSER(widget));
-    debug_gtk3("new dir = '%s'\n", new_dir);
-    if (new_dir != NULL) {
-        /* clean up previous value */
-        if (last_dir != NULL) {
-            g_free(last_dir);
-        }
-        last_dir = new_dir;
-    }
 }
 
 
@@ -795,7 +778,7 @@ gboolean uicart_smart_attach_dialog(GtkWidget *widget, gpointer user_data)
 
     if (filename != NULL) {
         debug_gtk3("Got filename '%s'\n", filename);
-        update_last_dir(widget);
+        lastdir_update(widget, &last_dir);
         if (crt_attach_func != NULL) {
             if (crt_attach_func(CARTRIDGE_CRT, filename) < 0) {
                 vice_gtk3_message_error("VICE error",
@@ -862,9 +845,7 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
             NULL, NULL);
 
     /* set last directory */
-    if (last_dir != NULL) {
-        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
-    }
+    lastdir_set(dialog, &last_dir);
 
     /* add extra widget */
     gtk_file_chooser_set_extra_widget(GTK_FILE_CHOOSER(dialog),
@@ -911,7 +892,5 @@ void uicart_show_dialog(GtkWidget *widget, gpointer data)
  */
 void uicart_shutdown(void)
 {
-    if (last_dir != NULL) {
-        g_free(last_dir);
-    }
+    lastdir_shutdown(&last_dir);
 }
