@@ -53,6 +53,7 @@
 #include "resources.h"
 #include "types.h"
 #include "uiapi.h"
+#include "uicommands.h"
 #include "uidatasette.h"
 #include "uidiskattach.h"
 #include "uifliplist.h"
@@ -906,9 +907,14 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 }
 
 
-void on_crt_toggled(GtkWidget *widget, gpointer data)
+/** \brief  Handler for the 'toggled' event of the CRT controls checkbox
+ *
+ * \param[in]   widget  checkbox triggering the event (unused)
+ * \param[in]   data    extra event data (unused
+ */
+static void on_crt_toggled(GtkWidget *widget, gpointer data)
 {
-    debug_gtk3("called!\n");
+    ui_toggle_crt_controls(NULL, NULL);
 }
 
 
@@ -984,7 +990,9 @@ GtkWidget *ui_statusbar_create(void)
     crt = gtk_check_button_new_with_label("CRT controls");
     g_object_ref_sink(G_OBJECT(crt));
     gtk_widget_set_halign(crt, GTK_ALIGN_END);
-    gtk_widget_show(crt);
+    gtk_widget_show_all(crt);
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(crt),
+            ui_crt_controls_enabled());
     g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
 
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
@@ -994,9 +1002,9 @@ GtkWidget *ui_statusbar_create(void)
     /* Second column: Tape and joysticks */
     gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), 1, 0, 1, 2);
 
-    /* TODO: skip VSID */
+    /* TODO: skip VSID and add another separator after the checkbox */
     allocated_bars[i].crt = crt;
-    gtk_grid_attach(GTK_GRID(sb), crt, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(sb), crt, 2, 0, 1, 1);
 
     if ((machine_class != VICE_MACHINE_C64DTV)
             && (machine_class != VICE_MACHINE_VSID)) {
@@ -1024,7 +1032,7 @@ GtkWidget *ui_statusbar_create(void)
         joysticks = ui_joystick_widget_create();
         g_object_ref(joysticks);
         gtk_widget_set_halign(joysticks, GTK_ALIGN_END);
-        gtk_grid_attach(GTK_GRID(sb), joysticks, 3, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(sb), joysticks, 4, 1, 1, 1);
         allocated_bars[i].joysticks = joysticks;
     }
 
@@ -1240,7 +1248,7 @@ void ui_display_tape_motor_status(int motor)
         sb_state.tape_motor_status = motor;
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
             if (allocated_bars[i].tape) {
-                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 2, 0);
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 3, 0);
                 if (widget) {
                     gtk_widget_queue_draw(widget);
                 }
