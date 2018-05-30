@@ -26,163 +26,6 @@
 
 translate_t string_table[] = {
 
-/* joystick.c */
-/* en */ {IDCLS_ENABLE_JOY_OPPOSITE,    N_("Enable opposite joystick directions")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_JOY_OPPOSITE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_JOY_OPPOSITE_DE, "Gegenüberliegende Joystick Richtungen zulassen"},
-/* es */ {IDCLS_ENABLE_JOY_OPPOSITE_ES, "Permitir direcciones opuestas del joystick"},
-/* fr */ {IDCLS_ENABLE_JOY_OPPOSITE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_JOY_OPPOSITE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_JOY_OPPOSITE_IT, "Attiva direzioni opposte joystick"},
-/* ko */ {IDCLS_ENABLE_JOY_OPPOSITE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_JOY_OPPOSITE_NL, "Tegenovergestelde richtingen toestaan"},
-/* pl */ {IDCLS_ENABLE_JOY_OPPOSITE_PL, "Pozwól na przeciwstawne kierunki joysticka"},
-/* ru */ {IDCLS_ENABLE_JOY_OPPOSITE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_JOY_OPPOSITE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_JOY_OPPOSITE_TR, ""},  /* fuzzy */
-#endif
-
-/* joystick.c */
-/* en */ {IDCLS_DISABLE_JOY_OPPOSITE,    N_("Disable opposite joystick directions")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_JOY_OPPOSITE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_JOY_OPPOSITE_DE, "Gegenüberliegende Joystick Richtungen verhindern"},
-/* es */ {IDCLS_DISABLE_JOY_OPPOSITE_ES, "Inhabilitar direcciones opuestas del joystick"},
-/* fr */ {IDCLS_DISABLE_JOY_OPPOSITE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_JOY_OPPOSITE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_JOY_OPPOSITE_IT, "Disattiva direzioni opposte joystick"},
-/* ko */ {IDCLS_DISABLE_JOY_OPPOSITE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_JOY_OPPOSITE_NL, "Tegenovergestelde richtingen niet toestaan"},
-/* pl */ {IDCLS_DISABLE_JOY_OPPOSITE_PL, "Nie pozwól na przeciwstawne kierunki joysticka"},
-/* ru */ {IDCLS_DISABLE_JOY_OPPOSITE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_JOY_OPPOSITE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_JOY_OPPOSITE_TR, ""},  /* fuzzy */
-#endif
-
-/* joystick.c */
-/* en */ {IDCLS_ENABLE_KEYSET,    N_("Enable keyset")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_KEYSET_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_KEYSET_DE, "Tastaturbelegung aktivieren"},
-/* es */ {IDCLS_ENABLE_KEYSET_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_KEYSET_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_KEYSET_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_KEYSET_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_KEYSET_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_KEYSET_NL, "Keyset inschakelen"},
-/* pl */ {IDCLS_ENABLE_KEYSET_PL, "W³±cz zestaw klawiszy"},
-/* ru */ {IDCLS_ENABLE_KEYSET_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_KEYSET_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_KEYSET_TR, ""},  /* fuzzy */
-#endif
-
-/* joystick.c */
-/* en */ {IDCLS_DISABLE_KEYSET,    N_("Disable keyset")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_KEYSET_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_KEYSET_DE, "Tastaturbelegung deaktivieren"},
-/* es */ {IDCLS_DISABLE_KEYSET_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_KEYSET_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_KEYSET_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_KEYSET_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_KEYSET_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_KEYSET_NL, "Keyset uitschakelen"},
-/* pl */ {IDCLS_DISABLE_KEYSET_PL, "Wy³±cz zestaw klawiszy"},
-/* ru */ {IDCLS_DISABLE_KEYSET_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_KEYSET_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_KEYSET_TR, ""},  /* fuzzy */
-#endif
-
-/* vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_VFLI_MOD,    N_("Enable VFLI modification.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_VFLI_MOD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_VFLI_MOD_DE, "VFLI Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_VFLI_MOD_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_VFLI_MOD_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_VFLI_MOD_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_VFLI_MOD_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_VFLI_MOD_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_VFLI_MOD_NL, "VFLI modificatie inschakelen"},
-/* pl */ {IDCLS_ENABLE_VFLI_MOD_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_VFLI_MOD_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_VFLI_MOD_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_VFLI_MOD_TR, ""},  /* fuzzy */
-#endif
-
-/* vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_VFLI_MOD,    N_("Disable VFLI modification.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_VFLI_MOD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_VFLI_MOD_DE, "VFLI Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_VFLI_MOD_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_VFLI_MOD_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_VFLI_MOD_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_VFLI_MOD_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_VFLI_MOD_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_VFLI_MOD_NL, "VFLI modificatie uitschakelen"},
-/* pl */ {IDCLS_DISABLE_VFLI_MOD_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_VFLI_MOD_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_VFLI_MOD_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_VFLI_MOD_TR, ""},  /* fuzzy */
-#endif
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_USE_PAL_SYNC_FACTOR,    N_("Use PAL sync factor")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_USE_PAL_SYNC_FACTOR_DA, "Anvend PAL-synkfaktor"},
-/* de */ {IDCLS_USE_PAL_SYNC_FACTOR_DE, "PAL Sync Faktor benutzen"},
-/* es */ {IDCLS_USE_PAL_SYNC_FACTOR_ES, "Usar factor sincronización PAL"},
-/* fr */ {IDCLS_USE_PAL_SYNC_FACTOR_FR, "Utiliser PAL"},
-/* hu */ {IDCLS_USE_PAL_SYNC_FACTOR_HU, "PAL szinkron faktor használata"},
-/* it */ {IDCLS_USE_PAL_SYNC_FACTOR_IT, "Usa fattore di sincronizzazione PAL"},
-/* ko */ {IDCLS_USE_PAL_SYNC_FACTOR_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_USE_PAL_SYNC_FACTOR_NL, "Gebruik PAL synchronisatiefactor"},
-/* pl */ {IDCLS_USE_PAL_SYNC_FACTOR_PL, "U¿ywaj synchronizacji PAL"},
-/* ru */ {IDCLS_USE_PAL_SYNC_FACTOR_RU, "Use PAL sync factor"},
-/* sv */ {IDCLS_USE_PAL_SYNC_FACTOR_SV, "Använd PAL-synkfaktor"},
-/* tr */ {IDCLS_USE_PAL_SYNC_FACTOR_TR, "PAL senkron faktörü kullan"},
-#endif
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_USE_NTSC_SYNC_FACTOR,    N_("Use NTSC sync factor")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_USE_NTSC_SYNC_FACTOR_DA, "Anvend NTSC-synkfaktor"},
-/* de */ {IDCLS_USE_NTSC_SYNC_FACTOR_DE, "NTSC Sync Faktor benutzen"},
-/* es */ {IDCLS_USE_NTSC_SYNC_FACTOR_ES, "Usar factor sincronización NTSC"},
-/* fr */ {IDCLS_USE_NTSC_SYNC_FACTOR_FR, "Utiliser NTSC"},
-/* hu */ {IDCLS_USE_NTSC_SYNC_FACTOR_HU, "NTSC szinkron faktor használata"},
-/* it */ {IDCLS_USE_NTSC_SYNC_FACTOR_IT, "Usa fattore di sincronizzazione NTSC"},
-/* ko */ {IDCLS_USE_NTSC_SYNC_FACTOR_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_USE_NTSC_SYNC_FACTOR_NL, "Gebruik NTSC synchronisatiefactor"},
-/* pl */ {IDCLS_USE_NTSC_SYNC_FACTOR_PL, "U¿ywaj synchronizacji NTSC"},
-/* ru */ {IDCLS_USE_NTSC_SYNC_FACTOR_RU, "Use NTSC sync factor"},
-/* sv */ {IDCLS_USE_NTSC_SYNC_FACTOR_SV, "Använd NTSC-synkfaktor"},
-/* tr */ {IDCLS_USE_NTSC_SYNC_FACTOR_TR, "NTSC senkron faktörü kullan"},
-#endif
-
-/* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_USE_PALN_SYNC_FACTOR,    N_("Use PAL-N sync factor")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_USE_PALN_SYNC_FACTOR_DA, "Anvend PAL-N synkfaktor"},
-/* de */ {IDCLS_USE_PALN_SYNC_FACTOR_DE, "PAL Sync Faktor benutzen"},
-/* es */ {IDCLS_USE_PALN_SYNC_FACTOR_ES, "Usar factor sincronización PAL-N"},
-/* fr */ {IDCLS_USE_PALN_SYNC_FACTOR_FR, "Utiliser le facteur de synchronisation PAL-N"},
-/* hu */ {IDCLS_USE_PALN_SYNC_FACTOR_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_USE_PALN_SYNC_FACTOR_IT, "Usa fattore di sincronizzazione PAL-N"},
-/* ko */ {IDCLS_USE_PALN_SYNC_FACTOR_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_USE_PALN_SYNC_FACTOR_NL, "Gebruik PAL-N synchronisatiefactor"},
-/* pl */ {IDCLS_USE_PALN_SYNC_FACTOR_PL, "U¿ywaj synchronizacji PAL-N"},
-/* ru */ {IDCLS_USE_PALN_SYNC_FACTOR_RU, "Use PAL-N sync factor"},
-/* sv */ {IDCLS_USE_PALN_SYNC_FACTOR_SV, "Använd PAL N-synkfaktor"},
-/* tr */ {IDCLS_USE_PALN_SYNC_FACTOR_TR, "PAL-N senkron faktörü kullan"},
-#endif
-
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_BURST_MOD,    N_("Burst modification (0 = None, 1 = CIA1, 2 = CIA2)")},
 #ifdef HAS_TRANSLATION
@@ -215,57 +58,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_IEC_RESET_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_IEC_RESET_SV, "Datornollställning går till IEC-bussen (0 = nej, 1 = ja)"},
 /* tr */ {IDCLS_SET_IEC_RESET_TR, ""},  /* fuzzy */
-#endif
-
-/* c128/c128-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_INT_KERNEL_NAME,    N_("Specify name of international Kernal ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DA, "Angiv navn på internationalt kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_INT_KERNEL_NAME_DE, "Namen für internationale Kernal ROM Datei wählen"},
-/* es */ {IDCLS_SPECIFY_INT_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal internacional"},
-/* fr */ {IDCLS_SPECIFY_INT_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal internationale"},
-/* hu */ {IDCLS_SPECIFY_INT_KERNEL_NAME_HU, "Adja meg a nemzetközi Kernal ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_INT_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal internazionale"},
-/* ko */ {IDCLS_SPECIFY_INT_KERNEL_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_INT_KERNEL_NAME_NL, "Geef de naam van het internationaal Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_INT_KERNEL_NAME_PL, "Okre¶l nazwê obrazu miêdzynarodowego ROM-u Kernala"},
-/* ru */ {IDCLS_SPECIFY_INT_KERNEL_NAME_RU, "Specify name of international Kernal ROM image"},
-/* sv */ {IDCLS_SPECIFY_INT_KERNEL_NAME_SV, "Ange namn på internationell kernal-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_INT_KERNEL_NAME_TR, "Uluslararasý Kernal ROM imajýnýn ismini belirt"},
-#endif
-
-/* c128/c128-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_DE_KERNEL_NAME,    N_("Specify name of German Kernal ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DA, "Angiv navn på tysk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_DE_KERNEL_NAME_DE, "Name für deutsche Kernal ROM Datei wählen"},
-/* es */ {IDCLS_SPECIFY_DE_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal alemán"},
-/* fr */ {IDCLS_SPECIFY_DE_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal allemande"},
-/* hu */ {IDCLS_SPECIFY_DE_KERNEL_NAME_HU, "Adja meg a német Kernal ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_DE_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal tedesca"},
-/* ko */ {IDCLS_SPECIFY_DE_KERNEL_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_DE_KERNEL_NAME_NL, "Geef de naam van het Duitse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_DE_KERNEL_NAME_PL, "Podaj nazwê obrazu niemieckiego ROM-u Kernala"},
-/* ru */ {IDCLS_SPECIFY_DE_KERNEL_NAME_RU, "Specify name of German Kernal ROM image"},
-/* sv */ {IDCLS_SPECIFY_DE_KERNEL_NAME_SV, "Ange namn på tysk kernal-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_DE_KERNEL_NAME_TR, "Alman Kernal ROM imajýnýn ismini belirt"},
-#endif
-
-/* c128/c128-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_FI_KERNEL_NAME,    N_("Specify name of Finnish Kernal ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DA, "Angiv navn på finsk kerne-ROM-image"},
-/* de */ {IDCLS_SPECIFY_FI_KERNEL_NAME_DE, "Name für finnische Kernal ROM Datei wählen"},
-/* es */ {IDCLS_SPECIFY_FI_KERNEL_NAME_ES, "Especificar nombre imagen ROM Kernal finlandés"},
-/* fr */ {IDCLS_SPECIFY_FI_KERNEL_NAME_FR, "Spécifier le nom de l'image Kernal finlandaise"},
-/* hu */ {IDCLS_SPECIFY_FI_KERNEL_NAME_HU, "Adja meg a finn Kernal ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_FI_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal finlandese"},
-/* ko */ {IDCLS_SPECIFY_FI_KERNEL_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_NL, "Geef de naam van het Finse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_PL, "Okre¶l nazwê obrazu fiñskiego ROM-u Kernala"},
-/* ru */ {IDCLS_SPECIFY_FI_KERNEL_NAME_RU, "Specify name of Finnish Kernal ROM image"},
-/* sv */ {IDCLS_SPECIFY_FI_KERNEL_NAME_SV, "Ange namn på finsk kernal-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_FI_KERNEL_NAME_TR, "Finlandiya Kernal ROM imajýnýn ismini belirt"},
 #endif
 
 /* c128/c128-cmdline-options.c */
@@ -609,42 +401,6 @@ translate_t string_table[] = {
 #endif
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c
-   scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,    N_("Enable the ACIA RS232 interface emulation")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DA, "Aktivér ACIA RS232-interface emulering"},
-/* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA RS232 Schnittstellen-Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_ES, "Permitir emulación interface ACIA RS232"},
-/* fr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_FR, "Activer l'émulation de l'interface ACIA RS232"},
-/* hu */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_IT, "Attiva emulazione interfaccia ACIA RS232"},
-/* ko */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_NL, "ACIA RS232 interface emulatie inschakelen"},
-/* pl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_PL, "W³±cz emulacjê interfejsu ACIA RS232"},
-/* ru */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_RU, "Enable the ACIA RS232 interface emulation"},
-/* sv */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_SV, "Aktivera ACIA RS232-gränssnittsemulering"},
-/* tr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_TR, "ACIA RS232 arabirim emülasyonunu aktif et"},
-#endif
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,    N_("Disable the ACIA RS232 interface emulation")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, "Deaktivér ACIA-RS232-interface emulering"},
-/* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA RS232 Schnittstellen-Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_ES, "Deshabilitar emulación interface ACIA RS232"},
-/* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, "Désactiver l'émulation de l'interface ACIA RS232"},
-/* hu */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, "Disattiva emulazione interfaccia ACIA RS232"},
-/* ko */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "ACIA RS232 interface emulatie uitschakelen"},
-/* pl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_PL, "Wy³±cz emulacjê interfejsu ACIA RS232"},
-/* ru */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_RU, "Disable the ACIA RS232 interface emulation"},
-/* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, "Inaktivera ACIA-RS232-gränssnittsemulering"},
-/* tr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_TR, "ACIA RS232 arabirim emülasyonunu pasifleþtir"},
-#endif
-
 /* c64/cart/c64acia1.c */
 /* en */ {IDCLS_P_IRQ,    N_("<interrupt>")},
 #ifdef HAS_TRANSLATION
@@ -953,24 +709,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_TR, "Eski NTSC senkron faktörü kullan"},
 #endif
 
-/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_P_MODEL,    N_("<Model>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_MODEL_DA, "<Model>"},
-/* de */ {IDCLS_P_MODEL_DE, "<Modell>"},
-/* es */ {IDCLS_P_MODEL_ES, "<Modelo>"},
-/* fr */ {IDCLS_P_MODEL_FR, "<Modèle>"},
-/* hu */ {IDCLS_P_MODEL_HU, "<Modell>"},
-/* it */ {IDCLS_P_MODEL_IT, "<Modello>"},
-/* ko */ {IDCLS_P_MODEL_KO, "<¸ðµ¨>"},
-/* nl */ {IDCLS_P_MODEL_NL, "<Model>"},
-/* pl */ {IDCLS_P_MODEL_PL, "<Model>"},
-/* ru */ {IDCLS_P_MODEL_RU, "<¼ÞÔÕÛì>"},
-/* sv */ {IDCLS_P_MODEL_SV, "<Modell>"},
-/* tr */ {IDCLS_P_MODEL_TR, "<Model>"},
-#endif
-
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 8521)")},
 #ifdef HAS_TRANSLATION
@@ -1141,23 +879,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_PLUS4_MODEL_TR, "Plus4 modelini ayarla (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
 #endif
 
-/* vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_SET_VIC20_MODEL,    N_("Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_VIC20_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_VIC20_MODEL_DE, "Wähle VIC20 Modell (vic20/vic20pal/vic20ntsc, vic21)"},
-/* es */ {IDCLS_SET_VIC20_MODEL_ES, "Seleccionar modelo  VIC20 (vic20/vic20pal/vic20ntsc, vic21)"},
-/* fr */ {IDCLS_SET_VIC20_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_VIC20_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_VIC20_MODEL_IT, "Imposta modello VIC20 (vic20/vic20pal/vic20ntsc, vic21)"},
-/* ko */ {IDCLS_SET_VIC20_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_VIC20_MODEL_NL, "Stel VIC20 model in (vic20/vic20pal/vic20ntsc, vic21)"},
-/* pl */ {IDCLS_SET_VIC20_MODEL_PL, "Wybierz model VIC20 (vic20/vic20pal/vic20ntsc, vic21)"},
-/* ru */ {IDCLS_SET_VIC20_MODEL_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_VIC20_MODEL_SV, "Välj VIC20-modell (vic20/vic20pal/vic20ntsc, vic21)"},
-/* tr */ {IDCLS_SET_VIC20_MODEL_TR, ""},  /* fuzzy */
-#endif
-
 /* c64dtv/c64dtv-cmdline-options.c */
 /* en */ {IDCLS_SET_DTV_MODEL,    N_("Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)")},
 #ifdef HAS_TRANSLATION
@@ -1175,25 +896,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_DTV_MODEL_TR, "DTV modelini ayarla (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
 #endif
 
-/* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_KERNAL_ROM_NAME,    N_("Specify name of Kernal ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DA, "Angiv navn på kernal-ROM-image"},
-/* de */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_DE, "Name von Kernal ROM Datei wählen"},
-/* es */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_ES, "Especificar nombre de la imagen ROM Kernal"},
-/* fr */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_FR, "Spécifier le nom de l'image ROM Kernal"},
-/* hu */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_HU, "Adja meg a Kernal ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_IT, "Specifica il nome immagine della ROM del Kernal"},
-/* ko */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_NL, "Geef de naam van het Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM Kernala"},
-/* ru */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_RU, "Specify name of Kernal ROM image"},
-/* sv */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_SV, "Ange namn på kernal-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_KERNAL_ROM_NAME_TR, "Kernal ROM imajýnýn ismini belirt"},
-#endif
-
 /* scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SCPU64_ROM_NAME,    N_("Specify name of SCPU64 ROM image")},
 #ifdef HAS_TRANSLATION
@@ -1209,44 +911,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_SCPU64_ROM_NAME_TR, ""},  /* fuzzy */
-#endif
-
-/* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_BASIC_ROM_NAME,    N_("Specify name of BASIC ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_BASIC_ROM_NAME_DE, "Name von Basic ROM Datei wählen"},
-/* es */ {IDCLS_SPECIFY_BASIC_ROM_NAME_ES, "Especificar nombre de la imagen ROM BASIC"},
-/* fr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_FR, "Spécifier le nom de l'image BASIC ROM"},
-/* hu */ {IDCLS_SPECIFY_BASIC_ROM_NAME_HU, "Adja meg a BASIC ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_BASIC_ROM_NAME_IT, "Specifica il nome immagine della ROM del BASIC"},
-/* ko */ {IDCLS_SPECIFY_BASIC_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_BASIC_ROM_NAME_NL, "Geef de naam van het BASIC ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_BASIC_ROM_NAME_PL, "Okre¶l nazwê obrazu BASIC ROM"},
-/* ru */ {IDCLS_SPECIFY_BASIC_ROM_NAME_RU, "Specify name of BASIC ROM image"},
-/* sv */ {IDCLS_SPECIFY_BASIC_ROM_NAME_SV, "Ange namn på BASIC-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_BASIC_ROM_NAME_TR, "BASIC ROM imajýnýn ismini belirt"},
-#endif
-
-/* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,    N_("Specify name of character generator ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
-/* de */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DE, "Name von Character ROM Datei wählen"},
-/* es */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_ES, "Especificar el nombre de la imagen ROM generador de caracteres"},
-/* fr */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_FR, "Spécifier le nom de l'image du générateur de caractères"},
-/* hu */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_HU, "Adja meg a karaktergenerátor ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_IT, "Specifica il nome della ROM del generatore di caratteri"},
-/* ko */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_NL, "Geef de naam van het CHARGEN ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM tworzenia znaków"},
-/* ru */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_RU, "Specify name of character generator ROM image"},
-/* sv */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_SV, "Ange namn på teckengenerator-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_TR, "Karakter Oluþturucu ROM imajýnýn ismini belirt"},
 #endif
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
@@ -1351,23 +1015,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SELECT_CONFLICT_HANDLING_TR, "G/Ç çakýþmalarýnýn deðerlendirilme yöntemini seç, (0: hata mesajý ve tüm ilgili cihazlarýn çýkarýlmasý, 1: hata mesajý ve en son takýlmýþ tüm ilgili cihazlarýn çýkarýlmasý, 2: log'a uyarý yazýlmasý ve geçerli dönüþ deðerlerinin 'VE'lenmesi"},
 #endif
 
-/* userport/userport.c */
-/* en */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING,    N_("Select the way the Userport collisions should be handled, (0: error message and detach all involved devices, 1: error message and detach last attached involved device, 2: warning in log and 'AND' the valid return values")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_DE, "Wähle, wie Userport Kollisionen behandelt werden sollen, (0: Fehler Meldung\nund Entfernen sämtlicher betroffener Geräte, 1: Fehler Meldung und\nEntfernen des letzten Geräts, 2: Warnung im Log und liefere logische\nUND-Verknüpfung gültiger Rückgabewerte"},
-/* es */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_NL, "Selecteer de manier waarop userport conflicten worden afgehandeld, (0: foutmelding en ontkoppel alle betrokken apparaten, 1: foutmelding en ontkoppel alle apparaten behalve het eerste apparaat, 2: waarschuwing in het logbestand en doe een logische 'AND' met de teruggegeven waarden"},
-/* pl */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SELECT_USERPORT_CONFLICT_HANDLING_TR, ""},  /* fuzzy */
-#endif
-
 /* c64/cart/c64tpi.c */
 /* en */ {IDCLS_ENABLE_IEEE488_INTERFACE,    N_("Enable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION
@@ -1434,125 +1081,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_SAMPLE_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SAMPLE_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_SAMPLE_NAME_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tape_diag_586220_harness.c */
-/* en */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS,    N_("Enable the tape part of the 586220 diagnostics harness")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_DE, "586220 Diagnose Harness für Bandteil aktivieren"},
-/* es */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_NL, "Tape onderdeel van de 586220 diagnostics gareel inschakelen"},
-/* pl */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tape_diag_586220_harness.c */
-/* en */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS,    N_("Disable the tape part of the 586220 diagnostics harness")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_DE, "586220 Diagnose Harness für Bandteil deaktivieren"},
-/* es */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_NL, "Tape onderdeel van de 586220 diagnostics gareel uitschakelen"},
-/* pl */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapelog.c */
-/* en */ {IDCLS_ENABLE_TAPELOG,    N_("Enable the tape log device")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TAPELOG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPELOG_DE, "Bandlog Gerät aktivieren"},
-/* es */ {IDCLS_ENABLE_TAPELOG_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_TAPELOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TAPELOG_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TAPELOG_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_TAPELOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPELOG_NL, "Tape log apparaat inschakelen"},
-/* pl */ {IDCLS_ENABLE_TAPELOG_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_TAPELOG_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TAPELOG_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_TAPELOG_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapelog.c */
-/* en */ {IDCLS_DISABLE_TAPELOG,    N_("Disable the tape log device")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TAPELOG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPELOG_DE, "Bandlog Gerät deaktivieren"},
-/* es */ {IDCLS_DISABLE_TAPELOG_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_TAPELOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_TAPELOG_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_TAPELOG_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_TAPELOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPELOG_NL, "Tape log apparaat uitschakelen"},
-/* pl */ {IDCLS_DISABLE_TAPELOG_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_TAPELOG_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_TAPELOG_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_TAPELOG_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapelog.c */
-/* en */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE,    N_("Enable logging to a file")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_DE, "Logging auf Datei aktivieren"},
-/* es */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_NL, "Logboekvermeldingen schrijven naar een bestand inschakelen"},
-/* pl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_FILE_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapelog.c */
-/* en */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG,    N_("Enable logging to the emulator log file")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_DE, "Logging auf Emaulatorlogdatei aktivieren"},
-/* es */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_NL, "Schrijven naar het emulator log bestand inschakelen"},
-/* pl */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_TAPELOG_LOG_TO_LOG_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapelog.c */
-/* en */ {IDCLS_SPECIFY_TAPELOG_NAME,    N_("Specify tape log file name")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_TAPELOG_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_TAPELOG_NAME_DE, "Bandlogdateiname auswählen"},
-/* es */ {IDCLS_SPECIFY_TAPELOG_NAME_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_SPECIFY_TAPELOG_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_TAPELOG_NAME_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_TAPELOG_NAME_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_SPECIFY_TAPELOG_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_TAPELOG_NAME_NL, "Geef de naam van het tape logbestand"},
-/* pl */ {IDCLS_SPECIFY_TAPELOG_NAME_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_SPECIFY_TAPELOG_NAME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_TAPELOG_NAME_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SPECIFY_TAPELOG_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/georam.c */
@@ -1946,57 +1474,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý pasifleþtir"},
 #endif
 
-/* userport/userport_joystick.c */
-/* en */ {IDCLS_ENABLE_USERPORT_JOY,    N_("Enable Userport joystick adapter")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_USERPORT_JOY_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_JOY_DE, "Userport Joystick Adapter aktivieren"},
-/* es */ {IDCLS_ENABLE_USERPORT_JOY_ES, "Permitir adaptador puerto joystick"},
-/* fr */ {IDCLS_ENABLE_USERPORT_JOY_FR, "Activer l'adaptateur joystick port utilisateur"},
-/* hu */ {IDCLS_ENABLE_USERPORT_JOY_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_USERPORT_JOY_IT, "Attiva adattatore joystick su userport"},
-/* ko */ {IDCLS_ENABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_JOY_NL, "Userport joystick adapter inschakelen"},
-/* pl */ {IDCLS_ENABLE_USERPORT_JOY_PL, "W³±cz z³±cze userportu joysticka"},
-/* ru */ {IDCLS_ENABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_USERPORT_JOY_SV, "Aktivera adapter för användarportstyrspakar"},
-/* tr */ {IDCLS_ENABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
-#endif
-
-/* userport/userport_joystick.c */
-/* en */ {IDCLS_DISABLE_USERPORT_JOY,    N_("Disable Userport joystick adapter")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_USERPORT_JOY_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_JOY_DE, "Userport Joystick Adapter deaktivieren"},
-/* es */ {IDCLS_DISABLE_USERPORT_JOY_ES, "Deshabilitar adaptador puerto joystick"},
-/* fr */ {IDCLS_DISABLE_USERPORT_JOY_FR, "Désactiver l'adaptateur Joystick port utilisateur"},
-/* hu */ {IDCLS_DISABLE_USERPORT_JOY_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_USERPORT_JOY_IT, "Disattiva adattatore joystick su userport"},
-/* ko */ {IDCLS_DISABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_JOY_NL, "Userport joystick adapter uitschakelen"},
-/* pl */ {IDCLS_DISABLE_USERPORT_JOY_PL, "Wy³±cz z³±cze userportu joysticka"},
-/* ru */ {IDCLS_DISABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_USERPORT_JOY_SV, "Inativera adapter för användarportstyrspakar"},
-/* tr */ {IDCLS_DISABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
-#endif
-
-/* userport/userport_joystick.c */
-/* en */ {IDCLS_SET_USERPORT_JOY_TYPE,    N_("Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_USERPORT_JOY_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_USERPORT_JOY_TYPE_DE, "Setze Userport Joystick adapter Typ (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* es */ {IDCLS_SET_USERPORT_JOY_TYPE_ES, "Seleccionar tipo adaptador para puerto joystick  (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* fr */ {IDCLS_SET_USERPORT_JOY_TYPE_FR, "Définir le type de joystick port utilisateur (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* hu */ {IDCLS_SET_USERPORT_JOY_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_USERPORT_JOY_TYPE_IT, "Imposta il tipo di adattatore joystick su userport (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* ko */ {IDCLS_SET_USERPORT_JOY_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_USERPORT_JOY_TYPE_NL, "Stel Userport joystick adapter soort in (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* pl */ {IDCLS_SET_USERPORT_JOY_TYPE_PL, "Okre¶l typ z³±cza userportu joysticka (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* ru */ {IDCLS_SET_USERPORT_JOY_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_USERPORT_JOY_TYPE_SV, "Välj typ av styrspakadapter för användarporten (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* tr */ {IDCLS_SET_USERPORT_JOY_TYPE_TR, ""},  /* fuzzy */
-#endif
-
 /* userport/userport_rtc_58321a.c */
 /* en */ {IDCLS_ENABLE_USERPORT_RTC_58321A,    N_("Enable Userport RTC (58321a)")},
 #ifdef HAS_TRANSLATION
@@ -2165,176 +1642,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS_TR, ""},  /* fuzzy */
-#endif
-
-/* joyport/bbrtc.c */
-/* en */ {IDCLS_ENABLE_BBRTC_SAVE,    N_("Enable saving of the BBRTC data when changed.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_BBRTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_BBRTC_SAVE_DE, "BBRTC Daten bei Änderung speichern."},
-/* es */ {IDCLS_ENABLE_BBRTC_SAVE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_BBRTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_BBRTC_SAVE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_BBRTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_BBRTC_SAVE_NL, "Opslaan van de BBRTC gegevens bij wijziging inschakelen."},
-/* pl */ {IDCLS_ENABLE_BBRTC_SAVE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_BBRTC_SAVE_TR, ""},  /* fuzzy */
-#endif
-
-/* joyport/bbrtc.c */
-/* en */ {IDCLS_DISABLE_BBRTC_SAVE,    N_("Disable saving of the BBRTC data when changed.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_BBRTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_BBRTC_SAVE_DE, "BBRTC Daten bei Änderung nicht speichern."},
-/* es */ {IDCLS_DISABLE_BBRTC_SAVE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_BBRTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_BBRTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_BBRTC_SAVE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_BBRTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_BBRTC_SAVE_NL, "Opslaan van de BBRTC gegevens bij wijziging uitschakelen."},
-/* pl */ {IDCLS_DISABLE_BBRTC_SAVE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_BBRTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_BBRTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_BBRTC_SAVE_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/sense-dongle.c */
-/* en */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE,    N_("Enable tape sense dongle")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_DE, "Band Sense Dongle aktivieren"},
-/* es */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_NL, "Tape sense dongle inschakelen"},
-/* pl */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_TAPE_SENSE_DONGLE_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/sense-dongle.c */
-/* en */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE,    N_("Disable tape sense dongle")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_DE, "Band Sense Dongle deaktivieren"},
-/* es */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_NL, "Tape sense dongle uitschakelen"},
-/* pl */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_TAPE_SENSE_DONGLE_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/dtl-basic-dongle.c */
-/* en */ {IDCLS_ENABLE_DTL_BASIC_DONGLE,    N_("Enable DTL Basic dongle")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_DE, "DTL Basic Dongle aktivieren"},
-/* es */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_NL, "DTL Basic dongle inschakelen"},
-/* pl */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_DTL_BASIC_DONGLE_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/dtl-basic-dongle.c */
-/* en */ {IDCLS_DISABLE_DTL_BASIC_DONGLE,    N_("Enable DTL Basic dongle")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_DE, "DTL Basic Dongle aktivieren"},
-/* es */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_NL, "DTL Basic dongle inschakelen"},
-/* pl */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_DTL_BASIC_DONGLE_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapertc.c */
-/* en */ {IDCLS_ENABLE_TAPERTC,    N_("Enable CP Clock F83 (PCF8583 RTC)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TAPERTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPERTC_DE, "CP Clock F83 (PCF8583 RTC) aktivieren"},
-/* es */ {IDCLS_ENABLE_TAPERTC_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_TAPERTC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TAPERTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TAPERTC_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_TAPERTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPERTC_NL, "CP Clock F83 (PCF8583 RTC) inschakelen"},
-/* pl */ {IDCLS_ENABLE_TAPERTC_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_TAPERTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TAPERTC_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_TAPERTC_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapertc.c */
-/* en */ {IDCLS_DISABLE_TAPERTC,    N_("Disable CP Clock F83 (PCF8583 RTC)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TAPERTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPERTC_DE, "CP Clock F83 (PCF8583 RTC) deaktivieren"},
-/* es */ {IDCLS_DISABLE_TAPERTC_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_TAPERTC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_TAPERTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_TAPERTC_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_TAPERTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPERTC_NL, "CP Clock F83 (PCF8583 RTC) uitschakelen"},
-/* pl */ {IDCLS_DISABLE_TAPERTC_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_TAPERTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_TAPERTC_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_TAPERTC_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapertc.c */
-/* en */ {IDCLS_ENABLE_TAPERTC_SAVE,    N_("Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_TAPERTC_SAVE_DE, "CP Clock F83 (PCF8583 RTC) Daten bei Änderung speichern."},
-/* es */ {IDCLS_ENABLE_TAPERTC_SAVE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_ENABLE_TAPERTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TAPERTC_SAVE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_ENABLE_TAPERTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TAPERTC_SAVE_NL, "Opslaan van de CP Clock F83 (PCF8583 RTC) gegevens bij wijziging inschakelen."},
-/* pl */ {IDCLS_ENABLE_TAPERTC_SAVE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_TAPERTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TAPERTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_TAPERTC_SAVE_TR, ""},  /* fuzzy */
-#endif
-
-/* tapeport/tapertc.c */
-/* en */ {IDCLS_DISABLE_TAPERTC_SAVE,    N_("Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TAPERTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_TAPERTC_SAVE_DE, "CP Clock F83 (PCF8583 RTC) Daten bei Änderung nicht speichern."},
-/* es */ {IDCLS_DISABLE_TAPERTC_SAVE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_DISABLE_TAPERTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_TAPERTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_TAPERTC_SAVE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_DISABLE_TAPERTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TAPERTC_SAVE_NL, "Opslaan van de CP Clock F83 (PCF8583 RTC) gegevens bij wijziging uitschakelen."},
-/* pl */ {IDCLS_DISABLE_TAPERTC_SAVE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_TAPERTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_TAPERTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_TAPERTC_SAVE_TR, ""},  /* fuzzy */
 #endif
 
 /* userport/userport_4bit_sampler.c */
@@ -7950,40 +7257,6 @@ translate_t string_table[] = {
 #endif
 
 /* printerdrv/interface-serial.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_4,    N_("Set device type for device #4 (0: None, 1: Filesystem, 2: Real)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_4_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DEVICE_TYPE_4_DE, "Gerätetyp für Gerät #4 (0: Kein, 1: Dateisystem, 2: Real) setzen"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_4_ES, "Seleccionar tipo para el periférico #4 (0:Ninguno 1: Filesystem, 2:Real)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_4_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_4_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_DEVICE_TYPE_4_IT, "Specifica il tipo di periferica #4 (0: Nessuna, 1: Filesystem, 2: Reale)"},
-/* ko */ {IDCLS_SET_DEVICE_TYPE_4_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_4_NL, "Stel apparaatsoort invoor apparaat #4 (0: Geen, 1: Bestandssysteem, 2: Echt)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_4_PL, "Okre¶l typ urz±dzenia #4 (0: Brak, 1: System plików, 2: Rzeczywiste)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_4_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_DEVICE_TYPE_4_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_DEVICE_TYPE_4_TR, ""},  /* fuzzy */
-#endif
-
-/* printerdrv/interface-serial.c */
-/* en */ {IDCLS_SET_DEVICE_TYPE_5,    N_("Set device type for device #5 (0: None, 1: Filesystem, 2: Real)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_DEVICE_TYPE_5_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DEVICE_TYPE_5_DE, "Gerätetyp für Gerät #5 (0: Kein, 1: Dateisystem, 2: Real) setzen"},
-/* es */ {IDCLS_SET_DEVICE_TYPE_5_ES, "Seleccionar tipo para el periférico #5 (0:Ninguno 1: Filesystem, 2:Real)"},
-/* fr */ {IDCLS_SET_DEVICE_TYPE_5_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DEVICE_TYPE_5_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_DEVICE_TYPE_5_IT, "Specifica il tipo di periferica #5 (0: Nessuna, 1: Filesystem, 2: Reale)"},
-/* ko */ {IDCLS_SET_DEVICE_TYPE_5_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DEVICE_TYPE_5_NL, "Stel apparaatsoort in voor apparaat #5 (0: Geen, 1: Bestandssysteem, 2: Echt)"},
-/* pl */ {IDCLS_SET_DEVICE_TYPE_5_PL, "Okre¶l typ urz±dzenia #5 (0: Brak, 1: System plików, 2: Rzeczywiste)"},
-/* ru */ {IDCLS_SET_DEVICE_TYPE_5_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_DEVICE_TYPE_5_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_DEVICE_TYPE_5_TR, ""},  /* fuzzy */
-#endif
-
-/* printerdrv/interface-serial.c */
 /* en */ {IDCLS_SET_DEVICE_TYPE_6,    N_("Set device type for device #6 (0: None, 1: Filesystem, 2: Real)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DEVICE_TYPE_6_DA, ""},  /* fuzzy */
@@ -8816,40 +8089,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_VDC_REVISION_RU, "Set VDC revision (0..2)"},
 /* sv */ {IDCLS_SET_VDC_REVISION_SV, "Ange VDC-revision (0..2)"},
 /* tr */ {IDCLS_SET_VDC_REVISION_TR, "VDC revizyonunu ayarla (0..2)"},
-#endif
-
-/* vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_P_SPEC,    N_("<spec>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_SPEC_DA, "<spec>"},
-/* de */ {IDCLS_P_SPEC_DE, "<Spec>"},
-/* es */ {IDCLS_P_SPEC_ES, "<especificaciones>"},
-/* fr */ {IDCLS_P_SPEC_FR, "<spec>"},
-/* hu */ {IDCLS_P_SPEC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_SPEC_IT, "<spec>"},
-/* ko */ {IDCLS_P_SPEC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_SPEC_NL, "<spec>"},
-/* pl */ {IDCLS_P_SPEC_PL, "<spec>"},
-/* ru */ {IDCLS_P_SPEC_RU, "<spec>"},
-/* sv */ {IDCLS_P_SPEC_SV, "<spec>"},
-/* tr */ {IDCLS_P_SPEC_TR, "<þart>"},
-#endif
-
-/* vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_MEMORY_CONFIG,    N_("Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_MEMORY_CONFIG_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_MEMORY_CONFIG_DE, "Speicher Konfiguration wählen. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)"},
-/* es */ {IDCLS_SPECIFY_MEMORY_CONFIG_ES, "Especificar configuración de memoria. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)"},
-/* fr */ {IDCLS_SPECIFY_MEMORY_CONFIG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SPECIFY_MEMORY_CONFIG_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_MEMORY_CONFIG_IT, "Specifica la configurazione della memoria. (nessuna/3k/8k/16k/24k/tutte) / (0/1/2/3/5) / (04/20/40/60/a0)"},
-/* ko */ {IDCLS_SPECIFY_MEMORY_CONFIG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_MEMORY_CONFIG_NL, "Geef geheugen configuratie. (geen/3k/8k/16k/24k/allemaal) / (0/1/2/3/5) / (04/20/40/60/a0)"},
-/* pl */ {IDCLS_SPECIFY_MEMORY_CONFIG_PL, "Okre¶l konfiguracjê pamiêci. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)"},
-/* ru */ {IDCLS_SPECIFY_MEMORY_CONFIG_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_MEMORY_CONFIG_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SPECIFY_MEMORY_CONFIG_TR, ""},  /* fuzzy */
 #endif
 
 /* vic20/vic20-cmdline-options.c */
@@ -10029,74 +9268,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_LOG_OUTPUT_TR, ""},  /* fuzzy */
 #endif
 
-/* mouse.c */
-/* en */ {IDCLS_ENABLE_MOUSE_GRAB,    N_("Enable mouse grab")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_MOUSE_GRAB_DA, "Aktivér overtagelse af mus"},
-/* de */ {IDCLS_ENABLE_MOUSE_GRAB_DE, "Maus aktivieren"},
-/* es */ {IDCLS_ENABLE_MOUSE_GRAB_ES, "Permitir captura del ratón"},
-/* fr */ {IDCLS_ENABLE_MOUSE_GRAB_FR, "Saisir la souris"},
-/* hu */ {IDCLS_ENABLE_MOUSE_GRAB_HU, "Egér elkapás engedélyezése"},
-/* it */ {IDCLS_ENABLE_MOUSE_GRAB_IT, "Attiva cattura mouse"},
-/* ko */ {IDCLS_ENABLE_MOUSE_GRAB_KO, "¸¶¿ì½º ±×·¦ °¡´ÉÇÏ°Ô ÇÏ±â"},
-/* nl */ {IDCLS_ENABLE_MOUSE_GRAB_NL, "Gebruiken van de muis inschakelen"},
-/* pl */ {IDCLS_ENABLE_MOUSE_GRAB_PL, "W³±cz przechwytywanie myszy"},
-/* ru */ {IDCLS_ENABLE_MOUSE_GRAB_RU, "Enable mouse grab"},
-/* sv */ {IDCLS_ENABLE_MOUSE_GRAB_SV, "Aktivera fångande av mus"},
-/* tr */ {IDCLS_ENABLE_MOUSE_GRAB_TR, "Mouse yakalamayý aktif et"},
-#endif
-
-/* mouse.c */
-/* en */ {IDCLS_DISABLE_MOUSE_GRAB,    N_("Disable mouse grab")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_MOUSE_GRAB_DA, "Deaktivér overtagelse af mus"},
-/* de */ {IDCLS_DISABLE_MOUSE_GRAB_DE, "Maus deaktivieren"},
-/* es */ {IDCLS_DISABLE_MOUSE_GRAB_ES, "Deshabilitar captura de ratón"},
-/* fr */ {IDCLS_DISABLE_MOUSE_GRAB_FR, "Ne pas saisir la souris"},
-/* hu */ {IDCLS_DISABLE_MOUSE_GRAB_HU, "Egér elkapás tiltása"},
-/* it */ {IDCLS_DISABLE_MOUSE_GRAB_IT, "Disattiva cattura mouse"},
-/* ko */ {IDCLS_DISABLE_MOUSE_GRAB_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_MOUSE_GRAB_NL, "Gebruiken van de muis uitschakelen"},
-/* pl */ {IDCLS_DISABLE_MOUSE_GRAB_PL, "Wy³±cz przechwytywanie myszy"},
-/* ru */ {IDCLS_DISABLE_MOUSE_GRAB_RU, "Disable mouse grab"},
-/* sv */ {IDCLS_DISABLE_MOUSE_GRAB_SV, "Inaktivera fångande av mus"},
-/* tr */ {IDCLS_DISABLE_MOUSE_GRAB_TR, "Mouse yakalamayý pasifleþtir"},
-#endif
-
-/* mouse.c */
-/* en */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE,    N_("Enable saving of smart mouse RTC data when changed.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_DE, "Smart Mouse RTC Daten bei Änderung speichern."},
-/* es */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_ES, "Permitir grabar datos smart mouse RTC cuando cambien."},
-/* fr */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_IT, "Attiva il salvataggio dei dati RTC dello smart mouse alla modifica."},
-/* ko */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_NL, "Opslaan van de smart mouse RTC gegevens bij wijziging inschakelen."},
-/* pl */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_PL, "Zapisuj dane zegara czasu rzeczywistego Smart Mouse przy zmianie"},
-/* ru */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE_TR, ""},  /* fuzzy */
-#endif
-
-/* mouse.c */
-/* en */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE,    N_("Disable saving of smart mouse RTC data when changed.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_DE, "Smart Mouse RTC Daten bei Änderung nicht speichern."},
-/* es */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_ES, "Deshabilitar grabar datos Smart Mouse RTC cuand cambien."},
-/* fr */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_IT, "Disattiva il salvataggio dei dati RTC dello smart mouse alla modifica."},
-/* ko */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_NL, "Opslaan van de smart mouse RTC gegevens bij wijziging uitschakelen."},
-/* pl */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_PL, "Nie zapisuj danych zegara czasu rzeczywistego Smart Mouse przy zmianie"},
-/* ru */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE_TR, ""},  /* fuzzy */
-#endif
-
 /* ps2mouse.c */
 /* en */ {IDCLS_ENABLE_PS2MOUSE,    N_("Enable PS/2 mouse on userport")},
 #ifdef HAS_TRANSLATION
@@ -10199,91 +9370,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_TR, "Ayný desenle balangýç ayarlarý yapýlan bellek bloðu uzunluðu"},
 #endif
 
-/* romset.c */
-/* en */ {IDCLS_PB_FILE,    N_("<File>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_PB_FILE_DA, "<Fil>"},
-/* de */ {IDCLS_PB_FILE_DE, "<Datei>"},
-/* es */ {IDCLS_PB_FILE_ES, "<Archivo>"},
-/* fr */ {IDCLS_PB_FILE_FR, "<Fichier>"},
-/* hu */ {IDCLS_PB_FILE_HU, "<Fájl>"},
-/* it */ {IDCLS_PB_FILE_IT, "<File>"},
-/* ko */ {IDCLS_PB_FILE_KO, "<ÆÄÀÏ>"},
-/* nl */ {IDCLS_PB_FILE_NL, "<Bestand>"},
-/* pl */ {IDCLS_PB_FILE_PL, "<Plik>"},
-/* ru */ {IDCLS_PB_FILE_RU, "<ÄÐÙÛ>"},
-/* sv */ {IDCLS_PB_FILE_SV, "<Arkiv>"},
-/* tr */ {IDCLS_PB_FILE_TR, "<Dosya>"},
-#endif
-
-/* romset.c */
-/* en */ {IDCLS_LOAD_ROMSET_FILE,    N_("load the given romset file")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_LOAD_ROMSET_FILE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_LOAD_ROMSET_FILE_DE, "Lade angegebene ROM Satz Datei!"},
-/* es */ {IDCLS_LOAD_ROMSET_FILE_ES, "Cargar el fichero romset dado"},
-/* fr */ {IDCLS_LOAD_ROMSET_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_LOAD_ROMSET_FILE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_LOAD_ROMSET_FILE_IT, "carica il file del ROM set specificato"},
-/* ko */ {IDCLS_LOAD_ROMSET_FILE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_LOAD_ROMSET_FILE_NL, "Laad het opgegeven romsetbestand"},
-/* pl */ {IDCLS_LOAD_ROMSET_FILE_PL, "Wczytaj dany plik zestawu ROM-ów"},
-/* ru */ {IDCLS_LOAD_ROMSET_FILE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_LOAD_ROMSET_FILE_SV, "läs in angiven romset-fil"},
-/* tr */ {IDCLS_LOAD_ROMSET_FILE_TR, ""},  /* fuzzy */
-#endif
-
-/* romset.c */
-/* en */ {IDCLS_LOAD_ROMSET_ARCHIVE,    N_("load the given romset archive")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_LOAD_ROMSET_ARCHIVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_LOAD_ROMSET_ARCHIVE_DE, "Lade angegebenes ROM Satz Archiv!"},
-/* es */ {IDCLS_LOAD_ROMSET_ARCHIVE_ES, "Cargar el archivo romset dado"},
-/* fr */ {IDCLS_LOAD_ROMSET_ARCHIVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_LOAD_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_LOAD_ROMSET_ARCHIVE_IT, "carica l'archivio del ROM set specificato"},
-/* ko */ {IDCLS_LOAD_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_LOAD_ROMSET_ARCHIVE_NL, "Laad het opgegeven romsetarchief"},
-/* pl */ {IDCLS_LOAD_ROMSET_ARCHIVE_PL, "Wczytaj dane archiwum zestawu ROM-ów"},
-/* ru */ {IDCLS_LOAD_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_LOAD_ROMSET_ARCHIVE_SV, "läs in givet romset-arkiv"},
-/* tr */ {IDCLS_LOAD_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
-#endif
-
-/* romset.c */
-/* en */ {IDCLS_P_ITEM_NUMBER,    N_("<Item number>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_ITEM_NUMBER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_ITEM_NUMBER_DE, "<Titel Nummer>"},
-/* es */ {IDCLS_P_ITEM_NUMBER_ES, "<Número ítem>"},
-/* fr */ {IDCLS_P_ITEM_NUMBER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_ITEM_NUMBER_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_ITEM_NUMBER_IT, "<Numero voce>"},
-/* ko */ {IDCLS_P_ITEM_NUMBER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_ITEM_NUMBER_NL, "<Item nummer>"},
-/* pl */ {IDCLS_P_ITEM_NUMBER_PL, "<Liczba elementu>"},
-/* ru */ {IDCLS_P_ITEM_NUMBER_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_ITEM_NUMBER_SV, "<Postnummer>"},
-/* tr */ {IDCLS_P_ITEM_NUMBER_TR, ""},  /* fuzzy */
-#endif
-
-/* romset.c */
-/* en */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE,    N_("select the given item from the current romset archive")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_DE, "Auswahl des aktuellen ROM Satz Archivs auswählen"},
-/* es */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_ES, "Seleccionar del archivo romset actual el ítem dado"},
-/* fr */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_IT, "seleziona la voce specificata dall'archivio del ROM set attuale"},
-/* ko */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_NL, "selecteer het opgegeven item van het huidige romsetarchief"},
-/* pl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_PL, "Wybierz dany element z obecnego zestawu ROM-ów."},
-/* ru */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_SV, "välj given post från aktuellt romset-arkiv"},
-/* tr */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
-#endif
-
 /* sampler/sampler.c */
 /* en */ {IDCLS_P_GAIN,    N_("<Sampler gain>")},
 #ifdef HAS_TRANSLATION
@@ -10350,40 +9436,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_RU, "Define search path to locate system files"},
 /* sv */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_SV, "Ange sökväg för att hitta systemfiler"},
 /* tr */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_TR, "Sistem dosyalarýnýn konumunu belirlemek için arama yolu tanýmlayýn"},
-#endif
-
-/* traps.c */
-/* en */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION,    N_("Enable general mechanisms for fast disk/tape emulation")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_DA, "Aktivér generelle mekanismer for hurtig disk-/båndemulering"},
-/* de */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_DE, "Allgemeine Mechanismen für schnelle Disk/Band Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_ES, "Permitir mecanismos generales para emulación rápida de cinta/disco"},
-/* fr */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_FR, "Activer les méchanismes généraux pour l'émulation disque/datassette rapide"},
-/* hu */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_HU, "A lemez/szalag emulációt gyorsító mechanizmusok engedélyezése"},
-/* it */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_IT, "Attiva meccanismo generale per l'emulazione veloce del disco/cassetta"},
-/* ko */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_NL, "Algemene methoden voor snelle disk/tape emulatie inschakelen"},
-/* pl */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_PL, "W³±cz mechanizm szybkiej emulacji dysku i ta¶my"},
-/* ru */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_RU, "Enable general mechanisms for fast disk/tape emulation"},
-/* sv */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_SV, "Aktivera generella mekanismer för snabb disk-/bandemulering"},
-/* tr */ {IDCLS_ENABLE_TRAPS_FAST_EMULATION_TR, "Hýzlý disk/teyp emülasyonu için genel mekanizmayý aktif et"},
-#endif
-
-/* traps.c */
-/* en */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION,    N_("Disable general mechanisms for fast disk/tape emulation")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_DA, "Deaktivér generelle mekanismer for hurtig disk-/båndemulering"},
-/* de */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_DE, "Allgemeine Mechanismen für schnelle Disk/Band Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_ES, "Deshabilitar mecanismos generales para emulación rápida de cinta/disco"},
-/* fr */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_FR, "Désactiver les méchanismes généraux pour l'émulation disque/datassette rapide"},
-/* hu */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_HU, "A lemez/szalag emulációt gyorsító mechanizmusok tiltása"},
-/* it */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_IT, "Disattiva meccanismo generale per l'emulazione veloce del disco/cassetta"},
-/* ko */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_NL, "Algemene methoden voor snelle disk/tape emulatie uitschakelen"},
-/* pl */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_PL, "Wy³±cz mechanizm szybkiej emulacji dysku i ta¶my"},
-/* ru */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_RU, "Disable general mechanisms for fast disk/tape emulation"},
-/* sv */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_SV, "Inaktivera generella mekanismer för snabb disk-/bandemulering"},
-/* tr */ {IDCLS_DISABLE_TRAPS_FAST_EMULATION_TR, "Hýzlý disk/teyp emülasyonu için genel mekanizmayý pasifleþtir"},
 #endif
 
 /* translate.c */
@@ -10690,91 +9742,6 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_DTV_DMA_LOG_RU, "Disable DTV DMA logs."},
 /* sv */ {IDCLS_DISABLE_DTV_DMA_LOG_SV, "Inaktivera DTV DMA-loggning."},
 /* tr */ {IDCLS_DISABLE_DTV_DMA_LOG_TR, "DTV DMA loglarýný pasifleþtir"},
-#endif
-
-/* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_SPECIFY_C64DTVROM_NAME,    N_("Specify name of C64DTV ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_C64DTVROM_NAME_DA, "Angiv navn på C64DTV-ROM-image"},
-/* de */ {IDCLS_SPECIFY_C64DTVROM_NAME_DE, "Name von C64DTV ROM Datei wählen"},
-/* es */ {IDCLS_SPECIFY_C64DTVROM_NAME_ES, "Especificar nombre imagen ROM C64DTV"},
-/* fr */ {IDCLS_SPECIFY_C64DTVROM_NAME_FR, "Spécifier le nom de l'image ROM C64DTV"},
-/* hu */ {IDCLS_SPECIFY_C64DTVROM_NAME_HU, "Adja meg a C64DTV ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_C64DTVROM_NAME_IT, "Specifica il nome immagine ROM DTV"},
-/* ko */ {IDCLS_SPECIFY_C64DTVROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_C64DTVROM_NAME_NL, "Geef de naam van her C64DTV ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_C64DTVROM_NAME_PL, "Okre¶l nazwê obrazu ROM C64DTV"},
-/* ru */ {IDCLS_SPECIFY_C64DTVROM_NAME_RU, "Specify name of C64DTV ROM image"},
-/* sv */ {IDCLS_SPECIFY_C64DTVROM_NAME_SV, "Ange namn på C64DTV-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_C64DTVROM_NAME_TR, "C64DTV ROM imajýnýn ismini belirt"},
-#endif
-
-/* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_ENABLE_C64DTVROM_RW,    N_("Enable writes to C64DTV ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_C64DTVROM_RW_DA, "Tillad skrivning til DTV-ROM-image"},
-/* de */ {IDCLS_ENABLE_C64DTVROM_RW_DE, "Erlaube Schreibzugriff auf DTV ROM Datei"},
-/* es */ {IDCLS_ENABLE_C64DTVROM_RW_ES, "Permitir escritura en la imagen C64DTV ROM"},
-/* fr */ {IDCLS_ENABLE_C64DTVROM_RW_FR, "Permetre l'écriture à l'image ROM C64DTV"},
-/* hu */ {IDCLS_ENABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_C64DTVROM_RW_IT, "Attiva scrittura su immagini ROM C64DTV"},
-/* ko */ {IDCLS_ENABLE_C64DTVROM_RW_KO, "C64DTV ROM ÀÌ¹ÌÁö¿¡ ¾²±â °¡´ÉÇÏ°Ô ÇÏ±â"},
-/* nl */ {IDCLS_ENABLE_C64DTVROM_RW_NL, "Activeer schrijven naar C64DTV ROM-bestand"},
-/* pl */ {IDCLS_ENABLE_C64DTVROM_RW_PL, "W³±cz zapis do obrazu ROM C64DTV"},
-/* ru */ {IDCLS_ENABLE_C64DTVROM_RW_RU, "Enable writes to C64DTV ROM image"},
-/* sv */ {IDCLS_ENABLE_C64DTVROM_RW_SV, "Aktivera skrivning till C64DTV-ROM-avbildning"},
-/* tr */ {IDCLS_ENABLE_C64DTVROM_RW_TR, "C64DTV ROM imajýnda yazmalarý aktif et"},
-#endif
-
-/* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_DISABLE_C64DTVROM_RW,    N_("Disable writes to C64DTV ROM image")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_C64DTVROM_RW_DA, "Forbyd skrivning til C64DTV-ROM-image."},
-/* de */ {IDCLS_DISABLE_C64DTVROM_RW_DE, "Schreibzugriff auf C64DTV ROM Image verhindern"},
-/* es */ {IDCLS_DISABLE_C64DTVROM_RW_ES, "Deshabilitar grabación en imagen  C64DTV ROM"},
-/* fr */ {IDCLS_DISABLE_C64DTVROM_RW_FR, "Désactiver l'écriture à l'image ROM C64DTV"},
-/* hu */ {IDCLS_DISABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_C64DTVROM_RW_IT, "Disattiva scrittura sull'immagine ROM C64DTV"},
-/* ko */ {IDCLS_DISABLE_C64DTVROM_RW_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_C64DTVROM_RW_NL, "Schrijven naar C64DTV ROM bestand uitschakelen"},
-/* pl */ {IDCLS_DISABLE_C64DTVROM_RW_PL, "Wy³±cz zapis do obrazu ROM C64DTV"},
-/* ru */ {IDCLS_DISABLE_C64DTVROM_RW_RU, "Disable writes to C64DTV ROM image"},
-/* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, "Inaktivera skrivning till C64DTV-ROM-avbildning"},
-/* tr */ {IDCLS_DISABLE_C64DTVROM_RW_TR, "C64DTV ROM imajýna yazmayý pasifleþtir"},
-#endif
-
-/* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_ENABLE_DTV_FLASH_LOG,    N_("Enable DTV flash chip logs.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_DTV_FLASH_LOG_DA, "Aktivér logs for DTV-flashkreds."},
-/* de */ {IDCLS_ENABLE_DTV_FLASH_LOG_DE, "DTV Flashchip Log aktivieren."},
-/* es */ {IDCLS_ENABLE_DTV_FLASH_LOG_ES, "Permitir informes chip DTV flash"},
-/* fr */ {IDCLS_ENABLE_DTV_FLASH_LOG_FR, "Activer la journalisation pour DTV Flash Chip"},
-/* hu */ {IDCLS_ENABLE_DTV_FLASH_LOG_HU, "DTV flash chip naplók engedélyezése."},
-/* it */ {IDCLS_ENABLE_DTV_FLASH_LOG_IT, "Attiva log del chip flash DTV."},
-/* ko */ {IDCLS_ENABLE_DTV_FLASH_LOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DTV_FLASH_LOG_NL, "DTV flash chip logs inschakelen."},
-/* pl */ {IDCLS_ENABLE_DTV_FLASH_LOG_PL, "W³±cz logi uk³adu flash DTV."},
-/* ru */ {IDCLS_ENABLE_DTV_FLASH_LOG_RU, "Enable DTV flash chip logs."},
-/* sv */ {IDCLS_ENABLE_DTV_FLASH_LOG_SV, "Aktivera loggar för DTV-flashkrets."},
-/* tr */ {IDCLS_ENABLE_DTV_FLASH_LOG_TR, "DTV flash çip loglarýný aktif et."},
-#endif
-
-/* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_DISABLE_DTV_FLASH_LOG,    N_("Disable DTV flash chip logs.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DTV_FLASH_LOG_DA, "Deaktivér logs for DTV-flashkreds."},
-/* de */ {IDCLS_DISABLE_DTV_FLASH_LOG_DE, "DTV Flashchip Log deaktivieren."},
-/* es */ {IDCLS_DISABLE_DTV_FLASH_LOG_ES, "Inhabilitar informes chip DTV flash"},
-/* fr */ {IDCLS_DISABLE_DTV_FLASH_LOG_FR, "Désactiver la journalisation pour DTV Flash Chip"},
-/* hu */ {IDCLS_DISABLE_DTV_FLASH_LOG_HU, "DTV flash chip naplók tiltása."},
-/* it */ {IDCLS_DISABLE_DTV_FLASH_LOG_IT, "Disattiva log del chip flash DTV."},
-/* ko */ {IDCLS_DISABLE_DTV_FLASH_LOG_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DTV_FLASH_LOG_NL, "DTV flash chip logs uitschakelen."},
-/* pl */ {IDCLS_DISABLE_DTV_FLASH_LOG_PL, "Wy³±cz logi uk³adu flash DTV"},
-/* ru */ {IDCLS_DISABLE_DTV_FLASH_LOG_RU, "Disable DTV flash chip logs."},
-/* sv */ {IDCLS_DISABLE_DTV_FLASH_LOG_SV, "Inaktivera loggar för DTV-flashkrets."},
-/* tr */ {IDCLS_DISABLE_DTV_FLASH_LOG_TR, "DTV flash çip loglarýný pasifleþtir."},
 #endif
 
 /* c64dtv/flash-trap.c */

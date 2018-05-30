@@ -150,14 +150,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-tapediag586220harness", SET_RESOURCE, 0,
       NULL, NULL, "TapeDiag586220Harness", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable the tape part of the 586220 diagnostics harness" },
     { "+tapediag586220harness", SET_RESOURCE, 0,
       NULL, NULL, "TapeDiag586220Harness", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable the tape part of the 586220 diagnostics harness" },
     CMDLINE_LIST_END
 };
 

@@ -115,14 +115,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-tapesensedongle", SET_RESOURCE, 0,
       NULL, NULL, "TapeSenseDongle", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_TAPE_SENSE_DONGLE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable tape sense dongle" },
     { "+tapesensedongle", SET_RESOURCE, 0,
       NULL, NULL, "TapeSenseDongle", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_TAPE_SENSE_DONGLE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable tape sense dongle" },
     CMDLINE_LIST_END
 };
 

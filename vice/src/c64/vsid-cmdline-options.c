@@ -83,14 +83,14 @@ static int set_video_standard(const char *param, void *extra_param)
 static const cmdline_option_t cmdline_options[] = {
     { "-pal", CALL_FUNCTION, 0,
       set_video_standard, (void *)MACHINE_SYNC_PAL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_USE_PAL_SYNC_FACTOR,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDGS_UNUSED,
+      NULL, "Use PAL sync factor" },
     { "-ntsc", CALL_FUNCTION, 0,
       set_video_standard, (void *)MACHINE_SYNC_NTSC, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDGS_UNUSED,
+      NULL, "Use NTSC sync factor" },
     { "-ntscold", CALL_FUNCTION, 0,
       set_video_standard, (void *)MACHINE_SYNC_NTSCOLD, NULL, NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -98,9 +98,9 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL },
     { "-paln", CALL_FUNCTION, 0,
       set_video_standard, (void *)MACHINE_SYNC_PALN, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_USE_PALN_SYNC_FACTOR,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDGS_UNUSED,
+      NULL, "Use PAL-N sync factor" },
     CMDLINE_LIST_END
 };
 

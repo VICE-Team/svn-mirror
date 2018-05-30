@@ -166,9 +166,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-VICIImodel", CALL_FUNCTION, 1,
       set_vicii_model, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_MODEL, IDCLS_SET_VICII_MODEL,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SET_VICII_MODEL,
+      "<Model>", NULL },
     CMDLINE_LIST_END
 };
 

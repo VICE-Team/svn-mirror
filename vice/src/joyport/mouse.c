@@ -1023,28 +1023,28 @@ int mouse_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-mouse", SET_RESOURCE, 0,
       NULL, NULL, "Mouse", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_MOUSE_GRAB,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable mouse grab" },
     { "+mouse", SET_RESOURCE, 0,
       NULL, NULL, "Mouse", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_MOUSE_GRAB,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable mouse grab" },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_extra_option[] = {
     { "-smartmousertcsave", SET_RESOURCE, 0,
       NULL, NULL, "SmartMouseRTCSave", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable saving of smart mouse RTC data when changed." },
     { "+smartmousertcsave", SET_RESOURCE, 0,
       NULL, NULL, "SmartMouseRTCSave", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable saving of smart mouse RTC data when changed." },
     CMDLINE_LIST_END
 };
 

@@ -1,74 +1,5 @@
 /* GLOBAL STRING ID DEFINITIONS */
 
-/* tapeport/tapertc.c */
-IDCLS_ENABLE_TAPERTC
-
-/* tapeport/tapertc.c */
-IDCLS_DISABLE_TAPERTC
-
-/* tapeport/tapertc.c */
-IDCLS_ENABLE_TAPERTC_SAVE
-
-/* tapeport/tapertc.c */
-IDCLS_DISABLE_TAPERTC_SAVE
-
-/* tapeport/sense-dongle.c */
-IDCLS_ENABLE_TAPE_SENSE_DONGLE
-
-/* tapeport/sense-dongle.c */
-IDCLS_DISABLE_TAPE_SENSE_DONGLE
-
-/* tapeport/dtl-basic-dongle.c */
-IDCLS_ENABLE_DTL_BASIC_DONGLE
-
-/* tapeport/dtl-basic-dongle.c */
-IDCLS_DISABLE_DTL_BASIC_DONGLE
-
-/* COMMAND-LINE STRING ID DEFINITIONS */
-
-/* joystick.c */
-IDCLS_ENABLE_JOY_OPPOSITE
-
-/* joystick.c */
-IDCLS_DISABLE_JOY_OPPOSITE
-
-/* joystick.c */
-IDCLS_ENABLE_KEYSET
-
-/* joystick.c */
-IDCLS_DISABLE_KEYSET
-
-/* c64dtv/c64dtvflash.c */
-IDCLS_ENABLE_DTV_FLASH_LOG
-
-/* c64dtv/c64dtvflash.c */
-IDCLS_DISABLE_DTV_FLASH_LOG
-
-/* vic20/vic20-cmdline-options.c */
-IDCLS_ENABLE_VFLI_MOD
-
-/* vic20/vic20-cmdline-options.c */
-IDCLS_DISABLE_VFLI_MOD
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_USE_PAL_SYNC_FACTOR
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_USE_NTSC_SYNC_FACTOR
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_INT_KERNEL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_DE_KERNEL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_FI_KERNEL_NAME
-
 /* c128/c128-cmdline-options.c */
 IDCLS_SPECIFY_FR_KERNEL_NAME
 
@@ -130,14 +61,6 @@ IDCLS_P_REVISION
 IDCLS_PATCH_KERNAL_TO_REVISION
 
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
-IDCLS_ENABLE_DEXX_ACIA_RS232_EMU
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
-IDCLS_DISABLE_DEXX_ACIA_RS232_EMU
-
 /* c64/cart/c64acia1.c */
 IDCLS_P_IRQ
 
@@ -193,10 +116,6 @@ IDCLS_DISABLE_EXT_FUNC_RTC_SAVE
 /* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_OLD_NTSC_SYNC_FACTOR
 
-/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
-IDCLS_P_MODEL
-
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_BOTH_CIA_MODELS
 
@@ -227,14 +146,8 @@ IDCLS_DISABLE_C128_FULL_BANKS
 /* plus4/plus4-cmdline-options.c */
 IDCLS_SET_PLUS4_MODEL
 
-/* vic29/vic29-cmdline-options.c */
-IDCLS_SET_VIC20_MODEL
-
 /* c64dtv/c64dtv-cmdline-options.c */
 IDCLS_SET_DTV_MODEL
-
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_USE_PALN_SYNC_FACTOR
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_BURST_MOD
@@ -242,23 +155,8 @@ IDCLS_SET_BURST_MOD
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_IEC_RESET
 
-/* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-IDCLS_SPECIFY_KERNAL_ROM_NAME
-
 /* scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_SCPU64_ROM_NAME
-
-/* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-IDCLS_SPECIFY_BASIC_ROM_NAME
-
-/* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c,
-   scpu64/scpu64-cmdline-options.c */
-IDCLS_SPECIFY_CHARGEN_ROM_NAME
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2
@@ -278,9 +176,6 @@ IDCLS_DISABLE_HUMMER_ADC
 /* c64/c64io.c, vic20/vic20io.c */
 IDCLS_SELECT_CONFLICT_HANDLING
 
-/* userport/userport.c */
-IDCLS_SELECT_USERPORT_CONFLICT_HANDLING
-
 /* c64/cart/c64tpi.c */
 IDCLS_ENABLE_IEEE488_INTERFACE
 
@@ -292,27 +187,6 @@ IDCLS_SPECIFY_IEEE488_INTERFACE_NAME
 
 /* samplerdrv/file_drv.c */
 IDCLS_SPECIFY_SAMPLE_NAME
-
-/* tapeport/tapelog.c */
-IDCLS_ENABLE_TAPELOG
-
-/* tapeport/tapelog.c */
-IDCLS_DISABLE_TAPELOG
-
-/* tapeport/tapelog.c */
-IDCLS_ENABLE_TAPELOG_LOG_TO_FILE
-
-/* tapeport/tapelog.c */
-IDCLS_ENABLE_TAPELOG_LOG_TO_LOG
-
-/* tapeport/tapelog.c */
-IDCLS_SPECIFY_TAPELOG_NAME
-
-/* tapeport/tape_diag_586220_harness.c */
-IDCLS_ENABLE_TAPE_DIAG_586220_HARNESS
-
-/* tapeport/tape_diag_586220_harness.c */
-IDCLS_DISABLE_TAPE_DIAG_586220_HARNESS
 
 /* c64/cart/georam.c */
 IDCLS_ENABLE_GEORAM
@@ -1337,12 +1211,6 @@ IDCLS_SPECIFY_PRT_DRIVER_6_NAME
 IDCLS_SPECIFY_PRT_DRIVER_USR_NAME
 
 /* printerdrv/interface-serial.c */
-IDCLS_SET_DEVICE_TYPE_4
-
-/* printerdrv/interface-serial.c */
-IDCLS_SET_DEVICE_TYPE_5
-
-/* printerdrv/interface-serial.c */
 IDCLS_SET_DEVICE_TYPE_6
 
 /* printerdrv/interface-serial.c */
@@ -1490,12 +1358,6 @@ IDCLS_SET_VDC_MEMORY_64KB
 
 /* vdc/vdc-cmdline-options.c */
 IDCLS_SET_VDC_REVISION
-
-/* vic20/vic20-cmdline-options.c */
-IDCLS_P_SPEC
-
-/* vic20/vic20-cmdline-options.c */
-IDCLS_SPECIFY_MEMORY_CONFIG
 
 /* vic20/vic20-cmdline-options.c */
 IDCLS_ENABLE_VIC1112_IEEE488
@@ -1706,18 +1568,6 @@ IDCLS_ENABLE_VERBOSE_LOG_OUTPUT
 /* log.c */
 IDCLS_DISABLE_LOG_OUTPUT
 
-/* mouse.c */
-IDCLS_ENABLE_MOUSE_GRAB
-
-/* mouse.c */
-IDCLS_DISABLE_MOUSE_GRAB
-
-/* mouse.c */
-IDCLS_ENABLE_SMART_MOUSE_RTC_SAVE
-
-/* mouse.c */
-IDCLS_DISABLE_SMART_MOUSE_RTC_SAVE
-
 /* ps2mouse.c */
 IDCLS_ENABLE_PS2MOUSE
 
@@ -1736,21 +1586,6 @@ IDCLS_LENGTH_BLOCK_SAME_VALUE
 /* ram.c */
 IDCLS_LENGTH_BLOCK_SAME_PATTERN
 
-/* romset.c */
-IDCLS_PB_FILE
-
-/* romset.c */
-IDCLS_LOAD_ROMSET_FILE
-
-/* romset.c */
-IDCLS_LOAD_ROMSET_ARCHIVE
-
-/* romset.c */
-IDCLS_P_ITEM_NUMBER
-
-/* romset.c */
-IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE
-
 /* sampler/sampler.c */
 IDCLS_P_GAIN
 
@@ -1762,12 +1597,6 @@ IDCLS_P_PATH
 
 /* sysfile.c */
 IDCLS_DEFINE_SYSTEM_FILES_PATH
-
-/* traps.c */
-IDCLS_ENABLE_TRAPS_FAST_EMULATION
-
-/* traps.c */
-IDCLS_DISABLE_TRAPS_FAST_EMULATION
 
 /* translate.c */
 IDCLS_P_ISO_LANGUAGE_CODE
@@ -1832,15 +1661,6 @@ IDCLS_ENABLE_USERPORT_DAC
 /* userport/userport_dac.c */
 IDCLS_DISABLE_USERPORT_DAC
 
-/* userport/userport_joystick.c */
-IDCLS_ENABLE_USERPORT_JOY
-
-/* userport/userport_joystick.c */
-IDCLS_DISABLE_USERPORT_JOY
-
-/* userport/userport_joystick.c */
-IDCLS_SET_USERPORT_JOY_TYPE
-
 /* userport/userport_rtc_58321a.c */
 IDCLS_ENABLE_USERPORT_RTC_58321A
 
@@ -1870,12 +1690,6 @@ IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS
 
 /* userport/userport_diag_586220_harness.c */
 IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS
-
-/* joyport/bbrtc.c */
-IDCLS_ENABLE_BBRTC_SAVE
-
-/* joyport/bbrtc.c */
-IDCLS_DISABLE_BBRTC_SAVE
 
 /* userport/userport_4bit_sampler.c */
 IDCLS_ENABLE_USERPORT_4BIT_SAMPLER
@@ -2020,15 +1834,6 @@ IDCLS_ENABLE_DTV_DMA_LOG
 
 /* c64dtv/c64dtvdma.c */
 IDCLS_DISABLE_DTV_DMA_LOG
-
-/* c64dtv/c64dtvflash.c */
-IDCLS_SPECIFY_C64DTVROM_NAME
-
-/* c64dtv/c64dtvflash.c */
-IDCLS_ENABLE_C64DTVROM_RW
-
-/* c64dtv/c64dtvflash.c */
-IDCLS_DISABLE_C64DTVROM_RW
 
 /* c64dtv/flash-trap.c */
 IDCLS_USE_AS_DIRECTORY_FLASH_FS
