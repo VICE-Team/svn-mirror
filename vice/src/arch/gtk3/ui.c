@@ -579,10 +579,10 @@ static void ui_update_fullscreen_decorations(void)
 
     if (has_decorations) {
         gtk_widget_show(menu_bar);
-        if (ui_crt_controls_enabled()) {
+        if (ui_statusbar_crt_controls_enabled(window)) {
             gtk_widget_show(crt_grid);
         }
-        if (ui_mixer_controls_enabled()) {
+        if (ui_statusbar_mixer_controls_enabled(window)) {
             gtk_widget_show(mixer_grid);
         }
         gtk_widget_show(status_bar);

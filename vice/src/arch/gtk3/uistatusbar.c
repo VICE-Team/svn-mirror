@@ -54,7 +54,6 @@
 #include "types.h"
 #include "ui.h"
 #include "uiapi.h"
-#include "uicommands.h"
 #include "uidatasette.h"
 #include "uidiskattach.h"
 #include "uifliplist.h"
@@ -946,7 +945,6 @@ static void on_crt_toggled(GtkWidget *widget, gpointer data)
     gboolean state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    ui_crt_controls_set_enabled(state);
     ui_enable_crt_controls((bool)state);
 }
 
@@ -963,7 +961,6 @@ static void on_mixer_toggled(GtkWidget *widget, gpointer data)
     gboolean state;
 
     state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
-    ui_mixer_controls_set_enabled(state);
     ui_enable_mixer_controls((bool)state);
 }
 
@@ -1490,4 +1487,74 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
     }
     buf[255]=0;
     ui_display_statustext(buf, 1);
+}
+
+
+/** \brief  Determine if the CRT controls widget is enabled in \a window
+ *
+ * \param[in]   window  GtkWindow instance
+ *
+ * \return  bool
+ */
+gboolean ui_statusbar_crt_controls_enabled(GtkWidget *window)
+{
+    GtkWidget *bin;
+    GtkWidget *bar;
+    GtkWidget *check;
+    gboolean active;
+
+    debug_gtk3("called\n");
+    bin = gtk_bin_get_child(GTK_BIN(window));
+    if (bin != NULL) {
+        bar = gtk_grid_get_child_at(GTK_GRID(bin), 0, 2);  /* FIX */
+        if (bar != NULL) {
+            check = gtk_grid_get_child_at(GTK_GRID(bar), SB_COL_CRT, 0);
+            if (check != NULL) {
+                active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+                debug_gtk3("CRT controls enabled = %s\n",
+                        active ? "TRUE" : "FALSE");
+                return active;
+            } else {
+                debug_gtk3("Couldn't get Checkbox\n");
+            }
+        } else {
+            debug_gtk3("Couldn't get statusbar\n");
+        }
+    } else {
+        debug_gtk3("Couldn't get BIN\n");
+    }
+    debug_gtk3("OOPS!\n");
+    return FALSE;
+}
+
+
+/** \brief  Determine if the mixer controls widget is enabled in \a window
+ *
+ * \param[in]   window  GtkWindow instance
+ *
+ * \return  bool
+ */
+gboolean ui_statusbar_mixer_controls_enabled(GtkWidget *window)
+{
+    GtkWidget *bin;
+    GtkWidget *bar;
+    GtkWidget *check;
+    gboolean active;
+
+    debug_gtk3("called\n");
+    bin = gtk_bin_get_child(GTK_BIN(window));
+    if (bin != NULL) {
+        bar = gtk_grid_get_child_at(GTK_GRID(bin), 0, 2);  /* FIX */
+        if (bar != NULL) {
+            check = gtk_grid_get_child_at(GTK_GRID(bar), SB_COL_CRT, 1);
+            if (check != NULL) {
+                active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check));
+                debug_gtk3("Mixer controls enabled = %s\n",
+                        active ? "TRUE" : "FALSE");
+                return active;
+            }
+        }
+    }
+    debug_gtk3("OOPS!\n");
+    return FALSE;
 }
