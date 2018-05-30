@@ -31,6 +31,7 @@ libbasewidgets_a_SOURCES = \
 	cartimagewidget.c \
 	clockportdevicewidget.c \
 	filechooserhelpers.c \
+	lastdir.c \
 	openfiledialog.c \
 	resourcebrowser.c \
 	resourcecheckbutton.c \
@@ -53,6 +54,7 @@ EXTRA_DIST = \
 	cartimagewidget.h \
 	clockportdevicewidget.h \
 	filechooserhelpers.h \
+	lastdir.h \
 	openfiledialog.h \
 	resourcebrowser.h \
 	resourcecheckbutton.h \

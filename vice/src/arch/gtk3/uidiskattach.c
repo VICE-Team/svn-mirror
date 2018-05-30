@@ -40,6 +40,8 @@
 #include "driveunitwidget.h"
 #include "ui.h"
 
+#include "lastdir.h"
+
 #include "uidiskattach.h"
 
 
@@ -72,7 +74,7 @@ static gchar *last_dir = NULL;
  */
 static int unit_number = 8;
 
-
+#if 0
 /** \brief  Update the last directory reference
  *
  * \param[in]   widget  dialog
@@ -91,7 +93,7 @@ static void update_last_dir(GtkWidget *widget)
         last_dir = new_dir;
     }
 }
-
+#endif
 
 /** \brief  Handler for the 'toggled' event of the 'show hidden files' checkbox
  *
@@ -178,7 +180,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Open' button, double-click on file */
         case GTK_RESPONSE_ACCEPT:
-            update_last_dir(widget);
+            lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             /* ui_message("Opening file '%s' ...", filename); */
             debug_gtk3("Attaching file '%s' to unit #%d\n",
@@ -196,7 +198,7 @@ static void on_response(GtkWidget *widget, gint response_id,
 
         /* 'Autostart' button clicked */
         case VICE_RESPONSE_AUTOSTART:
-            update_last_dir(widget);
+            lastdir_update(widget, &last_dir);
             filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(widget));
             debug_gtk3("Autostarting file '%s'\n", filename);
             /* if this function exists, why is there no attach_autodetect()
@@ -290,9 +292,7 @@ static GtkWidget *create_disk_attach_dialog(GtkWidget *parent, int unit)
             NULL, NULL);
 
     /* set last directory */
-    if (last_dir != NULL) {
-        gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), last_dir);
-    }
+    lastdir_set(dialog, &last_dir);
 
     /* add 'extra' widget: 'readony' and 'show preview' checkboxes */
     if (unit < 8 || unit > 11) {
@@ -378,7 +378,5 @@ void ui_disk_detach_all_callback(GtkWidget *widget, gpointer data)
  */
 void ui_disk_attach_shutdown(void)
 {
-    if (last_dir != NULL) {
-        g_free(last_dir);
-    }
+    lastdir_shutdown(&last_dir);
 }
