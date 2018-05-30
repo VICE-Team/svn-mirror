@@ -510,33 +510,17 @@ static GtkWidget *ui_drive_widget_create(int unit)
  *
  *  \todo This callback and the way it is configured both will need to
  *        be significantly reworked to manage multiple tape drives.
- *
- *  \todo This function uses GTK3 version checking to avoid deprecated
- *        functions on version 3.22 and to avoid nonexistent functions
- *        on version 3.16 through 3.20. Once 3.22 becomes a
- *        requirement, this version checking should be eliminated.
  */
 static gboolean ui_do_datasette_popup(GtkWidget *widget, GdkEvent *event, gpointer data)
 {
     int i = GPOINTER_TO_INT(data);
-    if (allocated_bars[i].tape && allocated_bars[i].tape_menu && event->type == GDK_BUTTON_PRESS) {
-        /* 3.22 isn't available on the latest stable version of all
-         * distros yet. This is expected to change when Ubuntu 18.04
-         * is released. Since popup handling is the only thing 3.22
-         * requires be done differently than its predecessors, this is
-         * the only place we should rely on version checks. */
-#if GTK_CHECK_VERSION(3,22,0)
+    if (allocated_bars[i].tape && allocated_bars[i].tape_menu
+            && event->type == GDK_BUTTON_PRESS) {
         gtk_menu_popup_at_widget(GTK_MENU(allocated_bars[i].tape_menu),
                                  allocated_bars[i].tape,
                                  GDK_GRAVITY_NORTH_EAST,
                                  GDK_GRAVITY_SOUTH_EAST,
                                  event);
-#else
-        GdkEventButton *buttonEvent = (GdkEventButton *)event;
-        gtk_menu_popup(GTK_MENU(allocated_bars[i].tape_menu),
-                       NULL, NULL, NULL, NULL,
-                       buttonEvent->button, buttonEvent->time);
-#endif
     }
     return TRUE;
 }
