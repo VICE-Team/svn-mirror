@@ -266,6 +266,19 @@ gboolean ui_crt_controls_enabled(void)
 }
 
 
+/** \brief  Set CRT controls enabled state flag
+ *
+ * This is required to remember the enabled state when switching from/to
+ * fullscreen, but there was to be a better way.
+ *
+ * \param[in]   state   enabled state
+ */
+void ui_crt_controls_set_enabled(gboolean state)
+{
+    crt_controls_enable = state;
+}
+
+
 /** \brief  Event handler for the UI to toggle mixer controls display
  *
  * \param[in]   widget  parent widget (menu item, ignored)
@@ -289,6 +302,18 @@ gboolean ui_toggle_mixer_controls(GtkWidget *widget, gpointer data)
 gboolean ui_mixer_controls_enabled(void)
 {
     return mixer_controls_enable;
+}
+
+/** \brief  Set mixer controls enabled state flag
+ *
+ * This is required to remember the enabled state when switching from/to
+ * fullscreen, but there was to be a better way.
+ *
+ * \param[in]   state   enabled state
+ */
+void ui_mixer_controls_set_enabled(gboolean state)
+{
+    mixer_controls_enable = state;
 }
 
 

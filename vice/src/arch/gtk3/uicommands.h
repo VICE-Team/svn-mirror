@@ -47,8 +47,10 @@ void ui_main_window_destroy_callback(GtkWidget *widget, gpointer user_data);
 
 gboolean ui_toggle_crt_controls(GtkWidget *widget, gpointer data);
 gboolean ui_crt_controls_enabled(void);
+void ui_crt_controls_set_enabled(gboolean state);
 gboolean ui_toggle_mixer_controls(GtkWidget *widget, gpointer data);
 gboolean ui_mixer_controls_enabled(void);
+void ui_mixer_controls_set_enabled(gboolean state);
 
 void ui_open_manual_callback(GtkWidget *widget, gpointer user_data);
 

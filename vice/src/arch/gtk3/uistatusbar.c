@@ -52,6 +52,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "types.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "uicommands.h"
 #include "uidatasette.h"
@@ -64,6 +65,22 @@
 /** \brief The maximum number of status bars we will permit to exist
  *         at once. */
 #define MAX_STATUS_BARS 3
+
+
+/** \brief  Status bar column indici
+ *
+ * These values assume a proper emulator statusbar (ie not VSID).
+ */
+enum {
+    SB_COL_MSG = 0,     /**< message widget */
+    SB_COL_SEP_MSG ,    /**< separator between message and ctr/mixer widgets */
+    SB_COL_CRT,         /**< crt and mixer widgets */
+    SB_COL_SEP_CRT,     /**< separator between crt/mixer and tape widgets */
+    SB_COL_TAPE,        /**< tape and joysticks widget */
+    SB_COL_SEP_TAPE,    /**< separator between tape and joysticks widgets */
+    SB_COL_DRIVE        /**< drives widgets */
+};
+
 
 /** \brief Global data that custom status bar widgets base their rendering
  *         on.
@@ -142,6 +159,9 @@ typedef struct ui_statusbar_s {
     /** \brief CRT control widget checkbox */
     GtkWidget *crt;
 
+    /** \brief  Mixer control widget checkbox */
+    GtkWidget *mixer;
+
     /** \brief The Tape Status widget. */
     GtkWidget *tape;
     /** \brief The Tape Status widget's popup menu. */
@@ -176,6 +196,7 @@ void ui_statusbar_init(void)
         allocated_bars[i].bar = NULL;
         allocated_bars[i].msg = NULL;
         allocated_bars[i].crt = NULL;
+        allocated_bars[i].mixer = NULL;
         allocated_bars[i].tape = NULL;
         allocated_bars[i].tape_menu = NULL;
         allocated_bars[i].joysticks = NULL;
@@ -806,7 +827,7 @@ static void layout_statusbar_drives(int bar_index)
      * elements of the status bar. */
     for (i = 0; i < ((DRIVE_NUM + 1) / 2) * 2; ++i) {
         for (j = 0; j < 2; ++j) {
-            GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar), 4+i, j);
+            GtkWidget *child = gtk_grid_get_child_at(GTK_GRID(bar), 6+i, j);
             if (child) {
                 /* Fun GTK3 fact! If you destroy an event box, then
                  * even if the thing it contains still has references
@@ -832,9 +853,11 @@ static void layout_statusbar_drives(int bar_index)
             GtkWidget *drive = allocated_bars[bar_index].drives[i];
             GtkWidget *event_box = gtk_event_box_new();
             int row = enabled_drive_index % 2;
-            int column = (enabled_drive_index / 2) * 2 + 5;
+            int column = (enabled_drive_index / 2) * 2 + SB_COL_DRIVE;
             if (row == 0) {
-                gtk_grid_attach(GTK_GRID(bar), gtk_separator_new(GTK_ORIENTATION_VERTICAL), column-1, 0, 1, 2);
+                gtk_grid_attach(GTK_GRID(bar),
+                        gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                        column - 1, 0, 1, 2);
             }
             gtk_container_add(GTK_CONTAINER(event_box), drive);
             gtk_event_box_set_visible_window(GTK_EVENT_BOX(event_box), FALSE);
@@ -878,6 +901,10 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
                 g_object_unref(G_OBJECT(allocated_bars[i].crt));
                 allocated_bars[i].crt = NULL;
             }
+            if (allocated_bars[i].mixer != NULL) {
+                g_object_unref(G_OBJECT(allocated_bars[i].mixer));
+                allocated_bars[i].mixer = NULL;
+            }
             if (allocated_bars[i].tape) {
                 g_object_unref(G_OBJECT(allocated_bars[i].tape));
                 allocated_bars[i].tape = NULL;
@@ -909,13 +936,37 @@ static void destroy_statusbar_cb(GtkWidget *sb, gpointer ignored)
 
 /** \brief  Handler for the 'toggled' event of the CRT controls checkbox
  *
- * \param[in]   widget  checkbox triggering the event (unused)
+ * Toggles the display state of the CRT controls
+ *
+ * \param[in]   widget  checkbox triggering the event
  * \param[in]   data    extra event data (unused
  */
 static void on_crt_toggled(GtkWidget *widget, gpointer data)
 {
-    ui_toggle_crt_controls(NULL, NULL);
+    gboolean state;
+
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    ui_crt_controls_set_enabled(state);
+    ui_enable_crt_controls((bool)state);
 }
+
+
+/** \brief  Handler for the 'toggled' event of the mixer controls checkbox
+ *
+ * Toggles the display state of the mixer controls
+ *
+ * \param[in]   widget  checkbox triggering the event
+ * \param[in]   data    extra event data (unused
+ */
+static void on_mixer_toggled(GtkWidget *widget, gpointer data)
+{
+    gboolean state;
+
+    state = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    ui_mixer_controls_set_enabled(state);
+    ui_enable_mixer_controls((bool)state);
+}
+
 
 
 /** \brief Create a popup menu to attach to a disk drive widget.
@@ -959,6 +1010,7 @@ GtkWidget *ui_statusbar_create(void)
 {
     GtkWidget *sb, *msg, *tape, *tape_events, *joysticks;
     GtkWidget *crt;
+    GtkWidget *mixer;
     int i, j;
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -989,22 +1041,34 @@ GtkWidget *ui_statusbar_create(void)
 
     crt = gtk_check_button_new_with_label("CRT controls");
     g_object_ref_sink(G_OBJECT(crt));
-    gtk_widget_set_halign(crt, GTK_ALIGN_END);
+    gtk_widget_set_halign(crt, GTK_ALIGN_START);
     gtk_widget_show_all(crt);
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(crt),
-            ui_crt_controls_enabled());
     g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
+
+    mixer = gtk_check_button_new_with_label("Mixer controls");
+    g_object_ref_sink(G_OBJECT(mixer));
+    gtk_widget_set_halign(mixer, GTK_ALIGN_START);
+    gtk_widget_show_all(mixer);
+    g_signal_connect(mixer, "toggled", G_CALLBACK(on_mixer_toggled), NULL);
 
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
     allocated_bars[i].msg = GTK_LABEL(msg);
-    gtk_grid_attach(GTK_GRID(sb), msg, 0, 0, 1, 2);
-    /* Second column: Tape and joysticks */
-    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL), 1, 0, 1, 2);
+    gtk_grid_attach(GTK_GRID(sb), msg, SB_COL_MSG, 0, 1, 2);
+
+    /* Second column: separator */
+    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+            SB_COL_SEP_MSG, 0, 1, 2);
 
     /* TODO: skip VSID and add another separator after the checkbox */
     allocated_bars[i].crt = crt;
-    gtk_grid_attach(GTK_GRID(sb), crt, 2, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(sb), crt, SB_COL_CRT, 0, 1, 1);
+    allocated_bars[i].mixer = mixer;
+    gtk_grid_attach(GTK_GRID(sb), mixer, SB_COL_CRT, 1, 1, 1);
+
+    /* add separator */
+    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+            SB_COL_SEP_CRT, 0, 1, 2);
 
     if ((machine_class != VICE_MACHINE_C64DTV)
             && (machine_class != VICE_MACHINE_VSID)) {
@@ -1016,7 +1080,7 @@ GtkWidget *ui_statusbar_create(void)
         tape_events = gtk_event_box_new();
         gtk_event_box_set_visible_window(GTK_EVENT_BOX(tape_events), FALSE);
         gtk_container_add(GTK_CONTAINER(tape_events), tape);
-        gtk_grid_attach(GTK_GRID(sb), tape_events, 3, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(sb), tape_events, SB_COL_TAPE, 0, 1, 1);
         allocated_bars[i].tape = tape;
         allocated_bars[i].tape_menu = ui_create_datasette_control_menu();
         g_object_ref_sink(G_OBJECT(allocated_bars[i].tape_menu));
@@ -1032,7 +1096,7 @@ GtkWidget *ui_statusbar_create(void)
         joysticks = ui_joystick_widget_create();
         g_object_ref(joysticks);
         gtk_widget_set_halign(joysticks, GTK_ALIGN_END);
-        gtk_grid_attach(GTK_GRID(sb), joysticks, 4, 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(sb), joysticks, SB_COL_TAPE, 1, 1, 1);
         allocated_bars[i].joysticks = joysticks;
     }
 
@@ -1141,7 +1205,8 @@ void ui_display_statustext(const char *text, int fade_out)
     ++sb_state.statustext_msgid;
     display_statustext_internal(text);
     if (fade_out) {
-        g_timeout_add(5000, ui_statustext_fadeout, GINT_TO_POINTER(sb_state.statustext_msgid));
+        g_timeout_add(5000, ui_statustext_fadeout,
+                GINT_TO_POINTER(sb_state.statustext_msgid));
     }
 }
 
@@ -1248,7 +1313,7 @@ void ui_display_tape_motor_status(int motor)
         sb_state.tape_motor_status = motor;
         for (i = 0; i < MAX_STATUS_BARS; ++i) {
             if (allocated_bars[i].tape) {
-                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 3, 0);
+                GtkWidget *widget = gtk_grid_get_child_at(GTK_GRID(allocated_bars[i].tape), 4, 0);
                 if (widget) {
                     gtk_widget_queue_draw(widget);
                 }

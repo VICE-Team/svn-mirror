@@ -96,6 +96,17 @@ typedef struct ui_resources_s {
 } ui_resource_t;
 
 
+/** \brief  Row numbers of the various widgets packed in a main GtkWindow
+ */
+enum {
+    ROW_MENU_BAR = 0,   /**< application menu bar */
+    ROW_DISPLAY,        /**< emulated display */
+    ROW_STATUS_BAR,     /**< status bar */
+    ROW_CRT_CONTROLS,   /**< CRT control widgets */
+    ROW_MIXER_CONTROLS  /**< mixer control widgets */
+};
+
+
 /** \brief  Collection of UI resources
  *
  * This needs to stay here, to allow the command line and resources initializers
@@ -561,10 +572,10 @@ static void ui_update_fullscreen_decorations(void)
     has_decorations = (!is_fullscreen) || fullscreen_has_decorations;
     window = ui_resources.window_widget[active_win_index];
     grid = gtk_bin_get_child(GTK_BIN(window));
-    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 0);
-    crt_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
-    mixer_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
-    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, 4);
+    menu_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MENU_BAR);
+    crt_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_CRT_CONTROLS);
+    mixer_grid = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MIXER_CONTROLS);
+    status_bar = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_STATUS_BAR);
 
     if (has_decorations) {
         gtk_widget_show(menu_bar);
@@ -969,6 +980,14 @@ void ui_create_main_window(video_canvas_t *canvas)
         exit(1);
     }
 
+    /* add status bar */
+    status_bar = ui_statusbar_create();
+    gtk_widget_show_all(status_bar);
+    gtk_widget_set_no_show_all(status_bar, TRUE);
+
+    gtk_container_add(GTK_CONTAINER(grid), status_bar);
+
+    /* add CRT controls */
     crt_controls = NULL;
     if (create_controls_widget_func != NULL) {
         crt_controls = create_controls_widget_func(target_window);
@@ -985,11 +1004,6 @@ void ui_create_main_window(video_canvas_t *canvas)
     gtk_container_add(GTK_CONTAINER(grid), mixer_controls);
     gtk_widget_set_no_show_all(mixer_controls, TRUE);
 
-    status_bar = ui_statusbar_create();
-    gtk_widget_show_all(status_bar);
-    gtk_widget_set_no_show_all(status_bar, TRUE);
-
-    gtk_container_add(GTK_CONTAINER(grid), status_bar);
 
     g_signal_connect(new_window, "focus-in-event",
                      G_CALLBACK(on_focus_in_event), NULL);
@@ -1504,7 +1518,7 @@ void ui_enable_crt_controls(bool enabled)
 
     window = ui_resources.window_widget[active_win_index];
     grid = gtk_bin_get_child(GTK_BIN(window));
-    crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, 2);
+    crt = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_CRT_CONTROLS);
 
     if (enabled) {
         gtk_widget_show(crt);
@@ -1538,7 +1552,7 @@ void ui_enable_mixer_controls(bool enabled)
 
     window = ui_resources.window_widget[active_win_index];
     grid = gtk_bin_get_child(GTK_BIN(window));
-    mixer = gtk_grid_get_child_at(GTK_GRID(grid), 0, 3);
+    mixer = gtk_grid_get_child_at(GTK_GRID(grid), 0, ROW_MIXER_CONTROLS);
 
     if (enabled) {
         gtk_widget_show(mixer);
