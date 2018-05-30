@@ -15,5 +15,6 @@
 LOG=gtk3-doxy-errors.log
 
 cd ..
+mkdir -p doc/doxy/gtk3
 doxygen doc/Doxyfile.gtk3 2> "$LOG"
  
