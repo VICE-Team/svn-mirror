@@ -182,9 +182,9 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL },
     { "-cia1model", SET_RESOURCE, 1,
       NULL, NULL, "CIA1Model", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SET_CIA1_MODEL,
-      "<Model>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Model>", "Set CIA 1 model (0 = old 6526, 1 = new 8521)" },
     CMDLINE_LIST_END
 };
 

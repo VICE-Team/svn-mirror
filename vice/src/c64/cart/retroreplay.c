@@ -976,9 +976,9 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-rrrev", SET_RESOURCE, 1,
       NULL, NULL, "RRrevision", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_REVISION, IDCLS_RR_REVISION,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_RR_REVISION,
+      "<Revision>", NULL },
     CMDLINE_LIST_END
 };
 

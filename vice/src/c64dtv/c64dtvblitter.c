@@ -574,9 +574,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-dtvrev", SET_RESOURCE, 1,
       NULL, NULL, "DtvRevision", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_REVISION, IDCLS_SPECIFY_DTV_REVISION,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_SPECIFY_DTV_REVISION,
+      "<Revision>", NULL },
 #ifdef DEBUG
     { "-dtvblitterlog", SET_RESOURCE, 0,
       NULL, NULL, "DtvBlitterLog", (resource_value_t)1,

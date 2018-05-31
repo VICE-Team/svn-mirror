@@ -1,76 +1,5 @@
 /* GLOBAL STRING ID DEFINITIONS */
 
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_FR_KERNEL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_IT_KERNEL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_NO_KERNEL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_SV_KERNEL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_CH_KERNEL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_BASIC_ROM_NAME_LOW
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_BASIC_ROM_NAME_HIGH
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_INT_CHARGEN_ROM_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_DE_CHARGEN_ROM_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_FR_CHARGEN_ROM_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_SV_CHARGEN_ROM_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_CH_CHARGEN_ROM_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_C64_MODE_KERNAL_NAME
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SPECIFY_C64_MODE_BASIC_NAME
-
-/* vic20/vic20-cmdline-options.c */
-IDCLS_ENABLE_OEM_JOY
-
-/* vic20/vic20-cmdline-options.c */
-IDCLS_DISABLE_OEM_JOY
-
-/* c128/c128-cmdline-options.c */
-IDCLS_ENABLE_IEE488
-
-/* c128/c128-cmdline-options.c */
-IDCLS_DISABLE_IEE488
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
-IDCLS_P_REVISION
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
-IDCLS_PATCH_KERNAL_TO_REVISION
-
-#if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-/* c64/cart/c64acia1.c */
-IDCLS_P_IRQ
-
-/* c64/cart/c64acia1.c */
-IDCLS_SET_ACIA_IRQ
-
-/* c64/cart/c64acia1.c */
-IDCLS_SET_ACIA_MODE
-#endif   /* HAVE_RS232 */
-
 /* plus4/plus4acia.c */
 IDCLS_ENABLE_ACIA_EMU
 
@@ -116,32 +45,11 @@ IDCLS_DISABLE_EXT_FUNC_RTC_SAVE
 /* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_OLD_NTSC_SYNC_FACTOR
 
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_SET_BOTH_CIA_MODELS
-
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_SET_CIA1_MODEL
-
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_SET_CIA2_MODEL
-
 /* c64/c64-cmdline-options.c */
 IDCLS_SET_C64_MODEL
 
 /* scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_SCPU64_MODEL
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SET_C128_MODEL
-
-/* c128/c128-cmdline-options.c */
-IDCLS_SET_C128_MACHINE_TYPE
-
-/* c128/c128-cmdline-options.c */
-IDCLS_ENABLE_C128_FULL_BANKS
-
-/* c128/c128-cmdline-options.c */
-IDCLS_DISABLE_C128_FULL_BANKS
 
 /* plus4/plus4-cmdline-options.c */
 IDCLS_SET_PLUS4_MODEL
@@ -472,165 +380,6 @@ IDCLS_ETHERNETCART_MODE
 IDCLS_ETHERNET_INTERFACE
 #endif   /* HAVE_RAWNET */
 
-/* c64/cart/c64cart.c */
-IDCLS_CART_ATTACH_DETACH_RESET
-
-/* c64/cart/c64cart.c */
-IDCLS_CART_ATTACH_DETACH_NO_RESET
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_CRT_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_GENERIC_8KB_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_GENERIC_16KB_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_STARDOS_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ACTION_REPLAY_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_CAPTURE_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_COMAL80_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_DELA_EP256_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_DELA_EP64_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_DELA_EP7X8_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_DINAMIC_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_DQBB_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_EASY_FLASH_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_RETRO_REPLAY_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_REX_UTILITY_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_SS64_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_IDE64_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ATOMIC_POWER_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_EXOS_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_EXPERT_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_F64_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_FC1_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_FC3_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_FCPLUS_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_FREEZE_FRAME_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_FP_PP_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_SS4_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_SS5_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_CBM_IEEE488_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ISEPIC_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_KCS_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_KINGSOFT_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_MACH5_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_MAGIC_DESK_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_MMC64_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_MMC_REPLAY_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_MAGIC_VOICE_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_OCEAN_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_WESTERMANN_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_WARPSPEED_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ZAXXON_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_EASYCALC_CART
-
 /* c64/cart/c64cart.c, c64/cart/expert.c */
 IDCLS_ENABLE_EXPERT_CART
 
@@ -648,42 +397,6 @@ IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE
 
 /* c64/cart/expert.c */
 IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_PAGEFOX_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_P64_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_RAMCART_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_REU_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_REX_EP256_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_RGCD_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_RRNETMK3_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_ROSS_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_GAME_KILLER_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_GEORAM_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_GAME_SYSTEM_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_DISABLE_CART
 
 /* plus4/plus4cart.c */
 IDCLS_SMART_ATTACH_CART
@@ -1604,21 +1317,6 @@ IDCLS_P_ISO_LANGUAGE_CODE
 /* c64/plus60k.c */
 IDCLS_SPECIFY_PLUS60K_NAME
 
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_STB_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_SE5_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_SUPER_GAMES_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_SIMONS_BASIC_CART
-
-/* c64/cart/c64cart.c */
-IDCLS_ATTACH_RAW_SILVERROCK_128_CART
-
 /* c64/plus60k.c */
 IDCLS_PLUS60K_BASE
 
@@ -1655,54 +1353,6 @@ IDCLS_DISABLE_PETDWW
 /* pet/petdww.c */
 IDCLS_SPECIFY_PETDWW_NAME
 
-/* userport/userport_dac.c */
-IDCLS_ENABLE_USERPORT_DAC
-
-/* userport/userport_dac.c */
-IDCLS_DISABLE_USERPORT_DAC
-
-/* userport/userport_rtc_58321a.c */
-IDCLS_ENABLE_USERPORT_RTC_58321A
-
-/* userport/userport_rtc_58321a.c */
-IDCLS_DISABLE_USERPORT_RTC_58321A
-
-/* userport/userport_rtc_58321a.c */
-IDCLS_ENABLE_USERPORT_RTC_58321A_SAVE
-
-/* userport/userport_rtc_58321a.c */
-IDCLS_DISABLE_USERPORT_RTC_58321A_SAVE
-
-/* userport/userport_rtc_ds1307.c */
-IDCLS_ENABLE_USERPORT_RTC_DS1307
-
-/* userport/userport_rtc_ds1307.c */
-IDCLS_DISABLE_USERPORT_RTC_DS1307
-
-/* userport/userport_rtc_ds1307.c */
-IDCLS_ENABLE_USERPORT_RTC_DS1307_SAVE
-
-/* userport/userport_rtc_ds1307.c */
-IDCLS_DISABLE_USERPORT_RTC_DS1307_SAVE
-
-/* userport/userport_diag_586220_harness.c */
-IDCLS_ENABLE_USERPORT_DIAG_586220_HARNESS
-
-/* userport/userport_diag_586220_harness.c */
-IDCLS_DISABLE_USERPORT_DIAG_586220_HARNESS
-
-/* userport/userport_4bit_sampler.c */
-IDCLS_ENABLE_USERPORT_4BIT_SAMPLER
-
-/* userport/userport_4bit_sampler.c */
-IDCLS_DISABLE_USERPORT_4BIT_SAMPLER
-
-/* userport/userport_8bss.c */
-IDCLS_ENABLE_USERPORT_8BSS
-
-/* userport/userport_8bss.c */
-IDCLS_DISABLE_USERPORT_8BSS
-
 /* c64/plus256k.c */
 IDCLS_SPECIFY_PLUS256K_NAME
 
@@ -1726,12 +1376,6 @@ IDCLS_DISABLE_PLUS4SPEECH
 
 /* plus4/plus4speech.c */
 IDCLS_ATTACH_SPEECH_ROM_IMAGE
-
-/* userport/userport_digimax.c */
-IDCLS_ENABLE_USERPORT_DIGIMAX
-
-/* userport/userport_digimax.c */
-IDCLS_DISABLE_USERPORT_DIGIMAX
 
 /* c64/cart/shortbus_digimax.c */
 IDCLS_ENABLE_SHORTBUS_DIGIMAX

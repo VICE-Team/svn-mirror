@@ -71,14 +71,14 @@ static const cmdline_option_t cmdline_options[] =
     /* hardreset on cartridge change */
     { "-cartreset", SET_RESOURCE, 0,
       NULL, NULL, "CartridgeReset", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_CART_ATTACH_DETACH_RESET,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Reset machine if a cartridge is attached or detached" },
     { "+cartreset", SET_RESOURCE, 0,
       NULL, NULL, "CartridgeReset", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_CART_ATTACH_DETACH_NO_RESET,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Do not reset machine if a cartridge is attached or detached" },
     /* smart attach */
     { "-cart", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void*)CARTRIDGE_PLUS4_DETECT, NULL, NULL,
@@ -88,9 +88,9 @@ static const cmdline_option_t cmdline_options[] =
     /* no cartridge */
     { "+cart", CALL_FUNCTION, 0,
       cart_attach_cmdline, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_CART,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable default cartridge" },
     CMDLINE_LIST_END
 };
 

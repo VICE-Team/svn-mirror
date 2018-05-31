@@ -360,14 +360,14 @@ static const cmdline_option_t cart_cmdline_options[] =
 {
     { "-acia1irq", SET_RESOURCE, 1,
       NULL, NULL, "Acia1Irq", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_IRQ, IDCLS_SET_ACIA_IRQ,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<interrupt>", "Set the ACIA interrupt (0: None, 1: NMI, 2: IRQ)" },
     { "-acia1mode", SET_RESOURCE, 1,
       NULL, NULL, "Acia1Mode", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SET_ACIA_MODE,
-      "<Mode>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Mode>", "Set the ACIA mode (0: Normal, 1: Swiftlink, 2: Turbo232)" },
     CMDLINE_LIST_END
 };
 

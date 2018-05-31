@@ -134,14 +134,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-userport4bitsampler", SET_RESOURCE, 0,
       NULL, NULL, "Userport4bitSampler", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_4BIT_SAMPLER,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable Userport 4bit sampler" },
     { "+userport4bitsampler", SET_RESOURCE, 0,
       NULL, NULL, "Userport4bitSampler", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_4BIT_SAMPLER,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable Userport 4bit sampler" },
     CMDLINE_LIST_END
 };
 
