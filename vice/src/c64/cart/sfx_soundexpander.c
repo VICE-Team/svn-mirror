@@ -319,19 +319,19 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-sfxse", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundExpander", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SFX_SE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable the SFX Sound Expander cartridge" },
     { "+sfxse", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundExpander", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SFX_SE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable the SFX Sound Expander cartridge" },
     { "-sfxsetype", SET_RESOURCE, 1,
       NULL, NULL, "SFXSoundExpanderChip", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SET_YM_CHIP_TYPE,
-      "<Type>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set YM chip type (3526 / 3812)" },
     CMDLINE_LIST_END
 };
 
@@ -339,14 +339,14 @@ static const cmdline_option_t cmdline_mascuerade_options[] =
 {
     { "-sfxseioswap", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundExpanderIOSwap", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_MAP_CART_IO_2,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Swap io mapping (map cart I/O to VIC20 I/O-2)" },
     { "+sfxseioswap", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundExpanderIOSwap", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_MAP_CART_IO_3,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Don't swap io mapping (map cart I/O to VIC20 I/O-3)" },
     CMDLINE_LIST_END
 };
 

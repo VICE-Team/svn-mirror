@@ -84,35 +84,8 @@ IDCLS_DISABLE_HUMMER_ADC
 /* c64/c64io.c, vic20/vic20io.c */
 IDCLS_SELECT_CONFLICT_HANDLING
 
-/* c64/cart/c64tpi.c */
-IDCLS_ENABLE_IEEE488_INTERFACE
-
-/* c64/cart/c64tpi.c */
-IDCLS_DISABLE_IEEE488_INTERFACE
-
-/* c64/cart/c64tpi.c */
-IDCLS_SPECIFY_IEEE488_INTERFACE_NAME
-
 /* samplerdrv/file_drv.c */
 IDCLS_SPECIFY_SAMPLE_NAME
-
-/* c64/cart/georam.c */
-IDCLS_ENABLE_GEORAM
-
-/* c64/cart/georam.c */
-IDCLS_DISABLE_GEORAM
-
-/* c64/cart/georam.c */
-IDCLS_SPECIFY_GEORAM_NAME
-
-/* c64/cart/georam.c */
-IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE
-
-/* c64/cart/georam.c */
-IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE
-
-/* c64/cart/georam.c */
-IDCLS_P_SIZE_IN_KB
 
 /* pet/pet-cmdline-options.c */
 IDCLS_P_SIZE
@@ -123,218 +96,11 @@ IDCLS_P_ADDRESS
 /* pet/pet-sidcart.c */
 IDCLS_P_CLOCK
 
-/* c64/cart/georam.c */
-IDCLS_GEORAM_SIZE
-
-/* c64/cart/georam.c */
-IDCLS_SWAP_CART_IO
-
-/* c64/cart/georam.c */
-IDCLS_DONT_SWAP_CART_IO
-
-/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c */
-IDCLS_MAP_CART_IO_2
-
-/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c */
-IDCLS_MAP_CART_IO_3
-
 /* c64/psid.c */
 IDCLS_OVERWRITE_PSID_SETTINGS
 
 /* c64/psid.c */
 IDCLS_SPECIFY_PSID_TUNE_NUMBER
-
-/* c64/cart/ramcart.c */
-IDCLS_ENABLE_RAMCART
-
-/* c64/cart/ramcart.c */
-IDCLS_DISABLE_RAMCART
-
-/* c64/cart/ramcart.c */
-IDCLS_SPECIFY_RAMCART_NAME
-
-/* c64/cart/ramcart.c */
-IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE
-
-/* c64/cart/ramcart.c */
-IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE
-
-/* c64/cart/ramcart.c */
-IDCLS_RAMCART_READ_ONLY
-
-/* c64/cart/ramcart.c */
-IDCLS_RAMCART_READ_WRITE
-
-/* c64/cart/ramcart.c */
-IDCLS_RAMCART_SIZE
-
-/* c64/cart/debugcart.c */
-IDCLS_ENABLE_DEBUGCART
-
-/* c64/cart/debugcart.c */
-IDCLS_DISABLE_DEBUGCART
-
-/* c64/cart/dqbb.c */
-IDCLS_ENABLE_DQBB
-
-/* c64/cart/dqbb.c */
-IDCLS_DISABLE_DQBB
-
-/* c64/cart/dqbb.c */
-IDCLS_SPECIFY_DQBB_NAME
-
-/* c64/cart/dqbb.c */
-IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE
-
-/* c64/cart/dqbb.c */
-IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE
-
-/* c64/cart/isepic.c */
-IDCLS_ENABLE_ISEPIC
-
-/* c64/cart/isepic.c */
-IDCLS_DISABLE_ISEPIC
-
-/* c64/cart/isepic.c */
-IDCLS_ENABLE_ISEPIC_SWITCH
-
-/* c64/cart/isepic.c */
-IDCLS_DISABLE_ISEPIC_SWITCH
-
-/* c64/cart/isepic.c */
-IDCLS_SET_ISEPIC_FILENAME
-
-/* c64/cart/isepic.c */
-IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE
-
-/* c64/cart/isepic.c */
-IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE
-
-/* c64/cart/magicvoice.c */
-IDCLS_SPECIFY_MAGICVOICE_IMAGE_NAME
-
-/* c64/cart/mmc64.c */
-IDCLS_ENABLE_MAGICVOICE
-
-/* c64/cart/mmc64.c */
-IDCLS_DISABLE_MAGICVOICE
-
-/* c64/cart/mmc64.c */
-IDCLS_ENABLE_MMC64
-
-/* c64/cart/mmc64.c */
-IDCLS_DISABLE_MMC64
-
-/* c64/cart/mmc64.c */
-IDCLS_SPECIFY_MMC64_BIOS_NAME
-
-/* c64/cart/mmc64.c */
-IDCLS_SPECIFY_MMC64_IMAGE_NAME
-
-/* c64/cart/mmc64.c */
-IDCLS_SPECIFY_MMC64_REVISION
-
-/* c64/cart/mmc64.c */
-IDCLS_SPECIFY_MMC64_SD_TYPE
-
-/* c64/cart/mmc64.c */
-IDCLS_MMC64_READONLY
-
-/* c64/cart/mmc64.c */
-IDCLS_MMC64_READWRITE
-
-/* c64/cart/mmc64.c */
-IDCLS_MMC64_BIOS_WRITE
-
-/* c64/cart/mmc64.c */
-IDCLS_MMC64_BIOS_READ_ONLY
-
-/* c64/cart/mmc64.c */
-IDCLS_MMC64_SET_FLASH_JUMPER
-
-/* c64/cart/mmc64.c */
-IDCLS_MMC64_UNSET_FLASH_JUMPER
-
-/* c64/cart/mmc64.c */
-IDCLS_RRNETMK3_BIOS_WRITE
-
-/* c64/cart/mmc64.c */
-IDCLS_RRNETMK3_BIOS_READ_ONLY
-
-/* c64/cart/mmc64.c */
-IDCLS_RRNETMK3_SET_FLASH_JUMPER
-
-/* c64/cart/mmc64.c */
-IDCLS_RRNETMK3_UNSET_FLASH_JUMPER
-
-/* c64/cart/mmcreplay.c */
-IDCLS_SELECT_MMC_REPLAY_CARD_IMAGE_FILENAME
-
-/* c64/cart/mmcreplay.c */
-IDCLS_SELECT_MMC_REPLAY_SD_TYPE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_MMC_REPLAY_CARD_WRITE_ENABLE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_MMC_REPLAY_CARD_WRITE_DISABLE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_SELECT_MMC_REPLAY_EEPROM_IMAGE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_MMC_REPLAY_EEPROM_WRITE_ENABLE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE
-
-/* c64/cart/mmcreplay.c */
-IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE
-
-/* c64/cart/gmod2.c */
-IDCLS_SELECT_GMOD2_EEPROM_IMAGE
-
-/* c64/cart/gmod2.c */
-IDCLS_GMOD2_EEPROM_WRITE_ENABLE
-
-/* c64/cart/gmod2.c */
-IDCLS_GMOD2_EEPROM_WRITE_DISABLE
-
-/* c64/cart/gmod2.c */
-IDCLS_ENABLE_SAVE_GMOD2_ROM_AT_EXIT
-
-/* c64/cart/gmod2.c */
-IDCLS_DISABLE_SAVE_GMOD2_ROM_AT_EXIT
-
-/* c64/cart/retroplay.c */
-IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT
-
-/* c64/cart/retroplay.c */
-IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT
-
-/* c64/cart/retroplay.c */
-IDCLS_SET_RR_BANK_JUMPER
-
-/* c64/cart/retroplay.c */
-IDCLS_UNSET_RR_BANK_JUMPER
-
-/* c64/cart/retroplay.c */
-IDCLS_SET_RR_FLASH_JUMPER
-
-/* c64/cart/retroplay.c */
-IDCLS_UNSET_RR_FLASH_JUMPER
-
-/* c64/cart/retroplay.c */
-IDCLS_RR_REVISION
 
 /* c64/cart/supersnapshot.c */
 IDCLS_ENABLE_SS_RAM_EXPANSION
@@ -342,100 +108,8 @@ IDCLS_ENABLE_SS_RAM_EXPANSION
 /* c64/cart/supersnapshot.c */
 IDCLS_DISABLE_SS_RAM_EXPANSION
 
-/* c64/cart/reu.c */
-IDCLS_ENABLE_REU
-
-/* c64/cart/reu.c */
-IDCLS_DISABLE_REU
-
-/* c64/cart/reu.c */
-IDCLS_SPECIFY_REU_NAME
-
-/* c64/cart/reu.c */
-IDCLS_ALLOW_WRITING_TO_REU_IMAGE
-
-/* c64/cart/reu.c */
-IDCLS_DO_NOT_WRITE_TO_REU_IMAGE
-
-/* c64/cart/reu.c */
-IDCLS_REU_SIZE
-
-#ifdef HAVE_RAWNET
-/* c64/cart/ethernetcart.c */
-IDCLS_ENABLE_TFE
-
-/* c64/cart/ethernetcart.c */
-IDCLS_ENABLE_RRNET
-
-/* c64/cart/ethernetcart.c */
-IDCLS_ENABLE_ETHERNETCART
-
-/* c64/cart/ethernetcart.c */
-IDCLS_DISABLE_ETHERNETCART
-
-/* c64/cart/ethernetcart.c */
-IDCLS_ETHERNETCART_MODE
-
-/* c64/cart/cs8900io.c */
-IDCLS_ETHERNET_INTERFACE
-#endif   /* HAVE_RAWNET */
-
-/* c64/cart/c64cart.c, c64/cart/expert.c */
-IDCLS_ENABLE_EXPERT_CART
-
-/* c64/cart/expert.c */
-IDCLS_DISABLE_EXPERT_CART
-
-/* c64/cart/expert.c */
-IDCLS_SET_EXPERT_FILENAME
-
-/* c64/cart/expert.c */
-IDCLS_SET_EXPERT_MODE
-
-/* c64/cart/expert.c */
-IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE
-
-/* c64/cart/expert.c */
-IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE
-
 /* plus4/plus4cart.c */
 IDCLS_SMART_ATTACH_CART
-
-/* c64/cart/ide64.c */
-IDCLS_SPECIFY_IDE64_NAME
-
-/* c64/cart/ide64.c */
-IDCLS_SET_AMOUNT_CYLINDERS_IDE64
-
-/* c64/cart/ide64.c */
-IDCLS_SET_AMOUNT_HEADS_IDE64
-
-/* c64/cart/ide64.c */
-IDCLS_SET_AMOUNT_SECTORS_IDE64
-
-/* c64/cart/ide64.c */
-IDCLS_AUTODETECT_IDE64_GEOMETRY
-
-/* c64/cart/ide64.c */
-IDCLS_NO_AUTODETECT_IDE64_GEOMETRY
-
-/* c64/cart/ide64.c */
-IDCLS_IDE64_VERSION
-
-/* c64/cart/ide64.c */
-IDCLS_ENABLE_IDE64_USB_SERVER
-
-/* c64/cart/ide64.c */
-IDCLS_DISABLE_IDE64_USB_SERVER
-
-/* c64/cart/ide64.c */
-IDCLS_IDE64_USB_SERVER_ADDRESS
-
-/* c64/cart/ide64.c */
-IDCLS_ENABLE_IDE64_RTC_SAVE
-
-/* c64/cart/ide64.c */
-IDCLS_DISABLE_IDE64_RTC_SAVE
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 IDCLS_P_MODELNUMBER
@@ -1230,9 +904,6 @@ IDCLS_CALL_EXCEPTION_HANDLER
 /* initcmdline.c */
 IDCLS_RESTORE_DEFAULT_SETTINGS
 
-/* initcmdline.c, c64/cart/mmcreplay.c */
-IDCLS_P_FILE
-
 /* initcmdline.c */
 IDCLS_SPECIFY_CONFIG_FILE
 
@@ -1389,50 +1060,11 @@ IDCLS_ENABLE_SHORTBUS_ETFE
 /* c64/cart/shortbus_etfe.c */
 IDCLS_DISABLE_SHORTBUS_ETFE
 
-/* c64/cart/digimax.c */
-IDCLS_ENABLE_DIGIMAX
-
-/* c64/cart/digimax.c */
-IDCLS_DISABLE_DIGIMAX
-
-/* c64/cart/ds12c887rtc.c */
-IDCLS_ENABLE_DS12C887RTC
-
-/* c64/cart/ds12c887rtc.c */
-IDCLS_DISABLE_DS12C887RTC
-
-/* c64/cart/ds12c887rtc.c */
-IDCLS_DS12C887RTC_RUNMODE_HALTED
-
-/* c64/cart/ds12c887rtc.c */
-IDCLS_DS12C887RTC_RUNMODE_RUNNING
-
-/* c64/cart/ds12c887rtc.c */
-IDCLS_ENABLE_DS12C887RTC_SAVE
-
-/* c64/cart/ds12c887rtc.c */
-IDCLS_DISABLE_DS12C887RTC_SAVE
-
-/* c64/cart/sfx_soundexpander.c */
-IDCLS_ENABLE_SFX_SE
-
-/* c64/cart/sfx_soundexpander.c */
-IDCLS_DISABLE_SFX_SE
-
-/* c64/cart/sfx_soundexpander.c */
-IDCLS_SET_YM_CHIP_TYPE
-
 /* c64/cart/sfx_soundsampler.c */
 IDCLS_ENABLE_SFX_SS
 
 /* c64/cart/sfx_soundsampler.c */
 IDCLS_DISABLE_SFX_SS
-
-/* c64/cart/cpmcart.c */
-IDCLS_ENABLE_CPM_CART
-
-/* c64/cart/cpmcart.c */
-IDCLS_DISABLE_CPM_CART
 
 /* c64/cart/turbomaster.c */
 IDCLS_ENABLE_TURBOMASTER
@@ -1493,27 +1125,6 @@ IDCLS_ENABLE_MIDI_EMU
 
 /* midi.c */
 IDCLS_DISABLE_MIDI_EMU
-
-/* c64/cart/c64-midi.c */
-IDCLS_SPECIFY_C64_MIDI_TYPE
-
-/* c64/cart/easyflash.c */
-IDCLS_ENABLE_EASYFLASH_JUMPER
-
-/* c64/cart/easyflash.c */
-IDCLS_DISABLE_EASYFLASH_JUMPER
-
-/* c64/cart/easyflash.c */
-IDCLS_ENABLE_EASYFLASH_CRT_WRITING
-
-/* c64/cart/easyflash.c */
-IDCLS_DISABLE_EASYFLASH_CRT_WRITING
-
-/* c64/cart/easyflash.c */
-IDCLS_ENABLE_EASYFLASH_CRT_OPTIMIZE
-
-/* c64/cart/easyflash.c */
-IDCLS_DISABLE_EASYFLASH_CRT_OPTIMIZE
 
 /* scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_SIMM_SIZE

@@ -343,9 +343,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-cs8900ioif", SET_RESOURCE, 1,
       NULL, NULL, "ETHERNET_INTERFACE", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_ETHERNET_INTERFACE,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Set the system ethernet interface" },
     CMDLINE_LIST_END
 };
 

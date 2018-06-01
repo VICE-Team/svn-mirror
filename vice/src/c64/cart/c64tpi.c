@@ -539,19 +539,19 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-ieee488", SET_RESOURCE, 0,
       NULL, NULL, "IEEE488", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_IEEE488_INTERFACE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable the IEEE488 interface emulation" },
     { "+ieee488", SET_RESOURCE, 0,
       NULL, NULL, "IEEE488", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_IEEE488_INTERFACE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable the IEEE488 interface emulation" },
     { "-ieee488image", SET_RESOURCE, 1,
       NULL, NULL, "IEEE488Image", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SPECIFY_IEEE488_INTERFACE_NAME,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "specify IEEE488 interface image name" },
     CMDLINE_LIST_END
 };
 

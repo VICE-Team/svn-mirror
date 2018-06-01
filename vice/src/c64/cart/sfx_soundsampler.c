@@ -271,14 +271,14 @@ static const cmdline_option_t cmdline_mascuerade_options[] =
 {
     { "-sfxssioswap", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundSamplerIOSwap", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_MAP_CART_IO_2,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Swap io mapping (map cart I/O to VIC20 I/O-2)" },
     { "+sfxssioswap", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundSamplerIOSwap", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_MAP_CART_IO_3,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Don't swap io mapping (map cart I/O to VIC20 I/O-3)" },
     CMDLINE_LIST_END
 };
 

@@ -283,9 +283,9 @@ static const cmdline_option_t cmdline_options[] =
       "<Name>", NULL },
     { "-petreuramsize", SET_RESOURCE, 1,
       NULL, NULL, "PETREUsize", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_SIZE_IN_KB, IDCLS_PETREU_SIZE,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDGS_UNUSED, IDCLS_PETREU_SIZE,
+      "<size in KB>", NULL },
     CMDLINE_LIST_END
 };
 
