@@ -35,6 +35,7 @@ VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI supp
 VICE_ARG_ENABLE_LIST(sdlui2,      [  --enable-sdlui2         enables SDL2 UI support])
 VICE_ARG_ENABLE_LIST(native-gtk3ui,[  --enable-native-gtk3ui  enables WIP native GTK3 UI support])
 VICE_ARG_ENABLE_LIST(debug-gtk3ui, [ --enable-debug-gtk3ui    enables debugging for the WIP GTK3 port])
+VICE_ARG_ENABLE_LIST(gtk3-monitor, [ --enable-gtk3-monitor  enables native Gtk3 monitor support (experimental)])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(shared-ffmpeg, [  --enable-shared-ffmpeg  enable included shared FFmpeg support])
 VICE_ARG_ENABLE_LIST(static-ffmpeg, [  --enable-static-ffmpeg  enable included static FFmpeg support])
@@ -190,7 +191,9 @@ HAVE_XVIDEO_SUPPORT="no "
 HAVE_XRANDR_SUPPORT="no "
 USE_UI_THREADS_SUPPORT="no "
 HAVE_LIBXPM_SUPPORT="no "
+dnl this can be removed once Unix' Gtk2/Xaw ports are gone
 HAVE_VTE_SUPPORT="no "
+HAVE_GTK3_MONITOR_SUPPORT="no"
 
 HAVE_CATWEASELMKIII_SUPPORT="no "
 HAVE_HARDSID_SUPPORT="no "
@@ -284,6 +287,11 @@ fi
 
 if test x"$enable_debug_gtk3ui" = "xyes"; then
   AC_DEFINE(HAVE_DEBUG_GTK3UI,,[Add native GTK3 UI debugging code.])
+fi
+
+if test x"$enable_gtk3_monitor" = "xyes"; then
+  AC_DEFINE(HAVE_GTK3_MONITOR,,[Use native Gtk3 UI monitor interace.])
+  HAVE_GTK3_MONITOR_SUPPORT="yes"
 fi
 
 AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")
@@ -5121,6 +5129,12 @@ echo "Raw drive support: $HAVE_RAWDRIVE_SUPPORT"
 if test x"$real_arch" = "xUnix" -o x"$real_arch" = "xWin32"; then
     echo "OpenCBM support  : $HAVE_OPENCBM_SUPPORT (--enable/disable-realdevice)"
 fi
+
+echo ""
+echo "MONITOR"
+echo "-------"
+
+echo "Native Gtk3 monitor support: $HAVE_GTK3_MONITOR_SUPPORT"
 
 echo ""
 echo "LIBS"

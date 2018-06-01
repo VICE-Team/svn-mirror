@@ -42,7 +42,8 @@
 #include "videoarch.h"
 #include "vsync.h"
 
-#ifdef HAVE_VTE
+
+#ifdef HAVE_GTK3_MONITOR
 
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
