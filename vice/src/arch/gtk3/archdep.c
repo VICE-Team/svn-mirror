@@ -34,9 +34,12 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
+#include <errno.h>
 #include <glib.h>
 #include <glib/gstdio.h>
 
+#include "debug_gtk3.h"
 #include "findpath.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -207,16 +210,27 @@ char *archdep_default_fliplist_file_name(void)
 
 /** \brief  Create path(s) used by VICE for user-data
  *
- * \return  0 on success, -1 on failure
  */
 static void archdep_create_user_config_dir(void)
 {
     char *path = archdep_user_config_path();
 
-    /* create config dir, fail silently if it exists
-     * XXX: perhaps I should stat on failure to see if the directory already
-     * existed, or there was another failure */
-    (void)g_mkdir(path, 0755);
+    /*
+     * cannot use the log here since it hasn't been created yet, not the
+     * directory it's supposed to live in
+     */
+    debug_gtk3("creating user config dir '%s'\n", path);
+
+    /* create config dir, fail silently if it exists */
+    if (g_mkdir(path, 0755) == 0) {
+        debug_gtk3("OK: created user config dir\n");
+    } else {
+        if (errno == EEXIST) {
+            debug_gtk3("OK: directory already existed\n");
+        } else {
+            debug_gtk3("Error: %d: %s\n", errno, strerror(errno));
+        }
+    }
     lib_free(path);
 }
 
@@ -368,34 +382,33 @@ void archdep_startup_log_error(const char *format, ...)
  */
 int archdep_init(int *argc, char **argv)
 {
-#if 0
     char *prg_name;
     char *cfg_path;
     char *searchpath;
     char *vice_ini;
-#endif
+
     argv0 = lib_stralloc(argv[0]);
+
 
     archdep_create_user_config_dir();
 
-#if 0
     /* sanity checks, to remove later: */
     prg_name = archdep_program_name();
     searchpath = archdep_default_sysfile_pathlist(machine_name);
     cfg_path = archdep_user_config_path();
     vice_ini = archdep_default_resource_file_name();
 
-    printf("program name    = \"%s\"\n", prg_name);
-    printf("user home dir   = \"%s\"\n", archdep_home_path());
-    printf("user config dir = \"%s\"\n", cfg_path);
-    printf("prg boot path   = \"%s\"\n", archdep_boot_path());
-    printf("VICE searchpath = \"%s\"\n", searchpath);
-    printf("vice.ini path   = \"%s\"\n", vice_ini);
+    debug_gtk3("program name    = \"%s\"\n", prg_name);
+    debug_gtk3("user home dir   = \"%s\"\n", archdep_home_path());
+    debug_gtk3("user config dir = \"%s\"\n", cfg_path);
+    debug_gtk3("prg boot path   = \"%s\"\n", archdep_boot_path());
+    debug_gtk3("VICE searchpath = \"%s\"\n", searchpath);
+    debug_gtk3("vice.ini path   = \"%s\"\n", vice_ini);
 
     lib_free(searchpath);
     lib_free(vice_ini);
     lib_free(cfg_path);
-#endif
+
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);
 
