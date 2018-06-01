@@ -34,6 +34,10 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
+#ifdef UNIX_COMPILE
+#include <unistd.h>
+#endif
+
 #include "debug_gtk3.h"
 #include "not_implemented.h"
 
@@ -1272,6 +1276,12 @@ void ui_dispatch_events(void)
 {
     while (g_main_context_pending(g_main_context_default())) {
         ui_dispatch_next_event();
+#ifdef UNIX_COMPILE
+        usleep(1000);   /* sleep for 1ms, makes the emus eat slightly less
+                         * CPU (20% vs 24% on my i3 Linux box while keeping
+                         * the Gtk3 UI properly responsive.
+                         */
+#endif
     }
 }
 
