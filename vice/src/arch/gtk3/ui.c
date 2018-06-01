@@ -1474,6 +1474,13 @@ void ui_exit(void)
         resources_save(NULL);
     }
 
+    /* trigger any remaining Gtk/GLib events */
+    while (g_main_context_pending(g_main_context_default())) {
+        debug_gtk3("processing pending event\n");
+        g_main_context_iteration(g_main_context_default(), TRUE);
+    }
+
+
     /* FIXME: this has to go */
 #ifdef WIN32_COMPILE
     atexit_functions_execute();
