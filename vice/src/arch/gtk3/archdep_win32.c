@@ -30,6 +30,29 @@
 #include <stdio.h>
 #include <glib.h>
 #include <windows.h>
+#ifdef HAVE_FCNTL_H
+#include <fcntl.h>
+#endif
+
+#if defined(HAVE_IO_H) && !defined(WINMIPS)
+#include <io.h>
+#endif
+
+#ifdef HAVE_PROCESS_H
+#include <process.h>
+#endif
+
+#ifdef HAVE_SYS_STAT_H
+#include <sys/stat.h>
+#endif
+
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 #include "lib.h"
 #include "util.h"
