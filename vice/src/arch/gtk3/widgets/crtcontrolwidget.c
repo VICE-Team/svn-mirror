@@ -363,6 +363,7 @@ static void add_sliders(GtkGrid *grid,
     int row = 1;
     int chip_id;
     bool enabled;
+    int oldrow;
 
     chip = data->chip;
     chip_id = get_chip_id(chip);
@@ -377,7 +378,7 @@ static void add_sliders(GtkGrid *grid,
         return;
     }
 
-    /* Standard controls: brightness, gamma etc */
+    oldrow = row;
 
     label = create_label("Brightness", minimal);
     data->color_brightness = create_slider("ColorBrightness", chip,
@@ -414,33 +415,70 @@ static void add_sliders(GtkGrid *grid,
     gtk_grid_attach(grid, data->color_gamma, 1, row, 1, 1);
     row++;
 
-    label = create_label("Blur", minimal);
-    data->pal_blur = create_slider("PALBlur", chip,
-            0, 1000, 50, minimal);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
-    row++;
+    if (!minimal) {
 
-    label = create_label("Scanline shade", minimal);
-    data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
-            0, 1000, 50, minimal);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
-    row++;
+        label = create_label("Blur", minimal);
+        data->pal_blur = create_slider("PALBlur", chip,
+                0, 1000, 50, minimal);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_blur, 1, row, 1, 1);
+        row++;
 
-    label = create_label("Odd lines phase", minimal);
-    data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
-            0, 2000, 100, minimal);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
-    row++;
+        label = create_label("Scanline shade", minimal);
+        data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
+                0, 1000, 50, minimal);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_scanline_shade, 1, row, 1, 1);
+        row++;
 
-    label = create_label("Odd lines offset", minimal);
-    data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
-            0, 2000, 100, minimal);
-    gtk_grid_attach(grid, label, 0, row, 1, 1);
-    gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
-    row++;
+        label = create_label("Odd lines phase", minimal);
+        data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
+                0, 2000, 100, minimal);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_oddline_phase, 1, row, 1, 1);
+        row++;
+
+        label = create_label("Odd lines offset", minimal);
+        data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
+                0, 2000, 100, minimal);
+        gtk_grid_attach(grid, label, 0, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_oddline_offset, 1, row, 1, 1);
+        row++;
+    } else {
+        /* minimal display: two rows */
+
+        row = oldrow;
+        label = create_label("Blur", minimal);
+        data->pal_blur = create_slider("PALBlur", chip,
+                0, 1000, 50, minimal);
+        gtk_grid_attach(grid, label, 2, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_blur, 3, row, 1, 1);
+        row++;
+
+        label = create_label("Scanline shade", minimal);
+        data->pal_scanline_shade = create_slider("PALScanLineShade", chip,
+                0, 1000, 50, minimal);
+        gtk_grid_attach(grid, label, 2, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_scanline_shade, 3, row, 1, 1);
+        row++;
+
+        label = create_label("Odd lines phase", minimal);
+        data->pal_oddline_phase = create_slider("PALOddLinePhase", chip,
+                0, 2000, 100, minimal);
+        gtk_grid_attach(grid, label, 2, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_oddline_phase, 3, row, 1, 1);
+        row++;
+
+        label = create_label("Odd lines offset", minimal);
+        data->pal_oddline_offset = create_slider("PALOddLineOffset", chip,
+                0, 2000, 100, minimal);
+        gtk_grid_attach(grid, label, 2, row, 1, 1);
+        gtk_grid_attach(grid, data->pal_oddline_offset, 3, row, 1, 1);
+        row++;
+
+    }
+
+    /* Standard controls: brightness, gamma etc */
 
     enabled = ((video_standard == 0 /* PAL */
                 || video_standard == 1 /* Old PAL */
@@ -503,7 +541,7 @@ GtkWidget *crt_control_widget_create(GtkWidget *parent,
 
     button = gtk_button_new_with_label("Reset");
     gtk_widget_set_halign(button, GTK_ALIGN_END);
-    gtk_grid_attach(GTK_GRID(grid), button, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), button, minimal ? 3 : 1, 0, 1, 1);
     g_signal_connect(button, "clicked", G_CALLBACK(on_reset_clicked), NULL);
 
     g_object_set_data(G_OBJECT(grid), "InternalState", (gpointer)data);
