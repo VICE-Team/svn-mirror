@@ -4407,6 +4407,7 @@ static int write_cmd(int nargs, char **args)
     unsigned int dest_len;
     char *p;
     fileio_info_t *finfo;
+    char *src_name;
 
     if (nargs == 3) {
         /* write <source> <dest> */
@@ -4443,13 +4444,17 @@ static int write_cmd(int nargs, char **args)
         return FD_NOTREADY;
     }
 
-    finfo = fileio_open(args[1], NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
+    /* ~ expand path on Unix */
+    archdep_expand_path(&src_name, args[1]);
+
+    finfo = fileio_open(src_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
                         FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
                         FILEIO_TYPE_PRG);
 
     if (finfo == NULL) {
         fprintf(stderr, "cannot read file `%s': %s\n", args[1],
                 strerror(errno));
+        lib_free(src_name);
         return FD_NOTRD;
     }
 
@@ -4466,6 +4471,7 @@ static int write_cmd(int nargs, char **args)
                 finfo->name);
         fileio_close(finfo);
         lib_free(dest_name);
+        lib_free(src_name);
         return FD_WRTERR;
     }
 
@@ -4493,7 +4499,7 @@ static int write_cmd(int nargs, char **args)
     vdrive_iec_close(drives[dnr], 1);
 
     lib_free(dest_name);
-
+    lib_free(src_name);
     return FD_OK;
 }
 
