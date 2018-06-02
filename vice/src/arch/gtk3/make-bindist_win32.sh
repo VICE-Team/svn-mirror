@@ -25,7 +25,7 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
-# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <abs-top-builddir>
+# Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
 #                         $1      $2             $3              $4          $5               $6           $7    $8
 #
 
@@ -35,13 +35,38 @@ ENABLEARCH=$3
 ZIPKIND=$4
 TOPSRCDIR=$6
 TOPBUILDDIR=$8
-if test x"$7" = "xx86_64" -o x"$7" = "xamd64"
-then WINXX="win64"
-else WINXX="win32"
+CROSS=$9
+
+shift
+OBJDUMP=$9
+
+shift
+COMPILER=$9
+
+get_dll_deps()
+{
+  for j in `find $BUILDPATH -name "*.dll"`
+  do
+    dlls=`$OBJDUMP -p $j | sed 's| |\n|g' | grep "\.dll"`
+    for i in $dlls
+    do
+      if test -e $dlldir/$i; then
+        cp $dlldir/$i $BUILDPATH
+      fi
+    done
+  done
+}
+
+if test x"$7" = "xx86_64" -o x"$7" = "xamd64"; then
+  WINXX="win64"
+else
+  WINXX="win32"
 fi
-if test x"$5" = "xyes"
-then SCFILE="x64sc"
-else SCFILE=""
+
+if test x"$5" = "xyes"; then
+  SCFILE="x64sc"
+else
+  SCFILE=""
 fi
 
 EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
@@ -69,14 +94,43 @@ for i in $EXECUTABLES; do
   $STRIP $BUILDPATH/$i.exe
 done
 
+if test x"$CROSS" != "xtrue"; then
+
 # The following lines assume that this script is run by MSYS2.
-cp `ntldd -R $BUILDPATH/x64.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
-cp $MINGW_PREFIX/bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
-cd $MINGW_PREFIX
-cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
-cp --parents share/glib-2.0/schemas/{gschema*,org.gtk.Settings.FileChooser.gschema.xml} $BUILDPATH
-cp --parents -a share/icons/Adwaita $BUILDPATH
-cd - >/dev/null
+  cp `ntldd -R $BUILDPATH/x64.exe|gawk '/\\\\bin\\\\/{print $3;}'|cygpath -f -` $BUILDPATH
+  cp $MINGW_PREFIX/bin/lib{croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
+  cd $MINGW_PREFIX
+  cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
+  cp --parents share/glib-2.0/schemas/{gschema*,org.gtk.Settings.FileChooser.gschema.xml} $BUILDPATH
+  cp --parents -a share/icons/Adwaita $BUILDPATH
+  cd - >/dev/null
+else
+
+# the following lines assume a cross compiler, and the dll's installed in the dll dir of the toolchain
+  libm=`i686-w64-mingw32-gcc -print-file-name=libm.a`
+  location=`dirname $libm`
+  loc=`dirname $location`
+  dlldir="$loc/dll"
+  dlls=`$OBJDUMP -p src/x64.exe | sed 's| |\n|g' | grep "\.dll"`
+  for i in $dlls
+  do
+    if test -e $dlldir/$i; then
+      cp $dlldir/$i $BUILDPATH
+    fi
+  done
+  cp $dlldir/lib{bz2-1,freetype-6,gcc_s_dw2-1,croco-0.6-3,lzma-5,rsvg-2-2,xml2-2}.dll $BUILDPATH
+  gccname=`$COMPILER -print-file-name=libgcc.a`
+  gccdir=`dirname $gccname`
+  cp $gccdir/libgcc*.dll $BUILDPATH
+  get_dll_deps
+  get_dll_deps
+  current=`pwd`
+  cd $loc
+  cp --parents lib/gdk-pixbuf-2.0/2.*/loaders.cache lib/gdk-pixbuf-2.0/2.*/loaders/libpixbufloader-{png,svg,xpm}.dll $BUILDPATH
+  cp --parents share/glib-2.0/schemas/{gschema*,org.gtk.Settings.FileChooser.gschema.xml} $BUILDPATH
+  cp --parents -a share/icons/Adwaita $BUILDPATH
+  cd $current
+fi
 
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $BUILDPATH
 cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $BUILDPATH
