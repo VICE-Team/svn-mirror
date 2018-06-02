@@ -216,14 +216,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-sbdigimax", SET_RESOURCE, 0,
       NULL, NULL, "SBDIGIMAX", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SHORTBUS_DIGIMAX,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable the Short Bus DigiMAX expansion" },
     { "+sbdigimax", SET_RESOURCE, 0,
       NULL, NULL, "SBDIGIMAX", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SHORTBUS_DIGIMAX,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable the Short Bus DigiMAX expansion" },
     CMDLINE_LIST_END
 };
 

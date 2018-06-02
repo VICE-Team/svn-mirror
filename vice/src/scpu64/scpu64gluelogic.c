@@ -142,9 +142,9 @@ int scpu64_glue_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-gluelogictype", SET_RESOURCE, 1,
       NULL, NULL, "GlueLogic", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SET_GLUE_LOGIC_TYPE,
-      "<Type>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set glue logic type (0 = discrete, 1 = 252535-01)" },
     CMDLINE_LIST_END
 };
 

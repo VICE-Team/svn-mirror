@@ -6,62 +6,11 @@ IDCLS_ENABLE_ACIA_EMU
 /* plus4/plus4acia.c */
 IDCLS_DISABLE_ACIA_EMU
 
-/* c128/c128mmu.c */
-IDCLS_ACTIVATE_40_COL_MODE
-
-/* c128/c128mmu.c */
-IDCLS_ACTIVATE_80_COL_MODE
-
-/* c128/c128mmu.c */
-IDCLS_GO64_MODE
-
-/* c128/c128mmu.c */
-IDCLS_GO128_MODE
-
-/* c128/functionrom.c */
-IDCLS_SPECIFY_INT_FUNC_ROM_NAME
-
-/* c128/functionrom.c */
-IDCLS_SPECIFY_EXT_FUNC_ROM_NAME
-
-/* c128/functionrom.c */
-IDCLS_ENABLE_INT_FUNC_ROM
-
-/* c128/functionrom.c */
-IDCLS_ENABLE_EXT_FUNC_ROM
-
-/* c128/functionrom.c */
-IDCLS_ENABLE_INT_FUNC_RTC_SAVE
-
-/* c128/functionrom.c */
-IDCLS_DISABLE_INT_FUNC_RTC_SAVE
-
-/* c128/functionrom.c */
-IDCLS_ENABLE_EXT_FUNC_RTC_SAVE
-
-/* c128/functionrom.c */
-IDCLS_DISABLE_EXT_FUNC_RTC_SAVE
-
-/* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_USE_OLD_NTSC_SYNC_FACTOR
-
-/* c64/c64-cmdline-options.c */
-IDCLS_SET_C64_MODEL
-
 /* scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_SCPU64_MODEL
 
 /* plus4/plus4-cmdline-options.c */
 IDCLS_SET_PLUS4_MODEL
-
-/* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_SET_DTV_MODEL
-
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_SET_BURST_MOD
-
-/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
-IDCLS_SET_IEC_RESET
 
 /* scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_SCPU64_ROM_NAME
@@ -71,18 +20,6 @@ IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2
 
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP
-
-/* c64/c64gluelogic.c */
-IDCLS_SET_GLUE_LOGIC_TYPE
-
-/* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_ENABLE_HUMMER_ADC
-
-/* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_DISABLE_HUMMER_ADC
-
-/* c64/c64io.c, vic20/vic20io.c */
-IDCLS_SELECT_CONFLICT_HANDLING
 
 /* samplerdrv/file_drv.c */
 IDCLS_SPECIFY_SAMPLE_NAME
@@ -96,30 +33,6 @@ IDCLS_P_ADDRESS
 /* pet/pet-sidcart.c */
 IDCLS_P_CLOCK
 
-/* c64/psid.c */
-IDCLS_OVERWRITE_PSID_SETTINGS
-
-/* c64/psid.c */
-IDCLS_SPECIFY_PSID_TUNE_NUMBER
-
-/* c64/cart/supersnapshot.c */
-IDCLS_ENABLE_SS_RAM_EXPANSION
-
-/* c64/cart/supersnapshot.c */
-IDCLS_DISABLE_SS_RAM_EXPANSION
-
-/* plus4/plus4cart.c */
-IDCLS_SMART_ATTACH_CART
-
-/* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
-IDCLS_P_MODELNUMBER
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_CBM2_MODEL
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_CBM5X0_MODEL
-
 /* cbm2/cbm2-cmdline-options.c */
 IDCLS_SPECIFY_TO_USE_VIC_II
 
@@ -131,63 +44,6 @@ IDCLS_P_LINENUMBER
 
 /* cbm2/cbm2-cmdline-options.c */
 IDCLS_SPECIFY_CBM2_MODEL_HARDWARE
-
-/* cbm2/cbm2-cmdline-options.c, plus4/plus4-cmdline-options.c */
-IDCLS_P_RAMSIZE
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_SIZE_OF_RAM
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_SIZE_OF_RAM_CBM2
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_CART_ROM_1000_NAME
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_CART_ROM_2000_NAME
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_CART_ROM_4000_NAME
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_SPECIFY_CART_ROM_6000_NAME
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_ENABLE_RAM_MAPPING_IN_0800
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_DISABLE_RAM_MAPPING_IN_0800
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_ENABLE_RAM_MAPPING_IN_1000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_DISABLE_RAM_MAPPING_IN_1000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_ENABLE_RAM_MAPPING_IN_2000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_DISABLE_RAM_MAPPING_IN_2000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_ENABLE_RAM_MAPPING_IN_4000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_DISABLE_RAM_MAPPING_IN_4000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_ENABLE_RAM_MAPPING_IN_6000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_DISABLE_RAM_MAPPING_IN_6000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_ENABLE_RAM_MAPPING_IN_C000
-
-/* cbm2/cbm2-cmdline-options.c */
-IDCLS_DISABLE_RAM_MAPPING_IN_C000
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 IDCLS_SPECIFY_KEYMAP_INDEX
@@ -731,12 +587,6 @@ IDCLS_PLUS4_SIDCART_CLOCK
 /* sid/sid-cmdline-options.c */
 IDCLS_VIC20_SIDCART_CLOCK
 
-/* vdc/vdc-cmdline-options.c, crtc/crtc-cmdline-options.c */
-IDCLS_ENABLE_STRETCH_VERTICAL
-
-/* vdc/vdc-cmdline-options.c, crtc/crtc-cmdline-options.c */
-IDCLS_DISABLE_STRETCH_VERTICAL
-
 /* vdc/vdc-cmdline-options.c */
 IDCLS_SET_VDC_MEMORY_16KB
 
@@ -985,21 +835,6 @@ IDCLS_DEFINE_SYSTEM_FILES_PATH
 /* translate.c */
 IDCLS_P_ISO_LANGUAGE_CODE
 
-/* c64/plus60k.c */
-IDCLS_SPECIFY_PLUS60K_NAME
-
-/* c64/plus60k.c */
-IDCLS_PLUS60K_BASE
-
-/* c64/c64_256k.c */
-IDCLS_SPECIFY_C64_256K_NAME
-
-/* c64/c64_256k.c */
-IDCLS_C64_256K_BASE
-
-/* c64/c64-memory-hacks.c */
-IDCLS_SET_C64_MEMORY_HACK
-
 /* plus4/plus4memhacks.c */
 IDCLS_SET_PLUS4_MEMORY_HACK
 
@@ -1024,9 +859,6 @@ IDCLS_DISABLE_PETDWW
 /* pet/petdww.c */
 IDCLS_SPECIFY_PETDWW_NAME
 
-/* c64/plus256k.c */
-IDCLS_SPECIFY_PLUS256K_NAME
-
 /* plus4/digiblaster.c */
 IDCLS_ENABLE_DIGIBLASTER
 
@@ -1047,78 +879,6 @@ IDCLS_DISABLE_PLUS4SPEECH
 
 /* plus4/plus4speech.c */
 IDCLS_ATTACH_SPEECH_ROM_IMAGE
-
-/* c64/cart/shortbus_digimax.c */
-IDCLS_ENABLE_SHORTBUS_DIGIMAX
-
-/* c64/cart/shortbus_digimax.c */
-IDCLS_DISABLE_SHORTBUS_DIGIMAX
-
-/* c64/cart/shortbus_etfe.c */
-IDCLS_ENABLE_SHORTBUS_ETFE
-
-/* c64/cart/shortbus_etfe.c */
-IDCLS_DISABLE_SHORTBUS_ETFE
-
-/* c64/cart/sfx_soundsampler.c */
-IDCLS_ENABLE_SFX_SS
-
-/* c64/cart/sfx_soundsampler.c */
-IDCLS_DISABLE_SFX_SS
-
-/* c64/cart/turbomaster.c */
-IDCLS_ENABLE_TURBOMASTER
-
-/* c64/cart/turbomaster.c */
-IDCLS_DISABLE_TURBOMASTER
-
-/* c64/cart/turbomaster.c */
-IDCLS_TURBOMASTER_SWITCH_ROM_1
-
-/* c64/cart/turbomaster.c */
-IDCLS_TURBOMASTER_SWITCH_ROM_2
-
-/* c64/cart/turbomaster.c */
-IDCLS_TURBOMASTER_SWITCH_SPEED_SOFT
-
-/* c64/cart/turbomaster.c */
-IDCLS_TURBOMASTER_SWITCH_SPEED_MANUAL
-
-/* c64/cart/turbomaster.c */
-IDCLS_TURBOMASTER_SWITCH_4_MHZ
-
-/* c64/cart/turbomaster.c */
-IDCLS_TURBOMASTER_SWITCH_1_MHZ
-
-/* c64/cart/turbomaster.c */
-IDCLS_SPECIFY_TURBOMASTER_ROM1_NAME
-
-/* c64/cart/turbomaster.c */
-IDCLS_SPECIFY_TURBOMASTER_ROM2_NAME
-
-/* c64dtv/c64dtvblitter.c */
-IDCLS_SPECIFY_DTV_REVISION
-
-/* c64dtv/c64dtvblitter.c */
-IDCLS_ENABLE_DTV_BLITTER_LOG
-
-/* c64dtv/c64dtvblitter.c */
-IDCLS_DISABLE_DTV_BLITTER_LOG
-
-/* c64dtv/c64dtvdma.c */
-IDCLS_ENABLE_DTV_DMA_LOG
-
-/* c64dtv/c64dtvdma.c */
-IDCLS_DISABLE_DTV_DMA_LOG
-
-/* c64dtv/flash-trap.c */
-IDCLS_USE_AS_DIRECTORY_FLASH_FS
-
-/* c64dtv/flash-trap.c */
-IDCLS_ENABLE_TRUE_FLASH_FS
-
-/* c64dtv/flash-trap.c */
-IDCLS_DISABLE_TRUE_FLASH_FS
 
 /* midi.c */
 IDCLS_ENABLE_MIDI_EMU
@@ -1146,8 +906,3 @@ IDCLS_ENABLE_HIRES_EMULATION_BOARD
 
 /* pet/pethre.c */
 IDCLS_DISABLE_HIRES_EMULATION_BOARD
-
-#ifdef HAVE_RAWDRIVE
-/* diskimage/rawimage.c */
-IDCLS_SET_RAW_DRIVE_DEVICE
-#endif

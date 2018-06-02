@@ -256,14 +256,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-sfxss", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundSampler", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SFX_SS,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable the SFX Sound Sampler cartridge" },
     { "+sfxss", SET_RESOURCE, 0,
       NULL, NULL, "SFXSoundSampler", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SFX_SS,
-      NULL, NULL },
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable the SFX Sound Sampler cartridge" },
     CMDLINE_LIST_END
 };
 

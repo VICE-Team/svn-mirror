@@ -574,20 +574,20 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-dtvrev", SET_RESOURCE, 1,
       NULL, NULL, "DtvRevision", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SPECIFY_DTV_REVISION,
-      "<Revision>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Revision>", "Specify DTV Revision (2: DTV2, 3: DTV3)" },
 #ifdef DEBUG
     { "-dtvblitterlog", SET_RESOURCE, 0,
       NULL, NULL, "DtvBlitterLog", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_DTV_BLITTER_LOG,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable DTV blitter logs." },
     { "+dtvblitterlog", SET_RESOURCE, 0,
       NULL, NULL, "DtvBlitterLog", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_DTV_BLITTER_LOG,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable DTV blitter logs." },
 #endif
     CMDLINE_LIST_END
 };

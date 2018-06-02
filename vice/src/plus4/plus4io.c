@@ -576,9 +576,9 @@ int cartio_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-iocollision", SET_RESOURCE, 1,
       NULL, NULL, "IOCollisionHandling", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SELECT_CONFLICT_HANDLING,
-      "<method>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<method>", "Select the way the I/O collisions should be handled, (0: error message and detach all involved carts, 1: error message and detach last attached involved carts, 2: warning in log and 'AND' the valid return values" },
     CMDLINE_LIST_END
 };
 

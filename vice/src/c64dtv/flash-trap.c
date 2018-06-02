@@ -323,19 +323,19 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-fsflash", SET_RESOURCE, 1,
       NULL, NULL, "FSFlashDir", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_USE_AS_DIRECTORY_FLASH_FS,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Use <name> as directory for flash file system device" },
     { "-trueflashfs", SET_RESOURCE, 0,
       NULL, NULL, "FlashTrueFS", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_TRUE_FLASH_FS,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable true hardware flash file system" },
     { "+trueflashfs", SET_RESOURCE, 0,
       NULL, NULL, "FlashTrueFS", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_TRUE_FLASH_FS,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable true hardware flash file system" },
     CMDLINE_LIST_END
 };
 
