@@ -26,14 +26,16 @@
 #  02111-1307  USA.
 #
 # Usage: make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <abs-top-builddir> <cross> <objdump> <compiler>
-#                         $1      $2             $3              $4          $5               $6           $7    $8
+#                         $1      $2             $3              $4          $5               $6           $7    $8                $9      $10       $11
 #
 
 STRIP=$1
 VICEVERSION=$2
 ENABLEARCH=$3
 ZIPKIND=$4
+X64SCINC=$5
 TOPSRCDIR=$6
+CPU=$7
 TOPBUILDDIR=$8
 CROSS=$9
 
@@ -57,13 +59,13 @@ get_dll_deps()
   done
 }
 
-if test x"$7" = "xx86_64" -o x"$7" = "xamd64"; then
+if test x"$CPU" = "xx86_64" -o x"$CPU" = "xamd64"; then
   WINXX="win64"
 else
   WINXX="win32"
 fi
 
-if test x"$5" = "xyes"; then
+if test x"$X64SCINC" = "xyes"; then
   SCFILE="x64sc"
 else
   SCFILE=""
