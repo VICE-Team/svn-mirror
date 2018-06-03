@@ -102,12 +102,12 @@ static const cmdline_option_t cmdline_options[] =
     { "-directwindow", SET_RESOURCE, 0,
       NULL, NULL, "DirectWindow", (resource_value_t) 1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable BeOS DirectWindow API" },
     { "+directwindow", SET_RESOURCE, 0,
       NULL, NULL, "DirectWindow", (resource_value_t) 0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable BeOS DirectWindow API" },
     CMDLINE_LIST_END
 };

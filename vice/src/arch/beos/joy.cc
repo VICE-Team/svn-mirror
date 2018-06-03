@@ -157,7 +157,7 @@ static const cmdline_option_t joydev1cmdline_options[] = {
     { "-joydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice1", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Set input device for joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)" },
     CMDLINE_LIST_END
 };
@@ -166,7 +166,7 @@ static const cmdline_option_t joydev2cmdline_options[] = {
     { "-joydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice2", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Set input device for joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)" },
     CMDLINE_LIST_END
 };
@@ -175,7 +175,7 @@ static const cmdline_option_t joydev3cmdline_options[] = {
     { "-extrajoydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice3", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Set input device for extra joystick #1 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)" },
     CMDLINE_LIST_END
 };
@@ -184,7 +184,7 @@ static const cmdline_option_t joydev4cmdline_options[] = {
     { "-extrajoydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice4", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Set input device for extra joystick #2 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)" },
     CMDLINE_LIST_END
 };
@@ -193,7 +193,7 @@ static const cmdline_option_t joydev5cmdline_options[] = {
     { "-extrajoydev3", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice5", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Set input device for extra joystick #3 (0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)" },
     CMDLINE_LIST_END
 };

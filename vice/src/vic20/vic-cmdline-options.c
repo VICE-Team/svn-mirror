@@ -66,9 +66,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-VICborders", CALL_FUNCTION, 1,
       border_set_func, NULL, "VICBorderMode", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SET_BORDER_MODE,
-      "<Mode>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Mode>", "Set border display mode (0: normal, 1: full, 2: debug, 3: none)" },
     CMDLINE_LIST_END
 };
 

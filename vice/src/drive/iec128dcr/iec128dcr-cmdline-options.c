@@ -35,9 +35,9 @@
 static const cmdline_option_t cmdline_options[] = {
     { "-dos1571cr", SET_RESOURCE, 1,
       NULL, NULL, "DosName1571cr", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SPECIFY_1571CR_DOS_ROM_NAME,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Specify name of 1571CR DOS ROM image" },
     CMDLINE_LIST_END
 };
 

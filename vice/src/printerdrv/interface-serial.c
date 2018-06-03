@@ -163,14 +163,14 @@ static const cmdline_option_t cmdline_options[] = {
       "<Type>", "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)" },
     { "-device6", SET_RESOURCE, 1,
       NULL, NULL, "Printer6", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SET_DEVICE_TYPE_6,
-      "<Type>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)" },
     { "-device7", SET_RESOURCE, 1,
       NULL, NULL, "Printer7", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SET_DEVICE_TYPE_7,
-      "<Type>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set device type for device #7 (0: None, 2: Real)" },
     CMDLINE_LIST_END
 };
 

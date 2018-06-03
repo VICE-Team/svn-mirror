@@ -1187,7 +1187,7 @@ static const cmdline_option_t cmdline_options[] =
     { "+magicvoice", SET_RESOURCE, 0,
       NULL, NULL, "MagicVoiceCartridgeEnabled", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDCLS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the Magic Voice cartridge" },
     CMDLINE_LIST_END
 };

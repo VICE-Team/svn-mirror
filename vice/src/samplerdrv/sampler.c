@@ -252,9 +252,9 @@ static cmdline_option_t cmdline_options[] =
       "Device", NULL },
     { "-samplergain", SET_RESOURCE, 1,
       NULL, NULL, "SamplerGain", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_GAIN, IDCLS_SAMPLER_GAIN_IN_PERCENT,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Sampler gain>", "Specify sampler gain in percent (1%-200%)" },
     CMDLINE_LIST_END
 };
 

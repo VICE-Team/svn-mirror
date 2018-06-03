@@ -514,7 +514,7 @@ static const cmdline_option_t cmdline_options[] =
     { "+ramcartimagerw", SET_RESOURCE, 0,
       NULL, NULL, "RAMCARTImageWrite", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDGS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Do not write to RAMCart image" },
     { "-ramcartro", SET_RESOURCE, 0,
       NULL, NULL, "RAMCART_RO", (resource_value_t)1,

@@ -174,19 +174,19 @@ void log_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-logfile", CALL_FUNCTION, 1,
       log_logfile_opt, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_SPECIFY_LOG_FILE_NAME,
-      "<Name>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Specify log file name" },
     { "-verbose", CALL_FUNCTION, 0,
       log_verbose_opt, (void*)1, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_VERBOSE_LOG_OUTPUT,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Enable verbose log output." },
     { "-silent", CALL_FUNCTION, 0,
       log_silent_opt, (void*)1, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_LOG_OUTPUT,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      NULL, "Disable verbose log output." },
     CMDLINE_LIST_END
 };
 

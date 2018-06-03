@@ -216,37 +216,37 @@ static int doodledrv_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-doodleoversize", SET_RESOURCE, 1,
       NULL, NULL, "DoodleOversizeHandling", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_OVERSIZED_HANDLING,
-      "<method>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<method>", "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)" },
     { "-doodleundersize", SET_RESOURCE, 1,
       NULL, NULL, "DoodleUndersizeHandling", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_UNDERSIZED_HANDLING,
-      "<method>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<method>", "Select the way the undersized input should be handled, (0: scale up, 1: borderize)" },
     { "-doodlemc", SET_RESOURCE, 1,
       NULL, NULL, "DoodleMultiColorHandling", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_MULTICOLOR_HANDLING,
-      "<method>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<method>", "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)" },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_plus4[] = {
     { "-doodletedlum", SET_RESOURCE, 1,
       NULL, NULL, "DoodleTEDLumHandling", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_TED_LUM_HANDLING,
-      "<method>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<method>", "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)" },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t cmdline_options_crtc[] = {
     { "-doodlecrtctextcolor", SET_RESOURCE, 1,
       NULL, NULL, "DoodleCRTCTextColor", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_COLOR, IDCLS_CRTC_TEXT_COLOR,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<color>", "Select the CRTC text color (0: white, 1: amber, 2: green)" },
     CMDLINE_LIST_END
 };
 

@@ -670,19 +670,19 @@ static const cmdline_option_t cmdline_options[] = {
     { "-midiin", SET_RESOURCE, -1,
       NULL, NULL, "MIDIInDev", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<Name>"), N_("Specify MIDI-In device") },
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Name>", "Specify MIDI-In device" },
     { "-midiout", SET_RESOURCE, -1,
       NULL, NULL, "MIDIOutDev", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<Name>"), N_("Specify MIDI-Out device") },
+      IDGS_UNUSED, IDFS_UNUSED,
+      "<Name>", "Specify MIDI-Out device" },
 #ifdef USE_ALSA
     { "-mididrv", SET_RESOURCE, -1,
       NULL, NULL, "MIDIDriver", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<Driver>"), N_("Specify MIDI driver (0 = OSS, 1 = ALSA)") },
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Driver>", "Specify MIDI driver (0 = OSS, 1 = ALSA)" },
 #endif
     CMDLINE_LIST_END
 };

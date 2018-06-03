@@ -37,9 +37,9 @@
 static cmdline_option_t cmd_drive[] = {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDCLS_PAR_CABLE_PLUS4EXP_TYPE,
-      "<Type>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<Type>", "Set parallel cable type (0: none, 1: standard)" },
     CMDLINE_LIST_END
 };
 

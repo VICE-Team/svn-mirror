@@ -186,14 +186,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-keybuf", CALL_FUNCTION, 1,
       kdb_buf_feed_cmdline, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_STRING, IDCLS_PUT_STRING_INTO_KEYBUF,
-      NULL, NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<string>", "Put the specified string into the keyboard buffer." },
     { "-keybuf-delay", SET_RESOURCE, 1,
       NULL, NULL, "KbdbufDelay", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_KEYBUF_DELAY,
-      "<value>", NULL },
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
+      "<value>", "Set additional keyboard buffer delay (0: use default)" },
     CMDLINE_LIST_END
 };
 
