@@ -675,7 +675,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-midiout", SET_RESOURCE, -1,
       NULL, NULL, "MIDIOutDev", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDFS_UNUSED,
+      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify MIDI-Out device" },
 #ifdef USE_ALSA
     { "-mididrv", SET_RESOURCE, -1,
