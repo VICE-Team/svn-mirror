@@ -34,6 +34,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/samplerdrv \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/imagecontents \
+	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/tapeport
 
 
@@ -49,7 +50,6 @@ libarch_a_SOURCES = \
 	cairo_renderer.c \
 	cbm2ui.c \
 	cbm5x0ui.c \
-	console.c \
 	coproc.c \
 	dynlib.c \
 	fullscreen.c \
@@ -63,6 +63,7 @@ libarch_a_SOURCES = \
 	joy-win32-dinput-handle.c \
 	joy-win32.c \
 	kbd.c \
+	linenoise.c \
 	mousedrv.c \
 	opengl_renderer.c \
 	petui.c \

@@ -4176,6 +4176,13 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
         PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no)))
   fi
 
+    if test x"$have_vte" = "xyes"; then
+      HAVE_VTE_SUPPORT="yes"
+      AC_DEFINE(HAVE_VTE,,[Enable VTE support])
+      CFLAGS="$CFLAGS $VTE_CFLAGS"
+      LIBS="$LIBS $VTE_LIBS"
+    fi
+
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
 else
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, false)

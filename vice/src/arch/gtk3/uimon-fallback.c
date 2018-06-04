@@ -57,7 +57,7 @@
 
 #include "not_implemented.h"
 
-#ifndef HAVE_GTK3_MONITOR
+#ifndef HAVE_VTE
 
 static console_t *console_log_local = NULL;
 
