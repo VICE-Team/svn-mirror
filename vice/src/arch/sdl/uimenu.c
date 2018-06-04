@@ -189,9 +189,6 @@ static int *sdl_ui_menu_get_offsets(ui_menu_entry_t *menu, int num_items)
     int i, j, len, max_len;
     ui_menu_entry_type_t block_type;
 
-    if (menu_offsets != NULL) {
-        lib_free(menu_offsets);
-    }
     menu_offsets = lib_malloc(num_items * sizeof(int));
 
     for (i = 0; i < num_items; ++i) {
