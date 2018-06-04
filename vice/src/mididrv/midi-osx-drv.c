@@ -127,7 +127,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "MIDIInName", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDGS_UNUSED, IDGS_UNUSED,
-      "<Name>", "Name of MIDI-In Port) },
+      "<Name>", "Name of MIDI-In Port" },
     { "-midioutname", SET_RESOURCE, -1,
       NULL, NULL, "MIDIOutName", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
