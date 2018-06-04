@@ -337,15 +337,7 @@ char *cmdline_options_get_description(int counter)
 {
     union char_func cf;
 
-    if (options[counter].use_description_id == USE_DESCRIPTION_ID) {
-        return translate_text(options[counter].description_trans);
-    } else if (options[counter].use_description_id == USE_DESCRIPTION_COMBO) {
-        if (options[counter].combined_string) {
-            lib_free(options[counter].combined_string);
-        }
-        options[counter].combined_string = util_concat(translate_text(options[counter].description_trans), options[counter].description, NULL);
-        return options[counter].combined_string;
-    } else if (options[counter].use_description_id == USE_DESCRIPTION_DYN) {
+    if (options[counter].use_description_id == USE_DESCRIPTION_DYN) {
         if (options[counter].combined_string) {
             lib_free(options[counter].combined_string);
         }
