@@ -35,6 +35,10 @@
 typedef enum cmdline_option_type { SET_RESOURCE, CALL_FUNCTION }
     cmdline_option_type_t;
 
+#define CMDLINE_ATTRIB_NEED_ARGS             (1 << 0)
+#define CMDLINE_ATTRIB_NEED_BRACKETS         (1 << 1)
+#define CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION   (1 << 2)
+
 typedef struct cmdline_option_s {
     /* Name of command-line option
      *
@@ -47,10 +51,12 @@ typedef struct cmdline_option_s {
     /* Behavior of this command-line option.  */
     cmdline_option_type_t type;
 
-    /* Flag: Does this option need an argument?
-       This option also indicates if the brackets need to be added
-       to the text. */
-    int need_arg;
+    /* Command line option flags:
+       CMDLINE_ATTRIB_NEED_ARGS:           This option needs an argument.
+       CMDLINE_ATTRIB_NEED_BRACKETS:       The brackets need to be added to the text.
+       CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION: The description text is a pointer to a function that returns the text.
+     */
+    int attributes;
 
     /* Function to call if type is `CALL_FUNCTION'.  */
     int (*set_func)(const char *value, void *extra_param);
@@ -94,8 +100,12 @@ typedef struct cmdline_option_ram_s {
     /* Behavior of this command-line option.  */
     cmdline_option_type_t type;
 
-    /* Flag: Does this option need an argument?  */
-    int need_arg;
+    /* Command line option flags:
+       CMDLINE_ATTRIB_NEED_ARGS:           This option needs an argument.
+       CMDLINE_ATTRIB_NEED_BRACKETS:       The brackets need to be added to the text.
+       CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION: The description text is a pointer to a function that returns the text.
+     */
+    int attributes;
 
     /* Function to call if type is `CALL_FUNCTION'.  */
     int (*set_func)(const char *value, void *extra_param);

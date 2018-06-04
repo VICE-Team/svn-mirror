@@ -103,7 +103,7 @@ int cmdline_register_options(const cmdline_option_t *c)
 
         p->name = lib_stralloc(c->name);
         p->type = c->type;
-        p->need_arg = c->need_arg;
+        p->attributes = c->attributes;
         p->set_func = c->set_func;
         p->extra_param = c->extra_param;
         if (c->resource_name != NULL) {
@@ -228,21 +228,21 @@ int cmdline_parse(int *argc, char **argv)
                                           argv[i]);
                 return -1;
             }
-            if (p->need_arg && i >= *argc - 1) {
+            if ((p->attributes & CMDLINE_ATTRIB_NEED_ARGS) && i >= *argc - 1) {
                 archdep_startup_log_error("Option '%s' requires a parameter.\n",
                                           p->name);
                 return -1;
             }
             switch (p->type) {
                 case SET_RESOURCE:
-                    if (p->need_arg) {
+                    if (p->attributes & CMDLINE_ATTRIB_NEED_ARGS) {
                         retval = resources_set_value_string(p->resource_name, argv[i + 1]);
                     } else {
                         retval = resources_set_value(p->resource_name, p->resource_value);
                     }
                     break;
                 case CALL_FUNCTION:
-                    retval = p->set_func(p->need_arg ? argv[i + 1] : NULL,
+                    retval = p->set_func((p->attributes & CMDLINE_ATTRIB_NEED_ARGS) ? argv[i + 1] : NULL,
                                          p->extra_param);
                     break;
                 default:
@@ -251,7 +251,7 @@ int cmdline_parse(int *argc, char **argv)
                     return -1;
             }
             if (retval < 0) {
-                if (p->need_arg) {
+                if (p->attributes & CMDLINE_ATTRIB_NEED_ARGS) {
                     archdep_startup_log_error("Argument '%s' not valid for option `%s'.\n",
                                               argv[i + 1], p->name);
                 } else {
@@ -260,7 +260,7 @@ int cmdline_parse(int *argc, char **argv)
                 return -1;
             }
 
-            i += p->need_arg ? 2 : 1;
+            i += (p->attributes & CMDLINE_ATTRIB_NEED_ARGS) ? 2 : 1;
         } else {
             break;
         }
@@ -308,7 +308,7 @@ void cmdline_show_help(void *userparam)
     printf("\nAvailable command-line options:\n\n");
     for (i = 0; i < num_options; i++) {
         char *param = cmdline_options_get_param(i);
-        if (options[i].need_arg && param != NULL) {
+        if ((options[i].attributes & CMDLINE_ATTRIB_NEED_ARGS) && param != NULL) {
             printf("%s %s\n", options[i].name, param);
         } else {
             puts(options[i].name);
@@ -337,7 +337,7 @@ char *cmdline_options_get_description(int counter)
 {
     union char_func cf;
 
-    if (options[counter].use_description_id == USE_DESCRIPTION_DYN) {
+    if (options[counter].use_description_id == USE_DESCRIPTION_DYN || (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION)) {
         if (options[counter].combined_string) {
             lib_free(options[counter].combined_string);
         }
@@ -360,8 +360,8 @@ char *cmdline_options_string(void)
     for (i = 0; i < num_options; i++) {
         add_to_options1 = lib_msprintf("%s", options[i].name);
         add_to_options3 = lib_msprintf("\n\t%s\n", cmdline_options_get_description(i));
-        if (options[i].need_arg && cmdline_options_get_param(i) != NULL) {
-            if (options[i].need_arg == -1) {
+        if ((options[i].attributes & CMDLINE_ATTRIB_NEED_ARGS) && cmdline_options_get_param(i) != NULL) {
+            if (options[i].attributes == -1 || (options[i].attributes & CMDLINE_ATTRIB_NEED_BRACKETS)) {
                 add_to_options2 = lib_msprintf(" <%s>", cmdline_options_get_param(i));
             } else {
                 add_to_options2 = lib_msprintf(" %s", cmdline_options_get_param(i));
