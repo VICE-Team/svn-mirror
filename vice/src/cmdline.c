@@ -51,6 +51,8 @@
 static unsigned int num_options, num_allocated_options;
 static cmdline_option_ram_t *options;
 
+static char *combined_string = NULL;
+
 int cmdline_init(void)
 {
     lib_free(options);
@@ -133,6 +135,11 @@ int cmdline_register_options(const cmdline_option_t *c)
 static void cmdline_free(void)
 {
     unsigned int i;
+
+    if (combined_string) {
+        lib_free(combined_string);
+        combined_string = NULL;
+    }
 
     for (i = 0; i < num_options; i++) {
         lib_free((options + i)->name);
@@ -337,13 +344,13 @@ char *cmdline_options_get_description(int counter)
 {
     union char_func cf;
 
-    if (options[counter].use_description_id == USE_DESCRIPTION_DYN || (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION)) {
-        if (options[counter].combined_string) {
-            lib_free(options[counter].combined_string);
+    if (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION) {
+        if (combined_string) {
+            lib_free(combined_string);
         }
         cf.c = options[counter].description;
-        options[counter].combined_string = cf.f(options[counter].description_trans);
-        return options[counter].combined_string;
+        combined_string = cf.f(options[counter].attributes >> 8);
+        return combined_string;
     } else {
         return (char *)_(options[counter].description);
     }

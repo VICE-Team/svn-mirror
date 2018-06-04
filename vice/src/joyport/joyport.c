@@ -676,50 +676,50 @@ static char *build_joyport_string(int port)
 
 static cmdline_option_t cmdline_options_port1[] =
 {
-    { "-controlport1device", CALL_FUNCTION, 1,
+    { "-controlport1device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       set_joyport_cmdline_device, (void *)JOYPORT_1, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_DYN,
-      IDGS_UNUSED, JOYPORT_1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "Device", NULL },
     CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port2[] =
 {
-    { "-controlport2device", CALL_FUNCTION, 1,
+    { "-controlport2device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       set_joyport_cmdline_device, (void *)JOYPORT_2, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_DYN,
-      IDGS_UNUSED, JOYPORT_2,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "Device", NULL },
     CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port3[] =
 {
-    { "-controlport3device", CALL_FUNCTION, 1,
+    { "-controlport3device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       set_joyport_cmdline_device, (void *)JOYPORT_3, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_DYN,
-      IDGS_UNUSED, JOYPORT_3,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "Device", NULL },
     CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port4[] =
 {
-    { "-controlport4device", CALL_FUNCTION, 1,
+    { "-controlport4device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       set_joyport_cmdline_device, (void *)JOYPORT_4, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_DYN,
-      IDGS_UNUSED, JOYPORT_4,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "Device", NULL },
     CMDLINE_LIST_END
 };
 
 static cmdline_option_t cmdline_options_port5[] =
 {
-    { "-controlport5device", CALL_FUNCTION, 1,
+    { "-controlport5device", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       set_joyport_cmdline_device, (void *)JOYPORT_5, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_DYN,
-      IDGS_UNUSED, JOYPORT_5,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDGS_UNUSED, IDGS_UNUSED,
       "Device", NULL },
     CMDLINE_LIST_END
 };
@@ -731,6 +731,7 @@ int joyport_cmdline_options_init(void)
     if (port_props[JOYPORT_1].name) {
         cf.f = build_joyport_string;
         cmdline_options_port1[0].description = cf.c;
+        cmdline_options_port1[0].attributes |= (JOYPORT_1 << 8);
         if (cmdline_register_options(cmdline_options_port1) < 0) {
             return -1;
         }
@@ -739,6 +740,7 @@ int joyport_cmdline_options_init(void)
     if (port_props[JOYPORT_2].name) {
         cf.f = build_joyport_string;
         cmdline_options_port2[0].description = cf.c;
+        cmdline_options_port2[0].attributes |= (JOYPORT_2 << 8);
         if (cmdline_register_options(cmdline_options_port2) < 0) {
             return -1;
         }
@@ -747,6 +749,7 @@ int joyport_cmdline_options_init(void)
     if (port_props[JOYPORT_3].name) {
         cf.f = build_joyport_string;
         cmdline_options_port3[0].description = cf.c;
+        cmdline_options_port3[0].attributes |= (JOYPORT_3 << 8);
         if (cmdline_register_options(cmdline_options_port3) < 0) {
             return -1;
         }
@@ -755,6 +758,7 @@ int joyport_cmdline_options_init(void)
     if (port_props[JOYPORT_4].name) {
         cf.f = build_joyport_string;
         cmdline_options_port4[0].description = cf.c;
+        cmdline_options_port4[0].attributes |= (JOYPORT_4 << 8);
         if (cmdline_register_options(cmdline_options_port4) < 0) {
             return -1;
         }
@@ -763,6 +767,7 @@ int joyport_cmdline_options_init(void)
     if (port_props[JOYPORT_5].name) {
         cf.f = build_joyport_string;
         cmdline_options_port5[0].description = cf.c;
+        cmdline_options_port5[0].attributes |= (JOYPORT_5 << 8);
         if (cmdline_register_options(cmdline_options_port5) < 0) {
             return -1;
         }
