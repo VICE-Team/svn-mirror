@@ -75,8 +75,6 @@ sdl_keymaps = \
 	sdl_grus_sym.vkm
 
 extra_keymaps = \
-	beos_bgrs.vkm \
-	beos_buks.vkm \
 	osx_grus_sym.vkm \
 	osx_sym_uk.vkm
 

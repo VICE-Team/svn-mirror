@@ -49,8 +49,6 @@ sdl_keymaps = \
 	sdl_sym.vkm
 
 extra_keymaps = \
-	beos_bukp.vkm \
-	beos_buks.vkm \
 	osx_pos_uk.vkm \
 	osx_sym_uk.vkm
 
