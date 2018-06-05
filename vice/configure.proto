@@ -4488,12 +4488,6 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
-  if test x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
-    ARCH_DIR="\$(top_builddir)/src/arch/beos"
-    ARCH_SRC_DIR="\$(top_srcdir)/src/arch/beos"
-    ARCH_LIBS="$ARCH_DIR/libarch.a"
-  fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
@@ -4581,32 +4575,8 @@ if test x"$enable_platformdox" = "xyes"; then
     fi
   fi
 
-  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amigaos3" = "xyes"; then
-    PLATFORM_DOX_FLAGS="platformamigaos3"
-  fi
-
-  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amigaos4" = "xyes"; then
-    PLATFORM_DOX_FLAGS="platformamigaos4"
-  fi
-
-  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amiga_morphos" = "xyes"; then
-    PLATFORM_DOX_FLAGS="platformmorphos"
-  fi
-
-  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_amiga_aros" = "xyes"; then
-    PLATFORM_DOX_FLAGS="platformaros"
-  fi
-
   if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_unix_macosx" = "xyes"; then
     PLATFORM_DOX_FLAGS="platformosx"
-  fi
-
-  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_beos" = "xyes"; then
-    PLATFORM_DOX_FLAGS="platformbeos"
-  fi
-
-  if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_os2" = "xyes"; then
-    PLATFORM_DOX_FLAGS="platformos2"
   fi
 
   if test x"$PLATFORM_DOX_FLAGS" = "x" -a x"$is_win32" = "xyes"; then
@@ -4915,9 +4885,6 @@ if test x"$enable_gnomeui3" = "xyes"; then
 fi
 if test x"$with_cocoa" = "xyes"; then
     show_gui="COCOA"
-fi
-if test x"$is_beos" = "xyes"; then
-    show_gui="BeOS"
 fi
 if test x"$is_os2" = "xyes"; then
     show_gui="DIVE (PM)"
