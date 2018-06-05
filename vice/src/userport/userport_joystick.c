@@ -541,13 +541,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-userportjoy", SET_RESOURCE, 0,
       NULL, NULL, "UserportJoy", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable Userport joystick adapter" },
     { "+userportjoy", SET_RESOURCE, 0,
       NULL, NULL, "UserportJoy", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable Userport joystick adapter" },
     CMDLINE_LIST_END
 };
@@ -556,8 +552,6 @@ static const cmdline_option_t cmdline_options_type[] =
 {
     { "-userportjoytype", SET_RESOURCE, 1,
       NULL, NULL, "UserportJoyType", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)" },
     CMDLINE_LIST_END
 };

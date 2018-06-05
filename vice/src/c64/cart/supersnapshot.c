@@ -332,13 +332,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-ssramexpansion", SET_RESOURCE, 0,
       NULL, NULL, "SSRamExpansion", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable SS 32k RAM expansion" },
     { "+ssramexpansion", SET_RESOURCE, 0,
       NULL, NULL, "SSRamExpansion", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable SS 32k RAM expansion" },
     CMDLINE_LIST_END
 };

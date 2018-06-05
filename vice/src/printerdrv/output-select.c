@@ -104,18 +104,12 @@ static cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1,
       NULL, NULL, "Printer4Output", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     { "-pr5output", SET_RESOURCE, 1,
       NULL, NULL, "Printer5Output", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     { "-pr6output", SET_RESOURCE, 1,
       NULL, NULL, "Printer6Output", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     CMDLINE_LIST_END
 };
@@ -124,8 +118,6 @@ static cmdline_option_t cmdline_options_userport[] =
 {
     { "-pruseroutput", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportOutput", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", NULL },
     CMDLINE_LIST_END
 };

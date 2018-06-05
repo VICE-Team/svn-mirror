@@ -166,18 +166,12 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, 1,
       NULL, NULL, "Printer4Driver", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)" },
     { "-pr5drv", SET_RESOURCE, 1,
       NULL, NULL, "Printer5Driver", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)" },
     { "-pr6drv", SET_RESOURCE, 1,
       NULL, NULL, "Printer6Driver", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of printer driver for device #6. (1520/raw)" },
     CMDLINE_LIST_END
 };
@@ -186,8 +180,6 @@ static const cmdline_option_t cmdline_options_userport[] =
 {
     { "-pruserdrv", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportDriver", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of printer driver for the userport printer. (ascii/nl10/raw)" },
     CMDLINE_LIST_END
 };

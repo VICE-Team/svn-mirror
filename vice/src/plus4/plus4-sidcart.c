@@ -264,36 +264,25 @@ int sidcart_resources_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static const cmdline_option_t sidcart_cmdline_options[] = {
+static const cmdline_option_t sidcart_cmdline_options[] =
+{
     { "-sidcart", SET_RESOURCE, 0,
       NULL, NULL, "SidCart", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the SID cartridge" },
     { "+sidcart", SET_RESOURCE, 0,
       NULL, NULL, "SidCart", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the SID cartridge" },
     { "-sidcartjoy", SET_RESOURCE, 0,
       NULL, NULL, "SIDCartJoy", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable SID cartridge joystick" },
     { "+sidcartjoy", SET_RESOURCE, 0,
       NULL, NULL, "SIDCartJoy", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable SID cartridge joystick" },
     { "-sidcartaddress", SET_RESOURCE, 1,
       NULL, NULL, "SidAddress", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<address>", "SID cartridge address (0xFD40/0xFE80)" },
     { "-sidcartclock", SET_RESOURCE, 1,
       NULL, NULL, "SidClock", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<clock>", "SID cartridge clock (0: C64 clock, 1: PLUS4 clock)" },
     CMDLINE_LIST_END
 };

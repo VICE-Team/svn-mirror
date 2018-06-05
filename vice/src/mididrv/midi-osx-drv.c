@@ -117,21 +117,16 @@ void mididrv_resources_shutdown(void)
     lib_free(midi_out_name);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-midiname", SET_RESOURCE, -1,
       NULL, NULL, "MIDIName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Name of MIDI Client" },
     { "-midiinname", SET_RESOURCE, -1,
       NULL, NULL, "MIDIInName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Name of MIDI-In Port" },
     { "-midioutname", SET_RESOURCE, -1,
       NULL, NULL, "MIDIOutName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Name of MIDI-Out Port" },
     CMDLINE_LIST_END
 };

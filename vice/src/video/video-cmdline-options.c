@@ -38,16 +38,13 @@
 #include "video.h"
 
 #ifdef HAVE_HWSCALE
-static cmdline_option_t cmdline_options[] = {
+static cmdline_option_t cmdline_options[] =
+{
     { "-hwscalepossible", SET_RESOURCE, 0,
       NULL, NULL, "HwScalePossible", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the possibility of hardware scaling" },
     { "+hwscalepossible", SET_RESOURCE, 0,
       NULL, NULL, "HwScalePossible", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the possibility of hardware scaling" },
     CMDLINE_LIST_END
 };
@@ -76,13 +73,9 @@ static cmdline_option_t cmdline_options_chip_size[] =
 {
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable double size" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable double size" },
     CMDLINE_LIST_END
 };
@@ -98,13 +91,9 @@ static cmdline_option_t cmdline_options_chip_scan[] =
 {
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable double scan" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable double scan" },
     CMDLINE_LIST_END
 };
@@ -120,13 +109,9 @@ static cmdline_option_t cmdline_options_chip_audioleak[] =
 {
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable audio leak emulation" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable audio leak emulation" },
     CMDLINE_LIST_END
 };
@@ -142,13 +127,9 @@ static cmdline_option_t cmdline_options_chip_hwscale[] =
 {
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable hardware scaling" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable hardware scaling" },
     CMDLINE_LIST_END
 };
@@ -163,8 +144,6 @@ static cmdline_option_t cmdline_options_chip_render_filter[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Mode>", "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)" },
     CMDLINE_LIST_END
 };
@@ -180,13 +159,9 @@ static cmdline_option_t cmdline_options_chip_internal_palette[] =
 {
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Use an internal calculated palette" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Use an external palette (file)" },
     CMDLINE_LIST_END
 };
@@ -201,8 +176,6 @@ static cmdline_option_t cmdline_options_chip_palette[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of file of external palette" },
     CMDLINE_LIST_END
 };
@@ -222,19 +195,13 @@ static cmdline_option_t cmdline_options_chip_fullscreen[] =
 #if defined(USE_SDLUI) || defined(USE_SDLUI2)
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable fullscreen" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable fullscreen" },
 #endif
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<device>", "Select fullscreen device" },
     CMDLINE_LIST_END
 };
@@ -249,8 +216,6 @@ static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Mode>", "Select fullscreen mode" },
     CMDLINE_LIST_END
 };
@@ -269,28 +234,18 @@ static cmdline_option_t cmdline_options_chip_colors[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2000>", "Set saturation of internal calculated palette" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2000>", "Set contrast of internal calculated palette" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2000>", "Set brightness of internal calculated palette" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-4000>", "Set gamma of internal calculated palette" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2000>", "Set tint of internal calculated palette" },
     CMDLINE_LIST_END
 };
@@ -313,13 +268,9 @@ static cmdline_option_t cmdline_options_chip_crtemu_palntsc[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2000>", "Set phase for color carrier in odd lines" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2000>", "Set phase offset for color carrier in odd lines" },
     CMDLINE_LIST_END
 };
@@ -328,13 +279,9 @@ static cmdline_option_t cmdline_options_chip_crtemu[] =
 {
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-1000>", "Amount of horizontal blur for the CRT emulation." },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-1000>", "Amount of scan line shading for the CRT emulation" },
     CMDLINE_LIST_END
 };

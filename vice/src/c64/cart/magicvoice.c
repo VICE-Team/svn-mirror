@@ -1176,18 +1176,12 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-magicvoiceimage", SET_RESOURCE, 1,
       NULL, NULL, "MagicVoiceImage", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of Magic Voice ROM image" },
     { "-magicvoice", SET_RESOURCE, 0,
       NULL, NULL, "MagicVoiceCartridgeEnabled", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the Magic Voice cartridge" },
     { "+magicvoice", SET_RESOURCE, 0,
       NULL, NULL, "MagicVoiceCartridgeEnabled", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the Magic Voice cartridge" },
     CMDLINE_LIST_END
 };

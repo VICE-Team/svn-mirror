@@ -470,131 +470,95 @@ int joy_arch_resources_init(void)
 
 /* ----- VICE Command-line options ----- */
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-joyAdevice", SET_RESOURCE, 1,
       NULL, NULL, "JoyADevice", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<vid:pid:sn>", N_("Set HID A device") },
     { "-joyAxaxis", SET_RESOURCE, 1,
       NULL, NULL, "JoyAXAxis", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<X,Y,Z,Rx,Ry,Rz>", N_("Set X Axis for HID A device") },
     { "-joyAyaxis", SET_RESOURCE, 1,
       NULL, NULL, "JoyAYAxis", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<X,Y,Z,Rx,Ry,Rz>", N_("Set Y Axis for HID A device") },
     { "-joyAbuttons", SET_RESOURCE, 1,
       NULL, NULL, "JoyAButtons", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<f:af:l:r:u:d>", N_("Set Buttons for HID A device") },
     { "-joyAautobuttons", SET_RESOURCE, 1,
       NULL, NULL, "JoyAAutoButtons", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<af1:af2:af1p:af1r:af2p:af2r>", N_("Set Auto Fire Buttons for HID A device") },
     { "-joyAxthreshold", SET_RESOURCE, 1,
       NULL, NULL, "JoyAXThreshold", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-100>", N_("Set X Axis Threshold in Percent of HID A device") },
     { "-joyAythreshold", SET_RESOURCE, 1,
       NULL, NULL, "JoyAYThreshold", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-100>", N_("Set Y Axis Threshold in Percent of HID A device") },
     { "-joyBdevice", SET_RESOURCE, 1,
       NULL, NULL, "JoyBDevice", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<vid:pid:sn>", N_("Set HID B device") },
     { "-joyBxaxis", SET_RESOURCE, 1,
       NULL, NULL, "JoyBXAxis", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<X,Y,Z,Rx,Ry,Rz>", N_("Set X Axis for HID B device") },
     { "-joyByaxis", SET_RESOURCE, 1,
       NULL, NULL, "JoyBYAxis", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<X,Y,Z,Rx,Ry,Rz>", N_("Set Y Axis for HID B device") },
     { "-joyBbuttons", SET_RESOURCE, 1,
       NULL, NULL, "JoyBButtons", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<f:af:l:r:u:d>", N_("Set Buttons for HID B device") },
     { "-joyBautobuttons", SET_RESOURCE, 1,
       NULL, NULL, "JoyBAutoButtons", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<af1:af2:af1p:af1r:af2p:af2r>", N_("Set Auto Fire Buttons for HID B device") },
     { "-joyBxthreshold", SET_RESOURCE, 1,
       NULL, NULL, "JoyBXThreshold", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-100>", N_("Set X Axis Threshold in Percent of HID B device") },
     { "-joyBythreshold", SET_RESOURCE, 1,
       NULL, NULL, "JoyBYThreshold", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-100>", N_("Set Y Axis Threshold in Percent of HID B device") },
     { "-joyAhatswitch", SET_RESOURCE, 1,
       NULL, NULL, "JoyAHatSwitch", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-n>", N_("Set Hat Switch for Joystick of HID A device") },
     { "-joyBhatswitch", SET_RESOURCE, 1,
       NULL, NULL, "JoyBHatSwitch", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-n>", N_("Set Hat Switch for Joystick of HID B device") },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev1cmdline_options[] = {
+static const cmdline_option_t joydev1cmdline_options[] =
+{
     { "-joydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-5>", N_("Set device for joystick port 1") },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev2cmdline_options[] = {
+static const cmdline_option_t joydev2cmdline_options[] =
+{
     { "-joydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice2", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-5>", N_("Set device for joystick port 2") },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev3cmdline_options[] = {
+static const cmdline_option_t joydev3cmdline_options[] =
+{
     { "-extrajoydev1", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice3", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-5>", N_("Set device for extra joystick port 1") },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev4cmdline_options[] = {
+static const cmdline_option_t joydev4cmdline_options[] =
+{
     { "-extrajoydev2", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice4", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-5>", N_("Set device for extra joystick port 2") },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t joydev5cmdline_options[] = {
+static const cmdline_option_t joydev5cmdline_options[] =
+{
     { "-extrajoydev3", SET_RESOURCE, 1,
       NULL, NULL, "JoyDevice5", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-5>", N_("Set device for extra joystick port 3") },
     CMDLINE_LIST_END
 };

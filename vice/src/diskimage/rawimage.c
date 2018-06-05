@@ -173,8 +173,6 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-rawdrive", SET_RESOURCE, 1,
       NULL, NULL, "RawDriveDriver", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Set raw drive device name" },
     CMDLINE_LIST_END
 };

@@ -219,26 +219,19 @@ int sidcart_resources_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static const cmdline_option_t sidcart_cmdline_options[] = {
+static const cmdline_option_t sidcart_cmdline_options[] =
+{
     { "-sidcart", SET_RESOURCE, 1,
       NULL, NULL, "SidCart", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the SID cartridge" },
     { "+sidcart", SET_RESOURCE, 0,
       NULL, NULL, "SidCart", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the SID cartridge" },
     { "-sidcartaddress", SET_RESOURCE, 1,
       NULL, NULL, "SidAddress", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<address>", "SID cartridge address (0x9800/0x9C00)" },
     { "-sidcartclock", SET_RESOURCE, 1,
       NULL, NULL, "SidClock", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<clock>", "SID cartridge clock (0: C64 clock, 1: VIC20 clock)" },
     CMDLINE_LIST_END
 };

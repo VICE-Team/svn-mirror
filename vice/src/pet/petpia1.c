@@ -107,16 +107,13 @@ int pia1_resources_init(void)
 }
 
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-diagpin", SET_RESOURCE, 0,
       NULL, NULL, "DiagPin", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable userport diagnostic pin" },
     { "+diagpin", SET_RESOURCE, 0,
       NULL, NULL, "DiagPin", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable userport diagnostic pin" },
     CMDLINE_LIST_END
 };

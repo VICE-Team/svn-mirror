@@ -34,11 +34,10 @@
 #include "plus4exp-cmdline-options.h"
 #include "translate.h"
 
-static cmdline_option_t cmd_drive[] = {
+static cmdline_option_t cmd_drive[] =
+{
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Set parallel cable type (0: none, 1: standard)" },
     CMDLINE_LIST_END
 };

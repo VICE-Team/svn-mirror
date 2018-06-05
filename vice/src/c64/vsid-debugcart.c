@@ -87,13 +87,9 @@ static const cmdline_option_t cart_cmdline_options[] =
 {
     { "-debugcart", SET_RESOURCE, 0,
       NULL, NULL, "DebugCartEnable", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable Debug cartridge" },
     { "+debugcart", SET_RESOURCE, 0,
       NULL, NULL, "DebugCartEnable", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable Debug cartridge" },
     CMDLINE_LIST_END
 };

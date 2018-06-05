@@ -228,46 +228,31 @@ void functionrom_resources_shutdown(void)
     lib_free(external_function_rom_name);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-intfrom", SET_RESOURCE, 1,
       NULL, NULL, "InternalFunctionName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of internal Function ROM image" },
     { "-extfrom", SET_RESOURCE, 1,
       NULL, NULL, "ExternalFunctionName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of external Function ROM image" },
     { "-intfunc", SET_RESOURCE, 1,
       NULL, NULL, "InternalFunctionROM", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)" },
     { "-extfunc", SET_RESOURCE, 1,
       NULL, NULL, "ExternalFunctionROM", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)" },
     { "-intfuncrtcsave", SET_RESOURCE, 0,
       NULL, NULL, "InternalFunctionROMRTCSave", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable saving of the internal function RTC data when changed." },
     { "+intfuncrtcsave", SET_RESOURCE, 0,
       NULL, NULL, "InternalFunctionROMRTCSave", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable saving of the internal function RTC data when changed." },
     { "-extfuncrtcsave", SET_RESOURCE, 0,
       NULL, NULL, "ExternalFunctionROMRTCSave", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable saving of the external function RTC data when changed." },
     { "+extfuncrtcsave", SET_RESOURCE, 0,
       NULL, NULL, "ExternalFunctionROMRTCSave", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable saving of the external function RTC data when changed." },
     CMDLINE_LIST_END
 };

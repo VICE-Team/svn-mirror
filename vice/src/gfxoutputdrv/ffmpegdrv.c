@@ -265,21 +265,16 @@ static int ffmpegdrv_resources_init(void)
 
     return resources_register_int(resources_int);
 }
-/*---------------------------------------------------------------------*/
-
 
 /*---------- Commandline options --------------------------------------*/
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-ffmpegaudiobitrate", SET_RESOURCE, 1,
       NULL, NULL, "FFMPEGAudioBitrate", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Set bitrate for audio stream in media file" },
     { "-ffmpegvideobitrate", SET_RESOURCE, 1,
       NULL, NULL, "FFMPEGVideoBitrate", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Set bitrate for video stream in media file" },
     CMDLINE_LIST_END
 };

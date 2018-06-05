@@ -207,52 +207,32 @@ static const resource_int_t resources_int_secondary_window[] = {
 
 /** \brief  Command line options shared between emu's, include VSID
  */
-static const cmdline_option_t cmdline_options_common[] = {
+static const cmdline_option_t cmdline_options_common[] =
+{
     { "-confirmexit", SET_RESOURCE, 0,
         NULL, NULL, "ConfirmOnExit", (void *)1,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Never confirm quitting VICE" },
     { "+confirmexit", SET_RESOURCE, 0,
         NULL, NULL, "ConfirmOnExit", (void *)0,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Don't confirm quitting VICE" },
-
     { "-saveres", SET_RESOURCE, 0,
         NULL, NULL, "SaveResourcesOnExit", (void *)1,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Save settings on exit" },
     { "+saveres", SET_RESOURCE, 0,
         NULL, NULL, "SaveResourcesOnExit", (void *)0,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Never save settings on exit" },
-
     { "-minimized", SET_RESOURCE, 0,
         NULL, NULL, "StartMinimized", (void *)1,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Do start minimized" },
     { "+minimized", SET_RESOURCE, 0,
         NULL, NULL, "StartMinimized", (void *)0,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Do not start minimized" },
-
     { "-native-monitor", SET_RESOURCE, 0,
         NULL, NULL, "NativeMonitor", (void *)1,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Use native Gtk3 monitor" },
     { "+native-monitor", SET_RESOURCE, 0,
         NULL, NULL, "NativeMonitor", (void *)0,
-        USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-        IDGS_UNUSED, IDGS_UNUSED,
         NULL, "Do not use Gtk3 native monitor" },
-
-
     CMDLINE_LIST_END
 };
 

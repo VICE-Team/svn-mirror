@@ -216,8 +216,6 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-plus256kimage", SET_RESOURCE, 1,
       NULL, NULL, "PLUS256Kfilename", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of PLUS256K image" },
     CMDLINE_LIST_END
 };

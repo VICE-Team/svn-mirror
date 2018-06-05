@@ -157,23 +157,15 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-userportrtc58321a", SET_RESOURCE, 0,
       NULL, NULL, "UserportRTC58321a", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable Userport RTC (58321a)" },
     { "+userportrtc58321a", SET_RESOURCE, 0,
       NULL, NULL, "UserportRTC58321a", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable Userport RTC (58321a)" },
     { "-userportrtc58321asave", SET_RESOURCE, 0,
       NULL, NULL, "UserportRTC58321aSave", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable saving of the Userport RTC (58321a) data when changed." },
     { "+userportrtc58321asave", SET_RESOURCE, 0,
       NULL, NULL, "UserportRTC58321aSave", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable saving of the Userport RTC (58321a) data when changed." },
     CMDLINE_LIST_END
 };

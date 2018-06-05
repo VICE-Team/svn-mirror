@@ -226,13 +226,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-sbetfe", SET_RESOURCE, 0,
       NULL, NULL, "SBETFE", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the Short Bus ETFE expansion" },
     { "+sbtfe", SET_RESOURCE, 0,
       NULL, NULL, "SBTFE", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the Short Bus ETFE expansion" },
     CMDLINE_LIST_END
 };
@@ -241,8 +237,6 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-sbtfebase", SET_RESOURCE, 1,
       NULL, NULL, "SBTFEbase", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", "Base address of the Short Bus ETFE expansion. (56832: $de00, 56848: $de10, 57088: $df00)" },
     CMDLINE_LIST_END
 };

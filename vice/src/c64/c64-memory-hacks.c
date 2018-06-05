@@ -145,8 +145,6 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-memoryexphack", SET_RESOURCE, 1,
       NULL, NULL, "MemoryHack", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<device>", "Set the 'memory expansion hack' device (0: None, 1: C64 256K, 2: +60K, 3: +256K)" },
     CMDLINE_LIST_END
 };

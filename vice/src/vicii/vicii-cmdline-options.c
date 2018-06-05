@@ -68,28 +68,18 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-VICIIborders", CALL_FUNCTION, 1,
       border_set_func, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Mode>", "Set border display mode (0: normal, 1: full, 2: debug, 3: none)" },
     { "-VICIIchecksb", SET_RESOURCE, 0,
       NULL, NULL, "VICIICheckSbColl", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable sprite-background collision registers" },
     { "+VICIIchecksb", SET_RESOURCE, 0,
       NULL, NULL, "VICIICheckSbColl", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable sprite-background collision registers" },
     { "-VICIIcheckss", SET_RESOURCE, 0,
       NULL, NULL, "VICIICheckSsColl", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable sprite-sprite collision registers" },
     { "+VICIIcheckss", SET_RESOURCE, 0,
       NULL, NULL, "VICIICheckSsColl", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable sprite-sprite collision registers" },
     CMDLINE_LIST_END
 };
@@ -98,13 +88,9 @@ static const cmdline_option_t cmdline_options_dtv[] =
 {
     { "-VICIInewluminance", SET_RESOURCE, 0,
       NULL, NULL, "VICIINewLuminances", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Use new luminances" },
     { "+VICIInewluminance", SET_RESOURCE, 0,
       NULL, NULL, "VICIINewLuminances", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Use old luminances" },
     CMDLINE_LIST_END
 };

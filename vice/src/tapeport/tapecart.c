@@ -450,46 +450,31 @@ int tapecart_resources_init(void)
     return resources_register_string(resources_string);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-tapecart", SET_RESOURCE, 0,
       NULL, NULL, "TapecartEnabled", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable tapecart" },
     { "+tapecart", SET_RESOURCE, 0,
       NULL, NULL, "TapecartEnabled", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable tapecart" },
     { "-tcrt", SET_RESOURCE, 1,
       NULL, NULL, "TapecartTCRTFilename", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Attach TCRT tapecart image" },
     { "-tapecartupdatetcrt", SET_RESOURCE, 1,
       NULL, NULL, "TapecartUpdateTCRT", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable updating tapecart .tcrt image" },
     { "+tapecartupdatetcrt", SET_RESOURCE, 0,
       NULL, NULL, "TapecartUpdateTCRT", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable updating tapecart .tcrt image" },
     { "-tapecartoptimizetcrt", SET_RESOURCE, 1,
       NULL, NULL, "TapecartOptimizeTCRT", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable tapecart .tcrt image optimization on write" },
     { "+tapecartoptimizecrt", SET_RESOURCE, 0,
       NULL, NULL, "TapecartOptimizeTCRT", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable tapecart .tcrt image optimization on write" },
     { "-tapecartloglevel", SET_RESOURCE, 1,
       NULL, NULL, "TapecartLogLevel", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Set tapecart log verbosity" },
     CMDLINE_LIST_END
 };

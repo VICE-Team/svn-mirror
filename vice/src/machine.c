@@ -434,32 +434,35 @@ void machine_common_resources_shutdown(void)
     lib_free(ExitScreenshotName1);
 }
 
-static const cmdline_option_t cmdline_options_c128[] = {
-    { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+static const cmdline_option_t cmdline_options_c128[] =
+{
+    { "-jamaction", SET_RESOURCE, 1,
+      NULL, NULL, "JAMAction", NULL,
       "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
-    { "-exitscreenshot", SET_RESOURCE, 1, NULL, NULL, "ExitScreenshotName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+    { "-exitscreenshot", SET_RESOURCE, 1,
+      NULL, NULL, "ExitScreenshotName", NULL,
       "<Name>", "Set name of screenshot to save when emulator exits." },
-    { "-exitscreenshotvicii", SET_RESOURCE, 1, NULL, NULL, "ExitScreenshotName1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+    { "-exitscreenshotvicii", SET_RESOURCE, 1,
+      NULL, NULL, "ExitScreenshotName1", NULL,
       "<Name>", "Set name of screenshot to save when emulator exits." },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t cmdline_options[] = {
-    { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-jamaction", SET_RESOURCE, 1,
+      NULL, NULL, "JAMAction", NULL,
       "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
-    { "-exitscreenshot", SET_RESOURCE, 1, NULL, NULL, "ExitScreenshotName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+    { "-exitscreenshot", SET_RESOURCE, 1,
+      NULL, NULL, "ExitScreenshotName", NULL,
       "<Name>", "Set name of screenshot to save when emulator exits." },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t cmdline_options_vsid[] = {
-    { "-jamaction", SET_RESOURCE, 1, NULL, NULL, "JAMAction", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDGS_UNUSED, IDGS_UNUSED,
+static const cmdline_option_t cmdline_options_vsid[] =
+{
+    { "-jamaction", SET_RESOURCE, 1,
+      NULL, NULL, "JAMAction", NULL,
       "<Type>", "Set action on CPU JAM: (0: Ask, 1: continue, 2: Monitor, 3: Reset, 4: Hard Reset, 5: Quit Emulator)" },
     CMDLINE_LIST_END
 };

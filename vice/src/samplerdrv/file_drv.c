@@ -2165,8 +2165,6 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-samplename", SET_RESOURCE, 1,
       NULL, NULL, "SampleName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of sample file" },
     CMDLINE_LIST_END
 };

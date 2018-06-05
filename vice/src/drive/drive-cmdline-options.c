@@ -37,60 +37,42 @@
 #include "machine-drive.h"
 #include "translate.h"
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-truedrive", SET_RESOURCE, 0,
       NULL, NULL, "DriveTrueEmulation", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable hardware-level emulation of disk drives" },
     { "+truedrive", SET_RESOURCE, 0,
       NULL, NULL, "DriveTrueEmulation", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable hardware-level emulation of disk drives" },
     { "-drivesound", SET_RESOURCE, 0,
       NULL, NULL, "DriveSoundEmulation", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable sound emulation of disk drives" },
     { "+drivesound", SET_RESOURCE, 0,
       NULL, NULL, "DriveSoundEmulation", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable sound emulation of disk drives" },
     { "-drivesoundvolume", SET_RESOURCE, 1,
       NULL, NULL, "DriveSoundEmulationVolume", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Volume>", "Set volume for disk drive sound emulation (0-4000)" },
     CMDLINE_LIST_END
 };
 
-static cmdline_option_t cmd_drive[] = {
+static cmdline_option_t cmd_drive[] =
+{
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", NULL },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<method>", "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<method>", "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<RPM>", "Set drive rpm (30000 = 300rpm)" },
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Wobble>", "Set drive wobble (100 = +/-0.5rpm)" },
     CMDLINE_LIST_END
 };
@@ -98,13 +80,9 @@ static cmdline_option_t cmd_drive[] = {
 static cmdline_option_t cmd_drive_rtc[] = {
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable saving of FD2000/4000 RTC data when changed." },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable saving of FD2000/4000 RTC data when changed." },
     CMDLINE_LIST_END
 };

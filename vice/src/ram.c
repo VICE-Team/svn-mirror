@@ -85,21 +85,16 @@ int ram_resources_init(void)
     return 0;
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-raminitstartvalue", SET_RESOURCE, 1,
       NULL, NULL, "RAMInitStartValue", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Set the value for the very first RAM address after powerup" },
     { "-raminitvalueinvert", SET_RESOURCE, 1,
       NULL, NULL, "RAMInitValueInvert", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<num of bytes>", "Length of memory block initialized with the same value" },
     { "-raminitpatterninvert", SET_RESOURCE, 1,
       NULL, NULL, "RAMInitPatternInvert", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<num of bytes>", "Length of memory block initialized with the same pattern" },
     CMDLINE_LIST_END
 };

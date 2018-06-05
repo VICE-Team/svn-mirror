@@ -339,23 +339,15 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-rrnetmk3bioswrite", SET_RESOURCE, 0,
       NULL, NULL, "RRNETMK3_bios_write", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Save the RRNETMK3 bios when changed" },
     { "+rrnetmk3bioswrite", SET_RESOURCE, 0,
       NULL, NULL, "RRNETMK3_bios_write", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Do not save the RRNETMK3 bios when changed" },
     { "-rrnetmk3flash", SET_RESOURCE, 0,
       NULL, NULL, "RRNETMK3_flashjumper", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Set the RRNETMK3 Flash Jumper" },
     { "+rrnetmk3flash", SET_RESOURCE, 0,
       NULL, NULL, "RRNETMK3_flashjumper", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Remove the RRNETMK3 Flash Jumper" },
     CMDLINE_LIST_END
 };

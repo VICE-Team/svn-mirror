@@ -103,26 +103,19 @@ int mmu_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-40col", SET_RESOURCE, 0,
       NULL, NULL, "C128ColumnKey", (resource_value_t) 1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Activate 40 column mode" },
     { "-80col", SET_RESOURCE, 0,
       NULL, NULL, "C128ColumnKey", (resource_value_t) 0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Activate 80 column mode" },
     { "-go64", SET_RESOURCE, 0,
       NULL, NULL, "Go64Mode", (resource_value_t) 1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Always switch to C64 mode on reset" },
     { "+go64", SET_RESOURCE, 0,
       NULL, NULL, "Go64Mode", (resource_value_t) 0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Always switch to C128 mode on reset" },
     CMDLINE_LIST_END
 };

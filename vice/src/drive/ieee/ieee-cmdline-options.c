@@ -34,31 +34,22 @@
 #include "ieee-cmdline-options.h"
 #include "translate.h"
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-dos2031", SET_RESOURCE, 1,
       NULL, NULL, "DosName2031", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of 2031 DOS ROM image" },
     { "-dos2040", SET_RESOURCE, 1,
       NULL, NULL, "DosName2040", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of 2040 DOS ROM image" },
     { "-dos3040", SET_RESOURCE, 1,
       NULL, NULL, "DosName3040", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of 3040 DOS ROM image" },
     { "-dos4040", SET_RESOURCE, 1,
       NULL, NULL, "DosName4040", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of 4040 DOS ROM image" },
     { "-dos1001", SET_RESOURCE, 1,
       NULL, NULL, "DosName1001", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of 1001/8050/8250 DOS ROM image" },
     CMDLINE_LIST_END
 };

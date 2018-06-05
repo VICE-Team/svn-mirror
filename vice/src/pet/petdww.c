@@ -296,18 +296,12 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-petdww", SET_RESOURCE, 0,
       NULL, NULL, "PETDWW", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the PET DWW hi-res board" },
     { "+petdww", SET_RESOURCE, 0,
       NULL, NULL, "PETDWW", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the PET DWW hi-res board" },
     { "-petdwwimage", SET_RESOURCE, 1,
       NULL, NULL, "PETDWWfilename", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of PET DWW image" },
     CMDLINE_LIST_END
 };

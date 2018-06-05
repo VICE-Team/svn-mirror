@@ -263,41 +263,28 @@ int datasette_resources_init(void)
     Commandline options
  ******************************************************************************/
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-datasette", SET_RESOURCE, 0,
       NULL, NULL, "Datasette", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable Datasette" },
     { "+datasette", SET_RESOURCE, 0,
       NULL, NULL, "Datasette", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable Datasette" },
     { "-dsresetwithcpu", SET_RESOURCE, 0,
       NULL, NULL, "DatasetteResetWithCPU", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable automatic Datasette-Reset" },
     { "+dsresetwithcpu", SET_RESOURCE, 0,
       NULL, NULL, "DatasetteResetWithCPU", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable automatic Datasette-Reset" },
     { "-dszerogapdelay", SET_RESOURCE, 1,
       NULL, NULL, "DatasetteZeroGapDelay", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Set delay in cycles for a zero in the tap" },
     { "-dsspeedtuning", SET_RESOURCE, 1,
       NULL, NULL, "DatasetteSpeedTuning", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Set number of cycles added to each gap in the tap" },
     { "-dstapewobble", SET_RESOURCE, 1,
       NULL, NULL, "DatasetteTapeWobble", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Set maximum random number of cycles added to each gap in the tap" },
     CMDLINE_LIST_END
 };

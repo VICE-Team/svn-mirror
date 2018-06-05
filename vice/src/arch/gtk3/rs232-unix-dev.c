@@ -192,26 +192,19 @@ void rs232dev_resources_shutdown(void)
 {
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-rsdev1baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice1Baud", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<baudrate>", "Specify baudrate of first RS232 device" },
     { "-rsdev2baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice2Baud", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<baudrate>", "Specify baudrate of second RS232 device" },
     { "-rsdev3baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice3Baud", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<baudrate>", "Specify baudrate of third RS232 device" },
     { "-rsdev4baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice4Baud", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<baudrate>", "Specify baudrate of fourth RS232 device" },
     CMDLINE_LIST_END
 };

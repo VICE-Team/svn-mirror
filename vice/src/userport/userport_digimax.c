@@ -186,13 +186,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-userportdigimax", SET_RESOURCE, 0,
       NULL, NULL, "UserportDIGIMAX", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the userport DigiMAX device" },
     { "+userportdigimax", SET_RESOURCE, 0,
       NULL, NULL, "UserportDIGIMAX", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the userport DigiMAX device" },
     CMDLINE_LIST_END
 };

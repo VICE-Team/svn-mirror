@@ -420,28 +420,18 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-ethernetcart", SET_RESOURCE, 0,
       NULL, NULL, "ETHERNETCART_ACTIVE", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)" },
     { "+ethernetcart", SET_RESOURCE, 0,
       NULL, NULL, "ETHERNETCART_ACTIVE", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)" },
     { "-tfe", CALL_FUNCTION, 0,
       set_tfe_enable, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible mode and set default I/O address" },
     { "-rrnet", CALL_FUNCTION, 0,
       set_rrnet_enable, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O address" },
     { "-ethernetcartmode", SET_RESOURCE, 1,
       NULL, NULL, "ETHERNETCARTMode", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Mode>", "Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)" },
     CMDLINE_LIST_END
 };
@@ -450,8 +440,6 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-ethernetcartbase", SET_RESOURCE, 1,
       NULL, NULL, "ETHERNETCARTBase", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", NULL },
     CMDLINE_LIST_END
 };

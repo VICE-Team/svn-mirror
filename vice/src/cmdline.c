@@ -88,11 +88,9 @@ int cmdline_register_options(const cmdline_option_t *c)
             return -1;
         }
 
-        if (c->use_description_id != USE_DESCRIPTION_ID) {
-            if (c->description == NULL) {
-                archdep_startup_log_error("CMDLINE: (%d) description id not used and description NULL for '%s'.\n", num_options, c->name);
-                return -1;
-            }
+        if (c->description == NULL) {
+            archdep_startup_log_error("CMDLINE: (%d) description id not used and description NULL for '%s'.\n", num_options, c->name);
+            return -1;
         }
 
         /* archdep_startup_log_error("CMDLINE: (%d) registering option '%s'.\n", num_options, c->name); */
@@ -115,16 +113,8 @@ int cmdline_register_options(const cmdline_option_t *c)
         }
         p->resource_value = c->resource_value;
 
-        p->use_param_name_id = c->use_param_name_id;
-        p->use_description_id = c->use_description_id;
-
         p->param_name = c->param_name;
         p->description = c->description;
-
-        p->param_name_trans = c->param_name_trans;
-        p->description_trans = c->description_trans;
-
-        p->combined_string = NULL;
 
         num_options++;
     }
@@ -144,9 +134,6 @@ static void cmdline_free(void)
     for (i = 0; i < num_options; i++) {
         lib_free((options + i)->name);
         lib_free((options + i)->resource_name);
-        if ((options + i)->combined_string) {
-            lib_free((options + i)->combined_string);
-        }
     }
 }
 
@@ -333,11 +320,7 @@ char *cmdline_options_get_name(int counter)
 
 char *cmdline_options_get_param(int counter)
 {
-    if (options[counter].use_param_name_id == USE_PARAM_ID) {
-        return translate_text(options[counter].param_name_trans);
-    } else {
-        return (char *)_(options[counter].param_name);
-    }
+    return (char *)_(options[counter].param_name);
 }
 
 char *cmdline_options_get_description(int counter)

@@ -152,46 +152,34 @@ int vsync_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 /* Vsync-related command-line options. */
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-speed", SET_RESOURCE, 1,
       NULL, NULL, "Speed", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<percent>", "Limit emulation speed to specified value" },
     { "-refresh", SET_RESOURCE, 1,
       NULL, NULL, "RefreshRate", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Update every <value> frames (`0' for automatic)" },
     { "-warp", SET_RESOURCE, 0,
       NULL, NULL, "WarpMode", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable warp mode" },
     { "+warp", SET_RESOURCE, 0,
       NULL, NULL, "WarpMode", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable warp mode" },
     CMDLINE_LIST_END
 };
 
 
-static const cmdline_option_t cmdline_options_vsid[] = {
+static const cmdline_option_t cmdline_options_vsid[] =
+{
     { "-speed", SET_RESOURCE, 1,
       NULL, NULL, "Speed", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<percent>", "Limit emulation speed to specified value" },
     { "-warp", SET_RESOURCE, 0,
       NULL, NULL, "WarpMode", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable warp mode" },
     { "+warp", SET_RESOURCE, 0,
       NULL, NULL, "WarpMode", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable warp mode" },
     CMDLINE_LIST_END
 };

@@ -677,24 +677,16 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-joyopposite", SET_RESOURCE, 0,
       NULL, NULL, "JoyOpposite", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable opposite joystick directions" },
     { "+joyopposite", SET_RESOURCE, 0,
       NULL, NULL, "JoyOpposite", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable opposite joystick directions" },
 #ifdef COMMON_JOYKEYS
     { "-keyset", SET_RESOURCE, 0,
       NULL, NULL, "KeySetEnable", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable keyset" },
     { "+keyset", SET_RESOURCE, 0,
       NULL, NULL, "KeySetEnable", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable keyset" },
 #endif
     CMDLINE_LIST_END

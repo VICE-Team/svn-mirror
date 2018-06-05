@@ -298,8 +298,6 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-256kimage", SET_RESOURCE, 1,
       NULL, NULL, "C64_256Kfilename", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of 256K image" },
     CMDLINE_LIST_END
 };
@@ -308,8 +306,6 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-256kbase", SET_RESOURCE, 1,
       NULL, NULL, "C64_256Kbase", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)" },
     CMDLINE_LIST_END
 };

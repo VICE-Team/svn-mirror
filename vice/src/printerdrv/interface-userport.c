@@ -136,16 +136,13 @@ int interface_userport_init_resources(void)
     return resources_register_int(resources_int);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-pruser", SET_RESOURCE, 0,
       NULL, NULL, "PrinterUserport", (resource_value_t) 1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the userport printer emulation" },
     { "+pruser", SET_RESOURCE, 0,
       NULL, NULL, "PrinterUserport", (resource_value_t) 0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the userport printer emulation" },
     CMDLINE_LIST_END
 };

@@ -1230,32 +1230,23 @@ static int set_monlog_name(const char *param, void *extra_param)
     return mon_log_file_open(param);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-moncommands", CALL_FUNCTION, 1,
       set_playback_name, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Execute monitor commands from file" },
     { "-monlog", CALL_FUNCTION, 1,
       set_monlog_name, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Write monitor output also to file" },
     { "-initbreak", CALL_FUNCTION, 1,
       monitor_set_initial_breakpoint, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<value>", "Set an initial breakpoint for the monitor" },
 #ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
     { "-keepmonopen", SET_RESOURCE, 0,
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Keep the monitor open" },
     { "+keepmonopen", SET_RESOURCE, 0,
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Do not keep the monitor open" },
 #endif
     CMDLINE_LIST_END

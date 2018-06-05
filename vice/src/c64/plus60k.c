@@ -312,13 +312,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-plus60kimage", SET_RESOURCE, 1,
       NULL, NULL, "PLUS60Kfilename", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of PLUS60K image" },
     { "-plus60kbase", SET_RESOURCE, 1,
       NULL, NULL, "PLUS60Kbase", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", "Base address of the PLUS60K expansion. (0xD040/0xD100)" },
     CMDLINE_LIST_END
 };

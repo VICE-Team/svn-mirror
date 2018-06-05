@@ -179,13 +179,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-digiblaster", SET_RESOURCE, 0,
       NULL, NULL, "DIGIBLASTER", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the digiblaster add-on" },
     { "+digiblaster", SET_RESOURCE, 0,
       NULL, NULL, "DIGIBLASTER", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the digiblaster add-on" },
     CMDLINE_LIST_END
 };

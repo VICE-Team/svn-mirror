@@ -112,8 +112,6 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-flipname", SET_RESOURCE, 1,
       NULL, NULL, "FliplistName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of the flip list file image" },
     CMDLINE_LIST_END
 };

@@ -105,33 +105,21 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-prtxtdev1", SET_RESOURCE, 1,
       NULL, NULL, "PrinterTextDevice1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of printer text device or dump file" },
     { "-prtxtdev2", SET_RESOURCE, 1,
       NULL, NULL, "PrinterTextDevice2", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of printer text device or dump file" },
     { "-prtxtdev3", SET_RESOURCE, 1,
       NULL, NULL, "PrinterTextDevice3", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of printer text device or dump file" },
     { "-pr4txtdev", SET_RESOURCE, 1,
       NULL, NULL, "Printer4TextDevice", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2>", "Specify printer text output device for printer #4" },
     { "-pr5txtdev", SET_RESOURCE, 1,
       NULL, NULL, "Printer5TextDevice", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2>", "Specify printer text output device for printer #5" },
     { "-pr6txtdev", SET_RESOURCE, 1,
       NULL, NULL, "Printer6TextDevice", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2>", "Specify printer text output device for printer #6" },
     CMDLINE_LIST_END
 };
@@ -140,8 +128,6 @@ static const cmdline_option_t cmdline_options_userport[] =
 {
     { "-prusertxtdev", SET_RESOURCE, 1,
       NULL, NULL, "PrinterUserportTextDevice", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-2>", "Specify printer text output device for userport printer" },
     CMDLINE_LIST_END
 };

@@ -164,23 +164,15 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-io2ram", SET_RESOURCE, 0,
       NULL, NULL, "IO2RAM", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable I/O-2 RAM" },
     { "+io2ram", SET_RESOURCE, 0,
       NULL, NULL, "IO2RAM", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable I/O-2 RAM" },
     { "-io3ram", SET_RESOURCE, 0,
       NULL, NULL, "IO3RAM", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable I/O-3 RAM" },
     { "+io3ram", SET_RESOURCE, 0,
       NULL, NULL, "IO3RAM", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable I/O-3 RAM" },
     CMDLINE_LIST_END
 };

@@ -83,26 +83,19 @@ void rs232drv_resources_shutdown(void)
     rs232_resources_shutdown();
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-rsdev1", SET_RESOURCE, 1,
       NULL, NULL, "RsDevice1", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of first RS232 device" },
     { "-rsdev2", SET_RESOURCE, 1,
       NULL, NULL, "RsDevice2", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of second RS232 device" },
     { "-rsdev3", SET_RESOURCE, 1,
       NULL, NULL, "RsDevice3", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of third RS232 device" },
     { "-rsdev4", SET_RESOURCE, 1,
       NULL, NULL, "RsDevice4", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of fourth RS232 device" },
     CMDLINE_LIST_END
 };

@@ -150,26 +150,19 @@ int interface_serial_init_resources(void)
     return resources_register_int(resources_int);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-device4", SET_RESOURCE, 1,
       NULL, NULL, "Printer4", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)" },
     { "-device5", SET_RESOURCE, 1,
       NULL, NULL, "Printer5", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)" },
     { "-device6", SET_RESOURCE, 1,
       NULL, NULL, "Printer6", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)" },
     { "-device7", SET_RESOURCE, 1,
       NULL, NULL, "Printer7", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Set device type for device #7 (0: None, 2: Real)" },
     CMDLINE_LIST_END
 };

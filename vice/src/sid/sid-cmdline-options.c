@@ -152,100 +152,78 @@ int sid_common_set_engine_model(const char *param, void *extra_param)
     return sid_set_engine_model(engine, model);
 }
 
-static cmdline_option_t sidengine_cmdline_options[] = {
+static cmdline_option_t sidengine_cmdline_options[] =
+{
     { "-sidenginemodel", CALL_FUNCTION, 1,
       sid_common_set_engine_model, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<engine and model>", NULL },
     CMDLINE_LIST_END
 };
 
 #ifdef HAVE_RESID
-static cmdline_option_t siddtvengine_cmdline_options[] = {
+static cmdline_option_t siddtvengine_cmdline_options[] =
+{
     { "-sidenginemodel", CALL_FUNCTION, 1,
       sid_common_set_engine_model, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<engine and model>", NULL },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t resid_cmdline_options[] = {
+static const cmdline_option_t resid_cmdline_options[] =
+{
     { "-residsamp", SET_RESOURCE, 1,
       NULL, NULL, "SidResidSampling", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<method>", "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)" },
     { "-residpass", SET_RESOURCE, 1,
       NULL, NULL, "SidResidPassband", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<percent>", "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
     { "-residgain", SET_RESOURCE, 1,
       NULL, NULL, "SidResidGain", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<percent>", "reSID gain in percent (90 - 100)" },
     { "-residfilterbias", SET_RESOURCE, 1,
       NULL, NULL, "SidResidFilterBias", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "reSID filter bias setting, which can be used to adjust DAC bias in millivolts.", },
     CMDLINE_LIST_END
 };
 #endif
 
 #ifdef HAVE_HARDSID
-static const cmdline_option_t hardsid_cmdline_options[] = {
+static const cmdline_option_t hardsid_cmdline_options[] =
+{
     { "-hardsidmain", SET_RESOURCE, 1,
       NULL, NULL, "SidHardSIDMain", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<device>", "Set the HardSID device for the main SID output" },
     { "-hardsidright", SET_RESOURCE, 1,
       NULL, NULL, "SidHardSIDRight", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<device>", "Set the HardSID device for the right SID output" },
     CMDLINE_LIST_END
 };
 #endif
 
-static cmdline_option_t stereo_cmdline_options[] = {
+static cmdline_option_t stereo_cmdline_options[] =
+{
     { "-sidstereo", SET_RESOURCE, 1,
       NULL, NULL, "SidStereo", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<amount>", "amount of extra SID chips. (0..3)" },
     { "-sidstereoaddress", SET_RESOURCE, 1,
       NULL, NULL, "SidStereoAddressStart", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", NULL },
     { "-sidtripleaddress", SET_RESOURCE, 1,
       NULL, NULL, "SidTripleAddressStart", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", NULL },
     { "-sidquadaddress", SET_RESOURCE, 1,
       NULL, NULL, "SidQuadAddressStart", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", NULL },
     CMDLINE_LIST_END
 };
 
-static const cmdline_option_t common_cmdline_options[] = {
+static const cmdline_option_t common_cmdline_options[] =
+{
     { "-sidfilters", SET_RESOURCE, 0,
       NULL, NULL, "SidFilters", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Emulate SID filters" },
     { "+sidfilters", SET_RESOURCE, 0,
       NULL, NULL, "SidFilters", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Do not emulate SID filters" },
     CMDLINE_LIST_END
 };

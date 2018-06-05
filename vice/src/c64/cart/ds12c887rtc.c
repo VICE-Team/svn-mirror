@@ -347,33 +347,21 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-ds12c887rtc", SET_RESOURCE, 0,
       NULL, NULL, "DS12C887RTC", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable the DS12C887 RTC cartridge" },
     { "+ds12c887rtc", SET_RESOURCE, 0,
       NULL, NULL, "DS12C887RTC", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable the DS12C887 RTC cartridge" },
     { "-ds12c887rtchalted", SET_RESOURCE, 0,
       NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Set the RTC oscillator to 'halted'" },
     { "-ds12c887rtcrunning", SET_RESOURCE, 0,
       NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Set the RTC oscillator to 'running'" },
     { "-ds12c887rtcsave", SET_RESOURCE, 0,
       NULL, NULL, "DS12C887RTCSave", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable saving of the DS12C887 RTC data when changed." },
     { "+ds12c887rtcsave", SET_RESOURCE, 0,
       NULL, NULL, "DS12C887RTCSave", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable saving of the DS12C887 RTC data when changed." },
     CMDLINE_LIST_END
 };
@@ -382,8 +370,6 @@ static cmdline_option_t base_cmdline_options[] =
 {
     { "-ds12c887rtcbase", SET_RESOURCE, 1,
       NULL, NULL, "DS12C887RTCbase", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Base address>", NULL },
     CMDLINE_LIST_END
 };

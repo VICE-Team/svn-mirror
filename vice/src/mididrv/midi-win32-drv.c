@@ -109,16 +109,13 @@ void mididrv_resources_shutdown(void)
 {
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-midiin", SET_RESOURCE, 1,
       NULL, NULL, "MIDIInDev", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Specify MIDI-In device" },
     { "-midiout", SET_RESOURCE, 1,
       NULL, NULL, "MIDIOutDev", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Specify MIDI-Out device" },
     CMDLINE_LIST_END
 };

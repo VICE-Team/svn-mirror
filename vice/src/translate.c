@@ -250,8 +250,6 @@ static cmdline_option_t cmdline_options[] =
 {
     { "-lang", SET_RESOURCE, 1,
       NULL, NULL, "Language", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<iso language code>", "Specify which language to use" },
     CMDLINE_LIST_END
 };

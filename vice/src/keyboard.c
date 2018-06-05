@@ -1704,30 +1704,20 @@ static cmdline_option_t const cmdline_options[] =
 {
     { "-keymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapIndex", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), 3=positional (user))" },
 /* FIXME: build description dynamically */
     { "-keyboardmapping", SET_RESOURCE, 1,
       NULL, NULL, "KeyboardMapping", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Specify host keyboard layout" },
 /* FIXME: build description dynamically */
     { "-keyboardtype", SET_RESOURCE, 1,
       NULL, NULL, "KeyboardType", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<number>", "Specify emulated keyboard type" },
     { "-symkeymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapUserSymFile", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of symbolic keymap file" },
     { "-poskeymap", SET_RESOURCE, 1,
       NULL, NULL, "KeymapUserPosFile", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of positional keymap file" },
     CMDLINE_LIST_END
 };

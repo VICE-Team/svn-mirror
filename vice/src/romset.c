@@ -76,21 +76,16 @@ static int option_romsetarchiveselect(const char *value, void *extra_param)
     return romset_archive_item_select(value);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-romsetfile", CALL_FUNCTION, 1,
       option_romsetfile, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<File>", "load the given romset file" },
     { "-romsetarchive", CALL_FUNCTION, 1,
       option_romsetarchive, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<File>", "load the given romset archive" },
     { "-romsetarchiveselect", CALL_FUNCTION, 1,
       option_romsetarchiveselect, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Item number>", "select the given item from the current romset archive" },
     CMDLINE_LIST_END
 };

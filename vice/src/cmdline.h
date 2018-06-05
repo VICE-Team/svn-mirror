@@ -74,18 +74,6 @@ typedef struct cmdline_option_s {
        `need_arg' is zero.  */
     void *resource_value;
 
-    /* flag to indicate to use the ID instead of the char */
-    int use_param_name_id;
-
-    /* flag to indicate to use the ID instead of the char */
-    int use_description_id;
-
-    /* ID of the string to display after the option name in the help screen. */
-    int param_name_trans;
-
-    /* ID of the description string. */
-    int description_trans;
-
     /* String to display after the option name in the help screen. */
     const char *param_name;
 
@@ -120,26 +108,11 @@ typedef struct cmdline_option_ram_s {
        `need_arg' is zero.  */
     void *resource_value;
 
-    /* flag to indicate to use the ID instead of the char */
-    int use_param_name_id;
-
-    /* flag to indicate to use the ID instead of the char */
-    int use_description_id;
-
-    /* ID of the string to display after the option name in the help screen. */
-    int param_name_trans;
-
-    /* ID of the description string. */
-    int description_trans;
-
     /* String to display after the option name in the help screen. */
     const char *param_name;
 
     /* Description string. */
     const char *description;
-
-    /* Place holder for translated combined string */
-    char *combined_string;
 } cmdline_option_ram_t;
 
 extern int cmdline_init(void);
@@ -154,6 +127,6 @@ extern char *cmdline_options_get_param(int counter);
 extern char *cmdline_options_get_description(int counter);
 extern int cmdline_get_num_options(void);
 
-#define CMDLINE_LIST_END { NULL, (cmdline_option_type_t)0, 0, NULL, NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL }
+#define CMDLINE_LIST_END { NULL, (cmdline_option_type_t)0, 0, NULL, NULL, NULL, NULL, NULL, NULL }
 
 #endif

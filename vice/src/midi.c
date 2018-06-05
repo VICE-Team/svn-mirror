@@ -211,16 +211,13 @@ void midi_resources_shutdown(void)
     mididrv_resources_shutdown();
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-midi", SET_RESOURCE, 0,
       NULL, NULL, "MIDIEnable", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable MIDI emulation" },
     { "+midi", SET_RESOURCE, 0,
       NULL, NULL, "MIDIEnable", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable MIDI emulation" },
     CMDLINE_LIST_END
 };

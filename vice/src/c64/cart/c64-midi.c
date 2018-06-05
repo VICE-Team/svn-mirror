@@ -225,11 +225,10 @@ int c64_midi_resources_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-miditype", SET_RESOURCE, 1,
       NULL, NULL, "MIDIMode", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-4>", "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)" },
     CMDLINE_LIST_END
 };

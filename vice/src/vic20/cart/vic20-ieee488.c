@@ -130,13 +130,9 @@ static cmdline_option_t const cmdline_options[] =
 {
     { "-ieee488", SET_RESOURCE, 0,
       NULL, NULL, "IEEE488", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable VIC-1112 IEEE488 interface" },
     { "+ieee488", SET_RESOURCE, 0,
       NULL, NULL, "IEEE488", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable VIC-1112 IEEE488 interface" },
     CMDLINE_LIST_END
 };

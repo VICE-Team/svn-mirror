@@ -193,26 +193,19 @@ int rsuser_resources_init(void)
     return resources_register_int(resources_int);
 }
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-rsuser", SET_RESOURCE, 0,
       NULL, NULL, "RsUserEnable", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable RS232 userport emulation" },
     { "+rsuser", SET_RESOURCE, 0,
       NULL, NULL, "RsUserEnable", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable RS232 userport emulation" },
     { "-rsuserbaud", SET_RESOURCE, 1,
       NULL, NULL, "RsUserBaud", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<baud>", "Set the baud rate of the RS232 userport emulation." },
     { "-rsuserdev", SET_RESOURCE, 1,
       NULL, NULL, "RsUserDev", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<0-3>", "Specify VICE RS232 device for userport" },
     CMDLINE_LIST_END
 };

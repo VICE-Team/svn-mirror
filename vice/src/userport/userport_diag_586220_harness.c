@@ -137,13 +137,9 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-userportdiag586220harness", SET_RESOURCE, 0,
       NULL, NULL, "UserportDiag586220Harness", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable Userport diag 586220 harness module" },
     { "+userportdiag586220harness", SET_RESOURCE, 0,
       NULL, NULL, "UserportDiag586220Harness", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable Userport diag 586220 harness module" },
     CMDLINE_LIST_END
 };

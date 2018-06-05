@@ -34,60 +34,42 @@
 #include "lib.h"
 #include "translate.h"
 
-static const cmdline_option_t cmdline_options[] = {
+static const cmdline_option_t cmdline_options[] =
+{
     { "-profdos1571", SET_RESOURCE, 1,
       NULL, NULL, "DriveProfDOS1571Name", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of Professional DOS 1571 ROM image" },
     { "-supercard", SET_RESOURCE, 1,
       NULL, NULL, "DriveSuperCardName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of SuperCard+ ROM image" },
     { "-stardos", SET_RESOURCE, 1,
       NULL, NULL, "DriveStarDosName", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Name>", "Specify name of StarDOS ROM image" },
     CMDLINE_LIST_END
 };
 
-static cmdline_option_t cmd_drive[] = {
+static cmdline_option_t cmd_drive[] =
+{
     { NULL, SET_RESOURCE, 1,
       NULL, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       "<Type>", "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable Professional DOS" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable Professional DOS" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable SuperCard+" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable SuperCard+" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Enable StarDOS" },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDGS_UNUSED, IDGS_UNUSED,
       NULL, "Disable StarDOS" },
     CMDLINE_LIST_END
 };
