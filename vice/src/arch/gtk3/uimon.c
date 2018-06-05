@@ -608,6 +608,8 @@ int console_close_all(void)
     return 0;
 }
 
+#endif
+
 /** \brief  Callback to activate the ML-monitor
  *
  * \param[in,out]   widget      widget triggering the event
@@ -652,4 +654,3 @@ void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
     }
 }
 
-#endif

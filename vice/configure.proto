@@ -67,6 +67,7 @@ dnl register ReSID options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
+VICE_ARG_ENABLE_LIST(vte,         [  --enable-vte            enable the monitor in its own window based on the VTE terminal library [[default=yes]]])
 
 dnl this hack is needed because the default for the auto-tools
 dnl is 'no', and we want the default to be 'yes' unless

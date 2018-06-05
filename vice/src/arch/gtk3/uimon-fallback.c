@@ -68,6 +68,27 @@ static console_t *console_log_local = NULL;
 static FILE *mon_input, *mon_output;
 #endif
 
+/** \brief  NOP
+ *
+ * \return  0
+ */
+int console_close_all(void)
+{
+    /* This is a no-op on GNOME, should be fine here too */
+    return 0;
+}
+
+
+/** \brief  NOP
+ *
+ * \return  0
+ */
+int console_init(void)
+{
+    NOT_IMPLEMENTED_WARN_ONLY();
+    return 0;
+}
+
 #if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
 int console_out(console_t *log, const char *format, ...)
 {
