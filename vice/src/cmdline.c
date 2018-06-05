@@ -327,7 +327,7 @@ char *cmdline_options_get_description(int counter)
 {
     union char_func cf;
 
-    if (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION) {
+    if (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION && options[counter].attributes != -1) {
         if (combined_string) {
             lib_free(combined_string);
         }
