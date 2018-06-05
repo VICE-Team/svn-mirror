@@ -60,9 +60,6 @@ END-INFO-DIR-ENTRY
 @end ifset
 
 @c undef platformall if any of the following are set:
-@ifset platformbeos
-@clear platformall
-@end ifset
 @ifset platformos2
 @clear platformall
 @end ifset
@@ -78,7 +75,6 @@ END-INFO-DIR-ENTRY
 
 @c set all platform defines if platformall is still defined
 @ifset platformall
-@set platformbeos
 @set platformos2
 @set platformsdl
 @set platformdingoo
@@ -11775,12 +11771,6 @@ Use PAL-N sync factor
 This section lists the settings and commands that are platform specific.
 
 @menu
-@ifset platformbeos
-* BeOS-specific features::
-@end ifset
-@ifset platformos2
-* OS2-specific features::
-@end ifset
 @ifset platformsdl
 * SDL-specific features::
 @end ifset
@@ -11795,157 +11785,7 @@ This section lists the settings and commands that are platform specific.
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node BeOS-specific features, OS2-specific features, , Platform-specific features
-@section BeOS-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformbeos
-@node BeOS-specific features, , Platform-specific features, Platform-specific features
-@section BeOS-specific features
-@end ifset
-@end ifclear
-
-@ifset platformbeos
-
-This section lists the settings and commands that are common and specific to BeOS, Zeta and Haiku, and are thus not present in other platforms. 
-
-@c @node FIXME
-@subsection BeOS specific resources
-
-@table @code
-
-@vindex JoystickDisplay
-@item JoystickDisplay
-Boolean to enable/disable displaying the joystick status in the emulator window.
-
-@vindex SaveResourcesOnExit
-@item SaveResourcesOnExit
-Boolean specifying whether the emulator should save changed settings
-before exiting. If this is enabled, the user will be always prompted
-first, in case the settings have changed.
-
-@vindex ConfirmOnExit
-@item ConfirmOnExit
-Boolean specifying whether to show a confirmation dialog on exit.
-
-@vindex DirectWindow
-@item DirectWindow
-Boolean specifying whether to use the BeOS DirectWindow API.
-
-@vindex JoyDevice1
-@item JoyDevice1
-Integer specifying which joystick device the emulator should use for the emulation of joystick 1
-(all emulators except xcbm2, xpet and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@vindex JoyDevice2
-@item JoyDevice2
-Integer specifying which joystick device the emulator should use for the emulation of joystick 2
-(all emulators except xcbm2, xpet, xvic and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@vindex JoyDevice3
-@item JoyDevice3
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 1
-(all emulators except xcbm5x0 and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@vindex JoyDevice4
-@item JoyDevice4
-Integer specifying which joystick device the emulator should use for the emulation of extra joystick 2
-(all emulators except xcbm5x0, xplus4 and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@end table
-
-@c @node FIXME
-@subsection BeOS specific command-line options
-
-@table @code
-
-@findex -joydisplay, +joydisplay
-@item -joydisplay
-@itemx +joydisplay
-Enable/Disable joystick display.
-(@code{JoystickDisplay=1}, @code{JoystickDisplay=0}).
-
-@findex -saveres, +saveres
-@item -saveres
-@itemx +saveres
-Enable/disable automatic saving of settings on exit
-(@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
-
-@findex -confirmexit, +confirmexit
-@item -confirmexit
-Confirm quitting VICE
-(@code{ConfirmOnExit=1}).
-@item +confirmexit
-Never confirm quitting VICE
-(@code{ConfirmOnExit=0}).
-
-@findex -directwindow, +directwindow
-@item -directwindow
-@itemx +directwindow
-Enable/disable usage of the BeOS DirectWindow API
-(@code{DirectWindow=1}, @code{DirectWindow=0}).
-
-@findex -joydev1
-@item -joydev1 <0-19>
-Set the device for joystick emulation of port 1
-(@code{JoyDevice1})
-(all emulators except xcbm2, xpet and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@findex -joydev2
-@item -joydev2 <0-19>
-Set the device for joystick emulation of port 2
-(@code{JoyDevice2})
-(all emulators except xcbm2, xpet, xvic and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@findex -extrajoydev1
-@item -extrajoydev1 <0-19>
-Set device for extra joystick port 1
-(@code{JoyDevice3})
-(all emulators except xcbm5x0 and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@findex -extrajoydev2
-@item -extrajoydev2 <0-19>
-Set device for extra joystick port 2
-(@code{JoyDevice4})
-(all emulators except xcbm5x0, xplus4 and vsid).
-(0: None, 1: Numpad, 2: Keyset 1, 3: Keyset 2, 4..19: Hardware joysticks)
-
-@end table
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node OS2-specific features, SDL-specific features, BeOS-specific features, Platform-specific features
-@section OS2-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformos2
-@node OS2-specific features, , Platform-specific features, Platform-specific features
-@section OS2-specific features
-@end ifset
-@end ifclear
-
-@ifset platformos2
-
-@c TODO: OS/2 specific content
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node SDL-specific features, Unix-specific features, OS2-specific features, Platform-specific features
+@node SDL-specific features, Unix-specific features, , Platform-specific features
 @section SDL-specific features
 @end ifset
 
