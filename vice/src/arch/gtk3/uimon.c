@@ -242,7 +242,9 @@ static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidg
             return TRUE;
         case GDK_KEY_c:
         case GDK_KEY_C:
-            vte_terminal_copy_clipboard_format(VTE_TERMINAL(terminal), VTE_FORMAT_TEXT);
+            vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
+            /* _format only exists in bleeding edge VTE 0.50 */
+            /* vte_terminal_copy_clipboard_format(VTE_TERMINAL(terminal), VTE_FORMAT_TEXT); */
             return TRUE;
         case GDK_KEY_v:
         case GDK_KEY_V:
