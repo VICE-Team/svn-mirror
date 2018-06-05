@@ -27,11 +27,5 @@ if WIN32_COMPILE
 SUBDIRS = mingw32-pcap
 
 endif
-
-if BEOS_COMPILE
-
-SUBDIRS = beos
-
-endif
 endif
 endif
