@@ -90,6 +90,8 @@
  *
  */
 
+#ifdef HAVE_VTE
+
 #include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -528,3 +530,5 @@ int linenoiseHistorySetMaxLen(int len) {
     }
     return 1;
 }
+
+#endif

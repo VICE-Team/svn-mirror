@@ -37,6 +37,8 @@
 #ifndef __LINENOISE_H
 #define __LINENOISE_H
 
+#ifdef HAVE_VTE
+
 typedef struct linenoiseCompletions {
   size_t len;
   char **cvec;
@@ -54,5 +56,7 @@ int linenoiseHistorySetMaxLen(int len);
 int linenoiseHistorySave(char *filename);
 int linenoiseHistoryLoad(char *filename);
 void linenoiseClearScreen(struct console_private_s *term);
+
+#endif
 
 #endif /* __LINENOISE_H */
