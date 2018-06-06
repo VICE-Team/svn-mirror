@@ -90,7 +90,7 @@
  *
  */
 
-#include "config.h"
+#include "vice.h"
 
 #ifdef HAVE_VTE
 

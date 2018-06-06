@@ -37,7 +37,7 @@
 #ifndef __LINENOISE_H
 #define __LINENOISE_H
 
-#include "config.h"
+#include "vice.h"
 
 #ifdef HAVE_VTE
 
