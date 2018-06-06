@@ -36,7 +36,6 @@
 #include "plus4memhacks.h"
 #include "plus4memhannes256k.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 
 static int memory_hack = 0;
@@ -118,7 +117,7 @@ int plus4_memory_hacks_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-memoryexphack", SET_RESOURCE, 1,
+    { "-memoryexphack", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MemoryHack", NULL,
       "<device>", "Set the 'memory expansion hack' device (0: None, 1: CSORY 256K, 2: HANNES 256K, 3: HANNES 1024K, 4: HANNES 4096K)" },
     CMDLINE_LIST_END

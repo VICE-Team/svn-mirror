@@ -52,7 +52,6 @@ C64/C128 | CBM2 | PET | PLUS4 | VIC20 | NAME
 #include "resources.h"
 #include "snapshot.h"
 #include "sound.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
 #include "userport_dac.h"
@@ -174,10 +173,10 @@ int userport_dac_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportdac", SET_RESOURCE, 0,
+    { "-userportdac", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportDAC", (resource_value_t)1,
       NULL, "Enable Userport DAC for sound output" },
-    { "+userportdac", SET_RESOURCE, 0,
+    { "+userportdac", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportDAC", (resource_value_t)0,
       NULL, "Disable Userport DAC for sound output" },
     CMDLINE_LIST_END

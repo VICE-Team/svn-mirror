@@ -52,7 +52,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "sound.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -574,31 +573,31 @@ void sound_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-sound", SET_RESOURCE, 0,
+    { "-sound", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Sound", (resource_value_t)1,
       NULL, "Enable sound playback" },
-    { "+sound", SET_RESOURCE, 0,
+    { "+sound", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Sound", (resource_value_t)0,
       NULL, "Disable sound playback" },
-    { "-soundrate", SET_RESOURCE, 1,
+    { "-soundrate", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundSampleRate", NULL,
       "<value>", "Set sound sample rate to <value> Hz" },
-    { "-soundbufsize", SET_RESOURCE, 1,
+    { "-soundbufsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundBufferSize", NULL,
       "<value>", "Set sound buffer size to <value> msec" },
-    { "-soundfragsize", SET_RESOURCE, 1,
+    { "-soundfragsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundFragmentSize", NULL,
       "<value>", "Set sound fragment size (0: very small, 1: small, 2: medium, 3: large, 4: very large)" },
-    { "-soundsync", SET_RESOURCE, 1,
+    { "-soundsync", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundSpeedAdjustment", NULL,
       "<sync>", "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)" },
-    { "-soundoutput", SET_RESOURCE, 1,
+    { "-soundoutput", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundOutput", NULL,
       "<output mode>", "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)" },
-    { "-soundsuspend", SET_RESOURCE, 1,
+    { "-soundsuspend", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundSuspendTime", NULL,
       "<Seconds>", "Specify the pause interval when audio underflows (clicks) happen. 0 means no pause is done." },
-    { "-soundvolume", SET_RESOURCE, 1,
+    { "-soundvolume", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundVolume", NULL,
       "<Volume>", "Specify the sound volume (0..100)" },
     CMDLINE_LIST_END
@@ -606,16 +605,16 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t devs_cmdline_options[] =
 {
-    { "-sounddev", SET_RESOURCE, 1,
+    { "-sounddev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundDeviceName", NULL,
       "<Name>", NULL },
-    { "-soundarg", SET_RESOURCE, 1,
+    { "-soundarg", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundDeviceArg", NULL,
       "<args>", "Specify initialization parameters for sound driver" },
-    { "-soundrecdev", SET_RESOURCE, 1,
+    { "-soundrecdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundRecordDeviceName", NULL,
       "<Name>", NULL },
-    { "-soundrecarg", SET_RESOURCE, 1,
+    { "-soundrecarg", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SoundRecordDeviceArg", NULL,
       "<args>", "Specify initialization parameters for recording sound driver" },
     CMDLINE_LIST_END

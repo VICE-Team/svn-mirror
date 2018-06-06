@@ -75,7 +75,6 @@
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 #undef CARTRIDGE_INCLUDE_PUBLIC_API
 #endif
-#include "translate.h"
 #include "util.h"
 #include "vic20cart.h"
 #include "vic20cartmem.h"
@@ -254,46 +253,46 @@ static int attach_cartridge_cmdline(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-cartreset", SET_RESOURCE, 0,
+    { "-cartreset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CartridgeReset", (void *)1,
       NULL, "Reset machine if a cartridge is attached or detached" },
-    { "+cartreset", SET_RESOURCE, 0,
+    { "+cartreset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CartridgeReset", (void *)0,
       NULL, "Do not reset machine if a cartridge is attached or detached" },
-    { "-cart2", CALL_FUNCTION, 1,
+    { "-cart2", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_16KB_2000, NULL, NULL,
       "<Name>", "Specify 4/8/16K extension ROM name at $2000" },
-    { "-cart4", CALL_FUNCTION, 1,
+    { "-cart4", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_16KB_4000, NULL, NULL,
       "<Name>", "Specify 4/8/16K extension ROM name at $4000" },
-    { "-cart6", CALL_FUNCTION, 1,
+    { "-cart6", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_16KB_6000, NULL, NULL,
       "<Name>", "Specify 4/8/16K extension ROM name at $6000" },
-    { "-cartA", CALL_FUNCTION, 1,
+    { "-cartA", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_8KB_A000, NULL, NULL,
       "<Name>", "Specify 4/8K extension ROM name at $A000" },
-    { "-cartB", CALL_FUNCTION, 1,
+    { "-cartB", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_4KB_B000, NULL, NULL,
       "<Name>", "Specify 4K extension ROM name at $B000" },
-    { "-cartbb", CALL_FUNCTION, 1,
+    { "-cartbb", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_BEHRBONZ, NULL, NULL,
       "<Name>", "Specify Behr Bonz extension ROM name" },
-    { "-cartgeneric", CALL_FUNCTION, 1,
+    { "-cartgeneric", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_GENERIC, NULL, NULL,
       "<Name>", "Specify generic extension ROM name" },
-    { "-cartmega", CALL_FUNCTION, 1,
+    { "-cartmega", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_MEGACART, NULL, NULL,
       "<Name>", "Specify Mega-Cart extension ROM name" },
-    { "-cartfe", CALL_FUNCTION, 1,
+    { "-cartfe", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_FINAL_EXPANSION, NULL, NULL,
       "<Name>", "Specify Final Expansion extension ROM name" },
-    { "-ultimem", CALL_FUNCTION, 1,
+    { "-ultimem", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_UM, NULL, NULL,
       "<Name>", "Specify UltiMem extension ROM name" },
-    { "-cartfp", CALL_FUNCTION, 1,
+    { "-cartfp", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       attach_cartridge_cmdline, (void *)CARTRIDGE_VIC20_FP, NULL, NULL,
       "<Name>", "Specify Vic Flash Plugin extension ROM name" },
-    { "+cart", CALL_FUNCTION, 0,
+    { "+cart", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       detach_cartridge_cmdline, NULL, NULL, NULL,
       NULL, "Disable default cartridge" },
     CMDLINE_LIST_END

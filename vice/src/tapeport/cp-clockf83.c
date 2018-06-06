@@ -44,7 +44,6 @@ TAPE PORT | PCF8583 | I/O
 #include "resources.h"
 #include "snapshot.h"
 #include "tapeport.h"
-#include "translate.h"
 
 #include "cp-clockf83.h"
 
@@ -144,16 +143,16 @@ int tapertc_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-cpclockf83", SET_RESOURCE, 0,
+    { "-cpclockf83", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CPClockF83", (resource_value_t)1,
       NULL, "Enable CP Clock F83 (PCF8583 RTC)" },
-    { "+cpclockf83", SET_RESOURCE, 0,
+    { "+cpclockf83", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CPClockF83", (resource_value_t)0,
       NULL, "Disable CP Clock F83 (PCF8583 RTC)" },
-    { "-cpclockf83save", SET_RESOURCE, 0,
+    { "-cpclockf83save", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CPClockF83Save", (resource_value_t)1,
       NULL, "Enable saving of the CP Clock F83 (PCF8583 RTC) data when changed." },
-    { "+cpclockf83save", SET_RESOURCE, 0,
+    { "+cpclockf83save", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CPClockF83Save", (resource_value_t)0,
       NULL, "Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed." },
     CMDLINE_LIST_END

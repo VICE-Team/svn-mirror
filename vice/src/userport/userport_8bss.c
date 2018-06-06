@@ -50,7 +50,6 @@ C64/C128 | CBM2 | ADC0820-1 | ADC0820-2 | NOTES
 #include "resources.h"
 #include "sampler.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "userport.h"
 #include "userport_8bss.h"
 
@@ -137,10 +136,10 @@ int userport_8bss_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userport8bss", SET_RESOURCE, 0,
+    { "-userport8bss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Userport8BSS", (resource_value_t)1,
       NULL, "Enable Userport 8bit stereo sampler" },
-    { "+userport8bss", SET_RESOURCE, 0,
+    { "+userport8bss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Userport8BSS", (resource_value_t)0,
       NULL, "Disable Userport 8bit stereo sampler" },
     CMDLINE_LIST_END

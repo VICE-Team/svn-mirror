@@ -37,7 +37,6 @@
 #include "sid-resources.h"
 #include "sid-snapshot.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "vic20.h"
 
 /* ---------------------------------------------------------------------*/
@@ -221,16 +220,16 @@ int sidcart_resources_init(void)
 
 static const cmdline_option_t sidcart_cmdline_options[] =
 {
-    { "-sidcart", SET_RESOURCE, 1,
+    { "-sidcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidCart", NULL,
       NULL, "Enable the SID cartridge" },
-    { "+sidcart", SET_RESOURCE, 0,
+    { "+sidcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidCart", NULL,
       NULL, "Disable the SID cartridge" },
-    { "-sidcartaddress", SET_RESOURCE, 1,
+    { "-sidcartaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidAddress", NULL,
       "<address>", "SID cartridge address (0x9800/0x9C00)" },
-    { "-sidcartclock", SET_RESOURCE, 1,
+    { "-sidcartclock", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidClock", NULL,
       "<clock>", "SID cartridge clock (0: C64 clock, 1: VIC20 clock)" },
     CMDLINE_LIST_END

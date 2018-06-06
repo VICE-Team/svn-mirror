@@ -67,7 +67,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -339,43 +338,43 @@ void autostart_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-basicload", SET_RESOURCE, 0,
+    { "-basicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartBasicLoad", (resource_value_t)1,
       NULL, "On autostart, load to BASIC start (without ',1')" },
-    { "+basicload", SET_RESOURCE, 0,
+    { "+basicload", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartBasicLoad", (resource_value_t)0,
       NULL, "On autostart, load with ',1'" },
-    { "-autostartwithcolon", SET_RESOURCE, 0,
+    { "-autostartwithcolon", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartRunWithColon", (resource_value_t)1,
       NULL, "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'" },
-    { "+autostartwithcolon", SET_RESOURCE, 0,
+    { "+autostartwithcolon", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartRunWithColon", (resource_value_t)0,
       NULL, "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'" },
-    { "-autostart-handle-tde", SET_RESOURCE, 0,
+    { "-autostart-handle-tde", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartHandleTrueDriveEmulation", (resource_value_t)1,
       NULL, "Handle True Drive Emulation on autostart" },
-    { "+autostart-handle-tde", SET_RESOURCE, 0,
+    { "+autostart-handle-tde", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartHandleTrueDriveEmulation", (resource_value_t)0,
       NULL, "Do not handle True Drive Emulation on autostart" },
-    { "-autostart-warp", SET_RESOURCE, 0,
+    { "-autostart-warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartWarp", (resource_value_t)1,
       NULL, "Enable warp mode during autostart" },
-    { "+autostart-warp", SET_RESOURCE, 0,
+    { "+autostart-warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartWarp", (resource_value_t)0,
       NULL, "Disable warp mode during autostart" },
-    { "-autostartprgmode", SET_RESOURCE, 1,
+    { "-autostartprgmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "AutostartPrgMode", NULL,
       "<Mode>", "Set autostart mode for PRG files (0: VirtualFS, 1: Inject, 2: Disk image)" },
-    { "-autostartprgdiskimage", SET_RESOURCE, 1,
+    { "-autostartprgdiskimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "AutostartPrgDiskImage", NULL,
       "<Name>", "Set disk image for autostart of PRG files" },
-    { "-autostart-delay", SET_RESOURCE, 1,
+    { "-autostart-delay", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "AutostartDelay", NULL,
       "<frames>", "Set initial autostart delay (0: use default)" },
-    { "-autostart-delay-random", SET_RESOURCE, 0,
+    { "-autostart-delay-random", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartDelayRandom", (resource_value_t)1,
       NULL, "Enable random initial autostart delay." },
-    { "+autostart-delay-random", SET_RESOURCE, 0,
+    { "+autostart-delay-random", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AutostartDelayRandom", (resource_value_t)0,
       NULL, "Disable random initial autostart delay." },
     CMDLINE_LIST_END

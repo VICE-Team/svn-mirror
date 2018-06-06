@@ -48,7 +48,6 @@
 #include "mos6510.h"
 #include "network.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -201,16 +200,16 @@ static int network_control_cmd(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-netplayserver", SET_RESOURCE, 1,
+    { "-netplayserver", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "NetworkServerName", NULL,
       "<hostname>", "Set the netplay server hostname" },
-    { "-netplaybind", SET_RESOURCE, 1,
+    { "-netplaybind", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "NetworkServerBindAddress", NULL,
       "<hostname>", "Set the netplay binding address" },
-    { "-netplayport", SET_RESOURCE, 1,
+    { "-netplayport", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "NetworkServerPort", NULL,
       "<port>", "Set the netplay port (0..65535)" },
-    { "-netplayctrl", CALL_FUNCTION, 1,
+    { "-netplayctrl", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       network_control_cmd, NULL, NULL, NULL,
       "<key,joy1,joy2,dev,rsrc>", "Set the netplay control elements (keyboard, joystick1, joystick2, devices and resources), each item takes a value (0: None, 1: Server, 2: Client, 3: Both)" },
     CMDLINE_LIST_END

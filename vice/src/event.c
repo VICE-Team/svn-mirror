@@ -53,7 +53,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tape.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -265,7 +264,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
 
                 /* get CRC32 of current file */
                 file_crc = crc32_file(filename);
-                /* translate crc32 to little endian */
+                /* convert crc32 to little endian */
                 crc32_to_le(crc_snap, file_crc);
                 /* check CRC32 */
                 if (memcmp(crc_snap, crc_file, CRC32_SIZE) != 0) {
@@ -1259,25 +1258,25 @@ static int cmdline_help(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-playback", CALL_FUNCTION, 0,
+    { "-playback", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
       NULL, "Playback recorded events" },
-    { "-eventsnapshotdir", SET_RESOURCE, 1,
+    { "-eventsnapshotdir", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "EventSnapshotDir", NULL,
       "<Name>", "Set event snapshot directory" },
-    { "-eventstartsnapshot", SET_RESOURCE, 1,
+    { "-eventstartsnapshot", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "EventStartSnapshot", NULL,
       "<Name>", "Set event start snapshot" },
-    { "-eventendsnapshot", SET_RESOURCE, 1,
+    { "-eventendsnapshot", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "EventEndSnapshot", NULL,
       "<Name>", "Set event end snapshot" },
-    { "-eventstartmode", SET_RESOURCE, 1,
+    { "-eventstartmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "EventStartMode", NULL,
       "<Mode>", "Set event start mode (0: file save, 1: file load, 2: reset, 3: playback)" },
-    { "-eventimageinc", SET_RESOURCE, 0,
+    { "-eventimageinc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EventImageInclude", (resource_value_t)1,
       NULL, "Enable including disk images" },
-    { "+eventimageinc", SET_RESOURCE, 0,
+    { "+eventimageinc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EventImageInclude", (resource_value_t)0,
       NULL, "Disable including disk images" },
     CMDLINE_LIST_END

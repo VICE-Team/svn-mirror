@@ -46,7 +46,6 @@
 #include "log.h"
 #include "mididrv.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -119,13 +118,13 @@ void mididrv_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-midiname", SET_RESOURCE, -1,
+    { "-midiname", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIName", NULL,
       "<Name>", "Name of MIDI Client" },
-    { "-midiinname", SET_RESOURCE, -1,
+    { "-midiinname", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIInName", NULL,
       "<Name>", "Name of MIDI-In Port" },
-    { "-midioutname", SET_RESOURCE, -1,
+    { "-midioutname", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIOutName", NULL,
       "<Name>", "Name of MIDI-Out Port" },
     CMDLINE_LIST_END

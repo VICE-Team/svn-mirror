@@ -66,7 +66,6 @@
 #include "log.h"
 #include "mididrv.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -668,14 +667,14 @@ void mididrv_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-midiin", SET_RESOURCE, -1,
+    { "-midiin", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIInDev", NULL,
       "<Name>", "Specify MIDI-In device" },
-    { "-midiout", SET_RESOURCE, -1,
+    { "-midiout", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIOutDev", NULL,
       "<Name>", "Specify MIDI-Out device" },
 #ifdef USE_ALSA
-    { "-mididrv", SET_RESOURCE, -1,
+    { "-mididrv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_NEED_BRACKETS,
       NULL, NULL, "MIDIDriver", NULL,
       "<Driver>", "Specify MIDI driver (0 = OSS, 1 = ALSA)" },
 #endif

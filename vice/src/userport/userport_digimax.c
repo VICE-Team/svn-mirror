@@ -41,7 +41,6 @@
 #include "userport.h"
 #include "userport_digimax.h"
 #include "util.h"
-#include "translate.h"
 
 #include "digimaxcore.c"
 
@@ -184,10 +183,10 @@ int userport_digimax_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportdigimax", SET_RESOURCE, 0,
+    { "-userportdigimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportDIGIMAX", (resource_value_t)1,
       NULL, "Enable the userport DigiMAX device" },
-    { "+userportdigimax", SET_RESOURCE, 0,
+    { "+userportdigimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportDIGIMAX", (resource_value_t)0,
       NULL, "Disable the userport DigiMAX device" },
     CMDLINE_LIST_END

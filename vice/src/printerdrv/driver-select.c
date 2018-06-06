@@ -37,7 +37,6 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -164,13 +163,13 @@ int driver_select_userport_init_resources(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pr4drv", SET_RESOURCE, 1,
+    { "-pr4drv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer4Driver", NULL,
       "<Name>", "Specify name of printer driver for device #4. (ascii/mps803/nl10/raw)" },
-    { "-pr5drv", SET_RESOURCE, 1,
+    { "-pr5drv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer5Driver", NULL,
       "<Name>", "Specify name of printer driver for device #5. (ascii/mps803/nl10/raw)" },
-    { "-pr6drv", SET_RESOURCE, 1,
+    { "-pr6drv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer6Driver", NULL,
       "<Name>", "Specify name of printer driver for device #6. (1520/raw)" },
     CMDLINE_LIST_END
@@ -178,7 +177,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_options_userport[] =
 {
-    { "-pruserdrv", SET_RESOURCE, 1,
+    { "-pruserdrv", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PrinterUserportDriver", NULL,
       "<Name>", "Specify name of printer driver for the userport printer. (ascii/nl10/raw)" },
     CMDLINE_LIST_END

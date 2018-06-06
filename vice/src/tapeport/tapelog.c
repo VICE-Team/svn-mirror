@@ -51,7 +51,6 @@ TAPEPORT | TAPELOG
 #include "resources.h"
 #include "snapshot.h"
 #include "tapeport.h"
-#include "translate.h"
 #include "util.h"
 
 #include "tapelog.h"
@@ -292,19 +291,19 @@ void tapelog_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-tapelog", SET_RESOURCE, 0,
+    { "-tapelog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeLog", (resource_value_t)1,
       NULL, "Enable the tape log device" },
-    { "+tapelog", SET_RESOURCE, 0,
+    { "+tapelog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeLog", (resource_value_t)0,
       NULL, "Disable the tape log device" },
-    { "-tapelogtofile", SET_RESOURCE, 0,
+    { "-tapelogtofile", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeLogDestination", (resource_value_t)1,
       NULL, "Enable logging to a file" },
-    { "-tapelogtolog", SET_RESOURCE, 0,
+    { "-tapelogtolog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeLogDestination", (resource_value_t)0,
       NULL, "Enable logging to the emulator log file" },
-    { "-tapelogimage", SET_RESOURCE, 1,
+    { "-tapelogimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "TapeLogfilename", NULL,
       "<Name>", "Specify tape log file name" },
     CMDLINE_LIST_END

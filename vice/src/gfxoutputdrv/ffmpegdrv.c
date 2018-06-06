@@ -42,10 +42,9 @@
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "util.h"
-#include "../sounddrv/soundmovie.h"
+#include "soundmovie.h"
 
 static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
     { AV_CODEC_ID_MP2, "MP2" },
@@ -270,10 +269,10 @@ static int ffmpegdrv_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ffmpegaudiobitrate", SET_RESOURCE, 1,
+    { "-ffmpegaudiobitrate", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FFMPEGAudioBitrate", NULL,
       "<value>", "Set bitrate for audio stream in media file" },
-    { "-ffmpegvideobitrate", SET_RESOURCE, 1,
+    { "-ffmpegvideobitrate", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FFMPEGVideoBitrate", NULL,
       "<value>", "Set bitrate for video stream in media file" },
     CMDLINE_LIST_END

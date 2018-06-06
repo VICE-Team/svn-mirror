@@ -45,7 +45,6 @@
 #include "resources.h"
 #include "romset.h"
 #include "sysfile.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -78,13 +77,13 @@ static int option_romsetarchiveselect(const char *value, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-romsetfile", CALL_FUNCTION, 1,
+    { "-romsetfile", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       option_romsetfile, NULL, NULL, NULL,
       "<File>", "load the given romset file" },
-    { "-romsetarchive", CALL_FUNCTION, 1,
+    { "-romsetarchive", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       option_romsetarchive, NULL, NULL, NULL,
       "<File>", "load the given romset archive" },
-    { "-romsetarchiveselect", CALL_FUNCTION, 1,
+    { "-romsetarchiveselect", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       option_romsetarchiveselect, NULL, NULL, NULL,
       "<Item number>", "select the given item from the current romset archive" },
     CMDLINE_LIST_END

@@ -42,7 +42,6 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 
 
@@ -499,7 +498,7 @@ int myacia_init_resources(void)
 /*! \brief the command-line options available for the ACIA */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-myaciadev", SET_RESOURCE, 1,
+    { "-myaciadev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, MYACIA "Dev", NULL,
       "<0-3>", "Specify RS232 device this ACIA should work on" },
     CMDLINE_LIST_END

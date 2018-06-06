@@ -34,7 +34,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tapeport.h"
-#include "translate.h"
 
 #include "dtl-basic-dongle.h"
 
@@ -158,10 +157,10 @@ int dtlbasic_dongle_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-dtlbasicdongle", SET_RESOURCE, 0,
+    { "-dtlbasicdongle", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DTLBasicDongle", (resource_value_t)1,
       NULL, "Enable DTL Basic dongle" },
-    { "+dtlbasicdongle", SET_RESOURCE, 0,
+    { "+dtlbasicdongle", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DTLBasicDongle", (resource_value_t)0,
       NULL, "Enable DTL Basic dongle" },
     CMDLINE_LIST_END

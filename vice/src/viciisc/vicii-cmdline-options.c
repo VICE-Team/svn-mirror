@@ -35,7 +35,6 @@
 #include "machine.h"
 #include "raster-cmdline-options.h"
 #include "resources.h"
-#include "translate.h"
 #include "vicii-cmdline-options.h"
 #include "vicii-resources.h"
 #include "vicii-timing.h"
@@ -129,28 +128,28 @@ static int set_vicii_model(const char *param, void *extra_param)
 /* VIC-II command-line options.  */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-VICIIborders", CALL_FUNCTION, 1,
+    { "-VICIIborders", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       border_set_func, NULL, "VICIIBorderMode", (void *)0,
       "<Mode>", "Set border display mode (0: normal, 1: full, 2: debug, 3: none)" },
-    { "-VICIIchecksb", SET_RESOURCE, 0,
+    { "-VICIIchecksb", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSbColl", (void *)1,
       NULL, "Enable sprite-background collision registers" },
-    { "+VICIIchecksb", SET_RESOURCE, 0,
+    { "+VICIIchecksb", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSbColl", (void *)0,
       NULL, "Disable sprite-background collision registers" },
-    { "-VICIIcheckss", SET_RESOURCE, 0,
+    { "-VICIIcheckss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSsColl", (void *)1,
       NULL, "Enable sprite-sprite collision registers" },
-    { "+VICIIcheckss", SET_RESOURCE, 0,
+    { "+VICIIcheckss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSsColl", (void *)0,
       NULL, "Disable sprite-sprite collision registers" },
-    { "-VICIIvspbug", SET_RESOURCE, 0,
+    { "-VICIIvspbug", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIIVSPBug", (void *)1,
       NULL, "Enable VSP bug emulation" },
-    { "+VICIIvspbug", SET_RESOURCE, 0,
+    { "+VICIIvspbug", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIIVSPBug", (void *)0,
       NULL, "Disable VSP bug emulation" },
-    { "-VICIImodel", CALL_FUNCTION, 1,
+    { "-VICIImodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_vicii_model, NULL, NULL, NULL,
       "<Model>", "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a/6572)" },
     CMDLINE_LIST_END

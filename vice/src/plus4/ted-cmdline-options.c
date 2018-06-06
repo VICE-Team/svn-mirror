@@ -37,7 +37,6 @@
 #include "ted-resources.h"
 #include "ted.h"
 #include "tedtypes.h"
-#include "translate.h"
 
 static int border_set_func(const char *value, void *extra_param)
 {
@@ -63,7 +62,7 @@ static int border_set_func(const char *value, void *extra_param)
 /* TED command-line options.  */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-TEDborders", CALL_FUNCTION, 1,
+    { "-TEDborders", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       border_set_func, NULL, "TEDBorderMode", NULL,
       "<Mode>", "Set border display mode (0: normal, 1: full, 2: debug, 3: none)" },
     CMDLINE_LIST_END

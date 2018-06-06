@@ -55,7 +55,6 @@ PIN | PIN | NOTES
 #include "c64_diag_586220_harness.h"
 #include "cmdline.h"
 #include "resources.h"
-#include "translate.h"
 #include "userport.h"
 #include "userport_diag_586220_harness.h"
 
@@ -135,10 +134,10 @@ int userport_diag_586220_harness_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportdiag586220harness", SET_RESOURCE, 0,
+    { "-userportdiag586220harness", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportDiag586220Harness", (resource_value_t)1,
       NULL, "Enable Userport diag 586220 harness module" },
-    { "+userportdiag586220harness", SET_RESOURCE, 0,
+    { "+userportdiag586220harness", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportDiag586220Harness", (resource_value_t)0,
       NULL, "Disable Userport diag 586220 harness module" },
     CMDLINE_LIST_END

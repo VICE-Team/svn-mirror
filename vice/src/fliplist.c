@@ -39,7 +39,6 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#include "translate.h"
 #include "util.h"
 
 #define NUM_DRIVES 4
@@ -110,7 +109,7 @@ void fliplist_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-flipname", SET_RESOURCE, 1,
+    { "-flipname", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FliplistName", NULL,
       "<Name>", "Specify name of the flip list file image" },
     CMDLINE_LIST_END

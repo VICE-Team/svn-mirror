@@ -46,7 +46,6 @@
 #include "maincpu.h"
 #include "resources.h"
 #include "tape.h"
-#include "translate.h"
 #include "util.h"
 #include "vicefeatures.h"
 
@@ -190,40 +189,40 @@ static int cmdline_attach(const char *param, void *extra_param)
 
 static const cmdline_option_t common_cmdline_options[] =
 {
-    { "-help", CALL_FUNCTION, 0,
+    { "-help", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
-    { "-?", CALL_FUNCTION, 0,
+    { "-?", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
-    { "-h", CALL_FUNCTION, 0,
+    { "-h", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
-    { "-features", CALL_FUNCTION, 0,
+    { "-features", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_features, NULL, NULL, NULL,
       NULL, "Show a list of the available compile-time options and their configuration." },
-    { "-default", CALL_FUNCTION, 0,
+    { "-default", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_default, NULL, NULL, NULL,
       NULL, "Restore default settings" },
-    { "-config", CALL_FUNCTION, 1,
+    { "-config", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_config, NULL, NULL, NULL,
       "<filename>", "Specify config file" },
-    { "-dumpconfig", CALL_FUNCTION, 1,
+    { "-dumpconfig", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_dumpconfig, NULL, NULL, NULL,
       "<filename>", "Dump all resources to specified config file" },
-    { "-chdir", CALL_FUNCTION, 1,
+    { "-chdir", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_chdir, NULL, NULL, NULL,
       "Directory", "Change current working directory." },
-    { "-limitcycles", CALL_FUNCTION, 1,
+    { "-limitcycles", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_limitcycles, NULL, NULL, NULL,
       "<value>", "Specify number of cycles to run before quitting with an error." },
-    { "-console", CALL_FUNCTION, 0,
+    { "-console", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for music playback)" },
-    { "-core", SET_RESOURCE, 0,
+    { "-core", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DoCoreDump", (resource_value_t)1,
       NULL, "Allow production of core dumps" },
-    { "+core", SET_RESOURCE, 0,
+    { "+core", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DoCoreDump", (resource_value_t)0,
       NULL, "Do not produce core dumps" },
     CMDLINE_LIST_END
@@ -233,25 +232,25 @@ static const cmdline_option_t common_cmdline_options[] =
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-autostart", CALL_FUNCTION, 1,
+    { "-autostart", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_autostart, NULL, NULL, NULL,
       "<Name>", "Attach and autostart tape/disk image <name>" },
-    { "-autoload", CALL_FUNCTION, 1,
+    { "-autoload", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_autoload, NULL, NULL, NULL,
       "<Name>", "Attach and autoload tape/disk image <name>" },
-    { "-1", CALL_FUNCTION, 1,
+    { "-1", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)1, NULL, NULL,
       "<Name>", "Attach <name> as a tape image" },
-    { "-8", CALL_FUNCTION, 1,
+    { "-8", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)8, NULL, NULL,
       "<Name>", "Attach <name> as a disk image in drive #8" },
-    { "-9", CALL_FUNCTION, 1,
+    { "-9", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)9, NULL, NULL,
       "<Name>", "Attach <name> as a disk image in drive #9" },
-    { "-10", CALL_FUNCTION, 1,
+    { "-10", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)10, NULL, NULL,
       "<Name>", "Attach <name> as a disk image in drive #10" },
-    { "-11", CALL_FUNCTION, 1,
+    { "-11", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_attach, (void *)11, NULL, NULL,
       "<Name>", "Attach <name> as a disk image in drive #11" },
     CMDLINE_LIST_END

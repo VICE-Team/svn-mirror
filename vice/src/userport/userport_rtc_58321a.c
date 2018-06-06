@@ -49,7 +49,6 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
 #include "resources.h"
 #include "rtc-58321a.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
 #include "userport_rtc_58321a.h"
@@ -155,16 +154,16 @@ int userport_rtc_58321a_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportrtc58321a", SET_RESOURCE, 0,
+    { "-userportrtc58321a", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTC58321a", (resource_value_t)1,
       NULL, "Enable Userport RTC (58321a)" },
-    { "+userportrtc58321a", SET_RESOURCE, 0,
+    { "+userportrtc58321a", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTC58321a", (resource_value_t)0,
       NULL, "Disable Userport RTC (58321a)" },
-    { "-userportrtc58321asave", SET_RESOURCE, 0,
+    { "-userportrtc58321asave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTC58321aSave", (resource_value_t)1,
       NULL, "Enable saving of the Userport RTC (58321a) data when changed." },
-    { "+userportrtc58321asave", SET_RESOURCE, 0,
+    { "+userportrtc58321asave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTC58321aSave", (resource_value_t)0,
       NULL, "Disable saving of the Userport RTC (58321a) data when changed." },
     CMDLINE_LIST_END

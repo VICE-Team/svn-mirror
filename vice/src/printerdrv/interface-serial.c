@@ -40,7 +40,6 @@
 #include "printer.h"
 #include "resources.h"
 #include "serial.h"
-#include "translate.h"
 #include "types.h"
 
 #ifdef HAVE_OPENCBM
@@ -152,16 +151,16 @@ int interface_serial_init_resources(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-device4", SET_RESOURCE, 1,
+    { "-device4", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer4", NULL,
       "<Type>", "Set device type for device #4 (0: None, 1: Filesystem, 2: Real)" },
-    { "-device5", SET_RESOURCE, 1,
+    { "-device5", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer5", NULL,
       "<Type>", "Set device type for device #5 (0: None, 1: Filesystem, 2: Real)" },
-    { "-device6", SET_RESOURCE, 1,
+    { "-device6", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer6", NULL,
       "<Type>", "Set device type for device #6 (0: None, 1: Filesystem, 2: Real)" },
-    { "-device7", SET_RESOURCE, 1,
+    { "-device7", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer7", NULL,
       "<Type>", "Set device type for device #7 (0: None, 2: Real)" },
     CMDLINE_LIST_END

@@ -41,7 +41,6 @@
 #include "sidcart.h"
 #include "sound.h"
 #include "uiapi.h"
-#include "translate.h"
 
 /* ---------------------------------------------------------------------*/
 
@@ -177,10 +176,10 @@ int digiblaster_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-digiblaster", SET_RESOURCE, 0,
+    { "-digiblaster", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DIGIBLASTER", (resource_value_t)1,
       NULL, "Enable the digiblaster add-on" },
-    { "+digiblaster", SET_RESOURCE, 0,
+    { "+digiblaster", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DIGIBLASTER", (resource_value_t)0,
       NULL, "Disable the digiblaster add-on" },
     CMDLINE_LIST_END

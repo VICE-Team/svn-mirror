@@ -45,7 +45,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vic20cart.h"
@@ -747,10 +746,10 @@ void finalexpansion_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-fewriteback", SET_RESOURCE, 0,
+    { "-fewriteback", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "FinalExpansionWriteBack", (resource_value_t)1,
       NULL, "Enable Final Expansion write back to ROM file" },
-    { "+fewriteback", SET_RESOURCE, 0,
+    { "+fewriteback", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "FinalExpansionWriteBack", (resource_value_t)0,
       NULL, "Disable Final Expansion write back to ROM file" },
     CMDLINE_LIST_END

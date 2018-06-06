@@ -36,7 +36,6 @@
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "userport.h"
 #include "userport_joystick.h"
@@ -539,10 +538,10 @@ int userport_joystick_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportjoy", SET_RESOURCE, 0,
+    { "-userportjoy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportJoy", (resource_value_t)1,
       NULL, "Enable Userport joystick adapter" },
-    { "+userportjoy", SET_RESOURCE, 0,
+    { "+userportjoy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportJoy", (resource_value_t)0,
       NULL, "Disable Userport joystick adapter" },
     CMDLINE_LIST_END
@@ -550,7 +549,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_options_type[] =
 {
-    { "-userportjoytype", SET_RESOURCE, 1,
+    { "-userportjoytype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "UserportJoyType", NULL,
       "<Type>", "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)" },
     CMDLINE_LIST_END

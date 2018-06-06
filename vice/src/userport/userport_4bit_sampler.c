@@ -45,7 +45,6 @@ C64/C128 | CBM2 | ADC | NOTES
 #include "resources.h"
 #include "sampler.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "userport.h"
 #include "userport_4bit_sampler.h"
 
@@ -132,10 +131,10 @@ int userport_4bit_sampler_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userport4bitsampler", SET_RESOURCE, 0,
+    { "-userport4bitsampler", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Userport4bitSampler", (resource_value_t)1,
       NULL, "Enable Userport 4bit sampler" },
-    { "+userport4bitsampler", SET_RESOURCE, 0,
+    { "+userport4bitsampler", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Userport4bitSampler", (resource_value_t)0,
       NULL, "Disable Userport 4bit sampler" },
     CMDLINE_LIST_END

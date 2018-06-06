@@ -35,7 +35,6 @@
 #include "machine.h"
 #include "raster-cmdline-options.h"
 #include "resources.h"
-#include "translate.h"
 #include "vicii-cmdline-options.h"
 #include "vicii-resources.h"
 #include "vicii-timing.h"
@@ -66,19 +65,19 @@ static int border_set_func(const char *value, void *extra_param)
 /* VIC-II command-line options.  */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-VICIIborders", CALL_FUNCTION, 1,
+    { "-VICIIborders", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       border_set_func, NULL, NULL, NULL,
       "<Mode>", "Set border display mode (0: normal, 1: full, 2: debug, 3: none)" },
-    { "-VICIIchecksb", SET_RESOURCE, 0,
+    { "-VICIIchecksb", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSbColl", (void *)1,
       NULL, "Enable sprite-background collision registers" },
-    { "+VICIIchecksb", SET_RESOURCE, 0,
+    { "+VICIIchecksb", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSbColl", (void *)0,
       NULL, "Disable sprite-background collision registers" },
-    { "-VICIIcheckss", SET_RESOURCE, 0,
+    { "-VICIIcheckss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSsColl", (void *)1,
       NULL, "Enable sprite-sprite collision registers" },
-    { "+VICIIcheckss", SET_RESOURCE, 0,
+    { "+VICIIcheckss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIICheckSsColl", (void *)0,
       NULL, "Disable sprite-sprite collision registers" },
     CMDLINE_LIST_END
@@ -86,10 +85,10 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_options_dtv[] =
 {
-    { "-VICIInewluminance", SET_RESOURCE, 0,
+    { "-VICIInewluminance", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIINewLuminances", (void *)1,
       NULL, "Use new luminances" },
-    { "+VICIInewluminance", SET_RESOURCE, 0,
+    { "+VICIInewluminance", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VICIINewLuminances", (void *)0,
       NULL, "Use old luminances" },
     CMDLINE_LIST_END

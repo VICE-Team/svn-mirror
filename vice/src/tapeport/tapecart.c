@@ -58,7 +58,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tapeport.h"
-#include "translate.h"
 
 #include "tapecart.h"
 
@@ -452,28 +451,28 @@ int tapecart_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-tapecart", SET_RESOURCE, 0,
+    { "-tapecart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartEnabled", (resource_value_t)1,
       NULL, "Enable tapecart" },
-    { "+tapecart", SET_RESOURCE, 0,
+    { "+tapecart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartEnabled", (resource_value_t)0,
       NULL, "Disable tapecart" },
-    { "-tcrt", SET_RESOURCE, 1,
+    { "-tcrt", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "TapecartTCRTFilename", NULL,
       "<Name>", "Attach TCRT tapecart image" },
-    { "-tapecartupdatetcrt", SET_RESOURCE, 1,
+    { "-tapecartupdatetcrt", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartUpdateTCRT", (resource_value_t)1,
       NULL, "Enable updating tapecart .tcrt image" },
-    { "+tapecartupdatetcrt", SET_RESOURCE, 0,
+    { "+tapecartupdatetcrt", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartUpdateTCRT", (resource_value_t)0,
       NULL, "Disable updating tapecart .tcrt image" },
-    { "-tapecartoptimizetcrt", SET_RESOURCE, 1,
+    { "-tapecartoptimizetcrt", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartOptimizeTCRT", (resource_value_t)1,
       NULL, "Enable tapecart .tcrt image optimization on write" },
-    { "+tapecartoptimizecrt", SET_RESOURCE, 0,
+    { "+tapecartoptimizecrt", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartOptimizeTCRT", (resource_value_t)0,
       NULL, "Disable tapecart .tcrt image optimization on write" },
-    { "-tapecartloglevel", SET_RESOURCE, 1,
+    { "-tapecartloglevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "TapecartLogLevel", NULL,
       NULL, "Set tapecart log verbosity" },
     CMDLINE_LIST_END

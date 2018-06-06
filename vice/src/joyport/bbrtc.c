@@ -35,7 +35,6 @@
 #include "joyport.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 
 #include "bbrtc.h"
 
@@ -171,10 +170,10 @@ void joyport_bbrtc_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-bbrtcsave", SET_RESOURCE, 0,
+    { "-bbrtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "BBRTCSave", (resource_value_t)1,
       NULL, "Enable saving of the BBRTC data when changed." },
-    { "+bbrtcsave", SET_RESOURCE, 0,
+    { "+bbrtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "BBRTCSave", (resource_value_t)0,
       NULL, "Disable saving of the BBRTC data when changed." },
     CMDLINE_LIST_END

@@ -32,7 +32,6 @@
 #include "resources.h"
 #include "rs232.h"
 #include "rs232drv.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -85,16 +84,16 @@ void rs232drv_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-rsdev1", SET_RESOURCE, 1,
+    { "-rsdev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsDevice1", NULL,
       "<Name>", "Specify name of first RS232 device" },
-    { "-rsdev2", SET_RESOURCE, 1,
+    { "-rsdev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsDevice2", NULL,
       "<Name>", "Specify name of second RS232 device" },
-    { "-rsdev3", SET_RESOURCE, 1,
+    { "-rsdev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsDevice3", NULL,
       "<Name>", "Specify name of third RS232 device" },
-    { "-rsdev4", SET_RESOURCE, 1,
+    { "-rsdev4", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsDevice4", NULL,
       "<Name>", "Specify name of fourth RS232 device" },
     CMDLINE_LIST_END

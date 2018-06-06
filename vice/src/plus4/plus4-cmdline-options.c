@@ -36,7 +36,6 @@
 #include "plus4memhacks.h"
 #include "plus4memhannes256k.h"
 #include "plus4model.h"
-#include "translate.h"
 
 struct model_s {
     const char *name;
@@ -83,40 +82,40 @@ static int set_plus4_model(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pal", SET_RESOURCE, 0,
+    { "-pal", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
       NULL, "Use PAL sync factor" },
-    { "-ntsc", SET_RESOURCE, 0,
+    { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-    { "-kernal", SET_RESOURCE, 1,
+    { "-kernal", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KernalName", NULL,
       "<Name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1,
+    { "-basic", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "BasicName", NULL,
       "<Name>", "Specify name of BASIC ROM image" },
-    { "-functionlo", SET_RESOURCE, 1,
+    { "-functionlo", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FunctionLowName", NULL,
       "<Name>", "Specify name of Function low ROM image" },
-    { "-functionhi", SET_RESOURCE, 1,
+    { "-functionhi", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FunctionHighName", NULL,
       "<Name>", "Specify name of Function high ROM image" },
-    { "-c1lo", SET_RESOURCE, 1,
+    { "-c1lo", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "c1loName", NULL,
       "<Name>", "Specify name of Cartridge 1 low ROM image" },
-    { "-c1hi", SET_RESOURCE, 1,
+    { "-c1hi", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "c1hiName", NULL,
       "<Name>", "Specify name of Cartridge 1 high ROM image" },
-    { "-c2lo", SET_RESOURCE, 1,
+    { "-c2lo", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "c2loName", NULL,
       "<Name>", "Specify name of Cartridge 2 low ROM image" },
-    { "-c2hi", SET_RESOURCE, 1,
+    { "-c2hi", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "c2hiName", NULL,
       "<Name>", "Specify name of Cartridge 2 high ROM image" },
-    { "-ramsize", SET_RESOURCE, 1,
+    { "-ramsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RamSize", NULL,
       "<RAM size>", "Specify size of RAM installed in kb (16/32/64)" },
-    { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_plus4_model, NULL, NULL, NULL,
       "<Model>", "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)" },
     CMDLINE_LIST_END

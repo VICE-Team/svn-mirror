@@ -44,7 +44,6 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "rsuser.h"
-#include "translate.h"
 #include "types.h"
 
 static int fd = -1;
@@ -195,16 +194,16 @@ int rsuser_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-rsuser", SET_RESOURCE, 0,
+    { "-rsuser", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RsUserEnable", (void *)1,
       NULL, "Enable RS232 userport emulation" },
-    { "+rsuser", SET_RESOURCE, 0,
+    { "+rsuser", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RsUserEnable", (void *)0,
       NULL, "Disable RS232 userport emulation" },
-    { "-rsuserbaud", SET_RESOURCE, 1,
+    { "-rsuserbaud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsUserBaud", NULL,
       "<baud>", "Set the baud rate of the RS232 userport emulation." },
-    { "-rsuserdev", SET_RESOURCE, 1,
+    { "-rsuserdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RsUserDev", NULL,
       "<0-3>", "Specify VICE RS232 device for userport" },
     CMDLINE_LIST_END

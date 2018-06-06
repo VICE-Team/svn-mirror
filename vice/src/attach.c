@@ -43,7 +43,6 @@
 #include "network.h"
 #include "resources.h"
 #include "serial.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "vdrive-bam.h"
@@ -124,40 +123,40 @@ int file_system_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-device8", SET_RESOURCE, 1,
+    { "-device8", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice8", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #8 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)" },
-    { "-device9", SET_RESOURCE, 1,
+    { "-device9", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice9", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #9 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)" },
-    { "-device10", SET_RESOURCE, 1,
+    { "-device10", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice10", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #10 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)" },
-    { "-device11", SET_RESOURCE, 1,
+    { "-device11", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FileSystemDevice11", (void *)ATTACH_DEVICE_FS,
       "<Type>", "Set device type for device #11 (0: None, 1: Filesystem, 2: OpenCBM, 3: Block device)" },
-    { "-attach8ro", SET_RESOURCE, 0,
+    { "-attach8ro", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice8Readonly", (resource_value_t)1,
       NULL, "Attach disk image for drive #8 read only" },
-    { "-attach8rw", SET_RESOURCE, 0,
+    { "-attach8rw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice8Readonly", (resource_value_t)0,
       NULL, "Attach disk image for drive #8 read write (if possible)" },
-    { "-attach9ro", SET_RESOURCE, 0,
+    { "-attach9ro", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice9Readonly", (resource_value_t)1,
       NULL, "Attach disk image for drive #9 read only" },
-    { "-attach9rw", SET_RESOURCE, 0,
+    { "-attach9rw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice9Readonly", (resource_value_t)0,
       NULL, "Attach disk image for drive #9 read write (if possible)" },
-    { "-attach10ro", SET_RESOURCE, 0,
+    { "-attach10ro", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice10Readonly", (resource_value_t)1,
       NULL, "Attach disk image for drive #10 read only" },
-    { "-attach10rw", SET_RESOURCE, 0,
+    { "-attach10rw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice10Readonly", (resource_value_t)0,
       NULL, "Attach disk image for drive #10 read write (if possible)" },
-    { "-attach11ro", SET_RESOURCE, 0,
+    { "-attach11ro", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice11Readonly", (resource_value_t)1,
       NULL, "Attach disk image for drive #11 read only" },
-    { "-attach11rw", SET_RESOURCE, 0,
+    { "-attach11rw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "AttachDevice11Readonly", (resource_value_t)0,
       NULL, "Attach disk image for drive #11 read write (if possible)" },
     CMDLINE_LIST_END

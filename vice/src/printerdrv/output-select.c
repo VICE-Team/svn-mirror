@@ -33,7 +33,6 @@
 #include "lib.h"
 #include "output-select.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -102,13 +101,13 @@ int output_select_userport_init_resources(void)
 
 static cmdline_option_t cmdline_options[] =
 {
-    { "-pr4output", SET_RESOURCE, 1,
+    { "-pr4output", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer4Output", NULL,
       "<Name>", NULL },
-    { "-pr5output", SET_RESOURCE, 1,
+    { "-pr5output", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer5Output", NULL,
       "<Name>", NULL },
-    { "-pr6output", SET_RESOURCE, 1,
+    { "-pr6output", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer6Output", NULL,
       "<Name>", NULL },
     CMDLINE_LIST_END
@@ -116,7 +115,7 @@ static cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t cmdline_options_userport[] =
 {
-    { "-pruseroutput", SET_RESOURCE, 1,
+    { "-pruseroutput", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PrinterUserportOutput", NULL,
       "<Name>", NULL },
     CMDLINE_LIST_END

@@ -34,7 +34,6 @@
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sound.h"
-#include "translate.h"
 
 int sidcart_address;
 int sidcart_clock;
@@ -209,16 +208,16 @@ int sidcart_resources_init(void)
 
 static const cmdline_option_t sidcart_cmdline_options[] =
 {
-    { "-sidcart", SET_RESOURCE, 0,
+    { "-sidcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidCart", (resource_value_t)1,
       NULL, "Enable the SID cartridge" },
-    { "+sidcart", SET_RESOURCE, 0,
+    { "+sidcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidCart", (resource_value_t)0,
       NULL, "Disable the SID cartridge" },
-    { "-sidcartaddress", SET_RESOURCE, 1,
+    { "-sidcartaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidAddress", NULL,
       "<address>", "SID cartridge address (0x8F00/0xE900)" },
-    { "-sidcartclock", SET_RESOURCE, 1,
+    { "-sidcartclock", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidClock", NULL,
       "<clock>", "SID cartridge clock (0: C64 clock, 1: PET clock)" },
     CMDLINE_LIST_END

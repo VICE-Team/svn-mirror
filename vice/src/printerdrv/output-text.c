@@ -39,7 +39,6 @@
 #include "output-text.h"
 #include "output.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -103,22 +102,22 @@ static const resource_int_t resources_int_userport[] = {
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-prtxtdev1", SET_RESOURCE, 1,
+    { "-prtxtdev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PrinterTextDevice1", NULL,
       "<Name>", "Specify name of printer text device or dump file" },
-    { "-prtxtdev2", SET_RESOURCE, 1,
+    { "-prtxtdev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PrinterTextDevice2", NULL,
       "<Name>", "Specify name of printer text device or dump file" },
-    { "-prtxtdev3", SET_RESOURCE, 1,
+    { "-prtxtdev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PrinterTextDevice3", NULL,
       "<Name>", "Specify name of printer text device or dump file" },
-    { "-pr4txtdev", SET_RESOURCE, 1,
+    { "-pr4txtdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer4TextDevice", NULL,
       "<0-2>", "Specify printer text output device for printer #4" },
-    { "-pr5txtdev", SET_RESOURCE, 1,
+    { "-pr5txtdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer5TextDevice", NULL,
       "<0-2>", "Specify printer text output device for printer #5" },
-    { "-pr6txtdev", SET_RESOURCE, 1,
+    { "-pr6txtdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Printer6TextDevice", NULL,
       "<0-2>", "Specify printer text output device for printer #6" },
     CMDLINE_LIST_END
@@ -126,7 +125,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_options_userport[] =
 {
-    { "-prusertxtdev", SET_RESOURCE, 1,
+    { "-prusertxtdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PrinterUserportTextDevice", (resource_value_t)0,
       "<0-2>", "Specify printer text output device for userport printer" },
     CMDLINE_LIST_END

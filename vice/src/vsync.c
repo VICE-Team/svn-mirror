@@ -67,7 +67,6 @@ int vsync_frame_counter;
 #include "network.h"
 #include "resources.h"
 #include "sound.h"
-#include "translate.h"
 #include "types.h"
 #include "vsync.h"
 #include "vsyncapi.h"
@@ -154,16 +153,16 @@ int vsync_resources_init(void)
 /* Vsync-related command-line options. */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-speed", SET_RESOURCE, 1,
+    { "-speed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Speed", NULL,
       "<percent>", "Limit emulation speed to specified value" },
-    { "-refresh", SET_RESOURCE, 1,
+    { "-refresh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RefreshRate", NULL,
       "<value>", "Update every <value> frames (`0' for automatic)" },
-    { "-warp", SET_RESOURCE, 0,
+    { "-warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WarpMode", (resource_value_t)1,
       NULL, "Enable warp mode" },
-    { "+warp", SET_RESOURCE, 0,
+    { "+warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WarpMode", (resource_value_t)0,
       NULL, "Disable warp mode" },
     CMDLINE_LIST_END
@@ -172,13 +171,13 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_options_vsid[] =
 {
-    { "-speed", SET_RESOURCE, 1,
+    { "-speed", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Speed", NULL,
       "<percent>", "Limit emulation speed to specified value" },
-    { "-warp", SET_RESOURCE, 0,
+    { "-warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WarpMode", (resource_value_t)1,
       NULL, "Enable warp mode" },
-    { "+warp", SET_RESOURCE, 0,
+    { "+warp", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "WarpMode", (resource_value_t)0,
       NULL, "Disable warp mode" },
     CMDLINE_LIST_END

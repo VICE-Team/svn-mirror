@@ -37,7 +37,6 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -134,40 +133,40 @@ int debug_resources_init(void)
 static const cmdline_option_t cmdline_options[] =
 {
 #ifdef DEBUG
-    { "-trace_maincpu", SET_RESOURCE, 0,
+    { "-trace_maincpu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MainCPU_TRACE", (resource_value_t)1,
       NULL, "Trace the main CPU" },
-    { "+trace_maincpu", SET_RESOURCE, 0,
+    { "+trace_maincpu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MainCPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the main CPU" },
-    { "-trace_drive0", SET_RESOURCE, 0,
+    { "-trace_drive0", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive0CPU_TRACE", (resource_value_t)1,
       NULL, "Trace the drive0 CPU" },
-    { "+trace_drive0", SET_RESOURCE, 0,
+    { "+trace_drive0", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive0CPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the drive0 CPU" },
-    { "-trace_drive1", SET_RESOURCE, 0,
+    { "-trace_drive1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive1CPU_TRACE", (resource_value_t)1,
       NULL, "Trace the drive1 CPU" },
-    { "+trace_drive1", SET_RESOURCE, 0,
+    { "+trace_drive1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive1CPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the drive1 CPU" },
-    { "-trace_drive2", SET_RESOURCE, 0,
+    { "-trace_drive2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive2CPU_TRACE", (resource_value_t)1,
       NULL, "Trace the drive2 CPU" },
-    { "+trace_drive2", SET_RESOURCE, 0,
+    { "+trace_drive2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive2CPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the drive2 CPU" },
-    { "-trace_drive3", SET_RESOURCE, 0,
+    { "-trace_drive3", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive3CPU_TRACE", (resource_value_t)1,
       NULL, "Trace the drive3 CPU" },
-    { "+trace_drive3", SET_RESOURCE, 0,
+    { "+trace_drive3", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Drive3CPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the drive3 CPU" },
-    { "-trace_mode", SET_RESOURCE, 1,
+    { "-trace_mode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "TraceMode", NULL,
       "<value>", "Trace mode (0=normal 1=small 2=history)" },
-    { "-autoplaybackframes", SET_RESOURCE, 1,
+    { "-autoplaybackframes", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "AutoPlaybackFrames", NULL,
       "<frames>", "Set the amount of automatic playback frames" },
 #endif

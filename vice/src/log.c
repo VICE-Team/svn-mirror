@@ -38,7 +38,6 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#include "translate.h"
 #include "util.h"
 
 #ifdef DBGLOGGING
@@ -173,13 +172,13 @@ void log_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-logfile", CALL_FUNCTION, 1,
+    { "-logfile", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       log_logfile_opt, NULL, NULL, NULL,
       "<Name>", "Specify log file name" },
-    { "-verbose", CALL_FUNCTION, 0,
+    { "-verbose", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       log_verbose_opt, (void*)1, NULL, NULL,
       NULL, "Enable verbose log output." },
-    { "-silent", CALL_FUNCTION, 0,
+    { "-silent", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       log_silent_opt, (void*)1, NULL, NULL,
       NULL, "Disable verbose log output." },
     CMDLINE_LIST_END

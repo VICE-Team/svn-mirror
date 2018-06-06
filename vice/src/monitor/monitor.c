@@ -83,7 +83,6 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "sysfile.h"
-#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "uiapi.h"
@@ -1232,20 +1231,20 @@ static int set_monlog_name(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-moncommands", CALL_FUNCTION, 1,
+    { "-moncommands", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_playback_name, NULL, NULL, NULL,
       "<Name>", "Execute monitor commands from file" },
-    { "-monlog", CALL_FUNCTION, 1,
+    { "-monlog", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_monlog_name, NULL, NULL, NULL,
       "<Name>", "Write monitor output also to file" },
-    { "-initbreak", CALL_FUNCTION, 1,
+    { "-initbreak", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       monitor_set_initial_breakpoint, NULL, NULL, NULL,
       "<value>", "Set an initial breakpoint for the monitor" },
 #ifdef ARCHDEP_SEPERATE_MONITOR_WINDOW
-    { "-keepmonopen", SET_RESOURCE, 0,
+    { "-keepmonopen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)1,
       NULL, "Keep the monitor open" },
-    { "+keepmonopen", SET_RESOURCE, 0,
+    { "+keepmonopen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepMonitorOpen", (resource_value_t)0,
       NULL, "Do not keep the monitor open" },
 #endif

@@ -33,7 +33,6 @@
 #include "lib.h"
 #include "resources.h"
 #include "sampler.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "util.h"
 
@@ -242,13 +241,12 @@ void sampler_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-
 static cmdline_option_t cmdline_options[] =
 {
-    { "-samplerdev", SET_RESOURCE, 1,
+    { "-samplerdev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SamplerDevice", NULL,
       "Device", NULL },
-    { "-samplergain", SET_RESOURCE, 1,
+    { "-samplergain", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SamplerGain", NULL,
       "<Sampler gain>", "Specify sampler gain in percent (1%-200%)" },
     CMDLINE_LIST_END

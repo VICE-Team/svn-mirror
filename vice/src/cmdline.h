@@ -35,6 +35,7 @@
 typedef enum cmdline_option_type { SET_RESOURCE, CALL_FUNCTION }
     cmdline_option_type_t;
 
+#define CMDLINE_ATTRIB_NONE                  0
 #define CMDLINE_ATTRIB_NEED_ARGS             (1 << 0)
 #define CMDLINE_ATTRIB_NEED_BRACKETS         (1 << 1)
 #define CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION   (1 << 2)
@@ -128,5 +129,11 @@ extern char *cmdline_options_get_description(int counter);
 extern int cmdline_get_num_options(void);
 
 #define CMDLINE_LIST_END { NULL, (cmdline_option_type_t)0, 0, NULL, NULL, NULL, NULL, NULL, NULL }
+
+/* union to change pointer types for dynamic translations */
+union char_func{
+    const char *c;
+    char *(*f)(int id);
+};
 
 #endif

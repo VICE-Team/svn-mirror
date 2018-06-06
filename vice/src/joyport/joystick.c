@@ -51,7 +51,6 @@
 #include "network.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "userport_joystick.h"
@@ -675,17 +674,17 @@ int joystick_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-joyopposite", SET_RESOURCE, 0,
+    { "-joyopposite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "JoyOpposite", (resource_value_t)1,
       NULL, "Enable opposite joystick directions" },
-    { "+joyopposite", SET_RESOURCE, 0,
+    { "+joyopposite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "JoyOpposite", (resource_value_t)0,
       NULL, "Disable opposite joystick directions" },
 #ifdef COMMON_JOYKEYS
-    { "-keyset", SET_RESOURCE, 0,
+    { "-keyset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeySetEnable", (resource_value_t)1,
       NULL, "Enable keyset" },
-    { "+keyset", SET_RESOURCE, 0,
+    { "+keyset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeySetEnable", (resource_value_t)0,
       NULL, "Disable keyset" },
 #endif

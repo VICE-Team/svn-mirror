@@ -30,11 +30,10 @@
 
 #include "cmdline.h"
 #include "iec128dcr-cmdline-options.h"
-#include "translate.h"
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-dos1571cr", SET_RESOURCE, 1,
+    { "-dos1571cr", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DosName1571cr", NULL,
       "<Name>", "Specify name of 1571CR DOS ROM image" },
     CMDLINE_LIST_END

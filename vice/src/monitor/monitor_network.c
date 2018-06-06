@@ -42,7 +42,6 @@
 #include "monitor_network.h"
 #include "montypes.h"
 #include "resources.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vicesocket.h"
@@ -525,13 +524,13 @@ void monitor_network_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-remotemonitor", SET_RESOURCE, 0,
+    { "-remotemonitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MonitorServer", (resource_value_t)1,
       NULL, "Enable remote monitor" },
-    { "+remotemonitor", SET_RESOURCE, 0,
+    { "+remotemonitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MonitorServer", (resource_value_t)0,
       NULL, "Disable remote monitor" },
-    { "-remotemonitoraddress", SET_RESOURCE, 1,
+    { "-remotemonitoraddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MonitorServerAddress", NULL,
       "<Name>", "The local address the remote monitor should bind to" },
     CMDLINE_LIST_END

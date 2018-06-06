@@ -45,7 +45,6 @@
 #include "mididrv.h"
 
 #include "resources.h"
-#include "translate.h"
 
 #if 0
 #ifndef DWORD_PTR
@@ -111,10 +110,10 @@ void mididrv_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-midiin", SET_RESOURCE, 1,
+    { "-midiin", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MIDIInDev", NULL,
       "<number>", "Specify MIDI-In device" },
-    { "-midiout", SET_RESOURCE, 1,
+    { "-midiout", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MIDIOutDev", NULL,
       "<number>", "Specify MIDI-Out device" },
     CMDLINE_LIST_END

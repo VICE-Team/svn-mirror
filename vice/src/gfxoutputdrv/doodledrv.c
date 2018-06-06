@@ -41,7 +41,6 @@
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -215,13 +214,13 @@ static int doodledrv_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-doodleoversize", SET_RESOURCE, 1,
+    { "-doodleoversize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DoodleOversizeHandling", NULL,
       "<method>", "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)" },
-    { "-doodleundersize", SET_RESOURCE, 1,
+    { "-doodleundersize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DoodleUndersizeHandling", NULL,
       "<method>", "Select the way the undersized input should be handled, (0: scale up, 1: borderize)" },
-    { "-doodlemc", SET_RESOURCE, 1,
+    { "-doodlemc", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DoodleMultiColorHandling", NULL,
       "<method>", "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)" },
     CMDLINE_LIST_END
@@ -229,7 +228,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_options_plus4[] =
 {
-    { "-doodletedlum", SET_RESOURCE, 1,
+    { "-doodletedlum", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DoodleTEDLumHandling", NULL,
       "<method>", "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)" },
     CMDLINE_LIST_END
@@ -237,7 +236,7 @@ static const cmdline_option_t cmdline_options_plus4[] =
 
 static const cmdline_option_t cmdline_options_crtc[] =
 {
-    { "-doodlecrtctextcolor", SET_RESOURCE, 1,
+    { "-doodlecrtctextcolor", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DoodleCRTCTextColor", NULL,
       "<color>", "Select the CRTC text color (0: white, 1: amber, 2: green)" },
     CMDLINE_LIST_END

@@ -44,7 +44,6 @@ C64/C128 | CBM2 | PET | VIC20 | NAME
 #include "maincpu.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
 #include "userport_rtc_ds1307.h"
@@ -154,16 +153,16 @@ int userport_rtc_ds1307_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportrtcds1307", SET_RESOURCE, 0,
+    { "-userportrtcds1307", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTCDS1307", (resource_value_t)1,
       NULL, "Enable Userport RTC (DS1307)" },
-    { "+userportrtcds1307", SET_RESOURCE, 0,
+    { "+userportrtcds1307", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTCDS1307", (resource_value_t)0,
       NULL, "Disable Userport RTC (DS1307)" },
-    { "-userportrtcds1307save", SET_RESOURCE, 0,
+    { "-userportrtcds1307save", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTCDS1307Save", (resource_value_t)1,
       NULL, "Enable saving of the Userport RTC (DS1307) data when changed." },
-    { "+userportrtcds1307save", SET_RESOURCE, 0,
+    { "+userportrtcds1307save", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "UserportRTCDS1307Save", (resource_value_t)0,
       NULL, "Disable saving of the Userport RTC (DS1307) data when changed." },
     CMDLINE_LIST_END

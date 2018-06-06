@@ -37,7 +37,6 @@
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
-#include "translate.h"
 #include "vic20-cmdline-options.h"
 #include "vic20mem.h"
 #include "vic20model.h"
@@ -207,39 +206,39 @@ static int cmdline_memory(const char *param, void *extra_param)
 
 static cmdline_option_t const cmdline_options[] =
 {
-    { "-pal", SET_RESOURCE, 0,
+    { "-pal", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_PAL,
       NULL, "Use PAL sync factor" },
-    { "-ntsc", SET_RESOURCE, 0,
+    { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-    { "-kernal", SET_RESOURCE, 1,
+    { "-kernal", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KernalName", NULL,
       "<Name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1,
+    { "-basic", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "BasicName", NULL,
       "<Name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1,
+    { "-chargen", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ChargenName", NULL,
       "<Name>", "Specify name of character generator ROM image" },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    { "-acia1", SET_RESOURCE, 0,
+    { "-acia1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Acia1Enable", (void *)1,
       NULL, "Enable the ACIA RS232 interface emulation" },
-    { "+acia1", SET_RESOURCE, 0,
+    { "+acia1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Acia1Enable", (void *)0,
       NULL, "Disable the ACIA RS232 interface emulation" },
 #endif
-    { "-memory", CALL_FUNCTION, 1,
+    { "-memory", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_memory, NULL, NULL, NULL,
       "<spec>", "Specify memory configuration. (none/3k/8k/16k/24k/all) / (0/1/2/3/5) / (04/20/40/60/a0)" },
-    { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_vic20_model, NULL, NULL, NULL,
       "<Model>", "Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)" },
-    { "-vflimod", SET_RESOURCE, 0,
+    { "-vflimod", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VFLImod", (resource_value_t)1,
       NULL, "Enable VFLI modification." },
-    { "+vflimod", SET_RESOURCE, 0,
+    { "+vflimod", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "VFLImod", (resource_value_t)0,
       NULL, "Disable VFLI modification." },
     CMDLINE_LIST_END

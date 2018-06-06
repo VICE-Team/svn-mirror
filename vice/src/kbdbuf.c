@@ -44,7 +44,6 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 
 
@@ -161,7 +160,7 @@ static void kbd_buf_parse_string(const char *string)
             }
         } else {
             /* printf("chr:%s\n", &string[i]); */
-            /* regular character, translate to petscii */
+            /* regular character, convert to petscii */
             kbd_buf_string[j] = charset_p_topetcii(string[i]);
             j++;
         }
@@ -184,10 +183,10 @@ static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-keybuf", CALL_FUNCTION, 1,
+    { "-keybuf", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       kdb_buf_feed_cmdline, NULL, NULL, NULL,
       "<string>", "Put the specified string into the keyboard buffer." },
-    { "-keybuf-delay", SET_RESOURCE, 1,
+    { "-keybuf-delay", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KbdbufDelay", NULL,
       "<value>", "Set additional keyboard buffer delay (0: use default)" },
     CMDLINE_LIST_END

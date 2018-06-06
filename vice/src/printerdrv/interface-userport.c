@@ -37,7 +37,6 @@
 #include "printer.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "userport.h"
 
@@ -138,10 +137,10 @@ int interface_userport_init_resources(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pruser", SET_RESOURCE, 0,
+    { "-pruser", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "PrinterUserport", (resource_value_t) 1,
       NULL, "Enable the userport printer emulation" },
-    { "+pruser", SET_RESOURCE, 0,
+    { "+pruser", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "PrinterUserport", (resource_value_t) 0,
       NULL, "Disable the userport printer emulation" },
     CMDLINE_LIST_END

@@ -32,7 +32,6 @@
 #include "joyport.h"
 #include "lib.h"
 #include "resources.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "util.h"
 

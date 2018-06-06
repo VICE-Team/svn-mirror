@@ -58,7 +58,6 @@
 #include "mousedrv.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "vsyncapi.h"
 #include "clkguard.h"
 #include "ds1202_1302.h"
@@ -1022,10 +1021,10 @@ int mouse_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-mouse", SET_RESOURCE, 0,
+    { "-mouse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Mouse", (void *)1,
       NULL, "Enable mouse grab" },
-    { "+mouse", SET_RESOURCE, 0,
+    { "+mouse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Mouse", (void *)0,
       NULL, "Disable mouse grab" },
     CMDLINE_LIST_END
@@ -1033,10 +1032,10 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_extra_option[] =
 {
-    { "-smartmousertcsave", SET_RESOURCE, 0,
+    { "-smartmousertcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SmartMouseRTCSave", (void *)1,
       NULL, "Enable saving of smart mouse RTC data when changed." },
-    { "+smartmousertcsave", SET_RESOURCE, 0,
+    { "+smartmousertcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SmartMouseRTCSave", (void *)0,
       NULL, "Disable saving of smart mouse RTC data when changed." },
     CMDLINE_LIST_END

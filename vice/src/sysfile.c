@@ -39,7 +39,6 @@
 #include "log.h"
 #include "resources.h"
 #include "sysfile.h"
-#include "translate.h"
 #include "util.h"
 
 /* #define DBGSYSFILE */
@@ -122,7 +121,7 @@ static const resource_string_t resources_string[] = {
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-directory", SET_RESOURCE, 1,
+    { "-directory", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Directory", NULL,
       "<Path>", "Define search path to locate system files" },
     CMDLINE_LIST_END

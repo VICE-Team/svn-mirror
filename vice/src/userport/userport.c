@@ -35,7 +35,6 @@
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "userport.h"
 #include "util.h"
@@ -604,7 +603,7 @@ void userport_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-userportcollision", SET_RESOURCE, 1,
+    { "-userportcollision", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "UserportCollisionHandling", NULL,
       "<method>", "Select the way the Userport collisions should be handled, (0: error message and detach all involved devices, 1: error message and detach last attached involved device, 2: warning in log and 'AND' the valid return values" },
     CMDLINE_LIST_END

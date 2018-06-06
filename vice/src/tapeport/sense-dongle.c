@@ -34,7 +34,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "tapeport.h"
-#include "translate.h"
 
 #include "sense-dongle.h"
 
@@ -113,10 +112,10 @@ int sense_dongle_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-tapesensedongle", SET_RESOURCE, 0,
+    { "-tapesensedongle", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeSenseDongle", (resource_value_t)1,
       NULL, "Enable tape sense dongle" },
-    { "+tapesensedongle", SET_RESOURCE, 0,
+    { "+tapesensedongle", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeSenseDongle", (resource_value_t)0,
       NULL, "Disable tape sense dongle" },
     CMDLINE_LIST_END

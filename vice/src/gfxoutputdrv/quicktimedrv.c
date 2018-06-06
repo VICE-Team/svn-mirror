@@ -42,8 +42,7 @@
 #include "util.h"
 #include "resources.h"
 #include "cmdline.h"
-#include "translate.h"
-#include "../sounddrv/soundmovie.h"
+#include "soundmovie.h"
 #include "quicktimedrv.h"
 
 #ifndef MAC_OS_X_VERSION_10_5
@@ -189,10 +188,10 @@ static int quicktimedrv_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-quicktimeaudiobitrate", SET_RESOURCE, 1,
+    { "-quicktimeaudiobitrate", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "QuickTimeAudioBitrate", NULL,
       "<value>", "Set bitrate for audio stream in media file" },
-    { "-quicktimevideobitrate", SET_RESOURCE, 1,
+    { "-quicktimevideobitrate", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "QuickTimeVideoBitrate", NULL,
       "<value>", "Set bitrate for video stream in media file" },
     CMDLINE_LIST_END

@@ -36,7 +36,6 @@
 #include "main65816cpu.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "vicii.h"
 
@@ -141,7 +140,7 @@ int scpu64_glue_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-gluelogictype", SET_RESOURCE, 1,
+    { "-gluelogictype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GlueLogic", NULL,
       "<Type>", "Set glue logic type (0 = discrete, 1 = 252535-01)" },
     CMDLINE_LIST_END

@@ -52,7 +52,6 @@ F-6 |   4   | loops to 6 (SENSE <-> READ)
 #include "snapshot.h"
 #include "tape_diag_586220_harness.h"
 #include "tapeport.h"
-#include "translate.h"
 #include "util.h"
 
 /* Device enabled */
@@ -148,10 +147,10 @@ int tape_diag_586220_harness_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-tapediag586220harness", SET_RESOURCE, 0,
+    { "-tapediag586220harness", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeDiag586220Harness", (resource_value_t)1,
       NULL, "Enable the tape part of the 586220 diagnostics harness" },
-    { "+tapediag586220harness", SET_RESOURCE, 0,
+    { "+tapediag586220harness", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapeDiag586220Harness", (resource_value_t)0,
       NULL, "Disable the tape part of the 586220 diagnostics harness" },
     CMDLINE_LIST_END

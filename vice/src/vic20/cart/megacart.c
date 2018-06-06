@@ -43,7 +43,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vic20cart.h"
@@ -564,13 +563,13 @@ void megacart_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-mcnvramfile", SET_RESOURCE, 1,
+    { "-mcnvramfile", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MegaCartNvRAMfilename", NULL,
       "<Name>", "Set Mega-Cart NvRAM filename" },
-    { "-mcnvramwriteback", SET_RESOURCE, 0,
+    { "-mcnvramwriteback", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MegaCartNvRAMWriteBack", (resource_value_t)1,
       NULL, "Enable Mega-Cart NvRAM writeback" },
-    { "+mcnvramwriteback", SET_RESOURCE, 0,
+    { "+mcnvramwriteback", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MegaCartNvRAMWriteBack", (resource_value_t)0,
       NULL, "Disable Mega-Cart NvRAM writeback" },
     CMDLINE_LIST_END

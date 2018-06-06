@@ -34,7 +34,6 @@
 #include "machine.h"
 #include "ram.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 
 static int start_value = 0;
@@ -87,13 +86,13 @@ int ram_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-raminitstartvalue", SET_RESOURCE, 1,
+    { "-raminitstartvalue", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMInitStartValue", NULL,
       "<value>", "Set the value for the very first RAM address after powerup" },
-    { "-raminitvalueinvert", SET_RESOURCE, 1,
+    { "-raminitvalueinvert", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMInitValueInvert", NULL,
       "<num of bytes>", "Length of memory block initialized with the same value" },
-    { "-raminitpatterninvert", SET_RESOURCE, 1,
+    { "-raminitpatterninvert", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMInitPatternInvert", NULL,
       "<num of bytes>", "Length of memory block initialized with the same pattern" },
     CMDLINE_LIST_END

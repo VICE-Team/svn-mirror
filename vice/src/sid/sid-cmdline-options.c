@@ -41,7 +41,6 @@
 #include "sid.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
-#include "translate.h"
 #include "util.h"
 
 #ifdef HAVE_CATWEASELMKIII
@@ -154,7 +153,7 @@ int sid_common_set_engine_model(const char *param, void *extra_param)
 
 static cmdline_option_t sidengine_cmdline_options[] =
 {
-    { "-sidenginemodel", CALL_FUNCTION, 1,
+    { "-sidenginemodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       sid_common_set_engine_model, NULL, NULL, NULL,
       "<engine and model>", NULL },
     CMDLINE_LIST_END
@@ -163,7 +162,7 @@ static cmdline_option_t sidengine_cmdline_options[] =
 #ifdef HAVE_RESID
 static cmdline_option_t siddtvengine_cmdline_options[] =
 {
-    { "-sidenginemodel", CALL_FUNCTION, 1,
+    { "-sidenginemodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       sid_common_set_engine_model, NULL, NULL, NULL,
       "<engine and model>", NULL },
     CMDLINE_LIST_END
@@ -171,16 +170,16 @@ static cmdline_option_t siddtvengine_cmdline_options[] =
 
 static const cmdline_option_t resid_cmdline_options[] =
 {
-    { "-residsamp", SET_RESOURCE, 1,
+    { "-residsamp", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResidSampling", NULL,
       "<method>", "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)" },
-    { "-residpass", SET_RESOURCE, 1,
+    { "-residpass", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResidPassband", NULL,
       "<percent>", "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
-    { "-residgain", SET_RESOURCE, 1,
+    { "-residgain", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResidGain", NULL,
       "<percent>", "reSID gain in percent (90 - 100)" },
-    { "-residfilterbias", SET_RESOURCE, 1,
+    { "-residfilterbias", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidResidFilterBias", NULL,
       "<number>", "reSID filter bias setting, which can be used to adjust DAC bias in millivolts.", },
     CMDLINE_LIST_END
@@ -190,10 +189,10 @@ static const cmdline_option_t resid_cmdline_options[] =
 #ifdef HAVE_HARDSID
 static const cmdline_option_t hardsid_cmdline_options[] =
 {
-    { "-hardsidmain", SET_RESOURCE, 1,
+    { "-hardsidmain", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidHardSIDMain", NULL,
       "<device>", "Set the HardSID device for the main SID output" },
-    { "-hardsidright", SET_RESOURCE, 1,
+    { "-hardsidright", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidHardSIDRight", NULL,
       "<device>", "Set the HardSID device for the right SID output" },
     CMDLINE_LIST_END
@@ -202,16 +201,16 @@ static const cmdline_option_t hardsid_cmdline_options[] =
 
 static cmdline_option_t stereo_cmdline_options[] =
 {
-    { "-sidstereo", SET_RESOURCE, 1,
+    { "-sidstereo", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidStereo", NULL,
       "<amount>", "amount of extra SID chips. (0..3)" },
-    { "-sidstereoaddress", SET_RESOURCE, 1,
+    { "-sidstereoaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidStereoAddressStart", NULL,
       "<Base address>", NULL },
-    { "-sidtripleaddress", SET_RESOURCE, 1,
+    { "-sidtripleaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidTripleAddressStart", NULL,
       "<Base address>", NULL },
-    { "-sidquadaddress", SET_RESOURCE, 1,
+    { "-sidquadaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidQuadAddressStart", NULL,
       "<Base address>", NULL },
     CMDLINE_LIST_END
@@ -219,10 +218,10 @@ static cmdline_option_t stereo_cmdline_options[] =
 
 static const cmdline_option_t common_cmdline_options[] =
 {
-    { "-sidfilters", SET_RESOURCE, 0,
+    { "-sidfilters", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidFilters", (void *)1,
       NULL, "Emulate SID filters" },
-    { "+sidfilters", SET_RESOURCE, 0,
+    { "+sidfilters", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidFilters", (void *)0,
       NULL, "Do not emulate SID filters" },
     CMDLINE_LIST_END

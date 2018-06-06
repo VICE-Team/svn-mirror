@@ -33,7 +33,6 @@
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "vic20-ieee488.h"
 #include "vic20ieeevia.h"
@@ -128,10 +127,10 @@ int vic20_ieee488_resources_init(void)
 
 static cmdline_option_t const cmdline_options[] =
 {
-    { "-ieee488", SET_RESOURCE, 0,
+    { "-ieee488", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IEEE488", (resource_value_t)1,
       NULL, "Enable VIC-1112 IEEE488 interface" },
-    { "+ieee488", SET_RESOURCE, 0,
+    { "+ieee488", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IEEE488", (resource_value_t)0,
       NULL, "Disable VIC-1112 IEEE488 interface" },
     CMDLINE_LIST_END

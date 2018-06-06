@@ -41,7 +41,6 @@
 #include "monitor.h"
 #include "petreu.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -266,16 +265,16 @@ void petreu_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-petreu", SET_RESOURCE, 0,
+    { "-petreu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "PETREU", (resource_value_t)1,
       NULL, "Enable the PET Ram and Expansion Unit" },
-    { "+petreu", SET_RESOURCE, 0,
+    { "+petreu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "PETREU", (resource_value_t)0,
       NULL, "Disable the PET Ram and Expansion Unit" },
-    { "-petreuimage", SET_RESOURCE, 1,
+    { "-petreuimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PETREUfilename", NULL,
       "<Name>", "Specify name of PET Ram and Expansion Unit image" },
-    { "-petreuramsize", SET_RESOURCE, 1,
+    { "-petreuramsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PETREUsize", NULL,
       "<size in KB>", "Size of the PET Ram and Expansion Unit. (128/512/1024/2048)" },
     CMDLINE_LIST_END

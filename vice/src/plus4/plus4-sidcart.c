@@ -42,7 +42,6 @@
 #include "sid-resources.h"
 #include "sidcart.h"
 #include "sound.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 
@@ -266,22 +265,22 @@ int sidcart_resources_init(void)
 
 static const cmdline_option_t sidcart_cmdline_options[] =
 {
-    { "-sidcart", SET_RESOURCE, 0,
+    { "-sidcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidCart", (resource_value_t)1,
       NULL, "Enable the SID cartridge" },
-    { "+sidcart", SET_RESOURCE, 0,
+    { "+sidcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SidCart", (resource_value_t)0,
       NULL, "Disable the SID cartridge" },
-    { "-sidcartjoy", SET_RESOURCE, 0,
+    { "-sidcartjoy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SIDCartJoy", (resource_value_t)1,
       NULL, "Enable SID cartridge joystick" },
-    { "+sidcartjoy", SET_RESOURCE, 0,
+    { "+sidcartjoy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SIDCartJoy", (resource_value_t)0,
       NULL, "Disable SID cartridge joystick" },
-    { "-sidcartaddress", SET_RESOURCE, 1,
+    { "-sidcartaddress", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidAddress", NULL,
       "<address>", "SID cartridge address (0xFD40/0xFE80)" },
-    { "-sidcartclock", SET_RESOURCE, 1,
+    { "-sidcartclock", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SidClock", NULL,
       "<clock>", "SID cartridge clock (0: C64 clock, 1: PLUS4 clock)" },
     CMDLINE_LIST_END

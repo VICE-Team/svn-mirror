@@ -49,7 +49,6 @@
 #include "tape.h"
 #include "tape-snapshot.h"
 #include "tapeport.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "vice-event.h"
@@ -265,25 +264,25 @@ int datasette_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-datasette", SET_RESOURCE, 0,
+    { "-datasette", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Datasette", (resource_value_t)1,
       NULL, "Enable Datasette" },
-    { "+datasette", SET_RESOURCE, 0,
+    { "+datasette", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Datasette", (resource_value_t)0,
       NULL, "Disable Datasette" },
-    { "-dsresetwithcpu", SET_RESOURCE, 0,
+    { "-dsresetwithcpu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DatasetteResetWithCPU", (resource_value_t)1,
       NULL, "Enable automatic Datasette-Reset" },
-    { "+dsresetwithcpu", SET_RESOURCE, 0,
+    { "+dsresetwithcpu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DatasetteResetWithCPU", (resource_value_t)0,
       NULL, "Disable automatic Datasette-Reset" },
-    { "-dszerogapdelay", SET_RESOURCE, 1,
+    { "-dszerogapdelay", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteZeroGapDelay", NULL,
       "<value>", "Set delay in cycles for a zero in the tap" },
-    { "-dsspeedtuning", SET_RESOURCE, 1,
+    { "-dsspeedtuning", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteSpeedTuning", NULL,
       "<value>", "Set number of cycles added to each gap in the tap" },
-    { "-dstapewobble", SET_RESOURCE, 1,
+    { "-dstapewobble", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DatasetteTapeWobble", NULL,
       "<value>", "Set maximum random number of cycles added to each gap in the tap" },
     CMDLINE_LIST_END

@@ -56,7 +56,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "sysfile.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vice-event.h"
@@ -1702,21 +1701,21 @@ static void keyboard_resources_shutdown(void)
 
 static cmdline_option_t const cmdline_options[] =
 {
-    { "-keymap", SET_RESOURCE, 1,
+    { "-keymap", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KeymapIndex", NULL,
       "<number>", "Specify index of keymap file (0=symbolic, 1=positional, 2=symbolic (user), 3=positional (user))" },
 /* FIXME: build description dynamically */
-    { "-keyboardmapping", SET_RESOURCE, 1,
+    { "-keyboardmapping", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KeyboardMapping", NULL,
       "<number>", "Specify host keyboard layout" },
 /* FIXME: build description dynamically */
-    { "-keyboardtype", SET_RESOURCE, 1,
+    { "-keyboardtype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KeyboardType", NULL,
       "<number>", "Specify emulated keyboard type" },
-    { "-symkeymap", SET_RESOURCE, 1,
+    { "-symkeymap", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KeymapUserSymFile", NULL,
       "<Name>", "Specify name of symbolic keymap file" },
-    { "-poskeymap", SET_RESOURCE, 1,
+    { "-poskeymap", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KeymapUserPosFile", NULL,
       "<Name>", "Specify name of positional keymap file" },
     CMDLINE_LIST_END

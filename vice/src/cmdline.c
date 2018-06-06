@@ -37,7 +37,6 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "uicmdline.h"
 #include "util.h"
