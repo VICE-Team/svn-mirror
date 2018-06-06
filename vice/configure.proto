@@ -4259,7 +4259,6 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(HAVE_TRANSLATION, false)
   scounixcompile=no
   openserver5compile=no
   openserver6compile=no
@@ -4436,7 +4435,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
-  AM_CONDITIONAL(HAVE_TRANSLATION, true)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -4459,7 +4457,6 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
-  AM_CONDITIONAL(HAVE_TRANSLATION, true)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
@@ -4486,7 +4483,6 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
-  AM_CONDITIONAL(HAVE_TRANSLATION, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -4509,7 +4505,6 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
-  AM_CONDITIONAL(HAVE_TRANSLATION, false)
   AM_CONDITIONAL(MAKE_BINDIST, true)
 else
   AC_MSG_WARN([No architecture defined!])

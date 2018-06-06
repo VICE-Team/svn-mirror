@@ -243,9 +243,6 @@ noinst_HEADERS = \
 	tap.h \
 	tape.h \
 	tpi.h \
-	translate_funcs.h \
-	translate_languages.h \
-	translate_text.c \
 	traps.h \
 	types.h \
 	uiapi.h \
@@ -322,7 +319,6 @@ base_sources = \
 	socket.c \
 	sound.c \
 	sysfile.c \
-	translate.c \
 	traps.c \
 	util.c \
 	vicefeatures.c \
@@ -361,7 +357,6 @@ COMMON_EXTRA_DIST = \
 	fixpoint.c \
 	piacore.c \
 	sedinfocontrib_h.sh \
-	translate.txt \
 	vice-version.sh \
 	vice-version.sh.in \
 	wrap-u-ar.sh
@@ -469,7 +464,7 @@ EXTRA_DIST = $(COMMON_EXTRA_DIST) $(RESID_EXTRA_DIST) $(RESIDDTV_EXTRA_DIST)
 endif
 
 if NATIVE_TOOLS
-GENFILES = $(builddir)/geninfocontrib $(builddir)/gentranslate bin2c palette2c
+GENFILES = $(builddir)/geninfocontrib bin2c palette2c
 endif
 
 if EMBEDDED
@@ -594,17 +589,7 @@ else
 SVN_VERSION_HEADER =
 endif
 
-if HAVE_TRANSLATION
-BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
-
-if !NATIVE_TOOLS
-translate_table.h:	$(srcdir)/translate.txt $(srcdir)/buildtools/gentranslatetable.sh
-	@echo "generating translate_table.h..."
-	$(SHELL) $(srcdir)/buildtools/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
-endif
-else
-BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
-endif
+BUILT_SOURCES = $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 
 .PHONY: svnversion.h.indirect
 
@@ -638,19 +623,6 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	cat man2.tmp | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../man/vice.1
 	rm -f man*.tmp
 	rm -f team.tmp
-endif
-
-if NATIVE_TOOLS
-$(builddir)/gentranslate:	$(srcdir)/translate.txt $(srcdir)/buildtools/gentranslate.c
-	$(NATIVE_TOOLS_COMPILER) -o $(builddir)/gentranslate $(srcdir)/buildtools/gentranslate.c
-
-translate.h translate_table.h:	$(srcdir)/translate.txt $(builddir)/gentranslate
-	@echo "generating translate.h..."
-	$(builddir)/gentranslate $(srcdir)/translate.txt ./translate.h ./translate_table.h
-else
-translate.h:	$(srcdir)/translate.txt $(srcdir)/buildtools/gentranslate_h.sh
-	@echo "generating translate.h..."
-	$(SHELL) $(srcdir)/buildtools/gentranslate_h.sh $(DEBUGBUILD) <$(srcdir)/translate.txt >translate.h
 endif
 
 if OWCC

@@ -6,9 +6,6 @@ EXTRA_DIST = \
 	geninfocontrib.c \
 	geninfocontrib_h.sh \
 	gensvnversion.sh \
-	gentranslate.c \
-	gentranslate_h.sh \
-	gentranslatetable.sh \
 	infocontrib.sed \
 	od2c.sh \
 	palette2c.c \

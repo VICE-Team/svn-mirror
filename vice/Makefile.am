@@ -391,13 +391,9 @@ else
 installvice: install-recursive $(EXTRA_INSTALLS)
 endif
 
-clean-trans:
-	rm `find $(top_srcdir) -name "*.po.c"`
-
 # Manually define the dist targets so the correct tar usage will be used.
 dist-gzip:
 	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
-	$(DOS2UNIX) $(top_srcdir)/src/translate.txt
 	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
 	$(DOS2UNIX) $(top_srcdir)/po/POTFILES.in
 	$(MAKE) distdir
@@ -406,7 +402,6 @@ dist-gzip:
 
 dist dist-all:
 	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
-	$(DOS2UNIX) $(top_srcdir)/src/translate.txt
 	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
 	$(DOS2UNIX) $(top_srcdir)/po/POTFILES.in
 	$(MAKE) distdir
