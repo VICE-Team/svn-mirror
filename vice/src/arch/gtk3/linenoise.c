@@ -90,6 +90,8 @@
  *
  */
 
+#include "config.h"
+
 #ifdef HAVE_VTE
 
 #include <termios.h>

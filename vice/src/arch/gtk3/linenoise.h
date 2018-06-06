@@ -37,6 +37,8 @@
 #ifndef __LINENOISE_H
 #define __LINENOISE_H
 
+#include "config.h"
+
 #ifdef HAVE_VTE
 
 typedef struct linenoiseCompletions {
