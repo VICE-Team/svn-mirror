@@ -14,7 +14,6 @@ MISC_DOX = \
 	hardware-sids.txt \
 	iec-bus.txt \
 	MacOSX-ResourceTree.txt \
-	NLS-Howto.txt \
 	ports-status.txt \
 	SDL-support.txt
 
