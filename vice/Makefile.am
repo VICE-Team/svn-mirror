@@ -4,7 +4,7 @@ endif
 
 # Process this file with automake to produce Makefile.in
 
-SUBDIRS = $(POSUB) src build data man doc
+SUBDIRS = src build data man doc
 
 # COMMON_EXTRA_DIST is what used to be the EXTRA_DIST, when adding dist
 # files, please add them to the COMMON_EXTRA_DIST list.
@@ -36,48 +36,7 @@ COMMON_EXTRA_DIST = \
 	vice-mint-sdl.spec \
 	vice-mint-sdl.spec.in
 
-# PO_EXTRA_DIST is a list of files in the po directory that need to be
-# included in the source archive, this list was added to fix the fact that
-# 'make dist' only produced a proper/workable source archive when done on a
-# *nix platform with nls.
-
-PO_EXTRA_DIST = \
-	po/ChangeLog \
-	po/ChangeLog.1 \
-	po/Makefile.in.in \
-	po/POTFILES.in \
-	po/check_obsolete.sh \
-	po/da.po \
-	po/de.po \
-	po/es.po \
-	po/fr.po \
-	po/gen_translate_c.c \
-	po/hu.po \
-	po/intl2po.c \
-	po/it.po \
-	po/ko.po \
-	po/nl.po \
-	po/pl.po \
-	po/po2table.c \
-	po/po2tbl.sed \
-	po/ru.po \
-	po/sv.po \
-	po/tr.po \
-	po/translations-status.txt
-
-if PO_SUBDIR_USED
-
 EXTRA_DIST = $(COMMON_EXTRA_DIST)
-
-else
-
-EXTRA_DIST = $(COMMON_EXTRA_DIST) $(PO_EXTRA_DIST)
-
-endif
-
-# make src directory depend on the po directory, else parallel make-ing may
-# fail (see bug #551)
-src: $(POSUB)
 
 if SUPPORT_X64SC
   X64SC_INCLUDED = yes
@@ -395,7 +354,6 @@ endif
 dist-gzip:
 	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
 	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
-	$(DOS2UNIX) $(top_srcdir)/po/POTFILES.in
 	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)
@@ -403,7 +361,6 @@ dist-gzip:
 dist dist-all:
 	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
 	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
-	$(DOS2UNIX) $(top_srcdir)/po/POTFILES.in
 	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)

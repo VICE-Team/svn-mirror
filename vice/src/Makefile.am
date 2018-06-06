@@ -1304,7 +1304,7 @@ resid_dtv_libs = @RESID_DTV_LIBS@
 ffmpeg_libs = @FFMPEG_LIBS@
 
 # external libraries required for all emulators
-emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
+emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @SOUND_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@ @EDITLINE_LIBS@ @ARCH_LIBS@
 
 driver_libs = $(joyport_lib) $(samplerdrv_lib) $(sounddrv_lib) $(mididrv_lib) $(socketdrv_lib) $(hwsiddrv_lib) $(iodrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
@@ -2269,7 +2269,7 @@ c1541_LDADD = \
 	$(tape_lib) \
 	$(serial_lib) \
 	$(socketdrv_lib) \
-	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
+	@SDL_EXTRA_LIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
@@ -2305,7 +2305,7 @@ petcat_LDADD = \
 	$(ARCH_EXTRA_OBJECTS) \
 	$(fileio_lib) \
 	$(socketdrv_lib) \
-	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
+	@SDL_EXTRA_LIBS@ \
 	@ZLIB_LIBS@
 
 .PHONY: petcat-all
@@ -2318,7 +2318,6 @@ petcat-all: \
 
 # cartconv
 cartconv_SOURCES = cartconv.c
-cartconv_LDADD = @INTLLIBS@
 
 # distclean
 DISTCLEANFILES = $(BUILT_SOURCES) $(GENFILES)

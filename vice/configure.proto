@@ -260,7 +260,6 @@ HAVE_DYNLIB_SUPPORT_TOO="no "
 
 HAVE_ZLIB_SUPPORT="no "
 HAVE_LIBIEEE1284_SUPPORT="no "
-ENABLE_NLS_SUPPORT="no "
 HAVE_PROTO_OPENPCI_H_SUPPORT="no "
 
 HAVE_RESID_SUPPORT="no "
@@ -474,16 +473,6 @@ esac
 dnl Enable the SDL UI by default for syllable.
 if test x"$host_os" = "xsyllable"; then
   enable_sdlui=yes
-fi
-
-dnl Disable nls for the SDL UI
-if test x"$enable_sdlui" = "xyes" -o x"$enable_sdlui2" = "xyes"; then
-  enable_nls=no
-fi
-
-dnl Disable nls for the native GTK3 UI
-if test x"$enable_native_gtk3ui" = "xyes"; then
-  enable_nls=no
 fi
 
 if test "x$CC" = "xgcc"; then
@@ -1334,152 +1323,12 @@ fi
 dnl Extension for executable files in this system
 AC_EXEEXT
 
-dnl NLS stuff
-dnl Its has been rejected to use the full GNU gettext package 
-dnl delivered within the source. This is a minimum replacement implementing
-dnl a simple check to find `libintl.h' and `gettext'.
-dnl
-
-dnl Add new languages here
-ALL_LINGUAS="da de es fr hu it ko nl pl ru sv tr"
-
-dnl These rules are solely for the distribution goal.  While doing this
-dnl we only have to keep exactly one list of the available catalogs
-dnl in configure.in.
-for lang in $ALL_LINGUAS; do
-  GMOFILES="$GMOFILES $lang.gmo"
-  POFILES="$POFILES $lang.po"
-done
-AC_SUBST(GMOFILES)
-AC_SUBST(POFILES)
-
 AC_CHECK_LIB(iconv, libiconv_open,,)
-
-if test x"$enable_nls" != "xno" -a x"$is_unix" = "xyes"; then
-  AC_CHECK_HEADER(libintl.h,
-    [AC_CACHE_CHECK([for gettext in libc], gt_cv_func_gettext_libc,
-      [AC_TRY_LINK([#include <libintl.h>], [return (int) gettext ("")],
-  	 gt_cv_func_gettext_libc=yes, gt_cv_func_gettext_libc=no)])
-
-     AC_CACHE_CHECK([for gettext in libintl], gt_cv_func_gettext_libintl,
-      [save_libs="$LIBS"
-       LIBS="-lintl $LIBS"
-       AC_TRY_LINK([#include <libintl.h>], [return (int) gettext ("")],
-  	 INTLLIBS=-lintl gt_cv_func_gettext_libintl=yes, gt_cv_func_gettext_libintl=no)
-       LIBS="$save_libs"])
-
-     if test "$gt_cv_func_gettext_libc" = "yes" \
-  	|| test "$gt_cv_func_gettext_libintl" = "yes"; then
-  	AC_DEFINE(HAVE_GETTEXT,,[Define if gettext if available.])
-  	AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
-  	  [test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
-  	if test "$MSGFMT" != "no"; then
-  	  AC_CHECK_FUNCS(dcgettext)
-  	  AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
-  	  AM_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
-  	    [test -z "`$ac_dir/$ac_word -h 2>&1 | grep '(HELP)'`"], :)
-  	  AC_TRY_LINK(, [extern int _nl_msg_cat_cntr;
-  			 return _nl_msg_cat_cntr],
-  	    [CATOBJEXT=.gmo
-  	     DATADIRNAME=share],
-  	    [CATOBJEXT=.mo
-  	     DATADIRNAME=lib])
-  	  INSTOBJEXT=.mo
-  	fi
-        USE_NLS=yes
-	AC_DEFINE(ENABLE_NLS,,[Define if NLS support is enabled.])
-     ENABLE_NLS_SUPPORT="yes"
-	AC_DEFINE(HAVE_LIBINTL_H,,[use libintl for NLS.])
-	AC_DEFINE_UNQUOTED(DATADIRNAME, "$DATADIRNAME",[NLS datadirname.])
-	dnl this is prefixed with PREFIX
-	AC_DEFINE(NLS_LOCALEDIR, [PREFIX "/" DATADIRNAME "/locale"],[NLS local directory.])
-      else
-        AC_MSG_WARN([libintl.h not found, disabling NLS])
-        USE_NLS=no
-      fi
-  ])
-  dnl Test whether we really found GNU xgettext.
-  if test "$XGETTEXT" != ":"; then
-    dnl If it is no GNU xgettext we define it as : so that the
-    dnl Makefiles still can work.
-    if $XGETTEXT --omit-header /dev/null 2> /dev/null; then
-      : ;
-    else
-      AC_MSG_RESULT(
-    	[found xgettext program is not GNU xgettext; ignore it])
-      XGETTEXT=":"
-    fi
-  fi
-
-  dnl Test wether GMSGFMT is there. Should fix `make dist'.
-  if test "$GMSGFMT" = "" ; then
-    GMSGFMT=":"
-  fi
-
-  # We need to process the po/ directory.
-  POSUB=po
-  
-  AC_OUTPUT_COMMANDS(
-    [case "$CONFIG_FILES" in *po/Makefile.in*)
-      sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile
-    esac])
-  
-  dnl Make all variables we use known to autoconf.
-  AC_SUBST(USE_INCLUDED_LIBINTL)
-  AC_SUBST(CATALOGS)
-  AC_SUBST(DATADIRNAME)
-  AC_SUBST(INSTOBJEXT)
-  AC_SUBST(INTLDEPS)
-  AC_SUBST(INTLLIBS)
-  AC_SUBST(INTLOBJS)
-  AC_SUBST(POSUB)
-  AC_SUBST(GENCAT)
-
-  dnl If the AC_CONFIG_AUX_DIR macro for autoconf is used we possibly
-  dnl find the mkinstalldirs script in another subdir but ($top_srcdir).
-  dnl Try to locate is.
-  MKINSTALLDIRS=
-  if test -n "$ac_aux_dir"; then
-    MKINSTALLDIRS="$ac_aux_dir/mkinstalldirs"
-  fi
-  if test -z "$MKINSTALLDIRS"; then
-    MKINSTALLDIRS="\$(top_srcdir)/mkinstalldirs"
-  fi
-  AC_SUBST(MKINSTALLDIRS)
-
-  dnl currently no catgets support, can't check it.
-  GENCAT=
-  AC_SUBST(GENCAT)
-else
-  if test x"$is_unix" = "xyes"; then
-    AC_MSG_WARN([disabling NLS on user request])
-  fi
-  USE_NLS=no
-fi
-
-if test x"$USE_NLS" = "x" ; then
-  USE_NLS=no
-fi
-if test "$MSGFMT" = "no" ; then
-  dnl Fallback to shipped .gmo 
-  dnl Those should work on x86 linux systems.
-  AC_MSG_WARN([msgfmt not found, falling back to default catalogs (x86/Linux)])
-  CATOBJEXT=".gmo"
-fi
-AC_SUBST(CATOBJEXT)
-AC_SUBST(USE_NLS)
-AC_SUBST(NLS_LOCALEDIR)
 
 dnl Check for a perl interpreter.
 AC_PATH_PROG(PERL, perl)
 AC_SUBST(PERL)
  
-if test x"$POSUB" = "xpo"; then
-  AM_CONDITIONAL(PO_SUBDIR_USED, true)
-else
-  AM_CONDITIONAL(PO_SUBDIR_USED, false)
-fi
-
 dnl Check if --param inline-unit-growth=60 can be used.
 old_CFLAGS=$CFLAGS
 CFLAGS="$CFLAGS -Werror --param inline-unit-growth=60"
@@ -4828,7 +4677,6 @@ AC_OUTPUT([Makefile
            src/video/Makefile
            src/version.h
            src/vice-version.sh
-           po/Makefile.in
            ])
 
 dnl Local Variables:
@@ -5118,12 +4966,6 @@ echo "Zlib support           : $HAVE_ZLIB_SUPPORT (--with/without-zlib)"
 
 if test x"$real_arch" = "xUnix"; then
     echo "Libieee1284 support    : $HAVE_LIBIEEE1284_SUPPORT"
-fi
-
-if test x"$real_arch" = "xUnix"; then
-    if test x"$show_gui" != "xSDL" -a x"$show_gui" != "xSDL2"; then
-        echo "NLS support            : $ENABLE_NLS_SUPPORT (--enable/disable-nls)"
-    fi
 fi
 
 if test x"$real_arch" = "xAmiga"; then
