@@ -114,7 +114,6 @@
 #include "tape_diag_586220_harness.h"
 #include "tapeport.h"
 #include "tapecart.h"
-#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "userport.h"

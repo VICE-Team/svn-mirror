@@ -326,7 +326,7 @@ char *cmdline_options_get_description(int counter)
 {
     union char_func cf;
 
-    if (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION && options[counter].attributes != -1) {
+    if (options[counter].attributes & CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION) {
         if (combined_string) {
             lib_free(combined_string);
         }
@@ -350,7 +350,7 @@ char *cmdline_options_string(void)
         add_to_options1 = lib_msprintf("%s", options[i].name);
         add_to_options3 = lib_msprintf("\n\t%s\n", cmdline_options_get_description(i));
         if ((options[i].attributes & CMDLINE_ATTRIB_NEED_ARGS) && cmdline_options_get_param(i) != NULL) {
-            if (options[i].attributes == -1 || (options[i].attributes & CMDLINE_ATTRIB_NEED_BRACKETS)) {
+            if (options[i].attributes & CMDLINE_ATTRIB_NEED_BRACKETS) {
                 add_to_options2 = lib_msprintf(" <%s>", cmdline_options_get_param(i));
             } else {
                 add_to_options2 = lib_msprintf(" %s", cmdline_options_get_param(i));

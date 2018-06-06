@@ -91,7 +91,6 @@
 #include "resources.h"
 #include "plus60k.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -310,10 +309,10 @@ void plus60k_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-plus60kimage", SET_RESOURCE, 1,
+    { "-plus60kimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PLUS60Kfilename", NULL,
       "<Name>", "Specify name of PLUS60K image" },
-    { "-plus60kbase", SET_RESOURCE, 1,
+    { "-plus60kbase", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PLUS60Kbase", NULL,
       "<Base address>", "Base address of the PLUS60K expansion. (0xD040/0xD100)" },
     CMDLINE_LIST_END

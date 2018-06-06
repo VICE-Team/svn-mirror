@@ -36,7 +36,6 @@
 #include "export.h"
 #include "lib.h"
 #include "monitor.h"
-#include "translate.h"
 #include "uiapi.h"
 
 /* #define DEBUGEXPORT */

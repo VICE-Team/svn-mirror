@@ -32,17 +32,16 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "lib.h"
-#include "translate.h"
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-profdos1571", SET_RESOURCE, 1,
+    { "-profdos1571", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DriveProfDOS1571Name", NULL,
       "<Name>", "Specify name of Professional DOS 1571 ROM image" },
-    { "-supercard", SET_RESOURCE, 1,
+    { "-supercard", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DriveSuperCardName", NULL,
       "<Name>", "Specify name of SuperCard+ ROM image" },
-    { "-stardos", SET_RESOURCE, 1,
+    { "-stardos", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DriveStarDosName", NULL,
       "<Name>", "Specify name of StarDOS ROM image" },
     CMDLINE_LIST_END
@@ -50,25 +49,25 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t cmd_drive[] =
 {
-    { NULL, SET_RESOURCE, 1,
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, NULL, NULL,
       "<Type>", "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)" },
-    { NULL, SET_RESOURCE, 0,
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)1,
       NULL, "Enable Professional DOS" },
-    { NULL, SET_RESOURCE, 0,
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)0,
       NULL, "Disable Professional DOS" },
-    { NULL, SET_RESOURCE, 0,
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)1,
       NULL, "Enable SuperCard+" },
-    { NULL, SET_RESOURCE, 0,
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)0,
       NULL, "Disable SuperCard+" },
-    { NULL, SET_RESOURCE, 0,
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)1,
       NULL, "Enable StarDOS" },
-    { NULL, SET_RESOURCE, 0,
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, NULL, (void *)0,
       NULL, "Disable StarDOS" },
     CMDLINE_LIST_END

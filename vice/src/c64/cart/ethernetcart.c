@@ -46,7 +46,6 @@
 #include "rawnet.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "util.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
@@ -418,19 +417,19 @@ static int set_rrnet_enable(const char *value, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ethernetcart", SET_RESOURCE, 0,
+    { "-ethernetcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ETHERNETCART_ACTIVE", (resource_value_t)1,
       NULL, "Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)" },
-    { "+ethernetcart", SET_RESOURCE, 0,
+    { "+ethernetcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ETHERNETCART_ACTIVE", (resource_value_t)0,
       NULL, "Disable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)" },
-    { "-tfe", CALL_FUNCTION, 0,
+    { "-tfe", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_tfe_enable, NULL, NULL, NULL,
       NULL, "Enable the Ethernet Cartridge in TFE (\"The Final Ethernet\") compatible mode and set default I/O address" },
-    { "-rrnet", CALL_FUNCTION, 0,
+    { "-rrnet", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_rrnet_enable, NULL, NULL, NULL,
       NULL, "Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O address" },
-    { "-ethernetcartmode", SET_RESOURCE, 1,
+    { "-ethernetcartmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ETHERNETCARTMode", NULL,
       "<Mode>", "Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)" },
     CMDLINE_LIST_END
@@ -438,7 +437,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t base_cmdline_options[] =
 {
-    { "-ethernetcartbase", SET_RESOURCE, 1,
+    { "-ethernetcartbase", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ETHERNETCARTBase", NULL,
       "<Base address>", NULL },
     CMDLINE_LIST_END

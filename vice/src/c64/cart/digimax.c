@@ -44,7 +44,6 @@
 #include "sound.h"
 #include "uiapi.h"
 #include "util.h"
-#include "translate.h"
 
 #include "digimaxcore.c"
 
@@ -275,10 +274,10 @@ void digimax_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-digimax", SET_RESOURCE, 0,
+    { "-digimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DIGIMAX", (resource_value_t)1,
       NULL, "Enable the DigiMAX cartridge" },
-    { "+digimax", SET_RESOURCE, 0,
+    { "+digimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DIGIMAX", (resource_value_t)0,
       NULL, "Disable the DigiMAX cartridge" },
     CMDLINE_LIST_END
@@ -286,7 +285,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t base_cmdline_options[] =
 {
-    { "-digimaxbase", SET_RESOURCE, 1,
+    { "-digimaxbase", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DIGIMAXbase", NULL,
       "<Base address>", NULL },
     CMDLINE_LIST_END

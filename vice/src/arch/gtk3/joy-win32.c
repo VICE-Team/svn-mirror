@@ -47,7 +47,6 @@
 #include "joystick.h"
 #include "keyboard.h"
 #include "maincpu.h"
-#include "translate.h"
 #include "types.h"
 #include "ui.h"
 #include "winjoy.h"
@@ -525,66 +524,41 @@ int joy_arch_resources_init(void)
 /* FIXME: fix the resource references */
 
 static const cmdline_option_t joydev1cmdline_options[] = {
-    { "-joydev1", SET_RESOURCE, 1,
+    { "-joydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice1", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-#if 0 /* FIXME */
-      IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_1,
-#else
-      0,0,
-#endif
+      /* FIXME */
       NULL, NULL },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev2cmdline_options[] = {
-    { "-joydev2", SET_RESOURCE, 1,
+    { "-joydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice2", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-#if 0 /* FIXME */
-      IDS_P_NUMBER, IDS_SET_INPUT_JOYSTICK_2,
-#else
-      0,0,
-#endif
+      /* FIXME */
       NULL, NULL },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev3cmdline_options[] = {
-    { "-extrajoydev1", SET_RESOURCE, 1,
+    { "-extrajoydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice3", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-#if 0 /* FIXME */
-      IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_1,
-#else
-      0,0,
-#endif
+      /* FIXME */
       NULL, NULL },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev4cmdline_options[] = {
-    { "-extrajoydev2", SET_RESOURCE, 1,
+    { "-extrajoydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice4", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-#if 0 /* FIXME */
-      IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_2,
-#else
-      0,0,
-#endif
+      /* FIXME */
       NULL, NULL },
     CMDLINE_LIST_END
 };
 
 static const cmdline_option_t joydev5cmdline_options[] = {
-    { "-extrajoydev3", SET_RESOURCE, 1,
+    { "-extrajoydev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice5", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-#if 0 /* FIXME */
-      IDS_P_NUMBER, IDS_SET_INPUT_EXTRA_JOYSTICK_3,
-#else
-      0,0,
-#endif
+      /* FIXME */
       NULL, NULL },
     CMDLINE_LIST_END
 };

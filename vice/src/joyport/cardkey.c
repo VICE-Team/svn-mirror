@@ -32,7 +32,6 @@
 
 #include "joyport.h"
 #include "keyboard.h"
-#include "translate.h"
 
 #include "cardkey.h"
 

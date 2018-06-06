@@ -104,7 +104,6 @@
 #include "sid-resources.h"
 #include "sid.h"
 #include "sound.h"
-#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "userport.h"

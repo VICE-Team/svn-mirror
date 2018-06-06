@@ -41,7 +41,6 @@
 
 #include "joyport.h"
 #include "keyboard.h"
-#include "translate.h"
 
 #include "waasoft_dongle.h"
 

@@ -39,7 +39,6 @@
 #include "log.h"
 #include "rawimage.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -171,7 +170,7 @@ void rawimage_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-rawdrive", SET_RESOURCE, 1,
+    { "-rawdrive", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RawDriveDriver", NULL,
       "<Name>", "Set raw drive device name" },
     CMDLINE_LIST_END

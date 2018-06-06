@@ -45,7 +45,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
@@ -486,28 +485,28 @@ void ramcart_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ramcart", SET_RESOURCE, 0,
+    { "-ramcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMCART", (resource_value_t)1,
       NULL, "Enable the RamCart expansion" },
-    { "+ramcart", SET_RESOURCE, 0,
+    { "+ramcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMCART", (resource_value_t)0,
       NULL, "Disable the RamCart expansion" },
-    { "-ramcartsize", SET_RESOURCE, 1,
+    { "-ramcartsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMCARTsize", NULL,
       "<size in KB>", "Size of the RAMCART expansion. (64/128)" },
-    { "-ramcartimage", SET_RESOURCE, 1,
+    { "-ramcartimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RAMCARTfilename", NULL,
       "<Name>", "Specify name of RAMCART image" },
-    { "-ramcartimagerw", SET_RESOURCE, 0,
+    { "-ramcartimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMCARTImageWrite", (resource_value_t)1,
       NULL, "Allow writing to RAMCart image" },
-    { "+ramcartimagerw", SET_RESOURCE, 0,
+    { "+ramcartimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMCARTImageWrite", (resource_value_t)0,
       NULL, "Do not write to RAMCart image" },
-    { "-ramcartro", SET_RESOURCE, 0,
+    { "-ramcartro", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMCART_RO", (resource_value_t)1,
       NULL, "Set the RAMCart switch to read-only" },
-    { "-ramcartrw", SET_RESOURCE, 0,
+    { "-ramcartrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RAMCART_RO", (resource_value_t)0,
       NULL, "Set the RAMCart switch to read/write" },
     CMDLINE_LIST_END

@@ -43,7 +43,6 @@
 #include "resources.h"
 #include "georam.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -459,22 +458,22 @@ void georam_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-georam", SET_RESOURCE, 0,
+    { "-georam", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GEORAM", (resource_value_t)1,
       NULL, "Enable the GEO-RAM expansion unit" },
-    { "+georam", SET_RESOURCE, 0,
+    { "+georam", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GEORAM", (resource_value_t)0,
       NULL, "Disable the GEO-RAM expansion unit" },
-    { "-georamsize", SET_RESOURCE, 1,
+    { "-georamsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GEORAMsize", NULL,
       "<size in KB>", "Size of the GEORAM expansion unit" },
-    { "-georamimage", SET_RESOURCE, 1,
+    { "-georamimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GEORAMfilename", NULL,
       "<Name>", "Specify name of GEORAM image" },
-    { "-georamimagerw", SET_RESOURCE, 0,
+    { "-georamimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GEORAMImageWrite", (resource_value_t)1,
       NULL, "Allow writing to GEORAM image" },
-    { "+georamimagerw", SET_RESOURCE, 0,
+    { "+georamimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GEORAMImageWrite", (resource_value_t)0,
       NULL, "Do not write to GEORAM image" },
     CMDLINE_LIST_END
@@ -482,10 +481,10 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_mascuerade_options[] =
 {
-    { "-georamioswap", SET_RESOURCE, 0,
+    { "-georamioswap", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GEORAMIOSwap", (resource_value_t)1,
       NULL, "Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)" },
-    { "+georamioswap", SET_RESOURCE, 0,
+    { "+georamioswap", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GEORAMIOSwap", (resource_value_t)0,
       NULL, "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3)" },
     CMDLINE_LIST_END

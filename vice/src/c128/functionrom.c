@@ -37,7 +37,6 @@
 #include "functionrom.h"
 #include "lib.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -230,28 +229,28 @@ void functionrom_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-intfrom", SET_RESOURCE, 1,
+    { "-intfrom", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "InternalFunctionName", NULL,
       "<Name>", "Specify name of internal Function ROM image" },
-    { "-extfrom", SET_RESOURCE, 1,
+    { "-extfrom", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ExternalFunctionName", NULL,
       "<Name>", "Specify name of external Function ROM image" },
-    { "-intfunc", SET_RESOURCE, 1,
+    { "-intfunc", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "InternalFunctionROM", NULL,
       "<Type>", "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)" },
-    { "-extfunc", SET_RESOURCE, 1,
+    { "-extfunc", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ExternalFunctionROM", NULL,
       "<Type>", "Type of external Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)" },
-    { "-intfuncrtcsave", SET_RESOURCE, 0,
+    { "-intfuncrtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "InternalFunctionROMRTCSave", (resource_value_t)1,
       NULL, "Enable saving of the internal function RTC data when changed." },
-    { "+intfuncrtcsave", SET_RESOURCE, 0,
+    { "+intfuncrtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "InternalFunctionROMRTCSave", (resource_value_t)0,
       NULL, "Disable saving of the internal function RTC data when changed." },
-    { "-extfuncrtcsave", SET_RESOURCE, 0,
+    { "-extfuncrtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ExternalFunctionROMRTCSave", (resource_value_t)1,
       NULL, "Enable saving of the external function RTC data when changed." },
-    { "+extfuncrtcsave", SET_RESOURCE, 0,
+    { "+extfuncrtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ExternalFunctionROMRTCSave", (resource_value_t)0,
       NULL, "Disable saving of the external function RTC data when changed." },
     CMDLINE_LIST_END

@@ -46,7 +46,6 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "uiapi.h"
-#include "translate.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -254,10 +253,10 @@ void sfx_soundsampler_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-sfxss", SET_RESOURCE, 0,
+    { "-sfxss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundSampler", (resource_value_t)1,
       NULL, "Enable the SFX Sound Sampler cartridge" },
-    { "+sfxss", SET_RESOURCE, 0,
+    { "+sfxss", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundSampler", (resource_value_t)0,
       NULL, "Disable the SFX Sound Sampler cartridge" },
     CMDLINE_LIST_END
@@ -265,10 +264,10 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_mascuerade_options[] =
 {
-    { "-sfxssioswap", SET_RESOURCE, 0,
+    { "-sfxssioswap", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundSamplerIOSwap", (resource_value_t)1,
       NULL, "Swap io mapping (map cart I/O to VIC20 I/O-2)" },
-    { "+sfxssioswap", SET_RESOURCE, 0,
+    { "+sfxssioswap", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundSamplerIOSwap", (resource_value_t)0,
       NULL, "Don't swap io mapping (map cart I/O to VIC20 I/O-3)" },
     CMDLINE_LIST_END

@@ -56,7 +56,6 @@
 #include "mem.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -523,22 +522,22 @@ void reu_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-reu", SET_RESOURCE, 0,
+    { "-reu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "REU", (resource_value_t)1,
       NULL, "Enable the RAM Expansion Unit" },
-    { "+reu", SET_RESOURCE, 0,
+    { "+reu", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "REU", (resource_value_t)0,
       NULL, "Disable the RAM Expansion Unit" },
-    { "-reusize", SET_RESOURCE, 1,
+    { "-reusize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "REUsize", NULL,
       "<size in KB>", "Size of the RAM expansion unit. (128/256/512/1024/2048/4096/8192/16384)" },
-    { "-reuimage", SET_RESOURCE, 1,
+    { "-reuimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "REUfilename", NULL,
       "<Name>", "Specify name of REU image" },
-    { "-reuimagerw", SET_RESOURCE, 0,
+    { "-reuimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "REUImageWrite", (resource_value_t)1,
       NULL, "Allow writing to REU image" },
-    { "+reuimagerw", SET_RESOURCE, 0,
+    { "+reuimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "REUImageWrite", (resource_value_t)0,
       NULL, "Do not write to REU image" },
     CMDLINE_LIST_END

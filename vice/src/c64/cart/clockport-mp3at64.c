@@ -40,7 +40,6 @@
 #include "log.h"
 #endif
 #include "sound.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 

@@ -49,7 +49,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "util.h"
 
 #define EASYFLASH_N_BANK_BITS 6
@@ -253,22 +252,22 @@ void easyflash_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-easyflashjumper", SET_RESOURCE, 0,
+    { "-easyflashjumper", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EasyFlashJumper", (resource_value_t)1,
       NULL, "Enable EasyFlash jumper" },
-    { "+easyflashjumper", SET_RESOURCE, 0,
+    { "+easyflashjumper", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EasyFlashJumper", (resource_value_t)0,
       NULL, "Disable EasyFlash jumper" },
-    { "-easyflashcrtwrite", SET_RESOURCE, 0,
+    { "-easyflashcrtwrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EasyFlashWriteCRT", (resource_value_t)1,
       NULL, "Enable writing to EasyFlash .crt image" },
-    { "+easyflashcrtwrite", SET_RESOURCE, 0,
+    { "+easyflashcrtwrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EasyFlashWriteCRT", (resource_value_t)0,
       NULL, "Disable writing to EasyFlash .crt image" },
-    { "-easyflashcrtoptimize", SET_RESOURCE, 0,
+    { "-easyflashcrtoptimize", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EasyFlashOptimizeCRT", (resource_value_t)1,
       NULL, "Enable EasyFlash .crt image optimize on write" },
-    { "+easyflashcrtoptimize", SET_RESOURCE, 0,
+    { "+easyflashcrtoptimize", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "EasyFlashOptimizeCRT", (resource_value_t)0,
       NULL, "Disable writing to EasyFlash .crt image" },
     CMDLINE_LIST_END

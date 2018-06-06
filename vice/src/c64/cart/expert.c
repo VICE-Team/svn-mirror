@@ -45,7 +45,6 @@
 #include "lib.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
@@ -907,22 +906,22 @@ int expert_snapshot_read_module(snapshot_t *s)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-expert", SET_RESOURCE, 0,
+    { "-expert", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ExpertCartridgeEnabled", (resource_value_t)1,
       NULL, "Enable the Expert Cartridge" },
-    { "+expert", SET_RESOURCE, 0,
+    { "+expert", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ExpertCartridgeEnabled", (resource_value_t)0,
       NULL, "Disable the Expert Cartridge" },
-    { "-expertimagename", SET_RESOURCE, 1,
+    { "-expertimagename", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Expertfilename", NULL,
       "<Name>", "Set Expert Cartridge image name" },
-    { "-expertimagerw", SET_RESOURCE, 0,
+    { "-expertimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ExpertImageWrite", (resource_value_t)1,
       NULL, "Allow writing to Expert Cartridge image" },
-    { "+expertimagerw", SET_RESOURCE, 0,
+    { "+expertimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ExpertImageWrite", (resource_value_t)0,
       NULL, "Do not write to Expert Cartridge image" },
-    { "-expertmode", SET_RESOURCE, 1,
+    { "-expertmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ExpertCartridgeMode", NULL,
       "<Mode>", "Set Expert Cartridge mode (0: Off, 1: Prg, 2: On)" },
     CMDLINE_LIST_END

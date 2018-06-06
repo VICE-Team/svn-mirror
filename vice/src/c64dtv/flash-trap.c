@@ -50,7 +50,6 @@
 #include "types.h"
 #include "util.h"
 #include "resources.h"
-#include "translate.h"
 
 /* Flag: Have traps been installed?  */
 static int traps_installed = 0;
@@ -321,13 +320,13 @@ void flash_trap_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-fsflash", SET_RESOURCE, 1,
+    { "-fsflash", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "FSFlashDir", NULL,
       "<Name>", "Use <name> as directory for flash file system device" },
-    { "-trueflashfs", SET_RESOURCE, 0,
+    { "-trueflashfs", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "FlashTrueFS", (void *)1,
       NULL, "Enable true hardware flash file system" },
-    { "+trueflashfs", SET_RESOURCE, 0,
+    { "+trueflashfs", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "FlashTrueFS", (void *)0,
       NULL, "Disable true hardware flash file system" },
     CMDLINE_LIST_END

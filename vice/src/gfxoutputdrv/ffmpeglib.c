@@ -32,7 +32,6 @@
 #include "archdep.h"
 #include "gfxoutputdrv/ffmpeglib.h"
 #include "log.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "dynlib.h"
 

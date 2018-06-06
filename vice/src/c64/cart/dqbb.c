@@ -43,7 +43,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -315,19 +314,19 @@ void dqbb_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-dqbb", SET_RESOURCE, 0,
+    { "-dqbb", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DQBB", (resource_value_t)1,
       NULL, "Enable Double Quick Brown Box" },
-    { "+dqbb", SET_RESOURCE, 0,
+    { "+dqbb", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DQBB", (resource_value_t)0,
       NULL, "Disable Double Quick Brown Box" },
-    { "-dqbbimage", SET_RESOURCE, 1,
+    { "-dqbbimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DQBBfilename", NULL,
       "<Name>", "Specify Double Quick Brown Box filename" },
-    { "-dqbbimagerw", SET_RESOURCE, 0,
+    { "-dqbbimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DQBBImageWrite", (resource_value_t)1,
       NULL, "Allow writing to DQBB image" },
-    { "+dqbbimagerw", SET_RESOURCE, 0,
+    { "+dqbbimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DQBBImageWrite", (resource_value_t)0,
       NULL, "Do not write to DQBB image" },
     CMDLINE_LIST_END

@@ -27,12 +27,10 @@
 #include "vice.h"
 
 #include "c64dtv-resources.h"
-#include "cmdline.h"
 #include "hummeradc.h"
 #include "joystick.h"
 #include "log.h"
 #include "resources.h"
-#include "translate.h"
 
 static log_t hummeradc_log = LOG_ERR;
 

@@ -55,7 +55,6 @@
 #include "sound.h"
 #include "t6721.h"
 #include "tpi.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
@@ -1174,13 +1173,13 @@ void magicvoice_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-magicvoiceimage", SET_RESOURCE, 1,
+    { "-magicvoiceimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MagicVoiceImage", NULL,
       "<Name>", "Specify name of Magic Voice ROM image" },
-    { "-magicvoice", SET_RESOURCE, 0,
+    { "-magicvoice", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MagicVoiceCartridgeEnabled", (resource_value_t)1,
       NULL, "Enable the Magic Voice cartridge" },
-    { "+magicvoice", SET_RESOURCE, 0,
+    { "+magicvoice", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MagicVoiceCartridgeEnabled", (resource_value_t)0,
       NULL, "Disable the Magic Voice cartridge" },
     CMDLINE_LIST_END

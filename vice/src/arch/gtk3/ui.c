@@ -51,7 +51,6 @@
 #include "machine.h"
 #include "lightpen.h"
 #include "resources.h"
-#include "translate.h"
 #include "util.h"
 #include "videoarch.h"
 #include "vsync.h"
@@ -209,28 +208,28 @@ static const resource_int_t resources_int_secondary_window[] = {
  */
 static const cmdline_option_t cmdline_options_common[] =
 {
-    { "-confirmexit", SET_RESOURCE, 0,
+    { "-confirmexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "ConfirmOnExit", (void *)1,
         NULL, "Never confirm quitting VICE" },
-    { "+confirmexit", SET_RESOURCE, 0,
+    { "+confirmexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "ConfirmOnExit", (void *)0,
         NULL, "Don't confirm quitting VICE" },
-    { "-saveres", SET_RESOURCE, 0,
+    { "-saveres", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "SaveResourcesOnExit", (void *)1,
         NULL, "Save settings on exit" },
-    { "+saveres", SET_RESOURCE, 0,
+    { "+saveres", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "SaveResourcesOnExit", (void *)0,
         NULL, "Never save settings on exit" },
-    { "-minimized", SET_RESOURCE, 0,
+    { "-minimized", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "StartMinimized", (void *)1,
         NULL, "Do start minimized" },
-    { "+minimized", SET_RESOURCE, 0,
+    { "+minimized", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "StartMinimized", (void *)0,
         NULL, "Do not start minimized" },
-    { "-native-monitor", SET_RESOURCE, 0,
+    { "-native-monitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)1,
         NULL, "Use native Gtk3 monitor" },
-    { "+native-monitor", SET_RESOURCE, 0,
+    { "+native-monitor", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "NativeMonitor", (void *)0,
         NULL, "Do not use Gtk3 native monitor" },
     CMDLINE_LIST_END

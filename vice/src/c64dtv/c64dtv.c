@@ -96,7 +96,6 @@
 #include "sound.h"
 #include "tape.h"
 #include "tapeport.h"
-#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "userport.h"

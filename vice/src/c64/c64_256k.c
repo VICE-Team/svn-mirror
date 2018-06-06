@@ -44,7 +44,6 @@
 #include "resources.h"
 #include "reu.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -296,7 +295,7 @@ void c64_256k_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-256kimage", SET_RESOURCE, 1,
+    { "-256kimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "C64_256Kfilename", NULL,
       "<Name>", "Specify name of 256K image" },
     CMDLINE_LIST_END
@@ -304,7 +303,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t base_cmdline_options[] =
 {
-    { "-256kbase", SET_RESOURCE, 1,
+    { "-256kbase", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "C64_256Kbase", NULL,
       "<Base address>", "Base address of the 256K expansion. (0xDE00/0xDE80/0xDF00/0xDF80)" },
     CMDLINE_LIST_END

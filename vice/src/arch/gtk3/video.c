@@ -42,7 +42,6 @@
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
-#include "translate.h"
 #include "ui.h"
 #include "videoarch.h"
 
@@ -116,16 +115,16 @@ static int set_display_depth(int val, void *param)
  */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-trueaspect", SET_RESOURCE, 0,
+    { "-trueaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
       NULL, "Enable true aspect ratio" },
-    { "+trueaspect", SET_RESOURCE, 0,
+    { "+trueaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TrueAspectRatio", (resource_value_t)0,
       NULL, "Disable true aspect ratio" },
-    { "-keepaspect", SET_RESOURCE, 0,
+    { "-keepaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepAspectRatio", (resource_value_t)1,
       NULL, "Keep aspect ratio when scaling" },
-    { "+keepaspect", SET_RESOURCE, 0,
+    { "+keepaspect", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KeepAspectRatio", (resource_value_t)0,
       NULL, "Do not keep aspect ratio when scaling (freescale)" },
     CMDLINE_LIST_END

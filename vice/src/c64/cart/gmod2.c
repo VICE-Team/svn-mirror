@@ -46,7 +46,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "m93c86.h"
-#include "translate.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -341,19 +340,19 @@ void gmod2_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-gmod2eepromimage", SET_RESOURCE, 1,
+    { "-gmod2eepromimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "GMod2EEPROMImage", NULL,
       "<filename>", "Specify GMod2 EEPROM image filename" },
-    { "-gmod2eepromrw", SET_RESOURCE, 0,
+    { "-gmod2eepromrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GMod2EEPROMRW", (resource_value_t)1,
       NULL, "Enable writes to GMod2 EEPROM image" },
-    { "+gmod2eepromrw", SET_RESOURCE, 0,
+    { "+gmod2eepromrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GMod2EEPROMRW", (resource_value_t)0,
       NULL, "Disable writes to GMod2 EEPROM image" },
-    { "-gmod2flashwrite", SET_RESOURCE, 0,
+    { "-gmod2flashwrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GMod2FlashWrite", (resource_value_t)1,
       NULL, "Enable saving of the GMod2 ROM at exit" },
-    { "+gmod2flashwrite", SET_RESOURCE, 0,
+    { "+gmod2flashwrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "GMod2FlashWrite", (resource_value_t)0,
       NULL, "Disable saving of the GMod2 ROM at exit" },
     CMDLINE_LIST_END

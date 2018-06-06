@@ -31,7 +31,6 @@
 #include <stdlib.h>
 
 #include "archdep.h"
-#include "cmdline.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -41,7 +40,6 @@
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"

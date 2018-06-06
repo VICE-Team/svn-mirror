@@ -41,7 +41,6 @@
 #include "machine.h"
 #include "patchrom.h"
 #include "resources.h"
-#include "translate.h"
 #include "vicii.h"
 
 static int set_video_standard(const char *param, void *extra_param)
@@ -82,16 +81,16 @@ static int set_video_standard(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pal", CALL_FUNCTION, 0,
+    { "-pal", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_PAL, NULL, NULL,
       NULL, "Use PAL sync factor" },
-    { "-ntsc", CALL_FUNCTION, 0,
+    { "-ntsc", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_NTSC, NULL, NULL,
       NULL, "Use NTSC sync factor" },
-    { "-ntscold", CALL_FUNCTION, 0,
+    { "-ntscold", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_NTSCOLD, NULL, NULL,
       NULL, "Use old NTSC sync factor" },
-    { "-paln", CALL_FUNCTION, 0,
+    { "-paln", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_PALN, NULL, NULL,
       NULL, "Use PAL-N sync factor" },
     CMDLINE_LIST_END

@@ -44,7 +44,6 @@
 #include "resources.h"
 #include "reu.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
@@ -214,7 +213,7 @@ void plus256k_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-plus256kimage", SET_RESOURCE, 1,
+    { "-plus256kimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "PLUS256Kfilename", NULL,
       "<Name>", "Specify name of PLUS256K image" },
     CMDLINE_LIST_END

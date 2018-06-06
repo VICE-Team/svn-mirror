@@ -42,7 +42,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "supersnapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
@@ -330,10 +329,10 @@ void supersnapshot_v5_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ssramexpansion", SET_RESOURCE, 0,
+    { "-ssramexpansion", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SSRamExpansion", (resource_value_t)1,
       NULL, "Enable SS 32k RAM expansion" },
-    { "+ssramexpansion", SET_RESOURCE, 0,
+    { "+ssramexpansion", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SSRamExpansion", (resource_value_t)0,
       NULL, "Disable SS 32k RAM expansion" },
     CMDLINE_LIST_END

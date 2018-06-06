@@ -41,7 +41,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "util.h"
 
 #include "shortbus_etfe.h"
@@ -224,10 +223,10 @@ void shortbus_etfe_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-sbetfe", SET_RESOURCE, 0,
+    { "-sbetfe", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SBETFE", (resource_value_t)1,
       NULL, "Enable the Short Bus ETFE expansion" },
-    { "+sbtfe", SET_RESOURCE, 0,
+    { "+sbtfe", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SBTFE", (resource_value_t)0,
       NULL, "Disable the Short Bus ETFE expansion" },
     CMDLINE_LIST_END
@@ -235,7 +234,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t base_cmdline_options[] =
 {
-    { "-sbtfebase", SET_RESOURCE, 1,
+    { "-sbtfebase", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SBTFEbase", NULL,
       "<Base address>", "Base address of the Short Bus ETFE expansion. (56832: $de00, 56848: $de10, 57088: $df00)" },
     CMDLINE_LIST_END

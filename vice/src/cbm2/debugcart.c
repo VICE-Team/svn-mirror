@@ -32,7 +32,6 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "resources.h"
-#include "translate.h"
 #include "machine.h"
 #include "maincpu.h"
 
@@ -132,10 +131,10 @@ void debugcart_resources_shutdown(void)
 
 static const cmdline_option_t cart_cmdline_options[] =
 {
-    { "-debugcart", SET_RESOURCE, 0,
+    { "-debugcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DebugCartEnable", (resource_value_t)1,
       NULL, "Enable Debug cartridge" },
-    { "+debugcart", SET_RESOURCE, 0,
+    { "+debugcart", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DebugCartEnable", (resource_value_t)0,
       NULL, "Disable Debug cartridge" },
     CMDLINE_LIST_END

@@ -35,15 +35,14 @@
 #include "cmdline.h"
 #include "raster-cmdline-options.h"
 #include "resources.h"
-#include "translate.h"
 
 /* CRTC command-line options.  */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-CRTCstretchvertical", SET_RESOURCE, 0,
+    { "-CRTCstretchvertical", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CrtcStretchVertical", (resource_value_t)1,
       NULL, "Enable additional vertical stretching." },
-    { "+CRTCstretchvertical", SET_RESOURCE, 0,
+    { "+CRTCstretchvertical", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CrtcStretchVertical", (resource_value_t)0,
       NULL, "Disable additional vertical stretching." },
     CMDLINE_LIST_END

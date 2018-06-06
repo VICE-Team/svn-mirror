@@ -51,7 +51,6 @@
 #include "rawnet.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "util.h"
 
@@ -341,7 +340,7 @@ void cs8900io_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-cs8900ioif", SET_RESOURCE, 1,
+    { "-cs8900ioif", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ETHERNET_INTERFACE", NULL,
       "<Name>", "Set the system ethernet interface" },
     CMDLINE_LIST_END

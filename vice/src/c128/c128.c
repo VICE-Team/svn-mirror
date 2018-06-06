@@ -112,7 +112,6 @@
 #include "tapeport.h"
 #include "tapecart.h"
 #include "tpi.h"
-#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "userport.h"

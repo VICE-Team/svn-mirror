@@ -52,7 +52,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "spi-sdcard.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -1166,40 +1165,40 @@ void mmc64_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-mmc64", SET_RESOURCE, 0,
+    { "-mmc64", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64", (resource_value_t)1,
       NULL, "Enable the MMC64 expansion" },
-    { "+mmc64", SET_RESOURCE, 0,
+    { "+mmc64", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64", (resource_value_t)0,
       NULL, "Disable the MMC64 expansion" },
-    { "-mmc64bios", SET_RESOURCE, 1,
+    { "-mmc64bios", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMC64BIOSfilename", NULL,
       "<Name>", "Specify name of MMC64 BIOS image" },
-    { "-mmc64image", SET_RESOURCE, 1,
+    { "-mmc64image", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMC64imagefilename", NULL,
       "<Name>", "Specify name of MMC64 image" },
-    { "-mmc64readonly", SET_RESOURCE, 0,
+    { "-mmc64readonly", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64_RO", (resource_value_t)1,
       NULL, "Set the MMC64 card to read-only" },
-    { "-mmc64readwrite", SET_RESOURCE, 0,
+    { "-mmc64readwrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64_RO", (resource_value_t)0,
       NULL, "Set the MMC64 card to read/write" },
-    { "-mmc64bioswrite", SET_RESOURCE, 0,
+    { "-mmc64bioswrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64_bios_write", (resource_value_t)1,
       NULL, "Save the MMC64 bios when changed" },
-    { "-mmc64biosreadonly", SET_RESOURCE, 0,
+    { "-mmc64biosreadonly", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64_bios_write", (resource_value_t)0,
       NULL, "Do not save the MMC64 bios when changed" },
-    { "-mmc64flash", SET_RESOURCE, 0,
+    { "-mmc64flash", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64_flashjumper", (resource_value_t)1,
       NULL, "Set the MMC64 Flash Jumper" },
-    { "+mmc64flash", SET_RESOURCE, 0,
+    { "+mmc64flash", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMC64_flashjumper", (resource_value_t)0,
       NULL, "Remove the MMC64 Flash Jumper" },
-    { "-mmc64rev", SET_RESOURCE, 1,
+    { "-mmc64rev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMC64_revision", NULL,
       "<Revision>", "Specify MMC64 revision (0: Rev A, 1: Rev B)" },
-    { "-mmc64sdtype", SET_RESOURCE, 1,
+    { "-mmc64sdtype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMC64_sd_type", NULL,
       "<Type>", "Specify MMC64 SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)" },
     CMDLINE_LIST_END
@@ -1207,7 +1206,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t clockport_cmdline_options[] =
 {
-    { "-mmc64clockportdevice", SET_RESOURCE, 1,
+    { "-mmc64clockportdevice", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMC64ClockPort", NULL,
       "<device>", NULL },
     CMDLINE_LIST_END

@@ -39,7 +39,6 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -475,52 +474,52 @@ int joy_arch_resources_init(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-joyAdevice", SET_RESOURCE, 1,
+    { "-joyAdevice", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyADevice", NULL,
       "<vid:pid:sn>", "Set HID A device" },
-    { "-joyAxaxis", SET_RESOURCE, 1,
+    { "-joyAxaxis", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyAXAxis", NULL,
       "<X,Y,Z,Rx,Ry,Rz>", "Set X Axis for HID A device" },
-    { "-joyAyaxis", SET_RESOURCE, 1,
+    { "-joyAyaxis", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyAYAxis", NULL,
       "<X,Y,Z,Rx,Ry,Rz>", "Set Y Axis for HID A device" },
-    { "-joyAbuttons", SET_RESOURCE, 1,
+    { "-joyAbuttons", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyAButtons", NULL,
       "<f:af:l:r:u:d>", "Set Buttons for HID A device" },
-    { "-joyAautobuttons", SET_RESOURCE, 1,
+    { "-joyAautobuttons", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyAAutoButtons", NULL,
       "<af1:af2:af1p:af1r:af2p:af2r>", "Set Auto Fire Buttons for HID A device" },
-    { "-joyAxthreshold", SET_RESOURCE, 1,
+    { "-joyAxthreshold", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyAXThreshold", NULL,
       "<0-100>", "Set X Axis Threshold in Percent of HID A device" },
-    { "-joyAythreshold", SET_RESOURCE, 1,
+    { "-joyAythreshold", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyAYThreshold", NULL,
       "<0-100>", "Set Y Axis Threshold in Percent of HID A device" },
-    { "-joyBdevice", SET_RESOURCE, 1,
+    { "-joyBdevice", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBDevice", NULL,
       "<vid:pid:sn>", "Set HID B device" },
-    { "-joyBxaxis", SET_RESOURCE, 1,
+    { "-joyBxaxis", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBXAxis", NULL,
       "<X,Y,Z,Rx,Ry,Rz>", "Set X Axis for HID B device" },
-    { "-joyByaxis", SET_RESOURCE, 1,
+    { "-joyByaxis", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBYAxis", NULL,
       "<X,Y,Z,Rx,Ry,Rz>", "Set Y Axis for HID B device" },
-    { "-joyBbuttons", SET_RESOURCE, 1,
+    { "-joyBbuttons", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBButtons", NULL,
       "<f:af:l:r:u:d>", "Set Buttons for HID B device" },
-    { "-joyBautobuttons", SET_RESOURCE, 1,
+    { "-joyBautobuttons", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBAutoButtons", NULL,
       "<af1:af2:af1p:af1r:af2p:af2r>", "Set Auto Fire Buttons for HID B device" },
-    { "-joyBxthreshold", SET_RESOURCE, 1,
+    { "-joyBxthreshold", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBXThreshold", NULL,
       "<0-100>", "Set X Axis Threshold in Percent of HID B device" },
-    { "-joyBythreshold", SET_RESOURCE, 1,
+    { "-joyBythreshold", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBYThreshold", NULL,
       "<0-100>", "Set Y Axis Threshold in Percent of HID B device" },
-    { "-joyAhatswitch", SET_RESOURCE, 1,
+    { "-joyAhatswitch", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyAHatSwitch", NULL,
       "<0-n>", "Set Hat Switch for Joystick of HID A device" },
-    { "-joyBhatswitch", SET_RESOURCE, 1,
+    { "-joyBhatswitch", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyBHatSwitch", NULL,
       "<0-n>", "Set Hat Switch for Joystick of HID B device" },
     CMDLINE_LIST_END
@@ -528,7 +527,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t joydev1cmdline_options[] =
 {
-    { "-joydev1", SET_RESOURCE, 1,
+    { "-joydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice1", NULL,
       "<0-5>", "Set device for joystick port 1" },
     CMDLINE_LIST_END
@@ -536,7 +535,7 @@ static const cmdline_option_t joydev1cmdline_options[] =
 
 static const cmdline_option_t joydev2cmdline_options[] =
 {
-    { "-joydev2", SET_RESOURCE, 1,
+    { "-joydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice2", NULL,
       "<0-5>", "Set device for joystick port 2" },
     CMDLINE_LIST_END
@@ -544,7 +543,7 @@ static const cmdline_option_t joydev2cmdline_options[] =
 
 static const cmdline_option_t joydev3cmdline_options[] =
 {
-    { "-extrajoydev1", SET_RESOURCE, 1,
+    { "-extrajoydev1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice3", NULL,
       "<0-5>", "Set device for extra joystick port 1" },
     CMDLINE_LIST_END
@@ -552,7 +551,7 @@ static const cmdline_option_t joydev3cmdline_options[] =
 
 static const cmdline_option_t joydev4cmdline_options[] =
 {
-    { "-extrajoydev2", SET_RESOURCE, 1,
+    { "-extrajoydev2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice4", NULL,
       "<0-5>", "Set device for extra joystick port 2" },
     CMDLINE_LIST_END
@@ -560,7 +559,7 @@ static const cmdline_option_t joydev4cmdline_options[] =
 
 static const cmdline_option_t joydev5cmdline_options[] =
 {
-    { "-extrajoydev3", SET_RESOURCE, 1,
+    { "-extrajoydev3", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "JoyDevice5", NULL,
       "<0-5>", "Set device for extra joystick port 3" },
     CMDLINE_LIST_END

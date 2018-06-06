@@ -39,7 +39,6 @@
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "version.h"

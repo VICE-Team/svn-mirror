@@ -31,7 +31,6 @@
 
 #if defined(HAVE_MOUSE) && defined(HAVE_LIGHTPEN)
 
-#include "cmdline.h"
 #include "joyport.h"
 #include "joystick.h"
 #include "machine.h"
@@ -39,7 +38,6 @@
 #include "lightpen.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 
 
 /* Control port <--> lightpen connections:

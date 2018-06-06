@@ -51,7 +51,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -337,16 +336,16 @@ void rrnetmk3_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-rrnetmk3bioswrite", SET_RESOURCE, 0,
+    { "-rrnetmk3bioswrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RRNETMK3_bios_write", (resource_value_t)1,
       NULL, "Save the RRNETMK3 bios when changed" },
-    { "+rrnetmk3bioswrite", SET_RESOURCE, 0,
+    { "+rrnetmk3bioswrite", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RRNETMK3_bios_write", (resource_value_t)0,
       NULL, "Do not save the RRNETMK3 bios when changed" },
-    { "-rrnetmk3flash", SET_RESOURCE, 0,
+    { "-rrnetmk3flash", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RRNETMK3_flashjumper", (resource_value_t)1,
       NULL, "Set the RRNETMK3 Flash Jumper" },
-    { "+rrnetmk3flash", SET_RESOURCE, 0,
+    { "+rrnetmk3flash", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RRNETMK3_flashjumper", (resource_value_t)0,
       NULL, "Remove the RRNETMK3 Flash Jumper" },
     CMDLINE_LIST_END

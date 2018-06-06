@@ -42,7 +42,6 @@
 #include "patchrom.h"
 #include "psid.h"
 #include "resources.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 #include "vsidui.h"
@@ -181,34 +180,34 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
 static const cmdline_option_t cmdline_options[] =
 {
     /* The Video Standard options are copied from the machine files. */
-    { "-pal", SET_RESOURCE, 0,
+    { "-pal", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_PAL,
       NULL, "Use PAL sync factor" },
-    { "-ntsc", SET_RESOURCE, 0,
+    { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-    { "-ntscold", SET_RESOURCE, 0,
+    { "-ntscold", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_NTSCOLD,
       NULL, "Use old NTSC sync factor" },
-    { "-paln", SET_RESOURCE, 0,
+    { "-paln", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (resource_value_t)MACHINE_SYNC_PALN,
       NULL, "Use PAL-N sync factor" },
-    { "-keepenv", CALL_FUNCTION, 0,
+    { "-keepenv", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cmdline_keepenv, NULL, NULL, NULL,
       NULL, "Override PSID settings for Video standard and SID model" },
-    { "-tune", CALL_FUNCTION, 1,
+    { "-tune", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cmdline_psid_tune, NULL, NULL, NULL,
       "<number>", "Specify PSID tune <number>" },
-    { "-kernal", SET_RESOURCE, 1,
+    { "-kernal", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "KernalName", NULL,
       "<Name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1,
+    { "-basic", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "BasicName", NULL,
       "<Name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1,
+    { "-chargen", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "ChargenName", NULL,
       "<Name>", "Specify name of character generator ROM image" },
-    { "-kernalrev", CALL_FUNCTION, 1,
+    { "-kernalrev", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_kernal_revision, NULL, NULL, NULL,
       "<Revision>", "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)" },
     CMDLINE_LIST_END

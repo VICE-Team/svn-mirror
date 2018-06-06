@@ -34,12 +34,10 @@
 #include "debug_gtk3.h"
 #include "not_implemented.h"
 
-#include "cmdline.h"
 #include "kbd.h"
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "translate.h"
 #include "uiapi.h"
 #include "uiabout.h"
 #include "uistatusbar.h"

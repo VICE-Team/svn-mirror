@@ -43,7 +43,6 @@
 #include "util.h"
 #include "sysfile.h"
 #include "resources.h"
-#include "translate.h"
 
 #include "c64dtvflash.h"
 
@@ -628,20 +627,20 @@ void c64dtvflash_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-c64dtvromimage", SET_RESOURCE, 1,
+    { "-c64dtvromimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "c64dtvromfilename", NULL,
       "<Name>", "Specify name of C64DTV ROM image" },
-    { "-c64dtvromrw", SET_RESOURCE, 0,
+    { "-c64dtvromrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "c64dtvromrw", (void *)1,
       NULL, "Enable writes to C64DTV ROM image" },
-    { "+c64dtvromrw", SET_RESOURCE, 0,
+    { "+c64dtvromrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "c64dtvromrw", (void *)0,
       NULL, "Disable writes to C64DTV ROM image" },
 #ifdef DEBUG
-    { "-dtvflashlog", SET_RESOURCE, 0,
+    { "-dtvflashlog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DtvFlashLog", (resource_value_t)1,
       NULL, "Enable DTV flash chip logs." },
-    { "+dtvflashlog", SET_RESOURCE, 0,
+    { "+dtvflashlog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DtvFlashLog", (resource_value_t)0,
       NULL, "Disable DTV flash chip logs." },
 #endif

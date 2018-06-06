@@ -41,7 +41,6 @@
 #include "machine.h"
 #include "patchrom.h"
 #include "resources.h"
-#include "translate.h"
 #include "vicii.h"
 
 static int set_cia_model(const char *value, void *extra_param)
@@ -207,54 +206,54 @@ static int set_kernal_revision(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pal", CALL_FUNCTION, 0,
+    { "-pal", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_PAL, NULL, NULL,
       NULL, "Use PAL sync factor" },
-    { "-ntsc", CALL_FUNCTION, 0,
+    { "-ntsc", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_NTSC, NULL, NULL,
       NULL, "Use NTSC sync factor" },
-    { "-ntscold", CALL_FUNCTION, 0,
+    { "-ntscold", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_NTSCOLD, NULL, NULL,
       NULL, "Use old NTSC sync factor" },
-    { "-paln", CALL_FUNCTION, 0,
+    { "-paln", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       set_video_standard, (void *)MACHINE_SYNC_PALN, NULL, NULL,
       NULL, "Use PAL-N sync factor" },
-    { "-kernal", SET_RESOURCE, 1,
+    { "-kernal", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KernalName", NULL,
       "<Name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1,
+    { "-basic", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "BasicName", NULL,
       "<Name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1,
+    { "-chargen", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ChargenName", NULL,
       "<Name>", "Specify name of character generator ROM image" },
-    { "-kernalrev", CALL_FUNCTION, 1,
+    { "-kernalrev", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_kernal_revision, NULL, NULL, NULL,
       "<Revision>", "Patch the Kernal ROM to the specified <revision> (1: rev. 1, 2: rev. 2, 3: rev. 3, 67/sx: sx64, 100/4064: 4064)" },
 #if defined(HAVE_RS232DEV) || defined(HAVE_RS232NET)
-    { "-acia1", SET_RESOURCE, 0,
+    { "-acia1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Acia1Enable", (void *)1,
       NULL, "Enable the ACIA RS232 interface emulation" },
-    { "+acia1", SET_RESOURCE, 0,
+    { "+acia1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Acia1Enable", (void *)0,
       NULL, "Disable the ACIA RS232 interface emulation" },
 #endif
-    { "-ciamodel", CALL_FUNCTION, 1,
+    { "-ciamodel", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_cia_model, NULL, NULL, NULL,
       "<Model>", "Set both CIA models (0 = old 6526, 1 = new 8521)" },
-    { "-cia1model", SET_RESOURCE, 1,
+    { "-cia1model", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "CIA1Model", NULL,
       "<Model>", "Set CIA 1 model (0 = old 6526, 1 = new 8521)" },
-    { "-cia2model", SET_RESOURCE, 1,
+    { "-cia2model", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "CIA2Model", NULL,
       "<Model>", "Set CIA 2 model (0 = old 6526, 1 = new 8521)" },
-    { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_c64_model, NULL, NULL, NULL,
       "<Model>", "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)" },
-    { "-burstmod", SET_RESOURCE, 1,
+    { "-burstmod", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "BurstMod", NULL,
       "<value>", "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)" },
-    { "-iecreset", SET_RESOURCE, 1,
+    { "-iecreset", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "IECReset", NULL,
       "<value>", "Computer reset goes to IEC bus (0 = No, 1 = Yes)" },
     CMDLINE_LIST_END

@@ -47,7 +47,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -402,25 +401,25 @@ void isepic_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-isepic", SET_RESOURCE, 0,
+    { "-isepic", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IsepicCartridgeEnabled", (resource_value_t)1,
       NULL, "Enable the ISEPIC cartridge" },
-    { "+isepic", SET_RESOURCE, 0,
+    { "+isepic", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IsepicCartridgeEnabled", (resource_value_t)0,
       NULL, "Disable the ISEPIC cartridge" },
-    { "-isepicimagename", SET_RESOURCE, 1,
+    { "-isepicimagename", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Isepicfilename", NULL,
       "<Name>", "Set ISEPIC image name" },
-    { "-isepicimagerw", SET_RESOURCE, 0,
+    { "-isepicimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IsepicImageWrite", (resource_value_t)1,
       NULL, "Allow writing to ISEPIC image" },
-    { "+isepicimagerw", SET_RESOURCE, 0,
+    { "+isepicimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IsepicImageWrite", (resource_value_t)0,
       NULL, "Do not write to ISEPIC image" },
-    { "-isepicswitch", SET_RESOURCE, 0,
+    { "-isepicswitch", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IsepicSwitch", (resource_value_t)1,
       NULL, "Enable the ISEPIC switch" },
-    { "+isepicswitch", SET_RESOURCE, 0,
+    { "+isepicswitch", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IsepicSwitch", (resource_value_t)0,
       NULL, "Disable the ISEPIC switch" },
     CMDLINE_LIST_END

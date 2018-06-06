@@ -44,7 +44,6 @@
 #include "sid.h"
 #include "snapshot.h"
 #include "uiapi.h"
-#include "translate.h"
 
 #define RTC_RUNMODE_HALTED    0
 #define RTC_RUNMODE_RUNNING   1
@@ -345,22 +344,22 @@ void ds12c887rtc_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ds12c887rtc", SET_RESOURCE, 0,
+    { "-ds12c887rtc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DS12C887RTC", (resource_value_t)1,
       NULL, "Enable the DS12C887 RTC cartridge" },
-    { "+ds12c887rtc", SET_RESOURCE, 0,
+    { "+ds12c887rtc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DS12C887RTC", (resource_value_t)0,
       NULL, "Disable the DS12C887 RTC cartridge" },
-    { "-ds12c887rtchalted", SET_RESOURCE, 0,
+    { "-ds12c887rtchalted", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)0,
       NULL, "Set the RTC oscillator to 'halted'" },
-    { "-ds12c887rtcrunning", SET_RESOURCE, 0,
+    { "-ds12c887rtcrunning", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DS12C887RTCRunMode", (resource_value_t)1,
       NULL, "Set the RTC oscillator to 'running'" },
-    { "-ds12c887rtcsave", SET_RESOURCE, 0,
+    { "-ds12c887rtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DS12C887RTCSave", (resource_value_t)1,
       NULL, "Enable saving of the DS12C887 RTC data when changed." },
-    { "+ds12c887rtcsave", SET_RESOURCE, 0,
+    { "+ds12c887rtcsave", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DS12C887RTCSave", (resource_value_t)0,
       NULL, "Disable saving of the DS12C887 RTC data when changed." },
     CMDLINE_LIST_END
@@ -368,7 +367,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t base_cmdline_options[] =
 {
-    { "-ds12c887rtcbase", SET_RESOURCE, 1,
+    { "-ds12c887rtcbase", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DS12C887RTCbase", NULL,
       "<Base address>", NULL },
     CMDLINE_LIST_END

@@ -112,7 +112,6 @@
 #include "resources.h"
 #include "rs232.h"
 #include "rs232dev.h"
-#include "translate.h"
 #include "types.h"
 
 
@@ -194,16 +193,16 @@ void rs232dev_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-rsdev1baud", SET_RESOURCE, -1,
+    { "-rsdev1baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       NULL, NULL, "RsDevice1Baud", NULL,
       "<baudrate>", "Specify baudrate of first RS232 device" },
-    { "-rsdev2baud", SET_RESOURCE, -1,
+    { "-rsdev2baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       NULL, NULL, "RsDevice2Baud", NULL,
       "<baudrate>", "Specify baudrate of second RS232 device" },
-    { "-rsdev3baud", SET_RESOURCE, -1,
+    { "-rsdev3baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       NULL, NULL, "RsDevice3Baud", NULL,
       "<baudrate>", "Specify baudrate of third RS232 device" },
-    { "-rsdev4baud", SET_RESOURCE, -1,
+    { "-rsdev4baud", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS | CMDLINE_ATTRIB_DYNAMIC_DESCRIPTION,
       NULL, NULL, "RsDevice4Baud", NULL,
       "<baudrate>", "Specify baudrate of fourth RS232 device" },
     CMDLINE_LIST_END

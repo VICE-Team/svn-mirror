@@ -45,7 +45,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "sysfile.h"
-#include "translate.h"
 #include "traps.h"
 #include "turbomaster.h"
 #include "types.h"
@@ -780,34 +779,34 @@ void turbomaster_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-tm", SET_RESOURCE, 0,
+    { "-tm", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMaster", (resource_value_t)1,
       NULL, "Enable the TurboMaster cartridge" },
-    { "+tm", SET_RESOURCE, 0,
+    { "+tm", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMaster", (resource_value_t)0,
       NULL, "Disable the TurboMaster cartridge" },
-    { "-tmswitchrom1", SET_RESOURCE, 0,
+    { "-tmswitchrom1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMasterROM", (resource_value_t)1,
       NULL, "Set TurboMaster ROM switch to ROM 1" },
-    { "-tmswitchrom2", SET_RESOURCE, 0,
+    { "-tmswitchrom2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMasterROM", (resource_value_t)2,
       NULL, "Set TurboMaster ROM switch to ROM 2" },
-    { "-tmswitchspeedsoft", SET_RESOURCE, 0,
+    { "-tmswitchspeedsoft", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMasterSpeedControl", (resource_value_t)0,
       NULL, "Set TurboMaster speed control switch to software" },
-    { "-tmswitchspeedmanual", SET_RESOURCE, 0,
+    { "-tmswitchspeedmanual", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMasterSpeedControl", (resource_value_t)1,
       NULL, "Set TurboMaster speed control switch to manual" },
-    { "-tmswitch4mhz", SET_RESOURCE, 0,
+    { "-tmswitch4mhz", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMasterMhz", (resource_value_t)4,
       NULL, "Set TurboMaster clock speed switch to 4 Mhz" },
-    { "-tmswitch1mhz", SET_RESOURCE, 0,
+    { "-tmswitch1mhz", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TurboMasterMhz", (resource_value_t)1,
       NULL, "Set TurboMaster clock speed switch to 1 Mhz" },
-    { "-tmrom1image", SET_RESOURCE, 1,
+    { "-tmrom1image", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "TurboMasterROM1Name", NULL,
       "<Name>", "Specify TurboMaster ROM 1 filename" },
-    { "-tmrom2image", SET_RESOURCE, 1,
+    { "-tmrom2image", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "TurboMasterROM2Name", NULL,
       "<Name>", "Specify TurboMaster ROM 2 filename" },
     CMDLINE_LIST_END

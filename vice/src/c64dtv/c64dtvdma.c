@@ -43,7 +43,6 @@
 #include "maincpu.h"
 #include "interrupt.h"
 #include "snapshot.h"
-#include "translate.h"
 
 #ifdef DEBUG
 static log_t c64dtvdma_log = LOG_ERR;
@@ -460,10 +459,10 @@ void c64dtvdma_resources_shutdown(void)
 static const cmdline_option_t cmdline_options[] =
 {
 #ifdef DEBUG
-    { "-dtvdmalog", SET_RESOURCE, 0,
+    { "-dtvdmalog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DtvDMALog", (resource_value_t)1,
       NULL, "Enable DTV DMA logs." },
-    { "+dtvdmalog", SET_RESOURCE, 0,
+    { "+dtvdmalog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DtvDMALog", (resource_value_t)0,
       NULL, "Disable DTV DMA logs." },
 #endif

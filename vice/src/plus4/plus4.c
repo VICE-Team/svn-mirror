@@ -100,7 +100,6 @@
 #include "ted-resources.h"
 #include "ted-sound.h"
 #include "ted.h"
-#include "translate.h"
 #include "traps.h"
 #include "types.h"
 #include "userport.h"

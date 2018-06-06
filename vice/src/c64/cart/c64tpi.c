@@ -49,7 +49,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "tpi.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "crt.h"
@@ -537,13 +536,13 @@ void tpi_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-ieee488", SET_RESOURCE, 0,
+    { "-ieee488", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IEEE488", (resource_value_t)1,
       NULL, "Enable the IEEE488 interface emulation" },
-    { "+ieee488", SET_RESOURCE, 0,
+    { "+ieee488", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "IEEE488", (resource_value_t)0,
       NULL, "Disable the IEEE488 interface emulation" },
-    { "-ieee488image", SET_RESOURCE, 1,
+    { "-ieee488image", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "IEEE488Image", NULL,
       "<Name>", "specify IEEE488 interface image name" },
     CMDLINE_LIST_END

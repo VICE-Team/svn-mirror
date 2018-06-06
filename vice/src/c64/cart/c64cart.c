@@ -54,7 +54,6 @@
 #include "mem.h"
 #include "monitor.h"
 #include "resources.h"
-#include "translate.h"
 #include "util.h"
 
 /* #define DEBUGCART */
@@ -450,14 +449,14 @@ int cart_attach_cmdline(const char *param, void *extra_param)
 static const cmdline_option_t cmdline_options[] =
 {
     /* hardreset on cartridge change */
-    { "-cartreset", SET_RESOURCE, 0,
+    { "-cartreset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CartridgeReset", (void *)1,
       NULL, "Reset machine if a cartridge is attached or detached" },
-    { "+cartreset", SET_RESOURCE, 0,
+    { "+cartreset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CartridgeReset", (void *)0,
       NULL, "Do not reset machine if a cartridge is attached or detached" },
     /* no cartridge */
-    { "+cart", CALL_FUNCTION, 0,
+    { "+cart", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cart_attach_cmdline, NULL, NULL, NULL,
       NULL, "Disable default cartridge" },
     CMDLINE_LIST_END

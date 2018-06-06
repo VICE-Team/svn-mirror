@@ -46,7 +46,6 @@
 
 #include "mon_parse.h" /* FIXME ! */
 #include "mon_util.h"
-#include "translate.h"
 #include "uimon.h"
 #include "util.h"
 

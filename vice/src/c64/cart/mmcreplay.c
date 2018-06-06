@@ -51,7 +51,6 @@
 #include "ser-eeprom.h"
 #include "snapshot.h"
 #include "spi-sdcard.h"
-#include "translate.h"
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
@@ -2944,37 +2943,37 @@ void mmcreplay_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-mmcrrescue", SET_RESOURCE, 0,
+    { "-mmcrrescue", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCRRescueMode", (resource_value_t)1,
       NULL, "Enable MMC Replay rescue mode" },
-    { "+mmcrrescue", SET_RESOURCE, 0,
+    { "+mmcrrescue", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCRRescueMode", (resource_value_t)0,
       NULL, "Disable MMC Replay rescue mode" },
-    { "-mmcrimagerw", SET_RESOURCE, 0,
+    { "-mmcrimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCRImageWrite", (resource_value_t)1,
       NULL, "Allow writing to MMC Replay image" },
-    { "+mmcrimagerw", SET_RESOURCE, 0,
+    { "+mmcrimagerw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCRImageWrite", (resource_value_t)0,
       NULL, "Do not write to MMC Replay image" },
-    { "-mmcrcardimage", SET_RESOURCE, 1,
+    { "-mmcrcardimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMCRCardImage", NULL,
       "<filename>", "Specify MMC Replay card image filename" },
-    { "-mmcrcardrw", SET_RESOURCE, 0,
+    { "-mmcrcardrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCRCardRW", (resource_value_t)1,
       NULL, "Enable writes to MMC Replay card image" },
-    { "+mmcrcardrw", SET_RESOURCE, 0,
+    { "+mmcrcardrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCRCardRW", (resource_value_t)0,
       NULL, "Disable writes to MMC Replay card image" },
-    { "-mmcreepromimage", SET_RESOURCE, 1,
+    { "-mmcreepromimage", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMCREEPROMImage", NULL,
       "<filename>", "Specify MMC Replay EEPROM image filename" },
-    { "-mmcreepromrw", SET_RESOURCE, 0,
+    { "-mmcreepromrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCREEPROMRW", (resource_value_t)1,
       NULL, "Enable writes to MMC Replay EEPROM image" },
-    { "+mmcreepromrw", SET_RESOURCE, 0,
+    { "+mmcreepromrw", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MMCREEPROMRW", (resource_value_t)0,
       NULL, "Disable writes to MMC Replay EEPROM image" },
-    { "-mmcrsdtype", SET_RESOURCE, 1,
+    { "-mmcrsdtype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMCRSDType", NULL,
       "<Type>", "Specify MMC Replay SD type (0: auto, 1: MMC, 2: SD, 3: SDHC)" },
     CMDLINE_LIST_END
@@ -2982,7 +2981,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t clockport_cmdline_options[] =
 {
-    { "-mmcrclockportdevice", SET_RESOURCE, 1,
+    { "-mmcrclockportdevice", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "MMCRClockPort", NULL,
       "<device>", NULL },
     CMDLINE_LIST_END

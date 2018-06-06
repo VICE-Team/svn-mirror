@@ -37,7 +37,6 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
-#include "translate.h"
 
 struct modtab_s {
     const char *model;
@@ -96,58 +95,58 @@ static int cbm2_set_model(const char *model, void *extra)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pal", SET_RESOURCE, 0,
+    { "-pal", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
       NULL, "Use PAL sync factor" },
-    { "-ntsc", SET_RESOURCE, 0,
+    { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-    { "-kernal", SET_RESOURCE, 1,
+    { "-kernal", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KernalName", NULL,
       "<Name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1,
+    { "-basic", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "BasicName", NULL,
       "<Name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1,
+    { "-chargen", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ChargenName", NULL,
       "<Name>", "Specify name of character generator ROM image" },
-    { "-ram08", SET_RESOURCE, 0,
+    { "-ram08", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram08", (void *)1,
       NULL, "Enable RAM mapping in $0800-$0FFF" },
-    { "+ram08", SET_RESOURCE, 0,
+    { "+ram08", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram08", (void *)0,
       NULL, "Disable RAM mapping in $0800-$0FFF" },
-    { "-ram1", SET_RESOURCE, 0,
+    { "-ram1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram1", (void *)1,
       NULL, "Enable RAM mapping in $1000-$1FFF" },
-    { "+ram1", SET_RESOURCE, 0,
+    { "+ram1", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram1", (void *)0,
       NULL, "Disable RAM mapping in $1000-$1FFF" },
-    { "-ram2", SET_RESOURCE, 0,
+    { "-ram2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram2", (void *)1,
       NULL, "Enable RAM mapping in $2000-$3FFF" },
-    { "+ram2", SET_RESOURCE, 0,
+    { "+ram2", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram2", (void *)0,
       NULL, "Disable RAM mapping in $2000-$3FFF" },
-    { "-ram4", SET_RESOURCE, 0,
+    { "-ram4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram4", (void *)1,
       NULL, "Enable RAM mapping in $4000-$5FFF" },
-    { "+ram4", SET_RESOURCE, 0,
+    { "+ram4", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram4", (void *)0,
       NULL, "Disable RAM mapping in $4000-$5FFF" },
-    { "-ram6", SET_RESOURCE, 0,
+    { "-ram6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram6", (void *)1,
       NULL, "Enable RAM mapping in $6000-$7FFF" },
-    { "+ram6", SET_RESOURCE, 0,
+    { "+ram6", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "Ram6", (void *)0,
       NULL, "Disable RAM mapping in $6000-$7FFF" },
-    { "-ramC", SET_RESOURCE, 0,
+    { "-ramC", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RamC", (void *)1,
       NULL, "Enable RAM mapping in $C000-$CFFF" },
-    { "+ramC", SET_RESOURCE, 0,
+    { "+ramC", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "RamC", (void *)0,
       NULL, "Disable RAM mapping in $C000-$CFFF" },
-    { "-cia1model", SET_RESOURCE, 1,
+    { "-cia1model", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "CIA1Model", NULL,
       "<Model>", "Set CIA 1 model (0 = old 6526, 1 = new 8521)" },
     CMDLINE_LIST_END
@@ -155,10 +154,10 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cbm2_cmdline_options[] =
 {
-    { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cbm2_set_model, NULL, NULL, NULL,
       "<modelnumber>", "Specify CBM-II model to emulate. (610, 620, 620+, 710, 720, 720+)" },
-    { "-ramsize", SET_RESOURCE, 1,
+    { "-ramsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RamSize", NULL,
       "<RAM size>", "Specify size of RAM (128/256/512/1024 kByte)" },
     CMDLINE_LIST_END
@@ -166,10 +165,10 @@ static const cmdline_option_t cbm2_cmdline_options[] =
 
 static const cmdline_option_t cbm5x0_cmdline_options[] =
 {
-    { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cbm2_set_model, NULL, NULL, NULL,
       "<modelnumber>", "Specify CBM-II model to emulate. (510)" },
-    { "-ramsize", SET_RESOURCE, 1,
+    { "-ramsize", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "RamSize", NULL,
       "<RAM size>", "Specify size of RAM (64/128/256/512/1024 kByte)" },
     CMDLINE_LIST_END

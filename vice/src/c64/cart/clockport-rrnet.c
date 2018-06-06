@@ -39,7 +39,6 @@
 #include "clockport.h"
 #include "cs8900io.h"
 #include "lib.h"
-#include "translate.h"
 #include "uiapi.h"
 
 #include "clockport-rrnet.h"

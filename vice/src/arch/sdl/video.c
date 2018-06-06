@@ -51,7 +51,6 @@
 #include "palette.h"
 #include "raster.h"
 #include "resources.h"
-#include "translate.h"
 #include "uimenu.h"
 #include "uistatusbar.h"
 #include "util.h"
@@ -493,43 +492,43 @@ void video_arch_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-sdlbitdepth", SET_RESOURCE, 1,
+    { "-sdlbitdepth", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLBitdepth", NULL,
       "<bpp>", "Set bitdepth (0 = current, 8, 15, 16, 24, 32)" },
-    { "-sdllimitmode", SET_RESOURCE, 1,
+    { "-sdllimitmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLLimitMode", NULL,
       "<mode>", "Set resolution limiting mode (0 = off, 1 = max, 2 = fixed)" },
-    { "-sdlcustomw", SET_RESOURCE, 1,
+    { "-sdlcustomw", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLCustomWidth", NULL,
       "<width>", "Set custom resolution width" },
-    { "-sdlcustomh", SET_RESOURCE, 1,
+    { "-sdlcustomh", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLCustomHeight", NULL,
       "<height>", "Set custom resolution height" },
 #if defined(HAVE_HWSCALE) || defined(USE_SDLUI2)
-    { "-sdlaspectmode", SET_RESOURCE, 1,
+    { "-sdlaspectmode", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLAspectMode", NULL,
       "<mode>", "Set aspect ratio mode (0 = off, 1 = custom, 2 = true)" },
-    { "-aspect", SET_RESOURCE, 1,
+    { "-aspect", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "AspectRatio", NULL,
       "<aspect ratio>", "Set custom aspect ratio (0.5 - 2.0)" },
-    { "-sdlflipx", SET_RESOURCE, 0,
+    { "-sdlflipx", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SDLGLFlipX", (resource_value_t)1,
       NULL, "Enable X flip" },
-    { "+sdlflipx", SET_RESOURCE, 0,
+    { "+sdlflipx", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SDLGLFlipX", (resource_value_t)0,
       NULL, "Disable X flip" },
-    { "-sdlflipy", SET_RESOURCE, 0,
+    { "-sdlflipy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SDLGLFlipY", (resource_value_t)1,
       NULL, "Enable Y flip" },
-    { "+sdlflipy", SET_RESOURCE, 0,
+    { "+sdlflipy", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SDLGLFlipY", (resource_value_t)0,
       NULL, "Disable Y flip" },
-    { "-sdlglfilter", SET_RESOURCE, 1,
+    { "-sdlglfilter", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDLGLFilter", NULL,
       "<mode>", "Set OpenGL filtering mode (0 = nearest, 1 = linear)" },
 #endif
 #ifdef USE_SDLUI2
-    { "-sdl2renderer", SET_RESOURCE, 1,
+    { "-sdl2renderer", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SDL2Renderer", NULL,
       "<renderer name>", "Set the preferred SDL2 renderer" },
 #endif

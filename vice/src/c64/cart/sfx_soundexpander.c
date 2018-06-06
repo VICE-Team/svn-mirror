@@ -44,7 +44,6 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "uiapi.h"
-#include "translate.h"
 
 /*
     Note: this cartridge has a passthrough port, which for some odd reason does
@@ -317,13 +316,13 @@ void sfx_soundexpander_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-sfxse", SET_RESOURCE, 0,
+    { "-sfxse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundExpander", (resource_value_t)1,
       NULL, "Enable the SFX Sound Expander cartridge" },
-    { "+sfxse", SET_RESOURCE, 0,
+    { "+sfxse", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundExpander", (resource_value_t)0,
       NULL, "Disable the SFX Sound Expander cartridge" },
-    { "-sfxsetype", SET_RESOURCE, 1,
+    { "-sfxsetype", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SFXSoundExpanderChip", NULL,
       "<Type>", "Set YM chip type (3526 / 3812)" },
     CMDLINE_LIST_END
@@ -331,10 +330,10 @@ static const cmdline_option_t cmdline_options[] =
 
 static const cmdline_option_t cmdline_mascuerade_options[] =
 {
-    { "-sfxseioswap", SET_RESOURCE, 0,
+    { "-sfxseioswap", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundExpanderIOSwap", (resource_value_t)1,
       NULL, "Swap io mapping (map cart I/O to VIC20 I/O-2)" },
-    { "+sfxseioswap", SET_RESOURCE, 0,
+    { "+sfxseioswap", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SFXSoundExpanderIOSwap", (resource_value_t)0,
       NULL, "Don't swap io mapping (map cart I/O to VIC20 I/O-3)" },
     CMDLINE_LIST_END

@@ -40,7 +40,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "sysfile.h"
-#include "translate.h"
 
 /* #define DEBUGCART */
 
@@ -97,32 +96,32 @@ static int cart_attach_cmdline(const char *param, void *extra_param)
 static const cmdline_option_t cmdline_options[] =
 {
     /* hardreset on cartridge change */
-    { "-cartreset", SET_RESOURCE, 0,
+    { "-cartreset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CartridgeReset", (void *)1,
       NULL, "Reset machine if a cartridge is attached or detached" },
-    { "+cartreset", SET_RESOURCE, 0,
+    { "+cartreset", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "CartridgeReset", (void *)0,
       NULL, "Do not reset machine if a cartridge is attached or detached" },
 #if 0
     /* smart attach */
-    { "-cart", CALL_FUNCTION, 1,
+    { "-cart", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       cart_attach_cmdline, (void*)CARTRIDGE_CBM2_DETECT, NULL, NULL,
       "<Name>", "Smart-attach cartridge image" },
 #endif
     /* no cartridge */
-    { "+cart", CALL_FUNCTION, 0,
+    { "+cart", CALL_FUNCTION, CMDLINE_ATTRIB_NONE,
       cart_attach_cmdline, NULL, NULL, NULL,
       NULL, "Disable default cartridge" },
-    { "-cart1", SET_RESOURCE, 1,
+    { "-cart1", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Cart1Name", NULL,
       "<Name>", "Specify name of cartridge ROM image for $1000" },
-    { "-cart2", SET_RESOURCE, 1,
+    { "-cart2", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Cart2Name", NULL,
       "<Name>", "Specify name of cartridge ROM image for $2000-$3fff" },
-    { "-cart4", SET_RESOURCE, 1,
+    { "-cart4", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Cart4Name", NULL,
       "<Name>", "Specify name of cartridge ROM image for $4000-$5fff" },
-    { "-cart6", SET_RESOURCE, 1,
+    { "-cart6", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "Cart6Name", NULL,
       "<Name>", "Specify name of cartridge ROM image for $6000-$7fff" },
     CMDLINE_LIST_END

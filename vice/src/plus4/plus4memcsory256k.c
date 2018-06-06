@@ -31,7 +31,6 @@
 #include <string.h>
 
 #include "cartio.h"
-#include "cmdline.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -42,7 +41,6 @@
 #include "plus4memhannes256k.h"
 #include "resources.h"
 #include "snapshot.h"
-#include "translate.h"
 #include "types.h"
 #include "uiapi.h"
 

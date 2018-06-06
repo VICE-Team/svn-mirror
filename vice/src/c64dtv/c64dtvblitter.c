@@ -47,7 +47,6 @@
 #include "maincpu.h"
 #include "interrupt.h"
 #include "snapshot.h"
-#include "translate.h"
 
 #ifdef DEBUG
 static log_t c64dtvblitter_log = LOG_ERR;
@@ -572,14 +571,14 @@ void c64dtvblitter_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-dtvrev", SET_RESOURCE, 1,
+    { "-dtvrev", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "DtvRevision", NULL,
       "<Revision>", "Specify DTV Revision (2: DTV2, 3: DTV3)" },
 #ifdef DEBUG
-    { "-dtvblitterlog", SET_RESOURCE, 0,
+    { "-dtvblitterlog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DtvBlitterLog", (resource_value_t)1,
       NULL, "Enable DTV blitter logs." },
-    { "+dtvblitterlog", SET_RESOURCE, 0,
+    { "+dtvblitterlog", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "DtvBlitterLog", (resource_value_t)0,
       NULL, "Disable DTV blitter logs." },
 #endif

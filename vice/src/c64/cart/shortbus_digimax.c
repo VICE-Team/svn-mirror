@@ -37,7 +37,6 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "sound.h"
-#include "translate.h"
 #include "util.h"
 
 #include "digimaxcore.c"
@@ -214,10 +213,10 @@ void shortbus_digimax_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-sbdigimax", SET_RESOURCE, 0,
+    { "-sbdigimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SBDIGIMAX", (resource_value_t)1,
       NULL, "Enable the Short Bus DigiMAX expansion" },
-    { "+sbdigimax", SET_RESOURCE, 0,
+    { "+sbdigimax", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "SBDIGIMAX", (resource_value_t)0,
       NULL, "Disable the Short Bus DigiMAX expansion" },
     CMDLINE_LIST_END
@@ -225,7 +224,7 @@ static const cmdline_option_t cmdline_options[] =
 
 static cmdline_option_t base_cmdline_options[] =
 {
-    { "-sbdigimaxbase", SET_RESOURCE, 1,
+    { "-sbdigimaxbase", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "SBDIGIMAXbase", NULL,
       "<Base address>", NULL },
     CMDLINE_LIST_END

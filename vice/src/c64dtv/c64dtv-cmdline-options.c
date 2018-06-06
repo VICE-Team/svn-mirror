@@ -34,7 +34,6 @@
 #include "c64dtvmodel.h"
 #include "cmdline.h"
 #include "machine.h"
-#include "translate.h"
 
 struct model_s {
     const char *name;
@@ -79,28 +78,28 @@ static int set_dtv_model(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-pal", SET_RESOURCE, 0,
+    { "-pal", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
       NULL, "Use PAL sync factor" },
-    { "-ntsc", SET_RESOURCE, 0,
+    { "-ntsc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
       NULL, "Use NTSC sync factor" },
-    { "-kernal", SET_RESOURCE, 1,
+    { "-kernal", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "KernalName", NULL,
       "<Name>", "Specify name of Kernal ROM image" },
-    { "-basic", SET_RESOURCE, 1,
+    { "-basic", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "BasicName", NULL,
       "<Name>", "Specify name of BASIC ROM image" },
-    { "-chargen", SET_RESOURCE, 1,
+    { "-chargen", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
       NULL, NULL, "ChargenName", NULL,
       "<Name>", "Specify name of character generator ROM image" },
-    { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, CMDLINE_ATTRIB_NEED_ARGS,
       set_dtv_model, NULL, NULL, NULL,
       "<Model>", "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)" },
-    { "-hummeradc", SET_RESOURCE, 0,
+    { "-hummeradc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "HummerADC", (void *)1,
       NULL, "Enable Hummer ADC" },
-    { "+hummeradc", SET_RESOURCE, 0,
+    { "+hummeradc", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "HummerADC", (void *)0,
       NULL, "Disable Hummer ADC" },
     CMDLINE_LIST_END

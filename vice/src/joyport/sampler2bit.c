@@ -32,7 +32,6 @@
 
 #include "joyport.h"
 #include "sampler.h"
-#include "translate.h"
 
 #include "sampler2bit.h"
 
