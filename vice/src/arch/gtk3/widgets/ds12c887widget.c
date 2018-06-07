@@ -116,8 +116,8 @@ GtkWidget *ds12c887_widget_create(GtkWidget *parent)
     /* TODO: add event to enable/disable widgets */
     gtk_grid_attach(GTK_GRID(grid), enable_widget, 0, 0, 2, 1);
 
-    oscil_widget = vice_gtk3_resource_check_button_new("DS12C887RunMode",
-            "Start with running oscillerator");
+    oscil_widget = vice_gtk3_resource_check_button_new("DS12C887RTCRunMode",
+            "Start with running oscillator");
     g_object_set(oscil_widget, "margin-left", 16, NULL);
     rtc_widget = vice_gtk3_resource_check_button_new("DS12C887RTCSave",
             "Enable RTC Saving");
