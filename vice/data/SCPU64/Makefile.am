@@ -26,11 +26,7 @@ palettes = \
 	deekay.vpl \
 	rgb.vpl
 
-x11_keymaps = \
-	x11_sym.vkm \
-	x11_pos.vkm \
-	x11_pos_de.vkm \
-	x11_sym_de.vkm \
+gtk3_keymaps = \
 	gtk3_sym.vkm \
 	gtk3_pos.vkm \
 	gtk3_pos_de.vkm \
@@ -51,22 +47,15 @@ sdl_keymaps = \
 	sdl_sym.vkm \
 	sdl_sym_de.vkm
 
-extra_keymaps = \
-	osx_pos.vkm \
-	osx_sym_de.vkm \
-	osx_sym.vkm \
-	x11_keyrah.vkm \
-	x11_keyrah_de.vkm
-
 sym_file = \
 	scpu64mem.sym
 
 if SDL_COMPILE
 scpu64_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps) $(sym_file)
 
-EXTRA_DIST = $(scpu64_DATA) $(extra_keymaps) $(x11_keymaps)
+EXTRA_DIST = $(scpu64_DATA) $(gtk3_keymaps)
 else
-scpu64_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps) $(sym_file)
+scpu64_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps) $(sym_file)
 
-EXTRA_DIST = $(scpu64_DATA) $(extra_keymaps) $(sdl_keymaps)
+EXTRA_DIST = $(scpu64_DATA) $(sdl_keymaps)
 endif

@@ -38,9 +38,7 @@ palettes = \
 	green.vpl \
 	white.vpl
 
-x11_keymaps = \
-	x11_sym.vkm \
-	x11_sym_de.vkm \
+gtk3_keymaps = \
 	gtk3_sym.vkm \
 	gtk3_sym_de.vkm
 
@@ -48,16 +46,12 @@ sdl_keymaps = \
 	sdl_hotkeys.vkm \
 	sdl_sym.vkm
 
-extra_keymaps = \
-	osx_pos_uk.vkm \
-	osx_sym_uk.vkm
-
 if SDL_COMPILE
 cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(x11_keymaps)
+EXTRA_DIST = $(cbm2_DATA) $(gtk3_keymaps)
 else
-cbm2_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
+cbm2_DATA = $(roms) $(romsets) $(palettes) $(gtk3_keymaps)
 
-EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(sdl_keymaps)
+EXTRA_DIST = $(cbm2_DATA) $(sdl_keymaps)
 endif

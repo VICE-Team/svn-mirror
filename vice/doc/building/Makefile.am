@@ -6,11 +6,7 @@ docdir = $(realdocdir)
 BUILDING_DOX = \
 	Android-Howto.txt \
 	GTK3-Howto.txt \
-	Linux-Native-Howto.txt \
-	MacOSX-Cocoa-Howto.txt \
-	MacOSX-Howto.txt \
-	Minix-Howto.txt \
-	OpenVMS-Howto.txt \
-	SDL-Howto.txt
+	SDL-Howto.txt \
+	Windows-MinGW-GTK3-Howto.txt
 
 dist_doc_DATA = $(BUILDING_DOX)

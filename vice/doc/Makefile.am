@@ -13,8 +13,6 @@ MISC_DOX = \
 	ffmpeg-support.txt \
 	hardware-sids.txt \
 	iec-bus.txt \
-	MacOSX-ResourceTree.txt \
-	ports-status.txt \
 	SDL-support.txt
 
 TEXI_TOOLS = \

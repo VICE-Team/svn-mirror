@@ -16,12 +16,6 @@ SUBDIRS = sdl
 
 else
 
-if UNIX_COMPILE
-
-SUBDIRS = unix
-
-endif
-
 if WIN32_COMPILE
 
 SUBDIRS = mingw32-pcap
