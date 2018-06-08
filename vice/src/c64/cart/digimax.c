@@ -147,14 +147,6 @@ static int set_digimax_base(int val, void *param)
         return 0;
     }
 
-    if (addr == 0xffff) {
-        if (machine_class == VICE_MACHINE_VIC20) {
-            addr = 0x9800;
-        } else {
-            addr = 0xde00;
-        }
-    }
-
     if (old) {
         set_digimax_enabled(0, NULL);
     }
@@ -250,9 +242,13 @@ void digimax_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
     { "DIGIMAX", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &digimax_sound_chip.chip_enabled, set_digimax_enabled, NULL },
+    /*
+     * The 'factory_value' gets set a proper default value for the current
+     * emu in digimix_resource_init()
+     */
     { "DIGIMAXbase", 0xffff, RES_EVENT_NO, NULL,
       &digimax_address, set_digimax_base, NULL },
     RESOURCE_INT_LIST_END
@@ -260,6 +256,11 @@ static const resource_int_t resources_int[] = {
 
 int digimax_resources_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_int[1].factory_value = 0x9800;
+    } else {
+        resources_int[1].factory_value = 0xde00;
+    }
     return resources_register_int(resources_int);
 }
 
