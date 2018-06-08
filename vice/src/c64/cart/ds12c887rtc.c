@@ -169,14 +169,6 @@ static int set_ds12c887rtc_base(int val, void *param)
         return 0;
     }
 
-    if (addr == 0xffff) {
-        if (machine_class == VICE_MACHINE_VIC20) {
-            addr = 0x9800;
-        } else {
-            addr = 0xde00;
-        }
-    }
-
     if (old) {
         set_ds12c887rtc_enabled(0, NULL);
     }
@@ -315,9 +307,10 @@ static void ds12c887rtc_store(uint16_t addr, uint8_t byte)
 
 /* ---------------------------------------------------------------------*/
 
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
     { "DS12C887RTC", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &ds12c887rtc_enabled, set_ds12c887rtc_enabled, NULL },
+    /* 0xfff gets updated based on emu in resources_init() */
     { "DS12C887RTCbase", 0xffff, RES_EVENT_NO, NULL,
       &ds12c887rtc_base_address, set_ds12c887rtc_base, NULL },
     { "DS12C887RTCRunMode", RTC_RUNMODE_RUNNING, RES_EVENT_NO, NULL,
@@ -329,6 +322,12 @@ static const resource_int_t resources_int[] = {
 
 int ds12c887rtc_resources_init(void)
 {
+    /* set proper default I/O-base */
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_int[1].factory_value = 0x9800;
+    } else {
+        resources_int[1].factory_value = 0xde00;
+    }
     return resources_register_int(resources_int);
 }
 
