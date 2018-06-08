@@ -27,5 +27,5 @@
 #include "vice.h"
 
 #ifdef UNIX_COMPILE
-#include "../unix/coproc.c"
+#include "../gtk3/coproc.c"
 #endif

@@ -31,11 +31,11 @@
 #ifdef HAVE_RAWNET
 
 #ifdef UNIX_COMPILE
-#include "../unix/rawnetarch.c"
+#include "../gtk3/rawnetarch_unix.c"
 #endif
 
 #ifdef WIN32_COMPILE
-#include "../win32/rawnetarch.c"
+#include "../gtk3/rawnetarch_win32.c"
 #endif
 
 #endif
