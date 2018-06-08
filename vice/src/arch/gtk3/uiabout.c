@@ -34,6 +34,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "debug_gtk3.h"
 #include "info.h"
 #include "lib.h"
 #include "ui.h"
@@ -124,11 +125,11 @@ static GdkPixbuf *get_vice_logo(void)
     /* FIXME: gdk_pixbuf_new_from_inline() is deprecated and should get
               replaced by GResource - see https://developer.gnome.org/gio/stable/GResource.html
     */
+
     logo = gdk_pixbuf_new_from_inline(-1, vice_logo, FALSE, &err);
     if (logo == NULL || err != NULL) {
-#ifdef HAVE_DEBUG_GTK3UI
-        g_print("[debug-gtk3ui] %s(): %s\n", __func__, err->message);
-#endif
+        debug_gtk3("Gtk3 error: %s\n", err->message);
+        g_error_free(err);
     }
     return logo;
 }
