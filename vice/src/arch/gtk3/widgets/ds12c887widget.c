@@ -46,22 +46,26 @@
 #include "ds12c887widget.h"
 
 
+
+
+
 static vice_gtk3_combo_entry_int_t c64_base[] = {
-     { "$D500", 0xd500 },
-     { "$D600", 0xd600 },
-     { "$D700", 0xd700 },
-     { "$DE00", 0xde00 },
-     { "$DF00", 0xdf00 },
-     { NULL, - 1 }
+    { "None",  0xffff },    /* default resource value */
+    { "$D500", 0xd500 },
+    { "$D600", 0xd600 },
+    { "$D700", 0xd700 },
+    { "$DE00", 0xde00 },
+    { "$DF00", 0xdf00 },
+    { NULL, - 1 }
 };
 
 
 static vice_gtk3_combo_entry_int_t vic20_base[] = {
-     { "$9800", 0x9800 },
-     { "$9C00", 0x9c00 },
-     { NULL, - 1 }
+    { "None",  0xffff },    /* default resource value */
+    { "$9800", 0x9800 },
+    { "$9C00", 0x9c00 },
+    { NULL, - 1 }
 };
-
 
 
 

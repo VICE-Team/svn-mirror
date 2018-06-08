@@ -205,12 +205,18 @@ static GtkWidget *resource_combo_box_int_new_helper(
                 resource);
         current = 0;
         gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
-    } else if (!set_combo_int_id(GTK_COMBO_BOX(combo), current)) {
-        /* failed to set ID, revert to first entry */
-        log_error(LOG_ERR,
-                "failed to set ID to %d, reverting to the first entry\n",
-                current);
-        gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+    } else {
+#if 0
+        debug_gtk3("got value %d for resource '%s'\n", current, resource);
+#endif
+        if (!set_combo_int_id(GTK_COMBO_BOX(combo), current)) {
+            /* failed to set ID, revert to first entry */
+            log_error(LOG_ERR,
+                    "failed to set ID to %d for resource '%s',"
+                    " reverting to the first entry\n",
+                    current, resource);
+            gtk_combo_box_set_active(GTK_COMBO_BOX(combo), 0);
+        }
     }
 
     /* remember original value for reset() */

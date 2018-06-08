@@ -1230,8 +1230,7 @@ void ui_shutdown(void)
  */
 void ui_update_menus(void)
 {
-    /* allows autostart to work */
-    NOT_IMPLEMENTED_WARN_ONLY();
+    /* NOP: Gtk3 doesn't need this */
 }
 
 
