@@ -357,49 +357,6 @@ if test x"$1" = "xAUTHORS"; then
 fi
 
 # -----------------------------------------------------------
-# Mac OS X Credits.html output type
-
-if test x"$1" = "xOSXcreditshtml"; then
-  MEMBERS=`cat team.tmp`
-  buildlists
-  $ECHO "<html>"
-  $ECHO "<head><title>VICE Credits</title></head>"
-  $ECHO "<body>"
-  $ECHO "<div align=\"center\">VICE Core Team Members:</div>"
-  $ECHO "<ul>"
-  for i in $CORETEAM_MEMBERS
-  do
-    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
-    splititem4 $decodedall
-    decoded=`$ECHO "$item3" | sed 's/_/ /g'`
-    $ECHO "<li>$decoded</li>"
-  done
-  $ECHO "</ul>"
-  $ECHO "<div align=\"center\">Ex/Inactive Team Members:</div>"
-  $ECHO "<ul>"
-  for i in $EXTEAM_MEMBERS
-  do
-    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
-    splititem4 $decodedall
-    decoded=`$ECHO "$item3" | sed 's/_/ /g'`
-    $ECHO "<li>$decoded</li>"
-  done
-  $ECHO "</ul>"
-  $ECHO "<div align=\"center\">The VICE Translation Team:</div>"
-  $ECHO "<ul>"
-  for i in $TRANSTEAM_MEMBERS
-  do
-    decodedall=`$ECHO "$i" | sed 's/+/ /g'`
-    splititem4 $decodedall
-    decoded=`$ECHO "$item3" | sed 's/_/ /g'`
-    $ECHO "<li>$decoded</li>"
-  done
-  $ECHO "</ul>"
-  $ECHO "</body>"
-  $ECHO "</html>"
-fi
-
-# -----------------------------------------------------------
 # README output type
 
 if test x"$1" = "xREADME"; then

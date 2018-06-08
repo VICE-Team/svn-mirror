@@ -674,58 +674,6 @@ static void generate_authors(char *out_path, char *filename)
     fclose(outfile);
 }
 
-static void generate_osx_credits_html(char *out_path, char *filename)
-{
-    FILE *outfile = NULL;
-    int i = 0;
-
-    sprintf(line_buffer, "%s%s", out_path, filename);
-    outfile = fopen(line_buffer, "wb");
-
-    if (outfile == NULL) {
-        printf("cannot open %s for writing\n", line_buffer);
-        return;
-    }
-    fprintf(outfile, "<html>\n");
-    fprintf(outfile, "<head><title>VICE Credits</title></head>\n");
-    fprintf(outfile, "<body>\n");
-    fprintf(outfile, "<div align=\"center\">VICE Core Team Members:</div>\n");
-    fprintf(outfile, "<ul>\n");
-
-    while (core_team[i] != NULL) {
-        sprintf(line_buffer, "@b{%s}", core_team[i + 1]);
-        replacetags();
-        fprintf(outfile, "<li>%s</li>\n", core_team[i + 1]);
-        i += 2;
-    }
-
-    fprintf(outfile, "</ul>\n");
-    fprintf(outfile, "<div align=\"center\">Ex/Inactive Team Members:</div>\n");
-    fprintf(outfile, "<ul>\n");
-
-    i = 0;
-    while (ex_team[i] != NULL) {
-        fprintf(outfile, "<li>%s</li>\n", ex_team[i + 1]);
-        i += 2;
-    }
-
-    fprintf(outfile, "</ul>\n");
-    fprintf(outfile, "<div align=\"center\">The VICE Translation Team:</div>\n");
-    fprintf(outfile, "<ul>\n");
-
-    i = 0;
-    while (trans_team[i] != NULL) {
-        fprintf(outfile, "<li>%s</li>\n", trans_team[i]);
-        i += 3;
-    }
-
-    fprintf(outfile, "</ul>\n");
-    fprintf(outfile, "</body>\n");
-    fprintf(outfile, "</html>\n");
-
-    fclose(outfile);
-}
-
 static void generate_readme(char *in_path, char *out_path, char *filename)
 {
     FILE *infile = NULL;
@@ -979,7 +927,7 @@ static void generate_vice_1(char *in_path, char *out_path, char *filename)
 int main(int argc, char *argv[])
 {
     int i;
-    if (argc < 11) {
+    if (argc < 10) {
         printf("too few arguments\n");
         exit(1);
     }
@@ -1000,13 +948,11 @@ int main(int argc, char *argv[])
 
     generate_authors(argv[2], argv[6]);
 
-    generate_osx_credits_html(argv[2], argv[7]);
+    generate_readme(argv[1], argv[2], argv[7]);
 
-    generate_readme(argv[1], argv[2], argv[8]);
+    generate_index_html(argv[1], argv[2], argv[8]);
 
-    generate_index_html(argv[1], argv[2], argv[9]);
-
-    generate_vice_1(argv[1], argv[2], argv[10]);
+    generate_vice_1(argv[1], argv[2], argv[9]);
 
     for (i = 0; core_team[i] != NULL; i++) {
         free(core_team[i++]);

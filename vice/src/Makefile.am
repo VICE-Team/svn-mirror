@@ -604,13 +604,12 @@ $(builddir)/geninfocontrib:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/inf
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed $(builddir)/geninfocontrib
 	@echo "generating infocontrib.h..."
-	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS src/arch/unix/macosx/Resources/Credits.html README doc/html/index.html man/vice.1
+	$(builddir)/geninfocontrib $(top_srcdir)/ ../ doc/vice.texi src/infocontrib.h src/buildtools/infocontrib.sed AUTHORS README doc/html/index.html man/vice.1
 else
 infocontrib.h:	$(top_srcdir)/doc/vice.texi $(srcdir)/buildtools/infocontrib.sed
 	@echo "generating infocontrib.h..."
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh infocontrib.h <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >infocontrib.h
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh AUTHORS | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/buildtools/infocontrib.sed >../AUTHORS
-	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh OSXcreditshtml >arch/unix/macosx/Resources/Credits.html
 	sed -e 's/\\/@/g' -e 's/ /%/g' <$(top_srcdir)/README >./README.tmp
 	$(SHELL) $(srcdir)/buildtools/geninfocontrib_h.sh README <README.tmp >README2.tmp
 	sed -e 's/@/\\/g' -e 's/%/ /g' <README2.tmp >../README
