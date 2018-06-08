@@ -46,11 +46,12 @@
 #include "ds12c887widget.h"
 
 
-
-
-
+/** \brief  Values for I/O base on C64/C128
+ *
+ * The hardware appears to allow $d100, $d200 and $d300 as I/O-base but that's
+ * not emulated and thus not in this list.
+ */
 static vice_gtk3_combo_entry_int_t c64_base[] = {
-    { "None",  0xffff },    /* default resource value */
     { "$D500", 0xd500 },
     { "$D600", 0xd600 },
     { "$D700", 0xd700 },
@@ -60,8 +61,9 @@ static vice_gtk3_combo_entry_int_t c64_base[] = {
 };
 
 
+/** \brief  Values for I/O base on VIC-20
+ */
 static vice_gtk3_combo_entry_int_t vic20_base[] = {
-    { "None",  0xffff },    /* default resource value */
     { "$9800", 0x9800 },
     { "$9C00", 0x9c00 },
     { NULL, - 1 }
