@@ -152,9 +152,16 @@ typedef enum {
     MENU_ACTION_END_RELEASE,
 } ui_menu_action_t;
 
+typedef enum {
+    MENU_FONT_UPPERCASE = 0,
+    MENU_FONT_LOWERCASE = 1
+} ui_menu_active_font_t;
+
 extern void sdl_ui_set_main_menu(const ui_menu_entry_t *menu);
 extern ui_menu_entry_t *sdl_ui_get_main_menu(void);
 extern void sdl_ui_set_menu_font(uint8_t *font, int w, int h);
+extern void sdl_ui_set_image_font(uint8_t *font, int w, int h);
+extern void sdl_ui_set_active_font(ui_menu_active_font_t font);
 extern menu_draw_t *sdl_ui_get_menu_param(void);
 extern menufont_t *sdl_ui_get_menu_font(void);
 extern void (*sdl_ui_set_menu_params)(int index, menu_draw_t *menu_draw);

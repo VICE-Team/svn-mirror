@@ -97,9 +97,10 @@ UI_MENU_CALLBACK(autostart_callback)
     char *name = NULL;
 
     if (activated) {
-        name = sdl_ui_file_selection_dialog("Choose autostart image", FILEREQ_MODE_CHOOSE_FILE);
+        name = sdl_ui_file_selection_dialog("Choose autostart image", FILEREQ_MODE_CHOOSE_FILE_IN_IMAGE);
         if (name != NULL) {
-            if (autostart_autodetect(name, NULL, 0, AUTOSTART_MODE_RUN) < 0) {
+            /* FIXME: using last_selected_image_pos is kindof a hack */
+            if (autostart_autodetect(name, NULL, last_selected_image_pos, AUTOSTART_MODE_RUN) < 0) {
                 ui_error("could not start auto-image");
             }
             lib_free(name);

@@ -193,6 +193,8 @@ int c64dtvui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(x64dtv_main_menu);
+    /* init menu font last, since set_menu_font will also make the font active */
+    sdl_ui_set_image_font(mem_chargen_rom + 0x000, 8, 8);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
     sdl_vkbd_set_vkbd(&vkbd_c64dtv);
 

@@ -5,7 +5,7 @@ extra_includes = -I$(top_srcdir)/src/arch/mingw32-pcap/wpcap
 else
 extra_includes =
 endif
-
+ 
 if DUMMY_COMPILE
 SUBDIRS = \
 	qnx4 \
@@ -38,6 +38,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/joyport \
 	-I$(top_srcdir)/src/gfxoutputdrv \
 	-I$(top_srcdir)/src/tapeport \
+	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a
@@ -162,6 +163,7 @@ libarch_a_SOURCES = \
 	ui.c \
 	ui.h \
 	uifilereq.c \
+	uiimagefilereq.c \
 	uifilereq.h \
 	uihotkey.c \
 	uihotkey.h \

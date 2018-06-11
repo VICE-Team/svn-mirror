@@ -189,7 +189,7 @@ static void plus4ui_set_menu_params(int index, menu_draw_t *menu_draw)
     sdl_ui_set_menu_params = NULL;
 }
 
-static uint8_t *plus4_font;
+static uint8_t *plus4_font, *plus4_font_uppercase;
 
 int plus4ui_init(void)
 {
@@ -211,13 +211,19 @@ int plus4ui_init(void)
     sdl_ui_set_main_menu(xplus4_main_menu);
 
     plus4_font = lib_malloc(8 * 256);
+    plus4_font_uppercase = lib_malloc(8 * 256);
     for (i = 0; i < 128; i++) {
         for (j = 0; j < 8; j++) {
             plus4_font[(i * 8) + j] = plus4memrom_kernal_rom[(i * 8) + (128 * 8) + j + 0x1000];
             plus4_font[(i * 8) + (128 * 8) + j] = plus4memrom_kernal_rom[(i * 8) + j + 0x1000];
+            /* FIXME */
+            plus4_font_uppercase[(i * 8) + j] = plus4memrom_kernal_rom[(i * 8) + j + 0x1000];
+            plus4_font_uppercase[(i * 8) + (128 * 8) + j] = plus4memrom_kernal_rom[(i * 8) + (128 * 8) + j + 0x1000];
         }
     }
 
+    /* init menu font last, since set_menu_font will also make the font active */
+    sdl_ui_set_image_font(plus4_font_uppercase, 8, 8);
     sdl_ui_set_menu_font(plus4_font, 8, 8);
     sdl_vkbd_set_vkbd(&vkbd_plus4);
 
@@ -244,4 +250,5 @@ void plus4ui_shutdown(void)
 #endif
 
     lib_free(plus4_font);
+    lib_free(plus4_font_uppercase);
 }
