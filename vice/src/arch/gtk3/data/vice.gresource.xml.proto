@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/pokefinder/vice">
-    <file>CBM.ttf</file>
-    <file alias="logo-black">vice-logo-black.svg</file>
+    <file alias="CBM.tff">VICE_SRC_DIR/../../../../data/fonts/CBM.ttf</file>
+    <file alias="vice-logo-black.svg">VICE_SRC_DIR/../../../../doc/html/images/vice-logo-black.svg</file>
   </gresource>
 </gresources>
 

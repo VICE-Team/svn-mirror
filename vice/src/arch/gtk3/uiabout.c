@@ -173,7 +173,8 @@ static GdkPixbuf *get_vice_logo(void)
     }
 #endif
     err = NULL;
-    logo = gdk_pixbuf_new_from_resource("/org/pokefinder/vice/logo-black",
+    logo = gdk_pixbuf_new_from_resource(
+            "/org/pokefinder/vice/vice-logo-black.svg",
             &err);
 
     if (logo == NULL || err != NULL) {
