@@ -192,21 +192,23 @@ static char *contrib_convert(const char *text, int cols)
     return new_text;
 }
 
-static unsigned int scroll_up(const char *text, int first_line, int amount)
+/* gets an offset into the text and an amount of lines to scroll
+   up, returns a new offset */
+static unsigned int scroll_up(const char *text, int offset, int amount)
 {
-    int line = first_line;
-
-    while ((amount--) && (line > 0)) {
-        int i = line - 2;
+    while ((amount--) && (offset >= 2)) {
+        int i = offset - 2;
 
         while ((i >= 0) && (text[i] != '\n')) {
             --i;
         }
 
-        line = i + 1;
+        offset = i + 1;
     }
-
-    return line;
+    if (offset < 0) {
+        offset = 0;
+    }
+    return offset;
 }
 
 #define CHARCODE_UMLAUT_A_LOWER         ((char)0xe4)
@@ -226,9 +228,11 @@ static unsigned int scroll_up(const char *text, int first_line, int amount)
 static void show_text(const char *text)
 {
     int first_line = 0;
+    int last_line = 0;
     int next_line = 0;
     int next_page = 0;
     unsigned int current_line = 0;
+    unsigned int this_line = 0;
     unsigned int len;
     int x, y, z;
     int active = 1;
@@ -238,22 +242,41 @@ static void show_text(const char *text)
 
     menu_draw = sdl_ui_get_menu_param();
 
-    string = lib_malloc(128);
+    string = lib_malloc(0x400);
     len = strlen(text);
+
+    /* find out how many lines */
+    for (x = 0, z = 0; text[x] != 0; x++) {
+        if (text[x] == '\n') {
+            last_line++;
+        }
+    }
+
+    last_line -= menu_draw->max_text_y;
+    for (x = 0, z = 0; text[x] != 0; x++) {
+        if (last_line == 0) {
+            break;
+        }
+        if (text[x] == '\n') {
+            last_line--;
+        }
+    }
+    last_line = x; /* save the offset */
 
     while (active) {
         sdl_ui_clear();
         first_line = current_line;
-        for (y = 0; (y < menu_draw->max_text_y) && (current_line < len); y++) {
+        this_line = current_line;
+        for (y = 0; (y < menu_draw->max_text_y) && (this_line < len); y++) {
             z = 0;
-            for (x = 0; (text[current_line + x] != '\n') &&
-                        (text[current_line + x] != 0); x++) {
-                switch (text[current_line + x]) {
+            for (x = 0; (text[this_line + x] != '\n') &&
+                        (text[this_line + x] != 0); x++) {
+                switch (text[this_line + x]) {
                     case '`':
                         string[x + z] = '\'';
                         break;
                     case CHARCODE_UMLAUT_A_LOWER:
-		    case CHARCODE_KROUZEK_A_LOWER:
+                    case CHARCODE_KROUZEK_A_LOWER:
                         string[x + z] = 'a';
                         break;
                     case CHARCODE_UMLAUT_A_UPPER:
@@ -289,7 +312,7 @@ static void show_text(const char *text)
                         z += 3;
                         break;
                     default:
-                        string[x + z] = text[current_line + x];
+                        string[x + z] = text[this_line + x];
                         break;
                 }
             }
@@ -298,11 +321,11 @@ static void show_text(const char *text)
                 sdl_ui_print(string, 0, y);
             }
             if (y == 0) {
-                next_line = current_line + x + 1;
+                next_line = this_line + x + 1;
             }
-            current_line += x + 1;
+            this_line += x + 1;
         }
-        next_page = current_line;
+        next_page = this_line;
         active_keys = 1;
         sdl_ui_refresh();
 
@@ -315,20 +338,42 @@ static void show_text(const char *text)
                     active = 0;
                     break;
                 case MENU_ACTION_RIGHT:
+                case MENU_ACTION_PAGEDOWN:
                     active_keys = 0;
-                    current_line = next_page;
+                    if (current_line < last_line) {
+                        current_line = next_page;
+                        if (current_line > last_line) {
+                            current_line = last_line;
+                        }
+                    }
                     break;
                 case MENU_ACTION_DOWN:
                     active_keys = 0;
-                    current_line = next_line;
+                    if (current_line < last_line) {
+                        current_line = next_line;
+                        if (current_line > last_line) {
+                            current_line = last_line;
+                        }
+                    }
                     break;
                 case MENU_ACTION_LEFT:
+                case MENU_ACTION_PAGEUP:
                     active_keys = 0;
                     current_line = scroll_up(text, first_line, menu_draw->max_text_y);
                     break;
                 case MENU_ACTION_UP:
                     active_keys = 0;
                     current_line = scroll_up(text, first_line, 1);
+                    break;
+                case MENU_ACTION_HOME:
+                    active_keys = 0;
+                    current_line = 0;
+                    break;
+                case MENU_ACTION_END:
+                    active_keys = 0;
+                    if (current_line < last_line) {
+                        current_line = last_line;
+                    }
                     break;
                 default:
                     SDL_Delay(10);
