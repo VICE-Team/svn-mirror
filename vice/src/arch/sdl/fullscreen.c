@@ -37,6 +37,7 @@
 
 #include "fullscreen.h"
 #include "fullscreenarch.h"
+#include "kbd.h"
 #include "log.h"
 #include "ui.h"
 #include "video.h"
@@ -55,6 +56,9 @@ void fullscreen_resume(void)
 
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
+    SDL_Event e;
+    int count;
+
     DBG(("%s: %i", __func__, enable));
 
     if (!canvas->fullscreenconfig->device_set) {
@@ -68,6 +72,22 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
     if (canvas->initialized) {
         /* resize window back to normal when leaving fullscreen */
         video_viewport_resize(canvas, 1);
+        /* HACK: when switching from/to fullscreen using hotkey (alt+d), some
+                 spurious keyup/keydown events fire for the keys being held
+                 down while switching modes. the following tries to get rid
+                 of these events, so "alt-d" doesnt end up in the emulated machine.
+        */
+        count = 10; while (count--) {
+            while (SDL_PollEvent(&e)) {
+                switch (e.type) {
+                    case SDL_KEYDOWN:
+                    case SDL_KEYUP:
+                        sdlkbd_release(SDL2x_to_SDL1x_Keys(e.key.keysym.sym), e.key.keysym.mod);
+                        break;
+                }
+            }
+            SDL_Delay(20);
+        }
     }
     return 0;
 }
