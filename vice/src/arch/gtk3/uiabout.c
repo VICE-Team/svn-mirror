@@ -119,59 +119,9 @@ static const guint8 vice_logo[];
  */
 static GdkPixbuf *get_vice_logo(void)
 {
-    GResource *res;
     GdkPixbuf *logo;
     GError *err = NULL;
-    char **files;
-    int i;
 
-    /* FIXME: gdk_pixbuf_new_from_inline() is deprecated and should get
-              replaced by GResource
-              see https://developer.gnome.org/gio/stable/GResource.html
-    */
-
-    /*
-     * TODO: move this into gtk3/ui.c or something, loading and registering
-     *       the GResource stuff should not happen here
-     *
-     * TODO: allow loading of this file via multiple paths, such as
-     *       $PREFIX/lib[64]/vice and other paths.
-     */
-    res = g_resource_load("src/arch/gtk3/data/vice.gresource", &err);
-    if (res == NULL && err != NULL) {
-        debug_gtk3("failed to load GResource thing\n");
-        g_error_free(err);
-        return NULL;
-    }
-    g_resources_register(res);
-
-    /* Debug: show 'dir' of the resources*/
-    files = g_resource_enumerate_children(res, "/org/pokefinder/vice", G_RESOURCE_LOOKUP_FLAGS_NONE,
-            &err);
-
-    if (files == NULL && err != NULL) {
-        debug_gtk3("couldn't enumerate children: %s\n", err->message);
-        g_error_free(err);
-        return NULL;
-    }
-
-    for (i = 0; files[i] != NULL; i++) {
-        debug_gtk3("GResource path = '%s'\n", files[i]);
-    }
-
-#if 0
-    err = NULL;
-    /* load data */
-    bytes = g_resource_lookup_data(res,
-            "/org/pokefinder/vice/vice-logo-black.svg",
-            G_RESOURCE_LOOKUP_FLAGS_NONE,
-            &err);
-    if (bytes == NULL && err != NULL) {
-        debug_gtk3("failed to load black logo: %s\n", err->message);
-        g_error_free(err);
-        return NULL;
-    }
-#endif
     err = NULL;
     logo = gdk_pixbuf_new_from_resource(
             "/org/pokefinder/vice/vice-logo-black.svg",
@@ -181,13 +131,6 @@ static GdkPixbuf *get_vice_logo(void)
         debug_gtk3("Gtk3 error: %s\n", err->message);
         g_error_free(err);
         return NULL;
-    }
-
-    /*
-     * Move this to gtk3/ui.c (ui_exit()) or something
-     */
-    if (res != NULL) {
-        g_free(res);
     }
 
     return logo;

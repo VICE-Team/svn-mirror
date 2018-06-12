@@ -69,6 +69,7 @@
 #include "uitapeattach.h"
 #include "uisidattach.h"
 #include "mixerwidget.h"
+#include "uidata.h"
 
 #include "ui.h"
 
@@ -1108,6 +1109,10 @@ int ui_init(int *argc, char **argv)
     INCOMPLETE_IMPLEMENTATION();
 #endif
     gtk_init(argc, &argv);
+
+    if (!uidata_init()) {
+        log_error(LOG_ERR, "failed to initialize GResource data, don't expected much\n");
+    }
     ui_statusbar_init();
     return 0;
 }
@@ -1215,6 +1220,7 @@ void ui_resources_shutdown(void)
  */
 void ui_shutdown(void)
 {
+    uidata_shutdown();
     ui_settings_dialog_shutdown();
     ui_statusbar_shutdown();
 }

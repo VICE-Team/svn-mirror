@@ -79,6 +79,7 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uicommands.c \
 	uicompiletimefeatures.c \
+	uidata.c \
 	uidatasette.c \
 	uidebug.c \
 	uidiskattach.c \
@@ -142,6 +143,7 @@ EXTRA_DIST = \
 	uicmdline.h \
 	uicommands.h \
 	uicompiletimefeatures.h \
+	uidata.h \
 	uidatasette.h \
 	uidebug.h \
 	uidiskattach.h \
