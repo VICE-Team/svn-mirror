@@ -72,7 +72,7 @@ bool uidata_init(void)
         g_error_free(err);
 
         debug_gtk3("trying $VICEDIR/data (%s/data)\n", VICEDIR);
-
+        err = NULL;
         path = util_concat(VICEDIR, "/data/", "vice.geresource", NULL);
         gresource = g_resource_load(path, &err);
         if (gresource == NULL && err != NULL) {
