@@ -5,6 +5,8 @@
  * handle binary resources in Gtk3 applications.
  *
  * \author  Bas Wassink <b.wassink@ziggo.nl>
+ *
+ * \note    WORK IN PROGRESS, leave this alone for now -- compyx
  */
 
 /*
