@@ -27,7 +27,6 @@
 #ifndef VICE_UIDATA_H
 #define VICE_UIDATA_H
 
-#include "vice.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 

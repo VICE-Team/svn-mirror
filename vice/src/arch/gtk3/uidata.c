@@ -65,33 +65,21 @@ bool uidata_init(void)
     char **files;
     int i;
 #endif
-    char *path, *dir = NULL;
+    char *path;
+    char *dir = NULL;
 
-    debug_gtk3("registering GResource data (trying trunk first)\n");
-    gresource = g_resource_load(
-            "src/arch/gtk3/data/vice.gresource", &err);
+    /* try directory with VICE's data files */
+    debug_gtk3("trying archdep_get_vice_datadir() (%s)\n", dir);
+    dir = archdep_get_vice_datadir();
+    path = util_concat(dir, "vice.gresource", NULL);
+    lib_free(dir);
+    gresource = g_resource_load(path, &err);
     if (gresource == NULL && err != NULL) {
-        debug_gtk3("failed to load GResource data : %s\n", err->message);
-        g_error_free(err);
-#if 0
-        debug_gtk3("trying $VICEDIR/data (%s/data)\n", VICEDIR);
-        err = NULL;
-        path = util_concat(VICEDIR, "/data/", "vice.geresource", NULL);
-#else
-        err = NULL;
-        dir = archdep_get_vice_datadir();
-        debug_gtk3("trying archdep_get_vice_datadir() (%s)\n", dir);
-        path = util_concat(dir, "vice.geresource", NULL);
-        lib_free(dir);
-#endif
-        gresource = g_resource_load(path, &err);
-        if (gresource == NULL && err != NULL) {
-            debug_gtk3("failed to load resource data '%s': %s\n",
-                    path, err->message);
-            g_error_free(err);
-            lib_free(path);
-            return false;
-        }
+        debug_gtk3("failed to load resource data '%s': %s\n",
+                path, err->message);
+        g_clear_error(&err);
+        lib_free(path);
+        return false;
     }
     g_resources_register(gresource);
 
@@ -104,9 +92,10 @@ bool uidata_init(void)
             &err);
     if (files == NULL && err != NULL) {
         debug_gtk3("couldn't enumerate children: %s\n", err->message);
-        g_error_free(err);
+        g_clear_error(&err);
         return false;
     }
+    debug_gtk3("Listing files in the GResource file:\n");
     for (i = 0; files[i] != NULL; i++) {
         debug_gtk3("%d: %s\n", i, files[i]);
     }
