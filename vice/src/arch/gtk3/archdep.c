@@ -386,28 +386,37 @@ int archdep_init(int *argc, char **argv)
     char *cfg_path;
     char *searchpath;
     char *vice_ini;
+    char *datadir;
+    char *docsdir;
 
     argv0 = lib_stralloc(argv[0]);
 
-
     archdep_create_user_config_dir();
 
+#if 1
     /* sanity checks, to remove later: */
     prg_name = archdep_program_name();
     searchpath = archdep_default_sysfile_pathlist(machine_name);
     cfg_path = archdep_user_config_path();
     vice_ini = archdep_default_resource_file_name();
+    datadir = archdep_get_vice_datadir();
+    docsdir = archdep_get_vice_docsdir();
 
     debug_gtk3("program name    = \"%s\"\n", prg_name);
     debug_gtk3("user home dir   = \"%s\"\n", archdep_home_path());
     debug_gtk3("user config dir = \"%s\"\n", cfg_path);
     debug_gtk3("prg boot path   = \"%s\"\n", archdep_boot_path());
     debug_gtk3("VICE searchpath = \"%s\"\n", searchpath);
+    debug_gtk3("VICE gui data   = \"%s\"\n", datadir);
+    debug_gtk3("VICE docs path  = \"%s\"\n", docsdir);
     debug_gtk3("vice.ini path   = \"%s\"\n", vice_ini);
 
     lib_free(searchpath);
     lib_free(vice_ini);
     lib_free(cfg_path);
+    lib_free(datadir);
+    lib_free(docsdir);
+#endif
 
     /* needed for early log control (parses for -silent/-verbose) */
     log_verbose_init(*argc, argv);

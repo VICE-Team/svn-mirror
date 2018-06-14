@@ -244,19 +244,15 @@ void ui_open_manual_callback(GtkWidget *widget, gpointer user_data)
     const char *tpath;
 #endif
 
-#ifdef MACOSX_BUNDLE
-    /* On Macs the manual path is relative to the bundle. */
-    path = util_concat(archdep_boot_path(), "/../doc/", NULL);
-#elif defined(WIN32_COMPILE)
-    /* On Windows the manual path is relative to the .exe */
-    tpath = util_concat("/", archdep_boot_path(), "/doc/", NULL);
+    path = archdep_get_vice_docsdir();
+
+#if defined(WIN32_COMPILE)
     /* we need forward slashes in the uri */
+    tpath = path;
     path = util_subst(tpath, "\\", "/");
     lib_free(tpath);
-    debug_gtk3("doc path: %s\n", path);
-#else
-    path = util_concat(DOCDIR, "/", NULL);
 #endif
+    debug_gtk3("doc path: %s\n", path);
 
     /* first try opening the pdf */
     uri = util_concat("file://", path, "vice.pdf", NULL);

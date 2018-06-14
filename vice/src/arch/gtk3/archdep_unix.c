@@ -256,6 +256,34 @@ const char *archdep_boot_path(void)
     return boot_path_bin;
 }
 
+/** \brief  Get the absolute path to the directory that contains resources, icons, etc
+ *
+ * \return  Path to the gui data directory
+ */
+char *archdep_get_vice_datadir(void)
+{
+#ifdef MACOSX_BUNDLE
+    debug_gtk3("FIXME: archdep_get_vice_datadir '%s%s'", archdep_boot_path(), "/../gui/");
+    return util_concat(archdep_boot_path(), "/../gui/", NULL);
+#else
+    return util_concat(LIBDIR, "/gui/", NULL);
+#endif
+}
+
+/** \brief  Get the absolute path to the directory that contains the documentation
+ *
+ * \return  Path to the docs directory
+ */
+char *archdep_get_vice_docsdir(void)
+{
+#ifdef MACOSX_BUNDLE
+    debug_gtk3("FIXME: archdep_get_vice_docsdir '%s%s'", archdep_boot_path(), "/../doc/");
+    util_concat(archdep_boot_path(), "/../doc/", NULL);
+#else
+    return util_concat(DOCDIR, "/", NULL);
+#endif
+}
+
 char *archdep_make_backup_filename(const char *fname)
 {
     return util_concat(fname, "~", NULL);

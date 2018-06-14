@@ -37,6 +37,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "archdep.h"
 #include "debug_gtk3.h"
 #include "lib.h"
 #include "util.h"
@@ -64,7 +65,7 @@ bool uidata_init(void)
     char **files;
     int i;
 #endif
-    char *path;
+    char *path, *dir = NULL;
 
     debug_gtk3("registering GResource data (trying trunk first)\n");
     gresource = g_resource_load(
@@ -72,10 +73,17 @@ bool uidata_init(void)
     if (gresource == NULL && err != NULL) {
         debug_gtk3("failed to load GResource data : %s\n", err->message);
         g_error_free(err);
-
+#if 0
         debug_gtk3("trying $VICEDIR/data (%s/data)\n", VICEDIR);
         err = NULL;
         path = util_concat(VICEDIR, "/data/", "vice.geresource", NULL);
+#else
+        err = NULL;
+        dir = archdep_get_vice_datadir();
+        debug_gtk3("trying archdep_get_vice_datadir() (%s)\n", dir);
+        path = util_concat(dir, "vice.geresource", NULL);
+        lib_free(dir);
+#endif
         gresource = g_resource_load(path, &err);
         if (gresource == NULL && err != NULL) {
             debug_gtk3("failed to load resource data '%s': %s\n",

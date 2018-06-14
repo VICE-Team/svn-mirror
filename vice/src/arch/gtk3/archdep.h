@@ -95,6 +95,12 @@ int archdep_require_vkbd(void);
  * New additions (since the Gtk3-native port)
  */
 
+/* Get user configuration directory */
 char *archdep_user_config_path(void);
+/* Get the absolute path to the directory that contains resources, icons, etc */
+char *archdep_get_vice_datadir(void);
+/* Get the absolute path to the directory that contains the documentation */
+char *archdep_get_vice_docsdir(void);
+
 
 #endif
