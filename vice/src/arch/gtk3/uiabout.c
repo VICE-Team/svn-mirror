@@ -42,6 +42,7 @@
 #ifdef USE_SVN_REVISION
 #include "svnversion.h"
 #endif
+#include "uidata.h"
 
 #include "uiabout.h"
 
@@ -111,7 +112,6 @@ static void destroy_current_team_list(char **list)
     lib_free(list);
 }
 
-static const guint8 vice_logo[];
 
 /** \brief  Create VICE logo
  *
@@ -119,21 +119,7 @@ static const guint8 vice_logo[];
  */
 static GdkPixbuf *get_vice_logo(void)
 {
-    GdkPixbuf *logo;
-    GError *err = NULL;
-
-    err = NULL;
-    logo = gdk_pixbuf_new_from_resource(
-            "/org/pokefinder/vice/vice-logo-black.svg",
-            &err);
-
-    if (logo == NULL || err != NULL) {
-        debug_gtk3("Gtk3 error: %s\n", err->message);
-        g_error_free(err);
-        return NULL;
-    }
-
-    return logo;
+    return uidata_get_pixbuf("vice-logo-black.svg");
 }
 
 /** \brief  Handler for the "destroy" event

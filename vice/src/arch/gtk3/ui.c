@@ -541,20 +541,11 @@ static gboolean on_focus_in_event(GtkWidget *widget, GdkEventFocus *event,
 /** \brief  Create an icon by loading it from the vice.gresource file
  *
  * \return  Standard C= icon ripped from the internet (but at least scalable)
+ *          Which ofcourse sucks on Windows for some reason, *sigh*
  */
 static GdkPixbuf *get_default_icon(void)
 {
-    GdkPixbuf *icon;
-    GError *err = NULL;
-
-    icon = gdk_pixbuf_new_from_resource(
-            "/org/pokefinder/vice/CBM_Logo.svg",
-            &err);
-    if (icon == NULL && err != NULL) {
-        debug_gtk3("failed to get icon: %s\n", err->message);
-        g_error_free(err);
-    }
-    return icon;
+    return uidata_get_pixbuf("CBM_Logo.svg");
 }
 
 

@@ -45,6 +45,7 @@
 #include "uidata.h"
 
 
+
 /** \brief  Reference to the global GResource data
  */
 static GResource *gresource = NULL;
@@ -87,7 +88,7 @@ bool uidata_init(void)
 #ifdef HAVE_DEBUG_GTK3UI
     files = g_resource_enumerate_children(
             gresource,
-            "/org/pokefinder/vice",
+            UIDATA_ROOT_PATH,
             G_RESOURCE_LOOKUP_FLAGS_NONE,
             &err);
     if (files == NULL && err != NULL) {
@@ -113,4 +114,29 @@ void uidata_shutdown(void)
         g_free(gresource);
         gresource = NULL;
     }
+}
+
+
+/** \brief  Get a pixbuf from the GResource blob
+ *
+ * \param   name    virtual path to the file
+ *
+ * \return  pixbuf or `NULL` on error
+ */
+GdkPixbuf * uidata_get_pixbuf(const char *name)
+{
+    GdkPixbuf *buf;
+    GError *err = NULL;
+    char *path;
+
+    path = util_concat(UIDATA_ROOT_PATH, "/", name, NULL);
+    debug_gtk3("attempting to load resource '%s'\n", path);
+    buf = gdk_pixbuf_new_from_resource(path, &err);
+    lib_free(path);
+    if (buf == NULL) {
+        debug_gtk3("failed: %s\n", err->message);
+        /* TODO: log error */
+        g_clear_error(&err);
+    }
+    return buf;
 }

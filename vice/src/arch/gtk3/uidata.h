@@ -30,7 +30,20 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-bool uidata_init(void);
-void uidata_shutdown(void);
+/** \brief  Root namespace of the GResouce files
+ *
+ * The GResource handling requires setting a namespace for the files, which
+ * is similar to the argument to gtk_application_new(), basically inverting
+ * a URL's components.
+ *
+ * In this case, I have used vice.pokefinder.org as our website.
+ */
+#define UIDATA_ROOT_PATH    "/org/pokefinder/vice"
+
+
+bool        uidata_init(void);
+void        uidata_shutdown(void);
+
+GdkPixbuf * uidata_get_pixbuf(const char *name);
 
 #endif
