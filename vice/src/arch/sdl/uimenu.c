@@ -1028,11 +1028,11 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
 
 static int sdl_ui_slider(const char* title, const int cur, const int min, const int max, int pos_x, int pos_y)
 {
-    int i = 0, done = 0, loop = 0, screen_dirty = 1, step = 1;
-    float segment = 0, parts = 0;
+    int i = 0, done = 0, loop = 0, screen_dirty = 1, step = 1, xsize = menu_draw.max_text_x;
+    float segment = 0, segment2 = 0, parts = 0, parts2 = 0;
     char *new_string = NULL, *value = NULL;
 
-    new_string = lib_malloc(menu_draw.max_text_x + 1);
+    new_string = lib_malloc(xsize + 1);
 
     /* sanity check */
     i = cur;
@@ -1048,7 +1048,10 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
         step = (max - min) / 100;
     }
 
-    segment = (float)((max - min) / (menu_draw.max_text_x - 1));
+    xsize -= pos_x;
+
+    segment = ((float)(max - min) / (float)(xsize - 1));
+    segment2 = ((float)(max - min) / (float)(((xsize - 1) * 2)));
 
     do {
         if (screen_dirty) {
@@ -1057,9 +1060,11 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
             pos_y++;
 
             parts = (i - min) / segment;
-            for (loop = 0; loop < menu_draw.max_text_x; loop++) {
-                new_string[loop] = (i - min) ? (loop <= parts ? '*' : '.') : '.';
+            parts2 = (i - min) / segment2;
+            for (loop = 0; loop < xsize; loop++) {
+                new_string[loop] = (i - min) ? (loop < parts ? UIFONT_SLIDERACTIVE_CHAR : UIFONT_SLIDERINACTIVE_CHAR) : UIFONT_SLIDERINACTIVE_CHAR;
             }
+            new_string[(int)parts] = UIFONT_SLIDERACTIVE_CHAR + (((int)parts2) & 1 ^ 1);
             new_string[loop] = 0;
             sdl_ui_print_wrap(new_string, pos_x, &pos_y);
             pos_y++;

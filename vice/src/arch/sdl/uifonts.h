@@ -86,6 +86,13 @@ extern void sdl_ui_vicii_font_shutdown(void);
 #define UIFONT_RIGHTTEE_STRING "\x0d"
 #define UIFONT_LEFTTEE_STRING "\x0e"
 
+#define UIFONT_SLIDERINACTIVE_STRING "\x0f"
+#define UIFONT_SLIDERINACTIVE_CHAR '\x0f'
+#define UIFONT_SLIDERACTIVE_STRING "\x10"
+#define UIFONT_SLIDERACTIVE_CHAR '\x10'
+#define UIFONT_SLIDERHALFACTIVE_STRING "\x11"
+#define UIFONT_SLIDERHALFACTIVE_CHAR '\x11'
+
 typedef enum {
     MENU_FONT_IMAGES = 0,       /* uppercase petscii layout, used by image browser */
     MENU_FONT_ASCII = 1,        /* ascii layout, used by the menus and file browser */
