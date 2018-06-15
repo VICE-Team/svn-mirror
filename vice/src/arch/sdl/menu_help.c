@@ -275,6 +275,7 @@ static void show_text(const char *text)
                     case '`':
                         string[x + z] = '\'';
                         break;
+                    /* FIXME: we should actually be able to handle some of these */
                     case CHARCODE_UMLAUT_A_LOWER:
                     case CHARCODE_KROUZEK_A_LOWER:
                         string[x + z] = 'a';
@@ -300,9 +301,6 @@ static void show_text(const char *text)
                         break;
                     case CHARCODE_UMLAUT_U_LOWER:
                         string[x + z] = 'u';
-                        break;
-                    case '_':
-                        string[x + z] = (unsigned char)164;
                         break;
                     case '\t':
                         string[x + z] = ' ';
@@ -447,7 +445,7 @@ static char *get_compiletime_features(void)
     lstr = str;
     list = vice_get_feature_list();
     while (list->symbol) {
-        sprintf(lstr, "%s\n%s\n%s\n\n", list->isdefined ? "yes " : "no  ", list->descr, list->symbol);
+        sprintf(lstr, "%4s %s\n%s\n\n", list->isdefined ? "yes " : "no  ", list->symbol, list->descr);
         lstr += strlen(lstr);
         ++list;
     }
@@ -553,41 +551,6 @@ static UI_MENU_CALLBACK(warranty_callback)
     return NULL;
 }
 
-#ifdef SDL_DEBUG
-static UI_MENU_CALLBACK(show_font_callback)
-{
-    int active = 1;
-    int i, j;
-    char fontchars[] = "0x 0123456789abcdef";
-
-    if (activated) {
-        sdl_ui_clear();
-        sdl_ui_print_center("   0123456789ABCDEF", 0);
-        sdl_ui_print_center("0x \xff\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f", 1);
-        for (j = 1; j < 16; ++j) {
-            for (i = 0; i < 16; ++i) {
-                fontchars[3 + i] = (char)(j * 16 + i);
-            }
-            fontchars[0] = "0123456789ABCDEF"[j];
-            sdl_ui_print_center(fontchars, 1 + j);
-        }
-        sdl_ui_refresh();
-        while (active) {
-            switch (sdl_ui_menu_poll_input()) {
-                case MENU_ACTION_CANCEL:
-                case MENU_ACTION_EXIT:
-                    active = 0;
-                    break;
-                default:
-                    SDL_Delay(10);
-                    break;
-            }
-        }
-    }
-    return NULL;
-}
-#endif
-
 const ui_menu_entry_t help_menu[] = {
     { "About",
       MENU_ENTRY_DIALOG,
@@ -613,11 +576,5 @@ const ui_menu_entry_t help_menu[] = {
       MENU_ENTRY_DIALOG,
       warranty_callback,
       NULL },
-#ifdef SDL_DEBUG
-    { "Show font",
-      MENU_ENTRY_DIALOG,
-      show_font_callback,
-      NULL },
-#endif
     SDL_MENU_LIST_END
 };

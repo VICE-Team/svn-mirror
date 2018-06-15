@@ -162,6 +162,13 @@ libarch_a_SOURCES = \
 	signals.c \
 	ui.c \
 	ui.h \
+	uifontscbm2.c \
+	uifontscrtc.c \
+	uifontsted.c \
+	uifontsvic.c \
+	uifontsvicii.c \
+	uifonts.c \
+	uifonts.h \
 	uifilereq.c \
 	uiimagefilereq.c \
 	uifilereq.h \

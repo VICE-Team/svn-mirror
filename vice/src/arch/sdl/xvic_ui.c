@@ -61,6 +61,7 @@
 #include "menu_video.h"
 #include "resources.h"
 #include "ui.h"
+#include "uifonts.h"
 #include "uimenu.h"
 #include "vic.h"
 #include "victypes.h"
@@ -179,8 +180,6 @@ static const ui_menu_entry_t xvic_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static uint8_t *vic20_font, *vic20_font_uppercase;
-
 static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     int videostandard;
@@ -216,8 +215,6 @@ static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
 
 int vic20ui_init(void)
 {
-    int i, j;
-
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
 #endif
@@ -232,22 +229,7 @@ int vic20ui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xvic_main_menu);
-
-    vic20_font = lib_malloc(8 * 256);
-    vic20_font_uppercase = lib_malloc(8 * 256);
-    for (i = 0; i < 128; i++) {
-        for (j = 0; j < 8; j++) {
-            vic20_font[(i * 8) + j] = vic20memrom_chargen_rom[(i * 8) + (128 * 8) + j + 0x400];
-            vic20_font[(i * 8) + (128 * 8) + j] = vic20memrom_chargen_rom[(i * 8) + j + 0x400];
-            /* FIXME */
-            vic20_font_uppercase[(i * 8) + j] = vic20memrom_chargen_rom[(i * 8) + j];
-            vic20_font_uppercase[(i * 8) + (128 * 8) + j] = vic20memrom_chargen_rom[(i * 8) + (128 * 8) + j];
-        }
-    }
-
-    /* init menu font last, since set_menu_font will also make the font active */
-    sdl_ui_set_image_font(vic20_font_uppercase, 8, 8);
-    sdl_ui_set_menu_font(vic20_font, 8, 8);
+    sdl_ui_vic_font_init();
     sdl_vkbd_set_vkbd(&vkbd_vic20);
 
 #ifdef HAVE_FFMPEG
@@ -277,6 +259,5 @@ void vic20ui_shutdown(void)
     sdl_menu_ffmpeg_shutdown();
 #endif
 
-    lib_free(vic20_font);
-    lib_free(vic20_font_uppercase);
+    sdl_ui_vic_font_shutdown();
 }

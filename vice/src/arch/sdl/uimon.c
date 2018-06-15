@@ -38,6 +38,7 @@
 #include "monitor.h"
 #include "uimon.h"
 #include "ui.h"
+#include "uifonts.h"
 #include "uimenu.h"
 #include "videoarch.h"
 
@@ -126,6 +127,8 @@ int uimon_out(const char *buffer)
         int i = 0;
         char c;
 
+        sdl_ui_set_active_font(MENU_FONT_MONITOR);
+
         while ((c = p[i]) != 0) {
             if (c == '\n') {
                 p[i] = 0;
@@ -148,7 +151,9 @@ int uimon_out(const char *buffer)
         if (p[0] != 0) {
             x_pos += sdl_ui_print(p, x_pos, y);
         }
-        return 0;
+
+        sdl_ui_set_active_font(MENU_FONT_ASCII);
+
     } else {
         if (console_log_local) {
             rc = console_out(console_log_local, "%s", buffer);

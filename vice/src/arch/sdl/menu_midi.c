@@ -197,7 +197,7 @@ UI_MENU_CALLBACK(MIDIInDev_dynmenu_callback)
     midi_in_dyn_menu[i].callback = NULL;
     midi_in_dyn_menu[i].data = NULL;
 
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
@@ -239,7 +239,7 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
     midi_out_dyn_menu[i].callback = NULL;
     midi_out_dyn_menu[i].data = NULL;
 
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 #define VICE_SDL_MIDI_ARCHDEP_ITEMS           \

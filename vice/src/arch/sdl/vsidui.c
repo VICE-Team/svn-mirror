@@ -53,6 +53,7 @@
 #include "menu_speed.h"
 #include "psid.h"
 #include "ui.h"
+#include "uifonts.h"
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "videoarch.h"
@@ -375,7 +376,7 @@ int vsid_ui_init(void)
     uisid_menu_create();
 
     sdl_ui_set_main_menu(vsid_main_menu);
-    sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
+    sdl_ui_vicii_font_init();
 
     sdl_vsid_draw_init(draw_func);
     sdl_vsid_activate();
@@ -532,4 +533,5 @@ void vsid_ui_close(void)
 {
     uikeyboard_menu_shutdown();
     uisid_menu_shutdown();
+    sdl_ui_vicii_font_shutdown();
 }

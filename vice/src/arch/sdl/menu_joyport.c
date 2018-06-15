@@ -126,7 +126,7 @@ static UI_MENU_CALLBACK(JoyPort1Device_dynmenu_callback)
 
     lib_free(devices);
 
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 static UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
@@ -155,7 +155,7 @@ static UI_MENU_CALLBACK(JoyPort2Device_dynmenu_callback)
 
     lib_free(devices);
 
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 static UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
@@ -184,7 +184,7 @@ static UI_MENU_CALLBACK(JoyPort3Device_dynmenu_callback)
 
     lib_free(devices);
 
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 static UI_MENU_CALLBACK(JoyPort4Device_dynmenu_callback)
@@ -213,7 +213,7 @@ static UI_MENU_CALLBACK(JoyPort4Device_dynmenu_callback)
 
     lib_free(devices);
 
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 
@@ -243,7 +243,7 @@ static UI_MENU_CALLBACK(JoyPort5Device_dynmenu_callback)
 
     lib_free(devices);
 
-    return "->";
+    return MENU_SUBMENU_STRING;
 }
 
 ui_menu_entry_t joyport_menu[JOYPORT_MAX_PORTS + 2];

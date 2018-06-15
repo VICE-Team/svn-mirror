@@ -72,7 +72,7 @@ static void sdl_ui_image_file_selector_redraw(image_contents_t *contents, const 
         }
 
         j = MENU_FIRST_X;
-        name = image_contents_file_to_string(entry, 0);
+        name = image_contents_file_to_string(entry, IMAGE_CONTENTS_STRING_PETSCII);
         j += sdl_ui_print(name, j, i + IMAGE_FIRST_Y + SDL_FILEREQ_META_NUM);
 
         if (i == cur_offset) {
@@ -103,7 +103,7 @@ static void sdl_ui_image_file_selector_redraw_cursor(image_contents_t *contents,
                 oldbg = sdl_ui_set_cursor_colors();
             }
             j = MENU_FIRST_X;
-            name = image_contents_file_to_string(entry, 0);
+            name = image_contents_file_to_string(entry, IMAGE_CONTENTS_STRING_PETSCII);
             j += sdl_ui_print(name, j, i + IMAGE_FIRST_Y + SDL_FILEREQ_META_NUM);
 
             sdl_ui_print_eol(j, i + IMAGE_FIRST_Y + SDL_FILEREQ_META_NUM);
@@ -151,9 +151,10 @@ int sdl_ui_image_file_selection_dialog(const char* filename, ui_menu_filereq_mod
     menu_max = menu_draw->max_text_y - (IMAGE_FIRST_Y + SDL_FILEREQ_META_NUM);
     if (menu_max > 0) { menu_max--; } /* make room for BLOCKS FREE */
 
-    sdl_ui_set_active_font(MENU_FONT_UPPERCASE);
-
     while (active) {
+
+        sdl_ui_set_active_font(MENU_FONT_IMAGES);
+
         if (redraw) {
             sdl_ui_image_file_selector_redraw(contents, filename, offset, 
                 (total - offset > menu_max) ? menu_max : total - offset, 
@@ -164,6 +165,9 @@ int sdl_ui_image_file_selection_dialog(const char* filename, ui_menu_filereq_mod
                     (total - offset > menu_max) ? menu_max : total - offset, 
                     mode, cur, cur_old);
         }
+
+        sdl_ui_set_active_font(MENU_FONT_ASCII);
+
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {
@@ -252,8 +256,6 @@ int sdl_ui_image_file_selection_dialog(const char* filename, ui_menu_filereq_mod
                 break;
         }
     }
-
-    sdl_ui_set_active_font(MENU_FONT_LOWERCASE);
 
     return retval;
 }

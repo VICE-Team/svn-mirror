@@ -61,6 +61,7 @@
 #include "pet-resources.h"
 #include "resources.h"
 #include "ui.h"
+#include "uifonts.h"
 #include "uimenu.h"
 #include "vkbd.h"
 
@@ -174,8 +175,6 @@ static const ui_menu_entry_t xpet_main_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static uint8_t *pet_font, *pet_font_uppercase;
-
 /* FIXME: support all PET keyboards (see pet-resources.h) */
 
 static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
@@ -214,7 +213,6 @@ static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
 
 int petui_init(void)
 {
-    int i, j;
 
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s\n", __func__);
@@ -230,21 +228,7 @@ int petui_init(void)
     uimedia_menu_create();
 
     sdl_ui_set_main_menu(xpet_main_menu);
-
-    pet_font = lib_malloc(8 * 256);
-    pet_font_uppercase = lib_malloc(8 * 256);
-    for (i = 0; i < 128; i++) {
-        for (j = 0; j < 8; j++) {
-            pet_font[(i * 8) + j] = mem_chargen_rom[(i * 16) + (256 * 16) + j];
-            pet_font[(i * 8) + (128 * 8) + j] = mem_chargen_rom[(i * 16) + j];
-            /* FIXME */
-            pet_font_uppercase[(i * 8) + j] = mem_chargen_rom[(i * 16) + j];
-            pet_font_uppercase[(i * 8) + (128 * 8) + j] = mem_chargen_rom[(i * 16) + (256 * 16) + j];
-        }
-    }
-    /* init menu font last, since set_menu_font will also make the font active */
-    sdl_ui_set_image_font(pet_font_uppercase, 8, 8); /* FIXME */
-    sdl_ui_set_menu_font(pet_font, 8, 8);
+    sdl_ui_crtc_font_init();
 
 #ifdef HAVE_FFMPEG
     sdl_menu_ffmpeg_init();
@@ -268,6 +252,5 @@ void petui_shutdown(void)
     sdl_menu_ffmpeg_shutdown();
 #endif
 
-    lib_free(pet_font);
-    lib_free(pet_font_uppercase);
+    sdl_ui_crtc_font_shutdown();
 }

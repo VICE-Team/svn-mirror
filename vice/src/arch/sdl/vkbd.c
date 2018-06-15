@@ -301,12 +301,16 @@ void sdl_vkbd_close(void)
 void sdl_vkbd_draw(void)
 {
     int i;
+    sdl_ui_set_active_font(MENU_FONT_MONITOR);
 
     for (i = 0; i < vkbd_h; ++i) {
         sdl_ui_print(vkbd->keyb[i], vkbd_pos_x, vkbd_pos_y + i);
     }
 
     sdl_ui_invert_char(vkbd_pos_x + vkbd_x, vkbd_pos_y + vkbd_y);
+    
+    sdl_ui_set_active_font(MENU_FONT_ASCII);
+    
 }
 
 int sdl_vkbd_process(ui_menu_action_t input)
@@ -374,8 +378,8 @@ int sdl_vkbd_process(ui_menu_action_t input)
 /* virtual keyboards */
 
 static const char *keyb_c64[] = {
-    "X \x1f 1234567890+-\x1ch del  F1",
-    "ctrl QWERTYUIOP@*\x1e rstr F3",
+    "X \x5f 1234567890+-\x5ch del  F1",
+    "ctrl QWERTYUIOP@*\x5e rstr F3",
     "r/s   ASDFGHJKL:;= rtrn F5",
     "c= sh  ZXCVBNM,./v> sh  F7",
     "        space             ",
@@ -409,8 +413,8 @@ vkbd_t vkbd_vic20 = {
 };
 
 static const char *keyb_c64dtv[] = {
-    "X \x1f 1234567890+-\x1ch del  F1",
-    "ctrl QWERTYUIOP@*\x1e rstr F3",
+    "X \x5f 1234567890+-\x5ch del  F1",
+    "ctrl QWERTYUIOP@*\x5e rstr F3",
     "r/s   ASDFGHJKL:;= rtrn F5",
     "c= sh  ZXCVBNM,./v> sh  F7",
     "        space      ABCD R ",
@@ -431,9 +435,9 @@ vkbd_t vkbd_c64dtv = {
 };
 
 static const char *keyb_c128[] = {
-    "X etac hldn \x1ev<> f1 f3 f5 f7",
-    "  \x1f 1234567890+-\x1ch  del 789+",
-    "ctrl QWERTYUIOP@*\x1e rstr 456-",
+    "X etac hldn \x5ev<> f1 f3 f5 f7",
+    "  \x5f 1234567890+-\x5ch  del 789+",
+    "ctrl QWERTYUIOP@*\x5e rstr 456-",
     "r/s   ASDFGHJKL:;= rtrn 123e",
     "c= sh  ZXCVBNM,./v> sh  0 .e",
     "         space              ",
@@ -457,10 +461,10 @@ vkbd_t vkbd_c128 = {
 static const char *keyb_plus4[] = {
     "X  F1 F2 F3 Help       ",
     "esc 1234567890+-=h  del",
-    "ctrl QWERTYUIOP@\x1c* ctrl",
+    "ctrl QWERTYUIOP@\x5c* ctrl",
     "rs sh ASDFGHJKL:; rtrn ",
-    "c=  sh ZXCVBNM,./ sh \x1e ",
-    "         space      \x1fv>",
+    "c=  sh ZXCVBNM,./ sh \x5e ",
+    "         space      \x5fv>",
     NULL
 };
 
@@ -479,8 +483,8 @@ vkbd_t vkbd_plus4 = {
 };
 
 static const char *keyb_cbm2[] = {
-    "X f1234567890 v\x1e<> conr/s",
-    "esc 1234567890-=\x1ci/d ?c*/",
+    "X f1234567890 v\x5e<> conr/s",
+    "esc 1234567890-=\x5ci/d ?c*/",
     "tab  QWERTYUIOP()rtn 789-",
     "shift ASDFGHJKL;'_rt 456+",
     " shift ZXCVBNM,./sc= 123e",
@@ -505,9 +509,9 @@ vkbd_t vkbd_cbm2 = {
 /* FIXME: support all PET keyboards (see pet-resources.h) */
 
 static const char *keyb_pet_uk[] = {
-    "X \x1f 1234567890:-\x1e> r/s  789",
-    "tab QWERTYUIOP\x1b\\v del   456",
-    "esc ASDFGHJKL;@\x1d  rtrn  123",
+    "X \x5f 1234567890:-\x5e> r/s  789",
+    "tab QWERTYUIOP\x5b\\v del   456",
+    "esc ASDFGHJKL;@\x5d  rtrn  123",
     "rvs sh ZXCVBNM,./ sh rh 0 .",
     "        space              ",
     NULL
@@ -527,8 +531,8 @@ vkbd_t vkbd_pet_uk = {
 };
 
 static const char *keyb_pet_gr[] = {
-    "X   @!\"#$%'&\\()\x1f[]    hv<i",
-    "rvs QWERTYUIOP\x1e<>     789/",
+    "X   @!\"#$%'&\\()\x5f[]    hv<i",
+    "rvs QWERTYUIOP\x5e<>     789/",
     "    ASDFGHJKL: rs rtn 456*",
     " sh ZXCVBNM,;? sh     123+",
     "        space         0.-=",

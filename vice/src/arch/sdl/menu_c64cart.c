@@ -923,13 +923,13 @@ static UI_MENU_CALLBACK(iocollision_show_type_callback)
     resources_get_int("IOCollisionHandling", &type);
     switch (type) {
         case IO_COLLISION_METHOD_DETACH_ALL:
-            return "-> detach all";
+            return MENU_SUBMENU_STRING " detach all";
             break;
         case IO_COLLISION_METHOD_DETACH_LAST:
-            return "-> detach last";
+            return MENU_SUBMENU_STRING " detach last";
             break;
         case IO_COLLISION_METHOD_AND_WIRES:
-            return "-> AND values";
+            return MENU_SUBMENU_STRING " AND values";
             break;
     }
     return "n/a";
