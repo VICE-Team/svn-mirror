@@ -54,6 +54,8 @@ libarch_a_SOURCES = \
 	dynlib.c \
 	fullscreen.c \
 	fullscreenarch.h \
+	icon.c \
+	icon.h \
 	joy.c \
 	joy.h \
 	kbd.c \

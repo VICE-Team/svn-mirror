@@ -42,6 +42,7 @@
 #include "cmdline.h"
 #include "fullscreen.h"
 #include "fullscreenarch.h"
+#include "icon.h"
 #include "joy.h"
 #include "joystick.h"
 #include "lib.h"
@@ -1005,6 +1006,8 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         return NULL;
     }
 
+    sdl_ui_set_window_icon(new_window);
+    
     ctx = SDL_GL_CreateContext(new_window);
     SDL_GL_MakeCurrent(new_window, ctx);
 
