@@ -157,7 +157,7 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
             || SMW_B(m, (uint8_t)sid_engine) < 0) {
             goto fail;
         }
-	}
+    }
 
     if (SMW_BA(m, sid_get_siddata(sidnr), 32) < 0) {
         goto fail;
@@ -519,7 +519,7 @@ static int sid_snapshot_read_fastsid_module(snapshot_module_t *m, int sidnr)
         || SMR_W(m, &sid_state.v_wtr[1][1]) < 0
         || SMR_W(m, &sid_state.v_wtr[1][2]) < 0
         || SMR_BA(m, sid_state.v_filtIO, 3) < 0) {
-		return -1;
+            return -1;
     }
 
     for (i = 0; i < 3; ++i) {
