@@ -28,7 +28,9 @@
 #ifndef VICE_ARCHDEP_UNIX_H
 #define VICE_ARCHDEP_UNIX_H
 
+#define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
+#undef VICE_ARCHAPI_PRIVATE_API
 
 /* Default MIDI devices. */
 #define ARCHDEP_MIDI_IN_DEV  "/dev/midi"

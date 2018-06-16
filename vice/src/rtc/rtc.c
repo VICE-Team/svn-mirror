@@ -34,7 +34,7 @@
 
 #include <string.h>
 
-#include "archapi.h"
+#include "archdep.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "machine.h"

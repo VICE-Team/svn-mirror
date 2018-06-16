@@ -28,7 +28,9 @@
 #ifndef VICE_ARCHDEP_BEOS_H
 #define VICE_ARCHDEP_BEOS_H
 
+#define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
+#undef VICE_ARCHAPI_PRIVATE_API
 
 /* Video chip scaling.  */
 #define ARCHDEP_VICII_DSIZE   1

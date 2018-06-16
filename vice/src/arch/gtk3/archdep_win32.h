@@ -28,7 +28,9 @@
 #ifndef VICE_ARCHDEP_WIN32_H
 #define VICE_ARCHDEP_WIN32_H
 
+#define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
+#undef VICE_ARCHAPI_PRIVATE_API
 
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."

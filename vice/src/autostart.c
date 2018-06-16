@@ -37,7 +37,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "archapi.h"
 #include "archdep.h"
 #include "autostart.h"
 #include "autostart-prg.h"

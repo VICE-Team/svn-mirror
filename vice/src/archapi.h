@@ -26,6 +26,9 @@
  */
 
 /* Do not include this header file, include `archdep.h' instead.  */
+#ifndef VICE_ARCHAPI_PRIVATE_API
+#error "Do not include this header file, include `archdep.h' instead."
+#endif
 
 #ifndef VICE_ARCHAPI
 #define VICE_ARCHAPI

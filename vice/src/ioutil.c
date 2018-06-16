@@ -65,7 +65,6 @@
 #define dirent direct
 #endif
 
-#include "archapi.h"
 #include "archdep.h"
 #include "ioutil.h"
 #include "lib.h"

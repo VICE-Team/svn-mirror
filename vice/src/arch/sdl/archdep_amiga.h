@@ -27,7 +27,9 @@
 #ifndef VICE_ARCHDEP_AMIGA_H
 #define VICE_ARCHDEP_AMIGA_H
 
+#define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
+#undef VICE_ARCHAPI_PRIVATE_API
 
 #ifdef AMIGA_M68K
 #include <sys/unistd.h>

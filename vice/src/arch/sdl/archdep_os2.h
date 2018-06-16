@@ -27,7 +27,9 @@
 #ifndef VICE_ARCHDEP_OS2_H
 #define VICE_ARCHDEP_OS2_H
 
+#define VICE_ARCHAPI_PRIVATE_API
 #include "archapi.h"
+#undef VICE_ARCHAPI_PRIVATE_API
 
 /* This platform supports choosing drives. */
 #define SDL_CHOOSE_DRIVES

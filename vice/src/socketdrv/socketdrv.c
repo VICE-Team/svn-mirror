@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 
-#include "archapi.h"
+#include "archdep.h"
 
 
 #ifdef HAVE_NETWORK
