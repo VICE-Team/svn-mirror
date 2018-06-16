@@ -519,10 +519,10 @@ void sdl_ui_set_window_icon(SDL_Window *window)
 {
     SDL_Surface *surface;
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    surface = SDL_CreateRGBSurfaceFrom(pixels, 64, 64, 8 * 4, 64 * 4, 
+    surface = SDL_CreateRGBSurfaceFrom((void*)pixels, 64, 64, 8 * 4, 64 * 4, 
                                        0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 #else
-    surface = SDL_CreateRGBSurfaceFrom(pixels, 64, 64, 8 * 4, 64 * 4, 
+    surface = SDL_CreateRGBSurfaceFrom((void*)pixels, 64, 64, 8 * 4, 64 * 4, 
                                        0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 #endif
     /* The icon is attached to the window pointer */
