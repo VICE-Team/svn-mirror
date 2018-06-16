@@ -1029,13 +1029,21 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
     return got_key;
 }
 
-static int sdl_ui_slider(const char* title, const int cur, const int min, const int max, int pos_x, int pos_y)
+/*
+ * - if resource is not NULL, update the respective resource in realtime for preview. however when leaving this
+ *   function the original value will always get restored.
+ */
+static int sdl_ui_slider(const char* title, const int cur, const int min, const int max, int pos_x, int pos_y, const char *resource)
 {
-    int i = 0, done = 0, loop = 0, screen_dirty = 1, step = 1, xsize = menu_draw.max_text_x;
+    int i = 0, done = 0, loop = 0, screen_dirty = 1, step = 1, xsize = menu_draw.max_text_x, oldvalue = 0;
     float segment = 0, segment2 = 0, parts = 0, parts2 = 0;
     char *new_string = NULL, *value = NULL;
 
     new_string = lib_malloc(xsize + 1);
+
+    if (resource) {
+        resources_get_int(resource, &oldvalue);
+    }
 
     /* sanity check */
     i = cur;
@@ -1078,6 +1086,11 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
 
             sdl_ui_refresh();
             screen_dirty = 0;
+            /* update resource value. this is needed for example for the realtime
+               video updates in the colour- and CRT emulation settings */
+            if (resource) {
+                resources_set_int(resource, i);
+            }
         }
 
         switch (sdl_ui_menu_poll_input()) {
@@ -1153,6 +1166,9 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
     lib_free(new_string);
     new_string = NULL;
 
+    if (resource) {
+        resources_set_int(resource, oldvalue);
+    }
     return i;
 }
 
@@ -1615,7 +1631,7 @@ int sdl_ui_slider_input_dialog(const char* title, const int cur, const int min, 
 
     sdl_ui_clear();
     i = sdl_ui_display_title(title) / menu_draw.max_text_x;
-    return sdl_ui_slider(title, cur, min, max, 0, i + MENU_FIRST_Y);
+    return sdl_ui_slider(title, cur, min, max, 0, i + MENU_FIRST_Y, NULL);
 }
 
 ui_menu_entry_t *sdl_ui_get_main_menu(void)
@@ -1648,6 +1664,49 @@ void sdl_ui_scroll_screen_up(void)
     for (j = 0; j < activefont.h; ++j) {
         memset(draw_pos + (i * activefont.h + j) * menu_draw.pitch, (char)menu_draw.color_back, menu_draw.max_text_x * activefont.w);
     }
+}
+
+/* handler for the sliders used in the colour- and CRT emulation settings 
+   a custom handler is needed so we can print the colour matrix on the screen
+   with the slider, and to call sdl_ui_slider to enable realtime updates of the
+   respective resources.
+ */
+const char *sdl_ui_menu_video_slider_helper(int activated, ui_callback_data_t param, const char *resource_name, const int min, const int max)
+{
+    static char buf[20];
+    int previous = min, new_value;
+    int i, x, y;
+
+    if (resources_get_int(resource_name, &previous)) {
+        return sdl_menu_text_unknown;
+    }
+    sprintf(buf, "%i", previous);
+
+    if (activated) {
+        sdl_ui_clear();
+
+        /* print 16x16 colors at the bottom, works for all emus */
+        menu_draw.color_front =  0;
+        for (y = 0; y < 16; y++) {
+            for (x = 0; x < 16; x++) {
+                menu_draw.color_back = y * 16 + x;
+                sdl_ui_print("  ", 0 + x * 2, 9 + y);
+            }
+        }
+        menu_draw.color_front = menu_draw.color_default_front;
+        menu_draw.color_back = menu_draw.color_default_back;
+
+        i = sdl_ui_display_title((const char *)param) / menu_draw.max_text_x;
+        new_value = sdl_ui_slider((const char *)param, previous, min, max, 0, i + MENU_FIRST_Y, resource_name);
+
+        if (new_value != previous) {
+            resources_set_int(resource_name, new_value);
+        }
+    } else {
+        return buf;
+    }
+
+    return NULL;
 }
 
 /* ------------------------------------------------------------------ */

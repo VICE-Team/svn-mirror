@@ -188,4 +188,6 @@ extern int sdl_ui_set_toggle_colors(int state);
 extern int sdl_ui_set_default_colors(void);
 extern void sdl_ui_menu_shutdown(void);
 
+extern const char *sdl_ui_menu_video_slider_helper(int activated, ui_callback_data_t param, const char *resource_name, const int min, const int max);
+
 #endif
