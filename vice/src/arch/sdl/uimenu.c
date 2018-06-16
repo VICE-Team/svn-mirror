@@ -1064,7 +1064,7 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
             for (loop = 0; loop < xsize; loop++) {
                 new_string[loop] = (i - min) ? (loop < parts ? UIFONT_SLIDERACTIVE_CHAR : UIFONT_SLIDERINACTIVE_CHAR) : UIFONT_SLIDERINACTIVE_CHAR;
             }
-            new_string[(int)parts] = UIFONT_SLIDERACTIVE_CHAR + (((int)parts2) & 1 ^ 1);
+            new_string[(int)parts] = UIFONT_SLIDERACTIVE_CHAR + ((((int)parts2) & 1) ^ 1);
             new_string[loop] = 0;
             sdl_ui_print_wrap(new_string, pos_x, &pos_y);
             pos_y++;
