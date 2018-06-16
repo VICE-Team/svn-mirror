@@ -701,7 +701,7 @@ static void sdl_ui_trap(uint16_t addr, void *data)
     memcpy(draw_buffer_backup, sdl_active_canvas->draw_buffer->draw_buffer, width * height);
 
     sdl_ui_activate_pre_action();
-     if (machine_class != VICE_MACHINE_VSID) {
+    if (machine_class != VICE_MACHINE_VSID) {
         memset(sdl_active_canvas->draw_buffer->draw_buffer, 0, width * height);
     }
 
