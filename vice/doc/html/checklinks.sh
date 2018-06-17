@@ -25,5 +25,14 @@
 #  02111-1307  USA.
 #
 
-linklint -net -error -warn -xref -root ../html /index.html
- 
+SCRIPTPATH=`dirname $0`
+
+echo "------------------------------------------------------------------------"
+echo "- checking the website html pages                                      -"
+echo "------------------------------------------------------------------------"
+linklint -net -error -warn -xref -root $SCRIPTPATH/../html /index.html
+echo "------------------------------------------------------------------------"
+echo "- checking the html documentation                                      -"
+echo "------------------------------------------------------------------------"
+linklint -net -error -warn -xref -root $SCRIPTPATH/../html /vice_toc.html
+
