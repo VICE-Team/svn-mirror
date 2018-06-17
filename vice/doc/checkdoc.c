@@ -3,12 +3,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* #define DEBUG */
+/* #define DEBUG 1 */
 
 #ifdef DEBUG
 #define DBG(_x) printf _x
 #else
 #define DBG(_x)
+#endif
+
+#if defined(DEBUG) && (DEBUG > 1)
+#define DBG2(_x) printf _x
+#else
+#define DBG2(_x)
 #endif
 
 typedef struct _ITEM
@@ -233,7 +239,7 @@ void readtexi(FILE *tf)
             } else if (!strcmp(tmp, "item")) {
                 fscanf(tf, " ");
                 c = getstr(tf, tmp2);
-                DBG(("item '%s'\n",tmp2));
+                DBG2(("item '%s'\n",tmp2));
                 if ((tmp2[0] == '-') || (tmp2[0] == '+')) {
                     aliasitm = list_addstr(&optlisttexitm, tmp2);
                 } else {
@@ -360,6 +366,7 @@ void readvicerc(FILE *tf, char *emu, int tag)
     char tmp[0x100];
     int c;
     ITEM *itm;
+    DBG(("reading rc for '%s'\n",emu));
     fseek(tf,0,SEEK_SET);
     while(!feof(tf)) {
         skipuntil(tf, '[');
@@ -368,8 +375,9 @@ void readvicerc(FILE *tf, char *emu, int tag)
             break;
         }
         tmp[strlen(tmp)-1]=0;
-        DBG(("tag %d '%s'\n",c,tmp));
+        DBG2(("tag %d '%s'\n",c,tmp));
         if (!strcmp(emu, tmp)) {
+            DBG(("found tag %d '%s'\n",c,tmp));
             break;
         }
     }
@@ -403,8 +411,9 @@ void readviceopt(FILE *tf, char *emu, int tag)
             break;
         }
         tmp[strlen(tmp)-1]=0;
-        DBG(("tag %d '%s'\n",c,tmp));
+        DBG2(("tag %d '%s'\n",c,tmp));
         if (!strcasecmp(emu, tmp)) {
+            DBG(("found tag %d '%s'\n",c,tmp));
             break;
         }
     }
@@ -414,7 +423,7 @@ void readviceopt(FILE *tf, char *emu, int tag)
         if (c == '[') {
             break;
         }
-        DBG(("option '%c'\n",c));
+        DBG2(("option '%c'\n",c));
 
         if ((c=='-')||(c=='+')) {
             tmp[0] = c;
@@ -425,7 +434,7 @@ void readviceopt(FILE *tf, char *emu, int tag)
             itm->flags |= tag;
         } else {
             c = getstr(tf, &tmp[0]);
-            DBG(("not option '%s'\n",tmp));
+            DBG2(("not option '%s'\n",tmp));
         }
         skipuntil(tf, '\n');
     }
@@ -732,11 +741,12 @@ void checkoptions(void)
     list1 = &optlisttexitm;
     i = 0;
     while (list1) {
-        DBG(("check: %s\n", list1->string));
         if (list1->string) {
+            DBG(("check: '%s'\n", list1->string));
             itm = list_findstr(&optlisttex, list1->string);
             if (!itm) {
                 if ( 1
+                    && (strcmp(list1->string,"-") != 0)
                     && (strcmp(list1->string,"--") != 0)
                     && (strcmp(list1->string,"----") != 0)
                     && (strcmp(list1->string,"-<version>") != 0)

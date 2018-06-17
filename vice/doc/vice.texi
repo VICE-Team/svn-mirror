@@ -1196,8 +1196,8 @@ completely wrong.  This is not a VICE bug, but rather an OSS bug.
 @node Shared memory problems, Printer problems , Sound problems, Common problems
 @subsection Shared memory problems
 
-@cindex MITSHM
-@cindex -mitshm, +mitshm
+@cindex MITSHM (OBSOLETE)
+@findex -mitshm, +mitshm
 If you cannot start VICE because you get errors about shared memory, try
 to run it with the @samp{+mitshm} command-line option.
  This will completely disable usage of the MITSHM extensions,
@@ -1326,17 +1326,17 @@ remaining options are used only to give usage information or to
 initialize the emulator in some way:
 
 @table @code
-@cindex -help
+@findex -help
 @item -help
-@cindex -?
+@findex -?
 @itemx -?
 List all the available command-line options and their meaning.
-@cindex -default
+@findex -default
 @item -default
 Set default resources (@pxref{Settings and resources}).  This will
 override all the settings specified before, but not the settings
 specified afterwards on the command line.
-@cindex -config
+@findex -config
 @item -config <filename>
 Specify config file
 
@@ -1345,35 +1345,35 @@ Specify config file
 Specify log file name
 (@code{LogFileName}).
 
-@cindex -verbose
+@findex -verbose
 @item -verbose
 Enable verbose log output.
-@cindex -keybuf
+@findex -keybuf
 @item -keybuf <string>
 Put the specified string into the keyboard buffer.
-@cindex -console
+@findex -console
 @item -console
 Console mode (for music playback)
-@cindex -chdir
+@findex -chdir
 @item -chdir <directory>
 Change the working directory.
-@cindex -autostart
+@findex -autostart
 @item -autostart <name>
 Autostart <name> (@pxref{Command-line autostart}).
-@cindex -autoload
+@findex -autoload
 @item -autoload <name>
 Attach and autoload tape/disk image <name>
 
-@cindex -1
+@findex -1
 @item -1 <Name>
 Attach <Name> as a tape image file.
-@cindex -8
+@findex -8
 @item -8 <Name>
-@cindex -9
+@findex -9
 @itemx -9 <Name>
-@cindex -10
+@findex -10
 @itemx -10 <Name>
-@cindex -11
+@findex -11
 @itemx -11 <Name>
 Attach <Name> as a disk image to device 8, 9, 10 or 11.
 
@@ -1389,10 +1389,10 @@ Attach disk image for drive #8-11 read only
 (@code{AttachDevice8Readonly=1}, @code{AttachDevice9Readonly=1}, @code{AttachDevice10Readonly=1}, @code{AttachDevice11Readonly=1})
 (all emulators except vsid).
 
-@cindex -attach8rw
-@cindex -attach9rw
-@cindex -attach10rw
-@cindex -attach11rw
+@findex -attach8rw
+@findex -attach9rw
+@findex -attach10rw
+@findex -attach11rw
 @item -attach8rw
 @itemx -attach9rw
 @itemx -attach10rw
@@ -1427,7 +1427,7 @@ x64 "lovelygame.x64.gz:run me"
 will run the program named @file{run me} on @file{lovelygame.x64.gz}
 instead of the first one.
 
-@cindex -autostart
+@findex -autostart
 Using the command-line option @code{-autostart} is equivalent; so the same
 result can be obtained with
 
@@ -2945,14 +2945,10 @@ userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
 (@code{JoyPort4Device}).
 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
-@findex -bbrtcsave
+@findex -bbrtcsave, +bbrtcsave
 @item -bbrtcsave
-Enable saving of the battery-backed real time clock data
-(@code{BBRTCSave}).
-
-@findex +bbrtcsave
-@item +bbrtcsave
-Disable saving of the battery-backed real time clock data
+@itemx +bbrtcsave
+Enable/Disable saving of the battery-backed real time clock data
 (@code{BBRTCSave}).
 
 @end table
@@ -3066,15 +3062,15 @@ Integer specifying the additional keyboard delay.
 
 @table @code
 
-@cindex -joydev1
-@cindex -joydev2
+@findex -joydev1
+@findex -joydev2
 @item -joydev1 <range>
 @itemx -joydev2 <range>
 Set the device for joystick emulation of port 1 and 2, respectively.
 (@code{JoyDevice1}, @code{JoyDevice2}).
 The range for OS/2 is, valid numbers in the range are 0, 1, 2, 4, 8 and 16.
-@cindex -extrajoydev1
-@cindex -extrajoydev2
+@findex -extrajoydev1
+@findex -extrajoydev2
 @item -extrajoydev1 <0-8>
 @itemx -extrajoydev2 <0-8>
 Set device for extra joystick port 1 and 2.
@@ -3101,7 +3097,7 @@ Set extra joystick type
 (0: Classical Games/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: Digital Excess/Hitmen, 5: Kingsoft, 6: Starbyte)
 4, 5 and 6 are x64, x64sc, xscpu64 and x128 only.
 
-@cindex -mouse, +mouse
+@findex -mouse, +mouse
 @item -mouse
 @itemx +mouse
 Enable/Disable mouse grab
@@ -3949,25 +3945,25 @@ Possible values for @code{TYPE} are
 @code{8050} [all emulators except x64dtv, xplus4 and vsid]
 and @code{8250} [all emulators except x64dtv, xplus4 and vsid].
 
-@findex -drive8rtcsave / +drive8rtcsave
+@findex -drive8rtcsave, +drive8rtcsave
 @item -drive8rtcsave
 @itemx -drive8rtcsave
 Enable/disable the saving of the RTC data for drive 8 when changed (drive type 2000/4000 only)
 (@code{Drive8RTCSave=1}, @code{Drive8RTCSave=0}).
 
-@findex -drive9rtcsave / +drive9rtcsave
+@findex -drive9rtcsave, +drive9rtcsave
 @item -drive9rtcsave
 @itemx -drive9rtcsave
 Enable/disable the saving of the RTC data for drive 9 when changed (drive type 2000/4000 only)
 (@code{Drive9RTCSave=1}, @code{Drive9RTCSave=0}).
 
-@findex -drive10rtcsave / +drive10rtcsave
+@findex -drive10rtcsave, +drive10rtcsave
 @item -drive10rtcsave
 @itemx -drive10rtcsave
 Enable/disable the saving of the RTC data for drive 10 when changed (drive type 2000/4000 only)
 (@code{Drive10RTCSave=1}, @code{Drive10RTCSave=0}).
 
-@findex -drive11rtcsave / +drive11rtcsave
+@findex -drive11rtcsave, +drive11rtcsave
 @item -drive11rtcsave
 @itemx -drive11rtcsave
 Enable/disable the saving of the RTC data for drive 11 when changed (drive type 2000/4000 only)
@@ -4530,84 +4526,84 @@ Specify the paths for the file system access on drives 8, 9, 10 and 11, respecti
 @code{FSDevice10Dir} and @code{FSDevice11Dir})
 (all emulators except vsid).
 
-@findex -fs8convertp00 / +fs8convertp00
+@findex -fs8convertp00,+fs8convertp00
 @item -fs8convertp00
 @itemx +fs8convertp00
 Enable/disable on-read support for P00 files on drive 8
 (@code{FSDevice8ConvertP00=1}, @code{FSDevice8ConvertP00=0})
 (all emulators except vsid).
 
-@findex -fs9convertp00 / +fs9convertp00
+@findex -fs9convertp00, +fs9convertp00
 @item -fs9convertp00
 @itemx +fs9convertp00
 Enable/disable on-read support for P00 files on drive 9
 (@code{FSDevice9ConvertP00=1}, @code{FSDevice9ConvertP00=0})
 (all emulators except vsid).
 
-@findex -fs10convertp00 / +fs10convertp00
+@findex -fs10convertp00, +fs10convertp00
 @item -fs10convertp00
 @itemx +fs10convertp00
 Enable/disable on-read support for P00 files on drive 10
 (@code{FSDevice10ConvertP00=1}, @code{FSDevice10ConvertP00=0})
 (all emulators except vsid).
 
-@findex -fs11convertp00 / +fs11convertp00
+@findex -fs11convertp00, +fs11convertp00
 @item -fs11convertp00
 @itemx +fs11convertp00
 Enable/disable on-read support for P00 files on drive 11
 (@code{FSDevice11ConvertP00=1}, @code{FSDevice11ConvertP00=0})
 (all emulators except vsid).
 
-@findex -fs8savep00 / +fs8savep00
+@findex -fs8savep00, +fs8savep00
 @item -fs8savep00
 @itemx +fs8savep00
 Enable/disable saving P00 files on drive 8
 (@code{FSDevice8SaveP00=1}, @code{FSDevice8SaveP00=0})
 (all emulators except vsid).
 
-@findex -fs9savep00 / +fs9savep00
+@findex -fs9savep00, +fs9savep00
 @item -fs9savep00
 @itemx +fs9savep00
 Enable/disable saving P00 files on drive 9
 (@code{FSDevice9SaveP00=1}, @code{FSDevice9SaveP00=0})
 (all emulators except vsid).
 
-@findex -fs10savep00 / +fs10savep00
+@findex -fs10savep00, +fs10savep00
 @item -fs10savep00
 @itemx +fs10savep00
 Enable/disable saving P00 files on drive 10
 (@code{FSDevice10SaveP00=1}, @code{FSDevice10SaveP00=0})
 (all emulators except vsid).
 
-@findex -fs11savep00 / +fs11savep00
+@findex -fs11savep00, +fs11savep00
 @item -fs11savep00
 @itemx +fs11savep00
 Enable/disable saving P00 files on drive 11
 (@code{FSDevice11SaveP00=1}, @code{FSDevice11SaveP00=0})
 (all emulators except vsid).
 
-@findex -fs8hidecbm / +fs8hidecbm
+@findex -fs8hidecbm, +fs8hidecbm
 @item -fs8hidecbm
 @itemx +fs8hidecbm
 Enable/disable hiding of CBM files for drive 8
 (@code{FSDevice8HideCBMFiles=1}, @code{FSDevice8HideCBMFiles=0})
 (all emulators except vsid).
 
-@findex -fs9hidecbm / +fs9hidecbm
+@findex -fs9hidecbm, +fs9hidecbm
 @item -fs9hidecbm
 @itemx +fs9hidecbm
 Enable/disable hiding of CBM files for drive 9
 (@code{FSDevice9HideCBMFiles=1}, @code{FSDevice9HideCBMFiles=0})
 (all emulators except vsid).
 
-@findex -fs10hidecbm / +fs10hidecbm
+@findex -fs10hidecbm, +fs10hidecbm
 @item -fs10hidecbm
 @itemx +fs10hidecbm
 Enable/disable hiding of CBM files for drive 10
 (@code{FSDevice10HideCBMFiles=1}, @code{FSDevice10HideCBMFiles=0})
 (all emulators except vsid).
 
-@findex -fs11hidecbm / +fs11hidecbm
+@findex -fs11hidecbm, +fs11hidecbm
 @item -fs11hidecbm
 @itemx +fs11hidecbm
 Enable/disable hiding of CBM files for drive 11
@@ -5068,13 +5064,13 @@ the user-port interface is using (C64, C128 and VIC20).
 
 @table @code
 
-@cindex -rsdev1
+@findex -rsdev1
 @item -rsdev1 <Name>
-@cindex -rsdev2
+@findex -rsdev2
 @itemx -rsdev2 <Name>
-@cindex -rsdev3
+@findex -rsdev3
 @itemx -rsdev3 <Name>
-@cindex -rsdev4
+@findex -rsdev4
 @itemx -rsdev4 <Name>
 Specify <Name> as RS232 devices 1, 2, 3 and 4, respectively
 (@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
@@ -5112,17 +5108,17 @@ Set the ACIA interrupt
 (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
 (0: None, 1: IRQ, 2: NMI)
 
-@cindex -rsuser, +rsuser
+@findex -rsuser, +rsuser
 @item -rsuser
 @itemx +rsuser
 Enable or disable emulation of the
 userport RS232 emulation (@code{RsUser}; C64, C128 and VIC20)
 
-@cindex -rsuserbaud
+@findex -rsuserbaud
 @item -rsuserbaud <baud>
 Set the baud rate of the RS232 userport emulation.
 
-@cindex -rsuserdev
+@findex -rsuserdev
 @item -rsuserdev <0-3>
 Specify device for the userport RS232 emulation (@code{RsUserDev};
 C64, C128 and VIC20).
@@ -5202,14 +5198,14 @@ String specifying the address the remote monitor server listens to (ip4://127.0.
 @subsection Monitor command-line options
 
 @table @code
-@cindex -moncommands
+@findex -moncommands
 @item -moncommands <Name>
 Execute the commands from the file <Name> in the monitor after starting up. This
 command line switch is mainly thought to load labels and to set breakpoints.
 Not all other commands are useful to be executed in this way, some may even
 lead to strange effects.
 
-@cindex -initbreak
+@findex -initbreak
 @item -initbreak <address>
 Set an initial breakpoint for the monitor. Addresses with prefix "0x" are hexadecimal.
 
@@ -5219,12 +5215,12 @@ Set an initial breakpoint for the monitor. Addresses with prefix "0x" are hexade
 Enable/disable keeping the monitor window open
 (@code{KeepMonitorOpen=1}, @code{KeepMonitorOpen=0}).
 
-@cindex -remotemonitor, +remotemonitor
+@findex -remotemonitor, +remotemonitor
 @item -remotemonitor
 @itemx +remotemonitor
 Enable/Disable remote monitor
 
-@cindex -remotemonitoraddress
+@findex -remotemonitoraddress
 @item -remotemonitoraddress <name>
 The local address the remote monitor should bind to
 
@@ -5270,7 +5266,7 @@ Set the value for the very first RAM address after powerup
 (all emulators except vsid).
 (0..255)
 
-@cindex -raminitvalueinvert
+@findex -raminitvalueinvert
 @item -raminitvalueinvert <num of bytes>
 Length of memory block initialized with the same value
 (@code{RAMInitValueInvert})
@@ -5827,13 +5823,13 @@ The following cartridge types are valid:
 
 @itemize @bullet
 @item
--6: Ultimax
+- 6: Ultimax
 @item
--3: Generic 8k
+- 3: Generic 8k
 @item
--2: Generic 16k
+- 2: Generic 16k
 @item
--1: None
+- 1: None
 @item
  0: CRT
 @item
@@ -6516,11 +6512,11 @@ Select IDE64 version V3 (0), V4.1 (1) or V4.2 (2).
 (@code{IDE64version}).
 (0..2)
 
-@cindex -IDE64USB, +IDE64USB
+@findex -IDE64USB, +IDE64USB
 @item -IDE64USB
 @itemx +IDE64USB
 Enable/Disable IDE64 USB server
-@cindex -IDE64USBAddress
+@findex -IDE64USBAddress
 @item -IDE64USBAddress <name>
 The local address the IDE64 USB server should bind to
 
@@ -7162,10 +7158,10 @@ Use an external palette (file)
 Specify the name of the palette file
 (@code{VICIIPaletteFile}).
 
-@cindex -VICIIXRANDRfullmode
+@findex -VICIIXRANDRfullmode
 @item -VICIIXRANDRfullmode <mode>
 Select fullscreen mode
-@cindex -VICIIVidmodefullmode
+@findex -VICIIVidmodefullmode
 @item -VICIIVidmodefullmode <mode>
 Select fullscreen mode
 
@@ -7485,22 +7481,22 @@ ParSID Port 3: 1536/parsid3/par3/lpt3)
 Enable/disable emulation of the built-in SID filters
 (@code{SidFilters=1}, @code{SidFilters=0}).
 
-@cindex -residsamp
+@findex -residsamp
 @item -residsamp @code{METHOD}
 Specifies the sampling method; fast (@code{SidResidSampling=0}),
 interpolating (@code{SidResidSampling=1}), resampling
 (@code{SidResidSampling=2}), fast resampling (@code{SidResidSampling=3}).
 
-@cindex -residpass
+@findex -residpass
 @item -residpass @code{PERCENTAGE}
 Specifies the resampling filter passband in percentage of the total
 bandwidth (@code{SidResidPassband=0-90}).
 
-@cindex -residgain
+@findex -residgain
 @item -residgain @code{PERCENTAGE}
 Specifies reSID gain in percent (90 - 100).
 
-@cindex -residfilterbias
+@findex -residfilterbias
 @item -residfilterbias <number>
 reSID filter bias setting, which can be used to adjust DAC bias in millivolts.
 
@@ -7713,7 +7709,7 @@ x64/x64sc/xscpu64: (0xD500, 0xD600, 0xD700, 0xDE00, 0xDF00)
 @item -ds12c887rtchalted
 Set the DS12C887 RTC oscillator to 'halted'
 (@code{DS12C887RTCRunMode=0}).
-@item +ds12c887rtcrunning
+@item -ds12c887rtcrunning
 Set the DS12C887 RTC oscillator to 'running'
 (@code{DS12C887RTCRunMode=1}).
 
@@ -7810,14 +7806,14 @@ Set YM chip type
 Enable/disable the SFX Sound Sampler cartridge
 (@code{SFXSoundSampler=1}, @code{SFXSoundSampler=0}).
 
-@cindex -tfe, +tfe
+@findex -tfe, +tfe
 @item -tfe
 @itemx +tfe
 Enable/Disable the TFE ("The Final Ethernet") unit
-@cindex -tfeif
+@findex -tfeif
 @item -tfeif <name>
 Set the system ethernet interface for TFE emulation
-@cindex -tferrnet, +tferrnet
+@findex -tferrnet, +tferrnet
 @item -tferrnet
 @itemx +tferrnet
 Enable/Disable RRNet mode of TFE emulation
@@ -8081,13 +8077,13 @@ Set the C64 model
 (x64 and x64sc only).
 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)
 
-@findex -cpmcart
+@findex -cpmcart, +cpmcart
 @item -cpmcart
 @itemx +cpmcart
 Enable/disable the CP/M cartridge
 (@code{CPMCart=1}. @code{CPMCart=0})
 
-@findex -tapecart
+@findex -tapecart, +tapecart
 @item -tapecart
 @itemx +tapecart
 Enable/disable tapecart emulation
@@ -8098,14 +8094,14 @@ Enable/disable tapecart emulation
 Specify tapecart .tcrt image filename
 (@code{TapecartTCRTFilename})
 
-@findex -tapecartupdatetcrt
+@findex -tapecartupdatetcrt, +tapecartupdatetcrt
 @item -tapecartupdatetcrt
 @itemx +tapecartupdatetcrt
 Specify if the attached .tcrt image should be updated when the emulated
 tapecart is written to.
 (@code{TapecartUpdateTCRT=1}. @code{TapecartUpdateTCRT=0})
 
-@findex -tapecartoptimizetcrt
+@findex -tapecartoptimizetcrt, +tapecartoptimizetcrt
 @item -tapecartoptimizetcrt
 @itemx +tapecartoptimizetcrt
 Specify if writing to a .tcrt file should optimize its size by leaving
@@ -8245,10 +8241,10 @@ Use an external palette (file)
 Specify name of file of external palette
 (@code{VDCPaletteFile}).
 
-@cindex -VDCXRANDRfullmode
+@findex -VDCXRANDRfullmode
 @item -VDCXRANDRfullmode <mode>
 Select fullscreen mode
-@cindex -VDCVidmodefullmode
+@findex -VDCVidmodefullmode
 @item -VDCVidmodefullmode <mode>
 Select fullscreen mode
 
@@ -8793,17 +8789,17 @@ line parameters. This can be useful for DTV software development.
 
 @table @code
 
-@cindex -dtvblitterlog, +dtvblitterlog
+@findex -dtvblitterlog, +dtvblitterlog
 @item -dtvblitterlog
 @itemx +dtvblitterlog
 Enable or disable DTV Blitter log
 
-@cindex -dtvdmalog, +dtvdmalog
+@findex -dtvdmalog, +dtvdmalog
 @item -dtvdmalog
 @itemx +dtvdmalog
 Enable or disable DTV DMA log
 
-@cindex -dtvflashlog, +dtvflashlog
+@findex -dtvflashlog, +dtvflashlog
 @item -dtvflashlog
 @itemx +dtvflashlog
 Enable or disable DTV Flash log
@@ -9141,7 +9137,7 @@ The following cartridge types are valid:
 
 @itemize @bullet
 @item
-    -1: None
+   - 1: None
 @item
      1: Generic
 @item
@@ -9359,26 +9355,26 @@ Select the way the I/O collisions should be handled
 Do/don't reset machine if a cartridge is attached or detached
 (@code{CartridgeReset=1}, @code{CartridgeReset}).
 
-@cindex -cart2
+@findex -cart2
 @item -cart2 <name>
 Specify 4/8/16K extension ROM name at $2000
-@cindex -cart4
+@findex -cart4
 @item -cart4 <name>
 Specify 4/8/16K extension ROM name at $4000
-@cindex -cart6
+@findex -cart6
 @item -cart6 <name>
 Specify 4/8/16K extension ROM name at $6000
-@cindex -cartA
+@findex -cartA
 @item -cartA <name>
 Specify 4/8K extension ROM name at $A000
-@cindex -cartB
+@findex -cartB
 @item -cartB <name>
 Specify 4K extension ROM name at $B000
-@cindex -cartgeneric
+@findex -cartgeneric
 @item -cartgeneric <name>
 Specify generic extension ROM name
 
-@cindex -cartmega
+@findex -cartmega
 @item -cartmega <name>
 Specify Mega-Cart extension ROM name
 
@@ -9393,7 +9389,7 @@ Set Mega-Cart NvRAM filename
 Enable/Disable Mega-Cart NvRAM writeback
 (@code{MegaCartNvRAMWriteBack=1}, @code{MegaCartNvRAMWriteBack=0}).
 
-@cindex -cartfe
+@findex -cartfe
 @item -cartfe <name>
 Specify Final Expansion extension ROM name
 
@@ -9403,7 +9399,7 @@ Specify Final Expansion extension ROM name
 Enable/disable Final Expansion write back to ROM file
 (@code{FinalExpansionWriteBack=1}, @code{FinalExpansionWriteBack=0}).
 
-@cindex -cartfp
+@findex -cartfp
 @item -cartfp <name>
 Specify Vic Flash Plugin extension ROM name
 
@@ -9461,18 +9457,18 @@ Specify clock of the SID Cartridge
 (@code{SidClock}).
 (0: C64, 1: VIC20)
 
-@cindex -tfeioswap, +tfeioswap
+@findex -tfeioswap, +tfeioswap
 @item -tfeioswap
 @itemx +tfeioswap
 Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
-@cindex -tfe, +tfe
+@findex -tfe, +tfe
 @item -tfe
 @itemx +tfe
 Enable/Disable the TFE ("The Final Ethernet") unit
-@cindex -tfeif
+@findex -tfeif
 @item -tfeif <name>
 Set the system ethernet interface for TFE emulation
-@cindex -tferrnet, +tferrnet
+@findex -tferrnet, +tferrnet
 @item -tferrnet
 @itemx +tferrnet
 Enable/Disable RRNet mode of TFE emulation
@@ -9506,7 +9502,7 @@ Base address of the DS12C887 RTC cartridge
 @item -ds12c887rtchalted
 Set the DS12C887 RTC oscillator to 'halted'
 (@code{DS12C887RTCRunMode=0}).
-@item +ds12c887rtcrunning
+@item -ds12c887rtcrunning
 Set the DS12C887 RTC oscillator to 'running'
 (@code{DS12C887RTCRunMode=1}).
 
@@ -9733,10 +9729,10 @@ Use an internal calculated palette
 Use an external palette (file)
 (@code{VICExternalPalette=1}).
 
-@cindex -VICXRANDRfullmode
+@findex -VICXRANDRfullmode
 @item -VICXRANDRfullmode <mode>
 Select fullscreen mode
-@cindex -VICVidmodefullmode
+@findex -VICVidmodefullmode
 @item -VICVidmodefullmode <mode>
 Select fullscreen mode
 
@@ -9976,11 +9972,11 @@ Specify the filename of the Basic ROM file
 Specify the filename of the character generator ROM file
 (@code{ChargenName}).
 
-@cindex -cart2
-@cindex -cart4
-@cindex -cart6
-@cindex -cartA
-@cindex -cartB
+@findex -cart2
+@findex -cart4
+@findex -cart6
+@findex -cartA
+@findex -cartB
 @item -cart2 NAME
 @itemx -cart4 NAME
 @itemx -cart6 NAME
@@ -10137,10 +10133,10 @@ Use an external palette (file)
 Specify name of the external palette file
 (@code{TEDPaletteFile}).
 
-@cindex -TEDXRANDRfullmode
+@findex -TEDXRANDRfullmode
 @item -TEDXRANDRfullmode <mode>
 Select fullscreen mode
-@cindex -TEDVidmodefullmode
+@findex -TEDVidmodefullmode
 @item -TEDVidmodefullmode <mode>
 Select fullscreen mode
 
@@ -10258,12 +10254,10 @@ Boolean to enable/disable the emulation of the SID-Cart control port.
 Do/don't reset machine if a cartridge is attached or detached
 (@code{CartridgeReset=1}, @code{CartridgeReset}).
 
-@cindex -cart
+@findex -cart, +cart
 @item -cart <Name>
-Smart-attach cartridge image
-@cindex +cart
-@item +cart
-Disable default cartridge
+@itemx +cart
+Smart-attach cartridge image / Start without cartridge
 
 @findex -digiblaster, +digiblaster
 @item -digiblaster
@@ -10461,7 +10455,7 @@ Set active memory expansion hack
 (@code{MemoryHack}).
 (0: None, 1: C256K, 2: H256K, 3: H1024K, 4: H4096K)
 
-@cindex -acia, +acia
+@findex -acia, +acia
 @item -acia
 @itemx +acia
 Enable/Disable the ACIA emulation
@@ -10755,7 +10749,7 @@ Use an external palette (file)
 Specify the name of the palette file
 (@code{CrtcPaletteFile}).
 
-@cindex -CrtcVidmodefullmode
+@findex -CrtcVidmodefullmode
 @item -CrtcVidmodefullmode <mode>
 Select fullscreen mode
 
@@ -11025,7 +11019,7 @@ cartridge area (@code{RomModuleBName}).
 Specify 4K to 24K ROM file name at $A000 for 6809
 (@code{H6809RomAName}).
 
-@cindex -6809romB
+@findex -6809romB
 @item -6809romB <Name>
 Specify 4K to 20K ROM file name at $B000 for 6809
 (@code{H6809RomBName}).
@@ -12315,7 +12309,7 @@ Enable/Disable hardware scaling
 (@code{VDCHwScale=1}, @code{VDCHwScale=1})
 (x128 only).
 
-@cindex -VDCfulldevice
+@findex -VDCfulldevice
 @item -VDCfulldevice <device>
 Select fullscreen device
 (@code{VDCFullscreenDevice})
@@ -14941,10 +14935,10 @@ Select the CRTC text color
 (all emulators except vsid).
 (0: white, 1: amber, 2: green)
 
-@cindex -ffmpegaudiobitrate
+@findex -ffmpegaudiobitrate
 @item -ffmpegaudiobitrate <value>
 Set bitrate for audio stream in media file
-@cindex -ffmpegvideobitrate
+@findex -ffmpegvideobitrate
 @item -ffmpegvideobitrate <value>
 Set bitrate for video stream in media file
 
@@ -15129,7 +15123,7 @@ Set event start mode
 (all emulators except vsid).
 (0: save new snapshot, 1: load existing snapshot, 2: reset, 3: playback)
 
-@findex -eventimageinc / +eventimageinc
+@findex -eventimageinc, +eventimageinc
 @item -eventimageinc
 @itemx +eventimageinc
 Enable/disable the inclusion of disk images in the event
@@ -16050,50 +16044,50 @@ between binary and .crt images and it can 'insert' binary and/or
 The cartconv program has the following parameters:
 
 @table @code
-@cindex -i
+@findex -i
 @item -i "input name"
 This parameter is mandatory, it should contain the name of the binary/.crt
 file you want to convert. For the EPROM type of cartridges this parameter
 can be used multiple times to insert images into the resulting file.
-@cindex -o
+@findex -o
 @item -o "output name"
 This parameter is mandatory, it should contain the name of the binary/.crt
 file you want to convert the input file to.
-@cindex -t
+@findex -t
 @item -t carttype
 This parameter is optional. It is only needed when converting to a .crt
 file. See below for the supported cartridge types.
-@cindex -n
+@findex -n
 @item -n "cart name"
 This parameter is optional and is used as the cartridge name when creating
 a .crt file.
-@cindex -l
+@findex -l
 @item -l loadaddress
 This parameter is optional and is used as the load-address when converting
 a .crt file to a .prg file, or when converting to a generic type .crt
 file.
-@cindex -f
+@findex -f
 @item -f "input name"
 This parameter is optional, and is meant to output information about the
 named file. It can't be used in conjuction with any of the other parameters.
-@cindex -r
+@findex -r
 @item -r
 This parameter is optional, it enables repair mode (accept broken input files)
-@cindex -p
+@findex -p
 @item -p
 This parameter is optional, when it is given cartconv will accept input files that
 do not match the cartridge sizes (useful for development).
-@cindex -b
+@findex -b
 @item -b
 This parameter is optional, when it is given cartconv will not omit banks that
 are empty (filled with $ff).
-@cindex -q
+@findex -q
 @item -q
 This parameter is optional, it disables all non-error messages
-@cindex --types
+@findex --types
 @item --types
 This parameter is optional. It shows all supported cartridge types (see below).
-@cindex --version
+@findex --version
 @item --version
 Show cartconv version string and exit
 @end table
@@ -16272,61 +16266,61 @@ between ASCII, PETSCII and tokenized BASIC.
 @section petcat command line options
 
 @table @code
-@cindex -help
+@findex -help
 @item -help
 Output help text
-@cindex -?
+@findex -?
 @item -?
 Same as above
-@cindex -version
+@findex -version
 @item -version
 show petcat version string and exit
-@cindex -v
+@findex -v
 @item -v
 verbose output
-@cindex -c
+@findex -c
 @item -c
 controls (interpret also control codes) (default if textmode)
-@cindex -nc
+@findex -nc
 @item -nc
 no controls (suppress control codes in printout) (default if non-textmode)
-@cindex -ic
+@findex -ic
 @item -ic
 interpret control codes case-insensitive
-@cindex -d
+@findex -d
 @item -d
 output raw codes in decimal
-@cindex -h
+@findex -h
 @item -h
 write header (default if output is stdout)
-@cindex -nh
+@findex -nh
 @item -nh
 no header (default if output is a file)
-@cindex -skip <n>
+@findex -skip <n>
 @item -skip <n>
 Skip <n> bytes in the beginning of input file. Ignored on P00.
-@cindex -text
+@findex -text
 @item -text
 Force text mode
-@c @cindex -<version> - this one breaks the index (?!)
+@c @findex -<version> - this one breaks the index (?!)
 @item -<version>
 use keywords for <version> instead of the v7.0 ones
-@cindex -w<version>
+@findex -w<version>
 @item -w<version>
 tokenize using keywords on specified Basic version.
-@cindex -k<version>
+@findex -k<version>
 @item -k<version>
 list all keywords for the specified Basic version
-@cindex -k
+@findex -k
 @item -k
 list all Basic versions available.
-@cindex -l
+@findex -l
 @item -l
 Specify load address for program (in hex, no loading chars!).
-@cindex -o <name>
+@findex -o <name>
 @item -o <name>
 Specify the output file name
-@cindex -f
+@findex -f
 @item -f
 Force overwritten the output file. The default depends on the BASIC version.
 @end table
