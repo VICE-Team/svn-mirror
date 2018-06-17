@@ -626,12 +626,11 @@ int machine_specific_init(void)
     /* initialize print devices */
     printer_init();
 
-#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init CBM-II-specific parts of the menus before crtc_init()
-       creates a canvas window with a menubar at the top. This could
-       also be used by other ports.  */
-    cbm2ui_init_early();
-#endif
+       creates a canvas window with a menubar at the top. */
+    if (!console_mode) {
+        cbm2ui_init_early();
+    }
 
     if (crtc_init() == NULL) {
         return -1;
@@ -695,7 +694,6 @@ int machine_specific_init(void)
     /* Initialize the CBM2-specific I/O */
     cbm2io_init();
 
-#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
         /* set fullscreen if user used `-fullscreen' on cmdline */
         int fs;
@@ -704,7 +702,6 @@ int machine_specific_init(void)
             resources_set_int("CRTCFullscreen", 1);
         }
     }
-#endif
     return 0;
 }
 

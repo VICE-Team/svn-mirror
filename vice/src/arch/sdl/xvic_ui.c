@@ -213,6 +213,19 @@ static void vic20ui_set_menu_params(int index, menu_draw_t *menu_draw)
     menu_draw->color_inactive_grey = 11;
 }
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
+int vic20ui_init_early(void)
+{
+    return 0;
+}
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int vic20ui_init(void)
 {
 #ifdef SDL_DEBUG

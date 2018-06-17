@@ -825,12 +825,11 @@ int machine_specific_init(void)
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
-#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init Plus4-specific parts of the menus before ted_init()
-       creates a canvas window with a menubar at the top. This could
-       also be used by other ports.  */
-    plus4ui_init_early();
-#endif
+       creates a canvas window with a menubar at the top. */
+    if (!console_mode) {
+        plus4ui_init_early();
+    }
 
     if (ted_init() == NULL) {
         return -1;
@@ -868,7 +867,6 @@ int machine_specific_init(void)
     /* Initialize the machine specific I/O */
     plus4io_init();
 
-#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
         /* set fullscreen if user used `-fullscreen' on cmdline */
         int fs;
@@ -877,7 +875,6 @@ int machine_specific_init(void)
             resources_set_int("TEDFullscreen", 1);
         }
     }
-#endif
     return 0;
 }
 

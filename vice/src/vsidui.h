@@ -29,6 +29,7 @@
 
 #include <stdint.h>
 
+extern int vsid_ui_init_early(void);
 extern int vsid_ui_init(void);
 extern void vsid_ui_close(void);
 

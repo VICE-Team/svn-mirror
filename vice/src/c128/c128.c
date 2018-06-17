@@ -1069,12 +1069,11 @@ int machine_specific_init(void)
     }
     autostart_init((CLOCK)(delay * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1, 0xa27, 0xe0, 0xec, 0xee);
 
-#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init C128-specific parts of the menus before vdc_init() and
-       vicii_init() create canvas windows with menubars at the top. This
-       could also be used by other ports.  */
-    c128ui_init_early();
-#endif
+       vicii_init() create canvas windows with menubars at the top. */
+    if (!console_mode) {
+        c128ui_init_early();
+    }
 
     if (vdc_init() == NULL) {
         return -1;
@@ -1154,7 +1153,6 @@ int machine_specific_init(void)
 
     machine_drive_stub();
 
-#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
         /* set fullscreen if user used `-fullscreen' on cmdline
            use VICII as default */
@@ -1170,8 +1168,6 @@ int machine_specific_init(void)
             }
         }
     }
-#endif
-
     return 0;
 }
 

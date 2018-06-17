@@ -206,6 +206,19 @@ static void c128ui_set_menu_params(int index, menu_draw_t *menu_draw)
     }
 }
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
+int c128ui_init_early(void)
+{
+    return 0;
+}
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int c128ui_init(void)
 {
     int columns_key;

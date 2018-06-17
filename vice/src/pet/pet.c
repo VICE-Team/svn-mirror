@@ -635,12 +635,11 @@ int machine_specific_init(void)
     /* initialize print devices */
     printer_init();
 
-#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init PET-specific parts of the menus before crtc_init()
-       creates a canvas window with a menubar at the top. This could
-       also be used by other ports.  */
-    petui_init_early();
-#endif
+       creates a canvas window with a menubar at the top. */
+    if (!console_mode) {
+        petui_init_early();
+    }
 
     /* Initialize the CRTC emulation.  */
     if (crtc_init() == NULL) {
@@ -720,7 +719,6 @@ int machine_specific_init(void)
 
     machine_drive_stub();
 
-#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
         /* set fullscreen if user used `-fullscreen' on cmdline */
         int fs;
@@ -729,7 +727,6 @@ int machine_specific_init(void)
             resources_set_int("CRTCFullscreen", 1);
         }
     }
-#endif
     return 0;
 }
 

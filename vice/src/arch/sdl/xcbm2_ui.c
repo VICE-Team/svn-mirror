@@ -307,6 +307,19 @@ static void cbm2ui_set_menu_params(int index, menu_draw_t *menu_draw)
     return;
 }
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
+int cbm2ui_init_early(void)
+{
+    return 0;
+}
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int cbm2ui_init(void)
 {
 
@@ -360,6 +373,19 @@ static void cbm5x0ui_set_menu_params(int index, menu_draw_t *menu_draw)
     sdl_ui_set_menu_params = NULL;
 }
 
+/** \brief  Pre-initialize the UI before the canvas window gets created
+ *
+ * \return  0 on success, -1 on failure
+ */
+int cbm5x0ui_init_early(void)
+{
+    return 0;
+}
+
+/** \brief  Initialize the UI
+ *
+ * \return  0 on success, -1 on failure
+ */
 int cbm5x0ui_init(void)
 {
     sdl_ui_set_menu_params = cbm5x0ui_set_menu_params;

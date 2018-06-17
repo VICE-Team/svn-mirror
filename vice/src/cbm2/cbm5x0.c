@@ -634,12 +634,11 @@ int machine_specific_init(void)
     /* initialize print devices */
     printer_init();
 
-#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init CBM-II-specific parts of the menus before vicii_init()
-       creates a canvas window with a menubar at the top. This could
-       also be used by other ports.  */
-    cbm5x0ui_init_early();
-#endif
+       creates a canvas window with a menubar at the top. */
+    if (!console_mode) {
+        cbm5x0ui_init_early();
+    }
 
     if (vicii_init(VICII_STANDARD) == NULL) {
         return -1;
@@ -705,7 +704,6 @@ int machine_specific_init(void)
     /* Initialize the CBM5x0-specific I/O */
     cbm5x0io_init();
 
-#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
         /* set fullscreen if user used `-fullscreen' on cmdline */
         int fs;
@@ -714,7 +712,6 @@ int machine_specific_init(void)
             resources_set_int("VICIIFullscreen", 1);
         }
     }
-#endif
     return 0;
 }
 

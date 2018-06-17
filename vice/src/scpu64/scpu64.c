@@ -843,14 +843,11 @@ int machine_specific_init(void)
     /* Initialize autostart.  */
     autostart_init((CLOCK)(delay * SCPU64_PAL_RFSH_PER_SEC * SCPU64_PAL_CYCLES_PER_RFSH), 1, 0xcc, 0xd1, 0xd3, 0xd5);
 
-#if defined(USE_BEOS_UI) || defined (USE_NATIVE_GTK3)
     /* Pre-init C64-specific parts of the menus before vicii_init()
-       creates a canvas window with a menubar at the top. This could
-       also be used by other ports.  */
+       creates a canvas window with a menubar at the top. */
     if (!console_mode) {
         scpu64ui_init_early();
     }
-#endif
 
     if (vicii_init(VICII_STANDARD) == NULL && !video_disabled_mode) {
         return -1;
@@ -923,7 +920,7 @@ int machine_specific_init(void)
     cartridge_init();
 
     machine_drive_stub();
-#if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
+
     {
         /* set fullscreen if user used `-fullscreen' on cmdline */
         int fs;
@@ -932,8 +929,6 @@ int machine_specific_init(void)
             resources_set_int("VICIIFullscreen", 1);
         }
     }
-#endif
-
     return 0;
 }
 
