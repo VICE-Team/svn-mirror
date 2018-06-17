@@ -28,7 +28,6 @@
 # list of all VALID arch-dependent global defines
 ARCHDEFS+=" WIN32"
 ARCHDEFS+=" _WIN64"
-ARCHDEFS+=" MACOSX_COCOA"
 ARCHDEFS+=" __OS2__"
 ARCHDEFS+=" __BEOS__"
 ARCHDEFS+=" __MSDOS__"
@@ -38,9 +37,6 @@ ARCHDEFS+=" AMIGA_M68K"
 ARCHDEFS+=" AMIGA_MORPHOS"
 ARCHDEFS+=" USE_SDLUI"
 ARCHDEFS+=" USE_SDLUI2"
-ARCHDEFS+=" USE_GNOMEUI"
-ARCHDEFS+=" USE_XAWUI"
-ARCHDEFS+=" USE_BEOS_UI"
 ARCHDEFS+=" DINGOO_NATIVE"
 ARCHDEFS+=" DINGUX_SDL"
 ARCHDEFS+=" __XBOX__"
@@ -93,6 +89,15 @@ OBSOLETEARCHDEFS+=" riscos"
 OBSOLETEARCHDEFS+=" __riscos"
 OBSOLETEARCHDEFS+=" __riscos__"
 OBSOLETEARCHDEFS+=" __RISCOS__"
+OBSOLETEARCHDEFS+=" MACOSX_COCOA"
+OBSOLETEARCHDEFS+=" USE_GNOMEUI"
+OBSOLETEARCHDEFS+=" USE_XAWUI"
+OBSOLETEARCHDEFS+=" USE_BEOS_UI"
+OBSOLETEARCHDEFS+=" USE_XF86_EXTENSIONS"
+OBSOLETEARCHDEFS+=" USE_XF86_VIDMODE_EXT"
+OBSOLETEARCHDEFS+=" USE_XAW3D"
+OBSOLETEARCHDEFS+=" USE_MITSHM"
+OBSOLETEARCHDEFS+=" HAVE_XRANDR"
 
 # list of all valid compiler specific global defines
 CCARCHDEFS+=" __GNUC__"
@@ -184,7 +189,7 @@ OBSOLETERESOURCES+=" PALOddLineOffset"
 function findifdefs
 {
     echo "checking define: \"$1\""
-    find -wholename './vicefeatures.c' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep --color "$1"
+    find -wholename './vicefeatures.c' -prune -o -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/" | grep --color "$1"
     echo " "
 }
 
@@ -192,7 +197,7 @@ function findifdefs
 function findifdefsfulltree
 {
     echo "checking define: \"$1\""
-    find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g'  | grep --color "$1"
+    find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep -n '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | grep -v "^./src/lib/"  | grep --color "$1"
     echo " "
 }
 
@@ -204,19 +209,19 @@ function findnonlatin
     echo "- the case for files that have translation-related string tables in them."
     echo "-"
     echo "checking character encoding"
-    find -wholename './lib' -prune -o -name "*.[ch]" -exec file {} \; | grep -v "ASCII text"
+    find -wholename './lib' -prune -o -name "*.[ch]" -exec file {} \; | grep -v "ASCII text" | grep -v "^./src/lib/"
     echo " "
 }
 
 
 function finddefsfiles
 {
-    FILES+=`find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
+    FILES+=`find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './platform' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/' | grep -v "^./src/lib/" | grep -v "^./src/arch/"`
 }
 
 function finddefsfilesfulltree
 {
-    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'`
+    FILES+=`find -wholename './lib' -prune -o -name '*.[ch]' -print | xargs grep '#if' | sed 's:\(.*\)$:\1^:g' | grep "$1[ )^]" | sed 's:\(.*\)^$:\1:g' | sed 's/\(.*[ch]:\).*/\1/'  | grep -v "^./src/lib/" `
 }
 
 function findres
@@ -232,12 +237,12 @@ function findprintfs
 echo "-------------------------------------------------------------------------"
 echo "- fprintf to stdout/stderr in portable code (should perhaps go to log)"
 echo "-"
-find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n 'printf' | grep --color 'fprintf *( *std'
+find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './buildtools/bin2c.c' -prune -o -wholename './buildtools/palette2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n 'printf' | grep --color 'fprintf *( *std'
 echo "-------------------------------------------------------------------------"
 echo "- printf in portable code (should perhaps go to log)"
 echo "-"
-find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n ' printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
-find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n '^printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
+find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './buildtools/bin2c.c' -prune -o -wholename './buildtools/dat2h.c' -prune -o -wholename './buildtools/palette2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './buildtools/geninfocontrib.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n ' printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
+find -wholename './lib' -prune -o -wholename './arch' -prune -o -wholename './bin2c.c' -prune -o -wholename './buildtools/bin2c.c' -prune -o -wholename './buildtools/dat2h.c' -prune -o -wholename './buildtools/palette2c.c' -prune -o -wholename './cartconv.c' -prune -o -wholename './buildtools/geninfocontrib.c' -prune -o -wholename './petcat.c' -prune -o -wholename './c1541.c' -prune -o -name '*.[ch]' -print | xargs grep -n '^printf' | grep -v '^.*:#define DBG' | grep -v '^.*:#define DEBUG' | grep --color 'printf'
 
 echo "-------------------------------------------------------------------------"
 echo "- fprintf to stdout/stderr in archdep code (should go to log if debug output)"
@@ -345,9 +350,11 @@ function usage
     echo "printf    - find printfs (which perhaps should go to the log instead)"
     echo "res       - find obsolete resources"
     echo "all       - all of the above"
-    exit
 }
 ################################################################################
+
+OLDCWD=`pwd`
+cd `dirname $0`
 
 case $1 in
     encoding)
@@ -372,3 +379,5 @@ case $1 in
     *)
         usage ;;
 esac
+
+cd $OLDCWD
