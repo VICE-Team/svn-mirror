@@ -446,14 +446,6 @@ static feature_list_t featurelist[] = {
 #endif
 #endif
 #ifdef UNIX /* (unix) */
-    { "HAVE_XRANDR", "Enable XRandR extension.",
-#ifndef HAVE_XRANDR
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef UNIX /* (unix) */
     { "HAVE_XVIDEO", "Enable XVideo support.",
 #ifndef HAVE_XVIDEO
         0 },
@@ -574,14 +566,6 @@ static feature_list_t featurelist[] = {
 #else
         1 },
 #endif
-#ifdef UNIX /* (unix) */
-    { "USE_MITSHM", "Enable MITSHM extensions.",
-#ifndef USE_MITSHM
-        0 },
-#else
-        1 },
-#endif
-#endif
 #if defined(UNIX) /* (unix) */
     { "USE_OSS", "Enable oss support.",
 #ifndef USE_OSS
@@ -607,30 +591,6 @@ static feature_list_t featurelist[] = {
 #ifdef UNIX /* (unix) */
     { "USE_UI_THREADS", "Enable multithreaded UI.",
 #ifndef USE_UI_THREADS
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef UNIX /* (unix) */
-    { "USE_XAW3D", "Enable Xaw3d.",
-#ifndef USE_XAW3D
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef UNIX /* (unix) */
-    { "USE_XF86_EXTENSIONS", "Enable XF86 extensions.",
-#ifndef USE_XF86_EXTENSIONS
-        0 },
-#else
-        1 },
-#endif
-#endif
-#ifdef UNIX /* (unix) */
-    { "USE_XF86_VIDMODE_EXT", "Enable XF86 VidMode extensions.",
-#ifndef USE_XF86_VIDMODE_EXT
         0 },
 #else
         1 },
