@@ -209,10 +209,10 @@ static const resource_int_t resources_int_secondary_window[] = {
  */
 static const cmdline_option_t cmdline_options_common[] =
 {
-    { "-confirmexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+    { "-confirmonexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "ConfirmOnExit", (void *)1,
         NULL, "Never confirm quitting VICE" },
-    { "+confirmexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+    { "+confirmonexit", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
         NULL, NULL, "ConfirmOnExit", (void *)0,
         NULL, "Don't confirm quitting VICE" },
     { "-saveres", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
