@@ -176,11 +176,13 @@ static const char *illegal_name_tokens = "/\\?*:|\"<>";
 
 static char *argv0;
 
+#if 0
 static size_t system_wcstombs(char *mbs, const char *wcs, size_t len)
 {
     strncpy(mbs, wcs, len);
     return strlen(mbs);
 }
+#endif
 
 static size_t system_mbstowcs(char *wcs, const char *mbs, size_t len)
 {
@@ -207,6 +209,7 @@ static void system_mbstowcs_free(char *wcs)
     lib_free(wcs);
 }
 
+#if 0
 static char *system_wcstombs_alloc(const char *wcs)
 {
     char *mbs;
@@ -220,11 +223,14 @@ static char *system_wcstombs_alloc(const char *wcs)
 
     return mbs;
 }
+#endif
 
+#if 0
 static void system_wcstombs_free(char *mbs)
 {
     lib_free(mbs);
 }
+#endif
 
 static int archdep_init_extra(int *argc, char **argv)
 {
