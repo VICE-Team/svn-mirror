@@ -1228,6 +1228,7 @@ void usage(char *progname)
 
     fprintf(stdout, "\n"
             "   -help -?\tOutput this help screen here\n"
+            "   -version\tprint petcat version\n"
             "   -v\t\tverbose output\n"
             "   -c\t\tcontrols (interpret also control codes) <default if textmode>\n"
             "   -nc\t\tno controls (suppress control codes in printout)\n"

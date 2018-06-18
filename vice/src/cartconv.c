@@ -375,6 +375,7 @@ static void usage(void)
     printf("-l <addr>    load address\n");
     printf("-q           quiet\n");
     printf("--types      show the supported cart types\n");
+    printf("--version    print cartconv version\n");
     exit(1);
 }
 
