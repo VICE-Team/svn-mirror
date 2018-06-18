@@ -1095,13 +1095,13 @@ VICE supports the most popular Commodore file formats:
 @itemize @bullet
 
 @item
-@code{X64} (preferred) or @code{D64} disk image files; Used by the 1541, 2031, 3040, 4040 drives.
+@code{X64} or @code{D64} disk image files; Used by the 1541, 2031, 3040, 4040 drives.
 
 @item
 @code{G64} GCR-encoded 1541 disk image files
 
 @item
-@code{P64} NRZI flux pulse disk image files
+@code{P64} lowlevel NRZI flux pulse disk image files
 
 @item
 @code{D67} CBM2040 (DOS1) disk image format
@@ -1128,7 +1128,10 @@ VICE supports the most popular Commodore file formats:
 @code{D4M} FD4000 ED disk image format
 
 @item
-@code{T64} tape image files (read-only)
+@code{T64} tape container files (read-only)
+
+@item
+@code{TAP} lowlevel tape image files
 
 @item
 @code{P00} program files
@@ -1275,12 +1278,12 @@ You can run each of them by simply typing the name from a shell or by configurin
 your window manager for example to use them to open disk images.  
 
 If you want to look at the log output, or use the monitor in a port which does
-not have a dedicated monitor UI yet (such as the XAW port), you should always 
+not have a dedicated monitor UI yet, you should always 
 run them from a terminal window such as @code{xterm} or @code{rxvt}.  For example, 
 you could do
 
 @example
-xterm -e x64
+xterm -e x64sc
 @end example
 
 
@@ -1304,35 +1307,64 @@ initialize the emulator in some way:
 @findex -?
 @itemx -?
 List all the available command-line options and their meaning.
+
+@findex -features
+@item -features
+List all compile time features
+
 @findex -default
 @item -default
 Set default resources (@pxref{Settings and resources}).  This will
 override all the settings specified before, but not the settings
 specified afterwards on the command line.
+
 @findex -config
 @item -config <filename>
 Specify config file
+
+@findex -dumpconfig
+@item -dumpconfig <filename>
+Write the complete config into file. Normally only resources that have been
+changed from their default value would be written to the config file, however
+with this option you can see all resources and their current values.
 
 @findex -logfile
 @item -logfile <name>
 Specify log file name
 (@code{LogFileName}).
 
+@findex -monlog
+@item -monlog <name>
+Specify log file name for the monitor.
+
 @findex -verbose
 @item -verbose
 Enable verbose log output.
+
+@findex -silent
+@item -silent
+Disable all log output (except errors).
+
 @findex -keybuf
 @item -keybuf <string>
 Put the specified string into the keyboard buffer.
+
 @findex -console
 @item -console
 Console mode (for music playback, or for running the emulator test programs)
+
+@findex -limitcycles
+@item -limitcycles <cycles>
+Automatically exit the emulator after a given number of cycles.
+
 @findex -chdir
 @item -chdir <directory>
 Change the working directory.
+
 @findex -autostart
 @item -autostart <name>
 Autostart <name> (@pxref{Command-line autostart}).
+
 @findex -autoload
 @item -autoload <name>
 Attach and autoload tape/disk image <name>
@@ -1395,19 +1427,19 @@ file, by simply specifying its name as the @emph{last} argument on the
 command line, for example
 
 @example
-x64 lovelygame.x64.gz
+x64sc lovelygame.d64.gz
 @end example
 
-will start the C64 emulator, attaching @file{lovelygame.x64.gz} as a
+will start the C64 emulator, attaching @file{lovelygame.d64} as a
 disk image and running the first program on it.  You can also specify
 the name of the program on the fisk image by appending a colon
 (@samp{:}) the name itself to the argument; for example
 
 @example
-x64 "lovelygame.x64.gz:run me"
+x64sc "lovelygame.d64:run me"
 @end example
 
-will run the program named @file{run me} on @file{lovelygame.x64.gz}
+will run the program named @file{run me} on @file{lovelygame.d64}
 instead of the first one.
 
 @findex -autostart
@@ -1415,7 +1447,7 @@ Using the command-line option @code{-autostart} is equivalent; so the same
 result can be obtained with
 
 @example
-x64 -autostart "lovelygame.x64.gz:run me"
+x64sc -autostart "lovelygame.d64:run me"
 @end example
 
 If you specify a raw CBM or P00 file, the emulator will setup the file
@@ -1925,6 +1957,25 @@ While a Romset file is processed, the directory where the Romset file
 was found is temporarily prepended to the search path (@code{Directory}
 resource). This also means that if you have a setting for
 @code{Directory} in it, its effect is limited to the Romset file itself.
+
+@c FIXME @node
+@subsection Romset command line options
+
+@table @code
+
+@findex -romsetfile
+@item -romsetfile <File>
+load the given romset file
+
+@findex -romsetarchive
+@item -romsetarchive <File>
+load the given romset archive
+
+@findex -romsetarchiveselect
+@item -romsetarchiveselect <Item number>
+select the given item from the current romset archive
+
+@end table
 
 @node Basics, Settings and resources, System files, Top
 @chapter Basic operation
@@ -3087,6 +3138,11 @@ Set extra joystick type
 @item -mouse
 @itemx +mouse
 Enable/Disable mouse grab
+
+@findex -smartmousertcsave, +smartmousertcsave
+@item -smartmousertcsave
+@itemx +smartmousertcsave
+Enable/Disable saving of the real time clock data for the SmartMouse
 
 @findex -keyset, +keyset
 @item -keyset
@@ -5268,6 +5324,191 @@ Length of memory block initialized with the same pattern
 
 @c ----------------------------------------------------------------
 
+@c @node FIXME
+@section Debug settings
+
+@c @node FIXME
+@subsection Debug resources
+
+@table @code
+
+@vindex TapeLog
+@item TapeLog
+Boolean specifying whether the tape log device is enabled.
+
+@vindex TapeLogDestination
+@item TapeLogDestination
+Integer specifying where the tape log goes to (0=Enable logging to the emulator log file 1=Enable logging to a file).
+
+@vindex TapeLogfilename
+@item TapeLogfilename
+String that specifies the tape log file name
+
+@vindex DebugCartEnable
+@item DebugCartEnable
+Boolean specifying whether the debug "cartridge" used for the test suite is enabled.
+
+@b{The following are only available when the emulators were compiled in DEBUG mode:}
+
+@vindex TraceMode
+@item TraceMode
+Integer specifying the trace mode (0=normal 1=small 2=history)
+
+@vindex AutoPlaybackFrames
+@item AutoPlaybackFrames
+Amount of automatic playback frames
+
+@vindex MainCPU_TRACE
+@item MainCPU_TRACE
+Trace the main CPU / Do not trace the main CPU
+@vindex Drive0CPU_TRACE
+@item Drive0CPU_TRACE
+Trace the drive 0 CPU / Do not trace the drive 0 CPU
+@vindex Drive1CPU_TRACE
+@item Drive1CPU_TRACE
+Trace the drive 1 CPU / Do not trace the drive 1 CPU 
+@vindex Drive2CPU_TRACE
+@item Drive2CPU_TRACE
+Trace the drive 2 CPU / Do not trace the drive 2 CPU
+@vindex Drive3CPU_TRACE
+@item Drive3CPU_TRACE
+Trace the drive 3 CPU / Do not trace the drive 3 CPU
+
+@end table
+
+@c @node FIXME
+@subsection Debug command-line options
+
+@table @code
+
+@findex -core, +core
+@item -core
+@itemx +core
+Enable/disable generation of core dumps
+(@code{DoCoreDump=1}, @code{DoCoreDump=0})
+(all emulators except vsid).
+
+@findex -debug, +debug
+@item -debug
+@itemx +debug
+Disable/enable calling of the exception handler
+(@code{DoCoreDump=1}, @code{DoCoreDump=0})
+(all emulators except vsid).
+
+@findex -debugcart, +debugcart
+@item -debugcart
+@itemx +debugcart
+Enable/disable the debug "cartridge" used for the test suite.
+
+@findex -tapelog, +tapelog
+@item -tapelog
+@itemx +tapelog
+Enable/Disable the tape log device. (@code{TapeLog=1}, @code{TapeLog=0}).
+
+@findex -tapelogtofile
+@item -tapelogtofile
+Enable logging to a file (@code{TapeLogDestination=1}).
+
+@findex -tapelogtolog
+@item -tapelogtolog
+Enable logging to the emulator log file (@code{TapeLogDestination=0}).
+
+@findex -tapelogimage
+@item -tapelogimage <name>
+Specify tape log file name (@code{TapeLogfilename}).
+
+@b{The following are only available when the emulators were compiled in DEBUG mode:}
+
+@findex -trace_maincpu, +trace_maincpu
+@item -trace_maincpu
+@itemx +trace_maincpu
+Trace the main CPU / Do not trace the main CPU (@code{MainCPU_TRACE=1}, @code{MainCPU_TRACE=0})
+
+@findex -trace_drive0, +trace_drive0
+@item -trace_drive0
+@itemx +trace_drive0
+Trace the drive 0 CPU / Do not trace the drive 0 CPU (@code{Drive0CPU_TRACE=1}, @code{Drive0CPU_TRACE=0})
+
+@findex -trace_drive1, +trace_drive1
+@item -trace_drive1
+@itemx +trace_drive1
+Trace the drive 1 CPU / Do not trace the drive 1 CPU (@code{Drive1CPU_TRACE=1}, @code{Drive1CPU_TRACE=0})
+
+@findex -trace_drive2, +trace_drive2
+@item -trace_drive2
+@itemx +trace_drive2
+Trace the drive 2 CPU / Do not trace the drive 2 CPU (@code{Drive2CPU_TRACE=1}, @code{Drive2CPU_TRACE=0})
+
+@findex -trace_drive3, +trace_drive3
+@item -trace_drive3
+@itemx +trace_drive3
+Trace the drive 3 CPU / Do not trace the drive 3 CPU (@code{Drive3CPU_TRACE=1}, @code{Drive3CPU_TRACE=0})
+
+@findex -trace_mode
+@item -trace_mode <value>
+Trace mode (0=normal 1=small 2=history)
+
+@findex -autoplaybackframes
+@item -autoplaybackframes <frames>
+Set the amount of automatic playback frames
+
+@end table
+
+@c ----------------------------------------------------------------
+
+@c @node FIXME
+@section Network Play settings
+
+@c @node FIXME
+@subsection Network Play resources
+
+@table @code
+
+@vindex NetworkServerName
+@item NetworkServerName
+String specifying the name of the remote server.
+
+@vindex NetworkServerBindAddress
+@item NetworkServerBindAddress
+String specifying the IP of the remote server.
+
+@vindex NetworkServerPort
+@item NetworkServerPort
+Integer specifying the port used for network play.
+@c FIXME: is this correct?
+
+@vindex NetworkControl
+@item NetworkControl
+Integer specifying whether the emulator is running as server or client (0: client,
+1: server)
+
+@end table
+
+@c @node FIXME
+@subsection Network Play command-line options
+
+@table @code
+
+@findex -netplayserver
+@item -netplayserver <name>
+Set the name of the remote server.
+
+@findex -netplaybind
+@item -netplaybind <ip>
+Set the IP of the remote server.
+
+@findex -netplayport
+@item -netplayport <port>
+Set the port used for network play.
+
+@findex -netplayctrl
+@item -netplayctrl <flag>
+Specify whether the emulator is running as server or client (0: client, 1: server)
+
+@end table
+
+@c ----------------------------------------------------------------
+
 @node Misc settings,  , Monitor settings, Settings and resources
 @section Miscellaneous settings
 
@@ -5336,21 +5577,6 @@ emulator's system files.
 Boolean specifying whether the emulator should dump core when it gets a signal
 (all emulators except vsid).
 
-@vindex NetworkServerName
-@item NetworkServerName
-String specifying the name of the remote server.
-@vindex NetworkServerBindAddress
-@item NetworkServerBindAddress
-String specifying the IP of the remote server.
-@vindex NetworkServerPort
-@item NetworkServerPort
-Integer specifying the port used for network play.
-@c FIXME: is this correct?
-@vindex NetworkControl
-@item NetworkControl
-Integer specifying whether the emulator is running as server or client (0: client,
-1: server)
-
 @vindex LogFileName
 @item LogFileName
 String specifying the filename of the current log file.
@@ -5379,6 +5605,24 @@ String specifying the filename of the current flip list. (Drive 8 only)
 Booleans that specify whether to attach images on drives 8 to 11 read-only or not
 (all emulators except vsid).
 
+@vindex UserportCollisionHandling
+@item UserportCollisionHandling
+Boolean specifying the way the Userport collisions should be handled, (0: error message and 
+ detach all involved devices, 1: error message and detach last attached involved 
+ device, 2: warning in log and 'AND' the valid return values)
+
+@vindex UserportDIGIMAX
+@item UserportDIGIMAX
+Boolean specifying whether the userport DigiMAX device is enabled.
+
+@vindex Userport4bitSampler
+@item Userport4bitSampler
+Boolean specifying whether the Userport 4bit sampler is enabled.
+
+@vindex Userport8BSS
+@item Userport8BSS
+Boolean specifying whether the Userport 8bit stereo sampler is enabled.
+
 @vindex UserportRTC58321a
 @item UserportRTC58321a
 Boolean specifying whether the userport RTC is emulated or not
@@ -5399,30 +5643,6 @@ Boolean specifying whether the userport RTC is emulated or not
 Boolean specifying whether the userport RTC data is saved when changed or not
 (xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
 
-@vindex TraceMode
-@item TraceMode
-Integer specifying the trace mode (0=normal 1=small 2=history)
-
-@vindex AutoPlaybackFrames
-@item AutoPlaybackFrames
-Amount of automatic playback frames
-
-@vindex MainCPU_TRACE
-@item MainCPU_TRACE
-Trace the main CPU / Do not trace the main CPU
-@vindex Drive0CPU_TRACE
-@item Drive0CPU_TRACE
-Trace the drive 0 CPU / Do not trace the drive 0 CPU
-@vindex Drive1CPU_TRACE
-@item Drive1CPU_TRACE
-Trace the drive 1 CPU / Do not trace the drive 1 CPU 
-@vindex Drive2CPU_TRACE
-@item Drive2CPU_TRACE
-Trace the drive 2 CPU / Do not trace the drive 2 CPU
-@vindex Drive3CPU_TRACE
-@item Drive3CPU_TRACE
-Trace the drive 3 CPU / Do not trace the drive 3 CPU
-
 @end table
 
 @node Misc options,  , Misc resources, Misc settings
@@ -5440,19 +5660,30 @@ Specify the action to take when the CPU encounters a 'JAM' opcode
 Specify the system file search path
 (@code{Directory}).
 
-@findex -core, +core
-@item -core
-@itemx +core
-Enable/disable generation of core dumps
-(@code{DoCoreDump=1}, @code{DoCoreDump=0})
-(all emulators except vsid).
+@findex -userportcollision
+@item -userportcollision
+Select the way the Userport collisions should be handled, (0: error message and 
+ detach all involved devices, 1: error message and detach last attached involved 
+ device, 2: warning in log and 'AND' the valid return values) 
+(@code{UserportCollisionHandling})
 
-@findex -debug, +debug
-@item -debug
-@itemx +debug
-Disable/enable calling of the exception handler
-(@code{DoCoreDump=1}, @code{DoCoreDump=0})
-(all emulators except vsid).
+ @findex -userportdigimax, +userportdigimax
+@item -userportdigimax
+@itemx +userportdigimax
+Enable/Disable the userport DigiMAX device 
+(@code{UserportDIGIMAX=1},@code{UserportDIGIMAX=0})
+
+@findex -userport4bitsampler, +userport4bitsampler
+@item -userport4bitsampler
+@itemx +userport4bitsampler
+Enable/Disable Userport 4bit sampler 
+(@code{Userport4bitSampler=1},@code{Userport4bitSampler=0})
+
+@findex -userport8bss, +userport8bss
+@item -userport8bss
+@itemx +userport8bss
+Enable/Disable Userport 8bit stereo sampler 
+(@code{Userport8BSS=1},@code{Userport8BSS=0})
 
 @findex -userportrtc58321a, +userportrtc58321a
 @item -userportrtc58321a
@@ -5481,39 +5712,6 @@ Enable/disable the userport RTC emulation
 Disable/enable saving of the userport RTC data when changed
 (@code{UserportRTCDS1307Save=1}, @code{UserportRTCDS1307Save=0})
 (xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
-@findex -trace_maincpu, +trace_maincpu
-@item -trace_maincpu
-@itemx +trace_maincpu
-Trace the main CPU / Do not trace the main CPU (@code{MainCPU_TRACE=1}, @code{MainCPU_TRACE=0})
-
-@findex -trace_drive0, +trace_drive0
-@item -trace_drive0
-@itemx +trace_drive0
-Trace the drive 0 CPU / Do not trace the drive 0 CPU (@code{Drive0CPU_TRACE=1}, @code{Drive0CPU_TRACE=0})
-
-@findex -trace_drive1, +trace_drive1
-@item -trace_drive1
-@itemx +trace_drive1
-Trace the drive 1 CPU / Do not trace the drive 1 CPU (@code{Drive1CPU_TRACE=1}, @code{Drive1CPU_TRACE=0})
-
-@findex -trace_drive2, +trace_drive2
-@item -trace_drive2
-@itemx +trace_drive2
-Trace the drive 2 CPU / Do not trace the drive 2 CPU (@code{Drive2CPU_TRACE=1}, @code{Drive2CPU_TRACE=0})
-
-@findex -trace_drive3, +trace_drive3
-@item -trace_drive3
-@itemx +trace_drive3
-Trace the drive 3 CPU / Do not trace the drive 3 CPU (@code{Drive3CPU_TRACE=1}, @code{Drive3CPU_TRACE=0})
-
-@findex -trace_mode
-@item -trace_mode <value>
-Trace mode (0=normal 1=small 2=history)
-
-@findex -autoplaybackframes
-@item -autoplaybackframes <frames>
-Set the amount of automatic playback frames
 
 @end table
 
@@ -6023,6 +6221,10 @@ The following cartridge types are valid:
 57: RGCD
 @item
 58: RR-Net MK3
+@item
+59: EasyCalc
+@item
+60: GMod2
 @end itemize
 
 @vindex CartridgeFile
@@ -6072,6 +6274,18 @@ contents changed, when detaching or quitting the emulator.
 @item ExpertCartridgeMode
 Integer specifying the state of the expert cartridge switch.
 (0: off, 1: prg, 2: on)
+
+@vindex GMod2EEPROMImage
+@item GMod2EEPROMImage
+String that specifies the name of the raw GMod2 EEPROM image.
+
+@vindex GMod2FlashWrite
+@item GMod2FlashWrite
+Boolean that specifies wether writes to GMod2 EEPROM image are enabled.
+
+@vindex GMod2EEPROMRW
+@item GMod2EEPROMRW
+Boolean that specifies wether the GMod2 ROM is saved at exit
 
 @vindex IDE64version
 @item IDE64version
@@ -6143,6 +6357,26 @@ Boolean specifying whether the IDE64 USB server is enabled.
 @vindex IDE64RTCSave
 @item IDE64RTCSave
 Boolean specifying whether the IDE64 RTC data should be saved when changed or not.
+
+@vindex IDE64ClockPort
+@item IDE64ClockPort
+Integer that specifies the enabled IDE64 Clockport device. (0: None, 2: RRNet, 4: MP3@@64)
+
+@vindex SBDIGIMAX
+@item SBDIGIMAX
+Boolean that specifies whether the Short Bus DigiMAX expansion is enabled.
+
+@vindex SBDIGIMAXbase
+@item SBDIGIMAXbase
+Integer specifying the Base address of the Short Bus DigiMAX expansion. (0xDE40/0xDE48)
+
+@vindex SBETFE
+@item SBETFE
+Boolean specifying whether the Short Bus ETFE expansion is enabled
+
+@vindex SBETFEbase
+@item SBETFEbase
+Integer specifying the Base address of the Short Bus ETFE expansion. ($de00, $de10, $df00)
 
 @vindex IEEE488
 @item IEEE488
@@ -6299,6 +6533,13 @@ contents changed, when detaching or quitting the emulator.
 Integer that specifies the clockport device.
 (0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
 
+@vindex RRNETMK3_flashjumper
+@item RRNETMK3_flashjumper
+Boolean specifying whether the RRNETMK3 Flash Jumper is set.
+
+@vindex RRNETMK3_bios_write
+@item RRNETMK3_bios_write
+Boolean specifying whether to save the RRNETMK3 bios when changed.
 
 @vindex SSRamExpansion
 @item SSRamExpansion
@@ -6417,6 +6658,10 @@ Allow/disallow writing to DQBB image
 @item -carteasy <name>
 Attach raw EasyFlash cartridge image.
 
+@findex -carteasycalc
+@item -carteasycalc <name>
+Attach raw 24kB Easy Calc Result cartridge image
+
 @findex -easyflashjumper, +easyflashjumper
 @item -easyflashjumper
 @itemx +easyflashjumper
@@ -6497,6 +6742,24 @@ Attach raw 32kB Freeze Machine image.
 @findex -cartfp
 @item -cartfp <name>
 Attach raw 128kB Fun Play/Power Play cartridge image.
+
+@findex -cartgmod2
+@item -cartgmod2 <name>
+Attach raw GMod2 cartridge image.
+
+@findex -gmod2eepromimage
+@item -gmod2eepromimage <name>
+Attach raw GMod2 EEPROM image (@code{GMod2EEPROMImage}). 
+
+@findex -gmod2eepromrw, +gmod2eepromrw
+@item -gmod2eepromrw
+@itemx +gmod2eepromrw
+Enable/Disable writes to GMod2 EEPROM image (@code{GMod2EEPROMRW=1}, @code{GMod2EEPROMRW=0}).
+
+@findex -gmod2flashwrite, +gmod2flashwrite
+@item -gmod2flashwrite
+@itemx +gmod2flashwrite
+Enable/Disable saving of the GMod2 ROM at exit (@code{GMod2FlashWrite=1}, @code{GMod2FlashWrite=0}).
 
 @findex -cartgk
 @item -cartgk <name>
@@ -6600,6 +6863,29 @@ The local address the IDE64 USB server should bind to
 @itemx +IDE64rtcsave
 Enable/disable saving of IDE64 RTC data when changed
 (@code{IDE64RTCSave=1}, @code{IDE64RTCSave=0}).
+
+@findex -ide64clockportdevice
+@item -ide64clockportdevice
+Enable IDE64 Clockport device (0: None, 2: RRNet, 4: MP3@@64)
+(@code{IDE64ClockPort}).
+
+@findex -sbdigimax, +sbdigimax
+@item -sbdigimax
+@itemx +sbdigimax
+Enable/Disable the Short Bus DigiMAX expansion (@code{SBDIGIMAX}).
+
+@findex -sbdigimaxbase
+@item -sbdigimaxbase
+Set Base address of the Short Bus DigiMAX expansion (0xDE40/0xDE48) (@code{SBDIGIMAXbase}).
+
+@findex -sbetfe, +sbetfe
+@item -sbetfe
+@itemx +sbetfe
+Enable/Disable the Short Bus ETFE expansion (@code{SBETFE}).
+
+@findex -sbetfebase
+@item -sbetfebase
+Set Base address of the Short Bus ETFE expansion (56832: $de00, 56848: $de10, 57088: $df00) (@code{SBETFEbase}).
 
 @findex -cartieee
 @item -cartieee <name>
@@ -6895,6 +7181,17 @@ Set the RR clockport device
 (@code{RRClockPort})
 (0: None, 1: ETH64-II, 2: RRNet, 3: Silver Surfer, 4: MP3@@64, 5: Catweasel MkIII SID)
 
+@findex -rrnetmk3flash,+rrnetmk3flash
+@item -rrnetmk3flash
+@itemx +rrnetmk3flash
+SetRemove the RRNETMK3 Flash Jumper
+(@code{RRNETMK3_flashjumper=1},@code{RRNETMK3_flashjumper=0}).
+
+@findex -rrnetmk3bioswrite, +rrnetmk3bioswrite
+@item -rrnetmk3bioswrite
+@itemx +rrnetmk3bioswrite
+Save/Do not save the RRNETMK3 bios when changed
+(@code{RRNETMK3_bios_write=1}, @code{RRNETMK3_bios_write=0}).
 
 @findex -cartru
 @item -cartru <name>
@@ -12002,6 +12299,26 @@ Integer specifying the custom resolution width.
 @item SDLCustomHeight
 Integer specifying the custom resolution height.
 
+@vindex SDLKbdStatusbar
+@item SDLKbdStatusbar
+Boolean specifying whether the keyboard-status bar is enabled.
+
+@vindex SDL2Renderer
+@item SDL2Renderer
+String specifying the preferred SDL2 renderer.
+
+@vindex SDLWindowWidth
+@item SDLWindowWidth
+Integer specifying the SDL window width.
+
+@vindex SDLWindowHeight
+@item SDLWindowHeight
+Integer specifying the SDL window height.
+
+@vindex SDLGLFilter
+@item SDLGLFilter
+Integer specifying the OpenGL filtering mode.
+
 @vindex JoyDevice1
 @item JoyDevice1
 Integer specifying which joystick device the emulator should use for the emulation of joystick 1
@@ -12328,6 +12645,22 @@ Set the custom resolution width
 @item -sdlcustomh <height>
 Set the custom resolution height
 (@code{SDLCustomHeight}).
+
+@findex -kbdstatusbar, +kbdstatusbar
+@item -kbdstatusbar
+@itemx +kbdstatusbar
+Enable/Disable keyboard-status bar (when status bar is enabled)
+(@code{SDLKbdStatusbar=1}, @code{SDLKbdStatusbar=0}).
+
+@findex -sdlglfilter
+@item -sdlglfilter <mode>
+Set OpenGL filtering mode (0 = nearest, 1 = linear)
+(@code{SDLKbdStatusbar}).
+
+@findex -sdl2renderer
+@item -sdl2renderer <renderer name>
+Set the preferred SDL2 renderer
+(@code{SDL2Renderer}).
 
 @findex -joydev1
 @item -joydev1 <0-3> / <0-4>

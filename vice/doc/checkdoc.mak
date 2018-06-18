@@ -83,6 +83,7 @@ vice.rc.tmp: $(PROGS) checkdoc.mak
 checkdoc: checkdoc.c
 	echo "creating checkdoc"
 	gcc -Wall -o checkdoc checkdoc.c
+	echo " "
 
 full: checkdoc vice.opts.tmp vice.rc.tmp fixme nodes
 	./checkdoc -all vice.texi vice.rc.tmp vice.opts.tmp

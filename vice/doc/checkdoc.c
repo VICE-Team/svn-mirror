@@ -441,11 +441,17 @@ void readviceopt(FILE *tf, char *emu, int tag)
 
 }
 
-int printlist(ITEM *list, char *hdr, int flags)
+int printlist(ITEM *list, char *hdr, int hideplus, int flags)
 {
-    int i = 0,ii,n = 0;
+    int i = 0,ii,n = 0,skipnext;
     while (list) {
+        skipnext = 0;
         if (list->string) {
+            if ((hideplus == 1) && (list->next != NULL) && (list->next->string != NULL)) {
+                if (!strcmp(&list->string[1], &list->next->string[1])) {
+                    skipnext = 1;
+                }
+            }
             if (flags) {
                 if (list->flags == flags) {
                     if ( 1
@@ -454,6 +460,8 @@ int printlist(ITEM *list, char *hdr, int flags)
                         if (i == 0) {
                             printf("\n[%s]\n\n", hdr);i++;
                         }
+                        if (skipnext) printf("+/");
+                        else printf("  ");
                         printf("%s\n", list->string);
                     }
                 }
@@ -477,6 +485,8 @@ int printlist(ITEM *list, char *hdr, int flags)
                     if (i == 0) {
                         printf("\n%s\n\n", hdr);i++;
                     }
+                    if (skipnext) printf("+/");
+                    else printf("  ");
                     printf("%-40s", list->string);
                     for (i=0;i<NUMEMUS;i++) {
                         if (list->flags & (1<<i)) {
@@ -491,6 +501,9 @@ int printlist(ITEM *list, char *hdr, int flags)
                 }
             }
             n++;
+        }
+        if (skipnext) {
+            list = list->next;
         }
         list = list->next;
     }
@@ -581,18 +594,18 @@ void checkresources(void)
     printf("The following resources appear in vicerc but not in the documentation, so\n"
            "they might be missing in the documentation:\n\n");
     i = 0;
-    i += printlist(&reslistnew, "global", 0);
-    i += printlist(&reslistnew, "C64SC", IS_C64SC);
-    i += printlist(&reslistnew, "C64", IS_C64);
-    i += printlist(&reslistnew, "VSID", IS_VSID);
-    i += printlist(&reslistnew, "C128", IS_C128);
-    i += printlist(&reslistnew, "C64DTV", IS_DTV);
-    i += printlist(&reslistnew, "VIC20", IS_VIC20);
-    i += printlist(&reslistnew, "PET", IS_PET);
-    i += printlist(&reslistnew, "CBM-II-5x0", IS_B500);
-    i += printlist(&reslistnew, "CBM-II", IS_CBM2);
-    i += printlist(&reslistnew, "PLUS4", IS_PLUS4);
-    i += printlist(&reslistnew, "SCPU64", IS_SCPU64);
+    i += printlist(&reslistnew, "global", 0, 0);
+    i += printlist(&reslistnew, "C64SC", 0, IS_C64SC);
+    i += printlist(&reslistnew, "C64", 0, IS_C64);
+    i += printlist(&reslistnew, "VSID", 0, IS_VSID);
+    i += printlist(&reslistnew, "C128", 0, IS_C128);
+    i += printlist(&reslistnew, "C64DTV", 0, IS_DTV);
+    i += printlist(&reslistnew, "VIC20", 0, IS_VIC20);
+    i += printlist(&reslistnew, "PET", 0, IS_PET);
+    i += printlist(&reslistnew, "CBM-II-5x0", 0, IS_B500);
+    i += printlist(&reslistnew, "CBM-II", 0, IS_CBM2);
+    i += printlist(&reslistnew, "PLUS4", 0, IS_PLUS4);
+    i += printlist(&reslistnew, "SCPU64", 0, IS_SCPU64);
 
     if (i == 0) {
         printf("none - well done.\n");
@@ -686,8 +699,9 @@ void checkresources(void)
                     || !strcmp(list1->string, "DisplayDepth")
                     || !strcmp(list1->string, "PrivateColormap")
                     || !strcmp(list1->string, "UseFullscreen")
+                    || !strcmp(list1->string, "FOURCC")
                   ) {
-                    printf("(outdated)");
+                    printf("(outdated?)");
                 } else {
                     i++;
                 }
@@ -832,22 +846,22 @@ void checkoptions(void)
     if (i == 0) {
         printf("none - well done.\n");
     } else {
-        printlist(&optlistnew, "global", 0);
-        printlist(&optlistnew, "C64SC", IS_C64SC);
-        printlist(&optlistnew, "C64", IS_C64);
-        printlist(&optlistnew, "VSID", IS_VSID);
-        printlist(&optlistnew, "C128", IS_C128);
-        printlist(&optlistnew, "C64DTV", IS_DTV);
-        printlist(&optlistnew, "VIC20", IS_VIC20);
-        printlist(&optlistnew, "PET", IS_PET);
-        printlist(&optlistnew, "CBM-II-5x0", IS_B500);
-        printlist(&optlistnew, "CBM-II", IS_CBM2);
-        printlist(&optlistnew, "PLUS4", IS_PLUS4);
-        printlist(&optlistnew, "SCPU64", IS_SCPU64);
+        printlist(&optlistnew, "global", 1, 0);
+        printlist(&optlistnew, "C64SC", 1, IS_C64SC);
+        printlist(&optlistnew, "C64", 1, IS_C64);
+        printlist(&optlistnew, "VSID", 1, IS_VSID);
+        printlist(&optlistnew, "C128", 1, IS_C128);
+        printlist(&optlistnew, "C64DTV", 1, IS_DTV);
+        printlist(&optlistnew, "VIC20", 1, IS_VIC20);
+        printlist(&optlistnew, "PET", 1, IS_PET);
+        printlist(&optlistnew, "CBM-II-5x0", 1, IS_B500);
+        printlist(&optlistnew, "CBM-II", 1, IS_CBM2);
+        printlist(&optlistnew, "PLUS4", 1, IS_PLUS4);
+        printlist(&optlistnew, "SCPU64", 1, IS_SCPU64);
 
-        printlist(&optlistnew, "petcat", IS_PETCAT);
-        printlist(&optlistnew, "cartconv", IS_CARTCONV);
-        printlist(&optlistnew, "c1541", IS_C1541);
+        printlist(&optlistnew, "petcat", 1, IS_PETCAT);
+        printlist(&optlistnew, "cartconv", 1, IS_CARTCONV);
+        printlist(&optlistnew, "c1541", 1, IS_C1541);
     }
 
     printf("\nThe following options appear to have no description: ");
@@ -933,8 +947,10 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+displaydepth")
                     || !strcmp(list1->string, "-colormap")
                     || !strcmp(list1->string, "+colormap")
+                    || !strcmp(list1->string, "-fourcc")
+                    || !strcmp(list1->string, "+fourcc")
                   ) {
-                    printf("(outdated)");
+                    printf("(outdated?)");
                 } else {
                     i++;
                 }
