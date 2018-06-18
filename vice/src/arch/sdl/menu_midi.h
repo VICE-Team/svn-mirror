@@ -31,6 +31,9 @@
 #include "types.h"
 #include "uimenu.h"
 
+extern UI_MENU_CALLBACK(MIDIInDev_dynmenu_callback);
+extern UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback);
+
 extern const ui_menu_entry_t midi_c64_menu[];
 extern const ui_menu_entry_t midi_vic20_menu[];
 

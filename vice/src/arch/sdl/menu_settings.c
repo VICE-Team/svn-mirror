@@ -176,7 +176,7 @@ void uikeyboard_menu_create(void)
     entry = keyboard_mapping_submenu = lib_malloc(sizeof(ui_menu_entry_t) * (num + 1));
     while(num) {
         ui_keyboard_mapping_entry.string = kbdlist->name;
-        ui_keyboard_mapping_entry.data = (ui_callback_data_t)(unsigned long)kbdlist->mapping;
+        ui_keyboard_mapping_entry.data = (ui_callback_data_t)(int_to_void_ptr(kbdlist->mapping));
         memcpy(entry, &ui_keyboard_mapping_entry, sizeof(ui_menu_entry_t));
         entry++;
         kbdlist++;

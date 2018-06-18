@@ -186,7 +186,7 @@ UI_MENU_CALLBACK(MIDIInDev_dynmenu_callback)
                 midi_in_dyn_menu[i].string = (char *)lib_stralloc(mic.szPname);
                 midi_in_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
                 midi_in_dyn_menu[i].callback = radio_MIDIInDev_callback;
-                midi_in_dyn_menu[i].data = (ui_callback_data_t)j;
+                midi_in_dyn_menu[i].data = (ui_callback_data_t)(int_to_void_ptr(j));
                 i++;
             }
         }
@@ -228,7 +228,7 @@ UI_MENU_CALLBACK(MIDIOutDev_dynmenu_callback)
                 midi_out_dyn_menu[i].string = (char *)lib_stralloc(moc.szPname);
                 midi_out_dyn_menu[i].type = MENU_ENTRY_RESOURCE_RADIO;
                 midi_out_dyn_menu[i].callback = radio_MIDIOutDev_callback;
-                midi_out_dyn_menu[i].data = (ui_callback_data_t)j;
+                midi_out_dyn_menu[i].data = (ui_callback_data_t)(int_to_void_ptr(j));
                 i++;
             }
         }

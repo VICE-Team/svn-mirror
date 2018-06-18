@@ -84,7 +84,7 @@ static void makegroup(cartridge_info_t *cartlist, ui_menu_entry_t *entry, int fl
     while(cartlist->name) {
         if (cartlist->flags & flags) {
             ui_c64cart_entry.string = cartlist->name;
-            ui_c64cart_entry.data = (ui_callback_data_t)(unsigned long)cartlist->crtid;
+            ui_c64cart_entry.data = (ui_callback_data_t)(int_to_void_ptr(cartlist->crtid));
             memcpy(entry, &ui_c64cart_entry, sizeof(ui_menu_entry_t));
             entry++;
         }
