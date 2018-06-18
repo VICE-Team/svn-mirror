@@ -1192,37 +1192,10 @@ Open Sound System for Linux.  With a Crystal sound card, sound output
 was significantly delayed and, apparently, the allocated buffer size was
 completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
-
 @node Shared memory problems, Printer problems , Sound problems, Common problems
 @subsection Shared memory problems
 
-@cindex MITSHM (OBSOLETE)
-@findex -mitshm, +mitshm
-If you cannot start VICE because you get errors about shared memory, try
-to run it with the @samp{+mitshm} command-line option.
- This will completely disable usage of the MITSHM extensions,
-that are normally used to speed up the emulation window updates.  Of
-course, this will also result in a big loss in speed.
-
-Reasons for this failure could be:
-
-@itemize @bullet
-@item
-IPC support has been disabled at the system level; some system
-administrators disable this for security reasons.  If @emph{you} are the
-system administrator, use a kernel that has IPC support compiled in and
-enabled.
-@item
-You are attempting to run the emulator across the network (i.e., the
-emulator runs on one machine, and the output is displayed on another
-machine that works as an X terminal) and for some reason VICE does not
-recognize this fact.  In this case, you have found a bug, so please report it
-to us.
-@end itemize
-
-If you want to avoid running the emulator with @samp{+mitshm} every
-time, run it once with @samp{+mitshm} and then choose ``Save settings''
-from the right-button menu.
+@c FIXME
 
 @node Printer problems, PET keyboard problems ,Shared memory problems, Common problems
 @subsection Printer problems
@@ -1353,7 +1326,7 @@ Enable verbose log output.
 Put the specified string into the keyboard buffer.
 @findex -console
 @item -console
-Console mode (for music playback)
+Console mode (for music playback, or for running the emulator test programs)
 @findex -chdir
 @item -chdir <directory>
 Change the working directory.
@@ -1400,6 +1373,16 @@ Attach disk image for drive #8-11 read only
 Attach disk image for drive #8-11 read write (if possible)
 (@code{AttachDevice8Readonly=0}, @code{AttachDevice9Readonly=0}, @code{AttachDevice10Readonly=0}, @code{AttachDevice11Readonly=0})
 (all emulators except vsid).
+
+@findex -exitscreenshot
+@item -exitscreenshot <name>
+Specify name of a screenshot file that will be written when the emulator exits.
+(@code{ExitScreenshotName}).
+
+@findex -exitscreenshotvicii
+@item -exitscreenshotvicii <name>
+Specify name of a screenshot file that will be written when the emulator exits.
+(@code{ExitScreenshotName1}). (x128)
 
 @end table
 
@@ -2018,16 +2001,10 @@ while either @key{Meta} or @key{Alt} are held down.
 @section Getting help
 
 At any time, if you get stuck or do not remember how to perform a
-certain action, you can use the ``Browse manuals'' command (left button
-menu).  This will popup a browser and open the HTML version of this
-documentation.  Notice that this requires VICE to be properly (and
+certain action, you can use the ``Browse manuals'' command (from the help
+menu).  This will open either the PDF or popup a browser and open the HTML 
+version of the documentation.  Notice that this requires VICE to be properly (and
 fully) installed with a @samp{make install}.
-
-The browser can be specified via the @code{HTMLBrowserCommand} string
-resource (@pxref{Settings and resources} for information about
-resources).  Every @samp{%s} in the string will be replaced with a URL
-to the VICE HTML pages.
-
 
 @node File Selector, Disk and tape images, Help, Basics
 @section Using the file selector
@@ -2322,7 +2299,6 @@ Here is an example of a stripped-down @file{.vice/vicerc} file:
 
 @example
 [VIC20]
-HTMLBrowserCommand="netscape %s"
 SaveResourcesOnExit=0
 FileSystemDevice8=1
 FSDevice8ConvertP00=1
@@ -2330,7 +2306,6 @@ FSDevice8Dir="/home/ettore/cbm/stuff/vic20p00"
 FSDevice8SaveP00=1
 FSDevice8HideCBMFiles=1
 [C64]
-HTMLBrowserCommand="netscape %s"
 SaveResourcesOnExit=1
 FileSystemDevice8=1
 FSDevice8ConvertP00=1
@@ -2945,6 +2920,13 @@ userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
 (@code{JoyPort4Device}).
 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
+@findex -controlport5device
+@item -controlport5device <device>
+Set the device attached to:
+SID cart joystick port (xplus4)
+(@code{JoyPort5Device}).
+(xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit), 18: Sampler (4bit), 19: BBRTC, 20: Paperclip64 dongle, 21: Coplin Keypad, 22: Cardco Cardkey 1 keypad, 23: Atari CX85 keypad, 24: RushWare Keypad, 25: Atari CX21 keypad)
+
 @findex -bbrtcsave, +bbrtcsave
 @item -bbrtcsave
 @itemx +bbrtcsave
@@ -2965,12 +2947,14 @@ Enable/Disable saving of the battery-backed real time clock data
 @vindex JoyDevice2
 @vindex JoyDevice3
 @vindex JoyDevice4
+@vindex JoyDevice5
 @item JoyDevice1
 @itemx JoyDevice2
 @itemx JoyDevice3
 @itemx JoyDevice4
+@itemx JoyDevice5
 Integer specifying which joystick device the emulator should use for
-joystick emulation for ports 1 - 4, respectively.
+joystick emulation for ports 1 - 5, respectively.
 (0=None, 1=Joystick 1, 2=Joystick 2, 4=Numpad, 8=Keyset 1, 16=Keyset 2 on OS/2)
 (0=None, 1=Numpad, 2=Keyset 1, 3=Keyset 2, 4=HID joystick 0, 5=HID joystick 1 on Mac OS X)
 The available joysticks might differ depending on operating system and
@@ -3071,9 +3055,11 @@ Set the device for joystick emulation of port 1 and 2, respectively.
 The range for OS/2 is, valid numbers in the range are 0, 1, 2, 4, 8 and 16.
 @findex -extrajoydev1
 @findex -extrajoydev2
+@findex -extrajoydev3
 @item -extrajoydev1 <0-8>
 @itemx -extrajoydev2 <0-8>
-Set device for extra joystick port 1 and 2.
+@itemx -extrajoydev3 <0-8>
+Set device for extra joystick port 1, 2 and 3.
 
 @findex -joyopposite, +joyopposite
 @item -joyopposite
@@ -3353,8 +3339,8 @@ Integer specifying the device/method to be used for sound input.
 Integer specifying the gain to be used for sound input.
 (>100 increase input volume, <100: decrease input volume)
 
-@vindex SampleFile
-@item SampleFile
+@vindex SampleName
+@item SampleName
 String specifying the name of the file/sample to be used as the input
 source for the 'file' sampler device.
 
@@ -5369,6 +5355,14 @@ Integer specifying whether the emulator is running as server or client (0: clien
 @item LogFileName
 String specifying the filename of the current log file.
 
+@vindex ExitScreenshotName
+@item ExitScreenshotName
+String specifying the filename of a screenshot file that will be written when the emulator exits.
+
+@vindex ExitScreenshotName1
+@item ExitScreenshotName1
+String specifying the filename of a screenshot file that will be written when the emulator exits. (x128)
+
 @vindex FliplistName
 @item FliplistName
 String specifying the filename of the current flip list. (Drive 8 only)
@@ -5385,15 +5379,49 @@ String specifying the filename of the current flip list. (Drive 8 only)
 Booleans that specify whether to attach images on drives 8 to 11 read-only or not
 (all emulators except vsid).
 
-@vindex UserportRTC
-@item UserportRTC
+@vindex UserportRTC58321a
+@item UserportRTC58321a
 Boolean specifying whether the userport RTC is emulated or not
-(x64, x64sc, xscpu64 and x128 only).
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
 
-@vindex UserportRTCSave
-@item UserportRTCSave
+@vindex UserportRTC58321aSave
+@item UserportRTC58321aSave
 Boolean specifying whether the userport RTC data is saved when changed or not
-(x64, x64sc, xscpu64 and x128 only).
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@vindex UserportRTCDS1307
+@item UserportRTCDS1307
+Boolean specifying whether the userport RTC is emulated or not
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@vindex UserportRTCDS1307Save
+@item UserportRTCDS1307Save
+Boolean specifying whether the userport RTC data is saved when changed or not
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@vindex TraceMode
+@item TraceMode
+Integer specifying the trace mode (0=normal 1=small 2=history)
+
+@vindex AutoPlaybackFrames
+@item AutoPlaybackFrames
+Amount of automatic playback frames
+
+@vindex MainCPU_TRACE
+@item MainCPU_TRACE
+Trace the main CPU / Do not trace the main CPU
+@vindex Drive0CPU_TRACE
+@item Drive0CPU_TRACE
+Trace the drive 0 CPU / Do not trace the drive 0 CPU
+@vindex Drive1CPU_TRACE
+@item Drive1CPU_TRACE
+Trace the drive 1 CPU / Do not trace the drive 1 CPU 
+@vindex Drive2CPU_TRACE
+@item Drive2CPU_TRACE
+Trace the drive 2 CPU / Do not trace the drive 2 CPU
+@vindex Drive3CPU_TRACE
+@item Drive3CPU_TRACE
+Trace the drive 3 CPU / Do not trace the drive 3 CPU
 
 @end table
 
@@ -5426,19 +5454,66 @@ Disable/enable calling of the exception handler
 (@code{DoCoreDump=1}, @code{DoCoreDump=0})
 (all emulators except vsid).
 
-@findex -userportrtc, +userportrtc
-@item -userportrtc
-@itemx +userportrtc
+@findex -userportrtc58321a, +userportrtc58321a
+@item -userportrtc58321a
+@itemx +userportrtc58321a
 Enable/disable the userport RTC emulation
-(@code{UserportRTC=1}, @code{UserportRTC=0})
-(x64, x64sc, xscpu64 and x128 only).
+(@code{UserportRTC58321a=1}, @code{UserportRTC58321a=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
 
-@findex -userportrtcsave, +userportrtcsave
-@item -userportrtcsave
-@itemx +userportrtcsave
+@findex -userportrtc58321asave, +userportrtc58321asave
+@item -userportrtc58321asave
+@itemx +userportrtc58321asave
 Disable/enable saving of the userport RTC data when changed
-(@code{UserportRTCSave=1}, @code{UserportRTCSave=0})
-(x64, x64sc, xscpu64 and x128 only).
+(@code{UserportRTC58321aSave=1}, @code{UserportRTC58321aSave=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@findex -userportrtcds1307, +userportrtcds1307
+@item -userportrtcds1307
+@itemx +userportrtcds1307
+Enable/disable the userport RTC emulation
+(@code{UserportRTCDS1307=1}, @code{UserportRTCDS1307=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@findex -userportrtcds1307save, +userportrtcds1307save
+@item -userportrtcds1307save
+@itemx +userportrtcds1307save
+Disable/enable saving of the userport RTC data when changed
+(@code{UserportRTCDS1307Save=1}, @code{UserportRTCDS1307Save=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@findex -trace_maincpu, +trace_maincpu
+@item -trace_maincpu
+@itemx +trace_maincpu
+Trace the main CPU / Do not trace the main CPU (@code{MainCPU_TRACE=1}, @code{MainCPU_TRACE=0})
+
+@findex -trace_drive0, +trace_drive0
+@item -trace_drive0
+@itemx +trace_drive0
+Trace the drive 0 CPU / Do not trace the drive 0 CPU (@code{Drive0CPU_TRACE=1}, @code{Drive0CPU_TRACE=0})
+
+@findex -trace_drive1, +trace_drive1
+@item -trace_drive1
+@itemx +trace_drive1
+Trace the drive 1 CPU / Do not trace the drive 1 CPU (@code{Drive1CPU_TRACE=1}, @code{Drive1CPU_TRACE=0})
+
+@findex -trace_drive2, +trace_drive2
+@item -trace_drive2
+@itemx +trace_drive2
+Trace the drive 2 CPU / Do not trace the drive 2 CPU (@code{Drive2CPU_TRACE=1}, @code{Drive2CPU_TRACE=0})
+
+@findex -trace_drive3, +trace_drive3
+@item -trace_drive3
+@itemx +trace_drive3
+Trace the drive 3 CPU / Do not trace the drive 3 CPU (@code{Drive3CPU_TRACE=1}, @code{Drive3CPU_TRACE=0})
+
+@findex -trace_mode
+@item -trace_mode <value>
+Trace mode (0=normal 1=small 2=history)
+
+@findex -autoplaybackframes
+@item -autoplaybackframes <frames>
+Set the amount of automatic playback frames
 
 @end table
 
@@ -7158,13 +7233,6 @@ Use an external palette (file)
 Specify the name of the palette file
 (@code{VICIIPaletteFile}).
 
-@findex -VICIIXRANDRfullmode
-@item -VICIIXRANDRfullmode <mode>
-Select fullscreen mode
-@findex -VICIIVidmodefullmode
-@item -VICIIVidmodefullmode <mode>
-Select fullscreen mode
-
 @findex -VICIIborders
 @item -VICIIborders <mode>
 Set VIC-II border display mode
@@ -7806,17 +7874,30 @@ Set YM chip type
 Enable/disable the SFX Sound Sampler cartridge
 (@code{SFXSoundSampler=1}, @code{SFXSoundSampler=0}).
 
-@findex -tfe, +tfe
+@findex -cs8900ioif
+@item -cs8900ioif <name>
+Set the system ethernet interface for Ethernet Cartridge emulation
+
+@findex -ethernetcart, +ethernetcart
+@item -ethernetcart
+@itemx +ethernetcart
+Disable/Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)
+
+@findex -ethernetcartmode
+@item -ethernetcartmode <Mode>
+Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)
+        
+@findex -ethernetcartbase
+@item -ethernetcartbase <Base address>
+Base address of the Ethernet Cartridge. (0xDE00/0xDE10/0xDE20/0xDE30/0xDE40/0xDE50/0xDE60/0xDE70/0xDE80/0xDE90/0xDEA0/0xDEB0/0xDEC0/0xDED0/0xDEE0/0xDEF0/0xDF00/0xDF10/0xDF20/0xDF30/0xDF40/0xDF50/0xDF60/0xDF70/0xDF80/0xDF90/0xDFA0/0xDFB0/0xDFC0/0xDFD0/0xDFE0/0xDFF0)
+
+@findex -tfe
 @item -tfe
-@itemx +tfe
-Enable/Disable the TFE ("The Final Ethernet") unit
-@findex -tfeif
-@item -tfeif <name>
-Set the system ethernet interface for TFE emulation
-@findex -tferrnet, +tferrnet
-@item -tferrnet
-@itemx +tferrnet
-Enable/Disable RRNet mode of TFE emulation
+Enable the Ethernet Cartridge in TFE ("The Final Ethernet") compatible mode and set default I/O address
+
+@findex -rrnet
+@item -rrnet
+Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O address
 
 @findex -burstmod
 @item -burstmod <value>
@@ -8183,10 +8264,30 @@ Integer specifying brightness of internal calculated palette.
 Integer specifying gamma of internal calculated palette.
 (0..4000)
 
+@vindex VDCColorTint
+@item VDCColorTint
+Integer specifying tint of internal calculated palette.
+(0..2000)
+
 @vindex VDCPALScanLineShade
 @item VDCPALScanLineShade
 Integer specifying amount of scan line shading for the CRT emulation.
 (0..1000)
+
+@vindex VDCPALBlur
+@item VDCPALBlur
+Integer specifying amount of horizontal blur for the CRT emulation.
+(0..1000)
+
+@vindex VDCPALOddLinePhase
+@item VDCPALOddLinePhase
+Integer specifying phase for color carrier in odd lines.
+(0..2000)
+
+@vindex VDCPALOddLineOffset
+@item VDCPALOddLineOffset
+Integer specifying phase offset for color carrier in odd lines.
+(0..2000)
 
 @vindex VDCAudioLeak
 @item VDCAudioLeak
@@ -8240,13 +8341,6 @@ Use an external palette (file)
 @item -VDCpalette <name>
 Specify name of file of external palette
 (@code{VDCPaletteFile}).
-
-@findex -VDCXRANDRfullmode
-@item -VDCXRANDRfullmode <mode>
-Select fullscreen mode
-@findex -VDCVidmodefullmode
-@item -VDCVidmodefullmode <mode>
-Select fullscreen mode
 
 @findex -VDC16KB
 @item -VDC16KB
@@ -9374,6 +9468,10 @@ Specify 4K extension ROM name at $B000
 @item -cartgeneric <name>
 Specify generic extension ROM name
 
+@findex -cartbb
+@item -cartbb <name>
+Specify Behr-Bonz extension ROM name
+
 @findex -cartmega
 @item -cartmega <name>
 Specify Mega-Cart extension ROM name
@@ -9408,6 +9506,10 @@ Specify Vic Flash Plugin extension ROM name
 @itemx +fpwriteback
 Enable/Disable Vic Flash Plugin write back to ROM file
 (@code{VicFlashPluginWriteBack=1}, @code{VicFlashPluginWriteBack=0}).
+
+@findex -ultimem
+@item -ultimem <name>
+Specify Ultimem extension ROM name
 
 @findex -umwriteback, +umwriteback
 @item -umwriteback
@@ -9457,21 +9559,30 @@ Specify clock of the SID Cartridge
 (@code{SidClock}).
 (0: C64, 1: VIC20)
 
-@findex -tfeioswap, +tfeioswap
-@item -tfeioswap
-@itemx +tfeioswap
-Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
-@findex -tfe, +tfe
+@findex -cs8900ioif
+@item -cs8900ioif <name>
+Set the system ethernet interface for Ethernet Cartridge emulation
+
+@findex -ethernetcart, +ethernetcart
+@item -ethernetcart
+@itemx +ethernetcart
+Disable/Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)
+
+@findex -ethernetcartmode
+@item -ethernetcartmode <Mode>
+Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)
+        
+@findex -ethernetcartbase
+@item -ethernetcartbase <Base address>
+Base address of the Ethernet Cartridge. (0x9800/0x9810/0x9820/0x9830/0x9840/0x9850/0x9860/0x9870/0x9880/0x9890/0x98A0/0x98B0/0x98C0/0x98D0/0x98E0/0x98F0/0x9C00/0x9C10/0x9C20/0x9C30/0x9C40/0x9C50/0x9C60/0x9C70/0x9C80/0x9C90/0x9CA0/0x9CB0/0x9CC0/0x9CD0/0x9CE0/0x9CF0)
+
+@findex -tfe
 @item -tfe
-@itemx +tfe
-Enable/Disable the TFE ("The Final Ethernet") unit
-@findex -tfeif
-@item -tfeif <name>
-Set the system ethernet interface for TFE emulation
-@findex -tferrnet, +tferrnet
-@item -tferrnet
-@itemx +tferrnet
-Enable/Disable RRNet mode of TFE emulation
+Enable the Ethernet Cartridge in TFE ("The Final Ethernet") compatible mode and set default I/O address
+
+@findex -rrnet
+@item -rrnet
+Enable the Ethernet Cartridge in RR-Net compatible mode and set default I/O address
 
 @findex -digimax, +digimax
 @item -digimax
@@ -9728,13 +9839,6 @@ Use an internal calculated palette
 @item -VICextpal
 Use an external palette (file)
 (@code{VICExternalPalette=1}).
-
-@findex -VICXRANDRfullmode
-@item -VICXRANDRfullmode <mode>
-Select fullscreen mode
-@findex -VICVidmodefullmode
-@item -VICVidmodefullmode <mode>
-Select fullscreen mode
 
 @findex -VICborders
 @item -VICborders <mode>
@@ -10132,13 +10236,6 @@ Use an external palette (file)
 @item -TEDpalette <name>
 Specify name of the external palette file
 (@code{TEDPaletteFile}).
-
-@findex -TEDXRANDRfullmode
-@item -TEDXRANDRfullmode <mode>
-Select fullscreen mode
-@findex -TEDVidmodefullmode
-@item -TEDVidmodefullmode <mode>
-Select fullscreen mode
 
 @findex -TEDborders
 @item -TEDborders <mode>
@@ -10677,10 +10774,30 @@ Integer specifying brightness of internal calculated palette.
 Integer specifying gamma of internal calculated palette.
 (0..4000)
 
+@vindex CrtcColorTint
+@item CrtcColorTint
+Integer specifying tint of internal calculated palette.
+(0..2000)
+
+@vindex CrtcPALScanLineShade
+@item CrtcPALScanLineShade
+Integer specifying amount of scan line shading for the CRT emulation.
+(0..1000)
+
 @vindex CrtcPALBlur
 @item CrtcPALBlur
 Integer specifying amount of horizontal blur for the CRT emulation.
 (0..1000)
+
+@vindex CrtcPALOddLinePhase
+@item CrtcPALOddLinePhase
+Integer specifying phase for color carrier in odd lines.
+(0..2000)
+
+@vindex CrtcPALOddLineOffset
+@item CrtcPALOddLineOffset
+Integer specifying phase offset for color carrier in odd lines.
+(0..2000)
 
 @vindex CrtcAudioLeak
 @item CrtcAudioLeak
@@ -10748,10 +10865,6 @@ Use an external palette (file)
 @item -Crtcpalette <name>
 Specify the name of the palette file
 (@code{CrtcPaletteFile}).
-
-@findex -CrtcVidmodefullmode
-@item -CrtcVidmodefullmode <mode>
-Select fullscreen mode
 
 @findex -Crtcsaturation
 @item -Crtcsaturation <0-2000>
@@ -12179,11 +12292,11 @@ Set the keycode of the 'map' key in the SDL menu
 Enable/disable automatic saving of settings on exit
 (@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
 
-@findex -confirmexit, +confirmexit
-@item -confirmexit
+@findex -confirmonexit, +confirmonexit
+@item -confirmonexit
 Confirm quitting VICE
 (@code{ConfirmOnExit=1}).
-@item +confirmexit
+@item +confirmonexit
 Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
@@ -12471,13 +12584,6 @@ first, in case the settings have changed.
 @item ConfirmOnExit
 Boolean specifying whether to show a confirmation dialog on exit.
 
-@vindex HTMLBrowserCommand
-@item HTMLBrowserCommand
-String specifying the command to run the help browser. The help browser
-can be any HTML browser, and every @samp{%s} in the string is replaced
-with the name of the toplevel file of the VICE documentation. For
-example, the default value @samp{netscape %s} runs Netscape Navigator.
-
 @vindex CrtcHwScale
 @item CrtcHwScale
 Boolean specifying whether to enable or disable hardware scaling
@@ -12676,18 +12782,13 @@ to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
 Enable/disable automatic saving of settings on exit
 (@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
 
-@findex -confirmexit, +confirmexit
-@item -confirmexit
+@findex -confirmonexit, +confirmonexit
+@item -confirmonexit
 Confirm quitting VICE
 (@code{ConfirmOnExit=1}).
-@item +confirmexit
+@item +confirmonexit
 Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
-
-@findex -htmlbrowser
-@item -htmlbrowser <Command>
-Specify the command to run the HTML browser for the on-line help
-(@code{HTMLBrowserCommand}).
 
 @findex -CRTChwscale, +CRTChwscale
 @item -CRTChwscale
@@ -12889,19 +12990,6 @@ colors if other color-hungry applications are running at the same time
 Boolean specifying whether @code{XSync()} is called after updating the
 emulation window.
 
-@vindex MITSHM
-@item MITSHM
-Integer specifying whether VICE should try to use the shared memory
-extensions (MITSHM) when starting up. The shared memory extensions make
-things a lot faster but might not be available on your system. You will
-not be able to use these extensions if you are sitting at an X terminal
-while running the emulator on a remote machine across a network. Valid
-values are: 0 = do not use MITSHM, 1 = do use MITSHM, -1 = try to
-autodetect availability on startup (default). The last is a simple test
-if the emulator runs across a network and if so disables MITSHM (If you
-have problems with this test please report it).
-(-1: auto, 1: off, 2: on)
-
 @vindex Window0Width
 @vindex Window0Height
 @vindex Window0Xpos
@@ -12959,31 +13047,6 @@ String specifying the YUV FOURCC format to use.
 Boolean specifying whether fullscreen mode is currently in use
 (all emulators except vsid).
 
-@vindex CrtcXRANDRFullscreenMode
-@item CrtcXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-(xcbm2 and xpet only).
-
-@vindex TEDXRANDRFullscreenMode
-@item TEDXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-(xplus4 only).
-
-@vindex VDCXRANDRFullscreenMode
-@item VDCXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-(x128 only).
-
-@vindex VICXRANDRFullscreenMode
-@item VICXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-(xvic only).
-
-@vindex VICIIXRANDRFullscreenMode
-@item VICIIXRANDRFullscreenMode
-integer specifying XRANDR fullscreen mode
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
-
 @end table
 
 @b{The following resources are only available if VidMode support is present at compile time.}
@@ -12993,31 +13056,6 @@ integer specifying XRANDR fullscreen mode
 @vindex UseFullscreen
 @item UseFullscreen
 Boolean specifying whether fullscreen mode is currently in use.
-
-@vindex CrtcVidmodeFullscreenMode
-@item CrtcVidmodeFullscreenMode
-integer specifying VidMode fullscreen mode
-(xcbm2 and xpet only).
-
-@vindex TEDVidmodeFullscreenMode
-@item TEDVidmodeFullscreenMode
-integer specifying VidMode fullscreen mode
-(xplus4 only).
-
-@vindex VDCVidmodeFullscreenMode
-@item VDCVidmodeFullscreenMode
-integer specifying VidMode fullscreen mode
-(x128 only).
-
-@vindex VICVidmodeFullscreenMode
-@item VICVidmodeFullscreenMode
-integer specifying VidMode fullscreen mode
-(xvic only).
-
-@vindex VICIIVidmodeFullscreenMode
-@item VICIIVidmodeFullscreenMode
-integer specifying VidMode fullscreen mode
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid).
 
 @end table
 
@@ -13045,12 +13083,6 @@ Enable/disable installation of a private colormap
 @itemx +xsync
 Enable/disable usage of @code{XSync()} when updating the emulation window
 (@code{UseXSync=1}, @code{UseXSync=0}).
-
-@findex -mitshm, +mitshm
-@item -mitshm
-@itemx +mitshm
-Enable/disable usage of the MITSHM extensions
-(@code{MITSHM=1}, @code{MITSHM=0}).
 
 @end table
 
@@ -13083,90 +13115,12 @@ Enable/disable whether to use the true (non square pixels) aspect ratio
 Set the YUV FOURCC format to use
 (@code{FOURCC}).
 
-@end table
-
-@b{The following command-line options are only available if XRandr support is present at compile time.}
-
-@table @code
-
 @findex -fullscreen, +fullscreen
 @item -fullscreen
 @itemx +fullscreen
 Enable/disable fullscreen mode
 (@code{UseFullscreen=1}, (@code{UseFullscreen=0})
 (all emulators except vsid).
-
-@findex -CrtcXRANDRfullmode
-@item -CrtcXRANDRfullmode <mode>
-Select fullscreen mode
-(@code{CrtcXRANDRFullscreenMode}).
-(xcbm2 and xpet only)
-
-@findex -TEDXRANDRfullmode
-@item -TEDXRANDRfullmode <mode>
-Select fullscreen mode
-(@code{TEDXRANDRFullscreenMode}).
-(xplus4 only)
-
-@findex -VDCXRANDRfullmode
-@item -VDCXRANDRfullmode <mode>
-Select fullscreen mode
-(@code{VDCXRANDRFullscreenMode}).
-(x128 only)
-
-@findex -VICXRANDRfullmode
-@item -VICXRANDRfullmode <mode>
-Select fullscreen mode
-(@code{VICXRANDRFullscreenMode}).
-(xvic only)
-
-@findex -VICIIXRANDRfullmode
-@item -VICIIXRANDRfullmode <mode>
-Select fullscreen mode
-(@code{VICIIXRANDRFullscreenMode}).
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid)
-
-@end table
-
-@b{The following command-line options are only available if VidMode support is present at compile time.}
-
-@table @code
-
-@findex -fullscreen, +fullscreen
-@item -fullscreen
-@itemx +fullscreen
-Enable/disable fullscreen mode
-(@code{UseFullscreen=1}, (@code{UseFullscreen=0}).
-
-@findex -CrtcVidmodefullmode
-@item -CrtcVidmodefullmode <mode>
-Select fullscreen mode
-(@code{CrtcVidmodeFullscreenMode}).
-(xcbm2 and xpet only)
-
-@findex -TEDVidmodefullmode
-@item -TEDVidmodefullmode <mode>
-Select fullscreen mode
-(@code{TEDVidmodeFullscreenMode}).
-(xplus4 only)
-
-@findex -VDCVidmodefullmode
-@item -VDCVidmodefullmode <mode>
-Select fullscreen mode
-(@code{VDCVidmodeFullscreenMode}).
-(x128 only)
-
-@findex -VICVidmodefullmode
-@item -VICVidmodefullmode <mode>
-Select fullscreen mode
-(@code{VICVidmodeFullscreenMode}).
-(xvic only)
-
-@findex -VICIIVidmodefullmode
-@item -VICIIVidmodefullmode <mode>
-Select fullscreen mode
-(@code{VICIIVidmodeFullscreenMode}).
-(all emulators except xcbm2, xpet, xplus4, xvic and vsid)
 
 @end table
 
@@ -16284,6 +16238,9 @@ controls (interpret also control codes) (default if textmode)
 @findex -nc
 @item -nc
 no controls (suppress control codes in printout) (default if non-textmode)
+@findex -qc
+@item -qc
+convert all non alphanumeric characters inside quotes into controlcodes
 @findex -ic
 @item -ic
 interpret control codes case-insensitive

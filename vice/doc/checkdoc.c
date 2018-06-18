@@ -646,8 +646,48 @@ void checkresources(void)
                 if(0
                     || !strcmp(list1->string, "MITSHM")
                     || !strcmp(list1->string, "UseXSync")
+                    || !strcmp(list1->string, "openGL_sync")
+                    || !strcmp(list1->string, "openGL_no_sync")
+                    || !strcmp(list1->string, "FFMPEGFormat")
+                    || !strcmp(list1->string, "FFMPEGAudioBitrate")
+                    || !strcmp(list1->string, "FFMPEGVideoBitrate")
+                    || !strcmp(list1->string, "FFMPEGAudioCodec")
+                    || !strcmp(list1->string, "FFMPEGVideoCodec")
+                    || !strcmp(list1->string, "FFMPEGVideoHalveFramerate")
                   ) {
                     printf("(might be disabled)");
+                } else if(0
+                    || !strcmp(list1->string, "KeepMonitorOpen")
+                    || !strcmp(list1->string, "KeepAspectRatio")
+                    || !strcmp(list1->string, "TrueAspectRatio")
+                    || !strcmp(list1->string, "Window0Width")
+                    || !strcmp(list1->string, "Window0Height")
+                    || !strcmp(list1->string, "Window0Xpos")
+                    || !strcmp(list1->string, "Window0Ypos")
+                    || !strcmp(list1->string, "Window1Width")
+                    || !strcmp(list1->string, "Window1Height")
+                    || !strcmp(list1->string, "Window1Xpos")
+                    || !strcmp(list1->string, "Window1Ypos")
+                  ) {
+                    printf("(GTK3 only, not SDL)");
+                } else if(0
+                    || !strcmp(list1->string, "SDLKbdStatusbar")
+                    || !strcmp(list1->string, "SDL2Renderer")
+                    || !strcmp(list1->string, "SDLWindowWidth")
+                    || !strcmp(list1->string, "SDLWindowHeight")
+                    || !strcmp(list1->string, "SDLGLFilter")
+                  ) {
+                    printf("(SDL only, not GTK3)");
+                } else if(0
+                    || !strcmp(list1->string, "OverClock")
+                  ) {
+                    printf("(Dingoo)");
+                } else if(0
+                    || !strcmp(list1->string, "DisplayDepth")
+                    || !strcmp(list1->string, "PrivateColormap")
+                    || !strcmp(list1->string, "UseFullscreen")
+                  ) {
+                    printf("(outdated)");
                 } else {
                     i++;
                 }
@@ -731,7 +771,7 @@ void printoptions(void)
 void checkoptions(void)
 {
     ITEM *list1, *itm, *itm2;
-    int i;
+    int i, skipnext;
 
     printf("\n** checking command line options...\n\n");
 
@@ -845,28 +885,66 @@ void checkoptions(void)
            "they might be outdated or spelled incorrectly:\n\n");
 
     list1 = &optlisttex;
-    i = 0;
+    i = 0; skipnext = 0;
     while (list1) {
         DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&optlistvice, list1->string);
+            if (list1->next && !strcmp(&list1->string[1], &list1->next->string[1])) {
+/*                printf("'%s' - '%s'\n", &list1->string[1], &list1->next->string[1]); */
+                skipnext = 1; 
+            }
             if (itm) {
                 DBG(("found: %s\n", list1->string));
             } else {
+                if (skipnext) printf("+/");
+                else printf("  ");
                 printf("%-40s", list1->string);
                 if(0
                     || !strcmp(list1->string, "-xsync")
                     || !strcmp(list1->string, "+xsync")
-                    || !strcmp(list1->string, "-mitshm")
-                    || !strcmp(list1->string, "+mitshm")
+                    || !strcmp(list1->string, "-ffmpegaudiobitrate")
+                    || !strcmp(list1->string, "-ffmpegvideobitrate")
+                    || !strcmp(list1->string, "-debug")
                   ) {
                     printf("(might be disabled)");
+                } else if(0
+                    || !strcmp(list1->string, "-keepaspect")
+                    || !strcmp(list1->string, "+keepaspect")
+                    || !strcmp(list1->string, "-trueaspect")
+                    || !strcmp(list1->string, "+trueaspect")
+                    || !strcmp(list1->string, "-keepmonopen")
+                    || !strcmp(list1->string, "+keepmonopen")
+                  ) {
+                    printf("(GTK3 only, not SDL)");
+                } else if(0
+                    || !strcmp(list1->string, "-sdlglfilter")
+                    || !strcmp(list1->string, "+sdlglfilter")
+                    || !strcmp(list1->string, "-sdl2renderer")
+                    || !strcmp(list1->string, "+sdl2renderer")
+                  ) {
+                    printf("(SDL only, not GTK3)");
+                } else if(0
+                    || !strcmp(list1->string, "-mitshm")
+                    || !strcmp(list1->string, "+mitshm")
+                    || !strcmp(list1->string, "-fullscreen")
+                    || !strcmp(list1->string, "+fullscreen")
+                    || !strcmp(list1->string, "-displaydepth")
+                    || !strcmp(list1->string, "+displaydepth")
+                    || !strcmp(list1->string, "-colormap")
+                    || !strcmp(list1->string, "+colormap")
+                  ) {
+                    printf("(outdated)");
                 } else {
                     i++;
                 }
                 printf("\n");
             }
         }
+        if (skipnext) {
+            list1 = list1->next;
+        }
+        skipnext = 0;
         list1 = list1->next;
     }
     printf("\n");
