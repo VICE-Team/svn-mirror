@@ -4099,6 +4099,7 @@ AC_OUTPUT([Makefile
            src/fsdevice/Makefile
            src/gfxoutputdrv/Makefile
            src/hwsiddrv/Makefile
+           src/hvsc/Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
            src/iodrv/Makefile

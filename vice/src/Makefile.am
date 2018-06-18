@@ -56,7 +56,8 @@ SUBDIRS = \
 	plus4 \
 	cbm2 \
 	arch \
-	lib
+	lib \
+	hvsc
 
 endif
 
@@ -107,7 +108,8 @@ DIST_SUBDIRS = \
 	@RESIDSUB@ \
 	@RESIDDTVSUB@ \
 	lib \
-	buildtools
+	buildtools \
+	hvsc
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
@@ -129,7 +131,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/tapeport \
 	-I$(top_srcdir)/src/tape \
-	-I$(top_srcdir)/src/socketdrv
+	-I$(top_srcdir)/src/socketdrv \
+	-I$(top_srcdir)/src/hvsc
 
 noinst_HEADERS = \
 	6510core.h \
@@ -1261,6 +1264,7 @@ fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 hwsiddrv_lib = $(top_builddir)/src/hwsiddrv/libhwsiddrv.a
+hvsc_lib = $(top_builddir)/src/hvsc/libhvsc.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 iodrv_lib = $(top_builddir)/src/iodrv/libiodrv.a
@@ -1394,7 +1398,8 @@ vsid_libs =  \
 	$(common_libs) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(joyport_lib)
+	$(joyport_lib) \
+	$(hvsc_lib)
 
 vsid_SOURCES = $(base_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@

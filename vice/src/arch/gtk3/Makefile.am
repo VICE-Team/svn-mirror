@@ -35,7 +35,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/monitor \
-	-I$(top_srcdir)/src/tapeport
+	-I$(top_srcdir)/src/tapeport \
+	-I$(top_srcdir)/src/hvsc
 
 
 noinst_LIBRARIES = libarch.a

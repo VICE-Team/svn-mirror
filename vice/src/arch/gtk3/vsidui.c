@@ -45,6 +45,8 @@
 #include "vsidtuneinfowidget.h"
 #include "vsidmainwidget.h"
 
+#include "hvsc.h"
+
 #include "vsidui.h"
 
 
@@ -260,6 +262,9 @@ int vsid_ui_init(void)
 
     uisidattach_set_psid_init_func(psid_init_driver);
     uisidattach_set_psid_play_func(machine_play_psid);
+
+    /* for debugging */
+    debug_gtk3("livhvsc version: %s\n", hvsc_lib_version_str());
 
     INCOMPLETE_IMPLEMENTATION();
     return 0;
