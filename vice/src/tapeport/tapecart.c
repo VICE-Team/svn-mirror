@@ -469,7 +469,7 @@ static const cmdline_option_t cmdline_options[] =
     { "-tapecartoptimizetcrt", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartOptimizeTCRT", (resource_value_t)1,
       NULL, "Enable tapecart .tcrt image optimization on write" },
-    { "+tapecartoptimizecrt", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
+    { "+tapecartoptimizetcrt", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
       NULL, NULL, "TapecartOptimizeTCRT", (resource_value_t)0,
       NULL, "Disable tapecart .tcrt image optimization on write" },
     { "-tapecartloglevel", SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
