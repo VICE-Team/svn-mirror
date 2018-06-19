@@ -53,6 +53,7 @@
 #include "vicii-resources.h"
 #include "vicii.h"
 #include "c64fastiec.h"
+#include "hvsc.h"
 
 /* force  commit */
 
@@ -74,6 +75,11 @@ static char *basic_rom_name = NULL;
 
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name = NULL;
+
+/** \brief  Root directory of the High Voltage collection
+ */
+static char *hvsc_root = NULL;
+
 
 /* Kernal revision for ROM patcher.  */
 int kernal_revision = C64_KERNAL_REV3;
@@ -163,6 +169,14 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
+
+static int set_hvsc_root(const char *path, void *param)
+{
+    hvsc_root = path;
+    return 0;
+}
+
+
 static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
@@ -173,6 +187,8 @@ static const resource_string_t resources_string[] = {
     { "BasicName", "basic", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &basic_rom_name, set_basic_rom_name, NULL },
+    { "HVSCRoot", "~/C64Music", RES_EVENT_NO, NULL,
+      &hvsc_root, set_hvsc_root, NULL },
     RESOURCE_STRING_LIST_END
 };
 

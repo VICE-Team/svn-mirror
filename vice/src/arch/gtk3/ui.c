@@ -992,21 +992,27 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     /* add CRT controls */
     crt_controls = NULL;
-    if (create_controls_widget_func != NULL) {
-        crt_controls = create_controls_widget_func(target_window);
-    }
-    if (crt_controls != NULL) {
-        gtk_widget_hide(crt_controls);
-        gtk_container_add(GTK_CONTAINER(grid), crt_controls);
-        gtk_widget_set_no_show_all(crt_controls, TRUE);
+
+    if (machine_class != VICE_MACHINE_VSID) {
+
+        if (create_controls_widget_func != NULL) {
+            crt_controls = create_controls_widget_func(target_window);
+        }
+        if (crt_controls != NULL) {
+            gtk_widget_hide(crt_controls);
+            gtk_container_add(GTK_CONTAINER(grid), crt_controls);
+            gtk_widget_set_no_show_all(crt_controls, TRUE);
+        }
     }
 
-    /* add sound mixer controls */
-    mixer_controls = mixer_widget_create(TRUE, GTK_ALIGN_END);
-    gtk_widget_hide(mixer_controls);
-    gtk_container_add(GTK_CONTAINER(grid), mixer_controls);
-    gtk_widget_set_no_show_all(mixer_controls, TRUE);
+    if (machine_class != VICE_MACHINE_VSID) {
 
+        /* add sound mixer controls */
+        mixer_controls = mixer_widget_create(TRUE, GTK_ALIGN_END);
+        gtk_widget_hide(mixer_controls);
+        gtk_container_add(GTK_CONTAINER(grid), mixer_controls);
+        gtk_widget_set_no_show_all(mixer_controls, TRUE);
+    }
 
     g_signal_connect(new_window, "focus-in-event",
                      G_CALLBACK(on_focus_in_event), NULL);

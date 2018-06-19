@@ -990,8 +990,8 @@ static GtkWidget *ui_drive_menu_create(int unit)
 GtkWidget *ui_statusbar_create(void)
 {
     GtkWidget *sb, *msg, *tape, *tape_events, *joysticks;
-    GtkWidget *crt;
-    GtkWidget *mixer;
+    GtkWidget *crt = NULL;
+    GtkWidget *mixer = NULL;
     int i, j;
 
     for (i = 0; i < MAX_STATUS_BARS; ++i) {
@@ -1020,17 +1020,20 @@ GtkWidget *ui_statusbar_create(void)
     gtk_label_set_ellipsize(GTK_LABEL(msg), PANGO_ELLIPSIZE_END);
     g_object_set(msg, "margin-left", 8, NULL);
 
-    crt = gtk_check_button_new_with_label("CRT controls");
-    g_object_ref_sink(G_OBJECT(crt));
-    gtk_widget_set_halign(crt, GTK_ALIGN_START);
-    gtk_widget_show_all(crt);
-    g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
+    /* don't add CRT or Mixer controls when VSID */
+    if (machine_class != VICE_MACHINE_VSID) {
+        crt = gtk_check_button_new_with_label("CRT controls");
+        g_object_ref_sink(G_OBJECT(crt));
+        gtk_widget_set_halign(crt, GTK_ALIGN_START);
+        gtk_widget_show_all(crt);
+        g_signal_connect(crt, "toggled", G_CALLBACK(on_crt_toggled), NULL);
 
-    mixer = gtk_check_button_new_with_label("Mixer controls");
-    g_object_ref_sink(G_OBJECT(mixer));
-    gtk_widget_set_halign(mixer, GTK_ALIGN_START);
-    gtk_widget_show_all(mixer);
-    g_signal_connect(mixer, "toggled", G_CALLBACK(on_mixer_toggled), NULL);
+        mixer = gtk_check_button_new_with_label("Mixer controls");
+        g_object_ref_sink(G_OBJECT(mixer));
+        gtk_widget_set_halign(mixer, GTK_ALIGN_START);
+        gtk_widget_show_all(mixer);
+        g_signal_connect(mixer, "toggled", G_CALLBACK(on_mixer_toggled), NULL);
+    }
 
     g_signal_connect(sb, "destroy", G_CALLBACK(destroy_statusbar_cb), NULL);
     allocated_bars[i].bar = sb;
@@ -1042,14 +1045,15 @@ GtkWidget *ui_statusbar_create(void)
             SB_COL_SEP_MSG, 0, 1, 2);
 
     /* TODO: skip VSID and add another separator after the checkbox */
-    allocated_bars[i].crt = crt;
-    gtk_grid_attach(GTK_GRID(sb), crt, SB_COL_CRT, 0, 1, 1);
-    allocated_bars[i].mixer = mixer;
-    gtk_grid_attach(GTK_GRID(sb), mixer, SB_COL_CRT, 1, 1, 1);
-
-    /* add separator */
-    gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
-            SB_COL_SEP_CRT, 0, 1, 2);
+    if (machine_class != VICE_MACHINE_VSID) {
+        allocated_bars[i].crt = crt;
+        gtk_grid_attach(GTK_GRID(sb), crt, SB_COL_CRT, 0, 1, 1);
+        allocated_bars[i].mixer = mixer;
+        gtk_grid_attach(GTK_GRID(sb), mixer, SB_COL_CRT, 1, 1, 1);
+        /* add separator */
+        gtk_grid_attach(GTK_GRID(sb), gtk_separator_new(GTK_ORIENTATION_VERTICAL),
+                SB_COL_SEP_CRT, 0, 1, 2);
+    }
 
     if ((machine_class != VICE_MACHINE_C64DTV)
             && (machine_class != VICE_MACHINE_VSID)) {
