@@ -357,14 +357,18 @@ static const resource_int_t common_resources_int[] = {
       &sid_filters_enabled, set_sid_filters_enabled, NULL },
     { "SidModel", SID_MODEL_DEFAULT, RES_EVENT_SAME, NULL,
       &sid_model, set_sid_model, NULL },
+    RESOURCE_INT_LIST_END
+};
+
 #ifdef HAVE_HARDSID
+static const resource_int_t hardsid_resources_int[] = {
     { "SidHardSIDMain", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &sid_hardsid_main, set_sid_hardsid_main, NULL },
     { "SidHardSIDRight", 1, RES_EVENT_NO, NULL,
       &sid_hardsid_right, set_sid_hardsid_right, NULL },
-#endif
     RESOURCE_INT_LIST_END
 };
+#endif
 
 static const resource_int_t stereo_resources_int[] = {
     { "SidStereo", 0, RES_EVENT_SAME, NULL,
@@ -374,6 +378,13 @@ static const resource_int_t stereo_resources_int[] = {
 
 int sid_common_resources_init(void)
 {
+#ifdef HAVE_HARDSID
+    if (hardsid_available()) {
+        if (resources_register_int(hardsid_resources_int) < 0) {
+            return -1;
+        }
+    }
+#endif
     return resources_register_int(common_resources_int);
 }
 
