@@ -674,7 +674,6 @@ void checkresources(void)
                 printf("%-40s", list1->string);
                 if(0
                     || !strcmp(list1->string, "MITSHM")
-                    || !strcmp(list1->string, "UseXSync")
                     || !strcmp(list1->string, "openGL_sync")
                     || !strcmp(list1->string, "openGL_no_sync")
                     || !strcmp(list1->string, "FFMPEGFormat")
@@ -698,6 +697,7 @@ void checkresources(void)
                     || !strcmp(list1->string, "Window1Xpos")
                     || !strcmp(list1->string, "Window1Ypos")
                     || !strcmp(list1->string, "StartMinimized")
+                    || !strcmp(list1->string, "DisplayDepth")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -762,12 +762,16 @@ void checkresources(void)
                   ) {
                     printf("(Dingoo)");
                 } else if(0
-                    || !strcmp(list1->string, "DisplayDepth")
-                    || !strcmp(list1->string, "PrivateColormap")
                     || !strcmp(list1->string, "UseFullscreen")
                     || !strcmp(list1->string, "FOURCC")
                   ) {
                     printf("(outdated?)");
+                } else if(0
+                    || !strcmp(list1->string, "XSync")
+                    || !strcmp(list1->string, "UseXSync")
+                    || !strcmp(list1->string, "PrivateColormap")
+                  ) {
+                    printf("(outdated!)");
                 } else {
                     i++;
                 }
@@ -990,8 +994,6 @@ void checkoptions(void)
                 else printf("  ");
                 printf("%-40s", list1->string);
                 if(0
-                    || !strcmp(list1->string, "-xsync")
-                    || !strcmp(list1->string, "+xsync")
                     || !strcmp(list1->string, "-ffmpegaudiobitrate")
                     || !strcmp(list1->string, "-ffmpegvideobitrate")
                     || !strcmp(list1->string, "-debug")
@@ -1006,6 +1008,7 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+keepmonopen")
                     || !strcmp(list1->string, "-minimized")
                     || !strcmp(list1->string, "+minimized")
+                    || !strcmp(list1->string, "-displaydepth")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -1069,14 +1072,17 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+mitshm")
                     || !strcmp(list1->string, "-fullscreen")
                     || !strcmp(list1->string, "+fullscreen")
-                    || !strcmp(list1->string, "-displaydepth")
-                    || !strcmp(list1->string, "+displaydepth")
-                    || !strcmp(list1->string, "-colormap")
-                    || !strcmp(list1->string, "+colormap")
                     || !strcmp(list1->string, "-fourcc")
                     || !strcmp(list1->string, "+fourcc")
                   ) {
                     printf("(outdated?)");
+                } else if(0
+                    || !strcmp(list1->string, "-xsync")
+                    || !strcmp(list1->string, "+xsync")
+                    || !strcmp(list1->string, "-colormap")
+                    || !strcmp(list1->string, "+colormap")
+                  ) {
+                    printf("(outdated!)");
                 } else {
                     i++;
                 }

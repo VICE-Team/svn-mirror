@@ -102,6 +102,11 @@ END-INFO-DIR-ENTRY
 @end ifclear
 @end ifinfo
 
+@c -----------------------------------------------------------------------------
+@c this disables the ugly black boxes at the end of each line on overfull hboxes
+@finalout
+
+@c -----------------------------------------------------------------------------
 @ifinfo
 VICE Manual
 
@@ -699,7 +704,7 @@ the basic features are implemented as well as most of the complex ones
 including synchronisation, ring modulation and filters.  There are two
 emulators of the SID chip available: first is the ``standard'' VICE
 emulator, available since VICE 0.12; the second is Dag Lem's reSID
-engine. The reSID engine is a lot more accurate than the standard engine, 
+engine. The reSID engine is a lot more accurate than the standard engine,
 but it is also a lot slower, and only suitable for faster machines.
 
 Naturally, also both CIAs (or VIAs, in some cases) are fully emulated
@@ -742,7 +747,7 @@ free to contact us (@pxref{Contacts}).
 The VIC20 emulator now allows the use of the VIC1112 IEEE488
 interface. You have to enable the hardware (by menu, resource, or
 commandline option) and then load the IEEE488 ROM (see for
-example @code{http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin}, but you have to double the size to 4k for now).
+example @uref{http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin}, but you have to double the size to 4k for now).
 The IEEE-488 code is then started by @code{SYS45065}.
 
 
@@ -1165,23 +1170,39 @@ and how to resolve them.
 
 @menu
 * Sound problems::
-* Shared memory problems::
+* Video problems::
 * Printer problems::
 * PET keyboard problems::
 @end menu
 
-@node Sound problems, Shared memory problems, Common problems, Common problems
+@node Sound problems, Video problems, Common problems, Common problems
 @subsection Sound problems
 
-VICE should compile and run without major problems on many UNIX systems,
-but there are some known issues related to the sound driver.  In fact,
-the sound code is the least portable part of the emulator and has not
-yet been thoroughly tested on all the supported platforms.
+VICE should compile and run without major problems on many systems,
+but there are some known issues related to the sound driver.
+
+If you are having sound problems, such as skipping, first monitor how much CPU
+time the respective emulator is taking on your system. To run smoothly, on a
+modern system, it should really never go over 50% or so, except for very short
+peaks that should also stay well beyond 90%. If you see it takes more, try
+disabling some of the most CPU intense features (disable CRT emulation, use
+fastsid instead of reSID, disable true drive emulation).
+
+If the CPU usage is ok, try using a different sound driver. You may also try
+increasing the sound buffer size (although the default should be ok for modern
+systems).
 
 Linux, AIX and SGI systems should play sound without any problems; if
 you are running Linux please use a 2.x kernel, as VICE needs some
 features that were not implemented in older versions of the Linux sound
 driver.
+
+Windows should play sound ok.
+
+macOS is currently untested.
+
+All platforms that can run the SDL port (like Amiga, BeOS, etc) should be able
+to play sound via SDL.
 
 @cindex HP-UX and Solaris audio problems
 On the other hand, HP-UX and Solaris machines are known to cause
@@ -1195,12 +1216,15 @@ Open Sound System for Linux.  With a Crystal sound card, sound output
 was significantly delayed and, apparently, the allocated buffer size was
 completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
-@node Shared memory problems, Printer problems , Sound problems, Common problems
-@subsection Shared memory problems
+@node Video problems, Printer problems , Sound problems, Common problems
+@subsection Video problems
 
-@c FIXME
+Due to the way VICE currently handles its main loop, a common problem with
+video sync occurs when the real (the monitors) frame rate is very close to, 
+equal, or lower than the framerate of the emulated machine. We recommend to
+use a framerate which is slightly higher than that (eg 51Hz for the C64).
 
-@node Printer problems, PET keyboard problems ,Shared memory problems, Common problems
+@node Printer problems, PET keyboard problems ,Video problems, Common problems
 @subsection Printer problems
 
 VICE supports the emulation of a printer either on the userport or as
@@ -1275,11 +1299,11 @@ The names of the available emulators are:
 @end itemize
 
 You can run each of them by simply typing the name from a shell or by configuring
-your window manager for example to use them to open disk images.  
+your window manager for example to use them to open disk images.
 
 If you want to look at the log output, or use the monitor in a port which does
-not have a dedicated monitor UI yet, you should always 
-run them from a terminal window such as @code{xterm} or @code{rxvt}.  For example, 
+not have a dedicated monitor UI yet, you should always
+run them from a terminal window such as @code{xterm} or @code{rxvt}.  For example,
 you could do
 
 @example
@@ -1427,7 +1451,7 @@ file, by simply specifying its name as the @emph{last} argument on the
 command line, for example
 
 @example
-x64sc lovelygame.d64.gz
+x64sc lovelygame.d64
 @end example
 
 will start the C64 emulator, attaching @file{lovelygame.d64} as a
@@ -2053,9 +2077,11 @@ while either @key{Meta} or @key{Alt} are held down.
 
 At any time, if you get stuck or do not remember how to perform a
 certain action, you can use the ``Browse manuals'' command (from the help
-menu).  This will open either the PDF or popup a browser and open the HTML 
-version of the documentation.  Notice that this requires VICE to be properly (and
-fully) installed with a @samp{make install}.
+menu).  This will open either the PDF or popup a browser and open the HTML
+version of the documentation.  
+
+Notice that on Linux this requires VICE to be properly (and fully) installed,
+eg with a @samp{make install}.
 
 @node File Selector, Disk and tape images, Help, Basics
 @section Using the file selector
@@ -2117,10 +2143,13 @@ and cassettes from the respective units.  On the other hand, the
 last commands tries to guess the type of the image you are attaching
 from its name and size, and attaches it to the most reasonable device.
 
-Supported formats are @code{D64} and @code{X64} for disk images (devices
-8, 9 and 10) and @code{T64} for tape images.  Notice that @code{T64}
-support is @emph{read-only}, and that the cassette is automatically
-rewound when you reach its end.
+Supported formats are @code{D64}, @code{G64}, @code{P64} and the ancient 
+@code{X64} for disk images (devices 8, 9 and 10) and @code{T64} and @code{TAP} 
+for tape images.  
+
+Notice that @code{T64} support is @emph{read-only}, and that the cassette is 
+automatically rewound when you reach its end. For actually emulating tape, the
+@code{TAP} format is highly recommended.
 
 Another important feature is that raw Commodore BASIC binary files and
 .P00 files can be attached as tapes.  As you can autostart a
@@ -2613,8 +2642,7 @@ Enable/Disable warp mode
 
 The following right-button menu items control the video output.
 On emulators that include two video chips (like @code{x128})
-all options but XSync exist twice, once for each chip.
-XSync is shared between the video chips.
+all options exist twice, once for each chip.
 
 @itemize @bullet
 
@@ -2642,14 +2670,6 @@ emulator to draw only odd lines when running in double-size mode (this
 saves some CPU time and also makes the emulation window look more like
 an old monitor).
 
-@cindex Using XSync()
-@cindex Loosing control on low-end systems
-@item
-`Use XSync()'' causes the emulator to call the X11 function
-@code{XSync()} before updating the emulation window: this might be
-necessary on low-end systems to prevent it from consuming so many system
-resources that it becomes impossible for the user to interact with it.
-
 @end itemize
 
 
@@ -2658,14 +2678,14 @@ resources that it becomes impossible for the user to interact with it.
 @end menu
 
 @c @node FIXME
-@subsection using openGL Rastersynchronization under X11 
+@subsection using openGL Rastersynchronization under X11
 
 Warning: To get full retro experience with synchronization to the vertrical
-raster retrace messing with X11 modelines (resolution and refresh frequencies) 
-is necessary. This description is a suggestion - Follow this instructions at 
+raster retrace messing with X11 modelines (resolution and refresh frequencies)
+is necessary. This description is a suggestion - Follow this instructions at
 your own risk!
 
-The following was tested under Ubuntu Linux (8.04) featuring Xorg Xserver 1:7.3+10ubuntu 
+The following was tested under Ubuntu Linux (8.04) featuring Xorg Xserver 1:7.3+10ubuntu
 and mesa openGL including HW support (NVIDIA driver) supporting glx version 1.4
 supplying GLX_SGI_video_sync.
 
@@ -2676,7 +2696,7 @@ Preconditions:
 @itemize @bullet
 @item openGL extension GLX_SGI_video_sync in your X11 setup.
   The availability of the extension is checked at startup.
-  
+
 @item XRandR extension to switch proper modes (50Hz for PAL, 60Hz for
 NTSC) is mandatory, proper modelines in your /etc/X11/xorg.conf must be present.
 @end itemize
@@ -2694,10 +2714,10 @@ to you Monitor Section of /etc/X11/xorg.conf and add the resolution to the `Scre
 Sometimes some consistency checks within the display driver drop
 this resolutions again.
 To drop e.g. the autodetection features in the NVIDIA driver you
-might add @code{Option "UseEDID" "FALSE"} in section @code{Device}. 
+might add @code{Option "UseEDID" "FALSE"} in section @code{Device}.
 
 XRandR cannot cope properly with the DynamicTwinView feature of the
-proprietary nvidia driver. You might need 
+proprietary nvidia driver. You might need
 
 @code{Option         "DynamicTwinView" "False"}
 
@@ -2708,7 +2728,7 @@ in a way that it gets damaged! You are at your own risk!
 
 Enable fullscreen (not necessary, but makes sense):
 @itemize @bullet
-@item choose your preferred resolution/refresh XRandR Resolutions and 
+@item choose your preferred resolution/refresh XRandR Resolutions and
 enable XRandR as fullscreen device (50Hz/PAL or 60Hz/NTSC mode).
 @item Activate fullscreen with `Alt-D'.
 @item choose `OpenGL Rastersynchronization' in the
@@ -2719,10 +2739,10 @@ Note that:
 @itemize @bullet
 @item the current implementation is dropping synchronization
 silently in case the display frequency isn't aligned (50Hz
-for PAL, 60Hz for NTSC). 
+for PAL, 60Hz for NTSC).
 
 @item On some systems the XRandR system isn't informed about desktop
-display frequency changes if you switch resolutions via hotkeys like 
+display frequency changes if you switch resolutions via hotkeys like
 CTRL-Alt-+ (Numpad), which is possible e.g. with the X11
 implementation of Xorg.
 
@@ -2741,9 +2761,11 @@ The following resources affect the screen emulation.
 @vindex HwScalePossible
 @item HwScalePossible
 Boolean that indicates whether hardware scaling is possible or not.
+
 @vindex openGL_sync
 @item openGL_sync
 Boolean, if true enable Open-GL frame sync.
+
 @vindex openGL_no_sync
 @item openGL_no_sync
 Boolean, if true Open-GL sync is not available.
@@ -2762,6 +2784,19 @@ skipping.
 @vindex WarpMode
 @item WarpMode
 Boolean specifying whether ``warp mode'' is turned on or not.
+
+@end table
+
+@c FIXME: @node
+@subsection Video command line options
+
+@table @code
+
+@findex -hwscalepossible, +hwscalepossible
+@item -hwscalepossible
+@itemx +hwscalepossible
+Enable/Disable the possibility of hardware scaling
+@code{HwScalePossible=1} or @code{HwScalePossible=1}).
 
 @end table
 
@@ -2893,32 +2928,32 @@ port device is connected to a control port.
 @vindex JoyPort1Device
 @item JoyPort1Device
 Set the device attached to:
-control port 1 (x64/x64sc/x64dtv/xscpu64/x128/xcbm5x0/xplus4)
+control port 1 (x64, x64sc, x64dtv, xscpu64, x128, xcbm5x0, xplus4)
 control port (xvic).
-(x64/x64sc/xscpu/x128/xcbm5x0/xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
-(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(x64, x64sc, xscpu, x128, xcbm5x0, xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
+(x64dtv, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort2Device
 @item JoyPort2Device
 Set the device attached to:
-control port 2 (x64/x64sc/x64dtv/xscpu64/x128/xcbm5x0/xplus4)
-(x64/x64sc/xscpu/x128/xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
-(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+control port 2 (x64, x64sc, x64dtv, xscpu64, x128, xcbm5x0, xplus4)
+(x64, x64sc, xscpu, x128, xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
+(x64dtv, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort3Device
 @item JoyPort3Device
 Set the device attached to:
-userport joystick adapter port 1 (x64/x64sc/xscpu64/x128/xcbm2/xpet/xvic)
+userport joystick adapter port 1 (x64, x64sc, xscpu64, x128, xcbm2, xpet, xvic)
 userport joystick adapter port (x64dtv)
 sidcart control port (xplus4).
-(x64/x64sc/x64dtv/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(x64, x64sc, x64dtv, xscpu, x128, xcbm2, xpet, xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 (xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
 
 @vindex JoyPort4Device
 @item JoyPort4Device
 Set the device attached to:
-userport joystick adapter port 2 (x64/x64sc/xscpu64/x128/xcbm2/xpet/xvic)
-(x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+userport joystick adapter port 2 (x64, x64sc, xscpu64, x128, xcbm2, xpet, xvic)
+(x64, x64sc, xscpu, x128, xcbm2, xpet, xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @vindex JoyPort5Device
 @item JoyPort5Device
@@ -2940,36 +2975,36 @@ Enable saving of the battery-backed real time clock data.
 @findex -controlport1device
 @item -controlport1device <device>
 Set the device attached to:
-control port 1 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+control port 1 (x64, x64sc, x64dtv, xscpu, x128, xcbm5x0, xplus4)
 control port (xvic)
 (@code{JoyPort1Device}).
-(x64/x64sc/xscpu/x128/xcbm5x0/xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
-(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(x64, x64sc, xscpu, x128, xcbm5x0, xvic: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 11: Light Pen (up trigger), 12: Light Pen (left trigger), 13: Datel Light Pen, 14: Magnum Light Phaser, 15: Stack Light Rifle, 16: Inkwell Light Pen, 17: Sampler (2bit))
+(x64dtv, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @findex -controlport2device
 @item -controlport2device <device>
 Set the device attached to:
-control port 2 (x64/x64sc/x64dtv/xscpu/x128/xcbm5x0/xplus4)
+control port 2 (x64, x64sc, x64dtv, xscpu, x128, xcbm5x0, xplus4)
 (@code{JoyPort2Device}).
-(x64/x64sc/xscpu/x128/xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
-(x64dtv/xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(x64, x64sc, xscpu, x128, xcbm5x0: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
+(x64dtv, xplus4: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @findex -controlport3device
 @item -controlport3device <device>
 Set the device attached to:
-userport joystick adapter port 1 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+userport joystick adapter port 1 (x64, x64sc, xscpu, x128, xcbm2, xpet, xvic)
 userport joystick adapter port (x64dtv)
 sidcart control port (xplus4)
 (@code{JoyPort3Device}).
-(x64/x64sc/x64dtv/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(x64, x64sc, x64dtv, xscpu, x128, xcbm2, xpet, xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 (xplus4: 0: None, 1: Joystick, 2: Paddles, 3: Mouse (1351), 4: Mouse (NEOS), 5: Mouse (Amiga), 6: Mouse (CX-22), 7: Mouse (Atari ST), 8: Mouse (SmartMouse), 9: Mouse (Micromys), 10: KoalaPad, 17: Sampler (2bit))
 
 @findex -controlport4device
 @item -controlport4device <device>
 Set the device attached to:
-userport joystick adapter port 2 (x64/x64sc/xscpu/x128/xcbm2/xpet/xvic)
+userport joystick adapter port 2 (x64, x64sc, xscpu, x128, xcbm2, xpet, xvic)
 (@code{JoyPort4Device}).
-(x64/x64sc/xscpu/x128/xcbm2/xpet/xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
+(x64, x64sc, xscpu, x128, xcbm2, xpet, xvic: 0: None, 1: Joystick, 6: Mouse (CX-22), 17: Sampler (2bit))
 
 @findex -controlport5device
 @item -controlport5device <device>
@@ -3378,10 +3413,10 @@ Integer specifying the master volume in percent.
 
 @vindex SoundOutput
 @item SoundOutput
-Integer specifying the type of sound output. Output is selectable between 'system' 
-(system decides to use mono or stereo output based on the presence of a stereo sid), 
-'always mono' (output is always mono, stereo streams are mixed into a mono stream) 
-or 'always stereo' (output is always stereo, mono streams are multiplexed to a stereo 
+Integer specifying the type of sound output. Output is selectable between 'system'
+(system decides to use mono or stereo output based on the presence of a stereo sid),
+'always mono' (output is always mono, stereo streams are mixed into a mono stream)
+or 'always stereo' (output is always stereo, mono streams are multiplexed to a stereo
 stream).
 (0: system, 1: mono, 2: stereo)
 
@@ -3425,7 +3460,7 @@ Specify the sound playback sample rate
 (@code{SoundSampleRate}).
 (8000..48000)
 
-@findex -soundoutput 
+@findex -soundoutput
 @item -soundoutput <output mode>
 Sound output mode
 (@code{SoundOutput}).
@@ -3446,7 +3481,7 @@ Set sound fragment size
 @item -sounddev <Name>
 Specifies the name of the audio device
 (@code{SoundDeviceName}).
-(ahi/aix/allegro/alsa/arts/beos/bsp/coreaudio/dart/dummy/dx/hpux/midas/pulse/sdl/sgi/sun/uss/wmm)
+(ahi, aix, allegro, alsa, arts, beos, bsp, coreaudio, dart, dummy, dx, hpux, midas, pulse, sdl, sgi, sun, uss, wmm)
 
 @findex -soundarg
 @item -soundarg <args>
@@ -3457,7 +3492,7 @@ Specifies an additional parameter for the audio device
 @item -soundrecdev <name>
 Specify recording sound driver
 (@code{SoundRecordDeviceName}).
-(aiff/dump/fs/iff/mp3/flac/ogg/speed/voc/wav)
+(aiff, dump, fs, iff, mp3, flac, ogg, speed, voc, wav)
 
 @findex -soundrecarg
 @item -soundrecarg <args>
@@ -3682,10 +3717,6 @@ needs it, without prompting the user.
 
 @table @code
 
-@vindex RawDriveDriver
-@item RawDriveDriver
-String specifying the name of the device to be used for raw block access.
-
 @vindex DriveTrueEmulation
 @item DriveTrueEmulation
 Boolean controlling whether the ``true'' drive emulation is turned on.
@@ -3753,7 +3784,7 @@ Integer specifying whether the RTC data of drive 11 should be saved when changed
 @itemx Drive11ParallelCable
 integers controlling what type of parallel cable is emulated for drives 8 to 11
 (x64, x64sc, xscpu64, x128 and xplus4 only).
-x64/x64sc/xscpu64/x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
+x64, x64sc, xscpu64, x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
 xplus4: (0: None, 1: Standard)
 
 @vindex Drive8ProfDOS
@@ -3934,6 +3965,10 @@ String specifying the filename of the Super Card ROM image
 String specifying the filename of the image of the lower half of the StarDOS ROM
 (x64, x64sc, xscpu64 and x128 only).
 
+@vindex RawDriveDriver
+@item RawDriveDriver
+String specifying the name of the device to be used for raw block access.
+
 @end table
 
 @node Drive options,  , Drive resources, Drive settings
@@ -4023,7 +4058,7 @@ Set parallel cable type for drives 8-11 respectively
 (@code{Drive8ParallelCable}, @code{Drive9ParallelCable},
 @code{Drive10ParallelCable}, @code{Drive11ParallelCable})
 (x64, x64sc, xscpu64, x128 and xplus4 only).
-x64/x64sc/xscpu64/x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
+x64, x64sc, xscpu64, x128: (0: None, 1: Standard, 2: Professional DOS, 3: Formel64)
 xplus4: (0: None, 1: Standard)
 
 @findex -drive8idle
@@ -4365,6 +4400,11 @@ Specify name of the image of the lower half of the StarDOS ROM. (Attach the uppe
 half using the -dos1541 option.)
 (@code{DriveStarDosName})
 (x64, x64sc, xscpu64 and x128 only).
+
+@findex -rawdrive
+@item -rawdrive <name>
+Set raw drive device name
+(@code{RawDriveDriver})
 
 @end table
 
@@ -5072,7 +5112,7 @@ Integer specifying what RS232 device (@pxref{RS232 settings}) the ACIA is using
 @vindex Acia1Base
 @item Acia1Base
 Integer specifying the base address for the emulated ACIA chip (x64, x64sc, xscpu64, xvic and x128 only, and only if RS232 support is enabled and supported at compile time).
-(xvic: $9800/$9C00, x128: $D700/$DE00/$DF00, x64/x64sc/xscpu64: $DE00/$DF00)
+(xvic: $9800/$9C00, x128: $D700/$DE00/$DF00, x64, x64sc, xscpu64: $DE00/$DF00)
 
 @vindex Acia1Mode
 @item Acia1Mode
@@ -5134,7 +5174,7 @@ Specify RS232 device the ACIA should work on
 Set the base address of the ACIA cartridge
 (@code{Acia1Base})
 (x64, x64sc, xscpu, x128 and xvic only, and only if RS232 support is enabled and supported at compile time).
-(xvic: $9800/$9C00, x128: $D700/$DE00/$DF00, x64/x64sc/xscpu: $DE00/$DF00)
+(xvic: $9800/$9C00, x128: $D700/$DE00/$DF00, x64, x64sc, xscpu: $DE00/$DF00)
 
 @findex -acia1mode
 @item -acia1mode <mode>
@@ -5206,6 +5246,177 @@ If it is able to detect an
 
 @end table
 
+@c -----------------------------------------------------------------------------
+
+@c @node FIXME
+@section Tape port devices
+
+@c @node FIXME
+@subsection Tape port resources
+
+@table @code
+
+@vindex CPClockF83
+@item CPClockF83
+Boolean specifying whether the CP Clock F83 (PCF8583 RTC) is enabled.
+
+@vindex CPClockF83Save
+@item CPClockF83Save
+Boolean specifying whether the CP Clock F83 (PCF8583 RTC) data is saved when changed.
+
+@vindex TapeSenseDongle
+@item TapeSenseDongle
+Boolean specifying whether the tape sense dongle is enabled.
+
+@vindex DTLBasicDongle
+@item DTLBasicDongle
+Boolean specifying whether the DTL Basic dongle is enabled.
+
+@end table
+
+@c @node FIXME
+@subsection Tape port command line options
+
+@table @code
+
+@findex -cpclockf83, +cpclockf83
+@item -cpclockf83
+@itemx +cpclockf83
+Enable/Disable CP Clock F83 (PCF8583 RTC)
+(@code{CPClockF83=1}, @code{CPClockF83=0}).
+
+@findex -cpclockf83save, +cpclockf83save
+@item -cpclockf83save
+@itemx +cpclockf83save
+Enable/Disable saving of the CP Clock F83 (PCF8583 RTC) data when changed
+ (@code{CPClockF83Save=1}, @code{CPClockF83Save=0}).
+
+@findex -tapesensedongle, +tapesensedongle
+@item -tapesensedongle
+@itemx +tapesensedongle
+Enable/Disable tape sense dongle
+ (@code{TapeSenseDongle=1}, @code{TapeSenseDongle=0}).
+
+@findex -dtlbasicdongle, +dtlbasicdongle
+@item -dtlbasicdongle
+@itemx +dtlbasicdongle
+Enable/Disable DTL Basic dongle
+ (@code{DTLBasicDongle=1}, @code{DTLBasicDongle=0}).
+
+@end table
+
+@c -----------------------------------------------------------------------------
+
+@c @node FIXME
+@section Userport devices
+
+@c @node FIXME
+@subsection Userport resources
+
+@table @code
+
+@vindex UserportCollisionHandling
+@item UserportCollisionHandling
+Boolean specifying the way the Userport collisions should be handled, (0: error message and
+ detach all involved devices, 1: error message and detach last attached involved
+ device, 2: warning in log and 'AND' the valid return values)
+
+@vindex UserportDIGIMAX
+@item UserportDIGIMAX
+Boolean specifying whether the userport DigiMAX device is enabled.
+
+@vindex Userport4bitSampler
+@item Userport4bitSampler
+Boolean specifying whether the Userport 4bit sampler is enabled.
+
+@vindex Userport8BSS
+@item Userport8BSS
+Boolean specifying whether the Userport 8bit stereo sampler is enabled.
+
+@vindex UserportRTC58321a
+@item UserportRTC58321a
+Boolean specifying whether the userport RTC is emulated or not
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@vindex UserportRTC58321aSave
+@item UserportRTC58321aSave
+Boolean specifying whether the userport RTC data is saved when changed or not
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@vindex UserportRTCDS1307
+@item UserportRTCDS1307
+Boolean specifying whether the userport RTC is emulated or not
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@vindex UserportRTCDS1307Save
+@item UserportRTCDS1307Save
+Boolean specifying whether the userport RTC data is saved when changed or not
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@end table
+
+@c @node FIXME
+@subsection Userport command line options
+
+@table @code
+
+@findex -userportcollision
+@item -userportcollision
+Select the way the Userport collisions should be handled, (0: error message and
+ detach all involved devices, 1: error message and detach last attached involved
+ device, 2: warning in log and 'AND' the valid return values)
+(@code{UserportCollisionHandling})
+
+ @findex -userportdigimax, +userportdigimax
+@item -userportdigimax
+@itemx +userportdigimax
+Enable/Disable the userport DigiMAX device
+(@code{UserportDIGIMAX=1}, @code{UserportDIGIMAX=0})
+
+@findex -userport4bitsampler, +userport4bitsampler
+@item -userport4bitsampler
+@itemx +userport4bitsampler
+Enable/Disable Userport 4bit sampler
+(@code{Userport4bitSampler=1}, @code{Userport4bitSampler=0})
+
+@findex -userport8bss, +userport8bss
+@item -userport8bss
+@itemx +userport8bss
+Enable/Disable Userport 8bit stereo sampler
+(@code{Userport8BSS=1}, @code{Userport8BSS=0})
+
+@findex -userportrtc58321a, +userportrtc58321a
+@item -userportrtc58321a
+@itemx +userportrtc58321a
+Enable/disable the userport RTC emulation
+(@code{UserportRTC58321a=1}, @code{UserportRTC58321a=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@findex -userportrtc58321asave, +userportrtc58321asave
+@item -userportrtc58321asave
+@itemx +userportrtc58321asave
+Disable/enable saving of the userport RTC data when changed
+(@code{UserportRTC58321aSave=1}, @code{UserportRTC58321aSave=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@findex -userportrtcds1307, +userportrtcds1307
+@item -userportrtcds1307
+@itemx +userportrtcds1307
+Enable/disable the userport RTC emulation
+(@code{UserportRTCDS1307=1}, @code{UserportRTCDS1307=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@findex -userportrtcds1307save, +userportrtcds1307save
+@item -userportrtcds1307save
+@itemx +userportrtcds1307save
+Disable/enable saving of the userport RTC data when changed
+(@code{UserportRTCDS1307Save=1}, @code{UserportRTCDS1307Save=0})
+(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
+
+@end table
+
+@c -----------------------------------------------------------------------------
+
 @node Monitor settings, Misc settings, RS232 settings, Settings and resources
 @section Monitor settings
 
@@ -5231,9 +5442,16 @@ this setting has no effect.)
 @vindex MonitorServer
 @item MonitorServer
 Boolean specifying whether the remote monitor server is enabled.
+
 @vindex MonitorServerAddress
 @item MonitorServerAddress
 String specifying the address the remote monitor server listens to (ip4://127.0.0.1:6510)
+
+@vindex NativeMonitor
+@item NativeMonitor
+Boolean specifying whether the native monitor is enabled. When enabled, the monitor
+ will not run in the interface of the emulator, but instead work in the spawning
+ terminal.
 
 @end table
 
@@ -5265,6 +5483,12 @@ Enable/Disable remote monitor
 @findex -remotemonitoraddress
 @item -remotemonitoraddress <name>
 The local address the remote monitor should bind to
+
+@findex -nativemonitor, +nativemonitor
+@item -nativemonitor
+@itemx +nativemonitor
+Enable/Disable native monitor.
+(@code{NativeMonitor=1}, @code{NativeMonitor=0}).
 
 @end table
 
@@ -5366,7 +5590,7 @@ Trace the main CPU / Do not trace the main CPU
 Trace the drive 0 CPU / Do not trace the drive 0 CPU
 @vindex Drive1CPU_TRACE
 @item Drive1CPU_TRACE
-Trace the drive 1 CPU / Do not trace the drive 1 CPU 
+Trace the drive 1 CPU / Do not trace the drive 1 CPU
 @vindex Drive2CPU_TRACE
 @item Drive2CPU_TRACE
 Trace the drive 2 CPU / Do not trace the drive 2 CPU
@@ -5605,44 +5829,6 @@ String specifying the filename of the current flip list. (Drive 8 only)
 Booleans that specify whether to attach images on drives 8 to 11 read-only or not
 (all emulators except vsid).
 
-@vindex UserportCollisionHandling
-@item UserportCollisionHandling
-Boolean specifying the way the Userport collisions should be handled, (0: error message and 
- detach all involved devices, 1: error message and detach last attached involved 
- device, 2: warning in log and 'AND' the valid return values)
-
-@vindex UserportDIGIMAX
-@item UserportDIGIMAX
-Boolean specifying whether the userport DigiMAX device is enabled.
-
-@vindex Userport4bitSampler
-@item Userport4bitSampler
-Boolean specifying whether the Userport 4bit sampler is enabled.
-
-@vindex Userport8BSS
-@item Userport8BSS
-Boolean specifying whether the Userport 8bit stereo sampler is enabled.
-
-@vindex UserportRTC58321a
-@item UserportRTC58321a
-Boolean specifying whether the userport RTC is emulated or not
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
-@vindex UserportRTC58321aSave
-@item UserportRTC58321aSave
-Boolean specifying whether the userport RTC data is saved when changed or not
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
-@vindex UserportRTCDS1307
-@item UserportRTCDS1307
-Boolean specifying whether the userport RTC is emulated or not
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
-@vindex UserportRTCDS1307Save
-@item UserportRTCDS1307Save
-Boolean specifying whether the userport RTC data is saved when changed or not
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
 @end table
 
 @node Misc options,  , Misc resources, Misc settings
@@ -5659,59 +5845,6 @@ Specify the action to take when the CPU encounters a 'JAM' opcode
 @item -directory <Path>
 Specify the system file search path
 (@code{Directory}).
-
-@findex -userportcollision
-@item -userportcollision
-Select the way the Userport collisions should be handled, (0: error message and 
- detach all involved devices, 1: error message and detach last attached involved 
- device, 2: warning in log and 'AND' the valid return values) 
-(@code{UserportCollisionHandling})
-
- @findex -userportdigimax, +userportdigimax
-@item -userportdigimax
-@itemx +userportdigimax
-Enable/Disable the userport DigiMAX device 
-(@code{UserportDIGIMAX=1},@code{UserportDIGIMAX=0})
-
-@findex -userport4bitsampler, +userport4bitsampler
-@item -userport4bitsampler
-@itemx +userport4bitsampler
-Enable/Disable Userport 4bit sampler 
-(@code{Userport4bitSampler=1},@code{Userport4bitSampler=0})
-
-@findex -userport8bss, +userport8bss
-@item -userport8bss
-@itemx +userport8bss
-Enable/Disable Userport 8bit stereo sampler 
-(@code{Userport8BSS=1},@code{Userport8BSS=0})
-
-@findex -userportrtc58321a, +userportrtc58321a
-@item -userportrtc58321a
-@itemx +userportrtc58321a
-Enable/disable the userport RTC emulation
-(@code{UserportRTC58321a=1}, @code{UserportRTC58321a=0})
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
-@findex -userportrtc58321asave, +userportrtc58321asave
-@item -userportrtc58321asave
-@itemx +userportrtc58321asave
-Disable/enable saving of the userport RTC data when changed
-(@code{UserportRTC58321aSave=1}, @code{UserportRTC58321aSave=0})
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
-@findex -userportrtcds1307, +userportrtcds1307
-@item -userportrtcds1307
-@itemx +userportrtcds1307
-Enable/disable the userport RTC emulation
-(@code{UserportRTCDS1307=1}, @code{UserportRTCDS1307=0})
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
-
-@findex -userportrtcds1307save, +userportrtcds1307save
-@item -userportrtcds1307save
-@itemx +userportrtcds1307save
-Disable/enable saving of the userport RTC data when changed
-(@code{UserportRTCDS1307Save=1}, @code{UserportRTCDS1307Save=0})
-(xpet, cbm2, x64, x64sc, xscpu64 and x128 only).
 
 @end table
 
@@ -5815,7 +5948,8 @@ The following cartridges are emulated in this slot:
 
 @itemize @bullet
 @item
-IEEE-488 Interface (@code{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
+IEEE-488 Interface 
+(@uref{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
 @item
 Magic Voice
 @item
@@ -5906,7 +6040,7 @@ Fun Play
 @item
 Game Killer
 @item
-IDE64 (@code{http://www.ide64.org})
+IDE64 (@uref{http://www.ide64.org})
 @item
 KCS Power Cartridge
 @item
@@ -6081,7 +6215,7 @@ after enabling it from the user interface.
 @vindex IOCollisionHandling
 @item IOCollisionHandling
 Integer specifying the way the I/O collisions should be handled.
-(0: error message and detach all involved carts, 1: error message and detach last attached involved 
+(0: error message and detach all involved carts, 1: error message and detach last attached involved
 carts, 2: warning in log and 'AND' the valid return values)
 
 @vindex CartridgeReset
@@ -6556,7 +6690,7 @@ Boolean, if true enable the 32k addon RAM of the Supersnapshot V5
 @item -iocollision <method>
 Select the way the I/O collisions should be handled
 (@code{IOCollisionHandling}).
-(0: error message and detach all involved carts, 1: error message and detach last attached involved 
+(0: error message and detach all involved carts, 1: error message and detach last attached involved
 carts, 2: warning in log and 'AND' the valid return values
 
 @findex +cart
@@ -6749,7 +6883,7 @@ Attach raw GMod2 cartridge image.
 
 @findex -gmod2eepromimage
 @item -gmod2eepromimage <name>
-Attach raw GMod2 EEPROM image (@code{GMod2EEPROMImage}). 
+Attach raw GMod2 EEPROM image (@code{GMod2EEPROMImage}).
 
 @findex -gmod2eepromrw, +gmod2eepromrw
 @item -gmod2eepromrw
@@ -7185,7 +7319,7 @@ Set the RR clockport device
 @item -rrnetmk3flash
 @itemx +rrnetmk3flash
 SetRemove the RRNETMK3 Flash Jumper
-(@code{RRNETMK3_flashjumper=1},@code{RRNETMK3_flashjumper=0}).
+(@code{RRNETMK3_flashjumper=1}, @code{RRNETMK3_flashjumper=0}).
 
 @findex -rrnetmk3bioswrite, +rrnetmk3bioswrite
 @item -rrnetmk3bioswrite
@@ -7263,13 +7397,13 @@ Attach raw 16kB Zaxxon cartridge image.
 @vindex CIA1Model
 @item CIA1Model
 @c the exceptions will be corrected as the resource list is implemented
-Integer specifying CIA1 model (all emulators except x64dtv/xpet/xplus4/xvic).
+Integer specifying CIA1 model (all emulators except x64dtv, xpet, xplus4, xvic).
 (0: old 6526, 1: new 6526A)
 
 @vindex CIA2Model
 @item CIA2Model
 @c the exceptions will be corrected as the resource list is implemented
-Integer specifying CIA2 model (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
+Integer specifying CIA2 model (all emulators except x64dtv, xcbm2, xcbm5x0, xpet, xplus4, xvic).
 (0: old 6526, 1: new 6526A)
 
 @end table
@@ -7284,7 +7418,7 @@ Integer specifying CIA2 model (all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xp
 Set both CIA models
 (@code{CIA1Model}, @code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
+(all emulators except x64dtv, xcbm2, xcbm5x0, xpet, xplus4, xvic).
 (0: old 6526, 1: new 6526A)
 
 @findex -cia1model
@@ -7292,7 +7426,7 @@ Set both CIA models
 Set CIA1 model
 (@code{CIA1Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except x64dtv/xpet/xplus4/xvic).
+(all emulators except x64dtv, xpet, xplus4, xvic).
 (0: old 6526, 1: new 6526A)
 
 @findex -cia2model
@@ -7300,7 +7434,7 @@ Set CIA1 model
 Set CIA2 model
 (@code{CIA2Model})
 @c the exceptions will be corrected as the resource list is implemented
-(all emulators except x64dtv/xcbm2/xcbm5x0/xpet/xplus4/xvic).
+(all emulators except x64dtv, xcbm2, xcbm5x0, xpet, xplus4, xvic).
 (0: old 6526, 1: new 6526A)
 
 @end table
@@ -7324,7 +7458,7 @@ chance that also enemies become invincible then).
 
 @cindex VIC-II color sets
 @item
-``Color set'' can be used to dynamically change the palette file being used by 
+``Color set'' can be used to dynamically change the palette file being used by
 choosing one of the available predefined color sets, for example:
 
 @itemize @bullet
@@ -7332,19 +7466,19 @@ choosing one of the available predefined color sets, for example:
 @file{pepto-pal.vpl} (``Pepto PAL''), a Palette calculated by Philip "Pepto" Timmermann
 (@uref{http://www.pepto.de/projects/colorvic/}). (This is the default)
 @item
-@file{vic.vpl} (``VICE''), the old default VICE palette.
+@file{vice.vpl} (``VICE''), the old default VICE palette.
 @item
 @file{c64s.vpl} (``C64S''), palette taken from the shareware C64S emulator by Miha Peternel.
 @item
 @file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64 emulator by Per Håkan Sundell.
 @item
 @file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator by Christian Bauer
-(@uref{http://www.uni-mainz.de/~bauec002/FRMain.html}).
+(@uref{https://frodo.cebix.net/}).
 @item
 @file{pc64.vpl} (``PC64''), palette taken from the free PC64 emulator by Wolfgang Lorenz.
 @item
 @file{godot.vpl} (``GoDot''), palette as suggested by the authors of the C64 graphics package GoDot
-(@uref{http://users.aol.com/howtogodot/welcome.htm}).
+(@uref{https://www.godot64.de}).
 @end itemize
 
 @end itemize
@@ -7362,7 +7496,7 @@ choosing one of the available predefined color sets, for example:
 @vindex VICIIModel
 @item VICIIModel
 Integer that specifies VIC-II model
-(x64sc/xscpu64 only).
+(x64sc, xscpu64 only).
 (6569, 6569r1, 8565, 6567, 8562, 6567r56a, 6572)
 
 @vindex VICIICheckSsColl
@@ -7378,7 +7512,7 @@ detection must be emulated.
 @vindex VICIIVSPBug
 @item VICIIVSPBug
 Boolean specifying whether the "VSP Bug" must be emulated
-(x64sc/xscpu64 only).
+(x64sc, xscpu64 only).
 
 @vindex VICIIVideoCache
 @item VICIIVideoCache
@@ -7489,7 +7623,7 @@ Enable/disable emulation of hardware sprite-background collision detection
 @itemx +VICIIvspbug
 Enable/disable emulation of the "VSP bug"
 (@code{VICIIVSPBug=1}, @code{VICIIVSPBug=0})
-(x64sc/xscpu64 only).
+(x64sc, xscpu64 only).
 
 @findex -VICIIvcache, +VICIIvcache
 @item -VICIIvcache
@@ -7703,7 +7837,7 @@ Integer specifying the base address of the second SID
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
-(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
 0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
 0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
 0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
@@ -7719,7 +7853,7 @@ Integer specifying the base address of the third SID
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
-(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
 0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
 0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
 0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
@@ -7735,7 +7869,7 @@ Integer specifying the base address of the third SID
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
-(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
 0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
 0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
 0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
@@ -7773,7 +7907,7 @@ total bandwidth (@code{0 - 90}).
 Integer that specifies reSID gain in percent [97] (90..100)
 @vindex SidResidFilterBias
 @item SidResidFilterBias
-Integer that specifies reSID filter bias, which can be used to adjust DAC bias 
+Integer that specifies reSID filter bias, which can be used to adjust DAC bias
 in millivolts. [0] (-5000..5000)
 
 @end table
@@ -7799,7 +7933,7 @@ Specifies the start address for the second SID chip
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
-(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
 0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
 0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
 0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
@@ -7816,7 +7950,24 @@ Specifies the start address for the third SID chip
 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
-(x64/x64sc/xscpu64/vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
+0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
+0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
+0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
+0xD7C0, 0xD7E0, 0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0,
+0xDEC0, 0xDEE0, 0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0,
+0xDFC0, 0xDFE0)
+
+@findex -sidquadaddress
+@item -sidquadaddress @code{ADDRESS}
+Specifies the start address for the forth SID chip
+(@code{SidQuadAddressStart})
+(x64, x64sc, xscpu64, x128 and vsid only).
+(x128: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0, 0xD4C0, 0xD4E0,
+0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0, 0xD7C0, 0xD7E0,
+0xDE00, 0xDE20, 0xDE40, 0xDE60, 0xDE80, 0xDEA0, 0xDEC0, 0xDEE0,
+0xDF00, 0xDF20, 0xDF40, 0xDF60, 0xDF80, 0xDFA0, 0xDFC0, 0xDFE0)
+(x64, x64sc, xscpu64, vsid: 0xD420, 0xD440, 0xD460, 0xD480, 0xD4A0,
 0xD4C0, 0xD4E0, 0xD500, 0xD520, 0xD540, 0xD560, 0xD580, 0xD5A0,
 0xD5C0, 0xD5E0, 0xD600, 0xD620, 0xD640, 0xD660, 0xD680, 0xD6A0,
 0xD6C0, 0xD6E0, 0xD700, 0xD720, 0xD740, 0xD760, 0xD780, 0xD7A0,
@@ -7943,7 +8094,7 @@ Boolean specifying whether the DS12C887 RTC cartridge should be emulated or not.
 @item DS12C887RTCbase
 Integer specifying the DS12C887 RTC base address.
 x128: (0xD700, 0xDE00, 0xDF00)
-x64/x64sc/xscpu64: (0xD500, 0xD600, 0xD700, 0xDE00, 0xDF00)
+x64, x64sc, xscpu64: (0xD500, 0xD600, 0xD700, 0xDE00, 0xDF00)
 
 @vindex DS12C887RTCRunMode
 @item DS12C887RTCRunMode
@@ -7975,29 +8126,29 @@ Integer specifying the I/O base address of the emulated ethernet cartridge,
 @vindex GEORAM
 @item GEORAM
 Boolean specifying whether the GEO-RAM cartridge should be emulated or not.
-(x64/x64sc/x128).
+(x64, x64sc, x128).
 
 @vindex GEORAMfilename
 @item GEORAMfilename
 String specifying the filename of the GEORAM image.
-(x64/x64sc/x128).
+(x64, x64sc, x128).
 
 @vindex GEORAMImageWrite
 @item GEORAMImageWrite
 Boolean, if true write back the GEO-RAM image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
-(x64/x64sc/x128).
+(x64, x64sc, x128).
 
 @vindex GEORAMsize
 @item GEORAMsize
 Integer specifying the size of the emulated GEO-RAM in KB.
 (64, 128, 256, 512, 1024, 2048, 4096).
-(x64/x64sc/x128).
+(x64, x64sc, x128).
 
 @vindex MIDIEnable
 @item MIDIEnable
 Boolean specifying whether the MIDI cartridge should be emulated or not
-(x64/x64sc/xscpu64/x128 only, and only if MIDI support is enabled and available at compile time).
+(x64, x64sc, xscpu64, x128 only, and only if MIDI support is enabled and available at compile time).
 
 @vindex MIDIMode
 @item MIDIMode
@@ -8068,7 +8219,7 @@ Enable/disable the DS12C887 RTC cartridge
 Base address of the DS12C887 RTC cartridge
 (@code{DS12C887RTCbase}).
 x128: (0xD700, 0xDE00, 0xDF00)
-x64/x64sc/xscpu64: (0xD500, 0xD600, 0xD700, 0xDE00, 0xDF00)
+x64, x64sc, xscpu64: (0xD500, 0xD600, 0xD700, 0xDE00, 0xDF00)
 
 @findex -ds12c887rtchalted, -ds12c887rtcrunning
 @item -ds12c887rtchalted
@@ -8183,10 +8334,13 @@ Disable/Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)
 @findex -ethernetcartmode
 @item -ethernetcartmode <Mode>
 Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)
-        
+
 @findex -ethernetcartbase
 @item -ethernetcartbase <Base address>
-Base address of the Ethernet Cartridge. (0xDE00/0xDE10/0xDE20/0xDE30/0xDE40/0xDE50/0xDE60/0xDE70/0xDE80/0xDE90/0xDEA0/0xDEB0/0xDEC0/0xDED0/0xDEE0/0xDEF0/0xDF00/0xDF10/0xDF20/0xDF30/0xDF40/0xDF50/0xDF60/0xDF70/0xDF80/0xDF90/0xDFA0/0xDFB0/0xDFC0/0xDFD0/0xDFE0/0xDFF0)
+Base address of the Ethernet Cartridge. (0xDE00, 0xDE10, 0xDE20, 0xDE30, 0xDE40,
+0xDE50, 0xDE60, 0xDE70, 0xDE80, 0xDE90, 0xDEA0, 0xDEB0, 0xDEC0, 0xDED0, 0xDEE0,
+0xDEF0, 0xDF00, 0xDF10, 0xDF20, 0xDF30, 0xDF40, 0xDF50, 0xDF60, 0xDF70, 0xDF80,
+0xDF90, 0xDFA0, 0xDFB0, 0xDFC0, 0xDFD0, 0xDFE0, 0xDFF0)
 
 @findex -tfe
 @item -tfe
@@ -8425,7 +8579,7 @@ Specify name of 256K image
 @item -256kbase <base address>
 Base address of the 256K expansion
 (@code{C64_256Kbase}).
-(0xDE00/0xDE80/0xDF00/0xDF80)
+(0xDE00, 0xDE80, 0xDF00, 0xDF80)
 
 @findex -pal
 @item -pal
@@ -8459,13 +8613,13 @@ Set the C64 model
 @item -cpmcart
 @itemx +cpmcart
 Enable/disable the CP/M cartridge
-(@code{CPMCart=1}. @code{CPMCart=0})
+(@code{CPMCart=1}, @code{CPMCart=0})
 
 @findex -tapecart, +tapecart
 @item -tapecart
 @itemx +tapecart
 Enable/disable tapecart emulation
-(@code{TapecartEnabled=1}. @code{TapecartEnabled=0})
+(@code{TapecartEnabled=1}, @code{TapecartEnabled=0})
 
 @findex -tcrt
 @item -tcrt <name>
@@ -8477,14 +8631,14 @@ Specify tapecart .tcrt image filename
 @itemx +tapecartupdatetcrt
 Specify if the attached .tcrt image should be updated when the emulated
 tapecart is written to.
-(@code{TapecartUpdateTCRT=1}. @code{TapecartUpdateTCRT=0})
+(@code{TapecartUpdateTCRT=1}, @code{TapecartUpdateTCRT=0})
 
 @findex -tapecartoptimizetcrt, +tapecartoptimizetcrt
 @item -tapecartoptimizetcrt
 @itemx +tapecartoptimizetcrt
 Specify if writing to a .tcrt file should optimize its size by leaving
 out blank space at the end.
-(@code{TapecartOptimizeTCRT=1}. @code{TapecartOptimizeTCRT=0})
+(@code{TapecartOptimizeTCRT=1}, @code{TapecartOptimizeTCRT=0})
 
 @findex -tapecartloglevel
 @item -tapecartloglevel <number>
@@ -9868,10 +10022,13 @@ Disable/Enable the Ethernet Cartridge (TFE/RR-Net/64NIC/FB-NET)
 @findex -ethernetcartmode
 @item -ethernetcartmode <Mode>
 Mode of Ethernet Cartridge (0: TFE, 1: RR-Net)
-        
+
 @findex -ethernetcartbase
 @item -ethernetcartbase <Base address>
-Base address of the Ethernet Cartridge. (0x9800/0x9810/0x9820/0x9830/0x9840/0x9850/0x9860/0x9870/0x9880/0x9890/0x98A0/0x98B0/0x98C0/0x98D0/0x98E0/0x98F0/0x9C00/0x9C10/0x9C20/0x9C30/0x9C40/0x9C50/0x9C60/0x9C70/0x9C80/0x9C90/0x9CA0/0x9CB0/0x9CC0/0x9CD0/0x9CE0/0x9CF0)
+Base address of the Ethernet Cartridge. (0x9800, 0x9810, 0x9820, 0x9830, 0x9840,
+0x9850, 0x9860, 0x9870, 0x9880, 0x9890, 0x98A0, 0x98B0, 0x98C0, 0x98D0, 0x98E0,
+0x98F0, 0x9C00, 0x9C10, 0x9C20, 0x9C30, 0x9C40, 0x9C50, 0x9C60, 0x9C70, 0x9C80,
+0x9C90, 0x9CA0, 0x9CB0, 0x9CC0, 0x9CD0, 0x9CE0, 0x9CF0)
 
 @findex -tfe
 @item -tfe
@@ -11584,7 +11741,7 @@ Enable/disable EOI blanking the screen
 @item -diagpin
 @itemx +diagpin
 Enable/disable the diagnostic pin at the PET userport
-(@code{DiagPin=1}. @code{DiagPin=0}).
+(@code{DiagPin=1}, @code{DiagPin=0}).
 
 @end table
 
@@ -12067,12 +12224,16 @@ feeling;
 
 @vindex PSIDKeepEnv
 @item PSIDKeepEnv
-Boolean that specifies whether to override PSID settings for Video standard and 
+Boolean that specifies whether to override PSID settings for Video standard and
 SID model.
 
 @vindex PSIDTune
 @item PSIDTune
 Integer that specifies the currently played sub tune.
+
+@vindex HVSCRoot
+@item HVSCRoot
+String specifying the location of the HVSC "C64Music" directory.
 
 @vindex ChargenName
 @item ChargenName
@@ -12199,7 +12360,7 @@ This section lists the settings and commands that are platform specific.
 
 @ifset platformsdl
 
-This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms. 
+This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms.
 
 @c -----------------------------------------------------------------
 @c @node FIXME
@@ -12887,7 +13048,7 @@ Set the joystick fuzz
 @end ifset
 @end ifclear
 
-This section lists the settings and commands that are common and specific to Unix, and are thus not present in other platforms. 
+This section lists the settings and commands that are common and specific to Unix, and are thus not present in other platforms.
 
 @c -----------------------------------------------------------------
 @c @node FIXME
@@ -12922,6 +13083,44 @@ first, in case the settings have changed.
 @vindex ConfirmOnExit
 @item ConfirmOnExit
 Boolean specifying whether to show a confirmation dialog on exit.
+
+@vindex DisplayDepth
+@item DisplayDepth
+Integer specifying the depth of the host display. The value @samp{0}
+(the default) causes the emulator to autodetect it
+(all emulators except vsid).
+(0..32)
+
+@vindex Window0Width
+@vindex Window0Height
+@vindex Window0Xpos
+@vindex Window0Ypos
+@item Window0Width
+@itemx Window0Height
+@itemx Window0Xpos
+@itemx Window0Ypos
+Integers specifying the position and size of the (first) emulator window
+(all emulators except vsid).
+
+@vindex Window1Width
+@vindex Window1Height
+@vindex Window1Xpos
+@vindex Window1Ypos
+@item Window1Width
+@itemx Window1Height
+@itemx Window1Xpos
+@itemx Window1Ypos
+Integers specifying the position and size of the (second) emulator window
+(x128 only).
+
+@vindex FOURCC
+@item FOURCC
+String specifying the YUV FOURCC format to use.
+
+@vindex UseFullscreen
+@item UseFullscreen
+Boolean specifying whether fullscreen mode is currently in use
+(all emulators except vsid).
 
 @vindex CrtcHwScale
 @item CrtcHwScale
@@ -13155,6 +13354,25 @@ Confirm quitting VICE
 Never confirm quitting VICE
 (@code{ConfirmOnExit=0}).
 
+@findex -displaydepth
+@item -displaydepth <value>
+Specify the display depth
+(@code{DisplayDepth})
+(all emulators except vsid).
+(0..32)
+
+@findex -fourcc
+@item -fourcc <fourcc>
+Set the YUV FOURCC format to use
+(@code{FOURCC}).
+
+@findex -fullscreen, +fullscreen
+@item -fullscreen
+@itemx +fullscreen
+Enable/disable fullscreen mode
+(@code{UseFullscreen=1}, (@code{UseFullscreen=0})
+(all emulators except vsid).
+
 @findex -CRTChwscale, +CRTChwscale
 @item -CRTChwscale
 @itemx +CRTChwscale
@@ -13307,150 +13525,6 @@ specifies a special device (like @file{/dev/ttyS0} for example,
 @pxref{RS232 settings};
 @code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
 @code{RsDevice4Baud})
-(all emulators except vsid).
-
-@end table
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node XAW-specific features, GTK3 specific features, GTK3 specific features
-@subsection XAW-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformxaw
-@node XAW-specific features, , GTK3 specific features, GTK3 specific features
-@subsection XAW-specific features
-@end ifset
-@end ifclear
-
-@ifset platformxaw
-
-This section lists the settings and commands that are common and specific to the XAW GUI, and are thus not present in other platforms. 
-
-@c @node FIXME
-@subsubsection XAW GUI specific resources
-
-@table @code
-
-@vindex DisplayDepth
-@item DisplayDepth
-Integer specifying the depth of the host display. The value @samp{0}
-(the default) causes the emulator to autodetect it
-(all emulators except vsid).
-(0..32)
-
-@vindex PrivateColormap
-@item PrivateColormap
-Boolean specifying whether VICE should install a private colormap at
-startup. This only makes sense for 8-bit displays that could run out of
-colors if other color-hungry applications are running at the same time
-(all emulators except vsid).
-
-@vindex UseXSync
-@item UseXSync
-Boolean specifying whether @code{XSync()} is called after updating the
-emulation window.
-
-@vindex Window0Width
-@vindex Window0Height
-@vindex Window0Xpos
-@vindex Window0Ypos
-@item Window0Width
-@itemx Window0Height
-@itemx Window0Xpos
-@itemx Window0Ypos
-Integers specifying the position and size of the (first) emulator window
-(all emulators except vsid).
-
-@vindex Window1Width
-@vindex Window1Height
-@vindex Window1Xpos
-@vindex Window1Ypos
-@item Window1Width
-@itemx Window1Height
-@itemx Window1Xpos
-@itemx Window1Ypos
-Integers specifying the position and size of the (second) emulator window
-(x128 only).
-
-@end table
-
-@b{The following resources are only available if Xvideo support is present at compile time.}
-
-@table @code
-
-@vindex FOURCC
-@item FOURCC
-String specifying the YUV FOURCC format to use.
-
-@end table
-
-@b{The following resources are only available if XRandr support is present at compile time.}
-
-@table @code
-
-@vindex UseFullscreen
-@item UseFullscreen
-Boolean specifying whether fullscreen mode is currently in use
-(all emulators except vsid).
-
-@end table
-
-@b{The following resources are only available if VidMode support is present at compile time.}
-
-@table @code
-
-@vindex UseFullscreen
-@item UseFullscreen
-Boolean specifying whether fullscreen mode is currently in use.
-
-@end table
-
-@c @node FIXME
-@subsubsection XAW GUI specific command-line options
-
-@table @code
-
-@findex -displaydepth
-@item -displaydepth <value>
-Specify the display depth
-(@code{DisplayDepth})
-(all emulators except vsid).
-(0..32)
-
-@findex -colormap, +colormap
-@item -colormap
-@itemx +colormap
-Enable/disable installation of a private colormap
-(@code{PrivateColormap=1}, @code{PrivateColormap=0})
-(all emulators except vsid).
-
-@findex -xsync, +xsync
-@item -xsync
-@itemx +xsync
-Enable/disable usage of @code{XSync()} when updating the emulation window
-(@code{UseXSync=1}, @code{UseXSync=0}).
-
-@end table
-
-@b{The following command-line options are only available if Xvideo support is present at compile time.}
-
-@table @code
-
-@findex -fourcc
-@item -fourcc <fourcc>
-Set the YUV FOURCC format to use
-(@code{FOURCC}).
-
-@findex -fullscreen, +fullscreen
-@item -fullscreen
-@itemx +fullscreen
-Enable/disable fullscreen mode
-(@code{UseFullscreen=1}, (@code{UseFullscreen=0})
 (all emulators except vsid).
 
 @end table
@@ -13682,7 +13756,7 @@ The modules in the xpet emulator are:
 @tab The ACIA for the SuperPET.  This module is optional.
 @item DWWPIA
 @tab 6520
-@tab The PIA for the DWW hires board. 
+@tab The PIA for the DWW hires board.
 @item CPU6809
 @tab 6809
 @tab The extra CPU in the SuperPET.  This module is optional.
@@ -13962,8 +14036,8 @@ the source.
 @item BYTE
 @tab B
 @tab The B register
-@item 
-@tab 
+@item
+@tab
 @tab The following are for 6309 compatibility:
 @item WORD
 @tab V
@@ -14994,7 +15068,7 @@ Integer specifying the way the oversized input should be handled
 (all emulators except vsid).
 (0: scale down, 1: crop left top, 2: crop center top,
 3: crop right top, 4: crop left center, 5: crop center,
-6: crop right center, 7: crop left bottom, 8: crop center bottom, 
+6: crop right center, 7: crop left bottom, 8: crop center bottom,
 9: crop right bottom)
 
 @vindex DoodleUndersizeHandling
@@ -15027,7 +15101,7 @@ Integer specifying the way the oversized input should be handled
 (all emulators except vsid).
 (0: scale down, 1: crop left top, 2: crop center top,
 3: crop right top, 4: crop left center, 5: crop center,
-6: crop right center, 7: crop left bottom, 8: crop center bottom, 
+6: crop right center, 7: crop left bottom, 8: crop center bottom,
 9: crop right bottom)
 
 @vindex KoalaUndersizeHandling
@@ -15162,7 +15236,7 @@ VICE supports recording an arbitrary session on the emulated machine and
 playing back this session later. This is done by saving a snapshot at the beginning
 of the recording session and then remembering all the user interaction such as
 keyboard and joystick input. We call this an 'event history'.
-The main purpose for having an event history is to create game sessions, e.g. recording 
+The main purpose for having an event history is to create game sessions, e.g. recording
 how to solve a game. An example walkthrough for the well known game "Fort Apocalypse" is
 available.
 
@@ -15175,7 +15249,7 @@ Unix port.
 @section Recommended Settings
 
 When using the event history feature it is possible that the playback session
-differs from what was done at recording time. This might arise due to a problem 
+differs from what was done at recording time. This might arise due to a problem
 in the initial snapshot or settings.
 Here are some suggestions to minimize the chance of failures in the session:
 a. Reset to default settings.
@@ -15200,8 +15274,8 @@ The following is a list of the user interaction that will be recorded:
 
 Recording an event history will create one or two files for a snapshot and
 the list of the user events. First, create an empty directory in which these
-files are to be saved and then select this directory and the name of the 
-snapshot files via 'Snapshot//Select History files/directory'. 
+files are to be saved and then select this directory and the name of the
+snapshot files via 'Snapshot//Select History files/directory'.
 Next, attach the disk or tape image with the game you want to record and load and
 run the game.
 
@@ -15209,7 +15283,7 @@ Start recording via 'Snapshot//Start/Stop Recording History'.
 Play the game. All actions will be recorded.
 After the game is finished, stop recording via 'Snapshot//Start/Stop
 Recording History'. The selected directory should now contain the two
-snapshot files (default ist start.vsf and end.vsf). 
+snapshot files (default ist start.vsf and end.vsf).
 
 @c @node FIXME
 @section Setting and Returning to Milestones
@@ -15253,13 +15327,13 @@ To play back an event history, select the directory with the history files
 start.vsf and end.vsf via 'Snapshot//Select History directory' and start the
 playback with 'Snapshot//Start/Stop Playback History'. Enjoy!
 During playback any user interaction is disabled.
-The playback stops when the end of the session is reached or if 
+The playback stops when the end of the session is reached or if
 'Snapshot//Select History directory' is selected again.
 
 @c @node FIXME
 @section Limitations and Suggestions
 
-a. Snapshot files will be quite big (>1MB) if a disk image has been attached. 
+a. Snapshot files will be quite big (>1MB) if a disk image has been attached.
 If possible, use PRG or T64 images to reduce the size of snapshot files.
 b. Snapshots may not be 100% accurate even with all the recommended settings.
 
@@ -16109,7 +16183,7 @@ Write data from the host filesystem using @code{filename} as input. At most 256
 bytes are written to the disk image.
 
 @item chain <track> <sector> [<unit>]
-Show block chain starting at (@code{track},@code{sector}). The last number
+Show block chain starting at (@code{track}, @code{sector}). The last number
 shown is the number of bytes used in the final block.
 
 @item copy <source1> [<source2> @dots{} <sourceN>] <destination>
@@ -16130,7 +16204,7 @@ If @code{unit} is specified, format the disk in unit @code{unit}.  If
 @code{type} and @code{imagename} are specified, create a new image named
 @code{imagename}, attach it to unit 8 and format it.  @code{type} is a
 disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031),
-@code{g64} (VC1541/2031 but in GCR coding), @code{d71} (VC1571), 
+@code{g64} (VC1541/2031 but in GCR coding), @code{d71} (VC1571),
 @code{g71} (VC1571 but in GCR coding), @code{d81}
 (VC1581), @code{d80} (CBM8050) or @code{d82} (CBM8250/1001).
 Otherwise, format the disk in the current unit, if any.
@@ -16626,12 +16700,15 @@ Basic v2.0 with Xbasic (C64)
 @section petcat examples
 
 @table @code
-@item petcat -2 -o outputfile.txt -- inputfile.prg
-Convert inputfile.prg to a text file in outputfile.txt, using BASIC V2 only
-@item petcat -wsimon -o outputfile.prg -- inputfile.txt
-Convert inputfile.txt to a PRG file in outputfile.prg, using Simons' BASIC
+@item @code{petcat -2 -o outputfile.txt -- inputfile.prg}
+De-tokenize, Convert inputfile.prg to a text file in outputfile.txt, using BASIC V2 only
+@item @code{petcat -wsimon -o outputfile.prg -- inputfile.txt}
+Tokenize, Convert inputfile.txt to a PRG file in outputfile.prg, using Simons' BASIC
+@item @code{petcat -text -o outputfile.txt -- inputfile.seq}
+Convert inputfile.seq to a Ascii text file in outputfile.txt.
+@item @code{petcat -text -w2 -o outputfile.seq -- inputfile.txt}
+Convert inputfile.txt to a Petscii text SEQ file in outputfile.seq.
 @end table
-
 
 @node File formats, Acknowledgments, c1541, Top
 @chapter The emulator file formats
@@ -17087,7 +17164,7 @@ beginning of the image.
 
 @subsection An extension for double sided disks (Commodore VIC 1571)
 
-Given that a Commodore VIC 1541/1570/1571 can read/write at most 42 
+Given that a Commodore VIC 1541/1570/1571 can read/write at most 42
 tracks per side, it is quite natural to use the half-tracks from 1
 to 84 for the first side and the following 84 half-tracks (i. e.
 halg.track 85 to 168) for the second size.
@@ -17095,7 +17172,7 @@ halg.track 85 to 168) for the second size.
 In order for this to work, byte 9 of the image (i. e. the maximum
 number of tracks) usually contains 168 for double sided disks.
 
-To make identifying such images easy, the fiel signature in the first 8 bytes of 
+To make identifying such images easy, the fiel signature in the first 8 bytes of
 such files will be @code{GCR-1571}).
 
 @c @node FIXME
@@ -17103,10 +17180,10 @@ such files will be @code{GCR-1571}).
 
 @c FIXME: the P64 section needs to be style-checked.
 
-This section is taken from "P64 file format specification" by Benjamin 'BeRo' 
+This section is taken from "P64 file format specification" by Benjamin 'BeRo'
 Rosseaux.
 
-All values are in little endian order ! 
+All values are in little endian order !
 
 @c @node FIXME
 @subsection P64 Header Layout
@@ -17114,23 +17191,23 @@ All values are in little endian order !
 @example
         0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
       +---------------------------------------------------------------+
-0000: |'P'|'6'|'4'|'-'|'1'|'5'|'4'|'1'|    Version    |     Flags     |   
+0000: |'P'|'6'|'4'|'-'|'1'|'5'|'4'|'1'|    Version    |     Flags     |
       +---------------+---------------+-------------------------------+
 0010: |     Size      | CRC32Checksum |
       +-------------------------------+
 @end example
 
          Version:  File format version, current is 0x00000000
-      
+
             Size   Size of the following whole chunk content stream
-      
+
            Flags:  Bit    0 = Write protect
                    Bit    1 = Number of sides (0 for single sided,
                               1 for double sided)
-                   Bit 2-31 = Reserved, all set to 0 when creating a file, 
+                   Bit 2-31 = Reserved, all set to 0 when creating a file,
                               preserve existing value when updating
-       
-   CRC32CheckSum:  CRC32 checksum of the following whole chunk content stream                
+
+   CRC32CheckSum:  CRC32 checksum of the following whole chunk content stream
 
 @c @node FIXME
 @subsection P64 Chunk Header Layout
@@ -17138,15 +17215,15 @@ All values are in little endian order !
 @example
         0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
       +-----------------------------------------------+
-0000: |Chunk Signature|      Size     | CRC32Checksum |   
+0000: |Chunk Signature|      Size     | CRC32Checksum |
       +-----------------------------------------------+
 @end example
 
  Chunk signature:  Signature of chunk
-      
+
             Size:  Size of the chunk data
-      
-   CRC32CheckSum:  CRC32 checksum of the chunk data                
+
+   CRC32CheckSum:  CRC32 checksum of the chunk data
 
 @c @node FIXME
 @subsection P64 Chunk 'HTPx' Layout
@@ -17154,28 +17231,28 @@ All values are in little endian order !
                           | x = half track index byte |
                           +---------------------------+
        Bit 7 of the half track index byte contains the side.
-                          
+
        Track 18 = Half track 36 = Half track index byte decimal value 36
-                          
-              Half track NRZI transition flux pulse data chunk block                          
-                                                                                         
+
+              Half track NRZI transition flux pulse data chunk block
+
 @example
         0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
       +---------------------------------------------------------------+
-0000: |  Count pulses |     Size      | ..... Range-encoded data .... |    
+0000: |  Count pulses |     Size      | ..... Range-encoded data .... |
       +---------------------------------------------------------------+
 @end example
 
-    Count pulses:  Count of the NRZI transition flux pulses in half track 
-      
+    Count pulses:  Count of the NRZI transition flux pulses in half track
+
             Size:  Size of the range-encoded data
-            
+
 @c @node FIXME
 @subsection 'HTPx' Range encoded data format
 
              Hint: For a working C implememtation see p64.c and p64.h
 
-The range coder is a FPAQ0-style range coder combined with 12-bit 0-order 
+The range coder is a FPAQ0-style range coder combined with 12-bit 0-order
 models, one model per byte with one bit per byte processing.
 
 @example
@@ -17184,204 +17261,204 @@ models, one model per byte with one bit per byte processing.
  +------------------+-----------------+------------------+------------------+
  |     Position     |        4        |      65536       |        32        |
  +------------------+-----------------+------------------+------------------+
- |     Strength     |        4        |      65536       |        32        | 
+ |     Strength     |        4        |      65536       |        32        |
  +------------------+-----------------+------------------+------------------+
  |   Position flag  |        1        |        2         |        1         |
  +------------------+-----------------+------------------+------------------+
- |   Strenth flag   |        1        |        2         |        1         | 
+ |   Strenth flag   |        1        |        2         |        1         |
  +------------------+-----------------+------------------+------------------+
  +===Total models===|        10       |==================|==================|
  +--------------------------------------------------------------------------+
 @end example
 
 All initial model state values are initialized with zero.
- 
-All initial model probability values are initialized with 2048. 
+
+All initial model probability values are initialized with 2048.
 
 These model probability values will be updating in a adaptive way on the
-fly and not precalculated before the encoding and even not loaded before 
+fly and not precalculated before the encoding and even not loaded before
 the decoding, see pseudo code below.
 
-16000000 Hz / 5 rotations per second at 300 RPM = maximal 3200000 flux pulses 
-        
-So NRZI transition flux pulse positions are in the 0 .. 3199999 value range, 
-which is also a exact single rotation, where each time unit is a cycle at 
-16 MHz with 300 RPM as a mapping for the ideal case.    
-  
+16000000 Hz / 5 rotations per second at 300 RPM = maximal 3200000 flux pulses
+
+So NRZI transition flux pulse positions are in the 0 .. 3199999 value range,
+which is also a exact single rotation, where each time unit is a cycle at
+16 MHz with 300 RPM as a mapping for the ideal case.
+
 The NRZI transition flux pulse stength are in the 0x00000000 .. 0xffffffff
-value range, where 0xffffffff indices a strong flux pulse, that always 
-triggers, and 0x00000001 indices a weak flux pulse, that almost never 
-triggers, and 0x00000000 indices a flux pulse, that absolutly never 
-triggers.            
-        
-For 32-bit values, the model sub streams are subdivided byte wide in a 
-little-endian manner, and each byte is processed bitwise with model 
+value range, where 0xffffffff indices a strong flux pulse, that always
+triggers, and 0x00000001 indices a weak flux pulse, that almost never
+triggers, and 0x00000000 indices a flux pulse, that absolutly never
+triggers.
+
+For 32-bit values, the model sub streams are subdivided byte wide in a
+little-endian manner, and each byte is processed bitwise with model
 probability shifting of 4 bits, just as:
 
 Pascal-Style pseudo code:
 @example
-procedure WriteDWord(Model, Value : longword);                             
-var ByteValue, ByteIndex, Context, Bit : longword;                         
-begin                                                                      
-  for ByteIndex := 0 to 3 do begin                                         
-    ByteValue := (Value shr (ByteIndex shl 3)) and $ff;                    
-    Context := 1;                                                          
-    for Bit := 7 downto 0 do begin                                         
-      Context := (Context shl 1) or RangeCoderEncodeBit(                   
-                    RangeCoderProbabilities[                               
-                     RangeCoderProbabilityOffsets[Model + ByteIndex] +     
-                     (((RangeCoderProbabilityStates[Model + ByteIndex]      
-                     shl 8) or Context) and $ffff)], 4, (ByteValue shr     
-                     Bit) and 1);                                          
-    end;                                                                   
-    RangeCoderProbabilityStates[Model+ByteIndex] := ByteValue;             
-  end;                                                                     
-end;                                                                       
+procedure WriteDWord(Model, Value : longword);
+var ByteValue, ByteIndex, Context, Bit : longword;
+begin
+  for ByteIndex := 0 to 3 do begin
+    ByteValue := (Value shr (ByteIndex shl 3)) and $ff;
+    Context := 1;
+    for Bit := 7 downto 0 do begin
+      Context := (Context shl 1) or RangeCoderEncodeBit(
+                    RangeCoderProbabilities[
+                     RangeCoderProbabilityOffsets[Model + ByteIndex] +
+                     (((RangeCoderProbabilityStates[Model + ByteIndex]
+                     shl 8) or Context) and $ffff)], 4, (ByteValue shr
+                     Bit) and 1);
+    end;
+    RangeCoderProbabilityStates[Model+ByteIndex] := ByteValue;
+  end;
+end;
 @end example
 
-And for 1-bit flag values it is much simpler, but also with model probability 
+And for 1-bit flag values it is much simpler, but also with model probability
 shifting of 4 bits, just as:
 
 Pascal-Style pseudo code:
 @example
-procedure WriteBit(Model, Value : longword);                               
-begin                                                                      
-   RangeCoderProbabilityStates[Model] :=                                   
-     RangeCoderEncodeBit(RangeCoderProbabilities[                          
-       RangeCoderProbabilityOffsets[Model] +                               
-         RangeCoderProbabilityStates[Model]], 4, Value and 1);             
-end;                                                                       
+procedure WriteBit(Model, Value : longword);
+begin
+   RangeCoderProbabilityStates[Model] :=
+     RangeCoderEncodeBit(RangeCoderProbabilities[
+       RangeCoderProbabilityOffsets[Model] +
+         RangeCoderProbabilityStates[Model]], 4, Value and 1);
+end;
 @end example
 
-The position and strength values are delta-encoded. If a value is equal to 
+The position and strength values are delta-encoded. If a value is equal to
 the last previous value, then the value will not encoded, instead, a flag for
-this will encoded. First the position value will encoded, then the stength 
+this will encoded. First the position value will encoded, then the stength
 value. If the last position delta is 0, then it is a track stream end marker.
 
 Pascal-Style pseudo code:
 @example
-LastPosition := 0;                                                         
-PreviousDeltaPosition := 0                                                 
-                                                                           
-LastStrength := 0;                                                         
-                                                                           
-for PulseIndex := 0 to PulseCount - 1 do begin                             
-                                                                           
-  DeltaPosition := Pulses[PulseIndex].Position - LastPosition;             
-  if PreviousDeltaPosition <> DeltaPosition then begin                     
-    PreviousDeltaPosition := DeltaPosition;                                
-    WriteBit(ModelPositionFlag, 1)                                         
-    WriteDWord(ModelPosition, DeltaPosition);                              
-  end else begin                                                           
-    WriteBit(ModelPositionFlag, 0);                                        
-  end;                                                                     
-  LastPosition := Pulses[PulseIndex].Position;                              
-                                                                           
-  if LastStrength <> Pulses[PulseIndex].Strength then begin                
-    WriteBit(ModelStrengthFlag, 1)                                         
-    WriteDWord(ModelStrength, Pulses[PulseIndex].Strength - LastStrength);   
-  end else begin                                                           
-    WriteBit(ModelStrengthFlag, 0);                                         
-  end;                                                                       
-  LastStrength := Pulses^[PulseIndex].Strength;                            
-                                                                           
-end;                                                                       
-                                                                           
-// End code                                                                
-WriteBit(ModelPositionFlag, 1);                                            
-WriteDWord(ModelPosition, 0);                                              
+LastPosition := 0;
+PreviousDeltaPosition := 0
+
+LastStrength := 0;
+
+for PulseIndex := 0 to PulseCount - 1 do begin
+
+  DeltaPosition := Pulses[PulseIndex].Position - LastPosition;
+  if PreviousDeltaPosition <> DeltaPosition then begin
+    PreviousDeltaPosition := DeltaPosition;
+    WriteBit(ModelPositionFlag, 1)
+    WriteDWord(ModelPosition, DeltaPosition);
+  end else begin
+    WriteBit(ModelPositionFlag, 0);
+  end;
+  LastPosition := Pulses[PulseIndex].Position;
+
+  if LastStrength <> Pulses[PulseIndex].Strength then begin
+    WriteBit(ModelStrengthFlag, 1)
+    WriteDWord(ModelStrength, Pulses[PulseIndex].Strength - LastStrength);
+  end else begin
+    WriteBit(ModelStrengthFlag, 0);
+  end;
+  LastStrength := Pulses^[PulseIndex].Strength;
+
+end;
+
+// End code
+WriteBit(ModelPositionFlag, 1);
+WriteDWord(ModelPosition, 0);
 @end example
- 
+
 The decoding is simply just in the another direction way.
-  
+
 Pseudo code for a FPAQ0-style carryless range coder:
 
 Pascal-Style pseudo code:
 @example
-procedure RangeCoderInit; // At encoding and decoding start                
-begin                                                                      
-  RangeCode := 0;                                                          
-  RangeLow := 0;                                                           
-  RangeHigh := $ffffffff;                                                  
-end;                                                                       
-                                                                           
-procedure RangeCoderStart; // At decoding start                            
-var Counter : longword;                                                       
-begin                                                                      
-  for Counter := 1 to 4 do begin                                           
-   RangeCode := (RangeCode shl 8) or ReadByteFromInput;                    
-  end;                                                                     
-end;                                                                       
-                                                                           
-procedure RangeCoderFlush; // At encoding end                              
-var Counter : longword;                                                      
-begin                                                                      
-  for Counter := 1 to 4 do begin                                           
-    WriteByteToOutput(RangeHigh shr 24);                                   
-    RangeHigh := RangeHigh shl 8;                                          
-  end;                                                                     
-end;                                                                        
-                                                                           
-procedure RangeCoderEncodeNormalize;                                          
-begin                                                                      
-  while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin              
-   WriteByteToOutput(RangeHigh shr 24);                                    
-   RangeLow := RangeLow shl 8;                                             
-   RangeHigh := (RangeHigh shl 8) or $ff;                                    
-  end;                                                                      
-end;                                                                        
-                                                                           
-function RangeCoderEncodeBit(var Probability : longword; Shift,            
-                             BitValue : longword) : longword;               
-begin                                                                      
-  RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *             
-                              Probability);                                  
-  if BitValue <> 0 then begin                                               
-    inc(Probability, ($fff - Probability) shr Shift);                      
-    RangeHigh := RangeMiddle;                                                
-  end else begin                                                           
-    dec(Probability, Probability shr Shift);                               
-    RangeLow := RangeMiddle + 1;                                           
-  end;                                                                     
-  RangeCoderEncodeNormalize;                                               
-  result := BitValue;                                                      
-end;                                                                       
-                                                                            
-procedure RangeCoderDecodeNormalize;                                        
-begin                                                                      
-  while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin              
-    RangeLow := RangeLow shl 8;                                            
-    RangeHigh := (RangeHigh shl 8) or $ff;                                 
-    RangeCode := (RangeCode shl 8) or ReadByteFromInput;                   
-  end;                                                                     
-end;                                                                       
-                                                                            
-function RangeCoderDecodeBit(var Probability : longword;                   
-                             Shift : longword) : longword;                 
-begin                                                                      
-  RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *             
-                             Probability);                                 
-  if RangeCode <= RangeMiddle then begin                                   
-    inc(Probability, ($fff - Probability) shr Shift);                      
-    RangeHigh := RangeMiddle;                                              
-    result := 1;                                                           
-  end else begin                                                           
-    dec(Probability, Probability shr Shift);                               
-    RangeLow := RangeMiddle + 1;                                           
-    result := 0;                                                           
-  end;                                                                     
-  RangeCoderDecodeNormalize;                                               
-end;                                                                       
+procedure RangeCoderInit; // At encoding and decoding start
+begin
+  RangeCode := 0;
+  RangeLow := 0;
+  RangeHigh := $ffffffff;
+end;
+
+procedure RangeCoderStart; // At decoding start
+var Counter : longword;
+begin
+  for Counter := 1 to 4 do begin
+   RangeCode := (RangeCode shl 8) or ReadByteFromInput;
+  end;
+end;
+
+procedure RangeCoderFlush; // At encoding end
+var Counter : longword;
+begin
+  for Counter := 1 to 4 do begin
+    WriteByteToOutput(RangeHigh shr 24);
+    RangeHigh := RangeHigh shl 8;
+  end;
+end;
+
+procedure RangeCoderEncodeNormalize;
+begin
+  while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin
+   WriteByteToOutput(RangeHigh shr 24);
+   RangeLow := RangeLow shl 8;
+   RangeHigh := (RangeHigh shl 8) or $ff;
+  end;
+end;
+
+function RangeCoderEncodeBit(var Probability : longword; Shift,
+                             BitValue : longword) : longword;
+begin
+  RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *
+                              Probability);
+  if BitValue <> 0 then begin
+    inc(Probability, ($fff - Probability) shr Shift);
+    RangeHigh := RangeMiddle;
+  end else begin
+    dec(Probability, Probability shr Shift);
+    RangeLow := RangeMiddle + 1;
+  end;
+  RangeCoderEncodeNormalize;
+  result := BitValue;
+end;
+
+procedure RangeCoderDecodeNormalize;
+begin
+  while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin
+    RangeLow := RangeLow shl 8;
+    RangeHigh := (RangeHigh shl 8) or $ff;
+    RangeCode := (RangeCode shl 8) or ReadByteFromInput;
+  end;
+end;
+
+function RangeCoderDecodeBit(var Probability : longword;
+                             Shift : longword) : longword;
+begin
+  RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *
+                             Probability);
+  if RangeCode <= RangeMiddle then begin
+    inc(Probability, ($fff - Probability) shr Shift);
+    RangeHigh := RangeMiddle;
+    result := 1;
+  end else begin
+    dec(Probability, Probability shr Shift);
+    RangeLow := RangeMiddle + 1;
+    result := 0;
+  end;
+  RangeCoderDecodeNormalize;
+end;
 @end example
 
-The probability may be never zero! But that can't happen here with this 
+The probability may be never zero! But that can't happen here with this
 adaptive model in this P64 file format, since the adaptive model uses a
-shift factor of 4 bits and initial probabilities value of 2048, so the 
-probability has a value range from 15 up to 4080 here. If you do want to use 
-the above range coder routines for other stuff with other probability models, 
-then you must to ensure that the probability output value is never zero, for 
-example with  "probability |= (probability < 1); " in C.     
-  
+shift factor of 4 bits and initial probabilities value of 2048, so the
+probability has a value range from 15 up to 4080 here. If you do want to use
+the above range coder routines for other stuff with other probability models,
+then you must to ensure that the probability output value is never zero, for
+example with  "probability |= (probability < 1); " in C.
+
 @c @node FIXME
 @subsection P64 Chunk 'DONE' Layout
 
@@ -18998,7 +19075,8 @@ code will read 18/6 instead. If 18/6 is part of the normal
 directory chain then the validate routine will loop endlessly.
 
 @c @node FIXME
-@subsection Bam layout The BAM is somewhat different as it now has to
+@subsection Bam layout
+The BAM is somewhat different as it now has to
 take 35 new tracks into account. In order to do this, most of
 the extra BAM information is stored on track 53/0, and the
 remaining sectors on track 53 are marked in the BAM as
@@ -19850,7 +19928,8 @@ difference. The track/sector reference for the next sector
 should be set to $00/$FF, indicating there is no next sector.
 
 @c @node FIXME
-@subsection REL files The REL filetype requires some extra explaining.
+@subsection REL files 
+The REL filetype requires some extra explaining.
 It was designed to make access to data *anywhere* on the disk
 very fast. Take a look at this directory entry@dots{}
 
@@ -22600,8 +22679,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
     ---   -------
      0    bank bit 0
      1    bank bit 1
-     2    mode (0 = EXROM/GAME (bridged on the same wire - 16k config) 1 = cartridge disabled)
-     3    write-protect-latch  (1 = no more changes are possible until the next hardware-reset )
+     2    mode (0 = EXROM/GAME (bridged on the same wire - 16k config) 
+                1 = cartridge disabled)
+     3    write-protect-latch  (1 = no more changes are possible until 
+                                    the next hardware-reset )
     4-7   unused
 @end example
 
@@ -23869,7 +23950,7 @@ load files of this type.
     The following memory maps are available:
 
 @itemize @bullet
-@item standard - 
+@item standard -
     $DE00 and $DE01 registers are active,  $DF00-$DFFF  contain  the  last
     page of the selected 8Kb bank  of  either  ROM  or  RAM,  whatever  is
     selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
@@ -24864,7 +24945,7 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???‚????????????
 100D0: 01 01 B9 D1 0D 15 89 55 65 45 41 C5 01 45 45 A8  ??¹.??‰UeEA.?EE?
 @dots{}
 120D0: 43 48 49 50 00 00 20 10 00 00 00 09 80 00 20 00  CHIP????????.???
-120E0: 01 21 0C C7 29 54 41 29 4D C5 06 24 C7 24 8F 81  ???.?TA?M.??.?  
+120E0: 01 21 0C C7 29 54 41 29 4D C5 06 24 C7 24 8F 81  ???.?TA?M.??.?
 @dots{}
 140E0: 43 48 49 50 00 00 20 10 00 00 00 0A 80 00 20 00  CHIP????????.???
 140F0: 01 41 EA 87 7A AF 95 67 BD F7 00 7D 6E C4 5D A6  ?A..z»•g???.n.]?
@@ -24989,7 +25070,8 @@ rom bank 0x00 - 0x03 (0x04) 8192* 4 32k mapped to e000
 MC6821 registers mapped to io2 at dfc0..dfc4
 
 - press reset and hold delete to get the main menu
-- press reset and hold control to skip cbm80 check (dont start additional cartridge)
+- press reset and hold control to skip cbm80 check 
+  (dont start additional cartridge)
 
 - press RESTORE, then...
   - left arrow, return  show disk directory
@@ -25215,7 +25297,7 @@ Wilfred Bos (PSID v3/v4, RSID v3/v4) and LaLa (assembled most of the following t
 and last not least tweaked a bit by Groepaz to fit into the VICE documentation.
 
 The original documentation maintained by the HVSC team can be found here:
-@url{http://www.hvsc.de/download/C64Music/DOCUMENTS/SID_file_format.txt}
+ @uref{http://www.hvsc.de/download/C64Music/DOCUMENTS/SID_file_format.txt}
 
 SID files use the .sid file extension.
 
@@ -25267,14 +25349,14 @@ configure and use all hardware appropriately.
 
 RSID is based on PSIDv2NG with the following modifications:
 
-@itemize 
+@itemize
 @item magicID = RSID
 @item version = 2, 3 and 4 only
 @item loadAddress = 0 (reserved)
 @item playAddress = 0 (reserved)
 @item speed = 0 (reserved)
 @item psidSpecific flag is called C64BASIC flag
-@end itemize 
+@end itemize
 
 The above fields MUST be checked and if any differ from the above then the
 tune MUST be rejected. The definitions above will force tunes to contain
@@ -25764,7 +25846,7 @@ tape code issues.
 Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
 cartconv, c1541 and petcat. Added video to audio leak sound support.
-Improved the GTK3 GUI. Added x64(sc)/x128/x64dtv/xplus4/xvic model
+Improved the GTK3 GUI. Added x64(sc), x128, x64dtv, xplus4, xvic model
 selection system. Added KoalaPad emulation. Added keyrah keymaps.
 Added joystick keys mapping to the keymap system. CIA emulation
 improvements. Added basic support for compute gazette sidplayer
@@ -25818,7 +25900,7 @@ yasm version checking. Fixed runtime linker path issues with *BSD. Fixed
 out-of-tree building. One of the driving forces behind the 'native' GTK3
 port.
 
-@item 
+@item
 @b{Michael C. Martin}
 One of the driving forces behind the 'native' GTK3 port.
 
