@@ -1224,6 +1224,7 @@ int monitor_resources_init(void)
     return resources_register_int(resources_int);
 }
 
+/* FIXME: we should use a resource like MonitorLogFileName */
 static int set_monlog_name(const char *param, void *extra_param)
 {
     return mon_log_file_open(param);
