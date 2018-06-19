@@ -12179,17 +12179,14 @@ This section lists the settings and commands that are platform specific.
 * SDL-specific features::
 @end ifset
 @ifset platformunix
-* Unix-specific features::
-@end ifset
-@ifset platformosx
-* Mac OS X-specific features::
+* GTK3 specific features::
 @end ifset
 @end menu
 
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node SDL-specific features, Unix-specific features, , Platform-specific features
+@node SDL-specific features, GTK3 specific features, , Platform-specific features
 @section SDL-specific features
 @end ifset
 
@@ -12204,6 +12201,7 @@ This section lists the settings and commands that are platform specific.
 
 This section lists the settings and commands that are common and specific to SDL, and are thus not present in other platforms. 
 
+@c -----------------------------------------------------------------
 @c @node FIXME
 @subsection SDL specific resources
 
@@ -12525,8 +12523,7 @@ Boolean to enable/disable overclocking.
 
 @end table
 
-@end ifset
-
+@c -----------------------------------------------------------------
 @c @node FIXME
 @subsection SDL specific command-line options
 
@@ -12875,37 +12872,46 @@ Set the joystick fuzz
 @end table
 
 @end ifset
-
+@c end platformsdl
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node Unix-specific features, Mac OS X-specific features, SDL-specific features, Platform-specific features
-@section Unix-specific features
+@node GTK3 specific features, SDL-specific features, Platform-specific features
+@section GTK3 specific features
 @end ifset
 
 @ifclear platformall
 @ifset platformunix
-@node Unix-specific features, , Platform-specific features, Platform-specific features
-@section Unix-specific features
+@node GTK3 specific features, , Platform-specific features, Platform-specific features
+@section GTK3 specific features
 @end ifset
 @end ifclear
 
-@ifset platformunix
-@menu
-@ifset platformxaw
-* XAW-specific features::
-@end ifset
-@ifset platformgtk
-* GTK-specific features::
-@end ifset
-@end menu
-
 This section lists the settings and commands that are common and specific to Unix, and are thus not present in other platforms. 
 
+@c -----------------------------------------------------------------
 @c @node FIXME
-@subsection Unix specific resources
+@subsection GTK3 specific resources
 
 @table @code
+
+@vindex AspectRatio
+@item AspectRatio
+String/float specifying the aspect ratio
+(0.5-2.0).
+
+@vindex KeepAspectRatio
+@item KeepAspectRatio
+Boolean specifying whether the aspect ratio of the output window should be preserved.
+(0: free scaling, 1: scale with fixed aspect ratio)
+
+@vindex TrueAspectRatio
+@item TrueAspectRatio
+Boolean specifying whether to use the true (non square pixels) aspect ratio.
+
+@vindex StartMinimized
+@item StartMinimized
+Boolean specifying whether the emulator should start minimized
 
 @vindex SaveResourcesOnExit
 @item SaveResourcesOnExit
@@ -13105,7 +13111,7 @@ to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
 @end table
 
 @c @node FIXME
-@subsection Unix specific command-line options
+@subsection GTK3 specific command-line options
 
 @table @code
 
@@ -13114,6 +13120,32 @@ to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings})
 @itemx +saveres
 Enable/disable automatic saving of settings on exit
 (@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+
+@findex -minimized, +minimized
+@item -minimized
+@itemx +minimized
+Start/Do not start with minimized window
+(@code{StartMinimized=1}, @code{StartMinimized=0}).
+
+@findex -aspect
+@item -aspect <aspect ratio>
+Set the aspect ratio
+(@code{AspectRatio}).
+(0.5-2.0)
+
+@findex -keepaspect, +keepaspect
+@item -keepaspect
+Enable keeping of the aspect ratio when scaling
+(@code{KeepAspectRatio=1}).
+@item +keepaspect
+Disable keeping of the aspect ratio when scaling (freescaling)
+(@code{KeepAspectRatio=0}).
+
+@findex -trueaspect, +trueaspect
+@item -trueaspect
+@itemx +trueaspect
+Enable/disable whether to use the true (non square pixels) aspect ratio
+(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
 
 @findex -confirmonexit, +confirmonexit
 @item -confirmonexit
@@ -13284,13 +13316,13 @@ specifies a special device (like @file{/dev/ttyS0} for example,
 @c -----------------------------------------------------------------
 
 @ifset platformall
-@node XAW-specific features, GTK-specific features, Unix-specific features, Unix-specific features
+@node XAW-specific features, GTK3 specific features, GTK3 specific features
 @subsection XAW-specific features
 @end ifset
 
 @ifclear platformall
 @ifset platformxaw
-@node XAW-specific features, , Unix-specific features, Unix-specific features
+@node XAW-specific features, , GTK3 specific features, GTK3 specific features
 @subsection XAW-specific features
 @end ifset
 @end ifclear
@@ -13351,20 +13383,6 @@ Integers specifying the position and size of the (second) emulator window
 
 @table @code
 
-@vindex AspectRatio
-@item AspectRatio
-String/float specifying the aspect ratio
-(0.5-2.0).
-
-@vindex KeepAspectRatio
-@item KeepAspectRatio
-Boolean specifying whether the aspect ratio of the output window should be preserved.
-(0: free scaling, 1: scale with fixed aspect ratio)
-
-@vindex TrueAspectRatio
-@item TrueAspectRatio
-Boolean specifying whether to use the true (non square pixels) aspect ratio.
-
 @vindex FOURCC
 @item FOURCC
 String specifying the YUV FOURCC format to use.
@@ -13423,26 +13441,6 @@ Enable/disable usage of @code{XSync()} when updating the emulation window
 
 @table @code
 
-@findex -aspect
-@item -aspect <aspect ratio>
-Set the aspect ratio
-(@code{AspectRatio}).
-(0.5-2.0)
-
-@findex -keepaspect, +keepaspect
-@item -keepaspect
-Enable keeping of the aspect ratio when scaling
-(@code{KeepAspectRatio=1}).
-@item +keepaspect
-Disable keeping of the aspect ratio when scaling (freescaling)
-(@code{KeepAspectRatio=0}).
-
-@findex -trueaspect, +trueaspect
-@item -trueaspect
-@itemx +trueaspect
-Enable/disable whether to use the true (non square pixels) aspect ratio
-(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
-
 @findex -fourcc
 @item -fourcc <fourcc>
 Set the YUV FOURCC format to use
@@ -13456,83 +13454,6 @@ Enable/disable fullscreen mode
 (all emulators except vsid).
 
 @end table
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node GTK-specific features, , XAW-specific features, Unix-specific features
-@subsection GTK-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformgtk
-@node GTK-specific features, , Unix-specific features, Unix-specific features
-@subsection GTK-specific features
-@end ifset
-@end ifclear
-
-@ifset platformgtk
-
-This section lists the settings and commands that are common and specific to the GTK GUI, and are thus not present in other platforms. 
-
-@c @node FIXME
-@subsubsection GTK GUI specific resources
-
-@table @code
-
-@vindex KeepAspectRatio
-@item KeepAspectRatio
-Boolean specifying whether the aspect ratio of the output window should be preserved.
-(0: free scaling, 1: scale with fixed aspect ratio)
-
-@vindex TrueAspectRatio
-@item TrueAspectRatio
-Boolean specifying whether to use the true (non square pixels) aspect ratio.
-
-@end table
-
-@c @node FIXME
-@subsubsection GTK GUI specific command-line options
-
-@table @code
-
-@findex -keepaspect, +keepaspect
-@item -keepaspect
-Enable keeping of the aspect ratio when scaling
-(@code{KeepAspectRatio=1}).
-@item +keepaspect
-Disable keeping of the aspect ratio when scaling (freescaling)
-(@code{KeepAspectRatio=0}).
-
-@findex -trueaspect, +trueaspect
-@item -trueaspect
-@itemx +trueaspect
-Enable/disable whether to use the true (non square pixels) aspect ratio
-(@code{TrueAspectRatio=1}, (@code{TrueAspectRatio=0}).
-
-@end table
-
-@end ifset
-
-@c -----------------------------------------------------------------
-
-@ifset platformall
-@node Mac OS X-specific features, , Unix-specific features, Platform-specific features
-@section Mac OS X-specific features
-@end ifset
-
-@ifclear platformall
-@ifset platformosx
-@node Mac OS X-specific features, , Platform-specific features, Platform-specific features
-@section Mac OS X-specific features
-@end ifset
-@end ifclear
-
-@ifset platformosx
-
-@c TODO: Mac OS X specific content
 
 @end ifset
 

@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* #define DEBUG 1 */
+/* #define DEBUG 1  */
 
 #ifdef DEBUG
 #define DBG(_x) printf _x
@@ -401,12 +401,13 @@ void readviceopt(FILE *tf, char *emu, int tag)
 {
     char tmp[0x100];
     int c;
+    size_t oldpos;
     ITEM *itm;
-    DBG(("reading opts for '%s'\n",emu));
+    DBG(("reading opts for '%s' from vice options\n",emu));
     fseek(tf,0,SEEK_SET);
     while(!feof(tf)) {
         skipuntil(tf, '[');
-        c = fscanf(tf,"%s",tmp);
+        c = fscanf(tf,"%20s",tmp);
         if (c < 1) {
             break;
         }
@@ -416,6 +417,21 @@ void readviceopt(FILE *tf, char *emu, int tag)
             DBG(("found tag %d '%s'\n",c,tmp));
             break;
         }
+    }
+    while(!feof(tf)) {
+        c = skipblank(tf);
+        if ((c=='-')||(c=='+')) {
+            oldpos = ftell(tf);
+            c = getstr(tf, &tmp[0]);
+            DBG(("first option '%s'\n",tmp));
+            if(!strcmp(tmp, "help")
+               || !strcmp(tmp, "logfile")
+               || !strcmp(tmp, "f")) {
+                fseek(tf,oldpos-1,SEEK_SET);
+                break;
+            }
+        }
+        skipuntil(tf, '\n');
     }
 
     while(!feof(tf)) {
@@ -434,7 +450,7 @@ void readviceopt(FILE *tf, char *emu, int tag)
             itm->flags |= tag;
         } else {
             c = getstr(tf, &tmp[0]);
-            DBG2(("not option '%s'\n",tmp));
+            DBG(("not option '%s'\n",tmp));
         }
         skipuntil(tf, '\n');
     }
@@ -681,6 +697,7 @@ void checkresources(void)
                     || !strcmp(list1->string, "Window1Height")
                     || !strcmp(list1->string, "Window1Xpos")
                     || !strcmp(list1->string, "Window1Ypos")
+                    || !strcmp(list1->string, "StartMinimized")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
@@ -689,6 +706,55 @@ void checkresources(void)
                     || !strcmp(list1->string, "SDLWindowWidth")
                     || !strcmp(list1->string, "SDLWindowHeight")
                     || !strcmp(list1->string, "SDLGLFilter")
+                    || !strcmp(list1->string, "SDLStatusbar")
+                    || !strcmp(list1->string, "SDLBitdepth")
+                    || !strcmp(list1->string, "SDLLimitMode")
+                    || !strcmp(list1->string, "SDLCustomWidth")
+                    || !strcmp(list1->string, "SDLCustomHeight")
+                    || !strcmp(list1->string, "SDLGLAspectMode")
+                    || !strcmp(list1->string, "SDLGLFlipX")
+                    || !strcmp(list1->string, "SDLGLFlipY")
+
+                    || !strcmp(list1->string, "JoyMapFile")
+                    || !strcmp(list1->string, "JoyThreshold")
+                    || !strcmp(list1->string, "JoyFuzz")
+
+                    || !strcmp(list1->string, "HotkeyFile")
+                    || !strcmp(list1->string, "MenuKey")
+                    || !strcmp(list1->string, "MenuKeyUp")
+                    || !strcmp(list1->string, "MenuKeyDown")
+                    || !strcmp(list1->string, "MenuKeyLeft")
+                    || !strcmp(list1->string, "MenuKeyRight")
+                    || !strcmp(list1->string, "MenuKeyPageUp")
+                    || !strcmp(list1->string, "MenuKeyPageDown")
+                    || !strcmp(list1->string, "MenuKeyHome")
+                    || !strcmp(list1->string, "MenuKeyEnd")
+                    || !strcmp(list1->string, "MenuKeySelect")
+                    || !strcmp(list1->string, "MenuKeyCancel")
+                    || !strcmp(list1->string, "MenuKeyExit")
+                    || !strcmp(list1->string, "MenuKeyMap")
+
+                    || !strcmp(list1->string, "CrtcSDLFullscreenMode")
+                    || !strcmp(list1->string, "CrtcFullscreenDevice")
+                    || !strcmp(list1->string, "CrtcFullscreen")
+                    || !strcmp(list1->string, "CrtcFullscreenStatusbar")
+                    || !strcmp(list1->string, "TEDSDLFullscreenMode")
+                    || !strcmp(list1->string, "TEDFullscreenDevice")
+                    || !strcmp(list1->string, "TEDFullscreen")
+                    || !strcmp(list1->string, "TEDFullscreenStatusbar")
+                    || !strcmp(list1->string, "VDCSDLFullscreenMode")
+                    || !strcmp(list1->string, "VDCFullscreenDevice")
+                    || !strcmp(list1->string, "VDCFullscreen")
+                    || !strcmp(list1->string, "VDCFullscreenStatusbar")
+                    || !strcmp(list1->string, "VICSDLFullscreenMode")
+                    || !strcmp(list1->string, "VICFullscreenDevice")
+                    || !strcmp(list1->string, "VICFullscreen")
+                    || !strcmp(list1->string, "VICFullscreenStatusbar")
+                    || !strcmp(list1->string, "VICIISDLFullscreenMode")
+                    || !strcmp(list1->string, "VICIIFullscreenDevice")
+                    || !strcmp(list1->string, "VICIIFullscreen")
+                    || !strcmp(list1->string, "VICIIFullscreenStatusbar")
+
                   ) {
                     printf("(SDL only, not GTK3)");
                 } else if(0
@@ -817,6 +883,9 @@ void checkoptions(void)
     }
     printf("\n");
 
+    printf("The following options appear in vice but not in the documentation, so\n"
+           "they might be missing in the documentation (%d):\n\n", i);
+
     list1 = &optlistvice;
     i = 0;
     while (list1) {
@@ -840,8 +909,6 @@ void checkoptions(void)
         }
         list1 = list1->next;
     }
-    printf("The following options appear in vice but not in the documentation, so\n"
-           "they might be missing in the documentation (%d):\n\n", i);
 
     if (i == 0) {
         printf("none - well done.\n");
@@ -897,7 +964,15 @@ void checkoptions(void)
 
     printf("The following options appear in the documentation but not in vice, so\n"
            "they might be outdated or spelled incorrectly:\n\n");
-
+#if 0
+    list1 = &optlistvice;
+    while (list1) {
+        if (list1->string) {
+            printf("%s\n", list1->string);
+        }
+        list1 = list1->next;
+    }
+#endif
     list1 = &optlisttex;
     i = 0; skipnext = 0;
     while (list1) {
@@ -929,13 +1004,64 @@ void checkoptions(void)
                     || !strcmp(list1->string, "+trueaspect")
                     || !strcmp(list1->string, "-keepmonopen")
                     || !strcmp(list1->string, "+keepmonopen")
+                    || !strcmp(list1->string, "-minimized")
+                    || !strcmp(list1->string, "+minimized")
                   ) {
                     printf("(GTK3 only, not SDL)");
                 } else if(0
+                    || !strcmp(list1->string, "-statusbar")
+                    || !strcmp(list1->string, "+statusbar")
+                    || !strcmp(list1->string, "-kbdstatusbar")
+                    || !strcmp(list1->string, "+kbdstatusbar")
+                    || !strcmp(list1->string, "-sdlaspectmode")
+                    || !strcmp(list1->string, "-sdlflipx")
+                    || !strcmp(list1->string, "+sdlflipx")
+                    || !strcmp(list1->string, "-sdlflipy")
+                    || !strcmp(list1->string, "+sdlflipy")
+                    || !strcmp(list1->string, "-joymap")
+                    || !strcmp(list1->string, "-joythreshold")
+                    || !strcmp(list1->string, "-joyfuzz")
                     || !strcmp(list1->string, "-sdlglfilter")
                     || !strcmp(list1->string, "+sdlglfilter")
                     || !strcmp(list1->string, "-sdl2renderer")
-                    || !strcmp(list1->string, "+sdl2renderer")
+                    || !strcmp(list1->string, "-hotkeyfile")
+                    || !strcmp(list1->string, "-menukey")
+                    || !strcmp(list1->string, "-menukeyup")
+                    || !strcmp(list1->string, "-menukeydown")
+                    || !strcmp(list1->string, "-menukeyleft")
+                    || !strcmp(list1->string, "-menukeyright")
+                    || !strcmp(list1->string, "-menukeypageup")
+                    || !strcmp(list1->string, "-menukeypagedown")
+                    || !strcmp(list1->string, "-menukeyhome")
+                    || !strcmp(list1->string, "-menukeyend")
+                    || !strcmp(list1->string, "-menukeyselect")
+                    || !strcmp(list1->string, "-menukeycancel")
+                    || !strcmp(list1->string, "-menukeyexit")
+                    || !strcmp(list1->string, "-menukeymap")
+                    || !strcmp(list1->string, "-sdlbitdepth")
+                    || !strcmp(list1->string, "-sdllimitmode")
+                    || !strcmp(list1->string, "-sdlcustomw")
+                    || !strcmp(list1->string, "-sdlcustomh")
+                    || !strcmp(list1->string, "-CRTCSDLfullmode")
+                    || !strcmp(list1->string, "-CRTCfulldevice")
+                    || !strcmp(list1->string, "-CRTCfull")
+                    || !strcmp(list1->string, "+CRTCfull")
+                    || !strcmp(list1->string, "-TEDSDLfullmode")
+                    || !strcmp(list1->string, "-TEDfulldevice")
+                    || !strcmp(list1->string, "-TEDfull")
+                    || !strcmp(list1->string, "+TEDfull")
+                    || !strcmp(list1->string, "-VDCSDLfullmode")
+                    || !strcmp(list1->string, "-VDCfulldevice")
+                    || !strcmp(list1->string, "-VDCfull")
+                    || !strcmp(list1->string, "+VDCfull")
+                    || !strcmp(list1->string, "-VICSDLfullmode")
+                    || !strcmp(list1->string, "-VICfulldevice")
+                    || !strcmp(list1->string, "-VICfull")
+                    || !strcmp(list1->string, "+VICfull")
+                    || !strcmp(list1->string, "-VICIISDLfullmode")
+                    || !strcmp(list1->string, "-VICIIfulldevice")
+                    || !strcmp(list1->string, "-VICIIfull")
+                    || !strcmp(list1->string, "+VICIIfull")
                   ) {
                     printf("(SDL only, not GTK3)");
                 } else if(0
