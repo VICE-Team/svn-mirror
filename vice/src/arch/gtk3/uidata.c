@@ -67,11 +67,11 @@ bool uidata_init(void)
     int i;
 #endif
     char *path;
-    char *dir = NULL;
+    char *dir;
 
     /* try directory with VICE's data files */
-    debug_gtk3("trying archdep_get_vice_datadir() (%s)\n", dir);
     dir = archdep_get_vice_datadir();
+    debug_gtk3("trying archdep_get_vice_datadir() (%s)\n", dir);
     path = util_concat(dir, "vice.gresource", NULL);
     lib_free(dir);
     gresource = g_resource_load(path, &err);
