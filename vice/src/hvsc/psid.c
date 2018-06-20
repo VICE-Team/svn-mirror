@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
+#include <inttypes.h>
 #include <stdbool.h>
 
 #include "hvsc.h"
@@ -413,7 +413,7 @@ void hvsc_psid_dump(const hvsc_psid_t *handle)
 
     /* dump header data on stdout */
     printf("file name       : %s\n", handle->path);
-    printf("file size       : %zu\n", handle->size);
+    printf("file size       : %" PRI_SIZE_T "\n", handle->size);
     printf("magic           : %s\n", magic);
     printf("version         : %d\n", (int)handle->version);
     printf("data offset     : $%04x\n", handle->data_offset);
@@ -499,9 +499,9 @@ bool hvsc_psid_write_bin(const hvsc_psid_t *handle, const char *path)
     }
     /* write binary data */
     size = handle->size - handle->data_offset;
-    hvsc_dbg("writing %zu bytes\n", size);
+    hvsc_dbg("writing %" PRI_SIZE_T " bytes\n", size);
     result = fwrite(handle->data + handle->data_offset, 1U, size, fp);
-    hvsc_dbg("wrote %zu bytes\n", result);
+    hvsc_dbg("wrote %" PRI_SIZE_T " bytes\n", result);
     if (result != size) {
         hvsc_errno = HVSC_ERR_IO;
         fclose(fp);

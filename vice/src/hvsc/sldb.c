@@ -27,11 +27,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <inttypes.h>
 #include <stdbool.h>
 #include <ctype.h>
 
-#include <gcrypt.h>
+#ifdef HVSC_USE_MD5
+# include <gcrypt.h>
+#endif
 
 #include "hvsc.h"
 

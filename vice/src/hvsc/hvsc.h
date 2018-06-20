@@ -39,6 +39,21 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/*
+ * Microsoft's msvcrt does support C99's %z printf format specifier, so we
+ * need to work around that:
+ */
+#ifdef _WIN32
+# ifdef _WIN64
+#  define PRI_SIZE_T    PRIu64
+# else
+#  define PRI_SIZE_T    PRIu32
+# endif
+#else
+# define PRI_SIZE_T     "zu"
+#endif
+
+
 
 /** \brief  Error codes
  */
