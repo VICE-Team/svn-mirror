@@ -25,7 +25,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/arch/gtk3/widgets \
 	-I$(top_srcdir)/src/arch/gtk3/widgets/base \
-	-I$(top_srcdir)/src/samplerdrv
+	-I$(top_srcdir)/src/samplerdrv \
+	-I$(top_srcdir)/src/hvsc
 
 noinst_LIBRARIES = libwidgets.a
 
@@ -64,6 +65,7 @@ libwidgets_a_SOURCES = \
 	ffmpegwidget.c \
 	finalexpansionwidget.c \
 	gmod2widget.c \
+	hvscsettingswidget.c \
 	ide64widget.c \
 	ieee488widget.c \
 	isepicwidget.c \
@@ -201,7 +203,7 @@ EXTRA_DIST = \
 	ffmpegwidget.h \
 	finalexpansionwidget.h \
 	gmod2widget.h \
-	htmlbrowserwidget.h \
+	hvscsettingswidget.h \
 	ide64widget.h \
 	ieee488widget.h \
 	isepicwidget.h \

@@ -63,7 +63,7 @@
 #include "resources.h"
 #include "vsync.h"
 
-#include "widgets/base/vice_gtk3.h"
+#include "vice_gtk3.h"
 
 #include "ui.h"
 #include "settings_speed.h"
@@ -144,6 +144,9 @@
 #include "pethrewidget.h"
 #include "settings_crt.h"
 #include "settings_mixer.h"
+
+/* VSID stuff */
+#include "hvscsettingswidget.h"
 
 #include "uisettings.h"
 
@@ -703,7 +706,7 @@ static ui_settings_tree_node_t main_nodes_vsid[] = {
 
     { "HVSC settings",
       "hvsc",
-      NULL, NULL },
+      hvsc_settings_widget_create, NULL },
 
     UI_SETTINGS_TERMINATOR
 };

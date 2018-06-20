@@ -206,6 +206,7 @@ static const resource_int_t resources_int[] = {
 
 int c64_resources_init(void)
 {
+    printf("VSID RESOURCES INIT!\n");
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }

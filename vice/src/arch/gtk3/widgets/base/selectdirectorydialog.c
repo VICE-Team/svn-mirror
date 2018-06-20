@@ -35,7 +35,7 @@
 #include "selectdirectorydialog.h"
 
 
-/** \brief  Create a 'save file' dialog
+/** \brief  Create a 'select directory' dialog
  *
  * \param[in]   title           dialog title
  * \param[in]   proposed        proposed directory name (optional)
