@@ -1821,7 +1821,7 @@ sub substitute_style {
     while ($changed) {
 	$changed = 0;
 	$done = '';
-	while (/\@(\w+){([^\{\}]+)}/) {
+	while (/\@(\w+)\{([^\{\}]+)\}/) {
 	    $text = &apply_style($1, $2);
 	    if ($text) {
 		$_ = "$`$text$'";
