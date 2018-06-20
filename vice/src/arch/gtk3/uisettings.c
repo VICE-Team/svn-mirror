@@ -1816,22 +1816,11 @@ static GtkWidget *create_content_widget(GtkWidget *widget)
 }
 
 
-/** \brief  Properly destroy the settings window if required
- */
-void ui_settings_dialog_shutdown(void)
-{
-    if (settings_window != NULL && GTK_IS_WIDGET(settings_window)) {
-        gtk_widget_destroy(settings_window);
-    }
-}
-
-
-
 /** \brief  Handler for the "response" event of the settings dialog
  *
  * This determines what to do based on the 'reponse ID' emitted by the dialog.
  *
- * \param[in]   widget      widget triggering the event (button pushed)
+ * \param[in]   widget      widget triggering the event (the dialog)
  * \param[in]   response_id response ID
  * \param[in]   user_data   extra data (unused)
  */
@@ -1845,6 +1834,7 @@ static void response_callback(GtkWidget *widget, gint response_id,
         /* close dialog */
         case GTK_RESPONSE_DELETE_EVENT:
             gtk_widget_destroy(widget);
+            settings_window = NULL;
 #if 0
             /* restore old pause state */
             if (!old_pause_state) {

@@ -1246,7 +1246,6 @@ void ui_resources_shutdown(void)
 void ui_shutdown(void)
 {
     uidata_shutdown();
-    ui_settings_dialog_shutdown();
     ui_statusbar_shutdown();
 }
 

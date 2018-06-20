@@ -53,7 +53,6 @@ typedef struct ui_settings_tree_node_s {
 void ui_settings_dialog_callback(GtkWidget *widget, gpointer user_data);
 
 gboolean ui_settings_dialog_create(GtkWidget *, gpointer user_data);
-void ui_settings_dialog_shutdown(void);
 
 bool ui_settings_iter_by_xpath(const char *path, GtkTreeIter *iter);
 bool ui_settings_append_by_xpath(const char *path,
