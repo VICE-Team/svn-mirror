@@ -337,7 +337,7 @@ int hvsc_sldb_get_lengths(const char *psid, long **lengths)
     result = parse_sldb_entry(entry, lengths);
     if (result < 0) {
         free(*lengths);
-        return false;
+        return -1;
     }
     free(entry);
     return result;

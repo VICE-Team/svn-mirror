@@ -40,7 +40,7 @@
  * \param[in]   title           dialog title
  * \param[in]   proposed        proposed directory name (optional)
  * \param[in]   allow_create    allow creating a new directory
- * \param[in]   path        set starting directory (optional)
+ * \param[in]   path            set starting directory (optional)
  *
  * \return  dircetory name or `NULL` on cancel
  *

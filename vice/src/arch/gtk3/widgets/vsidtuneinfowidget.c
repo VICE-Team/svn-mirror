@@ -31,11 +31,14 @@
 #include "vice.h"
 
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 #include "vice_gtk3.h"
 #include "machine.h"
 #include "lib.h"
 #include "util.h"
+
+#include "hvsc.h"
 
 #include "vsidtuneinfowidget.h"
 
@@ -47,7 +50,7 @@ enum {
     DRV_INFO_DRIVER_ADDR,
     DRV_INFO_LOAD_ADDR,
     DRV_INFO_INIT_ADDR,
-    DRV_INFO_PLAY_ADDR
+    DRV_INFO_PLAY_ADDR,
 };
 
 
@@ -91,6 +94,9 @@ static GtkWidget *irq_widget;
 static GtkWidget *sync_widget;
 static GtkWidget *runtime_widget;
 static GtkWidget *driver_info_widget;
+
+/* temporary for testing: */
+static GtkWidget *sldb_widget;
 
 
 /** \brief  Create left aligned label, \a text can use HTML markup
@@ -352,6 +358,21 @@ static void driver_info_set_image(void)
 }
 
 
+/** \brief  Create temp songlength widget
+ */
+static GtkWidget *create_sldb_widget(void)
+{
+    GtkWidget *label;
+
+    label = gtk_label_new("N/A");
+    gtk_widget_show_all(label);
+    return label;
+}
+
+
+
+
+
 /** \brief  Create widget to show tune information
  *
  * \return  GtkGrid
@@ -417,6 +438,13 @@ GtkWidget *vsid_tune_info_widget_create(void)
     driver_info_widget = create_driver_info_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 8, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), driver_info_widget, 1,8, 1, 1);
+
+    /* song length info */
+    label = create_left_aligned_label("Song lengths:");
+    sldb_widget = create_sldb_widget();
+    gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), sldb_widget, 1, 9, 1, 1);
+
 
     gtk_widget_show_all(grid);
     tune_info_grid = grid;
@@ -606,5 +634,55 @@ void vsid_tune_info_widget_set_data_size(uint16_t size)
 {
     data_size = size;   /* keep for calculating SID memory range */
     driver_info_set_image();
+}
+
+
+/** \brief  Set song lengths for each sub-tune
+ *
+ * For now this is more of a debugging/test function, the idea is to allow
+ * tunes to automatically skip to the next song when their time is up.
+ *
+ * \param[in]   SID file
+ *
+ * \return  bool
+ */
+bool vsid_tune_info_widget_set_song_lengths(const char *psid)
+{
+    int num;
+    int i;
+    long *lengths = NULL;
+    char **lstr;
+    char *display;
+
+    debug_gtk3("trying to get song lengths for '%s'\n", psid);
+
+    num = hvsc_sldb_get_lengths(psid, &lengths);
+    if (num < 0) {
+        debug_gtk3("failed to get song lengths\n");
+        gtk_label_set_text(GTK_LABEL(sldb_widget), "Failed to get SLDB info");
+        return false;
+    }
+
+    /* alloc memory for strings */
+    lstr = lib_malloc((size_t)(num + 1) * sizeof *lstr);
+    /* convert each timestamp to string */
+    for (i = 0; i < num; i++) {
+        lstr[i] = lib_msprintf("#%d: %ld:%02ld", i + 1, lengths[i] / 60, lengths[i] % 60);
+    }
+    lstr[i] = NULL; /* terminate list */
+
+    /* join strings */
+
+    /* Here be dragons: the cast should not be required: */
+    display = util_strjoin((const char **)lstr, ", ");
+    gtk_label_set_text(GTK_LABEL(sldb_widget), display);
+
+    lib_free(display);
+    for (i = 0; i < num; i++) {
+        lib_free(lstr[i]);
+    }
+    free(lengths);
+
+    return true;
 }
 

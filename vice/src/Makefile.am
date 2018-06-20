@@ -1458,7 +1458,8 @@ x64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs)
+	$(ffmpeg_libs) \
+	$(hvsc_lib)
 
 x64_SOURCES = $(base_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1543,7 +1544,8 @@ x64sc_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs)
+	$(ffmpeg_libs) \
+	$(hvsc_lib)
 
 x64sc_SOURCES = $(base_sources) $(midi_sources)
 x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1626,7 +1628,8 @@ x64dtv_libs =  \
 	$(resid_dtv_libs) \
 	$(ffmpeg_libs) \
 	$(c64dtvstubs_lib) \
-	$(joyport_lib)
+	$(joyport_lib) \
+	$(hvsc_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1708,7 +1711,8 @@ xscpu64_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs)
+	$(ffmpeg_libs) \
+	$(hvsc_lib)
 
 xscpu64_SOURCES = $(base_sources) $(midi_sources)
 xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1796,7 +1800,8 @@ x128_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs)
+	$(ffmpeg_libs) \
+	$(hvsc_lib)
 
 x128_SOURCES = $(base_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1876,12 +1881,13 @@ xvic_libs =  \
 	$(raster_lib) \
 	$(userport_lib) \
 	$(diag_lib) \
-        $(rtc_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs)
+	$(ffmpeg_libs) \
+	$(hvsc_lib)
 
 xvic_SOURCES = $(base_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) $(mascuerade_lib) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -1959,7 +1965,8 @@ xpet_libs =  \
 	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(rtc_lib)
+	$(rtc_lib) \
+	$(hvsc_lib)
 
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -2035,7 +2042,8 @@ xplus4_libs =  \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs)
+	$(ffmpeg_libs) \
+	$(hvsc_lib)
 
 xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -2111,7 +2119,8 @@ xcbm2_libs = \
 	$(joyport_lib) \
 	$(resid_libs) \
 	$(ffmpeg_libs) \
-	$(rtc_lib)
+	$(rtc_lib) \
+	$(hvsc_lib)
 
 xcbm2_SOURCES = $(base_sources)
 xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@
@@ -2185,7 +2194,8 @@ xcbm5x0_libs = \
 	$(imagecontents_lib) \
 	$(joyport_lib) \
 	$(resid_libs) \
-	$(ffmpeg_libs)
+	$(ffmpeg_libs) \
+	$(hvsc_lib)
 
 xcbm5x0_SOURCES = $(base_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@ @READLINE_LIBS@

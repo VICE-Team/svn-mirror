@@ -40,6 +40,8 @@
 #include "uiapi.h"
 #include "vsync.h"
 
+#include "vsidtuneinfowidget.h"
+
 #include "uisidattach.h"
 
 
@@ -145,6 +147,9 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             ui_display_statustext(text, TRUE);
             debug_gtk3("Loading SID file '%s'\n", filename);
             load_psid_handler(filename);
+
+            vsid_tune_info_widget_set_song_lengths(filename);
+
             g_free(filename);
             lib_free(text);
             gtk_widget_destroy(widget);
