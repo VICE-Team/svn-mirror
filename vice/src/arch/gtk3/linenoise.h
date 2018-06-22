@@ -39,7 +39,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_VTE
+#if defined(HAVE_VTE) || defined(USE_NOVTE)
 
 typedef struct linenoiseCompletions {
   size_t len;

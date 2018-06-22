@@ -27,10 +27,30 @@
 
 #include "vice.h"
 
+#define USE_NOVTE       /* FIXME */
+#undef HAVE_VTE
+
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_VTE
+#if defined(HAVE_VTE)
 #include <vte/vte.h>
+#endif
+#if defined(USE_NOVTE)
+#include "novte/novte.h"
+
+#define vte_terminal_new novte_terminal_new
+#define vte_terminal_feed novte_terminal_feed
+#define vte_terminal_get_column_count novte_terminal_get_column_count
+#define vte_terminal_copy_clipboard novte_terminal_copy_clipboard
+#define vte_terminal_get_row_count novte_terminal_get_row_count
+#define vte_terminal_set_scrollback_lines novte_terminal_set_scrollback_lines
+#define vte_terminal_set_scroll_on_output novte_terminal_set_scroll_on_output
+#define vte_terminal_get_char_width novte_terminal_get_char_width
+#define vte_terminal_get_char_height novte_terminal_get_char_height
+
+#define VTE_TERMINAL(x) NOVTE_TERMINAL(x)
+#define VteTerminal NoVteTerminal
+
 #endif
 #include <dirent.h>
 #include <ctype.h>
@@ -49,7 +69,7 @@
 #include "resources.h"
 #include "lib.h"
 #include "ui.h"
-#ifdef HAVE_VTE
+#if defined(HAVE_VTE) || defined(USE_NOVTE)
 #include "linenoise.h"
 #endif
 #include "uimon.h"
@@ -58,7 +78,7 @@
 #include "vsync.h"
 
 
-#ifdef HAVE_VTE
+#if defined(HAVE_VTE) || defined(USE_NOVTE)
 struct console_private_s {
     GtkWidget *window;
     GtkWidget *term;
@@ -69,8 +89,11 @@ static console_t vte_console;
 static linenoiseCompletions command_lc = {0, NULL};
 static linenoiseCompletions need_filename_lc = {0, NULL};
 
+/* FIXME: this should perhaps be done using some function from archdep */
 static int is_dir(struct dirent *de)
 {
+#if 0 /* FIXME: mingw */
+
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
     struct stat t;
 
@@ -82,6 +105,8 @@ static int is_dir(struct dirent *de)
     if (de->d_type == DT_DIR) {
         return 1;
     }
+#endif
+
 #endif
     return 0;
 }
@@ -380,10 +405,10 @@ console_t *uimon_window_open(void)
         g_signal_connect(G_OBJECT(fixed.window), "delete-event",
             G_CALLBACK(close_window), &fixed.input_buffer);
 
-        g_signal_connect(G_OBJECT(fixed.term), "key-press-event", 
+        g_signal_connect(G_OBJECT(fixed.term), "key-press-event",
             G_CALLBACK(key_press_event), &fixed.input_buffer);
 
-        g_signal_connect(G_OBJECT(fixed.term), "button-press-event", 
+        g_signal_connect(G_OBJECT(fixed.term), "button-press-event",
             G_CALLBACK(button_press_event), &fixed.input_buffer);
 
         g_signal_connect (fixed.term, "text-modified",

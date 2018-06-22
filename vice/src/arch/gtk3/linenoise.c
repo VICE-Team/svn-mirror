@@ -30,7 +30,7 @@
  *  *  Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in the
  *     documentation and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -92,9 +92,12 @@
 
 #include "vice.h"
 
-#ifdef HAVE_VTE
+#define USE_NOVTE       /* FIXME */
+#undef HAVE_VTE
 
-#include <termios.h>
+#if defined(HAVE_VTE) || defined(USE_NOVTE)
+
+/* #include <termios.h> */
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -102,7 +105,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <sys/ioctl.h>
+/* #include <sys/ioctl.h> */
 #include <unistd.h>
 /* #include <vte/vte.h> */ /* shouldnt be needed here, needs ifdef HAVE_VTE if so */
 #include <gtk/gtk.h> /* for gtk_main_iteration() */
@@ -267,11 +270,11 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
        what we really want to do here is writing the prompt, and then tell VTE
        to flush its buffers and redraw its terminal. (necessary to make the
        initial prompt show up reliably, else it may be delayed until a key is
-       pressed, which is confusing and annoying) unfortunately there seems to be 
+       pressed, which is confusing and annoying) unfortunately there seems to be
        no distinct way to do this, however.
 
        the following loop seems to do the trick (using about 10 iterations, so
-       i am using 20 to be on the safe side). yes its ugly :( 
+       i am using 20 to be on the safe side). yes its ugly :(
     */
     for(i = 0; i < 20; i++) {
         uimon_write_to_terminal(term, "\r", 1);

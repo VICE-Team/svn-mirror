@@ -30,6 +30,9 @@
 
 #include "vice.h"
 
+#define USE_NOVTE       /* FIXME */
+#undef HAVE_VTE
+
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
@@ -57,7 +60,7 @@
 
 #include "not_implemented.h"
 
-#ifndef HAVE_VTE
+#if !defined(HAVE_VTE) && !defined(USE_NOVTE)
 
 static console_t *console_log_local = NULL;
 

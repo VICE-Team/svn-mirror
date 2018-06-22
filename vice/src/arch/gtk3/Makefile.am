@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = data widgets
+SUBDIRS = data novte widgets 
 
 AM_CPPFLAGS = \
 	@ARCH_INCLUDES@ \
