@@ -39,6 +39,7 @@
 #include "vsidtuneinfowidget.h"
 #include "vsidcontrolwidget.h"
 #include "vsidmixerwidget.h"
+#include "hvscstilwidget.h"
 
 #include "vsidmainwidget.h"
 
@@ -46,6 +47,7 @@
 static GtkWidget *tune_info_widget;
 static GtkWidget *control_widget;
 static GtkWidget *mixer_widget;
+static GtkWidget *stil_widget;
 
 
 /** \brief  Create VSID main widget
@@ -69,6 +71,9 @@ GtkWidget *vsid_main_widget_create(void)
 
     mixer_widget = vsid_mixer_widget_create();
     gtk_grid_attach(GTK_GRID(grid), mixer_widget, 0, 2, 1, 1);
+
+    stil_widget = hvsc_stil_widget_create();
+    gtk_grid_attach(GTK_GRID(grid), stil_widget, 1, 0, 1, 3);
 
     gtk_widget_show_all(grid);
     return grid;

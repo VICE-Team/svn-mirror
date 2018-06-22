@@ -66,6 +66,7 @@ libwidgets_a_SOURCES = \
 	finalexpansionwidget.c \
 	gmod2widget.c \
 	hvscsettingswidget.c \
+	hvscstilwidget.c \
 	ide64widget.c \
 	ieee488widget.c \
 	isepicwidget.c \
@@ -204,6 +205,7 @@ EXTRA_DIST = \
 	finalexpansionwidget.h \
 	gmod2widget.h \
 	hvscsettingswidget.h \
+	hvscstilwidget.h \
 	ide64widget.h \
 	ieee488widget.h \
 	isepicwidget.h \

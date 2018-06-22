@@ -359,12 +359,16 @@ static void driver_info_set_image(void)
 
 
 /** \brief  Create temp songlength widget
+ *
+ * \return  GtkLabel
  */
 static GtkWidget *create_sldb_widget(void)
 {
     GtkWidget *label;
 
     label = gtk_label_new("N/A");
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
     gtk_widget_show_all(label);
     return label;
 }
@@ -441,6 +445,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
 
     /* song length info */
     label = create_left_aligned_label("Song lengths:");
+    gtk_widget_set_valign(label, GTK_ALIGN_START);
     sldb_widget = create_sldb_widget();
     gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), sldb_widget, 1, 9, 1, 1);

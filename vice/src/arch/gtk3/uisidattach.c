@@ -40,6 +40,7 @@
 #include "uiapi.h"
 #include "vsync.h"
 
+#include "hvscstilwidget.h"
 #include "vsidtuneinfowidget.h"
 
 #include "uisidattach.h"
@@ -149,6 +150,7 @@ static void on_response(GtkWidget *widget, gint response_id, gpointer user_data)
             load_psid_handler(filename);
 
             vsid_tune_info_widget_set_song_lengths(filename);
+            hvsc_stil_widget_set_psid(filename);
 
             g_free(filename);
             lib_free(text);

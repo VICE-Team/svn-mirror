@@ -44,6 +44,10 @@
 
 #include "vsidcontrolwidget.h"
 
+/** \brief  Emulation speed during fast forward
+ */
+#define FFWD_SPEED  500
+
 
 /** \brief  Object containing icon and callback
  */
@@ -117,14 +121,25 @@ static void prev_tune_callback(GtkWidget *widget, gpointer data)
 
 /** \brief  Callback for 'fast forward'
  *
- * Fast forward using warp mode.
+ * Fast forward using Speed resource (toggled)
  *
  * \param[in]   widget  widget
  * \param[in]   data    icon name
  */
 static void ffwd_callback(GtkWidget *widget, gpointer data)
 {
-    resources_toggle("WarpMode", NULL);
+    int speed;
+
+    if (resources_get_int("Speed", &speed) < 0) {
+        /* error, shouldn't happen */
+        return;
+    }
+
+    if (speed == 100) {
+        resources_set_int("Speed", FFWD_SPEED);
+    } else {
+        resources_set_int("Speed", 100);
+    }
 }
 
 
@@ -141,6 +156,8 @@ static void ffwd_callback(GtkWidget *widget, gpointer data)
 static void play_callback(GtkWidget *widget, gpointer data)
 {
     ui_pause_emulation(0);
+    /* return emulation speed back to 100% */
+    resources_set_int("Speed", 100);
 }
 
 
