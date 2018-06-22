@@ -145,6 +145,7 @@ do_command() {
     ret=$?
     if [ ! $ret = 0 ] ; then
         echo "ERROR: $1 failed in `pwd`"
+        echo "check '.$1.out' for details"
         exit 1
     fi
 }
