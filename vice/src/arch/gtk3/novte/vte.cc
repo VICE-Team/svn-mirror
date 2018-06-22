@@ -8269,6 +8269,7 @@ VteTerminalPrivate::VteTerminalPrivate(VteTerminal *t) :
         }
 #endif
 
+#if 0
 #ifndef WITH_GNUTLS
 {
         char buf[1024];
@@ -8277,6 +8278,7 @@ VteTerminalPrivate::VteTerminalPrivate(VteTerminal *t) :
                               _("GNUTLS not enabled; data will be written to disk unencrypted!"));
         feed(buf, len, false);
  }
+#endif
 #endif
 }
 

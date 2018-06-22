@@ -84,15 +84,18 @@
 #include <unistd.h>
 #include <zlib.h>
 
+#if 0
 #ifdef WITH_GNUTLS
 # include <gnutls/gnutls.h>
 # include <gnutls/crypto.h>
+#endif
 #endif
 
 #include "vteutils.h"
 
 G_BEGIN_DECLS
 
+#if 0
 #ifdef WITH_GNUTLS
 /* Currently the code requires that a stream cipher (e.g. GCM) is used
  * which can encrypt any amount of data without need for padding. */
@@ -103,6 +106,8 @@ G_BEGIN_DECLS
 #else
 # define VTE_CIPHER_TAG_SIZE     0
 #endif
+#endif
+#define VTE_CIPHER_TAG_SIZE     0
 
 #ifndef VTESTREAM_MAIN
 # define VTE_SNAKE_BLOCKSIZE 65536
@@ -679,6 +684,7 @@ static void
 _vte_boa_encrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *data, unsigned int len)
 {
 #ifndef VTESTREAM_MAIN
+#if 0    
 # ifdef WITH_GNUTLS
         boa->iv.offset = offset;
         boa->iv.overwrite_counter = overwrite_counter;
@@ -686,6 +692,7 @@ _vte_boa_encrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *da
         gnutls_cipher_encrypt (boa->cipher_hd, data, len);
         gnutls_cipher_tag (boa->cipher_hd, data + len, VTE_CIPHER_TAG_SIZE);
 # endif
+#endif
 #else
         /* Fake encryption for unit testing: uppercase <-> lowercase, followed by verification tag which is
          * 5 bits: block sequence number (offset divided by blocksize)
@@ -710,6 +717,7 @@ _vte_boa_decrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *da
         guint8 faulty = 0;
 
 #ifndef VTESTREAM_MAIN
+#if 0
 # ifdef WITH_GNUTLS
         boa->iv.offset = offset;
         boa->iv.overwrite_counter = overwrite_counter;
@@ -717,6 +725,7 @@ _vte_boa_decrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *da
         gnutls_cipher_decrypt (boa->cipher_hd, data, len);
         gnutls_cipher_tag (boa->cipher_hd, tag, VTE_CIPHER_TAG_SIZE);
 # endif
+#endif
 #else
         /* Fake decryption for unit testing; see above. */
         for (i = 0; i < len; i++) {
@@ -815,6 +824,7 @@ _vte_boa_uncompress (char *dst, unsigned int dstlen, const char *src, unsigned i
 static void
 _vte_boa_init (VteBoa *boa)
 {
+#if 0
 #if !defined VTESTREAM_MAIN && defined WITH_GNUTLS
         unsigned char key[VTE_CIPHER_KEY_SIZE];
         gnutls_datum_t datum_key;
@@ -839,13 +849,14 @@ _vte_boa_init (VteBoa *boa)
         /* Empty IV. */
         explicit_bzero(&boa->iv, sizeof(boa->iv));
 #endif
-
+#endif
         boa->compressBound = _vte_boa_compressBound(VTE_BOA_BLOCKSIZE);
 }
 
 static void
 _vte_boa_finalize (GObject *object)
 {
+#if 0
 #if !defined VTESTREAM_MAIN && defined WITH_GNUTLS
         VteBoa *boa = (VteBoa *) object;
 
@@ -854,7 +865,7 @@ _vte_boa_finalize (GObject *object)
         gnutls_cipher_deinit (boa->cipher_hd);
         gnutls_global_deinit ();
 #endif
-
+#endif
         G_OBJECT_CLASS (_vte_boa_parent_class)->finalize(object);
 }
 

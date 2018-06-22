@@ -1,12 +1,14 @@
 
 "novte" is a stripped down library based on vte-0.52.2
 
-the purpose of the resulting code is to be used for the ml monitor in VICE
+the purpose of the resulting code is to be used for the ml monitor in VICE, and
+to do that in a portable way that would work on all GTK3 targets.
 
 what was removed from VTE:
 
 - everything that deals with regular expressions, and thus the need for libpcre2
 - all support for pty, and the requirement for termios
+- gnutls support, and warning about no support
 
 --------------------------------------------------------------------------------
 

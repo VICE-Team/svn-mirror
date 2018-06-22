@@ -1705,6 +1705,7 @@ vte_terminal_class_init(VteTerminalClass *klass)
 
 /* public API */
 
+#if 0
 /**
  * vte_get_features:
  *
@@ -1725,6 +1726,7 @@ vte_get_features (void)
 #endif
                 ;
 }
+#endif
 
 #if 0
 /**
