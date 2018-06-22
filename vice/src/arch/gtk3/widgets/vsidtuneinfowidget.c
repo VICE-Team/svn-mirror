@@ -99,6 +99,21 @@ static GtkWidget *driver_info_widget;
 static GtkWidget *sldb_widget;
 
 
+static long *song_lengths;
+static int song_lengths_count;
+
+
+
+static void on_destroy(GtkWidget *widget, gpointer data)
+{
+    if (song_lengths != NULL) {
+        free(song_lengths);
+        song_lengths = NULL;
+        song_lengths_count = 0;
+    }
+}
+
+
 /** \brief  Create left aligned label, \a text can use HTML markup
  *
  * \param[in]   text    label text
@@ -450,6 +465,7 @@ GtkWidget *vsid_tune_info_widget_create(void)
     gtk_grid_attach(GTK_GRID(grid), label, 0, 9, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), sldb_widget, 1, 9, 1, 1);
 
+    g_signal_connect(grid, "destroy", G_CALLBACK(on_destroy), NULL);
 
     gtk_widget_show_all(grid);
     tune_info_grid = grid;
@@ -655,24 +671,26 @@ bool vsid_tune_info_widget_set_song_lengths(const char *psid)
 {
     int num;
     int i;
-    long *lengths = NULL;
     char **lstr;
     char *display;
 
     debug_gtk3("trying to get song lengths for '%s'\n", psid);
 
-    num = hvsc_sldb_get_lengths(psid, &lengths);
+    num = hvsc_sldb_get_lengths(psid, &song_lengths);
     if (num < 0) {
         debug_gtk3("failed to get song lengths\n");
         gtk_label_set_text(GTK_LABEL(sldb_widget), "Failed to get SLDB info");
         return false;
     }
+    song_lengths_count = num;
 
     /* alloc memory for strings */
     lstr = lib_malloc((size_t)(num + 1) * sizeof *lstr);
     /* convert each timestamp to string */
     for (i = 0; i < num; i++) {
-        lstr[i] = lib_msprintf("#%d: %ld:%02ld", i + 1, lengths[i] / 60, lengths[i] % 60);
+        lstr[i] = lib_msprintf("#%d: %ld:%02ld",
+                i + 1,
+                song_lengths[i] / 60, song_lengths[i] % 60);
     }
     lstr[i] = NULL; /* terminate list */
 
@@ -686,8 +704,13 @@ bool vsid_tune_info_widget_set_song_lengths(const char *psid)
     for (i = 0; i < num; i++) {
         lib_free(lstr[i]);
     }
-    free(lengths);
-
     return true;
 }
 
+
+
+int vsid_tune_info_widget_get_song_lengths(long **dest)
+{
+    *dest = song_lengths;
+    return song_lengths_count;
+}
