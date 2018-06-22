@@ -101,7 +101,9 @@ GtkWidget *hvsc_stil_widget_create(void)
 bool hvsc_stil_widget_set_psid(const char *psid)
 {
     hvsc_stil_t stil;
+    size_t t;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(stil_view));
+    char line[1024];
 
     debug_gtk3("attempting to load STIL entry for '%s'\n", psid);
     if (!hvsc_stil_get(&stil, psid)) {
@@ -120,6 +122,57 @@ bool hvsc_stil_widget_set_psid(const char *psid)
 
     if (stil.sid_comment != NULL) {
         gtk_text_buffer_set_text(buffer, stil.sid_comment, -1);
+    }
+
+    gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), "\n\n", -1);
+
+    /* now add info on each subtune */
+    for (t = 0; t < stil.blocks_used; t++) {
+        size_t f;
+        hvsc_stil_block_t *block;
+
+        block = stil.blocks[t];
+
+        g_snprintf(line, 1024, "tune #%d:\n", block->tune);
+        gtk_text_buffer_insert_at_cursor(GTK_TEXT_BUFFER(buffer), line, -1);
+
+        /* handle fields for the current subtune */
+        for (f = 0; f < block->fields_used; f++) {
+            g_snprintf(line, 1024, "    %s %s\n",
+                    hvsc_get_field_display(block->fields[f]->type),
+                    block->fields[f]->text);
+            gtk_text_buffer_insert_at_cursor(
+                    GTK_TEXT_BUFFER(buffer), line, -1);
+
+            /* timestamp? */
+            if (block->fields[f]->timestamp.from >= 0) {
+                /* yup */
+                long from = block->fields[f]->timestamp.from;
+                long to = block->fields[f]->timestamp.to;
+
+                if (to < 0) {
+                    g_snprintf(line, 1024,
+                            "        {timestamp} %ld:%02ld\n",
+                            from / 60, from % 60);
+                } else {
+                    g_snprintf(line, 1024,
+                            "        {timestamp) %ld:%02ld-%ld:%02ld\n",
+                            from / 60, from % 60, to / 60, to % 60);
+                }
+                gtk_text_buffer_insert_at_cursor(
+                        GTK_TEXT_BUFFER(buffer), line, -1);
+            }
+
+            /* album? */
+            if (block->fields[f]->album != NULL) {
+                g_snprintf(line, 1024, "            {album} %s\n",
+                        block->fields[f]->album);
+                gtk_text_buffer_insert_at_cursor(
+                        GTK_TEXT_BUFFER(buffer), line, - 1);
+            }
+
+        }
+
     }
 
     hvsc_stil_close(&stil);

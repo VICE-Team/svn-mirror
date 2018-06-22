@@ -360,4 +360,11 @@ const char *    hvsc_psid_get_model_str(const hvsc_psid_t *handle, int sid);
 unsigned int    hvsc_psid_get_clock_id(const hvsc_psid_t *handle);
 const char *    hvsc_psid_get_clock_str(const hvsc_psid_t *handle);
 
+/*
+ * Misc
+ */
+
+const char *    hvsc_get_field_display(int type);
+
+
 #endif
