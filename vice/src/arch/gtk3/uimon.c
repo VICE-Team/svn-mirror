@@ -370,6 +370,30 @@ static void screen_resize_window_cb (VteTerminal *terminal,
     vte_console.console_yres = (unsigned int)height;
 }
 
+/* resize the terminal when the window is resized */
+static void screen_resize_window_cb2 (VteTerminal *terminal,
+                         gpointer* window)
+{
+    int width, height;
+    int cwidth, cheight;
+    int newwidth, newheight;
+
+    gtk_window_get_size (GTK_WINDOW(fixed.window), &width, &height);
+    cwidth = vte_terminal_get_char_width (VTE_TERMINAL(fixed.term));
+    cheight = vte_terminal_get_char_height (VTE_TERMINAL(fixed.term));
+
+    newwidth = width / cwidth;
+    newheight = height / cheight;
+    if (newwidth < 1) {
+        newwidth = 1;
+    }
+    if (newheight < 1) {
+        newheight = 1;
+    }
+
+    vte_terminal_set_size(VTE_TERMINAL(fixed.term), newwidth, newheight);
+}
+
 console_t *uimonfb_window_open(void);
 
 console_t *uimon_window_open(void)
@@ -409,7 +433,7 @@ console_t *uimon_window_open(void)
                                      GDK_HINT_MIN_SIZE |
                                      GDK_HINT_BASE_SIZE);
         scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL,
-            gtk_scrollable_get_vadjustment (GTK_SCROLLABLE(fixed.term)));
+        gtk_scrollable_get_vadjustment (GTK_SCROLLABLE(fixed.term)));
 
         horizontal_container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
         gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
@@ -425,8 +449,11 @@ console_t *uimon_window_open(void)
         g_signal_connect(G_OBJECT(fixed.term), "button-press-event",
             G_CALLBACK(button_press_event), &fixed.input_buffer);
 
-        g_signal_connect (fixed.term, "text-modified",
+        g_signal_connect(G_OBJECT(fixed.term), "text-modified",
             G_CALLBACK (screen_resize_window_cb), NULL);
+
+        g_signal_connect(G_OBJECT(fixed.window), "configure-event",
+            G_CALLBACK (screen_resize_window_cb2), NULL);
 
         vte_console.console_can_stay_open = 1;
     }
