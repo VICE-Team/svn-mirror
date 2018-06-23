@@ -50,7 +50,7 @@ extern void fdd_set_rate(fd_drive_t *drv, int rate);
 extern int fdd_rotate(fd_drive_t *drv, int bytes);
 extern int fdd_index(fd_drive_t *drv);
 extern void fdd_index_count_reset(fd_drive_t *drv);
-extern int fdd_index_count(fd_drive_t *drv);
+extern unsigned int fdd_index_count(fd_drive_t *drv);
 extern int fdd_track0(fd_drive_t *drv);
 extern int fdd_write_protect(fd_drive_t *drv);
 extern int fdd_disk_change(fd_drive_t *drv);

@@ -60,7 +60,7 @@ struct fd_drive_s {
     int head_invert;
     int disk_rate;
     int image_sectors;
-    int index_count;
+    unsigned int index_count;
     drive_t *drive;
     struct disk_image_s *image;
     struct {
@@ -510,7 +510,7 @@ void fdd_index_count_reset(fd_drive_t *drv)
     drv->index_count = 0;
 }
 
-int fdd_index_count(fd_drive_t *drv)
+unsigned int fdd_index_count(fd_drive_t *drv)
 {
     if (!drv) {
         return 0;
@@ -729,7 +729,7 @@ int fdd_snapshot_read_module(fd_drive_t *drv, struct snapshot_s *s)
         || SMR_B_INT(m, &drv->head_invert) < 0
         || SMR_B_INT(m, &drv->disk_rate) < 0
         || SMR_DW_INT(m, &drv->image_sectors) < 0
-        || SMR_DW_INT(m, &drv->index_count) < 0
+        || SMR_DW_UINT(m, &drv->index_count) < 0
         || SMR_DW_INT(m, &drv->raw.head) < 0
         || SMR_B_INT(m, &drv->raw.track_head) < 0
         || SMR_B_INT(m, &drv->raw.dirty) < 0) {
