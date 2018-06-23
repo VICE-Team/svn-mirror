@@ -210,16 +210,6 @@ int c64_resources_init(void)
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
-#if 0 /* FIXME: remove? */
-#ifdef COMMON_KBD
-    /* Set defaults of keymaps */
-    keyboard_set_keymap_file(KBD_C64_SYM_US, (void *)KBD_INDEX_SYM);
-    keyboard_set_keymap_file(KBD_C64_POS, (void *)KBD_INDEX_POS);
-    keyboard_set_keymap_file(KBD_C64_SYM_DE, (void *)KBD_INDEX_USERSYM);
-    keyboard_set_keymap_file(KBD_C64_SYM_DE, (void *)KBD_INDEX_USERPOS);
-    keyboard_set_keymap_index(KBD_INDEX_C64_DEFAULT, NULL);
-#endif
-#endif
     return resources_register_int(resources_int);
 }
 
