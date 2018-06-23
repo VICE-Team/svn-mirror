@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "asm.h"
+#include "console.h"
 #include "log.h"
 #include "mon_disassemble.h"
 #include "mon_util.h"
@@ -1432,13 +1433,21 @@ void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr)
     mon_stopwatch_show("", "\n");
 }
 
+#define BAD_ADDR (new_addr(e_invalid_space, 0))
 
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 {
     MEMSPACE mem;
     long len, i, bytes;
+    int limitlines = (end_addr == BAD_ADDR);
+    int linesleft;
+    static int last_known_yres = 25;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, DEFAULT_DISASSEMBLY_SIZE);
+    if (console_log) {
+        last_known_yres = console_log->console_yres;
+    }
+    linesleft = last_known_yres - 1;
 
     if (len < 0) {
         log_error(LOG_ERR, "Invalid address range");
@@ -1449,12 +1458,18 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
     dot_addr[mem] = start_addr;
 
     i = 0;
-    while (i <= len) {
+    while ((i <= len) || (limitlines == 1)) {
         bytes = mon_disassemble_instr(dot_addr[mem]);
         i += bytes;
         mon_inc_addr_location(&(dot_addr[mem]), bytes);
         if (mon_stop_output != 0) {
             break;
+        }
+        if (limitlines) {
+            linesleft--;
+            if (linesleft == 0) {
+                break;
+            }
         }
     }
 }
