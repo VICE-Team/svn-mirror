@@ -81,7 +81,7 @@ int archdep_require_vkbd(void);
 #define ARCHDEP_SOUND_OUTPUT_MODE SOUND_OUTPUT_SYSTEM
 
 /* define if the platform supports the monitor in a seperate window */
-/* #define ARCHDEP_SEPERATE_MONITOR_WINDOW */
+#define ARCHDEP_SEPERATE_MONITOR_WINDOW
 
 #ifdef UNIX_COMPILE
 #include "archdep_unix.h"
