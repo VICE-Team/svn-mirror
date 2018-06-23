@@ -250,7 +250,7 @@ static void set_addr_location(MON_ADDR *a, unsigned l)
 
 void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, mon_display_format_t format)
 {
-    unsigned int i, cnt = 0, len, max_width, real_width;
+    unsigned int i, m, cnt = 0, len, max_width, real_width;
     uint16_t addr = 0;
     char *printables;
     char prefix;
@@ -275,7 +275,13 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
                         / (4 * (radix_chars_per_byte[radix_type] + 2) + 1);
         }
 
-        max_width &= ~3;
+        /* to make the output easier to read, make sure the number of items
+           each line equals a power of two */
+        m = 1;
+        while ((m * 2) <= max_width)  {
+            m *= 2;
+        }
+        max_width = m;
 
         display_number = max_width * ((last_known_yres - 6) / 2);
     } else {
