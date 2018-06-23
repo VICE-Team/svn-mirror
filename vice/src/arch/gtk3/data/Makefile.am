@@ -1,3 +1,5 @@
+gtk3datadir = $(VICEDIR)/gui
+
 GRESOURCE_TARGET = $(builddir)/vice.gresource
 GRESOURCE_PROTO = $(srcdir)//vice.gresource.xml.proto
 GRESOURCE_XML = $(builddir)/vice.gresource.xml
@@ -14,6 +16,8 @@ $(GRESOURCE_TARGET): $(GRESOURCE_XML)
 	echo "srcdir = $(srcdir)"
 	echo "buildir = $(builddir)"
 	glib-compile-resources $< --target $@
+
+gtk3data_DATA = $(GRESOURCE_TARGET)
 
 .PHONY: clean
 clean:
