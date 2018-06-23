@@ -481,9 +481,9 @@ vte_terminal_get_property (GObject *object,
                 case PROP_AUDIBLE_BELL:
                         g_value_set_boolean (value, vte_terminal_get_audible_bell (terminal));
                         break;
-                case PROP_BACKSPACE_BINDING:
-                        g_value_set_enum (value, impl->m_backspace_binding);
-                        break;
+//                 case PROP_BACKSPACE_BINDING:
+// //                        g_value_set_enum (value, impl->m_backspace_binding);
+//                         break;
                 case PROP_BOLD_IS_BRIGHT:
                         g_value_set_boolean (value, vte_terminal_get_bold_is_bright (terminal));
                         break;
@@ -508,9 +508,9 @@ vte_terminal_get_property (GObject *object,
                 case PROP_CURSOR_SHAPE:
                         g_value_set_enum (value, vte_terminal_get_cursor_shape (terminal));
                         break;
-                case PROP_DELETE_BINDING:
-                        g_value_set_enum (value, impl->m_delete_binding);
-                        break;
+//                 case PROP_DELETE_BINDING:
+// //                        g_value_set_enum (value, impl->m_delete_binding);
+//                         break;
                 case PROP_ENCODING:
                         g_value_set_string (value, vte_terminal_get_encoding (terminal));
                         break;
@@ -532,9 +532,9 @@ vte_terminal_get_property (GObject *object,
                 case PROP_MOUSE_POINTER_AUTOHIDE:
                         g_value_set_boolean (value, vte_terminal_get_mouse_autohide (terminal));
                         break;
-                case PROP_PTY:
-//                        g_value_set_object (value, vte_terminal_get_pty(terminal));
-                        break;
+//                 case PROP_PTY:
+// //                        g_value_set_object (value, vte_terminal_get_pty(terminal));
+//                         break;
                 case PROP_REWRAP_ON_RESIZE:
                         g_value_set_boolean (value, vte_terminal_get_rewrap_on_resize (terminal));
                         break;
@@ -594,9 +594,9 @@ vte_terminal_set_property (GObject *object,
                 case PROP_AUDIBLE_BELL:
                         vte_terminal_set_audible_bell (terminal, g_value_get_boolean (value));
                         break;
-                case PROP_BACKSPACE_BINDING:
-                        vte_terminal_set_backspace_binding (terminal, (VteEraseBinding)g_value_get_enum (value));
-                        break;
+//                 case PROP_BACKSPACE_BINDING:
+//                         vte_terminal_set_backspace_binding (terminal, (VteEraseBinding)g_value_get_enum (value));
+//                         break;
                 case PROP_BOLD_IS_BRIGHT:
                         vte_terminal_set_bold_is_bright (terminal, g_value_get_boolean (value));
                         break;
@@ -615,9 +615,9 @@ vte_terminal_set_property (GObject *object,
                 case PROP_CURSOR_SHAPE:
                         vte_terminal_set_cursor_shape (terminal, (VteCursorShape)g_value_get_enum (value));
                         break;
-                case PROP_DELETE_BINDING:
-                        vte_terminal_set_delete_binding (terminal, (VteEraseBinding)g_value_get_enum (value));
-                        break;
+//                 case PROP_DELETE_BINDING:
+//                         vte_terminal_set_delete_binding (terminal, (VteEraseBinding)g_value_get_enum (value));
+//                         break;
                 case PROP_ENCODING:
                         vte_terminal_set_encoding (terminal, g_value_get_string (value), NULL);
                         break;
@@ -633,9 +633,9 @@ vte_terminal_set_property (GObject *object,
                 case PROP_MOUSE_POINTER_AUTOHIDE:
                         vte_terminal_set_mouse_autohide (terminal, g_value_get_boolean (value));
                         break;
-                case PROP_PTY:
-//                        vte_terminal_set_pty (terminal, (VtePty *)g_value_get_object (value));
-                        break;
+//                 case PROP_PTY:
+// //                        vte_terminal_set_pty (terminal, (VtePty *)g_value_get_object (value));
+//                         break;
                 case PROP_REWRAP_ON_RESIZE:
                         vte_terminal_set_rewrap_on_resize (terminal, g_value_get_boolean (value));
                         break;
@@ -747,7 +747,7 @@ vte_terminal_class_init(VteTerminalClass *klass)
 #else
         /* Bug #763538 */
         if (gtk_check_version(3, 19, 5) == nullptr)
-                g_printerr("VTE needs to be recompiled against a newer gtk+ version.\n");
+                g_printerr("NOVTE needs to be recompiled against a newer gtk+ version.\n");
 #endif
 
     /* Initialize default handlers. */
@@ -1379,6 +1379,7 @@ vte_terminal_class_init(VteTerminalClass *klass)
                                    VTE_ERASE_AUTO,
                                    (GParamFlags) (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
 #endif
+
         /**
          * NoVteTerminal:bold-is-bright:
          *
@@ -1435,7 +1436,7 @@ vte_terminal_class_init(VteTerminalClass *klass)
                 g_param_spec_int ("cjk-ambiguous-width", NULL, NULL,
                                   1, 2, VTE_DEFAULT_UTF8_AMBIGUOUS_WIDTH,
                                   (GParamFlags) (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
-
+#if 0
         /**
          * NoVteTerminal:cursor-blink-mode:
          *
@@ -1444,10 +1445,12 @@ vte_terminal_class_init(VteTerminalClass *klass)
          */
         pspecs[PROP_CURSOR_BLINK_MODE] =
                 g_param_spec_enum ("cursor-blink-mode", NULL, NULL,
-                                   VTE_TYPE_CURSOR_BLINK_MODE,
+                                   /* VTE_TYPE_CURSOR_BLINK_MODE, */
+                                   VTE_CURSOR_BLINK_ON,
                                    VTE_CURSOR_BLINK_SYSTEM,
                                    (GParamFlags) (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
-
+#endif
+#if 0
         /**
          * NoVteTerminal:cursor-shape:
          *
@@ -1455,9 +1458,11 @@ vte_terminal_class_init(VteTerminalClass *klass)
          */
         pspecs[PROP_CURSOR_SHAPE] =
                 g_param_spec_enum ("cursor-shape", NULL, NULL,
-                                   VTE_TYPE_CURSOR_SHAPE,
+                                   /* VTE_TYPE_CURSOR_SHAPE, */
+                                   VTE_CURSOR_SHAPE_BLOCK,
                                    VTE_CURSOR_SHAPE_BLOCK,
                                    (GParamFlags) (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
+#endif
 #if 0
         /**
          * NoVteTerminal:delete-binding:
@@ -1604,6 +1609,7 @@ vte_terminal_class_init(VteTerminalClass *klass)
                                       TRUE,
                                       (GParamFlags) (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
 
+#if 0
         /**
          * NoVteTerminal:text-blink-mode:
          *
@@ -1613,9 +1619,11 @@ vte_terminal_class_init(VteTerminalClass *klass)
          */
         pspecs[PROP_TEXT_BLINK_MODE] =
                 g_param_spec_enum ("text-blink-mode", NULL, NULL,
-                                   VTE_TYPE_TEXT_BLINK_MODE,
+                                   /* VTE_TYPE_TEXT_BLINK_MODE, */
+                                   VTE_TEXT_BLINK_NEVER,
                                    VTE_TEXT_BLINK_ALWAYS,
                                    (GParamFlags) (G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
+#endif
 
         /**
          * NoVteTerminal:window-title:
@@ -1659,6 +1667,8 @@ vte_terminal_class_init(VteTerminalClass *klass)
                                      NULL,
                                      (GParamFlags) (G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
 
+/* FIXME: GTK warnings */
+#if 0
         /**
          * NoVteTerminal:word-char-exceptions:
          *
@@ -1676,6 +1686,7 @@ vte_terminal_class_init(VteTerminalClass *klass)
                                      (GParamFlags) (G_PARAM_READABLE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
 
         g_object_class_install_properties(gobject_class, LAST_PROP, pspecs);
+#endif
 
     /* Disable GtkWidget's keybindings except for Shift-F10 and MenuKey
          * which pop up the context menu.
@@ -3134,6 +3145,7 @@ vte_terminal_set_audible_bell(NoVteTerminal *terminal,
                 g_object_notify_by_pspec(G_OBJECT(terminal), pspecs[PROP_AUDIBLE_BELL]);
 }
 
+#if 0
 /**
  * vte_terminal_set_backspace_binding:
  * @terminal: a #NoVteTerminal
@@ -3153,6 +3165,7 @@ vte_terminal_set_backspace_binding(NoVteTerminal *terminal,
         if (IMPL(terminal)->set_backspace_binding(binding))
                 g_object_notify_by_pspec(G_OBJECT(terminal), pspecs[PROP_BACKSPACE_BINDING]);
 }
+#endif
 
 /**
  * vte_terminal_get_bold_is_bright:
@@ -3599,6 +3612,7 @@ vte_terminal_set_cursor_shape(NoVteTerminal *terminal, VteCursorShape shape)
                 g_object_notify_by_pspec(G_OBJECT(terminal), pspecs[PROP_CURSOR_SHAPE]);
 }
 
+#if 0
 /**
  * vte_terminal_set_delete_binding:
  * @terminal: a #NoVteTerminal
@@ -3618,6 +3632,7 @@ vte_terminal_set_delete_binding(NoVteTerminal *terminal,
         if (IMPL(terminal)->set_delete_binding(binding))
                 g_object_notify_by_pspec(G_OBJECT(terminal), pspecs[PROP_DELETE_BINDING]);
 }
+#endif
 
 /**
  * vte_terminal_get_encoding:
