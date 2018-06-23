@@ -36,10 +36,8 @@ struct _vte_table *_vte_table_new(void);
 void _vte_table_free(struct _vte_table *table);
 
 /* Add a string to the matching tree. */
-void _vte_table_add(struct _vte_table *table,
-		    const char *pattern,
-                    gssize length,
-                    sequence_handler_t handler);
+void _vte_table_add(struct _vte_table *table, const char *pattern,
+                        gssize length, sequence_handler_t handler);
 
 /* Check if a string matches something in the tree. */
 vte_matcher_result_t _vte_table_match(struct _vte_table *table,

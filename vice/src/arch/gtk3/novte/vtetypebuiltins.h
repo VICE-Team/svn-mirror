@@ -1,10 +1,6 @@
 
 /* Generated data (by glib-mkenums) */
 
-//#if !defined (__VTE_VTE_H_INSIDE__) && !defined (VTE_COMPILATION)
-//#error "Only <vte/vte.h> can be included directly."
-//#endif
-
 #ifndef NOVTE_TYPE_BUILTINS_H
 #define NOVTE_TYPE_BUILTINS_H
 

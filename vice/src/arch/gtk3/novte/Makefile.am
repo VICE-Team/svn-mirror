@@ -3,21 +3,6 @@ GLIB_GENMARSHAL = glib-genmarshal
 GLIB_COMPILE_RESOURCES = glib-compile-resources
 GLIB_MKENUMS = glib-mkenums
 
-#xxx=\
-# only on linux
-#	-DHAVE_STRCHRNUL \
-#	-DHAVE_STRCHRNUL \
-#	-DHAVE_SYS_TERMIOS_H \
-#
-#	-DGETTEXT_PACKAGE=\"gtk\" \
-#	-DVTE_DEFAULT_TERM=\"xterm\" \
-#	-DVTE_TYPE_ERASE_BINDING=200 \
-#	-DVTE_TYPE_CURSOR_BLINK_MODE=1 \
-#	-DVTE_TYPE_CURSOR_SHAPE=1 \
-#	-DVTE_TYPE_TEXT_BLINK_MODE=1 \
-#
-#
-
 AM_CPPFLAGS = \
 	-DHAVE_ROUND \
 	\
@@ -31,16 +16,6 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libnovte.a
-
-#xxx=\
-# remove these
-#	xxxvtespawn.cc \
-#	xxxpty.cc \
-#	xxxvtepcre2.h \
-#	xxxvteregexinternal.hh \
-#	xxxvteregex.cc \
-#	xxxreaper.cc \
-#
 
 libnovte_a_SOURCES = \
 	debug.cc \
@@ -95,23 +70,12 @@ EXTRA_DIST = \
 	vteunistr.h \
 	vteutils.h
 
-#xxx=\
-#	xxxbasedialogs.h
-#	xxxvtepty-private.h \
-#	xxxvtepty.h \
-#	xxxvteregex.h \
-#	xxxreaper.hh \
-#
-
 BUILT_SOURCES = \
 	box_drawing.h \
 	marshal.cc \
 	marshal.h \
 	vtetypebuiltins.cc \
 	vtetypebuiltins.h
-
-#xxx=\
-#	xxxvteresources.cc
 
 box_drawing.h: box_drawing.txt box_drawing_generate.sh
 	$(AM_V_GEN) $(srcdir)/box_drawing_generate.sh < $< > $@
@@ -127,8 +91,3 @@ vtetypebuiltins.cc: vtetypebuiltins.cc.template vteenums.h vtedeprecated.h
 	$(AM_V_GEN) $(GLIB_MKENUMS) --template $< $(filter %.h,$^) > xgen-vtbc \
 	&& (cmp -s xgen-vtbc vtetypebuiltins.cc || cp xgen-vtbc vtetypebuiltins.cc ) \
 	&& rm -f xgen-vtbc
-
-#xxx=\
-#xxxvteresources.cc: vte.gresource.xml Makefile $(shell $(GLIB_COMPILE_RESOURCES) --generate-dependencies vte.gresource.xml)
-#	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target $@ --sourcedir . --generate-source --c-name _vte $<
-

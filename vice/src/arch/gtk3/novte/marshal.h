@@ -2,7 +2,7 @@
 #ifndef ___novte_marshal_MARSHAL_H__
 #define ___novte_marshal_MARSHAL_H__
 
-#include	<glib-object.h>
+#include    <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -48,5 +48,5 @@ G_GNUC_INTERNAL void _vte_marshal_VOID__UINT_UINT (GClosure     *closure,
 
 G_END_DECLS
 
-#endif /* ___vte_marshal_MARSHAL_H__ */
+#endif /* ___novte_marshal_MARSHAL_H__ */
 

@@ -26,27 +26,27 @@
 
 G_BEGIN_DECLS
 
-#define VTE_META_MASK		GDK_META_MASK
-#define VTE_NUMLOCK_MASK	GDK_MOD2_MASK
+#define VTE_META_MASK       GDK_META_MASK
+#define VTE_NUMLOCK_MASK    GDK_MOD2_MASK
 
 /* Map the specified keyval/modifier setup, dependent on the mode, to either
  * a literal string or a capability name. */
 void _vte_keymap_map(guint keyval,
-		     guint modifiers,
-		     gboolean app_cursor_keys,
-		     gboolean app_keypad_keys,
-		     char **normal,
-		     gssize *normal_length);
+             guint modifiers,
+             gboolean app_cursor_keys,
+             gboolean app_keypad_keys,
+             char **normal,
+             gssize *normal_length);
 
 /* Return TRUE if a keyval is just a modifier key. */
 gboolean _vte_keymap_key_is_modifier(guint keyval);
 
 /* Add modifiers to the sequence if they're needed. */
 void _vte_keymap_key_add_key_modifiers(guint keyval,
-				       guint modifiers,
-				       gboolean app_cursor_keys,
-				       char **normal,
-				       gssize *normal_length);
+                       guint modifiers,
+                       gboolean app_cursor_keys,
+                       char **normal,
+                       gssize *normal_length);
 
 G_END_DECLS
 

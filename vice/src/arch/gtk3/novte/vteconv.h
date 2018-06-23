@@ -21,7 +21,6 @@
 #ifndef novte_vteconv_h_included
 #define novte_vteconv_h_included
 
-
 #include <glib.h>
 
 G_BEGIN_DECLS
@@ -34,17 +33,17 @@ typedef struct _VteConv *VteConv;
 
 VteConv _vte_conv_open(const char *target, const char *source);
 size_t _vte_conv(VteConv converter,
-		 const guchar **inbuf, gsize *inbytes_left,
-		 guchar **outbuf, gsize *outbytes_left);
+            const guchar **inbuf, gsize *inbytes_left,
+            guchar **outbuf, gsize *outbytes_left);
 size_t _vte_conv_uc(VteConv converter,
-		    const gunichar **inbuf, gsize *inbytes_left,
-		    guchar **outbuf, gsize *outbytes_left);
+            const gunichar **inbuf, gsize *inbytes_left,
+            guchar **outbuf, gsize *outbytes_left);
 size_t _vte_conv_uu(VteConv converter,
-		    const gunichar **inbuf, gsize *inbytes_left,
-		    gunichar **outbuf, gsize *outbytes_left);
+            const gunichar **inbuf, gsize *inbytes_left,
+            gunichar **outbuf, gsize *outbytes_left);
 size_t _vte_conv_cu(VteConv converter,
-		    const guchar **inbuf, gsize *inbytes_left,
-		    gunichar **outbuf, gsize *outbytes_left);
+            const guchar **inbuf, gsize *inbytes_left,
+            gunichar **outbuf, gsize *outbytes_left);
 gint _vte_conv_close(VteConv converter);
 
 G_END_DECLS

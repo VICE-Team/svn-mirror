@@ -38,8 +38,7 @@ gsize _vte_stream_head (VteStream *stream);
 
 /* Various streams */
 
-VteStream *
-_vte_file_stream_new (void);
+VteStream *_vte_file_stream_new (void);
 
 G_END_DECLS
 

@@ -24,12 +24,7 @@
 G_BEGIN_DECLS
 
 int _vte_mkstemp (void);
-#if 0
-#ifndef HAVE_STRCHRNUL
-char *strchrnul (const char *s, int c);
-#endif
-#endif
 
 G_END_DECLS
 
-#endif /* __VTE_UTILS_H__ */
+#endif /* __NOVTE_UTILS_H__ */

@@ -25,8 +25,7 @@
 
 guint _vte_debug_flags;
 
-void
-_vte_debug_init(void)
+void _vte_debug_init(void)
 {
 #ifdef VTE_DEBUG
   const GDebugKey keys[] = {
@@ -64,9 +63,7 @@ _vte_debug_init(void)
 #endif /* VTE_DEBUG */
 }
 
-const char *
-_vte_debug_sequence_to_string(const char *str,
-                              gssize length)
+const char *_vte_debug_sequence_to_string(const char *str, gssize length)
 {
 #if defined(VTE_DEBUG)
         static const char codes[][6] = {
@@ -79,23 +76,27 @@ _vte_debug_sequence_to_string(const char *str,
         static GString *buf;
         gssize i;
 
-        if (str == NULL)
+        if (str == NULL) {
                 return "(nil)";
+        }
 
-        if (length == -1)
+        if (length == -1) {
                 length = strlen(str);
+        }
 
-        if (buf == NULL)
+        if (buf == NULL) {
                 buf = g_string_new(NULL);
+        }
 
         g_string_truncate(buf, 0);
         for (i = 0; i < length; i++) {
                 guint8 c = (guint8)str[i];
-                if (i > 0)
+                if (i > 0) {
                         g_string_append_c(buf, ' ');
+                }
 
                 if (c == '\033' /* ESC */) {
-                        switch (str[++i]) {
+                    switch (str[++i]) {
                         case '_': g_string_append(buf, "APC"); break;
                         case '[': g_string_append(buf, "CSI"); break;
                         case 'P': g_string_append(buf, "DCS"); break;
@@ -103,16 +104,16 @@ _vte_debug_sequence_to_string(const char *str,
                         case '^': g_string_append(buf, "PM"); break;
                         case '\\': g_string_append(buf, "ST"); break;
                         default: g_string_append(buf, "ESC"); i--; break;
-                        }
+                    }
+                } else if (c <= 0x20) {
+                    g_string_append(buf, codes[c]);
+                } else if (c == 0x7f) {
+                    g_string_append(buf, "DEL");
+                } else if (c >= 0x80) {
+                    g_string_append_printf(buf, "\\%02x ", c);
+                } else {
+                    g_string_append_c(buf, c);
                 }
-                else if (c <= 0x20)
-                        g_string_append(buf, codes[c]);
-                else if (c == 0x7f)
-                        g_string_append(buf, "DEL");
-                else if (c >= 0x80)
-                        g_string_append_printf(buf, "\\%02x ", c);
-                else
-                        g_string_append_c(buf, c);
         }
 
         return buf->str;

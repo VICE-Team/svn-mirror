@@ -19,10 +19,6 @@
 #ifndef __NOVTE_VTE_MACROS_H__
 #define __NOVTE_VTE_MACROS_H__
 
-//#if !defined (__VTE_VTE_H_INSIDE__) && !defined (VTE_COMPILATION)
-//#error "Only <vte/vte.h> can be included directly."
-//#endif
-
 #if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 6)
 #define _VTE_GNUC_PACKED __attribute__((__packed__))
 #else
@@ -39,7 +35,6 @@
 #endif
 #endif
 
-//#define _VTE_PUBLIC __attribute__((__visibility__("default"))) extern
 #define _VTE_PUBLIC extern
 
-#endif /* __VTE_VTE_MACROS_H__ */
+#endif /* __NOVTE_VTE_MACROS_H__ */

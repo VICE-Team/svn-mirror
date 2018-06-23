@@ -23,20 +23,14 @@
 
 #define NO_PCRE /* FIXME */
 
-#define __VTE_VTE_H_INSIDE__ 1
+#define __VTE_VTE_H_INSIDE__ 1 /* FIXME */
 
 #include "vteenums.h"
 #include "vteglobals.h"
-//#include "vtepty.h"
-//#include "vteregex.h"
 #include "vteterminal.h"
 #include "vtetypebuiltins.h"
-//#include "vteversion.h"
-
-//#if !defined(VTE_DISABLE_DEPRECATED) || defined(VTE_COMPILATION)
 #include "vtedeprecated.h"
-//#endif /* !VTE_DISABLE_DEPRECATED */
 
-#undef __VTE_VTE_H_INSIDE__
+#undef __NOVTE_VTE_H_INSIDE__
 
 #endif /* __NOVTE_VTE_H__ */

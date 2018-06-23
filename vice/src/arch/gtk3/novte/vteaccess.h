@@ -19,7 +19,6 @@
 #ifndef novte_vteaccess_h_included
 #define novte_vteaccess_h_included
 
-
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gtk/gtk-a11y.h>
@@ -42,11 +41,11 @@ typedef struct _VteTerminalAccessibleClass VteTerminalAccessibleClass;
  * The accessible peer for #VteTerminal.
  */
 struct _VteTerminalAccessible {
-	GtkWidgetAccessible parent;
+    GtkWidgetAccessible parent;
 };
 
 struct _VteTerminalAccessibleClass {
-	GtkWidgetAccessibleClass parent_class;
+    GtkWidgetAccessibleClass parent_class;
 };
 
 GType _vte_terminal_accessible_get_type(void);
