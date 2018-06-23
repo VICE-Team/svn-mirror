@@ -2839,7 +2839,7 @@ VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& params)
         if (n_params >= 3)
                 params.number_at_unchecked(2, arg2);
 
-	GdkScreen *gscreen;
+//	GdkScreen *gscreen; /* FIXME */
 	char buf[128];
 	int width, height;
 
@@ -2963,6 +2963,7 @@ VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& params)
                 //feed_child(buf, -1);
                 break;
         case 19:
+#if 0 /* FIXME */
                 _vte_debug_print(VTE_DEBUG_PARSE,
                                  "Reporting screen size.\n");
                 gscreen = gtk_widget_get_screen(m_widget);
@@ -2973,6 +2974,7 @@ VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& params)
                            height / m_cell_height,
                            width / m_cell_width);
                 //feed_child(buf, -1);
+#endif
                 break;
         case 20:
                 /* Report a static icon title, since the real

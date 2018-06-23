@@ -33,6 +33,8 @@ TODOs and FIXMEs:
 
 - remove leftover _( ) macro from strings
 
+- in vteseq.cc reporting screen size is disabled in seq_window_manipulation
+
 - there is still a lot of stuff that doesnt make a lot of sense for what we are
   doing here.
 
