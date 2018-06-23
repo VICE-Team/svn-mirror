@@ -35,11 +35,11 @@ G_BEGIN_DECLS
 typedef guint32 hyperlink_idx_t;
 
 typedef struct _VteVisualPosition {
-	long row, col;
+    long row, col;
 } VteVisualPosition;
 
 typedef struct _VteCellAttrChange {
-	gsize text_end_offset;  /* offset of first character no longer using this attr */
+    gsize text_end_offset;  /* offset of first character no longer using this attr */
         VteStreamCellAttr attr;
 } VteCellAttrChange;
 
@@ -50,13 +50,13 @@ typedef struct _VteCellAttrChange {
 
 typedef struct _VteRing VteRing;
 struct _VteRing {
-	gulong max;
+    gulong max;
 
-	gulong start, end;
+    gulong start, end;
 
-	/* Writable */
-	gulong writable, mask;
-	VteRowData *array;
+    /* Writable */
+    gulong writable, mask;
+    VteRowData *array;
 
         /* Storage:
          *
@@ -72,15 +72,15 @@ struct _VteRing {
          *    if nonempty, it actually contains the ID and URI separated with a semicolon. Not NUL terminated.
          *  - 2 bytes repeating attr.hyperlink_length so that we can walk backwards.
          */
-	VteStream *attr_stream, *text_stream, *row_stream;
-	gsize last_attr_text_start_offset;
-	VteCellAttr last_attr;
-	GString *utf8_buffer;
+    VteStream *attr_stream, *text_stream, *row_stream;
+    gsize last_attr_text_start_offset;
+    VteCellAttr last_attr;
+    GString *utf8_buffer;
 
-	VteRowData cached_row;
-	gulong cached_row_num;
+    VteRowData cached_row;
+    gulong cached_row_num;
 
-	gboolean has_streams;
+    gboolean has_streams;
         gulong visible_rows;  /* to keep at least a screenful of lines in memory, bug 646098 comment 12 */
 
         GPtrArray *hyperlinks;  /* The hyperlink pool. Contains GString* items.
@@ -95,8 +95,8 @@ struct _VteRing {
 };
 
 #define _vte_ring_contains(__ring, __position) \
-	(((gulong) (__position) >= (__ring)->start) && \
-	 ((gulong) (__position) < (__ring)->end))
+    (((gulong) (__position) >= (__ring)->start) && \
+     ((gulong) (__position) < (__ring)->end))
 #define _vte_ring_delta(__ring) ((glong) (__ring)->start)
 #define _vte_ring_length(__ring) ((glong) ((__ring)->end - (__ring)->start))
 #define _vte_ring_next(__ring) ((glong) (__ring)->end)
@@ -119,10 +119,10 @@ void _vte_ring_drop_scrollback (VteRing *ring, gulong position);
 void _vte_ring_set_visible_rows (VteRing *ring, gulong rows);
 void _vte_ring_rewrap (VteRing *ring, glong columns, VteVisualPosition **markers);
 gboolean _vte_ring_write_contents (VteRing *ring,
-				   GOutputStream *stream,
-				   VteWriteFlags flags,
-				   GCancellable *cancellable,
-				   GError **error);
+                   GOutputStream *stream,
+                   VteWriteFlags flags,
+                   GCancellable *cancellable,
+                   GError **error);
 
 G_END_DECLS
 

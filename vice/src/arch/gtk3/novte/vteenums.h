@@ -19,10 +19,6 @@
 #ifndef __NOVTE_VTE_ENUMS_H__
 #define __NOVTE_VTE_ENUMS_H__
 
-//#if !defined (__VTE_VTE_H_INSIDE__) && !defined (VTE_COMPILATION)
-//#error "Only <vte/vte.h> can be included directly."
-//#endif
-
 #include <glib.h>
 
 G_BEGIN_DECLS
@@ -37,9 +33,9 @@ G_BEGIN_DECLS
  * for the terminal.
  */
 typedef enum {
-        VTE_CURSOR_BLINK_SYSTEM,
-        VTE_CURSOR_BLINK_ON,
-        VTE_CURSOR_BLINK_OFF
+    VTE_CURSOR_BLINK_SYSTEM,
+    VTE_CURSOR_BLINK_ON,
+    VTE_CURSOR_BLINK_OFF
 } VteCursorBlinkMode;
 
 /**
@@ -53,9 +49,9 @@ typedef enum {
  * draw at the cursor position.
  */
 typedef enum {
-        VTE_CURSOR_SHAPE_BLOCK,
-        VTE_CURSOR_SHAPE_IBEAM,
-        VTE_CURSOR_SHAPE_UNDERLINE
+    VTE_CURSOR_SHAPE_BLOCK,
+    VTE_CURSOR_SHAPE_IBEAM,
+    VTE_CURSOR_SHAPE_UNDERLINE
 } VteCursorShape;
 
 /**
@@ -71,10 +67,10 @@ typedef enum {
  * Since: 0.52
  */
 typedef enum {
-        VTE_TEXT_BLINK_NEVER     = 0,
-        VTE_TEXT_BLINK_FOCUSED   = 1,
-        VTE_TEXT_BLINK_UNFOCUSED = 2,
-        VTE_TEXT_BLINK_ALWAYS    = 3
+    VTE_TEXT_BLINK_NEVER     = 0,
+    VTE_TEXT_BLINK_FOCUSED   = 1,
+    VTE_TEXT_BLINK_UNFOCUSED = 2,
+    VTE_TEXT_BLINK_ALWAYS    = 3
 } VteTextBlinkMode;
 
 /**
@@ -90,42 +86,12 @@ typedef enum {
  * keys.
  */
 typedef enum {
-	VTE_ERASE_AUTO,
-	VTE_ERASE_ASCII_BACKSPACE,
-	VTE_ERASE_ASCII_DELETE,
-	VTE_ERASE_DELETE_SEQUENCE,
-	VTE_ERASE_TTY
+    VTE_ERASE_AUTO,
+    VTE_ERASE_ASCII_BACKSPACE,
+    VTE_ERASE_ASCII_DELETE,
+    VTE_ERASE_DELETE_SEQUENCE,
+    VTE_ERASE_TTY
 } VteEraseBinding;
-
-#if 0
-/**
- * VtePtyError:
- * @VTE_PTY_ERROR_PTY_HELPER_FAILED: Obsolete. Deprecated: 0.42
- * @VTE_PTY_ERROR_PTY98_FAILED: failure when using PTY98 to allocate the PTY
- */
-typedef enum {
-  VTE_PTY_ERROR_PTY_HELPER_FAILED = 0,
-  VTE_PTY_ERROR_PTY98_FAILED
-} VtePtyError;
-
-/**
- * VtePtyFlags:
- * @VTE_PTY_NO_LASTLOG: Unused. Deprecated: 0.38
- * @VTE_PTY_NO_UTMP: Unused. Deprecated: 0.38
- * @VTE_PTY_NO_WTMP: Unused. Deprecated: 0.38
- * @VTE_PTY_NO_HELPER: Unused. Deprecated: 0.38
- * @VTE_PTY_NO_FALLBACK: Unused. Deprecated: 0.38
- * @VTE_PTY_DEFAULT: the default flags
- */
-typedef enum {
-  VTE_PTY_NO_LASTLOG  = 1 << 0,
-  VTE_PTY_NO_UTMP     = 1 << 1,
-  VTE_PTY_NO_WTMP     = 1 << 2,
-  VTE_PTY_NO_HELPER   = 1 << 3,
-  VTE_PTY_NO_FALLBACK = 1 << 4,
-  VTE_PTY_DEFAULT     = 0
-} VtePtyFlags;
-#endif
 
 /**
  * VteWriteFlags:
@@ -135,30 +101,8 @@ typedef enum {
  * to an output stream.
  */
 typedef enum {
-  VTE_WRITE_DEFAULT = 0
+    VTE_WRITE_DEFAULT = 0
 } VteWriteFlags;
-
-#ifndef NO_PCRE
-/**
- * VteRegexError:
- * @VTE_REGEX_ERROR_INCOMPATIBLE: The PCRE2 library was built without
- *   Unicode support which is required for VTE
- * @VTE_REGEX_ERROR_NOT_SUPPORTED: Regexes are not supported because VTE was
- *   built without PCRE2 support
- *
- * An enum type for regex errors. In addition to the values listed above,
- * any PCRE2 error values may occur.
- *
- * Since: 0.46
- */
-typedef enum {
-        /* Negative values are PCRE2 errors */
-
-        /* VTE specific values */
-        VTE_REGEX_ERROR_INCOMPATIBLE  = G_MAXINT-1,
-        VTE_REGEX_ERROR_NOT_SUPPORTED = G_MAXINT
-} VteRegexError;
-#endif
 
 /**
  * VteFormat:
@@ -171,10 +115,10 @@ typedef enum {
  * Since: 0.50
  */
 typedef enum {
-        VTE_FORMAT_TEXT = 1,
-        VTE_FORMAT_HTML = 2
+    VTE_FORMAT_TEXT = 1,
+    VTE_FORMAT_HTML = 2
 } VteFormat;
 
 G_END_DECLS
 
-#endif /* __VTE_VTE_ENUMS_H__ */
+#endif /* __NOVTE_VTE_ENUMS_H__ */

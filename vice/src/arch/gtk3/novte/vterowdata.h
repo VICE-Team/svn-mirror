@@ -150,17 +150,17 @@ typedef struct _VTE_GNUC_PACKED VteCellAttr {
  */
 
 typedef struct _VTE_GNUC_PACKED _VteStreamCellAttr {
-        uint32_t attr; /* Same as VteCellAttr. We only access columns
-                        * and fragment, however.
-                        */
-        /* 4-byte boundary */
-        uint64_t colors;
-        /* 12-byte boundary */
-        guint16 hyperlink_length;       /* make sure it fits VTE_HYPERLINK_TOTAL_LENGTH_MAX */
+    uint32_t attr; /* Same as VteCellAttr. We only access columns
+                    * and fragment, however.
+                    */
+    /* 4-byte boundary */
+    uint64_t colors;
+    /* 12-byte boundary */
+    guint16 hyperlink_length;       /* make sure it fits VTE_HYPERLINK_TOTAL_LENGTH_MAX */
 
-        /* Methods */
-        CELL_ATTR_UINT(columns, COLUMNS)
-        CELL_ATTR_BOOL(fragment, FRAGMENT)
+    /* Methods */
+    CELL_ATTR_UINT(columns, COLUMNS)
+    CELL_ATTR_BOOL(fragment, FRAGMENT)
 } VteStreamCellAttr;
 //G_STATIC_ASSERT (sizeof (VteStreamCellAttr) == 14);
 //G_STATIC_ASSERT (offsetof (VteStreamCellAttr, hyperlink_length) == VTE_CELL_ATTR_COMMON_BYTES);
@@ -181,9 +181,9 @@ typedef struct _VTE_GNUC_PACKED _VteCell {
 static const VteCell basic_cell = {
     0,
     {
-                VTE_ATTR_DEFAULT, /* attr */
-                VTE_COLOR_TRIPLE_INIT_DEFAULT, /* colors */
-                0, /* hyperlink_idx */
+        VTE_ATTR_DEFAULT, /* attr */
+        VTE_COLOR_TRIPLE_INIT_DEFAULT, /* colors */
+        0, /* hyperlink_idx */
     }
 };
 
@@ -210,20 +210,20 @@ typedef struct _VteRowData {
 
 #define _vte_row_data_length(__row)         ((__row)->len + 0)
 
-static inline const VteCell *
-_vte_row_data_get (const VteRowData *row, gulong col)
+static inline const VteCell *_vte_row_data_get (const VteRowData *row, gulong col)
 {
-    if (G_UNLIKELY (row->len <= col))
+    if (G_UNLIKELY (row->len <= col)) {
         return NULL;
+    }
 
     return &row->cells[col];
 }
 
-static inline VteCell *
-_vte_row_data_get_writable (VteRowData *row, gulong col)
+static inline VteCell *_vte_row_data_get_writable (VteRowData *row, gulong col)
 {
-    if (G_UNLIKELY (row->len <= col))
+    if (G_UNLIKELY (row->len <= col)) {
         return NULL;
+    }
 
     return &row->cells[col];
 }
@@ -231,8 +231,7 @@ _vte_row_data_get_writable (VteRowData *row, gulong col)
 /*
  * Copy the common attributes from VteCellAttr to VteStreamCellAttr or vice versa.
  */
-static inline void
-_attrcpy (void *dst, void *src)
+static inline void _attrcpy (void *dst, void *src)
 {
         memcpy(dst, src, VTE_CELL_ATTR_COMMON_BYTES);
 }

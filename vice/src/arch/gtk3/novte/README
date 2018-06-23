@@ -19,3 +19,11 @@ reason check if things work/behave different with real vte, remove the
 src/arch/gtk3/linenoise.c
 src/arch/gtk3/uimon.c
 src/arch/gtk3/uimon-fallback.c
+
+this stuff should get removed at some point and "novte" forced always
+
+--------------------------------------------------------------------------------
+
+TODOs and FIXMEs:
+
+- vtetypes.hh "smartfd" - what is it used for? it needs to be fixed, or removed

@@ -30,8 +30,8 @@ typedef void (VteTerminalPrivate::* sequence_handler_t)(vte::parser::Params cons
 struct _vte_matcher;
 
 struct _vte_matcher_impl {
-	const struct _vte_matcher_class *klass;
-	/* private */
+    const struct _vte_matcher_class *klass;
+    /* private */
 };
 
 typedef enum {
@@ -60,11 +60,11 @@ typedef void (*_vte_matcher_add_func)(struct _vte_matcher_impl *impl,
 typedef void (*_vte_matcher_print_func)(struct _vte_matcher_impl *impl);
 typedef void (*_vte_matcher_destroy_func)(struct _vte_matcher_impl *impl);
 struct _vte_matcher_class{
-	_vte_matcher_create_func create;
-	_vte_matcher_add_func add;
-	_vte_matcher_print_func print;
-	_vte_matcher_match_func match;
-	_vte_matcher_destroy_func destroy;
+    _vte_matcher_create_func create;
+    _vte_matcher_add_func add;
+    _vte_matcher_print_func print;
+    _vte_matcher_match_func match;
+    _vte_matcher_destroy_func destroy;
 };
 
 /* Create and init matcher. */

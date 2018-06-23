@@ -38,8 +38,6 @@
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
-//#include <glib/gi18n-lib.h>
-//#define _(x) x
 
 #include <gdk/gdkkeysyms.h>
 
@@ -52,8 +50,7 @@ struct _vte_iso2022_state {
 	VteByteArray *buffer;
 };
 
-struct _vte_iso2022_state *
-_vte_iso2022_state_new(const char *native_codeset)
+struct _vte_iso2022_state *_vte_iso2022_state_new(const char *native_codeset)
 {
 	struct _vte_iso2022_state *state;
 
@@ -87,8 +84,7 @@ _vte_iso2022_state_new(const char *native_codeset)
 	return state;
 }
 
-void
-_vte_iso2022_state_free(struct _vte_iso2022_state *state)
+void _vte_iso2022_state_free(struct _vte_iso2022_state *state)
 {
 	_vte_byte_array_free(state->buffer);
 	if (state->conv != VTE_INVALID_CONV) {
@@ -97,8 +93,7 @@ _vte_iso2022_state_free(struct _vte_iso2022_state *state)
 	g_slice_free(struct _vte_iso2022_state, state);
 }
 
-void
-_vte_iso2022_state_set_codeset(struct _vte_iso2022_state *state,
+void _vte_iso2022_state_set_codeset(struct _vte_iso2022_state *state,
 			       const char *codeset)
 {
 	VteConv conv;
@@ -121,14 +116,12 @@ _vte_iso2022_state_set_codeset(struct _vte_iso2022_state *state,
 	state->conv = conv;
 }
 
-const char *
-_vte_iso2022_state_get_codeset(struct _vte_iso2022_state *state)
+const char *_vte_iso2022_state_get_codeset(struct _vte_iso2022_state *state)
 {
 	return state->codeset;
 }
 
-gsize
-_vte_iso2022_process(struct _vte_iso2022_state *state,
+gsize _vte_iso2022_process(struct _vte_iso2022_state *state,
                      const guchar *cdata, gsize length,
                      GArray *gunichars)
 {
