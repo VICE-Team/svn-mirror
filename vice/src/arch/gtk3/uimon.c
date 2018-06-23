@@ -77,6 +77,7 @@
 #include "uimon-fallback.h"
 #include "mon_command.h"
 #include "vsync.h"
+#include "uidata.h"
 
 
 #if defined(HAVE_VTE) || defined(USE_NOVTE)
@@ -394,12 +395,23 @@ static void screen_resize_window_cb2 (VteTerminal *terminal,
     vte_terminal_set_size(VTE_TERMINAL(fixed.term), newwidth, newheight);
 }
 
+/** \brief  Create an icon by loading it from the vice.gresource file
+ *
+ * \return  Standard C= icon ripped from the internet (but at least scalable)
+ *          Which ofcourse sucks on Windows for some reason, *sigh*
+ */
+static GdkPixbuf *get_default_icon(void)
+{
+    return uidata_get_pixbuf("CBM_Logo.svg");
+}
+
 console_t *uimonfb_window_open(void);
 
 console_t *uimon_window_open(void)
 {
     GtkWidget *scrollbar, *horizontal_container;
     GdkGeometry hints;
+    GdkPixbuf *icon;
 
     if (native_monitor()) {
         return uimonfb_window_open();
@@ -411,6 +423,13 @@ console_t *uimon_window_open(void)
         gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
         gtk_widget_set_app_paintable(fixed.window, TRUE);
         gtk_window_set_deletable(GTK_WINDOW(fixed.window), TRUE);
+
+        /* set a default C= icon for now */
+        icon = get_default_icon();
+        if (icon != NULL) {
+            gtk_window_set_icon(GTK_WINDOW(fixed.window), icon);
+        }
+
         fixed.term = vte_terminal_new();
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), 1000);
         vte_terminal_set_scroll_on_output (VTE_TERMINAL(fixed.term), TRUE);
