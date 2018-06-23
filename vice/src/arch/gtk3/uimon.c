@@ -74,6 +74,7 @@
 #endif
 #include "uimon.h"
 #include "uimonarch.h"
+#include "uimon-fallback.h"
 #include "mon_command.h"
 #include "vsync.h"
 
@@ -109,6 +110,13 @@ static int is_dir(struct dirent *de)
 
 #endif
     return 0;
+}
+
+static int native_monitor(void)
+{
+    int res = 0;
+    resources_get_int("NativeMonitor", &res);
+    return res;
 }
 
 void uimon_write_to_terminal(struct console_private_s *t,
@@ -362,10 +370,16 @@ static void screen_resize_window_cb (VteTerminal *terminal,
     vte_console.console_yres = (unsigned int)height;
 }
 
+console_t *uimonfb_window_open(void);
+
 console_t *uimon_window_open(void)
 {
     GtkWidget *scrollbar, *horizontal_container;
     GdkGeometry hints;
+
+    if (native_monitor()) {
+        return uimonfb_window_open();
+    }
 
     if (fixed.window == NULL) {
         fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -421,6 +435,10 @@ console_t *uimon_window_open(void)
 
 console_t *uimon_window_resume(void)
 {
+    if (native_monitor()) {
+        return uimonfb_window_resume();
+    }
+
     gtk_widget_show_all(fixed.window);
     screen_resize_window_cb (VTE_TERMINAL(fixed.term), NULL);
     gtk_window_present(GTK_WINDOW(fixed.window));
@@ -430,11 +448,18 @@ console_t *uimon_window_resume(void)
 
 void uimon_window_suspend(void)
 {
+    if (native_monitor()) {
+        uimonfb_window_suspend();
+        return;
+    }
 }
 
 int uimon_out(const char *buffer)
 {
     const char *c;
+    if (native_monitor()) {
+        return uimonfb_out(buffer);
+    }
     for(c = buffer; *c; c++) {
         if(*c == '\n') {
             uimon_write_to_terminal(&fixed, "\r", 1);
@@ -446,6 +471,11 @@ int uimon_out(const char *buffer)
 
 void uimon_window_close(void)
 {
+    if (native_monitor()) {
+        uimonfb_window_close();
+        return;
+    }
+
     /* only close window if there is one: this avoids a GTK_CRITICAL warning
      * when using a remote monitor */
     if (fixed.window != NULL) {
@@ -455,10 +485,18 @@ void uimon_window_close(void)
 
 void uimon_notify_change(void)
 {
+    if (native_monitor()) {
+        uimonfb_notify_change();
+        return;
+    }
 }
 
 void uimon_set_interface(struct monitor_interface_s **interf, int i)
 {
+    if (native_monitor()) {
+        uimonfb_set_interface(interf, i);
+        return;
+    }
 }
 
 static char* concat_strings(const char *string1, int nchars, const char *string2)
@@ -580,6 +618,10 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
     char *p, *ret_string;
 
+    if (native_monitor()) {
+        return uimonfb_get_in(ppchCommandLine, prompt);
+    }
+
     fixed.input_buffer = lib_stralloc("");;
     linenoiseSetCompletionCallback(monitor_completions);
     p = linenoise(prompt, &fixed);
@@ -604,6 +646,11 @@ int console_init(void)
     char *full_name;
     char *short_name;
     int takes_filename_as_arg;
+    
+    if (native_monitor()) {
+        return consolefb_init();
+    }
+    
     while (mon_get_nth_command(i++, (const char **)&full_name, (const char **)&short_name, &takes_filename_as_arg)) {
         if (strlen(full_name)) {
             linenoiseAddCompletion(&command_lc, full_name);
@@ -624,6 +671,11 @@ int console_init(void)
 int console_close_all(void)
 {
     int i;
+
+    if (native_monitor()) {
+        return consolefb_close_all();
+    }
+
     for(i = 0; i < command_lc.len; i++) {
         free(command_lc.cvec[i]);
     }
@@ -652,8 +704,7 @@ void ui_monitor_activate_callback(GtkWidget *widget, gpointer user_data)
     if (resources_get_int("NativeMonitor", &native) < 0) {
         debug_gtk3("failed to get value of resource 'NativeMonitor'\n");
     }
-    debug_gtk3("called, native monitor = %s (completely ignored for now)\n",
-            native ? "true" : "false");
+    debug_gtk3("called, native monitor = %s\n", native ? "true" : "false");
 
     resources_get_int("MonitorServer", &v);
 

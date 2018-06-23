@@ -151,7 +151,7 @@ static const resource_string_t resources_string[] = {
  */
 
 static const resource_int_t resources_int_shared[] = {
-    { "NativeMonitor", 1, RES_EVENT_NO, NULL,
+    { "NativeMonitor", 0, RES_EVENT_NO, NULL,
         &native_monitor_enabled, set_native_monitor, NULL },
     RESOURCE_INT_LIST_END
 };

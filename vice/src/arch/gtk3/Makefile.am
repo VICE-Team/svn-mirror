@@ -156,6 +156,7 @@ EXTRA_DIST = \
 	uimedia.h \
 	uimenu.h \
 	uimonarch.h \
+	uimon-fallback.h \
 	uinetplay.h \
 	uinetplay_new.h \
 	uisettings.h \

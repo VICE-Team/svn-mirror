@@ -57,10 +57,11 @@
 #include "log.h"
 #include "ui.h"
 #include "uimon.h"
+#include "uimon-fallback.h"
 
 #include "not_implemented.h"
 
-#if !defined(HAVE_VTE) && !defined(USE_NOVTE)
+/* #if !defined(HAVE_VTE) && !defined(USE_NOVTE) */
 
 static console_t *console_log_local = NULL;
 
@@ -75,7 +76,7 @@ static FILE *mon_input, *mon_output;
  *
  * \return  0
  */
-int console_close_all(void)
+int consolefb_close_all(void)
 {
     /* This is a no-op on GNOME, should be fine here too */
     return 0;
@@ -86,14 +87,14 @@ int console_close_all(void)
  *
  * \return  0
  */
-int console_init(void)
+int consolefb_init(void)
 {
     NOT_IMPLEMENTED_WARN_ONLY();
     return 0;
 }
 
 #if !defined(HAVE_READLINE) || !defined(HAVE_READLINE_READLINE_H)
-int console_out(console_t *log, const char *format, ...)
+int consolefb_out(console_t *log, const char *format, ...)
 {
     va_list ap;
 
@@ -178,7 +179,7 @@ static int vice_isatty(int fd)
 #define vice_isatty isatty
 #endif
 
-console_t *uimon_window_open(void)
+console_t *uimonfb_window_open(void)
 {
 #ifdef HAVE_SYS_IOCTL_H
     struct winsize w;
@@ -229,7 +230,7 @@ console_t *uimon_window_open(void)
     return console_log_local;
 }
 
-void uimon_window_close(void)
+void uimonfb_window_close(void)
 {
     lib_free(console_log_local);
     console_log_local = NULL;
@@ -237,7 +238,7 @@ void uimon_window_close(void)
     uimon_window_suspend();
 }
 
-void uimon_window_suspend( void )
+void uimonfb_window_suspend( void )
 {
     /* ui_restore_focus(); */
 #ifdef HAVE_MOUSE
@@ -246,7 +247,7 @@ void uimon_window_suspend( void )
     NOT_IMPLEMENTED_WARN_ONLY();
 }
 
-console_t *uimon_window_resume(void)
+console_t *uimonfb_window_resume(void)
 {
     if (console_log_local) {
         /* partially implemented */
@@ -261,7 +262,7 @@ console_t *uimon_window_resume(void)
     return uimon_window_open();
 }
 
-int uimon_out(const char *buffer)
+int uimonfb_out(const char *buffer)
 {
     fprintf(stdout, "%s", buffer);
     return 0;
@@ -272,7 +273,7 @@ char *readline(const char *prompt)
 {
     char *p = malloc(1024);
 
-    console_out(NULL, "%s", prompt);
+    consolefb_out(NULL, "%s", prompt);
 
     fflush(mon_output);
     if (fgets(p, 1024, mon_input) == NULL) {
@@ -292,7 +293,7 @@ char *readline(const char *prompt)
 }
 #endif
 
-char *uimon_get_in(char **ppchCommandLine, const char *prompt)
+char *uimonfb_get_in(char **ppchCommandLine, const char *prompt)
 {
     char *p, *ret_sting;
 
@@ -308,13 +309,13 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     return ret_sting;
 }
 
-void uimon_notify_change( void )
+void uimonfb_notify_change( void )
 {
 }
 
-void uimon_set_interface(struct monitor_interface_s **monitor_interface_init, int count)
+void uimonfb_set_interface(struct monitor_interface_s **monitor_interface_init, int count)
 {
 }
 
-#endif
+/* #endif */
  
