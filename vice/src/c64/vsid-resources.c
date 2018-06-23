@@ -173,6 +173,8 @@ static int set_sync_factor(int val, void *param)
 static int set_hvsc_root(const char *path, void *param)
 {
     util_string_set(&hvsc_root, path);
+    hvsc_exit();
+    hvsc_init(path);
     return 0;
 }
 

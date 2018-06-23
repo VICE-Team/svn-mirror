@@ -248,8 +248,6 @@ static int identify_canvas(video_canvas_t *canvas)
  */
 int vsid_ui_init(void)
 {
-    const char *root;
-
     video_canvas_t *canvas = vicii_get_canvas();
 
     video_model_widget_set_title("VIC-II model");
@@ -268,7 +266,8 @@ int vsid_ui_init(void)
 
     /* for debugging */
     debug_gtk3("libhvsc version: %s\n", hvsc_lib_version_str());
-
+#if 0
+    /* this does not belong here, it should happen in the resource handler */
     debug_gtk3("getting HSVC root dir from resources\n");
     if (resources_get_string("HVSCRoot", &root) < 0) {
         debug_gtk3("failed, defaulting to ~/C64Music\n");
@@ -281,7 +280,7 @@ int vsid_ui_init(void)
             debug_gtk3("OK\n");
         }
     }
-
+#endif
     INCOMPLETE_IMPLEMENTATION();
     return 0;
 }

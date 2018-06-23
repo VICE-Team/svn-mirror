@@ -71,8 +71,6 @@ static void on_browse_clicked(GtkWidget *widget, gpointer data)
         /* try to update resource */
         if (resources_set_string("HVSCRoot", path) != 0) {
             debug_gtk3("failed to update HVSCRoot update\n");
-        } else {
-            /* TODO: check dir to make sure it really is a HSVC dir */
         }
         g_free(path);
     }
