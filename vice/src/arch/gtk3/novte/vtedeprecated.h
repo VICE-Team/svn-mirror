@@ -26,11 +26,11 @@
 #include "vteterminal.h"
 /* #include "vtepty.h" */
 
-#ifndef VTE_DISABLE_DEPRECATION_WARNINGS
-#define _VTE_DEPRECATED G_DEPRECATED
-#else
+//#ifndef VTE_DISABLE_DEPRECATION_WARNINGS
+//#define _VTE_DEPRECATED G_DEPRECATED
+//#else
 #define _VTE_DEPRECATED
-#endif
+//#endif
 
 G_BEGIN_DECLS
 

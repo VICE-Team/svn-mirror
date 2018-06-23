@@ -1219,8 +1219,10 @@ _vte_ring_rewrap (VteRing *ring,
 		/* Find the boundaries of the next paragraph */
 		gboolean prev_record_was_soft_wrapped = FALSE;
 		gboolean paragraph_is_ascii = TRUE;
+#ifdef VTE_DEBUG
 		gsize paragraph_start_row = old_row_index - 1;
 		gsize paragraph_end_row;  /* points to beyond the end */
+#endif
 		gsize text_offset = paragraph_start_text_offset;
 		VteRowRecord new_record;
 		glong col = 0;
@@ -1241,7 +1243,9 @@ _vte_ring_rewrap (VteRing *ring,
 			if (!prev_record_was_soft_wrapped)
 				break;
 		}
+#ifdef VTE_DEBUG
 		paragraph_end_row = old_row_index - 1;
+#endif
 		paragraph_len = paragraph_end_text_offset - paragraph_start_text_offset;
 		if (!prev_record_was_soft_wrapped)  /* The last paragraph can be soft wrapped! */
 			paragraph_len--;  /* Strip trailing '\n' */

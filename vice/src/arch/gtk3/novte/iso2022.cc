@@ -39,7 +39,7 @@
 #include <locale.h>
 #endif
 //#include <glib/gi18n-lib.h>
-#define _(x) x
+//#define _(x) x
 
 #include <gdk/gdkkeysyms.h>
 

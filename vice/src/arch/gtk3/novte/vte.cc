@@ -19,7 +19,7 @@
 
 #include <vice.h>
 
-#undef HAVE_SYS_TERMIOS_H
+//#undef HAVE_SYS_TERMIOS_H
 
 #include <math.h>
 #include <search.h>
@@ -31,9 +31,9 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <math.h>
-#ifdef HAVE_SYS_TERMIOS_H
-#include <sys/termios.h>
-#endif
+//#ifdef HAVE_SYS_TERMIOS_H
+//#include <sys/termios.h>
+//#endif
 
 #include <glib.h>
 //#include <glib/gi18n-lib.h>
@@ -193,6 +193,7 @@ _vte_incoming_chunks_length (struct _vte_incoming_chunk *chunk)
     }
     return len;
 }
+#if 0
 static gsize
 _vte_incoming_chunks_count (struct _vte_incoming_chunk *chunk)
 {
@@ -203,6 +204,7 @@ _vte_incoming_chunks_count (struct _vte_incoming_chunk *chunk)
     }
     return cnt;
 }
+#endif
 static struct _vte_incoming_chunk *
 _vte_incoming_chunks_reverse(struct _vte_incoming_chunk *chunk)
 {
@@ -3486,20 +3488,20 @@ VteTerminalPrivate::pty_channel_eof()
 #endif
 
 /* Reset the input method context. */
-void
-VteTerminalPrivate::im_reset()
+void VteTerminalPrivate::im_reset()
 {
-    if (widget_realized() && m_im_context)
+    if (widget_realized() && m_im_context) {
         gtk_im_context_reset(m_im_context);
+    }
 
-        if (m_im_preedit) {
-                g_free(m_im_preedit);
-                m_im_preedit = nullptr;
-        }
-        if (m_im_preedit_attrs) {
-                pango_attr_list_unref(m_im_preedit_attrs);
-                m_im_preedit_attrs = nullptr;
-        }
+    if (m_im_preedit) {
+        g_free(m_im_preedit);
+        m_im_preedit = nullptr;
+    }
+    if (m_im_preedit_attrs) {
+        pango_attr_list_unref(m_im_preedit_attrs);
+        m_im_preedit_attrs = nullptr;
+    }
 }
 
 /* Process incoming data, first converting it to unicode characters, and then
@@ -4630,20 +4632,20 @@ VteTerminalPrivate::translate_ctrlkey(GdkEventKey *event)
     GdkKeymap *keymap;
     unsigned int i;
 
-    if (event->keyval < 128)
+    if (event->keyval < 128) {
         return event->keyval;
-
-        keymap = gdk_keymap_get_for_display(gdk_window_get_display (event->window));
+    }
+    keymap = gdk_keymap_get_for_display(gdk_window_get_display (event->window));
 
     /* Try groups in order to find one mapping the key to ASCII */
     for (i = 0; i < 4; i++) {
         GdkModifierType consumed_modifiers;
 
         gdk_keymap_translate_keyboard_state (keymap,
-                                                     event->hardware_keycode,
-                                                     (GdkModifierType)event->state,
-                                                     i,
-                                                     &keyval, NULL, NULL, &consumed_modifiers);
+                                                event->hardware_keycode,
+                                                (GdkModifierType)event->state,
+                                                i,
+                                                &keyval, NULL, NULL, &consumed_modifiers);
         if (keyval < 128) {
             _vte_debug_print (VTE_DEBUG_EVENTS,
                     "ctrl+Key, group=%d de-grouped into keyval=0x%x\n",
@@ -8557,9 +8559,10 @@ VteTerminalPrivate::widget_screen_changed (GdkScreen *previous_screen)
 
 VteTerminalPrivate::~VteTerminalPrivate()
 {
-    struct vte_match_regex *regex;
+
+//    struct vte_match_regex *regex;
     int sel;
-    guint i;
+//    guint i;
 
     _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_finalize()\n");
 
@@ -9733,8 +9736,9 @@ VteTerminalPrivate::expand_rectangle(cairo_rectangle_int_t& rect) const
         vte::grid::column_t col_stop = MIN(howmany(rect.width + rect.x + 1, m_cell_width), m_column_count);
         if (col_stop <= col)
                 return;
-
+#if VTE_DEBUG
         cairo_rectangle_int_t old_rect = rect;
+#endif
         rect.x = col * m_cell_width;
         rect.width = (col_stop - col) * m_cell_width;
         rect.y = row_to_pixel(row);
@@ -9807,26 +9811,30 @@ VteTerminalPrivate::paint_cursor()
     int x, y;
     gboolean blink, selected, focus;
 
-    if (!m_cursor_visible)
+    if (!m_cursor_visible) {
         return;
+    }
 
-        if (m_im_preedit_active)
-                return;
+    if (m_im_preedit_active) {
+        return;
+    }
 
-        col = m_screen->cursor.col;
-        drow = m_screen->cursor.row;
+    col = m_screen->cursor.col;
+    drow = m_screen->cursor.row;
     width = m_cell_width;
     height = m_cell_height;
 
-        /* TODOegmont: clamp on rows? tricky... */
-    if (CLAMP(col, 0, m_column_count - 1) != col)
+    /* TODOegmont: clamp on rows? tricky... */
+    if (CLAMP(col, 0, m_column_count - 1) != col) {
         return;
+    }
 
     focus = m_has_focus;
     blink = m_cursor_blink_state;
 
-    if (focus && !blink)
+    if (focus && !blink) {
         return;
+    }
 
         /* Find the first cell of the character "under" the cursor.
          * This is for CJK.  For TAB, paint the cursor where it really is. */
@@ -11183,17 +11191,19 @@ process_timeout (gpointer data)
 bool
 VteTerminalPrivate::invalidate_dirty_rects_and_process_updates()
 {
-        if (G_UNLIKELY(!widget_realized()))
-                return false;
-
-    if (G_UNLIKELY (!m_update_rects->len))
+    if (G_UNLIKELY(!widget_realized())) {
         return false;
+    }
 
-        auto region = cairo_region_create();
-        auto n_rects = m_update_rects->len;
-        for (guint i = 0; i < n_rects; i++) {
-                cairo_rectangle_int_t *rect = &g_array_index(m_update_rects, cairo_rectangle_int_t, i);
-                cairo_region_union_rectangle(region, rect);
+    if (G_UNLIKELY (!m_update_rects->len)) {
+        return false;
+    }
+
+    auto region = cairo_region_create();
+    auto n_rects = m_update_rects->len;
+    for (guint i = 0; i < n_rects; i++) {
+        cairo_rectangle_int_t *rect = &g_array_index(m_update_rects, cairo_rectangle_int_t, i);
+        cairo_region_union_rectangle(region, rect);
     }
         g_array_set_size(m_update_rects, 0);
     m_invalidated_all = false;
