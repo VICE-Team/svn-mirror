@@ -67,28 +67,28 @@ G_BEGIN_DECLS
         }
 
 typedef struct _VTE_GNUC_PACKED VteCellAttr {
-        uint32_t attr;
+    uint32_t attr;
 
     /* 4-byte boundary (8-byte boundary in VteCell) */
-        uint64_t m_colors;                     /* fore, back and deco (underline) colour */
+    uint64_t m_colors;      /* fore, back and deco (underline) colour */
 
-        /* 12-byte boundary (16-byte boundary in VteCell) */
-        uint32_t hyperlink_idx; /* a unique hyperlink index at a time for the ring's cells,
-                                   0 means not a hyperlink, VTE_HYPERLINK_IDX_TARGET_IN_STREAM
-                                   means the target is irrelevant/unknown at the moment.
-                                   If bitpacking, choose a size big enough to hold a different idx
-                                   for every cell in the ring but not yet in the stream
-                                   (currently the height rounded up to the next power of two, times width)
-                                   for supported VTE sizes, and update VTE_HYPERLINK_IDX_TARGET_IN_STREAM. */
+    /* 12-byte boundary (16-byte boundary in VteCell) */
+    uint32_t hyperlink_idx; /* a unique hyperlink index at a time for the ring's cells,
+                               0 means not a hyperlink, VTE_HYPERLINK_IDX_TARGET_IN_STREAM
+                               means the target is irrelevant/unknown at the moment.
+                               If bitpacking, choose a size big enough to hold a different idx
+                               for every cell in the ring but not yet in the stream
+                               (currently the height rounded up to the next power of two, times width)
+                               for supported VTE sizes, and update VTE_HYPERLINK_IDX_TARGET_IN_STREAM. */
 
-        /* Methods */
+    /* Methods */
 
-        inline constexpr uint64_t colors() const { return m_colors; }
+    inline constexpr uint64_t colors() const { return m_colors; }
 
-        inline void copy_colors(VteCellAttr const& other)
-        {
-                m_colors = vte_color_triple_copy(other.colors());
-        }
+    inline void copy_colors(VteCellAttr const& other)
+    {
+            m_colors = vte_color_triple_copy(other.colors());
+    }
 
 #define CELL_ATTR_COLOR(name) \
         inline void set_##name(uint32_t value) \
@@ -101,46 +101,48 @@ typedef struct _VTE_GNUC_PACKED VteCellAttr {
                 return vte_color_triple_get_##name(m_colors); \
         }
 
-        CELL_ATTR_COLOR(fore)
-        CELL_ATTR_COLOR(back)
-        CELL_ATTR_COLOR(deco)
+    CELL_ATTR_COLOR(fore)
+    CELL_ATTR_COLOR(back)
+    CELL_ATTR_COLOR(deco)
 #undef CELL_ATTR_COLOR
 
-        inline constexpr bool has_any(uint32_t mask) const
-        {
-                return !!(attr & mask);
-        }
+    inline constexpr bool has_any(uint32_t mask) const
+    {
+            return !!(attr & mask);
+    }
 
-        inline constexpr bool has_all(uint32_t mask) const
-        {
-                return (attr & mask) == mask;
-        }
+    inline constexpr bool has_all(uint32_t mask) const
+    {
+            return (attr & mask) == mask;
+    }
 
-        inline constexpr bool has_none(uint32_t mask) const
-        {
-                return !(attr & mask);
-        }
+    inline constexpr bool has_none(uint32_t mask) const
+    {
+            return !(attr & mask);
+    }
 
-        inline void unset(uint32_t mask)
-        {
-                attr &= ~mask;
-        }
+    inline void unset(uint32_t mask)
+    {
+            attr &= ~mask;
+    }
 
-        CELL_ATTR_UINT(columns, COLUMNS)
-        CELL_ATTR_BOOL(fragment, FRAGMENT)
-        CELL_ATTR_BOOL(bold, BOLD)
-        CELL_ATTR_BOOL(italic, ITALIC)
-        CELL_ATTR_UINT(underline, UNDERLINE)
-        CELL_ATTR_BOOL(strikethrough, STRIKETHROUGH)
-        CELL_ATTR_BOOL(overline, OVERLINE)
-        CELL_ATTR_BOOL(reverse, REVERSE)
-        CELL_ATTR_BOOL(blink, BLINK)
-        CELL_ATTR_BOOL(dim, DIM)
-        CELL_ATTR_BOOL(invisible, INVISIBLE)
-        /* ATTR_BOOL(boxed, BOXED) */
+    CELL_ATTR_UINT(columns, COLUMNS)
+    CELL_ATTR_BOOL(fragment, FRAGMENT)
+    CELL_ATTR_BOOL(bold, BOLD)
+    CELL_ATTR_BOOL(italic, ITALIC)
+    CELL_ATTR_UINT(underline, UNDERLINE)
+    CELL_ATTR_BOOL(strikethrough, STRIKETHROUGH)
+    CELL_ATTR_BOOL(overline, OVERLINE)
+    CELL_ATTR_BOOL(reverse, REVERSE)
+    CELL_ATTR_BOOL(blink, BLINK)
+    CELL_ATTR_BOOL(dim, DIM)
+    CELL_ATTR_BOOL(invisible, INVISIBLE)
+    /* ATTR_BOOL(boxed, BOXED) */
 } VteCellAttr;
-//G_STATIC_ASSERT (sizeof (VteCellAttr) == 16);
-//G_STATIC_ASSERT (offsetof (VteCellAttr, hyperlink_idx) == VTE_CELL_ATTR_COMMON_BYTES);
+#if 0 /* FIXME */
+G_STATIC_ASSERT (sizeof (VteCellAttr) == 16);
+G_STATIC_ASSERT (offsetof (VteCellAttr, hyperlink_idx) == VTE_CELL_ATTR_COMMON_BYTES);
+#endif
 
 /*
  * VteStreamCellAttr: Variant of VteCellAttr to be stored in attr_stream.
@@ -162,8 +164,10 @@ typedef struct _VTE_GNUC_PACKED _VteStreamCellAttr {
     CELL_ATTR_UINT(columns, COLUMNS)
     CELL_ATTR_BOOL(fragment, FRAGMENT)
 } VteStreamCellAttr;
-//G_STATIC_ASSERT (sizeof (VteStreamCellAttr) == 14);
-//G_STATIC_ASSERT (offsetof (VteStreamCellAttr, hyperlink_length) == VTE_CELL_ATTR_COMMON_BYTES);
+#if 0 /* FIXME */
+G_STATIC_ASSERT (sizeof (VteStreamCellAttr) == 14);
+G_STATIC_ASSERT (offsetof (VteStreamCellAttr, hyperlink_length) == VTE_CELL_ATTR_COMMON_BYTES);
+#endif
 
 #undef CELL_ATTR_BOOL
 #undef CELL_ATTR_UINT
@@ -176,7 +180,9 @@ typedef struct _VTE_GNUC_PACKED _VteCell {
     vteunistr c;
     VteCellAttr attr;
 } VteCell;
-//G_STATIC_ASSERT (sizeof (VteCell) == 20);
+#if 0 /* FIXME */
+G_STATIC_ASSERT (sizeof (VteCell) == 20);
+#endif
 
 static const VteCell basic_cell = {
     0,
@@ -233,7 +239,7 @@ static inline VteCell *_vte_row_data_get_writable (VteRowData *row, gulong col)
  */
 static inline void _attrcpy (void *dst, void *src)
 {
-        memcpy(dst, src, VTE_CELL_ATTR_COMMON_BYTES);
+    memcpy(dst, src, VTE_CELL_ATTR_COMMON_BYTES);
 }
 
 void _vte_row_data_init (VteRowData *row);

@@ -27,3 +27,13 @@ this stuff should get removed at some point and "novte" forced always
 TODOs and FIXMEs:
 
 - vtetypes.hh "smartfd" - what is it used for? it needs to be fixed, or removed
+
+- in vterowdata.h there are some static asserts which apparently fail when
+  building on window (?) and thus are disabled for the time being
+
+- remove leftover _( ) macro from strings
+
+- there is still a lot of stuff that doesnt make a lot of sense for what we are
+  doing here.
+
+  

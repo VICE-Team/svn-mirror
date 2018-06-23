@@ -43,8 +43,8 @@ struct _vte_draw;
    corner of the cell into which the character will be drawn instead of the
    left end of the baseline. */
 struct _vte_draw_text_request {
-	vteunistr c;
-	gshort x, y, columns;
+    vteunistr c;
+    gshort x, y, columns;
 };
 
 guint _vte_draw_get_style(gboolean bold, gboolean italic);
@@ -57,8 +57,8 @@ void _vte_draw_set_cairo(struct _vte_draw *draw,
                          cairo_t *cr);
 
 void _vte_draw_clear(struct _vte_draw *draw,
-		     gint x, gint y, gint width, gint height,
-                     vte::color::rgb const* color, double alpha);
+                        gint x, gint y, gint width, gint height,
+                        vte::color::rgb const* color, double alpha);
 
 void _vte_draw_set_text_font(struct _vte_draw *draw,
                              GtkWidget *widget,
@@ -73,34 +73,32 @@ void _vte_draw_get_char_edges (struct _vte_draw *draw, vteunistr c, int columns,
 gboolean _vte_draw_has_bold (struct _vte_draw *draw, guint style);
 
 void _vte_draw_text(struct _vte_draw *draw,
-		    struct _vte_draw_text_request *requests, gsize n_requests,
-		    vte::color::rgb const* color, double alpha, guint style);
+                    struct _vte_draw_text_request *requests, gsize n_requests,
+                    vte::color::rgb const* color, double alpha, guint style);
 gboolean _vte_draw_char(struct _vte_draw *draw,
-			struct _vte_draw_text_request *request,
-			vte::color::rgb const* color, double alpha, guint style);
+                        struct _vte_draw_text_request *request,
+                        vte::color::rgb const* color, double alpha, guint style);
 gboolean _vte_draw_has_char(struct _vte_draw *draw, vteunistr c, guint style);
 
 void _vte_draw_fill_rectangle(struct _vte_draw *draw,
-			      gint x, gint y, gint width, gint height,
-			      vte::color::rgb const* color, double alpha);
+                                gint x, gint y, gint width, gint height,
+                                vte::color::rgb const* color, double alpha);
 void _vte_draw_draw_rectangle(struct _vte_draw *draw,
-			      gint x, gint y, gint width, gint height,
-			      vte::color::rgb const* color, double alpha);
+                                gint x, gint y, gint width, gint height,
+                                vte::color::rgb const* color, double alpha);
 
 void _vte_draw_draw_line(struct _vte_draw *draw,
                          gint x, gint y, gint xp, gint yp,
                          int line_width,
                          vte::color::rgb const *color, double alpha);
 
-double
-_vte_draw_get_undercurl_height(gint width, double line_width);
+double _vte_draw_get_undercurl_height(gint width, double line_width);
 
-void
-_vte_draw_draw_undercurl(struct _vte_draw *draw,
-                         gint x, double y,
-                         double line_width,
-                         gint count,
-                         vte::color::rgb const *color, double alpha);
+void _vte_draw_draw_undercurl(struct _vte_draw *draw,
+                                gint x, double y,
+                                double line_width,
+                                gint count,
+                                vte::color::rgb const *color, double alpha);
 
 G_END_DECLS
 
