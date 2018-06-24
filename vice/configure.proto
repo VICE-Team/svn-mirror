@@ -410,12 +410,16 @@ if test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin"; then
   fi
 fi
 
-if test x"$host_os" = "xmingw32"; then
-  if test x"$enable_native_gtk3ui" = "xyes"; then
-    host_os=mingw32-gtk3
-    is_win32_gtk3=yes
-  fi
-fi
+dnl Platform canonical names for Win32-GTK3 have names like "i686-w64-mingw32"
+case "$host_os" in
+  *mingw32)
+    if test x"$enable_native_gtk3ui" = "xyes"; then
+      host_os=mingw32-gtk3
+      is_win32=yes
+      is_win32_gtk3=yes
+    fi
+    ;;
+esac
 
 dnl disable toolchain and ar checking for ppc-beos
 if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
