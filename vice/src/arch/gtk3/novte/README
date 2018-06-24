@@ -36,8 +36,6 @@ TODOs and FIXMEs:
 - in vterowdata.h there are some static asserts which apparently fail when
   building on window (?) and thus are disabled for the time being
 
-- remove leftover _( ) macro from strings
-
 - a bunch of functions call vte_... in vteterminal.h should get renamed to
   novte_... also some defines should get renamed from VTE_... to NOVTE_...
 

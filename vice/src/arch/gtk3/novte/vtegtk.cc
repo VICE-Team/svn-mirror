@@ -33,19 +33,14 @@
 
 #include <new> /* placement new */
 
-//#include <pwd.h>
-
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
 
 #include <glib.h>
-//#include <glib/gi18n-lib.h>
-//#define _(x) x
 
 #include <gtk/gtk.h>
 #include "vteenums.h"
-//#include "vtepty.h"
 
 #define NO_PCRE
 #include "vteterminal.h"
@@ -53,13 +48,11 @@
 
 #include "debug.h"
 #include "marshal.h"
-//#include "reaper.hh"
 #include "vtedefines.hh"
 #include "vteinternal.hh"
 #include "vteaccess.h"
 
 #include "vtegtk.hh"
-//#include "vteregexinternal.hh"
 
 #if !GLIB_CHECK_VERSION(2, 42, 0)
 #define G_PARAM_EXPLICIT_NOTIFY 0
@@ -3670,13 +3663,13 @@ vte_terminal_set_encoding(NoVteTerminal *terminal,
         g_object_freeze_notify(object);
 
         bool rv = IMPL(terminal)->set_encoding(codeset);
-        if (rv)
+        if (rv) {
                 g_object_notify_by_pspec(object, pspecs[PROP_ENCODING]);
-        else
+        } else {
                 g_set_error(error, G_CONVERT_ERROR, G_CONVERT_ERROR_NO_CONVERSION,
-                            _("Unable to convert characters from %s to %s."),
+                            "Unable to convert characters from %s to %s.",
                             "UTF-8", codeset);
-
+        }
         g_object_thaw_notify(object);
         return rv;
 }
