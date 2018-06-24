@@ -949,8 +949,6 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     GdkPixbuf *icon;
 
-    const char *s;
-
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     /* this needs to be here to make the menus with accelerators work */
     ui_menu_init_accelerators(new_window);
@@ -1053,14 +1051,6 @@ void ui_create_main_window(video_canvas_t *canvas)
 
     /* connect keyboard handlers */
     kbd_connect_handlers(new_window, NULL);
-
-
-    if (resources_get_string("HVSCRoot", &s) == 0) {
-        printf("ui.c: HVSCRoot = '%s'\n", s);
-    } else {
-        printf("ui.c: NO RESOURCE\n");
-    }
-
 }
 
 /** \brief  Makes a main window visible once it's been initialized
