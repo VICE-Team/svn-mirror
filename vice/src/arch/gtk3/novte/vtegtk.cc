@@ -670,8 +670,7 @@ vte_terminal_set_property (GObject *object,
                 }
 }
 
-static void
-vte_terminal_class_init(VteTerminalClass *klass)
+static void vte_terminal_class_init(VteTerminalClass *klass)
 {
     GObjectClass *gobject_class;
     GtkWidgetClass *widget_class;
@@ -679,9 +678,8 @@ vte_terminal_class_init(VteTerminalClass *klass)
 
 #ifdef VTE_DEBUG
     {
-                _vte_debug_init();
-        _vte_debug_print(VTE_DEBUG_LIFECYCLE,
-                                 "vte_terminal_class_init()\n");
+    _vte_debug_init();
+    _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_class_init()\n");
         /* print out the legend */
         _vte_debug_print(VTE_DEBUG_WORK,
                                  "Debugging work flow (top input to bottom output):\n"
@@ -706,27 +704,24 @@ vte_terminal_class_init(VteTerminalClass *klass)
     }
 #endif
 
+#if 0 /* deprecated */
     _VTE_DEBUG_IF (VTE_DEBUG_UPDATES) gdk_window_set_debug_updates(TRUE);
-
-//  bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
-//#ifdef HAVE_DECL_BIND_TEXTDOMAIN_CODESET
-//  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-//#endif
+#endif
 
     gobject_class = G_OBJECT_CLASS(klass);
     widget_class = GTK_WIDGET_CLASS(klass);
 
     /* Override some of the default handlers. */
-        gobject_class->constructed = vte_terminal_constructed;
+    gobject_class->constructed = vte_terminal_constructed;
     gobject_class->finalize = vte_terminal_finalize;
-        gobject_class->get_property = vte_terminal_get_property;
-        gobject_class->set_property = vte_terminal_set_property;
+    gobject_class->get_property = vte_terminal_get_property;
+    gobject_class->set_property = vte_terminal_set_property;
     widget_class->realize = vte_terminal_realize;
     widget_class->unrealize = vte_terminal_unrealize;
-        widget_class->map = vte_terminal_map;
-        widget_class->unmap = vte_terminal_unmap;
+    widget_class->map = vte_terminal_map;
+    widget_class->unmap = vte_terminal_unmap;
     widget_class->scroll_event = vte_terminal_scroll;
-        widget_class->draw = vte_terminal_draw;
+    widget_class->draw = vte_terminal_draw;
     widget_class->key_press_event = vte_terminal_key_press;
     widget_class->key_release_event = vte_terminal_key_release;
     widget_class->button_press_event = vte_terminal_button_press;

@@ -73,6 +73,10 @@
 
 #include <new> /* placement new */
 
+#ifndef LINE_MAX    /* FIXME */
+#define LINE_MAX 256
+#endif
+
 /* Some sanity checks */
 /* FIXMEchpe: move this to there when splitting _vte_incoming_chunk into its own file */
 static_assert(sizeof(struct _vte_incoming_chunk) <= VTE_INPUT_CHUNK_SIZE, "_vte_incoming_chunk too large");
@@ -5391,8 +5395,6 @@ VteTerminalPrivate::feed_mouse_event(vte::grid::coords const& rowcol /* confined
                                      bool is_release)
 {
     unsigned char cb = 0;
-
-#define LINE_MAX 256    /* FIXME */
 
     char buf[LINE_MAX];
     gint len = 0;

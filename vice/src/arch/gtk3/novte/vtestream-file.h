@@ -736,10 +736,12 @@ _vte_boa_decrypt (VteBoa *boa, gsize offset, guint32 overwrite_counter, char *da
         *tag = (((offset / VTE_BOA_BLOCKSIZE) & 037) << 3) | (overwrite_counter & 007);
 #endif
 
+#if 0 /* comparison of unsigned value < 0 is always false */
         /* Constant time tag verification: 738601#c66 */
         for (i = 0, j = len; i < VTE_CIPHER_TAG_SIZE; i++, j++) {
                 faulty |= tag[i] ^ data[j];
         }
+#endif
         return !faulty;
 }
 

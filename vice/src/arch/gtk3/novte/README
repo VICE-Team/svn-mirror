@@ -10,6 +10,9 @@ what was removed from VTE:
 - all support for pty, and the requirement for termios
 - gnutls support, and warning about no support
 
+- in vteseq.cc reporting screen size is disabled in seq_window_manipulation
+  (uses deprecated gdk functions and doesnt seem to be mission critical)
+
 --------------------------------------------------------------------------------
 
 right now the use of this "novte" replacement is forced, if you want for some
@@ -22,6 +25,8 @@ src/arch/gtk3/uimon-fallback.c
 
 this stuff should get removed at some point and "novte" forced always
 
+- uimon code should then use the novte_ functions instead of macros for them
+
 --------------------------------------------------------------------------------
 
 TODOs and FIXMEs:
@@ -33,9 +38,61 @@ TODOs and FIXMEs:
 
 - remove leftover _( ) macro from strings
 
-- in vteseq.cc reporting screen size is disabled in seq_window_manipulation
+- a bunch of functions call vte_... in vteterminal.h should get renamed to
+  novte_... also some defines should get renamed from VTE_... to NOVTE_...
 
+- some files still need to be codestyle-checked and -fixed: ring.cc vte.cc 
+  vteaccess.cc vtedraw.cc vtegtk.cc vteinternal.hh vteseq.cc vtestream-file.h
+
+- some files use deprecated GValueArray and should use GArray instead: 
+  matcher.cc table.cc vteinternal.hh
+  
 - there is still a lot of stuff that doesnt make a lot of sense for what we are
   doing here.
+
+--------------------------------------------------------------------------------
+Warnings:
+--------------------------------------------------------------------------------
+  
+In file included from /usr/include/glib-2.0/glib-object.h:35:0,
+                 from table.cc:28:
+/usr/include/glib-2.0/gobject/gvaluearray.h:80:14: Anmerkung: hier deklariert
+ GValueArray* g_value_array_append      (GValueArray *value_array,
+              ^~~~~~~~~~~~~~~~~~~~
+table.cc:557:54: Warnung: Initialisierung für Element »_GValue::data« fehlt [-Wmissing-field-initializers]
+                                 GValue subvalue = {0,};
+                                                      ^
+
+In file included from /usr/include/glib-2.0/glib-object.h:35:0,
+                 from table.cc:28:
+/usr/include/glib-2.0/gobject/gvaluearray.h:70:7: Anmerkung: hier deklariert
+ void  g_value_array_free      (GValueArray *value_array);
+       ^~~~~~~~~~~~~~~~~~
+table.cc: In Funktion »void _vte_table_extract_string(GValueArray**, _vte_table_arginfo*)«:
+table.cc:576:20: Warnung: Initialisierung für Element »_GValue::data« fehlt [-Wmissing-field-initializers]
+  GValue value = {0,};
+                    ^
+
+vte.cc: In Elementfunktion »bool VteTerminalPrivate::widget_key_press(GdkEventKey*)«:
+vte.cc:4693:10: Warnung: Variable »suppress_meta_esc« gesetzt, aber nicht verwendet [-Wunused-but-set-variable]
+          suppress_meta_esc = FALSE, add_modifiers = FALSE;
+          ^~~~~~~~~~~~~~~~~
+vte.cc: In Elementfunktion »bool VteTerminalPrivate::feed_mouse_event(const vte::grid::coords&, int, bool, bool)«:
+vte.cc:5398:10: Warnung: Variable »len« gesetzt, aber nicht verwendet [-Wunused-but-set-variable]
+     gint len = 0;
+          ^~~
+vteaccess.cc: In Funktion »void vte_terminal_accessible_text_modified(VteTerminal*, gpointer)«:
+vteaccess.cc:429:43: Warnung: »old_characters« könnte in dieser Funktion uninitialisiert verwendet werden [-Wmaybe-uninitialized]
+                 priv->snapshot_characters = old_characters;
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+vteaccess.cc:401:13: Warnung: »old_text« könnte in dieser Funktion uninitialisiert verwendet werden [-Wmaybe-uninitialized]
+         old = old_text->str;
+         ~~~~^~~~~~~~~~~~~~~
+ 
+vteseq.cc: In Elementfunktion »void VteTerminalPrivate::seq_checksum_rectangular_area(const vte::parser::Params&)«:
+vteseq.cc:229:15: Warnung: Variable »len« gesetzt, aber nicht verwendet [-Wunused-but-set-variable]
+         gsize len;
+               ^~~
+
 
   
