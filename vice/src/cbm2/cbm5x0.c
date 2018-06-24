@@ -704,14 +704,6 @@ int machine_specific_init(void)
     /* Initialize the CBM5x0-specific I/O */
     cbm5x0io_init();
 
-    {
-        /* set fullscreen if user used `-fullscreen' on cmdline */
-        int fs;
-        resources_get_int("UseFullscreen", &fs);
-        if (fs) {
-            resources_set_int("VICIIFullscreen", 1);
-        }
-    }
     return 0;
 }
 

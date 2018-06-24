@@ -1018,14 +1018,6 @@ int machine_specific_init(void)
 
     machine_drive_stub();
 
-    {
-        /* set fullscreen if user used `-fullscreen' on cmdline */
-        int fs;
-        resources_get_int("UseFullscreen", &fs);
-        if (fs) {
-            resources_set_int("VICFullscreen", 1);
-        }
-    }
     return 0;
 }
 

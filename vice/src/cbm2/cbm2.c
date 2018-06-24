@@ -694,14 +694,6 @@ int machine_specific_init(void)
     /* Initialize the CBM2-specific I/O */
     cbm2io_init();
 
-    {
-        /* set fullscreen if user used `-fullscreen' on cmdline */
-        int fs;
-        resources_get_int("UseFullscreen", &fs);
-        if (fs) {
-            resources_set_int("CRTCFullscreen", 1);
-        }
-    }
     return 0;
 }
 

@@ -867,14 +867,6 @@ int machine_specific_init(void)
     /* Initialize the machine specific I/O */
     plus4io_init();
 
-    {
-        /* set fullscreen if user used `-fullscreen' on cmdline */
-        int fs;
-        resources_get_int("UseFullscreen", &fs);
-        if (fs) {
-            resources_set_int("TEDFullscreen", 1);
-        }
-    }
     return 0;
 }
 

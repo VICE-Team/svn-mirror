@@ -1153,21 +1153,6 @@ int machine_specific_init(void)
 
     machine_drive_stub();
 
-    {
-        /* set fullscreen if user used `-fullscreen' on cmdline
-           use VICII as default */
-        int fs;
-
-        resources_get_int("UseFullscreen", &fs);
-        if (fs) {
-            resources_get_int("C128ColumnKey", &fs);
-            if (fs == 1) {
-                resources_set_int("VICIIFullscreen", 1);
-            } else {
-                resources_set_int("VDCFullscreen", 1);
-            }
-        }
-    }
     return 0;
 }
 
