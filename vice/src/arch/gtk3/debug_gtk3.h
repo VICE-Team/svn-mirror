@@ -40,10 +40,6 @@
 /* HAVE_DEBUG_NATIVE_GTK3 comes from configure */
 # ifdef HAVE_DEBUG_GTK3UI
 
-#  define VICE_GTK3_FUNC_ENTERED(X) \
-    printf("GTK3:%s:%d: %s() entered\n", \
-            __FILE__, __LINE__, __func__)
-
 /** \brief  Print debugging info on stdout
  *
  * Works just like g_print() or printf(), except that every line is prefixed
@@ -54,7 +50,6 @@
     g_print(__VA_ARGS__);
 
 # else  /* HAVE_DEBUG_GTK3UI */
-#  define VICE_GTK3_FUNC_ENTERED(X)
 #  define debug_gtk3(...)
 # endif /* HAVE DEBUG_GTK3UI */
 

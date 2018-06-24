@@ -149,7 +149,6 @@ static const resource_int_t resources_int[] = {
  */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    VICE_GTK3_FUNC_ENTERED();
     canvas->video_draw_buffer_callback = NULL;
 }
 
@@ -160,7 +159,6 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
  */
 int video_arch_cmdline_options_init(void)
 {
-    VICE_GTK3_FUNC_ENTERED();
     if (machine_class != VICE_MACHINE_VSID) {
         return cmdline_register_options(cmdline_options);
     }
@@ -174,7 +172,6 @@ int video_arch_cmdline_options_init(void)
  */
 int video_arch_resources_init(void)
 {
-    VICE_GTK3_FUNC_ENTERED();
     if (machine_class != VICE_MACHINE_VSID) {
         return resources_register_int(resources_int);
     }
@@ -209,7 +206,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas,
                                     unsigned int *width, unsigned int *height,
                                     int mapped)
 {
-    VICE_GTK3_FUNC_ENTERED();
     canvas->initialized = 0;
     canvas->created = 0;
     canvas->renderer_context = NULL;
