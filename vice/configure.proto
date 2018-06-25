@@ -415,7 +415,6 @@ case "$host_os" in
   *mingw32)
     if test x"$enable_native_gtk3ui" = "xyes"; then
       host_os=mingw32-gtk3
-      is_win32=yes
       is_win32_gtk3=yes
     fi
     ;;
