@@ -21,7 +21,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <sys/param.h> /* howmany() */
+
 #define howmany(x,y) (((x)+((y)-1))/(y))
 
 #include <glib.h>

@@ -22,55 +22,21 @@
 
 #include "vtedefines.hh"
 #include "vtetypes.hh"
-//#include "reaper.hh"
+
 #include "ring.h"
 #include "vteconv.h"
 #include "buffer.h"
 #include "matcher.hh"
 
-#ifndef NO_PCRE
-
-#include "vtepcre2.h"
-#include "vteregexinternal.hh"
-
-typedef enum {
-        VTE_REGEX_CURSOR_GDKCURSOR,
-        VTE_REGEX_CURSOR_GDKCURSORTYPE,
-        VTE_REGEX_CURSOR_NAME
-} VteRegexCursorMode;
-
-#endif
-
 /* The order is important */
 typedef enum {
-	MOUSE_TRACKING_NONE,
-	MOUSE_TRACKING_SEND_XY_ON_CLICK,
-	MOUSE_TRACKING_SEND_XY_ON_BUTTON,
-	MOUSE_TRACKING_HILITE_TRACKING,
-	MOUSE_TRACKING_CELL_MOTION_TRACKING,
-	MOUSE_TRACKING_ALL_MOTION_TRACKING
+    MOUSE_TRACKING_NONE,
+    MOUSE_TRACKING_SEND_XY_ON_CLICK,
+    MOUSE_TRACKING_SEND_XY_ON_BUTTON,
+    MOUSE_TRACKING_HILITE_TRACKING,
+    MOUSE_TRACKING_CELL_MOTION_TRACKING,
+    MOUSE_TRACKING_ALL_MOTION_TRACKING
 } MouseTrackingMode;
-
-#ifndef NO_PCRE
-
-struct vte_regex_and_flags {
-        VteRegex *regex;
-        guint32 match_flags;
-};
-
-/* A match regex, with a tag. */
-struct vte_match_regex {
-	gint tag;
-        struct vte_regex_and_flags regex;
-        VteRegexCursorMode cursor_mode;
-        union {
-	       GdkCursor *cursor;
-               char *cursor_name;
-               GdkCursorType cursor_type;
-        } cursor;
-};
-
-#endif
 
 typedef enum _VteCharacterReplacement {
         VTE_CHARACTER_REPLACEMENT_NONE,
@@ -81,15 +47,15 @@ typedef enum _VteCharacterReplacement {
 /* The terminal's keypad/cursor state.  A terminal can either be using the
  * normal keypad, or the "application" keypad. */
 typedef enum _VteKeymode {
-	VTE_KEYMODE_NORMAL,
-	VTE_KEYMODE_APPLICATION
+    VTE_KEYMODE_NORMAL,
+    VTE_KEYMODE_APPLICATION
 } VteKeymode;
 
 typedef struct _VtePaletteColor {
-	struct {
-		vte::color::rgb color;
-		gboolean is_set;
-	} sources[2];
+    struct {
+        vte::color::rgb color;
+        gboolean is_set;
+    } sources[2];
 } VtePaletteColor;
 
 /* These correspond to the parameters for DECSCUSR (Set cursor style). */
@@ -125,10 +91,10 @@ struct _vte_incoming_chunk{
 
 typedef struct _VteScreen VteScreen;
 struct _VteScreen {
-        VteRing row_data[1];	/* buffer contents */
+        VteRing row_data[1];    /* buffer contents */
         VteVisualPosition cursor;  /* absolute value, from the beginning of the terminal history */
-        double scroll_delta;	/* scroll offset */
-        long insert_delta;	/* insertion offset */
+        double scroll_delta;    /* scroll offset */
+        long insert_delta;    /* insertion offset */
 
         /* Stuff saved along with the cursor */
         struct {
@@ -162,9 +128,9 @@ enum vte_selection_type {
 
 /* For unified handling of PRIMARY and CLIPBOARD selection */
 typedef enum {
-	VTE_SELECTION_PRIMARY,
-	VTE_SELECTION_CLIPBOARD,
-	LAST_VTE_SELECTION
+    VTE_SELECTION_PRIMARY,
+    VTE_SELECTION_CLIPBOARD,
+    LAST_VTE_SELECTION
 } VteSelection;
 
 /* Used in the GtkClipboard API, to distinguish requests for HTML and TEXT
@@ -395,25 +361,14 @@ public:
         vte::grid::row_t m_row_count;
         vte::grid::column_t m_column_count;
 
-	/* Emulation setup data. */
+    /* Emulation setup data. */
         struct _vte_matcher *m_matcher;   /* control sequence matcher */
         gboolean m_autowrap;              /* auto wraparound at right margin */
         int m_keypad_mode, m_cursor_mode; /* these would be VteKeymodes, but we
-					   need to guarantee its type */
+                       need to guarantee its type */
         GHashTable *m_dec_saved;
 
-#if 0
-	/* PTY handling data. */
-        VtePty *m_pty;
-        GIOChannel *m_pty_channel;      /* master channel */
-        guint m_pty_input_source;
-        guint m_pty_output_source;
-        gboolean m_pty_input_active;
-        GPid m_pty_pid;	                /* pid of child process */
-        VteReaper *m_reaper;
-#endif
-
-	/* Input data queues. */
+    /* Input data queues. */
         const char *m_encoding;            /* the pty's encoding */
         int m_utf8_ambiguous_width;
         struct _vte_iso2022_state *m_iso2022;
@@ -433,15 +388,15 @@ public:
         glong m_input_bytes;
         glong m_max_input_bytes;
 
-	/* Output data queue. */
+    /* Output data queue. */
         VteByteArray *m_outgoing; /* pending input characters */
         VteConv m_outgoing_conv;
 
-	/* IConv buffer. */
+    /* IConv buffer. */
         VteByteArray *m_conv_buffer;
 
-	/* Screen data.  We support the normal screen, and an alternate
-	 * screen, which seems to be a DEC-specific feature. */
+    /* Screen data.  We support the normal screen, and an alternate
+     * screen, which seems to be a DEC-specific feature. */
         struct _VteScreen m_normal_screen, m_alternate_screen, *m_screen;
 
         /* Values we save along with the cursor */
@@ -468,7 +423,7 @@ public:
         gunichar *m_word_char_exceptions;
         gsize m_word_char_exceptions_len;
 
-	/* Selection information. */
+    /* Selection information. */
         gboolean m_has_selection;
         gboolean m_selecting;
         gboolean m_selecting_after_threshold;
@@ -479,7 +434,7 @@ public:
         vte::view::coords m_selection_origin, m_selection_last;
         VteVisualPosition m_selection_start, m_selection_end;
 
-	/* Clipboard data information. */
+    /* Clipboard data information. */
         // FIXMEchpe check if this can make m_has_selection obsolete!
         bool m_selection_owned[LAST_VTE_SELECTION];
         VteFormat m_selection_format[LAST_VTE_SELECTION];
@@ -489,7 +444,7 @@ public:
 
         ClipboardTextRequestGtk<VteTerminalPrivate> m_paste_request;
 
-	/* Miscellaneous options. */
+    /* Miscellaneous options. */
         VteEraseBinding m_backspace_binding;
         VteEraseBinding m_delete_binding;
         gboolean m_meta_sends_escape;
@@ -504,7 +459,7 @@ public:
         gboolean m_rewrap_on_resize;
         gboolean m_bracketed_paste_mode;
 
-	/* Scrolling options. */
+    /* Scrolling options. */
         gboolean m_scroll_on_output;
         gboolean m_scroll_on_keystroke;
         gboolean m_alternate_screen_scroll;
@@ -514,11 +469,11 @@ public:
         struct vte_scrolling_region m_scrolling_region;     /* the region we scroll in */
         gboolean m_scrolling_restricted;
 
-	/* Cursor shape, as set via API */
+    /* Cursor shape, as set via API */
         VteCursorShape m_cursor_shape;
         double m_cursor_aspect_ratio;
 
-	/* Cursor blinking, as set in dconf. */
+    /* Cursor blinking, as set in dconf. */
         VteCursorBlinkMode m_cursor_blink_mode;
         gboolean m_cursor_blink_state;
         guint m_cursor_blink_tag;           /* cursor blinking timeout ID */
@@ -540,7 +495,7 @@ public:
          * via escape sequence) */
         VteCursorStyle m_cursor_style;
 
-	/* Input device options. */
+    /* Input device options. */
         gboolean m_input_enabled;
         time_t m_last_keypress_time;
 
@@ -560,7 +515,7 @@ public:
 
         gboolean m_focus_tracking_mode;
 
-	/* State variables for handling match checks. */
+    /* State variables for handling match checks. */
         char* m_match_contents;
         GArray* m_match_attributes;
         GArray* m_match_regexes;
@@ -573,15 +528,12 @@ public:
          */
         vte::grid::span m_match_span;
 
-	/* Search data. */
-#ifndef NO_PCRE
-        struct vte_regex_and_flags m_search_regex;
-#endif
+    /* Search data. */
         gboolean m_search_wrap_around;
         GArray* m_search_attrs; /* Cache attrs */
 
-	/* Data used when rendering the text which does not require server
-	 * resources and which can be kept after unrealizing. */
+    /* Data used when rendering the text which does not require server
+     * resources and which can be kept after unrealizing. */
         PangoFontDescription *m_unscaled_font_desc;
         PangoFontDescription *m_fontdesc;
         gdouble m_font_scale;
@@ -610,24 +562,24 @@ public:
         glong m_cell_width;
         glong m_cell_height;
 
-	/* Data used when rendering the text which reflects server resources
-	 * and data, which should be dropped when unrealizing and (re)created
-	 * when realizing. */
+    /* Data used when rendering the text which reflects server resources
+     * and data, which should be dropped when unrealizing and (re)created
+     * when realizing. */
         struct _vte_draw *m_draw;
         bool m_clear_background{true};
 
         VtePaletteColor m_palette[VTE_PALETTE_SIZE];
 
-	/* Mouse cursors. */
+    /* Mouse cursors. */
         gboolean m_mouse_cursor_over_widget; /* as per enter and leave events */
         gboolean m_mouse_autohide;           /* the API setting */
         gboolean m_mouse_cursor_autohidden;  /* whether the autohiding logic wants to hide it; even if autohiding is disabled via API */
         GdkCursor* m_mouse_default_cursor;
         GdkCursor* m_mouse_mousing_cursor;
         GdkCursor* m_mouse_hyperlink_cursor;
-	GdkCursor* m_mouse_inviso_cursor;
+    GdkCursor* m_mouse_inviso_cursor;
 
-	/* Input method support. */
+    /* Input method support. */
         GtkIMContext *m_im_context;
         gboolean m_im_preedit_active;
         char *m_im_preedit;
@@ -642,7 +594,7 @@ public:
         gboolean m_cursor_moved_pending;
         gboolean m_contents_changed_pending;
 
-	/* window name changes */
+    /* window name changes */
         char* m_window_title;
         char* m_window_title_changed;
         char* m_icon_title;
@@ -652,17 +604,17 @@ public:
         char* m_current_file_uri;
         char* m_current_file_uri_changed;
 
-	/* Background */
+    /* Background */
         double m_background_alpha;
 
         /* Bell */
         int64_t m_bell_timestamp;
         bool m_bell_pending{false};
 
-	/* Key modifiers. */
+    /* Key modifiers. */
         guint m_modifiers;
 
-	/* Font stuff. */
+    /* Font stuff. */
         gboolean m_has_fonts;
         long m_line_thickness;
         long m_underline_position;
@@ -930,32 +882,6 @@ public:
         void im_reset();
         void im_update_cursor();
 
-#if 0
-        bool spawn_sync(VtePtyFlags pty_flags,
-                        const char *working_directory,
-                        char **argv,
-                        char **envv,
-                        GSpawnFlags spawn_flags_,
-                        GSpawnChildSetupFunc child_setup,
-                        gpointer child_setup_data,
-                        GPid *child_pid /* out */,
-                        GCancellable *cancellable,
-                        GError **error);
-        void spawn_async(VtePtyFlags pty_flags,
-                         const char *working_directory,
-                         char **argv,
-                         char **envv,
-                         GSpawnFlags spawn_flags_,
-                         GSpawnChildSetupFunc child_setup,
-                         gpointer child_setup_data,
-                         GDestroyNotify child_setup_data_destroy,
-                         GCancellable *cancellable,
-                         GAsyncReadyCallback callback,
-                         gpointer user_data);
-        bool spawn_finish(GAsyncResult *result,
-                          GPid *child_pid /* out */);
-#endif
-
         void reset(bool clear_tabstops,
                    bool clear_history,
                    bool from_api = false);
@@ -1130,59 +1056,6 @@ public:
 
         char *hyperlink_check(GdkEvent *event);
 
-#ifndef NO_PCRE
-        bool regex_match_check_extra(GdkEvent *event,
-                                     VteRegex **regexes,
-                                     gsize n_regexes,
-                                     guint32 match_flags,
-                                     char **matches);
-
-        int regex_match_add(struct vte_match_regex *new_regex_match);
-        struct vte_match_regex *regex_match_get(int tag);
-        char *regex_match_check(vte::grid::column_t column,
-                                vte::grid::row_t row,
-                                int *tag);
-        char *regex_match_check(GdkEvent *event,
-                                int *tag);
-        void regex_match_remove(int tag);
-        void regex_match_remove_all();
-        void regex_match_set_cursor(int tag,
-                                    GdkCursor *gdk_cursor);
-        void regex_match_set_cursor(int tag,
-                                    GdkCursorType cursor_type);
-        void regex_match_set_cursor(int tag,
-                                    char const* cursor_name);
-        bool match_rowcol_to_offset(vte::grid::column_t column,
-                                    vte::grid::row_t row,
-                                    gsize *offset_ptr,
-                                    gsize *sattr_ptr,
-                                    gsize *eattr_ptr);
-
-        pcre2_match_context_8 *create_match_context();
-        bool match_check_pcre(pcre2_match_data_8 *match_data,
-                              pcre2_match_context_8 *match_context,
-                              VteRegex *regex,
-                              guint32 match_flags,
-                              gsize sattr,
-                              gsize eattr,
-                              gsize offset,
-                              char **result,
-                              gsize *start,
-                              gsize *end,
-                              gsize *sblank_ptr,
-                              gsize *eblank_ptr);
-        char *match_check_internal_pcre(vte::grid::column_t column,
-                                        vte::grid::row_t row,
-                                        int *tag,
-                                        gsize *start,
-                                        gsize *end);
-
-        char *match_check_internal(vte::grid::column_t column,
-                                   vte::grid::row_t row,
-                                   int *tag,
-                                   gsize *start,
-                                   gsize *end);
-#endif
         bool feed_mouse_event(vte::grid::coords const& unconfined_rowcol,
                               int button,
                               bool is_drag,
@@ -1197,21 +1070,6 @@ public:
         void feed_focus_event_initial();
         void maybe_feed_focus_event(bool in);
 
-#ifndef NO_PCRE
-        bool search_set_regex (VteRegex *regex,
-                               guint32 flags);
-
-        bool search_rows(pcre2_match_context_8 *match_context,
-                         pcre2_match_data_8 *match_data,
-                         vte::grid::row_t start_row,
-                         vte::grid::row_t end_row,
-                         bool backward);
-        bool search_rows_iter(pcre2_match_context_8 *match_context,
-                              pcre2_match_data_8 *match_data,
-                              vte::grid::row_t start_row,
-                              vte::grid::row_t end_row,
-                              bool backward);
-#endif
         bool search_find(bool backward);
         bool search_set_wrap_around(bool wrap);
 
@@ -1268,9 +1126,6 @@ public:
         bool set_font_scale(double scale);
         bool set_input_enabled(bool enabled);
         bool set_mouse_autohide(bool autohide);
-#if 0
-        bool set_pty(VtePty *pty);
-#endif
         bool set_rewrap_on_resize(bool rewrap);
         bool set_scrollback_lines(long lines);
         bool set_scroll_on_keystroke(bool scroll);
@@ -1373,7 +1228,7 @@ public:
                           vte::grid::row_t row);
 
 #define SEQUENCE_HANDLER(name) \
-	inline void seq_ ## name (vte::parser::Params const& params);
+    inline void seq_ ## name (vte::parser::Params const& params);
 #include "vteseq-list.hh"
 #undef SEQUENCE_HANDLER
 };

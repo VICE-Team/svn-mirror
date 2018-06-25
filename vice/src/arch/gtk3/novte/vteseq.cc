@@ -64,8 +64,8 @@ vte::parser::Params::print() const
                         vte::parser::Params subparams{(GValueArray*)g_value_get_boxed(value)};
                         subparams.print();
                 }
-	}
-	g_printerr(")\n");
+    }
+    g_printerr(")\n");
 #endif
 }
 
@@ -75,9 +75,9 @@ vte::parser::Params::print() const
 static gsize
 vte_unichar_strlen(gunichar const* c)
 {
-	gsize i;
-	for (i = 0; c[i] != 0; i++) ;
-	return i;
+    gsize i;
+    for (i = 0; c[i] != 0; i++) ;
+    return i;
 }
 
 /* Convert a wide character string to a multibyte string */
@@ -311,17 +311,17 @@ VteTerminalPrivate::clear_screen()
 {
         auto row = m_screen->cursor.row - m_screen->insert_delta;
         auto initial = _vte_ring_next(m_screen->row_data);
-	/* Add a new screen's worth of rows. */
+    /* Add a new screen's worth of rows. */
         for (auto i = 0; i < m_row_count; i++)
                 ring_append(true);
-	/* Move the cursor and insertion delta to the first line in the
-	 * newly-cleared area and scroll if need be. */
+    /* Move the cursor and insertion delta to the first line in the
+     * newly-cleared area and scroll if need be. */
         m_screen->insert_delta = initial;
         m_screen->cursor.row = row + m_screen->insert_delta;
         adjust_adjustments();
-	/* Redraw everything. */
+    /* Redraw everything. */
         invalidate_all();
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -329,25 +329,25 @@ VteTerminalPrivate::clear_screen()
 void
 VteTerminalPrivate::clear_current_line()
 {
-	VteRowData *rowdata;
+    VteRowData *rowdata;
 
-	/* If the cursor is actually on the screen, clear data in the row
-	 * which corresponds to the cursor. */
+    /* If the cursor is actually on the screen, clear data in the row
+     * which corresponds to the cursor. */
         if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
-		/* Get the data for the row which the cursor points to. */
+        /* Get the data for the row which the cursor points to. */
                 rowdata = _vte_ring_index_writable(m_screen->row_data, m_screen->cursor.row);
-		g_assert(rowdata != NULL);
-		/* Remove it. */
-		_vte_row_data_shrink (rowdata, 0);
-		/* Add enough cells to the end of the line to fill out the row. */
+        g_assert(rowdata != NULL);
+        /* Remove it. */
+        _vte_row_data_shrink (rowdata, 0);
+        /* Add enough cells to the end of the line to fill out the row. */
                 _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
-		rowdata->attr.soft_wrapped = 0;
-		/* Repaint this row. */
-		invalidate_cells(0, m_column_count,
+        rowdata->attr.soft_wrapped = 0;
+        /* Repaint this row. */
+        invalidate_cells(0, m_column_count,
                                  m_screen->cursor.row, 1);
-	}
+    }
 
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -355,23 +355,23 @@ VteTerminalPrivate::clear_current_line()
 void
 VteTerminalPrivate::clear_above_current()
 {
-	/* If the cursor is actually on the screen, clear data in the row
-	 * which corresponds to the cursor. */
+    /* If the cursor is actually on the screen, clear data in the row
+     * which corresponds to the cursor. */
         for (auto i = m_screen->insert_delta; i < m_screen->cursor.row; i++) {
                 if (_vte_ring_next(m_screen->row_data) > i) {
-			/* Get the data for the row we're erasing. */
+            /* Get the data for the row we're erasing. */
                         auto rowdata = _vte_ring_index_writable(m_screen->row_data, i);
-			g_assert(rowdata != NULL);
-			/* Remove it. */
-			_vte_row_data_shrink (rowdata, 0);
-			/* Add new cells until we fill the row. */
+            g_assert(rowdata != NULL);
+            /* Remove it. */
+            _vte_row_data_shrink (rowdata, 0);
+            /* Add new cells until we fill the row. */
                         _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
-			rowdata->attr.soft_wrapped = 0;
-			/* Repaint the row. */
-			invalidate_cells(0, m_column_count, i, 1);
-		}
-	}
-	/* We've modified the display.  Make a note of it. */
+            rowdata->attr.soft_wrapped = 0;
+            /* Repaint the row. */
+            invalidate_cells(0, m_column_count, i, 1);
+        }
+    }
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -383,33 +383,33 @@ VteTerminalPrivate::scroll_text(vte::grid::row_t scroll_amount)
         if (m_scrolling_restricted) {
                 start = m_screen->insert_delta + m_scrolling_region.start;
                 end = m_screen->insert_delta + m_scrolling_region.end;
-	} else {
+    } else {
                 start = m_screen->insert_delta;
                 end = start + m_row_count - 1;
-	}
+    }
 
         while (_vte_ring_next(m_screen->row_data) <= end)
                 ring_append(false);
 
-	if (scroll_amount > 0) {
-		for (auto i = 0; i < scroll_amount; i++) {
+    if (scroll_amount > 0) {
+        for (auto i = 0; i < scroll_amount; i++) {
                         ring_remove(end);
                         ring_insert(start, true);
-		}
-	} else {
-		for (auto i = 0; i < -scroll_amount; i++) {
+        }
+    } else {
+        for (auto i = 0; i < -scroll_amount; i++) {
                         ring_remove(start);
                         ring_insert(end, true);
-		}
-	}
+        }
+    }
 
-	/* Update the display. */
+    /* Update the display. */
         scroll_region(start, end - start + 1, scroll_amount);
 
-	/* Adjust the scrollbars if necessary. */
+    /* Adjust the scrollbars if necessary. */
         adjust_adjustments();
 
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_inserted_flag = TRUE;
         m_text_deleted_flag = TRUE;
 }
@@ -503,40 +503,40 @@ VteTerminalPrivate::set_title_internal(vte::parser::Params const& params,
                                        bool change_window_title)
 {
         if (change_icon_title == FALSE && change_window_title == FALSE)
-		return;
+        return;
 
-	/* Get the string parameter's value. */
+    /* Get the string parameter's value. */
         char* title;
         if (!params.string_at(0, title))
                 return;
 
-			char *p, *validated;
-			const char *end;
+            char *p, *validated;
+            const char *end;
 
                         //FIXMEchpe why? it's guaranteed UTF-8 already
-			/* Validate the text. */
-			g_utf8_validate(title, strlen(title), &end);
-			validated = g_strndup(title, end - title);
+            /* Validate the text. */
+            g_utf8_validate(title, strlen(title), &end);
+            validated = g_strndup(title, end - title);
 
-			/* No control characters allowed. */
-			for (p = validated; *p != '\0'; p++) {
-				if ((*p & 0x1f) == *p) {
-					*p = ' ';
-				}
-			}
+            /* No control characters allowed. */
+            for (p = validated; *p != '\0'; p++) {
+                if ((*p & 0x1f) == *p) {
+                    *p = ' ';
+                }
+            }
 
-			/* Emit the signal */
+            /* Emit the signal */
                         if (change_window_title) {
                                 g_free(m_window_title_changed);
                                 m_window_title_changed = g_strdup(validated);
-			}
+            }
 
                         if (change_icon_title) {
                                 g_free(m_icon_title_changed);
                                 m_icon_title_changed = g_strdup(validated);
-			}
+            }
 
-			g_free (validated);
+            g_free (validated);
 
         g_free(title);
 }
@@ -550,21 +550,21 @@ VteTerminalPrivate::set_mode(vte::parser::Params const& params,
         if (n_params == 0)
                 return;
 
-	for (unsigned int i = 0; i < n_params; i++) {
+    for (unsigned int i = 0; i < n_params; i++) {
                 long setting;
                 if (!params.number_at_unchecked(i, setting))
                         continue;
 
                 switch (setting) {
-                case 2:		/* keyboard action mode (?) */
+                case 2:        /* keyboard action mode (?) */
                         break;
-                case 4:		/* insert/overtype mode */
+                case 4:        /* insert/overtype mode */
                         m_insert_mode = value;
                         break;
-                case 12:	/* send/receive mode (local echo) */
+                case 12:    /* send/receive mode (local echo) */
                         m_sendrecv_mode = value;
                         break;
-                case 20:	/* automatic newline / normal linefeed mode */
+                case 20:    /* automatic newline / normal linefeed mode */
                         m_linefeed_mode = value;
                         break;
                 default:
@@ -576,7 +576,7 @@ VteTerminalPrivate::set_mode(vte::parser::Params const& params,
 void
 VteTerminalPrivate::reset_mouse_smooth_scroll_delta()
 {
-	m_mouse_smooth_scroll_delta = 0.0;
+    m_mouse_smooth_scroll_delta = 0.0;
 }
 
 typedef void (VteTerminalPrivate::* decset_handler_t)();
@@ -617,8 +617,8 @@ VteTerminalPrivate::decset(vte::parser::Params const& params,
                 if (!params.number_at(i, setting))
                         continue;
 
-		decset(setting, restore, save, set);
-	}
+        decset(setting, restore, save, set);
+    }
 }
 
 void
@@ -627,177 +627,177 @@ VteTerminalPrivate::decset(long setting,
                            bool save,
                            bool set)
 {
-	static const struct decset_t settings[] = {
+    static const struct decset_t settings[] = {
 #define PRIV_OFFSET(member) (G_STRUCT_OFFSET(VteTerminalPrivate, member))
 #define SCREEN_OFFSET(member) (-G_STRUCT_OFFSET(VteScreen, member))
-		/* 1: Application/normal cursor keys. */
-		{1, 0, PRIV_OFFSET(m_cursor_mode), 0,
-		 VTE_KEYMODE_NORMAL,
-		 VTE_KEYMODE_APPLICATION,
-		 nullptr, nullptr,},
-		/* 2: disallowed, we don't do VT52. */
-		{2, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 1: Application/normal cursor keys. */
+        {1, 0, PRIV_OFFSET(m_cursor_mode), 0,
+         VTE_KEYMODE_NORMAL,
+         VTE_KEYMODE_APPLICATION,
+         nullptr, nullptr,},
+        /* 2: disallowed, we don't do VT52. */
+        {2, 0, 0, 0, 0, 0, nullptr, nullptr,},
                 /* 3: DECCOLM set/reset to and from 132/80 columns */
                 {3, 0, 0, 0,
                  FALSE,
                  TRUE,
                  nullptr, nullptr,},
-		/* 5: Reverse video. */
+        /* 5: Reverse video. */
                 {5, PRIV_OFFSET(m_reverse_mode), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
-		/* 6: Origin mode: when enabled, cursor positioning is
-		 * relative to the scrolling region. */
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
+        /* 6: Origin mode: when enabled, cursor positioning is
+         * relative to the scrolling region. */
                 {6, PRIV_OFFSET(m_origin_mode), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
-		/* 7: Wraparound mode. */
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
+        /* 7: Wraparound mode. */
                 {7, PRIV_OFFSET(m_autowrap), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
-		/* 8: disallowed, keyboard repeat is set by user. */
-		{8, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 9: Send-coords-on-click. */
-		{9, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
-		 0,
-		 MOUSE_TRACKING_SEND_XY_ON_CLICK,
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
+        /* 8: disallowed, keyboard repeat is set by user. */
+        {8, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 9: Send-coords-on-click. */
+        {9, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
+         0,
+         MOUSE_TRACKING_SEND_XY_ON_CLICK,
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,},
-		/* 12: disallowed, cursor blinks is set by user. */
-		{12, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 18: print form feed. */
-		/* 19: set print extent to full screen. */
-		/* 25: Cursor visible. */
-		{25, PRIV_OFFSET(m_cursor_visible), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
-		/* 30/rxvt: disallowed, scrollbar visibility is set by user. */
-		{30, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 35/rxvt: disallowed, fonts set by user. */
-		{35, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 38: enter Tektronix mode. */
+        /* 12: disallowed, cursor blinks is set by user. */
+        {12, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 18: print form feed. */
+        /* 19: set print extent to full screen. */
+        /* 25: Cursor visible. */
+        {25, PRIV_OFFSET(m_cursor_visible), 0, 0,
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
+        /* 30/rxvt: disallowed, scrollbar visibility is set by user. */
+        {30, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 35/rxvt: disallowed, fonts set by user. */
+        {35, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 38: enter Tektronix mode. */
                 /* 40: Enable DECCOLM mode. */
                 {40, PRIV_OFFSET(m_deccolm_mode), 0, 0,
                  FALSE,
                  TRUE,
                  nullptr, nullptr,},
-		/* 41: more(1) fix. */
-		/* 42: Enable NLS replacements. */
-		/* 44: Margin bell. */
-		/* 47: Alternate screen. */
+        /* 41: more(1) fix. */
+        /* 42: Enable NLS replacements. */
+        /* 44: Margin bell. */
+        /* 47: Alternate screen. */
                 {47, 0, 0, 0,
                  0,
                  0,
                  &VteTerminalPrivate::switch_normal_screen,
                  &VteTerminalPrivate::switch_alternate_screen,},
-		/* 66: Keypad mode. */
-		{66, PRIV_OFFSET(m_keypad_mode), 0, 0,
-		 VTE_KEYMODE_NORMAL,
-		 VTE_KEYMODE_APPLICATION,
-		 nullptr, nullptr,},
-		/* 67: disallowed, backspace key policy is set by user. */
-		{67, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 1000: Send-coords-on-button. */
-		{1000, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
-		 0,
-		 MOUSE_TRACKING_SEND_XY_ON_BUTTON,
+        /* 66: Keypad mode. */
+        {66, PRIV_OFFSET(m_keypad_mode), 0, 0,
+         VTE_KEYMODE_NORMAL,
+         VTE_KEYMODE_APPLICATION,
+         nullptr, nullptr,},
+        /* 67: disallowed, backspace key policy is set by user. */
+        {67, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 1000: Send-coords-on-button. */
+        {1000, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
+         0,
+         MOUSE_TRACKING_SEND_XY_ON_BUTTON,
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,},
-		/* 1001: Hilite tracking. */
-		{1001, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
-		 (0),
-		 (MOUSE_TRACKING_HILITE_TRACKING),
+        /* 1001: Hilite tracking. */
+        {1001, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
+         (0),
+         (MOUSE_TRACKING_HILITE_TRACKING),
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,},
-		/* 1002: Cell motion tracking. */
-		{1002, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
-		 (0),
-		 (MOUSE_TRACKING_CELL_MOTION_TRACKING),
+        /* 1002: Cell motion tracking. */
+        {1002, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
+         (0),
+         (MOUSE_TRACKING_CELL_MOTION_TRACKING),
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,},
-		/* 1003: All motion tracking. */
-		{1003, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
-		 (0),
-		 (MOUSE_TRACKING_ALL_MOTION_TRACKING),
+        /* 1003: All motion tracking. */
+        {1003, 0, PRIV_OFFSET(m_mouse_tracking_mode), 0,
+         (0),
+         (MOUSE_TRACKING_ALL_MOTION_TRACKING),
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,
                  &VteTerminalPrivate::reset_mouse_smooth_scroll_delta,},
-		/* 1004: Focus tracking. */
-		{1004, PRIV_OFFSET(m_focus_tracking_mode), 0, 0,
-		 FALSE,
-		 TRUE,
+        /* 1004: Focus tracking. */
+        {1004, PRIV_OFFSET(m_focus_tracking_mode), 0, 0,
+         FALSE,
+         TRUE,
                  nullptr,
                  &VteTerminalPrivate::feed_focus_event_initial,},
-		/* 1006: Extended mouse coordinates. */
-		{1006, PRIV_OFFSET(m_mouse_xterm_extension), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
-		/* 1007: Alternate screen scroll. */
-		{1007, PRIV_OFFSET(m_alternate_screen_scroll), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
-		/* 1010/rxvt: disallowed, scroll-on-output is set by user. */
-		{1010, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 1011/rxvt: disallowed, scroll-on-keypress is set by user. */
-		{1011, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 1015/urxvt: Extended mouse coordinates. */
-		{1015, PRIV_OFFSET(m_mouse_urxvt_extension), 0, 0,
-		 FALSE,
-		 TRUE,
+        /* 1006: Extended mouse coordinates. */
+        {1006, PRIV_OFFSET(m_mouse_xterm_extension), 0, 0,
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
+        /* 1007: Alternate screen scroll. */
+        {1007, PRIV_OFFSET(m_alternate_screen_scroll), 0, 0,
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
+        /* 1010/rxvt: disallowed, scroll-on-output is set by user. */
+        {1010, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 1011/rxvt: disallowed, scroll-on-keypress is set by user. */
+        {1011, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 1015/urxvt: Extended mouse coordinates. */
+        {1015, PRIV_OFFSET(m_mouse_urxvt_extension), 0, 0,
+         FALSE,
+         TRUE,
                  nullptr, nullptr,},
-		/* 1035: disallowed, don't know what to do with it. */
-		{1035, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 1036: Meta-sends-escape. */
-		{1036, PRIV_OFFSET(m_meta_sends_escape), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
-		/* 1037: disallowed, delete key policy is set by user. */
-		{1037, 0, 0, 0, 0, 0, nullptr, nullptr,},
-		/* 1047: Use alternate screen buffer. */
+        /* 1035: disallowed, don't know what to do with it. */
+        {1035, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 1036: Meta-sends-escape. */
+        {1036, PRIV_OFFSET(m_meta_sends_escape), 0, 0,
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
+        /* 1037: disallowed, delete key policy is set by user. */
+        {1037, 0, 0, 0, 0, 0, nullptr, nullptr,},
+        /* 1047: Use alternate screen buffer. */
                 {1047, 0, 0, 0,
                  0,
                  0,
                  &VteTerminalPrivate::switch_normal_screen,
                  &VteTerminalPrivate::switch_alternate_screen,},
-		/* 1048: Save/restore cursor position. */
-		{1048, 0, 0, 0,
-		 0,
-		 0,
+        /* 1048: Save/restore cursor position. */
+        {1048, 0, 0, 0,
+         0,
+         0,
                  &VteTerminalPrivate::restore_cursor,
                  &VteTerminalPrivate::save_cursor,},
-		/* 1049: Use alternate screen buffer, saving the cursor
-		 * position. */
+        /* 1049: Use alternate screen buffer, saving the cursor
+         * position. */
                 {1049, 0, 0, 0,
                  0,
                  0,
                  &VteTerminalPrivate::switch_normal_screen_and_restore_cursor,
                  &VteTerminalPrivate::save_cursor_and_switch_alternate_screen,},
-		/* 2004: Bracketed paste mode. */
-		{2004, PRIV_OFFSET(m_bracketed_paste_mode), 0, 0,
-		 FALSE,
-		 TRUE,
-		 nullptr, nullptr,},
+        /* 2004: Bracketed paste mode. */
+        {2004, PRIV_OFFSET(m_bracketed_paste_mode), 0, 0,
+         FALSE,
+         TRUE,
+         nullptr, nullptr,},
 #undef PRIV_OFFSET
 #undef SCREEN_OFFSET
-	};
+    };
         struct decset_t key;
         struct decset_t *found;
 
-	/* Handle the setting. */
+    /* Handle the setting. */
         key.setting = setting;
         found = (struct decset_t *)bsearch(&key, settings, G_N_ELEMENTS(settings), sizeof(settings[0]), decset_cmp);
         if (!found) {
-		_vte_debug_print (VTE_DEBUG_MISC,
-				  "DECSET/DECRESET mode %ld not recognized, ignoring.\n",
-				  setting);
+        _vte_debug_print (VTE_DEBUG_MISC,
+                  "DECSET/DECRESET mode %ld not recognized, ignoring.\n",
+                  setting);
                 return;
-	}
+    }
 
         key = *found;
         do {
@@ -806,12 +806,12 @@ VteTerminalPrivate::decset(long setting,
                 gpointer *pvalue = NULL, pfvalue = NULL, ptvalue = NULL;
                 gpointer p;
 
-		/* Handle settings we want to ignore. */
-		if ((key.fvalue == key.tvalue) &&
-		    (!key.set) &&
-		    (!key.reset)) {
-			break;
-		}
+        /* Handle settings we want to ignore. */
+        if ((key.fvalue == key.tvalue) &&
+            (!key.set) &&
+            (!key.reset)) {
+            break;
+        }
 
 #define STRUCT_MEMBER_P(type,total_offset) \
                 (type) (total_offset >= 0 ? G_STRUCT_MEMBER_P(this, total_offset) : G_STRUCT_MEMBER_P(m_screen, -total_offset))
@@ -827,64 +827,64 @@ VteTerminalPrivate::decset(long setting,
                 }
 #undef STRUCT_MEMBER_P
 
-		/* Read the old setting. */
-		if (restore) {
-			p = g_hash_table_lookup(m_dec_saved,
-						GINT_TO_POINTER(setting));
-			set = (p != NULL);
-			_vte_debug_print(VTE_DEBUG_PARSE,
-					"Setting %ld was %s.\n",
-					setting, set ? "set" : "unset");
-		}
-		/* Save the current setting. */
-		if (save) {
-			if (bvalue) {
-				set = *(bvalue) != FALSE;
-			} else
-			if (ivalue) {
+        /* Read the old setting. */
+        if (restore) {
+            p = g_hash_table_lookup(m_dec_saved,
+                        GINT_TO_POINTER(setting));
+            set = (p != NULL);
+            _vte_debug_print(VTE_DEBUG_PARSE,
+                    "Setting %ld was %s.\n",
+                    setting, set ? "set" : "unset");
+        }
+        /* Save the current setting. */
+        if (save) {
+            if (bvalue) {
+                set = *(bvalue) != FALSE;
+            } else
+            if (ivalue) {
                                 set = *(ivalue) == (int)key.tvalue;
-			} else
-			if (pvalue) {
-				set = *(pvalue) == ptvalue;
-			}
-			_vte_debug_print(VTE_DEBUG_PARSE,
-					"Setting %ld is %s, saving.\n",
-					setting, set ? "set" : "unset");
-			g_hash_table_insert(m_dec_saved,
-					    GINT_TO_POINTER(setting),
-					    GINT_TO_POINTER(set));
-		}
-		/* Change the current setting to match the new/saved value. */
-		if (!save) {
-			_vte_debug_print(VTE_DEBUG_PARSE,
-					"Setting %ld to %s.\n",
-					setting, set ? "set" : "unset");
-			if (key.set && set) {
-				(this->*key.set)();
-			}
-			if (bvalue) {
-				*(bvalue) = set;
-			} else
-			if (ivalue) {
+            } else
+            if (pvalue) {
+                set = *(pvalue) == ptvalue;
+            }
+            _vte_debug_print(VTE_DEBUG_PARSE,
+                    "Setting %ld is %s, saving.\n",
+                    setting, set ? "set" : "unset");
+            g_hash_table_insert(m_dec_saved,
+                        GINT_TO_POINTER(setting),
+                        GINT_TO_POINTER(set));
+        }
+        /* Change the current setting to match the new/saved value. */
+        if (!save) {
+            _vte_debug_print(VTE_DEBUG_PARSE,
+                    "Setting %ld to %s.\n",
+                    setting, set ? "set" : "unset");
+            if (key.set && set) {
+                (this->*key.set)();
+            }
+            if (bvalue) {
+                *(bvalue) = set;
+            } else
+            if (ivalue) {
                                 *(ivalue) = set ? (int)key.tvalue : (int)key.fvalue;
-			} else
-			if (pvalue) {
+            } else
+            if (pvalue) {
                                 *(pvalue) = set ? ptvalue : pfvalue;
-			}
-			if (key.reset && !set) {
-				(this->*key.reset)();
-			}
-		}
-	} while (0);
+            }
+            if (key.reset && !set) {
+                (this->*key.reset)();
+            }
+        }
+    } while (0);
 
-	/* Do whatever's necessary when the setting changes. */
-	switch (setting) {
-	case 1:
-		_vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
-				"Entering application cursor mode.\n" :
-				"Leaving application cursor mode.\n");
-		break;
-	case 3:
+    /* Do whatever's necessary when the setting changes. */
+    switch (setting) {
+    case 1:
+        _vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
+                "Entering application cursor mode.\n" :
+                "Leaving application cursor mode.\n");
+        break;
+    case 3:
                 /* 3: DECCOLM set/reset to 132/80 columns mode, clear screen and cursor home */
                 if (m_deccolm_mode) {
                         emit_resize_window(set ? 132 : 80,
@@ -892,45 +892,45 @@ VteTerminalPrivate::decset(long setting,
                         clear_screen();
                         home_cursor();
                 }
-		break;
-	case 5:
-		/* Repaint everything in reverse mode. */
+        break;
+    case 5:
+        /* Repaint everything in reverse mode. */
                 invalidate_all();
-		break;
-	case 6:
-		/* Reposition the cursor in its new home position. */
+        break;
+    case 6:
+        /* Reposition the cursor in its new home position. */
                 home_cursor();
-		break;
-	case 47:
-	case 1047:
-	case 1049:
+        break;
+    case 47:
+    case 1047:
+    case 1049:
                 /* Clear the alternate screen if we're switching to it */
-		if (set) {
-			clear_screen();
-		}
-		/* Reset scrollbars and repaint everything. */
-		gtk_adjustment_set_value(m_vadjustment,
-					 m_screen->scroll_delta);
-		set_scrollback_lines(m_scrollback_lines);
+        if (set) {
+            clear_screen();
+        }
+        /* Reset scrollbars and repaint everything. */
+        gtk_adjustment_set_value(m_vadjustment,
+                     m_screen->scroll_delta);
+        set_scrollback_lines(m_scrollback_lines);
                 queue_contents_changed();
                 invalidate_all();
-		break;
-	case 9:
-	case 1000:
-	case 1001:
-	case 1002:
-	case 1003:
+        break;
+    case 9:
+    case 1000:
+    case 1001:
+    case 1002:
+    case 1003:
                 /* Mouse pointer might change. */
                 apply_mouse_cursor();
-		break;
-	case 66:
-		_vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
-				"Entering application keypad mode.\n" :
-				"Leaving application keypad mode.\n");
-		break;
-	default:
-		break;
-	}
+        break;
+    case 66:
+        _vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
+                "Entering application keypad mode.\n" :
+                "Leaving application keypad mode.\n");
+        break;
+    default:
+        break;
+    }
 }
 
 /* THE HANDLERS */
@@ -1023,22 +1023,22 @@ VteTerminalPrivate::seq_bell(vte::parser::Params const& params)
 void
 VteTerminalPrivate::seq_cursor_back_tab(vte::parser::Params const& params)
 {
-	/* Calculate which column is the previous tab stop. */
+    /* Calculate which column is the previous tab stop. */
         auto newcol = m_screen->cursor.col;
 
-	if (m_tabstops) {
-		/* Find the next tabstop. */
-		while (newcol > 0) {
-			newcol--;
+    if (m_tabstops) {
+        /* Find the next tabstop. */
+        while (newcol > 0) {
+            newcol--;
                         if (get_tabstop(newcol % m_column_count)) {
-				break;
-			}
-		}
-	}
+                break;
+            }
+        }
+    }
 
-	/* Warp the cursor. */
-	_vte_debug_print(VTE_DEBUG_PARSE,
-			"Moving cursor to column %ld.\n", (long)newcol);
+    /* Warp the cursor. */
+    _vte_debug_print(VTE_DEBUG_PARSE,
+            "Moving cursor to column %ld.\n", (long)newcol);
         set_cursor_column(newcol);
 }
 
@@ -1048,29 +1048,29 @@ VteTerminalPrivate::clear_to_bol()
 {
         ensure_cursor_is_onscreen();
 
-	/* Get the data for the row which the cursor points to. */
-	auto rowdata = ensure_row();
+    /* Get the data for the row which the cursor points to. */
+    auto rowdata = ensure_row();
         /* Clean up Tab/CJK fragments. */
         cleanup_fragments(0, m_screen->cursor.col + 1);
-	/* Clear the data up to the current column with the default
-	 * attributes.  If there is no such character cell, we need
-	 * to add one. */
+    /* Clear the data up to the current column with the default
+     * attributes.  If there is no such character cell, we need
+     * to add one. */
         vte::grid::column_t i;
         for (i = 0; i <= m_screen->cursor.col; i++) {
                 if (i < (glong) _vte_row_data_length (rowdata)) {
-			/* Muck with the cell in this location. */
+            /* Muck with the cell in this location. */
                         auto pcell = _vte_row_data_get_writable(rowdata, i);
                         *pcell = m_color_defaults;
-		} else {
-			/* Add new cells until we have one here. */
+        } else {
+            /* Add new cells until we have one here. */
                         _vte_row_data_append (rowdata, &m_color_defaults);
-		}
-	}
-	/* Repaint this row. */
+        }
+    }
+    /* Repaint this row. */
         invalidate_cells(0, m_screen->cursor.col+1,
                          m_screen->cursor.row, 1);
 
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -1080,90 +1080,90 @@ VteTerminalPrivate::clear_below_current()
 {
         ensure_cursor_is_onscreen();
 
-	/* If the cursor is actually on the screen, clear the rest of the
-	 * row the cursor is on and all of the rows below the cursor. */
+    /* If the cursor is actually on the screen, clear the rest of the
+     * row the cursor is on and all of the rows below the cursor. */
         VteRowData *rowdata;
         auto i = m_screen->cursor.row;
-	if (i < _vte_ring_next(m_screen->row_data)) {
-		/* Get the data for the row we're clipping. */
+    if (i < _vte_ring_next(m_screen->row_data)) {
+        /* Get the data for the row we're clipping. */
                 rowdata = _vte_ring_index_writable(m_screen->row_data, i);
                 /* Clean up Tab/CJK fragments. */
                 if ((glong) _vte_row_data_length(rowdata) > m_screen->cursor.col)
                         cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata));
-		/* Clear everything to the right of the cursor. */
-		if (rowdata)
+        /* Clear everything to the right of the cursor. */
+        if (rowdata)
                         _vte_row_data_shrink(rowdata, m_screen->cursor.col);
-	}
-	/* Now for the rest of the lines. */
+    }
+    /* Now for the rest of the lines. */
         for (i = m_screen->cursor.row + 1;
-	     i < _vte_ring_next(m_screen->row_data);
-	     i++) {
-		/* Get the data for the row we're removing. */
-		rowdata = _vte_ring_index_writable(m_screen->row_data, i);
-		/* Remove it. */
-		if (rowdata)
-			_vte_row_data_shrink (rowdata, 0);
-	}
-	/* Now fill the cleared areas. */
+         i < _vte_ring_next(m_screen->row_data);
+         i++) {
+        /* Get the data for the row we're removing. */
+        rowdata = _vte_ring_index_writable(m_screen->row_data, i);
+        /* Remove it. */
+        if (rowdata)
+            _vte_row_data_shrink (rowdata, 0);
+    }
+    /* Now fill the cleared areas. */
         bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
         for (i = m_screen->cursor.row;
-	     i < m_screen->insert_delta + m_row_count;
-	     i++) {
-		/* Retrieve the row's data, creating it if necessary. */
-		if (_vte_ring_contains(m_screen->row_data, i)) {
-			rowdata = _vte_ring_index_writable (m_screen->row_data, i);
-			g_assert(rowdata != NULL);
-		} else {
-			rowdata = ring_append(false);
-		}
-		/* Pad out the row. */
+         i < m_screen->insert_delta + m_row_count;
+         i++) {
+        /* Retrieve the row's data, creating it if necessary. */
+        if (_vte_ring_contains(m_screen->row_data, i)) {
+            rowdata = _vte_ring_index_writable (m_screen->row_data, i);
+            g_assert(rowdata != NULL);
+        } else {
+            rowdata = ring_append(false);
+        }
+        /* Pad out the row. */
                 if (not_default_bg) {
                         _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
-		}
-		rowdata->attr.soft_wrapped = 0;
-		/* Repaint this row. */
-		invalidate_cells(0, m_column_count,
+        }
+        rowdata->attr.soft_wrapped = 0;
+        /* Repaint this row. */
+        invalidate_cells(0, m_column_count,
                                  i, 1);
-	}
+    }
 
-	/* We've modified the display.  Make a note of it. */
-	m_text_deleted_flag = TRUE;
+    /* We've modified the display.  Make a note of it. */
+    m_text_deleted_flag = TRUE;
 }
 
 /* Clear from the cursor position to the end of the line. */
 void
 VteTerminalPrivate::clear_to_eol()
 {
-	/* If we were to strictly emulate xterm, we'd ensure the cursor is onscreen.
-	 * But due to https://bugzilla.gnome.org/show_bug.cgi?id=740789 we intentionally
-	 * deviate and do instead what konsole does. This way emitting a \e[K doesn't
-	 * influence the text flow, and serves as a perfect workaround against a new line
-	 * getting painted with the active background color (except for a possible flicker).
-	 */
-	/* ensure_cursor_is_onscreen(); */
+    /* If we were to strictly emulate xterm, we'd ensure the cursor is onscreen.
+     * But due to https://bugzilla.gnome.org/show_bug.cgi?id=740789 we intentionally
+     * deviate and do instead what konsole does. This way emitting a \e[K doesn't
+     * influence the text flow, and serves as a perfect workaround against a new line
+     * getting painted with the active background color (except for a possible flicker).
+     */
+    /* ensure_cursor_is_onscreen(); */
 
-	/* Get the data for the row which the cursor points to. */
+    /* Get the data for the row which the cursor points to. */
         auto rowdata = ensure_row();
-	g_assert(rowdata != NULL);
+    g_assert(rowdata != NULL);
         if ((glong) _vte_row_data_length(rowdata) > m_screen->cursor.col) {
                 /* Clean up Tab/CJK fragments. */
                 cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata));
                 /* Remove the data at the end of the array until the current column
                  * is the end of the array. */
                 _vte_row_data_shrink(rowdata, m_screen->cursor.col);
-		/* We've modified the display.  Make a note of it. */
-		m_text_deleted_flag = TRUE;
-	}
+        /* We've modified the display.  Make a note of it. */
+        m_text_deleted_flag = TRUE;
+    }
         bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
         if (not_default_bg) {
-		/* Add enough cells to fill out the row. */
+        /* Add enough cells to fill out the row. */
                 _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
-	}
-	rowdata->attr.soft_wrapped = 0;
-	/* Repaint this row. */
-	invalidate_cells(m_screen->cursor.col, m_column_count - m_screen->cursor.col,
+    }
+    rowdata->attr.soft_wrapped = 0;
+    /* Repaint this row. */
+    invalidate_cells(m_screen->cursor.col, m_column_count - m_screen->cursor.col,
                          m_screen->cursor.row, 1);
 }
 
@@ -1281,7 +1281,7 @@ VteTerminalPrivate::reset_scrolling_region()
 void
 VteTerminalPrivate::seq_set_scrolling_region(vte::parser::Params const& params)
 {
-	/* We require two parameters.  Anything less is a reset. */
+    /* We require two parameters.  Anything less is a reset. */
         if (params.size() < 2)
                 return reset_scrolling_region();
 
@@ -1296,8 +1296,8 @@ VteTerminalPrivate::set_scrolling_region(vte::grid::row_t start /* relative */,
 {
         /* A (1-based) value of 0 means default. */
         if (start == -1) {
-		start = 0;
-	}
+        start = 0;
+    }
         if (end == -1) {
                 end = m_row_count - 1;
         }
@@ -1307,21 +1307,21 @@ VteTerminalPrivate::set_scrolling_region(vte::grid::row_t start /* relative */,
         }
         if (end >= m_row_count) {
                 end = m_row_count - 1;
-	}
+    }
 
-	/* Set the right values. */
+    /* Set the right values. */
         m_scrolling_region.start = start;
         m_scrolling_region.end = end;
         m_scrolling_restricted = TRUE;
         if (m_scrolling_region.start == 0 &&
             m_scrolling_region.end == m_row_count - 1) {
-		/* Special case -- run wild, run free. */
+        /* Special case -- run wild, run free. */
                 m_scrolling_restricted = FALSE;
-	} else {
-		/* Maybe extend the ring -- bug 710483 */
+    } else {
+        /* Maybe extend the ring -- bug 710483 */
                 while (_vte_ring_next(m_screen->row_data) < m_screen->insert_delta + m_row_count)
                         _vte_ring_insert(m_screen->row_data, _vte_ring_next(m_screen->row_data));
-	}
+    }
 
         home_cursor();
 }
@@ -1357,37 +1357,37 @@ VteTerminalPrivate::seq_line_position_absolute(vte::parser::Params const& params
 void
 VteTerminalPrivate::delete_character()
 {
-	VteRowData *rowdata;
-	long col;
+    VteRowData *rowdata;
+    long col;
 
         ensure_cursor_is_onscreen();
 
         if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
-		long len;
-		/* Get the data for the row which the cursor points to. */
+        long len;
+        /* Get the data for the row which the cursor points to. */
                 rowdata = _vte_ring_index_writable(m_screen->row_data, m_screen->cursor.row);
-		g_assert(rowdata != NULL);
+        g_assert(rowdata != NULL);
                 col = m_screen->cursor.col;
-		len = _vte_row_data_length (rowdata);
-		/* Remove the column. */
-		if (col < len) {
+        len = _vte_row_data_length (rowdata);
+        /* Remove the column. */
+        if (col < len) {
                         /* Clean up Tab/CJK fragments. */
                         cleanup_fragments(col, col + 1);
-			_vte_row_data_remove (rowdata, col);
+            _vte_row_data_remove (rowdata, col);
                         bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
                         if (not_default_bg) {
                                 _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
                                 len = m_column_count;
-			}
+            }
                         rowdata->attr.soft_wrapped = 0;
-			/* Repaint this row. */
+            /* Repaint this row. */
                         invalidate_cells(col, len - col,
                                          m_screen->cursor.row, 1);
-		}
-	}
+        }
+    }
 
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -1422,9 +1422,9 @@ VteTerminalPrivate::move_cursor_down(vte::grid::row_t rows)
         // FIXMEchpe why not check m_origin_mode here?
         if (m_scrolling_restricted) {
                 end = m_screen->insert_delta + m_scrolling_region.end;
-	} else {
+    } else {
                 end = m_screen->insert_delta + m_row_count - 1;
-	}
+    }
 
         m_screen->cursor.row = MIN(m_screen->cursor.row + rows, end);
 }
@@ -1434,7 +1434,7 @@ VteTerminalPrivate::move_cursor_down(vte::grid::row_t rows)
 void
 VteTerminalPrivate::seq_erase_characters(vte::parser::Params const& params)
 {
-	/* If we got a parameter, use it. */
+    /* If we got a parameter, use it. */
         auto count = std::min(params.number_or_default_at(0, 1), long(65535));
         erase_characters(count);
 }
@@ -1442,39 +1442,39 @@ VteTerminalPrivate::seq_erase_characters(vte::parser::Params const& params)
 void
 VteTerminalPrivate::erase_characters(long count)
 {
-	VteCell *cell;
-	long col, i;
+    VteCell *cell;
+    long col, i;
 
         ensure_cursor_is_onscreen();
 
-	/* Clear out the given number of characters. */
-	auto rowdata = ensure_row();
+    /* Clear out the given number of characters. */
+    auto rowdata = ensure_row();
         if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
-		g_assert(rowdata != NULL);
+        g_assert(rowdata != NULL);
                 /* Clean up Tab/CJK fragments. */
                 cleanup_fragments(m_screen->cursor.col, m_screen->cursor.col + count);
-		/* Write over the characters.  (If there aren't enough, we'll
-		 * need to create them.) */
-		for (i = 0; i < count; i++) {
+        /* Write over the characters.  (If there aren't enough, we'll
+         * need to create them.) */
+        for (i = 0; i < count; i++) {
                         col = m_screen->cursor.col + i;
-			if (col >= 0) {
-				if (col < (glong) _vte_row_data_length (rowdata)) {
-					/* Replace this cell with the current
-					 * defaults. */
-					cell = _vte_row_data_get_writable (rowdata, col);
+            if (col >= 0) {
+                if (col < (glong) _vte_row_data_length (rowdata)) {
+                    /* Replace this cell with the current
+                     * defaults. */
+                    cell = _vte_row_data_get_writable (rowdata, col);
                                         *cell = m_color_defaults;
-				} else {
-					/* Add new cells until we have one here. */
+                } else {
+                    /* Add new cells until we have one here. */
                                         _vte_row_data_fill (rowdata, &m_color_defaults, col + 1);
-				}
-			}
-		}
-		/* Repaint this row. */
+                }
+            }
+        }
+        /* Repaint this row. */
                 invalidate_cells(m_screen->cursor.col, count,
                                  m_screen->cursor.row, 1);
-	}
+    }
 
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -1536,9 +1536,9 @@ VteTerminalPrivate::seq_backspace(vte::parser::Params const& params)
         ensure_cursor_is_onscreen();
 
         if (m_screen->cursor.col > 0) {
-		/* There's room to move left, so do so. */
+        /* There's room to move left, so do so. */
                 m_screen->cursor.col--;
-	}
+    }
 }
 
 /* Cursor left N columns. */
@@ -1577,9 +1577,9 @@ VteTerminalPrivate::move_cursor_forward(vte::grid::column_t columns)
         /* The cursor can be further to the right, don't move in that case. */
         auto col = get_cursor_column();
         if (col < m_column_count) {
-		/* There's room to move right. */
+        /* There's room to move right. */
                 set_cursor_column(col + columns);
-	}
+    }
 }
 
 /* Move the cursor to the beginning of the next line, scrolling if necessary. */
@@ -1610,7 +1610,7 @@ VteTerminalPrivate::change_color(vte::parser::Params const& params,
                 if (!params.string_at(0, str))
                         return;
 
-		pairs = g_strsplit (str, ";", 0);
+        pairs = g_strsplit (str, ";", 0);
                 g_free(str);
         }
 
@@ -1620,46 +1620,46 @@ VteTerminalPrivate::change_color(vte::parser::Params const& params,
         vte::color::rgb color;
         guint idx, i;
 
-		for (i = 0; pairs[i] && pairs[i + 1]; i += 2) {
-			idx = strtoul (pairs[i], (char **) NULL, 10);
+        for (i = 0; pairs[i] && pairs[i + 1]; i += 2) {
+            idx = strtoul (pairs[i], (char **) NULL, 10);
 
-			if (idx >= VTE_DEFAULT_FG && idx != 256)
-				continue;
+            if (idx >= VTE_DEFAULT_FG && idx != 256)
+                continue;
 
-			if (color.parse(pairs[i + 1])) {
+            if (color.parse(pairs[i + 1])) {
                                 set_color(idx == 256 ? VTE_BOLD_FG : idx, VTE_COLOR_SOURCE_ESCAPE, color);
-			} else if (strcmp (pairs[i + 1], "?") == 0) {
-				gchar buf[128];
-				auto c = get_color(idx == 256 ? VTE_BOLD_FG : idx);
-				if (c == NULL && idx == 256)
-				        c = get_color(VTE_DEFAULT_FG);
-				g_assert(c != NULL);
-				g_snprintf (buf, sizeof (buf),
-					    _VTE_CAP_OSC "4;%u;rgb:%04x/%04x/%04x%s",
-					    idx, c->red, c->green, c->blue, terminator);
-				//feed_child(buf, -1);
-			}
-		}
+            } else if (strcmp (pairs[i + 1], "?") == 0) {
+                gchar buf[128];
+                auto c = get_color(idx == 256 ? VTE_BOLD_FG : idx);
+                if (c == NULL && idx == 256)
+                        c = get_color(VTE_DEFAULT_FG);
+                g_assert(c != NULL);
+                g_snprintf (buf, sizeof (buf),
+                        _VTE_CAP_OSC "4;%u;rgb:%04x/%04x/%04x%s",
+                        idx, c->red, c->green, c->blue, terminator);
+                //feed_child(buf, -1);
+            }
+        }
 
-		g_strfreev (pairs);
+        g_strfreev (pairs);
 
-		/* emit the refresh as the palette has changed and previous
-		 * renders need to be updated. */
-		emit_refresh_window();
+        /* emit the refresh as the palette has changed and previous
+         * renders need to be updated. */
+        emit_refresh_window();
 }
 
 /* Change color in the palette, BEL terminated */
 void
 VteTerminalPrivate::seq_change_color_bel(vte::parser::Params const& params)
 {
-	change_color(params, BEL);
+    change_color(params, BEL);
 }
 
 /* Change color in the palette, ST terminated */
 void
 VteTerminalPrivate::seq_change_color_st(vte::parser::Params const& params)
 {
-	change_color(params, ST);
+    change_color(params, ST);
 }
 
 /* Reset color in the palette */
@@ -1678,11 +1678,11 @@ VteTerminalPrivate::seq_reset_color(vte::parser::Params const& params)
 
                         reset_color(value == 256 ? VTE_BOLD_FG : value, VTE_COLOR_SOURCE_ESCAPE);
                 }
-	} else {
-		for (unsigned int idx = 0; idx < VTE_DEFAULT_FG; idx++) {
-			reset_color(idx, VTE_COLOR_SOURCE_ESCAPE);
-		}
-	}
+    } else {
+        for (unsigned int idx = 0; idx < VTE_DEFAULT_FG; idx++) {
+            reset_color(idx, VTE_COLOR_SOURCE_ESCAPE);
+        }
+    }
 }
 
 /* Scroll the text up N lines, but don't move the cursor. */
@@ -1719,27 +1719,27 @@ VteTerminalPrivate::seq_reverse_index(vte::parser::Params const& params)
         if (m_scrolling_restricted) {
                 start = m_scrolling_region.start + m_screen->insert_delta;
                 end = m_scrolling_region.end + m_screen->insert_delta;
-	} else {
+    } else {
                 start = m_screen->insert_delta;
                 end = start + m_row_count - 1;
-	}
+    }
 
         if (m_screen->cursor.row == start) {
-		/* If we're at the top of the scrolling region, add a
-		 * line at the top to scroll the bottom off. */
-		ring_remove(end);
-		ring_insert(start, true);
-		/* Update the display. */
-		scroll_region(start, end - start + 1, 1);
+        /* If we're at the top of the scrolling region, add a
+         * line at the top to scroll the bottom off. */
+        ring_remove(end);
+        ring_insert(start, true);
+        /* Update the display. */
+        scroll_region(start, end - start + 1, 1);
                 invalidate_cells(0, m_column_count,
                                  start, 2);
-	} else {
-		/* Otherwise, just move the cursor up. */
+    } else {
+        /* Otherwise, just move the cursor up. */
                 m_screen->cursor.row--;
-	}
-	/* Adjust the scrollbars if necessary. */
+    }
+    /* Adjust the scrollbars if necessary. */
         adjust_adjustments();
-	/* We modified the display, so make a note of it. */
+    /* We modified the display, so make a note of it. */
         m_text_modified_flag = TRUE;
 }
 
@@ -1747,10 +1747,10 @@ VteTerminalPrivate::seq_reverse_index(vte::parser::Params const& params)
 void
 VteTerminalPrivate::seq_tab_set(vte::parser::Params const& params)
 {
-	if (m_tabstops == NULL) {
-		m_tabstops = g_hash_table_new(NULL, NULL);
-	}
-	set_tabstop(m_screen->cursor.col);
+    if (m_tabstops == NULL) {
+        m_tabstops = g_hash_table_new(NULL, NULL);
+    }
+    set_tabstop(m_screen->cursor.col);
 }
 
 /* Tab. */
@@ -1766,70 +1766,70 @@ VteTerminalPrivate::move_cursor_tab()
         long old_len;
         vte::grid::column_t newcol, col;
 
-	/* Calculate which column is the next tab stop. */
+    /* Calculate which column is the next tab stop. */
         newcol = col = m_screen->cursor.col;
 
-	g_assert (col >= 0);
+    g_assert (col >= 0);
 
-	if (m_tabstops != NULL) {
-		/* Find the next tabstop. */
-		for (newcol++; newcol < VTE_TAB_MAX; newcol++) {
-			if (get_tabstop(newcol)) {
-				break;
-			}
-		}
-	}
+    if (m_tabstops != NULL) {
+        /* Find the next tabstop. */
+        for (newcol++; newcol < VTE_TAB_MAX; newcol++) {
+            if (get_tabstop(newcol)) {
+                break;
+            }
+        }
+    }
 
-	/* If we have no tab stops or went past the end of the line, stop
-	 * at the right-most column. */
-	if (newcol >= m_column_count) {
-		newcol = m_column_count - 1;
-	}
+    /* If we have no tab stops or went past the end of the line, stop
+     * at the right-most column. */
+    if (newcol >= m_column_count) {
+        newcol = m_column_count - 1;
+    }
 
-	/* but make sure we don't move cursor back (bug #340631) */
-	if (col < newcol) {
-		VteRowData *rowdata = ensure_row();
+    /* but make sure we don't move cursor back (bug #340631) */
+    if (col < newcol) {
+        VteRowData *rowdata = ensure_row();
 
-		/* Smart tab handling: bug 353610
-		 *
-		 * If we currently don't have any cells in the space this
-		 * tab creates, we try to make the tab character copyable,
-		 * by appending a single tab char with lots of fragment
-		 * cells following it.
-		 *
-		 * Otherwise, just append empty cells that will show up
-		 * as a space each.
-		 */
+        /* Smart tab handling: bug 353610
+         *
+         * If we currently don't have any cells in the space this
+         * tab creates, we try to make the tab character copyable,
+         * by appending a single tab char with lots of fragment
+         * cells following it.
+         *
+         * Otherwise, just append empty cells that will show up
+         * as a space each.
+         */
 
-		old_len = _vte_row_data_length (rowdata);
+        old_len = _vte_row_data_length (rowdata);
                 _vte_row_data_fill (rowdata, &basic_cell, newcol);
 
-		/* Insert smart tab if there's nothing in the line after
-		 * us, not even empty cells (with non-default background
-		 * color for example).
-		 *
-		 * Notable bugs here: 545924, 597242, 764330 */
-		if (col >= old_len && newcol - col <= VTE_TAB_WIDTH_MAX) {
-			glong i;
-			VteCell *cell = _vte_row_data_get_writable (rowdata, col);
-			VteCell tab = *cell;
-			tab.attr.set_columns(newcol - col);
-			tab.c = '\t';
-			/* Save tab char */
-			*cell = tab;
-			/* And adjust the fragments */
-			for (i = col + 1; i < newcol; i++) {
-				cell = _vte_row_data_get_writable (rowdata, i);
-				cell->c = '\t';
-				cell->attr.set_columns(1);
-				cell->attr.set_fragment(true);
-			}
-		}
+        /* Insert smart tab if there's nothing in the line after
+         * us, not even empty cells (with non-default background
+         * color for example).
+         *
+         * Notable bugs here: 545924, 597242, 764330 */
+        if (col >= old_len && newcol - col <= VTE_TAB_WIDTH_MAX) {
+            glong i;
+            VteCell *cell = _vte_row_data_get_writable (rowdata, col);
+            VteCell tab = *cell;
+            tab.attr.set_columns(newcol - col);
+            tab.c = '\t';
+            /* Save tab char */
+            *cell = tab;
+            /* And adjust the fragments */
+            for (i = col + 1; i < newcol; i++) {
+                cell = _vte_row_data_get_writable (rowdata, i);
+                cell->c = '\t';
+                cell->attr.set_columns(1);
+                cell->attr.set_fragment(true);
+            }
+        }
 
-		invalidate_cells(m_screen->cursor.col, newcol - m_screen->cursor.col,
+        invalidate_cells(m_screen->cursor.col, newcol - m_screen->cursor.col,
                                  m_screen->cursor.row, 1);
                 m_screen->cursor.col = newcol;
-	}
+    }
 }
 
 void
@@ -1848,14 +1848,14 @@ VteTerminalPrivate::seq_tab_clear(vte::parser::Params const& params)
 {
         auto param = params.number_or_default_at(0, 0);
 
-	if (param == 0) {
-		clear_tabstop(m_screen->cursor.col);
-	} else if (param == 3) {
-		if (m_tabstops != nullptr) {
-			g_hash_table_destroy(m_tabstops);
-			m_tabstops = nullptr;
-		}
-	}
+    if (param == 0) {
+        clear_tabstop(m_screen->cursor.col);
+    } else if (param == 3) {
+        if (m_tabstops != nullptr) {
+            g_hash_table_destroy(m_tabstops);
+            m_tabstops = nullptr;
+        }
+    }
 }
 
 /* Cursor up N lines, no scrolling. */
@@ -1878,9 +1878,9 @@ VteTerminalPrivate::move_cursor_up(vte::grid::row_t rows)
         //FIXMEchpe why not check m_origin_mode here?
         if (m_scrolling_restricted) {
                 start = m_screen->insert_delta + m_scrolling_region.start;
-	} else {
-		start = m_screen->insert_delta;
-	}
+    } else {
+        start = m_screen->insert_delta;
+    }
 
         m_screen->cursor.row = MAX(m_screen->cursor.row - rows, start);
 }
@@ -1912,12 +1912,12 @@ VteTerminalPrivate::parse_sgr_38_48_parameters(vte::parser::Params const& params
                 if (G_UNLIKELY(!params.number_at_unchecked(*index, param0)))
                         return -1;
 
-		switch (param0) {
+        switch (param0) {
                 case 2: {
                         if (G_UNLIKELY(*index + 3 >= n_params))
-				return -1;
+                return -1;
                         if (might_contain_color_space_id && *index + 5 <= n_params)
-			        *index += 1;
+                    *index += 1;
 
                         long param1, param2, param3;
                         if (G_UNLIKELY(!params.number_at_unchecked(*index + 1, param1) ||
@@ -1925,11 +1925,11 @@ VteTerminalPrivate::parse_sgr_38_48_parameters(vte::parser::Params const& params
                                        !params.number_at_unchecked(*index + 3, param3)))
                                 return -1;
 
-			if (G_UNLIKELY (param1 < 0 || param1 >= 256 || param2 < 0 || param2 >= 256 || param3 < 0 || param3 >= 256))
-				return -1;
-			*index += 3;
+            if (G_UNLIKELY (param1 < 0 || param1 >= 256 || param2 < 0 || param2 >= 256 || param3 < 0 || param3 >= 256))
+                return -1;
+            *index += 3;
 
-			return VTE_RGB_COLOR(redbits, greenbits, bluebits, param1, param2, param3);
+            return VTE_RGB_COLOR(redbits, greenbits, bluebits, param1, param2, param3);
                 }
                 case 5: {
                         long param1;
@@ -1937,13 +1937,13 @@ VteTerminalPrivate::parse_sgr_38_48_parameters(vte::parser::Params const& params
                                 return -1;
 
                         if (G_UNLIKELY(param1 < 0 || param1 >= 256))
-				return -1;
-			*index += 1;
-			return param1;
+                return -1;
+            *index += 1;
+            return param1;
                 }
-		}
-	}
-	return -1;
+        }
+    }
+    return -1;
 }
 
 /* Handle ANSI color setting and related stuffs (SGR).
@@ -1952,13 +1952,13 @@ VteTerminalPrivate::parse_sgr_38_48_parameters(vte::parser::Params const& params
 void
 VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& params)
 {
-	/* Step through each numeric parameter. */
+    /* Step through each numeric parameter. */
         auto n_params = params.size();
         unsigned int i;
-	for (i = 0; i < n_params; i++) {
-		/* If this parameter is an array, it can be a fully colon separated 38 or 48
-		 * (see below for details). */
-		if (G_UNLIKELY(params.has_subparams_at_unchecked(i))) {
+    for (i = 0; i < n_params; i++) {
+        /* If this parameter is an array, it can be a fully colon separated 38 or 48
+         * (see below for details). */
+        if (G_UNLIKELY(params.has_subparams_at_unchecked(i))) {
                         auto subparams = params.subparams_at_unchecked(i);
 
                         long param0, param1;
@@ -1993,91 +1993,91 @@ VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& params)
                         }
                         }
 
-			continue;
-		}
-		/* If this parameter is not a number either, skip it. */
+            continue;
+        }
+        /* If this parameter is not a number either, skip it. */
                 long param;
                 if (!params.number_at_unchecked(i, param))
                         continue;
 
-		switch (param) {
-		case 0:
+        switch (param) {
+        case 0:
                         reset_default_attributes(false);
-			break;
-		case 1:
+            break;
+        case 1:
                         m_defaults.attr.set_bold(true);
-			break;
-		case 2:
+            break;
+        case 2:
                         m_defaults.attr.set_dim(true);
-			break;
-		case 3:
+            break;
+        case 3:
                         m_defaults.attr.set_italic(true);
-			break;
-		case 4:
+            break;
+        case 4:
                         m_defaults.attr.set_underline(1);
-			break;
-		case 5:
+            break;
+        case 5:
                         m_defaults.attr.set_blink(true);
-			break;
-		case 7:
+            break;
+        case 7:
                         m_defaults.attr.set_reverse(true);
-			break;
-		case 8:
+            break;
+        case 8:
                         m_defaults.attr.set_invisible(true);
-			break;
-		case 9:
+            break;
+        case 9:
                         m_defaults.attr.set_strikethrough(true);
-			break;
+            break;
                 case 21:
                         m_defaults.attr.set_underline(2);
                         break;
-		case 22: /* ECMA 48. */
+        case 22: /* ECMA 48. */
                         m_defaults.attr.unset(VTE_ATTR_BOLD_MASK | VTE_ATTR_DIM_MASK);
-			break;
-		case 23:
+            break;
+        case 23:
                         m_defaults.attr.set_italic(false);
-			break;
-		case 24:
+            break;
+        case 24:
                         m_defaults.attr.set_underline(0);
-			break;
-		case 25:
+            break;
+        case 25:
                         m_defaults.attr.set_blink(false);
-			break;
-		case 27:
+            break;
+        case 27:
                         m_defaults.attr.set_reverse(false);
-			break;
-		case 28:
+            break;
+        case 28:
                         m_defaults.attr.set_invisible(false);
-			break;
-		case 29:
+            break;
+        case 29:
                         m_defaults.attr.set_strikethrough(false);
-			break;
-		case 30:
-		case 31:
-		case 32:
-		case 33:
-		case 34:
-		case 35:
-		case 36:
-		case 37:
+            break;
+        case 30:
+        case 31:
+        case 32:
+        case 33:
+        case 34:
+        case 35:
+        case 36:
+        case 37:
                         m_defaults.attr.set_fore(VTE_LEGACY_COLORS_OFFSET + (param - 30));
-			break;
-		case 38:
-		case 48:
+            break;
+        case 38:
+        case 48:
                 case 58:
-		{
-			/* The format looks like:
-			 * - 256 color indexed palette:
+        {
+            /* The format looks like:
+             * - 256 color indexed palette:
                          *   - ^[[38:5:INDEXm  (de jure standard: ITU-T T.416 / ISO/IEC 8613-6; we also allow and ignore further parameters)
                          *   - ^[[38;5;INDEXm  (de facto standard, understood by probably all terminal emulators that support 256 colors)
-			 * - true colors:
+             * - true colors:
                          *   - ^[[38:2:[id]:RED:GREEN:BLUE[:...]m  (de jure standard: ITU-T T.416 / ISO/IEC 8613-6)
                          *   - ^[[38:2:RED:GREEN:BLUEm             (common misinterpretation of the standard, FIXME: stop supporting it at some point)
                          *   - ^[[38;2;RED;GREEN;BLUEm             (de facto standard, understood by probably all terminal emulators that support true colors)
                          * See bugs 685759 and 791456 for details.
                          * The colon version was handled above separately.
                          * This branch here is reached when the separators are semicolons. */
-			if ((i + 1) < n_params) {
+            if ((i + 1) < n_params) {
                                 ++i;
                                 int32_t color;
                                 switch (param) {
@@ -2097,29 +2097,29 @@ VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& params)
                                         if (G_LIKELY (color != -1))
                                                 m_defaults.attr.set_deco(color);
                                         break;
-				}
-			}
-			break;
-		}
-		case 39:
-			/* default foreground */
+                }
+            }
+            break;
+        }
+        case 39:
+            /* default foreground */
                         m_defaults.attr.set_fore(VTE_DEFAULT_FG);
-			break;
-		case 40:
-		case 41:
-		case 42:
-		case 43:
-		case 44:
-		case 45:
-		case 46:
-		case 47:
+            break;
+        case 40:
+        case 41:
+        case 42:
+        case 43:
+        case 44:
+        case 45:
+        case 46:
+        case 47:
                         m_defaults.attr.set_back(VTE_LEGACY_COLORS_OFFSET + (param - 40));
-			break;
-	     /* case 48: was handled above at 38 to avoid code duplication */
-		case 49:
-			/* default background */
+            break;
+         /* case 48: was handled above at 38 to avoid code duplication */
+        case 49:
+            /* default background */
                         m_defaults.attr.set_back(VTE_DEFAULT_BG);
-			break;
+            break;
                 case 53:
                         m_defaults.attr.set_overline(true);
                         break;
@@ -2131,35 +2131,35 @@ VteTerminalPrivate::seq_character_attributes(vte::parser::Params const& params)
                         /* default decoration color, that is, same as the cell's foreground */
                         m_defaults.attr.set_deco(VTE_DEFAULT_FG);
                         break;
-		case 90:
-		case 91:
-		case 92:
-		case 93:
-		case 94:
-		case 95:
-		case 96:
-		case 97:
+        case 90:
+        case 91:
+        case 92:
+        case 93:
+        case 94:
+        case 95:
+        case 96:
+        case 97:
                         m_defaults.attr.set_fore(VTE_LEGACY_COLORS_OFFSET + (param - 90) +
                                                  VTE_COLOR_BRIGHT_OFFSET);
-			break;
-		case 100:
-		case 101:
-		case 102:
-		case 103:
-		case 104:
-		case 105:
-		case 106:
-		case 107:
+            break;
+        case 100:
+        case 101:
+        case 102:
+        case 103:
+        case 104:
+        case 105:
+        case 106:
+        case 107:
                         m_defaults.attr.set_back(VTE_LEGACY_COLORS_OFFSET + (param - 100) +
                                                  VTE_COLOR_BRIGHT_OFFSET);
-			break;
-		}
-	}
-	/* If we had no parameters, default to the defaults. */
-	if (i == 0) {
+            break;
+        }
+    }
+    /* If we had no parameters, default to the defaults. */
+    if (i == 0) {
                 reset_default_attributes(false);
-	}
-	/* Save the new colors. */
+    }
+    /* Save the new colors. */
         m_color_defaults.attr.copy_colors(m_defaults.attr);
         m_fill_defaults.attr.copy_colors(m_defaults.attr);
 }
@@ -2177,72 +2177,58 @@ VteTerminalPrivate::seq_cursor_position_top_row(vte::parser::Params const& param
 void
 VteTerminalPrivate::seq_request_terminal_parameters(vte::parser::Params const& params)
 {
-//	feed_child("\e[?x", -1);
+    /* removed: feed child */
 }
 
 /* Request terminal attributes. */
 void
 VteTerminalPrivate::seq_return_terminal_status(vte::parser::Params const& params)
 {
-//	feed_child("", 0);
+    /* removed: feed child */
 }
 
 /* Send primary device attributes. */
 void
 VteTerminalPrivate::seq_send_primary_device_attributes(vte::parser::Params const& params)
 {
-	/* Claim to be a VT220 with only national character set support. */
-//        feed_child("\e[?62;c", -1);
+    /* Claim to be a VT220 with only national character set support. */
+    /* removed: feed child */
 }
 
 /* Send terminal ID. */
 void
 VteTerminalPrivate::seq_return_terminal_id(vte::parser::Params const& params)
 {
-	seq_send_primary_device_attributes(params);
+    seq_send_primary_device_attributes(params);
 }
 
 /* Send secondary device attributes. */
 void
 VteTerminalPrivate::seq_send_secondary_device_attributes(vte::parser::Params const& params)
 {
-#if 0
-	char **version;
-	char buf[128];
-	long ver = 0, i;
-	/* Claim to be a VT220, more or less.  The '>' in the response appears
-	 * to be undocumented. */
-	version = g_strsplit(VERSION, ".", 0);
-	if (version != NULL) {
-		for (i = 0; version[i] != NULL; i++) {
-			ver = ver * 100;
-			ver += atol(version[i]);
-		}
-		g_strfreev(version);
-	}
-	g_snprintf(buf, sizeof (buf), _VTE_CAP_ESC "[>1;%ld;0c", ver);
-	feed_child(buf, -1);
-#endif
+    /* Claim to be a VT220, more or less.  The '>' in the response appears
+     * to be undocumented. */
+    /* removed: feed child */
 }
 
 /* Set one or the other. */
 void
 VteTerminalPrivate::seq_set_icon_title(vte::parser::Params const& params)
 {
-	set_title_internal(params, true, false);
+    set_title_internal(params, true, false);
 }
 
 void
 VteTerminalPrivate::seq_set_window_title(vte::parser::Params const& params)
 {
-	set_title_internal(params, false, true);
+    set_title_internal(params, false, true);
 }
 
 /* Set both the window and icon titles to the same string. */
 void
 VteTerminalPrivate::seq_set_icon_and_window_title(vte::parser::Params const& params)
 {
-	set_title_internal(params, true, true);
+    set_title_internal(params, true, true);
 }
 
 void
@@ -2420,17 +2406,17 @@ VteTerminalPrivate::set_keypad_mode(VteKeymode mode)
 void
 VteTerminalPrivate::seq_application_keypad(vte::parser::Params const& params)
 {
-	_vte_debug_print(VTE_DEBUG_KEYBOARD,
-			"Entering application keypad mode.\n");
-	set_keypad_mode(VTE_KEYMODE_APPLICATION);
+    _vte_debug_print(VTE_DEBUG_KEYBOARD,
+            "Entering application keypad mode.\n");
+    set_keypad_mode(VTE_KEYMODE_APPLICATION);
 }
 
 void
 VteTerminalPrivate::seq_normal_keypad(vte::parser::Params const& params)
 {
-	_vte_debug_print(VTE_DEBUG_KEYBOARD,
-			"Leaving application keypad mode.\n");
-	set_keypad_mode(VTE_KEYMODE_NORMAL);
+    _vte_debug_print(VTE_DEBUG_KEYBOARD,
+            "Leaving application keypad mode.\n");
+    set_keypad_mode(VTE_KEYMODE_NORMAL);
 }
 
 /* Same as cursor_character_absolute, not widely supported. */
@@ -2472,8 +2458,8 @@ VteTerminalPrivate::seq_decreset(vte::parser::Params const& params)
 void
 VteTerminalPrivate::seq_erase_in_display(vte::parser::Params const& params)
 {
-	/* The default parameter is 0. */
-	long param = 0;
+    /* The default parameter is 0. */
+    long param = 0;
         /* Pull out the first parameter. */
         // FIXMEchpe why this weird taking of the first number param, not the actual first param?
         auto n_params = params.size();
@@ -2488,31 +2474,31 @@ VteTerminalPrivate::seq_erase_in_display(vte::parser::Params const& params)
 void
 VteTerminalPrivate::erase_in_display(long param)
 {
-	/* Clear the right area. */
-	switch (param) {
-	case 0:
-		/* Clear below the current line. */
+    /* Clear the right area. */
+    switch (param) {
+    case 0:
+        /* Clear below the current line. */
                 clear_below_current();
-		break;
-	case 1:
-		/* Clear above the current line. */
+        break;
+    case 1:
+        /* Clear above the current line. */
                 clear_above_current();
-		/* Clear everything to the left of the cursor, too. */
-		/* FIXME: vttest. */
+        /* Clear everything to the left of the cursor, too. */
+        /* FIXME: vttest. */
                 clear_to_bol();
-		break;
-	case 2:
-		/* Clear the entire screen. */
+        break;
+    case 2:
+        /* Clear the entire screen. */
                 clear_screen();
-		break;
+        break;
         case 3:
                 /* Drop the scrollback. */
                 drop_scrollback();
                 break;
-	default:
-		break;
-	}
-	/* We've modified the display.  Make a note of it. */
+    default:
+        break;
+    }
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -2520,8 +2506,8 @@ VteTerminalPrivate::erase_in_display(long param)
 void
 VteTerminalPrivate::seq_erase_in_line(vte::parser::Params const& params)
 {
-	/* The default parameter is 0. */
-	long param = 0;
+    /* The default parameter is 0. */
+    long param = 0;
         /* Pull out the first parameter. */
         // FIXMEchpe why this weird taking of the first number param, not the actual first param?
         auto n_params = params.size();
@@ -2536,24 +2522,24 @@ VteTerminalPrivate::seq_erase_in_line(vte::parser::Params const& params)
 void
 VteTerminalPrivate::erase_in_line(long param)
 {
-	/* Clear the right area. */
-	switch (param) {
-	case 0:
-		/* Clear to end of the line. */
+    /* Clear the right area. */
+    switch (param) {
+    case 0:
+        /* Clear to end of the line. */
                 clear_to_eol();
-		break;
-	case 1:
-		/* Clear to start of the line. */
+        break;
+    case 1:
+        /* Clear to start of the line. */
                 clear_to_bol();
-		break;
-	case 2:
-		/* Clear the entire line. */
+        break;
+    case 2:
+        /* Clear the entire line. */
                 clear_current_line();
-		break;
-	default:
-		break;
-	}
-	/* We've modified the display.  Make a note of it. */
+        break;
+    default:
+        break;
+    }
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -2561,14 +2547,14 @@ VteTerminalPrivate::erase_in_line(long param)
 void
 VteTerminalPrivate::seq_full_reset(vte::parser::Params const& params)
 {
-	reset(true, true);
+    reset(true, true);
 }
 
 /* Insert a certain number of lines below the current cursor. */
 void
 VteTerminalPrivate::seq_insert_lines(vte::parser::Params const& params)
 {
-	/* The default is one. */
+    /* The default is one. */
         auto param = params.number_or_default_at(0, 1);
         insert_lines(param);
 }
@@ -2578,32 +2564,32 @@ VteTerminalPrivate::insert_lines(vte::grid::row_t param)
 {
         vte::grid::row_t end, i;
 
-	/* Find the region we're messing with. */
+    /* Find the region we're messing with. */
         auto row = m_screen->cursor.row;
         if (m_scrolling_restricted) {
                 end = m_screen->insert_delta + m_scrolling_region.end;
-	} else {
+    } else {
                 end = m_screen->insert_delta + m_row_count - 1;
-	}
+    }
 
-	/* Only allow to insert as many lines as there are between this row
+    /* Only allow to insert as many lines as there are between this row
          * and the end of the scrolling region. See bug #676090.
          */
         auto limit = end - row + 1;
         param = MIN (param, limit);
 
-	for (i = 0; i < param; i++) {
-		/* Clear a line off the end of the region and add one to the
-		 * top of the region. */
+    for (i = 0; i < param; i++) {
+        /* Clear a line off the end of the region and add one to the
+         * top of the region. */
                 ring_remove(end);
                 ring_insert(row, true);
-	}
+    }
         m_screen->cursor.col = 0;
-	/* Update the display. */
+    /* Update the display. */
         scroll_region(row, end - row + 1, param);
-	/* Adjust the scrollbars if necessary. */
+    /* Adjust the scrollbars if necessary. */
         adjust_adjustments();
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_inserted_flag = TRUE;
 }
 
@@ -2611,7 +2597,7 @@ VteTerminalPrivate::insert_lines(vte::grid::row_t param)
 void
 VteTerminalPrivate::seq_delete_lines(vte::parser::Params const& params)
 {
-	/* The default is one. */
+    /* The default is one. */
         auto param = params.number_or_default_at(0, 1);
         delete_lines(param);
 }
@@ -2621,13 +2607,13 @@ VteTerminalPrivate::delete_lines(vte::grid::row_t param)
 {
         vte::grid::row_t end, i;
 
-	/* Find the region we're messing with. */
+    /* Find the region we're messing with. */
         auto row = m_screen->cursor.row;
         if (m_scrolling_restricted) {
                 end = m_screen->insert_delta + m_scrolling_region.end;
-	} else {
+    } else {
                 end = m_screen->insert_delta + m_row_count - 1;
-	}
+    }
 
         /* Only allow to delete as many lines as there are between this row
          * and the end of the scrolling region. See bug #676090.
@@ -2635,19 +2621,19 @@ VteTerminalPrivate::delete_lines(vte::grid::row_t param)
         auto limit = end - row + 1;
         param = MIN (param, limit);
 
-	/* Clear them from below the current cursor. */
-	for (i = 0; i < param; i++) {
-		/* Insert a line at the end of the region and remove one from
-		 * the top of the region. */
+    /* Clear them from below the current cursor. */
+    for (i = 0; i < param; i++) {
+        /* Insert a line at the end of the region and remove one from
+         * the top of the region. */
                 ring_remove(row);
                 ring_insert(end, true);
-	}
+    }
         m_screen->cursor.col = 0;
-	/* Update the display. */
+    /* Update the display. */
         scroll_region(row, end - row + 1, -param);
-	/* Adjust the scrollbars if necessary. */
+    /* Adjust the scrollbars if necessary. */
         adjust_adjustments();
-	/* We've modified the display.  Make a note of it. */
+    /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
 }
 
@@ -2656,17 +2642,18 @@ VteTerminalPrivate::delete_lines(vte::grid::row_t param)
 void
 VteTerminalPrivate::seq_device_status_report(vte::parser::Params const& params)
 {
+#if 0
         long param;
         if (!params.number_at(0, param))
                 return;
 
         switch (param) {
-			case 5:
-				/* Send a thumbs-up sequence. */
-//				feed_child(_VTE_CAP_CSI "0n", -1);
-				break;
-			case 6:
-				/* Send the cursor position. */
+            case 5:
+                /* Send a thumbs-up sequence. */
+//                feed_child(_VTE_CAP_CSI "0n", -1);
+                break;
+            case 6:
+                /* Send the cursor position. */
                                 vte::grid::row_t rowval, origin, rowmax;
                                 if (m_origin_mode &&
                                     m_scrolling_restricted) {
@@ -2681,14 +2668,15 @@ VteTerminalPrivate::seq_device_status_report(vte::parser::Params const& params)
                                 rowval = CLAMP(rowval, 0, rowmax);
                                 char buf[128];
                                 g_snprintf(buf, sizeof(buf),
-					   _VTE_CAP_CSI "%ld;%ldR",
+                       _VTE_CAP_CSI "%ld;%ldR",
                                            rowval + 1,
                                            CLAMP(m_screen->cursor.col + 1, 1, m_column_count));
-//				feed_child(buf, -1);
-				break;
-			default:
-				break;
+//                feed_child(buf, -1);
+                break;
+            default:
+                break;
         }
+#endif
 }
 
 /* DEC-style device status reports. */
@@ -2700,8 +2688,8 @@ VteTerminalPrivate::seq_dec_device_status_report(vte::parser::Params const& para
                 return;
 
         switch (param) {
-			case 6:
-				/* Send the cursor position. */
+            case 6:
+                /* Send the cursor position. */
                                 vte::grid::row_t rowval, origin, rowmax;
                                 if (m_origin_mode &&
                                     m_scrolling_restricted) {
@@ -2715,29 +2703,29 @@ VteTerminalPrivate::seq_dec_device_status_report(vte::parser::Params const& para
                                 rowval = m_screen->cursor.row - m_screen->insert_delta - origin;
                                 rowval = CLAMP(rowval, 0, rowmax);
                                 char buf[128];
-				g_snprintf(buf, sizeof(buf),
-					   _VTE_CAP_CSI "?%ld;%ldR",
+                g_snprintf(buf, sizeof(buf),
+                       _VTE_CAP_CSI "?%ld;%ldR",
                                            rowval + 1,
                                            CLAMP(m_screen->cursor.col + 1, 1, m_column_count));
-				//feed_child(buf, -1);
-				break;
-			case 15:
-				/* Send printer status -- 10 = ready,
-				 * 11 = not ready.  We don't print. */
-				//feed_child(_VTE_CAP_CSI "?11n", -1);
-				break;
-			case 25:
-				/* Send UDK status -- 20 = locked,
-				 * 21 = not locked.  I don't even know what
-				 * that means, but punt anyway. */
-				//feed_child(_VTE_CAP_CSI "?20n", -1);
-				break;
-			case 26:
-				/* Send keyboard status.  50 = no locator. */
-				//feed_child(_VTE_CAP_CSI "?50n", -1);
-				break;
-			default:
-				break;
+                //feed_child(buf, -1);
+                break;
+            case 15:
+                /* Send printer status -- 10 = ready,
+                 * 11 = not ready.  We don't print. */
+                //feed_child(_VTE_CAP_CSI "?11n", -1);
+                break;
+            case 25:
+                /* Send UDK status -- 20 = locked,
+                 * 21 = not locked.  I don't even know what
+                 * that means, but punt anyway. */
+                //feed_child(_VTE_CAP_CSI "?20n", -1);
+                break;
+            case 26:
+                /* Send keyboard status.  50 = no locator. */
+                //feed_child(_VTE_CAP_CSI "?50n", -1);
+                break;
+            default:
+                break;
         }
 }
 
@@ -2760,30 +2748,30 @@ VteTerminalPrivate::seq_save_mode(vte::parser::Params const& params)
 void
 VteTerminalPrivate::seq_screen_alignment_test(vte::parser::Params const& params)
 {
-	for (auto row = m_screen->insert_delta;
-	     row < m_screen->insert_delta + m_row_count;
-	     row++) {
-		/* Find this row. */
+    for (auto row = m_screen->insert_delta;
+         row < m_screen->insert_delta + m_row_count;
+         row++) {
+        /* Find this row. */
                 while (_vte_ring_next(m_screen->row_data) <= row)
                         ring_append(false);
                 adjust_adjustments();
                 auto rowdata = _vte_ring_index_writable (m_screen->row_data, row);
-		g_assert(rowdata != NULL);
-		/* Clear this row. */
-		_vte_row_data_shrink (rowdata, 0);
+        g_assert(rowdata != NULL);
+        /* Clear this row. */
+        _vte_row_data_shrink (rowdata, 0);
 
                 emit_text_deleted();
-		/* Fill this row. */
+        /* Fill this row. */
                 VteCell cell;
-		cell.c = 'E';
-		cell.attr = basic_cell.attr;
-		cell.attr.set_columns(1);
+        cell.c = 'E';
+        cell.attr = basic_cell.attr;
+        cell.attr.set_columns(1);
                 _vte_row_data_fill(rowdata, &cell, m_column_count);
                 emit_text_inserted();
-	}
+    }
         invalidate_all();
 
-	/* We modified the display, so make a note of it for completeness. */
+    /* We modified the display, so make a note of it for completeness. */
         m_text_modified_flag = TRUE;
 }
 
@@ -2814,7 +2802,7 @@ VteTerminalPrivate::seq_set_cursor_style(vte::parser::Params const& params)
 void
 VteTerminalPrivate::seq_soft_reset(vte::parser::Params const& params)
 {
-	reset(false, false);
+    reset(false, false);
 }
 
 /* Window manipulation control sequences.  Most of these are considered
@@ -2839,9 +2827,9 @@ VteTerminalPrivate::seq_window_manipulation(vte::parser::Params const& params)
         if (n_params >= 3)
                 params.number_at_unchecked(2, arg2);
 
-//	GdkScreen *gscreen; /* FIXME */
-	char buf[128];
-	int width, height;
+//    GdkScreen *gscreen; /* FIXME */
+    char buf[128];
+    int width, height;
 
         switch (param) {
         case 1:
@@ -3030,19 +3018,19 @@ VteTerminalPrivate::change_special_color(vte::parser::Params const& params,
 
         vte::color::rgb color;
 
-		if (color.parse(name))
-			set_color(index, VTE_COLOR_SOURCE_ESCAPE, color);
-		else if (strcmp (name, "?") == 0) {
-			gchar buf[128];
-			auto c = get_color(index);
-			if (c == NULL && index_fallback != -1)
-				c = get_color(index_fallback);
-			g_assert(c != NULL);
-			g_snprintf (buf, sizeof (buf),
-				    _VTE_CAP_OSC "%s;rgb:%04x/%04x/%04x%s",
-				    osc, c->red, c->green, c->blue, terminator);
-			//feed_child(buf, -1);
-		}
+        if (color.parse(name))
+            set_color(index, VTE_COLOR_SOURCE_ESCAPE, color);
+        else if (strcmp (name, "?") == 0) {
+            gchar buf[128];
+            auto c = get_color(index);
+            if (c == NULL && index_fallback != -1)
+                c = get_color(index_fallback);
+            g_assert(c != NULL);
+            g_snprintf (buf, sizeof (buf),
+                    _VTE_CAP_OSC "%s;rgb:%04x/%04x/%04x%s",
+                    osc, c->red, c->green, c->blue, terminator);
+            //feed_child(buf, -1);
+        }
 }
 
 /* Change the bold color, BEL terminated */

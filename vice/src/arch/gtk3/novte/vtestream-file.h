@@ -84,29 +84,10 @@
 #include <unistd.h>
 #include <zlib.h>
 
-#if 0
-#ifdef WITH_GNUTLS
-# include <gnutls/gnutls.h>
-# include <gnutls/crypto.h>
-#endif
-#endif
-
 #include "vteutils.h"
 
 G_BEGIN_DECLS
 
-#if 0
-#ifdef WITH_GNUTLS
-/* Currently the code requires that a stream cipher (e.g. GCM) is used
- * which can encrypt any amount of data without need for padding. */
-# define VTE_CIPHER_ALGORITHM    GNUTLS_CIPHER_AES_256_GCM
-# define VTE_CIPHER_KEY_SIZE     32
-# define VTE_CIPHER_IV_SIZE      12
-# define VTE_CIPHER_TAG_SIZE     16
-#else
-# define VTE_CIPHER_TAG_SIZE     0
-#endif
-#endif
 #define VTE_CIPHER_TAG_SIZE     0
 
 #ifndef VTESTREAM_MAIN
@@ -138,142 +119,141 @@ typedef guint8 _vte_overwrite_counter_t;
 
 #ifndef HAVE_PREAD
 #define pread _pread
-static inline gsize
-pread (int fd, char *data, gsize len, gsize offset)
+static inline gsize pread (int fd, char *data, gsize len, gsize offset)
 {
-	if (-1 == lseek (fd, offset, SEEK_SET))
-		return -1;
-	return read (fd, data, len);
+    if (-1 == lseek (fd, offset, SEEK_SET)) {
+        return -1;
+    }
+    return read (fd, data, len);
 }
 #endif
 
 #ifndef HAVE_PWRITE
 #define pwrite _pwrite
-static inline gsize
-pwrite (int fd, char *data, gsize len, gsize offset)
+static inline gsize pwrite (int fd, char *data, gsize len, gsize offset)
 {
-	if (-1 == lseek (fd, offset, SEEK_SET))
-		return -1;
-	return write (fd, data, len);
+    if (-1 == lseek (fd, offset, SEEK_SET)) {
+        return -1;
+    }
+    return write (fd, data, len);
 }
 #endif
 
-
-static inline void
-_file_close (int fd)
+static inline void _file_close (int fd)
 {
-       if (G_UNLIKELY (fd == -1))
-               return;
+    if (G_UNLIKELY (fd == -1)) {
+        return;
+    }
 
-       close (fd);
+    close (fd);
 }
 
-static gboolean
-_file_try_truncate (int fd, gsize offset)
+static gboolean _file_try_truncate (int fd, gsize offset)
 {
-	int ret;
+    int ret;
 
-        if (G_UNLIKELY (fd == -1))
-                return FALSE;
+    if (G_UNLIKELY (fd == -1)) {
+            return FALSE;
+    }
 
-	do {
-                ret = ftruncate (fd, offset);
-	} while (ret == -1 && errno == EINTR);
+    do {
+        ret = ftruncate (fd, offset);
+    } while (ret == -1 && errno == EINTR);
 
-	return !ret;
+    return !ret;
 }
 
-static void
-_file_reset (int fd)
+static void _file_reset (int fd)
 {
-        _file_try_truncate (fd, 0);
+    _file_try_truncate (fd, 0);
 }
 
-static gboolean
-_file_try_punch_hole (int fd, gsize offset, gsize len)
+static gboolean _file_try_punch_hole (int fd, gsize offset, gsize len)
 {
 #ifndef VTESTREAM_MAIN
 # ifdef FALLOC_FL_PUNCH_HOLE
-        static int n = 0;
+    static int n = 0;
 
-        if (G_UNLIKELY (fd == -1))
-                return FALSE;
-
-        /* Punching hole is slow for me (Linux 3.16, ext4),
-         * causing a ~10% overall performance regression.
-         * On the other hand, it's required to see benefits from
-         * compression in the finite scrollback case, without this
-         * a smaller (better compressed) block will only overwrite
-         * the first part of a larger (less compressed) block.
-         * As a compromise, punch hole "randomly" with 1/16 chance.
-         * TODOegmont: This is still very slow for me, no clue why. */
-        if (G_UNLIKELY ((n++ & 0x0F) == 0)) {
-                fallocate (fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, offset, len);
-        }
-
-        return TRUE;
-# else
+    if (G_UNLIKELY (fd == -1)) {
         return FALSE;
+    }
+
+    /* Punching hole is slow for me (Linux 3.16, ext4),
+        * causing a ~10% overall performance regression.
+        * On the other hand, it's required to see benefits from
+        * compression in the finite scrollback case, without this
+        * a smaller (better compressed) block will only overwrite
+        * the first part of a larger (less compressed) block.
+        * As a compromise, punch hole "randomly" with 1/16 chance.
+        * TODOegmont: This is still very slow for me, no clue why. */
+    if (G_UNLIKELY ((n++ & 0x0F) == 0)) {
+        fallocate (fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, offset, len);
+    }
+
+    return TRUE;
+# else
+    return FALSE;
 # endif
 #else /* VTESTREAM_MAIN */
-        /* For unittesting, overwrite the part with dots. */
-        char c = '.';
-        while (len--) {
-                if (pwrite(fd, &c, 1, offset++) != 1)
-                        return FALSE;
+    /* For unittesting, overwrite the part with dots. */
+    char c = '.';
+    while (len--) {
+        if (pwrite(fd, &c, 1, offset++) != 1) {
+            return FALSE;
         }
-        return TRUE;
+    }
+    return TRUE;
 #endif
 }
 
 static gsize
 _file_read (int fd, char *data, gsize len, gsize offset)
 {
-	gsize ret, total = 0;
+    gsize ret, total = 0;
 
         if (G_UNLIKELY (fd == -1))
-		return 0;
+        return 0;
 
-	while (len) {
+    while (len) {
                 ret = pread (fd, data, len, offset);
-		if (G_UNLIKELY (ret == (gsize) -1)) {
-			if (errno == EINTR)
-				continue;
-			else
-				break;
-		}
-		if (G_UNLIKELY (ret == 0))
-			break;
-		data += ret;
-		len -= ret;
-		offset += ret;
-		total += ret;
-	}
-	return total;
+        if (G_UNLIKELY (ret == (gsize) -1)) {
+            if (errno == EINTR)
+                continue;
+            else
+                break;
+        }
+        if (G_UNLIKELY (ret == 0))
+            break;
+        data += ret;
+        len -= ret;
+        offset += ret;
+        total += ret;
+    }
+    return total;
 }
 
 static void
 _file_write (int fd, const char *data, gsize len, gsize offset)
 {
-	gsize ret;
+    gsize ret;
 
         if (G_UNLIKELY (fd == -1))
                 return;
 
-	while (len) {
+    while (len) {
                 ret = pwrite (fd, (char*)data, len, offset);
-		if (G_UNLIKELY (ret == (gsize) -1)) {
-			if (errno == EINTR)
-				continue;
-			else
-				break;
-		}
-		if (G_UNLIKELY (ret == 0))
-			break;
-		data += ret;
-		len -= ret;
-		offset += ret;
-	}
+        if (G_UNLIKELY (ret == (gsize) -1)) {
+            if (errno == EINTR)
+                continue;
+            else
+                break;
+        }
+        if (G_UNLIKELY (ret == 0))
+            break;
+        data += ret;
+        len -= ret;
+        offset += ret;
+    }
 }
 
 /******************************************************************************************/
@@ -529,7 +509,7 @@ _vte_snake_advance_tail (VteSnake *snake, gsize offset)
 
         if (G_UNLIKELY (offset == snake->head)) {
                 _vte_snake_reset (snake, offset);
-		return;
+        return;
         }
 
         while (offset > snake->segment[0].st_tail) {
@@ -1073,7 +1053,7 @@ G_DEFINE_TYPE (VteFileStream, _vte_file_stream, VTE_TYPE_STREAM)
 VteStream *
 _vte_file_stream_new (void)
 {
-	return (VteStream *) g_object_new (VTE_TYPE_FILE_STREAM, NULL);
+    return (VteStream *) g_object_new (VTE_TYPE_FILE_STREAM, NULL);
 }
 
 static void
@@ -1101,7 +1081,7 @@ _vte_file_stream_finalize (GObject *object)
 static void
 _vte_file_stream_reset (VteStream *astream, gsize offset)
 {
-	VteFileStream *stream = (VteFileStream *) astream;
+    VteFileStream *stream = (VteFileStream *) astream;
         gsize offset_aligned = ALIGN_BOA(offset);
 
         /* This is the same assertion as in boa, repeated here for the buffering layer
@@ -1128,7 +1108,7 @@ _vte_file_stream_reset (VteStream *astream, gsize offset)
 static gboolean
 _vte_file_stream_read (VteStream *astream, gsize offset, char *data, gsize len)
 {
-	VteFileStream *stream = (VteFileStream *) astream;
+    VteFileStream *stream = (VteFileStream *) astream;
 
         /* Out of bounds request.
          * Note: It needs to detect when offset is extremely large
@@ -1166,7 +1146,7 @@ _vte_file_stream_read (VteStream *astream, gsize offset, char *data, gsize len)
 static void
 _vte_file_stream_append (VteStream *astream, const char *data, gsize len)
 {
-	VteFileStream *stream = (VteFileStream *) astream;
+    VteFileStream *stream = (VteFileStream *) astream;
 
         while (len) {
                 gsize l = MIN(VTE_BOA_BLOCKSIZE - stream->wbuf_len, len);
@@ -1183,7 +1163,7 @@ _vte_file_stream_append (VteStream *astream, const char *data, gsize len)
 static void
 _vte_file_stream_truncate (VteStream *astream, gsize offset)
 {
-	VteFileStream *stream = (VteFileStream *) astream;
+    VteFileStream *stream = (VteFileStream *) astream;
 
         g_assert_cmpuint (offset, >=, stream->tail);
         g_assert_cmpuint (offset, <=, stream->head);
@@ -1206,13 +1186,13 @@ _vte_file_stream_truncate (VteStream *astream, gsize offset)
                 }
         }
         stream->wbuf_len = MOD_BOA(offset);
-	stream->head = offset;
+    stream->head = offset;
 }
 
 static void
 _vte_file_stream_advance_tail (VteStream *astream, gsize offset)
 {
-	VteFileStream *stream = (VteFileStream *) astream;
+    VteFileStream *stream = (VteFileStream *) astream;
 
         g_assert_cmpuint (offset, >=, stream->tail);
         g_assert_cmpuint (offset, <=, stream->head);
@@ -1226,33 +1206,33 @@ _vte_file_stream_advance_tail (VteStream *astream, gsize offset)
 static gsize
 _vte_file_stream_tail (VteStream *astream)
 {
-	VteFileStream *stream = (VteFileStream *) astream;
+    VteFileStream *stream = (VteFileStream *) astream;
 
-	return stream->tail;
+    return stream->tail;
 }
 
 static gsize
 _vte_file_stream_head (VteStream *astream)
 {
-	VteFileStream *stream = (VteFileStream *) astream;
+    VteFileStream *stream = (VteFileStream *) astream;
 
-	return stream->head;
+    return stream->head;
 }
 
 static void
 _vte_file_stream_class_init (VteFileStreamClass *klass)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+    GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
-	gobject_class->finalize = _vte_file_stream_finalize;
+    gobject_class->finalize = _vte_file_stream_finalize;
 
-	klass->reset = _vte_file_stream_reset;
-	klass->read = _vte_file_stream_read;
-	klass->append = _vte_file_stream_append;
-	klass->truncate = _vte_file_stream_truncate;
-	klass->advance_tail = _vte_file_stream_advance_tail;
-	klass->tail = _vte_file_stream_tail;
-	klass->head = _vte_file_stream_head;
+    klass->reset = _vte_file_stream_reset;
+    klass->read = _vte_file_stream_read;
+    klass->append = _vte_file_stream_append;
+    klass->truncate = _vte_file_stream_truncate;
+    klass->advance_tail = _vte_file_stream_advance_tail;
+    klass->tail = _vte_file_stream_tail;
+    klass->head = _vte_file_stream_head;
 }
 
 G_END_DECLS
