@@ -40,65 +40,63 @@
 
 #include <fontconfig/fontconfig.h>
 
-static FcConfig *vice_fc_config;
 
-
-/** \brief	Try to register the CBM font with fontconfig
+/** \brief    Try to register the CBM font with fontconfig
  *
- * \return	bool
+ * \return    bool
  */
 bool fontapi_register_cbmfont_with_fc(void)
 {
-	FcConfig *fc_config;
-	int fc_version;
-	char *datadir;
-	char *path;
-	
-	debug_gtk3("Initializing FontConfig\n");
-	if (!FcInit()) {
-		debug_gtk3("failed\n");
-		return false;
-	}
-	debug_gtk3("OK\n");
+    FcConfig *fc_config;
+    int fc_version;
+    char *datadir;
+    char *path;
 
-	fc_version = FcGetVersion();
-	debug_gtk3("fontconfig version = %d.%d.%d\n",
-			fc_version / 10000, (fc_version % 10000) / 100, fc_version % 10);
+    debug_gtk3("Initializing FontConfig\n");
+    if (!FcInit()) {
+        debug_gtk3("failed\n");
+        return false;
+    }
+    debug_gtk3("OK\n");
 
-	debug_gtk3("Loading font file\n");
-	fc_config = FcConfigGetCurrent();
+    fc_version = FcGetVersion();
+    debug_gtk3("fontconfig version = %d.%d.%d\n",
+            fc_version / 10000, (fc_version % 10000) / 100, fc_version % 10);
 
-	datadir = archdep_get_vice_datadir();
-	/*
-	 * Work around the fact that Windows' bindist script doesn't create the
-	 * fonts dir, nor the gui dir
-	 */
+    debug_gtk3("Loading font file\n");
+    fc_config = FcConfigGetCurrent();
+
+    datadir = archdep_get_vice_datadir();
+    /*
+     * Work around the fact that Windows' bindist script doesn't create the
+     * fonts dir, nor the gui dir
+     */
 #ifdef WINDOWS_COMPILE
-	path = util_concat(datadir, "\\..\\html\\fonts\\CBM.ttf", NULL);
+    path = util_concat(datadir, "\\..\\html\\fonts\\CBM.ttf", NULL);
 #else
-	path = util_concat(datadir, "/../fonts/CBM.ttf", NULL);
+    path = util_concat(datadir, "/../fonts/CBM.ttf", NULL);
 #endif
-	lib_free(datadir);
+    lib_free(datadir);
 
-	debug_gtk3("Trying to load font '%s'\n", path);
+    debug_gtk3("Trying to load font '%s'\n", path);
 
-	if (!FcConfigAppFontAddFile(fc_config, path)) {
-		debug_gtk3("failed\n");
-		lib_free(path);
-		return false;
-	}
-	debug_gtk3("OK, font loaded.\n")
+    if (!FcConfigAppFontAddFile(fc_config, path)) {
+        debug_gtk3("failed\n");
+        lib_free(path);
+        return false;
+    }
+    debug_gtk3("OK, font loaded.\n")
 
-	lib_free(path);
-	return true;
+    lib_free(path);
+    return true;
 }
-	
+
 #else
 
 bool fontapi_register_cbmfont_with_fc(void)
 {
-	log_error(LOG_ERR, "no fontconfig support, sorry\n");
-	return false;
+    log_error(LOG_ERR, "no fontconfig support, sorry\n");
+    return false;
 }
 
 #endif

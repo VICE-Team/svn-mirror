@@ -1137,14 +1137,16 @@ int ui_init(int *argc, char **argv)
     gtk_init(argc, &argv);
 
     if (!uidata_init()) {
-        log_error(LOG_ERR, "failed to initialize GResource data, don't expected much\n");
+        log_error(LOG_ERR,
+                "failed to initialize GResource data, don't expected much"
+                " when it comes to icons, fonts or logos\n");
     }
 
-	debug_gtk3("Initializing fontapi\n");
-	if (!fontapi_register_cbmfont_with_fc()) {
-		debug_gtk3("failed\n");
-		log_error(LOG_ERR, "failed to initialize fontapi\n");
-	}
+    debug_gtk3("Initializing fontapi\n");
+    if (!fontapi_register_cbmfont_with_fc()) {
+        debug_gtk3("failed\n");
+        log_error(LOG_ERR, "failed to initialize fontapi\n");
+    }
 
     ui_statusbar_init();
     return 0;
