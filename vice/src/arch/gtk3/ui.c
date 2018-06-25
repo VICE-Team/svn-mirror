@@ -70,6 +70,7 @@
 #include "uisidattach.h"
 #include "mixerwidget.h"
 #include "uidata.h"
+#include "fontapi.h"
 
 #include "ui.h"
 
@@ -1138,6 +1139,13 @@ int ui_init(int *argc, char **argv)
     if (!uidata_init()) {
         log_error(LOG_ERR, "failed to initialize GResource data, don't expected much\n");
     }
+
+	debug_gtk3("Initializing fontapi\n");
+	if (!fontapi_register_cbmfont_with_fc()) {
+		debug_gtk3("failed\n");
+		log_error(LOG_ERR, "failed to initialize fontapi\n");
+	}
+
     ui_statusbar_init();
     return 0;
 }

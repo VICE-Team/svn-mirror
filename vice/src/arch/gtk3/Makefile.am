@@ -53,6 +53,7 @@ libarch_a_SOURCES = \
 	cbm5x0ui.c \
 	coproc.c \
 	dynlib.c \
+	fontapi.c \
 	fullscreen.c \
 	gtk3main.c \
 	joy-osx-hid.c \
@@ -121,6 +122,7 @@ EXTRA_DIST = \
 	debug_gtk3.h \
 	dynlib-unix.c \
 	dynlib-win32.c \
+	fontapi.h \
 	joy-osx-hid.h \
 	joy-osx-hidlib.h \
 	joy-osx.h \
