@@ -35,6 +35,7 @@
 #include "util.h"
 #include "archdep.h"
 
+#include "fontapi.h"
 
 #ifdef HAVE_FONTCONFIG
 
@@ -80,7 +81,7 @@ bool fontapi_register_cbmfont_with_fc(void)
 
     debug_gtk3("Trying to load font '%s'\n", path);
 
-    if (!FcConfigAppFontAddFile(fc_config, path)) {
+    if (!FcConfigAppFontAddFile(fc_config, (FcChar8 *)path)) {
         debug_gtk3("failed\n");
         lib_free(path);
         return false;
