@@ -285,8 +285,24 @@ if test x"$enable_native_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enabl
   AC_MSG_ERROR([You cannot disable all GUIs])
 fi
 
+dnl Check if a GUI order check needs to be done
+if test x"$enable_native_gtk3ui" != "xyes" -a x"$enable_sdlui" != "xyes" -a x"$enable_sdlui2" != "xyes"; then
+  check_guis=yes
+fi
+
+dnl Check if gtk3 ui should be checked
+if test x"$check_guis" = "xyes"; then
+  if test x"$enable_native_gtk3ui" != "xno"; then
+    check_gtk3=yes
+  fi
+else
+  if test x"$enable_native_gtk3ui" = "xyes"; then
+    check_gtk3=yes
+  fi
+fi
+
 dnl Check and setup native GTK3 compilation, only fail if the gtk3 ui was requested
-if test x"$enable_native_gtk3ui" != "xno"; then
+if test x"$check_gtk3" = "xyes"; then
 
   PKG_CHECK_MODULES(GTK, [gtk+-3.0 >= 3.22], [have_gtk3_module=yes], [have_gtk3_module=no; AC_MSG_RESULT([no])])
   AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
@@ -398,8 +414,22 @@ if test x"$enable_native_gtk3ui" != "xno"; then
   fi
 fi
 
+dnl Check if sdl2 ui should be checked
+if test x"$check_guis" = "xyes"; then
+  if test x"$enable_sdlui2" != "xno"; then
+    check_sdl2=yes
+  fi
+else
+  if test x"$enable_sdlui2" = "xyes"; then
+    check_sdl2=yes
+  fi
+fi
+if test x"$with_sdlsound" = "xyes"; then
+  check_sdl2=yes
+fi
+
 dnl Check and setup SDL2 compilation, only fail if the sdl2 ui was requested
-if test x"$enable_sdlui2" != "xno" -o x"$with_sdlsound" = "xyes"; then
+if test x"$check_sdl2" = "xyes"; then
   AC_CHECK_TOOL(sdl2_config, sdl2-config, no)
 
   if test x"$sdl2_config" = "x"; then
@@ -617,8 +647,22 @@ if test x"$enable_sdlui2" != "xno" -o x"$with_sdlsound" = "xyes"; then
   fi
 fi
 
+dnl Check if sdl ui should be checked
+if test x"$check_guis" = "xyes"; then
+  if test x"$enable_sdlui" != "xno"; then
+    check_sdl1=yes
+  fi
+else
+  if test x"$enable_sdlui" = "xyes"; then
+    check_sdl1=yes
+  fi
+fi
+if test x"$with_sdlsound" = "xyes"; then
+  check_sdl1=yes
+fi
+
 dnl Check and setup SDL compilation.
-if test x"$enable_sdlui" != "xno" -o x"$with_sdlsound" = "xyes"; then
+if test x"$check_sdl1" = "xyes"; then
 
   dnl check for the 2 cases where audio needs to be checked
   check_sdlaudio=no
