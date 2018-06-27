@@ -103,6 +103,43 @@ To keep the code easy to follow please read the following statements:
         ...
     }
 
+- A keyword should be followed by a space, so:
+    if (foo == 0) { ... }
+  not
+    if(foo == 0) { ... }
+
+  Exception: the sizeof operator, using sizeof as a "function" on a type should
+             not use spaces, ie: sizeof(int), however using sizeof on an object
+             should use spaces (ie: int *i; sizeof *i)
+
+- Binary operators: use spaces around binary operators:
+    int i = 1 + 2;
+    unsigned int i <<= 3;
+
+  But please don't use them with when accessing members of an object:
+    foo->bar, not foo -> bar.
+
+- Unary operators:
+  Don't use spaces when using unary operators:
+    ~0 is fine,
+    ~ 0 isn't.
+
+- Use boolean logic only when the context is clear and the thing tested can
+  actually be considered boolean:
+
+  Basically:
+    `if (!strcmp(a b))` is WRONG since strcmp() returns three different values,
+    0 when equal (which is what the ! tests against), < 0 when a < b, and
+    > 0 when b > a.
+    So please use `if (strcmp(a, b) == 0)`, a little more typing, but much more
+    clear.
+
+    We also seem to have a lot of functions returning either 0 on success, or
+    -1 on error. And a lot of code using boolean logic on the return value.
+    Please don't. Unfortunately this is so wide spread in the VICE code it's
+    hard to fix.
+
+
 - No 'clever' while/do trickery, unless required for preprocessor code. The
   following looks clever:
 
