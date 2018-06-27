@@ -1724,11 +1724,11 @@ dnl All other UN*X systems
       optimization_cxx="-fno-exceptions $optimization_c"
       dnl Use -g if available.
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
-         CFLAGS="-g $optimization_c $warnings_c"
-         CXXFLAGS="-g $optimization_cxx $warnings_cxx"
+         CFLAGS="$CFLAGS -g $optimization_c $warnings_c"
+         CXXFLAGS="$CXXFLAGS -g $optimization_cxx $warnings_cxx"
       else
-         CFLAGS="$optimization_c $warnings_c"
-         CXXFLAGS="$optimization_cxx $warnings_cxx"
+         CFLAGS="$CFLAGS $optimization_c $warnings_c"
+         CXXFLAGS="$CXXFLAGS $optimization_cxx $warnings_cxx"
       fi
 
       dnl Check whether the options are OK.
