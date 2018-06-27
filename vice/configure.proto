@@ -280,6 +280,8 @@ AC_CHECK_TOOL(objdump, objdump, no)
 
 PKG_PROG_PKG_CONFIG
 
+SOUND_DRIVERS=""
+
 dnl Check if the user has disabled all GUIs
 if test x"$enable_native_gtk3ui" = "xno" -a x"$enable_sdlui" = "xno" -a x"$enable_sdlui2" = "xno"; then
   AC_MSG_ERROR([You cannot disable all GUIs])
@@ -666,12 +668,14 @@ if test x"$check_sdl1" = "xyes"; then
 
   dnl check for the 2 cases where audio needs to be checked
   check_sdlaudio=no
-  if test x"$enable_sdlui" = "xno"; then
-    if test x"$with_sdlsound" = "xyes"; then
+  if test x"$ac_cv_lib_SDL2_SDL_OpenAudio" != "xyes"; then
+    if test x"$enable_sdlui" = "xno"; then
+      if test x"$with_sdlsound" = "xyes"; then
+        check_sdlaudio=yes
+      fi
+    else
       check_sdlaudio=yes
     fi
-  else
-    check_sdlaudio=yes
   fi
 
   if test x"$host_os" = "xmingw32ce" -o x"$host_os" = "xcegcc"; then
@@ -1985,7 +1989,6 @@ else
 fi
 
 dnl Set output drivers to none
-SOUND_DRIVERS=""
 GFXOUTPUT_DRIVERS=""
 
 RESID_DIR=
@@ -3792,12 +3795,12 @@ if test x"$enable_native_gtk3ui" = "xyes"; then
         PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no)))
   fi
 
-    if test x"$have_vte" = "xyes"; then
-      HAVE_VTE_SUPPORT="yes"
-      AC_DEFINE(HAVE_VTE,,[Enable VTE support])
-      CFLAGS="$CFLAGS $VTE_CFLAGS"
-      LIBS="$LIBS $VTE_LIBS"
-    fi
+  if test x"$have_vte" = "xyes"; then
+    HAVE_VTE_SUPPORT="yes"
+    AC_DEFINE(HAVE_VTE,,[Enable VTE support])
+    CFLAGS="$CFLAGS $VTE_CFLAGS"
+    LIBS="$LIBS $VTE_LIBS"
+  fi
 
   AM_CONDITIONAL(NATIVE_GTK3_COMPILE, true)
 else
