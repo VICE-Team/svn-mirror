@@ -27,6 +27,10 @@
 #ifndef VICE_ICON_H
 #define VICE_ICON_H
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
 void sdl_ui_set_window_icon(SDL_Window *window);
+#else
+void sdl_ui_set_window_icon(void *window);
+#endif
  
 #endif

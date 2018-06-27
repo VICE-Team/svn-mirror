@@ -33,6 +33,8 @@
 
 #include "icon.h"
 
+#if SDL_VERSION_ATLEAST(2, 0, 0)
+
 /* FIXME: this comes from data/common/icon.png - we perhaps want to use
  *        different icons for different emulators later, and also generate the
  *        embedded data at build time :)
@@ -533,4 +535,8 @@ void sdl_ui_set_window_icon(SDL_Window *window)
     SDL_FreeSurface(surface);
 }
 
- 
+#else
+void sdl_ui_set_window_icon(void *window)
+{
+}
+#endif
