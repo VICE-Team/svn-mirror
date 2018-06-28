@@ -54,6 +54,7 @@
 #include "vicii.h"
 #include "c64fastiec.h"
 #include "hvsc.h"
+#include "archdep.h"
 
 /* force  commit */
 
@@ -172,9 +173,17 @@ static int set_sync_factor(int val, void *param)
 
 static int set_hvsc_root(const char *path, void *param)
 {
-    util_string_set(&hvsc_root, path);
+    char *result;
+
+    /* expand ~, no effect on Windows */
+    archdep_expand_path(&result, path);
+
+    util_string_set(&hvsc_root, result);
+    
+    /* "reboot" hvsclib */
     hvsc_exit();
-    hvsc_init(path);
+    hvsc_init(result);
+    lib_free(result);
     return 0;
 }
 
