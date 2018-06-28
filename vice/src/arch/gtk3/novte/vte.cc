@@ -1731,21 +1731,19 @@ void VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
  * Sets the color used to draw bold text in the default foreground color.
  * If @bold is %NULL then the default color is used.
  */
-void
-VteTerminalPrivate::set_color_bold(vte::color::rgb const& color)
+void VteTerminalPrivate::set_color_bold(vte::color::rgb const& color)
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color to (%04x,%04x,%04x).\n", "bold",
-                         color.red, color.green, color.blue);
-        set_color(VTE_BOLD_FG, VTE_COLOR_SOURCE_API, color);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color to (%04x,%04x,%04x).\n", "bold",
+                        color.red, color.green, color.blue);
+    set_color(VTE_BOLD_FG, VTE_COLOR_SOURCE_API, color);
 }
 
-void
-VteTerminalPrivate::reset_color_bold()
+void VteTerminalPrivate::reset_color_bold()
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Reset %s color.\n", "bold");
-        reset_color(VTE_BOLD_FG, VTE_COLOR_SOURCE_API);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Reset %s color.\n", "bold");
+    reset_color(VTE_BOLD_FG, VTE_COLOR_SOURCE_API);
 }
 
 /*
@@ -1754,12 +1752,11 @@ VteTerminalPrivate::reset_color_bold()
  *
  * Sets the foreground color used to draw normal text.
  */
-void
-VteTerminalPrivate::set_color_foreground(vte::color::rgb const& color)
+void VteTerminalPrivate::set_color_foreground(vte::color::rgb const& color)
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color to (%04x,%04x,%04x).\n", "foreground",
-                         color.red, color.green, color.blue);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color to (%04x,%04x,%04x).\n", "foreground",
+                        color.red, color.green, color.blue);
     set_color(VTE_DEFAULT_FG, VTE_COLOR_SOURCE_API, color);
 }
 
@@ -1771,12 +1768,11 @@ VteTerminalPrivate::set_color_foreground(vte::color::rgb const& color)
  * color assigned.  Only has effect when no background image is set and when
  * the terminal is not transparent.
  */
-void
-VteTerminalPrivate::set_color_background(vte::color::rgb const& color)
+void VteTerminalPrivate::set_color_background(vte::color::rgb const& color)
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color to (%04x,%04x,%04x).\n", "background",
-                         color.red, color.green, color.blue);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color to (%04x,%04x,%04x).\n", "background",
+                        color.red, color.green, color.blue);
     set_color(VTE_DEFAULT_BG, VTE_COLOR_SOURCE_API, color);
 }
 
@@ -1788,21 +1784,19 @@ VteTerminalPrivate::set_color_background(vte::color::rgb const& color)
  * under the cursor will be drawn with foreground and background colors
  * reversed.
  */
-void
-VteTerminalPrivate::set_color_cursor_background(vte::color::rgb const& color)
+void VteTerminalPrivate::set_color_cursor_background(vte::color::rgb const& color)
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color to (%04x,%04x,%04x).\n", "cursor background",
-                         color.red, color.green, color.blue);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color to (%04x,%04x,%04x).\n", "cursor background",
+                        color.red, color.green, color.blue);
     set_color(VTE_CURSOR_BG, VTE_COLOR_SOURCE_API, color);
 }
 
-void
-VteTerminalPrivate::reset_color_cursor_background()
+void VteTerminalPrivate::reset_color_cursor_background()
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Reset %s color.\n", "cursor background");
-        reset_color(VTE_CURSOR_BG, VTE_COLOR_SOURCE_API);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Reset %s color.\n", "cursor background");
+    reset_color(VTE_CURSOR_BG, VTE_COLOR_SOURCE_API);
 }
 
 /*
@@ -1813,21 +1807,19 @@ VteTerminalPrivate::reset_color_cursor_background()
  * under the cursor will be drawn with foreground and background colors
  * reversed.
  */
-void
-VteTerminalPrivate::set_color_cursor_foreground(vte::color::rgb const& color)
+void VteTerminalPrivate::set_color_cursor_foreground(vte::color::rgb const& color)
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color to (%04x,%04x,%04x).\n", "cursor foreground",
-                         color.red, color.green, color.blue);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color to (%04x,%04x,%04x).\n", "cursor foreground",
+                        color.red, color.green, color.blue);
     set_color(VTE_CURSOR_FG, VTE_COLOR_SOURCE_API, color);
 }
 
-void
-VteTerminalPrivate::reset_color_cursor_foreground()
+void VteTerminalPrivate::reset_color_cursor_foreground()
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Reset %s color.\n", "cursor foreground");
-        reset_color(VTE_CURSOR_FG, VTE_COLOR_SOURCE_API);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Reset %s color.\n", "cursor foreground");
+    reset_color(VTE_CURSOR_FG, VTE_COLOR_SOURCE_API);
 }
 
 /*
@@ -1839,21 +1831,19 @@ VteTerminalPrivate::reset_color_cursor_foreground()
  * highlighted text (which is usually highlighted because it is selected) will
  * be drawn with foreground and background colors reversed.
  */
-void
-VteTerminalPrivate::set_color_highlight_background(vte::color::rgb const& color)
+void VteTerminalPrivate::set_color_highlight_background(vte::color::rgb const& color)
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color to (%04x,%04x,%04x).\n", "highlight background",
-                         color.red, color.green, color.blue);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color to (%04x,%04x,%04x).\n", "highlight background",
+                        color.red, color.green, color.blue);
     set_color(VTE_HIGHLIGHT_BG, VTE_COLOR_SOURCE_API, color);
 }
 
-void
-VteTerminalPrivate::reset_color_highlight_background()
+void VteTerminalPrivate::reset_color_highlight_background()
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Reset %s color.\n", "highlight background");
-        reset_color(VTE_HIGHLIGHT_BG, VTE_COLOR_SOURCE_API);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Reset %s color.\n", "highlight background");
+    reset_color(VTE_HIGHLIGHT_BG, VTE_COLOR_SOURCE_API);
 }
 
 /*
@@ -1865,21 +1855,19 @@ VteTerminalPrivate::reset_color_highlight_background()
  * highlighted text (which is usually highlighted because it is selected) will
  * be drawn with foreground and background colors reversed.
  */
-void
-VteTerminalPrivate::set_color_highlight_foreground(vte::color::rgb const& color)
+void VteTerminalPrivate::set_color_highlight_foreground(vte::color::rgb const& color)
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color to (%04x,%04x,%04x).\n", "highlight foreground",
-                         color.red, color.green, color.blue);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color to (%04x,%04x,%04x).\n", "highlight foreground",
+                        color.red, color.green, color.blue);
     set_color(VTE_HIGHLIGHT_FG, VTE_COLOR_SOURCE_API, color);
 }
 
-void
-VteTerminalPrivate::reset_color_highlight_foreground()
+void VteTerminalPrivate::reset_color_highlight_foreground()
 {
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Reset %s color.\n", "highlight foreground");
-        reset_color(VTE_HIGHLIGHT_FG, VTE_COLOR_SOURCE_API);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Reset %s color.\n", "highlight foreground");
+    reset_color(VTE_HIGHLIGHT_FG, VTE_COLOR_SOURCE_API);
 }
 
 /*
@@ -1902,120 +1890,112 @@ VteTerminalPrivate::reset_color_highlight_foreground()
  * Invalidates the cells that visually change outside of the range,
  * because the caller can't reasonably be expected to take care of this.
  */
-void
-VteTerminalPrivate::cleanup_fragments(long start,
-                                      long end)
+void VteTerminalPrivate::cleanup_fragments(long start, long end)
 {
-        VteRowData *row = ensure_row();
-        const VteCell *cell_start;
-        VteCell *cell_end, *cell_col;
-        gboolean cell_start_is_fragment;
-        long col;
+    VteRowData *row = ensure_row();
+    const VteCell *cell_start;
+    VteCell *cell_end, *cell_col;
+    gboolean cell_start_is_fragment;
+    long col;
 
-        g_assert(end >= start);
+    g_assert(end >= start);
 
-        /* Remember whether the cell at start is a fragment.  We'll need to know it when
-         * handling the left hand side, but handling the right hand side first might
-         * overwrite it if start == end (inserting to the middle of a character). */
-        cell_start = _vte_row_data_get (row, start);
-        cell_start_is_fragment = cell_start != NULL && cell_start->attr.fragment();
+    /* Remember whether the cell at start is a fragment.  We'll need to know it when
+        * handling the left hand side, but handling the right hand side first might
+        * overwrite it if start == end (inserting to the middle of a character). */
+    cell_start = _vte_row_data_get (row, start);
+    cell_start_is_fragment = cell_start != NULL && cell_start->attr.fragment();
 
-        /* On the right hand side, try to replace a TAB by a shorter TAB if we can.
-         * This requires that the TAB on the left (which might be the same TAB) is
-         * not yet converted to spaces, so start on the right hand side. */
-        cell_end = _vte_row_data_get_writable (row, end);
-        if (G_UNLIKELY (cell_end != NULL && cell_end->attr.fragment())) {
-                col = end;
-                do {
-                        col--;
-                        g_assert(col >= 0);  /* The first cell can't be a fragment. */
-                        cell_col = _vte_row_data_get_writable (row, col);
-                } while (cell_col->attr.fragment());
+    /* On the right hand side, try to replace a TAB by a shorter TAB if we can.
+        * This requires that the TAB on the left (which might be the same TAB) is
+        * not yet converted to spaces, so start on the right hand side. */
+    cell_end = _vte_row_data_get_writable (row, end);
+    if (G_UNLIKELY (cell_end != NULL && cell_end->attr.fragment())) {
+        col = end;
+        do {
+            col--;
+            g_assert(col >= 0);  /* The first cell can't be a fragment. */
+            cell_col = _vte_row_data_get_writable (row, col);
+        } while (cell_col->attr.fragment());
+        if (cell_col->c == '\t') {
+            _vte_debug_print(VTE_DEBUG_MISC,
+                                "Replacing right part of TAB with a shorter one at %ld (%ld cells) => %ld (%ld cells)\n",
+                                col, (long) cell_col->attr.columns(), end, (long) cell_col->attr.columns() - (end - col));
+            cell_end->c = '\t';
+            cell_end->attr.set_fragment(false);
+            g_assert(cell_col->attr.columns() > end - col);
+            cell_end->attr.set_columns(cell_col->attr.columns() - (end - col));
+        } else {
+            _vte_debug_print(VTE_DEBUG_MISC,
+                                "Cleaning CJK right half at %ld\n",
+                                end);
+            g_assert(end - col == 1 && cell_col->attr.columns() == 2);
+            cell_end->c = ' ';
+            cell_end->attr.set_fragment(false);
+            cell_end->attr.set_columns(1);
+            invalidate_cells(end, 1, m_screen->cursor.row, 1);
+        }
+    }
+
+    /* Handle the left hand side.  Converting longer TABs to shorter ones probably
+        * wouldn't make that much sense here, so instead convert to spaces. */
+    if (G_UNLIKELY (cell_start_is_fragment)) {
+        gboolean keep_going = TRUE;
+        col = start;
+        do {
+            col--;
+            g_assert(col >= 0);  /* The first cell can't be a fragment. */
+            cell_col = _vte_row_data_get_writable (row, col);
+            if (!cell_col->attr.fragment()) {
                 if (cell_col->c == '\t') {
-                        _vte_debug_print(VTE_DEBUG_MISC,
-                                         "Replacing right part of TAB with a shorter one at %ld (%ld cells) => %ld (%ld cells)\n",
-                                         col, (long) cell_col->attr.columns(), end, (long) cell_col->attr.columns() - (end - col));
-                        cell_end->c = '\t';
-                        cell_end->attr.set_fragment(false);
-                        g_assert(cell_col->attr.columns() > end - col);
-                        cell_end->attr.set_columns(cell_col->attr.columns() - (end - col));
+                    _vte_debug_print(VTE_DEBUG_MISC,
+                                        "Replacing left part of TAB with spaces at %ld (%ld => %ld cells)\n",
+                                        col, (long)cell_col->attr.columns(), start - col);
+                    /* nothing to do here */
                 } else {
-                        _vte_debug_print(VTE_DEBUG_MISC,
-                                         "Cleaning CJK right half at %ld\n",
-                                         end);
-                        g_assert(end - col == 1 && cell_col->attr.columns() == 2);
-                        cell_end->c = ' ';
-                        cell_end->attr.set_fragment(false);
-                        cell_end->attr.set_columns(1);
-                        invalidate_cells(
-                                              end, 1,
-                                              m_screen->cursor.row, 1);
+                    _vte_debug_print(VTE_DEBUG_MISC,
+                                        "Cleaning CJK left half at %ld\n",
+                                        col);
+                    g_assert(start - col == 1);
+                    invalidate_cells(col, 1, m_screen->cursor.row, 1);
                 }
-        }
-
-        /* Handle the left hand side.  Converting longer TABs to shorter ones probably
-         * wouldn't make that much sense here, so instead convert to spaces. */
-        if (G_UNLIKELY (cell_start_is_fragment)) {
-                gboolean keep_going = TRUE;
-                col = start;
-                do {
-                        col--;
-                        g_assert(col >= 0);  /* The first cell can't be a fragment. */
-                        cell_col = _vte_row_data_get_writable (row, col);
-                        if (!cell_col->attr.fragment()) {
-                                if (cell_col->c == '\t') {
-                                        _vte_debug_print(VTE_DEBUG_MISC,
-                                                         "Replacing left part of TAB with spaces at %ld (%ld => %ld cells)\n",
-                                                         col, (long)cell_col->attr.columns(), start - col);
-                                        /* nothing to do here */
-                                } else {
-                                        _vte_debug_print(VTE_DEBUG_MISC,
-                                                         "Cleaning CJK left half at %ld\n",
-                                                         col);
-                                        g_assert(start - col == 1);
-                                        invalidate_cells(
-                                                              col, 1,
-                                                              m_screen->cursor.row, 1);
-                                }
-                                keep_going = FALSE;
-                        }
-                        cell_col->c = ' ';
-                        cell_col->attr.set_fragment(false);
-                        cell_col->attr.set_columns(1);
-                } while (keep_going);
-        }
+                keep_going = FALSE;
+            }
+            cell_col->c = ' ';
+            cell_col->attr.set_fragment(false);
+            cell_col->attr.set_columns(1);
+        } while (keep_going);
+    }
 }
 
 /* Cursor down, with scrolling. */
-void
-VteTerminalPrivate::cursor_down(bool explicit_sequence)
+void VteTerminalPrivate::cursor_down(bool explicit_sequence)
 {
     long start, end;
 
-        if (m_scrolling_restricted) {
-                start = m_screen->insert_delta + m_scrolling_region.start;
-                end = m_screen->insert_delta + m_scrolling_region.end;
+    if (m_scrolling_restricted) {
+        start = m_screen->insert_delta + m_scrolling_region.start;
+        end = m_screen->insert_delta + m_scrolling_region.end;
     } else {
         start = m_screen->insert_delta;
         end = start + m_row_count - 1;
     }
-        if (m_screen->cursor.row == end) {
-                if (m_scrolling_restricted) {
+    if (m_screen->cursor.row == end) {
+        if (m_scrolling_restricted) {
             if (start == m_screen->insert_delta) {
                 /* Scroll this line into the scrollback
                  * buffer by inserting a line at the next
                  * line and scrolling the area up. */
                 m_screen->insert_delta++;
-                                m_screen->cursor.row++;
+                m_screen->cursor.row++;
                 /* update start and end, as they are relative
                  * to insert_delta. */
                 start++;
                 end++;
-                                ring_insert(m_screen->cursor.row, false);
+                ring_insert(m_screen->cursor.row, false);
                 /* Force the areas below the region to be
                  * redrawn -- they've moved. */
-                scroll_region(start,
-                                end - start + 1, 1);
+                scroll_region(start, end - start + 1, 1);
                 /* Force scroll. */
                 adjust_adjustments();
             } else {
@@ -2025,170 +2005,163 @@ VteTerminalPrivate::cursor_down(bool explicit_sequence)
                 ring_remove(start);
                 ring_insert(end, true);
                 /* Update the display. */
-                scroll_region(start,
-                               end - start + 1, -1);
-                invalidate_cells(
-                              0, m_column_count,
-                              end - 2, 2);
+                scroll_region(start, end - start + 1, -1);
+                invalidate_cells(0, m_column_count, end - 2, 2);
             }
         } else {
             /* Scroll up with history. */
-                        m_screen->cursor.row++;
+            m_screen->cursor.row++;
             update_insert_delta();
         }
 
-                /* Handle bce (background color erase), however, diverge from xterm:
-                 * only fill the new row with the background color if scrolling
-                 * happens due to an explicit escape sequence, not due to autowrapping.
-                 * See bug 754596 for details. */
-                bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
+       /* Handle bce (background color erase), however, diverge from xterm:
+        * only fill the new row with the background color if scrolling
+        * happens due to an explicit escape sequence, not due to autowrapping.
+        * See bug 754596 for details. */
+        bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
-                if (explicit_sequence && not_default_bg) {
+        if (explicit_sequence && not_default_bg) {
             VteRowData *rowdata = ensure_row();
-                        _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
+            _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
         }
     } else {
         /* Otherwise, just move the cursor down. */
-                m_screen->cursor.row++;
+        m_screen->cursor.row++;
     }
 }
 
 /* Drop the scrollback. */
-void
-VteTerminalPrivate::drop_scrollback()
+void VteTerminalPrivate::drop_scrollback()
 {
-        /* Only for normal screen; alternate screen doesn't have a scrollback. */
-        _vte_ring_drop_scrollback (m_normal_screen.row_data,
-                                   m_normal_screen.insert_delta);
+    /* Only for normal screen; alternate screen doesn't have a scrollback. */
+    _vte_ring_drop_scrollback (m_normal_screen.row_data, m_normal_screen.insert_delta);
 
-        if (m_screen == &m_normal_screen) {
-                queue_adjustment_value_changed(m_normal_screen.insert_delta);
-                adjust_adjustments_full();
-        }
+    if (m_screen == &m_normal_screen) {
+        queue_adjustment_value_changed(m_normal_screen.insert_delta);
+        adjust_adjustments_full();
+    }
 }
 
 /* Restore cursor on a screen. */
-void
-VteTerminalPrivate::restore_cursor(VteScreen *screen__)
+void VteTerminalPrivate::restore_cursor(VteScreen *screen__)
 {
-        screen__->cursor.col = screen__->saved.cursor.col;
-        screen__->cursor.row = screen__->insert_delta + CLAMP(screen__->saved.cursor.row,
-                                                              0, m_row_count - 1);
+    screen__->cursor.col = screen__->saved.cursor.col;
+    screen__->cursor.row = screen__->insert_delta + CLAMP(screen__->saved.cursor.row,
+                                                            0, m_row_count - 1);
 
-        m_reverse_mode = screen__->saved.reverse_mode;
-        m_origin_mode = screen__->saved.origin_mode;
-        m_sendrecv_mode = screen__->saved.sendrecv_mode;
-        m_insert_mode = screen__->saved.insert_mode;
-        m_linefeed_mode = screen__->saved.linefeed_mode;
-        m_defaults = screen__->saved.defaults;
-        m_color_defaults = screen__->saved.color_defaults;
-        m_fill_defaults = screen__->saved.fill_defaults;
-        m_character_replacements[0] = screen__->saved.character_replacements[0];
-        m_character_replacements[1] = screen__->saved.character_replacements[1];
-        m_character_replacement = screen__->saved.character_replacement;
+    m_reverse_mode = screen__->saved.reverse_mode;
+    m_origin_mode = screen__->saved.origin_mode;
+    m_sendrecv_mode = screen__->saved.sendrecv_mode;
+    m_insert_mode = screen__->saved.insert_mode;
+    m_linefeed_mode = screen__->saved.linefeed_mode;
+    m_defaults = screen__->saved.defaults;
+    m_color_defaults = screen__->saved.color_defaults;
+    m_fill_defaults = screen__->saved.fill_defaults;
+    m_character_replacements[0] = screen__->saved.character_replacements[0];
+    m_character_replacements[1] = screen__->saved.character_replacements[1];
+    m_character_replacement = screen__->saved.character_replacement;
 }
 
 /* Save cursor on a screen__. */
-void
-VteTerminalPrivate::save_cursor(VteScreen *screen__)
+void VteTerminalPrivate::save_cursor(VteScreen *screen__)
 {
-        screen__->saved.cursor.col = screen__->cursor.col;
-        screen__->saved.cursor.row = screen__->cursor.row - screen__->insert_delta;
+    screen__->saved.cursor.col = screen__->cursor.col;
+    screen__->saved.cursor.row = screen__->cursor.row - screen__->insert_delta;
 
-        screen__->saved.reverse_mode = m_reverse_mode;
-        screen__->saved.origin_mode = m_origin_mode;
-        screen__->saved.sendrecv_mode = m_sendrecv_mode;
-        screen__->saved.insert_mode = m_insert_mode;
-        screen__->saved.linefeed_mode = m_linefeed_mode;
-        screen__->saved.defaults = m_defaults;
-        screen__->saved.color_defaults = m_color_defaults;
-        screen__->saved.fill_defaults = m_fill_defaults;
-        screen__->saved.character_replacements[0] = m_character_replacements[0];
-        screen__->saved.character_replacements[1] = m_character_replacements[1];
-        screen__->saved.character_replacement = m_character_replacement;
+    screen__->saved.reverse_mode = m_reverse_mode;
+    screen__->saved.origin_mode = m_origin_mode;
+    screen__->saved.sendrecv_mode = m_sendrecv_mode;
+    screen__->saved.insert_mode = m_insert_mode;
+    screen__->saved.linefeed_mode = m_linefeed_mode;
+    screen__->saved.defaults = m_defaults;
+    screen__->saved.color_defaults = m_color_defaults;
+    screen__->saved.fill_defaults = m_fill_defaults;
+    screen__->saved.character_replacements[0] = m_character_replacements[0];
+    screen__->saved.character_replacements[1] = m_character_replacements[1];
+    screen__->saved.character_replacement = m_character_replacement;
 }
 
 /* Insert a single character into the stored data array. */
-bool
-VteTerminalPrivate::insert_char(gunichar c,
-                                bool insert,
-                                bool invalidate_now)
+bool VteTerminalPrivate::insert_char(gunichar c,
+                                        bool insert,
+                                        bool invalidate_now)
 {
     VteCellAttr attr;
     VteRowData *row;
     long col;
     int columns, i;
     bool line_wrapped = false; /* cursor moved before char inserted */
-        gunichar c_unmapped = c;
+    gunichar c_unmapped = c;
 
-        /* DEC Special Character and Line Drawing Set.  VT100 and higher (per XTerm docs). */
-        static gunichar line_drawing_map[31] = {
-                0x25c6,  /* ` => diamond */
-                0x2592,  /* a => checkerboard */
-                0x2409,  /* b => HT symbol */
-                0x240c,  /* c => FF symbol */
-                0x240d,  /* d => CR symbol */
-                0x240a,  /* e => LF symbol */
-                0x00b0,  /* f => degree */
-                0x00b1,  /* g => plus/minus */
-                0x2424,  /* h => NL symbol */
-                0x240b,  /* i => VT symbol */
-                0x2518,  /* j => downright corner */
-                0x2510,  /* k => upright corner */
-                0x250c,  /* l => upleft corner */
-                0x2514,  /* m => downleft corner */
-                0x253c,  /* n => cross */
-                0x23ba,  /* o => scan line 1/9 */
-                0x23bb,  /* p => scan line 3/9 */
-                0x2500,  /* q => horizontal line (also scan line 5/9) */
-                0x23bc,  /* r => scan line 7/9 */
-                0x23bd,  /* s => scan line 9/9 */
-                0x251c,  /* t => left t */
-                0x2524,  /* u => right t */
-                0x2534,  /* v => bottom t */
-                0x252c,  /* w => top t */
-                0x2502,  /* x => vertical line */
-                0x2264,  /* y => <= */
-                0x2265,  /* z => >= */
-                0x03c0,  /* { => pi */
-                0x2260,  /* | => not equal */
-                0x00a3,  /* } => pound currency sign */
-                0x00b7,  /* ~ => bullet */
-        };
+    /* DEC Special Character and Line Drawing Set.  VT100 and higher (per XTerm docs). */
+    static gunichar line_drawing_map[31] = {
+        0x25c6,  /* ` => diamond */
+        0x2592,  /* a => checkerboard */
+        0x2409,  /* b => HT symbol */
+        0x240c,  /* c => FF symbol */
+        0x240d,  /* d => CR symbol */
+        0x240a,  /* e => LF symbol */
+        0x00b0,  /* f => degree */
+        0x00b1,  /* g => plus/minus */
+        0x2424,  /* h => NL symbol */
+        0x240b,  /* i => VT symbol */
+        0x2518,  /* j => downright corner */
+        0x2510,  /* k => upright corner */
+        0x250c,  /* l => upleft corner */
+        0x2514,  /* m => downleft corner */
+        0x253c,  /* n => cross */
+        0x23ba,  /* o => scan line 1/9 */
+        0x23bb,  /* p => scan line 3/9 */
+        0x2500,  /* q => horizontal line (also scan line 5/9) */
+        0x23bc,  /* r => scan line 7/9 */
+        0x23bd,  /* s => scan line 9/9 */
+        0x251c,  /* t => left t */
+        0x2524,  /* u => right t */
+        0x2534,  /* v => bottom t */
+        0x252c,  /* w => top t */
+        0x2502,  /* x => vertical line */
+        0x2264,  /* y => <= */
+        0x2265,  /* z => >= */
+        0x03c0,  /* { => pi */
+        0x2260,  /* | => not equal */
+        0x00a3,  /* } => pound currency sign */
+        0x00b7,  /* ~ => bullet */
+    };
 
-        insert |= m_insert_mode;
+    insert |= m_insert_mode;
     invalidate_now |= insert;
 
     /* If we've enabled the special drawing set, map the characters to
      * Unicode. */
-        if (G_UNLIKELY (*m_character_replacement == VTE_CHARACTER_REPLACEMENT_LINE_DRAWING)) {
-                if (c >= 96 && c <= 126)
-                        c = line_drawing_map[c - 96];
-        } else if (G_UNLIKELY (*m_character_replacement == VTE_CHARACTER_REPLACEMENT_BRITISH)) {
-                if (G_UNLIKELY (c == '#'))
-                        c = 0x00a3;  /* pound sign */
+    if (G_UNLIKELY (*m_character_replacement == VTE_CHARACTER_REPLACEMENT_LINE_DRAWING)) {
+        if (c >= 96 && c <= 126) {
+                c = line_drawing_map[c - 96];
         }
+    } else if (G_UNLIKELY (*m_character_replacement == VTE_CHARACTER_REPLACEMENT_BRITISH)) {
+        if (G_UNLIKELY (c == '#')) {
+                c = 0x00a3;  /* pound sign */
+        }
+    }
 
     /* Figure out how many columns this character should occupy. */
-        columns = _vte_unichar_width(c, m_utf8_ambiguous_width);
+    columns = _vte_unichar_width(c, m_utf8_ambiguous_width);
 
     /* If we're autowrapping here, do it. */
         col = m_screen->cursor.col;
     if (G_UNLIKELY (columns && col + columns > m_column_count)) {
         if (m_autowrap) {
-            _vte_debug_print(VTE_DEBUG_ADJ,
-                    "Autowrapping before character\n");
+            _vte_debug_print(VTE_DEBUG_ADJ, "Autowrapping before character\n");
             /* Wrap. */
             /* XXX clear to the end of line */
-                        col = m_screen->cursor.col = 0;
+            col = m_screen->cursor.col = 0;
             /* Mark this line as soft-wrapped. */
             row = ensure_row();
             row->attr.soft_wrapped = 1;
-                        cursor_down(false);
+            cursor_down(false);
         } else {
             /* Don't wrap, stay at the rightmost column. */
-                        col = m_screen->cursor.col =
-                m_column_count - columns;
+            col = m_screen->cursor.col =
+            m_column_count - columns;
         }
         line_wrapped = true;
     }
@@ -2196,8 +2169,8 @@ VteTerminalPrivate::insert_char(gunichar c,
     _vte_debug_print(VTE_DEBUG_PARSE,
             "Inserting %ld '%c' (colors %" G_GUINT64_FORMAT ") (%ld+%d, %ld), delta = %ld; ",
             (long)c, c < 256 ? c : ' ',
-                         m_color_defaults.attr.colors(),
-                        col, columns, (long)m_screen->cursor.row,
+            m_color_defaults.attr.colors(),
+            col, columns, (long)m_screen->cursor.row,
             (long)m_screen->insert_delta);
 
     if (G_UNLIKELY (columns == 0)) {
@@ -2209,7 +2182,7 @@ VteTerminalPrivate::insert_char(gunichar c,
 
         _vte_debug_print(VTE_DEBUG_PARSE, "combining U+%04X", c);
 
-                row_num = m_screen->cursor.row;
+        row_num = m_screen->cursor.row;
         row = NULL;
         if (G_UNLIKELY (col == 0)) {
             /* We are at first column.  See if the previous line softwrapped.
@@ -2220,32 +2193,37 @@ VteTerminalPrivate::insert_char(gunichar c,
                 row = find_row_data_writable(row_num);
 
                 if (row) {
-                    if (!row->attr.soft_wrapped)
+                    if (!row->attr.soft_wrapped) {
                         row = NULL;
-                    else
+                    } else {
                         col = _vte_row_data_length (row);
+                    }
                 }
             }
         } else {
             row = find_row_data_writable(row_num);
         }
 
-        if (G_UNLIKELY (!row || !col))
+        if (G_UNLIKELY (!row || !col)) {
             goto not_inserted;
+        }
 
         /* Combine it on the previous cell */
 
         col--;
         cell = _vte_row_data_get_writable (row, col);
 
-        if (G_UNLIKELY (!cell))
+        if (G_UNLIKELY (!cell)) {
             goto not_inserted;
+        }
 
         /* Find the previous cell */
-        while (cell && cell->attr.fragment() && col > 0)
+        while (cell && cell->attr.fragment() && col > 0) {
             cell = _vte_row_data_get_writable (row, --col);
-        if (G_UNLIKELY (!cell || cell->c == '\t'))
+        }
+        if (G_UNLIKELY (!cell || cell->c == '\t')) {
             goto not_inserted;
+        }
 
         /* Combine the new character on top of the cell string */
         c = _vte_unistr_append_unichar (cell->c, c);
@@ -2259,14 +2237,11 @@ VteTerminalPrivate::insert_char(gunichar c,
 
         /* Always invalidate since we put the mark on the *previous* cell
          * and the higher level code doesn't know this. */
-        invalidate_cells(
-                      col - columns,
-                      columns,
-                      row_num, 1);
+        invalidate_cells(col - columns, columns, row_num, 1);
 
         goto done;
-        } else {
-                m_last_graphic_character = c_unmapped;
+    } else {
+        m_last_graphic_character = c_unmapped;
     }
 
     /* Make sure we have enough rows to hold this data. */
@@ -2274,16 +2249,17 @@ VteTerminalPrivate::insert_char(gunichar c,
     g_assert(row != NULL);
 
     if (insert) {
-                cleanup_fragments(col, col);
-        for (i = 0; i < columns; i++)
-                        _vte_row_data_insert (row, col + i, &m_color_defaults);
+        cleanup_fragments(col, col);
+        for (i = 0; i < columns; i++) {
+            _vte_row_data_insert (row, col + i, &m_color_defaults);
+        }
     } else {
-                cleanup_fragments(col, col + columns);
+        cleanup_fragments(col, col + columns);
         _vte_row_data_fill (row, &basic_cell, col + columns);
     }
 
-        attr = m_defaults.attr;
-        attr.copy_colors(m_color_defaults.attr);
+    attr = m_defaults.attr;
+    attr.copy_colors(m_color_defaults.attr);
     attr.set_columns(columns);
 
     {
@@ -2301,19 +2277,19 @@ VteTerminalPrivate::insert_char(gunichar c,
         pcell->attr = attr;
         col++;
     }
-    if (_vte_row_data_length (row) > m_column_count)
+    if (_vte_row_data_length (row) > m_column_count) {
         cleanup_fragments(m_column_count, _vte_row_data_length (row));
+    }
     _vte_row_data_shrink (row, m_column_count);
 
     /* Signal that this part of the window needs drawing. */
     if (G_UNLIKELY (invalidate_now)) {
-        invalidate_cells(
-                col - columns,
-                insert ? m_column_count : columns,
-                                m_screen->cursor.row, 1);
+        invalidate_cells(col - columns,
+                            insert ? m_column_count : columns,
+                            m_screen->cursor.row, 1);
     }
 
-        m_screen->cursor.col = col;
+    m_screen->cursor.col = col;
 
 done:
     /* We added text, so make a note of it. */
@@ -2321,8 +2297,8 @@ done:
 
 not_inserted:
     _vte_debug_print(VTE_DEBUG_ADJ|VTE_DEBUG_PARSE,
-            "insertion delta => %ld.\n",
-            (long)m_screen->insert_delta);
+                        "insertion delta => %ld.\n",
+                        (long)m_screen->insert_delta);
     return line_wrapped;
 }
 
@@ -2345,12 +2321,11 @@ void VteTerminalPrivate::im_reset()
 
 /* Process incoming data, first converting it to unicode characters, and then
  * processing control sequences. */
-void
-VteTerminalPrivate::process_incoming()
+void VteTerminalPrivate::process_incoming()
 {
     VteVisualPosition saved_cursor;
     gboolean saved_cursor_visible;
-        VteCursorStyle saved_cursor_style;
+    VteCursorStyle saved_cursor_style;
     GdkPoint bbox_topleft, bbox_bottomright;
     gunichar *wbuf, c;
     long wcount, start;
@@ -2367,25 +2342,24 @@ VteTerminalPrivate::process_incoming()
             m_pending->len);
     _vte_debug_print (VTE_DEBUG_WORK, "(");
 
-        auto previous_screen = m_screen;
+    auto previous_screen = m_screen;
 
-        bottom = m_screen->insert_delta == (long)m_screen->scroll_delta;
+    bottom = m_screen->insert_delta == (long)m_screen->scroll_delta;
 
-        auto top_row = first_displayed_row();
-        auto bottom_row = last_displayed_row();
+    auto top_row = first_displayed_row();
+    auto bottom_row = last_displayed_row();
 
     /* Save the current cursor position. */
-        saved_cursor = m_screen->cursor;
+    saved_cursor = m_screen->cursor;
     saved_cursor_visible = m_cursor_visible;
-        saved_cursor_style = m_cursor_style;
+    saved_cursor_style = m_cursor_style;
 
-        in_scroll_region = m_scrolling_restricted
-            && (m_screen->cursor.row >= (m_screen->insert_delta + m_scrolling_region.start))
-            && (m_screen->cursor.row <= (m_screen->insert_delta + m_scrolling_region.end));
+    in_scroll_region = m_scrolling_restricted
+        && (m_screen->cursor.row >= (m_screen->insert_delta + m_scrolling_region.start))
+        && (m_screen->cursor.row <= (m_screen->insert_delta + m_scrolling_region.end));
 
     /* We should only be called when there's data to process. */
-    g_assert(m_incoming ||
-         (m_pending->len > 0));
+    g_assert(m_incoming || (m_pending->len > 0));
 
     /* Convert the data into unicode characters. */
     unichars = m_pending;
@@ -2397,13 +2371,10 @@ VteTerminalPrivate::process_incoming()
         if (chunk->len == 0) {
             goto skip_chunk;
         }
-        processed = _vte_iso2022_process(m_iso2022,
-                chunk->data, chunk->len,
-                unichars);
+        processed = _vte_iso2022_process(m_iso2022, chunk->data, chunk->len, unichars);
         if (G_UNLIKELY (processed != chunk->len)) {
             /* shuffle the data about */
-            g_memmove (chunk->data, chunk->data + processed,
-                    chunk->len - processed);
+            g_memmove (chunk->data, chunk->data + processed, chunk->len - processed);
             chunk->len = chunk->len - processed;
             processed = sizeof (chunk->data) - chunk->len;
             if (processed != 0 && next_chunk !=  NULL) {
@@ -2422,8 +2393,8 @@ VteTerminalPrivate::process_incoming()
                             processed);
                     chunk->len += processed;
                     g_memmove (next_chunk->data,
-                            next_chunk->data + processed,
-                            next_chunk->len - processed);
+                                next_chunk->data + processed,
+                                next_chunk->len - processed);
                     next_chunk->len -= processed;
                 }
                 next_chunk = chunk; /* repeat */
@@ -2464,207 +2435,194 @@ skip_chunk:
 
     while (start < wcount && !leftovers) {
         const gunichar *next;
-                vte::parser::Params params{nullptr};
+        vte::parser::Params params{nullptr};
 
         /* Try to match any control sequences. */
-                sequence_handler_t handler = nullptr;
-                auto match_result = _vte_matcher_match(m_matcher,
+        sequence_handler_t handler = nullptr;
+        auto match_result = _vte_matcher_match(m_matcher,
                                                        &wbuf[start],
                                                        wcount - start,
                                                        &handler,
                                                        &next,
                                                        &params.m_values);
-                switch (match_result) {
+        switch (match_result) {
         /* We're in one of three possible situations now.
          * First, the match returned a handler, and next
          * points to the first character which isn't part of this
          * sequence. */
-                case VTE_MATCHER_RESULT_MATCH: {
-                        _VTE_DEBUG_IF(VTE_DEBUG_PARSE)
-                                params.print();
+            case VTE_MATCHER_RESULT_MATCH: {
+                _VTE_DEBUG_IF(VTE_DEBUG_PARSE)
+                params.print();
 
-            /* Call the sequence handler */
-                        (this->*handler)(params);
+                /* Call the sequence handler */
+                (this->*handler)(params);
 
-                        m_last_graphic_character = 0;
+                m_last_graphic_character = 0;
 
-            /* Skip over the proper number of unicode chars. */
-            start = (next - wbuf);
-            modified = TRUE;
+                /* Skip over the proper number of unicode chars. */
+                start = (next - wbuf);
+                modified = TRUE;
 
-                        // FIXME m_screen may be != previous_screen, check for that!
+                // FIXME m_screen may be != previous_screen, check for that!
 
-                        gboolean new_in_scroll_region = m_scrolling_restricted
-                            && (m_screen->cursor.row >= (m_screen->insert_delta + m_scrolling_region.start))
-                            && (m_screen->cursor.row <= (m_screen->insert_delta + m_scrolling_region.end));
+                gboolean new_in_scroll_region = m_scrolling_restricted
+                    && (m_screen->cursor.row >= (m_screen->insert_delta + m_scrolling_region.start))
+                    && (m_screen->cursor.row <= (m_screen->insert_delta + m_scrolling_region.end));
 
-                        /* delta may have changed from sequence. */
-                        top_row = first_displayed_row();
-                        bottom_row = last_displayed_row();
+                /* delta may have changed from sequence. */
+                top_row = first_displayed_row();
+                bottom_row = last_displayed_row();
 
-            /* if we have moved greatly during the sequence handler, or moved
-                         * into a scroll_region from outside it, restart the bbox.
-                         */
-            if (invalidated_text &&
+               /* if we have moved greatly during the sequence handler, or moved
+                * into a scroll_region from outside it, restart the bbox.
+                */
+                if (invalidated_text &&
                     ((new_in_scroll_region && !in_scroll_region) ||
                                          (m_screen->cursor.col > bbox_bottomright.x + VTE_CELL_BBOX_SLACK ||
                                           m_screen->cursor.col < bbox_topleft.x - VTE_CELL_BBOX_SLACK     ||
                                           m_screen->cursor.row > bbox_bottomright.y + VTE_CELL_BBOX_SLACK ||
                                           m_screen->cursor.row < bbox_topleft.y - VTE_CELL_BBOX_SLACK))) {
-                /* Clip off any part of the box which isn't already on-screen. */
-                bbox_topleft.x = MAX(bbox_topleft.x, 0);
-                                bbox_topleft.y = MAX(bbox_topleft.y, top_row);
-                bbox_bottomright.x = MIN(bbox_bottomright.x,
-                        m_column_count);
-                /* lazily apply the +1 to the cursor_row */
-                bbox_bottomright.y = MIN(bbox_bottomright.y + 1,
-                                                bottom_row + 1);
-
-                invalidate_cells(
-                        bbox_topleft.x,
-                        bbox_bottomright.x - bbox_topleft.x,
-                        bbox_topleft.y,
-                        bbox_bottomright.y - bbox_topleft.y);
-
-                invalidated_text = FALSE;
-                bbox_bottomright.x = bbox_bottomright.y = -G_MAXINT;
-                bbox_topleft.x = bbox_topleft.y = G_MAXINT;
-            }
-
-            in_scroll_region = new_in_scroll_region;
-
-                        break;
-        }
-        /* Second, we have no match, and next points to the very
-         * next character in the buffer.  Insert the character which
-         * we're currently examining into the screen. */
-        case VTE_MATCHER_RESULT_NO_MATCH: {
-            c = wbuf[start];
-            /* If it's a control character, permute the order, per
-             * vttest. */
-            if ((c != *next) &&
-                ((*next & 0x1f) == *next) &&
-                            //FIXMEchpe what about C1 controls
-                (start + 1 < next - wbuf)) {
-                const gunichar *tnext = NULL;
-                gunichar ctrl;
-                int i;
-                /* We don't want to permute it if it's another
-                 * control sequence, so check if it is. */
-                                sequence_handler_t thandler;
-                _vte_matcher_match(m_matcher,
-                           next,
-                           wcount - (next - wbuf),
-                                                   &thandler,
-                           &tnext,
-                           NULL);
-                /* We only do this for non-control-sequence
-                 * characters and random garbage. */
-                if (tnext == next + 1) {
-                    /* Save the control character. */
-                    ctrl = *next;
-                    /* Move everything before it up a
-                     * slot.  */
-                                        // FIXMEchpe memmove!
-                    for (i = next - wbuf; i > start; i--) {
-                        wbuf[i] = wbuf[i - 1];
-                    }
-                    /* Move the control character to the
-                     * front. */
-                    wbuf[i] = ctrl;
-                    goto next_match;
-                }
-            }
-            _VTE_DEBUG_IF(VTE_DEBUG_PARSE) {
-                                if (c > 255) {
-                                        g_printerr("U+%04lx\n", (long) c);
-                } else {
-                                        if (c > 127) {
-                        g_printerr("%ld = ",
-                                                                (long) c);
-                    }
-                                        if (c < 32) {
-                        g_printerr("^%c\n", c + 64);
-                    } else {
-                        g_printerr("`%c'\n", c);
-                    }
-                }
-            }
-
-            bbox_topleft.x = MIN(bbox_topleft.x,
-                                             m_screen->cursor.col);
-            bbox_topleft.y = MIN(bbox_topleft.y,
-                                             m_screen->cursor.row);
-
-            /* Insert the character. */
-                        // FIXMEchpe should not use UNLIKELY here
-            if (G_UNLIKELY(insert_char(c, false, false))) {
-                /* line wrapped, correct bbox */
-                if (invalidated_text &&
-                                                (m_screen->cursor.col > bbox_bottomright.x + VTE_CELL_BBOX_SLACK    ||
-                                                 m_screen->cursor.col < bbox_topleft.x - VTE_CELL_BBOX_SLACK    ||
-                                                 m_screen->cursor.row > bbox_bottomright.y + VTE_CELL_BBOX_SLACK    ||
-                                                 m_screen->cursor.row < bbox_topleft.y - VTE_CELL_BBOX_SLACK)) {
                     /* Clip off any part of the box which isn't already on-screen. */
                     bbox_topleft.x = MAX(bbox_topleft.x, 0);
-                                        bbox_topleft.y = MAX(bbox_topleft.y, top_row);
-                    bbox_bottomright.x = MIN(bbox_bottomright.x,
-                            m_column_count);
+                    bbox_topleft.y = MAX(bbox_topleft.y, top_row);
+                    bbox_bottomright.x = MIN(bbox_bottomright.x, m_column_count);
                     /* lazily apply the +1 to the cursor_row */
-                    bbox_bottomright.y = MIN(bbox_bottomright.y + 1,
-                                                        bottom_row + 1);
+                    bbox_bottomright.y = MIN(bbox_bottomright.y + 1, bottom_row + 1);
 
-                    invalidate_cells(
-                            bbox_topleft.x,
-                            bbox_bottomright.x - bbox_topleft.x,
-                            bbox_topleft.y,
-                            bbox_bottomright.y - bbox_topleft.y);
+                    invalidate_cells(bbox_topleft.x,
+                                        bbox_bottomright.x - bbox_topleft.x,
+                                        bbox_topleft.y,
+                                        bbox_bottomright.y - bbox_topleft.y);
+
+                    invalidated_text = FALSE;
                     bbox_bottomright.x = bbox_bottomright.y = -G_MAXINT;
                     bbox_topleft.x = bbox_topleft.y = G_MAXINT;
-
                 }
-                bbox_topleft.x = MIN(bbox_topleft.x, 0);
-                bbox_topleft.y = MIN(bbox_topleft.y,
-                                                     m_screen->cursor.row);
+
+                in_scroll_region = new_in_scroll_region;
+
+                break;
             }
-            /* Add the cells over which we have moved to the region
-             * which we need to refresh for the user. */
-            bbox_bottomright.x = MAX(bbox_bottomright.x,
-                                                 m_screen->cursor.col);
-                        /* cursor.row + 1 (defer until inv.) */
-            bbox_bottomright.y = MAX(bbox_bottomright.y,
-                                                 m_screen->cursor.row);
-            invalidated_text = TRUE;
-
-            /* We *don't* emit flush pending signals here. */
-            modified = TRUE;
-            start++;
-
-                        break;
-        }
-                case VTE_MATCHER_RESULT_PARTIAL: {
-            /* Case three: the read broke in the middle of a
-             * control sequence, so we're undecided with no more
-             * data to consult. If we have data following the
-             * middle of the sequence, then it's just garbage data,
-             * and for compatibility, we should discard it. */
-            if (wbuf + wcount > next) {
-                _vte_debug_print(VTE_DEBUG_PARSE,
-                        "Invalid control "
-                        "sequence, discarding %ld "
-                        "characters.\n",
-                        (long)(next - (wbuf + start)));
-                /* Discard. */
-                start = next - wbuf + 1;
-            } else {
-                /* Pause processing here and wait for more
-                 * data before continuing. */
-                leftovers = TRUE;
-            }
-
-                        break;
-        }
+           /* Second, we have no match, and next points to the very
+            * next character in the buffer.  Insert the character which
+            * we're currently examining into the screen. */
+            case VTE_MATCHER_RESULT_NO_MATCH: {
+                c = wbuf[start];
+                /* If it's a control character, permute the order, per
+                * vttest. */
+                if ((c != *next) &&
+                    ((*next & 0x1f) == *next) &&
+                                //FIXMEchpe what about C1 controls
+                    (start + 1 < next - wbuf)) {
+                    const gunichar *tnext = NULL;
+                    gunichar ctrl;
+                    int i;
+                   /* We don't want to permute it if it's another
+                    * control sequence, so check if it is. */
+                    sequence_handler_t thandler;
+                    _vte_matcher_match(m_matcher,
+                                        next,
+                                        wcount - (next - wbuf),
+                                        &thandler,
+                                        &tnext,
+                                        NULL);
+                   /* We only do this for non-control-sequence
+                    * characters and random garbage. */
+                    if (tnext == next + 1) {
+                        /* Save the control character. */
+                        ctrl = *next;
+                       /* Move everything before it up a
+                        * slot.  */
+                        /* FIXMEchpe memmove! */
+                        for (i = next - wbuf; i > start; i--) {
+                            wbuf[i] = wbuf[i - 1];
+                        }
+                        /* Move the control character to the
+                        * front. */
+                        wbuf[i] = ctrl;
+                        goto next_match;
+                    }
                 }
+                _VTE_DEBUG_IF(VTE_DEBUG_PARSE) {
+                    if (c > 255) {
+                        g_printerr("U+%04lx\n", (long) c);
+                    } else {
+                        if (c > 127) {
+                            g_printerr("%ld = ", (long) c);
+                        }
+                        if (c < 32) {
+                            g_printerr("^%c\n", c + 64);
+                        } else {
+                            g_printerr("`%c'\n", c);
+                        }
+                    }
+                }
+
+                bbox_topleft.x = MIN(bbox_topleft.x, m_screen->cursor.col);
+                bbox_topleft.y = MIN(bbox_topleft.y, m_screen->cursor.row);
+
+                /* Insert the character. */
+                /* FIXMEchpe should not use UNLIKELY here */
+                if (G_UNLIKELY(insert_char(c, false, false))) {
+                    /* line wrapped, correct bbox */
+                    if (invalidated_text &&
+                        (m_screen->cursor.col > bbox_bottomright.x + VTE_CELL_BBOX_SLACK    ||
+                         m_screen->cursor.col < bbox_topleft.x - VTE_CELL_BBOX_SLACK    ||
+                         m_screen->cursor.row > bbox_bottomright.y + VTE_CELL_BBOX_SLACK    ||
+                         m_screen->cursor.row < bbox_topleft.y - VTE_CELL_BBOX_SLACK)) {
+                        /* Clip off any part of the box which isn't already on-screen. */
+                        bbox_topleft.x = MAX(bbox_topleft.x, 0);
+                        bbox_topleft.y = MAX(bbox_topleft.y, top_row);
+                        bbox_bottomright.x = MIN(bbox_bottomright.x, m_column_count);
+                        /* lazily apply the +1 to the cursor_row */
+                        bbox_bottomright.y = MIN(bbox_bottomright.y + 1, bottom_row + 1);
+
+                        invalidate_cells(bbox_topleft.x,
+                                            bbox_bottomright.x - bbox_topleft.x,
+                                            bbox_topleft.y,
+                                            bbox_bottomright.y - bbox_topleft.y);
+                        bbox_bottomright.x = bbox_bottomright.y = -G_MAXINT;
+                        bbox_topleft.x = bbox_topleft.y = G_MAXINT;
+                    }
+                    bbox_topleft.x = MIN(bbox_topleft.x, 0);
+                    bbox_topleft.y = MIN(bbox_topleft.y, m_screen->cursor.row);
+                }
+               /* Add the cells over which we have moved to the region
+                * which we need to refresh for the user. */
+                bbox_bottomright.x = MAX(bbox_bottomright.x, m_screen->cursor.col);
+               /* cursor.row + 1 (defer until inv.) */
+                bbox_bottomright.y = MAX(bbox_bottomright.y, m_screen->cursor.row);
+                invalidated_text = TRUE;
+
+                /* We *don't* emit flush pending signals here. */
+                modified = TRUE;
+                start++;
+
+                break;
+            }
+            case VTE_MATCHER_RESULT_PARTIAL: {
+               /* Case three: the read broke in the middle of a
+                * control sequence, so we're undecided with no more
+                * data to consult. If we have data following the
+                * middle of the sequence, then it's just garbage data,
+                * and for compatibility, we should discard it. */
+                if (wbuf + wcount > next) {
+                    _vte_debug_print(VTE_DEBUG_PARSE,
+                                        "Invalid control "
+                                        "sequence, discarding %ld "
+                                        "characters.\n",
+                                        (long)(next - (wbuf + start)));
+                    /* Discard. */
+                    start = next - wbuf + 1;
+                } else {
+                    /* Pause processing here and wait for more
+                    * data before continuing. */
+                    leftovers = TRUE;
+                }
+
+                break;
+            }
+        }
 
 #ifdef VTE_DEBUG
         /* Some safety checks: ensure the visible parts of the buffer
@@ -2673,12 +2631,12 @@ skip_chunk:
 
         /* The cursor shouldn't be above or below the addressable
          * part of the display buffer. */
-                g_assert_cmpint(m_screen->cursor.row, >=, m_screen->insert_delta);
+        g_assert_cmpint(m_screen->cursor.row, >=, m_screen->insert_delta);
 #endif
 
 next_match:
-                /* Free any parameters we don't care about any more. */
-                params.recycle(m_matcher);
+        /* Free any parameters we don't care about any more. */
+        params.recycle(m_matcher);
     }
 
     /* Remove most of the processed characters. */
@@ -2701,15 +2659,16 @@ next_match:
         /* Deselect the current selection if its contents are changed
          * by this insertion. */
         if (m_has_selection) {
-                        //FIXMEchpe: this is atrocious
+            /* FIXMEchpe: this is atrocious */
             auto selection = get_selected_text();
             if ((selection == nullptr) ||
                 (m_selection[VTE_SELECTION_PRIMARY] == nullptr) ||
                 (strcmp(selection->str, m_selection[VTE_SELECTION_PRIMARY]->str) != 0)) {
                 deselect_all();
             }
-                        if (selection)
-                                g_string_free(selection, TRUE);
+            if (selection) {
+                g_string_free(selection, TRUE);
+            }
         }
     }
 
@@ -2723,42 +2682,40 @@ next_match:
     if (invalidated_text) {
         /* Clip off any part of the box which isn't already on-screen. */
         bbox_topleft.x = MAX(bbox_topleft.x, 0);
-                bbox_topleft.y = MAX(bbox_topleft.y, top_row);
-        bbox_bottomright.x = MIN(bbox_bottomright.x,
-                m_column_count);
+        bbox_topleft.y = MAX(bbox_topleft.y, top_row);
+        bbox_bottomright.x = MIN(bbox_bottomright.x, m_column_count);
         /* lazily apply the +1 to the cursor_row */
-        bbox_bottomright.y = MIN(bbox_bottomright.y + 1,
-                                bottom_row + 1);
+        bbox_bottomright.y = MIN(bbox_bottomright.y + 1, bottom_row + 1);
 
-        invalidate_cells(
-                bbox_topleft.x,
-                bbox_bottomright.x - bbox_topleft.x,
-                bbox_topleft.y,
-                bbox_bottomright.y - bbox_topleft.y);
+        invalidate_cells(bbox_topleft.x,
+                            bbox_bottomright.x - bbox_topleft.x,
+                            bbox_topleft.y,
+                            bbox_bottomright.y - bbox_topleft.y);
     }
 
-        // FIXMEchpe: also need to take into account if the number of columns the cursor
-        // occupies has changed due to the cell it's on being changed...
-        if ((saved_cursor.col != m_screen->cursor.col) ||
-            (saved_cursor.row != m_screen->cursor.row)) {
+    /* FIXMEchpe: also need to take into account if the number of columns the cursor
+     * occupies has changed due to the cell it's on being changed... */
+    if ((saved_cursor.col != m_screen->cursor.col) ||
+        (saved_cursor.row != m_screen->cursor.row)) {
         /* invalidate the old and new cursor positions */
-        if (saved_cursor_visible)
+        if (saved_cursor_visible) {
             invalidate_cell(saved_cursor.col, saved_cursor.row);
+        }
         invalidate_cursor_once();
         check_cursor_blink();
         /* Signal that the cursor moved. */
         queue_cursor_moved();
-        } else if ((saved_cursor_visible != m_cursor_visible) ||
-                   (saved_cursor_style != m_cursor_style)) {
+    } else if ((saved_cursor_visible != m_cursor_visible) ||
+                (saved_cursor_style != m_cursor_style)) {
         invalidate_cell(saved_cursor.col, saved_cursor.row);
         check_cursor_blink();
     }
 
     /* Tell the input method where the cursor is. */
-        im_update_cursor();
+    im_update_cursor();
 
-        /* After processing some data, do a hyperlink GC. The multiplier is totally arbitrary, feel free to fine tune. */
-        _vte_ring_hyperlink_maybe_gc(m_screen->row_data, wcount * 4);
+    /* After processing some data, do a hyperlink GC. The multiplier is totally arbitrary, feel free to fine tune. */
+    _vte_ring_hyperlink_maybe_gc(m_screen->row_data, wcount * 4);
 
     _vte_debug_print (VTE_DEBUG_WORK, ")");
     _vte_debug_print (VTE_DEBUG_IO,
@@ -2768,8 +2725,7 @@ next_match:
             _vte_incoming_chunks_count(m_incoming));
 }
 
-void
-VteTerminalPrivate::feed_chunks(struct _vte_incoming_chunk *chunks)
+void VteTerminalPrivate::feed_chunks(struct _vte_incoming_chunk *chunks)
 {
     struct _vte_incoming_chunk *last;
 
@@ -2791,15 +2747,15 @@ VteTerminalPrivate::feed_chunks(struct _vte_incoming_chunk *chunks)
  * can either be used to drive the terminal without a child process, or just
  * to mess with your users.
  */
-void
-VteTerminalPrivate::feed(char const* data,
-                         gssize length,
-                         bool start_processing_)
+void VteTerminalPrivate::feed(char const* data,
+                                gssize length,
+                                bool start_processing_)
 {
-        g_assert(length == 0 || data != nullptr);
+    g_assert(length == 0 || data != nullptr);
 
-    if (length == -1)
+    if (length == -1) {
         length = strlen(data);
+    }
 
     /* If we have data, modify the incoming buffer. */
     if (length > 0) {
@@ -2826,11 +2782,13 @@ VteTerminalPrivate::feed(char const* data,
             feed_chunks(chunk);
         } while (1);
 
-                if (start_processing_)
-                        start_processing();
+        if (start_processing_) {
+            start_processing();
+        }
     }
 }
 
+#if 0 /* FIXME: remove */
 bool
 VteTerminalPrivate::pty_io_write(GIOChannel *channel,
                                  GIOCondition condition)
@@ -2866,15 +2824,15 @@ VteTerminalPrivate::pty_io_write(GIOChannel *channel,
 
     return leave_open;
 }
+#endif
 
-void
-VteTerminalPrivate::im_commit(char const* text)
+void VteTerminalPrivate::im_commit(char const* text)
 {
     _vte_debug_print(VTE_DEBUG_EVENTS,
             "Input method committed `%s'.\n", text);
-#if 0
-    feed_child_using_modes(text, -1);
-#endif
+
+    /* feed_child_using_modes(text, -1); */ /* FIXME: removed */
+
     /* Committed text was committed because the user pressed a key, so
      * we need to obey the scroll-on-keystroke setting. */
     if (m_scroll_on_keystroke) {
@@ -2883,56 +2841,46 @@ VteTerminalPrivate::im_commit(char const* text)
 }
 
 /* We've started pre-editing. */
-static void
-vte_terminal_im_preedit_start_cb(GtkIMContext *im_context,
-                                 VteTerminalPrivate *that)
+static void vte_terminal_im_preedit_start_cb(GtkIMContext *im_context,
+                                                VteTerminalPrivate *that)
 {
-        that->im_preedit_start();
+    that->im_preedit_start();
 }
 
-void
-VteTerminalPrivate::im_preedit_start()
+void VteTerminalPrivate::im_preedit_start()
 {
-    _vte_debug_print(VTE_DEBUG_EVENTS,
-            "Input method pre-edit started.\n");
+    _vte_debug_print(VTE_DEBUG_EVENTS, "Input method pre-edit started.\n");
     m_im_preedit_active = true;
 }
 
 /* We've stopped pre-editing. */
-static void
-vte_terminal_im_preedit_end_cb(GtkIMContext *im_context,
-                               VteTerminalPrivate *that)
+static void vte_terminal_im_preedit_end_cb(GtkIMContext *im_context,
+                                            VteTerminalPrivate *that)
 {
-        that->im_preedit_end();
+    that->im_preedit_end();
 }
 
-void
-VteTerminalPrivate::im_preedit_end()
+void VteTerminalPrivate::im_preedit_end()
 {
-    _vte_debug_print(VTE_DEBUG_EVENTS,
-            "Input method pre-edit ended.\n");
+    _vte_debug_print(VTE_DEBUG_EVENTS, "Input method pre-edit ended.\n");
     m_im_preedit_active = false;
 }
 
 /* The pre-edit string changed. */
-static void
-vte_terminal_im_preedit_changed_cb(GtkIMContext *im_context,
-                                   VteTerminalPrivate *that)
+static void vte_terminal_im_preedit_changed_cb(GtkIMContext *im_context,
+                                                VteTerminalPrivate *that)
 {
-        that->im_preedit_changed();
+    that->im_preedit_changed();
 }
 
-void
-VteTerminalPrivate::im_preedit_changed()
+void VteTerminalPrivate::im_preedit_changed()
 {
     gchar *str;
     PangoAttrList *attrs;
     gint cursorpos;
 
     gtk_im_context_get_preedit_string(m_im_context, &str, &attrs, &cursorpos);
-    _vte_debug_print(VTE_DEBUG_EVENTS,
-            "Input method pre-edit changed (%s,%d).\n",
-            str, cursorpos);
+    _vte_debug_print(VTE_DEBUG_EVENTS, "Input method pre-edit changed (%s,%d).\n", str, cursorpos);
 
     /* Queue the area where the current preedit string is being displayed
      * for repainting. */
@@ -2948,62 +2896,56 @@ VteTerminalPrivate::im_preedit_changed()
 
     m_im_preedit_cursor = cursorpos;
 
-        /* Invalidate again with the new cursor position */
+    /* Invalidate again with the new cursor position */
     invalidate_cursor_once();
 
-        /* And tell the input method where the cursor is on the screen */
-        im_update_cursor();
+    /* And tell the input method where the cursor is on the screen */
+    im_update_cursor();
 }
 
-static gboolean
-vte_terminal_im_retrieve_surrounding_cb(GtkIMContext *im_context,
-                                        VteTerminalPrivate *that)
+static gboolean vte_terminal_im_retrieve_surrounding_cb(GtkIMContext *im_context,
+                                                        VteTerminalPrivate *that)
 {
-        return that->im_retrieve_surrounding();
+    return that->im_retrieve_surrounding();
 }
 
-bool
-VteTerminalPrivate::im_retrieve_surrounding()
+bool VteTerminalPrivate::im_retrieve_surrounding()
 {
-        /* FIXME: implement this! Bug #726191 */
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                         "Input method retrieve-surrounding.\n");
-        return false;
+    /* FIXME: implement this! Bug #726191 */
+    _vte_debug_print(VTE_DEBUG_EVENTS, "Input method retrieve-surrounding.\n");
+    return false;
 }
 
-static gboolean
-vte_terminal_im_delete_surrounding_cb(GtkIMContext *im_context,
-                                      int offset,
-                                      int n_chars,
-                                      VteTerminalPrivate *that)
+static gboolean vte_terminal_im_delete_surrounding_cb(GtkIMContext *im_context,
+                                                        int offset,
+                                                        int n_chars,
+                                                        VteTerminalPrivate *that)
 {
-        return that->im_delete_surrounding(offset, n_chars);
+    return that->im_delete_surrounding(offset, n_chars);
 }
 
-bool
-VteTerminalPrivate::im_delete_surrounding(int offset,
-                                          int n_chars)
+bool VteTerminalPrivate::im_delete_surrounding(int offset, int n_chars)
 {
-        /* FIXME: implement this! Bug #726191 */
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                         "Input method delete-surrounding offset %d n-chars %d.\n",
-                         offset, n_chars);
-        return false;
+    /* FIXME: implement this! Bug #726191 */
+    _vte_debug_print(VTE_DEBUG_EVENTS,
+                        "Input method delete-surrounding offset %d n-chars %d.\n",
+                        offset, n_chars);
+    return false;
 }
 
-void
-VteTerminalPrivate::im_update_cursor()
+void VteTerminalPrivate::im_update_cursor()
 {
-    if (!widget_realized())
-                return;
+    if (!widget_realized()) {
+        return;
+    }
 
-        cairo_rectangle_int_t rect;
-        rect.x = m_screen->cursor.col * m_cell_width + m_padding.left +
-                 get_preedit_width(false) * m_cell_width;
-        rect.width = m_cell_width; // FIXMEchpe: if columns > 1 ?
-        rect.y = row_to_pixel(m_screen->cursor.row) + m_padding.top;
-        rect.height = m_cell_height;
-        gtk_im_context_set_cursor_location(m_im_context, &rect);
+    cairo_rectangle_int_t rect;
+    rect.x = m_screen->cursor.col * m_cell_width + m_padding.left +
+                get_preedit_width(false) * m_cell_width;
+    rect.width = m_cell_width; /* FIXMEchpe: if columns > 1 ? */
+    rect.y = row_to_pixel(m_screen->cursor.row) + m_padding.top;
+    rect.height = m_cell_height;
+    gtk_im_context_set_cursor_location(m_im_context, &rect);
 }
 
 void

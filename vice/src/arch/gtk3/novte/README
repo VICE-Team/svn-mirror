@@ -13,6 +13,15 @@ what was removed from VTE:
 - in vteseq.cc reporting screen size is disabled in seq_window_manipulation
   (uses deprecated gdk functions and doesnt seem to be mission critical)
 
+- in vterowdata.h there are some static asserts which apparently fail when
+  building on window (?) and thus are disabled for the time being
+
+- in VteTerminalPrivate::seq_checksum_rectangular_area in vteseq.cc a couple
+  feed_child() calls have been removed. probably the whole function is defunct.
+
+- in VteTerminalPrivate::im_commit in vte.cc a feed_child_using_modes call has
+  been removed. probably the whole function is defunct.
+
 --------------------------------------------------------------------------------
 
 right now the use of this "novte" replacement is forced, if you want for some
@@ -33,12 +42,6 @@ TODOs and FIXMEs:
 
 - vtetypes.hh "smartfd" - what is it used for? it needs to be fixed, or removed
 
-- in vterowdata.h there are some static asserts which apparently fail when
-  building on window (?) and thus are disabled for the time being
-
-- in VteTerminalPrivate::seq_checksum_rectangular_area in vteseq.cc a couple
-  feed_child() calls have been removed. probably the whole function is defunct.
-
 - a bunch of functions call vte_... in vteterminal.h should get renamed to
   novte_... also some defines should get renamed from VTE_... to NOVTE_...
 
@@ -46,7 +49,7 @@ TODOs and FIXMEs:
   vte.cc vtegtk.cc vteseq.cc
 
 - some files use deprecated GValueArray and should use GArray instead: 
-  matcher.cc table.cc vteinternal.hh
+  matcher.cc matcher.hh table.cc table.hh vteinternal.hh
   
 - there is still a lot of stuff that doesnt make a lot of sense for what we are
   doing here.
