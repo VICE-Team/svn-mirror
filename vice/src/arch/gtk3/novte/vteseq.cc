@@ -278,288 +278,275 @@ void VteTerminalPrivate::seq_checksum_rectangular_area(vte::parser::Params const
  * rightmost column whenever necessary (that is, before handling any of the
  * sequences that disable the special cased mode in xterm).  (Bug 731155.)
  */
-void
-VteTerminalPrivate::ensure_cursor_is_onscreen()
+void VteTerminalPrivate::ensure_cursor_is_onscreen()
 {
-        if (G_UNLIKELY (m_screen->cursor.col >= m_column_count))
-                m_screen->cursor.col = m_column_count - 1;
+    if (G_UNLIKELY (m_screen->cursor.col >= m_column_count)) {
+        m_screen->cursor.col = m_column_count - 1;
+    }
 }
 
-void
-VteTerminalPrivate::home_cursor()
+void VteTerminalPrivate::home_cursor()
 {
-        set_cursor_coords(0, 0);
+    set_cursor_coords(0, 0);
 }
 
-void
-VteTerminalPrivate::clear_screen()
+void VteTerminalPrivate::clear_screen()
 {
-        auto row = m_screen->cursor.row - m_screen->insert_delta;
-        auto initial = _vte_ring_next(m_screen->row_data);
+    auto row = m_screen->cursor.row - m_screen->insert_delta;
+    auto initial = _vte_ring_next(m_screen->row_data);
     /* Add a new screen's worth of rows. */
-        for (auto i = 0; i < m_row_count; i++)
-                ring_append(true);
+    for (auto i = 0; i < m_row_count; i++) {
+        ring_append(true);
+    }
     /* Move the cursor and insertion delta to the first line in the
      * newly-cleared area and scroll if need be. */
-        m_screen->insert_delta = initial;
-        m_screen->cursor.row = row + m_screen->insert_delta;
-        adjust_adjustments();
+    m_screen->insert_delta = initial;
+    m_screen->cursor.row = row + m_screen->insert_delta;
+    adjust_adjustments();
     /* Redraw everything. */
-        invalidate_all();
+    invalidate_all();
     /* We've modified the display.  Make a note of it. */
-        m_text_deleted_flag = TRUE;
+    m_text_deleted_flag = TRUE;
 }
 
 /* Clear the current line. */
-void
-VteTerminalPrivate::clear_current_line()
+void VteTerminalPrivate::clear_current_line()
 {
     VteRowData *rowdata;
 
     /* If the cursor is actually on the screen, clear data in the row
      * which corresponds to the cursor. */
-        if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
+    if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
         /* Get the data for the row which the cursor points to. */
-                rowdata = _vte_ring_index_writable(m_screen->row_data, m_screen->cursor.row);
+        rowdata = _vte_ring_index_writable(m_screen->row_data, m_screen->cursor.row);
         g_assert(rowdata != NULL);
         /* Remove it. */
         _vte_row_data_shrink (rowdata, 0);
         /* Add enough cells to the end of the line to fill out the row. */
-                _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
+        _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
         rowdata->attr.soft_wrapped = 0;
         /* Repaint this row. */
-        invalidate_cells(0, m_column_count,
-                                 m_screen->cursor.row, 1);
+        invalidate_cells(0, m_column_count, m_screen->cursor.row, 1);
     }
 
     /* We've modified the display.  Make a note of it. */
-        m_text_deleted_flag = TRUE;
+    m_text_deleted_flag = TRUE;
 }
 
 /* Clear above the current line. */
-void
-VteTerminalPrivate::clear_above_current()
+void VteTerminalPrivate::clear_above_current()
 {
     /* If the cursor is actually on the screen, clear data in the row
      * which corresponds to the cursor. */
-        for (auto i = m_screen->insert_delta; i < m_screen->cursor.row; i++) {
-                if (_vte_ring_next(m_screen->row_data) > i) {
+    for (auto i = m_screen->insert_delta; i < m_screen->cursor.row; i++) {
+        if (_vte_ring_next(m_screen->row_data) > i) {
             /* Get the data for the row we're erasing. */
-                        auto rowdata = _vte_ring_index_writable(m_screen->row_data, i);
+            auto rowdata = _vte_ring_index_writable(m_screen->row_data, i);
             g_assert(rowdata != NULL);
             /* Remove it. */
             _vte_row_data_shrink (rowdata, 0);
             /* Add new cells until we fill the row. */
-                        _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
+            _vte_row_data_fill (rowdata, &m_fill_defaults, m_column_count);
             rowdata->attr.soft_wrapped = 0;
             /* Repaint the row. */
             invalidate_cells(0, m_column_count, i, 1);
         }
     }
     /* We've modified the display.  Make a note of it. */
-        m_text_deleted_flag = TRUE;
+    m_text_deleted_flag = TRUE;
 }
 
 /* Scroll the text, but don't move the cursor.  Negative = up, positive = down. */
-void
-VteTerminalPrivate::scroll_text(vte::grid::row_t scroll_amount)
+void VteTerminalPrivate::scroll_text(vte::grid::row_t scroll_amount)
 {
-        vte::grid::row_t start, end;
-        if (m_scrolling_restricted) {
-                start = m_screen->insert_delta + m_scrolling_region.start;
-                end = m_screen->insert_delta + m_scrolling_region.end;
+    vte::grid::row_t start, end;
+    if (m_scrolling_restricted) {
+        start = m_screen->insert_delta + m_scrolling_region.start;
+        end = m_screen->insert_delta + m_scrolling_region.end;
     } else {
-                start = m_screen->insert_delta;
-                end = start + m_row_count - 1;
+        start = m_screen->insert_delta;
+        end = start + m_row_count - 1;
     }
 
-        while (_vte_ring_next(m_screen->row_data) <= end)
-                ring_append(false);
+    while (_vte_ring_next(m_screen->row_data) <= end) {
+        ring_append(false);
+    }
 
     if (scroll_amount > 0) {
         for (auto i = 0; i < scroll_amount; i++) {
-                        ring_remove(end);
-                        ring_insert(start, true);
+            ring_remove(end);
+            ring_insert(start, true);
         }
     } else {
         for (auto i = 0; i < -scroll_amount; i++) {
-                        ring_remove(start);
-                        ring_insert(end, true);
+            ring_remove(start);
+            ring_insert(end, true);
         }
     }
 
     /* Update the display. */
-        scroll_region(start, end - start + 1, scroll_amount);
+    scroll_region(start, end - start + 1, scroll_amount);
 
     /* Adjust the scrollbars if necessary. */
-        adjust_adjustments();
+    adjust_adjustments();
 
     /* We've modified the display.  Make a note of it. */
-        m_text_inserted_flag = TRUE;
-        m_text_deleted_flag = TRUE;
+    m_text_inserted_flag = TRUE;
+    m_text_deleted_flag = TRUE;
 }
 
 /* Restore cursor. */
-void
-VteTerminalPrivate::seq_restore_cursor(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_restore_cursor(vte::parser::Params const& params)
 {
-        restore_cursor();
+    restore_cursor();
 }
 
-void
-VteTerminalPrivate::restore_cursor()
+void VteTerminalPrivate::restore_cursor()
 {
-        restore_cursor(m_screen);
-        ensure_cursor_is_onscreen();
+    restore_cursor(m_screen);
+    ensure_cursor_is_onscreen();
 }
 
 /* Save cursor. */
-void
-VteTerminalPrivate::seq_save_cursor(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_save_cursor(vte::parser::Params const& params)
 {
-        save_cursor();
+    save_cursor();
 }
 
-void
-VteTerminalPrivate::save_cursor()
+void VteTerminalPrivate::save_cursor()
 {
-        save_cursor(m_screen);
+    save_cursor(m_screen);
 }
 
 /* Switch to normal screen. */
-void
-VteTerminalPrivate::switch_normal_screen()
+void VteTerminalPrivate::switch_normal_screen()
 {
-        switch_screen(&m_normal_screen);
+    switch_screen(&m_normal_screen);
 }
 
-void
-VteTerminalPrivate::switch_screen(VteScreen *new_screen)
+void VteTerminalPrivate::switch_screen(VteScreen *new_screen)
 {
-        /* if (new_screen == m_screen) return; ? */
+    /* if (new_screen == m_screen) return; ? */
 
-        /* The two screens use different hyperlink pools, so carrying on the idx
-         * wouldn't make sense and could lead to crashes.
-         * Ideally we'd carry the target URI itself, but I'm just lazy.
-         * Also, run a GC before we switch away from that screen. */
-        m_hyperlink_hover_idx = _vte_ring_get_hyperlink_at_position(m_screen->row_data, -1, -1, true, NULL);
-        g_assert (m_hyperlink_hover_idx == 0);
-        m_hyperlink_hover_uri = NULL;
-        emit_hyperlink_hover_uri_changed(NULL);  /* FIXME only emit if really changed */
-        m_defaults.attr.hyperlink_idx = _vte_ring_get_hyperlink_idx(m_screen->row_data, NULL);
-        g_assert (m_defaults.attr.hyperlink_idx == 0);
+   /* The two screens use different hyperlink pools, so carrying on the idx
+    * wouldn't make sense and could lead to crashes.
+    * Ideally we'd carry the target URI itself, but I'm just lazy.
+    * Also, run a GC before we switch away from that screen. */
+    m_hyperlink_hover_idx = _vte_ring_get_hyperlink_at_position(m_screen->row_data, -1, -1, true, NULL);
+    g_assert (m_hyperlink_hover_idx == 0);
+    m_hyperlink_hover_uri = NULL;
+    emit_hyperlink_hover_uri_changed(NULL);  /* FIXME only emit if really changed */
+    m_defaults.attr.hyperlink_idx = _vte_ring_get_hyperlink_idx(m_screen->row_data, NULL);
+    g_assert (m_defaults.attr.hyperlink_idx == 0);
 
-        /* cursor.row includes insert_delta, adjust accordingly */
-        auto cr = m_screen->cursor.row - m_screen->insert_delta;
-        m_screen = new_screen;
-        m_screen->cursor.row = cr + m_screen->insert_delta;
+    /* cursor.row includes insert_delta, adjust accordingly */
+    auto cr = m_screen->cursor.row - m_screen->insert_delta;
+    m_screen = new_screen;
+    m_screen->cursor.row = cr + m_screen->insert_delta;
 
-        /* Make sure the ring is large enough */
-        ensure_row();
+    /* Make sure the ring is large enough */
+    ensure_row();
 }
 
 /* Switch to alternate screen. */
-void
-VteTerminalPrivate::switch_alternate_screen()
+void VteTerminalPrivate::switch_alternate_screen()
 {
-        switch_screen(&m_alternate_screen);
+    switch_screen(&m_alternate_screen);
 }
 
 /* Switch to normal screen and restore cursor (in this order). */
-void
-VteTerminalPrivate::switch_normal_screen_and_restore_cursor()
+void VteTerminalPrivate::switch_normal_screen_and_restore_cursor()
 {
-        switch_normal_screen();
-        restore_cursor();
+    switch_normal_screen();
+    restore_cursor();
 }
 
 /* Save cursor and switch to alternate screen (in this order). */
-void
-VteTerminalPrivate::save_cursor_and_switch_alternate_screen()
+void VteTerminalPrivate::save_cursor_and_switch_alternate_screen()
 {
-        save_cursor();
-        switch_alternate_screen();
+    save_cursor();
+    switch_alternate_screen();
 }
 
 /* Set icon/window titles. */
-void
-VteTerminalPrivate::set_title_internal(vte::parser::Params const& params,
-                                       bool change_icon_title,
-                                       bool change_window_title)
+void VteTerminalPrivate::set_title_internal(vte::parser::Params const& params,
+                                            bool change_icon_title,
+                                            bool change_window_title)
 {
-        if (change_icon_title == FALSE && change_window_title == FALSE)
+    if (change_icon_title == FALSE && change_window_title == FALSE) {
         return;
+    }
 
     /* Get the string parameter's value. */
-        char* title;
-        if (!params.string_at(0, title))
-                return;
+    char* title;
+    if (!params.string_at(0, title)) {
+        return;
+    }
 
-            char *p, *validated;
-            const char *end;
+    char *p, *validated;
+    const char *end;
 
-                        //FIXMEchpe why? it's guaranteed UTF-8 already
-            /* Validate the text. */
-            g_utf8_validate(title, strlen(title), &end);
-            validated = g_strndup(title, end - title);
+    /* FIXMEchpe why? it's guaranteed UTF-8 already */
+    /* Validate the text. */
+    g_utf8_validate(title, strlen(title), &end);
+    validated = g_strndup(title, end - title);
 
-            /* No control characters allowed. */
-            for (p = validated; *p != '\0'; p++) {
-                if ((*p & 0x1f) == *p) {
-                    *p = ' ';
-                }
-            }
+    /* No control characters allowed. */
+    for (p = validated; *p != '\0'; p++) {
+        if ((*p & 0x1f) == *p) {
+            *p = ' ';
+        }
+    }
 
-            /* Emit the signal */
-                        if (change_window_title) {
-                                g_free(m_window_title_changed);
-                                m_window_title_changed = g_strdup(validated);
-            }
+    /* Emit the signal */
+    if (change_window_title) {
+        g_free(m_window_title_changed);
+        m_window_title_changed = g_strdup(validated);
+    }
 
-                        if (change_icon_title) {
-                                g_free(m_icon_title_changed);
-                                m_icon_title_changed = g_strdup(validated);
-            }
+    if (change_icon_title) {
+        g_free(m_icon_title_changed);
+        m_icon_title_changed = g_strdup(validated);
+    }
 
-            g_free (validated);
+    g_free (validated);
 
-        g_free(title);
+    g_free(title);
 }
 
 /* Toggle a terminal mode. */
-void
-VteTerminalPrivate::set_mode(vte::parser::Params const& params,
-                             bool value)
+void VteTerminalPrivate::set_mode(vte::parser::Params const& params, bool value)
 {
-        auto n_params = params.size();
-        if (n_params == 0)
-                return;
+    auto n_params = params.size();
+    if (n_params == 0) {
+        return;
+    }
 
     for (unsigned int i = 0; i < n_params; i++) {
-                long setting;
-                if (!params.number_at_unchecked(i, setting))
-                        continue;
-
-                switch (setting) {
-                case 2:        /* keyboard action mode (?) */
-                        break;
-                case 4:        /* insert/overtype mode */
-                        m_insert_mode = value;
-                        break;
-                case 12:    /* send/receive mode (local echo) */
-                        m_sendrecv_mode = value;
-                        break;
-                case 20:    /* automatic newline / normal linefeed mode */
-                        m_linefeed_mode = value;
-                        break;
-                default:
-                        break;
-                }
+        long setting;
+        if (!params.number_at_unchecked(i, setting)) {
+            continue;
         }
+
+        switch (setting) {
+            case 2:        /* keyboard action mode (?) */
+                break;
+            case 4:        /* insert/overtype mode */
+                m_insert_mode = value;
+                break;
+            case 12:    /* send/receive mode (local echo) */
+                m_sendrecv_mode = value;
+                break;
+            case 20:    /* automatic newline / normal linefeed mode */
+                m_linefeed_mode = value;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
-void
-VteTerminalPrivate::reset_mouse_smooth_scroll_delta()
+void VteTerminalPrivate::reset_mouse_smooth_scroll_delta()
 {
     m_mouse_smooth_scroll_delta = 0.0;
 }
@@ -567,40 +554,36 @@ VteTerminalPrivate::reset_mouse_smooth_scroll_delta()
 typedef void (VteTerminalPrivate::* decset_handler_t)();
 
 struct decset_t {
-        gint16 setting;
-        /* offset in VteTerminalPrivate (> 0) or VteScreen (< 0) */
-        gint16 boffset;
-        gint16 ioffset;
-        gint16 poffset;
-        gint16 fvalue;
-        gint16 tvalue;
-        decset_handler_t reset, set;
+    gint16 setting;
+    /* offset in VteTerminalPrivate (> 0) or VteScreen (< 0) */
+    gint16 boffset;
+    gint16 ioffset;
+    gint16 poffset;
+    gint16 fvalue;
+    gint16 tvalue;
+    decset_handler_t reset, set;
 };
 
-static int
-decset_cmp(const void *va,
-           const void *vb)
+static int decset_cmp(const void *va, const void *vb)
 {
-        const struct decset_t *a = (const struct decset_t *)va;
-        const struct decset_t *b = (const struct decset_t *)vb;
+    const struct decset_t *a = (const struct decset_t *)va;
+    const struct decset_t *b = (const struct decset_t *)vb;
 
-        return a->setting < b->setting ? -1 : a->setting > b->setting;
+    return a->setting < b->setting ? -1 : a->setting > b->setting;
 }
 
 /* Manipulate certain terminal attributes. */
-void
-VteTerminalPrivate::decset(vte::parser::Params const& params,
-                           bool restore,
-                           bool save,
-                           bool set)
+void VteTerminalPrivate::decset(vte::parser::Params const& params,
+                                bool restore, bool save, bool set)
 {
 
-        auto n_params = params.size();
-        for (unsigned int i = 0; i < n_params; i++) {
-                long setting;
+    auto n_params = params.size();
+    for (unsigned int i = 0; i < n_params; i++) {
+        long setting;
 
-                if (!params.number_at(i, setting))
-                        continue;
+        if (!params.number_at(i, setting)) {
+            continue;
+        }
 
         decset(setting, restore, save, set);
     }

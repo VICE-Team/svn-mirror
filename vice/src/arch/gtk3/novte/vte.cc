@@ -1389,21 +1389,20 @@ bool VteTerminalPrivate::set_encoding(char const* codeset)
     return true;
 }
 
-bool
-VteTerminalPrivate::set_cjk_ambiguous_width(int width)
+bool VteTerminalPrivate::set_cjk_ambiguous_width(int width)
 {
-        g_assert(width == 1 || width == 2);
+    g_assert(width == 1 || width == 2);
 
-        if (m_utf8_ambiguous_width == width)
-                return false;
+    if (m_utf8_ambiguous_width == width) {
+        return false;
+    }
 
-        m_utf8_ambiguous_width = width;
-        return true;
+    m_utf8_ambiguous_width = width;
+    return true;
 }
 
-// FIXMEchpe replace this with a method on VteRing
-VteRowData *
-VteTerminalPrivate::insert_rows (guint cnt)
+/* FIXMEchpe replace this with a method on VteRing */
+VteRowData *VteTerminalPrivate::insert_rows (guint cnt)
 {
     VteRowData *row;
     do {
@@ -1414,8 +1413,7 @@ VteTerminalPrivate::insert_rows (guint cnt)
 
 /* Make sure we have enough rows and columns to hold data at the current
  * cursor position. */
-VteRowData *
-VteTerminalPrivate::ensure_row()
+VteRowData *VteTerminalPrivate::ensure_row()
 {
     VteRowData *row;
 
@@ -1434,24 +1432,22 @@ VteTerminalPrivate::ensure_row()
     return row;
 }
 
-VteRowData *
-VteTerminalPrivate::ensure_cursor()
+VteRowData *VteTerminalPrivate::ensure_cursor()
 {
     VteRowData *row = ensure_row();
-        _vte_row_data_fill(row, &basic_cell, m_screen->cursor.col);
+    _vte_row_data_fill(row, &basic_cell, m_screen->cursor.col);
 
     return row;
 }
 
 /* Update the insert delta so that the screen which includes it also
  * includes the end of the buffer. */
-void
-VteTerminalPrivate::update_insert_delta()
+void VteTerminalPrivate::update_insert_delta()
 {
     /* The total number of lines.  Add one to the cursor offset
      * because it's zero-based. */
     auto rows = _vte_ring_next(m_screen->row_data);
-        auto delta = m_screen->cursor.row - rows + 1;
+    auto delta = m_screen->cursor.row - rows + 1;
     if (G_UNLIKELY (delta > 0)) {
         insert_rows(delta);
         rows = _vte_ring_next(m_screen->row_data);
@@ -1462,8 +1458,7 @@ VteTerminalPrivate::update_insert_delta()
      * top row to become a history-only row. */
     delta = m_screen->insert_delta;
     delta = MIN(delta, rows - m_row_count);
-    delta = MAX(delta,
-                    m_screen->cursor.row - (m_row_count - 1));
+    delta = MAX(delta, m_screen->cursor.row - (m_row_count - 1));
     delta = MAX(delta, _vte_ring_delta(m_screen->row_data));
 
     /* Adjust the insert delta and scroll if needed. */
@@ -1474,62 +1469,47 @@ VteTerminalPrivate::update_insert_delta()
 }
 
 /* Apply the desired mouse pointer, based on certain member variables. */
-void
-VteTerminalPrivate::apply_mouse_cursor()
+void VteTerminalPrivate::apply_mouse_cursor()
 {
-        if (!widget_realized())
-                return;
+    if (!widget_realized()) {
+        return;
+    }
 
-        /* Show the cursor if over the widget and not autohidden, this is obvious.
-         * Also show the cursor if outside the widget regardless of the autohidden state, so that if a popover is opened
-         * and then the cursor returns (which doesn't trigger enter/motion events), it is visible.
-         * That is, only hide the cursor if it's over the widget and is autohidden.
-         * See bug 789390 and bug 789536 comment 6 for details. */
-        if (!(m_mouse_autohide && m_mouse_cursor_autohidden && m_mouse_cursor_over_widget)) {
-                if (m_hyperlink_hover_idx != 0) {
-                        _vte_debug_print(VTE_DEBUG_CURSOR,
-                                        "Setting hyperlink mouse cursor.\n");
-                        gdk_window_set_cursor(m_event_window, m_mouse_hyperlink_cursor);
-#ifndef NO_PCRE
-                } else if ((guint)m_match_tag < m_match_regexes->len) {
-                        struct vte_match_regex *regex =
-                                &g_array_index(m_match_regexes,
-                           struct vte_match_regex,
-                           m_match_tag);
-                        set_cursor_from_regex_match(regex);
-#endif
-                } else if (m_mouse_tracking_mode) {
-            _vte_debug_print(VTE_DEBUG_CURSOR,
-                    "Setting mousing cursor.\n");
+   /* Show the cursor if over the widget and not autohidden, this is obvious.
+    * Also show the cursor if outside the widget regardless of the autohidden state, so that if a popover is opened
+    * and then the cursor returns (which doesn't trigger enter/motion events), it is visible.
+    * That is, only hide the cursor if it's over the widget and is autohidden.
+    * See bug 789390 and bug 789536 comment 6 for details. */
+    if (!(m_mouse_autohide && m_mouse_cursor_autohidden && m_mouse_cursor_over_widget)) {
+        if (m_hyperlink_hover_idx != 0) {
+            _vte_debug_print(VTE_DEBUG_CURSOR, "Setting hyperlink mouse cursor.\n");
+            gdk_window_set_cursor(m_event_window, m_mouse_hyperlink_cursor);
+        } else if (m_mouse_tracking_mode) {
+            _vte_debug_print(VTE_DEBUG_CURSOR, "Setting mousing cursor.\n");
             gdk_window_set_cursor(m_event_window, m_mouse_mousing_cursor);
         } else {
-            _vte_debug_print(VTE_DEBUG_CURSOR,
-                    "Setting default mouse cursor.\n");
+            _vte_debug_print(VTE_DEBUG_CURSOR, "Setting default mouse cursor.\n");
             gdk_window_set_cursor(m_event_window, m_mouse_default_cursor);
         }
     } else {
-        _vte_debug_print(VTE_DEBUG_CURSOR,
-                "Setting to invisible cursor.\n");
+        _vte_debug_print(VTE_DEBUG_CURSOR, "Setting to invisible cursor.\n");
         gdk_window_set_cursor(m_event_window, m_mouse_inviso_cursor);
     }
 }
 
 /* Show or hide the pointer if autohiding is enabled. */
-void
-VteTerminalPrivate::set_pointer_autohidden(bool autohidden)
+void VteTerminalPrivate::set_pointer_autohidden(bool autohidden)
 {
-        if (autohidden == m_mouse_cursor_autohidden)
-                return;
+    if (autohidden == m_mouse_cursor_autohidden) {
+        return;
+    }
 
-        m_mouse_cursor_autohidden = autohidden;
+    m_mouse_cursor_autohidden = autohidden;
 
-        if (m_mouse_autohide) {
-                hyperlink_hilite_update();
-#ifndef NO_PCRE
-                match_hilite_update();
-#endif
-                apply_mouse_cursor();
-        }
+    if (m_mouse_autohide) {
+        hyperlink_hilite_update();
+        apply_mouse_cursor();
+    }
 }
 
 /*
@@ -1537,100 +1517,98 @@ VteTerminalPrivate::set_pointer_autohidden(bool autohidden)
  * The return value can be NULL only if entry is one of VTE_CURSOR_BG,
  * VTE_CURSOR_FG, VTE_HIGHLIGHT_BG or VTE_HIGHLIGHT_FG.
  */
-vte::color::rgb const*
-VteTerminalPrivate::get_color(int entry) const
+vte::color::rgb const* VteTerminalPrivate::get_color(int entry) const
 {
     VtePaletteColor const* palette_color = &m_palette[entry];
     guint source;
-    for (source = 0; source < G_N_ELEMENTS(palette_color->sources); source++)
-        if (palette_color->sources[source].is_set)
+    for (source = 0; source < G_N_ELEMENTS(palette_color->sources); source++) {
+        if (palette_color->sources[source].is_set) {
             return &palette_color->sources[source].color;
+        }
+    }
     return nullptr;
 }
 
 /* Set up a palette entry with a more-or-less match for the requested color. */
-void
-VteTerminalPrivate::set_color(int entry,
-                              int source,
-                              vte::color::rgb const& proposed)
+void VteTerminalPrivate::set_color(int entry, int source, vte::color::rgb const& proposed)
 {
-        g_assert(entry >= 0 && entry < VTE_PALETTE_SIZE);
+    g_assert(entry >= 0 && entry < VTE_PALETTE_SIZE);
 
     VtePaletteColor *palette_color = &m_palette[entry];
 
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Set %s color[%d] to (%04x,%04x,%04x).\n",
-                         source == VTE_COLOR_SOURCE_ESCAPE ? "escape" : "API",
-                         entry, proposed.red, proposed.green, proposed.blue);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Set %s color[%d] to (%04x,%04x,%04x).\n",
+                        source == VTE_COLOR_SOURCE_ESCAPE ? "escape" : "API",
+                        entry, proposed.red, proposed.green, proposed.blue);
 
-        if (palette_color->sources[source].is_set &&
-            palette_color->sources[source].color == proposed) {
-                return;
-        }
-        palette_color->sources[source].is_set = TRUE;
-        palette_color->sources[source].color = proposed;
+    if (palette_color->sources[source].is_set &&
+        palette_color->sources[source].color == proposed) {
+        return;
+    }
+    palette_color->sources[source].is_set = TRUE;
+    palette_color->sources[source].color = proposed;
 
     /* If we're not realized yet, there's nothing else to do. */
-    if (!widget_realized())
+    if (!widget_realized()) {
         return;
+    }
 
     /* and redraw */
-    if (entry == VTE_CURSOR_BG || entry == VTE_CURSOR_FG)
+    if (entry == VTE_CURSOR_BG || entry == VTE_CURSOR_FG) {
         invalidate_cursor_once();
-    else
+    } else {
         invalidate_all();
+    }
 }
 
-void
-VteTerminalPrivate::reset_color(int entry,
-                                int source)
+void VteTerminalPrivate::reset_color(int entry, int source)
 {
-        g_assert(entry >= 0 && entry < VTE_PALETTE_SIZE);
+    g_assert(entry >= 0 && entry < VTE_PALETTE_SIZE);
 
     VtePaletteColor *palette_color = &m_palette[entry];
 
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Reset %s color[%d].\n",
-                         source == VTE_COLOR_SOURCE_ESCAPE ? "escape" : "API",
-                         entry);
+    _vte_debug_print(VTE_DEBUG_MISC,
+                        "Reset %s color[%d].\n",
+                        source == VTE_COLOR_SOURCE_ESCAPE ? "escape" : "API",
+                        entry);
 
-        if (!palette_color->sources[source].is_set) {
-                return;
-        }
-        palette_color->sources[source].is_set = FALSE;
+    if (!palette_color->sources[source].is_set) {
+        return;
+    }
+    palette_color->sources[source].is_set = FALSE;
 
     /* If we're not realized yet, there's nothing else to do. */
-    if (!widget_realized())
+    if (!widget_realized()) {
         return;
+    }
 
     /* and redraw */
-    if (entry == VTE_CURSOR_BG || entry == VTE_CURSOR_FG)
+    if (entry == VTE_CURSOR_BG || entry == VTE_CURSOR_FG) {
         invalidate_cursor_once();
-    else
+    } else {
         invalidate_all();
+    }
 }
 
-bool
-VteTerminalPrivate::set_background_alpha(double alpha)
+bool VteTerminalPrivate::set_background_alpha(double alpha)
 {
-        g_assert(alpha >= 0. && alpha <= 1.);
+    g_assert(alpha >= 0. && alpha <= 1.);
 
-        if (_vte_double_equal(alpha, m_background_alpha))
-                return false;
+    if (_vte_double_equal(alpha, m_background_alpha)) {
+        return false;
+    }
 
-        _vte_debug_print(VTE_DEBUG_MISC,
-                         "Setting background alpha to %.3f\n", alpha);
-        m_background_alpha = alpha;
+    _vte_debug_print(VTE_DEBUG_MISC, "Setting background alpha to %.3f\n", alpha);
+    m_background_alpha = alpha;
 
-        invalidate_all();
+    invalidate_all();
 
-        return true;
+    return true;
 }
 
-void
-VteTerminalPrivate::set_colors_default()
+void VteTerminalPrivate::set_colors_default()
 {
-        set_colors(nullptr, nullptr, nullptr, 0);
+    set_colors(nullptr, nullptr, nullptr, 0);
 }
 
 /*
@@ -1651,11 +1629,10 @@ VteTerminalPrivate::set_colors_default()
  * color is taken from @palette[7].  If @background is %NULL and @palette_size is
  * greater than 0, the new background color is taken from @palette[0].
  */
-void
-VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
-                               vte::color::rgb const* background,
-                               vte::color::rgb const* new_palette,
-                               gsize palette_size)
+void VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
+                                    vte::color::rgb const* background,
+                                    vte::color::rgb const* new_palette,
+                                    gsize palette_size)
 {
     _vte_debug_print(VTE_DEBUG_MISC,
             "Set color palette [%" G_GSIZE_FORMAT " elements].\n",
@@ -1673,7 +1650,7 @@ VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
     /* Initialize each item in the palette if we got any entries to work
      * with. */
     for (gsize i = 0; i < G_N_ELEMENTS(m_palette); i++) {
-                vte::color::rgb color;
+        vte::color::rgb color;
         bool unset = false;
 
         if (i < 16) {
@@ -1685,8 +1662,7 @@ VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
                 color.green += 0x3fff;
                 color.red += 0x3fff;
             }
-        }
-        else if (i < 232) {
+        } else if (i < 232) {
             int j = i - 16;
             int r = j / 36, g = (j / 6) % 6, b = j % 6;
             int red =   (r == 0) ? 0 : r * 40 + 55;
@@ -1698,8 +1674,7 @@ VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
         } else if (i < 256) {
             int shade = 8 + (i - 232) * 10;
             color.red = color.green = color.blue = shade | shade << 8;
-        }
-        else switch (i) {
+        } else switch (i) {
             case VTE_DEFAULT_BG:
                 if (background) {
                     color = *background;
@@ -1719,8 +1694,8 @@ VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
                 }
                 break;
             case VTE_BOLD_FG:
-                                unset = true;
-                                break;
+                unset = true;
+                break;
             case VTE_HIGHLIGHT_BG:
                 unset = true;
                 break;
@@ -1741,10 +1716,11 @@ VteTerminalPrivate::set_colors(vte::color::rgb const* foreground,
         }
 
         /* Set up the color entry. */
-                if (unset)
-                        reset_color(i, VTE_COLOR_SOURCE_API);
-                else
-                        set_color(i, VTE_COLOR_SOURCE_API, color);
+        if (unset) {
+            reset_color(i, VTE_COLOR_SOURCE_API);
+        } else {
+            set_color(i, VTE_COLOR_SOURCE_API, color);
+        }
     }
 }
 

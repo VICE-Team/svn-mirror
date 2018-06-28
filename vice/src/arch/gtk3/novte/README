@@ -43,7 +43,7 @@ TODOs and FIXMEs:
   novte_... also some defines should get renamed from VTE_... to NOVTE_...
 
 - some files still need to be codestyle-checked and -fixed:
-  vte.cc vteaccess.cc vtegtk.cc vteseq.cc
+  vte.cc vtegtk.cc vteseq.cc
 
 - some files use deprecated GValueArray and should use GArray instead: 
   matcher.cc table.cc vteinternal.hh
