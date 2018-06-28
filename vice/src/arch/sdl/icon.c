@@ -33,7 +33,7 @@
 
 #include "icon.h"
 
-#if SDL_VERSION_ATLEAST(2, 0, 0)
+#ifdef USE_SDLUI2
 
 /* FIXME: this comes from data/common/icon.png - we perhaps want to use
  *        different icons for different emulators later, and also generate the
