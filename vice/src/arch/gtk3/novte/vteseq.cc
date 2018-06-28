@@ -40,30 +40,29 @@
 
 #include <algorithm>
 
-void
-vte::parser::Params::print() const
+void vte::parser::Params::print() const
 {
 #ifdef VTE_DEBUG
-        g_printerr("(");
-        auto n_params = size();
-        for (unsigned int i = 0; i < n_params; i++) {
-                auto value = value_at_unchecked(i);
-                if (i > 0) {
-                        g_printerr(", ");
-                }
-                if (G_VALUE_HOLDS_LONG(value)) {
-                        auto l = g_value_get_long(value);
-                        g_printerr("LONG(%ld)", l);
-                } else if (G_VALUE_HOLDS_STRING(value)) {
-                        auto const s = g_value_get_string(value);
-                        g_printerr("STRING(\"%s\")", s);
-                } else if (G_VALUE_HOLDS_POINTER(value)) {
-                        auto w = (const gunichar *)g_value_get_pointer(value);
-                        g_printerr("WSTRING(\"%ls\")", (const wchar_t*) w);
-                } else if (G_VALUE_HOLDS_BOXED(value)) {
-                        vte::parser::Params subparams{(GValueArray*)g_value_get_boxed(value)};
-                        subparams.print();
-                }
+    g_printerr("(");
+    auto n_params = size();
+    for (unsigned int i = 0; i < n_params; i++) {
+        auto value = value_at_unchecked(i);
+        if (i > 0) {
+            g_printerr(", ");
+        }
+        if (G_VALUE_HOLDS_LONG(value)) {
+            auto l = g_value_get_long(value);
+            g_printerr("LONG(%ld)", l);
+        } else if (G_VALUE_HOLDS_STRING(value)) {
+            auto const s = g_value_get_string(value);
+            g_printerr("STRING(\"%s\")", s);
+        } else if (G_VALUE_HOLDS_POINTER(value)) {
+            auto w = (const gunichar *)g_value_get_pointer(value);
+            g_printerr("WSTRING(\"%ls\")", (const wchar_t*) w);
+        } else if (G_VALUE_HOLDS_BOXED(value)) {
+            vte::parser::Params subparams{(GValueArray*)g_value_get_boxed(value)};
+            subparams.print();
+        }
     }
     g_printerr(")\n");
 #endif
@@ -72,11 +71,10 @@ vte::parser::Params::print() const
 /* A couple are duplicated from vte.c, to keep them static... */
 
 /* Check how long a string of unichars is.  Slow version. */
-static gsize
-vte_unichar_strlen(gunichar const* c)
+static gsize vte_unichar_strlen(gunichar const* c)
 {
     gsize i;
-    for (i = 0; c[i] != 0; i++) ;
+    for (i = 0; c[i] != 0; i++) {} ;
     return i;
 }
 
@@ -84,113 +82,101 @@ vte_unichar_strlen(gunichar const* c)
 /* Simplified from glib's g_ucs4_to_utf8() to simply allocate the maximum
  * length instead of walking the input twice.
  */
-char*
-vte::parser::Params::ucs4_to_utf8(gunichar const* str) const
+char*vte::parser::Params::ucs4_to_utf8(gunichar const* str) const
 {
-        auto len = vte_unichar_strlen(str);
-        auto outlen = (len * VTE_UTF8_BPC) + 1;
+    auto len = vte_unichar_strlen(str);
+    auto outlen = (len * VTE_UTF8_BPC) + 1;
 
-        auto result = (char*)g_try_malloc(outlen);
-        if (result == nullptr)
-                return nullptr;
+    auto result = (char*)g_try_malloc(outlen);
+    if (result == nullptr) {
+        return nullptr;
+    }
 
-        auto end = str + len;
-        auto p = result;
-        for (auto i = str; i < end; i++)
-                p += g_unichar_to_utf8(*i, p);
-        *p = '\0';
+    auto end = str + len;
+    auto p = result;
+    for (auto i = str; i < end; i++) {
+        p += g_unichar_to_utf8(*i, p);
+    }
+    *p = '\0';
 
-        return result;
+    return result;
 }
 
 /* Emit a "bell" signal. */
-void
-VteTerminalPrivate::emit_bell()
+void VteTerminalPrivate::emit_bell()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `bell'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_BELL], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `bell'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_BELL], 0);
 }
 
 
 /* Emit a "deiconify-window" signal. */
-void
-VteTerminalPrivate::emit_deiconify_window()
+void VteTerminalPrivate::emit_deiconify_window()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `deiconify-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_DEICONIFY_WINDOW], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `deiconify-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_DEICONIFY_WINDOW], 0);
 }
 
 /* Emit a "iconify-window" signal. */
-void
-VteTerminalPrivate::emit_iconify_window()
+void VteTerminalPrivate::emit_iconify_window()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `iconify-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_ICONIFY_WINDOW], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `iconify-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_ICONIFY_WINDOW], 0);
 }
 
 /* Emit a "raise-window" signal. */
-void
-VteTerminalPrivate::emit_raise_window()
+void VteTerminalPrivate::emit_raise_window()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `raise-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_RAISE_WINDOW], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `raise-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_RAISE_WINDOW], 0);
 }
 
 /* Emit a "lower-window" signal. */
-void
-VteTerminalPrivate::emit_lower_window()
+void VteTerminalPrivate::emit_lower_window()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `lower-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_LOWER_WINDOW], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `lower-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_LOWER_WINDOW], 0);
 }
 
 /* Emit a "maximize-window" signal. */
-void
-VteTerminalPrivate::emit_maximize_window()
+void VteTerminalPrivate::emit_maximize_window()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `maximize-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_MAXIMIZE_WINDOW], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `maximize-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_MAXIMIZE_WINDOW], 0);
 }
 
 /* Emit a "refresh-window" signal. */
-void
-VteTerminalPrivate::emit_refresh_window()
+void VteTerminalPrivate::emit_refresh_window()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `refresh-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_REFRESH_WINDOW], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `refresh-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_REFRESH_WINDOW], 0);
 }
 
 /* Emit a "restore-window" signal. */
-void
-VteTerminalPrivate::emit_restore_window()
+void VteTerminalPrivate::emit_restore_window()
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `restore-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_RESTORE_WINDOW], 0);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `restore-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_RESTORE_WINDOW], 0);
 }
 
 /* Emit a "move-window" signal.  (Pixels.) */
-void
-VteTerminalPrivate::emit_move_window(guint x,
-                                     guint y)
+void VteTerminalPrivate::emit_move_window(guint x, guint y)
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `move-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_MOVE_WINDOW], 0, x, y);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `move-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_MOVE_WINDOW], 0, x, y);
 }
 
 /* Emit a "resize-window" signal.  (Grid size.) */
-void
-VteTerminalPrivate::emit_resize_window(guint columns,
-                                       guint rows)
+void VteTerminalPrivate::emit_resize_window(guint columns, guint rows)
 {
-        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `resize-window'.\n");
-        g_signal_emit(m_terminal, signals[SIGNAL_RESIZE_WINDOW], 0, columns, rows);
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `resize-window'.\n");
+    g_signal_emit(m_terminal, signals[SIGNAL_RESIZE_WINDOW], 0, columns, rows);
 }
 
 
 /* Some common functions */
 
-void
-VteTerminalPrivate::seq_checksum_rectangular_area(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_checksum_rectangular_area(vte::parser::Params const& params)
 {
         /*
          * DECRQCRA - request checksum of rectangular area
