@@ -103,26 +103,29 @@ static guint update_timeout_tag = 0;
 static gboolean in_update_timeout;
 static GList *g_active_terminals;
 
-static int
-_vte_unichar_width(gunichar c, int utf8_ambiguous_width)
+static int _vte_unichar_width(gunichar c, int utf8_ambiguous_width)
 {
-        if (G_LIKELY (c < 0x80))
+        if (G_LIKELY (c < 0x80)) {
                 return 1;
-        if (G_UNLIKELY (g_unichar_iszerowidth (c)))
+        }
+        if (G_UNLIKELY (g_unichar_iszerowidth (c))) {
                 return 0;
-        if (G_UNLIKELY (g_unichar_iswide (c)))
+        }
+        if (G_UNLIKELY (g_unichar_iswide (c))) {
                 return 2;
-        if (G_LIKELY (utf8_ambiguous_width == 1))
+        }
+        if (G_LIKELY (utf8_ambiguous_width == 1)) {
                 return 1;
-        if (G_UNLIKELY (g_unichar_iswide_cjk (c)))
+        }
+        if (G_UNLIKELY (g_unichar_iswide_cjk (c))) {
                 return 2;
+        }
         return 1;
 }
 
 /* process incoming data without copying */
 static struct _vte_incoming_chunk *free_chunks;
-static struct _vte_incoming_chunk *
-get_chunk (void)
+static struct _vte_incoming_chunk *get_chunk (void)
 {
     struct _vte_incoming_chunk *chunk = NULL;
     if (free_chunks) {
@@ -136,26 +139,24 @@ get_chunk (void)
     chunk->len = 0;
     return chunk;
 }
-static void
-release_chunk (struct _vte_incoming_chunk *chunk)
+static void release_chunk (struct _vte_incoming_chunk *chunk)
 {
     chunk->next = free_chunks;
     chunk->len = free_chunks ? free_chunks->len + 1 : 0;
     free_chunks = chunk;
 }
-static void
-prune_chunks (guint len)
+static void prune_chunks (guint len)
 {
     struct _vte_incoming_chunk *chunk = NULL;
     if (len && free_chunks != NULL) {
         if (free_chunks->len > len) {
-        struct _vte_incoming_chunk *last;
-        chunk = free_chunks;
-        while (free_chunks->len > len) {
-            last = free_chunks;
-            free_chunks = free_chunks->next;
-        }
-        last->next = NULL;
+            struct _vte_incoming_chunk *last;
+            chunk = free_chunks;
+            while (free_chunks->len > len) {
+                last = free_chunks;
+                free_chunks = free_chunks->next;
+            }
+            last->next = NULL;
         }
     } else {
         chunk = free_chunks;
@@ -167,8 +168,7 @@ prune_chunks (guint len)
         chunk = next;
     }
 }
-static void
-_vte_incoming_chunks_release (struct _vte_incoming_chunk *chunk)
+static void _vte_incoming_chunks_release (struct _vte_incoming_chunk *chunk)
 {
     while (chunk) {
         struct _vte_incoming_chunk *next = chunk->next;
@@ -176,8 +176,7 @@ _vte_incoming_chunks_release (struct _vte_incoming_chunk *chunk)
         chunk = next;
     }
 }
-static gsize
-_vte_incoming_chunks_length (struct _vte_incoming_chunk *chunk)
+static gsize _vte_incoming_chunks_length (struct _vte_incoming_chunk *chunk)
 {
     gsize len = 0;
     while (chunk) {
@@ -187,8 +186,7 @@ _vte_incoming_chunks_length (struct _vte_incoming_chunk *chunk)
     return len;
 }
 #if 0
-static gsize
-_vte_incoming_chunks_count (struct _vte_incoming_chunk *chunk)
+static gsize _vte_incoming_chunks_count (struct _vte_incoming_chunk *chunk)
 {
     gsize cnt = 0;
     while (chunk) {
@@ -198,8 +196,7 @@ _vte_incoming_chunks_count (struct _vte_incoming_chunk *chunk)
     return cnt;
 }
 #endif
-static struct _vte_incoming_chunk *
-_vte_incoming_chunks_reverse(struct _vte_incoming_chunk *chunk)
+static struct _vte_incoming_chunk *_vte_incoming_chunks_reverse(struct _vte_incoming_chunk *chunk)
 {
     struct _vte_incoming_chunk *prev = NULL;
     while (chunk) {
@@ -211,11 +208,11 @@ _vte_incoming_chunks_reverse(struct _vte_incoming_chunk *chunk)
     return prev;
 }
 
-static void
-vte_g_array_fill(GArray *array, gconstpointer item, guint final_size)
+static void vte_g_array_fill(GArray *array, gconstpointer item, guint final_size)
 {
-    if (array->len >= final_size)
+    if (array->len >= final_size) {
         return;
+    }
 
     final_size -= array->len;
     do {
@@ -223,36 +220,34 @@ vte_g_array_fill(GArray *array, gconstpointer item, guint final_size)
     } while (--final_size);
 }
 
-// FIXMEchpe replace this with a method on VteRing
-VteRowData*
-VteTerminalPrivate::ring_insert(vte::grid::row_t position,
-                                bool fill)
+/* FIXMEchpe replace this with a method on VteRing */
+VteRowData* VteTerminalPrivate::ring_insert(vte::grid::row_t position, bool fill)
 {
     VteRowData *row;
     VteRing *ring = m_screen->row_data;
-        bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
+    bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
     while (G_UNLIKELY (_vte_ring_next (ring) < position)) {
         row = _vte_ring_append (ring);
-                if (not_default_bg)
-                        _vte_row_data_fill (row, &m_fill_defaults, m_column_count);
+        if (not_default_bg) {
+            _vte_row_data_fill (row, &m_fill_defaults, m_column_count);
+        }
     }
     row = _vte_ring_insert (ring, position);
-        if (fill && not_default_bg)
-                _vte_row_data_fill (row, &m_fill_defaults, m_column_count);
+    if (fill && not_default_bg) {
+        _vte_row_data_fill (row, &m_fill_defaults, m_column_count);
+    }
     return row;
 }
 
 // FIXMEchpe replace this with a method on VteRing
-VteRowData*
-VteTerminalPrivate::ring_append(bool fill)
+VteRowData* VteTerminalPrivate::ring_append(bool fill)
 {
     return ring_insert(_vte_ring_next(m_screen->row_data), fill);
 }
 
 // FIXMEchpe replace this with a method on VteRing
-void
-VteTerminalPrivate::ring_remove(vte::grid::row_t position)
+void VteTerminalPrivate::ring_remove(vte::grid::row_t position)
 {
     _vte_ring_remove(m_screen->row_data, position);
 }
@@ -261,15 +256,15 @@ VteTerminalPrivate::ring_remove(vte::grid::row_t position)
 void
 VteTerminalPrivate::reset_default_attributes(bool reset_hyperlink)
 {
-        hyperlink_idx_t hyperlink_idx_save = m_defaults.attr.hyperlink_idx;
-        m_defaults = m_color_defaults = m_fill_defaults = basic_cell;
-        if (!reset_hyperlink)
-                m_defaults.attr.hyperlink_idx = hyperlink_idx_save;
+    hyperlink_idx_t hyperlink_idx_save = m_defaults.attr.hyperlink_idx;
+    m_defaults = m_color_defaults = m_fill_defaults = basic_cell;
+    if (!reset_hyperlink) {
+            m_defaults.attr.hyperlink_idx = hyperlink_idx_save;
+    }
 }
 
-//FIXMEchpe this function is bad
-inline vte::view::coord_t
-VteTerminalPrivate::scroll_delta_pixel() const
+/* FIXMEchpe this function is bad */
+inline vte::view::coord_t VteTerminalPrivate::scroll_delta_pixel() const
 {
         return round(m_screen->scroll_delta * m_cell_height);
 }
@@ -280,8 +275,7 @@ VteTerminalPrivate::scroll_delta_pixel() const
  *
  * Returns: absolute row
  */
-inline vte::grid::row_t
-VteTerminalPrivate::pixel_to_row(vte::view::coord_t y) const
+inline vte::grid::row_t VteTerminalPrivate::pixel_to_row(vte::view::coord_t y) const
 {
         return (scroll_delta_pixel() + y) / m_cell_height;
 }
@@ -293,21 +287,18 @@ VteTerminalPrivate::pixel_to_row(vte::view::coord_t y) const
  * Returns: Y coordinate relative to viewport with top padding excluded. If the row is
  *   outside the viewport, may return any value < 0 or >= height
  */
-inline vte::view::coord_t
-VteTerminalPrivate::row_to_pixel(vte::grid::row_t row) const
+inline vte::view::coord_t VteTerminalPrivate::row_to_pixel(vte::grid::row_t row) const
 {
-        // FIXMEchpe this is bad!
+        /* FIXMEchpe this is bad! */
         return row * m_cell_height - (glong)round(m_screen->scroll_delta * m_cell_height);
 }
 
-inline vte::grid::row_t
-VteTerminalPrivate::first_displayed_row() const
+inline vte::grid::row_t VteTerminalPrivate::first_displayed_row() const
 {
         return pixel_to_row(0);
 }
 
-inline vte::grid::row_t
-VteTerminalPrivate::last_displayed_row() const
+inline vte::grid::row_t VteTerminalPrivate::last_displayed_row() const
 {
         /* Get the logical row number displayed at the bottom pixel position */
         auto r = pixel_to_row(m_view_usable_extents.height() - 1);
@@ -322,109 +313,94 @@ VteTerminalPrivate::last_displayed_row() const
         return r;
 }
 
-void
-VteTerminalPrivate::invalidate_cells(vte::grid::column_t column_start,
-                                     int n_columns,
-                                     vte::grid::row_t row_start,
-                                     int n_rows)
+void VteTerminalPrivate::invalidate_cells(vte::grid::column_t column_start,
+                                            int n_columns,
+                                            vte::grid::row_t row_start,
+                                            int n_rows)
 {
-    if (G_UNLIKELY (!widget_realized()))
+    if (G_UNLIKELY (!widget_realized())) {
                 return;
+    }
 
-        /* FIXMEchpe: == 0 is fine, but somehow sometimes we
-         * get an actual negative n_columns value passed!?
-         */
-        if (n_columns <= 0 || n_rows <= 0)
-                return;
+    /* FIXMEchpe: == 0 is fine, but somehow sometimes we
+    * get an actual negative n_columns value passed!?
+    */
+    if (n_columns <= 0 || n_rows <= 0) {
+        return;
+    }
 
     if (m_invalidated_all) {
         return;
     }
 
-    _vte_debug_print (VTE_DEBUG_UPDATES,
-            "Invalidating cells at (%ld,%ld)x(%d,%d).\n",
-            column_start, row_start,
-            n_columns, n_rows);
+    _vte_debug_print (VTE_DEBUG_UPDATES, "Invalidating cells at (%ld,%ld)x(%d,%d).\n",
+                        column_start, row_start, n_columns, n_rows);
     _vte_debug_print (VTE_DEBUG_WORK, "?");
 
-    if (n_columns == m_column_count &&
-            n_rows == m_row_count) {
+    if (n_columns == m_column_count && n_rows == m_row_count) {
         invalidate_all();
         return;
     }
 
-        cairo_rectangle_int_t rect;
+    cairo_rectangle_int_t rect;
     /* Convert the column and row start and end to pixel values
      * by multiplying by the size of a character cell.
      * Always include the extra pixel border and overlap pixel.
      */
-        rect.x = column_start * m_cell_width - 1;
-        /* The extra + 1 is for the faux-bold overdraw */
-        int xend = (column_start + n_columns) * m_cell_width + 1 + 1;
-        rect.width = xend - rect.x;
+    rect.x = column_start * m_cell_width - 1;
+    /* The extra + 1 is for the faux-bold overdraw */
+    int xend = (column_start + n_columns) * m_cell_width + 1 + 1;
+    rect.width = xend - rect.x;
 
-        rect.y = row_to_pixel(row_start) - 1;
-        int yend = row_to_pixel(row_start + n_rows) + 1;
-        rect.height = yend - rect.y;
+    rect.y = row_to_pixel(row_start) - 1;
+    int yend = row_to_pixel(row_start + n_rows) + 1;
+    rect.height = yend - rect.y;
 
-    _vte_debug_print (VTE_DEBUG_UPDATES,
-            "Invalidating pixels at (%d,%d)x(%d,%d).\n",
-            rect.x, rect.y, rect.width, rect.height);
+    _vte_debug_print (VTE_DEBUG_UPDATES, "Invalidating pixels at (%d,%d)x(%d,%d).\n",
+                        rect.x, rect.y, rect.width, rect.height);
 
     if (m_active_terminals_link != nullptr) {
-                g_array_append_val(m_update_rects, rect);
+        g_array_append_val(m_update_rects, rect);
         /* Wait a bit before doing any invalidation, just in
          * case updates are coming in really soon. */
         add_update_timeout(this);
     } else {
-                auto allocation = get_allocated_rect();
-                rect.x += allocation.x + m_padding.left;
-                rect.y += allocation.y + m_padding.top;
-                cairo_region_t *region = cairo_region_create_rectangle(&rect);
+        auto allocation = get_allocated_rect();
+        rect.x += allocation.x + m_padding.left;
+        rect.y += allocation.y + m_padding.top;
+        cairo_region_t *region = cairo_region_create_rectangle(&rect);
         gtk_widget_queue_draw_region(m_widget, region);
-                cairo_region_destroy(region);
+        cairo_region_destroy(region);
     }
 
     _vte_debug_print (VTE_DEBUG_WORK, "!");
 }
 
-void
-VteTerminalPrivate::invalidate_region(vte::grid::column_t scolumn,
-                                      vte::grid::column_t ecolumn,
-                                      vte::grid::row_t srow,
-                                      vte::grid::row_t erow,
-                                      bool block)
+void VteTerminalPrivate::invalidate_region(vte::grid::column_t scolumn,
+                                            vte::grid::column_t ecolumn,
+                                            vte::grid::row_t srow,
+                                            vte::grid::row_t erow,
+                                            bool block)
 {
     if (block || srow == erow) {
-        invalidate_cells(
-                scolumn, ecolumn - scolumn + 1,
-                srow, erow - srow + 1);
+        invalidate_cells(scolumn, ecolumn - scolumn + 1, srow, erow - srow + 1);
     } else {
-        invalidate_cells(
-                scolumn,
-                m_column_count - scolumn,
-                srow, 1);
-        invalidate_cells(
-                0, m_column_count,
-                srow + 1, erow - srow - 1);
-        invalidate_cells(
-                0, ecolumn + 1,
-                erow, 1);
+        invalidate_cells(scolumn, m_column_count - scolumn, srow, 1);
+        invalidate_cells(0, m_column_count, srow + 1, erow - srow - 1);
+        invalidate_cells(0, ecolumn + 1, erow, 1);
     }
 }
 
-void
-VteTerminalPrivate::invalidate(vte::grid::span const& s,
-                               bool block)
+void VteTerminalPrivate::invalidate(vte::grid::span const& s, bool block)
 {
-        invalidate_region(s.start_column(), s.end_column(), s.start_row(), s.end_row(), block);
+    invalidate_region(s.start_column(), s.end_column(), s.start_row(), s.end_row(), block);
 }
 
-void
-VteTerminalPrivate::invalidate_all()
+void VteTerminalPrivate::invalidate_all()
 {
-    if (G_UNLIKELY (!widget_realized()))
+    if (G_UNLIKELY (!widget_realized())) {
                 return;
+    }
 
     if (m_invalidated_all) {
         return;
@@ -437,20 +413,20 @@ VteTerminalPrivate::invalidate_all()
     reset_update_rects();
     m_invalidated_all = TRUE;
 
-        if (m_active_terminals_link != nullptr) {
-                auto allocation = get_allocated_rect();
-                cairo_rectangle_int_t rect;
-                rect.x = -m_padding.left;
-                rect.y = -m_padding.top;
-                rect.width = allocation.width;
-                rect.height = allocation.height;
+    if (m_active_terminals_link != nullptr) {
+        auto allocation = get_allocated_rect();
+        cairo_rectangle_int_t rect;
+        rect.x = -m_padding.left;
+        rect.y = -m_padding.top;
+        rect.width = allocation.width;
+        rect.height = allocation.height;
 
-                g_array_append_val(m_update_rects, rect);
+        g_array_append_val(m_update_rects, rect);
         /* Wait a bit before doing any invalidation, just in
          * case updates are coming in really soon. */
         add_update_timeout(this);
     } else {
-                gtk_widget_queue_draw(m_widget);
+        gtk_widget_queue_draw(m_widget);
     }
 }
 
@@ -458,10 +434,7 @@ VteTerminalPrivate::invalidate_all()
  * when we stopped moving window contents around on scrolling. */
 /* Scroll a rectangular region up or down by a fixed number of lines,
  * negative = up, positive = down. */
-void
-VteTerminalPrivate::scroll_region (long row,
-                                   long count,
-                                   long delta)
+void VteTerminalPrivate::scroll_region (long row, long count, long delta)
 {
     if ((delta == 0) || (count == 0)) {
         /* Shenanigans! */
@@ -481,9 +454,8 @@ VteTerminalPrivate::scroll_region (long row,
 }
 
 /* Find the row in the given position in the backscroll buffer. */
-// FIXMEchpe replace this with a method on VteRing
-VteRowData const*
-VteTerminalPrivate::find_row_data(vte::grid::row_t row) const
+/* FIXMEchpe replace this with a method on VteRing */
+VteRowData const* VteTerminalPrivate::find_row_data(vte::grid::row_t row) const
 {
     VteRowData const* rowdata = nullptr;
 
@@ -494,9 +466,8 @@ VteTerminalPrivate::find_row_data(vte::grid::row_t row) const
 }
 
 /* Find the row in the given position in the backscroll buffer. */
-// FIXMEchpe replace this with a method on VteRing
-VteRowData*
-VteTerminalPrivate::find_row_data_writable(vte::grid::row_t row) const
+/* FIXMEchpe replace this with a method on VteRing */
+VteRowData* VteTerminalPrivate::find_row_data_writable(vte::grid::row_t row) const
 {
     VteRowData *rowdata = nullptr;
 
@@ -507,9 +478,8 @@ VteTerminalPrivate::find_row_data_writable(vte::grid::row_t row) const
 }
 
 /* Find the character an the given position in the backscroll buffer. */
-// FIXMEchpe replace this with a method on VteRing
-VteCell const*
-VteTerminalPrivate::find_charcell(vte::grid::column_t col,
+/* FIXMEchpe replace this with a method on VteRing */
+VteCell const* VteTerminalPrivate::find_charcell(vte::grid::column_t col,
                                   vte::grid::row_t row) const
 {
     VteRowData const* rowdata;
@@ -522,14 +492,14 @@ VteTerminalPrivate::find_charcell(vte::grid::column_t col,
     return ret;
 }
 
-// FIXMEchpe replace this with a method on VteRing
-vte::grid::column_t
-VteTerminalPrivate::find_start_column(vte::grid::column_t col,
-                                      vte::grid::row_t row) const
+/* FIXMEchpe replace this with a method on VteRing */
+vte::grid::column_t VteTerminalPrivate::find_start_column(vte::grid::column_t col,
+                                                            vte::grid::row_t row) const
 {
     VteRowData const* row_data = find_row_data(row);
-    if (G_UNLIKELY (col < 0))
+    if (G_UNLIKELY (col < 0)) {
         return col;
+    }
     if (row_data != nullptr) {
         const VteCell *cell = _vte_row_data_get (row_data, col);
         while (col > 0 && cell != NULL && cell->attr.fragment()) {
@@ -539,15 +509,15 @@ VteTerminalPrivate::find_start_column(vte::grid::column_t col,
     return MAX(col, 0);
 }
 
-// FIXMEchpe replace this with a method on VteRing
-vte::grid::column_t
-VteTerminalPrivate::find_end_column(vte::grid::column_t col,
-                                    vte::grid::row_t row) const
+/* FIXMEchpe replace this with a method on VteRing */
+vte::grid::column_t VteTerminalPrivate::find_end_column(vte::grid::column_t col,
+                                                        vte::grid::row_t row) const
 {
     VteRowData const* row_data = find_row_data(row);
     gint columns = 0;
-    if (G_UNLIKELY (col < 0))
+    if (G_UNLIKELY (col < 0)) {
         return col;
+    }
     if (row_data != NULL) {
         const VteCell *cell = _vte_row_data_get (row_data, col);
         while (col > 0 && cell != NULL && cell->attr.fragment()) {
@@ -557,29 +527,28 @@ VteTerminalPrivate::find_end_column(vte::grid::column_t col,
             columns = cell->attr.columns() - 1;
         }
     }
-        // FIXMEchp m__column_count - 1 ?
+    // FIXMEchp m__column_count - 1 ?
     return MIN(col + columns, m_column_count);
 }
 
 /* Determine the width of the portion of the preedit string which lies
  * to the left of the cursor, or the entire string, in columns. */
-// FIXMEchpe this is for the view, so use int not gssize
-// FIXMEchpe this is only ever called with left_only=false, so remove the param
-gssize
-VteTerminalPrivate::get_preedit_width(bool left_only)
+/* FIXMEchpe this is for the view, so use int not gssize */
+/* FIXMEchpe this is only ever called with left_only=false, so remove the param */
+gssize VteTerminalPrivate::get_preedit_width(bool left_only)
 {
     gssize ret = 0;
 
     if (m_im_preedit != NULL) {
         char const *preedit = m_im_preedit;
         for (int i = 0;
-                     // FIXMEchpe preddit is != NULL at the start, and next_char never returns NULL either
+             /* FIXMEchpe preddit is != NULL at the start, and next_char never returns NULL either */
              (preedit != NULL) &&
              (preedit[0] != '\0') &&
              (!left_only || (i < m_im_preedit_cursor));
              i++) {
-                        gunichar c = g_utf8_get_char(preedit);
-                        ret += _vte_unichar_width(c, m_utf8_ambiguous_width);
+            gunichar c = g_utf8_get_char(preedit);
+            ret += _vte_unichar_width(c, m_utf8_ambiguous_width);
             preedit = g_utf8_next_char(preedit);
         }
     }
@@ -589,16 +558,15 @@ VteTerminalPrivate::get_preedit_width(bool left_only)
 
 /* Determine the length of the portion of the preedit string which lies
  * to the left of the cursor, or the entire string, in gunichars. */
-// FIXMEchpe this returns gssize but inside it uses int...
-gssize
-VteTerminalPrivate::get_preedit_length(bool left_only)
+/* FIXMEchpe this returns gssize but inside it uses int... */
+gssize VteTerminalPrivate::get_preedit_length(bool left_only)
 {
     int i = 0;
 
     if (m_im_preedit != NULL) {
         char const *preedit = m_im_preedit;
         for (i = 0;
-                     // FIXMEchpe useless check, see above
+             /* FIXMEchpe useless check, see above */
              (preedit != NULL) &&
              (preedit[0] != '\0') &&
              (!left_only || (i < m_im_preedit_cursor));
@@ -610,15 +578,14 @@ VteTerminalPrivate::get_preedit_length(bool left_only)
     return i;
 }
 
-void
-VteTerminalPrivate::invalidate_cell(vte::grid::column_t col,
-                                    vte::grid::row_t row)
+void VteTerminalPrivate::invalidate_cell(vte::grid::column_t col, vte::grid::row_t row)
 {
     int columns;
     guint style;
 
-    if (G_UNLIKELY (!widget_realized()))
-                return;
+    if (G_UNLIKELY (!widget_realized())) {
+        return;
+    }
 
     if (m_invalidated_all) {
         return;
@@ -635,26 +602,25 @@ VteTerminalPrivate::invalidate_cell(vte::grid::column_t col,
             }
             columns = cell->attr.columns();
             style = _vte_draw_get_style(cell->attr.bold(), cell->attr.italic());
-                        if (cell->c != 0) {
-                                int right;
-                                _vte_draw_get_char_edges(m_draw, cell->c, columns, style, NULL, &right);
-                                columns = MAX(columns, howmany(right, m_cell_width));
+            if (cell->c != 0) {
+                int right;
+                _vte_draw_get_char_edges(m_draw, cell->c, columns, style, NULL, &right);
+                columns = MAX(columns, howmany(right, m_cell_width));
             }
         }
     }
 
-    _vte_debug_print(VTE_DEBUG_UPDATES,
-            "Invalidating cell at (%ld,%ld-%ld).\n",
-            row, col, col + columns);
+    _vte_debug_print(VTE_DEBUG_UPDATES, "Invalidating cell at (%ld,%ld-%ld).\n",
+                        row, col, col + columns);
 
-        invalidate_cells(col, columns, row, 1);
+    invalidate_cells(col, columns, row, 1);
 }
 
-void
-VteTerminalPrivate::invalidate_cursor_once(bool periodic)
+void VteTerminalPrivate::invalidate_cursor_once(bool periodic)
 {
-        if (G_UNLIKELY(!widget_realized()))
-                return;
+    if (G_UNLIKELY(!widget_realized())) {
+        return;
+    }
 
     if (m_invalidated_all) {
         return;
@@ -668,8 +634,8 @@ VteTerminalPrivate::invalidate_cursor_once(bool periodic)
 
     if (m_cursor_visible) {
         auto preedit_width = get_preedit_width(false);
-                auto row = m_screen->cursor.row;
-                auto column = m_screen->cursor.col;
+        auto row = m_screen->cursor.row;
+        auto column = m_screen->cursor.col;
         long columns = 1;
         column = find_start_column(column, row);
 
@@ -677,10 +643,10 @@ VteTerminalPrivate::invalidate_cursor_once(bool periodic)
         if (cell != NULL) {
             columns = cell->attr.columns();
             auto style = _vte_draw_get_style(cell->attr.bold(), cell->attr.italic());
-                        if (cell->c != 0) {
-                                int right;
-                                _vte_draw_get_char_edges(m_draw, cell->c, columns, style, NULL, &right);
-                                columns = MAX(columns, howmany(right, m_cell_width));
+            if (cell->c != 0) {
+                int right;
+                _vte_draw_get_char_edges(m_draw, cell->c, columns, style, NULL, &right);
+                columns = MAX(columns, howmany(right, m_cell_width));
             }
         }
         columns = MAX(columns, preedit_width);
@@ -688,40 +654,34 @@ VteTerminalPrivate::invalidate_cursor_once(bool periodic)
             column = MAX(0, m_column_count - columns);
         }
 
-        _vte_debug_print(VTE_DEBUG_UPDATES,
-                "Invalidating cursor at (%ld,%ld-%ld).\n",
-                row, column, column + columns);
-        invalidate_cells(
-                     column, columns,
-                     row, 1);
+        _vte_debug_print(VTE_DEBUG_UPDATES, "Invalidating cursor at (%ld,%ld-%ld).\n",
+                                                row, column, column + columns);
+        invalidate_cells(column, columns, row, 1);
     }
 }
 
 /* Invalidate the cursor repeatedly. */
-// FIXMEchpe this continually adds and removes the blink timeout. Find a better solution
-static gboolean
-invalidate_cursor_periodic_cb(VteTerminalPrivate *that)
+/* FIXMEchpe this continually adds and removes the blink timeout. Find a better solution */
+static gboolean invalidate_cursor_periodic_cb(VteTerminalPrivate *that)
 {
-        that->invalidate_cursor_periodic();
-        return G_SOURCE_REMOVE;
+    that->invalidate_cursor_periodic();
+    return G_SOURCE_REMOVE;
 }
 
-void
-VteTerminalPrivate::invalidate_cursor_periodic()
+void VteTerminalPrivate::invalidate_cursor_periodic()
 {
     m_cursor_blink_state = !m_cursor_blink_state;
     m_cursor_blink_time += m_cursor_blink_cycle;
 
-        m_cursor_blink_tag = 0;
+    m_cursor_blink_tag = 0;
     invalidate_cursor_once(true);
 
     /* only disable the blink if the cursor is currently shown.
      * else, wait until next time.
      */
-    if (m_cursor_blink_time / 1000 >= m_cursor_blink_timeout &&
-        m_cursor_blink_state) {
+    if (m_cursor_blink_time / 1000 >= m_cursor_blink_timeout && m_cursor_blink_state) {
         return;
-        }
+    }
 
     m_cursor_blink_tag = g_timeout_add_full(G_PRIORITY_LOW,
                                                 m_cursor_blink_cycle,
@@ -731,18 +691,14 @@ VteTerminalPrivate::invalidate_cursor_periodic()
 }
 
 /* Emit a "selection_changed" signal. */
-void
-VteTerminalPrivate::emit_selection_changed()
+void VteTerminalPrivate::emit_selection_changed()
 {
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `selection-changed'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `selection-changed'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_SELECTION_CHANGED], 0);
 }
 
 /* Emit a "commit" signal. */
-void
-VteTerminalPrivate::emit_commit(char const* text,
-                                gssize length)
+void VteTerminalPrivate::emit_commit(char const* text, gssize length)
 {
     char const* result = NULL;
     char *wrapped = NULL;
@@ -754,7 +710,7 @@ VteTerminalPrivate::emit_commit(char const* text,
         length = strlen(text);
         result = text;
     } else {
-                // FIXMEchpe why use the slice allocator here?
+        /* FIXMEchpe why use the slice allocator here? */
         result = wrapped = (char *) g_slice_alloc(length + 1);
         memcpy(wrapped, text, length);
         wrapped[length] = '\0';
@@ -762,55 +718,48 @@ VteTerminalPrivate::emit_commit(char const* text,
 
     g_signal_emit(m_terminal, signals[SIGNAL_COMMIT], 0, result, (guint)length);
 
-    if(wrapped)
+    if(wrapped) {
         g_slice_free1(length+1, wrapped);
+    }
 }
 
-void
-VteTerminalPrivate::queue_contents_changed()
+void VteTerminalPrivate::queue_contents_changed()
 {
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Queueing `contents-changed'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Queueing `contents-changed'.\n");
     m_contents_changed_pending = true;
 }
 
-//FIXMEchpe this has only one caller
-void
-VteTerminalPrivate::queue_cursor_moved()
+/* FIXMEchpe this has only one caller */
+void VteTerminalPrivate::queue_cursor_moved()
 {
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Queueing `cursor-moved'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Queueing `cursor-moved'.\n");
     m_cursor_moved_pending = true;
 }
 
-static gboolean
-emit_eof_idle_cb(VteTerminal *terminal)
+static gboolean emit_eof_idle_cb(VteTerminal *terminal)
 {
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_enter ();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
-        _vte_terminal_get_impl(terminal)->emit_eof();
+    _vte_terminal_get_impl(terminal)->emit_eof();
 
-        G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
+    G_GNUC_BEGIN_IGNORE_DEPRECATIONS;
     gdk_threads_leave ();
-        G_GNUC_END_IGNORE_DEPRECATIONS;
+    G_GNUC_END_IGNORE_DEPRECATIONS;
 
-        return G_SOURCE_REMOVE;
+    return G_SOURCE_REMOVE;
 }
 
-void
-VteTerminalPrivate::emit_eof()
+void VteTerminalPrivate::emit_eof()
 {
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `eof'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `eof'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_EOF], 0);
 }
 
 /* Emit a "eof" signal. */
-// FIXMEchpe any particular reason not to handle this immediately?
-void
-VteTerminalPrivate::queue_eof()
+/* FIXMEchpe any particular reason not to handle this immediately? */
+void VteTerminalPrivate::queue_eof()
 {
         _vte_debug_print(VTE_DEBUG_SIGNALS, "Queueing `eof'.\n");
         g_idle_add_full(G_PRIORITY_HIGH,
@@ -820,118 +769,98 @@ VteTerminalPrivate::queue_eof()
 }
 
 /* Emit a "char-size-changed" signal. */
-void
-VteTerminalPrivate::emit_char_size_changed(int width,
-                                           int height)
+void VteTerminalPrivate::emit_char_size_changed(int width, int height)
 {
     _vte_debug_print(VTE_DEBUG_SIGNALS,
             "Emitting `char-size-changed'.\n");
-        /* FIXME on next API break, change the signature */
+    /* FIXME on next API break, change the signature */
     g_signal_emit(m_terminal, signals[SIGNAL_CHAR_SIZE_CHANGED], 0,
-                  (guint)width, (guint)height);
+                    (guint)width, (guint)height);
 }
 
 /* Emit an "increase-font-size" signal. */
-void
-VteTerminalPrivate::emit_increase_font_size()
+void VteTerminalPrivate::emit_increase_font_size()
 {
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `increase-font-size'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `increase-font-size'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_INCREASE_FONT_SIZE], 0);
 }
 
 /* Emit a "decrease-font-size" signal. */
-void
-VteTerminalPrivate::emit_decrease_font_size()
+void VteTerminalPrivate::emit_decrease_font_size()
 {
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `decrease-font-size'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `decrease-font-size'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_DECREASE_FONT_SIZE], 0);
 }
 
 /* Emit a "text-inserted" signal. */
-void
-VteTerminalPrivate::emit_text_inserted()
+void VteTerminalPrivate::emit_text_inserted()
 {
     if (!m_accessible_emit) {
         return;
     }
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `text-inserted'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `text-inserted'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_TEXT_INSERTED], 0);
 }
 
 /* Emit a "text-deleted" signal. */
-void
-VteTerminalPrivate::emit_text_deleted()
+void VteTerminalPrivate::emit_text_deleted()
 {
     if (!m_accessible_emit) {
         return;
     }
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `text-deleted'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `text-deleted'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_TEXT_DELETED], 0);
 }
 
 /* Emit a "text-modified" signal. */
-void
-VteTerminalPrivate::emit_text_modified()
+void VteTerminalPrivate::emit_text_modified()
 {
     if (!m_accessible_emit) {
         return;
     }
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-                         "Emitting `text-modified'.\n");
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `text-modified'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_TEXT_MODIFIED], 0);
 }
 
 /* Emit a "text-scrolled" signal. */
-void
-VteTerminalPrivate::emit_text_scrolled(long delta)
+void VteTerminalPrivate::emit_text_scrolled(long delta)
 {
     if (!m_accessible_emit) {
         return;
     }
-    _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `text-scrolled'(%ld).\n", delta);
-        // FIXMEchpe fix signal signature?
+    _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `text-scrolled'(%ld).\n", delta);
+    /* FIXMEchpe fix signal signature? */
     g_signal_emit(m_terminal, signals[SIGNAL_TEXT_SCROLLED], 0, (int)delta);
 }
 
-void
-VteTerminalPrivate::emit_copy_clipboard()
+void VteTerminalPrivate::emit_copy_clipboard()
 {
     _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting 'copy-clipboard'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_COPY_CLIPBOARD], 0);
 }
 
-void
-VteTerminalPrivate::emit_paste_clipboard()
+void VteTerminalPrivate::emit_paste_clipboard()
 {
     _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting 'paste-clipboard'.\n");
     g_signal_emit(m_terminal, signals[SIGNAL_PASTE_CLIPBOARD], 0);
 }
 
 /* Emit a "hyperlink_hover_uri_changed" signal. */
-void
-VteTerminalPrivate::emit_hyperlink_hover_uri_changed(const GdkRectangle *bbox)
+void VteTerminalPrivate::emit_hyperlink_hover_uri_changed(const GdkRectangle *bbox)
 {
         GObject *object = G_OBJECT(m_terminal);
 
-        _vte_debug_print(VTE_DEBUG_SIGNALS,
-                         "Emitting `hyperlink-hover-uri-changed'.\n");
+        _vte_debug_print(VTE_DEBUG_SIGNALS, "Emitting `hyperlink-hover-uri-changed'.\n");
         g_signal_emit(m_terminal, signals[SIGNAL_HYPERLINK_HOVER_URI_CHANGED], 0, m_hyperlink_hover_uri, bbox);
         g_object_notify_by_pspec(object, pspecs[PROP_HYPERLINK_HOVER_URI]);
 }
 
-void
-VteTerminalPrivate::deselect_all()
+void VteTerminalPrivate::deselect_all()
 {
     if (m_has_selection) {
         gint sx, sy, ex, ey, extra;
 
-        _vte_debug_print(VTE_DEBUG_SELECTION,
-                "Deselecting all text.\n");
+        _vte_debug_print(VTE_DEBUG_SELECTION, "Deselecting all text.\n");
 
         m_has_selection = FALSE;
         /* Don't free the current selection, as we need to keep
@@ -943,68 +872,58 @@ VteTerminalPrivate::deselect_all()
         sy = m_selection_start.row;
         ex = m_selection_end.col;
         ey = m_selection_end.row;
-                extra = m_selection_block_mode ? (VTE_TAB_WIDTH_MAX - 1) : 0;
-        invalidate_region(
-                MIN (sx, ex), MAX (sx, ex) + extra,
-                MIN (sy, ey),   MAX (sy, ey),
-                false);
+        extra = m_selection_block_mode ? (VTE_TAB_WIDTH_MAX - 1) : 0;
+        invalidate_region(MIN (sx, ex), MAX (sx, ex) + extra,
+                            MIN (sy, ey),   MAX (sy, ey),
+                            false);
     }
 }
 
-// FIXMEchpe make m_tabstops a hashset
+/* FIXMEchpe make m_tabstops a hashset */
 
 /* Remove a tabstop. */
-void
-VteTerminalPrivate::clear_tabstop(int column)
+void VteTerminalPrivate::clear_tabstop(int column)
 {
     if (m_tabstops) {
         /* Remove a tab stop from the hash table. */
-        g_hash_table_remove(m_tabstops,
-                    GINT_TO_POINTER(2 * column + 1));
+        g_hash_table_remove(m_tabstops, GINT_TO_POINTER(2 * column + 1));
     }
 }
 
 /* Check if we have a tabstop at a given position. */
-bool
-VteTerminalPrivate::get_tabstop(int column)
+bool VteTerminalPrivate::get_tabstop(int column)
 {
     if (m_tabstops != NULL) {
-        auto hash = g_hash_table_lookup(m_tabstops,
-                       GINT_TO_POINTER(2 * column + 1));
+        auto hash = g_hash_table_lookup(m_tabstops, GINT_TO_POINTER(2 * column + 1));
         return hash != nullptr;
     }
 
-        return false;
+    return false;
 }
 
 /* Reset the set of tab stops to the default. */
-void
-VteTerminalPrivate::set_tabstop(int column)
+void VteTerminalPrivate::set_tabstop(int column)
 {
     if (m_tabstops != NULL) {
         /* Just set a non-NULL pointer for this column number. */
-        g_hash_table_insert(m_tabstops,
-                    GINT_TO_POINTER(2 * column + 1),
-                    m_terminal);
+        g_hash_table_insert(m_tabstops, GINT_TO_POINTER(2 * column + 1), m_terminal);
     }
 }
 
 /* Reset the set of tab stops to the default. */
-void
-VteTerminalPrivate::set_default_tabstops()
+void VteTerminalPrivate::set_default_tabstops()
 {
     if (m_tabstops) {
         g_hash_table_destroy(m_tabstops);
     }
     m_tabstops = g_hash_table_new(nullptr, nullptr);
-        for (int i = 0; i <= VTE_TAB_MAX; i += VTE_TAB_WIDTH) {
+    for (int i = 0; i <= VTE_TAB_MAX; i += VTE_TAB_WIDTH) {
         set_tabstop(i);
     }
 }
 
 /* Clear the cache of the screen contents we keep. */
-void
-VteTerminalPrivate::match_contents_clear()
+void VteTerminalPrivate::match_contents_clear()
 {
     match_hilite_clear();
     if (m_match_contents != nullptr) {
@@ -1017,21 +936,18 @@ VteTerminalPrivate::match_contents_clear()
     }
 }
 
-void
-VteTerminalPrivate::match_contents_refresh()
-
+void VteTerminalPrivate::match_contents_refresh()
 {
     match_contents_clear();
     GArray *array = g_array_new(FALSE, TRUE, sizeof(struct _VteCharAttributes));
-        auto match_contents = get_text_displayed(true /* wrap */,
-                                                 false /* include trailing whitespace */,
-                                                 array);
-        m_match_contents = g_string_free(match_contents, FALSE);
+    auto match_contents = get_text_displayed(true /* wrap */,
+                                                false /* include trailing whitespace */,
+                                                array);
+    m_match_contents = g_string_free(match_contents, FALSE);
     m_match_attributes = array;
 }
 
-GdkCursor *
-VteTerminalPrivate::widget_cursor_new(GdkCursorType cursor_type) const
+GdkCursor *VteTerminalPrivate::widget_cursor_new(GdkCursorType cursor_type) const
 {
     return gdk_cursor_new_for_display(gtk_widget_get_display(m_widget), cursor_type);
 }
@@ -1046,16 +962,15 @@ VteTerminalPrivate::widget_cursor_new(GdkCursorType cursor_type) const
  * mean that the event coordinates are outside the usable area
  * at that side; use view_coords_visible() to check for that.
  */
-vte::view::coords
-VteTerminalPrivate::view_coords_from_event(GdkEvent const* event) const
+vte::view::coords VteTerminalPrivate::view_coords_from_event(GdkEvent const* event) const
 {
-        double x, y;
-        if (event == nullptr ||
-            ((reinterpret_cast<GdkEventAny const*>(event))->window != m_event_window) ||
-            !gdk_event_get_coords(event, &x, &y))
-                return vte::view::coords(-1, -1);
-
-        return vte::view::coords(x - m_padding.left, y - m_padding.top);
+    double x, y;
+    if (event == nullptr ||
+        ((reinterpret_cast<GdkEventAny const*>(event))->window != m_event_window) ||
+        !gdk_event_get_coords(event, &x, &y)) {
+        return vte::view::coords(-1, -1);
+    }
+    return vte::view::coords(x - m_padding.left, y - m_padding.top);
 }
 
 /*
@@ -1068,10 +983,9 @@ VteTerminalPrivate::view_coords_from_event(GdkEvent const* event) const
  * mean that the event coordinates are outside the usable area
  * at that side; use grid_coords_visible() to check for that.
  */
-vte::grid::coords
-VteTerminalPrivate::grid_coords_from_event(GdkEvent const* event) const
+vte::grid::coords VteTerminalPrivate::grid_coords_from_event(GdkEvent const* event) const
 {
-        return grid_coords_from_view_coords(view_coords_from_event(event));
+    return grid_coords_from_view_coords(view_coords_from_event(event));
 }
 
 /*
@@ -1081,11 +995,10 @@ VteTerminalPrivate::grid_coords_from_event(GdkEvent const* event) const
  * Like grid_coords_from_event(), but also confines the coordinates
  * to an actual cell in the visible area.
  */
-vte::grid::coords
-VteTerminalPrivate::confined_grid_coords_from_event(GdkEvent const* event) const
+vte::grid::coords VteTerminalPrivate::confined_grid_coords_from_event(GdkEvent const* event) const
 {
-        auto pos = view_coords_from_event(event);
-        return confined_grid_coords_from_view_coords(pos);
+    auto pos = view_coords_from_event(event);
+    return confined_grid_coords_from_view_coords(pos);
 }
 
 /*
@@ -1096,20 +1009,20 @@ VteTerminalPrivate::confined_grid_coords_from_event(GdkEvent const* event) const
  * cells that are not visible, may return any value < 0 or >= m_column_count, and
  * < first_displayed_row() or > last_displayed_row(), resp.
  */
-vte::grid::coords
-VteTerminalPrivate::grid_coords_from_view_coords(vte::view::coords const& pos) const
+vte::grid::coords VteTerminalPrivate::grid_coords_from_view_coords(vte::view::coords const& pos) const
 {
-        vte::grid::column_t col;
-        if (pos.x >= 0 && pos.x < m_view_usable_extents.width())
-                col = pos.x / m_cell_width;
-        else if (pos.x < 0)
-                col = -1;
-        else
-                col = m_column_count;
+    vte::grid::column_t col;
+    if (pos.x >= 0 && pos.x < m_view_usable_extents.width()) {
+        col = pos.x / m_cell_width;
+    } else if (pos.x < 0) {
+        col = -1;
+    } else {
+        col = m_column_count;
+    }
 
-        vte::grid::row_t row = pixel_to_row(pos.y);
+    vte::grid::row_t row = pixel_to_row(pos.y);
 
-        return vte::grid::coords(row, col);
+    return vte::grid::coords(row, col);
 }
 
 /*
@@ -1119,11 +1032,10 @@ VteTerminalPrivate::grid_coords_from_view_coords(vte::view::coords const& pos) c
  * Like grid_coords_from_view_coords(), but also confines the coordinates
  * to an actual cell in the visible area.
  */
-vte::grid::coords
-VteTerminalPrivate::confined_grid_coords_from_view_coords(vte::view::coords const& pos) const
+vte::grid::coords VteTerminalPrivate::confined_grid_coords_from_view_coords(vte::view::coords const& pos) const
 {
-        auto rowcol = grid_coords_from_view_coords(pos);
-        return confine_grid_coords(rowcol);
+    auto rowcol = grid_coords_from_view_coords(pos);
+    return confine_grid_coords(rowcol);
 }
 
 /*
@@ -1135,54 +1047,47 @@ VteTerminalPrivate::confined_grid_coords_from_view_coords(vte::view::coords cons
  *
  * Returns: %true if the coordinates are inside the usable area
  */
-vte::view::coords
-VteTerminalPrivate::view_coords_from_grid_coords(vte::grid::coords const& rowcol) const
+vte::view::coords VteTerminalPrivate::view_coords_from_grid_coords(vte::grid::coords const& rowcol) const
 {
-        return vte::view::coords(rowcol.column() * m_cell_width,
-                                 row_to_pixel(rowcol.row()));
+    return vte::view::coords(rowcol.column() * m_cell_width, row_to_pixel(rowcol.row()));
 }
 
-bool
-VteTerminalPrivate::view_coords_visible(vte::view::coords const& pos) const
+bool VteTerminalPrivate::view_coords_visible(vte::view::coords const& pos) const
 {
-        return pos.x >= 0 && pos.x < m_view_usable_extents.width() &&
-               pos.y >= 0 && pos.y < m_view_usable_extents.height();
+    return pos.x >= 0 && pos.x < m_view_usable_extents.width() &&
+            pos.y >= 0 && pos.y < m_view_usable_extents.height();
 }
 
-bool
-VteTerminalPrivate::grid_coords_visible(vte::grid::coords const& rowcol) const
+bool VteTerminalPrivate::grid_coords_visible(vte::grid::coords const& rowcol) const
 {
-        return rowcol.column() >= 0 &&
-               rowcol.column() < m_column_count &&
-               rowcol.row() >= first_displayed_row() &&
-               rowcol.row() <= last_displayed_row();
+    return rowcol.column() >= 0 &&
+            rowcol.column() < m_column_count &&
+            rowcol.row() >= first_displayed_row() &&
+            rowcol.row() <= last_displayed_row();
 }
 
-vte::grid::coords
-VteTerminalPrivate::confine_grid_coords(vte::grid::coords const& rowcol) const
+vte::grid::coords VteTerminalPrivate::confine_grid_coords(vte::grid::coords const& rowcol) const
 {
-        /* Confine clicks to the nearest actual cell. This is especially useful for
-         * fullscreen vte so that you can click on the very edge of the screen.
-         */
-        auto first_row = first_displayed_row();
-        auto last_row = last_displayed_row();
+    /* Confine clicks to the nearest actual cell. This is especially useful for
+        * fullscreen vte so that you can click on the very edge of the screen.
+        */
+    auto first_row = first_displayed_row();
+    auto last_row = last_displayed_row();
 
-        return vte::grid::coords(CLAMP(rowcol.row(), first_row, last_row),
-                                 CLAMP(rowcol.column(), 0, m_column_count - 1));
+    return vte::grid::coords(CLAMP(rowcol.row(), first_row, last_row),
+                                CLAMP(rowcol.column(), 0, m_column_count - 1));
 }
 
-bool
-VteTerminalPrivate::rowcol_from_event(GdkEvent *event,
-                                      long *column,
-                                      long *row)
+bool VteTerminalPrivate::rowcol_from_event(GdkEvent *event, long *column, long *row)
 {
-        auto rowcol = grid_coords_from_event(event);
-        if (!grid_coords_visible(rowcol))
-                return false;
+    auto rowcol = grid_coords_from_event(event);
+    if (!grid_coords_visible(rowcol)) {
+        return false;
+    }
 
-        *column = rowcol.column();
-        *row = rowcol.row();
-        return true;
+    *column = rowcol.column();
+    *row = rowcol.row();
+    return true;
 }
 
 char *

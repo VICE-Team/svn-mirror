@@ -139,168 +139,149 @@ GParamSpec *pspecs[LAST_PROP];
 GTimer *process_timer;
 bool g_test_mode = false;
 
-static bool
-valid_color(GdkRGBA const* color)
+static bool valid_color(GdkRGBA const* color)
 {
-        return color->red >= 0. && color->red <= 1. &&
-               color->green >= 0. && color->green <= 1. &&
-               color->blue >= 0. && color->blue <= 1. &&
-               color->alpha >= 0. && color->alpha <= 1.;
+    return color->red >= 0. && color->red <= 1. &&
+            color->green >= 0. && color->green <= 1. &&
+            color->blue >= 0. && color->blue <= 1. &&
+            color->alpha >= 0. && color->alpha <= 1.;
 }
 
 VteTerminalPrivate *_vte_terminal_get_impl(NoVteTerminal *terminal)
 {
-        return IMPL(terminal);
+    return IMPL(terminal);
 }
 
-static void
-vte_terminal_set_hadjustment(NoVteTerminal *terminal,
-                             GtkAdjustment *adjustment)
+static void vte_terminal_set_hadjustment(NoVteTerminal *terminal,
+                                            GtkAdjustment *adjustment)
 {
-        g_return_if_fail(adjustment == nullptr || GTK_IS_ADJUSTMENT(adjustment));
-        IMPL(terminal)->widget_set_hadjustment(adjustment);
+    g_return_if_fail(adjustment == nullptr || GTK_IS_ADJUSTMENT(adjustment));
+    IMPL(terminal)->widget_set_hadjustment(adjustment);
 }
 
-static void
-vte_terminal_set_vadjustment(NoVteTerminal *terminal,
-                             GtkAdjustment *adjustment)
+static void vte_terminal_set_vadjustment(NoVteTerminal *terminal,
+                                            GtkAdjustment *adjustment)
 {
-        g_return_if_fail(adjustment == nullptr || GTK_IS_ADJUSTMENT(adjustment));
-        IMPL(terminal)->widget_set_vadjustment(adjustment);
+    g_return_if_fail(adjustment == nullptr || GTK_IS_ADJUSTMENT(adjustment));
+    IMPL(terminal)->widget_set_vadjustment(adjustment);
 }
 
-static void
-vte_terminal_set_hscroll_policy(NoVteTerminal *terminal,
-                                GtkScrollablePolicy policy)
+static void vte_terminal_set_hscroll_policy(NoVteTerminal *terminal,
+                                            GtkScrollablePolicy policy)
 {
-        IMPL(terminal)->m_hscroll_policy = policy;
-        gtk_widget_queue_resize_no_redraw (GTK_WIDGET (terminal));
+    IMPL(terminal)->m_hscroll_policy = policy;
+    gtk_widget_queue_resize_no_redraw (GTK_WIDGET (terminal));
 }
 
 
-static void
-vte_terminal_set_vscroll_policy(NoVteTerminal *terminal,
-                                GtkScrollablePolicy policy)
+static void vte_terminal_set_vscroll_policy(NoVteTerminal *terminal,
+                                            GtkScrollablePolicy policy)
 {
-        IMPL(terminal)->m_vscroll_policy = policy;
-        gtk_widget_queue_resize_no_redraw (GTK_WIDGET (terminal));
+    IMPL(terminal)->m_vscroll_policy = policy;
+    gtk_widget_queue_resize_no_redraw (GTK_WIDGET (terminal));
 }
 
-static void
-vte_terminal_real_copy_clipboard(NoVteTerminal *terminal)
+static void vte_terminal_real_copy_clipboard(NoVteTerminal *terminal)
 {
     IMPL(terminal)->widget_copy(VTE_SELECTION_CLIPBOARD, VTE_FORMAT_TEXT);
 }
 
-static void
-vte_terminal_real_paste_clipboard(NoVteTerminal *terminal)
+static void vte_terminal_real_paste_clipboard(NoVteTerminal *terminal)
 {
     IMPL(terminal)->widget_paste(GDK_SELECTION_CLIPBOARD);
 }
 
-static void
-vte_terminal_style_updated (GtkWidget *widget)
+static void vte_terminal_style_updated (GtkWidget *widget)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
 
-        GTK_WIDGET_CLASS (vte_terminal_parent_class)->style_updated (widget);
+    GTK_WIDGET_CLASS (vte_terminal_parent_class)->style_updated (widget);
 
-        IMPL(terminal)->widget_style_updated();
+    IMPL(terminal)->widget_style_updated();
 }
 
-static gboolean
-vte_terminal_key_press(GtkWidget *widget, GdkEventKey *event)
+static gboolean vte_terminal_key_press(GtkWidget *widget, GdkEventKey *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
 
-        /* We do NOT want chain up to GtkWidget::key-press-event, since that would
-         * cause GtkWidget's keybindings to be handled and consumed. However we'll
-         * have to handle the one sane binding (Shift-F10 or MenuKey, to pop up the
-         * context menu) ourself, so for now we simply skip the offending keybinding
-         * in class_init.
-         */
+    /* We do NOT want chain up to GtkWidget::key-press-event, since that would
+     * cause GtkWidget's keybindings to be handled and consumed. However we'll
+     * have to handle the one sane binding (Shift-F10 or MenuKey, to pop up the
+     * context menu) ourself, so for now we simply skip the offending keybinding
+     * in class_init.
+     */
 
     /* First, check if GtkWidget's behavior already does something with
      * this key. */
     if (GTK_WIDGET_CLASS(vte_terminal_parent_class)->key_press_event) {
-        if ((GTK_WIDGET_CLASS(vte_terminal_parent_class))->key_press_event(widget,
-                                                                                   event)) {
+        if ((GTK_WIDGET_CLASS(vte_terminal_parent_class))->key_press_event(widget, event)) {
             return TRUE;
         }
     }
 
-        return IMPL(terminal)->widget_key_press(event);
+    return IMPL(terminal)->widget_key_press(event);
 }
 
-static gboolean
-vte_terminal_key_release(GtkWidget *widget, GdkEventKey *event)
+static gboolean vte_terminal_key_release(GtkWidget *widget, GdkEventKey *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        return IMPL(terminal)->widget_key_release(event);
+    return IMPL(terminal)->widget_key_release(event);
 }
 
-static gboolean
-vte_terminal_motion_notify(GtkWidget *widget, GdkEventMotion *event)
-{
-        NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        return IMPL(terminal)->widget_motion_notify(event);
-}
-
-static gboolean
-vte_terminal_button_press(GtkWidget *widget, GdkEventButton *event)
+static gboolean vte_terminal_motion_notify(GtkWidget *widget, GdkEventMotion *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        return IMPL(terminal)->widget_button_press(event);
+    return IMPL(terminal)->widget_motion_notify(event);
 }
 
-static gboolean
-vte_terminal_button_release(GtkWidget *widget, GdkEventButton *event)
+static gboolean vte_terminal_button_press(GtkWidget *widget, GdkEventButton *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        return IMPL(terminal)->widget_button_release(event);
+    return IMPL(terminal)->widget_button_press(event);
 }
 
-static gboolean
-vte_terminal_scroll(GtkWidget *widget, GdkEventScroll *event)
+static gboolean vte_terminal_button_release(GtkWidget *widget, GdkEventButton *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_scroll(event);
-        return TRUE;
+    return IMPL(terminal)->widget_button_release(event);
 }
 
-static gboolean
-vte_terminal_focus_in(GtkWidget *widget, GdkEventFocus *event)
+static gboolean vte_terminal_scroll(GtkWidget *widget, GdkEventScroll *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_focus_in(event);
-        return FALSE;
+    IMPL(terminal)->widget_scroll(event);
+    return TRUE;
 }
 
-static gboolean
-vte_terminal_focus_out(GtkWidget *widget, GdkEventFocus *event)
+static gboolean vte_terminal_focus_in(GtkWidget *widget, GdkEventFocus *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_focus_out(event);
-        return FALSE;
+    IMPL(terminal)->widget_focus_in(event);
+    return FALSE;
 }
 
-static gboolean
-vte_terminal_enter(GtkWidget *widget, GdkEventCrossing *event)
+static gboolean vte_terminal_focus_out(GtkWidget *widget, GdkEventFocus *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        gboolean ret = FALSE;
+    IMPL(terminal)->widget_focus_out(event);
+    return FALSE;
+}
+
+static gboolean vte_terminal_enter(GtkWidget *widget, GdkEventCrossing *event)
+{
+    NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
+    gboolean ret = FALSE;
 
     if (GTK_WIDGET_CLASS (vte_terminal_parent_class)->enter_notify_event) {
         ret = GTK_WIDGET_CLASS (vte_terminal_parent_class)->enter_notify_event (widget, event);
     }
 
-        IMPL(terminal)->widget_enter(event);
+    IMPL(terminal)->widget_enter(event);
 
-        return ret;
+    return ret;
 }
 
-static gboolean
-vte_terminal_leave(GtkWidget *widget, GdkEventCrossing *event)
+static gboolean vte_terminal_leave(GtkWidget *widget, GdkEventCrossing *event)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
     gboolean ret = FALSE;
@@ -309,126 +290,115 @@ vte_terminal_leave(GtkWidget *widget, GdkEventCrossing *event)
         ret = GTK_WIDGET_CLASS (vte_terminal_parent_class)->leave_notify_event (widget, event);
     }
 
-        IMPL(terminal)->widget_leave(event);
+    IMPL(terminal)->widget_leave(event);
 
-        return ret;
+    return ret;
 }
 
-static void
-vte_terminal_get_preferred_width(GtkWidget *widget,
-                 int       *minimum_width,
-                 int       *natural_width)
+static void vte_terminal_get_preferred_width(GtkWidget *widget,
+                                                int       *minimum_width,
+                                                int       *natural_width)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_get_preferred_width(minimum_width, natural_width);
+    IMPL(terminal)->widget_get_preferred_width(minimum_width, natural_width);
 }
 
-static void
-vte_terminal_get_preferred_height(GtkWidget *widget,
-                  int       *minimum_height,
-                  int       *natural_height)
+static void vte_terminal_get_preferred_height(GtkWidget *widget,
+                                                int       *minimum_height,
+                                                int       *natural_height)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_get_preferred_height(minimum_height, natural_height);
+    IMPL(terminal)->widget_get_preferred_height(minimum_height, natural_height);
 }
 
-static void
-vte_terminal_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
+static void vte_terminal_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
 {
     NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_size_allocate(allocation);
+    IMPL(terminal)->widget_size_allocate(allocation);
 }
 
-static gboolean
-vte_terminal_draw(GtkWidget *widget,
+static gboolean vte_terminal_draw(GtkWidget *widget,
                   cairo_t *cr)
 {
-        NoVteTerminal *terminal = NOVTE_TERMINAL (widget);
-        IMPL(terminal)->widget_draw(cr);
-        return FALSE;
+    NoVteTerminal *terminal = NOVTE_TERMINAL (widget);
+    IMPL(terminal)->widget_draw(cr);
+    return FALSE;
 }
 
-static void
-vte_terminal_realize(GtkWidget *widget)
+static void vte_terminal_realize(GtkWidget *widget)
 {
-        GTK_WIDGET_CLASS(vte_terminal_parent_class)->realize(widget);
+    GTK_WIDGET_CLASS(vte_terminal_parent_class)->realize(widget);
 
-        NoVteTerminal *terminal= NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_realize();
+    NoVteTerminal *terminal= NOVTE_TERMINAL(widget);
+    IMPL(terminal)->widget_realize();
 }
 
-static void
-vte_terminal_unrealize(GtkWidget *widget)
+static void vte_terminal_unrealize(GtkWidget *widget)
 {
-        NoVteTerminal *terminal = NOVTE_TERMINAL (widget);
-        IMPL(terminal)->widget_unrealize();
+    NoVteTerminal *terminal = NOVTE_TERMINAL (widget);
+    IMPL(terminal)->widget_unrealize();
 
-        GTK_WIDGET_CLASS(vte_terminal_parent_class)->unrealize(widget);
+    GTK_WIDGET_CLASS(vte_terminal_parent_class)->unrealize(widget);
 }
 
-static void
-vte_terminal_map(GtkWidget *widget)
+static void vte_terminal_map(GtkWidget *widget)
 {
-        _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_map()\n");
+    _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_map()\n");
 
-        NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        GTK_WIDGET_CLASS(vte_terminal_parent_class)->map(widget);
+    NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
+    GTK_WIDGET_CLASS(vte_terminal_parent_class)->map(widget);
 
-        IMPL(terminal)->widget_map();
+    IMPL(terminal)->widget_map();
 }
 
-static void
-vte_terminal_unmap(GtkWidget *widget)
+static void vte_terminal_unmap(GtkWidget *widget)
 {
-        _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_unmap()\n");
+    _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_unmap()\n");
 
-        NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
-        IMPL(terminal)->widget_unmap();
+    NoVteTerminal *terminal = NOVTE_TERMINAL(widget);
+    IMPL(terminal)->widget_unmap();
 
-        GTK_WIDGET_CLASS(vte_terminal_parent_class)->unmap(widget);
+    GTK_WIDGET_CLASS(vte_terminal_parent_class)->unmap(widget);
 }
 
-static void
-vte_terminal_screen_changed (GtkWidget *widget,
-                             GdkScreen *previous_screen)
+static void vte_terminal_screen_changed (GtkWidget *widget,
+                                            GdkScreen *previous_screen)
 {
-        NoVteTerminal *terminal = NOVTE_TERMINAL (widget);
+    NoVteTerminal *terminal = NOVTE_TERMINAL (widget);
 
-        if (GTK_WIDGET_CLASS (vte_terminal_parent_class)->screen_changed) {
-                GTK_WIDGET_CLASS (vte_terminal_parent_class)->screen_changed (widget, previous_screen);
-        }
+    if (GTK_WIDGET_CLASS (vte_terminal_parent_class)->screen_changed) {
+            GTK_WIDGET_CLASS (vte_terminal_parent_class)->screen_changed (widget, previous_screen);
+    }
 
-        IMPL(terminal)->widget_screen_changed(previous_screen);
+    IMPL(terminal)->widget_screen_changed(previous_screen);
 }
 
-static void
-vte_terminal_constructed (GObject *object)
+static void vte_terminal_constructed (GObject *object)
 {
-        NoVteTerminal *terminal = NOVTE_TERMINAL (object);
+    NoVteTerminal *terminal = NOVTE_TERMINAL (object);
 
-        G_OBJECT_CLASS (vte_terminal_parent_class)->constructed (object);
+    G_OBJECT_CLASS (vte_terminal_parent_class)->constructed (object);
 
-        IMPL(terminal)->widget_constructed();
+    IMPL(terminal)->widget_constructed();
 }
 
-static void
-vte_terminal_init(NoVteTerminal *terminal)
+static void vte_terminal_init(NoVteTerminal *terminal)
 {
-        void *place;
+    void *place;
     GtkStyleContext *context;
 
     _vte_debug_print(VTE_DEBUG_LIFECYCLE, "vte_terminal_init()\n");
 
-        context = gtk_widget_get_style_context(&terminal->widget);
-        gtk_style_context_add_provider (context,
-                                        VTE_TERMINAL_GET_CLASS (terminal)->priv->style_provider,
-                                        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    context = gtk_widget_get_style_context(&terminal->widget);
+    gtk_style_context_add_provider (context,
+                                    VTE_TERMINAL_GET_CLASS (terminal)->priv->style_provider,
+                                    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
     /* Initialize private data. NOTE: place is zeroed */
     place = vte_terminal_get_instance_private(terminal);
-        new (place) VteTerminalPrivate(terminal);
+    new (place) VteTerminalPrivate(terminal);
 
-        gtk_widget_set_has_window(&terminal->widget, FALSE);
+    gtk_widget_set_has_window(&terminal->widget, FALSE);
 }
 
 static void

@@ -39,9 +39,9 @@ typedef enum {
 } MouseTrackingMode;
 
 typedef enum _VteCharacterReplacement {
-        VTE_CHARACTER_REPLACEMENT_NONE,
-        VTE_CHARACTER_REPLACEMENT_LINE_DRAWING,
-        VTE_CHARACTER_REPLACEMENT_BRITISH
+    VTE_CHARACTER_REPLACEMENT_NONE,
+    VTE_CHARACTER_REPLACEMENT_LINE_DRAWING,
+    VTE_CHARACTER_REPLACEMENT_BRITISH
 } VteCharacterReplacement;
 
 /* The terminal's keypad/cursor state.  A terminal can either be using the
@@ -60,56 +60,56 @@ typedef struct _VtePaletteColor {
 
 /* These correspond to the parameters for DECSCUSR (Set cursor style). */
 typedef enum _VteCursorStyle {
-        /* We treat 0 and 1 differently, assuming that the VT510 does so too.
-         *
-         * See, according to the "VT510 Video Terminal Programmer Information",
-         * from vt100.net, paragraph "2.5.7 Cursor Display", there was a menu
-         * item in the "Terminal Set-Up" to set the cursor's style. It looks
-         * like that defaulted to blinking block. So it makes sense for 0 to
-         * mean "set cursor style to default (set by Set-Up)" and 1 to mean
-         * "set cursor style to blinking block", since that default need not be
-         * blinking block. Access to a VT510 is needed to test this theory,
-         * but it seems plausible. And, anyhow, we can even decide we know
-         * better than the VT510 designers! */
-        VTE_CURSOR_STYLE_TERMINAL_DEFAULT = 0,
-        VTE_CURSOR_STYLE_BLINK_BLOCK      = 1,
-        VTE_CURSOR_STYLE_STEADY_BLOCK     = 2,
-        VTE_CURSOR_STYLE_BLINK_UNDERLINE  = 3,
-        VTE_CURSOR_STYLE_STEADY_UNDERLINE = 4,
-        /* *_IBEAM are xterm extensions */
-        VTE_CURSOR_STYLE_BLINK_IBEAM      = 5,
-        VTE_CURSOR_STYLE_STEADY_IBEAM     = 6
+    /* We treat 0 and 1 differently, assuming that the VT510 does so too.
+     *
+     * See, according to the "VT510 Video Terminal Programmer Information",
+     * from vt100.net, paragraph "2.5.7 Cursor Display", there was a menu
+     * item in the "Terminal Set-Up" to set the cursor's style. It looks
+     * like that defaulted to blinking block. So it makes sense for 0 to
+     * mean "set cursor style to default (set by Set-Up)" and 1 to mean
+     * "set cursor style to blinking block", since that default need not be
+     * blinking block. Access to a VT510 is needed to test this theory,
+     * but it seems plausible. And, anyhow, we can even decide we know
+     * better than the VT510 designers! */
+    VTE_CURSOR_STYLE_TERMINAL_DEFAULT = 0,
+    VTE_CURSOR_STYLE_BLINK_BLOCK      = 1,
+    VTE_CURSOR_STYLE_STEADY_BLOCK     = 2,
+    VTE_CURSOR_STYLE_BLINK_UNDERLINE  = 3,
+    VTE_CURSOR_STYLE_STEADY_UNDERLINE = 4,
+    /* *_IBEAM are xterm extensions */
+    VTE_CURSOR_STYLE_BLINK_IBEAM      = 5,
+    VTE_CURSOR_STYLE_STEADY_IBEAM     = 6
 } VteCursorStyle;
 
 typedef struct _vte_incoming_chunk _vte_incoming_chunk_t;
 struct _vte_incoming_chunk{
-        _vte_incoming_chunk_t *next;
-        guint len;
-        guchar dataminusone;    /* Hack: Keep it right before data, so that data[-1] is valid and usable */
-        guchar data[VTE_INPUT_CHUNK_SIZE - 2 * sizeof(void *) - 1];
+    _vte_incoming_chunk_t *next;
+    guint len;
+    guchar dataminusone;    /* Hack: Keep it right before data, so that data[-1] is valid and usable */
+    guchar data[VTE_INPUT_CHUNK_SIZE - 2 * sizeof(void *) - 1];
 };
 
 typedef struct _VteScreen VteScreen;
 struct _VteScreen {
-        VteRing row_data[1];    /* buffer contents */
-        VteVisualPosition cursor;  /* absolute value, from the beginning of the terminal history */
-        double scroll_delta;    /* scroll offset */
-        long insert_delta;    /* insertion offset */
+    VteRing row_data[1];    /* buffer contents */
+    VteVisualPosition cursor;  /* absolute value, from the beginning of the terminal history */
+    double scroll_delta;    /* scroll offset */
+    long insert_delta;    /* insertion offset */
 
-        /* Stuff saved along with the cursor */
-        struct {
-                VteVisualPosition cursor;  /* onscreen coordinate, that is, relative to insert_delta */
-                gboolean reverse_mode;
-                gboolean origin_mode;
-                gboolean sendrecv_mode;
-                gboolean insert_mode;
-                gboolean linefeed_mode;
-                VteCell defaults;
-                VteCell color_defaults;
-                VteCell fill_defaults;
-                VteCharacterReplacement character_replacements[2];
-                VteCharacterReplacement *character_replacement;
-        } saved;
+    /* Stuff saved along with the cursor */
+    struct {
+        VteVisualPosition cursor;  /* onscreen coordinate, that is, relative to insert_delta */
+        gboolean reverse_mode;
+        gboolean origin_mode;
+        gboolean sendrecv_mode;
+        gboolean insert_mode;
+        gboolean linefeed_mode;
+        VteCell defaults;
+        VteCell color_defaults;
+        VteCell fill_defaults;
+        VteCharacterReplacement character_replacements[2];
+        VteCharacterReplacement *character_replacement;
+    } saved;
 };
 
 enum vte_selection_type {
@@ -119,12 +119,7 @@ enum vte_selection_type {
 };
 
 /* Until the selection can be generated on demand, let's not enable this on stable */
-//#include "vteversion.h"
-//#if (VTE_MINOR_VERSION % 2) == 0
 #undef HTML_SELECTION
-//#else
-//#define HTML_SELECTION
-//#endif
 
 /* For unified handling of PRIMARY and CLIPBOARD selection */
 typedef enum {
@@ -136,99 +131,101 @@ typedef enum {
 /* Used in the GtkClipboard API, to distinguish requests for HTML and TEXT
  * contents of a clipboard */
 typedef enum {
-        VTE_TARGET_TEXT,
-        VTE_TARGET_HTML,
-        LAST_VTE_TARGET
+    VTE_TARGET_TEXT,
+    VTE_TARGET_HTML,
+    LAST_VTE_TARGET
 } VteSelectionTarget;
 
 struct vte_scrolling_region {
-        int start, end;
+    int start, end;
 };
 
 template <class T>
 class ClipboardTextRequestGtk {
 public:
-        typedef void (T::* Callback)(char const*);
+    typedef void (T::* Callback)(char const*);
 
-        ClipboardTextRequestGtk() : m_request(nullptr) { }
-        ~ClipboardTextRequestGtk() { cancel(); }
+    ClipboardTextRequestGtk() : m_request(nullptr) { }
+    ~ClipboardTextRequestGtk() { cancel(); }
 
-        void request_text(GtkClipboard *clipboard,
-                          Callback callback,
-                          T* that)
+    void request_text(GtkClipboard *clipboard,
+                        Callback callback,
+                        T* that)
+    {
+        cancel();
+        new Request(clipboard, callback, that, &m_request);
+    }
+
+private:
+
+    class Request {
+    public:
+        Request(GtkClipboard *clipboard,
+                Callback callback,
+                T* that,
+                Request** location) :
+                m_callback(callback),
+                m_that(that),
+                m_location(location)
         {
-                cancel();
-                new Request(clipboard, callback, that, &m_request);
+            /* We need to store this here instead of doing it after the |new| above,
+                * since gtk_clipboard_request_text may dispatch the callback
+                * immediately or only later, with no way to know this beforehand.
+                */
+            *m_location = this;
+            gtk_clipboard_request_text(clipboard, text_received, this);
         }
 
-private:
+        ~Request()
+        {
+            invalidate();
+        }
 
-        class Request {
-        public:
-                Request(GtkClipboard *clipboard,
-                        Callback callback,
-                        T* that,
-                        Request** location) :
-                        m_callback(callback),
-                        m_that(that),
-                        m_location(location)
-                {
-                        /* We need to store this here instead of doing it after the |new| above,
-                         * since gtk_clipboard_request_text may dispatch the callback
-                         * immediately or only later, with no way to know this beforehand.
-                         */
-                        *m_location = this;
-                        gtk_clipboard_request_text(clipboard, text_received, this);
-                }
-
-                ~Request()
-                {
-                        invalidate();
-                }
-
-                void cancel()
-                {
-                        invalidate();
-                        m_that = nullptr;
-                        m_location = nullptr;
-                }
-
-        private:
-                Callback m_callback;
-                T *m_that;
-                Request** m_location;
-
-                void invalidate()
-                {
-                        if (m_that && m_location)
-                                *m_location = nullptr;
-                }
-
-                void dispatch(char const *text)
-                {
-                        if (m_that) {
-                                g_assert(m_location == nullptr || *m_location == this);
-
-                                (m_that->*m_callback)(text);
-                        }
-                }
-
-                static void text_received(GtkClipboard *clipboard, char const* text, gpointer data) {
-                        Request* request = reinterpret_cast<Request*>(data);
-                        request->dispatch(text);
-                        delete request;
-                }
-        };
-
-private:
         void cancel()
         {
-                if (m_request)
-                        m_request->cancel();
-                g_assert(m_request == nullptr);
+            invalidate();
+            m_that = nullptr;
+            m_location = nullptr;
         }
 
-        Request *m_request;
+    private:
+        Callback m_callback;
+        T *m_that;
+        Request** m_location;
+
+        void invalidate()
+        {
+            if (m_that && m_location) {
+                    *m_location = nullptr;
+            }
+        }
+
+        void dispatch(char const *text)
+        {
+            if (m_that) {
+                    g_assert(m_location == nullptr || *m_location == this);
+
+                    (m_that->*m_callback)(text);
+            }
+        }
+
+        static void text_received(GtkClipboard *clipboard, char const* text, gpointer data) {
+            Request* request = reinterpret_cast<Request*>(data);
+            request->dispatch(text);
+            delete request;
+        }
+    };
+
+private:
+    void cancel()
+    {
+        if (m_request) {
+                m_request->cancel();
+        }
+        g_assert(m_request == nullptr);
+    }
+
+    Request *m_request;
 };
 
 namespace vte {
@@ -236,108 +233,113 @@ namespace parser {
 
 struct Params {
 
-        typedef long number;
+    typedef long number;
 
-        char* ucs4_to_utf8(gunichar const* str) const;
+    char* ucs4_to_utf8(gunichar const* str) const;
 
-        void print() const;
+    void print() const;
 
-        inline unsigned int size() const
-        {
-                return G_LIKELY(m_values != nullptr) ? m_values->n_values : 0;
+    inline unsigned int size() const
+    {
+        return G_LIKELY(m_values != nullptr) ? m_values->n_values : 0;
+    }
+
+    inline GValue* value_at_unchecked(unsigned int position) const
+    {
+        return g_value_array_get_nth(m_values, position);
+    }
+
+    inline bool has_number_at_unchecked(unsigned int position) const
+    {
+        return G_UNLIKELY(G_VALUE_HOLDS_LONG(value_at_unchecked(position)));
+    }
+
+    inline bool number_at_unchecked(unsigned int position, number& v) const
+    {
+        auto value = value_at_unchecked(position);
+        if (G_UNLIKELY(!G_VALUE_HOLDS(value, G_TYPE_LONG))) {
+            return false;
         }
 
-        inline GValue* value_at_unchecked(unsigned int position) const
-        {
-                return g_value_array_get_nth(m_values, position);
+        v = g_value_get_long(value);
+        return true;
+    }
+
+    inline bool number_at(unsigned int position, number& v) const
+    {
+        if (G_UNLIKELY(position >= size())) {
+            return false;
         }
 
-        inline bool has_number_at_unchecked(unsigned int position) const
-        {
-                return G_UNLIKELY(G_VALUE_HOLDS_LONG(value_at_unchecked(position)));
+        return number_at_unchecked(position, v);
+    }
+
+    inline number number_or_default_at_unchecked(unsigned int position, number default_v = 0) const
+    {
+        number v;
+        if (G_UNLIKELY(!number_at_unchecked(position, v))) {
+            v = default_v;
         }
+        return v;
+    }
 
-        inline bool number_at_unchecked(unsigned int position, number& v) const
-        {
-                auto value = value_at_unchecked(position);
-                if (G_UNLIKELY(!G_VALUE_HOLDS(value, G_TYPE_LONG)))
-                        return false;
 
-                v = g_value_get_long(value);
-                return true;
+    inline number number_or_default_at(unsigned int position, number default_v = 0) const
+    {
+        number v;
+        if (G_UNLIKELY(!number_at(position, v))) {
+            v = default_v;
         }
+        return v;
+    }
 
-        inline bool number_at(unsigned int position, number& v) const
-        {
-                if (G_UNLIKELY(position >= size()))
-                        return false;
-
-                return number_at_unchecked(position, v);
+    inline bool string_at_unchecked(unsigned int position, char*& str) const
+    {
+        auto value = value_at_unchecked(position);
+        if (G_LIKELY(G_VALUE_HOLDS_POINTER(value))) {
+            str = ucs4_to_utf8((gunichar const*)g_value_get_pointer (value));
+            return str != nullptr;
         }
-
-        inline number number_or_default_at_unchecked(unsigned int position, number default_v = 0) const
-        {
-                number v;
-                if (G_UNLIKELY(!number_at_unchecked(position, v)))
-                        v = default_v;
-                return v;
+        if (G_VALUE_HOLDS_STRING(value)) {
+            /* Copy the string into the buffer. */
+            str = g_value_dup_string(value);
+            return str != nullptr;
         }
-
-
-        inline number number_or_default_at(unsigned int position, number default_v = 0) const
-        {
-                number v;
-                if (G_UNLIKELY(!number_at(position, v)))
-                        v = default_v;
-                return v;
+        if (G_VALUE_HOLDS_LONG(value)) {
+            /* Convert the long to a string. */
+            str = g_strdup_printf("%ld", g_value_get_long(value));
+            return true;
         }
+        return false;
+    }
 
-        inline bool string_at_unchecked(unsigned int position, char*& str) const
-        {
-                auto value = value_at_unchecked(position);
-                if (G_LIKELY(G_VALUE_HOLDS_POINTER(value))) {
-                        str = ucs4_to_utf8((gunichar const*)g_value_get_pointer (value));
-                        return str != nullptr;
-                }
-                if (G_VALUE_HOLDS_STRING(value)) {
-                        /* Copy the string into the buffer. */
-                        str = g_value_dup_string(value);
-                        return str != nullptr;
-                }
-                if (G_VALUE_HOLDS_LONG(value)) {
-                        /* Convert the long to a string. */
-                        str = g_strdup_printf("%ld", g_value_get_long(value));
-                        return true;
-                }
+    inline bool string_at(unsigned int position, char*& str) const
+    {
+        if (G_UNLIKELY(position >= size())) {
                 return false;
         }
 
-        inline bool string_at(unsigned int position, char*& str) const
-        {
-                if (G_UNLIKELY(position >= size()))
-                        return false;
+        return string_at_unchecked(position, str);
+    }
 
-                return string_at_unchecked(position, str);
+    inline bool has_subparams_at_unchecked(unsigned int position) const
+    {
+        return G_UNLIKELY(G_VALUE_HOLDS_BOXED(value_at_unchecked(position)));
+    }
 
+    inline Params subparams_at_unchecked(unsigned int position) const
+    {
+        return {(GValueArray*)g_value_get_boxed(value_at_unchecked(position))};
+    }
+
+    inline void recycle(struct _vte_matcher *matcher)
+    {
+        if (G_LIKELY(m_values != nullptr)) {
+            _vte_matcher_free_params_array(matcher, m_values);
         }
+    }
 
-        inline bool has_subparams_at_unchecked(unsigned int position) const
-        {
-                return G_UNLIKELY(G_VALUE_HOLDS_BOXED(value_at_unchecked(position)));
-        }
-
-        inline Params subparams_at_unchecked(unsigned int position) const
-        {
-                return {(GValueArray*)g_value_get_boxed(value_at_unchecked(position))};
-        }
-
-        inline void recycle(struct _vte_matcher *matcher)
-        {
-                if (G_LIKELY(m_values != nullptr))
-                    _vte_matcher_free_params_array(matcher, m_values);
-        }
-
-        GValueArray *m_values;
+    GValueArray *m_values;
 };
 
 } // namespace parser
