@@ -1177,10 +1177,7 @@ static gboolean _vte_frozen_row_text_offset_to_column (VteRing *ring,
  * reflect the cell's new position.
  */
 /* See ../doc/rewrap.txt for design and implementation details. */
-void
-_vte_ring_rewrap (VteRing *ring,
-          glong columns,
-          VteVisualPosition **markers)
+void _vte_ring_rewrap (VteRing *ring, glong columns, VteVisualPosition **markers)
 {
     gulong old_row_index, new_row_index;
     int i;
@@ -1196,27 +1193,31 @@ _vte_ring_rewrap (VteRing *ring,
     gsize attr_offset;
     gsize old_ring_end;
 
-    if (_vte_ring_length(ring) == 0)
+    if (_vte_ring_length(ring) == 0) {
         return;
+    }
     _vte_debug_print(VTE_DEBUG_RING, "Ring before rewrapping:\n");
     _vte_ring_validate(ring);
     new_row_stream = _vte_file_stream_new ();
 
     /* Freeze everything, because rewrapping is really complicated and we don't want to
        duplicate the code for frozen and thawed rows. */
-    while (ring->writable < ring->end)
+    while (ring->writable < ring->end) {
         _vte_ring_freeze_one_row(ring);
+    }
 
     /* For markers given as (row,col) pairs find their offsets in the text stream.
        This code requires that the rows are already frozen. */
-    while (markers[num_markers] != NULL)
+    while (markers[num_markers] != NULL) {
         num_markers++;
+    }
     marker_text_offsets = (VteCellTextOffset *) g_malloc(num_markers * sizeof (marker_text_offsets[0]));
     new_markers = (VteVisualPosition *) g_malloc(num_markers * sizeof (new_markers[0]));
     for (i = 0; i < num_markers; i++) {
         /* Convert visual column into byte offset */
-        if (!_vte_frozen_row_column_to_text_offset(ring, markers[i]->row, markers[i]->col, &marker_text_offsets[i]))
+        if (!_vte_frozen_row_column_to_text_offset(ring, markers[i]->row, markers[i]->col, &marker_text_offsets[i])) {
             goto err;
+        }
         new_markers[i].row = new_markers[i].col = -1;
         _vte_debug_print(VTE_DEBUG_RING,
                 "Marker #%d old coords:  row %ld  col %ld  ->  text_offset %" G_GSIZE_FORMAT " fragment_cells %d  eol_cells %d\n",
@@ -1225,16 +1226,17 @@ _vte_ring_rewrap (VteRing *ring,
     }
 
     /* Prepare for rewrapping */
-    if (!_vte_ring_read_row_record(ring, &old_record, ring->start))
+    if (!_vte_ring_read_row_record(ring, &old_record, ring->start)) {
         goto err;
+    }
     paragraph_start_text_offset = old_record.text_start_offset;
     paragraph_end_text_offset = _vte_stream_head (ring->text_stream);  /* initialized to silence gcc */
     new_row_index = 0;
 
     attr_offset = old_record.attr_start_offset;
     if (!_vte_stream_read(ring->attr_stream, attr_offset, (char *) &attr_change, sizeof (attr_change))) {
-                _attrcpy(&attr_change.attr, &ring->last_attr);
-                attr_change.attr.hyperlink_length = hyperlink_get(ring, ring->last_attr.hyperlink_idx)->len;
+        _attrcpy(&attr_change.attr, &ring->last_attr);
+        attr_change.attr.hyperlink_length = hyperlink_get(ring, ring->last_attr.hyperlink_idx)->len;
         attr_change.text_end_offset = _vte_stream_head (ring->text_stream);
     }
 
@@ -1257,22 +1259,25 @@ _vte_ring_rewrap (VteRing *ring,
             prev_record_was_soft_wrapped = old_record.soft_wrapped;
             paragraph_is_ascii = paragraph_is_ascii && old_record.is_ascii;
             if (G_LIKELY (old_row_index < ring->end)) {
-                if (!_vte_ring_read_row_record(ring, &old_record, old_row_index))
+                if (!_vte_ring_read_row_record(ring, &old_record, old_row_index)) {
                     goto err;
+                }
                 paragraph_end_text_offset = old_record.text_start_offset;
             } else {
                 paragraph_end_text_offset = _vte_stream_head (ring->text_stream);
             }
             old_row_index++;
-            if (!prev_record_was_soft_wrapped)
+            if (!prev_record_was_soft_wrapped) {
                 break;
+            }
         }
 #ifdef VTE_DEBUG
         paragraph_end_row = old_row_index - 1;
 #endif
         paragraph_len = paragraph_end_text_offset - paragraph_start_text_offset;
-        if (!prev_record_was_soft_wrapped)  /* The last paragraph can be soft wrapped! */
+        if (!prev_record_was_soft_wrapped) { /* The last paragraph can be soft wrapped! */
             paragraph_len--;  /* Strip trailing '\n' */
+        }
         _vte_debug_print(VTE_DEBUG_RING,
                 "row %" G_GSIZE_FORMAT "  (text_offset %" G_GSIZE_FORMAT ")%s  len %" G_GSIZE_FORMAT "  is_ascii %d\n",
                 paragraph_end_row, paragraph_end_text_offset,
@@ -1282,10 +1287,10 @@ _vte_ring_rewrap (VteRing *ring,
         /* Wrap the paragraph */
         if (attr_change.text_end_offset <= text_offset) {
             /* Attr change at paragraph boundary, advance to next attr. */
-                        attr_offset += sizeof (attr_change) + attr_change.attr.hyperlink_length + 2;
+            attr_offset += sizeof (attr_change) + attr_change.attr.hyperlink_length + 2;
             if (!_vte_stream_read(ring->attr_stream, attr_offset, (char *) &attr_change, sizeof (attr_change))) {
-                                _attrcpy(&attr_change.attr, &ring->last_attr);
-                                attr_change.attr.hyperlink_length = hyperlink_get(ring, ring->last_attr.hyperlink_idx)->len;
+                _attrcpy(&attr_change.attr, &ring->last_attr);
+                attr_change.attr.hyperlink_length = hyperlink_get(ring, ring->last_attr.hyperlink_idx)->len;
                 attr_change.text_end_offset = _vte_stream_head (ring->text_stream);
             }
         }
@@ -1299,10 +1304,10 @@ _vte_ring_rewrap (VteRing *ring,
             gsize runlength;  /* number of bytes we process in one run: identical attributes, within paragraph */
             if (attr_change.text_end_offset <= text_offset) {
                 /* Attr change at line boundary, advance to next attr. */
-                                attr_offset += sizeof (attr_change) + attr_change.attr.hyperlink_length + 2;
+                attr_offset += sizeof (attr_change) + attr_change.attr.hyperlink_length + 2;
                 if (!_vte_stream_read(ring->attr_stream, attr_offset, (char *) &attr_change, sizeof (attr_change))) {
-                                        _attrcpy(&attr_change.attr, &ring->last_attr);
-                                        attr_change.attr.hyperlink_length = hyperlink_get(ring, ring->last_attr.hyperlink_idx)->len;
+                    _attrcpy(&attr_change.attr, &ring->last_attr);
+                    attr_change.attr.hyperlink_length = hyperlink_get(ring, ring->last_attr.hyperlink_idx)->len;
                     attr_change.text_end_offset = _vte_stream_head (ring->text_stream);
                 }
             }
@@ -1351,8 +1356,9 @@ _vte_ring_rewrap (VteRing *ring,
                         /* Find beginning of next UTF-8 character */
                         text_offset++; paragraph_len--; runlength--;
                         textbuf_len = MIN(runlength, sizeof (textbuf));
-                        if (!_vte_stream_read(ring->text_stream, text_offset, textbuf, textbuf_len))
+                        if (!_vte_stream_read(ring->text_stream, text_offset, textbuf, textbuf_len)) {
                             goto err;
+                        }
                         for (i = 0; i < textbuf_len && (textbuf[i] & 0xC0) == 0x80; i++) {
                             text_offset++; paragraph_len--; runlength--;
                         }
@@ -1387,18 +1393,21 @@ _vte_ring_rewrap (VteRing *ring,
     ring->row_stream = new_row_stream;
     ring->writable = ring->end = new_row_index;
     ring->start = 0;
-    if (ring->end > ring->max)
+    if (ring->end > ring->max) {
         ring->start = ring->end - ring->max;
+    }
     ring->cached_row_num = (gulong) -1;
 
     /* Find the markers. This requires that the ring is already updated. */
     for (i = 0; i < num_markers; i++) {
         /* Compute the row for markers beyond the ring */
-        if (new_markers[i].row == -1)
+        if (new_markers[i].row == -1) {
             new_markers[i].row = markers[i]->row - old_ring_end + ring->end;
+        }
         /* Convert byte offset into visual column */
-        if (!_vte_frozen_row_text_offset_to_column(ring, new_markers[i].row, &marker_text_offsets[i], &new_markers[i].col))
+        if (!_vte_frozen_row_text_offset_to_column(ring, new_markers[i].row, &marker_text_offsets[i], &new_markers[i].col)) {
             goto err;
+        }
         _vte_debug_print(VTE_DEBUG_RING,
                 "Marker #%d new coords:  text_offset %" G_GSIZE_FORMAT "  fragment_cells %d  eol_cells %d  ->  row %ld  col %ld\n",
                 i, marker_text_offsets[i].text_offset, marker_text_offsets[i].fragment_cells,
@@ -1425,13 +1434,9 @@ err:
 }
 
 
-static gboolean
-_vte_ring_write_row (VteRing *ring,
-             GOutputStream *stream,
-             VteRowData *row,
-             VteWriteFlags flags,
-             GCancellable *cancellable,
-             GError **error)
+static gboolean _vte_ring_write_row (VteRing *ring, GOutputStream *stream,
+                                        VteRowData *row, VteWriteFlags flags,
+                                        GCancellable *cancellable, GError **error)
 {
     VteCell *cell;
     GString *buffer = ring->utf8_buffer;
@@ -1442,11 +1447,13 @@ _vte_ring_write_row (VteRing *ring,
      * TODO Should unify one day */
     g_string_set_size (buffer, 0);
     for (i = 0, cell = row->cells; i < row->len; i++, cell++) {
-        if (G_LIKELY (!cell->attr.fragment()))
+        if (G_LIKELY (!cell->attr.fragment())) {
             _vte_unistr_append_to_string (cell->c, buffer);
+        }
     }
-    if (!row->attr.soft_wrapped)
+    if (!row->attr.soft_wrapped) {
         g_string_append_c (buffer, '\n');
+    }
 
     return g_output_stream_write_all (stream, buffer->str, buffer->len, &bytes_written, cancellable, error);
 }
@@ -1463,53 +1470,48 @@ _vte_ring_write_row (VteRing *ring,
  *
  * Return: %TRUE on success, %FALSE if there was an error
  */
-gboolean
-_vte_ring_write_contents (VteRing *ring,
-              GOutputStream *stream,
-              VteWriteFlags flags,
-              GCancellable *cancellable,
-              GError **error)
+gboolean _vte_ring_write_contents (VteRing *ring, GOutputStream *stream,
+                                    VteWriteFlags flags, GCancellable *cancellable,
+                                    GError **error)
 {
     gulong i;
 
     _vte_debug_print(VTE_DEBUG_RING, "Writing contents to GOutputStream.\n");
 
-    if (ring->start < ring->writable)
-    {
+    if (ring->start < ring->writable) {
         VteRowRecord record;
 
-        if (_vte_ring_read_row_record (ring, &record, ring->start))
-        {
+        if (_vte_ring_read_row_record (ring, &record, ring->start)) {
             gsize start_offset = record.text_start_offset;
             gsize end_offset = _vte_stream_head (ring->text_stream);
             char buf[4096];
-            while (start_offset < end_offset)
-            {
+            while (start_offset < end_offset) {
                 gsize bytes_written, len;
 
                 len = MIN (G_N_ELEMENTS (buf), end_offset - start_offset);
 
-                if (!_vte_stream_read (ring->text_stream, start_offset,
-                               buf, len))
+                if (!_vte_stream_read (ring->text_stream, start_offset, buf, len)) {
                     return FALSE;
+                }
 
-                if (!g_output_stream_write_all (stream, buf, len,
-                                &bytes_written, cancellable,
-                                error))
+                if (!g_output_stream_write_all (stream, buf, len, &bytes_written, 
+                                                cancellable, error)) {
                     return FALSE;
+                }
 
                 start_offset += len;
             }
-        }
-        else
+        } else {
             return FALSE;
+        }
     }
 
     for (i = ring->writable; i < ring->end; i++) {
         if (!_vte_ring_write_row (ring, stream,
-                      _vte_ring_writable_index (ring, i),
-                      flags, cancellable, error))
+                                    _vte_ring_writable_index (ring, i),
+                                    flags, cancellable, error)) {
             return FALSE;
+        }
     }
 
     return TRUE;

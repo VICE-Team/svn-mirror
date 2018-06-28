@@ -384,8 +384,7 @@ static void font_info_cache_ascii (struct font_info *info)
 #endif
 }
 
-static void
-font_info_measure_font (struct font_info *info)
+static void font_info_measure_font (struct font_info *info)
 {
     PangoRectangle logical;
 
@@ -413,12 +412,11 @@ font_info_measure_font (struct font_info *info)
     }
 
     _vte_debug_print (VTE_DEBUG_MISC,
-              "vtepangocairo: %p font metrics = %dx%d (%d)\n",
-              info, info->width, info->height, info->ascent);
+                        "vtepangocairo: %p font metrics = %dx%d (%d)\n",
+                        info, info->width, info->height, info->ascent);
 }
 
-static struct font_info *
-font_info_allocate (PangoContext *context)
+static struct font_info *font_info_allocate (PangoContext *context)
 {
     struct font_info *info;
     PangoTabArray *tabs;
@@ -426,8 +424,8 @@ font_info_allocate (PangoContext *context)
     info = g_slice_new0 (struct font_info);
 
     _vte_debug_print (VTE_DEBUG_PANGOCAIRO,
-              "vtepangocairo: %p allocating font_info\n",
-              info);
+                        "vtepangocairo: %p allocating font_info\n",
+                        info);
 
     info->layout = pango_layout_new (context);
     tabs = pango_tab_array_new_with_positions (1, FALSE, PANGO_TAB_LEFT, 1);
@@ -441,26 +439,26 @@ font_info_allocate (PangoContext *context)
     return info;
 }
 
-static void
-font_info_free (struct font_info *info)
+static void font_info_free (struct font_info *info)
 {
     vteunistr i;
 
 #ifdef VTE_DEBUG
     _vte_debug_print (VTE_DEBUG_PANGOCAIRO,
-              "vtepangocairo: %p freeing font_info.  coverages %d = %d + %d + %d\n",
-              info,
-              info->coverage_count[0],
-              info->coverage_count[1],
-              info->coverage_count[2],
-              info->coverage_count[3]);
+                        "vtepangocairo: %p freeing font_info.  coverages %d = %d + %d + %d\n",
+                        info,
+                        info->coverage_count[0],
+                        info->coverage_count[1],
+                        info->coverage_count[2],
+                        info->coverage_count[3]);
 #endif
 
     g_string_free (info->string, TRUE);
     g_object_unref (info->layout);
 
-    for (i = 0; i < G_N_ELEMENTS (info->ascii_unistr_info); i++)
+    for (i = 0; i < G_N_ELEMENTS (info->ascii_unistr_info); i++) {
         unistr_info_finish (&info->ascii_unistr_info[i]);
+    }
 
     if (info->other_unistr_info) {
         g_hash_table_destroy (info->other_unistr_info);
@@ -475,26 +473,22 @@ static GHashTable *font_info_for_context;
 static struct font_info *
 font_info_register (struct font_info *info)
 {
-    g_hash_table_insert (font_info_for_context,
-                 pango_layout_get_context (info->layout),
-                 info);
+    g_hash_table_insert (font_info_for_context, pango_layout_get_context (info->layout), info);
 
     return info;
 }
 
-static void
-font_info_unregister (struct font_info *info)
+static void font_info_unregister (struct font_info *info)
 {
-    g_hash_table_remove (font_info_for_context,
-                 pango_layout_get_context (info->layout));
+    g_hash_table_remove (font_info_for_context, pango_layout_get_context (info->layout));
 }
 
 
-static struct font_info *
-font_info_reference (struct font_info *info)
+static struct font_info *font_info_reference (struct font_info *info)
 {
-    if (!info)
+    if (!info) {
         return info;
+    }
 
     g_return_val_if_fail (info->ref_count >= 0, info);
 
@@ -508,8 +502,7 @@ font_info_reference (struct font_info *info)
     return info;
 }
 
-static gboolean
-font_info_destroy_delayed (struct font_info *info)
+static gboolean font_info_destroy_delayed (struct font_info *info)
 {
     info->destroy_timeout = 0;
 
@@ -519,17 +512,18 @@ font_info_destroy_delayed (struct font_info *info)
     return FALSE;
 }
 
-static void
-font_info_destroy (struct font_info *info)
+static void font_info_destroy (struct font_info *info)
 {
-    if (!info)
+    if (!info) {
         return;
+    }
 
     g_return_if_fail (info->ref_count > 0);
 
     info->ref_count--;
-    if (info->ref_count)
+    if (info->ref_count) {
         return;
+    }
 
     /* Delay destruction by a few seconds, in case we need it again */
     info->destroy_timeout = gdk_threads_add_timeout_seconds (FONT_CACHE_TIMEOUT,
@@ -537,35 +531,32 @@ font_info_destroy (struct font_info *info)
                                  info);
 }
 
-static GQuark
-fontconfig_timestamp_quark (void)
+static GQuark fontconfig_timestamp_quark (void)
 {
     static GQuark quark;
 
-    if (G_UNLIKELY (!quark))
+    if (G_UNLIKELY (!quark)) {
         quark = g_quark_from_static_string ("vte-fontconfig-timestamp");
+    }
 
     return quark;
 }
 
-static void
-vte_pango_context_set_fontconfig_timestamp (PangoContext *context,
-                        guint         fontconfig_timestamp)
+static void vte_pango_context_set_fontconfig_timestamp (PangoContext *context,
+                                    guint fontconfig_timestamp)
 {
     g_object_set_qdata ((GObject *) context,
                 fontconfig_timestamp_quark (),
                 GUINT_TO_POINTER (fontconfig_timestamp));
 }
 
-static guint
-vte_pango_context_get_fontconfig_timestamp (PangoContext *context)
+static guint vte_pango_context_get_fontconfig_timestamp (PangoContext *context)
 {
     return GPOINTER_TO_UINT (g_object_get_qdata ((GObject *) context,
                              fontconfig_timestamp_quark ()));
 }
 
-static guint
-context_hash (PangoContext *context)
+static guint context_hash (PangoContext *context)
 {
     return pango_units_from_double (pango_cairo_context_get_resolution (context))
          ^ pango_font_description_hash (pango_context_get_font_description (context))
@@ -574,9 +565,7 @@ context_hash (PangoContext *context)
          ^ vte_pango_context_get_fontconfig_timestamp (context);
 }
 
-static gboolean
-context_equal (PangoContext *a,
-           PangoContext *b)
+static gboolean context_equal (PangoContext *a, PangoContext *b)
 {
     return _vte_double_equal(pango_cairo_context_get_resolution(a), pango_cairo_context_get_resolution (b))
         && pango_font_description_equal (pango_context_get_font_description (a), pango_context_get_font_description (b))
@@ -585,13 +574,13 @@ context_equal (PangoContext *a,
         && vte_pango_context_get_fontconfig_timestamp (a) == vte_pango_context_get_fontconfig_timestamp (b);
 }
 
-static struct font_info *
-font_info_find_for_context (PangoContext *context)
+static struct font_info *font_info_find_for_context (PangoContext *context)
 {
     struct font_info *info;
 
-    if (G_UNLIKELY (font_info_for_context == NULL))
+    if (G_UNLIKELY (font_info_for_context == NULL)) {
         font_info_for_context = g_hash_table_new ((GHashFunc) context_hash, (GEqualFunc) context_equal);
+    }
 
     info = (struct font_info *)g_hash_table_lookup (font_info_for_context, context);
     if (G_LIKELY (info)) {
@@ -611,11 +600,8 @@ font_info_find_for_context (PangoContext *context)
 }
 
 /* assumes ownership/reference of context */
-static struct font_info *
-font_info_create_for_context (PangoContext               *context,
-                  const PangoFontDescription *desc,
-                  PangoLanguage              *language,
-                  guint                       fontconfig_timestamp)
+static struct font_info *font_info_create_for_context (PangoContext *context,
+    const PangoFontDescription *desc, PangoLanguage *language, guint fontconfig_timestamp)
 {
     if (!PANGO_IS_CAIRO_FONT_MAP (pango_context_get_font_map (context))) {
         /* Ouch, Gtk+ switched over to some drawing system?
@@ -629,40 +615,40 @@ font_info_create_for_context (PangoContext               *context,
 
     pango_context_set_base_dir (context, PANGO_DIRECTION_LTR);
 
-    if (desc)
+    if (desc) {
         pango_context_set_font_description (context, desc);
+    }
 
     pango_context_set_language (context, language);
 
-        /* Make sure our contexts have a font_options set.  We use
-          * this invariant in our context hash and equal functions.
-          */
-        if (!pango_cairo_context_get_font_options (context)) {
-                cairo_font_options_t *font_options;
+    /* Make sure our contexts have a font_options set.  We use
+     * this invariant in our context hash and equal functions.
+     */
+    if (!pango_cairo_context_get_font_options (context)) {
+        cairo_font_options_t *font_options;
 
-                font_options = cairo_font_options_create ();
-                pango_cairo_context_set_font_options (context, font_options);
-                cairo_font_options_destroy (font_options);
-        }
+        font_options = cairo_font_options_create ();
+        pango_cairo_context_set_font_options (context, font_options);
+        cairo_font_options_destroy (font_options);
+    }
 
     return font_info_find_for_context (context);
 }
 
-static struct font_info *
-font_info_create_for_screen (GdkScreen                  *screen,
-                 const PangoFontDescription *desc,
-                 PangoLanguage              *language)
+static struct font_info *font_info_create_for_screen (
+                                        GdkScreen                  *screen,
+                                        const PangoFontDescription *desc,
+                                        PangoLanguage              *language)
 {
     GtkSettings *settings = gtk_settings_get_for_screen (screen);
     int fontconfig_timestamp;
     g_object_get (settings, "gtk-fontconfig-timestamp", &fontconfig_timestamp, nullptr);
     return font_info_create_for_context (gdk_pango_context_get_for_screen (screen),
-                         desc, language, fontconfig_timestamp);
+                                            desc, language, fontconfig_timestamp);
 }
 
-static struct font_info *
-font_info_create_for_widget (GtkWidget                  *widget,
-                 const PangoFontDescription *desc)
+static struct font_info *font_info_create_for_widget (GtkWidget *widget,
+                                                        const PangoFontDescription *desc)
 {
     GdkScreen *screen = gtk_widget_get_screen (widget);
     PangoLanguage *language = pango_context_get_language (gtk_widget_get_pango_context (widget));
@@ -670,9 +656,7 @@ font_info_create_for_widget (GtkWidget                  *widget,
     return font_info_create_for_screen (screen, desc, language);
 }
 
-static struct unistr_info *
-font_info_get_unistr_info (struct font_info *info,
-               vteunistr c)
+static struct unistr_info *font_info_get_unistr_info (struct font_info *info, vteunistr c)
 {
     struct unistr_info *uinfo;
     union unistr_font_info *ufi;
@@ -680,8 +664,9 @@ font_info_get_unistr_info (struct font_info *info,
     PangoLayoutLine *line;
 
     uinfo = font_info_find_unistr_info (info, c);
-    if (G_LIKELY (uinfo->coverage != COVERAGE_UNKNOWN))
+    if (G_LIKELY (uinfo->coverage != COVERAGE_UNKNOWN)) {
         return uinfo;
+    }
 
     ufi = &uinfo->ufi;
 
@@ -696,8 +681,7 @@ font_info_get_unistr_info (struct font_info *info,
 
     uinfo->has_unknown_chars = pango_layout_get_unknown_glyphs_count (info->layout) != 0;
     /* we use PangoLayoutRun rendering unless there is exactly one run in the line. */
-    if (G_UNLIKELY (!line || !line->runs || line->runs->next))
-    {
+    if (G_UNLIKELY (!line || !line->runs || line->runs->next)) {
         uinfo->coverage = COVERAGE_USE_PANGO_LAYOUT_LINE;
 
         ufi->using_pango_layout_line.line = pango_layout_line_ref (line);
@@ -716,8 +700,7 @@ font_info_get_unistr_info (struct font_info *info,
         if (!uinfo->has_unknown_chars &&
             glyph_string->num_glyphs == 1 && glyph_string->glyphs[0].glyph <= 0xFFFF &&
             (glyph_string->glyphs[0].geometry.x_offset |
-             glyph_string->glyphs[0].geometry.y_offset) == 0)
-        {
+             glyph_string->glyphs[0].geometry.y_offset) == 0) {
             cairo_scaled_font_t *scaled_font = pango_cairo_font_get_scaled_font ((PangoCairoFont *) pango_font);
 
             if (scaled_font) {
@@ -750,27 +733,28 @@ font_info_get_unistr_info (struct font_info *info,
 
 guint _vte_draw_get_style(gboolean bold, gboolean italic) {
     guint style = 0;
-    if (bold)
+    if (bold) {
         style |= VTE_DRAW_BOLD;
-    if (italic)
+    }
+    if (italic) {
         style |= VTE_DRAW_ITALIC;
+    }
     return style;
 }
 
 struct _vte_draw {
     struct font_info *fonts[4];
-        /* cell metrics, already adjusted by cell_{width,height}_scale */
-        int cell_width, cell_height;
-        GtkBorder char_spacing;
+    /* cell metrics, already adjusted by cell_{width,height}_scale */
+    int cell_width, cell_height;
+    GtkBorder char_spacing;
 
     cairo_t *cr;
 
-        /* Cache the undercurl's rendered look. */
-        cairo_surface_t *undercurl_surface;
+    /* Cache the undercurl's rendered look. */
+    cairo_surface_t *undercurl_surface;
 };
 
-struct _vte_draw *
-_vte_draw_new (void)
+struct _vte_draw *_vte_draw_new (void)
 {
     struct _vte_draw *draw;
 
@@ -782,8 +766,7 @@ _vte_draw_new (void)
     return draw;
 }
 
-void
-_vte_draw_free (struct _vte_draw *draw)
+void _vte_draw_free (struct _vte_draw *draw)
 {
     gint style;
     _vte_debug_print (VTE_DEBUG_DRAW, "draw_free\n");
@@ -797,62 +780,57 @@ _vte_draw_free (struct _vte_draw *draw)
         }
     }
 
-        if (draw->undercurl_surface != NULL) {
-                cairo_surface_destroy (draw->undercurl_surface);
-                draw->undercurl_surface = NULL;
-        }
+    if (draw->undercurl_surface != NULL) {
+        cairo_surface_destroy (draw->undercurl_surface);
+        draw->undercurl_surface = NULL;
+    }
 
     g_slice_free (struct _vte_draw, draw);
 }
 
-void
-_vte_draw_set_cairo (struct _vte_draw *draw,
-                     cairo_t *cr)
+void _vte_draw_set_cairo (struct _vte_draw *draw, cairo_t *cr)
 {
-        _vte_debug_print (VTE_DEBUG_DRAW, "%s cairo context\n", cr ? "Settings" : "Unsetting");
+    _vte_debug_print (VTE_DEBUG_DRAW, "%s cairo context\n", cr ? "Settings" : "Unsetting");
 
-        if (cr) {
-                g_assert (draw->cr == NULL);
-                draw->cr = cr;
-        } else {
-                g_assert (draw->cr != NULL);
-                draw->cr = NULL;
-        }
+    if (cr) {
+        g_assert (draw->cr == NULL);
+        draw->cr = cr;
+    } else {
+        g_assert (draw->cr != NULL);
+        draw->cr = NULL;
+    }
 }
 
-static void
-_vte_draw_set_source_color_alpha (struct _vte_draw *draw,
-                                  vte::color::rgb const* color,
-                                  double alpha)
+static void _vte_draw_set_source_color_alpha (struct _vte_draw *draw,
+                                                vte::color::rgb const* color,
+                                                double alpha)
 {
-        g_assert(draw->cr);
+    g_assert(draw->cr);
     cairo_set_source_rgba (draw->cr,
-                  color->red / 65535.,
-                  color->green / 65535.,
-                  color->blue / 65535.,
-                  alpha);
+                            color->red / 65535.,
+                            color->green / 65535.,
+                            color->blue / 65535.,
+                            alpha);
 }
 
-void
-_vte_draw_clear (struct _vte_draw *draw, gint x, gint y, gint width, gint height,
-                 vte::color::rgb const* color, double alpha)
+void _vte_draw_clear (struct _vte_draw *draw, gint x, gint y, gint width, gint height,
+                        vte::color::rgb const* color, double alpha)
 {
     _vte_debug_print (VTE_DEBUG_DRAW, "draw_clear (%d, %d, %d, %d)\n",
-              x,y,width, height);
+                        x,y,width, height);
 
-        g_assert(draw->cr);
+    g_assert(draw->cr);
     cairo_rectangle (draw->cr, x, y, width, height);
     cairo_set_operator (draw->cr, CAIRO_OPERATOR_SOURCE);
     _vte_draw_set_source_color_alpha(draw, color, alpha);
     cairo_fill (draw->cr);
 }
 
-void
-_vte_draw_set_text_font (struct _vte_draw *draw,
-                         GtkWidget *widget,
-                         const PangoFontDescription *fontdesc,
-                         double cell_width_scale,
-                         double cell_height_scale)
+void _vte_draw_set_text_font (struct _vte_draw *draw,
+                                GtkWidget *widget,
+                                const PangoFontDescription *fontdesc,
+                                double cell_width_scale,
+                                double cell_height_scale)
 {
     PangoFontDescription *bolddesc   = NULL;
     PangoFontDescription *italicdesc = NULL;
@@ -885,8 +863,7 @@ _vte_draw_set_text_font (struct _vte_draw *draw,
     draw->fonts[VTE_DRAW_NORMAL]  = font_info_create_for_widget (widget, fontdesc);
     draw->fonts[VTE_DRAW_BOLD]    = font_info_create_for_widget (widget, bolddesc);
     draw->fonts[VTE_DRAW_ITALIC]  = font_info_create_for_widget (widget, italicdesc);
-    draw->fonts[VTE_DRAW_ITALIC | VTE_DRAW_BOLD] =
-                font_info_create_for_widget (widget, bolditalicdesc);
+    draw->fonts[VTE_DRAW_ITALIC | VTE_DRAW_BOLD] = font_info_create_for_widget (widget, bolditalicdesc);
     pango_font_description_free (bolddesc);
     pango_font_description_free (italicdesc);
     pango_font_description_free (bolditalicdesc);
@@ -898,8 +875,7 @@ _vte_draw_set_text_font (struct _vte_draw *draw,
     bold   = normal | VTE_DRAW_BOLD;
     ratio = draw->fonts[bold]->width * 100 / draw->fonts[normal]->width;
     if (abs(ratio - 100) > 10) {
-        _vte_debug_print (VTE_DEBUG_DRAW,
-            "Rejecting bold font (%i%%).\n", ratio);
+        _vte_debug_print (VTE_DEBUG_DRAW, "Rejecting bold font (%i%%).\n", ratio);
         font_info_destroy (draw->fonts[bold]);
         draw->fonts[bold] = draw->fonts[normal];
     }
@@ -907,149 +883,152 @@ _vte_draw_set_text_font (struct _vte_draw *draw,
     bold   = normal | VTE_DRAW_BOLD;
     ratio = draw->fonts[bold]->width * 100 / draw->fonts[normal]->width;
     if (abs(ratio - 100) > 10) {
-        _vte_debug_print (VTE_DEBUG_DRAW,
-            "Rejecting italic bold font (%i%%).\n", ratio);
+        _vte_debug_print (VTE_DEBUG_DRAW, "Rejecting italic bold font (%i%%).\n", ratio);
         font_info_destroy (draw->fonts[bold]);
         draw->fonts[bold] = draw->fonts[normal];
     }
 
-        /* Apply letter spacing and line spacing. */
-        draw->cell_width = draw->fonts[VTE_DRAW_NORMAL]->width * cell_width_scale;
-        draw->char_spacing.left = (draw->cell_width - draw->fonts[VTE_DRAW_NORMAL]->width) / 2;
-        draw->char_spacing.right = (draw->cell_width - draw->fonts[VTE_DRAW_NORMAL]->width + 1) / 2;
-        draw->cell_height = draw->fonts[VTE_DRAW_NORMAL]->height * cell_height_scale;
-        draw->char_spacing.top = (draw->cell_height - draw->fonts[VTE_DRAW_NORMAL]->height + 1) / 2;
-        draw->char_spacing.bottom = (draw->cell_height - draw->fonts[VTE_DRAW_NORMAL]->height) / 2;
+    /* Apply letter spacing and line spacing. */
+    draw->cell_width = draw->fonts[VTE_DRAW_NORMAL]->width * cell_width_scale;
+    draw->char_spacing.left = (draw->cell_width - draw->fonts[VTE_DRAW_NORMAL]->width) / 2;
+    draw->char_spacing.right = (draw->cell_width - draw->fonts[VTE_DRAW_NORMAL]->width + 1) / 2;
+    draw->cell_height = draw->fonts[VTE_DRAW_NORMAL]->height * cell_height_scale;
+    draw->char_spacing.top = (draw->cell_height - draw->fonts[VTE_DRAW_NORMAL]->height + 1) / 2;
+    draw->char_spacing.bottom = (draw->cell_height - draw->fonts[VTE_DRAW_NORMAL]->height) / 2;
 
-        /* Drop the undercurl's cached look. Will recache on demand. */
-        if (draw->undercurl_surface != NULL) {
-                cairo_surface_destroy (draw->undercurl_surface);
-                draw->undercurl_surface = NULL;
-        }
+    /* Drop the undercurl's cached look. Will recache on demand. */
+    if (draw->undercurl_surface != NULL) {
+        cairo_surface_destroy (draw->undercurl_surface);
+        draw->undercurl_surface = NULL;
+    }
 }
 
-void
-_vte_draw_get_text_metrics(struct _vte_draw *draw,
-                           int *cell_width, int *cell_height,
-                           int *char_ascent, int *char_descent,
-                           GtkBorder *char_spacing)
+void _vte_draw_get_text_metrics(struct _vte_draw *draw,
+                                int *cell_width, int *cell_height,
+                                int *char_ascent, int *char_descent,
+                                GtkBorder *char_spacing)
 {
     g_return_if_fail (draw->fonts[VTE_DRAW_NORMAL] != NULL);
 
-        if (cell_width)
-                *cell_width = draw->cell_width;
-        if (cell_height)
-                *cell_height = draw->cell_height;
-        if (char_ascent)
-                *char_ascent = draw->fonts[VTE_DRAW_NORMAL]->ascent;
-        if (char_descent)
-                *char_descent = draw->fonts[VTE_DRAW_NORMAL]->height - draw->fonts[VTE_DRAW_NORMAL]->ascent;
-        if (char_spacing)
-                *char_spacing = draw->char_spacing;
+    if (cell_width) {
+        *cell_width = draw->cell_width;
+    }
+    if (cell_height) {
+        *cell_height = draw->cell_height;
+    }
+    if (char_ascent) {
+        *char_ascent = draw->fonts[VTE_DRAW_NORMAL]->ascent;
+    }
+    if (char_descent) {
+        *char_descent = draw->fonts[VTE_DRAW_NORMAL]->height - draw->fonts[VTE_DRAW_NORMAL]->ascent;
+    }
+    if (char_spacing) {
+        *char_spacing = draw->char_spacing;
+    }
 }
 
 
 /* Stores the left and right edges of the given glyph, relative to the cell's left edge. */
-void
-_vte_draw_get_char_edges (struct _vte_draw *draw, vteunistr c, int columns, guint style,
-                          int *left, int *right)
+void _vte_draw_get_char_edges (struct _vte_draw *draw, vteunistr c, int columns, guint style,
+                                int *left, int *right)
 {
-        int l, w, normal_width, fits_width;
+    int l, w, normal_width, fits_width;
 
-        if (G_UNLIKELY (draw->fonts[VTE_DRAW_NORMAL] == NULL)) {
-                if (left)
-                        *left = 0;
-                if (right)
-                        *right = 0;
-                return;
+    if (G_UNLIKELY (draw->fonts[VTE_DRAW_NORMAL] == NULL)) {
+        if (left) {
+            *left = 0;
         }
-
-        w = font_info_get_unistr_info (draw->fonts[style], c)->width;
-        normal_width = draw->fonts[VTE_DRAW_NORMAL]->width * columns;
-        fits_width = draw->cell_width * columns;
-
-        if (G_LIKELY (w <= normal_width)) {
-                /* The regular case: The glyph is not wider than one (CJK: two) regular character(s).
-                 * Align to the left, after applying half (CJK: one) letter spacing. */
-                l = draw->char_spacing.left + (columns == 2 ? draw->char_spacing.right : 0);
-        } else if (G_UNLIKELY (w <= fits_width)) {
-                /* Slightly wider glyph, but still fits in the cell (spacing included). This case can
-                 * only happen with nonzero letter spacing. Center the glyph in the cell(s). */
-                l = (fits_width - w) / 2;
-        } else {
-                /* Even wider glyph: doesn't fit in the cell. Align at left and overflow on the right. */
-                l = 0;
+        if (right) {
+            *right = 0;
         }
+        return;
+    }
 
-        if (left)
-                *left = l;
-        if (right)
-                *right = l + w;
+    w = font_info_get_unistr_info (draw->fonts[style], c)->width;
+    normal_width = draw->fonts[VTE_DRAW_NORMAL]->width * columns;
+    fits_width = draw->cell_width * columns;
+
+    if (G_LIKELY (w <= normal_width)) {
+        /* The regular case: The glyph is not wider than one (CJK: two) regular character(s).
+            * Align to the left, after applying half (CJK: one) letter spacing. */
+        l = draw->char_spacing.left + (columns == 2 ? draw->char_spacing.right : 0);
+    } else if (G_UNLIKELY (w <= fits_width)) {
+        /* Slightly wider glyph, but still fits in the cell (spacing included). This case can
+            * only happen with nonzero letter spacing. Center the glyph in the cell(s). */
+        l = (fits_width - w) / 2;
+    } else {
+        /* Even wider glyph: doesn't fit in the cell. Align at left and overflow on the right. */
+        l = 0;
+    }
+
+    if (left) {
+        *left = l;
+    }
+    if (right) {
+        *right = l + w;
+    }
 }
 
-gboolean
-_vte_draw_has_bold (struct _vte_draw *draw, guint style)
+gboolean _vte_draw_has_bold (struct _vte_draw *draw, guint style)
 {
     return (draw->fonts[style ^ VTE_DRAW_BOLD] != draw->fonts[style]);
 }
 
 /* Check if a unicode character is actually a graphic character we draw
  * ourselves to handle cases where fonts don't have glyphs for them. */
-static gboolean
-_vte_draw_unichar_is_local_graphic(vteunistr c)
+static gboolean _vte_draw_unichar_is_local_graphic(vteunistr c)
 {
-        /* Box Drawing & Block Elements */
-        return (c >= 0x2500) && (c <= 0x259f);
+    /* Box Drawing & Block Elements */
+    return (c >= 0x2500) && (c <= 0x259f);
 }
 
 #include "box_drawing.h"
 
 /* Draw the graphic representation of a line-drawing or special graphics
  * character. */
-static void
-_vte_draw_terminal_draw_graphic(struct _vte_draw *draw, vteunistr c, vte::color::rgb const* fg,
-                                gint x, gint y,
-                                gint font_width, gint columns, gint font_height)
+static void _vte_draw_terminal_draw_graphic(struct _vte_draw *draw, vteunistr c, vte::color::rgb const* fg,
+                                            gint x, gint y,
+                                            gint font_width, gint columns, gint font_height)
 {
-        gint width, height, xcenter, xright, ycenter, ybottom;
-        int upper_half, lower_half, left_half, right_half;
-        int light_line_width, heavy_line_width;
-        double adjust;
-        cairo_t *cr = draw->cr;
+    gint width, height, xcenter, xright, ycenter, ybottom;
+    int upper_half, lower_half, left_half, right_half;
+    int light_line_width, heavy_line_width;
+    double adjust;
+    cairo_t *cr = draw->cr;
 
-        cairo_save (cr);
+    cairo_save (cr);
 
-        width = draw->cell_width * columns;
-        height = draw->cell_height;
-        upper_half = height / 2;
-        lower_half = height - upper_half;
-        left_half = width / 2;
-        right_half = width - left_half;
+    width = draw->cell_width * columns;
+    height = draw->cell_height;
+    upper_half = height / 2;
+    lower_half = height - upper_half;
+    left_half = width / 2;
+    right_half = width - left_half;
 
-        /* Note that the upper/left halves above are the same as 4 eights */
-        /* FIXME: this could be smarter for very small n (< 8 resp. < 4) */
+    /* Note that the upper/left halves above are the same as 4 eights */
+    /* FIXME: this could be smarter for very small n (< 8 resp. < 4) */
 #define EIGHTS(n, k) \
         ({ int k_eights = (n) * (k) / 8; \
            k_eights = MAX(k_eights, 1); \
            k_eights; \
         })
 
-        /* Exclude the spacing for line width computation. */
-        light_line_width = font_width / 5;
-        light_line_width = MAX (light_line_width, 1);
+    /* Exclude the spacing for line width computation. */
+    light_line_width = font_width / 5;
+    light_line_width = MAX (light_line_width, 1);
 
-        if (c >= 0x2550 && c <= 0x256c) {
-                heavy_line_width = 3 * light_line_width;
-        } else {
-                heavy_line_width = light_line_width + 2;
-        }
+    if (c >= 0x2550 && c <= 0x256c) {
+        heavy_line_width = 3 * light_line_width;
+    } else {
+        heavy_line_width = light_line_width + 2;
+    }
 
-        xcenter = x + left_half;
-        ycenter = y + upper_half;
-        xright = x + width;
-        ybottom = y + height;
+    xcenter = x + left_half;
+    ycenter = y + upper_half;
+    xright = x + width;
+    ybottom = y + height;
 
-        switch (c) {
+    switch (c) {
 
         /* Box Drawing */
         case 0x2500: /* box drawings light horizontal */
@@ -1162,35 +1141,35 @@ _vte_draw_terminal_draw_graphic(struct _vte_draw *draw, vteunistr c, vte::color:
         case 0x257e: /* box drawings heavy left and light right */
         case 0x257f: /* box drawings heavy up and light down */
         {
-                guint32 bitmap = _vte_draw_box_drawing_bitmaps[c - 0x2500];
-                int xboundaries[6] = { 0,
-                                       left_half - heavy_line_width / 2,
-                                       left_half - light_line_width / 2,
-                                       left_half - light_line_width / 2 + light_line_width,
-                                       left_half - heavy_line_width / 2 + heavy_line_width,
-                                       width};
-                int yboundaries[6] = { 0,
-                                       upper_half - heavy_line_width / 2,
-                                       upper_half - light_line_width / 2,
-                                       upper_half - light_line_width / 2 + light_line_width,
-                                       upper_half - heavy_line_width / 2 + heavy_line_width,
-                                       height};
-                int xi, yi;
-                cairo_set_line_width(cr, 0);
-                for (yi = 4; yi >= 0; yi--) {
-                        for (xi = 4; xi >= 0; xi--) {
-                                if (bitmap & 1) {
-                                        cairo_rectangle(cr,
-                                                        x + xboundaries[xi],
-                                                        y + yboundaries[yi],
-                                                        xboundaries[xi + 1] - xboundaries[xi],
-                                                        yboundaries[yi + 1] - yboundaries[yi]);
-                                        cairo_fill(cr);
-                                }
-                                bitmap >>= 1;
-                        }
+            guint32 bitmap = _vte_draw_box_drawing_bitmaps[c - 0x2500];
+            int xboundaries[6] = { 0,
+                                    left_half - heavy_line_width / 2,
+                                    left_half - light_line_width / 2,
+                                    left_half - light_line_width / 2 + light_line_width,
+                                    left_half - heavy_line_width / 2 + heavy_line_width,
+                                    width};
+            int yboundaries[6] = { 0,
+                                    upper_half - heavy_line_width / 2,
+                                    upper_half - light_line_width / 2,
+                                    upper_half - light_line_width / 2 + light_line_width,
+                                    upper_half - heavy_line_width / 2 + heavy_line_width,
+                                    height};
+            int xi, yi;
+            cairo_set_line_width(cr, 0);
+            for (yi = 4; yi >= 0; yi--) {
+                for (xi = 4; xi >= 0; xi--) {
+                    if (bitmap & 1) {
+                        cairo_rectangle(cr,
+                                        x + xboundaries[xi],
+                                        y + yboundaries[yi],
+                                        xboundaries[xi + 1] - xboundaries[xi],
+                                        yboundaries[yi + 1] - yboundaries[yi]);
+                        cairo_fill(cr);
+                    }
+                    bitmap >>= 1;
                 }
-                break;
+            }
+            break;
         }
 
         case 0x2504: /* box drawings light triple dash horizontal */
@@ -1206,49 +1185,49 @@ _vte_draw_terminal_draw_graphic(struct _vte_draw *draw, vteunistr c, vte::color:
         case 0x254e: /* box drawings light double dash vertical */
         case 0x254f: /* box drawings heavy double dash vertical */
         {
-                const guint v = c - 0x2500;
-                int size, line_width;
+            const guint v = c - 0x2500;
+            int size, line_width;
 
-                size = (v & 2) ? height : width;
+            size = (v & 2) ? height : width;
 
-                switch (v >> 2) {
+            switch (v >> 2) {
                 case 1: /* triple dash */
                 {
-                        double segment = size / 8.;
-                        double dashes[2] = { segment * 2., segment };
-                        cairo_set_dash(cr, dashes, G_N_ELEMENTS(dashes), 0.);
-                        break;
+                    double segment = size / 8.;
+                    double dashes[2] = { segment * 2., segment };
+                    cairo_set_dash(cr, dashes, G_N_ELEMENTS(dashes), 0.);
+                    break;
                 }
                 case 2: /* quadruple dash */
                 {
-                        double segment = size / 11.;
-                        double dashes[2] = { segment * 2., segment };
-                        cairo_set_dash(cr, dashes, G_N_ELEMENTS(dashes), 0.);
-                        break;
+                    double segment = size / 11.;
+                    double dashes[2] = { segment * 2., segment };
+                    cairo_set_dash(cr, dashes, G_N_ELEMENTS(dashes), 0.);
+                    break;
                 }
                 case 19: /* double dash */
                 {
-                        double segment = size / 5.;
-                        double dashes[2] = { segment * 2., segment };
-                        cairo_set_dash(cr, dashes, G_N_ELEMENTS(dashes), 0.);
-                        break;
+                    double segment = size / 5.;
+                    double dashes[2] = { segment * 2., segment };
+                    cairo_set_dash(cr, dashes, G_N_ELEMENTS(dashes), 0.);
+                    break;
                 }
-                }
+            }
 
-                line_width = (v & 1) ? heavy_line_width : light_line_width;
-                adjust = (line_width & 1) ? .5 : 0.;
+            line_width = (v & 1) ? heavy_line_width : light_line_width;
+            adjust = (line_width & 1) ? .5 : 0.;
 
-                cairo_set_line_width(cr, line_width);
-                cairo_set_line_cap(cr, CAIRO_LINE_CAP_BUTT);
-                if (v & 2) {
-                        cairo_move_to(cr, xcenter + adjust, y);
-                        cairo_line_to(cr, xcenter + adjust, y + height);
-                } else {
-                        cairo_move_to(cr, x, ycenter + adjust);
-                        cairo_line_to(cr, x + width, ycenter + adjust);
-                }
-                cairo_stroke(cr);
-                break;
+            cairo_set_line_width(cr, line_width);
+            cairo_set_line_cap(cr, CAIRO_LINE_CAP_BUTT);
+            if (v & 2) {
+                cairo_move_to(cr, xcenter + adjust, y);
+                cairo_line_to(cr, xcenter + adjust, y + height);
+            } else {
+                cairo_move_to(cr, x, ycenter + adjust);
+                cairo_line_to(cr, x + width, ycenter + adjust);
+            }
+            cairo_stroke(cr);
+            break;
         }
 
         case 0x256d: /* box drawings light arc down and right */
@@ -1256,74 +1235,74 @@ _vte_draw_terminal_draw_graphic(struct _vte_draw *draw, vteunistr c, vte::color:
         case 0x256f: /* box drawings light arc up and left */
         case 0x2570: /* box drawings light arc up and right */
         {
-                const guint v = c - 0x256d;
-                int line_width;
-                int radius;
+            const guint v = c - 0x256d;
+            int line_width;
+            int radius;
 
-                cairo_set_line_cap(cr, CAIRO_LINE_CAP_BUTT);
+            cairo_set_line_cap(cr, CAIRO_LINE_CAP_BUTT);
 
-                line_width = light_line_width;
-                adjust = (line_width & 1) ? .5 : 0.;
-                cairo_set_line_width(cr, line_width);
+            line_width = light_line_width;
+            adjust = (line_width & 1) ? .5 : 0.;
+            cairo_set_line_width(cr, line_width);
 
-                radius = (font_width + 2) / 3;
-                radius = MAX(radius, heavy_line_width);
+            radius = (font_width + 2) / 3;
+            radius = MAX(radius, heavy_line_width);
 
-                if (v & 2) {
-                        cairo_move_to(cr, xcenter + adjust, y);
-                        cairo_line_to(cr, xcenter + adjust, ycenter - radius + 2 * adjust);
-                } else {
-                        cairo_move_to(cr, xcenter + adjust, ybottom);
-                        cairo_line_to(cr, xcenter + adjust, ycenter + radius);
-                }
-                cairo_stroke(cr);
+            if (v & 2) {
+                cairo_move_to(cr, xcenter + adjust, y);
+                cairo_line_to(cr, xcenter + adjust, ycenter - radius + 2 * adjust);
+            } else {
+                cairo_move_to(cr, xcenter + adjust, ybottom);
+                cairo_line_to(cr, xcenter + adjust, ycenter + radius);
+            }
+            cairo_stroke(cr);
 
-                cairo_arc(cr,
-                          (v == 1 || v == 2) ? xcenter - radius + 2 * adjust
-                                             : xcenter + radius,
-                          (v & 2) ? ycenter - radius + 2 * adjust
-                                  : ycenter + radius,
-                          radius - adjust,
-                          (v + 2) * M_PI / 2.0, (v + 3) * M_PI / 2.0);
-                cairo_stroke(cr);
+            cairo_arc(cr,
+                        (v == 1 || v == 2) ? xcenter - radius + 2 * adjust
+                                            : xcenter + radius,
+                        (v & 2) ? ycenter - radius + 2 * adjust
+                                : ycenter + radius,
+                        radius - adjust,
+                        (v + 2) * M_PI / 2.0, (v + 3) * M_PI / 2.0);
+            cairo_stroke(cr);
 
-                if (v == 1 || v == 2) {
-                        cairo_move_to(cr, xcenter - radius + 2 * adjust, ycenter + adjust);
-                        cairo_line_to(cr, x, ycenter + adjust);
-                } else {
-                        cairo_move_to(cr, xcenter + radius, ycenter + adjust);
-                        cairo_line_to(cr, xright, ycenter + adjust);
-                }
+            if (v == 1 || v == 2) {
+                cairo_move_to(cr, xcenter - radius + 2 * adjust, ycenter + adjust);
+                cairo_line_to(cr, x, ycenter + adjust);
+            } else {
+                cairo_move_to(cr, xcenter + radius, ycenter + adjust);
+                cairo_line_to(cr, xright, ycenter + adjust);
+            }
 
-                cairo_stroke(cr);
-                break;
+            cairo_stroke(cr);
+            break;
         }
 
         case 0x2571: /* box drawings light diagonal upper right to lower left */
         case 0x2572: /* box drawings light diagonal upper left to lower right */
         case 0x2573: /* box drawings light diagonal cross */
         {
-                cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
-                cairo_set_line_width(cr, light_line_width);
-                adjust = light_line_width / 2.;
-                if (c != 0x2571) {
-                        cairo_move_to(cr, x + adjust, y + adjust);
-                        cairo_line_to(cr, xright - adjust, ybottom - adjust);
-                        cairo_stroke(cr);
-                }
-                if (c != 0x2572) {
-                        cairo_move_to(cr, xright - adjust, y + adjust);
-                        cairo_line_to(cr, x + adjust, ybottom - adjust);
-                        cairo_stroke(cr);
-                }
-                break;
+            cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
+            cairo_set_line_width(cr, light_line_width);
+            adjust = light_line_width / 2.;
+            if (c != 0x2571) {
+                cairo_move_to(cr, x + adjust, y + adjust);
+                cairo_line_to(cr, xright - adjust, ybottom - adjust);
+                cairo_stroke(cr);
+            }
+            if (c != 0x2572) {
+                cairo_move_to(cr, xright - adjust, y + adjust);
+                cairo_line_to(cr, x + adjust, ybottom - adjust);
+                cairo_stroke(cr);
+            }
+            break;
         }
 
         /* Block Elements */
         case 0x2580: /* upper half block */
-                cairo_rectangle(cr, x, y, width, upper_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y, width, upper_half);
+            cairo_fill (cr);
+            break;
 
         case 0x2581: /* lower one eighth block */
         case 0x2582: /* lower one quarter block */
@@ -1333,15 +1312,15 @@ _vte_draw_terminal_draw_graphic(struct _vte_draw *draw, vteunistr c, vte::color:
         case 0x2586: /* lower three quarters block */
         case 0x2587: /* lower seven eighths block */
         {
-                const guint v = c - 0x2580;
-                /* Use the number of eights from the top, so that
-                 * U+2584 aligns with U+2596..U+259f.
-                 */
-                const int h = EIGHTS (height, 8 - v);
+            const guint v = c - 0x2580;
+            /* Use the number of eights from the top, so that
+                * U+2584 aligns with U+2596..U+259f.
+                */
+            const int h = EIGHTS (height, 8 - v);
 
-                cairo_rectangle(cr, x, y + h, width, height - h);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y + h, width, height - h);
+            cairo_fill (cr);
+            break;
         }
 
         case 0x2588: /* full block */
@@ -1353,121 +1332,120 @@ _vte_draw_terminal_draw_graphic(struct _vte_draw *draw, vteunistr c, vte::color:
         case 0x258e: /* left one quarter block */
         case 0x258f: /* left one eighth block */
         {
-                const guint v = c - 0x2588;
-                /* Use the number of eights from the top, so that
-                 * U+258c aligns with U+2596..U+259f.
-                 */
-                const int w = EIGHTS (width, 8 - v);
+            const guint v = c - 0x2588;
+            /* Use the number of eights from the top, so that
+                * U+258c aligns with U+2596..U+259f.
+                */
+            const int w = EIGHTS (width, 8 - v);
 
-                cairo_rectangle(cr, x, y, w, height);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y, w, height);
+            cairo_fill (cr);
+            break;
         }
 
         case 0x2590: /* right half block */
-                cairo_rectangle(cr, x + left_half, y, right_half, height);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x + left_half, y, right_half, height);
+            cairo_fill (cr);
+            break;
 
         case 0x2591: /* light shade */
         case 0x2592: /* medium shade */
         case 0x2593: /* dark shade */
-                cairo_set_source_rgba (cr,
-                                       fg->red / 65535.,
-                                       fg->green / 65535.,
-                                       fg->blue / 65535.,
-                                       (c - 0x2590) / 4.);
-                cairo_rectangle(cr, x, y, width, height);
-                cairo_fill (cr);
-                break;
+            cairo_set_source_rgba (cr,
+                                    fg->red / 65535.,
+                                    fg->green / 65535.,
+                                    fg->blue / 65535.,
+                                    (c - 0x2590) / 4.);
+            cairo_rectangle(cr, x, y, width, height);
+            cairo_fill (cr);
+            break;
 
         case 0x2594: /* upper one eighth block */
         {
-                const int h = EIGHTS (height, 1); /* Align with U+2587 */
-                cairo_rectangle(cr, x, y, width, h);
-                cairo_fill (cr);
-                break;
+            const int h = EIGHTS (height, 1); /* Align with U+2587 */
+            cairo_rectangle(cr, x, y, width, h);
+            cairo_fill (cr);
+            break;
         }
 
         case 0x2595: /* right one eighth block */
         {
-                const int w = EIGHTS (width, 7);  /* Align with U+2589 */
-                cairo_rectangle(cr, x + w, y, width - w, height);
-                cairo_fill (cr);
-                break;
+            const int w = EIGHTS (width, 7);  /* Align with U+2589 */
+            cairo_rectangle(cr, x + w, y, width - w, height);
+            cairo_fill (cr);
+            break;
         }
 
         case 0x2596: /* quadrant lower left */
-                cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         case 0x2597: /* quadrant lower right */
-                cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         case 0x2598: /* quadrant upper left */
-                cairo_rectangle(cr, x, y, left_half, upper_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y, left_half, upper_half);
+            cairo_fill (cr);
+            break;
 
         case 0x2599: /* quadrant upper left and lower left and lower right */
-                cairo_rectangle(cr, x, y, left_half, upper_half);
-                cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
-                cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y, left_half, upper_half);
+            cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
+            cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         case 0x259a: /* quadrant upper left and lower right */
-                cairo_rectangle(cr, x, y, left_half, upper_half);
-                cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y, left_half, upper_half);
+            cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         case 0x259b: /* quadrant upper left and upper right and lower left */
-                cairo_rectangle(cr, x, y, left_half, upper_half);
-                cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
-                cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y, left_half, upper_half);
+            cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
+            cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         case 0x259c: /* quadrant upper left and upper right and lower right */
-                cairo_rectangle(cr, x, y, left_half, upper_half);
-                cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
-                cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x, y, left_half, upper_half);
+            cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
+            cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         case 0x259d: /* quadrant upper right */
-                cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
+            cairo_fill (cr);
+            break;
 
         case 0x259e: /* quadrant upper right and lower left */
-                cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
-                cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
+            cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         case 0x259f: /* quadrant upper right and lower left and lower right */
-                cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
-                cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
-                cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
-                cairo_fill (cr);
-                break;
+            cairo_rectangle(cr, x + left_half, y, right_half, upper_half);
+            cairo_rectangle(cr, x, y + upper_half, left_half, lower_half);
+            cairo_rectangle(cr, x + left_half, y + upper_half, right_half, lower_half);
+            cairo_fill (cr);
+            break;
 
         default:
-                g_assert_not_reached();
-        }
+            g_assert_not_reached();
+    }
 
 #undef EIGHTS
 
-        cairo_restore(cr);
+    cairo_restore(cr);
 }
 
-static void
-_vte_draw_text_internal (struct _vte_draw *draw,
+static void _vte_draw_text_internal (struct _vte_draw *draw,
              struct _vte_draw_text_request *requests, gsize n_requests,
              vte::color::rgb const* color, double alpha, guint style)
 {
@@ -1479,7 +1457,7 @@ _vte_draw_text_internal (struct _vte_draw *draw,
 
     g_return_if_fail (font != NULL);
 
-        g_assert(draw->cr);
+    g_assert(draw->cr);
     _vte_draw_set_source_color_alpha (draw, color, alpha);
     cairo_set_operator (draw->cr, CAIRO_OPERATOR_OVER);
 
@@ -1487,68 +1465,63 @@ _vte_draw_text_internal (struct _vte_draw *draw,
         vteunistr c = requests[i].c;
         struct unistr_info *uinfo = font_info_get_unistr_info (font, c);
         union unistr_font_info *ufi = &uinfo->ufi;
-                int x, y;
+        int x, y;
 
-                _vte_draw_get_char_edges(draw, c, requests[i].columns, style, &x, NULL);
-                x += requests[i].x;
-                y = requests[i].y + draw->char_spacing.top + font->ascent;
+        _vte_draw_get_char_edges(draw, c, requests[i].columns, style, &x, NULL);
+        x += requests[i].x;
+        y = requests[i].y + draw->char_spacing.top + font->ascent;
 
-                if (_vte_draw_unichar_is_local_graphic(c)) {
-                        _vte_draw_terminal_draw_graphic(draw, c, color,
-                                                        requests[i].x, requests[i].y,
-                                                        font->width, requests[i].columns, font->height);
-                        continue;
-                }
+        if (_vte_draw_unichar_is_local_graphic(c)) {
+            _vte_draw_terminal_draw_graphic(draw, c, color,
+                                            requests[i].x, requests[i].y,
+                                            font->width, requests[i].columns, font->height);
+            continue;
+        }
 
         switch (uinfo->coverage) {
-        default:
-        case COVERAGE_UNKNOWN:
-            g_assert_not_reached ();
-            break;
-        case COVERAGE_USE_PANGO_LAYOUT_LINE:
-            cairo_move_to (draw->cr, x, y);
-            pango_cairo_show_layout_line (draw->cr,
-                              ufi->using_pango_layout_line.line);
-            break;
-        case COVERAGE_USE_PANGO_GLYPH_STRING:
-            cairo_move_to (draw->cr, x, y);
-            pango_cairo_show_glyph_string (draw->cr,
-                               ufi->using_pango_glyph_string.font,
-                               ufi->using_pango_glyph_string.glyph_string);
-            break;
-        case COVERAGE_USE_CAIRO_GLYPH:
-            if (last_scaled_font != ufi->using_cairo_glyph.scaled_font || n_cr_glyphs == MAX_RUN_LENGTH) {
-                if (n_cr_glyphs) {
-                    cairo_set_scaled_font (draw->cr, last_scaled_font);
-                    cairo_show_glyphs (draw->cr,
-                               cr_glyphs,
-                               n_cr_glyphs);
-                    n_cr_glyphs = 0;
+            default:
+            case COVERAGE_UNKNOWN:
+                g_assert_not_reached ();
+                break;
+            case COVERAGE_USE_PANGO_LAYOUT_LINE:
+                cairo_move_to (draw->cr, x, y);
+                pango_cairo_show_layout_line (draw->cr,
+                                ufi->using_pango_layout_line.line);
+                break;
+            case COVERAGE_USE_PANGO_GLYPH_STRING:
+                cairo_move_to (draw->cr, x, y);
+                pango_cairo_show_glyph_string (draw->cr,
+                                ufi->using_pango_glyph_string.font,
+                                ufi->using_pango_glyph_string.glyph_string);
+                break;
+            case COVERAGE_USE_CAIRO_GLYPH:
+                if (last_scaled_font != ufi->using_cairo_glyph.scaled_font || n_cr_glyphs == MAX_RUN_LENGTH) {
+                    if (n_cr_glyphs) {
+                        cairo_set_scaled_font (draw->cr, last_scaled_font);
+                        cairo_show_glyphs (draw->cr, cr_glyphs, n_cr_glyphs);
+                        n_cr_glyphs = 0;
+                    }
+                    last_scaled_font = ufi->using_cairo_glyph.scaled_font;
                 }
-                last_scaled_font = ufi->using_cairo_glyph.scaled_font;
-            }
-            cr_glyphs[n_cr_glyphs].index = ufi->using_cairo_glyph.glyph_index;
-            cr_glyphs[n_cr_glyphs].x = x;
-            cr_glyphs[n_cr_glyphs].y = y;
-            n_cr_glyphs++;
-            break;
+                cr_glyphs[n_cr_glyphs].index = ufi->using_cairo_glyph.glyph_index;
+                cr_glyphs[n_cr_glyphs].x = x;
+                cr_glyphs[n_cr_glyphs].y = y;
+                n_cr_glyphs++;
+                break;
         }
     }
     if (n_cr_glyphs) {
         cairo_set_scaled_font (draw->cr, last_scaled_font);
-        cairo_show_glyphs (draw->cr,
-                   cr_glyphs,
-                   n_cr_glyphs);
+        cairo_show_glyphs (draw->cr, cr_glyphs, n_cr_glyphs);
         n_cr_glyphs = 0;
     }
 }
 
-void
-_vte_draw_text (struct _vte_draw *draw,
-           struct _vte_draw_text_request *requests, gsize n_requests,
-           vte::color::rgb const* color, double alpha, guint style)
+void _vte_draw_text (struct _vte_draw *draw,
+                        struct _vte_draw_text_request *requests, gsize n_requests,
+                        vte::color::rgb const* color, double alpha, guint style)
 {
-        g_assert(draw->cr);
+    g_assert(draw->cr);
 
     if (_vte_debug_on (VTE_DEBUG_DRAW)) {
         GString *string = g_string_new ("");
@@ -1575,8 +1548,7 @@ _vte_draw_text (struct _vte_draw *draw,
         for (i = 0; i < n_requests; i++) {
             requests[i].x++;
         }
-        _vte_draw_text_internal (draw, requests,
-                       n_requests, color, alpha, style);
+        _vte_draw_text_internal (draw, requests, n_requests, color, alpha, style);
         /* Now take a step back. */
         for (i = 0; i < n_requests; i++) {
             requests[i].x--;
@@ -1587,8 +1559,7 @@ _vte_draw_text (struct _vte_draw *draw,
 /* The following two functions are unused since commit 154abade902850afb44115cccf8fcac51fc082f0,
  * but let's keep them for now since they may become used again.
  */
-gboolean
-_vte_draw_has_char (struct _vte_draw *draw, vteunistr c, guint style)
+gboolean _vte_draw_has_char (struct _vte_draw *draw, vteunistr c, guint style)
 {
     struct unistr_info *uinfo;
 
@@ -1602,40 +1573,39 @@ _vte_draw_has_char (struct _vte_draw *draw, vteunistr c, guint style)
     return !uinfo->has_unknown_chars;
 }
 
-gboolean
-_vte_draw_char (struct _vte_draw *draw,
-           struct _vte_draw_text_request *request,
-           vte::color::rgb const* color, double alpha, guint style)
+gboolean _vte_draw_char (struct _vte_draw *draw,
+                            struct _vte_draw_text_request *request,
+                            vte::color::rgb const* color, double alpha, guint style)
 {
     gboolean has_char;
 
     _vte_debug_print (VTE_DEBUG_DRAW,
-            "draw_char ('%c', color=(%d,%d,%d,%.3f), %s, %s)\n",
-            request->c,
-            color->red, color->green, color->blue,
-            alpha,
-            (style & VTE_DRAW_BOLD)   ? "bold"   : "normal",
-            (style & VTE_DRAW_ITALIC) ? "italic" : "regular");
+                        "draw_char ('%c', color=(%d,%d,%d,%.3f), %s, %s)\n",
+                        request->c,
+                        color->red, color->green, color->blue,
+                        alpha,
+                        (style & VTE_DRAW_BOLD)   ? "bold"   : "normal",
+                        (style & VTE_DRAW_ITALIC) ? "italic" : "regular");
 
     has_char =_vte_draw_has_char (draw, request->c, style);
-    if (has_char)
+    if (has_char) {
         _vte_draw_text (draw, request, 1, color, alpha, style);
+    }
 
     return has_char;
 }
 
-void
-_vte_draw_draw_rectangle (struct _vte_draw *draw,
-             gint x, gint y, gint width, gint height,
-             vte::color::rgb const* color, double alpha)
+void _vte_draw_draw_rectangle (struct _vte_draw *draw,
+                                gint x, gint y, gint width, gint height,
+                                vte::color::rgb const* color, double alpha)
 {
-        g_assert(draw->cr);
+    g_assert(draw->cr);
 
     _vte_debug_print (VTE_DEBUG_DRAW,
-            "draw_rectangle (%d, %d, %d, %d, color=(%d,%d,%d,%.3f))\n",
-            x,y,width,height,
-            color->red, color->green, color->blue,
-            alpha);
+                        "draw_rectangle (%d, %d, %d, %d, color=(%d,%d,%d,%.3f))\n",
+                        x,y,width,height,
+                        color->red, color->green, color->blue,
+                        alpha);
 
     cairo_set_operator (draw->cr, CAIRO_OPERATOR_OVER);
     cairo_rectangle (draw->cr, x+VTE_LINE_WIDTH/2., y+VTE_LINE_WIDTH/2., width-VTE_LINE_WIDTH, height-VTE_LINE_WIDTH);
@@ -1644,18 +1614,17 @@ _vte_draw_draw_rectangle (struct _vte_draw *draw,
     cairo_stroke (draw->cr);
 }
 
-void
-_vte_draw_fill_rectangle (struct _vte_draw *draw,
-             gint x, gint y, gint width, gint height,
-             vte::color::rgb const* color, double alpha)
+void _vte_draw_fill_rectangle (struct _vte_draw *draw,
+                                gint x, gint y, gint width, gint height,
+                                vte::color::rgb const* color, double alpha)
 {
-        g_assert(draw->cr);
+    g_assert(draw->cr);
 
     _vte_debug_print (VTE_DEBUG_DRAW,
-            "draw_fill_rectangle (%d, %d, %d, %d, color=(%d,%d,%d,%.3f))\n",
-            x,y,width,height,
-            color->red, color->green, color->blue,
-            alpha);
+                        "draw_fill_rectangle (%d, %d, %d, %d, color=(%d,%d,%d,%.3f))\n",
+                        x,y,width,height,
+                        color->red, color->green, color->blue,
+                        alpha);
 
     cairo_set_operator (draw->cr, CAIRO_OPERATOR_OVER);
     cairo_rectangle (draw->cr, x, y, width, height);
@@ -1664,11 +1633,10 @@ _vte_draw_fill_rectangle (struct _vte_draw *draw,
 }
 
 
-void
-_vte_draw_draw_line(struct _vte_draw *draw,
-                    gint x, gint y, gint xp, gint yp,
-                    int line_width,
-                    vte::color::rgb const *color, double alpha)
+void _vte_draw_draw_line(struct _vte_draw *draw,
+                            gint x, gint y, gint xp, gint yp,
+                            int line_width,
+                            vte::color::rgb const *color, double alpha)
 {
     _vte_draw_fill_rectangle(draw,
                                  x, y,
@@ -1676,84 +1644,80 @@ _vte_draw_draw_line(struct _vte_draw *draw,
                                  color, alpha);
 }
 
-static inline double
-_vte_draw_get_undercurl_rad(gint width)
+static inline double _vte_draw_get_undercurl_rad(gint width)
 {
-        return width / 2. / sqrt(2);
+    return width / 2. / sqrt(2);
 }
 
-static inline double
-_vte_draw_get_undercurl_arc_height(gint width)
+static inline double _vte_draw_get_undercurl_arc_height(gint width)
 {
-        return _vte_draw_get_undercurl_rad(width) * (1. - sqrt(2) / 2.);
+    return _vte_draw_get_undercurl_rad(width) * (1. - sqrt(2) / 2.);
 }
 
-double
-_vte_draw_get_undercurl_height(gint width, double line_width)
+double _vte_draw_get_undercurl_height(gint width, double line_width)
 {
-        return 2. * _vte_draw_get_undercurl_arc_height(width) + line_width;
+    return 2. * _vte_draw_get_undercurl_arc_height(width) + line_width;
 }
 
-void
-_vte_draw_draw_undercurl(struct _vte_draw *draw,
-                         gint x, double y,
-                         double line_width,
-                         gint count,
-                         vte::color::rgb const *color, double alpha)
+void _vte_draw_draw_undercurl(struct _vte_draw *draw,
+                                gint x, double y,
+                                double line_width,
+                                gint count,
+                                vte::color::rgb const *color, double alpha)
 {
-        /* The end of the curly line slightly overflows to the next cell, so the canvas
-         * caching the rendered look has to be wider not to chop this off. */
-        gint x_padding = line_width + 1;  /* ceil, kind of */
+    /* The end of the curly line slightly overflows to the next cell, so the canvas
+        * caching the rendered look has to be wider not to chop this off. */
+    gint x_padding = line_width + 1;  /* ceil, kind of */
 
-        gint surface_top = y;  /* floor */
+    gint surface_top = y;  /* floor */
 
-        g_assert(draw->cr);
+    g_assert(draw->cr);
 
-        _vte_debug_print (VTE_DEBUG_DRAW,
+    _vte_debug_print (VTE_DEBUG_DRAW,
                         "draw_undercurl (x=%d, y=%f, count=%d, color=(%d,%d,%d,%.3f))\n",
                         x, y, count,
                         color->red, color->green, color->blue,
                         alpha);
 
-        if (G_UNLIKELY (draw->undercurl_surface == NULL)) {
-                /* Cache the undercurl's look. The design assumes that until the cached look is
-                 * invalidated (the font is changed), this method is always called with the "y"
-                 * parameter having the same fractional part, and the same "line_width" parameter.
-                 * For caching, only the fractional part of "y" is used. */
-                cairo_t *undercurl_cr;
+    if (G_UNLIKELY (draw->undercurl_surface == NULL)) {
+       /* Cache the undercurl's look. The design assumes that until the cached look is
+        * invalidated (the font is changed), this method is always called with the "y"
+        * parameter having the same fractional part, and the same "line_width" parameter.
+        * For caching, only the fractional part of "y" is used. */
+        cairo_t *undercurl_cr;
 
-                double rad = _vte_draw_get_undercurl_rad(draw->cell_width);
-                double y_bottom = y + _vte_draw_get_undercurl_height(draw->cell_width, line_width);
-                double y_center = (y + y_bottom) / 2.;
-                gint surface_bottom = y_bottom + 1;  /* ceil, kind of */
+        double rad = _vte_draw_get_undercurl_rad(draw->cell_width);
+        double y_bottom = y + _vte_draw_get_undercurl_height(draw->cell_width, line_width);
+        double y_center = (y + y_bottom) / 2.;
+        gint surface_bottom = y_bottom + 1;  /* ceil, kind of */
 
-                _vte_debug_print (VTE_DEBUG_DRAW,
-                                  "caching undercurl shape\n");
+        _vte_debug_print (VTE_DEBUG_DRAW,
+                            "caching undercurl shape\n");
 
-                /* Add a line_width of margin horizontally on both sides, for nice antialias overflowing. */
-                draw->undercurl_surface = cairo_surface_create_similar (cairo_get_target (draw->cr),
-                                                                        CAIRO_CONTENT_ALPHA,
-                                                                        draw->cell_width + 2 * x_padding,
-                                                                        surface_bottom - surface_top);
-                undercurl_cr = cairo_create (draw->undercurl_surface);
-                cairo_set_operator (undercurl_cr, CAIRO_OPERATOR_OVER);
-                /* First quarter circle, similar to the left half of the tilde symbol. */
-                cairo_arc (undercurl_cr, x_padding + draw->cell_width / 4., y_center - surface_top + draw->cell_width / 4., rad, M_PI * 5 / 4, M_PI * 7 / 4);
-                /* Second quarter circle, similar to the right half of the tilde symbol. */
-                cairo_arc_negative (undercurl_cr, x_padding + draw->cell_width * 3 / 4., y_center - surface_top - draw->cell_width / 4., rad, M_PI * 3 / 4, M_PI / 4);
-                cairo_set_line_width (undercurl_cr, line_width);
-                cairo_stroke (undercurl_cr);
-                cairo_destroy (undercurl_cr);
-        }
+        /* Add a line_width of margin horizontally on both sides, for nice antialias overflowing. */
+        draw->undercurl_surface = cairo_surface_create_similar (cairo_get_target (draw->cr),
+                                                                CAIRO_CONTENT_ALPHA,
+                                                                draw->cell_width + 2 * x_padding,
+                                                                surface_bottom - surface_top);
+        undercurl_cr = cairo_create (draw->undercurl_surface);
+        cairo_set_operator (undercurl_cr, CAIRO_OPERATOR_OVER);
+        /* First quarter circle, similar to the left half of the tilde symbol. */
+        cairo_arc (undercurl_cr, x_padding + draw->cell_width / 4., y_center - surface_top + draw->cell_width / 4., rad, M_PI * 5 / 4, M_PI * 7 / 4);
+        /* Second quarter circle, similar to the right half of the tilde symbol. */
+        cairo_arc_negative (undercurl_cr, x_padding + draw->cell_width * 3 / 4., y_center - surface_top - draw->cell_width / 4., rad, M_PI * 3 / 4, M_PI / 4);
+        cairo_set_line_width (undercurl_cr, line_width);
+        cairo_stroke (undercurl_cr);
+        cairo_destroy (undercurl_cr);
+    }
 
-        /* Paint the cached look of the undercurl using the desired look.
-         * The cached look takes the fractional part of "y" into account,
-         * here we only offset by its integer part. */
-        cairo_save (draw->cr);
-        cairo_set_operator (draw->cr, CAIRO_OPERATOR_OVER);
-        _vte_draw_set_source_color_alpha (draw, color, alpha);
-        for (int i = 0; i < count; i++) {
-                cairo_mask_surface (draw->cr, draw->undercurl_surface, x - x_padding + i * draw->cell_width, surface_top);
-        }
-        cairo_restore (draw->cr);
+   /* Paint the cached look of the undercurl using the desired look.
+    * The cached look takes the fractional part of "y" into account,
+    * here we only offset by its integer part. */
+    cairo_save (draw->cr);
+    cairo_set_operator (draw->cr, CAIRO_OPERATOR_OVER);
+    _vte_draw_set_source_color_alpha (draw, color, alpha);
+    for (int i = 0; i < count; i++) {
+        cairo_mask_surface (draw->cr, draw->undercurl_surface, x - x_padding + i * draw->cell_width, surface_top);
+    }
+    cairo_restore (draw->cr);
 }

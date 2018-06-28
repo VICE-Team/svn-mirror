@@ -353,25 +353,23 @@ static void vte_terminal_accessible_update_private_data_if_needed(VteTerminalAcc
                         (long)priv->snapshot_characters->len);
 }
 
-static void
-vte_terminal_accessible_maybe_emit_text_caret_moved(VteTerminalAccessible *accessible)
+static void vte_terminal_accessible_maybe_emit_text_caret_moved(VteTerminalAccessible *accessible)
 {
-        VteTerminalAccessiblePrivate *priv = (VteTerminalAccessiblePrivate *)_vte_terminal_accessible_get_instance_private(accessible);
+    VteTerminalAccessiblePrivate *priv = (VteTerminalAccessiblePrivate *)_vte_terminal_accessible_get_instance_private(accessible);
 
-        if (priv->text_caret_moved_pending) {
-                emit_text_caret_moved(G_OBJECT(accessible), priv->snapshot_caret);
-                priv->text_caret_moved_pending = FALSE;
-        }
+    if (priv->text_caret_moved_pending) {
+        emit_text_caret_moved(G_OBJECT(accessible), priv->snapshot_caret);
+        priv->text_caret_moved_pending = FALSE;
+    }
 }
 
 /* A signal handler to catch "text-inserted/deleted/modified" signals. */
-static void
-vte_terminal_accessible_text_modified(VteTerminal *terminal, gpointer data)
+static void vte_terminal_accessible_text_modified(VteTerminal *terminal, gpointer data)
 {
-        VteTerminalAccessible *accessible = (VteTerminalAccessible *)data;
+    VteTerminalAccessible *accessible = (VteTerminalAccessible *)data;
     VteTerminalAccessiblePrivate *priv = (VteTerminalAccessiblePrivate *)_vte_terminal_accessible_get_instance_private(accessible);
-        GString *old_text;
-        GArray *old_characters;
+    GString *old_text;
+    GArray *old_characters;
     char *old, *current;
     glong offset, caret_offset, olen, clen;
     gint old_snapshot_caret;
@@ -381,17 +379,16 @@ vte_terminal_accessible_text_modified(VteTerminal *terminal, gpointer data)
     vte_terminal_accessible_update_private_data_if_needed(accessible,
                                                               &old_text,
                                                               &old_characters);
-        g_assert(old_text != NULL);
-        g_assert(old_characters != NULL);
+    g_assert(old_text != NULL);
+    g_assert(old_characters != NULL);
 
     current = priv->snapshot_text->str;
     clen = priv->snapshot_text->len;
-        old = old_text->str;
-        olen = old_text->len;
+    old = old_text->str;
+    olen = old_text->len;
 
     if ((guint) priv->snapshot_caret < priv->snapshot_characters->len) {
-        caret_offset = g_array_index(priv->snapshot_characters,
-                int, priv->snapshot_caret);
+        caret_offset = g_array_index(priv->snapshot_characters, int, priv->snapshot_caret);
     } else {
         /* caret was not in the line */
         caret_offset = clen;
@@ -408,19 +405,17 @@ vte_terminal_accessible_text_modified(VteTerminal *terminal, gpointer data)
 
         /* Check if we just backspaced over a space. */
     if ((olen == offset) &&
-                   (caret_offset < olen && old[caret_offset] == ' ') &&
-            (old_snapshot_caret == priv->snapshot_caret + 1)) {
-                GString *saved_text = priv->snapshot_text;
-                GArray *saved_characters = priv->snapshot_characters;
+        (caret_offset < olen && old[caret_offset] == ' ') &&
+        (old_snapshot_caret == priv->snapshot_caret + 1)) {
+            GString *saved_text = priv->snapshot_text;
+            GArray *saved_characters = priv->snapshot_characters;
 
-                priv->snapshot_text = old_text;
-                priv->snapshot_characters = old_characters;
-        emit_text_changed_delete(G_OBJECT(accessible),
-                     old, caret_offset, 1);
-                priv->snapshot_text = saved_text;
-                priv->snapshot_characters = saved_characters;
-        emit_text_changed_insert(G_OBJECT(accessible),
-                     old, caret_offset, 1);
+            priv->snapshot_text = old_text;
+            priv->snapshot_characters = old_characters;
+            emit_text_changed_delete(G_OBJECT(accessible), old, caret_offset, 1);
+            priv->snapshot_text = saved_text;
+            priv->snapshot_characters = saved_characters;
+            emit_text_changed_insert(G_OBJECT(accessible), old, caret_offset, 1);
     }
 
 

@@ -1090,36 +1090,35 @@ bool VteTerminalPrivate::rowcol_from_event(GdkEvent *event, long *column, long *
     return true;
 }
 
-char *
-VteTerminalPrivate::hyperlink_check(GdkEvent *event)
+char *VteTerminalPrivate::hyperlink_check(GdkEvent *event)
 {
-        long col, row;
-        const char *hyperlink;
-        const char *separator;
+    long col, row;
+    const char *hyperlink;
+    const char *separator;
 
-        if (!m_allow_hyperlink || !rowcol_from_event(event, &col, &row))
-                return NULL;
+    if (!m_allow_hyperlink || !rowcol_from_event(event, &col, &row)) {
+        return NULL;
+    }
 
-        _vte_ring_get_hyperlink_at_position(m_screen->row_data, row, col, false, &hyperlink);
+    _vte_ring_get_hyperlink_at_position(m_screen->row_data, row, col, false, &hyperlink);
 
-        if (hyperlink != NULL) {
-                /* URI is after the first semicolon */
-                separator = strchr(hyperlink, ';');
-                g_assert(separator != NULL);
-                hyperlink = separator + 1;
-        }
+    if (hyperlink != NULL) {
+        /* URI is after the first semicolon */
+        separator = strchr(hyperlink, ';');
+        g_assert(separator != NULL);
+        hyperlink = separator + 1;
+    }
 
-        _vte_debug_print (VTE_DEBUG_HYPERLINK,
-                          "hyperlink_check: \"%s\"\n",
-                          hyperlink);
+    _vte_debug_print (VTE_DEBUG_HYPERLINK,
+                        "hyperlink_check: \"%s\"\n",
+                        hyperlink);
 
-        return g_strdup(hyperlink);
+    return g_strdup(hyperlink);
 }
 
 
 /* Emit an adjustment changed signal on our adjustment object. */
-void
-VteTerminalPrivate::emit_adjustment_changed()
+void VteTerminalPrivate::emit_adjustment_changed()
 {
     if (m_adjustment_changed_pending) {
         bool changed = false;
@@ -1183,9 +1182,10 @@ VteTerminalPrivate::emit_adjustment_changed()
 
         g_object_thaw_notify (G_OBJECT (m_vadjustment));
 
-        if (changed)
+        if (changed) {
             _vte_debug_print(VTE_DEBUG_SIGNALS,
                     "Emitting adjustment_changed.\n");
+        }
         m_adjustment_changed_pending = FALSE;
     }
     if (m_adjustment_value_changed_pending) {
@@ -1208,29 +1208,26 @@ VteTerminalPrivate::emit_adjustment_changed()
 }
 
 /* Queue an adjustment-changed signal to be delivered when convenient. */
-// FIXMEchpe this has just one caller, fold it into the call site
-void
-VteTerminalPrivate::queue_adjustment_changed()
+/* FIXMEchpe this has just one caller, fold it into the call site */
+void VteTerminalPrivate::queue_adjustment_changed()
 {
     m_adjustment_changed_pending = true;
     add_update_timeout(this);
 }
 
-void
-VteTerminalPrivate::queue_adjustment_value_changed(double v)
+void VteTerminalPrivate::queue_adjustment_value_changed(double v)
 {
     if (!_vte_double_equal(v, m_screen->scroll_delta)) {
-                _vte_debug_print(VTE_DEBUG_ADJ,
-                                 "Adjustment value changed to %f\n",
-                                 v);
+        _vte_debug_print(VTE_DEBUG_ADJ,
+                            "Adjustment value changed to %f\n",
+                            v);
         m_screen->scroll_delta = v;
         m_adjustment_value_changed_pending = true;
         add_update_timeout(this);
     }
 }
 
-void
-VteTerminalPrivate::queue_adjustment_value_changed_clamped(double v)
+void VteTerminalPrivate::queue_adjustment_value_changed_clamped(double v)
 {
     double lower = gtk_adjustment_get_lower(m_vadjustment);
     double upper = gtk_adjustment_get_upper(m_vadjustment);
@@ -1240,8 +1237,7 @@ VteTerminalPrivate::queue_adjustment_value_changed_clamped(double v)
     queue_adjustment_value_changed(v);
 }
 
-void
-VteTerminalPrivate::adjust_adjustments()
+void VteTerminalPrivate::adjust_adjustments()
 {
     g_assert(m_screen != nullptr);
     g_assert(m_screen->row_data != nullptr);
@@ -1254,8 +1250,8 @@ VteTerminalPrivate::adjust_adjustments()
      * area.  Leave the scrolling delta alone because it will be updated
      * when the adjustment changes. */
     m_screen->insert_delta = MAX(m_screen->insert_delta, delta);
-        m_screen->cursor.row = MAX(m_screen->cursor.row,
-                                   m_screen->insert_delta);
+    m_screen->cursor.row = MAX(m_screen->cursor.row,
+                                m_screen->insert_delta);
 
     if (m_screen->scroll_delta > m_screen->insert_delta) {
         queue_adjustment_value_changed(m_screen->insert_delta);
@@ -1264,8 +1260,7 @@ VteTerminalPrivate::adjust_adjustments()
 
 /* Update the adjustment field of the widget.  This function should be called
  * whenever we add rows to or remove rows from the history or switch screens. */
-void
-VteTerminalPrivate::adjust_adjustments_full()
+void VteTerminalPrivate::adjust_adjustments_full()
 {
     g_assert(m_screen != NULL);
     g_assert(m_screen->row_data != NULL);
@@ -1275,36 +1270,34 @@ VteTerminalPrivate::adjust_adjustments_full()
 }
 
 /* Scroll a fixed number of lines up or down in the current screen. */
-void
-VteTerminalPrivate::scroll_lines(long lines)
+void VteTerminalPrivate::scroll_lines(long lines)
 {
     double destination;
     _vte_debug_print(VTE_DEBUG_ADJ, "Scrolling %ld lines.\n", lines);
     /* Calculate the ideal position where we want to be before clamping. */
     destination = m_screen->scroll_delta;
-        /* Snap to whole cell offset. */
-        if (lines > 0)
-                destination = floor(destination);
-        else if (lines < 0)
-                destination = ceil(destination);
+    /* Snap to whole cell offset. */
+    if (lines > 0) {
+        destination = floor(destination);
+    } else if (lines < 0) {
+        destination = ceil(destination);
+    }
     destination += lines;
     /* Tell the scrollbar to adjust itself. */
     queue_adjustment_value_changed_clamped(destination);
 }
 
 /* Scroll so that the scroll delta is the minimum value. */
-void
-VteTerminalPrivate::maybe_scroll_to_top()
+void VteTerminalPrivate::maybe_scroll_to_top()
 {
     queue_adjustment_value_changed(_vte_ring_delta(m_screen->row_data));
 }
 
-void
-VteTerminalPrivate::maybe_scroll_to_bottom()
+void VteTerminalPrivate::maybe_scroll_to_bottom()
 {
     queue_adjustment_value_changed(m_screen->insert_delta);
     _vte_debug_print(VTE_DEBUG_ADJ,
-            "Snapping to bottom of screen\n");
+                        "Snapping to bottom of screen\n");
 }
 
 /*
@@ -1317,15 +1310,14 @@ VteTerminalPrivate::maybe_scroll_to_bottom()
  *
  * Returns: %true if the encoding could be changed to the specified one
  */
-bool
-VteTerminalPrivate::set_encoding(char const* codeset)
+bool VteTerminalPrivate::set_encoding(char const* codeset)
 {
     VteConv conv;
 
-        GObject *object = G_OBJECT(m_terminal);
+    GObject *object = G_OBJECT(m_terminal);
 
     if (codeset == NULL) {
-                codeset = "UTF-8";
+        codeset = "UTF-8";
     }
     if ((m_encoding != nullptr) && g_str_equal(codeset, m_encoding)) {
         /* Nothing to do! */
@@ -1334,12 +1326,13 @@ VteTerminalPrivate::set_encoding(char const* codeset)
 
     /* Open new conversions. */
     conv = _vte_conv_open(codeset, "UTF-8");
-    if (conv == VTE_INVALID_CONV)
-                return false;
+    if (conv == VTE_INVALID_CONV) {
+        return false;
+    }
 
     auto old_codeset = m_encoding;
 
-        g_object_freeze_notify(object);
+    g_object_freeze_notify(object);
 
     if (m_outgoing_conv != VTE_INVALID_CONV) {
         _vte_conv_close(m_outgoing_conv);
@@ -1350,32 +1343,30 @@ VteTerminalPrivate::set_encoding(char const* codeset)
     m_encoding = g_intern_string(codeset);
 
     /* Convert any buffered output bytes. */
-    if ((_vte_byte_array_length(m_outgoing) > 0) &&
-        (old_codeset != nullptr)) {
-                char *obuf1, *obuf2;
-                gsize bytes_written;
+    if ((_vte_byte_array_length(m_outgoing) > 0) && (old_codeset != nullptr)) {
+        char *obuf1, *obuf2;
+        gsize bytes_written;
 
         /* Convert back to UTF-8. */
         obuf1 = g_convert((char *)m_outgoing->data,
-                  _vte_byte_array_length(m_outgoing),
-                  "UTF-8",
-                  old_codeset,
-                  NULL,
-                  &bytes_written,
-                  NULL);
+                            _vte_byte_array_length(m_outgoing),
+                            "UTF-8",
+                            old_codeset,
+                            NULL,
+                            &bytes_written,
+                            NULL);
         if (obuf1 != NULL) {
             /* Convert to the new encoding. */
             obuf2 = g_convert(obuf1,
-                      bytes_written,
-                      codeset,
-                      "UTF-8",
-                      NULL,
-                      &bytes_written,
-                      NULL);
+                                bytes_written,
+                                codeset,
+                                "UTF-8",
+                                NULL,
+                                &bytes_written,
+                                NULL);
             if (obuf2 != NULL) {
                 _vte_byte_array_clear(m_outgoing);
-                _vte_byte_array_append(m_outgoing,
-                           obuf2, bytes_written);
+                _vte_byte_array_append(m_outgoing, obuf2, bytes_written);
                 g_free(obuf2);
             }
             g_free(obuf1);
@@ -1383,20 +1374,19 @@ VteTerminalPrivate::set_encoding(char const* codeset)
     }
 
     /* Set the encoding for incoming text. */
-    _vte_iso2022_state_set_codeset(m_iso2022,
-                       m_encoding);
+    _vte_iso2022_state_set_codeset(m_iso2022, m_encoding);
 
     _vte_debug_print(VTE_DEBUG_IO,
-            "Set terminal encoding to `%s'.\n",
-            m_encoding);
+                        "Set terminal encoding to `%s'.\n",
+                        m_encoding);
     _vte_debug_print(VTE_DEBUG_SIGNALS,
-            "Emitting `encoding-changed'.\n");
+                        "Emitting `encoding-changed'.\n");
     g_signal_emit(object, signals[SIGNAL_ENCODING_CHANGED], 0);
-        g_object_notify_by_pspec(object, pspecs[PROP_ENCODING]);
+    g_object_notify_by_pspec(object, pspecs[PROP_ENCODING]);
 
-        g_object_thaw_notify(object);
+    g_object_thaw_notify(object);
 
-        return true;
+    return true;
 }
 
 bool
