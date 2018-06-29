@@ -589,11 +589,10 @@ void VteTerminalPrivate::decset(vte::parser::Params const& params,
     }
 }
 
-void
-VteTerminalPrivate::decset(long setting,
-                           bool restore,
-                           bool save,
-                           bool set)
+void VteTerminalPrivate::decset(long setting,
+                                bool restore,
+                                bool save,
+                                bool set)
 {
     static const struct decset_t settings[] = {
 #define PRIV_OFFSET(member) (G_STRUCT_OFFSET(VteTerminalPrivate, member))
@@ -605,24 +604,24 @@ VteTerminalPrivate::decset(long setting,
          nullptr, nullptr,},
         /* 2: disallowed, we don't do VT52. */
         {2, 0, 0, 0, 0, 0, nullptr, nullptr,},
-                /* 3: DECCOLM set/reset to and from 132/80 columns */
-                {3, 0, 0, 0,
-                 FALSE,
-                 TRUE,
-                 nullptr, nullptr,},
+        /* 3: DECCOLM set/reset to and from 132/80 columns */
+        {3, 0, 0, 0,
+            FALSE,
+            TRUE,
+            nullptr, nullptr,},
         /* 5: Reverse video. */
-                {5, PRIV_OFFSET(m_reverse_mode), 0, 0,
+        {5, PRIV_OFFSET(m_reverse_mode), 0, 0,
          FALSE,
          TRUE,
          nullptr, nullptr,},
         /* 6: Origin mode: when enabled, cursor positioning is
          * relative to the scrolling region. */
-                {6, PRIV_OFFSET(m_origin_mode), 0, 0,
+        {6, PRIV_OFFSET(m_origin_mode), 0, 0,
          FALSE,
          TRUE,
          nullptr, nullptr,},
         /* 7: Wraparound mode. */
-                {7, PRIV_OFFSET(m_autowrap), 0, 0,
+        {7, PRIV_OFFSET(m_autowrap), 0, 0,
          FALSE,
          TRUE,
          nullptr, nullptr,},
@@ -648,20 +647,20 @@ VteTerminalPrivate::decset(long setting,
         /* 35/rxvt: disallowed, fonts set by user. */
         {35, 0, 0, 0, 0, 0, nullptr, nullptr,},
         /* 38: enter Tektronix mode. */
-                /* 40: Enable DECCOLM mode. */
-                {40, PRIV_OFFSET(m_deccolm_mode), 0, 0,
-                 FALSE,
-                 TRUE,
-                 nullptr, nullptr,},
+        /* 40: Enable DECCOLM mode. */
+        {40, PRIV_OFFSET(m_deccolm_mode), 0, 0,
+            FALSE,
+            TRUE,
+            nullptr, nullptr,},
         /* 41: more(1) fix. */
         /* 42: Enable NLS replacements. */
         /* 44: Margin bell. */
         /* 47: Alternate screen. */
-                {47, 0, 0, 0,
-                 0,
-                 0,
-                 &VteTerminalPrivate::switch_normal_screen,
-                 &VteTerminalPrivate::switch_alternate_screen,},
+        {47, 0, 0, 0,
+            0,
+            0,
+            &VteTerminalPrivate::switch_normal_screen,
+            &VteTerminalPrivate::switch_alternate_screen,},
         /* 66: Keypad mode. */
         {66, PRIV_OFFSET(m_keypad_mode), 0, 0,
          VTE_KEYMODE_NORMAL,
@@ -697,8 +696,8 @@ VteTerminalPrivate::decset(long setting,
         {1004, PRIV_OFFSET(m_focus_tracking_mode), 0, 0,
          FALSE,
          TRUE,
-                 nullptr,
-                 &VteTerminalPrivate::feed_focus_event_initial,},
+         nullptr,
+         &VteTerminalPrivate::feed_focus_event_initial,},
         /* 1006: Extended mouse coordinates. */
         {1006, PRIV_OFFSET(m_mouse_xterm_extension), 0, 0,
          FALSE,
@@ -717,7 +716,7 @@ VteTerminalPrivate::decset(long setting,
         {1015, PRIV_OFFSET(m_mouse_urxvt_extension), 0, 0,
          FALSE,
          TRUE,
-                 nullptr, nullptr,},
+        nullptr, nullptr,},
         /* 1035: disallowed, don't know what to do with it. */
         {1035, 0, 0, 0, 0, 0, nullptr, nullptr,},
         /* 1036: Meta-sends-escape. */
@@ -728,24 +727,24 @@ VteTerminalPrivate::decset(long setting,
         /* 1037: disallowed, delete key policy is set by user. */
         {1037, 0, 0, 0, 0, 0, nullptr, nullptr,},
         /* 1047: Use alternate screen buffer. */
-                {1047, 0, 0, 0,
-                 0,
-                 0,
-                 &VteTerminalPrivate::switch_normal_screen,
-                 &VteTerminalPrivate::switch_alternate_screen,},
+        {1047, 0, 0, 0,
+            0,
+            0,
+            &VteTerminalPrivate::switch_normal_screen,
+            &VteTerminalPrivate::switch_alternate_screen,},
         /* 1048: Save/restore cursor position. */
         {1048, 0, 0, 0,
          0,
          0,
-                 &VteTerminalPrivate::restore_cursor,
-                 &VteTerminalPrivate::save_cursor,},
+        &VteTerminalPrivate::restore_cursor,
+        &VteTerminalPrivate::save_cursor,},
         /* 1049: Use alternate screen buffer, saving the cursor
          * position. */
-                {1049, 0, 0, 0,
-                 0,
-                 0,
-                 &VteTerminalPrivate::switch_normal_screen_and_restore_cursor,
-                 &VteTerminalPrivate::save_cursor_and_switch_alternate_screen,},
+        {1049, 0, 0, 0,
+            0,
+            0,
+            &VteTerminalPrivate::switch_normal_screen_and_restore_cursor,
+            &VteTerminalPrivate::save_cursor_and_switch_alternate_screen,},
         /* 2004: Bracketed paste mode. */
         {2004, PRIV_OFFSET(m_bracketed_paste_mode), 0, 0,
          FALSE,
@@ -754,25 +753,25 @@ VteTerminalPrivate::decset(long setting,
 #undef PRIV_OFFSET
 #undef SCREEN_OFFSET
     };
-        struct decset_t key;
-        struct decset_t *found;
+    struct decset_t key;
+    struct decset_t *found;
 
     /* Handle the setting. */
-        key.setting = setting;
-        found = (struct decset_t *)bsearch(&key, settings, G_N_ELEMENTS(settings), sizeof(settings[0]), decset_cmp);
-        if (!found) {
-        _vte_debug_print (VTE_DEBUG_MISC,
-                  "DECSET/DECRESET mode %ld not recognized, ignoring.\n",
-                  setting);
-                return;
+    key.setting = setting;
+    found = (struct decset_t *)bsearch(&key, settings, G_N_ELEMENTS(settings), sizeof(settings[0]), decset_cmp);
+    if (!found) {
+    _vte_debug_print (VTE_DEBUG_MISC,
+                "DECSET/DECRESET mode %ld not recognized, ignoring.\n",
+                setting);
+        return;
     }
 
-        key = *found;
-        do {
-                gboolean *bvalue = NULL;
-                gint *ivalue = NULL;
-                gpointer *pvalue = NULL, pfvalue = NULL, ptvalue = NULL;
-                gpointer p;
+    key = *found;
+    do {
+        gboolean *bvalue = NULL;
+        gint *ivalue = NULL;
+        gpointer *pvalue = NULL, pfvalue = NULL, ptvalue = NULL;
+        gpointer p;
 
         /* Handle settings we want to ignore. */
         if ((key.fvalue == key.tvalue) &&
@@ -784,60 +783,55 @@ VteTerminalPrivate::decset(long setting,
 #define STRUCT_MEMBER_P(type,total_offset) \
                 (type) (total_offset >= 0 ? G_STRUCT_MEMBER_P(this, total_offset) : G_STRUCT_MEMBER_P(m_screen, -total_offset))
 
-                if (key.boffset) {
-                        bvalue = STRUCT_MEMBER_P(gboolean*, key.boffset);
-                } else if (key.ioffset) {
-                        ivalue = STRUCT_MEMBER_P(int*, key.ioffset);
-                } else if (key.poffset) {
-                        pvalue = STRUCT_MEMBER_P(gpointer*, key.poffset);
-                        pfvalue = STRUCT_MEMBER_P(gpointer, key.fvalue);
-                        ptvalue = STRUCT_MEMBER_P(gpointer, key.tvalue);
-                }
+        if (key.boffset) {
+                bvalue = STRUCT_MEMBER_P(gboolean*, key.boffset);
+        } else if (key.ioffset) {
+                ivalue = STRUCT_MEMBER_P(int*, key.ioffset);
+        } else if (key.poffset) {
+                pvalue = STRUCT_MEMBER_P(gpointer*, key.poffset);
+                pfvalue = STRUCT_MEMBER_P(gpointer, key.fvalue);
+                ptvalue = STRUCT_MEMBER_P(gpointer, key.tvalue);
+        }
 #undef STRUCT_MEMBER_P
 
         /* Read the old setting. */
         if (restore) {
-            p = g_hash_table_lookup(m_dec_saved,
-                        GINT_TO_POINTER(setting));
+            p = g_hash_table_lookup(m_dec_saved, GINT_TO_POINTER(setting));
             set = (p != NULL);
             _vte_debug_print(VTE_DEBUG_PARSE,
-                    "Setting %ld was %s.\n",
-                    setting, set ? "set" : "unset");
+                                "Setting %ld was %s.\n",
+                                setting, set ? "set" : "unset");
         }
         /* Save the current setting. */
         if (save) {
             if (bvalue) {
                 set = *(bvalue) != FALSE;
-            } else
-            if (ivalue) {
-                                set = *(ivalue) == (int)key.tvalue;
-            } else
-            if (pvalue) {
+            } else if (ivalue) {
+                set = *(ivalue) == (int)key.tvalue;
+            } else if (pvalue) {
                 set = *(pvalue) == ptvalue;
             }
             _vte_debug_print(VTE_DEBUG_PARSE,
-                    "Setting %ld is %s, saving.\n",
-                    setting, set ? "set" : "unset");
+                                "Setting %ld is %s, saving.\n",
+                                setting, set ? "set" : "unset");
             g_hash_table_insert(m_dec_saved,
-                        GINT_TO_POINTER(setting),
-                        GINT_TO_POINTER(set));
+                                GINT_TO_POINTER(setting),
+                                GINT_TO_POINTER(set));
         }
         /* Change the current setting to match the new/saved value. */
         if (!save) {
             _vte_debug_print(VTE_DEBUG_PARSE,
-                    "Setting %ld to %s.\n",
-                    setting, set ? "set" : "unset");
+                                "Setting %ld to %s.\n",
+                                setting, set ? "set" : "unset");
             if (key.set && set) {
                 (this->*key.set)();
             }
             if (bvalue) {
                 *(bvalue) = set;
-            } else
-            if (ivalue) {
-                                *(ivalue) = set ? (int)key.tvalue : (int)key.fvalue;
-            } else
-            if (pvalue) {
-                                *(pvalue) = set ? ptvalue : pfvalue;
+            } else if (ivalue) {
+                *(ivalue) = set ? (int)key.tvalue : (int)key.fvalue;
+            } else if (pvalue) {
+                *(pvalue) = set ? ptvalue : pfvalue;
             }
             if (key.reset && !set) {
                 (this->*key.reset)();
@@ -847,158 +841,143 @@ VteTerminalPrivate::decset(long setting,
 
     /* Do whatever's necessary when the setting changes. */
     switch (setting) {
-    case 1:
-        _vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
-                "Entering application cursor mode.\n" :
-                "Leaving application cursor mode.\n");
-        break;
-    case 3:
-                /* 3: DECCOLM set/reset to 132/80 columns mode, clear screen and cursor home */
-                if (m_deccolm_mode) {
-                        emit_resize_window(set ? 132 : 80,
-                                           m_row_count);
-                        clear_screen();
-                        home_cursor();
-                }
-        break;
-    case 5:
-        /* Repaint everything in reverse mode. */
-                invalidate_all();
-        break;
-    case 6:
-        /* Reposition the cursor in its new home position. */
+        case 1:
+            _vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
+                    "Entering application cursor mode.\n" :
+                    "Leaving application cursor mode.\n");
+            break;
+        case 3:
+            /* 3: DECCOLM set/reset to 132/80 columns mode, clear screen and cursor home */
+            if (m_deccolm_mode) {
+                emit_resize_window(set ? 132 : 80, m_row_count);
+                clear_screen();
                 home_cursor();
-        break;
-    case 47:
-    case 1047:
-    case 1049:
-                /* Clear the alternate screen if we're switching to it */
-        if (set) {
-            clear_screen();
-        }
-        /* Reset scrollbars and repaint everything. */
-        gtk_adjustment_set_value(m_vadjustment,
-                     m_screen->scroll_delta);
-        set_scrollback_lines(m_scrollback_lines);
-                queue_contents_changed();
-                invalidate_all();
-        break;
-    case 9:
-    case 1000:
-    case 1001:
-    case 1002:
-    case 1003:
-                /* Mouse pointer might change. */
-                apply_mouse_cursor();
-        break;
-    case 66:
-        _vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
-                "Entering application keypad mode.\n" :
-                "Leaving application keypad mode.\n");
-        break;
-    default:
-        break;
+            }
+            break;
+        case 5:
+            /* Repaint everything in reverse mode. */
+            invalidate_all();
+            break;
+        case 6:
+            /* Reposition the cursor in its new home position. */
+            home_cursor();
+            break;
+        case 47:
+        case 1047:
+        case 1049:
+            /* Clear the alternate screen if we're switching to it */
+            if (set) {
+                clear_screen();
+            }
+            /* Reset scrollbars and repaint everything. */
+            gtk_adjustment_set_value(m_vadjustment, m_screen->scroll_delta);
+            set_scrollback_lines(m_scrollback_lines);
+            queue_contents_changed();
+            invalidate_all();
+            break;
+        case 9:
+        case 1000:
+        case 1001:
+        case 1002:
+        case 1003:
+            /* Mouse pointer might change. */
+            apply_mouse_cursor();
+            break;
+        case 66:
+            _vte_debug_print(VTE_DEBUG_KEYBOARD, set ?
+                    "Entering application keypad mode.\n" :
+                    "Leaving application keypad mode.\n");
+            break;
+        default:
+            break;
     }
 }
 
 /* THE HANDLERS */
 
 /* Do nothing. */
-void
-VteTerminalPrivate::seq_nop(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_nop(vte::parser::Params const& params)
 {
 }
 
-void
-VteTerminalPrivate::set_character_replacements(unsigned slot,
+void VteTerminalPrivate::set_character_replacements(unsigned slot,
                                                VteCharacterReplacement replacement)
 {
-        g_assert(slot < G_N_ELEMENTS(m_character_replacements));
-        m_character_replacements[slot] = replacement;
+    g_assert(slot < G_N_ELEMENTS(m_character_replacements));
+    m_character_replacements[slot] = replacement;
 }
 
 /* G0 character set is a pass-thru (no mapping). */
-void
-VteTerminalPrivate::seq_designate_g0_plain(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_designate_g0_plain(vte::parser::Params const& params)
 {
-        set_character_replacements(0, VTE_CHARACTER_REPLACEMENT_NONE);
+    set_character_replacements(0, VTE_CHARACTER_REPLACEMENT_NONE);
 }
 
 /* G0 character set is DEC Special Character and Line Drawing Set. */
-void
-VteTerminalPrivate::seq_designate_g0_line_drawing(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_designate_g0_line_drawing(vte::parser::Params const& params)
 {
-        set_character_replacements(0, VTE_CHARACTER_REPLACEMENT_LINE_DRAWING);
+    set_character_replacements(0, VTE_CHARACTER_REPLACEMENT_LINE_DRAWING);
 }
 
 /* G0 character set is British (# is converted to £). */
-void
-VteTerminalPrivate::seq_designate_g0_british(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_designate_g0_british(vte::parser::Params const& params)
 {
-        set_character_replacements(0, VTE_CHARACTER_REPLACEMENT_BRITISH);
+    set_character_replacements(0, VTE_CHARACTER_REPLACEMENT_BRITISH);
 }
 
 /* G1 character set is a pass-thru (no mapping). */
-void
-VteTerminalPrivate::seq_designate_g1_plain(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_designate_g1_plain(vte::parser::Params const& params)
 {
-        set_character_replacements(1, VTE_CHARACTER_REPLACEMENT_NONE);
+    set_character_replacements(1, VTE_CHARACTER_REPLACEMENT_NONE);
 }
 
 /* G1 character set is DEC Special Character and Line Drawing Set. */
-void
-VteTerminalPrivate::seq_designate_g1_line_drawing(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_designate_g1_line_drawing(vte::parser::Params const& params)
 {
-        set_character_replacements(1, VTE_CHARACTER_REPLACEMENT_LINE_DRAWING);
+    set_character_replacements(1, VTE_CHARACTER_REPLACEMENT_LINE_DRAWING);
 }
 
 /* G1 character set is British (# is converted to £). */
-void
-VteTerminalPrivate::seq_designate_g1_british(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_designate_g1_british(vte::parser::Params const& params)
 {
-        set_character_replacements(1, VTE_CHARACTER_REPLACEMENT_BRITISH);
+    set_character_replacements(1, VTE_CHARACTER_REPLACEMENT_BRITISH);
 }
 
-void
-VteTerminalPrivate::set_character_replacement(unsigned slot)
+void VteTerminalPrivate::set_character_replacement(unsigned slot)
 {
-        g_assert(slot < G_N_ELEMENTS(m_character_replacements));
-        m_character_replacement = &m_character_replacements[slot];
+    g_assert(slot < G_N_ELEMENTS(m_character_replacements));
+    m_character_replacement = &m_character_replacements[slot];
 }
 
 /* SI (shift in): switch to G0 character set. */
-void
-VteTerminalPrivate::seq_shift_in(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_shift_in(vte::parser::Params const& params)
 {
-        set_character_replacement(0);
+    set_character_replacement(0);
 }
 
 /* SO (shift out): switch to G1 character set. */
-void
-VteTerminalPrivate::seq_shift_out(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_shift_out(vte::parser::Params const& params)
 {
-        set_character_replacement(1);
+    set_character_replacement(1);
 }
 
 /* Beep. */
-void
-VteTerminalPrivate::seq_bell(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_bell(vte::parser::Params const& params)
 {
-        m_bell_pending = true;
+    m_bell_pending = true;
 }
 
 /* Backtab. */
-void
-VteTerminalPrivate::seq_cursor_back_tab(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_back_tab(vte::parser::Params const& params)
 {
     /* Calculate which column is the previous tab stop. */
-        auto newcol = m_screen->cursor.col;
+    auto newcol = m_screen->cursor.col;
 
     if (m_tabstops) {
         /* Find the next tabstop. */
         while (newcol > 0) {
             newcol--;
-                        if (get_tabstop(newcol % m_column_count)) {
+            if (get_tabstop(newcol % m_column_count)) {
                 break;
             }
         }
@@ -1006,78 +985,79 @@ VteTerminalPrivate::seq_cursor_back_tab(vte::parser::Params const& params)
 
     /* Warp the cursor. */
     _vte_debug_print(VTE_DEBUG_PARSE,
-            "Moving cursor to column %ld.\n", (long)newcol);
-        set_cursor_column(newcol);
+                        "Moving cursor to column %ld.\n", (long)newcol);
+    set_cursor_column(newcol);
 }
 
 /* Clear from the cursor position (inclusive!) to the beginning of the line. */
-void
-VteTerminalPrivate::clear_to_bol()
+void VteTerminalPrivate::clear_to_bol()
 {
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
     /* Get the data for the row which the cursor points to. */
     auto rowdata = ensure_row();
-        /* Clean up Tab/CJK fragments. */
-        cleanup_fragments(0, m_screen->cursor.col + 1);
+    /* Clean up Tab/CJK fragments. */
+    cleanup_fragments(0, m_screen->cursor.col + 1);
     /* Clear the data up to the current column with the default
      * attributes.  If there is no such character cell, we need
      * to add one. */
-        vte::grid::column_t i;
-        for (i = 0; i <= m_screen->cursor.col; i++) {
-                if (i < (glong) _vte_row_data_length (rowdata)) {
+    vte::grid::column_t i;
+    for (i = 0; i <= m_screen->cursor.col; i++) {
+        if (i < (glong) _vte_row_data_length (rowdata)) {
             /* Muck with the cell in this location. */
-                        auto pcell = _vte_row_data_get_writable(rowdata, i);
-                        *pcell = m_color_defaults;
+            auto pcell = _vte_row_data_get_writable(rowdata, i);
+            *pcell = m_color_defaults;
         } else {
             /* Add new cells until we have one here. */
-                        _vte_row_data_append (rowdata, &m_color_defaults);
+            _vte_row_data_append (rowdata, &m_color_defaults);
         }
     }
     /* Repaint this row. */
-        invalidate_cells(0, m_screen->cursor.col+1,
+    invalidate_cells(0, m_screen->cursor.col+1,
                          m_screen->cursor.row, 1);
 
     /* We've modified the display.  Make a note of it. */
-        m_text_deleted_flag = TRUE;
+    m_text_deleted_flag = TRUE;
 }
 
 /* Clear to the right of the cursor and below the current line. */
-void
-VteTerminalPrivate::clear_below_current()
+void VteTerminalPrivate::clear_below_current()
 {
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
     /* If the cursor is actually on the screen, clear the rest of the
      * row the cursor is on and all of the rows below the cursor. */
-        VteRowData *rowdata;
-        auto i = m_screen->cursor.row;
+    VteRowData *rowdata;
+    auto i = m_screen->cursor.row;
     if (i < _vte_ring_next(m_screen->row_data)) {
         /* Get the data for the row we're clipping. */
-                rowdata = _vte_ring_index_writable(m_screen->row_data, i);
-                /* Clean up Tab/CJK fragments. */
-                if ((glong) _vte_row_data_length(rowdata) > m_screen->cursor.col)
-                        cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata));
+        rowdata = _vte_ring_index_writable(m_screen->row_data, i);
+        /* Clean up Tab/CJK fragments. */
+        if ((glong) _vte_row_data_length(rowdata) > m_screen->cursor.col) {
+            cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata)); 
+        }
         /* Clear everything to the right of the cursor. */
-        if (rowdata)
-                        _vte_row_data_shrink(rowdata, m_screen->cursor.col);
+        if (rowdata) {
+            _vte_row_data_shrink(rowdata, m_screen->cursor.col);
+        }
     }
     /* Now for the rest of the lines. */
-        for (i = m_screen->cursor.row + 1;
-         i < _vte_ring_next(m_screen->row_data);
-         i++) {
+    for (i = m_screen->cursor.row + 1;
+        i < _vte_ring_next(m_screen->row_data);
+        i++) {
         /* Get the data for the row we're removing. */
         rowdata = _vte_ring_index_writable(m_screen->row_data, i);
         /* Remove it. */
-        if (rowdata)
+        if (rowdata) {
             _vte_row_data_shrink (rowdata, 0);
+        }
     }
     /* Now fill the cleared areas. */
-        bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
+    bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
-        for (i = m_screen->cursor.row;
-         i < m_screen->insert_delta + m_row_count;
-         i++) {
+    for (i = m_screen->cursor.row;
+        i < m_screen->insert_delta + m_row_count;
+        i++) {
         /* Retrieve the row's data, creating it if necessary. */
         if (_vte_ring_contains(m_screen->row_data, i)) {
             rowdata = _vte_ring_index_writable (m_screen->row_data, i);
@@ -1086,13 +1066,12 @@ VteTerminalPrivate::clear_below_current()
             rowdata = ring_append(false);
         }
         /* Pad out the row. */
-                if (not_default_bg) {
-                        _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
+        if (not_default_bg) {
+            _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
         }
         rowdata->attr.soft_wrapped = 0;
         /* Repaint this row. */
-        invalidate_cells(0, m_column_count,
-                                 i, 1);
+        invalidate_cells(0, m_column_count, i, 1);
     }
 
     /* We've modified the display.  Make a note of it. */
@@ -1100,8 +1079,7 @@ VteTerminalPrivate::clear_below_current()
 }
 
 /* Clear from the cursor position to the end of the line. */
-void
-VteTerminalPrivate::clear_to_eol()
+void VteTerminalPrivate::clear_to_eol()
 {
     /* If we were to strictly emulate xterm, we'd ensure the cursor is onscreen.
      * But due to https://bugzilla.gnome.org/show_bug.cgi?id=740789 we intentionally
@@ -1112,22 +1090,22 @@ VteTerminalPrivate::clear_to_eol()
     /* ensure_cursor_is_onscreen(); */
 
     /* Get the data for the row which the cursor points to. */
-        auto rowdata = ensure_row();
+    auto rowdata = ensure_row();
     g_assert(rowdata != NULL);
-        if ((glong) _vte_row_data_length(rowdata) > m_screen->cursor.col) {
-                /* Clean up Tab/CJK fragments. */
-                cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata));
-                /* Remove the data at the end of the array until the current column
-                 * is the end of the array. */
-                _vte_row_data_shrink(rowdata, m_screen->cursor.col);
+    if ((glong) _vte_row_data_length(rowdata) > m_screen->cursor.col) {
+        /* Clean up Tab/CJK fragments. */
+        cleanup_fragments(m_screen->cursor.col, _vte_row_data_length(rowdata));
+        /* Remove the data at the end of the array until the current column
+         * is the end of the array. */
+        _vte_row_data_shrink(rowdata, m_screen->cursor.col);
         /* We've modified the display.  Make a note of it. */
         m_text_deleted_flag = TRUE;
     }
-        bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
+    bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
-        if (not_default_bg) {
+    if (not_default_bg) {
         /* Add enough cells to fill out the row. */
-                _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
+        _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
     }
     rowdata->attr.soft_wrapped = 0;
     /* Repaint this row. */
@@ -1136,11 +1114,10 @@ VteTerminalPrivate::clear_to_eol()
 }
 
 /* Move the cursor to the given column (horizontal position), 1-based. */
-void
-VteTerminalPrivate::seq_cursor_character_absolute(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_character_absolute(vte::parser::Params const& params)
 {
-        auto value = params.number_or_default_at(0, 1) - 1;
-        set_cursor_column(value);
+    auto value = params.number_or_default_at(0, 1) - 1;
+    set_cursor_column(value);
 }
 
 /*
@@ -1149,10 +1126,9 @@ VteTerminalPrivate::seq_cursor_character_absolute(vte::parser::Params const& par
  *
  * Sets the cursor column to @col, clamped to the range 0..m_column_count-1.
  */
-void
-VteTerminalPrivate::set_cursor_column(vte::grid::column_t col)
+void VteTerminalPrivate::set_cursor_column(vte::grid::column_t col)
 {
-        m_screen->cursor.col = CLAMP(col, 0, m_column_count - 1);
+    m_screen->cursor.col = CLAMP(col, 0, m_column_count - 1);
 }
 
 /*
@@ -1162,22 +1138,20 @@ VteTerminalPrivate::set_cursor_column(vte::grid::column_t col)
  * Sets the cursor row to @row. @row is relative to the scrolling region
  * (0 if restricted scrolling is off).
  */
-void
-VteTerminalPrivate::set_cursor_row(vte::grid::row_t row)
+void VteTerminalPrivate::set_cursor_row(vte::grid::row_t row)
 {
-        vte::grid::row_t start_row, end_row;
-        if (m_origin_mode &&
-            m_scrolling_restricted) {
-                start_row = m_scrolling_region.start;
-                end_row = m_scrolling_region.end;
-        } else {
-                start_row = 0;
-                end_row = m_row_count - 1;
-        }
-        row += start_row;
-        row = CLAMP(row, start_row, end_row);
+    vte::grid::row_t start_row, end_row;
+    if (m_origin_mode && m_scrolling_restricted) {
+        start_row = m_scrolling_region.start;
+        end_row = m_scrolling_region.end;
+    } else {
+        start_row = 0;
+        end_row = m_row_count - 1;
+    }
+    row += start_row;
+    row = CLAMP(row, start_row, end_row);
 
-        m_screen->cursor.row = row + m_screen->insert_delta;
+    m_screen->cursor.row = row + m_screen->insert_delta;
 }
 
 /*
@@ -1186,21 +1160,19 @@ VteTerminalPrivate::set_cursor_row(vte::grid::row_t row)
  * Returns: the relative cursor row, 0-based and relative to the scrolling region
  * if set (regardless of origin mode).
  */
-vte::grid::row_t
-VteTerminalPrivate::get_cursor_row() const
+vte::grid::row_t VteTerminalPrivate::get_cursor_row() const
 {
-        auto row = m_screen->cursor.row - m_screen->insert_delta;
-        /* Note that we do NOT check m_origin_mode here! */
-        if (m_scrolling_restricted) {
-                row -= m_scrolling_region.start;
-        }
-        return row;
+    auto row = m_screen->cursor.row - m_screen->insert_delta;
+    /* Note that we do NOT check m_origin_mode here! */
+    if (m_scrolling_restricted) {
+        row -= m_scrolling_region.start;
+    }
+    return row;
 }
 
-vte::grid::column_t
-VteTerminalPrivate::get_cursor_column() const
+vte::grid::column_t VteTerminalPrivate::get_cursor_column() const
 {
-        return m_screen->cursor.col;
+    return m_screen->cursor.col;
 }
 
 /*
@@ -1213,407 +1185,382 @@ VteTerminalPrivate::get_cursor_column() const
  *
  * Sets the cursor column to @col, clamped to the range 0..m_column_count-1.
  */
-void
-VteTerminalPrivate::set_cursor_coords(vte::grid::row_t row,
-                                      vte::grid::column_t column)
+void VteTerminalPrivate::set_cursor_coords(vte::grid::row_t row,
+                                            vte::grid::column_t column)
 {
-        set_cursor_column(column);
-        set_cursor_row(row);
+    set_cursor_column(column);
+    set_cursor_row(row);
 }
 
 /* Move the cursor to the given position, 1-based. */
-void
-VteTerminalPrivate::seq_cursor_position(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_position(vte::parser::Params const& params)
 {
-        /* The first is the row, the second is the column. */
-        auto rowval = params.number_or_default_at(0, 1) - 1;
-        auto colval = params.number_or_default_at(1, 1) - 1;
-        set_cursor_coords(rowval, colval);
+    /* The first is the row, the second is the column. */
+    auto rowval = params.number_or_default_at(0, 1) - 1;
+    auto colval = params.number_or_default_at(1, 1) - 1;
+    set_cursor_coords(rowval, colval);
 }
 
 /* Carriage return. */
-void
-VteTerminalPrivate::seq_carriage_return(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_carriage_return(vte::parser::Params const& params)
 {
-        set_cursor_column(0);
+    set_cursor_column(0);
 }
 
-void
-VteTerminalPrivate::reset_scrolling_region()
+void VteTerminalPrivate::reset_scrolling_region()
 {
-        m_scrolling_restricted = FALSE;
-        home_cursor();
+    m_scrolling_restricted = FALSE;
+    home_cursor();
 }
 
 /* Restrict scrolling and updates to a subset of the visible lines. */
-void
-VteTerminalPrivate::seq_set_scrolling_region(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_set_scrolling_region(vte::parser::Params const& params)
 {
     /* We require two parameters.  Anything less is a reset. */
-        if (params.size() < 2)
-                return reset_scrolling_region();
+    if (params.size() < 2) {
+        return reset_scrolling_region();
+    }
 
-        auto start = params.number_or_default_at_unchecked(0) - 1;
-        auto end = params.number_or_default_at_unchecked(1) - 1;
-        set_scrolling_region(start, end);
+    auto start = params.number_or_default_at_unchecked(0) - 1;
+    auto end = params.number_or_default_at_unchecked(1) - 1;
+    set_scrolling_region(start, end);
 }
 
-void
-VteTerminalPrivate::set_scrolling_region(vte::grid::row_t start /* relative */,
-                                         vte::grid::row_t end /* relative */)
+void VteTerminalPrivate::set_scrolling_region(vte::grid::row_t start /* relative */,
+                                                vte::grid::row_t end /* relative */)
 {
-        /* A (1-based) value of 0 means default. */
-        if (start == -1) {
+    /* A (1-based) value of 0 means default. */
+    if (start == -1) {
         start = 0;
     }
-        if (end == -1) {
-                end = m_row_count - 1;
-        }
-        /* Bail out on garbage, require at least 2 rows, as per xterm. */
-        if (start < 0 || start >= m_row_count - 1 || end < start + 1) {
-                return;
-        }
-        if (end >= m_row_count) {
-                end = m_row_count - 1;
+    if (end == -1) {
+        end = m_row_count - 1;
+    }
+    /* Bail out on garbage, require at least 2 rows, as per xterm. */
+    if (start < 0 || start >= m_row_count - 1 || end < start + 1) {
+        return;
+    }
+    if (end >= m_row_count) {
+        end = m_row_count - 1;
     }
 
     /* Set the right values. */
-        m_scrolling_region.start = start;
-        m_scrolling_region.end = end;
-        m_scrolling_restricted = TRUE;
-        if (m_scrolling_region.start == 0 &&
-            m_scrolling_region.end == m_row_count - 1) {
+    m_scrolling_region.start = start;
+    m_scrolling_region.end = end;
+    m_scrolling_restricted = TRUE;
+    if (m_scrolling_region.start == 0 &&
+        m_scrolling_region.end == m_row_count - 1) {
         /* Special case -- run wild, run free. */
-                m_scrolling_restricted = FALSE;
+        m_scrolling_restricted = FALSE;
     } else {
         /* Maybe extend the ring -- bug 710483 */
-                while (_vte_ring_next(m_screen->row_data) < m_screen->insert_delta + m_row_count)
-                        _vte_ring_insert(m_screen->row_data, _vte_ring_next(m_screen->row_data));
+        while (_vte_ring_next(m_screen->row_data) < m_screen->insert_delta + m_row_count) {
+                _vte_ring_insert(m_screen->row_data, _vte_ring_next(m_screen->row_data));
+        }
     }
-
-        home_cursor();
+    home_cursor();
 }
 
 /* Move the cursor to the beginning of the Nth next line, no scrolling. */
-void
-VteTerminalPrivate::seq_cursor_next_line(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_next_line(vte::parser::Params const& params)
 {
-        set_cursor_column(0);
-        seq_cursor_down(params);
+    set_cursor_column(0);
+    seq_cursor_down(params);
 }
 
 /* Move the cursor to the beginning of the Nth previous line, no scrolling. */
-void
-VteTerminalPrivate::seq_cursor_preceding_line(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_preceding_line(vte::parser::Params const& params)
 {
-        set_cursor_column(0);
-        seq_cursor_up(params);
+    set_cursor_column(0);
+    seq_cursor_up(params);
 }
 
 /* Move the cursor to the given row (vertical position), 1-based. */
-void
-VteTerminalPrivate::seq_line_position_absolute(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_line_position_absolute(vte::parser::Params const& params)
 {
-        // FIXMEchpe shouldn't we ensure_cursor_is_onscreen AFTER setting the new cursor row?
-        ensure_cursor_is_onscreen();
+    /* FIXMEchpe shouldn't we ensure_cursor_is_onscreen AFTER setting the new cursor row? */
+    ensure_cursor_is_onscreen();
 
-        auto val = params.number_or_default_at(0, 1) - 1;
-        set_cursor_row(val);
+    auto val = params.number_or_default_at(0, 1) - 1;
+    set_cursor_row(val);
 }
 
 /* Delete a character at the current cursor position. */
-void
-VteTerminalPrivate::delete_character()
+void VteTerminalPrivate::delete_character()
 {
     VteRowData *rowdata;
     long col;
 
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
-        if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
+    if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
         long len;
         /* Get the data for the row which the cursor points to. */
-                rowdata = _vte_ring_index_writable(m_screen->row_data, m_screen->cursor.row);
+        rowdata = _vte_ring_index_writable(m_screen->row_data, m_screen->cursor.row);
         g_assert(rowdata != NULL);
-                col = m_screen->cursor.col;
+        col = m_screen->cursor.col;
         len = _vte_row_data_length (rowdata);
         /* Remove the column. */
         if (col < len) {
-                        /* Clean up Tab/CJK fragments. */
-                        cleanup_fragments(col, col + 1);
+            /* Clean up Tab/CJK fragments. */
+            cleanup_fragments(col, col + 1);
             _vte_row_data_remove (rowdata, col);
-                        bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
+            bool const not_default_bg = (m_fill_defaults.attr.back() != VTE_DEFAULT_BG);
 
-                        if (not_default_bg) {
-                                _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
-                                len = m_column_count;
+            if (not_default_bg) {
+                _vte_row_data_fill(rowdata, &m_fill_defaults, m_column_count);
+                len = m_column_count;
             }
-                        rowdata->attr.soft_wrapped = 0;
+            rowdata->attr.soft_wrapped = 0;
             /* Repaint this row. */
-                        invalidate_cells(col, len - col,
-                                         m_screen->cursor.row, 1);
+            invalidate_cells(col, len - col, m_screen->cursor.row, 1);
         }
     }
 
     /* We've modified the display.  Make a note of it. */
-        m_text_deleted_flag = TRUE;
+    m_text_deleted_flag = TRUE;
 }
 
 /* Delete N characters at the current cursor position. */
-void
-VteTerminalPrivate::seq_delete_characters(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_delete_characters(vte::parser::Params const& params)
 {
-        auto val = std::max(std::min(params.number_or_default_at(0, 1),
-                                     m_column_count - m_screen->cursor.col),
-                            long(1));
-        for (auto i = 0; i < val; i++)
-                delete_character();
+    auto val = std::max(std::min(params.number_or_default_at(0, 1),
+                                    m_column_count - m_screen->cursor.col), long(1));
+    for (auto i = 0; i < val; i++) {
+        delete_character();
+    }
 }
 
 /* Cursor down N lines, no scrolling. */
-void
-VteTerminalPrivate::seq_cursor_down(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_down(vte::parser::Params const& params)
 {
-        auto val = params.number_or_default_at(0, 1);
-        move_cursor_down(val);
+    auto val = params.number_or_default_at(0, 1);
+    move_cursor_down(val);
 }
 
-void
-VteTerminalPrivate::move_cursor_down(vte::grid::row_t rows)
+void VteTerminalPrivate::move_cursor_down(vte::grid::row_t rows)
 {
-        rows = CLAMP(rows, 1, m_row_count);
+    rows = CLAMP(rows, 1, m_row_count);
 
-        // FIXMEchpe why not do this afterwards?
-        ensure_cursor_is_onscreen();
+    /* FIXMEchpe why not do this afterwards? */
+    ensure_cursor_is_onscreen();
 
-        vte::grid::row_t end;
-        // FIXMEchpe why not check m_origin_mode here?
-        if (m_scrolling_restricted) {
-                end = m_screen->insert_delta + m_scrolling_region.end;
+    vte::grid::row_t end;
+    /* FIXMEchpe why not check m_origin_mode here? */
+    if (m_scrolling_restricted) {
+        end = m_screen->insert_delta + m_scrolling_region.end;
     } else {
-                end = m_screen->insert_delta + m_row_count - 1;
+        end = m_screen->insert_delta + m_row_count - 1;
     }
-
-        m_screen->cursor.row = MIN(m_screen->cursor.row + rows, end);
+    m_screen->cursor.row = MIN(m_screen->cursor.row + rows, end);
 }
 
 /* Erase characters starting at the cursor position (overwriting N with
  * spaces, but not moving the cursor). */
-void
-VteTerminalPrivate::seq_erase_characters(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_erase_characters(vte::parser::Params const& params)
 {
     /* If we got a parameter, use it. */
-        auto count = std::min(params.number_or_default_at(0, 1), long(65535));
-        erase_characters(count);
+    auto count = std::min(params.number_or_default_at(0, 1), long(65535));
+    erase_characters(count);
 }
 
-void
-VteTerminalPrivate::erase_characters(long count)
+void VteTerminalPrivate::erase_characters(long count)
 {
     VteCell *cell;
     long col, i;
 
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
     /* Clear out the given number of characters. */
     auto rowdata = ensure_row();
-        if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
+    if (_vte_ring_next(m_screen->row_data) > m_screen->cursor.row) {
         g_assert(rowdata != NULL);
-                /* Clean up Tab/CJK fragments. */
-                cleanup_fragments(m_screen->cursor.col, m_screen->cursor.col + count);
+        /* Clean up Tab/CJK fragments. */
+        cleanup_fragments(m_screen->cursor.col, m_screen->cursor.col + count);
         /* Write over the characters.  (If there aren't enough, we'll
          * need to create them.) */
         for (i = 0; i < count; i++) {
-                        col = m_screen->cursor.col + i;
+            col = m_screen->cursor.col + i;
             if (col >= 0) {
                 if (col < (glong) _vte_row_data_length (rowdata)) {
                     /* Replace this cell with the current
                      * defaults. */
                     cell = _vte_row_data_get_writable (rowdata, col);
-                                        *cell = m_color_defaults;
+                    *cell = m_color_defaults;
                 } else {
                     /* Add new cells until we have one here. */
-                                        _vte_row_data_fill (rowdata, &m_color_defaults, col + 1);
+                    _vte_row_data_fill (rowdata, &m_color_defaults, col + 1);
                 }
             }
         }
         /* Repaint this row. */
-                invalidate_cells(m_screen->cursor.col, count,
-                                 m_screen->cursor.row, 1);
+        invalidate_cells(m_screen->cursor.col, count, m_screen->cursor.row, 1);
     }
 
     /* We've modified the display.  Make a note of it. */
-        m_text_deleted_flag = TRUE;
+    m_text_deleted_flag = TRUE;
 }
 
 /* Form-feed / next-page. */
-void
-VteTerminalPrivate::seq_form_feed(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_form_feed(vte::parser::Params const& params)
 {
-        line_feed();
+    line_feed();
 }
 
 /* Insert a blank character. */
-void
-VteTerminalPrivate::insert_blank_character()
+void VteTerminalPrivate::insert_blank_character()
 {
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
-        auto save = m_screen->cursor;
-        insert_char(' ', true, true);
-        m_screen->cursor = save;
+    auto save = m_screen->cursor;
+    insert_char(' ', true, true);
+    m_screen->cursor = save;
 }
 
 /* Insert N blank characters. */
 /* TODOegmont: Insert them in a single run, so that we call cleanup_fragments only once. */
-void
-VteTerminalPrivate::seq_insert_blank_characters(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_insert_blank_characters(vte::parser::Params const& params)
 {
-        auto val = std::max(std::min(params.number_or_default_at(0, 1),
-                                     m_column_count - m_screen->cursor.col),
-                            long(1));
-        for (auto i = 0; i < val; i++)
-                insert_blank_character();
+    auto val = std::max(std::min(params.number_or_default_at(0, 1),
+                                    m_column_count - m_screen->cursor.col), long(1));
+    for (auto i = 0; i < val; i++) {
+        insert_blank_character();
+    }
 }
 
 /* REP: Repeat the last graphic character n times. */
-void
-VteTerminalPrivate::seq_repeat(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_repeat(vte::parser::Params const& params)
 {
-        auto val = std::min(params.number_or_default_at(0, 1),
-                            long(65535)); // FIXMEchpe maybe limit more, to m_column_count - m_screen->cursor.col ?
-        for (auto i = 0; i < val; i++) {
-                // FIXMEchpe can't we move that check out of the loop?
-                if (m_last_graphic_character == 0)
-                        break;
-                insert_char(m_last_graphic_character, false, true);
+    auto val = std::min(params.number_or_default_at(0, 1), long(65535)); 
+    /* FIXMEchpe maybe limit more, to m_column_count - m_screen->cursor.col ? */
+    for (auto i = 0; i < val; i++) {
+        /* FIXMEchpe can't we move that check out of the loop? */
+        if (m_last_graphic_character == 0) {
+            break;
         }
+        insert_char(m_last_graphic_character, false, true);
+    }
 }
 
 /* Cursor down 1 line, with scrolling. */
-void
-VteTerminalPrivate::seq_index(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_index(vte::parser::Params const& params)
 {
-        line_feed();
+    line_feed();
 }
 
 /* Cursor left. */
-void
-VteTerminalPrivate::seq_backspace(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_backspace(vte::parser::Params const& params)
 {
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
-        if (m_screen->cursor.col > 0) {
+    if (m_screen->cursor.col > 0) {
         /* There's room to move left, so do so. */
-                m_screen->cursor.col--;
+        m_screen->cursor.col--;
     }
 }
 
 /* Cursor left N columns. */
-void
-VteTerminalPrivate::seq_cursor_backward(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_backward(vte::parser::Params const& params)
 {
-        auto val = params.number_or_default_at(0, 1);
-        move_cursor_backward(val);
+    auto val = params.number_or_default_at(0, 1);
+    move_cursor_backward(val);
 }
 
-void
-VteTerminalPrivate::move_cursor_backward(vte::grid::column_t columns)
+void VteTerminalPrivate::move_cursor_backward(vte::grid::column_t columns)
 {
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
-        auto col = get_cursor_column();
-        columns = CLAMP(columns, 1, col);
-        set_cursor_column(col - columns);
+    auto col = get_cursor_column();
+    columns = CLAMP(columns, 1, col);
+    set_cursor_column(col - columns);
 }
 
 /* Cursor right N columns. */
-void
-VteTerminalPrivate::seq_cursor_forward(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_cursor_forward(vte::parser::Params const& params)
 {
-        auto val = params.number_or_default_at(0, 1);
-        move_cursor_forward(val);
+    auto val = params.number_or_default_at(0, 1);
+    move_cursor_forward(val);
 }
 
-void
-VteTerminalPrivate::move_cursor_forward(vte::grid::column_t columns)
+void VteTerminalPrivate::move_cursor_forward(vte::grid::column_t columns)
 {
-        columns = CLAMP(columns, 1, m_column_count);
+    columns = CLAMP(columns, 1, m_column_count);
 
-        ensure_cursor_is_onscreen();
+    ensure_cursor_is_onscreen();
 
-        /* The cursor can be further to the right, don't move in that case. */
-        auto col = get_cursor_column();
-        if (col < m_column_count) {
+    /* The cursor can be further to the right, don't move in that case. */
+    auto col = get_cursor_column();
+    if (col < m_column_count) {
         /* There's room to move right. */
-                set_cursor_column(col + columns);
+        set_cursor_column(col + columns);
     }
 }
 
 /* Move the cursor to the beginning of the next line, scrolling if necessary. */
-void
-VteTerminalPrivate::seq_next_line(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_next_line(vte::parser::Params const& params)
 {
-        set_cursor_column(0);
-        cursor_down(true);
+    set_cursor_column(0);
+    cursor_down(true);
 }
 
 /* Scroll the text down N lines, but don't move the cursor. */
-void
-VteTerminalPrivate::seq_scroll_down(vte::parser::Params const& params)
+void VteTerminalPrivate::seq_scroll_down(vte::parser::Params const& params)
 {
-        /* No ensure_cursor_is_onscreen() here as per xterm */
-        auto val = std::max(params.number_or_default_at(0, 1), long(1));
-        scroll_text(val);
+    /* No ensure_cursor_is_onscreen() here as per xterm */
+    auto val = std::max(params.number_or_default_at(0, 1), long(1));
+    scroll_text(val);
 }
 
 /* Internal helper for changing color in the palette */
-void
-VteTerminalPrivate::change_color(vte::parser::Params const& params,
-                                 const char *terminator)
+void VteTerminalPrivate::change_color(vte::parser::Params const& params,
+                                        const char *terminator)
 {
-        char **pairs;
-        {
-                char* str;
-                if (!params.string_at(0, str))
-                        return;
+    char **pairs;
+    {
+        char* str;
+        if (!params.string_at(0, str)) {
+            return;
+        }
 
         pairs = g_strsplit (str, ";", 0);
-                g_free(str);
+        g_free(str);
+    }
+
+    if (!pairs) {
+        return;
+    }
+
+    vte::color::rgb color;
+    guint idx, i;
+
+    for (i = 0; pairs[i] && pairs[i + 1]; i += 2) {
+        idx = strtoul (pairs[i], (char **) NULL, 10);
+
+        if (idx >= VTE_DEFAULT_FG && idx != 256) {
+            continue;
         }
 
-        if (!pairs)
-                return;
-
-        vte::color::rgb color;
-        guint idx, i;
-
-        for (i = 0; pairs[i] && pairs[i + 1]; i += 2) {
-            idx = strtoul (pairs[i], (char **) NULL, 10);
-
-            if (idx >= VTE_DEFAULT_FG && idx != 256)
-                continue;
-
-            if (color.parse(pairs[i + 1])) {
-                                set_color(idx == 256 ? VTE_BOLD_FG : idx, VTE_COLOR_SOURCE_ESCAPE, color);
-            } else if (strcmp (pairs[i + 1], "?") == 0) {
-                gchar buf[128];
-                auto c = get_color(idx == 256 ? VTE_BOLD_FG : idx);
-                if (c == NULL && idx == 256)
-                        c = get_color(VTE_DEFAULT_FG);
-                g_assert(c != NULL);
-                g_snprintf (buf, sizeof (buf),
-                        _VTE_CAP_OSC "4;%u;rgb:%04x/%04x/%04x%s",
-                        idx, c->red, c->green, c->blue, terminator);
-                //feed_child(buf, -1);
+        if (color.parse(pairs[i + 1])) {
+            set_color(idx == 256 ? VTE_BOLD_FG : idx, VTE_COLOR_SOURCE_ESCAPE, color);
+        } else if (strcmp (pairs[i + 1], "?") == 0) {
+            gchar buf[128];
+            auto c = get_color(idx == 256 ? VTE_BOLD_FG : idx);
+            if (c == NULL && idx == 256) {
+                c = get_color(VTE_DEFAULT_FG);
             }
+            g_assert(c != NULL);
+            g_snprintf (buf, sizeof (buf),
+                            _VTE_CAP_OSC "4;%u;rgb:%04x/%04x/%04x%s",
+                            idx, c->red, c->green, c->blue, terminator);
+            /*feed_child(buf, -1);*/ /* FIXME: removed */
         }
+    }
 
-        g_strfreev (pairs);
+    g_strfreev (pairs);
 
-        /* emit the refresh as the palette has changed and previous
-         * renders need to be updated. */
-        emit_refresh_window();
+    /* emit the refresh as the palette has changed and previous
+     * renders need to be updated. */
+    emit_refresh_window();
 }
 
 /* Change color in the palette, BEL terminated */

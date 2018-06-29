@@ -19,6 +19,8 @@
 
 #include <vice.h>
 
+#define NO_PCRE    /* FIXME */
+
 #include <math.h>
 #include <search.h>
 #include <stdlib.h>
@@ -2948,46 +2950,45 @@ void VteTerminalPrivate::im_update_cursor()
     gtk_im_context_set_cursor_location(m_im_context, &rect);
 }
 
-void
-VteTerminalPrivate::widget_style_updated()
+void VteTerminalPrivate::widget_style_updated()
 {
-        set_font_desc(m_unscaled_font_desc);
+    set_font_desc(m_unscaled_font_desc);
 
-        auto context = gtk_widget_get_style_context(m_widget);
-        GtkBorder new_padding;
-        gtk_style_context_get_padding(context, gtk_style_context_get_state(context),
-                                      &new_padding);
-        if (memcmp(&new_padding, &m_padding, sizeof(GtkBorder)) != 0) {
-                _vte_debug_print(VTE_DEBUG_MISC | VTE_DEBUG_WIDGET_SIZE,
-                                 "Setting padding to (%d,%d,%d,%d)\n",
-                                 new_padding.left, new_padding.right,
-                                 new_padding.top, new_padding.bottom);
+    auto context = gtk_widget_get_style_context(m_widget);
+    GtkBorder new_padding;
+    gtk_style_context_get_padding(context, gtk_style_context_get_state(context),
+                                    &new_padding);
+    if (memcmp(&new_padding, &m_padding, sizeof(GtkBorder)) != 0) {
+        _vte_debug_print(VTE_DEBUG_MISC | VTE_DEBUG_WIDGET_SIZE,
+                            "Setting padding to (%d,%d,%d,%d)\n",
+                            new_padding.left, new_padding.right,
+                            new_padding.top, new_padding.bottom);
 
-                m_padding = new_padding;
-                update_view_extents();
-                gtk_widget_queue_resize(m_widget);
-        } else {
-                _vte_debug_print(VTE_DEBUG_MISC | VTE_DEBUG_WIDGET_SIZE,
-                                 "Keeping padding the same at (%d,%d,%d,%d)\n",
-                                 new_padding.left, new_padding.right,
-                                 new_padding.top, new_padding.bottom);
+        m_padding = new_padding;
+        update_view_extents();
+        gtk_widget_queue_resize(m_widget);
+    } else {
+        _vte_debug_print(VTE_DEBUG_MISC | VTE_DEBUG_WIDGET_SIZE,
+                            "Keeping padding the same at (%d,%d,%d,%d)\n",
+                            new_padding.left, new_padding.right,
+                            new_padding.top, new_padding.bottom);
 
-        }
+    }
 
-        float aspect;
-        gtk_widget_style_get(m_widget, "cursor-aspect-ratio", &aspect, nullptr);
-        if (!_vte_double_equal(aspect, m_cursor_aspect_ratio)) {
-                m_cursor_aspect_ratio = aspect;
-                invalidate_cursor_once();
-        }
+    float aspect;
+    gtk_widget_style_get(m_widget, "cursor-aspect-ratio", &aspect, nullptr);
+    if (!_vte_double_equal(aspect, m_cursor_aspect_ratio)) {
+        m_cursor_aspect_ratio = aspect;
+        invalidate_cursor_once();
+    }
 
 }
 
-void
-VteTerminalPrivate::add_cursor_timeout()
+void VteTerminalPrivate::add_cursor_timeout()
 {
-    if (m_cursor_blink_tag)
+    if (m_cursor_blink_tag) {
         return; /* already added */
+    }
 
     m_cursor_blink_time = 0;
     m_cursor_blink_tag = g_timeout_add_full(G_PRIORITY_LOW,
@@ -2997,53 +2998,51 @@ VteTerminalPrivate::add_cursor_timeout()
                                                 NULL);
 }
 
-void
-VteTerminalPrivate::remove_cursor_timeout()
+void VteTerminalPrivate::remove_cursor_timeout()
 {
-    if (m_cursor_blink_tag == 0)
+    if (m_cursor_blink_tag == 0) {
         return; /* already removed */
+    }
 
     g_source_remove(m_cursor_blink_tag);
     m_cursor_blink_tag = 0;
-        if (!m_cursor_blink_state) {
-                invalidate_cursor_once();
-                m_cursor_blink_state = true;
-        }
-}
-
-/* Activates / disactivates the cursor blink timer to reduce wakeups */
-void
-VteTerminalPrivate::check_cursor_blink()
-{
-    if (m_has_focus &&
-        m_cursor_blinks &&
-        m_cursor_visible)
-        add_cursor_timeout();
-    else
-        remove_cursor_timeout();
-}
-
-void
-VteTerminalPrivate::remove_text_blink_timeout()
-{
-        if (m_text_blink_tag == 0)
-                return;
-
-        g_source_remove (m_text_blink_tag);
-        m_text_blink_tag = 0;
-}
-
-void
-VteTerminalPrivate::beep()
-{
-    if (m_audible_bell) {
-                GdkWindow *window = gtk_widget_get_window(m_widget);
-                gdk_window_beep(window);
+    if (!m_cursor_blink_state) {
+        invalidate_cursor_once();
+        m_cursor_blink_state = true;
     }
 }
 
-guint
-VteTerminalPrivate::translate_ctrlkey(GdkEventKey *event)
+/* Activates / disactivates the cursor blink timer to reduce wakeups */
+void VteTerminalPrivate::check_cursor_blink()
+{
+    if (m_has_focus &&
+        m_cursor_blinks &&
+        m_cursor_visible) {
+        add_cursor_timeout();
+    } else {
+        remove_cursor_timeout();
+    }
+}
+
+void VteTerminalPrivate::remove_text_blink_timeout()
+{
+    if (m_text_blink_tag == 0) {
+        return;
+    }
+
+    g_source_remove (m_text_blink_tag);
+    m_text_blink_tag = 0;
+}
+
+void VteTerminalPrivate::beep()
+{
+    if (m_audible_bell) {
+        GdkWindow *window = gtk_widget_get_window(m_widget);
+        gdk_window_beep(window);
+    }
+}
+
+guint VteTerminalPrivate::translate_ctrlkey(GdkEventKey *event)
 {
     guint keyval;
     GdkKeymap *keymap;
@@ -3074,33 +3073,33 @@ VteTerminalPrivate::translate_ctrlkey(GdkEventKey *event)
     return event->keyval;
 }
 
-void
-VteTerminalPrivate::read_modifiers(GdkEvent *event)
+void VteTerminalPrivate::read_modifiers(GdkEvent *event)
 {
-        GdkKeymap *keymap;
+    GdkKeymap *keymap;
     GdkModifierType mods;
-        guint mask;
+    guint mask;
 
     /* Read the modifiers. */
-    if (!gdk_event_get_state((GdkEvent*)event, &mods))
-                return;
+    if (!gdk_event_get_state((GdkEvent*)event, &mods)) {
+        return;
+    }
 
-        keymap = gdk_keymap_get_for_display(gdk_window_get_display(((GdkEventAny*)event)->window));
+    keymap = gdk_keymap_get_for_display(gdk_window_get_display(((GdkEventAny*)event)->window));
 
-        gdk_keymap_add_virtual_modifiers (keymap, &mods);
+    gdk_keymap_add_virtual_modifiers (keymap, &mods);
 
-        mask = (guint)mods;
+    mask = (guint)mods;
 #if 1
-        /* HACK! Treat ALT as META; see bug #663779. */
-        if (mask & GDK_MOD1_MASK)
-                mask |= VTE_META_MASK;
+    /* HACK! Treat ALT as META; see bug #663779. */
+    if (mask & GDK_MOD1_MASK) {
+            mask |= VTE_META_MASK;
+    }
 #endif
 
-        m_modifiers = mask;
+    m_modifiers = mask;
 }
 
-bool
-VteTerminalPrivate::widget_key_press(GdkEventKey *event)
+bool VteTerminalPrivate::widget_key_press(GdkEventKey *event)
 {
     char *normal = NULL;
     gssize normal_length = 0;
@@ -3118,7 +3117,7 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
         keyval = event->keyval;
         read_modifiers((GdkEvent*)event);
 
-                // FIXMEchpe?
+        /* FIXMEchpe? */
         if (m_cursor_blink_tag != 0) {
             remove_cursor_timeout();
             add_cursor_timeout();
@@ -3129,7 +3128,7 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
 
         /* Unless it's a modifier key, hide the pointer. */
         if (!modifier) {
-                        set_pointer_autohidden(true);
+            set_pointer_autohidden(true);
         }
 
         _vte_debug_print(VTE_DEBUG_EVENTS,
@@ -3141,86 +3140,86 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
         /* We steal many keypad keys here. */
         if (!m_im_preedit_active) {
             switch (keyval) {
-            case GDK_KEY_KP_Add:
-            case GDK_KEY_KP_Subtract:
-            case GDK_KEY_KP_Multiply:
-            case GDK_KEY_KP_Divide:
-            case GDK_KEY_KP_Enter:
-                steal = TRUE;
-                break;
-            default:
-                break;
+                case GDK_KEY_KP_Add:
+                case GDK_KEY_KP_Subtract:
+                case GDK_KEY_KP_Multiply:
+                case GDK_KEY_KP_Divide:
+                case GDK_KEY_KP_Enter:
+                    steal = TRUE;
+                    break;
+                default:
+                    break;
             }
             if (m_modifiers & VTE_META_MASK) {
                 steal = TRUE;
             }
             switch (keyval) {
-                        case GDK_KEY_ISO_Lock:
-                        case GDK_KEY_ISO_Level2_Latch:
-                        case GDK_KEY_ISO_Level3_Shift:
-                        case GDK_KEY_ISO_Level3_Latch:
-                        case GDK_KEY_ISO_Level3_Lock:
-                        case GDK_KEY_ISO_Level5_Shift:
-                        case GDK_KEY_ISO_Level5_Latch:
-                        case GDK_KEY_ISO_Level5_Lock:
-                        case GDK_KEY_ISO_Group_Shift:
-                        case GDK_KEY_ISO_Group_Latch:
-                        case GDK_KEY_ISO_Group_Lock:
-                        case GDK_KEY_ISO_Next_Group:
-                        case GDK_KEY_ISO_Next_Group_Lock:
-                        case GDK_KEY_ISO_Prev_Group:
-                        case GDK_KEY_ISO_Prev_Group_Lock:
-                        case GDK_KEY_ISO_First_Group:
-                        case GDK_KEY_ISO_First_Group_Lock:
-                        case GDK_KEY_ISO_Last_Group:
-                        case GDK_KEY_ISO_Last_Group_Lock:
-            case GDK_KEY_Multi_key:
-            case GDK_KEY_Codeinput:
-            case GDK_KEY_SingleCandidate:
-            case GDK_KEY_MultipleCandidate:
-            case GDK_KEY_PreviousCandidate:
-            case GDK_KEY_Kanji:
-            case GDK_KEY_Muhenkan:
-                        case GDK_KEY_Henkan_Mode:
-                        /* case GDK_KEY_Henkan: is GDK_KEY_Henkan_Mode */
-            case GDK_KEY_Romaji:
-            case GDK_KEY_Hiragana:
-            case GDK_KEY_Katakana:
-            case GDK_KEY_Hiragana_Katakana:
-            case GDK_KEY_Zenkaku:
-            case GDK_KEY_Hankaku:
-            case GDK_KEY_Zenkaku_Hankaku:
-            case GDK_KEY_Touroku:
-            case GDK_KEY_Massyo:
-            case GDK_KEY_Kana_Lock:
-            case GDK_KEY_Kana_Shift:
-            case GDK_KEY_Eisu_Shift:
-            case GDK_KEY_Eisu_toggle:
-                        /* case GDK_KEY_Kanji_Bangou: is GDK_KEY_Codeinput */
-                        /* case GDK_KEY_Zen_Koho: is GDK_KEY_MultipleCandidate */
-                        /* case GDK_KEY_Mae_Koho: is GDK_KEY_PreviousCandidate */
-                        /* case GDK_KEY_kana_switch: is GDK_KEY_ISO_Group_Shift */
-                        case GDK_KEY_Hangul:
-                        case GDK_KEY_Hangul_Start:
-                        case GDK_KEY_Hangul_End:
-                        case GDK_KEY_Hangul_Hanja:
-                        case GDK_KEY_Hangul_Jamo:
-                        case GDK_KEY_Hangul_Romaja:
-                        /* case GDK_KEY_Hangul_Codeinput: is GDK_KEY_Codeinput */
-                        case GDK_KEY_Hangul_Jeonja:
-                        case GDK_KEY_Hangul_Banja:
-                        case GDK_KEY_Hangul_PreHanja:
-                        case GDK_KEY_Hangul_PostHanja:
-                        /* case GDK_KEY_Hangul_SingleCandidate: is GDK_KEY_SingleCandidate */
-                        /* case GDK_KEY_Hangul_MultipleCandidate: is GDK_KEY_MultipleCandidate */
-                        /* case GDK_KEY_Hangul_PreviousCandidate: is GDK_KEY_PreviousCandidate */
-                        case GDK_KEY_Hangul_Special:
-                        /* case GDK_KEY_Hangul_switch: is GDK_KEY_ISO_Group_Shift */
+                case GDK_KEY_ISO_Lock:
+                case GDK_KEY_ISO_Level2_Latch:
+                case GDK_KEY_ISO_Level3_Shift:
+                case GDK_KEY_ISO_Level3_Latch:
+                case GDK_KEY_ISO_Level3_Lock:
+                case GDK_KEY_ISO_Level5_Shift:
+                case GDK_KEY_ISO_Level5_Latch:
+                case GDK_KEY_ISO_Level5_Lock:
+                case GDK_KEY_ISO_Group_Shift:
+                case GDK_KEY_ISO_Group_Latch:
+                case GDK_KEY_ISO_Group_Lock:
+                case GDK_KEY_ISO_Next_Group:
+                case GDK_KEY_ISO_Next_Group_Lock:
+                case GDK_KEY_ISO_Prev_Group:
+                case GDK_KEY_ISO_Prev_Group_Lock:
+                case GDK_KEY_ISO_First_Group:
+                case GDK_KEY_ISO_First_Group_Lock:
+                case GDK_KEY_ISO_Last_Group:
+                case GDK_KEY_ISO_Last_Group_Lock:
+                case GDK_KEY_Multi_key:
+                case GDK_KEY_Codeinput:
+                case GDK_KEY_SingleCandidate:
+                case GDK_KEY_MultipleCandidate:
+                case GDK_KEY_PreviousCandidate:
+                case GDK_KEY_Kanji:
+                case GDK_KEY_Muhenkan:
+                case GDK_KEY_Henkan_Mode:
+                /* case GDK_KEY_Henkan: is GDK_KEY_Henkan_Mode */
+                case GDK_KEY_Romaji:
+                case GDK_KEY_Hiragana:
+                case GDK_KEY_Katakana:
+                case GDK_KEY_Hiragana_Katakana:
+                case GDK_KEY_Zenkaku:
+                case GDK_KEY_Hankaku:
+                case GDK_KEY_Zenkaku_Hankaku:
+                case GDK_KEY_Touroku:
+                case GDK_KEY_Massyo:
+                case GDK_KEY_Kana_Lock:
+                case GDK_KEY_Kana_Shift:
+                case GDK_KEY_Eisu_Shift:
+                case GDK_KEY_Eisu_toggle:
+                /* case GDK_KEY_Kanji_Bangou: is GDK_KEY_Codeinput */
+                /* case GDK_KEY_Zen_Koho: is GDK_KEY_MultipleCandidate */
+                /* case GDK_KEY_Mae_Koho: is GDK_KEY_PreviousCandidate */
+                /* case GDK_KEY_kana_switch: is GDK_KEY_ISO_Group_Shift */
+                case GDK_KEY_Hangul:
+                case GDK_KEY_Hangul_Start:
+                case GDK_KEY_Hangul_End:
+                case GDK_KEY_Hangul_Hanja:
+                case GDK_KEY_Hangul_Jamo:
+                case GDK_KEY_Hangul_Romaja:
+                /* case GDK_KEY_Hangul_Codeinput: is GDK_KEY_Codeinput */
+                case GDK_KEY_Hangul_Jeonja:
+                case GDK_KEY_Hangul_Banja:
+                case GDK_KEY_Hangul_PreHanja:
+                case GDK_KEY_Hangul_PostHanja:
+                /* case GDK_KEY_Hangul_SingleCandidate: is GDK_KEY_SingleCandidate */
+                /* case GDK_KEY_Hangul_MultipleCandidate: is GDK_KEY_MultipleCandidate */
+                /* case GDK_KEY_Hangul_PreviousCandidate: is GDK_KEY_PreviousCandidate */
+                case GDK_KEY_Hangul_Special:
+                /* case GDK_KEY_Hangul_switch: is GDK_KEY_ISO_Group_Shift */
 
-                steal = FALSE;
-                break;
-            default:
-                break;
+                    steal = FALSE;
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -3228,8 +3227,7 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
     /* Let the input method at this one first. */
     if (!steal && m_input_enabled) {
         if (m_im_context && gtk_im_context_filter_keypress(m_im_context, event)) {
-            _vte_debug_print(VTE_DEBUG_EVENTS,
-                    "Keypress taken by IM.\n");
+            _vte_debug_print(VTE_DEBUG_EVENTS, "Keypress taken by IM.\n");
             return true;
         }
     }
@@ -3239,205 +3237,206 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
         handled = FALSE;
         /* Map the key to a sequence name if we can. */
         switch (keyval) {
-        case GDK_KEY_BackSpace:
-            switch (m_backspace_binding) {
-            case VTE_ERASE_ASCII_BACKSPACE:
-                normal = g_strdup("");
-                normal_length = 1;
-                suppress_meta_esc = FALSE;
-                break;
-            case VTE_ERASE_ASCII_DELETE:
-                normal = g_strdup("");
-                normal_length = 1;
-                suppress_meta_esc = FALSE;
-                break;
-            case VTE_ERASE_DELETE_SEQUENCE:
-                                normal = g_strdup("\e[3~");
-                                normal_length = 4;
-                                add_modifiers = TRUE;
-                suppress_meta_esc = TRUE;
-                break;
-            case VTE_ERASE_TTY:
+            case GDK_KEY_BackSpace:
+                switch (m_backspace_binding) {
+                    case VTE_ERASE_ASCII_BACKSPACE:
+                        normal = g_strdup("");
+                        normal_length = 1;
+                        suppress_meta_esc = FALSE;
+                        break;
+                    case VTE_ERASE_ASCII_DELETE:
+                        normal = g_strdup("");
+                        normal_length = 1;
+                        suppress_meta_esc = FALSE;
+                        break;
+                    case VTE_ERASE_DELETE_SEQUENCE:
+                        normal = g_strdup("\e[3~");
+                        normal_length = 4;
+                        add_modifiers = TRUE;
+                        suppress_meta_esc = TRUE;
+                        break;
+                    case VTE_ERASE_TTY:
 #if 0
-                if (m_pty != nullptr &&
-                    tcgetattr(vte_pty_get_fd(m_pty), &tio) != -1)
-                {
-                    normal = g_strdup_printf("%c", tio.c_cc[VERASE]);
-                    normal_length = 1;
-                }
+                        if (m_pty != nullptr &&
+                            tcgetattr(vte_pty_get_fd(m_pty), &tio) != -1)
+                        {
+                            normal = g_strdup_printf("%c", tio.c_cc[VERASE]);
+                            normal_length = 1;
+                        }
 #endif
-                suppress_meta_esc = FALSE;
-                break;
-            case VTE_ERASE_AUTO:
-            default:
+                        suppress_meta_esc = FALSE;
+                        break;
+                    case VTE_ERASE_AUTO:
+                    default:
 #ifndef _POSIX_VDISABLE
 #define _POSIX_VDISABLE '\0'
 #endif
 
 #if 0
-                if (m_pty != nullptr &&
-                    tcgetattr(vte_pty_get_fd(m_pty), &tio) != -1 &&
-                    tio.c_cc[VERASE] != _POSIX_VDISABLE)
-                {
-                    normal = g_strdup_printf("%c", tio.c_cc[VERASE]);
-                    normal_length = 1;
-                }
-                else
-#endif
-                {
-                    normal = g_strdup("");
-                    normal_length = 1;
-                    suppress_meta_esc = FALSE;
-                }
-                suppress_meta_esc = FALSE;
-                break;
-            }
-                        /* Toggle ^H vs ^? if Ctrl is pressed */
-                        if (normal_length == 1 && m_modifiers & GDK_CONTROL_MASK) {
-                                if (normal[0] == '\010')
-                                        normal[0] = '\177';
-                                else if (normal[0] == '\177')
-                                        normal[0] = '\010';
+                        if (m_pty != nullptr &&
+                            tcgetattr(vte_pty_get_fd(m_pty), &tio) != -1 &&
+                            tio.c_cc[VERASE] != _POSIX_VDISABLE)
+                        {
+                            normal = g_strdup_printf("%c", tio.c_cc[VERASE]);
+                            normal_length = 1;
                         }
-            handled = TRUE;
-            break;
-        case GDK_KEY_KP_Delete:
-        case GDK_KEY_Delete:
-            switch (m_delete_binding) {
-            case VTE_ERASE_ASCII_BACKSPACE:
-                normal = g_strdup("\010");
-                normal_length = 1;
-                break;
-            case VTE_ERASE_ASCII_DELETE:
-                normal = g_strdup("\177");
-                normal_length = 1;
-                break;
-            case VTE_ERASE_TTY:
-#if 0
-                if (m_pty != nullptr &&
-                    tcgetattr(vte_pty_get_fd(m_pty), &tio) != -1)
-                {
-                    normal = g_strdup_printf("%c", tio.c_cc[VERASE]);
-                    normal_length = 1;
-                }
+                        else
 #endif
-                suppress_meta_esc = FALSE;
+                        {
+                            normal = g_strdup("");
+                            normal_length = 1;
+                            suppress_meta_esc = FALSE;
+                        }
+                        suppress_meta_esc = FALSE;
+                        break;
+                }
+                /* Toggle ^H vs ^? if Ctrl is pressed */
+                if (normal_length == 1 && m_modifiers & GDK_CONTROL_MASK) {
+                    if (normal[0] == '\010') {
+                        normal[0] = '\177';
+                    } else if (normal[0] == '\177') {
+                        normal[0] = '\010';
+                    }
+                }
+                handled = TRUE;
                 break;
-            case VTE_ERASE_DELETE_SEQUENCE:
-            case VTE_ERASE_AUTO:
+            case GDK_KEY_KP_Delete:
+            case GDK_KEY_Delete:
+                switch (m_delete_binding) {
+                    case VTE_ERASE_ASCII_BACKSPACE:
+                        normal = g_strdup("\010");
+                        normal_length = 1;
+                        break;
+                    case VTE_ERASE_ASCII_DELETE:
+                        normal = g_strdup("\177");
+                        normal_length = 1;
+                        break;
+                    case VTE_ERASE_TTY:
+#if 0
+                        if (m_pty != nullptr &&
+                            tcgetattr(vte_pty_get_fd(m_pty), &tio) != -1)
+                        {
+                            normal = g_strdup_printf("%c", tio.c_cc[VERASE]);
+                            normal_length = 1;
+                        }
+#endif
+                        suppress_meta_esc = FALSE;
+                        break;
+                    case VTE_ERASE_DELETE_SEQUENCE:
+                    case VTE_ERASE_AUTO:
+                        default:
+                            normal = g_strdup("\e[3~");
+                            normal_length = 4;
+                            add_modifiers = TRUE;
+                            break;
+                }
+                handled = TRUE;
+                /* FIXMEchpe: why? this overrides the FALSE set above? */
+                suppress_meta_esc = TRUE;
+                break;
+            case GDK_KEY_KP_Insert:
+            case GDK_KEY_Insert:
+                if (m_modifiers & GDK_SHIFT_MASK) {
+                    if (m_modifiers & GDK_CONTROL_MASK) {
+                        emit_paste_clipboard();
+                        handled = TRUE;
+                        suppress_meta_esc = TRUE;
+                    } else {
+                        widget_paste(GDK_SELECTION_PRIMARY);
+                        handled = TRUE;
+                        suppress_meta_esc = TRUE;
+                    }
+                } else if (m_modifiers & GDK_CONTROL_MASK) {
+                    emit_copy_clipboard();
+                    handled = TRUE;
+                    suppress_meta_esc = TRUE;
+                }
+                break;
+            /* Keypad/motion keys. */
+            case GDK_KEY_KP_Up:
+            case GDK_KEY_Up:
+                if (m_screen == &m_normal_screen &&
+                    m_modifiers & GDK_CONTROL_MASK &&
+                    m_modifiers & GDK_SHIFT_MASK) {
+                    scroll_lines(-1);
+                    scrolled = TRUE;
+                    handled = TRUE;
+                    suppress_meta_esc = TRUE;
+                }
+                break;
+            case GDK_KEY_KP_Down:
+            case GDK_KEY_Down:
+                if (m_screen == &m_normal_screen &&
+                    m_modifiers & GDK_CONTROL_MASK &&
+                    m_modifiers & GDK_SHIFT_MASK) {
+                    scroll_lines(1);
+                    scrolled = TRUE;
+                    handled = TRUE;
+                    suppress_meta_esc = TRUE;
+                }
+                break;
+            case GDK_KEY_KP_Page_Up:
+            case GDK_KEY_Page_Up:
+                if (m_screen == &m_normal_screen &&
+                    m_modifiers & GDK_SHIFT_MASK) {
+                    scroll_pages(-1);
+                    scrolled = TRUE;
+                    handled = TRUE;
+                    suppress_meta_esc = TRUE;
+                }
+                break;
+            case GDK_KEY_KP_Page_Down:
+            case GDK_KEY_Page_Down:
+                if (m_screen == &m_normal_screen &&
+                    m_modifiers & GDK_SHIFT_MASK) {
+                    scroll_pages(1);
+                    scrolled = TRUE;
+                    handled = TRUE;
+                    suppress_meta_esc = TRUE;
+                }
+                break;
+            case GDK_KEY_KP_Home:
+            case GDK_KEY_Home:
+                if (m_screen == &m_normal_screen &&
+                    m_modifiers & GDK_SHIFT_MASK) {
+                    maybe_scroll_to_top();
+                    scrolled = TRUE;
+                    handled = TRUE;
+                }
+                break;
+            case GDK_KEY_KP_End:
+            case GDK_KEY_End:
+                if (m_screen == &m_normal_screen &&
+                    m_modifiers & GDK_SHIFT_MASK) {
+                    maybe_scroll_to_bottom();
+                    scrolled = TRUE;
+                    handled = TRUE;
+                }
+                break;
+            /* Let Shift +/- tweak the font, like XTerm does. */
+            case GDK_KEY_KP_Add:
+            case GDK_KEY_KP_Subtract:
+                if (m_modifiers & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) {
+                    switch (keyval) {
+                        case GDK_KEY_KP_Add:
+                            emit_increase_font_size();
+                            handled = TRUE;
+                            suppress_meta_esc = TRUE;
+                            break;
+                        case GDK_KEY_KP_Subtract:
+                            emit_decrease_font_size();
+                            handled = TRUE;
+                            suppress_meta_esc = TRUE;
+                            break;
+                    }
+                }
+                break;
             default:
-                                normal = g_strdup("\e[3~");
-                                normal_length = 4;
-                                add_modifiers = TRUE;
                 break;
-            }
-            handled = TRUE;
-                        /* FIXMEchpe: why? this overrides the FALSE set above? */
-            suppress_meta_esc = TRUE;
-            break;
-        case GDK_KEY_KP_Insert:
-        case GDK_KEY_Insert:
-            if (m_modifiers & GDK_SHIFT_MASK) {
-                if (m_modifiers & GDK_CONTROL_MASK) {
-                                        emit_paste_clipboard();
-                    handled = TRUE;
-                    suppress_meta_esc = TRUE;
-                } else {
-                                        widget_paste(GDK_SELECTION_PRIMARY);
-                    handled = TRUE;
-                    suppress_meta_esc = TRUE;
-                }
-            } else if (m_modifiers & GDK_CONTROL_MASK) {
-                                emit_copy_clipboard();
-                handled = TRUE;
-                suppress_meta_esc = TRUE;
-            }
-            break;
-        /* Keypad/motion keys. */
-        case GDK_KEY_KP_Up:
-        case GDK_KEY_Up:
-            if (m_screen == &m_normal_screen &&
-                m_modifiers & GDK_CONTROL_MASK &&
-                            m_modifiers & GDK_SHIFT_MASK) {
-                scroll_lines(-1);
-                scrolled = TRUE;
-                handled = TRUE;
-                suppress_meta_esc = TRUE;
-            }
-            break;
-        case GDK_KEY_KP_Down:
-        case GDK_KEY_Down:
-            if (m_screen == &m_normal_screen &&
-                m_modifiers & GDK_CONTROL_MASK &&
-                            m_modifiers & GDK_SHIFT_MASK) {
-                scroll_lines(1);
-                scrolled = TRUE;
-                handled = TRUE;
-                suppress_meta_esc = TRUE;
-            }
-            break;
-        case GDK_KEY_KP_Page_Up:
-        case GDK_KEY_Page_Up:
-            if (m_screen == &m_normal_screen &&
-                m_modifiers & GDK_SHIFT_MASK) {
-                scroll_pages(-1);
-                scrolled = TRUE;
-                handled = TRUE;
-                suppress_meta_esc = TRUE;
-            }
-            break;
-        case GDK_KEY_KP_Page_Down:
-        case GDK_KEY_Page_Down:
-            if (m_screen == &m_normal_screen &&
-                m_modifiers & GDK_SHIFT_MASK) {
-                scroll_pages(1);
-                scrolled = TRUE;
-                handled = TRUE;
-                suppress_meta_esc = TRUE;
-            }
-            break;
-        case GDK_KEY_KP_Home:
-        case GDK_KEY_Home:
-            if (m_screen == &m_normal_screen &&
-                m_modifiers & GDK_SHIFT_MASK) {
-                maybe_scroll_to_top();
-                scrolled = TRUE;
-                handled = TRUE;
-            }
-            break;
-        case GDK_KEY_KP_End:
-        case GDK_KEY_End:
-            if (m_screen == &m_normal_screen &&
-                m_modifiers & GDK_SHIFT_MASK) {
-                maybe_scroll_to_bottom();
-                scrolled = TRUE;
-                handled = TRUE;
-            }
-            break;
-        /* Let Shift +/- tweak the font, like XTerm does. */
-        case GDK_KEY_KP_Add:
-        case GDK_KEY_KP_Subtract:
-            if (m_modifiers & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) {
-                switch (keyval) {
-                case GDK_KEY_KP_Add:
-                    emit_increase_font_size();
-                    handled = TRUE;
-                    suppress_meta_esc = TRUE;
-                    break;
-                case GDK_KEY_KP_Subtract:
-                    emit_decrease_font_size();
-                    handled = TRUE;
-                    suppress_meta_esc = TRUE;
-                    break;
-                }
-            }
-            break;
-        default:
-            break;
         }
         /* If the above switch statement didn't do the job, try mapping
          * it to a literal or capability name. */
-                if (handled == FALSE) {
+        if (handled == FALSE) {
             _vte_keymap_map(keyval, m_modifiers,
                     m_cursor_mode == VTE_KEYMODE_APPLICATION,
                     m_keypad_mode == VTE_KEYMODE_APPLICATION,
@@ -3445,14 +3444,15 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     &normal_length);
             /* If we found something this way, suppress
              * escape-on-meta. */
-                        if (normal != NULL && normal_length > 0) {
+            if (normal != NULL && normal_length > 0) {
                 suppress_meta_esc = TRUE;
             }
         }
 
         /* Shall we do this here or earlier?  See bug 375112 and bug 589557 */
-        if (m_modifiers & GDK_CONTROL_MASK)
+        if (m_modifiers & GDK_CONTROL_MASK) {
             keyval = translate_ctrlkey(event);
+        }
 
         /* If we didn't manage to do anything, try to salvage a
          * printable string. */
@@ -3463,8 +3463,7 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
             normal_length = 0;
             if (keychar != 0) {
                 /* Convert the gunichar to a string. */
-                normal_length = g_unichar_to_utf8(keychar,
-                                  keybuf);
+                normal_length = g_unichar_to_utf8(keychar, keybuf);
                 if (normal_length != 0) {
                     normal = (char *)g_malloc(normal_length + 1);
                     memcpy(normal, keybuf, normal_length);
@@ -3473,8 +3472,7 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
                     normal = NULL;
                 }
             }
-            if ((normal != NULL) &&
-                (m_modifiers & GDK_CONTROL_MASK)) {
+            if ((normal != NULL) && (m_modifiers & GDK_CONTROL_MASK)) {
                 /* Replace characters which have "control"
                  * counterparts with those counterparts. */
                 for (i = 0; i < normal_length; i++) {
@@ -3494,13 +3492,13 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
         }
         /* If we got normal characters, send them to the child. */
         if (normal != NULL) {
-                        if (add_modifiers) {
-                                _vte_keymap_key_add_key_modifiers(keyval,
-                                                                  m_modifiers,
-                                                                  m_cursor_mode == VTE_KEYMODE_APPLICATION,
-                                                                  &normal,
-                                                                  &normal_length);
-                        }
+            if (add_modifiers) {
+                _vte_keymap_key_add_key_modifiers(keyval,
+                                                    m_modifiers,
+                                                    m_cursor_mode == VTE_KEYMODE_APPLICATION,
+                                                    &normal,
+                                                    &normal_length);
+            }
 #if 0
             if (m_meta_sends_escape &&
                 !suppress_meta_esc &&
@@ -3526,59 +3524,57 @@ VteTerminalPrivate::widget_key_press(GdkEventKey *event)
     return false;
 }
 
-bool
-VteTerminalPrivate::widget_key_release(GdkEventKey *event)
+bool VteTerminalPrivate::widget_key_release(GdkEventKey *event)
 {
     read_modifiers((GdkEvent*)event);
 
     if (m_input_enabled &&
             m_im_context &&
-            gtk_im_context_filter_keypress(m_im_context, event))
-                return true;
+            gtk_im_context_filter_keypress(m_im_context, event)) {
+        return true;
+    }
 
-        return false;
+    return false;
 }
 
-static int
-compare_unichar_p(const void *u1p,
-                  const void *u2p)
+static int compare_unichar_p(const void *u1p, const void *u2p)
 {
-        const gunichar u1 = *(gunichar*)u1p;
-        const gunichar u2 = *(gunichar*)u2p;
-        return u1 < u2 ? -1 : u1 > u2 ? 1 : 0;
+    const gunichar u1 = *(gunichar*)u1p;
+    const gunichar u2 = *(gunichar*)u2p;
+    return u1 < u2 ? -1 : u1 > u2 ? 1 : 0;
 }
 
 static const guint8 word_char_by_category[] = {
-        [G_UNICODE_CONTROL]             = 2,
-        [G_UNICODE_FORMAT]              = 2,
-        [G_UNICODE_UNASSIGNED]          = 2,
-        [G_UNICODE_PRIVATE_USE]         = 0,
-        [G_UNICODE_SURROGATE]           = 2,
-        [G_UNICODE_LOWERCASE_LETTER]    = 1,
-        [G_UNICODE_MODIFIER_LETTER]     = 1,
-        [G_UNICODE_OTHER_LETTER]        = 1,
-        [G_UNICODE_TITLECASE_LETTER]    = 1,
-        [G_UNICODE_UPPERCASE_LETTER]    = 1,
-        [G_UNICODE_SPACING_MARK]        = 0,
-        [G_UNICODE_ENCLOSING_MARK]      = 0,
-        [G_UNICODE_NON_SPACING_MARK]    = 0,
-        [G_UNICODE_DECIMAL_NUMBER]      = 1,
-        [G_UNICODE_LETTER_NUMBER]       = 1,
-        [G_UNICODE_OTHER_NUMBER]        = 1,
-        [G_UNICODE_CONNECT_PUNCTUATION] = 0,
-        [G_UNICODE_DASH_PUNCTUATION]    = 0,
-        [G_UNICODE_CLOSE_PUNCTUATION]   = 0,
-        [G_UNICODE_FINAL_PUNCTUATION]   = 0,
-        [G_UNICODE_INITIAL_PUNCTUATION] = 0,
-        [G_UNICODE_OTHER_PUNCTUATION]   = 0,
-        [G_UNICODE_OPEN_PUNCTUATION]    = 0,
-        [G_UNICODE_CURRENCY_SYMBOL]     = 0,
-        [G_UNICODE_MODIFIER_SYMBOL]     = 0,
-        [G_UNICODE_MATH_SYMBOL]         = 0,
-        [G_UNICODE_OTHER_SYMBOL]        = 0,
-        [G_UNICODE_LINE_SEPARATOR]      = 2,
-        [G_UNICODE_PARAGRAPH_SEPARATOR] = 2,
-        [G_UNICODE_SPACE_SEPARATOR]     = 2,
+    [G_UNICODE_CONTROL]             = 2,
+    [G_UNICODE_FORMAT]              = 2,
+    [G_UNICODE_UNASSIGNED]          = 2,
+    [G_UNICODE_PRIVATE_USE]         = 0,
+    [G_UNICODE_SURROGATE]           = 2,
+    [G_UNICODE_LOWERCASE_LETTER]    = 1,
+    [G_UNICODE_MODIFIER_LETTER]     = 1,
+    [G_UNICODE_OTHER_LETTER]        = 1,
+    [G_UNICODE_TITLECASE_LETTER]    = 1,
+    [G_UNICODE_UPPERCASE_LETTER]    = 1,
+    [G_UNICODE_SPACING_MARK]        = 0,
+    [G_UNICODE_ENCLOSING_MARK]      = 0,
+    [G_UNICODE_NON_SPACING_MARK]    = 0,
+    [G_UNICODE_DECIMAL_NUMBER]      = 1,
+    [G_UNICODE_LETTER_NUMBER]       = 1,
+    [G_UNICODE_OTHER_NUMBER]        = 1,
+    [G_UNICODE_CONNECT_PUNCTUATION] = 0,
+    [G_UNICODE_DASH_PUNCTUATION]    = 0,
+    [G_UNICODE_CLOSE_PUNCTUATION]   = 0,
+    [G_UNICODE_FINAL_PUNCTUATION]   = 0,
+    [G_UNICODE_INITIAL_PUNCTUATION] = 0,
+    [G_UNICODE_OTHER_PUNCTUATION]   = 0,
+    [G_UNICODE_OPEN_PUNCTUATION]    = 0,
+    [G_UNICODE_CURRENCY_SYMBOL]     = 0,
+    [G_UNICODE_MODIFIER_SYMBOL]     = 0,
+    [G_UNICODE_MATH_SYMBOL]         = 0,
+    [G_UNICODE_OTHER_SYMBOL]        = 0,
+    [G_UNICODE_LINE_SEPARATOR]      = 2,
+    [G_UNICODE_PARAGRAPH_SEPARATOR] = 2,
+    [G_UNICODE_SPACE_SEPARATOR]     = 2,
 };
 
 /*

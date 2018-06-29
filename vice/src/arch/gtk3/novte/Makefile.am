@@ -6,7 +6,6 @@ GLIB_MKENUMS = glib-mkenums
 AM_CPPFLAGS = \
 	-DHAVE_ROUND \
 	\
-	-DNO_PCRE \
 	@GTK_CFLAGS@ \
 	@ARCH_INCLUDES@ \
 	@GLIB_CFLAGS@ \

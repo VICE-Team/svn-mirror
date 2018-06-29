@@ -22,6 +22,13 @@ what was removed from VTE:
 - in VteTerminalPrivate::im_commit in vte.cc a feed_child_using_modes call has
   been removed. probably the whole function is defunct.
 
+- in VteTerminalPrivate::change_color in vteseq.cc a feed_child() call has been 
+  removed. probably the whole function is defunct.
+
+- more removed functions:
+    vte_get_features, vte_get_major_version, vte_get_minor_version,
+    vte_get_micro_version, vte_get_user_shell
+  
 --------------------------------------------------------------------------------
 
 right now the use of this "novte" replacement is forced, if you want for some
@@ -45,14 +52,13 @@ TODOs and FIXMEs:
 - a bunch of functions call vte_... in vteterminal.h should get renamed to
   novte_... also some defines should get renamed from VTE_... to NOVTE_...
 
-- some files still need to be codestyle-checked and -fixed:
-  vte.cc vtegtk.cc vteseq.cc
+- some files still need to be codestyle-checked and -fixed: vte.cc vteseq.cc
 
 - some files use deprecated GValueArray and should use GArray instead: 
   matcher.cc matcher.hh table.cc table.hh vteinternal.hh
   
-- there is still a lot of stuff that doesnt make a lot of sense for what we are
-  doing here.
+- there is still a lot of features/functionality that doesnt make a lot of sense 
+  for what we are doing here.
 
 --------------------------------------------------------------------------------
 Warnings:

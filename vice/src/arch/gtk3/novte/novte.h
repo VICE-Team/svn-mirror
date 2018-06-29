@@ -21,8 +21,6 @@
 
 #include <glib.h>
 
-#define NO_PCRE /* FIXME */
-
 #define __VTE_VTE_H_INSIDE__ 1 /* FIXME */
 
 #include "vteenums.h"
