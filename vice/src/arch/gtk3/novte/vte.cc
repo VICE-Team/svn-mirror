@@ -3797,20 +3797,20 @@ void VteTerminalPrivate::widget_paste_received(char const* text)
     g_free(paste);
 }
 
-bool
-VteTerminalPrivate::feed_mouse_event(vte::grid::coords const& rowcol /* confined */,
-                                     int button,
-                                     bool is_drag,
-                                     bool is_release)
+bool VteTerminalPrivate::feed_mouse_event(vte::grid::coords const& rowcol /* confined */,
+                                            int button,
+                                            bool is_drag,
+                                            bool is_release)
 {
     unsigned char cb = 0;
 
     char buf[LINE_MAX];
     gint len = 0;
 
-        /* Don't send events on scrollback contents: bug 755187. */
-        if (grid_coords_in_scrollback(rowcol))
-                return false;
+    /* Don't send events on scrollback contents: bug 755187. */
+    if (grid_coords_in_scrollback(rowcol)) {
+        return false;
+    }
 
     /* Make coordinates 1-based. */
     auto cx = rowcol.column() + 1;
@@ -3819,23 +3819,23 @@ VteTerminalPrivate::feed_mouse_event(vte::grid::coords const& rowcol /* confined
     /* Encode the button information in cb. */
     switch (button) {
         case 0:                 /* No button, just dragging. */
-                cb = 3;
-                break;
-    case 1:         /* Left. */
-        cb = 0;
-        break;
-    case 2:         /* Middle. */
-        cb = 1;
-        break;
-    case 3:         /* Right. */
-        cb = 2;
-        break;
-    case 4:
-        cb = 64;    /* Scroll up. */
-        break;
-    case 5:
-        cb = 65;    /* Scroll down. */
-        break;
+            cb = 3;
+            break;
+        case 1:         /* Left. */
+            cb = 0;
+            break;
+        case 2:         /* Middle. */
+            cb = 1;
+            break;
+        case 3:         /* Right. */
+            cb = 2;
+            break;
+        case 4:
+            cb = 64;    /* Scroll up. */
+            break;
+        case 5:
+            cb = 65;    /* Scroll down. */
+            break;
     }
 
     /* With the exception of the 1006 mode, button release is also encoded here. */
@@ -3878,32 +3878,30 @@ VteTerminalPrivate::feed_mouse_event(vte::grid::coords const& rowcol /* confined
         return true;
 }
 
-void
-VteTerminalPrivate::feed_focus_event(bool in)
+void VteTerminalPrivate::feed_focus_event(bool in)
 {
 #if 0
-        char buf[8];
-        gsize len;
+    char buf[8];
+    gsize len;
 
-        len = g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "%c", in ? 'I' : 'O');
-        feed_child_binary((guint8 *)buf, len);
+    len = g_snprintf(buf, sizeof(buf), _VTE_CAP_CSI "%c", in ? 'I' : 'O');
+    feed_child_binary((guint8 *)buf, len);
 #endif
 }
 
-void
-VteTerminalPrivate::feed_focus_event_initial()
+void VteTerminalPrivate::feed_focus_event_initial()
 {
-        /* We immediately send the terminal a focus event, since otherwise
-         * it has no way to know the current status.
-         */
-        feed_focus_event(gtk_widget_has_focus(m_widget));
+    /* We immediately send the terminal a focus event, since otherwise
+        * it has no way to know the current status.
+        */
+    feed_focus_event(gtk_widget_has_focus(m_widget));
 }
 
-void
-VteTerminalPrivate::maybe_feed_focus_event(bool in)
+void VteTerminalPrivate::maybe_feed_focus_event(bool in)
 {
-        if (m_focus_tracking_mode)
-                feed_focus_event(in);
+    if (m_focus_tracking_mode) {
+            feed_focus_event(in);
+    }
 }
 
 /*
@@ -3916,33 +3914,30 @@ VteTerminalPrivate::maybe_feed_focus_event(bool in)
  *
  * Returns: %TRUE iff the event was consumed
  */
-bool
-VteTerminalPrivate::maybe_send_mouse_button(vte::grid::coords const& unconfined_rowcol,
-                                            GdkEventType event_type,
-                                            int event_button)
+bool VteTerminalPrivate::maybe_send_mouse_button(vte::grid::coords const& unconfined_rowcol,
+                                                    GdkEventType event_type,
+                                                    int event_button)
 {
     switch (event_type) {
-    case GDK_BUTTON_PRESS:
-        if (m_mouse_tracking_mode < MOUSE_TRACKING_SEND_XY_ON_CLICK) {
-            return false;
+        case GDK_BUTTON_PRESS:
+            if (m_mouse_tracking_mode < MOUSE_TRACKING_SEND_XY_ON_CLICK) {
+                return false;
+            }
+            break;
+        case GDK_BUTTON_RELEASE: 
+        {
+            if (m_mouse_tracking_mode < MOUSE_TRACKING_SEND_XY_ON_BUTTON) {
+                return false;
+            }
+            break;
         }
-        break;
-    case GDK_BUTTON_RELEASE: {
-        if (m_mouse_tracking_mode < MOUSE_TRACKING_SEND_XY_ON_BUTTON) {
+        default:
             return false;
-        }
-        break;
-    }
-    default:
-        return false;
-        break;
+            break;
     }
 
-        auto rowcol = confine_grid_coords(unconfined_rowcol);
-        return feed_mouse_event(rowcol,
-                                event_button,
-                                false /* not drag */,
-                                event_type == GDK_BUTTON_RELEASE);
+    auto rowcol = confine_grid_coords(unconfined_rowcol);
+    return feed_mouse_event(rowcol, event_button, false /* not drag */, event_type == GDK_BUTTON_RELEASE);
 }
 
 /*
@@ -3955,51 +3950,50 @@ VteTerminalPrivate::maybe_send_mouse_button(vte::grid::coords const& unconfined_
  *
  * Returns: %TRUE iff the event was consumed
  */
-bool
-VteTerminalPrivate::maybe_send_mouse_drag(vte::grid::coords const& unconfined_rowcol,
-                                          GdkEventType event_type)
+bool VteTerminalPrivate::maybe_send_mouse_drag(vte::grid::coords const& unconfined_rowcol,
+                                                GdkEventType event_type)
 {
-        auto rowcol = confine_grid_coords(unconfined_rowcol);
+    auto rowcol = confine_grid_coords(unconfined_rowcol);
 
     /* First determine if we even want to send notification. */
     switch (event_type) {
-    case GDK_MOTION_NOTIFY:
-        if (m_mouse_tracking_mode < MOUSE_TRACKING_CELL_MOTION_TRACKING)
-            return false;
-
-        if (m_mouse_tracking_mode < MOUSE_TRACKING_ALL_MOTION_TRACKING) {
-
-                        if (m_mouse_pressed_buttons == 0) {
+        case GDK_MOTION_NOTIFY:
+            if (m_mouse_tracking_mode < MOUSE_TRACKING_CELL_MOTION_TRACKING) {
                 return false;
             }
-            /* The xterm doc is not clear as to whether
-             * all-tracking also sends degenerate same-cell events;
-                         * we don't.
-                         */
-                        if (rowcol == confined_grid_coords_from_view_coords(m_mouse_last_position))
-                return false;
-        }
-        break;
-    default:
-        return false;
-        break;
+
+            if (m_mouse_tracking_mode < MOUSE_TRACKING_ALL_MOTION_TRACKING) {
+
+                if (m_mouse_pressed_buttons == 0) {
+                    return false;
+                }
+               /* The xterm doc is not clear as to whether
+                * all-tracking also sends degenerate same-cell events;
+                * we don't.
+                */
+                if (rowcol == confined_grid_coords_from_view_coords(m_mouse_last_position)) {
+                    return false;
+                }
+            }
+            break;
+        default:
+            return false;
+            break;
     }
 
-        /* As per xterm, report the leftmost pressed button - if any. */
-        int button;
-        if (m_mouse_pressed_buttons & 1)
-                button = 1;
-        else if (m_mouse_pressed_buttons & 2)
-                button = 2;
-        else if (m_mouse_pressed_buttons & 4)
-                button = 3;
-        else
-                button = 0;
+    /* As per xterm, report the leftmost pressed button - if any. */
+    int button;
+    if (m_mouse_pressed_buttons & 1) {
+        button = 1;
+    } else if (m_mouse_pressed_buttons & 2) {
+        button = 2;
+    } else if (m_mouse_pressed_buttons & 4) {
+        button = 3;
+    } else {
+        button = 0;
+    }
 
-        return feed_mouse_event(rowcol,
-                                button,
-                                true /* drag */,
-                                false /* not release */);
+    return feed_mouse_event(rowcol, button, true /* drag */, false /* not release */);
 }
 
 /*
@@ -4009,46 +4003,46 @@ VteTerminalPrivate::maybe_send_mouse_drag(vte::grid::coords const& unconfined_ro
  * stop highlighting the previously hovered hyperlink or start highlighting
  * the new one. Optionally stores the coordinates of the bounding box.
  */
-void
-VteTerminalPrivate::hyperlink_invalidate_and_get_bbox(hyperlink_idx_t idx, GdkRectangle *bbox)
+void VteTerminalPrivate::hyperlink_invalidate_and_get_bbox(hyperlink_idx_t idx, GdkRectangle *bbox)
 {
-        auto first_row = first_displayed_row();
-        auto end_row = last_displayed_row() + 1;
-        vte::grid::row_t row, top = LONG_MAX, bottom = -1;
-        vte::grid::column_t col, left = LONG_MAX, right = -1;
-        const VteRowData *rowdata;
+    auto first_row = first_displayed_row();
+    auto end_row = last_displayed_row() + 1;
+    vte::grid::row_t row, top = LONG_MAX, bottom = -1;
+    vte::grid::column_t col, left = LONG_MAX, right = -1;
+    const VteRowData *rowdata;
 
-        g_assert (idx != 0);
+    g_assert (idx != 0);
 
-        for (row = first_row; row < end_row; row++) {
-                rowdata = _vte_ring_index(m_screen->row_data, row);
-                if (rowdata != NULL) {
-                        for (col = 0; col < rowdata->len; col++) {
-                                if (G_UNLIKELY (rowdata->cells[col].attr.hyperlink_idx == idx)) {
-                                        invalidate_cells(col, 1, row, 1);
-                                        top = MIN(top, row);
-                                        bottom = MAX(bottom, row);
-                                        left = MIN(left, col);
-                                        right = MAX(right, col);
-                                }
-                        }
+    for (row = first_row; row < end_row; row++) {
+        rowdata = _vte_ring_index(m_screen->row_data, row);
+        if (rowdata != NULL) {
+            for (col = 0; col < rowdata->len; col++) {
+                if (G_UNLIKELY (rowdata->cells[col].attr.hyperlink_idx == idx)) {
+                    invalidate_cells(col, 1, row, 1);
+                    top = MIN(top, row);
+                    bottom = MAX(bottom, row);
+                    left = MIN(left, col);
+                    right = MAX(right, col);
                 }
+            }
         }
+    }
 
-        if (bbox == NULL)
-                return;
+    if (bbox == NULL) {
+        return;
+    }
 
-        /* If bbox != NULL, we're looking for the new hovered hyperlink which always has onscreen bits. */
-        g_assert (top != LONG_MAX && bottom != -1 && left != LONG_MAX && right != -1);
+    /* If bbox != NULL, we're looking for the new hovered hyperlink which always has onscreen bits. */
+    g_assert (top != LONG_MAX && bottom != -1 && left != LONG_MAX && right != -1);
 
-        auto allocation = get_allocated_rect();
-        bbox->x = allocation.x + m_padding.left + left * m_cell_width;
-        bbox->y = allocation.y + m_padding.top + row_to_pixel(top);
-        bbox->width = (right - left + 1) * m_cell_width;
-        bbox->height = (bottom - top + 1) * m_cell_height;
-        _vte_debug_print (VTE_DEBUG_HYPERLINK,
-                          "Hyperlink bounding box: x=%d y=%d w=%d h=%d\n",
-                          bbox->x, bbox->y, bbox->width, bbox->height);
+    auto allocation = get_allocated_rect();
+    bbox->x = allocation.x + m_padding.left + left * m_cell_width;
+    bbox->y = allocation.y + m_padding.top + row_to_pixel(top);
+    bbox->width = (right - left + 1) * m_cell_width;
+    bbox->height = (bottom - top + 1) * m_cell_height;
+    _vte_debug_print (VTE_DEBUG_HYPERLINK,
+                        "Hyperlink bounding box: x=%d y=%d w=%d h=%d\n",
+                        bbox->x, bbox->y, bbox->width, bbox->height);
 }
 
 /*
@@ -4057,81 +4051,81 @@ VteTerminalPrivate::hyperlink_invalidate_and_get_bbox(hyperlink_idx_t idx, GdkRe
  * Checks the coordinates for hyperlink. Updates m_hyperlink_hover_idx
  * and m_hyperlink_hover_uri, and schedules to update the highlighting.
  */
-void
-VteTerminalPrivate::hyperlink_hilite_update()
+void VteTerminalPrivate::hyperlink_hilite_update()
 {
-        const VteRowData *rowdata;
-        bool do_check_hilite;
-        vte::grid::coords rowcol;
-        hyperlink_idx_t new_hyperlink_hover_idx = 0;
-        GdkRectangle bbox;
-        const char *separator;
+    const VteRowData *rowdata;
+    bool do_check_hilite;
+    vte::grid::coords rowcol;
+    hyperlink_idx_t new_hyperlink_hover_idx = 0;
+    GdkRectangle bbox;
+    const char *separator;
 
-        if (!m_allow_hyperlink)
-                return;
+    if (!m_allow_hyperlink) {
+        return;
+    }
 
+    _vte_debug_print (VTE_DEBUG_HYPERLINK,
+                        "hyperlink_hilite_update\n");
+
+    /* m_mouse_last_position contains the current position, see bug 789536 comment 24. */
+    auto pos = m_mouse_last_position;
+
+    /* Whether there's any chance we'd highlight something */
+    do_check_hilite = view_coords_visible(pos) &&
+                        m_mouse_cursor_over_widget &&
+                        !(m_mouse_autohide && m_mouse_cursor_autohidden) &&
+                        !m_selecting;
+    if (do_check_hilite) {
+        rowcol = grid_coords_from_view_coords(pos);
+        rowdata = find_row_data(rowcol.row());
+        if (rowdata && rowcol.column() < rowdata->len) {
+            new_hyperlink_hover_idx = rowdata->cells[rowcol.column()].attr.hyperlink_idx;
+        }
+    }
+
+    if (new_hyperlink_hover_idx == m_hyperlink_hover_idx) {
         _vte_debug_print (VTE_DEBUG_HYPERLINK,
-                         "hyperlink_hilite_update\n");
+                            "hyperlink did not change\n");
+        return;
+    }
 
-        /* m_mouse_last_position contains the current position, see bug 789536 comment 24. */
-        auto pos = m_mouse_last_position;
+    /* Invalidate cells of the old hyperlink. */
+    if (m_hyperlink_hover_idx != 0) {
+        hyperlink_invalidate_and_get_bbox(m_hyperlink_hover_idx, NULL);
+    }
 
-        /* Whether there's any chance we'd highlight something */
-        do_check_hilite = view_coords_visible(pos) &&
-                          m_mouse_cursor_over_widget &&
-                          !(m_mouse_autohide && m_mouse_cursor_autohidden) &&
-                          !m_selecting;
-        if (do_check_hilite) {
-                rowcol = grid_coords_from_view_coords(pos);
-                rowdata = find_row_data(rowcol.row());
-                if (rowdata && rowcol.column() < rowdata->len) {
-                        new_hyperlink_hover_idx = rowdata->cells[rowcol.column()].attr.hyperlink_idx;
-                }
-        }
+    /* This might be different from new_hyperlink_hover_idx. If in the stream, that one contains
+        * the pseudo idx VTE_HYPERLINK_IDX_TARGET_IN_STREAM and now a real idx is allocated.
+        * Plus, the ring's internal belief of the hovered hyperlink is also updated. */
+    if (do_check_hilite) {
+        m_hyperlink_hover_idx = _vte_ring_get_hyperlink_at_position(m_screen->row_data, rowcol.row(), rowcol.column(), true, &m_hyperlink_hover_uri);
+    } else {
+        m_hyperlink_hover_idx = 0;
+        m_hyperlink_hover_uri = nullptr;
+    }
 
-        if (new_hyperlink_hover_idx == m_hyperlink_hover_idx) {
-                _vte_debug_print (VTE_DEBUG_HYPERLINK,
-                                  "hyperlink did not change\n");
-                return;
-        }
+    /* Invalidate cells of the new hyperlink. Get the bounding box. */
+    if (m_hyperlink_hover_idx != 0) {
+        /* URI is after the first semicolon */
+        separator = strchr(m_hyperlink_hover_uri, ';');
+        g_assert(separator != NULL);
+        m_hyperlink_hover_uri = separator + 1;
 
-        /* Invalidate cells of the old hyperlink. */
-        if (m_hyperlink_hover_idx != 0) {
-                hyperlink_invalidate_and_get_bbox(m_hyperlink_hover_idx, NULL);
-        }
+        hyperlink_invalidate_and_get_bbox(m_hyperlink_hover_idx, &bbox);
+        g_assert(bbox.width > 0 && bbox.height > 0);
+    }
+    _vte_debug_print(VTE_DEBUG_HYPERLINK,
+                        "Hover idx: %d \"%s\"\n",
+                        m_hyperlink_hover_idx,
+                        m_hyperlink_hover_uri);
 
-        /* This might be different from new_hyperlink_hover_idx. If in the stream, that one contains
-         * the pseudo idx VTE_HYPERLINK_IDX_TARGET_IN_STREAM and now a real idx is allocated.
-         * Plus, the ring's internal belief of the hovered hyperlink is also updated. */
-        if (do_check_hilite) {
-                m_hyperlink_hover_idx = _vte_ring_get_hyperlink_at_position(m_screen->row_data, rowcol.row(), rowcol.column(), true, &m_hyperlink_hover_uri);
-        } else {
-                m_hyperlink_hover_idx = 0;
-                m_hyperlink_hover_uri = nullptr;
-        }
+    /* Underlining hyperlinks has precedence over regex matches. So when the hovered hyperlink changes,
+        * the regex match might need to become or stop being underlined. */
+    invalidate_match_span();
 
-        /* Invalidate cells of the new hyperlink. Get the bounding box. */
-        if (m_hyperlink_hover_idx != 0) {
-                /* URI is after the first semicolon */
-                separator = strchr(m_hyperlink_hover_uri, ';');
-                g_assert(separator != NULL);
-                m_hyperlink_hover_uri = separator + 1;
+    apply_mouse_cursor();
 
-                hyperlink_invalidate_and_get_bbox(m_hyperlink_hover_idx, &bbox);
-                g_assert(bbox.width > 0 && bbox.height > 0);
-        }
-        _vte_debug_print(VTE_DEBUG_HYPERLINK,
-                         "Hover idx: %d \"%s\"\n",
-                         m_hyperlink_hover_idx,
-                         m_hyperlink_hover_uri);
-
-        /* Underlining hyperlinks has precedence over regex matches. So when the hovered hyperlink changes,
-         * the regex match might need to become or stop being underlined. */
-        invalidate_match_span();
-
-        apply_mouse_cursor();
-
-        emit_hyperlink_hover_uri_changed(m_hyperlink_hover_idx != 0 ? &bbox : NULL);
+    emit_hyperlink_hover_uri_changed(m_hyperlink_hover_idx != 0 ? &bbox : NULL);
 }
 
 /*
@@ -4139,13 +4133,12 @@ VteTerminalPrivate::hyperlink_hilite_update()
  *
  * Reset match variables and invalidate the old match region if highlighted.
  */
-void
-VteTerminalPrivate::match_hilite_clear()
+void VteTerminalPrivate::match_hilite_clear()
 {
-        invalidate_match_span();
+    invalidate_match_span();
 
-        m_match_span.clear();
-        m_match_tag = -1;
+    m_match_span.clear();
+    m_match_tag = -1;
 
     if (m_match != nullptr) {
         g_free (m_match);
@@ -4153,185 +4146,99 @@ VteTerminalPrivate::match_hilite_clear()
     }
 }
 
-void
-VteTerminalPrivate::invalidate_match_span()
+void VteTerminalPrivate::invalidate_match_span()
 {
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                         "Invalidating match span %s\n", m_match_span.to_string());
-        invalidate(m_match_span);
-}
-
-#ifndef NO_PCRE
-/*
- * VteTerminalPrivate::match_hilite_update:
- *
- * Checks the coordinates for dingu matches, setting m_match_span to
- * the match region or the no-matches region, and if there is a match,
- * sets it to display highlighted.
- */
-void
-VteTerminalPrivate::match_hilite_update()
-{
-        /* m_mouse_last_position contains the current position, see bug 789536 comment 24. */
-        auto pos = m_mouse_last_position;
-
-        glong col = pos.x / m_cell_width;
-        glong row = pixel_to_row(pos.y);
-
     _vte_debug_print(VTE_DEBUG_EVENTS,
-                         "Match hilite update (%ld, %ld) -> %ld, %ld\n",
-                         pos.x, pos.y, col, row);
-
-        /* Whether there's any chance we'd highlight something */
-        bool do_check_hilite = view_coords_visible(pos) &&
-                               m_mouse_cursor_over_widget &&
-                               !(m_mouse_autohide && m_mouse_cursor_autohidden) &&
-                               !m_selecting;
-        if (!do_check_hilite) {
-                if (m_match != nullptr)
-                         match_hilite_clear();
-                return;
-        }
-
-        if (m_match_span.contains(row, col)) {
-                /* Already highlighted. */
-                return;
-        }
-
-        /* Reset match variables and invalidate the old match region if highlighted */
-        match_hilite_clear();
-
-        /* Check for matches. */
-    gsize start, end;
-        auto new_match = match_check_internal(col,
-                                              row,
-                                              &m_match_tag,
-                                              &start,
-                                              &end);
-
-    /* Read the new locations. */
-    if (start < m_match_attributes->len &&
-            end < m_match_attributes->len) {
-                struct _VteCharAttributes const *sa, *ea;
-        sa = &g_array_index(m_match_attributes,
-                                   struct _VteCharAttributes,
-                                   start);
-                ea = &g_array_index(m_match_attributes,
-                                    struct _VteCharAttributes,
-                                    end);
-
-                m_match_span = vte::grid::span(sa->row, sa->column, ea->row, ea->column);
-    }
-
-        g_assert(!m_match); /* from match_hilite_clear() above */
-    m_match = new_match;
-
-    if (m_match) {
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                "Matched %s.\n", m_match_span.to_string());
-                invalidate_match_span();
-        } else {
-        _vte_debug_print(VTE_DEBUG_EVENTS,
-                                 "No matches %s.\n", m_match_span.to_string());
-    }
-
-        apply_mouse_cursor();
+                        "Invalidating match span %s\n", m_match_span.to_string());
+    invalidate(m_match_span);
 }
-#endif
 
 /* Note that the clipboard has cleared. */
-static void
-clipboard_clear_cb(GtkClipboard *clipboard,
-                   gpointer user_data)
+static void clipboard_clear_cb(GtkClipboard *clipboard, gpointer user_data)
 {
     VteTerminalPrivate *that = reinterpret_cast<VteTerminalPrivate*>(user_data);
-        that->widget_clipboard_cleared(clipboard);
+    that->widget_clipboard_cleared(clipboard);
 }
 
-void
-VteTerminalPrivate::widget_clipboard_cleared(GtkClipboard *clipboard_)
+void VteTerminalPrivate::widget_clipboard_cleared(GtkClipboard *clipboard_)
 {
-        if (m_changing_selection)
-                return;
+    if (m_changing_selection) {
+        return;
+    }
 
     if (clipboard_ == m_clipboard[VTE_SELECTION_PRIMARY]) {
-        if (m_selection_owned[VTE_SELECTION_PRIMARY] &&
-                    m_has_selection) {
+        if (m_selection_owned[VTE_SELECTION_PRIMARY] && m_has_selection) {
             _vte_debug_print(VTE_DEBUG_SELECTION, "Lost selection.\n");
             deselect_all();
         }
-                m_selection_owned[VTE_SELECTION_PRIMARY] = false;
+        m_selection_owned[VTE_SELECTION_PRIMARY] = false;
     } else if (clipboard_ == m_clipboard[VTE_SELECTION_CLIPBOARD]) {
-                m_selection_owned[VTE_SELECTION_CLIPBOARD] = false;
-        }
+        m_selection_owned[VTE_SELECTION_CLIPBOARD] = false;
+    }
 }
 
 /* Supply the selected text to the clipboard. */
-static void
-clipboard_copy_cb(GtkClipboard *clipboard,
-                  GtkSelectionData *data,
-                  guint info,
-                  gpointer user_data)
+static void clipboard_copy_cb(GtkClipboard *clipboard,
+                                GtkSelectionData *data,
+                                guint info,
+                                gpointer user_data)
 {
     VteTerminalPrivate *that = reinterpret_cast<VteTerminalPrivate*>(user_data);
-        that->widget_clipboard_requested(clipboard, data, info);
+    that->widget_clipboard_requested(clipboard, data, info);
 }
 
-static char*
-text_to_utf16_mozilla(GString* text,
+static char* text_to_utf16_mozilla(GString* text,
                       gsize* len_ptr)
 {
-        /* Use g_convert() instead of g_utf8_to_utf16() since the former
-         * adds a BOM which Mozilla requires for text/html format.
-         */
-        return g_convert(text->str, text->len,
-                         "UTF-16", /* conver to UTF-16 */
-                         "UTF-8", /* convert from UTF-8 */
-                         nullptr /* out bytes_read */,
-                         len_ptr,
-                         nullptr);
+   /* Use g_convert() instead of g_utf8_to_utf16() since the former
+    * adds a BOM which Mozilla requires for text/html format.
+    */
+    return g_convert(text->str, text->len,
+                        "UTF-16", /* conver to UTF-16 */
+                        "UTF-8", /* convert from UTF-8 */
+                        nullptr /* out bytes_read */,
+                        len_ptr,
+                        nullptr);
 }
 
-void
-VteTerminalPrivate::widget_clipboard_requested(GtkClipboard *target_clipboard,
-                                               GtkSelectionData *data,
-                                               guint info)
+void VteTerminalPrivate::widget_clipboard_requested(GtkClipboard *target_clipboard,
+                                                    GtkSelectionData *data,
+                                                    guint info)
 {
     for (auto sel = 0; sel < LAST_VTE_SELECTION; sel++) {
-        if (target_clipboard == m_clipboard[sel] &&
-                    m_selection[sel] != nullptr) {
+        if (target_clipboard == m_clipboard[sel] && m_selection[sel] != nullptr) {
             _VTE_DEBUG_IF(VTE_DEBUG_SELECTION) {
                 int i;
                 g_printerr("Setting selection %d (%" G_GSIZE_FORMAT " UTF-8 bytes.) for target %s\n",
-                                           sel,
-                                           m_selection[sel]->len,
-                                           gdk_atom_name(gtk_selection_data_get_target(data)));
-                                char const* selection_text = m_selection[sel]->str;
-                                for (i = 0; selection_text[i] != '\0'; i++) {
-                                        g_printerr("0x%04x ", selection_text[i]);
-                                        if ((i & 0x7) == 0x7)
-                                                g_printerr("\n");
+                            sel, m_selection[sel]->len, gdk_atom_name(gtk_selection_data_get_target(data)));
+                char const* selection_text = m_selection[sel]->str;
+                for (i = 0; selection_text[i] != '\0'; i++) {
+                    g_printerr("0x%04x ", selection_text[i]);
+                    if ((i & 0x7) == 0x7) {
+                        g_printerr("\n");
+                    }
                 }
-                                g_printerr("\n");
+                g_printerr("\n");
             }
             if (info == VTE_TARGET_TEXT) {
                 gtk_selection_data_set_text(data,
-                                                            m_selection[sel]->str,
-                                                            m_selection[sel]->len);
+                                            m_selection[sel]->str,
+                                            m_selection[sel]->len);
             } else if (info == VTE_TARGET_HTML) {
                 gsize len;
-                                auto selection = text_to_utf16_mozilla(m_selection[sel], &len);
-                                // FIXMEchpe this makes yet another copy of the data... :(
-                                if (selection)
-                                        gtk_selection_data_set(data,
-                                                               gdk_atom_intern_static_string("text/html"),
-                                                               16,
-                                                               (const guchar *)selection,
-                                                               len);
+                auto selection = text_to_utf16_mozilla(m_selection[sel], &len);
+                /* FIXMEchpe this makes yet another copy of the data... :( */
+                if (selection) {
+                    gtk_selection_data_set(data,
+                                            gdk_atom_intern_static_string("text/html"),
+                                            16,
+                                            (const guchar *)selection,
+                                            len);
+                }
                 g_free(selection);
             } else {
-                                /* Not reached */
-                        }
+                /* Not reached */
+            }
         }
     }
 }
@@ -4340,67 +4247,68 @@ VteTerminalPrivate::widget_clipboard_requested(GtkClipboard *target_clipboard,
 template <unsigned int redbits,
           unsigned int greenbits,
           unsigned int bluebits>
-void
-VteTerminalPrivate::rgb_from_index(guint index,
-                                   vte::color::rgb& color) const
+void VteTerminalPrivate::rgb_from_index(guint index,
+                                        vte::color::rgb& color) const
 {
-        bool dim = false;
-        if (!(index & VTE_RGB_COLOR_MASK(redbits, greenbits, bluebits)) && (index & VTE_DIM_COLOR)) {
-                index &= ~VTE_DIM_COLOR;
-                dim = true;
-        }
+    bool dim = false;
+    if (!(index & VTE_RGB_COLOR_MASK(redbits, greenbits, bluebits)) && (index & VTE_DIM_COLOR)) {
+        index &= ~VTE_DIM_COLOR;
+        dim = true;
+    }
 
-    if (index >= VTE_LEGACY_COLORS_OFFSET && index < VTE_LEGACY_COLORS_OFFSET + VTE_LEGACY_FULL_COLOR_SET_SIZE)
+    if (index >= VTE_LEGACY_COLORS_OFFSET && index < VTE_LEGACY_COLORS_OFFSET + VTE_LEGACY_FULL_COLOR_SET_SIZE) {
         index -= VTE_LEGACY_COLORS_OFFSET;
+    }
     if (index < VTE_PALETTE_SIZE) {
-                color = *get_color(index);
-                if (dim) {
-                        /* magic formula taken from xterm */
-                        color.red = color.red * 2 / 3;
-                        color.green = color.green * 2 / 3;
-                        color.blue = color.blue * 2 / 3;
-                }
+        color = *get_color(index);
+        if (dim) {
+            /* magic formula taken from xterm */
+            color.red = color.red * 2 / 3;
+            color.green = color.green * 2 / 3;
+            color.blue = color.blue * 2 / 3;
+        }
     } else if (index & VTE_RGB_COLOR_MASK(redbits, greenbits, bluebits)) {
-                color.red   = VTE_RGB_COLOR_GET_COMPONENT(index, greenbits + bluebits, redbits) * 0x101U;
-                color.green = VTE_RGB_COLOR_GET_COMPONENT(index, bluebits, greenbits) * 0x101U;
-                color.blue  = VTE_RGB_COLOR_GET_COMPONENT(index, 0, bluebits) * 0x101U;
+        color.red   = VTE_RGB_COLOR_GET_COMPONENT(index, greenbits + bluebits, redbits) * 0x101U;
+        color.green = VTE_RGB_COLOR_GET_COMPONENT(index, bluebits, greenbits) * 0x101U;
+        color.blue  = VTE_RGB_COLOR_GET_COMPONENT(index, 0, bluebits) * 0x101U;
     } else {
         g_assert_not_reached();
     }
 }
 
-GString*
-VteTerminalPrivate::get_text(vte::grid::row_t start_row,
-                             vte::grid::column_t start_col,
-                             vte::grid::row_t end_row,
-                             vte::grid::column_t end_col,
-                             bool block,
-                             bool wrap,
-                             bool include_trailing_spaces,
-                             GArray *attributes)
+GString* VteTerminalPrivate::get_text(vte::grid::row_t start_row,
+                                        vte::grid::column_t start_col,
+                                        vte::grid::row_t end_row,
+                                        vte::grid::column_t end_col,
+                                        bool block,
+                                        bool wrap,
+                                        bool include_trailing_spaces,
+                                        GArray *attributes)
 {
     const VteCell *pcell = NULL;
     GString *string;
     struct _VteCharAttributes attr;
     vte::color::rgb fore, back;
 
-    if (attributes)
+    if (attributes) {
         g_array_set_size (attributes, 0);
+    }
 
     string = g_string_new(NULL);
     memset(&attr, 0, sizeof(attr));
 
-        if (start_col < 0)
-                start_col = 0;
+    if (start_col < 0) {
+            start_col = 0;
+    }
 
-        vte::grid::column_t next_first_column = block ? start_col : 0;
-        vte::grid::column_t col = start_col;
-        vte::grid::row_t row;
+    vte::grid::column_t next_first_column = block ? start_col : 0;
+    vte::grid::column_t col = start_col;
+    vte::grid::row_t row;
     for (row = start_row; row < end_row + 1; row++, col = next_first_column) {
         VteRowData const* row_data = find_row_data(row);
-                gsize last_empty, last_nonempty;
-                vte::grid::column_t last_emptycol, last_nonemptycol;
-                vte::grid::column_t line_last_column = (block || row == end_row) ? end_col : G_MAXLONG;
+        gsize last_empty, last_nonempty;
+        vte::grid::column_t last_emptycol, last_nonemptycol;
+        vte::grid::column_t line_last_column = (block || row == end_row) ? end_col : G_MAXLONG;
 
         last_empty = last_nonempty = string->len;
         last_emptycol = last_nonemptycol = -1;
@@ -4409,8 +4317,7 @@ VteTerminalPrivate::get_text(vte::grid::row_t start_row,
         attr.column = col;
         pcell = NULL;
         if (row_data != NULL) {
-                        while (col <= line_last_column &&
-                               (pcell = _vte_row_data_get (row_data, col))) {
+            while (col <= line_last_column && (pcell = _vte_row_data_get (row_data, col))) {
 
                 attr.column = col;
 
@@ -4419,11 +4326,11 @@ VteTerminalPrivate::get_text(vte::grid::row_t start_row,
                  * the selection. */
                 if (!pcell->attr.fragment()) {
                     /* Store the attributes of this character. */
-                                        // FIXMEchpe shouldn't this use determine_colors?
-                                        uint32_t fg, bg, dc;
-                                        vte_color_triple_get(pcell->attr.colors(), &fg, &bg, &dc);
-                                        rgb_from_index<8, 8, 8>(fg, fore);
-                                        rgb_from_index<8, 8, 8>(bg, back);
+                    /* FIXMEchpe shouldn't this use determine_colors? */
+                    uint32_t fg, bg, dc;
+                    vte_color_triple_get(pcell->attr.colors(), &fg, &bg, &dc);
+                    rgb_from_index<8, 8, 8>(fg, fore);
+                    rgb_from_index<8, 8, 8>(bg, back);
                     attr.fore.red = fore.red;
                     attr.fore.green = fore.green;
                     attr.fore.blue = fore.blue;
@@ -4467,23 +4374,26 @@ VteTerminalPrivate::get_text(vte::grid::row_t start_row,
                 while ((pcell = _vte_row_data_get (row_data, col))) {
                     col++;
 
-                    if (pcell->attr.fragment())
+                    if (pcell->attr.fragment()) {
                         continue;
+                    }
 
-                    if (pcell->c != 0)
+                    if (pcell->c != 0) {
                         break;
+                    }
                 }
             }
             if (pcell == NULL) {
                 g_string_truncate(string, last_nonempty);
-                if (attributes)
+                if (attributes) {
                     g_array_set_size(attributes, string->len);
+                }
                 attr.column = last_nonemptycol;
             }
         }
 
         /* Adjust column, in case we want to append a newline */
-                //FIXMEchpe MIN ?
+        /* FIXMEchpe MIN ? */
         attr.column = MAX(m_column_count, attr.column + 1);
 
         /* Add a newline in block mode. */
@@ -4507,39 +4417,37 @@ VteTerminalPrivate::get_text(vte::grid::row_t start_row,
     }
 
     /* Sanity check. */
-        if (attributes != nullptr)
-                g_assert_cmpuint(string->len, ==, attributes->len);
+    if (attributes != nullptr) {
+        g_assert_cmpuint(string->len, ==, attributes->len);
+    }
 
-        return string;
+    return string;
 }
 
-GString*
-VteTerminalPrivate::get_text_displayed(bool wrap,
-                                       bool include_trailing_spaces,
-                                       GArray *attributes)
+GString* VteTerminalPrivate::get_text_displayed(bool wrap,
+                                                bool include_trailing_spaces,
+                                                GArray *attributes)
 {
-        return get_text(first_displayed_row(), 0,
-                        last_displayed_row() + 1, -1,
-                        false /* block */, wrap, include_trailing_spaces,
-                        attributes);
+    return get_text(first_displayed_row(), 0,
+                    last_displayed_row() + 1, -1,
+                    false /* block */, wrap, include_trailing_spaces,
+                    attributes);
 }
 
 /* This is distinct from just using first/last_displayed_row since a11y
  * doesn't know about sub-row displays.
  */
-GString*
-VteTerminalPrivate::get_text_displayed_a11y(bool wrap,
+GString* VteTerminalPrivate::get_text_displayed_a11y(bool wrap,
                                             bool include_trailing_spaces,
                                             GArray *attributes)
 {
-        return get_text(m_screen->scroll_delta, 0,
-                        m_screen->scroll_delta + m_row_count - 1 + 1, -1,
-                        false /* block */, wrap, include_trailing_spaces,
-                        attributes);
+    return get_text(m_screen->scroll_delta, 0,
+                    m_screen->scroll_delta + m_row_count - 1 + 1, -1,
+                    false /* block */, wrap, include_trailing_spaces,
+                    attributes);
 }
 
-GString*
-VteTerminalPrivate::get_selected_text(GArray *attributes)
+GString* VteTerminalPrivate::get_selected_text(GArray *attributes)
 {
     return get_text(m_selection_start.row,
                         m_selection_start.col,
@@ -4552,31 +4460,32 @@ VteTerminalPrivate::get_selected_text(GArray *attributes)
 }
 
 #ifdef VTE_DEBUG
-unsigned int
-VteTerminalPrivate::checksum_area(vte::grid::row_t start_row,
-                                  vte::grid::column_t start_col,
-                                  vte::grid::row_t end_row,
-                                  vte::grid::column_t end_col)
+unsigned int VteTerminalPrivate::checksum_area(vte::grid::row_t start_row,
+                                                vte::grid::column_t start_col,
+                                                vte::grid::row_t end_row,
+                                                vte::grid::column_t end_col)
 {
-        unsigned int checksum = 0;
+    unsigned int checksum = 0;
 
-        auto text = get_text(start_row, start_col, end_row, end_col,
-                             true /* block */, false /* wrap */,
-                             true /* trailing whitespace */,
-                             nullptr /* not interested in attributes */);
-        if (text == nullptr)
-                return checksum;
+    auto text = get_text(start_row, start_col, end_row, end_col,
+                            true /* block */, false /* wrap */,
+                            true /* trailing whitespace */,
+                            nullptr /* not interested in attributes */);
+    if (text == nullptr) {
+        return checksum;
+    }
 
-        char const* end = (char const*)text->str + text->len;
-        for (char const *p = text->str; p < end; p = g_utf8_next_char(p)) {
-                auto const c = g_utf8_get_char(p);
-                if (c == '\n')
-                        continue;
-                checksum += c;
+    char const* end = (char const*)text->str + text->len;
+    for (char const *p = text->str; p < end; p = g_utf8_next_char(p)) {
+        auto const c = g_utf8_get_char(p);
+        if (c == '\n') {
+            continue;
         }
-        g_string_free(text, true);
+        checksum += c;
+    }
+    g_string_free(text, true);
 
-        return checksum & 0xffff;
+    return checksum & 0xffff;
 }
 #endif /* VTE_DEBUG */
 
@@ -4585,12 +4494,11 @@ VteTerminalPrivate::checksum_area(vte::grid::row_t start_row,
  * attributes that tend to change from character to character or are otherwise
  * strange (in particular: fragment, columns).
  */
-// FIXMEchpe: make VteCellAttr a class with operator==
-static bool
-vte_terminal_cellattr_equal(VteCellAttr const* attr1,
+/* FIXMEchpe: make VteCellAttr a class with operator== */
+static bool vte_terminal_cellattr_equal(VteCellAttr const* attr1,
                             VteCellAttr const* attr2)
 {
-        //FIXMEchpe why exclude DIM here?
+    /* FIXMEchpe why exclude DIM here? */
     return (((attr1->attr ^ attr2->attr) & VTE_ATTR_ALL_MASK) == 0 &&
                 attr1->colors()       == attr2->colors()   &&
                 attr1->hyperlink_idx  == attr2->hyperlink_idx);
@@ -4601,16 +4509,15 @@ vte_terminal_cellattr_equal(VteCellAttr const* attr1,
  * old-style HTML (and not CSS) for better compatibility with, for example,
  * evolution's mail editor component.
  */
-char *
-VteTerminalPrivate::cellattr_to_html(VteCellAttr const* attr,
-                                     char const* text) const
+char *VteTerminalPrivate::cellattr_to_html(VteCellAttr const* attr,
+                                            char const* text) const
 {
     GString *string;
-        guint fore, back, deco;
+    guint fore, back, deco;
 
     string = g_string_new(text);
 
-        determine_colors(attr, false, false, &fore, &back, &deco);
+    determine_colors(attr, false, false, &fore, &back, &deco);
 
     if (attr->bold()) {
         g_string_prepend(string, "<b>");
@@ -4620,53 +4527,53 @@ VteTerminalPrivate::cellattr_to_html(VteCellAttr const* attr,
         g_string_prepend(string, "<i>");
         g_string_append(string, "</i>");
     }
-        /* <u> should be inside <font> so that it inherits its color by default */
-        if (attr->underline() != 0) {
-                static const char styles[][7] = {"", "single", "double", "wavy"};
-                char *tag, *colorattr;
+    /* <u> should be inside <font> so that it inherits its color by default */
+    if (attr->underline() != 0) {
+        static const char styles[][7] = {"", "single", "double", "wavy"};
+        char *tag, *colorattr;
 
-                if (deco != VTE_DEFAULT_FG) {
-                        vte::color::rgb color;
+        if (deco != VTE_DEFAULT_FG) {
+            vte::color::rgb color;
 
-                        rgb_from_index<4, 5, 4>(deco, color);
-                        colorattr = g_strdup_printf(";text-decoration-color:#%02X%02X%02X",
-                                                    color.red >> 8,
-                                                    color.green >> 8,
-                                                    color.blue >> 8);
-                } else {
-                        colorattr = g_strdup("");
-                }
-
-                tag = g_strdup_printf("<u style=\"text-decoration-style:%s%s\">",
-                                      styles[attr->underline()],
-                                      colorattr);
-                g_string_prepend(string, tag);
-                g_free(tag);
-                g_free(colorattr);
-                g_string_append(string, "</u>");
+            rgb_from_index<4, 5, 4>(deco, color);
+            colorattr = g_strdup_printf(";text-decoration-color:#%02X%02X%02X",
+                                        color.red >> 8,
+                                        color.green >> 8,
+                                        color.blue >> 8);
+        } else {
+            colorattr = g_strdup("");
         }
+
+        tag = g_strdup_printf("<u style=\"text-decoration-style:%s%s\">",
+                                styles[attr->underline()],
+                                colorattr);
+        g_string_prepend(string, tag);
+        g_free(tag);
+        g_free(colorattr);
+        g_string_append(string, "</u>");
+    }
     if (fore != VTE_DEFAULT_FG || attr->reverse()) {
         vte::color::rgb color;
-                char *tag;
+        char *tag;
 
-                rgb_from_index<8, 8, 8>(fore, color);
+        rgb_from_index<8, 8, 8>(fore, color);
         tag = g_strdup_printf("<font color=\"#%02X%02X%02X\">",
-                                      color.red >> 8,
-                                      color.green >> 8,
-                                      color.blue >> 8);
+                                color.red >> 8,
+                                color.green >> 8,
+                                color.blue >> 8);
         g_string_prepend(string, tag);
         g_free(tag);
         g_string_append(string, "</font>");
     }
     if (back != VTE_DEFAULT_BG || attr->reverse()) {
         vte::color::rgb color;
-                char *tag;
+        char *tag;
 
-                rgb_from_index<8, 8, 8>(back, color);
+        rgb_from_index<8, 8, 8>(back, color);
         tag = g_strdup_printf("<span style=\"background-color:#%02X%02X%02X\">",
-                                      color.red >> 8,
-                                      color.green >> 8,
-                                      color.blue >> 8);
+                                color.red >> 8,
+                                color.green >> 8,
+                                color.blue >> 8);
         g_string_prepend(string, tag);
         g_free(tag);
         g_string_append(string, "</span>");
@@ -4692,12 +4599,12 @@ VteTerminalPrivate::cellattr_to_html(VteCellAttr const* attr,
  * Similar to find_charcell(), but takes a VteCharAttribute for
  * indexing and returns the VteCellAttr.
  */
-VteCellAttr const*
-VteTerminalPrivate::char_to_cell_attr(VteCharAttributes const* attr) const
+VteCellAttr const* VteTerminalPrivate::char_to_cell_attr(VteCharAttributes const* attr) const
 {
     VteCell const* cell = find_charcell(attr->column, attr->row);
-    if (cell)
+    if (cell) {
         return &cell->attr;
+    }
     return nullptr;
 }
 
@@ -4713,28 +4620,26 @@ VteTerminalPrivate::char_to_cell_attr(VteCharAttributes const* attr) const
  *
  * Returns: (transfer full): a newly allocated text string, or %NULL.
  */
-GString*
-VteTerminalPrivate::attributes_to_html(GString* text_string,
-                                       GArray* attrs)
+GString* VteTerminalPrivate::attributes_to_html(GString* text_string, GArray* attrs)
 {
     GString *string;
     guint from,to;
     const VteCellAttr *attr;
     char *escaped, *marked;
 
-        char const* text = text_string->str;
-        auto len = text_string->len;
-        g_assert_cmpuint(len, ==, attrs->len);
+    char const* text = text_string->str;
+    auto len = text_string->len;
+    g_assert_cmpuint(len, ==, attrs->len);
 
     /* Initial size fits perfectly if the text has no attributes and no
      * characters that need to be escaped
-         */
+     */
     string = g_string_sized_new (len + 11);
 
     g_string_append(string, "<pre>");
     /* Find streches with equal attributes. Newlines are treated specially,
      * so that the <span> do not cover multiple lines.
-         */
+     */
     from = to = 0;
     while (text[from] != '\0') {
         g_assert(from == to);
@@ -4745,10 +4650,8 @@ VteTerminalPrivate::attributes_to_html(GString* text_string,
             attr = char_to_cell_attr(
                 &g_array_index(attrs, VteCharAttributes, from));
             while (text[to] != '\0' && text[to] != '\n' &&
-                   vte_terminal_cellattr_equal(attr,
-                                                           char_to_cell_attr(
-                        &g_array_index(attrs, VteCharAttributes, to))))
-            {
+                    vte_terminal_cellattr_equal(attr, char_to_cell_attr(
+                        &g_array_index(attrs, VteCharAttributes, to)))) {
                 to++;
             }
             escaped = g_markup_escape_text(text + from, to - from);
@@ -4764,156 +4667,154 @@ VteTerminalPrivate::attributes_to_html(GString* text_string,
     return string;
 }
 
-static GtkTargetEntry*
-targets_for_format(VteFormat format,
-                   int *n_targets)
+static GtkTargetEntry* targets_for_format(VteFormat format, int *n_targets)
 {
-        switch (format) {
-        case VTE_FORMAT_TEXT: {
-                static GtkTargetEntry *text_targets = nullptr;
-                static int n_text_targets;
+    switch (format) {
+        case VTE_FORMAT_TEXT: 
+        {
+            static GtkTargetEntry *text_targets = nullptr;
+            static int n_text_targets;
 
-                if (text_targets == nullptr) {
-            auto list = gtk_target_list_new (nullptr, 0);
-            gtk_target_list_add_text_targets (list, VTE_TARGET_TEXT);
+            if (text_targets == nullptr) {
+                auto list = gtk_target_list_new (nullptr, 0);
+                gtk_target_list_add_text_targets (list, VTE_TARGET_TEXT);
 
-                        text_targets = gtk_target_table_new_from_list (list, &n_text_targets);
-            gtk_target_list_unref (list);
-                }
+                text_targets = gtk_target_table_new_from_list (list, &n_text_targets);
+                gtk_target_list_unref (list);
+            }
 
-                *n_targets = n_text_targets;
-                return text_targets;
+            *n_targets = n_text_targets;
+            return text_targets;
         }
 
-        case VTE_FORMAT_HTML: {
-                static GtkTargetEntry *html_targets = nullptr;
-                static int n_html_targets;
+        case VTE_FORMAT_HTML: 
+        {
+            static GtkTargetEntry *html_targets = nullptr;
+            static int n_html_targets;
 
-                if (html_targets == nullptr) {
-            auto list = gtk_target_list_new (nullptr, 0);
-            gtk_target_list_add_text_targets (list, VTE_TARGET_TEXT);
-                        gtk_target_list_add (list,
-                                             gdk_atom_intern_static_string("text/html"),
-                                             0,
-                                             VTE_TARGET_HTML);
+            if (html_targets == nullptr) {
+                auto list = gtk_target_list_new (nullptr, 0);
+                gtk_target_list_add_text_targets (list, VTE_TARGET_TEXT);
+                gtk_target_list_add (list,
+                                        gdk_atom_intern_static_string("text/html"),
+                                        0,
+                                        VTE_TARGET_HTML);
 
-                        html_targets = gtk_target_table_new_from_list (list, &n_html_targets);
-            gtk_target_list_unref (list);
-                }
+                html_targets = gtk_target_table_new_from_list (list, &n_html_targets);
+                gtk_target_list_unref (list);
+            }
 
-                *n_targets = n_html_targets;
-                return html_targets;
+            *n_targets = n_html_targets;
+            return html_targets;
         }
         default:
-                g_assert_not_reached();
-        }
+            g_assert_not_reached();
+    }
 }
 
 /* Place the selected text onto the clipboard.  Do this asynchronously so that
  * we get notified when the selection we placed on the clipboard is replaced. */
-void
-VteTerminalPrivate::widget_copy(VteSelection sel,
-                                VteFormat format)
+void VteTerminalPrivate::widget_copy(VteSelection sel, VteFormat format)
 {
-        /* Only put HTML on the CLIPBOARD, not PRIMARY */
-        g_assert(sel == VTE_SELECTION_CLIPBOARD || format == VTE_FORMAT_TEXT);
+    /* Only put HTML on the CLIPBOARD, not PRIMARY */
+    g_assert(sel == VTE_SELECTION_CLIPBOARD || format == VTE_FORMAT_TEXT);
 
     /* Chuck old selected text and retrieve the newly-selected text. */
-        GArray *attributes = g_array_new(FALSE, TRUE, sizeof(struct _VteCharAttributes));
-        auto selection = get_selected_text(attributes);
+    GArray *attributes = g_array_new(FALSE, TRUE, sizeof(struct _VteCharAttributes));
+    auto selection = get_selected_text(attributes);
 
-        if (m_selection[sel]) {
-                g_string_free(m_selection[sel], TRUE);
-                m_selection[sel] = nullptr;
-        }
+    if (m_selection[sel]) {
+        g_string_free(m_selection[sel], TRUE);
+        m_selection[sel] = nullptr;
+    }
 
-        if (selection == nullptr) {
-                g_array_free(attributes, TRUE);
-                m_has_selection = FALSE;
-                m_selection_owned[sel] = false;
-                return;
-        }
+    if (selection == nullptr) {
+        g_array_free(attributes, TRUE);
+        m_has_selection = FALSE;
+        m_selection_owned[sel] = false;
+        return;
+    }
 
-        if (format == VTE_FORMAT_HTML) {
-                m_selection[sel] = attributes_to_html(selection, attributes);
-                g_string_free(selection, TRUE);
-        } else {
-                m_selection[sel] = selection;
-        }
+    if (format == VTE_FORMAT_HTML) {
+        m_selection[sel] = attributes_to_html(selection, attributes);
+        g_string_free(selection, TRUE);
+    } else {
+        m_selection[sel] = selection;
+    }
 
     g_array_free (attributes, TRUE);
 
-    if (sel == VTE_SELECTION_PRIMARY)
+    if (sel == VTE_SELECTION_PRIMARY) {
         m_has_selection = TRUE;
+    }
 
     /* Place the text on the clipboard. */
-        _vte_debug_print(VTE_DEBUG_SELECTION,
-                         "Assuming ownership of selection.\n");
+    _vte_debug_print(VTE_DEBUG_SELECTION, "Assuming ownership of selection.\n");
 
-        int n_targets;
-        auto targets = targets_for_format(format, &n_targets);
+    int n_targets;
+    auto targets = targets_for_format(format, &n_targets);
 
-        m_changing_selection = true;
-        gtk_clipboard_set_with_data(m_clipboard[sel],
-                                    targets,
-                                    n_targets,
-                                    clipboard_copy_cb,
-                                    clipboard_clear_cb,
-                                    this);
-        m_changing_selection = false;
+    m_changing_selection = true;
+    gtk_clipboard_set_with_data(m_clipboard[sel],
+                                targets,
+                                n_targets,
+                                clipboard_copy_cb,
+                                clipboard_clear_cb,
+                                this);
+    m_changing_selection = false;
 
-        gtk_clipboard_set_can_store(m_clipboard[sel], nullptr, 0);
-        m_selection_owned[sel] = true;
-        m_selection_format[sel] = format;
+    gtk_clipboard_set_can_store(m_clipboard[sel], nullptr, 0);
+    m_selection_owned[sel] = true;
+    m_selection_format[sel] = format;
 }
 
 /* Paste from the given clipboard. */
-void
-VteTerminalPrivate::widget_paste(GdkAtom board)
+void VteTerminalPrivate::widget_paste(GdkAtom board)
 {
-        if (!m_input_enabled)
-                return;
+    if (!m_input_enabled) {
+        return;
+    }
 
     auto clip = gtk_clipboard_get_for_display(gtk_widget_get_display(m_widget), board);
-    if (!clip)
-                return;
+    if (!clip) {
+        return;
+    }
 
-        _vte_debug_print(VTE_DEBUG_SELECTION, "Requesting clipboard contents.\n");
+    _vte_debug_print(VTE_DEBUG_SELECTION, "Requesting clipboard contents.\n");
 
-        m_paste_request.request_text(clip, &VteTerminalPrivate::widget_paste_received, this);
+    m_paste_request.request_text(clip, &VteTerminalPrivate::widget_paste_received, this);
 }
 
-void
-VteTerminalPrivate::invalidate_selection()
+void VteTerminalPrivate::invalidate_selection()
 {
-        invalidate_region(m_selection_start.col,
-                          m_selection_end.col,
-                          m_selection_start.row,
-                          m_selection_end.row,
-                          m_selection_block_mode);
+    invalidate_region(m_selection_start.col,
+                        m_selection_end.col,
+                        m_selection_start.row,
+                        m_selection_end.row,
+                        m_selection_block_mode);
 }
 
 /* Confine coordinates into the visible area. Padding is already subtracted. */
-void
-VteTerminalPrivate::confine_coordinates(long *xp,
-                                        long *yp)
+void VteTerminalPrivate::confine_coordinates(long *xp, long *yp)
 {
     long x = *xp;
     long y = *yp;
-        long y_stop;
+    long y_stop;
 
-        /* Allow to use the bottom extra padding only if there's content there. */
-        y_stop = MIN(m_view_usable_extents.height(),
-                     row_to_pixel(m_screen->insert_delta + m_row_count));
+    /* Allow to use the bottom extra padding only if there's content there. */
+    y_stop = MIN(m_view_usable_extents.height(),
+                    row_to_pixel(m_screen->insert_delta + m_row_count));
 
     if (y < 0) {
         y = 0;
-        if (!m_selection_block_mode)
+        if (!m_selection_block_mode) {
             x = 0;
-        } else if (y >= y_stop) {
-                y = y_stop - 1;
-        if (!m_selection_block_mode)
+        }
+    } else if (y >= y_stop) {
+        y = y_stop - 1;
+        if (!m_selection_block_mode) {
             x = m_column_count * m_cell_width - 1;
+        }
     }
     if (x < 0) {
         x = 0;
@@ -4926,13 +4827,11 @@ VteTerminalPrivate::confine_coordinates(long *xp,
 }
 
 /* Start selection at the location of the event. */
-void
-VteTerminalPrivate::start_selection(long x,
-                                    long y,
-                                    enum vte_selection_type type)
+void VteTerminalPrivate::start_selection(long x, long y, enum vte_selection_type type)
 {
-    if (m_selection_block_mode)
+    if (m_selection_block_mode) {
         type = selection_type_char;
+    }
 
     /* Confine coordinates into the visible area. (#563024, #722635c7) */
     confine_coordinates(&x, &y);
@@ -4944,21 +4843,21 @@ VteTerminalPrivate::start_selection(long x,
 
     /* Decide whether or not to restart on the next drag. */
     switch (type) {
-    case selection_type_char:
-        /* Restart selection once we register a drag. */
-        m_selecting_restart = TRUE;
-        m_has_selection = FALSE;
-        m_selecting_had_delta = FALSE;
+        case selection_type_char:
+            /* Restart selection once we register a drag. */
+            m_selecting_restart = TRUE;
+            m_has_selection = FALSE;
+            m_selecting_had_delta = FALSE;
 
-        m_selection_origin = m_selection_last;
-        break;
-    case selection_type_word:
-    case selection_type_line:
-        /* Mark the newly-selected areas now. */
-        m_selecting_restart = FALSE;
-        m_has_selection = FALSE;
-        m_selecting_had_delta = FALSE;
-        break;
+            m_selection_origin = m_selection_last;
+            break;
+        case selection_type_word:
+        case selection_type_line:
+            /* Mark the newly-selected areas now. */
+            m_selecting_restart = FALSE;
+            m_has_selection = FALSE;
+            m_selecting_had_delta = FALSE;
+            break;
     }
 
     /* Record the selection type. */
@@ -4973,44 +4872,44 @@ VteTerminalPrivate::start_selection(long x,
 
         /* Take care of updating the display. */
         extend_selection(x, y, false, true);
-#if 0
+#if 0 /* FIXME: removed */
     /* Temporarily stop caring about input from the child. */
     disconnect_pty_read();
 #endif
 }
 
-bool
-VteTerminalPrivate::maybe_end_selection()
+bool VteTerminalPrivate::maybe_end_selection()
 {
     if (m_selecting) {
         /* Copy only if something was selected. */
         if (m_has_selection &&
             !m_selecting_restart &&
             m_selecting_had_delta) {
-                        widget_copy(VTE_SELECTION_PRIMARY, VTE_FORMAT_TEXT);
+            widget_copy(VTE_SELECTION_PRIMARY, VTE_FORMAT_TEXT);
             emit_selection_changed();
         }
         m_selecting = false;
-#if 0
+#if 0 /* FIXME: removed */
         /* Reconnect to input from the child if we paused it. */
         connect_pty_read();
 #endif
         return true;
     }
 
-        if (m_selecting_after_threshold)
-                return true;
+    if (m_selecting_after_threshold) {
+        return true;
+    }
 
-        return false;
+    return false;
 }
 
-static long
-math_div (long a, long b)
+static long math_div (long a, long b)
 {
-    if (G_LIKELY (a >= 0))
+    if (G_LIKELY (a >= 0)) {
         return a / b;
-    else
+    } else {
         return (a / b) - 1;
+    }
 }
 
 /* Helper */
