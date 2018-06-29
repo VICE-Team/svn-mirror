@@ -1079,7 +1079,7 @@ int wd1770_snapshot_read_module(wd1770_t *drv, struct snapshot_s *s)
         || SMR_DW_INT(m, &drv->type) < 0
         || SMR_DW_INT(m, &drv->step) < 0
         || SMR_DW_INT(m, &drv->byte_count) < 0
-        || SMR_DW_INT(m, &drv->tmp) < 0
+        || SMR_DW_INT(m, (int *)(&drv->tmp)) < 0
         || SMR_DW_INT(m, &drv->direction) < 0
         || SMR_DW(m, &drv->clk) < 0
         || SMR_B_INT(m, &drv->irq) < 0
