@@ -3585,29 +3585,28 @@ static const guint8 word_char_by_category[] = {
  *
  * Returns: %TRUE if the character is considered to be part of a word
  */
-bool
-VteTerminalPrivate::is_word_char(gunichar c) const
+bool VteTerminalPrivate::is_word_char(gunichar c) const
 {
-        const guint8 v = word_char_by_category[g_unichar_type(c)];
+    const guint8 v = word_char_by_category[g_unichar_type(c)];
 
-        if (v)
-                return v == 1;
+    if (v) {
+        return v == 1;
+    }
 
-        /* Do we have an exception? */
-        return bsearch(&c,
-                       m_word_char_exceptions,
-                       m_word_char_exceptions_len,
-                       sizeof(gunichar),
-                       compare_unichar_p) != NULL;
+    /* Do we have an exception? */
+    return bsearch(&c,
+                    m_word_char_exceptions,
+                    m_word_char_exceptions_len,
+                    sizeof(gunichar),
+                    compare_unichar_p) != NULL;
 }
 
 /* Check if the characters in the two given locations are in the same class
  * (word vs. non-word characters). */
-bool
-VteTerminalPrivate::is_same_class(vte::grid::column_t acol,
-                                  vte::grid::row_t arow,
-                                  vte::grid::column_t bcol,
-                                  vte::grid::row_t brow) const
+bool VteTerminalPrivate::is_same_class(vte::grid::column_t acol,
+                                        vte::grid::row_t arow,
+                                        vte::grid::column_t bcol,
+                                        vte::grid::row_t brow) const
 {
     VteCell const* pcell = nullptr;
     bool word_char;
@@ -3615,8 +3614,9 @@ VteTerminalPrivate::is_same_class(vte::grid::column_t acol,
         word_char = is_word_char(_vte_unistr_get_base(pcell->c));
 
         /* Lets not group non-wordchars together (bug #25290) */
-        if (!word_char)
+        if (!word_char) {
             return false;
+        }
 
         pcell = find_charcell(bcol, brow);
         if (pcell == NULL || pcell->c == 0) {
@@ -3631,18 +3631,16 @@ VteTerminalPrivate::is_same_class(vte::grid::column_t acol,
 }
 
 /* Check if we soft-wrapped on the given line. */
-// FIXMEchpe replace this with a method on VteRing
-bool
-VteTerminalPrivate::line_is_wrappable(vte::grid::row_t row) const
+/* FIXMEchpe replace this with a method on VteRing */
+bool VteTerminalPrivate::line_is_wrappable(vte::grid::row_t row) const
 {
     VteRowData const* rowdata = find_row_data(row);
     return rowdata && rowdata->attr.soft_wrapped;
 }
 
 /* Check if the given point is in the region between the two points */
-static gboolean
-vte_cell_is_between(glong col, glong row,
-            glong acol, glong arow, glong bcol, glong brow)
+static gboolean vte_cell_is_between(glong col, glong row,
+                                glong acol, glong arow, glong bcol, glong brow)
 {
     /* Negative between never allowed. */
     if ((arow > brow) || ((arow == brow) && (acol > bcol))) {
@@ -3699,14 +3697,14 @@ vte_cell_is_between(glong col, glong row,
 }
 
 /* Check if a cell is selected or not. */
-// FIXMEchpe: replace this by just using vte::grid::span for selection and then this simply becomes .contains()
-bool
-VteTerminalPrivate::cell_is_selected(vte::grid::column_t col,
-                                     vte::grid::row_t row) const
+/* FIXMEchpe: replace this by just using vte::grid::span for selection and then this simply becomes .contains() */
+bool VteTerminalPrivate::cell_is_selected(vte::grid::column_t col,
+                                            vte::grid::row_t row) const
 {
     /* If there's nothing selected, it's an easy question to answer. */
-    if (!m_has_selection)
+    if (!m_has_selection) {
         return false;
+    }
 
     /* If the selection is obviously bogus, then it's also very easy. */
     auto const& ss = m_selection_start;
@@ -3717,8 +3715,9 @@ VteTerminalPrivate::cell_is_selected(vte::grid::column_t col,
 
     /* Limit selection in block mode. */
     if (m_selection_block_mode) {
-        if (col < ss.col || col > se.col)
+        if (col < ss.col || col > se.col) {
             return false;
+        }
     }
 
     /* Now it boils down to whether or not the point is between the
@@ -3726,74 +3725,76 @@ VteTerminalPrivate::cell_is_selected(vte::grid::column_t col,
     return vte_cell_is_between(col, row, ss.col, ss.row, se.col, se.row);
 }
 
-void
-VteTerminalPrivate::widget_paste_received(char const* text)
+void VteTerminalPrivate::widget_paste_received(char const* text)
 {
     gchar *paste, *p;
-        gsize run;
-        unsigned char c;
+    gsize run;
+    unsigned char c;
 
-    if (text == nullptr)
-                return;
+    if (text == nullptr) {
+        return;
+    }
 
-        gsize len = strlen(text);
-        _vte_debug_print(VTE_DEBUG_SELECTION,
-                         "Pasting %" G_GSIZE_FORMAT " UTF-8 bytes.\n", len);
-        // FIXMEchpe this cannot happen ever
-        if (!g_utf8_validate(text, len, NULL)) {
-                g_warning("Paste not valid UTF-8, dropping.");
-                return;
-        }
+    gsize len = strlen(text);
+    _vte_debug_print(VTE_DEBUG_SELECTION,
+                        "Pasting %" G_GSIZE_FORMAT " UTF-8 bytes.\n", len);
+    /* FIXMEchpe this cannot happen ever */
+    if (!g_utf8_validate(text, len, NULL)) {
+        g_warning("Paste not valid UTF-8, dropping.");
+        return;
+    }
 
-        /* Convert newlines to carriage returns, which more software
-         * is able to cope with (cough, pico, cough).
-         * Filter out control chars except HT, CR (even stricter than xterm).
-         * Also filter out C1 controls: U+0080 (0xC2 0x80) - U+009F (0xC2 0x9F). */
-        p = paste = (gchar *) g_malloc(len + 1);
-        while (p != nullptr && text[0] != '\0') {
-                run = strcspn(text, "\x01\x02\x03\x04\x05\x06\x07"
-                              "\x08\x0A\x0B\x0C\x0E\x0F"
-                              "\x10\x11\x12\x13\x14\x15\x16\x17"
-                              "\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F"
-                              "\x7F\xC2");
-                memcpy(p, text, run);
-                p += run;
-                text += run;
-                switch (text[0]) {
-                case '\x00':
-                        break;
-                case '\x0A':
-                        *p = '\x0D';
-                        p++;
-                        text++;
-                        break;
-                case '\xC2':
-                        c = text[1];
-                        if (c >= 0x80 && c <= 0x9F) {
-                                /* Skip both bytes of a C1 */
-                                text += 2;
-                        } else {
-                                /* Move along, nothing to see here */
-                                *p = '\xC2';
-                                p++;
-                                text++;
-                        }
-                        break;
-                default:
-                        /* Swallow this byte */
-                        text++;
-                        break;
+   /* Convert newlines to carriage returns, which more software
+    * is able to cope with (cough, pico, cough).
+    * Filter out control chars except HT, CR (even stricter than xterm).
+    * Also filter out C1 controls: U+0080 (0xC2 0x80) - U+009F (0xC2 0x9F). */
+    p = paste = (gchar *) g_malloc(len + 1);
+    while (p != nullptr && text[0] != '\0') {
+        run = strcspn(text, "\x01\x02\x03\x04\x05\x06\x07"
+                        "\x08\x0A\x0B\x0C\x0E\x0F"
+                        "\x10\x11\x12\x13\x14\x15\x16\x17"
+                        "\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F"
+                        "\x7F\xC2");
+        memcpy(p, text, run);
+        p += run;
+        text += run;
+        switch (text[0]) {
+            case '\x00':
+                break;
+            case '\x0A':
+                *p = '\x0D';
+                p++;
+                text++;
+                break;
+            case '\xC2':
+                c = text[1];
+                if (c >= 0x80 && c <= 0x9F) {
+                    /* Skip both bytes of a C1 */
+                    text += 2;
+                } else {
+                    /* Move along, nothing to see here */
+                    *p = '\xC2';
+                    p++;
+                    text++;
                 }
+                break;
+            default:
+                /* Swallow this byte */
+                text++;
+                break;
         }
+    }
 #if 0
-        if (m_bracketed_paste_mode)
-                feed_child("\e[200~", -1);
-        // FIXMEchpe add a way to avoid the extra string copy done here
-        feed_child(paste, p - paste);
-        if (m_bracketed_paste_mode)
-                feed_child("\e[201~", -1);
+    if (m_bracketed_paste_mode) {
+        feed_child("\e[200~", -1);
+    }
+    /* FIXMEchpe add a way to avoid the extra string copy done here */
+    feed_child(paste, p - paste);
+    if (m_bracketed_paste_mode) {
+            feed_child("\e[201~", -1);
+    }
 #endif
-        g_free(paste);
+    g_free(paste);
 }
 
 bool

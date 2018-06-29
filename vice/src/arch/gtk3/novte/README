@@ -24,6 +24,9 @@ what was removed from VTE:
 
 - in VteTerminalPrivate::change_color in vteseq.cc a feed_child() call has been 
   removed. probably the whole function is defunct.
+  
+- VteTerminalPrivate::seq_device_status_report in vteseq.cc is defunct.
+- VteTerminalPrivate::seq_dec_device_status_report in vteseq.cc is defunct.
 
 - more removed functions:
     vte_get_features, vte_get_major_version, vte_get_minor_version,
@@ -52,7 +55,7 @@ TODOs and FIXMEs:
 - a bunch of functions call vte_... in vteterminal.h should get renamed to
   novte_... also some defines should get renamed from VTE_... to NOVTE_...
 
-- some files still need to be codestyle-checked and -fixed: vte.cc vteseq.cc
+- some files still need to be codestyle-checked and -fixed: vte.cc
 
 - some files use deprecated GValueArray and should use GArray instead: 
   matcher.cc matcher.hh table.cc table.hh vteinternal.hh
