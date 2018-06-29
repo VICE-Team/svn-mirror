@@ -646,45 +646,43 @@ int maincpu_snapshot_write_module(snapshot_t *s)
     }
 
 #ifdef C64DTV
-    if (0
-        || SMW_DW(m, maincpu_clk) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_A(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_X(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_Y(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_SP(&maincpu_regs)) < 0
-        || SMW_W(m, (uint16_t)MOS6510DTV_REGS_GET_PC(&maincpu_regs)) < 0
-        || SMW_B(m, (uint8_t)MOS6510DTV_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R3(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R4(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R5(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R6(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R7(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R8(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R9(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R10(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R11(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R12(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R13(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R14(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_R15(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_ACM(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510DTV_REGS_GET_YXM(&maincpu_regs)) < 0
-        || SMW_BA(m, burst_cache, 4) < 0
-        || SMW_W(m, burst_addr) < 0
-        || SMW_DW(m, dtvclockneg) < 0
-        || SMW_DW(m, (uint32_t)last_opcode_info) < 0) {
+    if (SMW_DW(m, maincpu_clk) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_A(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_X(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_Y(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_SP(&maincpu_regs)) < 0
+            || SMW_W(m, (uint16_t)MOS6510DTV_REGS_GET_PC(&maincpu_regs)) < 0
+            || SMW_B(m, (uint8_t)MOS6510DTV_REGS_GET_STATUS(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R3(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R4(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R5(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R6(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R7(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R8(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R9(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R10(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R11(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R12(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R13(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R14(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_R15(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_ACM(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510DTV_REGS_GET_YXM(&maincpu_regs)) < 0
+            || SMW_BA(m, burst_cache, 4) < 0
+            || SMW_W(m, burst_addr) < 0
+            || SMW_DW(m, dtvclockneg) < 0
+            || SMW_DW(m, (uint32_t)last_opcode_info) < 0) {
         goto fail;
     }
 #else
-    if (0
-        || SMW_DW(m, maincpu_clk) < 0
-        || SMW_B(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
-        || SMW_W(m, (uint16_t)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
-        || SMW_B(m, (uint8_t)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
-        || SMW_DW(m, (uint32_t)last_opcode_info) < 0) {
+    if (SMW_DW(m, maincpu_clk) < 0
+            || SMW_B(m, MOS6510_REGS_GET_A(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
+            || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
+            || SMW_W(m, (uint16_t)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+            || SMW_B(m, (uint8_t)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
+            || SMW_DW(m, (uint32_t)last_opcode_info) < 0) {
         goto fail;
     }
 #endif
@@ -726,35 +724,34 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     maincpu_rmw_flag = 0;
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
-    if (0
-        || SMR_DW(m, &maincpu_clk) < 0
-        || SMR_B(m, &a) < 0
-        || SMR_B(m, &x) < 0
-        || SMR_B(m, &y) < 0
-        || SMR_B(m, &sp) < 0
-        || SMR_W(m, &pc) < 0
-        || SMR_B(m, &status) < 0
+    if (SMR_DW(m, &maincpu_clk) < 0
+            || SMR_B(m, &a) < 0
+            || SMR_B(m, &x) < 0
+            || SMR_B(m, &y) < 0
+            || SMR_B(m, &sp) < 0
+            || SMR_W(m, &pc) < 0
+            || SMR_B(m, &status) < 0
 #ifdef C64DTV
-        || SMR_B(m, &r3) < 0
-        || SMR_B(m, &r4) < 0
-        || SMR_B(m, &r5) < 0
-        || SMR_B(m, &r6) < 0
-        || SMR_B(m, &r7) < 0
-        || SMR_B(m, &r8) < 0
-        || SMR_B(m, &r9) < 0
-        || SMR_B(m, &r10) < 0
-        || SMR_B(m, &r11) < 0
-        || SMR_B(m, &r12) < 0
-        || SMR_B(m, &r13) < 0
-        || SMR_B(m, &r14) < 0
-        || SMR_B(m, &r15) < 0
-        || SMR_B(m, &acm) < 0
-        || SMR_B(m, &yxm) < 0
-        || SMR_BA(m, burst_cache, 4) < 0
-        || SMR_W(m, &burst_addr) < 0
-        || SMR_DW_INT(m, &dtvclockneg) < 0
+            || SMR_B(m, &r3) < 0
+            || SMR_B(m, &r4) < 0
+            || SMR_B(m, &r5) < 0
+            || SMR_B(m, &r6) < 0
+            || SMR_B(m, &r7) < 0
+            || SMR_B(m, &r8) < 0
+            || SMR_B(m, &r9) < 0
+            || SMR_B(m, &r10) < 0
+            || SMR_B(m, &r11) < 0
+            || SMR_B(m, &r12) < 0
+            || SMR_B(m, &r13) < 0
+            || SMR_B(m, &r14) < 0
+            || SMR_B(m, &r15) < 0
+            || SMR_B(m, &acm) < 0
+            || SMR_B(m, &yxm) < 0
+            || SMR_BA(m, burst_cache, 4) < 0
+            || SMR_W(m, &burst_addr) < 0
+            || SMR_DW_INT(m, &dtvclockneg) < 0
 #endif
-        || SMR_DW_UINT(m, &last_opcode_info) < 0) {
+            || SMR_DW_UINT(m, &last_opcode_info) < 0) {
         goto fail;
     }
 

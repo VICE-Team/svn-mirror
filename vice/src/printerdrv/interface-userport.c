@@ -196,9 +196,8 @@ static int userport_printer_write_snapshot_module(snapshot_t *s)
         return -1;
     }
 
-    if (0
-        || SMW_B(m, value) < 0
-        || SMW_B(m, strobe) < 0) {
+    if (SMW_B(m, value) < 0
+            || SMW_B(m, strobe) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -225,9 +224,8 @@ static int userport_printer_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    if (0
-        || SMR_B(m, &value) < 0
-        || SMR_B(m, &strobe) < 0) {
+    if (SMR_B(m, &value) < 0
+            || SMR_B(m, &strobe) < 0) {
         goto fail;
     }
     return snapshot_module_close(m);
